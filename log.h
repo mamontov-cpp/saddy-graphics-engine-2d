@@ -1,5 +1,5 @@
 /*! \file   log.h
-    \author HiddenSeeker, FreakyBlast
+    \author HiddenSeeker, FreakyBlast, Falc_ON
 	\brief  contains a log class
 
 	Contains a log class, that can easily be output or serialized
