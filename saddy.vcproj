@@ -180,6 +180,18 @@
 				RelativePath=".\src\main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\texturemanager.cpp"
+				>
+			</File>
 			<Filter
 				Name="templates"
 				>
@@ -215,11 +227,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\scene.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\stdafx.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\texturemanager.h"
 				>
 			</File>
 			<Filter
