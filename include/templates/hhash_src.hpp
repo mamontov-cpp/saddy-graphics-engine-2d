@@ -27,10 +27,16 @@ namespace hst
  template<typename T>
  unsigned long getHash(const T & name,unsigned long size)
  {
+  return HashFunction<T>::call(name,size);  
+ }
+ 
+template<typename T>
+ unsigned long HashFunction<T>::call(const T & name,unsigned long size)
+ {
   unsigned long ff=basicHash((unsigned char*)&name,sizeof(T));  
   return ff % size;
  }
- 
+
  TDEF void hash<Key,T>::init()
  {
 	 m_count=0;
@@ -168,7 +174,7 @@ namespace hst
  TDEF hash<Key,T>::const_iterator::const_iterator(
 	                                               hash<Key,T> * parent, 
 	                                               unsigned long slot, 
-												   typename const hash<Key,T>::slot::const_iterator & it
+												    const typename hash<Key,T>::slot::const_iterator & it
 												  )
  {
 	 m_parent=parent;
@@ -185,13 +191,13 @@ namespace hst
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::const_iterator::const_iterator(typename const hash<Key,T>::const_iterator & o )
+ TDEF hash<Key,T>::const_iterator::const_iterator(const typename hash<Key,T>::const_iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
  }
- TDEF typename hash<Key,T>::const_iterator & hash<Key,T>::const_iterator::operator=(typename const hash<Key,T>::const_iterator & o )
+ TDEF typename hash<Key,T>::const_iterator & hash<Key,T>::const_iterator::operator=( const typename hash<Key,T>::const_iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
@@ -208,11 +214,11 @@ namespace hst
    if (m_it.dereferencable()) return (*m_it).p2();
    return *(new Key());
  }
- TDEF bool hash<Key,T>::const_iterator::operator==(typename const hash<Key,T>::const_iterator & o) const
+ TDEF bool hash<Key,T>::const_iterator::operator==( const typename hash<Key,T>::const_iterator & o) const
  {
 	 return  m_it==o.m_it && m_parent==o.m_parent && m_slotposition==o.m_slotposition;
  }
- TDEF bool hash<Key,T>::const_iterator::operator!=(typename const hash<Key,T>::const_iterator & o) const
+ TDEF bool hash<Key,T>::const_iterator::operator!=( const typename hash<Key,T>::const_iterator & o) const
  {
 	 return  !(*this==o);
  }
@@ -328,7 +334,7 @@ namespace hst
  TDEF hash<Key,T>::iterator::iterator(
 	                                               hash<Key,T> * parent, 
 	                                               unsigned long slot, 
-												   typename const hash<Key,T>::slot::iterator & it
+												    const typename hash<Key,T>::slot::iterator & it
 												  )
  {
 	 m_parent=parent;
@@ -345,13 +351,13 @@ namespace hst
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::iterator::iterator(typename const hash<Key,T>::iterator & o )
+ TDEF hash<Key,T>::iterator::iterator( const typename hash<Key,T>::iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
  }
- TDEF typename hash<Key,T>::iterator & hash<Key,T>::iterator::operator=(typename const hash<Key,T>::iterator & o )
+ TDEF typename hash<Key,T>::iterator & hash<Key,T>::iterator::operator=( const typename hash<Key,T>::iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
@@ -368,11 +374,11 @@ namespace hst
    if (m_it.dereferencable()) return *(const_cast<T*>( &( (*m_it).p2() )));
    return *(new Key());
  }
- TDEF bool hash<Key,T>::iterator::operator==(typename const hash<Key,T>::iterator & o) const
+ TDEF bool hash<Key,T>::iterator::operator==( const typename hash<Key,T>::iterator & o) const
  {
 	 return  m_it==o.m_it && m_parent==o.m_parent && m_slotposition==o.m_slotposition;
  }
- TDEF bool hash<Key,T>::iterator::operator!=(typename const hash<Key,T>::iterator & o) const
+ TDEF bool hash<Key,T>::iterator::operator!=(const  typename hash<Key,T>::iterator & o) const
  {
 	 return  !(*this==o);
  }
@@ -479,7 +485,7 @@ namespace hst
  }
  TDEF typename hash<Key,T>::iterator hash<Key,T>::end()
  {
-	 return iterator(this,m_table_size,slot::iterator());
+	 return iterator(this,m_table_size,typename slot::iterator());
  }
  
 

@@ -5,6 +5,7 @@
 
 	This file contains a definition of vector.
 */
+#include <string.h>
 #pragma once
 
 

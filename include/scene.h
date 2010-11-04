@@ -61,11 +61,11 @@ class Scene
 };
 
 //=================Исходный код находится здесь====================
-template<typename T> T * get(const hst::string & name)
+template<typename T> T * Scene::get(const hst::string & name)
 {
 	if (!m_nodehash.contains(name)) return NULL;
 
 	BasicNode *  ind=m_layers[m_nodehash[name]];
 	assert(ind->type()==T::Type && "Inconsistent types!");
-	return ind
+	return ind;
 }

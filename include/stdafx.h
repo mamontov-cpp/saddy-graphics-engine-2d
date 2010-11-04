@@ -8,8 +8,12 @@
 #include "targetver.h"
 
 #include <stdio.h>
-#include <tchar.h>
 
+#ifdef _MSC_VER
+	#include <tchar.h>
+#else 
+	#define TCHAR char  
+#endif
 
 
 // TODO. Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

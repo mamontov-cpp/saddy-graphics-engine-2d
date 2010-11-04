@@ -28,9 +28,23 @@ namespace hst
 	  \return index in the table
   */
   template<typename T>
-  unsigned long getHash(const T & name,unsigned long size);
-  template<> 
-  unsigned long hst::getHash(const hst::string & name,unsigned long size);
+  inline unsigned long getHash(const T & name,unsigned long size);
+  /*! Class of hash functions
+  */
+  template<typename T> 
+  class    HashFunction
+  {
+    public:
+               static  unsigned long call(const T & name,unsigned long size);
+  };
+   /*! Class of string hash function
+  */
+   template<>
+   class HashFunction<hst::string>
+   {
+     public:
+                unsigned long call(const hst::string & name,unsigned long size);
+   };
   /*! \class hash
       Class of a simple hash-based dictionary
       Objects must be comparable to be placed in it.
@@ -71,7 +85,7 @@ namespace hst
 				    hash<Key,T>       *  m_parent;                //!< Parent
 				    unsigned long        m_slotposition;          //!< Position of slot in vector
 					typename slot::const_iterator m_it;           //!< Iterator
-					const_iterator(hash<Key,T> * parent, unsigned long slot, typename const hash<Key,T>::slot::const_iterator & it);
+					const_iterator(hash<Key,T> * parent, unsigned long slot,  const typename hash<Key,T>::slot::const_iterator & it);
 					/*! Goes to next element
 					*/
 					void goNext();
@@ -119,7 +133,7 @@ namespace hst
 						\param[in] slot   position
 						\param[in] it     simple iterator
 					*/
-					iterator(hash<Key,T> * parent, unsigned long slot, typename const hash<Key,T>::slot::iterator & it);
+					iterator(hash<Key,T> * parent, unsigned long slot,  const typename hash<Key,T>::slot::iterator & it);
 					/*! Goes to next element
 					*/
 					void goNext();
