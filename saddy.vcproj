@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="8,00"
 	Name="saddy"
 	ProjectGUID="{CE7D663B-668A-4260-9290-2BF1A66136F5}"
 	RootNamespace="saddy"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -21,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -64,7 +63,7 @@
 				AdditionalDependencies="GLU32.lib OPENGL32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -84,6 +83,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -160,6 +162,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -173,15 +178,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\src\engine.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\log.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\main.cpp"
+				RelativePath=".\src\render.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\settings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\testGL.cpp"
 				>
 			</File>
 			<File
@@ -190,6 +207,14 @@
 			</File>
 			<File
 				RelativePath=".\src\texturemanager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\timer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\window.cpp"
 				>
 			</File>
 			<Filter
@@ -223,11 +248,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\include\engine.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\log.h"
 				>
 			</File>
 			<File
+				RelativePath=".\include\render.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\settings.h"
 				>
 			</File>
 			<File
@@ -244,6 +281,18 @@
 			</File>
 			<File
 				RelativePath=".\include\texturemanager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\types.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\window.h"
 				>
 			</File>
 			<Filter
