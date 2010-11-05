@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include/primitives;include/templates;include"
+				AdditionalIncludeDirectories="include/SDL;include/primitives;include/templates;include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -60,8 +60,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GLU32.lib OPENGL32.lib"
+				AdditionalDependencies="GLU32.lib OPENGL32.lib SDL.lib SDL_ttf.lib SDLmain.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -182,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\fontmanager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\log.cpp"
 				>
 			</File>
@@ -249,6 +254,10 @@
 			>
 			<File
 				RelativePath=".\include\engine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\fontmanager.h"
 				>
 			</File>
 			<File
