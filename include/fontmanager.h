@@ -9,8 +9,8 @@
 #ifndef FONTMANAGER_H__
 #define FONTMANAGER_H__
 #include "types.h"
-#include "SDL.h"
-#include "SDL_TTF.h"
+#include "gl\gl.h"
+#include "gl\glu.h"
 
 /*!	\class This class work with one font: load, render and free it.
 	Also class get and keep settings for render, size, colour, place...
@@ -60,13 +60,13 @@ public:
 		\param screen surface of screen
 		\param text text for putting
 	*/
-	void putText(SDL_Surface screen, hString text);
+	void putText(GLuint *screen, hString text);
 
 protected:
 	hString m_last_error;///<last error in human readable form
 	hColor color;///<saved color for text
 	hRectF place;///<saved place for putting text
-	TTF_Font *font;///<loaded font
+	HFONT font;///<loaded font
 };
 
 #endif //FONTMANAGER_H__
