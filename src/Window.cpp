@@ -250,6 +250,9 @@ BOOL RegisterWindowClass (Application* application)						// Register A Window Cl
 	return TRUE;														// Return True (Success)
 }
 
+#include "hwstring.h"
+#include "hlist.hpp"
+
 // Program Entry (WinMain)
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
