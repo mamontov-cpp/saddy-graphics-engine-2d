@@ -12,7 +12,6 @@
 #include "gl\gl.h"
 #include "gl\glu.h"
 
-
 /*!	\class This class work with one font: load, render and free it.
 	Also class get and keep settings for render, size, colour, place...
 */
@@ -56,6 +55,8 @@ protected:
 	//<type> m_font;///<loaded font
 };
 
+typedef Font* pFont;
+
 /*!	\class manage fonts classes: keep and return pointers to font classes and free it
 */
 class FontManager
@@ -63,14 +64,14 @@ class FontManager
 public:
 	/*!	function create font object and return pointer
 		\param[in] file_name name of file with font, it will be key for this font object
-		\return pointer to font object
+		\return pointer to font object, if font already exist return NULL
 	*/
-	Font *createFont(hString &file_name);
+	pFont createFont(hString &file_name);
 	/*!	function return font object with key
 		\param[in] key key for object for returning
 		\return pointer to font object
 	*/
-	Font *getFont(hString &key);
+	pFont getFont(hString &key);
 	/*!	function delete font object
 		\param[in] key key of deleting object
 	*/
@@ -79,7 +80,7 @@ public:
 	*/
 	~FontManager();
 protected:
-	hhash<hString, Font*> m_fonts;
+	hhash<hString, pFont> m_fonts;
 };
 
 #endif //FONTMANAGER_H__
