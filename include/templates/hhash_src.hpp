@@ -212,7 +212,7 @@ template<typename T>
  TDEF const T& hash<Key,T>::const_iterator::value()
  {
    if (m_it.dereferencable()) return (*m_it).p2();
-   return *(new Key());
+   return *(new T());
  }
  TDEF bool hash<Key,T>::const_iterator::operator==( const typename hash<Key,T>::const_iterator & o) const
  {
@@ -372,7 +372,7 @@ template<typename T>
  TDEF T& hash<Key,T>::iterator::value()
  {
    if (m_it.dereferencable()) return *(const_cast<T*>( &( (*m_it).p2() )));
-   return *(new Key());
+   return *(new T());
  }
  TDEF bool hash<Key,T>::iterator::operator==( const typename hash<Key,T>::iterator & o) const
  {

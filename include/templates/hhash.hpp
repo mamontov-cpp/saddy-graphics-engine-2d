@@ -43,7 +43,7 @@ namespace hst
    class HashFunction<hst::string>
    {
      public:
-                unsigned long call(const hst::string & name,unsigned long size);
+               static unsigned long call(const hst::string & name,unsigned long size);
    };
   /*! \class hash
       Class of a simple hash-based dictionary
