@@ -1,9 +1,9 @@
 /*! \file   setting.h
-    \author FreakyBlast
+\author FreakyBlast
 
-	\brief  Declaration of SadSettings and helper typ.
+\brief  Declaration of SadSettings and helper types.
 
-	This file contains a declaration of SadTimer. 
+This file contains a declaration of SadSettings - settings upon OpenGL. 
 */
 
 #ifndef Settings_h__
@@ -12,37 +12,55 @@
 
 #include "types.h"
 
+namespace Sad{
+	/*!\class Setting class
+	*/
+	class Settings
+	{
 
-/*!\class Setting class
-*/
-class SadSettings
-{
-public:
-	SadSettings(void);
-	~SadSettings(void);
+		unsigned int m_screenwidth;  //!< Width of screen
 
-	
-	hString TITLE;   //!< Name of window (titlebar)
+		unsigned int m_screenheight;  //!< Height of screen
 
-	UINT SCREEN_WIDTH;  //!< Width of screen
-	
-	UINT SCREEN_HEIGHT;  //!< Height of screen
-	
-	BOOL FULLSCREEN;  //!< Whether fullscreen
-	
-	BYTE BPP;  //!< Depth color (bit per pixel)
+		bool m_isfullscreen;  //!< Whether fullscreen
 
-	BYTE DEPTH;  //!< bit for z-buffer
+		Uint8 m_bpp;  //!< Depth color (bit per pixel)
 
-	float FOV; //!< Angle 
+		Uint8 m_depth;  //!< bit for z-buffer
 
-	float ZNEAR;  //!< Ѕлижн€€ плоскость отсечени€
-	
-	float ZFAR;  //!< ƒальн€€ плоскость отсечени€
-};
+		float m_fov; //!< Angle 
 
+		float m_znear;  //!< Ѕлижн€€ плоскость отсечени€
 
-extern SadSettings MainSettings;  //!< Global variable of settings
+		float m_zfar;  //!< ƒальн€€ плоскость отсечени€
 
+	public:
+		Settings(
+			unsigned int screenwidth,
+			unsigned int screenheight,
+			bool isfullscreen,
+			Uint8 bpp,
+			Uint8 depth,
+			float fov,
+			float znear,
+			float zfar);
+
+		~Settings(void);
+
+		inline unsigned int screenWidth(void)const {return m_screenwidth;     }
+		inline unsigned int screenHeight(void)const{return m_screenheight;    }
+		inline bool isFullscreen(void)const        {return m_isfullscreen;    }
+		inline Uint8 bpp(void)const                {return m_bpp;             }
+		inline Uint8 depth(void)const              {return m_depth;           }
+		inline float fov(void)const                {return m_fov;             }
+		inline float znear(void)const              {return m_znear;           }
+		inline float zfar(void)const               {return m_zfar;            }
+
+		inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
+		inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
+		inline void setHeightScreen(unsigned int value) {m_screenheight=value;}
+		inline void setBBP(Uint8 value)                 {m_bpp=value;         }
+	};
+}
 
 #endif // Settings_h__

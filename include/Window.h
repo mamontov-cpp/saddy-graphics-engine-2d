@@ -1,6 +1,6 @@
 /*! \file   window.h
-    \author FreakyBlast
- 
+\author FreakyBlast
+
 */
 
 #ifndef GL_FRAMEWORK__INCLUDED
@@ -11,58 +11,77 @@
 #define Window_h__
 
 #include <windows.h>
+#include "types.h"
 #include "settings.h"
 
-  /*! \class SadWindow
-      This class represents working window of Saddy
-  */
-class SadWindow										
-{
-public:
-	SadWindow(void);
-	~SadWindow(void);
-};
-
-
-  /*! Terminating program
-      \param[in] window Window to close
-	  \sa Deinitialization(void)
-  */
-void TerminateApplication (GL_Window* window);	
-
-  /*! Enable/disable fullscreen
-      \param[in] window Window for fullscreen
-  */
-void ToggleFullscreen (GL_Window* window);		
-
-/*! Procedure of initialization
-  \param[out] window Window parameters
-  \param[out] keys Array for storing pressed buttons
-  \sa Deinitialize(void), InitSettings(void)
-  \return Whether initialization has passed normal or not
+/*! \class SadWindow
+This class represents working window of Saddy
 */
-BOOL Initialize(GL_Window* window, Keys* keys);
+namespace Sad{
+	class Window										
+	{
+	public:
+		Window(void);
+		~Window(void);
 
-/*! Deinitialization
-*/
-void Deinitialize(void);
+		/*! Terminating program
+		\param[in] window Window to close
+		*/
+		void terminateApplication (sadWindow* window);	
+		/*! Reshapes GL-Window to needed sizes
+		\param[in] width Needed width
+		\param[in] height Needed height
+		*/
+		void reshapeGL(int width, int height, Sad::Settings* _sets);
 
-/*! Update scene
-  \param[in] Time elapsed since previous call of Update(long long)
-  
-  Performs update of scene according with time in milliseconds,
-  elapsed since last call of this function.
-*/
-void Update (long long DeltaTime);			
+		/*! Update scene
+		\param[in] Time elapsed since previous call of Update(long long)
+		Performs update of scene according with time in milliseconds,
+		elapsed since last call of this function.
+		*/
+		void update(long long DeltaTime);			
 
-/*! Draw all scene
-*/
-void Draw (void);									// Отрисовка всей сцены
+		/*! Initialization of GLWindow setting
+		\param[out] _GLSettings Start setting for OpenGL-window
+		TODO: we shall be write this function, also worth considering from where
+		this settings will be taken.
+		*/
+		void initSettings(Sad::Settings* _GLSettings);				
 
-/*! Initialization of all settings
-*/
-void InitSettings(void);								// Инициализация настроек
+		/*! Enable/disable fullscreen
+		\param[in] window Window for fullscreen
+		*/
+		void toggleFullscreen(sadWindow* window);	
 
+		/*! Create window setting (specific for operating system)
+		\param[out] wndParams Window parameters
+		\return Success of operation
+		*/
+		bool createWindow(sadWindow* wndParams);
+
+		/*! Create GLContext upon window
+		\param[in] _settings Settings of OpenGL 
+		\param[out] wndParams Window parameters
+		\return Success of operation
+		*/
+		bool createGLContext(Settings* _settings, sadWindow* wndparams);
+
+		/*! Destroy GLContext from window
+		\param[in] window Window to destroy.
+		\return Success of operation
+		*/
+		bool destroyWindowGL(sadWindow* window, Settings* _GLSets);	
+
+		/*! Changes screen resolution
+		\param[in] width Aiming width
+		\param[in] height Aiming height
+		\param[in] bitsPerPixel Bits per per pixel
+		\return Success of operation
+		*/
+		bool changeScreenResolution (int width, int height, int bitsPerPixel);
+	};
+
+}
 #endif												// GL_FRAMEWORK__INCLUDED
 
 #endif // Window_h__

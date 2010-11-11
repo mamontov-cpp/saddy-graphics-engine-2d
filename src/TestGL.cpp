@@ -52,12 +52,12 @@ void InitSettings()
 {
 	//Ставим режим 640х480х32
 	MainSettings.SCREEN_WIDTH	=	640;							
-	MainSettings.SCREEN_HEIGHT	=	480;
+	MainSettings.m_screenheight	=	480;
 	MainSettings.BPP			=	32;
 	//Глубина z-буффера 24 бита
 	MainSettings.DEPTH			=	24;
 	//Запускаем в оконном режиме, по клавише F1 можно переключиться в полноэкран
-	MainSettings.FULLSCREEN		=	FALSE;
+	MainSettings.m_isfullscreen		=	FALSE;
 	//Угол обзора (Quake вида)
 	MainSettings.FOV			=	45.0f;
 	//Ближние и дальние проскости отсечения
@@ -68,7 +68,7 @@ void InitSettings()
 
 }
 //Инициализация данных сцены
-BOOL Initialize (GL_Window* window, Keys* keys)	// Инициализация
+BOOL Initialize (sadWindow* window, Keys* keys)	// Инициализация
 {
 	//Угол обнуляем
 	angle = 0;

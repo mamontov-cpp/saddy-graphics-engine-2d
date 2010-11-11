@@ -1,3 +1,3 @@
-#include "texturemanager.h"
+#include "..\include\texturemanager.h"
 
 TextureManager * TextureManager::m_instance=NULL;

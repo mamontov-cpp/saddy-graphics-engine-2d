@@ -11,32 +11,34 @@
 
 #include "types.h"
 
+namespace Sad{
 /*!\class Timer class
 */
-class SadTimer
+class Timer
 {
 
 	long long StartTime;  //!< Beat frequency timer
 public:
-	SadTimer(void);
-	~SadTimer(void);
+	Timer(void);
+	~Timer(void);
 
 	/*!\fn Start timer 
 	*/
-	void __fastcall sadStartTiming();
+	void Start();
     /*!\fn How much time passed in ticks
 	   \return */
-	long long __fastcall sadTimeElapsed();
+	unsigned ElapsedInTicks();
 };
+}
 
 /*!\fn Current time in milliseconds
    \return Time in milliseconds since start of timer
    */
-long long __fastcall sadTime(void);
+long long sadTime(void);
 /*!\fn Gets time in ticks
    \return Time in ticks since start of timer
    */
-long long __fastcall sadGetTicksTime(void);
+long long  sadGetTicksTime(void);
 /*!\fn Converts ticks to seconds
    \param[in] ticks Quantity of ticks
    \return Time in seconds
@@ -45,6 +47,6 @@ double sadConvertTicksToSeconds(long long ticks);
 
 /*!\fn Initialize all operation with timer
 */
-void __fastcall sadInitTimeOperation(void);
+void sadInitTimeOperation(void);
 
 #endif // Timer_h__

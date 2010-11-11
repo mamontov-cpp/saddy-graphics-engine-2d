@@ -1,9 +1,9 @@
 /*! \file   engine.h
-    \author FreakyBlast
+\author FreakyBlast
 
-	\brief  Declaration of SadEngine.
+\brief  Declaration of SadEngine.
 
-	This file contains a declaration of SadEngine. 
+This file contains a declaration of SadEngine. 
 */
 
 #ifndef engine_h__
@@ -14,12 +14,13 @@
 
 /*!\class Main class of Saddy Engine
 */
-class SadEngine
-{
-public:
-	SadEngine(void);
-	~SadEngine(void);
-};
-
+namespace Sad{
+	class Engine
+	{
+	public:
+		Engine(void);
+		~Engine(void);
+	};
+}
 
 #endif // engine_h__

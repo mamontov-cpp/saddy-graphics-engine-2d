@@ -1,7 +1,7 @@
 /*! \file   types.h
-    \author FreakyBlast
+\author FreakyBlast
 
-	\brief  Declaration of types for engine.
+\brief  Declaration of types for engine.
 
 */
 
@@ -9,6 +9,9 @@
 #define Types_h__
 
 #include <windows.h>
+#include <ctime>
+#include <cstdio>
+#include <cstdlib>
 #include "habstract.hpp"
 #include "hdeque.hpp"
 #include "hhash.hpp"
@@ -19,49 +22,36 @@
 #include "hptrie.hpp"
 #include "hstring.h"
 #include "hstringlist.h"
+#include "hwstring.h"
 
 
+#include "log.h"
 #include "hcolor.h"
 #include "hpoint.h"
 #include "hrect.h"
 
+namespace Sad{
+	typedef HANDLE SADHANDLE;
 
-typedef unsigned int UINT;
-typedef unsigned char BYTE;
-typedef HANDLE SADHANDLE;
-
-
-/*! \typedef Contains TRUE/FALSE for any key*/
-typedef struct {									
-	BOOL keyDown [256];					            //!< Array of keys			
-} Keys;				
-
-/*!\typedef Information for program*/
-typedef struct {									
-	HINSTANCE		hInstance;						//!< Application Instance
-	const char*		className;						//!< Application ClassName
-} Application;										// Application
-
-/*!\typedef Information for creation of the window*/
-typedef struct {									
-	Application*		application;				//!< Structure application 
-	char*				title;						//!< Title of window
-	int					width;						//!< Width of window
-	int					height;						//!< Height of window
-	int					bitsPerPixel;				//!< Bit per pixel
-	BOOL				isFullScreen;				//!< Is fullscreen mode
-} GL_WindowInit;									// GL_WindowInit
-
-/*!\typedef Contains information about OpenGL window*/
-typedef struct {									
-	Keys*				keys;						//!< Array for keys
-	HWND				hWnd;						//!< Handle for a window
-	HDC					hDC;						//!< Devide context
-	HGLRC				hRC;						//!< OpenGL context
-	GL_WindowInit		init;						//!< Initialization of window
-	BOOL				isVisible;					//!< Visibility of window
-	DWORD				lastTickCount;				//!< Tick counter
-} GL_Window;										// GL_Window
+	static bool isProgramLooping;
+	static bool createFullScreen;
 
 
+
+	typedef struct{
+		HINSTANCE		    hInstance;						//!< Application Instance
+		const char*		    className;						//!< Application ClassName
+	} Application;
+
+	/*!\typedef Contains information about window in operating system*/
+	typedef struct {
+		char*				title;
+		Application*        app;
+		HWND				hWnd;						//!< Handle for a window
+		HDC					hDC;						//!< Devide context
+		HGLRC				hRC;						//!< OpenGL context
+		Uint8				isVisible;					//!< Visibility of window
+	} sadWindow;										// GL_Window
+
+}
 #endif // Types_h__

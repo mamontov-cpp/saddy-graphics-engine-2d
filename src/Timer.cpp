@@ -47,7 +47,7 @@ long long freq;  //!< Beat frequency timer
 
 /*!\fn Initialize all operation with timer
 */
-void __fastcall sadInitTimeOperation()
+void sadInitTimeOperation()
 {
 	LARGE_INTEGER s;
 	// gets a frequency
@@ -57,7 +57,7 @@ void __fastcall sadInitTimeOperation()
 }
 /*!\fn Gets current value of the global counter
 */ 
-long long __fastcall sadTime()
+long long sadTime()
 {
 	LARGE_INTEGER s;
 	// gets the counter
@@ -67,7 +67,7 @@ long long __fastcall sadTime()
 }
 
 /*!\fn Gets current time in ticks*/
-long long __fastcall sadGetTicksTime()
+long long sadGetTicksTime()
 {
 	LARGE_INTEGER s;
 	// gets the counter
@@ -76,7 +76,7 @@ long long __fastcall sadGetTicksTime()
 }
 
 /*!\fn Sets start time (enable timer)*/
-void __fastcall SadTimer::sadStartTiming()
+void SadTimer::sadStartTiming()
 {
 	// Saves time
 	StartTime=sadTime();
@@ -84,9 +84,9 @@ void __fastcall SadTimer::sadStartTiming()
 
 /*!\fn Returns time elapsed
    \return Time in ticks*/ 
-long long __fastcall SadTimer::sadTimeElapsed()
+long long SadTimer::sadTimeElapsed()
 {
-	// Returns difference between current moment and start (in ticks)
+	// Returns difference between current moment and start (in seconds)
 	return ((sadTime()-StartTime)*1000/freq);
 }
 
