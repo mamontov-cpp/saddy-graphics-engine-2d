@@ -1,4 +1,5 @@
 #include "log.h"
+#include "hstring.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,4 +46,10 @@ void hst::log::save(const char * fn )
 		fclose(file);
 	 }
 	}
+}
+
+std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s)
+{
+	o<<std::string(s.data());
+	return o;
 }

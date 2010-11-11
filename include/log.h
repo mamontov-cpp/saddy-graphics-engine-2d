@@ -7,6 +7,7 @@
 */
 #include <sstream>
 #include <iostream>
+#include <hstring.h>
 #pragma once
 
 namespace hst
@@ -55,6 +56,11 @@ class log
 
 }
 
+/*! Fixed overload of method
+*/
+std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s);
+
+
 
 //================ Code goes here =================
 template<typename T>
@@ -71,3 +77,4 @@ hst::log & hst::log::owrite(const T & sth)
 	std::cout<<sth;
 	return *this;
 }
+

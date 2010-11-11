@@ -1,4 +1,6 @@
+
 #define TDEF template<typename Key,typename T>
+#pragma once
 
 namespace hst
 {

@@ -8,6 +8,7 @@
 #include "hdeque.hpp"
 #include "hstring.h"
 #include "hpair.hpp"
+#pragma once
 
 namespace hst
 {
@@ -233,7 +234,9 @@ namespace hst
 		   */
 		   unsigned long tableSize() const;
   };
+
 }
+
 #define hhash hst::hash
 
 
