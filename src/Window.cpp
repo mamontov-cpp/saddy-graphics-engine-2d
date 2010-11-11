@@ -171,5 +171,22 @@ namespace Sad{
 		return true;														// Return True
 	}
 
+	void Sad::Window::update(long long deltaTime){
 
+	}
+
+	void Sad::Window::initSettings(Sad::Settings* _GLSettings){
+
+	}
+
+}
+
+int CALLBACK WinMain(
+					 __in  HINSTANCE hInstance,
+					 __in  HINSTANCE hPrevInstance,
+					 __in  LPSTR lpCmdLine,
+					 __in  int nCmdShow
+					 ){
+
+						 return 0;
 }
