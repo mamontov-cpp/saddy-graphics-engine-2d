@@ -1,3 +1,3 @@
 #include "..\include\texturemanager.h"
 
-Sad::TextureManager * Sad::TextureManager::m_instance=NULL;
+sad::TextureManager * sad::TextureManager::m_instance=NULL;

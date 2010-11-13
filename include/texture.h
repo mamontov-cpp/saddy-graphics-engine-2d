@@ -4,11 +4,13 @@
 */
 #include "primitives/hcolor.h"
 #include "templates/hstring.h"
+#include "templates/hwstring.h"
 #include "templates/hlvector.hpp"
 #pragma once
 
 
-namespace Sad{
+namespace sad
+{
 	/*! Класс текстуры
 	*/
 	class Texture
@@ -47,20 +49,25 @@ namespace Sad{
 		*/
 		void buildMipMaps();
 		/*! Загрузка из файла, в зависимости от расширения
-		\param[in] filename имя файлы
+		\param[in] filename имя файла
 		*/
 		bool load(const hst::string & filename);
 		/*! Загрузка из файла BMP
-		\param[in] filename имя файлы
+		\param[in] filename имя файла
 		*/
 		bool loadBMP(const hst::string & filename);
 		/*! Загрузка из файла TGA
-		\param[in] filename имя файлы
+		\param[in] filename имя файла
 		*/
 		bool loadTGA(const hst::string & filename);
 		/*! Загрузка из файла PNG
-		\param[in] filename имя файлы
+		\param[in] filename имя файла
 		*/
 		bool loadPNG(const hst::string & filename);
+		/*! Загрузка из файла PNG
+		\param[in] filename имя файла
+		*/
+		bool loadPNG(const hst::wstring & filename);
 	};
+
 }

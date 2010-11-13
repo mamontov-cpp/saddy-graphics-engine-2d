@@ -6,7 +6,8 @@
 #include "templates/hhash.hpp"
 #pragma once
 
-namespace Sad{
+namespace sad
+{
 	/*! ”правление текстурами сосредоточено здесь.
 	¬ том числе пам€ть из-под текстур освобождаетс€ здесь же.
 	*/

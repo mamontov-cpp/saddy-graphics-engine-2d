@@ -17,7 +17,7 @@ namespace hst
  }
  unsigned long basicHash(const unsigned char * name,unsigned long len)
  {
-	 unsigned long h=0,g=235;
+	 unsigned long h=0;
 	 unsigned long i=0;
 	 while (i!=len)
 	 {

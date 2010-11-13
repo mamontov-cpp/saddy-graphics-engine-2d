@@ -30,6 +30,14 @@
 #include "hpoint.h"
 #include "hrect.h"
 
+namespace sad
+{
+  /*! Chunk, for various loading operations
+  */
+  typedef unsigned long Chunk;
+}
+
+
 namespace Sad{
 	typedef HANDLE SADHANDLE;
 

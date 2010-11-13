@@ -1,19 +1,17 @@
 #include "stdafx.h"
 
 #include <windows.h>
-#include <GL/gl3.h>
 #pragma comment(lib, "OpenGL32.lib")
-#include <GL/GLU.h> 
 #pragma comment(lib, "GLU32.lib")
 #include "log.h"
 #include "templates/hhash.hpp"
+#include "texture.h"
 
 
-
-int main(int _Argc, char** argv) 
+int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
 {
-	HWND hwndMain;
-    hwndMain = CreateWindow()
+	sad::Texture test;
+	test.loadPNG(hst::string("test.PNG"));
 	return 0;
 }
 
