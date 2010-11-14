@@ -84,7 +84,6 @@ int huffman::generateFromLengthArray(
 			}
 			else
 			{
-				unsigned long ltree_pos=tree_position;
 				tree_position=(tree[2*tree_position+bit]>codes_len)?(tree[2*tree_position+bit]-codes_len):(codes_len-tree[2*tree_position+bit]);
 				if (tree_position>tree.size()) { FPR(0,0,"Outbound!"); FCL; }
                 FPR(tree[2*tree_position+bit],tree_position,"Changing to tree val by code len");

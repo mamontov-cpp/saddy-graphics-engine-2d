@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\testnode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\texture.cpp"
 				>
 			</File>
@@ -329,6 +333,10 @@
 			</File>
 			<File
 				RelativePath=".\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\testnode.h"
 				>
 			</File>
 			<File

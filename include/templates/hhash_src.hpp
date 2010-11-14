@@ -10,7 +10,8 @@ namespace hst
 	 while (*name)
 	 {
 		 h=(h<<4)+*name++;
-		 if (g=h & 0xF0000000) h^=g>>24;
+		 g=h & 0xF0000000;
+		 if (g) h^=g>>24;
 		 h&=~g;
 	 }
 	 return h;
@@ -95,7 +96,6 @@ template<typename T>
     unsigned long ind=getHash(k,m_table_size);
     typename slot::iterator it=m_data[ind].begin();
     bool     foundflag=false; // Whether we are found
-	bool     exflag=true;
 	while(it.dereferencable())
 	{
 	  if ((*it).p1()==k)
@@ -482,7 +482,6 @@ template<typename T>
 	 while ( (f<m_table_size) && m_data[f].count()==0)
 		 ++f;
 	 if (f==m_table_size) return end();
-	 int cc=m_data[f].count();
 	 return iterator(this,f,m_data[f].begin());
  }
  TDEF typename hash<Key,T>::iterator hash<Key,T>::end()

@@ -19,6 +19,9 @@ template<class T> void * operator new(size_t sz, struct hst::vector_pool<T> *  _
 template<typename T>
 void  operator delete(void * pp, hst::vector_pool<T> *  _pool, unsigned long allocated,unsigned long where)
 {
+	pp=NULL;
+	allocated=0;
+	where=0;
     pool_destroy(_pool);
 }
 

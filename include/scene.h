@@ -6,6 +6,10 @@
 #include "templates/hhash.hpp"
 #include <assert.h>
 #pragma once
+
+namespace sad
+{
+
 /*! Класс базового объекта сцены
 */
 class BasicNode
@@ -20,11 +24,12 @@ public:
 	int type() const;
 	/*! Процедура, которая будет выполняться при рендеринге объекта.
 	*/
-	virtual void render();
+	virtual void render()=0;
 	/*! Деструктор
 	*/
 	virtual ~BasicNode();
 };
+
 
 /*! Класс сцены
 */
@@ -60,8 +65,13 @@ public:
 	template<typename T> T * get(const hst::string & name); 
 };
 
+}
+
+typedef sad::BasicNode BasicNode;
+typedef sad::Scene     Scene;
+
 //=================Исходный код находится здесь====================
-template<typename T> T * Scene::get(const hst::string & name)
+template<typename T> T * sad::Scene::get(const hst::string & name)
 {
 	if (!m_nodehash.contains(name)) return NULL;
 
