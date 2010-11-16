@@ -22,34 +22,34 @@ namespace bitstream
 	    \param[in,out] bit_position position of bit
 		\param[in]     stream       stream
 	*/
-	sad::Chunk readBit(size_t & bit_position, const bytestream stream);
+	inline sad::Chunk readBit(size_t & bit_position, const bytestream stream);
 	/*! Reads a bit
 	    \param[in,out] bit_position position of bit
 		\param[in]     stream       stream
 		\param[in]     amount       amount of bits 
 	*/
-	sad::Chunk readBits(size_t & bit_position, const bytestream stream, size_t amount);
+	inline sad::Chunk readBits(size_t & bit_position, const bytestream stream, size_t amount);
 	/*! Reads a bit
 	    \param[in,out] bit_position position of bit
 		\param[in]     stream       stream
 	*/
-	sad::Chunk readRevBit(size_t & bit_position, const bytestream stream);
+	inline sad::Chunk readRevBit(size_t & bit_position, const bytestream stream);
 	/*! Reads a bit
 	    \param[in,out] bit_position position of bit
 		\param[in]     stream       stream
 		\param[in]     amount       amount of bits 
 	*/
-	sad::Chunk readRevBits(size_t & bit_position, const bytestream stream, size_t amount);
+	inline sad::Chunk readRevBits(size_t & bit_position, const bytestream stream, size_t amount);
 	/*! Reads a 32 bit ints
 	    \param[in] stream stream
 	*/
-	sad::Chunk read32(const Uint8 * stream);
+	inline sad::Chunk read32(const Uint8 * stream);
 	/*! Sets a bit
 	    \param[in,out]  bitpos bit position
 		\param[in,out]  bits  stream
 		\param[in]      bit   bit
 	*/
-	void setBit(size_t & bitpos, bytestream bits, sad::Chunk bit);
+	inline void setBit(size_t & bitpos, bytestream bits, sad::Chunk bit);
 }
 
 /*! Contsins a 2d representation of a tree.
@@ -77,13 +77,35 @@ namespace huffman
 		\param[in,out] tree_position current tree position
 		\param[in]     bit           current pos  
 	*/
-	int decode ( 
+	inline int decode ( 
 		          const HuffmanTree & tree,
 				  bool        & decoded,
 				  sad::Chunk  & result,
 				  size_t      & tree_position,
 				  sad::Chunk  bit
 		       );
+}
+
+//==== Huffman inlined functions  ====
+int huffman::decode ( 
+		             const HuffmanTree & tree,
+				     bool        & decoded,
+				     sad::Chunk  & result,
+				     size_t      & tree_position,
+				     sad::Chunk  bit
+		           )
+{
+	sad::Chunk tmp=(sad::Chunk) tree.size()/2;
+	
+	//Handle error, when we appear outside
+	if (tree_position>=tmp) 
+		return 11;
+
+	result=tree[2*tree_position+bit];
+	decoded= ( (result)< tmp);
+	tree_position= ( decoded )? 0: result-tmp;
+
+	return 0;
 }
 
 /*! Provides a decompression operstors
@@ -179,3 +201,52 @@ namespace zlib
 	int decompress( uchrstream & out, const uchrstream & in);
 }
 
+
+
+//====== Source code goes here ======
+
+sad::Chunk bitstream::readBit(size_t & bit_position, const bytestream stream)
+{
+	sad::Chunk r = (stream[bit_position >> 3] >> (bit_position & 0x7)) & 1; 
+	++bit_position; 
+	return r;
+}
+
+sad::Chunk bitstream::readBits(size_t & bit_position, const bytestream stream, size_t amount)
+{
+	unsigned long result=0;
+	
+	for (size_t cur_pos=0; cur_pos<amount;cur_pos++)
+		result+=bitstream::readBit(bit_position,stream) << cur_pos;
+
+	return result;
+}
+
+sad::Chunk bitstream::readRevBit(size_t & bit_position, const bytestream stream)
+{
+	unsigned long r;
+	r = (stream[bit_position >> 3] >> (7 - (bit_position & 0x7))) & 1; 
+	bit_position++; 
+	return r;
+}
+
+sad::Chunk bitstream::readRevBits(size_t & bit_position, const bytestream stream, size_t amount)
+{
+	unsigned long result=0;
+	
+	for (size_t cur_pos=amount-1; cur_pos<amount;cur_pos--)
+		result+=(bitstream::readRevBit(bit_position,stream) << cur_pos);
+
+	return result;
+}
+
+sad::Chunk bitstream::read32(const Uint8 * stream)
+{
+	return (stream[0]<<24) | (stream[1]<<16) | (stream[2]<<8) | (stream[3]);
+}
+
+void bitstream::setBit(size_t & bitpos, bytestream bits, sad::Chunk bit)
+{
+	bits[bitpos >> 3] |=  (bit << (7 - (bitpos & 0x7))); 
+	bitpos++;;
+}

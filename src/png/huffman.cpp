@@ -94,23 +94,3 @@ int huffman::generateFromLengthArray(
  return 0;
 }
 
-int huffman::decode ( 
-		             const HuffmanTree & tree,
-				     bool        & decoded,
-				     sad::Chunk  & result,
-				     size_t      & tree_position,
-				     sad::Chunk  bit
-		           )
-{
-	sad::Chunk tmp=(sad::Chunk) tree.size()/2;
-	
-	//Handle error, when we appear outside
-	if (tree_position>=tmp) 
-		return 11;
-
-	result=tree[2*tree_position+bit];
-	decoded= ( (result)< tmp);
-	tree_position= ( decoded )? 0: result-tmp;
-
-	return 0;
-}
