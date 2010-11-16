@@ -42,15 +42,15 @@ namespace sad{
 			Uint8 bpp=24,
 			Uint8 depth=8,
 			float fov=45.0,
-			float znear=1.0f,
+			float znear=0.1f,
 			float zfar=100.0f);
 
 		Settings(const Settings& other);
 		Settings();
 		~Settings(void);
 
-		inline unsigned int screenWidth(void)const {return m_screenwidth;     }
-		inline unsigned int screenHeight(void)const{return m_screenheight;    }
+		inline unsigned int width(void)  const     {return m_screenwidth;     }
+		inline unsigned int height(void) const     {return m_screenheight;    }
 		inline bool isFullscreen(void)const        {return m_isfullscreen;    }
 		inline Uint8 bpp(void)const                {return m_bpp;             }
 		inline Uint8 depth(void)const              {return m_depth;           }

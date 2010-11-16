@@ -8,7 +8,11 @@
 #ifndef Types_h__
 #define Types_h__
 
-#include <windows.h>
+#ifdef   WIN32
+	#include <windows.h>
+#else
+
+#endif
 #include <gl/gl.h>														
 #include <gl/glu.h>	
 #include <ctime>
@@ -37,29 +41,21 @@ namespace sad
   /*! Chunk, for various loading operations
   */
   typedef unsigned long Chunk;
-}
-
-
-namespace sad{
-	typedef HANDLE SADHANDLE;
-
-	static bool isProgramLooping;
-
-	typedef struct{
-		HINSTANCE		    hInstance;						//!< Application Instance
-		hst::wstring	    className;						//!< Application ClassName
-	} Application;
 
 	
-	/*!\typedef Contains information about window in operating system*/
-	typedef struct {
-		hst::string	        title;
-		Application         app;
-		HWND				hWnd;						//!< Handle for a window
+   /*! Contains a window info
+   */
+   struct Window
+   {
+#ifdef WIN32
+	    HWND				hWND;						//!< Handle for a window
 		HDC					hDC;						//!< Devide context
 		HGLRC				hRC;						//!< OpenGL context
-		Uint8				isVisible;					//!< Visibility of window
-	} sadWindow;										// GL_Window
+		HINSTANCE           hInstance;                  //!< Instance of module
+#endif
+		bool                active;                     //!< Is window active
+		bool                fullscreen;                 //!< Full screen
+	};	
 
 }
 #endif // Types_h__

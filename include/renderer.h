@@ -11,11 +11,11 @@
 
 #include "settings.h"
 #include "scene.h"
-#include "texture.h"
-#include "testnode.h"
 
 
-namespace sad{
+
+namespace sad
+{
 	/*!\class The main render class 
 	*/
 	class Renderer
@@ -25,18 +25,30 @@ namespace sad{
 		Renderer& operator=(const Renderer&);
 
 
-		unsigned long m_starttimer;
-		Scene* m_currentscene;
-		sadWindow m_currentwindow;
-		int m_fps;
-		Settings m_glsettings;
+		unsigned long        m_starttimer;
+		Scene*               m_currentscene;
+		sad::Window          m_window;
+		int                  m_fps;
+		Settings             m_glsettings;
+		hst::string          m_windowtitle; //!< Title of window
+        bool                 m_running;     //!< Sets, whether we are running now
 
-        /*! Registers class for WindowCreateEx (in window system)
-		\param[in] application Structure with information about window:
-		                       hInstance and className
-		\return Success of operation
+		/*! Setups a OpenGL for first use
 		*/
-        bool RegisterWindowClass(Application& application);
+		bool initGLRendering();
+		/*! Creates an OpenGL window
+		*/
+		bool createWindow();
+        /*! Releases a rendering context of window
+		*/
+		void releaseWindow();
+		/*! Adjusts video mode for work (fullscreen/windowed), returning styles
+		*/
+		void adjustVideoMode(unsigned long & style, unsigned long & ex_style);
+		/*! Setups a pixel format descriptor
+		*/
+		bool setupPFD();
+
 
         /*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
@@ -61,10 +73,6 @@ namespace sad{
 	   */
 		void mainLoop();
 
-		/*! Create window setting (specific for operating system)
-		\return Success of operation
-		*/
-		bool createWindow();
 
 		/*! Create GLContext upon window
 		\return Success of operation
@@ -84,17 +92,12 @@ namespace sad{
 	   */
 		void update();
 
-       /*! Zeroize hWnd, hDC, hRC,
-		   destroys contexts and window
-		\return Success of operation
-		*/
-		bool destroyWindowGL();
 
 
 		/*! Sets a current window
 		\param[in] Structure of window
 		*/
-		inline void setCurrentWindow(sadWindow* window){m_currentwindow=*window;}
+		inline void setCurrentWindow(sad::Window * window) { m_window=*window;}
 
 
 	public:
@@ -110,9 +113,8 @@ namespace sad{
 		/*! Gets a current window in the form sadWindow
 		\return Current window
 		*/
-		inline sadWindow* getCurrentWindow(void){return &m_currentwindow;}
+		inline sad::Window * getCurrentWindow()  { return &m_window;}
 
-		inline void setTitle(const hst::string& newTitle){m_currentwindow.title = newTitle;}
 
 		/*! Fills a structure SadWindow
 		\param[in] _setting Settings of GLContext

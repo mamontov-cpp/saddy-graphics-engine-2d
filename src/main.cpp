@@ -1,5 +1,6 @@
 //#include "stdafx.h"
 #include "..\include\renderer.h"
+#include "testnode.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
 

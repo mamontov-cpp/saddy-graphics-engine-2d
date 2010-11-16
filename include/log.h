@@ -59,6 +59,7 @@ class log
 /*! Fixed overload of method
 */
 std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s);
+std::ostream & operator<<(std::ostream & o, const hst::string & s);
 
 
 

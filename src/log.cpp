@@ -53,3 +53,8 @@ std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s)
 	o<<std::string(s.data());
 	return o;
 }
+std::ostream & operator<<(std::ostream & o, const hst::string & s)
+{
+	o<<std::string(s.data());
+	return o;
+}
