@@ -9,6 +9,8 @@
 #define Types_h__
 
 #include <windows.h>
+#include <gl/gl.h>														
+#include <gl/glu.h>	
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
@@ -42,19 +44,17 @@ namespace Sad{
 	typedef HANDLE SADHANDLE;
 
 	static bool isProgramLooping;
-	static bool createFullScreen;
-
-
 
 	typedef struct{
 		HINSTANCE		    hInstance;						//!< Application Instance
-		const char*		    className;						//!< Application ClassName
+		hst::wstring	    className;						//!< Application ClassName
 	} Application;
 
+	
 	/*!\typedef Contains information about window in operating system*/
 	typedef struct {
-		char*				title;
-		Application*        app;
+		hst::string	        title;
+		Application         app;
 		HWND				hWnd;						//!< Handle for a window
 		HDC					hDC;						//!< Devide context
 		HGLRC				hRC;						//!< OpenGL context

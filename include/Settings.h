@@ -39,12 +39,14 @@ namespace Sad{
 			unsigned int screenwidth,
 			unsigned int screenheight,
 			bool isfullscreen,
-			Uint8 bpp,
-			Uint8 depth,
-			float fov,
-			float znear,
-			float zfar);
+			Uint8 bpp=24,
+			Uint8 depth=8,
+			float fov=45.0,
+			float znear=1.0f,
+			float zfar=100.0f);
 
+		Settings(const Settings& other);
+		Settings();
 		~Settings(void);
 
 		inline unsigned int screenWidth(void)const {return m_screenwidth;     }
@@ -59,7 +61,14 @@ namespace Sad{
 		inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
 		inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
 		inline void setHeightScreen(unsigned int value) {m_screenheight=value;}
-		inline void setBBP(Uint8 value)                 {m_bpp=value;         }
+		inline void setBPP(Uint8 value)                 {m_bpp=value;         }
+		inline void setFoV(float value)                 {m_fov=value;         }
+		inline void setZNear(float value)               {m_znear=value;       }
+		inline void setZFar(float value)                {m_zfar=value;        }
+		inline void setDepth(Uint8 value)               {m_depth=value;       }
+		
+
+
 	};
 }
 

@@ -48,16 +48,9 @@ namespace Sad{
 		*/
 		void initSettings(Sad::Settings* _GLSettings);				
 
-		/*! Enable/disable fullscreen
-		\param[in] window Window for fullscreen
-		*/
-		void toggleFullscreen(sadWindow* window);	
 
-		/*! Create window setting (specific for operating system)
-		\param[out] wndParams Window parameters
-		\return Success of operation
-		*/
-		bool createWindow(sadWindow* wndParams);
+
+
 
 		/*! Create GLContext upon window
 		\param[in] _settings Settings of OpenGL 

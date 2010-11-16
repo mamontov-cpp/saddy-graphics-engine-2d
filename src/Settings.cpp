@@ -4,6 +4,10 @@
 
 namespace Sad{
 
+	Sad::Settings::Settings()
+	{
+
+	}
 
 	Sad::Settings::Settings(unsigned int screenwidth, unsigned int screenheight,
 		bool isfullscreen, Uint8 bpp,
@@ -23,5 +27,9 @@ namespace Sad{
 	Sad::Settings::~Settings(void)
 	{
 	}
+	Sad::Settings::Settings(const Sad::Settings &){
+	
+	}
+
 
 }
