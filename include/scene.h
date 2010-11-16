@@ -16,7 +16,10 @@ class BasicNode
 {
 	float m_x;    //!< Позиция
 	float m_y;    //!< Позиция
+protected:
 	int   m_type; //!< Тип вершины (динамический)
+    
+	BasicNode();
 public:
 	static int Type; //!< Статический тип
 	/*! Тип
@@ -77,5 +80,5 @@ template<typename T> T * sad::Scene::get(const hst::string & name)
 
 	BasicNode *  ind=m_layers[m_nodehash[name]];
 	assert(ind->type()==T::Type && "Inconsistent types!");
-	return ind;
+	return static_cast<T *>(ind);
 }

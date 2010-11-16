@@ -13,8 +13,8 @@ int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 	//sad::Texture test;
 	//test.loadPNG(hst::string("test.PNG"));
 	sad::Scene sc;
-	sc.add( new TestNode(0.5f,0.5f,0.2f) );
-	
+	sc.add( new TestNode(0.5f,0.5f,0.2f),"u" );
+	TestNode * node=sc.get<TestNode>("u");
 	//Here must be an initialization of engine, and running it
 
 	return 0;

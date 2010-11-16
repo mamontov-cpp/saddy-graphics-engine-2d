@@ -16,6 +16,7 @@ class TestNode: public sad::BasicNode
 		 float m_r;   //!< Radius
 	     float m_angle;  //!< Angle
  public:
+	     static int Type; //!< Статический тип
           /*! Creates a simple node
 		  */
 	      TestNode(float x, float y, float r);

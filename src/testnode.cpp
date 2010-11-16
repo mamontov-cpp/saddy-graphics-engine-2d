@@ -22,7 +22,11 @@ TestNode::TestNode(float x, float y, float r)
 	m_y=y;
 	m_r=r;
 	m_angle=0;
+	m_type=TestNode::Type;
 }
+
+int TestNode::Type=1;
+
 void TestNode::render()
 {
 	glColor3f(255,0,0);

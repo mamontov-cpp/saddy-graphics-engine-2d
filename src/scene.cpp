@@ -1,5 +1,12 @@
 #include "scene.h"
 
+int sad::BasicNode::Type=0;
+int sad::BasicNode::type() const { return m_type;}
+
+sad::BasicNode::BasicNode()
+{
+	m_type=sad::BasicNode::Type;
+}
 sad::BasicNode::~BasicNode()
 {
 
