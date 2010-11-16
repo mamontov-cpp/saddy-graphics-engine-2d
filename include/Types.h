@@ -40,7 +40,7 @@ namespace sad
 }
 
 
-namespace Sad{
+namespace sad{
 	typedef HANDLE SADHANDLE;
 
 	static bool isProgramLooping;

@@ -12,7 +12,7 @@ This file contains a declaration of SadSettings - settings upon OpenGL.
 
 #include "types.h"
 
-namespace Sad{
+namespace sad{
 	/*!\class Setting class
 	*/
 	class Settings

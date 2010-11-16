@@ -1,7 +1,7 @@
-/*! \file   Render.cpp
+/*! \file   renderer.cpp
 \author FreakyBlast
 
-\brief  Definition of Render.
+\brief  Definition of Renderer.
 
 In this file OpenGL function has been used obviously.
 */
@@ -12,16 +12,16 @@ In this file OpenGL function has been used obviously.
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
 
-namespace Sad{
+namespace sad{
 
-	Sad::Renderer::Renderer(void)
+	sad::Renderer::Renderer(void)
 	{
 		m_currentwindow.title="SadExample";
 
 
 	}
 
-	Sad::Renderer::~Renderer(void)
+	sad::Renderer::~Renderer(void)
 	{
 
 
@@ -31,7 +31,7 @@ namespace Sad{
 
 
 
-	bool Sad::Renderer::init(const Sad::Settings& _settings)
+	bool sad::Renderer::init(const sad::Settings& _settings)
 	{
 		m_glsettings.setWidthScreen(_settings.screenWidth());
 		m_glsettings.setHeightScreen(_settings.screenHeight());
@@ -46,7 +46,7 @@ namespace Sad{
 	}
 
 
-	void Sad::Renderer::reshape(int width, int height)
+	void sad::Renderer::reshape(int width, int height)
 	{
 		glViewport (0, 0, (GLsizei)(width), (GLsizei)(height));				// Переустанавливаем ViewPort (область видимости)
 		glMatrixMode (GL_PROJECTION);										// Выбираем матрицу проекции
@@ -62,14 +62,14 @@ namespace Sad{
 	}
 
 
-	Sad::Renderer& Sad::Renderer::instance()
+	sad::Renderer& sad::Renderer::instance()
 	{
 		static Renderer aloneRenderer;
 		return aloneRenderer;
 	}
 
 
-	void Sad::Renderer::mainLoop(){
+	void sad::Renderer::mainLoop(){
 
 		int frames=0;
 		bool isMessagePumpActive;
@@ -129,7 +129,7 @@ namespace Sad{
 									frames=0;
 									Renderer::instance().setTimer();
 									//if (someflag){
-									//	Sleep(Sad::Renderer::instance().fps()*1000);
+									//	Sleep(sad::Renderer::instance().fps()*1000);
 									//someflag=false;
 									//}
 								}
@@ -164,17 +164,17 @@ namespace Sad{
 
 
 
-	void Sad::Renderer::run(){
+	void sad::Renderer::run(){
 
 		mainLoop();
 
 	}	
 
-	LRESULT CALLBACK Sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		// Get The Window Context
-		//Sad::Renderer* render = (Sad::Renderer*)(GetWindowLong (hWnd, GWL_USERDATA));
-		Sad::sadWindow newSadW;
+		//sad::Renderer* render = (sad::Renderer*)(GetWindowLong (hWnd, GWL_USERDATA));
+		sad::sadWindow newSadW;
 		switch (uMsg)														// Evaluate Window Message
 		{
 		case WM_SYSCOMMAND:												// Intercept System Commands
@@ -192,13 +192,13 @@ namespace Sad{
 		case WM_CREATE:													// Window Creation
 			{
 				//CREATESTRUCT* creation = (CREATESTRUCT*)(lParam);			// Store Window Structure Pointer
-				//render = (Sad::Renderer*)(creation->lpCreateParams);
+				//render = (sad::Renderer*)(creation->lpCreateParams);
 				//SetWindowLong (hWnd, GWL_USERDATA, (LONG)(render));
 			}
 			return 0;														// Return
 
 		case WM_CLOSE:													// Closing The Window
-			Sad::Renderer::instance().quit();								// Terminate The Application
+			sad::Renderer::instance().quit();								// Terminate The Application
 			return 0;														// Return
 
 		case WM_SIZE:													// Size Action Has Taken Place
@@ -206,35 +206,35 @@ namespace Sad{
 			{
 			case SIZE_MINIMIZED: // Was Window Minimized?
 
-				newSadW.app=Sad::Renderer::instance().getCurrentWindow()->app;
-				newSadW.hDC=Sad::Renderer::instance().getCurrentWindow()->hDC;
-				newSadW.hRC=Sad::Renderer::instance().getCurrentWindow()->hRC;
-				newSadW.hWnd=Sad::Renderer::instance().getCurrentWindow()->hWnd;
+				newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
+				newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
+				newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
+				newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
 				newSadW.isVisible=false;
-				newSadW.title=Sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				Sad::Renderer::instance().setCurrentWindow(&newSadW);
+				newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
+				sad::Renderer::instance().setCurrentWindow(&newSadW);
 				return 0;												// Return
 
 			case SIZE_MAXIMIZED:									// Was Window Maximized?
-				newSadW.app=Sad::Renderer::instance().getCurrentWindow()->app;
-				newSadW.hDC=Sad::Renderer::instance().getCurrentWindow()->hDC;
-				newSadW.hRC=Sad::Renderer::instance().getCurrentWindow()->hRC;
-				newSadW.hWnd=Sad::Renderer::instance().getCurrentWindow()->hWnd;
+				newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
+				newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
+				newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
+				newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
 				newSadW.isVisible=true;
-				newSadW.title=Sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				Sad::Renderer::instance().setCurrentWindow(&newSadW);
-				Sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));		// Reshape Window - LoWord=Width, HiWord=Height
+				newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
+				sad::Renderer::instance().setCurrentWindow(&newSadW);
+				sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));		// Reshape Window - LoWord=Width, HiWord=Height
 				return 0;												// Return
 
 			case SIZE_RESTORED:										// Was Window Restored?
-				newSadW.app=Sad::Renderer::instance().getCurrentWindow()->app;
-				newSadW.hDC=Sad::Renderer::instance().getCurrentWindow()->hDC;
-				newSadW.hRC=Sad::Renderer::instance().getCurrentWindow()->hRC;
-				newSadW.hWnd=Sad::Renderer::instance().getCurrentWindow()->hWnd;
+				newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
+				newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
+				newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
+				newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
 				newSadW.isVisible=true;
-				newSadW.title=Sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				Sad::Renderer::instance().setCurrentWindow(&newSadW);
-				Sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));
+				newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
+				sad::Renderer::instance().setCurrentWindow(&newSadW);
+				sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));
 				return 0;												// Return
 			}
 			break;															// Break
@@ -260,14 +260,14 @@ namespace Sad{
 	}
 
 
-	bool Sad::Renderer::RegisterWindowClass (Application& application)						// Register A Window Class For This Application.
+	bool sad::Renderer::RegisterWindowClass (Application& application)						// Register A Window Class For This Application.
 	{																		// TRUE If Successful
 		// Register A Window Class
 		WNDCLASSEX windowClass;												// Window Class
 		ZeroMemory (&windowClass, sizeof (WNDCLASSEX));						// Make Sure Memory Is Cleared
 		windowClass.cbSize			= sizeof (WNDCLASSEX);					// Size Of The windowClass Structure
 		windowClass.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraws The Window For Any Movement / Resizing
-		windowClass.lpfnWndProc		= (WNDPROC)(Sad::Renderer::WindowProc);				// WindowProc Handles Messages
+		windowClass.lpfnWndProc		= (WNDPROC)(sad::Renderer::WindowProc);				// WindowProc Handles Messages
 		windowClass.hInstance		= application.hInstance;				// Set The Instance
 		windowClass.hbrBackground	= (HBRUSH)(COLOR_APPWORKSPACE);			// Class Background Brush Color
 		windowClass.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
@@ -285,9 +285,9 @@ namespace Sad{
 
 
 
-	bool Sad::Renderer::createWindow(){
+	bool sad::Renderer::createWindow(){
 
-		Sad::Application tempApp;
+		sad::Application tempApp;
 		tempApp.className="classSad";
 		tempApp.hInstance = GetModuleHandle(NULL);
 		RegisterWindowClass(tempApp);
@@ -326,7 +326,7 @@ namespace Sad{
 		return true;
 	}
 
-	bool Sad::Renderer::createGLContext(){
+	bool sad::Renderer::createGLContext(){
 
 		hst::log* curLog;
 		unsigned long windowStyle;
@@ -472,12 +472,12 @@ namespace Sad{
 		return true;														// Window Creating Was A Success
 	}
 
-	void Sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
+	void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 	{
 
 	}
 
-	bool Sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPixel)	// Change The Screen Resolution
+	bool sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPixel)	// Change The Screen Resolution
 	{
 		DEVMODE dmScreenSettings;											// Device Mode
 		ZeroMemory (&dmScreenSettings, sizeof (DEVMODE));					// Make Sure Memory Is Cleared
@@ -520,13 +520,13 @@ namespace Sad{
 		}	
 		return true;														// Return True
 	}
-	void Sad::Renderer::update(){
+	void sad::Renderer::update(){
 
 		getCurrentScene()->render();
 
 	}
 
-	void Sad::Renderer::quit(){
+	void sad::Renderer::quit(){
 	    PostMessage(m_currentwindow.hWnd, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
 		isProgramLooping=false;
 	}

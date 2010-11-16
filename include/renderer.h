@@ -1,4 +1,4 @@
-/*! \file   render.h
+/*! \file   renderer.h
 \author FreakyBlast
 
 \brief  Declaration of Renderer.
@@ -15,7 +15,7 @@
 #include "testnode.h"
 
 
-namespace Sad{
+namespace sad{
 	/*!\class The main render class 
 	*/
 	class Renderer
@@ -119,7 +119,7 @@ namespace Sad{
 		\param[out] window Structure to filling
 		\return Success of operation
 		*/
-		bool init(const Sad::Settings& _settings);
+		bool init(const sad::Settings& _settings);
 
 
 		/*! Runs renderer*/

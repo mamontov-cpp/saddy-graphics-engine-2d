@@ -1,15 +1,15 @@
-#include "..\include\Settings.h"
+#include "..\include\settings.h"
 
 
 
-namespace Sad{
+namespace sad{
 
-	Sad::Settings::Settings()
+	sad::Settings::Settings()
 	{
 
 	}
 
-	Sad::Settings::Settings(unsigned int screenwidth, unsigned int screenheight,
+	sad::Settings::Settings(unsigned int screenwidth, unsigned int screenheight,
 		bool isfullscreen, Uint8 bpp,
 		Uint8 depth, float fov, float znear, float zfar)
 	{
@@ -24,10 +24,10 @@ namespace Sad{
 		m_zfar = zfar;
 
 	}
-	Sad::Settings::~Settings(void)
+	sad::Settings::~Settings(void)
 	{
 	}
-	Sad::Settings::Settings(const Sad::Settings &){
+	sad::Settings::Settings(const sad::Settings &){
 	
 	}
 
