@@ -27,6 +27,7 @@ TestNode::TestNode(float x, float y, float r)
 
 int TestNode::Type=1;
 
+
 void TestNode::render()
 {
 	glTranslatef(-1.5f,0.0f,-6.0f);						// Move Left 1.5 Units And Into The Screen 6.0

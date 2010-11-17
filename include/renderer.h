@@ -157,10 +157,13 @@ namespace sad
 		inline int elapsedInSeconds()
 		{return (clock()/CLOCKS_PER_SEC) - (m_starttimer/CLOCKS_PER_SEC);}
 
+		/*! Sets a window title
+		    \param[in] s  new title
+		*/
+		void setWindowTitle(const hst::string & s);
 
 	};
 	
-	extern bool isProgramLooping;			// Window Creation Loop																// Between Fullscreen / Windowed Mode
 	
 }
 
