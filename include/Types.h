@@ -1,5 +1,5 @@
 /*! \file   types.h
-\author FreakyBlast
+\author FreakyBlast, HiddenSeeker
 
 \brief  Declaration of types for engine.
 

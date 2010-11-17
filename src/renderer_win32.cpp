@@ -211,4 +211,26 @@ void sad::Renderer::update()
  getCurrentScene()->render();
  SwapBuffers(m_window.hDC);
 }
+
+sad::Renderer::Renderer(void)
+{
+  m_windowtitle="SadExample";
+  this->m_window.hRC=NULL;
+  this->m_window.hDC=NULL;
+  this->m_window.hWND=NULL;
+  this->m_window.hInstance=NULL;
+}
+
+void sad::Renderer::setWindowTitle(const hst::string & s)
+{
+	m_windowtitle=s;
+	if (m_window.hWND)
+         SetWindowText(m_window.hWND,s.data()); 
+}
+void sad::Renderer::quit()
+{
+	    PostMessage(m_window.hWND, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
+		m_running=false;
+}
+
 #endif

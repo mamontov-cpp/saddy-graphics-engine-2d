@@ -11,14 +11,11 @@ In this file OpenGL function has been used obviously.
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
 
-sad::Renderer::Renderer(void)
-{
-  m_windowtitle="SadExample";
-}
+
 
 sad::Renderer::~Renderer(void)
 {
-	hst::log::inst()->save("log.txt");
+	
 }
 
 bool sad::Renderer::init(const sad::Settings& _settings)
@@ -66,6 +63,7 @@ void sad::Renderer::mainLoop()
  m_running = true;											// Program Looping Is Set To TRUE
  Renderer::setTimer();
 
+
  while (m_running)											// Loop Until WM_QUIT Is Received
  {
   Renderer::instance().setTimer();					
@@ -80,7 +78,7 @@ void sad::Renderer::mainLoop()
 	 }
 	 else											// Otherwise (If Message Is WM_QUIT)
 	 {
-		m_running = false;				// Terminate The Message Pump
+		m_running = false;				// Terminate The Message Loop
 	 }
    }
    else												// If There Are No Messages
@@ -91,7 +89,7 @@ void sad::Renderer::mainLoop()
 	  {m_fps = frames;frames=0;Renderer::instance().setTimer();}
 	   update();
    }
-  }														// Loop While isMessagePumpActive == TRUE
+  }														
  this->releaseWindow();
 }
 
@@ -99,15 +97,36 @@ void sad::Renderer::mainLoop()
 
 void sad::Renderer::run()
 {
- if (createWindow()) 
-		mainLoop();
+ if (createWindow())
+ {
+		hst::log::inst()->owrite(hst::string("Renderer: started rendering cycles\n"));
+	    mainLoop();
+ }
  else
-	 hst::log::inst()->owrite(hst::string("Can't create window"));
+	 hst::log::inst()->owrite(hst::string("Can't create window\n"));
+ 
+ hst::log::inst()->save("log.txt");
 }	
 
 LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	   /*	
+	if (uMsg==WM_CLOSE)
+	{
+     	    sad::Renderer::instance().m_running=false;					
+			return 0;													
+	}
+	if (uMsg==WM_KEYDOWN)
+	{
+		if (wParam==VK_ESCAPE)
+		{
+			instance().quit();
+		}
+		char af[1000];
+		GetKeyNameText(lParam,af,100);
+		hst::log::inst()->owrite(hst::string(af));
+		return 0;
+	}
+	/*	
 	   // Get The Window Context
 		switch (uMsg)														// Evaluate Window Message
 		{
@@ -131,9 +150,6 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			}
 			return 0;														// Return
 
-		case WM_CLOSE:													// Closing The Window
-			sad::Renderer::instance().quit();								// Terminate The Application
-			return 0;														// Return
 
 		case WM_SIZE:													// Size Action Has Taken Place
 			switch (wParam)												// Evaluate Size Action
@@ -220,11 +236,6 @@ bool sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPix
 
 
 
-void sad::Renderer::quit()
-{
-	    PostMessage(m_window.hWND, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
-		m_running=false;
-}
 
 
 
