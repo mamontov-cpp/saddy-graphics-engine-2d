@@ -3,6 +3,7 @@
 
 #ifdef WIN32
 
+#include <windowsx.h>
 
 void sad::Renderer::mainLoop()
 {
@@ -97,6 +98,60 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
      	    sad::Renderer::instance().m_running=false;					
 			return 0;													
 	}
+	if (uMsg==WM_MOUSEMOVE)
+	{
+		if (sad::Input::inst()->areMovingNotTracked()) 
+			return 0;
+		float mx=0,my=0,mz=0;
+		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
+		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);
+		sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
+	}
+	if (uMsg==WM_MOUSEWHEEL)
+	{
+		if (sad::Input::inst()->areWheelNotTracked()) 
+			return 0;
+		float mx=0,my=0,mz=0;
+		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/WHEEL_DELTA;
+		wParam=GET_KEYSTATE_WPARAM(wParam);
+		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
+		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);
+		sad::Event ev(mx,my,mz,key);
+		ev.delta=fw;
+		sad::Input::inst()->postMouseWheel(ev);
+		return 0;
+	}
+	if (uMsg==WM_LBUTTONDBLCLK || uMsg==WM_MBUTTONDBLCLK || uMsg==WM_RBUTTONDBLCLK)
+	{
+		if (sad::Input::inst()->areDblClickNotTracked())
+			return 0;
+		float mx=0,my=0,mz=0;
+		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
+		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);
+		sad::Input::inst()->postMouseDblClick(sad::Event(mx,my,mz,key));
+		return 0;
+	}
+	if (uMsg==WM_LBUTTONUP || uMsg==WM_MBUTTONUP || uMsg==WM_RBUTTONUP)
+	{
+		if (sad::Input::inst()->areUpNotTracked())
+			return 0;
+		float mx=0,my=0,mz=0;
+		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
+		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);
+		sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
+		return 0;
+	}
+	if (uMsg==WM_LBUTTONDOWN || uMsg==WM_MBUTTONDOWN || uMsg==WM_RBUTTONDOWN)
+	{
+		if (sad::Input::inst()->areDownNotTracked() && sad::Input::inst()->areClickNotTracked())
+			return 0;
+		float mx=0,my=0,mz=0;
+		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
+		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);
+		sad::Input::inst()->postMouseDown(sad::Event(mx,my,mz,key));
+		sad::Input::inst()->postMouseClick(sad::Event(mx,my,mz,key));
+		return 0;
+	}
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
 	{
         if (table.contains(wParam))
@@ -107,8 +162,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 				 sad::Input::inst()->postKeyUp(sad::Event(table[wParam]));
 			return 0;
 		}
-		char af[20];
-		GetKeyNameText(lParam,af,19);
+		char af[5];
+		GetKeyNameText(lParam,af,5);
 		if (uMsg==WM_KEYUP)
 				sad::Input::inst()->postKeyDown(sad::Event((int)(af[0])));
 		else

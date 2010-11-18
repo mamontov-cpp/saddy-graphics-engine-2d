@@ -139,6 +139,9 @@ namespace sad
 			/*! Destructor
 			*/
 			~EventHandler();
+			/*! Is it is empty
+			*/
+			inline bool empty() { return !m_functor; }
 	};
 
 	class Input
@@ -197,6 +200,18 @@ namespace sad
 			  void postMouseWheel(const sad::Event & ev);
 			  void postKeyUp(const sad::Event & ev);
 			  void postKeyDown(const sad::Event & ev);
+
+			  /*! Detects, whether we are not watching for mouse tracking
+			      \{
+			  */
+			  inline bool areMovingNotTracked() { return m_mousemove.empty(); } 
+			  inline bool areClickNotTracked()  { return m_mouseclick.empty(); }
+			  inline bool areDblClickNotTracked() { return m_dblclick.empty(); }
+			  inline bool areWheelNotTracked()   { return m_mousewheel.empty(); }
+			  inline bool areUpNotTracked()      { return m_mouseup.empty(); }
+			  inline bool areDownNotTracked()    { return m_mousedown.empty(); }
+			  /*!  \}
+			  */
 	};
 }
 
