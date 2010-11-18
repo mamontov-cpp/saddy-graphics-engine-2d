@@ -83,11 +83,6 @@ namespace sad
 		bool createGLContext();
 
 
-		/*! Changes resolution of screen
-		\return Success of operation
-		*/
-		bool changeScreenResolution (int width, int height, int bitsPerPixel);
-
        /*! Updates a scene
 	   */
 		void update();
