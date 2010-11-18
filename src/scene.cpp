@@ -70,18 +70,25 @@ void sad::Scene::render()
 	  m_layers[i]->render();
   }
   
-  if (!m_marked.count()) return;
+  if (!(m_marked.count() || m_toadd.count())) return;
 	
   for (unsigned long i=0;i<m_marked.count();i++)
 	      m_layers.remove(m_marked[i]);
-  m_marked.count();
+  for (unsigned long i=0;i<m_toadd.count();i++)
+	      add(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
+  
+  m_toadd.clear();
+  m_marked.clear();
 }
 
 void sad::Scene::markForDeletion(BasicNode * what)
 {
 	m_marked<<what;
 }
-
+void sad::Scene::markForAddition(BasicNode * node, const hst::string & name,unsigned long lay)
+{
+	m_toadd<<hst::triplet<BasicNode*,hst::string,unsigned long>(node,name,lay);
+}
 sad::Camera & sad::Scene::camera()
 {
 	return m_camera;
