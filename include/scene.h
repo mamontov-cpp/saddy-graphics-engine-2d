@@ -2,7 +2,7 @@
 \author HiddenSeeker
 \brief  Здесь расположены файлы сцены
 */
-#include "templates/hlist.hpp"
+#include "templates/hlvector.hpp"
 #include "templates/hhash.hpp"
 #include <assert.h>
 #pragma once
@@ -86,8 +86,9 @@ class Scene
 private:
 	hst::vector<BasicNode *>   m_layers;                //!< Слои, первый элемент и им же рендерится
 	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Вершина по ноде
-	hst::list<BasicNode *>   m_marked;                  //!< Помеченные для удаления вершины
-	sad::Camera              m_camera;             //!< Текущая камера
+	hst::vector<BasicNode *>   m_marked;                //!< Помеченные для удаления вершины
+	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;                 //!< Помеченные для добавления вершины 
+	sad::Camera              m_camera;                  //!< Текущая камера
 public:
 	sad::Camera   & camera();  //!< Текущая камера
 
@@ -98,6 +99,15 @@ public:
 	    \param[in] what что надо будет удалить
 	*/
 	void markForDeletion(BasicNode * what);
+	/*! Отмечает вершину для добавление в следующем цикле
+	    \param[in] node  объект 
+      	\param[in] name  имя
+	    \param[in] lay   слой
+	*/
+	void markForAddition(BasicNode * node, 
+		                 const hst::string & name=hst::string(),
+		                 unsigned long lay=(unsigned long)-1);
+
 	/*! Добавляет объект в сцену
 	\param[in] node  объект 
 	\param[in] name  имя
