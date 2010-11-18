@@ -155,9 +155,16 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 
 void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 {
-  this->releaseWindow();
-  this->m_window.fullscreen=!this->m_window.fullscreen;
-  this->createWindow();
+  if (m_running)
+  {
+   this->releaseWindow();
+   this->m_window.fullscreen=!this->m_window.fullscreen;
+   this->createWindow();
+  }
+  else
+  {
+	  this->m_window.fullscreen=!this->m_window.fullscreen;
+  }
 }
 
 bool sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPixel)	// Change The Screen Resolution
