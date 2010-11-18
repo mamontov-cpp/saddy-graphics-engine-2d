@@ -6,8 +6,55 @@
 #include "hhash.hpp"
 #pragma once
 
+//KEY BINDINGS
+#define KEY_ESC 257
+#define KEY_F1  258
+#define KEY_F2  259
+#define KEY_F3  260
+#define KEY_F4  261
+#define KEY_F5  262
+#define KEY_F6  263
+#define KEY_F7  264
+#define KEY_F8  265
+#define KEY_F9  265
+#define KEY_F10  266
+#define KEY_F11  267
+#define KEY_F12  268
+#define KEY_PAUSE 269
+#define KEY_INSERT 270
+#define KEY_DELETE 271
+#define KEY_LCONTROL 272
+#define KEY_BACKSPACE 273
+#define KEY_ENTER     274
+#define KEY_SPACE        275
+#define KEY_PRINTSCREEN  276
+#define KEY_HOME         277
+#define KEY_END          278
+#define KEY_PGUP         279
+#define KEY_PGDOWN       280
+#define KEY_TAB          281
+#define KEY_CAPSLOCK     282
+#define KEY_NUMLOCK      283
+#define KEY_SCROLLOCK    284
+#define KEY_CAPSLOCK     285
+#define KEY_LSHIFT       286
+#define KEY_LCTRL        287
+#define KEY_WIN         288
+#define KEY_LALT         289
+#define KEY_RALT         290
+#define KEY_RCTRL        291
+#define KEY_RSHIFT       292
+#define KEY_LEFT         293
+#define KEY_UP           294
+#define KEY_DOWN         295
+#define KEY_RIGHT        296
+#define KEY_APP          297
+/*! Other keys are binded natively.
+    Use default char values to bind it. Note,that they are binded in upper case
+*/
 #define MOUSE_BUTTON_LEFT   -16535
-#define MOUSE_BUTTON_RIGHT  -16524
+#define MOUSE_BUTTON_MIDDLE -16524
+#define MOUSE_BUTTON_RIGHT  -16523
 
 namespace sad
 {

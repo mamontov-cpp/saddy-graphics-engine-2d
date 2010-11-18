@@ -55,50 +55,6 @@ sad::Renderer& sad::Renderer::instance()
 }
 
 
-void sad::Renderer::mainLoop()
-{
- int frames=0;
- bool isMessagePumpActive;
- MSG msg;
-
- m_running = true;											// Program Looping Is Set To TRUE
- m_window.active=true;
- Renderer::setTimer();
-
-
- while (m_running)											// Loop Until WM_QUIT Is Received
- {
-  Renderer::instance().setTimer();					
-  // Check For Window Messages
-  if (PeekMessage (&msg, m_window.hWND, 0, 0, PM_REMOVE) != 0)
-  {
-	 // Check For WM_QUIT Message
-	 if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
-	 {
-	  TranslateMessage(&msg);				// Translate The Message
-	  DispatchMessage(&msg);						// If Not, Dispatch The Message
-	 }
-	 else											// Otherwise (If Message Is WM_QUIT)
-	 {
-		m_running = false;				// Terminate The Message Loop
-	 }
-   }
-   else												// If There Are No Messages
-   {
-	  // Process Application Loop
-	  frames++;
-	  if (Renderer::instance().elapsedInMSeconds() >= 1000)
-	  {m_fps = frames;frames=0;Renderer::instance().setTimer();}
-	  
-	  if (m_window.active)
-	     update();
-   }
-  }
- m_window.active=false;
- this->releaseWindow();
-}
-
-
 
 void sad::Renderer::run()
 {
@@ -112,45 +68,6 @@ void sad::Renderer::run()
  
  hst::log::inst()->save("log.txt");
 }	
-
-LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	if (uMsg==WM_CLOSE)
-	{
-     	    sad::Renderer::instance().m_running=false;					
-			return 0;													
-	}
-	if (uMsg==WM_KEYDOWN)
-	{
-		if (wParam==VK_ESCAPE)
-		{
-			instance().quit();
-		}
-		char af[1000];
-		GetKeyNameText(lParam,af,100);
-		if (af[0]=='F')
-		{
-			instance().toggleFullscreen();
-		}
-		hst::log::inst()->owrite(hst::string(af));
-		return 0;
-	}
-	if (uMsg==WM_SIZE)
-	{
-		if (wParam==SIZE_MINIMIZED)
-		{
-			instance().m_window.active=false;
-		}
-		else
-		{
-			instance().m_window.active=true;
-			instance().reshape(LOWORD (lParam), HIWORD (lParam));
-		}
-	}
-	return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
-}
-
-
 
 
 void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
@@ -166,26 +83,6 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 	  this->m_window.fullscreen=!this->m_window.fullscreen;
   }
 }
-
-bool sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPixel)	// Change The Screen Resolution
-{
- DEVMODE dmScreenSettings;											// Device Mode
- ZeroMemory (&dmScreenSettings, sizeof (DEVMODE));					// Make Sure Memory Is Cleared
- dmScreenSettings.dmSize				= sizeof (DEVMODE);				// Size Of The Devmode Structure
- dmScreenSettings.dmPelsWidth		= width;						// Select Screen Width
- dmScreenSettings.dmPelsHeight		= height;						// Select Screen Height
- dmScreenSettings.dmBitsPerPel		= bitsPerPixel;					// Select Bits Per Pixel
- dmScreenSettings.dmFields			= DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
- if (ChangeDisplaySettings (&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
- {
-	return false;													// Display Change Failed, Return False
- }
- return true;														// Display Change Was Successful, Return True
-}
-
-
-
-
 
 
 //Getting a black background with all params

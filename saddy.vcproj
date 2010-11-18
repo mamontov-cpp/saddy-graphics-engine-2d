@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\renderer_win32loop.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\scene.cpp"
 				>
 			</File>
