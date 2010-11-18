@@ -49,8 +49,11 @@ namespace sad
 		*/
 		bool setupPFD();
 
+		/*! Maps window coordinates, to OGL coordinate system
+		*/
+        void mapToOGL(int x,int y,float & px,float & py,float & pz);
 
-        /*! Function for processing system messages and pressed keys
+		/*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
 		\param[in] uMsg The Message
 		\param[in] wParam Additional message information

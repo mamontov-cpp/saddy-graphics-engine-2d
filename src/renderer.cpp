@@ -199,3 +199,28 @@ bool sad::Renderer::initGLRendering()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 	return true;
 }
+
+void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
+{
+	GLint     viewport[4];
+	GLdouble  modelview[16];
+	GLdouble  projection[16];
+
+	GLfloat winx=0,winy=0,winz=0;
+	GLdouble result[3];
+	
+	glGetDoublev(GL_MODELVIEW_MATRIX,modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX,projection);
+	glGetIntegerv(GL_VIEWPORT,viewport);
+
+	winx=(float)x;
+	winy=(float)(viewport[3])-(float)(y);
+
+	glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+
+	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
+
+	px=(float)(result[0]);
+	py=(float)(result[1]);
+	pz=(float)(result[2]);
+}
