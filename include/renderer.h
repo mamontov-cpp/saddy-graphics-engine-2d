@@ -79,9 +79,6 @@ namespace sad
 		*/
 		bool createGLContext();
 
-		/*! Enable/disable fullscreen
-		*/
-		void toggleFullscreen();	
 
 		/*! Changes resolution of screen
 		\return Success of operation
@@ -105,7 +102,11 @@ namespace sad
 		/*! Sets a current scene
 		\param[in] Scene to be set as current
 		*/
-		inline void setCurrentScene(Scene* scene) {m_currentscene=scene; }
+		inline void setCurrentScene(Scene* scene) 
+		{
+			if (m_currentscene) delete m_currentscene;
+			m_currentscene=scene; 
+		}
 
 
 		~Renderer(void);
@@ -161,6 +162,11 @@ namespace sad
 		    \param[in] s  new title
 		*/
 		void setWindowTitle(const hst::string & s);
+		/*! Enable/disable fullscreen
+		*/
+		void toggleFullscreen();	
+
+
 
 	};
 	
