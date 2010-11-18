@@ -8,9 +8,10 @@ In this file OpenGL function has been used obviously.
 
 
 #include "renderer.h"
+#ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
-
+#endif
 
 
 sad::Renderer::~Renderer(void)
@@ -47,11 +48,11 @@ void sad::Renderer::reshape(int width, int height)
 }
 
 
-	sad::Renderer& sad::Renderer::instance()
-	{
-		static Renderer aloneRenderer;
-		return aloneRenderer;
-	}
+sad::Renderer& sad::Renderer::instance()
+{
+ static Renderer aloneRenderer;
+ return aloneRenderer;
+}
 
 
 void sad::Renderer::mainLoop()
@@ -123,6 +124,10 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		}
 		char af[1000];
 		GetKeyNameText(lParam,af,100);
+		if (af[0]=='F')
+		{
+			instance().toggleFullscreen();
+		}
 		hst::log::inst()->owrite(hst::string(af));
 		return 0;
 	}
@@ -215,7 +220,9 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 
 void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 {
-
+  this->releaseWindow();
+  this->m_window.fullscreen=!this->m_window.fullscreen;
+  this->createWindow();
 }
 
 bool sad::Renderer::changeScreenResolution(int width, int height, int bitsPerPixel)	// Change The Screen Resolution

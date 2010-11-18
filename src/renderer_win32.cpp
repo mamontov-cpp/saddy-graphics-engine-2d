@@ -19,29 +19,29 @@ void sad::Renderer::releaseWindow()
   if (m_window.hRC)
   {
 	  if (!wglMakeCurrent(NULL,NULL)) 
-		    LOG_WRITE("Renderer: Release of contexts failed");
+		    LOG_WRITE("Renderer: Release of contexts failed\n");
 	  if (!wglDeleteContext(m_window.hRC))     
-		    LOG_WRITE("Renderer: Release rendering context failed");
+		    LOG_WRITE("Renderer: Release rendering context failed\n");
 	  m_window.hRC=NULL;
   }
 
   //Release device context
   if (m_window.hDC && !ReleaseDC(m_window.hWND,m_window.hDC))
   {
-	   LOG_WRITE("Renderer: Releasing DC failed");
+	   LOG_WRITE("Renderer: Releasing DC failed\n");
        m_window.hDC=NULL;
   }
   //If we can destroy the window
   if (m_window.hWND && !DestroyWindow(m_window.hWND))
   {
-	  LOG_WRITE("Renderer: Releasing hWND failed");
+	  LOG_WRITE("Renderer: Releasing hWND failed\n");
       m_window.hWND=NULL;
   }
   
   //Unregister Class
   if (!UnregisterClass(UNIQUE_CLASS_NAME,m_window.hInstance))
   {
-	  LOG_WRITE("Renderer: Could not unregister class");
+	  LOG_WRITE("Renderer: Could not unregister class\n");
 	  m_window.hInstance=NULL;
   }
 
@@ -72,7 +72,7 @@ bool sad::Renderer::createWindow()
 	wc.lpszMenuName  = NULL;
 	wc.lpszClassName = UNIQUE_CLASS_NAME;
 
-	if (!RegisterClass(&wc)) { LOG_WRITE("Renderer: Can't init  window"); return false;}
+	if (!RegisterClass(&wc)) { LOG_WRITE("Renderer: Can't init  window\n"); return false;}
 	
 	//Setup fullscreen or windowed mode
 	DWORD       ex_style=0;
@@ -89,7 +89,7 @@ bool sad::Renderer::createWindow()
 	if (!m_window.hWND)
 	{
 		releaseWindow();
-		LOG_WRITE("Renderer: window creation error");
+		LOG_WRITE("Renderer: window creation error\n");
 		return false;
 	}
 	//Getting a device context
@@ -97,27 +97,27 @@ bool sad::Renderer::createWindow()
 	if (!m_window.hDC)
 	{
 		releaseWindow();
-		LOG_WRITE("Renderer: can't create a device context");
+		LOG_WRITE("Renderer: can't create a device context\n");
 		return false;
 	}
 	if (!setupPFD())
 	{
 	    this->releaseWindow();
-		LOG_WRITE("Renderer: can't setup pfd");
+		LOG_WRITE("Renderer: can't setup pfd\n");
 		return false;
 	}
 	//Creating context
 	if (!(m_window.hRC=wglCreateContext(m_window.hDC)))
 	{
 		this->releaseWindow();
-		LOG_WRITE("Renderer: can't create a rendering context");
+		LOG_WRITE("Renderer: can't create a rendering context\n");
 		return false;
 	}
 	//Trying to activate a context
 	if (!wglMakeCurrent(m_window.hDC,m_window.hRC))
 	{
 		this->releaseWindow();
-		LOG_WRITE("Renderer: can't activate a rendering context");
+		LOG_WRITE("Renderer: can't activate a rendering context\n");
 		return false;
 	}
 
@@ -129,7 +129,7 @@ bool sad::Renderer::createWindow()
 	if (!initGLRendering())
 	{
 		this->releaseWindow();
-		LOG_WRITE("Rendere: can't init GL rendering");
+		LOG_WRITE("Rendere: can't init GL rendering\n");
 		return false;
 	}
 
@@ -146,11 +146,15 @@ void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_st
         scr_settings.dmSize       = sizeof(scr_settings);
 		scr_settings.dmPelsWidth  = m_glsettings.width();
         scr_settings.dmPelsHeight = m_glsettings.height();
-        scr_settings.dmBitsPerPel = m_glsettings.bpp();
+        scr_settings.dmBitsPerPel = 16;
 		scr_settings.dmFields     = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-		if (ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN)!=DISP_CHANGE_SUCCESSFUL)
+		LONG result=ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN);
+		if (result!=DISP_CHANGE_SUCCESSFUL)
 		{
-			LOG_WRITE("Renderer: changing to fullscreen failed, starting windowed");
+			LOG_WRITE("Renderer: changing to fullscreen failed, starting windowed\n");
+			LOG_WRITE("Renderer: ChangeDisplaySettings failed with code ");
+			hst::log::inst()->owrite(result);
+			LOG_WRITE("\n");
 			m_window.fullscreen=false;
 		}
 	}
