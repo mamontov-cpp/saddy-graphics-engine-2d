@@ -62,6 +62,7 @@ void sad::Renderer::mainLoop()
  MSG msg;
 
  m_running = true;											// Program Looping Is Set To TRUE
+ m_window.active=true;
  Renderer::setTimer();
 
 
@@ -88,9 +89,12 @@ void sad::Renderer::mainLoop()
 	  frames++;
 	  if (Renderer::instance().elapsedInMSeconds() >= 1000)
 	  {m_fps = frames;frames=0;Renderer::instance().setTimer();}
-	   update();
+	  
+	  if (m_window.active)
+	     update();
    }
-  }														
+  }
+ m_window.active=false;
  this->releaseWindow();
 }
 
@@ -131,88 +135,19 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		hst::log::inst()->owrite(hst::string(af));
 		return 0;
 	}
-	/*	
-	   // Get The Window Context
-		switch (uMsg)														// Evaluate Window Message
+	if (uMsg==WM_SIZE)
+	{
+		if (wParam==SIZE_MINIMIZED)
 		{
-		case WM_SYSCOMMAND:												// Intercept System Commands
-			{
-				switch (wParam)												// Check System Calls
-				{
-				case SC_SCREENSAVE:										// Screensaver Trying To Start?
-				case SC_MONITORPOWER:									// Monitor Trying To Enter Powersave?
-					return 0;												// Prevent From Happening
-				}
-				break;														// Exit
-			}
-			return 0;														// Return
-
-		case WM_CREATE:													// Window Creation
-			{
-				//CREATESTRUCT* creation = (CREATESTRUCT*)(lParam);			// Store Window Structure Pointer
-				//render = (sad::Renderer*)(creation->lpCreateParams);
-				//SetWindowLong (hWnd, GWL_USERDATA, (LONG)(render));
-			}
-			return 0;														// Return
-
-
-		case WM_SIZE:													// Size Action Has Taken Place
-			switch (wParam)												// Evaluate Size Action
-			{
-			case SIZE_MINIMIZED: // Was Window Minimized?
-
-				//newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
-				//newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
-				//newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
-				//newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
-				//newSadW.isVisible=false;
-				//newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				//sad::Renderer::instance().setCurrentWindow(&newSadW);
-				//return 0;												// Return
-
-			case SIZE_MAXIMIZED:									// Was Window Maximized?
-				//newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
-				//newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
-				//newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
-				//newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
-				//newSadW.isVisible=true;
-				//newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				//sad::Renderer::instance().setCurrentWindow(&newSadW);
-				//sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));		// Reshape Window - LoWord=Width, HiWord=Height
-				return 0;												// Return
-
-			case SIZE_RESTORED:										// Was Window Restored?
-				//newSadW.app=sad::Renderer::instance().getCurrentWindow()->app;
-				//newSadW.hDC=sad::Renderer::instance().getCurrentWindow()->hDC;
-				//newSadW.hRC=sad::Renderer::instance().getCurrentWindow()->hRC;
-				//newSadW.hWnd=sad::Renderer::instance().getCurrentWindow()->hWnd;
-				//newSadW.isVisible=true;
-				//newSadW.title=sad::Renderer::instance().getCurrentWindow()->title;					// Set isVisible To False
-				//sad::Renderer::instance().setCurrentWindow(&newSadW);
-				//sad::Renderer::instance().reshape(LOWORD (lParam), HIWORD (lParam));
-				return 0;												// Return
-			}
-			break;															// Break
-
-		case WM_KEYDOWN:												// Update Keyboard Buffers For Keys Pressed
-
-			break;															// Break
-
-		case WM_KEYUP:													// Update Keyboard Buffers For Keys Released
-			
-			break;															// Break
-
-		case VK_ESCAPE:
-			break;
-
-			//case WM_TOGGLEFULLSCREEN:										// Toggle FullScreen Mode On/Off
-			//	g_createFullScreen = (g_createFullScreen == TRUE) ? FALSE : TRUE;
-			//	PostMessage (hWnd, WM_QUIT, 0, 0);
-			//break;															// Break
+			instance().m_window.active=false;
 		}
-
-		*/
-		return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
+		else
+		{
+			instance().m_window.active=true;
+			instance().reshape(LOWORD (lParam), HIWORD (lParam));
+		}
+	}
+	return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
 }
 
 
