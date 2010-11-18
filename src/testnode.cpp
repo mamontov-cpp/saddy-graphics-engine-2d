@@ -30,8 +30,7 @@ int TestNode::Type=1;
 
 void TestNode::render()
 {
-	glTranslatef(0.0f,0.0f,-1.0f);						// Move Left 1.5 Units And Into The Screen 6.0
- 
+
     glBegin(GL_QUADS);
 
 	glColor3f(1.0f,0,0);
