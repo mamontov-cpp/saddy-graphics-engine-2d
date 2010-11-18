@@ -8,8 +8,10 @@
 
 #ifndef FONTMANAGER_H__
 #define FONTMANAGER_H__
+#ifdef WIN32
 #include <windows.h>
 #include <WinDef.h>
+#endif
 #include "types.h"
 #include "gl\gl.h"
 #include "gl\glu.h"
