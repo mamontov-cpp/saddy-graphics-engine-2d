@@ -16,7 +16,8 @@ In this file OpenGL function has been used obviously.
 
 sad::Renderer::~Renderer(void)
 {
-	
+	if (m_currentscene)
+		delete m_currentscene;
 }
 
 bool sad::Renderer::init(const sad::Settings& _settings)
@@ -94,6 +95,8 @@ bool sad::Renderer::initGLRendering()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 	return true;
 }
 
