@@ -8,10 +8,8 @@
 #ifndef Render_h__
 #define Render_h__
 
-
 #include "settings.h"
 #include "scene.h"
-
 
 
 namespace sad

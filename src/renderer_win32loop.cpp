@@ -1,7 +1,10 @@
 #include "renderer.h"
 #include "input.h"
 
+
+
 #ifdef WIN32
+
 
 #include <windowsx.h>
 
