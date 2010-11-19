@@ -5,10 +5,12 @@
 
 */
 
-#ifndef Types_h__
-#define Types_h__
+#ifndef types_h__
+#define types_h__
 
-#ifdef   WIN32
+#ifdef   _WIN32
+    #define _WIN32_WINNT  0x0501
+    #define _WIN32_WINDOWS 0x0501
 	#include <windows.h>
 #else
 
@@ -36,6 +38,7 @@
 #include "hpoint.h"
 #include "hrect.h"
 
+
 namespace sad
 {
   /*! Chunk, for various loading operations
@@ -58,4 +61,4 @@ namespace sad
 	};	
 
 }
-#endif // Types_h__
+#endif // types_h__

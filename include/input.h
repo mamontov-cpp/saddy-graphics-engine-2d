@@ -6,6 +6,10 @@
 #include "hhash.hpp"
 #pragma once
 
+#ifdef WIN32
+#define _WIN32_WINDOWS 0x0501 // Change this to the appropriate value to target Windows Me or later.
+#endif
+
 //KEY BINDINGS
 #define KEY_ESC 257
 #define KEY_F1  258
