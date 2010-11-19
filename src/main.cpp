@@ -17,9 +17,9 @@ void rend_toggle(const sad::Event & o)
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
 {
 
-	sad::Scene sc;
-	sc.add( new TestNode(0.0f,0.0f,0.2f) );
-	sad::Renderer::instance().setCurrentScene(&sc);
+	sad::Scene * sc= new sad::Scene();
+	sc->add( new TestNode(0.0f,0.0f,0.2f) );
+	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("My new sad window");
 	
 	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
