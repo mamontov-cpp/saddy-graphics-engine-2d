@@ -27,9 +27,24 @@ TestNode::TestNode(float x, float y, float r)
 
 int TestNode::Type=1;
 
+#ifdef FPS_CHECK
+	#include "log.h"
+	#include "renderer.h"
+	
+    static int mps=0;
+#endif
 
 void TestNode::render()
 {
+#ifdef FPS_CHECK
+    if (mps>3000)
+	{
+		hst::log::inst()->owrite(sad::Renderer::instance().fps());
+		hst::log::inst()->owrite('\n');
+		mps=0;
+	}
+	mps+=sad::Renderer::instance().elapsedInMSeconds();
+#endif
 
     glBegin(GL_QUADS);
 

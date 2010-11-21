@@ -20,8 +20,7 @@ void sad::Renderer::mainLoop()
 
 
  while (m_running)											// Loop Until WM_QUIT Is Received
- {
-  Renderer::instance().setTimer();					
+ {					
   // Check For Window Messages
   if (PeekMessage (&msg, m_window.hWND, 0, 0, PM_REMOVE) != 0)
   {
@@ -41,7 +40,9 @@ void sad::Renderer::mainLoop()
 	  // Process Application Loop
 	  frames++;
 	  if (Renderer::instance().elapsedInMSeconds() >= 1000)
-	  {m_fps = frames;frames=0;Renderer::instance().setTimer();}
+	  {
+		  m_fps = frames;frames=0;Renderer::instance().setTimer();
+	  }
 	  
 	  if (m_window.active)
 	     update();
