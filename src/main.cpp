@@ -2,6 +2,7 @@
 #include "..\include\renderer.h"
 #include "input.h"
 #include "testnode.h"
+#include "texture.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
 
@@ -18,6 +19,9 @@ void rend_toggle(const sad::Event & o)
 #include<time.h>
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
 {
+	sad::Texture testTexture;
+	hst::string  testString("RLE.tga");
+	testTexture.loadTGA(testString);
 
 	srand(time(NULL));
 

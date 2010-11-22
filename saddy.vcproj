@@ -304,6 +304,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="tga"
+				>
+				<File
+					RelativePath=".\src\tga\defaulttextureloader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\tga\tga.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\tga\tgareader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -443,6 +459,14 @@
 				</File>
 				<File
 					RelativePath=".\include\png\zlib.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="tga"
+				>
+				<File
+					RelativePath=".\include\tga\tga.h"
 					>
 				</File>
 			</Filter>
