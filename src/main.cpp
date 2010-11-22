@@ -31,8 +31,8 @@ int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("My new sad window");
 	
-	sad::Input::inst()->bindKeyDown(KEY_ESC,new sad::EventHandler(rend_quit));
-	sad::Input::inst()->bindKeyDown('F',new sad::EventHandler(rend_toggle));	
+	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
+	sad::Input::inst()->bindKeyDown('F',rend_toggle);	
 	//Here must be an initialization of engine, and running it
 
 							 
