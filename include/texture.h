@@ -11,6 +11,8 @@
 
 namespace sad
 {
+	static unsigned int globalID=0;
+
 	/*! Класс текстуры
 	*/
 	class Texture
@@ -60,6 +62,10 @@ namespace sad
 		\param[in] filename имя файла
 		*/
 		bool loadTGA(const hst::string & filename);
+		/*! Загрузка из файла TGA
+		\param[in] filename имя файла
+		*/
+		bool loadTGA(const hst::wstring & filename);
 		/*! Загрузка из файла PNG
 		\param[in] filename имя файла
 		*/
@@ -68,6 +74,8 @@ namespace sad
 		\param[in] filename имя файла
 		*/
 		bool loadPNG(const hst::wstring & filename);
+		/*! Загрузка прекомпилированной текстуры формата TGA
+		*/
+		void loadDefaultTGATexture();
 	};
-
 }
