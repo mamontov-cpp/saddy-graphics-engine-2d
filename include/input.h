@@ -152,18 +152,18 @@ namespace sad
 	{
 	 private:
 
-		      sad::EventHandler   m_mousemove;   //!<  Move
-			  sad::EventHandler   m_mousedown;   //!<  Down
-			  sad::EventHandler   m_mouseclick;  //!<  Click
-			  sad::EventHandler   m_mouseup;     //!<  Up
-			  sad::EventHandler   m_mousewheel;  //!<  Wheel
-			  sad::EventHandler   m_dblclick;    //!<  Double click
+		      sad::EventHandler *  m_mousemove;   //!<  Move
+			  sad::EventHandler *  m_mousedown;   //!<  Down
+			  sad::EventHandler *  m_mouseclick;  //!<  Click
+			  sad::EventHandler *  m_mouseup;     //!<  Up
+			  sad::EventHandler *  m_mousewheel;  //!<  Wheel
+			  sad::EventHandler *  m_dblclick;    //!<  Double click
 
-			  sad::EventHandler   m_keyup;       //!<  Key up
-			  sad::EventHandler   m_keydown;     //!<  Key down
+			  sad::EventHandler *  m_keyup;       //!<  Key up
+			  sad::EventHandler *  m_keydown;     //!<  Key down
 
-			  hst::hash<int,sad::EventHandler>  m_ups;  //!< Key up functors
-			  hst::hash<int,sad::EventHandler>  m_down; //!< Key down functors
+			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
+			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
 
 		      Input & operator=(const Input &);
 		      Input(const Input&);
@@ -183,18 +183,21 @@ namespace sad
 			 */
 		     ~Input();
 
-			  void setMouseMoveHandler(const sad::EventHandler & h);
-			  void setMouseDownHandler(const sad::EventHandler & h);
-              void setMouseClickHandler(const sad::EventHandler & h);
-			  void setMouseUpHandler(const sad::EventHandler & h);
-			  void setMouseDblClickHandler(const sad::EventHandler & h);
-			  void setMouseWheelHandler(const sad::EventHandler & h);
+			  void setMouseMoveHandler(  sad::EventHandler * h);
+			  void setMouseDownHandler(  sad::EventHandler * h);
+              void setMouseClickHandler(  sad::EventHandler * h);
+			  void setMouseUpHandler(   sad::EventHandler * h);
+			  void setMouseDblClickHandler(  sad::EventHandler * h);
+			  void setMouseWheelHandler(   sad::EventHandler * h);
 				
-			  void setKeyUpHandler(const sad::EventHandler & h);
-			  void setKeyDownHandler(const sad::EventHandler & h);
+			  void setKeyUpHandler(   sad::EventHandler * h);
+			  void setKeyDownHandler(  sad::EventHandler * h);
 
-			  void bindKeyUp(int key,const sad::EventHandler & h);
-			  void bindKeyDown(int key,const sad::EventHandler & h);
+			  void bindKeyUp(int key, sad::EventHandler * h);
+			  void bindKeyDown(int key, sad::EventHandler * h);
+			
+			  inline void bindKeyUp(int key, void (*h)(const sad::Event&) ) { bindKeyUp(key, new sad::EventHandler(h)); }
+			  inline void bindKeyDown(int key, void (*h)(const sad::Event&) ) { bindKeyDown(key, new sad::EventHandler(h)); }
 			
 			  void postMouseMove(const sad::Event & ev);
 			  void postMouseDown(const sad::Event & ev);
@@ -208,12 +211,12 @@ namespace sad
 			  /*! Detects, whether we are not watching for mouse tracking
 			      \{
 			  */
-			  inline bool areMovingNotTracked() { return m_mousemove.empty(); } 
-			  inline bool areClickNotTracked()  { return m_mouseclick.empty(); }
-			  inline bool areDblClickNotTracked() { return m_dblclick.empty(); }
-			  inline bool areWheelNotTracked()   { return m_mousewheel.empty(); }
-			  inline bool areUpNotTracked()      { return m_mouseup.empty(); }
-			  inline bool areDownNotTracked()    { return m_mousedown.empty(); }
+			  inline bool areMovingNotTracked() { if (!m_mousemove)  return true; return m_mousemove->empty(); } 
+			  inline bool areClickNotTracked()  { if (!m_mouseclick)  return true; return m_mouseclick->empty(); }
+			  inline bool areDblClickNotTracked() { if (!m_dblclick)  return true; return m_dblclick->empty(); }
+			  inline bool areWheelNotTracked()   { if (!m_mousewheel) return true; return m_mousewheel->empty(); }
+			  inline bool areUpNotTracked()      { if (!m_mouseup)   return true; return m_mouseup->empty(); }
+			  inline bool areDownNotTracked()    { if (!m_mousedown) return true; return m_mousedown->empty(); }
 			  /*!  \}
 			  */
 	};

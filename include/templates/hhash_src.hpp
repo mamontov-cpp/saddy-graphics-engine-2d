@@ -238,8 +238,7 @@ template<typename T>
 			 else
 			 {
 				 //Handle if there is one element in deque
-				 if (m_parent->m_data[m_slotposition].count()==1)
-					   ++m_slotposition;
+				 ++m_slotposition;
 
 				 while (m_slotposition<m_parent->tableSize() && m_parent->m_data[m_slotposition].count()==0)
                        ++m_slotposition;
@@ -397,13 +396,10 @@ template<typename T>
 			 }
 			 else
 			 {
-				 //Handle if there is one element in deque
-				 if (m_parent->m_data[m_slotposition].count()==1)
-					   ++m_slotposition;
-
+				 ++m_slotposition;
 				 while (m_slotposition<m_parent->tableSize() && m_parent->m_data[m_slotposition].count()==0)
                        ++m_slotposition;
-			     if (m_slotposition!=m_parent->tableSize())
+				 if (m_slotposition<m_parent->tableSize())
 					 m_it= m_parent->m_data[m_slotposition].begin();
 				 else
 					 (*this)=m_parent->end();

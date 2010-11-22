@@ -77,9 +77,30 @@ sad::Input * sad::Input::m_instance=NULL;
 
 sad::Input::Input()
 {
+	m_mousemove=NULL;
+	m_mousedown=NULL;
+	m_mouseclick=NULL;
+	m_mouseup=NULL;
+	m_mousewheel=NULL;
+	m_dblclick=NULL;
+	m_keyup=NULL;
+	m_keydown=NULL;
 }
 sad::Input::~Input()
 {
+#define DEL(X) if (X) delete X;
+	DEL(m_mousemove);DEL(m_mousedown); DEL(m_mouseclick);
+	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
+	DEL(m_keydown);
+#undef DEL
+	for (hst::hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
+	{
+		delete it.value();
+	}
+    for (hst::hash<int,sad::EventHandler *>::iterator it=m_down.begin();it!=m_down.end();++it)
+	{
+		delete it.value();
+	}
 }
 
 void sad::Input::freeInst()
@@ -97,9 +118,10 @@ sad::Input * sad::Input::inst()
 }
 
 #define TEMP_DEF(X,Y)                                \
-void sad::Input::##X(const sad::EventHandler & h)    \
+void sad::Input::##X(sad::EventHandler * h)          \
 {                                                    \
-	Y=h;                                             \
+	if (Y) delete Y;                                 \
+    Y=h;                                             \
 }                                                    \
 
 TEMP_DEF(setMouseMoveHandler,m_mousemove)
@@ -116,7 +138,8 @@ TEMP_DEF(setKeyDownHandler,m_keydown)
 #define TEMP_DEF(X,Y)                                \
 void sad::Input::##X(const sad::Event & ev)          \
 {                                                    \
-  ##Y(ev);                                           \
+  if (##Y)                                           \
+  (*##Y)(ev);                                        \
 }                                                    \
 
 TEMP_DEF(postMouseMove,m_mousemove)
@@ -128,23 +151,37 @@ TEMP_DEF(postMouseWheel,m_mousewheel)
 
 #undef TEMP_DEF
 
-void sad::Input::bindKeyUp(int key,const sad::EventHandler & h)
+void sad::Input::bindKeyUp(int key, sad::EventHandler * h)
 {
-	m_ups.insert(key,h);
+	if (h)
+	{
+		if (m_ups.contains(key)) delete m_ups[key];
+	     m_ups.insert(key,h);
+	}
+	else
+		 m_ups.remove(key);
 }
-void sad::Input::bindKeyDown(int key,const sad::EventHandler & h)
+void sad::Input::bindKeyDown(int key, sad::EventHandler * h)
 {
-	m_down.insert(key,h);
+	if (h)
+	{
+		if (m_down.contains(key)) delete m_down[key];
+		m_down.insert(key,h);
+	}
+	else
+		m_down.remove(key);
 }
 void sad::Input::postKeyUp(const sad::Event & ev)
 {
 	if (m_ups.contains(ev.key))
-		m_ups[ev.key](ev);
-	m_keyup(ev);
+		(*m_ups[ev.key])(ev);
+	if (!m_keyup) return;
+	(*m_keyup)(ev);
 }
 void sad::Input::postKeyDown(const sad::Event & ev)
 {
 	if (m_down.contains(ev.key))
-		m_down[ev.key](ev);
-	m_keydown(ev);
+		(*m_down[ev.key])(ev);
+	if (!m_keydown) return;
+	(*m_keydown)(ev);
 }

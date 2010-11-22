@@ -4,6 +4,7 @@
 	Contains a definition of simple test node, that can be added to scene
 */
 #include "scene.h"
+//#define FPS_CHECK //Uncomment this for fps checking
 #pragma once
 
 /*! Class of simple quad that rotates constantly on one of the axis
