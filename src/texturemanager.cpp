@@ -36,5 +36,6 @@ void sad::TextureManager::load(const hst::string & name, Texture * tex)
 
 void sad::TextureManager::unload(const hst::string & name)
 {
+	if (m_data.contains(name)) delete m_data[name];
 	m_data.remove(name);
 }
