@@ -21,6 +21,7 @@ namespace sad
 		TextureManager();
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
+		static void freeInstance();
 	public:
 		/*! Возвращает текущий инстанс менеджера
 		*/

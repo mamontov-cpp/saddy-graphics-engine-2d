@@ -1,8 +1,8 @@
 //#include "stdafx.h"
-#include "..\include\renderer.h"
+#include "renderer.h"
 #include "input.h"
 #include "testnode.h"
-#include "texture.h"
+#include "texturemanager.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
 
@@ -19,9 +19,11 @@ void rend_toggle(const sad::Event & o)
 #include<time.h>
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
 {
-	sad::Texture testTexture;
+	sad::Texture * tex=new sad::Texture();
 	hst::string  testString("RLE.tga");
-	testTexture.loadTGA(testString);
+	tex->loadTGA(testString);
+	sad::TextureManager::instance()->load("TEST",tex);
+	sad::Texture * test=sad::TextureManager::instance()->get("TEST");
 
 	srand(time(NULL));
 
