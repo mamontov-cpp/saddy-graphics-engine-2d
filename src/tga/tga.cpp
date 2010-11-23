@@ -16,6 +16,11 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 		result = readTGA(hFile, textureInfo);
 		fclose(hFile);		// Close the file
 	}
+	else
+	{
+        this->loadDefaultTGATexture();
+		return false;
+	}
 
 	// Copying data of TGA texture to object
 	m_bpp = textureInfo.m_TGA_bpp;
@@ -27,7 +32,7 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 		m_data.add( textureInfo.m_TGA_data[i] );
 
 	if (!result)
-		sad::Texture::loadDefaultTGATexture();
+		this->loadDefaultTGATexture();
 
 	return result;
 }
@@ -39,12 +44,23 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 	FILE* hFile;			// File descriptor
 	Info textureInfo;		// Object with data of texture.
 
+#ifdef WIN32
 	hFile = _wfopen(filename.data(), L"rb");	// Open file by reading bytes
-
+#else
+	wchar_t * newfname=new wchar_t[filename.length()+1);
+	mbtowc(newfname,filename.data(),filename.length()+1);
+	hFile=fopen(newfname,"rb");
+	delete newfname;
+#endif
 	if (hFile)				// If file was opened successfuly
 	{
 		result = readTGA(hFile, textureInfo);
 		fclose(hFile);		// Close the file
+	}
+	else
+	{
+        this->loadDefaultTGATexture();
+		return false;
 	}
 
 	// Copying data of TGA texture to object
