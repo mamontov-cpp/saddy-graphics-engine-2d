@@ -33,7 +33,7 @@ int TestNode::Type=1;
 	
     static int mps=0;
 #endif
-#include "texture.h"
+
 void TestNode::render()
 {
 #ifdef FPS_CHECK
