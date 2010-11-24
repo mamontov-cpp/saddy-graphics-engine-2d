@@ -6,6 +6,12 @@
 #include "templates/hstring.h"
 #include "templates/hwstring.h"
 #include "templates/hlvector.hpp"
+#ifdef WIN32
+#include <windows.h>
+#else
+#endif
+#include <gl/gl.h>
+#include <gl/glu.h>
 #pragma once
 
 
@@ -77,5 +83,11 @@ namespace sad
 		/*! Загрузка прекомпилированной текстуры формата TGA
 		*/
 		void loadDefaultTGATexture();
+		/*! Выгружает текстуру
+		*/
+		void disable();
+		/*! Включает текстуру
+		*/
+		void enable();
 	};
 }

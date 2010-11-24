@@ -25,12 +25,13 @@ namespace sad
 
 		unsigned long        m_starttimer;
 		Scene*               m_currentscene;
+		Scene*               m_chscene;
 		sad::Window          m_window;
 		int                  m_fps;
 		Settings             m_glsettings;
 		hst::string          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
-
+        bool                 m_created;     //!< Whether we are created a window
 		/*! Setups a OpenGL for first use
 		*/
 		bool initGLRendering();
@@ -103,7 +104,13 @@ namespace sad
 			if (m_currentscene) delete m_currentscene;
 			m_currentscene=scene; 
 		}
-
+        /*! Sets a current scene. Use this function to set a scene, while running
+		\param[in] Scene to be set as current
+		*/
+        inline void pushScene(Scene * scene)
+		{
+			m_chscene=scene;
+		}
 
 		~Renderer(void);
 
@@ -163,7 +170,7 @@ namespace sad
 		void toggleFullscreen();	
 
 
-
+		inline bool running() { return m_running; }
 	};
 	
 	

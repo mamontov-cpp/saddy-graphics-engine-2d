@@ -219,6 +219,9 @@ void sad::Renderer::update()
 sad::Renderer::Renderer(void)
 {
   m_windowtitle="SadExample";
+  m_created=NULL;
+  m_currentscene=NULL;
+  m_created=false;
   this->m_window.hRC=NULL;
   this->m_window.hDC=NULL;
   this->m_window.hWND=NULL;
@@ -235,6 +238,7 @@ void sad::Renderer::quit()
 {
 	    PostMessage(m_window.hWND, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
 		m_running=false;
+		m_created=false;
 }
 
 #endif
