@@ -56,7 +56,7 @@ void Texture::setAlpha(Uint8 a)
 	m_bpp=32;
 	for (unsigned int i=3;i<m_data.count();i+=4)
 	{
-		m_data[i]=a;
+		m_data[i]=255-a;
 	}
 }
 void Texture::setAlpha(Uint8 a, const hst::color & clr, Uint8 prec)
@@ -68,7 +68,7 @@ void Texture::setAlpha(Uint8 a, const hst::color & clr, Uint8 prec)
 	  bool gck=abs(m_data[i-2]-clr.g())<=prec;
 	  bool bck=abs(m_data[i-1]-clr.b())<=prec;
 	  if (rck && gck && bck)
-		m_data[i]=a;
+		m_data[i]=255-a;
 	}
 }
 void Texture::setMode(Texture::Mode mode)
