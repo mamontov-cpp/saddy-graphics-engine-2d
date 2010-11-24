@@ -25,7 +25,7 @@ int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 	tex->loadTGA(testString);
 	sad::TextureManager::instance()->load("TEST",tex);
     sad::Texture * test=sad::TextureManager::instance()->get("TEST");
-
+	test->setAlpha(32);
 	
 	srand(time(NULL));
 

@@ -89,5 +89,19 @@ namespace sad
 		/*! Включает текстуру
 		*/
 		void enable();
+		/*! Устанавливает альфа-канал
+		    \param[in] a альфа-канал
+		*/
+		void setAlpha(Uint8 a);
+		/*! Устанавливает альфа-канал для цвета
+		    \param[in] a    альфа-канал
+			\param[in] clr  цвет, для которого устанавливается альфа
+			\param[in] prec погрешность
+		*/
+		void setAlpha(Uint8 a, const hst::color & clr, Uint8 prec=0);
+		/*! Устанавливает режим
+		    \param[in] mode режим
+		*/
+		void setMode(Texture::Mode mode);
 	};
 }
