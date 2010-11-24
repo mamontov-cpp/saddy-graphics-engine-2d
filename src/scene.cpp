@@ -25,9 +25,12 @@ sad::Scene::Scene()
 }
 sad::Scene::~Scene()
 {
-	for (unsigned long i=0;i<m_layers.count();i++)
+	for (unsigned long i=0;i<this->m_layers.count();i++)
 		delete m_layers[i];
-		
+	for (unsigned long i=0;i<this->m_marked.count();i++)
+		delete m_marked[i];
+	for (unsigned long i=0;i<this->m_toadd.count();i++)
+		delete m_marked[i];
 }
 void sad::Scene::add(
 		             BasicNode * node, 

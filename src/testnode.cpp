@@ -33,7 +33,7 @@ int TestNode::Type=1;
 	
     static int mps=0;
 #endif
-
+#include "texture.h"
 void TestNode::render()
 {
 #ifdef FPS_CHECK
@@ -49,13 +49,17 @@ void TestNode::render()
     glBegin(GL_QUADS);
 
 	
-	glColor4f(1.0f,0,0,1.0f);
+	//glColor4f(1.0f,0,0,1.0f);
+	glTexCoord2f(0.0f,0.0f);	
 		glVertex3f(m_x+m_r*sin(m_angle),m_y+m_r*cos(m_angle),0.5);
-	glColor4f(0.0f,1.0f,0.0f,1.0f);
+	//glColor4f(0.0f,1.0f,0.0f,1.0f);
+	glTexCoord2f(0.0f,1.0f);
 		glVertex3f(m_x+m_r*sin(1.57f+m_angle),m_y+m_r*cos(1.57f+m_angle),0.5);
-	glColor4f(1.0f,0,1.0f,1.0f);
+	//glColor4f(1.0f,0,1.0f,1.0f);
+	glTexCoord2f(1.0f,1.0f);
 		glVertex3f(m_x+m_r*sin(3.14f+m_angle),m_y+m_r*cos(3.14f+m_angle),0.5);
-	glColor4f(0,1.0f,1.0f,1.0f);
+	//glColor4f(0,1.0f,1.0f,1.0f);
+	glTexCoord2f(1.0f,0.0f);
 		glVertex3f(m_x+m_r*sin(4.71f+m_angle),m_y+m_r*cos(4.71f+m_angle),0.5);
     
 	glEnd();

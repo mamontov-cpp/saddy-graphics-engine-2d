@@ -30,7 +30,8 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_glsettings.setFoV(_settings.fov());
  m_glsettings.setZNear(_settings.znear());
  m_glsettings.setZFar(_settings.zfar());
- 
+ m_created=createWindow();
+ if (!m_created) { hst::log::inst()->owrite(hst::string("Renderer init: can't create window\n"));}
  return true;
 }
 
@@ -59,8 +60,16 @@ sad::Renderer& sad::Renderer::instance()
 
 void sad::Renderer::run()
 {
+ //If already created
+ if (m_created)
+ {
+	 mainLoop();
+	 return;
+ }
+
  if (createWindow())
  {
+	    m_created=true;
 		hst::log::inst()->owrite(hst::string("Renderer: started rendering cycles\n"));
 	    mainLoop();
  }
@@ -97,6 +106,8 @@ bool sad::Renderer::initGLRendering()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_COLOR_MATERIAL);
 	return true;
 }
 

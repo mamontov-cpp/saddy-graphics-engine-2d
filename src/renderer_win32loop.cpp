@@ -43,9 +43,12 @@ void sad::Renderer::mainLoop()
 	  {
 		  m_fps = frames;frames=0;Renderer::instance().setTimer();
 	  }
-	  
+	  //Updatw a window, if active
 	  if (m_window.active)
 	     update();
+	  //Change scene, if need so
+	  if (m_chscene) 
+	  { setCurrentScene(m_chscene); m_chscene=NULL;}
    }
   }
  m_window.active=false;
