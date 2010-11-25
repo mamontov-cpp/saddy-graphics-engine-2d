@@ -39,28 +39,30 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 	bool result = true;				// Result
 	fpos_t currentPos, eofPos;		// Current position in file and EOF 
 	size_t RLESize;					// Number of compressed bytes
-	BYTE *RLEBuffer;				// Pointer to array of compressed bytes
-	UINT count   = 0,				// Counter of pixels			
+	unsigned char *RLEBuffer;				// Pointer to array of compressed bytes
+	unsigned int count   = 0,				// Counter of pixels			
 		 rcount  = 1,				// Counter of RLE pixels
 		 rloop	 = 0,				// Length of the block
 		 pakleft = 0;				// Number of pixels in the current block
 	bool flag;
 
-	UINT bpp8 = data.m_TGA_bpp / 8;	// Bytes per pixel
+	unsigned int bpp8 = data.m_TGA_bpp / 8;	// Bytes per pixel
 
 	fgetpos(hFile, &currentPos);					// Save the current position
 
 	fseek(hFile, 0, SEEK_END);						// Move to the end of file
 
 	fgetpos(hFile,&eofPos);							// Save the position
-
+#ifdef WIN32
 	fseek(hFile, currentPos, SEEK_SET);				// Move back to the current position
+#else
+	fseek(hFile, *((long*)&currentPos), SEEK_SET);
+#endif
+	RLESize = (*((size_t*)&eofPos) - *((size_t*)&currentPos)) + 1;	// Save the size of RLE bytes
 
-	RLESize = (size_t)(eofPos - currentPos) + 1;	// Save the size of RLE bytes
+	RLEBuffer = new unsigned char[(size_t)RLESize];					// Allocate memory for the array of pixels
 
-	RLEBuffer = new BYTE[RLESize];					// Allocate memory for the array of pixels
-
-	fread(RLEBuffer, (size_t)1, (size_t)eofPos+1, hFile); // Reading pixels
+	fread(RLEBuffer, (size_t)1, *((size_t*)&eofPos)+1, hFile); // Reading pixels
 
 	pakleft=1+RLEBuffer[rcount-1];					// Bytes before the next block
 

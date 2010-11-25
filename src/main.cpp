@@ -18,7 +18,11 @@ void rend_toggle(const sad::Event & o)
 #include<math.h>
 #include<time.h>
 
+#ifdef WIN32
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
+#else
+int main(int argc, char** argv)
+#endif
 {
 	sad::Texture * tex=new sad::Texture();
 	hst::string  testString("examples/RLE.bmp");

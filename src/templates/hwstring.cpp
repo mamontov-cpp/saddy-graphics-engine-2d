@@ -2,6 +2,7 @@
 #include "hwstring.h"
 #include <wchar.h>
 #include <stdlib.h>
+#include <string.h>
 #include "hlist.hpp"
 
 using namespace hst;

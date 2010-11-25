@@ -5,11 +5,16 @@
 #ifndef LINUX
 
 #include <windows.h>
+#include <gl/gl.h>														
+#include <gl/glu.h>	
+#else
+
+#include <GL/gl.h>														
+#include <GL/glu.h>	
 
 #endif
 
-#include <gl/gl.h>														
-#include <gl/glu.h>													
+												
 
 TestNode::~TestNode()
 {
