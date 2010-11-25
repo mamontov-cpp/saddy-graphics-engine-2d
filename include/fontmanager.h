@@ -16,7 +16,7 @@
 
 #endif
 #include "types.h"
-#include "texture.h"
+#include "texturemanager.h"
 
 #ifdef WIN32
 
@@ -61,7 +61,7 @@ namespace sad
 	class TMFont: public BasicFont
 	{
 		private:
-			sad::Texture m_tex;         //!< Current texture
+			sad::Texture * m_tex;         //!< Current texture
 			pointf       m_ul[255];     //!< Glyph rectangles (upper left)
 			pointf       m_lr[255];     //!< Glyph rectangles (lower right)
 	    public:

@@ -8,6 +8,7 @@ In this file OpenGL function has been used obviously.
 
 
 #include "renderer.h"
+#include "texturemanager.h"
 #ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
@@ -87,6 +88,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
    this->releaseWindow();
    this->m_window.fullscreen=!this->m_window.fullscreen;
    this->createWindow();
+   sad::TextureManager::buildAll();
   }
   else
   {

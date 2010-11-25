@@ -23,6 +23,9 @@ namespace sad
 		TextureManager & operator=(const TextureManager &);
 		static void freeInstance();
 	public:
+		/*! Builds all mipmaps
+		*/
+		static void buildAll();
 		/*! Возвращает текущий инстанс менеджера
 		*/
 		static TextureManager * instance();

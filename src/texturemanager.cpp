@@ -12,7 +12,11 @@ sad::TextureManager * sad::TextureManager::instance()
 	if (!m_instance) { m_instance=new sad::TextureManager(); }
 	return m_instance;
 }
-
+void sad::TextureManager::buildAll()
+{
+	for (hst::hash<hst::string,sad::Texture *>::iterator it=instance()->m_data.begin();it!=instance()->m_data.end();it++)
+		it.value()->buildMipMaps();;
+}
 sad::TextureManager::TextureManager()
 {
 
