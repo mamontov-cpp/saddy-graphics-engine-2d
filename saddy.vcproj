@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\fontnode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\input.cpp"
 				>
 			</File>
@@ -340,6 +344,10 @@
 			>
 			<File
 				RelativePath=".\include\fontmanager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\fontnode.h"
 				>
 			</File>
 			<File

@@ -35,8 +35,9 @@ class BasicFont
 	 /*! Renders a string
 	     \param[in] str string
 		 \param[in] rect bounding rectangle. If cannot render in it, renders starting from upper left rendering
+		 \param[in] z zvalue
 	 */
-	 virtual void render(const hst::string & str,const hRectF & rect)=0; 
+	 virtual void render(const hst::string & str,const hRectF & rect,float z)=0; 
 	 /*! Destroys an exemplar
 	 */
 	 virtual ~BasicFont();
@@ -61,7 +62,8 @@ namespace sad
 	{
 		private:
 			sad::Texture m_tex;         //!< Current texture
-			hRectF       m_rects[255];  //!< Glyph rectangles
+			pointf       m_ul[255];     //!< Glyph rectangles (upper left)
+			pointf       m_lr[255];     //!< Glyph rectangles (lower right)
 	    public:
 			/*! Empty font
 			*/
@@ -79,8 +81,9 @@ namespace sad
 			/*! Renders a string
 				\param[in] str string
 				\param[in] rect bounding rectangle. If cannot render in it, renders starting from upper left rendering
+				\param[in] z    z paramerer
 			*/
-	        void render(const hst::string & str,const hRectF & rect);
+	        void render(const hst::string & str,const hRectF & rect,float z);
 			/*! Destroys a file
 			*/
 			~TMFont();
@@ -108,7 +111,7 @@ namespace sad
 			    \param[in] font font pointer
 				\param[in] name associated name
 			*/
-		    void add(sad::BasicFont * font,const hst::string & name );
+		    static void add(sad::BasicFont * font,const hst::string & name );
 			/*!	Returns an object by a key
 				\param[in] key associated key
 				\return pointer to font object

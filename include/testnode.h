@@ -4,6 +4,7 @@
 	Contains a definition of simple test node, that can be added to scene
 */
 #include "scene.h"
+#include "texture.h"
 //#define FPS_CHECK //Uncomment this for fps checking
 #pragma once
 
@@ -16,11 +17,12 @@ class TestNode: public sad::BasicNode
 		 float m_y;   //!< Y
 		 float m_r;   //!< Radius
 	     float m_angle;  //!< Angle
+		 sad::Texture * m_tex;
  public:
 	     static int Type; //!< Статический тип
           /*! Creates a simple node
 		  */
-	      TestNode(float x, float y, float r);
+		 TestNode(sad::Texture * tex,float x, float y, float r);
           /*! Renders it
 		  */
 		  void render();
