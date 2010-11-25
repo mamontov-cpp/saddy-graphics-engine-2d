@@ -95,3 +95,23 @@ bool Texture::load(const hst::wstring & filename)
 	delete tmp;
 	return load(tt);
 }
+
+void Texture::save(const char * method, const char * file)
+{
+	FILE * f=fopen(file,"wt");
+	if (f)
+	{
+		fputs("#include \"texture.h\"\n\nstatic const unsigned char texdata[",f);
+		fprintf(f,"%d]=\n{\n",m_data.count());
+		if (m_data.count()!=0)
+			fprintf(f,"%d",m_data[0]);
+		for (unsigned long i=1;i<m_data.count();i++)
+               fprintf(f,", %d",m_data[i]);
+		fputs("\n};\n\n",f);
+		
+		fprintf(f,"static const unsigned int cnt=%d;\n\n",m_data.count());
+		fprintf(f,"\nvoid sad::Texture::%s()\n{\n m_bpp=%d;m_width=%d;m_height=%d;\n for (unsigned int i=0;i<cnt;i++) m_data<<texdata[i]; \n}\n\n\n",method,m_bpp,m_width,m_height);
+		fclose(f);
+	}
+	
+}

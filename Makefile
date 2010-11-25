@@ -33,7 +33,7 @@ all:
 	g++ -c src/renderer.cpp                  -o build/renderer.o             $(INCLUDE) $(DEFINES)
 	g++ -c src/Settings.cpp                  -o build/settings.o             $(INCLUDE) $(DEFINES)
 	g++ -c src/testnode.cpp                  -o build/testnode.o             $(INCLUDE) $(DEFINES)
-	g++ -c src/tga/defaulttextureloader.cpp                  -o build/defaulttextureloader.o             $(INCLUDE) $(DEFINES)
+	g++ -c src/defaulttexloader.cpp                  -o build/defaulttextureloader.o             $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)

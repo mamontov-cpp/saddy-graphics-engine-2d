@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\defaulttexloader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\fontmanager.cpp"
 				>
 			</File>
@@ -311,10 +315,6 @@
 			<Filter
 				Name="tga"
 				>
-				<File
-					RelativePath=".\src\tga\defaulttextureloader.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\src\tga\tga.cpp"
 					>
