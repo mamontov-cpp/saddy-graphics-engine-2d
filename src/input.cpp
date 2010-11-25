@@ -118,7 +118,7 @@ sad::Input * sad::Input::inst()
 }
 
 #define TEMP_DEF(X,Y)                                \
-void sad::Input::##X(sad::EventHandler * h)          \
+void sad::Input:: X (sad::EventHandler * h)          \
 {                                                    \
 	if (Y) delete Y;                                 \
     Y=h;                                             \
@@ -133,13 +133,13 @@ TEMP_DEF(setMouseWheelHandler,m_mousewheel)
 TEMP_DEF(setKeyUpHandler,m_keyup)
 TEMP_DEF(setKeyDownHandler,m_keydown)
 
-#undef
+#undef TEMP_DEF
 
 #define TEMP_DEF(X,Y)                                \
-void sad::Input::##X(const sad::Event & ev)          \
+void sad::Input::  X (const sad::Event & ev)          \
 {                                                    \
-  if (##Y)                                           \
-  (*##Y)(ev);                                        \
+  if ( Y )                                           \
+    (*  Y)(ev);                                        \
 }                                                    \
 
 TEMP_DEF(postMouseMove,m_mousemove)

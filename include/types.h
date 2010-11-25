@@ -8,15 +8,18 @@
 #ifndef types_h__
 #define types_h__
 
+
 #ifdef   _WIN32
     #define _WIN32_WINNT  0x0501
     #define _WIN32_WINDOWS 0x0501
 	#include <windows.h>
+    #include <gl/gl.h>														
+    #include <gl/glu.h>
 #else
-
+    #include <GL/gl.h>														
+    #include <GL/glu.h>
 #endif
-#include <gl/gl.h>														
-#include <gl/glu.h>	
+	
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
@@ -25,7 +28,6 @@
 #include "hhash.hpp"
 #include "hlist.hpp"
 #include "hlvector.hpp"
-#include "hmatrix.hpp"
 #include "hpair.hpp"
 #include "hptrie.hpp"
 #include "hstring.h"

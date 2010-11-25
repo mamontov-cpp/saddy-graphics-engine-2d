@@ -2,11 +2,16 @@
 #ifndef LINUX
 
 #include <windows.h>
+#include <gl/gl.h>														
+#include <gl/glu.h>
+
+#else
+
+#include <GL/gl.h>														
+#include <GL/glu.h>
 
 #endif
 
-#include <gl/gl.h>														
-#include <gl/glu.h>
 
 int sad::BasicNode::Type=0;
 int sad::BasicNode::type() const { return m_type;}

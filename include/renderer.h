@@ -51,7 +51,7 @@ namespace sad
 		/*! Maps window coordinates, to OGL coordinate system
 		*/
         void mapToOGL(int x,int y,float & px,float & py,float & pz);
-
+#ifdef WIN32
 		/*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
 		\param[in] uMsg The Message
@@ -60,7 +60,7 @@ namespace sad
 		\return Success of operation              
 		*/
         static LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
+#endif
 		/*! Sets timer
 		*/
 		inline void setTimer(void){ m_starttimer = clock();}

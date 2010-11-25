@@ -37,7 +37,6 @@
 #define KEY_PGUP         279
 #define KEY_PGDOWN       280
 #define KEY_TAB          281
-#define KEY_CAPSLOCK     282
 #define KEY_NUMLOCK      283
 #define KEY_SCROLLOCK    284
 #define KEY_CAPSLOCK     285
@@ -97,8 +96,8 @@ namespace sad
 			T * from;
 			void * to;
 		};
-		template<typename T> void * void_cast(T * from) { unicaster u; u.from=from; return u.to; }
-        template<typename T> T    * t_cast(void * from) { unicaster u; u.to=to; return u.from; }
+		template<typename T> void * void_cast(T * from) { unicaster<T> u; u.from=from; return u.to; }
+        template<typename T> T    * t_cast(void * from) { unicaster<T> u; u.to=from; return u.from; }
 		/*! Deletes an object
 		*/
 		template<typename T> void destroy(void * m)

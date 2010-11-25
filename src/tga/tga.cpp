@@ -28,7 +28,7 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 	m_width = textureInfo.m_TGA_width;
 	m_id = sad::globalID++;
 
-	for (UINT i=0; i<textureInfo.m_TGA_imageSize; i++)
+	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
 		m_data.add( textureInfo.m_TGA_data[i] );
 
 	if (!result)
@@ -47,7 +47,7 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 #ifdef WIN32
 	hFile = _wfopen(filename.data(), L"rb");	// Open file by reading bytes
 #else
-	char * newfname=new char[2*filename.length()+2);
+	char * newfname=new char[2*filename.length()+2];
 	wcstombs(newfname,filename.data(),2*filename.length()+2);
 	hFile=fopen(newfname,"rb");
 	delete newfname;
@@ -69,7 +69,7 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 	m_width = textureInfo.m_TGA_width;
 	m_id = sad::globalID++;
 
-	for (UINT i=0; i<textureInfo.m_TGA_imageSize; i++)
+	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
 		m_data.add( textureInfo.m_TGA_data[i] );
 
 	if (!result)
@@ -108,7 +108,7 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 		result = false;
 
 	// Convert pixels from BRG or BRGA to RGB or RGBA
-	for (UINT i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
+	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
 	{
 		data.m_TGA_data[i]^=data.m_TGA_data[i+2]^=data.m_TGA_data[i]^=data.m_TGA_data[i+2];
 	}

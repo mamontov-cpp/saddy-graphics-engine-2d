@@ -9,10 +9,13 @@
 #include <stdio.h>
 #ifdef WIN32
 #include <windows.h>
-#else
-#endif
 #include <gl/gl.h>
 #include <gl/glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
 #pragma once
 
 
