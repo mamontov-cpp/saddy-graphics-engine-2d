@@ -6,6 +6,7 @@
 #include "templates/hstring.h"
 #include "templates/hwstring.h"
 #include "templates/hlvector.hpp"
+#include <stdio.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -45,6 +46,9 @@ namespace sad
 		unsigned int       m_id;     //!< ID текстуры в видеопамяти
 		Mode               m_mode;   //!< Режим границ
 
+		/*! Loads a BMP file, from file
+		*/
+		bool               loadBMP(FILE * file);
 	public:
 
 		/*! Создает пустую текстуру
@@ -60,10 +64,18 @@ namespace sad
 		\param[in] filename имя файла
 		*/
 		bool load(const hst::string & filename);
+		/*! Загрузка из файла, в зависимости от расширения
+		\param[in] filename имя файла
+		*/
+		bool load(const hst::wstring & filename);
 		/*! Загрузка из файла BMP
 		\param[in] filename имя файла
 		*/
 		bool loadBMP(const hst::string & filename);
+		/*! Загрузка из файла BMP
+		\param[in] filename имя файла
+		*/
+		bool loadBMP(const hst::wstring & filename);
 		/*! Загрузка из файла TGA
 		\param[in] filename имя файла
 		*/

@@ -47,8 +47,8 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 #ifdef WIN32
 	hFile = _wfopen(filename.data(), L"rb");	// Open file by reading bytes
 #else
-	wchar_t * newfname=new wchar_t[filename.length()+1);
-	mbtowc(newfname,filename.data(),filename.length()+1);
+	char * newfname=new char[2*filename.length()+2);
+	wcstombs(newfname,filename.data(),2*filename.length()+2);
 	hFile=fopen(newfname,"rb");
 	delete newfname;
 #endif
