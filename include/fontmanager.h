@@ -52,6 +52,44 @@ class BasicFont
 
 namespace sad
 {
+	/*! Class of texture mapped font. 
+	    This class contains a texture, where are printed all glyphs, and a bunch of rects
+		where are placed texture coordinated. Hint: use Texture::enable to restore previous
+		state
+	*/
+	class TMFont: public BasicFont
+	{
+		private:
+			sad::Texture m_tex;         //!< Current texture
+			hRectF       m_rects[255];  //!< Glyph rectangles
+	    public:
+			/*! Empty font
+			*/
+			TMFont();
+			/*! Loads a font from file
+			    \param[in] tex texture file
+				\param[in] cfg mapping file (see examples/times_red.cfg for format)
+				\param[in] bk  background texture color
+			*/
+			bool load(
+			           const hst::string & tex, 
+					   const hst::string & cfg, 
+					   const hst::color & bk=hst::color(255,255,255)
+					  );
+			/*! Renders a string
+				\param[in] str string
+				\param[in] rect bounding rectangle. If cannot render in it, renders starting from upper left rendering
+			*/
+	        void render(const hst::string & str,const hRectF & rect);
+			/*! Destroys a file
+			*/
+			~TMFont();
+	};
+}
+
+
+namespace sad
+{
 	/*!	\class FontManager
 		Keeps a collection of fonts, and provides accessing interface
 	*/

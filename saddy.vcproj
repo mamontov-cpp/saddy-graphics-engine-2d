@@ -241,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\tmfont.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\win32font.cpp"
 				>
 			</File>
