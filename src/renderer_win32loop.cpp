@@ -8,6 +8,14 @@
 
 #include <windowsx.h>
 
+#ifndef GET_KEYSTATE_WPARAM 
+	#define GET_KEYSTATE_WPARAM(wParam)     (LOWORD(wParam))
+#endif
+
+#ifndef GET_KEYSTATE_LPARAM
+	#define GET_KEYSTATE_LPARAM(lParam) (LOWORD(lParam))
+#endif
+
 void sad::Renderer::mainLoop()
 {
  int frames=0;

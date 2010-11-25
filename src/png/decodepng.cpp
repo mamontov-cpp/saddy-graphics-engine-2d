@@ -148,7 +148,15 @@ void png::loadFile(std::vector<unsigned char> & buffer, const char * filename)
 void png::loadFile(std::vector<unsigned char> & buffer, const wchar_t * filename)
 {
 #ifdef WIN32 
+#ifndef MINGW
   std::ifstream file(filename, std::ios::in|std::ios::binary|std::ios::ate);
+#else
+  int len=wcslen(filename)+1;
+  char * tmp=new char[len*2];
+  wcstombs(tmp,filename,5000);
+  std::ifstream file(tmp, std::ios::in|std::ios::binary|std::ios::ate);
+  delete tmp;
+#endif
 #else
   int len=wcslen(filename)+1;
   char * tmp=new char[len*2];
