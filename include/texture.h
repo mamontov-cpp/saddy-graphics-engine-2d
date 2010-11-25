@@ -118,5 +118,8 @@ namespace sad
 		    \param[in] mode режим
 		*/
 		void setMode(Texture::Mode mode);
+		/*! Saves a texture to a precompiled source code
+		*/
+		void save(const char * method, const char * file);
 	};
 }
