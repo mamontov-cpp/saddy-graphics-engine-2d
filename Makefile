@@ -2,7 +2,7 @@ LDFLAGS= -lm -lGL -lGLU
 INCLUDE= -Iinclude -Iinclude/primitives -Iinclude/templates -Iinclude/png -Iinclude/tga  -I/usr/include/
 OUTPUT   = saddy-test
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o
+BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o build/fontmanager.o build/tmfont.o build/fontnode.o
 all:
 	./mkbuild.sh
 	g++ -c src/log.cpp                    -o build/log.o                    $(INCLUDE) $(DEFINES)
@@ -34,6 +34,9 @@ all:
 	g++ -c src/Settings.cpp                  -o build/settings.o             $(INCLUDE) $(DEFINES)
 	g++ -c src/testnode.cpp                  -o build/testnode.o             $(INCLUDE) $(DEFINES)
 	g++ -c src/defaulttexloader.cpp                  -o build/defaulttextureloader.o             $(INCLUDE) $(DEFINES)
+	g++ -c src/fontmanager.cpp                  -o  build/fontmanager.o      $(INCLUDE) $(DEFINES)
+	g++ -c src/tmfont.cpp                       -o  build/tmfont.o           $(INCLUDE) $(DEFINES)
+	g++ -c src/fontnode.cpp                     -o  build/fontnode.o         $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)
