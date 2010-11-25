@@ -25,8 +25,8 @@ int main(int argc, char** argv)
 #endif
 {
 	sad::Texture * tex=new sad::Texture();
-	hst::string  testString("examples/RLE.tga");
-	tex->load(testString);
+	hst::string  testString("examples/georgia.PNG");
+	bool result=tex->loadPNG(testString);
 	sad::TextureManager::instance()->load("TEST",tex);
     sad::Texture * test=sad::TextureManager::instance()->get("TEST");
 	test->setAlpha(32);
