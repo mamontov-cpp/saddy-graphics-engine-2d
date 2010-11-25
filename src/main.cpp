@@ -2,7 +2,9 @@
 #include "renderer.h"
 #include "input.h"
 #include "testnode.h"
+#include "fontnode.h"
 #include "texturemanager.h"
+#include "fontmanager.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
 
@@ -24,6 +26,19 @@ int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine
 int main(int argc, char** argv)
 #endif
 {
+	sad::Renderer::instance().init(sad::Settings(640,480,false));
+	
+	
+	sad::TMFont * fnt=new sad::TMFont;
+	bool res=fnt->load("examples/times_red.PNG","examples/times_red.CFG");
+    if (res)
+	{
+		sad::FontManager::add(fnt,"times_red");
+	}
+	else
+	{
+		delete fnt;
+	}
 	sad::Texture * tex=new sad::Texture();
 	hst::string  testString("examples/times_red.PNG");
 	bool result=tex->loadPNG(testString);
@@ -35,9 +50,10 @@ int main(int argc, char** argv)
 	sad::Scene * sc= new sad::Scene();
 
 
-	for (int i=0;i<100;i++)
-	sc->add( new TestNode((float)rand()/RAND_MAX*0.2f - 0.1f,(float)rand()/RAND_MAX*0.2f - 0.1f,0.06f) );
-
+	
+	sc->add( new TestNode(test,(float)rand()/RAND_MAX*0.2f - 0.1f,(float)rand()/RAND_MAX*0.2f - 0.1f,0.06f) );
+	if (res)
+        	sc->add( new TestFontNode(fnt));
 
 	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("My new sad window");
@@ -48,7 +64,6 @@ int main(int argc, char** argv)
 
 							 
 	
-	sad::Renderer::instance().init(sad::Settings(640,480,false));
 	test->buildMipMaps();
 	test->enable();
 	sad::Renderer::instance().run();

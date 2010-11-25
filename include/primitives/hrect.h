@@ -26,6 +26,9 @@ class rect
          */
          T  m_p[4];
  public:
+	     inline const T &      p()      const { return m_p[0];}
+	     inline double width()  const { return m_p[1].x()-m_p[0].x(); }
+		 inline double height() const { return m_p[2].y()-m_p[1].y(); }
          /*! Default constructor
          */
          rect();

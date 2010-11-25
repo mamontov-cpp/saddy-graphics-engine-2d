@@ -21,13 +21,14 @@ TestNode::~TestNode()
 
 }
 
-TestNode::TestNode(float x, float y, float r)
+TestNode::TestNode(sad::Texture * tex,float x, float y, float r)
 {
 	m_x=x;
 	m_y=y;
 	m_r=r;
 	m_angle=0;
 	m_type=TestNode::Type;
+	m_tex=tex;
 }
 
 int TestNode::Type=1;
@@ -51,6 +52,7 @@ void TestNode::render()
 	mps+=sad::Renderer::instance().elapsedInMSeconds();
 #endif
 
+	m_tex->enable();
     glBegin(GL_QUADS);
 
 	
