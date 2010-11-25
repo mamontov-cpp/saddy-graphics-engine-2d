@@ -45,7 +45,14 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 	Info textureInfo;		// Object with data of texture.
 
 #ifdef WIN32
+#ifndef MINGW32
 	hFile = _wfopen(filename.data(), L"rb");	// Open file by reading bytes
+#else
+	char * newfname=new char[2*filename.length()+2];
+	wcstombs(newfname,filename.data(),2*filename.length()+2);
+	hFile=fopen(newfname,"rb");
+	delete newfname;
+#endif
 #else
 	char * newfname=new char[2*filename.length()+2];
 	wcstombs(newfname,filename.data(),2*filename.length()+2);
