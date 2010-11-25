@@ -18,12 +18,15 @@ bool TMFont::load(
 					   const hst::color & bk
 		         )
 {
-	if (!m_tex.load(tex))
+	m_tex=new sad::Texture;
+	sad::TextureManager::instance()->load(tex,m_tex);
+	if (!m_tex->load(tex))
 	{
+		sad::TextureManager::instance()->unload(tex);
 		return false;
 	}
-	m_tex.setAlpha(255,bk,80);
-	m_tex.buildMipMaps();
+	m_tex->setAlpha(255,bk,80);
+	m_tex->buildMipMaps();
 	//Loading mapped file
 	FILE * fl=fopen(cfg.data(),"rt");
 
@@ -31,8 +34,11 @@ bool TMFont::load(
 	{
 		int count=0;
 		fscanf(fl,"%d\n",&count);
-		if (ferror(fl)) return false;
-
+		if (ferror(fl)) 
+		{
+			sad::TextureManager::instance()->unload(tex);
+			return false;
+		}
 		for (int i=0;i<count;i++)
 		{
 			char c=0; float curx=0.0f; float cury=0.0f; float endx=0.0f; float endy=0.0f;
@@ -56,7 +62,7 @@ void TMFont::render(const hst::string & str,const hRectF & rect,float z)
 	  lenx+=m_lr[str[i]].x()-m_ul[str[i]].x();
   }
   float aspratio=rect.width()/lenx;
-  m_tex.enable();
+  m_tex->enable();
   float curx=rect.p().x();
   float cury=rect.p().y();
   float endy=rect.p().y()+rect.height();
