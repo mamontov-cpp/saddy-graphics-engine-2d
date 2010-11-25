@@ -75,3 +75,23 @@ void Texture::setMode(Texture::Mode mode)
 {
 	m_mode=mode;
 }
+
+bool Texture::load(const hst::string & filename)
+{
+	hst::string ff(filename.getExtension());
+	char * f=const_cast<char *>(ff.data());
+	while(*f) { *f=toupper(*f); ++f; }
+
+	if (ff=="BMP") return loadBMP(filename);
+	if (ff=="TGA") return loadTGA(filename);
+	if (ff=="PNG") return loadPNG(filename);
+	return false;
+}
+bool Texture::load(const hst::wstring & filename)
+{
+	char * tmp=new char[2*filename.length()+2];
+	wcstombs(tmp,filename.data(),2*filename.length()+2);
+	hst::string tt(tmp);
+	delete tmp;
+	return load(tt);
+}

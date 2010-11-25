@@ -21,8 +21,8 @@ void rend_toggle(const sad::Event & o)
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
 {
 	sad::Texture * tex=new sad::Texture();
-	hst::string  testString("RLE.tga");
-	tex->loadTGA(testString);
+	hst::string  testString("examples/RLE.bmp");
+	tex->load(testString);
 	sad::TextureManager::instance()->load("TEST",tex);
     sad::Texture * test=sad::TextureManager::instance()->get("TEST");
 	test->setAlpha(32);
