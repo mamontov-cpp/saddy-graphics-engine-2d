@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 #endif
 {
 	sad::Texture * tex=new sad::Texture();
-	hst::string  testString("examples/georgia.PNG");
+	hst::string  testString("examples/times_red.PNG");
 	bool result=tex->loadPNG(testString);
 	sad::TextureManager::instance()->load("TEST",tex);
     sad::Texture * test=sad::TextureManager::instance()->get("TEST");
