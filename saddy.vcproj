@@ -340,6 +340,10 @@
 				Name="extra"
 				>
 				<File
+					RelativePath=".\src\extra\collidable.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\statemachine.cpp"
 					>
 				</File>
@@ -505,6 +509,10 @@
 			<Filter
 				Name="extra"
 				>
+				<File
+					RelativePath=".\include\extra\collidable.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\extra\statemachine.h"
 					>
