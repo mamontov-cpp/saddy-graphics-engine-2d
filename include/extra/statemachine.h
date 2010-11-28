@@ -5,6 +5,7 @@
 */
 #include "types.h"
 #include <stdlib.h>
+#pragma once
 
 extern int high_score, current_score;
 extern int player_health_point;
