@@ -5,6 +5,7 @@
 #include "fontnode.h"
 #include "texturemanager.h"
 #include "fontmanager.h"
+#include "movitem.h"
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
 
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
 
 	
 	sc->add( new TestNode(test,(float)rand()/RAND_MAX*0.2f - 0.1f,(float)rand()/RAND_MAX*0.2f - 0.1f,0.06f) );
+	sc->add( new PlayerBullet(217.0f, 0.2f, 0.15f, 0.5f, test, 0.0f, 0.0f, 0.5f, 0.5f) );
 	if (res)
         	sc->add( new TestFontNode(fnt));
 
