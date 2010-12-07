@@ -10,7 +10,9 @@
 
 
 #ifdef   _WIN32
+	#undef   _WIN32_WINNT
     #define _WIN32_WINNT  0x0501
+    #undef _WIN32_WINDOWS
     #define _WIN32_WINDOWS 0x0501
 	#include <windows.h>
     #include <gl/gl.h>														

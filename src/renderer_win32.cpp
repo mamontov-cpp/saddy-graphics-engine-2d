@@ -219,7 +219,7 @@ void sad::Renderer::update()
 sad::Renderer::Renderer(void)
 {
   m_windowtitle="SadExample";
-  m_created=NULL;
+  m_created=false;
   m_currentscene=NULL;
   m_created=false;
   this->m_window.hRC=NULL;

@@ -25,8 +25,8 @@ template<class T1,class T2> pair<T1,T2>& pair<T1,T2>::operator=(const pair<T1,T2
 template<class T1,class T2> pair<T1,T2>::~pair()
 {
 }
-template<class T1,class T2> bool pair<T1,T2>::operator==(const pair & o) {return m_1==o.m_1 && m_2==o.m_2;}
-template<class T1,class T2> bool pair<T1,T2>::operator!=(const pair & o) {return !((*this)==o);}
+template<class T1,class T2> bool pair<T1,T2>::operator==(const pair & o) const {return m_1==o.m_1 && m_2==o.m_2;}
+template<class T1,class T2> bool pair<T1,T2>::operator!=(const pair & o) const {return !((*this)==o);}
 template<class T1,class T2> const T1 & pair<T1,T2>::p1() const {return m_1;}
 template<class T1,class T2> const T2 & pair<T1,T2>::p2() const {return m_2;}
 template<class T1,class T2> inline pair<T1,T2> & pair<T1,T2>::set1(const T1 & p) { m_1=p;return *this; }
