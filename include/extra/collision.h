@@ -100,3 +100,4 @@ bool optimizedcollides(const hst::xyrect & r1f,
 					   const hst::xyrect & r2f,
 					   const hst::xyrect & r2s
 			          );
+

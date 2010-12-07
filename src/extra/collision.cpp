@@ -53,7 +53,7 @@ hst::xyrect getCollisionRect(const hst::xyrect & r1, const hst::xyrect & r2)
 	float colheight=0;                 //Height of collision
 	colwidth =get1DCollision((float)(r1[0].x()),(float)(r1[1].x()),(float)(r2[0].x()),(float)(r2[1].x()));
 	colheight=get1DCollision((float)(r1[0].y()),(float)(r1[3].y()),(float)(r2[0].y()),(float)(r2[3].y()));
-	if (abs(colwidth)>0.0001 && abs(colheight)>0.0001) //They are colliding
+	if (fabs(colwidth)>0.0001 && fabs(colheight)>0.0001) //They are colliding
 	{
 		result.setHeight(colheight);
 		result.setWidth(colwidth);
@@ -75,13 +75,13 @@ bool collides(const hst::xyrect & r1,const hst::xyrect & r2)
  colwidth =get1DCollision((float)(r1[0].x()),(float)(r1[1].x()),(float)(r2[0].x()),(float)(r2[1].x()));
  colheight=get1DCollision((float)(r1[0].y()),(float)(r1[3].y()),(float)(r2[0].y()),(float)(r2[3].y()));
  //CFIX_LOG(L"Width:%d Height:%d\n",abs(colwidth)>0.001,abs(colheight)>0.001);
- if (abs(colwidth)>0.0001 && abs(colheight)>0.0001) //If they are collides
+ if (fabs(colwidth)>0.0001 && fabs(colheight)>0.0001) //If they are collides
 	 return true;
  else
 	 return false;
  
 }
-inline bool iseqf(float f1,float f2) {return abs(f1-f2)<0.1;}
+inline bool iseqf(float f1,float f2) {return fabs(f1-f2)<0.1;}
 bool     collides(const hLine & li1, const  hLine & li2,axle_t ax)
 {
    h1DLine l1=li1.proect(ax),l2=li2.proect(ax); //Use projection functions
@@ -99,7 +99,7 @@ bool     collides(const hLine & li1, const  hLine & li2,axle_t ax)
 	   if (iseqf(l2.p1(),l1.p2()) )
 		   return true;
    }
-   return abs(get1DCollision(l1,l2))>0.0001;   
+   return fabs(get1DCollision(l1,l2))>0.0001;   
 }
 bool     collides(const hLine & li1,const  hLine & li2)
 {
@@ -125,8 +125,8 @@ bool     collides(const hLine & l,const hst::xyrect & r)
 	h1DLine vorrect((float)(r.p().y()),(float)(r.p().y()+r.height()));
     h1DLine hline=l.proect(0);
 	h1DLine vline=l.proect(M_PI/2);
-	bool  vcollides=abs(get1DCollision(vorrect,vline))>0.001;
-	bool  hcollides=abs(get1DCollision(horrect,hline))>0.001;
+	bool  vcollides=fabs(get1DCollision(vorrect,vline))>0.001;
+	bool  hcollides=fabs(get1DCollision(horrect,hline))>0.001;
 	return vcollides && hcollides;
 }
 bool     collides(const hPointF & p1,const hPointF & p2,const hst::xyrect & r)
@@ -147,7 +147,7 @@ bool    getCollisionPoint(const hLine & l1, const hLine & l2,hPointF & res)
 		By the Kramer method
 	 */
 	 float D=s1.k1*s2.k2-s1.k2*s2.k1;
-	 if (abs(D)>0.001)               //If lines not fully colliding
+	 if (fabs(D)>0.001)               //If lines not fully colliding
 	 {
        float D1=s1.b*s2.k2-s2.b*s1.k2;
  	   float D2=s2.b*s1.k1-s1.b*s2.k1;
