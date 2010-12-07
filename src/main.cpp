@@ -17,13 +17,15 @@ void rend_toggle(const sad::Event & o)
 {
 	sad::Renderer::instance().toggleFullscreen();
 }
-
+sad::Texture * tex;
 void rend_mouseclick(const sad::Event & o)
 {
 	hst::log::inst()->write(hst::string("Click parameters: \n"));
 	hst::log & lg=hst::log::inst()->write(o.x);
 	lg.write(' ').write(o.y).write(' ').write(o.z);
 	lg.write(hst::string("\n\\Click parameters\n"));
+
+	sad::Renderer::instance().getCurrentScene()->add(new TestNode(tex,o.x,o.y,0.01));
 }
 
 void testCollision(Collidable * o1,Collidable * o2)
@@ -55,7 +57,7 @@ int main(int argc, char** argv)
 	{
 		delete fnt;
 	}
-	sad::Texture * tex=new sad::Texture();
+	tex=new sad::Texture();
 	hst::string  testString("examples/times_red.PNG");
 	bool result=tex->loadPNG(testString);
 	sad::TextureManager::instance()->load("TEST",tex);
@@ -67,7 +69,7 @@ int main(int argc, char** argv)
 
 
 	
-	sc->add( new TestNode(test,(float)rand()/RAND_MAX*0.2f - 0.1f,(float)rand()/RAND_MAX*0.2f - 0.1f,0.06f) );
+	sc->add( new TestNode(test,0.000203f,0.0051091f,0.01f) );
 	if (res)
         	sc->add( new TestFontNode(fnt));
 	sc->add(new CollisionTester());
