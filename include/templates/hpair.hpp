@@ -46,13 +46,13 @@ class pair
               \param[in] o other pair
               \return true if equal
           */
-          bool operator==(const pair & o);
+          bool operator==(const pair & o) const;
 
           /*! Equiualence operator
               \param[in] o other pair
               \return true if not equal
           */
-          bool operator!=(const pair & o);
+          bool operator!=(const pair & o) const;
 
 
           /*! Returns first property

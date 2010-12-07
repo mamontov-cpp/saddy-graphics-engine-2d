@@ -348,6 +348,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\extra\collisionmanager.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\hline.cpp"
 					>
 				</File>
@@ -527,6 +531,10 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\collision.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\collisionmanager.h"
 					>
 				</File>
 				<File
