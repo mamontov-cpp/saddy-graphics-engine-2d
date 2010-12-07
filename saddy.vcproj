@@ -344,6 +344,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\extra\collision.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\extra\hline.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\extra\hxyrect.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\statemachine.cpp"
 					>
 				</File>
@@ -511,6 +523,18 @@
 				>
 				<File
 					RelativePath=".\include\extra\collidable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\collision.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\hline.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\hxyrect.h"
 					>
 				</File>
 				<File

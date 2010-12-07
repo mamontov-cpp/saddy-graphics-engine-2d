@@ -3,12 +3,12 @@
 
 	Contains a definitions of collidable basic objects and a collision detector node
 */
-#include "hrect.h"
+#include "hxyrect.h"
 #include "scene.h"
 #pragma once
 /*! Bounding box
 */
-typedef hRectF BoundingBox;
+typedef hst::xyrect BoundingBox;
 /*! Collidable basic object
 */
 class Collidable: public sad::BasicNode
