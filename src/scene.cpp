@@ -131,3 +131,11 @@ void sad::Camera::apply()
 	glTranslatef(m_curX,m_curY,m_curZ);
 	glRotatef(m_angle,m_rotX,m_rotY,m_rotZ);
 }
+
+void sad::Scene::clear()
+{
+	m_layers.clear();
+	m_nodehash.clear();
+	m_marked.clear();
+	m_toadd.clear();
+}
