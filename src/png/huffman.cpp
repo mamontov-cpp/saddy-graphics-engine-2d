@@ -93,4 +93,3 @@ int huffman::generateFromLengthArray(
 	}
  return 0;
 }
-

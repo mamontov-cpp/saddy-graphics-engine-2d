@@ -129,8 +129,10 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 	winx=(float)x;
 	winy=(float)(viewport[3])-(float)(y);
 
-	winz=this->getCurrentScene()->camera().z();
-	//glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+	winz=0.8;
+	//winz=this->getCurrentScene()->camera().z();
+	glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+    if (fabs(winz-0.8f)>0.1f) winz=0.8f;
 
 	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
 
