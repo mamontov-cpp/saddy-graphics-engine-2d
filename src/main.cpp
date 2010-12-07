@@ -18,6 +18,14 @@ void rend_toggle(const sad::Event & o)
 	sad::Renderer::instance().toggleFullscreen();
 }
 
+void rend_mouseclick(const sad::Event & o)
+{
+	hst::log::inst()->write(hst::string("Click parameters: \n"));
+	hst::log & lg=hst::log::inst()->write(o.x);
+	lg.write(' ').write(o.y).write(' ').write(o.z);
+	lg.write(hst::string("\n\\Click parameters\n"));
+}
+
 void testCollision(Collidable * o1,Collidable * o2)
 {
 
@@ -67,7 +75,8 @@ int main(int argc, char** argv)
 	sad::Renderer::instance().setWindowTitle("My new sad window");
 	
 	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
-	sad::Input::inst()->bindKeyDown('F',rend_toggle);	
+	sad::Input::inst()->bindKeyDown('F',rend_toggle);
+	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	//Here must be an initialization of engine, and running it
 
 							 
@@ -75,7 +84,8 @@ int main(int argc, char** argv)
 	test->buildMipMaps();
 	test->enable();
 	sad::Renderer::instance().run();
- 
+	hst::log::inst()->save("log.txt");
+
 	return 0;
 }
 
