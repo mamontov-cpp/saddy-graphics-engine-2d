@@ -67,9 +67,13 @@ void MovingItem::render()
     
 	glEnd();
 
-	m_angle+=0.01;
+	
 
-	move();
+	if (!paused)
+	{
+		m_angle+=0.01;
+		move();
+	}
 }
 
 int PlayerBullet::Type=25;
@@ -150,7 +154,78 @@ void ShootingEnemy::render()
 	{
 		m_lastclock=clock();
 		Vector bdir(0.08*cos(m_angle),0.08*sin(m_angle));
+		if (!paused)
 		sad::Renderer::instance().getCurrentScene()->markForAddition(new EnemyBullet(bdir,m_draw,0.5));
 	}
 	this->MovingItem::render();
+}
+
+int EnemyEmitter::Type=65;
+
+EnemyEmitter::~EnemyEmitter()
+{
+
+}
+void EnemyEmitter::render()
+{
+	(this->*m_r)();
+}
+
+#define ADD_SCENE(X) sad::Renderer::instance().getCurrentScene()->markForAddition(new X);
+void EnemyEmitter::renderSpawn()
+{
+	if (paused) return;
+	if (clock()-m_clk<SPAWN_FREQ)
+		return;
+
+	m_clk=clock();
+
+	float rrx=((float)rand()/RAND_MAX)*(BOUND_X2-BOUND_X1)+BOUND_X1;
+	float rry=((float)rand()/RAND_MAX)*(BOUND_Y2-BOUND_Y1)+BOUND_Y1;
+		
+	int mx=(int)(((float)rand()/RAND_MAX)*4);
+	if (mx==4) --mx;
+	
+	float spdx=((float)rand()/RAND_MAX)*0.1f-0.05f;
+	float spdy=((float)rand()/RAND_MAX)*0.1f-0.05f;
+	
+	if (mx==0) ADD_SCENE(EnemyBullet(Vector(spdx,spdy),BoundingBox(hPointF(rrx,rry),0.02,0.02),0.5));
+	if (mx==1) ADD_SCENE(ShootingEnemy(Vector(spdx,spdy),BoundingBox(hPointF(rrx,rry),0.02,0.02),0.8));
+	if (mx==2) ADD_SCENE(Enemy(Vector(spdx,spdy),BoundingBox(hPointF(rrx,rry),0.02,0.02),0.8));
+	if (mx==3) ADD_SCENE(Bonus(Vector(spdx,spdy),BoundingBox(hPointF(rrx,rry),0.02,0.02),0.8));
+}
+void EnemyEmitter::renderRain()
+{
+	if (paused) return;
+	if (clock()-m_clk<SPAWN_FREQ4)
+		return;
+	
+	m_clk=clock();
+	if (rand()<RAND_MAX/2)
+	{
+		float rr=((float)rand()/RAND_MAX)*(BOUND_X2-BOUND_X1)+BOUND_X1;
+		int mx=(int)(((float)rand()/RAND_MAX)*3);
+		if (mx==3) --mx;
+		
+		if (mx==0) ADD_SCENE(EnemyBullet(Vector(0.05,-0.05),BoundingBox(hPointF(rr,BOUND_Y2),0.02,0.02),0.5));
+		if (mx==1) ADD_SCENE(Bonus(Vector(0.05,-0.05),BoundingBox(hPointF(rr,BOUND_Y2),0.02,0.02),0.8));
+		if (mx==2) ADD_SCENE(Enemy(Vector(0.05,-0.05),BoundingBox(hPointF(rr,BOUND_Y2),0.02,0.02),0.8));
+	}
+	else
+	{
+		float rr=((float)rand()/RAND_MAX)*(BOUND_Y2-BOUND_Y1)+BOUND_Y1;
+		int mx=((float)rand()/RAND_MAX)*3;
+		if (mx==3) --mx;
+		if (mx==0) ADD_SCENE(EnemyBullet(Vector(0.05,-0.05),BoundingBox(hPointF(BOUND_X1,rr),0.02,0.02),0.5));
+		if (mx==1) ADD_SCENE(Bonus(Vector(0.05,-0.05),BoundingBox(hPointF(BOUND_X1,rr),0.02,0.02),0.8));
+		if (mx==2) ADD_SCENE(Enemy(Vector(0.05,-0.05),BoundingBox(hPointF(BOUND_X1,rr),0.02,0.02),0.8));
+	}
+}
+
+EnemyEmitter::EnemyEmitter(int what)
+{
+	if (what==REAL_SPAWN)
+		m_r=&EnemyEmitter::renderSpawn;
+	else
+		m_r=&EnemyEmitter::renderRain;
 }

@@ -11,6 +11,9 @@ extern int high_score, current_score;
 extern int player_health_point;
 extern bool paused;
 
+#define IDLE_STATE 0
+#define PLAY_STATE 1
+
 /* Class of handler of state change. 
 */
 class StateHandler 

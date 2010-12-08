@@ -34,17 +34,17 @@ void rend_mouseclick(const sad::Event & o)
 	float fx=((float)rand())/RAND_MAX*0.04-0.02;
 	float fy=((float)rand())/RAND_MAX*0.04-0.02;
 
-	sad::Renderer::instance().getCurrentScene()->add(new ShootingEnemy(
+	sad::Renderer::instance().getCurrentScene()->add(new PlayerBullet(
 		                   Vector(fx,fy),
 						   BoundingBox(hPointF(o.x,o.y),0.02,0.02),
-						   1.0
+						   0.9
 						  ));
 	
 }
 
-void testCollision(Collidable * o1,Collidable * o2)
+void playerbullet(Collidable * bullet,Collidable * enemy)
 {
-
+	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
 }
 
 #include<math.h>
@@ -105,7 +105,6 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	CollisionManager::bind(0,0,new CollisionHandler(testCollision));
 
 	sad::Renderer::instance().init(sad::Settings(640,480,false));
 	
@@ -117,6 +116,7 @@ int main(int argc, char** argv)
 	sc->add(new CollisionTester());
 	sc->add(new Background("title"));
 	sc->add(new StateLabel(HIGHSCORE,"times_large"));
+	sc->add(new EnemyEmitter(IDLE_RAIN));
 
 	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("sad::Game");
@@ -127,7 +127,9 @@ int main(int argc, char** argv)
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	//Here must be an initialization of engine, and running it
 
-							 
+	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
+	CollisionManager::bind(PlayerBullet::Type,ShootingEnemy::Type,new CollisionHandler(playerbullet));
+					 
 	
 	sad::TextureManager::buildAll();
 	sad::Renderer::instance().run();
