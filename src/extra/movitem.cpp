@@ -1,97 +1,156 @@
 #include "movitem.h"
 
-MovingItem::MovingItem() {
+
+BoundingBox MovingItem::rect()
+{
+	return m_box;
 }
-MovingItem::MovingItem(float angle, float x, float y, float speed, sad::Texture *tex, float lx, float ly, float hx, float hy) {
-	construct(angle, x, y, speed, tex, lx, ly, hx, hy);
+MovingItem::~MovingItem()
+{
+
 }
-void MovingItem::construct(float angle, float x, float y, float speed, sad::Texture *tex, float lx, float ly, float hx, float hy) {
-	setTexture(tex, lx, ly, hx, hy);
-	angle = angle*3.14/180;
-	m_cos = cos(angle);
-	m_sin = sin(angle);
-	m_cos0 = cos(angle+0.785f);
-	m_sin0 = sin(angle+0.785f);
-	m_cos1 = cos(angle+2.355f);
-	m_sin1 = sin(angle+2.355f);
-	m_cos2 = cos(angle+3.925f);
-	m_sin2 = sin(angle+3.925f);
-	m_cos3 = cos(angle+5.495f);
-	m_sin3 = sin(angle+5.495f);
-	m_x = x;
-	m_y = y;
-	m_speed = speed;
-	m_time = 0;
-	setId();
-	setRadius();
+
+void MovingItem::move()
+{
+ float fps=(float)sad::Renderer::instance().fps();
+ if (fps<10) fps=80;
+  Vector dir=m_direct*(1.0f/fps);
+  m_box.moveBy(dir);
+  m_draw.moveBy(dir);
+  
+  hPointF center=(m_draw[0]+m_draw[2])/2;
+  if (center.x()<-0.275042 || 
+	  center.x()>0.274406  ||
+	  center.y()<-0.205373 ||
+	  center.y()>0.206282  
+	  )
+  sad::Renderer::instance().getCurrentScene()->markForDeletion(this);
 }
-bool MovingItem::calcNewPos() {
-	float time, delta_time;
-	time = (float)sad::Renderer::instance().elapsedInMSeconds();
-	if (time>m_time) {
-		delta_time = time - m_time;
-	} else {
-		delta_time = time + 1000 - m_time;
-	}
-	m_time = time;
-	m_x = m_x+m_speed*m_cos*delta_time*0.0000001;
-	m_y = m_y+m_speed*m_sin*delta_time*0.0000001;
-	bool out;
-	if (m_x<-0.3f || m_x>0.3f || m_y<-0.3f || m_y>0.3f) {
-		out = true;
-	} else {
-		out = false;
-	}
-	if (out) {
-		sad::Renderer::instance().getCurrentScene()->markForDeletion((sad::BasicNode*)this);
-	}
-	return !out;
+MovingItem::MovingItem(sad::Texture * tex,
+		               const Vector & vec,
+		               const BoundingBox &  draw, 
+			           float percent
+			           )
+{
+	m_angle=0.0f;
+	m_tex=tex;
+	m_direct=vec;
+	m_draw=draw;
+    
+	m_box=draw.enlarged(draw.width()*(percent-1),draw.height()*(percent-1));
 }
-void MovingItem::setTexture(sad::Texture *tex,float lx, float ly, float hx, float hy) {
-	m_tex = tex;
-	m_lx = lx;
-	m_ly = ly;
-	m_hx = hx;
-	m_hy = hy;
-}
-void MovingItem::render() {
-	if (calcNewPos()) {
-		m_tex->enable();
-		glBegin(GL_QUADS);
+
+void MovingItem::render()
+{
+	float m_x=m_draw.p().x()+m_draw.width()/2;
+	float m_y= m_draw.p().y()+m_draw.height()/2;
+	float m_hw=m_draw.width()/2;
+	float m_hh=m_draw.height()/2;
+
+    float m_cos=m_hw*cos(m_angle);
+	float m_sin=m_hh*sin(m_angle);
+	float dx=m_cos-m_sin;
+	float dy=m_cos+m_sin;
+
+	m_tex->enable();
+    glBegin(GL_QUADS);
 
 	
-		glTexCoord2f(m_lx, m_ly);	
-		glVertex3f(m_x+m_r*m_sin0,m_y+m_r*m_cos0,0.5);
-		glTexCoord2f(m_lx, m_hy);
-		glVertex3f(m_x+m_r*m_sin1,m_y+m_r*m_cos1,0.5);
-		glTexCoord2f(m_hx, m_hy);
-		glVertex3f(m_x+m_r*m_sin2,m_y+m_r*m_cos2,0.5);
-		glTexCoord2f(m_hx, m_ly);
-		glVertex3f(m_x+m_r*m_sin3,m_y+m_r*m_cos3,0.5);
+	glTexCoord2f(0.0f,0.0f);	
+		glVertex3f(m_x-dx,m_y-dy,ZAX );
+	glTexCoord2f(0.0f,1.0f);
+		glVertex3f(m_x-dy,m_y+dx,ZAX );
+	glTexCoord2f(1.0f,1.0f);
+		glVertex3f(m_x+dx,m_y+dy,ZAX );
+	glTexCoord2f(1.0f,0.0f);
+		glVertex3f(m_x+dy,m_y-dx,ZAX );
     
-		glEnd();
+	glEnd();
+
+	m_angle+=0.01;
+
+	move();
+}
+
+int PlayerBullet::Type=25;
+
+PlayerBullet::PlayerBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+{
+  m_type=PlayerBullet::Type;
+  m_tex=sad::TextureManager::instance()->get("playerbullet");   
+  CollisionManager::add(this);
+}
+PlayerBullet::~PlayerBullet()
+{
+	CollisionManager::remove(this);
+}
+
+int EnemyBullet::Type=26;
+
+EnemyBullet::EnemyBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+{
+  m_type=EnemyBullet::Type;
+  m_tex=sad::TextureManager::instance()->get("enemybullet");   
+  CollisionManager::add(this);
+}
+EnemyBullet::~EnemyBullet()
+{
+	CollisionManager::remove(this);
+}
+
+
+int Bonus::Type=27;
+
+Bonus::Bonus(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+{
+  m_type=Bonus::Type;
+  m_tex=sad::TextureManager::instance()->get("bonus");   
+  CollisionManager::add(this);
+}
+Bonus::~Bonus()
+{
+	CollisionManager::remove(this);
+}
+
+
+int Enemy::Type=28;
+#define GET_TEX(X) sad::TextureManager::instance()->get(X)
+Enemy::Enemy(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+{
+  m_type=Enemy::Type;
+  int r=(int)(((float)rand())/RAND_MAX*3.0f);
+  if (r==3)--r;
+  if (r==0) m_tex=GET_TEX("halfsmile");
+  if (r==1) m_tex=GET_TEX("neutral");
+  if (r==2) m_tex=GET_TEX("smile");
+  CollisionManager::add(this);
+}
+Enemy::~Enemy()
+{
+	CollisionManager::remove(this);
+}
+
+int ShootingEnemy::Type=29;
+
+ShootingEnemy::ShootingEnemy(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+{
+  m_type=ShootingEnemy::Type;
+  m_tex=GET_TEX("largesmile");
+  m_lastclock=0;
+  CollisionManager::add(this);
+}
+ShootingEnemy::~ShootingEnemy()
+{
+	CollisionManager::remove(this);
+}
+
+void ShootingEnemy::render()
+{
+	if (clock()-m_lastclock>SHOOT_FREQ)
+	{
+		m_lastclock=clock();
+		Vector bdir(0.08*cos(m_angle),0.08*sin(m_angle));
+		sad::Renderer::instance().getCurrentScene()->markForAddition(new EnemyBullet(bdir,m_draw,0.5));
 	}
-}
-void MovingItem::setRadius() {
-	m_r = 0.01f;
-}
-void MovingItem::setId() {
-}
-void PlayerBullet::setId() {
-	m_id = 25;
-}
-PlayerBullet::PlayerBullet(float angle, float x, float y, float speed, sad::Texture *tex, float lx, float ly, float hx, float hy) {
-	construct(angle, x, y, speed, tex, lx, ly, hx, hy);
-}
-void EnemyBullet::setId() {
-	m_id = 26;
-}
-EnemyBullet::EnemyBullet(float angle, float x, float y, float speed, sad::Texture *tex, float lx, float ly, float hx, float hy) {
-	construct(angle, x, y, speed, tex, lx, ly, hx, hy);
-}
-void Bonus::setId() {
-	m_id = 28;
-}
-Bonus::Bonus(float angle, float x, float y, float speed, sad::Texture *tex, float lx, float ly, float hx, float hy) {
-	construct(angle, x, y, speed, tex, lx, ly, hx, hy);
+	this->MovingItem::render();
 }

@@ -17,9 +17,13 @@ void rend_quit(const sad::Event & o)
 }
 void rend_toggle(const sad::Event & o)
 {
-	sad::Renderer::instance().toggleFullscreen();
+	if (!paused)
+		sad::Renderer::instance().toggleFullscreen();
 }
-
+void rend_pause(const sad::Event & o)
+{
+	paused=!paused;
+}
 void rend_mouseclick(const sad::Event & o)
 {
 	hst::log::inst()->write(hst::string("Click parameters: \n"));
@@ -27,6 +31,14 @@ void rend_mouseclick(const sad::Event & o)
 	lg.write(' ').write(o.y).write(' ').write(o.z);
 	lg.write(hst::string("\n\\Click parameters\n"));
 
+	float fx=((float)rand())/RAND_MAX*0.04-0.02;
+	float fy=((float)rand())/RAND_MAX*0.04-0.02;
+
+	sad::Renderer::instance().getCurrentScene()->add(new ShootingEnemy(
+		                   Vector(fx,fy),
+						   BoundingBox(hPointF(o.x,o.y),0.02,0.02),
+						   1.0
+						  ));
 	
 }
 
@@ -49,7 +61,7 @@ inline bool loadSprite(const char * from,const char * texname)
 {
 	sad::Texture * tex=new sad::Texture();
 	bool res=tex->load(hst::string(from));
-	tex->setAlpha(255,hst::color(255,255,255),20);
+	tex->setAlpha(255,hst::color(255,255,255),90);
 	sad::TextureManager::instance()->load(texname,tex);
 	return res;
 }
@@ -82,7 +94,7 @@ int main(int argc, char** argv)
     res=res && loadSprite("examples/neutral.png","neutral");
 	res=res && loadSprite("examples/sad.png","sad");
 	res=res && loadSprite("examples/smile.png","smile");
-	res=res && loadSprite("examples/enemybullet.tga","enemybullet");
+	res=res && loadSprite("examples/enemybullet.bmp","enemybullet");
 	res=res && loadSprite("examples/playerbullet.bmp","playerbullet");
 	res=res && loadSprite("examples/bonus.bmp","bonus");
 
@@ -111,6 +123,7 @@ int main(int argc, char** argv)
 	
 	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
 	sad::Input::inst()->bindKeyDown('F',rend_toggle);
+	sad::Input::inst()->bindKeyDown('P',rend_pause);
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	//Here must be an initialization of engine, and running it
 
