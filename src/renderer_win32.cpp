@@ -81,7 +81,7 @@ bool sad::Renderer::createWindow()
 	AdjustWindowRectEx(&rect,style,FALSE,ex_style);
 
 	//Create error
-	m_window.hWND=CreateWindowEx(ex_style,UNIQUE_CLASS_NAME,m_windowtitle.data(),style,
+	m_window.hWND=CreateWindowExA(ex_style,UNIQUE_CLASS_NAME,m_windowtitle.data(),style,
 		                         0,0,rect.right-rect.left,rect.bottom-rect.top,
 								 NULL,NULL,m_window.hInstance,NULL);
 
@@ -232,7 +232,7 @@ void sad::Renderer::setWindowTitle(const hst::string & s)
 {
 	m_windowtitle=s;
 	if (m_window.hWND)
-         SetWindowText(m_window.hWND,s.data()); 
+         SetWindowTextA(m_window.hWND,s.data()); 
 }
 void sad::Renderer::quit()
 {
