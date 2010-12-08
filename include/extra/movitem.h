@@ -6,9 +6,9 @@
 	A movable item, is an item, that moves in one direction, until reaches
 	an end of screen, or some other condition. Also it rotates. 
 */
-#include "types.h"
 #include "renderer.h"
 #include <math.h>
+#include "statemachine.h"
 #include "collisionmanager.h"
 #include "texturemanager.h"
 #pragma once
@@ -139,3 +139,28 @@ class ShootingEnemy: public MovingItem
 		void render();
 		~ShootingEnemy();
 };
+
+#define SPAWN_FREQ 900
+#define SPAWN_FREQ4 350
+#define IDLE_RAIN  1
+#define REAL_SPAWN 2
+#define BOUND_X1 -0.275042f
+#define BOUND_X2 0.274406f
+#define BOUND_Y1 -0.205373f
+#define BOUND_Y2 0.185373f
+/*! Class, that periodicly emits some enemies
+*/
+class EnemyEmitter:public sad::BasicNode
+{
+ private:
+	     clock_t m_clk;
+		 void (EnemyEmitter::*m_r)();
+ public:
+	     static int Type;
+	     EnemyEmitter(int what=REAL_SPAWN);
+		 void render();
+		 void renderRain();
+		 void renderSpawn();
+		 ~EnemyEmitter();
+};
+
