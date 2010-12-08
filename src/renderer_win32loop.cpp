@@ -178,7 +178,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		}
 		char af[5];
-		GetKeyNameText(lParam,af,5);
+		GetKeyNameTextA(lParam,af,5);
 		if (uMsg==WM_KEYUP)
 				sad::Input::inst()->postKeyDown(sad::Event((int)(af[0])));
 		else

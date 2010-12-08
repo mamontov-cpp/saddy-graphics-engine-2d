@@ -55,7 +55,7 @@ Win32Font::Win32Font(hString &name, int size, HDC hdc) {
 */
 void Win32Font::loadWin32Font(hString &name, int size) {
 #ifdef WIN32
-	tfont temp_Win32Font = CreateFont(
+	tfont temp_Win32Font = CreateFontA(
 		-size, //Размер шрифта, знак минус означает: считать размер символа а не ячейки
 		0, //ширина шрифта
 		0, //угол отношения

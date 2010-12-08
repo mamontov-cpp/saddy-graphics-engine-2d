@@ -16,6 +16,6 @@ TestFontNode::~TestFontNode()
 void TestFontNode::render()
 {
 	hst::string test("Test");
-	hRectF rect(pointf(-0.06,-0.06),pointf(0.06,0.06));
+	hRectF rect(pointf(-0.01,-0.01),pointf(0.01,0.01));
 	m_fnt->render(test,rect,0.5);
 }
