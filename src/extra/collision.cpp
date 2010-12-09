@@ -242,7 +242,7 @@ bool collides(const hst::xyrect & r1f,
 	if (r2f.p().x()<r2s.p().x()) { det2=h1DLine(r2f.p().x(),r2s.p().x()+r2s.width());}
 	else                         { det2=h1DLine(r2s.p().x(),r2f.p().x()+r2f.width());}    
 
-	float precision=0.0001; 
+	float precision=0.00001; 
 	if (fabs(get1DCollision(det1,det2))<precision) return false;
 	
 
