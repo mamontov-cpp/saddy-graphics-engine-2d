@@ -75,7 +75,7 @@ bool collides(const hst::xyrect & r1,const hst::xyrect & r2)
  colwidth =get1DCollision((float)(r1[0].x()),(float)(r1[1].x()),(float)(r2[0].x()),(float)(r2[1].x()));
  colheight=get1DCollision((float)(r1[0].y()),(float)(r1[3].y()),(float)(r2[0].y()),(float)(r2[3].y()));
  //CFIX_LOG(L"Width:%d Height:%d\n",abs(colwidth)>0.001,abs(colheight)>0.001);
- if (fabs(colwidth)>0.0001 && fabs(colheight)>0.0001) //If they are collides
+ if (fabs(colwidth)>0.00001 && fabs(colheight)>0.00001) //If they are collides
 	 return true;
  else
 	 return false;
