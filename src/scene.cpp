@@ -84,13 +84,25 @@ void sad::Scene::render()
   
   if (!(m_marked.count() || m_toadd.count() || m_clear)) return;
 	
-  if (m_clear)
+  if (!m_clear)
   {
    for (unsigned long i=0;i<m_marked.count();i++)
-	      m_layers.remove(m_marked[i]);
+   {
+	   for (unsigned long j=0;j<m_layers.count();j++)
+	   {
+		  if (m_layers[j]==m_marked[i])
+		  {
+			  delete m_layers[j];
+			  m_layers.removeAt(j);
+			  break;
+		  }
+	   }
+   }      
   }
   else
   {
+	  for (unsigned long i=0;i<m_layers.count();i++)
+		  delete m_layers[i];
 	  m_layers.clear();
 	  m_clear=false;
   }
