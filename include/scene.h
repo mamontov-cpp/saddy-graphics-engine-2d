@@ -84,6 +84,7 @@ class Camera
 class Scene
 {
 private:
+	bool                       m_clear;                 //!< Флаг очистки сцены
 	hst::vector<BasicNode *>   m_layers;                //!< Слои, первый элемент и им же рендерится
 	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Вершина по ноде
 	hst::vector<BasicNode *>   m_marked;                //!< Помеченные для удаления вершины
@@ -121,6 +122,9 @@ public:
 		const hst::string & name=hst::string(),
 		unsigned long lay=(unsigned long)-1
 		);
+	/*! Заставляет сцену очиститься в следующем кадре
+	*/
+	void performCleanup();
 	/*! Удаляет объект из сцены
 	\param[in] name имя объекта
 	*/
