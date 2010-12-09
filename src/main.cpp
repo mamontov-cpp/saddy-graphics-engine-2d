@@ -1,11 +1,7 @@
 #include "renderer.h"
 #include "input.h"
-#include "testnode.h"
-#include "fontnode.h"
-#include "texturemanager.h"
 #include "fontmanager.h"
-#include "collisionmanager.h"
-#include "movitem.h"
+#include "player.h"
 #include "background.h"
 #include "statelabel.h"
 #pragma comment(lib, "OpenGL32.lib")
@@ -24,28 +20,56 @@ void rend_pause(const sad::Event & o)
 {
 	paused=!paused;
 }
+void rend_mousemove(const sad::Event & o)
+{
+	if (Player::instance && !paused)
+	{
+		const BoundingBox & rr=Player::instance->prect();
+		hPointF p=rr.p();
+		p+=hPointF(rr.width()/2,rr.height()/2);
+		float af=atan2(o.x-p.x(),-o.y+p.y())-1.57;
+		Player::instance->setAngle(af);
+	}
+}
 void rend_mouseclick(const sad::Event & o)
 {
-	hst::log::inst()->write(hst::string("Click parameters: \n"));
-	hst::log & lg=hst::log::inst()->write(o.x);
-	lg.write(' ').write(o.y).write(' ').write(o.z);
-	lg.write(hst::string("\n\\Click parameters\n"));
-
-	float fx=((float)rand())/RAND_MAX*0.04-0.02;
-	float fy=((float)rand())/RAND_MAX*0.04-0.02;
-
-	sad::Renderer::instance().getCurrentScene()->add(new PlayerBullet(
-		                   Vector(fx,fy),
-						   BoundingBox(hPointF(o.x,o.y),0.02,0.02),
-						   0.9
-						  ));
-	
+	if (Player::instance && !paused)
+	{
+		Player::instance->shoot();
+	}
 }
-
-void playerbullet(Collidable * bullet,Collidable * enemy)
+#define P_SPEED 0.005
+#define N_SPEED -0.005
+void rend_up(const sad::Event & o)
 {
-	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
+	if (Player::instance && !paused)
+	{
+		Player::instance->move(Vector(0,P_SPEED));
+	}
 }
+void rend_down(const sad::Event & o)
+{
+	if (Player::instance && !paused)
+	{
+		Player::instance->move(Vector(0.00,N_SPEED));
+	}
+}
+
+void rend_left(const sad::Event & o)
+{
+	if (Player::instance && !paused)
+	{
+		Player::instance->move(Vector(N_SPEED,0.0));
+	}
+}
+void rend_right(const sad::Event & o)
+{
+	if (Player::instance && !paused)
+	{
+		Player::instance->move(Vector(P_SPEED,0.0));
+	}
+}
+
 
 #include<math.h>
 #include<time.h>
@@ -64,6 +88,44 @@ inline bool loadSprite(const char * from,const char * texname)
 	tex->setAlpha(255,hst::color(255,255,255),90);
 	sad::TextureManager::instance()->load(texname,tex);
 	return res;
+}
+
+bool toggle_idle(int)
+{
+	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
+
+	sc->performCleanup();
+	sc->markForAddition(new Background("title"));
+	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
+	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
+	
+	return true;
+}
+bool toggle_play(int)
+{
+	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
+
+	sc->performCleanup();
+	sc->markForAddition(new CollisionTester());
+	sc->markForAddition(new Background("background"));
+	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
+	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
+    sc->markForAddition(new Player(BoundingBox(hPointF(0.0,0.0),0.02,0.02),0.7));
+
+	return true;
+}
+
+void toggle_state(const sad::Event & o)
+{
+	if (StateMachine::state()==IDLE_STATE)
+		StateMachine::pushState(PLAY_STATE);
+	else
+		StateMachine::pushState(IDLE_STATE);
+}
+
+void playerbullet(Collidable * bullet,Collidable * enemy)
+{
+	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
 }
 
 #ifdef WIN32
@@ -105,26 +167,27 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-
-	sad::Renderer::instance().init(sad::Settings(640,480,false));
-	
-		
+	sad::Renderer::instance().init(sad::Settings(640,480,false));	
 	srand(time(NULL));
-
 	sad::Scene * sc= new sad::Scene();
-	
-	sc->add(new CollisionTester());
-	sc->add(new Background("title"));
-	sc->add(new StateLabel(HIGHSCORE,"times_large"));
-	sc->add(new EnemyEmitter(IDLE_RAIN));
-
 	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("sad::Game");
 	
 	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
 	sad::Input::inst()->bindKeyDown('F',rend_toggle);
 	sad::Input::inst()->bindKeyDown('P',rend_pause);
+	sad::Input::inst()->bindKeyDown(KEY_TAB,rend_mouseclick);
+	sad::Input::inst()->bindKeyDown(KEY_UP,rend_up);
+	sad::Input::inst()->bindKeyDown(KEY_DOWN,rend_down);
+	sad::Input::inst()->bindKeyDown(KEY_LEFT,rend_left);
+	sad::Input::inst()->bindKeyDown(KEY_RIGHT,rend_right);
+	sad::Input::inst()->bindKeyDown(KEY_ENTER,toggle_state);
+
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
+	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
+	
+	StateMachine::bindState(IDLE_STATE,new StateHandler(toggle_idle));
+	StateMachine::bindState(PLAY_STATE,new StateHandler(toggle_play));
 	//Here must be an initialization of engine, and running it
 
 	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
@@ -132,6 +195,9 @@ int main(int argc, char** argv)
 					 
 	
 	sad::TextureManager::buildAll();
+
+	StateMachine::pushState(IDLE_STATE);
+
 	sad::Renderer::instance().run();
 	hst::log::inst()->save("log.txt");
 

@@ -370,6 +370,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\player.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\statelabel.cpp"
 					>
 				</File>
@@ -565,6 +569,10 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\movitem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\player.h"
 					>
 				</File>
 				<File

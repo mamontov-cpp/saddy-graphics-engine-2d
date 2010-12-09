@@ -22,6 +22,7 @@ StateMachine::StateMachine()
 }
 void StateMachine::bindState(int state, StateHandler *handler) 
 {
+	if (!inst) init();
 	if (inst->m_state_list.contains(state)) delete inst->m_state_list[state];
 	inst->m_state_list.insert(state,handler);
 }

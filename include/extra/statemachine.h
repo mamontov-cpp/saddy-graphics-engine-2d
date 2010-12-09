@@ -60,6 +60,9 @@ public:
 	*	\return true on success
 	*/
 	static bool pushState(int state);	
+	/*! Returns current state
+	*/
+	static inline int state()  { return inst->m_state;}
 	/*! Destructor
 	*/
 	~StateMachine();
