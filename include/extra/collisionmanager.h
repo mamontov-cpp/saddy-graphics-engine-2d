@@ -80,6 +80,10 @@ class CollisionManager
 	 */
 	 static void scanGroup(int g1,int g2,CollisionHandler & h);
  public:
+	/*! Updates a rectangle for singletone object.
+	    This object must have only ONE instance, or it will set other object rectangle
+	*/
+	static void updateSingle(Collidable * a);
 	/*! Adds a collidable object
 	*/
 	static void add(Collidable * a);

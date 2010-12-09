@@ -152,6 +152,12 @@ void CollisionManager::unbind(CollisionGroupID id1,CollisionGroupID id2)
 	}
 }
 
+void CollisionManager::updateSingle(Collidable * a)
+{
+	int type=a->type();
+	if (m_boxes.contains(type))
+		m_boxes[type][0]=a->rect();
+}
 void CollisionManager::bind(CollisionGroupID id1, CollisionGroupID id2, CollisionHandler * h)
 {
 	static bool init=false;

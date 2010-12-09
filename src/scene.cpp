@@ -26,7 +26,7 @@ sad::BasicNode::~BasicNode()
 }
 sad::Scene::Scene()
 {
-
+ m_clear=false;
 }
 sad::Scene::~Scene()
 {
@@ -69,6 +69,10 @@ void sad::Scene::remove(const hst::string & name)
 	}
 }
 
+void sad::Scene::performCleanup()
+{
+	m_clear=true;
+}
 void sad::Scene::render()
 {
   m_camera.apply();
@@ -78,10 +82,19 @@ void sad::Scene::render()
 	  m_layers[i]->render();
   }
   
-  if (!(m_marked.count() || m_toadd.count())) return;
+  if (!(m_marked.count() || m_toadd.count() || m_clear)) return;
 	
-  for (unsigned long i=0;i<m_marked.count();i++)
+  if (m_clear)
+  {
+   for (unsigned long i=0;i<m_marked.count();i++)
 	      m_layers.remove(m_marked[i]);
+  }
+  else
+  {
+	  m_layers.clear();
+	  m_clear=false;
+  }
+
   for (unsigned long i=0;i<m_toadd.count();i++)
 	      add(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
   
