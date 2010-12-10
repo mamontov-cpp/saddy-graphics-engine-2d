@@ -79,6 +79,8 @@ inline bool loadTex(const char * from,const char * texname)
 	sad::Texture * tex=new sad::Texture();
 	bool res=tex->load(hst::string(from));
 	sad::TextureManager::instance()->load(texname,tex);
+	if (!res) 
+		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
 	return res;
 }
 inline bool loadSprite(const char * from,const char * texname)
@@ -86,6 +88,9 @@ inline bool loadSprite(const char * from,const char * texname)
 	sad::Texture * tex=new sad::Texture();
 	bool res=tex->load(hst::string(from));
 	tex->setAlpha(255,hst::color(255,255,255),90);
+	if (!res) 
+		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
+	
 	sad::TextureManager::instance()->load(texname,tex);
 	return res;
 }
@@ -148,14 +153,21 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
-	bool res; //!< Is loading succeeded?
+	bool res=true; //!< Is loading succeeded?
 	//Loading fonts
 	sad::TMFont * fnt1=new sad::TMFont;
-	res=res && fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
+	bool res1=true;
+	res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
+	res=res && res1;
+	if (!res1)
+		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed"));
 	sad::FontManager::add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
-	res=res && fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
+	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
+	res=res && res2;
+	if (!res2)
+		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed"));
 	sad::FontManager::add(fnt2,"times_lg");
 
 	//Loading sprites
@@ -177,6 +189,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
+	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
+	
 	sad::Renderer::instance().init(sad::Settings(640,480,false));	
 	srand(time(NULL));
 	sad::Scene * sc= new sad::Scene();
