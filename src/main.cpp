@@ -104,6 +104,9 @@ bool toggle_idle(int)
 bool toggle_play(int)
 {
 	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
+	
+	current_score=0;
+	player_health_point=10;
 
 	sc->performCleanup();
 	sc->markForAddition(new CollisionTester());
@@ -126,6 +129,13 @@ void toggle_state(const sad::Event & o)
 void playerbullet(Collidable * bullet,Collidable * enemy)
 {
 	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
+}
+void playerbonus(Collidable * player, Collidable * bonus)
+{
+	current_score+=100;
+	if (current_score>high_score) { high_score=current_score; }
+	++player_health_point;
+	sad::Renderer::instance().getCurrentScene()->markForDeletion(bonus);
 }
 
 #ifdef WIN32
@@ -192,7 +202,7 @@ int main(int argc, char** argv)
 
 	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
 	CollisionManager::bind(PlayerBullet::Type,ShootingEnemy::Type,new CollisionHandler(playerbullet));
-					 
+	CollisionManager::bind(Player::Type,Bonus::Type,new CollisionHandler(playerbonus));				 
 	
 	sad::TextureManager::buildAll();
 
