@@ -50,6 +50,5 @@ all:
 	g++ -c src/extra/player.cpp           -o  build/player.o     $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
-	rm $(OUTPUT)
-	rm -rf build
+	delete $(OUTPUT)
 .PHONY: all clean

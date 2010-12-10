@@ -40,6 +40,5 @@ all:
 link:
 	g++ --link  $(BUILD)     -shared           -o  $(OUTPUT)    $(LDFLAGS)
 clean:
-	rm $(OUTPUT)
-	rm -rf build
+	delete $(OUTPUT)
 .PHONY: all clean
