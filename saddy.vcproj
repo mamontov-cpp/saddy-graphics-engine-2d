@@ -370,7 +370,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\player.cpp"
+					RelativePath=".\src\extra\player.cpp"
 					>
 				</File>
 				<File
@@ -572,7 +572,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\player.h"
+					RelativePath=".\include\extra\player.h"
 					>
 				</File>
 				<File
