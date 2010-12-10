@@ -1,5 +1,10 @@
 #include "movitem.h"
 
+//#define CLOCK_TEST
+
+#ifdef CLOCK_TEST
+	#include "log.h"
+#endif
 
 BoundingBox MovingItem::rect()
 {
@@ -175,9 +180,19 @@ void EnemyEmitter::render()
 void EnemyEmitter::renderSpawn()
 {
 	if (paused) return;
+#ifdef CLOCK_TEST
+    hst::log::inst()->write(clock());
+	hst::log::inst()->write(' ');
+	hst::log::inst()->write(m_clk);
+	hst::log::inst()->write('\n');
+#endif
 	if (clock()-m_clk<SPAWN_FREQ)
 		return;
 
+#ifdef CLOCK_TEST
+	hst::log::inst()->write(hst::string("EnemyEmitter::renderRain()\n"));
+#endif
+		
 	m_clk=clock();
 
 	float rrx=((float)rand()/RAND_MAX)*(BOUND_X2-BOUND_X1)+BOUND_X1;
@@ -199,7 +214,11 @@ void EnemyEmitter::renderRain()
 	if (paused) return;
 	if (clock()-m_clk<SPAWN_FREQ4)
 		return;
-	
+
+#ifdef CLOCK_TEST
+	hst::log::inst()->write(hst::string("EnemyEmitter::renderRain()\n"));
+#endif
+
 	m_clk=clock();
 	if (rand()<RAND_MAX/2)
 	{
@@ -224,6 +243,7 @@ void EnemyEmitter::renderRain()
 
 EnemyEmitter::EnemyEmitter(int what)
 {
+    m_clk=0;
 	if (what==REAL_SPAWN)
 		m_r=&EnemyEmitter::renderSpawn;
 	else
