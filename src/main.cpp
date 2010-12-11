@@ -127,8 +127,8 @@ void toggle_state(const sad::Event & o)
 {
 	if (StateMachine::state()==IDLE_STATE)
 		StateMachine::pushState(PLAY_STATE);
-	else
-		StateMachine::pushState(IDLE_STATE);
+	//else
+    //		StateMachine::pushState(IDLE_STATE);
 }
 
 void playerbullet(Collidable * bullet,Collidable * enemy)
@@ -151,7 +151,10 @@ void playerenemybullet(Collidable * player, Collidable * enemybullet)
   if (player_health_point<=0) StateMachine::pushState(IDLE_STATE);
 }
 
-
+//#define COLLISION_TEST
+#ifdef COLLISION_TEST
+	extern sad::Texture * bbox_test;
+#endif
 
 #ifdef WIN32
 #ifndef MSVC_RELEASE
@@ -183,7 +186,11 @@ int main(int argc, char** argv)
 	//Loading sprites
 	res=res && loadTex("examples/title.tga","title");
 	res=res && loadTex("examples/ingame.tga","background");
-    res=res && loadSprite("examples/halfsmile.png","halfsmile");
+	res=res && loadTex("examples/test.bmp","test");
+#ifdef COLLISION_TEST
+	bbox_test=sad::TextureManager::instance()->get("test");
+#endif    
+	res=res && loadSprite("examples/halfsmile.png","halfsmile");
 	res=res && loadSprite("examples/largesmile.png","largesmile");
     res=res && loadSprite("examples/neutral.png","neutral");
 	res=res && loadSprite("examples/sad.png","sad");
@@ -191,7 +198,7 @@ int main(int argc, char** argv)
 	res=res && loadSprite("examples/enemybullet.bmp","enemybullet");
 	res=res && loadSprite("examples/playerbullet.bmp","playerbullet");
 	res=res && loadSprite("examples/bonus.bmp","bonus");
-
+     
     if (!res)
 	{
 		hst::log::inst()->write(hst::string("Resource loading failed!\n Exiting..."));

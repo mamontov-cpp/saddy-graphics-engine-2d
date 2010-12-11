@@ -6,6 +6,11 @@
 	#include "log.h"
 #endif
 
+//#define COLLISION_TEST
+#ifdef COLLISION_TEST
+	sad::Texture * bbox_test;
+#endif
+
 BoundingBox MovingItem::rect()
 {
 	return m_box;
@@ -72,6 +77,24 @@ void MovingItem::render()
     
 	glEnd();
 
+#ifdef COLLISION_TEST
+   bbox_test->enable();
+   glBegin(GL_QUADS);
+
+   hPointF t1=m_box[0],t2=m_box[1], t3=m_box[2],t4=m_box[3] ;	
+	
+   glTexCoord2f(0.0f,0.0f);	
+		glVertex3f(t1.x(),t1.y(),ZAX );
+   glTexCoord2f(0.0f,1.0f);
+		glVertex3f(t2.x(),t2.y(),ZAX );
+   glTexCoord2f(1.0f,1.0f);
+		glVertex3f(t3.x(),t3.y(),ZAX );
+   glTexCoord2f(1.0f,0.0f);
+		glVertex3f(t4.x(),t4.y(),ZAX );
+    
+  glEnd();
+	
+#endif
 	
 
 	if (!paused)
@@ -233,7 +256,7 @@ void EnemyEmitter::renderRain()
 	else
 	{
 		float rr=((float)rand()/RAND_MAX)*(BOUND_Y2-BOUND_Y1)+BOUND_Y1;
-		int mx=((float)rand()/RAND_MAX)*3;
+		int mx=(int)(((float)rand()/RAND_MAX)*3);
 		if (mx==3) --mx;
 		if (mx==0) ADD_SCENE(EnemyBullet(Vector(0.05,-0.05),BoundingBox(hPointF(BOUND_X1,rr),0.02,0.02),0.5));
 		if (mx==1) ADD_SCENE(Bonus(Vector(0.05,-0.05),BoundingBox(hPointF(BOUND_X1,rr),0.02,0.02),0.8));
@@ -244,6 +267,7 @@ void EnemyEmitter::renderRain()
 EnemyEmitter::EnemyEmitter(int what)
 {
     m_clk=0;
+	m_type=EnemyEmitter::Type;
 	if (what==REAL_SPAWN)
 		m_r=&EnemyEmitter::renderSpawn;
 	else
