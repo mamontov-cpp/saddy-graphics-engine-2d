@@ -133,15 +133,25 @@ void toggle_state(const sad::Event & o)
 
 void playerbullet(Collidable * bullet,Collidable * enemy)
 {
+	current_score+=100;
+	if (current_score>high_score) { high_score=current_score; }
 	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
 }
 void playerbonus(Collidable * player, Collidable * bonus)
 {
-	current_score+=100;
+	current_score+=50;
 	if (current_score>high_score) { high_score=current_score; }
 	++player_health_point;
 	sad::Renderer::instance().getCurrentScene()->markForDeletion(bonus);
 }
+void playerenemybullet(Collidable * player, Collidable * enemybullet)
+{
+  sad::Renderer::instance().getCurrentScene()->markForDeletion(enemybullet);
+  --player_health_point;
+  if (player_health_point<=0) StateMachine::pushState(IDLE_STATE);
+}
+
+
 
 #ifdef WIN32
 #ifndef MSVC_RELEASE
@@ -217,7 +227,10 @@ int main(int argc, char** argv)
 	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
 	CollisionManager::bind(PlayerBullet::Type,ShootingEnemy::Type,new CollisionHandler(playerbullet));
 	CollisionManager::bind(Player::Type,Bonus::Type,new CollisionHandler(playerbonus));				 
-	
+	CollisionManager::bind(Player::Type,EnemyBullet::Type,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(Player::Type,Enemy::Type,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(Player::Type,ShootingEnemy::Type,new CollisionHandler(playerenemybullet));
+
 	sad::TextureManager::buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
