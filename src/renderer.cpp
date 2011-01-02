@@ -81,20 +81,7 @@ void sad::Renderer::run()
 }	
 
 
-void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
-{
-  if (m_running)
-  {
-   this->releaseWindow();
-   this->m_window.fullscreen=!this->m_window.fullscreen;
-   this->createWindow();
-   sad::TextureManager::buildAll();
-  }
-  else
-  {
-	  this->m_window.fullscreen=!this->m_window.fullscreen;
-  }
-}
+
 
 
 //Getting a black background with all params
@@ -129,10 +116,10 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 	winx=(float)x;
 	winy=(float)(viewport[3])-(float)(y);
 
-	winz=0.8;
-	//winz=this->getCurrentScene()->camera().z();
-	glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
-    if (fabs(winz-0.8f)>0.1f) winz=0.8f;
+	if (instance().m_glsettings.ztest())
+	    glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+	else
+		winz=instance().m_glsettings.ztestvalue();
 
 	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
 

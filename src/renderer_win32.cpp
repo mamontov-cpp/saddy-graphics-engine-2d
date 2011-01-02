@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "texturemanager.h"
 #include "log.h"
 
 
@@ -138,16 +139,15 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_style)
 {
-
+	DEVMODEA & scr_settings=m_window.scr_settings;
+	memset(&scr_settings,0,sizeof(scr_settings));
+    scr_settings.dmSize       = sizeof(scr_settings);
+    scr_settings.dmPelsWidth  = m_glsettings.width();
+    scr_settings.dmPelsHeight = m_glsettings.height();
+    scr_settings.dmBitsPerPel = 32;
+    scr_settings.dmFields     = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 	if (m_window.fullscreen)
 	{
-		DEVMODE scr_settings;
-		memset(&scr_settings,0,sizeof(scr_settings));
-        scr_settings.dmSize       = sizeof(scr_settings);
-		scr_settings.dmPelsWidth  = m_glsettings.width();
-        scr_settings.dmPelsHeight = m_glsettings.height();
-        scr_settings.dmBitsPerPel = 16;
-		scr_settings.dmFields     = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 		LONG result=ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN);
 		if (result!=DISP_CHANGE_SUCCESSFUL)
 		{
@@ -239,6 +239,57 @@ void sad::Renderer::quit()
 	    PostMessage(m_window.hWND, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
 		m_running=false;
 		m_created=false;
+}
+
+void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
+{
+  if (m_running)
+  {
+   
+#ifndef WIN32
+   this->releaseWindow();
+   this->m_window.fullscreen=!this->m_window.fullscreen;
+   this->createWindow();
+   sad::TextureManager::buildAll();
+#else
+   this->m_window.fullscreen=!this->m_window.fullscreen;
+   LONG result;
+   static RECT rct={0,0,0,0};
+   if (this->m_window.fullscreen)
+   {
+		GetWindowRect(this->m_window.hWND,&rct);
+		MoveWindow(m_window.hWND,0,0,rct.right-rct.left,rct.bottom-rct.top,TRUE);
+		LONG style=GetWindowLong(m_window.hWND,GWL_STYLE);
+		style &=~(WS_BORDER|WS_CAPTION|WS_THICKFRAME);
+		SetWindowLong(m_window.hWND,GWL_STYLE,style);
+		BOOL dp=SetWindowPos(this->m_window.hWND,NULL,rct.left,rct.top,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE|SWP_FRAMECHANGED);
+	    if (!dp)
+		{
+			LOG_WRITE("Can't SetWindowPos with ");
+			hst::log::inst()->owrite(GetLastError());
+			LOG_WRITE("\n");
+		}
+		result=ChangeDisplaySettings(&(this->m_window.scr_settings),CDS_FULLSCREEN);	
+   }
+   else
+   {
+	    MoveWindow(m_window.hWND,rct.left,rct.top,rct.right-rct.left,rct.bottom-rct.top,TRUE);
+	    result=ChangeDisplaySettings(NULL,0);
+		LONG style=GetWindowLong(m_window.hWND,GWL_STYLE);
+		style |=(WS_BORDER|WS_CAPTION|WS_THICKFRAME);
+		SetWindowLong(m_window.hWND,GWL_STYLE,style);
+		SetWindowPos(this->m_window.hWND,0,rct.left,rct.top,rct.right-rct.left,rct.bottom-rct.top,SWP_FRAMECHANGED);
+   }
+   if (result!=DISP_CHANGE_SUCCESSFUL)
+   {
+	   LOG_WRITE("Renderer: can't change mode\n");
+   }
+#endif
+  }
+  else
+  {
+	  this->m_window.fullscreen=!this->m_window.fullscreen;
+  }
 }
 
 #endif
