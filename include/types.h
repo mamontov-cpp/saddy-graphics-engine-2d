@@ -59,6 +59,7 @@ namespace sad
 		HDC					hDC;						//!< Devide context
 		HGLRC				hRC;						//!< OpenGL context
 		HINSTANCE           hInstance;                  //!< Instance of module
+		DEVMODEA            scr_settings;               //!<  Screen settings
 #endif
 		bool                active;                     //!< Is window active
 		bool                fullscreen;                 //!< Full screen

@@ -109,7 +109,7 @@ class CollisionManager
 
 /*! Test frquency in clocks
 */
-#define COLLISION_TEST_FREQUENCY 300
+#define COLLISION_TEST_FREQUENCY 75
 /*! Class, that tests a collision
     Add it to scene to test a collision  
 */

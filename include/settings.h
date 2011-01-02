@@ -12,6 +12,7 @@ This file contains a declaration of SadSettings - settings upon OpenGL.
 
 #include "types.h"
 
+#define DEFAULT_DEPTH_VALUE 0.8f //!< Значение, соответствующее уровню 0.5
 namespace sad{
 	/*!\class Setting class
 	*/
@@ -34,6 +35,9 @@ namespace sad{
 
 		float m_zfar;  //!< Дальняя плоскость отсечения
 
+		bool  m_ztest; //!< Определяет, будет ли определяться третья координата через тест, или нет
+
+		float m_zvalue; //!< Определяет zval
 	public:
 		Settings(
 			unsigned int screenwidth,
@@ -43,7 +47,10 @@ namespace sad{
 			Uint8 depth=8,
 			float fov=45.0,
 			float znear=0.1f,
-			float zfar=100.0f);
+			float zfar=100.0f,
+			bool  ztest=false,
+		    float zvalue=DEFAULT_DEPTH_VALUE
+			);
 
 		Settings(const Settings& other);
 		Settings();
@@ -57,6 +64,8 @@ namespace sad{
 		inline float fov(void)const                {return m_fov;             }
 		inline float znear(void)const              {return m_znear;           }
 		inline float zfar(void)const               {return m_zfar;            }
+		inline bool  ztest(void)const              {return m_ztest;           }
+		inline float ztestvalue(void)const         {return m_zvalue;          }
 
 		inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
 		inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
