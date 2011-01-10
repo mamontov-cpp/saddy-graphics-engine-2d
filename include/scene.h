@@ -1,6 +1,6 @@
 /*! \file   scene.h
-\author HiddenSeeker
-\brief  Здесь расположены файлы сцены
+    \author HiddenSeeker
+    \brief  Here placed a scene files
 */
 #include "templates/hlvector.hpp"
 #include "templates/hhash.hpp"
@@ -9,31 +9,31 @@
 
 namespace sad
 {
-
-/*! Класс базового объекта сцены
+/*! Basic objects of a scene
 */
 class BasicNode
 {
-	float m_x;    //!< Позиция
-	float m_y;    //!< Позиция
+private:
+	float m_x;    //!< X position on a space
+	float m_y;    //!< Y position on a space
 protected:
-	int   m_type; //!< Тип вершины (динамический)
+	int   m_type; //!< Type of an objects (dynamic)
     
 	BasicNode();
 public:
-	static int Type; //!< Статический тип
-	/*! Тип
+	static int Type; //!< Static type
+	/*! Returns a type of object
 	*/
 	int type() const;
-	/*! Процедура, которая будет выполняться при рендеринге объекта.
+	/*! Render procedure
 	*/
 	virtual void render()=0;
-	/*! Деструктор
+	/*! Destructor
 	*/
 	virtual ~BasicNode();
 };
 
-/*! Класс камеры
+/*! Camera class
 */
 class Camera
 {
@@ -79,61 +79,70 @@ class Camera
 		 */
 		 ~Camera();
 };
-/*! Класс сцены
+/*! Scene class
 */
 class Scene
 {
 private:
-	bool                       m_clear;                 //!< Флаг очистки сцены
-	hst::vector<BasicNode *>   m_layers;                //!< Слои, первый элемент и им же рендерится
-	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Вершина по ноде
-	hst::vector<BasicNode *>   m_marked;                //!< Помеченные для удаления вершины
-	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;                 //!< Помеченные для добавления вершины 
-	sad::Camera              m_camera;                  //!< Текущая камера
+	bool                       m_clear;                 //!< Scene cleanup flag
+	hst::vector<BasicNode *>   m_layers;                //!< Layers
+	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Hash by an index
+	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
+	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;    //!< Marked for addition nodes             //!< Помеченные для добавления вершины 
+	sad::Camera              m_camera;                  //!< Current camera
 public:
-	sad::Camera   & camera();  //!< Текущая камера
+	sad::Camera   & camera();  //!< Returns a current camera
 
-	Scene();    //!< Пустая сцена
-	~Scene();   //!< Деструктор
+	Scene();                   //!< Creates an empty scene
+	~Scene();                  //!< Destructor
 
-	/*! Удаляет все из сцены
+	/*! Removes all from scene.
+	    DEPRECATED: use ::performCleanup() instead, because it can be called
+		            only before renderer was started.
 	*/
 	void clear();
-	/*! Отмечает вершину для удаления в следующем цикле
-	    \param[in] what что надо будет удалить
+	/*! Forces a scene to delete an object from scene
+	    \param[in] what object to be deleted
 	*/
 	void markForDeletion(BasicNode * what);
-	/*! Отмечает вершину для добавление в следующем цикле
-	    \param[in] node  объект 
-      	\param[in] name  имя
-	    \param[in] lay   слой
+	/*! Forces a scene to add an object to scene.
+	    \param[in] node  object
+      	\param[in] name  name. Creates anonymous object if empty
+	    \param[in] lay   layer. -1 for the first layer
 	*/
-	void markForAddition(BasicNode * node, 
+	void markForAddition(
+	                     BasicNode * node, 
 		                 const hst::string & name=hst::string(),
-		                 unsigned long lay=(unsigned long)-1);
+		                 unsigned long lay=(unsigned long)-1
+						);
 
-	/*! Добавляет объект в сцену
-	\param[in] node  объект 
-	\param[in] name  имя
-	\param[in] lay   слой
+	/*! Adds an object to scene.
+	    DEPRECATED: It can be called if rendere is not started.
+		Use ::markForAddition() instead
+	    \param[in] node  object 
+	    \param[in] name  name. Creates anonymous object, if empty
+	    \param[in] lay   layer. -1 for the first layer
 	*/
 	void add(
-		BasicNode * node, 
-		const hst::string & name=hst::string(),
-		unsigned long lay=(unsigned long)-1
-		);
-	/*! Заставляет сцену очиститься в следующем кадре
+		     BasicNode * node, 
+		     const hst::string & name=hst::string(),
+		     unsigned long lay=(unsigned long)-1
+		    );
+	/*! Forces scene to make cleanup. 
 	*/
 	void performCleanup();
-	/*! Удаляет объект из сцены
-	\param[in] name имя объекта
+	/*! Removes an object from scene.
+	    DEPRECATED: It can be called only if renderer is not started.
+		Use ::markForDeletion() instead.
+	    \param[in] name name of object
 	*/
 	void remove(const hst::string & name);
-	/*! Рендерит сцену
+	/*! Renders a scene
 	*/
 	void render();
-	/*! Получение объекта по имени. Если не найдено, то вернет NULL
-	\param[in] name имя
+	/*! Returns an instance of object by name. 
+	    \param[in] name name of object
+	    \return an instance of object. Returns NULL if can't be found
 	*/
 	template<typename T> T * get(const hst::string & name); 
 };
@@ -143,7 +152,7 @@ public:
 typedef sad::BasicNode BasicNode;
 typedef sad::Scene     Scene;
 
-//=================Исходный код находится здесь====================
+//=================Code goes here====================
 template<typename T> T * sad::Scene::get(const hst::string & name)
 {
 	if (!m_nodehash.contains(name)) return NULL;

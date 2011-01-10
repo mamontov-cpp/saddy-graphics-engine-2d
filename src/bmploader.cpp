@@ -39,6 +39,7 @@ static const short BITMAP_MAGIC_NUMBER=19778;
 
 bool  sad::Texture::loadBMP(FILE * file)
 {
+    m_data.clear();
 	BMP::Header head;
 	fread(&(head.type),sizeof(head.type),1,file);
     fread(&(head.size),sizeof(head.size),1,file);
@@ -46,7 +47,7 @@ bool  sad::Texture::loadBMP(FILE * file)
     fread(&(head.reserv2),sizeof(head.reserv2),1,file);
     fread(&(head.offsetbits),sizeof(head.offsetbits),1,file);
 
-	if(head.type!=BITMAP_MAGIC_NUMBER) { return false;}
+	if(head.type!=BITMAP_MAGIC_NUMBER) {m_data.clear();this->loadDefaultTGATexture();return false;}
 	
 	BMP::Info    info;
 	
@@ -62,14 +63,14 @@ bool  sad::Texture::loadBMP(FILE * file)
 	READ(unsigned long ,info.cused);
 	READ(unsigned long ,info.cimportant);
 	
-	if (ferror(file)) return false;
+	if (ferror(file)) {m_data.clear();this->loadDefaultTGATexture();return false;}
 
 	m_data.clear();
 	m_width=info.width;
 	m_height=info.height;
 	m_bpp=info.bitcount;
 	//TODO: Add support for 8-bit color
-	if (m_bpp!=24 && m_bpp!=32) return false;
+	if (m_bpp!=24 && m_bpp!=32) {m_data.clear();this->loadDefaultTGATexture(); return false;}
 
 	unsigned long size=m_width*m_height;
 
@@ -92,6 +93,8 @@ bool sad::Texture::loadBMP(const hst::string &filename)
 		fclose(fl);
 		return result;
 	}
+	m_data.clear();
+	this->loadDefaultTGATexture();
 	return false;
 }
 bool sad::Texture::loadBMP(const hst::wstring &filename)
@@ -106,5 +109,7 @@ bool sad::Texture::loadBMP(const hst::wstring &filename)
 		fclose(fl);
 		return result;
 	}
+	m_data.clear();
+	this->loadDefaultTGATexture();
 	return false;
 }

@@ -4,7 +4,7 @@
 	Contains a definitions of collidable basic objects and a collision detector node
 */
 #include "hxyrect.h"
-#include "scene.h"
+#include "../scene.h"
 #pragma once
 /*! Bounding box
 */

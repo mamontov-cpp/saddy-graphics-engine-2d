@@ -7,7 +7,7 @@
 */
 #include <sstream>
 #include <iostream>
-#include <hstring.h>
+#include <templates/hstring.h>
 #pragma once
 
 namespace hst

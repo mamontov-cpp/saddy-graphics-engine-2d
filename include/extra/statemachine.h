@@ -3,7 +3,7 @@
 
 	File, containing a definition of statemachine and global game state
 */
-#include "types.h"
+#include "../types.h"
 #include <stdlib.h>
 #pragma once
 

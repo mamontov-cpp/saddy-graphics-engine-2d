@@ -1,6 +1,4 @@
 /*! \file zlib.h
-    
-	\TODO: Test
 	Contains a based on picoPNG implementation of Zlib functions.
 */
 #include "types.h"

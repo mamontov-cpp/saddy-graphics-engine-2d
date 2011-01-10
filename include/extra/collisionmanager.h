@@ -6,8 +6,8 @@
 */
 #include "collidable.h"
 #include "collision.h"
-#include "hhash.hpp"
-#include "hpair.hpp"
+#include "../templates/hhash.hpp"
+#include "../templates/hpair.hpp"
 #include <time.h>
 #pragma once
 

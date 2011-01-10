@@ -1,12 +1,14 @@
 /*! \file    texture.h
-\author  Myself;Yourself
-\brief   Все, что относится к текстуре расположено здесь
+    \author  HiddenSeeker, Falc_ON, Victor.Grig
+    \brief   Contains a texture-related staff
 */
+
 #include "primitives/hcolor.h"
 #include "templates/hstring.h"
 #include "templates/hwstring.h"
 #include "templates/hlvector.hpp"
 #include <stdio.h>
+
 #ifdef WIN32
 #include <windows.h>
 #include <gl/gl.h>
@@ -21,14 +23,12 @@
 
 namespace sad
 {
-	static unsigned int globalID=0;
-
-	/*! Класс текстуры
+	/*! Texture class
 	*/
 	class Texture
 	{
 	public:
-		/*! Описывает режим текстурирования
+		/*! Texture mode
 		*/
 		enum Mode
 		{
@@ -41,81 +41,79 @@ namespace sad
 
 	private:
 
-		hst::vector<Uint8> m_data;   //!< Биты текстуры
-		Uint8              m_filter; //!< Способ фильтрации
-		Uint8              m_bpp;    //!< Число битов на пиксел
-		unsigned int       m_width;  //!< Ширина
-		unsigned int       m_height; //!< Высота
-		unsigned int       m_id;     //!< ID текстуры в видеопамяти
-		Mode               m_mode;   //!< Режим границ
+		hst::vector<Uint8> m_data;   //!< Bits of texture
+		Uint8              m_filter; //!< Filtering method
+		Uint8              m_bpp;    //!< Bits per pixel
+		unsigned int       m_width;  //!< Width
+		unsigned int       m_height; //!< Height
+		unsigned int       m_id;     //!< ID of texture
+		Mode               m_mode;   //!< Texture mode
 
 		/*! Loads a BMP file, from file
 		*/
 		bool               loadBMP(FILE * file);
 	public:
 
-		/*! Создает пустую текстуру
+		/*! Empty texture
 		*/
 		Texture();
-		/*! Деструктор
-		*/
 		~Texture();
-		/*! Строит мипмапы
+		/*! Builds a mipmap
 		*/
 		void buildMipMaps();
-		/*! Загрузка из файла, в зависимости от расширения
-		\param[in] filename имя файла
+		/*! Loads an image, depending of file extension
+		\param[in] filename name of file
 		*/
 		bool load(const hst::string & filename);
-		/*! Загрузка из файла, в зависимости от расширения
-		\param[in] filename имя файла
+		/*! Loads an image, depending of file extension
+		\param[in] filename name of file
 		*/
 		bool load(const hst::wstring & filename);
-		/*! Загрузка из файла BMP
-		\param[in] filename имя файла
+		/*! Loads a BMP from file
+		\param[in] filename name of file
 		*/
 		bool loadBMP(const hst::string & filename);
-		/*! Загрузка из файла BMP
-		\param[in] filename имя файла
+		/*! Loads a BMP from file
+		\param[in] filename name of file
 		*/
 		bool loadBMP(const hst::wstring & filename);
-		/*! Загрузка из файла TGA
-		\param[in] filename имя файла
+		/*! Loads a TGA from file
+		\param[in] filename name of file
 		*/
 		bool loadTGA(const hst::string & filename);
-		/*! Загрузка из файла TGA
-		\param[in] filename имя файла
+		/*! Loads a TGA from file
+		\param[in] filename name of file
 		*/
 		bool loadTGA(const hst::wstring & filename);
-		/*! Загрузка из файла PNG
-		\param[in] filename имя файла
+		/*! Loads a PNG from a file
+		\param[in] filename name of file
 		*/
 		bool loadPNG(const hst::string & filename);
-		/*! Загрузка из файла PNG
-		\param[in] filename имя файла
+		/*! Loads a PNG from a file
+		\param[in] filename name of file
 		*/
 		bool loadPNG(const hst::wstring & filename);
-		/*! Загрузка прекомпилированной текстуры формата TGA
+		/*! Loads default texture
 		*/
 		void loadDefaultTGATexture();
-		/*! Выгружает текстуру
+		/*! Disables texture
 		*/
 		void disable();
-		/*! Включает текстуру
+		/*! Enables texture
 		*/
 		void enable();
-		/*! Устанавливает альфа-канал
-		    \param[in] a альфа-канал
+		/*! Sets an alpha-channel value for a color
+		    \param[in] a alpha-channel value
 		*/
 		void setAlpha(Uint8 a);
-		/*! Устанавливает альфа-канал для цвета
-		    \param[in] a    альфа-канал
-			\param[in] clr  цвет, для которого устанавливается альфа
-			\param[in] prec погрешность
+		/*! Sets an alpha-channel value for a color
+		    \param[in] a    alpha-channel value
+			\param[in] clr  color
+			\param[in] prec precision
 		*/
 		void setAlpha(Uint8 a, const hst::color & clr, Uint8 prec=0);
-		/*! Устанавливает режим
-		    \param[in] mode режим
+		/*! Sets a mode for texture
+		    \param[in] mode mode of texture
 		*/
 		void setMode(Texture::Mode mode);
 		/*! Saves a texture to a precompiled source code

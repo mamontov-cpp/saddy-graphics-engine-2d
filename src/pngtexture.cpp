@@ -4,16 +4,19 @@
 
 bool sad::Texture::loadPNG(const hst::string & filename)
 {
+    m_data.clear();
 	std::vector<unsigned char> buffer;
 	png::loadFile(buffer,filename.data());
 	//Handle errors
-	if (buffer.size()==0) return false;
+	if (buffer.size()==0) {m_data.clear();this->loadDefaultTGATexture();return false; }
 	
 	std::vector<unsigned char> output;
 	png::decode(output,&(buffer[0]),(unsigned long)buffer.size());
 	if (png::error()) 
+	{
+	    m_data.clear();this->loadDefaultTGATexture();
 		return false;
-
+    }
 	this->m_data.clear();
 
 
@@ -33,12 +36,12 @@ bool sad::Texture::loadPNG(const hst::wstring & filename)
 	png::loadFile(buffer,filename.data());
 	//Handle errors
 	if (buffer.size()==0) 
-		return false;
+	{m_data.clear();this->loadDefaultTGATexture();return false;}
 	
 	std::vector<unsigned char> output;
 	png::decode(output,&(buffer[0]),(unsigned long)buffer.size());
-	if (png::error()) 
-		return false;
+	if (png::error());
+	{m_data.clear();this->loadDefaultTGATexture();	return false; }
 
 	this->m_data.clear();
 

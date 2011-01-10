@@ -1,13 +1,9 @@
 /*! \file   types.h
-\author FreakyBlast, HiddenSeeker
+    \author FreakyBlast, HiddenSeeker
 
-\brief  Declaration of types for engine.
-
+    \brief  Declaration of types for engine.
 */
-
-#ifndef types_h__
-#define types_h__
-
+#pragma once
 
 #ifdef   _WIN32
 	#undef   _WIN32_WINNT
@@ -66,4 +62,3 @@ namespace sad
 	};	
 
 }
-#endif // types_h__

@@ -3,9 +3,9 @@
 
 	 Contains a definition of state label
 */
-#include "fontmanager.h"
+#include "../fontmanager.h"
 #include "statemachine.h"
-#include "scene.h"
+#include "../scene.h"
 #include <time.h>
 #pragma once
 

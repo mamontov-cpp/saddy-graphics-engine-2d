@@ -18,6 +18,7 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 	}
 	else
 	{
+	    m_data.clear();
         this->loadDefaultTGATexture();
 		return false;
 	}
@@ -26,7 +27,6 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 	m_bpp = textureInfo.m_TGA_bpp;
 	m_height = textureInfo.m_TGA_height;
 	m_width = textureInfo.m_TGA_width;
-	m_id = sad::globalID++;
 
 	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
 		m_data.add( textureInfo.m_TGA_data[i] );
@@ -74,7 +74,6 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 	m_bpp = textureInfo.m_TGA_bpp;
 	m_height = textureInfo.m_TGA_height;
 	m_width = textureInfo.m_TGA_width;
-	m_id = sad::globalID++;
 
 	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
 		m_data.add( textureInfo.m_TGA_data[i] );

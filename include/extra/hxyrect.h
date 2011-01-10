@@ -5,8 +5,8 @@
 	
 	This file contains a definition of colored rectangle, whose sides are parallel to X and Y axis.
 */
-#include "hcolor.h"
-#include "hpoint.h"
+#include "../primitives/hcolor.h"
+#include "../primitives/hpoint.h"
 #pragma once
 
 namespace hst
