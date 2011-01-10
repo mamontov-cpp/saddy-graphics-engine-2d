@@ -5,7 +5,6 @@
 	
 	This file contains a definition of axle and lines.
 */
-#include "hpoint.h"
 #include "hxyrect.h"
 #pragma once
 /*! \fn typedef float axle_t

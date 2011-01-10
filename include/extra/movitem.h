@@ -6,11 +6,11 @@
 	A movable item, is an item, that moves in one direction, until reaches
 	an end of screen, or some other condition. Also it rotates. 
 */
-#include "renderer.h"
+#include "../renderer.h"
 #include <math.h>
 #include "statemachine.h"
 #include "collisionmanager.h"
-#include "texturemanager.h"
+#include "../texturemanager.h"
 #pragma once
 
 #define ZAX 0.5

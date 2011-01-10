@@ -3,8 +3,8 @@
 
 	Contains background node definitions
 */
-#include "scene.h"
-#include "texturemanager.h"
+#include "../scene.h"
+#include "../texturemanager.h"
 
 class Background: public sad::BasicNode
 {

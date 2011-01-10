@@ -5,9 +5,7 @@
 	This file contain declaration of FontManager class, which work with font
 	load, render and free it.
 */
-
-#ifndef FONTMANAGER_H__
-#define FONTMANAGER_H__
+#pragma once
 
 #ifdef WIN32
 
@@ -15,6 +13,7 @@
 #include <WinDef.h>
 
 #endif
+
 #include "types.h"
 #include "texturemanager.h"
 
@@ -128,5 +127,4 @@ namespace sad
 
 }
 
-#endif //FONTMANAGER_H__
 

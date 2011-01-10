@@ -1,6 +1,6 @@
 /*!  \file    texturemanager.h
-\author  Unknown
-\brief   Управление текстурами
+     \author  HiddenSeeker
+     \brief   Here placed a texturemanager
 */
 #include "texture.h"
 #include "templates/hhash.hpp"
@@ -8,16 +8,16 @@
 
 namespace sad
 {
-	/*! Управление текстурами сосредоточено здесь.
-	В том числе память из-под текстур освобождается здесь же.
+	/*!  \class TextureManager
+	     TextureManager provides an easy access to every texture. He
+		 can build mipmaps of every texture. Also, it frees all associated
+		 textures, providing a basic garbage collecting
 	*/
 	class TextureManager
 	{
 	private:
-		hst::hash<hst::string,Texture *> m_data; //!< Данные о текстурах
-
-		static TextureManager * m_instance;      //!< Инстанс
-
+		hst::hash<hst::string,Texture *> m_data; //!< Texture data
+		static TextureManager * m_instance;      //!< Current instance of manager
 		TextureManager();
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
@@ -26,23 +26,25 @@ namespace sad
 		/*! Builds all mipmaps
 		*/
 		static void buildAll();
-		/*! Возвращает текущий инстанс менеджера
+		/*! Current instance
+		    \return current instance of manager
 		*/
 		static TextureManager * instance();
-		/*! Деструктор
+		/*! Destructor
 		*/
 		~TextureManager();
-		/*! Возвращает текущую текстуру по имени, если есть, иначе NULL
-		\param[in] name имя
+		/*! Returns a texture by a name, if exists
+		    \param[in] name name of a texture
+			\return texture pointer. NULL, if can't be found
 		*/
 		Texture *  get(const hst::string & name);
-		/*! Добавляет текстуру в список
-		\param[in] name имя
-		\param[in] tex  текстура
+		/*! Adds a texture
+		    \param[in] name name of a texture
+		    \param[in] tex  texture
 		*/
 		void load(const hst::string & name, Texture * tex);
-		/*! Выгружает текстуру
-		\param[in] name имя
+		/*! Unloads a texture
+		    \param[in] name name of a texture
 		*/
 		void unload(const hst::string & name);
 	};

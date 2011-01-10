@@ -8,12 +8,15 @@
 //#define FPS_CHECK //Uncomment this for fps checking
 #pragma once
 
+/*! \class TestFontNode
+    Class of simple texture mapped fonts demo node.
+*/
 class TestFontNode: public sad::BasicNode
 {
  private:
-	    sad::TMFont * m_fnt;
+	    sad::TMFont * m_fnt;    //!<  Associated font
  public:
-	    static int Type; //!< Статический тип
+	    static int Type;        //!< Type
         /*! Creates a simple node
 		*/
 		TestFontNode(sad::TMFont * fnt);

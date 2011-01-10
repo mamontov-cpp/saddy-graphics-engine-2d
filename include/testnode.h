@@ -13,14 +13,18 @@
 class TestNode: public sad::BasicNode
 {
  private:
-	     float m_x;   //!< X
-		 float m_y;   //!< Y
-		 float m_r;   //!< Radius
-	     float m_angle;  //!< Angle
-		 sad::Texture * m_tex;
+	     float m_x;             //!< X
+		 float m_y;             //!< Y
+		 float m_r;             //!< Radius
+	     float m_angle;         //!< Angle
+		 sad::Texture * m_tex;  //!< Associated texture
  public:
-	     static int Type; //!< Статический тип
+	     static int Type;       //!< Static type
           /*! Creates a simple node
+		      \param[in] tex texture
+			  \param[in] x  X position
+			  \param[in] y  Y position
+			  \param[in] r  radius
 		  */
 		 TestNode(sad::Texture * tex,float x, float y, float r);
           /*! Renders it

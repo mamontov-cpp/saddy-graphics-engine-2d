@@ -3,11 +3,11 @@
 
 	Definition of main input
 */
-#include "hhash.hpp"
+#include "templates/hhash.hpp"
 #pragma once
 
 #ifdef WIN32
-#define _WIN32_WINDOWS 0x0501 // Change this to the appropriate value to target Windows Me or later.
+#define _WIN32_WINDOWS 0x0501 // Set windows version to obtain control over mouse wheel.
 #endif
 
 //KEY BINDINGS
@@ -222,7 +222,7 @@ namespace sad
 }
 
 
-//====Source code====
+//========Source code goes here==============
 template<typename T>
 sad::EventHandler::EventHandler(T * functor)
 {

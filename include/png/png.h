@@ -1,6 +1,4 @@
 /*! \file png.h
-    
-	\TODO: Test
 	Contains a based on picoPNG implementation of PNG loader.
 */
 #include "types.h"
