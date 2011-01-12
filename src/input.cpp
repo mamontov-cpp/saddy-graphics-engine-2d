@@ -153,6 +153,8 @@ TEMP_DEF(postMouseWheel,m_mousewheel)
 
 void sad::Input::bindKeyUp(int key, sad::EventHandler * h)
 {
+	m_umutex.lock();
+
 	if (h)
 	{
 		if (m_ups.contains(key)) delete m_ups[key];
@@ -160,9 +162,13 @@ void sad::Input::bindKeyUp(int key, sad::EventHandler * h)
 	}
 	else
 		 m_ups.remove(key);
+	
+	m_umutex.unlock();
 }
 void sad::Input::bindKeyDown(int key, sad::EventHandler * h)
 {
+	m_dmutex.lock();
+
 	if (h)
 	{
 		if (m_down.contains(key)) delete m_down[key];
@@ -170,18 +176,30 @@ void sad::Input::bindKeyDown(int key, sad::EventHandler * h)
 	}
 	else
 		m_down.remove(key);
+	
+	m_dmutex.unlock();
 }
 void sad::Input::postKeyUp(const sad::Event & ev)
 {
+	m_umutex.lock();
+
 	if (m_ups.contains(ev.key))
 		(*m_ups[ev.key])(ev);
+
+	m_umutex.unlock();
+
 	if (!m_keyup) return;
 	(*m_keyup)(ev);
 }
 void sad::Input::postKeyDown(const sad::Event & ev)
 {
+	m_dmutex.lock();
+
 	if (m_down.contains(ev.key))
 		(*m_down[ev.key])(ev);
+	
+	m_dmutex.unlock();
+
 	if (!m_keydown) return;
 	(*m_keydown)(ev);
 }

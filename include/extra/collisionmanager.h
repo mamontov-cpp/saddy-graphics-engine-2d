@@ -8,6 +8,7 @@
 #include "collision.h"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
+#include "../os/mutex.h"
 #include <time.h>
 #pragma once
 
@@ -66,6 +67,13 @@ class CollisionManager
 	 /*! Handlers
 	 */
 	 static hst::hash< hst::pair<int,int>,CollisionHandler * > m_handlers;
+
+	 /*! Mutex for bind
+	 */
+	 static os::mutex m_bind;
+	 /*! Mutex for collision
+	 */
+	 static os::mutex m_ard;
 
 	 /*! Immediately adds an object
 	 */

@@ -47,6 +47,9 @@ all:
 	g++ -c src/extra/background.cpp           -o  build/background.o     $(INCLUDE) $(DEFINES)
 	g++ -c src/extra/movitem.cpp           -o  build/movitem.o     $(INCLUDE) $(DEFINES)
 	g++ -c src/extra/player.cpp           -o  build/player.o     $(INCLUDE) $(DEFINES)
+	g++ -c src/os/thread.cpp            -o build/thread.o                 $(INCLUDE) $(DEFINES)
+	g++ -c src/os/mutex.cpp            -o build/mutex.o                 $(INCLUDE) $(DEFINES)
+	g++ -c src/os/semaphore.cpp            -o build/semaphore.o                 $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)

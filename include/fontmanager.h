@@ -99,7 +99,8 @@ namespace sad
 	{
 	 private:
 			 hst::hash<hst::string, sad::BasicFont *> m_fonts;
-			 
+			 os::mutex                                m_m;    //!< Mutex to block side effects
+
 			 static FontManager m_instance;
 
 			 FontManager();

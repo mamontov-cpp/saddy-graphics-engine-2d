@@ -382,6 +382,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="os"
+				>
+				<File
+					RelativePath=".\src\os\mutex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\semaphore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\thread.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -577,6 +593,22 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\statemachine.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="os"
+				>
+				<File
+					RelativePath=".\include\os\mutex.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\semaphore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\thread.h"
 					>
 				</File>
 			</Filter>

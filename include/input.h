@@ -4,6 +4,7 @@
 	Definition of main input
 */
 #include "templates/hhash.hpp"
+#include "os/mutex.h"
 #pragma once
 
 #ifdef WIN32
@@ -58,6 +59,7 @@
 #define MOUSE_BUTTON_LEFT   -16535
 #define MOUSE_BUTTON_MIDDLE -16524
 #define MOUSE_BUTTON_RIGHT  -16523
+
 
 namespace sad
 {
@@ -163,6 +165,9 @@ namespace sad
 
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
+			  
+			  os::mutex            m_umutex; //!< up mutex binding
+			  os::mutex            m_dmutex; //!< down mutex binding
 
 		      Input & operator=(const Input &);
 		      Input(const Input&);
