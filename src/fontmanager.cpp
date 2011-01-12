@@ -16,25 +16,38 @@ FontManager::FontManager()
 
 void FontManager::add(sad::BasicFont * font,const hst::string & name )
 {
+	m_instance.m_m.lock();
+
 	if (m_instance.m_fonts.contains(name))
 		delete m_instance.m_fonts[name];
 	m_instance.m_fonts.insert(name,font);
+	
+	m_instance.m_m.unlock();
 }
 
 sad::BasicFont* FontManager::get(const hst::string &key) 
 {	
+	m_instance.m_m.lock();
+
+	sad::BasicFont * r=NULL;
 	if (m_instance.m_fonts.contains(key)) 
-		return m_instance.m_fonts[key]; 
-	else 
-		return NULL;
+	    r=m_instance.m_fonts[key]; 
+	
+	m_instance.m_m.unlock();
+
+	return r;
 }
 void FontManager::remove(const hst::string &key) 
 {
+	m_instance.m_m.lock();
+
 	if (m_instance.m_fonts.contains(key))  
 	{ 
 		delete m_instance.m_fonts[key];
 		m_instance.m_fonts.remove(key);
-	}	
+	}
+
+	m_instance.m_m.unlock();
 }
 /* destructor delete all fonts object keeping in this manager
 */

@@ -30,6 +30,10 @@ hst::hash< hst::pair<int,int>,CollisionHandler * > CollisionManager::m_handlers;
 /*! Bounding boxes
 */
 hst::hash<int,hst::vector<BoundingBox> >  CollisionManager::m_boxes;
+/*! Static mutexes
+*/
+os::mutex CollisionManager::m_bind;
+os::mutex CollisionManager::m_ard;
 
 void CollisionManager::imAdd(int id, const BoundingBox & a,Collidable * b)
 {
@@ -114,7 +118,9 @@ void CollisionManager::scanGroup(int g1,int g2,CollisionHandler & h)
 
 void CollisionManager::detect()
 {
-	
+
+	m_ard.lock();
+
 	if (m_add.count()!=0 || m_delete.count()!=0)
 	{
 		for (int i=0;i<m_add.count();i++)
@@ -125,6 +131,7 @@ void CollisionManager::detect()
 		m_delete.clear();
 	}
 	
+	m_ard.unlock();
 
 	hst::hash< hst::pair<int,int>,CollisionHandler * >::iterator it=m_handlers.begin();
 	
@@ -132,34 +139,50 @@ void CollisionManager::detect()
 	{
 		scanGroup(it.key().p1(),it.key().p2(),*(it.value()));
 	}
+
+
 }
 void CollisionManager::flushHandlers()
 {
+	m_bind.lock();
+
 	hst::hash< hst::pair<int,int>,CollisionHandler * >::iterator it=m_handlers.begin();
 	
 	for (;it!=m_handlers.end();it++)
 	{
 		delete it.value();
 	}
+
+	m_bind.unlock();
 }
 void CollisionManager::unbind(CollisionGroupID id1,CollisionGroupID id2)
 {
+	m_bind.lock();
+
 	hst::pair<int,int> p(id1,id2);
     if (m_handlers.contains(p))
 	{
 		delete m_handlers[p];
 		m_handlers.remove(p);
 	}
+
+	m_bind.unlock();
 }
 
 void CollisionManager::updateSingle(Collidable * a)
 {
+	m_ard.lock();
+
 	int type=a->type();
 	if (m_boxes.contains(type))
 		m_boxes[type][0]=a->rect();
+	
+	m_ard.unlock();
 }
 void CollisionManager::bind(CollisionGroupID id1, CollisionGroupID id2, CollisionHandler * h)
 {
+	m_bind.lock();
+	
 	static bool init=false;
 	if (!init)
 	{
@@ -168,10 +191,14 @@ void CollisionManager::bind(CollisionGroupID id1, CollisionGroupID id2, Collisio
 	}
 	unbind(id1,id2);
 	m_handlers.insert(hst::pair<int,int>(id1,id2),h);
+	
+	m_bind.unlock();
 }
 
 void CollisionManager::flush()
 {
+	m_ard.lock();
+
 	hst::hash<int,hst::vector<Collidable *> >::iterator it;
     hst::hash<int,hst::vector<BoundingBox> >::iterator it2;
 	
@@ -179,15 +206,25 @@ void CollisionManager::flush()
 		it.value().clear();
 	for (it2=m_boxes.begin();it2!=m_boxes.end();++it2)
 		it2.value().clear();
+
+	m_ard.unlock();
 }
 
 void CollisionManager::add(Collidable * a)
 {
+	m_ard.lock();
+
 	m_add<<hst::triplet<int,BoundingBox,Collidable *>(a->type(),a->rect(),a);
+	
+	m_ard.unlock();
 }
 void CollisionManager::remove(Collidable * b)
 {
+	m_ard.lock();
+
 	m_delete<<hst::pair<int,Collidable *>(b->type(),b);
+
+	m_ard.unlock();
 }
 
 

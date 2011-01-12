@@ -4,6 +4,7 @@
 */
 #include "texture.h"
 #include "templates/hhash.hpp"
+#include "os/mutex.h"
 #pragma once
 
 namespace sad
@@ -17,6 +18,7 @@ namespace sad
 	{
 	private:
 		hst::hash<hst::string,Texture *> m_data; //!< Texture data
+		os::mutex                        m_m;    //!< Mutex to block side effects
 		static TextureManager * m_instance;      //!< Current instance of manager
 		TextureManager();
 		TextureManager(const TextureManager &);

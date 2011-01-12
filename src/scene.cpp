@@ -116,11 +116,19 @@ void sad::Scene::render()
 
 void sad::Scene::markForDeletion(BasicNode * what)
 {
+	m_rem.lock();
+
 	m_marked<<what;
+
+	m_rem.unlock();
 }
 void sad::Scene::markForAddition(BasicNode * node, const hst::string & name,unsigned long lay)
 {
+	m_add.lock();
+
 	m_toadd<<hst::triplet<BasicNode*,hst::string,unsigned long>(node,name,lay);
+
+	m_add.unlock();
 }
 sad::Camera & sad::Scene::camera()
 {

@@ -4,6 +4,7 @@
 */
 #include "templates/hlvector.hpp"
 #include "templates/hhash.hpp"
+#include "os/mutex.h"
 #include <assert.h>
 #pragma once
 
@@ -90,6 +91,9 @@ private:
 	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
 	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;    //!< Marked for addition nodes             //!< Помеченные для добавления вершины 
 	sad::Camera              m_camera;                  //!< Current camera
+    
+	os::mutex                m_add;                     //!< Add mutex
+	os::mutex                m_rem;                     //!< Remove mutex
 public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
