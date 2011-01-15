@@ -5,8 +5,9 @@
 #pragma once
 
 //#include "targetver.h"
-
-#define _CRT_SECURE_NO_DEPRECATE 1
+#ifdef _MSC_VER
+	#define _CRT_SECURE_NO_DEPRECATE 1
+#endif
 //#define _CRT_SECURE_NO_WARNINGS 1
 
 #define H_USE_LOW_LEVEL_IO          //HINT: use low level	IO Functions for hString

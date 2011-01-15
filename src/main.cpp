@@ -186,8 +186,8 @@ int main(int argc, char** argv)
 	//Loading sprites
 	res=res && loadTex("examples/title.tga","title");
 	res=res && loadTex("examples/ingame.tga","background");
-	res=res && loadTex("examples/test.bmp","test");
 #ifdef COLLISION_TEST
+    res=res && loadTex("examples/test.bmp","test");
 	bbox_test=sad::TextureManager::instance()->get("test");
 #endif    
 	res=res && loadSprite("examples/halfsmile.png","halfsmile");
