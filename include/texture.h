@@ -18,8 +18,13 @@
 #include <GL/glu.h>
 #endif
 
+
 #pragma once
 
+namespace tga
+{
+class Info;
+}
 
 namespace sad
 {
@@ -52,6 +57,9 @@ namespace sad
 		/*! Loads a BMP file, from file
 		*/
 		bool               loadBMP(FILE * file);
+		/*! Reloads TGA from info
+		*/
+		void                copyTGA(const tga::Info & textureInfo);
 	public:
 
 		/*! Empty texture

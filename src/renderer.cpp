@@ -31,6 +31,8 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_glsettings.setFoV(_settings.fov());
  m_glsettings.setZNear(_settings.znear());
  m_glsettings.setZFar(_settings.zfar());
+ m_glsettings.setZTest(_settings.ztest());
+ m_glsettings.setZTestValue(_settings.ztestvalue());
  m_created=createWindow();
  if (!m_created) { hst::log::inst()->owrite(hst::string("Renderer init: can't create window\n"));}
  return true;

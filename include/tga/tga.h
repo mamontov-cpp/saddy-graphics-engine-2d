@@ -22,6 +22,8 @@ namespace tga
 		unsigned int       m_TGA_width;		/*!< Width of the image.								*/
 		unsigned int       m_TGA_height;	/*!< Height of the image.								*/
 		unsigned int	   m_TGA_imageSize;	/*!< Size of texture image.								*/
+		bool               m_horzflip;      /*!< Whether we must flip horizontally                  */
+		bool               m_vertflip;      /*!< Whether we must flip vertically                    */
 	};
 
 	/*! Contains the header of Targa textures format (TGA)								(Total: 18 byte)
