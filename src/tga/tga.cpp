@@ -2,6 +2,37 @@
 
 using namespace tga;
 
+void  sad::Texture::copyTGA(const tga::Info & textureInfo)
+{
+ unsigned int startrow=0;
+ unsigned int decrow=0;
+ if (textureInfo.m_vertflip) {startrow=(m_height-1)*(m_width)*(m_bpp/8); decrow=-1*m_width*(m_bpp/8); } 
+ else                        {startrow=0; decrow=m_width*(m_bpp/8); }
+	
+ unsigned int startcol=0;
+ unsigned int deccol;
+ if (textureInfo.m_horzflip) {startcol=m_width-m_bpp/8;deccol=-1*m_bpp/8;}
+ else                        {startcol=0; deccol=m_bpp/8;}
+	
+ unsigned int rowcheckval=m_height*(m_width*m_bpp/8);
+ unsigned int colcheckval=m_width*(m_bpp/8);
+#define CHECKROW (i>=0) && (i<rowcheckval)
+#define CHECKCOL (j>=0) && (j<colcheckval)
+#define ADATA(X) add(textureInfo.m_TGA_data[X])
+	
+ for (unsigned int i=startrow;CHECKROW;i+=decrow )
+ {
+		for (unsigned int j=startcol;CHECKCOL;j+=deccol)
+		{
+			if (m_bpp==32) m_data.ADATA(i+j).ADATA(i+j+1).ADATA(i+j+2).ADATA(i+j+3);
+			if (m_bpp==24) 
+				m_data.ADATA(i+j).ADATA(i+j+1).ADATA(i+j+2).add(255);
+		}
+ }
+#undef CHECKROW
+#undef CHECKCOL
+#undef ADATA
+}
 // Loading TGA texture.
 bool sad::Texture::loadTGA(const hst::string & filename)
 {
@@ -27,9 +58,13 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 	m_bpp = textureInfo.m_TGA_bpp;
 	m_height = textureInfo.m_TGA_height;
 	m_width = textureInfo.m_TGA_width;
-
-	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
-		m_data.add( textureInfo.m_TGA_data[i] );
+    
+	if (result)
+	{
+		copyTGA(textureInfo);
+		if (m_bpp==24) m_bpp=32;
+	}
+	
 
 	if (!result)
 		this->loadDefaultTGATexture();
@@ -75,8 +110,11 @@ bool sad::Texture::loadTGA(const hst::wstring & filename)
 	m_height = textureInfo.m_TGA_height;
 	m_width = textureInfo.m_TGA_width;
 
-	for (unsigned int i=0; i<textureInfo.m_TGA_imageSize; i++)
-		m_data.add( textureInfo.m_TGA_data[i] );
+	if (result)
+	{
+		copyTGA(textureInfo);
+		if (m_bpp==24) m_bpp=32;
+	}
 
 	if (!result)
 		sad::Texture::loadDefaultTGATexture();
@@ -100,6 +138,8 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 	data.m_TGA_bpp	  = header.bitsPerPix;
 	data.m_TGA_height = header.height;
 	data.m_TGA_width  = header.width;
+	data.m_vertflip   = ( header.imageDescriptor & 32 )?true:false;
+    data.m_horzflip   = ( header.imageDescriptor & 16 )?true:false;
 
 	data.m_TGA_imageSize = data.m_TGA_height * data.m_TGA_width * data.m_TGA_bpp / 8;
 	data.m_TGA_data.resize(data.m_TGA_imageSize);	// Allocate memory for pixels
