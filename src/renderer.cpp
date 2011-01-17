@@ -14,6 +14,9 @@ In this file OpenGL function has been used obviously.
 #pragma comment( lib, "glu32.lib" )
 #endif
 
+#ifndef GL_GENERATE_MIPMAP_HINT
+	#define GL_GENERATE_MIPMAP_HINT           0x8192
+#endif
 
 sad::Renderer::~Renderer(void)
 {
@@ -95,6 +98,15 @@ bool sad::Renderer::initGLRendering()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
+	
+	const char * version=(const char *)glGetString(GL_VERSION);
+	if (version!=NULL)
+	{
+		hst::log::inst()->owrite(hst::string("Renderer: running OpenGL version ")+hst::string(version)+hst::string("\n"));
+		if (version[0]>'1' || version[2] >='4')
+			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
+	}
+
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);

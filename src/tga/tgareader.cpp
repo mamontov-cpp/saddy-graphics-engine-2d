@@ -66,57 +66,51 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 
 	pakleft=1+RLEBuffer[rcount-1];					// Bytes before the next block
 
-	// Unpacking
-	while (count < (data.m_TGA_width * data.m_TGA_height - 1) * bpp8)
+	size_t curindex=0;     //Pointer in RLE
+	size_t dataptr=0;    //Pointer in texturedata
+	while (curindex<RLESize && dataptr<data.m_TGA_imageSize)
 	{
-		flag = false;
+	  if (RLEBuffer[curindex]<128) //RAW section
+	  {
+		  unsigned char raw=RLEBuffer[curindex]+1;//RAW buffer size;
+		  curindex+=1;                            //To next byte
+		  if (RLESize-curindex<bpp8)              //Handle buffer error
+		  { delete RLEBuffer; return false; }
+          //Copy data
+		  for (unsigned char i=0;i<raw;i++)
+		  {
+             data.m_TGA_data[dataptr++]=RLEBuffer[curindex];      //Copy R
+			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+1];    //Copy G
+			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+2];    //Copy B
+			 
+			 if (bpp8==4) { data.m_TGA_data[dataptr++]=RLEBuffer[curindex+3]; } //Copy A
+             
+			 curindex+=bpp8;
+		  }
+	  }
+	  else            //RLE section
+	  {
+		  unsigned char rle=RLEBuffer[curindex]-127;//RLE component size;
+		  curindex+=1;                              //To next byte
+		  unsigned char r=RLEBuffer[curindex],g=RLEBuffer[curindex+1],
+		  	            b=RLEBuffer[curindex+2],a=0;
+		  if (bpp8==4) a=RLEBuffer[curindex+3];
 
-		// If the next block
-		if (pakleft==0)
-		{
-			// Reading a block
-			while (RLEBuffer[rcount] > 0x7F && !flag)
-			{
-				// block size
-				rloop = 1 + (RLEBuffer[rcount] & 0x7F);
+		  for (unsigned char i=0;i<rle;i++)
+		  {
+			  data.m_TGA_data[dataptr++]=r;
+			  data.m_TGA_data[dataptr++]=g;
+			  data.m_TGA_data[dataptr++]=b;
+              if (bpp8==4) 
+			  { data.m_TGA_data[dataptr++]=a; } 
+             
+		  }
 
-				// If the size is more, than we needed
-				if ((rloop*bpp8+count)>=(data.m_TGA_width*data.m_TGA_height-1)*bpp8)
-				{
-					rloop=(data.m_TGA_width*data.m_TGA_height-1)-count/bpp8;
-				}
-
-				rcount++;
-
-				for (int I=0;I<rloop;I++)
-				{
-					memcpy(&data.m_TGA_data[count],RLEBuffer+rcount,bpp8);	// Copyes a block	
-
-					count += bpp8;
-				}
-
-				rcount += bpp8;	
-
-				if (count>=bpp8*data.m_TGA_width*data.m_TGA_height-1)
-					flag = true;	// End of "while"
-			}
-			
-			pakleft=1+RLEBuffer[rcount];	// Bytes before the next block
-
-			rcount++;						// Increment the RLE counter
-		}
-		else	// Block hasn't ended
-		{
-			memcpy( &data.m_TGA_data[count], RLEBuffer + rcount, bpp8 * pakleft );	// Copies data
-
-			rcount	+= bpp8 * pakleft;	// Increment the RLE counter
-			
-			count	+= bpp8 * pakleft;	// Increment the counter
-			
-			pakleft = 0;
-		} 
-	} 
-
+		  curindex+=bpp8;
+	  }
+	}
+	result=true;
+	
     delete RLEBuffer;  // Frees memory of RLE pixels
 
 	return result;
