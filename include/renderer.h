@@ -61,6 +61,12 @@ namespace sad
 		*/
         static LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif
+#ifdef LINUX
+        /*! Sends fullscreen atom to toggle fullscreen
+             \param[in] flag 1 to make it fullscreen,0 to make windowed
+        */
+	void sendFSAtom(int flag);
+#endif
 		/*! Sets timer
 		*/
 		inline void setTimer(void){ m_starttimer = clock();}
