@@ -19,7 +19,7 @@ void  sad::Texture::copyTGA(const tga::Info & textureInfo)
 #define CHECKROW (i>=0) && (i<rowcheckval)
 #define CHECKCOL (j>=0) && (j<colcheckval)
 #define ADATA(X) add(textureInfo.m_TGA_data[X])
-	
+
  for (unsigned int i=startrow;CHECKROW;i+=decrow )
  {
 		for (unsigned int j=startcol;CHECKCOL;j+=deccol)
@@ -32,6 +32,7 @@ void  sad::Texture::copyTGA(const tga::Info & textureInfo)
 #undef CHECKROW
 #undef CHECKCOL
 #undef ADATA
+ 
 }
 // Loading TGA texture.
 bool sad::Texture::loadTGA(const hst::string & filename)
@@ -156,7 +157,9 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 	// Convert pixels from BRG or BRGA to RGB or RGBA
 	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
 	{
-		data.m_TGA_data[i]^=data.m_TGA_data[i+2]^=data.m_TGA_data[i]^=data.m_TGA_data[i+2];
+	    Uint8 t=data.m_TGA_data[i];
+		data.m_TGA_data[i]=data.m_TGA_data[i+2];
+		data.m_TGA_data[i+2]=t;
 	}
 
 	return result;

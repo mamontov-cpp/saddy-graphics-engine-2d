@@ -27,10 +27,11 @@ TGAHeader tga::getHeader(Uint8 *buf)
 // Reading pixels from texture's file
 bool tga::loadUnCompressed(tga::Info & data, FILE *hFile)
 {
-	if (fread(&data.m_TGA_data[0], 1, data.m_TGA_imageSize, hFile) != data.m_TGA_imageSize)
+	size_t res=fread(&data.m_TGA_data[0], 1, data.m_TGA_imageSize, hFile);
+	if (res != data.m_TGA_imageSize)
 		return false;
-
-	return true;
+		
+  return true;
 }
 
 // Reading and decode pixels 
@@ -45,7 +46,6 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 		 rloop	 = 0,				// Length of the block
 		 pakleft = 0;				// Number of pixels in the current block
 	bool flag;
-
 	unsigned int bpp8 = data.m_TGA_bpp / 8;	// Bytes per pixel
 
 	fgetpos(hFile, &currentPos);					// Save the current position
@@ -81,8 +81,7 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 		  {
              data.m_TGA_data[dataptr++]=RLEBuffer[curindex];      //Copy R
 			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+1];    //Copy G
-			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+2];    //Copy B
-			 
+			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+2];    //Copy B		 
 			 if (bpp8==4) { data.m_TGA_data[dataptr++]=RLEBuffer[curindex+3]; } //Copy A
              
 			 curindex+=bpp8;
