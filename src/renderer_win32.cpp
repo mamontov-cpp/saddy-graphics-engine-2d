@@ -245,13 +245,6 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 {
   if (m_running)
   {
-   
-#ifndef WIN32
-   this->releaseWindow();
-   this->m_window.fullscreen=!this->m_window.fullscreen;
-   this->createWindow();
-   sad::TextureManager::buildAll();
-#else
    this->m_window.fullscreen=!this->m_window.fullscreen;
    LONG result;
    static RECT rct={0,0,0,0};
@@ -284,7 +277,6 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
    {
 	   LOG_WRITE("Renderer: can't change mode\n");
    }
-#endif
   }
   else
   {
