@@ -114,7 +114,7 @@ thread::~thread()
 void * thread::proxy(void * info)
 {
    thread::info * inf=(thread::info *)info;
-   void * thread_f=inf->fun;
+   void * (*thread_f)(void*)=inf->fun;
    void * p=inf->parameter;
    bool waitable=inf->waitable;
    inf->running=true;
@@ -170,7 +170,7 @@ void * thread::result()
 }
 bool thread::run()
 {
-  bool r=pthread_create(&m_thread,&m_attr,thread::proxy,(void*)&m_info)==0
+  bool r=pthread_create(&m_thread,&m_attr,thread::proxy,(void*)&m_info)==0;
   if (r)  while (!(m_info.running));
   return r;
 }
