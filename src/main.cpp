@@ -79,6 +79,7 @@ inline bool loadTex(const char * from,const char * texname)
 	sad::Texture * tex=new sad::Texture();
 	bool res=tex->load(hst::string(from));
 	sad::TextureManager::instance()->load(texname,tex);
+	tex->makePOT();
 	if (!res) 
 		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
 	return res;
@@ -88,8 +89,11 @@ inline bool loadSprite(const char * from,const char * texname)
 	sad::Texture * tex=new sad::Texture();
 	bool res=tex->load(hst::string(from));
 	tex->setAlpha(255,hst::color(255,255,255),90);
+	tex->makePOT();
 	if (!res) 
 		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
+	
+	tex->makePOT();
 	
 	sad::TextureManager::instance()->load(texname,tex);
 	return res;

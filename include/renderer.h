@@ -68,7 +68,7 @@ namespace sad
 	void sendFSAtom(int flag);
         /*! DEPRECATED: Don't use
 	*/
-	void XContextInit();
+	bool XContextInit();
 #endif
 		/*! Sets timer
 		*/

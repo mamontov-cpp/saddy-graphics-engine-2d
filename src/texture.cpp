@@ -26,7 +26,7 @@ void Texture::enable()
 }
 #include <stdio.h>
 #include <string.h>
-
+#include "log.h"
 void Texture::buildMipMaps()
 {
 	// Строим текстуру
@@ -49,7 +49,9 @@ void Texture::buildMipMaps()
 		case BORDER_REPEAT: what=GL_REPEAT;break;
 	}
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
+	makePOT();
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
 	// Устанавливаем параметры границ
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, what);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, what);
@@ -57,8 +59,14 @@ void Texture::buildMipMaps()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);	
        
-        printf("Building texture (%d,%d,%d):%lu\n",m_width,m_height,m_bpp,m_data.count());
-	gluBuild2DMipmaps(GL_TEXTURE_2D, components, m_width, m_height, type, GL_UNSIGNED_BYTE, m_data.data());
+    printf("Building texture (%d,%d,%d):%lu\n",m_width,m_height,m_bpp,m_data.count());
+	GLint res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, m_width, m_height, type, GL_UNSIGNED_BYTE, m_data.data());
+	if (res)
+	{
+		hst::log::inst()->owrite(hst::string("Error: "));
+		hst::log::inst()->owrite(hst::string((char*)gluErrorString(res) ));
+		hst::log::inst()->owrite(hst::string("\n"));
+	}
 	printf("gluBuild2DMipmaps ended \n");
 	
 }

@@ -2,7 +2,7 @@ LDFLAGS= -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell
 INCLUDE= -Iinclude -Iinclude/primitives -Iinclude/templates -Iinclude/png -Iinclude/tga 
 OUTPUT   = lib/libsaddy.a 
 DEFINES  = -DWIN32 -DMINGW 
-BUILD    = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o  build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o build/renderer32.o build/renderer32loop.o build/fontmanager.o build/tmfont.o build/fontnode.o build/mutex.o build/thread.o build/semaphore.o
+BUILD    = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o  build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o build/renderer32.o build/renderer32loop.o build/fontmanager.o build/tmfont.o build/fontnode.o build/mutex.o build/thread.o build/semaphore.o build/texture_resize_bilinear.o
 all:
 	g++ -c src/log.cpp                    -o build/log.o                    $(INCLUDE) $(DEFINES) 
 	g++ -c src/scene.cpp                -o build/scene.o                $(INCLUDE) $(DEFINES)
@@ -40,6 +40,7 @@ all:
 	g++ -c src/os/mutex.cpp            -o build/mutex.o                 $(INCLUDE) $(DEFINES)
 	g++ -c src/os/semaphore.cpp            -o build/semaphore.o                 $(INCLUDE) $(DEFINES)
 	g++ -c src/fontnode.cpp                     -o  build/fontnode.o         $(INCLUDE) $(DEFINES)
+	g++ -c src/texture_resize_bilinear.cpp      -o  build/texture_resize_bilinear.o  $(INCLUDE) $(DEFINES)	
 link:
 	g++ --link  $(BUILD)     -shared           -o  $(OUTPUT)    $(LDFLAGS)
 clean:

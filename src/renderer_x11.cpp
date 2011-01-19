@@ -61,7 +61,7 @@ void sad::Renderer::releaseWindow()
     XCloseDisplay(m_window.dpy);
 }
 
-void sad::Renderer::XContextInit()
+bool sad::Renderer::XContextInit()
 {
 	static bool init=false;
         if (!init)
@@ -80,12 +80,13 @@ void sad::Renderer::XContextInit()
   	if (m_window.vi==NULL)
   	{
   		LOG_WRITE("Renderer: can't init XVisualInfo, quitting\n");
-        	return ;
+        	return false;
   	}
   	m_window.ctx = glXCreateContext(m_window.dpy, m_window.vi, 0, GL_TRUE);
          printf("Created context: %p %p\n",m_window.vi,m_window.ctx);
          init=true;
         }
+		return true;
 }
 bool sad::Renderer::createWindow()
 {
@@ -94,7 +95,7 @@ bool sad::Renderer::createWindow()
   X11Window winDummy;
   unsigned int borderDummy=0;
   
-  XContextInit();  
+  if (!XContextInit()) return false;  
   
  cmap = XCreateColormap(m_window.dpy, RootWindow(m_window.dpy, m_window.vi->screen),m_window.vi->visual, AllocNone);
  m_window.attr.colormap = cmap;
