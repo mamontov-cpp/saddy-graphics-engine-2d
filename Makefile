@@ -2,7 +2,7 @@ LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lXxf86vm
 INCLUDE= -Iinclude -Iinclude/primitives -Iinclude/templates -Iinclude/png -Iinclude/tga  -Iinclude/extra -I/usr/include/
 OUTPUT   = saddy-test
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o  build/fontmanager.o build/tmfont.o build/fontnode.o build/statemachine.o build/collidable.o build/hline.o build/collision.o build/hxyrect.o build/collisionmanager.o build/movitem.o build/background.o build/statelabel.o build/player.o build/thread.o build/semaphore.o build/mutex.o build/x11recode.o build/renderer_x11loop.o
+BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o  build/fontmanager.o build/tmfont.o build/fontnode.o build/statemachine.o build/collidable.o build/hline.o build/collision.o build/hxyrect.o build/collisionmanager.o build/movitem.o build/background.o build/statelabel.o build/player.o build/thread.o build/semaphore.o build/mutex.o build/x11recode.o build/renderer_x11loop.o build/renderer_x11.o
 all:
 	./mkbuild.sh
 	g++ -c src/log.cpp                    -o build/log.o                    $(INCLUDE) $(DEFINES)
@@ -52,6 +52,7 @@ all:
 	g++ -c src/os/semaphore.cpp            -o build/semaphore.o                 $(INCLUDE) $(DEFINES)
 	g++ -c src/x11recode.cpp            -o build/x11recode.o                 $(INCLUDE) $(DEFINES)
 	g++ -c src/renderer_x11loop.cpp            -o build/renderer_x11loop.o      $(INCLUDE) $(DEFINES)
+	g++ -c src/renderer_x11.cpp            -o build/renderer_x11.o      $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)

@@ -66,6 +66,9 @@ namespace sad
              \param[in] flag 1 to make it fullscreen,0 to make windowed
         */
 	void sendFSAtom(int flag);
+        /*! DEPRECATED: Don't use
+	*/
+	void XContextInit();
 #endif
 		/*! Sets timer
 		*/
@@ -86,7 +89,7 @@ namespace sad
 		*/
 		bool createGLContext();
 
-       /*! Updates a scene
+           /*! Updates a scene
 	   */
 		void update();
 

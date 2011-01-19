@@ -168,13 +168,17 @@ int main(int argc, char** argv)
 {
 	bool res=true; //!< Is loading succeeded?
 	//Loading fonts
+        hst::log::inst()->owrite(hst::string("Trying to load \"times_large\"...\n"));
 	sad::TMFont * fnt1=new sad::TMFont;
+         hst::log::inst()->owrite(hst::string("Trying to load \"times_large\":  ")).owrite(fnt1).owrite(hst::string("\n"));
 	bool res1=true;
 	res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
 		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed"));
-	sad::FontManager::add(fnt1,"times_large");
+	hst::log::inst()->owrite(hst::string("Trying to add \"times_large\"...\n"));
+       sad::FontManager::add(fnt1,"times_large");
+	hst::log::inst()->owrite(hst::string("Added \"times_large\"...\n"));
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");

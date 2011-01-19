@@ -1,4 +1,9 @@
 #include "texture.h"
+
+#ifdef LINUX
+#include <renderer.h>
+#endif
+
 using namespace sad;
 
 Texture::Texture()
@@ -19,6 +24,9 @@ void Texture::enable()
 {
 	glBindTexture(GL_TEXTURE_2D,m_id);
 }
+#include <stdio.h>
+#include <string.h>
+
 void Texture::buildMipMaps()
 {
 	// Строим текстуру
@@ -40,14 +48,18 @@ void Texture::buildMipMaps()
 		case BORDER_CLAMP:	what=GL_CLAMP;break;
 		case BORDER_REPEAT: what=GL_REPEAT;break;
 	}
-    
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
 	// Устанавливаем параметры границ
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, what);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, what);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);	
+       
+        printf("Building texture (%d,%d,%d):%lu\n",m_width,m_height,m_bpp,m_data.count());
 	gluBuild2DMipmaps(GL_TEXTURE_2D, components, m_width, m_height, type, GL_UNSIGNED_BYTE, m_data.data());
+	printf("gluBuild2DMipmaps ended \n");
 	
 }
 
@@ -102,14 +114,14 @@ void Texture::save(const char * method, const char * file)
 	if (f)
 	{
 		fputs("#include \"texture.h\"\n\nstatic const unsigned char texdata[",f);
-		fprintf(f,"%d]=\n{\n",m_data.count());
+		fprintf(f,"%lu]=\n{\n",m_data.count());
 		if (m_data.count()!=0)
 			fprintf(f,"%d",m_data[0]);
 		for (unsigned long i=1;i<m_data.count();i++)
                fprintf(f,", %d",m_data[i]);
 		fputs("\n};\n\n",f);
 		
-		fprintf(f,"static const unsigned int cnt=%d;\n\n",m_data.count());
+		fprintf(f,"static const unsigned int cnt=%lu;\n\n",m_data.count());
 		fprintf(f,"\nvoid sad::Texture::%s()\n{\n m_bpp=%d;m_width=%d;m_height=%d;\n for (unsigned int i=0;i<cnt;i++) m_data<<texdata[i]; \n}\n\n\n",method,m_bpp,m_width,m_height);
 		fclose(f);
 	}

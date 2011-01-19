@@ -72,10 +72,12 @@ namespace sad
                 Display         *     dpy;           //!< Display
                 int                       screen;     //!<  Screen
                 GLXContext ctx;                  //!< Graphic context
-                XSetWindowAttributes attr;  //!< Window attributes    
+                XSetWindowAttributes attr;  //!< Window attributes 
+		X11Window                 win;  //!< X11 window   
                 int x, y;                                //!<  X and Y coordinates of window
                 unsigned int width, height;   //!< Width and height of window
                 unsigned int depth;              //!< Depth    
+		XVisualInfo *vi;                   //!< Visual info
 #endif
 		bool                active;                     //!< Is window active
 		bool                fullscreen;                 //!< Full screen

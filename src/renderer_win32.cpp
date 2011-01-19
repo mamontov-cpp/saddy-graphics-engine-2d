@@ -130,7 +130,7 @@ bool sad::Renderer::createWindow()
 	if (!initGLRendering())
 	{
 		this->releaseWindow();
-		LOG_WRITE("Rendere: can't init GL rendering\n");
+		LOG_WRITE("Renderer: can't init GL rendering\n");
 		return false;
 	}
 
@@ -221,7 +221,6 @@ sad::Renderer::Renderer(void)
   m_windowtitle="SadExample";
   m_created=false;
   m_currentscene=NULL;
-  m_created=false;
   this->m_window.hRC=NULL;
   this->m_window.hDC=NULL;
   this->m_window.hWND=NULL;
