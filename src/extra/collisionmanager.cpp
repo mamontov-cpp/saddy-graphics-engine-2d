@@ -160,7 +160,7 @@ void CollisionManager::unbind(CollisionGroupID id1,CollisionGroupID id2)
 	m_bind.lock();
 
 	hst::pair<int,int> p(id1,id2);
-    if (m_handlers.contains(p))
+        if (m_handlers.contains(p))
 	{
 		delete m_handlers[p];
 		m_handlers.remove(p);
@@ -189,9 +189,13 @@ void CollisionManager::bind(CollisionGroupID id1, CollisionGroupID id2, Collisio
 		atexit(CollisionManager::flushHandlers);
 		init=true;
 	}
-	unbind(id1,id2);
+        hst::pair<int,int> p(id1,id2);
+        if (m_handlers.contains(p))
+	{
+		delete m_handlers[p];
+		m_handlers.remove(p);
+	}
 	m_handlers.insert(hst::pair<int,int>(id1,id2),h);
-	
 	m_bind.unlock();
 }
 
@@ -235,7 +239,7 @@ CollisionTester::CollisionTester()
 
 void CollisionTester::render()
 {
- if (clock()-m_lastclock>COLLISION_TEST_FREQUENCY)
+ if ((clock()-m_lastclock)/(float)CLOCKS_PER_SEC*1000>COLLISION_TEST_FREQUENCY)
  {
 	 m_lastclock=clock();
 	 CollisionManager::detect();

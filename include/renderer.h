@@ -148,7 +148,7 @@ namespace sad
 		/*! elapsed time in milliseconds
 		    \return Time in milliseconds
 		*/
-		inline int elapsedInMSeconds(){return clock() - m_starttimer;}
+		inline int elapsedInMSeconds(){return (clock() - m_starttimer)/CLOCKS_PER_SEC*1000;}
 
 		/*! Sets a window title
 		    \param[in] s  new title

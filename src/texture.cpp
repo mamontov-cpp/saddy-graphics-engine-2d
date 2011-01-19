@@ -24,9 +24,9 @@ void Texture::enable()
 {
 	glBindTexture(GL_TEXTURE_2D,m_id);
 }
-#include <stdio.h>
-#include <string.h>
+
 #include "log.h"
+
 void Texture::buildMipMaps()
 {
 	// Строим текстуру
@@ -59,7 +59,7 @@ void Texture::buildMipMaps()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);	
        
-    printf("Building texture (%d,%d,%d):%lu\n",m_width,m_height,m_bpp,m_data.count());
+  
 	GLint res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, m_width, m_height, type, GL_UNSIGNED_BYTE, m_data.data());
 	if (res)
 	{
@@ -67,7 +67,7 @@ void Texture::buildMipMaps()
 		hst::log::inst()->owrite(hst::string((char*)gluErrorString(res) ));
 		hst::log::inst()->owrite(hst::string("\n"));
 	}
-	printf("gluBuild2DMipmaps ended \n");
+
 	
 }
 

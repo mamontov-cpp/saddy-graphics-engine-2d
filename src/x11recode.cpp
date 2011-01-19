@@ -63,7 +63,7 @@ int sad::recode(XKeyEvent * xkey)
 {
   KeySym key=XLookupKeysym(xkey, 0);
   if (key>=0x0061 && key<=0x007A) return ((int)key) - 0x0020;  //!< Shift in alphabet
-  if (hash_init)
+  if (!hash_init)
  {
  	init_recode_table();
  	hash_init=true;

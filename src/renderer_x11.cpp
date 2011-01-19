@@ -83,10 +83,9 @@ bool sad::Renderer::XContextInit()
         	return false;
   	}
   	m_window.ctx = glXCreateContext(m_window.dpy, m_window.vi, 0, GL_TRUE);
-         printf("Created context: %p %p\n",m_window.vi,m_window.ctx);
          init=true;
         }
-		return true;
+	return true;
 }
 bool sad::Renderer::createWindow()
 {
