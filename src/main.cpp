@@ -172,17 +172,13 @@ int main(int argc, char** argv)
 {
 	bool res=true; //!< Is loading succeeded?
 	//Loading fonts
-        hst::log::inst()->owrite(hst::string("Trying to load \"times_large\"...\n"));
 	sad::TMFont * fnt1=new sad::TMFont;
-         hst::log::inst()->owrite(hst::string("Trying to load \"times_large\":  ")).owrite(fnt1).owrite(hst::string("\n"));
 	bool res1=true;
 	res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
 		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed"));
-	hst::log::inst()->owrite(hst::string("Trying to add \"times_large\"...\n"));
        sad::FontManager::add(fnt1,"times_large");
-	hst::log::inst()->owrite(hst::string("Added \"times_large\"...\n"));
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
@@ -216,7 +212,8 @@ int main(int argc, char** argv)
 
 	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
 	
-	sad::Renderer::instance().init(sad::Settings(640,480,false));	
+	sad::Renderer::instance().init(sad::Settings(640,480,false));
+	printf("Initted renderer!\n");	
 	srand(time(NULL));
 	sad::Scene * sc= new sad::Scene();
 	sad::Renderer::instance().setCurrentScene(sc);
@@ -235,9 +232,13 @@ int main(int argc, char** argv)
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
 	
+	printf("Handlers binded!\n");
+
 	StateMachine::bindState(IDLE_STATE,new StateHandler(toggle_idle));
 	StateMachine::bindState(PLAY_STATE,new StateHandler(toggle_play));
 	//Here must be an initialization of engine, and running it
+	printf("States binded!\nBinding collisions\n");
+
 
 	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
 	CollisionManager::bind(PlayerBullet::Type,ShootingEnemy::Type,new CollisionHandler(playerbullet));
@@ -246,10 +247,11 @@ int main(int argc, char** argv)
 	CollisionManager::bind(Player::Type,Enemy::Type,new CollisionHandler(playerenemybullet));
 	CollisionManager::bind(Player::Type,ShootingEnemy::Type,new CollisionHandler(playerenemybullet));
 
+	printf("Building mips!\n");	
 	sad::TextureManager::buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
-
+	printf("Engine started!\n");
 	sad::Renderer::instance().run();
 	hst::log::inst()->save("log.txt");
 

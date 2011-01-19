@@ -178,7 +178,7 @@ ShootingEnemy::~ShootingEnemy()
 
 void ShootingEnemy::render()
 {
-	if (clock()-m_lastclock>SHOOT_FREQ)
+	if ((clock()-m_lastclock)/(float)CLOCKS_PER_SEC*1000>SHOOT_FREQ)
 	{
 		m_lastclock=clock();
 		Vector bdir(0.08*cos(m_angle),0.08*sin(m_angle));
@@ -209,7 +209,7 @@ void EnemyEmitter::renderSpawn()
 	hst::log::inst()->write(m_clk);
 	hst::log::inst()->write('\n');
 #endif
-	if (clock()-m_clk<SPAWN_FREQ)
+	if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ)
 		return;
 
 #ifdef CLOCK_TEST
@@ -235,7 +235,7 @@ void EnemyEmitter::renderSpawn()
 void EnemyEmitter::renderRain()
 {
 	if (paused) return;
-	if (clock()-m_clk<SPAWN_FREQ4)
+	if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ4)
 		return;
 
 #ifdef CLOCK_TEST

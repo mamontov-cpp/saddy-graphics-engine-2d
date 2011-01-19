@@ -112,6 +112,10 @@ bool sad::Renderer::initGLRendering()
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR_MATERIAL);
+	
+	reshape(m_glsettings.width(),m_glsettings.height());
+	
+	glFlush();
 	return true;
 }
 
