@@ -26,10 +26,12 @@ bool TMFont::load(
 		return false;
 	}
 	m_tex->setAlpha(255,bk,80);
+        printf("Started to build mipmaps\n");
 	m_tex->buildMipMaps();
 	//Loading mapped file
 	FILE * fl=fopen(cfg.data(),"rt");
 
+	printf("Started to load CFG file\n");
 	if (fl)
 	{
 		int count=0;
