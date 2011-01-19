@@ -243,6 +243,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\texture_resize_bilinear.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\texturemanager.cpp"
 				>
 			</File>

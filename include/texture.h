@@ -54,6 +54,22 @@ namespace sad
 		unsigned int       m_id;     //!< ID of texture
 		Mode               m_mode;   //!< Texture mode
 
+		/*! Gets a pointer to pixel 
+		    \param[in] i  row
+			\param[in] j  col
+		*/
+		inline Uint8 *  pixel(unsigned int i,unsigned int j)
+		{ return   &(m_data[(i*m_width+j)*(m_bpp >> 3)]);}
+		/*! Upscales a texture, using a simple resize
+		    \param[in] width new width
+			\param[in] height new height
+		*/
+		void scaleFast(int width, int height);
+		/*! Upscales a texture, using a simplified bilinear resize
+		    \param[in] width new width
+			\param[in] height new height
+		*/
+		void scale(int width, int height);
 		/*! Loads a BMP file, from file
 		*/
 		bool               loadBMP(FILE * file);
@@ -61,7 +77,9 @@ namespace sad
 		*/
 		void                copyTGA(const tga::Info & textureInfo);
 	public:
-
+		/*! Makes a texture POT
+		*/
+		void makePOT();
 		/*! Empty texture
 		*/
 		Texture();
@@ -127,5 +145,10 @@ namespace sad
 		/*! Saves a texture to a precompiled source code
 		*/
 		void save(const char * method, const char * file);
+
+		inline int width() const { return m_width; }
+		inline int height() const { return m_height;}
+		inline int bpp() const { return m_bpp;}
+		inline Uint8 * data() const { return m_data.data(); }
 	};
 }

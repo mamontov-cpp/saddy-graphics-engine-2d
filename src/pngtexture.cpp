@@ -27,8 +27,11 @@ bool sad::Texture::loadPNG(const hst::string & filename)
 	this->m_width=png::info().width;
        
        for (unsigned int i=0;i<output.size();i++)
-		this->m_data.add(output[i]);
-
+	   {
+		 this->m_data.add(output[i]);
+		 if (m_bpp==24 && ( (i+1 % 3) ==0 )) this->m_data.add(255);
+	   }
+	   m_bpp=32;
 	return true;
 }
 
@@ -52,8 +55,11 @@ bool sad::Texture::loadPNG(const hst::wstring & filename)
 	this->m_height=png::info().height;
 	this->m_width=png::info().width;
 	for (unsigned int i=0;i<output.size();i++)
+	{
 		this->m_data.add(output[i]);
-	
+		if (m_bpp==24 && ( (i+1 % 3) ==0 )) this->m_data.add(255);
+	}
+	if (m_bpp==24) m_bpp=32;
 
 	return true;
 }

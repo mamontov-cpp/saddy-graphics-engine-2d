@@ -82,6 +82,7 @@ bool  sad::Texture::loadBMP(FILE * file)
 		fread(&r,sizeof(char),1,file);
 		m_data<<r<<g<<b<<255;
 	}
+	m_bpp=32;
 	return true;
 }
 bool sad::Texture::loadBMP(const hst::string &filename)
