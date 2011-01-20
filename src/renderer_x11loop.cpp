@@ -118,9 +118,9 @@ void sad::Renderer::mainLoop()
        }
 	// Process Application Loop
 	frames++;
-	if (Renderer::instance().elapsedInMSeconds() >= 1000)
+	if (this->elapsedInMSeconds() >= 1000)
 	{
-		  m_fps = frames;frames=0;Renderer::instance().setTimer();
+		  setFPS(frames);frames=0;setTimer();
 	}
 	//Update a window, if active
 	if (m_window.active)

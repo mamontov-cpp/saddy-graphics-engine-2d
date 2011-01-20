@@ -31,6 +31,10 @@ namespace sad
 		hst::string          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
         bool                 m_created;     //!< Whether we are created a window
+		/*! Sets new fps value, but avoids fast jumps in fps
+			\param[in] fps  fps value
+		*/
+		void setFPS(int fps) { m_fps=( (m_fps << 1) + fps )/3; }
 		/*! Setups a OpenGL for first use
 		    \return success of operation
 		*/

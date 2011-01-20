@@ -52,7 +52,19 @@ bool TMFont::load(
 	}
 	return true;
 }
-
+hRectF TMFont::size(const hst::string & str)
+{
+  float lenx=0.0f;
+  float leny=0.0f;
+  //Calculate total length
+  for (int i=0;i<str.length();i++)
+  {
+	  lenx+=m_lr[str[i]].x()-m_ul[str[i]].x();
+  }
+  if (str.length()!=0)
+	leny=m_ul[str[0]].y()-m_lr[str[0]].y();
+  return hRectF(hPointF(0,0),hPointF(lenx,leny));
+}
 void TMFont::render(const hst::string & str,const hRectF & rect,float z)
 {
   float lenx=0.0f;
@@ -65,8 +77,13 @@ void TMFont::render(const hst::string & str,const hRectF & rect,float z)
   m_tex->enable();
   float curx=rect.p().x();
   float cury=rect.p().y();
-  float endy=rect.p().y()+rect.height();
+  float endy=rect.p().y()+rect.height()*aspratio;
   
+  if (str.length()!=0) 
+  {
+     float test=m_lr[str[0]].y()-m_ul[str[0]].y();
+	 endy=cury+(float)(test)*aspratio;
+  }
   glBegin(GL_QUADS);
   for (int i=0;i<str.length();i++)
   {
