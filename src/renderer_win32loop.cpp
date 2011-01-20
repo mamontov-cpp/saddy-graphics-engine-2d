@@ -49,7 +49,7 @@ void sad::Renderer::mainLoop()
 	  frames++;
 	  if (Renderer::instance().elapsedInMSeconds() >= 1000)
 	  {
-		  m_fps = frames;frames=0;Renderer::instance().setTimer();
+		  setFPS(frames);frames=0;Renderer::instance().setTimer();
 	  }
 	  //Update a window, if active
 	  if (m_window.active)

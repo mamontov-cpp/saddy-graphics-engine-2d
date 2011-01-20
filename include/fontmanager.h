@@ -37,6 +37,10 @@ class BasicFont
 		 \param[in] z zvalue
 	 */
 	 virtual void render(const hst::string & str,const hRectF & rect,float z)=0; 
+	 /*! Returns a estimated size of label
+	     \param[in] str string
+	 */
+	 virtual hRectF size(const hst::string & str)=0;
 	 /*! Destroys an exemplar
 	 */
 	 virtual ~BasicFont();
@@ -83,6 +87,10 @@ namespace sad
 				\param[in] z    z paramerer
 			*/
 	        void render(const hst::string & str,const hRectF & rect,float z);
+			/*! Returns a estimated size of label
+				\param[in] str string
+			*/
+			hRectF size(const hst::string & str);
 			/*! Destroys a file
 			*/
 			~TMFont();
