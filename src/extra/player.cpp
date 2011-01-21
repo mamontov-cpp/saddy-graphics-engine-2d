@@ -1,4 +1,5 @@
 #include "player.h"
+#include "lightmodel.h"
 
 int      Player::Type=12;
 
@@ -42,6 +43,7 @@ void Player::move(const Vector & p)
 		m_draw.p().setY(BOUND_Y1); 
 		ch=true; 
 	}
+
 
 	if (ch)
 		CollisionManager::updateSingle(this);
@@ -112,6 +114,7 @@ Player::Player(const BoundingBox &  draw, float percent)
 	m_box=draw.enlarged(draw.width()*(percent-1),draw.height()*(percent-1));
 
 	m_type=Player::Type;
+
 
 	CollisionManager::add(this);
 	instance=this;

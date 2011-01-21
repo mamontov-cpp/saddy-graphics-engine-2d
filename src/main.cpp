@@ -4,8 +4,14 @@
 #include "player.h"
 #include "background.h"
 #include "statelabel.h"
+#include "lightmodel.h"
+
+#ifdef WIN32
+#ifndef MINGW
 #pragma comment(lib, "OpenGL32.lib")
 #pragma comment(lib, "GLU32.lib")
+#endif
+#endif
 
 void rend_quit(const sad::Event & o)
 {
@@ -68,6 +74,39 @@ void rend_right(const sad::Event & o)
 	{
 		Player::instance->move(Vector(P_SPEED,0.0));
 	}
+}
+
+static float light=0.0f;
+void light_inc(const sad::Event & o)
+{
+  light+=2.5;
+  sad::Light::AQuadratic(0,light);
+}
+void light_dec(const sad::Event & o)
+{
+  light-=2.5;
+  sad::Light::AQuadratic(0,light);
+}
+void light_enable(const sad::Event & o)
+{
+ sad::ColorMaterial::disable();
+ sad::ColorMaterial::set(sad::Both,sad::ColorMaterial::DiffuseAmbient);
+ sad::ColorMaterial::enable();
+ 
+ sad::LightModel::enable();
+ sad::LightModel::setAmbient(0.5f,0.5f,0.5f,1.0f);
+
+
+ sad::Light::enable(0);
+ sad::Light::set(0,sad::Light::Ambient,1.0f,0.0f,0.0f,1.0f);
+ sad::Light::locate(0,0.0f,0.0f,0.5f,1.0f); 
+ sad::Light::AQuadratic(0,light);
+ sad::Light::AConstant(0,1.0f);
+}
+void light_disable(const sad::Event & o)
+{
+	sad::Light::disable(0);
+	sad::LightModel::disable();
 }
 
 
@@ -228,6 +267,11 @@ int main(int argc, char** argv)
 	sad::Input::inst()->bindKeyDown(KEY_LEFT,rend_left);
 	sad::Input::inst()->bindKeyDown(KEY_RIGHT,rend_right);
 	sad::Input::inst()->bindKeyDown(KEY_ENTER,toggle_state);
+    
+	sad::Input::inst()->bindKeyDown('O',light_enable);
+	sad::Input::inst()->bindKeyDown('P',light_disable);
+	sad::Input::inst()->bindKeyDown('K',light_inc);
+	sad::Input::inst()->bindKeyDown('L',light_dec);
 
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
@@ -251,6 +295,11 @@ int main(int argc, char** argv)
 	sad::TextureManager::buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
+	//Set light
+	sad::ColorMaterial::disable();
+	sad::ColorMaterial::set(sad::Both,sad::ColorMaterial::DiffuseAmbient);
+	sad::ColorMaterial::enable();
+
 	printf("Engine started!\n");
 	sad::Renderer::instance().run();
 	hst::log::inst()->save("log.txt");

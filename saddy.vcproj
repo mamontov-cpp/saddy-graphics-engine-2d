@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\lightmodel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\log.cpp"
 				>
 			</File>
@@ -418,6 +422,10 @@
 			</File>
 			<File
 				RelativePath=".\include\input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\lightmodel.h"
 				>
 			</File>
 			<File
