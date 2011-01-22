@@ -2,7 +2,7 @@ LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread
 INCLUDE= -Iinclude -Iinclude/primitives -Iinclude/templates -Iinclude/png -Iinclude/tga  -Iinclude/extra -I/usr/include/
 OUTPUT   = saddy-test
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o  build/fontmanager.o build/tmfont.o build/fontnode.o build/statemachine.o build/collidable.o build/hline.o build/collision.o build/hxyrect.o build/collisionmanager.o build/movitem.o build/background.o build/statelabel.o build/player.o build/thread.o build/semaphore.o build/mutex.o build/x11recode.o build/renderer_x11loop.o build/renderer_x11.o build/texture_resize_bilinear.o build/lightmodel.o
+BUILD       = build/log.o build/scene.o build/texture.o build/texturemanager.o build/hcolor.o build/hhash.o build/hstring.o build/hstringlist.o build/main.o build/hwstring.o build/convert.o build/decodepng.o build/decompress.o build/huffman.o  build/inflateblock.o build/inflatedynamic.o build/inflator.o build/pngbasic.o build/unfilter.o build/zlib.o build/defaulttextureloader.o build/tga.o build/tgareader.o build/bmploader.o build/input.o build/pngtexture.o build/renderer.o build/settings.o build/testnode.o  build/fontmanager.o build/tmfont.o build/fontnode.o build/statemachine.o build/collidable.o build/hline.o build/collision.o build/hxyrect.o build/collisionmanager.o build/movitem.o build/background.o build/statelabel.o build/player.o build/thread.o build/semaphore.o build/mutex.o build/x11recode.o build/renderer_x11loop.o build/renderer_x11.o build/texture_resize_bilinear.o build/lightmodel.o build/extchecker.o build/vbolayer.o
 all:
 	./mkbuild.sh
 	g++ -c src/log.cpp                    -o build/log.o                    $(INCLUDE) $(DEFINES)
@@ -55,6 +55,8 @@ all:
 	g++ -c src/renderer_x11.cpp            -o build/renderer_x11.o      $(INCLUDE) $(DEFINES)
 	g++ -c src/texture_resize_bilinear.cpp      -o  build/texture_resize_bilinear.o  $(INCLUDE) $(DEFINES)	
 	g++ -c src/lightmodel.cpp      -o  build/lightmodel.o  $(INCLUDE) $(DEFINES)
+	g++ -c src/extchecker.cpp      -o  build/extchecker.o  $(INCLUDE) $(DEFINES)
+	g++ -c src/vbolayer.cpp      -o  build/vbolayer.o  $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)
