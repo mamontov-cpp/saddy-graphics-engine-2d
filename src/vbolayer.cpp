@@ -1,6 +1,8 @@
 #include "vbolayer.h"
 #include "log.h"
 
+
+
 bool VBO::error=false;
 bool VBO::initted=false;
 
@@ -9,6 +11,7 @@ VBO::VBO()
 	m_id=0;
 	if (!initted) { init(); initted=true; }
 }
+#ifdef WIN32
 PFNGLGENBUFFERSARBPROC VBO::pglGenBuffersARB=0 ;                     // VBO Name Generation Procedure
 PFNGLBINDBUFFERARBPROC VBO::pglBindBufferARB=0 ;                     // VBO Bind Procedure
 PFNGLBUFFERDATAARBPROC VBO::pglBufferDataARB=0 ;                     // VBO Data Loading Procedure
@@ -17,7 +20,23 @@ PFNGLDELETEBUFFERSARBPROC VBO::pglDeleteBuffersARB=0 ;               // VBO Dele
 PFNGLGETBUFFERPARAMETERIVARBPROC VBO::pglGetBufferParameterivARB=0 ; // return various parameters of VBO
 PFNGLMAPBUFFERARBPROC VBO::pglMapBufferARB=0 ;                       // map VBO procedure
 PFNGLUNMAPBUFFERARBPROC VBO::pglUnmapBufferARB=0 ;                   // unmap VBO procedure
-
+#else
+extern "C"
+{
+//Dunno why, but on some compilers I can't got it to work
+GLAPI void APIENTRY glBindBufferARB (GLenum, GLuint);
+GLAPI void APIENTRY glDeleteBuffersARB (GLsizei, const GLuint *);
+GLAPI void APIENTRY glGenBuffersARB (GLsizei, GLuint *);
+GLAPI GLboolean APIENTRY glIsBufferARB (GLuint);
+GLAPI void APIENTRY glBufferDataARB (GLenum, GLsizeiptrARB, const GLvoid *, GLenum);
+GLAPI void APIENTRY glBufferSubDataARB (GLenum, GLintptrARB, GLsizeiptrARB, const GLvoid *);
+GLAPI void APIENTRY glGetBufferSubDataARB (GLenum, GLintptrARB, GLsizeiptrARB, GLvoid *);
+GLAPI GLvoid* APIENTRY glMapBufferARB (GLenum, GLenum);
+GLAPI GLboolean APIENTRY glUnmapBufferARB (GLenum);
+GLAPI void APIENTRY glGetBufferParameterivARB (GLenum, GLenum, GLint *);
+GLAPI void APIENTRY glGetBufferPointervARB (GLenum, GLenum, GLvoid**);
+}
+#endif
 void VBO::init()
 {
 	error=!ext::presented("GL_ARB_vertex_buffer_object");
