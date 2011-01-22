@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\extchecker.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\fontmanager.cpp"
 				>
 			</File>
@@ -256,6 +260,10 @@
 			</File>
 			<File
 				RelativePath=".\src\tmfont.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
 			<File
@@ -413,6 +421,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\include\extchecker.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\fontmanager.h"
 				>
 			</File>
@@ -466,6 +478,10 @@
 			</File>
 			<File
 				RelativePath=".\include\types.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\vbolayer.h"
 				>
 			</File>
 			<File
