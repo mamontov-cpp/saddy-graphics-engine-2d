@@ -169,20 +169,31 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 	}
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
 	{
+		sad::Event sev(0);
+		SHORT c=GetAsyncKeyState(VK_CAPITAL)==1;
+		SHORT a=GetAsyncKeyState(VK_MENU)<0;
+		SHORT ct=GetAsyncKeyState(VK_CONTROL)<0;
+		SHORT sh=GetAsyncKeyState(VK_SHIFT)<0;
+		sev.capslock=c!=0;
+		sev.alt=a!=0;
+		sev.ctrl=ct!=0;
+		sev.shift=sh!=0;
         if (table.contains(wParam))
 		{
+			sev.key=table[wParam];
 			if (uMsg==WM_KEYDOWN)
-			     sad::Input::inst()->postKeyDown(sad::Event(table[wParam]));
+			     sad::Input::inst()->postKeyDown(sev);
 			else
-				 sad::Input::inst()->postKeyUp(sad::Event(table[wParam]));
+				 sad::Input::inst()->postKeyUp(sev);
 			return 0;
 		}
 		char af[5];
 		GetKeyNameTextA(lParam,af,5);
+		sev.key=af[0];
 		if (uMsg==WM_KEYUP)
-				sad::Input::inst()->postKeyDown(sad::Event((int)(af[0])));
+				sad::Input::inst()->postKeyDown(sev);
 		else
-			    sad::Input::inst()->postKeyUp(sad::Event((int)(af[0])));
+			    sad::Input::inst()->postKeyUp(sev);
 		return 0;
 	}
 	if (uMsg==WM_SIZE)
