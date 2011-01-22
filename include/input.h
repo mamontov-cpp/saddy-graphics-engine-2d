@@ -72,6 +72,10 @@ namespace sad
 			 float y;      //!< Y coordinate
 			 float z;      //!< Z coordinate
 			 int   key;    //!< Pressed key (or mouse button)
+			 bool   alt;   //!< Whether alt is pressed
+			 bool   shift; //!< Whether shift is pressed
+			 bool   capslock; //!< Whether caps lock is toggled
+			 bool   ctrl;        //!< Whether ctrl is pressed   
 			 float delta;  //!< Delta for wheel coordinate. It's will be filled under Windows. On X11, you can't see it due a poor protocol specidfication, so on wheelup  event it will be filled with 1, on wheeldown -1.
 
 			 /*! Key event

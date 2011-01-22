@@ -16,6 +16,7 @@ void sad::Renderer::mainLoop()
   XEvent event;
   m_fps=100;
   int frames=0;
+  bool altstate=false;
   while(m_running)
   {
   	while (XPending(m_window.dpy) > 0)
@@ -83,12 +84,18 @@ void sad::Renderer::mainLoop()
                	                                 }
 		case KeyPress:          {
                                                    int key = sad::recode(&event.xkey); 
-						   sad::Input::inst()->postKeyDown(key);
+						   if (key==KEY_LALT || key==KEY_RALT) altstate=true;
+						   sad::Event sev(key);  sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
+						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
+						   sad::Input::inst()->postKeyDown(sev);
                     				   break;
                                                  }
 		case KeyRelease:      {
 						   int key = sad::recode(&event.xkey); 
-						   sad::Input::inst()->postKeyUp(key);
+						   if (key==KEY_LALT || key==KEY_RALT) altstate=false;
+						   sad::Event sev(key); sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
+						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
+						   sad::Input::inst()->postKeyUp(sev);
                     				   break;
 			                         }
 		case MotionNotify:    { //MouseMove Event
