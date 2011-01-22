@@ -21,7 +21,6 @@
     #include <GL/glx.h>
     #include <GL/gl.h>														
     #include <GL/glu.h>
-    #include <X11/extensions/xf86vmode.h>
     #include <X11/keysym.h>
 #endif
 	

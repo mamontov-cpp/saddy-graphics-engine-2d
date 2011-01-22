@@ -1,4 +1,4 @@
-LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lXxf86vm
+LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread 
 INCLUDE= -Iinclude -Iinclude/primitives -Iinclude/templates -Iinclude/png -Iinclude/tga  -Iinclude/extra -I/usr/include/
 OUTPUT   = libsaddy.a
 DEFINES  = -DUNIX -DLINUX -DGCC
