@@ -105,6 +105,7 @@ void light_enable(const sad::Event & o)
 }
 void light_disable(const sad::Event & o)
 {
+	hst::log::inst()->write(o.shift).write(o.ctrl).write(o.alt).write(o.capslock).write('\n');
 	printf("Shift: %d, Control: %d, Alt: %d, CapsLock: %d\n",o.shift,o.ctrl,o.alt,o.capslock);
 	sad::Light::disable(0);
 	sad::LightModel::disable();
