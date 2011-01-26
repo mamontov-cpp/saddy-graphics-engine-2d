@@ -1,5 +1,6 @@
 #include "tga/tga.h"
 
+
 using namespace tga;
 
 void  sad::Texture::copyTGA(const tga::Info & textureInfo)
