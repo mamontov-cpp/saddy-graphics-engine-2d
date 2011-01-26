@@ -101,7 +101,7 @@ thread::thread(thread_function fun, void * param, bool waitable)
 {
    m_thread=(pthread_t)0;
    pthread_attr_init(&m_attr);
-   m_info=thread::info::info(waitable);
+   m_info=thread::info(waitable);
    m_info.fun=fun;
    m_info.parameter=param;	
 }
