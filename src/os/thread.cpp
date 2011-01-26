@@ -12,7 +12,7 @@ thread::info::info(thread_function f, void * p)
   running=false;
   fun=f;
   parameter=p;
-}       
+}
 
 thread::thread(thread_function fun, void * param, bool waitable)
 {
@@ -22,7 +22,7 @@ thread::thread(thread_function fun, void * param, bool waitable)
 
 thread::~thread()
 {
-  if (m_thread!=NULL) CloseHandle(m_thread);	
+  if (m_thread!=NULL) CloseHandle(m_thread);
 }
 
 DWORD WINAPI thread::proxy(LPVOID info)
@@ -32,16 +32,16 @@ DWORD WINAPI thread::proxy(LPVOID info)
    void * p=inf->parameter;
    inf->running=true;
    void * result=thread_f(p);
-   return (DWORD)result;	
+   return (DWORD)result;
 }
 
 void thread::detach()
 {
-	
+
 }
 void thread::makeWaitable()
 {
-	
+
 }
 
 void thread::stop()
@@ -53,17 +53,17 @@ bool thread::wait(unsigned int time)
 {
   if (m_info.running)
   {
-  	if (time==INFINITE) 
-        { 
+  	if (time==INFINITE)
+        {
              while (WaitForSingleObject(m_thread,1)!=WAIT_OBJECT_0);
-			 return true;  
+			 return true;
         }
-        else 
+        else
         {
 		    return WaitForSingleObject(m_thread,1)==WAIT_OBJECT_0;
-        }  
+        }
   }
-  return false;	
+  return false;
 }
 
 void * thread::result()
@@ -103,12 +103,12 @@ thread::thread(thread_function fun, void * param, bool waitable)
    pthread_attr_init(&m_attr);
    m_info=thread::info(waitable);
    m_info.fun=fun;
-   m_info.parameter=param;	
+   m_info.parameter=param;
 }
 
 thread::~thread()
 {
-  pthread_attr_destroy(&m_attr);	
+  pthread_attr_destroy(&m_attr);
 }
 
 void * thread::proxy(void * info)
@@ -124,7 +124,7 @@ void * thread::proxy(void * info)
     	inf->running=false;
         inf->result=result;
     }
-    return result;	
+    return result;
 }
 
 void thread::detach()
@@ -143,24 +143,24 @@ bool thread::wait(unsigned int time)
 {
   if (m_info.running)
   {
-  	if (time==INFINITE) 
-        { 
+  	if (time==INFINITE)
+        {
              pthread_join(m_thread,&(m_info.result));
-             m_info.running=false; 
-             return true;  
+             m_info.running=false;
+             return true;
         }
-        else 
+        else
         {
             if (m_info.waitable)
             {
               clock_t start=clock();
               while ( (float)(clock()-time)/CLOCKS_PER_SEC*1.0E+3 < time && m_info.running  );
-              return m_info.running;  
+              return m_info.running;
             }
-            else return false;	
-        }  
+            else return false;
+        }
   }
-  return false;	
+  return false;
 }
 void * thread::result()
 {
