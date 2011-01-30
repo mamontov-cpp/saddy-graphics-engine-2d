@@ -9,7 +9,6 @@
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _CRT_SECURE_NO_WARNINGS 1
 
-#define IMAGE_WITH_STYLES
 
 #define H_USE_LOW_LEVEL_IO          //HINT: use low level	IO Functions for hString
 #ifndef __WIN32

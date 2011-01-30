@@ -13,7 +13,7 @@
 
 namespace hst
 {
-
+class stringlist;
 /*! \class  string
     \brief  String class
 
