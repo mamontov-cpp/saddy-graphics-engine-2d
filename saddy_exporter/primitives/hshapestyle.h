@@ -83,7 +83,7 @@ class shapestyle
 		/*! Returns line style
 		    \return line style
 		*/
-		inline const hst::linestyle & linestyle() const;
+		inline const hst::linestyle & lineStyle() const;
 		/*! Returns fill color
 		    \return fill color
 		*/
@@ -112,7 +112,7 @@ class shapestyle
 //============================================
 inline carvstyle shapestyle::carving() const {return m_carved;}
 inline shapetype shapestyle::type() const  {return m_shape;}
-inline const hst::linestyle & shapestyle::linestyle() const { return m_lstyle;}
+inline const hst::linestyle & shapestyle::lineStyle() const { return m_lstyle;}
 inline const  acolor & shapestyle::fill() const { return m_fill;}
 
 inline void shapestyle::setCarving (carvstyle s) {m_carved=s;}

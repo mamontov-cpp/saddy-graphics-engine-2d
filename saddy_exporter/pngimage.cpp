@@ -707,7 +707,7 @@ void pngimage::drawShape(const shape & shp,double field)
 	  drawRoundRect(tmprect);
 	  //Apply changes to context
       cairo_fill_preserve(m_cr);
-      setLineStyle(shp.style().linestyle());
+      setLineStyle(shp.style().lineStyle());
       cairo_stroke(m_cr);
 	  if (field>0.1)
 		drawRoundRectFields(m_cr,tmprect,field);
@@ -717,7 +717,7 @@ void pngimage::drawShape(const shape & shp,double field)
 	  drawBarrel(tmprect);
 	  //Apply changes to context
       cairo_fill_preserve(m_cr);
-      setLineStyle(shp.style().linestyle());
+      setLineStyle(shp.style().lineStyle());
       cairo_stroke(m_cr);
 	  if (field>0.01)
 	  {
@@ -729,7 +729,7 @@ void pngimage::drawShape(const shape & shp,double field)
 	  drawRect(tmprect);
 	  //Apply changes to context
       cairo_fill_preserve(m_cr);
-      setLineStyle(shp.style().linestyle());
+      setLineStyle(shp.style().lineStyle());
       cairo_stroke(m_cr);
 	  if (field>0.1)
 		  drawRectFields(tmprect,field);
@@ -739,7 +739,7 @@ void pngimage::drawShape(const shape & shp,double field)
 	  drawEllipse(tmprect);
 	  //Apply changes to context
       cairo_fill_preserve(m_cr);
-      setLineStyle(shp.style().linestyle());
+      setLineStyle(shp.style().lineStyle());
       cairo_stroke(m_cr);
 	  if (field>0.1)
 	  	drawEllipseField(tmprect,field);
