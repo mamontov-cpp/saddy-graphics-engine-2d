@@ -28,10 +28,11 @@ int main(int argc, char ** argv)
 	hst::list<hst::xyrect> fr;
 
 	pngimage test("file.png",32,32);
-
+#define MINSIM 32
+#define MAXSIM 128
 	int maxy=0,maxx=0;
 	
-	for (unsigned char i=33;i<128;i++)
+	for (unsigned char i=MINSIM;i<MAXSIM;i++)
 	{
 		printf("%d. %c \n",i,i);
 		txt[0]=i;
@@ -51,16 +52,28 @@ int main(int argc, char ** argv)
 	int sizex=10*maxx;
 	int sizey=10*maxy;
 
+	if (sizex!=sizey || ((sizex & sizex-1)!=0 ) )
+	{
+		int maxsize=(sizex>sizey)?sizex:sizey;
+		if (((maxsize & maxsize-1)!=0 ))
+		{
+			int i=31;
+			while ( !(maxsize & (2<<i)) ) --i;
+			maxsize=2<<(i+1);
+		}
+		sizex=maxsize;
+		sizey=maxsize;
+	}
 	pngimage result(hst::string(argv[6])+hst::string(".PNG"),sizex,sizey);
 	int curx=0;
 	int cury=0;
 
 	FILE * file=fopen((hst::string(argv[6])+hst::string(".CFG")).data(),"wt");
 	if (!file) return 121;
-	fprintf(file,"%d\n",128-33);
+	fprintf(file,"%d\n",MAXSIM-MINSIM);
 	for (int i=0;i<fr.count();i++)
 	{
-      txt[0]=i+33;
+      txt[0]=i+MINSIM;
 	  int cx=curx+(maxx-fr[i].width())/2;
 	  int cy=cury-fr[i].height();
 	  result.drawText(pointf(curx,cury),MarkedupText()<<hst::pair<hst::font,hst::string>(fnt,txt));

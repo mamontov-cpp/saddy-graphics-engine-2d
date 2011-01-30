@@ -146,9 +146,13 @@ namespace sad
 		*/
 		void save(const char * method, const char * file);
 
-		inline int width() const { return m_width; }
-		inline int height() const { return m_height;}
-		inline int bpp() const { return m_bpp;}
+		inline unsigned int width()  const { return m_width; }
+		inline unsigned int height() const { return m_height;}
+		inline Uint8 bpp()    const { return m_bpp;}
+		inline unsigned int& width()    { return m_width; }
+		inline unsigned int& height()   { return m_height;}
+		inline Uint8& bpp()      { return m_bpp;}
 		inline Uint8 * data() const { return m_data.data(); }
+		inline hst::vector<Uint8> & vdata() { return m_data; }
 	};
 }

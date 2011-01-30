@@ -215,7 +215,8 @@ int main(int argc, char** argv)
 	//Loading fonts
 	sad::TMFont * fnt1=new sad::TMFont;
 	bool res1=true;
-	res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
+	res1=fnt1->load("examples/georgia2.PNG","examples/georgia2.CFG",hst::color(255,255,255),false);
+	//res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
 		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed"));

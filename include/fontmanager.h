@@ -67,6 +67,11 @@ namespace sad
 			sad::Texture * m_tex;         //!< Current texture
 			pointf       m_ul[255];     //!< Glyph rectangles (upper left)
 			pointf       m_lr[255];     //!< Glyph rectangles (lower right)
+
+			/*! Determines a background and text and sets alpha component.
+			    Uses Luv model to determine it.
+			*/
+			void alphaDetermine();
 	    public:
 			/*! Empty font
 			*/
@@ -75,11 +80,13 @@ namespace sad
 			    \param[in] tex texture file
 				\param[in] cfg mapping file (see examples/times_red.cfg for format)
 				\param[in] bk  background texture color
+				\param[in] fontdetermine determines an alpha or not?
 			*/
 			bool load(
 			           const hst::string & tex, 
 					   const hst::string & cfg, 
-					   const hst::color & bk=hst::color(255,255,255)
+					   const hst::color & bk=hst::color(255,255,255),
+					   bool fontdetermine=true
 					  );
 			/*! Renders a string
 				\param[in] str string

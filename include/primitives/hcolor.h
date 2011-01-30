@@ -25,7 +25,7 @@ private:
 	 Uint8 m_g;   						//!< Green component of color. The bigger it is, the bigger brightness.
 	 Uint8 m_b;   						//!< Blue component of color. The bigger it is, the bigger brightness.
 public:
-	 color();  						//!< Default constructor of color (0,0,0)
+	color();  						//!< Default constructor of color (0,0,0)
 	 /*! Parametric constuctor of following color
 	     \param[in] r red component
 		 \param[in] g green component
@@ -70,6 +70,11 @@ public:
          \return self-reference
      */
      inline color & setB(Uint8 b);
+	 /*! Compares two colors
+	    \param[in] o color
+		\return  true, if equal
+	*/
+	inline  bool operator==(const hst::color o); 
 };
 /*! \class acolor
     \brief Determines a color with alpha
@@ -123,7 +128,7 @@ class acolor:public color
 inline Uint8 color::r() const {return m_r;}
 inline Uint8 color::g() const {return m_g;}
 inline Uint8 color::b() const {return m_b;}
-
+bool   color::operator==(const hst::color o) { return m_r==o.m_r && m_g==o.m_g && m_b==o.m_b; }
 inline color & color::setR(Uint8 r) {m_r=r; return *this;}
 inline color & color::setG(Uint8 g) {m_g=g; return *this;}
 inline color & color::setB(Uint8 b) {m_b=b; return *this;}

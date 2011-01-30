@@ -28,11 +28,12 @@ pngimage::pngimage(const hString & name,int szx,int szy)
 {
 	m_filename=name;
     m_surface=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,szx,szy);
-	//surface=cairo_svg_surface_create("svg.svg",390,60);
 	m_cr =cairo_create(m_surface);
-	cairo_set_source_rgb(m_cr,1.0,1.0,1.0);
-	cairo_rectangle(m_cr,0,0,szx,szy);       //Draw white rectangle
-	cairo_fill(m_cr);
+	cairo_save(m_cr);
+	cairo_set_operator(m_cr,CAIRO_OPERATOR_CLEAR);
+	cairo_set_source_rgba(m_cr,1.0,1.0,1.0,0.0);
+	cairo_paint(m_cr);
+	cairo_restore(m_cr);
 	this->m_width=szx;
 	this->m_height=szy;
 }
