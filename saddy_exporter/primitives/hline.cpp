@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "hline.h"
 
+
 #ifdef _USE_STL
 	  #include <algorithm>
       #define MIN(X,Y) std::min(X,Y)
@@ -30,7 +31,7 @@ hLine::~hLine() {}
 struct hsline hLine::analyze() const
 {
 	hsline res;
-	if (abs(p2.x()-p1.x())>=0.001)
+	if (fabs(p2.x()-p1.x())>=0.001)
 	{
        res.k1=(float)((p2.y()-p1.y())/(p2.x()-p1.x()));
 	   res.k2=-1;

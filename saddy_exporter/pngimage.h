@@ -13,9 +13,7 @@
 #include "primitives/hshape.h"
 #include "primitives/hpolyline.h"
 //#include "image_config.h"
-#ifdef IMAGE_WITH_STYLES
-	#include "inode/histylesheet.h"
-#endif
+
 
 #pragma once
 
