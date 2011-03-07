@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "hlinestyle.h"
-#include "math.h"
+#include <math.h>
 using namespace hst;
 
 linestyle::linestyle( hst::linetype type,float width, const acolor & color)
@@ -29,7 +29,7 @@ linestyle & linestyle::operator=(const hst::linestyle &o)
 
 bool linestyle::operator==(const linestyle & o) const
 {
-	bool flag= abs(m_width-o.width())<0.1;
+	bool flag= fabs(m_width-o.width())<0.1;
 	flag=flag && m_color==o.color();
 	flag=flag && m_type==o.type();
 	return flag;
