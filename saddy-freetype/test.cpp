@@ -17,7 +17,7 @@ class FTNode: public sad::BasicNode
 		FTNode() {}
         /*! Renders it
 		*/
-		void render()  {  testfont->render("Test fucker!\n Yeah!",120,240); testfont2->render("Test2!",60,120); }
+		void render()  { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); glLoadIdentity(); testfont->render("Test fucker!\n Yeah!",120,240); testfont2->render("Test2!",60,120); }
 		/*! Destructs it
 		*/
 		~FTNode() {}
@@ -35,6 +35,7 @@ void rend_quit(const sad::Event & o)
 int main(int argc, char** argv)
 {
   sad::Renderer::instance().init(sad::Settings(640,480,false));
+  glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
   printf("Initted renderer!\n");	
   
   testfont=new FTFont();

@@ -56,7 +56,7 @@ all:
 	g++ -c src/lightmodel.cpp      -o  build/lightmodel.o  $(INCLUDE) $(DEFINES)	
 	g++ -c src/extchecker.cpp      -o  build/extchecker.o  $(INCLUDE) $(DEFINES)
 	g++ -c src/vbolayer.cpp      -o  build/vbolayer.o  $(INCLUDE) $(DEFINES)
-	g++ --link $(BUILD) -shared                                -o  $(OUTPUT)    $(LDFLAGS)
+	ar   cq  $(OUTPUT) $(BUILD)   
 clean:
 	rm $(OUTPUT)
 	rm -rf build
