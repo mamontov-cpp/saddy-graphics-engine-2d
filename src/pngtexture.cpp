@@ -45,7 +45,7 @@ bool sad::Texture::loadPNG(const hst::wstring & filename)
 	
 	std::vector<unsigned char> output;
 	png::decode(output,&(buffer[0]),(unsigned long)buffer.size());
-	if (png::error());
+	if (png::error())
 	{m_data.clear();this->loadDefaultTGATexture();	return false; }
 
 	this->m_data.clear();

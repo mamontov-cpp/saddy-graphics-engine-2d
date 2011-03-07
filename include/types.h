@@ -27,22 +27,22 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
-#include "habstract.hpp"
-#include "hdeque.hpp"
-#include "hhash.hpp"
-#include "hlist.hpp"
-#include "hlvector.hpp"
-#include "hpair.hpp"
-#include "hptrie.hpp"
-#include "hstring.h"
-#include "hstringlist.h"
-#include "hwstring.h"
+#include "templates/habstract.hpp"
+#include "templates/hdeque.hpp"
+#include "templates/hhash.hpp"
+#include "templates/hlist.hpp"
+#include "templates/hlvector.hpp"
+#include "templates/hpair.hpp"
+#include "templates/hptrie.hpp"
+#include "templates/hstring.h"
+#include "templates/hstringlist.h"
+#include "templates/hwstring.h"
 
 
 #include "log.h"
-#include "hcolor.h"
-#include "hpoint.h"
-#include "hrect.h"
+#include "primitives/hcolor.h"
+#include "primitives/hpoint.h"
+#include "primitives/hrect.h"
 
 #ifdef  LINUX
 
