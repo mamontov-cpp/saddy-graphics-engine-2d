@@ -1,1 +1,1 @@
-g++ test.cpp -I"../include" -lfreetype -L"../lib" -lsaddy-freetype -lsaddy -Wl,--enable-auto-import -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 
+g++ test.cpp -o saddy-freetype.exe -I"../include" -lfreetype -L"../lib" -lsaddy-freetype -lsaddy -lfreetype -Wl,--enable-auto-import -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 
