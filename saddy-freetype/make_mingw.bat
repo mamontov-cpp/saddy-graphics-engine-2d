@@ -1,0 +1,2 @@
+g++ -c ftfont.cpp -o ftfont.o -I"C:\GnuWin32\include\freetype2"  -DWIN32
+g++ --link ftfont.o -shared -o ../lib/libsaddy-freetype.a -lfreetype -L"../lib" -lsaddy -Wl,--enable-auto-import -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 
