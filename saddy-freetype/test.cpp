@@ -3,21 +3,45 @@
 #include "../include/renderer.h"
 #include "../include/input.h"
 #include "ftfont.h"
+#include <time.h>
 
 FTFont *  testfont=NULL;
 FTFont *  testfont2=NULL;
 
+unsigned char cff[50]="Кириллица !";
 class FTNode: public sad::BasicNode
 {
  private:
+          clock_t beg;
+		  float t1;
+		  float t2;
  public:
 	    static int Type;        //!< Type
         /*! Creates a simple node
 		*/
-		FTNode() {}
+		FTNode() {beg=0;t1=0;t2=0;}
         /*! Renders it
 		*/
-		void render()  { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); glLoadIdentity(); testfont->render("Test fucker!\n Yeah!",120,240); testfont2->render("Test2!",60,120); }
+		void render()  
+		{ 
+		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		  glLoadIdentity(); 
+		  testfont->render("Fear the moving label!\n!",120,240); 
+		  if (clock()-beg>CLOCKS_PER_SEC/6)
+		  {
+		   beg=clock();
+		   //for (int i=0;i<13;i++)
+		   //	  ++(cff[i]);
+			
+		  }
+		  //glPushMatrix();
+		  //glLoadIdentity();
+		  //t1+=0.05;
+		  //t2+=0.04;
+		  //glRotatef(t1,0,0,1);
+		  //glScalef(1,0.9+.6*cos(t2/5),1);
+		  testfont2->render((const char *)cff,320-160*cos(0.1*t1),120+120*sin(0.1*t2)); 
+		}
 		/*! Destructs it
 		*/
 		~FTNode() {}
