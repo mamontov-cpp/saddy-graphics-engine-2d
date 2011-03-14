@@ -140,7 +140,7 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor 
    m_base=glGenLists(256);
    glGenTextures( 256, m_texs );
    bool flag=true;
-   for(unsigned char i=0;i<128;i++)
+   for(unsigned char i=0;i<256;i++)
    {
 	  flag=flag &&	create_list(face,i,m_base,m_texs,*(m_w+i));
    }
