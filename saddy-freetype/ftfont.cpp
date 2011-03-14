@@ -54,9 +54,18 @@ inline int next2 ( int a )
 
 /*! Creates a list
 */
-static bool create_list(FT_Face face, char ch, GLuint base, GLuint * tbase, float & w )
-{
-   	if(FT_Load_Glyph( face, FT_Get_Char_Index( face, ch ), FT_LOAD_DEFAULT ))
+static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * tbase, float & w )
+{ 
+    unsigned char mb[2]={ch,0};
+    wchar_t wc[2]={ch,0};
+	if (ch>127)  { mbtowc(wc,(const char *)mb,2); }
+ 
+    if (ch==(unsigned char)'¸')              { wc[0]=0x0451; }
+	if (ch==(unsigned char)'¨')              { wc[0]=0x0401; }
+	if (ch>=(unsigned char)'À' && ch<=(unsigned char)'ß')   { wc[0]=0x0410+((char)ch-'À'); }
+	if ((char)ch>='à' && (char)ch<='ÿ')   { wc[0]=0x0430+((char)ch-'à'); }
+ 
+	if(FT_Load_Glyph( face, FT_Get_Char_Index( face, wc[0] ), FT_LOAD_DEFAULT ))
 		return false;  // Load glyph failed
 	
 	FT_Glyph glyph=NULL;
@@ -140,7 +149,7 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor 
    m_base=glGenLists(256);
    glGenTextures( 256, m_texs );
    bool flag=true;
-   for(unsigned char i=0;i<256;i++)
+   for(unsigned char i=0;i<255;i++)
    {
 	  flag=flag &&	create_list(face,i,m_base,m_texs,*(m_w+i));
    }
