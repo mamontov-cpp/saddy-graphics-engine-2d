@@ -199,10 +199,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\fontnode.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\input.cpp"
 				>
 			</File>
@@ -240,10 +236,6 @@
 			</File>
 			<File
 				RelativePath=".\src\settings.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\testnode.cpp"
 				>
 			</File>
 			<File
@@ -462,10 +454,6 @@
 			</File>
 			<File
 				RelativePath=".\include\targetver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\testnode.h"
 				>
 			</File>
 			<File
