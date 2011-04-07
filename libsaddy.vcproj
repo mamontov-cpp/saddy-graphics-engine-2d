@@ -170,11 +170,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\fontnode.cpp"
+				RelativePath=".\src\input.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\input.cpp"
+				RelativePath=".\src\label.cpp"
 				>
 			</File>
 			<File
@@ -210,7 +210,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\testnode.cpp"
+				RelativePath=".\src\sprite.cpp"
 				>
 			</File>
 			<File
@@ -352,11 +352,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\fontnode.h"
+				RelativePath=".\include\input.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\input.h"
+				RelativePath=".\include\label.h"
 				>
 			</File>
 			<File
@@ -380,15 +380,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sprite.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\stdafx.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\targetver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\testnode.h"
 				>
 			</File>
 			<File
