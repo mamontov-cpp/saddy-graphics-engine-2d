@@ -140,8 +140,8 @@ class ShootingEnemy: public MovingItem
 		~ShootingEnemy();
 };
 
-#define SPAWN_FREQ 900
-#define SPAWN_FREQ4 350
+#define SPAWN_FREQ 350
+#define SPAWN_FREQ4 200
 #define IDLE_RAIN  1
 #define REAL_SPAWN 2
 #define BOUND_X1 -0.275042f
