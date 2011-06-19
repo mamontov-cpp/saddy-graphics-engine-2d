@@ -111,4 +111,8 @@ class Sprite: public sad::BasicNode
 		  /*! Destructs it
 		  */
 		  virtual ~Sprite();
+		  /*! Sets a texture for sprite
+			  \param[in] tex texture
+		  */
+		  inline void setTexture(sad::Texture * tex) { m_tex=tex; }
 };
