@@ -182,3 +182,27 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
   }
 }
 
+void sad::Renderer::toggleFixedOn()
+{
+	XSizeHints * size_hints;
+	size_hints=XAllocSizeHints();
+	size_hints->flags=PMinSize | PMaxSize;
+	size_hints->min_width=m_window.width;
+	size_hints->max_width=m_window.width;
+	size_hints->min_height=m_window.height;
+	size_hints->max_height=m_window.height;
+	XSetWMNormalHints(m_window.dpy,m_window.win,size_hints);
+}
+
+void sad::Renderer::toggleFixedOff()
+{
+	XSizeHints * size_hints;
+	size_hints=XAllocSizeHints();
+	size_hints->flags=PMinSize | PMaxSize;
+	size_hints->min_width=1;
+	size_hints->max_width=40000;
+	size_hints->min_height=1;
+	size_hints->max_height=30000;
+	XSetWMNormalHints(m_window.dpy,m_window.win,size_hints);
+}
+
