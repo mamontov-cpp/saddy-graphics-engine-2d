@@ -283,4 +283,19 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
   }
 }
 
+
+void sad::Renderer::toggleFixedOn()
+{
+	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
+	style |= WS_OVERLAPPED;
+    style &=  ~WS_THICKFRAME;	
+	LONG result=SetWindowLongA(m_window.hWND,GWL_STYLE,style);
+}
+void sad::Renderer::toggleFixedOff()
+{
+	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
+	style |=WS_OVERLAPPED;
+	style |= WS_THICKFRAME;
+	SetWindowLongA(m_window.hWND,GWL_STYLE,style);
+}
 #endif

@@ -158,6 +158,12 @@ namespace sad
 		    \param[in] s  new title
 		*/
 		void setWindowTitle(const hst::string & s);
+		 /*! Enables fixed size window
+	     */
+	    void toggleFixedOn();
+	    /*! Disabled fixed size window
+	    */
+	    void toggleFixedOff();
 		/*! Enable/disable fullscreen
 		*/
 		void toggleFullscreen();	

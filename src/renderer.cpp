@@ -45,15 +45,17 @@ bool sad::Renderer::init(const sad::Settings& _settings)
 void sad::Renderer::reshape(int width, int height)
 {
   if (width==0) width=1;
- glViewport (0, 0, (GLsizei)(width), (GLsizei)(height));				// Переустанавливаем ViewPort (область видимости)
- glMatrixMode (GL_PROJECTION);										// Выбираем матрицу проекции
- glLoadIdentity ();													// Сбрасываем её на единичную
- gluPerspective (m_glsettings.fov(), 
+ 
+  glViewport (0, 0, (GLsizei)(width), (GLsizei)(height));				// Переустанавливаем ViewPort (область видимости)
+  glMatrixMode (GL_PROJECTION);										// Выбираем матрицу проекции
+  glLoadIdentity ();													// Сбрасываем её на единичную
+  gluPerspective (m_glsettings.fov(), 
 			    (GLfloat)(width)/(GLfloat)(height),		      	// Calculate The Aspect Ratio Of The Window
 			     m_glsettings.znear(), 
 		             m_glsettings.zfar());		
- glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
- glLoadIdentity ();													// Сбрасываем её на единичную
+  glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
+  glLoadIdentity ();													// Сбрасываем её на единичную
+
 }
 
 

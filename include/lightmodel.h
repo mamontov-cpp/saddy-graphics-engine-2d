@@ -372,7 +372,7 @@ inline void sad::LightModel::setSides(float f)
 }
 inline bool sad::ColorMaterial::isEnabled()
 {
-	return glIsEnabled(GL_COLOR_MATERIAL);
+	return glIsEnabled(GL_COLOR_MATERIAL)==GL_TRUE;
 }
 inline void sad::ColorMaterial::enable()
 {
