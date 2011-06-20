@@ -304,6 +304,7 @@ int main(int argc, char** argv)
 	sad::ColorMaterial::enable();
 
 	printf("Engine started!\n");
+	sad::Renderer::instance().toggleFixedOn();
 	sad::Renderer::instance().run();
 	hst::log::inst()->save("log.txt");
 
