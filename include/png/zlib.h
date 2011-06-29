@@ -14,6 +14,11 @@ typedef Uint8 * bytestream;
 */
 typedef std::vector<Uint8> uchrstream;
 
+namespace zlib
+{
+	struct temporary;
+}
+
 namespace bitstream
 {
 	/*! Reads a bit
@@ -84,28 +89,6 @@ namespace huffman
 		       );
 }
 
-//==== Huffman inlined functions  ====
-int huffman::decode ( 
-		             const HuffmanTree & tree,
-				     bool        & decoded,
-				     sad::Chunk  & result,
-				     size_t      & tree_position,
-				     sad::Chunk  bit
-		           )
-{
-	sad::Chunk tmp=(sad::Chunk) tree.size()/2;
-	
-	//Handle error, when we appear outside
-	if (tree_position>=tmp) 
-		return 11;
-
-	result=tree[2*tree_position+bit];
-	decoded= ( (result)< tmp);
-	tree_position= ( decoded )? 0: result-tmp;
-
-	return 0;
-}
-
 /*! Provides a decompression operstors
 */
 class Inflator
@@ -159,20 +142,12 @@ class Inflator
 							 size_t                inl,
 							 sad::Chunk            enctype
 						   );
-		  /*! Inflates a huffman block
-		      \param[out]     out   output vector
-			  \param[in,out]  in    input stream
-			  \param[in,out]  bitp  position
-			  \param[in]      inl   input length
-			  \param[in]      enctype encoded type
+		  /*! Inflates a huffman block without compression
+		      \param[in,out]     state a state of library
 		  */
 		  void inflateWithoutCompression( 
-			                             uchrstream &          out,
-			                             const unsigned char * in,
-							             size_t &              bitp,
-							             size_t &              position,
-							             size_t                inl
-						                );
+										 zlib::temporary * state
+						                 );
 public:
 	     //! Inline accessors
          //!\{
@@ -192,6 +167,24 @@ public:
 
 namespace zlib
 {
+	struct temporary
+	{
+		uchrstream * m_out;       //!< Pointer to out
+		Uint8      * m_in_pos;    //!< Inner pos
+		size_t       m_bitp;      //!< Bit position
+		size_t       m_position;  //!< Position
+		size_t       m_in_size;   //!< Innersize
+		sad::Chunk   m_BTYPE;     //!< BTYPE
+		HuffmanTree * m_tree;      //!< HuffmanTree
+
+		inline temporary(const uchrstream & in,uchrstream & out)
+		{
+			m_out=&out;
+			m_in_size=in.size();
+			m_bitp=0;
+			m_position=0;
+		}
+	};
 	/*! Decompress a stream 
 	    \param[in]   in    input bytestream
 		\param[out]  out   output bytestream
@@ -202,6 +195,17 @@ namespace zlib
 
 
 //====== Source code goes here ======
+namespace bitstream
+{
+inline sad::Chunk readBit(zlib::temporary * state);
+}
+
+sad::Chunk bitstream::readBit(zlib::temporary * state)
+{
+	sad::Chunk r = (state->m_in_pos[state->m_bitp >> 3] >> (state->m_bitp & 0x7)) & 1; 
+	++(state->m_bitp); 
+	return r;
+}
 
 sad::Chunk bitstream::readBit(size_t & bit_position, const bytestream stream)
 {

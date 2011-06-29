@@ -211,6 +211,7 @@ bool sad::Renderer::setupPFD()
 void sad::Renderer::update()
 {
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ glMatrixMode(GL_MODELVIEW);
  glLoadIdentity();
  getCurrentScene()->render();
  SwapBuffers(m_window.hDC);

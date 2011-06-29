@@ -2,23 +2,40 @@
 
 void Inflator::inflate(uchrstream & out,const uchrstream & in, size_t inpos)
 {
-	size_t bitp=0, position=0;
+	zlib::temporary * state=new zlib::temporary(in,out);
+	state->m_in_pos=(Uint8*)(&in[inpos]);
 	this->m_error=0;
 	sad::Chunk final_code=0;
 	while( !final_code &&  !m_error)
 	{
 		//Handle, use ptr hump
-		if (bitp >> 3 >= in.size()) { this->m_error=52; return; }
-		
-		final_code=bitstream::readBit(bitp,(const bytestream)(&in[inpos]));
-		sad::Chunk BTYPE=bitstream::readBit(bitp,(const bytestream)(&in[inpos]));
-		BTYPE+=2*bitstream::readBit(bitp,(const bytestream)(&in[inpos]));
+		if (state->m_bitp >> 3 >= state->m_in_size) { this->m_error=52; return; }
+		final_code=bitstream::readBit(state);
+		state->m_BTYPE=bitstream::readBit(state);
+		state->m_BTYPE+=2*bitstream::readBit(state);
 
-		if         (BTYPE==3)   { this->m_error=20; return; }
-		else  if   (BTYPE==0)   { this->inflateWithoutCompression(out,&in[inpos],bitp,position,in.size()); }
-		else                    { this->inflateBlock(out,&in[inpos],bitp,position,in.size(),BTYPE); };
+		if         (state->m_BTYPE==3)   
+		{ 
+			this->m_error=20; 
+			return; 
+		}
+		else  if   (state->m_BTYPE==0)   
+		{ 
+			this->inflateWithoutCompression(state); 
+		}
+		else                             
+		{ 
+			this->inflateBlock(*state->m_out,
+				               state->m_in_pos,
+							   state->m_bitp,
+							   state->m_position,
+							   state->m_in_size,
+							   state->m_BTYPE
+							  ); 
+		};
 	}
-	if (!m_error) out.resize(position);
+	if (!m_error) out.resize(state->m_position);
+	delete state;
 }
 
 #define MAKE_BITS(A1,A2,ARR,A3)  for(size_t i=A1; i<=A2;i++) ARR[i]=A3; 
@@ -31,47 +48,47 @@ void Inflator::createFixed(HuffmanTree & ctree, HuffmanTree & ctreeD)
 	huffman::generateFromLengthArray(ctreeD,bitsD,15);
 }
 
+
 sad::Chunk Inflator::decodeSym(const Uint8 * in, size_t & bitp, const HuffmanTree & ctree, size_t inl )
 {
  bool decoded=false; unsigned long ct=0;
+ sad::Chunk tmp=ctree.size()/2;
  for (size_t tree_position=0;;)
  {
-	 bool cmp_bp=(bitp & 0x07) ==0;
-	 bool cmp_in=(bitp>>3) > inl;
+	if (tree_position>=tmp) {this->m_error=11; return 0;}
+	
+	bool cmp_bp=(bitp & 0x07) ==0;
+    bool cmp_in=(bitp>>3) > inl;
     
 	if (cmp_bp && cmp_in) { this->m_error=10; return 0; }
-
-	//Decode, and exit if failed
-	this->m_error=huffman::decode(ctree,decoded,ct,tree_position,bitstream::readBit(bitp,(const bytestream)in));
-	if (m_error) {return 0;}
+     
+    ct=ctree[2*tree_position+bitstream::readBit(bitp,(const bytestream)in)];
+	decoded= ( (ct)< tmp);
+	tree_position= ( decoded )? 0: ct-tmp;
 
 	if (decoded) return ct;
  }
 }
 
-void Inflator::inflateWithoutCompression( 
-			                             uchrstream &          out,
-			                             const unsigned char * in,
-							             size_t &              bitp,
-							             size_t &              position,
-							             size_t                inl
-						                )
+
+
+void Inflator::inflateWithoutCompression( zlib::temporary * state )
 {
-	while ( (bitp & 0x7) !=0 ) bitp++;
-	size_t p=bitp/8;
+	while ( (state->m_bitp & 0x7) !=0 ) (state->m_bitp)++;
+	size_t p=(state->m_bitp)/8;
 
 	//Handle error;
-	if (p>=inl-4) { m_error=52; return; }
+	if (p>=state->m_BTYPE-4) { m_error=52; return; }
 
-	sad::Chunk len=in[p]+256*in[p+1], nlen=in[p+2]+256*in[p+3]; 
+	sad::Chunk len=(state->m_in_pos)[p]+256*(state->m_in_pos)[p+1], nlen=(state->m_in_pos)[p+2]+256*(state->m_in_pos)[p+3]; 
 	p+=4;
 
 	if (len+nlen!=65535) { m_error=21; return;}
 
-	if (position+len>= out.size()) out.resize(position+len);
+	if (state->m_position+len>= state->m_out->size()) state->m_out->resize(state->m_position+len);
 
-	if (p+len>inl) { m_error=23; return; }
-	for (sad::Chunk n=0; n<len; n++) out[position++]=in[p++];
+	if (p+len>state->m_BTYPE) { m_error=23; return; }
+	for (sad::Chunk n=0; n<len; n++) (*(state->m_out))[(state->m_position)++]=(state->m_in_pos)[p++];
 
-	bitp=p*8;
+	state->m_bitp=p*8;
 }
