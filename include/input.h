@@ -94,6 +94,20 @@ namespace sad
 			 */
 			 ~Event();
 	}; 
+	/*! Resize event for window
+	*/
+	class ResizeEvent
+	{
+	 public:
+			unsigned int old_height;  //!< Old height
+			unsigned int old_width;   //!< Old width
+			unsigned int new_height;  //!< New height
+			unsigned int new_width;   //!< New width
+	        //! Default constructor
+			inline ResizeEvent(unsigned int oh, unsigned int ow, unsigned int nh, unsigned int nw)
+			{ old_height=oh; old_width=ow; new_height=nh; new_width=nw;  }
+			inline ~ResizeEvent() {}
+	};
 	namespace misc
 	{
 		template<typename T> 
@@ -112,46 +126,54 @@ namespace sad
 		}
 		/*! Invoke trait for working
 		*/
-		template<typename T> void invoke(void * m,const sad::Event & ev)
+		template<typename T, typename EventType> void invoke(void * m,const EventType & ev)
 		{
           (*(t_cast<T*>(m)))(ev);
 		}
 		/*! Instantiations for template functors
 		*/
-		void invoke_ptr (void * m,const sad::Event & ev );
+		template<typename EventType>
+		void invoke_ptr (void * m,const EventType & ev );
 	}
 	
 	/*! Handler functor function, used for handling objects
 	*/
-	class EventHandler
+	template<typename EventType>
+	class BasicEventHandler
 	{
 	 private:
 		      void * m_functor;                             //!< What should we invoke
-			  void (*m_invoke)(void *,const sad::Event &);  //!< Invokation function
+			  void (*m_invoke)(void *,const EventType &);  //!< Invokation function
 			  void (*m_destroy)(void *);                    //!< Destroying function
 	 public:
 		    /*! Empty constructor
 			*/
-			EventHandler();
+			BasicEventHandler();
 			/*! Captures a functor
 			*/
             template<typename T>
-			EventHandler(T * functor);
+			BasicEventHandler(T * functor);
 		     
 			/*! Captures a simple functor
 			*/
-			EventHandler( void (*functor)(const sad::Event &) );
+			BasicEventHandler( void (*functor)(const EventType &) );
 			/*! Invokes a functor with event
 			     \param[in] o event
 			*/
-			void operator()(const sad::Event & o);
+			void operator()(const EventType & o);
 			/*! Destructor
 			*/
-			~EventHandler();
+			~BasicEventHandler();
 			/*! Is it is empty
 			*/
 			inline bool empty() { return !m_functor; }
 	};
+	/*! Common input handler
+	*/
+	typedef BasicEventHandler<sad::Event> EventHandler;
+	/*! Resize event handler
+	*/
+	typedef BasicEventHandler<sad::ResizeEvent> ResizeEventHandler;
 
 	class Input
 	{
@@ -166,6 +188,8 @@ namespace sad
 
 			  sad::EventHandler *  m_keyup;       //!<  Key up
 			  sad::EventHandler *  m_keydown;     //!<  Key down
+
+			  sad::ResizeEventHandler * m_resize;  //!< Handler for resize
 
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
@@ -201,6 +225,8 @@ namespace sad
 			  void setKeyUpHandler(   sad::EventHandler * h);
 			  void setKeyDownHandler(  sad::EventHandler * h);
 
+			  void setResizeHandler(sad::ResizeEventHandler  * h);
+
 			  void bindKeyUp(int key, sad::EventHandler * h);
 			  void bindKeyDown(int key, sad::EventHandler * h);
 			
@@ -216,6 +242,8 @@ namespace sad
 			  void postKeyUp(const sad::Event & ev);
 			  void postKeyDown(const sad::Event & ev);
 
+			  void postResize(const sad::ResizeEvent & ev);
+
 			  /*! Detects, whether we are not watching for mouse tracking
 			      \{
 			  */
@@ -225,6 +253,7 @@ namespace sad
 			  inline bool areWheelNotTracked()   { if (!m_mousewheel) return true; return m_mousewheel->empty(); }
 			  inline bool areUpNotTracked()      { if (!m_mouseup)   return true; return m_mouseup->empty(); }
 			  inline bool areDownNotTracked()    { if (!m_mousedown) return true; return m_mousedown->empty(); }
+			  inline bool areResizeNotTracked()     { if (!m_resize) return true; return m_resize->empty(); }
 			  /*!  \}
 			  */
 	};
@@ -232,10 +261,63 @@ namespace sad
 
 
 //========Source code goes here==============
-template<typename T>
-sad::EventHandler::EventHandler(T * functor)
+namespace sad
 {
-	m_functor=sad::misc::void_cast(functor);
-	m_invoke=sad::misc::invoke<T>;
-	m_destroy=sad::misc::destroy<T>;
+ namespace misc
+ {
+  template<typename EventType>
+  void invoke_ptr (void * m,const EventType & ev )
+  {
+    union 
+    {
+	  void (*f1)(const EventType&);
+	  void * f2;
+    } u;
+    u.f2=m;
+   (u.f1)(ev);
+  }
+ }
+
+ template<typename EventType>
+ template<typename T>
+ BasicEventHandler<EventType>::BasicEventHandler(T * functor)
+ {
+	 m_functor=sad::misc::void_cast(functor);
+	 m_invoke=sad::misc::invoke<T>;
+	 m_destroy=sad::misc::destroy<T>;
+ }
+ template<typename EventType>
+ BasicEventHandler<EventType>::BasicEventHandler()
+ {
+	m_functor=NULL;
+	m_invoke=NULL;
+	m_destroy=NULL;
+ }
+ template<typename EventType>
+ BasicEventHandler<EventType>::~BasicEventHandler()
+ {
+	if (m_destroy)
+		m_destroy(m_functor);
+ }
+ template<typename EventType>
+ BasicEventHandler<EventType>::BasicEventHandler( void (*functor)(const EventType &) )
+ {
+	union 
+    {
+	  void (*f1)(const EventType&);
+	  void * f2;
+    } u;
+	u.f1=functor;
+	m_functor=u.f2;
+	m_invoke=sad::misc::invoke_ptr<EventType>;
+	m_destroy=NULL;
+ }
+
+ template<typename EventType>
+ void BasicEventHandler<EventType>::operator()(const EventType & o)
+ {
+	if (m_invoke)
+		m_invoke(m_functor,o);
+ }
+
 }
