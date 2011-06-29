@@ -63,24 +63,25 @@ namespace sad
    struct Window
    {
 #ifdef WIN32
-	        HWND				hWND;						//!< Handle for a window
-		HDC					hDC;					//!< Devide context
-		HGLRC				hRC;						//!< OpenGL context
-		HINSTANCE           hInstance;                 			        //!< Instance of module
-		DEVMODEA            scr_settings;                                              //!<  Screen settings
+	    HWND			     hWND;				    //!< Handle for a window
+		HDC					 hDC;					//!< Devide context
+		HGLRC				 hRC;				    //!< OpenGL context
+		HINSTANCE            hInstance;             //!< Instance of module
+		DEVMODEA             scr_settings;          //!<  Screen settings
 #else
-                Display         *     dpy;           //!< Display
-                int                       screen;     //!<  Screen
-                GLXContext ctx;                  //!< Graphic context
-                XSetWindowAttributes attr;  //!< Window attributes 
-		X11Window                 win;  //!< X11 window   
-                int x, y;                                //!<  X and Y coordinates of window
-                unsigned int width, height;   //!< Width and height of window
-                unsigned int depth;              //!< Depth    
-		XVisualInfo *vi;                   //!< Visual info
+        Display*             dpy;                   //!< Display
+        int                  screen;                //!<  Screen
+        GLXContext           ctx;                   //!< Graphic context
+        XSetWindowAttributes attr;                  //!< Window attributes 
+		X11Window            win;                   //!< X11 window   
+        int                  x, y;                  //!<  X and Y coordinates of window
+        unsigned int         depth;                 //!< Depth    
+		XVisualInfo*         vi;                    //!< Visual info
 #endif
-		bool                active;                     //!< Is window active
-		bool                fullscreen;                 //!< Full screen
+		bool                 active;                //!< Is window active
+		bool                 fullscreen;            //!< Full screen
+		unsigned int         width;                 //!< Width of window
+		unsigned int         height;                //!< Height of window
 	};	
 
 }

@@ -1,47 +1,6 @@
 #include "input.h"
 #include <stdlib.h>
 
-sad::EventHandler::EventHandler()
-{
-	m_functor=NULL;
-	m_invoke=NULL;
-	m_destroy=NULL;
-}
-
-sad::EventHandler::~EventHandler()
-{
-	if (m_destroy)
-		m_destroy(m_functor);
-}
-
-void sad::misc::invoke_ptr (void * m,const sad::Event & ev )
-{
-  union 
-  {
-	  void (*f1)(const sad::Event&);
-	  void * f2;
-  } u;
-  u.f2=m;
-  u.f1(ev);
-}
-sad::EventHandler::EventHandler( void (*functor)(const sad::Event &) )
-{
-	union 
-    {
-	  void (*f1)(const sad::Event&);
-	  void * f2;
-    } u;
-	u.f1=functor;
-	m_functor=u.f2;
-	m_invoke=sad::misc::invoke_ptr;
-	m_destroy=NULL;
-}
-void sad::EventHandler::operator()(const sad::Event & o)
-{
-	if (m_invoke)
-		m_invoke(m_functor,o);
-}
-
 sad::Event::Event()
 {
 	x=0;
@@ -85,6 +44,7 @@ sad::Input::Input()
 	m_dblclick=NULL;
 	m_keyup=NULL;
 	m_keydown=NULL;
+	m_resize=NULL;
 }
 sad::Input::~Input()
 {
@@ -92,6 +52,7 @@ sad::Input::~Input()
 	DEL(m_mousemove);DEL(m_mousedown); DEL(m_mouseclick);
 	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
 	DEL(m_keydown);
+	DEL(m_resize);
 #undef DEL
 	for (hst::hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
 	{
@@ -203,3 +164,16 @@ void sad::Input::postKeyDown(const sad::Event & ev)
 	if (!m_keydown) return;
 	(*m_keydown)(ev);
 }
+
+void sad::Input::setResizeHandler (sad::ResizeEventHandler * h)          
+{                                                    
+	if (m_resize) delete m_resize;                                 
+    m_resize=h;                                             
+}                                                    
+
+void sad::Input::postResize (const sad::ResizeEvent & ev)         
+{                                                    
+  if ( m_resize )                                           
+    (*m_resize)(ev);                                      
+}                                                    
+

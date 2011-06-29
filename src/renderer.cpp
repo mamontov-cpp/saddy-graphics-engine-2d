@@ -9,6 +9,7 @@ In this file OpenGL function has been used obviously.
 
 #include "renderer.h"
 #include "texturemanager.h"
+#include "input.h"
 #ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
@@ -37,6 +38,8 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_glsettings.setZTest(_settings.ztest());
  m_glsettings.setZTestValue(_settings.ztestvalue());
  m_created=createWindow();
+ m_window.width=_settings.width();
+ m_window.height=_settings.height();
  if (!m_created) { hst::log::inst()->owrite(hst::string("Renderer init: can't create window\n"));}
  return true;
 }
@@ -55,7 +58,11 @@ void sad::Renderer::reshape(int width, int height)
 		             m_glsettings.zfar());		
   glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
   glLoadIdentity ();													// Сбрасываем её на единичную
-
+  sad::Input::inst()->postResize(sad::ResizeEvent( 
+								 m_window.height,m_window.width,height,width
+	                             ));
+  m_window.width=width;
+  m_window.height=height;
 }
 
 

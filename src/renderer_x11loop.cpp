@@ -30,10 +30,8 @@ void sad::Renderer::mainLoop()
                                                   }
                case ConfigureNotify:  {
                	                                     if ((event.xconfigure.width != m_window.width) ||  (event.xconfigure.height != m_window.height))
-                                                    {  //Resize event
-                                                        m_window.width = event.xconfigure.width;
-                                                        m_window.height = event.xconfigure.height;
-                                                        reshape(event.xconfigure.width,event.xconfigure.height);
+                                                     {  
+													    reshape(event.xconfigure.width,event.xconfigure.height);      
                                                      }
                                                      break;
                	                                  }
