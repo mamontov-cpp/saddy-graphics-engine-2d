@@ -251,4 +251,11 @@ template<class T> bool vector<T>::operator!=(const vector<T> & o)
 	return !(*this==o);
 }
 
+template<class T> void  vector<T>::rescale(unsigned long _sz)
+{
+   this->sz=_sz;
+   this->m_pool.sz=_sz;
+   this->m_pool.p=(T*)realloc(this->m_pool.p,_sz*sizeof(T));
+}
+
 }

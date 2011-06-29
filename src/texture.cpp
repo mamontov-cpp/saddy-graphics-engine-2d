@@ -10,11 +10,14 @@ Texture::Texture()
 {
 	m_mode = BORDER_CLAMP;	/*!< Set default mode of texture.		*/
 	m_filter = 10;			/*!< Set default filter of texture.		*/
+	m_generated=false;      /*!< Currently, this texture is not used */ 
 }
 
 Texture::~Texture()
 {
 	m_data.clear();			/*!< Cleaning the container of pixels.  */
+	if (m_generated)
+		glDeleteTextures(1,&m_id);
 }
 void Texture::disable()
 {
@@ -41,7 +44,7 @@ void Texture::buildMipMaps()
     
 	glGenTextures(1, (GLuint *)&m_id);	
 	glBindTexture(GL_TEXTURE_2D, m_id);
-
+	m_generated=true;
 	GLuint what;
 	switch (m_mode)
 	{

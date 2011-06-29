@@ -159,6 +159,10 @@ template<class T> class vector
 		       \param[in] fptr pointer to mapping function
 		   */
 		   void     yield(void (*fptr)(T & obj));
+		   /*! Resize vector, using brute realloc. You can use it, only if working with POD or structures
+			   \param[in] _sz new size 
+		   */
+		   void  rescale(unsigned long _sz);
 };
 
 }

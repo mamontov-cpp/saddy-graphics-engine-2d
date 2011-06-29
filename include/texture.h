@@ -53,7 +53,7 @@ namespace sad
 		unsigned int       m_height; //!< Height
 		unsigned int       m_id;     //!< ID of texture
 		Mode               m_mode;   //!< Texture mode
-
+		bool               m_generated; //!< Determines, whether texture is used in OpenGL context
 		/*! Gets a pointer to pixel 
 		    \param[in] i  row
 			\param[in] j  col
