@@ -17,7 +17,7 @@ template<class T> rect<T>::rect(const T & p1,const T & p2,const T & p3,const T &
 {
     m_p[0]=p1;
     m_p[1]=p2;
-    m_p[2]=p2;
+    m_p[2]=p3;
     m_p[3]=p4;
 }
 

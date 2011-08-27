@@ -170,6 +170,10 @@ namespace sad
         /*! Returns, whether we are running
 		*/
 		inline bool running() { return m_running; }
+		/*! Returns current settings
+			\return settings
+		*/
+		const sad::Settings & settings() { return m_glsettings; }
 	};
 	
 }
