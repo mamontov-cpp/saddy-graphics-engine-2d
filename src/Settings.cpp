@@ -28,8 +28,18 @@ namespace sad{
 	sad::Settings::~Settings(void)
 	{
 	}
-	sad::Settings::Settings(const sad::Settings &)
+	sad::Settings::Settings(const sad::Settings & o)
 	{
+		m_screenwidth =o.m_screenwidth;
+		m_screenheight = o.m_screenheight;
+		m_isfullscreen = o.m_isfullscreen;
+		m_bpp = o.m_bpp;
+		m_depth = o.m_depth;
+		m_fov = o.m_fov;
+		m_znear = o.m_znear;
+		m_zfar = o.m_zfar;
+		m_ztest=o.m_ztest;
+		m_zvalue=o.m_zvalue;
 	}
 
 

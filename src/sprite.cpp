@@ -31,7 +31,7 @@ Sprite::Sprite(
 {
 	m_type=Sprite::Type;
 	m_tex=tex;
-	memcpy(m_rect,rect,4*sizeof(float));
+	memcpy(m_rect,rect,4*sizeof(s3d::point));
     if (tex_coord)  memcpy(m_tex_coord,tex_coord,8*sizeof(float));
 	else   		    memcpy(m_tex_coord,default_tex_coord,8*sizeof(float));
 }
