@@ -44,7 +44,6 @@ sad::Input::Input()
 	m_dblclick=NULL;
 	m_keyup=NULL;
 	m_keydown=NULL;
-	m_resize=NULL;
 }
 sad::Input::~Input()
 {
@@ -52,8 +51,13 @@ sad::Input::~Input()
 	DEL(m_mousemove);DEL(m_mousedown); DEL(m_mouseclick);
 	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
 	DEL(m_keydown);
-	DEL(m_resize);
 #undef DEL
+	for (int i=0;i<m_resizelisteners.count();i++)
+	{
+		if (m_removelisteners[i]) delete m_resizelisteners[i];
+	}
+	m_resizelisteners.clear();
+	m_removelisteners.clear();
 	for (hst::hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
 	{
 		delete it.value();
@@ -165,15 +169,27 @@ void sad::Input::postKeyDown(const sad::Event & ev)
 	(*m_keydown)(ev);
 }
 
-void sad::Input::setResizeHandler (sad::ResizeEventHandler * h)          
+void sad::Input::addResizeHandler (sad::ResizeEventHandler * h,bool autoremove)          
 {                                                    
-	if (m_resize) delete m_resize;                                 
-    m_resize=h;                                             
+	m_resizelisteners<<h;
+	m_removelisteners<<autoremove;
 }                                                    
-
+void sad::Input::removeResizeHandler(sad::ResizeEventHandler * h)
+{
+	for (unsigned int i=0;i<m_resizelisteners.count();i++)
+	{
+	 if (m_resizelisteners[i]==h)
+	 {
+	  if (m_removelisteners[i]) delete m_resizelisteners[i];
+      m_removelisteners.removeAt(i);
+	  m_resizelisteners.removeAt(i);
+	  --i;
+	 }
+	}
+}
 void sad::Input::postResize (const sad::ResizeEvent & ev)         
 {                                                    
-  if ( m_resize )                                           
-    (*m_resize)(ev);                                      
+  for (int i=0;i<m_resizelisteners.count();i++)
+	  (*m_resizelisteners[i])(ev);
 }                                                    
 
