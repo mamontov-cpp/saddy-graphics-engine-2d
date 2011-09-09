@@ -1,4 +1,6 @@
 #include "scene.h"
+#include <time.h>
+#include <input.h>
 #ifndef LINUX
 
 #include <windows.h>
@@ -26,6 +28,7 @@ sad::BasicNode::~BasicNode()
 }
 sad::Scene::Scene()
 {
+ m_render_interval=1000.0/60.0;  //!< Interval for 60 FPS
  m_clear=false;
  m_camera=new Camera();
 }
@@ -79,11 +82,17 @@ void sad::Scene::render()
 {
   m_camera->apply();
 
+  sad::Input::inst()->preRender();
+
+  clock_t start=clock();
   for (unsigned long i=0;i<m_layers.count();++i)
   {
 	  m_layers[i]->render();
   }
-  
+  m_render_interval=(float)(clock()-start)/CLOCKS_PER_SEC*1000.0f;
+
+  sad::Input::inst()->postRender();
+
   if (!(m_marked.count() || m_toadd.count() || m_clear)) return;
 	
   if (!m_clear)

@@ -91,7 +91,7 @@ private:
 	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
 	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;    //!< Marked for addition nodes             //!< Помеченные для добавления вершины 
 	sad::Camera      *        m_camera;                  //!< Current camera
-    
+    float                     m_render_interval;         //!< Rendering interval in milliseconds
 	os::mutex                m_add;                     //!< Add mutex
 	os::mutex                m_rem;                     //!< Remove mutex
 public:
@@ -152,6 +152,10 @@ public:
 	    \return an instance of object. Returns NULL if can't be found
 	*/
 	template<typename T> T * get(const hst::string & name); 
+	/*! Returns rendering interval in milliseconds
+		\return rendering interval
+	*/
+	inline float renderInteval() { return m_render_interval;}
 };
 
 }

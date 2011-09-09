@@ -1,6 +1,8 @@
 #include "input.h"
 #include <stdlib.h>
 
+static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff);
+
 sad::Event::Event()
 {
 	x=0;
@@ -56,6 +58,10 @@ sad::Input::~Input()
 	{
 		if (m_removelisteners[i]) delete m_resizelisteners[i];
 	}
+
+	cleanup_ptr_vector(m_postrender_tasks);
+	cleanup_ptr_vector(m_prerender_tasks);
+
 	m_resizelisteners.clear();
 	m_removelisteners.clear();
 	for (hst::hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
@@ -193,3 +199,40 @@ void sad::Input::postResize (const sad::ResizeEvent & ev)
 	  (*m_resizelisteners[i])(ev);
 }                                                    
 
+sad::CountableTask::CountableTask(int time)
+{
+	m_task=NULL;
+	m_task_time=time;
+}
+sad::CountableTask::CountableTask(void (*task)(),int time)
+{
+	m_task=task;
+	m_task_time=time;
+}
+void sad::CountableTask::perform() 
+{
+	if (m_task)
+		m_task();
+}
+
+sad::CountableTask::~CountableTask() {}
+
+static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff)
+{
+	for (int i=0;i<ff.count();i++)
+		delete ff[i];
+	ff.clear();
+}
+
+void sad::Input::tryPerform(hst::vector<sad::CountableTask *> & v)
+{
+	for (unsigned int i=0;i<v.count();i++)
+	{
+		if (v[i]->tryPerform())
+		{
+			delete v[i];
+			v.removeAt(i);
+			--i;
+		}
+	}
+}
