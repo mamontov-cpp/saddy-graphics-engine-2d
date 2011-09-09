@@ -27,6 +27,7 @@ sad::BasicNode::~BasicNode()
 sad::Scene::Scene()
 {
  m_clear=false;
+ m_camera=new Camera();
 }
 sad::Scene::~Scene()
 {
@@ -36,6 +37,7 @@ sad::Scene::~Scene()
 		delete m_marked[i];
 	for (unsigned long i=0;i<this->m_toadd.count();i++)
 		delete m_marked[i];
+	delete m_camera;
 }
 void sad::Scene::add(
 		             BasicNode * node, 
@@ -75,7 +77,7 @@ void sad::Scene::performCleanup()
 }
 void sad::Scene::render()
 {
-  m_camera.apply();
+  m_camera->apply();
 
   for (unsigned long i=0;i<m_layers.count();++i)
   {
@@ -132,7 +134,7 @@ void sad::Scene::markForAddition(BasicNode * node, const hst::string & name,unsi
 }
 sad::Camera & sad::Scene::camera()
 {
-	return m_camera;
+	return *m_camera;
 }
 
 sad::Camera::~Camera()

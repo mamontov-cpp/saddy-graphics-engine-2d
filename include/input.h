@@ -189,7 +189,8 @@ namespace sad
 			  sad::EventHandler *  m_keyup;       //!<  Key up
 			  sad::EventHandler *  m_keydown;     //!<  Key down
 
-			  sad::ResizeEventHandler * m_resize;  //!< Handler for resize
+			  hst::vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
+			  hst::vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
 
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
@@ -225,7 +226,8 @@ namespace sad
 			  void setKeyUpHandler(   sad::EventHandler * h);
 			  void setKeyDownHandler(  sad::EventHandler * h);
 
-			  void setResizeHandler(sad::ResizeEventHandler  * h);
+			  void addResizeHandler(sad::ResizeEventHandler  * h,bool autoremove=true);
+			  void removeResizeHandler(sad::ResizeEventHandler * h);
 
 			  void bindKeyUp(int key, sad::EventHandler * h);
 			  void bindKeyDown(int key, sad::EventHandler * h);
@@ -253,7 +255,7 @@ namespace sad
 			  inline bool areWheelNotTracked()   { if (!m_mousewheel) return true; return m_mousewheel->empty(); }
 			  inline bool areUpNotTracked()      { if (!m_mouseup)   return true; return m_mouseup->empty(); }
 			  inline bool areDownNotTracked()    { if (!m_mousedown) return true; return m_mousedown->empty(); }
-			  inline bool areResizeNotTracked()     { if (!m_resize) return true; return m_resize->empty(); }
+			  inline bool areResizeNotTracked()     { return m_resizelisteners.count()==0; }
 			  /*!  \}
 			  */
 	};
