@@ -215,6 +215,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\src\orthocamera.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\pngtexture.cpp"
 				>
 			</File>
@@ -434,6 +438,10 @@
 			</File>
 			<File
 				RelativePath=".\include\log.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\orthocamera.h"
 				>
 			</File>
 			<File
