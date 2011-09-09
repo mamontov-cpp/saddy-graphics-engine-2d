@@ -175,6 +175,34 @@ namespace sad
 	*/
 	typedef BasicEventHandler<sad::ResizeEvent> ResizeEventHandler;
 
+	/*! \class CountedTask
+	    Declares a task, that must be after n specific calls of tryPerform() function
+	*/
+	class CountableTask
+	{
+	 private:
+		      int m_task_time; //!< Determines amount of loops, when he must be run
+			  void (*m_task)();  //!< Determines a task functions
+	 public:
+		      /*! Creates a new task
+			  */
+		      CountableTask(int time=1);
+			  /*! Creates a new task with specific functions
+				  \param[in] task task functions
+				  \param[in] time amount of tryPerform() calls;
+			  */
+			  CountableTask(void (*m_task)(),int time=1);
+			  /*! Tries to perform task
+			      \return whether perform() is called
+			  */
+			  inline bool tryPerform() { --m_task_time; if (!m_task_time) perform(); return m_task_time==0; };
+		      /*! Determines, that task must be performed
+			  */
+			  virtual void perform();
+			  /*! Destructor
+			  */
+			  virtual ~CountableTask();
+	};
 	class Input
 	{
 	 private:
@@ -192,6 +220,9 @@ namespace sad
 			  hst::vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
 			  hst::vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
 
+			  hst::vector<CountableTask *>           m_postrender_tasks;  //!< Tasks for postrendering
+			  hst::vector<CountableTask *>           m_prerender_tasks;   //!< Tasks for prerendering
+
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
 			  
@@ -208,6 +239,10 @@ namespace sad
 			  /*! Destroys an instance
 			  */
 			  static void freeInst();
+			  /*! Invokes try perform and removes worked task
+				  \param[in,out] v vector
+			  */
+			  void tryPerform(hst::vector<sad::CountableTask *> & v);
 	 public:
 		     /*! Returns an instance
 			 */
@@ -246,6 +281,30 @@ namespace sad
 
 			  void postResize(const sad::ResizeEvent & ev);
 
+			  /*! Add a pre-render task
+				  \param[in] tsk task
+				  \param[in] time time for taks
+			  */
+			  inline void addPreRenderTask(void (*tsk)(),int time=1)  {addPreRenderTask(new sad::CountableTask(tsk,time)); }
+			  /*! Add a post-render task
+				  \param[in] tsk task
+				  \param[in] time time for taks
+			  */
+			  inline void addPostRenderTask(void (*tsk)(),int time=1)  {addPostRenderTask(new sad::CountableTask(tsk,time)); }
+			  /*! Adds a pre-render task	
+				  \param[in] tsk new task
+			  */
+			  inline void addPreRenderTask(sad::CountableTask * tsk) {m_prerender_tasks<<tsk; }
+			  /*! Adds a post-render task
+				  \param[in] tsk new task
+			  */
+			  inline void addPostRenderTask(sad::CountableTask * tsk) {m_postrender_tasks<<tsk; }
+			  /*! Posts prerender time
+			  */
+			  inline void preRender() { tryPerform(m_prerender_tasks); }
+			  /*! Posts postrender time
+			  */
+			  inline void postRender() { tryPerform(m_postrender_tasks); }
 			  /*! Detects, whether we are not watching for mouse tracking
 			      \{
 			  */
