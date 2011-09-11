@@ -1,4 +1,4 @@
-{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -O2 
+{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp main.cpp extra/statemachine.cpp extra/collidable.cpp extra/hline.cpp extra/collision.cpp extra/hxyrect.cpp  extra/collisionmanager.cpp extra/statelabel.cpp  extra/background.cpp extra/movitem.cpp extra/player.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -O2 
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra 
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DUNIX -DLINUX -DGCC
