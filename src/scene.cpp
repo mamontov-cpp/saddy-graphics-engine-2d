@@ -14,18 +14,15 @@
 
 #endif
 
-
-int sad::BasicNode::Type=0;
-int sad::BasicNode::type() const { return m_type;}
+SAD_DECLARE_BASIC_NODE(sad::BasicNode);
 
 sad::BasicNode::BasicNode()
 {
-	m_type=sad::BasicNode::Type;
 }
 sad::BasicNode::~BasicNode()
 {
-
 }
+
 sad::Scene::Scene()
 {
  m_render_interval=1000.0/60.0;  //!< Interval for 60 FPS
@@ -153,7 +150,7 @@ sad::Camera::Camera()
 {
 	this->m_curX=0.0f;
     this->m_curY=0.0f;
-    this->m_curZ=-1.0f;
+    this->m_curZ=0.0f;
     this->m_rotX=0.0f;
     this->m_rotY=0.0f;
     this->m_rotZ=0.0f;
@@ -183,3 +180,4 @@ void sad::Scene::clear()
 	m_marked.clear();
 	m_toadd.clear();
 }
+

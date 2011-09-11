@@ -19,6 +19,7 @@ typedef hPointF Size; //!< Size is a point, where on x placed width, on y - heig
 typedef hPointF Vector; //!< vector of direction
 class MovingItem: public Collidable 
 {
+ SAD_NODE
 protected:
 		   BoundingBox m_box; //!< Bounding box
 		   BoundingBox m_draw; //!< Draw box
@@ -49,8 +50,8 @@ public:
 
 class PlayerBullet: public MovingItem 
 {
+ SAD_NODE
  public:
-	    static int Type;
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
 		    \param[in] draw     bounding box, of drawed iterm
@@ -67,8 +68,8 @@ class PlayerBullet: public MovingItem
 
 class EnemyBullet: public MovingItem 
 {
+ SAD_NODE
  public:
-	    static int Type;
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
 		    \param[in] draw     bounding box, of drawed iterm
@@ -84,8 +85,8 @@ class EnemyBullet: public MovingItem
 
 class Bonus: public MovingItem 
 {
+ SAD_NODE
  public:
-	    static int Type;
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
 		    \param[in] draw     bounding box, of drawed iterm
@@ -102,8 +103,8 @@ class Bonus: public MovingItem
 
 class Enemy: public MovingItem 
 {
+ SAD_NODE
  public:
-	    static int Type;
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
 		    \param[in] draw     bounding box, of drawed iterm
@@ -120,10 +121,10 @@ class Enemy: public MovingItem
 #define SHOOT_FREQ 1000
 class ShootingEnemy: public MovingItem 
 {
+ SAD_NODE
  private:
 	     clock_t m_lastclock;
  public:
-	    static int Type;
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
 		    \param[in] draw     bounding box, of drawed iterm
@@ -152,11 +153,11 @@ class ShootingEnemy: public MovingItem
 */
 class EnemyEmitter:public sad::BasicNode
 {
+ SAD_NODE
  private:
 	     clock_t m_clk;
 		 void (EnemyEmitter::*m_r)();
  public:
-	     static int Type;
 	     EnemyEmitter(int what=REAL_SPAWN);
 		 void render();
 		 void renderRain();

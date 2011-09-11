@@ -1,6 +1,7 @@
 #include "label.h"
 
-int Label::Type=2;
+SAD_DECLARE(Label,sad::BasicNode)
+
 
 Label::Label(
 		      sad::BasicFont * fnt,
@@ -9,7 +10,6 @@ Label::Label(
 			  float                z
 			)
 {
-	m_type=Label::Type;
     m_fnt=fnt;
 	m_str=str;
 	m_rect=rect;

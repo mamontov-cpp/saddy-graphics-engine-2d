@@ -23,6 +23,7 @@
 #define SYM_HEIGHT 0.0125
 class StateLabel: public sad::BasicNode
 {
+ SAD_NODE
  private:
 	     void (StateLabel::* m_render)();
 		 sad::TMFont * m_fnt;
@@ -31,7 +32,6 @@ class StateLabel: public sad::BasicNode
 		 hst::string m_str3;
 		 clock_t m_lastcl;
  public:
-	     static int Type;
 	     StateLabel(int what,const hst::string & s);
 
 		 void renderScore();

@@ -13,6 +13,7 @@ typedef hst::xyrect BoundingBox;
 */
 class Collidable: public sad::BasicNode
 {
+ SAD_NODE
  protected:
 		
  public:

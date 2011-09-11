@@ -1,7 +1,7 @@
 #include "player.h"
 #include "lightmodel.h"
 
-int      Player::Type=12;
+SAD_DECLARE(Player,Collidable)
 
 Player * Player::instance=NULL;
 
@@ -112,9 +112,6 @@ Player::Player(const BoundingBox &  draw, float percent)
 	m_draw=draw;
     
 	m_box=draw.enlarged(draw.width()*(percent-1),draw.height()*(percent-1));
-
-	m_type=Player::Type;
-
 
 	CollisionManager::add(this);
 	instance=this;

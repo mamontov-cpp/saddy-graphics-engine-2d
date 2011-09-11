@@ -14,7 +14,8 @@
 
 #endif
 
-												
+
+SAD_DECLARE(Sprite,sad::BasicNode)
 
 Sprite::~Sprite()
 {
@@ -29,7 +30,6 @@ Sprite::Sprite(
 			   float * tex_coord
 			  )
 {
-	m_type=Sprite::Type;
 	m_tex=tex;
 	memcpy(m_rect,rect,4*sizeof(s3d::point));
     if (tex_coord)  memcpy(m_tex_coord,tex_coord,8*sizeof(float));
@@ -43,7 +43,6 @@ Sprite::Sprite(
 			   int * tex_coord
 			  )
 {
-    m_type=Sprite::Type;
 	m_tex=tex;
 	memcpy(m_rect,rect,4*sizeof(float));
     if (tex_coord)  
@@ -57,7 +56,6 @@ Sprite::Sprite(
 	else   		    memcpy(m_tex_coord,default_tex_coord,8*sizeof(float));
 }
 
-int Sprite::Type=1;
 
 void Sprite::render()
 {

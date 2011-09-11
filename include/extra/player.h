@@ -10,6 +10,7 @@
 
 class Player: public Collidable
 {
+ SAD_NODE
  private:
 	     sad::Texture * m_tex; //!< Associated texture
 		 BoundingBox m_box; //!< Bounding box
@@ -17,7 +18,6 @@ class Player: public Collidable
 		 float       m_angle;   //!< Angle
  public:
 
-	     static int      Type;      //!<  Global type id
 		 static Player * instance; //!< Player instance
 	     /*! Constructs player
 		     \param[in] box     box place

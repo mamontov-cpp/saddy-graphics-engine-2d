@@ -12,13 +12,11 @@
 
 #endif
 
-
-int Background::Type=2;
+SAD_DECLARE(Background,sad::BasicNode)
 
 Background::Background(const hst::string &name)
 {
 	m_tex=sad::TextureManager::instance()->get(name);
-	m_type=Background::Type;
 }
 
 Background::~Background()
