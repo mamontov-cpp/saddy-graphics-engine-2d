@@ -1,5 +1,12 @@
 #include "movitem.h"
 
+SAD_DECLARE(MovingItem,Collidable)
+SAD_DECLARE(PlayerBullet,MovingItem)
+SAD_DECLARE(EnemyBullet,MovingItem)
+SAD_DECLARE(Bonus,MovingItem)
+SAD_DECLARE(Enemy,MovingItem)
+SAD_DECLARE(ShootingEnemy,MovingItem)
+SAD_DECLARE(EnemyEmitter,sad::BasicNode)
 //#define CLOCK_TEST
 
 #ifdef CLOCK_TEST
@@ -104,11 +111,9 @@ void MovingItem::render()
 	}
 }
 
-int PlayerBullet::Type=25;
 
 PlayerBullet::PlayerBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {
-  m_type=PlayerBullet::Type;
   m_tex=sad::TextureManager::instance()->get("playerbullet");   
   CollisionManager::add(this);
 }
@@ -117,11 +122,8 @@ PlayerBullet::~PlayerBullet()
 	CollisionManager::remove(this);
 }
 
-int EnemyBullet::Type=26;
-
 EnemyBullet::EnemyBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {
-  m_type=EnemyBullet::Type;
   m_tex=sad::TextureManager::instance()->get("enemybullet");   
   CollisionManager::add(this);
 }
@@ -131,11 +133,9 @@ EnemyBullet::~EnemyBullet()
 }
 
 
-int Bonus::Type=27;
 
 Bonus::Bonus(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {
-  m_type=Bonus::Type;
   m_tex=sad::TextureManager::instance()->get("bonus");   
   CollisionManager::add(this);
 }
@@ -145,11 +145,9 @@ Bonus::~Bonus()
 }
 
 
-int Enemy::Type=28;
 #define GET_TEX(X) sad::TextureManager::instance()->get(X)
 Enemy::Enemy(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {
-  m_type=Enemy::Type;
   int r=(int)(((float)rand())/RAND_MAX*3.0f);
   if (r==3)--r;
   if (r==0) m_tex=GET_TEX("halfsmile");
@@ -162,11 +160,9 @@ Enemy::~Enemy()
 	CollisionManager::remove(this);
 }
 
-int ShootingEnemy::Type=29;
 
 ShootingEnemy::ShootingEnemy(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {
-  m_type=ShootingEnemy::Type;
   m_tex=GET_TEX("largesmile");
   m_lastclock=0;
   CollisionManager::add(this);
@@ -187,8 +183,6 @@ void ShootingEnemy::render()
 	}
 	this->MovingItem::render();
 }
-
-int EnemyEmitter::Type=65;
 
 EnemyEmitter::~EnemyEmitter()
 {
@@ -267,7 +261,6 @@ void EnemyEmitter::renderRain()
 EnemyEmitter::EnemyEmitter(int what)
 {
     m_clk=0;
-	m_type=EnemyEmitter::Type;
 	if (what==REAL_SPAWN)
 		m_r=&EnemyEmitter::renderSpawn;
 	else

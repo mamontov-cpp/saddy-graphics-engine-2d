@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\typeindex.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
@@ -401,6 +405,10 @@
 			</File>
 			<File
 				RelativePath=".\include\texturemanager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\typeindex.h"
 				>
 			</File>
 			<File

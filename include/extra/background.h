@@ -8,10 +8,10 @@
 
 class Background: public sad::BasicNode
 {
+ SAD_NODE
  private:
 	      sad::Texture * m_tex;
  public:
-	    static int Type;
 	    /*! Creates background from texture with name
 	    */
 	    Background(const hst::string & name);	

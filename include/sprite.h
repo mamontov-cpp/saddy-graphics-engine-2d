@@ -22,6 +22,7 @@ namespace s3d
 */
 class Sprite: public sad::BasicNode
 {
+ SAD_NODE
  private:
 	     float        m_tex_coord[8];    //!< Texture coordinates
 		 s3d::point   m_rect[4];         //!< Rectangle
@@ -40,7 +41,6 @@ class Sprite: public sad::BasicNode
 					 double theta 
 					);
  public:
-	     static int Type;                //!< Static type
           /*! Creates a simple node
 		      \param[in] tex        texture
 			  \param[in] rect       rectangle, with point directed clockwise

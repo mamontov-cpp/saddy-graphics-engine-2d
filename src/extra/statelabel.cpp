@@ -1,6 +1,6 @@
 #include "statelabel.h"
 
-int StateLabel::Type=3;
+SAD_DECLARE(StateLabel,sad::BasicNode)
 
 StateLabel::StateLabel(int what,const hst::string & s)
 {
@@ -14,7 +14,6 @@ StateLabel::StateLabel(int what,const hst::string & s)
 		m_render=&StateLabel::renderState;
 	}
 	m_lastcl=0;
-	m_type=StateLabel::Type;
 }
 
 StateLabel::~StateLabel()

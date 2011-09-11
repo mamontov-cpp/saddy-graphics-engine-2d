@@ -287,17 +287,18 @@ int main(int argc, char** argv)
 	printf("States binded!\nBinding collisions\n");
 
 
-	CollisionManager::bind(PlayerBullet::Type,Enemy::Type,new CollisionHandler(playerbullet));
-	CollisionManager::bind(PlayerBullet::Type,ShootingEnemy::Type,new CollisionHandler(playerbullet));
-	CollisionManager::bind(Player::Type,Bonus::Type,new CollisionHandler(playerbonus));				 
-	CollisionManager::bind(Player::Type,EnemyBullet::Type,new CollisionHandler(playerenemybullet));
-	CollisionManager::bind(Player::Type,Enemy::Type,new CollisionHandler(playerenemybullet));
-	CollisionManager::bind(Player::Type,ShootingEnemy::Type,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(PlayerBullet::ID,Enemy::ID,new CollisionHandler(playerbullet));
+	CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,new CollisionHandler(playerbullet));
+	CollisionManager::bind(Player::ID,Bonus::ID,new CollisionHandler(playerbonus));				 
+	CollisionManager::bind(Player::ID,EnemyBullet::ID,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,Enemy::ID,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,ShootingEnemy::ID,new CollisionHandler(playerenemybullet));
 
 	printf("Building mips!\n");	
 	sad::TextureManager::buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
+	sad::Renderer::instance().getCurrentScene()->setCamera(new sad::Camera(0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f));
 	//Set light
 	sad::ColorMaterial::disable();
 	sad::ColorMaterial::set(sad::Both,sad::ColorMaterial::DiffuseAmbient);

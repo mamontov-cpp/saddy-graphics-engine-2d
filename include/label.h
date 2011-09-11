@@ -12,14 +12,13 @@
 */
 class Label: public sad::BasicNode
 {
+ SAD_NODE
  private:
 	    sad::BasicFont * m_fnt;    //!<  Associated font
 		hst::string      m_str;    //!<  String
 		hRectF           m_rect;   //!<  Bounding rectangle
 		float            m_z;      //!<  Z component
  public:
-	    static int Type;        //!< Type
-        
 		/*! Returns a font reference
 		    \return font 
 		*/
