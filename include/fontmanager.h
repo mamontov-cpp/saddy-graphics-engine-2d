@@ -20,10 +20,9 @@ class BasicFont
  public:
 	 /*! Renders a string
 	     \param[in] str string
-		 \param[in] rect bounding rectangle. If cannot render in it, renders starting from upper left rendering
-		 \param[in] z zvalue
+		 \param[in] p   upper-left point in window coordinates
 	 */
-	 virtual void render(const hst::string & str,const hRectF & rect,float z)=0; 
+	 virtual void render(const hst::string & str,const pointf & p)=0; 
 	 /*! Returns a estimated size of label
 	     \param[in] str string
 	 */
@@ -72,10 +71,9 @@ namespace sad
 					  );
 			/*! Renders a string
 				\param[in] str string
-				\param[in] rect bounding rectangle. If cannot render in it, renders starting from upper left rendering
-				\param[in] z    z paramerer
+				\param[in] p   upper-left point in window coordinates
 			*/
-	        void render(const hst::string & str,const hRectF & rect,float z);
+	        void render(const hst::string & str,const pointf & p);
 			/*! Returns a estimated size of label
 				\param[in] str string
 			*/

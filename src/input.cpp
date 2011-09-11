@@ -77,6 +77,7 @@ sad::Input::~Input()
 void sad::Input::freeInst()
 {
 	delete m_instance;
+	m_instance=NULL;
 }
 sad::Input * sad::Input::inst()
 {

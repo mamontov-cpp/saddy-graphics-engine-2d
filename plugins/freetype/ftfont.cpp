@@ -226,8 +226,8 @@ void FTFont::render(const hst::string & str, float x, float y)
    coord_system::restore();
 }
 
-void FTFont::render(const hst::string & str,const hRectF & rect,float z)
+void FTFont::render(const hst::string & str,const pointf & p)
 {
-  this->render(str,rect.p().x(),rect.p().y());
+  this->render(str,p().x(),p().y());
 }
 

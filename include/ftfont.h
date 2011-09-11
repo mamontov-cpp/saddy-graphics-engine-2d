@@ -46,11 +46,10 @@ class FTFont: public sad::BasicFont
 	 */
 	 bool load(const char * fnt_file, unsigned int height,const hst::acolor & cl=hst::acolor(0,0,0,0));
 	 /*! Renders a string
-	     \param[in] str string
-		 \param[in] rect defines an upper left corner of font
-		 \param[in] z not used
+		 \param[in] str string
+		 \param[in] p   upper-left point in window coordinates
 	 */
-	 void render(const hst::string & str,const hRectF & rect,float z);
+	 void render(const hst::string & str,const pointf & p);
 	 /*! Same as other, but little faster
 	     \param[in] str string
 		 \param[in]  x x coordinate
