@@ -1,5 +1,4 @@
-#!/bin/sh
-g++ tools/hbuild.cpp -o bin/hbuild 
+g++ tools/hbuild.cpp -o bin/hbuild -DLINUX
 bin/hbuild preprocess/Makefile_demo_debug_mingw.hbd -o makefiles/Makefile_Demo_Debug.mingw
 bin/hbuild  preprocess/Makefile_demo_release_mingw.hbd -o makefiles/Makefile_Demo_Release.mingw
 bin/hbuild  preprocess/Makefile_library_debug_mingw.hbd -o makefiles/Makefile_Library_Debug.mingw

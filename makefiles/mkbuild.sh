@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if  [ ! -d build ];  then 
+if  [ ! -d ../build ];  then 
     mkdir ../build 
 fi
-if  [ ! -d lib ];  then 
+if  [ ! -d ../lib ];  then 
     mkdir ../lib 
 fi
-if  [ ! -d bin ];  then 
+if  [ ! -d ../bin ];  then 
     mkdir ../bin 
 fi

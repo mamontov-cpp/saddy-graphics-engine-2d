@@ -21,6 +21,10 @@
 #include <vector>
 #include <map>
 #include <memory>
+#ifdef LINUX
+	#include <sys/types.h>
+	#include <dirent.h>
+#endif
 
 using namespace std;
 
@@ -49,6 +53,7 @@ string merge_path(const string & a,const string & b)
 */
 void scan_recursive(svector & vec,const string & path)
 {
+#ifndef LINUX
  _finddata_t dataf;
  intptr_t fptr=_findfirst(merge_path(path,"*.*").c_str(),&dataf);
  bool retcode=fptr!=-1;
@@ -70,6 +75,31 @@ void scan_recursive(svector & vec,const string & path)
   }
   if (fptr!=-1)
 	  _findclose(fptr);
+#else
+  DIR * dp=NULL;
+  struct dirent  * dirp=NULL;
+  dp=opendir(merge_path(path,".").c_str());
+  //printf("Scanning dir %s\n",merge_path(path,".").c_str());
+  while ( (dirp=readdir(dp)) !=NULL)
+  {
+      //printf("Reading dir entry %p with pointer to string %p\n",dirp,dirp->d_name);
+      if  ( (!(dirp->d_type  & DT_DIR)) &&
+	    (
+	      (!strcmp(dirp->d_name+strlen(dirp->d_name)-4,".cpp"))  ||
+	      (!strcmp(dirp->d_name+strlen(dirp->d_name)-2,".c"))
+	     ) 
+           )
+           vec.push_back(merge_path(path,dirp->d_name));
+      if ((dirp->d_type & DT_DIR)    
+	   && (strcmp(dirp->d_name,"."))
+	   && (strcmp(dirp->d_name,".."))    
+          )
+         scan_recursive(vec,merge_path(path,dirp->d_name));
+  }	  
+  //printf("Scanned dir %s\n",merge_path(path,".").c_str()); 
+  if  (dp!=NULL)
+	closedir(dp);
+#endif
 }
 
 /*! Scans a folder for *.c and *.cpp pathes
@@ -79,15 +109,27 @@ void scan_recursive(svector & vec,const string & path)
 void scan_folder(svector & vec,const string & path)
 {
  char cwd[500];
+#ifdef LINUX
+ getcwd(cwd,500);
+#else
  _getcwd(cwd,500);
+#endif
  int chdir_res=0;
  if (path!=".")
  {
+#ifdef LINUX
+	chdir_res=chdir(path.c_str());
+#else
 	chdir_res=_chdir(path.c_str());
+#endif
  }
  scan_recursive(vec,"");
  if (path!=".")
+#ifdef LINUX
+	chdir(cwd);
+#else
 	_chdir(cwd);
+ #endif
 }
 
 /*! Retrieves an escaped source list, from unescaped.
