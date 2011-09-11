@@ -6,21 +6,8 @@
 	load, render and free it.
 */
 #pragma once
-
-#ifdef WIN32
-
-#include <windows.h>
-#include <WinDef.h>
-
-#endif
-
 #include "types.h"
 #include "texturemanager.h"
-
-#ifdef WIN32
-
-typedef HFONT tfont;
-#endif
 
 namespace sad
 {
@@ -48,11 +35,6 @@ class BasicFont
 
 
 }
-
-#ifdef WIN32
-	#include "win32font.h"
-#endif
-
 
 namespace sad
 {

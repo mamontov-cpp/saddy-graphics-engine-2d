@@ -1,0 +1,13 @@
+{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp main.cpp extra/statemachine.cpp extra/collidable.cpp extra/hline.cpp extra/collision.cpp extra/hxyrect.cpp  extra/collisionmanager.cpp extra/statelabel.cpp  extra/background.cpp extra/movitem.cpp extra/player.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread 
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra 
+OUTPUT   = ../bin/saddy-test-release
+DEFINES  = -DUNIX -DLINUX -DGCC
+BUILD    = {FOR_EACH ../build/{NAME}.o \s}
+all:
+	./mkbuild.sh
+{FOR_EACH 	g++\s-c\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	rm $(OUTPUT)
+	rm -rf build
+.PHONY: all clean
