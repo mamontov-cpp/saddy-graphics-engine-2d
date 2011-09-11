@@ -94,9 +94,6 @@ static void wcs()
 	glLoadIdentity();
 	gluOrtho2D(viewport[0],viewport[2],viewport[1],viewport[3]);
 	glPopAttrib();
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
 }
 static void restore()
 {
@@ -104,8 +101,6 @@ static void restore()
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glPopAttrib();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 void TMFont::render(const hst::string & str,const pointf & p)
 {
