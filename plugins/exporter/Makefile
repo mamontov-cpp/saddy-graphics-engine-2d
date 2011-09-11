@@ -3,4 +3,4 @@ INCLUDE=  -Iprimitives -Itemplates -I/usr/include/cairo -I/usr/include/glib-2.0 
 OUTPUT   = ../../bin/exporter
 DEFINES  = -DUNIX -DLINUX -DGCC
 all:
-	g++  saddy_exporter/saddy_exporter.cpp pngimage.cpp templates/hstring.cpp templates/hstringlist.cpp  primitives/hcolor.cpp primitives/hfont.cpp primitives/hline.cpp primitives/hlinestyle.cpp primitives/hpolyline.cpp primitives/hshape.cpp primitives/hshapestyle.cpp primitives/hxyrect.cpp -o $(OUTPUT)  $(INCLUDE) $(DEFINES) $(LDFLAGS) `pkg-config --libs glib-2.0`
+	g++  saddy_exporter/saddy_exporter.cpp pngimage.cpp templates/hstring.cpp templates/hstringlist.cpp  primitives/hcolor.cpp primitives/hfont.cpp primitives/hline.cpp primitives/hlinestyle.cpp primitives/hpolyline.cpp primitives/hshape.cpp primitives/hshapestyle.cpp primitives/hxyrect.cpp -o $(OUTPUT)  $(INCLUDE) $(DEFINES) $(LDFLAGS) `pkg-config --libs --cflags glib-2.0`
