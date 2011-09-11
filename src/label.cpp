@@ -1,27 +1,39 @@
 #include "label.h"
+#include "renderer.h"
 
 SAD_DECLARE(Label,sad::BasicNode)
 
-
+void Label::operator()(const sad::ResizeEvent & o)
+{
+	float old_width=sad::Renderer::instance().settings().width();
+	float old_height=sad::Renderer::instance().settings().height();
+	m_rend_point.setX(o.new_width/old_width);
+	m_rend_point.setY(o.new_width/old_height);
+}
+Label::Label()
+{
+	sad::Input::inst()->addResizeHandler(this,false);
+}
 Label::Label(
-		      sad::BasicFont * fnt,
+		      LabelFont fnt,
 		      const hst::string & str,
-			  const hRectF      & rect,
-			  float                z
+			  const pointf      & p
 			)
 {
     m_fnt=fnt;
 	m_str=str;
-	m_rect=rect;
-	m_z=z;
+	m_p=p;
+	m_rend_point=p;
+	sad::Input::inst()->addResizeHandler(this,false);
 }
 
 Label::~Label()
 {
-
+	if (sad::Input::inst())
+		sad::Input::inst()->removeResizeHandler(this);
 }
 
 void Label::render()
 {
-	m_fnt->render(m_str,m_rect,m_z);
+	m_fnt->render(m_str,m_rend_point);
 }

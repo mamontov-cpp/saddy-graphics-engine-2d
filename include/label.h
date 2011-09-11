@@ -5,47 +5,51 @@
 */
 #include "scene.h"
 #include "fontmanager.h"
+#include "input.h"
 #pragma once
 
+typedef sad::BasicFont *  LabelFont;
 /*! \class Label
     Class of simple label on scene
 */
-class Label: public sad::BasicNode
+class Label: public sad::BasicNode, public sad::ResizeEventHandler
 {
  SAD_NODE
  private:
-	    sad::BasicFont * m_fnt;    //!<  Associated font
-		hst::string      m_str;    //!<  String
-		hRectF           m_rect;   //!<  Bounding rectangle
-		float            m_z;      //!<  Z component
+	    LabelFont  m_fnt;        //!<  Associated font
+		hst::string      m_str;        //!<  String
+		pointf           m_p;          //!<  point
+		pointf           m_rend_point; //!<  Current rendering point
  public:
+	    void operator()(const sad::ResizeEvent & o);
 		/*! Returns a font reference
 		    \return font 
 		*/
-		inline sad::BasicFont *& font();
+		inline LabelFont & font();
 		/*! Returns a string
 		    \return string
 		*/
 		inline hst::string &  string();
-		/*! Returns a bounding box position
-		    \return m_rect
+		/*! Returns a point position
+		    \return m_p
 		*/
-		inline hRectF & box();
-		/*! Returns a  Z component
-		    \return m_z
+		inline pointf &  point();
+		/*! Returns a rendering point position
+		    \return m_rend_point
 		*/
-		inline float z();
+		inline pointf &  render_point();
+		/*! Creates a label
+		*/
+		Label();
 		/*! Creates a simple node
 		    \param[in] fnt  font object
 			\param[in] str  rendered string
-			\param[in] rect bounding rectangle
-			\param[in] z    Z component
+			\param[in] p    point
 		*/
 		Label(
-		      sad::BasicFont * fnt,
+		      LabelFont  fnt,
 		      const hst::string & str,
-			  const hRectF      & rect,
-			  float                z
+			  const pointf      & p
 			 );
         /*! Renders it
 		*/
@@ -56,7 +60,7 @@ class Label: public sad::BasicNode
 };
 
 //======================================Source code=====================================
-sad::BasicFont *& Label::font()   { return m_fnt;  }
+LabelFont & Label::font()   { return m_fnt;  }
 hst::string &     Label::string() { return m_str;  }
-hRectF &          Label::box()    { return m_rect; }
-float             Label::z()      { return m_z;    }
+pointf &          Label::point()    { return m_p; }
+pointf &		  Label::render_point() { return m_rend_point;}

@@ -160,10 +160,10 @@ namespace sad
 			/*! Invokes a functor with event
 			     \param[in] o event
 			*/
-			void operator()(const EventType & o);
+			virtual void operator()(const EventType & o);
 			/*! Destructor
 			*/
-			~BasicEventHandler();
+			virtual ~BasicEventHandler();
 			/*! Is it is empty
 			*/
 			inline bool empty() { return !m_functor; }

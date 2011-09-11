@@ -56,53 +56,99 @@ bool TMFont::load(
 }
 hRectF TMFont::size(const hst::string & str)
 {
+  float maxx=0.0f;
+  float maxy=0.0f;
   float lenx=0.0f;
-  float leny=0.0f;
+  float leny=(m_ul['A'].y()-m_lr['A'].y())*m_tex->height();
   //Calculate total length
   for (int i=0;i<str.length();i++)
   {
-	  lenx+=m_lr[str[i]].x()-m_ul[str[i]].x();
+	  if (str[i]=='\r' || str[i]=='\n')
+	  {
+		  bool not_repeat=i==0;
+		  if (!not_repeat)
+			  not_repeat=!( (str[i-1]=='\r' && str[i]=='\n') || (str[i-1]=='\n' && str[i]=='\r') );
+		  if (not_repeat)
+		  {
+			  if (lenx>maxx) maxx=lenx;
+			  leny+=(m_lr['A'].y()-m_ul['A'].y())*m_tex->height();
+			  lenx=0;
+		  }
+	  }
+	  else
+	   lenx+=(m_lr[str[i]].x()-m_ul[str[i]].x())*m_tex->width();
   }
-  if (str.length()!=0)
-	leny=m_ul[str[0]].y()-m_lr[str[0]].y();
-  return hRectF(hPointF(0,0),hPointF(lenx,leny));
+  maxy=leny;
+  if (str.length()==0)
+	maxy=0;
+  return hRectF(hPointF(0,0),hPointF(maxx,maxy));
 }
-void TMFont::render(const hst::string & str,const hRectF & rect,float z)
+
+static void wcs()
 {
-  float lenx=0.0f;
-  //Calculate total length
-  for (int i=0;i<str.length();i++)
-  {
-	  lenx+=m_lr[str[i]].x()-m_ul[str[i]].x();
-  }
-  float aspratio=rect.width()/lenx;
+	glPushAttrib(GL_TRANSFORM_BIT);
+	GLint	viewport[4]={};
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(viewport[0],viewport[2],viewport[1],viewport[3]);
+	glPopAttrib();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+}
+static void restore()
+{
+	glPushAttrib(GL_TRANSFORM_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glPopAttrib();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+}
+void TMFont::render(const hst::string & str,const pointf & p)
+{
+  wcs();
+  float cury=p.y();
+  float curx=p.x();
   m_tex->enable();
-  float curx=rect.p().x();
-  float cury=rect.p().y();
-  float endy=rect.p().y()+rect.height()*aspratio;
-  
-  if (str.length()!=0) 
-  {
-     float test=m_lr[str[0]].y()-m_ul[str[0]].y();
-	 endy=cury+(float)(test)*aspratio;
-  }
   glBegin(GL_QUADS);
   for (int i=0;i<str.length();i++)
   {
-    char c=str[i];
-	float len=(m_lr[c].x()-m_ul[c].x())*aspratio;
-    glTexCoord2f(m_ul[c].x(),m_lr[c].y()); 
-		glVertex3f(curx,cury,z);
-	glTexCoord2f(m_ul[c].x(),m_ul[c].y());
-		glVertex3f(curx,endy,z);
-	glTexCoord2f(m_lr[c].x(),m_ul[c].y()); 
-		glVertex3f(curx+len,endy,z);
-	glTexCoord2f(m_lr[c].x(),m_lr[c].y());
-		glVertex3f(curx+len,cury,z);
-	curx+=len;
+    if (str[i]=='\r' || str[i]=='\n')
+	{
+		  bool not_repeat=i==0;
+		  if (!not_repeat)
+			  not_repeat=!( (str[i-1]=='\r' && str[i]=='\n') || (str[i-1]=='\n' && str[i]=='\r') );
+	      if (not_repeat)
+		  {
+			  cury-=(m_lr['A'].y()-m_ul['A'].y())*m_tex->height();
+			  curx=p.x();
+		  }
+	}
+	else
+	{
+	 char c=str[i];
+	 float sizex=(m_lr[c].x()-m_ul[c].x())*m_tex->width();
+	 float sizey=(m_lr[c].y()-m_ul[c].y())*m_tex->height();
+	 if (sizex==0)
+	 {
+		 sizex=(m_lr['A'].x()-m_ul['A'].x())*m_tex->width();
+	 }
+	 glTexCoord2f(m_ul[c].x(),m_lr[c].y()); 
+ 		glVertex2f(curx,cury-sizey);
+	 glTexCoord2f(m_ul[c].x(),m_ul[c].y());
+ 		glVertex2f(curx,cury);
+     glTexCoord2f(m_lr[c].x(),m_ul[c].y()); 
+		glVertex2f(curx+sizex,cury);
+	 glTexCoord2f(m_lr[c].x(),m_lr[c].y());
+		glVertex2f(curx+sizex,cury-sizey);
+	 curx+=sizex;
+	}
   }
   glEnd();
-  
+  restore();
 }
 
 
