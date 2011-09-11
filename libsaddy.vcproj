@@ -237,10 +237,6 @@
 				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\src\win32font.cpp"
-				>
-			</File>
 			<Filter
 				Name="templates"
 				>
@@ -413,10 +409,6 @@
 			</File>
 			<File
 				RelativePath=".\include\vbolayer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\win32font.h"
 				>
 			</File>
 			<Filter
