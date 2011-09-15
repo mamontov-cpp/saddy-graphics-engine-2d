@@ -4,19 +4,16 @@
 	This file contains a basic definition of collision primitives
 	Definition of CollisionHandler and CollisionManager are placed here
 */
-#include "collidable.h"
-#include "collision.h"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
 #include "../os/mutex.h"
 #include <time.h>
+#include "../scene.h"
 #pragma once
 
-/*! Identifier of collision group by id.
-    ID - is a type identifier of node. It will be an id of sad::BasicNode
+/*! Colllision tester for objects
 */
-typedef int CollisionGroupID;
-
+typedef bool(*ObjectTester)(void*,void*);
 
 class CollisionHandler
 {
@@ -25,7 +22,7 @@ class CollisionHandler
 		     In first object will be a pointer to first group, on
 			 second is a second group
 		 */
-	     void (*fun)(Collidable * o1, Collidable * o2);
+	     void (*fun)(void * o1, void * o2);
 		 /* Default constructor
 		 */
 	     CollisionHandler();
@@ -33,105 +30,189 @@ class CollisionHandler
 	     /*! Creates a handler
 		     \param[in] f called function
 		 */
-		 CollisionHandler(void (*f)(Collidable * o1, Collidable * o2));
+		 CollisionHandler(void (*f)(void * o1, void * o2));
+		 /*! Clones an existing handler
+		     \return new handler
+		 */
+		 virtual CollisionHandler * clone() const;
 		 /*! Calls a handler
 		     \param[in] o1 object of first group
 			 \param[in] o2 object of second group
 		 */
-		 virtual void operator()(Collidable * o1,Collidable * o2);
+		 virtual void operator()(void * o1,void * o2);
 		 /*  Destructor
 		 */
 		 virtual ~CollisionHandler();
 };
 
-/*! Class,that provides a manager of collision
-    Use ::detect() to detect a collision and call handler.
-	Firstly, you must add an object by add. You can safely  remove it
-	any time, using delete
+/*! Class,that provides a managing of collisions in game
+    Use ::test() to detect a collision and call handler.
 */
 class CollisionManager
 {
  private:
-	 /*! Groups of registered objects
+	 /*! Groups of objects, that is being tested
 	 */
-	 static hst::hash<int,hst::vector<BoundingBox> >  m_boxes;
-	 /*! Groups of registered objects
+	 hst::hash<int, hst::vector<void*> >  m_objects;
+	 /*! Hash for reverse-object search
 	 */
-	 static hst::hash<int,hst::vector<Collidable *> >  groups;
-	 /*! Delete list
+	 hst::hash<void*,int>     m_reverse_objects;
+	 /*! Vector of tasks for addition of objects
 	 */
-	 static hst::vector< hst::pair<int,Collidable *> >          m_delete;
-	 /*! Add list
+	 hst::vector< hst::pair<int,void *> >  m_adding_tasks;
+	 /*! Vector of tasks for removing ob objects
 	 */
-	 static hst::vector< hst::triplet<int,BoundingBox,Collidable *> > m_add;
-	 /*! Handlers
+	 hst::vector< void * > m_remove_tasks;
+	 /*! Lock for task addition
+ 	 */
+	 os::mutex  m_add_lock;
+	 /*! Lock for task removing
 	 */
-	 static hst::hash< hst::pair<int,int>,CollisionHandler * > m_handlers;
-
-	 /*! Mutex for bind
+	 os::mutex  m_remove_lock;
+	 /*! Class of testing task
 	 */
-	 static os::mutex m_bind;
-	 /*! Mutex for collision
+	 class TestTask
+	 {
+	  public:
+		      //! First object type
+		      int type1;
+			  //! Second object type
+			  int type2;
+			  //! Collision tester for those types
+			  ObjectTester tester;
+			  //!< Handler, which is used if collides
+			  CollisionHandler * handler;
+			  /*! Constructor
+			  */
+			  inline TestTask()  {type1=0;type2=0;tester=0;handler=NULL;}
+			  /*! Destructor
+			  */
+			  inline ~TestTask() { delete handler;}
+			  /*! Copy constructor
+				  \param[in] o object
+			  */
+			  inline TestTask(const TestTask & o) {type1=o.type1; type2=o.type2; tester=o.tester; handler=o.handler->clone(); }
+			  /*! Testing data.
+			  */
+			  inline void test(void* op1,void* op2) {if (tester(op1,op2)) (*handler)(op1,op2); }
+	 };
+	 
+	 //! Tasks for testing
+	 hst::vector<TestTask> m_tasks;
+	 //! Tasks for removing
+	 hst::vector< hst::pair<int,int> > m_task_for_removal;
+	 //! Tasks for adding to data
+	 hst::vector< hst::pair< 
+		                     hst::pair<int,int>,
+							 hst::pair<ObjectTester,CollisionHandler *>
+	                        >  
+	             > m_task_to_add;
+     //! Mutex for changing tasks vector
+	 os::mutex  m_test_tasks_adds_lock;
+	 //! Mutex for changing tasks vector
+	 os::mutex  m_test_tasks_remove_lock;
+	 /*! Commits adding every test task
 	 */
-	 static os::mutex m_ard;
-
-	 /*! Immediately adds an object
+	 void  commitAddingTestTasks();
+	 /*! Adds new testing task to vector
+		 \param[in] id1 type 1
+		 \param[in] id2 type 2
+		 \param[in] t   tester functions
+		 \param[in] h   handler
 	 */
-	 static void imAdd(int id, const BoundingBox & a,Collidable * b);
-	 /*! Immediately deletes an object
+	 void   commitTestTaskImmediately(int id1,int id2,ObjectTester t, CollisionHandler * h);
+	 /*! Removes a collision task
+		 \param[in] id1 type1
+		 \param[in] id2 type2
 	 */
-	 static void imDelete(int id,Collidable * a); 
-	 /*! Scans a group
-	     \param[in] g1 group 1
-		 \param[in] g2 group 2
-		 \param[in] h handler
+	 void   removeTestTask(int id1,int id2);
+	 /*! Finds test task in list
+		 \param[in] id1  first id1
+		 \param[in] id2  second id2
+		 \return -1 if not found
 	 */
-	 static void scanGroup(int g1,int g2,CollisionHandler & h);
+	 int findTestTask(int id1,int id2);
+	 /*! Removes a task from specified position immediately
+		 \param[in] pos position of task
+	 */
+	 void  removeTestTaskImmediately(int pos);
+	 /*! Removes every test task 
+	 */
+	 void commitTestTaskRemoval();
+	 /*! Finds an object in hashes
+		 \param[in] p objects
+		 \return -1 if not found, otherwise - position
+	 */
+	 int  findObject(void * p);
+	 /*! Immediately adds new object
+	 */
+	 void commitObjectAdding();
+	 /*! Immediately removes objects
+	 */
+	 void commitObjectRemoval();
+	 /*! Tests for collision a group
+		 \param[in] i position of group in TestTask vector
+	 */
+	 void testForCollision(int i);
+	 /*! Tests for collision all groups
+	 */
+	 void testEveryGroup();
+	 /*! Constructor of manager
+	 */
+	 CollisionManager();
+     /*! Copy constructor
+		 \param[in] o object
+	 */
+	 CollisionManager(const CollisionManager & o);
+	 /*! Instance
+	 */
+	 static CollisionManager * Instance;
+	 /*! If instance is initialized
+	 */
+	 static bool               Initialized;
+	 /*! Frees instance
+	 */
+	 static void free();
+	 /*! Returns an instance of objects
+		 \return instance
+	 */
+	 static CollisionManager * instance();
  public:
-	/*! Updates a rectangle for singletone object.
-	    This object must have only ONE instance, or it will set other object rectangle
+    /*! Binds a new handler and tester to object
+		\param[in] id1    first object id
+		\param[in] id2    second object id
+		\param[in] tester tester function for collision testing
+		\param[in] h      handler, that handles all collisions
 	*/
-	static void updateSingle(Collidable * a);
-	/*! Adds a collidable object
+    static void bind(int id1,int id2, ObjectTester tester, CollisionHandler * h);
+	/*! Unbinds a handler for object groups
+		\param[in] id1  first object id
+		\param[in] id2  second object id
 	*/
-	static void add(Collidable * a);
-	/*! Removes a collidable object
+	static void unbind(int id1,int id2);
+	/*! Adds an new object
+		\param[in] id  object typeid
+		\param[in] obj object
 	*/
-	static void remove(Collidable * b);
-	/*! Flushes a collidable object
+	static void add(int id, void * obj);
+	/*! Removes an object
+		\param[in] obj object
 	*/
-	static void flush();
-	/*! Detects a collision
+	static void remove(void * obj);
+	/*! Tests an objects for collision
 	*/
-	static void detect();
-	/*! Binds a new handler
-	*/
-	static void bind(CollisionGroupID id1, CollisionGroupID id2, CollisionHandler * h);
-	/*! Unbinds a new handler
-	*/
-	static void unbind(CollisionGroupID id1,CollisionGroupID id2);
-	/*! Flushes all handlers
-	*/
-	static void flushHandlers();
+	static void test();
 };
-
-/*! Test frquency in clocks
-*/
-#define COLLISION_TEST_FREQUENCY 75
 /*! Class, that tests a collision
     Add it to scene to test a collision  
 */
 class CollisionTester: public sad::BasicNode  
 {
- private:
-	      clock_t m_lastclock;  //!< Last clock time
  public:
 	    CollisionTester();
-
-		/*! Tests a collision every COLLISION_TEST_FREQUENCY clocks
+		/*! Tests a collisions
 		*/
 		void render();
-
 		/*! Destroys a tester
 		*/
 		~CollisionTester();

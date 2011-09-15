@@ -1,11 +1,12 @@
 #include "movitem.h"
 
-SAD_DECLARE(MovingItem,Collidable)
-SAD_DECLARE(PlayerBullet,MovingItem)
-SAD_DECLARE(EnemyBullet,MovingItem)
-SAD_DECLARE(Bonus,MovingItem)
-SAD_DECLARE(Enemy,MovingItem)
-SAD_DECLARE(ShootingEnemy,MovingItem)
+#ifdef WORK
+
+SAD_DECLARE(PlayerBullet,Collidable)
+SAD_DECLARE(EnemyBullet,Collidable)
+SAD_DECLARE(Bonus,Collidable)
+SAD_DECLARE(Enemy,Collidable)
+SAD_DECLARE(ShootingEnemy,Collidable)
 SAD_DECLARE(EnemyEmitter,sad::BasicNode)
 //#define CLOCK_TEST
 
@@ -266,3 +267,5 @@ EnemyEmitter::EnemyEmitter(int what)
 	else
 		m_r=&EnemyEmitter::renderRain;
 }
+
+#endif

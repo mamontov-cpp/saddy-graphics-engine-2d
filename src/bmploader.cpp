@@ -74,13 +74,28 @@ bool  sad::Texture::loadBMP(FILE * file)
 
 	unsigned long size=m_width*m_height;
 
+	m_data.rescale(4*m_width*m_height);
+	int x=0;
+	int y=m_height-1;
 	for (unsigned long i=0;i<size;i++)
 	{
-		unsigned char b=0,g=0,r=0;
+		unsigned char b=0,g=0,r=0,a=255;
 		fread(&b,sizeof(char),1,file);
 		fread(&g,sizeof(char),1,file);
 		fread(&r,sizeof(char),1,file);
-		m_data<<r<<g<<b<<255;
+		if (m_bpp==32)
+			fread(&a,sizeof(char),1,file);
+		int coord=4*(y*m_width+x);
+		m_data[coord]=r;
+		m_data[coord+1]=g;
+		m_data[coord+2]=b;
+		m_data[coord+3]=a;
+		++x;
+		if (x==m_width)
+		{
+			--y;
+			x=0;
+		}
 	}
 	m_bpp=32;
 	return true;

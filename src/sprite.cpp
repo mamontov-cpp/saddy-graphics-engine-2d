@@ -56,7 +56,20 @@ Sprite::Sprite(
 	else   		    memcpy(m_tex_coord,default_tex_coord,8*sizeof(float));
 }
 
-
+Sprite::Sprite(
+			   sad::Texture * tex, 
+			   const hst::rect<::s3d::point> & rect,
+			   const hRectF  & texrect
+			  )
+{
+	m_tex=tex;
+	for (int i=0;i<4;i++)
+	{
+	 m_rect[i]=rect[i];
+	 m_tex_coord[i<<1]=texrect[i].x()/m_tex->width();
+	 m_tex_coord[i<<1 | 1]=texrect[i].y()/m_tex->height();
+	}
+}
 void Sprite::render()
 {
 	m_tex->enable();

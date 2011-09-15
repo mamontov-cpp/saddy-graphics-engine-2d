@@ -1,11 +1,11 @@
 #include "orthocamera.h"
 
-OrthoCamera::OrthoCamera()
+OrthoCamera::OrthoCamera(bool fix)
 {
 	m_first_apply=true;
 	m_width=sad::Renderer::instance().settings().width();
 	m_height=sad::Renderer::instance().settings().height();
-	m_set_renderfix=true;
+	m_set_renderfix=fix;
 }
 
 OrthoCamera::OrthoCamera(int width, int height)

@@ -12,35 +12,18 @@
 
 #endif
 
-SAD_DECLARE(Background,sad::BasicNode)
+SAD_DECLARE(Background,Sprite)
 
-Background::Background(const hst::string &name)
+Background::Background(const hst::string &name): 
+Sprite(
+	   sad::TextureManager::instance()->get(name),
+	   hst::rect<::s3d::point>(::s3d::point(0,480,0),::s3d::point(640,0,0)),
+	   hRectF(hPointF(0.0f,0.0f),hPointF(512.0f,512.0f))
+	  )
 {
-	m_tex=sad::TextureManager::instance()->get(name);
 }
 
 Background::~Background()
 {
-
-}
-
-void Background::render()
-{
-
-#define Z_AXVAL 0.5
-	m_tex->enable();
-    glBegin(GL_QUADS);
-
-	
-	glTexCoord2f(0.0f,0.0f);	
-		glVertex3f(-0.290,-0.260,Z_AXVAL );
-	glTexCoord2f(0.0f,1.0f);
-		glVertex3f(-0.290,0.250,Z_AXVAL );
-	glTexCoord2f(1.0f,1.0f);
-		glVertex3f(0.275,0.250,Z_AXVAL );
-	glTexCoord2f(1.0f,0.0f);
-		glVertex3f(0.275,-0.260,Z_AXVAL );
-    
-	glEnd();
 
 }

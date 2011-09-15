@@ -9,117 +9,77 @@
 #include "../renderer.h"
 #include <math.h>
 #include "statemachine.h"
+#include "rigid_body.h"
 #include "collisionmanager.h"
 #include "../texturemanager.h"
 #pragma once
 
-#define ZAX 0.5
+typedef hPointF Vector;
 
-typedef hPointF Size; //!< Size is a point, where on x placed width, on y - height
-typedef hPointF Vector; //!< vector of direction
-class MovingItem: public Collidable 
-{
- SAD_NODE
-protected:
-		   BoundingBox m_box; //!< Bounding box
-		   BoundingBox m_draw; //!< Draw box
-		   Vector      m_direct; //!< Direction
-		   float       m_angle;   //!< Angle
-		   sad::Texture * m_tex; //!< Texture
-
-		   void move();
-public:
-    /*! Creates an item
-	    \param[in] tex current texture
-		\param[in] vec direction, that will be reached in second
-		\param[in] draw     bounding box, of drawed iterm
-		\param[in] percent  (real bounding box)/(drawed bounding box)
-	*/
-	MovingItem(
-		       sad::Texture * tex,
-		       const Vector & vec,
-		       const BoundingBox &  draw, 
-			   float percent
-			  );
-	BoundingBox rect();
-    virtual void render();
-
-	virtual ~MovingItem();
-};
-
-
-class PlayerBullet: public MovingItem 
+class PlayerBullet: public Collidable 
 {
  SAD_NODE
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
-		    \param[in] draw     bounding box, of drawed iterm
-		    \param[in] percent  (real bounding box)/(drawed bounding box)
-	     */
+		    \param[in] pos position, where it's being drawn
+	    */
 	    PlayerBullet(
 		             const Vector & vec,
-		             const BoundingBox &  draw, 
-			         float percent
+		             const hPointF &  pos 
 			        );
 		~PlayerBullet();
 };
 
 
-class EnemyBullet: public MovingItem 
+class EnemyBullet: public Collidable 
 {
  SAD_NODE
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
-		    \param[in] draw     bounding box, of drawed iterm
-		    \param[in] percent  (real bounding box)/(drawed bounding box)
+		    \param[in] pos position, where it's being drawn
 	     */
 	    EnemyBullet(
 		             const Vector & vec,
-		             const BoundingBox &  draw, 
-			         float percent
+		             const hPointF & pos
 			        );
 		~EnemyBullet();
 };
 
-class Bonus: public MovingItem 
+class Bonus: public Collidable
 {
  SAD_NODE
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
-		    \param[in] draw     bounding box, of drawed iterm
-		    \param[in] percent  (real bounding box)/(drawed bounding box)
+		    \param[in] pos position
 	     */
 	    Bonus(
-		             const Vector & vec,
-		             const BoundingBox &  draw, 
-			         float percent
-			        );
+		      const Vector & vec,
+		      const hPointF &  pos
+			 );
 		~Bonus();
 };
 
 
-class Enemy: public MovingItem 
+class Enemy: public Collidable 
 {
  SAD_NODE
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
-		    \param[in] draw     bounding box, of drawed iterm
-		    \param[in] percent  (real bounding box)/(drawed bounding box)
+		    \param[in] pos position
 	     */
 	    Enemy(
 		             const Vector & vec,
-		             const BoundingBox &  draw, 
-			         float percent
+		             const hPointF &  pos 
 			        );
 		~Enemy();
 };
 
 #define SHOOT_FREQ 1000
-class ShootingEnemy: public MovingItem 
+class ShootingEnemy: public Collidable 
 {
  SAD_NODE
  private:
@@ -127,13 +87,10 @@ class ShootingEnemy: public MovingItem
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
-		    \param[in] draw     bounding box, of drawed iterm
-		    \param[in] percent  (real bounding box)/(drawed bounding box)
 	     */
 	    ShootingEnemy(
 		             const Vector & vec,
-		             const BoundingBox &  draw, 
-			         float percent
+		             const hPointF &  pos 
 			        );
 		/*! Renders an enemy
 		*/
@@ -145,10 +102,10 @@ class ShootingEnemy: public MovingItem
 #define SPAWN_FREQ4 200
 #define IDLE_RAIN  1
 #define REAL_SPAWN 2
-#define BOUND_X1 -0.275042f
-#define BOUND_X2 0.274406f
-#define BOUND_Y1 -0.205373f
-#define BOUND_Y2 0.185373f
+#define BOUND_X1 0.0f
+#define BOUND_X2 640.0f
+#define BOUND_Y1 0.0f
+#define BOUND_Y2 480.0f
 /*! Class, that periodicly emits some enemies
 */
 class EnemyEmitter:public sad::BasicNode

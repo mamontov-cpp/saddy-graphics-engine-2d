@@ -24,7 +24,8 @@ Label::Label(
 	m_str=str;
 	m_p=p;
 	m_rend_point=p;
-	sad::Input::inst()->addResizeHandler(this,false);
+	if (sad::Input::inst())
+		sad::Input::inst()->addResizeHandler(this,false);
 }
 
 Label::~Label()

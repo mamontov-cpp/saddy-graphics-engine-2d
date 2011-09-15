@@ -20,8 +20,9 @@ class OrthoCamera: public sad::Camera
  public:
 	     /*! Creates a camera, using windows settings from renderer.
 			 Created camera maps one in one coordinates
+			 \param[in] fix performs implementation specific fix. Use, if some coordinates a calculated wrongly
 		 */
-	     OrthoCamera();
+	     OrthoCamera(bool fix=false);
 		 /*! Creates a orthographic camera with specific viewing width and height
 			 \param[in]  width of field
 			 \param[in]  height of field
