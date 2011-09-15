@@ -47,11 +47,12 @@ void sad::Renderer::sendFSAtom(int flag)
 }
 hst::point<hst::D3,float> sad::Renderer::mousePos()
 {
-    int x=0;y=0;
-	int wx=0;wy=0;
+    int x=0, y=0;
+	int wx=0, wy=0;
     unsigned int mask=0;
-	Window root,child;
-	XQueryPointer(m_window.dpy, m_window_win, &root ,&child, &x, &y, &wx, &wy, &mask);
+	X11Window rootw,childw;
+	float px=0.0f,py=0.0f,pz=0.0f;
+	XQueryPointer(m_window.dpy, m_window.win, &rootw ,&childw, &x, &y, &wx, &wy, &mask);
 	mapToOGL((float)wx,(float)wy,px,py,pz);
 	return hst::point<hst::D3,float>(px,py,pz);
 }

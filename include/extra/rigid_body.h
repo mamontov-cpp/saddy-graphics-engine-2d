@@ -8,7 +8,7 @@
 #pragma once
 /*! Declares a bounding box for RigidBody
 */
-typedef hst::rect<::s3d::point> BoundingBox;
+typedef hst::rect< ::s3d::point> BoundingBox;
 /*! Declares a vector, which only two dimensions are used
 */
 typedef ::s3d::point vector32;
@@ -30,19 +30,19 @@ class RigidBody
 		 /*! Returns a new point
 			 \return RigidBody::m_new_point
 		 */
-		 inline hst::rect<::s3d::point>   & newPoint() { return m_new_point; }
+		 inline hst::rect< ::s3d::point>   & newPoint() { return m_new_point; }
 		 /*! Returns a new point
 			 \return RigidBody::m_new_point
 		 */
-		 inline const hst::rect<::s3d::point>   & newPoint() const { return m_new_point; }
+		 inline const hst::rect< ::s3d::point>   & newPoint() const { return m_new_point; }
 		 /*! Returns an old point
 			 \return RigidBody::m_old_point
 		 */
-		 inline hst::rect<::s3d::point>   & oldPoint() { return m_old_point; }
+		 inline hst::rect< ::s3d::point>   & oldPoint() { return m_old_point; }
 		 /*! Returns an old point
 			 \return RigidBody::m_old_point
 		 */
-		 inline const hst::rect<::s3d::point>   & oldPoint() const { return m_old_point; }
+		 inline const hst::rect< ::s3d::point>   & oldPoint() const { return m_old_point; }
 		 /*! Returns an interval
 			 \return RigidBody::m_interval
 		 */
@@ -85,7 +85,7 @@ class Collidable: public RigidBody, public Sprite
 		 */
 		 inline Collidable(
 			               sad::Texture * tex, 
-				           const hst::rect<::s3d::point> & rect,
+				           const hst::rect< ::s3d::point> & rect,
 				           const hRectF  & texrect
 						   ):RigidBody(),Sprite(tex,rect,hRectF(texrect[3],texrect[2],texrect[1],texrect[0]))
 		 {}

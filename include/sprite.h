@@ -48,7 +48,7 @@ class Sprite: public sad::BasicNode
 		  */
 		  Sprite(
 			     sad::Texture * tex, 
-				 const hst::rect<::s3d::point> & rect,
+				 const hst::rect< ::s3d::point> & rect,
 				 const hRectF  & texrect
 			    );
           /*! Creates a simple node
