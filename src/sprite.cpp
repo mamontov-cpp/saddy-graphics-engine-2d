@@ -58,7 +58,7 @@ Sprite::Sprite(
 
 Sprite::Sprite(
 			   sad::Texture * tex, 
-			   const hst::rect<::s3d::point> & rect,
+			   const hst::rect<  ::s3d::point> & rect,
 			   const hRectF  & texrect
 			  )
 {

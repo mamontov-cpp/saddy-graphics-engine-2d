@@ -3,7 +3,7 @@
 
 #define BBOX_PERCENT 0.9
 
-static BoundingBox createBBoxForPlayer(const hst::rect<::s3d::point> & rect)
+static BoundingBox createBBoxForPlayer(const hst::rect< ::s3d::point> & rect)
 {
 	float w2=(rect[1].x()-rect[0].x())/2*BBOX_PERCENT;
 	float h2=(rect[2].y()-rect[1].y())/2*BBOX_PERCENT;
@@ -112,12 +112,12 @@ Player::~Player()
 #define PLAYER_WH 11
 Player::Player(const hPointF & pos):Collidable(
 sad::TextureManager::instance()->get("objects"),
-hst::rect<::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()+PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()-PLAYER_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()+PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()-PLAYER_WH,0)),
 hRectF(hPointF(0,87),hPointF(87,174))
 )
 {
 	float * sz=const_cast<float*>(texCoords());
-	hst::rect<::s3d::point> rect(point(0),point(1),point(2),point(3));
+	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	oldPoint()=createBBoxForPlayer(rect);
 	newPoint()=oldPoint();
 	m_velocity[0]=m_velocity[1]=0.0f;
