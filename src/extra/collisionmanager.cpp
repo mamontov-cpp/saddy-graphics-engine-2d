@@ -1,11 +1,17 @@
 #include "collisionmanager.h"
 #include <stdlib.h>
 
-CollisionHandler::CollisionHandler(void (*f)(Collidable * o1, Collidable * o2))
+CollisionHandler::CollisionHandler(void (*f)(void * o1, void * o2))
 {
 	fun=f;
 }
-void CollisionHandler::operator()(Collidable * o1,Collidable * o2)
+
+CollisionHandler * CollisionHandler::clone() const
+{
+	CollisionHandler * p=new CollisionHandler(fun);
+	return p;
+}
+void CollisionHandler::operator()(void * o1,void * o2)
 {
 	fun(o1,o2);
 }
@@ -13,237 +19,229 @@ CollisionHandler::~CollisionHandler()
 {
 
 }
-
-
-/*! Groups of registered objects
-*/
-hst::hash<int,hst::vector<Collidable *> >  CollisionManager::groups;
-/*! Delete list
-*/
-hst::vector< hst::pair<int,Collidable *> >          CollisionManager::m_delete;
-/*! Add list
-*/
-hst::vector< hst::triplet<int,BoundingBox,Collidable *> > CollisionManager::m_add;
-/*! Handlers
-*/
-hst::hash< hst::pair<int,int>,CollisionHandler * > CollisionManager::m_handlers;
-/*! Bounding boxes
-*/
-hst::hash<int,hst::vector<BoundingBox> >  CollisionManager::m_boxes;
-/*! Static mutexes
-*/
-os::mutex CollisionManager::m_bind;
-os::mutex CollisionManager::m_ard;
-
-void CollisionManager::imAdd(int id, const BoundingBox & a,Collidable * b)
+int CollisionManager::findTestTask(int id1,int id2)
 {
-	if (!groups.contains(id))
-	{
-		groups.insert(id,hst::vector<Collidable *>());
-		m_boxes.insert(id,hst::vector<BoundingBox>());
-	}
-	groups[id]<<b;
-	m_boxes[id]<<a;
+	for (unsigned int i=0;i<m_tasks.count();i++)
+		if ((m_tasks[i].type1==id1 && m_tasks[i].type2==id2) || (m_tasks[i].type1==id2 && m_tasks[i].type2==id1))
+			return (int)i;
+	return -1;
 }
-void CollisionManager::imDelete(int id,Collidable * a)
+void   CollisionManager::commitTestTaskImmediately(int id1,int id2,ObjectTester t, CollisionHandler * h)
 {
-	if (groups.contains(id))
+	int ft=findTestTask(id1,id2);
+    if (ft!=-1) removeTestTaskImmediately(ft);
+
+	m_tasks<<TestTask();
+	TestTask & last=m_tasks[m_tasks.count()-1];
+	last.type1=id1;
+	last.type2=id2;
+	last.tester=t;
+	last.handler=h;
+}
+void  CollisionManager::commitAddingTestTasks()
+{
+	m_test_tasks_adds_lock.lock();
+	if (m_task_to_add.count()!=0)
 	{
-		hst::vector<Collidable *> & o1=groups[id];
-		hst::vector<BoundingBox> & o2=m_boxes[id];
-		for (int i=0;i<o1.count();i++)
+		for (unsigned int i=0;m_task_to_add.count();i++)
+			commitTestTaskImmediately(m_task_to_add[i].p1().p1(),m_task_to_add[i].p1().p2(),
+			                          m_task_to_add[i].p2().p1(),const_cast<CollisionHandler *>(m_task_to_add[i]._2()._2())
+						             );
+		m_task_to_add.clear();
+	}
+	m_test_tasks_adds_lock.unlock();
+}
+void   CollisionManager::removeTestTask(int id1,int id2)
+{
+	m_task_for_removal<<hst::pair<int,int>(id1,id2);
+}
+void  CollisionManager::removeTestTaskImmediately(int pos)
+{
+	m_tasks.removeAt(pos);
+}
+void CollisionManager::commitTestTaskRemoval()
+{
+	m_test_tasks_remove_lock.lock();
+	if (m_task_for_removal.count()!=0)
+	{
+		for (unsigned int i=0;i<m_task_for_removal.count();i++)
 		{
-			if (o1[i]==a)
+			int pos=findTestTask(m_task_for_removal[i].p1(),m_task_for_removal[i].p2());
+			if (pos!=-1) removeTestTaskImmediately(pos);
+		}
+		m_task_for_removal.clear();
+	}
+	m_test_tasks_remove_lock.unlock();
+}
+
+
+CollisionManager::CollisionManager() {}
+CollisionManager::CollisionManager(const CollisionManager & o) 
+{ 
+	m_objects=o.m_objects;
+	m_reverse_objects=o.m_reverse_objects;
+	m_adding_tasks=o.m_adding_tasks;
+	m_remove_tasks=o.m_remove_tasks;
+	m_task_for_removal=o.m_task_for_removal;
+	m_tasks=o.m_tasks;
+}
+CollisionManager * CollisionManager::Instance=NULL;
+bool               CollisionManager::Initialized=false;
+void CollisionManager::free()
+{
+	delete CollisionManager::Instance;
+}
+CollisionManager * CollisionManager::instance()
+{
+	if (!CollisionManager::Initialized)
+	{
+		CollisionManager::Initialized;
+		CollisionManager::Instance=new CollisionManager();
+		atexit(CollisionManager::free);
+	}
+	return CollisionManager::Instance;
+}
+
+int  CollisionManager::findObject(void * p)
+{
+  if(m_reverse_objects.contains(p))
+  {
+	  hst::vector<void *> & v=m_objects[m_reverse_objects[p]];
+	  for (int i=0;i<v.count();i++)
+		  if (v[i]==p)
+			  return i;
+	  return -1;
+  }
+  else 
+	  return -1;
+}
+void CollisionManager::commitObjectAdding()
+{
+ m_add_lock.lock();
+ if (m_adding_tasks.count())
+ {
+	 for (int i=0;i<m_adding_tasks.count();i++)
+	 {
+		 void * data=m_adding_tasks[i].p2();
+		 int    type=m_adding_tasks[i].p1();
+		 if (!m_reverse_objects.contains(data))
+		 {
+			 m_reverse_objects.insert(data,type);
+			 if (!m_objects.contains(type))
+				 m_objects.insert(type,hst::vector<void*>());
+			 m_objects[type]<<data;
+		 }
+	 }
+	 m_adding_tasks.clear();
+ }
+ m_add_lock.unlock();
+}
+
+void CollisionManager::commitObjectRemoval()
+{
+	m_remove_lock.lock();
+    if (m_remove_tasks.count())
+	{
+		for (int i=0;i<m_remove_tasks.count();i++)
+		{
+			int pos=findObject(m_remove_tasks[i]);
+			if (pos!=-1)
 			{
-				o1.removeAt(i);
-				o2.removeAt(i);
-				--i;
+			   m_objects[m_reverse_objects[m_remove_tasks[i]]].removeAt(pos);
+			   m_reverse_objects.remove(m_remove_tasks[i]);
 			}
+		}
+		m_remove_tasks.clear();
+	}
+	m_remove_lock.unlock();
+}
+
+void CollisionManager::testForCollision(int i)
+{
+	TestTask & g=m_tasks[i];
+	if (!(m_objects.contains(g.type1) && m_objects.contains(g.type2))) return;
+	hst::vector<void *> & t1=m_objects[g.type1];
+	hst::vector<void *> & t2=m_objects[g.type2];
+	for (int i1=0;i1<t1.count();i1++)
+	{
+		for (int i2=0;i2<t2.count();i2++)
+		{
+			void * o1=t1[i1];
+			void * o2=t2[i2];
+			if (o1!=o2)
+				if (g.tester(o1,o2))
+					(*(g.handler))(o1,o2);
 		}
 	}
 }
-
-void CollisionManager::scanGroup(int g1,int g2,CollisionHandler & h)
+void CollisionManager::testEveryGroup()
 {
-	if (!groups.contains(g1) || !groups.contains(g2)) return;
-	if (g1==g2)
+	for (int i=0;i<m_tasks.count();i++)
+		testForCollision(i);
+}
+void CollisionManager::bind(int id1,int id2, ObjectTester tester, CollisionHandler * h)
+{
+	if (instance())
 	{
-		hst::vector<BoundingBox> & bawxes=m_boxes[g1];
-        hst::vector<Collidable *> & grs=groups[g1];
-        
-		for (int i=0;i<grs.count();i++)
-		{
-			for (int j=i+1;j<grs.count();j++)
-			{
-				{
-				if (optimizedcollides(bawxes[i],
-					                  grs[i]->rect(),
-									  bawxes[j],
-									  grs[j]->rect()
-									  ))
-				h(grs[i],grs[j]);
-				}
-				bawxes[i]=grs[i]->rect();
-				bawxes[j]=grs[j]->rect();
-			}
-		}
-		return;
-	}
-	else
-	{
-       	hst::vector<BoundingBox> & bawxes1=m_boxes[g1];
-        hst::vector<Collidable *> & grs1=groups[g1];
-        
-		hst::vector<BoundingBox> & bawxes2=m_boxes[g2];
-		hst::vector<Collidable *> & grs2=groups[g2];
-        
-		for (int i=0;i<grs1.count();i++)
-		{
-			for (int j=0;j<grs2.count();j++)
-			{
-			  {
-				if (optimizedcollides(bawxes1[i],
-					                  grs1[i]->rect(),
-									  bawxes2[j],
-									  grs2[j]->rect()
-									  ))
-				h(grs1[i],grs2[j]);
-			   }
-			   bawxes1[i]=grs1[i]->rect();
-			   bawxes2[j]=grs2[j]->rect();				
-			}
-		}
+		Instance->m_test_tasks_adds_lock.lock();
+		Instance->m_task_to_add<<hst::pair< hst::pair<int,int>,
+								            hst::pair<ObjectTester,CollisionHandler *>
+		                                  >( 
+										     hst::pair<int,int>(id1,id2),
+											 hst::pair<ObjectTester,CollisionHandler *>
+											 (tester,h) 
+										   );
+		Instance->m_test_tasks_adds_lock.unlock();
 	}
 }
 
-void CollisionManager::detect()
+void CollisionManager::unbind(int id1,int id2)
 {
-
-	m_ard.lock();
-
-	if (m_add.count()!=0 || m_delete.count()!=0)
+	if (instance())
 	{
-		for (int i=0;i<m_add.count();i++)
-			imAdd(m_add[i].p1(),m_add[i].p2(),m_add[i].p3());
-		for (int i=0;i<m_delete.count();i++)
-			imDelete(m_delete[i].p1(),m_delete[i].p2());
-		m_add.clear();
-		m_delete.clear();
+		Instance->m_test_tasks_remove_lock.lock();
+		Instance->m_task_for_removal<<hst::pair<int,int>(id1,id2);
+		Instance->m_test_tasks_remove_lock.unlock();
 	}
-	
-	m_ard.unlock();
-
-	hst::hash< hst::pair<int,int>,CollisionHandler * >::iterator it=m_handlers.begin();
-	
-	for (;it!=m_handlers.end();it++)
+}
+void CollisionManager::add(int id, void * obj)
+{
+	if (instance())
 	{
-		scanGroup(it.key().p1(),it.key().p2(),*(it.value()));
+		Instance->m_add_lock.lock();
+		Instance->m_adding_tasks<<hst::pair<int,void*>(id,obj);
+		Instance->m_add_lock.unlock();
 	}
-
-
 }
-void CollisionManager::flushHandlers()
-{
-	m_bind.lock();
 
-	hst::hash< hst::pair<int,int>,CollisionHandler * >::iterator it=m_handlers.begin();
-	
-	for (;it!=m_handlers.end();it++)
+void CollisionManager::remove(void * obj)
+{
+	if (instance())
 	{
-		delete it.value();
+		Instance->m_remove_lock.lock();
+		Instance->m_remove_tasks<<obj;
+		Instance->m_remove_lock.unlock();
 	}
-
-	m_bind.unlock();
 }
-void CollisionManager::unbind(CollisionGroupID id1,CollisionGroupID id2)
+void CollisionManager::test()
 {
-	m_bind.lock();
-
-	hst::pair<int,int> p(id1,id2);
-        if (m_handlers.contains(p))
+	if (instance())
 	{
-		delete m_handlers[p];
-		m_handlers.remove(p);
+		Instance->commitAddingTestTasks();
+		Instance->commitObjectAdding();
+		Instance->testEveryGroup();
+		Instance->commitObjectRemoval();
+		Instance->commitTestTaskRemoval();
 	}
-
-	m_bind.unlock();
 }
-
-void CollisionManager::updateSingle(Collidable * a)
-{
-	m_ard.lock();
-
-	int type=a->type();
-	if (m_boxes.contains(type))
-		m_boxes[type][0]=a->rect();
-	
-	m_ard.unlock();
-}
-void CollisionManager::bind(CollisionGroupID id1, CollisionGroupID id2, CollisionHandler * h)
-{
-	m_bind.lock();
-	
-	static bool init=false;
-	if (!init)
-	{
-		atexit(CollisionManager::flushHandlers);
-		init=true;
-	}
-        hst::pair<int,int> p(id1,id2);
-        if (m_handlers.contains(p))
-	{
-		delete m_handlers[p];
-		m_handlers.remove(p);
-	}
-	m_handlers.insert(hst::pair<int,int>(id1,id2),h);
-	m_bind.unlock();
-}
-
-void CollisionManager::flush()
-{
-	m_ard.lock();
-
-	hst::hash<int,hst::vector<Collidable *> >::iterator it;
-    hst::hash<int,hst::vector<BoundingBox> >::iterator it2;
-	
-	for (it=groups.begin();it!=groups.end();++it)
-		it.value().clear();
-	for (it2=m_boxes.begin();it2!=m_boxes.end();++it2)
-		it2.value().clear();
-
-	m_ard.unlock();
-}
-
-void CollisionManager::add(Collidable * a)
-{
-	m_ard.lock();
-
-	m_add<<hst::triplet<int,BoundingBox,Collidable *>(a->type(),a->rect(),a);
-	
-	m_ard.unlock();
-}
-void CollisionManager::remove(Collidable * b)
-{
-	m_ard.lock();
-
-	m_delete<<hst::pair<int,Collidable *>(b->type(),b);
-
-	m_ard.unlock();
-}
-
 
 CollisionTester::CollisionTester()
 {
-  m_lastclock=0;
 }
 
 void CollisionTester::render()
 {
- if ((clock()-m_lastclock)/(float)CLOCKS_PER_SEC*1000>COLLISION_TEST_FREQUENCY)
- {
-	 m_lastclock=clock();
-	 CollisionManager::detect();
- }
+ CollisionManager::test();
 }
 CollisionTester::~CollisionTester()
 {

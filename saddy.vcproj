@@ -368,23 +368,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\extra\collidable.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\collision.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\extra\collisionmanager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\hline.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\hxyrect.cpp"
 					>
 				</File>
 				<File
@@ -393,6 +377,10 @@
 				</File>
 				<File
 					RelativePath=".\src\extra\player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\extra\rigid_body.cpp"
 					>
 				</File>
 				<File
@@ -602,23 +590,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\extra\collidable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\collision.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\extra\collisionmanager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\hline.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\hxyrect.h"
 					>
 				</File>
 				<File
@@ -627,6 +599,10 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\player.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\rigid_body.h"
 					>
 				</File>
 				<File

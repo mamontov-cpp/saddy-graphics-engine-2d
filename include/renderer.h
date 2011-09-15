@@ -6,7 +6,7 @@
 #pragma once
 #include "settings.h"
 #include "scene.h"
-
+#include "primitives/hpoint.h"
 
 namespace sad
 {
@@ -174,6 +174,10 @@ namespace sad
 			\return settings
 		*/
 		const sad::Settings & settings() { return m_glsettings; }
+		/*! Returns a mouse position
+			\return mouse position in window coordinate.
+		*/
+		hst::point<hst::D3,float> mousePos();
 	};
 	
 }

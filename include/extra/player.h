@@ -5,29 +5,34 @@
 	Here is placed class of player - class, that provides any player associated
 	objects
 */
-#include "movitem.h"
+//#include "movitem.h"
+#include "rigid_body.h"
+#include "collisionmanager.h"
+#include "../texturemanager.h"
 #pragma once
+
+typedef hPointF Vector;
 
 class Player: public Collidable
 {
  SAD_NODE
  private:
-	     sad::Texture * m_tex; //!< Associated texture
-		 BoundingBox m_box; //!< Bounding box
-		 BoundingBox m_draw; //!< Draw box
+		 bool        m_first_render; //!< First rendering
 		 float       m_angle;   //!< Angle
+		 float       m_velocity[2]; //!< Player velocity
  public:
-
+	     inline void toggleVelocityX(float x) {
+		 m_velocity[0]=x;
+		 }
+		 inline void toggleVelocityY(float y) {
+		 m_velocity[1]=y;
+		 }
 		 static Player * instance; //!< Player instance
 	     /*! Constructs player
-		     \param[in] box     box place
-			 \param[in] percent percent place
+		     \param[in] pos     position
 		 */
-	     Player(const BoundingBox & box,float percent);
+	     Player(const hPointF & pos);
 
-		 const BoundingBox & prect();
-
-		 BoundingBox rect();
 
 		 void render();
 

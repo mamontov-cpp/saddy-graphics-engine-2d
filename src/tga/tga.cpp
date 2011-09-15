@@ -7,7 +7,9 @@ void  sad::Texture::copyTGA(const tga::Info & textureInfo)
 {
  unsigned int startrow=0;
  unsigned int decrow=0;
- if (textureInfo.m_vertflip) {startrow=(m_height-1)*(m_width)*(m_bpp/8); decrow=-1*m_width*(m_bpp/8); } 
+ if (textureInfo.m_vertflip
+	 || (!textureInfo.m_vertflip && !textureInfo.m_vertflip) //Handle zeroimage descriptor
+	 )  {startrow=(m_height-1)*(m_width)*(m_bpp/8); decrow=-1*m_width*(m_bpp/8); } 
  else                        {startrow=0; decrow=m_width*(m_bpp/8); }
 	
  unsigned int startcol=0;

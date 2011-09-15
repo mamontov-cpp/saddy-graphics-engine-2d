@@ -72,6 +72,14 @@ class pair
               \param[in] p second property
           */
           inline pair & set2(const T2 & p);
+		  /*! Returns a reference to property
+			  \return first property
+		  */
+		  inline T1 & _1() { return m_1; }
+		  /*! Returns a reference to property
+			  \return second property
+		  */
+		  inline T2 & _2() { return m_2; }
 };
 
 /*! \class  triplet

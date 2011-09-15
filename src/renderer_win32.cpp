@@ -8,6 +8,16 @@
 #define LOG_WRITE(MESG)    hst::log::inst()->owrite(hst::string(MESG))
 #define UNIQUE_CLASS_NAME  "SADDY_RENDERER_WINDOW_INSTANCE_V_2"
 
+
+hst::point<hst::D3,float> sad::Renderer::mousePos()
+{
+	POINT p;
+	GetCursorPos(&p);
+	ScreenToClient(this->m_window.hWND,&p);
+	float px=0.0f, py=0.0f,pz=0.0f; 
+	mapToOGL(p.x,p.y,px,py,pz);
+	return hst::point<hst::D3,float>(px,py,pz);
+}
 void sad::Renderer::releaseWindow()
 {
   if (m_window.fullscreen) //If fullscreen

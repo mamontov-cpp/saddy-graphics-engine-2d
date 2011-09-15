@@ -5,7 +5,7 @@
 */
 #include "../include/scene.h"
 #include "../include/texture.h"
-#include "../include/primitives/hpoint.h"
+#include "../include/primitives/hrect.h"
 #pragma once
 
 
@@ -41,6 +41,16 @@ class Sprite: public sad::BasicNode
 					 double theta 
 					);
  public:
+	      /*! Creates a sprite with following parameters
+			  \param[in] tex   texture
+			  \param[in] rect  rectangle for sprite
+			  \param[in] texrect rectangle for texture coordinates(in coordinate range, NOT in 0..1)
+		  */
+		  Sprite(
+			     sad::Texture * tex, 
+				 const hst::rect<::s3d::point> & rect,
+				 const hRectF  & texrect
+			    );
           /*! Creates a simple node
 		      \param[in] tex        texture
 			  \param[in] rect       rectangle, with point directed clockwise

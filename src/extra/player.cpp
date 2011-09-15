@@ -1,89 +1,97 @@
 #include "player.h"
-#include "lightmodel.h"
+#include "../renderer.h"
+
+#define BBOX_PERCENT 0.9
+
+static BoundingBox createBBoxForPlayer(const hst::rect<::s3d::point> & rect)
+{
+	float w2=(rect[1].x()-rect[0].x())/2*BBOX_PERCENT;
+	float h2=(rect[2].y()-rect[1].y())/2*BBOX_PERCENT;
+	::s3d::point middle=(rect[0]+rect[2])/2.0f;
+	return BoundingBox( ::s3d::point(middle.x()-w2,middle.y()+h2,0),::s3d::point(middle.x()+w2,middle.y()-h2,0)  );
+}
 
 SAD_DECLARE(Player,Collidable)
 
 Player * Player::instance=NULL;
-
-BoundingBox Player::rect() { return m_box; }
-
+#ifndef BOUND_X1
+#define BOUND_X1 0.0f
+#define BOUND_X2 640.0f
+#define BOUND_Y1 0.0f
+#define BOUND_Y2 480.0f
+#endif
 
 void Player::move(const Vector & p)
 {
-	m_box.moveBy(p);
-	m_draw.moveBy(p);
-
-	bool ch=false;
-	float m_point;
-	if (m_draw.p().x()<BOUND_X1) 
+	oldPoint()=newPoint();
+	BoundingBox bb(oldPoint());
+	::s3d::point nx(p.x(),p.y(),0.0f);
+	for (int i=0;i<4;i++)
+		bb[i]+=nx;
+	if (bb[0].x()<BOUND_X1) 
 	{
-		m_point=m_draw.p().x();
-		m_box.moveBy(hPointF(BOUND_X2-m_point,0));
-		m_draw.p().setX(BOUND_X2); 
-	    ch=true; 
+		float new_x=BOUND_X2-0.01;
+		float old_x=bb[1].x();
+		for(int i=0;i<4;i++)
+			bb[i].setX(bb[i].x()+new_x-old_x);
+		oldPoint()=bb;
 	}
-	if (m_draw.p().x()>BOUND_X2) 
+	if (bb[1].x()>BOUND_X2) 
 	{ 
-		m_point=m_draw.p().x();
-		m_box.moveBy(hPointF(BOUND_X1-m_point,0));
-		m_draw.p().setX(BOUND_X1); 
-		ch=true; 
+		float new_x=BOUND_X1+0.01;
+		float old_x=bb[0].x();
+		for(int i=0;i<4;i++)
+			bb[i].setX(bb[i].x()+new_x-old_x);
+		oldPoint()=bb;
 	}
-	if (m_draw.p().y()<BOUND_Y1) 
+	if (bb[2].y()<BOUND_Y1) 
 	{ 
-		m_point=m_draw.p().y();
-		m_box.moveBy(hPointF(0,BOUND_Y2-m_point));
-		m_draw.p().setY(BOUND_Y2); 
-		ch=true; 
+		float new_x=BOUND_Y2-0.01;
+		float old_x=bb[0].y();
+		for(int i=0;i<4;i++)
+			bb[i].setY(bb[i].y()+new_x-old_x);
+		oldPoint()=bb;
 	}
-	if (m_draw.p().y()>BOUND_Y2) 
+	if (bb[0].y()>BOUND_Y2) 
 	{ 
-		m_point=m_draw.p().y();
-		m_box.moveBy(hPointF(0,BOUND_Y1-m_point));
-		m_draw.p().setY(BOUND_Y1); 
-		ch=true; 
+		float new_x=BOUND_Y1+0.01;
+		float old_x=bb[2].y();
+		for(int i=0;i<4;i++)
+			bb[i].setY(bb[i].y()+new_x-old_x);
+		oldPoint()=bb; 
 	}
-
-
-	if (ch)
-		CollisionManager::updateSingle(this);
-
+	this->interval()=1;
+	this->v()=::s3d::point(
+		                    newPoint()[0].x()-oldPoint()[0].x(),
+							newPoint()[0].y()-oldPoint()[0].y(),
+							0.0f
+		                  );
+	newPoint()=bb;
+	::s3d::point mid=(newPoint()[0]+newPoint()[2])/2.0f;
+	this->moveTo(mid);
 }
 
 void Player::setAngle(float angle)
 {
+	float dangle=angle-m_angle;
+	this->Sprite::rotate(dangle,0.0f);
 	m_angle=angle;
 }
 
-
+extern bool paused;
 void Player::render()
 {
-	float m_x=m_draw.p().x()+m_draw.width()/2;
-	float m_y= m_draw.p().y()+m_draw.height()/2;
-	float m_hw=m_draw.width()/2;
-	float m_hh=m_draw.height()/2;
-
-    float m_cos=m_hw*cos(m_angle);
-	float m_sin=m_hh*sin(m_angle);
-	float dx=m_cos-m_sin;
-	float dy=m_cos+m_sin;
-
-	m_tex->enable();
-    
-	glBegin(GL_QUADS);
-
-	
-	glTexCoord2f(0.0f,1.0f);	
-		glVertex3f(m_x-dx,m_y-dy,ZAX );
-	glTexCoord2f(0.0f,0.0f);
-		glVertex3f(m_x-dy,m_y+dx,ZAX );
-	glTexCoord2f(1.0f,0.0f);
-		glVertex3f(m_x+dx,m_y+dy,ZAX );
-	glTexCoord2f(1.0f,1.0f);
-		glVertex3f(m_x+dy,m_y-dx,ZAX );
-    
-	glEnd();
-
+	if ((fabs(m_velocity[0])>0.00001 || fabs(m_velocity[1])>0.00001) && !paused)
+		this->move(Vector(m_velocity[0],m_velocity[1]));
+    if (m_first_render)
+	{
+		::s3d::point d=sad::Renderer::instance().mousePos();
+		::s3d::point p=Player::instance->middle();
+		m_angle=atan2(d.y()-p.y(),d.x()-p.x());
+		this->rotate(m_angle,0);
+		m_first_render=false;
+	}
+	this->Sprite::render();
 }
 
 void Player::shoot()
@@ -91,28 +99,29 @@ void Player::shoot()
 	float fx=0.07*cos(m_angle);
 	float fy=0.07*sin(m_angle);
    
-	sad::Renderer::instance().getCurrentScene()->markForAddition
-		( new PlayerBullet(Vector(fx,fy),m_draw,0.9) );
+	//sad::Renderer::instance().getCurrentScene()->markForAddition
+	//	( new PlayerBullet(Vector(fx,fy),this->middle());
 }
 
 Player::~Player()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 	instance=NULL;
 }
-const BoundingBox & Player::prect()
-{
-	return m_draw;
-}
 
-Player::Player(const BoundingBox &  draw, float percent)
+#define PLAYER_WH 11
+Player::Player(const hPointF & pos):Collidable(
+sad::TextureManager::instance()->get("objects"),
+hst::rect<::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()+PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()-PLAYER_WH,0)),
+hRectF(hPointF(0,87),hPointF(87,174))
+)
 {
-	m_angle=0.0f;
-	m_tex=sad::TextureManager::instance()->get("sad");
-	m_draw=draw;
-    
-	m_box=draw.enlarged(draw.width()*(percent-1),draw.height()*(percent-1));
-
-	CollisionManager::add(this);
+	float * sz=const_cast<float*>(texCoords());
+	hst::rect<::s3d::point> rect(point(0),point(1),point(2),point(3));
+	oldPoint()=createBBoxForPlayer(rect);
+	newPoint()=oldPoint();
+	m_velocity[0]=m_velocity[1]=0.0f;
+	m_first_render=true;
+	//CollisionManager::add(this);
 	instance=this;
 }

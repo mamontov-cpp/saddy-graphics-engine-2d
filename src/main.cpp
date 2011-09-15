@@ -5,6 +5,7 @@
 #include "background.h"
 #include "statelabel.h"
 #include "lightmodel.h"
+#include "orthocamera.h"
 
 #ifdef WIN32
 #ifndef MINGW
@@ -30,10 +31,8 @@ void rend_mousemove(const sad::Event & o)
 {
 	if (Player::instance && !paused)
 	{
-		const BoundingBox & rr=Player::instance->prect();
-		hPointF p=rr.p();
-		p+=hPointF(rr.width()/2,rr.height()/2);
-		float af=atan2(o.x-p.x(),-o.y+p.y())-1.57;
+		::s3d::point p=Player::instance->middle();
+		float af=atan2(o.y-p.y(),o.x-p.x());
 		Player::instance->setAngle(af);
 	}
 }
@@ -44,20 +43,28 @@ void rend_mouseclick(const sad::Event & o)
 		Player::instance->shoot();
 	}
 }
-#define P_SPEED 0.005
-#define N_SPEED -0.005
+#define P_SPEED 1.0
+#define N_SPEED -1.0
 void rend_up(const sad::Event & o)
 {
 	if (Player::instance && !paused)
 	{
-		Player::instance->move(Vector(0,P_SPEED));
+		Player::instance->toggleVelocityY(P_SPEED);
 	}
 }
 void rend_down(const sad::Event & o)
 {
 	if (Player::instance && !paused)
 	{
-		Player::instance->move(Vector(0.00,N_SPEED));
+		Player::instance->toggleVelocityY(N_SPEED);
+	}
+}
+void rend_speed_zero(const sad::Event & o)
+{
+	if (Player::instance && !paused)
+	{
+		Player::instance->toggleVelocityX(0.0f);
+		Player::instance->toggleVelocityY(0.0f);
 	}
 }
 
@@ -65,14 +72,14 @@ void rend_left(const sad::Event & o)
 {
 	if (Player::instance && !paused)
 	{
-		Player::instance->move(Vector(N_SPEED,0.0));
+		Player::instance->toggleVelocityX(N_SPEED);
 	}
 }
 void rend_right(const sad::Event & o)
 {
 	if (Player::instance && !paused)
 	{
-		Player::instance->move(Vector(P_SPEED,0.0));
+		Player::instance->toggleVelocityX(P_SPEED);
 	}
 }
 
@@ -105,8 +112,6 @@ void light_enable(const sad::Event & o)
 }
 void light_disable(const sad::Event & o)
 {
-	hst::log::inst()->write(o.shift).write(o.ctrl).write(o.alt).write(o.capslock).write('\n');
-	printf("Shift: %d, Control: %d, Alt: %d, CapsLock: %d\n",o.shift,o.ctrl,o.alt,o.capslock);
 	sad::Light::disable(0);
 	sad::LightModel::disable();
 }
@@ -147,7 +152,7 @@ bool toggle_idle(int)
 	sc->performCleanup();
 	sc->markForAddition(new Background("title"));
 	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
-	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
+	//sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
 	
 	return true;
 }
@@ -159,11 +164,11 @@ bool toggle_play(int)
 	player_health_point=10;
 
 	sc->performCleanup();
-	sc->markForAddition(new CollisionTester());
+	//sc->markForAddition(new CollisionTester());
 	sc->markForAddition(new Background("background"));
 	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
-	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
-    sc->markForAddition(new Player(BoundingBox(hPointF(0.0,0.0),0.02,0.02),0.7));
+	//sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
+    sc->markForAddition(new Player(hPointF(320.0,240.0)));
 
 	return true;
 }
@@ -172,8 +177,6 @@ void toggle_state(const sad::Event & o)
 {
 	if (StateMachine::state()==IDLE_STATE)
 		StateMachine::pushState(PLAY_STATE);
-	//else
-    //		StateMachine::pushState(IDLE_STATE);
 }
 
 void playerbullet(Collidable * bullet,Collidable * enemy)
@@ -232,19 +235,7 @@ int main(int argc, char** argv)
 	//Loading sprites
 	res=res && loadTex("examples/title.tga","title");
 	res=res && loadTex("examples/ingame.tga","background");
-#ifdef COLLISION_TEST
-    res=res && loadTex("examples/test.bmp","test");
-	bbox_test=sad::TextureManager::instance()->get("test");
-#endif    
-	res=res && loadSprite("examples/halfsmile.png","halfsmile");
-	res=res && loadSprite("examples/largesmile.png","largesmile");
-    res=res && loadSprite("examples/neutral.png","neutral");
-	res=res && loadSprite("examples/sad.png","sad");
-	res=res && loadSprite("examples/smile.png","smile");
-	res=res && loadSprite("examples/enemybullet.bmp","enemybullet");
-	res=res && loadSprite("examples/playerbullet.bmp","playerbullet");
-	res=res && loadSprite("examples/bonus.bmp","bonus");
-     
+    res=res && loadSprite("examples/objects.bmp","objects"); 
     if (!res)
 	{
 		hst::log::inst()->write(hst::string("Resource loading failed!\n Exiting..."));
@@ -265,10 +256,17 @@ int main(int argc, char** argv)
 	sad::Input::inst()->bindKeyDown('F',rend_toggle);
 	sad::Input::inst()->bindKeyDown('P',rend_pause);
 	sad::Input::inst()->bindKeyDown(KEY_TAB,rend_mouseclick);
+	
 	sad::Input::inst()->bindKeyDown(KEY_UP,rend_up);
 	sad::Input::inst()->bindKeyDown(KEY_DOWN,rend_down);
 	sad::Input::inst()->bindKeyDown(KEY_LEFT,rend_left);
 	sad::Input::inst()->bindKeyDown(KEY_RIGHT,rend_right);
+	sad::Input::inst()->bindKeyUp(KEY_UP,rend_speed_zero);
+	sad::Input::inst()->bindKeyUp(KEY_DOWN,rend_speed_zero);
+	sad::Input::inst()->bindKeyUp(KEY_LEFT,rend_speed_zero);
+	sad::Input::inst()->bindKeyUp(KEY_RIGHT,rend_speed_zero);
+	
+	
 	sad::Input::inst()->bindKeyDown(KEY_ENTER,toggle_state);
     
 	sad::Input::inst()->bindKeyDown('O',light_enable);
@@ -287,18 +285,19 @@ int main(int argc, char** argv)
 	printf("States binded!\nBinding collisions\n");
 
 
-	CollisionManager::bind(PlayerBullet::ID,Enemy::ID,new CollisionHandler(playerbullet));
-	CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,new CollisionHandler(playerbullet));
-	CollisionManager::bind(Player::ID,Bonus::ID,new CollisionHandler(playerbonus));				 
-	CollisionManager::bind(Player::ID,EnemyBullet::ID,new CollisionHandler(playerenemybullet));
-	CollisionManager::bind(Player::ID,Enemy::ID,new CollisionHandler(playerenemybullet));
-	CollisionManager::bind(Player::ID,ShootingEnemy::ID,new CollisionHandler(playerenemybullet));
+	//CollisionManager::bind(PlayerBullet::ID,Enemy::ID,new CollisionHandler(playerbullet));
+	//CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,new CollisionHandler(playerbullet));
+	//CollisionManager::bind(Player::ID,Bonus::ID,new CollisionHandler(playerbonus));				 
+	//CollisionManager::bind(Player::ID,EnemyBullet::ID,new CollisionHandler(playerenemybullet));
+	//CollisionManager::bind(Player::ID,Enemy::ID,new CollisionHandler(playerenemybullet));
+	//CollisionManager::bind(Player::ID,ShootingEnemy::ID,new CollisionHandler(playerenemybullet));
 
 	printf("Building mips!\n");	
 	sad::TextureManager::buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
-	sad::Renderer::instance().getCurrentScene()->setCamera(new sad::Camera(0.0f,0.0f,-1.0f,0.0f,0.0f,0.0f));
+	sad::Renderer::instance().getCurrentScene()->setCamera(new OrthoCamera());
+	
 	//Set light
 	sad::ColorMaterial::disable();
 	sad::ColorMaterial::set(sad::Both,sad::ColorMaterial::DiffuseAmbient);
