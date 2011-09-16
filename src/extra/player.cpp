@@ -96,13 +96,13 @@ void Player::shoot()
 	float fy=BULLET_SPEED*sin(m_angle);
    
 	sad::Renderer::instance().getCurrentScene()->markForAddition
-		(  new PlayerBullet(Vector(fx,fy),this->middle()));
+		(  new PlayerBullet(Vector(fx,fy),(this->middle())));
 	m_lastshot=clock();
 }
 
 Player::~Player()
 {
-	//CollisionManager::remove(this);
+	CollisionManager::remove(this);
 	PlayerInstance::zero();
 }
 
@@ -121,4 +121,5 @@ hRectF(hPointF(0,87),hPointF(87,174))
 	m_lastshot=0;
 	//CollisionManager::add(this);
 	PlayerInstance::set(this);
+	CollisionManager::add(this->type(),this);
 }

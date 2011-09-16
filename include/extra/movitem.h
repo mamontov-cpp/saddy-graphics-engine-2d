@@ -19,7 +19,7 @@ typedef hPointF Vector;
 class MovingObject: public Collidable
 {
  SAD_NODE
- private:
+ protected:
 	     float m_angle;
  public: 
 	 /*! Only calls a parent constructor 
@@ -29,6 +29,7 @@ class MovingObject: public Collidable
 	 {
 		 m_angle=0;
 	 }
+	 inline float angle() { return m_angle; }
 	 virtual void render();
 	 virtual ~MovingObject();
 };
@@ -59,7 +60,7 @@ class EnemyBullet: public MovingObject
 	     */
 	    EnemyBullet(
 		             const Vector & vec,
-		             const hPointF & pos
+		             const ::s3d::point & pos
 			        );
 		~EnemyBullet();
 };
@@ -95,7 +96,7 @@ class Enemy: public MovingObject
 		~Enemy();
 };
 
-#define SHOOT_FREQ 1000
+#define SHOOT_FREQ 450
 class ShootingEnemy: public MovingObject 
 {
  SAD_NODE
@@ -113,6 +114,29 @@ class ShootingEnemy: public MovingObject
 		*/
 		void render();
 		~ShootingEnemy();
+};
+#define EMAX_LIFES 3 
+class SuperShootingEnemy: public MovingObject
+{
+ SAD_NODE
+ private:
+	     clock_t m_lastclock;
+		 int     m_lifes;   //!< Amount of lifes
+ public:
+	    /*! Decrement lifes
+		*/
+	    void hit();
+        /*! Creates an item
+		    \param[in] vec direction, that will be reached in second
+	     */
+	    SuperShootingEnemy(
+		             const Vector & vec,
+		             const hPointF &  pos 
+			        );
+		/*! Renders an enemy
+		*/
+		void render();
+		~SuperShootingEnemy();
 };
 
 #define SPAWN_FREQ 350
