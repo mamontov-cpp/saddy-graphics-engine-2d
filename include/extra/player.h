@@ -5,8 +5,7 @@
 	Here is placed class of player - class, that provides any player associated
 	objects
 */
-//#include "movitem.h"
-#include "rigid_body.h"
+#include "movitem.h"
 #include "collisionmanager.h"
 #include "../texturemanager.h"
 #pragma once
@@ -27,8 +26,7 @@ class Player: public Collidable
 		 inline void toggleVelocityY(float y) {
 		 m_velocity[1]=y;
 		 }
-		 static Player * instance; //!< Player instance
-	     /*! Constructs player
+		 /*! Constructs player
 		     \param[in] pos     position
 		 */
 	     Player(const hPointF & pos);
@@ -48,3 +46,6 @@ class Player: public Collidable
 
 		 ~Player();
 };
+
+
+typedef Instance<Player> PlayerInstance;

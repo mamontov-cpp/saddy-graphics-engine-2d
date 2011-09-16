@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include/primitives;include/templates;include"
+				AdditionalIncludeDirectories="include/primitives;include/templates;include;include/extra"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="1"
@@ -107,7 +107,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="include/primitives;include/templates;include"
+				AdditionalIncludeDirectories="include/primitives;include/templates;include;include/extra"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -260,6 +260,10 @@
 					RelativePath=".\src\templates\hwstring.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\templates\refcountable.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="primitives"
@@ -338,6 +342,22 @@
 				</File>
 				<File
 					RelativePath=".\src\os\thread.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="extra"
+				>
+				<File
+					RelativePath=".\src\extra\collisionmanager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\extra\rigid_body.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\extra\statemachine.cpp"
 					>
 				</File>
 			</Filter>
@@ -467,6 +487,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\templates\refcountable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\templates\sinstance.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\templates\stdafx.h"
 					>
 				</File>
@@ -532,6 +560,22 @@
 				</File>
 				<File
 					RelativePath=".\include\os\thread.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="extra"
+				>
+				<File
+					RelativePath=".\include\extra\collisionmanager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\rigid_body.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\statemachine.h"
 					>
 				</File>
 			</Filter>

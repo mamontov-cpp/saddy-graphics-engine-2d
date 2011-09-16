@@ -182,6 +182,7 @@ namespace sad
 	{
 	 private:
 		      int m_task_time; //!< Determines amount of loops, when he must be run
+	 protected:
 			  void (*m_task)();  //!< Determines a task functions
 	 public:
 		      /*! Creates a new task
@@ -195,13 +196,38 @@ namespace sad
 			  /*! Tries to perform task
 			      \return whether perform() is called
 			  */
-			  inline bool tryPerform() { --m_task_time; if (!m_task_time) perform(); return m_task_time==0; };
+			  virtual bool tryPerform(); 
 		      /*! Determines, that task must be performed
 			  */
 			  virtual void perform();
 			  /*! Destructor
 			  */
 			  virtual ~CountableTask();
+	};
+	/*! Class of repeating task, that can work every time, until it dies
+	*/
+	class RepeatingTask: public CountableTask
+	{
+	 private:
+		     bool m_alive;
+	 public:
+		    /*! Creates unspecified task
+			*/
+		    inline RepeatingTask():CountableTask(1) { m_alive=true;}
+			/*! Creates specified task
+				\param[in] task task
+			*/
+			inline RepeatingTask(void (*task)()):CountableTask(task,1) {m_alive=true;}
+            /*! Kills a task
+			*/
+			inline void die() { m_alive=false;}
+			/*! Performs a task returning inverted m_alive flag
+				\return success of task
+			*/
+			bool tryPerform();
+			/*!
+			*/
+			~RepeatingTask();
 	};
 	class Input
 	{
