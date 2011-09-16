@@ -13,14 +13,6 @@ static BoundingBox createBBoxForPlayer(const hst::rect< ::s3d::point> & rect)
 
 SAD_DECLARE(Player,Collidable)
 
-Player * Player::instance=NULL;
-#ifndef BOUND_X1
-#define BOUND_X1 0.0f
-#define BOUND_X2 640.0f
-#define BOUND_Y1 0.0f
-#define BOUND_Y2 480.0f
-#endif
-
 void Player::move(const Vector & p)
 {
 	oldPoint()=newPoint();
@@ -86,7 +78,7 @@ void Player::render()
     if (m_first_render)
 	{
 		::s3d::point d=sad::Renderer::instance().mousePos();
-		::s3d::point p=Player::instance->middle();
+		::s3d::point p=middle();
 		m_angle=atan2(d.y()-p.y(),d.x()-p.x());
 		this->rotate(m_angle,0);
 		m_first_render=false;
@@ -106,7 +98,7 @@ void Player::shoot()
 Player::~Player()
 {
 	//CollisionManager::remove(this);
-	instance=NULL;
+	PlayerInstance::zero();
 }
 
 #define PLAYER_WH 11
@@ -116,12 +108,11 @@ hst::rect< ::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()+PLAYER_WH,0),::s
 hRectF(hPointF(0,87),hPointF(87,174))
 )
 {
-	float * sz=const_cast<float*>(texCoords());
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	oldPoint()=createBBoxForPlayer(rect);
 	newPoint()=oldPoint();
 	m_velocity[0]=m_velocity[1]=0.0f;
 	m_first_render=true;
 	//CollisionManager::add(this);
-	instance=this;
+	PlayerInstance::set(this);
 }

@@ -16,7 +16,21 @@
 
 typedef hPointF Vector;
 
-class PlayerBullet: public Collidable 
+class MovingObject: public Collidable
+{
+ SAD_NODE
+ public: 
+	 /*! Only calls a parent constructor 
+	 */
+	 inline MovingObject(const hst::rect< ::s3d::point > & rect,
+		 const hRectF & texrect):Collidable(sad::TextureManager::instance()->get("objects"),rect,texrect)
+	 {
+	 }
+	 void render();
+	 virtual ~MovingObject();
+};
+
+class PlayerBullet: public MovingObject 
 {
  SAD_NODE
  public:
@@ -32,7 +46,7 @@ class PlayerBullet: public Collidable
 };
 
 
-class EnemyBullet: public Collidable 
+class EnemyBullet: public MovingObject 
 {
  SAD_NODE
  public:
@@ -47,7 +61,7 @@ class EnemyBullet: public Collidable
 		~EnemyBullet();
 };
 
-class Bonus: public Collidable
+class Bonus: public MovingObject
 {
  SAD_NODE
  public:
@@ -63,7 +77,7 @@ class Bonus: public Collidable
 };
 
 
-class Enemy: public Collidable 
+class Enemy: public MovingObject 
 {
  SAD_NODE
  public:
@@ -79,7 +93,7 @@ class Enemy: public Collidable
 };
 
 #define SHOOT_FREQ 1000
-class ShootingEnemy: public Collidable 
+class ShootingEnemy: public MovingObject 
 {
  SAD_NODE
  private:

@@ -215,8 +215,19 @@ void sad::CountableTask::perform()
 	if (m_task)
 		m_task();
 }
+bool sad::CountableTask::tryPerform()
+{
+  --m_task_time; if (!m_task_time) perform(); return m_task_time==0; 
+}
 
 sad::CountableTask::~CountableTask() {}
+
+bool sad::RepeatingTask::tryPerform()
+{
+	perform();
+	return !m_alive;
+}
+sad::RepeatingTask::~RepeatingTask() {}
 
 static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff)
 {
@@ -237,3 +248,5 @@ void sad::Input::tryPerform(hst::vector<sad::CountableTask *> & v)
 		}
 	}
 }
+
+

@@ -6,9 +6,10 @@
 */
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
+#include "../templates/sinstance.h"
 #include "../os/mutex.h"
 #include <time.h>
-#include "../scene.h"
+#include "../input.h"
 #pragma once
 
 /*! Colllision tester for objects
@@ -203,17 +204,9 @@ class CollisionManager
 	*/
 	static void test();
 };
-/*! Class, that tests a collision
-    Add it to scene to test a collision  
+/*! Adds a collision testing task as a post-render task
 */
-class CollisionTester: public sad::BasicNode  
-{
- public:
-	    CollisionTester();
-		/*! Tests a collisions
-		*/
-		void render();
-		/*! Destroys a tester
-		*/
-		~CollisionTester();
-};
+void addTestingTask();
+/*! Removes a collision testing task
+*/
+void killTestingTask();

@@ -29,57 +29,57 @@ void rend_pause(const sad::Event & o)
 }
 void rend_mousemove(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		::s3d::point p=Player::instance->middle();
+		::s3d::point p=PlayerInstance::i()->middle();
 		float af=atan2(o.y-p.y(),o.x-p.x());
-		Player::instance->setAngle(af);
+		PlayerInstance::i()->setAngle(af);
 	}
 }
 void rend_mouseclick(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->shoot();
+		PlayerInstance::i()->shoot();
 	}
 }
 #define P_SPEED 1.0
 #define N_SPEED -1.0
 void rend_up(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->toggleVelocityY(P_SPEED);
+		PlayerInstance::i()->toggleVelocityY(P_SPEED);
 	}
 }
 void rend_down(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->toggleVelocityY(N_SPEED);
+		PlayerInstance::i()->toggleVelocityY(N_SPEED);
 	}
 }
 void rend_speed_zero(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->toggleVelocityX(0.0f);
-		Player::instance->toggleVelocityY(0.0f);
+		PlayerInstance::i()->toggleVelocityX(0.0f);
+		PlayerInstance::i()->toggleVelocityY(0.0f);
 	}
 }
 
 void rend_left(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->toggleVelocityX(N_SPEED);
+		PlayerInstance::i()->toggleVelocityX(N_SPEED);
 	}
 }
 void rend_right(const sad::Event & o)
 {
-	if (Player::instance && !paused)
+	if (PlayerInstance::i() && !paused)
 	{
-		Player::instance->toggleVelocityX(P_SPEED);
+		PlayerInstance::i()->toggleVelocityX(P_SPEED);
 	}
 }
 

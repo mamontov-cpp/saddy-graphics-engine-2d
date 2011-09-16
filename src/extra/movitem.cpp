@@ -1,117 +1,14 @@
 #include "movitem.h"
 
-#ifdef WORK
-
-SAD_DECLARE(PlayerBullet,Collidable)
-SAD_DECLARE(EnemyBullet,Collidable)
-SAD_DECLARE(Bonus,Collidable)
-SAD_DECLARE(Enemy,Collidable)
-SAD_DECLARE(ShootingEnemy,Collidable)
+SAD_DECLARE(MovingObject,Collidable)
+SAD_DECLARE(PlayerBullet,MovingObject)
+SAD_DECLARE(EnemyBullet,MovingObject)
+SAD_DECLARE(Bonus,MovingObject)
+SAD_DECLARE(Enemy,MovingObject)
+SAD_DECLARE(ShootingEnemy,MovingObject)
 SAD_DECLARE(EnemyEmitter,sad::BasicNode)
-//#define CLOCK_TEST
 
-#ifdef CLOCK_TEST
-	#include "log.h"
-#endif
-
-//#define COLLISION_TEST
-#ifdef COLLISION_TEST
-	sad::Texture * bbox_test;
-#endif
-
-BoundingBox MovingItem::rect()
-{
-	return m_box;
-}
-MovingItem::~MovingItem()
-{
-
-}
-
-void MovingItem::move()
-{
- float fps=(float)sad::Renderer::instance().fps();
- if (fps<10) fps=80;
-  Vector dir=m_direct*(1.0f/fps);
-  m_box.moveBy(dir);
-  m_draw.moveBy(dir);
-  
-  hPointF center=(m_draw[0]+m_draw[2])/2;
-  if (center.x()<-0.275042 || 
-	  center.x()>0.274406  ||
-	  center.y()<-0.205373 ||
-	  center.y()>0.206282  
-	  )
-  sad::Renderer::instance().getCurrentScene()->markForDeletion(this);
-}
-MovingItem::MovingItem(sad::Texture * tex,
-		               const Vector & vec,
-		               const BoundingBox &  draw, 
-			           float percent
-			           )
-{
-	m_angle=0.0f;
-	m_tex=tex;
-	m_direct=vec;
-	m_draw=draw;
-    
-	m_box=draw.enlarged(draw.width()*(percent-1),draw.height()*(percent-1));
-}
-
-void MovingItem::render()
-{
-	float m_x=m_draw.p().x()+m_draw.width()/2;
-	float m_y= m_draw.p().y()+m_draw.height()/2;
-	float m_hw=m_draw.width()/2;
-	float m_hh=m_draw.height()/2;
-
-    float m_cos=m_hw*cos(m_angle);
-	float m_sin=m_hh*sin(m_angle);
-	float dx=m_cos-m_sin;
-	float dy=m_cos+m_sin;
-
-	m_tex->enable();
-    glBegin(GL_QUADS);
-
-	
-	glTexCoord2f(0.0f,0.0f);	
-		glVertex3f(m_x-dx,m_y-dy,ZAX );
-	glTexCoord2f(0.0f,1.0f);
-		glVertex3f(m_x-dy,m_y+dx,ZAX );
-	glTexCoord2f(1.0f,1.0f);
-		glVertex3f(m_x+dx,m_y+dy,ZAX );
-	glTexCoord2f(1.0f,0.0f);
-		glVertex3f(m_x+dy,m_y-dx,ZAX );
-    
-	glEnd();
-
-#ifdef COLLISION_TEST
-   bbox_test->enable();
-   glBegin(GL_QUADS);
-
-   hPointF t1=m_box[0],t2=m_box[1], t3=m_box[2],t4=m_box[3] ;	
-	
-   glTexCoord2f(0.0f,0.0f);	
-		glVertex3f(t1.x(),t1.y(),ZAX );
-   glTexCoord2f(0.0f,1.0f);
-		glVertex3f(t2.x(),t2.y(),ZAX );
-   glTexCoord2f(1.0f,1.0f);
-		glVertex3f(t3.x(),t3.y(),ZAX );
-   glTexCoord2f(1.0f,0.0f);
-		glVertex3f(t4.x(),t4.y(),ZAX );
-    
-  glEnd();
-	
-#endif
-	
-
-	if (!paused)
-	{
-		m_angle+=0.01;
-		move();
-	}
-}
-
+#ifdef WORK
 
 PlayerBullet::PlayerBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {

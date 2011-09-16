@@ -234,16 +234,22 @@ void CollisionManager::test()
 		Instance->commitTestTaskRemoval();
 	}
 }
-
-CollisionTester::CollisionTester()
+class CollisionTestingTask: public sad::RepeatingTask
 {
+ public:
+	   inline CollisionTestingTask(): sad::RepeatingTask(CollisionManager::test) {}
+};
+typedef Instance<CollisionTestingTask> CTTaskInstance;
+
+void addTestingTask()
+{
+  CollisionTestingTask * t=new CollisionTestingTask();
+  CTTaskInstance::set(t);
+  sad::Input::inst()->addPostRenderTask(t);
 }
 
-void CollisionTester::render()
+void killTestingTask()
 {
- CollisionManager::test();
-}
-CollisionTester::~CollisionTester()
-{
-
+	CTTaskInstance::i()->die();
+	CTTaskInstance::zero();
 }

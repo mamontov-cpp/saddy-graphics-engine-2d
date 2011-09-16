@@ -295,6 +295,10 @@
 					RelativePath=".\src\templates\hwstring.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\templates\refcountable.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="primitives"
@@ -534,17 +538,17 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\templates\refcountable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\templates\sinstance.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\templates\stdafx.h"
 					>
 				</File>
-				<Filter
-					Name="tga"
-					>
-					<File
-						RelativePath=".\include\tga\tga.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="primitives"
@@ -627,6 +631,14 @@
 				</File>
 				<File
 					RelativePath=".\include\os\thread.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="tga"
+				>
+				<File
+					RelativePath=".\include\tga\tga.h"
 					>
 				</File>
 			</Filter>
