@@ -50,6 +50,7 @@ void rend_up(const sad::Event & o)
 {
 	if (PlayerInstance::i() && !paused)
 	{
+		PlayerInstance::i()->key()=o.key;
 		PlayerInstance::i()->toggleVelocityY(P_SPEED);
 	}
 }
@@ -57,6 +58,7 @@ void rend_down(const sad::Event & o)
 {
 	if (PlayerInstance::i() && !paused)
 	{
+		PlayerInstance::i()->key()=o.key;
 		PlayerInstance::i()->toggleVelocityY(N_SPEED);
 	}
 }
@@ -64,6 +66,8 @@ void rend_speed_zero(const sad::Event & o)
 {
 	if (PlayerInstance::i() && !paused)
 	{
+		if (PlayerInstance::i()->key()!=o.key) 
+			return;
 		PlayerInstance::i()->toggleVelocityX(0.0f);
 		PlayerInstance::i()->toggleVelocityY(0.0f);
 	}
@@ -73,6 +77,7 @@ void rend_left(const sad::Event & o)
 {
 	if (PlayerInstance::i() && !paused)
 	{
+		PlayerInstance::i()->key()=o.key;
 		PlayerInstance::i()->toggleVelocityX(N_SPEED);
 	}
 }
@@ -80,6 +85,7 @@ void rend_right(const sad::Event & o)
 {
 	if (PlayerInstance::i() && !paused)
 	{
+		PlayerInstance::i()->key()=o.key;
 		PlayerInstance::i()->toggleVelocityX(P_SPEED);
 	}
 }
@@ -202,7 +208,13 @@ void playerenemybullet(Collidable * player, Collidable * enemybullet)
 }
 
 typedef CMHandler<Collidable,Collidable> CCHandler;
+void pbssenemy(Collidable * bullet, SuperShootingEnemy * p)
+{
+	p->hit();
+	sad::Renderer::instance().getCurrentScene()->markForDeletion(bullet);
+}
 
+void testplayer(const sad::Event & ev);
 #ifdef WIN32
 #ifndef MSVC_RELEASE
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
@@ -273,6 +285,8 @@ int main(int argc, char** argv)
 	sad::Input::inst()->bindKeyDown('K',light_inc);
 	sad::Input::inst()->bindKeyDown('L',light_dec);
 
+	//sad::Input::inst()->bindKeyDown('J',testplayer);
+
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
 	
@@ -284,12 +298,14 @@ int main(int argc, char** argv)
 	printf("States binded!\nBinding collisions\n");
 
 
-	//CollisionManager::bind(PlayerBullet::ID,Enemy::ID,new CollisionHandler(playerbullet));
-	//CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,new CollisionHandler(playerbullet));
+	CollisionManager::bind(PlayerBullet::ID,Enemy::ID,testCollidables,new CCHandler(playerbullet));
+	CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,testCollidables,new CCHandler(playerbullet));
+	CollisionManager::bind(PlayerBullet::ID,SuperShootingEnemy::ID,testCollidables,new CMHandler<Collidable,SuperShootingEnemy>(pbssenemy));				 
 	CollisionManager::bind(Player::ID,Bonus::ID,testCollidables,new CCHandler(playerbonus));				 
-	//CollisionManager::bind(Player::ID,EnemyBullet::ID,new CollisionHandler(playerenemybullet));
-	//CollisionManager::bind(Player::ID,Enemy::ID,new CollisionHandler(playerenemybullet));
-	//CollisionManager::bind(Player::ID,ShootingEnemy::ID,new CollisionHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,EnemyBullet::ID,testCollidables,new CCHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,Enemy::ID,testCollidables,new CCHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,ShootingEnemy::ID,testCollidables,new CCHandler(playerenemybullet));
+	CollisionManager::bind(Player::ID,SuperShootingEnemy::ID,testCollidables,new CCHandler(playerenemybullet));
 
 	printf("Building mips!\n");	
 	sad::TextureManager::buildAll();

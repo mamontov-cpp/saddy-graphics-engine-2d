@@ -119,7 +119,6 @@ hRectF(hPointF(0,87),hPointF(87,174))
 	m_velocity[0]=m_velocity[1]=0.0f;
 	m_first_render=true;
 	m_lastshot=0;
-	//CollisionManager::add(this);
 	PlayerInstance::set(this);
 	CollisionManager::add(this->type(),this);
 }
