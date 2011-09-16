@@ -19,14 +19,17 @@ typedef hPointF Vector;
 class MovingObject: public Collidable
 {
  SAD_NODE
+ private:
+	     float m_angle;
  public: 
 	 /*! Only calls a parent constructor 
 	 */
 	 inline MovingObject(const hst::rect< ::s3d::point > & rect,
 		 const hRectF & texrect):Collidable(sad::TextureManager::instance()->get("objects"),rect,texrect)
 	 {
+		 m_angle=0;
 	 }
-	 void render();
+	 virtual void render();
 	 virtual ~MovingObject();
 };
 
@@ -40,7 +43,7 @@ class PlayerBullet: public MovingObject
 	    */
 	    PlayerBullet(
 		             const Vector & vec,
-		             const hPointF &  pos 
+					 const ::s3d::point &  pos 
 			        );
 		~PlayerBullet();
 };

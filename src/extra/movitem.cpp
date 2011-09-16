@@ -8,17 +8,52 @@ SAD_DECLARE(Enemy,MovingObject)
 SAD_DECLARE(ShootingEnemy,MovingObject)
 SAD_DECLARE(EnemyEmitter,sad::BasicNode)
 
-#ifdef WORK
-
-PlayerBullet::PlayerBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
+#define ROTATE_SPEED 0.01
+MovingObject::~MovingObject() {}
+void MovingObject::render()
 {
-  m_tex=sad::TextureManager::instance()->get("playerbullet");   
-  CollisionManager::add(this);
+	oldPoint()=newPoint();
+	BoundingBox bb(oldPoint());
+	interval()=1;
+	for (int i=0;i<4;i++)
+		bb[i]+=v();
+	bool del=bb[0].x()<BOUND_X1 || bb[1].x()>BOUND_X2 
+		  || bb[2].y()<BOUND_Y1 || bb[3].y()>BOUND_Y2;
+    if (del)
+		sad::Renderer::instance().getCurrentScene()->markForDeletion(this);
+	newPoint()=bb;
+	this->moveBy(newPoint()[0]-oldPoint()[0]);
+	m_angle+=ROTATE_SPEED;
+	rotate(ROTATE_SPEED,0.0f);
+	this->Sprite::render();
+}
+
+#define BBOX_PERCENT 0.9
+static BoundingBox createBBoxForObject(const hst::rect< ::s3d::point> & rect)
+{
+	float w2=(rect[1].x()-rect[0].x())/2*BBOX_PERCENT;
+	float h2=(rect[2].y()-rect[1].y())/2*BBOX_PERCENT;
+	::s3d::point middle=(rect[0]+rect[2])/2.0f;
+	return BoundingBox( ::s3d::point(middle.x()-w2,middle.y()+h2,0),::s3d::point(middle.x()+w2,middle.y()-h2,0)  );
+}
+#define BULLET_WH 4.5f
+
+PlayerBullet::PlayerBullet( const Vector & vec, const ::s3d::point &  pos):
+MovingObject(
+hst::rect< ::s3d::point>(::s3d::point(pos.x()-BULLET_WH,pos.y()+BULLET_WH,0),::s3d::point(pos.x()+BULLET_WH,pos.y()-BULLET_WH,0)),
+hRectF(hPointF(441,0),hPointF(452,11))
+)
+{
+	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
+	this->oldPoint()=createBBoxForObject(rect);
+	this->newPoint()=this->oldPoint();
+	this->v()= ::s3d::point(vec.x(),vec.y(),0);
 }
 PlayerBullet::~PlayerBullet()
 {
-	CollisionManager::remove(this);
 }
+
+#ifdef WORK
 
 EnemyBullet::EnemyBullet(const Vector &vec, const BoundingBox &draw, float percent): MovingItem(NULL,vec,draw,percent)
 {

@@ -154,6 +154,10 @@ public:
 		\return rendering interval
 	*/
 	inline float renderInteval() { return m_render_interval;}
+	/*! Returns amount of scene objects
+		\return objects amount
+	*/
+	inline unsigned long objectCount() { return m_layers.count(); }
 };
 
 }
