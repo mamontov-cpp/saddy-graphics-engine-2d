@@ -152,7 +152,7 @@ bool toggle_idle(int)
 	sc->performCleanup();
 	sc->markForAddition(new Background("title"));
 	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
-	//sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
+	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
 	
 	return true;
 }
@@ -167,7 +167,7 @@ bool toggle_play(int)
 	//sc->markForAddition(new CollisionTester());
 	sc->markForAddition(new Background("background"));
 	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
-	//sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
+	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
     sc->markForAddition(new Player(hPointF(320.0,240.0)));
 
 	return true;
@@ -198,11 +198,6 @@ void playerenemybullet(Collidable * player, Collidable * enemybullet)
   --player_health_point;
   if (player_health_point<=0) StateMachine::pushState(IDLE_STATE);
 }
-
-//#define COLLISION_TEST
-#ifdef COLLISION_TEST
-	extern sad::Texture * bbox_test;
-#endif
 
 #ifdef WIN32
 #ifndef MSVC_RELEASE

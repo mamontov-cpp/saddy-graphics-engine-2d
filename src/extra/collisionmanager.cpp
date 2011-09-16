@@ -90,12 +90,13 @@ bool               CollisionManager::Initialized=false;
 void CollisionManager::free()
 {
 	delete CollisionManager::Instance;
+	CollisionManager::Instance=NULL;
 }
 CollisionManager * CollisionManager::instance()
 {
 	if (!CollisionManager::Initialized)
 	{
-		CollisionManager::Initialized;
+		CollisionManager::Initialized=true;
 		CollisionManager::Instance=new CollisionManager();
 		atexit(CollisionManager::free);
 	}
