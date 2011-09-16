@@ -47,7 +47,12 @@ template<class T> class deque
          long   currentindex;    							 //!< Current index. An index, which indicates a current node position
 
 		 long   sz;              							 //!< Size of list.
-         /*! Procedure that cleans all list
+public:
+		 /*! Checks a corection
+		 */
+		 bool correct() { return currentindex<sz || (sz==0 && currentindex==0); }
+private:
+		 /*! Procedure that cleans all list
 		 */
 		 void makeClear();
 		 /*! Jump to previous nodes by amount of jumps

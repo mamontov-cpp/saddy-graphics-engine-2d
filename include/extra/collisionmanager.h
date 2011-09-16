@@ -24,9 +24,10 @@ class CollisionHandler
 			 second is a second group
 		 */
 	     void (*fun)(void * o1, void * o2);
+ protected:
 		 /* Default constructor
 		 */
-	     CollisionHandler();
+	    inline CollisionHandler() {}
  public:
 	     /*! Creates a handler
 		     \param[in] f called function
@@ -45,7 +46,34 @@ class CollisionHandler
 		 */
 		 virtual ~CollisionHandler();
 };
-
+/*! Declares a handler for classes
+*/
+template<
+typename _Class1,
+typename _Class2
+>
+class CMHandler: public CollisionHandler
+{
+private:
+	     void (*m_funt)(_Class1 * o1, _Class2 * o2);
+public:
+		 /*! Creates a handler
+		     \param[in] f called function
+		 */
+	    CMHandler(void (*f)(_Class1 * o1, _Class2 * o2)) {m_funt=f;}
+		 /*! Clones an existing handler
+		     \return new handler
+		 */
+		 virtual CollisionHandler * clone() const { return new CMHandler(m_funt); }
+		 /*! Calls a handler
+		     \param[in] o1 object of first group
+			 \param[in] o2 object of second group
+		 */
+		 virtual void operator()(void * o1,void * o2) { if (m_funt) m_funt(static_cast<_Class1 *>(o1),static_cast<_Class2 *>(o2));}
+		 /*  Destructor
+		 */
+		 virtual ~CMHandler() {}
+};
 /*! Class,that provides a managing of collisions in game
     Use ::test() to detect a collision and call handler.
 */
@@ -92,7 +120,7 @@ class CollisionManager
 			  /*! Copy constructor
 				  \param[in] o object
 			  */
-			  inline TestTask(const TestTask & o) {type1=o.type1; type2=o.type2; tester=o.tester; handler=o.handler->clone(); }
+			  inline TestTask(const TestTask & o) {type1=o.type1; type2=o.type2; tester=o.tester; if (o.handler) handler=o.handler->clone(); else handler=NULL;  }
 			  /*! Testing data.
 			  */
 			  inline void test(void* op1,void* op2) {if (tester(op1,op2)) (*handler)(op1,op2); }

@@ -43,7 +43,7 @@ void  CollisionManager::commitAddingTestTasks()
 	m_test_tasks_adds_lock.lock();
 	if (m_task_to_add.count()!=0)
 	{
-		for (unsigned int i=0;m_task_to_add.count();i++)
+		for (unsigned int i=0;i<m_task_to_add.count();i++)
 			commitTestTaskImmediately(m_task_to_add[i].p1().p1(),m_task_to_add[i].p1().p2(),
 			                          m_task_to_add[i].p2().p1(),const_cast<CollisionHandler *>(m_task_to_add[i]._2()._2())
 						             );
@@ -251,6 +251,9 @@ void addTestingTask()
 
 void killTestingTask()
 {
-	CTTaskInstance::i()->die();
-	CTTaskInstance::zero();
+	if (CTTaskInstance::i())
+	{
+	 CTTaskInstance::i()->die();
+	 CTTaskInstance::zero();
+	}
 }
