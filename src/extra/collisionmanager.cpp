@@ -119,6 +119,24 @@ int  CollisionManager::findObject(void * p)
 void CollisionManager::commitObjectAdding()
 {
  m_add_lock.lock();
+ if (m_remove_tasks.count())
+ {
+	 for (int i=0;i<m_remove_tasks.count();i++)
+	 {
+		 bool same=false;
+		 for (int j=0;(j<m_adding_tasks.count()) && (!same);j++)
+		 {
+			 if (m_adding_tasks[j].p2()==m_remove_tasks[i])
+			 {
+				 m_remove_tasks.removeAt(i);
+				 m_adding_tasks.removeAt(j);
+				 --i;
+				 --j;
+				 same=true;
+			 }
+		 }
+	 }
+ }
  if (m_adding_tasks.count())
  {
 	 for (int i=0;i<m_adding_tasks.count();i++)
@@ -175,6 +193,7 @@ void CollisionManager::testForCollision(int i)
 		}
 	}
 }
+
 void CollisionManager::testEveryGroup()
 {
 	for (int i=0;i<m_tasks.count();i++)
@@ -224,6 +243,16 @@ void CollisionManager::remove(void * obj)
 		Instance->m_remove_lock.unlock();
 	}
 }
+void CollisionManager::flush()
+{
+	if (instance())
+	{
+		Instance->m_objects.clear();
+		Instance->m_reverse_objects.clear();
+		Instance->m_adding_tasks.clear();
+		Instance->m_remove_tasks.clear();
+	}
+}
 void CollisionManager::test()
 {
 	if (instance())
@@ -238,7 +267,11 @@ void CollisionManager::test()
 class CollisionTestingTask: public sad::RepeatingTask
 {
  public:
-	   inline CollisionTestingTask(): sad::RepeatingTask(CollisionManager::test) {}
+	   inline CollisionTestingTask(): sad::RepeatingTask(CollisionManager::test) 
+	   {
+		   CollisionManager::flush();
+	   }
+	   inline ~CollisionTestingTask() {CollisionManager::flush();}
 };
 typedef Instance<CollisionTestingTask> CTTaskInstance;
 

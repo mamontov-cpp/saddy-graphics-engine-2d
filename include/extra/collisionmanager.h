@@ -231,6 +231,9 @@ class CollisionManager
 	/*! Tests an objects for collision
 	*/
 	static void test();
+	/*! Flushes all objects
+	*/
+	static void flush();
 };
 /*! Adds a collision testing task as a post-render task
 */

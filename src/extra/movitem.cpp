@@ -148,12 +148,13 @@ enemy_texc[3]
 #define SE_BULLET_SPEED 0.8
 void ShootingEnemy::render()
 {
-	if ((clock()-m_lastclock)/(float)CLOCKS_PER_SEC*1000>SHOOT_FREQ)
+	m_lastclock++;
+	if (m_lastclock>SHOOT_FREQ/5)
 	{
-		m_lastclock=clock();
 		Vector bdir(SE_BULLET_SPEED*cos(m_angle),SE_BULLET_SPEED*sin(m_angle));
 		if (!paused)
 		sad::Renderer::instance().getCurrentScene()->markForAddition(new EnemyBullet(bdir,this->middle()));
+		m_lastclock=0;
 	}
 	this->MovingObject::render();
 }
@@ -183,7 +184,8 @@ SuperShootingEnemy::~SuperShootingEnemy()
 
 void SuperShootingEnemy::render()
 {
-	if ((clock()-m_lastclock)/(float)CLOCKS_PER_SEC*1000>1.35*SHOOT_FREQ)
+	m_lastclock++;
+	if (m_lastclock>SHOOT_FREQ/3)
 	{
 		if (paused) return;
 		float a=atan2(v().y(),v().x());
@@ -196,7 +198,7 @@ void SuperShootingEnemy::render()
 			sad::Renderer::instance().getCurrentScene()->markForAddition(new ShootingEnemy(bdir,m));
 			a+=M_PI_2;
 		}
-		m_lastclock=clock();
+		m_lastclock=0;
 	}
 	this->MovingObject::render();
 }
@@ -246,7 +248,7 @@ void createRandomEnemy(const Vector & v, const hPointF & p)
 	int wh=rand() % 5;
 	static clock_t clk;
 	if (clock()-clk<BOSS_SPAWN_TIME && wh==4)  wh=2;
-	if (wh==4) clk=clock();
+	if (wh==4) { clk=clock();   }
 	adders[wh](v,p);
 }
 #define RAIN_SPEED 0.5

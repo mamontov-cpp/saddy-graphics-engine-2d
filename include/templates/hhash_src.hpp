@@ -58,12 +58,11 @@ template<typename T>
 		 assert( m_data[i].correct() );
 	 for (unsigned int i=0;i<m_tmp.count();i++)
 	 {
-		 typename slot::iterator it=m_tmp[i].begin();
-		 while(it.dereferencable())
-		 {
-			 m_data[ getHash( (*it).p1(),m_table_size)  ]
-			 << hst::pair<Key,T>((*it).p1(),(*it).p2());
-             ++it;
+		 slot & from=m_tmp[i];
+         for(int j=0;j<from.count();j++)
+         {
+			 hst::pair<Key,T> & it=from[j];
+			 m_data[ getHash( (it).p1(),m_table_size)  ] << it;
 		 }
 	 }
 	 for (unsigned int i=0;i<m_table_size;i++)
@@ -100,11 +99,12 @@ template<typename T>
     unsigned long ind=getHash(k,m_table_size);
     typename slot::iterator it=m_data[ind].begin();
     bool     foundflag=false; // Whether we are found
-	while(it.dereferencable())
+	slot & dl=m_data[ind];
+   for(int i=0;(i<dl.count()) && !foundflag;i++)
 	{
-	  if ((*it).p1()==k)
+	  if (dl[i].p1()==k)
 	  {
-	    (*it).set2(v);
+	    dl[i].set2(v);
         foundflag=true;
 	  }
 	  ++it;
@@ -119,61 +119,54 @@ template<typename T>
  TDEF const T & hash<Key,T>::operator[](const Key & k) const
  {
    unsigned long ind=getHash(k,m_table_size);
-   typename slot::const_iterator it=m_data[ind].const_begin();
-   while(it.dereferencable())
+   slot & dl=m_data[ind];
+   for(int i=0;i<dl.count();i++)
    {
-	  if ((*it).p1()==k)
+	  if (dl[i].p1()==k)
 	  {
-	    return (*it).p2();
+	    return dl[i].p2();
 	  }
-	  ++it;
    }
    return *(new T());
  }
  TDEF  bool hash<Key,T>::contains(const Key &k) const
  {
   unsigned long ind=getHash(k,m_table_size);
-  typename slot::const_iterator it=m_data[ind].const_begin();
-  while(it.dereferencable())
+  const slot & dl=m_data[ind];
+  for(int i=0;i<dl.count();i++)
   {
-	  if ((*it).p1()==k)
+	  if (dl[i].p1()==k)
 	  {
 	    return true;
 	  }
-	  ++it;
   }
   return false;
  }
  TDEF  T & hash<Key,T>::operator[](const Key & k)
  {
    unsigned long ind=getHash(k,m_table_size);
-   typename slot::iterator it=m_data[ind].begin();
-   while(it.dereferencable())
+   slot & dl=m_data[ind];
+   for(int i=0;i<dl.count();i++)
    {
-	  if ((*it).p1()==k)
+	  if (dl[i].p1()==k)
 	  {
-	    return *(const_cast<T*>( &(*it).p2() ));
+	    return *(const_cast<T*>( &(dl[i].p2()) ));
 	  }
-	  ++it;
    }
    return *(new T());
  }
  TDEF void hash<Key,T>::remove(const Key & k)
  {
    unsigned long ind=getHash(k,m_table_size);
-   typename slot::iterator it=m_data[ind].begin();
+   slot & dl=m_data[ind];
    bool notfound=true;
-   while((it.dereferencable()) && (notfound))
+   for (int i=0;(i<dl.count()) && (notfound);i++)
    {
-	  if ((*it).p1()==k)
-	  {
-	    it.erase();
-		notfound=false;
-	  }
-	  else
-	  {
-	   ++it;
-	  }
+	   if (dl[i].p1()==k)
+	   {
+		   dl.removeAt(i);
+		   notfound=false;
+	   }
    }
    if (!notfound) --m_count;
  }

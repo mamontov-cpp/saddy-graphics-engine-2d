@@ -20,7 +20,9 @@ class Player: public Collidable
 		 float       m_angle;   //!< Angle
 		 float       m_velocity[2]; //!< Player velocity
 		 clock_t     m_lastshot;    //!< Time,when last shot was performed
+		 int         m_key;         //!< Key what is pressed
  public:
+	     inline int &  key() {return m_key; }
 	     inline void toggleVelocityX(float x) {
 		 m_velocity[0]=x;
 		 }
