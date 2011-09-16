@@ -19,6 +19,7 @@ class Player: public Collidable
 		 bool        m_first_render; //!< First rendering
 		 float       m_angle;   //!< Angle
 		 float       m_velocity[2]; //!< Player velocity
+		 clock_t     m_lastshot;    //!< Time,when last shot was performed
  public:
 	     inline void toggleVelocityX(float x) {
 		 m_velocity[0]=x;

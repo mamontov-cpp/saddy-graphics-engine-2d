@@ -86,13 +86,18 @@ void Player::render()
 	this->Sprite::render();
 }
 
+#define BULLET_SPEED 0.45f
+#define SHOOT_FREQ 450
 void Player::shoot()
 {
-	float fx=0.07*cos(m_angle);
-	float fy=0.07*sin(m_angle);
+	if (clock()-m_lastshot<SHOOT_FREQ) return;
+
+	float fx=BULLET_SPEED*cos(m_angle);
+	float fy=BULLET_SPEED*sin(m_angle);
    
-	//sad::Renderer::instance().getCurrentScene()->markForAddition
-	//	( new PlayerBullet(Vector(fx,fy),this->middle());
+	sad::Renderer::instance().getCurrentScene()->markForAddition
+		(  new PlayerBullet(Vector(fx,fy),this->middle()));
+	m_lastshot=clock();
 }
 
 Player::~Player()
@@ -113,6 +118,7 @@ hRectF(hPointF(0,87),hPointF(87,174))
 	newPoint()=oldPoint();
 	m_velocity[0]=m_velocity[1]=0.0f;
 	m_first_render=true;
+	m_lastshot=0;
 	//CollisionManager::add(this);
 	PlayerInstance::set(this);
 }
