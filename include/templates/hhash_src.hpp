@@ -54,6 +54,8 @@ template<typename T>
 	 m_table_size+=19;
 	 for (unsigned int i=0;i<m_table_size;i++)
 		 m_data<<slot();
+	 for (unsigned int i=0;i<m_table_size;i++)
+		 assert( m_data[i].correct() );
 	 for (unsigned int i=0;i<m_tmp.count();i++)
 	 {
 		 typename slot::iterator it=m_tmp[i].begin();
@@ -64,6 +66,8 @@ template<typename T>
              ++it;
 		 }
 	 }
+	 for (unsigned int i=0;i<m_table_size;i++)
+		 assert( m_data[i].correct() );
  }
  TDEF bool hash<Key,T>::checkExtend()
  {

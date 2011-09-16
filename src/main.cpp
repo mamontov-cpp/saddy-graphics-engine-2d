@@ -14,6 +14,7 @@
 #endif
 #endif
 
+
 void rend_quit(const sad::Event & o)
 {
 	sad::Renderer::instance().quit();
@@ -150,6 +151,7 @@ bool toggle_idle(int)
 	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
 
 	sc->performCleanup();
+	killTestingTask();
 	sc->markForAddition(new Background("title"));
 	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
 	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
@@ -164,7 +166,7 @@ bool toggle_play(int)
 	player_health_point=10;
 
 	sc->performCleanup();
-	//sc->markForAddition(new CollisionTester());
+	addTestingTask();
 	sc->markForAddition(new Background("background"));
 	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
 	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
@@ -198,6 +200,8 @@ void playerenemybullet(Collidable * player, Collidable * enemybullet)
   --player_health_point;
   if (player_health_point<=0) StateMachine::pushState(IDLE_STATE);
 }
+
+typedef CMHandler<Collidable,Collidable> CCHandler;
 
 #ifdef WIN32
 #ifndef MSVC_RELEASE
@@ -282,7 +286,7 @@ int main(int argc, char** argv)
 
 	//CollisionManager::bind(PlayerBullet::ID,Enemy::ID,new CollisionHandler(playerbullet));
 	//CollisionManager::bind(PlayerBullet::ID,ShootingEnemy::ID,new CollisionHandler(playerbullet));
-	//CollisionManager::bind(Player::ID,Bonus::ID,new CollisionHandler(playerbonus));				 
+	CollisionManager::bind(Player::ID,Bonus::ID,testCollidables,new CCHandler(playerbonus));				 
 	//CollisionManager::bind(Player::ID,EnemyBullet::ID,new CollisionHandler(playerenemybullet));
 	//CollisionManager::bind(Player::ID,Enemy::ID,new CollisionHandler(playerenemybullet));
 	//CollisionManager::bind(Player::ID,ShootingEnemy::ID,new CollisionHandler(playerenemybullet));
