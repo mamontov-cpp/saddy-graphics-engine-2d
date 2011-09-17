@@ -191,27 +191,31 @@ void playerbullet(Collidable * bullet,Collidable * enemy)
 {
 	current_score+=100;
 	if (current_score>high_score) { high_score=current_score; }
-	sad::Renderer::instance().getCurrentScene()->markForDeletion(enemy);
+	enemy->die();
 }
 void playerbonus(Collidable * player, Collidable * bonus)
 {
 	current_score+=50;
 	if (current_score>high_score) { high_score=current_score; }
 	++player_health_point;
-	sad::Renderer::instance().getCurrentScene()->markForDeletion(bonus);
+	bonus->die();
 }
 void playerenemybullet(Collidable * player, Collidable * enemybullet)
 {
-  sad::Renderer::instance().getCurrentScene()->markForDeletion(enemybullet);
+  enemybullet->die();
   --player_health_point;
-  if (player_health_point<=0) StateMachine::pushState(IDLE_STATE);
+  if (player_health_point<=0) 
+  {
+	  PlayerInstance::i()->die(); 
+	  StateMachine::pushState(IDLE_STATE); 
+  }
 }
 
 typedef CMHandler<Collidable,Collidable> CCHandler;
 void pbssenemy(Collidable * bullet, SuperShootingEnemy * p)
 {
 	p->hit();
-	sad::Renderer::instance().getCurrentScene()->markForDeletion(bullet);
+	bullet->die();
 }
 
 void testplayer(const sad::Event & ev);

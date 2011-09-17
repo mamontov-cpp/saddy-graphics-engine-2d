@@ -102,7 +102,7 @@ void Player::shoot()
 
 Player::~Player()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 	PlayerInstance::zero();
 }
 

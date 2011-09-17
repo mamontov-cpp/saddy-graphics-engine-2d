@@ -23,13 +23,17 @@ void MovingObject::render()
 	bool del=bb[0].x()<BOUND_X1 || bb[1].x()>BOUND_X2 
 		  || bb[2].y()<BOUND_Y1 || bb[3].y()>BOUND_Y2;
     if (del)
-		sad::Renderer::instance().getCurrentScene()->markForDeletion(this);
-	newPoint()=bb;
-	this->moveBy(newPoint()[0]-oldPoint()[0]);
-	m_angle+=ROTATE_SPEED;
-	rotate(ROTATE_SPEED,0.0f);
+		this->die();
+	else
+	{
+	 newPoint()=bb;
+	 this->moveBy(newPoint()[0]-oldPoint()[0]);
+	 m_angle+=ROTATE_SPEED;
+	 rotate(ROTATE_SPEED,0.0f);
+	 this->Sprite::render();
 	}
-	this->Sprite::render();
+	}
+	else this->Sprite::render();
 }
 
 #define BBOX_PERCENT 0.9
@@ -56,7 +60,7 @@ hRectF(hPointF(441,0),hPointF(452,11))
 }
 PlayerBullet::~PlayerBullet()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 
 #define EB_WH 4.5
@@ -74,7 +78,7 @@ hRectF(hPointF(440,12),hPointF(458,33))
 }
 EnemyBullet::~EnemyBullet()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 
 #define BONUS_WH 8.5f
@@ -92,7 +96,7 @@ hRectF(hPointF(1,1),hPointF(86,86))
 }
 Bonus::~Bonus()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 
 hRectF  enemy_texc[4]={
@@ -123,12 +127,12 @@ createEnemyRect()
 
 Enemy::~Enemy()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 
 ShootingEnemy::~ShootingEnemy()
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 #undef  ENEMY_WH
 #define ENEMY_WH 9.5f
@@ -159,7 +163,12 @@ void ShootingEnemy::render()
 	this->MovingObject::render();
 }
 void SuperShootingEnemy::hit()
-{--m_lifes; if (!m_lifes) sad::Renderer::instance().getCurrentScene()->markForDeletion(this); }
+{
+ --m_lifes; 
+ if (!m_lifes) this->die(); 
+ if (m_lifes<0)
+	 assert(false && "WTF!");
+}
 
 #undef  ENEMY_WH
 #define ENEMY_WH 13.5f
@@ -179,7 +188,7 @@ enemy_texc[3]
 }
 SuperShootingEnemy::~SuperShootingEnemy() 
 {
-	CollisionManager::remove(this);
+	//CollisionManager::remove(this);
 }
 
 void SuperShootingEnemy::render()

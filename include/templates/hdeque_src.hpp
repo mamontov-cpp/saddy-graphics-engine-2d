@@ -61,6 +61,7 @@ template<class T> void deque<T>::makeClear()
  {
   while (i<sz)
   {
+    assert(curr);
     next=curr->next;
     curr->~node();
 	free(curr);

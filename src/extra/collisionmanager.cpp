@@ -1,5 +1,13 @@
 #include "collisionmanager.h"
+#include "rigid_body.h"
+#include "../renderer.h"
 #include <stdlib.h>
+
+void Collidable::die()
+{
+	sad::Renderer::instance().getCurrentScene()->markForDeletion(this);
+	CollisionManager::remove(this);
+}
 
 CollisionHandler::CollisionHandler(void (*f)(void * o1, void * o2))
 {
@@ -259,6 +267,7 @@ void CollisionManager::test()
 	{
 		Instance->commitAddingTestTasks();
 		Instance->commitObjectAdding();
+		Instance->commitObjectRemoval(); //If somebody died while rendering we must kill them
 		Instance->testEveryGroup();
 		Instance->commitObjectRemoval();
 		Instance->commitTestTaskRemoval();
