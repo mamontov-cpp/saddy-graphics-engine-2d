@@ -92,6 +92,9 @@ class Collidable: public RigidBody, public Sprite
 		 /*! Renders as spite
 		 */
 		 virtual void render()=0;
+		 /*! Removes an object from scene
+		 */
+		 virtual void die();
 		 /*! Detects a collision between two collidable
 			 \param[in] o other object
 			 \return    object
