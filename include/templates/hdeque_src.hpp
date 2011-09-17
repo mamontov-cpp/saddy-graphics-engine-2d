@@ -4,7 +4,6 @@
 #include <stdio.h>
 #define HPTRNULL 0
 
-#define CHECK if(!(currentindex<sz || sz==0)) { const_cast<deque *>(this)->currentindex=0; const_cast<deque *>(this)->currentnode=firstnode; } assert((currentindex<sz || sz==0) && "CHECKMACROFAIL");
 namespace hst
 {
 template<class T> deque<T>::node::node(typename deque<T>::node *previous, typename deque<T>::node *next, T *me)
@@ -27,7 +26,7 @@ template<class T> deque<T>::deque()
 	currentnode=NULL;
 	currentindex=0;
 	sz=0;
-	CHECK
+	
 }
 template<class T> deque<T>::deque(const deque & h)
 {
@@ -37,14 +36,14 @@ template<class T> deque<T>::deque(const deque & h)
 	currentindex=0;
 	sz=0;
 	add(h);
-	CHECK
+	
 }
 template<class T> deque<T> & deque<T>::operator=(const deque & h)
 {
-	CHECK
+	
 	this->makeClear();
 	this->add(h);
-	CHECK
+	
 	return *this;
 }
 template<class T> void deque<T>::clear()
@@ -53,7 +52,7 @@ template<class T> void deque<T>::clear()
 }
 template<class T> void deque<T>::makeClear()
 {
- CHECK
+ 
  node * curr=firstnode;
  node * next;
  long   i=0;
@@ -77,7 +76,7 @@ template<class T> void deque<T>::makeClear()
 }
 template<class T> deque<T>::~deque()
 {
-   CHECK
+   
    makeClear();
 }
 
@@ -87,7 +86,7 @@ template<class T> bool deque<T>::empty() const {return count()==0;}
 template<class T> deque<T> & deque<T>::addFront(const T & obj) {return insert(obj,0);}
 template<class T> deque<T> & deque<T>::add(const T & obj)
 {
- CHECK
+ 
  if (sz==0)
  {
     firstnode=new node(NULL, NULL, new T(obj));
@@ -116,13 +115,13 @@ template<class T> deque<T> & deque<T>::add(const T & obj)
 	++sz;
   }
  }
- CHECK
+ 
  return *this;
 }
 
 template<class T> deque<T> & deque<T>::operator<<(const T & obj)
 {
-	CHECK
+	
 	return add(obj);
 }
 template<class T> void deque<T>::dbg_ass(const char * cp) const
@@ -152,27 +151,27 @@ template<class T> const T &  deque<T>::operator[](long i) const
 
 template<class T> void * deque<T>::jumpPrevious(class deque<T>::node * from,long jumps) const
 {
-	CHECK
+	
     long i;
     node * res=from;
     for (i=0;i<jumps;i++)
         res=res->previous;
-	CHECK
+	
     return (void*)res;
 }
 template<class T> void * deque<T>::jumpNext(class deque<T>::node * from,long jumps) const
 {
-	CHECK
+	
     long i;
     node * res=from;
     for (i=0;i<jumps;i++)
         res=res->next;
-	CHECK
+	
     return (void*)res;
 }
 template<class T> typename deque<T>::node *   deque<T>::getNode(long i) const
 {
-	CHECK
+	
 	if (i<0 || i>=sz) return new node(NULL,NULL,new T());
 	long fdist=i,ldist=sz-1-i; //Distances from first nodes and last nodes
 	long cdist;
@@ -215,12 +214,12 @@ template<class T> typename deque<T>::node *   deque<T>::getNode(long i) const
 	assert(i<sz);
     me->currentindex=i;
     me->currentnode=(node*)res;
-	CHECK
+	
     return (node*)res;
 }
 template<class T> deque<T> & deque<T>::insert(const T &obj,long i)
 {
-	CHECK
+	
 	if (i>=sz) return add(obj);
 	if (i<=0)
 	{
@@ -243,7 +242,7 @@ template<class T> deque<T> & deque<T>::insert(const T &obj,long i)
         currentnode=newnode;
 	}
 	++sz;
-	CHECK
+	
 	return *this;
 }
 template<class T> deque<T> & deque<T>::add(const deque & o)
@@ -251,17 +250,17 @@ template<class T> deque<T> & deque<T>::add(const deque & o)
 	long i;
 	for (i=0;i<o.count();i++)
 		add(o[i]);
-	CHECK
+	
 	return *this;
 }
 template<class T> deque<T> & deque<T>::operator<<(const deque & o)
 {
-	CHECK
+	
 	return add(o);
 }
 template<class T> deque<T> & deque<T>::operator>>(T & obj)
 {
-	CHECK
+	
 	if (sz==0) {obj=T(); return *this;}
     if (sz==1)
 	{
@@ -285,12 +284,12 @@ template<class T> deque<T> & deque<T>::operator>>(T & obj)
 		currentnode=lastnode;
 		currentindex=sz-1;
 	}
-	CHECK
+	
 	return *this;
 }
 template<class T> deque<T> & deque<T>::removeAt(long i)
 {
-	CHECK
+	
 	if (i<0 || i>=sz) {return *this;}
     if (sz==0)        {return *this;}
     if (sz==1)
@@ -351,19 +350,18 @@ template<class T> deque<T> & deque<T>::removeAt(long i)
 		 }
 	  }
 	}
-	CHECK
+	
 	return *this;
 }
 template<class T> void     deque<T>::yield(void (*fptr)(T & obj))
 {
-	CHECK
 	long i;
 	for (i=0;i<sz;i++)
 		(*fptr)( (*this)[i]);
 }
 template<class T> deque<T> & deque<T>::remove(const T& obj)
 {
-	CHECK
+	
     long i;
     for (i=0;i<sz;i++)
     {
@@ -377,7 +375,7 @@ template<class T> deque<T> & deque<T>::remove(const T& obj)
 }
 template<class T> deque<T> & deque<T>::removeFirst(const T& obj)
 {
-	CHECK
+	
     long i;
     for (i=0;i<sz;i++)
     {
@@ -386,12 +384,12 @@ template<class T> deque<T> & deque<T>::removeFirst(const T& obj)
             return removeAt(i);
         }
     }
-	CHECK
+	
    return *this;
 }
 template<class T> deque<T> & deque<T>::removeLast(const T& obj)
 {
-	CHECK
+	
     long i,fnd=-1;
     for (i=0;i<sz;i++)
     {
@@ -401,16 +399,16 @@ template<class T> deque<T> & deque<T>::removeLast(const T& obj)
         }
     }
     if (fnd!=-1) removeAt(fnd);
-	CHECK
+	
    return *this;
 }
 template<class T> deque<T> & deque<T>::removeRange(long imin,long imax)
 {
-	CHECK
+	
     long i;
     for (i=imin;i<=imax;i++)
        removeAt(imin);
-	CHECK
+	
     return *this;
 }
 template<class T> deque<T> & deque<T>::push_back(const T & obj)
