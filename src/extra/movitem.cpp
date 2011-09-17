@@ -60,7 +60,7 @@ hRectF(hPointF(441,0),hPointF(452,11))
 }
 PlayerBullet::~PlayerBullet()
 {
-	//CollisionManager::remove(this);
+	
 }
 
 #define EB_WH 4.5
@@ -78,7 +78,7 @@ hRectF(hPointF(440,12),hPointF(458,33))
 }
 EnemyBullet::~EnemyBullet()
 {
-	//CollisionManager::remove(this);
+	
 }
 
 #define BONUS_WH 8.5f
@@ -96,7 +96,6 @@ hRectF(hPointF(1,1),hPointF(86,86))
 }
 Bonus::~Bonus()
 {
-	//CollisionManager::remove(this);
 }
 
 hRectF  enemy_texc[4]={
@@ -127,12 +126,12 @@ createEnemyRect()
 
 Enemy::~Enemy()
 {
-	//CollisionManager::remove(this);
+	
 }
 
 ShootingEnemy::~ShootingEnemy()
 {
-	//CollisionManager::remove(this);
+	
 }
 #undef  ENEMY_WH
 #define ENEMY_WH 9.5f
@@ -166,8 +165,7 @@ void SuperShootingEnemy::hit()
 {
  --m_lifes; 
  if (!m_lifes) this->die(); 
- if (m_lifes<0)
-	 assert(false && "WTF!");
+
 }
 
 #undef  ENEMY_WH
@@ -188,7 +186,7 @@ enemy_texc[3]
 }
 SuperShootingEnemy::~SuperShootingEnemy() 
 {
-	//CollisionManager::remove(this);
+	
 }
 
 void SuperShootingEnemy::render()
