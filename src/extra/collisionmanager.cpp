@@ -127,24 +127,6 @@ int  CollisionManager::findObject(void * p)
 void CollisionManager::commitObjectAdding()
 {
  m_add_lock.lock();
- if (m_remove_tasks.count())
- {
-	 for (int i=0;i<m_remove_tasks.count();i++)
-	 {
-		 bool same=false;
-		 for (int j=0;(j<m_adding_tasks.count()) && (!same);j++)
-		 {
-			 if (m_adding_tasks[j].p2()==m_remove_tasks[i])
-			 {
-				 m_remove_tasks.removeAt(i);
-				 m_adding_tasks.removeAt(j);
-				 --i;
-				 --j;
-				 same=true;
-			 }
-		 }
-	 }
- }
  if (m_adding_tasks.count())
  {
 	 for (int i=0;i<m_adding_tasks.count();i++)
