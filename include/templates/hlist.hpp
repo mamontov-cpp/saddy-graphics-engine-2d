@@ -7,6 +7,9 @@
 */
 #pragma once
 
+#ifndef __H_LINEARLIST_HPP
+	#define __H_LINEARLIST_HPP
+	
 namespace hst
 {
 /*! \class  list
@@ -152,3 +155,5 @@ template<class T> class list
        #include "hlist_src.hpp"
 #endif
 #define HI_LINEAR_LIST_H
+
+#endif

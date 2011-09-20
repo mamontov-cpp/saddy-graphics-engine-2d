@@ -7,6 +7,8 @@
 */
 #pragma once
 
+#ifndef __H_DEQUE_HPP
+	#define __H_DEQUE_HPP
 namespace hst
 {
 /*! \class  deque
@@ -402,3 +404,5 @@ private:
        #include "hdeque_src.hpp"
 #endif
 #define HI_DEQUE_H
+
+#endif

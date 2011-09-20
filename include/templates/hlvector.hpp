@@ -8,7 +8,8 @@
 #include <string.h>
 #pragma once
 
-
+#ifndef __H_LINEAR_VECTOR
+	#define __H_LINEAR_VECTOR
 namespace hst
 {
 /*! \struct vector_pool
@@ -197,3 +198,5 @@ void  operator delete(void * pp, hst::vector_pool<T> *  _pool, unsigned long all
        #include "hlvector_src.hpp"
 #endif
 #define HI_LVECTOR_H
+
+#endif

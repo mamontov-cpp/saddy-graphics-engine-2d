@@ -9,6 +9,8 @@
 #include <string>
 #pragma once
 
+#ifndef __HWSTRING_H
+	#define __HWSTRING_H
 namespace hst
 {
   template<typename T> class list;
@@ -110,3 +112,5 @@ namespace hst
 		   void removeLast(const wstring & o);
   };
 }
+
+#endif

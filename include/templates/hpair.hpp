@@ -7,6 +7,8 @@
 */
 #pragma once
 
+#ifndef __HPAIR_HPP
+	#define __HPAIR_HPP
 namespace hst
 {
 /*! \class  pair
@@ -183,4 +185,6 @@ class triplet
 #ifndef HI_PAIR
     #define HI_PAIR
     #include "hpair_src.hpp"
+#endif
+
 #endif

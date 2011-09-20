@@ -10,6 +10,8 @@
 #include "hpair.hpp"
 #pragma once
 
+#ifndef __H_HASH_HPP
+ #define __H_HASH_HPP
 namespace hst
 {
   /*! Hashes basically a 0-terminated string. Based on ElfHash
@@ -241,3 +243,5 @@ namespace hst
 
 
 #include "hhash_src.hpp"
+
+#endif
