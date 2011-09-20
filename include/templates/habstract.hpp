@@ -6,6 +6,9 @@
 	This file contains a definition of types, which are not directly used.
 */
 #pragma once
+
+#ifndef __H_ABSTRACT_H
+ #define __H_ABSTRACT_H
 namespace hst
 {
 /*! Definition of sort direction. Used in
@@ -21,3 +24,5 @@ enum sortorder
 /*! Convenience typedef
 */
 typedef   hst::sortorder hSortOrder;
+#endif
+ 

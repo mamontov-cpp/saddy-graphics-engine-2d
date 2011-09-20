@@ -11,6 +11,8 @@
 #include <malloc.h>
 #pragma once
 
+#ifndef __HSTRING_H
+   #define __HSTRING_H
 namespace hst
 {
 
@@ -362,3 +364,5 @@ class string
 /*! Convenience typedef
 */
 typedef hst::string hString;
+
+#endif

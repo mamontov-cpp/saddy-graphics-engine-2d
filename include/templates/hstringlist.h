@@ -8,6 +8,8 @@
 #pragma once
 #include "hstring.h"
 
+#ifndef __HSTRINGLIST_H
+   #define __HSTRINGLIST_H
 namespace hst
 {
 /*! \class  stringlist
@@ -74,3 +76,5 @@ class  stringlist
 /*! Convenience typedef
 */
 typedef hst::stringlist hStringList;
+
+#endif

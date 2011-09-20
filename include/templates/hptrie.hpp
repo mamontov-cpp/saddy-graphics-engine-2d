@@ -9,6 +9,8 @@
 #include "hdeque.hpp"
 #pragma once
 
+#ifndef __H_PTRIE_HPP
+	#define __H_PTRIE_HPP
 namespace hst
 {
     /*! \class ptrie
@@ -257,4 +259,6 @@ namespace hst
 #ifndef HI_PTRIE
        #define HI_PTRIE
        #include "hptrie_src.hpp"
+#endif
+
 #endif
