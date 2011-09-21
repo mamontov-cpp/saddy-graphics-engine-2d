@@ -349,6 +349,10 @@
 				Name="extra"
 				>
 				<File
+					RelativePath=".\src\extra\background.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\collisionmanager.cpp"
 					>
 				</File>
@@ -566,6 +570,10 @@
 			<Filter
 				Name="extra"
 				>
+				<File
+					RelativePath=".\include\extra\background.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\extra\collisionmanager.h"
 					>
