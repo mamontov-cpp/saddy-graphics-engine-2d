@@ -142,6 +142,22 @@ inline float scalar(const vector32 & v1, const vector32 & v2) { return v1.x()*v2
 bool collides(const BoundingBox & old_1,const BoundingBox & new_1,
 			  const BoundingBox & old_2,const BoundingBox & new_2
 			  );
+/*! Tests, whether body and line are colliding
+	\param[in] old old position of body
+	\param[in] nwp  new position of body
+	\param[in] p1  first point of line
+	\param[in] p2  second point of line
+	\return true if colliding
+*/
+bool collides(const BoundingBox & old, const BoundingBox & nwp,
+			  const ::s3d::point & p1, const ::s3d::point & p2 );
+/*! Tests, whether body and line are colliding
+	\param[in] b body
+	\param[in] p1 first point of line
+	\param[in] p2 second point of line
+	\return true if colliding
+*/ 
+bool collides(const RigidBody & b,const ::s3d::point & p1, const ::s3d::point & p2);
 /*! Moves box on distance
 	\param[in,out] box moving box
 	\param[in]     v   vector

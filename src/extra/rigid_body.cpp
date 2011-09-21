@@ -110,8 +110,59 @@ bool collides(const BoundingBox & old_1,const BoundingBox & new_1,
 			result=collides21 && collides22;
 		}
 	}
+#undef IF_SET
 	return result;
 }
+
+bool collides(const BoundingBox & old, const BoundingBox & nwp,
+			  const ::s3d::point & p1, const ::s3d::point & p2 )
+{
+ bool result=true;
+ boxes b; b.b[0]=&old; b.b[1]=&nwp;
+ collide_info ci;
+
+ point_testers 
+ tester=testers[(nwp[0].x()>old[0].x())?1:0][(nwp[0].y()>old[0].y())?1:0];
+ tester(ci,b);
+
+ //Test horizontal and vertical axis
+ bool collides_x=collides1D(ci.px[0]->x(),ci.px[1]->x(),p1.x(),p2.x());
+ bool collides_y=collides1D(ci.px[0]->y(),ci.px[1]->y(),p1.y(),p2.y());
+ result=collides_x && collides_y;
+ if (result)
+ {
+   //Calculate projections on axis of first body
+		::s3d::point axe_11=p2-p1;
+		normalize(axe_11);
+		::s3d::point axe_12=ortho(axe_11);
+		//Proect on first
+		float min=scalar(*(ci.px[0]),axe_11),max=scalar(*(ci.px[1]),axe_11);
+		if (min>max) std::swap(min,max);
+
+#define IF_SET(I2,AXE)  tmp=scalar(*(ci.py[I2]),AXE);       \
+				 if (tmp<min) min=tmp; if (tmp>max) max=tmp;       
+		float tmp=0.0f; 
+		IF_SET(0,axe_11);
+		IF_SET(1,axe_11);
+		bool collides11=collides1D(scalar(p1,axe_11),scalar(p2,axe_11),min,max);
+		min=scalar(*(ci.px[0]),axe_12),max=scalar(*(ci.px[1]),axe_12);
+		if (min>max) std::swap(min,max);
+		IF_SET(0,axe_12);
+		IF_SET(1,axe_12);
+		bool collides12=collides1D(scalar(p1,axe_12),scalar(p2,axe_12),min,max);
+		result=collides11 && collides12;
+#undef IF_SET
+		return result;
+ }
+ else
+	 return result;
+}
+
+bool collides(const RigidBody & b,const ::s3d::point & p1, const ::s3d::point & p2)
+{
+	return collides(b.oldPoint(),b.newPoint(),p1,p2);
+}
+
 #define PRECISION 0.00001
 float collision_time(const RigidBody & b1, const RigidBody & b2, BoundingBox & pos)
 {
