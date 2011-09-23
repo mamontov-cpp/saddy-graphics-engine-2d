@@ -32,7 +32,14 @@ Sprite::Sprite(
 {
 	m_tex=tex;
 	memcpy(m_rect,rect,4*sizeof(s3d::point));
-    if (tex_coord)  memcpy(m_tex_coord,tex_coord,8*sizeof(float));
+    if (tex_coord)
+	{
+	 for (int i=0;i<4;i++)
+	 {
+      m_tex_coord[(3-i)<<1]=tex_coord[i<<1];
+	  m_tex_coord[(3-i)<<1 | 1]=tex_coord[i<<1 | 1];
+	 }
+	}
 	else   		    memcpy(m_tex_coord,default_tex_coord,8*sizeof(float));
 }
 
@@ -47,11 +54,11 @@ Sprite::Sprite(
 	memcpy(m_rect,rect,4*sizeof(s3d::point));
     if (tex_coord)  
 	{
-	 for (int i=0;i<8;i++)
-	   if (i % 2 ==0)
-	        m_tex_coord[i]=((float)tex_coord[i])/(float)m_tex->width();
-	   else
-	        m_tex_coord[i]=((float)tex_coord[i])/(float)m_tex->height();
+	 for (int i=0;i<4;i++)
+	 {
+      m_tex_coord[(3-i)<<1]=(float)tex_coord[i<<1]/m_tex->width();
+	  m_tex_coord[(3-i)<<1 | 1]=(float)tex_coord[i<<1 | 1]/m_tex->height();
+	 }
 	}
 	else   		    memcpy(m_tex_coord,default_tex_coord,8*sizeof(float));
 }
@@ -66,8 +73,8 @@ Sprite::Sprite(
 	for (int i=0;i<4;i++)
 	{
 	 m_rect[i]=rect[i];
-	 m_tex_coord[i<<1]=texrect[i].x()/m_tex->width();
-	 m_tex_coord[i<<1 | 1]=texrect[i].y()/m_tex->height();
+	 m_tex_coord[(3-i)<<1]=texrect[i].x()/m_tex->width();
+	 m_tex_coord[(3-i)<<1 | 1]=texrect[i].y()/m_tex->height();
 	}
 }
 void Sprite::render()

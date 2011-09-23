@@ -18,7 +18,7 @@ Background::Background(const hst::string &name):
 Sprite(
 	   TEX_PTR,
 	   hst::rect< ::s3d::point>(::s3d::point(0,SCREEN_HEIGHT,0),::s3d::point(SCREEN_WIDTH,0,0)),
-	   hRectF(hPointF(0,TEX_PTR->height()),hPointF(TEX_PTR->width(),0)))
+	   hRectF(hPointF(0,0),hPointF(TEX_PTR->width(),TEX_PTR->height())))
 {
 }
 
