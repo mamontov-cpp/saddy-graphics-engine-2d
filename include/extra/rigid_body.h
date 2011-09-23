@@ -87,7 +87,7 @@ class Collidable: public RigidBody, public Sprite
 			               sad::Texture * tex, 
 				           const hst::rect< ::s3d::point> & rect,
 				           const hRectF  & texrect
-						   ):RigidBody(),Sprite(tex,rect,hRectF(texrect[3],texrect[2],texrect[1],texrect[0]))
+						   ):RigidBody(),Sprite(tex,rect,texrect)
 		 {}
 		 /*! Renders as spite
 		 */

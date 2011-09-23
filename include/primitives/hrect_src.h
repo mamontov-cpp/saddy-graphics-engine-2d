@@ -8,10 +8,8 @@ template<class T> rect<T>::rect()
 }
 template<class T> rect<T>::rect(const T & p1,const T & p2)
 {
-    if (p1.x()>p2.x()) { m_p[0].setX(p2.x());m_p[3].setX(p2.x());m_p[1].setX(p1.x());m_p[2].setX(p1.x()); }
-    else               { m_p[0].setX(p1.x());m_p[3].setX(p1.x());m_p[1].setX(p2.x());m_p[2].setX(p2.x()); }
-    if (p1.y()>p2.y()) { m_p[0].setY(p2.y());m_p[3].setY(p1.y());m_p[1].setY(p2.y());m_p[2].setY(p1.y()); }
-    else               { m_p[0].setY(p1.y());m_p[3].setY(p2.y());m_p[1].setY(p1.y());m_p[2].setY(p2.y()); }
+    m_p[0]=p1; m_p[1]=p1;  m_p[1].setX(p2.x());
+    m_p[3]=p2; m_p[2]=p2;  m_p[3].setX(p1.x());
 }
 template<class T> rect<T>::rect(const T & p1,const T & p2,const T & p3,const T & p4)
 {

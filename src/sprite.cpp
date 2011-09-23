@@ -44,7 +44,7 @@ Sprite::Sprite(
 			  )
 {
 	m_tex=tex;
-	memcpy(m_rect,rect,4*sizeof(float));
+	memcpy(m_rect,rect,4*sizeof(s3d::point));
     if (tex_coord)  
 	{
 	 for (int i=0;i<8;i++)
