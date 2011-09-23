@@ -167,6 +167,9 @@ void CollisionManager::commitObjectRemoval()
 
 void CollisionManager::testForCollision(int i)
 {
+	do
+	{
+	m_rescan_line=false;
 	TestTask & g=m_tasks[i];
 	if (!(m_objects.contains(g.type1) && m_objects.contains(g.type2))) return;
 	hst::vector<void *> & t1=m_objects[g.type1];
@@ -182,6 +185,8 @@ void CollisionManager::testForCollision(int i)
 					(*(g.handler))(o1,o2);
 		}
 	}
+	}
+	while (m_rescan_line);
 }
 
 void CollisionManager::testEveryGroup()
@@ -231,6 +236,13 @@ void CollisionManager::remove(void * obj)
 		Instance->m_remove_lock.lock();
 		Instance->m_remove_tasks<<obj;
 		Instance->m_remove_lock.unlock();
+	}
+}
+void CollisionManager::rescan()
+{
+	if (instance())
+	{
+		Instance->m_rescan_line=true;
 	}
 }
 void CollisionManager::flush()
