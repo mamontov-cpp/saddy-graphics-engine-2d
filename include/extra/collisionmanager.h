@@ -98,6 +98,9 @@ class CollisionManager
 	 /*! Lock for task removing
 	 */
 	 os::mutex  m_remove_lock;
+	 /*! Flags, that points  for rescanning note
+	 */
+	 bool m_rescan_line;
 	 /*! Class of testing task
 	 */
 	 class TestTask
@@ -234,6 +237,9 @@ class CollisionManager
 	/*! Flushes all objects
 	*/
 	static void flush();
+	/*! Tests for rescanning data
+	*/
+	static void rescan();
 };
 /*! Adds a collision testing task as a post-render task
 */

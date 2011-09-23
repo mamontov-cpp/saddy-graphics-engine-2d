@@ -19,6 +19,7 @@
 void sad::Renderer::mainLoop()
 {
  int frames=0;
+ m_fps=60;
  bool isMessagePumpActive;
  MSG msg;
 

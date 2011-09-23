@@ -179,5 +179,11 @@ namespace sad
 		*/
 		hst::point<hst::D3,float> mousePos();
 	};
-	
+
+	/*! Returns average render interval in milliseconds
+		\return average render interval in milliseconds
+	*/
+	inline float avgRenderInterval() {
+		return 1000.0f/(float)sad::Renderer::instance().fps();
+	}
 }
