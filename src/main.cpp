@@ -42,6 +42,7 @@ void rend_mouseclick(const sad::Event & o)
 	if (PlayerInstance::i() && !paused)
 	{
 		PlayerInstance::i()->shoot();
+		hst::log::inst()->write(o.x).write(hst::string(" ")).write(o.y).write(hst::string(" ")).write(o.z).write(hst::string("\n"));
 	}
 }
 #define P_SPEED 1.0

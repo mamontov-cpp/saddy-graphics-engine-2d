@@ -8,11 +8,9 @@ StateLabel::StateLabel(int what,const hst::string & s)
 	if (what==HIGHSCORE)
 	{
 		m_render=&StateLabel::renderScore;
-		this->point()=pointf(HIGHSCORE_X,HIGHSCORE_Y);
 	}
 	else
 	{
-		this->point()=pointf(STATE_X,STATE_Y);
 		m_render=&StateLabel::renderState;
 	}
 	this->render_point()=this->point();
@@ -31,6 +29,8 @@ void StateLabel::render()
 
 void StateLabel::renderScore()
 {
+  this->point()=pointf(HIGHSCORE_X,HIGHSCORE_Y);
+  this->render_point()=this->point();
   if (clock()-m_lastcl>UPDATE_FREQ)
 	{
 		m_lastcl=clock();
@@ -46,6 +46,8 @@ void StateLabel::renderScore()
 }
 void StateLabel::renderState()
 {
+  this->point()=pointf(STATE_X,STATE_Y);
+  this->render_point()=this->point();
   if (clock()-m_lastcl>UPDATE_FREQ)
 	{
 		m_lastcl=clock();

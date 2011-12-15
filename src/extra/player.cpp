@@ -109,7 +109,7 @@ Player::~Player()
 #define PLAYER_WH 11
 Player::Player(const hPointF & pos):Collidable(
 sad::TextureManager::instance()->get("objects"),
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()+PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()-PLAYER_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()-PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()+PLAYER_WH,0)),
 hRectF(hPointF(0,87),hPointF(87,174))
 )
 {

@@ -259,10 +259,10 @@ void createRandomEnemy(const Vector & v, const hPointF & p)
 	adders[wh](v,p);
 }
 #define RAIN_SPEED 0.5
-int xmax=BOUND_X2-12;
-int xmin=BOUND_X1+12;
-int ymin=BOUND_Y1+12;
-int ymax=BOUND_Y2-12;
+#define xmax (BOUND_X2-12)
+#define xmin (BOUND_X1+12)
+#define ymin (BOUND_Y1+12)
+#define ymax (BOUND_Y2-12)
 void EnemyEmitter::renderRain()
 {
  if (paused) return;
