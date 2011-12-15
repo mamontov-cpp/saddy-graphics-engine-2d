@@ -144,9 +144,9 @@ class SuperShootingEnemy: public MovingObject
 #define IDLE_RAIN  1
 #define REAL_SPAWN 2
 #define BOUND_X1 0.0f
-#define BOUND_X2 640.0f
+#define BOUND_X2  (sad::Renderer::instance().settings().width())
 #define BOUND_Y1 0.0f
-#define BOUND_Y2 480.0f
+#define BOUND_Y2  (sad::Renderer::instance().settings().height())
 /*! Class, that periodicly emits some enemies
 */
 class EnemyEmitter:public sad::BasicNode

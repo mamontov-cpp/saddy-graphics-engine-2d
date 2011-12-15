@@ -42,10 +42,9 @@ void OrthoCamera::apply()
 
 	glPushAttrib(GL_TRANSFORM_BIT);
     glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
     glLoadIdentity();
     gluOrtho2D(0,m_width,0,m_height);
-    glPopAttrib();
+	glPopAttrib();
 
 	this->Camera::apply();
 }
