@@ -47,7 +47,7 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 		 rcount  = 1,				// Counter of RLE pixels
 		 rloop	 = 0,				// Length of the block
 		 pakleft = 0;				// Number of pixels in the current block
-	bool flag;
+	//bool flag;
 	unsigned int bpp8 = data.m_TGA_bpp / 8;	// Bytes per pixel
 
 	fgetpos(hFile, &currentPos);					// Save the current position
@@ -56,7 +56,7 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 
 	fgetpos(hFile,&eofPos);							// Save the position
 #ifdef WIN32
-	fseek(hFile, currentPos, SEEK_SET);				// Move back to the current position
+	fseek(hFile, (unsigned long)currentPos, SEEK_SET);				// Move back to the current position
 #else
 	fseek(hFile, *((long*)&currentPos), SEEK_SET);
 #endif

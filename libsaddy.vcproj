@@ -108,7 +108,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="include/primitives;include/templates;include;include/extra"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
