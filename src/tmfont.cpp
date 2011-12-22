@@ -59,7 +59,7 @@ hRectF TMFont::size(const hst::string & str)
   float maxx=0.0f;
   float maxy=0.0f;
   float lenx=0.0f;
-  float leny=(m_ul['A'].y()-m_lr['A'].y())*m_tex->height();
+  float leny=(float)((m_ul['A'].y()-m_lr['A'].y())*m_tex->height());
   //Calculate total length
   for (int i=0;i<str.length();i++)
   {
@@ -71,12 +71,12 @@ hRectF TMFont::size(const hst::string & str)
 		  if (not_repeat)
 		  {
 			  if (lenx>maxx) maxx=lenx;
-			  leny+=(m_lr['A'].y()-m_ul['A'].y())*m_tex->height();
+			  leny+=(float)((m_lr['A'].y()-m_ul['A'].y())*m_tex->height());
 			  lenx=0;
 		  }
 	  }
 	  else
-	   lenx+=(m_lr[str[i]].x()-m_ul[str[i]].x())*m_tex->width();
+	   lenx+=(float)((m_lr[str[i]].x()-m_ul[str[i]].x())*m_tex->width());
   }
   maxy=leny;
   if (str.length()==0)
@@ -105,8 +105,8 @@ static void restore()
 void TMFont::render(const hst::string & str,const pointf & p)
 {
   wcs();
-  float cury=p.y();
-  float curx=p.x();
+  float cury=(float)(p.y());
+  float curx=(float)(p.x());
   m_tex->enable();
   glBegin(GL_QUADS);
   for (int i=0;i<str.length();i++)
@@ -118,26 +118,26 @@ void TMFont::render(const hst::string & str,const pointf & p)
 			  not_repeat=!( (str[i-1]=='\r' && str[i]=='\n') || (str[i-1]=='\n' && str[i]=='\r') );
 	      if (not_repeat)
 		  {
-			  cury-=(m_lr['A'].y()-m_ul['A'].y())*m_tex->height();
-			  curx=p.x();
+			  cury-=(float)((m_lr['A'].y()-m_ul['A'].y())*m_tex->height());
+			  curx=(float)(p.x());
 		  }
 	}
 	else
 	{
 	 char c=str[i];
-	 float sizex=(m_lr[c].x()-m_ul[c].x())*m_tex->width();
-	 float sizey=(m_lr[c].y()-m_ul[c].y())*m_tex->height();
+	 float sizex=(float)((m_lr[c].x()-m_ul[c].x())*m_tex->width());
+	 float sizey=(float)((m_lr[c].y()-m_ul[c].y())*m_tex->height());
 	 if (sizex==0)
 	 {
-		 sizex=(m_lr['A'].x()-m_ul['A'].x())*m_tex->width();
+		 sizex=(float)((m_lr['A'].x()-m_ul['A'].x())*m_tex->width());
 	 }
-	 glTexCoord2f(m_ul[c].x(),m_lr[c].y()); 
+	 glTexCoord2f((float)(m_ul[c].x()),(float)(m_lr[c].y())); 
  		glVertex2f(curx,cury-sizey);
-	 glTexCoord2f(m_ul[c].x(),m_ul[c].y());
+	 glTexCoord2f((float)(m_ul[c].x()),(float)(m_ul[c].y()));
  		glVertex2f(curx,cury);
-     glTexCoord2f(m_lr[c].x(),m_ul[c].y()); 
+     glTexCoord2f((float)(m_lr[c].x()),(float)(m_ul[c].y())); 
 		glVertex2f(curx+sizex,cury);
-	 glTexCoord2f(m_lr[c].x(),m_lr[c].y());
+	 glTexCoord2f((float)(m_lr[c].x()),(float)(m_lr[c].y()));
 		glVertex2f(curx+sizex,cury-sizey);
 	 curx+=sizex;
 	}
@@ -174,14 +174,14 @@ Luv::Luv(const hst::color & cl)
 {
 	Uint8 r=cl.r();Uint8 g=cl.g(); Uint8 b=cl.b();
 	float rs=(float)r/255.0f,gs=(float)g/255.0f,bs=(float)b/255.0f;
-	float X=0.412454*rs+0.35758*gs+0.180423*bs;
-	float Y=0.212671*rs+0.71516*gs+0.072169*bs;
-	float Z=0.019334*rs+0.119193*gs+0.950227*bs;
+	float X=0.412454f*rs+0.35758f*gs+0.180423f*bs;
+	float Y=0.212671f*rs+0.71516f*gs+0.072169f*bs;
+	float Z=0.019334f*rs+0.119193f*gs+0.950227f*bs;
 
 	#define Yn 1.000356f
 	float YY=Y/Yn;
 	if (YY>0.00856f) m_L=(116*powf(YY,0.33333333f)-16);
-	else             m_L=(903.3*YY);
+	else             m_L=(903.3f*YY);
 	
 	if (X<0.0001 && Y<0.0001 && Z<0.0001)
 	{
@@ -233,7 +233,7 @@ void ColorStorage::push(Uint8 r, Uint8 g, Uint8 b)
 	hst::color cl(r,g,b);
 	int i=0;
 	int found=false;
-	for (i=0;(i<m_x.count()) && (!found);i++)
+	for (unsigned i=0;(i<m_x.count()) && (!found);i++)
 	{
 		if (m_x[i]==cl)
 		{
@@ -267,14 +267,14 @@ void sad::TMFont::alphaDetermine()
 	Luv bk, fnt; //!< Background and font
 	{
 		ColorStorage cst; //Current storage
-		for (int i=0;i<cnt;i+=4)  {cst.push(p[i],p[i+1],p[i+2]);}
+		for (unsigned int i=0;i<cnt;i+=4)  {cst.push(p[i],p[i+1],p[i+2]);}
 		bk=Luv(cst.take());
 		fnt=Luv(cst.take());
 	}
 	float a=0.0f,b=0.0f;
 	float c=bk.distance(fnt);
 	if (c<0.001f) c=0.001f;
-    for (int i=0;i<cnt;i+=4)
+    for (unsigned int i=0;i<cnt;i+=4)
 	{
 		Luv rb(hst::color(p[i],p[i+1],p[i+2]));
 		int ax=22;

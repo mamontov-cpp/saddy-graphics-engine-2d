@@ -54,7 +54,7 @@ sad::Input::~Input()
 	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
 	DEL(m_keydown);
 #undef DEL
-	for (int i=0;i<m_resizelisteners.count();i++)
+	for (unsigned int i=0;i<m_resizelisteners.count();i++)
 	{
 		if (m_removelisteners[i]) delete m_resizelisteners[i];
 	}
@@ -196,7 +196,7 @@ void sad::Input::removeResizeHandler(sad::ResizeEventHandler * h)
 }
 void sad::Input::postResize (const sad::ResizeEvent & ev)         
 {                                                    
-  for (int i=0;i<m_resizelisteners.count();i++)
+  for (unsigned int i=0;i<m_resizelisteners.count();i++)
 	  (*m_resizelisteners[i])(ev);
 }                                                    
 
@@ -231,7 +231,7 @@ sad::RepeatingTask::~RepeatingTask() {}
 
 static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff)
 {
-	for (int i=0;i<ff.count();i++)
+	for (unsigned int i=0;i<ff.count();i++)
 		delete ff[i];
 	ff.clear();
 }

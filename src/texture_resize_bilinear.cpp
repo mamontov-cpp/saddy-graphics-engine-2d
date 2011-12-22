@@ -7,7 +7,7 @@ void sad::Texture::makePOT()
     if (m_width==0) return;
 
 	int m_pottest=(m_width+m_height)/2;
-	int m_inc=(m_pottest & (m_pottest-1) ==0)?0:1;
+	int m_inc=( (m_pottest & (m_pottest-1) )==0)?0:1;
 
 	int m_power=31;
 	bool flag=false;

@@ -21,7 +21,7 @@ int    semaphore::value()
 }
 void semaphore::consume(unsigned int v)
 {
-	for (int i=0;i<v;i++)   
+	for (unsigned int i=0;i<v;i++)   
     {
        while(WaitForSingleObject(m_s,1)!=WAIT_OBJECT_0); 
     }

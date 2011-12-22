@@ -25,4 +25,3 @@ enum sortorder
 */
 typedef   hst::sortorder hSortOrder;
 #endif
- 

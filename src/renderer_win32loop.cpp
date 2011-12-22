@@ -20,7 +20,7 @@ void sad::Renderer::mainLoop()
 {
  int frames=0;
  m_fps=60;
- bool isMessagePumpActive;
+ //bool isMessagePumpActive;
  MSG msg;
 
  m_running = true;											// Program Looping Is Set To TRUE
@@ -128,7 +128,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		if (sad::Input::inst()->areWheelNotTracked()) 
 			return 0;
 		float mx=0,my=0,mz=0;
-		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/WHEEL_DELTA;
+		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		instance().mapToOGL(GET_X_LPARAM(lParam),GET_Y_LPARAM(lParam),mx,my,mz);

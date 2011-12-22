@@ -68,7 +68,7 @@ bool  sad::Texture::loadBMP(FILE * file)
 	m_data.clear();
 	m_width=info.width;
 	m_height=info.height;
-	m_bpp=info.bitcount;
+	m_bpp=(Uint8)(info.bitcount);
 	//TODO: Add support for 8-bit color
 	if (m_bpp!=24 && m_bpp!=32) {m_data.clear();this->loadDefaultTGATexture(); return false;}
 

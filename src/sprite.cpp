@@ -73,8 +73,8 @@ Sprite::Sprite(
 	for (int i=0;i<4;i++)
 	{
 	 m_rect[i]=rect[i];
-	 m_tex_coord[(3-i)<<1]=texrect[i].x()/m_tex->width();
-	 m_tex_coord[(3-i)<<1 | 1]=texrect[i].y()/m_tex->height();
+	 m_tex_coord[(3-i)<<1]=(float)(texrect[i].x()/m_tex->width());
+	 m_tex_coord[(3-i)<<1 | 1]=(float)(texrect[i].y()/m_tex->height());
 	}
 }
 void Sprite::render()
@@ -140,9 +140,9 @@ void Sprite::rotate(
   s3d::point dist=p-pivot;
   s3d::point result=dist;
   
-  result.setX( dist.x()*cos(alpha)-dist.y()*sin(alpha)   );
-  result.setY( dist.x()*sin(alpha)*cos(theta)+dist.y()*cos(alpha)*cos(theta)-dist.z()*sin(theta) );
-  result.setZ( dist.x()*sin(alpha)*sin(theta)+dist.y()*cos(alpha)*sin(theta)+dist.z()*cos(theta) );
+  result.setX( (float)(dist.x()*cos(alpha)-dist.y()*sin(alpha))   );
+  result.setY( (float)(dist.x()*sin(alpha)*cos(theta)+dist.y()*cos(alpha)*cos(theta)-dist.z()*sin(theta)) );
+  result.setZ( (float)(dist.x()*sin(alpha)*sin(theta)+dist.y()*cos(alpha)*sin(theta)+dist.z()*cos(theta)) );
     
   p=result+pivot;
 }

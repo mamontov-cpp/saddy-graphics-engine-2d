@@ -116,7 +116,7 @@ int  CollisionManager::findObject(void * p)
   if(m_reverse_objects.contains(p))
   {
 	  hst::vector<void *> & v=m_objects[m_reverse_objects[p]];
-	  for (int i=0;i<v.count();i++)
+	  for (unsigned int i=0;i<v.count();i++)
 		  if (v[i]==p)
 			  return i;
 	  return -1;
@@ -129,7 +129,7 @@ void CollisionManager::commitObjectAdding()
  m_add_lock.lock();
  if (m_adding_tasks.count())
  {
-	 for (int i=0;i<m_adding_tasks.count();i++)
+	 for (unsigned int i=0;i<m_adding_tasks.count();i++)
 	 {
 		 void * data=m_adding_tasks[i].p2();
 		 int    type=m_adding_tasks[i].p1();
@@ -151,7 +151,7 @@ void CollisionManager::commitObjectRemoval()
 	m_remove_lock.lock();
     if (m_remove_tasks.count())
 	{
-		for (int i=0;i<m_remove_tasks.count();i++)
+		for (unsigned int i=0;i<m_remove_tasks.count();i++)
 		{
 			int pos=findObject(m_remove_tasks[i]);
 			if (pos!=-1)
@@ -174,9 +174,9 @@ void CollisionManager::testForCollision(int i)
 	if (!(m_objects.contains(g.type1) && m_objects.contains(g.type2))) return;
 	hst::vector<void *> & t1=m_objects[g.type1];
 	hst::vector<void *> & t2=m_objects[g.type2];
-	for (int i1=0;i1<t1.count();i1++)
+	for (unsigned int i1=0;i1<t1.count();i1++)
 	{
-		for (int i2=0;i2<t2.count();i2++)
+		for (unsigned int i2=0;i2<t2.count();i2++)
 		{
 			void * o1=t1[i1];
 			void * o2=t2[i2];
@@ -191,7 +191,7 @@ void CollisionManager::testForCollision(int i)
 
 void CollisionManager::testEveryGroup()
 {
-	for (int i=0;i<m_tasks.count();i++)
+	for (unsigned int i=0;i<m_tasks.count();i++)
 		testForCollision(i);
 }
 void CollisionManager::bind(int id1,int id2, ObjectTester tester, CollisionHandler * h)
