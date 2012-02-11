@@ -228,6 +228,6 @@ void FTFont::render(const hst::string & str, float x, float y)
 
 void FTFont::render(const hst::string & str,const pointf & p)
 {
-  this->render(str,p().x(),p().y());
+  this->render(str,p.x(),p.y());
 }
 
