@@ -143,7 +143,7 @@ public:
 	void remove(const hst::string & name);
 	/*! Renders a scene
 	*/
-	void render();
+	virtual void render();
 	/*! Returns an instance of object by name. 
 	    \param[in] name name of object
 	    \return an instance of object. Returns NULL if can't be found
