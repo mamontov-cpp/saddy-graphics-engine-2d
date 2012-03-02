@@ -238,14 +238,14 @@ int main(int argc, char** argv)
 	//res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
-		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed"));
+		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed\n"));
        sad::FontManager::add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
 	res=res && res2;
 	if (!res2)
-		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed"));
+		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed\n"));
 	sad::FontManager::add(fnt2,"times_lg");
 
 	//Loading sprites
@@ -254,7 +254,7 @@ int main(int argc, char** argv)
     res=res && loadSprite("examples/objects.bmp","objects"); 
     if (!res)
 	{
-		hst::log::inst()->write(hst::string("Resource loading failed!\n Exiting..."));
+		hst::log::inst()->write(hst::string("Resource loading failed!\n Exiting...\n"));
 		hst::log::inst()->save("log.txt");
 		return 1;
 	}
