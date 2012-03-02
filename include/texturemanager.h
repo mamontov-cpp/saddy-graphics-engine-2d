@@ -2,8 +2,7 @@
      \author  HiddenSeeker
      \brief   Here placed a texturemanager
 */
-#include "texture.h"
-#include "templates/hhash.hpp"
+#include "texturecontainer.h"
 #include "os/mutex.h"
 #pragma once
 
@@ -17,9 +16,9 @@ namespace sad
 	class TextureManager
 	{
 	private:
-		hst::hash<hst::string,Texture *> m_data; //!< Texture data
-		os::mutex                        m_m;    //!< Mutex to block side effects
-		static TextureManager * m_instance;      //!< Current instance of manager
+		sad::TextureContainer *          m_container; //!< Container data
+		os::mutex                        m_m;         //!< Mutex to block side effects
+		static TextureManager * m_instance;           //!< Current instance of manager
 		TextureManager();
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
@@ -49,6 +48,15 @@ namespace sad
 		    \param[in] name name of a texture
 		*/
 		void unload(const hst::string & name);
+		/*! Sets a new container within manager. An old container DOES NOT destroyed. 
+			To change container safely, remove old container manually
+			\param[in] container new container
+		 */
+		void setContainer(sad::TextureContainer * container);
+		/*! Returns a container from other container
+			\return container of textures
+		 */
+		sad::TextureContainer * getContainer();
 	};
 
 }

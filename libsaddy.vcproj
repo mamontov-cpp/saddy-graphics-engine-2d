@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\texturecontainer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\texturemanager.cpp"
 				>
 			</File>
@@ -425,6 +429,10 @@
 			</File>
 			<File
 				RelativePath=".\include\texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\texturecontainer.h"
 				>
 			</File>
 			<File
