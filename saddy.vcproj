@@ -471,6 +471,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sprite2dadapter.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\stdafx.h"
 				>
 			</File>
