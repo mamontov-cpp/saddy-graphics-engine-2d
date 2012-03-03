@@ -16,7 +16,7 @@ namespace sad
 	class TextureManager
 	{
 	private:
-		sad::TextureContainer *          m_container; //!< Container data
+		hst::hash<hst::string,sad::TextureContainer *>  m_containers; //!< Container data
 		os::mutex                        m_m;         //!< Mutex to block side effects
 		static TextureManager * m_instance;           //!< Current instance of manager
 		TextureManager();
@@ -36,27 +36,32 @@ namespace sad
 		~TextureManager();
 		/*! Returns a texture by a name, if exists
 		    \param[in] name name of a texture
+			\param[in] containername name of container
 			\return texture pointer. NULL, if can't be found
 		*/
-		Texture *  get(const hst::string & name);
-		/*! Adds a texture
+		Texture *  get(const hst::string & name,const hst::string & containername="default");
+		/*! Adds a texture. If container is not found, new container should be created.
 		    \param[in] name name of a texture
 		    \param[in] tex  texture
+			\param[in] containername name of container
 		*/
-		void load(const hst::string & name, Texture * tex);
-		/*! Unloads a texture
+		void load(const hst::string & name, Texture * tex,const hst::string & containername="default");
+		/*! Unloads a texture. If container is not found, nothing is done
 		    \param[in] name name of a texture
+			\param[in] containername name of container
 		*/
-		void unload(const hst::string & name);
+		void unload(const hst::string & name,const hst::string & containername="default");
 		/*! Sets a new container within manager. An old container DOES NOT destroyed. 
 			To change container safely, remove old container manually
 			\param[in] container new container
+			\param[in] containername name of container
 		 */
-		void setContainer(sad::TextureContainer * container);
+		void setContainer(sad::TextureContainer * container,const hst::string & containername="default");
 		/*! Returns a container from other container
 			\return container of textures
+			\param[in] containername name of container
 		 */
-		sad::TextureContainer * getContainer();
+		sad::TextureContainer * getContainer(const hst::string & containername="default");
 	};
 
 }

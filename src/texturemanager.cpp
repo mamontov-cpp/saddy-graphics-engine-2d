@@ -16,56 +16,79 @@ void sad::TextureManager::buildAll()
 {
 	instance()->m_m.lock();
 
-	instance()->m_container->build();
+	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=instance()->m_containers.begin();
+		it!=instance()->m_containers.end();
+		it++
+		)
+		it.value()->build();
 
 	instance()->m_m.unlock();
 }
 sad::TextureManager::TextureManager()
 {
-  m_container=new sad::TextureContainer();
+  m_containers.insert("default",new sad::TextureContainer());
 }
 sad::TextureManager::~TextureManager()
 {
-  delete m_container;
+	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+		 it!=m_containers.end();
+		 it++)
+	delete it.value();
 }
-sad::Texture *  sad::TextureManager::get(const hst::string & name)
+sad::Texture *  sad::TextureManager::get(const hst::string & name,const hst::string & containername)
 {
 	m_m.lock();
-	sad::Texture * r=m_container->get(name);
+
+	sad::Texture * r=NULL;
+	if (m_containers.contains(containername))
+		r=m_containers[containername]->get(name);
+	
 	m_m.unlock();
 	return r;
 }
 
-void sad::TextureManager::load(const hst::string & name, Texture * tex)
+void sad::TextureManager::load(const hst::string & name, Texture * tex,const hst::string & containername)
 {
 	m_m.lock();
 
-	m_container->add(name,tex);
+	if (m_containers.contains(containername)==false)
+		m_containers.insert(containername,new sad::TextureContainer());
+	m_containers[containername]->add(name,tex);
 	
 	m_m.unlock();
 }
 
-void sad::TextureManager::unload(const hst::string & name)
+void sad::TextureManager::unload(const hst::string & name,const hst::string & containername)
 {
 	m_m.lock();
 
-	m_container->remove(name);
+	if (m_containers.contains(containername))
+	{
+	m_containers[containername]->remove(name);
+	}
 
 	m_m.unlock();
 }
 
 
-void sad::TextureManager::setContainer(sad::TextureContainer * container)
+void sad::TextureManager::setContainer(sad::TextureContainer * container,const hst::string & containername)
 {
 	m_m.lock();
-	m_container=container;
+
+	m_containers.insert(containername,container);
+
 	m_m.unlock();
 }
 
-sad::TextureContainer * sad::TextureManager::getContainer()
+sad::TextureContainer * sad::TextureManager::getContainer(const hst::string & containername)
 {
 	m_m.lock();
-	sad::TextureContainer * r=m_container;
+	
+	sad::TextureContainer * r=NULL;
+	if (m_containers.contains(containername))
+		r=m_containers[containername];
+
 	m_m.unlock();
+
 	return r;
 }
