@@ -16,11 +16,29 @@ class Sprite2DAdapter: public sad::BasicNode
  private:
 		  Sprite * m_sprite;  //!< Sprite, that is being rendered
 		  hRectF   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)
+		  hRectF   m_texrect; //!< A non-rotated non-flipped texture coordinates
 		  bool     m_flipx;   //!< A flag, that determines, whether image is flipped on X axis
 		  bool     m_flipy;   //!< A flag, that determines, whether image is flipped on Y axis
 		  float    m_angle;   //!< An angle of rotation of sprite. Sprite is rotated around it's center
+		  /*! Creates a new non-rotated non-swapped sprite and sets it
+			  Texture coordinates are ABSOLUTE, if normalize flag is set to true
+			  \param[in] tex       texture
+			  \param[in] texrect   texture rectangle
+			  \param[in] bbox      bounding box
+			  \param[in] normalize normalization flag
+		   */
+		  void createSprite(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox, bool normalize=true);
+		  /*! Updates bounding rect, preserving all properties
+		   */
+		  void updateBoundingRect();
+		  /*! Flips bounding rect on X axis, changing properties to correct 
+		   */
+		  void flipBoundingRectX();
+		  /*! Flips bounding rect on Y axis, changing properties to correct 
+		   */
+		  void flipBoundingRectY();
  public:
-	      /*! Creates a new sprite adapter with some properties, like
+	      /*! Creates a new sprite adapter with some properties, like ( Texture coordinates are ABSOLUTE)
 			  \param[in] tex     texture
 			  \param[in] texrect texture coordinates rectangle
 			  \param[in] bbox    bounding box of sprite
@@ -41,11 +59,6 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \return a middle point of sprite
 		   */
 		  hPointF pos() const;
-		  /*! Changes a sprite parameters, preserving data
-		      \param[in] tex texture
-			  \param[in] texrect texture rectangle
-		   */
-		  void setSprite(sad::Texture * tex, const hRectF & texrect);
 		  /*! Rotates a sprite around it's center clockwise
 			  \param[in] angle angle parameter
 		   */
@@ -93,6 +106,11 @@ class Sprite2DAdapter: public sad::BasicNode
 		  /*! Renders a sprite
 		   */
 		  virtual void render();
+		  /*! Changes a sprite parameters, preserving data  (Texture coordinates are ABSOLUTE )
+		      \param[in] tex texture
+			  \param[in] texrect texture rectangle
+		   */
+		 void setSprite(sad::Texture * tex, const hRectF & texrect);
 };
 
 
