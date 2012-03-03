@@ -257,6 +257,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\sprite2dcontroller.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\texture.cpp"
 				>
 			</File>
@@ -476,6 +480,10 @@
 			</File>
 			<File
 				RelativePath=".\include\sprite2dadapter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sprite2dcontroller.h"
 				>
 			</File>
 			<File

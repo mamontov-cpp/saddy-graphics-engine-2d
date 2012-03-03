@@ -77,6 +77,14 @@ Sprite::Sprite(
 	 m_tex_coord[(3-i)<<1 | 1]=(float)(texrect[i].y()/m_tex->height());
 	}
 }
+
+Sprite::Sprite(const Sprite & sprite)
+{
+ this->m_tex=sprite.m_tex;
+ memcpy(&(this->m_rect),&(sprite.m_rect),4*sizeof(s3d::point));
+ memcpy(&(this->m_tex_coord),&(sprite.m_tex_coord),8*sizeof(float));
+}
+
 void Sprite::render()
 {
 	m_tex->enable();

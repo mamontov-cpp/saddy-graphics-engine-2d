@@ -44,6 +44,10 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \param[in] bbox    bounding box of sprite
 		   */ 
 		  Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox);
+		  /*! Creates a new sprite, as copy of other
+			  \param[in] sprite sprite data
+		   */
+		  Sprite2DAdapter(const Sprite2DAdapter & sprite);
 		  /*! Frees a memory from sprite
 		   */
 		  ~Sprite2DAdapter();

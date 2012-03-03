@@ -30,6 +30,15 @@ Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const
 	createSprite(tex,texrect,bbox);
 }
 
+Sprite2DAdapter::Sprite2DAdapter(const Sprite2DAdapter & sprite)
+{
+	m_sprite=new Sprite(*(sprite.m_sprite));
+	m_rect=sprite.m_rect;
+	m_texrect=sprite.m_texrect;
+	m_flipx=sprite.m_flipx;
+	m_flipy=sprite.m_flipy;
+	m_angle=sprite.m_angle;
+}
 Sprite2DAdapter::~Sprite2DAdapter()
 {
 	delete m_sprite;

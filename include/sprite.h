@@ -71,6 +71,10 @@ class Sprite: public sad::BasicNode
 		        s3d::point rect[4], 
 				int * tex_coord
 			   );
+		 /*! Copies a sprite information
+			 \param[in] sprite sprite data
+		  */
+		 Sprite(const Sprite & sprite);
 		  /*! Sets a new texture coordinate
 		      \param[in] ind index
 			  \param[in] x   x coord
