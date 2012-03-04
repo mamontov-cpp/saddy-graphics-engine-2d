@@ -20,6 +20,17 @@ typedef hst::hash<hst::string,
  */
 class Sprite2DConfigLoader
 {
+ protected:
+			/*! Inserts new template into container
+				 \param[in]  group      sprite group
+				 \param[in]  index      sprite index in group
+				 \param[in]  stemplate  sprite template
+				 \param[out] container  container where it should be inserted
+			 */ 
+		    void insertTemplate(const hst::string & group, 
+						    	int index,
+								const Sprite2DTemplate & stemplate,
+								Sprite2DTemplateContainer & container);
  public:
 		/*! A function for loading a config. For loading a config, you must fill a container
 			with appropriate data and return true. If some errors occured, function must return false

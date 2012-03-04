@@ -54,6 +54,15 @@ class Sprite2DConfigObserver
 			 \return true if succeeded, false if data in config is not found
 		  */
 		 bool createSprite(const hPointF & center);
+		 /*! Checks, whether sprite can be updated from container. It can update if sprite group and index
+			 are presented in container
+			 \param[in] container container, from which we can find an object
+			 \return true, if can
+		  */
+		 bool canBeUpdatedFrom(const Sprite2DTemplateContainer & container);
+		 /*! Updates a sprite from config, using policy
+		  */
+		 void notifyConfigChanged();
 		 /*! Returns current associated sprite
 			 \return sprite
 		  */ 
