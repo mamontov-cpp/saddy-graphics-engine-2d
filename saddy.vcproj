@@ -428,6 +428,10 @@
 				Name="config"
 				>
 				<File
+					RelativePath=".\src\config\sprite2dconfig.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\config\sprite2dconfigloader.cpp"
 					>
 				</File>
