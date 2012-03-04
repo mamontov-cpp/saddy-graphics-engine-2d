@@ -95,7 +95,7 @@ public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
 	Scene();                   //!< Creates an empty scene
-	~Scene();                  //!< Destructor
+	virtual ~Scene();                  //!< Destructor
 	/*! Sets a camera in scene
 		\param[in] camera  new camera
 	*/
