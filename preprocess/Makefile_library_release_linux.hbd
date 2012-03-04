@@ -1,5 +1,5 @@
 {SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp main.cpp  extra/statelabel.cpp extra/movitem.cpp extra/player.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -O2 
-INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra 
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DUNIX -DLINUX -DGCC
 BUILD    = {FOR_EACH ../build/{NAME}.o \s}
