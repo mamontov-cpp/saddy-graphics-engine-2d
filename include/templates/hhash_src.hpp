@@ -119,7 +119,7 @@ template<typename T>
  TDEF const T & hash<Key,T>::operator[](const Key & k) const
  {
    unsigned long ind=getHash(k,m_table_size);
-   slot & dl=m_data[ind];
+   const  slot & dl=m_data[ind];
    for(int i=0;i<dl.count();i++)
    {
 	  if (dl[i].p1()==k)

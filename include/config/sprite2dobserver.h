@@ -48,7 +48,12 @@ class Sprite2DConfigObserver
 								Sprite2DConfig * config,
 								Sprite2DConfigObserverPolicy policy = COP_CHANGESIZE
 							   );
-
+		 /*! Creates a new sprite, with center in specified position
+			 The new sprite will not be flipped on any of axis and has a rotation angle of 0
+			 \param[in] center sprite center point.
+			 \return true if succeeded, false if data in config is not found
+		  */
+		 bool createSprite(const hPointF & center);
 		 /*! Returns current associated sprite
 			 \return sprite
 		  */ 
