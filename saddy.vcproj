@@ -431,6 +431,10 @@
 					RelativePath=".\src\config\sprite2dconfigloader.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\config\sprite2dobserver.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -678,7 +682,15 @@
 				Name="config"
 				>
 				<File
+					RelativePath=".\include\config\sprite2dconfig.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\config\sprite2dconfigloader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\config\sprite2dobserver.h"
 					>
 				</File>
 				<File
