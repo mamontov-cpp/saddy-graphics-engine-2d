@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include/primitives;include/templates;include;include/extra"
+				AdditionalIncludeDirectories="include/config;include/primitives;include/templates;include;include/extra"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="1"
@@ -124,7 +124,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="include/extra;include/primitives;include/templates;include"
+				AdditionalIncludeDirectories="include/config;include/extra;include/primitives;include/templates;include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MSVC_RELEASE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -424,6 +424,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="config"
+				>
+				<File
+					RelativePath=".\src\config\sprite2dconfigloader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -663,6 +671,18 @@
 				>
 				<File
 					RelativePath=".\include\tga\tga.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="config"
+				>
+				<File
+					RelativePath=".\include\config\sprite2dconfigloader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\config\sprite2dtemplate.h"
 					>
 				</File>
 			</Filter>
