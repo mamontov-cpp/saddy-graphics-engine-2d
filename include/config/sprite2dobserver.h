@@ -31,7 +31,7 @@ class Sprite2DConfigObserver
  private:
 		 Sprite2DConfig *             m_config;    //!< Attached sprite config
 		 Sprite2DConfigObserverPolicy m_policy;    //!< How observer should act
-		 hst::string       m_textureid; //!< Sprite Group index in the config
+		 hst::string       m_spritegroup; //!< Sprite Group index in the config
 		 int               m_index;     //!< Sprite index in config
 		 
 		 Sprite2DController * m_sprite;  //!< Sprite, which we are working on 
@@ -39,12 +39,12 @@ class Sprite2DConfigObserver
 		 /*! Constructs a new observer. It does not creates a sprite, so you must create it
 			 manually, using createSprite. But observer registers in a config. as observer at
 			 creation.
-			\param[in] texture name of sprite group
+			\param[in] spritegroup name of sprite group
 			\param[in] index   index of sprites
 			\param[in] config  reference to config
 			\param[in] policy  policy, how observer should work with setting size
 		  */
-		 Sprite2DConfigObserver(const hst::string & texture, int index, 
+		 Sprite2DConfigObserver(const hst::string & spritegroup, int index, 
 								Sprite2DConfig * config,
 								Sprite2DConfigObserverPolicy policy = COP_CHANGESIZE
 							   );
@@ -53,7 +53,7 @@ class Sprite2DConfigObserver
 			 \return sprite
 		  */ 
 		 inline Sprite2DController * sprite() const {return m_sprite; }
-		 /*! Destructor. Deletes sprite, if needed
+		 /*! Destructor. Removes a sprite if have one and unregisters self from config.
 		  */
 		 ~Sprite2DConfigObserver();
 };
