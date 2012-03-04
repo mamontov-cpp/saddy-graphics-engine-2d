@@ -19,7 +19,7 @@ enum Sprite2DConfigLoadingResult
 	SCR_NOLOADER = 1,       //!< No loader is specified for config
 	SCR_LOADINGFAILED = 2 , //!< Config loading from file is failed
 	SCR_TEXTURE = 3,        //!< Texture loading failed
-	SCR_CANTRELOAD =4       //!< Templates for reloading sprites are absent
+	SCR_ABSENT =4           //!< Templates for reloading sprites are absent
 };
 
 /*!  \class Sprite2DObserverContainer
@@ -80,6 +80,9 @@ class  Sprite2DConfig
 			\param[in] containername container, where textures can be reloaded
 		 */
 	    Sprite2DConfig(const hst::string & containername);
+		/*! Destructor of sprite config, must delete loader
+		 */
+		~Sprite2DConfig();
 		/*! Returns a texture container, associated with config
 			\return texture container
 		 */
@@ -92,10 +95,6 @@ class  Sprite2DConfig
 			\param[in] loader new loader
 		 */
 		void setLoader(Sprite2DConfigLoader * loader);
-		/*! Reloads a config
-			\return result of loading
-		 */
-		Sprite2DConfigLoadingResult reload();
 		/*! Registers a new observer
 			\param[in] obs observer
 		 */
@@ -104,8 +103,9 @@ class  Sprite2DConfig
 			\param[in] obs observer
 		 */
 		inline void removeObserver(Sprite2DConfigObserver * obs) { m_observers.remove(obs); }
-	    /*! Destructor of sprite config, must delete loader
+		/*! Reloads a config
+			\return result of loading
 		 */
-		~Sprite2DConfig();
+		Sprite2DConfigLoadingResult reload();
 };
 
