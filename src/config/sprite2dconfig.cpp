@@ -1,5 +1,5 @@
-#include "sprite2dobserver.h"
 #include "sprite2dconfig.h"
+#include "sprite2dobserver.h"
 #include <texturemanager.h>
 #include <assert.h>
 

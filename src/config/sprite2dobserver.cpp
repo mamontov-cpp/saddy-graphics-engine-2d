@@ -1,5 +1,6 @@
-#include "sprite2dobserver.h"
 #include "sprite2dconfig.h"
+#include "sprite2dobserver.h"
+#include "sprite2dtemplate.h"
 #include <assert.h>
 
 Sprite2DConfigObserver::Sprite2DConfigObserver(const hst::string & spritegroup, int index, 
@@ -50,3 +51,26 @@ bool Sprite2DConfigObserver::createSprite(const hPointF & center)
 	return false;
 }
 
+bool Sprite2DConfigObserver::canBeUpdatedFrom(const Sprite2DTemplateContainer & container)
+{
+	if (container.contains(m_spritegroup))
+	{
+		return container[m_spritegroup].contains(m_index);
+	}
+
+	return false;
+}
+
+void Sprite2DConfigObserver::notifyConfigChanged()
+{
+	if (m_sprite!=NULL)
+	{
+		const Sprite2DTemplate & sprite_template=m_config->getTemplates()[m_spritegroup][m_index];
+		sad::Texture  * texture=m_config->getTextures()->get(sprite_template.textureName());
+		m_sprite->setSprite(texture,sprite_template.textureRect());
+		if (m_policy==COP_CHANGESIZE || (m_policy==COP_CHANGEIFNOTCHANGED && m_sprite->wasSizeChanged()==false))
+		{
+			m_sprite->setSize(sprite_template.size(),false);
+		}
+	}
+}
