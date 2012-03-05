@@ -30,12 +30,10 @@ sad::Scene::Scene()
 }
 sad::Scene::~Scene()
 {
+	fireNodeRemoving();
+	fireNodeAdding();
 	for (unsigned long i=0;i<this->m_layers.count();i++)
 		delete m_layers[i];
-	for (unsigned long i=0;i<this->m_marked.count();i++)
-		delete m_marked[i];
-	for (unsigned long i=0;i<this->m_toadd.count();i++)
-		delete m_marked[i];
 	delete m_camera;
 }
 void sad::Scene::add(
@@ -74,6 +72,30 @@ void sad::Scene::performCleanup()
 {
 	m_clear=true;
 }
+
+void sad::Scene::fireNodeRemoving()
+{
+ for (unsigned long i=0;i<m_marked.count();i++)
+ {
+  for (unsigned long j=0;j<m_layers.count();j++)
+  {
+   if (m_layers[j]==m_marked[i])
+   {
+    delete m_layers[j];
+    m_layers.removeAt(j);
+    break;
+   }
+  }
+ }
+ m_marked.clear();
+}
+
+void sad::Scene::fireNodeAdding()
+{
+ for (unsigned long i=0;i<m_toadd.count();i++)
+	 add(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
+ m_toadd.clear();
+}
 void sad::Scene::render()
 {
   m_camera->apply();
@@ -92,18 +114,7 @@ void sad::Scene::render()
 	
   if (!m_clear)
   {
-   for (unsigned long i=0;i<m_marked.count();i++)
-   {
-	   for (unsigned long j=0;j<m_layers.count();j++)
-	   {
-		  if (m_layers[j]==m_marked[i])
-		  {
-			  delete m_layers[j];
-			  m_layers.removeAt(j);
-			  break;
-		  }
-	   }
-   }      
+   fireNodeRemoving();      
   }
   else
   {
@@ -113,11 +124,8 @@ void sad::Scene::render()
 	  m_clear=false;
   }
 
-  for (unsigned long i=0;i<m_toadd.count();i++)
-	      add(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
+  fireNodeAdding();
   
-  m_toadd.clear();
-  m_marked.clear();
 }
 
 void sad::Scene::markForDeletion(BasicNode * what)
