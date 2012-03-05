@@ -67,36 +67,27 @@ float Sprite2DAdapter::angle() const
 	return m_angle;
 }
 
+
+void Sprite2DAdapter::swapPoints(int p1, int p2)
+{
+	const float * coords=m_sprite->texCoords();
+	float tmpx=coords[p1 << 1];
+	float tmpy=coords[p1 << 1 | 1];
+	m_sprite->setTexCoords(p1, coords[p2<<1],coords[p2<<1 | 1]);
+	m_sprite->setTexCoords(p2,tmpx,tmpy);
+}
 void Sprite2DAdapter::flipX()
 {
-	if (m_flipx)
-	{
-		for (int i=0;i<4;i++)
-			m_sprite->setTexCoords(i,(float)(m_texrect[i].x()),(float)(m_texrect[i].y()));
-	}
-	else
-	{
-		m_sprite->setTexCoords(0,(float)(m_texrect[1].x()),(float)(m_texrect[1].y()));
-		m_sprite->setTexCoords(1,(float)(m_texrect[0].x()),(float)(m_texrect[0].y()));
-		m_sprite->setTexCoords(2,(float)(m_texrect[3].x()),(float)(m_texrect[3].y()));
-		m_sprite->setTexCoords(3,(float)(m_texrect[2].x()),(float)(m_texrect[2].y()));
-	}
+	swapPoints(0,1);
+	swapPoints(3,2);
 	m_flipx=!m_flipx;
 }
 
 
 void Sprite2DAdapter::flipY()
 {
-	if (m_flipy)
-	{
-		for (int i=0;i<4;i++)
-			m_sprite->setTexCoords(i,(float)(m_texrect[i].x()),(float)(m_texrect[i].y()));
-	}
-	else
-	{
-		for (int i=0;i<4;i++)
-			m_sprite->setTexCoords(i,(float)(m_texrect[3-i].x()),(float)(m_texrect[3-i].y()));
-	}
+	swapPoints(0,3);
+	swapPoints(1,2);
 	m_flipy=!m_flipy;
 }
 
