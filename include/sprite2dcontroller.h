@@ -101,5 +101,21 @@ class Sprite2DController
 			  \param[in] texrect texture rectangle
 		   */
 		 void setSprite(sad::Texture * tex, const hRectF & texrect);
+		 /*! Returns a top coordinate
+			  \return top coordinate
+		   */
+		  inline float top()  const { return m_sprite->top();}
+		  /*! Returns a bottom coordinate
+			  \return bottom coordinate
+		   */
+		  inline float bottom()  const { return m_sprite->bottom();}
+		  /*! Returns a left coordinate
+			  \return left coordinate
+		   */
+		  inline float left()  const { return m_sprite->left();}
+		  /*! Returns a right coordinate
+			  \return right coordinate
+		   */
+		  inline float right()  const { return m_sprite->right();}
 };
 

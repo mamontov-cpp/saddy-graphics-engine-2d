@@ -112,6 +112,22 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \return size of sprite
 		   */
 		  hPointF size() const;
+		  /*! Returns a top coordinate
+			  \return top coordinate
+		   */
+		  inline float top()  const { return (float)(pos().y()+size().y()/2);}
+		  /*! Returns a bottom coordinate
+			  \return bottom coordinate
+		   */
+		  inline float bottom()  const { return (float)(pos().y()-size().y()/2);}
+		  /*! Returns a left coordinate
+			  \return left coordinate
+		   */
+		  inline float left()  const { return (float)(pos().x()-size().x()/2);}
+		  /*! Returns a right coordinate
+			  \return right coordinate
+		   */
+		  inline float right()  const { return (float)(pos().x()+size().x()/2);}
 		  /*! Renders a sprite
 		   */
 		  virtual void render();
