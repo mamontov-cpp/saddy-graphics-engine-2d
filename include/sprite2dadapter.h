@@ -37,6 +37,11 @@ class Sprite2DAdapter: public sad::BasicNode
 		  /*! Flips bounding rect on Y axis, changing properties to correct 
 		   */
 		  void flipBoundingRectY();
+		  /*! Swaps two points in inner sprite texture rectangle
+			  \param[in] p1 index of first point
+			  \param[in] p2 index of second point
+		   */
+		  void swapPoints(int p1, int p2);
  public:
 	      /*! Creates a new sprite adapter with some properties, like ( Texture coordinates are ABSOLUTE)
 			  \param[in] tex     texture
