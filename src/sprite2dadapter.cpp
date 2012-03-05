@@ -11,13 +11,6 @@ void Sprite2DAdapter::createSprite(sad::Texture * tex,const hRectF & texrect,con
 	hst::rect<::s3d::point> rect(::s3d::point((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
 								 ::s3d::point((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
 	m_texrect=texrect;
-	if (normalize)
-	{
-		for (int i=0;i<4;i++) {
-			m_texrect[i].setX(m_texrect[i].x()/tex->width());
-			m_texrect[i].setY(m_texrect[i].y()/tex->height());
-		}
-	}
 	m_sprite=new Sprite(tex,rect,m_texrect);
 	
 }
