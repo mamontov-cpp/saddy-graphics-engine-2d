@@ -91,6 +91,13 @@ private:
 	sad::Camera      *        m_camera;                  //!< Current camera
 	os::mutex                m_add;                     //!< Add mutex
 	os::mutex                m_rem;                     //!< Remove mutex
+	
+	/*! Adds object from adding to main queue 
+	 */
+	void fireNodeAdding();
+	/*! Removes objects from queue, removing it from scene
+	 */
+	void fireNodeRemoving();
 public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
