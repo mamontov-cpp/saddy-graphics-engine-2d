@@ -134,6 +134,21 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 		return SCR_TEXTURE;
 	}
 
+
+	//Set transparency for all of textures, using information from sprites
+	for (Sprite2DTemplateContainer::iterator it=newtemplates.begin();it!=newtemplates.end();it++)
+	{
+		hst::hash<int,Sprite2DTemplate> & hash=it.value();
+		for (hst::hash<int,Sprite2DTemplate>::iterator it=hash.begin();it!=hash.end();it++)
+		{
+			if (it.value().isTransparent())
+			{
+				sad::Texture * tex=newcontainer->get(it.value().textureName());
+				tex->setAlpha(0,it.value().transparencyColor(),it.value().textureRect());
+			}
+		}
+	}
+
 	//Set appropriate containers
 	m_container=newtemplates;
 	delete sad::TextureManager::instance()->getContainer(m_texturecontainername);

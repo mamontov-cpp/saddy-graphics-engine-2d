@@ -4,6 +4,7 @@
 	Here is described loadable sprite template, that can be easily loaded from file
  */
 #include "../primitives/hrect.h"
+#include "../primitives/hcolor.h"
 #include "../templates/hstring.h"
 #pragma once
 
@@ -17,6 +18,9 @@ class Sprite2DTemplate
 		 hst::string  m_texturename;  //!< Name of texture
 		 hRectF       m_texturerect;  //!< Texture coordinates of rectangle
 		 hPointF      m_size;         //!< Size of object
+		 
+		 bool         m_transparent;       //!< Whether the template should be transparent
+		 hst::color   m_transparencycolor; //!< A color, which should be transparent
  public:
 	    /*! Creates empty invalid 2d template
 		 */
@@ -28,6 +32,28 @@ class Sprite2DTemplate
 		inline ~Sprite2DTemplate()
 		{
 		}
+		/*! Makes a template transparent
+			\param[in] color transparent color
+		 */
+		inline void makeTransparent(const hst::color & color)
+		{
+			m_transparent=true;
+			m_transparencycolor=color;
+		}
+		/*! Makes a template nontransparent
+		 */
+		inline void makeNonTransparent()
+		{
+			m_transparent=false;
+		}
+		/*! Whether template is transparent
+			\return if transparent returns true
+		 */
+		inline bool isTransparent() { return m_transparent; }
+		/*! Returns color of transparemcy for the sprite
+			\return color
+		 */
+		inline const hst::color & transparencyColor() { return m_transparencycolor; }
 		/*! Sets a texture name 
 			\param[in] name texture name
 		 */

@@ -94,6 +94,46 @@ void Texture::setAlpha(Uint8 a, const hst::color & clr, Uint8 prec)
 		m_data[i]=255-a;
 	}
 }
+
+void Texture::setAlpha(Uint8 a, const hst::color & clr,const hRectF & rect)
+{
+	hRectF tmp=rect;
+	for (int i=0;i<4;i++)
+	{
+		if (tmp[i].x()<0) tmp[i].setX(0);
+		if (tmp[i].y()<0) tmp[i].setY(0);
+		if (tmp[i].x()>width()-1) tmp[i].setX(this->width()-1);
+		if (tmp[i].y()>height()-1) tmp[i].setY(this->height()-1);
+	}
+	if (tmp[2].x()<tmp[0].x())
+	{
+		double f=tmp[2].x(); tmp[2].setX(tmp[0].x()); tmp[0].setX(f);
+	}
+	
+	if (tmp[2].y()<tmp[0].y())
+	{
+		double f=tmp[2].y(); tmp[2].setY(tmp[0].y()); tmp[0].setY(f);
+	}
+	int minx=(int)tmp[0].x();
+	int maxx=(int)tmp[2].x();
+	int miny=(int)tmp[0].y();
+	int maxy=(int)tmp[2].y();
+	for (int row=minx;row<=maxx;row++)
+	{
+		for (int col=miny;col<=maxy;col++)
+		{
+			Uint8 * pix=this->pixel(row,col);
+			bool rck=abs(clr.r()-pix[0])<10;
+			bool gck=abs(clr.g()-pix[1])<10;
+			bool bck=abs(clr.b()-pix[2])<10;
+			if (rck && gck && bck)
+			{
+				setPixelAlpha(row,col,0);
+			}
+		}
+	}
+
+}
 void Texture::setMode(Texture::Mode mode)
 {
 	m_mode=mode;

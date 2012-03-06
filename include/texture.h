@@ -4,6 +4,7 @@
 */
 
 #include "primitives/hcolor.h"
+#include "primitives/hrect.h"
 #include "templates/hstring.h"
 #include "templates/hwstring.h"
 #include "templates/hlvector.hpp"
@@ -60,6 +61,13 @@ namespace sad
 		*/
 		inline Uint8 *  pixel(unsigned int i,unsigned int j)
 		{ return   &(m_data[(i*m_width+j)*(m_bpp >> 3)]);}
+		/*! Sets pixel alpha component
+			\param[in] i row
+			\param[in] j col
+			\param[in] alpha alpha component
+		 */
+		inline void setPixelAlpha(unsigned int i, unsigned int j, Uint8 alpha)
+		{  m_data[(i*m_width+j)*(m_bpp >> 3)+3] =alpha; }
 		/*! Upscales a texture, using a simple resize
 		    \param[in] width new width
 			\param[in] height new height
@@ -132,6 +140,12 @@ namespace sad
 		    \param[in] a alpha-channel value
 		*/
 		void setAlpha(Uint8 a);
+		/*! Sets alpha-channel value fro a color in a rectangle
+			\param[in] a  alpha-channel value
+			\param[in] clr color
+			\param[in] rect rectangle
+		 */
+		void setAlpha(Uint8 a, const hst::color & clr,const hRectF & rect);
 		/*! Sets an alpha-channel value for a color
 		    \param[in] a    alpha-channel value
 			\param[in] clr  color
