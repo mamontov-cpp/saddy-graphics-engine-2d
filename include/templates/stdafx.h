@@ -25,7 +25,7 @@
 	#include <tchar.h>
 #else
 	#define _tmain main
-	#define _TCHAR char
+	//#define _TCHAR char
 	#define _getch getch
 	#define _getcwd getcwd
 	#define _putenv putenv
