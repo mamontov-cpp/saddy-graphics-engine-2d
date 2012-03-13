@@ -1,11 +1,14 @@
 LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -O2 
-INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra 
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD    = ../build/bmploader.o ../build/defaulttexloader.o ../build/extchecker.o ../build/extra_background.o ../build/extra_collisionmanager.o ../build/extra_rigid_body.o ../build/extra_statemachine.o ../build/fontmanager.o ../build/input.o ../build/label.o ../build/lightmodel.o ../build/log.o ../build/orthocamera.o ../build/os_mutex.o ../build/os_semaphore.o ../build/os_thread.o ../build/png_convert.o ../build/png_decodepng.o ../build/png_decompress.o ../build/png_huffman.o ../build/png_inflateblock.o ../build/png_inflatedynamic.o ../build/png_inflator.o ../build/png_pngbasic.o ../build/png_unfilter.o ../build/png_zlib.o ../build/pngtexture.o ../build/primitives_hcolor.o ../build/renderer.o ../build/renderer_x11.o ../build/renderer_x11loop.o ../build/scene.o ../build/settings.o ../build/sprite.o ../build/templates_hhash.o ../build/templates_hstring.o ../build/templates_hstringlist.o ../build/templates_hwstring.o ../build/templates_refcountable.o ../build/texture.o ../build/texturemanager.o ../build/texture_resize_bilinear.o ../build/tga_tga.o ../build/tga_tgareader.o ../build/tmfont.o ../build/typeindex.o ../build/vbolayer.o ../build/x11recode.o
+BUILD    = ../build/bmploader.o ../build/config_sprite2dconfig.o ../build/config_sprite2dconfigloader.o ../build/config_sprite2dobserver.o ../build/defaulttexloader.o ../build/extchecker.o ../build/extra_background.o ../build/extra_collisionmanager.o ../build/extra_rigid_body.o ../build/extra_statemachine.o ../build/fontmanager.o ../build/input.o ../build/label.o ../build/lightmodel.o ../build/log.o ../build/orthocamera.o ../build/os_mutex.o ../build/os_semaphore.o ../build/os_thread.o ../build/png_convert.o ../build/png_decodepng.o ../build/png_decompress.o ../build/png_huffman.o ../build/png_inflateblock.o ../build/png_inflatedynamic.o ../build/png_inflator.o ../build/png_pngbasic.o ../build/png_unfilter.o ../build/png_zlib.o ../build/pngtexture.o ../build/primitives_hcolor.o ../build/renderer.o ../build/renderer_x11.o ../build/renderer_x11loop.o ../build/scene.o ../build/Settings.o ../build/sprite.o ../build/sprite2dadapter.o ../build/sprite2dcontroller.o ../build/templates_hhash.o ../build/templates_hstring.o ../build/templates_hstringlist.o ../build/templates_hwstring.o ../build/templates_refcountable.o ../build/texture.o ../build/texturecontainer.o ../build/texturemanager.o ../build/texture_resize_bilinear.o ../build/tga_tga.o ../build/tga_tgareader.o ../build/tmfont.o ../build/typeindex.o ../build/vbolayer.o ../build/x11recode.o
 all:
 	./mkbuild.sh
 	g++ -c ../src/bmploader.cpp -o ../build/bmploader.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/config/sprite2dconfig.cpp -o ../build/config_sprite2dconfig.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/config/sprite2dconfigloader.cpp -o ../build/config_sprite2dconfigloader.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/config/sprite2dobserver.cpp -o ../build/config_sprite2dobserver.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/defaulttexloader.cpp -o ../build/defaulttexloader.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/extchecker.cpp -o ../build/extchecker.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/extra/background.cpp -o ../build/extra_background.o $(INCLUDE) $(DEFINES)
@@ -37,14 +40,17 @@ all:
 	g++ -c ../src/renderer_x11.cpp -o ../build/renderer_x11.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/renderer_x11loop.cpp -o ../build/renderer_x11loop.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/scene.cpp -o ../build/scene.o $(INCLUDE) $(DEFINES)
-	g++ -c ../src/settings.cpp -o ../build/settings.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/Settings.cpp -o ../build/Settings.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/sprite.cpp -o ../build/sprite.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/sprite2dadapter.cpp -o ../build/sprite2dadapter.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/sprite2dcontroller.cpp -o ../build/sprite2dcontroller.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/templates/hhash.cpp -o ../build/templates_hhash.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/templates/hstring.cpp -o ../build/templates_hstring.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/templates/hstringlist.cpp -o ../build/templates_hstringlist.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/templates/hwstring.cpp -o ../build/templates_hwstring.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/templates/refcountable.cpp -o ../build/templates_refcountable.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/texture.cpp -o ../build/texture.o $(INCLUDE) $(DEFINES)
+	g++ -c ../src/texturecontainer.cpp -o ../build/texturecontainer.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/texturemanager.cpp -o ../build/texturemanager.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/texture_resize_bilinear.cpp -o ../build/texture_resize_bilinear.o $(INCLUDE) $(DEFINES)
 	g++ -c ../src/tga/tga.cpp -o ../build/tga_tga.o $(INCLUDE) $(DEFINES)

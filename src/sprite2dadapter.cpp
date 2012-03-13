@@ -8,7 +8,7 @@ void Sprite2DAdapter::createSprite(sad::Texture * tex,const hRectF & texrect,con
 {
 	delete m_sprite;
 	m_rect=bbox;
-	hst::rect<::s3d::point> rect(::s3d::point((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
+	hst::rect< ::s3d::point > rect(::s3d::point((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
 								 ::s3d::point((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
 	m_texrect=texrect;
 	m_sprite=new Sprite(tex,rect,m_texrect);
