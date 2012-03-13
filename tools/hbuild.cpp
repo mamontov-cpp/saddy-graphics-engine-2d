@@ -120,7 +120,11 @@ void scan_folder(svector & vec,const string & path)
 #ifdef LINUX
 	chdir_res=chdir(path.c_str());
 #else
+#ifdef _MSC_VER
 	chdir_res=_chdir(path.c_str());
+#else
+    chdir_res=chdir(path.c_str());
+#endif
 #endif
  }
  scan_recursive(vec,"");
@@ -128,8 +132,12 @@ void scan_folder(svector & vec,const string & path)
 #ifdef LINUX
 	chdir(cwd);
 #else
+#ifdef _MSC_VER
 	_chdir(cwd);
- #endif
+#else
+    chdir(cwd);
+#endif
+#endif
 }
 
 /*! Retrieves an escaped source list, from unescaped.

@@ -323,7 +323,7 @@ template<typename T>
  }
  TDEF typename hash<Key,T>::const_iterator hash<Key,T>::const_end() const
  {
-	 return const_iterator(const_cast<hash<Key,T>* >(this),m_table_size,slot::const_iterator());
+	 return  const_iterator(const_cast<hash<Key,T>* >(this),m_table_size,typename slot::const_iterator());
  }
  
 
