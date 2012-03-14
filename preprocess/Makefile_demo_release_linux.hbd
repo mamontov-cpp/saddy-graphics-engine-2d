@@ -1,4 +1,4 @@
-{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread 
+{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp}LDFLAGS= -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
 OUTPUT   = ../bin/saddy-test-release
 DEFINES  = -DUNIX -DLINUX -DGCC
