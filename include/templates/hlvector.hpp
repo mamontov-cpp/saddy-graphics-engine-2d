@@ -77,7 +77,7 @@ template<class T> class vector
 			  \return true if not equiualent
 		  */
 		  bool operator!=(const vector & o);
-		  ~vector();                                       //!< Destructor.
+		  virtual ~vector();                                       //!< Destructor.
           //Геттеры---------------
            inline unsigned long count() const;                               //!< Returns a size of vector
            inline T*   data()  const;                               //!< Returns a pointer to data
