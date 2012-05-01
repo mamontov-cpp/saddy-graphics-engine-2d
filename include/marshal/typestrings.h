@@ -38,4 +38,3 @@ public:
 											   { return hst::string( #_type ); }   \
                                               };                                   \
                                             }                                   
-												   
