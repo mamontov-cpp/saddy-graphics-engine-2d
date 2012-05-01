@@ -731,6 +731,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\marshal\templatemappings.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\marshal\typestrings.h"
 					>
 				</File>
