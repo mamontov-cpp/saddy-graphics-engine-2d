@@ -53,6 +53,15 @@ void SerializableObject::load(SerializationEntry * entry,ActionContext * context
 	context->popAction();
 }
 
+void SerializableObject::resolveDeferred(ActionContext * context)
+{
+	for (hst::hash<hst::string, AbstractProperty *>::iterator it = m_properties.begin();
+														   it != m_properties.end();it++)
+	{
+	 it.value()->resolveDeferred(context);
+	}
+}
+
 SerializableObject::~SerializableObject()
 {
  for (hst::hash<hst::string, AbstractProperty *>::iterator it = m_properties.begin();

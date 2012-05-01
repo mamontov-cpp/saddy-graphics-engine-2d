@@ -115,4 +115,23 @@ namespace serializable
 		 {
 		 }
 	};
+
+	/*! \class InvalidParams
+
+		This exception is thrown when method is not implemented
+	 */
+	class InvalidParams: public AbstractException
+	{
+	 public:
+			/*! Constructs a new exception
+				\param[in] needed class name
+				\param[in] real   real amount
+				\param[in] context context
+			 */
+		 inline InvalidParams( int needed , int real,
+							   ActionContext * context)
+		 : AbstractException(hst::string::number(needed)+ hst::string(" arguments is needed, instead of") + hst::string::number(real),context)
+		 {
+		 }
+	};
 }

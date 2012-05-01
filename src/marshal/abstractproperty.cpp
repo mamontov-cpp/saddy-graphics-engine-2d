@@ -48,3 +48,12 @@ AbstractProperty::~AbstractProperty()
 {
 }
 
+sad::Variant * AbstractProperty::returnValue() const
+{
+	return NULL;
+}
+
+bool AbstractProperty::returnsValue() const
+{
+	return false;
+}

@@ -118,6 +118,8 @@ class MappedMethod: public AbstractProperty
 		   }
  public:
 		   virtual bool callable() { return true;}
+
+
 };
 
 /*! A mapped method, that returns a value
@@ -128,8 +130,12 @@ class ReturnMappedMethod: MappedMethod<_RealSerializable>
  protected:
 	       _ReturnData m_return_data;  //!< Returned value of method
  public:
-	       const _ReturnData & returnValue() const { return m_return_data; } 
+	       sad::Variant * returnValue() const { return new sad::Variant(m_return_data); } 
+		   bool returnsValue() const  { return true; }
 };
+
+
+#include "templatemappings.h"
 
 typedef MappedField<bool>                  BoolMappedField;
 typedef MappedField<float>                 FloatMappedField;
