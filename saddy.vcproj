@@ -440,6 +440,50 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="marshal"
+				>
+				<File
+					RelativePath=".\src\marshal\abstractproperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\abstractreader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\abstractwriter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\actioncontext.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\exceptions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\property.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\saveloadcallbacks.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\serializablecontainer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\serializableobject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\marshal\variant.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -699,6 +743,54 @@
 				</File>
 				<File
 					RelativePath=".\include\config\sprite2dtemplate.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="marshal"
+				>
+				<File
+					RelativePath=".\include\marshal\abstractproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\abstractreader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\abstractwriter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\actioncontext.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\exceptions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\property.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\saveloadcallbacks.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\serializablecontainer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\serializableobject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\typestrings.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\variant.h"
 					>
 				</File>
 			</Filter>
