@@ -19,6 +19,7 @@ bool serializable::AbstractWriter::write(SerializableContainer * container, Acti
 		SerializationEntry * entry = current->save(context);
 		this->write(entry);
 		delete entry;
+		current = container->next();
 	}
 
 	this->closeStream();

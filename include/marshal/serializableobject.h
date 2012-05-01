@@ -69,6 +69,10 @@ class SerializableObject
 		 */
 		virtual void load(SerializationEntry * entry,ActionContext * context);
 
+
+		/*! Resolves deferred links when loaded
+		 */
+		virtual void resolveDeferred(ActionContext * context);
 		/*! Returns a string type
 			\return a string type of object
 		 */

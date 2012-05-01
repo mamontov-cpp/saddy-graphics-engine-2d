@@ -74,4 +74,11 @@ class AbstractProperty
 		virtual void resolveDeferred(ActionContext * context);
 
 		virtual ~AbstractProperty();
+
+		/*! Determines a return value for method
+		 */
+		virtual sad::Variant * returnValue() const; 
+		/*! Determines, whether method returns a value
+		 */
+		virtual bool returnsValue() const;
 };

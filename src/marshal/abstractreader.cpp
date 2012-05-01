@@ -26,6 +26,14 @@ bool serializable::AbstractReader::read(SerializableContainer * container, Actio
 		entry=this->nextEntry();
 	}
 	
+
+	SerializableObject * current = container->begin();
+	while(current)
+	{
+		current->resolveDeferred(context);
+		current = container->next();
+	}
+
 	this->closeStream();
 	context->popAction();
 	return true;
