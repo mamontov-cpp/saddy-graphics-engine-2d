@@ -37,16 +37,16 @@ int main(int argc, char ** argv)
         printf(", ");
      printf("T%d a%d",i,i);
     }
-    printf(")  ) { m_callback=callback }\n");
+    printf(")  ) { m_callback=callback; }\n");
     printf("       virtual void call(const sad::VariantVector & v,ActionContext * c)\n");
     printf("       {    \n");
-    printf("             if (v.count()!=%d) throw new InvalidParams(%d,v.count(),c);\n",args,args);
+    printf("             if (v.count()!=%d) throw new serializable::InvalidParams(%d,v.count(),c);\n",args,args);
     printf("             (this->realObject()->*m_callback)(");
     for (int i=0;i<args;i++)
     {
      if (i!=0)
         printf(", ");
-     printf("v[%d].get<T%d>(c)",i,i);
+     printf("v[%d].template get<T%d>(c)",i,i);
     }
     printf(");\n");
     printf("       }    \n");
@@ -105,16 +105,16 @@ int main(int argc, char ** argv)
         printf(", ");
      printf("T%d a%d",i,i);
     }
-    printf(")  ) { m_callback=callback }\n");
+    printf(")  ) { m_callback=callback; }\n");
     printf("       virtual void call(const sad::VariantVector & v,ActionContext * c)\n");
     printf("       {    \n");
-    printf("             if (v.count()!=%d) throw new InvalidParams(%d,v.count(),c);\n",args,args);
-    printf("             m_return_data = (this->realObject()->*m_callback)(");
+    printf("             if (v.count()!=%d) throw new serializable::InvalidParams(%d,v.count(),c);\n",args,args);
+    printf("             this->m_return_data = (this->realObject()->*m_callback)(");
     for (int i=0;i<args;i++)
     {
      if (i!=0)
         printf(", ");
-     printf("v[%d].get<T%d>(c)",i,i);
+     printf("v[%d].template get<T%d>(c)",i,i);
     }
     printf(");\n");
     printf("       }    \n");
