@@ -43,6 +43,12 @@ class Texture
         end
         return @context
     end
+    
+    # Size of texture returns
+    # * return Array size of texture
+    def size()
+    
+    end
 end
 
 
