@@ -6,7 +6,7 @@ class ImageWriter
     # Writes an image into file
     # * param texture Array (surface, context)
     # * param filename String name of output file
-    # * return Boolena name of file
+    # * return Boolen  whether writing was successfull
     def write(texture, filename)
     end
 end
