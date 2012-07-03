@@ -16,8 +16,6 @@ class SpriteConfig
     
     public
     
-    # Array array of errors
-    attr_reader :errors
     
     # Inits new empty config
     def initialize()
@@ -44,5 +42,15 @@ class SpriteConfig
     # * param configArray Array. A config entries array
     def setConfigArray(configArray)
         @configArray = configArray
+    end
+    # Tried to load a texture, if absent in base, otherwise return true. If fails, return false. Adds a new error, if has some
+    # * param filename name of texture
+    # * return true on success, otherwise false.
+    def queryLoadTexture(filename)
+    end
+    
+    # Returns a list of errors
+    # * return Array list of errors
+    def getErrors()
     end
 end
