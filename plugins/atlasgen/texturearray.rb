@@ -25,8 +25,8 @@ class Texture
     def load()
     end
     
-    # Returns a surface
-    # * return Cairo::Surface a cairo surface
+    # Returns an image of texture
+    # * return DevIL::Image an image of texture
     def getImage()
         if (@image.nil?())
             rise 'Attempt to work with invalid texture'
