@@ -5,10 +5,9 @@ require 'cairo'
 class Texture
     private
     
-    # Cairo::Surface a cairo surface
-    attr_accessor :surface
-    # Cairo::Context a cairo context
-    attr_accessor :context
+    # DevIL image
+    attr_accessor :image
+
     
     public
     
@@ -28,21 +27,13 @@ class Texture
     
     # Returns a surface
     # * return Cairo::Surface a cairo surface
-    def getSurface()
-        if (@surface.nil?())
+    def getImage()
+        if (@image.nil?())
             rise 'Attempt to work with invalid texture'
         end
-        return @surface
+        return @image
     end
     
-    # Returns a context
-    # * return Cairo::Surface a cairo surface
-    def getContext()
-        if (@context.nil?())
-            rise 'Attempt to work with invalid texture'
-        end
-        return @context
-    end
     
     # Size of texture returns
     # * return Array size of texture
