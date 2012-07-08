@@ -12,7 +12,7 @@ class GlueOrder
     attr_accessor :mode
 end
 
-class GlueMetrics
+class GlueMetric
 
     # Computes a glue metric result as maximum metric
     # * Array of GlueEntry part to merge
@@ -28,6 +28,63 @@ class GlueMetrics
     # * index what metric should be used (0 for width, 1 to height)
     def sumMerge(entries, order, index)
         return entries[order.images[0]].size()[index] + entries[order.images[1]].size()[index] 
+    end
+    
+    # Computes a metric for describing what is maximum and what is not
+    # * Array of GlueEntry part to merge
+    # * order what should be merged
+    def getMetric(entries, order)
+        raise 'Not implemented!'
+    end
+end
+# A metric, that minimizes a total square between two merged images
+class MinSquareMetric < GlueMetric
+     # Computes a metric for describing what is maximum and what is not
+    # * Array of GlueEntry part to merge
+    # * order what should be merged
+    def getMetric(entries, order)
+        w = 0 
+        h = 0
+        if (order.mode == GlueMode::HORIZONTAL)
+            w = GlueMetrics.sumMerge(entries, order, 0)
+            h = GlueMetrics.maxMerge(entries, order, 1) 
+        else
+            w = GlueMetrics.maxMerge(entries, order, 0)   
+            h = GlueMetrics.sumMerge(entries, order, 1) 
+        end
+        return w*h
+    end
+end
+# A metric, that minimizes a total diff between images
+class MinDiffMetric < GlueMetric
+     # Computes a metric for describing what is maximum and what is not
+    # * Array of GlueEntry part to merge
+    # * order what should be merged
+    def getMetric(entries, order)
+        w = 0 
+        h = 0
+        entry1 = entries[order.images[0]]
+        entry2 = entries[order.images[1]]
+        size1 = [entry1.size()[0],entry1.size()[1]]
+        size2 = [entry2.size()[0],entry2.size()[1]]
+        if (order.mode == GlueMode::HORIZONTAL)
+            if (size1[1] > size2[1])
+                w = size2[0]
+                h = size1[1] - size2[1]
+            else
+                w = size1[0]
+                h = size2[1] - size1[1]
+            end
+        else
+            if (size1[0] > size2[0])
+                w = size1[0] - size2[0]
+                h = size2[1] 
+            else
+                w = size2[0] - size1[0]
+                h = size1[1] 
+            end
+        end
+        return w*h
     end
 end
 # Represents an entry, used two glue two entry
@@ -53,7 +110,7 @@ class GlueEntry
     # * return GlueEntry merged glue entry
     def merge(entries, order)
         w = 0 
-        h =0
+        h = 0
         if (order.mode == GlueMode::HORIZONTAL)
             w = GlueMetrics.sumMerge(entries, order, 0)
             h = GlueMetrics.maxMerge(entries, order, 1) 
