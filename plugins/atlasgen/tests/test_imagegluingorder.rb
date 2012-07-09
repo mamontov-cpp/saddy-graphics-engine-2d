@@ -29,12 +29,34 @@ class TestGlueEntry < Test::Unit::TestCase
         assert( (size[1]-40).abs() < 0.1 , size[1].to_s() )
     end
     
-    # Test a horizontal merge, when images are Equal
+    # Test a horizontal merge, when images are equal
     def testMerge_horizontalEqual()
         entry = GlueEntry.merge(@entries, GlueOrder.new(0,0,GlueMode::HORIZONTAL))
         size = entry.size()
         assert( (size[0]-100).abs() < 0.1 , size[0].to_s() )
         assert( (size[1]-40).abs() < 0.1 , size[1].to_s() )
+    end
+    
+    # Tests a vertical merge, when upper image is bigger then lower
+    def testMerge_verticalUD()
+        entry = GlueEntry.merge(@entries, GlueOrder.new(4,5,GlueMode::VERTICAL) )
+        size = entry.size()
+        assert( (size[0]-50).abs() < 0.1 , size[0].to_s() )
+        assert( (size[1]-70).abs() < 0.1 , size[1].to_s() )
+    end
+     # Tests a vertical merge, when lower image is bigger then upper
+    def testMerge_verticalDU()
+        entry = GlueEntry.merge(@entries, GlueOrder.new(6,7,GlueMode::VERTICAL) )
+        size = entry.size()
+        assert( (size[0]-50).abs() < 0.1 , size[0].to_s() )
+        assert( (size[1]-70).abs() < 0.1 , size[1].to_s() )
+    end
+    # Tests a vertical merge, when lower image is bigger then upper
+    def testMerge_verticalEqual()
+        entry = GlueEntry.merge(@entries, GlueOrder.new(0,0,GlueMode::VERTICAL) )
+        size = entry.size()
+        assert( (size[0]-50).abs() < 0.1 , size[0].to_s() )
+        assert( (size[1]-80).abs() < 0.1 , size[1].to_s() )
     end
     
     # Does really nothing
