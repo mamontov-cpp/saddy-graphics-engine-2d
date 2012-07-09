@@ -21,6 +21,34 @@ class GlueOrder
         @mode = mode
     end
 end
+# Behaves as infinitely big number if not initialized
+class MaybeNumber
+    # Inits as infinitely big metric
+    attr_accessor :number
+    
+    def initialize()
+       @number = Fixnum.nil
+    end
+    
+    def >(number)
+        if (self.valid?() == false)
+            return false
+        else
+            return (@number > number)
+        end
+    end
+    
+    def ==(number)
+        if (self.valid?())
+            return (@number-number).abs() < 0.1
+        end
+        return false
+    end
+    
+    def valid?()
+        return (@number.nil? == false)
+    end
+end
 
 class GlueMetric
 
@@ -45,6 +73,39 @@ class GlueMetric
     # * order what should be merged
     def getMetric(entries, order)
         raise 'Not implemented!'
+    end
+    
+    # Finds an order, where the metric is minimal
+    # * param entries array of GlueEntry to merge
+    # * param order   order, in which they must be merged
+    # * return new order
+    def findMinMetricOrder(entries, order)
+        possible_orders = []
+        min = MaybeNumber.new()
+        # Search all combination
+        @entries.each_index{
+            |i1|
+            @entries.each_index {
+                |i2|
+                
+                # Check all possible combination of two entries
+                combinations = [ GlueOrder.new(i1,i2, GlueMode::HORIZONTAL), GlueOrder.new(i1,i2, GlueMode::VERTICAL) ]; 
+                combinations.each{
+                    |combination|
+                    
+                    # Scans metric
+                    metric = self.getMetric(entries, order)
+                    if (min>metric)
+                        min.number = metric
+                        possible_orders = [ combination ] 
+                    else
+                        if (min == metric)
+                            possible_orders = (possible_orders << combination)
+                        end
+                    end
+                }
+            }
+        }
     end
 end
 # A metric, that minimizes a total square between two merged images
