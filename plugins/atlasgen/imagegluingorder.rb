@@ -10,6 +10,16 @@ class GlueOrder
     attr_accessor :images
     # GlueMode  how should images be merged
     attr_accessor :mode
+    
+    # Declares a merges with indexes
+    # * int image1 index of first image
+    # * int image2 index of second image
+    # * int mode   mode numeric
+    # return int part
+    def initialize(image1, image2,  mode)
+        @images = [image1, image2]
+        @mode = mode
+    end
 end
 
 class GlueMetric
@@ -18,7 +28,7 @@ class GlueMetric
     # * Array of GlueEntry part to merge
     # * order what should be merged
     # * index what metric should be used (0 for width, 1 to height)
-    def maxMerge(entries, order, index)
+    def self.maxMerge(entries, order, index)
         return [ entries[order.images[0]].size()[index] , entries[order.images[1]].size()[index] ].max
     end
     
@@ -26,7 +36,7 @@ class GlueMetric
     # * Array of GlueEntry part to merge
     # * order what should be merged
     # * index what metric should be used (0 for width, 1 to height)
-    def sumMerge(entries, order, index)
+    def self.sumMerge(entries, order, index)
         return entries[order.images[0]].size()[index] + entries[order.images[1]].size()[index] 
     end
     
@@ -46,11 +56,11 @@ class MinSquareMetric < GlueMetric
         w = 0 
         h = 0
         if (order.mode == GlueMode::HORIZONTAL)
-            w = GlueMetrics.sumMerge(entries, order, 0)
-            h = GlueMetrics.maxMerge(entries, order, 1) 
+            w = GlueMetric.sumMerge(entries, order, 0)
+            h = GlueMetric.maxMerge(entries, order, 1) 
         else
-            w = GlueMetrics.maxMerge(entries, order, 0)   
-            h = GlueMetrics.sumMerge(entries, order, 1) 
+            w = GlueMetric.maxMerge(entries, order, 0)   
+            h = GlueMetric.sumMerge(entries, order, 1) 
         end
         return w*h
     end
@@ -108,15 +118,15 @@ class GlueEntry
     # * param Array entries input entries data
     # * param GlueOrder order   order, in which they must be merged
     # * return GlueEntry merged glue entry
-    def merge(entries, order)
+    def self.merge(entries, order)
         w = 0 
         h = 0
         if (order.mode == GlueMode::HORIZONTAL)
-            w = GlueMetrics.sumMerge(entries, order, 0)
-            h = GlueMetrics.maxMerge(entries, order, 1) 
+            w = GlueMetric.sumMerge(entries, order, 0)
+            h = GlueMetric.maxMerge(entries, order, 1) 
         else
-           w = GlueMetrics.maxMerge(entries, order, 0)   
-           h = GlueMetrics.sumMerge(entries, order, 1) 
+           w = GlueMetric.maxMerge(entries, order, 0)   
+           h = GlueMetric.sumMerge(entries, order, 1) 
         end
         return GlueEntry.new(w, h)
     end
