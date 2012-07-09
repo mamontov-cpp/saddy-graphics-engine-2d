@@ -7,8 +7,21 @@ require 'test/unit'
 # Returns a test material objects to provide some data
 class TestSupply
     def self.get()
-        sizes =  [ [50,40], [30,30], [20,30], [50,40], [50,40], [30,30], [20,30] , [50,40] ];
+        return self.toEntries([ [50,40], [30,30], [20,30], [50,40], [50,40], [30,30], [20,30] , [50,40] ])
+    end
+    
+    def self.toEntries(sizes)
         return sizes.collect{ |size| GlueEntry.new(size[0],size[1]); };
+    end
+    
+    def self.printOrders(orders)
+        result = orders.length.to_s() + ": "
+        orders.each{  |order| result = result + TestSupply.printOrder(order) + ";"}
+        return result
+    end
+    
+    def self.printOrder(order)
+        return "{ image0: " + order.images[0].to_s() + "; image1: "+ order.images[1].to_s() + "; mode:" + order.mode.to_s() + "}";
     end
 end
 
@@ -117,6 +130,39 @@ class MinAreaMetricTest < Test::Unit::TestCase
         assert( (metric-4000).abs() < 0.1 , metric.to_s() )
     end
     
+    # Test first iteration of method
+    def testFindMinMetric1()
+        orders = @obj.findMinMetricOrder(@entries)
+        len = orders.length.to_s()
+   
+        assert(orders.length == 2, TestSupply.printOrders(orders))
+        assert(orders[0].images[0] == 2)
+        assert(orders[0].images[1] == 6)
+        assert(orders[0].mode == GlueMode::HORIZONTAL)
+        assert(orders[1].images[0] == 2)
+        assert(orders[1].images[1] == 6)
+        assert(orders[1].mode == GlueMode::VERTICAL)
+        
+    end
+
+    # Tests second iteration of method
+    def testFindMinMetric2()
+        orders = @obj.findMinMetricOrder(@entries)
+        
+        entries = @entries.clone()
+        entries.delete_at(6)
+        entries.delete_at(2)
+        entries = entries <<  GlueEntry.merge(@entries, orders[0])
+        orders =  @obj.findMinMetricOrder(entries)
+        
+        assert(orders.length == 2, TestSupply.printOrders(orders))
+        assert(orders[0].images[0] == 1)
+        assert(orders[0].images[1] == 4)
+        assert(orders[0].mode == GlueMode::HORIZONTAL)
+        assert(orders[1].images[0] == 1)
+        assert(orders[1].images[1] == 4)
+        assert(orders[1].mode == GlueMode::VERTICAL)
+    end
     # Does really nothing
     def teardown()
 
