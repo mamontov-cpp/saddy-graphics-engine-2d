@@ -48,7 +48,7 @@ class GlueMetric
     end
 end
 # A metric, that minimizes a total square between two merged images
-class MinSquareMetric < GlueMetric
+class MinAreaMetric < GlueMetric
      # Computes a metric for describing what is maximum and what is not
     # * Array of GlueEntry part to merge
     # * order what should be merged
