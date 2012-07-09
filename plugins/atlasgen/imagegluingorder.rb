@@ -78,7 +78,7 @@ class GlueMetric
     # Finds an order, where the metric is minimal
     # * param entries array of GlueEntry to merge
     # * param order   order, in which they must be merged
-    # * return new order
+    # * return Array of new orders
     def findMinMetricOrder(entries, order)
         possible_orders = []
         min = MaybeNumber.new()
@@ -106,6 +106,7 @@ class GlueMetric
                 }
             }
         }
+        return possible_orders
     end
 end
 # A metric, that minimizes a total square between two merged images
