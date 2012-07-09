@@ -23,6 +23,16 @@ class TestSupply
     def self.printOrder(order)
         return "{ image0: " + order.images[0].to_s() + "; image1: "+ order.images[1].to_s() + "; mode:" + order.mode.to_s() + "}";
     end
+    
+    def self.printImages(entries)
+      result = ""
+      entries.each{ |entry| result=result + TestSupply.printImage(entry) + ";"}
+      return result
+    end
+    
+    def self.printImage(entry)
+        return "[" + entry.size()[0].to_s() + "," + entry.size()[1].to_s() + "]"
+    end
 end
 
 
@@ -217,4 +227,28 @@ class MinDiffMetricTest < Test::Unit::TestCase
 
     end
     
+     # Test first iteration of method
+    def testFindMinMetric1()
+        entries = @entries.clone()
+        [7,6,5,4,3].each{ |i| entries.delete_at(i) }
+        orders = @obj.findMinMetricOrder(entries)
+        #len = orders.length.to_s()
+   
+        assert(orders.length == 1, TestSupply.printOrders(orders))
+        assert(orders[0].images[0] == 1)
+        assert(orders[0].images[1] == 2)
+        assert(orders[0].mode == GlueMode::HORIZONTAL)
+       
+    end
+    # Test second iteration of method
+    def testFindMinMetric2()
+        entries = @entries.clone()
+        entries = entries <<  GlueEntry.merge(entries, GlueOrder.new(0,1, GlueMode::HORIZONTAL))
+        [7,6,5,4,3,2,1].each{ |i| entries.delete_at(i) }
+        orders =  @obj.findMinMetricOrder(entries)
+        assert(orders.length == 1, TestSupply.printOrders(orders))
+        assert(orders[0].images[0] == 0)
+        assert(orders[0].images[1] == 1)
+        assert(orders[0].mode == GlueMode::HORIZONTAL, TestSupply.printImages(entries))
+    end
 end
