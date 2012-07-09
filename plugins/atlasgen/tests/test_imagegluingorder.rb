@@ -99,20 +99,20 @@ class MinSquareMetricTest < Test::Unit::TestCase
     end
     
     # Test a metric computation on vertical merge, when upper image is bigger then lower
-    def testGetMetric_verticallUD()
-        metric = @obj.getMetric(@entries, GlueOrder.new(4,5,GlueMode::HORIZONTAL))
+    def testGetMetric_verticallUD() 
+        metric = @obj.getMetric(@entries, GlueOrder.new(4,5,GlueMode::VERTICAL))
         assert( (metric-3500).abs() < 0.1 , metric.to_s() )
     end
     
     # Test a metric computation on vertical merge, when lower image is bigger then upper
     def testGetMetric_verticallDU()
-        metric = @obj.getMetric(@entries, GlueOrder.new(6,7,GlueMode::HORIZONTAL))
+        metric = @obj.getMetric(@entries, GlueOrder.new(6,7,GlueMode::VERTICAL))
         assert( (metric-3500).abs() < 0.1 , metric.to_s() )
     end
     
     # Test a metric computation on vertical merge, when images are equal
     def testGetMetric_verticallEqual()
-        metric = @obj.getMetric(@entries, GlueOrder.new(0,0,GlueMode::HORIZONTAL))
+        metric = @obj.getMetric(@entries, GlueOrder.new(0,0,GlueMode::VERTICAL))
         assert( (metric-4000).abs() < 0.1 , metric.to_s() )
     end
     
