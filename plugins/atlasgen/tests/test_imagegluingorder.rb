@@ -74,7 +74,8 @@ class TestGlueEntry < Test::Unit::TestCase
     end
 end
 
-class MinSquareMetricTest < Test::Unit::TestCase
+# Test of Min Area metric
+class MinAreaMetricTest < Test::Unit::TestCase
     
     #  Inits entry array with test entries and object with valid object 
     def setup()
@@ -114,6 +115,55 @@ class MinSquareMetricTest < Test::Unit::TestCase
     def testGetMetric_verticallEqual()
         metric = @obj.getMetric(@entries, GlueOrder.new(0,0,GlueMode::VERTICAL))
         assert( (metric-4000).abs() < 0.1 , metric.to_s() )
+    end
+    
+    # Does really nothing
+    def teardown()
+
+    end
+    
+end
+# Test of Min Diff metric
+class MinDiffMetricTest < Test::Unit::TestCase
+    
+    #  Inits entry array with test entries and object with valid object 
+    def setup()
+        @entries = TestSupply.get()
+        @obj = MinDiffMetric.new()
+    end
+    
+    # Test a metric computation on horizontal merge, when left image is bigger then right
+    def testGetMetric_horizontalRL()
+        metric = @obj.getMetric(@entries, GlueOrder.new(0,1,GlueMode::HORIZONTAL))
+        assert( (metric-300).abs() < 0.1 , metric.to_s() )
+    end
+    # Test a metric computation on horizontal merge, when right image is bigger then left
+    def testGetMetric_horizontalLR()
+        metric = @obj.getMetric(@entries, GlueOrder.new(2,3,GlueMode::HORIZONTAL))
+        assert( (metric-200).abs() < 0.1 , metric.to_s() )
+    end
+    # Test a metric computation on horizontal merge, when images are equal
+    def testGetMetric_horizontalEqual()
+        metric = @obj.getMetric(@entries, GlueOrder.new(0,0,GlueMode::HORIZONTAL))
+        assert( (metric-0).abs() < 0.1 , metric.to_s() )
+    end
+    
+    # Test a metric computation on vertical merge, when upper image is bigger then lower
+    def testGetMetric_verticallUD() 
+        metric = @obj.getMetric(@entries, GlueOrder.new(4,5,GlueMode::VERTICAL))
+        assert( (metric-600).abs() < 0.1 , metric.to_s() )
+    end
+    
+    # Test a metric computation on vertical merge, when lower image is bigger then upper
+    def testGetMetric_verticallDU()
+        metric = @obj.getMetric(@entries, GlueOrder.new(6,7,GlueMode::VERTICAL))
+        assert( (metric-900).abs() < 0.1 , metric.to_s() )
+    end
+    
+    # Test a metric computation on vertical merge, when images are equal
+    def testGetMetric_verticallEqual()
+        metric = @obj.getMetric(@entries, GlueOrder.new(0,0,GlueMode::VERTICAL))
+        assert( (metric-0).abs() < 0.1 , metric.to_s() )
     end
     
     # Does really nothing
