@@ -1,0 +1,1 @@
+ruby tests/test_imagegluingorder.rb
