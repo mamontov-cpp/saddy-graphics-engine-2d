@@ -27,12 +27,12 @@ class MaybeNumber
     attr_accessor :number
     
     def initialize()
-       @number = Fixnum.nil
+       @number = nil
     end
     
     def >(number)
         if (self.valid?() == false)
-            return false
+            return true
         else
             return (@number > number)
         end
@@ -77,33 +77,33 @@ class GlueMetric
     
     # Finds an order, where the metric is minimal
     # * param entries array of GlueEntry to merge
-    # * param order   order, in which they must be merged
     # * return Array of new orders
-    def findMinMetricOrder(entries, order)
+    def findMinMetricOrder(entries)
         possible_orders = []
         min = MaybeNumber.new()
         # Search all combination
-        @entries.each_index{
+        entries.each_index{
             |i1|
-            @entries.each_index {
+            entries.each_index {
                 |i2|
-                
-                # Check all possible combination of two entries
-                combinations = [ GlueOrder.new(i1,i2, GlueMode::HORIZONTAL), GlueOrder.new(i1,i2, GlueMode::VERTICAL) ]; 
-                combinations.each{
-                    |combination|
-                    
-                    # Scans metric
-                    metric = self.getMetric(entries, order)
-                    if (min>metric)
-                        min.number = metric
-                        possible_orders = [ combination ] 
-                    else
-                        if (min == metric)
-                            possible_orders = (possible_orders << combination)
+                if (i2>i1)
+                    # Check all possible combination of two entries
+                    combinations = [ GlueOrder.new(i1,i2, GlueMode::HORIZONTAL), GlueOrder.new(i1,i2, GlueMode::VERTICAL) ]; 
+                    combinations.each{
+                        |combination|
+                        
+                        # Scans metric
+                        metric = self.getMetric(entries, combination)
+                        if (min>metric == true)
+                            min.number = metric
+                            possible_orders = [ combination ] 
+                        else
+                            if (min == metric)
+                                possible_orders = (possible_orders << combination)
+                            end
                         end
-                    end
-                }
+                    }
+                end
             }
         }
         return possible_orders
