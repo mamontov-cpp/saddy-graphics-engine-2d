@@ -26,10 +26,12 @@ class ImageArranger
         end
         # Merges two buckets in specified order
         def self.merge(bucket1, bucket2, order)
+            
             bucketsize1 = bucket1.size
             bucketsize2 = bucket2.size
             result = ImageBucket.new()
-            result.images = bucket1.images + bucket2.images
+            result.images = bucket1.images.clone
+            result.images.concat(bucket2.images)
             if (order.mode == GlueMode::HORIZONTAL)
                 # Handle horizontal merge
                 result.size = [ (bucket1.size[0] + bucket2.size[0]), [bucket1.size[1] , bucket2.size[1]].max() ]
@@ -65,7 +67,21 @@ class ImageArranger
     # Returns width and height of resulting texture as one integer (since it square POT texture it's all equal)
     def arrange(images, order, totalSize)
         if (images.length>1)
-            
+            # Fill all buckets
+            buckets = images.collect { |image| ImageArranger::ImageBucket.new(image) }
+            # Foreach order in entry
+            order.each{
+                |entry|
+                
+                # Sort indexes descending
+                indexes  = entry.images.clone
+                indexes.sort!
+                indexes.reverse!
+                
+                new_bucket = ImageBucket.merge(buckets[entry.images[0]],buckets[entry.images[1]],entry)
+                indexes.each{ |index| buckets.delete_at(index) }
+                buckets = buckets << new_bucket
+            }
         elsif (images.length==1)
             images[0].textureRectangle = [0,0, images[0].size[0], images[0].size[1]]
         end
