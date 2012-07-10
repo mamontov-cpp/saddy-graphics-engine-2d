@@ -63,13 +63,13 @@ class GlueTask
         @orders = orders
     end
     # Applies a new order, creating a new task
-    def self.applyOrder(order)
+    def applyOrder(order)
         entries = @entries.clone()
         orders = @orders.clone()
         entries = entries << GlueEntry.merge(entries, order)
         entries.delete_at(order.images[1])
         entries.delete_at(order.images[0])
-        orders = orders << orders
+        orders = orders << order
         return GlueTask.new(entries, orders)
     end
 end
@@ -143,7 +143,24 @@ class GlueMetric
             return [[nil,[entries[0].size[0],entries[0].size[1]]]]
         end
         finishedtasks = []
-        tasks = [ ]
+        tasks = [ GlueTask.new(entries, []) ]
+        i = 0
+        while (i!= tasks.length)
+            task = tasks[0]
+            tasks.delete_at(0)
+            # If task is finished
+            if (task.entries.length == 1)
+                finishedtasks = finishedtasks << ( [ task.orders, [task.entries[0].size()[0],task.entries[0].size()[1]] ] )
+            else
+                # If not finished add new task, with min orders
+                orders = self.findMinMetricOrder(task.entries)
+                orders.each{
+                    |order|
+                    tasks = tasks << task.applyOrder(order)
+                }
+            end
+        end
+        return finishedtasks
     end
 end
 # A metric, that minimizes a total square between two merged images
