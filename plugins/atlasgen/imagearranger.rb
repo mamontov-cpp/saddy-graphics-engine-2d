@@ -24,9 +24,9 @@ class ImageArranger
     # Returns width and height of resulting texture as one integer (since it square POT texture it's all equal)
     def arrange(images, order, totalSize)
         if (images.length>1)
-        
+            
         elsif (images.length==1)
-        
+            images[0].textureRectangle = [0,0, images[0].size[0], images[0].size[1]]
         end
         return ImageArranger.nextPOT(totalSize.max)
     end
