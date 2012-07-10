@@ -119,6 +119,45 @@ class TestImageArranger < Test::Unit::TestCase
         assert(images[1].textureRectangle[3] == 50)
     end
     
+     # Tests some horizontal merge
+    def testArrangeHorizontal()
+        sizes = [ [30,50], [30,40], [30,40] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        ImageArranger.new.arrange(images, [GlueOrder.new(1,2, GlueMode::HORIZONTAL), GlueOrder.new(0,1, GlueMode::HORIZONTAL)], [0,0])
+        assert(images[0].textureRectangle[0] == 0,images[0].textureRectangle[0].to_s())
+        assert(images[0].textureRectangle[1] == 0,images[0].textureRectangle[1].to_s())
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 50)
+        assert(images[1].textureRectangle[0] == 30)
+        assert(images[1].textureRectangle[1] == 0)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 40)
+        assert(images[2].textureRectangle[0] == 60, images[2].textureRectangle[0].to_s())
+        assert(images[2].textureRectangle[1] == 0)
+        assert(images[2].textureRectangle[2] == 30)
+        assert(images[2].textureRectangle[3] == 40)
+    end
+    
+    # Tests some vertical merge
+    def testArrangeVertixal()
+        sizes = [ [30,50], [30,40], [30,40] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        ImageArranger.new.arrange(images, [GlueOrder.new(1,2, GlueMode::VERTICAL), GlueOrder.new(0,1, GlueMode::VERTICAL)], [0,0])
+        assert(images[0].textureRectangle[0] == 0,images[0].textureRectangle[0].to_s())
+        assert(images[0].textureRectangle[1] == 0,images[0].textureRectangle[1].to_s())
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 50)
+        assert(images[1].textureRectangle[0] == 0)
+        assert(images[1].textureRectangle[1] == 50)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 40)
+        assert(images[2].textureRectangle[0] == 0, images[2].textureRectangle[0].to_s())
+        assert(images[2].textureRectangle[1] == 90)
+        assert(images[2].textureRectangle[2] == 30)
+        assert(images[2].textureRectangle[3] == 40)
+    end
     # Does really nothing
     def teardown()
         
