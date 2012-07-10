@@ -50,6 +50,29 @@ class MaybeNumber
     end
 end
 
+# A task for gluing all data
+class GlueTask
+    # Array of Glue Entry to do
+    attr_accessor :entries
+    # Array of Glue Order of current order
+    attr_accessor :orders
+    
+    # Creates a new task with specified entries and orders
+    def initialize(entries, orders)
+        @entries = entries
+        @orders = orders
+    end
+    # Applies a new order, creating a new task
+    def self.applyOrder(order)
+        entries = @entries.clone()
+        orders = @orders.clone()
+        entries = entries << GlueEntry.merge(entries, order)
+        entries.delete_at(order.images[1])
+        entries.delete_at(order.images[0])
+        orders = orders << orders
+        return GlueTask.new(entries, orders)
+    end
+end
 class GlueMetric
 
     # Computes a glue metric result as maximum metric
@@ -107,6 +130,20 @@ class GlueMetric
             }
         }
         return possible_orders
+    end
+    
+    # Finds an order on all entries
+    # * param entries Array of all entries to be merged
+    # * return Array[ Array[orders, Array[width, height]] ] . Can return nil if no entries supplied. Also can be returned [ [ nil, [w,h]]] if one image
+    def findOrder(entries)
+        if (entries.length==0)
+            return nil
+        end
+        if (entries.length==1)
+            return [[nil,[entries[0].size[0],entries[0].size[1]]]]
+        end
+        finishedtasks = []
+        tasks = [ ]
     end
 end
 # A metric, that minimizes a total square between two merged images
