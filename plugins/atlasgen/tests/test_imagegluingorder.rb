@@ -269,4 +269,22 @@ class MinDiffMetricTest < Test::Unit::TestCase
         assert(orders[0].images[1] == 1)
         assert(orders[0].mode == GlueMode::HORIZONTAL, TestSupply.printImages(entries))
     end
+	
+	# Tests finding order of merging images
+	def testfindOrder()
+		entries = @entries.clone()
+		[7,6,5,4,3].each{ |x| entries.delete_at(x) }
+		result = @obj.findOrder(entries)
+		assert( (result[0][1][0]-50).abs() < 0.1 , result[0][1][0].to_s() )
+		assert( (result[0][1][1]-70).abs() < 0.1 , result[0][1][1].to_s() )
+		
+		#TODO: Uncomment in case of error to see test results
+		#result.each {
+		#	|resultentry|
+			
+		#	print "<" + resultentry[1][0].to_s() + " "  + resultentry[1][1].to_s() + ">: " + TestSupply.printOrders(resultentry[0]) + "\n"
+		
+		#}
+		
+	end
 end
