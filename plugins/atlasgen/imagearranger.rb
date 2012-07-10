@@ -8,15 +8,14 @@ class ImageArranger
         attr_accessor :images # Array of images inside of bucket
         attr_accessor :size   # Size part of bucket
         
-        def initialize()
-        
-        end
         
         # Initializes bucket with one image
-        def initialize(image)
-            @images = [image]
-            image.textureRectangle = [0,0, image.size[0], image.size[1]]
-            @size = image.size()
+        def initialize(image = nil)
+            if (image.nil? == false)
+                @images = [image]
+                image.textureRectangle = [0,0, image.size[0], image.size[1]]
+                @size = image.size()
+            end
         end
         # Shifts all images by the point, without modifying size. Used by merged to arrange one bucket against another. Point is Array[x,y]
         def shift(point)
@@ -30,10 +29,15 @@ class ImageArranger
             bucketsize1 = bucket1.size
             bucketsize2 = bucket2.size
             result = ImageBucket.new()
-            if (order == GlueModer::HORIZONTAL)
+            result.images = bucket1.images + bucket2.images
+            if (order.mode == GlueMode::HORIZONTAL)
                 # Handle horizontal merge
+                result.size = [ (bucket1.size[0] + bucket2.size[0]), [bucket1.size[1] , bucket2.size[1]].max() ]
+                bucket2.shift([bucket1.size[0],0])
             else
                 # Handle vertical merge
+                result.size = [ [bucket1.size[0] , bucket2.size[0]].max(), (bucket1.size[1] + bucket2.size[1])  ]
+                bucket2.shift([0,bucket1.size[1]])
             end
             return result
         end
