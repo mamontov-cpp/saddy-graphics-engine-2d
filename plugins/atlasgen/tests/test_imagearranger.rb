@@ -48,6 +48,77 @@ class TestImageArranger < Test::Unit::TestCase
         assert(image.textureRectangle[3] == 257)
         
     end
+    # Tests some horizontal merge
+    def testImageBucketMergeHorizontal()
+        sizes = [ [30,50], [30,40] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        result = ImageArranger::ImageBucket.merge(buckets[0], buckets[1], GlueOrder.new(0,1, GlueMode::HORIZONTAL))
+        assert( result.images.length == 2)
+        assert( result.size[0] == 60, result.size[0].to_s())
+        assert( result.size[1] == 50, result.size[0].to_s())
+        assert(images[0].textureRectangle[0] == 0)
+        assert(images[0].textureRectangle[1] == 0)
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 50)
+        assert(images[1].textureRectangle[0] == 30)
+        assert(images[1].textureRectangle[1] == 0)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 40)
+        
+        sizes = [ [30,40], [30,50] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        result = ImageArranger::ImageBucket.merge(buckets[0], buckets[1], GlueOrder.new(0,1, GlueMode::HORIZONTAL))
+        assert( result.images.length == 2)
+        assert( result.size[0] == 60, result.size[0].to_s())
+        assert( result.size[1] == 50, result.size[0].to_s())
+        assert(images[0].textureRectangle[0] == 0)
+        assert(images[0].textureRectangle[1] == 0)
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 40)
+        assert(images[1].textureRectangle[0] == 30)
+        assert(images[1].textureRectangle[1] == 0)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 50)
+    end
+    
+    
+    # Tests some vertical merging
+    def testImageBucketMergeVertical()
+        sizes = [ [30,50], [30,40] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        result = ImageArranger::ImageBucket.merge(buckets[0], buckets[1], GlueOrder.new(0,1, GlueMode::VERTICAL))
+        assert( result.images.length == 2)
+        assert( result.size[0] == 30, result.size[0].to_s())
+        assert( result.size[1] == 90, result.size[0].to_s())
+        assert(images[0].textureRectangle[0] == 0)
+        assert(images[0].textureRectangle[1] == 0)
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 50)
+        assert(images[1].textureRectangle[0] == 0)
+        assert(images[1].textureRectangle[1] == 50)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 40)
+        
+        sizes = [ [30,40], [30,50] ]
+        images = sizes.collect{ |size| @mockEntry.new(size,[]) }
+        buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
+        result = ImageArranger::ImageBucket.merge(buckets[0], buckets[1], GlueOrder.new(0,1, GlueMode::VERTICAL))
+        assert( result.images.length == 2)
+        assert( result.size[0] == 30, result.size[0].to_s())
+        assert( result.size[1] == 90, result.size[0].to_s())
+        assert(images[0].textureRectangle[0] == 0)
+        assert(images[0].textureRectangle[1] == 0)
+        assert(images[0].textureRectangle[2] == 30)
+        assert(images[0].textureRectangle[3] == 40)
+        assert(images[1].textureRectangle[0] == 0)
+        assert(images[1].textureRectangle[1] == 40)
+        assert(images[1].textureRectangle[2] == 30)
+        assert(images[1].textureRectangle[3] == 50)
+    end
+    
     # Does really nothing
     def teardown()
         
