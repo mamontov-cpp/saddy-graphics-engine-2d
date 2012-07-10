@@ -173,6 +173,24 @@ class MinAreaMetricTest < Test::Unit::TestCase
         assert(orders[1].images[1] == 4)
         assert(orders[1].mode == GlueMode::VERTICAL)
     end
+	
+	# Tests finding order of merging images
+	def testfindOrder()
+		entries = @entries.clone()
+		[7,6,5,4,3].each{ |x| entries.delete_at(x) }
+		result = @obj.findOrder(entries)
+		assert( (result[0][1][0]-50).abs() < 0.1 , result[0][1][0].to_s() )
+		assert( (result[0][1][1]-70).abs() < 0.1 , result[0][1][1].to_s() )
+		
+		# TODO: Uncomment in case of error
+		#result.each {
+		#	|resultentry|
+			
+		#	print "<" + resultentry[1][0].to_s() + " "  + resultentry[1][1].to_s() + ">: " + TestSupply.printOrders(resultentry[0]) + "\n"
+		
+		#}
+		
+	end
     # Does really nothing
     def teardown()
 
