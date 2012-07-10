@@ -288,3 +288,28 @@ class MinDiffMetricTest < Test::Unit::TestCase
 		
 	end
 end
+
+# Test of Min Diff metric
+class TestImageGluingOrder < Test::Unit::TestCase
+    
+    #  Inits entry array with test entries and object with valid object 
+    def setup()
+        @entries = TestSupply.get()
+        @obj = ImageGluingOrder.new()
+    end
+    
+    # Tests finding order parts
+    def testFind()
+        result = @obj.find(@entries)
+        assert( (result.size()[0]-100).abs() < 0.1 , result.size()[0].to_s() )
+		assert( (result.size()[1]-110).abs() < 0.1 , result.size()[1].to_s() )
+        #TODO: Uncomment this in case of error
+        #print "<" + result.size[0].to_s() + " "  + result.size[1].to_s() + ">: " + TestSupply.printOrders(result.order) + "\n"
+    end
+    
+    
+    # Does really nothing
+    def teardown()
+        
+    end
+end
