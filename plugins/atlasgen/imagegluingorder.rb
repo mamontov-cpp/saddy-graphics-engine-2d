@@ -162,6 +162,22 @@ class GlueMetric
         end
         return finishedtasks
     end
+    
+    # Scans for minimum order in array of GlueMetric::findOrder results (results parameter) and finds min, with given Array[MaybeNumber, result]
+    def self.findMinimumOrder(start, results )
+        min = start[0]
+        resultorder =  start[1]
+        results.each{
+            |result|
+            
+            maxValue = result[1].max()
+            if (min>maxValue)
+                resultorder = result
+                min.number = maxValue
+            end
+        }
+        return [min, resultorder]
+    end
 end
 # A metric, that minimizes a total square between two merged images
 class MinAreaMetric < GlueMetric
@@ -258,7 +274,28 @@ end
 class ImageGluingOrder
     # Finds an order on specified array
     # * param images Array of Texture image
-    # * return Array of GlueOrder data
+    # * return Struct(order => Array of order, size => Array)
     def find(images)
+        if (images.length == 0)
+            return [ [], [0,0] ]
+        end
+        if (images.length == 1)
+            return [ [], [images[0].size()[0],images[0].size()[1]] ]
+        end
+       
+        
+        minAreaResults = MinAreaMetric.new().findOrder(images)
+        minDiffResults = MinDiffMetric.new().findOrder(images)
+        
+        # Get minimum object
+        
+        min = [MaybeNumber.new() , nil]
+        min = GlueMetric.findMinimumOrder(min,minAreaResults)
+        min = GlueMetric.findMinimumOrder(min,minDiffResults)
+        
+        glueOrderResult = Struct.new("GlueOrderResult",:order, :size)
+        result = glueOrderResult.new(min[1][0], min[1][1])
+        
+        return result
     end
 end
