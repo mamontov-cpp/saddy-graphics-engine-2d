@@ -57,6 +57,13 @@ class TestConfigReader < Test::Unit::TestCase
         assert( @obj.getOutputConfigName() == "a.xml",@obj.getOutputConfigName() )
         assert( @obj.getOutputTextureName() == "a.png" )
     end
+    # Tests empty  valid config
+    def testFirstInvalidConfig()
+        filename = "test_xml/tcfg1.xml"
+        assert( @obj.read(filename) != nil , @obj.getErrors().join("\n"))
+        assert( @obj.getErrors().length == 1 )
+        
+    end
     #  Does nothing
     def teardown()
     end

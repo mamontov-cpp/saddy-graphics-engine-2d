@@ -54,9 +54,9 @@ class ConfigReader
             @outputConfig = root.attributes['config']
         end
         result = SpriteConfig.new()
-        root.each_element{
+        root.elements.each{
                 |element|
-                print element
+                #print element
         }
         if (@errors.length == 0)
             @computed = true
