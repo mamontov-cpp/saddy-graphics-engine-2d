@@ -58,19 +58,26 @@ class TextureArray < Array
     # * param texture texture
     # * return unique identifier of texture
     def pushUnique(name,texture)
-    
+        if (self.containsTexture(name) == false)
+            self.concat( [texture] )
+        end
     end
     # Defines whether texture array contains some data
     # * param String name
     # * return Boolean whether contains, or not
     def containsTexture(name)
-    
+        return  ( (self.index{ |tex| tex.name==name } ) != nil )
     end
     
     # Returns a texture by it's name
     # * param String name
-    # * return Texture
+    # * return Texture or nil if not found
     def getTexture(name)
-    
+        arr = self.collect{ |tex| tex.name==name }
+        if (self.length ==0 )
+            return nil
+        else
+            return arr[0]
+        end
     end
 end
