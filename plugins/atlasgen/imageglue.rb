@@ -13,18 +13,19 @@ class ImageGlue
         x = rect[0]
         y = rect[1]
         destTexture.blit(srcTexture.getImage, x, y)
+        return destTexture
 	end
     # Creates a POT texture and blits all textures to it
     # * param Fixnum widthheight width and height of texture (width==height, so we need only one parameter) 
     # * param Array images array of Texture object, which should be blitted 
     # * return DevIL::Image resulting image
     def glue(widthheight, images)
-        res = Devil.create_image(widthheight, widthheight)
+        res = Devil.create_image(widthheight, widthheight, {:color => [255, 255, 255, 255]})
         if (res.nil?())
             raise 'Image not created'
         end
         images.each do |tex|
-            self.copy(tex, res)
+            res = self.copy(tex, res)
         end
         return res
     end
