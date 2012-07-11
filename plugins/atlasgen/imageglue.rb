@@ -14,13 +14,11 @@ class ImageGlue
         y = rect[1]
         destTexture.blit(srcTexture.getImage, x, y)
 	end
-    # Merges all images into one
-    # * param images Array of Texture
-    # * param GlueOrder array of GlueOrder
-    # * param output output data
-    # * param Config  config, which will be updated for writing
-    # * return Array (surface, context)
-    def glue(images, order, output, config)
+    # Creates a POT texture and blits all textures to it
+    # * param Fixnum widthheight width and height of texture (width==height, so we need only one parameter) 
+    # * param Array images array of Texture object, which should be blitted 
+    # * return DevIL::Image resulting image
+    def glue(widthheight, images)
         
     end
 end
