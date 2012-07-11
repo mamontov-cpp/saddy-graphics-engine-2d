@@ -3,6 +3,17 @@
 load    'configreader.rb'
 require 'test/unit'
 
+
+class TestTexture < Test::Unit::TestCase
+
+    def testSize()
+        tex = Texture.new("test_imgs/lena.jpg")
+        tex.load()
+        assert(tex.size()[0] == 256, tex.size()[0].to_s())
+        assert(tex.size()[1] == 256, tex.size()[1].to_s())
+    end
+end
+
 class TestConfigReader < Test::Unit::TestCase
 
     #  Inits entry array with test entries
@@ -64,6 +75,7 @@ class TestConfigReader < Test::Unit::TestCase
         assert( @obj.getErrors().length == 1 )
         
     end
+    
     #  Does nothing
     def teardown()
     end

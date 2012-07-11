@@ -44,9 +44,9 @@ class Texture
     
     
     # Size of texture returns
-    # * return Array size of texture
+    # * return Array size of texture as [w,h]
     def size()
-    
+        return [ image.width(), image.height() ]
     end
 end
 
