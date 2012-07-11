@@ -1,7 +1,8 @@
-# A class, which merges a textures in specified order, changing rect and filling output texture
+# A class, which merges a texture into output texture
 require 'cairo'
 
-# Merges a textures into one
+# Creates a POT texture with specified size and copies specified texture entries 
+# into it
 class ImageGlue
     # Merges all images into one
     # * param images Array of Texture
