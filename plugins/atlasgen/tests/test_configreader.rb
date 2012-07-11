@@ -35,6 +35,28 @@ class TestConfigReader < Test::Unit::TestCase
         assert (@obj.getErrors()[0] == "Cannot read file: " + filename)
         
     end
+    # Test non full description
+    def testNonFull()
+        filename = "test_xml/no_texture_and_config.xml"
+        assert( @obj.read(filename) == nil )
+        assert( @obj.getErrors().length == 2 )
+        
+        filename = "test_xml/no_texture.xml"
+        assert( @obj.read(filename) == nil )
+        assert( @obj.getErrors().length == 1 )
+        
+        filename = "test_xml/no_config.xml"
+        assert( @obj.read(filename) == nil )
+        assert( @obj.getErrors().length == 1 )
+    end
+    # Tests empty  valid config
+    def testEmptyValidConfig()
+        filename = "test_xml/emptyconfig.xml"
+        assert( @obj.read(filename) != nil )
+        assert( @obj.getErrors().length == 0 )
+        assert( @obj.getOutputConfigName() == "a.xml",@obj.getOutputConfigName() )
+        assert( @obj.getOutputTextureName() == "a.png" )
+    end
     #  Does nothing
     def teardown()
     end

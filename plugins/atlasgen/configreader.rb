@@ -42,7 +42,28 @@ class ConfigReader
     # * param ReXML::Element root element
     # * return SpriteConfig resulting sprite config
     def readDocument(root)
-    
+        if (root.attributes['texture'] == nil)
+            @errors = @errors <<  "Output texture name is not defined"
+        else
+            @outputTexture = root.attributes['texture']
+        end
+        
+        if (root.attributes['config'] == nil)
+            @errors = @errors <<  "Output config is not defined"
+        else
+            @outputConfig = root.attributes['config']
+        end
+        result = SpriteConfig.new()
+        root.each_element{
+                |element|
+                print element
+        }
+        if (@errors.length == 0)
+            @computed = true
+            return result
+        else
+            return nil
+        end
     end
     # Reads a config from file. Returns config or null on failure
     #  * param String filename
