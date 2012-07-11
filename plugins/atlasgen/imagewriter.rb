@@ -12,14 +12,17 @@ class ImageWriter
 		if (texture.nil?)
 			return true
 		end
-        dirname = File.dirname(filename)
-        if File.directory?(dirname)
-            res = true
-            texture.save(filename)
-        else
-            res = false
+        begin
+            dirname = File.dirname(filename)
+            if File.directory?(dirname)
+                    res = true
+                    texture.save(filename)
+            else
+                res = false
+            end
+            rescue RuntimeError
+                res = false
         end
-        
         return res
     end
 end

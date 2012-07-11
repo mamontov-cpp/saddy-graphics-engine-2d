@@ -16,6 +16,12 @@ class ImageWriterTest < Test::Unit::TestCase
         res = @obj.write(@tex, fn)
         assert(!res,"invalid dir!")
     end
+    
+    def testWrite_inval()
+        fn = '../?12P1><<,.>)'
+        res = @obj.write(@tex, fn)
+        assert(!res,"invalid dir!")
+    end
 
 	def testWriteSuccess()
 		fn = 'test_imgs/lena_copy.jpg';
