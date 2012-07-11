@@ -9,6 +9,9 @@ class ImageWriter
     # * param filename String name of output file
     # * return Boolean  whether writing was successfull
     def write(texture, filename)
+		if (texture.nil?)
+			return true
+		end
         dirname = File.dirname(filename)
         if File.directory?(dirname)
             res = true
