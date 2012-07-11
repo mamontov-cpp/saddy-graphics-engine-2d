@@ -1,5 +1,4 @@
 # A texture array data, used for displaying and merging textures
-require 'cairo'
 require 'devil'
 
 # A texture, as presented here, consists from name and associated cairo data
