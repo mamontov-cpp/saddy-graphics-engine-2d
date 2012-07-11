@@ -1,5 +1,6 @@
 # A texture array data, used for displaying and merging textures
 require 'cairo'
+require 'devil'
 
 # A texture, as presented here, consists from name and associated cairo data
 class Texture
@@ -24,13 +25,20 @@ class Texture
     # Tries to load some texture from file
     # * return Boolean true on success, false otherwise
     def load()
+        res = true
+        @image = Devil.load_image(@name)
+        if (@image.nil?())
+            res = false
+        end
+        
+        return res
     end
     
     # Returns an image of texture
     # * return DevIL::Image an image of texture
     def getImage()
         if (@image.nil?())
-            rise 'Attempt to work with invalid texture'
+            raise 'Attempt to work with invalid texture'
         end
         return @image
     end
