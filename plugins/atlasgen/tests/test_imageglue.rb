@@ -17,6 +17,8 @@ class ImageGlueTest < Test::Unit::TestCase
         @tex2.load()
         @tex3 = Texture.new('test_imgs/tux.png')
         @tex3.load()
+        @tex4 = Texture.new('test_imgs/kde.png')
+        @tex4.load()
     end
     
     def testCopy_img1()
@@ -43,5 +45,18 @@ class ImageGlueTest < Test::Unit::TestCase
         @imageWriter.write(img, 'test_imgs/tux_shifted.jpg')
     end
 
+    def testGlue_success()
+        t1 = @tex1.clone
+        t2 = @tex1.clone
+        t3 = @tex1.clone
+        t4 = @tex1.clone
+        t1.textureRectangle = [10, 10, @tex1.getImage.width, @tex1.getImage.height]
+        t2.textureRectangle = [266, 10, @tex1.getImage.width, @tex1.getImage.height]
+        t3.textureRectangle = [10, 266, @tex1.getImage.width, @tex1.getImage.height]
+        t4.textureRectangle = [266, 266, @tex1.getImage.width, @tex1.getImage.height]
+        arr = [t1, t2, t3, t4]
+        img = @imageGlue.glue(1000, arr)
+        @imageWriter.write(img, 'test_imgs/blit_successful.jpg')
+    end
 
 end
