@@ -19,6 +19,13 @@ class ImageGlue
     # * param Array images array of Texture object, which should be blitted 
     # * return DevIL::Image resulting image
     def glue(widthheight, images)
-        
+        res = Devil.create_image(widthheight, widthheight)
+        if (res.nil?())
+            raise 'Image not created'
+        end
+        images.each do |tex|
+            self.copy(tex, res)
+        end
+        return res
     end
 end
