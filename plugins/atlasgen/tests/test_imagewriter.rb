@@ -2,6 +2,7 @@
 
 load    'imagewriter.rb'
 require 'test/unit'
+require 'FileUtils'
 
 class ImageWriterTest < Test::Unit::TestCase
        
@@ -16,6 +17,11 @@ class ImageWriterTest < Test::Unit::TestCase
         assert(!res,"invalid dir!")
     end
 
+	def testWriteSuccess()
+		fn = 'test_imgs/lena_copy.jpg';
+		res = @obj.write(@tex,'test_imgs/lena_copy.jpg')
+		assert(res,'Failed to copy');
+	end
 end
 
 

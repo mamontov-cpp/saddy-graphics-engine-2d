@@ -1,5 +1,4 @@
 # Writes an image into file
-require 'cairo'
 require 'devil'
 
 # Writes an image into file
