@@ -38,6 +38,12 @@ class ConfigReader
         @outputTexture = nil
     end
     
+    # Reads a document from parent ReXML::Element
+    # * param ReXML::Element root element
+    # * return SpriteConfig resulting sprite config
+    def readDocument(root)
+    
+    end
     # Reads a config from file. Returns config or null on failure
     #  * param String filename
     #  * return SpriteConfig object 
@@ -45,15 +51,24 @@ class ConfigReader
         @computed = false
         @errors = []
         
-        defaultMesg =[ "Cannot open file: " + filename ]
+        defaultMesg = [ "Cannot open file: " + filename ]
+        parseMesg = [ "Cannot read file: " + filename ]
         begin
             file = File.new(filename, "r")
+            doc = REXML::Document.new file
+            if (doc.root!=nil)
+                return self.readDocument(doc.root)
+            else
+                 @errors = parseMesg
+            end
         rescue Errno::ENOENT
             @errors = defaultMesg
         rescue Errno::EBADF
             @errors = defaultMesg
         rescue Errno::EINVAL
             @errors = defaultMesg
+        rescue REXML::ParseException
+            @errors = parseMesg
         end
         
         return nil

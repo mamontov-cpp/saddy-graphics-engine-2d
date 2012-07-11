@@ -20,8 +20,8 @@ class ImageWriter
             else
                 res = false
             end
-            rescue RuntimeError
-                res = false
+        rescue RuntimeError
+            res = false
         end
         return res
     end
