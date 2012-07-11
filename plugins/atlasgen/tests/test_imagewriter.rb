@@ -25,7 +25,7 @@ class ImageWriterTest < Test::Unit::TestCase
 
 	def testWriteSuccess()
 		fn = 'test_imgs/lena_copy.jpg';
-		res = @obj.write(@tex,'test_imgs/lena_copy.jpg')
+		res = @obj.write(@tex,'test_imgs/lena_copy.png')
 		assert(res,'Failed to copy');
 	end
 end
