@@ -116,7 +116,18 @@ class SpriteConfig
     # * return true on success, otherwise false.
     def queryLoadTexture(filename)
     end
-    
+    # Copies a texture rectangle from part data, size if not set and sets an output texture name from string
+    def prepareForOutput(outputTexName)
+        configArray.each{
+            |entry|
+            texture = @textureArray.get(entry.inputTextureName)
+            entry.textureRectangle = texture.textureRectangle
+            if (entry.size.nil?)
+                entry.size = texture.size()
+            end
+            entry.outputTextureName = outputTexName
+        }
+    end
     # Returns a list of errors
     # * return Array list of errors
     def getErrors()

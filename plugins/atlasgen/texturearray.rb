@@ -10,7 +10,8 @@ class Texture
 
     
     public
-    
+    # Array  texture rectangle data
+    attr_accessor :textureRectangle
     # String name a name of texture
     attr_accessor :name
     
@@ -48,13 +49,21 @@ class TextureArray < Array
 
     # Pushes unique texture
     # * param texture texture
-    def pushUnique(texture)
+    # * return unique identifier of texture
+    def pushUnique(name,texture)
     
     end
     # Defines whether texture array contains some data
     # * param String name
     # * return Boolean whether contains, or not
     def containsTexture(name)
+    
+    end
+    
+    # Returns a texture by it's name
+    # * param String name
+    # * return Texture
+    def getTexture(name)
     
     end
 end
