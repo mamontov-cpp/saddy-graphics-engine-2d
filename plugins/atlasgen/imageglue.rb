@@ -9,6 +9,10 @@ class ImageGlue
 	# * param Texture      srcTexture  a source texture entry (see texturearray.rb) for description
 	# * param DevIL::Image destTexture destination texture, where it should be copied.
 	def copy(srcTexture, destTexture)
+        rect = srcTexture.textureRectangle
+        x = rect[0]
+        y = rect[1]
+        destTexture.blit(srcTexture.getImage, x, y)
 	end
     # Merges all images into one
     # * param images Array of Texture
@@ -17,5 +21,6 @@ class ImageGlue
     # * param Config  config, which will be updated for writing
     # * return Array (surface, context)
     def glue(images, order, output, config)
+        
     end
 end
