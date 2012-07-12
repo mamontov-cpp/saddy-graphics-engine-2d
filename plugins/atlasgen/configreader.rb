@@ -56,7 +56,14 @@ class ConfigReader
         result = SpriteConfig.new()
         root.elements.each{
                 |element|
-                #print element
+                tmp = ConfigEntry.new()
+                errors = tmp.read(element,result)
+                @errors = @errors + errors
+                if (result.hasEntry(tmp.name, tmp.index))
+                    @errors = @errors << ("Entry with name " + tmp.getFullName() + " already exists")
+                else
+                    result.pushEntry(tmp)
+                end
         }
         if (@errors.length == 0)
             @computed = true
