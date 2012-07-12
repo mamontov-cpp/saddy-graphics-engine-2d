@@ -25,11 +25,14 @@ class Texture
     # * return Boolean true on success, false otherwise
     def load()
         res = true
-        @image = Devil.load_image(@name)
-        if (@image.nil?())
+        begin       
+            @image = Devil.load_image(@name)
+            if (@image.nil?())
+                res = false
+            end
+        rescue RuntimeError
             res = false
         end
-        
         return res
     end
     

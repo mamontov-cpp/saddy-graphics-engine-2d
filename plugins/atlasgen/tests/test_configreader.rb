@@ -71,7 +71,7 @@ class TestConfigReader < Test::Unit::TestCase
     # Tests empty  valid config
     def testFirstInvalidConfig()
         filename = "test_xml/tcfg1.xml"
-        assert( @obj.read(filename) != nil , @obj.getErrors().join("\n"))
+        assert( @obj.read(filename) == nil , @obj.getErrors().join("\n"))
         assert( @obj.getErrors().length == 1 )
         
     end

@@ -26,13 +26,13 @@ class ConfigEntry
     
     # Inits as non-valid node
     def initialize()
-        @index = Integer.nil
-        @size = Array.nil
-        @inputTextureName = String.nil
-        @name = String.nil
-        @transparent = Array.nil
-        @outputTextureName = Array.nil
-        @textureRectangle = Array.nil
+        @index = nil
+        @size = nil
+        @inputTextureName = nil
+        @name = nil
+        @transparent = nil
+        @outputTextureName = nil
+        @textureRectangle = nil
     end
     
     # Determines, whether reading of entry was successfull and it's valid
@@ -44,6 +44,7 @@ class ConfigEntry
         return true
     end
     
+    
     # Determines, whether we can output some entry to an xml node
     # * return Boolean true if valid
     def canOutput()
@@ -53,10 +54,42 @@ class ConfigEntry
         return true
     end
     
+    
+    def index()
+        if (@index.nil?())
+            return 0
+        end
+        return @index
+    end
+    
+    def getFullName()
+        return @name + ":" + @index.to_s()
+    end
     # Reads an element to entry
     # * param element XMLElement
-    def read(element)
-        raise 'Not implemented'
+    # * param textures SpriteConfig, where could be entries added
+    # * returns array of errors, empty if nothing found
+    def read(element,config)
+       errors = []
+       @name = element.name
+       if (element.attributes['index'] != nil)
+            @index = element.attributes['index'].to_i
+       end
+       if (element.attributes['texture'] != nil)
+            @inputTextureName = element.attributes['texture'] 
+            if (config.getTextures().containsTexture(@inputTextureName) == false)
+                texture = Texture.new(@inputTextureName)
+                # If texture is loaded successfully
+                if (texture.load())
+                    config.getTextures().pushUnique(@inputTextureName, texture)
+                else
+                    errors = errors << ("Can't load texture with name " + @inputTextureName)
+                end
+            end
+       else
+            errors = errors << ("At element with name " + self.getFullName() + " texture is not specified" )
+       end
+       return errors
     end
     
     # Writes an element to config
@@ -86,7 +119,13 @@ class SpriteConfig
     
     public
     
+    def hasEntry(name, index)
+        return (@configArray.index{ |entry|    (entry.name == name) && (entry.index == index) } != nil)
+    end
     
+    def pushEntry(entry)
+        @configArray = @configArray << entry
+    end
     # Inits new empty config
     def initialize()
         @textureArray = TextureArray.new()
@@ -133,7 +172,7 @@ class SpriteConfig
     def prepareForOutput(outputTexName)
         configArray.each{
             |entry|
-            texture = @textureArray.get(entry.inputTextureName)
+            texture = @textureArray.getTexture(entry.inputTextureName)
             entry.textureRectangle = texture.textureRectangle
             if (entry.size.nil?)
                 entry.size = texture.size()
