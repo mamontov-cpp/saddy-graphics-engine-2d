@@ -103,8 +103,8 @@ class ConfigEntry
        # Parse transparency
        if (element.attributes['transparent'] != nil)
             list = element.attributes['transparent'].split(';')
-            if (list.length!=2)
-                errors = errors << ("At element with name " + self.getFullName() + " transparenct mask color must be defined as \"r;g;b\", but defined strangely")
+            if (list.length!=3)
+                errors = errors << ("At element with name " + self.getFullName() + " transparency mask color must be defined as \"r;g;b\", but defined strangely")
             else
                 @transparent = [ list[0].to_i(), list[1].to_i(), list[2].to_i() ]
             end

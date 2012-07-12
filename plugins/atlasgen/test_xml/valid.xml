@@ -1,0 +1,3 @@
+<sprites config="a.xml" texture="a.png">
+    <itest texture="test_imgs\kde.png" index="500" size="64;64" transparent="0;102;404" />
+</sprites>
