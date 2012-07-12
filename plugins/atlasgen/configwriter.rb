@@ -1,5 +1,4 @@
 # Writes a new config into file
-require 'cairo'
 require 'rexml/document'
 require 'rexml/element'
 
@@ -17,6 +16,37 @@ class ConfigWriter
     def write(config, filename, outputTextureName)
         # Prepare config for output
         config.prepareForOutput(outputTextureName)
+        #Try open file
+        begin
+            file=File.new(filename,"w")
+        rescue Errno::ENOENT 
+            file=nil
+        rescue Errno::EACCES 
+            file=nil
+        rescue Errno::EINVAL 
+            file=nil
+        end
+        
+        if (file.nil?() == false)
+            # Create a document and root elements 
+            doc=REXML::Document.new
+            root=REXML::Element.new("sprites")
+            doc.add( root )
+            
+            #Writes all elements
+            entries = config.getConfigArray()
+            entries.each{
+                |entry|
+                entry.write(root)
+            }
+            
+            #Writes a file
+            formatter=REXML::Formatters::Pretty.new
+            formatter.write(doc,file)
+            file.close()
+        else
+            @errors = [ "Can't save config to a file \"" + filename + "\""]
+        end
         
     end
     
