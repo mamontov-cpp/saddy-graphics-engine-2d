@@ -60,11 +60,13 @@ class ConfigEntry
     end
     
     # Writes an element to config
+    # * param root root element
     # * return XMLElement
-    def write()
+    def write(root)
         if (!canOutput())
             raise 'Attempted to write invalid config'
         end
+        raise 'Not implemented'
     end
 end
 
@@ -115,6 +117,17 @@ class SpriteConfig
     # * param filename name of texture
     # * return true on success, otherwise false.
     def queryLoadTexture(filename)
+        if (@textureArray.getTexture(filename)!=nil)
+            return true
+        end
+        tex = texture.new()
+        if (tex.load()==false)
+            @errors = (@errors << ("Can't load texture with name: " + filename))
+        else
+            @textureArray.pushUnique(filename, tex)
+            return true
+        end
+        return false
     end
     # Copies a texture rectangle from part data, size if not set and sets an output texture name from string
     def prepareForOutput(outputTexName)
@@ -131,5 +144,6 @@ class SpriteConfig
     # Returns a list of errors
     # * return Array list of errors
     def getErrors()
+        return @errors
     end
 end
