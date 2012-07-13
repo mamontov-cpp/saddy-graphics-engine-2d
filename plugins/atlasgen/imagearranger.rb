@@ -1,5 +1,5 @@
 # This class performs a texture rect computation and mutates input entry objects setting their coordinates, according to gluing order.
-load "imagegluingorder.rb"
+require_relative "imagegluingorder.rb"
 
 class ImageArranger
 
