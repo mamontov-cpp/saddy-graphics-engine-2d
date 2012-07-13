@@ -63,7 +63,7 @@ class ConfigEntry
     end
     
     def getFullName()
-        return @name + ":" + @index.to_s()
+        return @name + ":" + index().to_s()
     end
     # Reads an element to entry
     # * param element XMLElement
@@ -204,7 +204,7 @@ class SpriteConfig
     end
     # Copies a texture rectangle from part data, size if not set and sets an output texture name from string
     def prepareForOutput(outputTexName)
-        configArray.each{
+        @configArray.each{
             |entry|
             texture = @textureArray.getTexture(entry.inputTextureName)
             entry.textureRectangle = texture.textureRectangle

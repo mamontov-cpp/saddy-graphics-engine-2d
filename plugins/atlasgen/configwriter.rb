@@ -44,11 +44,12 @@ class ConfigWriter
             #Writes a file
             formatter=REXML::Formatters::Pretty.new
             formatter.write(doc,file)
-            file.close()
+            file.close()       
+            return true
         else
             @errors = [ "Can't save config to a file \"" + filename + "\""]
         end
-        
+        return false
     end
     
     def getErrors()

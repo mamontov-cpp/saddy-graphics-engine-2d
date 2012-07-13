@@ -75,8 +75,8 @@ class TextureArray < Array
     # * param String name
     # * return Texture or nil if not found
     def getTexture(name)
-        arr = self.collect{ |tex| tex.name==name }
-        if (self.length ==0 )
+        arr = self.reject{ |tex| tex.name!=name }
+        if (arr.length ==0 )
             return nil
         else
             return arr[0]
