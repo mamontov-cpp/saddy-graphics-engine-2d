@@ -37,7 +37,8 @@ class ConfigWriter
             entries = config.getConfigArray()
             entries.each{
                 |entry|
-                entry.write(root)
+                el = entry.write(root)
+                root.add_element(el)
             }
             
             #Writes a file

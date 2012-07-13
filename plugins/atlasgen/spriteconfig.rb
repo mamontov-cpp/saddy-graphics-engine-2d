@@ -111,15 +111,29 @@ class ConfigEntry
        end
        return errors
     end
-    
+    # Converts integer array to a valid XML config string
+    def array_to_string(array)
+        strings = array.collect{ |item| item.to_s() }
+        return strings.join(";")
+    end
     # Writes an element to config
     # * param root root element
     # * return XMLElement
     def write(root)
-        if (!canOutput())
+        if (self.canOutput() == false)
             raise 'Attempted to write invalid config'
         end
-        raise 'Not implemented'
+        result = REXML::Element.new(@name)
+        if (@index != nil)
+            result.add_attribute( "index", @index.to_s )
+        end
+        result.add_attribute( "texture", @outputTextureName )
+        result.add_attribute( "size", self.array_to_string(@size) )
+        result.add_attribute( "texrect", self.array_to_string(@textureRectangle) )
+        if (@transparent != nil)
+            result.add_attribute( "transparent", self.array_to_string(@transparent) )
+        end
+        return result
     end
 end
 
