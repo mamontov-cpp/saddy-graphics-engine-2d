@@ -1,19 +1,29 @@
-# Writes an image into file
+##
+# :title: imageglue.rb
+# A class, which writes a output texture atlas into output file
 require 'devil'
 
-# Writes an image into file
+##
+# :category: Public classes
+# A class, which writes an source _DevIL::Image_ into output file
 class ImageWriter
 
-    # Writes an image into file
-    # * param texture DevIL image
-    # * param filename String name of output file
-    # * return Boolean  whether writing was successfull
+    ##
+    # :category: Public interface
+    # Writes an image into output file
+    # [texture]  _DevIL::Image_               resulting image
+    # [filename] _String_                     name of output file
+    # [return]   _TrueClass_ or _FalseClass_  true on success
     def write(texture, filename)
+        # We treat invalid texture as success
 		if (texture.nil?)
 			return true
 		end
+        # Handle invalid value paths, throwing exceptions
         begin
-            dirname = File.dirname(filename)
+            # Check, whether destination exists and write file if so
+            # otherwise return false
+           dirname = File.dirname(filename)
             if File.directory?(dirname)
                     res = true
                     texture.save(filename)
