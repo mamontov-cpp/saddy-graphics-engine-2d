@@ -79,8 +79,8 @@ class ConfigReader
         @computed = false
         @errors = []
         
-        defaultMesg = [ "Cannot open file: " + filename ]
-        parseMesg = [ "Cannot read file: " + filename ]
+        defaultMesg = [ "File error: Cannot open file: " + filename ]
+        parseMesg = [ "Parsing error: Cannot read file: " + filename ]
         begin
             file = File.new(filename, "r")
             doc = REXML::Document.new file
