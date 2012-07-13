@@ -1,7 +1,5 @@
 # An input config as described in input file
-require 'cairo'
-
-load 'texturearray.rb'
+require_relative 'texturearray.rb'
 
 # An entry for config array
 class ConfigEntry

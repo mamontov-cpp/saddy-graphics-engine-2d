@@ -1,9 +1,9 @@
-load 'confireader.rb'
-load 'imagegluingorder.rb'
-load 'imagearranger.rb'
-load 'imageglue.rb'
-load 'imagewriter.rb'
-load 'configwriter.rb'
+require_relative 'configreader'
+require_relative 'imagegluingorder.rb'
+require_relative 'imagearranger.rb'
+require_relative 'imageglue.rb'
+require_relative 'imagewriter.rb'
+require_relative 'configwriter.rb'
 
 # Prints array
 # * param Array arr array of strings
