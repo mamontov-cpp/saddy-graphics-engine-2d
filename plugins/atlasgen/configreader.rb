@@ -131,7 +131,7 @@ class ConfigReader
     ##
     # :category: Public interface
     # Returns, whether last call of +read()+ was successfull
-    # [return]  _TrueClass_ or _FalseClass_.  whether reading was successfull
+    # [return]  _TrueClass_ or _FalseClass_  whether reading was successfull
     def hasSucessfullReading?() 
         return @computed
     end
@@ -139,7 +139,7 @@ class ConfigReader
     ##
     # :category: Public interface
     # Returns last read config. Rises exception if reading was not successfull
-    # [return]  _SpriteConfig_.  last read config. 
+    # [return]  _SpriteConfig_  last read config. 
     def getConfig()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -150,7 +150,7 @@ class ConfigReader
     ##
     # :category: Public interface
     # Returns an output config filename
-    # [return]  _String_.  filename for output config.  
+    # [return]  _String_  filename for output config.  
     def getOutputConfigName()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -161,7 +161,7 @@ class ConfigReader
     ##
     # :category: Public interface
     # Returns an output texture filename
-    # [return]  _String_.  filename for output texture.  
+    # [return]  _String_  filename for output texture.  
     def getOutputTextureName()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -172,7 +172,7 @@ class ConfigReader
     ##
     # :category: Public interface
     # Returns an array for errors
-    # [return]  _Array_ of _String_.  A error list.  
+    # [return]  _Array_ of _String_  A error list.  
     def getErrors() 
         return @errors
     end
