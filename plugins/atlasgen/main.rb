@@ -31,9 +31,10 @@ if $0 == __FILE__
                 widthheight = arranger.arrange(textures,glorder.order,glorder.size)
                 # Glue images into one
                 glue = ImageGlue.new()
-                outputTexture = ImageGlue.glue(widthheight,textures)
+                outputTexture = glue.glue(widthheight,textures)
                 # Write an image to file
-                if (ImageWriter.write(outputTexture,reader.getOutputTextureName) == false)
+                imgwriter = ImageWriter.new()
+                if (imgwriter.write(outputTexture,reader.getOutputTextureName) == false)
                     print "Can't write resulting texture to file " + reader.getOutputTextureName() + "\n" 
                 end
             end
