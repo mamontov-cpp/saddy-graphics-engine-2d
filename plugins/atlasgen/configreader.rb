@@ -1,5 +1,8 @@
-# A reader, that used to load some config is placed here.
-# It loads config from XML and also some textures into cairo contexts
+##
+# :title: configreader.rb
+# A source file for reading an input config from file as
+# XML document
+
 
 require 'devil'
 require 'rexml/document'
@@ -7,29 +10,39 @@ require 'rexml/element'
 
 load 'spriteconfig.rb'
 
-# A reader, that reads some config from file and reads it to fully functional config
-# Also reads some textures. Each time, config is being read, it kept in there, and old config must
-# be saved
+##
+# :category: Public classes
+# A class, that reads a config and source images and returns some _SpriteConfig_ objects or _nil_,
+# if cannot read source file
 class ConfigReader
     private
-    
-    # Boolean. This field stores, whether some one successfull reading was performed
+    ##
+    # _TrueClass_ or _FalseClass_. True if one successfull reading was performed
     attr_writer :computed
-    # SpriteConfig.  Inner loaded config
+    ##
+    # _SpriteConfig_. A read config data (nil if no reading where performed or failed)
     attr_writer :config
-    # Array.   Array of strings
+    ## 
+    # _Array_ of _String_.   Array of strings
     attr_writer :errors
-    # String.  Name of output config 
+    ##
+    # _String_.  Name of file for output config 
     attr_writer :outputConfig
-    # String.  Name of ouput texture
+    ##
+    # _String_.  Name of file, where ouput texture should be stored
     attr_writer :outputTexture
     
    public
     
-    # Boolean. This field stores, whether some one successfull reading was performed
+    ##
+    # _TrueClass_ or _FalseClass_. True if one successfull reading was performed
     attr_reader :computed
     
-    # The default reader is created, as broken and every try to read from it leads to exception
+    ##
+    # :category: Public interface
+    # The default reader is broken, every attempt to get some config data like +getOutputConfigName()+ or +getOutputTextureName()+ leads to
+    # exception
+    # A +errors+ field is empty array. +computed+ is false. 
     def initialize()
         @computed = false
         @config = nil
@@ -38,33 +51,43 @@ class ConfigReader
         @outputTexture = nil
     end
     
-    # Reads a document from parent ReXML::Element
-    # * param ReXML::Element root element
-    # * return SpriteConfig resulting sprite config
+    ##
+    # :category: Implementation. DEPRECATED for use.
+    # Reads a document from parent REXML::Element, filling a errors field on every error
+    # Checks for duplicates and source image existence
+    # [root]   _REXML::Element_ root element, where reading should be performed from
+    # [return] _SpriteConfig_   a resulting sprite config. nil on error.
     def readDocument(root)
+        # Get output texture name from attribute 'texture'
         if (root.attributes['texture'] == nil)
             @errors = @errors <<  "Output texture name is not defined"
         else
             @outputTexture = root.attributes['texture']
         end
-        
+        # Get output config name from attribute 'config'
         if (root.attributes['config'] == nil)
             @errors = @errors <<  "Output config is not defined"
         else
             @outputConfig = root.attributes['config']
         end
+        # Try to read a config, scanning each subelement
         result = SpriteConfig.new()
         root.elements.each{
                 |element|
+                # Reads a new subelement and add to config
+                # Element adds to texturearray source image, from +ConfigEntry::read+ by calling +TextureArray::pushUnique+
                 tmp = ConfigEntry.new()
                 errors = tmp.read(element,result)
+                # Merges array of errors
                 @errors = @errors + errors
+                # Checks for unique items
                 if (result.hasEntry(tmp.name, tmp.index))
                     @errors = @errors << ("Entry with name " + tmp.getFullName() + " already exists")
                 else
                     result.pushEntry(tmp)
                 end
         }
+        # Check, whether errors were found
         if (@errors.length == 0)
             @computed = true
             return result
@@ -72,9 +95,12 @@ class ConfigReader
             return nil
         end
     end
-    # Reads a config from file. Returns config or null on failure
-    #  * param String filename
-    #  * return SpriteConfig object 
+    ##
+    # :category: Public interface
+    # Reads a document from file, filling array of errors
+    # Checks for duplicates and source image existence
+    # [filename] _String_         name of file, where reading will be performed
+    # [return]   _SpriteConfig_   a resulting sprite config. nil on error.
     def read(filename) 
         @computed = false
         @errors = []
@@ -102,14 +128,18 @@ class ConfigReader
         return nil
     end
     
-    # Returns, whether last time reading of config was successfull
-    # * return Boolean whether reading was successfull or not.
+    ##
+    # :category: Public interface
+    # Returns, whether last call of +read()+ was successfull
+    # [return]  _TrueClass_ or _FalseClass_.  whether reading was successfull
     def hasSucessfullReading?() 
         return @computed
     end
     
-    # Returns read config
-    # * return Config read config
+    ##
+    # :category: Public interface
+    # Returns last read config. Rises exception if reading was not successfull
+    # [return]  _SpriteConfig_.  last read config. 
     def getConfig()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -117,8 +147,10 @@ class ConfigReader
         return @config
     end
     
-    # Returns an output config name
-    # * return Sting output config name
+    ##
+    # :category: Public interface
+    # Returns an output config filename
+    # [return]  _String_.  filename for output config.  
     def getOutputConfigName()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -126,8 +158,10 @@ class ConfigReader
         return @outputConfig
     end
     
-    # Returns an output texture name
-    # * return Sting output texture name
+    ##
+    # :category: Public interface
+    # Returns an output texture filename
+    # [return]  _String_.  filename for output texture.  
     def getOutputTextureName()
         if (@computed == false)
             raise 'Error: reading was not successfull'
@@ -135,8 +169,10 @@ class ConfigReader
         return @outputTexture
     end
     
-    # Returns an array of errors
-    # * return Array error array
+    ##
+    # :category: Public interface
+    # Returns an array for errors
+    # [return]  _Array_ of _String_.  A error list.  
     def getErrors() 
         return @errors
     end
