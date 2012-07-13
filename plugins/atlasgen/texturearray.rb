@@ -59,7 +59,11 @@ class TextureArray < Array
 
     # Pushes unique texture
     # * param texture texture
+    # * param name name
     def pushUnique(name,texture)
+        if (name.empty? or texture.nil?)
+            return
+        end
         if (self.containsTexture(name) == false)
             self.concat( [texture] )
         end
