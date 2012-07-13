@@ -81,7 +81,7 @@ class ConfigEntry
                 texture = Texture.new(@inputTextureName)
                 # If texture is loaded successfully
                 if (texture.load())
-                    config.getTextures().pushUnique(@inputTextureName, texture)
+                    config.getTextures().pushUnique(texture)
                 else
                     errors = errors << ("Can't load texture with name " + @inputTextureName)
                 end
@@ -191,11 +191,11 @@ class SpriteConfig
         if (@textureArray.getTexture(filename)!=nil)
             return true
         end
-        tex = texture.new()
+        tex = Texture.new(filename)
         if (tex.load()==false)
             @errors = (@errors << ("Can't load texture with name: " + filename))
         else
-            @textureArray.pushUnique(filename, tex)
+            @textureArray.pushUnique(tex)
             return true
         end
         return false
