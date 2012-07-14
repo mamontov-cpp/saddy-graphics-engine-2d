@@ -1,11 +1,19 @@
-# Contains unit-tests for configuration writing module
-# A unit-test for this module is placed here
+##
+# :title: test_configwriter.rb
+# Tests for ConfigWriter class
 load    'configreader.rb'
 load    'configwriter.rb'
 require 'test/unit'
-
+##
+# :category: Tests
+# Tests for ConfigWrtier class
 class TestConfigWriter  < Test::Unit::TestCase
 
+    ##
+    # :category: Tests
+    # One big test, which loads a source valid config, tries to replace working some other classes with Image*
+    # prefix and tries to write it to output file. You need to check manually it's results, it is not
+    # guaranteed, that they are correct
     def testPassthrough()
         reader = ConfigReader.new()
         writer = ConfigWriter.new()
