@@ -1,35 +1,56 @@
-# Describes, how two images, should be merged
+##
+# :title: imagegluingorder.rb
+# Describes a metrics and algorithm to find a method, which
+# merges all images into one with minimized width and height
+
+##
+# :category: Public classes
+# Describes, how two images, should be merged - horizontally or vertically
 module GlueMode
     HORIZONTAL = 1
     VERTICAL = 2
 end
 
-# Describes what images should be merhed
+##
+# :category: Public classes
+# Describes what images should be merged, and how they must be meged
 class GlueOrder
-    # Array of image index
+    ##
+    # _Array_ of _Fixnum_. Indexes of images in source +TextureArray+  or +Array+ of  _Fixnum_ to be merged
     attr_accessor :images
-    # GlueMode  how should images be merged
+    # _Fixnum_ with values from _GlueMode_. A mode, describing how images should be merged.  
     attr_accessor :mode
     
-    # Declares a merges with indexes
-    # * int image1 index of first image
-    # * int image2 index of second image
-    # * int mode   mode numeric
-    # return int part
+    ##
+    # :category: Public interface
+    # Creates a new order, with specified parameters
+    # [image1]  _Fixnum_  index of first image in source +TextureArray+  or +Array+ of  _Fixnum_ to be merged
+    # [image2]  _Fixnum_  index of source image in source +TextureArray+  or +Array+ of  _Fixnum_ to be merged
+    # [mode]    _Fixnum_ with values from _GlueMode_ A mode, describing how images should be merged.  
     def initialize(image1, image2,  mode)
         @images = [image1, image2]
         @mode = mode
     end
 end
-# Behaves as infinitely big number if not initialized
+##
+# :category: Public classes
+# Behaves as infinitely big number if +number+ field is not initialized by number.
+# Can be useful in finding minimum computation
 class MaybeNumber
-    # Inits as infinitely big metric
+    ##
+    #  _Fixnum_. Current value of number
     attr_accessor :number
     
+    ##
+    #  :category: Public interface
+    # Initializes as infinitely big number
     def initialize()
        @number = nil
     end
-    
+    ##
+    #  :category: Public interface
+    # Returns true, if bigger than number
+    # [number] _Fixnum_ numbet to compare with
     def >(number)
         if (self.valid?() == false)
             return true
@@ -37,7 +58,10 @@ class MaybeNumber
             return (@number > number)
         end
     end
-    
+    ##
+    #  :category: Public interface
+    # Returns true, if equal to number
+    # [number] _Fixnum_ numbet to compare with
     def ==(number)
         if (self.valid?())
             return (@number-number).abs() < 0.1
@@ -45,24 +69,43 @@ class MaybeNumber
         return false
     end
     
+    ##
+    #  :category: Implementation. Deprecated to use
+    # Returns true, if not infinitely big
+    # [return] _TrueClass_ or _FalseClass_ true, if not infinitely big
     def valid?()
         return (@number.nil? == false)
     end
 end
 
-# A task for gluing all data
+##
+# :category: Implementation. DEPRECATED to use
+# A task, which is used by metrics to find recursively an order. 
+# A metric must merge all +entries+ into one, extending +orders+ array
 class GlueTask
-    # Array of Glue Entry to do
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # _Array_ of _GlueEntry_. entries to be merged into one
     attr_accessor :entries
-    # Array of Glue Order of current order
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # _Array_ of _GlueOrder_. resulting order, which current entries are created by
     attr_accessor :orders
-    
+    ##
+    # :category: Implementation. DEPRECATED to use
     # Creates a new task with specified entries and orders
+    # [entries] _Array_ of _GlueEntry_ entries to be merged into one
+    # [orders]  _Array_ of _GlueOrder_ resulting order, which current entries are created by
     def initialize(entries, orders)
         @entries = entries
         @orders = orders
     end
-    # Applies a new order, creating a new task
+    ## 
+    # :category: Implementation. DEPRECATED to use
+    # Applies a new order, merging some specified in order images into one and adding it to an end
+    # of resulting task and adding order to a part
+    # [order]  _GlueOrder_  order to be applied
+    # [return] _GlueTask_ resulting task
     def applyOrder(order)
         entries = @entries.clone()
         orders = @orders.clone()
@@ -73,34 +116,47 @@ class GlueTask
         return GlueTask.new(entries, orders)
     end
 end
+##
+# :category: Implementation. DEPRECATED to use
+# An abstract, metric, that finds best order to merge an images into one
 class GlueMetric
 
-    # Computes a glue metric result as maximum metric
-    # * Array of GlueEntry part to merge
-    # * order what should be merged
-    # * index what metric should be used (0 for width, 1 to height)
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Computes a maximum between size dimensions specified by +index+ between images, specified by +order+ 
+    # on an entries of +entries+
+    # [entries] _Array_ of _GlueEntry_ source array of entry
+    # [order]   _GlueOrder_ source order to be merged
+    # [index]   _Fixnum_    0 - for width, 1 - for height
+    # [return]  _Fixnum_    computation result
     def self.maxMerge(entries, order, index)
         return [ entries[order.images[0]].size()[index] , entries[order.images[1]].size()[index] ].max
     end
-    
-    # Computes a glue metric result as maximum metric
-    # * Array of GlueEntry part to merge
-    # * order what should be merged
-    # * index what metric should be used (0 for width, 1 to height)
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Computes a sum between size dimensions specified by +index+ between images, specified by +order+ 
+    # on an entries of +entries+
+    # [entries] _Array_ of _GlueEntry_ source array of entry
+    # [order]   _GlueOrder_ source order to be merged
+    # [index]   _Fixnum_    0 - for width, 1 - for height
+    # [return]  _Fixnum_    computation result
     def self.sumMerge(entries, order, index)
         return entries[order.images[0]].size()[index] + entries[order.images[1]].size()[index] 
     end
-    
-    # Computes a metric for describing what is maximum and what is not
-    # * Array of GlueEntry part to merge
-    # * order what should be merged
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Computes a metric for getting best order. If metric value is smaller - the order is better
+    # [entries] _Array_ of _GlueEntry_  entries to be merged
+    # [order]   _GlueOrder_ test order to be merged
+    # [return]  _Fixnum_ metric value
     def getMetric(entries, order)
         raise 'Not implemented!'
     end
-    
-    # Finds an order, where the metric is minimal
-    # * param entries array of GlueEntry to merge
-    # * return Array of new orders
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Finds all possible orders, where metric is minimum
+    # [entries] _Array_ of _GlueEntry_  source entrues to be merged
+    # [return]  _Array_ of _GlueOrder_  all possible orders, where metric is minimum
     def findMinMetricOrder(entries)
         possible_orders = []
         min = MaybeNumber.new()
@@ -131,17 +187,22 @@ class GlueMetric
         }
         return possible_orders
     end
-    
-    # Finds an order on all entries
-    # * param entries Array of all entries to be merged
-    # * return Array[ Array[orders, Array[width, height]] ] . Can return nil if no entries supplied. Also can be returned [ [ nil, [w,h]]] if one image
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Finds an all possible orders with minimal metric
+    # Can return nil if no entries supplied. Also can be returned [ [ [], [w,h]]] if one image.
+    # [entries] _Array_ of _GlueEntry_  all possible entries to be merged
+    # [return]  _Array_ of _Array_ of Array of _GlueOrder_ and _Array_ of _Fixnum_ [ Array[orders, Array[width, height]] ] . 
     def findOrder(entries)
+        # If no entries is specified nothing is found
         if (entries.length==0)
             return nil
         end
+        # If only one entry - nothing can be found, so no entries is used
         if (entries.length==1)
-            return [[nil,[entries[0].size[0],entries[0].size[1]]]]
+            return [[[],[entries[0].size[0],entries[0].size[1]] ]]
         end
+        # Function returns only finished tasks
         finishedtasks = []
         tasks = [ GlueTask.new(entries, []) ]
         i = 0
@@ -162,14 +223,19 @@ class GlueMetric
         end
         return finishedtasks
     end
-    
-    # Scans for minimum order in array of GlueMetric::findOrder results (results parameter) and finds min, with given Array[MaybeNumber, result]
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Scans for minimum order in array of GlueMetric::findOrder results (results parameter) 
+    # and finds metric width minimum from maximum from width and height, with given Array[MaybeNumber, result]
+    # [start]   _Array_ of _MaybeNumber_ and _Array_ of _GlueOrder_ result of computing previous minimum texture
+    # [results] _Array_ of _Array_ of _GlueOrder_ and _Array_ of _Fixnum_  an array of results as [ Array of GlueOrder, [width,height]]
     def self.findMinimumOrder(start, results )
         min = start[0]
         resultorder =  start[1]
         results.each{
             |result|
             
+            # Extract minimum
             maxValue = result[1].max()
             if (min>maxValue)
                 resultorder = result
@@ -179,11 +245,16 @@ class GlueMetric
         return [min, resultorder]
     end
 end
-# A metric, that minimizes a total square between two merged images
+##
+# :category: Implementation. DEPRECATED to use
+# A type of metric, that minimizes area of resulting texture
 class MinAreaMetric < GlueMetric
-     # Computes a metric for describing what is maximum and what is not
-    # * Array of GlueEntry part to merge
-    # * order what should be merged
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Computes a metric as an area of result texture, obtained from merging data
+    # [entries] _Array_ of _GlueEntry_  entries to be merged
+    # [order]   _GlueOrder_ test order to be merged
+    # [return]  _Fixnum_ metric value
     def getMetric(entries, order)
         w = 0 
         h = 0
@@ -197,18 +268,26 @@ class MinAreaMetric < GlueMetric
         return w*h
     end
 end
-# A metric, that minimizes a total diff between images
+##
+# :category: Implementation. DEPRECATED to use
+# A type of metric, that minimizes differences between height and width
 class MinDiffMetric < GlueMetric
-     # Computes a metric for describing what is maximum and what is not
-    # * Array of GlueEntry part to merge
-    # * order what should be merged
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Computes a metric for describing as a max(h1,h1)*(w2-w1), where h and w various parameters 
+    # [entries] _Array_ of _GlueEntry_  entries to be merged
+    # [order]   _GlueOrder_ test order to be merged
+    # [return]  _Fixnum_ metric value
     def getMetric(entries, order)
         w = 0 
         h = 0
+        # Get entries
         entry1 = entries[order.images[0]]
         entry2 = entries[order.images[1]]
+        # Get sizes
         size1 = [entry1.size()[0],entry1.size()[1]]
         size2 = [entry2.size()[0],entry2.size()[1]]
+        # Handle horizontal merge
         if (order.mode == GlueMode::HORIZONTAL)
             if (size1[1] > size2[1])
                 w = size2[0]
@@ -218,6 +297,7 @@ class MinDiffMetric < GlueMetric
                 h = size2[1] - size1[1]
             end
         else
+            # Handle vertical merge
             if (size1[0] > size2[0])
                 w = size1[0] - size2[0]
                 h = size2[1] 
@@ -229,73 +309,96 @@ class MinDiffMetric < GlueMetric
         return w*h
     end
 end
-# Represents an entry, used two glue two entry
+##
+# :category: Implementation. DEPRECATED to use
+# An entry, which holds a texture size and used in algorithm instead of texture 
+# in computing sizes
 class GlueEntry
 
+    ##
+    # :category: Implementation. DEPRECATED to use
     # Initialises an entry from texture
-    # * texture texture entry
+    # [texture] _Texture_ texture, where size can be taken from
     def intialize(texture)
         @size = texture.size()
     end
-    # Initialises entry as width and height
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Initialises entry by width and height
+    # [w] _Fixnum_ width of entry
+    # [h] _Fixnum_ height of entry
     def initialize(w,h)
         @size = Array[w,h]
     end
-    
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Performs a deep clone of entry
+    # [return] _GlueEntry_ new entry 
     def clone()
         return GlueEntry.new(@size[0], @size[1])
     end
-    
-    # Metges a two entries, from order
-    # * param Array entries input entries data
-    # * param GlueOrder order   order, in which they must be merged
-    # * return GlueEntry merged glue entry
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Merges a two entries into one, using specified order order
+    # [entries] _Array_ of _GlueEntry_ input entries array, textures from it is taken by indexes from order
+    # [order]   _GlueOrder_            order, in which they must be merged
+    # [return]  _GlueEntry_            new entry, with two images merged
     def self.merge(entries, order)
         w = 0 
         h = 0
+        # Handle a horizontal merge
         if (order.mode == GlueMode::HORIZONTAL)
             w = GlueMetric.sumMerge(entries, order, 0)
             h = GlueMetric.maxMerge(entries, order, 1) 
         else
+           #Handle vertical merge
            w = GlueMetric.maxMerge(entries, order, 0)   
            h = GlueMetric.sumMerge(entries, order, 1) 
         end
         return GlueEntry.new(w, h)
     end
-    
-    # Returns a size of two entries, glued together
-    # * Array[width, height]
+    ##
+    # :category: Implementation. DEPRECATED to use
+    # Returns a size of entry
+    # [return] _Array_ of _Fixnum_ [width, height] of resulting image
     def size()
         return @size
     end
     
 end
-# A class, which can find an order to merge an array of images into one
+##
+# :category: Public classes
+# A class, which can find an order. Merging images on this order, must lead to a texture with minimum width and height
 class ImageGluingOrder
-    # Finds an order on specified array
-    # * param images Array of Texture image
-    # * return Struct(order => Array of order, size => Array)
+    ##
+    # :category: Public interface
+    # Finds an order on specified array of images.
+    # Merging by this order, must lead to image with minimal width and height.
+    # [images] _Array_ of _Texture_ resulting image
+    # [return] _Struct_(+order+ => _Array_ of _GlueOrder_, size => _Array_ of _Fixnum_) Resulting order and size. Size is Array [width, height]
     def find(images)
+        # If no images specified, return empty order and texture with size [0,0]
         if (images.length == 0)
             return [ [], [0,0] ]
         end
+        # If one images, order is empty, but size is taken from it
         if (images.length == 1)
             return [ [], [images[0].size()[0],images[0].size()[1]] ]
         end
        
-        
+        # Create a metric
         minAreaResults = MinAreaMetric.new().findOrder(images)
         minDiffResults = MinDiffMetric.new().findOrder(images)
         
-        # Get minimum object
-        
+        # Get minimum order, from two metrics
+        # The first parameter of array is current minimum value (infinite)
+        # The second is current GlueOrder array (nil, because nothing found)
         min = [MaybeNumber.new() , nil]
         min = GlueMetric.findMinimumOrder(min,minAreaResults)
         min = GlueMetric.findMinimumOrder(min,minDiffResults)
-        
+        # Create a resulting order
         glueOrderResult = Struct.new("GlueOrderResult",:order, :size)
         result = glueOrderResult.new(min[1][0], min[1][1])
-        
         return result
     end
 end
