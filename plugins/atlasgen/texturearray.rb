@@ -70,10 +70,10 @@ end
 # :category: Public classes
 # A an array of textures, which handles unique names for textures
 class TextureArray < Array
-
-    # Pushes unique texture
-    # * param texture texture
-    # * param name name
+    ##
+    # :category: Public interface
+    # Pushes unique image with specified name
+    # [texture] _Texture_ source image
     def pushUnique(texture)
         if (texture.nil?)
             rise 'Invalid texture'
@@ -82,16 +82,19 @@ class TextureArray < Array
             self.concat( [texture] )
         end
     end
-    # Defines whether texture array contains some data
-    # * param String name
-    # * return Boolean whether contains, or not
+    ##
+    # :category: Public interface
+    # Detects whether texture array contains some texture with specified image file name
+    # [name]   _String_                     source image filename
+    # [return] _TrueClass_ or _FalseClass_  true. if found, otherwise null.
     def containsTexture(name)
         return  ( (self.index{ |tex| tex.name==name } ) != nil )
     end
-    
-    # Returns a texture by it's name
-    # * param String name
-    # * return Texture or nil if not found
+    ##
+    # :category: Public interface
+    # Returns a texture object by it's name
+    # [name]   _String_     source image filename
+    # [return] _Texture_    source image or nilm if can't be found
     def getTexture(name)
         arr = self.reject{ |tex| tex.name!=name }
         if (arr.length ==0 )
