@@ -1,11 +1,16 @@
-# Contains unit-tests for configuration reading module
-# A unit-test for this module is placed here
+##
+# :title: test_configreader.rb
+# Tests for ConfigReader class
 load    'configreader.rb'
 require 'test/unit'
 
-
+##
+# :category: Tests
+# Tests for Texture class
 class TestTexture < Test::Unit::TestCase
-
+    ##
+    # :category: Tests
+    # Tests a Texture::size method
     def testSize()
         tex = Texture.new("test_imgs/lena.jpg")
         tex.load()
@@ -13,15 +18,21 @@ class TestTexture < Test::Unit::TestCase
         assert(tex.size()[1] == 256, tex.size()[1].to_s())
     end
 end
-
+##
+# :category: Tests
+# Tests for ConfigReader class
 class TestConfigReader < Test::Unit::TestCase
 
-    #  Inits entry array with test entries
+    ##
+    # :category: Test Utilities
+    # Here we only create a ConfigReader to be used in tests
     def setup()
         @obj = ConfigReader.new()
     end
     
-    # Tests non-existent file
+    ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when source files does not exists
     def testFileNoExists()
         filename = "<>sia)"
         assert( @obj.read(filename) == nil )
@@ -31,8 +42,10 @@ class TestConfigReader < Test::Unit::TestCase
         assert( @obj.read(filename) == nil )
         assert (@obj.getErrors()[0] == "Cannot open file: " + filename)
     end
-    # Test invalid file parts
-    def testInvalidFails()
+    ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when source files are broken
+    def testParseErrors()
         filename = "test_xml/fail1.xml"
         assert( @obj.read(filename) == nil )
         assert (@obj.getErrors()[0] == "Cannot read file: " + filename)
@@ -44,9 +57,10 @@ class TestConfigReader < Test::Unit::TestCase
         filename = "test_xml/fail3.xml"
         assert( @obj.read(filename) == nil )
         assert (@obj.getErrors()[0] == "Cannot read file: " + filename)
-        
     end
-    # Test non full description
+    ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when output texture and output config files are not specified
     def testNonFull()
         filename = "test_xml/no_texture_and_config.xml"
         assert( @obj.read(filename) == nil )
@@ -60,7 +74,9 @@ class TestConfigReader < Test::Unit::TestCase
         assert( @obj.read(filename) == nil )
         assert( @obj.getErrors().length == 1 )
     end
-    # Tests empty  valid config
+    ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when input is valid, but no source sprite templates given
     def testEmptyValidConfig()
         filename = "test_xml/emptyconfig.xml"
         assert( @obj.read(filename) != nil )
@@ -68,14 +84,18 @@ class TestConfigReader < Test::Unit::TestCase
         assert( @obj.getOutputConfigName() == "a.xml",@obj.getOutputConfigName() )
         assert( @obj.getOutputTextureName() == "a.png" )
     end
-    # Tests config with absent texture
+    ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when source image can't be loaded
     def testFirstInvalidConfig()
         filename = "test_xml/tcfg1.xml"
         assert( @obj.read(filename) == nil , @obj.getErrors().join("\n"))
         assert( @obj.getErrors().length == 1 )
         
     end
-    # Tests some valid config loading
+     ##
+    # :category: Tests
+    # Tests a ConfigReader::read in a case, when fully correct source file is specified
     def testValidConfig()
         filename = "test_xml/valid.xml"
         config = @obj.read(filename)
@@ -95,7 +115,9 @@ class TestConfigReader < Test::Unit::TestCase
         assert( entries[0].index == 500 )
     end
     
-    #  Does nothing
+    ##
+    # :category: Test Utilities
+    # Does nothing
     def teardown()
     end
 end
