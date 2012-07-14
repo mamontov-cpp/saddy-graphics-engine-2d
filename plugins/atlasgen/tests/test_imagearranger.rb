@@ -1,16 +1,22 @@
-# Tests an image arranger part of work
-# Tests a mageArranger
+##
+# :title: test_imagearranger.rb
+# Tests for ImageArranger class
 load    'imagearranger.rb'
 require 'test/unit'
-# Tests a ImageArranger
+##
+# :category: Tests
+# Tests an ImageArranger class
 class TestImageArranger < Test::Unit::TestCase
-    @mockEntry
-    
+    ##
+    # :category: Test Utilities
+    # Creates a mock entry, which is used instead of actual texture
     def setup() 
         @mockEntry = Struct.new(:size, :textureRectangle)
     end
     
-    # Tests power of two computation in arrange
+    ##
+    # :category: Tests
+    # Tests a nearest bigger power of two computation inside ImageArranger::arrange
     def testPOT()
         obj = ImageArranger.new()
         size = obj.arrange([],[],[0,0])
@@ -26,7 +32,9 @@ class TestImageArranger < Test::Unit::TestCase
         size = obj.arrange([],[],[257,0])
         assert(size == 512)
     end
-    # Tests one image arrangement
+    ##
+    # :category: Tests
+    # Tests a ImageArranger::arrange on case, when one image is passed
     def testOneImage()
         obj = ImageArranger.new()
         size = [120,140]
@@ -48,7 +56,9 @@ class TestImageArranger < Test::Unit::TestCase
         assert(image.textureRectangle[3] == 257)
         
     end
-    # Tests some horizontal merge
+    ##
+    # :category: Tests
+    # Tests a ImageArranger::ImageBucker::merge on a case, when GlueMode set to horizontal in order
     def testImageBucketMergeHorizontal()
         sizes = [ [30,50], [30,40] ]
         images = sizes.collect{ |size| @mockEntry.new(size,[]) }
@@ -84,7 +94,9 @@ class TestImageArranger < Test::Unit::TestCase
     end
     
     
-    # Tests some vertical merging
+    ##
+    # :category: Tests
+    # Tests a ImageArranger::ImageBucker::merge on a case, when GlueMode set to vertical in order
     def testImageBucketMergeVertical()
         sizes = [ [30,50], [30,40] ]
         images = sizes.collect{ |size| @mockEntry.new(size,[]) }
@@ -119,7 +131,9 @@ class TestImageArranger < Test::Unit::TestCase
         assert(images[1].textureRectangle[3] == 50)
     end
     
-     # Tests some horizontal merge
+    ##
+    # :category: Tests
+    # Tests a ImageArranger::arrange on a case of horizontal merge
     def testArrangeHorizontal()
         sizes = [ [30,50], [30,40], [30,40] ]
         images = sizes.collect{ |size| @mockEntry.new(size,[]) }
@@ -139,8 +153,10 @@ class TestImageArranger < Test::Unit::TestCase
         assert(images[2].textureRectangle[3] == 40)
     end
     
-    # Tests some vertical merge
-    def testArrangeVertixal()
+    ##
+    # :category: Tests
+    # Tests a ImageArranger::arrange on a case of vertical merge
+    def testArrangeVertical()
         sizes = [ [30,50], [30,40], [30,40] ]
         images = sizes.collect{ |size| @mockEntry.new(size,[]) }
         buckets = images.collect{ |image| ImageArranger::ImageBucket.new(image) }
@@ -158,7 +174,9 @@ class TestImageArranger < Test::Unit::TestCase
         assert(images[2].textureRectangle[2] == 30)
         assert(images[2].textureRectangle[3] == 40)
     end
-    # Does really nothing
+    ##
+    # :category: Test Utilities
+    # Does nothing
     def teardown()
         
     end
