@@ -13,7 +13,7 @@ end
 
 ##
 # :category: Public classes
-# Describes what images should be merged, and how they must be meged
+# Describes what images should be merged, and how they must be merged
 class GlueOrder
     ##
     # _Array_ of _Fixnum_. Indexes of images in source +TextureArray+  or +Array+ of  _Fixnum_ to be merged
