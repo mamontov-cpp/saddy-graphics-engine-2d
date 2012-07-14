@@ -9,7 +9,7 @@ require 'FileUtils'
 ##
 # :category: Tests
 # Tests for ImageGlue class
-class ImageGlueTest < Test::Unit::TestCase
+class TestImageGlue < Test::Unit::TestCase
     ##
     # :category: Test Utilities
     # A texture loading  performed here   
