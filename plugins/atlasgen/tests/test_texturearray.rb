@@ -11,7 +11,7 @@ class TextureArrayTest < Test::Unit::TestCase
     
     ##
     # :category: Test Utilities
-    # A data texture loading  performed here
+    # A texture loading  performed here
     def setup()
         @obj = TextureArray.new
         @tex = Texture.new("test_imgs/lena.jpg")
