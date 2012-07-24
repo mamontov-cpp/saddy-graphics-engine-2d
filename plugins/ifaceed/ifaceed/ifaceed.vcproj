@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtTest4.lib saddy-debug.lib saddy-freetype.lib freetype.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtTest4.lib saddy-debug.lib saddy-ft-debug.lib freetype.lib"
 				OutputFile="../$(ProjectName)-debug.exe"
 				AdditionalLibraryDirectories="&quot;$(SADDY_LIB)&quot;;&quot;$(QTDIR)\lib&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
