@@ -1,5 +1,6 @@
 #include "mainpanel.h"
 #include <QtGui/QApplication>
+#include <QTest>
 #include <QTimer>
 #include <QThread>
 #include <renderer.h>
@@ -113,6 +114,9 @@ void SaddyThread::run()
   saddy_thread(NULL);
 }
 
+#ifdef __UNITTESTS
+QTEST_NOOP_MAIN
+#else
 /**
  * Main loop. where shoud gbe started saddy thread and Qt
  */
@@ -145,3 +149,4 @@ int main(int argc, char *argv[])
 	delete Editor;
 	return 0;
 }
+#endif
