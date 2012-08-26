@@ -66,6 +66,9 @@ class Editor: public QObject
 					\param[in] editor editor to run
 				 */
 			    inline SaddyThread(Editor * editor) { m_editor = editor;}
+				/** Awaits for qt thread to do his job
+				 */
+				void waitForQtThread();
 				/** Runs a thread to do stuff
 				 */
 				virtual void run();
@@ -76,23 +79,49 @@ class Editor: public QObject
 		 /** Mutex, used to render all stuff
 		  */
 		 os::mutex * m_rendermutex;
+		 /** Mutex, that is used in initialize. DO NOT USE on other intensions
+		  */
+		 os::mutex * m_initmutex;
+		 /** Whether saddy thread must wait for qt thread
+		  */
+		 bool m_waitforqt;
 	     /** Returns a command line arguments
 			 \return command line arguments
 		  */ 
 		 inline CommandArguments * commandLineArguments() { return m_cmdargs;}
-  private slots:
+
+		 /** Tests, whether saddy thread wait for qt
+			 \return should saddy awake or not
+		  */
+		 bool shouldSaddyThreadWaitForQt() 
+		 {
+			bool result = false;
+			m_initmutex->lock();
+			result = m_waitforqt;
+			m_initmutex->unlock();
+			return result;
+		 }
+		 /** Awakes  a saddy thread
+		  */
+		 void awakeSaddyThread() 
+		 {
+			m_initmutex->lock();
+			m_waitforqt = false;
+			m_initmutex->unlock();
+		 }
+  protected slots:
 		 /** A method to init all saddy actiona
 		  */
-	     void initSaddyActions();
+	     virtual void initSaddyActions();
 		 /** A method to init all qt actions
 		  */
-		 void initQtActions();
+		 virtual void initQtActions();
 		 /** Runs qt event loop (qt app)
 		  */
-		 void runQtEventLoop();
+		 virtual void runQtEventLoop();
 		 /** Runs saddy event loop saddy event loop
 		  */
-		 void runSaddyEventLoop();
+		 virtual void runSaddyEventLoop();
   public:
 		/** Default constructor
 		 */
@@ -101,7 +130,7 @@ class Editor: public QObject
 			\param[in] argc count of arguments
 			\param[in] argv arguments
 		 */
-		void init(int argc,const char ** argv);
+		virtual void init(int argc,const char ** argv);
 
 		/** Locks rendering for current thread to synchronize scene-vulnerable actions
 		 */
@@ -113,7 +142,7 @@ class Editor: public QObject
 		/** Quits an editor
 			\param[in] quits editor
 		 */
-		void quit();
+		virtual void quit();
 		/** Removes a command arguments data
 		 */
 		~Editor();
