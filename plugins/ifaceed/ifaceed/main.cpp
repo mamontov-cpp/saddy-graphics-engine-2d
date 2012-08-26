@@ -11,15 +11,12 @@
 #include "interlockedscene.h"
 #include "objects/spritegameobject.h"
 #include "xmlconfigloader.h"
-#include "editor.h"
+#include "editorcore/editor.h"
 #include <log.h>
-
-
-
 /**
  *  Global editor state
  */
-EditorState * Editor=NULL;  
+Editor * GlobalEditor=NULL;  
 /**
  *  A main window
  */
@@ -122,7 +119,7 @@ QTEST_NOOP_MAIN
  */
 int main(int argc, char *argv[])
 {
-	Editor=new EditorState();
+	GlobalEditor=new Editor();
 	QApplication a(argc, argv);
 
 	SaddyThread thr;
@@ -146,7 +143,7 @@ int main(int argc, char *argv[])
 	
 	//Save a log
 	hst::log::save("log.txt");
-	delete Editor;
+	delete GlobalEditor;
 	return 0;
 }
 #endif
