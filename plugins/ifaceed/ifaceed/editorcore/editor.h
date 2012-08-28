@@ -4,10 +4,12 @@
 	Describes a global editor state
  */
 #include "objects/abstractgameobject.h"
-#include "os/mutex.h"
 #include <QObject>
 #include <QTimer>
 #include <QThread>
+#include <QApplication>
+#include <os/mutex.h>
+#include <renderer.h>
 #pragma once
 
 /** \class CommandArguments
@@ -22,13 +24,13 @@ class CommandArguments
 	int argc;
 	/** Passed arguments
 	  */
-	const char ** argv;
+	char ** argv;
  public:
 	/** Constructs a new command arguments
 	    \param[in] argc amount of arguments
 	    \param[in] argc arguments
 	 */
-	inline CommandArguments(int argc, const char ** argv) {
+	inline CommandArguments(int argc, char ** argv) {
 		this->argc = argc;
 		this->argv = argv;
 	}
@@ -36,12 +38,20 @@ class CommandArguments
 		\return argument count
 	 */
 	inline int count() const { return this->argc; }
+
+	/** Returns argument count
+		\return argument count
+	 */
+	inline int& mutableCount() { return this->argc; }
 	/** Returns arguments
 		\param[in] i number of argument
 		\return arguments
 	 */
 	inline const char * argument(int i) const { return this->argv[i]; }
-
+	/** Returns full arguments array
+		\return arguments
+	 */
+	char ** fullArgv() { return this->argv; }
 };
 
 /*! \class Editor
@@ -73,6 +83,9 @@ class Editor: public QObject
 				 */
 				virtual void run();
 	     } * m_renderthread;
+	     /** Application of qt, which is used
+		  */
+		 QApplication * m_qtapp;
 		 /** Command line arguments
 		  */
 		 CommandArguments * m_cmdargs;
@@ -130,7 +143,7 @@ class Editor: public QObject
 			\param[in] argc count of arguments
 			\param[in] argv arguments
 		 */
-		virtual void init(int argc,const char ** argv);
+		virtual void init(int argc,char ** argv);
 
 		/** Locks rendering for current thread to synchronize scene-vulnerable actions
 		 */
