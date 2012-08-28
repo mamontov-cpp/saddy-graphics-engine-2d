@@ -38,10 +38,10 @@ class SpriteGameObject: public AbstractGameObject
 		 /*! Adds an object to scene. Adds it to container to scene.
 			 \param[in] scene scene
 		 */
-		 virtual void addToScene(InterlockedScene * scene);
+		 //virtual void addToScene(InterlockedScene * scene);
 		 /*! Removes an object from scene
 		  */
-		 virtual void removeFromScene();
+		 //virtual void removeFromScene();
 		 /*! Destructs an object
 		  */
 		 virtual ~SpriteGameObject();

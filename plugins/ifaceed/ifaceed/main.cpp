@@ -3,14 +3,14 @@
 #include <QTest>
 #include <QTimer>
 #include <QThread>
-#include <orthocamera.h>
+
 #include <input.h>
 #include <stdio.h>
 #include "saddythread.h"
-#include "interlockedscene.h"
 #include "objects/spritegameobject.h"
 #include "xmlconfigloader.h"
 #include "editorcore/editor.h"
+#include "core/ifaceeditor.h"
 #include <log.h>
 /**
  *  Global editor state
@@ -85,20 +85,13 @@ void * saddy_thread(void *)
 	//	exit(1);
 	//}
 
-	GlobalScene=new InterlockedScene();
-	GlobalScene->setCamera(new OrthoCamera(true));
-
-
-
-	sad::Renderer::instance().setCurrentScene(GlobalScene);
-	sad::Renderer::instance().toggleFixedOn();
-	
+		
 	if (RendererFinished==false)
 	{
 		quit();
 	}
 	//Clear all containers, to make sure, that all objects is removed
-	GlobalScene->clearContainers();
+	//GlobalScene->clearContainers();
 	//Deletes a global config
 	delete GlobalSpritesConfig;
 
@@ -118,7 +111,11 @@ QTEST_NOOP_MAIN
  */
 int main(int argc, char *argv[])
 {
-	GlobalEditor=new Editor();
+	GlobalEditor=new IFaceEditor();
+	GlobalEditor->init(argc,argv);
+	
+
+	/**
 	QApplication a(argc, argv);
 
 	SaddyThread thr;
@@ -142,6 +139,8 @@ int main(int argc, char *argv[])
 	
 	//Save a log
 	hst::log::save("log.txt");
+	**/
+
 	delete GlobalEditor;
 	return 0;
 }

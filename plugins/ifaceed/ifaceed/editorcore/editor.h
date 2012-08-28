@@ -8,9 +8,33 @@
 #include <QTimer>
 #include <QThread>
 #include <QApplication>
+#include <QMainWindow>
 #include <os/mutex.h>
 #include <renderer.h>
 #pragma once
+
+
+class Editor;
+
+/** Interlocked scene, used to iterate while rendering
+ */
+class InterlockedScene: public sad::Scene
+{
+ private:
+	      /** A parent editor
+		   */
+		  Editor * m_editor;
+ public:
+		  /** Constructs new interlocked scene
+		   */
+	      inline InterlockedScene(Editor * ed) { this->m_editor = ed;}
+		  /** Renders a scene
+		   */
+		  virtual void render();
+		  /** A scene
+		   */ 
+		  virtual ~InterlockedScene();
+};
 
 /** \class CommandArguments
 	
@@ -83,9 +107,15 @@ class Editor: public QObject
 				 */
 				virtual void run();
 	     } * m_renderthread;
+		 /** Main window of application
+		  */
+		 QMainWindow  * m_mainwindow;
 	     /** Application of qt, which is used
 		  */
 		 QApplication * m_qtapp;
+		 /** A scene used for output
+		  */
+		 sad::Scene * m_scene;
 		 /** Command line arguments
 		  */
 		 CommandArguments * m_cmdargs;
@@ -95,18 +125,22 @@ class Editor: public QObject
 		 /** Mutex, that is used in initialize. DO NOT USE on other intensions
 		  */
 		 os::mutex * m_initmutex;
+		 /** Mutex, that is used in waiting of saddy thread. DO NOT use on other intensions
+		  */
+		 os::mutex * m_saddywaitmutex;
 		 /** Whether saddy thread must wait for qt thread
 		  */
 		 bool m_waitforqt;
-	     /** Returns a command line arguments
-			 \return command line arguments
-		  */ 
-		 inline CommandArguments * commandLineArguments() { return m_cmdargs;}
-
+		 /** Whether main thread should wait for saddy thread
+		  */
+		 bool m_waitforsaddy;
+		 /** Whether saddy initialization was successfull
+		  */
+		 bool m_saddystartedok;
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not
 		  */
-		 bool shouldSaddyThreadWaitForQt() 
+		 inline bool shouldSaddyThreadWaitForQt() 
 		 {
 			bool result = false;
 			m_initmutex->lock();
@@ -114,14 +148,70 @@ class Editor: public QObject
 			m_initmutex->unlock();
 			return result;
 		 }
+		 /** Tests, whether main thread wait for saddy
+			 \return should saddy awake or not
+		  */
+		 inline bool shouldMainThreadWaitForSaddy() 
+		 {
+			bool result = false;
+			m_initmutex->lock();
+			result = m_waitforsaddy;
+			m_initmutex->unlock();
+			return result;
+		 }
+		 /** Awakes main thread
+		  */
+		 inline void awakeMainThread() 
+		 {
+			m_saddywaitmutex->lock();
+			m_waitforsaddy = false;
+			m_saddywaitmutex->unlock();
+		 }
 		 /** Awakes  a saddy thread
 		  */
-		 void awakeSaddyThread() 
+		 inline void awakeSaddyThread() 
 		 {
 			m_initmutex->lock();
 			m_waitforqt = false;
 			m_initmutex->unlock();
 		 }
+		 void waitForSaddyThread();
+		 /** Default saddy options
+		  */
+		 void initDefaultSaddyOptions();
+	     /** Whether saddy init was successfukl
+		  */
+		 inline bool saddyInitSuccessfull() { return this->m_saddystartedok; }
+  protected:
+		 /** Assert that saddy initted succesed or failed
+		  */
+		 inline void assertSaddyInit( bool success) { this->m_saddystartedok = success;}
+		 /** Returns a command line arguments
+		 	 \return command line arguments
+		  */ 
+		 inline CommandArguments * commandLineArguments() { return m_cmdargs;}
+		 /** Returns a qt application
+			 \return qt application
+		  */
+		 inline QApplication * qtApp() { return this->m_qtapp;}
+		 /** Returns a qt main window
+			 \return qt main window, used in program
+		  */
+		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
+		 /** Returns a scene
+			 \return used scene
+		  */
+		 inline sad::Scene * scene() { return this->m_scene; }
+		 /** REIMPLEMENT this function to pass your own renderer settings into saddy
+		  */
+		 virtual void initSaddyRendererOptions();
+		 /** REIMPLEMENT this function to create a qt window
+			 \return null
+		  */
+		 virtual QMainWindow * createQtWindow();
+		 /** REIMPLEMENT this function to create a slots to a qt windows
+		  */
+		 void bindQtSlots();
   protected slots:
 		 /** A method to init all saddy actiona
 		  */
