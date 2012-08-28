@@ -7,9 +7,10 @@ Editor::Editor()
 	m_initmutex = new os::mutex();
 	m_renderthread = new Editor::SaddyThread(this);
 	m_waitforqt = false;
+	m_qtapp = NULL;
 }
 
-void Editor::init(int argc,const char ** argv)
+void Editor::init(int argc,char ** argv)
 {
 	m_cmdargs = new CommandArguments(argc, argv);
 	// This thread also runs ALL of event loops
@@ -24,6 +25,7 @@ void Editor::quit()
 
 Editor::~Editor() 
 {
+	delete m_qtapp;
 	delete m_initmutex;
 	delete m_renderthread;
 	delete m_rendermutex;
@@ -49,18 +51,23 @@ void Editor::SaddyThread::waitForQtThread()
 
 void Editor::initSaddyActions() 
 {
+
 }
 
 void Editor::initQtActions() 
 {
+	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
+									(this->m_cmdargs->fullArgv()));
 	this->awakeSaddyThread();
 }
 
 void Editor::runQtEventLoop()
 {
+	this->m_qtapp->exec();
 	this->awakeSaddyThread();
 }
 
 void Editor::runSaddyEventLoop() 
 {
+	sad::Renderer::instance().run();
 }

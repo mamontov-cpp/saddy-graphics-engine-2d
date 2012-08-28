@@ -3,7 +3,6 @@
 #include <QTest>
 #include <QTimer>
 #include <QThread>
-#include <renderer.h>
 #include <orthocamera.h>
 #include <input.h>
 #include <stdio.h>
@@ -93,7 +92,7 @@ void * saddy_thread(void *)
 
 	sad::Renderer::instance().setCurrentScene(GlobalScene);
 	sad::Renderer::instance().toggleFixedOn();
-	sad::Renderer::instance().run();
+	
 	if (RendererFinished==false)
 	{
 		quit();
