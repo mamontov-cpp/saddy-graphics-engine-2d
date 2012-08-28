@@ -16,6 +16,7 @@ Editor::Editor()
 
 void Editor::init(int argc,char ** argv)
 {
+	this->assertSaddyInit(true);
 	this->m_waitforsaddy = true;
 	m_cmdargs = new CommandArguments(argc, argv);
 	// This thread also runs ALL of event loops
