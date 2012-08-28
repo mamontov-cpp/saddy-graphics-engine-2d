@@ -36,16 +36,16 @@ SpriteGameObject::~SpriteGameObject()
 	delete m_observer;
 }
 
-void SpriteGameObject::addToScene(InterlockedScene * scene)
-{
-	this->AbstractGameObject::addToScene(scene);
-	sprite()->addToScene(scene);
-}
+//void SpriteGameObject::addToScene(InterlockedScene * scene)
+//{
+//	this->AbstractGameObject::addToScene(scene);
+//	sprite()->addToScene(scene);
+//}
 
-void SpriteGameObject::removeFromScene()
-{
-	this->AbstractGameObject::removeFromScene();
-	sprite()->removeFromScene();
-}
+//void SpriteGameObject::removeFromScene()
+//{
+//	this->AbstractGameObject::removeFromScene();
+//	sprite()->removeFromScene();
+//}
 
 

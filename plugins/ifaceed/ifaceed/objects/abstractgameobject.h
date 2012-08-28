@@ -3,7 +3,6 @@
 
 	Describes an abstract game object
  */
-#include "interlockedscene.h"
 #pragma once
 
 /*! \class AbstractGameObject
@@ -13,16 +12,16 @@
 class AbstractGameObject
 {
  protected:
-		InterlockedScene * m_scene; //!< A scene of object
+		// InterlockedScene * m_scene; //!< A scene of object
  public:
-	  inline AbstractGameObject() { m_scene=NULL; }	
+	  inline AbstractGameObject() { /*m_scene=NULL;*/ }	
 	  /*! Adds an object to scene. Adds it to container to scene.
 		  \param[in] scene scene
 	   */
-	  virtual void addToScene(InterlockedScene * scene);
+	  //virtual void addToScene(InterlockedScene * scene);
 	  /*! Removes an object from scene
 	   */
-	  virtual void removeFromScene();
+	  //virtual void removeFromScene();
 	  /*! Destructor
 	   */
 	  virtual ~AbstractGameObject();
