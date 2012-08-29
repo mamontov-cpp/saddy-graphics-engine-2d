@@ -24,4 +24,16 @@ class IFaceEditor: public Editor
 	/** Creates a new Qt slots for working
 	  */
     void bindQtSlots();
+	 /** REIMPLEMENT. the action, when user closes window of qt
+	   */
+	void onQtWindowDestroy();
+	/** REIMPLEMENT. the action, when user closes window of qt
+	  */
+	void onSaddyWindowDestroy();
+	/** REIMPLEMENT this function to do work, when qt window quit 
+	  */
+	void quitQtActions();
+	/** REIMPLEMENT this function to do work, when saddy window quit 
+	  */
+	void quitSaddyActions();
 };
