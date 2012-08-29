@@ -11,6 +11,7 @@
 #include <QMainWindow>
 #include <os/mutex.h>
 #include <renderer.h>
+#include "editoreventhandler.h"
 #pragma once
 
 
@@ -84,7 +85,8 @@ class CommandArguments
  */
 class Editor: public QObject
 {
-  Q_OBJECT
+	Q_OBJECT
+
   private:
 		 /** Thread for rendering
 		  */

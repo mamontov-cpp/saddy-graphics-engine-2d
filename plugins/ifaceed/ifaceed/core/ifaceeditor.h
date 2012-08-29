@@ -8,6 +8,7 @@
 
 class IFaceEditor: public Editor
 {
+	Q_OBJECT
  protected:
 	/** Sets my options and my data
 	 */
