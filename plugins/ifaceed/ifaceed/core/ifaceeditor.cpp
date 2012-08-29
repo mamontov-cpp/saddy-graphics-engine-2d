@@ -21,3 +21,21 @@ void IFaceEditor::bindQtSlots()
 {
 
 }
+
+void IFaceEditor::onQtWindowDestroy()
+{
+
+}
+
+void IFaceEditor::onSaddyWindowDestroy()
+{
+
+}
+void IFaceEditor::quitQtActions()
+{
+
+}
+void IFaceEditor::quitSaddyActions()
+{
+
+}

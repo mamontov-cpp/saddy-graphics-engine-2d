@@ -225,20 +225,20 @@ private:
 		 virtual QMainWindow * createQtWindow();
 		 /** REIMPLEMENT this function to create a slots to a qt windows
 		  */
-		 void bindQtSlots();
+		 virtual void bindQtSlots();
 		 /** REIMPLEMENT. the action, when user closes window of qt
 		  */
-		 void onQtWindowDestroy();
+		 virtual void onQtWindowDestroy();
 		 /** REIMPLEMENT. the action, when user closes window of qt
 		  */
-		 void onSaddyWindowDestroy();
+		 virtual void onSaddyWindowDestroy();
 
 		 /** REIMPLEMENT this function to do work, when qt window quit 
 		  */
-		 void quitQtActions();
+		 virtual void quitQtActions();
 		/** REIMPLEMENT this function to do work, when saddy window quit 
 		  */
-		 void quitSaddyActions();
+		 virtual void quitSaddyActions();
 
 		 
 		 /** A quit slot for saddy, which is run when user runs saddy
