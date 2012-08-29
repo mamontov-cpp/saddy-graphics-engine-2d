@@ -166,7 +166,7 @@ namespace sad
 			virtual ~BasicEventHandler();
 			/*! Is it is empty
 			*/
-			inline bool empty() { return !m_functor; }
+			virtual bool empty() { return !m_functor; }
 	};
 	/*! Common input handler
 	*/
