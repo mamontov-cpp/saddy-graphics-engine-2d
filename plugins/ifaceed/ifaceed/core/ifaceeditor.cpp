@@ -4,6 +4,9 @@ void IFaceEditor::initSaddyRendererOptions()
 {
 	this->Editor::initSaddyRendererOptions();
 	sad::Renderer::instance().setWindowTitle("Saddy Interface Editor");
+	
+	sad::Input::inst()->bindKeyDown(KEY_ESC, new IFaceEditorHandler(this,&IFaceEditor::quit));
+
 	this->assertSaddyInit(true);
 }
 
@@ -38,4 +41,9 @@ void IFaceEditor::quitQtActions()
 void IFaceEditor::quitSaddyActions()
 {
 
+}
+
+void IFaceEditor::quit(const sad::Event & ev)
+{
+	sad::Renderer::instance().quit();
 }

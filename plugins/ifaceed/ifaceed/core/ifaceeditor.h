@@ -6,6 +6,9 @@
 #include "../editorcore/editor.h"
 #include "../mainpanel.h"
 
+
+
+
 class IFaceEditor: public Editor
 {
 	Q_OBJECT
@@ -36,4 +39,14 @@ class IFaceEditor: public Editor
 	/** REIMPLEMENT this function to do work, when saddy window quit 
 	  */
 	void quitSaddyActions();
+ public:
+	/** Quits an editor
+	 */
+	void quit(const sad::Event & ev = sad::Event());
 };
+
+/** A special handler for method
+ */
+typedef HandlerFor<IFaceEditor>::Method<void (IFaceEditor::*)(const sad::Event &o),
+										sad::Event
+										> IFaceEditorHandler;
