@@ -14,6 +14,12 @@
 #include "editoreventhandler.h"
 #pragma once
 
+enum EditorQuitReason
+{
+	EditorQuitReasonNotSet = 0,
+	QuitBySaddy = 1,
+	QuitByQtWindow = 2
+};
 
 class Editor;
 
@@ -139,6 +145,11 @@ class Editor: public QObject
 		 /** Whether saddy initialization was successfull
 		  */
 		 bool m_saddystartedok;
+protected:
+		 /** A reason, while saddy quit
+		  */
+		 EditorQuitReason  m_quit_reason;
+private:
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not
 		  */
@@ -214,6 +225,24 @@ class Editor: public QObject
 		 /** REIMPLEMENT this function to create a slots to a qt windows
 		  */
 		 void bindQtSlots();
+		 /** REIMPLEMENT. the action, when user closes window of qt
+		  */
+		 void onQtWindowDestroy();
+		 /** REIMPLEMENT. the action, when user closes window of qt
+		  */
+		 void onSaddyWindowDestroy();
+
+		 /** REIMPLEMENT this function to do work, when qt window quit 
+		  */
+		 void quitQtActions();
+		/** REIMPLEMENT this function to do work, when saddy window quit 
+		  */
+		 void quitSaddyActions();
+
+		 
+		 /** A quit slot for saddy, which is run when user runs saddy
+		  */
+		 void saddyQuitSlot();
   protected slots:
 		 /** A method to init all saddy actiona
 		  */
@@ -227,6 +256,13 @@ class Editor: public QObject
 		 /** Runs saddy event loop saddy event loop
 		  */
 		 virtual void runSaddyEventLoop();
+		 /** Contains a different actions, which is runned from main thread
+			  use variable @see m_quit_reason for reason of exit
+		  */
+		 void onQuitActions();
+		 /** Runs, when qt quits 
+		  */
+		 void qtQuitSlot();
   public:
 		/** Default constructor
 		 */
