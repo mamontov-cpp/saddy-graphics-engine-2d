@@ -734,10 +734,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\ifaceed.rc"
-			>
-		</File>
 	</Files>
 	<Globals>
 		<Global

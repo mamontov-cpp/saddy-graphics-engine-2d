@@ -232,7 +232,7 @@ namespace sad
 	class Input
 	{
 	 private:
-
+			 sad::EventHandler  * m_quit;         //!<  On quit window handler
 		      sad::EventHandler *  m_mousemove;   //!<  Move
 			  sad::EventHandler *  m_mousedown;   //!<  Down
 			  sad::EventHandler *  m_mouseclick;  //!<  Click
@@ -283,7 +283,7 @@ namespace sad
 			  void setMouseUpHandler(   sad::EventHandler * h);
 			  void setMouseDblClickHandler(  sad::EventHandler * h);
 			  void setMouseWheelHandler(   sad::EventHandler * h);
-				
+			  void setQuitHandler(sad::EventHandler * h);	
 			  void setKeyUpHandler(   sad::EventHandler * h);
 			  void setKeyDownHandler(  sad::EventHandler * h);
 
@@ -304,7 +304,7 @@ namespace sad
 			  void postMouseWheel(const sad::Event & ev);
 			  void postKeyUp(const sad::Event & ev);
 			  void postKeyDown(const sad::Event & ev);
-
+			  void postQuit();
 			  void postResize(const sad::ResizeEvent & ev);
 
 			  /*! Add a pre-render task

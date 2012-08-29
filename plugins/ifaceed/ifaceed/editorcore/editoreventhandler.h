@@ -20,20 +20,26 @@ class HandlerFor
 			   /** Parent editor
 			    */
 			   _Editor * m_editor;
+			   /** Editor's method
+			    */
+			   _Callback  m_method;
 	 public:
 			 /** Constructs new editor
 				 \param[in] editor used editor
+				 \param[in] cb method
 			  */
-			 inline Method(_Editor * editor)
+			 inline Method(_Editor * editor,_Callback  cb)
 			 {
 				 m_editor = editor;
+				 m_method = cb;
 			 }
 			 /*! Invokes a functor with event
 			     \param[in] o event
 			*/
 			virtual void operator()(const _EventType & o)
 			{
-				(m_editor->*_Callback)(o);
+				_Callback cb = this->m_method;
+				(m_editor->*cb)(o);
 			}
 			/*! We define this object as non-empty
 			 */
