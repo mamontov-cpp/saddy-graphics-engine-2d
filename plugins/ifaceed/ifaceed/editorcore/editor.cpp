@@ -1,3 +1,4 @@
+#include <QTimer>
 #include "editor.h"
 #include <orthocamera.h>
 #include <log.h>
@@ -99,8 +100,13 @@ void Editor::runQtEventLoop()
 {
 	if (this->m_mainwindow) 
 	{
+		if (this->m_qtapp) 
+		{
+			QObject::connect(this->m_qtapp,SIGNAL(lastWindowClosed()),this,SLOT(qtQuitSlot()));
+		}
 		this->m_mainwindow->show();
 	}
+
 	if (this->m_qtapp) 
 	{
 		this->m_qtapp->exec();
@@ -109,7 +115,11 @@ void Editor::runQtEventLoop()
 
 void Editor::runSaddyEventLoop() 
 {
+	m_quit_reason = EditorQuitReasonNotSet;
 	sad::Renderer::instance().run();
+	// Quit reason can be set by main thread, when window is closed
+	if (m_quit_reason == EditorQuitReasonNotSet)
+		this->saddyQuitSlot();
 }
 
 void Editor::initDefaultSaddyOptions()
@@ -138,3 +148,37 @@ InterlockedScene::~InterlockedScene()
 {
 }
 
+void Editor::saddyQuitSlot()
+{
+	if (m_quit_reason == EditorQuitReasonNotSet) {
+		m_quit_reason = QuitBySaddy;
+		QTimer::singleShot(0,this,SLOT(onQuitActions()));
+	}
+}
+void Editor::qtQuitSlot()
+{
+	if (m_quit_reason == EditorQuitReasonNotSet) {
+		m_quit_reason = QuitByQtWindow;
+		this->onQuitActions();
+	}
+}
+void Editor::onQuitActions()
+{
+	if (m_quit_reason == QuitBySaddy) {
+		this->m_mainwindow->close();
+	}
+	if (m_quit_reason == QuitByQtWindow) {
+		sad::Renderer::instance().quit();
+	}
+	this->quitSaddyActions();
+	this->quitQtActions();
+}
+
+void Editor::quitQtActions()
+{
+
+}
+void Editor::quitSaddyActions()
+{
+
+}
