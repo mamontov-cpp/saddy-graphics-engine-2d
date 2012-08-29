@@ -116,10 +116,20 @@ void Editor::runQtEventLoop()
 void Editor::runSaddyEventLoop() 
 {
 	m_quit_reason = EditorQuitReasonNotSet;
+	sad::Input::inst()->setQuitHandler( 
+										new HandlerFor<Editor>::Method<
+											void (Editor::*)(const sad::Event&),
+											sad::Event
+										>(this,&Editor::onSaddyWindowDestroySlot));
 	sad::Renderer::instance().run();
 	// Quit reason can be set by main thread, when window is closed
 	if (m_quit_reason == EditorQuitReasonNotSet)
 		this->saddyQuitSlot();
+}
+
+void Editor::onSaddyWindowDestroySlot(const sad::Event & ev)
+{
+	this->onSaddyWindowDestroy();
 }
 
 void Editor::initDefaultSaddyOptions()
@@ -164,6 +174,7 @@ void Editor::qtQuitSlot()
 }
 void Editor::onQuitActions()
 {
+	this->onQtWindowDestroy();
 	if (m_quit_reason == QuitBySaddy) {
 		this->m_mainwindow->close();
 	}
@@ -179,6 +190,15 @@ void Editor::quitQtActions()
 
 }
 void Editor::quitSaddyActions()
+{
+
+}
+
+void Editor::onQtWindowDestroy()
+{
+
+}
+void Editor::onSaddyWindowDestroy()
 {
 
 }

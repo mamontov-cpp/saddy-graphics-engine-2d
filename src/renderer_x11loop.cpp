@@ -134,7 +134,7 @@ void sad::Renderer::mainLoop()
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}
   }
-
+  sad::Input::inst()->postQuit();
   m_window.active=false;
   this->releaseWindow();
 }

@@ -46,13 +46,14 @@ sad::Input::Input()
 	m_dblclick=NULL;
 	m_keyup=NULL;
 	m_keydown=NULL;
+	m_quit = NULL;
 }
 sad::Input::~Input()
 {
 #define DEL(X) if (X) delete X;
 	DEL(m_mousemove);DEL(m_mousedown); DEL(m_mouseclick);
 	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
-	DEL(m_keydown);
+	DEL(m_keydown);DEL(m_quit);
 #undef DEL
 	for (unsigned int i=0;i<m_resizelisteners.count();i++)
 	{
@@ -104,6 +105,7 @@ TEMP_DEF(setMouseDblClickHandler,m_dblclick)
 TEMP_DEF(setMouseWheelHandler,m_mousewheel)
 TEMP_DEF(setKeyUpHandler,m_keyup)
 TEMP_DEF(setKeyDownHandler,m_keydown)
+TEMP_DEF(setQuitHandler,m_quit)
 
 #undef TEMP_DEF
 
@@ -249,4 +251,8 @@ void sad::Input::tryPerform(hst::vector<sad::CountableTask *> & v)
 	}
 }
 
-
+void sad::Input::postQuit()
+{
+	if (m_quit!=NULL)
+		(*m_quit)(sad::Event());
+}

@@ -12,6 +12,7 @@
 #include <os/mutex.h>
 #include <renderer.h>
 #include "editoreventhandler.h"
+#include <input.h>
 #pragma once
 
 enum EditorQuitReason
@@ -243,6 +244,9 @@ private:
 		 /** A quit slot for saddy, which is run when user runs saddy
 		  */
 		 void saddyQuitSlot();
+		 /** Saddy destruction slot
+		  */
+		 void onSaddyWindowDestroySlot(const sad::Event & ev);
   protected slots:
 		 /** A method to init all saddy actiona
 		  */
