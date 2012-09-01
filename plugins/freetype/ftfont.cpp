@@ -104,23 +104,23 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	
 	glBindTexture(GL_TEXTURE_2D,tbase[ch]);
 	glPushMatrix();
-	glTranslatef(bitmap_glyph->left,0,0);
-	glTranslatef(0,bitmap_glyph->top-bitmap.rows,0);
+	glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
+	glTranslatef(0.0f,(float)(bitmap_glyph->top-bitmap.rows),0.0f);
 	float	x=(float)bitmap.width / (float)width,y=(float)bitmap.rows / (float)height;
 
 	glBegin(GL_QUADS);
-	glTexCoord2d(0,0); glVertex2f(0,bitmap.rows);
-	glTexCoord2d(0,y); glVertex2f(0,0);
-	glTexCoord2d(x,y); glVertex2f(bitmap.width,0);
-	glTexCoord2d(x,0); glVertex2f(bitmap.width,bitmap.rows);
+	glTexCoord2d(0.0f,0.0f); glVertex2f(0.0f,(float)(bitmap.rows));
+	glTexCoord2d(0.0f,y); glVertex2f(0.0f,0.0f);
+	glTexCoord2d(x,y); glVertex2f((float)(bitmap.width),0);
+	glTexCoord2d((float)x,0.0f); glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
 	glEnd();
 	glPopMatrix();
-	glTranslatef(face->glyph->advance.x >> 6 ,0,0);
+	glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
 	
 	float v[4]={};
 	glGetFloatv(GL_CURRENT_RASTER_POSITION ,v);
-	w=bitmap.width;
+	w=(float)(bitmap.width);
 	glEndList();
 	
 	return true;
@@ -129,7 +129,7 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor 
 {
    m_cl=cl;
    m_texs = new GLuint[256];
-   this->m_height=height;
+   this->m_height=(float)height;
    
    FT_Library library=0;
    if (FT_Init_FreeType( &library ))  //!<  Freetype failed
@@ -228,6 +228,6 @@ void FTFont::render(const hst::string & str, float x, float y)
 
 void FTFont::render(const hst::string & str,const pointf & p)
 {
-  this->render(str,p.x(),p.y());
+  this->render(str,(float)(p.x()),float(p.y()));
 }
 
