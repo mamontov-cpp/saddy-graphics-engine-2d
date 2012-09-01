@@ -12,6 +12,7 @@
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
 #include <log.h>
+#include "editorcore/path.h"
 /**
  *  Global editor state
  */
@@ -114,6 +115,8 @@ int main(int argc, char *argv[])
 	GlobalEditor=new IFaceEditor();
 	GlobalEditor->init(argc,argv);
 	
+	
+
 
 	/**
 	QApplication a(argc, argv);
