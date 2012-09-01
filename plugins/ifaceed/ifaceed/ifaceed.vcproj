@@ -261,6 +261,10 @@
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\editorcore\path.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="core"
@@ -405,6 +409,10 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editoreventhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\path.h"
 					>
 				</File>
 			</Filter>
