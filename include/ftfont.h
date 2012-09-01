@@ -5,12 +5,13 @@
 */
 #include "../include/fontmanager.h"
 #include "../include/primitives/hcolor.h"
+#include "../include/templates/hhash.hpp"
 #ifdef WIN32
     #include <windows.h> 
 	#include <GL/gl.h>
 	#include <GL/glu.h>
 #else
-        #include <GL/gl.h>
+    #include <GL/gl.h>
 	#include <GL/glu.h>
 #endif
 #pragma once
@@ -26,16 +27,78 @@ void switchToWCS();
 void restore();
 }
 
+/** A class, that encapsulates an information for font
+ */
+struct FTFontInfo;
+
+/** A class of freetype font
+ */
 class FTFont: public sad::BasicFont
 {
  private:
-  	float       m_height;   //!< Height of the font
-	GLuint *    m_texs;	    //!< Textures
-	GLuint      m_base;	    //!< First id
-	hst::acolor m_cl;       //!< Current color
-	float       m_w[256];   //!< Widths
+	/** Structure, that represents data, needed for rendering font with specified height
+	 */
+	struct FTHeightFont
+	{
+	 public:
+		GLuint *     m_texs;	    //!< Textures
+		GLuint       m_base;	    //!< First id
+		float        m_w[256];      //!< Widths
+	};
+	/** Creates a new empty structure. To be rendered, structure must be populated in
+		\see FTFont::buildFont()
+		\param[in] height of font
+		\return new font
+	 */
+	FTHeightFont * newFTHeightFont(unsigned int height);
+	/** Deleted a generated height font
+		\param[in] fnt font data
+	 */
+	void deleteFTHeightFont(FTHeightFont * fnt);
+	/** Computes bounding box of specified height font
+		\param[in] fnt    font
+		\param[in] height height
+		\param[in] str    string
+		\return bounding box
+	 */
+	hRectF sizeOfFont(FTHeightFont * fnt, unsigned int height, const hst::string & str);
+	/** Renders a specified box with height
+		\param[in] fnt   font
+		\param[in] height height
+		\param[in] str    string
+		\param[in] x      x coordinate
+		\param[in] y      y coordinate
+	 */
+	void renderWithHeight(FTHeightFont * fnt, 
+						  unsigned int height, 
+						  const hst::string & str, 
+						  float x, float y
+						 );
+	/** Destroys created face
+	 */
+	void shutdownFTFace();
+	/** Cleanups a height container
+	 */
+	void cleanupHeightContainer();
+	/** Builds height font for data
+		\param[in] height height of font
+		\return whether it was successfull
+	 */
+	bool buildHeightFont(unsigned int height);
+	/** A key is a height of font, and container - is structure, needed to render that height
+		so, when we needed to render it, all we need to get info and call render or size for it
+	 */
+	typedef  hst::hash<unsigned int, 
+					   FTFont::FTHeightFont *
+					  > HeightContainer;
+ private:
+	FTFontInfo *    m_info;          //!< Info about used freetype data
+	unsigned int    m_renderheight;  //!< Current rendered height
+	hst::acolor     m_rendercolor;   //!< Current rendered color
+	HeightContainer m_lists_cache;   //!< Different created faces for font
  public:
-	 inline void setColor(const hst::acolor & cl) {m_cl=cl;} //!< Sets a color
+	 bool setHeight(unsigned int height);   //!< A height of font
+	 void setColor(const hst::acolor & cl); //!< Sets a color
      /*! Empty font
 	 */
      FTFont();
