@@ -1,44 +1,155 @@
 #include "ftfont.h"
 #include <assert.h>
-
+#include <log.h>
 #include <ft2build.h>
 #include <freetype/freetype.h>
 #include <freetype/ftglyph.h>
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
 
+/** Font information about a freetype
+ */
+struct FTFontInfo
+{
+	FT_Library library;  //!< A freetype library descriptor
+	FT_Face    face;     //!< A used freetype face 
+};
+
 
 FTFont::FTFont()
 {
- m_height=0;
- m_texs=NULL;
- m_base=0;
- m_cl=hst::acolor(0,0,0,0); 
- for (int i=0;i<256;i++)
-      m_w[i]=0;
+ m_info = new FTFontInfo();
+ m_info->library=0; // Init all records as all
+ m_info->face=0;    // Init face as null
+ if (FT_Init_FreeType( &(m_info->library) ))  //!<  Freetype failed
+ {
+	 m_info->library = NULL;
+ }
+ m_renderheight = 0;
+ m_rendercolor = hst::acolor(0,0,0,0);
 }
 
-hRectF FTFont::size(const hst::string & str)
+FTFont::FTHeightFont * FTFont::newFTHeightFont(unsigned int height) 
 {
-  float maxx=0.0f,cury=m_height,curx=0.0f;
+	FTFont::FTHeightFont * result = new FTFont::FTHeightFont();
+	result->m_base = 0;
+	result->m_texs = NULL;
+	for (int i=0;i<256;i++)
+		result->m_w[i]=0;
+	return result;
+}
+void FTFont::deleteFTHeightFont(FTFont::FTHeightFont *fnt) 
+{
+	if (fnt->m_texs) {
+		glDeleteLists(fnt->m_base,256);
+		glDeleteTextures(256,fnt->m_texs);
+		delete [] fnt->m_texs;
+	}
+	delete  fnt;
+}
+hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const hst::string & str)
+{
+  float maxx=0.0f,cury=(float)height,curx=0.0f;
   for (int i=0;i<str.length();i++)
   {
-    if (str[i]!='\n') { curx+=m_w[i]; }
-	else              { if (curx>maxx) maxx=curx; curx=0.0f; cury+=m_height; }
+    if (str[i]!='\n') { curx+=fnt->m_w[i]; }
+	else              { if (curx>maxx) maxx=curx; curx=0.0f; cury+=height; }
   }
-  if (str[str.length()-1]=='\n') cury-=m_height;
+  if (str[str.length()-1]=='\n') cury-=height;
   if (curx>maxx) maxx=curx;
   return hRectF(hPointF(0,0),hPointF(maxx,cury));
+}
+hRectF FTFont::size(const hst::string & str)
+{
+  if (m_lists_cache.contains(this->m_renderheight) == false) {
+	return hRectF(hPointF(0,0),hPointF(0,0));
+  }
+  return this->sizeOfFont(m_lists_cache[m_renderheight],m_renderheight,str);
+}
+void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt, 
+							  unsigned int height, 
+							  const hst::string & str, 
+							  float x, 
+						      float y
+						     )
+{
+   if (fnt->m_texs == NULL)
+		return;
+   coord_system::switchToWCS();
+   //Get color
+   GLint   clr[4]={};
+   glGetIntegerv(GL_CURRENT_COLOR,clr);
+   glColor4ub(m_rendercolor.r(),m_rendercolor.g(),m_rendercolor.b(),255-m_rendercolor.a());
+   
+   GLuint font=fnt->m_base;
+   float h=(float)height/0.63f;						//We make the height about 1.5* that of
+
+   hst::stringlist lines=str.split('\n');
+   
+   glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
+   glMatrixMode(GL_MODELVIEW);
+   glDisable(GL_LIGHTING);
+   glEnable(GL_TEXTURE_2D);
+   glDisable(GL_DEPTH_TEST);
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+
+   glListBase(font);
+
+   float modelview_matrix[16]={};	
+   glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
+
+   for(int i=0;i<lines.length();i++) 
+   {
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslatef(x,y-h*i,0);
+		glMultMatrixf(modelview_matrix);
+		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
+		glPopMatrix();
+   }
+   
+   
+   glPopAttrib();		
+   //Restore color
+   glColor4iv(clr);
+   coord_system::restore();
+}
+void FTFont::render(const hst::string & str, float x, float y)
+{
+   if (m_lists_cache.contains(this->m_renderheight) == false) {
+	return;
+  }
+  return this->renderWithHeight(m_lists_cache[m_renderheight],m_renderheight,str,x,y);
+}
+
+
+void FTFont::shutdownFTFace()
+{
+ if (m_info->face) {
+	 FT_Done_Face(m_info->face);
+ }
+ m_info->face = NULL;
+}
+
+void FTFont::cleanupHeightContainer()
+{
+ for(FTFont::HeightContainer::iterator it= m_lists_cache.begin(); it!=m_lists_cache.end(); it++)
+ {
+	 FTFont::FTHeightFont * fnt = it.value();
+	 this->deleteFTHeightFont(fnt);
+ }
+ this->m_lists_cache.clear();
 }
 
 FTFont::~FTFont() 
 {
-  if (m_texs)
-  {
-	glDeleteLists(m_base,256);
-	glDeleteTextures(256,m_texs);
-	delete [] m_texs;
-  }
+ this->cleanupHeightContainer();
+ this->shutdownFTFace();
+ if (m_info->library) {
+	 FT_Done_FreeType(m_info->library);
+ }
+ delete m_info;
 }
 
 /*! Calculates next power 2
@@ -125,41 +236,83 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	
 	return true;
 }
+
+void FTFont::setColor(const hst::acolor & cl)
+{
+	m_rendercolor=cl;
+}
+
+bool FTFont::setHeight(unsigned int height)
+{
+	bool result = true;
+	if (m_lists_cache.contains(height) == false) 
+	{
+		result = this->buildHeightFont(height);
+	}
+	m_renderheight = height;
+	return result;
+}
+
+bool FTFont::buildHeightFont(unsigned int height)
+{
+	FTFont::FTHeightFont * font = this->newFTHeightFont(height);
+	bool result = true;
+	if (font!=NULL) 
+	{
+		// Actual build stuff
+		font->m_texs = new GLuint[256];
+		if (font->m_texs == NULL) {
+			hst::log::inst()->owrite(hst::string("Memory allocation error at")).owrite(hst::string(__FILE__)).owrite(__LINE__);
+			delete font;
+			result  = false;
+		}
+		else 
+		{
+		   font->m_base=glGenLists(256);
+		   glGenTextures( 256, font->m_texs );
+		   bool flag=true;
+		   for(unsigned char i=0;i<255;i++)
+		   {
+			flag=flag && create_list(m_info->face,i,font->m_base,font->m_texs,*(font->m_w+i));
+		   }
+		   if (!flag)
+		   {
+		    delete font->m_texs; font->m_texs=NULL;
+			delete font;
+		   }
+		   result = flag;
+		}
+		if (font)
+			this->m_lists_cache.insert(height,font);
+	}
+	else 
+	{
+	  result = false;
+	}
+	return result;
+}
+
+
+
 bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor & cl)
 {
-   m_cl=cl;
-   m_texs = new GLuint[256];
-   this->m_height=(float)height;
-   
-   FT_Library library=0;
-   if (FT_Init_FreeType( &library ))  //!<  Freetype failed
-   {   
-		delete m_texs; m_texs=NULL;
-		return false;
+   // If library does not exists
+   if (m_info->library == 0) 
+   {
+	   return false;
    }
    FT_Face face=0;
-   if (FT_New_Face( library, fnt_file, 0, &face )) //!< Face failed
-   {   
-        delete m_texs; m_texs=NULL; FT_Done_FreeType(library); return false;
-   }
-   
-   FT_Set_Char_Size( face, height << 6, height << 6, 96, 96);
-  
-   //Allocated resources
-   m_base=glGenLists(256);
-   glGenTextures( 256, m_texs );
-   bool flag=true;
-   for(unsigned char i=0;i<255;i++)
+   // Exit if face creation failed
+   if (FT_New_Face( m_info->library, fnt_file, 0, &face )) 
    {
-	  flag=flag &&	create_list(face,i,m_base,m_texs,*(m_w+i));
+	   return false;
    }
-   FT_Done_Face(face);
-   FT_Done_FreeType(library);
-   if (!flag)
-   {
-     delete m_texs; m_texs=NULL;
-   }
-   return flag;
+   cleanupHeightContainer();
+   shutdownFTFace();
+
+   m_info->face = face;
+   setColor(cl);
+   return setHeight(height);
 }
 
 void coord_system::switchToWCS()
@@ -182,49 +335,7 @@ void coord_system::restore()
 	glPopAttrib();
 }
 
-void FTFont::render(const hst::string & str, float x, float y)
-{
-   if (!m_texs) return;
-   coord_system::switchToWCS();
-   //Get color
-   GLint   clr[4]={};
-   glGetIntegerv(GL_CURRENT_COLOR,clr);
-   glColor4ub(m_cl.r(),m_cl.g(),m_cl.b(),255-m_cl.a());
-   
-   GLuint font=m_base;
-   float h=m_height/0.63f;						//We make the height about 1.5* that of
 
-   hst::stringlist lines=str.split('\n');
-   
-   glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
-   glMatrixMode(GL_MODELVIEW);
-   glDisable(GL_LIGHTING);
-   glEnable(GL_TEXTURE_2D);
-   glDisable(GL_DEPTH_TEST);
-   glEnable(GL_BLEND);
-   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-
-   glListBase(font);
-
-   float modelview_matrix[16]={};	
-   glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
-
-   for(int i=0;i<lines.length();i++) 
-   {
-		glPushMatrix();
-		glLoadIdentity();
-		glTranslatef(x,y-h*i,0);
-		glMultMatrixf(modelview_matrix);
-		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
-		glPopMatrix();
-   }
-   
-   
-   glPopAttrib();		
-   //Restore color
-   glColor4iv(clr);
-   coord_system::restore();
-}
 
 void FTFont::render(const hst::string & str,const pointf & p)
 {
