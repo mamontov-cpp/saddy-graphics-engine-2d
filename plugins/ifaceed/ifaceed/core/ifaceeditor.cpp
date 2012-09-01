@@ -2,8 +2,8 @@
 #include <ftfont.h>
 #include <label.h>
 #include <fontmanager.h>
-
-
+#include <QFontComboBox>
+#include <QFontDatabase>
 
 void IFaceEditor::initSaddyRendererOptions()
 {
@@ -17,6 +17,7 @@ void IFaceEditor::initSaddyRendererOptions()
 
 QMainWindow * IFaceEditor::createQtWindow()
 {
+	
 	return new MainPanel();
 }
 

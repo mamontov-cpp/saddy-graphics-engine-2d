@@ -31,6 +31,11 @@ protected:
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
+protected slots:
+	/**
+	 * Cleanups a system fonts if presented
+ 	 */
+	void ifCleanupSystemFonts(int);
 };
 
 #endif // MAINPANEL_H
