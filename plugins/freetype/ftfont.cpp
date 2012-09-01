@@ -184,7 +184,7 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 		return false; // Get glyph failed
     
 	//Converting glyph to a bitmap
-	FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
+	FT_Error err = FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
     FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
 	FT_Bitmap& bitmap=bitmap_glyph->bitmap;
 
@@ -271,6 +271,7 @@ bool FTFont::buildHeightFont(unsigned int height)
 		   font->m_base=glGenLists(256);
 		   glGenTextures( 256, font->m_texs );
 		   bool flag=true;
+		   FT_Set_Char_Size( m_info->face, height << 6, height << 6, 96, 96);
 		   for(unsigned char i=0;i<255;i++)
 		   {
 			flag=flag && create_list(m_info->face,i,font->m_base,font->m_texs,*(font->m_w+i));

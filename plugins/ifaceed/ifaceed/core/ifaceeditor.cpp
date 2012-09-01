@@ -1,4 +1,9 @@
 #include "ifaceeditor.h"
+#include <ftfont.h>
+#include <label.h>
+#include <fontmanager.h>
+
+
 
 void IFaceEditor::initSaddyRendererOptions()
 {

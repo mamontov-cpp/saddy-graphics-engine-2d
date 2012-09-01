@@ -270,6 +270,10 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="interactivetests"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -444,6 +448,10 @@
 						/>
 					</FileConfiguration>
 				</File>
+			</Filter>
+			<Filter
+				Name="interactivetests"
+				>
 			</Filter>
 		</Filter>
 		<Filter
