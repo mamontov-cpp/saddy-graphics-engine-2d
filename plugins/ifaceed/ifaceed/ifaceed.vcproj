@@ -278,6 +278,14 @@
 				Name="interactivetests"
 				>
 			</Filter>
+			<Filter
+				Name="gui"
+				>
+				<File
+					RelativePath=".\gui\fontdelegate.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -460,6 +468,14 @@
 			<Filter
 				Name="interactivetests"
 				>
+			</Filter>
+			<Filter
+				Name="gui"
+				>
+				<File
+					RelativePath=".\gui\fontdelegate.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
