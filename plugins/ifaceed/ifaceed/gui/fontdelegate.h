@@ -4,6 +4,7 @@
 	 A delegate, used in combo box to draw some fonts in menu items
  */
 #include <QItemDelegate>
+#pragma once
 
 class FontDelegate: public QItemDelegate
 {

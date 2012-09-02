@@ -270,6 +270,10 @@
 				Name="core"
 				>
 				<File
+					RelativePath=".\core\fontdatabase.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\ifaceeditor.cpp"
 					>
 				</File>
@@ -427,6 +431,10 @@
 			<Filter
 				Name="core"
 				>
+				<File
+					RelativePath=".\core\fontdatabase.h"
+					>
+				</File>
 				<File
 					RelativePath=".\core\ifaceeditor.h"
 					>
