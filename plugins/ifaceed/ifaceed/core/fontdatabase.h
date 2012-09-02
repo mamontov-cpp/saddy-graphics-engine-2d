@@ -15,6 +15,9 @@
 class IFaceEditorFont
 {
  private:
+		  QFontDatabase * m_qdb;  //!< Qt database
+		  QString m_name;         //!< Name of font
+
 		  QFont m_qtfont;
 		  int   m_appfontindex;
 		  FTFont * m_saddyfont;
@@ -31,9 +34,10 @@ class IFaceEditorFont
 		   */
 		  inline FTFont * sadFont() const { return m_saddyfont; }
 		  /** Unloads a font from qt database
+			  \param[in] name of fount, used to unregister it from FontManager
 			  \param[out] db
 		   */ 
-		  void unloadFromQDB(QFontDatabase & db);
+		  void unloadFromQDB(const QString & name,QFontDatabase & db);
 		  /** Loads font from file.
 			  Also, registers it in font manager and in database
 			  \param[in] file input file
@@ -70,15 +74,18 @@ class IFaceEditorFontListCursor
 		IFaceEditorFontList * m_parent;
 
 		/** Creates a new cursor
+			\param[in] i iterator
+			\param[in] parent parent data
 		 */
-		IFaceEditorFontListCursor();
+		IFaceEditorFontListCursor(const IFaceEditorFontsMap::const_iterator & i, 
+								  IFaceEditorFontList * parent);
  public:
 		/** Returns assigned font, null on end
 		 */
 		IFaceEditorFont * fonts();
 		/** Returns name of assigned data, empty on end
 		 */
-		const QString &   name();
+		 QString   name();
 		/** Moves to next entry
 		 */
 		IFaceEditorFontListCursor & operator++(int);
@@ -92,6 +99,7 @@ class IFaceEditorFontListCursor
  */
 class IFaceEditorFontList
 {
+ friend class IFaceEditorFontListCursor;
  private:
 	    /** Map with all of data
 		 */
