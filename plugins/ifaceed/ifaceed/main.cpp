@@ -114,36 +114,6 @@ int main(int argc, char *argv[])
 {
 	GlobalEditor=new IFaceEditor();
 	GlobalEditor->init(argc,argv);
-	
-	
-
-
-	/**
-	QApplication a(argc, argv);
-
-	SaddyThread thr;
-	thr.start();
-
-	w=new MainPanel();
-
-	//This is necessary, otherwise if you close game window
-	//editor won't close
-	QObject::connect(&thr,SIGNAL(finished()),w,SLOT(close()));
-	
-	w->show();
-	a.exec();
-	
-	//Force quit of renderer, if we are closed main panel
-	if (RendererFinished==false) 
-	{
-		sad::Renderer::instance().quit();
-	}
-	thr.wait();
-	
-	//Save a log
-	hst::log::save("log.txt");
-	**/
-
 	delete GlobalEditor;
 	return 0;
 }
