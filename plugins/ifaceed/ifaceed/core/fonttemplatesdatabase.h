@@ -6,6 +6,7 @@
  */
 #include <QHash>
 #include <QString>
+#include <QDomDocument>
 #include <log.h>
 #pragma once
 
@@ -21,6 +22,17 @@ class FontTemplatesMaps
  private:
 		db::NameFileMap m_fonts;
 		db::NameFileMap m_configs;
+		/** Loads a found entry
+			\param[in] entry element
+			\param[in] parent parent directory
+		 */
+		void loadFont(QDomElement & entry, const hst::string & parent);
+		/** Loads a found config
+			\param[in] entry element
+			\param[in] parent parent directory
+		 */
+		void loadConfig(QDomElement & entry, const hst::string & parent);
+
  public:
 		/** Constructs new empty maps
 		 */
