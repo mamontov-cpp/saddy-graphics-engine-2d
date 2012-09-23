@@ -5,7 +5,7 @@
  */
 #include "../editorcore/editor.h"
 #include "../mainpanel.h"
-
+#include "ifacecmdoptions.h"
 
 
 
@@ -13,6 +13,9 @@ class IFaceEditor: public Editor
 {
 	Q_OBJECT
  protected:
+	/** Creates a parser to parse command options
+      */
+    virtual CommandLineOptions * createOptionParser();
 	/** Sets my options and my data
 	 */
 	void initSaddyRendererOptions();
@@ -39,6 +42,13 @@ class IFaceEditor: public Editor
 	/** REIMPLEMENT this function to do work, when saddy window quit 
 	  */
 	void quitSaddyActions();
+	/** Returns parsed options
+		\return parsed options
+	  */
+	inline IFaceCmdOptions * cmdLineOptions()
+	{
+		return static_cast<IFaceCmdOptions *>(this->commandLineOptions());
+	}
  public:
 	/** Quits an editor
 	 */
