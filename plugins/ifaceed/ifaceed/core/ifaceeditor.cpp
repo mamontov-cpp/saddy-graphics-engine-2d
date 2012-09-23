@@ -6,6 +6,7 @@
 #include <QFontDatabase>
 #include <QMessageBox>
 #include <QFileDialog>
+#include "core/fonttemplatesdatabase.h"
 
 void IFaceEditor::initSaddyRendererOptions()
 {
@@ -72,13 +73,26 @@ void IFaceEditor::onFullAppStart()
 		{
 			QMessageBox::critical(NULL, "IFace Editor", "Config file is not specified. Quitting...");
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
+			return;
 		} 
 		else 
 		{
 			this->cmdLineOptions()->setConfig(config);
 		}
 	}
-	// Place loading of config here
-
-	this->panel()->setEditor(this);
+	bool success = true;
+	// Load first stage - a maps of handling all of data
+	FontTemplatesMaps maps;
+	if (maps.load(this->cmdLineOptions()->config()))
+	{
+	}
+	else 
+	{
+		success = false;
+		QMessageBox::critical(NULL, "IFace Editor", "Can\'t load config file");
+		QTimer::singleShot(0, this->panel(), SLOT(close()));
+	}
+	if (success) {
+		this->panel()->setEditor(this);
+	}
 }
