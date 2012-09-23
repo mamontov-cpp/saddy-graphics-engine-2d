@@ -118,3 +118,33 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 	}
 }
 
+FontTemplateDatabase::FontTemplateDatabase()
+{
+
+}
+
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
+{
+	m_maps = maps;
+	{
+		db::NameFileMap::const_iterator it = maps.fonts().constBegin();
+		db::NameFileMap::const_iterator end = maps.fonts().constEnd();
+		bool success = true;
+		for (it;it!=end;it++)
+		{
+			IFaceEditorFontLoadResult r = m_fonts.tryLoadFont(it.key(), it.value());
+			if (r!=IEFLR_OK) 
+			{
+				hst::log::inst()->owrite(hst::string("FontTemplateDatabase::load: can\'t load file "))
+						    	 .owrite(hst::string(it.value().toStdString().c_str()))
+							     .owrite(hst::string("\n"));
+				QMessageBox::critical(NULL, "IFace Editor", QString("Can't load font from ") + it.value());
+				success = false;
+			}
+		}
+		// Don't proceed further if can't load stuff
+		if (!success)
+			return false;
+	}
+	return true;
+}

@@ -1,5 +1,5 @@
 <globalconfig>
-    <font name="Times New Roman" file="times.ttf" />
-    <font name="Times New Roman 2" file="times.ttf" />
+    <font name="Times New Roman" file="EMPORIUM.ttf" />
+    <font name="Times New Roman 2" file="EMPORIUM.ttf" />
     <config  name="Test" file="main.xml" />
 </globalconfig>
