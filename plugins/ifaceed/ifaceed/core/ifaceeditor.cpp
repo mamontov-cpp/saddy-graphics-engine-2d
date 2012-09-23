@@ -122,3 +122,8 @@ void IFaceEditor::onFullAppStart()
 		this->panel()->setEditor(this);
 	}
 }
+
+FontTemplateDatabase * IFaceEditor::database()
+{
+	return m_db;
+}

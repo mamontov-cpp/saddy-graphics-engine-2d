@@ -19,6 +19,9 @@ class IFaceEditor: public Editor
 	/** Frees memory from db
 	 */
 	~IFaceEditor();
+	/** Returns a database fwith all of resources
+	 */
+	FontTemplateDatabase * database();
  protected:
 	/** A template database with fonts
 	 */
