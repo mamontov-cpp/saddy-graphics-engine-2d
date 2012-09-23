@@ -14,7 +14,9 @@
 #include "core/ifacecmdoptions.h"
 #include <log.h>
 #include "editorcore/path.h"
+
 #include "unittests/factory.h"
+#include "unittests/ifacecmdoptions.h"
 
 /**
  *  Global editor state
@@ -118,6 +120,7 @@ int main(int argc, char *argv[])
 		args.parse(argc, argv);
 		unittests::Factory tests;
 		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
+		TEST( IFaceCmdOptionsTest );
 
 		QVector<QString> data = args.unitTests();
 		for (int i=0;i<data.size();i++)

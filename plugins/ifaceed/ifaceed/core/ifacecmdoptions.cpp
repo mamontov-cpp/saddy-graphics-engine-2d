@@ -7,7 +7,7 @@ IFaceCmdOptions::~IFaceCmdOptions()
 
 bool IFaceCmdOptions::hasConfig()
 {
-	return true;
+	return this->optionSpecified("ifaceconfig");
 }
 
 bool IFaceCmdOptions::hasFile()
@@ -57,7 +57,7 @@ void IFaceCmdOptions::parse(int argc, char ** argv)
 	
 	QVector<QString> unittests;
 	state.keyword = false;
-	for(int i=0;i<argc;i++)
+	for(int i=1;i<argc;i++)
 	{
 		QString data = argv[i];
 		// Handle keywords
@@ -80,6 +80,7 @@ void IFaceCmdOptions::parse(int argc, char ** argv)
 					this->setConfig(data);
 				if (state.keywordName == "-test")
 					unittests << data;
+				state.keyword = false;
 			}
 			else
 			{
