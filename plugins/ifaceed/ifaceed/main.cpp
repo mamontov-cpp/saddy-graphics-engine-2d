@@ -11,6 +11,7 @@
 #include "xmlconfigloader.h"
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
+#include "core/ifacecmdoptions.h"
 #include <log.h>
 #include "editorcore/path.h"
 #include "unittests/factory.h"
@@ -113,15 +114,21 @@ void SaddyThread::run()
 int main(int argc, char *argv[])
 {	
 	#ifdef __UNITTESTS
+		IFaceCmdOptions args;
+		args.parse(argc, argv);
 		unittests::Factory tests;
 		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
 
-
-		
+		QVector<QString> data = args.unitTests();
+		for (int i=0;i<data.size();i++)
+		{
+			tests.run(data[i]);
+		}
+		hst::log::inst()->save("log.txt");
 	#else
 		GlobalEditor=new IFaceEditor();
 		GlobalEditor->init(argc,argv);
 		delete GlobalEditor;
-		return 0;
 	#endif
+		return 0;
 }

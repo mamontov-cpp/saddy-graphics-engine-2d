@@ -17,6 +17,9 @@ Editor::Editor()
 
 void Editor::init(int argc,char ** argv)
 {
+	m_cmdoptions = this->createOptionParser();
+	m_cmdoptions->parse(argc, argv);
+
 	this->assertSaddyInit(true);
 	this->m_waitforsaddy = true;
 	m_cmdargs = new CommandArguments(argc, argv);
@@ -46,6 +49,7 @@ void Editor::quit()
 
 Editor::~Editor() 
 {
+	delete m_cmdoptions;
 	delete m_saddywaitmutex;
 	delete m_qtapp;
 	delete m_initmutex;

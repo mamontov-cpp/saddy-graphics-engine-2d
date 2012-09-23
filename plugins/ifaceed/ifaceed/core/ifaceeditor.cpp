@@ -53,3 +53,8 @@ void IFaceEditor::quit(const sad::Event & ev)
 {
 	sad::Renderer::instance().quit();
 }
+
+CommandLineOptions * IFaceEditor::createOptionParser()
+{
+	return new IFaceCmdOptions();
+}

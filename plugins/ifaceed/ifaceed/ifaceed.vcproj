@@ -258,6 +258,10 @@
 				Name="editorcore"
 				>
 				<File
+					RelativePath=".\editorcore\commandlineoptions.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
@@ -271,6 +275,10 @@
 				>
 				<File
 					RelativePath=".\core\fontdatabase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\ifacecmdoptions.cpp"
 					>
 				</File>
 				<File
@@ -402,6 +410,10 @@
 				Name="editorcore"
 				>
 				<File
+					RelativePath=".\editorcore\commandlineoptions.h"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editor.h"
 					>
 					<FileConfiguration
@@ -450,11 +462,11 @@
 				Name="core"
 				>
 				<File
-					RelativePath=".\core\commandlineargs.h"
+					RelativePath=".\core\fontdatabase.h"
 					>
 				</File>
 				<File
-					RelativePath=".\core\fontdatabase.h"
+					RelativePath=".\core\ifacecmdoptions.h"
 					>
 				</File>
 				<File
@@ -793,6 +805,22 @@
 				<File
 					RelativePath=".\GeneratedFiles\UnitTests\moc_editor.cpp"
 					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\UnitTests\moc_ifaceeditor.cpp"

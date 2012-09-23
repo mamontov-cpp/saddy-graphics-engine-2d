@@ -13,6 +13,7 @@
 #include <renderer.h>
 #include "editoreventhandler.h"
 #include <input.h>
+#include "commandlineoptions.h"
 #pragma once
 
 enum EditorQuitReason
@@ -146,10 +147,24 @@ class Editor: public QObject
 		 /** Whether saddy initialization was successfull
 		  */
 		 bool m_saddystartedok;
+		 /** Command line options data
+		  */
+		 CommandLineOptions * m_cmdoptions;
 protected:
 		 /** A reason, while saddy quit
 		  */
 		 EditorQuitReason  m_quit_reason;
+		 /** Creates a parser to parse command options
+			 \return new command line options
+		  */
+		 virtual CommandLineOptions * createOptionParser() = 0;
+		 /** Returns parsed options
+			 \return parsed options
+		  */
+		 inline CommandLineOptions * commandLineOptions()
+		 {
+			 return m_cmdoptions;
+		 }
 private:
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not
