@@ -113,6 +113,7 @@ void Editor::runQtEventLoop()
 
 	if (this->m_qtapp) 
 	{
+		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();
 	}
 }
@@ -203,6 +204,11 @@ void Editor::onQtWindowDestroy()
 
 }
 void Editor::onSaddyWindowDestroy()
+{
+
+}
+
+void Editor::onFullAppStart()
 {
 
 }

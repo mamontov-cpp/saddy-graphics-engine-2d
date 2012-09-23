@@ -49,6 +49,9 @@ class IFaceEditor: public Editor
 	{
 		return static_cast<IFaceCmdOptions *>(this->commandLineOptions());
 	}
+	/** A function, which is called, when app fully started from main start
+	  */
+	virtual void onFullAppStart();
  public:
 	/** Quits an editor
 	 */

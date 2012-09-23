@@ -16,7 +16,7 @@
 #include "editorcore/path.h"
 
 #include "unittests/factory.h"
-#include "unittests/ifacecmdoptions.h"
+#include "unittests/ifacecmdoptions_test.h"
 
 /**
  *  Global editor state

@@ -4,6 +4,8 @@
 #include <fontmanager.h>
 #include <QFontComboBox>
 #include <QFontDatabase>
+#include <QMessageBox>
+#include <QFileDialog>
 
 void IFaceEditor::initSaddyRendererOptions()
 {
@@ -57,4 +59,25 @@ void IFaceEditor::quit(const sad::Event & ev)
 CommandLineOptions * IFaceEditor::createOptionParser()
 {
 	return new IFaceCmdOptions();
+}
+
+void IFaceEditor::onFullAppStart()
+{
+	if (this->cmdLineOptions()->hasConfig() == false)
+	{
+		QMessageBox::warning(this->panel(), "IFace Editor", "Config file is not specified. You must choose it now");
+		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
+													  ("Configs (*.xml)"));
+		if (config.length() == 0) 
+		{
+			QMessageBox::critical(this->panel(), "IFace Editor", "Config file is not specified. Quitting...");
+			QTimer::singleShot(0, this->panel(), SLOT(close()));
+		} 
+		else 
+		{
+			this->cmdLineOptions()->setConfig(config);
+		}
+	}
+	// Place loading of config here
+
 }
