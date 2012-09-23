@@ -72,4 +72,12 @@ class FontTemplateDatabase
 			\param[in] maps maps data
 		 */
 		bool load(FontTemplatesMaps & maps);
+		/** Fonts, represented in database
+			\return fonts
+		 */
+		inline IFaceEditorFontList & fonts() { return m_fonts; }
+		/** Maps, which fonts and configs came from
+			\return maps, where configs came from
+		 */
+		inline FontTemplatesMaps & maps() { return m_maps; }
 };
