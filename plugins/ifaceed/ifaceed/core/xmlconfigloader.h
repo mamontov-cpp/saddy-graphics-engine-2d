@@ -55,3 +55,5 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 		 */
 		~XMLConfigLoader();
 };
+
+
