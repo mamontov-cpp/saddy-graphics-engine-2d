@@ -13,6 +13,8 @@
 #include "core/ifaceeditor.h"
 #include <log.h>
 #include "editorcore/path.h"
+#include "unittests/factory.h"
+
 /**
  *  Global editor state
  */
@@ -104,17 +106,22 @@ void SaddyThread::run()
   saddy_thread(NULL);
 }
 
-#ifdef __UNITTESTS
-QTEST_NOOP_MAIN
-#else
+
 /**
  * Main loop. where shoud gbe started saddy thread and Qt
  */
 int main(int argc, char *argv[])
-{
-	GlobalEditor=new IFaceEditor();
-	GlobalEditor->init(argc,argv);
-	delete GlobalEditor;
-	return 0;
+{	
+	#ifdef __UNITTESTS
+		unittests::Factory tests;
+		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
+
+
+		
+	#else
+		GlobalEditor=new IFaceEditor();
+		GlobalEditor->init(argc,argv);
+		delete GlobalEditor;
+		return 0;
+	#endif
 }
-#endif
