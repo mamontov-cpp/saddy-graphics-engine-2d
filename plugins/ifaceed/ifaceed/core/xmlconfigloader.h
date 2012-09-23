@@ -6,6 +6,7 @@
 #include <QString>
 #include <QDomElement>
 #include <QVector>
+#include "../editorcore/path.h"
 #pragma once
 
 /*! \class XMLConfigLoader 
@@ -25,7 +26,8 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 				 Sprite2DTemplate spriteTemplate;  //!< Template description of entry
 		};
 
-		QString m_filename; //!< File name, where we should load
+		QString m_filename;   //!< File name, where we should load
+		hst::string m_parent; //!< Parent file name path
 		/*! Returns elements from document
 			\param[in] doc parent element
 			\return elements vector
@@ -39,11 +41,13 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 		bool loadEntry(XMLConfigEntry & entry, const QDomElement & element);
  public:
 	    /*! Inits a config loader
-			\param[in] name name of loader
+			\param[in] name filename to be loaded
+			\param[in] parent parent data
 		 */
-		XMLConfigLoader(const QString & name)
+	 inline XMLConfigLoader(const QString & name)
 		{
 			m_filename=name;
+			m_parent = path::directory(name.toStdString().c_str());
 		}
 		/*! A function for loading a config. For loading a config, you must fill a container
 			with appropriate data and return true. If some errors occured, function must return false
