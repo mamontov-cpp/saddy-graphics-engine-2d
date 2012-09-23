@@ -87,7 +87,8 @@ bool XMLConfigLoader::loadEntry(XMLConfigEntry & entry, const QDomElement & elem
 	ok=ok && element.attributes().contains(TEXTURENAME_TAG);
 	if (ok)
 	{
-		entry.spriteTemplate.setTextureName(element.attribute(TEXTURENAME_TAG).toStdString().c_str());
+		hst::string path = element.attribute(TEXTURENAME_TAG).toStdString().c_str();
+		entry.spriteTemplate.setTextureName(path::concat(m_parent,path));
 	}
 
 	//Parse texture rectangle
