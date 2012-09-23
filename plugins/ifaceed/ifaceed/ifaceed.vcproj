@@ -238,10 +238,6 @@
 				RelativePath=".\mainpanel.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\xmlconfigloader.cpp"
-				>
-			</File>
 			<Filter
 				Name="objects"
 				>
@@ -287,6 +283,14 @@
 				</File>
 				<File
 					RelativePath=".\core\ifaceeditor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\spritedatabase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\xmlconfigloader.cpp"
 					>
 				</File>
 			</Filter>
@@ -397,10 +401,6 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\xmlconfigloader.h"
-				>
 			</File>
 			<Filter
 				Name="objects"
@@ -517,6 +517,14 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\core\spritedatabase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\xmlconfigloader.h"
+					>
 				</File>
 			</Filter>
 			<Filter
