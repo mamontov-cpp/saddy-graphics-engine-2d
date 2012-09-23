@@ -8,6 +8,7 @@
 #include <QString>
 #include <QDomDocument>
 #include <log.h>
+#include "fontdatabase.h"
 #pragma once
 
 namespace db
@@ -49,4 +50,26 @@ class FontTemplatesMaps
 			\return entities  of configs
 		 */
 		inline const db::NameFileMap & configs() { return m_configs;}
+};
+
+/** A database, which stores a font database and other in depth
+ */
+class FontTemplateDatabase
+{
+ private:
+	     /** Fonts database data 
+		  */
+		 IFaceEditorFontList m_fonts;
+		 /** Used maps data
+		  */
+		 FontTemplatesMaps m_maps;
+ public:
+		/** Creates an empty database
+		 */
+		FontTemplateDatabase();
+        /** Loads new font template maps
+			NOTE: That function is not reentrant, please do not use it second time
+			\param[in] maps maps data
+		 */
+		bool load(FontTemplatesMaps & maps);
 };

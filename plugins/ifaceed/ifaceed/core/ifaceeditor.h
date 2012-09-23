@@ -7,12 +7,26 @@
 #include "../mainpanel.h"
 #include "ifacecmdoptions.h"
 
-
+class FontTemplateDatabase;
 
 class IFaceEditor: public Editor
 {
 	Q_OBJECT
+ public:
+	/** Constructs editor with empty db
+	 */
+	IFaceEditor();
+	/** Frees memory from db
+	 */
+	~IFaceEditor();
  protected:
+	/** A template database with fonts
+	 */
+	FontTemplateDatabase * m_db;
+	/** Sets a database for templates
+		\param[in] db database
+	 */
+	void setDatabase(FontTemplateDatabase * db);
 	/** Creates a parser to parse command options
       */
     virtual CommandLineOptions * createOptionParser();

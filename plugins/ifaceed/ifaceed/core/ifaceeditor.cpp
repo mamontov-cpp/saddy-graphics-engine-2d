@@ -8,6 +8,21 @@
 #include <QFileDialog>
 #include "core/fonttemplatesdatabase.h"
 
+IFaceEditor::IFaceEditor()
+{
+	m_db = NULL;
+}
+IFaceEditor::~IFaceEditor()
+{
+	delete m_db;
+}
+
+void IFaceEditor::setDatabase(FontTemplateDatabase * db)
+{
+	delete m_db;
+	m_db = db;
+}
+
 void IFaceEditor::initSaddyRendererOptions()
 {
 	this->Editor::initSaddyRendererOptions();
@@ -85,6 +100,17 @@ void IFaceEditor::onFullAppStart()
 	FontTemplatesMaps maps;
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
+		FontTemplateDatabase * db = new FontTemplateDatabase();
+		if (db->load(maps))
+		{
+			this->setDatabase(db);
+		}
+		else
+		{
+			success = false;
+			QTimer::singleShot(0, this->panel(), SLOT(close()));
+			delete db;
+		}
 	}
 	else 
 	{
