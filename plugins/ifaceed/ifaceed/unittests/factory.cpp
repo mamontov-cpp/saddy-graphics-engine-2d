@@ -51,3 +51,8 @@ void unittests::Factory::runAll()
 		delete object;
 	}
 }
+
+unittests::AbstractFactoryDelegate::~AbstractFactoryDelegate()
+{
+}
+
