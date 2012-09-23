@@ -26,8 +26,13 @@ public:
 	 */
 	~MainPanel();
 
+	/** Sets an editor to work with
+		\param[in] editor editor
+	 */
+	inline void setEditor(IFaceEditor * editor) {  m_editor = editor; }
 private:
-	Ui::MainPanelClass ui;  //!< UI
+	Ui::MainPanelClass ui;         //!< UI
+	IFaceEditor    *   m_editor;   //!< Editor to work with
 protected:
 	/**
 	 * Whether panel is closed it must close a dialogs if present
