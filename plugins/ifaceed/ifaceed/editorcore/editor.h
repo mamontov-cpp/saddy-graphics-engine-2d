@@ -279,6 +279,9 @@ private:
 			  use variable @see m_quit_reason for reason of exit
 		  */
 		 void onQuitActions();
+		 /** A function, which is called, when app fully started from main start
+		  */
+		 virtual void onFullAppStart();
 		 /** Runs, when qt quits 
 		  */
 		 void qtQuitSlot();

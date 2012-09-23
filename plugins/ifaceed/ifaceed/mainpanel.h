@@ -10,6 +10,8 @@
 #include "ui_mainpanel.h"
 
 
+class IFaceEditor;
+
 /*! A main window to edit level objects
  */
 class MainPanel : public QMainWindow
