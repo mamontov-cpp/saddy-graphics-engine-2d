@@ -135,9 +135,9 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 			IFaceEditorFontLoadResult r = m_fonts.tryLoadFont(it.key(), it.value());
 			if (r!=IEFLR_OK) 
 			{
-				hst::log::inst()->owrite(hst::string("FontTemplateDatabase::load: can\'t load file "))
-						    	 .owrite(hst::string(it.value().toStdString().c_str()))
-							     .owrite(hst::string("\n"));
+				hst::log::inst()->owrite("FontTemplateDatabase::load: can\'t load file ")
+						    	 .owrite(it.value().toStdString().c_str())
+							     .owrite("\n");
 				QMessageBox::critical(NULL, "IFace Editor", QString("Can't load font from ") + it.value());
 				success = false;
 			}
