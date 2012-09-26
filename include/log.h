@@ -61,6 +61,8 @@ class log
 std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s);
 std::ostream & operator<<(std::ostream & o, const hst::string & s);
 
+std::ostringstream & operator<<(std::ostringstream & o, const char * s);
+std::ostream & operator<<(std::ostream & o, const char * s);
 
 
 //================ Code goes here =================
