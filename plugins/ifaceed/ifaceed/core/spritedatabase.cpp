@@ -6,8 +6,105 @@ AbstractSpriteDatabaseIterator::~AbstractSpriteDatabaseIterator()
 {
 }
 
+
 AbstractSpriteDatabase::~AbstractSpriteDatabase()
 {
+}
+
+
+
+SpriteDatabaseIterator::SpriteDatabaseIterator(SpriteDatabase * db)
+{
+	m_db = db;
+}
+
+SpriteDatabaseIterator::~SpriteDatabaseIterator()
+{
+
+}
+
+QString SpriteDatabaseIterator::config()
+{
+	return m_configs_iterator.key();
+}
+
+QString SpriteDatabaseIterator::group()
+{
+	return m_config_iterator.key();
+}
+
+int SpriteDatabaseIterator::groupIndex()
+{
+	return m_group_iterator.key();
+}
+
+QImage SpriteDatabaseIterator::image()
+{
+	return m_group_iterator.value();
+}
+
+Sprite2DConfig * SpriteDatabaseIterator::spriteConfig()
+{
+	return m_db->m_configs[this->config().toStdString().c_str()];
+}
+
+AbstractSpriteDatabaseIterator & SpriteDatabaseIterator::next()
+{
+	if (m_configs_iterator!= m_db->m_qtimages.constEnd())
+	{
+		if (m_group_iterator != m_config_iterator.value().constEnd())
+		{
+			++m_group_iterator;
+		}
+		else
+		{
+			bool foundNextGroup = advanceNextGroup(true);
+			if (!foundNextGroup)
+			{
+				advanceNextConfig(true);	
+			}
+		}
+	}
+	return *this;
+}
+
+bool SpriteDatabaseIterator::advanceNextGroup(bool move)
+{
+	if (m_config_iterator == m_configs_iterator.value().constEnd())
+		return false;
+	if (move)
+		++m_config_iterator;
+	bool found = false;
+	while(m_config_iterator!=m_configs_iterator.value().constEnd() && !found)
+	{
+		m_group_iterator = m_config_iterator.value().constBegin();
+		if (m_group_iterator != m_config_iterator.value().constEnd())
+			found = true;
+		++m_config_iterator;
+	}
+
+	return found;
+}
+
+bool SpriteDatabaseIterator::advanceNextConfig(bool move)
+{
+	if (m_configs_iterator == m_db->m_qtimages.constEnd())
+		return false;
+	if (move)
+		++m_configs_iterator;
+	bool found = false;
+	while(m_configs_iterator != m_db->m_qtimages.constEnd() && !found)
+	{
+		m_config_iterator = m_configs_iterator.value().constBegin();
+		found = advanceNextGroup(false);
+		++m_configs_iterator;
+	}
+	return found;
+}
+
+bool SpriteDatabaseIterator::isEnd() const 
+{
+	return m_configs_iterator==m_db->m_qtimages.constEnd();
 }
 
 
