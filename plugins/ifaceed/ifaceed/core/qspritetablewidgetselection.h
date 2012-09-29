@@ -30,15 +30,15 @@ class QSpriteTableWidgetSelection
 	/** Returns a config
 		\return config to work with
 	 */ 
-	inline const QString & config() { return m_config; }
+	inline const QString & config() const { return m_config; }
 	/** Group of sprites 
 		\return group of sprite
 	 */
-	inline const QString & group() { return m_group; }
+	inline const QString & group() const { return m_group; }
 	/** Index of sprites
 		\return index in group of sprites
 	 */
-	inline int  index() { return m_index; }
+	inline int  index() const { return m_index; }
     /** Checks whether selection is invalid
 		\return, whether it's invalid
 	 */

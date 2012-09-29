@@ -17,15 +17,15 @@ class AbstractSpriteDatabaseIterator
 		/** Returns a config
 			\return config 
 		 */
-		virtual QString config()=0;
+		virtual QString config() const=0;
 		/** Returns a group of data
 			\return group of config
 		 */
-		virtual QString group()=0;
+		virtual QString group() const=0;
 		/** Returns a group index for sprite
 			\return group index
 		 */
-		virtual int groupIndex()=0;
+		virtual int groupIndex() const=0;
 		/** Returns an image
 			\return image
 		 */
@@ -108,15 +108,15 @@ class SpriteDatabaseIterator: public AbstractSpriteDatabaseIterator
 	/** Returns a config
 		\return config 
 	  */
-	virtual QString config();
+	virtual QString config() const;
 	/** Returns a group of data
 		\return group of config
 	  */
-	virtual QString group();
+	virtual QString group() const;
 	/** Returns a group index for sprite
 		\return group index
 	  */
-	virtual int groupIndex();
+	virtual int groupIndex() const;
 	/** Returns an image
 		\return image
 	  */
