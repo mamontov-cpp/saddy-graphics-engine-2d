@@ -6,3 +6,4 @@ void MockSpriteTableWidget::clear()
 	m_groupcombo->clear();
 	m_indexcombo->clear();
 }
+

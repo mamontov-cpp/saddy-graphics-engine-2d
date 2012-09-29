@@ -5,6 +5,7 @@
 	to currently nothing is presented on SpriteTableWidget
  */
 #include <QComboBox>
+#include "qspritetablewidgetselection.h"
 
 class  AbstractSpriteDatabaseIterator;
 /** A table widget, used to work with all of data
@@ -29,6 +30,7 @@ class MockSpriteTableWidget: public QObject
 		m_configcombo = configCombo;
 		m_groupcombo = groupCombo;
 		m_indexcombo = indexCombo;
+		clear();
 	 }
 	 /** Clears a widget
 	  */
@@ -37,4 +39,18 @@ class MockSpriteTableWidget: public QObject
 		 \param[in] iterator data
 	  */
 	 void add(const AbstractSpriteDatabaseIterator & i ) ;
+	 /** Sets a selection for data
+		 \param[in] selection of data
+	  */
+	 void setSelection( const QSpriteTableWidgetSelection & selection);
+	 /** Returns a selection of data
+	  */
+	 QSpriteTableWidgetSelection selection();
+ signals:
+	 /** Emitted, when sprite is selected
+		 \param[in] config config data
+		 \param[in] group group data
+		 \param[in] index index data
+	  */
+	 void spriteSelected(QString config, QString group, int index);
 };
