@@ -24,17 +24,17 @@ SpriteDatabaseIterator::~SpriteDatabaseIterator()
 
 }
 
-QString SpriteDatabaseIterator::config()
+QString SpriteDatabaseIterator::config() const
 {
 	return m_configs_iterator.key();
 }
 
-QString SpriteDatabaseIterator::group()
+QString SpriteDatabaseIterator::group() const
 {
 	return m_config_iterator.key();
 }
 
-int SpriteDatabaseIterator::groupIndex()
+int SpriteDatabaseIterator::groupIndex() const
 {
 	return m_group_iterator.key();
 }
