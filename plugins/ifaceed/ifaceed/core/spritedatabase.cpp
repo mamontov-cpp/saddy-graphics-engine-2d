@@ -53,11 +53,8 @@ AbstractSpriteDatabaseIterator & SpriteDatabaseIterator::next()
 {
 	if (m_configs_iterator!= m_db->m_qtimages.constEnd())
 	{
-		if (m_group_iterator != m_config_iterator.value().constEnd())
-		{
-			++m_group_iterator;
-		}
-		else
+		++m_group_iterator;
+		if (m_group_iterator == m_config_iterator.value().constEnd())
 		{
 			bool foundNextGroup = advanceNextGroup(true);
 			if (!foundNextGroup)
@@ -98,7 +95,8 @@ bool SpriteDatabaseIterator::advanceNextConfig(bool move)
 	while(m_configs_iterator != m_db->m_qtimages.constEnd() && !found)
 	{
 		m_config_iterator = m_configs_iterator.value().constBegin();
-		found = advanceNextGroup(false);
+		if (m_config_iterator.value().size()!=0)
+			found = advanceNextGroup(false);
 		if (!found)
 		++m_configs_iterator;
 	}

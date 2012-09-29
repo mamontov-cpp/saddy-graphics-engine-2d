@@ -24,7 +24,7 @@ void MockSpriteTableWidget::add(const AbstractSpriteDatabaseIterator & i )
 	}
 	if (m_values[i.config()].contains(i.group()) == false)
 	{
-		m_values[i.config()].insert(i.config(), QVector<int>());
+		m_values[i.config()].insert(i.group(), QVector<int>());
 	}
 	if (m_values[i.config()][i.group()].contains(i.groupIndex()) == false)
 	{
