@@ -30,6 +30,10 @@ public:
 		\param[in] editor editor
 	 */
 	inline void setEditor(IFaceEditor * editor) {  m_editor = editor; }
+
+	/** Synchronizes database with an editor
+	 */
+	void synchronizeDatabase();
 private:
 	Ui::MainPanelClass ui;         //!< UI
 	IFaceEditor    *   m_editor;   //!< Editor to work with
@@ -38,11 +42,6 @@ protected:
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
-protected slots:
-	/**
-	 * Cleanups a system fonts if presented
- 	 */
-	void ifCleanupSystemFonts(int);
 };
 
 #endif // MAINPANEL_H

@@ -81,6 +81,10 @@ class FontTemplateDatabase
 			\return fonts
 		 */
 		inline IFaceEditorFontList & fonts() { return *m_fonts; }
+		/** Returns used sprites in data
+			\return used sprites
+		 */
+		inline SpriteDatabase & sprites() { return *m_sprites; }
 		/** Maps, which fonts and configs came from
 			\return maps, where configs came from
 		 */
