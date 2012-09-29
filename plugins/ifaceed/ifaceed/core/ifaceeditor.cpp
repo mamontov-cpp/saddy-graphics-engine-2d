@@ -82,8 +82,8 @@ CommandLineOptions * IFaceEditor::createOptionParser()
 class DBLoadingTaskFuture
 {
  protected:
-	 bool m_result;
-	 bool m_computed;
+	 bool m_result;   //!< Result of computation
+	 bool m_computed; //!< Computed result
  public:
 	 inline DBLoadingTaskFuture()
 	 {
@@ -125,7 +125,8 @@ class DBLoadingTask: public sad::CountableTask
 	 // Loads a db
 	 virtual void perform()
 	 {
-		m_future->setResult(m_db->load(*m_maps));
+	    bool data = m_db->load(*m_maps);
+		m_future->setResult(data);
 	 }
 	 virtual ~DBLoadingTask()
 	 {
