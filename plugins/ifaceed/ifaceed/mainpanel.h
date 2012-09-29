@@ -12,12 +12,17 @@
 
 class IFaceEditor;
 
+class MockSpriteTableWidget;
+
 /*! A main window to edit level objects
  */
 class MainPanel : public QMainWindow
 {
 	Q_OBJECT
-
+private:
+	/** A sprite table data
+	 */
+	MockSpriteTableWidget * m_sprite_table;
 public:
 	/*! Constructor, which inits all of callbacks
 	 */

@@ -81,6 +81,7 @@ bool SpriteDatabaseIterator::advanceNextGroup(bool move)
 		m_group_iterator = m_config_iterator.value().constBegin();
 		if (m_group_iterator != m_config_iterator.value().constEnd())
 			found = true;
+		if (!found)
 		++m_config_iterator;
 	}
 
@@ -98,6 +99,7 @@ bool SpriteDatabaseIterator::advanceNextConfig(bool move)
 	{
 		m_config_iterator = m_configs_iterator.value().constBegin();
 		found = advanceNextGroup(false);
+		if (!found)
 		++m_configs_iterator;
 	}
 	return found;
@@ -143,7 +145,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps)
 			QHash<QString, QImage> images;
 			if (tryLoadImages(texturePaths,images))
 			{
-				this->importSprites(*qtimages,images,testcontainer,it.value());
+				this->importSprites(*qtimages,images,testcontainer,it.key());
 				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(___sprite_database_counter++) + it.key().toStdString().c_str());
 				cnf->setLoader(loader);
 				if (cnf->reload() != SCR_OK)
