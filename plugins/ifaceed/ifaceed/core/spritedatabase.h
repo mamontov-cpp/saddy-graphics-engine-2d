@@ -169,6 +169,9 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	  */
 	 virtual bool load(FontTemplatesMaps & maps);
 	 virtual ~SpriteDatabase();
+	 /** A configs for implementation of simple widget with loading data into form
+	  */
+	 inline QISpriteConfigs & configs();
 };
 
 /** Extracts texture paths
