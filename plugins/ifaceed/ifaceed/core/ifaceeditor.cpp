@@ -77,6 +77,37 @@ CommandLineOptions * IFaceEditor::createOptionParser()
 	return new IFaceCmdOptions();
 }
 
+
+// Whether loading result was successfull
+static bool ___dbloadingtaskresult = false;
+static bool ___dbloaded = false;
+
+// An aynchronous task used to loading some sprite database. Because loading must be performed in
+// a rendering thread, because no OpenGL context is available to other threads
+class DBLoadingTask: public sad::CountableTask
+{
+ protected:
+	 FontTemplatesMaps * m_maps; //!< Maps data
+	 FontTemplateDatabase * m_db;  //!< Database for loading
+ public:
+	 /** Constructs new tasks
+	  */
+	 inline DBLoadingTask(FontTemplatesMaps * maps, FontTemplateDatabase * db)
+	 {
+		 m_maps = maps;
+		 m_db = db;
+	 }
+	 // Loads a db
+	 virtual void perform()
+	 {
+		___dbloadingtaskresult = m_db->load(*m_maps);
+		___dbloaded = true;
+	 }
+	 virtual ~DBLoadingTask()
+	 {
+	 }
+};
+
 void IFaceEditor::onFullAppStart()
 {
 	if (this->cmdLineOptions()->hasConfig() == false)
@@ -101,7 +132,15 @@ void IFaceEditor::onFullAppStart()
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase();
-		if (db->load(maps))
+		DBLoadingTask * task = new DBLoadingTask(&maps,db);
+		// Locking rendering due to adding of new task
+		this->lockRendering();
+		sad::Input::inst()->addPreRenderTask(task);
+		this->unlockRendering();
+		// Wait for task to work
+		while(!___dbloaded) {}
+
+		if (___dbloadingtaskresult)
 		{
 			this->setDatabase(db);
 		}

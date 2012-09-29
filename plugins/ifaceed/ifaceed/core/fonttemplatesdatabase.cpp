@@ -5,6 +5,7 @@
 #include <QTextStream>
 #include "../editorcore/path.h"
 #include "xmlconfigloader.h"
+#include "spritedatabase.h"
 
 FontTemplatesMaps::FontTemplatesMaps()
 {
@@ -121,19 +122,28 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 
 FontTemplateDatabase::FontTemplateDatabase()
 {
+	m_sprites =  new SpriteDatabase();
+	m_fonts = new IFaceEditorFontList();
+}
 
+FontTemplateDatabase::~FontTemplateDatabase()
+{
+	delete m_sprites;
+	delete m_fonts;
 }
 
 bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 {
 	m_maps = maps;
+	IFaceEditorFontList * fonts = new IFaceEditorFontList();
 	{
 		db::NameFileMap::const_iterator it = maps.fonts().constBegin();
 		db::NameFileMap::const_iterator end = maps.fonts().constEnd();
 		bool success = true;
+		
 		for (it;it!=end;it++)
 		{
-			IFaceEditorFontLoadResult r = m_fonts.tryLoadFont(it.key(), it.value());
+			IFaceEditorFontLoadResult r = fonts->tryLoadFont(it.key(), it.value());
 			if (r!=IEFLR_OK) 
 			{
 				hst::log::inst()->owrite("FontTemplateDatabase::load: can\'t load file ")
@@ -144,17 +154,24 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 			}
 		}
 		// Don't proceed further if can't load stuff
-		if (!success)
+		if (!success) {
+			delete fonts;
 			return false;
-	}
-	// Load some configs
-	{
-		db::NameFileMap::const_iterator it = maps.configs().constBegin();
-		db::NameFileMap::const_iterator end = maps.configs().constEnd();
-		bool success = false;
-		for (it;it!=end;it++)
-		{
 		}
 	}
+	SpriteDatabase * sprites = new SpriteDatabase();
+	// Load some configs
+	{
+		if (sprites->load(maps) == false)
+		{
+			delete sprites;
+			delete fonts;
+			return false;
+		}
+	}
+	// Apply changes
+	delete m_sprites; m_sprites = sprites;
+	delete m_fonts; m_fonts = fonts;
+
 	return true;
 }

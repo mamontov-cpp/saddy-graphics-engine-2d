@@ -1,5 +1,5 @@
 #include "texture.h"
-
+#include <errno.h>
 #ifdef LINUX
 #include <renderer.h>
 #endif
@@ -61,8 +61,10 @@ void Texture::buildMipMaps()
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);	
-       
-  
+    
+		
+	
+
 	GLint res=gluBuild2DMipmaps(GL_TEXTURE_2D, components, m_width, m_height, type, GL_UNSIGNED_BYTE, m_data.data());
 	if (res)
 	{

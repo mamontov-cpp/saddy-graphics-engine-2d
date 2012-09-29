@@ -52,6 +52,8 @@ class FontTemplatesMaps
 		inline const db::NameFileMap & configs() { return m_configs;}
 };
 
+
+class SpriteDatabase;
 /** A database, which stores a font database and other in depth
  */
 class FontTemplateDatabase
@@ -59,10 +61,13 @@ class FontTemplateDatabase
  private:
 	     /** Fonts database data 
 		  */
-		 IFaceEditorFontList m_fonts;
+		 IFaceEditorFontList * m_fonts;
 		 /** Used maps data
 		  */
 		 FontTemplatesMaps m_maps;
+		 /** A sprite database 
+		  */
+		 SpriteDatabase * m_sprites;
  public:
 		/** Creates an empty database
 		 */
@@ -75,9 +80,12 @@ class FontTemplateDatabase
 		/** Fonts, represented in database
 			\return fonts
 		 */
-		inline IFaceEditorFontList & fonts() { return m_fonts; }
+		inline IFaceEditorFontList & fonts() { return *m_fonts; }
 		/** Maps, which fonts and configs came from
 			\return maps, where configs came from
 		 */
 		inline FontTemplatesMaps & maps() { return m_maps; }
+		/** Frees memory of database
+		 */
+		~FontTemplateDatabase();
 };
