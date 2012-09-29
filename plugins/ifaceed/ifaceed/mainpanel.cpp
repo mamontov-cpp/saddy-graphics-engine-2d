@@ -8,7 +8,8 @@
 #include "core/ifaceeditor.h"
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
-
+#include "core/spritedatabase.h"
+#include "core/mockspritetablewidget.h"
 
 
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
@@ -24,15 +25,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 		bool ok = (fnt!=QFont());
 	}
 	ui.cmbFonts->setItemDelegate(new FontDelegate());
-	ui.cmbFonts->addItem("abc", QVariant(fnt));
-	ui.cmbFonts->addItem("dfg", QVariant(fnt));
-	ui.cmbFonts->addItem("eps", QVariant(fnt));
+	m_sprite_table = new MockSpriteTableWidget(ui.cmbSpriteConfig,ui.cmbSpriteGroup,ui.cmbSpriteIndex);
 
 }
 
 MainPanel::~MainPanel()
 {
-
+	delete m_sprite_table;
 }
 
 
@@ -52,4 +51,11 @@ void MainPanel::synchronizeDatabase()
 	{
 		ui.cmbFonts->addItem(it.name(), QVariant(it.fonts()->qtFont()));
 	}
+	SpriteDatabase & sprites = db->sprites();
+	AbstractSpriteDatabaseIterator * it = sprites.begin();
+	for(it; !(it->isEnd());it->next())
+	{
+		m_sprite_table->add(*it);
+	}
+	delete it;
 }
