@@ -1,5 +1,24 @@
 #include "spritedatabase.h"
+#include "fonttemplatesdatabase.h"
 #include <QSet>
+
+AbstractSpriteDatabaseIterator::~AbstractSpriteDatabaseIterator()
+{
+}
+
+AbstractSpriteDatabase::~AbstractSpriteDatabase()
+{
+}
+
+
+SpriteDatabase::~SpriteDatabase()
+{
+	for(hst::Configs::const_iterator it = m_configs.const_begin(); it!=m_configs.const_end();it++)
+	{
+		delete it.value();
+	}
+}
+
 
 QImage extractImage(const QImage & im, Sprite2DTemplate & t)
 {

@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include "../editorcore/path.h"
+#include "xmlconfigloader.h"
 
 FontTemplatesMaps::FontTemplatesMaps()
 {
@@ -145,6 +146,15 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 		// Don't proceed further if can't load stuff
 		if (!success)
 			return false;
+	}
+	// Load some configs
+	{
+		db::NameFileMap::const_iterator it = maps.configs().constBegin();
+		db::NameFileMap::const_iterator end = maps.configs().constEnd();
+		bool success = false;
+		for (it;it!=end;it++)
+		{
+		}
 	}
 	return true;
 }
