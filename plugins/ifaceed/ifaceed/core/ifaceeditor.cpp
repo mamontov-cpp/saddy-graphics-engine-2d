@@ -78,9 +78,32 @@ CommandLineOptions * IFaceEditor::createOptionParser()
 }
 
 
-// Whether loading result was successfull
-static bool ___dbloadingtaskresult = false;
-static bool ___dbloaded = false;
+// A future result of loading database
+class DBLoadingTaskFuture
+{
+ protected:
+	 bool m_result;
+	 bool m_computed;
+ public:
+	 inline DBLoadingTaskFuture()
+	 {
+		 m_result = false;
+		 m_computed = false;
+	 }
+
+	 inline void setResult(bool result) 
+	 {
+		 m_result = result;
+		 m_computed = true;
+	 }
+
+	 inline bool result() 
+	 {
+		 while (!m_computed) {}
+		 return m_result;
+	 }
+};
+
 
 // An aynchronous task used to loading some sprite database. Because loading must be performed in
 // a rendering thread, because no OpenGL context is available to other threads
@@ -89,19 +112,20 @@ class DBLoadingTask: public sad::CountableTask
  protected:
 	 FontTemplatesMaps * m_maps; //!< Maps data
 	 FontTemplateDatabase * m_db;  //!< Database for loading
+	 DBLoadingTaskFuture * m_future; //!< Future for computing
  public:
 	 /** Constructs new tasks
 	  */
-	 inline DBLoadingTask(FontTemplatesMaps * maps, FontTemplateDatabase * db)
+	 inline DBLoadingTask(FontTemplatesMaps * maps, FontTemplateDatabase * db, DBLoadingTaskFuture * f)
 	 {
 		 m_maps = maps;
 		 m_db = db;
+		 m_future = f;
 	 }
 	 // Loads a db
 	 virtual void perform()
 	 {
-		___dbloadingtaskresult = m_db->load(*m_maps);
-		___dbloaded = true;
+		m_future->setResult(m_db->load(*m_maps));
 	 }
 	 virtual ~DBLoadingTask()
 	 {
@@ -132,15 +156,13 @@ void IFaceEditor::onFullAppStart()
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db);
+		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
+		DBLoadingTask * task = new DBLoadingTask(&maps,db,future);
 		// Locking rendering due to adding of new task
 		this->lockRendering();
 		sad::Input::inst()->addPreRenderTask(task);
 		this->unlockRendering();
-		// Wait for task to work
-		while(!___dbloaded) {}
-
-		if (___dbloadingtaskresult)
+		if (future->result())
 		{
 			this->setDatabase(db);
 		}
@@ -150,6 +172,7 @@ void IFaceEditor::onFullAppStart()
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			delete db;
 		}
+		delete future;
 	}
 	else 
 	{
