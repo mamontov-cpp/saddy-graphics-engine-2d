@@ -54,10 +54,6 @@ class AbstractSpriteDatabase
 		/** Begin of database
 		 */
 		virtual AbstractSpriteDatabaseIterator * begin() const =0;
-		/** End of database
-		 */
-		virtual AbstractSpriteDatabaseIterator * end() const =0;
-
 		virtual ~AbstractSpriteDatabase();
 };
 
@@ -148,9 +144,30 @@ class SpriteDatabase: public AbstractSpriteDatabase
  protected:
 	 QISpriteConfigs						  m_qtimages;
 	 hst::Configs m_configs;
+	
+	 /** Imports a sprites to config
+		 \param[out] configs config data
+		 \param[in] images loaded images
+		 \param[in] t container
+		 \param[in] name name of data
+	  */
+	 void importSprites(QISpriteConfigs & configs, 
+					    QHash<QString, QImage> & images, 
+						Sprite2DTemplateContainer & t,
+						const QString & name);
+	 /** Clears a database
+	  */
+	 void clear();
  public:
-
-
+	 /** Returns begin of data
+		 \return begin of iterator
+	  */
+	 virtual AbstractSpriteDatabaseIterator * begin() const;
+	 /** Loads a database to data
+		 \param[in] maps maps for loading
+		 \return whether loading was successfull
+	  */
+	 virtual bool load(FontTemplatesMaps & maps);
 	 virtual ~SpriteDatabase();
 };
 

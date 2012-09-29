@@ -1,6 +1,7 @@
 #include "spritedatabase.h"
 #include "fonttemplatesdatabase.h"
 #include <QSet>
+#include <QMessageBox>
 
 AbstractSpriteDatabaseIterator::~AbstractSpriteDatabaseIterator()
 {
@@ -110,12 +111,122 @@ bool SpriteDatabaseIterator::isEnd() const
 
 SpriteDatabase::~SpriteDatabase()
 {
+	clear();
+}
+
+
+void SpriteDatabase::clear()
+{
+	m_qtimages.clear();
 	for(hst::Configs::const_iterator it = m_configs.const_begin(); it!=m_configs.const_end();it++)
 	{
 		delete it.value();
 	}
+	m_configs.clear();
 }
 
+int ___sprite_database_counter = 0;
+
+bool SpriteDatabase::load(FontTemplatesMaps & maps)
+{
+	bool ok = true;
+	const db::NameFileMap & map = maps.configs();
+	QISpriteConfigs	 * qtimages = new QISpriteConfigs();
+	hst::Configs	 * configs = new hst::Configs();
+	for (db::NameFileMap::const_iterator it = map.begin();it != map.end();it++)
+	{
+		Sprite2DTemplateContainer testcontainer;
+		XMLConfigLoader * loader = new XMLConfigLoader(it.value());
+		if (loader->load(testcontainer))
+		{
+			QVector<QString> texturePaths = extractTexturePaths(testcontainer);
+			QHash<QString, QImage> images;
+			if (tryLoadImages(texturePaths,images))
+			{
+				this->importSprites(*qtimages,images,testcontainer,it.value());
+				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(___sprite_database_counter++) + it.key().toStdString().c_str());
+				cnf->setLoader(loader);
+				if (cnf->reload() != SCR_OK)
+				{
+					hst::log::inst()->owrite("Saddy can\'t load images from config with path ").owrite(it.value().toStdString()).
+							  owrite("\n");
+					QMessageBox::critical(NULL,"IFace Editor", QString("Saddy can\'t load images from config with path ")+
+				                  it.value());
+
+					qtimages->remove(it.key());
+					delete cnf;
+					ok = false;
+				}
+				else 
+				{
+					configs->insert(it.key().toStdString().c_str(),cnf);
+				}
+			}
+			else
+			{
+				ok = false;
+				hst::log::inst()->owrite("Can\'t load images from config with path ").owrite(it.value().toStdString()).
+							  owrite("\n");
+				QMessageBox::critical(NULL,"IFace Editor", QString("Can\'t load images from config with path ")+
+				                  it.value());
+			}
+		}
+		else 
+		{
+			ok = false;
+			hst::log::inst()->owrite("Can\'t load config from path ").owrite(it.value().toStdString()).
+							  owrite("\n");
+			QMessageBox::critical(NULL,"IFace Editor", QString("Can\'t load config from path ")+
+				                  it.value());
+		}
+	}
+
+	if (ok)
+	{
+		m_qtimages = *qtimages;
+		m_configs = *configs;
+	}
+	else
+	{
+		for (hst::Configs::const_iterator it = configs->const_begin(); it!=configs->const_end(); it++)
+		{
+			delete it.value();
+		}
+	}
+	delete qtimages;
+	delete configs;
+	return ok;
+}
+
+void SpriteDatabase::importSprites(QISpriteConfigs & configs, 
+								   QHash<QString, QImage> & images, 
+								   Sprite2DTemplateContainer & t,
+								   const QString & name)
+{
+	configs.insert(name, QISpriteConfig());
+	Sprite2DTemplateContainer::const_iterator it = t.const_begin();
+	for(it; it!=t.const_end();it++)
+	{
+		QString group = it.key().data();
+		configs[name].insert(group, QISpriteGroup());
+		for(hst::hash<int,Sprite2DTemplate>::const_iterator g = it.value().const_begin(); 
+			g!=it.value().const_end();
+			g++)
+		{
+			configs[name][group].insert(g.key(), QImage());
+			Sprite2DTemplate s2dt = g.value();
+			configs[name][group][g.key()] = extractImage(images[s2dt.textureName().data()],s2dt);
+		}
+	}
+}
+
+AbstractSpriteDatabaseIterator * SpriteDatabase::begin() const
+{
+	SpriteDatabaseIterator * it = new SpriteDatabaseIterator(const_cast<SpriteDatabase*>(this));
+	it->m_configs_iterator = this->m_qtimages.begin();
+	it->advanceNextConfig(false);
+	return it;
+}
 
 QImage extractImage(const QImage & im, Sprite2DTemplate & t)
 {
