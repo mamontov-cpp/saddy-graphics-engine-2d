@@ -107,6 +107,22 @@ public:
 		\param[in] camera  new camera
 	*/
 	inline void setCamera(Camera * camera) { delete m_camera;  m_camera=camera; }
+	/** Finds a layers for node
+		\param[in] node this node
+		\return -1 if not found, index otherwise
+     */
+	int findLayer(sad::BasicNode * node);
+	/** Sets a layer for node. If no node found in scene - nothing happens, if layer not found - it 
+		pushes to end
+		\param[in] node node data
+		\param[in] layer layer number
+	 */
+	void setLayer(sad::BasicNode * node,unsigned int layer);
+	/** Swaps to layers for nodes
+		\param[in] node1 first node
+		\param[in] node2 second node
+	 */
+	void swapLayers(sad::BasicNode * node1, sad::BasicNode * node2);
 	/*! Removes all from scene.
 	    DEPRECATED: use ::performCleanup() instead, because it can be called
 		            only before renderer was started.

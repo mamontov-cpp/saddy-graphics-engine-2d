@@ -128,6 +128,44 @@ void sad::Scene::render()
   
 }
 
+int sad::Scene::findLayer(sad::BasicNode * node)
+{
+	for (int i = 0;i<m_layers.count();i++) 
+	{
+		if (m_layers[i] == node)
+			return i;
+	}
+	return -1;
+}
+
+void sad::Scene::swapLayers(sad::BasicNode * node1, sad::BasicNode * node2)
+{
+	int pos1 = findLayer(node1);
+	int pos2 = findLayer(node2);
+	if (pos1!=-1 && pos2!=-1)
+	{
+		m_layers[pos1] = node2;
+		m_layers[pos2] = node1;
+	}
+}
+
+void sad::Scene::setLayer(sad::BasicNode * node, unsigned int layer)
+{
+	int oldlayer = findLayer(node); 
+	if (oldlayer!=-1)
+	{
+		m_layers.removeAt(oldlayer);
+		if (layer >= m_layers.count())
+		{
+			m_layers << node;
+		}
+		else
+		{
+			m_layers.insert(node,layer);
+		}
+	}
+}
+
 void sad::Scene::markForDeletion(BasicNode * what)
 {
 	m_rem.lock();
