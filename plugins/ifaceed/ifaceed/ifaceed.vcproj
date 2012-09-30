@@ -330,6 +330,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="history"
+				>
+				<File
+					RelativePath=".\history\abstractcommand.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\history\editorhistory.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -639,6 +651,18 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="history"
+				>
+				<File
+					RelativePath=".\history\abstractcommand.h"
+					>
+				</File>
+				<File
+					RelativePath=".\history\editorhistory.h"
+					>
 				</File>
 			</Filter>
 		</Filter>

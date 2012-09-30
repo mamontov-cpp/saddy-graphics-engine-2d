@@ -150,3 +150,30 @@ hst::string SaveLoadCallback< bool >::save(const bool & obj)
 		return "true";
 	return "false";
 }
+
+hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
+									 const hst::string & str, 
+									 const hst::string & typestring)
+{
+	hst::stringlist lst=str.split(';');
+	int r, g, b ;
+	if (lst.length()==3)
+	{
+		r = SaveLoadCallback<int>::load(context,lst[0], abstract_names::type_string<hst::color >::type());
+		g = SaveLoadCallback<int>::load(context,lst[1], abstract_names::type_string<hst::color >::type());
+		b = SaveLoadCallback<int>::load(context,lst[2], abstract_names::type_string<hst::color >::type());
+	}
+	else 
+	{
+		throw new serializable::InvalidPropertyValue(typestring,str,context);
+	}
+	return hst::color(r,g,b);
+}
+
+hst::string SaveLoadCallback< hst::color >::save(const hst::color & obj)
+{
+	hst::string t(";");
+	return SaveLoadCallback<int>::save(obj.r()) + t + 
+		   SaveLoadCallback<int>::save(obj.g()) + t +
+		   SaveLoadCallback<int>::save(obj.b());
+}

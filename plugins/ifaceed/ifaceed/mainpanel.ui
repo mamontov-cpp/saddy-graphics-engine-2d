@@ -69,7 +69,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>160</y>
+      <y>300</y>
       <width>351</width>
       <height>111</height>
      </rect>
@@ -144,17 +144,17 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="grpFont">
+   <widget class="QGroupBox" name="grpLabels">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>40</y>
       <width>451</width>
-      <height>80</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="title">
-     <string>Font Preferences for labels</string>
+     <string>Labels</string>
     </property>
     <widget class="QLabel" name="lblFont">
      <property name="geometry">
@@ -249,6 +249,71 @@
      </property>
      <property name="text">
       <string>Pick other</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblAngle">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>143</y>
+       <width>46</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Angle:</string>
+     </property>
+    </widget>
+    <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>140</y>
+       <width>71</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <double>6.140000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="plainTextEdit">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>80</y>
+       <width>401</width>
+       <height>51</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblText">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>46</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Text:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAddLabel">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>140</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add new label...</string>
      </property>
     </widget>
    </widget>
