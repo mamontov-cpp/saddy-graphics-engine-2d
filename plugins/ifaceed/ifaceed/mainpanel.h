@@ -47,6 +47,15 @@ protected:
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
+protected slots:
+	/**
+	 * Adds new color for fonts in combo box
+	 */
+	void addNewFontColor();
+	/**
+	 * Adds new font size for font in combo box
+	 */ 
+	void addNewFontSize();
 };
 
 #endif // MAINPANEL_H

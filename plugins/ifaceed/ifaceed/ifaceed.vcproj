@@ -310,6 +310,10 @@
 				Name="gui"
 				>
 				<File
+					RelativePath=".\gui\colordelegate.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\gui\fontdelegate.cpp"
 					>
 				</File>
@@ -583,6 +587,10 @@
 			<Filter
 				Name="gui"
 				>
+				<File
+					RelativePath=".\gui\colordelegate.h"
+					>
+				</File>
 				<File
 					RelativePath=".\gui\fontdelegate.h"
 					>
