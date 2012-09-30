@@ -4,7 +4,10 @@
 #include <QFontDatabase>
 #include <QItemDelegate>
 #include <QPainter>
+#include <QColorDialog>
+#include <QInputDialog>
 #include "gui/fontdelegate.h"
+#include "gui/colordelegate.h"
 #include "core/ifaceeditor.h"
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
@@ -16,17 +19,38 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	ui.setupUi(this);
-	QFontDatabase db;
-	QFont fnt;
-	int id = db.addApplicationFont("AvQest.ttf");
-	if (id!=-1) {
-		QStringList lst = db.applicationFontFamilies ( id );
-		fnt = db.font(lst[0],"",18);
-		bool ok = (fnt!=QFont());
-	}
+	
+	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
+	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
+
 	ui.cmbFonts->setItemDelegate(new FontDelegate());
+	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
 	m_sprite_table = new MockSpriteTableWidget(ui.cmbSpriteConfig,ui.cmbSpriteGroup,ui.cmbSpriteIndex);
 
+	QColor colors[] = { Qt::red, 
+						Qt::darkRed,
+						Qt::blue,
+						Qt::darkBlue,
+						Qt::green,
+						Qt::darkGreen,
+						Qt::white, 
+						Qt::magenta, 
+						Qt::yellow, 
+						Qt::black 
+	                  };
+	for (int i=0;i<10;i++)
+	{
+		QString text = QString::number(colors[i].red()) + QString(",")
+			         + QString::number(colors[i].green()) + QString(",")
+					 + QString::number(colors[i].blue());
+		text = QString("(") + text + QString(")");
+		ui.cmbFontColor->addItem(text, QVariant(colors[i]));
+	}
+	// Populate font size
+	for (int i=5;i<201;i++)
+	{
+		ui.cmbFontSize->addItem(QString::number(i),QVariant(i));
+	}
 }
 
 MainPanel::~MainPanel()
@@ -58,4 +82,40 @@ void MainPanel::synchronizeDatabase()
 		m_sprite_table->add(*it);
 	}
 	delete it;
+}
+
+void MainPanel::addNewFontColor()
+{
+	QColor initial(0,0,0);
+	if (ui.cmbFontColor->currentIndex()!=-1)
+	{
+		initial = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
+	}
+
+	QColor to_add = QColorDialog::getColor(initial,this,"Pick a new color for label");
+	if (to_add.isValid())
+	{
+		QString text = QString::number(to_add.red()) + QString(",")
+			         + QString::number(to_add.green()) + QString(",")
+					 + QString::number(to_add.blue());
+		text = QString("(") + text + QString(")");
+		ui.cmbFontColor->addItem(text, QVariant(to_add));
+		ui.cmbFontColor->setCurrentIndex(ui.cmbFontColor->count()-1);
+	}
+}
+
+
+void MainPanel::addNewFontSize()
+{
+	QInputDialog d(this);
+	d.setInputMode(QInputDialog::IntInput);
+	d.setWindowTitle("Input some font size");
+	d.setIntRange(201,1000);
+	d.exec();
+	if (d.result() == QDialog::Accepted)
+	{
+		int size = d.intValue();
+		ui.cmbFontSize->addItem(QString::number(size), QVariant(size));
+		ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count()-1);
+	}
 }
