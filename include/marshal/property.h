@@ -151,3 +151,4 @@ typedef MappedField< hst::vector<int> >    HIntVectorMappedField;
 typedef MappedField<hPointF>                   PointMappedField;
 typedef MappedField<hRectF>                    RectMappedField;
 typedef MappedField< hst::vector<hPointF> >    PointVectorMappedField;
+typedef MappedField< hst::color >			   ColorMappedField;

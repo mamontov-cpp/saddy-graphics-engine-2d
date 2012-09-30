@@ -14,6 +14,7 @@
 #include "editoreventhandler.h"
 #include <input.h>
 #include "commandlineoptions.h"
+#include "../history/editorhistory.h"
 #pragma once
 
 enum EditorQuitReason
@@ -150,6 +151,9 @@ class Editor: public QObject
 		 /** Command line options data
 		  */
 		 CommandLineOptions * m_cmdoptions;
+		 /** History of data
+		  */
+		 EditorHistory * m_history;
 protected:
 		 /** A reason, while saddy quit
 		  */
@@ -301,7 +305,10 @@ private:
 		/** Unlocks rendering
 		 */
 		inline void unlockRendering() { m_rendermutex->unlock();}
-		
+		/** Returns a history
+			\return history
+		 */
+		inline EditorHistory * history() { return m_history; }
 		/** Quits an editor
 			\param[in] quits editor
 		 */

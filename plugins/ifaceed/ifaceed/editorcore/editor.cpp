@@ -13,6 +13,7 @@ Editor::Editor()
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
+	m_history = new EditorHistory();
 }
 
 void Editor::init(int argc,char ** argv)
@@ -56,6 +57,7 @@ Editor::~Editor()
 	delete m_renderthread;
 	delete m_rendermutex;
 	delete m_cmdargs;
+	delete m_history;
 }
 
 void Editor::SaddyThread::run() 
