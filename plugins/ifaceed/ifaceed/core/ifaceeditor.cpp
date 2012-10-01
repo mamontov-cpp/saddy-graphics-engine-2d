@@ -11,6 +11,7 @@
 IFaceEditor::IFaceEditor()
 {
 	m_db = NULL;
+	m_counter = 0;
 }
 IFaceEditor::~IFaceEditor()
 {
@@ -156,7 +157,7 @@ void IFaceEditor::onFullAppStart()
 	FontTemplatesMaps maps;
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
-		FontTemplateDatabase * db = new FontTemplateDatabase();
+		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
 		DBLoadingTask * task = new DBLoadingTask(&maps,db,future);
 		// Locking rendering due to adding of new task

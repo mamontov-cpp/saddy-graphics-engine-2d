@@ -120,10 +120,11 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 	}
 }
 
-FontTemplateDatabase::FontTemplateDatabase()
+FontTemplateDatabase::FontTemplateDatabase(int * counter)
 {
 	m_sprites =  new SpriteDatabase();
 	m_fonts = new IFaceEditorFontList();
+	m_counter = counter;
 }
 
 FontTemplateDatabase::~FontTemplateDatabase()
@@ -162,7 +163,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 	SpriteDatabase * sprites = new SpriteDatabase();
 	// Load some configs
 	{
-		if (sprites->load(maps) == false)
+		if (sprites->load(maps, *m_counter) == false)
 		{
 			delete sprites;
 			delete fonts;

@@ -23,6 +23,9 @@ class IFaceEditor: public Editor
 	 */
 	FontTemplateDatabase * database();
  protected:
+	/**	Counter for loading all of dbs
+	 */
+    int m_counter;
 	/** A template database with fonts
 	 */
 	FontTemplateDatabase * m_db;

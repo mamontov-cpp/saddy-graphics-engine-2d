@@ -125,9 +125,9 @@ void SpriteDatabase::clear()
 	m_configs.clear();
 }
 
-int ___sprite_database_counter = 0;
 
-bool SpriteDatabase::load(FontTemplatesMaps & maps)
+
+bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 {
 	bool ok = true;
 	const db::NameFileMap & map = maps.configs();
@@ -144,7 +144,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps)
 			if (tryLoadImages(texturePaths,images))
 			{
 				this->importSprites(*qtimages,images,testcontainer,it.key());
-				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(___sprite_database_counter++) + it.key().toStdString().c_str());
+				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString().c_str());
 				cnf->setLoader(loader);
 				if (cnf->reload() != SCR_OK)
 				{
