@@ -13,27 +13,26 @@
 class SerializableContainer
 {
  private:
-		  hst::vector<SerializableObject *> m_container;  //!< Inner container
-		  int                               m_iterator;   //!< Iterate counter to iterate while saving
+
  public:
 
 		 /*! Adds an object to container
 			 \param[in] obj object
 		  */
-		 virtual void add(SerializableObject * obj);
+		 virtual void add(SerializableObject * obj)=0;
 		 /*! Removes an object to container
 			 \param[in] obj object
 		  */
-		 virtual void remove(SerializableObject * obj);
+		 virtual void remove(SerializableObject * obj)=0;
 
 		 /*! Returns a first object from container, starting new iteration
 			 \return beginning of container
 		  */
-		 SerializableObject * begin();
+		 virtual SerializableObject * begin()=0;
 		 /*! Returns next iteration
 			 \return next object from container , null on end of container 
 		  */
-		 SerializableObject * next();
+		 virtual SerializableObject * next()=0;
 		 /*! Destructor
 		  */
 		 virtual ~SerializableContainer();
