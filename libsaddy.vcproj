@@ -417,6 +417,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\marshal\hashbasedserializablecontainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\marshal\property.cpp"
 					>
 				</File>
@@ -712,6 +716,10 @@
 				</File>
 				<File
 					RelativePath=".\include\marshal\exceptions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\marshal\hashbasedserializablecontainer.h"
 					>
 				</File>
 				<File
