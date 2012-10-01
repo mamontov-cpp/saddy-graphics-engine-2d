@@ -59,6 +59,9 @@ class SpriteDatabase;
 class FontTemplateDatabase
 {
  private:
+		 /** Counter, that makes every loading of textures mutable
+		  */
+		 int * m_counter;
 	     /** Fonts database data 
 		  */
 		 IFaceEditorFontList * m_fonts;
@@ -69,9 +72,10 @@ class FontTemplateDatabase
 		  */
 		 SpriteDatabase * m_sprites;
  public:
-		/** Creates an empty database
+		/** Creates an empty database	
+			\param[in] counter counter data
 		 */
-		FontTemplateDatabase();
+		FontTemplateDatabase(int * counter);
         /** Loads new font template maps
 			NOTE: That function is not reentrant, please do not use it second time
 			\param[in] maps maps data

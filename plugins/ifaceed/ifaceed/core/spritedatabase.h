@@ -165,9 +165,10 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	 virtual AbstractSpriteDatabaseIterator * begin() const;
 	 /** Loads a database to data
 		 \param[in] maps maps for loading
+		 \param[out] counter counter, that makes texture containers unique, even if loaded the same config. Must be changed each time
 		 \return whether loading was successfull
 	  */
-	 virtual bool load(FontTemplatesMaps & maps);
+	 virtual bool load(FontTemplatesMaps & maps, int & counter);
 	 virtual ~SpriteDatabase();
 	 /** A configs for implementation of simple widget with loading data into form
 	  */
