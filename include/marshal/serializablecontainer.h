@@ -19,11 +19,11 @@ class SerializableContainer
 		 /*! Adds an object to container
 			 \param[in] obj object
 		  */
-		 virtual void add(SerializableObject * obj)=0;
+		 virtual void add(SerializableObject * obj);
 		 /*! Removes an object to container
 			 \param[in] obj object
 		  */
-		 virtual void remove(SerializableObject * obj)=0;
+		 virtual void remove(SerializableObject * obj);
 
 		 /*! Returns a first object from container, starting new iteration
 			 \return beginning of container
