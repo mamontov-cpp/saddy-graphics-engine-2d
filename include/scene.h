@@ -98,6 +98,11 @@ private:
 	/*! Removes objects from queue, removing it from scene
 	 */
 	void fireNodeRemoving();
+protected:
+	/*! Defines a behaviour on node removal. Default is destructing some node, freeing memory from it
+		\param[in] node node to be removed
+	 */
+	virtual void onNodeRemoval(sad::BasicNode * node);
 public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
