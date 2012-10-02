@@ -81,7 +81,7 @@ void sad::Scene::fireNodeRemoving()
   {
    if (m_layers[j]==m_marked[i])
    {
-    delete m_layers[j];
+	this->onNodeRemoval(m_layers[j]);
     m_layers.removeAt(j);
     break;
    }
@@ -119,13 +119,18 @@ void sad::Scene::render()
   else
   {
 	  for (unsigned long i=0;i<m_layers.count();i++)
-		  delete m_layers[i];
+		  this->onNodeRemoval(m_layers[i]);
 	  m_layers.clear();
 	  m_clear=false;
   }
 
   fireNodeAdding();
   
+}
+
+void sad::Scene::onNodeRemoval(sad::BasicNode * node)
+{
+	delete node;
 }
 
 int sad::Scene::findLayer(sad::BasicNode * node)
