@@ -13,7 +13,7 @@ class ScreenTemplate;
 class InterlockedScene;
 /** Describes an abstract object of screen template
  */
-class AbstractObject: public sad::BasicNode, public SerializableObject, public RefCountable
+class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public RefCountable
 {
  SAD_NODE
  protected:
@@ -84,6 +84,6 @@ class AbstractObject: public sad::BasicNode, public SerializableObject, public R
 	virtual bool isWithin(const hPointF & p)=0;
 	/** Deletes a object
 	 */
-	virtual ~AbstractObject();
+	virtual ~AbstractScreenObject();
 };
 
