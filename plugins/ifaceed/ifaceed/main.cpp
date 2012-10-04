@@ -7,10 +7,10 @@
 #include <input.h>
 #include <stdio.h>
 #include "saddythread.h"
-#include "objects/spritegameobject.h"
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
 #include "core/ifacecmdoptions.h"
+#include "config/sprite2dconfig.h"
 #include <log.h>
 #include "editorcore/path.h"
 

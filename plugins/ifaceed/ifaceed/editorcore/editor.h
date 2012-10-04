@@ -3,7 +3,7 @@
 
 	Describes a global editor state
  */
-#include "objects/abstractgameobject.h"
+#include "scene.h"
 #include <QObject>
 #include <QTimer>
 #include <QThread>
@@ -25,7 +25,7 @@ enum EditorQuitReason
 };
 
 class Editor;
-
+class AbstractScreenObject;
 /** Interlocked scene, used to iterate while rendering
  */
 class InterlockedScene: public sad::Scene
@@ -34,10 +34,22 @@ class InterlockedScene: public sad::Scene
 	      /** A parent editor
 		   */
 		  Editor * m_editor;
+		  /*! Deletes node on default, removes reference if AbstractScreenObject
+			  \param[in] node node to be removed
+		   */
+		  virtual void onNodeRemoval(sad::BasicNode * node);
  public:
 		  /** Constructs new interlocked scene
 		   */
 	      inline InterlockedScene(Editor * ed) { this->m_editor = ed;}
+		  /** Adds an object to scene
+			  \param[in] obj object to be added
+		   */
+		  virtual void add(AbstractScreenObject * obj);
+		  /** Removes an object from scene
+			  \param[in] rem removed object
+		   */
+		  virtual void remove(AbstractScreenObject * rem);
 		  /** Renders a scene
 		   */
 		  virtual void render();

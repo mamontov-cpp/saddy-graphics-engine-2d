@@ -2,6 +2,7 @@
 #include "editor.h"
 #include <orthocamera.h>
 #include <log.h>
+#include "../objects/abstractscreenobject.h"
 
 Editor::Editor() 
 {
@@ -159,7 +160,30 @@ void InterlockedScene::render()
 	this->m_editor->unlockRendering();
 }
 
-
+void InterlockedScene::add(AbstractScreenObject * obj)
+{
+	obj->setScene(this);
+	obj->addRef();
+	this->markForAddition(obj);
+}
+void InterlockedScene::onNodeRemoval(sad::BasicNode * node)
+{
+	if (!node)
+		return;
+	if (sad::isKindOf<AbstractScreenObject>(node))
+	{
+		static_cast<AbstractScreenObject*>(node)->delRef();
+	}
+	else
+	{
+		this->sad::Scene::onNodeRemoval(node);
+	}
+}
+void InterlockedScene::remove(AbstractScreenObject * rem)
+{
+	rem->setScene(NULL);
+	this->markForDeletion(rem);
+}
 
 InterlockedScene::~InterlockedScene()
 {
