@@ -77,11 +77,15 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/** Renders an abstract object if active and visible
 	 */
 	virtual void render();
-	/** Returns a region, where object is placed
+	/** Returns a region, where object is placed. 
 	    \param[in] p point
 		\return whether point is within region
      */
 	virtual bool isWithin(const hPointF & p)=0;
+	/** Returns a region of object. The region is not AABB
+		\return region of object
+	 */
+	virtual hRectF region()=0;
 	/** Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
