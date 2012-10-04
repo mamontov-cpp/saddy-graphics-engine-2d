@@ -262,6 +262,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\editorbehaviour.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorbehaviourstate.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\path.cpp"
 					>
 				</File>
@@ -480,6 +488,14 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorbehaviour.h"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorbehaviourstate.h"
+					>
 				</File>
 				<File
 					RelativePath=".\editorcore\editoreventhandler.h"
