@@ -1,21 +1,21 @@
-#include "abstractobject.h"
+#include "abstractscreenobject.h"
 #include "screentemplate.h"
 
-SAD_DECLARE(AbstractObject,sad::BasicNode)
+SAD_DECLARE(AbstractScreenObject,sad::BasicNode)
 
 
-AbstractObject::~AbstractObject()
+AbstractScreenObject::~AbstractScreenObject()
 {
 }
 
 
-void AbstractObject::render()
+void AbstractScreenObject::render()
 {
 	if (m_active && m_visible)
 		_render();
 }
 
-ScreenTemplate * AbstractObject::screenTemplate()
+ScreenTemplate * AbstractScreenObject::screenTemplate()
 {
 	SerializableContainer * parent = this->parent();
 	if (!parent)

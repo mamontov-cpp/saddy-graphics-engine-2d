@@ -242,7 +242,7 @@
 				Name="objects"
 				>
 				<File
-					RelativePath=".\objects\abstractobject.cpp"
+					RelativePath=".\objects\abstractscreenobject.cpp"
 					>
 				</File>
 				<File
@@ -430,7 +430,7 @@
 				Name="objects"
 				>
 				<File
-					RelativePath=".\objects\abstractobject.h"
+					RelativePath=".\objects\abstractscreenobject.h"
 					>
 				</File>
 				<File
