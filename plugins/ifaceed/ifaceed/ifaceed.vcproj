@@ -242,11 +242,11 @@
 				Name="objects"
 				>
 				<File
-					RelativePath=".\objects\abstractgameobject.cpp"
+					RelativePath=".\objects\abstractobject.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\objects\spritegameobject.cpp"
+					RelativePath=".\objects\screentemplate.cpp"
 					>
 				</File>
 			</Filter>
@@ -430,11 +430,11 @@
 				Name="objects"
 				>
 				<File
-					RelativePath=".\objects\abstractgameobject.h"
+					RelativePath=".\objects\abstractobject.h"
 					>
 				</File>
 				<File
-					RelativePath=".\objects\spritegameobject.h"
+					RelativePath=".\objects\screentemplate.h"
 					>
 				</File>
 			</Filter>
