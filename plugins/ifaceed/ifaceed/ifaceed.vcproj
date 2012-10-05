@@ -365,6 +365,10 @@
 					RelativePath=".\history\editorhistory.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\history\newcommand.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -706,6 +710,10 @@
 				</File>
 				<File
 					RelativePath=".\history\editorhistory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\history\newcommand.h"
 					>
 				</File>
 			</Filter>
