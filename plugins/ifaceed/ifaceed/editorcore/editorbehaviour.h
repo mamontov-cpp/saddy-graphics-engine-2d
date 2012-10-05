@@ -41,6 +41,20 @@ class EditorBehaviour
 	 {
 		 return m_parent;
 	 }
+	 /** Activates editor behaviour
+	  */
+	 void activate();
+	 /** Deactivates a behaviour
+	  */
+	 void deactivate();
+	 /** Enters a state data
+		 \param[in] state a state data
+	  */
+	 void enterState(const hst::string & state);
+	 /** Returns a state data
+		 \return current state of behaviour
+	  */
+	 inline const hst::string & state() { return m_active_state; }
 	 /** Inserts new state on editor. Writes in log an error, if exists
 		 \param[in] statename editor state name
 		 \param[in] state     editor state

@@ -42,3 +42,50 @@ void EditorBehaviour::removeState(const hst::string & statename)
 	}
 }
 
+
+
+void EditorBehaviour::activate()
+{
+	if (m_active_state.length())
+	{
+		hst::log::inst()->owrite("Warning: tried to activate behaviour, which is already active ( applied state ")
+			             .owrite(m_active_state)
+						 .owrite(")\n");
+	}
+	else
+	{
+		m_active_state = m_initial_state;
+		m_states[m_active_state]->enter();
+	}
+}
+
+
+void EditorBehaviour::deactivate()
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->leave();
+	}
+	m_active_state = hst::string();
+}
+
+void EditorBehaviour::enterState(const hst::string & state)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->leave();
+	}
+	if (m_states.contains(state) == false)
+	{
+		m_active_state.clear();
+		hst::log::inst()->owrite("Warning: not found a state in editor behavior with name ")
+			             .owrite(state)
+						 .owrite("\n");
+	}
+	else
+	{
+		m_active_state = state;
+		m_states[m_active_state]->enter();
+	}
+}
+
