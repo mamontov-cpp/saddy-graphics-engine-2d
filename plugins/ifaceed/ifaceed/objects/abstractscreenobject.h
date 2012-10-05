@@ -85,6 +85,12 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\return whether point is within region
      */
 	virtual bool isWithin(const hPointF & p)=0;
+	/** Validates, whether object is valid in context of template.
+	    This check contains, whether all resources is in template
+		\param[in] t template
+		\return whether object is valid in context of template
+	 */
+	virtual bool isValid(ScreenTemplate * t)=0;
 	/** Returns a region of object. The region is not AABB
 		\return region of object
 	 */
