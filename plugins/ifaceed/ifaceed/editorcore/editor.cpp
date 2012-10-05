@@ -3,6 +3,7 @@
 #include <orthocamera.h>
 #include <log.h>
 #include "../objects/abstractscreenobject.h"
+#include "editorbehaviour.h"
 
 Editor::Editor() 
 {
@@ -51,6 +52,10 @@ void Editor::quit()
 
 Editor::~Editor() 
 {
+	for (hst::hash<hst::string, EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
+	{
+		delete it.value();
+	}
 	delete m_cmdoptions;
 	delete m_saddywaitmutex;
 	delete m_qtapp;
@@ -236,5 +241,59 @@ void Editor::onSaddyWindowDestroy()
 
 void Editor::onFullAppStart()
 {
-
+	sad::Input::inst()->setKeyDownHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyDown));
+	sad::Input::inst()->setKeyUpHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyUp));
+	sad::Input::inst()->setMouseWheelHandler(new EditorEventHandler(this, &EditorBehaviour::onWheel));
+	sad::Input::inst()->setMouseDownHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseDown));
+	sad::Input::inst()->setMouseUpHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseUp));
+	sad::Input::inst()->setMouseMoveHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseMove));
 }
+
+
+void Editor::eraseBehaviour()
+{
+	if (m_current_behaviour.length())
+	{
+		m_behaviours[m_current_behaviour]->deactivate();
+	}
+	m_current_behaviour.clear();
+}
+
+void Editor::setBehaviour(const hst::string & name)
+{
+	if (m_current_behaviour.length())
+	{
+		m_behaviours[m_current_behaviour]->deactivate();
+	}
+	if (behaviours().contains(name))
+	{
+		m_current_behaviour = name;
+		m_behaviours[m_current_behaviour]->activate();
+	}
+	else 
+	{
+		hst::log::inst()->owrite("Can\'t find editor behaviour, named ").owrite(name).owrite(" \n");
+	}
+}
+
+EditorBehaviour * Editor::currentBehaviour()
+{
+	if (m_current_behaviour.length())
+	{
+		return m_behaviours[m_current_behaviour];
+	}
+	return NULL;
+}
+
+void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev)
+{
+	EditorBehaviour  * b = currentBehaviour();
+	if (b)
+	{
+		(b->*cb)(ev);
+	}
+}
+
+
+
+

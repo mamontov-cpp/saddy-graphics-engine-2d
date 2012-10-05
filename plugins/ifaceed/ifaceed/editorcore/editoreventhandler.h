@@ -4,7 +4,7 @@
 	Describes a saddy event handler for event
  */
 #include <input.h>
-
+#pragma once
 /** A container, which describes, what type of editor, should we use
  */
 template<typename _Editor>
@@ -33,7 +33,7 @@ class HandlerFor
 				 m_editor = editor;
 				 m_method = cb;
 			 }
-			 /*! Invokes a functor with event
+			/*! Invokes a callback with event
 			     \param[in] o event
 			*/
 			virtual void operator()(const _EventType & o)
@@ -45,4 +45,30 @@ class HandlerFor
 			 */
 			virtual bool empty() { return false;}
 	};
+};
+
+class Editor;
+class EditorBehaviour;
+
+class EditorEventHandler:public sad::EventHandler
+{
+ protected:
+	Editor * m_editor; //!< Parent editor
+	void (EditorBehaviour::*m_cb)(const sad::Event & ev); //!< Callback for forwarding an event
+ public:
+	/** Creates a new editor data
+		\param[in] ed editor data
+		\param[in] cb callback data
+	 */
+	EditorEventHandler(Editor * ed, void (EditorBehaviour::*cb)(const sad::Event & ev));
+	/*! Posts event back to editor
+	    \param[in] o event
+	 */
+	virtual void operator()(const sad::Event & o);
+	/** Frees memory from data of handler
+	 */
+	~EditorEventHandler();
+	/** This is non-empty handler so returns false
+	 */
+	virtual bool empty();
 };

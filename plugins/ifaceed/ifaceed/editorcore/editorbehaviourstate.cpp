@@ -32,15 +32,11 @@ void EditorBehaviourState::onMouseUp(const sad::Event & ev)
 
 }
 
-void EditorBehaviourState::onWheelUp(const sad::Event & ev)
+void EditorBehaviourState::onWheel(const sad::Event & ev)
 {
 
 }
 
-void EditorBehaviourState::onWheelDown(const sad::Event & ev)
-{
-
-}
 
 void EditorBehaviourState::onKeyDown(const sad::Event & ev)
 {

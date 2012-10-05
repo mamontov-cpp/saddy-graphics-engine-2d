@@ -25,6 +25,7 @@ enum EditorQuitReason
 };
 
 class Editor;
+class EditorBehaviour;
 class AbstractScreenObject;
 /** Interlocked scene, used to iterate while rendering
  */
@@ -167,6 +168,12 @@ class Editor: public QObject
 		  */
 		 EditorHistory * m_history;
 protected:
+		/** A defines editor behaviours
+		 */
+	    hst::hash<hst::string, EditorBehaviour *> m_behaviours;
+	    /** A current behaviour
+		 */
+		hst::string m_current_behaviour;
 		 /** A reason, while saddy quit
 		  */
 		 EditorQuitReason  m_quit_reason;
@@ -325,12 +332,30 @@ private:
 			\param[in] quits editor
 		 */
 		virtual void quit();
+		/** Returns a behaviour data
+		 */
+		inline hst::hash<hst::string, EditorBehaviour *> & behaviours() 
+		{
+			return m_behaviours;
+		}
+	    /** Erases a current behaviour for work and sets for nothing
+		 */
+		void eraseBehaviour();
+	    /** Deactivates old behaviour and enters new behaviour
+			\param[in] behaviour name new behaviour
+		 */
+		void setBehaviour(const hst::string & name);
+		/** Enters a behaviour of editor
+			\return editor behaviour
+		 */
+		EditorBehaviour * currentBehaviour();
+		/** Posts a behaviour callback event for data
+		 */
+		void postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev);
 		/** Removes a command arguments data
 		 */
 		~Editor();
 };
 
-/** A global editor, used to do stuff
- */
-extern Editor * GlobalEditor;
+
 

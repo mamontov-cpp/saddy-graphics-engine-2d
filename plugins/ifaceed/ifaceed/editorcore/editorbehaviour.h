@@ -64,6 +64,32 @@ class EditorBehaviour
 		 \param[in] statename
 	  */
 	 void removeState(const hst::string & statename);
+	/** Handles mouse movement
+		 \param[in] ev event data
+	  */
+	 virtual void onMouseMove(const sad::Event & ev);
+	 /** Handles mouse down event
+		 \param[in] ev  even  data
+	  */
+	 virtual void onMouseDown(const sad::Event & ev);
+	 /** Handles mouse down event
+		 \param[in] ev  even  data
+	  */
+	 virtual void onMouseUp(const sad::Event & ev);
+	 /** Handles wheel up movement
+		 \param[in] ev event data
+	  */
+	 virtual void onWheel(const sad::Event & ev);
+
+
+	 /** Handles key down event
+		 \param[in] ev event data
+	  */
+	 virtual void onKeyDown(const sad::Event & ev);
+	 /** Handles key down event
+		 \param[in] ev event data
+	  */
+	 virtual void onKeyUp(const sad::Event & ev);
 	 /** Destroys all of states
 	  */
 	 ~EditorBehaviour();
