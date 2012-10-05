@@ -28,7 +28,7 @@ class AbstractProperty
 		/*! Returns a parent serializable object
 			\return serializable object
 		 */
-		SerializableObject * getParent()
+		SerializableObject * getParent() const
 		{ return m_parent; }
 
 		/*! Calls a property, if this is method

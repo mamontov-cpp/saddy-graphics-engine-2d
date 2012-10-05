@@ -30,4 +30,8 @@ class ScreenTemplate: public HashBasedSerializableContainer
 	    \return next object from container , null on end of container 
 	 */
 	virtual AbstractScreenObject * templateNext();
+
+	/** Frees data 
+	 */
+	~ScreenTemplate();
 };

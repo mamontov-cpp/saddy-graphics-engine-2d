@@ -19,6 +19,7 @@ DEFINE_PROPERTY_TYPESTRING( long long )
 DEFINE_PROPERTY_TYPESTRING( unsigned long long )
 DEFINE_PROPERTY_TYPESTRING( float )
 DEFINE_PROPERTY_TYPESTRING( double )
+DEFINE_PROPERTY_TYPESTRING( bool )
 DEFINE_PROPERTY_TYPESTRING( hst::string )
 DEFINE_PROPERTY_TYPESTRING( hst::vector<int> )
 DEFINE_PROPERTY_TYPESTRING( hPointF )
@@ -57,7 +58,7 @@ class SaveLoadCallback<hst::string>
  public:
 	static hst::string load(ActionContext * context,
 						    const hst::string & str, 
-							const hst::string & typestring);
+							const hst::string & typestring = abstract_names::type_string<hst::string>::type());
 	static hst::string save(const hst::string & obj);
 };
 
@@ -67,7 +68,7 @@ class SaveLoadCallback< hst::vector<int> >
  public:
 	static hst::vector<int> load(ActionContext * context,
 								const hst::string & str, 
-								const hst::string & typestring);
+								const hst::string & typestring = abstract_names::type_string< hst::vector<int> >::type());
 	static hst::string save(const hst::vector<int> & obj);
 };
 
@@ -78,7 +79,7 @@ class SaveLoadCallback<hPointF>
  public:
 	static hPointF load(ActionContext * context,
 						    const hst::string & str, 
-							const hst::string & typestring);
+							const hst::string & typestring = abstract_names::type_string< hPointF >::type() );
 	static hst::string save(const hPointF & obj);
 };
 
@@ -89,7 +90,7 @@ class SaveLoadCallback<hRectF>
  public:
 	static hRectF load(ActionContext * context,
 					   const hst::string & str, 
-					   const hst::string & typestring);
+					   const hst::string & typestring = abstract_names::type_string<hRectF>::type());
 	static hst::string save(const hRectF & obj);
 };
 
@@ -100,7 +101,7 @@ class SaveLoadCallback< hst::vector<hPointF> >
  public:
 	static hst::vector<hPointF> load(ActionContext * context,
 						             const hst::string & str, 
-							         const hst::string & typestring);
+									 const hst::string & typestring = abstract_names::type_string< hst::vector<hPointF> >::type());
 	static hst::string save(const hst::vector<hPointF> & obj);
 };
 
@@ -111,7 +112,7 @@ class SaveLoadCallback< bool >
  public:
 	static bool load(ActionContext * context,
 				     const hst::string & str, 
-					 const hst::string & typestring);
+					 const hst::string & typestring = abstract_names::type_string<bool>::type());
 	static hst::string save(const bool & obj);
 };
 
@@ -122,6 +123,6 @@ class SaveLoadCallback< hst::color >
  public:
 	 static hst::color load(ActionContext * context,
 				     const hst::string & str, 
-					 const hst::string & typestring);
+					 const hst::string & typestring =  abstract_names::type_string<hst::color>::type());
 	 static hst::string save(const hst::color & obj);
 };

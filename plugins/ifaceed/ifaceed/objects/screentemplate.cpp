@@ -26,3 +26,13 @@ void ScreenTemplate::remove(AbstractScreenObject * obj)
 	this->SerializableContainer::remove((SerializableObject*)obj);
 	obj->delRef();
 }
+
+ScreenTemplate::~ScreenTemplate()
+{
+	AbstractScreenObject * obj = this->templateBegin();
+	while(obj)
+	{
+		obj->delRef();
+		obj = this->templateNext();
+	}
+}
