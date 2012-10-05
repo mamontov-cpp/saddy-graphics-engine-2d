@@ -119,3 +119,29 @@ void MainPanel::addNewFontSize()
 		ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count()-1);
 	}
 }
+
+
+void MainPanel::setMouseMovePosView(float x, float y)
+{
+	m_tmp_mov_x = x;
+	m_tmp_mov_y = y;
+
+	QTimer::singleShot(0, this, SLOT(setMouseMovePosViewImpl()));
+}
+
+void MainPanel::setMouseMovePosViewImpl()
+{
+	ui.txtMousePosX->setText(QString::number(m_tmp_mov_x));
+	ui.txtMousePosY->setText(QString::number(m_tmp_mov_y));
+}
+
+void MainPanel::highlightStateImpl()
+{
+	ui.txtEditorState->setText(m_tmp_state);
+}
+
+void MainPanel::highlightState(const hst::string & hints)
+{
+	m_tmp_state = hints.data();
+	QTimer::singleShot(0, this, SLOT(highlightStateImpl()));
+}

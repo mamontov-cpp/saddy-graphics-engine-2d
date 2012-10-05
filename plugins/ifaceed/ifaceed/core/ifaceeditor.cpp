@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "core/fonttemplatesdatabase.h"
+#include "../editorcore/editorbehaviour.h"
+#include <QTimer>
 
 IFaceEditor::IFaceEditor()
 {
@@ -186,6 +188,28 @@ void IFaceEditor::onFullAppStart()
 		this->panel()->setEditor(this);
 		this->panel()->synchronizeDatabase();
 		this->Editor::onFullAppStart();
+		
+		
+		class IFaceMouseMoveHandler : public EditorEventHandler
+		{
+		 public:
+			IFaceMouseMoveHandler(Editor * ed) : EditorEventHandler(ed, &EditorBehaviour::onMouseMove)
+			{
+			}
+			virtual void operator()(const sad::Event & ev)
+			{
+				if (m_editor) 
+				{
+					MainPanel * p = static_cast<IFaceEditor*>(m_editor)->panel();
+					p->setMouseMovePosView(ev.x,ev.y);
+				}
+				this->EditorEventHandler::operator()(ev);
+			}
+		} * handler = new IFaceMouseMoveHandler(this);
+
+		sad::Input::inst()->setMouseMoveHandler(handler);
+		this->eraseBehaviour();
+		this->highlightState("Idle");
 	}
 }
 
@@ -193,3 +217,9 @@ FontTemplateDatabase * IFaceEditor::database()
 {
 	return m_db;
 }
+
+void IFaceEditor::highlightState(const hst::string & hint)
+{
+	this->panel()->highlightState(hint);
+}
+
