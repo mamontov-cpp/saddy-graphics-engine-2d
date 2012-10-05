@@ -246,7 +246,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\objects\activityproperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\scenelayerproperty.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\objects\screentemplate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\visibilityproperty.cpp"
 					>
 				</File>
 			</Filter>
@@ -442,7 +454,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\objects\activityproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\scenelayerproperty.h"
+					>
+				</File>
+				<File
 					RelativePath=".\objects\screentemplate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\visibilityproperty.h"
 					>
 				</File>
 			</Filter>

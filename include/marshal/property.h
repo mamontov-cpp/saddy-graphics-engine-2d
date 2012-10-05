@@ -49,10 +49,10 @@ class AbstractField: public AbstractProperty
 
 				m_already_changed = true;
 				if (m_listener)
-					m_listener->notify(value.get<T>());
+					m_listener->notify(value.get<T>(context));
 				m_already_changed = false;
 
-				_set(value.get<T>());
+				_set(value.get<T>(context));
 			}
 
 			/*! Returns a string representation of property
@@ -60,7 +60,7 @@ class AbstractField: public AbstractProperty
 		     */
 	        virtual hst::string save(ActionContext * context) const
 			{
-				return typename SaveLoadCallback< T >::save( get().template get< T > ());
+				return typename SaveLoadCallback< T >::save( get(context)->template get< T > (context));
 			}
 
 			/*! Loads data from string
@@ -84,6 +84,7 @@ class MappedField: public AbstractField<T>
 {
  protected:
 			 T * m_real_field;  //!< Real object field;
+			 sad::Variant * m_variant; //!< Variant data
 			 /*! Sets a new value. Called from set to handle all work
 			  */
 			 virtual void _set(const T & new_value)
@@ -97,12 +98,20 @@ class MappedField: public AbstractField<T>
 			{
 				m_real_field = field_ptr;
 				*m_real_field = init;
+				m_variant = NULL;
 			}
 			/*! Returns a property value
 			 */
 			virtual sad::Variant * get(ActionContext * context) const
 			{
-				return new sad::Variant(*m_real_field);
+				delete m_variant;
+				const_cast<MappedField<T> *>(this)->m_variant = new sad::Variant(*m_real_field);
+				return m_variant;
+			}
+
+			~MappedField()
+			{
+				delete m_variant;
 			}
 };
 

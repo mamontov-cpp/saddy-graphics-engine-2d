@@ -30,6 +30,9 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	 */
 	virtual void _render()=0;
  public:
+	/** Default screen object
+	 */
+    AbstractScreenObject();
 	/** Returns parent object of template
 	 */
 	ScreenTemplate * screenTemplate();
