@@ -76,6 +76,10 @@ class IFaceEditor: public Editor
 	/** Quits an editor
 	 */
 	void quit(const sad::Event & ev = sad::Event());
+	/** Highlights a state of editor in GUI. Override this for custom output
+		\param[in] hint hint of state
+	  */
+	virtual void highlightState(const hst::string & hint);
 };
 
 /** A special handler for method

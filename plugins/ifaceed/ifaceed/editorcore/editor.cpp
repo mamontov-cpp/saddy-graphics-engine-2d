@@ -295,5 +295,8 @@ void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event
 }
 
 
+void Editor::highlightState(const hst::string & hint)
+{
 
+}
 

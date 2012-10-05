@@ -341,10 +341,14 @@ private:
 	    /** Erases a current behaviour for work and sets for nothing
 		 */
 		void eraseBehaviour();
+		/** Highlights a state of editor in GUI. Override this for custom output
+			\param[in] hint hint of state
+		 */
+		virtual void highlightState(const hst::string & hint);
 	    /** Deactivates old behaviour and enters new behaviour
 			\param[in] behaviour name new behaviour
 		 */
-		void setBehaviour(const hst::string & name);
+		virtual void setBehaviour(const hst::string & name);
 		/** Enters a behaviour of editor
 			\return editor behaviour
 		 */
