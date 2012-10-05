@@ -185,6 +185,7 @@ void IFaceEditor::onFullAppStart()
 	if (success) {
 		this->panel()->setEditor(this);
 		this->panel()->synchronizeDatabase();
+		this->Editor::onFullAppStart();
 	}
 }
 

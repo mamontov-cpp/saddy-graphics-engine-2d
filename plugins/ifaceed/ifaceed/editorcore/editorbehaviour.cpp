@@ -89,3 +89,54 @@ void EditorBehaviour::enterState(const hst::string & state)
 	}
 }
 
+void EditorBehaviour::onMouseMove(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onMouseMove(ev);
+	}
+}
+
+void EditorBehaviour::onMouseDown(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onMouseDown(ev);
+	}
+}
+
+void EditorBehaviour::onMouseUp(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onMouseUp(ev);
+	}
+}
+
+void EditorBehaviour::onWheel(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onWheel(ev);
+	}
+}
+
+
+
+
+void EditorBehaviour::onKeyDown(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onKeyDown(ev);
+	}
+}
+
+
+void EditorBehaviour::onKeyUp(const sad::Event & ev)
+{
+	if (m_active_state.length())
+	{
+		m_states[m_active_state]->onKeyUp(ev);
+	}
+}

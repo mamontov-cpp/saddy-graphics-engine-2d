@@ -50,14 +50,11 @@ class EditorBehaviourState
 		 \param[in] ev  even  data
 	  */
 	 virtual void onMouseUp(const sad::Event & ev);
-	 /** Handles wheel up movement
+	 /** Handles wheel  movement
 		 \param[in] ev event data
 	  */
-	 virtual void onWheelUp(const sad::Event & ev);
-	 /** Handles wheel up movement
-		 \param[in] ev event data
-	  */
-	 virtual void onWheelDown(const sad::Event & ev);
+	 virtual void onWheel(const sad::Event & ev);
+	
 
 	 /** Handles key down event
 		 \param[in] ev event data

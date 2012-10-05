@@ -282,6 +282,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\editoreventhandler.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\path.cpp"
 					>
 				</File>
