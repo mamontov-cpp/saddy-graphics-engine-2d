@@ -51,6 +51,17 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	{
 		ui.cmbFontSize->addItem(QString::number(i),QVariant(i));
 	}
+
+	// Add SpriteViewer
+	QRectF contentRect = QRectF(ui.spriteViewerPad->contentsRect());
+
+	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, contentRect);
+
+	QGridLayout* grPadLayout = new QGridLayout;
+	grPadLayout->addWidget(m_spriteTableWidget);
+	ui.spriteViewerPad->setLayout(grPadLayout);
+
+	
 }
 
 MainPanel::~MainPanel()
