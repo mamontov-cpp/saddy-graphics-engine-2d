@@ -216,6 +216,7 @@ void IFaceEditor::onFullAppStart()
 		this->eraseBehaviour();
 		this->highlightState("Idle");
 
+		// TODO: remove it
 		this->lockRendering();
 
 		ScreenLabel * label = new ScreenLabel();
@@ -237,12 +238,13 @@ void IFaceEditor::onFullAppStart()
 		label->getProperty("size")->set(sad::Variant(8u),&c);
 		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),&c);
 		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
-		label->getProperty("angle")->set(sad::Variant(0.0f),&c);
+		label->getProperty("angle")->set(sad::Variant(1.57f),&c);
 		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),&c);
 
 		static_cast<InterlockedScene*>(this->scene())->add(label);
 
 		this->unlockRendering();
+		// TODO: remove it end
 	}
 }
 

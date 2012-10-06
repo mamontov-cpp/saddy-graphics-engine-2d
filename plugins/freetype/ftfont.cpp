@@ -114,6 +114,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    {
 		glPushMatrix();
 		glLoadIdentity();
+		glMultMatrixf(modelview_matrix);
 		glTranslatef(x,y-(fnt->m_height)*i*1.3f-fnt->m_height ,0);
 		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
 		glPopMatrix();
