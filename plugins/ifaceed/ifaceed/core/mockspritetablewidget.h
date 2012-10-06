@@ -7,6 +7,7 @@
 #include <QComboBox>
 #include <QHash>
 #include "qspritetablewidgetselection.h"
+#pragma once
 
 class  AbstractSpriteDatabaseIterator;
 /** A table widget, used to work with all of data

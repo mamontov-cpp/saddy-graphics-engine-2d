@@ -1,4 +1,5 @@
 #include <templates/hstring.h>
+#pragma once
 
 namespace path
 {
