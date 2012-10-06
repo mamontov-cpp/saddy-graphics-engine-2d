@@ -86,11 +86,16 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
      */
 	virtual bool isWithin(const hPointF & p)=0;
 	/** Validates, whether object is valid in context of template.
-	    This check contains, whether all resources is in template
+	    This check contains, whether all resources is in template.
+
+		Also it can be used to rebuild somke cached data in a rendering loop
 		\param[in] t template
 		\return whether object is valid in context of template
 	 */
 	virtual bool isValid(ScreenTemplate * t)=0;
+	/** Invalidates cache data
+	 */
+	virtual void invalidateCache()=0;
 	/** Returns a region of object. The region is not AABB
 		\return region of object
 	 */

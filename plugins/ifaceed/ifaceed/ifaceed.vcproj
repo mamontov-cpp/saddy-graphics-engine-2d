@@ -254,7 +254,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\objects\screenlabel.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\objects\screentemplate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\uidproperty.cpp"
 					>
 				</File>
 				<File
@@ -470,7 +478,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\objects\screenlabel.h"
+					>
+				</File>
+				<File
 					RelativePath=".\objects\screentemplate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\uidproperty.h"
 					>
 				</File>
 				<File

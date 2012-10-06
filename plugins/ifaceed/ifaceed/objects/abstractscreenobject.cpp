@@ -3,7 +3,7 @@
 #include "scenelayerproperty.h"
 #include "activityproperty.h"
 #include "visibilityproperty.h"
-
+#include "uidproperty.h"
 
 SAD_DECLARE(AbstractScreenObject,sad::BasicNode)
 
@@ -12,6 +12,7 @@ AbstractScreenObject::AbstractScreenObject()
 	m_scene = NULL;
 
 	addProperty("layer", new SceneLayerProperty());
+	addProperty("uid", new UidProperty());
 	addProperty("activity", new ActivityProperty(&m_active,true));
 	addProperty("visibility", new VisibilityProperty(&m_visible,true));
 }

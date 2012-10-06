@@ -1,5 +1,5 @@
 #include "marshal/hashbasedserializablecontainer.h"
-
+#include "../log.h"
 
 static const char uid_consonants_table[15][2] = { "b", "c", "d", "f", "g", 
 											      "h", "k", "l", "m", "n", 
@@ -96,6 +96,29 @@ SerializableObject * HashBasedSerializableContainer::next()
 HashBasedSerializableContainer::~HashBasedSerializableContainer()
 {
 
+}
+
+
+void HashBasedSerializableContainer::setUid(SerializableObject * obj, const hst::string & uid)
+{
+	if (m_container.contains(uid))
+	{
+		hst::log::inst()->owrite("HashBasedSerializableContainer::setUid : another object with uid ")
+						 .owrite(uid)
+						 .owrite(" \n");
+		return;
+	}
+	if (!m_reverse_container.contains(obj))
+	{
+		hst::log::inst()->owrite("HashBasedSerializableContainer::setUid(obj,").owrite(uid)
+			             .owrite("): object not found in container\n");
+		return;
+	}
+	hst::string old_uid = m_reverse_container[obj];
+    m_container.remove(old_uid);
+
+	m_container.insert(uid,obj);
+	m_reverse_container[obj] = uid;
 }
 
 
