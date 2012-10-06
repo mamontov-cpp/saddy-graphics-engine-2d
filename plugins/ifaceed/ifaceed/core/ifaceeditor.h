@@ -7,6 +7,7 @@
 #include "../mainpanel.h"
 #include "ifacecmdoptions.h"
 
+class ScreenTemplate;
 class FontTemplateDatabase;
 
 class IFaceEditor: public Editor
@@ -29,6 +30,9 @@ class IFaceEditor: public Editor
 	/** A template database with fonts
 	 */
 	FontTemplateDatabase * m_db;
+	/** Screen template data
+	 */
+	ScreenTemplate * m_result;
 	/** Sets a database for templates
 		\param[in] db database
 	 */

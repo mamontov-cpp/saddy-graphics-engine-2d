@@ -149,7 +149,7 @@ void Editor::initDefaultSaddyOptions()
 {
 	sad::Renderer::instance().init(sad::Settings(800,600,false));
 	this->m_scene = new InterlockedScene(this);
-	this->m_scene->setCamera(new OrthoCamera(true));
+	this->m_scene->setCamera(new OrthoCamera(false));
 	sad::Renderer::instance().setCurrentScene(this->m_scene);
 	sad::Renderer::instance().toggleFixedOn();
 	this->assertSaddyInit(true);

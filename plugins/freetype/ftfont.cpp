@@ -36,6 +36,7 @@ FTFont::FTHeightFont * FTFont::newFTHeightFont(unsigned int height)
 	result->m_texs = NULL;
 	for (int i=0;i<256;i++)
 		result->m_w[i]=0;
+	result->m_height = 0; 
 	return result;
 }
 void FTFont::deleteFTHeightFont(FTFont::FTHeightFont *fnt) 
@@ -50,12 +51,17 @@ void FTFont::deleteFTHeightFont(FTFont::FTHeightFont *fnt)
 hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const hst::string & str)
 {
   float maxx=0.0f,cury=(float)height,curx=0.0f;
+
+  hst::stringlist lines=str.split('\n');
+  // 1.3 - is a space of data
+  cury = (lines.length()-1) * fnt->m_height*1.3f + fnt->m_height;
   for (int i=0;i<str.length();i++)
   {
     if (str[i]!='\n') { curx+=fnt->m_w[i]; }
-	else              { if (curx>maxx) maxx=curx; curx=0.0f; cury+=height; }
+	else              { if (curx>maxx) maxx=curx; curx=0.0f; }
   }
-  if (str[str.length()-1]=='\n') cury-=height;
+  if (str[str.length()-1]=='\n') cury-=fnt->m_height;
+
   if (curx>maxx) maxx=curx;
   return hRectF(hPointF(0,0),hPointF(maxx,cury));
 }
@@ -103,8 +109,8 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    {
 		glPushMatrix();
 		glLoadIdentity();
-		glTranslatef(x,y-h*i,0);
-		glMultMatrixf(modelview_matrix);
+		glTranslatef(x,y-(fnt->m_height)*i*1.3f-fnt->m_height ,0);
+		//glMultMatrixf(modelview_matrix);
 		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
 		glPopMatrix();
    }
@@ -165,7 +171,7 @@ inline int next2 ( int a )
 
 /*! Creates a list
 */
-static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * tbase, float & w )
+static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * tbase, float & w, float * _pheight )
 { 
     unsigned char mb[2]={ch,0};
     wchar_t wc[2]={ch,0};
@@ -228,10 +234,14 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	glPopMatrix();
 	glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
-	
 	float v[4]={};
 	glGetFloatv(GL_CURRENT_RASTER_POSITION ,v);
-	w=(float)(bitmap.width);
+	// Set size computing props
+	w=(float)(bitmap.width) - (float)(bitmap_glyph->left);
+	// 1.3 is a coefficient of optimal part between lines of text
+	float glyph_height = /* (float)(bitmap.rows) */  (float)(bitmap_glyph->top);
+	*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
+	
 	glEndList();
 	
 	return true;
@@ -274,7 +284,7 @@ bool FTFont::buildHeightFont(unsigned int height)
 		   FT_Set_Char_Size( m_info->face, height << 6, height << 6, 96, 96);
 		   for(unsigned char i=0;i<255;i++)
 		   {
-			flag=flag && create_list(m_info->face,i,font->m_base,font->m_texs,*(font->m_w+i));
+			   flag=flag && create_list(m_info->face,i,font->m_base,font->m_texs,*(font->m_w+i),&(font->m_height));
 		   }
 		   if (!flag)
 		   {
