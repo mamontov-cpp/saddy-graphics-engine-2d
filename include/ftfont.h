@@ -44,6 +44,7 @@ class FTFont: public sad::BasicFont
 		GLuint *     m_texs;	    //!< Textures
 		GLuint       m_base;	    //!< First id
 		float        m_w[256];      //!< Widths
+		float        m_height;      //!< Height of font
 	};
 	/** Creates a new empty structure. To be rendered, structure must be populated in
 		\see FTFont::buildFont()

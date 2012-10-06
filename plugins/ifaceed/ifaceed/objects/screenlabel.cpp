@@ -7,6 +7,7 @@
 ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
 	this->invalidateCache();
+
 	this->addProperty("font" ,new MappedField<hst::string>(&m_font_name, ""));
 	this->addProperty("size" ,new MappedField<unsigned int>(&m_font_size, 0));
 	this->addProperty("color",new MappedField<hst::color>(&m_font_color, hst::color(0,0,0)));
@@ -18,7 +19,7 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 
 void ScreenLabel::invalidateCache()
 {
-	FTFont * m_font = NULL;
+	m_font = NULL;
 }
 
 hst::string ScreenLabel::type()
@@ -45,6 +46,32 @@ void ScreenLabel::_render()
 	m_font->setColor(hst::acolor(m_font_color.r(),m_font_color.g(),m_font_color.b(),0));
 	m_font->setHeight(m_font_size);
 	m_font->render(m_text, m_point.x(), m_point.y());	
+	
+	glDisable(GL_TEXTURE_2D);
+	hRectF s = m_font->size(m_text);
+	
+
+	
+	GLint   clr[4]={};
+	glGetIntegerv(GL_CURRENT_COLOR,clr);
+	glColor4ub(255,0,0,255);
+    glBegin(GL_LINES);
+	glVertex2f(m_point.x(), m_point.y());
+	glVertex2f(m_point.x() + s.width(), m_point.y());
+
+	glVertex2f(m_point.x() + s.width(), m_point.y());
+	glVertex2f(m_point.x() + s.width(), m_point.y() - s.height());
+
+	glVertex2f(m_point.x() + s.width(), m_point.y() - s.height());
+	glVertex2f(m_point.x() , m_point.y() - s.height());	
+
+	glVertex2f(m_point.x() , m_point.y() - s.height());	
+	glVertex2f(m_point.x(), m_point.y());
+
+	glEnd();
+	glColor4iv(clr);
+	glEnable(GL_TEXTURE_2D);
+
 
 }
 
