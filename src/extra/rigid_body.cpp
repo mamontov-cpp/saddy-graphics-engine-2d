@@ -10,18 +10,7 @@ vector32 ortho(const vector32 & v)
 	float y=0.0f-v.x()/v.y();
 	return vector32(x,y,0);
 }
-/*! Solves one-dimensional collision task
-	\param[in] x11 first coordinate first body
-	\param[in] x12 second coordinate first body
-	\param[in] x21 first  coordinate second body
-	\param[in] x22 second coordinate second body
-*/
-static inline bool collides1D(float x11, float x12, float x21, float x22)
-{
-	if (x11>x12) { float tmp=x11; x11=x12; x12=tmp; }
-	if (x21>x22) { float tmp=x21; x21=x22; x22=tmp; }
-	return (x21<=x12) && (x22>=x11);
-}
+
 
 struct collide_info
 {

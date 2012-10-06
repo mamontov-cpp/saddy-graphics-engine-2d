@@ -182,3 +182,17 @@ float collision_time(const RigidBody & b1, const RigidBody & b2, BoundingBox & p
 	\return    collision time
 */
 float collision_time2(const RigidBody & b1, const RigidBody & b2, BoundingBox & pos1,BoundingBox & pos2);
+
+
+/*! Solves one-dimensional collision task
+	\param[in] x11 first coordinate first body
+	\param[in] x12 second coordinate first body
+	\param[in] x21 first  coordinate second body
+	\param[in] x22 second coordinate second body
+*/
+static inline bool collides1D(float x11, float x12, float x21, float x22)
+{
+	if (x11>x12) { float tmp=x11; x11=x12; x12=tmp; }
+	if (x21>x22) { float tmp=x21; x21=x22; x22=tmp; }
+	return (x21<=x12) && (x22>=x11);
+}
