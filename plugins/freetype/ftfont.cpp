@@ -54,15 +54,20 @@ hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const
 
   hst::stringlist lines=str.split('\n');
   // 1.3 - is a space of data
-  cury = (lines.length()-1) * fnt->m_height*1.3f + fnt->m_height;
-  for (int i=0;i<str.length();i++)
+  cury = (lines.length()) * fnt->m_height*1.3f;
+  for(int i=0;i<lines.length();i++)
   {
-    if (str[i]!='\n') { curx+=fnt->m_w[i]; }
-	else              { if (curx>maxx) maxx=curx; curx=0.0f; }
+	  curx = 0.0f;
+	  for(int j=0;j<lines[i].length();j++)
+	  {
+		  curx+=fnt->m_w[(unsigned char)(lines[i][j])];
+	  }
+	  if (curx>maxx)
+	  {
+		  maxx = curx;
+	  }
   }
-  if (str[str.length()-1]=='\n') cury-=fnt->m_height;
-
-  if (curx>maxx) maxx=curx;
+  
   return hRectF(hPointF(0,0),hPointF(maxx,cury));
 }
 hRectF FTFont::size(const hst::string & str)
@@ -110,7 +115,6 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
 		glPushMatrix();
 		glLoadIdentity();
 		glTranslatef(x,y-(fnt->m_height)*i*1.3f-fnt->m_height ,0);
-		//glMultMatrixf(modelview_matrix);
 		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
 		glPopMatrix();
    }
@@ -219,27 +223,26 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	
 	glNewList(base+ch,GL_COMPILE);
 	
-	glBindTexture(GL_TEXTURE_2D,tbase[ch]);
+	glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
 	glPushMatrix();
+
 	glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
 	glTranslatef(0.0f,(float)(bitmap_glyph->top-bitmap.rows),0.0f);
 	float	x=(float)bitmap.width / (float)width,y=(float)bitmap.rows / (float)height;
-
 	glBegin(GL_QUADS);
 	glTexCoord2d(0.0f,0.0f); glVertex2f(0.0f,(float)(bitmap.rows));
 	glTexCoord2d(0.0f,y); glVertex2f(0.0f,0.0f);
 	glTexCoord2d(x,y); glVertex2f((float)(bitmap.width),0);
 	glTexCoord2d((float)x,0.0f); glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
 	glEnd();
+
 	glPopMatrix();
 	glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
-	float v[4]={};
-	glGetFloatv(GL_CURRENT_RASTER_POSITION ,v);
 	// Set size computing props
-	w=(float)(bitmap.width) - (float)(bitmap_glyph->left);
-	// 1.3 is a coefficient of optimal part between lines of text
-	float glyph_height = /* (float)(bitmap.rows) */  (float)(bitmap_glyph->top);
+	w=(float)(face->glyph->advance.x >> 6);
+	
+	float glyph_height =  (float)(bitmap_glyph->top);
 	*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
 	
 	glEndList();
