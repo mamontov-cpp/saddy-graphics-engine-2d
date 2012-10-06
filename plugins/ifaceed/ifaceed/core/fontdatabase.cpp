@@ -131,3 +131,13 @@ IFaceEditorFontLoadResult IFaceEditorFontList::tryLoadFont(const QString & fontN
 	}
 	return result;
 }
+
+
+IFaceEditorFont * IFaceEditorFontList::font(const QString & fontName)
+{
+	if (!hasFont(fontName))
+	{
+		return NULL;
+	}
+	return m_map[fontName.toStdString().c_str()];
+}

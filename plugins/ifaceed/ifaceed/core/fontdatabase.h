@@ -119,6 +119,9 @@ class IFaceEditorFontList
 			\return whether font was already loaded
 		 */
 		bool hasFont(const QString & fontName);
+		/** Describes a font name
+		 */
+		IFaceEditorFont * font(const QString & fontName);
 		/** Tries load some font with
 			\param[in] fontName  with which font will be registered
 			\param[in] fileName  name of file

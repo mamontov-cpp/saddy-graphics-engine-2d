@@ -17,10 +17,11 @@ class HashBasedSerializableContainer: public SerializableContainer
 	hst::hash<SerializableObject *, hst::string> m_reverse_container; //!< Container, for reverse lookup of data
 	
 	hst::hash<hst::string, SerializableObject *>::iterator m_iterator; //!< Iterator, used to iterate through container
+	
+public:
 	/** Creates a human-readable unique id
 	 */
 	hst::string random_uid(); 
-public:
 	 /** Constructs new empty container
 	  */
 	HashBasedSerializableContainer();
@@ -36,11 +37,15 @@ public:
 		\return object (NULL if not found)
 	 */
 	SerializableObject * object(const hst::string & uid) const;
-
+	/** Sets uid for object
+		\param[in] obj object data
+		\param[in] uid uid data
+	 */
+	void setUid(SerializableObject * obj, const hst::string & uid);
 	/*! Adds an object to container
 		\param[in] obj object
 	 */
-    virtual void add(SerializableObject * obj);
+	virtual void add(SerializableObject * obj);
 	/*! Removes an object to container
 		\param[in] obj object
 	 */
