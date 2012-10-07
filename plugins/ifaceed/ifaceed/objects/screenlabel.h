@@ -35,9 +35,6 @@ class ScreenLabel: public AbstractScreenObject
 			\return a string type of object
 	  */
 	 virtual hst::string type();
-	 /** Invalidates a cache data
-	  */
-	 virtual void invalidateCache();
 	 /** Returns a region, where object is placed. 
 	    \param[in] p point
 		\return whether point is within region
@@ -54,6 +51,11 @@ class ScreenLabel: public AbstractScreenObject
 		\param[in] t template
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(ScreenTemplate * t);
+	virtual bool isValid(FontTemplateDatabase * db);
+	/** Tries to reload a database, getting actual data from database 
+		\param[in] db database
+		\return whether reloading was ok
+	 */
+	virtual bool tryReload(FontTemplateDatabase * db);
 };
 

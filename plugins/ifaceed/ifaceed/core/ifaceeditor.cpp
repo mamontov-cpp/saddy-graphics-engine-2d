@@ -17,7 +17,6 @@ IFaceEditor::IFaceEditor()
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
-	m_result->setEditor(this);
 }
 IFaceEditor::~IFaceEditor()
 {
@@ -228,6 +227,7 @@ void IFaceEditor::onFullAppStart()
 		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
 		label->getProperty("angle")->set(sad::Variant(0.0f),&c);
 		label->getProperty("pos")->set(sad::Variant(hPointF(300,400)),&c);
+		label->tryReload(this->database());
 
 		static_cast<InterlockedScene*>(this->scene())->add(label);
 
@@ -240,6 +240,8 @@ void IFaceEditor::onFullAppStart()
 		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
 		label->getProperty("angle")->set(sad::Variant(1.57f),&c);
 		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),&c);
+		label->tryReload(this->database());
+
 
 		static_cast<InterlockedScene*>(this->scene())->add(label);
 

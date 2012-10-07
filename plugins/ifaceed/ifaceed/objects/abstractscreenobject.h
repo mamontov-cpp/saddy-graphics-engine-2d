@@ -11,6 +11,7 @@
 
 class ScreenTemplate;
 class InterlockedScene;
+class FontTemplateDatabase;
 /** Describes an abstract object of screen template
  */
 class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public RefCountable
@@ -92,10 +93,12 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] t template
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(ScreenTemplate * t)=0;
-	/** Invalidates cache data
+	virtual bool isValid(FontTemplateDatabase * t)=0;
+	/** Tries to reload a database, getting actual data from database 
+		\param[in] db database
+		\return whether reloading was ok
 	 */
-	virtual void invalidateCache()=0;
+	virtual bool tryReload(FontTemplateDatabase * db)=0;
 	/** Returns a region of object. The region is not AABB
 		\return region of object
 	 */

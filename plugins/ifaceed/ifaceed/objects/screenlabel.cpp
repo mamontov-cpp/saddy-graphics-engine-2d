@@ -2,12 +2,11 @@
 #include "screentemplate.h"
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/fontdatabase.h"
-#include "../core/ifaceeditor.h"
 #include "extra/rigid_body.h"
 
 ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
-	this->invalidateCache();
+	m_font = NULL;
 
 	this->addProperty("font" ,new MappedField<hst::string>(&m_font_name, ""));
 	this->addProperty("size" ,new MappedField<unsigned int>(&m_font_size, 0));
@@ -18,10 +17,7 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 }
 
 
-void ScreenLabel::invalidateCache()
-{
-	m_font = NULL;
-}
+
 
 hst::string ScreenLabel::type()
 {
@@ -30,19 +26,9 @@ hst::string ScreenLabel::type()
 
 void ScreenLabel::_render()
 {
-	if (this->screenTemplate() == NULL)
-		return;
-	if (!m_font && !isValid(this->screenTemplate()))
-	{
-		return;
-	}
 	if (!m_font)
 	{
-		IFaceEditorFontList & d = static_cast<IFaceEditor*>(this->screenTemplate()->editor())->database()->fonts();
-		IFaceEditorFont * fnt = d.font(m_font_name.data());
-		if (!fnt)
-			return;
-		m_font = fnt->sadFont();
+		return;
 	}
 	m_font->setColor(hst::acolor(m_font_color.r(),m_font_color.g(),m_font_color.b(),0));
 	m_font->setHeight(m_font_size);
@@ -58,6 +44,7 @@ void ScreenLabel::_render()
 
 	hRectF r = this->region();
 
+	/**
 	// TODO: Move it into selection of object
 	glDisable(GL_TEXTURE_2D);
 	GLint   clr[4]={};
@@ -79,15 +66,22 @@ void ScreenLabel::_render()
 	glEnd();
 	glColor4iv(clr);
 	glEnable(GL_TEXTURE_2D);
-	
-
-	m_angle += 0.05;
+	**/
 }
 
-bool ScreenLabel::isValid(ScreenTemplate * t)
+bool ScreenLabel::isValid(FontTemplateDatabase * db)
 {
-	IFaceEditorFontList & d = static_cast<IFaceEditor*>(t->editor())->database()->fonts();
+	IFaceEditorFontList & d = db->fonts();
 	return d.hasFont(m_font_name.data());
+}
+
+bool ScreenLabel::tryReload(FontTemplateDatabase * db)
+{
+	if (!isValid(db))
+		return false;
+	IFaceEditorFontList & d = db->fonts();
+	m_font = d.font(m_font_name.data())->sadFont();
+	return true;
 }
 
 static bool testcollision(const ::s3d::point & test,const ::s3d::point & pivot1, const ::s3d::point & pivot2)
@@ -116,19 +110,9 @@ bool ScreenLabel::isWithin(const hPointF & p)
 
 hRectF ScreenLabel::region()
 {
-	if (this->screenTemplate() == NULL)
-		return hRectF();
-	if (!m_font && !isValid(this->screenTemplate()))
-	{
-		return hRectF();
-	}
 	if (!m_font)
 	{
-		IFaceEditorFontList & d = static_cast<IFaceEditor*>(this->screenTemplate()->editor())->database()->fonts();
-		IFaceEditorFont * fnt = d.font(m_font_name.data());
-		if (!fnt)
-			return hRectF();
-		m_font = fnt->sadFont();
+		return hRectF();
 	}
 	m_font->setHeight(m_font_size);
 
