@@ -60,7 +60,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QGridLayout* grPadLayout = new QGridLayout;
 	grPadLayout->addWidget(m_spriteTableWidget);
 	ui.spriteViewerPad->setLayout(grPadLayout);
-
+	m_spriteTableWidget->addToForm(this);
 	
 }
 
@@ -91,6 +91,9 @@ void MainPanel::synchronizeDatabase()
 	for(it; !(it->isEnd());it->next())
 	{
 		m_sprite_table->add(*it);
+		// TODO: Ryaskov
+		// When bug will be fixed, uncomment this line and comment upper line
+		// m_spriteTableWidget->add(*it);
 	}
 	delete it;
 }

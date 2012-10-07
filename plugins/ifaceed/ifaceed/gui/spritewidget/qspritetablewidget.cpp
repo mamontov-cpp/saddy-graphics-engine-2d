@@ -66,8 +66,10 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 void QSpriteTableWidget::addToForm(QMainWindow* w)
 {
 	QWidget* chWidget = w->childAt(m_rect.x(), m_rect.y());
-	QLayout* chLayout = chWidget->layout();
-	chLayout->addWidget(&m_viewer);
+	// TODO Ryaskov: why this code returns NULL?
+	// Fix and uncomment this lines
+	// QLayout* chLayout = chWidget->layout();
+	// chLayout->addWidget(&m_viewer);
 
 }
 
