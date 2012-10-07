@@ -6,6 +6,7 @@
 #include "../editorcore/editor.h"
 #include "../mainpanel.h"
 #include "ifacecmdoptions.h"
+#pragma once
 
 class ScreenTemplate;
 class FontTemplateDatabase;
