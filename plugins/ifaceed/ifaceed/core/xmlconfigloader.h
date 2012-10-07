@@ -2,12 +2,16 @@
 	 \author HiddenSeeker
 	 A loader for config, that loads it from XML file
  */
+#pragma once
+#ifndef XMLCONFIGLOADER_H
+#define XMLCONFIGLOADER_H
+
 #include <config/sprite2dconfigloader.h>
 #include <QString>
 #include <QDomElement>
 #include <QVector>
 #include "../editorcore/path.h"
-#pragma once
+
 
 /*! \class XMLConfigLoader 
 	A loader for config in XML format
@@ -60,4 +64,4 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 		~XMLConfigLoader();
 };
 
-
+#endif

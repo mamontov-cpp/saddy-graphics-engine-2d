@@ -19,6 +19,7 @@
 
 
 
+
 /**
  * Main loop. where shoud gbe started saddy thread and Qt
  */

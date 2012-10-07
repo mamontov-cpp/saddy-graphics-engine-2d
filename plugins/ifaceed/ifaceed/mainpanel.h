@@ -6,9 +6,12 @@
 #ifndef MAINPANEL_H
 #define MAINPANEL_H
 
+
 #include <QtGui/QMainWindow>
 #include "ui_mainpanel.h"
 #include "templates/hstring.h"
+#include "gui/spritewidget/qspritetablewidget.h"
+#pragma once
 
 class IFaceEditor;
 
@@ -64,6 +67,7 @@ protected:
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
+    QSpriteTableWidget* m_spriteTableWidget; //!< Modified QTableWidget. Works with configs, groups, indexes
 protected slots:
 	/**
 	 * Adds new color for fonts in combo box

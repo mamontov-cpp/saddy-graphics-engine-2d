@@ -3,11 +3,15 @@
 
    A database for holding all of the sprites
 */
+#pragma once
+#ifndef SPRITEDATABASE_H
+#define SPRITEDATABASE_H
+
 #include "xmlconfigloader.h"
 #include <QImage>
 #include <QHash>
 #include <config/sprite2dconfig.h>
-#pragma once
+
 
 /** Abstract sprite database iterator, used to iterate through database
  */
@@ -192,3 +196,6 @@ bool tryLoadImages(const QVector<QString> & loads, QHash<QString, QImage> & imag
 	\return image data
  */
 QImage extractImage(const QImage & im, Sprite2DTemplate & t);
+
+
+#endif

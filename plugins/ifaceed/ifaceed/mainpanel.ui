@@ -69,80 +69,131 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
-      <width>351</width>
-      <height>111</height>
+      <y>240</y>
+      <width>421</width>
+      <height>341</height>
      </rect>
     </property>
     <property name="title">
      <string>Loaded Sprites</string>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="spriteViewerPad" native="true">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>80</y>
-       <width>341</width>
-       <height>22</height>
+       <y>23</y>
+       <width>401</width>
+       <height>201</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="lblSpriteIndex">
-        <property name="text">
-         <string>Group Index:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="cmbSpriteIndex"/>
-      </item>
-     </layout>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>341</width>
-       <height>22</height>
+       <y>240</y>
+       <width>401</width>
+       <height>91</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="lblGroup">
-        <property name="text">
-         <string>Sprite Group:</string>
-        </property>
-       </widget>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="lblConfigs">
+          <property name="text">
+           <string>Config:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSpriteConfig"/>
+        </item>
+       </layout>
       </item>
-      <item>
-       <widget class="QComboBox" name="cmbSpriteGroup"/>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>198</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="lblGroup">
+          <property name="text">
+           <string>Sprite Group:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSpriteGroup"/>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="1">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>198</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblSpriteIndex">
+          <property name="text">
+           <string>Group Index:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSpriteIndex"/>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="1">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>198</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>341</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="lblConfigs">
-        <property name="text">
-         <string>Config:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="cmbSpriteConfig"/>
-      </item>
-     </layout>
-    </widget>
+    <zorder>layoutWidget</zorder>
+    <zorder>layoutWidget</zorder>
+    <zorder>layoutWidget</zorder>
+    <zorder>spriteViewerPad</zorder>
+    <zorder>lblSpriteIndex</zorder>
+    <zorder>horizontalSpacer</zorder>
+    <zorder>horizontalSpacer_2</zorder>
+    <zorder>horizontalSpacer_3</zorder>
    </widget>
    <widget class="QGroupBox" name="grpLabels">
     <property name="geometry">
