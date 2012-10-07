@@ -1,0 +1,11 @@
+{SCAN_FOLDER src}{EXCLUDE renderer_x11.cpp renderer_x11loop.cpp x11recode.cpp main.cpp extra/statelabel.cpp  extra/movitem.cpp extra/player.cpp }LDFLAGS= -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config   
+OUTPUT   = ../lib/libsaddy-debug.a 
+DEFINES  = -DWIN32 -DMINGW
+BUILD    = {FOR_EACH ../build/{NAME}.o \s}
+all:
+{FOR_EACH 	g++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
+	ar cq  $(OUTPUT)   $(BUILD)
+clean:
+	delete $(OUTPUT)
+.PHONY: all clean
