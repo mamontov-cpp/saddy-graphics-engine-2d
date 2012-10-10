@@ -15,7 +15,7 @@ class QSpriteTableWidget : public QWidget
 	Q_OBJECT
 
 	QComboBox*     m_combo;
-	QTableWidget   m_viewer;
+	QTableWidget*  m_viewer;
 	QRectF         m_rect;
 
 	/** Search group number by its name in cell->data(Qt::UserRole)
