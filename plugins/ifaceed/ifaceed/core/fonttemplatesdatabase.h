@@ -52,6 +52,18 @@ class FontTemplatesMaps
 		inline const db::NameFileMap & configs() { return m_configs;}
 };
 
+/** Class,that can emit critical logging from other objects
+ */
+class DBCriticalLogger
+{
+ public:
+	/** Emits a critical message for str
+	 */
+	virtual void  critical( const QString & str)=0;
+	/** Destroys a logger
+	 */
+	~DBCriticalLogger();
+};
 
 class SpriteDatabase;
 /** A database, which stores a font database and other in depth
@@ -79,8 +91,9 @@ class FontTemplateDatabase
         /** Loads new font template maps
 			NOTE: That function is not reentrant, please do not use it second time
 			\param[in] maps maps data
+			\param[in] logger logger to perform some GUI critical messages
 		 */
-		bool load(FontTemplatesMaps & maps);
+		bool load(FontTemplatesMaps & maps, DBCriticalLogger * logger);
 		/** Fonts, represented in database
 			\return fonts
 		 */

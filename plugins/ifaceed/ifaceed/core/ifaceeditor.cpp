@@ -120,24 +120,44 @@ class DBLoadingTask: public sad::CountableTask
 	 FontTemplatesMaps * m_maps; //!< Maps data
 	 FontTemplateDatabase * m_db;  //!< Database for loading
 	 DBLoadingTaskFuture * m_future; //!< Future for computing
+	 DBCriticalLogger * m_logger;    //!< Logger for logging data
  public:
 	 /** Constructs new tasks
 	  */
-	 inline DBLoadingTask(FontTemplatesMaps * maps, FontTemplateDatabase * db, DBLoadingTaskFuture * f)
+	 inline DBLoadingTask(FontTemplatesMaps * maps, 
+						  FontTemplateDatabase * db, 
+						  DBLoadingTaskFuture * f, 
+						  DBCriticalLogger * logger)
 	 {
 		 m_maps = maps;
 		 m_db = db;
 		 m_future = f;
+		 m_logger = logger;
 	 }
 	 // Loads a db
 	 virtual void perform()
 	 {
-	    bool data = m_db->load(*m_maps);
+	    bool data = m_db->load(*m_maps, m_logger);
 		m_future->setResult(data);
 	 }
 	 virtual ~DBLoadingTask()
 	 {
 	 }
+};
+
+
+// Class for logging some db data
+class EditorCriticalLogger: public DBCriticalLogger
+{
+ private:
+	 Editor * m_ed; //!< Editor to work with
+ public:
+	inline EditorCriticalLogger(Editor * ed)
+	{ m_ed = ed; }
+	virtual void critical( const QString & str)
+	{ m_ed->emitRenderThreadCritical(str); }
+	~EditorCriticalLogger()
+	{ }
 };
 
 void IFaceEditor::onFullAppStart()
@@ -164,12 +184,14 @@ void IFaceEditor::onFullAppStart()
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
+		EditorCriticalLogger * logger= new EditorCriticalLogger(this);
 		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db,future);
+		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,logger);
 		// Locking rendering due to adding of new task
 		this->lockRendering();
 		sad::Input::inst()->addPreRenderTask(task);
 		this->unlockRendering();
+		
 		if (future->result())
 		{
 			this->setDatabase(db);
@@ -180,6 +202,7 @@ void IFaceEditor::onFullAppStart()
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			delete db;
 		}
+		delete logger;
 		delete future;
 	}
 	else 

@@ -101,6 +101,35 @@ class CommandArguments
 	char ** fullArgv() { return this->argv; }
 };
 
+/** Thread for rendering
+  */
+class SaddyThread: public QThread 
+{
+Q_OBJECT
+friend class Editor;
+private:
+	/** Editor to work with
+	  */
+	Editor * m_editor;
+public:
+	/** Constructs a children rendering thread. Editor is needed to
+	    send a signal to run Qt event loop
+	    \param[in] editor editor to run
+	  */
+	inline SaddyThread(Editor * editor) { m_editor = editor;}
+	/** Awaits for qt thread to do his job
+	  */
+	void waitForQtThread();
+	/** Runs a thread to do stuff
+	  */
+	virtual void run();
+	/** Emits a critical message
+		\param[in] str string
+	 */
+	void emitCriticalMessage(const QString & str);
+signals:
+	void criticalMesage(const QString & str);
+};
 /*! \class Editor
 	
 	Describes a global editor state
@@ -108,29 +137,11 @@ class CommandArguments
 class Editor: public QObject
 {
 	Q_OBJECT
-
+  friend class SaddyThread;
   private:
-		 /** Thread for rendering
+	     /** Thread for rendering
 		  */
-	     class SaddyThread: public QThread 
-	     {
-		  private:
-			    /** Editor to work with
-				 */
-				Editor * m_editor;
-		  public:
-				/** Constructs a children rendering thread. Editor is needed to
-					send a signal to run Qt event loop
-					\param[in] editor editor to run
-				 */
-			    inline SaddyThread(Editor * editor) { m_editor = editor;}
-				/** Awaits for qt thread to do his job
-				 */
-				void waitForQtThread();
-				/** Runs a thread to do stuff
-				 */
-				virtual void run();
-	     } * m_renderthread;
+		 SaddyThread * m_renderthread; 
 		 /** Main window of application
 		  */
 		 QMainWindow  * m_mainwindow;
@@ -308,6 +319,9 @@ private:
 		 /** Runs, when qt quits 
 		  */
 		 void qtQuitSlot();
+		 /** Shows a critical message
+		  */
+		 virtual void onCriticalMessage(const QString & str);
   public:
 		/** Default constructor
 		 */
@@ -356,9 +370,13 @@ private:
 		/** Posts a behaviour callback event for data
 		 */
 		void postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev);
+		/** Emits render thread message 
+		 */
+		void emitRenderThreadCritical(const QString & str);
 		/** Removes a command arguments data
 		 */
 		~Editor();
+   
 };
 
 
