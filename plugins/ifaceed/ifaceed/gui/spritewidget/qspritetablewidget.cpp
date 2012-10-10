@@ -5,14 +5,15 @@ QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, const QRectF & tableRe
 	m_rect = tableRect;
 	m_combo = combo;
 	CellDelegate* mydelegate = new CellDelegate();
-	m_viewer.setItemDelegate(mydelegate);
+	m_viewer = new QTableWidget();
+	m_viewer->setItemDelegate(mydelegate);
 
-	connect(&m_viewer, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(on_currentCellChanged(int, int, int, int)),Qt::UniqueConnection);
+	connect(m_viewer, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(on_currentCellChanged(int, int, int, int)),Qt::UniqueConnection);
 }
 
 void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn )
 {
-	CellInfo cell = m_viewer.currentItem()->data(Qt::UserRole).value<CellInfo>();
+	CellInfo cell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
 	emit spriteSelected(cell.config, cell.group, cell.index);
 }
 
@@ -24,10 +25,10 @@ void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn
 int QSpriteTableWidget::findGroupRow(QString rowName)
 {
 	int res = -1;
-	int count = m_viewer.rowCount();
+	int count = m_viewer->rowCount();
 	for(int i=0;i<count;i++)
 	{
-		CellInfo curCell = m_viewer.currentItem()->data(Qt::UserRole).value<CellInfo>();
+		CellInfo curCell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
 		if (QString::compare(curCell.group, rowName) == 0 )
 		{
 			res = i;
@@ -55,9 +56,9 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 	int groupNum = findGroupRow(info.group);
 	if (groupNum == -1)
 	{
-		groupNum = m_viewer.rowCount();
+		groupNum = m_viewer->rowCount();
 	}
-	m_viewer.setItem(groupNum, info.index, item);
+	m_viewer->setItem(groupNum, info.index, item);
 
 }
 /** Adds to main window anything
@@ -65,12 +66,9 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
  */
 void QSpriteTableWidget::addToForm(QMainWindow* w)
 {
-	QWidget* chWidget = w->childAt(m_rect.x(), m_rect.y());
-	// TODO Ryaskov: why this code returns NULL?
-	// Fix and uncomment this lines
-	// QLayout* chLayout = chWidget->layout();
-	// chLayout->addWidget(&m_viewer);
-
+	m_viewer->setParent(w);
+	m_viewer->setGeometry(m_rect.toRect());
+	m_viewer->show();
 }
 
 /** Return selection object
@@ -78,7 +76,7 @@ void QSpriteTableWidget::addToForm(QMainWindow* w)
  */
 QSpriteTableWidgetSelection QSpriteTableWidget::selection()
 {
-	CellInfo curCellInfo = m_viewer.currentItem()->data(Qt::UserRole).value<CellInfo>();
+	CellInfo curCellInfo = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
 	QSpriteTableWidgetSelection res(curCellInfo.config, curCellInfo.group, curCellInfo.index);
 	return res;
 }
@@ -96,6 +94,6 @@ void QSpriteTableWidget::setSelection(const QSpriteTableWidgetSelection & sel)
 	}
 
 	int groupNum = findGroupRow(sel.group());
-	m_viewer.setCurrentCell(groupNum, sel.index());
+	m_viewer->setCurrentCell(groupNum, sel.index());
 
 }
