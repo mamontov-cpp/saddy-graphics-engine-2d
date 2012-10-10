@@ -14,8 +14,9 @@ FontTemplatesMaps::FontTemplatesMaps()
 
 bool FontTemplatesMaps::load(const QString & name)
 {
+	hst::log::inst()->owrite("Entering FontTemplatesMaps::load(\"").owrite(name.toStdString()).owrite("\")\n");
 	hst::string parentdir =  path::directory(name.toStdString().c_str());
-
+	hst::log::inst()->owrite("Parent dir is set to \"").owrite(parentdir).owrite("\"\n");
 	m_fonts.clear();
 	m_configs.clear();
 	
@@ -67,6 +68,8 @@ bool FontTemplatesMaps::load(const QString & name)
 		}
 		entry = entry.nextSiblingElement();
 	}
+	hst::log::inst()->owrite("Leaving FontTemplatesMaps::load()\n");
+	
 	return true;
 }
 
@@ -91,6 +94,8 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent
 		{
 			hst::string path = path::concat(parent,file.toStdString().c_str());
 			m_fonts.insert(name, path.data());
+			hst::log::inst()->owrite("Deserialized XML Font entry \"").owrite(name.toStdString())
+							 .owrite("\" with path \"").owrite(path).owrite("\"\n");
 		}
 	}
 }
@@ -116,6 +121,8 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 		{
 			hst::string path = path::concat(parent,file.toStdString().c_str());
 			m_configs.insert(name, path.data());
+			hst::log::inst()->owrite("Deserialized XML Config entry \"").owrite(name.toStdString())
+							 .owrite("\" with path \"").owrite(path).owrite("\"\n");
 		}
 	}
 }

@@ -50,12 +50,12 @@ void hst::log::save(const char * fn )
 
 std::ostringstream & operator<<(std::ostringstream & o, const hst::string & s)
 {
-	o<<std::string(s.data());
+	o<<std::string((s.data())!=NULL?s.data():"");
 	return o;
 }
 std::ostream & operator<<(std::ostream & o, const hst::string & s)
 {
-	o<<std::string(s.data());
+	o<<std::string((s.data())!=NULL?s.data():"");
 	return o;
 }
 
