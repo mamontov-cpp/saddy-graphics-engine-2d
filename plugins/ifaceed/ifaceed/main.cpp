@@ -6,7 +6,6 @@
 
 #include <input.h>
 #include <stdio.h>
-#include "saddythread.h"
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
 #include "core/ifacecmdoptions.h"

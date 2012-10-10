@@ -133,7 +133,7 @@ FontTemplateDatabase::~FontTemplateDatabase()
 	delete m_fonts;
 }
 
-bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps, DBCriticalLogger * logger)
 {
 	m_maps = maps;
 	IFaceEditorFontList * fonts = new IFaceEditorFontList();
@@ -150,7 +150,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 				hst::log::inst()->owrite("FontTemplateDatabase::load: can\'t load file ")
 						    	 .owrite(it.value().toStdString().c_str())
 							     .owrite("\n");
-				QMessageBox::critical(NULL, "IFace Editor", QString("Can't load font from ") + it.value());
+				logger->critical(QString("Can't load font from ") + it.value());
 				success = false;
 			}
 		}
@@ -163,7 +163,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 	SpriteDatabase * sprites = new SpriteDatabase();
 	// Load some configs
 	{
-		if (sprites->load(maps, *m_counter) == false)
+		if (sprites->load(maps, *m_counter, logger) == false)
 		{
 			delete sprites;
 			delete fonts;
@@ -175,4 +175,11 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps)
 	delete m_fonts; m_fonts = fonts;
 
 	return true;
+}
+
+
+
+DBCriticalLogger::~DBCriticalLogger()
+{
+
 }

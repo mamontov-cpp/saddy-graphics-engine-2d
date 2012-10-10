@@ -127,7 +127,7 @@ void SpriteDatabase::clear()
 
 
 
-bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
+bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, DBCriticalLogger * logger)
 {
 	bool ok = true;
 	const db::NameFileMap & map = maps.configs();
@@ -150,7 +150,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 				{
 					hst::log::inst()->owrite("Saddy can\'t load images from config with path ").owrite(it.value().toStdString()).
 							  owrite("\n");
-					QMessageBox::critical(NULL,"IFace Editor", QString("Saddy can\'t load images from config with path ")+
+					logger->critical(QString("Saddy can\'t load images from config with path ")+
 				                  it.value());
 
 					qtimages->remove(it.key());

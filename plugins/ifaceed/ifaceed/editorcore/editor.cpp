@@ -4,14 +4,14 @@
 #include <log.h>
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
-
+#include <QMessageBox>
 Editor::Editor() 
 {
 	m_cmdargs = NULL;
 	m_rendermutex = new os::mutex();
 	m_initmutex = new os::mutex();
 	m_saddywaitmutex = new os::mutex();
-	m_renderthread = new Editor::SaddyThread(this);
+	m_renderthread = new SaddyThread(this);
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
@@ -66,7 +66,7 @@ Editor::~Editor()
 	delete m_history;
 }
 
-void Editor::SaddyThread::run() 
+void SaddyThread::run() 
 {
 	this->m_editor->initSaddyActions();
 	this->m_editor->m_waitforqt = true;
@@ -78,7 +78,7 @@ void Editor::SaddyThread::run()
 	}
 }
 
-void Editor::SaddyThread::waitForQtThread() 
+void SaddyThread::waitForQtThread() 
 {
 	while(this->m_editor->shouldSaddyThreadWaitForQt()) {
 		this->msleep(100);
@@ -121,6 +121,7 @@ void Editor::runQtEventLoop()
 
 	if (this->m_qtapp) 
 	{
+		QObject::connect(m_renderthread, SIGNAL(criticalMesage(const QString&)), this, SLOT(onCriticalMessage(const QString &)));
 		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();
 	}
@@ -300,3 +301,17 @@ void Editor::highlightState(const hst::string & hint)
 
 }
 
+void Editor::onCriticalMessage(const QString & str)
+{
+	QMessageBox::critical(NULL, "IFace Editor", str);
+}
+
+void SaddyThread::emitCriticalMessage(const QString & str)
+{
+	emit criticalMesage(str);
+}
+
+void Editor::emitRenderThreadCritical(const QString & str)
+{
+	this->m_renderthread->emitCriticalMessage(str);
+}
