@@ -7,14 +7,25 @@ QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, const QRectF & tableRe
 	CellDelegate* mydelegate = new CellDelegate();
 	m_viewer = new QTableWidget();
 	m_viewer->setItemDelegate(mydelegate);
-
+	m_viewer->setRowCount(64);
+	m_viewer->setColumnCount(64);
+	m_viewer->setSelectionMode(QAbstractItemView::SingleSelection);
+	m_viewer->setSelectionBehavior(QAbstractItemView::SelectItems);
+	m_curRow = 0;
 	connect(m_viewer, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(on_currentCellChanged(int, int, int, int)),Qt::UniqueConnection);
+	//connect(m_viewer, SIGNAL(sizeHintChanged(QModexIndex), mydelegate, SLOT(sizeHint(const QStyleOptionViewItem&, const QModelIndex&)))
+	QPalette* palette = new QPalette();
+	palette->setColor(QPalette::Highlight, QColor(0,0,255,100));
+	m_viewer->setPalette(*palette);
 }
 
 void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn )
 {
-	CellInfo cell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
-	emit spriteSelected(cell.config, cell.group, cell.index);
+	if (m_viewer->currentItem()!=NULL)
+	{
+		CellInfo cell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
+		emit spriteSelected(cell.config, cell.group, cell.index);
+	}
 }
 
 
@@ -28,11 +39,14 @@ int QSpriteTableWidget::findGroupRow(QString rowName)
 	int count = m_viewer->rowCount();
 	for(int i=0;i<count;i++)
 	{
-		CellInfo curCell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
-		if (QString::compare(curCell.group, rowName) == 0 )
+		if (m_viewer->currentItem()!=NULL)
 		{
-			res = i;
-			break;
+			CellInfo curCell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
+			if (QString::compare(curCell.group, rowName) == 0 )
+			{
+				res = i;
+				break;
+			}
 		}
 	}
 
@@ -51,14 +65,30 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 	info.group = it.group();
 	info.index = it.groupIndex();
 	info.image = const_cast<AbstractSpriteDatabaseIterator&>(it).image();
+
+	info.image = info.image.scaledToHeight(100);
+
 	const QVariant& var = QVariant::fromValue<CellInfo>(info);
 	item->setData(Qt::UserRole, var);
+	item->setData(Qt::SizeHintRole, info.image.size());
 	int groupNum = findGroupRow(info.group);
 	if (groupNum == -1)
 	{
-		groupNum = m_viewer->rowCount();
+		groupNum = m_curRow;
+		m_curRow++;
 	}
+	item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+	QSize imgSize = info.image.size();
+	item->setSizeHint(imgSize);
 	m_viewer->setItem(groupNum, info.index, item);
+	m_viewer->setCurrentItem(item);
+	
+	QModelIndex modelIndex = m_viewer->model()->index(groupNum, info.index);
+	QStyleOptionViewItem option;
+	m_viewer->resizeColumnsToContents();
+	m_viewer->resizeRowsToContents();
+	//option.rect = QRect(info.image.width(), indo.image.height(), item);
+	//emit sizeHintChanged(modelIndex);
 
 }
 /** Adds to main window anything

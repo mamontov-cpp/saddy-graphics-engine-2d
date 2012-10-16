@@ -18,6 +18,8 @@ class QSpriteTableWidget : public QWidget
 	QTableWidget*  m_viewer;
 	QRectF         m_rect;
 
+	int m_curRow;
+
 	/** Search group number by its name in cell->data(Qt::UserRole)
 		\param[in] rowName name
 		\return group number

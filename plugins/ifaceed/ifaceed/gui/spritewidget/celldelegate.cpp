@@ -14,18 +14,28 @@ void CellDelegate::paint(QPainter * painter,
 	CellInfo info = index.data(Qt::UserRole).value<CellInfo>();
 	
 	QImage img = info.image;
-	QImage scImg = img.scaledToHeight(100);
+	
+	//QImage scImg = img.scaledToHeight(100);
+	
 	QString strGroup = info.group;
 	QString strIndex = QString::number(info.index);
 
 	QString str = getAcceptableString(strGroup, strIndex, option.rect.width());
-
-	painter->drawImage(0,0,scImg);
+	
+	//emit static_cast<const QAbstractItemDelegate*>(this)->sizeHintChanged(index);
+	painter->drawImage(0,0,img);
 
 	QFont& font = QFont();
 	font.setPixelSize(10);
+	//QPen pen(QColor(255,255,255));
+	//painter->setPen(pen);
 	painter->setFont(font);
-	painter->drawText(1, 101, str);
+	QFontMetrics fontMetrics(font);
+	//QRect rectText = QRect(QPoint(), fontMetrics.size(Qt::TextSingleLine, str) );
+	QPoint center = QPoint(img.width() - fontMetrics.width(str),
+							101);
+	painter->drawText(center, str);
+	//painter->drawText(1, 101, str);
 }
 
 /** Returns a hints for size
@@ -35,7 +45,9 @@ void CellDelegate::paint(QPainter * painter,
  */
 QSize CellDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	return QSize(option.rect.width(), 150);
+	QSize size = index.data(Qt::SizeHintRole).toSize();
+	return size;
+	//return QSize(m_image->width(), 150);
 }
 /** Returns half string
 	\param[in] str source string

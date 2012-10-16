@@ -53,13 +53,19 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	}
 
 	// Add SpriteViewer
-	QRectF contentRect = QRectF(ui.spriteViewerPad->contentsRect());
-
+	QGridLayout* grPadLayout = new QGridLayout;
+	QPoint pointPad = ui.spriteViewerPad->pos();
+	QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
+	
+	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
 	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, contentRect);
 
-	QGridLayout* grPadLayout = new QGridLayout;
+
 	grPadLayout->addWidget(m_spriteTableWidget);
 	ui.spriteViewerPad->setLayout(grPadLayout);
+
+
+
 	m_spriteTableWidget->addToForm(this);
 	
 }
@@ -90,10 +96,10 @@ void MainPanel::synchronizeDatabase()
 	AbstractSpriteDatabaseIterator * it = sprites.begin();
 	for(it; !(it->isEnd());it->next())
 	{
-		m_sprite_table->add(*it);
-		// TODO: Ryaskov
-		// When bug will be fixed, uncomment this line and comment upper line
-		// m_spriteTableWidget->add(*it);
+		//m_sprite_table->add(*it);
+		
+		
+		m_spriteTableWidget->add(*it);
 	}
 	delete it;
 }
