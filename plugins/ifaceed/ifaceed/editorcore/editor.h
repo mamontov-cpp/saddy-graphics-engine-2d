@@ -15,6 +15,7 @@
 #include <input.h>
 #include "commandlineoptions.h"
 #include "../history/editorhistory.h"
+#include "../utils/closure.h"
 #pragma once
 
 enum EditorQuitReason
@@ -122,13 +123,7 @@ public:
 	void waitForQtThread();
 	/** Runs a thread to do stuff
 	  */
-	virtual void run();
-	/** Emits a critical message
-		\param[in] str string
-	 */
-	void emitCriticalMessage(const QString & str);
-signals:
-	void criticalMesage(const QString & str);
+	virtual void run();	
 };
 /*! \class Editor
 	
@@ -319,9 +314,10 @@ private:
 		 /** Runs, when qt quits 
 		  */
 		 void qtQuitSlot();
-		 /** Shows a critical message
+		 /** Runs a closure. Used by qt thread to work with closure.
+			 \param[in] closure closure data
 		  */
-		 virtual void onCriticalMessage(const QString & str);
+		 virtual void onClosureArrived(ClosureBasic * closure);		 
   public:
 		/** Default constructor
 		 */
@@ -370,13 +366,18 @@ private:
 		/** Posts a behaviour callback event for data
 		 */
 		void postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev);
-		/** Emits render thread message 
-		 */
-		void emitRenderThreadCritical(const QString & str);
 		/** Removes a command arguments data
 		 */
 		~Editor();
-   
+		/** Emits a closure signal closureArrived()
+			\param[in] closure closure signal arrived
+		 */
+		void emitClosure(ClosureBasic * closure);
+  signals:
+		/** Signal is emitted, when closure is arrived
+			\param[in] closure data for closure
+		 */
+		void closureArrived(ClosureBasic * closure);
 };
 
 

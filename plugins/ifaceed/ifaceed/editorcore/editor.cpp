@@ -121,7 +121,7 @@ void Editor::runQtEventLoop()
 
 	if (this->m_qtapp) 
 	{
-		QObject::connect(m_renderthread, SIGNAL(criticalMesage(const QString&)), this, SLOT(onCriticalMessage(const QString &)));
+		QObject::connect(this, SIGNAL(closureArrived(ClosureBasic*)), this, SLOT(onClosureArrived(ClosureBasic*)) );
 		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();
 	}
@@ -301,17 +301,14 @@ void Editor::highlightState(const hst::string & hint)
 
 }
 
-void Editor::onCriticalMessage(const QString & str)
+void Editor::onClosureArrived(ClosureBasic * closure)
 {
-	QMessageBox::critical(NULL, "IFace Editor", str);
+	closure->run();
+	delete closure;
 }
 
-void SaddyThread::emitCriticalMessage(const QString & str)
-{
-	emit criticalMesage(str);
-}
 
-void Editor::emitRenderThreadCritical(const QString & str)
+void Editor::emitClosure(ClosureBasic * closure)
 {
-	this->m_renderthread->emitCriticalMessage(str);
+	emit closureArrived(closure);
 }
