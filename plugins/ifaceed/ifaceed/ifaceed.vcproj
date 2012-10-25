@@ -619,6 +619,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\editorbehaviourshareddata.h"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editorbehaviourstate.h"
 					>
 				</File>

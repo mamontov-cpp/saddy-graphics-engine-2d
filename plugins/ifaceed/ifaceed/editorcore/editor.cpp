@@ -4,6 +4,7 @@
 #include <log.h>
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
+#include "editorbehaviourshareddata.h"
 #include <QMessageBox>
 Editor::Editor() 
 {
@@ -16,6 +17,7 @@ Editor::Editor()
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
 	m_history = new EditorHistory();
+	m_behavioursharedata = new EditorBehaviourSharedData();
 }
 
 void Editor::init(int argc,char ** argv)
@@ -64,6 +66,7 @@ Editor::~Editor()
 	delete m_rendermutex;
 	delete m_cmdargs;
 	delete m_history;
+	delete m_behavioursharedata;
 }
 
 void SaddyThread::run() 

@@ -27,6 +27,7 @@ enum EditorQuitReason
 
 class Editor;
 class EditorBehaviour;
+class EditorBehaviourSharedData;
 class AbstractScreenObject;
 /** Interlocked scene, used to iterate while rendering
  */
@@ -173,6 +174,9 @@ class Editor: public QObject
 		 /** History of data
 		  */
 		 EditorHistory * m_history;
+		 /** Describes a behaviour shared data
+		  */
+		 EditorBehaviourSharedData * m_behavioursharedata;
 protected:
 		/** A defines editor behaviours
 		 */
@@ -319,10 +323,17 @@ private:
 		  */
 		 virtual void onClosureArrived(ClosureBasic * closure);		 
   public:
-		/** Default constructor
+		/*! Default constructor
 		 */
 		Editor();
-		/** Inits an editor, loading default data if nothing specified
+	    /*! Returns a behaviour shated data, needed to implement some stuff
+			\return shared data for behaviour
+		 */
+		inline EditorBehaviourSharedData * behaviourSharedData() 
+		{
+			return m_behavioursharedata;
+		}
+		/*! Inits an editor, loading default data if nothing specified
 			\param[in] argc count of arguments
 			\param[in] argv arguments
 		 */
