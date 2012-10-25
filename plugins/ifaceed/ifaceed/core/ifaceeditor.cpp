@@ -155,7 +155,13 @@ class EditorCriticalLogger: public DBCriticalLogger
 	inline EditorCriticalLogger(Editor * ed)
 	{ m_ed = ed; }
 	virtual void critical( const QString & str)
-	{ m_ed->emitRenderThreadCritical(str); }
+	{ 
+	    CLOSURE
+		CLOSURE_DATA( QString str; )
+		CLOSURE_CODE( QMessageBox::critical(NULL, "IFace Editor", str); )
+		INITCLOSURE( CLSET(str, str); )
+		SUBMITCLOSURE( m_ed->emitClosure );		 
+	}
 	~EditorCriticalLogger()
 	{ }
 };
