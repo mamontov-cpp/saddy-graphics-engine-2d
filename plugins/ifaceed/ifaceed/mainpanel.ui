@@ -93,7 +93,7 @@
       </sizepolicy>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -187,13 +187,7 @@
      </layout>
     </widget>
     <zorder>layoutWidget</zorder>
-    <zorder>layoutWidget</zorder>
-    <zorder>layoutWidget</zorder>
     <zorder>spriteViewerPad</zorder>
-    <zorder>lblSpriteIndex</zorder>
-    <zorder>horizontalSpacer</zorder>
-    <zorder>horizontalSpacer_2</zorder>
-    <zorder>horizontalSpacer_3</zorder>
    </widget>
    <widget class="QGroupBox" name="grpLabels">
     <property name="geometry">
@@ -315,7 +309,7 @@
       <string>Angle:</string>
      </property>
     </widget>
-    <widget class="QDoubleSpinBox" name="doubleSpinBox">
+    <widget class="QDoubleSpinBox" name="dblAngle">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -331,7 +325,7 @@
       <double>0.100000000000000</double>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="plainTextEdit">
+    <widget class="QPlainTextEdit" name="txtLabelText">
      <property name="geometry">
       <rect>
        <x>40</x>

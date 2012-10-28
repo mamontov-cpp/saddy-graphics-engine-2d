@@ -83,6 +83,9 @@ protected slots:
 	/** Implementation of highlightState
 	 */
 	void highlightStateImpl();
+	/** Adds a new font object
+	 */
+	void addFontObject();
 };
 
 #endif // MAINPANEL_H
