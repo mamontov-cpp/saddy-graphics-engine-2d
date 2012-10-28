@@ -260,10 +260,6 @@ private:
 			 \return qt main window, used in program
 		  */
 		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
-		 /** Returns a scene
-			 \return used scene
-		  */
-		 inline sad::Scene * scene() { return this->m_scene; }
 		 /** REIMPLEMENT this function to pass your own renderer settings into saddy
 		  */
 		 virtual void initSaddyRendererOptions();
@@ -326,6 +322,10 @@ private:
 		/*! Default constructor
 		 */
 		Editor();
+		 /** Returns a scene
+			 \return used scene
+		  */
+		inline sad::Scene * scene() { return this->m_scene; }
 	    /*! Returns a behaviour shated data, needed to implement some stuff
 			\return shared data for behaviour
 		 */
