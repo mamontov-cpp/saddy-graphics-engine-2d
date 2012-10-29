@@ -24,6 +24,10 @@ class IFaceEditor: public Editor
 	/** Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
+	/** Returns editor qt window
+		\return MainPanel
+	 */
+	MainPanel * panel();
  protected:
 	/**	Counter for loading all of dbs
 	 */
@@ -48,10 +52,7 @@ class IFaceEditor: public Editor
 	    \return MainPanel
 	 */
 	QMainWindow * createQtWindow();
-	/** Returns editor qt window
-		\return MainPanel
-	 */
-	MainPanel * panel();
+	
 	/** Creates a new Qt slots for working
 	  */
     void bindQtSlots();

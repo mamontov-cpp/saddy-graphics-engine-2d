@@ -408,6 +408,18 @@
 					RelativePath=".\core\xmlconfigloader.cpp"
 					>
 				</File>
+				<Filter
+					Name="states"
+					>
+					<File
+						RelativePath=".\core\states\idlestate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\labeladdingstate.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="interactivetests"
@@ -766,6 +778,18 @@
 					RelativePath=".\core\xmlconfigloader.h"
 					>
 				</File>
+				<Filter
+					Name="states"
+					>
+					<File
+						RelativePath=".\core\states\idlestate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\labeladdingstate.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="interactivetests"

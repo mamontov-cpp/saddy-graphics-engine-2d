@@ -14,12 +14,14 @@ class EditorBehaviourSharedData
 {
  private:
 	 AbstractScreenObject * m_selected_object;
+	 AbstractScreenObject * m_active_object;
  public:
 	 /*! Shared data is initialized with zero selected object
 	  */
 	 inline EditorBehaviourSharedData() 
 	 {
 		 m_selected_object = NULL;
+		 m_active_object = NULL;
 	 }
 	 /*! Returns a current selected object
 	  */
@@ -30,6 +32,18 @@ class EditorBehaviourSharedData
 	 /*! Sets current selected object to a specified data
 	  */
 	 inline void setSelectedObject(AbstractScreenObject * o) 
+	 {
+		 m_selected_object = o;
+	 }
+	 /*! Returns a current active object
+	  */
+	 inline AbstractScreenObject * activeObject() const
+	 {
+		return m_selected_object;
+	 }
+	 /*! Sets current active object to a specified data
+	  */
+	 inline void setActiveObject(AbstractScreenObject * o) 
 	 {
 		 m_selected_object = o;
 	 }

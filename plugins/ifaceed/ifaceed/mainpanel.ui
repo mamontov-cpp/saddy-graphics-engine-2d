@@ -83,7 +83,7 @@
        <x>10</x>
        <y>23</y>
        <width>401</width>
-       <height>201</height>
+       <height>161</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -186,8 +186,19 @@
       </item>
      </layout>
     </widget>
-    <zorder>layoutWidget</zorder>
-    <zorder>spriteViewerPad</zorder>
+    <widget class="QPushButton" name="btnAddSprite">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add new sprite...</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="grpLabels">
     <property name="geometry">

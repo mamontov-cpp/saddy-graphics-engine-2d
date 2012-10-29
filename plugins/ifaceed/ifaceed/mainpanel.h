@@ -59,6 +59,12 @@ public:
 	/** Hints current editor state for highlighting
 	 */
 	void highlightState(const hst::string & hints);
+	/** Sets, whether adding or removing is enabled
+		\param[in] enabled enabled stuff
+	 */
+	void setAddingEnabled(bool enabled);
+
+	inline Ui::MainPanelClass * myUI() { return &ui; }
 private:
 	Ui::MainPanelClass ui;         //!< UI
 	IFaceEditor    *   m_editor;   //!< Editor to work with

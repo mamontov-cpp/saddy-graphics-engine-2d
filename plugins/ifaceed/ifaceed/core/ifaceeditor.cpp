@@ -10,6 +10,8 @@
 #include "../editorcore/editorbehaviour.h"
 #include "../objects/screentemplate.h"
 #include "../objects/screenlabel.h"
+#include "states/idlestate.h"
+#include "states/labeladdingstate.h"
 #include <QTimer>
 
 IFaceEditor::IFaceEditor()
@@ -17,6 +19,12 @@ IFaceEditor::IFaceEditor()
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
+
+	EditorBehaviour * behaviour = new EditorBehaviour(this,"idle");
+	behaviour->addState("idle", new IdleState());
+	behaviour->addState("label_adding", new LabelAddingState());
+	
+	this->behaviours().insert("main", behaviour);
 }
 IFaceEditor::~IFaceEditor()
 {
@@ -223,41 +231,9 @@ void IFaceEditor::onFullAppStart()
 		} * handler = new IFaceMouseMoveHandler(this);
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
-		this->eraseBehaviour();
+		this->setBehaviour("main");
 		this->highlightState("Idle");
 
-		// TODO: remove it
-		this->lockRendering();
-
-		ScreenLabel * label = new ScreenLabel();
-		m_result->add(label);
-		ActionContext * c = this->logContext();
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),c);
-		label->getProperty("size")->set(sad::Variant(16u),c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),c);
-		label->getProperty("angle")->set(sad::Variant(0.0f),c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(300,400)),c);
-		label->tryReload(this->database());
-
-		static_cast<InterlockedScene*>(this->scene())->add(label);
-
-
-		label = new ScreenLabel();
-		m_result->add(label);
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),c);
-		label->getProperty("size")->set(sad::Variant(8u),c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),c);
-		label->getProperty("angle")->set(sad::Variant(1.57f),c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),c);
-		label->tryReload(this->database());
-
-
-		static_cast<InterlockedScene*>(this->scene())->add(label);
-
-		this->unlockRendering();
-		// TODO: remove it end
 	}
 }
 
