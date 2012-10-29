@@ -71,6 +71,12 @@ void EditorBehaviour::deactivate()
 	m_active_state = hst::string();
 }
 
+void EditorBehaviour::cancelState()
+{
+	hst::string old_state = m_previous_state; 
+	this->enterState(old_state);
+}
+
 void EditorBehaviour::enterState(const hst::string & state)
 {
 	if (m_active_state.length())
@@ -79,6 +85,7 @@ void EditorBehaviour::enterState(const hst::string & state)
 	}
 	if (m_states.contains(state) == false)
 	{
+		m_previous_state = m_active_state;
 		m_active_state.clear();
 		hst::log::inst()->owrite("Warning: not found a state in editor behavior with name ")
 			             .owrite(state)
@@ -86,6 +93,7 @@ void EditorBehaviour::enterState(const hst::string & state)
 	}
 	else
 	{
+		m_previous_state = m_active_state;
 		m_active_state = state;
 		m_states[m_active_state]->enter();
 	}

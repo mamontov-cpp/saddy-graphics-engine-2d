@@ -46,7 +46,7 @@ void IFaceEditor::initSaddyRendererOptions()
 	this->Editor::initSaddyRendererOptions();
 	sad::Renderer::instance().setWindowTitle("Saddy Interface Editor");
 	
-	sad::Input::inst()->bindKeyDown(KEY_ESC, new IFaceEditorHandler(this,&IFaceEditor::quit));
+	sad::Input::inst()->bindKeyDown(KEY_F12, new IFaceEditorHandler(this,&IFaceEditor::quit));
 
 	this->assertSaddyInit(true);
 }
