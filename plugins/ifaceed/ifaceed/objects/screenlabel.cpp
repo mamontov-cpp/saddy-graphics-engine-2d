@@ -42,31 +42,6 @@ void ScreenLabel::_render()
 	
 	glPopMatrix();
 
-	hRectF r = this->region();
-
-	/**
-	// TODO: Move it into selection of object
-	glDisable(GL_TEXTURE_2D);
-	GLint   clr[4]={};
-	glGetIntegerv(GL_CURRENT_COLOR,clr);
-	glColor4ub(255,0,0,255);
-    glBegin(GL_LINES);
-	glVertex2f(r[0].x(), r[0].y());
-	glVertex2f(r[1].x(), r[1].y());
-
-	glVertex2f(r[1].x(), r[1].y());
-	glVertex2f(r[2].x(), r[2].y());
-
-	glVertex2f(r[2].x(), r[2].y());
-	glVertex2f(r[3].x(), r[3].y());	
-
-	glVertex2f(r[3].x(), r[3].y());	
-	glVertex2f(r[0].x(), r[0].y());
-
-	glEnd();
-	glColor4iv(clr);
-	glEnable(GL_TEXTURE_2D);
-	**/
 }
 
 bool ScreenLabel::isValid(FontTemplateDatabase * db)

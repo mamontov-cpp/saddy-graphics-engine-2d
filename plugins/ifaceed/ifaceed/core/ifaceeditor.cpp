@@ -12,6 +12,7 @@
 #include "../objects/screenlabel.h"
 #include "states/idlestate.h"
 #include "states/labeladdingstate.h"
+#include "objectborders.h"
 #include <QTimer>
 
 IFaceEditor::IFaceEditor()
@@ -231,6 +232,9 @@ void IFaceEditor::onFullAppStart()
 		} * handler = new IFaceMouseMoveHandler(this);
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
+		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->behaviourSharedData()) );
+		sad::Input::inst()->addPostRenderTask( new SelectedObjectBorder(this->behaviourSharedData()) );
+
 		this->setBehaviour("main");
 		this->highlightState("Idle");
 
