@@ -23,11 +23,13 @@ class NewCommand: public AbstractCommand
 	 */
 	NewCommand(ScreenTemplate * container, AbstractScreenObject * object);
 	/** Applies changes, described in command
+		\param[in] c context
 	  */
-	virtual void commit();
+	virtual void commit(ActionContext *c);
 	/** Reverts changes, described in command
+		\param[in] c context
 	  */
-	virtual void rollback();
+	virtual void rollback(ActionContext *c);
 	/** Destroys a command
 	 */
 	~NewCommand();

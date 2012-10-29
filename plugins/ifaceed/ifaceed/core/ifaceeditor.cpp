@@ -146,25 +146,7 @@ class DBLoadingTask: public sad::CountableTask
 };
 
 
-// Class for logging some db data
-class EditorCriticalLogger: public DBCriticalLogger
-{
- private:
-	 Editor * m_ed; //!< Editor to work with
- public:
-	inline EditorCriticalLogger(Editor * ed)
-	{ m_ed = ed; }
-	virtual void critical( const QString & str)
-	{ 
-	    CLOSURE
-		CLOSURE_DATA( QString str; )
-		CLOSURE_CODE( QMessageBox::critical(NULL, "IFace Editor", str); )
-		INITCLOSURE( CLSET(str, str); )
-		SUBMITCLOSURE( m_ed->emitClosure );		 
-	}
-	~EditorCriticalLogger()
-	{ }
-};
+
 
 void IFaceEditor::onFullAppStart()
 {
@@ -190,9 +172,10 @@ void IFaceEditor::onFullAppStart()
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
-		EditorCriticalLogger * logger= new EditorCriticalLogger(this);
+		
+		
 		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,logger);
+		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->logger());
 		// Locking rendering due to adding of new task
 		this->lockRendering();
 		sad::Input::inst()->addPreRenderTask(task);
@@ -208,7 +191,6 @@ void IFaceEditor::onFullAppStart()
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			delete db;
 		}
-		delete logger;
 		delete future;
 	}
 	else 
@@ -249,13 +231,13 @@ void IFaceEditor::onFullAppStart()
 
 		ScreenLabel * label = new ScreenLabel();
 		m_result->add(label);
-		ActionContext c;
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),&c);
-		label->getProperty("size")->set(sad::Variant(16u),&c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),&c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
-		label->getProperty("angle")->set(sad::Variant(0.0f),&c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(300,400)),&c);
+		ActionContext * c = this->logContext();
+		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),c);
+		label->getProperty("size")->set(sad::Variant(16u),c);
+		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),c);
+		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),c);
+		label->getProperty("angle")->set(sad::Variant(0.0f),c);
+		label->getProperty("pos")->set(sad::Variant(hPointF(300,400)),c);
 		label->tryReload(this->database());
 
 		static_cast<InterlockedScene*>(this->scene())->add(label);
@@ -263,12 +245,12 @@ void IFaceEditor::onFullAppStart()
 
 		label = new ScreenLabel();
 		m_result->add(label);
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),&c);
-		label->getProperty("size")->set(sad::Variant(8u),&c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),&c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
-		label->getProperty("angle")->set(sad::Variant(1.57f),&c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),&c);
+		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),c);
+		label->getProperty("size")->set(sad::Variant(8u),c);
+		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),c);
+		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),c);
+		label->getProperty("angle")->set(sad::Variant(1.57f),c);
+		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),c);
 		label->tryReload(this->database());
 
 

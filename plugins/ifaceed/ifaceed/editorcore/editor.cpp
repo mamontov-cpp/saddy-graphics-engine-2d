@@ -6,7 +6,17 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
 #include <QMessageBox>
-Editor::Editor() 
+
+LoggingUtils::LoggingUtils(Editor * ed)
+{
+	m_logger = new EditorCriticalLogger(ed);
+}
+
+LoggingUtils::~LoggingUtils()
+{
+	delete m_logger;
+}
+Editor::Editor():m_utils(this) 
 {
 	m_cmdargs = NULL;
 	m_rendermutex = new os::mutex();
@@ -16,7 +26,7 @@ Editor::Editor()
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
-	m_history = new EditorHistory();
+	m_history = new EditorHistory(this->logContext());
 	m_behavioursharedata = new EditorBehaviourSharedData();
 }
 

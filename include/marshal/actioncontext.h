@@ -13,7 +13,7 @@
  */
 class ActionContext
 {
- private:
+ protected:
 	      hst::vector<hst::string> m_actions_stack;  //!< Stack of performed actions
  public:
 	      /*! Get current action string 
@@ -26,17 +26,24 @@ class ActionContext
 	      /*! Sets current action
 			  \param[in] str string
 		   */
-		  inline void  pushAction(const hst::string & str)
-		  {
-			  m_actions_stack<<str;
-		  }
+		  virtual void  pushAction(const hst::string & str);
 		  /*!  Pops an actions
 		   */
-		  inline void popAction()
-		  {
-			  if (m_actions_stack.count()!=0)
-				  m_actions_stack.removeAt(m_actions_stack.count()-1);
-		  }
+		  virtual void popAction();
 
 		  virtual ~ActionContext();  //!< Does nothing
+};
+
+/*! A class, which logs entering and leaving actions
+ */
+class LoggingActionContext: public ActionContext
+{
+ public:
+		  /*! Sets current action
+			  \param[in] str string
+		   */
+		  virtual void  pushAction(const hst::string & str);
+		  /*!  Pops an actions
+		   */
+		  virtual void popAction();
 };
