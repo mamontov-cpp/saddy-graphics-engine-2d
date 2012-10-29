@@ -4,6 +4,7 @@
 #include "../../editorcore/editorbehaviourshareddata.h"
 #include "../../objects/abstractscreenobject.h"
 #include "../../mainpanel.h"
+#include "../../history/newcommand.h"
 
 void LabelAddingState::onMouseMove(const sad::Event & ev)
 {
@@ -59,4 +60,17 @@ void LabelAddingState::onWheel(const sad::Event & ev)
 	INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 	SUBMITCLOSURE( ed->emitClosure );
 	o->getProperty("angle")->set(sad::Variant((float)a),ed->logContext());
+}
+
+
+void LabelAddingState::onMouseDown(const sad::Event & ev)
+{
+	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	NewCommand * c = new NewCommand(ed->result(), o);
+	ed->history()->add(c);
+	c->commit(ed->logContext());
+	ed->behaviourSharedData()->setActiveObject(NULL);
+	ed->behaviourSharedData()->setSelectedObject(o);
+	this->behaviour()->enterState("selected");
 }

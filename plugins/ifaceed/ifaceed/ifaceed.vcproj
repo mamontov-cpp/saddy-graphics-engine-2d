@@ -423,6 +423,10 @@
 						RelativePath=".\core\states\labeladdingstate.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\core\states\selectedstate.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -795,6 +799,10 @@
 					</File>
 					<File
 						RelativePath=".\core\states\labeladdingstate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\selectedstate.h"
 						>
 					</File>
 				</Filter>

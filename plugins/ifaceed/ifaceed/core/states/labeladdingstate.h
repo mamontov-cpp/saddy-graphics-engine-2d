@@ -26,4 +26,8 @@ class LabelAddingState: public EditorBehaviourState
 		 \param[in] ev event data
 	  */
 	 virtual void onWheel(const sad::Event & ev);
+	 /** Handles mouse down event
+		 \param[in] ev  even  data
+	  */
+	 virtual void onMouseDown(const sad::Event & ev);
 };
