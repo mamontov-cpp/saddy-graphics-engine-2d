@@ -25,6 +25,7 @@ void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourSta
 		hst::log::inst()->owrite("Error: in behaviour  some state \"").owrite(statename).owrite("already exists\n");
 		delete m_states[statename];
 	}
+	state->setBehaviour(this);
 	m_states.insert(statename, state);
 }
 
@@ -37,6 +38,7 @@ void EditorBehaviour::removeState(const hst::string & statename)
 	} 
 	else 
 	{
+		m_states[statename]->setBehaviour(NULL);
 		delete m_states[statename];
 		m_states.remove(statename);
 	}

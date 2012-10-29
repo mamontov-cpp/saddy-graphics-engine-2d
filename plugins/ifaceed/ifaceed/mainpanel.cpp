@@ -14,6 +14,7 @@
 #include "core/fontdatabase.h"
 #include "core/spritedatabase.h"
 #include "core/mockspritetablewidget.h"
+#include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
 
@@ -194,10 +195,17 @@ void MainPanel::addFontObject()
 
 
 		label->tryReload(this->m_editor->database());
+		InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
 		label->setScene(static_cast<InterlockedScene*>(this->m_editor->scene()));
-		this->m_editor->behaviourSharedData()->setSelectedObject(label);
-		this->m_editor->scene()->markForAddition(label);
-
+		this->m_editor->behaviourSharedData()->setActiveObject(label);
+		scene->add(label);
+		
+		this->m_editor->currentBehaviour()->enterState("label_adding");
 	}
 }
 
+void MainPanel::setAddingEnabled(bool enabled)
+{
+	this->ui.btnAddLabel->setEnabled(enabled);
+	this->ui.btnAddSprite->setEnabled(enabled);
+}
