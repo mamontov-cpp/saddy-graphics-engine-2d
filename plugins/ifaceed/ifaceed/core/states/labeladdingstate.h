@@ -22,12 +22,16 @@ class LabelAddingState: public EditorBehaviourState
 	 /*! Action, performed when leaving state
 	  */
 	 virtual void leave();
-	 /** Handles wheel  movement
+	 /*! Handles wheel  movement
 		 \param[in] ev event data
 	  */
 	 virtual void onWheel(const sad::Event & ev);
-	 /** Handles mouse down event
+	 /*! Handles mouse down event
 		 \param[in] ev  even  data
 	  */
 	 virtual void onMouseDown(const sad::Event & ev);
+	 /*! Handles key down event
+		 \param[in] ev event data
+	  */
+	 virtual void onKeyDown(const sad::Event & ev);
 };
