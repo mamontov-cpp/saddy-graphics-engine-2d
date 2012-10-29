@@ -397,6 +397,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\objectborders.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\qspritetablewidgetselection.cpp"
 					>
 				</File>
@@ -765,6 +769,10 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\core\objectborders.h"
+					>
 				</File>
 				<File
 					RelativePath=".\core\qspritetablewidgetselection.h"

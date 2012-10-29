@@ -39,13 +39,13 @@ class EditorBehaviourSharedData
 	  */
 	 inline AbstractScreenObject * activeObject() const
 	 {
-		return m_selected_object;
+		return m_active_object;
 	 }
 	 /*! Sets current active object to a specified data
 	  */
 	 inline void setActiveObject(AbstractScreenObject * o) 
 	 {
-		 m_selected_object = o;
+		 m_active_object = o;
 	 }
 };
 

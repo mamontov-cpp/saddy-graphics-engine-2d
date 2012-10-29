@@ -35,6 +35,7 @@ void LabelAddingState::enter()
 void LabelAddingState::leave()
 {
 	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	ed->behaviourSharedData()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; )
