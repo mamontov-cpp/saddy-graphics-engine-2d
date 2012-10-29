@@ -178,19 +178,19 @@ void MainPanel::addFontObject()
 		label->setVisible(true);
 		
 		// Set props
-		ActionContext c;
+		ActionContext * c = this->m_editor->logContext();
 		hst::string fontName=ui.cmbFonts->currentText().toStdString().c_str();
-		label->getProperty("font")->set(sad::Variant(fontName),&c);
+		label->getProperty("font")->set(sad::Variant(fontName),c);
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
 		hst::color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
-		label->getProperty("color")->set(sad::Variant(hcolor), &c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(0,0)), &c);
+		label->getProperty("color")->set(sad::Variant(hcolor), c);
+		label->getProperty("pos")->set(sad::Variant(hPointF(0,0)), c);
 		float angle = ui.dblAngle->value();
-		label->getProperty("angle")->set(sad::Variant(angle), &c);
+		label->getProperty("angle")->set(sad::Variant(angle), c);
 		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
-		label->getProperty("size")->set(sad::Variant(size), &c);
+		label->getProperty("size")->set(sad::Variant(size), c);
 		hst::string text=ui.txtLabelText->toPlainText().toStdString().c_str();
-		label->getProperty("text")->set(sad::Variant(text), &c);
+		label->getProperty("text")->set(sad::Variant(text), c);
 
 
 		label->tryReload(this->m_editor->database());

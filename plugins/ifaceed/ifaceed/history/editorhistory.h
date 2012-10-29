@@ -18,10 +18,14 @@ class EditorHistory
 	 /** Current saved command
 	  */
 	 int  m_current;
+	 /** An action context of data
+	  */
+	 ActionContext * m_c;
  public:
-	    /** Constructs empty history
+	    /** Constructs empty history	
+			\param[in] context c
 		 */
-		EditorHistory();
+		EditorHistory(ActionContext * c);
 		/** Frees memory from all commands
 		 */
 		~EditorHistory();

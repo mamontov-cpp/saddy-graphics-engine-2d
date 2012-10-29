@@ -349,6 +349,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\dbcriticallogger.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
@@ -564,6 +568,10 @@
 				>
 				<File
 					RelativePath=".\editorcore\commandlineoptions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\dbcriticallogger.h"
 					>
 				</File>
 				<File
