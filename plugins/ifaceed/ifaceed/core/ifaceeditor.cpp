@@ -12,6 +12,7 @@
 #include "../objects/screenlabel.h"
 #include "states/idlestate.h"
 #include "states/labeladdingstate.h"
+#include "states/selectedstate.h"
 #include "objectborders.h"
 #include <QTimer>
 
@@ -24,7 +25,8 @@ IFaceEditor::IFaceEditor()
 	EditorBehaviour * behaviour = new EditorBehaviour(this,"idle");
 	behaviour->addState("idle", new IdleState());
 	behaviour->addState("label_adding", new LabelAddingState());
-	
+	behaviour->addState("selected", new SelectedState());
+
 	this->behaviours().insert("main", behaviour);
 }
 IFaceEditor::~IFaceEditor()

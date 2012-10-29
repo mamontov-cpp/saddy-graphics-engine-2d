@@ -28,6 +28,13 @@ class IFaceEditor: public Editor
 		\return MainPanel
 	 */
 	MainPanel * panel();
+	/*! Returns current resulting level
+		\param[in] result
+	 */
+	inline ScreenTemplate * result()
+	{
+		return m_result;
+	}
  protected:
 	/**	Counter for loading all of dbs
 	 */
