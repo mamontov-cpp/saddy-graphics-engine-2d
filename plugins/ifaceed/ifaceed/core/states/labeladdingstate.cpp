@@ -10,16 +10,7 @@ void LabelAddingState::onMouseMove(const sad::Event & ev)
 {
 	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	hPointF center(0,0);
-	hRectF region = o->region();
-	for (int i=0;i<4;i++)
-		center += region[i];
-	center/=4;
-	hPointF  pos = o->getProperty("pos")->get(ed->logContext())->get<hPointF>(ed->logContext());
-	pos-=center;
-	pos.setX(pos.x() + ev.x);
-	pos.setY(pos.y() + ev.y);
-	o->getProperty("pos")->set(sad::Variant(pos),ed->logContext());
+	o->moveCenterTo(hPointF(ev.x,ev.y));
 }
 
 void LabelAddingState::enter()

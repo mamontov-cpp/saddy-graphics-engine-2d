@@ -10,6 +10,7 @@
 
 class ScreenTemplate;
 class FontTemplateDatabase;
+class SelectedObjectBorder;
 
 class IFaceEditor: public Editor
 {
@@ -35,7 +36,14 @@ class IFaceEditor: public Editor
 	{
 		return m_result;
 	}
+	inline SelectedObjectBorder * selectionBorder() 
+	{
+		 return m_selection_border;
+	}
  protected:
+	/*! A selection border with capabilities spots to edit item
+	 */
+    SelectedObjectBorder * m_selection_border;
 	/**	Counter for loading all of dbs
 	 */
     int m_counter;

@@ -21,6 +21,7 @@ IFaceEditor::IFaceEditor()
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
+	m_selection_border = NULL;
 
 	EditorBehaviour * behaviour = new EditorBehaviour(this,"idle");
 	behaviour->addState("idle", new IdleState());
@@ -234,8 +235,9 @@ void IFaceEditor::onFullAppStart()
 		} * handler = new IFaceMouseMoveHandler(this);
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
+		m_selection_border = new SelectedObjectBorder(this->behaviourSharedData());
 		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->behaviourSharedData()) );
-		sad::Input::inst()->addPostRenderTask( new SelectedObjectBorder(this->behaviourSharedData()) );
+		sad::Input::inst()->addPostRenderTask( m_selection_border );
 
 		this->setBehaviour("main");
 		this->highlightState("Idle");
