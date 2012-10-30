@@ -24,6 +24,20 @@ void ScreenLabel::moveCenterTo(const hPointF & p)
 	m_point.setY(p.y() - r.height()/2);
 }
 
+hst::string ScreenLabel::description()
+{
+	hst::string result = m_text.subString(0,5);
+	if (result.length() > 5)
+		result<<"... ";
+	else
+		result<<" ";
+	result<<"(";
+	result<<m_font_name;
+	result<<",";
+	result<<hst::string::number(m_font_size);
+	result<<")";
+	return m_text.subString(0,5); 
+}
 
 hst::string ScreenLabel::type()
 {
