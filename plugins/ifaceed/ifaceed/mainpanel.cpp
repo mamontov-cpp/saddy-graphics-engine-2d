@@ -26,7 +26,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
 	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
-
+	
 	ui.cmbFonts->setItemDelegate(new FontDelegate());
 	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
 	m_sprite_table = new MockSpriteTableWidget(ui.cmbSpriteConfig,ui.cmbSpriteGroup,ui.cmbSpriteIndex);
@@ -67,6 +67,12 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	// TODO: Uncomment, when Ryaskov adds his patch.
 	// m_spriteTableWidget->addToForm(this);
 	
+	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
+	connect(ui.cmbFonts, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(fontChanged(const QString&)));
+	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
+	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
+	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
+
 }
 
 MainPanel::~MainPanel()
@@ -208,4 +214,71 @@ void MainPanel::setAddingEnabled(bool enabled)
 {
 	this->ui.btnAddLabel->setEnabled(enabled);
 	this->ui.btnAddSprite->setEnabled(enabled);
+}
+
+
+void MainPanel::trySetProperty(const hst::string & prop, const sad::Variant & v)
+{
+	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
+	AbstractScreenObject * o = NULL;
+	AbstractProperty * _property = NULL;
+	if (data->activeObject()) 
+	{
+		o = data->activeObject();
+	} 
+	else 
+	{
+		o = data->selectedObject();			
+	}
+	if (o) 
+	{
+		this->m_editor->lockRendering();
+		_property = o->getProperty(prop);
+		if (_property) 
+		{
+			_property->set(v, this->m_editor->logContext());
+		}
+		if (prop == "font")
+		{
+			o->tryReload(this->m_editor->database());
+		}
+		this->m_editor->unlockRendering();
+	}	
+}
+
+void MainPanel::fontChanged(const QString & s)
+{
+	hst::string hs = s.toStdString().c_str();
+	trySetProperty("font", sad::Variant(hs));
+}
+
+void MainPanel::angleChanged(double angle)
+{
+	float fangle = angle;
+	trySetProperty("angle", sad::Variant(fangle));
+}
+
+void MainPanel::colorChanged(int index)
+{
+	if (index!=-1) 
+	{
+		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
+		hst::color c(clr.red(),clr.green(),clr.blue());
+		trySetProperty("color", sad::Variant(c));
+	}
+}
+
+void MainPanel::sizeChanged(int index)
+{
+	if (index!=-1)
+	{
+		unsigned int size = ui.cmbFontSize->itemData(index).value<int>();
+		trySetProperty("size", sad::Variant(size));
+	}
+}
+
+void MainPanel::textChanged()
+{
+	hst::string s = ui.txtLabelText->toPlainText().toStdString().c_str();
+	trySetProperty("text",s);
 }
