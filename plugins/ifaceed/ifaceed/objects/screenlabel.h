@@ -35,6 +35,10 @@ class ScreenLabel: public AbstractScreenObject
 			\return a string type of object
 	  */
 	 virtual hst::string type();
+	 /*! Returns a description of object for putting it to a various list
+		\return string with description
+	 */
+	virtual hst::string description();
 	 /*! Returns a region, where object is placed. 
 	     \param[in] p point
 		 \return whether point is within region

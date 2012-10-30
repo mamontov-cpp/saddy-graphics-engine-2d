@@ -107,6 +107,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] p point
 	 */
 	virtual void moveCenterTo(const hPointF & p)=0;
+	/*! Returns a description of object for putting it to a various list
+		\return string with description
+	 */
+	virtual hst::string description()=0;
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
