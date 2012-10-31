@@ -27,7 +27,7 @@ class ScreenLabel: public AbstractScreenObject
 	 */
 	 virtual void _render();
  public:
-	 /** Screen labels data
+	 /**! Creates empty screen label
 	  */
 	 ScreenLabel();
 
@@ -35,16 +35,20 @@ class ScreenLabel: public AbstractScreenObject
 			\return a string type of object
 	  */
 	 virtual hst::string type();
-	 /** Returns a region, where object is placed. 
-	    \param[in] p point
-		\return whether point is within region
+	 /*! Returns a description of object for putting it to a various list
+		\return string with description
+	 */
+	virtual hst::string description();
+	 /*! Returns a region, where object is placed. 
+	     \param[in] p point
+		 \return whether point is within region
       */
 	 virtual bool isWithin(const hPointF & p);
-	 /** Returns a region of object. The region is not AABB
+	 /*! Returns a region of object. The region is not AABB
 		 \return region of object
 	  */
 	 virtual hRectF region();
-	 /** Validates, whether object is valid in context of template.
+	 /*! Validates, whether object is valid in context of template.
 	    This check contains, whether all resources is in template.
 
 		Also it can be used to rebuild somke cached data in a rendering loop
@@ -52,10 +56,14 @@ class ScreenLabel: public AbstractScreenObject
 		\return whether object is valid in context of template
 	 */
 	virtual bool isValid(FontTemplateDatabase * db);
-	/** Tries to reload a database, getting actual data from database 
+	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok
 	 */
 	virtual bool tryReload(FontTemplateDatabase * db);
+	/*! Moves a center of object to a following point
+		\param[in] p point
+	 */
+	virtual void moveCenterTo(const hPointF & p);
 };
 

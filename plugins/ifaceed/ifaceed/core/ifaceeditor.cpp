@@ -10,6 +10,10 @@
 #include "../editorcore/editorbehaviour.h"
 #include "../objects/screentemplate.h"
 #include "../objects/screenlabel.h"
+#include "states/idlestate.h"
+#include "states/labeladdingstate.h"
+#include "states/selectedstate.h"
+#include "objectborders.h"
 #include <QTimer>
 
 IFaceEditor::IFaceEditor()
@@ -17,6 +21,14 @@ IFaceEditor::IFaceEditor()
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
+	m_selection_border = NULL;
+
+	EditorBehaviour * behaviour = new EditorBehaviour(this,"idle");
+	behaviour->addState("idle", new IdleState());
+	behaviour->addState("label_adding", new LabelAddingState());
+	behaviour->addState("selected", new SelectedState());
+
+	this->behaviours().insert("main", behaviour);
 }
 IFaceEditor::~IFaceEditor()
 {
@@ -35,7 +47,7 @@ void IFaceEditor::initSaddyRendererOptions()
 	this->Editor::initSaddyRendererOptions();
 	sad::Renderer::instance().setWindowTitle("Saddy Interface Editor");
 	
-	sad::Input::inst()->bindKeyDown(KEY_ESC, new IFaceEditorHandler(this,&IFaceEditor::quit));
+	sad::Input::inst()->bindKeyDown(KEY_F12, new IFaceEditorHandler(this,&IFaceEditor::quit));
 
 	this->assertSaddyInit(true);
 }
@@ -146,19 +158,7 @@ class DBLoadingTask: public sad::CountableTask
 };
 
 
-// Class for logging some db data
-class EditorCriticalLogger: public DBCriticalLogger
-{
- private:
-	 Editor * m_ed; //!< Editor to work with
- public:
-	inline EditorCriticalLogger(Editor * ed)
-	{ m_ed = ed; }
-	virtual void critical( const QString & str)
-	{ m_ed->emitRenderThreadCritical(str); }
-	~EditorCriticalLogger()
-	{ }
-};
+
 
 void IFaceEditor::onFullAppStart()
 {
@@ -184,9 +184,10 @@ void IFaceEditor::onFullAppStart()
 	if (maps.load(this->cmdLineOptions()->config()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
-		EditorCriticalLogger * logger= new EditorCriticalLogger(this);
+		
+		
 		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,logger);
+		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->logger());
 		// Locking rendering due to adding of new task
 		this->lockRendering();
 		sad::Input::inst()->addPreRenderTask(task);
@@ -202,7 +203,6 @@ void IFaceEditor::onFullAppStart()
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			delete db;
 		}
-		delete logger;
 		delete future;
 	}
 	else 
@@ -235,41 +235,13 @@ void IFaceEditor::onFullAppStart()
 		} * handler = new IFaceMouseMoveHandler(this);
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
-		this->eraseBehaviour();
+		m_selection_border = new SelectedObjectBorder(this->behaviourSharedData());
+		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->behaviourSharedData()) );
+		sad::Input::inst()->addPostRenderTask( m_selection_border );
+
+		this->setBehaviour("main");
 		this->highlightState("Idle");
 
-		// TODO: remove it
-		this->lockRendering();
-
-		ScreenLabel * label = new ScreenLabel();
-		m_result->add(label);
-		ActionContext c;
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),&c);
-		label->getProperty("size")->set(sad::Variant(16u),&c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),&c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
-		label->getProperty("angle")->set(sad::Variant(0.0f),&c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(300,400)),&c);
-		label->tryReload(this->database());
-
-		static_cast<InterlockedScene*>(this->scene())->add(label);
-
-
-		label = new ScreenLabel();
-		m_result->add(label);
-		label->getProperty("font")->set(sad::Variant(hst::string("Times New Roman")),&c);
-		label->getProperty("size")->set(sad::Variant(8u),&c);
-		label->getProperty("color")->set(sad::Variant(hst::color(0,255,0)),&c);
-		label->getProperty("text")->set(sad::Variant(hst::string("Times New RomanN\nTimes New Roman  N")),&c);
-		label->getProperty("angle")->set(sad::Variant(1.57f),&c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(400,500)),&c);
-		label->tryReload(this->database());
-
-
-		static_cast<InterlockedScene*>(this->scene())->add(label);
-
-		this->unlockRendering();
-		// TODO: remove it end
 	}
 }
 

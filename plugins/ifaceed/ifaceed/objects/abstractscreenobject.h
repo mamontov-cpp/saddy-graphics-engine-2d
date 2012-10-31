@@ -50,43 +50,43 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	{
 		return m_scene;
 	}
-	/** Whether object is active
+	/*! Whether object is active
 		\return object is active
 	 */
 	inline bool active() 
 	{
 		return m_active;
 	}
-	/** Whether object is visible
+	/*! Whether object is visible
 		\return object visible
 	 */
 	inline bool visible() 
 	{
 		return m_visible;
 	}
-	/** Sets activity of object
+	/*! Sets activity of object
 		\param[in] a activity
 	 */
 	inline void setActive(bool a) 
 	{
 		m_active = a;
 	}
-	/** Sets visibility of object
+	/*! Sets visibility of object
 		\param[in] a activity
 	 */
 	inline void setVisible(bool a) 
 	{
 		m_visible = a;
 	}
-	/** Renders an abstract object if active and visible
+	/*! Renders an abstract object if active and visible
 	 */
 	virtual void render();
-	/** Returns a region, where object is placed. 
+	/*! Returns a region, where object is placed. 
 	    \param[in] p point
 		\return whether point is within region
      */
 	virtual bool isWithin(const hPointF & p)=0;
-	/** Validates, whether object is valid in context of template.
+	/*! Validates, whether object is valid in context of template.
 	    This check contains, whether all resources is in template.
 
 		Also it can be used to rebuild somke cached data in a rendering loop
@@ -94,16 +94,24 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\return whether object is valid in context of template
 	 */
 	virtual bool isValid(FontTemplateDatabase * t)=0;
-	/** Tries to reload a database, getting actual data from database 
+	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok
 	 */
 	virtual bool tryReload(FontTemplateDatabase * db)=0;
-	/** Returns a region of object. The region is not AABB
+	/*! Returns a region of object. The region is not AABB
 		\return region of object
 	 */
 	virtual hRectF region()=0;
-	/** Deletes a object
+	/*! Moves a center of object to a following point
+		\param[in] p point
+	 */
+	virtual void moveCenterTo(const hPointF & p)=0;
+	/*! Returns a description of object for putting it to a various list
+		\return string with description
+	 */
+	virtual hst::string description()=0;
+	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
 };

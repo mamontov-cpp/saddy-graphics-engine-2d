@@ -4,8 +4,19 @@
 #include <log.h>
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
+#include "editorbehaviourshareddata.h"
 #include <QMessageBox>
-Editor::Editor() 
+
+LoggingUtils::LoggingUtils(Editor * ed)
+{
+	m_logger = new EditorCriticalLogger(ed);
+}
+
+LoggingUtils::~LoggingUtils()
+{
+	delete m_logger;
+}
+Editor::Editor():m_utils(this) 
 {
 	m_cmdargs = NULL;
 	m_rendermutex = new os::mutex();
@@ -15,7 +26,8 @@ Editor::Editor()
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
-	m_history = new EditorHistory();
+	m_history = new EditorHistory(this->logContext());
+	m_behavioursharedata = new EditorBehaviourSharedData();
 }
 
 void Editor::init(int argc,char ** argv)
@@ -64,6 +76,7 @@ Editor::~Editor()
 	delete m_rendermutex;
 	delete m_cmdargs;
 	delete m_history;
+	delete m_behavioursharedata;
 }
 
 void SaddyThread::run() 
@@ -121,7 +134,7 @@ void Editor::runQtEventLoop()
 
 	if (this->m_qtapp) 
 	{
-		QObject::connect(m_renderthread, SIGNAL(criticalMesage(const QString&)), this, SLOT(onCriticalMessage(const QString &)));
+		QObject::connect(this, SIGNAL(closureArrived(ClosureBasic*)), this, SLOT(onClosureArrived(ClosureBasic*)) );
 		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();
 	}
@@ -301,17 +314,14 @@ void Editor::highlightState(const hst::string & hint)
 
 }
 
-void Editor::onCriticalMessage(const QString & str)
+void Editor::onClosureArrived(ClosureBasic * closure)
 {
-	QMessageBox::critical(NULL, "IFace Editor", str);
+	closure->run();
+	delete closure;
 }
 
-void SaddyThread::emitCriticalMessage(const QString & str)
-{
-	emit criticalMesage(str);
-}
 
-void Editor::emitRenderThreadCritical(const QString & str)
+void Editor::emitClosure(ClosureBasic * closure)
 {
-	this->m_renderthread->emitCriticalMessage(str);
+	emit closureArrived(closure);
 }

@@ -10,22 +10,20 @@ NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object
 	object->addRef();
 }
 
-void NewCommand::commit()
+void NewCommand::commit(ActionContext *c)
 {
 	m_container->add(m_object);
-	ActionContext c;
-	c.pushAction("NewCommand::commit");
-	m_object->getProperty("activity")->set(sad::Variant(true),&c);
-	c.popAction();
+	c->pushAction("NewCommand::commit");
+	m_object->getProperty("activity")->set(sad::Variant(true),c);
+	c->popAction();
 }
 
-void NewCommand::rollback()
+void NewCommand::rollback(ActionContext *c)
 {
 	m_container->remove(m_object);
-	ActionContext c;
-	c.pushAction("NewCommand::rollback");
-	m_object->getProperty("activity")->set(sad::Variant(false),&c);
-	c.popAction();
+	c->pushAction("NewCommand::rollback");
+	m_object->getProperty("activity")->set(sad::Variant(false),c);
+	c->popAction();
 }
 
 NewCommand::~NewCommand()
