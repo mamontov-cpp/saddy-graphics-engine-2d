@@ -5,11 +5,13 @@
 #define CELL_WIDTH (100)
 #define CELL_HEIGHT (100)
 
-#define MAX_IMAGE_WIDTH  (66)
-#define MAX_IMAGE_HEIGHT (66)
+#define MAX_IMAGE_WIDTH  (CELL_WIDTH)
+#define MAX_IMAGE_HEIGHT (CELL_HEIGHT/4*3)
 
-#define IMAGE_SPACE  (5)
+#define IMAGE_SPACE  (15)
 #define CELL_TEXT_Y (MAX_IMAGE_HEIGHT + IMAGE_SPACE)
+
+#define CELL_FONT_SIZE (12)
 /** Paints a cell
 	\param[in] painter painter
 	\param[in] option  options for rendering
@@ -20,7 +22,8 @@ void CellDelegate::paint(QPainter * painter,
 						 const QModelIndex & index ) const
 {
 	CellInfo info = index.data(Qt::UserRole).value<CellInfo>();
-	
+	if (info.group.size() == 0 && info.config.size() == 0)
+		return;
 	// Draw centered image
 	QImage img = info.image;
 	if (img.width() > CELL_WIDTH || img.height() > MAX_IMAGE_HEIGHT) 
@@ -33,27 +36,20 @@ void CellDelegate::paint(QPainter * painter,
 	QString strGroup = info.group;
 	QString strIndex = QString::number(info.index);
 
-	QString str = getAcceptableString(strGroup, strIndex, option.rect.width());
 	
 	QFont font = QFont();
-	font.setPixelSize(10);
+	font.setPixelSize(CELL_FONT_SIZE);
 	QFont oldFont = painter->font();
 	painter->setFont(font);
+	QFontMetrics fontMetrics(font);
+	//Compute label
+	QString label = getAcceptableString(strGroup, strIndex, option.rect.width(), fontMetrics);
+	//Compute center
+	QPoint center = QPoint(option.rect.x() + option.rect.width()/2 - fontMetrics.width(label)/2,
+						   option.rect.y() + CELL_TEXT_Y);
+	painter->drawText(center, label);
 
 	painter->setFont(oldFont);
-	//emit static_cast<const QAbstractItemDelegate*>(this)->sizeHintChanged(index);
-	
-
-	
-	//QPen pen(QColor(255,255,255));
-	//painter->setPen(pen);
-	
-	QFontMetrics fontMetrics(font);
-	//QRect rectText = QRect(QPoint(), fontMetrics.size(Qt::TextSingleLine, str) );
-	QPoint center = QPoint(img.width() - fontMetrics.width(str),
-							101);
-	painter->drawText(center, str);
-	//painter->drawText(1, 101, str);
 }
 
 /** Returns a hints for size
@@ -104,34 +100,31 @@ QString halfStringWith3Dots(QString str)
 	\param[in] in_width width of the target cell
 	\return acceptable for current cell geometry string
  */
-QString getAcceptableString(QString in_group, QString in_index, int in_width)
+QString getAcceptableString(QString in_group, QString in_index, int in_width, QFontMetrics & metrics)
 {
-	QString res;
 	QString group = in_group;
 	QString index = in_index;
-	QString str;
-	while(group!="..." && index!="...")
+	QString str = QString("%1, %2").arg(group).arg(index);
+	int w = metrics.width(str);
+	bool cutted_totally = false;
+	while(!cutted_totally && (w > in_width))
 	{
-		str = QString("%1, %2").arg(group).arg(index);
 		QFont font;
 		font.setPixelSize(10);
 		QFontMetrics fm(font);
 		int needWidth = fm.width(str);
-
-		if (needWidth > in_width)
+		if (group.size() > index.size() || index == "...")
 		{
-			if (group.size() > index.size())
-			{
-				group = halfStringWith3Dots(group);
-			}else
-			{
-				index = halfStringWith3Dots(index);
-			}
-		}else
-		{
-			res = str;
-			break;
+			group = halfStringWith3Dots(group);
 		}
+		else
+		{
+			index = halfStringWith3Dots(index);
+		}
+		str = QString("%1, %2").arg(group).arg(index);
+		w = metrics.width(str);
+		cutted_totally = (group=="..." && index=="...") ;
 	}
-	return res;
+
+	return str;
 }

@@ -7,7 +7,7 @@
 #include <QtCore>
 #include <QtGui>
 #include "../../core/spritedatabase.h"
-
+#include <QFontMetrics>
 
 class CellDelegate: public QItemDelegate
 {
@@ -39,9 +39,10 @@ QString halfStringWith3Dots(QString str);
 	\param[in] in_group group number (row)
 	\param[in] in_index index number (column)
 	\param[in] in_width width of the target cell
+	\param[in] metrics  metrics data
 	\return acceptable for current cell geometry string
  */
-QString getAcceptableString(QString in_group, QString in_index,  int in_width);
+QString getAcceptableString(QString in_group, QString in_index,  int in_width, QFontMetrics & metrics);
 
 struct CellInfo
 {
