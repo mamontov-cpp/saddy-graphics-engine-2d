@@ -64,6 +64,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
 	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, contentRect);
 
+	m_spriteTableWidget->addToForm(this);
 
 	grPadLayout->addWidget(m_spriteTableWidget);
 	ui.spriteViewerPad->setLayout(grPadLayout);
