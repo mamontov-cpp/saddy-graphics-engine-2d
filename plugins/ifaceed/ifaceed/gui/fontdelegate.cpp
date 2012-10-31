@@ -1,4 +1,5 @@
 #include "fontdelegate.h"
+#include <QStyleOptionViewItem>
 #include <QPainter>
 
 void FontDelegate::paint(QPainter * painter, 
