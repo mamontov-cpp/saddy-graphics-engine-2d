@@ -25,6 +25,7 @@ void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourSta
 		hst::log::inst()->owrite("Error: in behaviour  some state \"").owrite(statename).owrite("already exists\n");
 		delete m_states[statename];
 	}
+	state->setBehaviour(this);
 	m_states.insert(statename, state);
 }
 
@@ -37,6 +38,7 @@ void EditorBehaviour::removeState(const hst::string & statename)
 	} 
 	else 
 	{
+		m_states[statename]->setBehaviour(NULL);
 		delete m_states[statename];
 		m_states.remove(statename);
 	}
@@ -69,6 +71,12 @@ void EditorBehaviour::deactivate()
 	m_active_state = hst::string();
 }
 
+void EditorBehaviour::cancelState()
+{
+	hst::string old_state = m_previous_state; 
+	this->enterState(old_state);
+}
+
 void EditorBehaviour::enterState(const hst::string & state)
 {
 	if (m_active_state.length())
@@ -77,6 +85,7 @@ void EditorBehaviour::enterState(const hst::string & state)
 	}
 	if (m_states.contains(state) == false)
 	{
+		m_previous_state = m_active_state;
 		m_active_state.clear();
 		hst::log::inst()->owrite("Warning: not found a state in editor behavior with name ")
 			             .owrite(state)
@@ -84,6 +93,7 @@ void EditorBehaviour::enterState(const hst::string & state)
 	}
 	else
 	{
+		m_previous_state = m_active_state;
 		m_active_state = state;
 		m_states[m_active_state]->enter();
 	}

@@ -10,6 +10,7 @@
 
 class ScreenTemplate;
 class FontTemplateDatabase;
+class SelectedObjectBorder;
 
 class IFaceEditor: public Editor
 {
@@ -24,7 +25,25 @@ class IFaceEditor: public Editor
 	/** Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
+	/** Returns editor qt window
+		\return MainPanel
+	 */
+	MainPanel * panel();
+	/*! Returns current resulting level
+		\param[in] result
+	 */
+	inline ScreenTemplate * result()
+	{
+		return m_result;
+	}
+	inline SelectedObjectBorder * selectionBorder() 
+	{
+		 return m_selection_border;
+	}
  protected:
+	/*! A selection border with capabilities spots to edit item
+	 */
+    SelectedObjectBorder * m_selection_border;
 	/**	Counter for loading all of dbs
 	 */
     int m_counter;
@@ -48,10 +67,7 @@ class IFaceEditor: public Editor
 	    \return MainPanel
 	 */
 	QMainWindow * createQtWindow();
-	/** Returns editor qt window
-		\return MainPanel
-	 */
-	MainPanel * panel();
+	
 	/** Creates a new Qt slots for working
 	  */
     void bindQtSlots();

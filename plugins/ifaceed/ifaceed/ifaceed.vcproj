@@ -349,6 +349,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\dbcriticallogger.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
@@ -393,6 +397,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\objectborders.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\qspritetablewidgetselection.cpp"
 					>
 				</File>
@@ -404,6 +412,22 @@
 					RelativePath=".\core\xmlconfigloader.cpp"
 					>
 				</File>
+				<Filter
+					Name="states"
+					>
+					<File
+						RelativePath=".\core\states\idlestate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\labeladdingstate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\selectedstate.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="interactivetests"
@@ -458,6 +482,14 @@
 				</File>
 				<File
 					RelativePath=".\history\newcommand.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="utils"
+				>
+				<File
+					RelativePath=".\utils\closure.cpp"
 					>
 				</File>
 			</Filter>
@@ -559,6 +591,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\editorcore\dbcriticallogger.h"
+					>
+				</File>
+				<File
 					RelativePath=".\editorcore\editor.h"
 					>
 					<FileConfiguration
@@ -608,6 +644,10 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editorbehaviour.h"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorbehaviourshareddata.h"
 					>
 				</File>
 				<File
@@ -735,6 +775,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\core\objectborders.h"
+					>
+				</File>
+				<File
 					RelativePath=".\core\qspritetablewidgetselection.h"
 					>
 				</File>
@@ -746,6 +790,22 @@
 					RelativePath=".\core\xmlconfigloader.h"
 					>
 				</File>
+				<Filter
+					Name="states"
+					>
+					<File
+						RelativePath=".\core\states\idlestate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\labeladdingstate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\selectedstate.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="interactivetests"
@@ -888,6 +948,14 @@
 				</File>
 				<File
 					RelativePath=".\history\newcommand.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="utils"
+				>
+				<File
+					RelativePath=".\utils\closure.h"
 					>
 				</File>
 			</Filter>

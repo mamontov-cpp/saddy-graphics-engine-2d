@@ -9,6 +9,7 @@
 #include <QDomDocument>
 #include <log.h>
 #include "fontdatabase.h"
+#include "../editorcore/dbcriticallogger.h"
 #pragma once
 
 namespace db
@@ -52,18 +53,6 @@ class FontTemplatesMaps
 		inline const db::NameFileMap & configs() { return m_configs;}
 };
 
-/** Class,that can emit critical logging from other objects
- */
-class DBCriticalLogger
-{
- public:
-	/** Emits a critical message for str
-	 */
-	virtual void  critical( const QString & str)=0;
-	/** Destroys a logger
-	 */
-	~DBCriticalLogger();
-};
 
 class SpriteDatabase;
 /** A database, which stores a font database and other in depth

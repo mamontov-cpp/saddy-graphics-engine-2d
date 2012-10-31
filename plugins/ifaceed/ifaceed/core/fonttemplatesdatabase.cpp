@@ -184,9 +184,3 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps, DBCriticalLogger * log
 	return true;
 }
 
-
-
-DBCriticalLogger::~DBCriticalLogger()
-{
-
-}

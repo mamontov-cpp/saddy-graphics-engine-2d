@@ -18,6 +18,7 @@ class EditorBehaviour
 {
  protected:
 	 hst::hash<hst::string, EditorBehaviourState *> m_states; //!< All states in behaviour
+	 hst::string m_previous_state; //!< Current previous state
 	 hst::string m_active_state; //!< Current active state (empty if nothing active)
 	 hst::string m_initial_state; //!< State, that will be choosed on initial start
 	 Editor * m_parent; //!< Parent editor
@@ -47,6 +48,9 @@ class EditorBehaviour
 	 /** Deactivates a behaviour
 	  */
 	 void deactivate();
+	 /** Switch to previous state with calling leave and enter new state
+	  */
+	 void cancelState();
 	 /** Enters a state data
 		 \param[in] state a state data
 	  */

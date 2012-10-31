@@ -11,6 +11,7 @@
 #include "ui_mainpanel.h"
 #include "templates/hstring.h"
 #include "gui/spritewidget/qspritetablewidget.h"
+#include <marshal/variant.h>
 #pragma once
 
 class IFaceEditor;
@@ -48,17 +49,28 @@ public:
 	 */
 	inline void setEditor(IFaceEditor * editor) {  m_editor = editor; }
 	
-	/** Synchronizes database with an editor
+	/*! Synchronizes database with an editor
 	 */
 	void synchronizeDatabase();
-	/** Sets labels, that performed on mouse move
+	/*! Sets labels, that performed on mouse move
 		\param[in] x x coordinates
 		\param[in] y y coordinates
 	 */
 	void setMouseMovePosView(float x, float y);
-	/** Hints current editor state for highlighting
+	/*! Hints current editor state for highlighting
 	 */
 	void highlightState(const hst::string & hints);
+	/*! Sets, whether adding or removing is enabled
+		\param[in] enabled enabled stuff
+	 */
+	void setAddingEnabled(bool enabled);
+	/*! Tries to set current propertit of active object, otherwise  - of selected
+		if property exists
+		\param[in] prop property name
+		\param[in] v value
+	 */
+	void trySetProperty(const hst::string & prop, const sad::Variant & v);
+	inline Ui::MainPanelClass * myUI() { return &ui; }
 private:
 	Ui::MainPanelClass ui;         //!< UI
 	IFaceEditor    *   m_editor;   //!< Editor to work with
@@ -83,6 +95,28 @@ protected slots:
 	/** Implementation of highlightState
 	 */
 	void highlightStateImpl();
+	/*! Adds a new font object
+	 */
+	void addFontObject();
+	/*! Changes a font in data
+		\param[in] s string
+	 */ 
+	void fontChanged(const QString & s);
+	/*! Changed an angle in data
+		\param[in] angle angle
+	 */
+	void angleChanged(double angle);
+	/*! Whether color is changed
+		\param[in] index of color
+	 */
+	void colorChanged(int index);
+	/*! Whether size is changed
+		\param[in] index of size
+	 */
+	void sizeChanged(int index);
+	/*! Whether label object text changed
+	 */
+	void textChanged();
 };
 
 #endif // MAINPANEL_H

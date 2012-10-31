@@ -11,10 +11,13 @@
 #include <QMainWindow>
 #include <os/mutex.h>
 #include <renderer.h>
+#include <marshal/actioncontext.h>
 #include "editoreventhandler.h"
 #include <input.h>
 #include "commandlineoptions.h"
 #include "../history/editorhistory.h"
+#include "../utils/closure.h"
+#include "dbcriticallogger.h"
 #pragma once
 
 enum EditorQuitReason
@@ -26,6 +29,7 @@ enum EditorQuitReason
 
 class Editor;
 class EditorBehaviour;
+class EditorBehaviourSharedData;
 class AbstractScreenObject;
 /** Interlocked scene, used to iterate while rendering
  */
@@ -122,14 +126,41 @@ public:
 	void waitForQtThread();
 	/** Runs a thread to do stuff
 	  */
-	virtual void run();
-	/** Emits a critical message
-		\param[in] str string
-	 */
-	void emitCriticalMessage(const QString & str);
-signals:
-	void criticalMesage(const QString & str);
+	virtual void run();	
 };
+
+/*! \class LoggingUtils
+	An utilities, used for logging all data in Editor.
+	
+ */
+class LoggingUtils
+{
+ private:
+	/*! Common action context
+	 */
+	LoggingActionContext m_context;
+	/*! A logger, used for critical messages
+	 */
+	DBCriticalLogger * m_logger;
+ public:
+	/*! An utils for logging
+		\param[in] ed editor
+	 */
+	LoggingUtils(Editor * ed);
+	/*! An action context, used for actions
+	 */
+	inline ActionContext * context() { return &m_context; }
+	/*! A logger, used to track down some other actions
+	 */
+	inline DBCriticalLogger * logger() { return m_logger;}
+	/*! Returns a log for utils
+	 */
+	inline hst::log * log() { return hst::log::inst(); }
+	/*! Destroys critical logger
+	 */
+	~LoggingUtils();
+};
+
 /*! \class Editor
 	
 	Describes a global editor state
@@ -139,6 +170,9 @@ class Editor: public QObject
 	Q_OBJECT
   friend class SaddyThread;
   private:
+		 /** Utilities, used for logging
+		  */
+		 LoggingUtils  m_utils;
 	     /** Thread for rendering
 		  */
 		 SaddyThread * m_renderthread; 
@@ -178,6 +212,9 @@ class Editor: public QObject
 		 /** History of data
 		  */
 		 EditorHistory * m_history;
+		 /** Describes a behaviour shared data
+		  */
+		 EditorBehaviourSharedData * m_behavioursharedata;
 protected:
 		/** A defines editor behaviours
 		 */
@@ -261,10 +298,6 @@ private:
 			 \return qt main window, used in program
 		  */
 		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
-		 /** Returns a scene
-			 \return used scene
-		  */
-		 inline sad::Scene * scene() { return this->m_scene; }
 		 /** REIMPLEMENT this function to pass your own renderer settings into saddy
 		  */
 		 virtual void initSaddyRendererOptions();
@@ -319,14 +352,35 @@ private:
 		 /** Runs, when qt quits 
 		  */
 		 void qtQuitSlot();
-		 /** Shows a critical message
+		 /** Runs a closure. Used by qt thread to work with closure.
+			 \param[in] closure closure data
 		  */
-		 virtual void onCriticalMessage(const QString & str);
+		 virtual void onClosureArrived(ClosureBasic * closure);		 
   public:
-		/** Default constructor
+		/*! Default constructor
 		 */
 		Editor();
-		/** Inits an editor, loading default data if nothing specified
+		 /** Returns a scene
+			 \return used scene
+		  */
+		inline sad::Scene * scene() { return this->m_scene; }
+	    /*! Returns a behaviour shated data, needed to implement some stuff
+			\return shared data for behaviour
+		 */
+		inline EditorBehaviourSharedData * behaviourSharedData() 
+		{
+			return m_behavioursharedata;
+		}
+		/*! An action context, used for actions
+		 */
+		inline ActionContext * logContext() { return m_utils.context(); }
+		/*! A logger, used to track down some other actions
+		 */
+		inline DBCriticalLogger * logger() { return m_utils.logger();}
+		/*! Returns a log for utils
+		 */
+		inline hst::log * log() { return m_utils.log(); }
+		/*! Inits an editor, loading default data if nothing specified
 			\param[in] argc count of arguments
 			\param[in] argv arguments
 		 */
@@ -370,13 +424,18 @@ private:
 		/** Posts a behaviour callback event for data
 		 */
 		void postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev);
-		/** Emits render thread message 
-		 */
-		void emitRenderThreadCritical(const QString & str);
 		/** Removes a command arguments data
 		 */
 		~Editor();
-   
+		/** Emits a closure signal closureArrived()
+			\param[in] closure closure signal arrived
+		 */
+		void emitClosure(ClosureBasic * closure);
+  signals:
+		/** Signal is emitted, when closure is arrived
+			\param[in] closure data for closure
+		 */
+		void closureArrived(ClosureBasic * closure);
 };
 
 
