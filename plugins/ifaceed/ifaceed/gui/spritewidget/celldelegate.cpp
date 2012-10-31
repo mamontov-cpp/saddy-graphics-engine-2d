@@ -1,7 +1,15 @@
 #include "celldelegate.h"
+#include <QStyleOptionViewItem>
+#include <QImage>
 
+#define CELL_WIDTH (100)
+#define CELL_HEIGHT (100)
 
+#define MAX_IMAGE_WIDTH  (66)
+#define MAX_IMAGE_HEIGHT (66)
 
+#define IMAGE_SPACE  (5)
+#define CELL_TEXT_Y (MAX_IMAGE_HEIGHT + IMAGE_SPACE)
 /** Paints a cell
 	\param[in] painter painter
 	\param[in] option  options for rendering
@@ -13,23 +21,33 @@ void CellDelegate::paint(QPainter * painter,
 {
 	CellInfo info = index.data(Qt::UserRole).value<CellInfo>();
 	
+	// Draw centered image
 	QImage img = info.image;
-	
-	//QImage scImg = img.scaledToHeight(100);
+	if (img.width() > CELL_WIDTH || img.height() > MAX_IMAGE_HEIGHT) 
+	{	
+		img = img.scaled(QSize(CELL_WIDTH, MAX_IMAGE_HEIGHT), Qt::KeepAspectRatio);
+	}
+	painter->drawImage(option.rect.x() + option.rect.width()/2 - img.width()/2,
+					   option.rect.y(),img);
 	
 	QString strGroup = info.group;
 	QString strIndex = QString::number(info.index);
 
 	QString str = getAcceptableString(strGroup, strIndex, option.rect.width());
 	
-	//emit static_cast<const QAbstractItemDelegate*>(this)->sizeHintChanged(index);
-	painter->drawImage(0,0,img);
-
-	QFont& font = QFont();
+	QFont font = QFont();
 	font.setPixelSize(10);
+	QFont oldFont = painter->font();
+	painter->setFont(font);
+
+	painter->setFont(oldFont);
+	//emit static_cast<const QAbstractItemDelegate*>(this)->sizeHintChanged(index);
+	
+
+	
 	//QPen pen(QColor(255,255,255));
 	//painter->setPen(pen);
-	painter->setFont(font);
+	
 	QFontMetrics fontMetrics(font);
 	//QRect rectText = QRect(QPoint(), fontMetrics.size(Qt::TextSingleLine, str) );
 	QPoint center = QPoint(img.width() - fontMetrics.width(str),
@@ -45,9 +63,7 @@ void CellDelegate::paint(QPainter * painter,
  */
 QSize CellDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	QSize size = index.data(Qt::SizeHintRole).toSize();
-	return size;
-	//return QSize(m_image->width(), 150);
+	return QSize(CELL_WIDTH,CELL_HEIGHT);
 }
 /** Returns half string
 	\param[in] str source string
