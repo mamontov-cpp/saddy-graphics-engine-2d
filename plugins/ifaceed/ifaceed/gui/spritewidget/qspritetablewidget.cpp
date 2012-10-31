@@ -1,8 +1,8 @@
 #include "qspritetablewidget.h"
 
-QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, const QRectF & tableRect)
+QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, QLayout* layout)
 {
-	m_rect = tableRect;
+	
 	m_combo = combo;
 	CellDelegate* mydelegate = new CellDelegate();
 	m_viewer = new QTableWidget();
@@ -17,6 +17,8 @@ QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, const QRectF & tableRe
 	QPalette* palette = new QPalette();
 	palette->setColor(QPalette::Highlight, QColor(0,0,255,100));
 	m_viewer->setPalette(*palette);
+
+	layout->addWidget(m_viewer);
 }
 
 void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn )
@@ -91,15 +93,7 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 	//emit sizeHintChanged(modelIndex);
 
 }
-/** Adds to main window anything
-	\param[in] w window object
- */
-void QSpriteTableWidget::addToForm(QMainWindow* w)
-{
-	m_viewer->setParent(w);
-	m_viewer->setGeometry(m_rect.toRect());
-	m_viewer->show();
-}
+
 
 /** Return selection object
 	\return selection object

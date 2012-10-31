@@ -16,7 +16,7 @@ class QSpriteTableWidget : public QWidget
 
 	QComboBox*     m_combo;
 	QTableWidget*  m_viewer;
-	QRectF         m_rect;
+
 
 	int m_curRow;
 
@@ -26,7 +26,7 @@ class QSpriteTableWidget : public QWidget
 	 */
 	int findGroupRow(QString rowName);
 public:
-	QSpriteTableWidget(QComboBox * combo, const QRectF & tableRect);
+	QSpriteTableWidget(QComboBox * combo, QLayout* layout);
 	/** Sets current selection
 		\param[in] sel selection object
 	 */
@@ -39,10 +39,7 @@ public:
 		\param[in] it iterator of the sprite DB
 	*/
 	void add(const AbstractSpriteDatabaseIterator & i);
-	/** Adds to main window anything
-		\param[in] w window object
-	*/
-	void addToForm(QMainWindow * w);
+
 
 signals:
 	void spriteSelected(QString config, QString group, int index);

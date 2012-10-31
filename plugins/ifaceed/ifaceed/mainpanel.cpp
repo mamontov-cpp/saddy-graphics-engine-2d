@@ -62,11 +62,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
 	
 	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
-	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, contentRect);
+	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, grPadLayout);
 
-	m_spriteTableWidget->addToForm(this);
 
-	grPadLayout->addWidget(m_spriteTableWidget);
 	ui.spriteViewerPad->setLayout(grPadLayout);
 	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
 	connect(ui.cmbFonts, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(fontChanged(const QString&)));
