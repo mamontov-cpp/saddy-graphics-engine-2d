@@ -299,7 +299,8 @@ void sad::Renderer::toggleFixedOn()
 {
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |= WS_OVERLAPPED;
-    style &=  ~WS_THICKFRAME;	
+    style &=  ~WS_THICKFRAME;
+	style &=  ~WS_MAXIMIZEBOX;
 	LONG result=SetWindowLongA(m_window.hWND,GWL_STYLE,style);
 }
 void sad::Renderer::toggleFixedOff()
@@ -307,6 +308,7 @@ void sad::Renderer::toggleFixedOff()
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |=WS_OVERLAPPED;
 	style |= WS_THICKFRAME;
+	style |= WS_MAXIMIZEBOX;
 	SetWindowLongA(m_window.hWND,GWL_STYLE,style);
 }
 #endif
