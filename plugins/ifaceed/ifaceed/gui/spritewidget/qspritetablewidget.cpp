@@ -7,17 +7,31 @@ QSpriteTableWidget::QSpriteTableWidget(QComboBox * combo, QLayout* layout)
 	CellDelegate* mydelegate = new CellDelegate();
 	m_viewer = new QTableWidget();
 	m_viewer->setItemDelegate(mydelegate);
-	m_viewer->setRowCount(64);
-	m_viewer->setColumnCount(64);
+	m_viewer->setRowCount(255);
+	m_viewer->setColumnCount(2);
 	m_viewer->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_viewer->setSelectionBehavior(QAbstractItemView::SelectItems);
 	m_curRow = 0;
+	m_curCol = 0;
+	m_viewer->horizontalHeader()->hide();
+	m_viewer->verticalHeader()->hide();
 	connect(m_viewer, SIGNAL(currentCellChanged(int, int, int, int)), this, SLOT(on_currentCellChanged(int, int, int, int)),Qt::UniqueConnection);
-	//connect(m_viewer, SIGNAL(sizeHintChanged(QModexIndex), mydelegate, SLOT(sizeHint(const QStyleOptionViewItem&, const QModelIndex&)))
 	QPalette* palette = new QPalette();
 	palette->setColor(QPalette::Highlight, QColor(0,0,255,100));
 	m_viewer->setPalette(*palette);
 
+	addToForm(layout);
+	
+}
+
+void QSpriteTableWidget::clear()
+{
+	m_viewer->clear();
+	m_curRow = 0;
+	m_curCol = 0;
+}
+void QSpriteTableWidget::addToForm(QLayout* layout)
+{
 	layout->addWidget(m_viewer);
 }
 
@@ -31,29 +45,7 @@ void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn
 }
 
 
-/** Search group number by its name in cell->data(Qt::UserRole)
-	\param[in] rowName name
-	\return group number
- */
-int QSpriteTableWidget::findGroupRow(QString rowName)
-{
-	int res = -1;
-	int count = m_viewer->rowCount();
-	for(int i=0;i<count;i++)
-	{
-		if (m_viewer->currentItem()!=NULL)
-		{
-			CellInfo curCell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
-			if (QString::compare(curCell.group, rowName) == 0 )
-			{
-				res = i;
-				break;
-			}
-		}
-	}
 
-	return res;
-}
 
 /** Adds new sprite to spriteviewer
 	\param[in] it Iterator of the sprite DB
@@ -62,10 +54,12 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 {
 
 	QTableWidgetItem* item = new QTableWidgetItem();
+
+	
 	CellInfo info;
 	info.config = it.config();
-	info.group = it.group();
-	info.index = it.groupIndex();
+	info.group = QString::number(m_curRow);
+	info.index = m_curCol;
 	info.image = const_cast<AbstractSpriteDatabaseIterator&>(it).image();
 
 	info.image = info.image.scaledToHeight(100);
@@ -73,24 +67,22 @@ void QSpriteTableWidget::add(const AbstractSpriteDatabaseIterator& it)
 	const QVariant& var = QVariant::fromValue<CellInfo>(info);
 	item->setData(Qt::UserRole, var);
 	item->setData(Qt::SizeHintRole, info.image.size());
-	int groupNum = findGroupRow(info.group);
-	if (groupNum == -1)
-	{
-		groupNum = m_curRow;
-		m_curRow++;
-	}
+
 	item->setFlags(item->flags() ^ Qt::ItemIsEditable);
 	QSize imgSize = info.image.size();
 	item->setSizeHint(imgSize);
-	m_viewer->setItem(groupNum, info.index, item);
+	m_viewer->setItem(m_curRow, m_curCol, item);
 	m_viewer->setCurrentItem(item);
 	
-	QModelIndex modelIndex = m_viewer->model()->index(groupNum, info.index);
+	QModelIndex modelIndex = m_viewer->model()->index(m_curRow, info.index);
 	QStyleOptionViewItem option;
 	m_viewer->resizeColumnsToContents();
 	m_viewer->resizeRowsToContents();
 	//option.rect = QRect(info.image.width(), indo.image.height(), item);
 	//emit sizeHintChanged(modelIndex);
+
+	m_curRow = m_curCol ? ++m_curRow : m_curRow;
+	m_curCol = m_curCol ? 0 : 1;
 
 }
 
@@ -117,7 +109,7 @@ void QSpriteTableWidget::setSelection(const QSpriteTableWidgetSelection & sel)
 		m_combo->setCurrentIndex(index);
 	}
 
-	int groupNum = findGroupRow(sel.group());
+	int groupNum = sel.group().toInt();
 	m_viewer->setCurrentCell(groupNum, sel.index());
 
 }

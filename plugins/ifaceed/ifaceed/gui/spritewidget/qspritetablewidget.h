@@ -19,12 +19,12 @@ class QSpriteTableWidget : public QWidget
 
 
 	int m_curRow;
+	int m_curCol;
 
-	/** Search group number by its name in cell->data(Qt::UserRole)
-		\param[in] rowName name
-		\return group number
-	 */
-	int findGroupRow(QString rowName);
+
+
+
+
 public:
 	QSpriteTableWidget(QComboBox * combo, QLayout* layout);
 	/** Sets current selection
@@ -40,7 +40,9 @@ public:
 	*/
 	void add(const AbstractSpriteDatabaseIterator & i);
 
+	void addToForm(QLayout* layout);
 
+	void clear();
 signals:
 	void spriteSelected(QString config, QString group, int index);
 
