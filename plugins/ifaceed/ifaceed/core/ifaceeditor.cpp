@@ -47,8 +47,6 @@ void IFaceEditor::initSaddyRendererOptions()
 	this->Editor::initSaddyRendererOptions();
 	sad::Renderer::instance().setWindowTitle("Saddy Interface Editor");
 	
-	sad::Input::inst()->bindKeyDown(KEY_F12, new IFaceEditorHandler(this,&IFaceEditor::quit));
-
 	this->assertSaddyInit(true);
 }
 
@@ -233,8 +231,34 @@ void IFaceEditor::onFullAppStart()
 				this->EditorEventHandler::operator()(ev);
 			}
 		} * handler = new IFaceMouseMoveHandler(this);
+		class IFaceKeyDownHandler : public EditorEventHandler
+		{
+		 public:
+			IFaceKeyDownHandler(Editor * ed) : EditorEventHandler(ed, &EditorBehaviour::onKeyDown)
+			{
+			}
+			virtual void operator()(const sad::Event & ev)
+			{
+				bool handled = false;
+				if (m_editor) 
+				{
+					if (m_editor->behaviourSharedData()->activeObject() == NULL)
+					{
+						if (ev.key == KEY_ESC)
+						{
+							handled = true;
+							static_cast<IFaceEditor*>(m_editor)->quit(ev);
+						}
+					}
+				}
+				if (!handled)
+					this->EditorEventHandler::operator()(ev);
+			}
+		} * kbdhandler = new IFaceKeyDownHandler(this);
+
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
+		sad::Input::inst()->setKeyDownHandler(kbdhandler);
 		m_selection_border = new SelectedObjectBorder(this->behaviourSharedData());
 		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->behaviourSharedData()) );
 		sad::Input::inst()->addPostRenderTask( m_selection_border );

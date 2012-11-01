@@ -303,7 +303,7 @@ void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event
 {
 	EditorBehaviour  * b = currentBehaviour();
 	if (b)
-	{
+	{		
 		(b->*cb)(ev);
 	}
 }
