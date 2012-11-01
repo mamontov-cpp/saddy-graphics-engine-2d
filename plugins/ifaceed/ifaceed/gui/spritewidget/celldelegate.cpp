@@ -24,6 +24,15 @@ void CellDelegate::paint(QPainter * painter,
 	CellInfo info = index.data(Qt::UserRole).value<CellInfo>();
 	if (info.group.size() == 0 && info.config.size() == 0)
 		return;
+	
+	if (option.state & QStyle::State_Selected) {
+        painter->save();
+        painter->setBrush(option.palette.highlight());
+        painter->setPen(Qt::NoPen);
+        painter->drawRect(option.rect);
+        painter->setPen(QPen(option.palette.highlightedText(), 0));
+		painter->restore();
+    }
 	// Draw centered image
 	QImage img = info.image;
 	if (img.width() > CELL_WIDTH || img.height() > MAX_IMAGE_HEIGHT) 
@@ -32,7 +41,7 @@ void CellDelegate::paint(QPainter * painter,
 	}
 	painter->drawImage(option.rect.x() + option.rect.width()/2 - img.width()/2,
 					   option.rect.y(),img);
-	
+
 	QString strGroup = info.group;
 	QString strIndex = QString::number(info.index);
 
@@ -50,6 +59,8 @@ void CellDelegate::paint(QPainter * painter,
 	painter->drawText(center, label);
 
 	painter->setFont(oldFont);
+
+	
 }
 
 /** Returns a hints for size
