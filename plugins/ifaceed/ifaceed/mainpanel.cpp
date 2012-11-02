@@ -29,7 +29,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	
 	ui.cmbFonts->setItemDelegate(new FontDelegate());
 	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
-	m_sprite_table = new MockSpriteTableWidget(ui.cmbSpriteConfig,ui.cmbSpriteGroup,ui.cmbSpriteIndex);
 
 	QColor colors[] = { Qt::red, 
 						Qt::darkRed,
@@ -85,7 +84,6 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 MainPanel::~MainPanel()
 {
 	delete m_spriteTableWidget;
-	delete m_sprite_table;
 }
 
 

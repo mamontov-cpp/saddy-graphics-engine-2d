@@ -24,9 +24,6 @@ class MainPanel : public QMainWindow
 {
 	Q_OBJECT
 private:
-	/** A sprite table data
-	 */
-	MockSpriteTableWidget * m_sprite_table;
 	/** Data for moving x
 	 */
 	float m_tmp_mov_x;
