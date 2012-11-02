@@ -62,7 +62,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
 	
 	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
-	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, ui.cmbSpriteGroup, ui.cmbSpriteIndex,
+	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
 													grPadLayout);
 
 

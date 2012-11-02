@@ -15,8 +15,7 @@ class QSpriteTableWidget : public QWidget
 	Q_OBJECT
 
 	QComboBox*     m_configCombo;
-	QComboBox*     m_groupCombo;
-	QComboBox*     m_indexCombo;
+
 	QTableWidget*  m_viewer;
 	QList<CellInfo> m_values;
 
@@ -24,28 +23,25 @@ class QSpriteTableWidget : public QWidget
 	int m_curRow;
 	int m_curCol;
 
-
-
 	QList<QString> getGroups(QString configName);
 	QList<QString> getIndexes(QString configName, QString group);
 	bool isCellExists(CellInfo& cellInfo);
-	void buildCombos();
+	void buildCombo();
 	void rebuildTable();
 
 
 public:
-	QSpriteTableWidget(QComboBox * configCombo, QComboBox * groupCombo, QComboBox * indexCombo,
-									   QLayout* layout);
+	QSpriteTableWidget(QComboBox * configCombo, QLayout* layout);
 	/** Sets current selection
-		\param[in] sel selection object
-	 */
+	\param[in] sel selection object
+	*/
 	void setSelection(const QSpriteTableWidgetSelection & sel);
 	/** Returns current selection
-		\return selection object
-	 */
+	\return selection object
+	*/
 	QSpriteTableWidgetSelection selection();
 	/** Adds new sprite to spriteviewer
-		\param[in] it iterator of the sprite DB
+	\param[in] it iterator of the sprite DB
 	*/
 	void add(const AbstractSpriteDatabaseIterator & i);
 
@@ -60,8 +56,6 @@ signals:
 private slots:
 	void on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn );
 	void configChanged(int index);
-	void groupChanged(int index);
-	void indexChanged(int index);
 };
 
 #endif
