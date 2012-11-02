@@ -62,7 +62,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
 	
 	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
-	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, grPadLayout);
+	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig, ui.cmbSpriteGroup, ui.cmbSpriteIndex,
+													grPadLayout);
 
 
 	ui.spriteViewerPad->setLayout(grPadLayout);
@@ -71,8 +72,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
 	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
-	connect(ui.cmbSpriteConfig, SIGNAL(currentIndexChanged ( const QString & )), this, SLOT(on_cmbConfig_currentIndexChanged(const QString &)),Qt::UniqueConnection);
-
 
 }
 
@@ -81,10 +80,7 @@ MainPanel::~MainPanel()
 	delete m_sprite_table;
 }
 
-void MainPanel::on_cmbConfig_currentIndexChanged(const QString & cur)
-{
-	this->synchronizeDatabase();
-}
+
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
@@ -93,23 +89,6 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 
 void MainPanel::synchronizeDatabase()
 {
-	m_spriteTableWidget->clear();
-	QString prevText = ui.cmbSpriteConfig->currentText();
-	
-	SpriteDatabase & sprites = m_editor->database()->sprites();
-	AbstractSpriteDatabaseIterator * it = sprites.begin();
-	for(it; !(it->isEnd());it->next())
-	{
-		if (ui.cmbSpriteConfig->findText(it->config())==-1)
-		{
-			ui.cmbSpriteConfig->addItem(it->config());
-		}
-	}
-	
-	if (!prevText.isEmpty())
-	{
-		ui.cmbSpriteConfig->setCurrentIndex(ui.cmbSpriteConfig->findText(prevText));
-	}
 	ui.cmbFonts->clear();
 	FontTemplateDatabase * db = m_editor->database();
 	IFaceEditorFontList & list =db->fonts();
@@ -118,25 +97,13 @@ void MainPanel::synchronizeDatabase()
 	{
 		ui.cmbFonts->addItem(it.name(), QVariant(it.fonts()->qtFont()));
 	}
-	it = sprites.begin();
-	QSpriteTableWidgetSelection* sel;
+	SpriteDatabase & sprites = db->sprites();
+	AbstractSpriteDatabaseIterator * it = sprites.begin();
 	for(it; !(it->isEnd());it->next())
 	{
-		if (ui.cmbSpriteConfig->currentText()==it->config())
-		{
-			m_spriteTableWidget->add(*it);
-			sel = new QSpriteTableWidgetSelection(
-											it->config(),
-											it->group(),
-											it->groupIndex()
-										);
-
-		}
-		
+		m_spriteTableWidget->add(*it);
 	}
-	it = sprites.begin();
-	m_spriteTableWidget->setSelection(*sel);
-
+	m_spriteTableWidget->finishSyncronizing();
 	delete it;
 }
 
