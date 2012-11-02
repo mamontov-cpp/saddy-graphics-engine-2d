@@ -72,11 +72,19 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
 	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
+	connect(m_spriteTableWidget, SIGNAL(spriteSelected(QString,QString,int)), this, SLOT(spriteSelected(QString,QString,int)));
+}
 
+
+void MainPanel::spriteSelected(QString config, QString group, int index)
+{
+	// TODO: Reimplement
+	// QMessageBox::critical(NULL, "IFaceEditor", config + QString(",") + group + QString(",") + QString::number(index));
 }
 
 MainPanel::~MainPanel()
 {
+	delete m_spriteTableWidget;
 	delete m_sprite_table;
 }
 
