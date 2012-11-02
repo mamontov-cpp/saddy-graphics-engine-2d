@@ -88,9 +88,11 @@ void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn
 	if (m_viewer->currentItem()!=NULL)
 	{
 		CellInfo cell = m_viewer->currentItem()->data(Qt::UserRole).value<CellInfo>();
-		emit spriteSelected(cell.config, cell.group, cell.index);
-
-		m_configCombo->setCurrentIndex(m_configCombo->findText(cell.config));
+		if (cell.config != "")
+		{
+			emit spriteSelected(cell.config, cell.group, cell.index);
+			m_configCombo->setCurrentIndex(m_configCombo->findText(cell.config));
+		}
 	}
 }
 
@@ -184,6 +186,12 @@ void QSpriteTableWidget::rebuildTable()
 			m_curCol = m_curCol ? 0 : 1;
 
 		}
+	}
+	if (m_viewer->item(m_curRow, m_curCol) == NULL)
+	{
+		QTableWidgetItem* dummy = new QTableWidgetItem();
+		dummy->setFlags(dummy->flags() ^ Qt::ItemIsEditable);
+		m_viewer->setItem(m_curRow, m_curCol, dummy);
 	}
 	if (m_viewer->rowCount()>0)
 	{
