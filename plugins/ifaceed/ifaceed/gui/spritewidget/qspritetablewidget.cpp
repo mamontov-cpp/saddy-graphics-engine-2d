@@ -176,7 +176,6 @@ void QSpriteTableWidget::rebuildTable()
 			item->setSizeHint(imgSize);
 
 			m_viewer->setItem(m_curRow, m_curCol, item);
-			m_viewer->setCurrentItem(item);
 
 			m_viewer->resizeColumnsToContents();
 			m_viewer->resizeRowsToContents();

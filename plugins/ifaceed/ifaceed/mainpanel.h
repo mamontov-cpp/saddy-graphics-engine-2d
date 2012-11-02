@@ -81,6 +81,7 @@ protected:
 	void closeEvent(QCloseEvent*);
     QSpriteTableWidget* m_spriteTableWidget; //!< Modified QTableWidget. Works with configs, groups, indexes
 protected slots:
+	void spriteSelected(QString config, QString group, int index);
 	/**
 	 * Adds new color for fonts in combo box
 	 */
