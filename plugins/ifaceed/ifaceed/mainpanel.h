@@ -117,8 +117,6 @@ protected slots:
 	/*! Whether label object text changed
 	 */
 	void textChanged();
-
-	void on_cmbConfig_currentIndexChanged(const QString &);
 };
 
 #endif // MAINPANEL_H

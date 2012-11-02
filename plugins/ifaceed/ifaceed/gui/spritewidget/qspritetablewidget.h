@@ -14,8 +14,11 @@ class QSpriteTableWidget : public QWidget
 
 	Q_OBJECT
 
-	QComboBox*     m_combo;
+	QComboBox*     m_configCombo;
+	QComboBox*     m_groupCombo;
+	QComboBox*     m_indexCombo;
 	QTableWidget*  m_viewer;
+	QList<CellInfo> m_values;
 
 
 	int m_curRow;
@@ -23,10 +26,16 @@ class QSpriteTableWidget : public QWidget
 
 
 
+	QList<QString> getGroups(QString configName);
+	QList<QString> getIndexes(QString configName, QString group);
+	bool isCellExists(CellInfo& cellInfo);
+	void buildCombos();
+	void rebuildTable();
 
 
 public:
-	QSpriteTableWidget(QComboBox * combo, QLayout* layout);
+	QSpriteTableWidget(QComboBox * configCombo, QComboBox * groupCombo, QComboBox * indexCombo,
+									   QLayout* layout);
 	/** Sets current selection
 		\param[in] sel selection object
 	 */
@@ -43,12 +52,16 @@ public:
 	void addToForm(QLayout* layout);
 
 	void clear();
+
+	void finishSyncronizing();
 signals:
 	void spriteSelected(QString config, QString group, int index);
 
 private slots:
 	void on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn );
-	
+	void configChanged(int index);
+	void groupChanged(int index);
+	void indexChanged(int index);
 };
 
 #endif
