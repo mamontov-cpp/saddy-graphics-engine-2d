@@ -21,7 +21,7 @@ void ScreenLabel::moveCenterTo(const hPointF & p)
 {
 	hRectF r = m_font->size(m_text);
 	m_point.setX(p.x() - r.width()/2);
-	m_point.setY(p.y() - r.height()/2);
+	m_point.setY(p.y() + r.height()/2);
 }
 
 hst::string ScreenLabel::description()
