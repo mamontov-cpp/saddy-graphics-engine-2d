@@ -167,12 +167,12 @@ void IFaceEditor::onFullAppStart()
 		m_log->setMaxLevel(ELL_DEBUG);
 	if (this->cmdLineOptions()->hasConfig() == false)
 	{
-		QMessageBox::warning(NULL, "IFace Editor", "Config file is not specified. You must choose it now");
+		m_log->warning("Config file is not specified. You must choose it now");
 		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
 													  ("Configs (*.xml)"));
 		if (config.length() == 0) 
 		{
-			QMessageBox::critical(NULL, "IFace Editor", "Config file is not specified. Quitting...");
+			m_log->error("Config file is not specified. Quitting...");
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			return;
 		} 
@@ -211,7 +211,7 @@ void IFaceEditor::onFullAppStart()
 	else 
 	{
 		success = false;
-		QMessageBox::critical(NULL, "IFace Editor", "Can\'t load config file");
+		m_log->error("Can\'t load config file");
 		QTimer::singleShot(0, this->panel(), SLOT(close()));
 	}
 	if (success) {
