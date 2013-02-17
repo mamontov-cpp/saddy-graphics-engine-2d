@@ -44,7 +44,7 @@ void Editor::init(int argc,char ** argv)
 		this->runQtEventLoop();
 	}
 	m_renderthread->wait();
-	hst::log::save("log.txt");
+	m_log->save();
 }
 void Editor::waitForSaddyThread()
 {
@@ -71,7 +71,6 @@ Editor::~Editor()
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;
-	m_log->save();
 	delete m_log;
 }
 
@@ -282,7 +281,7 @@ void Editor::setBehaviour(const hst::string & name)
 	}
 	else 
 	{
-		hst::log::inst()->owrite("Can\'t find editor behaviour, named ").owrite(name).owrite(" \n");
+		m_log->debug(QString("Can\'t find editor behaviour, named %1").arg(name.data()));
 	}
 }
 
