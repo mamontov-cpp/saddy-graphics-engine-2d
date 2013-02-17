@@ -5,19 +5,13 @@
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
+#include "editorlog.h"
 #include <QMessageBox>
 
-LoggingUtils::LoggingUtils(Editor * ed)
-{
-	m_logger = new EditorCriticalLogger(ed);
-}
 
-LoggingUtils::~LoggingUtils()
+Editor::Editor()
 {
-	delete m_logger;
-}
-Editor::Editor():m_utils(this) 
-{
+	m_log = new EditorLog(this);
 	m_cmdargs = NULL;
 	m_rendermutex = new os::mutex();
 	m_initmutex = new os::mutex();
@@ -26,7 +20,7 @@ Editor::Editor():m_utils(this)
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
-	m_history = new EditorHistory(this->logContext());
+	m_history = new EditorHistory(this->log());
 	m_behavioursharedata = new EditorBehaviourSharedData();
 }
 
@@ -77,6 +71,8 @@ Editor::~Editor()
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;
+	m_log->save();
+	delete m_log;
 }
 
 void SaddyThread::run() 

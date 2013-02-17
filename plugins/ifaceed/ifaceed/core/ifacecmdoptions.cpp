@@ -25,6 +25,12 @@ QString IFaceCmdOptions::config() const
 	return this->option<QString>("ifaceconfig");
 }
 
+bool IFaceCmdOptions::debug() const
+{
+	return this->option<bool>("debug");
+}
+
+
 const QString & IFaceCmdOptions::interfaceFile() const
 {
 	return this->mainFile();
@@ -54,7 +60,7 @@ void IFaceCmdOptions::parse(int argc, char ** argv)
 		bool keyword;           // A state when config keyword specified
 		QString keywordName;    // A name of keyword 
 	} state;
-	
+	this->setOption("debug", false);
 	QVector<QString> unittests;
 	state.keyword = false;
 	for(int i=1;i<argc;i++)
@@ -86,6 +92,11 @@ void IFaceCmdOptions::parse(int argc, char ** argv)
 			{
 				this->setInterfaceFile(data);
 			}
+		} 
+		else 
+		{
+			if (state.keywordName == "-debug")
+				this->setOption("debug", true);
 		}
 	}
 	this->setOption("test", unittests);

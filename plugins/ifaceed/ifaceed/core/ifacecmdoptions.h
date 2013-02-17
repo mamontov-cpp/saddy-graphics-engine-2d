@@ -26,6 +26,9 @@ class IFaceCmdOptions: public CommandLineOptions
 		/** Frees memory from inner strings
 		 */ 
 		~IFaceCmdOptions();
+		/** Returns whether debug mode was specified
+		 */
+		bool debug() const;
 		/** Whether running config is specified
 			\return whether config as specified
 		 */

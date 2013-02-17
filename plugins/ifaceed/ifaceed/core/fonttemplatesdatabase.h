@@ -9,13 +9,15 @@
 #include <QDomDocument>
 #include <log.h>
 #include "fontdatabase.h"
-#include "../editorcore/dbcriticallogger.h"
+#include "../editorcore/editorlog.h"
 #pragma once
 
 namespace db
 {
 typedef QHash<QString, QString> NameFileMap;
 }
+
+class EditorLog;
 
 /** A maps, to be read from XML file data
  */
@@ -27,13 +29,15 @@ class FontTemplatesMaps
 		/** Loads a found entry
 			\param[in] entry element
 			\param[in] parent parent directory
+			\param[in] log log data
 		 */
-		void loadFont(QDomElement & entry, const hst::string & parent);
+		void loadFont(QDomElement & entry, const hst::string & parent, EditorLog * log);
 		/** Loads a found config
 			\param[in] entry element
 			\param[in] parent parent directory
+			\param[in] log log data
 		 */
-		void loadConfig(QDomElement & entry, const hst::string & parent);
+		void loadConfig(QDomElement & entry, const hst::string & parent, EditorLog * log);
 
  public:
 		/** Constructs new empty maps
@@ -42,7 +46,7 @@ class FontTemplatesMaps
 		/** Loads a configs from file, specified by path and name
 			Also preprocesses a local paths from config data
 		 */
-		bool load(const QString & name);
+		bool load(const QString & name, EditorLog * log);
 		/** Read fonts
 			\return entities of fonts
 		 */
@@ -80,9 +84,9 @@ class FontTemplateDatabase
         /** Loads new font template maps
 			NOTE: That function is not reentrant, please do not use it second time
 			\param[in] maps maps data
-			\param[in] logger logger to perform some GUI critical messages
+			\param[in] log log to write to
 		 */
-		bool load(FontTemplatesMaps & maps, DBCriticalLogger * logger);
+		bool load(FontTemplatesMaps & maps, EditorLog * log);
 		/** Fonts, represented in database
 			\return fonts
 		 */

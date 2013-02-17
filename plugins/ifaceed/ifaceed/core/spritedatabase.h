@@ -11,7 +11,7 @@
 #include <QImage>
 #include <QHash>
 #include <config/sprite2dconfig.h>
-
+#include "../editorcore/editorlog.h"
 
 class DBCriticalLogger;
 
@@ -172,10 +172,10 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	 /** Loads a database to data
 		 \param[in] maps maps for loading
 		 \param[out] counter counter, that makes texture containers unique, even if loaded the same config. Must be changed each time
-		 \param[in] logger logger for logging critical messages
+		 \param[in] log log for logging critical messages
 		 \return whether loading was successfull
 	  */
-	 virtual bool load(FontTemplatesMaps & maps, int & counter, DBCriticalLogger * logger);
+	 virtual bool load(FontTemplatesMaps & maps, int & counter, EditorLog * log);
 	 virtual ~SpriteDatabase();
 	 /** A configs for implementation of simple widget with loading data into form
 	  */
