@@ -189,7 +189,7 @@ void MainPanel::addFontObject()
 		label->setVisible(true);
 		
 		// Set props
-		ActionContext * c = this->m_editor->logContext();
+		ActionContext * c = this->m_editor->log();
 		hst::string fontName=ui.cmbFonts->currentText().toStdString().c_str();
 		label->getProperty("font")->set(sad::Variant(fontName),c);
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
@@ -240,7 +240,7 @@ void MainPanel::trySetProperty(const hst::string & prop, const sad::Variant & v)
 		_property = o->getProperty(prop);
 		if (_property) 
 		{
-			_property->set(v, this->m_editor->logContext());
+			_property->set(v, this->m_editor->log());
 		}
 		if (prop == "font")
 		{

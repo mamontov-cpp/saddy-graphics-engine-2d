@@ -17,7 +17,7 @@
 #include "commandlineoptions.h"
 #include "../history/editorhistory.h"
 #include "../utils/closure.h"
-#include "dbcriticallogger.h"
+#include "editorlog.h"
 #pragma once
 
 enum EditorQuitReason
@@ -28,6 +28,7 @@ enum EditorQuitReason
 };
 
 class Editor;
+class EditogLog;
 class EditorBehaviour;
 class EditorBehaviourSharedData;
 class AbstractScreenObject;
@@ -129,37 +130,6 @@ public:
 	virtual void run();	
 };
 
-/*! \class LoggingUtils
-	An utilities, used for logging all data in Editor.
-	
- */
-class LoggingUtils
-{
- private:
-	/*! Common action context
-	 */
-	LoggingActionContext m_context;
-	/*! A logger, used for critical messages
-	 */
-	DBCriticalLogger * m_logger;
- public:
-	/*! An utils for logging
-		\param[in] ed editor
-	 */
-	LoggingUtils(Editor * ed);
-	/*! An action context, used for actions
-	 */
-	inline ActionContext * context() { return &m_context; }
-	/*! A logger, used to track down some other actions
-	 */
-	inline DBCriticalLogger * logger() { return m_logger;}
-	/*! Returns a log for utils
-	 */
-	inline hst::log * log() { return hst::log::inst(); }
-	/*! Destroys critical logger
-	 */
-	~LoggingUtils();
-};
 
 /*! \class Editor
 	
@@ -170,9 +140,6 @@ class Editor: public QObject
 	Q_OBJECT
   friend class SaddyThread;
   private:
-		 /** Utilities, used for logging
-		  */
-		 LoggingUtils  m_utils;
 	     /** Thread for rendering
 		  */
 		 SaddyThread * m_renderthread; 
@@ -216,6 +183,9 @@ class Editor: public QObject
 		  */
 		 EditorBehaviourSharedData * m_behavioursharedata;
 protected:
+		/** A log for logging stuff
+		 */
+		EditorLog *  m_log;
 		/** A defines editor behaviours
 		 */
 	    hst::hash<hst::string, EditorBehaviour *> m_behaviours;
@@ -371,15 +341,9 @@ private:
 		{
 			return m_behavioursharedata;
 		}
-		/*! An action context, used for actions
-		 */
-		inline ActionContext * logContext() { return m_utils.context(); }
-		/*! A logger, used to track down some other actions
-		 */
-		inline DBCriticalLogger * logger() { return m_utils.logger();}
 		/*! Returns a log for utils
 		 */
-		inline hst::log * log() { return m_utils.log(); }
+		inline EditorLog * log() { return m_log; }
 		/*! Inits an editor, loading default data if nothing specified
 			\param[in] argc count of arguments
 			\param[in] argv arguments

@@ -18,6 +18,9 @@
 
 IFaceEditor::IFaceEditor()
 {
+	m_log->setProgramName("IFace Editor");
+	m_log->setLogFile("log.txt");
+
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
@@ -130,24 +133,24 @@ class DBLoadingTask: public sad::CountableTask
 	 FontTemplatesMaps * m_maps; //!< Maps data
 	 FontTemplateDatabase * m_db;  //!< Database for loading
 	 DBLoadingTaskFuture * m_future; //!< Future for computing
-	 DBCriticalLogger * m_logger;    //!< Logger for logging data
+	 EditorLog * m_log;    //!< Logger for logging data
  public:
 	 /** Constructs new tasks
 	  */
 	 inline DBLoadingTask(FontTemplatesMaps * maps, 
 						  FontTemplateDatabase * db, 
 						  DBLoadingTaskFuture * f, 
-						  DBCriticalLogger * logger)
+						  EditorLog * log)
 	 {
 		 m_maps = maps;
 		 m_db = db;
 		 m_future = f;
-		 m_logger = logger;
+		 m_log = log;
 	 }
 	 // Loads a db
 	 virtual void perform()
 	 {
-	    bool data = m_db->load(*m_maps, m_logger);
+	    bool data = m_db->load(*m_maps, m_log);
 		m_future->setResult(data);
 	 }
 	 virtual ~DBLoadingTask()
@@ -160,6 +163,8 @@ class DBLoadingTask: public sad::CountableTask
 
 void IFaceEditor::onFullAppStart()
 {
+	if (this->cmdLineOptions()->debug())
+		m_log->setMaxLevel(ELL_DEBUG);
 	if (this->cmdLineOptions()->hasConfig() == false)
 	{
 		QMessageBox::warning(NULL, "IFace Editor", "Config file is not specified. You must choose it now");
@@ -179,13 +184,13 @@ void IFaceEditor::onFullAppStart()
 	bool success = true;
 	// Load first stage - a maps of handling all of data
 	FontTemplatesMaps maps;
-	if (maps.load(this->cmdLineOptions()->config()))
+	if (maps.load(this->cmdLineOptions()->config(), m_log))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		
 		
 		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->logger());
+		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->log());
 		// Locking rendering due to adding of new task
 		this->lockRendering();
 		sad::Input::inst()->addPreRenderTask(task);

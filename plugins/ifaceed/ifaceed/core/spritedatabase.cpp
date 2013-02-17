@@ -127,7 +127,7 @@ void SpriteDatabase::clear()
 
 
 
-bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, DBCriticalLogger * logger)
+bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, EditorLog * log)
 {
 	bool ok = true;
 	const db::NameFileMap & map = maps.configs();
@@ -148,11 +148,9 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, DBCriticalLog
 				cnf->setLoader(loader);
 				if (cnf->reload() != SCR_OK)
 				{
-					hst::log::inst()->owrite("Saddy can\'t load images from config with path ").owrite(it.value().toStdString()).
-							  owrite("\n");
-					logger->critical(QString("Saddy can\'t load images from config with path ")+
-				                  it.value());
-
+					log->error(QString("Saddy can\'t load images from config with path  %1")
+						       .arg(it.value())
+							  );
 					qtimages->remove(it.key());
 					delete cnf;
 					ok = false;

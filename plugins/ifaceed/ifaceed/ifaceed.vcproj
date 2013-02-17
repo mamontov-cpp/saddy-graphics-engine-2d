@@ -349,10 +349,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\dbcriticallogger.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
@@ -366,6 +362,10 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editoreventhandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorlog.cpp"
 					>
 				</File>
 				<File
@@ -591,10 +591,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\dbcriticallogger.h"
-					>
-				</File>
-				<File
 					RelativePath=".\editorcore\editor.h"
 					>
 					<FileConfiguration
@@ -656,6 +652,10 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editoreventhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\editorcore\editorlog.h"
 					>
 				</File>
 				<File
