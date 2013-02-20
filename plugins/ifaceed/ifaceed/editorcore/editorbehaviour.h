@@ -68,6 +68,11 @@ class EditorBehaviour
 		 \param[in] statename
 	  */
 	 void removeState(const hst::string & statename);
+	 /** Returns a state from behaviour
+		 \param[in] name of state
+		 \return state
+	  */
+	 EditorBehaviourState * getState(const hst::string & statename) const;
 	/** Handles mouse movement
 		 \param[in] ev event data
 	  */

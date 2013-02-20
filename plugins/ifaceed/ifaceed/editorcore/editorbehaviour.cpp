@@ -150,3 +150,13 @@ void EditorBehaviour::onKeyUp(const sad::Event & ev)
 		m_states[m_active_state]->onKeyUp(ev);
 	}
 }
+
+EditorBehaviourState * EditorBehaviour::getState(const hst::string & statename) const
+{
+	EditorBehaviourState * state = NULL;
+	if (m_states.contains(statename)) 
+	{
+		state = m_states[statename];
+	}
+	return state;
+}

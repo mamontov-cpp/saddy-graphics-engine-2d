@@ -18,11 +18,13 @@
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
 
+#define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
+
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	ui.setupUi(this);
-	
+	m_selfchanged = false;
 	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
 	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
@@ -252,18 +254,21 @@ void MainPanel::trySetProperty(const hst::string & prop, const sad::Variant & v)
 
 void MainPanel::fontChanged(const QString & s)
 {
+	IGNORE_SELFCHANGING
 	hst::string hs = s.toStdString().c_str();
 	trySetProperty("font", sad::Variant(hs));
 }
 
 void MainPanel::angleChanged(double angle)
 {
+	IGNORE_SELFCHANGING
 	float fangle = angle;
 	trySetProperty("angle", sad::Variant(fangle));
 }
 
 void MainPanel::colorChanged(int index)
 {
+	IGNORE_SELFCHANGING
 	if (index!=-1) 
 	{
 		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
@@ -274,6 +279,7 @@ void MainPanel::colorChanged(int index)
 
 void MainPanel::sizeChanged(int index)
 {
+	IGNORE_SELFCHANGING
 	if (index!=-1)
 	{
 		unsigned int size = ui.cmbFontSize->itemData(index).value<int>();
@@ -283,6 +289,76 @@ void MainPanel::sizeChanged(int index)
 
 void MainPanel::textChanged()
 {
+	IGNORE_SELFCHANGING
 	hst::string s = ui.txtLabelText->toPlainText().toStdString().c_str();
 	trySetProperty("text",s);
+}
+
+void MainPanel::updateObjectStats(AbstractScreenObject * o)
+{
+	AbstractProperty * prop = NULL;
+	EditorLog * l = this->m_editor->log();		
+	// Get text
+	prop = o->getProperty("text");
+	if (prop)
+	{
+		m_selfchanged = true;
+		ui.txtLabelText->setPlainText(prop->get(l)->get<hst::string>(l).data());
+	}
+	// Get size
+	prop = o->getProperty("size");
+	if (prop)
+	{
+		m_selfchanged = true;
+		unsigned int size = prop->get(l)->get<unsigned int>(l);
+		int index = ui.cmbFontSize->findData((int)size);
+		if (index != -1) 
+		{
+			ui.cmbFontSize->setCurrentIndex(index);
+		} 
+		else 
+		{
+			ui.cmbFontSize->addItem(QString::number(size), (int)size);
+			ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count() - 1);
+		}
+	}
+	prop = o->getProperty("color");
+	if (prop)
+	{
+		m_selfchanged = true;
+		hst::color c = prop->get(l)->get<hst::color>(l);
+		QColor clr(c.r(), c.g(), c.b()); 
+		int index = ui.cmbFontColor->findData(clr);
+		if (index != -1) 
+		{
+			ui.cmbFontColor->setCurrentIndex(index);
+		} 
+		else 
+		{
+			m_selfchanged = false;
+		}
+	}
+	prop = o->getProperty("font");
+	if (prop)
+	{
+		m_selfchanged = true;
+		hst::string c = prop->get(l)->get<hst::string>(l);
+		QString s = c.data();
+		int index = ui.cmbFonts->findText(s);
+		if (index != -1) 
+		{
+			ui.cmbFonts->setCurrentIndex(index);
+		} 
+		else 
+		{
+			m_selfchanged = false;
+		}
+	}
+	prop = o->getProperty("angle");
+	if (prop)
+	{
+		m_selfchanged = true;
+		float c = prop->get(l)->get<float>(l);
+		ui.dblAngle->setValue(c);
+	}
 }

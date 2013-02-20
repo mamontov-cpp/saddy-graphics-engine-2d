@@ -122,7 +122,7 @@ vector32 ortho(const vector32 & v);
 */
 inline void normalize(vector32 & v)
 {
-	if (v.x()!=0 && v.y()!=0)
+	if (v.x()!=0 || v.y()!=0)
 	{ float modu=sqrtf(v.x()*v.x()+v.y()*v.y()); v.setX(v.x()/modu); v.setY(v.y()/modu); }
 	else
 	{ v.setX(1); v.setY(1);}

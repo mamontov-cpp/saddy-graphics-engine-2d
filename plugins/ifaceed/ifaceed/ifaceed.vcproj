@@ -416,6 +416,10 @@
 					Name="states"
 					>
 					<File
+						RelativePath=".\core\states\changingselection.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\core\states\idlestate.cpp"
 						>
 					</File>

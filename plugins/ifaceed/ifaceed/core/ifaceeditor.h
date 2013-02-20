@@ -101,6 +101,18 @@ class IFaceEditor: public Editor
 		\param[in] hint hint of state
 	  */
 	virtual void highlightState(const hst::string & hint);
+	/** Shows objects stats for selected object
+		Implemented in \core\states\changingselection.h
+		\param[in] o object, which must be selected
+	 */
+	virtual void showObjectStats(AbstractScreenObject * o);
+	/** Tries to select some object
+		Implemented in \core\states\changingselection.h
+		\param[in] p point
+		\param[in] enterSelected whether we should enter selected states if found
+	 */
+	virtual void trySelectObject(hPointF p, bool enterSelected);
+	
 };
 
 /** A special handler for method

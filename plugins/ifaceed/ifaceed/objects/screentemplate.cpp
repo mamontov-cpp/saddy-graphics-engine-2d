@@ -17,13 +17,13 @@ AbstractScreenObject * ScreenTemplate::templateNext()
 
 void ScreenTemplate::add(AbstractScreenObject * obj)
 {
-	this->SerializableContainer::add((SerializableObject*)obj);
+	this->HashBasedSerializableContainer::add((SerializableObject*)obj);
 	obj->addRef();
 }
 
 void ScreenTemplate::remove(AbstractScreenObject * obj)
 {
-	this->SerializableContainer::remove((SerializableObject*)obj);
+	this->HashBasedSerializableContainer::remove((SerializableObject*)obj);
 	obj->delRef();
 }
 
