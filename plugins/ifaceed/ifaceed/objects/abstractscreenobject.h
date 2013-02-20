@@ -110,7 +110,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string description()=0;
+	virtual hst::string description()=0;	
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();

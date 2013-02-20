@@ -15,7 +15,7 @@
 #pragma once
 
 class IFaceEditor;
-
+class AbstractScreenObject;
 class MockSpriteTableWidget;
 
 /*! A main window to edit level objects
@@ -68,10 +68,16 @@ public:
 	 */
 	void trySetProperty(const hst::string & prop, const sad::Variant & v);
 	inline Ui::MainPanelClass * myUI() { return &ui; }
+
+	void updateObjectStats(AbstractScreenObject * o);
 private:
 	Ui::MainPanelClass ui;         //!< UI
 	IFaceEditor    *   m_editor;   //!< Editor to work with
 protected:
+	/**
+	 * An utility flag to prevent events, from self-changing 
+	 */
+	bool m_selfchanged;
 	/**
 	 * Whether panel is closed it must close a dialogs if present
 	 */
