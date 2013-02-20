@@ -30,7 +30,7 @@ public:
 	{ 
 		unsigned int i1 = o1->getProperty("layer")->get(m_log)->get<unsigned int>(m_log);
 		unsigned int i2 = o2->getProperty("layer")->get(m_log)->get<unsigned int>(m_log);
-		return i2 > i1;
+		return i1 > i2;
 	}
 };
 
