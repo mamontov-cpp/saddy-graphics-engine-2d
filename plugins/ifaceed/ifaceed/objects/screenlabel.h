@@ -39,6 +39,9 @@ class ScreenLabel: public AbstractScreenObject
 		\return string with description
 	 */
 	virtual hst::string description();
+	/*! Whether we can resize object
+	 */
+	virtual bool resizable();
 	 /*! Returns a region, where object is placed. 
 	     \param[in] p point
 		 \return whether point is within region

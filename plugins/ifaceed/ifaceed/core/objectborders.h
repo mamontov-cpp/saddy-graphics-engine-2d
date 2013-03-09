@@ -5,6 +5,7 @@
  */
 #include <input.h>
 #include "../../editorcore/editorbehaviourshareddata.h"
+#include <config/sprite2dconfig.h>
 #pragma once
 
 

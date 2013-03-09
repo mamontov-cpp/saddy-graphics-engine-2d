@@ -102,9 +102,9 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 	{
 		QString name = entry.attribute("name");
 		QString file = entry.attribute("file");
-		if (m_fonts.contains(name))
+		if (m_configs.contains(name))
 		{
-			log->warning(QString("Duplicate font entry skipped %1").arg(name));
+			log->warning(QString("Duplicate config entry skipped %1").arg(name));
 		}
 		else 
 		{
