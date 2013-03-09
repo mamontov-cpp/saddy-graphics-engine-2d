@@ -79,7 +79,7 @@ bool ScreenLabel::tryReload(FontTemplateDatabase * db)
 	return true;
 }
 
-static bool testcollision(const ::s3d::point & test,const ::s3d::point & pivot1, const ::s3d::point & pivot2)
+bool testcollision(const ::s3d::point & test,const ::s3d::point & pivot1, const ::s3d::point & pivot2)
 {
 	vector32 axle = pivot2-pivot1;
 	normalize(axle);
@@ -89,9 +89,8 @@ static bool testcollision(const ::s3d::point & test,const ::s3d::point & pivot1,
 	return collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
 }
 
-bool ScreenLabel::isWithin(const hPointF & p)
+bool testIsWithin(const hPointF & p, const hRectF & r) 
 {
-	hRectF r = this->region();
 	::s3d::point test =::s3d::point(p.x(),p.y(),0.0f);
 	::s3d::point rp[3];
 	for (int i=0;i<3;i++)
@@ -101,6 +100,12 @@ bool ScreenLabel::isWithin(const hPointF & p)
 	bool a1 = testcollision(test,rp[0],rp[1]);
 	bool a2 = testcollision(test,rp[1],rp[2]);
 	return a1 && a2; 
+}
+
+bool ScreenLabel::isWithin(const hPointF & p)
+{
+	hRectF r = this->region();
+	return testIsWithin(p, r);
 }
 
 hRectF ScreenLabel::region()

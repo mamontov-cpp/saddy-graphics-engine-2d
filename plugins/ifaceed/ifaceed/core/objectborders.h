@@ -10,6 +10,16 @@
 
 class AbstractScreenObject;
 
+// A hotspots are the places, where user can click performing some stuff
+enum BorderHotSpots 
+{
+	BHS_LEFT = 0,
+	BHS_RIGHT = 1,
+	BHS_TOP = 2,
+	BHS_BOTTOM = 3,
+	BHS_REMOVE = 4
+};
+
 class ObjectBorder: public sad::RepeatingTask
 {
  protected:
@@ -22,15 +32,31 @@ class ObjectBorder: public sad::RepeatingTask
 		 \param[in] canDelete where we can delete some data
 	  */
 	 void renderHotSpots(AbstractScreenObject * o, bool canDelete);
+	 /** Creates all of hotspots for item
+	  */
+	 hst::vector<hRectF> createHotSpots(AbstractScreenObject * o, bool canDelete);
+	 /** Determines, whether object marked by this border is deletable
+	  */
+	 virtual bool removable();
  public:
 	 inline ObjectBorder(EditorBehaviourSharedData  * data)
 	 {
 		 m_data = data;
 	 }
+	 /** Tests, whether hotspot point is within
+	  */
+	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p, AbstractScreenObject * o);
+	 /** Tests, whether is within
+	  */
+	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p) = 0;
 };
 
 class ActiveObjectBorder: public ObjectBorder
 {
+ protected:
+	 /** Determines, whether object marked by this border is deletable
+	  */
+	 virtual bool removable();
  public:
 	 inline ActiveObjectBorder(EditorBehaviourSharedData  * data):ObjectBorder(data)
 	 {
@@ -40,6 +66,9 @@ class ActiveObjectBorder: public ObjectBorder
 		 \return success of task
 	  */
 	 bool tryPerform();
+	 /** Tests, whether is within
+	  */
+	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p);
 };
 
 class SelectedObjectBorder: public ObjectBorder
@@ -53,6 +82,9 @@ class SelectedObjectBorder: public ObjectBorder
 		 \return success of task
 	  */
 	 bool tryPerform();
+	 /** Tests, whether is within
+	  */
+	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p);
 };
 
 
