@@ -1,5 +1,6 @@
 #include "selectedstate.h"
 #include "../ifaceeditor.h"
+#include "../objectborders.h"
 #include "../../utils/closure.h"
 #include "../../editorcore/editorbehaviour.h"
 #include "../../editorcore/editorbehaviourshareddata.h"
@@ -93,10 +94,19 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 	if (ev.key == MOUSE_BUTTON_LEFT) {
 		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 		hPointF p(ev.x, ev.y);
-		CLOSURE
-		CLOSURE_DATA( IFaceEditor * e; hPointF m_p; )
-		CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
-		INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
-		SUBMITCLOSURE( ed->emitClosure );
+		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		hst::vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
+		if (r.count() != 0) 
+		{
+			ed->log()->debug(QString::number(r[0]));
+		}
+		else
+		{
+			CLOSURE
+			CLOSURE_DATA( IFaceEditor * e; hPointF m_p; )
+			CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
+			INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
+			SUBMITCLOSURE( ed->emitClosure );
+		}
 	}
 }
