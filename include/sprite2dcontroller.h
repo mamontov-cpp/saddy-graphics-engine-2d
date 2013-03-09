@@ -117,5 +117,9 @@ class Sprite2DController
 			  \return right coordinate
 		   */
 		  inline float right()  const { return m_sprite->right();}
+          /*! Returns adapter from sprite
+              \return adapter
+           */ 
+          inline Sprite2DAdapter * adapter() const { return m_sprite; }
 };
 

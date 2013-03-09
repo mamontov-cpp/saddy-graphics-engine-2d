@@ -8,11 +8,20 @@
 #include <config/sprite2dconfig.h>
 #pragma once
 
+class AbstractScreenObject;
 
 class ObjectBorder: public sad::RepeatingTask
 {
  protected:
 	 EditorBehaviourSharedData * m_data; //!< Data for rendering object
+	 /** Miscellaneos function for drawing a sprite at specified position of image
+	  */
+	 void renderSpot(const char * c, const hRectF & r, int r0, int r1, int r2, int r3, float dangle);
+	 /** Renders hot spots of data
+		 \param[in] o object
+		 \param[in] canDelete where we can delete some data
+	  */
+	 void renderHotSpots(AbstractScreenObject * o, bool canDelete);
  public:
 	 inline ObjectBorder(EditorBehaviourSharedData  * data)
 	 {
