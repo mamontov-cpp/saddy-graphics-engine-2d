@@ -72,6 +72,20 @@ void SelectedState::onWheel(const sad::Event & ev)
 			m_substate = SSSS_SIMPLESELECTED;
 		}
 	}
+	if (m_substate == SSSS_SIMPLESELECTED) 
+	{
+		float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
+		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		MainPanel * p = ed->panel();
+		AbstractScreenObject * o =	ed->behaviourSharedData()->selectedObject();
+		float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
+		a+=dangle;
+		CLOSURE
+		CLOSURE_DATA( MainPanel * p; float angle; )
+		CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); )
+		INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
+		SUBMITCLOSURE( ed->emitClosure );
+	}
 }
 
 void SelectedState::onMouseDown(const sad::Event & ev)

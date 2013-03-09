@@ -39,7 +39,7 @@ void LabelAddingState::leave()
 
 void LabelAddingState::onWheel(const sad::Event & ev)
 {
-	float dangle = (ev.delta < 0)?-0.07:0.07;
+	float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();

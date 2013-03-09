@@ -7,8 +7,10 @@
 #include "marshal/serializableobject.h"
 #include "templates/refcountable.h"
 #include "primitives/hpoint.h"
+#include <QString>
 #pragma once
 
+class EditorLog;
 class ScreenTemplate;
 class InterlockedScene;
 class FontTemplateDatabase;
@@ -78,6 +80,12 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	{
 		m_visible = a;
 	}
+	/*! Whether we can rotate object
+	 */
+	virtual bool rotatable();
+	/*! Whether we can resize object
+	 */
+	virtual bool resizable();
 	/*! Renders an abstract object if active and visible
 	 */
 	virtual void render();
@@ -114,5 +122,63 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
+	/** Returns a property of screen obejct, handling all problems
+		\param[in] s string
+		\param[in] m_log log, where all messages go
+		\return property
+	 */
+	template<typename T> T prop(const hst::string & s, EditorLog * m_log) 
+	{
+		#define STRINGCLASS QString
+		AbstractProperty * p = this->getProperty(s);
+		if (p != NULL)
+		{
+			try 
+			{
+				sad::Variant * v = p->get(m_log); 
+				T result = v->get<T>(m_log);
+				return result;
+			}
+			catch(serializable::InvalidPropertyType ex) 
+			{
+				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
+				m_log->debug( test + ex.getInformation().data());
+			}
+		} 
+		else 
+		{
+			m_log->debug(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
+		}
+		#undef STRINGCLASS
+		return T();
+	}
+
+	template<typename T> void setProp(const hst::string & s, T val, EditorLog * m_log)
+	{
+		#define STRINGCLASS QString
+		AbstractProperty * p = this->getProperty(s);
+		if (p != NULL)
+		{
+			try 
+			{
+				p->set(val,m_log);
+			}
+			catch(serializable::InvalidPropertyType ex) 
+			{
+				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
+				m_log->debug( test + ex.getInformation().data());
+			}
+		} 
+		else 
+		{
+			m_log->debug(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
+		}
+		#undef STRINGCLASS
+	}
+	/*! Tests, whether object has following properties
+		\param[in] s property
+		\return whether object has a property
+	 */
+	bool hasProperty(const hst::string & s);
 };
 

@@ -36,3 +36,18 @@ ScreenTemplate * AbstractScreenObject::screenTemplate()
 	return static_cast<ScreenTemplate *>(parent);
 }
 
+
+bool AbstractScreenObject::rotatable()
+{
+	return true;
+}
+
+bool AbstractScreenObject::resizable()
+{
+	return true;
+}
+
+bool AbstractScreenObject::hasProperty(const hst::string & s)
+{
+	return this->getProperty(s) != NULL;
+}

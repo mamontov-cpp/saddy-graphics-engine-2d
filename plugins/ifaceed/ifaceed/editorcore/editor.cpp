@@ -6,6 +6,7 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
 #include "editorlog.h"
+#include "../history/propertychangecommand.h"
 #include <QMessageBox>
 
 
@@ -320,3 +321,14 @@ void Editor::emitClosure(ClosureBasic * closure)
 {
 	emit closureArrived(closure);
 }
+
+
+void Editor::appendRotationCommand()
+{
+	float new_angle = 0.0f;
+	float old_angle = 0.0f;
+	AbstractScreenObject * o = NULL;
+	this->behaviourSharedData()->getAndDismissRotationCommand(o, new_angle, old_angle);
+	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, this->log()));
+}
+
