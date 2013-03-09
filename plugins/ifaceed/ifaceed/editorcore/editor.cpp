@@ -7,8 +7,10 @@
 #include "editorbehaviourshareddata.h"
 #include "editorlog.h"
 #include "../history/propertychangecommand.h"
+#include "../core/xmlconfigloader.h"
 #include <QMessageBox>
-
+#include <QDir>
+#include <QApplication>
 
 Editor::Editor()
 {
@@ -162,7 +164,17 @@ void Editor::initDefaultSaddyOptions()
 	this->m_scene->setCamera(new OrthoCamera(false));
 	sad::Renderer::instance().setCurrentScene(this->m_scene);
 	sad::Renderer::instance().toggleFixedOn();
-	this->assertSaddyInit(true);
+	// Try to load default icons
+	QString a = QApplication::applicationDirPath();
+	a = QDir(a).filePath(ICONS_XML);
+	XMLConfigLoader * loader = new XMLConfigLoader(a);
+	bool loaded =  loader->load(m_icons);
+	if (!loaded) 
+	{
+		m_log->error(QString("Can\'t load %1").arg(a));
+	}
+	m_behavioursharedata->setIcons(&m_icons);
+	this->assertSaddyInit(loaded);
 }
 void Editor::initSaddyRendererOptions()
 {

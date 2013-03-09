@@ -18,7 +18,10 @@
 #include "../history/editorhistory.h"
 #include "../utils/closure.h"
 #include "editorlog.h"
+#include <config/sprite2dconfig.h>
 #pragma once
+
+
 
 
 /** Time, all rotation wheel events within can be counted as one (in milliseconds)
@@ -27,6 +30,9 @@
 /** Rotation angle step
  */
 #define ROTATION_ANGLE_STEP 0.07
+/**	Icons xml data
+ */
+#define ICONS_XML  "resources/icons.xml"
 
 enum EditorQuitReason
 {
@@ -190,6 +196,9 @@ class Editor: public QObject
 		 /** Describes a behaviour shared data
 		  */
 		 EditorBehaviourSharedData * m_behavioursharedata;
+		 /** An icons container
+		  */
+		 Sprite2DTemplateContainer m_icons;
 protected:
 		/** A log for logging stuff
 		 */
@@ -410,6 +419,9 @@ private:
 		template<typename T> T * cbStateAs(const hst::string & s) {
 			return static_cast<T *>(this->currentBehaviour()->getState(s));
 		}
+		/** Returns an icon container
+		 */
+		inline Sprite2DTemplateContainer & icons();
   signals:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure

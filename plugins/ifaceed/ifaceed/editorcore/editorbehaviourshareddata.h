@@ -6,7 +6,7 @@
  */
 #pragma once
 #include <QTimer>
-
+#include <config/sprite2dconfig.h>
 class AbstractScreenObject;
 
 /*! A shared data for editor behaviour
@@ -17,6 +17,9 @@ class EditorBehaviourSharedData
 	 AbstractScreenObject * m_selected_object;
 	 AbstractScreenObject * m_active_object;
 
+	 // An icons for rendering at borders
+	 Sprite2DTemplateContainer * m_icons;
+
 	 // A code for handling deferred command for comitting a rotation goes here
 	 QTimer * m_rotation_timer;			  //!< Returns current rotation timer
 	 AbstractScreenObject * m_rotating_object;			  //!< AbstractScreenObject which rotation applied
@@ -24,6 +27,16 @@ class EditorBehaviourSharedData
 	 float	  m_new_angle;                //!< Toggles new angle
 	 float	  m_old_angle;                //!< Toggles old angle
  public:
+	 /*! Sets an icons for rendering at borders 
+	  */
+	 inline void setIcons(Sprite2DTemplateContainer * icons)
+	 {
+		m_icons = icons;
+	 }
+	 inline Sprite2DTemplateContainer * icons() const 
+	 {
+		return m_icons;
+	 }
 	 /*! Shared data is initialized with zero selected object
 	  */
 	 inline EditorBehaviourSharedData() 
