@@ -72,12 +72,12 @@ void SelectedState::onWheel(const sad::Event & ev)
 			m_substate = SSSS_SIMPLESELECTED;
 		}
 	}
-	if (m_substate == SSSS_SIMPLESELECTED) 
+	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());	
+	AbstractScreenObject * o =	ed->behaviourSharedData()->selectedObject();
+	if (m_substate == SSSS_SIMPLESELECTED && o->rotatable()) 
 	{
 		float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 		MainPanel * p = ed->panel();
-		AbstractScreenObject * o =	ed->behaviourSharedData()->selectedObject();
 		float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
 		a+=dangle;
 		CLOSURE

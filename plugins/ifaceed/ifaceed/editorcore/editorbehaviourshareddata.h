@@ -18,7 +18,7 @@ class EditorBehaviourSharedData
 	 AbstractScreenObject * m_active_object;
 
 	 // An icons for rendering at borders
-	 Sprite2DTemplateContainer * m_icons;
+	 Sprite2DConfig * m_icons;
 
 	 // A code for handling deferred command for comitting a rotation goes here
 	 QTimer * m_rotation_timer;			  //!< Returns current rotation timer
@@ -29,11 +29,11 @@ class EditorBehaviourSharedData
  public:
 	 /*! Sets an icons for rendering at borders 
 	  */
-	 inline void setIcons(Sprite2DTemplateContainer * icons)
+	 inline void setIcons(Sprite2DConfig * icons)
 	 {
 		m_icons = icons;
 	 }
-	 inline Sprite2DTemplateContainer * icons() const 
+	 inline Sprite2DConfig * icons() const 
 	 {
 		return m_icons;
 	 }

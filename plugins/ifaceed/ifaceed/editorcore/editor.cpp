@@ -12,7 +12,7 @@
 #include <QDir>
 #include <QApplication>
 
-Editor::Editor()
+Editor::Editor():m_icons("editor_icons")
 {
 	m_log = new EditorLog(this);
 	m_cmdargs = NULL;
@@ -168,7 +168,8 @@ void Editor::initDefaultSaddyOptions()
 	QString a = QApplication::applicationDirPath();
 	a = QDir(a).filePath(ICONS_XML);
 	XMLConfigLoader * loader = new XMLConfigLoader(a);
-	bool loaded =  loader->load(m_icons);
+	m_icons.setLoader(loader);
+	bool loaded =  (m_icons.reload() == SCR_OK);
 	if (!loaded) 
 	{
 		m_log->error(QString("Can\'t load %1").arg(a));
