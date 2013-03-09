@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QTimer>
 #include <marshal/actioncontext.h>
 #include "gui/fontdelegate.h"
 #include "gui/colordelegate.h"
@@ -17,6 +18,7 @@
 #include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
+#include "history/propertychangecommand.h"
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -223,23 +225,26 @@ void MainPanel::setAddingEnabled(bool enabled)
 }
 
 
-void MainPanel::trySetProperty(const hst::string & prop, const sad::Variant & v)
+template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T v)
 {
 	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
 	AbstractScreenObject * o = NULL;
 	AbstractProperty * _property = NULL;
+	bool selected = false;
 	if (data->activeObject()) 
 	{
 		o = data->activeObject();
 	} 
 	else 
 	{
-		o = data->selectedObject();			
+		o = data->selectedObject();	
+		selected = true;
 	}
 	if (o) 
 	{
 		this->m_editor->lockRendering();
 		_property = o->getProperty(prop);
+		sad::Variant * old = _property->get(this->m_editor->log());
 		if (_property) 
 		{
 			_property->set(v, this->m_editor->log());
@@ -247,6 +252,29 @@ void MainPanel::trySetProperty(const hst::string & prop, const sad::Variant & v)
 		if (prop == "font")
 		{
 			o->tryReload(this->m_editor->database());
+		}
+		if (selected) 
+		{
+			if (prop == "angle") 
+			{
+				QTimer * t =new QTimer();
+				t->setSingleShot(true);
+				bool pending = this->m_editor->behaviourSharedData()->isRotationCommandPending();
+				sad::Variant new_v(v);
+				float new_val_escaped = new_v.get<float>(this->m_editor->log());
+				float old_val_escaped = old->get<float>(this->m_editor->log());
+				if (pending) {
+					this->m_editor->behaviourSharedData()->submitRotationCommand(t, o, new_val_escaped, false);
+				} else {
+					this->m_editor->behaviourSharedData()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
+				}
+				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
+				t->start(MAX_ROTATION_TIME);
+			}
+			else
+			{
+				this->m_editor->history()->add(new PropertyChangeCommand<T>(o, prop, v, this->m_editor->log()));
+			}
 		}
 		this->m_editor->unlockRendering();
 	}	
@@ -256,14 +284,14 @@ void MainPanel::fontChanged(const QString & s)
 {
 	IGNORE_SELFCHANGING
 	hst::string hs = s.toStdString().c_str();
-	trySetProperty("font", sad::Variant(hs));
+	trySetProperty("font", hs);
 }
 
 void MainPanel::angleChanged(double angle)
 {
 	IGNORE_SELFCHANGING
 	float fangle = angle;
-	trySetProperty("angle", sad::Variant(fangle));
+	trySetProperty("angle", fangle);
 }
 
 void MainPanel::colorChanged(int index)
@@ -273,7 +301,7 @@ void MainPanel::colorChanged(int index)
 	{
 		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
 		hst::color c(clr.red(),clr.green(),clr.blue());
-		trySetProperty("color", sad::Variant(c));
+		trySetProperty("color", c);
 	}
 }
 
@@ -283,7 +311,7 @@ void MainPanel::sizeChanged(int index)
 	if (index!=-1)
 	{
 		unsigned int size = ui.cmbFontSize->itemData(index).value<int>();
-		trySetProperty("size", sad::Variant(size));
+		trySetProperty("size", size);
 	}
 }
 

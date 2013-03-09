@@ -14,6 +14,7 @@
 #include <marshal/variant.h>
 #pragma once
 
+
 class IFaceEditor;
 class AbstractScreenObject;
 class MockSpriteTableWidget;
@@ -66,7 +67,7 @@ public:
 		\param[in] prop property name
 		\param[in] v value
 	 */
-	void trySetProperty(const hst::string & prop, const sad::Variant & v);
+	template<typename T> void trySetProperty(const hst::string & prop, T v);
 	inline Ui::MainPanelClass * myUI() { return &ui; }
 
 	void updateObjectStats(AbstractScreenObject * o);

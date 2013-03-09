@@ -954,6 +954,10 @@
 					RelativePath=".\history\newcommand.h"
 					>
 				</File>
+				<File
+					RelativePath=".\objects\propertychangecommand.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="utils"

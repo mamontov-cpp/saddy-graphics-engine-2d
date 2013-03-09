@@ -20,6 +20,14 @@
 #include "editorlog.h"
 #pragma once
 
+
+/** Time, all rotation wheel events within can be counted as one (in milliseconds)
+ */
+#define MAX_ROTATION_TIME 1500
+/** Rotation angle step
+ */
+#define ROTATION_ANGLE_STEP 0.07
+
 enum EditorQuitReason
 {
 	EditorQuitReasonNotSet = 0,
@@ -395,11 +403,23 @@ private:
 			\param[in] closure closure signal arrived
 		 */
 		void emitClosure(ClosureBasic * closure);
+		/** Casts a current behaviour state identified by state to needed
+			\param[in] s string name of state
+			\return state
+		 */
+		template<typename T> T * cbStateAs(const hst::string & s) {
+			return static_cast<T *>(this->currentBehaviour()->getState(s));
+		}
   signals:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure
 		 */
 		void closureArrived(ClosureBasic * closure);
+ public slots:
+		/** Appends a rotation command to a history
+			Used for deferred rotation appendance
+		 */
+		void appendRotationCommand();
 };
 
 

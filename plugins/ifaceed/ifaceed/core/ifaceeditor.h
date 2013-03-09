@@ -112,6 +112,8 @@ class IFaceEditor: public Editor
 		\param[in] enterSelected whether we should enter selected states if found
 	 */
 	virtual void trySelectObject(hPointF p, bool enterSelected);
+
+
 	
 };
 

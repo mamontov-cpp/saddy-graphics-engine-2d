@@ -28,8 +28,8 @@ public:
 
 	bool operator() (AbstractScreenObject * o1, AbstractScreenObject * o2) 
 	{ 
-		unsigned int i1 = o1->getProperty("layer")->get(m_log)->get<unsigned int>(m_log);
-		unsigned int i2 = o2->getProperty("layer")->get(m_log)->get<unsigned int>(m_log);
+		unsigned int i1 = o1->prop<unsigned int>("layer", m_log);
+		unsigned int i2 = o2->prop<unsigned int>("layer", m_log);
 		return i1 > i2;
 	}
 };
@@ -56,7 +56,7 @@ void IFaceEditor::trySelectObject(hPointF p, bool enterSelected)
 		std::vector<hst::string> chain;
 		for(int i = 0; i < tbl.size(); i++) 
 		{
-			chain.push_back(tbl[i]->getProperty("uid")->get(m_log)->get<hst::string>(m_log));
+			chain.push_back(tbl[i]->prop<hst::string>("uid", m_log));
 		}
 		if (enterSelected) 
 		{
@@ -64,7 +64,7 @@ void IFaceEditor::trySelectObject(hPointF p, bool enterSelected)
 		}
 		if (chain.size() > 1) 
 		{
-			SelectedState * s = static_cast<SelectedState*>(this->currentBehaviour()->getState("selected"));
+			SelectedState * s = this->cbStateAs<SelectedState>("selected");
 			s->enterNavigation(chain);
 		}
 	}
