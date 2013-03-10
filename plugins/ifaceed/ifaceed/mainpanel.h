@@ -128,6 +128,9 @@ protected slots:
 	/*! Whether label object text changed
 	 */
 	void textChanged();
+	/*! Emitted when object in list is changed
+	 */
+	void selectedObjectChanged(int index);
 };
 
 #endif // MAINPANEL_H

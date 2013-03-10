@@ -302,7 +302,7 @@ void IFaceEditor::tryEraseObject()
 		this->behaviourSharedData()->setSelectedObject(NULL);
 		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
 		this->history()->add(cmd);
-		cmd->commit(this->log());
+		cmd->commit(this->log(), this);
 		this->currentBehaviour()->enterState("idle");
 	}
 }

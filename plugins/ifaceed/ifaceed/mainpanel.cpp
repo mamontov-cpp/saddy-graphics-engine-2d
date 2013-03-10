@@ -77,6 +77,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
 	connect(m_spriteTableWidget, SIGNAL(spriteSelected(QString,QString,int)), this, SLOT(spriteSelected(QString,QString,int)));	
+	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -403,3 +404,16 @@ void MainPanel::updateList()
 {
 	m_list.updateWidget(m_editor->result(), m_editor->behaviourSharedData()->selectedObject());
 }
+
+
+void MainPanel::selectedObjectChanged(int index)
+{
+	if (index != -1 && m_list.selfChanged() == false)
+	{
+		AbstractScreenObject * o = m_list.row(index);
+		this->m_editor->behaviourSharedData()->setSelectedObject(o);
+		m_editor->showObjectStats(o);
+		m_editor->currentBehaviour()->enterState("selected");
+	}
+}
+
