@@ -51,3 +51,25 @@ bool AbstractScreenObject::hasProperty(const hst::string & s)
 {
 	return this->getProperty(s) != NULL;
 }
+
+
+void AbstractScreenObject::setTop(float x)
+{
+
+}
+
+void AbstractScreenObject::setBottom(float x)
+{
+
+}
+
+void AbstractScreenObject::setLeft(float x)
+{
+
+}
+
+void AbstractScreenObject::setRight(float x)
+{
+
+}
+

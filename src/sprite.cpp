@@ -165,3 +165,15 @@ void Sprite::rotate(double alpha, double theta)
 {
   rotate(middle(),alpha,theta);
 }
+
+
+hst::rect<::s3d::point> Sprite::bbox() const
+{
+	hst::rect<::s3d::point> rect;
+	for(int i = 0; i < 4; i++)
+	{
+		rect[i] = m_rect[i];
+	}
+	return rect;
+}
+

@@ -329,6 +329,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\objects\screensprite.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\objects\screentemplate.cpp"
 					>
 				</File>
@@ -588,6 +592,10 @@
 				</File>
 				<File
 					RelativePath=".\objects\screenlabel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\objects\screensprite.h"
 					>
 				</File>
 				<File
