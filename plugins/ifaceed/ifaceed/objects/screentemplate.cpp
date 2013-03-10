@@ -61,7 +61,7 @@ const std::vector<AbstractScreenObject *> & ScreenTemplate::fetchObjectsWithin(c
 	
 		while(o != NULL) 
 		{
-			if (o->isWithin(point)) 
+			if (o->isWithin(point) && o->active()) 
 			{
 				m_within_objects.push_back(o);
 			}

@@ -35,8 +35,8 @@ class EditorHistory
 		void add(AbstractCommand * c);
 		/** Commits changes, moving to next non-applied command
 		 */
-		void commit();
+		void commit(CommandChangeObserver * ob = NULL);
 		/** Rollbacks changed, moving to previous command
 		 */
-		void rollback();
+		void rollback(CommandChangeObserver * ob = NULL);
 };

@@ -306,3 +306,12 @@ void IFaceEditor::tryEraseObject()
 		this->currentBehaviour()->enterState("idle");
 	}
 }
+
+void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant & v)
+{
+	CLOSURE
+	CLOSURE_DATA( IFaceEditor * me; )
+	CLOSURE_CODE( me->panel()->updateList(); )
+	INITCLOSURE ( CLSET(me, this) )
+	SUBMITCLOSURE( this->emitClosure );
+}

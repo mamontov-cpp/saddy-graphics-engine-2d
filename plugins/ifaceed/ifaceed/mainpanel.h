@@ -11,6 +11,7 @@
 #include "ui_mainpanel.h"
 #include "templates/hstring.h"
 #include "gui/spritewidget/qspritetablewidget.h"
+#include "gui/objectlist.h"
 #include <marshal/variant.h>
 #pragma once
 
@@ -34,6 +35,9 @@ private:
 	/** State of main panel (temporary for slot)
 	 */
 	QString m_tmp_state;
+	/** An object list for working with information
+	 */
+	ScreenObjectList m_list;
 public:
 	/*! Constructor, which inits all of callbacks
 	 */
@@ -41,7 +45,9 @@ public:
 	/*! Currently does nothing
 	 */
 	~MainPanel();
-
+	/*! Updates list of objects
+	 */
+	void updateList();
 	/** Sets an editor to work with
 		\param[in] editor editor
 	 */

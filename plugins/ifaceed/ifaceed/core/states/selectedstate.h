@@ -54,6 +54,12 @@ protected:
 	 */
 	void navigateOffset(bool next);
 public:
+	/** Action, performed when entering state
+	 */
+	virtual void enter();
+	/** Action, performed when leaving state
+	 */
+	virtual void leave();
 	/** Tries to select some item
 		 \param[in] ev  event  data
 	 */

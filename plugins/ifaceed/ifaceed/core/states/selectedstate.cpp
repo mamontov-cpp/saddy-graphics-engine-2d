@@ -156,3 +156,18 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 		m_movement_substate = SSMSS_NOMOVEMENT;
 	}
 }
+
+
+void SelectedState::enter()
+{
+	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+	ed->submitEvent("selected_enter", sad::Variant(0));
+}
+
+void SelectedState::leave()
+{
+	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+	ed->submitEvent("selected_enter", sad::Variant(0));
+}

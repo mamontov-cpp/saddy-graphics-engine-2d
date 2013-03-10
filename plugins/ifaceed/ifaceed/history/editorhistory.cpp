@@ -14,20 +14,20 @@ EditorHistory::~EditorHistory()
 	}
 }
 
-void EditorHistory::commit()
+void EditorHistory::commit(CommandChangeObserver * ob)
 {
 	if (m_commands.count() && m_current!=m_commands.count()-1)
 	{
-		m_commands[m_current+1]->commit(m_c);
+		m_commands[m_current+1]->commit(m_c, ob);
 		++m_current;
 	}
 }
 
-void EditorHistory::rollback()
+void EditorHistory::rollback(CommandChangeObserver * ob)
 {
 	if (m_commands.count() && m_current!=-1)
 	{
-		m_commands[m_current]->rollback(m_c);
+		m_commands[m_current]->rollback(m_c, ob);
 		--m_current;
 	}
 }

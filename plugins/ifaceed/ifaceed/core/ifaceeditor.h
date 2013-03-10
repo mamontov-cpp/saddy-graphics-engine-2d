@@ -4,6 +4,7 @@
 	Defines a main interface editor class
  */
 #include "../editorcore/editor.h"
+#include "../editorcore/commandchangeobserver.h"
 #include "../mainpanel.h"
 #include "ifacecmdoptions.h"
 #pragma once
@@ -12,7 +13,7 @@ class ScreenTemplate;
 class FontTemplateDatabase;
 class SelectedObjectBorder;
 
-class IFaceEditor: public Editor
+class IFaceEditor: public Editor, public CommandChangeObserver 
 {
 	Q_OBJECT
  public:
@@ -116,7 +117,9 @@ class IFaceEditor: public Editor
 	/** Tries erasing object, depending on current object state
 	 */
 	virtual void tryEraseObject();
-	
+	/** Updates a list from event
+	 */
+	virtual void submitEvent(const hst::string & eventType, const sad::Variant & v);
 };
 
 /** A special handler for method
