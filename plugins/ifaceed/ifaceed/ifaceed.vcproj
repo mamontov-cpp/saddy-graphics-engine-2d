@@ -448,6 +448,10 @@
 					RelativePath=".\gui\fontdelegate.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\gui\objectlist.cpp"
+					>
+				</File>
 				<Filter
 					Name="spritewidget"
 					>
@@ -598,6 +602,10 @@
 			<Filter
 				Name="editorcore"
 				>
+				<File
+					RelativePath=".\editorcore\commandchangeobserver.h"
+					>
+				</File>
 				<File
 					RelativePath=".\editorcore\commandlineoptions.h"
 					>
@@ -832,6 +840,10 @@
 				</File>
 				<File
 					RelativePath=".\gui\fontdelegate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\gui\objectlist.h"
 					>
 				</File>
 				<Filter

@@ -61,12 +61,12 @@ public:
 		m_current_value = v;	
 	}
 
-	void commit(ActionContext *c)
+	void commit(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
 		m_object->setProp(m_property_name, m_current_value, m_log);
 	}
 
-	void rollback(ActionContext *c)
+	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
 		m_object->setProp(m_property_name, m_prev_value, m_log);
 	}

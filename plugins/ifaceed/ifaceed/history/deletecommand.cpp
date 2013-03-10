@@ -5,15 +5,15 @@ DeleteCommand::DeleteCommand(ScreenTemplate * container, AbstractScreenObject * 
 	m_cmd = new NewCommand(container, object);
 }
 
-void DeleteCommand::commit(ActionContext *c)
+void DeleteCommand::commit(ActionContext *c, CommandChangeObserver * ob)
 {
-	m_cmd->rollback(c);
+	m_cmd->rollback(c, ob);
 }
 
 
-void DeleteCommand::rollback(ActionContext *c)
+void DeleteCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
 {
-	m_cmd->commit(c);
+	m_cmd->commit(c, ob);
 }
 
 DeleteCommand::~DeleteCommand()

@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <marshal/actioncontext.h>
+#include <editorcore/commandchangeobserver.h>
 
 class AbstractCommand
 {
@@ -12,11 +13,11 @@ class AbstractCommand
 	 /** Applies changes, described in command
 		 \param[in] c context
 	  */
-	 virtual void commit(ActionContext *c)=0;
+	 virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL)=0;
 	 /** Reverts changes, described in command
 		 \param[in] c context
 	  */
-	 virtual void rollback(ActionContext *c)=0;
+	 virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL)=0;
 	 /** Descructor
 	  */
 	 virtual ~AbstractCommand();

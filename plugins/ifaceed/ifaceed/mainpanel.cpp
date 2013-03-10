@@ -68,6 +68,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
 													grPadLayout);
 
+	m_list.setWidget(ui.lstObjects);
 
 	ui.spriteViewerPad->setLayout(grPadLayout);
 	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
@@ -225,6 +226,7 @@ void MainPanel::addFontObject()
 
 void MainPanel::setAddingEnabled(bool enabled)
 {
+	this->ui.lstObjects->setEnabled(enabled);
 	this->ui.btnAddLabel->setEnabled(enabled);
 	this->ui.btnAddSprite->setEnabled(enabled);
 }
@@ -282,6 +284,7 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 			}
 		}
 		this->m_editor->unlockRendering();
+		this->updateList();
 	}	
 }
 
@@ -394,4 +397,9 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		float c = prop->get(l)->get<float>(l);
 		ui.dblAngle->setValue(c);
 	}
+}
+
+void MainPanel::updateList()
+{
+	m_list.updateWidget(m_editor->result(), m_editor->behaviourSharedData()->selectedObject());
 }

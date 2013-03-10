@@ -60,7 +60,7 @@ void LabelAddingState::onMouseDown(const sad::Event & ev)
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
-	c->commit(ed->log());
+	c->commit(ed->log(), ed);
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	ed->behaviourSharedData()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
