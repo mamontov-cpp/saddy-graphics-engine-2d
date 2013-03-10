@@ -45,7 +45,7 @@ public:
 	/** Sets an editor to work with
 		\param[in] editor editor
 	 */
-	inline void setEditor(IFaceEditor * editor) {  m_editor = editor; }
+	void setEditor(IFaceEditor * editor);
 	
 	/*! Synchronizes database with an editor
 	 */

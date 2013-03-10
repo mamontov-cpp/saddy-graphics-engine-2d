@@ -71,10 +71,6 @@ void LabelAddingState::onKeyDown(const sad::Event & ev)
 	if (ev.key == KEY_ESC) 
 	{
 		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-		AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-		ed->behaviourSharedData()->setActiveObject(NULL);
-		InterlockedScene * scene = static_cast<InterlockedScene*>(ed->scene());
-		scene->remove(o);
-		this->behaviour()->cancelState();
+		ed->tryEraseObject();
 	}
 }

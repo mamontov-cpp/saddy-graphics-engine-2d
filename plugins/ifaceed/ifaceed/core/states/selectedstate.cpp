@@ -102,7 +102,11 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 		hst::vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
 		if (r.count() != 0) 
 		{
-			ed->log()->debug(QString::number(r[0]));
+			BorderHotSpots bhs = r[r.count()-1]; 
+			if (bhs == BHS_REMOVE) 
+			{
+				ed->tryEraseObject();
+			}
 		}
 		else
 		{
