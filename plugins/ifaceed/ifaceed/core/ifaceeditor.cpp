@@ -14,6 +14,7 @@
 #include "states/labeladdingstate.h"
 #include "states/selectedstate.h"
 #include "objectborders.h"
+#include "../history/deletecommand.h"
 #include <QTimer>
 
 IFaceEditor::IFaceEditor()
@@ -284,3 +285,24 @@ void IFaceEditor::highlightState(const hst::string & hint)
 	this->panel()->highlightState(hint);
 }
 
+void IFaceEditor::tryEraseObject()
+{
+	hst::string state = this->currentBehaviour()->state(); 
+	if (state == "label_adding")
+	{
+		AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
+		this->behaviourSharedData()->setActiveObject(NULL);
+		InterlockedScene * scene = static_cast<InterlockedScene*>(this->scene());
+		scene->remove(o);
+		this->currentBehaviour()->cancelState();
+	}
+	if (state == "selected")
+	{
+		AbstractScreenObject * o =	this->behaviourSharedData()->selectedObject();
+		this->behaviourSharedData()->setSelectedObject(NULL);
+		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
+		this->history()->add(cmd);
+		cmd->commit(this->log());
+		this->currentBehaviour()->enterState("idle");
+	}
+}

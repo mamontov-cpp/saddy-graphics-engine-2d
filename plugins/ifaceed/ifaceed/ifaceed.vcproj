@@ -481,6 +481,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\history\deletecommand.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\history\editorhistory.cpp"
 					>
 				</File>
@@ -948,6 +952,10 @@
 				>
 				<File
 					RelativePath=".\history\abstractcommand.h"
+					>
+				</File>
+				<File
+					RelativePath=".\history\deletecommand.h"
 					>
 				</File>
 				<File
