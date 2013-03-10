@@ -129,7 +129,7 @@
       </property>
       <property name="text">
        <string>First click places upper-left, than lower-right,
- than forms  triangle and expands it to rect.</string>
+ than click defines a rotation angle.</string>
       </property>
      </widget>
     </widget>
