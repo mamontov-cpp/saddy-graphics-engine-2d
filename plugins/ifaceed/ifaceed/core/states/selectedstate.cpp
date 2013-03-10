@@ -6,12 +6,15 @@
 #include "../../editorcore/editorbehaviourshareddata.h"
 #include "../../objects/screentemplate.h"
 #include "../../objects/abstractscreenobject.h"
+#include "../../history/editorhistory.h"
+#include "../../history/movecommand.h"
 #include <marshal/serializableobject.h>
 
 
 SelectedState::SelectedState()
 {
 	m_substate = SSSS_SIMPLESELECTED;
+	m_movement_substate = SSMSS_NOMOVEMENT;
 	m_navigationstart = 0;
 	m_navposition = 0;
 }
@@ -20,6 +23,7 @@ SelectedState::SelectedState()
 void SelectedState::enterNavigation(const std::vector<hst::string> & chain)
 {
 	m_substate = SSSS_SELECTEDNAVIGATION;
+	m_movement_substate = SSMSS_NOMOVEMENT;
 	m_navigationstart = clock();
 	m_chain = chain;
 	m_navposition = 0;
@@ -102,11 +106,49 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 		}
 		else
 		{
-			CLOSURE
-			CLOSURE_DATA( IFaceEditor * e; hPointF m_p; )
-			CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
-			INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
-			SUBMITCLOSURE( ed->emitClosure );
+			if (ed->result()->isObjectInPicked(p,o)) 
+			{
+				m_substate = SSSS_SIMPLESELECTED;
+				hRectF region = o->region();
+				m_picked_old_center = (region[0] + region[2]) / 2;
+				m_picked_point = p;
+				m_movement_substate = SSMSS_MOVING;
+			} 
+			else 
+			{
+				CLOSURE
+				CLOSURE_DATA( IFaceEditor * e; hPointF m_p; )
+				CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
+				INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
+				SUBMITCLOSURE( ed->emitClosure );
+			}
 		}
+	}
+}
+
+
+void SelectedState::onMouseMove(const sad::Event & ev)
+{
+	if (m_movement_substate == SSMSS_MOVING)
+	{
+		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		hPointF p(ev.x, ev.y);
+		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
+	}
+}
+
+void SelectedState::onMouseUp(const sad::Event & ev)
+{
+	if (m_movement_substate == SSMSS_MOVING)
+	{
+		this->onMouseMove(ev);
+
+		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		hRectF region = o->region();
+		hPointF newcenter = (region[0] + region[2]) / 2;
+		ed->history()->add(new MoveCommand(o, m_picked_old_center, newcenter));
+		m_movement_substate = SSMSS_NOMOVEMENT;
 	}
 }

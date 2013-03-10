@@ -3,16 +3,33 @@
 
 	Describes a main result of editing  - a screen template, which can be used in some other stuff
  */
-#include "marshal/hashbasedserializablecontainer.h"
+#include <marshal/hashbasedserializablecontainer.h>
+#include <primitives/hpoint.h>
+#include <vector>
 #pragma once
 
 
 class AbstractScreenObject;
 
+/** A simple comparator for sorting layers of objects
+ */
+class LayerComparator 
+{
+public:    
+	bool operator() (AbstractScreenObject * o1, AbstractScreenObject * o2); 
+};
+
 /** Describes a screen template as main result of editing of data
  */
 class ScreenTemplate: public HashBasedSerializableContainer
 {
+ private:
+	 /*! Cached point within objects
+	  */
+	 hPointF  m_cached_point;
+	 /*! A buffer, for picking
+	  */
+	 std::vector<AbstractScreenObject *> m_within_objects;
  public:
 	 /*! Adds an object to container
 		\param[in] obj object
@@ -32,6 +49,21 @@ class ScreenTemplate: public HashBasedSerializableContainer
 	 */
 	virtual AbstractScreenObject * templateNext();
 
+	/*! Fetches and returns objects which point belongs to.
+		This call is cached
+		\param[in] point point
+		\return objects within range
+	 */
+	virtual const std::vector<AbstractScreenObject *> & fetchObjectsWithin(const hPointF & point);
+	/*! Tests, whether object is in picked list
+		\param[in] point point data
+		\param[in] object object
+		\return whether he is in list
+	 */
+	virtual bool isObjectInPicked(const hPointF & point,AbstractScreenObject * object);
+	/*! Clears a picked element cache
+	 */ 
+	virtual void clearPickedCache();
 	/** Frees data 
 	 */
 	~ScreenTemplate();
