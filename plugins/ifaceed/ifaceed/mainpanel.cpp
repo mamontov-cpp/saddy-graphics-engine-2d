@@ -60,6 +60,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	{
 		ui.cmbFontSize->addItem(QString::number(i),QVariant(i));
 	}
+	// Set default sprite adding model
+	ui.rbPlaceAndRotate->setChecked(true);
 
 	// Add SpriteViewer
 	QGridLayout* grPadLayout = new QGridLayout;
@@ -71,6 +73,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 													grPadLayout);
 
 	m_list.setWidget(ui.lstObjects);
+
 
 	ui.spriteViewerPad->setLayout(grPadLayout);
 	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
