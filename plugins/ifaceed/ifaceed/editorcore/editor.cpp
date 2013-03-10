@@ -31,10 +31,12 @@ void Editor::init(int argc,char ** argv)
 {
 	m_cmdoptions = this->createOptionParser();
 	m_cmdoptions->parse(argc, argv);
-
+	
 	this->assertSaddyInit(true);
 	this->m_waitforsaddy = true;
 	m_cmdargs = new CommandArguments(argc, argv);
+	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
+									(this->m_cmdargs->fullArgv()));
 	// This thread also runs ALL of event loops
 	m_waitforsaddy = true;
 	m_renderthread->start();
@@ -103,8 +105,6 @@ void Editor::initSaddyActions()
 
 void Editor::initQtActions() 
 {
-	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
-									(this->m_cmdargs->fullArgv()));
 	this->m_mainwindow = this->createQtWindow();
 	this->bindQtSlots();
 	this->awakeSaddyThread();

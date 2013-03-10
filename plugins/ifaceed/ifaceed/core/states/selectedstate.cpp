@@ -163,6 +163,7 @@ void SelectedState::enter()
 	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
+	m_movement_substate = SSMSS_NOMOVEMENT;
 }
 
 void SelectedState::leave()
