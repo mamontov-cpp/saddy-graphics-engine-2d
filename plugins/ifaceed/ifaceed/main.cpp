@@ -16,7 +16,7 @@
 #include "unittests/factory.h"
 #include "unittests/ifacecmdoptions_test.h"
 
-
+#include <QTextCodec>
 
 
 /**
@@ -24,6 +24,12 @@
  */
 int main(int argc, char *argv[])
 {	
+	#ifdef WIN32
+		QTextCodec * codec=QTextCodec::codecForName("Windows-1251");
+		QTextCodec::setCodecForTr(codec);
+		QTextCodec::setCodecForCStrings(codec);
+		QTextCodec::setCodecForLocale(codec);
+	#endif
 	#ifdef __UNITTESTS
 		IFaceCmdOptions args;
 		args.parse(argc, argv);
