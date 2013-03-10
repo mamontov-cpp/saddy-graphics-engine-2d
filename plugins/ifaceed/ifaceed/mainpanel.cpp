@@ -18,6 +18,7 @@
 #include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
+#include "objects/screensprite.h"
 #include "objects/screentemplate.h"
 #include "history/propertychangecommand.h"
 #include "history/layercommands.h"
@@ -74,6 +75,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_list.setWidget(ui.lstObjects);
 
+	ScreenSprite * a = new ScreenSprite();
 
 	ui.spriteViewerPad->setLayout(grPadLayout);
 	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));

@@ -136,6 +136,10 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \param[in] texrect texture rectangle
 		   */
 		 void setSprite(sad::Texture * tex, const hRectF & texrect);
+		 /*! Returns a rectangle
+			 \return rectangle
+          */
+		 const hRectF & rect() const;
 };
 
 

@@ -207,3 +207,8 @@ void Sprite2DAdapter::setSprite(sad::Texture * tex, const hRectF & texrect)
    if (flipy)
 	   flipY();
 }
+
+const hRectF & Sprite2DAdapter::rect() const
+{
+	return m_rect;
+}

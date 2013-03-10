@@ -129,4 +129,7 @@ class Sprite: public sad::BasicNode
 			  \param[in] tex texture
 		  */
 		  inline void setTexture(sad::Texture * tex) { m_tex=tex; }
+		  /** Returns a bounding box for rectangle
+		   */
+		  hst::rect<::s3d::point> bbox() const;
 };
