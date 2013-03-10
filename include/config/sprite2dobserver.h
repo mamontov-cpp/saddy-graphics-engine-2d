@@ -70,5 +70,8 @@ class Sprite2DConfigObserver
 		 /*! Destructor. Removes a sprite if have one and unregisters self from config.
 		  */
 		 ~Sprite2DConfigObserver();
+		 /*! Notifies observer, that config is gone
+          */
+		 inline void notifyConfigGone() { m_config = NULL; }
 };
 

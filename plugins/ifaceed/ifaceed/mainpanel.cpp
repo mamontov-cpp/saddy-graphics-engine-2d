@@ -75,7 +75,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_list.setWidget(ui.lstObjects);
 
-	ScreenSprite * a = new ScreenSprite();
 
 	ui.spriteViewerPad->setLayout(grPadLayout);
 	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));

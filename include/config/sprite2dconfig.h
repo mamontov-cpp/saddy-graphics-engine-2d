@@ -48,6 +48,9 @@ class Sprite2DObserverContainer
 		 /*! Fires a reload sprite event, forcing observers to react to sprite changes
 		  */
 		 void fireReloadSprite();
+		 /*! Notifies observers, that config is gone and no need to notify him about death
+		  */
+		 void fireDying();
 		 /*! A destructor for observer
 		  */
 		 inline ~Sprite2DObserverContainer() {}

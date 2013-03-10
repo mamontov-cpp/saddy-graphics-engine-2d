@@ -28,7 +28,8 @@ Sprite2DConfigObserver::~Sprite2DConfigObserver()
 	{
 		delete m_sprite;
 	}
-	m_config->removeObserver(this);
+	if (m_config)
+		m_config->removeObserver(this);
 }
 
 bool Sprite2DConfigObserver::createSprite(const hPointF & center)
