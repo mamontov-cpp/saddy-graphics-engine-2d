@@ -179,7 +179,10 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	 virtual ~SpriteDatabase();
 	 /** A configs for implementation of simple widget with loading data into form
 	  */
-	 inline QISpriteConfigs & configs();
+	 inline QISpriteConfigs & configs() { return m_qtimages; }
+	 /** Small configs
+	  */
+	 inline hst::Configs & hconfigs() { return m_configs; }
 };
 
 /** Extracts texture paths

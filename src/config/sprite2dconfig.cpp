@@ -27,6 +27,16 @@ void Sprite2DObserverContainer::fireReloadSprite()
  }
 }
 
+void Sprite2DObserverContainer::fireDying()
+{
+ for (hst::hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
+	  it!=m_observers.end();
+	  it++)
+ {
+	 it.value()->notifyConfigGone();
+ }
+}
+
 
 bool Sprite2DConfig::fireSpriteConsistencyCheck(const Sprite2DTemplateContainer & container)
 {
@@ -54,6 +64,7 @@ Sprite2DConfig::Sprite2DConfig(const hst::string & containername)
 
 Sprite2DConfig::~Sprite2DConfig()
 {
+	m_observers.fireDying();
 	delete m_loader;
 }
 
