@@ -288,8 +288,8 @@ void IFaceEditor::onFullAppStart()
 		a->setProp<hst::string>("group","test1-dev", this->log());
 		a->setProp<int>("index",0, this->log());
 		a->tryReload(this->database());
-		*/
 		this->scene()->add(a);
+		*/
 	}
 }
 
