@@ -164,6 +164,11 @@ void SelectedState::enter()
 	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
+	CLOSURE
+	CLOSURE_DATA( IFaceEditor * e; )
+	CLOSURE_CODE( this->e->highlightState("Selected"); )
+	INITCLOSURE( CLSET(e, ed); );
+	SUBMITCLOSURE( ed->emitClosure );
 }
 
 void SelectedState::leave()

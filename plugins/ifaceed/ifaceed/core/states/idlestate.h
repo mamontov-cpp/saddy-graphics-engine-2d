@@ -13,6 +13,9 @@
 class IdleState: public EditorBehaviourState
 {
 public:
+	/** Highlights entering a state
+	 */
+	virtual void enter();
 	/** Tries to select some item and enter selected state
 		 \param[in] ev  event  data
 	 */

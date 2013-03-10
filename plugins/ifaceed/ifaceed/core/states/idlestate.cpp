@@ -19,3 +19,13 @@ void IdleState::onMouseDown(const sad::Event & ev)
 		SUBMITCLOSURE( ed->emitClosure );
 	}
 }
+
+void IdleState::enter()
+{
+	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	CLOSURE
+	CLOSURE_DATA( IFaceEditor * e; )
+	CLOSURE_CODE( this->e->highlightState("Idle"); )
+	INITCLOSURE( CLSET(e, ed);  );
+	SUBMITCLOSURE( ed->emitClosure );
+}
