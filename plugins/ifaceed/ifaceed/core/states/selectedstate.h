@@ -7,6 +7,7 @@
 #include <time.h>
 #include <vector>
 #include <templates/hstring.h>
+#include <primitives/hpoint.h>
 #pragma once
 
 // Screen Object
@@ -23,12 +24,23 @@ enum SelectedStateSubState
 	// A state, when we are on bunch of objects
 	SSSS_SELECTEDNAVIGATION
 };
+// A simple substate for movement of object
+enum SelectedStateMovementSubState
+{
+	SSMSS_NOMOVEMENT,
+	SSMSS_MOVING
+};
 
 
 class SelectedState: public EditorBehaviourState
 {
 protected:
-	// A substate
+	// A substate for moving object
+	SelectedStateMovementSubState m_movement_substate;
+	hPointF m_picked_point;  //!< A first picked user point for moving
+	hPointF m_picked_old_center;	 //!< An old objects center, used for saving command 
+
+	// A substate for navigating through selected object set
 	SelectedStateSubState m_substate;
 	// When entered navigation
 	clock_t m_navigationstart;
@@ -57,4 +69,14 @@ public:
 		 \param[in] ev event data
 	 */
 	virtual void onWheel(const sad::Event & ev);
+
+	/** Moves object if in moving object state
+		\param[in] ev event data
+	 */
+	virtual void onMouseMove(const sad::Event & ev);
+
+	/** Commits a mouse up event
+		\param[in] ev  even  data
+	 */
+	 virtual void onMouseUp(const sad::Event & ev);
 };

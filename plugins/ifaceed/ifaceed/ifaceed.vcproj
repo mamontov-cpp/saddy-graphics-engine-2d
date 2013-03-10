@@ -485,6 +485,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\history\movecommand.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\history\newcommand.cpp"
 					>
 				</File>
@@ -951,11 +955,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\history\movecommand.h"
+					>
+				</File>
+				<File
 					RelativePath=".\history\newcommand.h"
 					>
 				</File>
 				<File
-					RelativePath=".\objects\propertychangecommand.h"
+					RelativePath=".\history\propertychangecommand.h"
 					>
 				</File>
 			</Filter>
