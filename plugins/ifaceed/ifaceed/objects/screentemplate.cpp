@@ -89,3 +89,46 @@ void ScreenTemplate::clearPickedCache()
 {
 	m_within_objects.clear();
 }
+
+
+unsigned int ScreenTemplate::minLayer()
+{
+	unsigned int result = -1;
+	bool found = false;
+	AbstractScreenObject * o = this->templateBegin();
+	
+	while(o != NULL) 
+	{
+		if (o->active() && o->scene() != NULL) 
+		{
+			unsigned int clayer = o->scene()->findLayer(o);
+			if (!found && clayer < result)
+			{
+				result = clayer;
+			}
+		}
+		o = this->templateNext();
+	}
+	return result;
+}
+
+unsigned int ScreenTemplate::maxLayer()
+{
+	unsigned int result = -1;
+	bool found = false;
+	AbstractScreenObject * o = this->templateBegin();
+	
+	while(o != NULL) 
+	{
+		if (o->active() && o->scene() != NULL) 
+		{
+			unsigned int clayer = o->scene()->findLayer(o);
+			if (!found && clayer > result)
+			{
+				result = clayer;
+			}
+		}
+		o = this->templateNext();
+	}
+	return result;
+}

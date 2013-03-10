@@ -451,7 +451,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Move Front</string>
+      <string>Move front</string>
      </property>
     </widget>
     <widget class="QPushButton" name="btnDelete">

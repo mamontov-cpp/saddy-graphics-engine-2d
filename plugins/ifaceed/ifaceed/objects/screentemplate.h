@@ -64,6 +64,12 @@ class ScreenTemplate: public HashBasedSerializableContainer
 	/*! Clears a picked element cache
 	 */ 
 	virtual void clearPickedCache();
+	/** Returns minimal layer, used by objects
+	 */
+	virtual unsigned int minLayer();
+	/** Returns minimal layer, used by objects
+	 */
+	virtual unsigned int maxLayer();
 	/** Frees data 
 	 */
 	~ScreenTemplate();

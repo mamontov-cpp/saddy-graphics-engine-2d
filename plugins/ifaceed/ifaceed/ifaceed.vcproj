@@ -449,6 +449,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\history\layercommands.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\gui\objectlist.cpp"
 					>
 				</File>
@@ -972,6 +976,10 @@
 				</File>
 				<File
 					RelativePath=".\history\editorhistory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\history\layercommands.h"
 					>
 				</File>
 				<File
