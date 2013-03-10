@@ -14,7 +14,7 @@
 class AbstractScreenObject;
 
 // Amount of seconds to cooldown navigation
-#define SSSS_NAVIGATION_COOLDOWN 3
+#define SSSS_NAVIGATION_COOLDOWN 1.5
 
 // A substates of idle states
 enum SelectedStateSubState

@@ -131,6 +131,13 @@ protected slots:
 	/*! Emitted when object in list is changed
 	 */
 	void selectedObjectChanged(int index);
+	/*! Moves object back to layer
+	 */
+	void moveObjectBack();
+	/*! Moves object back to layer
+	 */
+	void moveObjectFront();
+
 };
 
 #endif // MAINPANEL_H

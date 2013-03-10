@@ -18,7 +18,9 @@
 #include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
+#include "objects/screentemplate.h"
 #include "history/propertychangecommand.h"
+#include "history/layercommands.h"
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -78,6 +80,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
 	connect(m_spriteTableWidget, SIGNAL(spriteSelected(QString,QString,int)), this, SLOT(spriteSelected(QString,QString,int)));	
 	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
+	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
+	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -298,7 +302,7 @@ void MainPanel::fontChanged(const QString & s)
 
 void MainPanel::angleChanged(double angle)
 {
-	IGNORE_SELFCHANGING
+	//IGNORE_SELFCHANGING
 	float fangle = angle;
 	trySetProperty("angle", fangle);
 }
@@ -398,6 +402,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		float c = prop->get(l)->get<float>(l);
 		ui.dblAngle->setValue(c);
 	}
+	// This added to prevent cases when selfchanging does not work and flag is not resetted.
+	m_selfchanged = false;
 }
 
 void MainPanel::updateList()
@@ -414,6 +420,38 @@ void MainPanel::selectedObjectChanged(int index)
 		this->m_editor->behaviourSharedData()->setSelectedObject(o);
 		m_editor->showObjectStats(o);
 		m_editor->currentBehaviour()->enterState("selected");
+	}
+}
+
+void MainPanel::moveObjectBack()
+{
+	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
+	if (o && m_editor->currentBehaviour()->state() == "selected") 
+	{
+		unsigned int  my  = o->scene()->findLayer(o);
+		unsigned int  min = m_editor->result()->minLayer();
+		if (my != min) 
+		{
+			LayerCommand * c = new LayerCommand(o, my, my - 1);
+			c->commit(m_editor->log(), m_editor);
+			m_editor->history()->add(c);
+		}
+	}
+}
+
+void MainPanel::moveObjectFront()
+{
+	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
+	if (o && m_editor->currentBehaviour()->state() == "selected") 
+	{
+		unsigned int  my  = o->scene()->findLayer(o);
+		unsigned int  max = m_editor->result()->maxLayer();
+		if (my != max) 
+		{
+			LayerCommand * c = new LayerCommand(o, my, my + 1);
+			c->commit(m_editor->log(), m_editor);
+			m_editor->history()->add(c);
+		}
 	}
 }
 
