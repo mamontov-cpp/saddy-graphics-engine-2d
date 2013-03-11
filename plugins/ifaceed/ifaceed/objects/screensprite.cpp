@@ -61,7 +61,7 @@ ScreenSprite::~ScreenSprite()
 	delete m_observer;
 }
 
-hst::string ScreenSprite::type()
+hst::string ScreenSprite::typeName()
 {
 	return "ScreenSprite";
 }
@@ -160,7 +160,7 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db)
 }
 
 
-inline float dist2(const hPointF & p1, const hPointF & p2)
+float dist2(const hPointF & p1, const hPointF & p2)
 {
 	float dx = p1.x() - p2.x();
 	float dy = p1.y() - p2.y();

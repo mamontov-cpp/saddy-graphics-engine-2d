@@ -34,7 +34,7 @@ class ScreenLabel: public AbstractScreenObject
 	 /*! Returns a string type
 			\return a string type of object
 	  */
-	 virtual hst::string type();
+	 virtual hst::string typeName();
 	 /*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */

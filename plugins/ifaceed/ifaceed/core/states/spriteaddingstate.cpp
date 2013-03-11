@@ -12,7 +12,10 @@ void SimpleSpriteAddingState::enter()
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; IFaceEditor * ed; )
-	CLOSURE_CODE( p->setAddingEnabled(false); ed->highlightState("Place a sprite");  )
+	CLOSURE_CODE( p->setAddingEnabled(false); 
+				  ed->highlightState("Place a sprite"); 
+				  p->setRegionParameters();  
+				 )
 	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
 }
@@ -22,6 +25,16 @@ void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
 	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	o->moveCenterTo(hPointF(ev.x,ev.y));
+
+	MainPanel * p = ed->panel();
+	CLOSURE
+	CLOSURE_DATA( MainPanel * p; IFaceEditor * ed; )
+	CLOSURE_CODE( p->setAddingEnabled(false); 
+				  ed->highlightState("Place a sprite"); 
+				  p->setRegionParameters();  
+				 )
+	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
+	SUBMITCLOSURE( ed->emitClosure );
 }
 
 void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
@@ -34,7 +47,7 @@ void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
 	a+=dangle;
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; float angle; )
-	CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); )
+	CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); p->setRegionParameters();   )
 	INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 	SUBMITCLOSURE( ed->emitClosure );
 	o->getProperty("angle")->set(sad::Variant((float)a),ed->log());

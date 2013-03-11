@@ -39,7 +39,7 @@ hst::string ScreenLabel::description()
 	return result; 
 }
 
-hst::string ScreenLabel::type()
+hst::string ScreenLabel::typeName()
 {
 	return "ScreenLabel";
 }

@@ -89,6 +89,12 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Renders an abstract object if active and visible
 	 */
 	virtual void render();
+	/*! A type
+	 */
+	virtual hst::string type();
+	/*! Names of type
+	 */
+	virtual hst::string typeName() = 0;
 	/*! Returns a region, where object is placed. 
 	    \param[in] p point
 		\return whether point is within region
