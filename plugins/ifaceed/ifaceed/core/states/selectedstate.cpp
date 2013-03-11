@@ -177,3 +177,14 @@ void SelectedState::leave()
 	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 }
+
+
+void SelectedState::onKeyDown(const sad::Event & ev)
+{
+	if (ev.key == KEY_ESC)
+	{
+		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		ed->behaviourSharedData()->setSelectedObject(NULL);
+		ed->currentBehaviour()->enterState("idle");
+	}
+}

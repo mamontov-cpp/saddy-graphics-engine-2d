@@ -251,7 +251,8 @@ void IFaceEditor::onFullAppStart()
 				bool handled = false;
 				if (m_editor) 
 				{
-					if (m_editor->behaviourSharedData()->activeObject() == NULL)
+					if (m_editor->behaviourSharedData()->activeObject() == NULL
+						&& m_editor->behaviourSharedData()->selectedObject() == NULL)
 					{
 						if (ev.key == KEY_ESC)
 						{
