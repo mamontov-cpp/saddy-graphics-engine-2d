@@ -18,10 +18,25 @@ public:
 	/** Highlights entering a state
 	 */
 	virtual void enter();
+	/*! Moves a sprite
+		\param[in] ev event
+	  */
+	virtual void onMouseMove(const sad::Event & ev);
+	/*! Handles wheel  movement
+		 \param[in] ev event data
+	 */
+	virtual void onWheel(const sad::Event & ev);
 	/** Tries to select some item and enter selected state
 		 \param[in] ev  event  data
 	 */
 	virtual void onMouseDown(const sad::Event & ev);
+	/** Leveas a state
+	 */
+	virtual void leave();
+	/*! Handles key down event
+		\param[in] ev event data
+	 */
+	virtual void onKeyDown(const sad::Event & ev);
 };
 
 enum DiagonalSpriteAddingSubState
@@ -48,5 +63,16 @@ public:
 		 \param[in] ev  event  data
 	 */
 	virtual void onMouseDown(const sad::Event & ev);
+	/*! Moves a sprite
+		\param[in] ev event
+	  */
+	virtual void onMouseMove(const sad::Event & ev);
+	/** Leveas a state
+	 */
+	virtual void leave();
+	/*! Handles key down event
+		\param[in] ev event data
+	 */
+	virtual void onKeyDown(const sad::Event & ev);
 };
 

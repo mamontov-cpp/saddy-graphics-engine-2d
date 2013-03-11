@@ -3,16 +3,62 @@
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/spritedatabase.h"
 
+
+class SpritePropertyListener: public PropertyListener<hRectF>,  public PropertyListener<float>
+{
+private:
+	ScreenSprite * m_sprite;
+public:
+	inline SpritePropertyListener() {}
+	inline void setSprite(ScreenSprite * sprite) { m_sprite = sprite; }
+
+	virtual void notify(const hRectF & data)
+	{
+		Sprite2DConfigObserver * o = m_sprite->observer();
+		if (o)
+		{
+			m_sprite->observer()->sprite()->adapter()->setRect(data);
+		}
+	}
+	virtual void notify(const float & data)
+	{
+		Sprite2DConfigObserver * o = m_sprite->observer();
+		if (o)
+		{
+			Sprite2DController * c = o->sprite();
+			c->rotate(data - c->angle()); 
+		}
+	}
+};
+
 ScreenSprite::ScreenSprite()
 {
 	m_observer = NULL;
+	
+	m_rect_listener = new SpritePropertyListener();
+	m_rect_listener->setSprite(this);
+	
+	m_angle_listener = new SpritePropertyListener();
+	m_angle_listener->setSprite(this);
 
 	this->addProperty("config" ,new MappedField<hst::string>(&m_config, ""));
 	this->addProperty("group" ,new MappedField<hst::string>(&m_group, ""));
 	this->addProperty("index" ,new MappedField<int>(&m_index, 0));
+	
+	MappedField<hRectF> * hr = new MappedField<hRectF>(&m_rect, hRectF(hPointF(0,0), hPointF(128,128)));
+	hr->setListener(m_rect_listener);
+	this->addProperty("rect" , hr);
+	MappedField<float> * fr =  new MappedField<float>(&m_angle, 0.0f);
+	fr->setListener(m_angle_listener);
+	this->addProperty("angle", fr);
+}
 
-	this->addProperty("rect" ,new MappedField<hRectF>(&m_rect, hRectF(hPointF(0,0), hPointF(128,128))));
-	this->addProperty("angle",new MappedField<float>(&m_angle, 0.0f));
+
+ScreenSprite::~ScreenSprite()
+{
+	delete  m_rect_listener;
+	delete  m_angle_listener;
+	delete m_observer;
 }
 
 hst::string ScreenSprite::type()
@@ -21,10 +67,30 @@ hst::string ScreenSprite::type()
 }
 
 
+#define PRECISION 0.001
+
+
+static inline bool isPointsEqual(const hPointF & p1, const hPointF & p2)
+{
+	return fabs(p1.x() - p2.x()) < PRECISION && fabs(p1.y() - p2.y());
+}
+
+static inline bool isRectsEqual(const hRectF & p1, const hRectF & p2)
+{
+	bool ok = true;
+	for(int i = 0; i < 4; i++)
+	{
+		ok = ok && isPointsEqual(p1[i], p2[i]);
+	}
+	return ok;
+}
+
+#undef PRECISION
+
 void ScreenSprite::_render()
 {
 	if (m_observer)
-	{
+	{	
 		m_observer->sprite()->adapter()->render();
 	}
 }
@@ -44,7 +110,17 @@ hst::string ScreenSprite::description()
 
 hRectF ScreenSprite::region()
 {
-	return m_rect;
+	hRectF result = m_rect;
+	hPointF tmp, tmp2;
+	hPointF middle = (m_rect[0] + m_rect[2])/2;
+	for(int i = 0; i < 4; i++)
+	{
+		tmp = result[i] - middle;
+		tmp2.setX(tmp.x()*cos(m_angle) - tmp.y() * sin(m_angle));
+		tmp2.setY(tmp.x()*sin(m_angle) + tmp.y() * cos(m_angle));
+		result[i] = middle + tmp2;
+	}
+	return result;
 }
 
 void ScreenSprite::moveCenterTo(const hPointF & point)
@@ -57,10 +133,7 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
 }
 
 
-ScreenSprite::~ScreenSprite()
-{
-	delete m_observer;
-}
+
 
 bool testIsWithin(const hPointF & p, const hRectF & r);
 
@@ -106,7 +179,7 @@ bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 	else
 	{
 		changesize = true;
-		point = (m_rect[0] + m_rect[1])/2;
+		point = (m_rect[0] + m_rect[2])/2;
 		size.setX(dist2(m_rect[0], m_rect[1]));
 		size.setY(dist2(m_rect[0], m_rect[3]));
 	}

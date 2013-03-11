@@ -275,23 +275,6 @@ void IFaceEditor::onFullAppStart()
 		this->setBehaviour("main");
 		this->highlightState("Idle");
 
-		/**
-		 
-		//  Adding a small screen sprite
-		ScreenSprite * a = new ScreenSprite();
-		Sprite2DConfig * c = this->database()->sprites().hconfigs()["Test"];
-		Sprite2DTemplate t = c->getTemplates()["test1-dev"][0];
-		hPointF p1 = hPointF(320,240);
-		hPointF p2 = p1 + t.size();
-		hRectF rect(p1, p2);
-		a->setProp<hRectF>("rect",rect, this->log());
-		a->setProp<float>("angle",0.0f, this->log());
-		a->setProp<hst::string>("config","Test", this->log());
-		a->setProp<hst::string>("group","test1-dev", this->log());
-		a->setProp<int>("index",0, this->log());
-		a->tryReload(this->database());
-		this->scene()->add(a);
-		*/
 	}
 }
 
