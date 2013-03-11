@@ -84,6 +84,9 @@ protected:
 	/*! Sets a point for data
 	 */
 	virtual void moveCenterTo(const hPointF & point);
+	/*! Sets an already rotated rectangle, restoring all data
+	 */
+	void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);
 	/*! Destroys a screen sprite
 	 */
 	~ScreenSprite();

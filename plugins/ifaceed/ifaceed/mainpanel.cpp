@@ -87,6 +87,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
 	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
+
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -95,11 +96,7 @@ void MainPanel::setEditor(IFaceEditor * editor)
 	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 }
 
-void MainPanel::spriteSelected(QString config, QString group, int index)
-{
-	// TODO: Reimplement
-	// QMessageBox::critical(NULL, "IFaceEditor", config + QString(",") + group + QString(",") + QString::number(index));
-}
+
 
 MainPanel::~MainPanel()
 {
@@ -243,7 +240,7 @@ void MainPanel::addSpriteObject()
 	if (newstate.length())
 	{
 		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
-		if (selection.invalid() == true)
+		if (selection.invalid() == false)
 		{
 			hst::string config = selection.config().toStdString().c_str();
 			hst::string group = selection.group().toStdString().c_str();
@@ -539,3 +536,41 @@ void MainPanel::setRegionParameters()
 }
 
 
+void MainPanel::spriteSelected(QString config, QString group, int index)
+{
+	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o = (o1) ? o1 : o2;
+	if (o)
+	{
+		
+		QSpriteTableWidgetSelection sel(config, group, index);
+		if (sel.invalid() == false  && o->getProperty("config") != NULL) 
+		{
+			hst::string oconf =  o->prop<hst::string>("config", m_editor->log());
+			hst::string ogroup =  o->prop<hst::string>("group", m_editor->log());
+			int oindex =  o->prop<int>("index", m_editor->log());
+
+			o->setProp<hst::string>("config", config.toStdString().c_str(), m_editor->log());
+			o->setProp<hst::string>("group",  group.toStdString().c_str(), m_editor->log());
+			o->setProp<int>("index",    index, m_editor->log());
+			
+			bool set_rect = false;
+			hRectF rect = o->region();
+			float angle = o->prop<float>("angle", m_editor->log());
+			set_rect = this->m_editor->currentBehaviour()->state() != "sprite_adding_simple";
+			
+			o->tryReload(this->m_editor->database());
+			
+			if (set_rect)
+			{
+				static_cast<ScreenSprite *>(o)->setRotatedRectangle(rect,angle);
+			}
+
+			if (o2 == o)
+			{
+
+			}
+		}
+	}
+}
