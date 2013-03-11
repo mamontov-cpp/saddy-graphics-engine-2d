@@ -13,6 +13,7 @@
 #include "../objects/screensprite.h"
 #include "states/idlestate.h"
 #include "states/labeladdingstate.h"
+#include "states/spriteaddingstate.h"
 #include "states/selectedstate.h"
 #include "objectborders.h"
 #include "../history/deletecommand.h"
@@ -32,7 +33,8 @@ IFaceEditor::IFaceEditor()
 	behaviour->addState("idle", new IdleState());
 	behaviour->addState("label_adding", new LabelAddingState());
 	behaviour->addState("selected", new SelectedState());
-
+	behaviour->addState("sprite_adding_simple", new SimpleSpriteAddingState());
+	behaviour->addState("sprite_adding_diagonal", new DiagonalSpriteAddingState());
 	this->behaviours().insert("main", behaviour);
 }
 IFaceEditor::~IFaceEditor()
@@ -306,7 +308,9 @@ void IFaceEditor::highlightState(const hst::string & hint)
 void IFaceEditor::tryEraseObject()
 {
 	hst::string state = this->currentBehaviour()->state(); 
-	if (state == "label_adding")
+	if (state == "label_adding" 
+		|| state == "sprite_adding_simple" 
+		|| state == "sprite_adding_diagonal")
 	{
 		AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
 		this->behaviourSharedData()->setActiveObject(NULL);

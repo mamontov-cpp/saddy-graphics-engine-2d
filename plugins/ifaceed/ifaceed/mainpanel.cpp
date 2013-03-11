@@ -33,6 +33,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
 	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
+	connect(ui.btnAddSprite, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
 	ui.cmbFonts->setItemDelegate(new FontDelegate());
 	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
@@ -232,6 +233,31 @@ void MainPanel::addFontObject()
 		this->m_editor->currentBehaviour()->enterState("label_adding");
 	}
 }
+
+
+void MainPanel::addSpriteObject()
+{
+	hst::string newstate = "";
+	if (ui.rbPlaceAndRotate->isChecked()) newstate = "sprite_adding_simple";
+	if (ui.rbTwoClicksPlaces->isChecked()) newstate = "sprite_adding_diagonal";
+	if (newstate.length())
+	{
+		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
+		if (selection.invalid() == true)
+		{
+			
+		}
+		else
+		{
+			QMessageBox::critical(NULL, "IFace Editor", "You must select a sprite for adding");
+		}
+	}
+	else
+	{
+		QMessageBox::critical(NULL, "IFace Editor", "You must select a mode for adding");
+	}
+}
+
 
 void MainPanel::setAddingEnabled(bool enabled)
 {
@@ -458,4 +484,16 @@ void MainPanel::moveObjectFront()
 		}
 	}
 }
+
+void MainPanel::setAngleChangingEnabled(bool enabled)
+{
+	ui.dblAngle->setEnabled(enabled);
+	if (enabled == false)
+	{
+		ui.dblAngle->setValue(0.0);
+	}
+}
+
+
+
 
