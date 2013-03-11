@@ -11,6 +11,6 @@ QSpriteTableWidgetSelection::QSpriteTableWidgetSelection(const QString & config,
 
 bool QSpriteTableWidgetSelection::invalid() const
 {
-	return m_config.length() == 0  || m_group.length() == 0 || m_index <= 0;
+	return m_config.length() == 0  || m_group.length() == 0 || m_index < 0;
 }
 
