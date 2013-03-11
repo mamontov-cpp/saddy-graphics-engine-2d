@@ -39,6 +39,9 @@ private:
 	 */
 	ScreenObjectList m_list;
 public:
+	/*! Change region parameters for data
+	 */
+	void setRegionParameters();
 	/*! Constructor, which inits all of callbacks
 	 */
 	MainPanel(QWidget *parent = 0, Qt::WFlags flags = 0);
@@ -144,7 +147,7 @@ protected slots:
 	/*! Moves object back to layer
 	 */
 	void moveObjectFront();
-
+	
 };
 
 #endif // MAINPANEL_H

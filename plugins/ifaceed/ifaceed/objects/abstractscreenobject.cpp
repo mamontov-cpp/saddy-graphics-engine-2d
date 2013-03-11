@@ -73,3 +73,7 @@ void AbstractScreenObject::setRight(float x)
 
 }
 
+hst::string AbstractScreenObject::type()
+{
+	return this->typeName();
+}

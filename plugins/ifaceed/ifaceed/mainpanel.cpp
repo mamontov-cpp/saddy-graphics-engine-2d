@@ -516,6 +516,26 @@ void MainPanel::setAngleChangingEnabled(bool enabled)
 	}
 }
 
+float dist2(const hPointF & p1, const hPointF & p2);
 
+void MainPanel::setRegionParameters()
+{
+	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o = (o1) ? o1 : o2;
+	if (o)
+	{
+		hRectF rect = o->region();
+		if (o->typeName() == "ScreenSprite")
+		{
+			m_selfchanged = true;
+			ui.dblSpriteX->setValue(rect[0].x());
+			ui.dblSpriteY->setValue(rect[0].x());
+			ui.dblSpriteWidth->setValue(dist2(rect[0], rect[1]));
+			ui.dblSpriteHeight->setValue(dist2(rect[0], rect[3]));
+			m_selfchanged = false;
+		}
+	}
+}
 
 
