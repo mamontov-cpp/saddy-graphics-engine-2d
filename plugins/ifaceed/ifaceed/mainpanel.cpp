@@ -586,7 +586,57 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 			if (o2 == o)
 			{
 
+				SpritePropertyChangeCommandInfo * _old = new SpritePropertyChangeCommandInfo();
+	
+				_old->config = oconf;
+				_old->group = ogroup;
+				_old->index = oindex;
+				_old->rect = rect;
+				_old->angle = angle;
+
+				SpritePropertyChangeCommandInfo * _new = new SpritePropertyChangeCommandInfo();
+
+				_new->config = config.toStdString().c_str();
+				_new->group = group.toStdString().c_str();
+				_new->index = index;
+				_new->rect = rect;
+				_new->angle = angle;
+
+				SpritePropertyChangeCommand * c = new SpritePropertyChangeCommand(
+					static_cast<ScreenSprite *>(o),
+					m_editor->database(), 
+					m_editor->log(), 
+					*_old, 
+					*_new
+				);
+
+				m_editor->history()->add(c);
+
+				delete _old;
+				delete _new;
+
 			}
 		}
 	}
 }
+
+void SpritePropertyChangeCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+{
+	m_sprite->setProp<hst::string>("config", m_new.config, m_log);
+	m_sprite->setProp<hst::string>("group",  m_new.group, m_log);
+	m_sprite->setProp<int>("index",    m_new.index, m_log);
+	m_sprite->tryReload(m_db);
+	m_sprite->setRotatedRectangle(m_new.rect, m_new.angle);
+	ob->submitEvent("SpritePropertyChangeCommand::commit", sad::Variant(0));
+}
+
+void SpritePropertyChangeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+{
+	m_sprite->setProp<hst::string>("config", m_old.config, m_log);
+	m_sprite->setProp<hst::string>("group",  m_old.group, m_log);
+	m_sprite->setProp<int>("index",    m_old.index, m_log);
+	m_sprite->tryReload(m_db);
+	m_sprite->setRotatedRectangle(m_old.rect, m_old.angle);
+	ob->submitEvent("SpritePropertyChangeCommand::rollback", sad::Variant(0));
+}
+

@@ -132,8 +132,14 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
 {
 	if (m_observer)
 	{
-		m_observer->sprite()->move(point - m_observer->sprite()->pos());
-		m_rect = this->m_observer->sprite()->adapter()->rect();
+		hRectF  hregion = this->region();
+ 		hPointF middle = (hregion[0] + hregion[2]) / 2; 
+		hPointF delta = point - middle;
+		m_observer->sprite()->move(delta);
+		for(int i = 0; i < 4; i++)
+		{
+			m_rect[i] += delta;
+		}
 	}
 }
 
@@ -187,7 +193,7 @@ bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 	if (isValid(db))
 	{
 		this->reloadNoSize(db);
-		m_observer->sprite()->move(point - m_observer->sprite()->pos()); 
+		this->moveCenterTo(point);
 		m_observer->sprite()->rotate(m_angle);
 		return true;
 	}
@@ -200,12 +206,14 @@ void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 	Sprite2DConfigObserver * obs = new Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(hPointF(0,0));
 	m_observer = obs;
+	m_rect = this->m_observer->sprite()->adapter()->rect();
 }
 
 void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float angle)
 {
 	float mangle = -1 * angle;
 	m_rect = rotated(rotatedrectangle, mangle);
+	hRectF trect = rotated(m_rect,angle);
 	m_angle = angle;
 	Sprite2DConfigObserver * o = this->observer();
 	if (o)

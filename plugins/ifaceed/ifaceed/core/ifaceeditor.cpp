@@ -317,7 +317,14 @@ void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant 
 {
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )
-	CLOSURE_CODE( me->panel()->updateList(); )
+	CLOSURE_CODE( 
+		me->panel()->updateList(); 
+		if (me->behaviourSharedData()->selectedObject() != NULL 
+			&& me->behaviourSharedData()->activeObject() == NULL) 
+		{
+			me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
+		}
+	)
 	INITCLOSURE ( CLSET(me, this) )
 	SUBMITCLOSURE( this->emitClosure );
 }

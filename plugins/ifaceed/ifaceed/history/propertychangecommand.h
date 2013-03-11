@@ -6,6 +6,7 @@
 #include "abstractcommand.h"
 #include "../objects/abstractscreenobject.h"
 #include "templates/hstring.h"
+#include "primitives/hrect.h"
 #pragma once
 
 class EditorLog;
@@ -15,7 +16,8 @@ class ScreenTemplate;
 template<
 	typename T
 >
-class PropertyChangeCommand: public AbstractCommand {
+class PropertyChangeCommand: public AbstractCommand 
+{
 private:
 	AbstractScreenObject * m_object; //!< Object of data
 	EditorLog * m_log;				 //!< Log of editor
@@ -72,4 +74,48 @@ public:
 	}
 
 
+};
+
+
+class FontTemplateDatabase;
+class ScreenSprite;
+
+class SpritePropertyChangeCommandInfo
+{
+public:
+	hst::string config;
+	hst::string group;
+	int index;
+
+	hRectF rect;
+	float angle;
+};
+
+
+
+class SpritePropertyChangeCommand: public AbstractCommand 
+{
+ private:
+	ScreenSprite * m_sprite;
+	FontTemplateDatabase * m_db;
+	EditorLog * m_log;				
+	SpritePropertyChangeCommandInfo m_old;
+	SpritePropertyChangeCommandInfo m_new;
+ public:
+	inline SpritePropertyChangeCommand(ScreenSprite * sprite,
+									   FontTemplateDatabase * db,
+									   EditorLog * log,
+									   const SpritePropertyChangeCommandInfo & _old,
+									   const SpritePropertyChangeCommandInfo & _new)
+	{
+		m_sprite = sprite;
+		m_db = db;
+		m_old = _old;
+		m_new = _new;
+		m_log = log;
+	}
+
+	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+
+	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 };
