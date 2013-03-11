@@ -8,10 +8,19 @@
 #include <config/sprite2dobserver.h>
 #pragma once
 
+class SpritePropertyListener;
 
 class ScreenSprite: public AbstractScreenObject 
 {
+friend class SpritePropertyListener;
 protected:
+	/** A rect listener
+	 */
+	SpritePropertyListener * m_rect_listener;
+	/** An angle listener
+	 */
+	SpritePropertyListener * m_angle_listener;
+
 	/*! A config to work with
 	 */
 	hst::string m_config;
@@ -36,6 +45,8 @@ protected:
 	virtual void _render();
  public:
 	ScreenSprite();
+
+	inline Sprite2DConfigObserver * observer() { return m_observer; }
 	/*! Returns a string type
 		\return a string type of object
 	 */

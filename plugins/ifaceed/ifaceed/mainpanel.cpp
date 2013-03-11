@@ -245,7 +245,29 @@ void MainPanel::addSpriteObject()
 		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
 		if (selection.invalid() == true)
 		{
-			
+			hst::string config = selection.config().toStdString().c_str();
+			hst::string group = selection.group().toStdString().c_str();
+			int index = selection.index();
+			//  Adding a small screen sprite
+			ScreenSprite * a = new ScreenSprite();
+			Sprite2DConfig * c = m_editor->database()->sprites().hconfigs()[config];
+			Sprite2DTemplate t = c->getTemplates()[group][index];
+			hPointF p1 = hPointF(320,240);
+			hPointF p2 = p1 + t.size();
+			hRectF rect(p1, p2);
+			a->setProp<hRectF>("rect",rect, m_editor->log());
+			a->setProp<float>("angle",ui.dblAngle->value(), m_editor->log());
+			a->setProp<hst::string>("config",config, m_editor->log());
+			a->setProp<hst::string>("group",group, m_editor->log());
+			a->setProp<int>("index",index, m_editor->log());
+			a->tryReload(m_editor->database());
+			InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
+			a->setScene(scene);
+
+			this->m_editor->behaviourSharedData()->setActiveObject(a);
+
+			scene->add(a);
+			this->m_editor->currentBehaviour()->enterState(newstate);
 		}
 		else
 		{

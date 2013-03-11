@@ -126,6 +126,15 @@ s3d::point Sprite::middle() const
   return (m_rect[0]+m_rect[1]+m_rect[2]+m_rect[3])/4;
 }
 
+
+void Sprite::setBBox(const hst::rect<::s3d::point> & rect)
+{
+	for(int i = 0; i < 4; i++)
+	{
+		m_rect[i] = rect[i];
+	}
+}
+
 void Sprite::moveBy(const s3d::point & p)
 {
   for (int i=0;i<4;i++)

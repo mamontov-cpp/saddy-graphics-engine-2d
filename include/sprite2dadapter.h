@@ -140,6 +140,10 @@ class Sprite2DAdapter: public sad::BasicNode
 			 \return rectangle
           */
 		 const hRectF & rect() const;
+		 /*! Sets a rectangle
+			 \param[in] rect rectangle
+		  */
+		 void setRect(const hRectF & rect);
 };
 
 
