@@ -435,6 +435,10 @@
 						RelativePath=".\core\states\selectedstate.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\core\states\spriteaddingstate.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -835,6 +839,10 @@
 					</File>
 					<File
 						RelativePath=".\core\states\selectedstate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\spriteaddingstate.h"
 						>
 					</File>
 				</Filter>

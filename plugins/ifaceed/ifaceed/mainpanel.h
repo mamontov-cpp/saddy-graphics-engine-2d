@@ -68,6 +68,10 @@ public:
 		\param[in] enabled enabled stuff
 	 */
 	void setAddingEnabled(bool enabled);
+	/*! Enables angle changes. If false, also sets angle to zero
+		\param[in] enabled 
+	 */
+	void setAngleChangingEnabled(bool enabled);
 	/*! Tries to set current propertit of active object, otherwise  - of selected
 		if property exists
 		\param[in] prop property name
@@ -109,6 +113,9 @@ protected slots:
 	/*! Adds a new font object
 	 */
 	void addFontObject();
+	/*! Adds a sprite object
+	 */
+	void addSpriteObject();
 	/*! Changes a font in data
 		\param[in] s string
 	 */ 
