@@ -139,6 +139,12 @@ void SelectedState::onMouseMove(const sad::Event & ev)
 		hPointF p(ev.x, ev.y);
 		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
 		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
+		
+		CLOSURE
+		CLOSURE_DATA( IFaceEditor * e;  )
+		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
+		INITCLOSURE( CLSET(e, ed);  );
+		SUBMITCLOSURE( ed->emitClosure );
 	}
 }
 
