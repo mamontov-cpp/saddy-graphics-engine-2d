@@ -6,6 +6,7 @@
 
 #include <input.h>
 #include <stdio.h>
+#include <cstdlib>
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
 #include "core/ifacecmdoptions.h"
@@ -25,6 +26,7 @@
 int main(int argc, char *argv[])
 {	
 	#ifdef WIN32
+		setlocale(LC_CTYPE, ".1251");
 		QTextCodec * codec=QTextCodec::codecForName("Windows-1251");
 		QTextCodec::setCodecForTr(codec);
 		QTextCodec::setCodecForCStrings(codec);

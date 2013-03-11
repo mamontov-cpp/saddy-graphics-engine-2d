@@ -14,7 +14,6 @@ class Sprite2DController
  private:
 	     Sprite2DAdapter * m_sprite;       //!< A real sprite in scene
 		 bool              m_sizechanged;  //!< Whether size of sprite, has been changed
-		 sad::Scene *      m_scene;        //!< A scene, where we should place a scene
  public:
 		  /*! Creates a new sprite adapter with some properties, like ( Texture coordinates are ABSOLUTE)
 			 By default object DOES NOT own sprite. That's because if we removing sprite from scene, memory
@@ -27,18 +26,11 @@ class Sprite2DController
 		  /*! Destroys a controller
 		   */
 		  ~Sprite2DController();
-		  /*! Adds a sprite to scene
-			  \param[in] scene scene to add to
-		   */
-		  void addToScene(sad::Scene * scene);
 		  /*! Determines, whether size is changed. It's not handles ::setSize calls, only changing by ::setTop
 			 due to changing size from config
 			 \return flag, whether size was changed.
 		   */
 		  bool wasSizeChanged() const;
-		  /*! Removes a sprite from scene
-		   */
-		  void removeFromScene();
 		  /*! Sets a position of middle of sprite to specified point
 			  \param[in] p point of middle
 		   */

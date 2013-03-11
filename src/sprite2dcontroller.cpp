@@ -4,30 +4,14 @@ Sprite2DController::Sprite2DController(sad::Texture * tex,const hRectF & texrect
 {
 	m_sprite=new Sprite2DAdapter(tex,texrect,bbox);
 	m_sizechanged=false;
-	m_scene=NULL;
 }
 
 Sprite2DController::~Sprite2DController()
 {
-   if (m_scene==NULL)
-		delete m_sprite;
-   else
-	   m_scene->markForDeletion(m_sprite);
+
 }
 
-void Sprite2DController::addToScene(sad::Scene * scene)
-{
-	m_scene=scene;
-	scene->markForAddition(m_sprite);
-}
 
-void Sprite2DController::removeFromScene()
-{
-	Sprite2DAdapter * newsprite=new Sprite2DAdapter(*m_sprite);
-	m_scene->markForDeletion(m_sprite);
-	m_scene=NULL;
-	m_sprite=newsprite;
-}
 
 bool Sprite2DController::wasSizeChanged() const
 {

@@ -170,6 +170,7 @@ void Editor::initDefaultSaddyOptions()
 	XMLConfigLoader * loader = new XMLConfigLoader(a);
 	m_icons.setLoader(loader);
 	bool loaded =  (m_icons.reload() == SCR_OK);
+	m_log->debug(QString("Loading icons from %1").arg(a));
 	if (!loaded) 
 	{
 		m_log->error(QString("Can\'t load %1").arg(a));
