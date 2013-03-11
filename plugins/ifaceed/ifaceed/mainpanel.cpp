@@ -451,6 +451,20 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		float c = prop->get(l)->get<float>(l);
 		ui.dblAngle->setValue(c);
 	}
+	if (o->getProperty("config") != NULL)
+	{
+		m_selfchanged = true;
+		this->setRegionParameters();
+		
+		hst::string config = o->prop<hst::string>("config", m_editor->log());
+		hst::string group = o->prop<hst::string>("group", m_editor->log());
+		int index = o->prop<int>("index", m_editor->log());
+		
+		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
+		this->m_spriteTableWidget->setSelection(sel);
+
+		m_selfchanged = false;
+	}
 	// This added to prevent cases when selfchanging does not work and flag is not resetted.
 	m_selfchanged = false;
 }
@@ -538,6 +552,8 @@ void MainPanel::setRegionParameters()
 
 void MainPanel::spriteSelected(QString config, QString group, int index)
 {
+	if (m_selfchanged)
+		return;
 	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
 	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
