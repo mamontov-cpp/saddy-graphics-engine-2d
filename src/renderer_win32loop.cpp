@@ -110,7 +110,7 @@ POINT sad::Renderer::_toClient(POINT  _pnt)
 	pnt.y = _pnt.y;
 	RECT r;
 	GetClientRect(instance().m_window.hWND, &r);
-	pnt.y = r.bottom - 1 - pnt.y;
+	pnt.y = r.bottom - pnt.y;
 	return pnt;
 }
 
