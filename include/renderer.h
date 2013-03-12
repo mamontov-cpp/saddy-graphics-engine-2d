@@ -64,6 +64,16 @@ namespace sad
 		    \return Success of operation              
 		*/
         static LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		/*! Converts parameters to client coordinates
+			\param[in] lParam parameters
+			\return point structure
+		 */
+		static POINT _toClient(POINT  pnt);
+		/*! Converts parameters to client coordinates
+			\param[in] lParam parameters
+			\return point structure
+		 */
+		static POINT _toClient(LPARAM lParam);
 #endif
 #ifdef LINUX
         /*! Sends fullscreen atom to toggle fullscreen
