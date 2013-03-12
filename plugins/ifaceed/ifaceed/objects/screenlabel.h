@@ -38,7 +38,7 @@ class ScreenLabel: public AbstractScreenObject
 	 /*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string description();
+	virtual hst::string _description();
 	/*! Whether we can resize object
 	 */
 	virtual bool resizable();

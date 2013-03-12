@@ -11,6 +11,7 @@ AbstractScreenObject::AbstractScreenObject()
 {
 	m_scene = NULL;
 
+	addProperty("name", new MappedField<hst::string>(&m_name, ""));
 	addProperty("layer", new SceneLayerProperty());
 	addProperty("uid", new UidProperty());
 	addProperty("activity", new ActivityProperty(&m_active,true));
@@ -76,4 +77,11 @@ void AbstractScreenObject::setRight(float x)
 hst::string AbstractScreenObject::type()
 {
 	return this->typeName();
+}
+
+hst::string AbstractScreenObject::description()
+{
+	if (m_name.length())
+		return m_name;
+	return _description();
 }

@@ -54,7 +54,7 @@ protected:
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string description();
+	virtual hst::string _description();
 	/*! Returns a region, where object is placed. 
 	     \param[in] p point
 		 \return whether point is within region
