@@ -1,6 +1,7 @@
 #include "objectborders.h"
 #include "../objects/abstractscreenobject.h"
 #include <renderer.h>
+#include "ifaceeditor.h"
 #include <config/sprite2dobserver.h>
 
 bool ActiveObjectBorder::tryPerform()
@@ -93,6 +94,19 @@ void ObjectBorder::renderSpot(const char * c, const hRectF & r, int r0, int r1, 
 	}
 }
 
+hRectF deletePositionRectangle(const hRectF & region,float size)
+{
+	hPointF delposition = region[2];
+	hPointF center = (region[0] + region[2])/2;
+	float angle = atan2f(delposition.y() - center.y(), delposition.x() - center.x() );
+	delposition += hPointF(cos(angle), sin(angle)) * HOTSPOT_PADDING;
+	hRectF v(hPointF(-size, -size), hPointF(size, -size), hPointF(size, size), hPointF(-size, size));
+	for(int i = 0; i < 4; i++) 
+	{
+		v[i] += delposition; 
+	}
+	return v;
+}
 void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 {
 	Sprite2DConfig * c = this->m_data->icons();
@@ -108,13 +122,12 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 	// Render delete button
 	if (canDelete) 
 	{
-		hPointF delposition = region[2];
-		hPointF center = (region[0] + region[2])/2;
-		float angle = atan2f(delposition.y() - center.y(), delposition.x() - center.x() );
-		delposition += hPointF(cos(angle), sin(angle)) * HOTSPOT_PADDING;
 		Sprite2DConfigObserver observer("delete", 0, c);
-		if (observer.createSprite(delposition))
+		if (observer.createSprite(hPointF(0,0)))
 		{
+			hRectF v = deletePositionRectangle(region, HOTSPOT_PADDING);
+			observer.sprite()->adapter()->setRect(v);
+			//observer.sprite()->adapter()->setSize(hPointF(size,size));
 			observer.sprite()->adapter()->render();
 		}
 	}
@@ -153,15 +166,7 @@ hst::vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool 
 
 	if (canDelete) 
 	{
-		float size = HOTSPOT_PADDING;
-		hPointF delposition = region[2];
-		hPointF center = (region[0] + region[2])/2;
-		float angle = atan2f(delposition.y() - center.y(), delposition.x() - center.x() );
-		delposition += hPointF(cos(angle), sin(angle)) * HOTSPOT_PADDING;
-		hRectF v(hPointF(-size, -size), hPointF(size, -size), hPointF(size, size), hPointF(-size, size));
-		for(int i = 0; i < 4; i++) {
-			v[i] +=  delposition;
-		}
+		hRectF v = 	deletePositionRectangle(region, HOTSPOT_PADDING);
 		result << v;
 	}
 	return result;
@@ -170,6 +175,11 @@ hst::vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool 
 bool ObjectBorder::removable()
 {
 	return true;
+}
+
+bool ObjectBorder::resizable()
+{
+	return false;
 }
 
 bool ActiveObjectBorder::removable()
@@ -181,22 +191,49 @@ bool testIsWithin(const hPointF & p1, const hRectF & r) ;
 
 hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractScreenObject * o)
 {
+	
 	hst::vector<BorderHotSpots> hotspotsets;
-	hotspotsets << BHS_LEFT;
-	hotspotsets << BHS_BOTTOM;
-	hotspotsets << BHS_RIGHT;
-	hotspotsets << BHS_TOP;
+	QVector<QString> m_setnames;
+	if (this->resizable()) 
+	{
+		hotspotsets << BHS_LEFT;   m_setnames << "BHS_LEFT";
+		hotspotsets << BHS_BOTTOM; m_setnames << "BHS_BOTTOM";
+		hotspotsets << BHS_RIGHT;  m_setnames << "BHS_RIGHT";
+		hotspotsets << BHS_TOP;    m_setnames << "BHS_TOP";
+	}
 	if (this->removable()) 
 	{
-		hotspotsets << BHS_REMOVE;
+		hotspotsets << BHS_REMOVE; m_setnames << "BHS_REMOVE";
 	}
 	hst::vector<BorderHotSpots> result;
 	hst::vector<hRectF> r = this->createHotSpots(o, this->removable());
+	this->m_data->log()->debug(
+		QString("Testing click(%1, %2)")
+		.arg(p.x())
+		.arg(p.y())
+	);
 	for(int i = 0; i <  r.count(); i++) 
 	{
+		this->m_data->log()->debug(
+			QString("%1: bounding rectangle [(%2, %3), (%4, %5), (%6, %7), (%8, %9)]")
+			.arg(m_setnames[i])
+			.arg(r[i][0].x())
+			.arg(r[i][0].y())
+			.arg(r[i][1].x())
+			.arg(r[i][1].y())
+			.arg(r[i][2].x())
+			.arg(r[i][2].y())
+			.arg(r[i][3].x())
+			.arg(r[i][3].y())
+		);
 		if (testIsWithin(p, r[i]))
 		{
+			this->m_data->log()->debug("Hit!");		
 			result << hotspotsets[i];
+		}
+		else
+		{
+			this->m_data->log()->debug("Missed!");
 		}
 	}
 	return result;
@@ -220,4 +257,13 @@ hst::vector<BorderHotSpots> SelectedObjectBorder::isWithin(const hPointF & p)
 		return this->ObjectBorder::isWithin(p,o);
 	}
 	return hst::vector<BorderHotSpots> ();
+}
+
+
+bool SelectedObjectBorder::resizable()
+{
+  if (m_data->selectedObject())
+  {
+	  return m_data->selectedObject()->resizable();
+  }
 }

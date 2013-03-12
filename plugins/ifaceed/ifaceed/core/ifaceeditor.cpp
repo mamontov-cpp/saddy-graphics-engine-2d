@@ -23,6 +23,7 @@ IFaceEditor::IFaceEditor()
 {
 	m_log->setProgramName("IFace Editor");
 	m_log->setLogFile("log.txt");
+	this->behaviourSharedData()->setLog(m_log);
 
 	m_db = NULL;
 	m_counter = 0;

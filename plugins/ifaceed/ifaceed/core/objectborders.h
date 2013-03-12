@@ -35,9 +35,14 @@ class ObjectBorder: public sad::RepeatingTask
 	 /** Creates all of hotspots for item
 	  */
 	 hst::vector<hRectF> createHotSpots(AbstractScreenObject * o, bool canDelete);
-	 /** Determines, whether object marked by this border is deletable
+	 /** Determines, whether object marked by this border is removable
+	     Default true
 	  */
 	 virtual bool removable();
+	 /** Determines, whether object, marked by this border is resizable
+	     Default false
+	  */
+	 virtual bool resizable();
  public:
 	 inline ObjectBorder(EditorBehaviourSharedData  * data)
 	 {
@@ -73,6 +78,10 @@ class ActiveObjectBorder: public ObjectBorder
 
 class SelectedObjectBorder: public ObjectBorder
 {
+ protected:
+    /** Determines, whether object marked by this border is deletable
+	  */
+	 virtual bool resizable();
  public:
 	 inline SelectedObjectBorder(EditorBehaviourSharedData  * data):ObjectBorder(data)
 	 {
