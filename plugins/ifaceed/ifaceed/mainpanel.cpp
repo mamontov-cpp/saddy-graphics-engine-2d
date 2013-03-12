@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QLineEdit>
 #include <QTimer>
 #include <marshal/actioncontext.h>
 #include "gui/fontdelegate.h"
@@ -87,6 +88,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
 	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
+	connect(ui.txtName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
 
 }
 
@@ -377,6 +379,12 @@ void MainPanel::sizeChanged(int index)
 	}
 }
 
+void MainPanel::nameChanged(const QString & name)
+{
+	trySetProperty("name", hst::string(name.toStdString().c_str()));
+	this->updateList();
+}
+
 void MainPanel::textChanged()
 {
 	IGNORE_SELFCHANGING
@@ -450,6 +458,14 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = true;
 		float c = prop->get(l)->get<float>(l);
 		ui.dblAngle->setValue(c);
+	}
+	prop = o->getProperty("name");
+	if (prop)
+	{	
+		m_selfchanged = true;
+		hst::string c= prop->get(l)->get<hst::string>(l);
+		ui.txtName->setText(c.data());
+		m_selfchanged = false;
 	}
 	if (o->getProperty("config") != NULL)
 	{

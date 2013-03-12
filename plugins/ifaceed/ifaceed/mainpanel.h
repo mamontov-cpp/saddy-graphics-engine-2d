@@ -147,6 +147,10 @@ protected slots:
 	/*! Moves object back to layer
 	 */
 	void moveObjectFront();
+	/*! Called, when name is changed
+		\param[in] new name new name of element
+	 */
+	void nameChanged(const QString & name);
 	
 };
 

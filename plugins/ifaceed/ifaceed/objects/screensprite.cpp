@@ -96,9 +96,9 @@ void ScreenSprite::_render()
 }
 
 
-hst::string ScreenSprite::description()
+hst::string ScreenSprite::_description()
 {
-	QString a = QString("label(%1,%2,%3) at (%4,%5)");
+	QString a = QString("sprite(%1,%2,%3) at (%4,%5)");
 	hPointF  p = this->region()[0];
 	a = a.arg(m_config.data())
 		 .arg(m_group.data())

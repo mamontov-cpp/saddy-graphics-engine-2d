@@ -26,12 +26,18 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/** Whether object is visible
 	 */ 
 	bool m_visible;
+	/** Name of object
+	 */
+	hst::string m_name;
 	/** A scene with object
 	 */
 	InterlockedScene * m_scene;
 	/** Renders an object. NOTE: Overload this to do actual render of object
 	 */
 	virtual void _render()=0;
+	/** Returns generated description of object
+	 */
+	virtual hst::string _description()=0;	
  public:
 	/** Default screen object
 	 */
@@ -124,7 +130,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string description()=0;	
+	virtual hst::string description();	
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
