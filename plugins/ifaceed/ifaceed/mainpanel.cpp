@@ -543,6 +543,15 @@ void MainPanel::setAngleChangingEnabled(bool enabled)
 	}
 }
 
+void MainPanel::setSpriteChangingEnabled(bool enabled)
+{
+	this->ui.dblSpriteX->setEnabled(enabled);
+	this->ui.dblSpriteY->setEnabled(enabled);
+	this->ui.dblSpriteWidth->setEnabled(enabled);
+	this->ui.dblSpriteHeight->setEnabled(enabled);
+}
+
+
 float dist2(const hPointF & p1, const hPointF & p2);
 
 void MainPanel::setRegionParameters()

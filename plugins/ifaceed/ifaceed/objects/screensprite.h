@@ -45,6 +45,14 @@ protected:
 	virtual void _render();
  public:
 	ScreenSprite();
+	/*! Returns angle data
+		\return angle 
+	 */
+	inline float angle() const { return m_angle;}
+	/*! Returns bounding rectangle for data
+		\return bounding rectangle
+	 */
+	inline const hRectF & rect() const { return m_rect;}
 
 	inline Sprite2DConfigObserver * observer() { return m_observer; }
 	/*! Returns a string type

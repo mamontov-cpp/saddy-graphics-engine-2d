@@ -68,9 +68,13 @@ public:
 	 */
 	void highlightState(const hst::string & hints);
 	/*! Sets, whether adding or removing is enabled
-		\param[in] enabled enabled stuff
+		\param[in] enabled enabled flag
 	 */
 	void setAddingEnabled(bool enabled);
+	/*! Sets, sprite changing enabled
+		\param[in] enabled enabled flag
+	 */
+	void setSpriteChangingEnabled(bool enabled);
 	/*! Enables angle changes. If false, also sets angle to zero
 		\param[in] enabled 
 	 */
