@@ -105,6 +105,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 			BorderHotSpots bhs = r[r.count()-1]; 
 			if (bhs == BHS_REMOVE) 
 			{
+				ed->log()->debug("Hit remove hotspot on selected object");
 				ed->tryEraseObject();
 			}
 		}

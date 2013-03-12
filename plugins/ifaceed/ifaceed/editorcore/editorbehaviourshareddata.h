@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <config/sprite2dconfig.h>
 class AbstractScreenObject;
-
+class EditorLog;
 /*! A shared data for editor behaviour
  */
 class EditorBehaviourSharedData
@@ -18,6 +18,9 @@ class EditorBehaviourSharedData
 	 AbstractScreenObject * m_active_object;
 	 bool					m_show_active_border;
 
+
+	 // An editor log for shared data
+	 EditorLog      * m_log;
 	 // An icons for rendering at borders
 	 Sprite2DConfig * m_icons;
 
@@ -37,6 +40,19 @@ class EditorBehaviourSharedData
 	 inline Sprite2DConfig * icons() const 
 	 {
 		return m_icons;
+	 }
+	 /*! Returns log information
+		 \return log
+	  */
+	 inline EditorLog * log() 
+	 {
+		 return m_log;
+	 }
+	 /*! Sets an editor log
+	  */
+	 inline void setLog(EditorLog * log)
+	 {
+		 m_log = log;
 	 }
 	 /*! Shared data is initialized with zero selected object
 	  */
