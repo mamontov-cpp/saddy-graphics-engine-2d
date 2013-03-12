@@ -307,10 +307,11 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 	{
 		this->m_editor->lockRendering();
 		_property = o->getProperty(prop);
-		sad::Variant * old = _property->get(this->m_editor->log());
+		sad::Variant * old = NULL;
 		if (_property) 
 		{
 			_property->set(v, this->m_editor->log());
+			old = _property->get(this->m_editor->log());
 		}
 		if (prop == "font")
 		{

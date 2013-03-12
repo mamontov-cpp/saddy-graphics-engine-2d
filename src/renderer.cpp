@@ -128,6 +128,7 @@ bool sad::Renderer::initGLRendering()
 	return true;
 }
 
+
 void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 {
 	GLint     viewport[4];
@@ -142,15 +143,16 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 	glGetIntegerv(GL_VIEWPORT,viewport);
 
 	winx=(float)x;
-	winy=(float)(viewport[3])-(float)(y);
+	winy=(float)(y);
 
 	if (instance().m_glsettings.ztest())
 	    glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
 		winz=instance().m_glsettings.ztestvalue();
 
-	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
 
+	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
+	
 	px=(float)(result[0]);
 	py=(float)(result[1]);
 	pz=(float)(result[2]);

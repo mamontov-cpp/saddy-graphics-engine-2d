@@ -23,11 +23,11 @@ OrthoCamera::~OrthoCamera()
 void OrthoCamera::renderFix()
 {
     sad::Settings settings=sad::Renderer::instance().settings();
-	glViewport (0, 0, (GLsizei)(settings.width()), (GLsizei)(settings.height()-15));				
+	glViewport (0, 0, (GLsizei)(settings.width()), (GLsizei)(settings.height()));				
 	glMatrixMode (GL_PROJECTION);										
 	glLoadIdentity ();													
 	gluPerspective (  settings.fov(), 
-			          (GLfloat)(settings.width())/(GLfloat)(settings.height()-15), //15 - реальный размер отрисовочной части
+			          (GLfloat)(settings.width())/(GLfloat)(settings.height()), //15 - реальный размер отрисовочной части
 			          settings.znear(), 
 		              settings.zfar());		
     glMatrixMode (GL_MODELVIEW);										

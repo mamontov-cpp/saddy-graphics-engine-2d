@@ -101,6 +101,27 @@ static void table_init()
    table.insert(VK_PRIOR,KEY_PGUP);
    table.insert(VK_NEXT,KEY_PGDOWN);
 }
+
+
+POINT sad::Renderer::_toClient(POINT  _pnt)
+{
+	POINT pnt;
+	pnt.x = _pnt.x;
+	pnt.y = _pnt.y;
+	RECT r;
+	GetClientRect(instance().m_window.hWND, &r);
+	pnt.y = r.bottom - 1 - pnt.y;
+	return pnt;
+}
+
+POINT sad::Renderer::_toClient(LPARAM lParam)
+{
+	POINT pnt;
+	pnt.x = GET_X_LPARAM(lParam);
+	pnt.y = GET_Y_LPARAM(lParam);
+	return sad::Renderer::_toClient(pnt);
+}
+
 LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static bool msg_init=false;
@@ -121,10 +142,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt;
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(instance().m_window.hWND, &pnt);
+		POINT pnt = instance()._toClient(lParam);
 		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
 	}
@@ -136,10 +154,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt;
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(instance().m_window.hWND, &pnt);
+		POINT pnt = instance()._toClient(lParam);
 		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Event ev(mx,my,mz,key);
 		ev.delta=fw;
@@ -152,10 +167,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt;
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(instance().m_window.hWND, &pnt);
+		POINT pnt = instance()._toClient(lParam);
 		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseDblClick(sad::Event(mx,my,mz,key));
 		return 0;
@@ -166,10 +178,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt;
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(instance().m_window.hWND, &pnt);
+		POINT pnt = instance()._toClient(lParam);
 		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
 		return 0;
@@ -180,10 +189,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt;
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		ScreenToClient(instance().m_window.hWND, &pnt);
+		POINT pnt = instance()._toClient(lParam);
 		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseDown(sad::Event(mx,my,mz,key));
 		sad::Input::inst()->postMouseClick(sad::Event(mx,my,mz,key));

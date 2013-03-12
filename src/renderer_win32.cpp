@@ -14,6 +14,7 @@ hst::point<hst::D3,float> sad::Renderer::mousePos()
 	POINT p;
 	GetCursorPos(&p);
 	ScreenToClient(this->m_window.hWND,&p);
+	p = sad::Renderer::_toClient(p);
 	float px=0.0f, py=0.0f,pz=0.0f; 
 	mapToOGL(p.x,p.y,px,py,pz);
 	return hst::point<hst::D3,float>(px,py,pz);
