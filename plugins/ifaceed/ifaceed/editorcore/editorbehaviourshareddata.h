@@ -16,6 +16,7 @@ class EditorBehaviourSharedData
  private:
 	 AbstractScreenObject * m_selected_object;
 	 AbstractScreenObject * m_active_object;
+	 bool					m_show_active_border;
 
 	 // An icons for rendering at borders
 	 Sprite2DConfig * m_icons;
@@ -45,7 +46,10 @@ class EditorBehaviourSharedData
 		 m_active_object = NULL;
 		 m_rotation_timer = NULL;
 		 m_rotation_command_pending = false;
+		 m_show_active_border = true;
 	 }
+	 inline bool mustShowActiveBorder() { return m_show_active_border  && m_active_object != NULL;}
+	 inline void toggleActiveBorder(bool flag) { m_show_active_border = flag;}
 	 /*! Returns a current selected object
 	  */
 	 inline AbstractScreenObject * selectedObject() const

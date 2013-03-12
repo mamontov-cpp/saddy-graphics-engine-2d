@@ -87,7 +87,7 @@ void SelectedState::onWheel(const sad::Event & ev)
 		a+=dangle;
 		CLOSURE
 		CLOSURE_DATA( MainPanel * p; float angle; )
-		CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); )
+		CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); p->setRegionParameters(); )
 		INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 		SUBMITCLOSURE( ed->emitClosure );
 	}

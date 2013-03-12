@@ -583,6 +583,9 @@ sprite (ignores an angle)</string>
       </item>
       <item row="0" column="1">
        <widget class="QDoubleSpinBox" name="dblSpriteX">
+        <property name="minimum">
+         <double>-800.000000000000000</double>
+        </property>
         <property name="maximum">
          <double>800.000000000000000</double>
         </property>
@@ -597,6 +600,9 @@ sprite (ignores an angle)</string>
       </item>
       <item row="0" column="3">
        <widget class="QDoubleSpinBox" name="dblSpriteWidth">
+        <property name="minimum">
+         <double>-800.000000000000000</double>
+        </property>
         <property name="maximum">
          <double>800.000000000000000</double>
         </property>
@@ -611,6 +617,9 @@ sprite (ignores an angle)</string>
       </item>
       <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="dblSpriteY">
+        <property name="minimum">
+         <double>-600.000000000000000</double>
+        </property>
         <property name="maximum">
          <double>600.000000000000000</double>
         </property>
@@ -625,6 +634,9 @@ sprite (ignores an angle)</string>
       </item>
       <item row="1" column="3">
        <widget class="QDoubleSpinBox" name="dblSpriteHeight">
+        <property name="minimum">
+         <double>-600.000000000000000</double>
+        </property>
         <property name="maximum">
          <double>600.000000000000000</double>
         </property>

@@ -6,7 +6,7 @@
 bool ActiveObjectBorder::tryPerform()
 {
 	AbstractScreenObject * o = this->m_data->activeObject();
-	if (o) 
+	if (this->m_data->mustShowActiveBorder()) 
 	{
 		hRectF r = o->region();
 		glDisable(GL_TEXTURE_2D);
