@@ -89,6 +89,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
 	connect(ui.txtName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
+	connect(ui.dblSpriteX, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
+	connect(ui.dblSpriteY, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
+	connect(ui.dblSpriteWidth, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
+	connect(ui.dblSpriteHeight, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 
 }
 
@@ -567,7 +571,7 @@ void MainPanel::setRegionParameters()
 		{
 			m_selfchanged = true;
 			ui.dblSpriteX->setValue(rect[0].x());
-			ui.dblSpriteY->setValue(rect[0].x());
+			ui.dblSpriteY->setValue(rect[0].y());
 			ui.dblSpriteWidth->setValue(dist2(rect[0], rect[1]));
 			ui.dblSpriteHeight->setValue(dist2(rect[0], rect[3]));
 			m_selfchanged = false;
@@ -666,3 +670,58 @@ void SpritePropertyChangeCommand::rollback(ActionContext *c, CommandChangeObserv
 	ob->submitEvent("SpritePropertyChangeCommand::rollback", sad::Variant(0));
 }
 
+hPointF normalize(const hPointF & p)
+{
+	if (fabs(p.x()) < 0.001 && fabs(p.y()) < 0.001)
+			return p;
+	hPointF result = p;
+	result /= sqrtf(p.x()*p.x() + p.y() * p.y());
+	return result;
+}
+void MainPanel::spriteRectChanged()
+{
+	if (m_selfchanged)
+		return;
+	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o = (o1) ? o1 : o2;
+	if (o)
+	{
+		if (o->getProperty("rect") != NULL && o->typeName() == "ScreenSprite")
+		{
+			float angle = o->prop<float>("angle", this->m_editor->log());
+			hRectF oldrect = o->region();
+			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
+			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
+			hPointF horizontal = normalize(oldrect[1] - oldrect[0]);
+			hPointF vertical = normalize(oldrect[3] - oldrect[0]);
+			hRectF newrect;
+			ScreenSprite * oo = static_cast<ScreenSprite *>(o);
+			newrect[0] = newpoint;
+			newrect[1] = newpoint;
+			newrect[1] +=  horizontal * size.x(); 
+			newrect[2] = newpoint;
+			newrect[2] +=  (horizontal * size.x())  + (vertical * size.y());
+			newrect[3] = newpoint;
+			newrect[3] +=  (vertical * size.y());
+			oo->setRotatedRectangle(newrect, angle);
+			if (o == o2)
+			{
+				m_editor->history()->add(new  SpriteRectChangeCommand(oo, angle, oldrect, newrect));
+			}
+		}
+	}
+}
+
+void SpriteRectChangeCommand::commit(ActionContext *c, CommandChangeObserver * ob)
+{
+	m_sprite->setRotatedRectangle(m_old_rect, m_angle);
+	ob->submitEvent("SpriteRectChangeCommand::commit", sad::Variant(0));
+}
+
+
+void SpriteRectChangeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+{
+	m_sprite->setRotatedRectangle(m_new_rect, m_angle);
+	ob->submitEvent("SpriteRectChangeCommand::rollback", sad::Variant(0));
+}

@@ -39,6 +39,7 @@ private:
 	 */
 	ScreenObjectList m_list;
 public:
+	
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
@@ -102,6 +103,10 @@ protected:
 	void closeEvent(QCloseEvent*);
     QSpriteTableWidget* m_spriteTableWidget; //!< Modified QTableWidget. Works with configs, groups, indexes
 protected slots:
+	/*! A slot, when sprite rectangle changed
+	 */
+	void spriteRectChanged();
+
 	void spriteSelected(QString config, QString group, int index);
 	/**
 	 * Adds new color for fonts in combo box
