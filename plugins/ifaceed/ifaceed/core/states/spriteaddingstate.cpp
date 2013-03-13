@@ -16,6 +16,7 @@ void SimpleSpriteAddingState::enter()
 	CLOSURE_CODE( p->setAddingEnabled(false); 
 				  ed->highlightState("Place a sprite"); 
 				  p->setRegionParameters();  
+				  p->setSpriteChangingEnabled(false);
 				 )
 	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
@@ -82,7 +83,7 @@ void SimpleSpriteAddingState::leave()
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; )
-	CLOSURE_CODE( p->setAddingEnabled(true); )
+	CLOSURE_CODE( p->setAddingEnabled(true); p->setSpriteChangingEnabled(true); )
 	INITCLOSURE( CLSET(p,p) )
 	SUBMITCLOSURE( ed->emitClosure );
 }

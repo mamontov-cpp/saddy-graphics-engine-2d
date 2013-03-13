@@ -119,3 +119,24 @@ class SpritePropertyChangeCommand: public AbstractCommand
 
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 };
+
+
+class SpriteRectChangeCommand: public AbstractCommand
+{
+ private:
+		ScreenSprite * m_sprite;
+		float m_angle;
+		hRectF m_old_rect;
+		hRectF m_new_rect;
+public:
+	inline SpriteRectChangeCommand(ScreenSprite * sprite, float angle, const hRectF & oldrect, const hRectF &  newrect)
+	{
+		m_sprite = sprite;
+		m_angle = angle;
+		m_old_rect = oldrect;
+		m_new_rect = newrect;
+	}
+	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+
+	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+};

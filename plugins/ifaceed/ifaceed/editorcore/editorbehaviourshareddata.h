@@ -9,14 +9,16 @@
 #include <config/sprite2dconfig.h>
 class AbstractScreenObject;
 class EditorLog;
+
+
 /*! A shared data for editor behaviour
  */
 class EditorBehaviourSharedData
 {
  private:
-	 AbstractScreenObject * m_selected_object;
-	 AbstractScreenObject * m_active_object;
-	 bool					m_show_active_border;
+	 AbstractScreenObject * m_selected_object;    //!< A current selected object
+	 AbstractScreenObject * m_active_object;      //!< A current active obhect
+	 bool					m_show_active_border;  //!< A current active border
 
 
 	 // An editor log for shared data
@@ -30,6 +32,10 @@ class EditorBehaviourSharedData
 	 bool     m_rotation_command_pending; //!< Whether on rotation command pending
 	 float	  m_new_angle;                //!< Toggles new angle
 	 float	  m_old_angle;                //!< Toggles old angle
+
+
+	 
+
  public:
 	 /*! Sets an icons for rendering at borders 
 	  */
