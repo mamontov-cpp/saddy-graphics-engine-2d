@@ -693,6 +693,17 @@ void MainPanel::spriteRectChanged()
 			hRectF oldrect = o->region();
 			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
 			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
+			float comparisonprec = 0.0001f;
+			float oldwidth = dist2(oldrect[1], oldrect[0]);
+			float oldheight = dist2(oldrect[3], oldrect[0]);
+			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
+				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
+				&& fabs(size.x() - oldwidth) < comparisonprec
+				&& fabs(size.y() - oldheight) < comparisonprec
+				)
+			{
+				return;
+			}
 			hPointF horizontal = normalize(oldrect[1] - oldrect[0]);
 			hPointF vertical = normalize(oldrect[3] - oldrect[0]);
 			hRectF newrect;
