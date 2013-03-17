@@ -248,6 +248,14 @@ int main(int argc, char** argv)
 		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed\n"));
 	sad::FontManager::add(fnt2,"times_lg");
 
+	
+
+	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
+	
+	sad::Renderer::instance().init(sad::Settings(640,480,false));
+	printf("Initted renderer!\n");	
+	srand(time(NULL));
+
 	//Loading sprites
 	res=res && loadTex("examples/title.tga","title");
 	res=res && loadTex("examples/ingame.tga","background");
@@ -259,11 +267,6 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
-	
-	sad::Renderer::instance().init(sad::Settings(640,480,false));
-	printf("Initted renderer!\n");	
-	srand(time(NULL));
 	sad::Scene * sc= new sad::Scene();
 	sad::Renderer::instance().setCurrentScene(sc);
 	sad::Renderer::instance().setWindowTitle("sad::Game");
