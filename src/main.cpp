@@ -17,12 +17,12 @@
 
 void rend_quit(const sad::Event & o)
 {
-	sad::Renderer::instance().quit();
+	sad::Renderer::ref()->quit();
 }
 void rend_toggle(const sad::Event & o)
 {
 	if (!paused)
-		sad::Renderer::instance().toggleFullscreen();
+		sad::Renderer::ref()->toggleFullscreen();
 }
 void rend_pause(const sad::Event & o)
 {
@@ -155,7 +155,7 @@ inline bool loadSprite(const char * from,const char * texname)
 
 bool toggle_idle(int)
 {
-	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
+	sad::Scene * sc=sad::Renderer::ref()->getCurrentScene();
 
 	sc->performCleanup();
 	killTestingTask();
@@ -167,7 +167,7 @@ bool toggle_idle(int)
 }
 bool toggle_play(int)
 {
-	sad::Scene * sc=sad::Renderer::instance().getCurrentScene();
+	sad::Scene * sc=sad::Renderer::ref()->getCurrentScene();
 	
 	current_score=0;
 	player_health_point=10;
@@ -239,20 +239,19 @@ int main(int argc, char** argv)
 	res=res && res1;
 	if (!res1)
 		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed\n"));
-       sad::FontManager::add(fnt1,"times_large");
+	sad::Renderer::ref()->fonts()->add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
 	res=res && res2;
 	if (!res2)
 		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed\n"));
-	sad::FontManager::add(fnt2,"times_lg");
+	sad::Renderer::ref()->fonts()->add(fnt2,"times_lg");
 
 	
 
-	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
 	
-	sad::Renderer::instance().init(sad::Settings(640,480,false));
+	sad::Renderer::ref()->init(sad::Settings(640,480,false));
 	printf("Initted renderer!\n");	
 	srand(time(NULL));
 
@@ -266,10 +265,11 @@ int main(int argc, char** argv)
 		hst::log::inst()->save("log.txt");
 		return 1;
 	}
-
+	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
+	
 	sad::Scene * sc= new sad::Scene();
-	sad::Renderer::instance().setCurrentScene(sc);
-	sad::Renderer::instance().setWindowTitle("sad::Game");
+	sad::Renderer::ref()->setCurrentScene(sc);
+	sad::Renderer::ref()->setWindowTitle("sad::Game");
 	
 	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
 	sad::Input::inst()->bindKeyDown('F',rend_toggle);
@@ -316,10 +316,10 @@ int main(int argc, char** argv)
 	CollisionManager::bind(Player::ID,SuperShootingEnemy::ID,testCollidables,new CCHandler(playerenemybullet));
 
 	printf("Building mips!\n");	
-	sad::TextureManager::buildAll();
+	sad::Renderer::ref()->textures()->buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
-	sad::Renderer::instance().getCurrentScene()->setCamera(new OrthoCamera());
+	sad::Renderer::ref()->getCurrentScene()->setCamera(new OrthoCamera());
 	
 	//Set light
 	sad::ColorMaterial::disable();
@@ -327,8 +327,8 @@ int main(int argc, char** argv)
 	sad::ColorMaterial::enable();
 
 	printf("Engine started!\n");
-	sad::Renderer::instance().toggleFixedOn();
-	sad::Renderer::instance().run();
+	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->run();
 	hst::log::inst()->save("log.txt");
 
 	return 0;

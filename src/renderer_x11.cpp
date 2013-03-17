@@ -149,14 +149,11 @@ void sad::Renderer::update()
  glXSwapBuffers(m_window.dpy, m_window.win);
 }
 
-sad::Renderer::Renderer()
+void sad::Renderer::initWindowParameters()
 {
-  m_windowtitle="SadExample";
-  m_created=false;
   m_window.fullscreen=false;
   m_window.active=true;
   m_window.ctx=NULL;
-  m_currentscene=NULL;
 }
 
 

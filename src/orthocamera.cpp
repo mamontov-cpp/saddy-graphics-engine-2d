@@ -3,8 +3,8 @@
 OrthoCamera::OrthoCamera(bool fix)
 {
 	m_first_apply=true;
-	m_width=sad::Renderer::instance().settings().width();
-	m_height=sad::Renderer::instance().settings().height();
+	m_width=sad::Renderer::ref()->settings().width();
+	m_height=sad::Renderer::ref()->settings().height();
 	m_set_renderfix=fix;
 }
 
@@ -22,7 +22,7 @@ OrthoCamera::~OrthoCamera()
 
 void OrthoCamera::renderFix()
 {
-    sad::Settings settings=sad::Renderer::instance().settings();
+    sad::Settings settings=sad::Renderer::ref()->settings();
 	glViewport (0, 0, (GLsizei)(settings.width()), (GLsizei)(settings.height()));				
 	glMatrixMode (GL_PROJECTION);										
 	glLoadIdentity ();													

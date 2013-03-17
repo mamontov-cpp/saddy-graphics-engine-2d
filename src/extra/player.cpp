@@ -77,7 +77,7 @@ void Player::render()
 		this->move(Vector(m_velocity[0],m_velocity[1]));
     if (m_first_render)
 	{
-		::s3d::point d=sad::Renderer::instance().mousePos();
+		::s3d::point d=sad::Renderer::ref()->mousePos();
 		::s3d::point p=middle();
 		m_angle=atan2(d.y()-p.y(),d.x()-p.x());
 		this->rotate(m_angle,0);
@@ -86,7 +86,7 @@ void Player::render()
 	this->Sprite::render();
 }
 
-#define BULLET_SPEED 0.45f
+#define BULLET_SPEED 120.45f
 #define SHOOT_FREQ 450
 void Player::shoot()
 {
@@ -95,7 +95,7 @@ void Player::shoot()
 	float fx=BULLET_SPEED*cos(m_angle);
 	float fy=BULLET_SPEED*sin(m_angle);
    
-	sad::Renderer::instance().getCurrentScene()->markForAddition
+	sad::Renderer::ref()->getCurrentScene()->markForAddition
 		(  new PlayerBullet(Vector(fx,fy),(this->middle())));
 	m_lastshot=clock();
 }

@@ -5,8 +5,8 @@ SAD_DECLARE(Label,sad::BasicNode)
 
 void Label::operator()(const sad::ResizeEvent & o)
 {
-	float old_width=(float)(sad::Renderer::instance().settings().width());
-	float old_height=(float)(sad::Renderer::instance().settings().height());
+	float old_width=(float)(sad::Renderer::ref()->settings().width());
+	float old_height=(float)(sad::Renderer::ref()->settings().height());
 	m_rend_point.setX(o.new_width/old_width);
 	m_rend_point.setY(o.new_width/old_height);
 }

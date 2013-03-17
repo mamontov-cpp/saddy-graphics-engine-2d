@@ -78,3 +78,19 @@ namespace tga
 	 */
 	bool loadCompressed(tga::Info & data, FILE *hFile);
 }
+
+namespace sad
+{
+class TGATextureLoader: public TextureLoader
+{
+public:
+	/*! Loads a texture
+		\param[in] file
+		\param[in] texture
+	 */
+	virtual bool load(FILE * file, sad::Texture * texture);
+
+	~TGATextureLoader();
+};
+
+}

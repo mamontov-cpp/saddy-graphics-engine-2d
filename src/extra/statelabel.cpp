@@ -1,10 +1,10 @@
 #include "statelabel.h"
-
+#include "../renderer.h"
 SAD_DECLARE(StateLabel,Label)
 
 StateLabel::StateLabel(int what,const hst::string & s)
 {
-	this->font()=static_cast<sad::TMFont *>(sad::FontManager::get(s));
+	this->font()=static_cast<sad::TMFont *>(sad::Renderer::ref()->fonts()->get(s));
 	if (what==HIGHSCORE)
 	{
 		m_render=&StateLabel::renderScore;

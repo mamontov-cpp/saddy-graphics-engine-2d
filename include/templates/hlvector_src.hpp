@@ -258,4 +258,10 @@ template<class T> void  vector<T>::rescale(unsigned long _sz)
    this->m_pool.p=(T*)realloc(this->m_pool.p,_sz*sizeof(T));
 }
 
+template<class T> hst::vector<T> & vector<T>::push_back(const T & obj)
+{
+   (*this) << obj;
+   return *this;
+}
+
 }

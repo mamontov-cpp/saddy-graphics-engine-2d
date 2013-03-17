@@ -10,6 +10,8 @@
 
 namespace sad
 {
+	class FontManager;
+	class TextureManager;
 	/*! \class Renderer
         Class, that provides all rendering and window operations.
         It wraps a low-level system calls to provide a simple interface
@@ -21,7 +23,11 @@ namespace sad
 		Renderer(const Renderer& other);
 		Renderer& operator=(const Renderer&);
 
+		static sad::Renderer * m_instance;  //!< Instance of renderer
 
+
+		sad::FontManager *   m_font_manager;     //!< Font manager
+		sad::TextureManager * m_texture_manager; //!< Texture manager
 		unsigned long        m_starttimer;  //!< Timer
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
@@ -31,6 +37,12 @@ namespace sad
 		hst::string          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
         bool                 m_created;     //!< Whether we are created a window
+		/*! Destroys instance of renderer
+		 */
+		static void destroyInstance();
+		/*! Inits some window parameters
+		 */
+		void initWindowParameters();
 		/*! Sets new fps value, but avoids fast jumps in fps
 			\param[in] fps  fps value
 		*/
@@ -153,7 +165,7 @@ namespace sad
 		/*! Returns instance - Renderer is a classic singleton
 	 	    \return Reference to the alone Renderer object
 		*/
-		static Renderer& instance();
+		static Renderer* ref();
 		/*! Returns a current scene, stored in m_currentscene
 		    \return Current scene
 		*/
@@ -188,12 +200,20 @@ namespace sad
 			\return mouse position in window coordinate.
 		*/
 		hst::point<hst::D3,float> mousePos();
+		/*! Font manager data
+			\return fonts, loaded into renderer
+		 */
+		sad::FontManager * fonts();
+		/*! Texture manager information
+			\return texture manager information
+		 */
+		sad::TextureManager * textures();
 	};
 
 	/*! Returns average render interval in milliseconds
 		\return average render interval in milliseconds
 	*/
 	inline float avgRenderInterval() {
-		return 1000.0f/(float)sad::Renderer::instance().fps();
+		return 1000.0f/(float)sad::Renderer::ref()->fps();
 	}
 }

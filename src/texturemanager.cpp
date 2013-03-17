@@ -1,39 +1,44 @@
 #include "texturemanager.h"
+#include "renderer.h"
+#include "texture.h"
+#include "tga/tga.h"
+#include "png/zlib.h"
+#include "png/png.h"
 
-sad::TextureManager * sad::TextureManager::m_instance=NULL;
-
-void sad::TextureManager::freeInstance()
-{
-	delete m_instance;
-}
-
-sad::TextureManager * sad::TextureManager::instance()
-{
-	if (!m_instance) { m_instance=new sad::TextureManager(); }
-	return m_instance;
-}
 void sad::TextureManager::buildAll()
 {
-	instance()->m_m.lock();
+	m_m.lock();
 
-	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=instance()->m_containers.begin();
-		it!=instance()->m_containers.end();
+	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+		it!=m_containers.end();
 		it++
 		)
 		it.value()->build();
 
-	instance()->m_m.unlock();
+	m_m.unlock();
 }
 sad::TextureManager::TextureManager()
 {
   m_containers.insert("default",new sad::TextureContainer());
+  setLoader("BMP", new sad::BMPTextureLoader());
+  setLoader("TGA", new sad::TGATextureLoader());
+  setLoader("PNG", new sad::PNGTextureLoader());
+
 }
 sad::TextureManager::~TextureManager()
 {
+	{
 	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
 		 it!=m_containers.end();
 		 it++)
 	delete it.value();
+	}
+	{
+	for (hst::hash<hst::string,sad::TextureLoader *>::iterator it=m_loaders.begin();
+		 it!=m_loaders.end();
+		 it++)
+	delete it.value();
+	}
 }
 sad::Texture *  sad::TextureManager::get(const hst::string & name,const hst::string & containername)
 {
@@ -91,4 +96,30 @@ sad::TextureContainer * sad::TextureManager::getContainer(const hst::string & co
 	m_m.unlock();
 
 	return r;
+}
+
+sad::TextureManager * sad::TextureManager::instance()
+{
+	return sad::Renderer::ref()->textures();
+}
+
+sad::TextureLoader * sad::TextureManager::loader(const hst::string & format)
+{
+	if (m_loaders.contains(format) == false)
+		return NULL;
+	return m_loaders[format];
+}
+
+void sad::TextureManager::setLoader(const hst::string & format, sad::TextureLoader * l)
+{
+	if (m_loaders.contains(format))
+	{
+		delete m_loaders[format];
+		m_loaders[format] = l;
+	}
+	else 
+	{
+		m_loaders.insert(format, l);
+	}
+	
 }

@@ -96,26 +96,27 @@ namespace sad
 			 hst::hash<hst::string, sad::BasicFont *> m_fonts;
 			 os::mutex                                m_m;    //!< Mutex to block side effects
 
-			 static FontManager m_instance;
-
-			 FontManager();
 			 FontManager(const FontManager & o);
 			 FontManager & operator=(const FontManager & o);
 	 public:
+			FontManager();
+			/*! Instance of font manager
+			 */
+			FontManager * instance();
 		    /*! Adds a font and associates a key to it
 			    \param[in] font font pointer
 				\param[in] name associated name
 			*/
-		    static void add(sad::BasicFont * font,const hst::string & name );
+		    void add(sad::BasicFont * font,const hst::string & name );
 			/*!	Returns an object by a key
 				\param[in] key associated key
 				\return pointer to font object
 			*/
-		    static sad::BasicFont * get(const hst::string & key);
+		    sad::BasicFont * get(const hst::string & key);
 		    /*!	Deletes a font by a key
 			    \param[in] key 
 		    */
-			static void remove(const hst::string &key);
+			void remove(const hst::string &key);
 	     	/*! Destructor
 		    */
 			~FontManager();

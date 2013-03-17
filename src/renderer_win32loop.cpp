@@ -48,9 +48,9 @@ void sad::Renderer::mainLoop()
    {
 	  // Process Application Loop
 	  frames++;
-	  if (Renderer::instance().elapsedInMSeconds() >= 1000)
+	  if (Renderer::ref()->elapsedInMSeconds() >= 1000)
 	  {
-		  setFPS(frames);frames=0;Renderer::instance().setTimer();
+		  setFPS(frames);frames=0;Renderer::ref()->setTimer();
 	  }
 	  //Update a window, if active
 	  if (m_window.active)
@@ -109,7 +109,7 @@ POINT sad::Renderer::_toClient(POINT  _pnt)
 	pnt.x = _pnt.x;
 	pnt.y = _pnt.y;
 	RECT r;
-	GetClientRect(instance().m_window.hWND, &r);
+	GetClientRect(ref()->m_window.hWND, &r);
 	pnt.y = r.bottom - pnt.y;
 	return pnt;
 }
@@ -133,7 +133,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 
 	if (uMsg==WM_CLOSE)
 	{
-     	    sad::Renderer::instance().m_running=false;					
+     	    sad::Renderer::ref()->m_running=false;					
 			return 0;													
 	}
 	if (uMsg==WM_MOUSEMOVE)
@@ -142,8 +142,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = instance()._toClient(lParam);
-		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = ref()->_toClient(lParam);
+		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
 	}
 	if (uMsg==WM_MOUSEWHEEL)
@@ -154,8 +154,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = instance()._toClient(lParam);
-		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = ref()->_toClient(lParam);
+		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Event ev(mx,my,mz,key);
 		ev.delta=fw;
 		sad::Input::inst()->postMouseWheel(ev);
@@ -167,8 +167,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = instance()._toClient(lParam);
-		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = ref()->_toClient(lParam);
+		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseDblClick(sad::Event(mx,my,mz,key));
 		return 0;
 	}
@@ -178,8 +178,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = instance()._toClient(lParam);
-		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = ref()->_toClient(lParam);
+		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
 		return 0;
 	}
@@ -189,8 +189,8 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = instance()._toClient(lParam);
-		instance().mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = ref()->_toClient(lParam);
+		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Input::inst()->postMouseDown(sad::Event(mx,my,mz,key));
 		sad::Input::inst()->postMouseClick(sad::Event(mx,my,mz,key));
 		return 0;
@@ -228,12 +228,12 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 	{
 		if (wParam==SIZE_MINIMIZED)
 		{
-			instance().m_window.active=false;
+			ref()->m_window.active=false;
 		}
 		else
 		{
-			instance().m_window.active=true;
-			instance().reshape(LOWORD (lParam), HIWORD (lParam));
+			ref()->m_window.active=true;
+			ref()->reshape(LOWORD (lParam), HIWORD (lParam));
 		}
 	}
 	return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc

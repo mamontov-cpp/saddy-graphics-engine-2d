@@ -5,6 +5,7 @@
 #include <vector>
 #include <string.h>
 #include <wchar.h>
+#include "../texture.h"
 #pragma once
 
 namespace png
@@ -88,4 +89,20 @@ namespace png
 	/*! Loads a file to buffer
 	*/
 	void loadFile(std::vector<unsigned char> & buffer, const wchar_t *  filename);
+}
+
+
+namespace sad
+{
+	class PNGTextureLoader: public TextureLoader
+	{
+	 public:
+		 /*! Loads a texture
+			 \param[in] file
+			 \param[in] texture
+		  */
+		 virtual bool load(FILE * file, sad::Texture * texture);
+
+		 virtual ~PNGTextureLoader();
+	};
 }
