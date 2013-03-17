@@ -127,7 +127,7 @@ s3d::point Sprite::middle() const
 }
 
 
-void Sprite::setBBox(const hst::rect<::s3d::point> & rect)
+void Sprite::setBBox(const hst::rect< ::s3d::point> & rect)
 {
 	for(int i = 0; i < 4; i++)
 	{
@@ -176,9 +176,9 @@ void Sprite::rotate(double alpha, double theta)
 }
 
 
-hst::rect<::s3d::point> Sprite::bbox() const
+hst::rect< ::s3d::point> Sprite::bbox() const
 {
-	hst::rect<::s3d::point> rect;
+	hst::rect< ::s3d::point> rect;
 	for(int i = 0; i < 4; i++)
 	{
 		rect[i] = m_rect[i];

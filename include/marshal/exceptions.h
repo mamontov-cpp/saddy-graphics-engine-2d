@@ -6,6 +6,7 @@
 #include "actioncontext.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #pragma once
 
 
@@ -18,7 +19,7 @@ namespace serializable
 	inline hst::string toString(void * pointer)
 	{
 		char buffer[25];
-		sprintf(buffer,"%X",pointer);
+		sprintf(buffer,"%X", reinterpret_cast<unsigned int>(pointer));
 		return hst::string(buffer);
 	}
 	/*!  \class AbstractException

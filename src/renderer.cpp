@@ -143,8 +143,11 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 	glGetIntegerv(GL_VIEWPORT,viewport);
 
 	winx=(float)x;
+#ifdef WIN32  // On win32 we explicitly handle coordinates
 	winy=(float)(y);
-
+#else
+	winy=(float)(viewport[3] - y);
+#endif
 	if (instance().m_glsettings.ztest())
 	    glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else

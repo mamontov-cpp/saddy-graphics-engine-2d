@@ -40,7 +40,7 @@ class Variant
 		  inline hst::string getGetContext() const 
 		  {
 			  char data[70];
-			  sprintf(data,"Performing %x->sad::variant::get.",this);
+			  sprintf(data,"Performing %x->sad::variant::get.",reinterpret_cast<unsigned int>(this));
 			  return hst::string(data);
 		  }
  public:

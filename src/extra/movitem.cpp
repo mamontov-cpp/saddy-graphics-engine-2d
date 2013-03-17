@@ -13,13 +13,14 @@ SAD_DECLARE(EnemyEmitter,sad::BasicNode)
 MovingObject::~MovingObject() {}
 void MovingObject::render()
 {
+	
 	if (!paused)
 	{
 	oldPoint()=newPoint();
 	BoundingBox bb(oldPoint());
 	interval()=1;
 	for (int i=0;i<4;i++)
-		bb[i]+=v();
+		bb[i]+=v() * sad::avgRenderInterval();
 	bool del=bb[0].x()<BOUND_X1 || bb[1].x()>BOUND_X2 
 		  || bb[2].y()<BOUND_Y1 || bb[3].y()>BOUND_Y2;
     if (del)

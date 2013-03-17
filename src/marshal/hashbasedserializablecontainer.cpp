@@ -1,5 +1,6 @@
 #include "marshal/hashbasedserializablecontainer.h"
 #include "../log.h"
+#include <stdlib.h>
 
 static const char uid_consonants_table[15][2] = { "b", "c", "d", "f", "g", 
 											      "h", "k", "l", "m", "n", 

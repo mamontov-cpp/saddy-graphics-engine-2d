@@ -17,6 +17,7 @@ void sad::Renderer::mainLoop()
   m_fps=100;
   int frames=0;
   bool altstate=false;
+  ::Window  winDummy = NULL;
   while(m_running)
   {
   	while (XPending(m_window.dpy) > 0)
@@ -42,6 +43,8 @@ void sad::Renderer::mainLoop()
 						        {
 							 float mx=0,my=0,mz=0;
 							 int key=(event.xbutton.button==1)?MOUSE_BUTTON_LEFT:(event.xbutton.button==3)?MOUSE_BUTTON_RIGHT:MOUSE_BUTTON_MIDDLE;
+							 unsigned int borderDummy = 0;
+						         XGetGeometry(m_window.dpy, m_window.win, &winDummy, &m_window.x, &m_window.y,&m_window.width, &m_window.height, &borderDummy, &m_window.depth);
 							 mapToOGL(event.xbutton.x,event.xbutton.y,mx,my,mz);
 							 sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
 							}
@@ -50,6 +53,8 @@ void sad::Renderer::mainLoop()
                                                   }
                case ButtonPress:      {  //Handle button press and double click
                	                                    float mx=0,my=0,mz=0;
+						    unsigned  int borderDummy = 0;
+						   XGetGeometry(m_window.dpy, m_window.win, &winDummy, &m_window.x, &m_window.y,&m_window.width, &m_window.height, &borderDummy, &m_window.depth);
                                                     mapToOGL(event.xbutton.x,event.xbutton.y,mx,my,mz);
                                                     if (event.xbutton.button==1 || event.xbutton.button==3 || event.xbutton.button==2)
                                                     {
@@ -104,7 +109,9 @@ void sad::Renderer::mainLoop()
 						      if (event.xmotion.state & Button1MotionMask) key=MOUSE_BUTTON_LEFT;
 						      if (event.xmotion.state & Button2MotionMask) key=MOUSE_BUTTON_MIDDLE;
 						      if (event.xmotion.state & Button3MotionMask) key=MOUSE_BUTTON_RIGHT;
-						      mapToOGL(event.xmotion.x,event.xmotion.y,mx,my,mz); 
+						      unsigned  int borderDummy = 0;
+						      XGetGeometry(m_window.dpy, m_window.win, &winDummy, &m_window.x, &m_window.y,&m_window.width, &m_window.height, &borderDummy, &m_window.depth); 
+						      mapToOGL(event.xmotion.x, event.xmotion.y,mx,my,mz); 
 						      sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
                     				   } 
                                                    break;
