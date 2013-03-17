@@ -19,7 +19,7 @@ void IFaceEditorFont::unloadFromQDB(const QString & name,QFontDatabase & db)
 	m_qtfont = QFont();
  }
  if (m_saddyfont !=NULL) {
-	 sad::FontManager::remove(name.toStdString().c_str());
+	 sad::FontManager::instance()->remove(name.toStdString().c_str());
 	m_saddyfont = NULL;
  }
 }
@@ -52,7 +52,7 @@ bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFont
 		m_qtfont = fnt;
 		m_appfontindex = id;
 		m_saddyfont = tmp;
-		sad::FontManager::add(m_saddyfont,m_name.toStdString().c_str());
+		sad::FontManager::instance()->add(m_saddyfont,m_name.toStdString().c_str());
 	}
 	return ok;
 }
