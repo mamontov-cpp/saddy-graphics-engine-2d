@@ -352,10 +352,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\png\picopng.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\png\picopngloader.cpp"
 					>
 				</File>
@@ -491,6 +487,18 @@
 					RelativePath=".\src\marshal\variant.cpp"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="3rdparty"
+				>
+				<Filter
+					Name="picopng"
+					>
+					<File
+						RelativePath=".\src\3rdparty\picopng\picopng.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
