@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QApplication>
+#include <png/picopngloader.h>
+#include <texturemanager.h>
 
 Editor::Editor():m_icons("editor_icons")
 {
@@ -146,7 +148,7 @@ void Editor::runSaddyEventLoop()
 											void (Editor::*)(const sad::Event&),
 											sad::Event
 										>(this,&Editor::onSaddyWindowDestroySlot));
-	sad::Renderer::instance().run();
+	sad::Renderer::ref()->run();
 	// Quit reason can be set by main thread, when window is closed
 	if (m_quit_reason == EditorQuitReasonNotSet)
 		this->saddyQuitSlot();
@@ -160,11 +162,12 @@ void Editor::onSaddyWindowDestroySlot(const sad::Event & ev)
 void Editor::initDefaultSaddyOptions()
 {
 	sad::Settings sett(800, 600, false);
-	sad::Renderer::instance().init(sett);
+	sad::Renderer::ref()->init(sett);
 	this->m_scene = new InterlockedScene(this);
 	this->m_scene->setCamera(new OrthoCamera(false));
-	sad::Renderer::instance().setCurrentScene(this->m_scene);
-	sad::Renderer::instance().toggleFixedOn();
+	sad::Renderer::ref()->setCurrentScene(this->m_scene);
+	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	// Try to load default icons
 	QString a = QApplication::applicationDirPath();
 	a = QDir(a).filePath(ICONS_XML);
@@ -240,7 +243,7 @@ void Editor::onQuitActions()
 		this->m_mainwindow->close();
 	}
 	if (m_quit_reason == QuitByQtWindow) {
-		sad::Renderer::instance().quit();
+		sad::Renderer::ref()->quit();
 	}
 	this->quitSaddyActions();
 	this->quitQtActions();

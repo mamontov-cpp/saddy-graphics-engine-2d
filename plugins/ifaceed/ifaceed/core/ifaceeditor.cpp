@@ -19,6 +19,7 @@
 #include "../history/deletecommand.h"
 #include <QTimer>
 
+
 IFaceEditor::IFaceEditor()
 {
 	m_log->setProgramName("IFace Editor");
@@ -53,8 +54,8 @@ void IFaceEditor::setDatabase(FontTemplateDatabase * db)
 void IFaceEditor::initSaddyRendererOptions()
 {
 	this->Editor::initSaddyRendererOptions();
-	sad::Renderer::instance().setWindowTitle("Saddy Interface Editor");
-	sad::Renderer::instance().toggleFixedOn();
+	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
+	sad::Renderer::ref()->toggleFixedOn();
 	this->assertSaddyInit(true);
 }
 
@@ -94,7 +95,7 @@ void IFaceEditor::quitSaddyActions()
 
 void IFaceEditor::quit(const sad::Event & ev)
 {
-	sad::Renderer::instance().quit();
+	sad::Renderer::ref()->quit();
 }
 
 CommandLineOptions * IFaceEditor::createOptionParser()
