@@ -6,6 +6,7 @@
 #include "statelabel.h"
 #include "lightmodel.h"
 #include "orthocamera.h"
+#include "png/picopngloader.h"
 
 #ifdef WIN32
 #ifndef MINGW
@@ -231,6 +232,14 @@ int main(int argc, char** argv)
 #endif
 {
 	bool res=true; //!< Is loading succeeded?
+		
+	sad::Renderer::ref()->init(sad::Settings(640,480,false));
+	
+	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
+	printf("Initted renderer!\n");	
+	srand(time(NULL));
+
+
 	//Loading fonts
 	sad::TMFont * fnt1=new sad::TMFont;
 	bool res1=true;
@@ -247,13 +256,6 @@ int main(int argc, char** argv)
 	if (!res2)
 		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed\n"));
 	sad::Renderer::ref()->fonts()->add(fnt2,"times_lg");
-
-	
-
-	
-	sad::Renderer::ref()->init(sad::Settings(640,480,false));
-	printf("Initted renderer!\n");	
-	srand(time(NULL));
 
 	//Loading sprites
 	res=res && loadTex("examples/title.tga","title");

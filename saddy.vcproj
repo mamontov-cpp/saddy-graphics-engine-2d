@@ -352,6 +352,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\png\picopng.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\png\picopngloader.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\png\pngbasic.cpp"
 					>
 				</File>
@@ -661,6 +669,10 @@
 			<Filter
 				Name="png"
 				>
+				<File
+					RelativePath=".\include\png\picopngloader.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\png\png.h"
 					>
