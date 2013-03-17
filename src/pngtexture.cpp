@@ -80,3 +80,47 @@ bool sad::Texture::loadPNG(const hst::wstring & filename)
 
 	return true;
 }
+
+
+sad::PNGTextureLoader::~PNGTextureLoader()
+{
+
+}
+
+bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
+{
+	hst::vector<Uint8> & m_data = texture->vdata();
+	unsigned int & m_height = texture->height();
+	unsigned int & m_width = texture->width();
+	Uint8 & m_bpp = texture->bpp();
+
+	m_data.clear();
+	std::vector<unsigned char> buffer;
+	fseek(file, 0L, SEEK_END);
+	unsigned int size = ftell(file);
+	fseek(file, 0L, SEEK_SET);
+	buffer.resize((size_t)size);
+    fread((char*)(&buffer[0]), 1, size, file);
+
+
+	//Handle errors
+	if (buffer.size()==0) {m_data.clear();texture->loadDefaultTGATexture();return false; }
+	
+	std::vector<unsigned char> output;
+	png::decode(output,&(buffer[0]),(unsigned long)buffer.size());
+
+    if (png::error()) 
+	{
+	    m_data.clear();texture->loadDefaultTGATexture();
+		return false;
+    }
+	m_data.clear();
+
+
+	m_bpp=(Uint8)png::bpp(png::info());
+	m_height=png::info().height;
+	m_width=png::info().width;
+    bpp_dependent_copy(output,m_data,m_bpp);
+	m_bpp=32;
+	return true;
+}

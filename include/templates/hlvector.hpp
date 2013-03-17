@@ -164,6 +164,11 @@ template<class T> class vector
 			   \param[in] _sz new size 
 		   */
 		   void  rescale(unsigned long _sz);
+		   /*!  Pushes into back data
+				\param[in] obj object
+				\return object data
+		    */
+		   hst::vector<T> & push_back(const T & obj);
 };
 
 }

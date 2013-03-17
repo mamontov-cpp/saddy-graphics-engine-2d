@@ -167,3 +167,30 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 
 	return result;
 }
+
+
+sad::TGATextureLoader::~TGATextureLoader()
+{
+
+
+}
+
+bool sad::TGATextureLoader::load(FILE * file, sad::Texture * texture)
+{
+	tga::Info textureInfo;		// Object with data of texture.
+	bool result = readTGA(file, textureInfo);
+	texture->vdata().clear();
+	if (result)
+	{
+		texture->bpp() = textureInfo.m_TGA_bpp;
+		texture->height() = textureInfo.m_TGA_height;
+		texture->width() = textureInfo.m_TGA_width;
+		texture->copyTGA(textureInfo);
+		if (texture->bpp()==24) texture->bpp()=32;
+	}
+	else
+	{
+		texture->vdata().clear();
+	}
+	return result;
+}

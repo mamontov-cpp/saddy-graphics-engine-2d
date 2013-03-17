@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "texturemanager.h"
 namespace BMP
 {
 	struct Header
@@ -37,9 +38,19 @@ namespace BMP
 
 static const short BITMAP_MAGIC_NUMBER=19778;
 
-bool  sad::Texture::loadBMP(FILE * file)
+sad::BMPTextureLoader::~BMPTextureLoader()
 {
-    m_data.clear();
+
+}
+
+bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
+{
+	Uint8 & m_bpp = texture->bpp();
+	unsigned int & m_width = texture->width();
+	unsigned int & m_height = texture->height();
+	hst::vector<Uint8> & m_data = texture->vdata();
+
+	m_data.clear();
 	BMP::Header head;
 	fread(&(head.type),sizeof(head.type),1,file);
     fread(&(head.size),sizeof(head.size),1,file);
@@ -47,7 +58,7 @@ bool  sad::Texture::loadBMP(FILE * file)
     fread(&(head.reserv2),sizeof(head.reserv2),1,file);
     fread(&(head.offsetbits),sizeof(head.offsetbits),1,file);
 
-	if(head.type!=BITMAP_MAGIC_NUMBER) {m_data.clear();this->loadDefaultTGATexture();return false;}
+	if(head.type!=BITMAP_MAGIC_NUMBER) {texture->vdata().clear();texture->loadDefaultTGATexture();return false;}
 	
 	BMP::Info    info;
 	
@@ -63,18 +74,21 @@ bool  sad::Texture::loadBMP(FILE * file)
 	READ(unsigned long ,info.cused);
 	READ(unsigned long ,info.cimportant);
 	
-	if (ferror(file)) {m_data.clear();this->loadDefaultTGATexture();return false;}
+	if (ferror(file)) {texture->vdata().clear();texture->loadDefaultTGATexture();return false;}
 
 	m_data.clear();
-	m_width=info.width;
-	m_height=info.height;
-	m_bpp=(Uint8)(info.bitcount);
+	texture->width()=info.width;
+	texture->height()=info.height;
+	texture->bpp()=(Uint8)(info.bitcount);
+
+	
+
 	//TODO: Add support for 8-bit color
-	if (m_bpp!=24 && m_bpp!=32) {m_data.clear();this->loadDefaultTGATexture(); return false;}
+	if (m_bpp!=24 && m_bpp!=32) {texture->vdata().clear();texture->loadDefaultTGATexture(); return false;}
 
 	unsigned long size=m_width*m_height;
-
-	m_data.rescale(4*m_width*m_height);
+	
+	texture->vdata().rescale(4*texture->width()*texture->height());
 	int x=0;
 	int y=m_height-1;
 	for (unsigned long i=0;i<size;i++)
@@ -99,6 +113,11 @@ bool  sad::Texture::loadBMP(FILE * file)
 	}
 	m_bpp=32;
 	return true;
+}
+bool  sad::Texture::loadBMP(FILE * file)
+{
+	sad::TextureLoader * load = sad::TextureManager::instance()->loader("BMP");
+	return load->load(file, this);
 }
 bool sad::Texture::loadBMP(const hst::string &filename)
 {
@@ -129,3 +148,4 @@ bool sad::Texture::loadBMP(const hst::wstring &filename)
 	this->loadDefaultTGATexture();
 	return false;
 }
+

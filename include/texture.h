@@ -29,11 +29,39 @@ class Info;
 
 namespace sad
 {
+	class Texture;
+	/*! Texture loader class for specific formats, which can be put into a TextureManager
+		to perform all kinds of loading
+	 */
+	class TextureLoader
+	{
+	 public:
+		 /*! Loads a texture
+			 \param[in] file
+			 \param[in] texture
+		  */
+		 virtual bool load(FILE * file, sad::Texture * texture) = 0;
+
+		 virtual ~TextureLoader();
+	};
+	class BMPTextureLoader: public sad::TextureLoader
+	{
+	 public:
+		 /*! Loads a texture
+			 \param[in] file
+			 \param[in] texture
+		  */
+		 virtual bool load(FILE * file, sad::Texture * texture);
+
+		 ~BMPTextureLoader();
+	};
+	class TGATextureLoader;
 	/*! Texture class
 	*/
 	class Texture
 	{
 	public:
+		friend class TGATextureLoader;
 		/*! Texture mode
 		*/
 		enum Mode

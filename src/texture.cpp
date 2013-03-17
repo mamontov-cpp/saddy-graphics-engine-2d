@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "texturemanager.h"
 #include <errno.h>
 #include "primitives/glext.h"
 #include "extchecker.h"
@@ -190,9 +191,17 @@ bool Texture::load(const hst::string & filename)
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	if (ff=="BMP") return loadBMP(filename);
-	if (ff=="TGA") return loadTGA(filename);
-	if (ff=="PNG") return loadPNG(filename);
+	sad::TextureLoader * l = sad::TextureManager::instance()->loader(ff);
+	if (l)
+	{
+		FILE * fl = fopen(filename.data(), "rb");
+		if (fl)
+		{
+			bool result = l->load(fl, this);
+			fclose(fl);
+			return result;
+		}
+	}
 	return false;
 }
 bool Texture::load(const hst::wstring & filename)
@@ -223,3 +232,9 @@ void Texture::save(const char * method, const char * file)
 	}
 	
 }
+
+TextureLoader::~TextureLoader()
+{
+
+}
+

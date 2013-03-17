@@ -10,6 +10,8 @@ In this file OpenGL function has been used obviously.
 #include "renderer.h"
 #include "texturemanager.h"
 #include "input.h"
+#include "fontmanager.h"
+#include "texturemanager.h"
 #ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
@@ -19,10 +21,13 @@ In this file OpenGL function has been used obviously.
 	#define GL_GENERATE_MIPMAP_HINT           0x8192
 #endif
 
+
 sad::Renderer::~Renderer(void)
 {
 	if (m_currentscene)
 		delete m_currentscene;
+	delete m_font_manager;
+	delete m_texture_manager;
 }
 
 bool sad::Renderer::init(const sad::Settings& _settings)
@@ -37,6 +42,7 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_glsettings.setZFar(_settings.zfar());
  m_glsettings.setZTest(_settings.ztest());
  m_glsettings.setZTestValue(_settings.ztestvalue());
+ m_window.fullscreen = m_glsettings.isFullscreen();
  m_created=createWindow();
  m_window.width=_settings.width();
  m_window.height=_settings.height();
@@ -65,11 +71,21 @@ void sad::Renderer::reshape(int width, int height)
   m_window.height=height;
 }
 
+sad::Renderer * sad::Renderer::m_instance = NULL;
 
-sad::Renderer& sad::Renderer::instance()
+void sad::Renderer::destroyInstance()
 {
- static Renderer aloneRenderer;
- return aloneRenderer;
+	delete  sad::Renderer::m_instance;
+}
+
+sad::Renderer* sad::Renderer::ref()
+{
+	if (sad::Renderer::m_instance == NULL)
+	{
+		sad::Renderer::m_instance = new sad::Renderer();
+		atexit(sad::Renderer::destroyInstance);
+	}
+	return sad::Renderer::m_instance;
 }
 
 
@@ -148,10 +164,10 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 #else
 	winy=(float)(viewport[3] - y);
 #endif
-	if (instance().m_glsettings.ztest())
+	if (ref()->m_glsettings.ztest())
 	    glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
-		winz=instance().m_glsettings.ztestvalue();
+		winz=ref()->m_glsettings.ztestvalue();
 
 
 	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);
@@ -159,4 +175,29 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 	px=(float)(result[0]);
 	py=(float)(result[1]);
 	pz=(float)(result[2]);
+}
+
+sad::FontManager * sad::Renderer::fonts()
+{
+	return m_font_manager;
+}
+
+sad::TextureManager * sad::Renderer::textures()
+{
+	return m_texture_manager;
+}
+
+sad::Renderer::Renderer()
+{
+	m_windowtitle="SadExample";
+	m_created=false;
+    m_currentscene=NULL;
+	m_font_manager = new sad::FontManager();
+	m_texture_manager = new sad::TextureManager();
+	m_fps = 0;
+	m_chscene = 0;
+	m_currentscene = new sad::Scene();
+	m_running = false;
+	m_created = false;
+	initWindowParameters();
 }

@@ -228,11 +228,8 @@ void sad::Renderer::update()
  SwapBuffers(m_window.hDC);
 }
 
-sad::Renderer::Renderer(void)
+void sad::Renderer::initWindowParameters(void)
 {
-  m_windowtitle="SadExample";
-  m_created=false;
-  m_currentscene=NULL;
   this->m_window.hRC=NULL;
   this->m_window.hDC=NULL;
   this->m_window.hWND=NULL;

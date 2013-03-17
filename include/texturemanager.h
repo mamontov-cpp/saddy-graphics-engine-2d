@@ -8,6 +8,7 @@
 
 namespace sad
 {
+	class TextureLoader;
 	/*!  \class TextureManager
 	     TextureManager provides an easy access to every texture. He
 		 can build mipmaps of every texture. Also, it frees all associated
@@ -16,17 +17,17 @@ namespace sad
 	class TextureManager
 	{
 	private:
-		hst::hash<hst::string,sad::TextureContainer *>  m_containers; //!< Container data
-		os::mutex                        m_m;         //!< Mutex to block side effects
-		static TextureManager * m_instance;           //!< Current instance of manager
-		TextureManager();
+		hst::hash<hst::string, sad::TextureContainer *>  m_containers; //!< Container data
+		hst::hash<hst::string, sad::TextureLoader *>     m_loaders;     //!< A loaders for various formats
+		os::mutex                        m_m;         //!< Mutex to block side effects		
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
 		static void freeInstance();
 	public:
+		TextureManager();
 		/*! Builds all mipmaps
 		*/
-		static void buildAll();
+		void buildAll();
 		/*! Current instance
 		    \return current instance of manager
 		*/
@@ -62,6 +63,16 @@ namespace sad
 			\param[in] containername name of container
 		 */
 		sad::TextureContainer * getContainer(const hst::string & containername="default");
+		/*! Returns a loader for format
+			\param[in] format format data
+			\return loader data
+		 */
+		sad::TextureLoader * loader(const hst::string & format);
+		/*! Sets a loader for texture
+			\param[in] format format data
+			\param[in] l loader
+		 */
+		void setLoader(const hst::string & format, sad::TextureLoader * l);
 	};
 
 }

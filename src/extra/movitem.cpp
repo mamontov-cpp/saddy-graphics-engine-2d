@@ -19,8 +19,10 @@ void MovingObject::render()
 	oldPoint()=newPoint();
 	BoundingBox bb(oldPoint());
 	interval()=1;
+	float renderinterval = sad::avgRenderInterval() / 1000.0;
+
 	for (int i=0;i<4;i++)
-		bb[i]+=v() * sad::avgRenderInterval();
+		bb[i]+=v() * renderinterval;
 	bool del=bb[0].x()<BOUND_X1 || bb[1].x()>BOUND_X2 
 		  || bb[2].y()<BOUND_Y1 || bb[3].y()>BOUND_Y2;
     if (del)
@@ -149,7 +151,7 @@ enemy_texc[3]
 	m_lastclock=0;
 	CollisionManager::add(this->type(),this);
 }
-#define SE_BULLET_SPEED 0.8
+#define SE_BULLET_SPEED 120.5
 void ShootingEnemy::render()
 {
 	m_lastclock++;
@@ -157,7 +159,7 @@ void ShootingEnemy::render()
 	{
 		Vector bdir(SE_BULLET_SPEED*cos(m_angle),SE_BULLET_SPEED*sin(m_angle));
 		if (!paused)
-		sad::Renderer::instance().getCurrentScene()->markForAddition(new EnemyBullet(bdir,this->middle()));
+		sad::Renderer::ref()->getCurrentScene()->markForAddition(new EnemyBullet(bdir,this->middle()));
 		m_lastclock=0;
 	}
 	this->MovingObject::render();
@@ -203,7 +205,7 @@ void SuperShootingEnemy::render()
 		for (int i=0;i<4;i++)
 		{
 			Vector bdir(SE_BULLET_SPEED*cos(a),SE_BULLET_SPEED*sin(a));
-			sad::Renderer::instance().getCurrentScene()->markForAddition(new ShootingEnemy(bdir,m));
+			sad::Renderer::ref()->getCurrentScene()->markForAddition(new ShootingEnemy(bdir,m));
 			a+=M_PI_2;
 		}
 		m_lastclock=0;
@@ -236,11 +238,11 @@ void EnemyEmitter::render()
 template<typename T>
 static void addToScene(const Vector & v, const hPointF & p)
 {
-	sad::Renderer::instance().getCurrentScene()->markForAddition(new T(v,p));
+	sad::Renderer::ref()->getCurrentScene()->markForAddition(new T(v,p));
 }
 static void addEnemyBullet(const Vector & v, const hPointF & p)
 {
-	sad::Renderer::instance().getCurrentScene()->markForAddition(new EnemyBullet(v,convertTo3d(p)));
+	sad::Renderer::ref()->getCurrentScene()->markForAddition(new EnemyBullet(v,convertTo3d(p)));
 }
 void (*adders[5])(const Vector & v, const hPointF & p)=
 {
@@ -259,7 +261,7 @@ void createRandomEnemy(const Vector & v, const hPointF & p)
 	if (wh==4) { clk=clock();   }
 	adders[wh](v,p);
 }
-#define RAIN_SPEED 0.5
+#define RAIN_SPEED 100.5
 #define xmax (BOUND_X2-12)
 #define xmin (BOUND_X1+12)
 #define ymin (BOUND_Y1+12)
@@ -284,7 +286,7 @@ void EnemyEmitter::renderSpawn()
  if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ)
 		return;
  m_clk=clock();
- if (sad::Renderer::instance().getCurrentScene()->objectCount()>65)
+ if (sad::Renderer::ref()->getCurrentScene()->objectCount()>65)
 	 return;
  float x=((float)rand()/RAND_MAX)*(xmax-xmin)+xmin;
  float y=((float)rand()/RAND_MAX)*(ymax-ymin)+ymin;

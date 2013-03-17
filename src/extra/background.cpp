@@ -3,8 +3,8 @@
 
 SAD_DECLARE(Background,Sprite)
 
-#define SCREEN_HEIGHT  (sad::Renderer::instance().settings().height())
-#define SCREEN_WIDTH   (sad::Renderer::instance().settings().width())
+#define SCREEN_HEIGHT  (sad::Renderer::ref()->settings().height())
+#define SCREEN_WIDTH   (sad::Renderer::ref()->settings().width())
 
 Background::Background(const hst::string &name,const hRectF & r): 
 Sprite(
