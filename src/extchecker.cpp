@@ -1,5 +1,6 @@
 #include "extchecker.h"
 #include <string.h>
+#include <stdio.h>
 
 #ifdef   _WIN32
     #include <windows.h>
@@ -28,4 +29,15 @@ bool ext::presented(const char * name)
 		return strstr(ext_list,name)!=NULL;
 	}
 	return false;
+}
+
+hst::pair<int,int> ext::version()
+{
+	int major = 0, minor = 0;
+    const char *verstr = (const char *) glGetString(GL_VERSION);
+    if ((verstr == NULL) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
+    {
+        major = minor = 0;
+    }
+	return hst::pair<int, int>(major, minor);
 }
