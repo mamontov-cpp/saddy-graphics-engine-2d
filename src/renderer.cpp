@@ -122,6 +122,9 @@ bool sad::Renderer::initGLRendering()
 	glClearColor(0.0f,0.0f,0.0f,0.0f); //Fill a black background
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LINE_SMOOTH);
+	glEnable(GL_POINT_SMOOTH);
+
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 	
