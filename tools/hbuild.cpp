@@ -62,7 +62,8 @@ void scan_recursive(svector & vec,const string & path)
 		if ( (! (dataf.attrib & _A_SUBDIR)) &&
 			(
 			 (!strcmp(dataf.name+strlen(dataf.name)-4,".cpp"))  ||
-			 (!strcmp(dataf.name+strlen(dataf.name)-2,".c"))
+			 (!strcmp(dataf.name+strlen(dataf.name)-2,".c")) ||
+             (!strcmp(dataf.name+strlen(dataf.name)-3,".cc")) 
 			)
 		   )
 			vec.push_back(merge_path(path,dataf.name));

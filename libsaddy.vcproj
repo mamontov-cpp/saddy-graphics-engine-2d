@@ -456,6 +456,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="format"
+					>
+					<File
+						RelativePath=".\src\3rdparty\format\format.cc"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -770,6 +778,22 @@
 					RelativePath=".\include\marshal\variant.h"
 					>
 				</File>
+			</Filter>
+			<Filter
+				Name="3rdparty"
+				>
+				<Filter
+					Name="format"
+					>
+					<File
+						RelativePath=".\include\3rdparty\format\format.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\format\stdint.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
