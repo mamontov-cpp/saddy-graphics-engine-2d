@@ -218,7 +218,7 @@ void Sprite2DAdapter::setRect(const hRectF & rect)
 	m_rect = rect;
 	if (m_sprite)
 	{
-		hst::rect<::s3d::point> vrect;
+		hst::rect< ::s3d::point> vrect;
 		for(int i = 0; i < 4; i++)
 		{
 			vrect[i] = ::s3d::point(rect[i].x(), rect[i].y(), 0.0f);
