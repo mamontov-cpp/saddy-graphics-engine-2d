@@ -159,11 +159,13 @@ hst::vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool 
 {
 	hRectF region = o->region();
 	hst::vector<hRectF> result;
-	result <<  hotSpotRectangleFrom(region,3,0,0,1, HOTSPOT_PADDING, 0.0f);
-	result <<  hotSpotRectangleFrom(region,2,3,3,0, HOTSPOT_PADDING, 1.57f);
-	result <<  hotSpotRectangleFrom(region,1,2,2,3, HOTSPOT_PADDING, 3.14f);
-	result <<  hotSpotRectangleFrom(region,0,1,1,2, HOTSPOT_PADDING, 4.71f);
-
+	if (o->resizable())
+	{
+	 result <<  hotSpotRectangleFrom(region,3,0,0,1, HOTSPOT_PADDING, 0.0f);
+	 result <<  hotSpotRectangleFrom(region,2,3,3,0, HOTSPOT_PADDING, 1.57f);
+	 result <<  hotSpotRectangleFrom(region,1,2,2,3, HOTSPOT_PADDING, 3.14f);
+	 result <<  hotSpotRectangleFrom(region,0,1,1,2, HOTSPOT_PADDING, 4.71f);
+	}
 	if (canDelete) 
 	{
 		hRectF v = 	deletePositionRectangle(region, HOTSPOT_PADDING);
