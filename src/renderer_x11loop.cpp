@@ -17,7 +17,7 @@ void sad::Renderer::mainLoop()
   m_fps=100;
   int frames=0;
   bool altstate=false;
-  ::Window  winDummy = NULL;
+  ::Window  winDummy = 0;
   while(m_running)
   {
   	while (XPending(m_window.dpy) > 0)

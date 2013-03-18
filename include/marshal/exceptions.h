@@ -19,7 +19,7 @@ namespace serializable
 	inline hst::string toString(void * pointer)
 	{
 		char buffer[25];
-		sprintf(buffer,"%X", reinterpret_cast<unsigned int>(pointer));
+		sprintf(buffer,"%lX", reinterpret_cast<unsigned long>(pointer));
 		return hst::string(buffer);
 	}
 	/*!  \class AbstractException
