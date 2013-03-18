@@ -1,0 +1,174 @@
+#include "fonttemplatesdatabase.h"
+#include <QDomDocument>
+#include <QFile>
+#include <QMessageBox>
+#include <QTextStream>
+#include "../editorcore/path.h"
+#include "xmlconfigloader.h"
+#include "spritedatabase.h"
+#include "../editorcore/editorlog.h"
+
+FontTemplatesMaps::FontTemplatesMaps()
+{
+
+}
+
+bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
+{
+	LogActionMonitor monitor(log, QString("FontTemplatesMaps::load(\"%1\")").arg(name));
+	hst::string parentdir =  path::directory(name.toStdString().c_str());
+	log->message(QString("Parent dir is \"%1\"").arg(parentdir.data()));
+
+	m_fonts.clear();
+	m_configs.clear();
+	
+	QDomDocument doc("globalconfig");
+	QFile file(name);
+	if (!file.open(QIODevice::ReadOnly)) 
+	{
+		log->message(QString("Can\'t load file %1").arg(name));			
+		return false;
+	}
+	if (!doc.setContent(&file)) 
+	{
+		log->message(QString("Can\'t parse file %1").arg(name));	;
+		file.close();
+		return false;
+	}
+	file.close();
+	QDomElement root = doc.documentElement();
+	if (root.isNull())
+	{
+		log->message(QString("No root element found in file %1").arg(name));
+		return false;
+	}
+	
+	QDomElement entry = root.firstChildElement();
+	bool test = entry.isNull();
+	while(entry.isNull() == false) 
+	{
+		if (entry.tagName() == "font")
+		{
+			this->loadFont(entry, parentdir, log);
+		} 
+		else if (entry.tagName() == "config")
+		{
+			this->loadConfig(entry, parentdir, log);
+		}
+		else 
+		{
+			log->warning(QString("Found unknown tag %1, while loading file %2")
+				         .arg(entry.tagName()).arg(name));
+		}
+		entry = entry.nextSiblingElement();
+	}
+	
+	return true;
+}
+
+void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, EditorLog * log)
+{
+	LogActionMonitor monitor(log, "FontTemplatesMaps::loadFont");
+	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
+	{
+		log->message("In one or more font elements skipped attributes \"name\" or \"file\"\n");
+	} 
+	else 
+	{
+		QString name = entry.attribute("name");
+		QString file = entry.attribute("file");
+		if (m_fonts.contains(name))
+		{
+			log->warning(QString("Duplicate font entry skipped %1").arg(name));
+		}
+		else
+		{
+			hst::string path = path::concat(parent,file.toStdString().c_str());
+			m_fonts.insert(name, path.data());
+			log->debug(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
+						 .arg(name).arg(path.data()));
+		}
+	}
+}
+
+void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, EditorLog * log)
+{
+	LogActionMonitor monitor(log, "FontTemplatesMaps::loadConfig");
+	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
+	{
+		log->message("In one or more font elements skipped attributes \"name\" or \"file\"\n");
+	} 
+	else 
+	{
+		QString name = entry.attribute("name");
+		QString file = entry.attribute("file");
+		if (m_configs.contains(name))
+		{
+			log->warning(QString("Duplicate config entry skipped %1").arg(name));
+		}
+		else 
+		{
+			hst::string path = path::concat(parent,file.toStdString().c_str());
+			m_configs.insert(name, path.data());
+			log->debug(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
+						 .arg(name).arg(path.data()));
+		}
+	}
+}
+
+FontTemplateDatabase::FontTemplateDatabase(int * counter)
+{
+	m_sprites =  new SpriteDatabase();
+	m_fonts = new IFaceEditorFontList();
+	m_counter = counter;
+}
+
+FontTemplateDatabase::~FontTemplateDatabase()
+{
+	delete m_sprites;
+	delete m_fonts;
+}
+
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps, EditorLog * log)
+{
+	LogActionMonitor monitor(log, "FontTemplateDatabase::load()");
+	m_maps = maps;
+	//log->push
+	IFaceEditorFontList * fonts = new IFaceEditorFontList();
+	{
+		db::NameFileMap::const_iterator it = maps.fonts().constBegin();
+		db::NameFileMap::const_iterator end = maps.fonts().constEnd();
+		bool success = true;
+		
+		for (it;it!=end;it++)
+		{
+			IFaceEditorFontLoadResult r = fonts->tryLoadFont(it.key(), it.value());
+			if (r!=IEFLR_OK) 
+			{
+				log->error(QString("Can't load font from %1").arg(it.value()));
+				success = false;
+			}
+		}
+		// Don't proceed further if can't load stuff
+		if (!success) {
+			delete fonts;
+			return false;
+		}
+	}
+	SpriteDatabase * sprites = new SpriteDatabase();
+	// Load some configs
+	{
+		if (sprites->load(maps, *m_counter, log) == false)
+		{
+			delete sprites;
+			delete fonts;
+			return false;
+		}
+	}
+	// Apply changes
+	delete m_sprites; m_sprites = sprites;
+	delete m_fonts; m_fonts = fonts;
+
+	return true;
+}
+
