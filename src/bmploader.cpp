@@ -62,17 +62,17 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 	
 	BMP::Info    info;
 	
-	READ(unsigned long, info.size);
-	READ(unsigned long ,info.width);
-	READ(unsigned long ,info.height);
+	READ(unsigned int, info.size);
+	READ(unsigned int ,info.width);
+	READ(unsigned int ,info.height);
 	READ(unsigned short ,info.planes);
 	READ(unsigned short ,info.bitcount);
-	READ(unsigned long  ,info.compression);
-	READ(unsigned long  ,info.sizeimage);
-	READ(long           ,info.xpels);
-	READ(long           ,info.ypels);
-	READ(unsigned long ,info.cused);
-	READ(unsigned long ,info.cimportant);
+	READ(unsigned int  ,info.compression);
+	READ(unsigned int  ,info.sizeimage);
+	READ(int          ,info.xpels);
+	READ(int           ,info.ypels);
+	READ(unsigned int ,info.cused);
+	READ(unsigned int ,info.cimportant);
 	
 	if (ferror(file)) {texture->vdata().clear();texture->loadDefaultTGATexture();return false;}
 
