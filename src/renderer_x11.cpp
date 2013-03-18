@@ -5,18 +5,18 @@
 #define LOG_WRITE(MESG)    hst::log::inst()->owrite(hst::string(MESG))
 
 //Single buffered
-static int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 8, 
-    GLX_GREEN_SIZE, 8, 
-    GLX_BLUE_SIZE, 8, 
-    GLX_DEPTH_SIZE, 16,
+static int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 1, 
+    GLX_GREEN_SIZE, 1, 
+    GLX_BLUE_SIZE, 1, 
+    GLX_DEPTH_SIZE, 4,
     None};
 
 //Double buffered
 static int attrListDbl[] = { GLX_RGBA, GLX_DOUBLEBUFFER, 
-    GLX_RED_SIZE, 8, 
-    GLX_GREEN_SIZE, 8, 
-    GLX_BLUE_SIZE, 8, 
-    GLX_DEPTH_SIZE, 16,
+    GLX_RED_SIZE, 1, 
+    GLX_GREEN_SIZE, 1, 
+    GLX_BLUE_SIZE, 1, 
+    GLX_DEPTH_SIZE, 4,
     None };
 
 void sad::Renderer::sendFSAtom(int flag)
