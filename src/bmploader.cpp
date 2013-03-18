@@ -5,25 +5,25 @@ namespace BMP
 	struct Header
 	{
 		unsigned short type;
-		unsigned long  size;
+		unsigned int  size;
 		unsigned short reserv1;
 		unsigned short reserv2;
-		unsigned long  offsetbits;
+		unsigned int  offsetbits;
 	};
 
 	struct Info
 	{
-		unsigned long size;
-		unsigned long width;
-		unsigned long height;
+		unsigned int size;
+		unsigned int width;
+		unsigned int height;
 		unsigned short planes;
 		unsigned short bitcount;
-		unsigned long  compression;
-		unsigned long  sizeimage;
-		long           xpels;
-		long           ypels;
-		unsigned long  cused;
-		unsigned long  cimportant;
+		unsigned int  compression;
+		unsigned int  sizeimage;
+		int           xpels;
+		int           ypels;
+		unsigned int  cused;
+		unsigned int  cimportant;
 	};
 	struct Quad 
 	{
