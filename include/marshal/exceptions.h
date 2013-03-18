@@ -40,7 +40,10 @@ namespace serializable
 				                       ActionContext * context)
 		      {
 				  m_string = exception_string;
-				  m_action_context  = context->getActions();
+				  if (context != NULL)
+				  {
+					m_action_context  = context->getActions();
+				  }
 		      }
 			 
 			  inline  const hst::string & getInformation() { return m_string;}
