@@ -231,6 +231,8 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
+	
+
 	bool res=true; //!< Is loading succeeded?
 		
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
