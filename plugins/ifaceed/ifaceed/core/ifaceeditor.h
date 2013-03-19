@@ -6,7 +6,6 @@
 #include "../editorcore/editor.h"
 #include "../editorcore/commandchangeobserver.h"
 #include "../mainpanel.h"
-#include "ifacecmdoptions.h"
 #pragma once
 
 class ScreenTemplate;
@@ -60,7 +59,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	void setDatabase(FontTemplateDatabase * db);
 	/** Creates a parser to parse command options
       */
-    virtual CommandLineOptions * createOptionParser();
+	virtual sad::cmd::Parser * createOptionParser();
 	/** Sets my options and my data
 	 */
 	void initSaddyRendererOptions();
@@ -84,13 +83,6 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	/** REIMPLEMENT this function to do work, when saddy window quit 
 	  */
 	void quitSaddyActions();
-	/** Returns parsed options
-		\return parsed options
-	  */
-	inline IFaceCmdOptions * cmdLineOptions()
-	{
-		return static_cast<IFaceCmdOptions *>(this->commandLineOptions());
-	}
 	/** A function, which is called, when app fully started from main start
 	  */
 	virtual void onFullAppStart();

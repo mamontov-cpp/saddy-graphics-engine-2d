@@ -29,16 +29,26 @@ Editor::Editor():m_icons("editor_icons")
 	m_behavioursharedata = new EditorBehaviourSharedData();
 }
 
+sad::cmd::Parser * Editor::parsedArgs() const
+{
+	return m_cmdoptions;
+}
+
 void Editor::init(int argc,char ** argv)
 {
+	// Firstly we create an arguments and application
+	// to strip all of Qt's options, which wouldn't break a parser, after this work
+	m_cmdargs = new sad::cmd::Args(argc, argv);
+	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
+									(this->m_cmdargs->fullArgv()));
+
 	m_cmdoptions = this->createOptionParser();
-	m_cmdoptions->parse(argc, argv);
+	m_cmdoptions->parse(argc, (const char **)argv);
 	
 	this->assertSaddyInit(true);
 	this->m_waitforsaddy = true;
-	m_cmdargs = new CommandArguments(argc, argv);
-	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
-									(this->m_cmdargs->fullArgv()));
+	
+	
 	// This thread also runs ALL of event loops
 	m_waitforsaddy = true;
 	m_renderthread->start();

@@ -12,13 +12,13 @@
 #include <os/mutex.h>
 #include <renderer.h>
 #include <marshal/actioncontext.h>
-#include "editoreventhandler.h"
 #include <input.h>
-#include "commandlineoptions.h"
+#include <config/sprite2dconfig.h>
+#include <cmdoptions.h>
+#include "editoreventhandler.h"
 #include "../history/editorhistory.h"
 #include "../utils/closure.h"
 #include "editorlog.h"
-#include <config/sprite2dconfig.h>
 #pragma once
 
 
@@ -78,48 +78,6 @@ class InterlockedScene: public sad::Scene
 		  virtual ~InterlockedScene();
 };
 
-/** \class CommandArguments
-	
-	Command arguments, passed into editor
- */
-class CommandArguments 
-{
- private:
-	/** Argument count
-	  */
-	int argc;
-	/** Passed arguments
-	  */
-	char ** argv;
- public:
-	/** Constructs a new command arguments
-	    \param[in] argc amount of arguments
-	    \param[in] argc arguments
-	 */
-	inline CommandArguments(int argc, char ** argv) {
-		this->argc = argc;
-		this->argv = argv;
-	}
-	/** Returns argument count
-		\return argument count
-	 */
-	inline int count() const { return this->argc; }
-
-	/** Returns argument count
-		\return argument count
-	 */
-	inline int& mutableCount() { return this->argc; }
-	/** Returns arguments
-		\param[in] i number of argument
-		\return arguments
-	 */
-	inline const char * argument(int i) const { return this->argv[i]; }
-	/** Returns full arguments array
-		\return arguments
-	 */
-	char ** fullArgv() { return this->argv; }
-};
-
 /** Thread for rendering
   */
 class SaddyThread: public QThread 
@@ -168,7 +126,7 @@ class Editor: public QObject
 		 sad::Scene * m_scene;
 		 /** Command line arguments
 		  */
-		 CommandArguments * m_cmdargs;
+		 sad::cmd::Args * m_cmdargs;
 		 /** Mutex, used to render all stuff
 		  */
 		 os::mutex * m_rendermutex;
@@ -189,7 +147,7 @@ class Editor: public QObject
 		 bool m_saddystartedok;
 		 /** Command line options data
 		  */
-		 CommandLineOptions * m_cmdoptions;
+		 sad::cmd::Parser * m_cmdoptions;
 		 /** History of data
 		  */
 		 EditorHistory * m_history;
@@ -215,14 +173,7 @@ protected:
 		 /** Creates a parser to parse command options
 			 \return new command line options
 		  */
-		 virtual CommandLineOptions * createOptionParser() = 0;
-		 /** Returns parsed options
-			 \return parsed options
-		  */
-		 inline CommandLineOptions * commandLineOptions()
-		 {
-			 return m_cmdoptions;
-		 }
+		 virtual sad::cmd::Parser * createOptionParser() = 0;
 private:
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not
@@ -276,7 +227,7 @@ private:
 		 /** Returns a command line arguments
 		 	 \return command line arguments
 		  */ 
-		 inline CommandArguments * commandLineArguments() { return m_cmdargs;}
+		 inline sad::cmd::Args * commandLineArguments() { return m_cmdargs;}
 		 /** Returns a qt application
 			 \return qt application
 		  */
@@ -347,6 +298,10 @@ private:
 		/*! Default constructor
 		 */
 		Editor();
+		/*! Returns parsed arguments
+			\return parsed arguments
+		 */
+		sad::cmd::Parser * parsedArgs() const;
 		 /** Returns a scene
 			 \return used scene
 		  */

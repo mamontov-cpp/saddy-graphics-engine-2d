@@ -98,9 +98,12 @@ void IFaceEditor::quit(const sad::Event & ev)
 	sad::Renderer::ref()->quit();
 }
 
-CommandLineOptions * IFaceEditor::createOptionParser()
+sad::cmd::Parser * IFaceEditor::createOptionParser()
 {
-	return new IFaceCmdOptions();
+	sad::cmd::Parser * r = new sad::cmd::Parser();
+	r->addSimpleOption("ifaceconfig");
+	r->addFlagOption("debug");
+	return r;
 }
 
 
@@ -169,9 +172,9 @@ class DBLoadingTask: public sad::CountableTask
 
 void IFaceEditor::onFullAppStart()
 {
-	if (this->cmdLineOptions()->debug())
+	if (this->parsedArgs()->flag("debug"))
 		m_log->setMaxLevel(ELL_DEBUG);
-	if (this->cmdLineOptions()->hasConfig() == false)
+	if (this->parsedArgs()->simple("ifaceconfig").length() == 0)
 	{
 		m_log->warning("Config file is not specified. You must choose it now");
 		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
@@ -184,13 +187,13 @@ void IFaceEditor::onFullAppStart()
 		} 
 		else 
 		{
-			this->cmdLineOptions()->setConfig(config);
+			this->parsedArgs()->setSimple("ifaceconfig", config.toStdString().c_str());
 		}
 	}
 	bool success = true;
 	// Load first stage - a maps of handling all of data
 	FontTemplatesMaps maps;
-	if (maps.load(this->cmdLineOptions()->config(), m_log))
+	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), m_log))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		

@@ -6,7 +6,7 @@
 #include "templates/hstring.h"
 #include "templates/hlvector.hpp"
 #include "templates/hpair.hpp"
-
+#pragma once
 namespace sad
 {
 
@@ -78,6 +78,49 @@ class Token
 	sad::cmd::ParserTokenType type;
 	hst::string data;
 };
+
+/** \class Args
+	
+	Command arguments, passed into editor
+ */
+class Args 
+{
+ private:
+	/** Argument count
+	  */
+	int argc;
+	/** Passed arguments
+	  */
+	char ** argv;
+ public:
+	/** Constructs a new command arguments
+	    \param[in] argc amount of arguments
+	    \param[in] argc arguments
+	 */
+	inline Args(int argc, char ** argv) {
+		this->argc = argc;
+		this->argv = argv;
+	}
+	/** Returns argument count
+		\return argument count
+	 */
+	inline int count() const { return this->argc; }
+
+	/** Returns argument count
+		\return argument count
+	 */
+	inline int& mutableCount() { return this->argc; }
+	/** Returns arguments
+		\param[in] i number of argument
+		\return arguments
+	 */
+	inline const char * argument(int i) const { return this->argv[i]; }
+	/** Returns full arguments array
+		\return arguments
+	 */
+	inline char ** fullArgv() { return this->argv; }
+};
+
 
 
 /*! A parser for parsing some information
@@ -203,17 +246,17 @@ class Parser
 		 \param[in] name name of option
 		 \param[on] v value
 	  */
-	 void setFlag(const hst::string & name, bool v);
+	 void setFlag(const hst::string & name, bool v = false);
 	 /*! Sets a simple option by name
 		 \param[in] name name of option
 		 \param[on] v value
 	  */
-	 void setSimple(const hst::string & name, const hst::string & v);
+	 void setSimple(const hst::string & name, const hst::string & v = hst::string());
 	 /*! Sets a simple option by name
 		 \param[in] name name of option
 		 \param[in] v value
 	  */
-	 void setMultiple(const hst::string & name, const hst::vector<hst::string> & v);
+	 void setMultiple(const hst::string & name, const hst::vector<hst::string> & v = hst::vector<hst::string>());
 	 /*! Adds a flag option (for "-name" option, "name" must be supplied)
 		 \param[in] name name of flag option
 		 \param[in] v value
@@ -223,12 +266,12 @@ class Parser
 		 \param[in] name name of simple option
 		 \param[in] v value
 	  */
-	 void addSimpleOption(const hst::string & name, const hst::string & v);
+	 void addSimpleOption(const hst::string & name, const hst::string & v = hst::string());
 	 /*! Adds a multiple option  (for "-name" option, "name" must be supplied)
 		 \param[in] name name of simple option
 		 \param[in] v value
 	  */
-	 void addMultipleOption(const hst::string & name, const hst::vector<hst::string> & v);
+	 void addMultipleOption(const hst::string & name, const hst::vector<hst::string> & v = hst::vector<hst::string>());
 	 /*! Parses an arguments. If in simple option after keywords
 		 leads another keyword, we exit from this state and enter new,
 		 same goes for multiple states. Boolean flags, can be simply supplied
