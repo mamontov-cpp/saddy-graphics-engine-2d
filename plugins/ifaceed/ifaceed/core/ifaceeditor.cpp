@@ -16,15 +16,17 @@
 #include "states/spriteaddingstate.h"
 #include "states/selectedstate.h"
 #include "objectborders.h"
+#include "../history/propertychangecommand.h"
 #include "../history/deletecommand.h"
 #include <QTimer>
+
+
 
 
 IFaceEditor::IFaceEditor()
 {
 	m_log->setProgramName("IFace Editor");
 	m_log->setLogFile("log.txt");
-	this->behaviourSharedData()->setLog(m_log);
 
 	m_db = NULL;
 	m_counter = 0;
@@ -274,8 +276,8 @@ void IFaceEditor::onFullAppStart()
 
 		sad::Input::inst()->setMouseMoveHandler(handler);
 		sad::Input::inst()->setKeyDownHandler(kbdhandler);
-		m_selection_border = new SelectedObjectBorder(this->behaviourSharedData());
-		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->behaviourSharedData()) );
+		m_selection_border = new SelectedObjectBorder(this->shdata());
+		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->shdata()) );
 		sad::Input::inst()->addPostRenderTask( m_selection_border );
 
 		this->setBehaviour("main");
@@ -336,4 +338,26 @@ void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant 
 	)
 	INITCLOSURE ( CLSET(me, this) )
 	SUBMITCLOSURE( this->emitClosure );
+}
+
+
+EditorBehaviourSharedData * IFaceEditor::createBehaviourData()
+{
+	IFaceSharedData * e = new IFaceSharedData();
+	e->setEditor(this);
+	return e;
+}
+
+IFaceSharedData * IFaceEditor::shdata()
+{
+	return static_cast<IFaceSharedData *>(this->behaviourSharedData());
+}
+
+void IFaceEditor::appendRotationCommand()
+{
+	float new_angle = 0.0f;
+	float old_angle = 0.0f;
+	AbstractScreenObject * o = NULL;
+	this->shdata()->getAndDismissRotationCommand(o, new_angle, old_angle);
+	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, this->log()));
 }

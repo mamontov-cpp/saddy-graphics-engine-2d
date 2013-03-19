@@ -328,14 +328,14 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 			{
 				QTimer * t =new QTimer();
 				t->setSingleShot(true);
-				bool pending = this->m_editor->behaviourSharedData()->isRotationCommandPending();
+				bool pending = this->m_editor->shdata()->isRotationCommandPending();
 				sad::Variant new_v(v);
 				float new_val_escaped = new_v.get<float>(this->m_editor->log());
 				float old_val_escaped = old->get<float>(this->m_editor->log());
 				if (pending) {
-					this->m_editor->behaviourSharedData()->submitRotationCommand(t, o, new_val_escaped, false);
+					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
 				} else {
-					this->m_editor->behaviourSharedData()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
+					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
 				}
 				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
 				t->start(MAX_ROTATION_TIME);

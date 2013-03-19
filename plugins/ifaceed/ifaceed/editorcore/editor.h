@@ -236,6 +236,10 @@ private:
 			 \return qt main window, used in program
 		  */
 		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
+
+		 /** REIMPLEMENT this function to pass tour own shared data
+		  */
+		 virtual EditorBehaviourSharedData * createBehaviourData();
 		 /** REIMPLEMENT this function to pass your own renderer settings into saddy
 		  */
 		 virtual void initSaddyRendererOptions();
@@ -376,17 +380,13 @@ private:
 		}
 		/** Returns an icon container
 		 */
-		inline Sprite2DConfig & icons();
+		Sprite2DConfig & icons();
   signals:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure
 		 */
 		void closureArrived(ClosureBasic * closure);
- public slots:
-		/** Appends a rotation command to a history
-			Used for deferred rotation appendance
-		 */
-		void appendRotationCommand();
+		
 };
 
 

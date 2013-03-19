@@ -2,6 +2,7 @@
 #include "../objects/abstractscreenobject.h"
 #include <renderer.h>
 #include "ifaceeditor.h"
+
 #include <config/sprite2dobserver.h>
 #include <extra/geometry2d.h>
 bool ActiveObjectBorder::tryPerform()

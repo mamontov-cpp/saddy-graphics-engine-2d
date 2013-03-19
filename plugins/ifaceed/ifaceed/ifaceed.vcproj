@@ -389,6 +389,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\ifaceshareddata.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\mockspritetablewidget.cpp"
 					>
 				</File>
@@ -745,6 +749,10 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\core\ifaceshareddata.h"
+					>
 				</File>
 				<File
 					RelativePath=".\core\mockspritetablewidget.h"

@@ -4,10 +4,11 @@
 	Contains an object borders for some dynamic rendering
  */
 #include <input.h>
-#include "../../editorcore/editorbehaviourshareddata.h"
+#include "ifaceshareddata.h"
 #include <config/sprite2dconfig.h>
 #pragma once
 
+class IFaceSharedData;
 class AbstractScreenObject;
 
 // A hotspots are the places, where user can click performing some stuff
@@ -23,7 +24,7 @@ enum BorderHotSpots
 class ObjectBorder: public sad::RepeatingTask
 {
  protected:
-	 EditorBehaviourSharedData * m_data; //!< Data for rendering object
+	 IFaceSharedData * m_data; //!< Data for rendering object
 	 /** Miscellaneos function for drawing a sprite at specified position of image
 	  */
 	 void renderSpot(const char * c, const hRectF & r, int r0, int r1, int r2, int r3, float dangle);
@@ -44,7 +45,7 @@ class ObjectBorder: public sad::RepeatingTask
 	  */
 	 virtual bool resizable();
  public:
-	 inline ObjectBorder(EditorBehaviourSharedData  * data)
+	 inline ObjectBorder(IFaceSharedData  * data)
 	 {
 		 m_data = data;
 	 }
@@ -63,7 +64,7 @@ class ActiveObjectBorder: public ObjectBorder
 	  */
 	 virtual bool removable();
  public:
-	 inline ActiveObjectBorder(EditorBehaviourSharedData  * data):ObjectBorder(data)
+	 inline ActiveObjectBorder(IFaceSharedData  * data):ObjectBorder(data)
 	 {
 		
 	 }
@@ -83,7 +84,7 @@ class SelectedObjectBorder: public ObjectBorder
 	  */
 	 virtual bool resizable();
  public:
-	 inline SelectedObjectBorder(EditorBehaviourSharedData  * data):ObjectBorder(data)
+	 inline SelectedObjectBorder(IFaceSharedData  * data):ObjectBorder(data)
 	 {
 		 
 	 }

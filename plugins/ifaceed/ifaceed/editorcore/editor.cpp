@@ -6,7 +6,6 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
 #include "editorlog.h"
-#include "../history/propertychangecommand.h"
 #include "../core/xmlconfigloader.h"
 #include <QMessageBox>
 #include <QDir>
@@ -26,7 +25,7 @@ Editor::Editor():m_icons("editor_icons")
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
 	m_history = new EditorHistory(this->log());
-	m_behavioursharedata = new EditorBehaviourSharedData();
+	
 }
 
 sad::cmd::Parser * Editor::parsedArgs() const
@@ -34,8 +33,15 @@ sad::cmd::Parser * Editor::parsedArgs() const
 	return m_cmdoptions;
 }
 
+EditorBehaviourSharedData * Editor::createBehaviourData()
+{
+	return new EditorBehaviourSharedData();
+}
+
 void Editor::init(int argc,char ** argv)
 {
+	// Create dependent behaviour data
+	m_behavioursharedata = this->createBehaviourData();
 	// Firstly we create an arguments and application
 	// to strip all of Qt's options, which wouldn't break a parser, after this work
 	m_cmdargs = new sad::cmd::Args(argc, argv);
@@ -189,9 +195,14 @@ void Editor::initDefaultSaddyOptions()
 	{
 		m_log->error(QString("Can\'t load %1").arg(a));
 	}
-	m_behavioursharedata->setIcons(&m_icons);
 	this->assertSaddyInit(loaded);
 }
+
+Sprite2DConfig & Editor::icons()
+{
+	return m_icons;
+}
+
 void Editor::initSaddyRendererOptions()
 {
 	this->initDefaultSaddyOptions();
@@ -351,12 +362,5 @@ void Editor::emitClosure(ClosureBasic * closure)
 }
 
 
-void Editor::appendRotationCommand()
-{
-	float new_angle = 0.0f;
-	float old_angle = 0.0f;
-	AbstractScreenObject * o = NULL;
-	this->behaviourSharedData()->getAndDismissRotationCommand(o, new_angle, old_angle);
-	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, this->log()));
-}
+
 
