@@ -8,8 +8,8 @@ IFaceEditor * IFaceState::editor()
 	return static_cast<IFaceEditor *>(this->behaviour()->parent());
 }
 
-EditorBehaviourSharedData * IFaceState::shdata()
+IFaceSharedData * IFaceState::shdata()
 {
-	return this->editor()->behaviourSharedData();
+	return this->editor()->shdata();
 }
 

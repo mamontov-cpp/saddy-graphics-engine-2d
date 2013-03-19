@@ -6,11 +6,13 @@
 #include "../editorcore/editor.h"
 #include "../editorcore/commandchangeobserver.h"
 #include "../mainpanel.h"
+#include "ifaceshareddata.h"
 #pragma once
 
 class ScreenTemplate;
 class FontTemplateDatabase;
 class SelectedObjectBorder;
+class IFaceSharedData;
 
 class IFaceEditor: public Editor, public CommandChangeObserver 
 {
@@ -40,9 +42,16 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	{
 		 return m_selection_border;
 	}
+	/*! Returns shared data
+		\return shared data information
+	 */
+	IFaceSharedData * shdata();
 
 	InterlockedScene * myScene();
  protected:
+	/** Returns a specific shared data
+	  */
+	 virtual EditorBehaviourSharedData * createBehaviourData();
 	/*! A selection border with capabilities spots to edit item
 	 */
     SelectedObjectBorder * m_selection_border;
@@ -114,6 +123,10 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	/** Updates a list from event
 	 */
 	virtual void submitEvent(const hst::string & eventType, const sad::Variant & v);
+	/** Appends a rotation command to a history
+		Used for deferred rotation appendance
+	 */
+	void appendRotationCommand();
 };
 
 /** A special handler for method

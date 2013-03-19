@@ -8,6 +8,7 @@
 
 
 class IFaceEditor;
+class IFaceSharedData;
 class EditorBehaviourSharedData;
 
 class IFaceState: public EditorBehaviourState
@@ -18,7 +19,7 @@ class IFaceState: public EditorBehaviourState
 	IFaceEditor * editor();
 	/*! Returns a shared data for state
 	 */
-	EditorBehaviourSharedData * shdata();
+	IFaceSharedData * shdata();
 
 };
 
