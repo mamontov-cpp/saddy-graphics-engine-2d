@@ -377,6 +377,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\extra\geometry2d.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\rigid_body.cpp"
 					>
 				</File>
@@ -700,6 +704,10 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\collisionmanager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\geometry2d.h"
 					>
 				</File>
 				<File
