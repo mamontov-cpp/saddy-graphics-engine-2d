@@ -2,7 +2,8 @@
 #include "screentemplate.h"
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/fontdatabase.h"
-#include "extra/rigid_body.h"
+#include <extra/rigid_body.h>
+#include <extra/geometry2d.h>
 
 ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
@@ -79,33 +80,11 @@ bool ScreenLabel::tryReload(FontTemplateDatabase * db)
 	return true;
 }
 
-bool testcollision(const ::s3d::point & test,const ::s3d::point & pivot1, const ::s3d::point & pivot2)
-{
-	vector32 axle = pivot2-pivot1;
-	normalize(axle);
-	float  test_projection = scalar(test,axle);
-	float  pivot1_projection = scalar(pivot1,axle);
-	float  pivot2_projection = scalar(pivot2,axle);
-	return collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
-}
-
-bool testIsWithin(const hPointF & p, const hRectF & r) 
-{
-	::s3d::point test =::s3d::point(p.x(),p.y(),0.0f);
-	::s3d::point rp[3];
-	for (int i=0;i<3;i++)
-	{
-		rp[i]=  ::s3d::point(r[i].x(),r[i].y(),0.0f);
-	}
-	bool a1 = testcollision(test,rp[0],rp[1]);
-	bool a2 = testcollision(test,rp[1],rp[2]);
-	return a1 && a2; 
-}
 
 bool ScreenLabel::isWithin(const hPointF & p)
 {
 	hRectF r = this->region();
-	return testIsWithin(p, r);
+	return ::isWithin(p, r);
 }
 
 hRectF ScreenLabel::region()

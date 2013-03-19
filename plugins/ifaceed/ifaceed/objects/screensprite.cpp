@@ -1,8 +1,9 @@
 #include "screensprite.h"
 #include <QString>
+#include <extra/geometry2d.h>
+
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/spritedatabase.h"
-
 
 class SpritePropertyListener: public PropertyListener<hRectF>,  public PropertyListener<float>
 {
@@ -67,25 +68,6 @@ hst::string ScreenSprite::typeName()
 }
 
 
-#define PRECISION 0.001
-
-
-static inline bool isPointsEqual(const hPointF & p1, const hPointF & p2)
-{
-	return fabs(p1.x() - p2.x()) < PRECISION && fabs(p1.y() - p2.y());
-}
-
-static inline bool isRectsEqual(const hRectF & p1, const hRectF & p2)
-{
-	bool ok = true;
-	for(int i = 0; i < 4; i++)
-	{
-		ok = ok && isPointsEqual(p1[i], p2[i]);
-	}
-	return ok;
-}
-
-#undef PRECISION
 
 void ScreenSprite::_render()
 {
@@ -108,24 +90,12 @@ hst::string ScreenSprite::_description()
 	return a.toStdString().c_str();
 }
 
-hRectF rotated(const hRectF & m_rect, float m_angle)
-{
-	hRectF result = m_rect;
-	hPointF tmp, tmp2;
-	hPointF middle = (m_rect[0] + m_rect[2])/2;
-	for(int i = 0; i < 4; i++)
-	{
-		tmp = result[i] - middle;
-		tmp2.setX(tmp.x()*cos(m_angle) - tmp.y() * sin(m_angle));
-		tmp2.setY(tmp.x()*sin(m_angle) + tmp.y() * cos(m_angle));
-		result[i] = middle + tmp2;
-	}
-	return result;
-}
 
 hRectF ScreenSprite::region()
 {
-	return rotated(m_rect, m_angle);	
+	hRectF rd = m_rect;
+	rotate(m_angle, rd);
+	return  rd;	
 }
 
 void ScreenSprite::moveCenterTo(const hPointF & point)
@@ -136,22 +106,18 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
  		hPointF middle = (hregion[0] + hregion[2]) / 2; 
 		hPointF delta = point - middle;
 		m_observer->sprite()->move(delta);
-		for(int i = 0; i < 4; i++)
-		{
-			m_rect[i] += delta;
-		}
+		moveBy(delta, m_rect);
 	}
 }
 
 
 
 
-bool testIsWithin(const hPointF & p, const hRectF & r);
 
 bool ScreenSprite::isWithin(const hPointF & p)
 {
 	hRectF r = this->region();
-	return testIsWithin(p, r);
+	return ::isWithin(p, r);
 }
 
 
@@ -171,12 +137,7 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db)
 }
 
 
-float dist2(const hPointF & p1, const hPointF & p2)
-{
-	float dx = p1.x() - p2.x();
-	float dy = p1.y() - p2.y();
-	return sqrtf(dx*dx + dy*dy);
-}
+
 
 bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 {
@@ -212,8 +173,8 @@ void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float angle)
 {
 	float mangle = -1 * angle;
-	m_rect = rotated(rotatedrectangle, mangle);
-	hRectF trect = rotated(m_rect,angle);
+	m_rect = rotatedrectangle;
+	rotate(mangle, m_rect);	
 	m_angle = angle;
 	Sprite2DConfigObserver * o = this->observer();
 	if (o)

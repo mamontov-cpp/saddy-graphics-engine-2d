@@ -3,7 +3,7 @@
 #include <renderer.h>
 #include "ifaceeditor.h"
 #include <config/sprite2dobserver.h>
-
+#include <extra/geometry2d.h>
 bool ActiveObjectBorder::tryPerform()
 {
 	AbstractScreenObject * o = this->m_data->activeObject();
@@ -144,16 +144,11 @@ static inline hRectF hotSpotRectangleFrom(const hRectF & r, int p1, int p2, int 
 	hPointF result = center  - ( hPointF(cos(angle), sin(angle)) * size);
 	hRectF v(hPointF(-size, -size), hPointF(size, -size), hPointF(size, size), hPointF(-size, size));
 	float deltaangle = angle - dangle;
-	for(int i = 0; i < 4; i++) {
-		float x = v[i].x()*cos(deltaangle) - v[i].y()*sin(deltaangle);
-		float y = v[i].x()*sin(deltaangle) + v[i].y()*cos(deltaangle);
-		v[i] = result + hPointF(x,y);
-	}
+	moveAndRotateNormalized(deltaangle,  result, v);
 	return v;
 }
 
 
-bool testIsWithin(const hPointF & p1, const hRectF & r);
 
 hst::vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool canDelete)
 {
@@ -189,7 +184,6 @@ bool ActiveObjectBorder::removable()
 	return false;
 }
 
-bool testIsWithin(const hPointF & p1, const hRectF & r) ;
 
 hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractScreenObject * o)
 {
@@ -228,7 +222,7 @@ hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 			.arg(r[i][3].x())
 			.arg(r[i][3].y())
 		);
-		if (testIsWithin(p, r[i]))
+		if (::isWithin(p, r[i]))
 		{
 			this->m_data->log()->debug("Hit!");		
 			result << hotspotsets[i];

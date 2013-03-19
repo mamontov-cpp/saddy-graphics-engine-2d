@@ -196,3 +196,7 @@ static inline bool collides1D(float x11, float x12, float x21, float x22)
 	if (x21>x22) { float tmp=x21; x21=x22; x22=tmp; }
 	return (x21<=x12) && (x22>=x11);
 }
+
+
+
+

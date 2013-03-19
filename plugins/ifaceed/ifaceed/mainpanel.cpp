@@ -9,6 +9,7 @@
 #include <QLineEdit>
 #include <QTimer>
 #include <marshal/actioncontext.h>
+#include <extra/geometry2d.h>
 #include "gui/fontdelegate.h"
 #include "gui/colordelegate.h"
 #include "core/ifaceeditor.h"
@@ -557,8 +558,6 @@ void MainPanel::setSpriteChangingEnabled(bool enabled)
 }
 
 
-float dist2(const hPointF & p1, const hPointF & p2);
-
 void MainPanel::setRegionParameters()
 {
 	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
@@ -572,8 +571,8 @@ void MainPanel::setRegionParameters()
 			m_selfchanged = true;
 			ui.dblSpriteX->setValue(rect[0].x());
 			ui.dblSpriteY->setValue(rect[0].y());
-			ui.dblSpriteWidth->setValue(dist2(rect[0], rect[1]));
-			ui.dblSpriteHeight->setValue(dist2(rect[0], rect[3]));
+			ui.dblSpriteWidth->setValue(dist(rect[0], rect[1]));
+			ui.dblSpriteHeight->setValue(dist(rect[0], rect[3]));
 			m_selfchanged = false;
 		}
 	}
@@ -670,14 +669,6 @@ void SpritePropertyChangeCommand::rollback(ActionContext *c, CommandChangeObserv
 	ob->submitEvent("SpritePropertyChangeCommand::rollback", sad::Variant(0));
 }
 
-hPointF normalize(const hPointF & p)
-{
-	if (fabs(p.x()) < 0.001 && fabs(p.y()) < 0.001)
-			return p;
-	hPointF result = p;
-	result /= sqrtf(p.x()*p.x() + p.y() * p.y());
-	return result;
-}
 void MainPanel::spriteRectChanged()
 {
 	if (m_selfchanged)
@@ -694,8 +685,8 @@ void MainPanel::spriteRectChanged()
 			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
 			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
 			float comparisonprec = 0.0001f;
-			float oldwidth = dist2(oldrect[1], oldrect[0]);
-			float oldheight = dist2(oldrect[3], oldrect[0]);
+			float oldwidth = dist(oldrect[1], oldrect[0]);
+			float oldheight = dist(oldrect[3], oldrect[0]);
 			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
 				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
 				&& fabs(size.x() - oldwidth) < comparisonprec
