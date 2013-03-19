@@ -3,21 +3,19 @@
 #include <QTest>
 #include <QTimer>
 #include <QThread>
+#include <QTextCodec>
 
 #include <input.h>
+#include <cmdoptions.h>
 #include <stdio.h>
 #include <cstdlib>
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
-#include "core/ifacecmdoptions.h"
-#include "config/sprite2dconfig.h"
 #include <log.h>
 #include "editorcore/path.h"
 
 #include "unittests/factory.h"
-#include "unittests/ifacecmdoptions_test.h"
 
-#include <QTextCodec>
 
 
 /**
@@ -33,16 +31,16 @@ int main(int argc, char *argv[])
 		QTextCodec::setCodecForLocale(codec);
 	#endif
 	#ifdef __UNITTESTS
-		IFaceCmdOptions args;
-		args.parse(argc, argv);
+		sad::cmd::Parser p;
+		p.addMultipleOption("test");
+		p.parse(argc, (const char **)argv);
 		unittests::Factory tests;
 		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
-		TEST( IFaceCmdOptionsTest );
 
-		QVector<QString> data = args.unitTests();
-		for (int i=0;i<data.size();i++)
+		hst::vector<hst::string> data = p.multiple("test");
+		for (int i=0;i<data.count();i++)
 		{
-			tests.run(data[i]);
+			tests.run(data[i].data());
 		}
 		hst::log::inst()->save("log.txt");
 	#else
