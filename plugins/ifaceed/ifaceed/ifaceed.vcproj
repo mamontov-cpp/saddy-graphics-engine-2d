@@ -420,6 +420,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\core\states\ifacestate.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\core\states\labeladdingstate.cpp"
 						>
 					</File>
@@ -811,6 +815,10 @@
 					>
 					<File
 						RelativePath=".\core\states\idlestate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\states\ifacestate.h"
 						>
 					</File>
 					<File

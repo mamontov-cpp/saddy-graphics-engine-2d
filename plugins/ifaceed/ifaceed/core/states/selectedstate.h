@@ -3,7 +3,7 @@
 
 	Describes an selected state of editor
  */
-#include "../../editorcore/editorbehaviourstate.h"
+#include "ifacestate.h"
 #include <time.h>
 #include <vector>
 #include <templates/hstring.h>
@@ -32,7 +32,7 @@ enum SelectedStateMovementSubState
 };
 
 
-class SelectedState: public EditorBehaviourState
+class SelectedState: public IFaceState
 {
 protected:
 	// A substate for moving object

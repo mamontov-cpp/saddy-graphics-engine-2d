@@ -8,25 +8,22 @@
 
 void LabelAddingState::onMouseMove(const sad::Event & ev)
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	o->moveCenterTo(hPointF(ev.x,ev.y));
+	this->shdata()->activeObject()->moveCenterTo(hPointF(ev.x,ev.y));
 }
 
 void LabelAddingState::enter()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	MainPanel * p = ed->panel();
+	IFaceEditor * ed = this->editor();
 	CLOSURE
-	CLOSURE_DATA( MainPanel * p; IFaceEditor * ed; )
-	CLOSURE_CODE( p->setAddingEnabled(false); ed->highlightState("Place a label");  )
-	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
+	CLOSURE_DATA( IFaceEditor * ed; )
+	CLOSURE_CODE( ed->panel()->setAddingEnabled(false); ed->highlightState("Place a label");  )
+	INITCLOSURE(  CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
 }
 
 void LabelAddingState::leave()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -40,7 +37,7 @@ void LabelAddingState::leave()
 void LabelAddingState::onWheel(const sad::Event & ev)
 {
 	float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
@@ -56,8 +53,8 @@ void LabelAddingState::onWheel(const sad::Event & ev)
 
 void LabelAddingState::onMouseDown(const sad::Event & ev)
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	IFaceEditor * ed = this->editor();
+	AbstractScreenObject * o =	this->shdata()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
 	c->commit(ed->log(), ed);
@@ -70,7 +67,7 @@ void LabelAddingState::onKeyDown(const sad::Event & ev)
 {
 	if (ev.key == KEY_ESC) 
 	{
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		IFaceEditor * ed = this->editor();
 		ed->tryEraseObject();
 	}
 }

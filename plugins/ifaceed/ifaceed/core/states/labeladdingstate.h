@@ -3,13 +3,13 @@
 
 	Describes an label adding state of editor
  */
-#include "../../editorcore/editorbehaviourstate.h"
+#include "ifacestate.h"
 #pragma once
 
 /*! \class LabelAddingState
 	A state, when user added a label
  */
-class LabelAddingState: public EditorBehaviourState
+class LabelAddingState: public IFaceState
 {
  public:
 	 /*! Moves a label

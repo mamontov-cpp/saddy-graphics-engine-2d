@@ -40,6 +40,8 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	{
 		 return m_selection_border;
 	}
+
+	InterlockedScene * myScene();
  protected:
 	/*! A selection border with capabilities spots to edit item
 	 */

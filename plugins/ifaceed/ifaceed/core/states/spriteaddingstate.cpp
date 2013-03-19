@@ -9,7 +9,7 @@
 
 void SimpleSpriteAddingState::enter()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; IFaceEditor * ed; )
@@ -24,7 +24,7 @@ void SimpleSpriteAddingState::enter()
 
 void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	o->moveCenterTo(hPointF(ev.x,ev.y));
 
@@ -42,7 +42,7 @@ void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
 void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
 {
 	float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
@@ -57,7 +57,7 @@ void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
 
 void SimpleSpriteAddingState::onMouseDown(const sad::Event & ev)
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
@@ -71,15 +71,14 @@ void SimpleSpriteAddingState::onKeyDown(const sad::Event & ev)
 {
 	if (ev.key == KEY_ESC) 
 	{
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-		ed->tryEraseObject();
+		this->editor()->tryEraseObject();
 	}
 }
 
 void SimpleSpriteAddingState::leave()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	ed->behaviourSharedData()->setActiveObject(NULL);
+	IFaceEditor * ed = this->editor();
+	this->shdata()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; )
@@ -91,7 +90,7 @@ void SimpleSpriteAddingState::leave()
 void DiagonalSpriteAddingState::enter()
 {
 	m_substate = DSAS_INITIAL;
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	ed->behaviourSharedData()->activeObject()->setProp<float>("angle", 0.0f, ed->log());
 	ed->behaviourSharedData()->activeObject()->setProp<bool>("visibility", false, ed->log());
 	ed->behaviourSharedData()->toggleActiveBorder(false);
@@ -112,7 +111,7 @@ void DiagonalSpriteAddingState::enter()
 void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 {
 	DiagonalSpriteAddingSubState ss = m_substate;
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	hPointF p(ev.x, ev.y);
@@ -157,7 +156,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 
 void DiagonalSpriteAddingState::leave()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	ed->behaviourSharedData()->toggleActiveBorder(true);
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
@@ -174,7 +173,7 @@ void DiagonalSpriteAddingState::leave()
 
 void DiagonalSpriteAddingState::onMouseMove(const sad::Event & ev)
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	if (m_substate == DSAS_FIRSTCLICK)
@@ -201,7 +200,6 @@ void DiagonalSpriteAddingState::onKeyDown(const sad::Event & ev)
 {
 	if (ev.key == KEY_ESC) 
 	{
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-		ed->tryEraseObject();
+		this->editor()->tryEraseObject();
 	}
 }
