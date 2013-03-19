@@ -294,6 +294,10 @@ void IFaceEditor::highlightState(const hst::string & hint)
 	this->panel()->highlightState(hint);
 }
 
+InterlockedScene * IFaceEditor::myScene()
+{
+	return static_cast<InterlockedScene*>(this->scene());
+}
 void IFaceEditor::tryEraseObject()
 {
 	hst::string state = this->currentBehaviour()->state(); 
@@ -303,7 +307,7 @@ void IFaceEditor::tryEraseObject()
 	{
 		AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
 		this->behaviourSharedData()->setActiveObject(NULL);
-		InterlockedScene * scene = static_cast<InterlockedScene*>(this->scene());
+		InterlockedScene * scene = this->myScene();
 		scene->remove(o);
 		this->currentBehaviour()->cancelState();
 	}

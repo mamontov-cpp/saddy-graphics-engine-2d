@@ -3,7 +3,7 @@
 
 	Describes a state for sprite adding
  */
-#include "../../editorcore/editorbehaviourstate.h"
+#include "ifacestate.h"
 #include <time.h>
 #include <vector>
 #include <templates/hstring.h>
@@ -12,7 +12,7 @@
 
 /** A simple sprite adding state, when one click places a sprite
  */
-class SimpleSpriteAddingState: public EditorBehaviourState
+class SimpleSpriteAddingState: public IFaceState
 {
 public:
 	/** Highlights entering a state
@@ -51,7 +51,7 @@ enum DiagonalSpriteAddingSubState
 	This state ignores an angle
 	Second places bottom right corner if angle equals zero
  */
-class DiagonalSpriteAddingState: public EditorBehaviourState
+class DiagonalSpriteAddingState: public IFaceState
 {
 protected:
 	DiagonalSpriteAddingSubState m_substate;

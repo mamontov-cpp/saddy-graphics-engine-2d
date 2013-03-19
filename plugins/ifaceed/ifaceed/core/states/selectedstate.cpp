@@ -45,7 +45,7 @@ void SelectedState::navigateOffset(bool next)
 		if (m_navposition == -1)
 			m_navposition = m_chain.size() -1;
 	}
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+	IFaceEditor * ed = this->editor();
 	ScreenTemplate * t = ed->result();
 	SerializableObject * so = t->object(m_chain[m_navposition]);
 	if (so != NULL) 
@@ -77,8 +77,8 @@ void SelectedState::onWheel(const sad::Event & ev)
 			m_substate = SSSS_SIMPLESELECTED;
 		}
 	}
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());	
-	AbstractScreenObject * o =	ed->behaviourSharedData()->selectedObject();
+	IFaceEditor * ed = this->editor();	
+	AbstractScreenObject * o =	this->shdata()->selectedObject();
 	if (m_substate == SSSS_SIMPLESELECTED && o->rotatable()) 
 	{
 		float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
@@ -96,9 +96,9 @@ void SelectedState::onWheel(const sad::Event & ev)
 void SelectedState::onMouseDown(const sad::Event & ev)
 {
 	if (ev.key == MOUSE_BUTTON_LEFT) {
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		IFaceEditor * ed = this->editor();
 		hPointF p(ev.x, ev.y);
-		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		AbstractScreenObject * o = this->shdata()->selectedObject();
 		hst::vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
 		if (r.count() != 0) 
 		{
@@ -136,9 +136,9 @@ void SelectedState::onMouseMove(const sad::Event & ev)
 {
 	if (m_movement_substate == SSMSS_MOVING)
 	{
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
+		IFaceEditor * ed = this->editor();
 		hPointF p(ev.x, ev.y);
-		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		AbstractScreenObject * o = this->shdata()->selectedObject();
 		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
 		
 		CLOSURE
@@ -155,8 +155,8 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 	{
 		this->onMouseMove(ev);
 
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-		AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+		IFaceEditor * ed = this->editor();
+		AbstractScreenObject * o = this->shdata()->selectedObject();
 		hRectF region = o->region();
 		hPointF newcenter = (region[0] + region[2]) / 2;
 		ed->history()->add(new MoveCommand(o, m_picked_old_center, newcenter));
@@ -167,8 +167,8 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 
 void SelectedState::enter()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+	IFaceEditor * ed = this->editor();
+	AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
 	CLOSURE
@@ -180,8 +180,8 @@ void SelectedState::enter()
 
 void SelectedState::leave()
 {
-	IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-	AbstractScreenObject * o = ed->behaviourSharedData()->selectedObject();
+	IFaceEditor * ed = this->editor();
+	AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 }
 
@@ -190,8 +190,8 @@ void SelectedState::onKeyDown(const sad::Event & ev)
 {
 	if (ev.key == KEY_ESC)
 	{
-		IFaceEditor * ed = static_cast<IFaceEditor *>(this->behaviour()->parent());
-		ed->behaviourSharedData()->setSelectedObject(NULL);
+		IFaceEditor * ed = this->editor();
+		this->shdata()->setSelectedObject(NULL);
 		ed->currentBehaviour()->enterState("idle");
 	}
 }
