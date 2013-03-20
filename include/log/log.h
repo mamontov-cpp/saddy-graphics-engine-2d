@@ -151,15 +151,75 @@ namespace sad
 	    /*! A vector of targets
 		 */
 		hst::vector<sad::log::Target *> m_targets;
-		/*! Broadcasts a message to all targets
-			\param[in] m message
-		 */
-		virtual void broadcast(const sad::log::Message & m);
 		/*! Returns a current subsystem
 			\retrun subsystem
 		 */
 		virtual hst::string subsystem();
+		
+		virtual void createAndBroadcast(const hst::string & mesg, 
+										sad::log::Priority priority,
+										const char * file = NULL, 
+										int line = 0,
+										const hst::string & upriority = hst::string());
+		template<typename T>
+		void _createAndBroadcast(const T & mesg, 
+								sad::log::Priority priority,
+								const char * file = NULL, 
+								int line = 0,
+								const hst::string & upriority = hst::string())
+		{
+			createAndBroadcast(sad::log::StringCaster<T>::cast(mesg), priority, file, line, upriority);
+		}
 	 public:
+		/*! Broadcasts a message to all targets
+			\param[in] m message
+		 */
+		virtual void broadcast(const sad::log::Message & m);
+		/*! Adds a target into a log
+			\param[in] t target 
+		 */
+		virtual sad::Log & addTarget(sad::log::Target * t);
+		/*! Removes a target from a log
+			\param[in] t target
+		 */
+		virtual sad::Log & removeTarget(sad::log::Target * t);
+		// Here are common interface for messages
+		template<typename T> 
+		void fatal(const T & mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(mesg, sad::log::FATAL, file, line);
+		}
+		
+		// Here are common interface for messages
+		template<typename T> 
+		void critical(const T & mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(mesg, sad::log::CRITICAL, file, line);
+		}
+		
+		template<typename T> 
+		void warning(const T & mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(mesg, sad::log::WARNING, file, line);
+		}
+		
+		template<typename T> 
+		void message(const T & mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(mesg, sad::log::MESSAGE, file, line);
+		}
+		
+		template<typename T> 
+		void debug(const T & mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(mesg, sad::log::DEBUG, file, line);
+		}
+		
+		template<typename T> 
+		void user(const T & mesg, const char * file = NULL, int line = 0, const hst::string & user =  hst::string())
+		{
+			_createAndBroadcast(mesg, sad::log::USER, file, line, user);
+		}
 		
 		virtual ~Log();
 	};
