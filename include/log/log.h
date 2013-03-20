@@ -6,13 +6,34 @@
 #include "../3rdparty/format/format.h"
 #include "../templates/hstring.h"
 #include <ctime>
-#include <string.h>
+#include <string>
 #pragma once
 
 namespace sad
 {
 	namespace log
 	{
+		template<typename T>
+		class LogStringCaster
+		{
+			/*! A caster for helping string find their ways
+			 */
+			static hst::string cast(const T & string);
+		};
+		template<>
+		class LogStringCaster<hst::string>
+		{
+			/*! A caster for helping string find their ways
+			 */
+			static hst::string cast(const hst::string> & string);
+		};
+		template<>
+		class LogStringCaster<std::string>
+		{
+			/*! A caster for helping string find their ways
+			 */
+			static hst::string cast(const std::string & string);
+		};
 		/*! Priotity of message of log
 		 */
 		enum Priority
