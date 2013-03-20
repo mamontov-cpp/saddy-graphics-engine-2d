@@ -100,4 +100,34 @@ hst::string sad::Log::subsystem()
 }
 
 
+void sad::Log::createAndBroadcast(const hst::string & mesg, 
+				            	  sad::log::Priority priority,
+						          const char * file , 
+								  int line ,
+								  const hst::string & upriority)
+{
+	sad::log::Message * m = new sad::log::Message(
+		mesg,
+		priority,
+		file,
+		line ,
+		this->subsystem(),
+		upriority
+	);
+	broadcast(*m);
+	delete m;
+}
+
+sad::Log & sad::Log::addTarget(sad::log::Target * t)
+{
+	m_targets << t;
+	return *this;
+}
+
+sad::Log & sad::Log::removeTarget(sad::log::Target * t)
+{
+	m_targets.remove(t);
+	return *this;
+}
+
 
