@@ -40,10 +40,10 @@
 #include "templates/hwstring.h"
 
 
-#include "log.h"
 #include "primitives/hcolor.h"
 #include "primitives/hpoint.h"
 #include "primitives/hrect.h"
+#pragma once
 
 #ifdef  LINUX
 

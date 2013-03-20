@@ -1,5 +1,5 @@
 #include "vbolayer.h"
-#include "log.h"
+#include "../../include/log/log.h"
 
 
 
@@ -59,7 +59,7 @@ void VBO::init()
 		error= error || (glMapBufferARB==0);
 		error= error || (glUnmapBufferARB==0);
 #endif
-		if (error) { hst::log::inst()->owrite(hst::string("VBO: VBO is not supported.\n"));}
+		if (error) { SL_CRITICAL("VBO: VBO is not supported.\n");}
 }
 
 bool VBO::supported()

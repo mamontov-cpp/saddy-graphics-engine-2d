@@ -7,7 +7,7 @@
 #include "settings.h"
 #include "scene.h"
 #include "primitives/hpoint.h"
-
+#include "log/log.h"
 namespace sad
 {
 	class FontManager;
@@ -25,6 +25,7 @@ namespace sad
 
 		static sad::Renderer * m_instance;  //!< Instance of renderer
 
+		sad::Log             m_log;
 
 		sad::FontManager *   m_font_manager;     //!< Font manager
 		sad::TextureManager * m_texture_manager; //!< Texture manager
@@ -208,6 +209,10 @@ namespace sad
 			\return texture manager information
 		 */
 		sad::TextureManager * textures();
+		/*! Returns a log for renderer
+			\return log information
+		 */
+		sad::Log * log();
 	};
 
 	/*! Returns average render interval in milliseconds

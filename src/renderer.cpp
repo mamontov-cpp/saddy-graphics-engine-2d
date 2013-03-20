@@ -46,7 +46,7 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_created=createWindow();
  m_window.width=_settings.width();
  m_window.height=_settings.height();
- if (!m_created) { hst::log::inst()->owrite(hst::string("Renderer init: can't create window\n"));}
+ if (!m_created) { SL_FATAL("Renderer init: can't create window\n");}
  return true;
 }
 
@@ -102,13 +102,12 @@ void sad::Renderer::run()
  if (createWindow())
  {
 	    m_created=true;
-		hst::log::inst()->owrite(hst::string("Renderer: started rendering cycles\n"));
+		SL_MESSAGE("Renderer: started rendering cycles\n");
 	    mainLoop();
  }
  else
-	 hst::log::inst()->owrite(hst::string("Can't create window\n"));
+	 SL_FATAL("Can't create window\n");
  
- hst::log::inst()->save("log.txt");
 }	
 
 
@@ -131,7 +130,7 @@ bool sad::Renderer::initGLRendering()
 	const char * version=(const char *)glGetString(GL_VERSION);
 	if (version!=NULL)
 	{
-		hst::log::inst()->owrite(hst::string("Renderer: running OpenGL version ")+hst::string(version)+hst::string("\n"));
+		SL_MESSAGE(hst::string("Renderer: running OpenGL version ")+hst::string(version)+hst::string("\n"));
 		if (version[0]>'1' || version[2] >='4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}
@@ -204,3 +203,9 @@ sad::Renderer::Renderer()
 	m_created = false;
 	initWindowParameters();
 }
+
+sad::Log * sad::Renderer::log()
+{
+	return &m_log;
+}
+

@@ -52,7 +52,7 @@ void Texture::enable()
 	glBindTexture(GL_TEXTURE_2D,m_id);
 }
 
-#include "log.h"
+#include "../include/log/log.h"
 
 void Texture::buildMipMaps()
 {
@@ -105,16 +105,14 @@ void Texture::buildMipMaps()
 	else
 	{
 		float max  = (float)((m_width > m_height) ? m_width : m_height);
-		int levels = (int)(log(max)/log(2.0f));
+		int levels = (int)(::log(max)/::log(2.0f));
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  m_width, m_height, 0, type, GL_UNSIGNED_BYTE, m_data.data());			  
 		(*(getglGenerateMipMaps()))(GL_TEXTURE_2D);
 		res = 0;
 	}
 	if (res)
 	{
-		hst::log::inst()->owrite(hst::string("Error: "));
-		hst::log::inst()->owrite(hst::string((char*)gluErrorString(res) ));
-		hst::log::inst()->owrite(hst::string("\n"));
+		SL_FATAL(gluErrorString(res));
 	}
 
 	

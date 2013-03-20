@@ -3,15 +3,23 @@
 	
 	Describes a basic log and log parameters
  */
-#include "../3rdparty/format/format.h"
 #include "../templates/hlvector.hpp"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
 #include "../templates/hstring.h"
 #include "../marshal/actioncontext.h"
 #include <ctime>
+#include <sstream>
 #include <string>
+#ifdef WIN32
+#include <windows.h>
+#endif
 #pragma once
+
+inline std::ostream & operator<<(std::ostream & o, const hst::string & o2)
+{
+	return o << std::string(o2.data());
+}
 
 namespace sad
 {
@@ -23,24 +31,14 @@ namespace sad
 	     public:
 			/*! A caster for helping string find their ways
 			 */
-			static hst::string cast(const T & string);
+			static hst::string cast(const T & string)
+			{
+				std::ostringstream s; 
+				s << string;
+				return s.str().c_str();
+			}
 		};
-		template<>
-		class StringCaster<hst::string>
-		{
-		 public:
-			/*! A caster for helping string find their ways
-			 */
-			static inline hst::string cast(const hst::string & string);
-		};
-		template<>
-		class StringCaster<std::string>
-		{
-		 public:
-			/*! A caster for helping string find their ways
-			 */
-			static hst::string cast(const std::string & string);
-		};
+		
 		/*! Priotity of message of log
 		 */
 		enum Priority
@@ -79,6 +77,7 @@ namespace sad
 		class Message
 		{
 			private:	
+				char m_buffer[30];       //!< A buffer part
 				hst::string m_subsystem; //!< Subsystem
 				hst::string m_message;   //!< Message data
 				time_t      m_time;		 //!< Current time
@@ -130,6 +129,14 @@ namespace sad
 		 */
 		class Console
 		{
+#ifdef WIN32
+		 private:
+				WORD m_oldattributes;
+				HANDLE m_console;
+				/*! Inits console information
+				 */
+				void initConsole();
+#endif
 		 public:
 			 /*! Creates a new console
 		          */
@@ -264,7 +271,7 @@ namespace sad
 	/*! Log class takes frontend work, builds a messages and broadcasts it
 		it to all targets
 	 */
-	class Log: public ActionContext
+	class Log: public LoggingActionContext
 	{
 	 protected:
 	    /*! A vector of targets
@@ -339,11 +346,56 @@ namespace sad
 		{
 			_createAndBroadcast(mesg, sad::log::USER, file, line, user);
 		}
+
+
+		// Overloads for const char *
+		void fatal(const char * mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::FATAL, file, line);
+		}
 		
+		// Here are common interface for messages
+
+		void critical(const char * mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::CRITICAL, file, line);
+		}
+		
+		void warning(const char * mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::WARNING, file, line);
+		}
+		
+		void message(const char * mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::MESSAGE, file, line);
+		}
+		
+		void debug(const char  * mesg, const char * file = NULL, int line = 0)
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::DEBUG, file, line);
+		}
+		
+		void user(const char *  mesg, const char * file = NULL, int line = 0, const hst::string & user =  hst::string())
+		{
+			_createAndBroadcast(hst::string(mesg), sad::log::USER, file, line, user);
+		}
+
+
 		virtual ~Log();
+		/*! Returns a renderer's log instance
+		 */
+		static Log * ref();
 	};
 	
 
 
 };
  
+
+#define SL_FATAL(X) sad::Log::ref()->fatal(X, __FILE__, __LINE__)
+#define SL_CRITICAL(X) sad::Log::ref()->critical(X, __FILE__, __LINE__)
+#define SL_WARNING(X) sad::Log::ref()->warning(X, __FILE__, __LINE__)
+#define SL_MESSAGE(X) sad::Log::ref()->message(X, __FILE__, __LINE__)
+#define SL_DEBUG(X) sad::Log::ref()->debug(X, __FILE__, __LINE__)
+#define SL_USER(X, TYPE) sad::Log::ref()->user(X, __FILE__, __LINE__, TYPE)
