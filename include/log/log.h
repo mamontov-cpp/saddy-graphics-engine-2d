@@ -206,7 +206,27 @@ namespace sad
 				 */
 				virtual ~FileTarget();
 		};
-		
+		/*! A targets, which targets a console
+		 */
+		class ConsoleTarget: public sad::log::Target
+		{
+		  private:
+				sad::log::Console * m_console; //!< A handle-like console
+				int         m_max_priority; //!< Priority of max message
+				hst::string m_format; //!< Format for outputting the message
+				/*! Formats a subsystem part, by default adds ": "
+					\return format string
+				 */
+				virtual std::string formatSubsystem(const sad::log::Message & message);
+				/*! Formats file and line part, by default adds a space, or empty string
+					\return format string
+				 */
+				virtual std::string formatFileLine(const sad::log::Message & message);
+		  public:
+				/*! Destroys a target
+				 */
+			    ~ConsoleTarget();
+		};
 	};
 	
 	/*! Log class takes frontend work, builds a messages and broadcasts it

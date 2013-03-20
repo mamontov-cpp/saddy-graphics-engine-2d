@@ -196,3 +196,27 @@ sad::log::Console::~Console()
 {
 
 }
+
+
+std::string sad::log::ConsoleTarget::formatSubsystem(const sad::log::Message & message)
+{
+	if (message.subsystem().length() == 0)
+		return "";
+	std::string result = message.subsystem().data();
+	result += ": ";
+	return result;
+}
+
+std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & message)
+{
+	if (message.fileline().length() == 0)
+		return "";
+	std::string result = message.fileline().data();
+	result += " ";
+	return result;
+}
+
+sad::log::ConsoleTarget::~ConsoleTarget()
+{
+	delete m_console;
+}
