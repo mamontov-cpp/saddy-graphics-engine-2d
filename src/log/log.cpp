@@ -1,4 +1,5 @@
-#include "../../include/log/log.h"
+#include "../../include/3rdparty/format/format.h"
+#include "../../include/renderer.h"
 
 static const char * logmesgs[6] = {
 	"FATAL",
@@ -21,7 +22,10 @@ const char * sad::log::Message::spriority() const
 
 const char * sad::log::Message::stime() const
 {
-	return asctime(localtime(&m_time));
+	tm * time = localtime(&m_time);
+	sad::log::Message * m = const_cast<sad::log::Message *>(this);
+	strftime((char *)m->m_buffer, 30, "%Y-%m-%d %H:%M:%S", time);
+	return m_buffer;
 }
 
 sad::log::Message::Message(const hst::string & message,
@@ -48,26 +52,15 @@ hst::string sad::log::Message::fileline() const
 		return hst::string();
 	hst::string o;
 	char ch = '/';
-#ifndef _WIN32
-	ch = '//';
+#ifdef _WIN32
+	ch = '\\';
 #endif	
-	o =  (strrchr(m_file, ch) ? strrchr(m_file, ch) + 1 : m_file);
-	o << ", ";
+	const char * chk = strrchr(m_file, ch);
+	o =  (chk ? chk + 1 : m_file);
+	o << ",";
 	o << hst::string::number(m_line);
 	return o;
 }
-
-hst::string sad::log::StringCaster<hst::string>::cast(const hst::string & string)
-{
-	return string;
-}
-
-
-hst::string sad::log::StringCaster<std::string>::cast(const std::string & string)
-{
-	return string.c_str();
-}
-
 
 sad::log::Target::~Target()
 {
@@ -143,8 +136,9 @@ std::string sad::log::FileTarget::formatFileLine(const sad::log::Message & messa
 {
 	if (message.fileline().length() == 0)
 		return "";
-	std::string result = message.fileline().data();
-	result += " ";
+	std::string result = "[";
+	result += message.fileline().data();
+	result += "] ";
 	return result;
 }
 
@@ -189,13 +183,9 @@ void sad::log::FileTarget::receive(const sad::log::Message & message)
 						   << message.message().data()
 						  );
 	fputs(mesg.c_str(), m_file);
+	fputs("\n", m_file);
 }
 
-
-sad::log::Console::~Console()
-{
-
-}
 
 
 std::string sad::log::ConsoleTarget::formatSubsystem(const sad::log::Message & message)
@@ -211,8 +201,9 @@ std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & me
 {
 	if (message.fileline().length() == 0)
 		return "";
-	std::string result = message.fileline().data();
-	result += " ";
+	std::string result = "[";
+	result += message.fileline().data();
+	result += "] ";
 	return result;
 }
 
@@ -275,13 +266,44 @@ void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
 
 void sad::log::Console::print(const char * text)
 {
+#ifdef WIN32
+	if (m_console != INVALID_HANDLE_VALUE)
+	{
+		DWORD p = 0;
+		WriteFile(m_console, text, strlen(text), &p, NULL);
+		char c = '\n';
+		WriteFile(m_console, &c, 1, &p, NULL);		
+	}
+#else
 	puts(text);
+#endif
 }
 
+
+#ifdef WIN32
+void sad::log::Console::initConsole()
+{
+	m_console = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (m_console != INVALID_HANDLE_VALUE)
+	{
+		CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+		GetConsoleScreenBufferInfo(m_console,&csbiInfo);
+		m_oldattributes = csbiInfo.wAttributes;
+	}
+}
+
+#endif
 
 void sad::log::Console::createConsole()
 {
 #ifdef  WIN32
+	if (AllocConsole())
+	{
+		freopen("CONIN$", "r",stdin);
+		freopen("CONOUT$", "w",stdout);
+		freopen("CONOUT$", "w",stderr);
+		initConsole();
+	}
 #endif	
 }
 
@@ -293,6 +315,7 @@ sad::log::Console::~Console()
 sad::log::Console::Console()
 {
 #ifdef WIN32
+	initConsole();
 #endif	
 }
 
@@ -300,6 +323,10 @@ sad::log::Console::Console()
 void sad::log::Console::clearColorMode()
 {
 #ifdef WIN32
+	if (m_console != INVALID_HANDLE_VALUE)
+	{
+		SetConsoleTextAttribute(m_console, m_oldattributes);
+	}
 #else
 	puts("\033[00m");
 #endif	
@@ -307,9 +334,48 @@ void sad::log::Console::clearColorMode()
 
 
 #ifdef WIN32
+static WORD fg[] = {
+-1, 
+FOREGROUND_RED | FOREGROUND_INTENSITY,
+FOREGROUND_GREEN | FOREGROUND_INTENSITY,
+FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+FOREGROUND_RED ,
+FOREGROUND_GREEN ,
+FOREGROUND_BLUE,
+FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+FOREGROUND_INTENSITY,
+0,
+FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
+FOREGROUND_RED | FOREGROUND_GREEN,
+FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+FOREGROUND_RED | FOREGROUND_BLUE,
+FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY,
+FOREGROUND_GREEN | FOREGROUND_BLUE,
+};
+
+
+static WORD bg[] = {
+-1, 
+BACKGROUND_RED | BACKGROUND_INTENSITY,
+BACKGROUND_GREEN | BACKGROUND_INTENSITY,
+BACKGROUND_BLUE | BACKGROUND_INTENSITY,
+BACKGROUND_RED ,
+BACKGROUND_GREEN ,
+BACKGROUND_BLUE,
+BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY,
+BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE,
+BACKGROUND_INTENSITY,
+0,
+BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY,
+BACKGROUND_RED | BACKGROUND_GREEN,
+BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY,
+BACKGROUND_RED | BACKGROUND_BLUE,
+BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY,
+BACKGROUND_GREEN | BACKGROUND_BLUE,
+};
 
 #else
-
 static const char * fg[] = { "01;", "01;31;", "01;32;", "01;34;", "31;", "32;", "34;", "01;37;", "37;", "02;37;", "30;", "01;33;", "33;", "01;35;", "35;", "01;36;", "36;"};
 static const char * bg[] = { ""    , "41"      , "42"      , "44"      , "41" , "42" , "44" , "47"      , "47" , "47"      ,  "40", "43"      , "43" , "45" ,      "45",  "46"      , "46;"};		
 #endif
@@ -318,8 +384,30 @@ static const char * bg[] = { ""    , "41"      , "42"      , "44"      , "41" , 
 void sad::log::Console::setColorMode(sad::log::Color foreground, sad::log::Color background)
 {
 #ifdef WIN32
+	if (m_console == INVALID_HANDLE_VALUE)
+		return;
+	this->clearColorMode();
+	WORD fattrs = fg[(int)foreground];
+	WORD battrs = bg[(int)background];
+	if (fattrs == (WORD)-1 )
+		fattrs = (m_oldattributes & FOREGROUND_RED)
+			   | (m_oldattributes & FOREGROUND_GREEN)
+			   | (m_oldattributes & FOREGROUND_BLUE)
+			   | (m_oldattributes & FOREGROUND_INTENSITY);
+	if (battrs == (WORD)-1 )
+		battrs = (m_oldattributes & BACKGROUND_RED)
+			   | (m_oldattributes & BACKGROUND_GREEN)
+			   | (m_oldattributes & BACKGROUND_BLUE)
+			   | (m_oldattributes & BACKGROUND_INTENSITY);
+	SetConsoleTextAttribute(m_console, fattrs | battrs);
 #else
 	this->clearColorMode();
 	printf("\033[%s%s%s", fg[(int)foreground], bg[(int)background], "m");
 #endif
+}
+
+
+sad::Log * sad::Log::ref()
+{
+	return sad::Renderer::ref()->log();
 }

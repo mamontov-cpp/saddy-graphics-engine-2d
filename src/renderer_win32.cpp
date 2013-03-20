@@ -1,11 +1,11 @@
 #include "renderer.h"
 #include "texturemanager.h"
-#include "log.h"
+#include "../../include/log/log.h"
 
 
 #ifdef WIN32
 
-#define LOG_WRITE(MESG)    hst::log::inst()->owrite(hst::string(MESG))
+#define LOG_WRITE(MESG)    SL_MESSAGE(MESG)
 #define UNIQUE_CLASS_NAME  "SADDY_RENDERER_WINDOW_INSTANCE_V_2"
 
 
@@ -164,7 +164,7 @@ void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_st
 		{
 			LOG_WRITE("Renderer: changing to fullscreen failed, starting windowed\n");
 			LOG_WRITE("Renderer: ChangeDisplaySettings failed with code ");
-			hst::log::inst()->owrite(result);
+			SL_FATAL(result);
 			LOG_WRITE("\n");
 			m_window.fullscreen=false;
 		}
@@ -267,7 +267,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 	    if (!dp)
 		{
 			LOG_WRITE("Can't SetWindowPos with ");
-			hst::log::inst()->owrite(GetLastError());
+			SL_FATAL(GetLastError());
 			LOG_WRITE("\n");
 		}
 		result=ChangeDisplaySettings(&(this->m_window.scr_settings),CDS_FULLSCREEN);	

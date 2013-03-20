@@ -28,6 +28,10 @@
 #ifndef FORMAT_H_
 #define FORMAT_H_
 
+#ifdef max
+	#undef max
+#endif
+
 #ifdef _MSC_VER
 	#include "stdint.h"
 	#include <float.h>

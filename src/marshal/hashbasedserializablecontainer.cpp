@@ -1,5 +1,7 @@
 #include "marshal/hashbasedserializablecontainer.h"
-#include "../log.h"
+#include "../../include/log/log.h"
+#include "../../include/3rdparty/format/format.h"
+
 #include <stdlib.h>
 
 static const char uid_consonants_table[15][2] = { "b", "c", "d", "f", "g", 
@@ -104,15 +106,13 @@ void HashBasedSerializableContainer::setUid(SerializableObject * obj, const hst:
 {
 	if (m_container.contains(uid))
 	{
-		hst::log::inst()->owrite("HashBasedSerializableContainer::setUid : another object with uid ")
-						 .owrite(uid)
-						 .owrite(" \n");
+		SL_CRITICAL (hst::string("another object with uid ") + uid);
 		return;
 	}
 	if (!m_reverse_container.contains(obj))
 	{
-		hst::log::inst()->owrite("HashBasedSerializableContainer::setUid(obj,").owrite(uid)
-			             .owrite("): object not found in container\n");
+		std::string o = str(fmt::Format("HashBasedSerializableContainer::setUid(obj,({0}): object not found in container") << uid);
+		SL_CRITICAL(o);
 		return;
 	}
 	hst::string old_uid = m_reverse_container[obj];

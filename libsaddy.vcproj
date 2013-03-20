@@ -186,10 +186,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\log.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\orthocamera.cpp"
 				>
 			</File>
@@ -473,6 +469,14 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="log"
+				>
+				<File
+					RelativePath=".\src\log\log.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -501,10 +505,6 @@
 			</File>
 			<File
 				RelativePath=".\include\lightmodel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\log.h"
 				>
 			</File>
 			<File
@@ -810,6 +810,14 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="log"
+				>
+				<File
+					RelativePath=".\include\log\log.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

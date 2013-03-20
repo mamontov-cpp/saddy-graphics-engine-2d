@@ -136,7 +136,7 @@ inline bool loadTex(const char * from,const char * texname)
 	sad::TextureManager::instance()->load(texname,tex);
 	tex->makePOT();
 	if (!res) 
-		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
+		SL_FATAL(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
 	return res;
 }
 inline bool loadSprite(const char * from,const char * texname)
@@ -146,7 +146,7 @@ inline bool loadSprite(const char * from,const char * texname)
 	tex->setAlpha(255,hst::color(255,255,255),90);
 	tex->makePOT();
 	if (!res) 
-		hst::log::inst()->owrite(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
+		SL_FATAL(hst::string("Loading \"")+hst::string(from)+hst::string("\" failed"));
 	
 	tex->makePOT();
 	
@@ -231,10 +231,27 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
-	
-
 	bool res=true; //!< Is loading succeeded?
-		
+	
+	sad::log::FileTarget * fl = new sad::log::FileTarget();
+	fl->open("log.txt");
+	sad::log::ConsoleTarget * tg = new sad::log::ConsoleTarget(
+		"{0}: [{1}] {3}{2}{4}", 6, true,
+#ifdef _MSC_VER
+		true
+#else
+		false
+#endif
+	);
+	sad::Log::ref()->addTarget(fl).addTarget(tg);
+
+	SL_FATAL   ("This is sad::Game");
+	SL_CRITICAL("It\'s a game about a very sad");
+	SL_WARNING ("smiley face");
+	SL_MESSAGE ("which wants to survive");
+	SL_DEBUG   ("against other smiley faces");
+	SL_USER    ("it\'s sure hard for him...", "END");
+
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
 	
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
@@ -249,14 +266,14 @@ int main(int argc, char** argv)
 	//res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
-		hst::log::inst()->owrite(hst::string("Loading \"times_large\" failed\n"));
+		SL_FATAL(hst::string("Loading \"times_large\" failed\n"));
 	sad::Renderer::ref()->fonts()->add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
 	res=res && res2;
 	if (!res2)
-		hst::log::inst()->owrite(hst::string("Loading \"times_lg\" failed\n"));
+		SL_FATAL(hst::string("Loading \"times_lg\" failed\n"));
 	sad::Renderer::ref()->fonts()->add(fnt2,"times_lg");
 
 	//Loading sprites
@@ -265,11 +282,10 @@ int main(int argc, char** argv)
     res=res && loadSprite("examples/objects.bmp","objects"); 
     if (!res)
 	{
-		hst::log::inst()->write(hst::string("Resource loading failed!\n Exiting...\n"));
-		hst::log::inst()->save("log.txt");
+		SL_FATAL(hst::string("Resource loading failed!\n Exiting...\n"));
 		return 1;
 	}
-	hst::log::inst()->owrite(hst::string("Resources loaded...\n"));
+	SL_MESSAGE(hst::string("Resources loaded...\n"));
 	
 	sad::Scene * sc= new sad::Scene();
 	sad::Renderer::ref()->setCurrentScene(sc);
@@ -333,8 +349,6 @@ int main(int argc, char** argv)
 	printf("Engine started!\n");
 	sad::Renderer::ref()->toggleFixedOn();
 	sad::Renderer::ref()->run();
-	hst::log::inst()->save("log.txt");
-
 	return 0;
 }
 
