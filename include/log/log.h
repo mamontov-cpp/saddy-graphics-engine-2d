@@ -139,6 +139,40 @@ namespace sad
 			// Performs nothing
 			virtual ~Target();
 		};
+		/*! A log, that targets a file. 
+			File is opened at some other point, because it can fail
+		 */
+		class File: public sad::log::Target
+		{
+			private:
+				FILE * m_file; //!< Inner file handle
+				hst::string m_format; //!< Format for outputting the message
+			public:
+				/*! Creates a new file with specified format.
+					Format defined as followes
+					{0} - current time
+					{1} - message priority
+					{2} - subsystem + ":", nothing if subsystem is not specified. For example: "commit():", ""
+					{3} - file and line through ', ', nothing if not specified
+					{4} - message text
+					\param[in] format format string 
+					\param[in] maxpriority Maximum priority for outputting. 
+											Messages with priority maxpriority and bigger this are discarded
+				 */
+				File(hst::string format = "{0}: [{1}] {3} {2} {4}", int maxpriority = 6);
+				/*! Opens a file
+					\param[in] filename name of file
+					\return true if ok
+				 */
+				bool open(const hst::string & filename);
+				/*! Receives a messages from targetting information
+					\param[in] message, taken message
+				 */
+				virtual void receive(const sad::log::Message & message);
+				/*! Destructs a file
+				 */
+				virtual ~File();
+		};
 		
 	};
 	
