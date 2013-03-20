@@ -5,6 +5,8 @@
  */
 #include "../3rdparty/format/format.h"
 #include "../templates/hlvector.hpp"
+#include "../templates/hhash.hpp"
+#include "../templates/hpair.hpp"
 #include "../templates/hstring.h"
 #include "../marshal/actioncontext.h"
 #include <ctime>
@@ -214,6 +216,9 @@ namespace sad
 				sad::log::Console * m_console; //!< A handle-like console
 				int         m_max_priority; //!< Priority of max message
 				hst::string m_format; //!< Format for outputting the message
+				hst::hash<sad::log::Priority, 
+				          hst::pair<sad::log::Color, sad::log::Color>
+						 > m_coloring; //!< Color schema (first is back, second is fg)
 				/*! Formats a subsystem part, by default adds ": "
 					\return format string
 				 */
