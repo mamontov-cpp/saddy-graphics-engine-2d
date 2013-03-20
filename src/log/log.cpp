@@ -42,7 +42,7 @@ sad::log::Message::Message(const hst::string & message,
 }
 
 
-hst::string sad::log::Message::fileline()
+hst::string sad::log::Message::fileline() const
 {
 	if (!m_file)
 		return hst::string();
@@ -90,7 +90,7 @@ void sad::Log::broadcast(const sad::log::Message & m)
 	}
 }
 
-hst::string sad::Log::subsystem()
+hst::string sad::Log::subsystem() 
 {
 	if (m_actions_stack.count() != 0)
 	{
@@ -130,4 +130,63 @@ sad::Log & sad::Log::removeTarget(sad::log::Target * t)
 	return *this;
 }
 
+std::string sad::log::FileTarget::formatSubsystem(const sad::log::Message & message)
+{
+	if (message.subsystem().length() == 0)
+		return "";
+	std::string result = message.subsystem().data();
+	result += ": ";
+	return result;
+}
 
+std::string sad::log::FileTarget::formatFileLine(const sad::log::Message & message)
+{
+	if (message.fileline().length() == 0)
+		return "";
+	std::string result = message.fileline().data();
+	result += " ";
+	return result;
+}
+
+sad::log::FileTarget::~FileTarget()
+{
+	close();
+}
+
+
+void sad::log::FileTarget::close()
+{
+	if (m_file) 
+		fclose(m_file);
+	m_file = NULL;
+}
+
+
+sad::log::FileTarget::FileTarget(hst::string format, int maxpriority)
+{
+	m_format = format;
+	m_max_priority = maxpriority;
+	m_file = NULL;
+}
+
+
+bool sad::log::FileTarget::open(const hst::string & filename)
+{
+	close();
+	m_file = fopen(filename.data(), "wt");
+	return m_file != NULL;
+}
+
+void sad::log::FileTarget::receive(const sad::log::Message & message)
+{
+	if (((int)message.priority()) >= m_max_priority || m_file == NULL)
+		return;
+	std::string mesg = str(fmt::Format(m_format.data()) 
+						   << message.stime() 
+						   << message.spriority()
+						   << formatSubsystem(message).data()
+						   << formatFileLine(message).data()
+						   << message.message().data()
+						  );
+	fputs(mesg.c_str(), m_file);
+}

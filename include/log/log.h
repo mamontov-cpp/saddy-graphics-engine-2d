@@ -113,7 +113,7 @@ namespace sad
 				{ return m_user_priority; } //!< Returns a user priority
 				/*! Returns string like "name of file", "line"				
 				 */
-				hst::string fileline();
+				hst::string fileline() const;
 				/*! Returns a stringified priority
 				 */
 				const char * spriority() const;
@@ -142,10 +142,11 @@ namespace sad
 		/*! A log, that targets a file. 
 			File is opened at some other point, because it can fail
 		 */
-		class File: public sad::log::Target
+		class FileTarget: public sad::log::Target
 		{
 			protected:
 				FILE * m_file; //!< Inner file handle
+				int         m_max_priority; //!< Priority of max message
 				hst::string m_format; //!< Format for outputting the message
 				/*! Formats a subsystem part, by default adds ": "
 					\return format string
@@ -155,19 +156,22 @@ namespace sad
 					\return format string
 				 */
 				virtual std::string formatFileLine(const sad::log::Message & message);
+				/*! Closes a handle, if can, sets it to null
+				 */
+				virtual void close();
 			public:
 				/*! Creates a new file with specified format.
 					Format defined as followes
 					{0} - current time
 					{1} - message priority
 					{2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
-					{3} - file and line through ', ', nothing if not specified
+					{3} - formatFileLine() result, file and line through ', ', nothing if not specified
 					{4} - message text
 					\param[in] format format string 
 					\param[in] maxpriority Maximum priority for outputting. 
 											Messages with priority maxpriority and bigger this are discarded
 				 */
-				File(hst::string format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
+				FileTarget(hst::string format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
 				/*! Opens a file
 					\param[in] filename name of file
 					\return true if ok
@@ -179,7 +183,7 @@ namespace sad
 				virtual void receive(const sad::log::Message & message);
 				/*! Destructs a file
 				 */
-				virtual ~File();
+				virtual ~FileTarget();
 		};
 		
 	};
