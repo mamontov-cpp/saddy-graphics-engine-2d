@@ -131,18 +131,21 @@ namespace sad
 		class Console
 		{
 		 public:
+			 /*! Creates a new console
+		          */
+			 Console();
 			 /*! Used to allocate console on Windows
 			  */
-		    virtual void createConsole() = 0;
+		        virtual void createConsole() ;
 			 /*! Sets a color mode for console
 			  */
-			virtual void setColorMode(sad::log::Color foreground, sad::log::Color background) = 0; 
+			virtual void setColorMode(sad::log::Color foreground, sad::log::Color background) ; 
 			/*! Used to restore color modes in console
 			 */
-			virtual void clearColorMode() = 0;
+			virtual void clearColorMode();
 			/*! Prines a text, using color mode
 			 */
-			virtual void print(const char * text) = 0;
+			virtual void print(const char * text) ;
 			/*! Handles console
 			 */
 			virtual ~Console();
@@ -194,7 +197,7 @@ namespace sad
 					\param[in] maxpriority Maximum priority for outputting. 
 											Messages with priority maxpriority and bigger this are discarded
 				 */
-				FileTarget(hst::string format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
+				FileTarget(const hst::string & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
 				/*! Opens a file
 					\param[in] filename name of file
 					\return true if ok
@@ -217,7 +220,7 @@ namespace sad
 				int         m_max_priority; //!< Priority of max message
 				hst::string m_format; //!< Format for outputting the message
 				hst::hash<sad::log::Priority, 
-				          hst::pair<sad::log::Color, sad::log::Color>
+				                 hst::pair<sad::log::Color, sad::log::Color>
 						 > m_coloring; //!< Color schema (first is back, second is fg)
 				/*! Formats a subsystem part, by default adds ": "
 					\return format string
@@ -227,10 +230,34 @@ namespace sad
 					\return format string
 				 */
 				virtual std::string formatFileLine(const sad::log::Message & message);
+				/*!  Fills colors with priorities
+				 */
+				void createColoredOutput();
+				/*! Fills colors with normal data
+		                 */
+				void createNormalOutput();
 		  public:
+				/*! Creates console target  with specified format.
+					Format defined as followes
+					{0} - current time
+					{1} - message priority
+					{2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
+					{3} - formatFileLine() result, file and line through ', ', nothing if not specified
+					{4} - message text
+					\param[in] format format string 
+					\param[in] maxpriority Maximum priority for outputting. 
+											Messages with priority maxpriority and bigger this are discarded
+					\param[in] colored  whether output should be colored
+					\param[in] allocate_console whether we should allocate console
+				 */
+				ConsoleTarget(const hst::string & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6,  bool colored =  true, bool allocate_console = false);
+				/*! Receives a messages from targetting information
+				     \param[in] message, taken message
+				 */
+				virtual void receive(const sad::log::Message & message);
 				/*! Destroys a target
 				 */
-			    ~ConsoleTarget();
+			        ~ConsoleTarget();
 		};
 	};
 	
