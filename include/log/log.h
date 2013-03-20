@@ -124,6 +124,27 @@ namespace sad
 				 */
 				inline int line()  const { return m_line; }
 		};
+		/*! A console class, which implements all console functions
+		 */
+		class Console
+		{
+		 public:
+			 /*! Used to allocate console on Windows
+			  */
+		    virtual void createConsole() = 0;
+			 /*! Sets a color mode for console
+			  */
+			virtual void setColorMode(sad::log::Color foreground, sad::log::Color background) = 0; 
+			/*! Used to restore color modes in console
+			 */
+			virtual void clearColorMode() = 0;
+			/*! Prines a text, using color mode
+			 */
+			virtual void print(const char * text) = 0;
+			/*! Handles console
+			 */
+			virtual ~Console();
+		};
 		/*! A log target class is the one, which acts and works with
 			output, redirecting it to class or console, depending on implementation 
 			

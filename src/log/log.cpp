@@ -190,3 +190,9 @@ void sad::log::FileTarget::receive(const sad::log::Message & message)
 						  );
 	fputs(mesg.c_str(), m_file);
 }
+
+
+sad::log::Console::~Console()
+{
+
+}
