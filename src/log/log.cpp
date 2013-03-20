@@ -57,15 +57,47 @@ hst::string sad::log::Message::fileline()
 	return o;
 }
 
-
-hst::string LogStringCaster<hst::string>::cast(const hst::string> & string)
+hst::string sad::log::StringCaster<hst::string>::cast(const hst::string & string)
 {
 	return string;
 }
 
-std::string LogStringCaster<std::string>::cast(const std::string> & string)
+
+hst::string sad::log::StringCaster<std::string>::cast(const std::string & string)
 {
 	return string.c_str();
 }
+
+
+sad::log::Target::~Target()
+{
+
+}
+
+sad::Log::~Log()
+{
+	for(int i = 0; i < m_targets.count(); i++)
+	{
+		delete m_targets[i];
+	}
+}
+
+void sad::Log::broadcast(const sad::log::Message & m)
+{
+	for(int i = 0; i < m_targets.count(); i++)
+	{
+		m_targets[i]->receive(m);
+	}
+}
+
+hst::string sad::Log::subsystem()
+{
+	if (m_actions_stack.count() != 0)
+	{
+		return m_actions_stack[m_actions_stack.count() - 1];
+	}
+	return "";
+}
+
 
 

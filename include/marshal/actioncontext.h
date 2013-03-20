@@ -3,8 +3,8 @@
 
 	Here defined an action context, that can return current action string
  */
-#include <templates/hstring.h>
-#include <templates/hlvector.hpp>
+#include "../templates/hstring.h"
+#include "../templates/hlvector.hpp"
 #pragma once
 
 /*! \class ActionContext

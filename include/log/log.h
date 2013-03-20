@@ -4,7 +4,9 @@
 	Describes a basic log and log parameters
  */
 #include "../3rdparty/format/format.h"
+#include "../templates/hlvector.hpp"
 #include "../templates/hstring.h"
+#include "../marshal/actioncontext.h"
 #include <ctime>
 #include <string>
 #pragma once
@@ -14,22 +16,25 @@ namespace sad
 	namespace log
 	{
 		template<typename T>
-		class LogStringCaster
+		class StringCaster
 		{
+	     public:
 			/*! A caster for helping string find their ways
 			 */
 			static hst::string cast(const T & string);
 		};
 		template<>
-		class LogStringCaster<hst::string>
+		class StringCaster<hst::string>
 		{
+		 public:
 			/*! A caster for helping string find their ways
 			 */
-			static hst::string cast(const hst::string> & string);
+			static inline hst::string cast(const hst::string & string);
 		};
 		template<>
-		class LogStringCaster<std::string>
+		class StringCaster<std::string>
 		{
+		 public:
 			/*! A caster for helping string find their ways
 			 */
 			static hst::string cast(const std::string & string);
@@ -119,9 +124,45 @@ namespace sad
 				 */
 				inline int line()  const { return m_line; }
 		};
+		/*! A log target class is the one, which acts and works with
+			output, redirecting it to class or console, depending on implementation 
+			
+			Note, that this is a basic class, so it is abstract
+		 */
+		class Target
+		{
+		public:
+			/*! Receives a messages from targetting information
+				\param[in] message, taken message
+			 */
+			virtual void receive(const sad::log::Message & message) = 0;
+			// Performs nothing
+			virtual ~Target();
+		};
+		
 	};
 	
-	
+	/*! Log class takes frontend work, builds a messages and broadcasts it
+		it to all targets
+	 */
+	class Log: public ActionContext
+	{
+	 protected:
+	    /*! A vector of targets
+		 */
+		hst::vector<sad::log::Target *> m_targets;
+		/*! Broadcasts a message to all targets
+			\param[in] m message
+		 */
+		virtual void broadcast(const sad::log::Message & m);
+		/*! Returns a current subsystem
+			\retrun subsystem
+		 */
+		virtual hst::string subsystem();
+	 public:
+		
+		virtual ~Log();
+	};
 	
 
 
