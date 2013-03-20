@@ -57,3 +57,15 @@ hst::string sad::log::Message::fileline()
 	return o;
 }
 
+
+hst::string LogStringCaster<hst::string>::cast(const hst::string> & string)
+{
+	return string;
+}
+
+std::string LogStringCaster<std::string>::cast(const std::string> & string)
+{
+	return string.c_str();
+}
+
+
