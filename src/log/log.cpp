@@ -162,7 +162,7 @@ void sad::log::FileTarget::close()
 }
 
 
-sad::log::FileTarget::FileTarget(hst::string format, int maxpriority)
+sad::log::FileTarget::FileTarget(const hst::string & format, int maxpriority)
 {
 	m_format = format;
 	m_max_priority = maxpriority;
@@ -218,5 +218,108 @@ std::string sad::log::ConsoleTarget::formatFileLine(const sad::log::Message & me
 
 sad::log::ConsoleTarget::~ConsoleTarget()
 {
+	m_console->clearColorMode();
 	delete m_console;
+}
+
+
+sad::log::ConsoleTarget::ConsoleTarget(const hst::string & format, int maxpriority,  bool colored , bool allocate_console )
+{
+	m_format = format;
+	m_max_priority = maxpriority;
+	m_console = new sad::log::Console();
+	if (colored)	this->createColoredOutput(); 
+	else                  this->createNormalOutput();
+	if (allocate_console) 
+		m_console->createConsole();
+}
+
+
+void sad::log::ConsoleTarget::createColoredOutput()
+{
+	m_coloring.insert(sad::log::FATAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_RED));
+	m_coloring.insert(sad::log::CRITICAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_MAGENTA));
+	m_coloring.insert(sad::log::WARNING, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_YELLOW));
+	m_coloring.insert(sad::log::MESSAGE, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::WHITE));
+	m_coloring.insert(sad::log::DEBUG, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_BLUE));
+	m_coloring.insert(sad::log::USER, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_CYAN));
+}
+
+
+void sad::log::ConsoleTarget::createNormalOutput()
+{
+	m_coloring.insert(sad::log::FATAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::CRITICAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::WARNING, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::MESSAGE, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::DEBUG, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::USER, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+}
+
+void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
+{
+	if (((int)message.priority()) >= m_max_priority)
+		return;
+	std::string mesg = str(fmt::Format(m_format.data()) 
+						   << message.stime() 
+						   << message.spriority()
+						   << formatSubsystem(message).data()
+						   << formatFileLine(message).data()
+						   << message.message().data()
+						  );
+	m_console->setColorMode(m_coloring[message.priority()].p2(),  m_coloring[message.priority()].p1());
+	m_console->print(mesg.c_str());
+}
+
+
+
+void sad::log::Console::print(const char * text)
+{
+	puts(text);
+}
+
+
+void sad::log::Console::createConsole()
+{
+#ifdef  WIN32
+#endif	
+}
+
+sad::log::Console::~Console()
+{
+	this->clearColorMode();
+}
+
+sad::log::Console::Console()
+{
+#ifdef WIN32
+#endif	
+}
+
+
+void sad::log::Console::clearColorMode()
+{
+#ifdef WIN32
+#else
+	puts("\033[00m");
+#endif	
+}
+
+
+#ifdef WIN32
+
+#else
+
+static const char * fg[] = { "01;", "01;31;", "01;32;", "01;34;", "31;", "32;", "34;", "01;37;", "37;", "02;37;", "30;", "01;33;", "33;", "01;35;", "35;", "01;36;", "36;"};
+static const char * bg[] = { ""    , "41"      , "42"      , "44"      , "41" , "42" , "44" , "47"      , "47" , "47"      ,  "40", "43"      , "43" , "45" ,      "45",  "46"      , "46;"};		
+#endif
+
+
+void sad::log::Console::setColorMode(sad::log::Color foreground, sad::log::Color background)
+{
+#ifdef WIN32
+#else
+	this->clearColorMode();
+	printf("\033[%s%s%s", fg[(int)foreground], bg[(int)background], "m");
+#endif
 }
