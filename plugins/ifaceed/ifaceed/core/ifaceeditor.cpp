@@ -25,8 +25,11 @@
 
 IFaceEditor::IFaceEditor()
 {
+	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::DEBUG);
+	fh->open("user.txt");
+	this->log()->addTarget(fh);
 	m_target = new sad::log::FileTarget();
-	m_target->open("log.txt");
+	m_target->open("full.txt");
 	this->log()->addTarget(m_target);
 
 	m_db = NULL;
