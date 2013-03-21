@@ -1,6 +1,8 @@
 #include "background.h"
 #include "../renderer.h"
 
+using namespace sad;
+
 SAD_DECLARE(Background,Sprite)
 
 #define SCREEN_HEIGHT  (sad::Renderer::ref()->settings().height())

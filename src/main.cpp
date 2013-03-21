@@ -31,64 +31,63 @@ void rend_pause(const sad::Event & o)
 }
 void rend_mousemove(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		::s3d::point p=PlayerInstance::i()->middle();
+		::s3d::point p=PlayerInstance::ref()->middle();
 		float af=atan2(o.y-p.y(),o.x-p.x());
-		PlayerInstance::i()->setAngle(af);
+		PlayerInstance::ref()->setAngle(af);
 	}
 }
 void rend_mouseclick(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		PlayerInstance::i()->shoot();
-		//hst::log::inst()->write(o.x).write(hst::string(" ")).write(o.y).write(hst::string(" ")).write(o.z).write(hst::string("\n"));
+		PlayerInstance::ref()->shoot();
 	}
 }
 #define P_SPEED 1.0
 #define N_SPEED -1.0
 void rend_up(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		PlayerInstance::i()->key()=o.key;
-		PlayerInstance::i()->toggleVelocityY(P_SPEED);
+		PlayerInstance::ref()->key()=o.key;
+		PlayerInstance::ref()->toggleVelocityY(P_SPEED);
 	}
 }
 void rend_down(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		PlayerInstance::i()->key()=o.key;
-		PlayerInstance::i()->toggleVelocityY(N_SPEED);
+		PlayerInstance::ref()->key()=o.key;
+		PlayerInstance::ref()->toggleVelocityY(N_SPEED);
 	}
 }
 void rend_speed_zero(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		if (PlayerInstance::i()->key()!=o.key) 
+		if (PlayerInstance::ref()->key()!=o.key) 
 			return;
-		PlayerInstance::i()->toggleVelocityX(0.0f);
-		PlayerInstance::i()->toggleVelocityY(0.0f);
+		PlayerInstance::ref()->toggleVelocityX(0.0f);
+		PlayerInstance::ref()->toggleVelocityY(0.0f);
 	}
 }
 
 void rend_left(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		PlayerInstance::i()->key()=o.key;
-		PlayerInstance::i()->toggleVelocityX(N_SPEED);
+		PlayerInstance::ref()->key()=o.key;
+		PlayerInstance::ref()->toggleVelocityX(N_SPEED);
 	}
 }
 void rend_right(const sad::Event & o)
 {
-	if (PlayerInstance::i() && !paused)
+	if (PlayerInstance::ref() && !paused)
 	{
-		PlayerInstance::i()->key()=o.key;
-		PlayerInstance::i()->toggleVelocityX(P_SPEED);
+		PlayerInstance::ref()->key()=o.key;
+		PlayerInstance::ref()->toggleVelocityX(P_SPEED);
 	}
 }
 
@@ -160,7 +159,7 @@ bool toggle_idle(int)
 
 	sc->performCleanup();
 	killTestingTask();
-	sc->markForAddition(new Background("title"));
+	sc->markForAddition(new sad::Background("title"));
 	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
 	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
 	
@@ -175,7 +174,7 @@ bool toggle_play(int)
 
 	sc->performCleanup();
 	addTestingTask();
-	sc->markForAddition(new Background("background"));
+	sc->markForAddition(new sad::Background("background"));
 	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
 	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
     sc->markForAddition(new Player(hPointF(320.0,240.0)));
@@ -208,7 +207,7 @@ void playerenemybullet(Collidable * player, Collidable * enemybullet)
   --player_health_point;
   if (player_health_point<=0) 
   {
-	  PlayerInstance::i()->die(); 
+	  PlayerInstance::ref()->die(); 
 	  StateMachine::pushState(IDLE_STATE); 
   }
 }

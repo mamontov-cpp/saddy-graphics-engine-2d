@@ -208,7 +208,7 @@ class CollisionManager
 	 /*! Returns an instance of objects
 		 \return instance
 	 */
-	 static CollisionManager * instance();
+	 static CollisionManager * ref();
  public:
     /*! Binds a new handler and tester to object
 		\param[in] id1    first object id

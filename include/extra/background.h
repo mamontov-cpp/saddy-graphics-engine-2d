@@ -6,6 +6,8 @@
 #include "../sprite.h"
 #include "../texturemanager.h"
 
+namespace sad
+{
 class Background: public Sprite
 {
  SAD_NODE
@@ -23,3 +25,5 @@ class Background: public Sprite
 		*/
 		~Background();
 };
+
+}

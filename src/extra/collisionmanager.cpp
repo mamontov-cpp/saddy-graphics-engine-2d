@@ -100,7 +100,7 @@ void CollisionManager::free()
 	delete CollisionManager::Instance;
 	CollisionManager::Instance=NULL;
 }
-CollisionManager * CollisionManager::instance()
+CollisionManager * CollisionManager::ref()
 {
 	if (!CollisionManager::Initialized)
 	{
@@ -196,7 +196,7 @@ void CollisionManager::testEveryGroup()
 }
 void CollisionManager::bind(int id1,int id2, ObjectTester tester, CollisionHandler * h)
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_test_tasks_adds_lock.lock();
 		Instance->m_task_to_add<<hst::pair< hst::pair<int,int>,
@@ -212,7 +212,7 @@ void CollisionManager::bind(int id1,int id2, ObjectTester tester, CollisionHandl
 
 void CollisionManager::unbind(int id1,int id2)
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_test_tasks_remove_lock.lock();
 		Instance->m_task_for_removal<<hst::pair<int,int>(id1,id2);
@@ -221,7 +221,7 @@ void CollisionManager::unbind(int id1,int id2)
 }
 void CollisionManager::add(int id, void * obj)
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_add_lock.lock();
 		Instance->m_adding_tasks<<hst::pair<int,void*>(id,obj);
@@ -231,7 +231,7 @@ void CollisionManager::add(int id, void * obj)
 
 void CollisionManager::remove(void * obj)
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_remove_lock.lock();
 		Instance->m_remove_tasks<<obj;
@@ -240,14 +240,14 @@ void CollisionManager::remove(void * obj)
 }
 void CollisionManager::rescan()
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_rescan_line=true;
 	}
 }
 void CollisionManager::flush()
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->m_objects.clear();
 		Instance->m_reverse_objects.clear();
@@ -257,7 +257,7 @@ void CollisionManager::flush()
 }
 void CollisionManager::test()
 {
-	if (instance())
+	if (ref())
 	{
 		Instance->commitAddingTestTasks();
 		Instance->commitObjectAdding();
@@ -287,9 +287,9 @@ void addTestingTask()
 
 void killTestingTask()
 {
-	if (CTTaskInstance::i())
+	if (CTTaskInstance::ref())
 	{
-	 CTTaskInstance::i()->die();
+	 CTTaskInstance::ref()->die();
 	 CTTaskInstance::zero();
 	}
 }
