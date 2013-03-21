@@ -57,6 +57,7 @@ hst::point<hst::D3,float> sad::Renderer::mousePos()
 
 void sad::Renderer::releaseWindow()
 {
+	SL_SCOPE("sad::Renderer::releaseWindow()");
     if (m_window.ctx)
     {
         if (!glXMakeCurrent(m_window.dpy, None, NULL))
@@ -72,6 +73,7 @@ void sad::Renderer::releaseWindow()
 
 bool sad::Renderer::XContextInit()
 {
+	SL_SCOPE("sad::Renderer::XContextInit()");
 	static bool init=false;
         if (!init)
         {
@@ -83,13 +85,13 @@ bool sad::Renderer::XContextInit()
   	m_window.vi = glXChooseVisual(m_window.dpy, m_window.screen, attrListDbl);
   	if (m_window.vi == NULL)
   	{
-        	m_window.vi = glXChooseVisual(m_window.dpy, m_window.screen, attrListSgl);
-        	SL_CRITICAL("Can't init doublebuffering, defaulting to singlebuffering");
+        m_window.vi = glXChooseVisual(m_window.dpy, m_window.screen, attrListSgl);
+        SL_CRITICAL("Can\'t init doublebuffering, defaulting to singlebuffering");
   	}
   	if (m_window.vi==NULL)
   	{
-  		SL_FATAL("Can't init XVisualInfo, quitting...");
-        	return false;
+  		SL_FATAL("Can\'t init XVisualInfo, quitting...");
+        return false;
   	}
   	m_window.ctx = glXCreateContext(m_window.dpy, m_window.vi, 0, GL_TRUE);
          init=true;
@@ -98,6 +100,7 @@ bool sad::Renderer::XContextInit()
 }
 bool sad::Renderer::createWindow()
 {
+  SL_SCOPE("sad::Renderer::createWindow()");
   Colormap cmap;
   Atom wmDelete;
   X11Window winDummy;
@@ -125,7 +128,7 @@ bool sad::Renderer::createWindow()
  if (!initGLRendering())
  {
      this->releaseWindow();
-     SL_FATAL("Can't init GL rendering\n");
+     SL_FATAL("Can\'t init GL rendering\n");
      return false;
  }
  
