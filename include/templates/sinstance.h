@@ -17,7 +17,7 @@ public:
 	/*! Declares an instance
 		\return instance
 	*/
-	static inline _Class * i() {return m_instance; }
+	static inline _Class * ref() {return m_instance; }
 	/*! Sets an instance for data
 		\param[in] p new instance
 	*/
