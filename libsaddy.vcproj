@@ -257,6 +257,10 @@
 				Name="templates"
 				>
 				<File
+					RelativePath=".\src\templates\closure.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\templates\hhash.cpp"
 					>
 				</File>
@@ -570,6 +574,10 @@
 			<Filter
 				Name="templates"
 				>
+				<File
+					RelativePath=".\include\templates\closure.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\templates\habstract.hpp"
 					>
