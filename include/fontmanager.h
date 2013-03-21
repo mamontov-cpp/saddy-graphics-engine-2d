@@ -102,7 +102,7 @@ namespace sad
 			FontManager();
 			/*! Instance of font manager
 			 */
-			static FontManager * instance();
+			static FontManager * ref();
 		    /*! Adds a font and associates a key to it
 			    \param[in] font font pointer
 				\param[in] name associated name
