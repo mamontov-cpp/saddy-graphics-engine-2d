@@ -256,7 +256,6 @@ int main(int argc, char** argv)
 	
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	
-	return 0;
 	
 	SL_MESSAGE("Renderer successfully initialized!");	
 	srand(time(NULL));
