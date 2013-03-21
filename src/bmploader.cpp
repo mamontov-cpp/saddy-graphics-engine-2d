@@ -116,7 +116,7 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 }
 bool  sad::Texture::loadBMP(FILE * file)
 {
-	sad::TextureLoader * load = sad::TextureManager::instance()->loader("BMP");
+	sad::TextureLoader * load = sad::TextureManager::ref()->loader("BMP");
 	return load->load(file, this);
 }
 bool sad::Texture::loadBMP(const hst::string &filename)

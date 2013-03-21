@@ -25,7 +25,7 @@ class MovingObject: public Collidable
 	 /*! Only calls a parent constructor 
 	 */
 	 inline MovingObject(const hst::rect< ::s3d::point > & rect,
-		 const hRectF & texrect):Collidable(sad::TextureManager::instance()->get("objects"),rect,texrect)
+		 const hRectF & texrect):Collidable(sad::TextureManager::ref()->get("objects"),rect,texrect)
 	 {
 		 m_angle=0;
 	 }

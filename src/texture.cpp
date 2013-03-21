@@ -189,7 +189,7 @@ bool Texture::load(const hst::string & filename)
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	sad::TextureLoader * l = sad::TextureManager::instance()->loader(ff);
+	sad::TextureLoader * l = sad::TextureManager::ref()->loader(ff);
 	if (l)
 	{
 		FILE * fl = fopen(filename.data(), "rb");

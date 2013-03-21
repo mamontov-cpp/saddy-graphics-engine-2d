@@ -22,7 +22,6 @@ namespace sad
 		os::mutex                        m_m;         //!< Mutex to block side effects		
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
-		static void freeInstance();
 	public:
 		TextureManager();
 		/*! Builds all mipmaps
@@ -31,7 +30,7 @@ namespace sad
 		/*! Current instance
 		    \return current instance of manager
 		*/
-		static TextureManager * instance();
+		static TextureManager * ref();
 		/*! Destructor
 		*/
 		~TextureManager();
