@@ -1,6 +1,6 @@
 #include "ftfont.h"
 #include <assert.h>
-#include <log.h>
+#include <log/log.h>
 #include <ft2build.h>
 #include <freetype/freetype.h>
 #include <freetype/ftglyph.h>
@@ -276,7 +276,7 @@ bool FTFont::buildHeightFont(unsigned int height)
 		// Actual build stuff
 		font->m_texs = new GLuint[256];
 		if (font->m_texs == NULL) {
-			hst::log::inst()->owrite(hst::string("Memory allocation error at")).owrite(hst::string(__FILE__)).owrite(__LINE__);
+			SL_FATAL("Memory allocation error");
 			delete font;
 			result  = false;
 		}

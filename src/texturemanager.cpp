@@ -98,7 +98,7 @@ sad::TextureContainer * sad::TextureManager::getContainer(const hst::string & co
 	return r;
 }
 
-sad::TextureManager * sad::TextureManager::instance()
+sad::TextureManager * sad::TextureManager::ref()
 {
 	return sad::Renderer::ref()->textures();
 }
