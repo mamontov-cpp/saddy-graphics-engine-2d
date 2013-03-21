@@ -8,6 +8,7 @@
 #include "../templates/hpair.hpp"
 #include "../templates/hstring.h"
 #include "../marshal/actioncontext.h"
+#include "../os/mutex.h"
 #include <ctime>
 #include <sstream>
 #include <string>
@@ -274,7 +275,8 @@ namespace sad
 	class Log: public LoggingActionContext
 	{
 	 protected:
-	    /*! A vector of targets
+	        os::mutex m_lock;
+	        /*! A vector of targets
 		 */
 		hst::vector<sad::log::Target *> m_targets;
 		/*! Returns a current subsystem

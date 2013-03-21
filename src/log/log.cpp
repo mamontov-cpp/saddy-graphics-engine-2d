@@ -77,10 +77,12 @@ sad::Log::~Log()
 
 void sad::Log::broadcast(const sad::log::Message & m)
 {
+	m_lock.lock();
 	for(int i = 0; i < m_targets.count(); i++)
 	{
 		m_targets[i]->receive(m);
 	}
+	m_lock.unlock();
 }
 
 hst::string sad::Log::subsystem() 
@@ -113,13 +115,17 @@ void sad::Log::createAndBroadcast(const hst::string & mesg,
 
 sad::Log & sad::Log::addTarget(sad::log::Target * t)
 {
+	m_lock.lock();
 	m_targets << t;
+	m_lock.unlock();
 	return *this;
 }
 
 sad::Log & sad::Log::removeTarget(sad::log::Target * t)
 {
+	m_lock.lock();
 	m_targets.remove(t);
+	m_lock.unlock();
 	return *this;
 }
 

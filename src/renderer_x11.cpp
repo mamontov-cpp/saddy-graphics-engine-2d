@@ -1,8 +1,6 @@
 #include "renderer.h"
 #include "texturemanager.h"
-#include "log.h"
 
-#define LOG_WRITE(MESG)    hst::log::inst()->owrite(hst::string(MESG))
 
 //Single buffered
 static int attrListSgl[] = {GLX_RGBA, GLX_RED_SIZE, 1, 
@@ -63,7 +61,7 @@ void sad::Renderer::releaseWindow()
     {
         if (!glXMakeCurrent(m_window.dpy, None, NULL))
         {
-            printf("Renderer: Could not release drawing context.\n");
+            SL_CRITICAL("Could not release drawing context");
         }
         glXDestroyContext(m_window.dpy, m_window.ctx);
         m_window.ctx = NULL;
@@ -86,11 +84,11 @@ bool sad::Renderer::XContextInit()
   	if (m_window.vi == NULL)
   	{
         	m_window.vi = glXChooseVisual(m_window.dpy, m_window.screen, attrListSgl);
-        	LOG_WRITE("Renderer: can't init doublebuffering, defaulting to singlebuffering\n");
+        	SL_CRITICAL("Can't init doublebuffering, defaulting to singlebuffering");
   	}
   	if (m_window.vi==NULL)
   	{
-  		LOG_WRITE("Renderer: can't init XVisualInfo, quitting\n");
+  		SL_FATAL("Can't init XVisualInfo, quitting...");
         	return false;
   	}
   	m_window.ctx = glXCreateContext(m_window.dpy, m_window.vi, 0, GL_TRUE);
@@ -127,7 +125,7 @@ bool sad::Renderer::createWindow()
  if (!initGLRendering())
  {
      this->releaseWindow();
-     LOG_WRITE("Renderer: can't init GL rendering\n");
+     SL_FATAL("Can't init GL rendering\n");
      return false;
  }
  
