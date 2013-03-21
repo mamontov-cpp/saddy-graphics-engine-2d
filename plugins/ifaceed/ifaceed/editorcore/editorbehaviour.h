@@ -4,7 +4,7 @@
 	Describes editor behaviour, as amount of states with one state active, that handles event
  */
 #include "input.h"
-#include "log.h"
+#include "log/log.h"
 #include "templates/hhash.hpp"
 #include "templates/hstring.h"
 #pragma once

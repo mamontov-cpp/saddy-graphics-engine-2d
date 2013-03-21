@@ -1,6 +1,6 @@
 #include "idlestate.h"
 #include "../ifaceeditor.h"
-#include "../../utils/closure.h"
+#include <templates/closure.h>
 #include "../../editorcore/editorbehaviour.h"
 #include "../../editorcore/editorbehaviourshareddata.h"
 #include "../../objects/screentemplate.h"

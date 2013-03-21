@@ -3,6 +3,7 @@
 
 	Describes an abstract screen template object
  */
+#include <log/log.h>
 #include "scene.h"
 #include "marshal/serializableobject.h"
 #include "templates/refcountable.h"
@@ -139,7 +140,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] m_log log, where all messages go
 		\return property
 	 */
-	template<typename T> T prop(const hst::string & s, EditorLog * m_log) 
+	template<typename T> T prop(const hst::string & s, sad::Log * m_log) 
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);
@@ -154,18 +155,18 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 			catch(serializable::InvalidPropertyType ex) 
 			{
 				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
-				m_log->debug( test + ex.getInformation().data());
+				SL_DEBUG( test + ex.getInformation().data());
 			}
 		} 
 		else 
 		{
-			m_log->debug(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
+			SL_DEBUG(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
 		}
 		#undef STRINGCLASS
 		return T();
 	}
 
-	template<typename T> void setProp(const hst::string & s, T val, EditorLog * m_log)
+	template<typename T> void setProp(const hst::string & s, T val, sad::Log * m_log)
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);
@@ -178,12 +179,12 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 			catch(serializable::InvalidPropertyType ex) 
 			{
 				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
-				m_log->debug( test + ex.getInformation().data());
+				SL_DEBUG( test + ex.getInformation().data());
 			}
 		} 
 		else 
 		{
-			m_log->debug(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
+			SL_DEBUG(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
 		}
 		#undef STRINGCLASS
 	}

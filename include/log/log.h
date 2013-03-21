@@ -17,6 +17,10 @@
 #endif
 #pragma once
 
+#ifdef QT_CORE_LIB
+	#include<QString>
+#endif
+
 inline std::ostream & operator<<(std::ostream & o, const hst::string & o2)
 {
 	return o << std::string(o2.data());
@@ -39,7 +43,19 @@ namespace sad
 				return s.str().c_str();
 			}
 		};
-		
+#ifdef QT_CORE_LIB
+		template<>
+		class StringCaster<QString>
+		{
+	     public:
+			/*! A caster for helping string find their ways
+			 */
+			inline static hst::string cast(const QString & string)
+			{
+				return hst::string(string.toStdString().c_str());
+			}
+		};
+#endif
 		/*! Priotity of message of log
 		 */
 		enum Priority
@@ -215,6 +231,10 @@ namespace sad
 					\param[in] message, taken message
 				 */
 				virtual void receive(const sad::log::Message & message);
+				/*! Set maximum level
+					\param[in] level level message
+				 */ 
+				inline void setMaxLevel(int level) { m_max_priority = level; }
 				/*! Destructs a file
 				 */
 				virtual ~FileTarget();

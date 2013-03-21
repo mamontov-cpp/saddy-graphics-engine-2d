@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
-#include <log.h>
+#include <log/log.h>
 #include "editorcore/path.h"
 
 #include "unittests/factory.h"

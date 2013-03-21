@@ -7,7 +7,7 @@ Sprite2DConfig * IFaceSharedData::icons()
 }
 
 
-EditorLog * IFaceSharedData::log()
+sad::Log * IFaceSharedData::log()
 {
 	return this->m_editor->log();
 }

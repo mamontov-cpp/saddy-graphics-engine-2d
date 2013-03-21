@@ -4,7 +4,7 @@
 	Describes an editor behaviour state data
  */
 #include "input.h"
-#include "log.h"
+#include <log/log.h>
 #pragma once
 
 class EditorBehaviour;

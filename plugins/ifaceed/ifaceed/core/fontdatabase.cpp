@@ -1,6 +1,7 @@
 #include "fontdatabase.h"
 #include <fontmanager.h>
 #include <QStringList>
+#include <log/log.h>
 
 IFaceEditorFont::IFaceEditorFont()
 {
@@ -19,16 +20,17 @@ void IFaceEditorFont::unloadFromQDB(const QString & name,QFontDatabase & db)
 	m_qtfont = QFont();
  }
  if (m_saddyfont !=NULL) {
-	 sad::FontManager::instance()->remove(name.toStdString().c_str());
+	 sad::FontManager::ref()->remove(name.toStdString().c_str());
 	m_saddyfont = NULL;
  }
 }
 
 bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFontDatabase & db)
 {
+	SL_SCOPE("IFaceEditorFont::loadFont");
 	if (m_appfontindex!=-1 || m_saddyfont!=NULL) {
 		if (m_qdb==NULL || m_name.count() == 0)
-			hst::log::inst()->owrite(hst::string("WTF? IFaceEditorFont with null qdb or empty name!"));
+			SL_CRITICAL("Empty QDB or name is empty!");
 		unloadFromQDB(m_name,*m_qdb);
 	}
 	QFont fnt;
@@ -52,7 +54,7 @@ bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFont
 		m_qtfont = fnt;
 		m_appfontindex = id;
 		m_saddyfont = tmp;
-		sad::FontManager::instance()->add(m_saddyfont,m_name.toStdString().c_str());
+		sad::FontManager::ref()->add(m_saddyfont,m_name.toStdString().c_str());
 	}
 	return ok;
 }

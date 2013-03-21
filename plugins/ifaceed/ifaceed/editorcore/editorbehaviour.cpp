@@ -20,9 +20,10 @@ EditorBehaviour::~EditorBehaviour()
 
 void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourState * state)
 {
+	SL_SCOPE("EditorBehaviour::addState()");
 	if (m_states.contains(statename))
 	{
-		hst::log::inst()->owrite("Error: in behaviour  some state \"").owrite(statename).owrite("already exists\n");
+		SL_CRITICAL(QString("State with name \"%1\" already exists").arg(statename.data()));
 		delete m_states[statename];
 	}
 	state->setBehaviour(this);
@@ -31,10 +32,10 @@ void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourSta
 
 void EditorBehaviour::removeState(const hst::string & statename)
 {
+	SL_SCOPE("EditorBehaviour::removeState()");
 	if (!m_states.contains(statename))
 	{
-		hst::log::inst()->owrite("Error: in behaviour  some state \"").owrite(statename).owrite("not found\n");
-		
+		SL_CRITICAL(QString("State with name \"%1\" does not exists").arg(statename.data()));		
 	} 
 	else 
 	{
@@ -48,11 +49,10 @@ void EditorBehaviour::removeState(const hst::string & statename)
 
 void EditorBehaviour::activate()
 {
+	SL_SCOPE("EditorBehaviour::activate()");
 	if (m_active_state.length())
 	{
-		hst::log::inst()->owrite("Warning: tried to activate behaviour, which is already active ( applied state ")
-			             .owrite(m_active_state)
-						 .owrite(")\n");
+		SL_WARNING(QString("State \"%1\" is already active").arg(m_active_state.data()));
 	}
 	else
 	{
@@ -79,6 +79,7 @@ void EditorBehaviour::cancelState()
 
 void EditorBehaviour::enterState(const hst::string & state)
 {
+	SL_SCOPE("EditorBehaviour::enterState()");
 	if (m_active_state.length())
 	{
 		m_states[m_active_state]->leave();
@@ -87,9 +88,7 @@ void EditorBehaviour::enterState(const hst::string & state)
 	{
 		m_previous_state = m_active_state;
 		m_active_state.clear();
-		hst::log::inst()->owrite("Warning: not found a state in editor behavior with name ")
-			             .owrite(state)
-						 .owrite("\n");
+		SL_WARNING(QString("State \"%1\" is not found in behaviour").arg(state.data()));
 	}
 	else
 	{

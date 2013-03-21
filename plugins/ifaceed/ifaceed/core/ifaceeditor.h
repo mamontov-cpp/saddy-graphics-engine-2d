@@ -17,6 +17,8 @@ class IFaceSharedData;
 class IFaceEditor: public Editor, public CommandChangeObserver 
 {
 	Q_OBJECT
+ protected:
+	 sad::log::FileTarget * m_target;
  public:
 	/** Constructs editor with empty db
 	 */

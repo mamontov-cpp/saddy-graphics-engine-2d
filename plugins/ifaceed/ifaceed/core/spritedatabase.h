@@ -11,7 +11,7 @@
 #include <QImage>
 #include <QHash>
 #include <config/sprite2dconfig.h>
-#include "../editorcore/editorlog.h"
+#include <log/log.h>
 
 class DBCriticalLogger;
 
@@ -175,7 +175,7 @@ class SpriteDatabase: public AbstractSpriteDatabase
 		 \param[in] log log for logging critical messages
 		 \return whether loading was successfull
 	  */
-	 virtual bool load(FontTemplatesMaps & maps, int & counter, EditorLog * log);
+	 virtual bool load(FontTemplatesMaps & maps, int & counter);
 	 virtual ~SpriteDatabase();
 	 /** A configs for implementation of simple widget with loading data into form
 	  */

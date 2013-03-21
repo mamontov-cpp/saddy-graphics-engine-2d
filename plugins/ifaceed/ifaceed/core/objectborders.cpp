@@ -188,6 +188,7 @@ bool ActiveObjectBorder::removable()
 
 hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractScreenObject * o)
 {
+	SL_SCOPE("ObjectBorder::isWithin()");
 	
 	hst::vector<BorderHotSpots> hotspotsets;
 	QVector<QString> m_setnames;
@@ -204,14 +205,14 @@ hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 	}
 	hst::vector<BorderHotSpots> result;
 	hst::vector<hRectF> r = this->createHotSpots(o, this->removable());
-	this->m_data->log()->debug(
+	SL_DEBUG(
 		QString("Testing click(%1, %2)")
 		.arg(p.x())
 		.arg(p.y())
 	);
 	for(int i = 0; i <  r.count(); i++) 
 	{
-		this->m_data->log()->debug(
+		SL_DEBUG(
 			QString("%1: bounding rectangle [(%2, %3), (%4, %5), (%6, %7), (%8, %9)]")
 			.arg(m_setnames[i])
 			.arg(r[i][0].x())
@@ -225,12 +226,12 @@ hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 		);
 		if (::isWithin(p, r[i]))
 		{
-			this->m_data->log()->debug("Hit!");		
+			SL_DEBUG("Hit!");		
 			result << hotspotsets[i];
 		}
 		else
 		{
-			this->m_data->log()->debug("Missed!");
+			SL_DEBUG("Missed!");
 		}
 	}
 	return result;

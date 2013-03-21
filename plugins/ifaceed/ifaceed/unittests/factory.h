@@ -6,7 +6,7 @@
  */
 #include <QTest>
 #include <QHash>
-#include <log.h>
+#include <log/log.h>
 namespace unittests
 {
 	/** Abstract factory delegate

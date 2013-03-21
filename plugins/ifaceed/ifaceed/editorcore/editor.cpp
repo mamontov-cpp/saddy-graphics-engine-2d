@@ -1,11 +1,9 @@
 #include <QTimer>
 #include "editor.h"
 #include <orthocamera.h>
-#include <log.h>
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
-#include "editorlog.h"
 #include "../core/xmlconfigloader.h"
 #include <QMessageBox>
 #include <QDir>
@@ -15,7 +13,8 @@
 
 Editor::Editor():m_icons("editor_icons")
 {
-	m_log = new EditorLog(this);
+	m_target = new QtTarget(this);
+	sad::Renderer::ref()->log()->addTarget(m_target);
 	m_cmdargs = NULL;
 	m_rendermutex = new os::mutex();
 	m_initmutex = new os::mutex();
@@ -67,7 +66,7 @@ void Editor::init(int argc,char ** argv)
 		this->runQtEventLoop();
 	}
 	m_renderthread->wait();
-	m_log->save();
+
 }
 void Editor::waitForSaddyThread()
 {
@@ -94,7 +93,6 @@ Editor::~Editor()
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;
-	delete m_log;
 }
 
 void SaddyThread::run() 
@@ -151,15 +149,17 @@ void Editor::runQtEventLoop()
 	if (this->m_qtapp) 
 	{
 		QObject::connect(this, SIGNAL(closureArrived(ClosureBasic*)), this, SLOT(onClosureArrived(ClosureBasic*)) );
+		m_target->enable();
 		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();
+		m_target->disable();
 	}
 }
 
 void Editor::runSaddyEventLoop() 
 {
 	m_quit_reason = EditorQuitReasonNotSet;
-	sad::Input::inst()->setQuitHandler( 
+	sad::Input::ref()->setQuitHandler( 
 										new HandlerFor<Editor>::Method<
 											void (Editor::*)(const sad::Event&),
 											sad::Event
@@ -190,10 +190,10 @@ void Editor::initDefaultSaddyOptions()
 	XMLConfigLoader * loader = new XMLConfigLoader(a);
 	m_icons.setLoader(loader);
 	bool loaded =  (m_icons.reload() == SCR_OK);
-	m_log->debug(QString("Loading icons from %1").arg(a));
+	SL_DEBUG(QString("Loading icons from %1").arg(a));
 	if (!loaded) 
 	{
-		m_log->error(QString("Can\'t load %1").arg(a));
+		SL_FATAL(QString("Can\'t load %1").arg(a));
 	}
 	this->assertSaddyInit(loaded);
 }
@@ -290,12 +290,12 @@ void Editor::onSaddyWindowDestroy()
 
 void Editor::onFullAppStart()
 {
-	sad::Input::inst()->setKeyDownHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyDown));
-	sad::Input::inst()->setKeyUpHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyUp));
-	sad::Input::inst()->setMouseWheelHandler(new EditorEventHandler(this, &EditorBehaviour::onWheel));
-	sad::Input::inst()->setMouseDownHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseDown));
-	sad::Input::inst()->setMouseUpHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseUp));
-	sad::Input::inst()->setMouseMoveHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseMove));
+	sad::Input::ref()->setKeyDownHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyDown));
+	sad::Input::ref()->setKeyUpHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyUp));
+	sad::Input::ref()->setMouseWheelHandler(new EditorEventHandler(this, &EditorBehaviour::onWheel));
+	sad::Input::ref()->setMouseDownHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseDown));
+	sad::Input::ref()->setMouseUpHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseUp));
+	sad::Input::ref()->setMouseMoveHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseMove));
 }
 
 
@@ -321,7 +321,7 @@ void Editor::setBehaviour(const hst::string & name)
 	}
 	else 
 	{
-		m_log->debug(QString("Can\'t find editor behaviour, named %1").arg(name.data()));
+		SL_DEBUG(QString("Can\'t find editor behaviour, named %1").arg(name.data()));
 	}
 }
 
@@ -349,14 +349,14 @@ void Editor::highlightState(const hst::string & hint)
 
 }
 
-void Editor::onClosureArrived(ClosureBasic * closure)
+void Editor::onClosureArrived(sad::ClosureBasic * closure)
 {
 	closure->run();
 	delete closure;
 }
 
 
-void Editor::emitClosure(ClosureBasic * closure)
+void Editor::emitClosure(sad::ClosureBasic * closure)
 {
 	emit closureArrived(closure);
 }
