@@ -288,7 +288,7 @@ void sad::log::Console::print(const char * text)
 		WriteFile(m_console, &c, 1, &p, NULL);		
 	}
 #else
-	puts(text);
+	printf("%s", text);
 #endif
 }
 
@@ -389,7 +389,7 @@ BACKGROUND_GREEN | BACKGROUND_BLUE,
 };
 
 #else
-static const char * fg[] = { "01;", "01;31;", "01;32;", "01;34;", "31;", "32;", "34;", "01;37;", "37;", "02;37;", "30;", "01;33;", "33;", "01;35;", "35;", "01;36;", "36;"};
+static const char * fg[] = { "01", "01;31", "01;32", "01;34", "31", "32", "34", "01;37", "37", "02;37", "30", "01;33", "33", "01;35", "35", "01;36", "36"};
 static const char * bg[] = { ""    , "41"      , "42"      , "44"      , "41" , "42" , "44" , "47"      , "47" , "47"      ,  "40", "43"      , "43" , "45" ,      "45",  "46"      , "46;"};		
 #endif
 
@@ -415,7 +415,10 @@ void sad::log::Console::setColorMode(sad::log::Color foreground, sad::log::Color
 	SetConsoleTextAttribute(m_console, fattrs | battrs);
 #else
 	this->clearColorMode();
-	printf("\033[%s%s%s", fg[(int)foreground], bg[(int)background], "m");
+	printf("\033[%s%s%s%s", 
+	fg[(int)foreground], 
+	(background != sad::log::NONE) ? ";" : "",
+	bg[(int)background], "m");
 #endif
 }
 
