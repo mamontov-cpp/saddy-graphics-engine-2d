@@ -61,7 +61,7 @@ FontManager::~FontManager()
 	}
 }
 
-FontManager * FontManager::instance()
+FontManager * FontManager::ref()
 {
 	return sad::Renderer::ref()->fonts();
 }
