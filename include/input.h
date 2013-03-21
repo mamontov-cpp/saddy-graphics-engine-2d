@@ -257,22 +257,20 @@ namespace sad
 
 		      Input & operator=(const Input &);
 		      Input(const Input&);
-		      /*! Default constructor
-			  */
-			  Input();
+		      
 			  /*! Instance */
 			  static Input * m_instance;
-			  /*! Destroys an instance
-			  */
-			  static void freeInst();
 			  /*! Invokes try perform and removes worked task
 				  \param[in,out] v vector
 			  */
 			  void tryPerform(hst::vector<sad::CountableTask *> & v);
 	 public:
+			 /*! Default constructor
+			  */
+			 Input();
 		     /*! Returns an instance
 			 */
-		     static Input * inst();
+		     static Input * ref();
 		     /*! Destroys an instance
 			 */
 		     ~Input();

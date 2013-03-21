@@ -1,6 +1,8 @@
 #include "scene.h"
 #include <time.h>
 #include <input.h>
+#include <renderer.h>
+
 #ifndef LINUX
 
 #include <windows.h>
@@ -25,8 +27,9 @@ sad::BasicNode::~BasicNode()
 
 sad::Scene::Scene()
 {
- m_clear=false;
- m_camera=new Camera();
+ m_clear    = false;
+ m_camera   = new Camera();
+ m_renderer = NULL;
 }
 sad::Scene::~Scene()
 {
@@ -100,14 +103,14 @@ void sad::Scene::render()
 {
   m_camera->apply();
 
-  sad::Input::inst()->preRender();
+  this->m_renderer->controls()->preRender();
 
   for (unsigned long i=0;i<m_layers.count();++i)
   {
 	  m_layers[i]->render();
   }
 
-  sad::Input::inst()->postRender();
+  this->m_renderer->controls()->postRender();
 
 
   if (!(m_marked.count() || m_toadd.count() || m_clear)) return;

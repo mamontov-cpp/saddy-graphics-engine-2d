@@ -11,6 +11,8 @@
 
 namespace sad
 {
+
+class Renderer;
 /*! Basic objects of a scene
 */
 class BasicNode
@@ -89,9 +91,9 @@ private:
 	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
 	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;    //!< Marked for addition nodes             //!< Помеченные для добавления вершины 
 	sad::Camera      *        m_camera;                  //!< Current camera
-	os::mutex                m_add;                     //!< Add mutex
-	os::mutex                m_rem;                     //!< Remove mutex
-	
+	os::mutex                 m_add;                     //!< Add mutex
+	os::mutex                 m_rem;                     //!< Remove mutex
+	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
 	/*! Adds object from adding to main queue 
 	 */
 	void fireNodeAdding();
@@ -108,6 +110,13 @@ public:
 
 	Scene();                   //!< Creates an empty scene
 	virtual ~Scene();                  //!< Destructor
+	/*! Sets a renderer
+		\param[in] renderer renderer part
+	 */
+	inline void setRenderer(sad::Renderer * renderer)
+	{
+		m_renderer = renderer;
+	}
 	/*! Sets a camera in scene
 		\param[in] camera  new camera
 	*/

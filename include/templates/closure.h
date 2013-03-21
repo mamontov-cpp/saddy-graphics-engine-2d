@@ -7,6 +7,9 @@
     #include <QMetaType>
 #endif
 #pragma once
+
+namespace sad
+{
 /*! Basic class for all of closures. Need to put this stuff for template data
  */
 class ClosureBasic
@@ -20,11 +23,13 @@ class ClosureBasic
     virtual ~ClosureBasic();
 };
 
+}
+
 
 /*! Macro, that starts a closure definition
  */
 #define       CLOSURE      {                                      \
-                                class ____: public ClosureBasic   \
+							class ____: public sad::ClosureBasic  \
                                 {                                 \
                                  public:                          \
                                          ClosureBasic  * ___()    \

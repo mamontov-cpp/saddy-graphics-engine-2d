@@ -292,32 +292,32 @@ int main(int argc, char** argv)
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
 	
-	sad::Input::inst()->bindKeyDown(KEY_ESC,rend_quit);
-	sad::Input::inst()->bindKeyDown('F',rend_toggle);
-	sad::Input::inst()->bindKeyDown('P',rend_pause);
-	sad::Input::inst()->bindKeyDown(KEY_TAB,rend_mouseclick);
+	sad::Input::ref()->bindKeyDown(KEY_ESC,rend_quit);
+	sad::Input::ref()->bindKeyDown('F',rend_toggle);
+	sad::Input::ref()->bindKeyDown('P',rend_pause);
+	sad::Input::ref()->bindKeyDown(KEY_TAB,rend_mouseclick);
 	
-	sad::Input::inst()->bindKeyDown(KEY_UP,rend_up);
-	sad::Input::inst()->bindKeyDown(KEY_DOWN,rend_down);
-	sad::Input::inst()->bindKeyDown(KEY_LEFT,rend_left);
-	sad::Input::inst()->bindKeyDown(KEY_RIGHT,rend_right);
-	sad::Input::inst()->bindKeyUp(KEY_UP,rend_speed_zero);
-	sad::Input::inst()->bindKeyUp(KEY_DOWN,rend_speed_zero);
-	sad::Input::inst()->bindKeyUp(KEY_LEFT,rend_speed_zero);
-	sad::Input::inst()->bindKeyUp(KEY_RIGHT,rend_speed_zero);
+	sad::Input::ref()->bindKeyDown(KEY_UP,rend_up);
+	sad::Input::ref()->bindKeyDown(KEY_DOWN,rend_down);
+	sad::Input::ref()->bindKeyDown(KEY_LEFT,rend_left);
+	sad::Input::ref()->bindKeyDown(KEY_RIGHT,rend_right);
+	sad::Input::ref()->bindKeyUp(KEY_UP,rend_speed_zero);
+	sad::Input::ref()->bindKeyUp(KEY_DOWN,rend_speed_zero);
+	sad::Input::ref()->bindKeyUp(KEY_LEFT,rend_speed_zero);
+	sad::Input::ref()->bindKeyUp(KEY_RIGHT,rend_speed_zero);
 	
 	
-	sad::Input::inst()->bindKeyDown(KEY_ENTER,toggle_state);
+	sad::Input::ref()->bindKeyDown(KEY_ENTER,toggle_state);
     
-	sad::Input::inst()->bindKeyDown('O',light_enable);
-	sad::Input::inst()->bindKeyDown('P',light_disable);
-	sad::Input::inst()->bindKeyDown('K',light_inc);
-	sad::Input::inst()->bindKeyDown('L',light_dec);
+	sad::Input::ref()->bindKeyDown('O',light_enable);
+	sad::Input::ref()->bindKeyDown('P',light_disable);
+	sad::Input::ref()->bindKeyDown('K',light_inc);
+	sad::Input::ref()->bindKeyDown('L',light_dec);
 
 	//sad::Input::inst()->bindKeyDown('J',testplayer);
 
-	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
-	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
+	sad::Input::ref()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
+	sad::Input::ref()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
 	
 	SL_MESSAGE("Input handlers bound succesfully");
 

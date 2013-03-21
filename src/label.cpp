@@ -12,7 +12,7 @@ void Label::operator()(const sad::ResizeEvent & o)
 }
 Label::Label()
 {
-	sad::Input::inst()->addResizeHandler(this,false);
+	sad::Input::ref()->addResizeHandler(this,false);
 }
 Label::Label(
 		      LabelFont fnt,
@@ -24,14 +24,14 @@ Label::Label(
 	m_str=str;
 	m_p=p;
 	m_rend_point=p;
-	if (sad::Input::inst())
-		sad::Input::inst()->addResizeHandler(this,false);
+	if (sad::Input::ref())
+		sad::Input::ref()->addResizeHandler(this,false);
 }
 
 Label::~Label()
 {
-	if (sad::Input::inst())
-		sad::Input::inst()->removeResizeHandler(this);
+	if (sad::Input::ref())
+		sad::Input::ref()->removeResizeHandler(this);
 }
 
 void Label::render()

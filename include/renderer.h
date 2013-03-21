@@ -10,6 +10,7 @@
 #include "log/log.h"
 namespace sad
 {
+	class Input;
 	class FontManager;
 	class TextureManager;
 	/*! \class Renderer
@@ -27,7 +28,8 @@ namespace sad
 
 		sad::Log             m_log;
 
-		sad::FontManager *   m_font_manager;     //!< Font manager
+		sad::Input       *    m_input_manager;    //!< Input manager data
+		sad::FontManager *    m_font_manager;     //!< Font manager
 		sad::TextureManager * m_texture_manager; //!< Texture manager
 		unsigned long        m_starttimer;  //!< Timer
 		Scene*               m_currentscene;//!< Current scene
@@ -70,6 +72,14 @@ namespace sad
         void mapToOGL(int x,int y,float & px,float & py,float & pz);
 #ifdef WIN32
 		/*! Function for processing system messages and pressed keys
+		    \param[in] hWnd Windows' handler
+		    \param[in] uMsg The Message
+		    \param[in] wParam Additional message information
+		    \param[in] lParam Additional message information
+		    \return Success of operation              
+		*/
+        LRESULT dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		/*! Default message
 		    \param[in] hWnd Windows' handler
 		    \param[in] uMsg The Message
 		    \param[in] wParam Additional message information
@@ -132,19 +142,12 @@ namespace sad
 			            Use ::pushScene() instead.
 		    \param[in] scene to be set as current
 		*/
-		inline void setCurrentScene(Scene* scene) 
-		{
-			if (m_currentscene) delete m_currentscene;
-			m_currentscene=scene; 
-		}
+		void setCurrentScene(sad::Scene* scene);
         /*! Sets a current scene. 
 		    Use this function to set a scene, while running
 		    \param[in] Scene to be set as current
 		*/
-        inline void pushScene(Scene * scene)
-		{
-			m_chscene=scene;
-		}
+        void pushScene(Scene * scene);
         /*! Destructor */
 		~Renderer(void);
 		/*! Gets a current window
@@ -209,6 +212,9 @@ namespace sad
 			\return texture manager information
 		 */
 		sad::TextureManager * textures();
+		/*! Constrols of sad Input
+		 */
+		sad::Input  * controls(); 
 		/*! Returns a log for renderer
 			\return log information
 		 */

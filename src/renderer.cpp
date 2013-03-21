@@ -5,13 +5,12 @@
 
 In this file OpenGL function has been used obviously.
 */
-
-
 #include "renderer.h"
 #include "texturemanager.h"
 #include "input.h"
 #include "fontmanager.h"
 #include "texturemanager.h"
+#include "scene.h"
 #ifdef WIN32
 #pragma comment( lib, "opengl32.lib" )
 #pragma comment( lib, "glu32.lib" )
@@ -22,10 +21,14 @@ In this file OpenGL function has been used obviously.
 #endif
 
 
+
+
+
 sad::Renderer::~Renderer(void)
 {
 	if (m_currentscene)
 		delete m_currentscene;
+	delete m_input_manager;
 	delete m_font_manager;
 	delete m_texture_manager;
 }
@@ -65,7 +68,7 @@ void sad::Renderer::reshape(int width, int height)
 		             m_glsettings.zfar());		
   glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
   glLoadIdentity ();													// Сбрасываем её на единичную
-  sad::Input::inst()->postResize(sad::ResizeEvent( 
+  sad::Input::ref()->postResize(sad::ResizeEvent( 
 								 m_window.height,m_window.width,height,width
 	                             ));
   m_window.width=width;
@@ -94,6 +97,10 @@ sad::Renderer* sad::Renderer::ref()
 void sad::Renderer::run()
 {
  SL_SCOPE("sad::Renderer::run()");
+ if (m_currentscene)
+ {
+	 this->m_currentscene->setRenderer(this);
+ }
  //If already created
  if (m_created)
  {
@@ -195,6 +202,7 @@ sad::TextureManager * sad::Renderer::textures()
 sad::Renderer::Renderer()
 {
 	m_windowtitle="SadExample";
+	m_input_manager = new sad::Input();
 	m_created=false;
     m_currentscene=NULL;
 	m_font_manager = new sad::FontManager();
@@ -204,6 +212,7 @@ sad::Renderer::Renderer()
 	m_currentscene = new sad::Scene();
 	m_running = false;
 	m_created = false;
+	m_currentscene->setRenderer(this);
 	initWindowParameters();
 }
 
@@ -212,3 +221,21 @@ sad::Log * sad::Renderer::log()
 	return &m_log;
 }
 
+sad::Input  * sad::Renderer::controls()
+{
+	return m_input_manager;
+}
+
+void sad::Renderer::setCurrentScene(sad::Scene* scene) 
+{
+	scene->setRenderer(this);
+	if (m_currentscene) 
+		delete m_currentscene;
+	m_currentscene=scene; 
+}
+
+void sad::Renderer::pushScene(Scene * scene)
+{
+	m_chscene=scene;
+	scene->setRenderer(this);
+}

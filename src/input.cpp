@@ -1,4 +1,5 @@
 #include "input.h"
+#include "renderer.h"
 #include <stdlib.h>
 
 static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff);
@@ -75,19 +76,10 @@ sad::Input::~Input()
 	}
 }
 
-void sad::Input::freeInst()
+
+sad::Input * sad::Input::ref()
 {
-	delete m_instance;
-	m_instance=NULL;
-}
-sad::Input * sad::Input::inst()
-{
-	if (!m_instance)
-	{
-		m_instance = new Input();
-		atexit(sad::Input::freeInst);
-	}
-	return m_instance;
+	return sad::Renderer::ref()->controls();
 }
 
 #define TEMP_DEF(X,Y)                                \
