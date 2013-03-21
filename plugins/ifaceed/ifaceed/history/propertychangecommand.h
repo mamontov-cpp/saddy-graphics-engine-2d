@@ -7,6 +7,7 @@
 #include "../objects/abstractscreenobject.h"
 #include "templates/hstring.h"
 #include "primitives/hrect.h"
+#include <log/log.h>
 #pragma once
 
 class EditorLog;
@@ -20,7 +21,7 @@ class PropertyChangeCommand: public AbstractCommand
 {
 private:
 	AbstractScreenObject * m_object; //!< Object of data
-	EditorLog * m_log;				 //!< Log of editor
+	sad::Log * m_log;				 //!< Log of editor
 	
 	hst::string m_property_name;     //!< Name of property
 	T m_prev_value;				     //!< Previous value of object
@@ -33,7 +34,7 @@ public:
 		\param[in] new_value new value
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, EditorLog * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, sad::Log * log) 
 	{
 		m_log = log;
 		m_object = o;
@@ -48,7 +49,7 @@ public:
 		\param[in] new_value new value
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, T old_value, EditorLog * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, T old_value, sad::Log * log) 
 	{
 		m_log = log;
 		m_object = o;
@@ -98,13 +99,13 @@ class SpritePropertyChangeCommand: public AbstractCommand
  private:
 	ScreenSprite * m_sprite;
 	FontTemplateDatabase * m_db;
-	EditorLog * m_log;				
+	sad::Log * m_log;				
 	SpritePropertyChangeCommandInfo m_old;
 	SpritePropertyChangeCommandInfo m_new;
  public:
 	inline SpritePropertyChangeCommand(ScreenSprite * sprite,
 									   FontTemplateDatabase * db,
-									   EditorLog * log,
+									   sad::Log * log,
 									   const SpritePropertyChangeCommandInfo & _old,
 									   const SpritePropertyChangeCommandInfo & _new)
 	{

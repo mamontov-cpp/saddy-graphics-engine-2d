@@ -35,7 +35,7 @@ void unittests::Factory::run(const QString & name)
 	}
 	else 
 	{
-		hst::log::inst()-> LWR("Can't find test with name "). LWR (name.toStdString().c_str()). LWR("\n");
+		SL_CRITICAL(QString("Can\'t find test with name \"%1\"").arg(name));
 	}
 }
 
@@ -45,7 +45,7 @@ void unittests::Factory::runAll()
 		it!=m_delegates.end();
 		it++) 
 	{
-		hst::log::inst()-> LWR("Entering test "). LWR (it.key().toStdString().c_str()). LWR("\n");
+		SL_SCOPE(it.key().toStdString());
 		QObject * object = it.value()->create();
 		QTest::qExec(object);
 		delete object;

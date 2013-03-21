@@ -6,16 +6,17 @@
 #include "../editorcore/path.h"
 #include "xmlconfigloader.h"
 #include "spritedatabase.h"
-#include "../editorcore/editorlog.h"
+#include <log/log.h>
 
 FontTemplatesMaps::FontTemplatesMaps()
 {
 
 }
 
-bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
+bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 {
-	LogActionMonitor monitor(log, QString("FontTemplatesMaps::load(\"%1\")").arg(name));
+	SL_SCOPE( QString("FontTemplatesMaps::load(\"%1\")").arg(name).toStdString() );
+
 	hst::string parentdir =  path::directory(name.toStdString().c_str());
 	log->message(QString("Parent dir is \"%1\"").arg(parentdir.data()));
 
@@ -26,12 +27,12 @@ bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
 	QFile file(name);
 	if (!file.open(QIODevice::ReadOnly)) 
 	{
-		log->message(QString("Can\'t load file %1").arg(name));			
+		SL_MESSAGE(QString("Can\'t load file %1").arg(name));			
 		return false;
 	}
 	if (!doc.setContent(&file)) 
 	{
-		log->message(QString("Can\'t parse file %1").arg(name));	;
+		SL_MESSAGE(QString("Can\'t parse file %1").arg(name));	;
 		file.close();
 		return false;
 	}
@@ -39,7 +40,7 @@ bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
 	QDomElement root = doc.documentElement();
 	if (root.isNull())
 	{
-		log->message(QString("No root element found in file %1").arg(name));
+		SL_MESSAGE(QString("No root element found in file %1").arg(name));
 		return false;
 	}
 	
@@ -57,7 +58,7 @@ bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
 		}
 		else 
 		{
-			log->warning(QString("Found unknown tag %1, while loading file %2")
+			SL_WARNING(QString("Found unknown tag %1, while loading file %2")
 				         .arg(entry.tagName()).arg(name));
 		}
 		entry = entry.nextSiblingElement();
@@ -66,12 +67,12 @@ bool FontTemplatesMaps::load(const QString & name, EditorLog * log)
 	return true;
 }
 
-void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, EditorLog * log)
+void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, sad::Log * log)
 {
-	LogActionMonitor monitor(log, "FontTemplatesMaps::loadFont");
+	SL_SCOPE("FontTemplatesMaps::loadFont");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
 	{
-		log->message("In one or more font elements skipped attributes \"name\" or \"file\"\n");
+		SL_MESSAGE("In one or more font elements skipped attributes \"name\" or \"file\"\n");
 	} 
 	else 
 	{
@@ -79,24 +80,24 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent
 		QString file = entry.attribute("file");
 		if (m_fonts.contains(name))
 		{
-			log->warning(QString("Duplicate font entry skipped %1").arg(name));
+			SL_WARNING(QString("Duplicate font entry skipped %1").arg(name));
 		}
 		else
 		{
 			hst::string path = path::concat(parent,file.toStdString().c_str());
 			m_fonts.insert(name, path.data());
-			log->debug(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
+			SL_DEBUG(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
 		}
 	}
 }
 
-void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, EditorLog * log)
+void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, sad::Log * log)
 {
-	LogActionMonitor monitor(log, "FontTemplatesMaps::loadConfig");
+	SL_SCOPE("FontTemplatesMaps::loadConfig");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
 	{
-		log->message("In one or more font elements skipped attributes \"name\" or \"file\"\n");
+		SL_MESSAGE("In one or more font elements skipped attributes \"name\" or \"file\"\n");
 	} 
 	else 
 	{
@@ -104,13 +105,13 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 		QString file = entry.attribute("file");
 		if (m_configs.contains(name))
 		{
-			log->warning(QString("Duplicate config entry skipped %1").arg(name));
+			SL_WARNING(QString("Duplicate config entry skipped %1").arg(name));
 		}
 		else 
 		{
 			hst::string path = path::concat(parent,file.toStdString().c_str());
 			m_configs.insert(name, path.data());
-			log->debug(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
+			SL_DEBUG(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
 		}
 	}
@@ -129,9 +130,9 @@ FontTemplateDatabase::~FontTemplateDatabase()
 	delete m_fonts;
 }
 
-bool FontTemplateDatabase::load(FontTemplatesMaps & maps, EditorLog * log)
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps, sad::Log * log)
 {
-	LogActionMonitor monitor(log, "FontTemplateDatabase::load()");
+	SL_SCOPE("FontTemplateDatabase::load()");
 	m_maps = maps;
 	//log->push
 	IFaceEditorFontList * fonts = new IFaceEditorFontList();
@@ -145,7 +146,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps, EditorLog * log)
 			IFaceEditorFontLoadResult r = fonts->tryLoadFont(it.key(), it.value());
 			if (r!=IEFLR_OK) 
 			{
-				log->error(QString("Can't load font from %1").arg(it.value()));
+				SL_CRITICAL(QString("Can't load font from %1").arg(it.value()));
 				success = false;
 			}
 		}
@@ -158,7 +159,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps, EditorLog * log)
 	SpriteDatabase * sprites = new SpriteDatabase();
 	// Load some configs
 	{
-		if (sprites->load(maps, *m_counter, log) == false)
+		if (sprites->load(maps, *m_counter) == false)
 		{
 			delete sprites;
 			delete fonts;

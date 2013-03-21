@@ -20,7 +20,6 @@ namespace sad
 	*/
 	class Renderer
 	{
-		Renderer(void);
 		Renderer(const Renderer& other);
 		Renderer& operator=(const Renderer&);
 
@@ -137,6 +136,7 @@ namespace sad
 		inline void setCurrentWindow(sad::Window * window) { m_window=*window;}
 
 	public:
+        Renderer(void);
 		/*! Sets a current scene.
 		    DEPRECATED: Can only be used, when renderer is not started.
 			            Use ::pushScene() instead.

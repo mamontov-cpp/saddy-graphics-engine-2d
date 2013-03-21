@@ -7,9 +7,8 @@
 #include <QHash>
 #include <QString>
 #include <QDomDocument>
-#include <log.h>
+#include <log/log.h>
 #include "fontdatabase.h"
-#include "../editorcore/editorlog.h"
 #pragma once
 
 namespace db
@@ -31,13 +30,13 @@ class FontTemplatesMaps
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadFont(QDomElement & entry, const hst::string & parent, EditorLog * log);
+		void loadFont(QDomElement & entry, const hst::string & parent, sad::Log * log);
 		/** Loads a found config
 			\param[in] entry element
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadConfig(QDomElement & entry, const hst::string & parent, EditorLog * log);
+		void loadConfig(QDomElement & entry, const hst::string & parent, sad::Log * log);
 
  public:
 		/** Constructs new empty maps
@@ -46,7 +45,7 @@ class FontTemplatesMaps
 		/** Loads a configs from file, specified by path and name
 			Also preprocesses a local paths from config data
 		 */
-		bool load(const QString & name, EditorLog * log);
+		bool load(const QString & name, sad::Log * log);
 		/** Read fonts
 			\return entities of fonts
 		 */
@@ -86,7 +85,7 @@ class FontTemplateDatabase
 			\param[in] maps maps data
 			\param[in] log log to write to
 		 */
-		bool load(FontTemplatesMaps & maps, EditorLog * log);
+		bool load(FontTemplatesMaps & maps, sad::Log * log);
 		/** Fonts, represented in database
 			\return fonts
 		 */

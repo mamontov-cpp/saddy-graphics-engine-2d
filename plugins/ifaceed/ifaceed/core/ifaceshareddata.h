@@ -6,6 +6,7 @@
 #include "../editorcore/editorbehaviourshareddata.h"
 #include <QTimer>
 #include <config/sprite2dconfig.h>
+#include <log/log.h>
 #pragma once
 
 
@@ -36,7 +37,7 @@ public:
 	 /*! Returns log information
 		 \return log
 	  */
-	 EditorLog * log();
+	 sad::Log * log();
 	 /*! Shared data is initialized with zero selected object
 	  */
 	 inline IFaceSharedData(): EditorBehaviourSharedData()

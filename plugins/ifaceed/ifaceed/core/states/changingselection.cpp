@@ -27,7 +27,7 @@ void IFaceEditor::trySelectObject(hPointF p, bool enterSelected)
 		std::vector<hst::string> chain;
 		for(int i = 0; i < tbl.size(); i++) 
 		{
-			chain.push_back(tbl[i]->prop<hst::string>("uid", m_log));
+			chain.push_back(tbl[i]->prop<hst::string>("uid", this->log()));
 		}
 		if (enterSelected) 
 		{

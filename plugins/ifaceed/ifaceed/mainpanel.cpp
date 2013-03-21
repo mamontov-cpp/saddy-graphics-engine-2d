@@ -401,7 +401,7 @@ void MainPanel::textChanged()
 void MainPanel::updateObjectStats(AbstractScreenObject * o)
 {
 	AbstractProperty * prop = NULL;
-	EditorLog * l = this->m_editor->log();		
+	sad::Log * l = this->m_editor->log();		
 	// Get text
 	prop = o->getProperty("text");
 	if (prop)

@@ -127,8 +127,9 @@ void SpriteDatabase::clear()
 
 
 
-bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, EditorLog * log)
+bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 {
+	SL_SCOPE("SpriteDatabase::load()");
 	bool ok = true;
 	const db::NameFileMap & map = maps.configs();
 	QISpriteConfigs	 * qtimages = new QISpriteConfigs();
@@ -148,7 +149,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, EditorLog * l
 				cnf->setLoader(loader);
 				if (cnf->reload() != SCR_OK)
 				{
-					log->error(QString("Saddy can\'t load images from config with path  %1")
+					SL_FATAL(QString("Saddy can\'t load images from config with path  %1")
 						       .arg(it.value())
 							  );
 					qtimages->remove(it.key());
@@ -163,19 +164,13 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter, EditorLog * l
 			else
 			{
 				ok = false;
-				hst::log::inst()->owrite("Can\'t load images from config with path ").owrite(it.value().toStdString()).
-							  owrite("\n");
-				QMessageBox::critical(NULL,"IFace Editor", QString("Can\'t load images from config with path ")+
-				                  it.value());
+				SL_FATAL(QString("Can\'t load images from config with path \"%1\"").arg(it.value()));
 			}
 		}
 		else 
 		{
 			ok = false;
-			hst::log::inst()->owrite("Can\'t load config from path ").owrite(it.value().toStdString()).
-							  owrite("\n");
-			QMessageBox::critical(NULL,"IFace Editor", QString("Can\'t load config from path ")+
-				                  it.value());
+			SL_FATAL(QString("Can\'t load config with path \"%1\"").arg(it.value()));
 		}
 	}
 

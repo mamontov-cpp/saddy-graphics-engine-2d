@@ -365,11 +365,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\editorlog.cpp"
+					RelativePath=".\editorcore\path.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\path.cpp"
+					RelativePath=".\editorcore\qttarget.cpp"
 					>
 				</File>
 			</Filter>
@@ -679,11 +679,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\editorlog.h"
+					RelativePath=".\editorcore\path.h"
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\path.h"
+					RelativePath=".\editorcore\qttarget.h"
 					>
 				</File>
 			</Filter>

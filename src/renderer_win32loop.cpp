@@ -16,8 +16,22 @@
 	#define GET_KEYSTATE_LPARAM(lParam) (LOWORD(lParam))
 #endif
 
+
+static  hst::hash<HWND, sad::Renderer *> m_renderers;
+static  os::mutex m_data;
 void sad::Renderer::mainLoop()
 {
+ m_data.lock();
+ if (m_renderers.contains(m_window.hWND)) 
+ {
+	m_renderers[m_window.hWND] =  this;
+ }
+ else
+ {
+	 m_renderers.insert(m_window.hWND, this);
+ }
+ m_data.unlock();
+
  int frames=0;
  m_fps=60;
  //bool isMessagePumpActive;
@@ -33,19 +47,12 @@ void sad::Renderer::mainLoop()
   // Check For Window Messages
   if (PeekMessage (&msg, m_window.hWND, 0, 0, PM_REMOVE) != 0)
   {
+     TranslateMessage(&msg);
+	 SL_DEBUG(msg.message);
 	 // Check For WM_QUIT Message
 	 if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
-	 {
-	  TranslateMessage(&msg);		
-	  LRESULT nothandled = (LRESULT)1; 
-	  if (msg.hwnd == m_window.hWND)
-	  {
-		  nothandled = this->dispatchMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
-	  }
-	  if (nothandled)
-	  {
-		DispatchMessage(&msg);						// If Not, Dispatch The Message
-	  }
+	 {		 
+	  DispatchMessage(&msg);
 	 }
 	 else											// Otherwise (If Message Is WM_QUIT)
 	 {
@@ -245,11 +252,20 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 		return 0;
 	}
-	
+	return 1;
 }
 
 LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	m_data.lock();
+	LRESULT unhandled = (LRESULT)1;
+	if (m_renderers.contains(hWnd))
+	{
+		unhandled =m_renderers[hWnd]->dispatchMessage(hWnd, uMsg, wParam, lParam);
+	}
+	m_data.unlock();
+	if (!unhandled)
+		return 0;
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
 }
 

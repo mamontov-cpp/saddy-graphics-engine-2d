@@ -3,7 +3,7 @@
 
 	Describes a global editor state
  */
-#include "scene.h"
+#include <scene.h>
 #include <QObject>
 #include <QTimer>
 #include <QThread>
@@ -17,8 +17,8 @@
 #include <cmdoptions.h>
 #include "editoreventhandler.h"
 #include "../history/editorhistory.h"
-#include "../utils/closure.h"
-#include "editorlog.h"
+#include "templates/closure.h"
+#include "qttarget.h"
 #pragma once
 
 
@@ -111,7 +111,11 @@ class Editor: public QObject
 {
 	Q_OBJECT
   friend class SaddyThread;
+  friend class QtTarget;
   private:
+	     /** Target for sending information
+		  */
+		 QtTarget * m_target;
 	     /** Thread for rendering
 		  */
 		 SaddyThread * m_renderthread; 
@@ -158,9 +162,6 @@ class Editor: public QObject
 		  */
 		 Sprite2DConfig m_icons;
 protected:
-		/** A log for logging stuff
-		 */
-		EditorLog *  m_log;
 		/** A defines editor behaviours
 		 */
 	    hst::hash<hst::string, EditorBehaviour *> m_behaviours;
@@ -297,7 +298,7 @@ private:
 		 /** Runs a closure. Used by qt thread to work with closure.
 			 \param[in] closure closure data
 		  */
-		 virtual void onClosureArrived(ClosureBasic * closure);		 
+		 virtual void onClosureArrived(sad::ClosureBasic * closure);		 
   public:
 		/*! Default constructor
 		 */
@@ -319,7 +320,7 @@ private:
 		}
 		/*! Returns a log for utils
 		 */
-		inline EditorLog * log() { return m_log; }
+		inline sad::Log * log() { return sad::Log::ref(); }
 		/*! Inits an editor, loading default data if nothing specified
 			\param[in] argc count of arguments
 			\param[in] argv arguments
@@ -370,7 +371,7 @@ private:
 		/** Emits a closure signal closureArrived()
 			\param[in] closure closure signal arrived
 		 */
-		void emitClosure(ClosureBasic * closure);
+		void emitClosure(sad::ClosureBasic * closure);
 		/** Casts a current behaviour state identified by state to needed
 			\param[in] s string name of state
 			\return state
@@ -385,7 +386,7 @@ private:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure
 		 */
-		void closureArrived(ClosureBasic * closure);
+		void closureArrived(sad::ClosureBasic * closure);
 		
 };
 

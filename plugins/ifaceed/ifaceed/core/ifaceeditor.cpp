@@ -25,8 +25,9 @@
 
 IFaceEditor::IFaceEditor()
 {
-	m_log->setProgramName("IFace Editor");
-	m_log->setLogFile("log.txt");
+	m_target = new sad::log::FileTarget();
+	m_target->open("log.txt");
+	this->log()->addTarget(m_target);
 
 	m_db = NULL;
 	m_counter = 0;
@@ -144,14 +145,14 @@ class DBLoadingTask: public sad::CountableTask
 	 FontTemplatesMaps * m_maps; //!< Maps data
 	 FontTemplateDatabase * m_db;  //!< Database for loading
 	 DBLoadingTaskFuture * m_future; //!< Future for computing
-	 EditorLog * m_log;    //!< Logger for logging data
+	 sad::Log * m_log;    //!< Logger for logging data
  public:
 	 /** Constructs new tasks
 	  */
 	 inline DBLoadingTask(FontTemplatesMaps * maps, 
 						  FontTemplateDatabase * db, 
 						  DBLoadingTaskFuture * f, 
-						  EditorLog * log)
+						  sad::Log * log)
 	 {
 		 m_maps = maps;
 		 m_db = db;
@@ -174,16 +175,14 @@ class DBLoadingTask: public sad::CountableTask
 
 void IFaceEditor::onFullAppStart()
 {
-	if (this->parsedArgs()->flag("debug"))
-		m_log->setMaxLevel(ELL_DEBUG);
 	if (this->parsedArgs()->simple("ifaceconfig").length() == 0)
 	{
-		m_log->warning("Config file is not specified. You must choose it now");
+		SL_WARNING("Config file is not specified. You must choose it now");
 		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
 													  ("Configs (*.xml)"));
 		if (config.length() == 0) 
 		{
-			m_log->error("Config file is not specified. Quitting...");
+			SL_FATAL("Config file is not specified. Quitting...");
 			QTimer::singleShot(0, this->panel(), SLOT(close()));
 			return;
 		} 
@@ -195,7 +194,7 @@ void IFaceEditor::onFullAppStart()
 	bool success = true;
 	// Load first stage - a maps of handling all of data
 	FontTemplatesMaps maps;
-	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), m_log))
+	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), sad::Log::ref()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		
@@ -204,7 +203,7 @@ void IFaceEditor::onFullAppStart()
 		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->log());
 		// Locking rendering due to adding of new task
 		this->lockRendering();
-		sad::Input::inst()->addPreRenderTask(task);
+		sad::Input::ref()->addPreRenderTask(task);
 		this->unlockRendering();
 		
 		if (future->result())
@@ -222,7 +221,7 @@ void IFaceEditor::onFullAppStart()
 	else 
 	{
 		success = false;
-		m_log->error("Can\'t load config file");
+		SL_FATAL("Can\'t load config file");
 		QTimer::singleShot(0, this->panel(), SLOT(close()));
 	}
 	if (success) {
@@ -274,11 +273,11 @@ void IFaceEditor::onFullAppStart()
 		} * kbdhandler = new IFaceKeyDownHandler(this);
 
 
-		sad::Input::inst()->setMouseMoveHandler(handler);
-		sad::Input::inst()->setKeyDownHandler(kbdhandler);
+		sad::Input::ref()->setMouseMoveHandler(handler);
+		sad::Input::ref()->setKeyDownHandler(kbdhandler);
 		m_selection_border = new SelectedObjectBorder(this->shdata());
-		sad::Input::inst()->addPostRenderTask( new ActiveObjectBorder(this->shdata()) );
-		sad::Input::inst()->addPostRenderTask( m_selection_border );
+		sad::Input::ref()->addPostRenderTask( new ActiveObjectBorder(this->shdata()) );
+		sad::Input::ref()->addPostRenderTask( m_selection_border );
 
 		this->setBehaviour("main");
 		this->highlightState("Idle");
