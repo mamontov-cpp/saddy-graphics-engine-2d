@@ -267,12 +267,31 @@ namespace sad
 				 */
 			        ~ConsoleTarget();
 		};
+		/*! Scopes defines a current scope for log
+			It pushes action to it when creating, and 
+			pops it, when destroyed
+		 */
+		class Scope
+		{
+			public:
+				/*! Pushes a new state
+				 */
+				Scope(const char * c, const char * file = NULL, int line = 0);
+				/*! Pushes a new state
+				 */
+				Scope(const hst::string & c, const char * file = NULL, int line = 0);
+				/*! Pushes a new state
+				 */
+				Scope(const std::string & c, const char * file = NULL, int line  = 0);
+				
+				~Scope();
+		};
 	};
 	
 	/*! Log class takes frontend work, builds a messages and broadcasts it
 		it to all targets
 	 */
-	class Log: public LoggingActionContext
+	class Log: public ActionContext
 	{
 	 protected:
 	        os::mutex m_lock;
@@ -382,7 +401,20 @@ namespace sad
 		{
 			_createAndBroadcast(hst::string(mesg), sad::log::USER, file, line, user);
 		}
-
+		
+		/*! Sets current action
+			\param[in] str string
+		 */
+		virtual void pushAction(const hst::string & str);
+		/*! Sets current action
+			\param[in] str string
+			\param[in] file file data
+			\param[in] line line data
+		 */
+		virtual void pushAction(const hst::string & str, const char * file, int line);
+		/*!  Pops an actions
+		 */
+		virtual void popAction();
 
 		virtual ~Log();
 		/*! Returns a renderer's log instance
@@ -401,3 +433,6 @@ namespace sad
 #define SL_MESSAGE(X) sad::Log::ref()->message(X, __FILE__, __LINE__)
 #define SL_DEBUG(X) sad::Log::ref()->debug(X, __FILE__, __LINE__)
 #define SL_USER(X, TYPE) sad::Log::ref()->user(X, __FILE__, __LINE__, TYPE)
+
+
+#define SL_SCOPE(X)  sad::log::Scope  _____1_____(X, __FILE__, __LINE__)

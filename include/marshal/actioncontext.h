@@ -34,16 +34,4 @@ class ActionContext
 		  virtual ~ActionContext();  //!< Does nothing
 };
 
-/*! A class, which logs entering and leaving actions
- */
-class LoggingActionContext: public ActionContext
-{
- public:
-		  /*! Sets current action
-			  \param[in] str string
-		   */
-		  virtual void  pushAction(const hst::string & str);
-		  /*!  Pops an actions
-		   */
-		  virtual void popAction();
-};
+

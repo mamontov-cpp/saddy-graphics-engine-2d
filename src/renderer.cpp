@@ -32,6 +32,7 @@ sad::Renderer::~Renderer(void)
 
 bool sad::Renderer::init(const sad::Settings& _settings)
 {
+ SL_SCOPE("sad::Renderer::init");
  m_glsettings.setWidthScreen(_settings.width());
  m_glsettings.setHeightScreen(_settings.height());
  m_glsettings.setIsFullscreen(_settings.isFullscreen());
@@ -92,6 +93,7 @@ sad::Renderer* sad::Renderer::ref()
 
 void sad::Renderer::run()
 {
+ SL_SCOPE("sad::Renderer::run()");
  //If already created
  if (m_created)
  {
@@ -102,11 +104,11 @@ void sad::Renderer::run()
  if (createWindow())
  {
 	    m_created=true;
-		SL_MESSAGE("Renderer: started rendering cycles\n");
+		SL_MESSAGE("Started rendering");
 	    mainLoop();
  }
  else
-	 SL_FATAL("Can't create window\n");
+	 SL_FATAL("Can't create window");
  
 }	
 
@@ -117,6 +119,7 @@ void sad::Renderer::run()
 //Getting a black background with all params
 bool sad::Renderer::initGLRendering()
 {
+    SL_SCOPE("sad::Renderer::initGLRendering()");
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f,0.0f,0.0f,0.0f); //Fill a black background
 	glClearDepth(1.0f);
@@ -130,7 +133,7 @@ bool sad::Renderer::initGLRendering()
 	const char * version=(const char *)glGetString(GL_VERSION);
 	if (version!=NULL)
 	{
-		SL_MESSAGE(hst::string("Renderer: running OpenGL version ")+hst::string(version)+hst::string("\n"));
+		SL_MESSAGE(hst::string("running OpenGL ")+hst::string(version));
 		if (version[0]>'1' || version[2] >='4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}
