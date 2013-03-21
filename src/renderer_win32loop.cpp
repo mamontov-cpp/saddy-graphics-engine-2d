@@ -25,7 +25,7 @@ void sad::Renderer::mainLoop()
 
  m_running = true;											// Program Looping Is Set To TRUE
  m_window.active=true;
- Renderer::setTimer();
+ this->setTimer();
 
 
  while (m_running)											// Loop Until WM_QUIT Is Received
@@ -36,8 +36,16 @@ void sad::Renderer::mainLoop()
 	 // Check For WM_QUIT Message
 	 if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
 	 {
-	  TranslateMessage(&msg);				// Translate The Message
-	  DispatchMessage(&msg);						// If Not, Dispatch The Message
+	  TranslateMessage(&msg);		
+	  LRESULT nothandled = (LRESULT)1; 
+	  if (msg.hwnd == m_window.hWND)
+	  {
+		  nothandled = this->dispatchMessage(msg.hwnd, msg.message, msg.wParam, msg.lParam);
+	  }
+	  if (nothandled)
+	  {
+		DispatchMessage(&msg);						// If Not, Dispatch The Message
+	  }
 	 }
 	 else											// Otherwise (If Message Is WM_QUIT)
 	 {
@@ -48,9 +56,9 @@ void sad::Renderer::mainLoop()
    {
 	  // Process Application Loop
 	  frames++;
-	  if (Renderer::ref()->elapsedInMSeconds() >= 1000)
+	  if (this->elapsedInMSeconds() >= 1000)
 	  {
-		  setFPS(frames);frames=0;Renderer::ref()->setTimer();
+		  setFPS(frames);frames=0;this->setTimer();
 	  }
 	  //Update a window, if active
 	  if (m_window.active)
@@ -60,7 +68,7 @@ void sad::Renderer::mainLoop()
 	  { setCurrentScene(m_chscene); m_chscene=NULL;}
    }
   }
- sad::Input::inst()->postQuit();
+ this->controls()->postQuit();
  m_window.active=false;
  this->releaseWindow();
 }
@@ -122,7 +130,7 @@ POINT sad::Renderer::_toClient(LPARAM lParam)
 	return sad::Renderer::_toClient(pnt);
 }
 
-LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static bool msg_init=false;
 	if (!msg_init)
@@ -133,66 +141,66 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 
 	if (uMsg==WM_CLOSE)
 	{
-     	    sad::Renderer::ref()->m_running=false;					
-			return 0;													
+     	this->m_running=false;					
+		return 0;													
 	}
 	if (uMsg==WM_MOUSEMOVE)
 	{
-		if (sad::Input::inst()->areMovingNotTracked()) 
+		if (this->controls()->areMovingNotTracked()) 
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		POINT pnt = ref()->_toClient(lParam);
-		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
+		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		this->controls()->postMouseMove(sad::Event(mx,my,mz,key));
 	}
 	if (uMsg==WM_MOUSEWHEEL)
 	{
-		if (sad::Input::inst()->areWheelNotTracked()) 
+		if (this->controls()->areWheelNotTracked()) 
 			return 0;
 		float mx=0,my=0,mz=0;
 		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		POINT pnt = ref()->_toClient(lParam);
-		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Event ev(mx,my,mz,key);
 		ev.delta=fw;
-		sad::Input::inst()->postMouseWheel(ev);
+		this->controls()->postMouseWheel(ev);
 		return 0;
 	}
 	if (uMsg==WM_LBUTTONDBLCLK || uMsg==WM_MBUTTONDBLCLK || uMsg==WM_RBUTTONDBLCLK)
 	{
-		if (sad::Input::inst()->areDblClickNotTracked())
+		if (this->controls()->areDblClickNotTracked())
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		POINT pnt = ref()->_toClient(lParam);
-		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		sad::Input::inst()->postMouseDblClick(sad::Event(mx,my,mz,key));
+		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		this->controls()->postMouseDblClick(sad::Event(mx,my,mz,key));
 		return 0;
 	}
 	if (uMsg==WM_LBUTTONUP || uMsg==WM_MBUTTONUP || uMsg==WM_RBUTTONUP)
 	{
-		if (sad::Input::inst()->areUpNotTracked())
+		if (this->controls()->areUpNotTracked())
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		POINT pnt = ref()->_toClient(lParam);
-		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
+		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		this->controls()->postMouseUp(sad::Event(mx,my,mz,key));
 		return 0;
 	}
 	if (uMsg==WM_LBUTTONDOWN || uMsg==WM_MBUTTONDOWN || uMsg==WM_RBUTTONDOWN)
 	{
-		if (sad::Input::inst()->areDownNotTracked() && sad::Input::inst()->areClickNotTracked())
+		if (this->controls()->areDownNotTracked() && this->controls()->areClickNotTracked())
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		POINT pnt = ref()->_toClient(lParam);
 		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		sad::Input::inst()->postMouseDown(sad::Event(mx,my,mz,key));
-		sad::Input::inst()->postMouseClick(sad::Event(mx,my,mz,key));
+		this->controls()->postMouseDown(sad::Event(mx,my,mz,key));
+		this->controls()->postMouseClick(sad::Event(mx,my,mz,key));
 		return 0;
 	}
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
@@ -210,34 +218,39 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 		{
 			sev.key=table[wParam];
 			if (uMsg==WM_KEYDOWN)
-			     sad::Input::inst()->postKeyDown(sev);
+			     this->controls()->postKeyDown(sev);
 			else
-				 sad::Input::inst()->postKeyUp(sev);
+				 this->controls()->postKeyUp(sev);
 			return 0;
 		}
 		char af[5];
 		GetKeyNameTextA(lParam,af,5);
 		sev.key=af[0];
 		if (uMsg==WM_KEYUP)
-				sad::Input::inst()->postKeyDown(sev);
+				this->controls()->postKeyDown(sev);
 		else
-			    sad::Input::inst()->postKeyUp(sev);
+				this->controls()->postKeyUp(sev);
 		return 0;
 	}
 	if (uMsg==WM_SIZE)
 	{
 		if (wParam==SIZE_MINIMIZED)
 		{
-			ref()->m_window.active=false;
+			this->m_window.active=false;
 		}
 		else
 		{
-			ref()->m_window.active=true;
-			ref()->reshape(LOWORD (lParam), HIWORD (lParam));
+			this->m_window.active=true;
+			this->reshape(LOWORD (lParam), HIWORD (lParam));
 		}
+		return 0;
 	}
-	return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
+	
 }
 
+LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
+}
 
 #endif

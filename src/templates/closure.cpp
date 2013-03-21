@@ -1,7 +1,7 @@
 #include "closure.h"
 
 
-ClosureBasic::~ClosureBasic() 
+sad::ClosureBasic::~ClosureBasic() 
 {
 
 }

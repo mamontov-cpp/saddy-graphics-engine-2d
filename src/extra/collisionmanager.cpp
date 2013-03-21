@@ -282,7 +282,7 @@ void addTestingTask()
 {
   CollisionTestingTask * t=new CollisionTestingTask();
   CTTaskInstance::set(t);
-  sad::Input::inst()->addPostRenderTask(t);
+  sad::Input::ref()->addPostRenderTask(t);
 }
 
 void killTestingTask()
