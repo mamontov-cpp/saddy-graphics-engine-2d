@@ -51,11 +51,18 @@ hst::string sad::log::Message::fileline() const
 	if (!m_file)
 		return hst::string();
 	hst::string o;
-	char ch = '/';
-#ifdef _WIN32
-	ch = '\\';
-#endif	
-	const char * chk = strrchr(m_file, ch);
+	const char * chslash = strrchr(m_file, '/');
+	const char * chbslash = strrchr(m_file, '\\');
+	const char * chk = NULL;
+	if (chslash)
+	{
+		if (chbslash)
+		{
+			chk = (chbslash - m_file > chslash - m_file) ? chbslash : chslash;
+		}
+		else chk = chslash;
+	} else chk = chbslash;
+
 	o =  (chk ? chk + 1 : m_file);
 	o << ",";
 	o << hst::string::number(m_line);
@@ -416,4 +423,47 @@ void sad::log::Console::setColorMode(sad::log::Color foreground, sad::log::Color
 sad::Log * sad::Log::ref()
 {
 	return sad::Renderer::ref()->log();
+}
+
+
+void sad::Log::pushAction(const hst::string & str)
+{
+	debug( hst::string("Entering ") + str);
+	this->ActionContext::pushAction(str);
+}
+
+void sad::Log::pushAction(const hst::string & str, const char * file, int line)
+{
+	debug( hst::string("Entering ") + str, file, line);
+	this->ActionContext::pushAction(str);
+}
+
+void sad::Log::popAction()
+{
+	if (m_actions_stack.count()!=0) { 
+		debug( hst::string("Leaving ") + m_actions_stack[m_actions_stack.count()-1]);
+		this->ActionContext::popAction();
+	}
+}
+
+
+sad::log::Scope::Scope(const char * c, const char * f, int l)
+{
+	sad::Log::ref()->pushAction(c, f, l);
+}
+
+sad::log::Scope::Scope(const hst::string & c, const char * f, int l)
+{
+	sad::Log::ref()->pushAction(c, f, l);
+}
+
+sad::log::Scope::Scope(const std::string & c, const char * f, int l)
+{
+	sad::Log::ref()->pushAction(c.c_str(), f, l);
+}
+
+
+sad::log::Scope::~Scope()
+{
+	sad::Log::ref()->popAction();
 }

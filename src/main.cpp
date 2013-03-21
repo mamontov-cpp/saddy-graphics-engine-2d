@@ -255,7 +255,10 @@ int main(int argc, char** argv)
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
 	
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
-	printf("Initted renderer!\n");	
+	
+	return 0;
+	
+	SL_MESSAGE("Renderer successfully initialized!");	
 	srand(time(NULL));
 
 
@@ -266,14 +269,14 @@ int main(int argc, char** argv)
 	//res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
 	res=res && res1;
 	if (!res1)
-		SL_FATAL(hst::string("Loading \"times_large\" failed\n"));
+		SL_FATAL(hst::string("Loading \"times_large\" failed"));
 	sad::Renderer::ref()->fonts()->add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
 	res=res && res2;
 	if (!res2)
-		SL_FATAL(hst::string("Loading \"times_lg\" failed\n"));
+		SL_FATAL(hst::string("Loading \"times_lg\" failed"));
 	sad::Renderer::ref()->fonts()->add(fnt2,"times_lg");
 
 	//Loading sprites
@@ -282,10 +285,10 @@ int main(int argc, char** argv)
     res=res && loadSprite("examples/objects.bmp","objects"); 
     if (!res)
 	{
-		SL_FATAL(hst::string("Resource loading failed!\n Exiting...\n"));
+		SL_FATAL(hst::string("Resource loading failed!"));
 		return 1;
 	}
-	SL_MESSAGE(hst::string("Resources loaded...\n"));
+	SL_MESSAGE(hst::string("Resources successfully loaded"));
 	
 	sad::Scene * sc= new sad::Scene();
 	sad::Renderer::ref()->setCurrentScene(sc);
@@ -318,12 +321,12 @@ int main(int argc, char** argv)
 	sad::Input::inst()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
 	sad::Input::inst()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
 	
-	printf("Handlers binded!\n");
+	SL_MESSAGE("Input handlers bound succesfully");
 
 	StateMachine::bindState(IDLE_STATE,new StateHandler(toggle_idle));
 	StateMachine::bindState(PLAY_STATE,new StateHandler(toggle_play));
 	//Here must be an initialization of engine, and running it
-	printf("States binded!\nBinding collisions\n");
+	SL_MESSAGE("States bound successtully");
 
 
 	CollisionManager::bind(PlayerBullet::ID,Enemy::ID,testCollidables,new CCHandler(playerbullet));
@@ -335,7 +338,9 @@ int main(int argc, char** argv)
 	CollisionManager::bind(Player::ID,ShootingEnemy::ID,testCollidables,new CCHandler(playerenemybullet));
 	CollisionManager::bind(Player::ID,SuperShootingEnemy::ID,testCollidables,new CCHandler(playerenemybullet));
 
-	printf("Building mips!\n");	
+	SL_MESSAGE("Collisions bound successtully");
+	
+	SL_MESSAGE("Mips built successtully");	
 	sad::Renderer::ref()->textures()->buildAll();
 
 	StateMachine::pushState(IDLE_STATE);
@@ -346,8 +351,9 @@ int main(int argc, char** argv)
 	sad::ColorMaterial::set(sad::Both,sad::ColorMaterial::DiffuseAmbient);
 	sad::ColorMaterial::enable();
 
-	printf("Engine started!\n");
 	sad::Renderer::ref()->toggleFixedOn();
+	
+	SL_MESSAGE("Will start now");	
 	sad::Renderer::ref()->run();
 	return 0;
 }
