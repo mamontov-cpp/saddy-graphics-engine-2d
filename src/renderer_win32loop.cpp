@@ -48,7 +48,6 @@ void sad::Renderer::mainLoop()
   if (PeekMessage (&msg, m_window.hWND, 0, 0, PM_REMOVE) != 0)
   {
      TranslateMessage(&msg);
-	 SL_DEBUG(msg.message);
 	 // Check For WM_QUIT Message
 	 if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
 	 {		 
