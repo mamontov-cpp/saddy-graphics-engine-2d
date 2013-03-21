@@ -12,7 +12,7 @@ void sad::Renderer::mainLoop()
 {
   m_running = true;											// Loop program
   m_window.active=true;
-  Renderer::setTimer();
+  this->setTimer();
   XEvent event;
   m_fps=100;
   int frames=0;
@@ -39,14 +39,14 @@ void sad::Renderer::mainLoop()
                case ButtonRelease:    {  //Button release
                                                       if (event.xbutton.button==1 || event.xbutton.button==3 || event.xbutton.button==2)
                                                       {
-                    	                                if (!sad::Input::inst()->areUpNotTracked())
+                    	                                if (this->controls()->areUpNotTracked() == false)
 						        {
 							 float mx=0,my=0,mz=0;
 							 int key=(event.xbutton.button==1)?MOUSE_BUTTON_LEFT:(event.xbutton.button==3)?MOUSE_BUTTON_RIGHT:MOUSE_BUTTON_MIDDLE;
 							 unsigned int borderDummy = 0;
 						         XGetGeometry(m_window.dpy, m_window.win, &winDummy, &m_window.x, &m_window.y,&m_window.width, &m_window.height, &borderDummy, &m_window.depth);
 							 mapToOGL(event.xbutton.x,event.xbutton.y,mx,my,mz);
-							 sad::Input::inst()->postMouseUp(sad::Event(mx,my,mz,key));
+							 this->controls()->postMouseUp(sad::Event(mx,my,mz,key));
 							}
                                                       }
                                                       break;
@@ -60,10 +60,10 @@ void sad::Renderer::mainLoop()
                                                     {
                              	                        //Handle button press and click
                                                         int key=(event.xbutton.button==1)?MOUSE_BUTTON_LEFT:(event.xbutton.button==3)?MOUSE_BUTTON_RIGHT:MOUSE_BUTTON_MIDDLE;
-                                                        if  (!sad::Input::inst()->areDownNotTracked() || !sad::Input::inst()->areClickNotTracked())
+                                                        if  (this->controls()->areDownNotTracked() == false || this->controls()->areClickNotTracked() == false)
                                                         {
-							 sad::Input::inst()->postMouseDown(sad::Event(mx,my,mz,key));
-							 sad::Input::inst()->postMouseClick(sad::Event(mx,my,mz,key));
+							this->controls()->postMouseDown(sad::Event(mx,my,mz,key));
+							this->controls()->postMouseClick(sad::Event(mx,my,mz,key));
                                                         }
                                                         //Handle double click
                                                         clk=clock();
@@ -71,7 +71,7 @@ void sad::Renderer::mainLoop()
                     				        dblclick=clk;      
                     					if (freq<DOUBLE_CLICK_FREQ && lastkey==key)
                                                        {
-                                                          sad::Input::inst()->postMouseDblClick(sad::Event(mx,my,mz,key));
+                                                         this->controls()->postMouseDblClick(sad::Event(mx,my,mz,key));
                                                        }
                                                        lastkey=key;
                                                     }
@@ -81,7 +81,7 @@ void sad::Renderer::mainLoop()
                                                         int key=0;
 							sad::Event ev(mx,my,mz,key);
 							ev.delta=fw;
-							sad::Input::inst()->postMouseWheel(ev);
+							this->controls()->postMouseWheel(ev);
 						    }
                                                     break;
                	                                 }
@@ -90,7 +90,7 @@ void sad::Renderer::mainLoop()
 						   if (key==KEY_LALT || key==KEY_RALT) altstate=true;
 						   sad::Event sev(key);  sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
 						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
-						   sad::Input::inst()->postKeyDown(sev);
+						  this->controls()->postKeyDown(sev);
                     				   break;
                                                  }
 		case KeyRelease:      {
@@ -98,11 +98,11 @@ void sad::Renderer::mainLoop()
 						   if (key==KEY_LALT || key==KEY_RALT) altstate=false;
 						   sad::Event sev(key); sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
 						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
-						   sad::Input::inst()->postKeyUp(sev);
+						  this->controls()->postKeyUp(sev);
                     				   break;
 			                         }
 		case MotionNotify:    { //MouseMove Event
-                    				   if (!sad::Input::inst()->areMovingNotTracked()) 
+                    				   if (this->controls()->areMovingNotTracked() == false) 
                                                    { 
                                                       float mx=0,my=0,mz=0;
 						      int key=0;
@@ -112,7 +112,7 @@ void sad::Renderer::mainLoop()
 						      unsigned  int borderDummy = 0;
 						      XGetGeometry(m_window.dpy, m_window.win, &winDummy, &m_window.x, &m_window.y,&m_window.width, &m_window.height, &borderDummy, &m_window.depth); 
 						      mapToOGL(event.xmotion.x, event.xmotion.y,mx,my,mz); 
-						      sad::Input::inst()->postMouseMove(sad::Event(mx,my,mz,key));
+						     this->controls()->postMouseMove(sad::Event(mx,my,mz,key));
                     				   } 
                                                    break;
                                                  }
@@ -141,7 +141,7 @@ void sad::Renderer::mainLoop()
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}
   }
-  sad::Input::inst()->postQuit();
+ this->controls()->postQuit();
   m_window.active=false;
   this->releaseWindow();
 }
