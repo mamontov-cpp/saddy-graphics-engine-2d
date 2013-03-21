@@ -3,7 +3,9 @@
 
 	Describes a closure-like thing in terms of C++
  */
-#include <QMetaType>
+#ifdef QT_VERSION
+    #include <QMetaType>
+#endif
 #pragma once
 /*! Basic class for all of closures. Need to put this stuff for template data
  */
@@ -45,4 +47,6 @@ class ClosureBasic
  */
 #define CLSET(PROP,VAL) ______. PROP = VAL;
 
-Q_DECLARE_METATYPE(ClosureBasic*);
+#ifdef QT_VERSION
+    Q_DECLARE_METATYPE(ClosureBasic*);
+#endif

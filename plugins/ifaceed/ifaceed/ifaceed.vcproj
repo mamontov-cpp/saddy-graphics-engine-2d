@@ -512,10 +512,6 @@
 			<Filter
 				Name="utils"
 				>
-				<File
-					RelativePath=".\utils\closure.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -962,10 +958,6 @@
 			<Filter
 				Name="utils"
 				>
-				<File
-					RelativePath=".\utils\closure.h"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
