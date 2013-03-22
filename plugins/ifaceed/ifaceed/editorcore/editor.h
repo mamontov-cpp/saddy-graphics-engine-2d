@@ -22,7 +22,9 @@
 #pragma once
 
 
+#define WINDOW_WIDTH 800
 
+#define WINDOW_HEIGHT 600
 
 /** Time, all rotation wheel events within can be counted as one (in milliseconds)
  */

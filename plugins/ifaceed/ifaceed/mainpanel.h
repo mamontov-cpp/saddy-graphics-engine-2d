@@ -79,7 +79,7 @@ public:
 	/*! Enables angle changes. If false, also sets angle to zero
 		\param[in] enabled 
 	 */
-	void setAngleChangingEnabled(bool enabled);
+	void setAngleChangingEnabled(bool enabled);	
 	/*! Tries to set current propertit of active object, otherwise  - of selected
 		if property exists
 		\param[in] prop property name
@@ -160,7 +160,9 @@ protected slots:
 		\param[in] new name new name of element
 	 */
 	void nameChanged(const QString & name);
-	
+	/*! Makes selected item a background
+	 */
+	void makeBackground();
 };
 
 #endif // MAINPANEL_H
