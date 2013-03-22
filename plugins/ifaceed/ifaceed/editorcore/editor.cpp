@@ -177,7 +177,7 @@ void Editor::onSaddyWindowDestroySlot(const sad::Event & ev)
 
 void Editor::initDefaultSaddyOptions()
 {
-	sad::Settings sett(800, 600, false);
+	sad::Settings sett(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	sad::Renderer::ref()->init(sett);
 	this->m_scene = new InterlockedScene(this);
 	this->m_scene->setCamera(new OrthoCamera(false));

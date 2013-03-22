@@ -66,3 +66,28 @@ class ResizeCommand: public AbstractCommand
 	 */
 	~ResizeCommand();
 };
+
+class MakeBackgroundCommand: public AbstractCommand
+{
+ private:
+	AbstractScreenObject * m_o;
+	unsigned int m_layer;
+	hRectF m_rect;
+	float  m_angle;
+ public:
+    /** Creates a new command
+		\param[in] object object to be added
+	 */
+	MakeBackgroundCommand(AbstractScreenObject * object);
+	/** Applies changes, described in command
+		\param[in] c context
+	  */
+	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	/** Reverts changes, described in command
+		\param[in] c context
+	  */
+	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	/** Destroys a command
+	 */
+	~MakeBackgroundCommand();
+};

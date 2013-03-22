@@ -141,3 +141,4 @@ public:
 
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 };
+
