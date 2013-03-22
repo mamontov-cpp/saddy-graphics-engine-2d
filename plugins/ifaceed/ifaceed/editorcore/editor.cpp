@@ -148,7 +148,7 @@ void Editor::runQtEventLoop()
 
 	if (this->m_qtapp) 
 	{
-		QObject::connect(this, SIGNAL(closureArrived(ClosureBasic*)), this, SLOT(onClosureArrived(ClosureBasic*)) );
+		QObject::connect(this, SIGNAL(closureArrived(sad::ClosureBasic*)), this, SLOT(onClosureArrived(sad::ClosureBasic*)) );
 		m_target->enable();
 		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
 		this->m_qtapp->exec();

@@ -8,6 +8,7 @@
 #include <vector>
 #include <templates/hstring.h>
 #include <primitives/hpoint.h>
+#include <extra/geometry2d.h>
 #pragma once
 
 // Screen Object
@@ -15,6 +16,58 @@ class AbstractScreenObject;
 
 // Amount of seconds to cooldown navigation
 #define SSSS_NAVIGATION_COOLDOWN 1.5
+
+/*! Describes an action, which should be taken to perform 
+	a resizing of rect, angle dependent
+ */
+class ResizingStateAction
+{
+public:
+	int p0;
+	int p1;
+	int p2;
+	int p3;
+
+	/*! Creates a new incorrect action
+		\param[in] s
+		\param[in] _1
+		\param[in] _2
+		\param[in] _3
+		\param[in] _4
+	 */
+	inline ResizingStateAction()
+	{
+	}
+	/*! Creates a new action as tuple of values
+		\param[in] s
+		\param[in] _1
+		\param[in] _2
+		\param[in] _3
+		\param[in] _4
+	 */
+	inline ResizingStateAction(int _1, int _2, int _3, int _4)
+	{
+		p0 = _1;
+		p1 = _2;
+		p2 = _3;
+		p3 = _4;
+	}
+	/*! Applies an action, resizing rectangle
+		\param[in] x rectangle
+		\param[in] xd distance
+		\returns new rectangle
+	 */
+	hRectF apply(const hRectF & x, const hPointF & xd);
+};
+
+class ResizingSubState
+{
+ public:
+		hRectF oldRect;
+		hPointF oldPoint;
+		ResizingStateAction action;
+};
+
 
 // A substates of idle states
 enum SelectedStateSubState
@@ -28,7 +81,8 @@ enum SelectedStateSubState
 enum SelectedStateMovementSubState
 {
 	SSMSS_NOMOVEMENT,
-	SSMSS_MOVING
+	SSMSS_MOVING,
+	SSMSS_RESIZING
 };
 
 
@@ -40,6 +94,8 @@ protected:
 	hPointF m_picked_point;  //!< A first picked user point for moving
 	hPointF m_picked_old_center;	 //!< An old objects center, used for saving command 
 
+	// A state data
+	ResizingSubState    m_resizingsubstate;
 	// A substate for navigating through selected object set
 	SelectedStateSubState m_substate;
 	// When entered navigation
