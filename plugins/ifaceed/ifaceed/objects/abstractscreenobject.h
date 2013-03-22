@@ -205,5 +205,8 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Sets a top
 	 */
 	virtual void setLeft(float x);
+	/*! Sets an already rotated rectangle, restoring all data
+	 */
+	virtual void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);
 };
 

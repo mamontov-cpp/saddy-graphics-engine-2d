@@ -85,3 +85,8 @@ hst::string AbstractScreenObject::description()
 		return m_name;
 	return _description();
 }
+
+void AbstractScreenObject::setRotatedRectangle(const hRectF & rotatedrectangle, float angle)
+{
+
+}

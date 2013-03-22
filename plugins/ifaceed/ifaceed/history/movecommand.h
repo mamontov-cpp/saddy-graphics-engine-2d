@@ -5,6 +5,7 @@
  */
 #include "abstractcommand.h"
 #include <primitives/hpoint.h>
+#include <primitives/hrect.h>
 #pragma once
 
 class AbstractScreenObject;
@@ -35,4 +36,33 @@ class MoveCommand: public AbstractCommand
 	/** Destroys a command
 	 */
 	~MoveCommand();
+};
+
+
+class ResizeCommand: public AbstractCommand
+{
+ private:
+	AbstractScreenObject * m_object;
+	hRectF                m_old_rect;
+	hRectF                m_new_rect;
+	float				  m_angle;  //!< New angle
+ public:
+    /** Creates a new command
+		\param[in] object object to be added
+		\param[in] or old rect
+		\param[in] nr new rect
+		\param[in] a   angle
+	 */
+	ResizeCommand(AbstractScreenObject * object, const hRectF & or, const hRectF & nr, float a);
+	/** Applies changes, described in command
+		\param[in] c context
+	  */
+	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	/** Reverts changes, described in command
+		\param[in] c context
+	  */
+	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	/** Destroys a command
+	 */
+	~ResizeCommand();
 };

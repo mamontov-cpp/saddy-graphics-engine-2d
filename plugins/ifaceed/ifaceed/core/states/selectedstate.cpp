@@ -95,6 +95,7 @@ void SelectedState::onWheel(const sad::Event & ev)
 
 void SelectedState::onMouseDown(const sad::Event & ev)
 {
+	SL_SCOPE(QString("SelectedState::onMouseDown(%1,%2)").arg(ev.x, ev.y).toStdString());
 	if (ev.key == MOUSE_BUTTON_LEFT) {
 		IFaceEditor * ed = this->editor();
 		hPointF p(ev.x, ev.y);
@@ -105,8 +106,18 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 			BorderHotSpots bhs = r[r.count()-1]; 
 			if (bhs == BHS_REMOVE) 
 			{
-				ed->log()->debug("Hit remove hotspot on selected object");
+				SL_DEBUG("Hit remove hotspot on selected object");
 				ed->tryEraseObject();
+			}
+			else
+			{
+				m_movement_substate = SSMSS_RESIZING;
+				m_resizingsubstate.oldRect = o->region();
+				m_resizingsubstate.oldPoint = p;
+				if (bhs == BHS_LEFT)  m_resizingsubstate.action   = ResizingStateAction(0,3,1,2);
+				if (bhs == BHS_TOP)  m_resizingsubstate.action = ResizingStateAction(0,1,3,2);
+				if (bhs == BHS_RIGHT)  m_resizingsubstate.action  = ResizingStateAction(1,2,0,3);
+				if (bhs == BHS_BOTTOM)  m_resizingsubstate.action    = ResizingStateAction(2,3,1,0);
 			}
 		}
 		else
@@ -134,13 +145,23 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 
 void SelectedState::onMouseMove(const sad::Event & ev)
 {
+	IFaceEditor * ed = this->editor();
+	hPointF p(ev.x, ev.y);
+	AbstractScreenObject * o = this->shdata()->selectedObject();
 	if (m_movement_substate == SSMSS_MOVING)
-	{
-		IFaceEditor * ed = this->editor();
-		hPointF p(ev.x, ev.y);
-		AbstractScreenObject * o = this->shdata()->selectedObject();
+	{	
 		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
-		
+		CLOSURE
+		CLOSURE_DATA( IFaceEditor * e;  )
+		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
+		INITCLOSURE( CLSET(e, ed);  );
+		SUBMITCLOSURE( ed->emitClosure );
+	}
+	if (m_movement_substate == SSMSS_RESIZING)
+	{
+		hPointF d = p - m_resizingsubstate.oldPoint;
+		hRectF nr  = m_resizingsubstate.action.apply(m_resizingsubstate.oldRect, d);
+		o->setRotatedRectangle(nr, o->prop<float>("angle", ed->log()));
 		CLOSURE
 		CLOSURE_DATA( IFaceEditor * e;  )
 		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
@@ -151,15 +172,21 @@ void SelectedState::onMouseMove(const sad::Event & ev)
 
 void SelectedState::onMouseUp(const sad::Event & ev)
 {
+	IFaceEditor * ed = this->editor();
+	AbstractScreenObject * o = this->shdata()->selectedObject();
 	if (m_movement_substate == SSMSS_MOVING)
 	{
-		this->onMouseMove(ev);
-
-		IFaceEditor * ed = this->editor();
-		AbstractScreenObject * o = this->shdata()->selectedObject();
+		this->onMouseMove(ev);		
 		hRectF region = o->region();
 		hPointF newcenter = (region[0] + region[2]) / 2;
 		ed->history()->add(new MoveCommand(o, m_picked_old_center, newcenter));
+		m_movement_substate = SSMSS_NOMOVEMENT;
+	}
+	if (m_movement_substate == SSMSS_RESIZING)
+	{
+		this->onMouseMove(ev);
+		ResizeCommand * r = new ResizeCommand(o, m_resizingsubstate.oldRect, o->region(), o->prop<float>("angle", ed->log()));
+		ed->history()->add(r);
 		m_movement_substate = SSMSS_NOMOVEMENT;
 	}
 }
@@ -194,4 +221,16 @@ void SelectedState::onKeyDown(const sad::Event & ev)
 		this->shdata()->setSelectedObject(NULL);
 		ed->currentBehaviour()->enterState("idle");
 	}
+}
+
+hRectF ResizingStateAction::apply(const hRectF & x, const hPointF & xd)
+{
+	hRectF xs  = x;
+	hPointF xc = (x[p0] + x[p1]) / 2;
+	hPointF xcp = (x[p2] + x[p3]) / 2;
+	s2d::vec e = normalize(xc - xcp);
+	float t = scalar(e, xd );
+	xs[p0] +=  e * t;
+	xs[p1] +=  e * t;
+	return xs;
 }
