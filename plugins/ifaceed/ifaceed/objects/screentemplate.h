@@ -61,6 +61,15 @@ class ScreenTemplate: public HashBasedSerializableContainer
 		\return whether he is in list
 	 */
 	virtual bool isObjectInPicked(const hPointF & point,AbstractScreenObject * object);
+	/*! Tests, whether object is background for all oher
+		It's defines, when it's size is maximum and it's layer
+		is minumum of all
+		\param[in] point point data
+		\param[in] object object
+		\return whether those conditions are met
+	 */
+	virtual bool pickedIsBackground(const hPointF & point,AbstractScreenObject * object);
+	
 	/*! Clears a picked element cache
 	 */ 
 	virtual void clearPickedCache();
