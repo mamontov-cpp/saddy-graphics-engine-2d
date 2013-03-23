@@ -287,17 +287,16 @@ void IFaceEditor::onFullAppStart()
 							handled = true;
 							static_cast<IFaceEditor*>(m_editor)->quit(ev);
 						}
-						if (ev.key == 'Z' && ev.ctrl)
-						{
-							handled = true;
-							this->rollbackInEditor();
-						}
-						if (ev.key == 'R' && ev.ctrl)
-						{
-							handled = true;
-							this->commitInEditor();
-						}
-
+					}
+					if (ev.key == 'Z' && ev.ctrl)
+					{
+						handled = true;
+						this->rollbackInEditor();
+					}
+					if (ev.key == 'R' && ev.ctrl)
+					{
+						handled = true;
+						this->commitInEditor();
 					}
 				}
 				if (!handled)
