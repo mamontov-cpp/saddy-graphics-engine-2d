@@ -361,20 +361,30 @@ void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant 
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )
 	CLOSURE_CODE( 
+		SL_SCOPE("IFaceEditor::submitEvent()::closure");
 		if (me->m_handling_event)
 			return;
 		me->m_handling_event = true;
 		me->panel()->updateList(); 
-		if (me->behaviourSharedData()->selectedObject() != NULL 
-			&& me->behaviourSharedData()->activeObject() == NULL) 
+		if (me->behaviourSharedData()->selectedObject() != NULL )
 		{
-			me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
+			if (me->behaviourSharedData()->activeObject() == NULL)
+			{
+				SL_SCOPE("IFaceEditor::submitEvent()::closure::callUpdateObjectStats()");
+				me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
+			}
 			// Remove order, if selected removed
 			if (me->shdata()->selectedObject()->prop<bool>("activity", me->log()) == false
-			    && me->currentBehaviour()->state() == "selected"
 			   )
 			{
-				me->currentBehaviour()->enterState("idle");
+				SL_SCOPE("IFaceEditor::submitEvent()::closure::fixingSelected()");
+				if (me->currentBehaviour()->state() == "selected")
+				{
+					SL_DEBUG("Entering idle state");
+					me->currentBehaviour()->enterState("idle");
+				}
+				SL_DEBUG("Unselecting object to null");
+				me->shdata()->setSelectedObject(NULL);
 			}
 		}
 		me->m_handling_event = false;
