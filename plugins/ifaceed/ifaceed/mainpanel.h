@@ -86,6 +86,12 @@ public:
 		\param[in] v value
 	 */
 	template<typename T> void trySetProperty(const hst::string & prop, T v);
+	/*! Tries to set current propertit of active object, otherwise  - of selected
+		if property exists. In a first place this for angle, that is believed as float
+		\param[in] prop property name
+		\param[in] v value
+	 */
+	void trySetProperty(const hst::string & prop, float v);	
 	inline Ui::MainPanelClass * myUI() { return &ui; }
 
 	void updateObjectStats(AbstractScreenObject * o);

@@ -18,13 +18,13 @@ MoveCommand::~MoveCommand()
 void MoveCommand::commit(ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->moveCenterTo(m_new_point);
-	ob->submitEvent("move", sad::Variant(0));
+	ob->submitEvent("MoveCommand::commit", sad::Variant(0));
 }
 
 void MoveCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
 {
 	m_object->moveCenterTo(m_old_point);
-	ob->submitEvent("move", sad::Variant(0));
+	ob->submitEvent("MoveCommand::rollback", sad::Variant(0));
 }
 
 

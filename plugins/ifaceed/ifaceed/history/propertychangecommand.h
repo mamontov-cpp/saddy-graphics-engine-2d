@@ -7,6 +7,7 @@
 #include "../objects/abstractscreenobject.h"
 #include "templates/hstring.h"
 #include "primitives/hrect.h"
+#include <3rdparty/format/format.h>
 #include <log/log.h>
 #pragma once
 
@@ -66,12 +67,16 @@ public:
 
 	void commit(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
+		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::commit") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_current_value, m_log);
+		ob->submitEvent("PropertyChangeCommand::commit", sad::Variant(0));
 	}
 
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
+		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::rollback") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_prev_value, m_log);
+		ob->submitEvent("PropertyChangeCommand::rollback", sad::Variant(0));
 	}
 
 

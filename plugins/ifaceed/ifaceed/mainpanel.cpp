@@ -297,6 +297,64 @@ void MainPanel::setAddingEnabled(bool enabled)
 	this->ui.btnAddSprite->setEnabled(enabled);
 }
 
+void MainPanel::trySetProperty(const hst::string & prop, float v)
+{
+	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
+	AbstractScreenObject * o = NULL;
+	AbstractProperty * _property = NULL;
+	bool selected = false;
+	if (data->activeObject()) 
+	{
+		o = data->activeObject();
+	} 
+	else 
+	{
+		o = data->selectedObject();	
+		selected = true;
+	}
+	if (o) 
+	{
+		this->m_editor->lockRendering();
+		_property = o->getProperty(prop);
+		float  old;
+		if (_property) 
+		{
+			sad::Log * sl = this->m_editor->log();
+			old = _property->get(sl)->get<float>(sl);	
+			_property->set(v, this->m_editor->log());
+		}
+		if (selected) 
+		{
+			if (prop == "angle") 
+			{
+				QTimer * t =new QTimer();
+				t->setSingleShot(true);
+				bool pending = this->m_editor->shdata()->isRotationCommandPending();
+				sad::Variant new_v(v);
+				float new_val_escaped = new_v.get<float>(this->m_editor->log());
+				float old_val_escaped = old;
+				if (pending) {
+					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
+				} else {
+					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
+				}
+				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
+				t->start(MAX_ROTATION_TIME);
+			}
+			else
+			{
+				this->m_editor->history()->add(new PropertyChangeCommand<float>(
+					o, prop, v, 
+					old,
+					this->m_editor->log()
+				));
+			}
+		}
+		this->m_editor->unlockRendering();
+		this->updateList();
+	}	
+}
+
 
 template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T v)
 {
@@ -317,11 +375,12 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 	{
 		this->m_editor->lockRendering();
 		_property = o->getProperty(prop);
-		sad::Variant * old = NULL;
+		T  old;
 		if (_property) 
 		{
+			sad::Log * sl = this->m_editor->log();
+			old = _property->get(sl)->get<T>(sl);	
 			_property->set(v, this->m_editor->log());
-			old = _property->get(this->m_editor->log());
 		}
 		if (prop == "font")
 		{
@@ -335,8 +394,9 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 				t->setSingleShot(true);
 				bool pending = this->m_editor->shdata()->isRotationCommandPending();
 				sad::Variant new_v(v);
+				sad::Variant old_escaped(old);
 				float new_val_escaped = new_v.get<float>(this->m_editor->log());
-				float old_val_escaped = old->get<float>(this->m_editor->log());
+				float old_val_escaped = old_escaped.get<float>(this->m_editor->log());
 				if (pending) {
 					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
 				} else {
@@ -347,7 +407,11 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 			}
 			else
 			{
-				this->m_editor->history()->add(new PropertyChangeCommand<T>(o, prop, v, this->m_editor->log()));
+				this->m_editor->history()->add(new PropertyChangeCommand<T>(
+					o, prop, v, 
+					old,
+					this->m_editor->log()
+				));
 			}
 		}
 		this->m_editor->unlockRendering();
@@ -430,6 +494,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 			ui.cmbFontSize->addItem(QString::number(size), (int)size);
 			ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count() - 1);
 		}
+		m_selfchanged = false;
 	}
 	prop = o->getProperty("color");
 	if (prop)
