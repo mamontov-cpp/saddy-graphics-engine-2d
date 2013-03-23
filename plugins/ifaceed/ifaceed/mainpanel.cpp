@@ -545,7 +545,6 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	}
 	if (o->getProperty("config") != NULL)
 	{
-		m_selfchanged = true;
 		this->setRegionParameters();
 		
 		hst::string config = o->prop<hst::string>("config", m_editor->log());
@@ -553,9 +552,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		int index = o->prop<int>("index", m_editor->log());
 		
 		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
+		this->m_spriteTableWidget->blockSignals(true);
 		this->m_spriteTableWidget->setSelection(sel);
+		this->m_spriteTableWidget->blockSignals(false);
 
-		m_selfchanged = false;
 	}
 	// This added to prevent cases when selfchanging does not work and flag is not resetted.
 	m_selfchanged = false;
@@ -721,6 +721,8 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 
 void SpritePropertyChangeCommand::commit(ActionContext *c, CommandChangeObserver * ob )
 {
+	SL_SCOPE("SpritePropertyChangeCommand::commit");
+	hst::string rd = SaveLoadCallback<hRectF>::save(m_new.rect).data();
 	m_sprite->setProp<hst::string>("config", m_new.config, m_log);
 	m_sprite->setProp<hst::string>("group",  m_new.group, m_log);
 	m_sprite->setProp<int>("index",    m_new.index, m_log);
@@ -731,6 +733,7 @@ void SpritePropertyChangeCommand::commit(ActionContext *c, CommandChangeObserver
 
 void SpritePropertyChangeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
 {
+	SL_SCOPE("SpritePropertyChangeCommand::rollback");
 	m_sprite->setProp<hst::string>("config", m_old.config, m_log);
 	m_sprite->setProp<hst::string>("group",  m_old.group, m_log);
 	m_sprite->setProp<int>("index",    m_old.index, m_log);
