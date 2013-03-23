@@ -70,6 +70,9 @@ class ScreenTemplate: public HashBasedSerializableContainer
 	/** Returns minimal layer, used by objects
 	 */
 	virtual unsigned int maxLayer();
+	/*! Returns amount of objects in template
+	 */
+	int count();
 	/** Frees data 
 	 */
 	~ScreenTemplate();

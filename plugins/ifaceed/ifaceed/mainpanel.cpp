@@ -25,6 +25,7 @@
 #include "history/propertychangecommand.h"
 #include "history/layercommands.h"
 #include "history/movecommand.h"
+#include "history/newcommand.h"
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -96,6 +97,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.dblSpriteWidth, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 	connect(ui.dblSpriteHeight, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 	connect(ui.btnMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
+	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -741,5 +743,27 @@ void MainPanel::makeBackground()
 			m_editor->history()->add(d);
 			d->commit(m_editor->log(), m_editor);
 		}
+	}
+}
+
+
+void MainPanel::clearScreenTemplate()
+{
+	if (m_editor->currentBehaviour()->state() == "idle"
+		|| m_editor->currentBehaviour()->state() == "selected"
+		)
+	{
+	if (m_editor->result()->count() )
+	{
+		if (m_editor->currentBehaviour()->state() == "selected")
+		{
+			m_editor->shdata()->setSelectedObject(NULL);
+			m_editor->currentBehaviour()->enterState("idle");
+		}
+		ScreenClearCommand * c =new ScreenClearCommand(m_editor->result());
+		m_editor->history()->add(c);
+		c->commit(m_editor->log(), m_editor);
+		m_editor->currentBehaviour()->enterState("idle");
+	}
 	}
 }
