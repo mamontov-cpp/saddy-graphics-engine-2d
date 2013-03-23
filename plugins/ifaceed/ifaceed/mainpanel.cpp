@@ -736,15 +736,25 @@ void SpriteRectChangeCommand::rollback(ActionContext *c, CommandChangeObserver *
 
 void MainPanel::makeBackground()
 {
+	SL_SCOPE("MainPanel::makeBackground()");
 	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
 	if (o2)
 	{
-		if (o2->type() == "ScreenSprite")
+		if (o2->hasProperty("rect") && o2->rotatable())
 		{
 			AbstractCommand * d = new MakeBackgroundCommand(o2);
 			m_editor->history()->add(d);
 			d->commit(m_editor->log(), m_editor);
+			SL_DEBUG("MakeBackgroundCommand() comitted");
 		}
+		else
+		{
+			SL_DEBUG("Selected object has no \"rect\" or rotatable");
+		}
+	}
+	else 
+	{
+		SL_DEBUG("No object selected");
 	}
 }
 

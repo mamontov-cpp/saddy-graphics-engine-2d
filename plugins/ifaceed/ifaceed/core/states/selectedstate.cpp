@@ -122,7 +122,8 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 		}
 		else
 		{
-			if (ed->result()->isObjectInPicked(p,o)) 
+			if (ed->result()->isObjectInPicked(p,o) 
+				&& ed->result()->pickedIsBackground(p,o) == false) 
 			{
 				m_substate = SSSS_SIMPLESELECTED;
 				hRectF region = o->region();
