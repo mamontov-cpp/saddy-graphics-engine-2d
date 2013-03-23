@@ -98,6 +98,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.dblSpriteHeight, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 	connect(ui.btnMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
 	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
+	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
+	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -767,3 +769,15 @@ void MainPanel::clearScreenTemplate()
 	}
 	}
 }
+
+
+void MainPanel::repeatHistoryChange()
+{
+	m_editor->history()->commit(m_editor);
+}
+
+void MainPanel::rollbackHistoryChange()
+{
+	m_editor->history()->rollback(m_editor);
+}
+
