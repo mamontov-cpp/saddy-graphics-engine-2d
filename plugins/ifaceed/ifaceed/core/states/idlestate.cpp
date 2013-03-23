@@ -23,6 +23,7 @@ void IdleState::onMouseDown(const sad::Event & ev)
 void IdleState::enter()
 {
 	IFaceEditor * ed = this->editor();
+	ed->shdata()->setSelectedObject(NULL); // Disable borders
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * e; )
 	CLOSURE_CODE( this->e->highlightState("Idle"); )

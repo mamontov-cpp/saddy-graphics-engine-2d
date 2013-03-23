@@ -166,6 +166,13 @@ protected slots:
 	/*! Clears a screen template
 	 */
 	void clearScreenTemplate();
+	/*! Repeats history
+	 */
+	void repeatHistoryChange();
+	/*! Rollbacks history
+	 */
+	void rollbackHistoryChange();
+
 };
 
 #endif // MAINPANEL_H

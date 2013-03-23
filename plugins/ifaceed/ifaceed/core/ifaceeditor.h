@@ -19,6 +19,9 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	Q_OBJECT
  protected:
 	 sad::log::FileTarget * m_target;
+	 /*! Determines, whether we are already handling an event
+	  */
+	 bool m_handling_event;
  public:
 	/** Constructs editor with empty db
 	 */

@@ -25,6 +25,7 @@
 
 IFaceEditor::IFaceEditor()
 {
+	m_handling_event = false;
 	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::DEBUG);
 	fh->open("user.txt");
 	this->log()->addTarget(fh);
@@ -255,6 +256,24 @@ void IFaceEditor::onFullAppStart()
 			IFaceKeyDownHandler(Editor * ed) : EditorEventHandler(ed, &EditorBehaviour::onKeyDown)
 			{
 			}
+			void commitInEditor()
+			{
+				IFaceEditor * ed = static_cast<IFaceEditor*>(m_editor);
+				CLOSURE
+				CLOSURE_DATA(IFaceEditor * e;)
+				CLOSURE_CODE(e->history()->commit(e); )
+				INITCLOSURE( CLSET(e, ed); );
+				SUBMITCLOSURE( ed->emitClosure );
+			}
+			void rollbackInEditor()
+			{
+				IFaceEditor * ed = static_cast<IFaceEditor*>(m_editor);
+				CLOSURE
+				CLOSURE_DATA(IFaceEditor * e;)
+				CLOSURE_CODE(e->history()->rollback(e); )
+				INITCLOSURE( CLSET(e, ed); );
+				SUBMITCLOSURE( ed->emitClosure );
+			}
 			virtual void operator()(const sad::Event & ev)
 			{
 				bool handled = false;
@@ -268,6 +287,17 @@ void IFaceEditor::onFullAppStart()
 							handled = true;
 							static_cast<IFaceEditor*>(m_editor)->quit(ev);
 						}
+						if (ev.key == 'Z' && ev.ctrl)
+						{
+							handled = true;
+							this->rollbackInEditor();
+						}
+						if (ev.key == 'R' && ev.ctrl)
+						{
+							handled = true;
+							this->commitInEditor();
+						}
+
 					}
 				}
 				if (!handled)
@@ -331,12 +361,23 @@ void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant 
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )
 	CLOSURE_CODE( 
+		if (me->m_handling_event)
+			return;
+		me->m_handling_event = true;
 		me->panel()->updateList(); 
 		if (me->behaviourSharedData()->selectedObject() != NULL 
 			&& me->behaviourSharedData()->activeObject() == NULL) 
 		{
 			me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
+			// Remove order, if selected removed
+			if (me->shdata()->selectedObject()->prop<bool>("activity", me->log()) == false
+			    && me->currentBehaviour()->state() == "selected"
+			   )
+			{
+				me->currentBehaviour()->enterState("idle");
+			}
 		}
+		me->m_handling_event = false;
 	)
 	INITCLOSURE ( CLSET(me, this) )
 	SUBMITCLOSURE( this->emitClosure );
