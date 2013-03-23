@@ -163,6 +163,9 @@ protected slots:
 	/*! Makes selected item a background
 	 */
 	void makeBackground();
+	/*! Clears a screen template
+	 */
+	void clearScreenTemplate();
 };
 
 #endif // MAINPANEL_H

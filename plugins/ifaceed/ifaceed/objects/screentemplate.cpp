@@ -132,3 +132,16 @@ unsigned int ScreenTemplate::maxLayer()
 	}
 	return result;
 }
+
+int ScreenTemplate::count()
+{
+	int c = 0;
+	AbstractScreenObject * o = this->templateBegin();
+	
+	while(o != NULL) 
+	{
+		++c;
+		o = this->templateNext();
+	}
+	return c;
+}
