@@ -467,6 +467,15 @@ void MainPanel::textChanged()
 	trySetProperty("text",s);
 }
 
+// Applying this macro, we can temporarily block 
+// signals from Qt elements and restore them to
+// original form
+#define BLOCK_SIGNALS_AND_CALL(X, O)              \
+		{                                         \
+		  bool ___2___ = X -> blockSignals(true); \
+		  X -> O ;                                \
+		  X -> blockSignals(___2___);             \
+		}
 void MainPanel::updateObjectStats(AbstractScreenObject * o)
 {
 	AbstractProperty * prop = NULL;
@@ -476,7 +485,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
-		ui.txtLabelText->setPlainText(prop->get(l)->get<hst::string>(l).data());
+		BLOCK_SIGNALS_AND_CALL(
+			ui.txtLabelText,
+			setPlainText(prop->get(l)->get<hst::string>(l).data())
+		);
 	}
 	// Get size
 	prop = o->getProperty("size");
@@ -487,12 +499,18 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		int index = ui.cmbFontSize->findData((int)size);
 		if (index != -1) 
 		{
-			ui.cmbFontSize->setCurrentIndex(index);
+			BLOCK_SIGNALS_AND_CALL(
+				ui.cmbFontSize,
+				setCurrentIndex(index)
+			);
 		} 
 		else 
 		{
 			ui.cmbFontSize->addItem(QString::number(size), (int)size);
-			ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count() - 1);
+			BLOCK_SIGNALS_AND_CALL(
+				ui.cmbFontSize,
+				setCurrentIndex(ui.cmbFontSize->count() - 1)
+			);
 		}
 		m_selfchanged = false;
 	}
@@ -505,7 +523,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		int index = ui.cmbFontColor->findData(clr);
 		if (index != -1) 
 		{
-			ui.cmbFontColor->setCurrentIndex(index);
+			BLOCK_SIGNALS_AND_CALL(
+				ui.cmbFontColor,
+				setCurrentIndex(index)
+			);
 		} 
 		else 
 		{
@@ -521,7 +542,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		int index = ui.cmbFonts->findText(s);
 		if (index != -1) 
 		{
-			ui.cmbFonts->setCurrentIndex(index);
+			BLOCK_SIGNALS_AND_CALL(
+				ui.cmbFonts,
+				setCurrentIndex(index)
+			);
 		} 
 		else 
 		{
@@ -533,9 +557,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{
 		m_selfchanged = true;
 		float c = prop->get(l)->get<float>(l);
-		bool old = ui.dblAngle->blockSignals(true);
-		ui.dblAngle->setValue(c);
-		ui.dblAngle->blockSignals(old);
+		BLOCK_SIGNALS_AND_CALL(ui.dblAngle, setValue(c));
 		m_selfchanged = false;
 	}
 	prop = o->getProperty("name");
@@ -543,7 +565,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{	
 		m_selfchanged = true;
 		hst::string c= prop->get(l)->get<hst::string>(l);
-		ui.txtName->setText(c.data());
+		BLOCK_SIGNALS_AND_CALL(ui.txtName, setText(c.data()));
 		m_selfchanged = false;
 	}
 	if (o->getProperty("config") != NULL)
@@ -555,14 +577,12 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		int index = o->prop<int>("index", m_editor->log());
 		
 		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
-		this->m_spriteTableWidget->blockSignals(true);
-		this->m_spriteTableWidget->setSelection(sel);
-		this->m_spriteTableWidget->blockSignals(false);
-
+		BLOCK_SIGNALS_AND_CALL(m_spriteTableWidget,setSelection(sel));
 	}
 	// This added to prevent cases when selfchanging does not work and flag is not resetted.
 	m_selfchanged = false;
 }
+#undef BLOCK_SIGNALS_AND_CALL
 
 void MainPanel::updateList()
 {
