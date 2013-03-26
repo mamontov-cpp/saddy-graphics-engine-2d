@@ -37,6 +37,7 @@ public:
 	 */
 	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, sad::Log * log) 
 	{
+		SL_SCOPE("PropertyChangeCommand::PropertyChangeCommand");
 		m_log = log;
 		m_object = o;
 		m_property_name = s;
@@ -114,6 +115,7 @@ class SpritePropertyChangeCommand: public AbstractCommand
 									   const SpritePropertyChangeCommandInfo & _old,
 									   const SpritePropertyChangeCommandInfo & _new)
 	{
+		SL_SCOPE("SpritePropertyChangeCommand::SpritePropertyChangeCommand");
 		m_sprite = sprite;
 		m_db = db;
 		m_old = _old;
@@ -137,6 +139,7 @@ class SpriteRectChangeCommand: public AbstractCommand
 public:
 	inline SpriteRectChangeCommand(ScreenSprite * sprite, float angle, const hRectF & oldrect, const hRectF &  newrect)
 	{
+		SL_SCOPE("SpriteRectChangeCommand::SpriteRectChangeCommand");
 		m_sprite = sprite;
 		m_angle = angle;
 		m_old_rect = oldrect;

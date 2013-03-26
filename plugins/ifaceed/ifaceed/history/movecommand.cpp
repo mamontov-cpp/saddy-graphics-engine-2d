@@ -5,6 +5,7 @@
 
 MoveCommand::MoveCommand(AbstractScreenObject * object, const hPointF & oldp, const hPointF & newp)
 {
+	SL_SCOPE("MoveCommand::MoveCommand");
 	m_object = object;
 	m_old_point = oldp;
 	m_new_point = newp;
@@ -30,6 +31,7 @@ void MoveCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
 
 ResizeCommand::ResizeCommand(AbstractScreenObject * object, const hRectF & or, const hRectF & nr, float a)
 {
+	SL_SCOPE("ResizeCommand::ResizeCommand");
 	m_object = object;
 	m_old_rect = or;
 	m_new_rect = nr;
@@ -56,6 +58,7 @@ void ResizeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
 
 MakeBackgroundCommand::MakeBackgroundCommand(AbstractScreenObject * object)
 {
+	SL_SCOPE("MakeBackgroundCommand::MakeBackgroundCommand");
 	m_o = object;
 	m_layer = m_o->prop<unsigned int>("layer", sad::Log::ref());
 	m_rect = m_o->prop<hRectF>("rect", sad::Log::ref());

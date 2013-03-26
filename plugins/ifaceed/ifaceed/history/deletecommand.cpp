@@ -1,7 +1,9 @@
 #include "deletecommand.h"
+#include <log/log.h>
 
 DeleteCommand::DeleteCommand(ScreenTemplate * container, AbstractScreenObject * object)
 {
+	SL_SCOPE("DeleteCommand::DeleteCommand");
 	m_cmd = new NewCommand(container, object);
 }
 
