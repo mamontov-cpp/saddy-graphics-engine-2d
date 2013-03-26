@@ -5,6 +5,7 @@
 
 LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer)
 {
+	SL_SCOPE("LayerCommand::LayerCommand");
 	m_old_layer = oldlayer;
 	m_new_layer = newlayer;
 	m_object = object;

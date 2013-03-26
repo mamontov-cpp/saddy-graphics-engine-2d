@@ -533,7 +533,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{
 		m_selfchanged = true;
 		float c = prop->get(l)->get<float>(l);
+		bool old = ui.dblAngle->blockSignals(true);
 		ui.dblAngle->setValue(c);
+		ui.dblAngle->blockSignals(old);
+		m_selfchanged = false;
 	}
 	prop = o->getProperty("name");
 	if (prop)

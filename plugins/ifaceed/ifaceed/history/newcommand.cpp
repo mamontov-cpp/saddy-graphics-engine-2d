@@ -5,6 +5,7 @@
 
 NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object)
 {
+	SL_SCOPE("NewCommand::NewCommand");
 	m_container = container;
 	m_object = object;
 	object->addRef();
@@ -36,6 +37,7 @@ NewCommand::~NewCommand()
 
 ScreenClearCommand::ScreenClearCommand(ScreenTemplate * container)
 {
+	SL_SCOPE("ScreenClearCommand::ScreenClearCommand");
 	m_objects.clear();
 	AbstractScreenObject * o = container->templateBegin();
 	while(o)
