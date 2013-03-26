@@ -108,6 +108,8 @@ hRectF deletePositionRectangle(const hRectF & region,float size)
 	}
 	return v;
 }
+
+#define DELETEPADDINGSIZE 8
 void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 {
 	Sprite2DConfig * c = this->m_data->icons();
@@ -126,7 +128,7 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 		Sprite2DConfigObserver observer("delete", 0, c);
 		if (observer.createSprite(hPointF(0,0)))
 		{
-			hRectF v = deletePositionRectangle(region, HOTSPOT_PADDING);
+			hRectF v = deletePositionRectangle(region, DELETEPADDINGSIZE);
 			observer.sprite()->adapter()->setRect(v);
 			//observer.sprite()->adapter()->setSize(hPointF(size,size));
 			observer.sprite()->adapter()->render();
