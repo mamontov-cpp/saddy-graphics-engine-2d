@@ -123,3 +123,8 @@ void sad::TextureManager::setLoader(const hst::string & format, sad::TextureLoad
 	}
 	
 }
+
+bool sad::TextureManager::hasContainer(const hst::string & name) const
+{
+	return m_containers.contains(name);
+}

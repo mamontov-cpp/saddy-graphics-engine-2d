@@ -40,6 +40,11 @@ namespace sad
 			\return texture pointer. NULL, if can't be found
 		*/
 		Texture *  get(const hst::string & name,const hst::string & containername="default");
+		/*! Tests, whether manager has a container
+			\param[in] name
+			\return true if has
+		 */
+		bool hasContainer(const hst::string & name) const;
 		/*! Adds a texture. If container is not found, new container should be created.
 		    \param[in] name name of a texture
 		    \param[in] tex  texture
