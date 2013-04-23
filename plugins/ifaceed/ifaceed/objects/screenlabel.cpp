@@ -15,6 +15,8 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 	this->addProperty("text" ,new MappedField<hst::string>(&m_text, ""));
 	this->addProperty("angle",new MappedField<float>(&m_angle, 0.0f));
 	this->addProperty("pos"  ,new MappedField<hPointF>(&m_point, hPointF(0,0)));
+	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
+
 }
 
 
@@ -51,7 +53,7 @@ void ScreenLabel::_render()
 	{
 		return;
 	}
-	m_font->setColor(hst::acolor(m_font_color.r(),m_font_color.g(),m_font_color.b(),0));
+	m_font->setColor(hst::acolor(m_font_color.r(),m_font_color.g(),m_font_color.b(),(Uint8)m_alpha));
 	m_font->setHeight(m_font_size);
 
 	hRectF s = m_font->size(m_text);

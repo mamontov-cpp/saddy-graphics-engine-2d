@@ -12,6 +12,7 @@ void Sprite2DAdapter::createSprite(sad::Texture * tex,const hRectF & texrect,con
 								 ::s3d::point((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
 	m_texrect=texrect;
 	m_sprite=new Sprite(tex,rect,m_texrect);
+	m_sprite->setColor(m_color);
 	
 }
 Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox)
@@ -20,6 +21,7 @@ Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const
 	m_flipy=false;
 	m_angle=0;
 	m_sprite=NULL;
+	m_color = hst::acolor(255,255,255,0);
 	createSprite(tex,texrect,bbox);
 }
 
@@ -31,6 +33,7 @@ Sprite2DAdapter::Sprite2DAdapter(const Sprite2DAdapter & sprite)
 	m_flipx=sprite.m_flipx;
 	m_flipy=sprite.m_flipy;
 	m_angle=sprite.m_angle;
+	m_color = hst::acolor(255,255,255,0);
 }
 Sprite2DAdapter::~Sprite2DAdapter()
 {
@@ -205,7 +208,7 @@ void Sprite2DAdapter::setSprite(sad::Texture * tex, const hRectF & texrect)
    bool flipy=m_flipy;
    m_flipy=false;
    if (flipy)
-	   flipY();
+	   flipY(); 
 }
 
 const hRectF & Sprite2DAdapter::rect() const
@@ -226,3 +229,16 @@ void Sprite2DAdapter::setRect(const hRectF & rect)
 		m_sprite->setBBox(vrect);
 	}
 }
+
+void Sprite2DAdapter::setColor(const hst::acolor & color)
+{
+	m_color = color;
+	if (m_sprite)
+		m_sprite->setColor(color);
+}
+
+const hst::acolor & Sprite2DAdapter::color() const 
+{
+	return m_color;
+}
+

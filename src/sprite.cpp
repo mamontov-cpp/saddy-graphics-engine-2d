@@ -17,6 +17,8 @@
 
 SAD_DECLARE(Sprite,sad::BasicNode)
 
+#define DEFAULT_COLOR_INITIALIZATION  m_color = hst::acolor(255,255,255,0);
+
 Sprite::~Sprite()
 {
 
@@ -31,6 +33,7 @@ Sprite::Sprite(
 			  )
 {
 	m_tex=tex;
+	DEFAULT_COLOR_INITIALIZATION;
 	memcpy(m_rect,rect,4*sizeof(s3d::point));
     if (tex_coord)
 	{
@@ -52,6 +55,7 @@ Sprite::Sprite(
 {
 	m_tex=tex;
 	memcpy(m_rect,rect,4*sizeof(s3d::point));
+	DEFAULT_COLOR_INITIALIZATION;
     if (tex_coord)  
 	{
 	 for (int i=0;i<4;i++)
@@ -70,6 +74,7 @@ Sprite::Sprite(
 			  )
 {
 	m_tex=tex;
+	DEFAULT_COLOR_INITIALIZATION;
 	for (int i=0;i<4;i++)
 	{
 	 m_rect[i]=rect[i];
@@ -81,22 +86,29 @@ Sprite::Sprite(
 Sprite::Sprite(const Sprite & sprite)
 {
  this->m_tex=sprite.m_tex;
+ DEFAULT_COLOR_INITIALIZATION;
  memcpy(&(this->m_rect),&(sprite.m_rect),4*sizeof(s3d::point));
  memcpy(&(this->m_tex_coord),&(sprite.m_tex_coord),8*sizeof(float));
 }
 
 void Sprite::render()
 {
-	m_tex->enable();
+   GLint   clr[4]={};
+   glGetIntegerv(GL_CURRENT_COLOR,clr);
+   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());
+   
+   m_tex->enable();
     
-	glBegin(GL_QUADS);
-	for (int i=0;i<4;i++)
-	{
+   glBegin(GL_QUADS);
+   for (int i=0;i<4;i++)
+   {
 	  int p=i<<1;
 	  glTexCoord2f(m_tex_coord[ p],m_tex_coord[ p | 1 ]);
 	  glVertex3f(m_rect[i].x(),m_rect[i].y(),m_rect[i].z());
-	}  
-	glEnd();
+   }  
+   glEnd();
+
+	glColor4iv(clr);
 }
 
 void Sprite::setTexCoords(int ind, int x ,int y)
@@ -186,3 +198,13 @@ hst::rect< ::s3d::point> Sprite::bbox() const
 	return rect;
 }
 
+
+void Sprite::setColor(const hst::acolor & clr) 
+{
+	m_color = clr;
+}
+
+const hst::acolor & Sprite::color() const
+{
+	return m_color;
+}

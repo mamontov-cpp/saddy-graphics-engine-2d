@@ -20,6 +20,7 @@ class ScreenLabel: public AbstractScreenObject
 	 hst::string  m_text;         //!< Text of label
 	 float        m_angle;        //!< Angle of label
 	 hPointF      m_point;        //!< Upper-left point of label
+	 int m_alpha;                 //!< Alpha of screen label
 
 	 FTFont               * m_font; //!< Font to draw
  protected:
