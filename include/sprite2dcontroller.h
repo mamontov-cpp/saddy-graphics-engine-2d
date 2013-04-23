@@ -113,5 +113,12 @@ class Sprite2DController
               \return adapter
            */ 
           inline Sprite2DAdapter * adapter() const { return m_sprite; }
+		  /*! Sets a color for sprite
+		      \param[in] clr color
+		   */
+		  void setColor(const hst::acolor & clr);
+		  /*! Returns a color of sprite
+		   */
+		  hst::acolor color() const; 
 };
 
