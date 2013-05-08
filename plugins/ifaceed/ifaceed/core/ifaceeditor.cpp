@@ -417,11 +417,17 @@ void IFaceEditor::appendRotationCommand()
 
 void IFaceEditor::reload()
 {
-  /**
-     1. Load maps
-	 2. If map loading failed, stop right there
-	 2.1. Report   error
-	 3. Load textures
+   // 1. Load maps
+   FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
+   if (maps->load(this->parsedArgs()->simple("ifaceconfig").data(),this->log())) {
+		// 2. If map loading failed, stop right there
+	    // 2.1. Report   error
+	    delete maps;
+		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading failed") << this->parsedArgs()->simple("ifaceconfig").data()));
+		return;
+   }
+   /**
+	 3. Load texture database
 	 3.1. If loading failed, report error
 	 4. Check, whether all scene needed data in DB
 	 4.1. If failed, report error
@@ -430,5 +436,4 @@ void IFaceEditor::reload()
 	 7. Reload fonts and sprites in UI
 	 8. Toggle selected object, if in selected state
    */
-   FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
 }
