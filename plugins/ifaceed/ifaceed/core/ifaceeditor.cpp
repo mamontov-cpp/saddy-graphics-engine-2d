@@ -449,10 +449,10 @@ void IFaceEditor::reload()
    delete maps;
    delete future;
    // 4. Check, whether all scene needed data in DB
-   AbstractScreenObject * it = this->result()->templateBegin();	
    bool allobjectsvalid = true;
    // Container of errors
    hst::vector<hst::string> errors;
+   AbstractScreenObject * it = this->result()->templateBegin();	
    while (it)
    {
 		allobjectsvalid = allobjectsvalid && it->isValid(db, &errors);
@@ -469,10 +469,18 @@ void IFaceEditor::reload()
 	   SL_WARNING(errorsasstring);
 	   delete db;
    }
+   // 5. Reload scene data for db
+   it = this->result()->templateBegin();	
+   while (it)
+   {
+	    it->tryReload(db);
+		it = this->result()->templateNext();
+   }
+   // 6. Remove old DB
+   this->setDatabase(db);
    /**	 
-	 5. Reload scene data for db
-	 6. Remove old DB
-	 7. Reload fonts and sprites in UI
-	 8. Toggle selected object, if in selected state
+	 7. Reload fonts in UI 
+	 8. Reload sprites in UI
+	 9. Toggle selected object, if in selected state
    */
 }
