@@ -429,11 +429,13 @@ void IFaceEditor::reload()
 		return;
    }
    // 3. Load texture database
+   /*
    FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);		
    DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
    DBLoadingTask * task = new DBLoadingTask(maps,db,future,this->log());
    this->lockRendering();
    sad::Input::ref()->addPreRenderTask(task);
+   --m_counter;
    this->unlockRendering();
    if (future->result() == false) {
 		// 3.1. If loading failed, report error	 
@@ -443,10 +445,11 @@ void IFaceEditor::reload()
 		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading font and templates failed") << this->parsedArgs()->simple("ifaceconfig").data()));
 		return;
    }
+   */
    // At this point we need only database, db to
    // check compliance with other objects
-   delete maps;
-   delete future;
+   // delete maps;
+   // delete future;
 	  
    /**	 
 	 4. Check, whether all scene needed data in DB
