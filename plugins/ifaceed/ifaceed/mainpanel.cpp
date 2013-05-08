@@ -100,13 +100,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
-	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
 {  
 	m_editor = editor; 
 	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
+	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 }
 
 
