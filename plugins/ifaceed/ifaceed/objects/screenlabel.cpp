@@ -4,6 +4,7 @@
 #include "../core/fontdatabase.h"
 #include <extra/rigid_body.h>
 #include <extra/geometry2d.h>
+#include <3rdparty/format/format.h>
 
 ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
@@ -67,10 +68,18 @@ void ScreenLabel::_render()
 
 }
 
-bool ScreenLabel::isValid(FontTemplateDatabase * db)
+bool ScreenLabel::isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors)
 {
 	IFaceEditorFontList & d = db->fonts();
-	return d.hasFont(m_font_name.data());
+	bool result = d.hasFont(m_font_name.data());
+	if (result == false && errors != NULL)
+	{
+		*errors << str(
+					fmt::Print("Font \"{0}\" is absent at database\n") 
+					<< m_font_name.data() 
+					).c_str();
+	}
+	return result;
 }
 
 bool ScreenLabel::tryReload(FontTemplateDatabase * db)

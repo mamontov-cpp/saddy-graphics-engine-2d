@@ -5,6 +5,7 @@
  */
 #include <QFont>
 #include <ftfont.h>
+#include <fontmanager.h>
 #include <templates/hhash.hpp>
 #include <QString>
 #include <QFontDatabase>
@@ -43,9 +44,10 @@ class IFaceEditorFont
 			  \param[in] file input file
 			  \param[in] name viewable name of file
 			  \param[in] db   database
+			  \param[in] mgr  manager for holding local data
 			  \return whether loading was successfull, false if not
 		   */
-		  bool loadFont(const QString & file, const QString & name, QFontDatabase & db);
+		  bool loadFont(const QString & file, const QString & name, QFontDatabase & db, sad::FontManager * mgr);
 };
 
 /** A map, which contains all fonts
@@ -107,6 +109,9 @@ class IFaceEditorFontList
 		/** Font database to store all of data
 		 */
 		QFontDatabase m_db;
+		/** Manager for the fonts
+		 */
+		sad::FontManager * m_manager;
  public:
 	    /** Initializes empty font list
 		 */

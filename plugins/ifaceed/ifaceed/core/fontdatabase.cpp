@@ -25,7 +25,7 @@ void IFaceEditorFont::unloadFromQDB(const QString & name,QFontDatabase & db)
  }
 }
 
-bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFontDatabase & db)
+bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFontDatabase & db, sad::FontManager * mgr)
 {
 	SL_SCOPE("IFaceEditorFont::loadFont");
 	if (m_appfontindex!=-1 || m_saddyfont!=NULL) {
@@ -54,7 +54,7 @@ bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFont
 		m_qtfont = fnt;
 		m_appfontindex = id;
 		m_saddyfont = tmp;
-		sad::FontManager::ref()->add(m_saddyfont,m_name.toStdString().c_str());
+		mgr->add(m_saddyfont,m_name.toStdString().c_str());
 	}
 	return ok;
 }
@@ -95,7 +95,7 @@ bool IFaceEditorFontListCursor::end()
 
 IFaceEditorFontList::IFaceEditorFontList()
 {
-
+	m_manager = new sad::FontManager();
 }
 
 IFaceEditorFontList::~IFaceEditorFontList()
@@ -104,6 +104,7 @@ IFaceEditorFontList::~IFaceEditorFontList()
 	{
 		delete it.value();
 	}
+	delete m_manager;
 }
 
 bool IFaceEditorFontList::hasFont(const QString & fontName)
@@ -122,7 +123,7 @@ IFaceEditorFontLoadResult IFaceEditorFontList::tryLoadFont(const QString & fontN
 		return IEFLR_ALREADY_EXISTS;
 	IFaceEditorFont * fnt = new IFaceEditorFont();
 	IFaceEditorFontLoadResult result = IEFLR_OK;
-	if (fnt->loadFont(fileName,fontName,m_db)) 
+	if (fnt->loadFont(fileName,fontName,m_db, m_manager)) 
 	{
 		m_map.insert(fontName.toStdString().c_str(),fnt);
 	} 

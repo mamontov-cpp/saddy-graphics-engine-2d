@@ -1,6 +1,7 @@
 #include "screensprite.h"
 #include <QString>
 #include <extra/geometry2d.h>
+#include <3rdparty/format/format.h>
 
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/spritedatabase.h"
@@ -127,7 +128,7 @@ bool ScreenSprite::isWithin(const hPointF & p)
 }
 
 
-bool ScreenSprite::isValid(FontTemplateDatabase * db)
+bool ScreenSprite::isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors)
 {
 
 	SpriteDatabase & d = db->sprites();
@@ -138,6 +139,14 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db)
 		{
 			ok = d.configs()[m_config.data()][m_group.data()].contains(m_index);
 		}
+	}
+	if (ok == false && errors != NULL)
+	{
+		(*errors) << str(fmt::Print("Sprite template (\"{0},{1},{2}\") is absent at database\n") 
+					  << m_config.data()
+					  << m_group.data()
+					  << m_index
+				     ).c_str();
 	}
 	return ok;
 }
