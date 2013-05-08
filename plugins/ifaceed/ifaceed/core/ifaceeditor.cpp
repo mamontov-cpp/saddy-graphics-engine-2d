@@ -413,3 +413,22 @@ void IFaceEditor::appendRotationCommand()
 	this->shdata()->getAndDismissRotationCommand(o, new_angle, old_angle);
 	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, this->log()));
 }
+
+
+void IFaceEditor::reload()
+{
+  /**
+     1. Load maps
+	 2. If map loading failed, stop right there
+	 2.1. Report   error
+	 3. Load textures
+	 3.1. If loading failed, report error
+	 4. Check, whether all scene needed data in DB
+	 4.1. If failed, report error
+	 5. Reload scene data for db
+	 6. Remove old DB
+	 7. Reload fonts and sprites in UI
+	 8. Toggle selected object, if in selected state
+   */
+   FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
+}
