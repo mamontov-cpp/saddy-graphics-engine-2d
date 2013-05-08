@@ -417,6 +417,7 @@ void IFaceEditor::appendRotationCommand()
 
 void IFaceEditor::reload()
 {
+   SL_SCOPE("IFaceEditor::reload()");
    // 1. Load maps
    FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
    if (maps->load(this->parsedArgs()->simple("ifaceconfig").data(),this->log()) 
