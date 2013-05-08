@@ -132,6 +132,12 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		Used for deferred rotation appendance
 	 */
 	void appendRotationCommand();
+	/** Performs full texture reload from a data
+		Uses current parsed data from reload, all object schemes and stuff.
+		Reload must be hit only from Qt code, otherwise 
+		everything would fail. 
+     */
+	void reload();
 };
 
 /** A special handler for method
