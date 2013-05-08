@@ -7,6 +7,7 @@
 #include "../editorcore/commandchangeobserver.h"
 #include "../mainpanel.h"
 #include "ifaceshareddata.h"
+#include "objectxmlwriter.h"
 #pragma once
 
 class ScreenTemplate;
@@ -138,6 +139,9 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		everything would fail. 
      */
 	void reload();
+	/**  Saves a screen template into a file
+	 */ 
+	void save();
 };
 
 /** A special handler for method

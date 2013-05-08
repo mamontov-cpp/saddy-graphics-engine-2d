@@ -107,6 +107,7 @@ void MainPanel::setEditor(IFaceEditor * editor)
 	m_editor = editor; 
 	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
+	connect(ui.btnSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 }
 
 
@@ -378,6 +379,9 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 		o = data->selectedObject();	
 		selected = true;
 	}
+	// Ignore color change for anyone but label
+	if (prop == "color" && o->type() != "ScreenLabel")
+		return;
 	if (o) 
 	{
 		this->m_editor->lockRendering();
@@ -522,7 +526,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = false;
 	}
 	prop = o->getProperty("color");
-	if (prop)
+	if (prop && o->type() == "ScreenLabel")
 	{
 		m_selfchanged = true;
 		hst::color c = prop->get(l)->get<hst::color>(l);
