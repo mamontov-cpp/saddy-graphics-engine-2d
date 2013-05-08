@@ -429,13 +429,12 @@ void IFaceEditor::reload()
 		return;
    }
    // 3. Load texture database
-   /*
+   m_counter++;
    FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);		
    DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
    DBLoadingTask * task = new DBLoadingTask(maps,db,future,this->log());
    this->lockRendering();
    sad::Input::ref()->addPreRenderTask(task);
-   --m_counter;
    this->unlockRendering();
    if (future->result() == false) {
 		// 3.1. If loading failed, report error	 
@@ -445,15 +444,32 @@ void IFaceEditor::reload()
 		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading font and templates failed") << this->parsedArgs()->simple("ifaceconfig").data()));
 		return;
    }
-   */
    // At this point we need only database, db to
    // check compliance with other objects
-   // delete maps;
-   // delete future;
-	  
+   delete maps;
+   delete future;
+   // 4. Check, whether all scene needed data in DB
+   AbstractScreenObject * it = this->result()->templateBegin();	
+   bool allobjectsvalid = true;
+   // Container of errors
+   hst::vector<hst::string> errors;
+   while (it)
+   {
+		allobjectsvalid = allobjectsvalid && it->isValid(db, &errors);
+		it = this->result()->templateNext();
+   }
+   if (!allobjectsvalid)
+   {
+	   // 4.1. If failed, report error
+	   hst::string errorsasstring = "Not all objects are valid:\n";
+	   for(int i = 0; i < errors.count(); i++)
+	   {
+			errorsasstring << errors[i];
+	   }
+	   SL_WARNING(errorsasstring);
+	   delete db;
+   }
    /**	 
-	 4. Check, whether all scene needed data in DB
-	 4.1. If failed, report error
 	 5. Reload scene data for db
 	 6. Remove old DB
 	 7. Reload fonts and sprites in UI

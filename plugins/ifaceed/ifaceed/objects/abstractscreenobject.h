@@ -112,9 +112,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 
 		Also it can be used to rebuild somke cached data in a rendering loop
 		\param[in] t template
+		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * t)=0;
+	virtual bool isValid(FontTemplateDatabase * t, hst::vector<hst::string> * errors = NULL)=0;
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok
