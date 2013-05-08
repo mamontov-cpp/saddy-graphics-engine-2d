@@ -125,6 +125,9 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 
 void MainPanel::synchronizeDatabase()
 {
+	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
+	bool oldspritestate = m_spriteTableWidget->blockSignals(true);
+
 	ui.cmbFonts->clear();
 	FontTemplateDatabase * db = m_editor->database();
 	IFaceEditorFontList & list =db->fonts();
@@ -141,6 +144,9 @@ void MainPanel::synchronizeDatabase()
 	}
 	m_spriteTableWidget->finishSyncronizing();
 	delete it;
+
+	ui.cmbFonts->blockSignals(oldfontsstate);
+	m_spriteTableWidget->blockSignals(oldspritestate);
 }
 
 void MainPanel::addNewFontColor()

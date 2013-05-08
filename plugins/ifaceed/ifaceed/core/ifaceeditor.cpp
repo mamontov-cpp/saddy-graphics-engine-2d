@@ -478,9 +478,16 @@ void IFaceEditor::reload()
    }
    // 6. Remove old DB
    this->setDatabase(db);
+   /*
+	  7. Reload fonts in UI 
+	  8. Reload sprites in UI
+    */
+   this->panel()->synchronizeDatabase();
    /**	 
-	 7. Reload fonts in UI 
-	 8. Reload sprites in UI
-	 9. Toggle selected object, if in selected state
+	 9. Toggle selected object, if in selected state. This for resetting object data
    */
+   if (this->currentBehaviour()->state() == "selected")
+   {
+   	   this->panel()->updateObjectStats(this->behaviourSharedData()->selectedObject());
+   }
 }
