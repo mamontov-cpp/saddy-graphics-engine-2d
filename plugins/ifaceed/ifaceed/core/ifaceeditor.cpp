@@ -468,6 +468,7 @@ void IFaceEditor::reload()
 	   }
 	   SL_WARNING(errorsasstring);
 	   delete db;
+	   return;
    }
    // 5. Reload scene data for db
    it = this->result()->templateBegin();	

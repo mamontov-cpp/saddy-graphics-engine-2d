@@ -132,7 +132,7 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db, hst::vector<hst::string> *
 {
 
 	SpriteDatabase & d = db->sprites();
-	bool ok = true;
+	bool ok = false;
 	if (d.configs().contains(m_config.data()))
 	{
 		if (d.configs()[m_config.data()].contains(m_group.data()))
@@ -142,7 +142,7 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db, hst::vector<hst::string> *
 	}
 	if (ok == false && errors != NULL)
 	{
-		(*errors) << str(fmt::Print("Sprite template (\"{0},{1},{2}\") is absent at database\n") 
+		(*errors) << str(fmt::Print("Sprite template (\"{0},{1},{2}\") is absent in database\n") 
 					  << m_config.data()
 					  << m_group.data()
 					  << m_index
