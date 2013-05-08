@@ -492,3 +492,22 @@ void IFaceEditor::reload()
    	   this->panel()->updateObjectStats(this->behaviourSharedData()->selectedObject());
    }
 }
+
+
+void IFaceEditor::save()
+{
+	QString filename = QFileDialog::getSaveFileName(
+		NULL, 
+		"Please specify save file name",
+		"",
+		QString("XML (*.xml)")
+		);
+	if (filename.length())
+	{
+		ObjectXMLWriter w(filename, "screentemplate");
+		if(w.write(this->result(), this->log()) == false)
+		{
+			SL_WARNING(QString("Cannot write into file \"") + filename + "\"");
+		}
+	}
+}

@@ -401,6 +401,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\objectxmlwriter.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\qspritetablewidgetselection.cpp"
 					>
 				</File>
@@ -800,6 +804,10 @@
 				</File>
 				<File
 					RelativePath=".\core\objectborders.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\objectxmlwriter.h"
 					>
 				</File>
 				<File
