@@ -75,7 +75,7 @@ bool ScreenLabel::isValid(FontTemplateDatabase * db, hst::vector<hst::string> * 
 	if (result == false && errors != NULL)
 	{
 		*errors << str(
-					fmt::Print("Font \"{0}\" is absent at database\n") 
+					fmt::Print("Font \"{0}\" is absent in database\n") 
 					<< m_font_name.data() 
 					).c_str();
 	}

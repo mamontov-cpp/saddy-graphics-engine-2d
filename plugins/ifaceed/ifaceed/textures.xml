@@ -2,6 +2,6 @@
   <test1-dev texture='textures.png' size='300;293' texrect='500;0;300;293'/>
   <test2-dev index='2' texture='textures.png' size='200;200' texrect='500;293;200;200'/>
   <test2-dev texture='textures.png' size='64;64' texrect='500;293;200;200'/>
-  <test3-dev texture='textures.png' size='64;120' texrect='0;0;500;588' transparent='120;120;120'/>
+  
   <test4-dev texture='textures.png' size='256;256' texrect='500;493;256;256' transparent='120;120;120'/>
 </sprites>
