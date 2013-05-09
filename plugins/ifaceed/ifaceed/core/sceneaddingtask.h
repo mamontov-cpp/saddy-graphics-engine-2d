@@ -9,6 +9,15 @@
 
 class InterlockedScene;
 
+
+/** A simple comparator for sorting layers of objects. Depends on layer property
+ */
+class LayerPropertyComparator 
+{
+public:    
+	bool operator() (AbstractScreenObject * o1, AbstractScreenObject * o2); 
+};
+
 /*!
     \class SceneAddingTask
 	A task, which is performed, when scene is empty. It will populate it

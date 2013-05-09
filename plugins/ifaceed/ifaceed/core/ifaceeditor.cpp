@@ -541,6 +541,7 @@ void IFaceEditor::load()
 		{
 			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());
 			it->setProp<hst::string>("uid",it->prop<hst::string>("uid", this->log()), this->log());
+			it = e->templateNext();
 		}
 		if (!allobjectsarevalid)
 		{
@@ -553,6 +554,7 @@ void IFaceEditor::load()
 		while(it)
 		{
 			it->tryReload(this->database());
+			it = e->templateNext();
 		}
 		
 		// Clear history
@@ -561,6 +563,7 @@ void IFaceEditor::load()
 		delete m_result;
 		m_result = e;
 		// Perform cleanup data
+		this->currentBehaviour()->enterState("idle");
 		this->lockRendering();
 		if (this->scene()->objectCount() != 0)
 			this->scene()->performCleanup();
