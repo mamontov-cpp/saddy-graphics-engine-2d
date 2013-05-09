@@ -12,8 +12,15 @@ class RefCountable
 	      int m_references;
  public:
 	     inline RefCountable() { m_references=0; }
-		 inline void addRef()  {++m_references;}
-		 inline void delRef()  {--m_references; if (m_references==0) delete this; }
+		 inline void addRef()  
+		 {
+			 ++m_references;
+		 }
+		 inline void delRef()  
+		 {
+			 --m_references; 
+			 if (m_references==0) delete this; 
+		 }
 		 virtual ~RefCountable();
 };
 

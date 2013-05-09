@@ -121,6 +121,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\return whether reloading was ok
 	 */
 	virtual bool tryReload(FontTemplateDatabase * db)=0;
+	/*!	Initialize graphic part of data
+		\param[in] db database
+	 */
+	virtual void initializeGraphicAfterLoad(FontTemplateDatabase * db)=0;
 	/*! Returns a region of object. The region is not AABB
 		\return region of object
 	 */
