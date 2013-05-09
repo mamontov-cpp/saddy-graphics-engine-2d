@@ -34,8 +34,9 @@ bool ObjectXMLReader::openStream()
 {
 	QFile  file(m_filename);
 	// Cannot open
-	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text) == false)
 	{
+		QString err = file.errorString();
 		return false;
 	}
 	QDomDocument * d =  new QDomDocument();
@@ -92,6 +93,7 @@ SerializationEntry * ObjectXMLReader::nextEntry()
 			e->PropertiesName  << attr.name().toStdString().c_str();
 			e->PropertiesValue << attr.value().toStdString().c_str();
 		}
+		return e;
 	}
 	return NULL;
 }
