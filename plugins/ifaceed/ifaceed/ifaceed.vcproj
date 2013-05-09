@@ -413,6 +413,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\sceneaddingtask.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\spritedatabase.cpp"
 					>
 				</File>
@@ -820,6 +824,10 @@
 				</File>
 				<File
 					RelativePath=".\core\qspritetablewidgetselection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\sceneaddingtask.h"
 					>
 				</File>
 				<File
