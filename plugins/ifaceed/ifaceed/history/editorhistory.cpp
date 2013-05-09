@@ -19,6 +19,7 @@ void EditorHistory::clear()
 	{
 		delete m_commands[i];
 	}
+	m_commands.clear();
 	m_current = -1;
 }
 
