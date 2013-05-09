@@ -39,4 +39,7 @@ class EditorHistory
 		/** Rollbacks changed, moving to previous command
 		 */
 		void rollback(CommandChangeObserver * ob = NULL);
+		/** Clears a history
+		 */
+		void clear();
 };

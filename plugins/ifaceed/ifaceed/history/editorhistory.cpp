@@ -10,10 +10,16 @@ EditorHistory::EditorHistory(ActionContext * c)
 
 EditorHistory::~EditorHistory()
 {
+	this->clear();
+}
+
+void EditorHistory::clear()
+{
 	for (int i=0;i<m_commands.count();i++)
 	{
 		delete m_commands[i];
 	}
+	m_current = -1;
 }
 
 void EditorHistory::commit(CommandChangeObserver * ob)

@@ -527,19 +527,43 @@ void IFaceEditor::load()
 		ScreenTemplate * e = new ScreenTemplate();
 		if (r.read(e, this->log()) == false)
 		{
+			delete e;
 			SL_WARNING(QString("Cannot load  file \"") + filename + "\"");
+			return;
 		}
 		// Re-set uid to force container check integrity with uid hashes inside of it
 		// and set them to uids inside of objects
+
+		// Also, we check when all objects are valid and can be loaded from db
 		AbstractScreenObject * it = e->templateBegin();
+		bool allobjectsarevalid = true;
 		while(it)
 		{
+			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());
 			it->setProp<hst::string>("uid",it->prop<hst::string>("uid", this->log()), this->log());
 		}
-		//ObjectXMLWriter w(filename, "screentemplate");
-		//if(w.write(this->result(), this->log()) == false)
-		//{
-		//	SL_WARNING(QString("Cannot load  file \"") + filename + "\"");
-		//}
+		if (!allobjectsarevalid)
+		{
+			delete e;
+			SL_WARNING(QString("Not all objects can be mapped to database, aborting"));
+			return;
+		}
+		// Reload an objects
+		it = e->templateBegin();
+		while(it)
+		{
+			it->tryReload(this->database());
+		}
+		
+		// Clear history
+		this->history()->clear();
+		// Clear result
+		delete m_result;
+		m_result = e;
+		// Perform cleanup data
+		this->lockRendering();
+		this->scene()->performCleanup();
+		// Add post-render task, which adds a sorted results when scene is empty and dies
+		this->unlockRendering();
 	}
 }
