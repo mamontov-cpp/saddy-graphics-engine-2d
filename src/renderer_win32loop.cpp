@@ -69,6 +69,8 @@ void sad::Renderer::mainLoop()
 	  //Update a window, if active
 	  if (m_window.active)
 	     update();
+	  else
+		  Sleep(0);
 	  //Change scene, if need so
 	  if (m_chscene) 
 	  { setCurrentScene(m_chscene); m_chscene=NULL;}
