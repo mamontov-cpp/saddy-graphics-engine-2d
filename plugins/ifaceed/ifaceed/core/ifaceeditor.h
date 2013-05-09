@@ -139,9 +139,12 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		everything would fail. 
      */
 	void reload();
-	/**  Saves a screen template into a file
+	/*!  Saves a screen template into a file
 	 */ 
 	void save();
+	/*!  Loads an editor data from a file
+	 */
+	void load();
 };
 
 /** A special handler for method

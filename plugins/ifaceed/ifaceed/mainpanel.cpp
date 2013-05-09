@@ -108,6 +108,7 @@ void MainPanel::setEditor(IFaceEditor * editor)
 	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
+	connect(ui.btnLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 }
 
 
