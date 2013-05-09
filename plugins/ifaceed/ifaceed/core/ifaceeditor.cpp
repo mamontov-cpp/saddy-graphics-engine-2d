@@ -20,7 +20,7 @@
 #include "../history/deletecommand.h"
 #include <QTimer>
 #include "objectxmlreader.h"
-
+#include "sceneaddingtask.h"
 
 
 
@@ -562,8 +562,10 @@ void IFaceEditor::load()
 		m_result = e;
 		// Perform cleanup data
 		this->lockRendering();
-		this->scene()->performCleanup();
+		if (this->scene()->objectCount() != 0)
+			this->scene()->performCleanup();
 		// Add post-render task, which adds a sorted results when scene is empty and dies
+		sad::Input::ref()->addPostRenderTask(new SceneAddingTask(e, this->myScene()));
 		this->unlockRendering();
 	}
 }
