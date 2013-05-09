@@ -1,5 +1,6 @@
 #include <x11recode.h>
 #include <time.h>
+#include <sched.h>
 
 static clock_t dblclick=0;
 static clock_t clk=0;
@@ -137,6 +138,8 @@ void sad::Renderer::mainLoop()
 	//Update a window, if active
 	if (m_window.active)
 	     update();
+        else
+            sched_yield();
 	//Change scene, if need so
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}
