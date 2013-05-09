@@ -44,7 +44,6 @@ sad::Variant * SceneLayerProperty::get(ActionContext * context) const
 		{
 			layer = object->scene()->findLayer(object);
 		}
-		delete const_cast<SceneLayerProperty*>(this)->m_variant;
 		const_cast<SceneLayerProperty*>(this)->m_variant = new sad::Variant(layer);
 		context->popAction();
 		return m_variant;
