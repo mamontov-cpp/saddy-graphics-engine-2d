@@ -83,6 +83,10 @@ protected:
 		\return whether object is valid in context of template
 	 */
 	virtual bool isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors = NULL);
+	/*!	Initialize graphic part of data
+		\param[in] db database
+	 */
+	virtual void initializeGraphicAfterLoad(FontTemplateDatabase * db);
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok

@@ -531,17 +531,28 @@ void IFaceEditor::load()
 			SL_WARNING(QString("Cannot load  file \"") + filename + "\"");
 			return;
 		}
-		// Re-set uid to force container check integrity with uid hashes inside of it
-		// and set them to uids inside of objects
-
+		// We must save our uids, to force it to work with container 
 		// Also, we check when all objects are valid and can be loaded from db
 		AbstractScreenObject * it = e->templateBegin();
 		bool allobjectsarevalid = true;
+		hst::vector<hst::pair<hst::string, AbstractScreenObject *> > m_pairs;
 		while(it)
 		{
 			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());
-			it->setProp<hst::string>("uid",it->prop<hst::string>("uid", this->log()), this->log());
+			// We cannot perform ::setUid here, because it will broke some iterator
+			hst::string uid = it->prop<hst::string>("uid", this->log());
+			m_pairs << hst::pair<hst::string, AbstractScreenObject *>(uid, it);
+			// This must be done, because we data added via
+			// HashBasedSerializableContainer::add, which don't care
+			// to some reference-counting, but real container cares about it
+			// in destructor, so we need to increment counter
+			// to make object survive death of his container or scene
+			it->addRef();
 			it = e->templateNext();
+		}
+		for(int i = 0; i < m_pairs.count(); i++)
+		{
+			e->setUid(m_pairs[i].p2(), m_pairs[i].p1());
 		}
 		if (!allobjectsarevalid)
 		{
@@ -553,7 +564,7 @@ void IFaceEditor::load()
 		it = e->templateBegin();
 		while(it)
 		{
-			it->tryReload(this->database());
+			it->initializeGraphicAfterLoad(this->database());
 			it = e->templateNext();
 		}
 		

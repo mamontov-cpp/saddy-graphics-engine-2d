@@ -153,7 +153,6 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db, hst::vector<hst::string> *
 
 
 
-
 bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 {
 	hPointF  point(0,0);
@@ -198,3 +197,13 @@ void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float an
 	}
 }
 
+void ScreenSprite::initializeGraphicAfterLoad(FontTemplateDatabase * db)
+{
+	Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
+	Sprite2DConfigObserver * obs = new Sprite2DConfigObserver(m_group, m_index, cfg);
+	obs->createSprite(hPointF(0,0));
+	m_observer = obs;
+	obs->sprite()->adapter()->setRect(m_rect);
+	obs->sprite()->rotate(m_angle);
+	
+}

@@ -128,3 +128,8 @@ bool ScreenLabel::resizable()
 	return false;
 }
 
+void ScreenLabel::initializeGraphicAfterLoad(FontTemplateDatabase * db)
+{
+	tryReload(db);
+}
+

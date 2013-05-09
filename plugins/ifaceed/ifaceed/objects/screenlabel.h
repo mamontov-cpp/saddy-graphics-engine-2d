@@ -66,6 +66,10 @@ class ScreenLabel: public AbstractScreenObject
 		\return whether reloading was ok
 	 */
 	virtual bool tryReload(FontTemplateDatabase * db);
+	/*!	Initialize graphic part of data
+		\param[in] db database
+	 */
+	virtual void initializeGraphicAfterLoad(FontTemplateDatabase * db);
 	/*! Moves a center of object to a following point
 		\param[in] p point
 	 */
