@@ -19,6 +19,7 @@
 #include "../history/propertychangecommand.h"
 #include "../history/deletecommand.h"
 #include <QTimer>
+#include "objectxmlreader.h"
 
 
 
@@ -522,6 +523,19 @@ void IFaceEditor::load()
 		);
 	if (filename.length())
 	{
+		ScreenObjectXMLReader  r(filename);
+		ScreenTemplate * e = new ScreenTemplate();
+		if (r.read(e, this->log()) == false)
+		{
+			SL_WARNING(QString("Cannot load  file \"") + filename + "\"");
+		}
+		// Re-set uid to force container check integrity with uid hashes inside of it
+		// and set them to uids inside of objects
+		AbstractScreenObject * it = e->templateBegin();
+		while(it)
+		{
+			it->setProp<hst::string>("uid",it->prop<hst::string>("uid", this->log()), this->log());
+		}
 		//ObjectXMLWriter w(filename, "screentemplate");
 		//if(w.write(this->result(), this->log()) == false)
 		//{
