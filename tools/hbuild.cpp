@@ -87,6 +87,7 @@ void scan_recursive(svector & vec,const string & path)
       if  ( (!(dirp->d_type  & DT_DIR)) &&
 	    (
 	      (!strcmp(dirp->d_name+strlen(dirp->d_name)-4,".cpp"))  ||
+          (!strcmp(dataf.name+strlen(dataf.name)-3,".cc"))       ||  
 	      (!strcmp(dirp->d_name+strlen(dirp->d_name)-2,".c"))
 	     ) 
            )
