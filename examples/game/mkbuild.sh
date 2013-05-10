@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if  [ ! -d ../build ];  then 
-    mkdir ../build 
+if  [ ! -d build ];  then 
+    mkdir build 
 fi
