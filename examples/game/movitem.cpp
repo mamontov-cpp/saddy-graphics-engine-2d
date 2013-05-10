@@ -9,7 +9,7 @@ SAD_DECLARE(ShootingEnemy,MovingObject)
 SAD_DECLARE(SuperShootingEnemy,MovingObject)
 SAD_DECLARE(EnemyEmitter,sad::BasicNode)
 
-#define ROTATE_SPEED 0.01
+#define ROTATE_SPEED 0.01f
 MovingObject::~MovingObject() {}
 void MovingObject::render()
 {
@@ -19,7 +19,7 @@ void MovingObject::render()
 	oldPoint()=newPoint();
 	BoundingBox bb(oldPoint());
 	interval()=1;
-	float renderinterval = sad::avgRenderInterval() / 1000.0;
+	float renderinterval = sad::avgRenderInterval() / 1000.0f;
 
 	for (int i=0;i<4;i++)
 		bb[i]+=v() * renderinterval;
@@ -39,7 +39,7 @@ void MovingObject::render()
 	else this->Sprite::render();
 }
 
-#define BBOX_PERCENT 0.9
+#define BBOX_PERCENT 0.9f
 static BoundingBox createBBoxForObject(const hst::rect< ::s3d::point> & rect)
 {
 	float w2=(rect[1].x()-rect[0].x())/2*BBOX_PERCENT;
@@ -58,7 +58,7 @@ hRectF(hPointF(441,0),hPointF(452,11))
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)(vec.x()),(float)(vec.y()),0.0f);
 	CollisionManager::add(this->type(),this);
 }
 PlayerBullet::~PlayerBullet()
@@ -66,7 +66,7 @@ PlayerBullet::~PlayerBullet()
 	
 }
 
-#define EB_WH 4.5
+#define EB_WH 4.5f
 EnemyBullet::EnemyBullet( const Vector & vec, const ::s3d::point &  pos):
 MovingObject(
 hst::rect< ::s3d::point>(::s3d::point(pos.x()-EB_WH,pos.y()+EB_WH,0),::s3d::point(pos.x()+EB_WH,pos.y()-EB_WH,0)),
@@ -76,7 +76,7 @@ hRectF(hPointF(440,12),hPointF(458,33))
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)vec.x(),(float)vec.y(),0);
 	CollisionManager::add(this->type(),this);
 }
 EnemyBullet::~EnemyBullet()
@@ -87,14 +87,14 @@ EnemyBullet::~EnemyBullet()
 #define BONUS_WH 8.5f
 Bonus::Bonus( const Vector & vec, const hPointF &  pos):
 MovingObject(
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-BONUS_WH,pos.y()+BONUS_WH,0),::s3d::point(pos.x()+BONUS_WH,pos.y()-BONUS_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point((float)(pos.x())-BONUS_WH,(float)(pos.y())+BONUS_WH,0),::s3d::point((float)(pos.x())+BONUS_WH,(float)(pos.y())-BONUS_WH,0)),
 hRectF(hPointF(1,1),hPointF(86,86))
 )
 {
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)(vec.x()),(float)(vec.y()),0);
 	CollisionManager::add(this->type(),this);
 }
 Bonus::~Bonus()
@@ -115,14 +115,14 @@ static const hRectF & createEnemyRect()
 #define ENEMY_WH 7.5f
 Enemy::Enemy( const Vector & vec, const hPointF &  pos):
 MovingObject(
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-ENEMY_WH,pos.y()+ENEMY_WH,0),::s3d::point(pos.x()+ENEMY_WH,pos.y()-ENEMY_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point((float)(pos.x())-ENEMY_WH,(float)(pos.y())+ENEMY_WH,0),::s3d::point((float)(pos.x())+ENEMY_WH,(float)(pos.y())-ENEMY_WH,0)),
 createEnemyRect()
 )
 {
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)(vec.x()),(float)(vec.y()),0);
 	CollisionManager::add(this->type(),this);
 }
 
@@ -140,14 +140,14 @@ ShootingEnemy::~ShootingEnemy()
 #define ENEMY_WH 9.5f
 ShootingEnemy::ShootingEnemy( const Vector & vec, const hPointF &  pos):
 MovingObject(
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-ENEMY_WH,pos.y()+ENEMY_WH,0),::s3d::point(pos.x()+ENEMY_WH,pos.y()-ENEMY_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point((float)(pos.x())-ENEMY_WH,(float)(pos.y())+ENEMY_WH,0),::s3d::point((float)(pos.x())+ENEMY_WH,(float)(pos.y())-ENEMY_WH,0)),
 enemy_texc[3]
 )
 {
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)(vec.x()),(float)(vec.y()),0);
 	m_lastclock=0;
 	CollisionManager::add(this->type(),this);
 }
@@ -175,14 +175,14 @@ void SuperShootingEnemy::hit()
 #define ENEMY_WH 13.5f
 SuperShootingEnemy::SuperShootingEnemy( const Vector & vec, const hPointF &  pos):
 MovingObject(
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-ENEMY_WH,pos.y()+ENEMY_WH,0),::s3d::point(pos.x()+ENEMY_WH,pos.y()-ENEMY_WH,0)),
+hst::rect< ::s3d::point>(::s3d::point((float)(pos.x())-ENEMY_WH,(float)(pos.y())+ENEMY_WH,0),::s3d::point((float)(pos.x())+ENEMY_WH,(float)(pos.y())-ENEMY_WH,0)),
 enemy_texc[3]
 )
 {
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	this->oldPoint()=createBBoxForObject(rect);
 	this->newPoint()=this->oldPoint();
-	this->v()= ::s3d::point(vec.x(),vec.y(),0);
+	this->v()= ::s3d::point((float)(vec.x()),(float)(vec.y()),0);
 	m_lastclock=0;
 	m_lifes=EMAX_LIFES;
 	CollisionManager::add(this->type(),this);
@@ -199,14 +199,14 @@ void SuperShootingEnemy::render()
 	{
 		if (paused) return;
 		float a=atan2(v().y(),v().x());
-		a+=M_PI_4;
+		a+=(float)M_PI_4;
 		::s3d::point p=this->middle();
 		hPointF m(p.x(),p.y());
 		for (int i=0;i<4;i++)
 		{
 			Vector bdir(SE_BULLET_SPEED*cos(a),SE_BULLET_SPEED*sin(a));
 			sad::Renderer::ref()->getCurrentScene()->markForAddition(new ShootingEnemy(bdir,m));
-			a+=M_PI_2;
+			a+=(float)M_PI_2;
 		}
 		m_lastclock=0;
 	}
@@ -232,7 +232,7 @@ void EnemyEmitter::render()
 
 ::s3d::point convertTo3d(const hPointF & x)
 {
-	return ::s3d::point(x.x(),x.y(),0.0f);
+	return ::s3d::point((float)(x.x()),(float)(x.y()),0.0f);
 }
 
 template<typename T>
@@ -261,7 +261,7 @@ void createRandomEnemy(const Vector & v, const hPointF & p)
 	if (wh==4) { clk=clock();   }
 	adders[wh](v,p);
 }
-#define RAIN_SPEED 100.5
+#define RAIN_SPEED 100.5f
 #define xmax (BOUND_X2-12)
 #define xmin (BOUND_X1+12)
 #define ymin (BOUND_Y1+12)
@@ -272,11 +272,11 @@ void EnemyEmitter::renderRain()
  if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ4)
 		return;
  m_clk=clock();
- float x=xmin;float y=ymax;
+ float x=(float)xmin;float y=(float)ymax;
  if (rand() % 4 > 1 )
  {x=((float)rand()/RAND_MAX)*(xmax-xmin)+xmin;}
  else
- {y=(((float)rand()/RAND_MAX/2)+0.5)*(ymax-ymin)+ymin;}
+ {y=(((float)rand()/RAND_MAX/2)+0.5f)*(ymax-ymin)+ymin;}
  adders[rand() % 4](Vector(RAIN_SPEED,-1*RAIN_SPEED),hPointF(x,y));
 }
 
@@ -290,7 +290,7 @@ void EnemyEmitter::renderSpawn()
 	 return;
  float x=((float)rand()/RAND_MAX)*(xmax-xmin)+xmin;
  float y=((float)rand()/RAND_MAX)*(ymax-ymin)+ymin;
- float vx=(float)rand()/RAND_MAX*2.5*RAIN_SPEED-1.25*RAIN_SPEED;
- float vy=(float)rand()/RAND_MAX*2.5*RAIN_SPEED-1.25*RAIN_SPEED;
+ float vx=(float)rand()/RAND_MAX*2.5f*RAIN_SPEED-1.25f*RAIN_SPEED;
+ float vy=(float)rand()/RAND_MAX*2.5f*RAIN_SPEED-1.25f*RAIN_SPEED;
  createRandomEnemy(Vector(vx,vy),hPointF(x,y));
 }
