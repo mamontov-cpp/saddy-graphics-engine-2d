@@ -9,6 +9,7 @@
 #include "../templates/hstring.h"
 #include "../marshal/actioncontext.h"
 #include "../os/mutex.h"
+#include "../3rdparty/format/format.h"
 #include <ctime>
 #include <sstream>
 #include <string>
@@ -41,6 +42,22 @@ namespace sad
 				std::ostringstream s; 
 				s << string;
 				return s.str().c_str();
+			}
+		};
+		// Allows to write statements like SL_CRITICAL(fmt::Print("{0}") << 5)
+		template<>
+		class StringCaster<fmt::internal::ArgInserter<char> >
+		{
+		 public:
+			 /*! This caster performs conversion from format library internal structure
+			     to ours
+				 \params[in] formatter with our string
+			 */
+			 static hst::string cast(const fmt::internal::ArgInserter<char> & string)
+			{
+				// We need to perform this, since operator FormatterProxy<Char>() is non-constant
+				fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(string); 
+				return str(fmt).c_str();
 			}
 		};
 #ifdef QT_CORE_LIB
