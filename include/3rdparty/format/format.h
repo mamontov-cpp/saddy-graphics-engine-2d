@@ -28,6 +28,8 @@
 #ifndef FORMAT_H_
 #define FORMAT_H_
 
+#define _SCL_SECURE_NO_WARNINGS
+
 #ifdef max
 	#undef max
 #endif
@@ -35,6 +37,7 @@
 #ifdef _MSC_VER
 	#include "stdint.h"
 	#include <float.h>
+	#pragma warning(disable:4996)
 #else
 	#include <stdint.h>	
 #endif

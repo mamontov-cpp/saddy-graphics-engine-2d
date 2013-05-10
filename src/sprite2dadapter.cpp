@@ -224,7 +224,7 @@ void Sprite2DAdapter::setRect(const hRectF & rect)
 		hst::rect< ::s3d::point> vrect;
 		for(int i = 0; i < 4; i++)
 		{
-			vrect[i] = ::s3d::point(rect[i].x(), rect[i].y(), 0.0f);
+			vrect[i] = ::s3d::point((float)(rect[i].x()), (float)(rect[i].y()), 0.0f);
 		}
 		m_sprite->setBBox(vrect);
 	}

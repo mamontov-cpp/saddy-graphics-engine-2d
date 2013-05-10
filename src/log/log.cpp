@@ -76,7 +76,7 @@ sad::log::Target::~Target()
 
 sad::Log::~Log()
 {
-	for(int i = 0; i < m_targets.count(); i++)
+	for(unsigned int i = 0; i < m_targets.count(); i++)
 	{
 		delete m_targets[i];
 	}
@@ -85,7 +85,7 @@ sad::Log::~Log()
 void sad::Log::broadcast(const sad::log::Message & m)
 {
 	m_lock.lock();
-	for(int i = 0; i < m_targets.count(); i++)
+	for(unsigned int i = 0; i < m_targets.count(); i++)
 	{
 		m_targets[i]->receive(m);
 	}

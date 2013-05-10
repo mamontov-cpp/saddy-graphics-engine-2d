@@ -138,7 +138,7 @@ void sad::Scene::onNodeRemoval(sad::BasicNode * node)
 
 int sad::Scene::findLayer(sad::BasicNode * node)
 {
-	for (int i = 0;i<m_layers.count();i++) 
+	for (unsigned int i = 0;i<m_layers.count();i++) 
 	{
 		if (m_layers[i] == node)
 			return i;
