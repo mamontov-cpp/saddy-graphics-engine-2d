@@ -54,11 +54,11 @@ hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const
 
   hst::stringlist lines=str.split('\n');
   // 1.3 - is a space of data
-  cury = (lines.length()) * fnt->m_height*1.3f;
-  for(int i=0;i<lines.length();i++)
+  cury = (lines.count()) * fnt->m_height*1.3f;
+  for(unsigned int i=0;i<lines.count();i++)
   {
 	  curx = 0.0f;
-	  for(int j=0;j<lines[i].length();j++)
+	  for(unsigned int j=0;j<lines[i].length();j++)
 	  {
 		  curx+=fnt->m_w[(unsigned char)(lines[i][j])];
 	  }
@@ -110,7 +110,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    float modelview_matrix[16]={};	
    glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
 
-   for(int i=0;i<lines.length();i++) 
+   for(unsigned int i=0;i<lines.count();i++) 
    {
 		glPushMatrix();
 		glLoadIdentity();

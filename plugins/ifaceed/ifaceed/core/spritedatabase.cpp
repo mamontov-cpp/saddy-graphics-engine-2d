@@ -145,7 +145,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 			if (tryLoadImages(texturePaths,images))
 			{
 				this->importSprites(*qtimages,images,testcontainer,it.key());
-				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString().c_str());
+				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString());
 				cnf->setLoader(loader);
 				if (cnf->reload() != SCR_OK)
 				{

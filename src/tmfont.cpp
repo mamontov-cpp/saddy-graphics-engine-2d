@@ -61,7 +61,7 @@ hRectF TMFont::size(const hst::string & str)
   float lenx=0.0f;
   float leny=(float)((m_ul['A'].y()-m_lr['A'].y())*m_tex->height());
   //Calculate total length
-  for (int i=0;i<str.length();i++)
+  for (unsigned int i=0;i<str.length();i++)
   {
 	  if (str[i]=='\r' || str[i]=='\n')
 	  {

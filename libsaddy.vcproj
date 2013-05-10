@@ -269,10 +269,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\templates\hstringlist.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\templates\hwstring.cpp"
 					>
 				</File>
@@ -612,10 +608,6 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\hstring.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hstringlist.h"
 					>
 				</File>
 				<File

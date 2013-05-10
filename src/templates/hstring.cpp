@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <stdlib.h>
-#include "hstringlist.h"
+#include "hstring.h"
 #include <string.h>
 
 #ifdef _CRTMEMORYTEST
@@ -22,146 +22,78 @@
 #endif
 
 using namespace hst;
-string::string()
+
+string::string(): std::string() 
 {
-	p=NULL;
-	len=0;
+
 }
-string::string(const char* _p)
-{
-  if (_p!=NULL)
-  {
-	len=(long)strlen(_p);
-    p=(char*)malloc((len+1)*sizeof(char));
-	strcpy(p,_p);
-  }
-  else
-  {p=NULL;len=0;puts("Empty string copying catched");}
+string::string(const char* _p) : std::string(_p)  
+{ 
+
 }
-string::string(const char* _p,long len)
+string::string(const char* _p,long len) : std::string(_p, len)
 {
- if (_p!=NULL)
- {
-	this->len=len;
-    p=(char*)malloc((len+1)*sizeof(char));
-	memcpy(p,_p,len*sizeof(char));
-	p[len]=0;
-	this->removeOddNullsAtEnd();
- }
- else
- {p=NULL;len=0;}
+
 }
 
-string::string(const string & o)
+string::string(const string & o) : std::string(o)
 {
- if (o.p!=NULL)
- {
-  len=o.len;
-  p=(char*)malloc((len+1)*sizeof(char));
-  strcpy(p,o.p);
- }
- else
- {p=NULL;len=0;}
+ 
+}
+string::string(const std::string & o) : std::string(o)
+{
+ 
 }
 string::~string()
 {
-	this->clear();
+
 }
-void string::clear()
-{
-    if (p!=NULL)
-	{
-		free(p);
-	}
-	p=NULL;
-	len=0;
-}
+
 void string::print() const
 {
-	if (p!=NULL)
-	{
-		long i;
-		for (i=0;i<len;i++)
-			printf("%c",p[i]);
-		puts("");
-	}
+	puts(this->c_str());
 }
 //----Getters-------------------------------
-long   string::length() const {return this->len;}
-char * string::data()   const {return this->p;}
-bool   string::empty()  const {return (len==0)?true:false;}
-//-
-void   string::__clean() {this->p=NULL;this->len=0;}
+char * string::data()   const {return const_cast<char*>(this->c_str());}
+bool   string::empty()  const {return this->length() == 0;}
 //------------------------------------------
-string & string::operator=(const string & o)
-{
-  if (p!=o.p)
-  {
-	  if (p!=NULL && len>0) free(p);
-      if (o.p!=NULL)
-	  {
-	   len=o.len;
-       p=(char*)malloc((len+1)*sizeof(char));
-       strcpy(p,o.p);
-	  }
-	  else
-	   {p=NULL;len=0;}
-  }
 
-  return *this;
-}
 string & string::operator<<(char c)
 {
-  if (p==NULL)
-  {
-     p=(char*)malloc(2*sizeof(char));
-	 p[0]=c;
-	 p[1]=0x00000;
-	 len=1;
-  }
-  else
-  {
-	  len++;
-	  p=(char*)realloc(p,(len+1)*sizeof(char));
-	  p[len-1]=c;
-      p[len]=0x0000;
-  }
+  this->push_back(c);
   return *this;
 }
-char & string::operator[](long i)
+
+bool hst::string::operator==(const hst::string & o) const
 {
-	if ((i<0) || (i>len))
-	{
-		printf("Out of index assertion. Can't access char %ld",i);
-		return *(new char); //Sounds interesting
-	}
-	else return p[i];
+	const std::string & p1 = (const std::string&)(*this);
+	const std::string & p2 = (const std::string&)(o);	
+	return p1.compare(p2) == 0;
 }
-char  string::operator[](long i) const
+
+bool  hst::string::operator!=(const hst::string & o) const
 {
-	if ((i<0) || (i>len))
-	{
-		printf("Out of index assertion. Can't access char %ld",i);
-		return 0; 
-	}
-	else return p[i];
+	return !(*this == o);
 }
-bool string::operator==(const string & o) const
+
+bool hst::string::operator==(const char * o) const
 {
-	return (*this==o.data());
+	return (*this == hst::string(o));
 }
-bool string::operator!=(const string & o) const
+
+bool hst::string::operator!=(const char * o) const
 {
-	return (*this!=o.data());
+	return (*this == hst::string(o));
 }
+
 bool string::operator>(const string &o) const
 {
-	long minlen=(this->length()<o.length())?this->length():o.length();
-	long i;
+	unsigned long minlen=(this->length()<o.length())?this->length():o.length();
+	unsigned long i;
 	for (i=0;i<minlen;i++)
 	{
 	  if ((*this)[i]!=o[i])
-		if (cmpchar(this->p[i],o[i]))
+		if (cmpchar((*this)[i],o[i]))
 			return false;
 		else
 			return true;
@@ -184,94 +116,44 @@ bool string::operator<(const string & o) const
 }
 void string::remove(long i)
 {
-	long j,jmax=len-1;
-	if ((i>-1) && (i<=len))
+	if (i > -1 && i <= (long)(this->length()))
 	{
-      for (j=i;j<jmax;j++)
-		  p[j]=p[j+1];
-	  p[jmax]=0x0000;
-	  --len;
-	  if (len!=0)
-	  p=(char*)realloc(p,(len+1)*sizeof(char));
-	  else
-	  {
-		  free(p);
-		  p=NULL;
-	  }
+		this->erase(this->begin() + i);
 	}
-	else {printf("Removing of non-existing item %ld catched\n",i);}
 }
 
 //Split a string to a list, using specified delimiter
 string & string::operator<<(const string & o)
 {
-	long i;
-	for (i=0;i<o.length();i++)
-		(*this)<<(o[i]);
+	(*this)+=o;
 	return *this;
 }
 stringlist string::split(const char * delimiters) const
 {
-  long    i;           //Counter
-  string tmp=*this;   //Copy self to work with it simply. We can replace some delimiter by NULL and work with it
-  char * p=tmp.data();          //
-  stringlist result;
-  p=strtok(p,delimiters);
-  while( p )
+  hst::stringlist result;
+  hst::string buffer;
+  for(unsigned long i = 0; i < this->length(); i++)
   {
-      result<<hString(p);
-	  p=strtok(NULL,delimiters);
-  }
-  //Scan list
-  for (i=0;i<result.length();i++)
+	char cur = (*this)[i];
+	if (strrchr(delimiters,cur) != NULL)
 	{
-		if (result[i].length()==0)
-		{
-			result.remove(i);
-			i--;
-		}
-		else
-		{
-		  if (result[i][0]==0x00000)
-		  {
-			result.remove(i);
-			i--;
-		  }
-		}
+		if (buffer.empty() != false)
+			result << buffer;
+		buffer.clear();
 	}
-	return result;
+	else 
+	{
+		buffer << cur;
+	}
+  }
+  if (buffer.empty() != false)
+      result << buffer;
+  return result;
 }
 stringlist string::split(char delimiter) const
 {
-	long    i;           //Counter
-	string tmp=*this;   //Copy self to work with it simply. We can replace some delimiter by NULL and work with it
-    char * p=tmp.data();          //
-	stringlist result;
-    for (i=0;i<tmp.len;i++)
-		if (tmp[i]==delimiter)
-		{
-			tmp[i]=0x00000;  //Insert space
-			result<<p;
-			p=tmp.data()+i+1;
-		}
-	result<<string(p);              //Adding unused space
-	for (i=0;i<result.length();i++)
-	{
-		if (result[i].length()==0)
-		{
-			result.remove(i);
-			i--;
-		}
-		else
-		{
-		  if (result[i][0]==0x00000)
-		  {
-			result.remove(i);
-			i--;
-		  }
-		}
-	}
-	return result;
+	char s[2]={delimiter, 0x0};
+	return split(s);
 }
 void string::readLine(FILE** pf)
 {
@@ -281,44 +163,24 @@ void string::readLine(FILE** pf)
     if ((c!='\r') && (c!='\n') && (c!=EOF)) (*this)<<c;                 //Appending first character
 	while((c=fgetc(*pf))!='\r' && (c!='\n') && (!feof(*pf))) (*this)<<c; //Append character
 }
-bool string::operator==(const char * o) const
-{
-	if (this->data()==NULL)
-	{
-		if (o==NULL) return true; else return false;
-	}
-	if (o==NULL) return false;
-	if (strcmp(o,this->data())==0) return true; else return false;
-}
-bool string::operator!=(const char * o) const
-{
- return !(*this==o);
-}
+
 string  string::getLastCharacters(long i) const
 {
-	if (i<0) return *(new string());
-	if (i>=this->len) return *(new string(*this));
-	string result;
-	long j;
-	for (j=len-i;j<len;j++)
-		result<<(*this)[j];
-	return result;
+	if (i<0) return string();
+	if ((unsigned long)i>=this->length()) return string();
+	return this->substr(this->length()-i);
 }
 string string::getExtension() const
 {
-   if (len==0) return string();
-   char * r=strrchr(p,'.');
-   if (r==NULL) return string();
-   return string(r+1);
+   size_t pos =  this->rfind('.');
+   if (pos == std::string::npos)  return string();
+   return this->substr(pos + 1);
 }
 void string::removeExtension()
 {
-	if (!(this->getExtension().empty()))
-	{
-      char * r=strrchr(p,'.');
-	  long index=r-p; //Index of dot
-	  this->removeRange(index,len-index);
-	}
+   size_t pos =  this->rfind('.');
+   if (pos == std::string::npos)  return;
+   this->erase(this->begin() + pos, this->end());
 }
 void  string::addExtension(const string & newext)
 {
@@ -326,123 +188,39 @@ void  string::addExtension(const string & newext)
 }
 void  string::changeExtension(const string & newext)
 {
- if (len==0)
- {
-   (*this)<<'.'<<newext;
- }
- else
- {
-	 if (this->getExtension().empty()) //if no extension
-	 {
-		(*this)<<'.'<<newext;
-	 }
-	 else
-	 {
-		char * r=strrchr(p,'.');
-		long index=(r+1)-p; //Index of dot
-		this->removeRange(index,len-index);
-		(*this)<<newext;
-	 }
- }
+ removeExtension();
+ addExtension(newext);
 }
 string  string::operator+(const string & o) const
 {
-   long i;
    string result(*this);
-   for (i=0;i<o.length();i++)
-	   result<<o[i];
+   result << o;
    return result;
 }
-void string::removeOddNullsAtEnd()
-{
-   while ( (this->length()!=0) && (*this)[this->length()-1]==0 )
-           this->remove(this->length()-1);
 
+string  string::operator+(const std::string & o) const
+{
+	return *this + hst::string(o);
 }
+
+string  string::operator+(const char * o) const
+{
+	return *this + hst::string(o);
+}
+
 string & string::insert(char c,long i)
 {
 	if (i<0) i=0;
-	if (i>=len)  return (*this)<<c;
-	len++;
-	long j;
-	p=(char*)realloc(p,(len+1)*sizeof(char));
-	for (j=len-1;j>i;j--)
-		p[j]=p[j-1];
-	p[i]=c;
-    p[len]=0x0000;
+	if ((unsigned long)i>=length())  return (*this)<<c;
+	std::string str;
+	str.push_back(c);
+	this->std::string::insert(i,str);
 	return *this;
 }
-void string::getLastOccurence(const char * beg, const char * end,long * begi,long * rlen)
-{
-	*begi=-1;*rlen=-1;
-	long i=0,  j=0;
-	long beglen=strlen(beg);
-	long endlen=strlen(end);
-	long lbeg;
-	long llen;
-	bool flag=false;
-	for (i=0;i<=this->len-beglen;i++)
-	{
-		if (!strncmp(p+i,beg,beglen))
-		{
-			lbeg=i;
-			flag=false;
-			for (j=i+beglen;((j<=this->len-endlen) && (!flag));j++)
-			{
-				if (!strncmp(p+j,end,endlen))
-				{
-					flag=true;
-					llen=j-i+endlen;
-					*rlen=llen;
-					*begi=lbeg;
-				}
-			}
-		}
-	}
-}
-void string::removeLastOccurence(const char * beg, const char * end)
-{
-	long i=-1,rlen=-1;
-	this->getLastOccurence(beg,end,&i,&rlen);
-    if (i!=-1)
-	{
-		removeRange(i,rlen);
-	}
-}
-void string::replaceLastOccurence(const char * beg, const char * end,const string & to)
-{
-	long i=-1,rlen=-1;
-	this->getLastOccurence(beg,end,&i,&rlen);
-    if (i!=-1)
-	{
-		removeRange(i,rlen);
-		insert(to,i);
-	}
-}
-long string::getOccurences(const char * beg, const char * end)
-{
-   string oldstr=*this,newstr=*this;
-   long result=0;
-   do
-   {
-	   oldstr=newstr;
-	   newstr.removeLastOccurence(beg,end);
-       if (newstr!=oldstr) ++result;
-   } while(newstr!=oldstr);
-   return result;
-}
-void string::removeAllOccurences(const char * beg,const char * end)
-{
-	string oldstr=*this;
-	do
-	{
-       oldstr=*this;
-	   removeLastOccurence(beg,end);
-	} while (*this!=oldstr);
-}
+
 void string::trimSpaces()
 {
-   long i;
+   unsigned long i;
    int flag=1;
    for (i=0;(i<length()) && (flag);i++)
    {
@@ -474,65 +252,7 @@ void string::removeSpaces()
 {
 	this->removeAllOccurences(string(" "));
 }
-void string::oc_Replace_Callback(const char *beg, const char *end, long (*repfunc)(string &, long, long))
-{
-	long i=0,  j=0;
-	long beglen=strlen(beg);
-	long endlen=strlen(end);
-	long lbeg;
-	long llen;
-	bool flag=false;
-	for (i=0;i<=this->len-beglen;i++)
-	{
-		if (!strncmp(p+i,beg,beglen))
-		{
-			lbeg=i;
-			flag=false;
-			for (j=i+beglen;((j<=this->len-endlen) && (!flag));j++)
-			{
-				if (!strncmp(p+j,end,endlen))
-				{
-					flag=true;
-					llen=j-i+endlen;
-					i=(*repfunc)(*this,lbeg,llen);
-				}
-			}
-		}
-	}
-}
-int string::oc_strictReplace_Callback(const char *beg, const char *end, long (*repfunc)(string &, long, long))
-{
-	long i=0;
-	long beglen=strlen(beg);
-	long endlen=strlen(end);
-	long llen;
-	long searchbflag=0;  //flag, indicates that first subseq found
-	long searcheflag=0;  //flag, indicates that second subseq found
-    long begpos,endpos;  //Indicates the position of current pos;
-    long maxlen=(beglen>endlen)?beglen:endlen;
-    long scanlen=this->len-maxlen+1;
-    for (i=0;i<scanlen;i++)
-    {
-        if (!strncmp(p+i,beg,beglen) && !searchbflag)
-        {
-            ++searchbflag;
-            begpos=i;
-        }
-        if (!strncmp(p+i,end,endlen))
-        {
-            ++searcheflag;
-            if (searchbflag!=0 && searchbflag==searcheflag )     //If this is correct position
-            {
-				endpos=i;
-                llen=endpos-begpos+endlen;
-                i=(*repfunc)(*this,begpos,llen);
-                searchbflag=0;
-                searcheflag=0;
-            }
-        }
-    }
-    return (searchbflag==searcheflag);
-}
+
 string & string::removeRange(long beg,long rlen)
 {
 	long k;
@@ -542,9 +262,13 @@ string & string::removeRange(long beg,long rlen)
 }
 string & string::insert(const string & o,long i)
 {
-	long j;
-    for (j=o.length()-1;j>-1;j--)
-		insert(o[j],i);
+	if (i < 0) return *this;
+	if ((unsigned long)i > this->length()) 
+	{
+		*this << o;
+		return *this;
+	}
+	this->std::string::insert(i, o);
 	return *this;
 }
 
@@ -589,43 +313,9 @@ float string::toFloat(const string & str)
     sscanf(str.data(),"%f",&result);
     return result;
 }
-class stringlist string::splitByLength(int maxlen) const
-{
-   stringlist words=this->split(' ');
-   stringlist result;
-   string tmp;
-   long i=0;
-   while (i<words.length())
-   {
-	   tmp=words[i];
-	   ++i;
-	   if (i<words.length())
-	   {
-	    while ((i<words.length()) && ((tmp.length()+1+words[i].length())<=maxlen)  )
-	    {
-          tmp<<' '<<words[i];
-		  ++i;
-	    }
-	   }
-       result<<tmp;
-   }
-   return result;
-}
-
 string  string::subString(long beg,long len) const
 {
-	string result;
-	long i;
-	if (beg<0)
-	{
-		len-=beg;
-		beg=0;
-	}
-	for (i=beg; (i<length()) && (i-beg<len);i++)
-	{
-		result<<(*this)[i];
-	}
-	return result;
+	return substr(beg, len);
 }
 string  string::getRightPart(long len)
 {
@@ -637,43 +327,38 @@ string  string::getLeftPart(long len)
 }
 long string::getOccurences(const string & sstr)
 {
-	long result=0;
-	long i,maxi=length()-sstr.length();
-	if (sstr.length()>length()) return result;
-    for (i=0;i<=maxi;i++)
-           if (!strncmp(this->p+i,sstr.data(),sstr.length()))
-		    {
-			 ++result;
-	         i+=sstr.length()-1;
-		    }
-	return result;
+	long count = 0;
+	size_t pos = this->find(sstr);
+	while(pos != std::string::npos)
+	{
+		++count;
+		pos = this->find(sstr, pos + sstr.length());
+	}
+	return count;
 }
 long string::getOccurence(const string & sstr,long omax)
 {
- long result=-1,resulti=-1;
- long i,maxi=length()-sstr.length();
- if (sstr.length()>length()) return result;
-    for (i=0;i<=maxi;i++)
-           if (!strncmp(this->p+i,sstr.data(),sstr.length()))
-		    {
-			 ++resulti;
-             if (resulti==omax)
-				 result=i;
-	         i+=sstr.length()-1;
-		    }
+  long result = -1;
+  long count = 0;
+  size_t pos = this->find(sstr);
+  while(pos != std::string::npos)
+  {
+    if (count == omax)
+		result = pos;
+    ++count;
+	pos = this->find(sstr, pos + sstr.length());
+  }
   return result;
 }
 long string::getLastOccurence(const string & sstr)
 {
- long result=-1;
- long i,maxi=length()-sstr.length();
- if (sstr.length()>length()) return result;
-    for (i=0;i<=maxi;i++)
-           if (!strncmp(this->p+i,sstr.data(),sstr.length()))
-		    {
-			 result=i;
-	         i+=sstr.length()-1;
-		    }
+  long result = -1;
+  size_t pos = this->find(sstr);
+  while(pos != std::string::npos)
+  {
+	result = pos;
+	pos = this->find(sstr, pos + sstr.length());
+  }
   return result;
 }
 void string::removeOccurence(const string & sstr,long omax)
@@ -765,42 +450,16 @@ bool string::cmpchar(char c1,char c2) const //Return false if c1 is bigger than 
 	else if (priority1<priority2) return false;
 	return c1<c2;
 }
-#ifdef H_USE_LOW_LEVEL_IO
 
-void string::readLine_lowLevel(int fd)
+hst::string join(const hst::stringlist list, const hst::string & sep)
 {
-  char c=0x00;
-  int sz=sizeof(char);
-  int _rr=1;
-  this->clear();
-  _rr=_read(fd,(void *)&c,sz) ;
-  while(   (c=='\r') || (c=='\n') && (_rr)) {_rr=_read(fd,(void *)&c,sz) ;};         //Skipping strings
-  if ((c!='\r') && (c!='\n') && (c!=EOF)) (*this)<<c;                 //Appending first character
-  _rr=_read(fd,(void *)&c,sz);
-  while(   (c!='\r') && (c!='\n') && (_rr)) {(*this)<<c;_rr=_read(fd,(void *)&c,sz);} //Append character
-  this->removeOddNullsAtEnd();
+	if (list.count() == 0)
+		return hst::string();
+	hst::string result = list[0];
+	for(unsigned int i = 0; i < list.count(); i++)
+	{
+		result << sep << list[i];
+	}
+	return result;
 }
 
-void string::writeToFile_lowLevel(const string & fn)
-{
-  int	fd = _open( fn.data(), _O_WRONLY | _O_TRUNC | _O_TEXT | _O_CREAT,_S_IREAD | _S_IWRITE);  //Open file
-  if( fd != -1 )												  //If succeeded
-  {
-      _write(fd,(void*)this->data(),this->len*sizeof(char));
-      _close( fd );
-  }
-
-}
-void string::readFile_lowLevel(const string & fn)
-{
-   char c=0;
-   this->clear();
-   int	fd = _open( fn.data(), _O_RDONLY  | _O_TEXT,  _S_IREAD | _S_IWRITE );  //Open file
-   if (fd!=-1)
-   {
-      while(_read(fd,(void*)&c,sizeof(char))!=0)
-		  (*this)<<c;
-	  _close(fd);
-   }
-}
-#endif
