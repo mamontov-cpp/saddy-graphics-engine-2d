@@ -1,4 +1,4 @@
-LDFLAGS= -L/usr/X11R6/lib -L../../lib -lm -lGL -lGLU -lpthread -lX11 -lsaddy-debug
+LDFLAGS= -L../../lib -lsaddy-debug -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
 OUTPUT   = ../../bin/saddy-test-debug
 DEFINES  = -DUNIX -DLINUX -DGCC
