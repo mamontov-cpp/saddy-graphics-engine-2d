@@ -36,7 +36,6 @@
 #include "templates/hpair.hpp"
 #include "templates/hptrie.hpp"
 #include "templates/hstring.h"
-#include "templates/hstringlist.h"
 #include "templates/hwstring.h"
 
 

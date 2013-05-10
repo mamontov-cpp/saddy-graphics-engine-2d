@@ -1,5 +1,5 @@
 #include "marshal/saveloadcallbacks.h"
-#include <templates/hstringlist.h>
+#include <templates/hstring.h>
 
 #define MAX_TABLE 7
 char table_from[MAX_TABLE][10]={"&quot;","&amp;","&apos;","&lt;","&gt;","&#10;","&#13"};
@@ -35,7 +35,7 @@ hst::vector<int> SaveLoadCallback< hst::vector<int> >::load(ActionContext * cont
 {
 	hst::vector<int> result;
 	hst::stringlist lst=str.split(';');
-	for (int i=0;i<lst.length();i++)
+	for (int i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<int>::load(context,lst[i],
 										    abstract_names::type_string< hst::vector<int> >::type());
@@ -62,7 +62,7 @@ hPointF SaveLoadCallback<hPointF>::load(ActionContext * context,
 										const hst::string & typestring)
 {
 	hst::stringlist lst=str.split('@');
-	if (lst.length()!=2)
+	if (lst.count()!=2)
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 
 	double params[2];
@@ -85,7 +85,7 @@ hRectF  SaveLoadCallback<hRectF>::load(ActionContext * context,
 									   const hst::string & typestring)
 {
 	hst::stringlist lst=str.split(':');
-	if (lst.length()!=4)
+	if (lst.count()!=4)
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 
 	hPointF params[4];
@@ -114,7 +114,7 @@ hst::vector<hPointF>  SaveLoadCallback< hst::vector<hPointF> >::load(ActionConte
 {
 	hst::vector<hPointF> result;
 	hst::stringlist lst=str.split(';');
-	for (int i=0;i<lst.length();i++)
+	for (int i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<hPointF>::load(context,lst[i],
 										        abstract_names::type_string< hst::vector<int> >::type());
@@ -157,7 +157,7 @@ hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
 {
 	hst::stringlist lst=str.split(';');
 	int r, g, b ;
-	if (lst.length()==3)
+	if (lst.count()==3)
 	{
 		r = SaveLoadCallback<int>::load(context,lst[0], abstract_names::type_string<hst::color >::type());
 		g = SaveLoadCallback<int>::load(context,lst[1], abstract_names::type_string<hst::color >::type());

@@ -1,5 +1,5 @@
 #include "path.h"
-#include <templates/hstringlist.h>
+#include <templates/hstring.h>
 
 hst::string path::directory(const hst::string & path)
 {
@@ -16,11 +16,11 @@ hst::string path::directory(const hst::string & path)
 	if (escaped[escaped.length()-1] == delimiter[0])
 		escaped.removeLastOccurence(delimiter);
 	hst::stringlist pathparts = escaped.split(delimiter[0]);
-	pathparts.remove(pathparts.length()-1);
-	if (pathparts.length() == 0) 
+	pathparts.removeAt(pathparts.count()-1);
+	if (pathparts.count() == 0) 
 		return hst::string();
 	hst::string result = pathparts[0];
-	for (unsigned int i=1;i<pathparts.length();i++) {
+	for (unsigned int i=1;i<pathparts.count();i++) {
 		result << delimiter << pathparts[i];
 	}
 	return result;
