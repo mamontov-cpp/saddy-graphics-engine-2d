@@ -1,14 +1,14 @@
 LDFLAGS= -L/usr/X11R6/lib -L../../lib -lm -lGL -lGLU -lpthread -lX11 -lsaddy-debug
-INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config 
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
 OUTPUT   = ../../bin/saddy-test-debug
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD    = ../build/main.o ../build/movitem.o ../build/player.o ../build/statelabel.o
+BUILD    = build/main.o build/movitem.o build/player.o build/statelabel.o
 all:
 	./mkbuild.sh
-	g++ -c -g ../src/main.cpp -o ../build/main.o $(INCLUDE) $(DEFINES)
-	g++ -c -g ../src/movitem.cpp -o ../build/movitem.o $(INCLUDE) $(DEFINES)
-	g++ -c -g ../src/player.cpp -o ../build/player.o $(INCLUDE) $(DEFINES)
-	g++ -c -g ../src/statelabel.cpp -o ../build/statelabel.o $(INCLUDE) $(DEFINES)
+	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ -c -g movitem.cpp -o build/movitem.o $(INCLUDE) $(DEFINES)
+	g++ -c -g player.cpp -o build/player.o $(INCLUDE) $(DEFINES)
+	g++ -c -g statelabel.cpp -o build/statelabel.o $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)
