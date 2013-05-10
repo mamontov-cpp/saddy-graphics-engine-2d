@@ -5,8 +5,8 @@
 
 static BoundingBox createBBoxForPlayer(const hst::rect< ::s3d::point> & rect)
 {
-	float w2=(rect[1].x()-rect[0].x())/2*BBOX_PERCENT;
-	float h2=(rect[2].y()-rect[1].y())/2*BBOX_PERCENT;
+	float w2=(float)((rect[1].x()-rect[0].x())/2*BBOX_PERCENT);
+	float h2=(float)((rect[2].y()-rect[1].y())/2*BBOX_PERCENT);
 	::s3d::point middle=(rect[0]+rect[2])/2.0f;
 	return BoundingBox( ::s3d::point(middle.x()-w2,middle.y()+h2,0),::s3d::point(middle.x()+w2,middle.y()-h2,0)  );
 }
@@ -17,12 +17,12 @@ void Player::move(const Vector & p)
 {
 	oldPoint()=newPoint();
 	BoundingBox bb(oldPoint());
-	::s3d::point nx(p.x(),p.y(),0.0f);
+	::s3d::point nx((float)(p.x()),(float)(p.y()),0.0f);
 	for (int i=0;i<4;i++)
 		bb[i]+=nx;
 	if (bb[0].x()<BOUND_X1) 
 	{
-		float new_x=BOUND_X2-0.01;
+		float new_x=BOUND_X2-0.01f;
 		float old_x=bb[1].x();
 		for(int i=0;i<4;i++)
 			bb[i].setX(bb[i].x()+new_x-old_x);
@@ -30,7 +30,7 @@ void Player::move(const Vector & p)
 	}
 	if (bb[1].x()>BOUND_X2) 
 	{ 
-		float new_x=BOUND_X1+0.01;
+		float new_x=BOUND_X1+0.01f;
 		float old_x=bb[0].x();
 		for(int i=0;i<4;i++)
 			bb[i].setX(bb[i].x()+new_x-old_x);
@@ -38,7 +38,7 @@ void Player::move(const Vector & p)
 	}
 	if (bb[2].y()<BOUND_Y1) 
 	{ 
-		float new_x=BOUND_Y2-0.01;
+		float new_x=BOUND_Y2-0.01f;
 		float old_x=bb[0].y();
 		for(int i=0;i<4;i++)
 			bb[i].setY(bb[i].y()+new_x-old_x);
@@ -46,7 +46,7 @@ void Player::move(const Vector & p)
 	}
 	if (bb[0].y()>BOUND_Y2) 
 	{ 
-		float new_x=BOUND_Y1+0.01;
+		float new_x=BOUND_Y1+0.01f;
 		float old_x=bb[2].y();
 		for(int i=0;i<4;i++)
 			bb[i].setY(bb[i].y()+new_x-old_x);
@@ -109,7 +109,14 @@ Player::~Player()
 #define PLAYER_WH 11
 Player::Player(const hPointF & pos):Collidable(
 sad::TextureManager::ref()->get("objects"),
-hst::rect< ::s3d::point>(::s3d::point(pos.x()-PLAYER_WH,pos.y()-PLAYER_WH,0),::s3d::point(pos.x()+PLAYER_WH,pos.y()+PLAYER_WH,0)),
+hst::rect< ::s3d::point>(
+	::s3d::point(
+				 (float)(pos.x()-PLAYER_WH),
+				 (float)(pos.y()-PLAYER_WH),
+				 0),
+	::s3d::point((float)(pos.x()+PLAYER_WH),
+				 (float)(pos.y()+PLAYER_WH),
+				 0)),
 hRectF(hPointF(0,87),hPointF(87,174))
 )
 {

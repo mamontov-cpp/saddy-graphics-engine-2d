@@ -257,30 +257,29 @@ int main(int argc, char** argv)
 	
 	
 	SL_MESSAGE("Renderer successfully initialized!");	
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 
 	//Loading fonts
 	sad::TMFont * fnt1=new sad::TMFont;
 	bool res1=true;
-	res1=fnt1->load("examples/georgia2.PNG","examples/georgia2.CFG",hst::color(255,255,255),false);
-	//res1=fnt1->load("examples/times_large.PNG","examples/times_large.CFG");
+	res1=fnt1->load("examples/game/georgia2.PNG","examples/game/georgia2.CFG",hst::color(255,255,255),false);
 	res=res && res1;
 	if (!res1)
 		SL_FATAL(hst::string("Loading \"times_large\" failed"));
 	sad::Renderer::ref()->fonts()->add(fnt1,"times_large");
 
     sad::TMFont * fnt2=new sad::TMFont;
-	bool res2= fnt1->load("examples/times_lg.PNG","examples/times_lg.CFG");
+	bool res2= fnt1->load("examples/game/times_lg.PNG","examples/game/times_lg.CFG");
 	res=res && res2;
 	if (!res2)
 		SL_FATAL(hst::string("Loading \"times_lg\" failed"));
 	sad::Renderer::ref()->fonts()->add(fnt2,"times_lg");
 
 	//Loading sprites
-	res=res && loadTex("examples/title.tga","title");
-	res=res && loadTex("examples/ingame.tga","background");
-    res=res && loadSprite("examples/objects.bmp","objects"); 
+	res=res && loadTex("examples/game/title.tga","title");
+	res=res && loadTex("examples/game/ingame.tga","background");
+    res=res && loadSprite("examples/game/objects.bmp","objects"); 
     if (!res)
 	{
 		SL_FATAL(hst::string("Resource loading failed!"));
