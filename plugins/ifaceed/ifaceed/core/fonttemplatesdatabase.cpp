@@ -111,7 +111,7 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 		{
 			hst::string path = path::concat(parent,file.toStdString().c_str());
 			m_configs.insert(name, path.data());
-			SL_DEBUG(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
+			SL_DEBUG(QString("Deserialized XML Config entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
 		}
 	}

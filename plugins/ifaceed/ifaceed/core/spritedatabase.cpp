@@ -242,6 +242,7 @@ QImage extractImage(const QImage & im, Sprite2DTemplate & t)
 			}
 		}
 	}
+	
 	return result;
 }
 

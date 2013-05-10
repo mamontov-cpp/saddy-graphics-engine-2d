@@ -22,10 +22,11 @@ class Sprite2DTemplate
 		 bool         m_transparent;       //!< Whether the template should be transparent
 		 hst::color   m_transparencycolor; //!< A color, which should be transparent
  public:
-	    /*! Creates empty invalid 2d template
+	    /*! Creates empty invalid non-transparent 2d template. 
 		 */
 		inline Sprite2DTemplate()
 		{
+			m_transparent = false;
 		}
 		/*! Destructor, currently does nothing
 		 */

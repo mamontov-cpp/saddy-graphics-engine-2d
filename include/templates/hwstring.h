@@ -18,16 +18,9 @@ namespace hst
       
 	  Definition a wide char string is placed here
   */
-  class wstring 
+  class wstring: public std::wstring 
   {
-    private:
-	       std::wstring m_str; //!< Wstring, fucking
     public:
-	       /*! Assignment operator overload
-		       \param[in] o other string, lol
-			   \return self-reference
-		   */
-		   wstring & operator=(const wstring & o);
 	       /*! Appends a string to a self
 		       \param[in] o other  string
 			   \return self-reference
@@ -39,10 +32,6 @@ namespace hst
 		   /*! Constructs from string
 		       \param[in] str string
 		   */
-	       wstring(const char * str);
-		   /*! Constructs from string
-		       \param[in] str string
-		   */
 		   wstring(const wchar_t * str);
 		   /*! Constructs from string
 		       \param[in] str string
@@ -51,26 +40,9 @@ namespace hst
 		   /*! Destructor
 		   */
 		   ~wstring();
-		   /*!  Accessor
-		        \param[in] i index
-		   */
-		   inline wchar_t & operator[](unsigned int i)   {return m_str[i];}
-		   /*!  Accessor
-		        \param[in] i  index
-		   */
-		   inline const wchar_t & operator[](unsigned int i) const {return m_str[i];}
 		   /*! Returns a data
 		   */
-		   inline const wchar_t * data() const { return m_str.c_str(); }
-		   /*! Return length
-		   */
-		   inline unsigned int length() const  { return m_str.length(); }
-		   /*! Clears 
-		   */
-		   inline void clear() { return m_str.clear(); }
-		   /*! Is an empty?
-		   */
-		   inline bool empty() const { return m_str.empty(); }
+		   inline const wchar_t * data() const { return this->c_str(); }
 		   /*! Removes a char at position
 		       \param[in] i position
 			   \return self-reference
@@ -111,6 +83,11 @@ namespace hst
 		   */
 		   void removeLast(const wstring & o);
   };
+  /*! Converts a char pointer to wide string
+	  \param[in] p pointer
+	  \return wide string
+   */
+  hst::wstring wstring_from_charptr(const char * p);
 }
 
 #endif
