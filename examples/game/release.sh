@@ -1,3 +1,1 @@
-cd makefiles
-make -f Makefile_Demo_Release.linux
-cd ..
+make -f makefiles/Makefile_Demo_Release.linux
