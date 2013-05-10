@@ -12,7 +12,7 @@ s2d::vec  normalize(const s2d::vec  & v)
 	}
 	else 
 	{
-		float l = sqrtf(v.x() * v.x() + v.y() * v.y() );
+		float l = sqrtf((float)(v.x() * v.x() + v.y() * v.y()) );
 		return v / l;
 	}
 }
@@ -21,7 +21,7 @@ s2d::vec  normalize(const s2d::vec  & v)
 s2d::vec ortho(const s2d::vec & v)
 {
 	s2d::vec v2 = normalize(v);
-	float x = v2.x();
+	float x = (float)(v2.x());
 	v2.setX(-1 * v2.y());
 	v2.setY(v2.x());
 	return v2;
@@ -62,8 +62,8 @@ void rotate(float angle, hRectF & r)
 	for(int i = 0; i < 4; i++)
 	{
 		hPointF vi = r[i] - c;
-		float x = vi.x()*cosa - vi.y()*sina;
-		float y = vi.x()*sina + vi.y()*cosa;
+		float x = (float)(vi.x()*cosa - vi.y()*sina);
+		float y = (float)(vi.x()*sina + vi.y()*cosa);
 		r[i] = c; 
 		r[i] += hPointF(x,y);
 	}
@@ -74,8 +74,8 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
 	float cosa = cos(angle);
 	float sina = sin(angle);
 	for(int i = 0; i < 4; i++) {
-		float x = v[i].x()*cosa - v[i].y()*sina;
-		float y = v[i].x()*sina + v[i].y()*cosa;
+		float x = (float)(v[i].x()*cosa - v[i].y()*sina);
+		float y = (float)(v[i].x()*sina + v[i].y()*cosa);
 		v[i] = result + hPointF(x,y);
 	}
 }

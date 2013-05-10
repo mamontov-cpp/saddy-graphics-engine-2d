@@ -31,7 +31,7 @@ s2d::vec ortho(const s2d::vec & v);
  */
 inline float scalar(const s2d::vec & v1, const s2d::vec & v2)
 {
-	return v1.x() * v2.x() + v1.y() * v2.y();
+	return (float)(v1.x() * v2.x() + v1.y() * v2.y());
 }
 /*! Tests, whether point projection on [pivot1, pivot2] axle is within this small cutter
 	\param[in] test test data
@@ -53,8 +53,8 @@ bool isWithin(const hPointF & p, const hRectF & r);
  */
 inline float dist(const hPointF & p1, const hPointF & p2)
 {
-	float dx = p1.x() - p2.x();
-	float dy = p1.y() - p2.y();
+	float dx = (float)(p1.x() - p2.x());
+	float dy = (float)(p1.y() - p2.y());
 	return sqrtf(dx*dx + dy*dy);
 }
 

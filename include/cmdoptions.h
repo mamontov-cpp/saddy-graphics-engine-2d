@@ -154,7 +154,7 @@ class Parser
 		const hst::string & name,
 		const _PairVector & v)
 	 {
-		 for (int i = 0; i < v.p1().count(); i++) 
+		 for (unsigned int i = 0; i < v.p1().count(); i++) 
 		 {
 			if (v.p1()[i].name() == name)
 				return true;
@@ -171,7 +171,7 @@ class Parser
 	 hst::pair< hst::vector<_OptionType>, hst::vector<_ValueType> > & v
 	 )
 	 {
-		 for (int i = 0; i < v._1().count(); i++) 
+		 for (unsigned int i = 0; i < v._1().count(); i++) 
 		 {
 			if (v._1()[i].name() == name)
 				return v._2()[i];
@@ -188,7 +188,7 @@ class Parser
 	 const _ValueType & val
 	 )
 	 {
-		 for (int i = 0; i < v.p1().count(); i++) 
+		 for (unsigned int i = 0; i < v.p1().count(); i++) 
 		 {
 			if (v._1()[i].name() == name)
 				v._2()[i] = val;
