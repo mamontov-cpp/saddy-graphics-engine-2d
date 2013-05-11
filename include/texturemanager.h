@@ -50,12 +50,12 @@ namespace sad
 		    \param[in] tex  texture
 			\param[in] containername name of container
 		*/
-		void load(const hst::string & name, Texture * tex,const hst::string & containername="default");
+		void add(const hst::string & name, Texture * tex,const hst::string & containername="default");
 		/*! Unloads a texture. If container is not found, nothing is done
 		    \param[in] name name of a texture
 			\param[in] containername name of container
 		*/
-		void unload(const hst::string & name,const hst::string & containername="default");
+		void remove(const hst::string & name,const hst::string & containername="default");
 		/*! Sets a new container within manager. An old container DOES NOT destroyed. 
 			To change container safely, remove old container manually
 			\param[in] container new container
