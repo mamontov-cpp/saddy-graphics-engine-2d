@@ -36,14 +36,14 @@ class InvalidReference<bool>
 	static std::vector<bool> m_s;
 	static bool m_initted;
  public:
-	static inline std::vector<bool>::reference & create()
+	static inline std::vector<bool>::reference  create()
 	{
-		if (m_initted  == false)
+		if (InvalidReference<bool>::m_initted  == false)
 		{
-			m_s.push_back(false);
-			m_initted = true;
+			InvalidReference<bool>::m_s.push_back(false);
+			InvalidReference<bool>::m_initted = true;
 		}
-		return m_s[0];
+		return InvalidReference<bool>::m_s[0];
 	}
 };
 

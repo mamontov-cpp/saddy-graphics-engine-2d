@@ -50,14 +50,14 @@ template<class T> vector<T> & vector<T>::operator<<(const T& obj)
 
 template<class T> vector<T> & vector<T>::operator>>(T& obj)
 {
-    obj=(*this)[sz-1];
-    removeAt(sz-1);
+    obj=(*this)[this->size()-1];
+    removeAt(this->size()-1);
     return *this;
 }
 
 template<class T> vector<T>& vector<T>::removeAt(unsigned long i)
 {
-    if (i>=size()) return *this;
+    if (i>=this->size()) return *this;
     this->erase(this->begin() + i);
     return *this;
 }
@@ -73,7 +73,7 @@ template<class T> vector<T> & vector<T>::addFront(const T & obj)
 
 template<class T> vector<T> & vector<T>::insert(const T &obj,unsigned long i)
 {
-  if (i>=size()) return add(obj);
+  if (i>=this->size()) return add(obj);
   this->std::vector<T>::insert(this->begin() + i, obj);
   return *this;
 }
@@ -94,7 +94,7 @@ template<class T> vector<T> & vector<T>::removeAll(const T& obj)
 template<class T> vector<T> & vector<T>::removeFirst(const T& obj)
 {
     unsigned long i;
-    for (i=0;i<sz;i++)
+    for (i=0;i<this->size();i++)
     {
         if ((*this)[i]==obj)
         {
@@ -107,7 +107,7 @@ template<class T> vector<T> & vector<T>::removeLast(const T& obj)
 {
     unsigned long i,fnd=0;
     bool flag=false;
-    for (i=0;i<sz;i++)
+    for (i=0;i<this->size();i++)
     {
         if ((*this)[i]==obj)
         {
