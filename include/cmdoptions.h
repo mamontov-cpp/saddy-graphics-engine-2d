@@ -13,6 +13,41 @@ namespace sad
 namespace cmd
 {
 
+/*! A class, that creates invalid reference
+    to a vector element
+ */
+template<typename T>
+class InvalidReference
+{
+ public:
+	static inline typename std::vector<T>::reference  create()
+	{
+		return *(new T());
+	}
+};
+
+/*! A class, that returns invalid reference
+	to a boolean vector element
+ */
+template<>
+class InvalidReference<bool>
+{
+ private:
+	static std::vector<bool> m_s;
+	static bool m_initted;
+ public:
+	static inline std::vector<bool>::reference & create()
+	{
+		if (m_initted  == false)
+		{
+			m_s.push_back(false);
+			m_initted = true;
+		}
+		return m_s[0];
+	}
+};
+
+
 /*! Options type is basic for all other types, like Flag, SimpleOption, MultipleOption
  */
 class OptionType
@@ -167,7 +202,8 @@ class Parser
 	 typename _OptionType,
 	 typename _ValueType
 	 >
-	 _ValueType & optionByName(const hst::string & name,
+	 typename std::vector<_ValueType>::reference 
+	 optionByName(const hst::string & name,
 	 hst::pair< hst::vector<_OptionType>, hst::vector<_ValueType> > & v
 	 )
 	 {
@@ -177,7 +213,7 @@ class Parser
 				return v._2()[i];
 		 }
 		 throw 0;
-		 return *(new _ValueType);
+		 return sad::cmd::InvalidReference<_ValueType>::create();
 	 }
 	 template<
 	 typename _OptionType,

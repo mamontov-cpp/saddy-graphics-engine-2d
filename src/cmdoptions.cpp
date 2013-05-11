@@ -2,6 +2,10 @@
 
 using namespace sad::cmd;
 
+
+std::vector<bool> sad::cmd::InvalidReference<bool>::m_s;
+bool sad::cmd::InvalidReference<bool>::m_initted = false;
+
 sad::cmd::OptionType::OptionType(const hst::string & name)
 {
 	m_name = name;
