@@ -12,7 +12,7 @@
 #include <string.h>
 #include <vector>
 #include "hlvector.hpp"
-
+#include <string>
 #pragma once
 
 #ifndef __HSTRING_H
