@@ -1,4 +1,0 @@
-This is tool for automatic creation texture-mapped fonts.
-Now, it can be built in Win32 only using MSVC or on Linux.
-It needs GTK to be installed to be built.
-If you can port it, send developers a message.
