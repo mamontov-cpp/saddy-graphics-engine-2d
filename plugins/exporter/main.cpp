@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 		if (c == ' ') 
 			realCharacter = 'A';
 		// We must take bounding rect of all character space, with advances
-		bounds.insert(c, metrics.boundingRect(QString(QChar(c))));
+		bounds.insert(c, metrics.boundingRect(QString(QChar(realCharacter))));
 	}
 	// 5. Compute maximal bounding rect
 	QRect max(0,0,0,0);
