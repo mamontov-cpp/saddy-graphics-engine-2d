@@ -95,7 +95,7 @@ void Player::shoot()
 	float fx=BULLET_SPEED*cos(m_angle);
 	float fy=BULLET_SPEED*sin(m_angle);
    
-	sad::Renderer::ref()->getCurrentScene()->markForAddition
+	sad::Renderer::ref()->getCurrentScene()->add
 		(  new PlayerBullet(Vector(fx,fy),(this->middle())));
 	m_lastshot=clock();
 }
