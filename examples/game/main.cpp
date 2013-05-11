@@ -157,11 +157,11 @@ bool toggle_idle(int)
 {
 	sad::Scene * sc=sad::Renderer::ref()->getCurrentScene();
 
-	sc->performCleanup();
+	sc->clear();
 	killTestingTask();
-	sc->markForAddition(new sad::Background("title"));
-	sc->markForAddition(new StateLabel(HIGHSCORE,"times_large"));
-	sc->markForAddition(new EnemyEmitter(IDLE_RAIN));
+	sc->add(new sad::Background("title"));
+	sc->add(new StateLabel(HIGHSCORE,"times_large"));
+	sc->add(new EnemyEmitter(IDLE_RAIN));
 	
 	return true;
 }
@@ -172,12 +172,12 @@ bool toggle_play(int)
 	current_score=0;
 	player_health_point=10;
 
-	sc->performCleanup();
+	sc->clear();
 	addTestingTask();
-	sc->markForAddition(new sad::Background("background"));
-	sc->markForAddition(new StateLabel(PLAYERSTATE,"times_large"));
-	sc->markForAddition(new EnemyEmitter(REAL_SPAWN));
-    sc->markForAddition(new Player(hPointF(320.0,240.0)));
+	sc->add(new sad::Background("background"));
+	sc->add(new StateLabel(PLAYERSTATE,"times_large"));
+	sc->add(new EnemyEmitter(REAL_SPAWN));
+    sc->add(new Player(hPointF(320.0,240.0)));
 
 	return true;
 }

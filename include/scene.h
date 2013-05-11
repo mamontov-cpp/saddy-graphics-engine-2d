@@ -138,46 +138,46 @@ public:
 	 */
 	void swapLayers(sad::BasicNode * node1, sad::BasicNode * node2);
 	/*! Removes all from scene.
-	    DEPRECATED: use ::performCleanup() instead, because it can be called
+	    DEPRECATED: use ::clear() instead, because it can be called
 		            only before renderer was started.
 	*/
-	void clear();
+	void clearNow();
 	/*! Forces a scene to delete an object from scene
 	    \param[in] what object to be deleted
 	*/
-	void markForDeletion(BasicNode * what);
+	void remove(BasicNode * what);
 	/*! Forces a scene to add an object to scene.
 	    \param[in] node  object
       	\param[in] name  name. Creates anonymous object if empty
 	    \param[in] lay   layer. -1 for the first layer
 	*/
-	void markForAddition(
-	                     BasicNode * node, 
-		                 const hst::string & name=hst::string(),
-		                 unsigned long lay=(unsigned long)-1
-						);
+	void add(
+	         BasicNode * node, 
+		     const hst::string & name=hst::string(),
+		     unsigned long lay=(unsigned long)-1
+			);
 
 	/*! Adds an object to scene.
 	    DEPRECATED: It can be called if rendere is not started.
-		Use ::markForAddition() instead
+		Use ::add() instead
 	    \param[in] node  object 
 	    \param[in] name  name. Creates anonymous object, if empty
 	    \param[in] lay   layer. -1 for the first layer
 	*/
-	void add(
+	void addNow(
 		     BasicNode * node, 
 		     const hst::string & name=hst::string(),
 		     unsigned long lay=(unsigned long)-1
 		    );
-	/*! Forces scene to make cleanup. 
+	/*! Forces scene to make cleanup, after rendering cycle 
 	*/
-	void performCleanup();
+	void clear();
 	/*! Removes an object from scene.
-	    DEPRECATED: It can be called only if renderer is not started.
-		Use ::markForDeletion() instead.
+	    DEPRECATED: It can be called only if renderer is not started, or not in scene.
+		Use ::remove() instead.
 	    \param[in] name name of object
 	*/
-	void remove(const hst::string & name);
+	void removeNow(const hst::string & name);
 	/*! Renders a scene
 	*/
 	virtual void render();

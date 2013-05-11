@@ -36,14 +36,14 @@ sad::Scene::~Scene()
 	fireNodeRemoving();
 	fireNodeAdding();
 	for (unsigned long i=0;i<this->m_layers.count();i++)
-		delete m_layers[i];
+		this->onNodeRemoval(m_layers[i]);
 	delete m_camera;
 }
-void sad::Scene::add(
-		             BasicNode * node, 
-		             const hst::string & name,
-		             unsigned long lay
-		            )
+void sad::Scene::addNow(
+		                BasicNode * node, 
+		                const hst::string & name,
+		                unsigned long lay
+		               )
 {
 	unsigned long pos;
 
@@ -62,7 +62,7 @@ void sad::Scene::add(
     this->m_nodehash.insert(name,pos);
 }
 
-void sad::Scene::remove(const hst::string & name)
+void sad::Scene::removeNow(const hst::string & name)
 {
 	if (m_nodehash.contains(name))
 	{
@@ -71,7 +71,7 @@ void sad::Scene::remove(const hst::string & name)
 	}
 }
 
-void sad::Scene::performCleanup()
+void sad::Scene::clear()
 {
 	m_clear=true;
 }
@@ -96,7 +96,7 @@ void sad::Scene::fireNodeRemoving()
 void sad::Scene::fireNodeAdding()
 {
  for (unsigned long i=0;i<m_toadd.count();i++)
-	 add(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
+	 addNow(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
  m_toadd.clear();
 }
 void sad::Scene::render()
@@ -117,7 +117,7 @@ void sad::Scene::render()
 	
   if (!m_clear)
   {
-   fireNodeRemoving();      
+     fireNodeRemoving();      
   }
   else
   {
@@ -174,7 +174,7 @@ void sad::Scene::setLayer(sad::BasicNode * node, unsigned int layer)
 	}
 }
 
-void sad::Scene::markForDeletion(BasicNode * what)
+void sad::Scene::remove(BasicNode * what)
 {
 	m_rem.lock();
 
@@ -182,7 +182,7 @@ void sad::Scene::markForDeletion(BasicNode * what)
 
 	m_rem.unlock();
 }
-void sad::Scene::markForAddition(BasicNode * node, const hst::string & name,unsigned long lay)
+void sad::Scene::add(BasicNode * node, const hst::string & name,unsigned long lay)
 {
 	m_add.lock();
 
@@ -225,7 +225,7 @@ void sad::Camera::apply()
 	glRotatef(m_angle,m_rotX,m_rotY,m_rotZ);
 }
 
-void sad::Scene::clear()
+void sad::Scene::clearNow()
 {
 	m_layers.clear();
 	m_nodehash.clear();

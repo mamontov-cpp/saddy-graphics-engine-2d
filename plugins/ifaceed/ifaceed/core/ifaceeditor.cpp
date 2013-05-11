@@ -577,7 +577,7 @@ void IFaceEditor::load()
 		this->currentBehaviour()->enterState("idle");
 		this->lockRendering();
 		if (this->scene()->objectCount() != 0)
-			this->scene()->performCleanup();
+			this->scene()->clear();
 		// Add post-render task, which adds a sorted results when scene is empty and dies
 		sad::Input::ref()->addPostRenderTask(new SceneAddingTask(e, this->myScene()));
 		this->unlockRendering();

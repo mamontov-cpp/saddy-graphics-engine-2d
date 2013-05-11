@@ -5,7 +5,7 @@
 
 void Collidable::die()
 {
-	sad::Renderer::ref()->getCurrentScene()->markForDeletion(this);
+	sad::Renderer::ref()->getCurrentScene()->remove(this);
 	CollisionManager::remove(this);
 }
 

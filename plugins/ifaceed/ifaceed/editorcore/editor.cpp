@@ -218,7 +218,7 @@ void InterlockedScene::add(AbstractScreenObject * obj)
 {
 	obj->setScene(this);
 	obj->addRef();
-	this->markForAddition(obj);
+	this->Scene::add(obj);
 }
 void InterlockedScene::onNodeRemoval(sad::BasicNode * node)
 {
@@ -236,7 +236,7 @@ void InterlockedScene::onNodeRemoval(sad::BasicNode * node)
 void InterlockedScene::remove(AbstractScreenObject * rem)
 {
 	rem->setScene(NULL);
-	this->markForDeletion(rem);
+	this->Scene::remove(rem);
 }
 
 InterlockedScene::~InterlockedScene()

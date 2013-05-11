@@ -137,7 +137,7 @@ stringlist string::split(const char * delimiters) const
 	char cur = (*this)[i];
 	if (strrchr(delimiters,cur) != NULL)
 	{
-		if (buffer.empty() != false)
+		if (buffer.empty() == false)
 			result << buffer;
 		buffer.clear();
 	}
@@ -146,7 +146,7 @@ stringlist string::split(const char * delimiters) const
 		buffer << cur;
 	}
   }
-  if (buffer.empty() != false)
+  if (buffer.empty() == false)
       result << buffer;
   return result;
 }

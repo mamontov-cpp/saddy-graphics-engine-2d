@@ -159,7 +159,7 @@ void ShootingEnemy::render()
 	{
 		Vector bdir(SE_BULLET_SPEED*cos(m_angle),SE_BULLET_SPEED*sin(m_angle));
 		if (!paused)
-		sad::Renderer::ref()->getCurrentScene()->markForAddition(new EnemyBullet(bdir,this->middle()));
+		sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(bdir,this->middle()));
 		m_lastclock=0;
 	}
 	this->MovingObject::render();
@@ -205,7 +205,7 @@ void SuperShootingEnemy::render()
 		for (int i=0;i<4;i++)
 		{
 			Vector bdir(SE_BULLET_SPEED*cos(a),SE_BULLET_SPEED*sin(a));
-			sad::Renderer::ref()->getCurrentScene()->markForAddition(new ShootingEnemy(bdir,m));
+			sad::Renderer::ref()->getCurrentScene()->add(new ShootingEnemy(bdir,m));
 			a+=(float)M_PI_2;
 		}
 		m_lastclock=0;
@@ -238,11 +238,11 @@ void EnemyEmitter::render()
 template<typename T>
 static void addToScene(const Vector & v, const hPointF & p)
 {
-	sad::Renderer::ref()->getCurrentScene()->markForAddition(new T(v,p));
+	sad::Renderer::ref()->getCurrentScene()->add(new T(v,p));
 }
 static void addEnemyBullet(const Vector & v, const hPointF & p)
 {
-	sad::Renderer::ref()->getCurrentScene()->markForAddition(new EnemyBullet(v,convertTo3d(p)));
+	sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(v,convertTo3d(p)));
 }
 void (*adders[5])(const Vector & v, const hPointF & p)=
 {
