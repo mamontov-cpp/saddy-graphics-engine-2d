@@ -21,7 +21,6 @@ static  hst::hash<HWND, sad::Renderer *> m_renderers;
 static  os::mutex m_data;
 void sad::Renderer::mainLoop()
 {
- SL_CRITICAL(( fmt::Print("{0}") << 5 ));
  m_data.lock();
  if (m_renderers.contains(m_window.hWND)) 
  {
