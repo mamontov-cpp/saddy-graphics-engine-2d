@@ -52,7 +52,7 @@ sad::Texture *  sad::TextureManager::get(const hst::string & name,const hst::str
 	return r;
 }
 
-void sad::TextureManager::load(const hst::string & name, Texture * tex,const hst::string & containername)
+void sad::TextureManager::add(const hst::string & name, Texture * tex,const hst::string & containername)
 {
 	m_m.lock();
 
@@ -63,7 +63,7 @@ void sad::TextureManager::load(const hst::string & name, Texture * tex,const hst
 	m_m.unlock();
 }
 
-void sad::TextureManager::unload(const hst::string & name,const hst::string & containername)
+void sad::TextureManager::remove(const hst::string & name,const hst::string & containername)
 {
 	m_m.lock();
 

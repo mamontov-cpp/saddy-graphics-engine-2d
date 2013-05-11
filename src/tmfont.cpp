@@ -20,10 +20,10 @@ bool TMFont::load(
 		         )
 {
 	m_tex=new sad::Texture;
-	sad::TextureManager::ref()->load(tex,m_tex);
+	sad::TextureManager::ref()->add(tex,m_tex);
 	if (!m_tex->load(tex))
 	{
-		sad::TextureManager::ref()->unload(tex);
+		sad::TextureManager::ref()->remove(tex);
 		return false;
 	}
 	if (fontdetermine)
@@ -38,7 +38,7 @@ bool TMFont::load(
 		fscanf(fl,"%d\n",&count);
 		if (ferror(fl)) 
 		{
-			sad::TextureManager::ref()->unload(tex);
+			sad::TextureManager::ref()->remove(tex);
 			return false;
 		}
 		for (int i=0;i<count;i++)
