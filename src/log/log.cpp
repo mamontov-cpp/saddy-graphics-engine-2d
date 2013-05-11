@@ -131,7 +131,7 @@ sad::Log & sad::Log::addTarget(sad::log::Target * t)
 sad::Log & sad::Log::removeTarget(sad::log::Target * t)
 {
 	m_lock.lock();
-	m_targets.remove(t);
+	m_targets.removeAll(t);
 	m_lock.unlock();
 	return *this;
 }
