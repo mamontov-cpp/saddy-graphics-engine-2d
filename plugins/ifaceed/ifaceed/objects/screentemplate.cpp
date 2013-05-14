@@ -42,8 +42,17 @@ ScreenTemplate::~ScreenTemplate()
 
 bool LayerComparator::operator() (AbstractScreenObject * o1, AbstractScreenObject * o2) 
 { 
-	unsigned int i1 = o1->scene()->findLayer(o1);
-	unsigned int i2 = o2->scene()->findLayer(o2);
+	sad::Scene* s1 = o1->scene();
+	unsigned int i1;
+	sad::Scene * s2 = o2->scene();
+	unsigned int i2;
+	
+	if (s1) i1 = s1->findLayer(o1); 
+	else    i1 = o1->prop<unsigned int>("layer", sad::Log::ref());
+	
+	if (s2) i2 = s2->findLayer(o2); 
+	else    i2 = o2->prop<unsigned int>("layer", sad::Log::ref());
+	
 	return i1 > i2;
 }
 

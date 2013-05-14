@@ -16,14 +16,15 @@ bool TMFont::load(
 			           const hst::string & tex, 
 					   const hst::string & cfg, 
 					   const hst::color & bk,
-					   bool  fontdetermine
+					   bool  fontdetermine,
+					   sad::Renderer * renderer
 		         )
 {
 	m_tex=new sad::Texture;
-	sad::TextureManager::ref()->add(tex,m_tex);
+	renderer->textures()->add(tex,m_tex);
 	if (!m_tex->load(tex))
 	{
-		sad::TextureManager::ref()->remove(tex);
+		renderer->textures()->remove(tex);
 		return false;
 	}
 	if (fontdetermine)
@@ -38,7 +39,7 @@ bool TMFont::load(
 		fscanf(fl,"%d\n",&count);
 		if (ferror(fl)) 
 		{
-			sad::TextureManager::ref()->remove(tex);
+			renderer->textures()->remove(tex);
 			return false;
 		}
 		for (int i=0;i<count;i++)

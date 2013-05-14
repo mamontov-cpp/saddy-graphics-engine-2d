@@ -18,6 +18,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #endif
+#include <renderer.h>
 
 
 #pragma once
@@ -124,13 +125,15 @@ namespace sad
 		*/
 		void buildMipMaps();
 		/*! Loads an image, depending of file extension
-		\param[in] filename name of file
+		    \param[in] filename name of file
+		    \param[in] r renderer where texture loader is getting from
 		*/
-		bool load(const hst::string & filename);
+		bool load(const hst::string & filename, sad::Renderer * r = sad::Renderer::ref());
 		/*! Loads an image, depending of file extension
-		\param[in] filename name of file
+		    \param[in] filename name of file
+            \param[in] r renderer where texture loader is getting from
 		*/
-		bool load(const hst::wstring & filename);
+		bool load(const hst::wstring & filename, sad::Renderer * r = sad::Renderer::ref());
 		/*! Loads a BMP from file
 		\param[in] filename name of file
 		*/

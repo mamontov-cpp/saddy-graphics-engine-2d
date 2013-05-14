@@ -8,9 +8,11 @@
 #pragma once
 #include "types.h"
 #include "texturemanager.h"
+#include "renderer.h"
 
 namespace sad
 {
+class Renderer;
 
 /*! Basic font class
 */
@@ -67,7 +69,8 @@ namespace sad
 			           const hst::string & tex, 
 					   const hst::string & cfg, 
 					   const hst::color & bk=hst::color(255,255,255),
-					   bool fontdetermine=true
+					   bool fontdetermine=true,
+					   sad::Renderer * renderer = sad::Renderer::ref() 
 					  );
 			/*! Renders a string
 				\param[in] str string
