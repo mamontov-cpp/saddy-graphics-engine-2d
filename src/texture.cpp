@@ -183,13 +183,13 @@ void Texture::setMode(Texture::Mode mode)
 	m_mode=mode;
 }
 
-bool Texture::load(const hst::string & filename)
+bool Texture::load(const hst::string & filename, sad::Renderer * r)
 {
 	hst::string ff(filename.getExtension());
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	sad::TextureLoader * l = sad::TextureManager::ref()->loader(ff);
+	sad::TextureLoader * l = r->textures()->loader(ff);
 	if (l)
 	{
 		FILE * fl = fopen(filename.data(), "rb");
@@ -202,13 +202,13 @@ bool Texture::load(const hst::string & filename)
 	}
 	return false;
 }
-bool Texture::load(const hst::wstring & filename)
+bool Texture::load(const hst::wstring & filename, sad::Renderer * r)
 {
 	char * tmp=new char[2*filename.length()+2];
 	wcstombs(tmp,filename.data(),2*filename.length()+2);
 	hst::string tt(tmp);
 	delete tmp;
-	return load(tt);
+	return load(tt, r);
 }
 
 void Texture::save(const char * method, const char * file)
