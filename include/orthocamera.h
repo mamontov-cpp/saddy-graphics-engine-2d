@@ -17,17 +17,20 @@ class OrthoCamera: public sad::Camera
 		 int  m_height;         //!< Height of viewport
 		 bool m_set_renderfix;  //!< Render fixing
 		 void renderFix();      //!< Applies render fixing
+		 sad::Renderer * m_renderer; //!< Renderer which it works with
  public:
 	     /*! Creates a camera, using windows settings from renderer.
 			 Created camera maps one in one coordinates
 			 \param[in] fix performs implementation specific fix. Use, if some coordinates a calculated wrongly
+			 \param[in] r renderer which it works with
 		 */
-	     OrthoCamera(bool fix=false);
+	     OrthoCamera(bool fix=false, sad::Renderer * r = sad::Renderer::ref());
 		 /*! Creates a orthographic camera with specific viewing width and height
 			 \param[in]  width of field
 			 \param[in]  height of field
+			 \param[in]  renderer renderer which it works with
 		 */
-		 OrthoCamera(int width, int height);
+		 OrthoCamera(int width, int height, sad::Renderer * r = sad::Renderer::ref());
 		 /*! Applies a camera
 		 */
 		 void apply();

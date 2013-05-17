@@ -263,7 +263,7 @@ ColorStorage::~ColorStorage() {}
 void sad::TMFont::alphaDetermine()
 {
 	unsigned int cnt=m_tex->vdata().count();
-	Uint8 * p=&(m_tex->vdata()[0]);
+	Uint8 * p=m_tex->data();
 	
 	Luv bk, fnt; //!< Background and font
 	{

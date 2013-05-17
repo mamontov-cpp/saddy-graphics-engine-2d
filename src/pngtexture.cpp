@@ -1,6 +1,7 @@
 #include "texture.h"
 #include "png/zlib.h"
 #include "png/png.h"
+#include "os/mutex.h"
 
 static inline void bpp_dependent_copy(std::vector<unsigned char> & output, hst::vector<Uint8> & m_data, Uint8 m_bpp)
 {
@@ -22,11 +23,21 @@ static inline void bpp_dependent_copy(std::vector<unsigned char> & output, hst::
 		return;
 	}
 	//Convert
+	unsigned long data_index = 0;
+	unsigned long source_index = 0;
 	Uint8 * dst=m_data.data();
     for (unsigned int i=0;i<output.size();i++)
     {
-	   *(dst++)=*(p++);
-	   if ((i+1 % 3) ==0 ) *(dst++)=255;
+		m_data[data_index] = output[source_index];
+		data_index += 1;
+		source_index += 1;
+	   //*(dst++)=*(p++);
+		if ((i+1 % 3) ==0 )
+		{
+			m_data[data_index] = 255;
+			data_index += 1;
+			//*(dst++)=255; 
+		}
 	}
 }
 bool sad::Texture::loadPNG(const hst::string & filename)
@@ -86,9 +97,13 @@ sad::PNGTextureLoader::~PNGTextureLoader()
 {
 
 }
+// A mutex for loading PNG, otherwise it will be broken
+static os::mutex m_pngtexture_loader_lock;
 
 bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 {
+	m_pngtexture_loader_lock.lock();
+
 	hst::vector<Uint8> & m_data = texture->vdata();
 	unsigned int & m_height = texture->height();
 	unsigned int & m_width = texture->width();
@@ -112,6 +127,7 @@ bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
     if (png::error()) 
 	{
 	    m_data.clear();texture->loadDefaultTGATexture();
+		m_pngtexture_loader_lock.unlock();
 		return false;
     }
 	m_data.clear();
@@ -122,5 +138,7 @@ bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 	m_width=png::info().width;
     bpp_dependent_copy(output,m_data,m_bpp);
 	m_bpp=32;
+	
+	m_pngtexture_loader_lock.unlock();
 	return true;
 }

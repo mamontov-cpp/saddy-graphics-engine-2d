@@ -178,7 +178,7 @@ inline int next2 ( int a )
 */
 static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * tbase, float & w, float * _pheight )
 { 
-    unsigned char mb[2]={ch,0};
+    unsigned char mb[89]={ch,0};
     wchar_t wc[2]={ch,0};
 	if (ch>127)  { mbtowc(wc,(const char *)mb,2); }
  
@@ -194,6 +194,7 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
     if(FT_Get_Glyph( face->glyph, &glyph ))
 		return false; // Get glyph failed
     
+
 	//Converting glyph to a bitmap
 	FT_Error err = FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
     FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
@@ -203,6 +204,7 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	int width = next2( bitmap.width );
 	int height = next2( bitmap.rows );
 	GLubyte* expanded_data = new GLubyte[ 2 * width * height];
+
 
 	//Fill the data
 	for(int j=0; j <height;j++) 
@@ -216,17 +218,19 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	}
 
 	//Create texture
+	/*
 	glBindTexture( GL_TEXTURE_2D, tbase[ch]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data );
     delete [] expanded_data; // Free the memory, because texture is already created
-	
-	glNewList(base+ch,GL_COMPILE);
-	
-	glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
-	glPushMatrix();
+	*/
 
+	//glNewList(base+ch,GL_COMPILE);	
+	//glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
+	//glPushMatrix();
+
+	/*
 	glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
 	glTranslatef(0.0f,(float)(bitmap_glyph->top-bitmap.rows),0.0f);
 	float	x=(float)bitmap.width / (float)width,y=(float)bitmap.rows / (float)height;
@@ -236,17 +240,18 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	glTexCoord2d(x,y); glVertex2f((float)(bitmap.width),0);
 	glTexCoord2d((float)x,0.0f); glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
 	glEnd();
-
-	glPopMatrix();
-	glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
+	*/
+	
+	//glPopMatrix();
+	//glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
 	// Set size computing props
-	w=(float)(face->glyph->advance.x >> 6);
+	//w=(float)(face->glyph->advance.x >> 6);
 	
-	float glyph_height =  (float)(bitmap_glyph->top);
-	*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
+	//float glyph_height =  (float)(bitmap_glyph->top);
+	//*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
 	
-	glEndList();
+	//glEndList();
 	
 	return true;
 }
@@ -276,7 +281,6 @@ bool FTFont::buildHeightFont(unsigned int height)
 		// Actual build stuff
 		font->m_texs = new GLuint[256];
 		if (font->m_texs == NULL) {
-			SL_FATAL("Memory allocation error");
 			delete font;
 			result  = false;
 		}
@@ -324,7 +328,6 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor 
    }
    cleanupHeightContainer();
    shutdownFTFace();
-
    m_info->face = face;
    setColor(cl);
    return setHeight(height);

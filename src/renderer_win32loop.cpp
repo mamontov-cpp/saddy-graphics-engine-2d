@@ -258,11 +258,13 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	sad::Renderer * r = NULL; 
 	m_data.lock();
 	LRESULT unhandled = (LRESULT)1;
 	if (m_renderers.contains(hWnd))
 	{
-		unhandled =m_renderers[hWnd]->dispatchMessage(hWnd, uMsg, wParam, lParam);
+		r = m_renderers[hWnd]; 
+		unhandled =r->dispatchMessage(hWnd, uMsg, wParam, lParam);
 	}
 	m_data.unlock();
 	if (!unhandled)
