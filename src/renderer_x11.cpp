@@ -74,7 +74,9 @@ void sad::Renderer::releaseWindow()
 bool sad::Renderer::XContextInit()
 {
 	SL_LOCAL_SCOPE("sad::Renderer::XContextInit()", *this);
-	static bool init=false;
+    // Static guard removed as preventing multithreading
+    // It could be safely moved into field
+    /*static*/ bool init=false;
         if (!init)
         {
           init=true;
@@ -105,7 +107,6 @@ bool sad::Renderer::createWindow()
   Atom wmDelete;
   X11Window winDummy;
   unsigned int borderDummy=0;
-  
   if (!XContextInit()) return false;  
   
  cmap = XCreateColormap(m_window.dpy, RootWindow(m_window.dpy, m_window.vi->screen),m_window.vi->visual, AllocNone);

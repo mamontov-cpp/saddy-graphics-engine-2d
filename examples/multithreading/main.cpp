@@ -94,7 +94,7 @@ void * thread(void * p)
 
 	// Freetype font test
 	FTFont * fnt1=new FTFont();
-	bool res1= fnt1->load("ifaceed/EMPORIUM.ttf", 22);
+    bool res1= fnt1->load("ifaceed/EMPORIUM.TTF", 22);
 	if (res1 == false) {
 		SL_LOCAL_FATAL("Failed to load font...", r);
 		return NULL;
