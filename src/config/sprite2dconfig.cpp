@@ -50,16 +50,17 @@ void Sprite2DConfig::fireReloadSprite()
 
 sad::TextureContainer * Sprite2DConfig::getTextures()
 {
-	return sad::TextureManager::ref()->getContainer(m_texturecontainername);
+	return m_renderer->textures()->getContainer(m_texturecontainername);
 }
 
 
-Sprite2DConfig::Sprite2DConfig(const hst::string & containername)
+Sprite2DConfig::Sprite2DConfig(const hst::string & containername, sad::Renderer * r)
 {
+	m_renderer = r;
 	m_loader=NULL;
 	m_texturecontainername=containername;
-	if (sad::TextureManager::ref()->getContainer(containername)==NULL)
-		sad::TextureManager::ref()->setContainer(new sad::TextureContainer(),containername);
+	if (m_renderer->textures()->getContainer(containername)==NULL)
+		m_renderer->textures()->setContainer(new sad::TextureContainer(),containername);
 }
 
 Sprite2DConfig::~Sprite2DConfig()
@@ -162,8 +163,8 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 
 	//Set appropriate containers
 	m_container=newtemplates;
-	delete sad::TextureManager::ref()->getContainer(m_texturecontainername);
-	sad::TextureManager::ref()->setContainer(newcontainer,m_texturecontainername);
+	delete m_renderer->textures()->getContainer(m_texturecontainername);
+	m_renderer->textures()->setContainer(newcontainer,m_texturecontainername);
 
 	//Build mips
 	newcontainer->build();

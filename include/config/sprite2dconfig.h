@@ -4,8 +4,10 @@
 	A config for 2d sprites hot reload
  */
 #include "sprite2dconfigloader.h"
+#include "../renderer.h"
 #include "../texturecontainer.h"
 #pragma once
+
 
 // An observer, which listens to config changes
 class Sprite2DConfigObserver;
@@ -66,6 +68,7 @@ class  Sprite2DConfig
 		Sprite2DConfigLoader    *  m_loader;     //!< A loader for sprites
 		Sprite2DObserverContainer  m_observers; //!< An observers for config
 		hst::string                m_texturecontainername;  //!< A name for container of texture
+		sad::Renderer           *  m_renderer;
 		/*! Fires a sprite consistency check, checking, whether all sprites are saved
 			\param[in] container container for checking consistency
 		 */
@@ -81,8 +84,9 @@ class  Sprite2DConfig
  public:
 	    /*! Creates a config, with associated container
 			\param[in] containername container, where textures can be reloaded
+			\param[in] r renderer, which it depends from
 		 */
-	    Sprite2DConfig(const hst::string & containername);
+	    Sprite2DConfig(const hst::string & containername, sad::Renderer * r = sad::Renderer::ref());
 		/*! Destructor of sprite config, must delete loader
 		 */
 		~Sprite2DConfig();
@@ -107,6 +111,7 @@ class  Sprite2DConfig
 		 */
 		inline void removeObserver(Sprite2DConfigObserver * obs) { m_observers.remove(obs); }
 		/*! Reloads a config
+			\param[in] r renderer
 			\return result of loading
 		 */
 		Sprite2DConfigLoadingResult reload();
