@@ -44,7 +44,15 @@ class EventHandler: public sad::EventHandler
 		}
 		else 
 		{
+			hPointF center = m_ad->pos();
+			hPointF v = hPointF(o.x,o.y) - center;
+			m_ad->move(v);
 		}
+	 }
+
+	 virtual bool empty() 
+	 {
+		return false;
 	 }
 };	
 
@@ -57,7 +65,19 @@ void * thread(void * p)
 	r.log()->addTarget( fl);
 	r.init(sad::Settings(800,600, false));
 	r.getCurrentScene()->setCamera(new OrthoCamera(false,&r));
-	
+
+	// Texture-mapped font test
+	sad::TMFont * fnt2=new sad::TMFont;
+	bool res2= fnt2->load("examples/game/times_lg.PNG","examples/game/times_lg.CFG",
+		                  hst::color(0,255,0), false, &r);
+	if (!res2) {
+		SL_LOCAL_FATAL("Failed to load texture-mapped font", r);
+		return NULL;
+	}
+	r.fonts()->add(fnt2,"times_lg");
+
+
+	// Freetype font test
 	FTFont * fnt1=new FTFont();
 	bool res1= fnt1->load("ifaceed/EMPORIUM.ttf", 22);
 	if (res1 == false) {
@@ -67,12 +87,30 @@ void * thread(void * p)
 	fnt1->setColor(hst::acolor(255,0,0,0));
 	r.fonts()->add(fnt1, "font");
     
+	// Testing texture information
+	sad::Texture * tex = new sad::Texture();
+	if (tex->load("examples/game/ingame.tga",&r) == false)
+	{
+		SL_LOCAL_FATAL("Failed to load texture...", r);
+		return NULL;
+	}
+	r.textures()->add("tex1", tex);
+
+
+	Sprite2DAdapter * a = new Sprite2DAdapter(tex, hRectF(hPointF(0,0), hPointF(512,512)), hRectF(hPointF(0,0), hPointF(512,512)));
+	r.getCurrentScene()->add(a);
 	r.getCurrentScene()->add(
-		new Label(fnt1, "Awesome", pointf(300,200), &r)
+		new Label(fnt1, "FTFont", pointf(300,200), &r)
+	);
+	r.getCurrentScene()->add(
+		new Label(fnt2, "TMFont", pointf(400,400), &r)
 	);
 	
 
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
+	r.controls()->setMouseDownHandler(new EventHandler(&r, a, false));
+
+	r.textures()->buildAll();
 	r.run();
 	return NULL;
 }

@@ -132,6 +132,8 @@ void TMFont::render(const hst::string & str,const pointf & p)
 	 {
 		 sizex=(float)((m_lr['A'].x()-m_ul['A'].x())*m_tex->width());
 	 }
+	 
+	
 	 glTexCoord2f((float)(m_ul[c].x()),(float)(m_lr[c].y())); 
  		glVertex2f(curx,cury-sizey);
 	 glTexCoord2f((float)(m_ul[c].x()),(float)(m_ul[c].y()));
@@ -140,6 +142,7 @@ void TMFont::render(const hst::string & str,const pointf & p)
 		glVertex2f(curx+sizex,cury);
 	 glTexCoord2f((float)(m_lr[c].x()),(float)(m_lr[c].y()));
 		glVertex2f(curx+sizex,cury-sizey);
+
 	 curx+=sizex;
 	}
   }
