@@ -1,0 +1,13 @@
+LDFLAGS= -L../../lib -lsaddy-debug -lsaddy-ft-debug -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11 -lfreetype 
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+OUTPUT   = ../../bin/multithreading-example-debug
+DEFINES  = -DUNIX -DLINUX -DGCC
+BUILD    = build/main.o 
+all:
+	./mkbuild.sh
+	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	rm $(OUTPUT)
+	rm -rf build
+.PHONY: all clean

@@ -147,8 +147,8 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
-	os::thread a(thread,"thread1.txt", true);
-	os::thread b(thread,"thread2.txt", true);
+	os::thread a(thread,const_cast<void *>((void*)"thread1.txt"), true);
+	os::thread b(thread,const_cast<void *>((void*)"thread2.txt"), true);
 	a.run();
 	b.run();
 	a.wait();
