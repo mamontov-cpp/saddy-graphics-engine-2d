@@ -218,19 +218,17 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	}
 
 	//Create texture
-	/*
 	glBindTexture( GL_TEXTURE_2D, tbase[ch]);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data );
     delete [] expanded_data; // Free the memory, because texture is already created
-	*/
+	
 
-	//glNewList(base+ch,GL_COMPILE);	
-	//glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
-	//glPushMatrix();
+	glNewList(base+ch,GL_COMPILE);	
+	glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
+	glPushMatrix();
 
-	/*
 	glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
 	glTranslatef(0.0f,(float)(bitmap_glyph->top-bitmap.rows),0.0f);
 	float	x=(float)bitmap.width / (float)width,y=(float)bitmap.rows / (float)height;
@@ -240,18 +238,17 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	glTexCoord2d(x,y); glVertex2f((float)(bitmap.width),0);
 	glTexCoord2d((float)x,0.0f); glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
 	glEnd();
-	*/
 	
-	//glPopMatrix();
-	//glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
+	glPopMatrix();
+	glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
 	// Set size computing props
-	//w=(float)(face->glyph->advance.x >> 6);
+	w=(float)(face->glyph->advance.x >> 6);
 	
-	//float glyph_height =  (float)(bitmap_glyph->top);
-	//*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
+	float glyph_height =  (float)(bitmap_glyph->top);
+	*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
 	
-	//glEndList();
+	glEndList();
 	
 	return true;
 }
