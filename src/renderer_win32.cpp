@@ -21,7 +21,7 @@ hst::point<hst::D3,float> sad::Renderer::mousePos()
 }
 void sad::Renderer::releaseWindow()
 {
-  SL_SCOPE("sad::Renderer::releaseWindow()");
+  SL_LOCAL_SCOPE("sad::Renderer::releaseWindow()", *this);
   if (m_window.fullscreen) //If fullscreen
   {
 	  ChangeDisplaySettings(NULL,0);
@@ -32,29 +32,29 @@ void sad::Renderer::releaseWindow()
   if (m_window.hRC)
   {
 	  if (!wglMakeCurrent(NULL,NULL)) 
-		    SL_CRITICAL("Failed to release OpenGL context");
+		    SL_LOCAL_CRITICAL("Failed to release OpenGL context", *this);
 	  if (!wglDeleteContext(m_window.hRC))     
-		    SL_CRITICAL("Failed to release rendering context");
+		    SL_LOCAL_CRITICAL("Failed to release rendering context", *this);
 	  m_window.hRC=NULL;
   }
 
   //Release device context
   if (m_window.hDC && !ReleaseDC(m_window.hWND,m_window.hDC))
   {
-	   SL_CRITICAL("Failed to release hDC");
+	   SL_LOCAL_CRITICAL("Failed to release hDC", *this);
        m_window.hDC=NULL;
   }
   //If we can destroy the window
   if (m_window.hWND && !DestroyWindow(m_window.hWND))
   {
-	  SL_CRITICAL("Failed to release hWND");
+	  SL_LOCAL_CRITICAL("Failed to release hWND", *this);
       m_window.hWND=NULL;
   }
   
   //Unregister Class
   if (!UnregisterClass(UNIQUE_CLASS_NAME,m_window.hInstance))
   {
-	  SL_CRITICAL("Failed to unregister class");
+	  SL_LOCAL_CRITICAL("Failed to unregister class", *this);
 	  m_window.hInstance=NULL;
   }
 
@@ -62,7 +62,7 @@ void sad::Renderer::releaseWindow()
 
 bool sad::Renderer::createWindow()
 {
-    SL_SCOPE("sad::Renderer::createWindow()");
+    SL_LOCAL_SCOPE("sad::Renderer::createWindow()", *this);
 	//Window parameters
 	WNDCLASS    wc;
     //Rectangle
@@ -86,7 +86,7 @@ bool sad::Renderer::createWindow()
 	wc.lpszMenuName  = NULL;
 	wc.lpszClassName = UNIQUE_CLASS_NAME;
 
-	if (!RegisterClass(&wc)) { SL_FATAL("Failed to register class"); return false;}
+	if (!RegisterClass(&wc)) { SL_LOCAL_FATAL("Failed to register class", *this); return false;}
 	
 	//Setup fullscreen or windowed mode
 	DWORD       ex_style=0;
@@ -103,34 +103,34 @@ bool sad::Renderer::createWindow()
 	if (!m_window.hWND)
 	{
 		releaseWindow();
-		SL_FATAL("Failed to create window");
+		SL_LOCAL_FATAL("Failed to create window", *this);
 		return false;
 	}
 	//Getting a device context
 	this->m_window.hDC=GetDC(m_window.hWND);
 	if (!m_window.hDC)
 	{
-		SL_FATAL("Failed to create a device context, destroying window...");
+		SL_LOCAL_FATAL("Failed to create a device context, destroying window...", *this);
 		releaseWindow();
 		return false;
 	}
 	if (!setupPFD())
 	{
-	    SL_FATAL("Failed to find setup pixel format descripted...");
+	    SL_LOCAL_FATAL("Failed to find setup pixel format descripted...", *this);
 	    this->releaseWindow();
 		return false;
 	}
 	//Creating context
 	if (!(m_window.hRC=wglCreateContext(m_window.hDC)))
 	{
-		SL_FATAL("Can't create a rendering context...");
+		SL_LOCAL_FATAL("Can't create a rendering context...", *this);
 		this->releaseWindow();
 		return false;
 	}
 	//Trying to activate a context
 	if (!wglMakeCurrent(m_window.hDC,m_window.hRC))
 	{
-		SL_FATAL("Can't activate a rendering context...");
+		SL_LOCAL_FATAL("Can't activate a rendering context...", *this);
 		this->releaseWindow();
 		return false;
 	}
@@ -151,7 +151,7 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_style)
 {
-	SL_SCOPE("sad::Renderer::adjustVideoMode()");
+	SL_LOCAL_SCOPE("sad::Renderer::adjustVideoMode()", *this);
 	DEVMODEA & scr_settings=m_window.scr_settings;
 	memset(&scr_settings,0,sizeof(scr_settings));
     scr_settings.dmSize       = sizeof(scr_settings);
@@ -164,7 +164,7 @@ void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_st
 		LONG result=ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN);
 		if (result!=DISP_CHANGE_SUCCESSFUL)
 		{
-			SL_CRITICAL(hst::string("Changing to fullscreen failed, switching to window . Failed with code") + hst::string::number(result));
+			SL_LOCAL_CRITICAL(hst::string("Changing to fullscreen failed, switching to window . Failed with code") + hst::string::number(result), *this);
 			m_window.fullscreen=false;
 		}
 	}
@@ -183,7 +183,7 @@ void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_st
 }
 bool sad::Renderer::setupPFD()
 {
-	SL_SCOPE("sad::Renderer::setupPFD()");
+	SL_LOCAL_SCOPE("sad::Renderer::setupPFD()", *this);
 	static PIXELFORMATDESCRIPTOR pfd=
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),
@@ -207,12 +207,12 @@ bool sad::Renderer::setupPFD()
 	
 	if (!(pixel_format=ChoosePixelFormat(m_window.hDC,&pfd)))
 	{
-		SL_FATAL("Can't find a suitable pixel format descriptor");
+		SL_LOCAL_FATAL("Can't find a suitable pixel format descriptor", *this);
 		return false;
 	}
 	if (!SetPixelFormat(m_window.hDC,pixel_format,&pfd))
 	{
-		SL_FATAL("Can't setup a suitable pixel format descriptor");
+		SL_LOCAL_FATAL("Can't setup a suitable pixel format descriptor", *this);
 		return false;
 	}
 
@@ -267,7 +267,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 	    if (!dp)
 		{
 			std::string c = str(fmt::Format("Can\'t position window, failed with {0}") << GetLastError());
-			SL_CRITICAL(c);
+			SL_LOCAL_CRITICAL(c,*this);
 		}
 		result=ChangeDisplaySettings(&(this->m_window.scr_settings),CDS_FULLSCREEN);	
    }
@@ -282,7 +282,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
    }
    if (result!=DISP_CHANGE_SUCCESSFUL)
    {
-	   SL_CRITICAL("Can\'t changed mode");
+	   SL_LOCAL_CRITICAL("Can\'t changed mode",*this);
    }
   }
   else

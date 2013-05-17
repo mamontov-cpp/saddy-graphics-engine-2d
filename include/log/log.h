@@ -304,25 +304,6 @@ namespace sad
 				 */
 			        ~ConsoleTarget();
 		};
-		/*! Scopes defines a current scope for log
-			It pushes action to it when creating, and 
-			pops it, when destroyed
-		 */
-		class Scope
-		{
-			public:
-				/*! Pushes a new state
-				 */
-				Scope(const char * c, const char * file = NULL, int line = 0);
-				/*! Pushes a new state
-				 */
-				Scope(const hst::string & c, const char * file = NULL, int line = 0);
-				/*! Pushes a new state
-				 */
-				Scope(const std::string & c, const char * file = NULL, int line  = 0);
-				
-				~Scope();
-		};
 	};
 	
 	/*! Log class takes frontend work, builds a messages and broadcasts it
@@ -458,9 +439,30 @@ namespace sad
 		 */
 		static Log * ref();
 	};
-	
-
-
+	namespace log 
+	{
+	    /*! Scopes defines a current scope for log
+			It pushes action to it when creating, and 
+			pops it, when destroyed
+		 */
+		class Scope
+		{
+			private:
+				sad::Log * m_log;
+			public:
+				/*! Pushes a new state
+				 */
+				Scope(const char * c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
+				/*! Pushes a new state
+				 */
+				Scope(const hst::string & c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
+				/*! Pushes a new state
+				 */
+				Scope(const std::string & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());
+				
+				~Scope();
+		};
+	}
 };
  
 
@@ -471,5 +473,14 @@ namespace sad
 #define SL_DEBUG(X) sad::Log::ref()->debug(X, __FILE__, __LINE__)
 #define SL_USER(X, TYPE) sad::Log::ref()->user(X, __FILE__, __LINE__, TYPE)
 
+#define SL_LOCAL_FATAL(X,R)    (R).log()->fatal(X, __FILE__, __LINE__)
+#define SL_LOCAL_CRITICAL(X,R) (R).log()->critical(X, __FILE__, __LINE__)
+#define SL_LOCAL_WARNING(X,R)  (R).log()->warning(X, __FILE__, __LINE__)
+#define SL_LOCAL_MESSAGE(X,R)  (R).log()->message(X, __FILE__, __LINE__)
+#define SL_LOCAL_DEBUG(X,R)    (R).log()->debug(X, __FILE__, __LINE__)
+#define SL_LOCAL_USER(X, R, TYPE)  (R).log()->user(X, __FILE__, __LINE__, TYPE)
+
 
 #define SL_SCOPE(X)  sad::log::Scope  _____1_____(X, __FILE__, __LINE__)
+#define SL_LOCAL_SCOPE(X,R)  sad::log::Scope  _____1_____(X, __FILE__, __LINE__, (R).log())
+

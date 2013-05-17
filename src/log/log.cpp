@@ -450,23 +450,26 @@ void sad::Log::popAction()
 }
 
 
-sad::log::Scope::Scope(const char * c, const char * f, int l)
+sad::log::Scope::Scope(const char * c, const char * f, int l, sad::Log * log)
 {
-	sad::Log::ref()->pushAction(c, f, l);
+	log->pushAction(c, f, l);
+	m_log = log;
 }
 
-sad::log::Scope::Scope(const hst::string & c, const char * f, int l)
+sad::log::Scope::Scope(const hst::string & c, const char * f, int l, sad::Log * log)
 {
-	sad::Log::ref()->pushAction(c, f, l);
+	log->pushAction(c, f, l);
+	m_log = log;
 }
 
-sad::log::Scope::Scope(const std::string & c, const char * f, int l)
+sad::log::Scope::Scope(const std::string & c, const char * f, int l, sad::Log * log)
 {
-	sad::Log::ref()->pushAction(c.c_str(), f, l);
+	log->pushAction(c.c_str(), f, l);
+	m_log = log;
 }
 
 
 sad::log::Scope::~Scope()
 {
-	sad::Log::ref()->popAction();
+	m_log->popAction();
 }
