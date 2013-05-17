@@ -35,7 +35,7 @@ sad::Renderer::~Renderer(void)
 
 bool sad::Renderer::init(const sad::Settings& _settings)
 {
- SL_SCOPE("sad::Renderer::init");
+ SL_LOCAL_SCOPE("sad::Renderer::init", (*this));
  m_glsettings.setWidthScreen(_settings.width());
  m_glsettings.setHeightScreen(_settings.height());
  m_glsettings.setIsFullscreen(_settings.isFullscreen());
@@ -50,7 +50,7 @@ bool sad::Renderer::init(const sad::Settings& _settings)
  m_created=createWindow();
  m_window.width=_settings.width();
  m_window.height=_settings.height();
- if (!m_created) { SL_FATAL("Renderer init: can't create window\n");}
+ if (!m_created) { SL_LOCAL_FATAL("Renderer init: can't create window\n",*this);}
  return true;
 }
 
@@ -68,7 +68,7 @@ void sad::Renderer::reshape(int width, int height)
 		             m_glsettings.zfar());		
   glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
   glLoadIdentity ();													// Сбрасываем её на единичную
-  sad::Input::ref()->postResize(sad::ResizeEvent( 
+  this->controls()->  postResize(sad::ResizeEvent( 
 								 m_window.height,m_window.width,height,width
 	                             ));
   m_window.width=width;
@@ -96,7 +96,7 @@ sad::Renderer* sad::Renderer::ref()
 
 void sad::Renderer::run()
 {
- SL_SCOPE("sad::Renderer::run()");
+ SL_LOCAL_SCOPE("sad::Renderer::run()", *this);
  if (m_currentscene)
  {
 	 this->m_currentscene->setRenderer(this);
@@ -111,11 +111,11 @@ void sad::Renderer::run()
  if (createWindow())
  {
 	    m_created=true;
-		SL_MESSAGE("Started rendering");
+		SL_LOCAL_MESSAGE("Started rendering", *this);
 	    mainLoop();
  }
  else
-	 SL_FATAL("Can't create window");
+	 SL_LOCAL_FATAL("Can't create window", *this);
  
 }	
 
@@ -126,7 +126,7 @@ void sad::Renderer::run()
 //Getting a black background with all params
 bool sad::Renderer::initGLRendering()
 {
-    SL_SCOPE("sad::Renderer::initGLRendering()");
+    SL_LOCAL_SCOPE("sad::Renderer::initGLRendering()", *this);
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f,0.0f,0.0f,0.0f); //Fill a black background
 	glClearDepth(1.0f);
@@ -140,7 +140,7 @@ bool sad::Renderer::initGLRendering()
 	const char * version=(const char *)glGetString(GL_VERSION);
 	if (version!=NULL)
 	{
-		SL_MESSAGE(hst::string("running OpenGL ")+hst::string(version));
+		SL_LOCAL_MESSAGE(hst::string("running OpenGL ")+hst::string(version), *this);
 		if (version[0]>'1' || version[2] >='4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}
