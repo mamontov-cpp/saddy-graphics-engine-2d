@@ -84,8 +84,11 @@ void sad::Renderer::mainLoop()
 
 static hst::hash<WPARAM,int> table;
 
+static os::mutex m_table_init_lock;
+
 static void table_init()
 {
+   m_table_init_lock.lock();
    for (WPARAM t=VK_F1;t<=VK_F12;t++)
    table.insert(t,VK_F12-VK_F1+KEY_F1+t);
    table.insert(VK_ESCAPE,KEY_ESC);
@@ -116,6 +119,7 @@ static void table_init()
    table.insert(VK_END,KEY_END);
    table.insert(VK_PRIOR,KEY_PGUP);
    table.insert(VK_NEXT,KEY_PGDOWN);
+   m_table_init_lock.unlock();
 }
 
 
@@ -158,7 +162,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = ref()->_toClient(lParam);
+		POINT pnt = this->_toClient(lParam);
 		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		this->controls()->postMouseMove(sad::Event(mx,my,mz,key));
 	}
@@ -170,7 +174,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = ref()->_toClient(lParam);
+		POINT pnt = this->_toClient(lParam);
 		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		sad::Event ev(mx,my,mz,key);
 		ev.delta=fw;
@@ -183,7 +187,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = ref()->_toClient(lParam);
+		POINT pnt = this->_toClient(lParam);
 		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		this->controls()->postMouseDblClick(sad::Event(mx,my,mz,key));
 		return 0;
@@ -194,7 +198,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = ref()->_toClient(lParam);
+		POINT pnt = this->_toClient(lParam);
 		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		this->controls()->postMouseUp(sad::Event(mx,my,mz,key));
 		return 0;
@@ -205,8 +209,8 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = ref()->_toClient(lParam);
-		ref()->mapToOGL(pnt.x,pnt.y,mx,my,mz);
+		POINT pnt = this->_toClient(lParam);
+		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		this->controls()->postMouseDown(sad::Event(mx,my,mz,key));
 		this->controls()->postMouseClick(sad::Event(mx,my,mz,key));
 		return 0;

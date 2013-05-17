@@ -77,6 +77,11 @@ hRectF FTFont::size(const hst::string & str)
   }
   return this->sizeOfFont(m_lists_cache[m_renderheight],m_renderheight,str);
 }
+
+// BUG: on old Intel GMA drivers CallLists can segfault while
+// mulithreading. Have fun with that.
+os::mutex m_render_ft_font_mutex;
+
 void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt, 
 							  unsigned int height, 
 							  const hst::string & str, 
@@ -110,6 +115,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    float modelview_matrix[16]={};	
    glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
 
+   m_render_ft_font_mutex.lock();
    for(unsigned int i=0;i<lines.count();i++) 
    {
 		glPushMatrix();
@@ -119,7 +125,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
 		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
 		glPopMatrix();
    }
-   
+   m_render_ft_font_mutex.unlock();
    
    glPopAttrib();		
    //Restore color
@@ -194,7 +200,7 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
     if(FT_Get_Glyph( face->glyph, &glyph ))
 		return false; // Get glyph failed
     
-
+	
 	//Converting glyph to a bitmap
 	FT_Error err = FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
     FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
@@ -204,7 +210,6 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	int width = next2( bitmap.width );
 	int height = next2( bitmap.rows );
 	GLubyte* expanded_data = new GLubyte[ 2 * width * height];
-
 
 	//Fill the data
 	for(int j=0; j <height;j++) 
@@ -217,14 +222,16 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 		}
 	}
 
-	//Create texture
+	//Create texture	
 	glBindTexture( GL_TEXTURE_2D, tbase[ch]);
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data );
-    delete [] expanded_data; // Free the memory, because texture is already created
 	
-
+	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA2, width, height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data );
+	
+	//assert(glGetError() == GL_NO_ERROR);
+	delete [] expanded_data; // Free the memory, because texture is already created	
 	glNewList(base+ch,GL_COMPILE);	
 	glBindTexture(GL_TEXTURE_2D,tbase[ch]);	
 	glPushMatrix();
@@ -247,9 +254,10 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	
 	float glyph_height =  (float)(bitmap_glyph->top);
 	*_pheight = (glyph_height > *_pheight)? glyph_height : *_pheight;
-	
 	glEndList();
 	
+	
+
 	return true;
 }
 
@@ -258,14 +266,19 @@ void FTFont::setColor(const hst::acolor & cl)
 	m_rendercolor=cl;
 }
 
+// BUG: on old Intel GMA cards two concurrent calls
+// of glTexImage2D can cause texture corruption
+static os::mutex m_ftfont_setheight_lock;
 bool FTFont::setHeight(unsigned int height)
 {
+	m_ftfont_setheight_lock.lock();
 	bool result = true;
 	if (m_lists_cache.contains(height) == false) 
 	{
 		result = this->buildHeightFont(height);
 	}
 	m_renderheight = height;
+	m_ftfont_setheight_lock.unlock();
 	return result;
 }
 

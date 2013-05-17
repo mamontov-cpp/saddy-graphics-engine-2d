@@ -58,21 +58,20 @@ void * thread(void * p)
 	r.init(sad::Settings(800,600, false));
 	r.getCurrentScene()->setCamera(new OrthoCamera(false,&r));
 	
-
 	FTFont * fnt1=new FTFont();
-	
 	bool res1= fnt1->load("ifaceed/EMPORIUM.ttf", 22);
-	
 	if (res1 == false) {
 		SL_LOCAL_FATAL("Failed to load font...", r);
 		return NULL;
   	}
 	fnt1->setColor(hst::acolor(255,0,0,0));
 	r.fonts()->add(fnt1, "font");
-    r.getCurrentScene()->add(
-		new Label(fnt1, "Awesome", pointf(300,200), r.controls())
+    
+	r.getCurrentScene()->add(
+		new Label(fnt1, "Awesome", pointf(300,200), &r)
 	);
 	
+
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
 	r.run();
 	return NULL;
