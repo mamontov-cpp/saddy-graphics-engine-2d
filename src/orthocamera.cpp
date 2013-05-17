@@ -1,15 +1,17 @@
 #include "orthocamera.h"
 
-OrthoCamera::OrthoCamera(bool fix)
+OrthoCamera::OrthoCamera(bool fix, sad::Renderer * r)
 {
+	m_renderer =  r;
 	m_first_apply=true;
-	m_width=sad::Renderer::ref()->settings().width();
-	m_height=sad::Renderer::ref()->settings().height();
+	m_width= r->settings().width();
+	m_height= r->settings().height();
 	m_set_renderfix=fix;
 }
 
-OrthoCamera::OrthoCamera(int width, int height)
+OrthoCamera::OrthoCamera(int width, int height, sad::Renderer * r)
 {
+	m_renderer = r;
 	m_first_apply=false;
 	m_set_renderfix=false;
 	m_width=width;
@@ -22,7 +24,7 @@ OrthoCamera::~OrthoCamera()
 
 void OrthoCamera::renderFix()
 {
-    sad::Settings settings=sad::Renderer::ref()->settings();
+    sad::Settings settings=m_renderer->settings();
 	glViewport (0, 0, (GLsizei)(settings.width()), (GLsizei)(settings.height()));				
 	glMatrixMode (GL_PROJECTION);										
 	glLoadIdentity ();													

@@ -10,28 +10,29 @@ void Label::operator()(const sad::ResizeEvent & o)
 	m_rend_point.setX(o.new_width/old_width);
 	m_rend_point.setY(o.new_width/old_height);
 }
-Label::Label()
+Label::Label(sad::Input * input)
 {
-	sad::Input::ref()->addResizeHandler(this,false);
+	m_input = input;
+	m_input->addResizeHandler(this,false);
 }
 Label::Label(
 		      LabelFont fnt,
 		      const hst::string & str,
-			  const pointf      & p
+			  const pointf      & p,
+			  sad::Input * input
 			)
 {
+	m_input = input;
     m_fnt=fnt;
 	m_str=str;
 	m_p=p;
 	m_rend_point=p;
-	if (sad::Input::ref())
-		sad::Input::ref()->addResizeHandler(this,false);
+	input->addResizeHandler(this,false);
 }
 
 Label::~Label()
 {
-	if (sad::Input::ref())
-		sad::Input::ref()->removeResizeHandler(this);
+	m_input->removeResizeHandler(this);
 }
 
 void Label::render()

@@ -52,7 +52,7 @@ void sad::Renderer::releaseWindow()
   }
   
   //Unregister Class
-  if (!UnregisterClass(UNIQUE_CLASS_NAME,m_window.hInstance))
+  if (!UnregisterClass(m_window.window_class.data(),m_window.hInstance))
   {
 	  SL_LOCAL_CRITICAL("Failed to unregister class", *this);
 	  m_window.hInstance=NULL;
@@ -84,7 +84,9 @@ bool sad::Renderer::createWindow()
     wc.hCursor     =  LoadCursor(NULL,IDC_ARROW);
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName  = NULL;
-	wc.lpszClassName = UNIQUE_CLASS_NAME;
+	m_window.window_class = UNIQUE_CLASS_NAME;
+	m_window.window_class += hst::string::number(reinterpret_cast<unsigned long>(this));
+	wc.lpszClassName = m_window.window_class.data();
 
 	if (!RegisterClass(&wc)) { SL_LOCAL_FATAL("Failed to register class", *this); return false;}
 	
@@ -95,7 +97,7 @@ bool sad::Renderer::createWindow()
 	AdjustWindowRectEx(&rect,style,FALSE,ex_style);
 
 	//Create error
-	m_window.hWND=CreateWindowExA(ex_style,UNIQUE_CLASS_NAME,m_windowtitle.data(),style,
+	m_window.hWND=CreateWindowExA(ex_style,m_window.window_class.data(),m_windowtitle.data(),style,
 		                         0,0,rect.right-rect.left,rect.bottom-rect.top,
 								 NULL,NULL,m_window.hInstance,NULL);
 

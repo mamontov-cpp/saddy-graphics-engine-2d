@@ -108,22 +108,22 @@ class FTFont: public sad::BasicFont
 		 \param[in] height  height of font
 		 \param[in] cl      color
 	 */
-	 bool load(const char * fnt_file, unsigned int height,const hst::acolor & cl=hst::acolor(0,0,0,0));
+	 virtual bool load(const char * fnt_file, unsigned int height,const hst::acolor & cl=hst::acolor(0,0,0,0));
 	 /*! Renders a string
 		 \param[in] str string
 		 \param[in] p   upper-left point in window coordinates
 	 */
-	 void render(const hst::string & str,const pointf & p);
+	 virtual void render(const hst::string & str,const pointf & p);
 	 /*! Same as other, but little faster
 	     \param[in] str string
 		 \param[in]  x x coordinate
 		 \param[in]  y y coordinate
      */
-	 void render(const hst::string & str, float x, float y);
+	 virtual void render(const hst::string & str, float x, float y);
 	 /*! Currently returns only a height of font
 	     \param[in] str string
 	 */
-	 hRectF size(const hst::string & str);
+	 virtual hRectF size(const hst::string & str);
 	 /*! Destructor
 	 */
 	 ~FTFont();

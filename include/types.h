@@ -59,14 +59,16 @@ namespace sad
 	
    /*! Contains a window info
    */
-   struct Window
+   class Window
    {
+    public:
 #ifdef WIN32
 	    HWND			     hWND;				    //!< Handle for a window
 		HDC					 hDC;					//!< Devide context
 		HGLRC				 hRC;				    //!< OpenGL context
 		HINSTANCE            hInstance;             //!< Instance of module
-		DEVMODEA             scr_settings;          //!<  Screen settings
+		DEVMODEA             scr_settings;          //!< Screen settings
+		hst::string          window_class;          //!< Class of window       
 #else
         Display*             dpy;                   //!< Display
         int                  screen;                //!<  Screen
@@ -81,6 +83,8 @@ namespace sad
 		bool                 fullscreen;            //!< Full screen
 		unsigned int         width;                 //!< Width of window
 		unsigned int         height;                //!< Height of window
+
+		inline Window() {}
 	};	
 
 }

@@ -20,6 +20,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		hst::string      m_str;        //!<  String
 		pointf           m_p;          //!<  point
 		pointf           m_rend_point; //!<  Current rendering point
+		sad::Input *     m_input;  //!< Input data
  public:
 	    void operator()(const sad::ResizeEvent & o);
 		/*! Returns a font reference
@@ -40,7 +41,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		inline pointf &  render_point();
 		/*! Creates a label
 		*/
-		Label();
+		Label(sad::Input * input = sad::Input::ref());
 		/*! Creates a simple node
 		    \param[in] fnt  font object
 			\param[in] str  rendered string
@@ -49,7 +50,8 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		Label(
 		      LabelFont  fnt,
 		      const hst::string & str,
-			  const pointf      & p
+			  const pointf      & p,
+			  sad::Input * input = sad::Input::ref()
 			 );
         /*! Renders it
 		*/
