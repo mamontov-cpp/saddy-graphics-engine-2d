@@ -3,6 +3,9 @@
 	
 	Describes a basic log and log parameters
  */
+#ifdef QT_CORE_LIB
+    #include<QString>
+#endif
 #include "../templates/hlvector.hpp"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
@@ -18,9 +21,7 @@
 #endif
 #pragma once
 
-#ifdef QT_CORE_LIB
-	#include<QString>
-#endif
+
 
 inline std::ostream & operator<<(std::ostream & o, const hst::string & o2)
 {
@@ -60,19 +61,21 @@ namespace sad
 				return str(fmt).c_str();
 			}
 		};
+
 #ifdef QT_CORE_LIB
 		template<>
 		class StringCaster<QString>
 		{
 	     public:
 			/*! A caster for helping string find their ways
-			 */
+             */
 			inline static hst::string cast(const QString & string)
 			{
 				return hst::string(string.toStdString().c_str());
 			}
 		};
 #endif
+
 		/*! Priotity of message of log
 		 */
 		enum Priority
