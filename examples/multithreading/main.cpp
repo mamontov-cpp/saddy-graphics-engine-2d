@@ -69,9 +69,9 @@ void * thread(void * p)
   	}
 	fnt1->setColor(hst::acolor(255,0,0,0));
 	r.fonts()->add(fnt1, "font");
-    //r.getCurrentScene()->add(
-	//	new Label(fnt1, "Awesome", pointf(300,200), r.controls())
-	//);
+    r.getCurrentScene()->add(
+		new Label(fnt1, "Awesome", pointf(300,200), r.controls())
+	);
 	
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
 	r.run();
