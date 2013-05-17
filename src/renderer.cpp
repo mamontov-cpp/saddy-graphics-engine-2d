@@ -176,10 +176,10 @@ void sad::Renderer::mapToOGL(int x,int y,float & px,float & py,float & pz)
 #else
 	winy=(float)(viewport[3] - y);
 #endif
-	if (ref()->m_glsettings.ztest())
+	if (this->m_glsettings.ztest())
 	    glReadPixels(x,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
-		winz=ref()->m_glsettings.ztestvalue();
+		winz=this->m_glsettings.ztestvalue();
 
 
 	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);

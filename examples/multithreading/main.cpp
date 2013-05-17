@@ -56,6 +56,20 @@ class EventHandler: public sad::EventHandler
 	 }
 };	
 
+// On some Intel GMA modules,
+// building a few mipmaps at the same time or rendering scenes
+// causes segault and texture corruption. 
+os::mutex mipmap_part_mutex;
+class InterlockedScene:public sad::Scene
+{
+ public:
+	 virtual void render() {
+		mipmap_part_mutex.lock();
+		this->sad::Scene::render();
+		mipmap_part_mutex.unlock();
+	 }
+};
+
 
 void * thread(void * p)
 {
@@ -64,6 +78,7 @@ void * thread(void * p)
 	bool b = fl->open((const char *)p);
 	r.log()->addTarget( fl);
 	r.init(sad::Settings(800,600, false));
+	r.setCurrentScene(new InterlockedScene());
 	r.getCurrentScene()->setCamera(new OrthoCamera(false,&r));
 
 	// Texture-mapped font test
@@ -110,7 +125,10 @@ void * thread(void * p)
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
 	r.controls()->setMouseDownHandler(new EventHandler(&r, a, false));
 
+	mipmap_part_mutex.lock();
 	r.textures()->buildAll();
+	mipmap_part_mutex.unlock();
+	
 	r.run();
 	return NULL;
 }
