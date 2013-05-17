@@ -22,7 +22,7 @@ bool TMFont::load(
 {
 	m_tex=new sad::Texture;
 	renderer->textures()->add(tex,m_tex);
-	if (!m_tex->load(tex))
+	if (!m_tex->load(tex, renderer))
 	{
 		renderer->textures()->remove(tex);
 		return false;
