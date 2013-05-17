@@ -5,34 +5,34 @@ SAD_DECLARE(Label,sad::BasicNode)
 
 void Label::operator()(const sad::ResizeEvent & o)
 {
-	float old_width=(float)(sad::Renderer::ref()->settings().width());
-	float old_height=(float)(sad::Renderer::ref()->settings().height());
+	float old_width=(float)(m_renderer->settings().width());
+	float old_height=(float)(m_renderer->settings().height());
 	m_rend_point.setX(o.new_width/old_width);
 	m_rend_point.setY(o.new_width/old_height);
 }
-Label::Label(sad::Input * input)
+Label::Label(sad::Renderer * renderer)
 {
-	m_input = input;
-	m_input->addResizeHandler(this,false);
+	m_renderer = renderer;
+	m_renderer->controls()->addResizeHandler(this,false);
 }
 Label::Label(
 		      LabelFont fnt,
 		      const hst::string & str,
 			  const pointf      & p,
-			  sad::Input * input
+			  sad::Renderer * renderer
 			)
 {
-	m_input = input;
+	m_renderer = renderer;
     m_fnt=fnt;
 	m_str=str;
 	m_p=p;
 	m_rend_point=p;
-	input->addResizeHandler(this,false);
+	m_renderer->controls()->addResizeHandler(this,false);
 }
 
 Label::~Label()
 {
-	m_input->removeResizeHandler(this);
+	m_renderer->controls()->removeResizeHandler(this);
 }
 
 void Label::render()

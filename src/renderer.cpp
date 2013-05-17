@@ -204,14 +204,12 @@ sad::Renderer::Renderer()
 	m_windowtitle="SadExample";
 	m_input_manager = new sad::Input();
 	m_created=false;
-    m_currentscene=NULL;
+    m_running = false;
 	m_font_manager = new sad::FontManager();
 	m_texture_manager = new sad::TextureManager();
 	m_fps = 0;
 	m_chscene = 0;
 	m_currentscene = new sad::Scene();
-	m_running = false;
-	m_created = false;
 	m_currentscene->setRenderer(this);
 	initWindowParameters();
 }
