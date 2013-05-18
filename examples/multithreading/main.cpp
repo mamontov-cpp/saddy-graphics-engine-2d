@@ -8,34 +8,42 @@
 #include "sprite2dadapter.h"
 #include "label.h"
 #include "ftfont.h"
-#ifdef WIN32
-#ifndef MINGW
-#pragma comment(lib, "OpenGL32.lib")
-#pragma comment(lib, "GLU32.lib")
-#endif
-#endif
 
 
-void rend_quit(const sad::Event & o)
-{
-	sad::Renderer::ref()->quit();
-}
+/*! \class EventHandler
+    A simple handler which, depending on settings cand quit renderer's main loop
+	or just move sprite adapter to a new point, where user clicked. It's used 
+	mainly to implement two behaviours
+	
+	1) When user presses Escape key, then window closes and the game ends
 
+	2) When users clicks on some space on screen, the center of sprite (m_ad field)
+	   moves here.
 
+    Current behaviour depends on m_quit variable, which is if set to true quits it
+ */
 class EventHandler: public sad::EventHandler
 {
  private:
-	 sad::Renderer * m_renderer;
-	 Sprite2DAdapter * m_ad;
-	 bool m_quit;
+	 sad::Renderer * m_renderer; //!< A current renderer, which working controls belong to
+	 Sprite2DAdapter * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
+	 bool m_quit;                //!< Whether we should quit renderer on event call
  public:
+	 /*! A new handler just consists from these three fields
+		 \param[in] r renderer
+		 \param[in] a sprite
+		 \param[in] quit quit
+	  */
 	 EventHandler(sad::Renderer * r, Sprite2DAdapter * a, bool quit)
 	 {
 		 m_renderer = r;
 		 m_ad = a;
 		 m_quit = quit;
 	 }
-
+	 /*! This method is called, when  event, specified when passing handler to 
+	     sad::Input is occured in window. Currently it implements behaviour specified
+		 in header of class
+	  */
 	 virtual void operator()(const sad::Event & o)
 	 {
 		if (m_quit)
@@ -44,12 +52,20 @@ class EventHandler: public sad::EventHandler
 		}
 		else 
 		{
+			// This point is center of sprite
 			hPointF center = m_ad->pos();
+			// Since Sprite2DAdapter::move uses relative coordinates to move center of sprite
+			// we must compute distance between point, where user clicked ands center of sprite
+			// and call it.
 			hPointF v = hPointF(o.x,o.y) - center;
 			m_ad->move(v);
 		}
 	 }
-
+	 /*! This is convenient function for  implementation of sad::Input, which avoids calling
+		 handlers with no valid pointer to functions inside of these. So we must tell it, that
+		 our handler is safe and it can call it.
+		 \return bool false
+	  */
 	 virtual bool empty() 
 	 {
 		return false;
@@ -59,10 +75,22 @@ class EventHandler: public sad::EventHandler
 // On some Intel GMA modules,
 // building a few mipmaps at the same time or rendering scenes
 // causes segault and texture corruption. 
+// So we create a lock, which disables it.
+// If you don't have these kind of cards feel free to comment,
+// It has been tested on NVidia card without locks ans seems to work.
 os::mutex mipmap_part_mutex;
+// We override default scene to avoid bugs with IntelGMA modules
+// All we need to do is to override ::render()
 class InterlockedScene:public sad::Scene
 {
  public:
+	 /*! So, all this scene is doing is
+		 1) Locking on mutex, so other scene won't be rendered
+		 
+		 2) Render scene as normal
+
+		 3) Unlocking on mutex
+	  */
 	 virtual void render() {
 		mipmap_part_mutex.lock();
 		this->sad::Scene::render();
@@ -71,6 +99,16 @@ class InterlockedScene:public sad::Scene
 };
 
 
+/*! This is simple thread function, which inits a renderer, with simple scene of
+    two kind of fonts and sprite. Also it creates separate log for work, and sets 
+	it's separate callbacks to exit on Escape and move sprite on user click.
+
+	This demo does not use own assets, instead it loads in from "game" example and
+	IFaceEditor plugin.
+
+	\param[in] p log name as pointer to characters.
+	\return NULL in most cases
+ */
 void * thread(void * p)
 {
 	sad::Renderer r;
@@ -134,8 +172,7 @@ void * thread(void * p)
 }
 
 
-#include<math.h>
-#include<time.h>
+
 
 #ifdef WIN32
 #ifndef MSVC_RELEASE
