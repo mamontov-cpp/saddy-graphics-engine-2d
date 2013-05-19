@@ -7,8 +7,8 @@ void Label::operator()(const sad::ResizeEvent & o)
 {
 	float old_width=(float)(m_renderer->settings().width());
 	float old_height=(float)(m_renderer->settings().height());
-	m_rend_point.setX(o.new_width/old_width);
-	m_rend_point.setY(o.new_width/old_height);
+	m_rend_point.setX(m_p.x() * o.new_width/old_width);
+	m_rend_point.setY(m_p.y() * o.new_height/old_height);
 }
 Label::Label(sad::Renderer * renderer)
 {
