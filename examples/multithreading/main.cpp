@@ -111,15 +111,38 @@ class InterlockedScene:public sad::Scene
  */
 void * thread(void * p)
 {
+	/* Firstly, we create our own renderer, which will do all kind of tasks
+	 */ 
 	sad::Renderer r;
+	
+	/* Setup the logging. We redirect all messages to a file, passed as parameter to thread
+	   variable
+	 */
 	sad::log::FileTarget * fl = new sad::log::FileTarget();
 	bool b = fl->open((const char *)p);
 	r.log()->addTarget( fl);
+	
+	/* Create 800x600 window in windowed mode and toggle a fixed size of window
+	 */
 	r.init(sad::Settings(800,600, false));
+	r.toggleFixedOn();
+
+	/* Create new scene and toggle orthographic projection.
+	   Note, that we pass our renderer to camera - that's how it will know size of window
+	 */
 	r.setCurrentScene(new InterlockedScene());
 	r.getCurrentScene()->setCamera(new OrthoCamera(false,&r));
 
-	// Texture-mapped font test
+	/* Load texture mapped font. We don't make background transparent, because  font
+	   has black letters, which cannot be seen on black background (4th parameter). 
+
+	   In that case 3rd paramter is ignored. 
+
+	   Note, that we pass renderer, because we need to set explicitly, which container
+	   we must build.
+
+	   We add it to font manager to be sure, that memory will be freed at exit.
+	 */
 	sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt2->load("examples/game/times_lg.PNG","examples/game/times_lg.CFG",
 		                  hst::color(0,255,0), false, &r);
@@ -129,8 +152,9 @@ void * thread(void * p)
 	}
 	r.fonts()->add(fnt2,"times_lg");
 
-
-	// Freetype font test
+	/*! Load freetype test font. We set it's rendering color to red, so label will be
+		shown as red on screen
+	 */
 	FTFont * fnt1=new FTFont();
     bool res1= fnt1->load("ifaceed/EMPORIUM.TTF", 22);
 	if (res1 == false) {
@@ -140,7 +164,10 @@ void * thread(void * p)
 	fnt1->setColor(hst::acolor(255,0,0,0));
 	r.fonts()->add(fnt1, "font");
     
-	// Testing texture information
+	/*! Load simple texture.
+		
+		We add it to texture manager to be sure, that memory will be freed at exit.
+	 */
 	sad::Texture * tex = new sad::Texture();
 	if (tex->load("examples/game/ingame.tga",&r) == false)
 	{
@@ -149,9 +176,13 @@ void * thread(void * p)
 	}
 	r.textures()->add("tex1", tex);
 
-
+	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
+	 */
 	Sprite2DAdapter * a = new Sprite2DAdapter(tex, hRectF(hPointF(0,0), hPointF(512,512)), hRectF(hPointF(0,0), hPointF(512,512)));
 	r.getCurrentScene()->add(a);
+
+	/* Add two labels with different fonts
+	 */
 	r.getCurrentScene()->add(
 		new Label(fnt1, "FTFont", pointf(300,200), &r)
 	);
@@ -159,21 +190,30 @@ void * thread(void * p)
 		new Label(fnt2, "TMFont", pointf(400,400), &r)
 	);
 	
-
+	/* Here we bind two different handlers with keydown
+	 */
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
 	r.controls()->setMouseDownHandler(new EventHandler(&r, a, false));
 
+	/* Because of bugs in Intel GMA drivers we must lock on thread, before building mipmaps
+	 */
 	mipmap_part_mutex.lock();
 	r.textures()->buildAll();
 	mipmap_part_mutex.unlock();
 	
+	/* Start main rendering loop. Execution will not progress further, until user closes window
+	   or press Escape
+	 */
 	r.run();
+
+	// Return default value
 	return NULL;
 }
 
 
 
-
+/* This macro manupilation is to make console window hidden in MSVC window
+ */
 #ifdef WIN32
 #ifndef MSVC_RELEASE
 int CALLBACK WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,  int nCmdShow)
@@ -184,10 +224,13 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
+	// Here we create two waitable threads
 	os::thread a(thread,const_cast<void *>((void*)"thread1.txt"), true);
 	os::thread b(thread,const_cast<void *>((void*)"thread2.txt"), true);
+	// Run them
 	a.run();
 	b.run();
+	// And wait
 	a.wait();
 	b.wait();
 	return 0;
