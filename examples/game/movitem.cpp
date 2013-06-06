@@ -1,5 +1,7 @@
 #include "movitem.h"
 
+extern bool paused;
+
 SAD_DECLARE(MovingObject,Collidable)
 SAD_DECLARE(PlayerBullet,MovingObject)
 SAD_DECLARE(EnemyBullet,MovingObject)

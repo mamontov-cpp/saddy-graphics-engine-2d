@@ -1,9 +1,5 @@
 #include "statemachine.h"
 
-int high_score=0, current_score=0;
-int player_health_point=10;
-bool paused=false;
-
 
 StateMachine * StateMachine::inst=NULL;
 

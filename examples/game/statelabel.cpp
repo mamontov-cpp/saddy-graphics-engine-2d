@@ -1,5 +1,10 @@
 #include "statelabel.h"
 #include "../renderer.h"
+
+extern int high_score, current_score;
+extern int player_health_point;
+extern bool paused;
+
 SAD_DECLARE(StateLabel,Label)
 
 StateLabel::StateLabel(int what,const hst::string & s)
