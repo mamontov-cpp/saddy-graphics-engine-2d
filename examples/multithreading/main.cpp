@@ -1,3 +1,12 @@
+/*! \mainpage Multithreading Example
+	A simple example of two OpenGL windows running simultaneously
+ */
+/*! \file main.cpp
+	\author HiddenSeeker
+	
+	A multithreading example is an example of two OpenGL windows in one process
+	running simultaneously.
+ */
 #include "renderer.h"
 #include "input.h"
 #include "fontmanager.h"
