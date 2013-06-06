@@ -1,3 +1,8 @@
+/*! \mainpage Game Example
+	
+	Describes a simple shooting game example,
+	demonstrating engine basics.
+ */
 /*! \file main.cpp
 	\author HiddenSeeker
 
