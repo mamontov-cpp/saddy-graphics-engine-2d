@@ -1,16 +1,20 @@
 #include "statelabel.h"
 #include "../renderer.h"
 
+// We put some game state data to extern to use it, when rendering state of label
 extern int high_score, current_score;
 extern int player_health_point;
 extern bool paused;
 
+// Declare it as inheritor of Label
 SAD_DECLARE(StateLabel,Label)
 
-StateLabel::StateLabel(int what,const hst::string & s)
+StateLabel::StateLabel(int mode,const hst::string & s)
 {
+	// Extract font with label
 	this->font()=static_cast<sad::TMFont *>(sad::Renderer::ref()->fonts()->get(s));
-	if (what==HIGHSCORE)
+	// Pick rendering function, depending of mode (if highscore render, score, otherwise render game state)
+	if (mode==HIGHSCORE)
 	{
 		m_render=&StateLabel::renderScore;
 	}
@@ -18,16 +22,18 @@ StateLabel::StateLabel(int what,const hst::string & s)
 	{
 		m_render=&StateLabel::renderState;
 	}
+	// Set render point to mode
 	this->render_point()=this->point();
 	m_lastcl=0;
 }
 
 StateLabel::~StateLabel()
 {
-
+	// Does nothing
 }
 void StateLabel::render()
 {
+	// Render function only calls specified callback
 	(this->*m_render)();
 
 }
