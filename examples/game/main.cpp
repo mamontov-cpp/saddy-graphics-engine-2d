@@ -14,144 +14,12 @@
 #include "player.h"
 #include <background.h>
 #include "statelabel.h"
-#include <lightmodel.h>
 #include <orthocamera.h>
 #include <png/picopngloader.h>
+#include "game.h"
 
 #include <math.h>
 #include <time.h>
-
-
-/*! Defines a game high score and current player score
- */
-int high_score=0, current_score=0;
-/*! Defines a health of player
- */
-int player_health_point=10;
-/*! Defines a state of game, whether it's paused or not
- */
-bool paused=false;
-
-
-/*! A callback, which shuts down a renderer, ending a main loop for
-	it. This is how exit is performed
-	\param[in] o unused
- */
-void rend_quit(const sad::Event & o)
-{
-	sad::Renderer::ref()->quit();
-}
-
-/*! A callback that is enters a fullscreen.
-	
-	We disable entering fullscreen, when paused
-	\param[in] o unused
- */
-void rend_toggle(const sad::Event & o)
-{
-	if (!paused)
-		sad::Renderer::ref()->toggleFullscreen();
-}
-/*! A callback to toggle pausing
-	\param[in] o unused
- */
-void rend_pause(const sad::Event & o)
-{
-	paused=!paused;
-}
-/*! A callback, that when game is not paused, sets am facing angle
-	for player to a computed angle
-	\param[in] o event with coordinates
- */
-void rend_mousemove(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		::s3d::point p=PlayerInstance::ref()->middle();
-		float af=atan2(o.y-p.y(),o.x-p.x());
-		PlayerInstance::ref()->setAngle(af);
-	}
-}
-/*! A callback to make player's alter-ego shoot when player clicks on window
-	\param[in] o unused
- */
-void rend_mouseclick(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		PlayerInstance::ref()->shoot();
-	}
-}
-/*! A positive speed as passed distance in second
- */
-#define P_SPEED 1.0
-/*! A negative speed as passed distance in second
- */
-#define N_SPEED -1.0
-/*! A callback, which sets vertical speed, heading to top
-	\param[in] o event, that holds a key
- */
-void rend_up(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		// Set lastspressed key, to cancel moving on key release
-		PlayerInstance::ref()->key()=o.key;
-		PlayerInstance::ref()->toggleVelocityY(P_SPEED);
-	}
-}
-/*! A callback, which sets vertical speed, heading to bottom
-	\param[in] o event, that holds a key
- */
-void rend_down(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		// Set last pressed key, to cancel moving on key release
-		PlayerInstance::ref()->key()=o.key;
-		PlayerInstance::ref()->toggleVelocityY(N_SPEED);
-	}
-}
-/*! A callback, which sets vertical speed, heading to bottom.
-	This action is performed on key release
-	
-	\param[in] o event key
- */
-void rend_speed_zero(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		// If last released key doesn't match with other key, we don't reset speed
-		if (PlayerInstance::ref()->key()!=o.key) 
-			return;
-		PlayerInstance::ref()->toggleVelocityX(0.0f);
-		PlayerInstance::ref()->toggleVelocityY(0.0f);
-	}
-}
-/*! A callback, which sets horizontal speed, heading to left
-	\param[in] o event, that holds a key
- */
-void rend_left(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		// Set last pressed key, to cancel moving on key release
-		PlayerInstance::ref()->key()=o.key;
-		PlayerInstance::ref()->toggleVelocityX(N_SPEED);
-	}
-}
-/*! A callback, which sets horizontal speed, heading to right
-	\param[in] o event, that holds a key
- */
-void rend_right(const sad::Event & o)
-{
-	if (PlayerInstance::ref() && !paused)
-	{
-		// Set last pressed key, to cancel moving on key release
-		PlayerInstance::ref()->key()=o.key;
-		PlayerInstance::ref()->toggleVelocityX(P_SPEED);
-	}
-}
 
 /*! Loads a texture from file and registers it in Texture Manager
 	\param[in] filename name of loaded file 
@@ -210,55 +78,10 @@ bool load_font(const hst::string & fontfolder, const hst::string & fontname)
 	return result;
 }
 
-/*! A state transition callback function, which is called, when we are entering
-	a title screen.
-	\return true to ensure, that transition was successfull
+
+/*! A game object for interacting with enemies
  */
-bool toggle_idle(int)
-{
-	sad::Scene * sc=sad::Renderer::ref()->getCurrentScene();
-
-	sc->clear();
-	// We remove collision testing task, so items can freely move through each other.
-	killTestingTask();
-	// Fill screne with background, label and rain of element (the last object does that).
-	sc->add(new sad::Background("title"));
-	sc->add(new StateLabel(HIGHSCORE,"times_lg"));
-	sc->add(new EnemyEmitter(IDLE_RAIN));
-	
-	return true;
-}
-/*! A state transition callback function, which is called, when we are entering
-	an in-game screen screen.
-	\return true to ensure, that transition was successfull
- */
-bool toggle_play(int)
-{
-	sad::Scene * sc=sad::Renderer::ref()->getCurrentScene();
-	
-	current_score=0;
-	player_health_point=10;
-
-	sc->clear();
-	// We enable collision testing task, adding some item for computing collisions
-	addTestingTask();
-	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
-	sc->add(new sad::Background("background"));
-	sc->add(new StateLabel(PLAYERSTATE,"times_lg"));
-	sc->add(new EnemyEmitter(REAL_SPAWN));
-    sc->add(new Player(hPointF(320.0,240.0)));
-
-	return true;
-}
-
-/*! A callback on ENTER. Toggles in-game state if currently we are in idle state
-	\param[in] o unused
- */
-void toggle_state(const sad::Event & o)
-{
-	if (StateMachine::state()==IDLE_STATE)
-		StateMachine::pushState(PLAY_STATE);
-}
+Game * PlayingGame;
 
 /*! A callback, called when bullet, owned by player, hits an enemy
 	An enemy dies and score rises by 100
@@ -267,8 +90,7 @@ void toggle_state(const sad::Event & o)
  */
 void playerbullet_collided_with_enemy(Collidable * bullet,Collidable * enemy)
 {
-	current_score+=100;
-	if (current_score>high_score) { high_score=current_score; }
+	PlayingGame->increasePlayerScore(100);
 	enemy->die();
 }
 /*! A callback, called when player's bullet hits an enemy, which throws other enemies
@@ -289,9 +111,8 @@ void playerbullet_collided_with_supershootingenemy(Collidable * playerbullet, Co
  */
 void player_collided_with_bonus(Collidable * player, Collidable * bonus)
 {
-	current_score+=50;
-	if (current_score>high_score) { high_score=current_score; }
-	++player_health_point;
+	PlayingGame->increasePlayerScore(50);
+	PlayingGame->increasePlayerHealth(1);
 	bonus->die();
 }
 /*! A callback, called when player hits a bullet
@@ -302,15 +123,8 @@ void player_collided_with_bonus(Collidable * player, Collidable * bonus)
 void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable * enemyorbullet)
 {
   enemyorbullet->die();
-  --player_health_point;
-  if (player_health_point<=0) 
-  {
-	  PlayerInstance::ref()->die(); 
-	  StateMachine::pushState(IDLE_STATE); 
-  }
+  PlayingGame->decreasePlayerHealth(1);
 }
-
-
 
 
 /*! A handler which takes two collidable objects
@@ -359,42 +173,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	SL_MESSAGE(hst::string("Resources successfully loaded"));
-	
-
-	// Init new empty scene with orthographic projection
-	sad::Scene * sc= new sad::Scene();
-	sc->setCamera(new OrthoCamera());
-	sad::Renderer::ref()->setCurrentScene(sc);
-	sad::Renderer::ref()->setWindowTitle("sad::Game");
-	
-
-	// Setup all input callbacks
-	sad::Input::ref()->bindKeyDown(KEY_ESC,rend_quit);
-	sad::Input::ref()->bindKeyDown('F',rend_toggle);
-	sad::Input::ref()->bindKeyDown('P',rend_pause);
-	sad::Input::ref()->bindKeyDown(KEY_TAB,rend_mouseclick);
-	
-	sad::Input::ref()->bindKeyDown(KEY_UP,rend_up);
-	sad::Input::ref()->bindKeyDown(KEY_DOWN,rend_down);
-	sad::Input::ref()->bindKeyDown(KEY_LEFT,rend_left);
-	sad::Input::ref()->bindKeyDown(KEY_RIGHT,rend_right);
-
-	sad::Input::ref()->bindKeyUp(KEY_UP,rend_speed_zero);
-	sad::Input::ref()->bindKeyUp(KEY_DOWN,rend_speed_zero);
-	sad::Input::ref()->bindKeyUp(KEY_LEFT,rend_speed_zero);
-	sad::Input::ref()->bindKeyUp(KEY_RIGHT,rend_speed_zero);
-	
-	
-	sad::Input::ref()->bindKeyDown(KEY_ENTER,toggle_state);
-
-	sad::Input::ref()->setMouseClickHandler(new sad::EventHandler(rend_mouseclick));
-	sad::Input::ref()->setMouseMoveHandler(new sad::EventHandler(rend_mousemove));
-	SL_MESSAGE("Input handlers bound succesfully");
-
-	// Populate state machine with state handlers
-	StateMachine::bindState(IDLE_STATE,new StateHandler(toggle_idle));
-	StateMachine::bindState(PLAY_STATE,new StateHandler(toggle_play));
-	SL_MESSAGE("States bound successfully");
+		
 
 	// A bind macro  is defined between two types and callbacks
 	// two add a collision behavour between two collidable objects
@@ -413,23 +192,12 @@ int main(int argc, char** argv)
 	BIND(Player, ShootingEnemy, player_collided_with_enemy_or_enemybullet);
 	BIND(Player, SuperShootingEnemy, player_collided_with_enemy_or_enemybullet);
 #undef BIND
-	SL_MESSAGE("Collisions bound successfully");
-
-
 	
-	// Load textures to videocard memory and build mipmaps
-	sad::Renderer::ref()->textures()->buildAll();
-	SL_MESSAGE("Mips built successfully");	
+	// Create and run game
+	PlayingGame = new Game();
+	PlayingGame->run();
+	delete PlayingGame;
 
-	// Toggle starting screen
-	StateMachine::pushState(IDLE_STATE);
-	
-	// Set window size to be fixed
-	sad::Renderer::ref()->toggleFixedOn();
-	
-	// Run an engine, starting a main loop
-	SL_MESSAGE("Will start now");	
-	sad::Renderer::ref()->run();
 
 	// If we are here, this means, that window is closed and we can exit the main loop
 	return 0;

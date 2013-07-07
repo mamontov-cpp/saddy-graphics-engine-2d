@@ -91,3 +91,30 @@ bool equal(const hPointF & p1, const hPointF & p2);
 	\param[in] p2 second rect
  */
 bool equal(const hRectF & p1, const hRectF & p2);
+
+/*! Tests, whether x modulo is lesser than 1.0E-6
+	\param[in] x a number
+	\return whether x modulo is lesser than 1.0E-6
+ */
+bool is_fuzzy_zero(float x);
+/*! Tests, whether x modulo is lesser than 1.0E-6
+	\param[in] x a number
+	\return whether x modulo is lesser than 1.0E-6
+ */
+bool non_fuzzy_zero(float x);
+
+/*! Converts 3D point to 2D 
+	\param[in] p point
+ */
+inline hPointF _(const ::s3d::point & p)
+{
+	return hPointF(p.x(), p.y());
+}
+
+/*! Converts 3D point to 2D 
+	\param[in] p point
+ */
+inline const ::s3d::point &  _(const hPointF & p)
+{
+	return ::s3d::point(p.x(), p.y(), 0.0f);
+}

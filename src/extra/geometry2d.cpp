@@ -4,9 +4,20 @@
 
 #define PRECISION  1.0E-6
 
+bool is_fuzzy_zero(float x)
+{
+	return fabs(x) <= PRECISION;
+}
+
+bool non_fuzzy_zero(float x)
+{
+	return !is_fuzzy_zero(x);
+}
+
+
 s2d::vec  normalize(const s2d::vec  & v)
 {
-	if (fabs(v.x()) < PRECISION && fabs(v.y()) < PRECISION)
+	if (is_fuzzy_zero(v.x()) && is_fuzzy_zero(v.y()))
 	{
 		return s2d::vec(M_SQRT1_2,M_SQRT1_2);
 	}

@@ -95,13 +95,13 @@ class MethodCallback: public AbstractCallback
 	 {}
 	 /*! Clones a callback
 	 */
-	 virtual AbstractCallback * clone() { return MethodCallback<_Class>(*this); }
+	 virtual AbstractCallback * clone() { return new MethodCallback<_Class>(*this); }
 	 /*! Not invoked, since this is saddy event callback
 	  */
-	 virtual void invoke() { (m_o->m_function)(); }
+	 virtual void invoke() { (m_o->*m_function)(); }
 	 /*! Invocation method, used when Input invokes a callback
 	  */
-	 virtual void invoke(const sad::Event & o) { (m_o->m_function)(); }
+	 virtual void invoke(const sad::Event & o) { (m_o->*m_function)(); }
 };
 
 /*! Defines a class method function invocation as void(*)(const sad::Event &)
@@ -120,14 +120,92 @@ class MethodEventCallback: public AbstractCallback
 	 {}
 	 /*! Clones a callback
 	 */
-	 virtual AbstractCallback * clone() { return MethodEventCallback<_Class>(*this); }
+	 virtual AbstractCallback * clone() { return new MethodEventCallback<_Class>(*this); }
 	 /*! Not invoked, since this is saddy event callback
 	  */
-	 virtual void invoke() { (m_o->m_function)(sad::Event()); }
+	 virtual void invoke() { (m_o->*m_function)(sad::Event()); }
 	 /*! Invocation method, used when Input invokes a callback
 	  */
-	 virtual void invoke(const sad::Event & o) { (m_o->m_function)(o); }
+	 virtual void invoke(const sad::Event & o) { (m_o->*m_function)(o); }
 };
+
+/*! A callback with delegated method invocation
+ */
+template<
+typename _DelegatingClass,
+typename _InvokedClass
+>
+class DelegatedMethodCallback: public AbstractCallback
+{
+ private:
+	 _DelegatingClass * m_o;
+	 _InvokedClass * (_DelegatingClass::*m_getter)();
+	 void (_InvokedClass::*m_function)();
+ public:
+	 inline DelegatedMethodCallback(
+		 _DelegatingClass * o, 
+		 _InvokedClass * (_DelegatingClass::*getter)(),
+		 void (_InvokedClass::*function)()
+		 ) : 
+	 m_o(o), m_getter(getter), m_function(function) 
+	 {}
+	 /*! Clones a callback
+	 */
+	 virtual AbstractCallback * clone() { return new DelegatedMethodCallback<_DelegatingClass, _InvokedClass>(*this); }
+	 /*! Not invoked, since this is saddy event callback
+	  */
+	 virtual void invoke() 
+	 { 
+		 _InvokedClass * p = (m_o->*m_getter)();
+		 (p->*m_function)();
+	 }
+	 /*! Invocation method, used when Input invokes a callback
+	  */
+	 virtual void invoke(const sad::Event & o) 
+	 { 
+		 _InvokedClass * p = (m_o->*m_getter)();
+		 (p->*m_function)();
+	 }
+};
+/*! A callback with delegated method invocation
+ */
+template<
+typename _DelegatingClass,
+typename _InvokedClass
+>
+class DelegatedEventMethodCallback: public AbstractCallback
+{
+ private:
+	 _DelegatingClass * m_o;
+	 _InvokedClass * (_DelegatingClass::*m_getter)();
+	 void (_InvokedClass::*m_function)(const sad::Event & o);
+ public:
+	 inline DelegatedEventMethodCallback(
+		 _DelegatingClass * o, 
+		 _InvokedClass * (_DelegatingClass::*getter)(),
+		 void (_InvokedClass::*function)(const sad::Event & o)
+		 ) : 
+	 m_o(o), m_getter(getter), m_function(function) 
+	 {}
+	 /*! Clones a callback
+	 */
+	 virtual AbstractCallback * clone() { return new DelegatedEventMethodCallback<_DelegatingClass, _InvokedClass>(*this); }
+	 /*! Not invoked, since this is saddy event callback
+	  */
+	 virtual void invoke() 
+	 { 
+		 _InvokedClass * p = (m_o->*m_getter)();
+		 (p->*m_function)(sad::Event());
+	 }
+	 /*! Invocation method, used when Input invokes a callback
+	  */
+	 virtual void invoke(const sad::Event & o) 
+	 { 
+		 _InvokedClass * p = (m_o->*m_getter)();
+		 (p->*m_function)(o);
+	 }
+};
+
 
 class Callback: public AbstractCallback
 {
@@ -161,6 +239,22 @@ class Callback: public AbstractCallback
 	template<typename _Class>
 	Callback( _Class * o, void (_Class::*f)(sad::Event & o) )  
 	{ m_impl =  new fsm::MethodEventCallback<_Class>(o, f); }
+
+	template<typename _DelegatingClass, typename _InvokingClass>
+	Callback( 
+		_DelegatingClass * o, 
+		_InvokingClass * (_DelegatingClass::*f)(), 
+		void (_InvokingClass::*g)() 
+	)  
+	{ m_impl =  new fsm::DelegatedMethodCallback<_DelegatingClass, _InvokingClass>(o, f, g); }
+
+	template<typename _DelegatingClass, typename _InvokingClass>
+	Callback( 
+		_DelegatingClass * o, 
+		_InvokingClass * (_DelegatingClass::*f)(), 
+		void (_InvokingClass::*g)(const sad::Event & o) 
+	)  
+	{ m_impl =  new fsm::DelegatedEventMethodCallback<_DelegatingClass, _InvokingClass>(o, f, g); }
 
 };
 
@@ -199,6 +293,9 @@ public:
 	/*!  A callback for mouse move event
 	 */
 	static const hst::string KEYUP;
+	/*!  A callback for quit
+	 */
+	static const hst::string QUIT;
 };
 
 /*! An interface for handling state transitions
@@ -275,6 +372,36 @@ public:
 	template<typename _Class>
 	inline void addEventCallback(const hst::string & eventType, _Class * o,  void (_Class::*f)(const sad::Event &))
 	{ this->addCallback(eventType, new fsm::Callback(o, f)); }
+	/*! Adds a new callback for event. Class takes ownership on callback 
+		\param[in] eventType type of event for state
+		\param[in] o class object
+		\param[in] callback a callback data
+	 */
+	template<typename _DelegatingClass, typename _InvokedClass>
+	inline void addEventCallback(
+		const hst::string & eventType, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)()
+	)
+	{ this->addCallback(eventType, new fsm::Callback(o, f, g)); }
+	/*! Adds a new callback for event. 
+		\param[in] eventType type of event for state
+		\param[in] o class object
+		\param[in] f getter callback
+		\param[in] g invoked callback
+	 */
+	template<
+		typename _DelegatingClass,
+		typename _InvokedClass
+	>
+	inline void addEventCallback(
+		const hst::string & eventType, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)(const sad::Event &)
+	)
+	{ this->addCallback(eventType, new fsm::Callback(o, f, g)); }
 	/*! Removes a callback for eventtype
 		\param[in] eventType type of event
 	*/
@@ -284,6 +411,12 @@ public:
 		\param[in] c callback
 	 */
 	virtual void addKeyUpCallback(int key, fsm::AbstractCallback * c);
+	/*! Adds a new callback for event. Class takes ownership on callback 
+		\param[in] eventType type of event for state
+		\param[in] callback a callback data
+	 */
+	inline void addKeyUpCallback(int key, void (*f)())
+	{ this->addKeyUpCallback(key, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
 		\param[in] callback a callback data
@@ -298,7 +431,40 @@ public:
 	template<typename _Class>
 	inline void addKeyUpCallback(int key, _Class * o,  void (_Class::*f)(const sad::Event &))
 	{ this->addKeyUpCallback(key, new fsm::Callback(o, f)); }
-	
+	/*! Adds a new callback for keyup event. 
+		\param[in] key key data
+		\param[in] o class object
+		\param[in] f getter callback
+		\param[in] g invoked callback
+	 */
+	template<
+		typename _DelegatingClass,
+		typename _InvokedClass
+	>
+	inline void addKeyUpCallback(
+		int key, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)()
+	)
+	{ this->addKeyUpCallback(key, new fsm::Callback(o, f, g)); }
+	/*! Adds a new callback for keyup event. 
+		\param[in] key key data
+		\param[in] o class object
+		\param[in] f getter callback
+		\param[in] g invoked callback
+	 */
+	template<
+		typename _DelegatingClass,
+		typename _InvokedClass
+	>
+	inline void addKeyUpCallback(
+		int key, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)(const sad::Event &)
+	)
+	{ this->addKeyUpCallback(key, new fsm::Callback(o, f, g)); }
 	/*! Adds a callback for key down event on specific key 
 		\param[in] key key which it will be bind to
 		\param[in] c callback
@@ -316,9 +482,50 @@ public:
 		\param[in] callback a callback data
 	 */
 	template<typename _Class>
+	inline void addKeyDownCallback(int key, _Class * o,  void (_Class::*f)())
+	{ this->addKeyDownCallback(key, new fsm::Callback(o, f)); }
+	/*! Adds a new callback for event. Class takes ownership on callback 
+		\param[in] eventType type of event for state
+		\param[in] o class object
+		\param[in] callback a callback data
+	 */
+	template<typename _Class>
 	inline void addKeyDownCallback(int key, _Class * o,  void (_Class::*f)(const sad::Event &))
 	{ this->addKeyDownCallback(key, new fsm::Callback(o, f)); }
-
+	/*! Adds a new callback for keydown event. 
+		\param[in] key key data
+		\param[in] o class object
+		\param[in] f getter callback
+		\param[in] g invoked callback
+	 */
+	template<
+		typename _DelegatingClass,
+		typename _InvokedClass
+	>
+	inline void addKeyDownCallback(
+		int key, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)()
+	)
+	{ this->addKeyDownCallback(key, new fsm::Callback(o, f, g)); }
+	/*! Adds a new callback for keydown event. 
+		\param[in] key key data
+		\param[in] o class object
+		\param[in] f getter callback
+		\param[in] g invoked callback
+	 */
+	template<
+		typename _DelegatingClass,
+		typename _InvokedClass
+	>
+	inline void addKeyDownCallback(
+		int key, 
+		_DelegatingClass * o,  
+		_InvokedClass * (_DelegatingClass::*f)(),
+		void (_InvokedClass::*g)(const sad::Event &)
+	)
+	{ this->addKeyDownCallback(key, new fsm::Callback(o, f, g)); }
 	/*! Removes a key up callback
 		\param[in] key key data
 	 */
@@ -449,6 +656,10 @@ public:
 		\param[in] type event type
 	 */
 	fsm::MachineEventCallback * callbackFor(const hst::string & type);
+	/*! Binds linking callbacks to a controls points, so events will be propagated to machine
+		\param[in] controls controls data
+	 */
+	void addCallbacks(sad::Input * controls = sad::Input::ref());
 	~Machine();
 };
 
