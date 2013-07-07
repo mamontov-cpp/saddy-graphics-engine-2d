@@ -462,6 +462,9 @@ namespace sad
 				/*! Pushes a new state
 				 */
 				Scope(const std::string & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());
+				/*! Pushes a new state
+				 */
+				Scope(const fmt::internal::ArgInserter<char> & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());
 				
 				~Scope();
 		};
