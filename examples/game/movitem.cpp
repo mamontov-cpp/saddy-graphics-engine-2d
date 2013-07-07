@@ -1,6 +1,7 @@
 #include "movitem.h"
+#include "game.h"
 
-extern bool paused;
+extern Game * PlayingGame;
 
 SAD_DECLARE(MovingObject,Collidable)
 SAD_DECLARE(PlayerBullet,MovingObject)
@@ -16,7 +17,7 @@ MovingObject::~MovingObject() {}
 void MovingObject::render()
 {
 	
-	if (!paused)
+	if (PlayingGame->isPlaying())
 	{
 	oldPoint()=newPoint();
 	BoundingBox bb(oldPoint());
@@ -160,7 +161,7 @@ void ShootingEnemy::render()
 	if (m_lastclock>SHOOT_FREQ/5)
 	{
 		Vector bdir(SE_BULLET_SPEED*cos(m_angle),SE_BULLET_SPEED*sin(m_angle));
-		if (!paused)
+		if (PlayingGame->isPlaying())
 		sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(bdir,this->middle()));
 		m_lastclock=0;
 	}
@@ -199,7 +200,7 @@ void SuperShootingEnemy::render()
 	m_lastclock++;
 	if (m_lastclock>SHOOT_FREQ/3)
 	{
-		if (paused) return;
+		if (PlayingGame->isPlaying()) return;
 		float a=atan2(v().y(),v().x());
 		a+=(float)M_PI_4;
 		::s3d::point p=this->middle();
@@ -270,7 +271,7 @@ void createRandomEnemy(const Vector & v, const hPointF & p)
 #define ymax (BOUND_Y2-12)
 void EnemyEmitter::renderRain()
 {
- if (paused) return;
+ if (PlayingGame->isPaused()) return;
  if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ4)
 		return;
  m_clk=clock();
@@ -284,7 +285,7 @@ void EnemyEmitter::renderRain()
 
 void EnemyEmitter::renderSpawn()
 {
- if (paused) return;
+ if (PlayingGame->isPaused()) return;
  if ((clock()-m_clk)/(float)CLOCKS_PER_SEC*1000<SPAWN_FREQ)
 		return;
  m_clk=clock();

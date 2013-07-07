@@ -84,6 +84,7 @@ const hst::string fsm::Names::MOUSEMOVE     = "mousemove";
 const hst::string fsm::Names::WHEEL         = "wheel";
 const hst::string fsm::Names::KEYDOWN       = "keydown";
 const hst::string fsm::Names::KEYUP         = "keyup";
+const hst::string fsm::Names::QUIT          = "quit";
 
 fsm::State::State() { m_machine = NULL;}
 void fsm::State::setMachine(fsm::Machine * machine) { m_machine = machine; }
@@ -250,10 +251,12 @@ void fsm::Machine::addState(const hst::string & name, fsm::State * state)
 	{
 		delete m_states[name];
 		m_states[name] = state;
+		state->setMachine(this);
 	} 
 	else 
 	{
 		m_states.insert(name, state);
+		state->setMachine(this);
 	}
 }
 
@@ -269,7 +272,6 @@ void fsm::Machine::removeState(const hst::string & name)
 
 void fsm::Machine::invokeEvent(const hst::string & eventName, const sad::Event & o)
 {
-	SL_SCOPE(fmt::Format("fsm::Machine::invokeEvent({0}, ...)") << eventName);
 	fsm::State * s = this->currentState();
 	if (s)
 	{
@@ -317,3 +319,39 @@ fsm::MachineEventCallback * fsm::Machine::callbackFor(const hst::string & type)
 	return new fsm::MachineEventCallback(this, type);
 }
 
+void fsm::Machine::addCallbacks(sad::Input * controls)
+{
+	const int length  = 9;
+	void (sad::Input::*callbacks[length])(sad::EventHandler *) = {
+		&sad::Input::setKeyDownHandler,
+		&sad::Input::setKeyUpHandler,
+		&sad::Input::setMouseClickHandler,
+
+		&sad::Input::setMouseDblClickHandler,
+		&sad::Input::setMouseDownHandler,
+		&sad::Input::setMouseUpHandler,
+		
+		&sad::Input::setMouseMoveHandler,
+		&sad::Input::setMouseWheelHandler,
+		&sad::Input::setQuitHandler
+	};
+
+	hst::string names[length] = {
+		fsm::Names::KEYDOWN,
+		fsm::Names::KEYUP,
+		fsm::Names::MOUSECLICK,
+
+		fsm::Names::MOUSEDBLCLICK,
+		fsm::Names::MOUSEDOWN,
+		fsm::Names::MOUSEUP,
+
+		fsm::Names::MOUSEMOVE,
+		fsm::Names::WHEEL,
+		fsm::Names::QUIT,
+	};
+
+	for(int i = 0; i < length; i++)
+	{
+		(controls->*(callbacks[i]))(this->callbackFor(names[i]));
+	}
+}

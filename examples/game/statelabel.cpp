@@ -1,10 +1,12 @@
 #include "statelabel.h"
-#include "../renderer.h"
+#include <renderer.h>
+#include <log/log.h>
+#include "game.h"
+#include "player.h"
 
-// We put some game state data to extern to use it, when rendering state of label
-extern int high_score, current_score;
-extern int player_health_point;
-extern bool paused;
+/*! External game 
+ */
+extern Game * PlayingGame;
 
 // Declare it as inheritor of Label
 SAD_DECLARE(StateLabel,Label)
@@ -12,7 +14,7 @@ SAD_DECLARE(StateLabel,Label)
 StateLabel::StateLabel(int mode,const hst::string & s)
 {
 	// Extract font with label
-	this->font()=static_cast<sad::TMFont *>(sad::Renderer::ref()->fonts()->get(s));
+	this->font()=sad::Renderer::ref()->fonts()->get(s);
 	// Pick rendering function, depending of mode (if highscore render, score, otherwise render game state)
 	if (mode==HIGHSCORE)
 	{
@@ -45,7 +47,8 @@ void StateLabel::renderScore()
   if (clock()-m_lastcl>UPDATE_FREQ)
 	{
 		m_lastcl=clock();
-		this->string()=hst::string("Highscore: ")+hst::string::number(high_score);	
+		hst::string s = str(fmt::Format("Highscore: {0}") << PlayingGame->highscore());
+		this->string()= s;	
 	}
   //We must clear MODELVIEW, so transformation won't change
   glMatrixMode(GL_MODELVIEW);
@@ -62,10 +65,12 @@ void StateLabel::renderState()
   if (clock()-m_lastcl>UPDATE_FREQ)
 	{
 		m_lastcl=clock();
-		string().clear();
-		string()<<hst::string("Health: ")<<hst::string::number(player_health_point);
-		string()<<hst::string("  Score: ")<<hst::string::number(current_score);
-		string()<<hst::string("  Highscore: ")<<hst::string::number(high_score);	
+		hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}")
+									   << PlayingGame->player()->health()
+									   << PlayingGame->player()->score()
+									   << PlayingGame->highscore()
+		);
+		string() = s;	
 	}
   //We must clear MODELVIEW, so transformation won't change
   glMatrixMode(GL_MODELVIEW);

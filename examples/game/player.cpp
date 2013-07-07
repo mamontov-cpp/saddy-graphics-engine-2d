@@ -1,5 +1,7 @@
 #include "player.h"
-#include "../renderer.h"
+#include "game.h"
+#include <renderer.h>
+#include <extra/geometry2d.h>
 
 #define BBOX_PERCENT 0.9
 
@@ -70,41 +72,17 @@ void Player::setAngle(float angle)
 	m_angle=angle;
 }
 
-extern bool paused;
 void Player::render()
 {
-	if ((fabs(m_velocity[0])>0.00001 || fabs(m_velocity[1])>0.00001) && !paused)
-		this->move(Vector(m_velocity[0],m_velocity[1]));
-    if (m_first_render)
+	bool moving = non_fuzzy_zero(m_velocity.x()) || non_fuzzy_zero(m_velocity.y()); 
+	if (moving && m_game->isPlaying())
 	{
-		::s3d::point d=sad::Renderer::ref()->mousePos();
-		::s3d::point p=middle();
-		m_angle=atan2(d.y()-p.y(),d.x()-p.x());
-		this->rotate(m_angle,0);
-		m_first_render=false;
+		this->move(m_velocity);
 	}
 	this->Sprite::render();
 }
 
-#define BULLET_SPEED 120.45f
-#define SHOOT_FREQ 450
-void Player::shoot()
-{
-	if (clock()-m_lastshot<SHOOT_FREQ) return;
 
-	float fx=BULLET_SPEED*cos(m_angle);
-	float fy=BULLET_SPEED*sin(m_angle);
-   
-	sad::Renderer::ref()->getCurrentScene()->add
-		(  new PlayerBullet(Vector(fx,fy),(this->middle())));
-	m_lastshot=clock();
-}
-
-Player::~Player()
-{
-	//CollisionManager::remove(this);
-	PlayerInstance::zero();
-}
 
 #define PLAYER_WH 11
 Player::Player(const hPointF & pos):Collidable(
@@ -123,9 +101,140 @@ hRectF(hPointF(0,87),hPointF(87,174))
 	hst::rect< ::s3d::point> rect(point(0),point(1),point(2),point(3));
 	oldPoint()=createBBoxForPlayer(rect);
 	newPoint()=oldPoint();
-	m_velocity[0]=m_velocity[1]=0.0f;
-	m_first_render=true;
+	m_velocity = Vector(0,0);
 	m_lastshot=0;
-	PlayerInstance::set(this);
 	CollisionManager::add(this->type(),this);
+
+	m_score = 0;
+	m_health = 10;
 }
+
+
+
+void Player::lookAt(const hPointF & o)
+{
+	::s3d::point p=this->middle();
+	float af=atan2(o.y()-p.y(),o.x()-p.x());
+	this->setAngle(af);
+}
+
+void Player::tryLookAt(const sad::Event & p)
+{
+	if (m_game->isPlaying())
+	{
+		lookAt(hPointF(p.x, p.y));
+	}
+}
+
+#define BULLET_SPEED 120.45f
+#define PLAYER_SHOOTING_FREQUENCY 450
+void Player::shoot()
+{
+	float fx=BULLET_SPEED*cos(m_angle);
+	float fy=BULLET_SPEED*sin(m_angle);
+   
+	PlayerBullet * item = new PlayerBullet(Vector(fx,fy),this->middle());
+	sad::Renderer::ref()->getCurrentScene()->add(item);
+	m_lastshot=clock();
+}
+
+void Player::tryShoot()
+{
+	if (clock()-m_lastshot>=PLAYER_SHOOTING_FREQUENCY && m_game->isPlaying())
+	{	
+		this->shoot();
+	}
+}
+
+int Player::score() const
+{
+	return m_score;
+}
+
+int Player::increaseScore(int delta)
+{
+	m_score +=delta;
+	return m_score;
+}
+
+int Player::health() const
+{
+	return m_health;
+}
+
+int Player::increaseHealth(int by)
+{
+	m_health += by;
+	return m_health;
+}
+
+int Player::decreaseHealth(int by)
+{
+	m_health -= by;
+	return m_health;
+}
+
+/*! A positive speed as passed distance in second
+ */
+#define P_SPEED 1.0
+/*! A negative speed as passed distance in second
+ */
+#define N_SPEED -1.0
+
+void Player::tryStartMovingLeft(const sad::Event & e)
+{
+	if (m_game->isPlaying())
+	{
+		m_velocity.setX(N_SPEED);
+		m_stopkeys[0] = e.key;
+	}
+}
+
+void Player::tryStartMovingRight(const sad::Event & e)
+{
+	if (m_game->isPlaying())
+	{
+		m_velocity.setX(P_SPEED);
+		m_stopkeys[0] = e.key;
+	}
+}
+
+void Player::tryStartMovingUp(const sad::Event & e)
+{
+	if (m_game->isPlaying())
+	{
+		m_velocity.setY(P_SPEED);
+		m_stopkeys[1] = e.key;
+	}
+}
+
+void Player::tryStartMovingDown(const sad::Event & e)
+{
+	if (m_game->isPlaying())
+	{
+		m_velocity.setY(N_SPEED);
+		m_stopkeys[1] = e.key;
+	}
+}
+
+void Player::tryStopMovingHorizontally(const sad::Event & e)
+{
+	if (e.key == m_stopkeys[0])
+	{
+		m_velocity.setX(0);
+	}
+}
+
+void Player::tryStopMovingVertically(const sad::Event & e)
+{
+	if (e.key == m_stopkeys[1])
+	{
+		m_velocity.setY(0);
+	}
+}
+
+void Player::setGame(Game * game)
+{
+	m_game = game;
+}
+
