@@ -11,12 +11,10 @@
 #include <renderer.h>
 #include <input.h>
 #include <fontmanager.h>
-#include "player.h"
-#include <background.h>
-#include "statelabel.h"
-#include <orthocamera.h>
 #include <png/picopngloader.h>
 #include "game.h"
+#include "player.h"
+#include "movitem.h"
 
 #include <math.h>
 #include <time.h>
@@ -122,6 +120,10 @@ void player_collided_with_bonus(Collidable * player, Collidable * bonus)
  */
 void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable * enemyorbullet)
 {
+ if (enemyorbullet->type() == SuperShootingEnemy::ID)
+ {
+	SL_DEBUG("Dying today");
+ }
   enemyorbullet->die();
   PlayingGame->decreasePlayerHealth(1);
 }

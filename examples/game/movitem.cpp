@@ -1,5 +1,6 @@
 #include "movitem.h"
 #include "game.h"
+#include <extra/geometry2d.h>
 
 extern Game * PlayingGame;
 
@@ -162,7 +163,7 @@ void ShootingEnemy::render()
 	{
 		Vector bdir(SE_BULLET_SPEED*cos(m_angle),SE_BULLET_SPEED*sin(m_angle));
 		if (PlayingGame->isPlaying())
-		sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(bdir,this->middle()));
+			sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(bdir,this->middle()));
 		m_lastclock=0;
 	}
 	this->MovingObject::render();
@@ -198,9 +199,8 @@ SuperShootingEnemy::~SuperShootingEnemy()
 void SuperShootingEnemy::render()
 {
 	m_lastclock++;
-	if (m_lastclock>SHOOT_FREQ/3)
+	if (m_lastclock>SHOOT_FREQ/3 && PlayingGame->isPlaying())
 	{
-		if (PlayingGame->isPlaying()) return;
 		float a=atan2(v().y(),v().x());
 		a+=(float)M_PI_4;
 		::s3d::point p=this->middle();
@@ -233,10 +233,6 @@ void EnemyEmitter::render()
 	(this->*m_r)();
 }
 
-::s3d::point convertTo3d(const hPointF & x)
-{
-	return ::s3d::point((float)(x.x()),(float)(x.y()),0.0f);
-}
 
 template<typename T>
 static void addToScene(const Vector & v, const hPointF & p)
@@ -245,7 +241,7 @@ static void addToScene(const Vector & v, const hPointF & p)
 }
 static void addEnemyBullet(const Vector & v, const hPointF & p)
 {
-	sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(v,convertTo3d(p)));
+	sad::Renderer::ref()->getCurrentScene()->add(new EnemyBullet(v,_(p)));
 }
 void (*adders[5])(const Vector & v, const hPointF & p)=
 {
