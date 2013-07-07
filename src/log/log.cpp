@@ -468,6 +468,14 @@ sad::log::Scope::Scope(const std::string & c, const char * f, int l, sad::Log * 
 	m_log = log;
 }
 
+sad::log::Scope::Scope(const fmt::internal::ArgInserter<char> & c, const char * f, int l, sad::Log * log)
+{
+	fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(c); 
+	log->pushAction(str(fmt).c_str() , f, l);
+	m_log = log;
+}
+
+
 
 sad::log::Scope::~Scope()
 {

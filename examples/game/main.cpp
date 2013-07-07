@@ -32,15 +32,6 @@ int player_health_point=10;
  */
 bool paused=false;
 
-/*! A start screen state identifier
- */
-#define IDLE_STATE 0
-/*! An in-game screen state identifier
- */
-#define PLAY_STATE 1
-
-
-
 
 /*! A callback, which shuts down a renderer, ending a main loop for
 	it. This is how exit is performed
@@ -251,7 +242,7 @@ bool toggle_play(int)
 	sc->clear();
 	// We enable collision testing task, adding some item for computing collisions
 	addTestingTask();
-	// We add background, emitter and new player alter-ego at 320,240 - center of screen
+	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	sc->add(new sad::Background("background"));
 	sc->add(new StateLabel(PLAYERSTATE,"times_lg"));
 	sc->add(new EnemyEmitter(REAL_SPAWN));
