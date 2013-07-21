@@ -9,7 +9,7 @@
 extern Game * PlayingGame;
 
 // Declare it as inheritor of Label
-SAD_DECLARE(StateLabel,Label)
+DECLARE_SOBJ_INHERITANCE(StateLabel,Label)
 
 StateLabel::StateLabel(int mode,const hst::string & s)
 {

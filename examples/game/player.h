@@ -19,7 +19,7 @@ class Game;
  */
 class Player: public Collidable
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 		 Game  *     m_game;         //!< Game data
 		 int         m_score;        //!< A current player score

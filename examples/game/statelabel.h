@@ -29,7 +29,7 @@
 
 class StateLabel: public Label
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	     void (StateLabel::* m_render)();
 		 clock_t m_lastcl;
