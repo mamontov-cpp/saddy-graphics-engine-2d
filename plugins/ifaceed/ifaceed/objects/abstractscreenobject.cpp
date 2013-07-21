@@ -5,7 +5,7 @@
 #include "visibilityproperty.h"
 #include "uidproperty.h"
 
-SAD_DECLARE(AbstractScreenObject,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::BasicNode, SerializableObject)
 
 AbstractScreenObject::AbstractScreenObject()
 {

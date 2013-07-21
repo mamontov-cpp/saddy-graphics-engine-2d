@@ -6,6 +6,10 @@
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/spritedatabase.h"
 
+
+DECLARE_SOBJ_INHERITANCE(ScreenSprite, AbstractScreenObject);
+
+
 class SpritePropertyListener: public PropertyListener<hRectF>,  public PropertyListener<float>
 {
 private:

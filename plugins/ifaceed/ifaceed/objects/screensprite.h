@@ -13,6 +13,7 @@ class SpritePropertyListener;
 class ScreenSprite: public AbstractScreenObject 
 {
 friend class SpritePropertyListener;
+SAD_OBJECT
 protected:
 	/** A rect listener
 	 */

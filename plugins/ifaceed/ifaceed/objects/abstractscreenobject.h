@@ -19,7 +19,7 @@ class FontTemplateDatabase;
  */
 class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public RefCountable
 {
- SAD_NODE
+ SAD_OBJECT
  protected:
 	/** Whether object is active
 	 */

@@ -6,6 +6,9 @@
 #include <extra/geometry2d.h>
 #include <3rdparty/format/format.h>
 
+
+DECLARE_SOBJ_INHERITANCE(ScreenLabel, AbstractScreenObject);
+
 ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
 	m_font = NULL;
