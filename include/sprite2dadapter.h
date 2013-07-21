@@ -12,7 +12,7 @@
  */
 class Sprite2DAdapter: public sad::BasicNode
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 		  Sprite * m_sprite;  //!< Sprite, that is being rendered
 		  hRectF   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)

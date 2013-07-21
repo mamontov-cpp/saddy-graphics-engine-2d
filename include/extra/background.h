@@ -10,7 +10,7 @@ namespace sad
 {
 class Background: public Sprite
 {
- SAD_NODE
+ SAD_OBJECT
  public:
 	    /*! Creates background from texture with name
 			\param[in] name name of texture

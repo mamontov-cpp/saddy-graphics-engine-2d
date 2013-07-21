@@ -246,10 +246,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\typeindex.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
@@ -281,7 +277,19 @@
 				Name="primitives"
 				>
 				<File
+					RelativePath=".\src\primitives\classmetadata.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\primitives\classmetadatacontainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\primitives\hcolor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\primitives\object.cpp"
 					>
 				</File>
 			</Filter>
@@ -556,10 +564,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\typeindex.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\types.h"
 				>
 			</File>
@@ -631,6 +635,14 @@
 				Name="primitives"
 				>
 				<File
+					RelativePath=".\include\primitives\classmetadata.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\primitives\classmetadatacontainer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\primitives\glext.h"
 					>
 				</File>
@@ -652,6 +664,10 @@
 				</File>
 				<File
 					RelativePath=".\include\primitives\hrect_src.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\primitives\object.h"
 					>
 				</File>
 			</Filter>

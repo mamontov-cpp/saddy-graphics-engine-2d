@@ -114,7 +114,7 @@ inline hPointF _(const ::s3d::point & p)
 /*! Converts 3D point to 2D 
 	\param[in] p point
  */
-inline const ::s3d::point &  _(const hPointF & p)
+inline ::s3d::point   _(const hPointF & p)
 {
 	return ::s3d::point(p.x(), p.y(), 0.0f);
 }

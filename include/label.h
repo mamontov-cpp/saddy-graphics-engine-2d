@@ -15,7 +15,7 @@ typedef sad::BasicFont *  LabelFont;
 */
 class Label: public sad::BasicNode, public sad::ResizeEventHandler
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	    LabelFont  m_fnt;        //!<  Associated font
 		hst::string      m_str;        //!<  String

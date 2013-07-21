@@ -1,6 +1,15 @@
 #include "marshal/serializableobject.h"
 #include <assert.h>
 
+
+DECLARE_SOBJ(SerializableObject);
+
+hst::string SerializableObject::type()
+{
+	return this->name();
+}
+
+
 void SerializableObject::addProperty(const hst::string & name, AbstractProperty * prop)
 {
 	assert( !m_properties.contains(name) ); 

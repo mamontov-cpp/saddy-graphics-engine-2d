@@ -1,7 +1,7 @@
 #include "label.h"
 #include "renderer.h"
 
-SAD_DECLARE(Label,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(Label,sad::BasicNode)
 
 void Label::operator()(const sad::ResizeEvent & o)
 {

@@ -22,7 +22,7 @@ namespace s3d
 */
 class Sprite: public sad::BasicNode
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	     float        m_tex_coord[8];    //!< Texture coordinates
 		 s3d::point   m_rect[4];         //!< Rectangle

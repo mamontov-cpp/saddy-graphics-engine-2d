@@ -5,7 +5,7 @@
 #include "templates/hlvector.hpp"
 #include "templates/hhash.hpp"
 #include "os/mutex.h"
-#include "typeindex.h"
+#include "primitives/object.h"
 #include <assert.h>
 #pragma once
 
@@ -15,9 +15,9 @@ namespace sad
 class Renderer;
 /*! Basic objects of a scene
 */
-class BasicNode
+class BasicNode: public sad::Object
 {
- SAD_NODE
+ SAD_OBJECT
 protected:
 	BasicNode();
 public:
@@ -29,11 +29,6 @@ public:
 	virtual ~BasicNode();
 };
 
-/*! Determines, whether it's kind of node or not
-    \param[in] obj object passed object
-*/
-template<typename _Type>
-bool isKindOf(const sad::BasicNode * obj);
 /*! Camera class
 */
 class Camera
@@ -198,25 +193,10 @@ typedef sad::BasicNode BasicNode;
 typedef sad::Scene     Scene;
 
 //=================Code goes here====================
-
-namespace sad
-{
-template<typename _Type>
-bool isKindOf(const sad::BasicNode * obj)
-{
-	if (obj->type()==_Type::ID) return true;
-	const std::vector<int> & from=obj->inheritedFrom();
-	for (unsigned int i=0;i<from.size();i++)
-		if (_Type::ID==from[i])
-			return true;
-	return false;
-}
-}
 template<typename T> T * sad::Scene::get(const hst::string & name)
 {
 	if (!m_nodehash.contains(name)) return NULL;
 
 	BasicNode *  ind=m_layers[m_nodehash[name]];
-	assert( sad::isKindOf<T>(ind) && "Inconsistent types!");
-	return static_cast<T *>(ind);
+	return ind->as<T>();
 }
