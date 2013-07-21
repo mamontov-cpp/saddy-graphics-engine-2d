@@ -76,7 +76,7 @@ class RigidBody
 */
 class Collidable: public RigidBody, public Sprite
 {
- SAD_NODE
+ SAD_OBJECT
  public:
 	     /*! Creates a collidable object with following parameters
 			  \param[in] tex   texture

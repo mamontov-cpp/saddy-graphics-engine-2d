@@ -5,6 +5,7 @@
  */
 #include "property.h"
 #include <templates/hhash.hpp>
+#include "../primitives/object.h"
 #pragma once
 
 /*! A serialization entry , that contents a string representation of object
@@ -32,8 +33,9 @@ class SerializationEntry
 class SerializableContainer;
 /*! A object, that can be easily serialized and deserialized
  */
-class SerializableObject
+class SerializableObject: public sad::Object
 {
+ SAD_OBJECT
  private:
 		 hst::hash<hst::string, AbstractProperty *> m_properties; //!< Properties a data
 		 SerializableContainer * m_parent; //!< Parent container
@@ -76,7 +78,7 @@ class SerializableObject
 		/*! Returns a string type
 			\return a string type of object
 		 */
-		virtual hst::string type()=0;
+		virtual hst::string type();
 		/*! Frees a memory from properties data
 		 */
 		virtual ~SerializableObject();

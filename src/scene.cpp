@@ -16,7 +16,7 @@
 
 #endif
 
-SAD_DECLARE_BASIC_NODE(sad::BasicNode);
+DECLARE_SOBJ(sad::BasicNode);
 
 sad::BasicNode::BasicNode()
 {

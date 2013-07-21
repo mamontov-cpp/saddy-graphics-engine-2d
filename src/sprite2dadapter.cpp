@@ -1,6 +1,6 @@
 #include "sprite2dadapter.h"
 
-SAD_DECLARE(Sprite2DAdapter,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
 
 
 void Sprite2DAdapter::createSprite(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox, 

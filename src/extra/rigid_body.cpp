@@ -197,7 +197,7 @@ float collision_time2(const RigidBody & b1, const RigidBody & b2, BoundingBox & 
   return end;
 }
 
-SAD_DECLARE(Collidable,Sprite)
+DECLARE_SOBJ_INHERITANCE(Collidable,Sprite)
 
 Collidable::~Collidable() {}
 

@@ -3,7 +3,8 @@
 
 using namespace sad;
 
-SAD_DECLARE(Background,Sprite)
+
+DECLARE_SOBJ_INHERITANCE(Background,Sprite)
 
 #define SCREEN_HEIGHT  (sad::Renderer::ref()->settings().height())
 #define SCREEN_WIDTH   (sad::Renderer::ref()->settings().width())

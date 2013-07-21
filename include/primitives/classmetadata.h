@@ -7,6 +7,10 @@
 */
 #include "../templates/hstring.h"
 #include "../templates/hlvector.hpp"
+#pragma once
+
+namespace sad
+{
 /*! \class ClassMetaData
 	This is basic class for meta data. It contains all of basic methods for getting required 
 	meta data for class. Currently only name and ancestors for class are supported.		
@@ -26,6 +30,7 @@ class ClassMetaData
 	 */
 	void setName(const hst::string & name);
 	/*! Returns a name for class
+		\return name of class
 	 */
 	const hst::string& name() const;
 	/*! Adds a new ancestor with name
@@ -34,9 +39,14 @@ class ClassMetaData
 	void addAncestor(const hst::string & name);  
 	/*! Returns a true if class has ancestor with specified name
 		\param[in] name name of ancestor
+		\return whther it can be cated to type
 	 */
 	bool canBeCastedTo(const hst::string & name);
 	/*! Returns true if class can be casted from this class to another class
+		\param[in] name name of descendant
+		\return whether it can be casted to this type
 	 */
 	bool canBeCastedFrom(const hst::string & name);
 };
+
+}

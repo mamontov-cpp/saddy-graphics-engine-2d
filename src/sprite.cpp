@@ -15,7 +15,7 @@
 #endif
 
 
-SAD_DECLARE(Sprite,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(Sprite,sad::BasicNode)
 
 #define DEFAULT_COLOR_INITIALIZATION  m_color = hst::acolor(255,255,255,0);
 
