@@ -224,7 +224,7 @@ void InterlockedScene::onNodeRemoval(sad::BasicNode * node)
 {
 	if (!node)
 		return;
-	if (sad::isKindOf<AbstractScreenObject>(node))
+	if (node->metaData()->canBeCastedTo("AbstractScreenObject"))
 	{
 		static_cast<AbstractScreenObject*>(node)->delRef();
 	}

@@ -13,6 +13,7 @@
  */
 class ScreenLabel: public AbstractScreenObject
 {
+ SAD_OBJECT
  private:
 	 hst::string  m_font_name;    //!< Font name data
 	 unsigned int m_font_size;    //!< Size of font
