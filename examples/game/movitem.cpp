@@ -4,14 +4,14 @@
 
 extern Game * PlayingGame;
 
-SAD_DECLARE(MovingObject,Collidable)
-SAD_DECLARE(PlayerBullet,MovingObject)
-SAD_DECLARE(EnemyBullet,MovingObject)
-SAD_DECLARE(Bonus,MovingObject)
-SAD_DECLARE(Enemy,MovingObject)
-SAD_DECLARE(ShootingEnemy,MovingObject)
-SAD_DECLARE(SuperShootingEnemy,MovingObject)
-SAD_DECLARE(EnemyEmitter,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(MovingObject,Collidable)
+DECLARE_SOBJ_INHERITANCE(PlayerBullet,MovingObject)
+DECLARE_SOBJ_INHERITANCE(EnemyBullet,MovingObject)
+DECLARE_SOBJ_INHERITANCE(Bonus,MovingObject)
+DECLARE_SOBJ_INHERITANCE(Enemy,MovingObject)
+DECLARE_SOBJ_INHERITANCE(ShootingEnemy,MovingObject)
+DECLARE_SOBJ_INHERITANCE(SuperShootingEnemy,MovingObject)
+DECLARE_SOBJ_INHERITANCE(EnemyEmitter,sad::BasicNode)
 
 #define ROTATE_SPEED 0.01f
 MovingObject::~MovingObject() {}

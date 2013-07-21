@@ -13,7 +13,7 @@ static BoundingBox createBBoxForPlayer(const hst::rect< ::s3d::point> & rect)
 	return BoundingBox( ::s3d::point(middle.x()-w2,middle.y()+h2,0),::s3d::point(middle.x()+w2,middle.y()-h2,0)  );
 }
 
-SAD_DECLARE(Player,Collidable)
+DECLARE_SOBJ_INHERITANCE(Player,Collidable)
 
 void Player::move(const Vector & p)
 {

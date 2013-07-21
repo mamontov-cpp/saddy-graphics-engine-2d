@@ -18,7 +18,7 @@ typedef hPointF Vector;
 
 class MovingObject: public Collidable
 {
- SAD_NODE
+ SAD_OBJECT
  protected:
 	     float m_angle;
  public: 
@@ -36,7 +36,7 @@ class MovingObject: public Collidable
 
 class PlayerBullet: public MovingObject 
 {
- SAD_NODE
+ SAD_OBJECT
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
@@ -52,7 +52,7 @@ class PlayerBullet: public MovingObject
 
 class EnemyBullet: public MovingObject 
 {
- SAD_NODE
+ SAD_OBJECT
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
@@ -67,7 +67,7 @@ class EnemyBullet: public MovingObject
 
 class Bonus: public MovingObject
 {
- SAD_NODE
+ SAD_OBJECT
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
@@ -83,7 +83,7 @@ class Bonus: public MovingObject
 
 class Enemy: public MovingObject 
 {
- SAD_NODE
+ SAD_OBJECT
  public:
         /*! Creates an item
 		    \param[in] vec direction, that will be reached in second
@@ -99,7 +99,7 @@ class Enemy: public MovingObject
 #define SHOOT_FREQ 450
 class ShootingEnemy: public MovingObject 
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	     clock_t m_lastclock;
  public:
@@ -118,7 +118,7 @@ class ShootingEnemy: public MovingObject
 #define EMAX_LIFES 3 
 class SuperShootingEnemy: public MovingObject
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	     clock_t m_lastclock;
 		 int     m_lifes;   //!< Amount of lifes
@@ -151,7 +151,7 @@ class SuperShootingEnemy: public MovingObject
 */
 class EnemyEmitter:public sad::BasicNode
 {
- SAD_NODE
+ SAD_OBJECT
  private:
 	     clock_t m_clk;
 		 void (EnemyEmitter::*m_r)();
