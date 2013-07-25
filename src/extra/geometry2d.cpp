@@ -2,16 +2,15 @@
 
 
 
-#define PRECISION  1.0E-6
 
-bool is_fuzzy_zero(float x)
+bool is_fuzzy_zero(float x, float precision)
 {
-	return fabs(x) <= PRECISION;
+	return fabs(x) <= precision;
 }
 
-bool non_fuzzy_zero(float x)
+bool non_fuzzy_zero(float x, float precision)
 {
-	return !is_fuzzy_zero(x);
+	return !is_fuzzy_zero(x, precision);
 }
 
 
@@ -92,18 +91,18 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
 }
 
 
-bool equal(const hPointF & p1, const hPointF & p2)
+bool equal(const hPointF & p1, const hPointF & p2, float precision)
 {
-	return fabs(p1.x() - p2.x()) < PRECISION && fabs(p1.y() - p2.y()) < PRECISION; 
+	return fabs(p1.x() - p2.x()) < precision && fabs(p1.y() - p2.y()) < precision; 
 }
 
 
-bool equal(const hRectF & p1, const hRectF & p2)
+bool equal(const hRectF & p1, const hRectF & p2, float precision)
 {
 	bool ok = true;
 	for(int i = 0; i < 4; i++)
 	{
-		ok = ok && equal(p1[i], p2[i]);
+		ok = ok && equal(p1[i], p2[i], precision);
 	}
 	return ok;
 }
