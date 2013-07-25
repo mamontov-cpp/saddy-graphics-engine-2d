@@ -1,19 +1,5 @@
 #include "../../include/extra/geometry2d.h"
 
-
-
-
-bool is_fuzzy_zero(float x, float precision)
-{
-	return fabs(x) <= precision;
-}
-
-bool non_fuzzy_zero(float x, float precision)
-{
-	return !is_fuzzy_zero(x, precision);
-}
-
-
 s2d::vec  normalize(const s2d::vec  & v)
 {
 	if (is_fuzzy_zero(v.x()) && is_fuzzy_zero(v.y()))
@@ -26,7 +12,6 @@ s2d::vec  normalize(const s2d::vec  & v)
 		return v / l;
 	}
 }
-
 
 s2d::vec ortho(const s2d::vec & v)
 {
@@ -47,14 +32,12 @@ bool projectionIsWithin(const hPointF & test, const hPointF & pivot1, const hPoi
 	return collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
 }
 
-
 bool isWithin(const hPointF & p, const hRectF & r)
 {
 	bool a1 = projectionIsWithin(p, r[0], r[1]);
 	bool a2 = projectionIsWithin(p, r[1], r[2]);
 	return a1 && a2; 
 }
-
 
 void moveBy(const hPointF & dp , hRectF & r)
 {
@@ -107,3 +90,12 @@ bool equal(const hRectF & p1, const hRectF & p2, float precision)
 	return ok;
 }
 
+bool is_fuzzy_zero(float x, float precision)
+{
+	return fabs(x) <= precision;
+}
+
+bool non_fuzzy_zero(float x, float precision)
+{
+	return !is_fuzzy_zero(x, precision);
+}
