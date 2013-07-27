@@ -1,17 +1,19 @@
 /*!  \file geometry2d.h
 	 \author HiddenSeeker
 
-	 Geometry functions for 2d points and rectangles
-	 Can be used to performs some tests on collision and also moving
+	 Geometry collision functions for 2d points and rectangles.
+	 Can be used to perform commin geometrical operations.
  */
-#include "rigid_body.h"
 
-namespace s2d
+#include "../p2d/point.h"
+
+namespace p2d
 {
-	/*! A point as a point
+	/*! A vector is defined  by two coordinates, so we can define it as simple floating point
 	 */
-	typedef hPointF vec;
+	typedef hPointF Vector;
 }
+
 
 /*! Normalizes a vector. If zero vector, returns (1/sqrt(1), 1 / sqrt(2))
 	\param[in] v vector
