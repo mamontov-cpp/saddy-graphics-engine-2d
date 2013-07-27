@@ -10,6 +10,8 @@
 #include <QTimer>
 #include <marshal/actioncontext.h>
 #include <extra/geometry2d.h>
+#include <p2d/vector.h>
+#include <p2d/point.h>
 #include "gui/fontdelegate.h"
 #include "gui/colordelegate.h"
 #include "core/ifaceeditor.h"
@@ -676,8 +678,8 @@ void MainPanel::setRegionParameters()
 			m_selfchanged = true;
 			ui.dblSpriteX->setValue(rect[0].x());
 			ui.dblSpriteY->setValue(rect[0].y());
-			ui.dblSpriteWidth->setValue(dist(rect[0], rect[1]));
-			ui.dblSpriteHeight->setValue(dist(rect[0], rect[3]));
+			ui.dblSpriteWidth->setValue(p2d::distance(rect[0], rect[1]));
+			ui.dblSpriteHeight->setValue(p2d::distance(rect[0], rect[3]));
 			m_selfchanged = false;
 		}
 	}
@@ -793,8 +795,8 @@ void MainPanel::spriteRectChanged()
 			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
 			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
 			float comparisonprec = 0.0001f;
-			float oldwidth = dist(oldrect[1], oldrect[0]);
-			float oldheight = dist(oldrect[3], oldrect[0]);
+			float oldwidth = p2d::distance(oldrect[1], oldrect[0]);
+			float oldheight = p2d::distance(oldrect[3], oldrect[0]);
 			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
 				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
 				&& fabs(size.x() - oldwidth) < comparisonprec
@@ -803,8 +805,8 @@ void MainPanel::spriteRectChanged()
 			{
 				return;
 			}
-			hPointF horizontal = normalize(oldrect[1] - oldrect[0]);
-			hPointF vertical = normalize(oldrect[3] - oldrect[0]);
+			hPointF horizontal = p2d::unit(oldrect[1] - oldrect[0]);
+			hPointF vertical = p2d::unit(oldrect[3] - oldrect[0]);
 			hRectF newrect;
 			ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 			newrect[0] = newpoint;

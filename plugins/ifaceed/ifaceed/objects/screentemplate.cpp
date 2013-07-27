@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "../editorcore/editor.h"
 #include <extra/geometry2d.h>
+#include <p2d/point.h>
 
 AbstractScreenObject * ScreenTemplate::templateBegin()
 {
@@ -103,7 +104,7 @@ bool ScreenTemplate::pickedIsBackground(const hPointF & p,AbstractScreenObject *
 	if (m_within_objects.size() == 1)
 			return false;
 	hRectF r = o->region();
-	float s = dist(r[0], r[1]) * dist(r[0], r[3]);
+	float s = p2d::distance(r[0], r[1]) * p2d::distance(r[0], r[3]);
 	unsigned int l = o->prop<unsigned int>("layer", sad::Log::ref());
 	bool is_maximum_size = true;
 	unsigned int is_least_layer = true;
@@ -113,7 +114,8 @@ bool ScreenTemplate::pickedIsBackground(const hPointF & p,AbstractScreenObject *
 		if (o != to)
 		{
 			hRectF rt = to->region();
-			float ts = dist(rt[0], rt[1]) * dist(rt[0], rt[3]);
+			float ts = p2d::distance(rt[0], rt[1]) 
+				     * p2d::distance(rt[0], rt[3]);
 			if (ts > s)  is_maximum_size = false;
 			unsigned int lt = to->prop<unsigned int>("layer", sad::Log::ref());
 			if (lt < l)	 is_least_layer  = false;

@@ -9,7 +9,7 @@
 #include "../../history/editorhistory.h"
 #include "../../history/movecommand.h"
 #include <marshal/serializableobject.h>
-
+#include <p2d/vector.h>
 
 SelectedState::SelectedState()
 {
@@ -229,8 +229,8 @@ hRectF ResizingStateAction::apply(const hRectF & x, const hPointF & xd)
 	hRectF xs  = x;
 	hPointF xc = (x[p0] + x[p1]) / 2;
 	hPointF xcp = (x[p2] + x[p3]) / 2;
-	s2d::vec e = normalize(xc - xcp);
-	float t = scalar(e, xd );
+	p2d::Vector e = p2d::unit(xc - xcp);
+	float t = p2d::scalar(e, xd );
 	xs[p0] +=  e * t;
 	xs[p1] +=  e * t;
 	return xs;
