@@ -493,6 +493,10 @@
 				Name="p2d"
 				>
 				<File
+					RelativePath=".\src\p2d\axle.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\vector.cpp"
 					>
 				</File>

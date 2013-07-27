@@ -5,11 +5,10 @@
  */
 #pragma once
 #include "../primitives/hpoint.h"
-#include "axle.h"
 
 namespace p2d 
 {
-	/*! A vector for point
+	/*! A vector is defined by two coordinated x and y
 	 */
 	typedef hPointF Vector;
 	/*!  Modulo of vector

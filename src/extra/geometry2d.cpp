@@ -1,15 +1,12 @@
 #include "../../include/extra/geometry2d.h"
-#include "../../include/p2d/vector.h"
 #include "../../include/p2d/collides1d.h"
 
 bool projectionIsWithin(const hPointF & test, const hPointF & pivot1, const hPointF & pivot2)
 {
-	p2d::Vector axle = pivot2-pivot1;
-	axle = p2d::unit(axle);
-	double  test_projection = p2d::scalar(test,axle);
-	double  pivot1_projection = p2d::scalar(pivot1,axle);
-	double  pivot2_projection = p2d::scalar(pivot2,axle);
-	return p2d::collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
+	p2d::Axle axle = p2d::axle(pivot1, pivot2);
+	p2d::Cutter1D c1 = p2d::project(test, test, axle); 
+	p2d::Cutter1D c2 = p2d::project(pivot1, pivot2, axle); 
+	return p2d::collides(c1, c2);
 }
 
 bool isWithin(const hPointF & p, const hRectF & r)
@@ -56,7 +53,9 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
 
 bool equal(const hPointF & p1, const hPointF & p2, float precision)
 {
-	return fabs(p1.x() - p2.x()) < precision && fabs(p1.y() - p2.y()) < precision; 
+	bool e1 = is_fuzzy_equal(p1.x(), p2.x(), precision);
+	bool e2 = is_fuzzy_equal(p1.y(), p2.y(), precision);
+	return e1 && e2; 
 }
 
 

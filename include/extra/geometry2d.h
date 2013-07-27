@@ -5,9 +5,8 @@
 	 Can be used to perform commin geometrical operations.
  */
 #include "../p2d/point.h"
-#include "../p2d/vector.h"
+#include "../p2d/axle.h"
 #include "../primitives/hrect.h"
-
 #include "fuzzy_equal.h"
 
 /*! Tests, whether point projection on axle, defined as [pivot1, pivot2] is within cutter defined by pivot1 
@@ -54,8 +53,6 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & r);
 	\return whether they are equal
  */
 bool equal(const hPointF & p1, const hPointF & p2, float precision = S2D_FP_PRECISION);
-
-
 /*! Tests, whether two rects are equal (precision bases)
 	\param[in] p1 first rect
 	\param[in] p2 second rect

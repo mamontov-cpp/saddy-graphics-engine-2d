@@ -1,8 +1,10 @@
 #include "rigid_body.h"
-#include "../../include/p2d/vector.h"
-#include "../../include/p2d/collides1d.h"
 #include <utility>
+#include "../../include/p2d/axle.h"
+#include "../../include/p2d/collides1d.h"
+
 RigidBody::~RigidBody() {}
+
 
 vector32 ortho(const vector32 & v)
 {
