@@ -1,19 +1,19 @@
 #include "../../include/extra/geometry2d.h"
 
-s2d::vec  normalize(const s2d::vec  & v)
+p2d::vector  normalize(const p2d::vector  & v)
 {
 	if (is_fuzzy_zero(v.x()) && is_fuzzy_zero(v.y()))
 	{
-		return s2d::vec(M_SQRT1_2,M_SQRT1_2);
+		return p2d::vector(M_SQRT1_2,M_SQRT1_2);
 	}
 	else 
 	{
-		float l = sqrtf((float)(v.x() * v.x() + v.y() * v.y()) );
+		double l = (v.x() * v.x() + v.y() * v.y());
 		return v / l;
 	}
 }
 
-s2d::vec ortho(const s2d::vec & v)
+p2d::vector ortho(const p2d::vector & v)
 {
 	s2d::vec v2 = normalize(v);
 	float x = (float)(v2.x());
