@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "vector.h"
+#include "../primitives/matrix2x2.h"
 #include "../templates/hpair.hpp"
 
 namespace p2d 
@@ -18,6 +19,9 @@ namespace p2d
 	/*! A two-dimensional cutter is a pair of points
 	 */
 	typedef hst::pair<hPointF, hPointF> Cutter2D;
+	/*! A matrix 2x2 for out options
+	 */
+	typedef hst::matrix2x2<double> Matrix2x2; 
 	/*! Makes an axle from two points by sequentially creating
 		a vector out of result of substraction of points and
 		making unit ount of result
