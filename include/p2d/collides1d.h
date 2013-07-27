@@ -5,6 +5,8 @@
  */
 
 
+namespace p2d
+{
 /*! Determines, whether two 1-dimensional cutters collide
 	\param[in] x11 first point of first cutter
 	\param[in] x12 second point of first cutter
@@ -12,9 +14,12 @@
 	\param[in] x22 second point of second cutter
 	\return whether two 1D cutters collid
 */
-inline bool collides1D(float x11, float x12, float x21, float x22)
+template<typename _Numeric>
+inline bool collides1D(_Numeric x11, _Numeric x12, _Numeric x21, _Numeric x22)
 {
-	if (x11>x12) { float tmp=x11; x11=x12; x12=tmp; }
-	if (x21>x22) { float tmp=x21; x21=x22; x22=tmp; }
+	if (x11>x12) { _Numeric tmp=x11; x11=x12; x12=tmp; }
+	if (x21>x22) { _Numeric tmp=x21; x21=x22; x22=tmp; }
 	return (x21<=x12) && (x22>=x11);
+}
+
 }

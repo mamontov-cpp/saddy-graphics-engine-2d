@@ -21,6 +21,7 @@ bool sad::ClassMetaData::canBeCastedTo(const hst::string & name)
 	{
 		result = result || m_ancestors[i]->canBeCastedTo(name);
 	}
+	return result;
 }
 
 void sad::ClassMetaData::addAncestor(const hst::string & name)

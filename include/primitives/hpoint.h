@@ -256,3 +256,37 @@ point<hst::D2,T> toPolar(const point<hst::D2,T> & o);
      #define  HI_POINT_H
      #include "hpoint_src.h"
 #endif
+
+/*! Converts 3d point to 2d point	
+	 \param[in] p point
+	 \return a new 2d point
+ */
+template<typename _From, typename _To>
+inline 
+typename hst::point<hst::D2, _To > _(
+	const hst::point<hst::D3, _From > & p
+)
+{
+	return typename hst::point<hst::D2, _To>(
+		(_To)p.x(), 
+		(_To)p.y()
+	);
+}
+
+
+/*! Converts 2d point to 3d point	
+	 \param[in] p point
+	 \return a new 3d point
+ */
+template<typename _From, typename _To>
+inline 
+typename hst::point<hst::D3, _To> _(
+	const hst::point<hst::D2, _From> & p
+)
+{
+	return typename hst::point<hst::D3, _To>(
+		(_To)p.x(), 
+		(_To)p.y(),
+		(_To)0.0
+	);
+}

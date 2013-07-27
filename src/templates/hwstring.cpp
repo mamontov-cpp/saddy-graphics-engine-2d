@@ -40,7 +40,7 @@ wstring & wstring::remove(unsigned int i)
 }
 wstring & wstring::insert(unsigned int i,const wstring & str)
 {
- this->insert(i,str);
+ this->std::wstring::insert(i,str);
  return *this;
 }
 wstring::wstring(const std::wstring & str): std::wstring(str)
