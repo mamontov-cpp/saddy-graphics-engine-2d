@@ -1,35 +1,15 @@
 #include "../../include/extra/geometry2d.h"
-
-p2d::vector  normalize(const p2d::vector  & v)
-{
-	if (is_fuzzy_zero(v.x()) && is_fuzzy_zero(v.y()))
-	{
-		return p2d::vector(M_SQRT1_2,M_SQRT1_2);
-	}
-	else 
-	{
-		double l = (v.x() * v.x() + v.y() * v.y());
-		return v / l;
-	}
-}
-
-p2d::vector ortho(const p2d::vector & v)
-{
-	s2d::vec v2 = normalize(v);
-	float x = (float)(v2.x());
-	v2.setX(-1 * v2.y());
-	v2.setY(v2.x());
-	return v2;
-}
+#include "../../include/p2d/vector.h"
+#include "../../include/p2d/collides1d.h"
 
 bool projectionIsWithin(const hPointF & test, const hPointF & pivot1, const hPointF & pivot2)
 {
-	s2d::vec axle = pivot2-pivot1;
-	axle = normalize(axle);
-	float  test_projection = scalar(test,axle);
-	float  pivot1_projection = scalar(pivot1,axle);
-	float  pivot2_projection = scalar(pivot2,axle);
-	return collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
+	p2d::Vector axle = pivot2-pivot1;
+	axle = p2d::unit(axle);
+	double  test_projection = p2d::scalar(test,axle);
+	double  pivot1_projection = p2d::scalar(pivot1,axle);
+	double  pivot2_projection = p2d::scalar(pivot2,axle);
+	return p2d::collides1D(test_projection, test_projection , pivot1_projection, pivot2_projection);
 }
 
 bool isWithin(const hPointF & p, const hRectF & r)
@@ -90,12 +70,3 @@ bool equal(const hRectF & p1, const hRectF & p2, float precision)
 	return ok;
 }
 
-bool is_fuzzy_zero(float x, float precision)
-{
-	return fabs(x) <= precision;
-}
-
-bool non_fuzzy_zero(float x, float precision)
-{
-	return !is_fuzzy_zero(x, precision);
-}

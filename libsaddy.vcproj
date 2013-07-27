@@ -41,13 +41,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include/config;include/primitives;include/templates;include;include/extra"
+				AdditionalIncludeDirectories="include/config;include/primitives;include/templates;include;include/extra;include/p2d"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="1"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
-				WarningLevel="0"
+				WarningLevel="1"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\extra\fuzzy_equal.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\geometry2d.cpp"
 					>
 				</File>
@@ -482,6 +486,14 @@
 				>
 				<File
 					RelativePath=".\src\log\log.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="p2d"
+				>
+				<File
+					RelativePath=".\src\p2d\vector.cpp"
 					>
 				</File>
 			</Filter>
@@ -723,6 +735,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\extra\fuzzy_equal.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\extra\geometry2d.h"
 					>
 				</File>
@@ -839,11 +855,19 @@
 				Name="p2d"
 				>
 				<File
+					RelativePath=".\include\p2d\axle.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\collides1d.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\p2d\point.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\vector.h"
 					>
 				</File>
 			</Filter>
