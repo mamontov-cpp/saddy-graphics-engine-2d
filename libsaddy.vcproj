@@ -835,6 +835,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="p2d"
+				>
+				<File
+					RelativePath=".\include\p2d\collides1d.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\point.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Файлы ресурсов"
