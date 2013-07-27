@@ -683,6 +683,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\primitives\matrix2x2.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\primitives\object.h"
 					>
 				</File>
