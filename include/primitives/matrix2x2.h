@@ -32,16 +32,26 @@ public:
 		m_o[1][0] = a21;
 		m_o[1][1] = a22;
 	}
-	/*! Constructs a rotation matrix for angle
+	/*! Constructs a counter-clockwise rotation matrix for angle
 		\param[in] angle angle for rotation
 		\return matrix
 	 */
-	static matrix2x2  rotation(T angle)
+	static matrix2x2  counterclockwise(T angle)
 	{
-		float cosa = cos(angle);
-		float sina = sin(angle);
-		return matrix2x2(cosa, sina, -sina, cosa);
+		T cosa = cos(angle);
+		T sina = sin(angle);
+		return matrix2x2(cosa, sina, 
+			             -sina, cosa);
 	}
+	/*! Constructs a clockwise rotation matrix for angle
+		\param[in] angle angle for rotation
+		\return matrix
+	 */
+	static matrix2x2  clockwise(T angle)
+	{
+		return hst::matrix2x2<T>::counterclockwise(-angle);
+	}
+
 	/*! Returns a point by parameters
 	 */
 	T operator[](const typename matrix2x2<T>::index & i) const
@@ -52,7 +62,11 @@ public:
 };
 
 }
-
+/*! Multiplies a point by matrix
+	\param[in] p point
+	\param[in] m matrix
+	\return point
+ */
 template<typename T>
 typename hst::point<hst::D2, T> 
 operator*
