@@ -24,7 +24,7 @@ namespace p2d
 	typedef hst::matrix2x2<double> Matrix2x2; 
 	/*! Makes an axle from two points by sequentially creating
 		a vector out of result of substraction of points and
-		making unit ount of result
+		computing unit-vector
 		\param[in] p1 first point
 		\param[in] p2 second point
 		\return resulting axle

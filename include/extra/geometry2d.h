@@ -31,14 +31,16 @@ bool isWithin(const hPointF & p, const hRectF & r);
  */
 void moveBy(const hPointF & dp , hRectF & r);
 
-/*! Rotates a rectangle around his center by angle
+/*! Rotates counter-clockwise a rectangle 
+	around his center by specified angle
 	\param[in] angle angle
 	\param[in] r rectangle
  */
 void rotate(float angle, hRectF & r);
 
 
-/*! Moves a rectangle around by point by angle. A rectangle must have center at (0,0)
+/*! Moves a rectangle around by point by angle. 
+    A rectangle must have center at (0,0)
 	\param[in] angle angle
 	\param[in] result resulting
 	\param[in] r rectangle
