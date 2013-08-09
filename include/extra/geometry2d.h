@@ -46,14 +46,14 @@ void rotate(float angle, hRectF & r);
 void moveAndRotateNormalized(float angle, hPointF & result, hRectF & r);
 
 
-/*! Tests, whether two points are equal (precision bases)
+/*! Tests, whether two points are equal (precision based)
 	\param[in] p1 first point
 	\param[in] p2 second point
 	\param[in] precision precision for  comparing two numbers
 	\return whether they are equal
  */
 bool equal(const hPointF & p1, const hPointF & p2, float precision = S2D_FP_PRECISION);
-/*! Tests, whether two rects are equal (precision bases)
+/*! Tests, whether two rects are equal (precision based)
 	\param[in] p1 first rect
 	\param[in] p2 second rect
 	\return whether they are equal
