@@ -22,11 +22,13 @@
 #ifndef __TPUNITPP_HPP__
 #define __TPUNITPP_HPP__
 
+#ifndef _INC_STDIO
 /**
  * Declare printf dependency inline to workaround
  * potential #include <stdio.h> compiler/linker bugs.
  */
 extern "C" int printf(const char*, ...);
+#endif
 
 /**
  * TPUNITPP_VERSION macro contains an integer represented by
