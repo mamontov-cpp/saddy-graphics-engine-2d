@@ -28,11 +28,13 @@ typename T distance(const typename hst::point<hst::D2, T> & p1,
 class Point: public hPointF 
 {
 	public:
+	inline Point(double x, double y) : hPointF(x, y)
+	{ }
 	/*! Computes a distance to another point
 		\param[in] p another point
 		\return distance
 	 */
-	inline double distanceTo(const p2d::Point & p)
+	inline double distanceTo(const p2d::Point & p) const
 	{
 		return distance(*this, p);
 	}
