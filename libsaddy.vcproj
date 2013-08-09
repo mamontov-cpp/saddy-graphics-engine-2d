@@ -635,6 +635,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\templates\ptrhash.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\include\templates\refcountable.h"
 					>
 				</File>
@@ -847,6 +851,14 @@
 					</File>
 					<File
 						RelativePath=".\include\3rdparty\format\stdint.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="tpunit++"
+					>
+					<File
+						RelativePath=".\include\3rdparty\tpunit++\tpunit++.hpp"
 						>
 					</File>
 				</Filter>
