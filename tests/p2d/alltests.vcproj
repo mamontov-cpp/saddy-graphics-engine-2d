@@ -185,6 +185,10 @@
 				RelativePath=".\point.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\vector.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"

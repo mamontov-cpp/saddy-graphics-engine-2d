@@ -8,7 +8,7 @@
 
 
 /*!
- * Tests object logic
+ * Tests point operations
  */
 struct PointTest : tpunit::TestFixture
 {
