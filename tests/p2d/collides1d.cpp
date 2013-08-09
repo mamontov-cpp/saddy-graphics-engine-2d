@@ -8,7 +8,7 @@
 
 
 /*!
- * Tests object logic
+ * Tests collides1d operation
  */
 struct Collides1DTest : tpunit::TestFixture
 {
