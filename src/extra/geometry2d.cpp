@@ -27,7 +27,7 @@ void moveBy(const hPointF & dp , hRectF & r)
 void rotate(float angle, hRectF & r)
 {
 	hPointF c = r[0]; c += r[2]; c/=2;
-	p2d::Matrix2x2 m = p2d::Matrix2x2::rotation(angle);
+	p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++)
 	{
 		hPointF vi = r[i] - c;
@@ -39,7 +39,7 @@ void rotate(float angle, hRectF & r)
 
 void moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
 {
-	p2d::Matrix2x2 m = p2d::Matrix2x2::rotation(angle);
+	p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++) {
 		hPointF r = v[i] * m;
 		v[i] = result + r;
