@@ -125,17 +125,17 @@ struct SadObjectTest : tpunit::TestFixture
  public:
    SadObjectTest() : tpunit::TestFixture(
 	   BEFORE(SadObjectTest::init),
-	   TEST(SadObjectTest::test_global_metadata),
-	   TEST(SadObjectTest::test_can_do_upcast_to_top),
-	   TEST(SadObjectTest::test_can_do_local_upcast),
-	   TEST(SadObjectTest::test_successfull_downcasts),
-	   TEST(SadObjectTest::test_ancestor_to_children_castfrom),
-	   TEST(SadObjectTest::test_valid_casts),
-	   TEST(SadObjectTest::test_inherited_from1),
-	   TEST(SadObjectTest::test_inherited_from2),
-	   TEST(SadObjectTest::test_inherited_from3),
-	   TEST(SadObjectTest::test_inherited_from4),
-	   TEST(SadObjectTest::test_fail_cast)
+	   TEST(SadObjectTest::testGlobalMetadata),
+	   TEST(SadObjectTest::testCanDoUpcastToTop),
+	   TEST(SadObjectTest::testCanDoLocalUpcast),
+	   TEST(SadObjectTest::testSuccessfullDowncasts),
+	   TEST(SadObjectTest::testAncestorToChildrenCastFrom),
+	   TEST(SadObjectTest::testValidCasts),
+	   TEST(SadObjectTest::testInheritedFrom1),
+	   TEST(SadObjectTest::testInheritedFrom2),
+	   TEST(SadObjectTest::testInheritedFrom3),
+	   TEST(SadObjectTest::testInheritedFrom4),
+	   TEST(SadObjectTest::testFailCast)
    ) {}
    /*! Cache, which stores objects by class
     */
@@ -160,7 +160,7 @@ struct SadObjectTest : tpunit::TestFixture
 
    /*! Tests global metadata workaround with name
     */
-   void test_global_metadata() 
+   void testGlobalMetadata() 
    {
 	   ASSERT_EQUAL(DirectDescendant1::globalMetaData()->name(),
 					"DirectDescendant1");
@@ -174,7 +174,7 @@ struct SadObjectTest : tpunit::TestFixture
 				    "InheritedFrom1");	   
    }
 
-   void test_can_do_upcast_to_top()
+   void testCanDoUpcastToTop()
    {
 	   ASSERT_TRUE( m_cache["DirectDescendant1"]->
 					metaData()->canBeCastedTo("sad::Object"));
@@ -200,7 +200,7 @@ struct SadObjectTest : tpunit::TestFixture
 					metaData()->canBeCastedTo("InheritedFrom1"));
    }
 
-   void test_can_do_local_upcast()
+   void testCanDoLocalUpcast()
    {
 		ASSERT_TRUE( m_cache["InheritedFrom1"]->
 					metaData()->canBeCastedTo("DirectDescendant1"));
@@ -224,7 +224,7 @@ struct SadObjectTest : tpunit::TestFixture
 					metaData()->canBeCastedTo("DirectDescendant4"));
    }
 
-   void test_successfull_downcasts()
+   void testSuccessfullDowncasts()
    {
 	   ASSERT_TRUE(m_cache["DirectDescendant1"]->
 				   metaData()->canBeCastedFrom("InheritedFrom1"));
@@ -248,7 +248,7 @@ struct SadObjectTest : tpunit::TestFixture
 				   metaData()->canBeCastedFrom("InheritedFrom4"));
    }
    
-   void test_ancestor_to_children_castfrom()
+   void testAncestorToChildrenCastFrom()
    {
 		ASSERT_FALSE(m_cache["InheritedFrom1"]->
 				     metaData()->canBeCastedFrom("DirectDescendant1"));
@@ -266,7 +266,7 @@ struct SadObjectTest : tpunit::TestFixture
 				     metaData()->canBeCastedFrom("DirectDescendant4"));
    }
 
-   void test_valid_casts()
+   void testValidCasts()
    {
 	   ASSERT_EQUAL(m_cache["DirectDescendant1"]->
 				    as<DirectDescendant1>()->local(), 1);
@@ -278,7 +278,7 @@ struct SadObjectTest : tpunit::TestFixture
 				    as<DirectDescendant4>()->local(), 4);
    }
 
-   void test_inherited_from1()
+   void testInheritedFrom1()
    {
 	   ASSERT_EQUAL(m_cache["InheritedFrom1"]->
 				    as<InheritedFrom1>()->local(), 5);
@@ -286,7 +286,7 @@ struct SadObjectTest : tpunit::TestFixture
 				    as<DirectDescendant1>()->local(), 1);
    }
 
-   void test_inherited_from2()
+   void testInheritedFrom2()
    {
 	   sad::Object * testbase = m_cache["InheritedFrom2"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
@@ -299,7 +299,7 @@ struct SadObjectTest : tpunit::TestFixture
 	   ASSERT_EQUAL(testdd2->local(), 2);
    }
 
-   void test_inherited_from3()
+   void testInheritedFrom3()
    {
 	   sad::Object * testbase = m_cache["InheritedFrom3"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
@@ -315,7 +315,7 @@ struct SadObjectTest : tpunit::TestFixture
 	   ASSERT_EQUAL(testdd3->local(), 3);
    }
 
-   void test_inherited_from4()
+   void testInheritedFrom4()
    {
 	   sad::Object * testbase = m_cache["InheritedFrom4"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
@@ -334,7 +334,7 @@ struct SadObjectTest : tpunit::TestFixture
 	   ASSERT_EQUAL(testdd4->local(), 4);
    }
 
-   void test_fail_cast() 
+   void testFailCast() 
    {
 	    sad::Object * testbase = m_cache["DirectDescendant1"];
 		try

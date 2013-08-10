@@ -14,11 +14,11 @@ struct AxleTest : tpunit::TestFixture
 {
  public:
    AxleTest() : tpunit::TestFixture(
-	   TEST(AxleTest::test_project),
-	   TEST(AxleTest::test_collides)
+	   TEST(AxleTest::testProject),
+	   TEST(AxleTest::testCollides)
    ) {}
    
-   void test_project()
+   void testProject()
    {
 	   p2d::Axle axle;
 	   p2d::Cutter2D  v;
@@ -43,7 +43,7 @@ struct AxleTest : tpunit::TestFixture
 
    }
 
-   void test_collides()
+   void testCollides()
    {
 	   // There is not much tests, because for most part
 	   // implementation relies on tested p2d::collides1d
