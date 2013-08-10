@@ -28,6 +28,7 @@ typename T distance(const typename hst::point<hst::D2, T> & p1,
 class Point: public hPointF 
 {
 	public:
+	inline Point() : hPointF() {}
 	inline Point(double x, double y) : hPointF(x, y)
 	{ }
 	/*! Computes a distance to another point

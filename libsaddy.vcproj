@@ -497,6 +497,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\grahamscan.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\vector.cpp"
 					>
 				</File>
@@ -880,6 +884,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\collides1d.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\grahamscan.h"
 					>
 				</File>
 				<File
