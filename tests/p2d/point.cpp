@@ -14,10 +14,10 @@ struct PointTest : tpunit::TestFixture
 {
  public:
    PointTest() : tpunit::TestFixture(
-	   TEST(PointTest::test_distance)	   
+	   TEST(PointTest::testDistance)	   
    ) {}
    
-   void test_distance()
+   void testDistance()
    {
 	   ASSERT_FLOAT_EQUAL( p2d::Point(0.0, 0.0).distanceTo(p2d::Point(0.0,0.0)), 0);
 	   ASSERT_FLOAT_EQUAL( p2d::Point(0.0, 0.0).distanceTo(p2d::Point(0.0,1.0)), 1);

@@ -14,29 +14,29 @@ struct VectorTest : tpunit::TestFixture
 {
  public:
    VectorTest() : tpunit::TestFixture(
-	   TEST(VectorTest::test_modulo),
-	   TEST(VectorTest::test_basis),
-	   TEST(VectorTest::test_unit),
-	   TEST(VectorTest::test_ortho_90),
-	   TEST(VectorTest::test_ortho_270),
-	   TEST(VectorTest::test_scalar)
+	   TEST(VectorTest::testModulo),
+	   TEST(VectorTest::testBasis),
+	   TEST(VectorTest::testUnit),
+	   TEST(VectorTest::testOrtho90),
+	   TEST(VectorTest::testOrtho270),
+	   TEST(VectorTest::testScalar)
    ) {}
    
-   void test_modulo()
+   void testModulo()
    {
 	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(0, 0) ), 0);
 	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(0, 1) ), 1);
 	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(M_SQRT1_2, M_SQRT1_2) ), 1);
    }
 
-   void test_basis()
+   void testBasis()
    {
 	   p2d::Vector p = p2d::basis();
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
    }
 
-   void test_unit()
+   void testUnit()
    {
 	   p2d::Vector p = p2d::unit(p2d::Vector(0,0));
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
@@ -52,7 +52,7 @@ struct VectorTest : tpunit::TestFixture
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);	   
    }
 
-   void test_ortho_90()
+   void testOrtho90()
    {
 	   p2d::Vector p;
 	   
@@ -73,7 +73,7 @@ struct VectorTest : tpunit::TestFixture
 	   ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }
 
-   void test_ortho_270()
+   void testOrtho270()
    {
 	   p2d::Vector p;
 	   
@@ -94,7 +94,7 @@ struct VectorTest : tpunit::TestFixture
 	   ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }
 
-   void test_scalar()
+   void testScalar()
    {
 		ASSERT_FLOAT_EQUAL(
 			p2d::scalar( p2d::Vector(0,0), p2d::Vector(0,0)), 0

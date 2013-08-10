@@ -15,16 +15,16 @@ struct Matrix2x2Test : tpunit::TestFixture
 {
  public:
    Matrix2x2Test() : tpunit::TestFixture(
-	   TEST(Matrix2x2Test::test_getters),
-	   TEST(Matrix2x2Test::test_rotate_90_degrees_counterclockwise),
-	   TEST(Matrix2x2Test::test_rotate_90_degrees_clockwise),
-	   TEST(Matrix2x2Test::test_rotate_270_degrees_counterclockwise),
-	   TEST(Matrix2x2Test::test_rotate_270_degrees_clockwise),
-	   TEST(Matrix2x2Test::test_rotate_45_degrees_clockwise),
-	   TEST(Matrix2x2Test::test_rotate_45_degrees_counterclockwise)
+	   TEST(Matrix2x2Test::testGetters),
+	   TEST(Matrix2x2Test::testRotate90DegreesCounterclockwise),
+	   TEST(Matrix2x2Test::testRotate90DegreesClockwise),
+	   TEST(Matrix2x2Test::testRotate270DegreesCounterclockwise),
+	   TEST(Matrix2x2Test::testRotate270DegreesClockwise),
+	   TEST(Matrix2x2Test::testRotate45DegreesClockwise),
+	   TEST(Matrix2x2Test::testRotate45DegreesCounterclockwise)
    ) {}
    
-   void test_getters()
+   void testGetters()
    {
 		matrixf m(1, 2, 3, 4);
 		ASSERT_FLOAT_EQUAL(m[matrixf::index(0,0)], 1.0);
@@ -33,7 +33,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 		ASSERT_FLOAT_EQUAL(m[matrixf::index(1,1)], 4.0);
    }
 
-   void test_rotate_90_degrees_counterclockwise()
+   void testRotate90DegreesCounterclockwise()
    {
 	   hPointF p(1,0);
 	   matrixf m = matrixf::counterclockwise(0.5 * M_PI);
@@ -42,7 +42,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 1.0) );
    }
 
-   void test_rotate_90_degrees_clockwise()
+   void testRotate90DegreesClockwise()
    {
 	   hPointF p(1,0);
 	   matrixf m = matrixf::clockwise(0.5 * M_PI);
@@ -51,7 +51,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), -1.0) );
    }
 
-   void test_rotate_270_degrees_clockwise()
+   void testRotate270DegreesClockwise()
    {
 	   hPointF p(-1,0);
 	   matrixf m = matrixf::clockwise(1.5 * M_PI);
@@ -60,7 +60,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), -1.0) );
    }
 
-   void test_rotate_270_degrees_counterclockwise()
+   void testRotate270DegreesCounterclockwise()
    {
 	   hPointF p(-1,0);
 	   matrixf m = matrixf::counterclockwise(1.5 * M_PI);
@@ -69,7 +69,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 1.0) );
    }
 
-   void test_rotate_45_degrees_clockwise()
+   void testRotate45DegreesClockwise()
    {
 	   hPointF p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::clockwise(0.25 * M_PI);
@@ -78,7 +78,7 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 0.0) );
    }
 
-   void test_rotate_45_degrees_counterclockwise()
+   void testRotate45DegreesCounterclockwise()
    {
 	   hPointF p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::counterclockwise(0.25 * M_PI);

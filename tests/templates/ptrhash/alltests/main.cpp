@@ -21,10 +21,10 @@ struct PtrHashTest : tpunit::TestFixture
 {
  public:
    PtrHashTest() : tpunit::TestFixture(
-	   TEST(PtrHashTest::test_destructor)	   
+	   TEST(PtrHashTest::testDestructor)	   
    ) {}
    
-   void test_destructor()
+   void testDestructor()
    {
 		int counter = 0;
 		int count = 10;
