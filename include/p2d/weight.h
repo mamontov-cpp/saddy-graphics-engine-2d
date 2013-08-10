@@ -19,7 +19,7 @@ public:
 		\param[in] value weight value
 		\param[in] finite
 	 */
-	Weight(double value, bool finite = true);
+	Weight(double value = 1.0, bool finite = true);
 	/*! Determines, whether weight is infinite
 		\return true if infinite
 	 */
