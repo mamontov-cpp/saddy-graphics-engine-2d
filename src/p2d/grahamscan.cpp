@@ -1,0 +1,160 @@
+#include <p2d/grahamscan.h>
+#include <extra/geometry2d.h>
+#include <algorithm>
+
+namespace p2d
+{
+
+void erase_equal_points(hst::vector<p2d::Point> & set)
+{
+	for(unsigned int i = 1; i < set.size(); i++)
+	{
+		if (equal(set[i], set[i-1]))
+		{
+			set.removeAt(i);
+			--i;
+		}
+	}
+}
+
+int find_min_point_on_y_axis(const hst::vector<p2d::Point> & set)
+{
+	if (set.size() == 0) return -1;
+	
+	double miny = set[0].y();
+	int result = 0;
+	for(unsigned int i = 0; i < set.size(); i++)
+	{
+		if (set[i].y() < miny) 
+		{
+			result = i;
+			miny = set[i].y();
+		}
+	}
+	return result;
+}
+
+typedef hst::pair<p2d::Point, double> SetSortingEntry;
+
+bool compare(const SetSortingEntry & o1, const SetSortingEntry & o2)
+{
+	return o1.p2() < o2.p2();
+}
+
+double angle(const p2d::Point & p1, const p2d::Point & p2)
+{
+	double  result = 0;
+	if (!equal(p1, p2))
+	{
+		double dy = p2.y() - p1.y();
+		double dx = p2.x() - p1.x();
+		double angle = atan2(dy , dx);
+		result = angle;
+		if (result < 0) result += 2 * M_PI;
+	}
+	return result;
+}
+
+hst::vector<p2d::Point> build_sorted_set(const hst::vector<p2d::Point> & set, int min_index)
+{
+	assert( min_index > -1 && min_index < (int)(set.size()) );
+
+	hst::vector<p2d::Point> result;
+	p2d::Point min_point = set[min_index]; 
+	result << min_point;
+
+	// Build heap
+	hst::vector<p2d::SetSortingEntry> sortedset;
+	for(unsigned int i = 0; i < set.size(); i++)
+	{
+		if (i != min_index) 
+		{
+			double angle= p2d::angle(min_point, set[i]);
+			sortedset << p2d::SetSortingEntry(set[i], angle);
+		}
+	}
+
+	// Sort heap
+	std::sort(sortedset.begin(), sortedset.end(), p2d::compare);
+
+	// Append it to an end
+	for(unsigned int i = 0; i < sortedset.size(); i++)
+	{
+		result << sortedset[i].p1();
+	}
+
+	return result;
+}
+
+bool is_convex(const p2d::Point & prev, 
+			   const p2d::Point & cur,
+			   const p2d::Point & next)
+{
+	double clockwiseangle = p2d::angle(cur, prev);
+	double counterclockwiseangle = p2d::angle(cur, next);
+	
+	double max = clockwiseangle;
+	double min = counterclockwiseangle;
+	bool  cwisgreaterccw = (clockwiseangle > counterclockwiseangle);
+	if (cwisgreaterccw == false)
+	{
+		std::swap(min,max);
+	}
+	double diff = (max - min);
+	bool diffisgreaterthanpi = (diff > M_PI);
+	bool result  = false;
+	if (!is_fuzzy_equal(diff, M_PI)) 
+	{
+		bool f1 = !cwisgreaterccw && diffisgreaterthanpi;
+		bool f2 = cwisgreaterccw && !diffisgreaterthanpi;
+		result = f1 || f2;
+	}
+	return result;
+}
+
+bool erase_concave_points(hst::vector<p2d::Point> & result)
+{
+	bool erased = false;
+	for(unsigned int i = 1; (i < result.size()) && result.size() > 2; i++)
+    {
+		p2d::Point prev = result[i-1];
+		p2d::Point next = result[0];
+		p2d::Point cur = result[i];
+		if (i !=  result.size() - 1) next = result[i+1];
+		if (p2d::is_convex(prev, cur, next) == false) 
+		{
+			result.removeAt(i);
+			--i;
+			erased = true;
+		}
+	}
+	return erased;
+}
+
+
+}
+
+hst::vector<p2d::Point> p2d::graham_scan(const hst::vector<p2d::Point> & set)
+{
+	hst::vector<p2d::Point> result = set;
+	p2d::erase_equal_points(result);
+	if (result.size() > 2)
+	{
+		// Run graham scan implementation
+
+		// Find index of point with minimal y axis value
+		int min_point_index = p2d::find_min_point_on_y_axis(result);
+
+		// Builds sorted set by angle to point with minimal point
+		result = p2d::build_sorted_set(result, min_point_index);
+
+		// Optimize selected set, removing the concave points
+		bool changed = true;
+		do
+		{
+			changed = p2d::erase_concave_points(result);
+		} while (changed);
+		
+	}
+	return result;
+}

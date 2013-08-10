@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)/../../include/&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -179,6 +179,22 @@
 			</File>
 			<File
 				RelativePath=".\collides1d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\grahambuildsortedset.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\grahamerasequal.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\grahamfindminpoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\grahamscantest.cpp"
 				>
 			</File>
 			<File
