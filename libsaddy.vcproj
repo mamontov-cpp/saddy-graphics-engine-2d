@@ -497,11 +497,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\ghostoptions.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\grahamscan.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\p2d\vector.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\weight.cpp"
 					>
 				</File>
 			</Filter>
@@ -759,6 +767,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\ghostoptions.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\extra\rigid_body.h"
 					>
 				</File>
@@ -896,6 +908,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\vector.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\weight.h"
 					>
 				</File>
 			</Filter>
