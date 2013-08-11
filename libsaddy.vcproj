@@ -509,6 +509,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\collisionshape.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\convexhull.cpp"
 					>
 				</File>
@@ -932,6 +936,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\collisionhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\collisionshape.h"
 					>
 				</File>
 				<File
