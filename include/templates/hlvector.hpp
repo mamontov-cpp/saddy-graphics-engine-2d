@@ -51,6 +51,11 @@ template<class T> class vector:public std::vector<T>
 			   \return self-reference
 		   */
 		   vector & operator<<(const T & obj);
+			/*! Appends vector to vector. 
+		       \param[in] obj vector to be added
+			   \return self-reference
+		   */
+		   vector & operator<<(const hst::vector<T> & obj);
            /*! Copys a last object in vector, with removing it
 		       from vector
 			   \param[in] obj reference, where removed object will be stored

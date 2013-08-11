@@ -48,6 +48,14 @@ template<class T> vector<T> & vector<T>::operator<<(const T& obj)
     return *this;
 }
 
+template<class T> vector<T> & vector<T>::operator<<(const vector<T> & obj)
+{
+    //printf("New params: %p %ld %ld %ld\n" , m_pool.p,m_pool.sz,sz,sz);
+	for(unsigned int i = 0; i < obj.size(); i++)
+		this->push_back(obj[i]);
+    return *this;
+}
+
 template<class T> vector<T> & vector<T>::operator>>(T& obj)
 {
     obj=(*this)[this->size()-1];

@@ -501,6 +501,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\convexhull.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\force.cpp"
 					>
 				</File>
@@ -652,6 +656,10 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\hwstring.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\templates\maybe.hpp"
 					>
 				</File>
 				<File
@@ -908,6 +916,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\collisionevent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\convexhull.h"
 					>
 				</File>
 				<File

@@ -29,6 +29,7 @@ class Point: public hPointF
 {
 	public:
 	inline Point() : hPointF() {}
+	inline Point(const hPointF & o) : hPointF(o) {}
 	inline Point(double x, double y) : hPointF(x, y)
 	{ }
 	/*! Computes a distance to another point
