@@ -497,7 +497,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\body.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\collisionevent.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\collisionhandler.cpp"
 					>
 				</File>
 				<File
@@ -911,11 +919,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\body.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\collides1d.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\p2d\collisionevent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\collisionhandler.h"
 					>
 				</File>
 				<File
