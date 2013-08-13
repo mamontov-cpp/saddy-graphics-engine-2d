@@ -501,6 +501,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\circle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\circletohulltransformer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\collisionevent.cpp"
 					>
 				</File>
@@ -526,6 +534,14 @@
 				</File>
 				<File
 					RelativePath=".\src\p2d\grahamscan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\line.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\rectangle.cpp"
 					>
 				</File>
 				<File
@@ -927,6 +943,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\circle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\circletohulltransformer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\collides1d.h"
 					>
 				</File>
@@ -955,7 +979,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\line.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\point.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\rectangle.h"
 					>
 				</File>
 				<File
