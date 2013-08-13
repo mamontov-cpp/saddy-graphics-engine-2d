@@ -517,6 +517,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\collisionmultimethod.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\collisionshape.cpp"
 					>
 				</File>
@@ -960,6 +964,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\collisionhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\collisionmultimethod.h"
 					>
 				</File>
 				<File
