@@ -4,14 +4,16 @@
 	Describes a shape, used to determine collisions with objects
  */
 #include "convexhull.h"
+#include "../primitives/object.h"
 #pragma once
 
 namespace p2d
 {
 /*! Describes a shape, used to determine collisions with objects
  */
-class CollisionShape
+class CollisionShape: public sad::Object
 {
+SAD_OBJECT
 public:
 	/*! Rotates a shape around it's center
 		\param[in] angle angle to rotate
@@ -33,11 +35,11 @@ public:
 		\return convex hull
 	 */
 	virtual p2d::ConvexHull toHull() const = 0;
-	/*! Computes nearest points to specified convex hull
-		\param[in] hull specified hull
-		\return point set
+	/*! Projects shape on axle
+		\param[in] a axle
+		\return projection
 	 */
-	virtual hst::vector<p2d::Point> nearestPointsTo(const p2d::ConvexHull & hull) const = 0;
+	virtual p2d::Cutter1D project(const p2d::Axle & a) const;
 	virtual ~CollisionShape();
 };
 }

@@ -1,0 +1,62 @@
+/*! \file rectangle.h
+	\author HiddenSeeker
+
+	Declares a rectangle as collision shape
+ */
+#include "collisionshape.h"
+#include "../primitives/hrect.h"
+#pragma once
+
+namespace p2d
+{
+/*! Describes a rectangle as collision shape
+ */
+class Rectangle: public p2d::CollisionShape
+{
+	SAD_OBJECT
+protected:
+	hRectF m_rect; //!< Real rectangle
+public:
+	inline Rectangle() {}
+	/*! Sets new inner rectangle
+		\param[in] rect rectangle
+	 */
+	inline void setRect(const hRectF & rect) { m_rect = rect; } 
+	/*! Returns inner rectangle
+		\return rectangle
+	 */ 
+	inline const hRectF & rect() const { return m_rect; }
+	/*! Returns a point by index
+		\param[in] index index of point
+		\return point of rectangle
+	 */
+	p2d::Point point(int index) const;
+	/*! Returns new identical rectangle
+		\return rectangle
+	 */
+	p2d::CollisionShape * clone() const;
+	/*! Returns a center of rectangle
+		\return center of rectangle
+	 */
+	p2d::Point center() const;
+	/*! Rotates a shape around it's center
+		\param[in] angle angle to rotate
+	 */
+	void rotate(double angle);
+	/*! Moves a rectangle by specified vector
+		\param[in] d distance to move
+	 */
+	void move(const p2d::Vector & d);
+	/*! Convers a rectangle to convex hull
+		\return convex hull
+	 */
+	p2d::ConvexHull toHull() const;
+	/*! Projects a rectangle to axle
+		\param[in] a axle
+		\return cutter
+	 */
+	p2d::Cutter1D project(const p2d::Axle & a) const;
+};
+
+}
+

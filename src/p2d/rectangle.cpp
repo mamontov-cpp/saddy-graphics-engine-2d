@@ -1,0 +1,54 @@
+#include "p2d/rectangle.h"
+#include "extra/geometry2d.h"
+
+DECLARE_SOBJ_INHERITANCE(p2d::Rectangle, p2d::CollisionShape);
+
+p2d::Point p2d::Rectangle::point(int index) const
+{
+	assert(index > -1 && index< 4);
+	return m_rect[index];
+}
+
+p2d::CollisionShape * p2d::Rectangle::clone() const
+{
+	return new p2d::Rectangle(*this);
+}
+
+
+p2d::Point p2d::Rectangle::center() const
+{
+	hPointF c = m_rect[0]; 
+	c += m_rect[2]; 
+	c/=2;
+	return c;
+}
+
+void p2d::Rectangle::rotate(double angle)
+{
+	::rotate((float)angle, m_rect);
+}
+
+void p2d::Rectangle::move(const p2d::Vector & d)
+{
+	::moveBy(d, m_rect);
+}
+
+
+p2d::ConvexHull p2d::Rectangle::toHull() const
+{
+	hst::vector<p2d::Point> set;
+	for(int i = 0 ; i < 4; i++)
+	{
+		set << m_rect[i];
+	}
+	return p2d::ConvexHull(set);
+}
+
+
+p2d::Cutter1D p2d::Rectangle::project(const p2d::Axle & a) const
+{
+	return toHull().project(a);
+}
+
+
+
