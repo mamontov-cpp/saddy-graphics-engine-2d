@@ -1,5 +1,6 @@
 #include "../../include/p2d/axle.h"
 #include "../../include/p2d/collides1d.h"
+#include "../../include/p2d/point.h"
 
 p2d::Axle p2d::axle(const hPointF & p1, const hPointF & p2)
 {
@@ -26,4 +27,24 @@ bool p2d::collides(const p2d::Cutter1D & c1,
 			       const p2d::Cutter1D & c2)
 {
 	return p2d::collides1D(c1.p1(), c1.p2(), c2.p1(), c2.p2());
+}
+
+
+p2d::PointsPair p2d::swap(const p2d::PointsPair & c)
+{
+	return p2d::PointsPair(c.p2(), c.p1());
+}
+
+void p2d::swap(hst::vector<p2d::PointsPair> & pairs)
+{
+	for(size_t i = 0 ; i < pairs.size(); i++)
+	{
+		pairs[i] = p2d::swap(pairs[i]);
+	}
+}
+
+
+p2d::Cutter2D p2d::cutter(double x1, double y1, double x2, double y2)
+{
+	return p2d::Cutter2D(p2d::Point(x1, y1), p2d::Point(x2, y2));
 }

@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\testavintersection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\vector.cpp"
 				>
 			</File>

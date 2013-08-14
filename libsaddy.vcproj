@@ -545,6 +545,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\infiniteline.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\line.cpp"
 					>
 				</File>
@@ -992,6 +996,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\grahamscan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\infiniteline.h"
 					>
 				</File>
 				<File

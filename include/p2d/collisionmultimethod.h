@@ -22,6 +22,10 @@ class BasicCollisionMultiMethodInstance
 		 \return returned type
 	  */
 	 virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2) = 0;
+	 /*! Returns true, if arguments will be reversed on exectution
+		 \return reverse flag
+	  */
+	 virtual bool reverse() const = 0;
 	 virtual ~BasicCollisionMultiMethodInstance() {}
 };
 
@@ -45,7 +49,10 @@ public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
 		  _ReturnType (*p)(_FirstObject * o1, _SecondObject * o2),
 		  bool reverse
     ) : m_p(p), m_reverse(reverse) {}
-
+	/*! Returns true, if arguments will be reversed on exectution
+		 \return reverse flag
+	  */
+	bool reverse() const { return m_reverse; }
 	 /*! Invokes a method
 		 \param[in] a1 first object
 		 \param[in] a2 second object
@@ -120,6 +127,25 @@ class CollisionMultiMethod
 				m_instances[snd].insert(fst, a);
 			}
 		}
+		/*! Lookups for needed instance of multimethod
+			\param[in] a first shape
+			\param[in] b second shape
+			\return instance if found
+		 */
+		instance_t * lookup(CollisionShape * a, CollisionShape * b)
+		{
+			const hst::string & type1 = a->metaData()->name();
+			const hst::string & type2 = b->metaData()->name();
+			instance_t * result = NULL;
+			if (m_instances.contains(type1))
+			{
+				if (m_instances[type1].contains(type2))
+				{
+					result  = m_instances[type1][type2];;
+				}
+			}
+			return result;
+		}
 	public:
 		CollisionMultiMethod() { m_init = false;}
 		/*! Invokes a multi-method, if possible. Returns default object,
@@ -134,17 +160,8 @@ class CollisionMultiMethod
 				m_init = true;
 				init();
 			}
-			const hst::string & type1 = a->metaData()->name();
-			const hst::string & type2 = b->metaData()->name();
-			if (m_instances.contains(type1) == false)
-			{
-				return _ReturnType();
-			}
-			if (m_instances[type1].contains(type2) == false)
-			{
-				return _ReturnType();
-			}
-			instance_t * d = m_instances[type1][type2];
+			instance_t * d = lookup(a,b);
+			if (!d) return _ReturnType();
 			return d->invoke(a, b);
 		}
 		virtual ~CollisionMultiMethod() {}
