@@ -53,15 +53,15 @@ public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
 	  */
 	 virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2)
 	 {
-		 if (!m_reversed)
+		 if (!m_reverse)
 		 {
 		  _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a1);
 		  _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a2);
-		  return m_p(a1, a2);
+		  return m_p(_a1, _a2);
 		 }
 		 _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a2);
 		 _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a1);
-		 return m_p(a1, a2);
+		 return m_p(_a1, _a2);
 	 }
 	 virtual ~CollisionMultiMethodInstance() {}
 };
@@ -101,7 +101,7 @@ class CollisionMultiMethod
 				new  
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
 				p, false
-				)
+				);
 				m_instances[fst].insert(snd, a);
 			}
 			// Try insert reverse call
@@ -116,11 +116,12 @@ class CollisionMultiMethod
 				new  
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
 				p, true
-				)
+				);
 				m_instances[snd].insert(fst, a);
 			}
 		}
 	public:
+		CollisionMultiMethod() { m_init = false;}
 		/*! Invokes a multi-method, if possible. Returns default object,
 			if can't handle.
 			\param[in] a first shape
@@ -128,8 +129,13 @@ class CollisionMultiMethod
 		 */
 		virtual _ReturnType invoke(CollisionShape * a, CollisionShape * b)
 		{
-			const hst::string & type1 = a->metaData->name();
-			const hst::string & type2 = b->metaData->name();
+			if (!m_init)
+			{
+				m_init = true;
+				init();
+			}
+			const hst::string & type1 = a->metaData()->name();
+			const hst::string & type2 = b->metaData()->name();
 			if (m_instances.contains(type1) == false)
 			{
 				return _ReturnType();

@@ -1,6 +1,8 @@
 #include <p2d/circle.h>
 #include <p2d/circletohulltransformer.h>
 
+DECLARE_SOBJ_INHERITANCE(p2d::Circle, p2d::CollisionShape);
+
 p2d::CollisionShape * p2d::Circle::clone() const
 {
 	return new p2d::Circle(*this);

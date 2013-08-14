@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\collisiontest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\convexhulltest.cpp"
 				>
 			</File>
