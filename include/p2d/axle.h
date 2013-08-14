@@ -7,6 +7,7 @@
 #include "vector.h"
 #include "../primitives/matrix2x2.h"
 #include "../templates/hpair.hpp"
+#include "../templates/hlvector.hpp"
 
 namespace p2d 
 {
@@ -19,6 +20,9 @@ namespace p2d
 	/*! A two-dimensional cutter is a pair of points
 	 */
 	typedef hst::pair<hPointF, hPointF> Cutter2D;
+	/*! A pair of points, which can be contacts 
+	 */
+	typedef hst::pair<hPointF, hPointF> PointsPair;
 	/*! A matrix 2x2 for out options
 	 */
 	typedef hst::matrix2x2<double> Matrix2x2; 
@@ -53,5 +57,20 @@ namespace p2d
 	 */
 	bool collides(const p2d::Cutter1D & c1, 
 			      const p2d::Cutter1D & c2);
-
+	/*! Swaps one point with other
+		\param[in] c pair
+		\return pair of points
+	 */ 
+	p2d::PointsPair swap(const p2d::PointsPair & c);
+	/*! Swaps all points in paird
+		\param[in, out] pairs a pairs of points
+	 */
+	void swap(hst::vector<p2d::PointsPair> & pairs);
+	/*! Returns a cutter by two points
+		\param[in] x1 x of first point
+		\param[in] y1 y of first point
+		\param[in] x2 x of second point
+		\param[in] y2 y of second point
+	 */
+	p2d::Cutter2D cutter(double x1, double y1, double x2, double y2);
 }
