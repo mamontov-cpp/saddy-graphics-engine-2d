@@ -39,7 +39,7 @@ public:
 		\param[in] a axle
 		\return projection
 	 */
-	virtual p2d::Cutter1D project(const p2d::Axle & a) const;
+	virtual p2d::Cutter1D project(const p2d::Axle & a) const = 0;
 	virtual ~CollisionShape();
 };
 }

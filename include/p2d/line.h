@@ -22,6 +22,21 @@ public:
 		\param[in] c cutter
 	 */
 	inline void setCutter(const p2d::Cutter2D & c) { m_c = c; }
+	/*! Sets new cutter
+		\param[in] p1 first point
+		\param[in] p2 second point
+	 */
+	inline void setCutter(const p2d::Point & p1, const p2d::Point & p2) { setCutter(p2d::Cutter2D(p1, p2)); }
+	/*! Sets new cutter
+		\param[in] x1  x of first point
+		\param[in] y1  y of first point
+		\param[in] x2  x of second point
+		\param[in] y2  y of second point
+	 */
+	inline void setCutter(double x1, double y1, double x2, double y2)
+	{
+		setCutter(p2d::Point(x1, y1), p2d::Point(x2, y2));
+	}
 	/*! Returns a cutter
 		\return cutter
 	 */ 
