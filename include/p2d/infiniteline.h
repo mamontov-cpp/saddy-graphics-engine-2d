@@ -69,6 +69,11 @@ class InfiniteLine
 		 \return result
 	  */
 	 bool isCollinear(const InfiniteLine & a) const;
+
+	 inline double kx() const { return m_kx; }
+	 inline double ky() const { return m_ky; }
+	 inline double b() const { return m_b; }
+	 p2d::Vector direction() const;
 };
 
 /*! Computes intesection of two cutters if can

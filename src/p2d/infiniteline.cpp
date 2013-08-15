@@ -192,3 +192,17 @@ p2d::MaybePoint p2d::intersection(
 	return result;
 }
 
+p2d::Vector p2d::InfiniteLine::direction() const
+{
+	assert( non_fuzzy_zero(m_kx) || non_fuzzy_zero(m_ky) );
+	if (is_fuzzy_zero(m_kx))
+	{
+		return p2d::Vector(1, 0);
+	}
+	if (is_fuzzy_zero(m_ky))
+	{
+		return p2d::Vector(0, 1);
+	}
+	return p2d::unit(p2d::Vector(1.0 / m_kx, -1.0 / m_ky));
+}
+

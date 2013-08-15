@@ -533,6 +533,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\findcontactpoints.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\force.cpp"
 					>
 				</File>
@@ -988,6 +992,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\convexhull.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\findcontactpoints.h"
 					>
 				</File>
 				<File
