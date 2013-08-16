@@ -13,9 +13,9 @@ void p2d::FindContactPoints::init()
 {
 	add(p2d::FindContactPoints::getRtoR);
 	add(p2d::FindContactPoints::getRtoL);
-	add(p2d::FindContactPoints::getCtoR);
+	add(p2d::FindContactPoints::getRtoC);
 	add(p2d::FindContactPoints::getCtoC);
-	add(p2d::FindContactPoints::getCtoL);
+	add(p2d::FindContactPoints::getLtoC);
 	add(p2d::FindContactPoints::getLtoL);	
 }
 
@@ -29,14 +29,14 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getRtoR(
 	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
-p2d::SetOfPointsPair p2d::FindContactPoints::getCtoR(
-		 p2d::Circle * s1, 
+p2d::SetOfPointsPair p2d::FindContactPoints::getRtoC(
+		 p2d::Rectangle * s1, 
 		 const p2d::Vector & v1,
-		 p2d::Rectangle * s2,
+		 p2d::Circle * s2,
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::exec(s1, v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2, v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getRtoL(
@@ -61,14 +61,14 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getCtoC(
 
 
 
-p2d::SetOfPointsPair p2d::FindContactPoints::getCtoL(
-		 p2d::Circle * s1, 
+p2d::SetOfPointsPair p2d::FindContactPoints::getLtoC(
+		 p2d::Line * s1, 
 		 const p2d::Vector & v1,
-		 p2d::Line * s2,
+		 p2d::Circle * s2,
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::exec(s1, v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2, v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getLtoL(
@@ -87,17 +87,33 @@ void p2d::insertUnique(
 	const p2d::Point & p2
 )
 {
+	p2d::insertUnique(set, p2d::PointsPair(p1, p2));
+}
+
+void p2d::insertUnique(
+	p2d::SetOfPointsPair & set, 
+	const p2d::PointsPair & pair
+)
+{
 	bool found = false;
 	for(size_t i = 0; i < set.size(); i++)
 	{
-		if (equal(set[i].p1(), p1) && equal(set[i].p2(), p2))
+		if (equal(set[i].p1(), pair.p1()) && equal(set[i].p2(), pair.p2()))
 		{
 			found = true;
 		}
 	}
 	if (!found)
 	{
-		set << p2d::PointsPair(p1, p2);
+		set << pair;
+	}
+}
+
+void p2d::merge(p2d::SetOfPointsPair & set1, const p2d::SetOfPointsPair & set2)
+{
+	for (size_t i = 0 ; i < set2.size(); i++)
+	{
+		p2d::insertUnique(set1, set2[i]);
 	}
 }
 
@@ -185,7 +201,7 @@ hst::vector<p2d::Point> p2d::intersection(
 	{
 		double y = - l.b() /l.ky();
 		double dy = (y - ci->center().y());
-		if (dy * dy > R * R)
+		if (dy * dy <= R * R)
 		{
 			double sqD = sqrt(R * R - dy * dy);
 			double x1 = ci->center().x() + sqD;
@@ -198,7 +214,7 @@ hst::vector<p2d::Point> p2d::intersection(
 	{
 		double x = - l.b() /l.kx();
 		double dx = (x - ci->center().x());
-		if (dx * dx > R * R)
+		if (dx * dx <= R * R)
 		{
 			double sqD = sqrt(R * R - dx * dx);
 			double y1 = ci->center().y() + sqD;
@@ -250,54 +266,64 @@ p2d::SetOfPointsPair p2d::findContacts(
 	if (is_fuzzy_zero(p2d::modulo(v))) 
 		return result;
 	p2d::Point O = p2d::intersectionWithNormalFrom(ci->center(), c);
-	p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
-	
-	hst::vector<p2d::Point> tmppoints = p2d::intersection(CO, ci);
-	if (tmppoints.size() < 2) return result;
-	p2d::Point O1 = tmppoints[0];
-	if (projectionIsWithin(O1, ci->center(), O) == false)
+	p2d::MaybePoint  K;
+	p2d::Point O1;
+	if (equal(O, ci->center()) == false)
 	{
-		O1 = tmppoints[1];
-	}
+		p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
+	
+		hst::vector<p2d::Point> tmppoints = p2d::intersection(CO, ci);
+		if (tmppoints.size() < 2) return result;
+		O1 = tmppoints[0];
+		if (projectionIsWithin(O1, ci->center(), O) == false)
+		{
+			O1 = tmppoints[1];
+		}
 
-	p2d::InfiniteLine O1V = p2d::InfiniteLine::appliedVector(O1, v);
-	p2d::InfiniteLine C1C2 = p2d::InfiniteLine::fromCutter(c);
-	p2d::MaybePoint  K = C1C2.intersection(O1V);
+		p2d::InfiniteLine O1V = p2d::InfiniteLine::appliedVector(O1, v);
+		p2d::InfiniteLine C1C2 = p2d::InfiniteLine::fromCutter(c);
+		K = C1C2.intersection(O1V);
+	} 
+	else
+	{
+		p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(ci->center(), v); 
+		hst::vector<p2d::Point> points = p2d::intersection(line, ci);
+		if (points.size() == 2)
+		{
+			O1 = O;
+			double t1 = p2d::scalar(points[0] - O, v);
+			double t2 = p2d::scalar(points[1] - O, v);
+			if (t1 < t2)
+			{
+				K.setValue(points[0]);
+			}
+			else
+			{
+				K.setValue(points[1]);
+			}
+		
+		}
+	}
 	if (K.exists())
 	{
 		if (projectionIsWithin(K.data(), c.p1(), c.p2()))
 		{
 			result << p2d::PointsPair(K.data(), O1);
 		}
-		else
 		{
+			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p1(), v);
+			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
+			for(int i = 0; i < pts.size(); i++)
 			{
-				p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p1(), v);
-				hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
-				if (pts.size() == 2)
-				{
-					p2d::Point min = pts[0];
-					if (pts[1].distanceTo(c.p1())
-						< pts[0].distanceTo(c.p1()))
-					{
-						min = pts[1];
-					}
-					result << p2d::PointsPair(c.p1(), min);
-				}
+				result << p2d::PointsPair(c.p1(), pts[i]);
 			}
+		}
+		{
+			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p2(), v);
+			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
+			for(int i = 0; i < pts.size(); i++)
 			{
-				p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p2(), v);
-				hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
-				if (pts.size() == 2)
-				{
-					p2d::Point min = pts[0];
-					if (pts[1].distanceTo(c.p2())
-						< pts[0].distanceTo(c.p2()))
-					{
-						min = pts[1];
-					}
-					result << p2d::PointsPair(c.p2(), min);
-				}
+				result << p2d::PointsPair(c.p2(), pts[i]);
 			}
 		}
 	}
@@ -308,9 +334,9 @@ p2d::SetOfPointsPair p2d::findContacts(
 
 
 p2d::SetOfPointsPair p2d::FindContactPoints::exec(
-		 const p2d::Circle * c1, 
+		 const p2d::ConvexHull  & c1, 
 		 const p2d::Vector & v1,
-		 const p2d::ConvexHull & c2,
+		 const p2d::Circle * c2,
 		 const p2d::Vector & v2
 )
 {
@@ -322,12 +348,11 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	{
 		return result;
 	}
-	for(int i = 0 ; i < c2.sides(); i++)
+	for(int i = 0 ; i < c1.sides(); i++)
 	{
-		p2d::Cutter2D c2i = c2.side(i);
-		p2d::SetOfPointsPair set = p2d::findContacts(c2i, v, c1);
-		p2d::swap(set);
-		result << set;
+		p2d::Cutter2D c1i = c1.side(i);
+		p2d::SetOfPointsPair set = p2d::findContacts(c1i, v, c2);
+		p2d::merge(result, set);
 	}
 	p2d::filterOptimalSet(result, v);
 	return result;

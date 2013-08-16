@@ -26,6 +26,19 @@ void insertUnique(
 	const p2d::Point & p1,
 	const p2d::Point & p2
 );
+/*! Inserts unique pair of points
+	\param[in,out] set set of points
+	\param[in] pair a pair of points
+ */
+void insertUnique(
+	p2d::SetOfPointsPair & set,
+	const p2d::PointsPair & pair
+);
+/*! Merges two pairs of points into one pair, honoring uniqueness
+	\param[in, out] set1 first set of points
+	\param[in] set2 second set of points
+ */
+void merge(p2d::SetOfPointsPair & set1, const p2d::SetOfPointsPair & set2);
 /*! Filters optimal set of points pair, with case when p1 of each pair
 	moves toward p2 with speed v. It'll leave only points with minimal t
 	where t = |p2 - p1| / | v |.  
@@ -55,16 +68,16 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 	 );
 	 /*! Find a contact points for circle and convex hull, moving with
 		 speeds v1 and v2
-		 \param[in] c1 circle
+		 \param[in] c1 convex hull
 		 \param[in] v1 speed of circle
-		 \param[in] c2 convex hull
+		 \param[in] c2 circle
 		 \param[in] v2 speed of convex hull
 		 \return set of pairs if any exists
 	  */
 	 static p2d::SetOfPointsPair exec(
-		 const p2d::Circle * c1, 
+		 const p2d::ConvexHull & c1, 
 		 const p2d::Vector & v1,
-		 const p2d::ConvexHull & c2,
+		 const p2d::Circle * c2,
 		 const p2d::Vector & v2
 	 );
 	 /*! Find a contact points for two circles, moving with
@@ -82,6 +95,12 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 const p2d::Vector & v2
 	 );
 
+	 static p2d::SetOfPointsPair getRtoC(
+		 p2d::Rectangle * s1, 
+		 const p2d::Vector & v1,
+		 p2d::Circle * s2,
+		 const p2d::Vector & v2
+	 );
 	 static p2d::SetOfPointsPair getRtoR(
 		 p2d::Rectangle * s1, 
 		 const p2d::Vector & v1,
@@ -94,22 +113,17 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 p2d::Line * s2,
 		 const p2d::Vector & v2
 	 );
-	 static p2d::SetOfPointsPair getCtoR(
-		 p2d::Circle * s1, 
-		 const p2d::Vector & v1,
-		 p2d::Rectangle * s2,
-		 const p2d::Vector & v2
-	 );
+	 
 	 static p2d::SetOfPointsPair getCtoC(
 		 p2d::Circle * s1, 
 		 const p2d::Vector & v1,
 		 p2d::Circle * s2,
 		 const p2d::Vector & v2
 	 );
-	 static p2d::SetOfPointsPair getCtoL(
-		 p2d::Circle * s1, 
+	 static p2d::SetOfPointsPair getLtoC(
+		 p2d::Line * s1, 
 		 const p2d::Vector & v1,
-		 p2d::Line * s2,
+		 p2d::Circle * s2,
 		 const p2d::Vector & v2
 	 );
 	 static p2d::SetOfPointsPair getLtoL(
