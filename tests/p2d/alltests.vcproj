@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsrtor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\grahambuildsortedset.cpp"
 				>
 			</File>

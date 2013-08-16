@@ -26,7 +26,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getRtoR(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1->toHull(), v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getCtoR(
@@ -36,7 +36,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getCtoR(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1, v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1, v1, s2->toHull(), v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getRtoL(
@@ -46,7 +46,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getRtoL(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1->toHull(), v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getCtoC(
@@ -56,7 +56,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getCtoC(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1, v1, s2, v2);
+	return p2d::FindContactPoints::exec(s1, v1, s2, v2);
 }
 
 
@@ -68,7 +68,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getCtoL(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1, v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1, v1, s2->toHull(), v2);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getLtoL(
@@ -78,7 +78,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getLtoL(
 		 const p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::invoke(s1->toHull(), v1, s2->toHull(), v2);
+	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
 void p2d::insertUnique(
@@ -111,8 +111,7 @@ void p2d::filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v)
 	double min = std::numeric_limits<double>::max();
 	for(int i = 0; i < set.size(); i++)
 	{
-		double d = p2d::distance(set[i].p2(),set[i].p1());
-		double t = d / vm;
+		double t = p2d::scalar(set[i].p2() - set[i].p1(), v); 
 		if (t < min) min = t;
 		ts << t;
 	}
@@ -128,7 +127,7 @@ void p2d::filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v)
 
 }
 
-p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
+p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		 const p2d::ConvexHull & c1, 
 		 const p2d::Vector & v1,
 		 const p2d::ConvexHull & c2,
@@ -308,7 +307,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 }
 
 
-p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
+p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		 const p2d::Circle * c1, 
 		 const p2d::Vector & v1,
 		 const p2d::ConvexHull & c2,
@@ -335,7 +334,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 }
 
 
-p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
+p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		 const p2d::Circle * c1, 
 		 const p2d::Vector & v1,
 		 const p2d::Circle * c2,
@@ -391,4 +390,21 @@ p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 	p2d::Point c1contact = min - v * t;
 	result << p2d::PointsPair(c1contact, c2contact);
 	return result;
+}
+
+bool p2d::hasPair(const p2d::SetOfPointsPair & set,
+		     	  double x1, double y1,
+				  double x2, double y2)
+{
+	p2d::Point p1(x1, y1);
+	p2d::Point p2(x2, y2);
+	bool exists = false;
+	for(size_t i = 0; i < set.size(); i++)
+	{
+		if (equal(set[i].p1(), p1) && equal(set[i].p2(), p2))
+		{
+			exists = true;
+		}
+	}
+	return exists;
 }
