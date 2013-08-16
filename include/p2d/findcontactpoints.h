@@ -16,7 +16,23 @@ namespace p2d
 {
 
 typedef hst::vector<p2d::PointsPair> SetOfPointsPair;
-
+/*! Inserts unique pair of points
+	\param[in,out] set set of points
+	\param[in] p1 first point
+	\param[in] p2 second point
+ */
+void insertUnique(
+	p2d::SetOfPointsPair & set, 
+	const p2d::Point & p1,
+	const p2d::Point & p2
+);
+/*! Filters optimal set of points pair, with case when p1 of each pair
+	moves toward p2 with speed v. It'll leave only points with minimal t
+	where t = |p2 - p1| / | v |.  
+	\param[in, out] set set of pairs
+	\param[in] v   vector of speed
+ */ 
+void filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v);
 /*! Finds a contact point set between two shapes
  */
 class FindContactPoints: 

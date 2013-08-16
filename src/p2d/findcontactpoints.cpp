@@ -1,5 +1,8 @@
 #include "p2d/findcontactpoints.h"
 #include "extra/geometry2d.h"
+#include <limits>
+
+#undef max
 
 void p2d::FindContactPoints::reverse(p2d::SetOfPointsPair & pairs)
 {
@@ -78,6 +81,53 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getLtoL(
 	return p2d::FindContactPoints::invoke(s1->toHull(), v1, s2->toHull(), v2);
 }
 
+void p2d::insertUnique(
+	p2d::SetOfPointsPair & set, 
+	const p2d::Point & p1,
+	const p2d::Point & p2
+)
+{
+	bool found = false;
+	for(size_t i = 0; i < set.size(); i++)
+	{
+		if (equal(set[i].p1(), p1) && equal(set[i].p2(), p2))
+		{
+			found = true;
+		}
+	}
+	if (!found)
+	{
+		set << p2d::PointsPair(p1, p2);
+	}
+}
+
+void p2d::filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v)
+{
+	double vm = p2d::modulo(v);
+	if (vm == 0)
+		set.clear();
+	// A vector of times for each pair
+	hst::deque<double> ts;
+	double min = std::numeric_limits<double>::max();
+	for(int i = 0; i < set.size(); i++)
+	{
+		double d = p2d::distance(set[i].p2(),set[i].p1());
+		double t = d / vm;
+		if (t < min) min = t;
+		ts << t;
+	}
+	for(int i = 0; i < set.size(); i++)
+	{
+		if (!is_fuzzy_equal(ts[i], min))
+		{
+			ts.removeAt(i);
+			set.removeAt(i);
+			--i;
+		}
+	}
+
+}
+
 p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 		 const p2d::ConvexHull & c1, 
 		 const p2d::Vector & v1,
@@ -93,7 +143,6 @@ p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 	{
 		return result;
 	}
-	p2d::SetOfPointsPair L;
 	for(int i = 0 ; i < c1.sides(); i++)
 	{
 		for(int j = 0; j < c2.sides(); j++)
@@ -102,53 +151,16 @@ p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 			p2d::Cutter2D s2 = c2.side(j);
 			p2d::MaybePoint tmp;
 			tmp = p2d::intersection(s1.p1(), v, s2);
-			if (tmp.exists())  L << p2d::PointsPair(s1.p1(), tmp.data());
+			if (tmp.exists())  p2d::insertUnique(result, s1.p1(), tmp.data()); 
 			tmp = p2d::intersection(s1.p2(), v, s2);
-			if (tmp.exists())  L << p2d::PointsPair(s1.p2(), tmp.data());
+			if (tmp.exists())  p2d::insertUnique(result, s1.p2(), tmp.data());
 			tmp = p2d::intersection(s2.p1(), v, s1);
-			if (tmp.exists())  L << p2d::PointsPair(tmp.data(), s2.p1());
+			if (tmp.exists())  p2d::insertUnique(result, tmp.data(), s2.p1());
 			tmp = p2d::intersection(s2.p2(), v, s1);
-			if (tmp.exists())  L << p2d::PointsPair(tmp.data(), s2.p2());
+			if (tmp.exists())  p2d::insertUnique(result, tmp.data(), s2.p2());
 		}
 	}
-
-	double min = 0;
-	bool minexists = false;
-	for(size_t i = 0; i < L.size(); i++)
-	{
-		double d = p2d::distance(L[i].p1(), L[i].p2());
-		p2d::Vector l = L[i].p2() - L[i].p1();
-		if (d < min || !minexists)
-		{
-			min = d;
-			minexists = true;
-		}
-	}
-
-	p2d::SetOfPointsPair L2;
-	for(size_t i = 0; i < L.size(); i++)
-	{
-		double d = p2d::distance(L[i].p1(), L[i].p2());
-		if (is_fuzzy_equal(d, min))
-		{
-			L2 << L[i];
-		}
-	}
-	
-	// Check if negatives exists and add them if can
-	bool negativesexists = false;
-	for(size_t i = 0; i < L2.size(); i++)
-	{
-		p2d::Vector k = L2[i].p2() - L2[i].p1();
-		double s = p2d::scalar(k, v);
-		if (s < 0 && non_fuzzy_zero(s))
-		{
-			negativesexists = true;
-		    result << L2[i];
-		}
-	}
-	if (negativesexists  == false)
-		result = L2;
+	p2d::filterOptimalSet(result, v);
 	return result;
 }
 
@@ -236,6 +248,8 @@ p2d::SetOfPointsPair p2d::findContacts(
 )
 {
 	p2d::SetOfPointsPair result;
+	if (is_fuzzy_zero(p2d::modulo(v))) 
+		return result;
 	p2d::Point O = p2d::intersectionWithNormalFrom(ci->center(), c);
 	p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
 	
@@ -288,19 +302,8 @@ p2d::SetOfPointsPair p2d::findContacts(
 			}
 		}
 	}
-	// If found two points, erase maximal distance
-	if (result.size() == 2)
-	{
-		if (p2d::distance(result[0].p1(), result[0].p2()) >
-			p2d::distance(result[1].p1(), result[1].p2()))
-		{
-			result.removeAt(0);
-		} 
-		else
-		{
-			result.removeAt(1);
-		}
-	}
+	// If found two points, find one with minimal distance
+	p2d::filterOptimalSet(result, v);
 	return result;
 }
 
@@ -320,52 +323,14 @@ p2d::SetOfPointsPair p2d::FindContactPoints::invoke(
 	{
 		return result;
 	}
-	p2d::SetOfPointsPair L;
 	for(int i = 0 ; i < c2.sides(); i++)
 	{
 		p2d::Cutter2D c2i = c2.side(i);
 		p2d::SetOfPointsPair set = p2d::findContacts(c2i, v, c1);
-		swap(set);
-		L << set;
+		p2d::swap(set);
+		result << set;
 	}
-
-	double min = 0;
-	bool minexists = false;
-	for(size_t i = 0; i < L.size(); i++)
-	{
-		double d = p2d::distance(L[i].p1(), L[i].p2());
-		p2d::Vector l = L[i].p2() - L[i].p1();
-		if (d < min || !minexists)
-		{
-			min = d;
-			minexists = true;
-		}
-	}
-
-	p2d::SetOfPointsPair L2;
-	for(size_t i = 0; i < L.size(); i++)
-	{
-		double d = p2d::distance(L[i].p1(), L[i].p2());
-		if (is_fuzzy_equal(d, min))
-		{
-			L2 << L[i];
-		}
-	}
-	
-	// Check if negatives exists and add them if can
-	bool negativesexists = false;
-	for(size_t i = 0; i < L2.size(); i++)
-	{
-		p2d::Vector k = L2[i].p2() - L2[i].p1();
-		double s = p2d::scalar(k, v);
-		if (s < 0 && non_fuzzy_zero(s))
-		{
-			negativesexists = true;
-		    result << L2[i];
-		}
-	}
-	if (negativesexists  == false)
-		result = L2;
+	p2d::filterOptimalSet(result, v);
 	return result;
 }
 
