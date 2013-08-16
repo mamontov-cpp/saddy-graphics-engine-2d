@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsrtol.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\findcontactpointsrtor.cpp"
 				>
 			</File>
