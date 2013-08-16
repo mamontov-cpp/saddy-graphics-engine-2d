@@ -47,7 +47,7 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 \param[in] v2 speed of second convex hull
 		 \return set of pairs if any exists
 	  */
-	 static p2d::SetOfPointsPair invoke(
+	 static p2d::SetOfPointsPair exec(
 		 const p2d::ConvexHull & c1, 
 		 const p2d::Vector & v1,
 		 const p2d::ConvexHull & c2,
@@ -61,7 +61,7 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 \param[in] v2 speed of convex hull
 		 \return set of pairs if any exists
 	  */
-	 static p2d::SetOfPointsPair invoke(
+	 static p2d::SetOfPointsPair exec(
 		 const p2d::Circle * c1, 
 		 const p2d::Vector & v1,
 		 const p2d::ConvexHull & c2,
@@ -75,7 +75,7 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 \param[in] v2 speed of second circle
 		 \return set of pairs if any exists
 	  */
-	 static p2d::SetOfPointsPair invoke(
+	 static p2d::SetOfPointsPair exec(
 		 const p2d::Circle * c1, 
 		 const p2d::Vector & v1,
 		 const p2d::Circle * c2,
@@ -160,5 +160,16 @@ p2d::SetOfPointsPair findContacts(
 	const p2d::Vector & v,
 	const Circle * ci
 );
+/*! Determines, whether specific pair is in set
+	\param[in] set set, to find pair in
+	\param[in] x1 x of first point
+	\param[in] y1 y of first point
+	\param[in] x2 x of second point
+	\param[in] y2 y of second point
+	\return whether pair is in set
+ */
+bool hasPair(const p2d::SetOfPointsPair & set,
+				double x1, double y1,
+				double x2, double y2);
 
 }
