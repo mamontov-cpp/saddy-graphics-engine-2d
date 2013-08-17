@@ -5,6 +5,7 @@
  */
 #include "../primitives/object.h"
 #include "../templates/hstring.h"
+#include "collisionshape.h"
 #pragma once
 
 namespace p2d
@@ -23,6 +24,11 @@ public:
 		\return type of object
 	 */
 	virtual const hst::string & userType() const;
+	/*! Returns a position of body at specified time.
+		\param[in] time time, when position is needed
+		\return what shape, body had at specified time
+	 */
+	virtual p2d::CollisionShape & at(double time) const;
 	virtual ~Body();
 };
 
