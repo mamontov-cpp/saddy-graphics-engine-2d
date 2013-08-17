@@ -190,6 +190,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsctoc.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\findcontactpointsctol.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\findcontactpointsrtoc.cpp"
 				>
 			</File>
