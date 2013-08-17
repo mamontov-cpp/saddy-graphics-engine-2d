@@ -220,7 +220,7 @@ hst::vector<p2d::Point> p2d::intersection(
 			double y1 = ci->center().y() + sqD;
 			double y2 = ci->center().y() - sqD;
 			result << p2d::Point(x, y1);
-			result << p2d::Point(x, y1);
+			result << p2d::Point(x, y2);
 		}
 	}
 	if (non_fuzzy_zero(l.kx()) && non_fuzzy_zero(l.ky()))
@@ -273,16 +273,33 @@ p2d::SetOfPointsPair p2d::findContacts(
 		p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
 	
 		hst::vector<p2d::Point> tmppoints = p2d::intersection(CO, ci);
-		if (tmppoints.size() < 2) return result;
-		O1 = tmppoints[0];
-		if (projectionIsWithin(O1, ci->center(), O) == false)
-		{
-			O1 = tmppoints[1];
-		}
-
-		p2d::InfiniteLine O1V = p2d::InfiniteLine::appliedVector(O1, v);
 		p2d::InfiniteLine C1C2 = p2d::InfiniteLine::fromCutter(c);
-		K = C1C2.intersection(O1V);
+		hst::vector<p2d::Point> Ks;
+		double min = std::numeric_limits<double>::max();
+		int mini = 0;
+		for(int i = 0; i < tmppoints.size();i ++)
+		{
+			p2d::InfiniteLine O1V = p2d::InfiniteLine::appliedVector(tmppoints[i], v);
+			p2d::MaybePoint F =  C1C2.intersection(O1V);
+			if (F.exists()) 
+			{
+				Ks << F.data(); 
+				double sc = p2d::scalar(tmppoints[i] - F.data(), v);
+				if (sc < min)
+				{
+					mini = i;
+					min = sc;
+				}
+			}
+			else
+			{
+				tmppoints.removeAt(i);
+				--i;
+			}
+		}
+		if (tmppoints.size() == 0) return result;
+		O1 = tmppoints[mini];
+		K.setValue(Ks[mini]);
 	} 
 	else
 	{
@@ -308,7 +325,17 @@ p2d::SetOfPointsPair p2d::findContacts(
 	{
 		if (projectionIsWithin(K.data(), c.p1(), c.p2()))
 		{
-			result << p2d::PointsPair(K.data(), O1);
+			double dx = O1.x() - ci->center().x();
+			double dy = O1.y() - ci->center().y();
+			// If O1 belongs to circle
+			if (is_fuzzy_equal(dx* dx + dy * dy, ci->radius() * ci->radius()))
+			{
+				result << p2d::PointsPair(K.data(), O1);	
+			} 
+			else
+			{
+				result << p2d::PointsPair(O1, K.data());
+			}
 		}
 		{
 			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p1(), v);
@@ -370,7 +397,8 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	p2d::Vector v = v1 - v2;
 	bool xlessthanzero = (v.x() < 0 && non_fuzzy_zero(v.x()));
 	bool ylessthanzero = (v.y() < 0 && non_fuzzy_zero(v.y()));
-	if (xlessthanzero && ylessthanzero)
+	bool iszero = is_fuzzy_zero(p2d::modulo(v));
+	if ((xlessthanzero && ylessthanzero) || iszero)
 	{
 		return result;
 	}
