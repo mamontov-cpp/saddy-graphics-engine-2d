@@ -501,11 +501,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\broadcollisiondetector.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\circle.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\p2d\circletohulltransformer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\collisiondetector.cpp"
 					>
 				</File>
 				<File
@@ -557,7 +565,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\multisamplingcollisiondetector.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\rectangle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\p2d\simplecollisiondetector.cpp"
 					>
 				</File>
 				<File
@@ -959,6 +975,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\broadcollisiondetector.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\circle.h"
 					>
 				</File>
@@ -968,6 +988,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\collides1d.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\collisiondetector.h"
 					>
 				</File>
 				<File
@@ -1015,11 +1039,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\p2d\multisamplingcollisiondetector.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\point.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\p2d\rectangle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\simplecollisiondetector.h"
 					>
 				</File>
 				<File
