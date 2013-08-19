@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <p2d/vector.h>
+#include "../templates/maybe.hpp"
 
 namespace p2d
 {
@@ -27,9 +28,14 @@ public:
 		  bool persistent = false,
 		  int ticks  = 0
 		 );
+	/*! Returns force for next step for iteration.
+		Callled when next iteration is called in p2d::Body's step
+		\return force for next iteration
+	 */
+	virtual p2d::Force * step() const;
 	/*! Returns a force value
 	 */
-	virtual p2d::Vector value();	
+	virtual p2d::Vector value() const;	
 	/*! Sets a value for a vector
 		\param[in] v vector
 	 */
@@ -58,6 +64,48 @@ public:
 		\return a force object
 	 */
 	static Force impulse(const p2d::Vector & v);
+};
+
+/*! Determines a force as a state for a body
+ */
+class ForceState
+{
+	private:
+		p2d::Force  * m_force;		 //!< Inner force value
+		hst::Maybe<p2d::Force *> m_next_value; //!< Next force state, if user changed value. Contained by value
+	public:
+		/*! Creates new force state with no force
+		 */
+		ForceState();
+		/*! Destroys inner values (next value is also freed).
+		 */
+		~ForceState();
+		/*! Sets current force. Will affect cureent iteration as well, so
+			consider using push if you want to apply force at next step
+			\param[in] force new current force
+		 */
+		void setCurrent(p2d::Force * force);
+		/*! Sets next force. Consider this function if you want force to be
+			applied at next iteration
+			\param[in] force a new force
+		 */
+		void push(p2d::Force * force);
+		/*! Performs next iteration on force stet, moving to next time step
+		 */
+		void step();
+		/*! Determines, whether user has changed a force state by calling
+		    push()
+			\return whether state changed
+		 */
+		bool userChanged() const;
+		/*! Returns a user value for force for next iteration, NULL if not set
+			\return next value for force
+		 */
+		p2d::Force * nextForce();
+		/*! Returns a current value for force
+			\return a value of force
+		 */
+		p2d::Vector value() const;
 };
 
 }
