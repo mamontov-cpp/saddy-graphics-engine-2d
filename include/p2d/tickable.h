@@ -10,7 +10,8 @@
 namespace p2d
 {
 
-/*! A class for getting default value
+/*! A class for getting default value, for tickable, used also in
+	movement. Should return something like zero.
  */
 template<
 	typename _Value
@@ -19,6 +20,9 @@ class TickableDefaultValue
 {
  public:
 	static _Value get();
+	/*! Returns a zero for current type
+	 */
+	static _Value zero();
 };
 
 /*! A class for value, that can change through time

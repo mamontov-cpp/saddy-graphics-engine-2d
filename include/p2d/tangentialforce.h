@@ -16,6 +16,7 @@ class TickableDefaultValue<double>
 {
  public:
 	 static inline double get() { return 0; }
+	 static inline double zero() { return 0; }
 };
 
 /*! A force as a tickable state
