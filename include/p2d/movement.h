@@ -7,6 +7,8 @@
 #include "tickable.h"
 #include "vector.h"
 #include "../templates/hlvector.hpp"
+#include "../extra/geometry2d.h"
+#include <algorithm>
 #pragma once
 
 namespace p2d
@@ -131,6 +133,7 @@ class Movement
 				}
 			}
 		 }
+		 return result;
 	 }
  public:
 	 /*! By a default  a weight is one, force is empty, and
@@ -148,7 +151,7 @@ class Movement
 	 ~Movement()
 	 {
 		 delete m_force;
-		 for(size_t i = 0 ; i < m_listeners.coune(); i++)
+		 for(size_t i = 0 ; i < m_listeners.count(); i++)
 			delete m_listeners[i];
 	 }
 	 /*! Adds a listener for movement
@@ -156,7 +159,8 @@ class Movement
 	  */ 
 	 void addListener(listener_t  l)
 	 {
-		 if (m_listeners.find(l) == m_listeners.end())
+		 if (std::find(m_listeners.begin(), m_listeners.end(), l) 
+			 == m_listeners.end())
 			 m_listeners << l;
 	 }
 	 /*! Removes a listener for movement
@@ -200,7 +204,7 @@ class Movement
 	  */
 	 _Value velocityAt(double time, double step_size)
 	 {
-		 return m_velocity + velocityDelta(time, stepSize);
+		 return m_velocity + velocityDelta(time, step_size);
 	 }
 	 /*! Returns a position  difference at specified time
 	     \param[in] time specified time
@@ -225,7 +229,7 @@ class Movement
 	  */
 	 _Value positionAt(double time, double step_size)
 	 {
-		 return m_position + positionDelta(time, stepSize);
+		 return m_position + positionDelta(time, step_size);
 	 }
 	 /*! Steps a position a velocity
 		 \param[in] time specified time size
