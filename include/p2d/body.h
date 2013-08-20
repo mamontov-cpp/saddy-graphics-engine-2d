@@ -7,9 +7,9 @@
 #include "../templates/hstring.h"
 #include "collisionshape.h"
 #include "force.h"
-#include "weight.h"
 #include "ghostoptions.h"
 #include "tangentialforce.h"
+#include "movement.h"
 #pragma once
 
 namespace p2d
