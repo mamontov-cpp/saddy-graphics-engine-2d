@@ -577,6 +577,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\tangentialforce.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\vector.cpp"
 					>
 				</File>
@@ -1052,6 +1056,14 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\simplecollisiondetector.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\tangentialforce.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\tickable.h"
 					>
 				</File>
 				<File
