@@ -9,6 +9,7 @@
 #include "force.h"
 #include "weight.h"
 #include "ghostoptions.h"
+#include "tangentialforce.h"
 #pragma once
 
 namespace p2d
@@ -24,13 +25,13 @@ private:
 	p2d::Weight  *   m_weight;
 	/*! A ghost options
 	 */ 
-	p2d::GhostOptions  * m_options;
+	p2d::GhostOptionsFlow  * m_options;
 	/*! A force, acting on center of body
 	 */
-	p2d::ForceState   *   m_central_force;
+	p2d::ForceFlow   *   m_central_force;
 	/*! A tangentianl force
 	 */
-	p2d::ForceState   *   m_tangential_force;
+	p2d::TangentialForceFlow   *   m_tangential_force;
 	/*! A current shape of data
 	 */
 	CollisionShape * m_current;
