@@ -21,10 +21,21 @@ class Body;
  */
 class World
 {
- private:
+ protected:
 	 typedef hst::pair<hst::string, hst::string> type_pair_t;
 	 typedef hst::pair<type_pair_t, p2d::BasicCollisionHandler *> types_with_handler_t;
-	 typedef  hst::hash<p2d::Body *, hst::vector<hst::string> > bodies_to_types_t;
+	 typedef hst::hash<p2d::Body *, hst::vector<hst::string> > bodies_to_types_t;
+	 typedef hst::pair<p2d::BasicCollisionEvent, p2d::BasicCollisionHandler*> reaction_t;
+	 typedef hst::vector<reaction_t> reactions_t;
+public:
+	 /*! Compares two reactions, returns true if time of impact of first is lesser
+		 than second
+		 \param[in] r1 first reaction
+		 \param[in] r2 second reaction
+		 \return whether less
+	  */
+	 static bool compare(const reaction_t & r1, const reaction_t & r2);
+protected:
 	 /*! Current time step
 	  */
 	 double m_time_step;
@@ -46,6 +57,43 @@ class World
 	 /*! All bodies for checking all information
 	  */
 	 bodies_to_types_t m_allbodies;
+	 /*! Steps all body options, like ghost options and body
+	  */
+	 virtual void stepDiscreteChangingValues();
+	 /*! Steps a position and velocities
+		 \param[in] time a time step size
+	  */
+	 virtual void stepPositionsAndVelocities(double time);
+	 /*! Executes a reactions for a world
+		 \param[in] reactions found reactions
+	  */ 
+	 virtual void executeCallbacks(reactions_t & reactions);
+	 /*! Sorts callbacks. Ascending order of time of impact
+		 \param[in] reactions found reactions
+	  */
+	 virtual void sortCallbacks(reactions_t & reactions);
+	 /*! Find specific collision events and populates reactions
+		 \param[in] reactions a reactions
+	  */
+	 virtual void findEvents(reactions_t & reactions);
+	 /*! Finds a specifif collision event and populates reaction
+		 \param[in] reactions a reactions
+		 \param[in] twh  types and handlers
+	  */
+	 virtual void findEvent(reactions_t & reactions, const types_with_handler_t & twh);
+	 /*! Finds and executes callbacks
+	  */
+	 virtual void findAndExecuteCollisionCallbacks();
+	 /*! Adds new handler
+		 \param[in] h handler
+		 \param[in] t1 first type
+		 \param[in] t2 second type
+	  */
+	 virtual void addHandler(
+		 p2d::BasicCollisionHandler * h, 
+		 const hst::string & t1, 
+		 const hst::string & t2
+	  );
  public:
 	 /*! Creates world with default transformer
 	  */
@@ -77,17 +125,7 @@ class World
 			 new p2d::FunctionCollisionHandler<T1, T2>(p);
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
-		 if (m_groups.contains(t1) == false)
-		 {
-			 m_groups.insert(t1, hst::vector<p2d::Body *>());
-		 }
-		 if (m_groups.contains(t2) == false)
-		 {
-			 m_groups.insert(t2, hst::vector<p2d::Body *>());
-		 }
-		 type_pair_t tp(t1, t2);
-		 types_with_handler_t twh(tp, h);
-		 m_callbacks << twh;
+		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
 	 /*! Adds new handler
@@ -102,17 +140,7 @@ class World
 			 new p2d::MethodCollisionHandler<_Class,T1, T2>(p);
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
-		 if (m_groups.contains(t1) == false)
-		 {
-			 m_groups.insert(t1, hst::vector<p2d::Body *>());
-		 }
-		 if (m_groups.contains(t2) == false)
-		 {
-			 m_groups.insert(t2, hst::vector<p2d::Body *>());
-		 }
-		 type_pair_t tp(t1, t2);
-		 types_with_handler_t twh(tp, h);
-		 m_callbacks << twh;
+		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
 	 /*! Removes handler from a world
@@ -122,11 +150,11 @@ class World
 	 /*! Adds new body in system
 		 \param[in] b body
 	  */
-	 void addBody(p2d::Body * b);
+	 virtual void addBody(p2d::Body * b);
 	 /*! Removes body from system. Frees memory at end
 		  \param[in] b body
 	  */
-	 void removeBody(p2d::Body * b);
+	 virtual void removeBody(p2d::Body * b);
 	 /*! When called inside of step() method, makes a world integrate
 		 velocities and positions to specified time, and restart step, not
 		 stepping through ghostoptions and forces
@@ -137,6 +165,10 @@ class World
 		 \return a time step for a world
 	  */
 	 double timeStep() const;
+	 /*! Steps a world by specified time
+		 \param[in] time a size of time step
+	  */
+	 void step(double time);
 };
 
 }

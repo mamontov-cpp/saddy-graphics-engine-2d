@@ -584,6 +584,10 @@
 					RelativePath=".\src\p2d\world.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\p2d\worldsteptask.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1076,6 +1080,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\world.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\worldsteptask.h"
 					>
 				</File>
 			</Filter>
