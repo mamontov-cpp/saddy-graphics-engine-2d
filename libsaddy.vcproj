@@ -336,10 +336,6 @@
 					RelativePath=".\src\png\unfilter.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\src\png\zlib.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="tga"
@@ -438,10 +434,6 @@
 				</File>
 				<File
 					RelativePath=".\src\marshal\hashbasedserializablecontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\property.cpp"
 					>
 				</File>
 				<File
@@ -578,10 +570,6 @@
 				</File>
 				<File
 					RelativePath=".\src\p2d\simplecollisiondetector.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\p2d\tangentialforce.cpp"
 					>
 				</File>
 				<File
@@ -979,6 +967,10 @@
 				Name="p2d"
 				>
 				<File
+					RelativePath=".\include\p2d\angularforce.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\p2d\axle.h"
 					>
 				</File>
@@ -1068,10 +1060,6 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\simplecollisiondetector.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\p2d\tangentialforce.h"
 					>
 				</File>
 				<File

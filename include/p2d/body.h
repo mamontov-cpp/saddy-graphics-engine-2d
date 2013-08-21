@@ -8,7 +8,7 @@
 #include "collisionshape.h"
 #include "force.h"
 #include "ghostoptions.h"
-#include "tangentialforce.h"
+#include "angularforce.h"
 #include "movement.h"
 #pragma once
 
@@ -34,12 +34,12 @@ private:
 		\return user object for a body
 	 */
 	sad::Object * m_user_object;
-	/*! A central movement for body
-	 */
-	p2d::CentralMovement * m_central;
 	/*! A tangential movement for body
 	 */
 	p2d::TangentialMovement * m_tangential;
+	/*! A angular movement for body
+	 */
+	p2d::AngularMovement * m_angular;
 	/*! A current shape of data
 	 */
 	CollisionShape * m_current;
@@ -53,6 +53,12 @@ protected:
 	 */
 	double timeStep() const;
 public:
+	/*! Construct new body line with zero width at (0,0) with zero speed
+	 */
+	Body();
+	/*! Sets user object for a body
+	 */
+	virtual void setUserObject(sad::Object * o);
 	/*! Returns an inner user-defined object
 		\return inner user-defined object
 	 */
@@ -69,7 +75,7 @@ public:
 	/*! Notifies body, that item is rotated
 		\param[in] delta difference between angles 
 	 */
-	void notifyRotate(double delta);
+	void notifyRotate(const double & delta);
 	/*! Notifies body, that item is moved
 		\param[in] delta difference between point
 	 */
@@ -85,32 +91,162 @@ public:
 	/*! Adds listener for body movement
 		\param[in] listener a common listener 
 	 */
-	inline void addMoveListener(p2d::CentralMovement::listener_t listener)
+	inline void addMoveListener(p2d::TangentialMovement::listener_t listener)
 	{
-		m_central->addListener(listener);
+		m_tangential->addListener(listener);
 	}
 	/*! Removes listener for body movement
 		\param[in] listener a common listener 
 	 */
-	inline void removeMoveListener(p2d::CentralMovement::listener_t listener)
+	inline void removeMoveListener(p2d::TangentialMovement::listener_t listener)
 	{
-		m_central->removeListener(listener);
+		m_tangential->removeListener(listener);
 	}
 	/*! Adds listener for body rotation
 		\param[in] listener a common listener
 	 */
-	inline void addRotateListener(p2d::TangentialMovement::listener_t listener)
+	inline void addRotateListener(p2d::AngularMovement::listener_t listener)
 	{
-		m_tangential->addListener(listener);
+		m_angular->addListener(listener);
 	}
 	/*! Removes listener for body rotation
 		\param[in] listener a common listener
 	 */
-	inline void removeRotateListener(p2d::TangentialMovement::listener_t listener)
+	inline void removeRotateListener(p2d::AngularMovement::listener_t listener)
 	{
-		m_tangential->removeListener(listener);
+		m_angular->removeListener(listener);
 	}
+	/*! Tries to set transformer for current shape of body
+	 */
+	void trySetTransformer();
+	/*! Sets new weight for body
+		\param[in] weight new weight
+	 */
+	void setWeight(p2d::Weight * weight);
+	/*! Sets new weight for body
+		\param[in] weight new weight
+	 */
+	void setWeight(const p2d::Weight & weight);
+	/*! Returns current weight for bodys
+	 */
+	const p2d::Weight & weight() const;
+	/*! Sets current ghost options
+		\param[in] ghost ghost options
+	 */
+	void setCurrentGO(p2d::GhostOptions * ghost);
+	/*! Schedule changing ghost options on next iteration
+		\param[in] ghost ghost options
+	 */
+	void sheduleGO(p2d::GhostOptions * next);
+	/*! Tests whether body is ghost
+		\return whether body is ghost
+	 */
+	bool isGhost() const;
+	/*! Sets new world for body
+		\param[in] world world
+	 */
+	void setWorld(p2d::World * world);
+	/*! Returns a world for body
+		\return world
+	 */
+	p2d::World * world();
+	/*! Sets new shape for a body. Shape must have center at (0,0)
+		and rotated by zero angle. It will move automatically to current 
+		points and rotate by specified angle
+		\param[in] shape new shape
+	 */
+	void setShape(p2d::CollisionShape * shape);
 	virtual ~Body();
+
+	typedef p2d::MovementDeltaListener<p2d::Body, p2d::Vector> move_t;
+	typedef p2d::MovementDeltaListener<p2d::Body, double> rotate_t;
+	/*! Sets current position for object
+		\param[in] p point
+	 */
+	void setCurrentPosition(const p2d::Point & p);
+	/*! Sets next position for object
+		\param[in] p point
+	 */
+	void shedulePosition(const p2d::Point & p);
+	/*! Returns current position of body
+		\return current position of body
+	 */
+	const p2d::Vector & position() const;
+	/*! Determines, whether body will teleport at end of current time step
+		\return whether position will change
+	 */
+	bool willPositionChange() const;
+	/*! Returns next position, where body will be teleported
+		\return next position
+	 */
+	p2d::Vector nextPosition() const;
+	/*! Sets current tangential velocity
+		\param[in] v velocity
+	 */
+	void setCurrentTangentialVelocity(const p2d::Vector & v);
+	/*! Shedules new velocity
+		\param[in] v velocity
+	 */
+	void sheduleTangentialVelocity(const p2d::Vector & v);
+	/*! A tangential velocity
+		\return tangential velocity
+	 */
+	const p2d::Vector & tangentialVelocity() const;
+	/*! Determines, whether body will leap to other velocity at end of current time step
+		\return whether position will change
+	 */
+	bool willTangentialVelocityChange() const;
+	/*! Returns next velocity, where body will change speed due to user call
+		\return next position
+	 */
+	p2d::Vector nextTangentialVelocity() const;
+	/*! Sets current angle for object
+		\param[in] p point
+	 */
+	void setCurrentAngle(double angle);
+	/*! Sets next angle for object
+		\param[in] angle point
+	 */
+	void sheduleAngle(double angle);
+	/*! Returns current angle of body
+		\return current angle of body
+	 */
+	double angle() const;
+	/*! Determines, whether body will change angle at end of current time step
+		\return whether position will change
+	 */
+	bool willAngleChange() const;
+	/*! Returns next angle, which body will be set , due to user call of shedule
+		\return next angle
+	 */
+	double nextAngle() const;
+	/*! Sets current tangential velocity
+		\param[in] v velocity
+	 */
+	void setCurrentAngularVelocity(double v);
+	/*! Shedules new angular velocity
+		\param[in] v velocity
+	 */
+	void sheduleAngularVelocity(double v);
+	/*! A angular velocity
+		\return tangential velocity
+	 */
+	double angularVelocity() const;
+	/*! Determines, whether body will leap to other velocity at end of current time step
+		\return whether position will change
+	 */
+	bool willAngularVelocityChange() const;
+	/*! Returns next velocity, where body will change speed due to user call
+		\return next position
+	 */
+	double nextAngularVelocity() const;
+	/*! Moves body by specified vector
+		\param[in] v vector
+	 */
+	void move(const p2d::Vector & v);
+	/*! Rotates body by specified angle
+	 */
+	void rotate(double delta);
 };
 
 }

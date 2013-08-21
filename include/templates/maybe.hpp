@@ -37,7 +37,7 @@ class Maybe
 	  /*! Returns inner value
 		  \return inner value
 	   */
-	  const  T & data()  { return m_data; }
+	  const  T & data() const  { return m_data; }
 };
 
 }
