@@ -197,7 +197,7 @@ namespace sad
 			      \return whether perform() is called
 			  */
 			  virtual bool tryPerform(); 
-		      /*! Determines, that task must be performed
+		      /*! Determines, the task, that should be performed
 			  */
 			  virtual void perform();
 			  /*! Destructor

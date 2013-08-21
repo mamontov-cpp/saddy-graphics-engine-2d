@@ -16,6 +16,13 @@ struct BasicCollisionEvent
 	p2d::Body * m_object_2;
 	double m_time;
 
+	inline BasicCollisionEvent()
+	{
+		m_object_1 = NULL;
+		m_object_2 = NULL;
+		m_time = 0;
+	}
+
 	inline BasicCollisionEvent(p2d::Body * o1, p2d::Body * o2, double time)
 	{
 		m_object_1 = o1;
