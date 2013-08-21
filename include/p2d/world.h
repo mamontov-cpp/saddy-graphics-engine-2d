@@ -5,6 +5,10 @@
  */
 #pragma once
 #include "circletohulltransformer.h"
+#include "collisiondetector.h"
+#include "simplecollisiondetector.h"
+#include "broadcollisiondetector.h"
+#include "multisamplingcollisiondetector.h"
 
 namespace p2d
 {
@@ -20,6 +24,9 @@ class World
 	 /*! A common transformer for all shapes
 	  */
 	 p2d::CircleToHullTransformer * m_transformer;
+	 /*! A collision dispatcher for testing an items for collision
+	  */
+	 p2d::CollisionDetector * m_detector;
  public:
 	 /*! Creates world with default transformer
 	  */

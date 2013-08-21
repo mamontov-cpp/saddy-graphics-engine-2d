@@ -9,6 +9,7 @@ p2d::World::World()
 {
 	m_time_step = 1;
 	m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
+	m_detector = new p2d::SimpleCollisionDetector();
 }
 
 p2d::World::~World()
