@@ -21,10 +21,10 @@ class TickableDefaultValue<double>
 
 /*! A force as a tickable state
  */
-typedef p2d::TickableState<double> TangentialForce;
+typedef p2d::TickableState<double> AngularForce;
 /*! A flow for a force
  */
-typedef p2d::TickableFlow<double> TangentialForceFlow;
+typedef p2d::TickableFlow<double> AngularForceFlow;
 
 
 }

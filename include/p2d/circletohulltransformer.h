@@ -19,6 +19,7 @@ public:
 		\param[in] sides amount of sides in selected polygon
 	 */
     inline CircleToHullTransformer(int sides) : m_sides(sides) {}
+	inline CircleToHullTransformer(const CircleToHullTransformer & o) : m_sides(o.m_sides) {}
 	/*! Returns a default circle to hull transformer
 		\return default tranformer
 	 */

@@ -32,18 +32,20 @@ class AbstractMovementDeltaListener
 /*! A specific movement delta listener, that calls a listener for specific
 	movement.
  */
-template<typename _Class, typename _Method, typename _Value>
+template<typename _Class, typename _Value>
 class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
 {
+  public:
+	  typedef void (_Class::*method_t)(const _Value &);
   protected:
 	  _Class *  m_object; //!< An object
-	  _Method m_fun;      //!< A called pointer to method of class
+	  method_t  m_fun;      //!< A called pointer to method of class
   public:
 	  /*! Defines a listener, that calls a specific method for object
 		  \param[in] o object
 		  \param[in] f method
 	   */
-	  inline MovementDeltaListener(_Class * o, _Method f)
+	  inline MovementDeltaListener(_Class * o, method_t f)
 	  : m_object(o), m_fun(f)
 	  {
 	  }
@@ -267,7 +269,7 @@ class Movement
 	 /*! Returns next velocity for body
 		 \return next velocity for body
 	  */
-	 const _Value & nextVelocity() const 
+	 _Value nextVelocity() const 
 	 {
 		 if (m_next_velocity.exists() == false)
 			 return p2d::TickableDefaultValue<_Value>::zero();
@@ -285,7 +287,7 @@ class Movement
 	  */
 	 void setNextVelocity(const _Value & v)
 	 {
-		 m_next_velocity.setData(v);
+		 m_next_velocity.setValue(v);
 	 }
 	 /*! Return current value for position
 		 \return current value for position
@@ -298,7 +300,7 @@ class Movement
 	 /*! Returns next position for body
 		 \return next position for body
 	  */
-	 const _Value & nextPosition() const 
+	 _Value nextPosition() const 
 	 {
 		 if (m_next_position.exists() == false)
 			 return p2d::TickableDefaultValue<_Value>::zero();
@@ -318,16 +320,16 @@ class Movement
 	  */
 	 void setNextPosition(const _Value & v)
 	 {
-		 m_next_position.setData(v);
+		 m_next_position.setValue(v);
 	 }
 };
 
-/*! A tangential movement, as a rotation around ceneter
+/*! A angular movement, as a rotation around ceneter
  */
-typedef p2d::Movement<double> TangentialMovement;
-/*! A cental movement, as moving of whole body
+typedef p2d::Movement<double> AngularMovement;
+/*! A tangential movement, as moving of whole body
  */
-typedef p2d::Movement<p2d::Vector> CentralMovement;
+typedef p2d::Movement<p2d::Vector> TangentialMovement;
 
 }
 
