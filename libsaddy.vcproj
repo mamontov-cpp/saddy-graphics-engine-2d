@@ -847,10 +847,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\p2d\ghostoptions.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\extra\rigid_body.h"
 					>
 				</File>
@@ -1032,6 +1028,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\force.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\ghostoptions.h"
 					>
 				</File>
 				<File
