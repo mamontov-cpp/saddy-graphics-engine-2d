@@ -15,8 +15,8 @@ namespace p2d
 	\return distance between two points
 */
 template<typename T>  
-typename T distance(const typename hst::point<hst::D2, T> & p1, 
-					const typename hst::point<hst::D2, T> & p2)
+T distance(const  hst::point<hst::D2, T> & p1, 
+		   const  hst::point<hst::D2, T> & p2)
 {
 	T dx = p1.x() - p2.x();
 	T dy = p1.y() - p2.y();
