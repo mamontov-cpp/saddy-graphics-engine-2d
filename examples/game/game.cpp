@@ -5,6 +5,7 @@
 #include <extra/background.h>
 #include <extra/geometry2d.h>
 #include "statelabel.h"
+#include "gameobject.h"
 
 const hst::string GameState::START = "start";
 const hst::string GameState::PLAYING = "playing";
@@ -202,4 +203,18 @@ void Game::enterPlayingScreen()
 	p->lookAt(_(sad::Renderer::ref()->mousePos()));
     sc->add(p);
 	m_player = p;
+	
 }
+
+void Game::removeObject(GameObject *o)
+{
+	m_world->removeBody(o->body());
+	sad::Renderer::ref()->scene()->remove(o);
+	// If player is dead, no reason to continue playing, 
+	// return to start screen
+	if (o->metaData()->name == "Player")
+	{
+		m_machine->pushState(GameState::START);
+	}
+}
+

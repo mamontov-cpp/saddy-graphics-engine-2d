@@ -28,6 +28,9 @@ class GameObject: public sad::BasicNode
 	 /*! An object is linked to game to forward the in-game to a game object 
 	  */
 	 Game * m_game;
+	 /*! Defines amount of times, which game object can be hit (one by default)
+	  */
+	 int m_hp;
  public:
 	 /*! Creates an empty game object
 	  */
@@ -44,6 +47,27 @@ class GameObject: public sad::BasicNode
 		 \param[in] angle rotated angle
 	  */
 	 void notifyRotate(const double & angle);
+	 /*! Sets angular velocity, making object rotating clockwise
+		 \param[in] v velocity
+	  */
+	 void setAngularVelocity(double v);
+	 /*! Sets only horizontal speed
+		 \param[in] v speed
+	  */
+	 void setHorizontalSpeed(double v);
+	 /*! Sets only vertical speed
+		 \param[in] v speed
+	  */
+	 void setVerticalSpeed(double v);
+	 /*! Stops horizontal movement
+	  */
+	 void stopHorizontal();
+	 /*! Stops vertical movement
+	  */
+	 void stopVertical();
+	 /*! Stops a game object tangential movement
+	  */
+	 void stop();
 	 /*! Sets a game, which object belongs to
 		 \param[in] g game
 	  */
@@ -51,6 +75,30 @@ class GameObject: public sad::BasicNode
 	 /*! The object does not own anything, if game is not null
 	  */
 	 ~GameObject();
+	 /*! Returns body of game object	
+	     \return body of game object
+	  */ 
+	 p2d::Body * body();
+	 /*! Teleports a game object to specified point now
+		 \param[in] p new center of game object
+	  */
+	 void teleportNow(const p2d::Point & p);
+	 /*! Teleports a game object on next iteration at start of next iteration
+		 \param[in] p new center of game object
+	  */
+	 void teleportLater(const p2d::Point & p);
+	 /*! Returns remaining hit points
+	  */
+	 int hitPoints() const;
+	 /*! Increments hit points, by specified count
+		 \param[in] count how much hit points should be incremented
+	  */
+	 void incrementHP(int count);
+	 /*! Decrements hit points, by specified count.
+	     If hit points became less or equal to zero, game object is removed
+		 \param[in] count how much
+	  */ 
+	 void decrementHP(int count);
 	 /*! Called, when object is rendered. Object can easily reimplement
 		 it to work with AI, or do something other (like shoot). 
 	  */
