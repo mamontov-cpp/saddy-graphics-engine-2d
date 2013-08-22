@@ -373,19 +373,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\extra\collisionmanager.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\extra\fuzzy_equal.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\extra\geometry2d.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\rigid_body.cpp"
 					>
 				</File>
 				<File
@@ -835,19 +827,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\extra\collisionmanager.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\extra\fuzzy_equal.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\extra\geometry2d.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\rigid_body.h"
 					>
 				</File>
 				<File
