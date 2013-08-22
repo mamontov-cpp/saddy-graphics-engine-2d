@@ -147,30 +147,32 @@ protected:
 	 p2d::BasicCollisionHandler *
 	 addHandler( void (*p)(const p2d::BasicCollisionEvent &));
 	 /*! Adds new handler
+	     \param[in] o binded object
 		 \param[in] p new handler
 		 \return created inner handler
 	  */
 	 template<typename _Class, typename T1, typename T2>
 	 p2d::BasicCollisionHandler *
-		 addHandler( void (_Class::*p)(const p2d::CollisionEvent<T1, T2> &))
+		 addHandler( _Class * o, void (_Class::*p)(const p2d::CollisionEvent<T1, T2> &))
 	 {
 		 p2d::BasicCollisionHandler * h = 
-			 new p2d::MethodCollisionHandler<_Class,T1, T2>(p);
+			 new p2d::MethodCollisionHandler<_Class,T1, T2>(o,p);
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
 	 /*! Adds new handler
+		 \param[in] o class
 		 \param[in] p new handler
 		 \return created inner handler
 	  */
 	 template<typename _Class>
 	 p2d::BasicCollisionHandler *
-		 addHandler( void (_Class::*p)(const p2d::BasicCollisionEvent &))
+		 addHandler(_Class * o, void (_Class::*p)(const p2d::BasicCollisionEvent &))
 	 {
 		 p2d::BasicCollisionHandler * h = 
-			 new p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(p);
+			 new p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
 		 hst::string b = "p2d::Body";
 		 this->addHandler(h, b, b);
 		 return h;

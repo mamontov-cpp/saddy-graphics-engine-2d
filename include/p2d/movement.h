@@ -25,8 +25,8 @@ class AbstractMovementDeltaListener
 	 /*! Notifies a movement for delta
 		 \param[in] delta delta from previous value to current
 	  */
-	 virtual void notify(const _Value & delta);
-	 virtual ~AbstractMovementDeltaListener();
+	 virtual void notify(const _Value & delta) = 0;
+	 virtual ~AbstractMovementDeltaListener() {}
 };
 
 /*! A specific movement delta listener, that calls a listener for specific
