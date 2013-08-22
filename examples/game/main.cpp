@@ -185,6 +185,7 @@ int main(int argc, char** argv)
 							testCollidables,            \
 							new CCHandler( CALLBACK ));
 	// Here we bind all of callbacks, declared before
+	/*
 	BIND(PlayerBullet, Enemy,  playerbullet_collided_with_enemy);
 	BIND(PlayerBullet, ShootingEnemy, playerbullet_collided_with_enemy);
 	BIND(PlayerBullet, SuperShootingEnemy, playerbullet_collided_with_supershootingenemy);
@@ -193,6 +194,7 @@ int main(int argc, char** argv)
 	BIND(Player, Enemy, player_collided_with_enemy_or_enemybullet);
 	BIND(Player, ShootingEnemy, player_collided_with_enemy_or_enemybullet);
 	BIND(Player, SuperShootingEnemy, player_collided_with_enemy_or_enemybullet);
+	*/
 #undef BIND
 	
 	// Create and run game

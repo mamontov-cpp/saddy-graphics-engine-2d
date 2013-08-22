@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\gameobject.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -213,6 +217,10 @@
 			>
 			<File
 				RelativePath=".\game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gameobject.h"
 				>
 			</File>
 			<File

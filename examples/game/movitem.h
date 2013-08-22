@@ -8,9 +8,8 @@
 */
 #include "../renderer.h"
 #include <math.h>
-#include "statemachine.h"
-#include "rigid_body.h"
-#include "collisionmanager.h"
+#include <extra/statemachine.h>
+#include <p2d/worldsteptask.h>
 #include "../texturemanager.h"
 #pragma once
 
