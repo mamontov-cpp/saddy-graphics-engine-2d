@@ -216,5 +216,10 @@ void Game::removeObject(GameObject *o)
 	{
 		m_machine->pushState(GameState::START);
 	}
+	
 }
 
+const hst::string & Game::state()
+{
+	return m_machine->currentStateName();
+}

@@ -4,27 +4,28 @@
 #include "game.h"
 #include "player.h"
 
-/*! External game 
- */
-extern Game * PlayingGame;
 
-// Declare it as inheritor of Label
+// Declare StateLabel as inheritor of Label
 DECLARE_SOBJ_INHERITANCE(StateLabel,Label)
 
-StateLabel::StateLabel(int mode,const hst::string & s)
+StateLabel::StateLabel(Game * g) : m_game(g)
 {
 	// Extract font with label
-	this->font()=sad::Renderer::ref()->fonts()->get(s);
+	this->font()=sad::Renderer::ref()->fonts()->get("times_lg");
 	// Pick rendering function, depending of mode (if highscore render, score, otherwise render game state)
-	if (mode==HIGHSCORE)
+	if (g->state() == GameState::START)
 	{
-		m_render=&StateLabel::renderScore;
+		// Make label render at specified place
+		this->point()=pointf(HIGHSCORE_X,HIGHSCORE_Y);
+		m_text=&StateLabel::updateHighscore;
 	}
 	else
 	{
-		m_render=&StateLabel::renderState;
+		// Make label render at specified place
+		this->point()=pointf(STATE_X,STATE_Y);
+		m_text=&StateLabel::updateGameStatus;
 	}
-	// Set render point to mode
+	// Set rendering point to current point
 	this->render_point()=this->point();
 	m_lastcl=0;
 }
@@ -35,48 +36,35 @@ StateLabel::~StateLabel()
 }
 void StateLabel::render()
 {
-	// Render function only calls specified callback
-	(this->*m_render)();
-
+	if (clock()-m_lastcl>UPDATE_FREQ)
+	{
+		m_last_updated = clock();
+	   (this->*m_text)();
+	}
+	// We push and restore transformation to make sur, that no transformation
+	// will affect label
+	
+	// You can remove this code, if you think no transformations will occur
+	glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    this->Label::render();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
 }
 
-void StateLabel::renderScore()
+void StateLabel::updateHighscore()
 {
-  this->point()=pointf(HIGHSCORE_X,HIGHSCORE_Y);
-  this->render_point()=this->point();
-  if (clock()-m_lastcl>UPDATE_FREQ)
-	{
-		m_lastcl=clock();
-		hst::string s = str(fmt::Format("Highscore: {0}") << PlayingGame->highscore());
-		this->string()= s;	
-	}
-  //We must clear MODELVIEW, so transformation won't change
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-  glLoadIdentity();
-  this->Label::render();
-  glMatrixMode(GL_MODELVIEW);
-  glPopMatrix();
+	hst::string s = str(fmt::Format("Highscore: {0}") << m_game->highscore());
+	this->string()= s;	
 }
-void StateLabel::renderState()
-{
-  this->point()=pointf(STATE_X,STATE_Y);
-  this->render_point()=this->point();
-  if (clock()-m_lastcl>UPDATE_FREQ)
-	{
-		m_lastcl=clock();
-		hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}")
-									   << PlayingGame->player()->health()
-									   << PlayingGame->player()->score()
-									   << PlayingGame->highscore()
-		);
-		string() = s;	
-	}
-  //We must clear MODELVIEW, so transformation won't change
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-  glLoadIdentity();
-  this->Label::render();
-  glMatrixMode(GL_MODELVIEW);
-  glPopMatrix();
+
+void StateLabel::updateGameStatus()
+{ 
+  hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}")
+					  << m_game->player()->health()
+					  << m_game->player()->score()
+					  << m_game->highscore()
+  );
+  string() = s;
 }
