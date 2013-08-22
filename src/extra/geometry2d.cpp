@@ -65,3 +65,36 @@ bool equal(const hRectF & p1, const hRectF & p2, float precision)
 	return ok;
 }
 
+double angle_of(double x, double y)
+{
+	if (is_fuzzy_zero(y) && is_fuzzy_zero(x))
+	{
+		return 0;
+	}
+	p2d::Vector u = p2d::unit(p2d::Vector(x, y));
+	
+	bool tests[4] = {
+		is_fuzzy_equal( u.x(), 1) && is_fuzzy_equal( u.y(), 0),
+		is_fuzzy_equal( u.x(), 0) && is_fuzzy_equal( u.y(), 1),
+		is_fuzzy_equal( u.x(), -1) && is_fuzzy_equal( u.y(), 0),
+		is_fuzzy_equal( u.x(), 0) && is_fuzzy_equal( u.y(), -1),
+	};
+
+	double angles[4] = { 0, M_PI / 2, M_PI, M_PI * 1.5};
+	for(int i = 0; i < 4; i++)
+	{
+		if (tests[i]) return angles[i];
+	}
+	double angle =  0;
+	double at = atan(y /x);
+	if (x > 0)
+	{
+		if (y > 0 ) angle = at;
+		else        angle = 2 * M_PI + at;
+	}
+	else
+	{
+		angle = M_PI + at;
+	}
+	return angle;
+}

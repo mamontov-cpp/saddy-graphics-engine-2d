@@ -128,9 +128,25 @@ void GameObject::incrementHP(int count)
 void GameObject::decrementHP(int count)
 {
 	m_hp -= count;
+
+	// If hp less than zero - remove object
 	if (m_hp <= 0 && m_game != NULL)
 	{
 		m_game->removeObject(this);
 	}
+}
+
+
+void GameObject::setAngle(double angle)
+{
+	this->m_body->setCurrentAngle(angle);
+}
+
+void GameObject::lookAt(const hPointF & p)
+{
+	hPointF c = p - this->m_body->position();
+	double angle = angle_of(c.x(), c.y());
+	// We roate it counter-clockwise, because object looks to pi
+	setAngle(M_PI + angle);
 }
 
