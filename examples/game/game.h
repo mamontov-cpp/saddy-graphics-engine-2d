@@ -98,6 +98,10 @@ class Game
 	/*! Runs a game
 	 */
 	void run();
+	/*! Returns current state of game
+		\return current game state
+	 */
+	const hst::string & state();
 	~Game();
 	 
 };
