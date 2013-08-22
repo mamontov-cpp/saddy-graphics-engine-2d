@@ -4,6 +4,7 @@
 	Describes a collision event
  */
 #pragma once
+#include <cstdlib>
 
 namespace p2d
 {

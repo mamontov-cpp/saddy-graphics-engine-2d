@@ -94,7 +94,7 @@ class MethodCollisionHandler  : public p2d::BasicCollisionHandler
 			  e.m_time = ev.m_time;
 			  e.m_object_1 = hst::checked_cast<T1>(ev.m_object_1->userObject());
 			  e.m_object_2 = hst::checked_cast<T2>(ev.m_object_2->userObject());
-			  (m_o->m_p)(e);
+			  (m_o->*m_p)(e);
 		  }
 	  }
 
@@ -118,7 +118,7 @@ class MethodCollisionHandler<_Class, p2d::Body, p2d::Body>  : public p2d::BasicC
 	   */ 
 	  virtual void invoke(const BasicCollisionEvent & ev)
 	  {
-		  (m_o->m_p)(ev);
+		  (m_o->*m_p)(ev);
 	  }
 
 };

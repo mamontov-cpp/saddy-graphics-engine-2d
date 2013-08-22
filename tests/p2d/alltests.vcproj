@@ -245,6 +245,10 @@
 				RelativePath=".\vector.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\worldtest.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"

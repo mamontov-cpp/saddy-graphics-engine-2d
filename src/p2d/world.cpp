@@ -100,6 +100,7 @@ void p2d::World::addBody(p2d::Body * b)
 	{
 		m_groups[groups[i]] << b;
 	}
+	b->setWorld(this);
 }
 
 void p2d::World::removeBody(p2d::Body * b)
