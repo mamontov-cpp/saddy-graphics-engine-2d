@@ -237,7 +237,7 @@ void p2d::World::findEvents(reactions_t & reactions)
 
 void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
 {
-	hst::hash<p2d::Body*, hst::hash<p2d::Body *, int>> set;
+	hst::hash<p2d::Body*, hst::hash<p2d::Body *, int> > set;
 	if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
 	{
 		hst::vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
