@@ -169,6 +169,11 @@ void p2d::Body::shedulePosition(const p2d::Point & p)
 	m_tangential->setNextPosition(p);
 }
 
+void p2d::Body::shedulePositionAt(const p2d::Point & p, double time)
+{
+	m_tangential->setNextPositionAt(p, time);
+}
+
 
 const p2d::Vector & p2d::Body::position() const
 {
@@ -193,6 +198,11 @@ void p2d::Body::setCurrentTangentialVelocity(const p2d::Vector & v)
 void p2d::Body::sheduleTangentialVelocity(const p2d::Vector & v)
 {
 	m_tangential->setNextVelocity(v);
+}
+
+void p2d::Body::sheduleTangentialVelocityAt(const p2d::Vector & v, double time)
+{
+	m_tangential->setNextVelocityAt(v, time);
 }
 
 const p2d::Vector & p2d::Body::tangentialVelocity() const
@@ -220,6 +230,11 @@ void p2d::Body::sheduleAngle(double angle)
 	m_angular->setNextPosition(angle);	
 }
 
+void p2d::Body::sheduleAngleAt(double angle, double time)
+{
+	m_angular->setNextPositionAt(angle, time);
+}
+
 double p2d::Body::angle() const
 {
 	return m_angular->position();
@@ -243,6 +258,11 @@ void p2d::Body::setCurrentAngularVelocity(double v)
 void p2d::Body::sheduleAngularVelocity(double v)
 {
 	m_angular->setNextVelocity(v);
+}
+
+void p2d::Body::sheduleAngularVelocityAt(double v, double time)
+{
+	m_angular->setNextVelocityAt(v, time);
 }
 
 double p2d::Body::angularVelocity() const

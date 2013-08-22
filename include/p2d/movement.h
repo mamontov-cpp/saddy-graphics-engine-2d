@@ -94,12 +94,18 @@ class Movement
 		 user instantly.
 	  */
 	 hst::Maybe<_Value> m_next_velocity;
+	 /*! A next velocity time, when it need to be set
+	  */
+	 hst::Maybe<double> m_next_velocity_time;
 	 /*! A position for object at current time step
 	  */
 	 _Value m_position;
 	 /*! A next position, as it can be changed by a user
 	  */
 	 hst::Maybe<_Value> m_next_position;
+	 /*! A next position time, when it need to be set
+	  */
+	 hst::Maybe<double> m_next_position_time;
 	 /*! A listeners for a position changes
 	  */
 	 hst::vector<listener_t> m_listeners;
@@ -196,6 +202,13 @@ class Movement
 			 {
 				 return m_next_velocity.data() - m_velocity;
 			 }
+			 if (m_next_velocity_time.exists())
+			 {
+				 if (is_fuzzy_equal(time, m_next_velocity_time.data()))
+				 {
+					  return m_next_velocity.data() - m_velocity;
+				 }
+			 }
 			 return p2d::TickableDefaultValue<_Value>::zero();
 		 }
 		 return this->acceleration() * time;
@@ -219,6 +232,13 @@ class Movement
 			 if (is_fuzzy_equal(time, step_size))
 			 {
 				 return m_next_position.data() - m_position;
+			 }
+			 if (m_next_position_time.exists())
+			 {
+				 if (is_fuzzy_equal(time, m_next_position_time.data()))
+				 {
+					  return m_next_position.data() - m_position;
+				 }
 			 }
 			 return p2d::TickableDefaultValue<_Value>::zero();
 		 }
@@ -247,6 +267,24 @@ class Movement
 		 {
 			 m_next_velocity.clear();
 			 m_next_position.clear();
+			 m_next_velocity_time.clear();
+			 m_next_position_time.clear();
+		 }
+		 if (m_next_velocity_time.exists())
+		 {
+			 if (is_fuzzy_equal(time, m_next_velocity_time.data()))
+			 {
+				 m_next_velocity.clear();
+				 m_next_velocity_time.clear();
+			 }
+		 }
+		 if (m_next_position_time.exists())
+		 {
+			 if (is_fuzzy_equal(time, m_next_position_time.data()))
+			 {
+				 m_next_position.clear();
+				 m_next_position_time.clear();
+			 }
 		 }
 		 fireMovement(delta);
 	 }
@@ -289,6 +327,13 @@ class Movement
 	 {
 		 m_next_velocity.setValue(v);
 	 }
+	 /*! Sets next valocity at specified time
+	  */
+	 void setNextVelocityAt(const _Value & v, double time)
+	 {
+		 m_next_velocity.setValue(v);
+		 m_next_velocity_time.setValue(time);
+	 }
 	 /*! Return current value for position
 		 \return current value for position
 	  */
@@ -321,6 +366,12 @@ class Movement
 	 void setNextPosition(const _Value & v)
 	 {
 		 m_next_position.setValue(v);
+		 m_next_position_time.clear();
+	 }
+	 void setNextPositionAt(const _Value & v, double time)
+	 {
+		 m_next_position.setValue(v);
+		 m_next_position_time.setValue(time);
 	 }
 };
 

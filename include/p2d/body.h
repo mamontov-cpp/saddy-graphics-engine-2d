@@ -168,6 +168,11 @@ public:
 		\param[in] p point
 	 */
 	void shedulePosition(const p2d::Point & p);
+	/*! Shedules specific position at specified time
+		\param[in] p point
+		\param[in] time time when position should change
+     */
+	void shedulePositionAt(const p2d::Point & p, double time);
 	/*! Returns current position of body
 		\return current position of body
 	 */
@@ -188,6 +193,11 @@ public:
 		\param[in] v velocity
 	 */
 	void sheduleTangentialVelocity(const p2d::Vector & v);
+	/*! Shedules new velocity at specified time
+		\param[in] v velocity
+		\param[in] time time when velocity should be applied
+	 */
+	void sheduleTangentialVelocityAt(const p2d::Vector & v, double time);
 	/*! A tangential velocity
 		\return tangential velocity
 	 */
@@ -205,9 +215,14 @@ public:
 	 */
 	void setCurrentAngle(double angle);
 	/*! Sets next angle for object
-		\param[in] angle point
+		\param[in] angle specified angle
 	 */
 	void sheduleAngle(double angle);
+	/*! Shedules angle for object at specified time
+		\param[in] angle specified angle
+		\param[in] time  a specified time
+	 */
+	void sheduleAngleAt(double angle, double time);
 	/*! Returns current angle of body
 		\return current angle of body
 	 */
@@ -228,6 +243,11 @@ public:
 		\param[in] v velocity
 	 */
 	void sheduleAngularVelocity(double v);
+	/*! Shedules new angular velocity at specified time
+		\param[in] v velocity
+		\param[in] time time of specified velocity
+	 */
+	void sheduleAngularVelocityAt(double v, double time);
 	/*! A angular velocity
 		\return tangential velocity
 	 */
