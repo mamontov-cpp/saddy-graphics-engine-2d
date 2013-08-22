@@ -8,7 +8,7 @@
 #include <scene.h>
 
 class Player;
-
+class GameObject;
 /*! Represents enumeration of game state data
  */
 class GameState
@@ -92,6 +92,9 @@ class Game
 	/*! Returns ingame player
 	 */
 	Player * player();
+	/*! Removes a game object from game
+	 */
+	void removeObject(GameObject * o);
 	/*! Runs a game
 	 */
 	void run();

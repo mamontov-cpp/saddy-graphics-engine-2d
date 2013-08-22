@@ -1,4 +1,5 @@
 #include "gameobject.h"
+#include "game.h"
 
 DECLARE_SOBJ_INHERITANCE(GameObject, sad::BasicNode);
 
@@ -24,6 +25,7 @@ GameObject::GameObject()
 		)
 	);
 
+	m_hp = 1;
 }
 
 GameObject::~GameObject()
@@ -55,5 +57,80 @@ void GameObject::notifyRotate(const double & angle)
 void GameObject::render()
 {
 	m_sprite->render();
+}
+
+
+void GameObject::setAngularVelocity(double v)
+{
+	m_body->setCurrentAngularVelocity(v);
+}
+
+void GameObject::setHorizontalSpeed(double v)
+{
+	p2d::Vector velocity = m_body->tangentialVelocity();
+	velocity.setX(v);
+	m_body->setCurrentTangentialVelocity(velocity);
+}
+
+void GameObject::setVerticalSpeed(double v)
+{
+	p2d::Vector velocity = m_body->tangentialVelocity();
+	velocity.setY(v);
+	m_body->setCurrentTangentialVelocity(velocity);
+}
+
+void GameObject::stopHorizontal()
+{
+	p2d::Vector velocity = m_body->tangentialVelocity();
+	velocity.setX(0);
+	m_body->setCurrentTangentialVelocity(velocity);
+}
+
+void GameObject::stopVertical()
+{
+	p2d::Vector velocity = m_body->tangentialVelocity();
+	velocity.setY(0);
+	m_body->setCurrentTangentialVelocity(velocity);
+} 
+
+void GameObject::stop()
+{
+	m_body->setCurrentTangentialVelocity(p2d::Vector(0,0));	
+}
+
+
+p2d::Body * GameObject::body()
+{
+	return m_body;
+}
+
+void GameObject::teleportNow(const p2d::Point & p)
+{
+	m_body->setCurrentPosition(p);
+}
+
+void GameObject::teleportLater(const p2d::Point & p)
+{
+	m_body->shedulePosition(p);
+}
+
+
+int GameObject::hitPoints() const
+{
+    return m_hp;
+}
+
+void GameObject::incrementHP(int count)
+{
+    m_hp += count;
+}
+
+void GameObject::decrementHP(int count)
+{
+	m_hp -= count;
+	if (m_hp <= 0 && m_game != NULL)
+	{
+		m_game->removeObject(this);
+	}
 }
 
