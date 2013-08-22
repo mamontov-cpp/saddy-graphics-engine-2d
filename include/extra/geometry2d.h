@@ -61,3 +61,10 @@ bool equal(const hPointF & p1, const hPointF & p2, float precision = S2D_FP_PREC
 	\return whether they are equal
  */
 bool equal(const hRectF & p1, const hRectF & p2, float precision = S2D_FP_PRECISION);
+/*! Similar behaviour as atan2, only in range of [0..2 * M_PI].
+	Also handles (0, 0) as zero
+	\param[in] x x coordinate
+	\param[in] y y coordinate
+	\return result of computation
+ */
+double angle_of(double x, double y);

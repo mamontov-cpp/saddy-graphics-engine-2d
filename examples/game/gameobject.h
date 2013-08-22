@@ -47,6 +47,14 @@ class GameObject: public sad::BasicNode
 		 \param[in] angle rotated angle
 	  */
 	 void notifyRotate(const double & angle);
+	 /*! Sets an angle of game object to specified
+		 \param[in] angle an angle
+	  */
+	 void setAngle(double angle);
+	 /*! Makes game object look to specified point
+		 \param[in] p point
+	  */
+	 void lookAt(const hPointF & p);
 	 /*! Sets angular velocity, making object rotating clockwise
 		 \param[in] v velocity
 	  */

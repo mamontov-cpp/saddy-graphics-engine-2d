@@ -5,6 +5,7 @@
  */
 #include <scene.h>
 #include <sprite.h>
+#include <templates/maybe.hpp>
 #pragma once
 
 /*! \class Sprite2DAdapter
@@ -13,6 +14,19 @@
 class Sprite2DAdapter: public sad::BasicNode
 {
  SAD_OBJECT
+ public:
+	/*! Options for creating adapter
+	 */
+	class Options
+	{
+	  public:
+		  hst::string Texture;      //!<  A texture name for current sprite
+		  hst::Maybe<hst::string> TextureContainer; //!< A texture container if needed
+		  hRectF TextureRectangle;  //!<  A texture coordinate rectangle
+		  hRectF Rectangle;         //!<  A main rectangle
+
+		  inline Options() {}
+	};
  private:
 		  Sprite * m_sprite;  //!< Sprite, that is being rendered
 		  hRectF   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)
@@ -153,6 +167,10 @@ class Sprite2DAdapter: public sad::BasicNode
 			 \return color data
 		  */
 		 const hst::acolor & color() const;
+	     /*! Sets sprite parameters from options
+			 \param[in] o options
+		  */
+		 void set(const Sprite2DAdapter::Options & o);
 };
 
 

@@ -1,4 +1,5 @@
 #include "sprite2dadapter.h"
+#include "texturemanager.h"
 
 DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
 
@@ -242,3 +243,20 @@ const hst::acolor & Sprite2DAdapter::color() const
 	return m_color;
 }
 
+void Sprite2DAdapter::set(const Sprite2DAdapter::Options & o)
+{
+
+	sad::Texture * tex = NULL;
+	if (o.TextureContainer.exists())
+	{
+		sad::TextureContainer * c =  
+			sad::TextureManager::ref()->getContainer(o.TextureContainer.data());
+		tex = c->get(o.Texture);
+	}
+	else
+	{
+		tex  = sad::TextureManager::ref()->get(o.Texture);
+	}
+	this->setSprite(tex, o.TextureRectangle);
+	this->setRect(o.Rectangle);
+}
