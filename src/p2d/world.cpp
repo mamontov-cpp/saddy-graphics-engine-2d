@@ -7,6 +7,7 @@ double p2d::World::timeStep() const
 
 p2d::World::World()
 {
+	m_stepping = false;
 	m_time_step = 1;
 	m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
 	m_detector = new p2d::SimpleCollisionDetector();
@@ -72,6 +73,11 @@ void p2d::World::removeHandler(p2d::BasicCollisionHandler * h)
 
 void p2d::World::addBody(p2d::Body * b)
 {
+	if (m_stepping)
+	{
+		m_added_queue << b;
+	}
+
 	hst::vector<hst::string> groups;
 	for(hst::hash<hst::string, hst::vector<p2d::Body*> > ::iterator it = m_groups.begin();
 		it != m_groups.end();
@@ -98,6 +104,11 @@ void p2d::World::addBody(p2d::Body * b)
 
 void p2d::World::removeBody(p2d::Body * b)
 {
+	if (m_stepping)
+	{
+		m_removed_queue << b;
+	}
+
 	if (m_allbodies.contains(b))
 	{
 		hst::vector<hst::string> groups = m_allbodies[b];
@@ -136,6 +147,8 @@ void p2d::World::addHandler(
 
 void p2d::World::step(double time)
 {
+	performQueuedActions();
+	m_stepping = true;
 	m_time_step = time;
 	while ( non_fuzzy_zero(m_time_step) )
 	{
@@ -156,6 +169,8 @@ void p2d::World::step(double time)
 	m_time_step = 1;
 	// Step forces and body options
 	stepDiscreteChangingValues();
+	m_stepping = false;
+	performQueuedActions();
 }
 
 void p2d::World::stepDiscreteChangingValues()
@@ -261,5 +276,48 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 		}
 	}
 
+}
+
+
+void p2d::World::performQueuedActions()
+{
+	for(size_t i = 0; i < m_added_queue.count(); i++)
+	{
+		addBody(m_added_queue[i]);
+	}
+	m_added_queue.clear();
+	for(size_t i = 0; i < m_removed_queue.count(); i++)
+	{
+		removeBody(m_removed_queue[i]);
+	}
+	m_removed_queue.clear();
+}
+
+void p2d::World::clear()
+{
+	// To make no problems, with iterators, step through bodies
+	// as vector
+	hst::vector<p2d::Body *> bodies;
+	for( bodies_to_types_t::iterator it = m_allbodies.begin();
+		it != m_allbodies.end();
+		it++
+	   )
+	{
+		bodies << it.key();
+	}
+	for(size_t i = 0; i < bodies.count(); i++)
+	{
+		removeBody(bodies[i]);
+	}
+}
+
+p2d::BasicCollisionHandler *
+p2d::World::addHandler( void (*p)(const p2d::BasicCollisionEvent &))
+{
+	p2d::BasicCollisionHandler * h = 
+	new p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>(p);
+	hst::string b = "p2d::Body";
+	this->addHandler(h, b, b);
+	return h;
 }
 

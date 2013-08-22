@@ -36,6 +36,15 @@ public:
 	  */
 	 static bool compare(const reaction_t & r1, const reaction_t & r2);
 protected:
+	 /*! This flag is set to true, when world is stepping
+	  */
+	 bool   m_stepping;
+	 /*! An added bodies while stepping
+	  */
+	 hst::vector<p2d::Body *> m_added_queue;
+	 /*! A removed bodies while stepping
+	  */
+	 hst::vector<p2d::Body *> m_removed_queue;
 	 /*! Current time step
 	  */
 	 double m_time_step;
@@ -94,6 +103,9 @@ protected:
 		 const hst::string & t1, 
 		 const hst::string & t2
 	  );
+	 /*! Peforms all insertions and removal of queued bodies
+	  */
+	 void performQueuedActions();
  public:
 	 /*! Creates world with default transformer
 	  */
@@ -128,6 +140,12 @@ protected:
 		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
+	 /*! Adds new handler	
+		 \param[in] p handler
+		 \return created handler
+	  */
+	 p2d::BasicCollisionHandler *
+	 addHandler( void (*p)(const p2d::BasicCollisionEvent &));
 	 /*! Adds new handler
 		 \param[in] p new handler
 		 \return created inner handler
@@ -141,6 +159,20 @@ protected:
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
+		 return h;
+	 }
+	 /*! Adds new handler
+		 \param[in] p new handler
+		 \return created inner handler
+	  */
+	 template<typename _Class>
+	 p2d::BasicCollisionHandler *
+		 addHandler( void (_Class::*p)(const p2d::BasicCollisionEvent &))
+	 {
+		 p2d::BasicCollisionHandler * h = 
+			 new p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(p);
+		 hst::string b = "p2d::Body";
+		 this->addHandler(h, b, b);
 		 return h;
 	 }
 	 /*! Removes handler from a world
@@ -169,6 +201,9 @@ protected:
 		 \param[in] time a size of time step
 	  */
 	 void step(double time);
+	 /*! Clears a world
+	  */ 
+	 void clear();
 };
 
 }
