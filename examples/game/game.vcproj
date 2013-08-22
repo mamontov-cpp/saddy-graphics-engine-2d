@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\gameobjectconstants.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -221,6 +225,10 @@
 			</File>
 			<File
 				RelativePath=".\gameobject.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gameobjectconstants.h"
 				>
 			</File>
 			<File

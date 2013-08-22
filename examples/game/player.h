@@ -5,19 +5,17 @@
 	Here is placed class of player - class, that provides any player associated
 	objects
 */
-#include "movitem.h"
-#include "collisionmanager.h"
-#include "../texturemanager.h"
+#include "gameobject.h"
+#include "gameobjectconstants.h"
+#include "objects.h"
 #pragma once
-
-typedef hPointF Vector;
-
 
 class Game;
 
-/*! A player class for moving
+/*! A player class used to be alter-ego of gamer. 
+	It's a sad smiley face
  */
-class Player: public Collidable
+class Player: public GameObject
 {
  SAD_OBJECT
  private:
@@ -28,17 +26,7 @@ class Player: public Collidable
 			 A moment, when player stops is the moment when this key is released
 		  */
 		 int         m_stopkeys[2];   
-		 /*! A players velocity vector. A first coordinate is X and second is Y
-		  */
-		 Vector       m_velocity;
-		
-		 float       m_angle;       //!< Angle
 		 clock_t     m_lastshot;    //!< Time,when last shot was performed
-		 
-		 /*! Moves a player by specified vector
-			 \param[in] p vector of moving
-		  */
-		 void move(const Vector & p);
  public:
 		 /*! Constructs player
 		     \param[in] pos     position
