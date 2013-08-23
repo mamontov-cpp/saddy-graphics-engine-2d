@@ -1,13 +1,13 @@
-/*! \file playerbullet.h
+/*! \file enemybullet.h
 	\author HiddenSeeker
 
-	Describes a bullet owned by player
+	Describes a bullet owned by enemy
  */
 #include "gameobject.h"
 #include "gameobjectconstants.h"
 #pragma once
 
-/*! As a default, player bullet is a simple object with settings from
+/*! As a default, enemy bullet is a simple object with settings from
     constant
  */
 class EnemyBullet: public GameObject
