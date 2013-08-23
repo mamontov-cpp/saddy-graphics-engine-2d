@@ -33,7 +33,11 @@ GameObject::~GameObject()
 	if (m_game == NULL)
 	{
 		delete m_body;
-	}	
+	}
+	for(size_t i = 0; i < m_guns.count(); i++)
+	{
+		delete m_guns[i];
+	}
 	delete m_sprite;
 }
 
@@ -57,6 +61,10 @@ void GameObject::notifyRotate(const double & angle)
 void GameObject::render()
 {
 	m_sprite->render();
+	for(size_t i = 0; i < m_guns.count(); i++)
+	{
+		m_guns[i]->tryShoot();;
+	}
 }
 
 
@@ -150,3 +158,24 @@ void GameObject::lookAt(const hPointF & p)
 	setAngle(M_PI + angle);
 }
 
+
+Game * GameObject::game()
+{
+	return m_game;
+}
+
+p2d::Point GameObject::position() const
+{
+	return m_body->position();
+}
+
+double GameObject::angle() const
+{
+	return m_body->angle();
+}
+
+void GameObject::addGun(AbstractAutomaticGun * gun)
+{
+	m_guns << gun;
+	gun->setObject(this);
+}

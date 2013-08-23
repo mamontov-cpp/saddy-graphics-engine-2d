@@ -6,6 +6,8 @@
 #include "p2d/body.h"
 #include "sprite2dadapter.h"
 #include "primitives/object.h"
+#include "automaticgun.h"
+#include "templates/hlvector.hpp"
 
 class Game;
 /*! Describes a basic in-game object, which provides primitives, needed to 
@@ -31,6 +33,9 @@ class GameObject: public sad::BasicNode
 	 /*! Defines amount of times, which game object can be hit (one by default)
 	  */
 	 int m_hp;
+	 /*! An inner guns for object
+	  */
+	 hst::vector<AbstractAutomaticGun * > m_guns;
  protected:
 	 /*! Inits game object parameters from constants of specified type
 	  */
@@ -121,5 +126,21 @@ class GameObject: public sad::BasicNode
 		 it to work with AI, or do something other (like shoot). 
 	  */
 	 virtual void render();
+	 /*! Returns a game from game object
+		 \return game
+	  */
+	 Game * game();
+	 /*! Returns a position of game object
+	 	 \return a positions
+	  */
+	 p2d::Point position() const;
+	 /*! Returns an angle of game object
+		 \return an angle
+	  */
+	 double angle() const;
+	 /*! Adds anew gun for object
+		 \param[in] gun a gun
+	  */
+	 void addGun(AbstractAutomaticGun * gun);
 };
 

@@ -42,6 +42,11 @@ Sprite2DAdapter::Options * GameObjectConstants<EnemyBullet>::sprite()
 	return o;
 }
 
+double GameObjectConstants<EnemyBullet>::velocity()
+{
+	return 121;
+}
+
 p2d::CollisionShape * GameObjectConstants<EnemyBullet>::shape()
 {
 	p2d::Circle * c = new p2d::Circle();
