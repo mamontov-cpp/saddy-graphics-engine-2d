@@ -2,12 +2,24 @@ LDFLAGS= -L../../lib -lsaddy-debug -lm -lopengl32  -lglu32 -lkernel32 -luser32 -
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config  
 OUTPUT   = ../../bin/saddy-test-debug.exe
 DEFINES  = -DWIN32 -DMINGW
-BUILD    = build/main.o build/movitem.o build/player.o build/statelabel.o
+BUILD    = build/abstractautomaticgun.o build/bonus.o build/enemy.o build/enemybullet.o build/enemyspawn.o build/game.o build/gameobject.o build/gameobjectconstants.o build/main.o build/player.o build/playerbullet.o build/shootingenemy.o build/startscreenrain.o build/statelabel.o build/supershootingenemy.o build/wall.o
 all:
+	g++ -c -g abstractautomaticgun.cpp -o build/abstractautomaticgun.o $(INCLUDE) $(DEFINES)
+	g++ -c -g bonus.cpp -o build/bonus.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemy.cpp -o build/enemy.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemybullet.cpp -o build/enemybullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemyspawn.cpp -o build/enemyspawn.o $(INCLUDE) $(DEFINES)
+	g++ -c -g game.cpp -o build/game.o $(INCLUDE) $(DEFINES)
+	g++ -c -g gameobject.cpp -o build/gameobject.o $(INCLUDE) $(DEFINES)
+	g++ -c -g gameobjectconstants.cpp -o build/gameobjectconstants.o $(INCLUDE) $(DEFINES)
 	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
-	g++ -c -g movitem.cpp -o build/movitem.o $(INCLUDE) $(DEFINES)
 	g++ -c -g player.cpp -o build/player.o $(INCLUDE) $(DEFINES)
+	g++ -c -g playerbullet.cpp -o build/playerbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g shootingenemy.cpp -o build/shootingenemy.o $(INCLUDE) $(DEFINES)
+	g++ -c -g startscreenrain.cpp -o build/startscreenrain.o $(INCLUDE) $(DEFINES)
 	g++ -c -g statelabel.cpp -o build/statelabel.o $(INCLUDE) $(DEFINES)
+	g++ -c -g supershootingenemy.cpp -o build/supershootingenemy.o $(INCLUDE) $(DEFINES)
+	g++ -c -g wall.cpp -o build/wall.o $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	delete $(OUTPUT)
