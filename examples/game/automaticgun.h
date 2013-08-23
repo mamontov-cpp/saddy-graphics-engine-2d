@@ -5,6 +5,7 @@
 	direction by emitting some bullet with specified speed
  */
 #include <time.h>
+#include <extra/periodicalevent.h>
 #include "gameobjectconstants.h"
 #pragma once
 
@@ -12,7 +13,7 @@ class GameObject;
 /*! A basic automatic gun can shoot. It's knows about position of object
 	and tries to shoot by a bullet every period of time
  */
-class AbstractAutomaticGun
+class AbstractAutomaticGun: public PeriodicalEvent
 {
   protected:
 	  /*! A game object, which has a gun
@@ -23,19 +24,6 @@ class AbstractAutomaticGun
 		  and cos of zero will face bullets into opposite direction
 	   */
 	  double m_dangle;
-	  /*! A time when gun last time shoot
-	   */
-	  clock_t m_last_shot;
-	  /*! A interval of periodic time
-	   */
-	  clock_t m_interval;
-	  /*! Whether automatic gun is enabled. A gun shoots periodically,
-		  when enabled
-	   */
-	  bool m_enabled;
-	  /*! Real shooting function, means that gun emits a bullet
-	   */
-	  virtual void shoot()=0;
   public:
 	  /*! As a default creates a enabled gun with M_PI, interval is 50 milliseconds
 	   */
@@ -47,12 +35,6 @@ class AbstractAutomaticGun
 		  \param[in] delta delta of angle
 	   */
 	  void setAngleDifference(double delta);
-	  /*! Enables a gun
-	   */
-	  void enable();
-	  /*! Disables a gun
-	   */
-	  void disable();
 	  /*! Sets a game object
 		  \param[in] o game object
 	   */
@@ -68,7 +50,7 @@ class AutomaticGun: public AbstractAutomaticGun
  protected:
 	 /*! Shoots with specified bullet
 	  */
-	 virtual void shoot()
+	 virtual void perform()
 	 {
 		 _Bullet * bullet = new _Bullet();
 		 m_object->game()->addObject(bullet);
@@ -83,6 +65,6 @@ class AutomaticGun: public AbstractAutomaticGun
  public:
 	 AutomaticGun() : AbstractAutomaticGun()
 	 {
-		 m_interval = GameObjectConstants<_Bullet>::interval();
+		 setInterval(GameObjectConstants<_Bullet>::interval());
 	 }
 };
