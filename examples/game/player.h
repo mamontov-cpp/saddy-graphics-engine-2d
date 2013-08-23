@@ -18,40 +18,19 @@ class Player: public GameObject
 {
  SAD_OBJECT
  private:
-		 Game  *     m_game;         //!< Game data
-		 int         m_score;        //!< A current player score
-		 int         m_health;       //!< Amount of healthpoints in player
+		 Game  *     m_game;            //!< Game data
+		 AbstractAutomaticGun * m_gun;  //!< A min object gun
+		 int         m_score;           //!< A current player score
 		 /*! A pivot key, which is pressed last, when player is moving
 			 A moment, when player stops is the moment when this key is released
 		  */
 		 int         m_stopkeys[2];   
-		 clock_t     m_lastshot;    //!< Time,when last shot was performed
  public:
-		 /*! Constructs player
-		     \param[in] pos     position
-		 */
-	     Player(const hPointF & pos);
-		 /*! Renderers a player at specified position
-		  */
-		 void render();
-
+	     Player();
 		 /*! Makes player look to position
 			 \param[in] p point
 		  */
 		 void tryLookAt(const sad::Event & p);
-		 /*! Makes player look to position
-			 \param[in] p point
-		  */
-		 void lookAt(const hPointF & p);
-		 /*! Sets an angle
-			 \param[in] angle angle, in which player should rotate
-		 */
-		 void setAngle(float angle);
-
-
-		 /*! Shoots a bullet in current direction
-		 */
-		 void shoot();
 		 /*! Shoots or not, depending on shooting frequency and current game state
 		  */
 		 void tryShoot();
@@ -64,20 +43,6 @@ class Player: public GameObject
 			 \return new increased score
 		  */
 		 int increaseScore(int delta);
-		 /*! Returns current player health
-		  */
-		 int health() const;
-		 /*! Increases player health by certain points
-			 \param[in] by amount of points
-		  */
-		 int increaseHealth(int by);
-		 /*! Decreases player health by certain points
-			 \param[in] by amount of points
-		  */
-		 int decreaseHealth(int by);
-
-
-
 		 /*! Tries to start moving left
 			 \param[in] e event
 		  */
@@ -100,10 +65,11 @@ class Player: public GameObject
 		 /*! Tries to stop moving horizontally if key matches
 		  */
 		 void tryStopMovingVertically(const sad::Event & e);
-
-		 /*! Sets a player to a game, where it cames from
-			 \param[in] game game information
+	     /*! Player starts shooting
 		  */
-		 void setGame(Game * game);
+		 void startShooting();
+	     /*! Player stops shooting
+		  */
+		 void stopShooting();
 };
 
