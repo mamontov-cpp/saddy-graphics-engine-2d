@@ -12,6 +12,8 @@
 #include "startscreenrain.h"
 #include "enemyspawn.h"
 #include "player.h"
+#include "playerbullet.h"
+#include "enemybullet.h"
 #include "wall.h"
 
 const hst::string GameState::START = "start";
@@ -237,6 +239,10 @@ void Game::enterPlayingScreen()
 	// Handlers also register types in world, so they MUST BE added before
 	// any object ia added to scene
 	m_world->addHandler(this, &Game::onWallCollision);
+	m_world->addHandler(this, &Game::onBonusCollision);
+	m_world->addHandler(this, &Game::onPlayerBulletEnemy);
+	m_world->addHandler(this, &Game::onPlayerBulletSEnemy);
+	m_world->addHandler(this, &Game::onPlayerBulletSuperEnemy);
 
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	Player * p  = new  Player();
@@ -321,3 +327,32 @@ void Game::createWorld()
 	m_world = new p2d::World();
 	m_world->setDetector(new p2d::SimpleCollisionDetector());
 }
+
+void Game::onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev)
+{
+	ev.object2().decrementHP(1);
+	ev.object1().incrementHP(1);
+	ev.object1().increaseScore(50);
+}
+
+void Game::onPlayerBulletEnemy(const p2d::CollisionEvent<PlayerBullet, Enemy> & ev)
+{
+	ev.object2().decrementHP(1);
+	ev.object1().decrementHP(1);
+	this->player()->increaseScore(100);
+}
+
+void Game::onPlayerBulletSEnemy(const p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev)
+{
+	ev.object2().decrementHP(1);
+	ev.object1().decrementHP(1);
+	this->player()->increaseScore(200);
+}
+
+void Game::onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev)
+{
+	ev.object2().decrementHP(1);
+	ev.object1().decrementHP(1);
+	this->player()->increaseScore(400);
+}
+

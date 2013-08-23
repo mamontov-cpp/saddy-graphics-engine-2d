@@ -20,10 +20,16 @@ enum Objects
 	O_SUPERSHOOTINGENEMY = 3
 };
 
-class Player;
-class GameObject;
-class Walls;
 class Wall;
+class Walls;
+class GameObject;
+class Player;
+class PlayerBullet;
+class EnemyBullet;
+class Bonus;
+class Enemy;
+class ShootingEnemy;
+class SuperShootingEnemy;
 
 /*! Represents enumeration of game state data
  */
@@ -76,6 +82,22 @@ class Game
 		\param[in] ev event
 	 */
 	void onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev);
+	/*! Increases score and hp of bonus and player
+		\param[in] ev event
+	 */
+	void onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev);
+	/*! Increases score of player and decrements hp of enemy
+		\param[in] ev event
+	 */
+	void onPlayerBulletEnemy(const p2d::CollisionEvent<PlayerBullet, Enemy> & ev);
+	/*! Increases score of player and decrements hp of enemy
+		\param[in] ev event
+	 */
+	void onPlayerBulletSEnemy(const p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev);
+	/*! Increases score of player and decrements hp of enemy
+		\param[in] ev event
+	 */
+	void onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev);
 	/*! Creates new physical world for working with optional bodies
 	  */
 	void createWorld();
