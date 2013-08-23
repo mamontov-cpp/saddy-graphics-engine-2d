@@ -102,6 +102,10 @@ class Game
 		\return current game state
 	 */
 	const hst::string & state();
+	/*! Adds a game object
+		\param[in] o game object
+	 */
+	void addObject(GameObject * o);
 	~Game();
 	 
 };

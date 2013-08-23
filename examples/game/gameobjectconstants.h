@@ -72,6 +72,10 @@ class GameObjectConstants<EnemyBullet>
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for bullet
+		\return velocity
+	 */
+	static double velocity();
 };
 
 
