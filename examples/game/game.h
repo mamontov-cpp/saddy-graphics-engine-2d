@@ -23,6 +23,7 @@ enum Objects
 class Player;
 class GameObject;
 class Walls;
+class Wall;
 
 /*! Represents enumeration of game state data
  */
@@ -71,7 +72,13 @@ class Game
 	/*! A callback for entering a playing screen
 	 */
 	void enterPlayingScreen();
-
+	/*! Deletes an object if not player, when collision with wall
+		\param[in] ev event
+	 */
+	void onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev);
+	/*! Creates new physical world for working with optional bodies
+	  */
+	void createWorld();
  public:
 	/*! Creates a new non-paused game with no highscore
 	 */

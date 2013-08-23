@@ -8,8 +8,12 @@ DECLARE_SOBJ_INHERITANCE(Player,GameObject)
 
 Player::Player()
 {
+	m_score = 0;
+	m_hp = 10;
+
 	this->initFromConstants<Player>();
 	m_gun = new AutomaticGun<PlayerBullet>();
+	m_gun->setAngleDifference(0);
 	m_gun->disable();
 	this->addGun( m_gun );
 }
@@ -46,10 +50,10 @@ int Player::increaseScore(int delta)
 
 /*! A positive speed as passed distance in second
  */
-#define P_SPEED 1.0
+#define P_SPEED 200.0
 /*! A negative speed as passed distance in second
  */
-#define N_SPEED -1.0
+#define N_SPEED -200.0
 
 void Player::tryStartMovingLeft(const sad::Event & e)
 {

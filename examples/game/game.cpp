@@ -69,7 +69,7 @@ Game::Game()
 	m_machine->addState(GameState::PLAYING, playState);
 	SL_MESSAGE("States bound successfully");
 
-	m_world = new p2d::World();
+	createWorld();
 	m_player = NULL;
 	
 	m_steptask = new p2d::WorldStepTask(m_world);
@@ -194,11 +194,8 @@ void Game::leaveStartingScreen()
 	this->scene()->clear();
 	
 	delete m_world;
-	m_world = new p2d::World();
+	createWorld();
 	m_steptask->setWorld(m_world);
-	
-	this->createWalls();
-
 }
 
 void Game::leavePlayingScreen()
@@ -206,11 +203,10 @@ void Game::leavePlayingScreen()
 	this->scene()->clear();
 	
 	delete m_world;
-	m_world = new p2d::World();
+	createWorld();
 	m_steptask->setWorld(m_world);
 	
 	m_player = NULL;
-	this->createWalls();
 }
 
 
@@ -222,6 +218,11 @@ void Game::enterStartingScreen()
 	sc->add(new sad::Background("title"));
 	sc->add(new StateLabel(this));
 	m_spawntask->setEvent(new StartScreenRain(this) );
+
+	// Handlers also register types in world, so they MUST BE added before
+	// any object ia added to scene
+	m_world->addHandler(this, &Game::onWallCollision);
+	this->createWalls();
 }
 
 
@@ -233,17 +234,24 @@ void Game::enterPlayingScreen()
 	sc->add(new StateLabel(this));
 	m_spawntask->setEvent(new EnemySpawn(this) );
 
+	// Handlers also register types in world, so they MUST BE added before
+	// any object ia added to scene
+	m_world->addHandler(this, &Game::onWallCollision);
+
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	Player * p  = new  Player();
 	p->setPosition(p2d::Point(320.0,240.0));
 	addObject(p);
 
 	m_player = p;	
+
+	createWalls();
 }
 
 void Game::removeObject(GameObject *o)
 {
-	m_world->removeBody(o->body());
+	p2d::Body * b = o->body();
+	m_world->removeBody(b);
 	sad::Renderer::ref()->getCurrentScene()->remove(o);
 	// If player is dead, no reason to continue playing, 
 	// return to start screen
@@ -292,4 +300,24 @@ void Game::createWalls()
 	{
 		m_world->addBody(bodies[i]);
 	}
+}
+
+
+void Game::onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev)
+{
+	if (ev.object2().metaData()->name() == "Player")
+	{
+		Player * p = hst::checked_cast<Player>(& (ev.object2()));
+		ev.object1().tryTeleport(p);
+	}
+	else
+	{
+		removeObject(&(ev.object2()));
+	}
+}
+
+void Game::createWorld()
+{
+	m_world = new p2d::World();
+	m_world->setDetector(new p2d::SimpleCollisionDetector());
 }

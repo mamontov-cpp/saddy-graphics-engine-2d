@@ -8,17 +8,8 @@
 #include <p2d/body.h>
 #include <p2d/circle.h>
 #include <p2d/line.h>
+#include <p2d/bounds.h>
 #pragma once
-
-/*! Specifies a wall type
- */
-enum WallType
-{
-	WT_LEFT = 0,
-	WT_RIGHT = 1,
-	WT_UP = 2,
-	WT_DOWN = 3
-};
 
 class Player;
 class Wall: public sad::Object
@@ -27,7 +18,7 @@ class Wall: public sad::Object
   protected:
 	  /*! A type of wall
 	   */
-	  WallType m_type;
+	  p2d::BoundType m_type;
 	  /*! Returns a teleportation position for circle
 		  \param[in] c circle
 	   */
@@ -36,7 +27,7 @@ class Wall: public sad::Object
 	  /*! A type of wall
 		  \param[in] w wall type
 	   */
-	  Wall(WallType w);
+	  Wall(p2d::BoundType w);
 	  /*! Tries to teleport an object
 	   */
 	  void tryTeleport(Player * p);
@@ -55,7 +46,7 @@ class Walls
   public:
 	  /*! A minimal definition for a wall
 	   */
-	  typedef hst::pair<WallType, p2d::Cutter2D> minimal_t;
+	  typedef hst::pair<p2d::BoundType, double> minimal_t;
 	  /*! Creates walls and bodies
 	   */
 	  Walls();

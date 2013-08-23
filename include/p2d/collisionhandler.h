@@ -42,6 +42,8 @@ class FunctionCollisionHandler  : public p2d::BasicCollisionHandler
 		  if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
 		  {
 			  p2d::CollisionEvent<T1, T2> e;
+			  e.p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
+			  e.p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
 			  e.m_time = ev.m_time;
 			  e.m_object_1 = hst::checked_cast<T1>(ev.m_object_1->userObject());
 			  e.m_object_2 = hst::checked_cast<T2>(ev.m_object_2->userObject());
@@ -92,6 +94,8 @@ class MethodCollisionHandler  : public p2d::BasicCollisionHandler
 		  {
 			  p2d::CollisionEvent<T1, T2> e;
 			  e.m_time = ev.m_time;
+			  e.p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
+			  e.p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
 			  e.m_object_1 = hst::checked_cast<T1>(ev.m_object_1->userObject());
 			  e.m_object_2 = hst::checked_cast<T2>(ev.m_object_2->userObject());
 			  (m_o->*m_p)(e);

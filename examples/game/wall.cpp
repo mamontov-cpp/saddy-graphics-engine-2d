@@ -5,7 +5,7 @@
 
 DECLARE_SOBJ(Wall);
 
-Wall::Wall(WallType w) : m_type(w)
+Wall::Wall(p2d::BoundType w) : m_type(w)
 {
 }
 
@@ -26,19 +26,19 @@ p2d::Point Wall::position(p2d::Circle * c)
 	p2d::Point ce =  c->center();
 	double r = c->radius(); 
 	p2d::Point result;
-	if (m_type == WT_LEFT)
+	if (m_type == p2d::BT_LEFT)
 	{
 		result =  p2d::Point(w - r - PADDING, ce.y() ); 
 	}
-	if (m_type == WT_RIGHT)
+	if (m_type == p2d::BT_RIGHT)
 	{
 		result =  p2d::Point(r + PADDING, ce.y() ); 
 	}
-	if (m_type == WT_DOWN)
+	if (m_type == p2d::BT_DOWN)
 	{
 		result =  p2d::Point(ce.x(), h - r - PADDING ); 
 	}
-	if (m_type == WT_UP)
+	if (m_type == p2d::BT_UP)
 	{
 		result =  p2d::Point(ce.x(), r + PADDING ); 
 	}
@@ -51,17 +51,19 @@ Walls::Walls()
 	double h = sad::Renderer::ref()->settings().height();
 	
 	hst::vector< minimal_t > pairs;
-	pairs << minimal_t( WT_LEFT, p2d::cutter(-7, 0, -7, h ) );
-	pairs << minimal_t( WT_RIGHT, p2d::cutter( w + 7 , 0, w + 7, h) );
-	pairs << minimal_t( WT_UP, p2d::cutter( 0 , h + 7, w, h + 7) );
-	pairs << minimal_t( WT_DOWN, p2d::cutter( 0 , - 7, w, h - 7) );
+	pairs << minimal_t( p2d::BT_LEFT, -14 );
+	pairs << minimal_t( p2d::BT_RIGHT, w + 14);
+	pairs << minimal_t( p2d::BT_UP, h + 14 );
+	pairs << minimal_t( p2d::BT_DOWN, -14 );
 
 	for(size_t i = 0; i < pairs.size(); i++)
 	{
-		p2d::Line * line = new p2d::Line();
-		line->setCutter(pairs[i].p2());
+		p2d::Bound * bound = new p2d::Bound();
+		bound->setPosition(pairs[i].p2());
+		bound->setType(pairs[i].p1());
+		
 		p2d::Body * b = new p2d::Body();
-		b->setShape(line);
+		b->setShape(bound);
 		m_bodies << b;
 
 		Wall * w = new Wall(pairs[i].p1());

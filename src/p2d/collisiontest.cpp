@@ -10,6 +10,10 @@ void p2d::CollisionTest::init()
 	add(p2d::CollisionTest::collidesCtoL);
 	add(p2d::CollisionTest::collidesLtoL);
 
+	add(p2d::CollisionTest::collidesBtoR);
+	add(p2d::CollisionTest::collidesBtoC);
+	add(p2d::CollisionTest::collidesBtoL);
+	add(p2d::CollisionTest::collidesBtoB);
 }
 
 
@@ -34,7 +38,7 @@ bool p2d::CollisionTest::collidesRtoC(p2d::Rectangle * p1, p2d::Circle * p2)
 	
 	p2d::ConvexHull hull = p1->toHull();
 	bool collides = true;
-	for(int i = 0; i < axles.size();i++)
+	for(int i = 0; i < axles.size() && collides;i++)
 	{
 		p2d::Cutter1D c1 = hull.project(axles[i]);
 		p2d::Cutter1D c2 = p2->project(axles[i]);
@@ -69,11 +73,10 @@ bool p2d::CollisionTest::collidesCtoL(p2d::Circle * p1, p2d::Line * p2)
 	axles << p2d::axle(p1->center(), p2->cutter().p2());
 	axles << p2d::ortho(axles[4], p2d::OVI_DEG_90);
 	
-	p2d::ConvexHull hull = p1->toHull();
 	bool collides = true;
-	for(int i = 0; i < axles.size();i++)
+	for(int i = 0; i < axles.size() && collides;i++)
 	{
-		p2d::Cutter1D c1 = hull.project(axles[i]);
+		p2d::Cutter1D c1 = p1->project(axles[i]);
 		p2d::Cutter1D c2 = p2->project(axles[i]);
 		bool axlecollides = p2d::collides(c1, c2);
 		collides = collides && axlecollides;
@@ -87,3 +90,92 @@ bool p2d::CollisionTest::collidesLtoL(p2d::Line * p1, p2d::Line * p2)
 	p2d::ConvexHull hull2 = p2->toHull();
 	return hull1.collides(hull2);
 }
+
+
+bool p2d::CollisionTest::collidesBtoB(p2d::Bound * p1, p2d::Bound * p2)
+{
+	p2d::BoundType bt1 = p1->type();
+	p2d::BoundType bt2 = p2->type();
+	if (p1->isOrthogonal(p2) || bt1 == bt2)
+	{
+		return true;
+	}
+	// Check opposite
+	if ((bt1 == BT_LEFT  &&  bt2 == BT_RIGHT)
+		|| (bt1 == BT_DOWN  &&  bt2 == BT_UP))
+	{
+		return p1->position() >= p2->position();	
+	}
+	if ((bt1 == BT_RIGHT  &&  bt2 == BT_LEFT)
+		|| (bt1 == BT_UP  &&  bt2 == BT_DOWN))
+	{
+		return p1->position() <= p2->position();	
+	}
+	return false;
+}
+
+
+bool p2d::CollisionTest::collidesBtoR(p2d::Bound * p1, p2d::Rectangle * p2)
+{
+	return p2d::CollisionTest::collidesBtoS(p1, p2);
+}
+
+bool p2d::CollisionTest::collidesBtoC(p2d::Bound * p1, p2d::Circle * p2)
+{
+	if (p1->type() == BT_LEFT)
+	{
+		double p = p2->center().x() - p2->radius();
+		return p <= p1->position();
+	}
+	if (p1->type() == BT_RIGHT)
+	{
+		double p = p2->center().x() + p2->radius();
+		return p >= p1->position();
+	}
+	if (p1->type() == BT_UP)
+	{
+		double p = p2->center().y() - p2->radius();
+		return p >= p1->position();
+	}
+	if (p1->type() == BT_DOWN)
+	{
+		double p = p2->center().y() + p2->radius();
+		return p <= p1->position();
+	}
+	return false;
+}
+
+bool p2d::CollisionTest::collidesBtoL(p2d::Bound * p1, p2d::Line * p2)
+{
+	return p2d::CollisionTest::collidesBtoS(p1, p2);
+}
+
+bool p2d::CollisionTest::collidesBtoS(p2d::Bound * p1, p2d::CollisionShape * p2)
+{
+	if (p1->type() == BT_LEFT)
+	{
+		p2d::Vector v(1, 0);
+		p2d::Cutter1D c = p2->project(v);
+		return c.p1() <= p1->position();
+	}
+	if (p1->type() == BT_RIGHT)
+	{
+		p2d::Vector v(1, 0);
+		p2d::Cutter1D c = p2->project(v);
+		return c.p2() >= p1->position();
+	}
+	if (p1->type() == BT_UP)
+	{
+		p2d::Vector v(0, 1);
+		p2d::Cutter1D c = p2->project(v);
+		return c.p2() >= p1->position();
+	}
+	if (p1->type() == BT_DOWN)
+	{
+		p2d::Vector v(0, 1);
+		p2d::Cutter1D c = p2->project(v);
+		return c.p2() <= p1->position();
+	}
+	return false;
+}
+

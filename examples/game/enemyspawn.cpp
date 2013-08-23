@@ -13,15 +13,13 @@ void EnemySpawn::perform()
 	if (m_game->isPaused() == false)
 	{
 		// Compute position for new object
-		double x, y;
 		double padding  = 12; // A small paddings out of scren borders
 		double xmin = padding,  ymin = padding; 
 		double xmax = sad::Renderer::ref()->settings().width() - padding;
 		double ymax = sad::Renderer::ref()->settings().height() - padding;
-		if (rand() % 4 > 1 )
-	    {x=((double)rand()/RAND_MAX)*(xmax - xmin) + xmin; }
-	   else
-	    {y=((double)rand()/RAND_MAX)*(ymax - ymin) + ymin; }
+		double x =0 , y = ymax;
+		x=((double)rand()/RAND_MAX)*(xmax - xmin) + xmin; 
+	    y=((double)rand()/RAND_MAX)*(ymax - ymin) + ymin; 
 
 		double vx=(float)rand()/RAND_MAX * 250 - 150;
 		double vy=(float)rand()/RAND_MAX * 250 - 150;
