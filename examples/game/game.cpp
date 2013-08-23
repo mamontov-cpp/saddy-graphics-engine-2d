@@ -202,29 +202,18 @@ void Game::leaveStartingScreen()
 
 void Game::leavePlayingScreen()
 {
-	this->scene()->clear();
-	
-	delete m_world;
-	createWorld();
-	m_steptask->setWorld(m_world);
-	
-	m_player = NULL;
+	// We don't leave screen here, because it can be called from p2d::World::step()
+	// so we can break execution chain, if we kill world here
 }
 
 
 void Game::enterStartingScreen()
 {
-	m_ispaused = false;
-	sad::Scene * sc = this->scene();
-	// Fill screne with background, label and rain of element (the last object does that).
-	sc->add(new sad::Background("title"));
-	sc->add(new StateLabel(this));
-	m_spawntask->setEvent(new StartScreenRain(this) );
-
-	// Handlers also register types in world, so they MUST BE added before
-	// any object ia added to scene
-	m_world->addHandler(this, &Game::onWallCollision);
-	this->createWalls();
+	// See Game::moveToPlayingScreen. We should perform change from here,
+	// otherwise, execution chain will break
+	sad::Renderer::ref()->controls()->addPostRenderTask(
+		new sad::MethodCountableTask<Game>(this, &Game::moveToStartingScreen)
+	);
 }
 
 
@@ -243,6 +232,10 @@ void Game::enterPlayingScreen()
 	m_world->addHandler(this, &Game::onPlayerBulletEnemy);
 	m_world->addHandler(this, &Game::onPlayerBulletSEnemy);
 	m_world->addHandler(this, &Game::onPlayerBulletSuperEnemy);
+	m_world->addHandler(this, &Game::onPlayerEnemyBullet);
+	m_world->addHandler(this, &Game::onPlayerEnemy);
+	m_world->addHandler(this, &Game::onPlayerShootingEnemy);
+	m_world->addHandler(this, &Game::onPlayerSuperShootingEnemy);
 
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	Player * p  = new  Player();
@@ -354,5 +347,54 @@ void Game::onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, Supe
 	ev.object2().decrementHP(1);
 	ev.object1().decrementHP(1);
 	this->player()->increaseScore(400);
+}
+
+void Game::onPlayerEnemyBullet(const p2d::CollisionEvent<Player, EnemyBullet> & ev)
+{
+	ev.object2().decrementHP(ev.object2().hitPoints());
+	ev.object1().decrementHP(1);
+}
+
+void Game::onPlayerEnemy(const p2d::CollisionEvent<Player, Enemy> & ev)
+{
+	ev.object2().decrementHP(ev.object2().hitPoints());
+	ev.object1().decrementHP(1);
+}
+
+void Game::onPlayerShootingEnemy(const p2d::CollisionEvent<Player, ShootingEnemy> & ev)
+{
+	ev.object2().decrementHP(ev.object2().hitPoints());
+	ev.object1().decrementHP(1);
+}
+
+void Game::onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperShootingEnemy> & ev)
+{
+	ev.object2().decrementHP(ev.object2().hitPoints());
+	ev.object1().decrementHP(1);
+}
+
+
+void Game::moveToStartingScreen()
+{
+	this->scene()->clear();
+	
+	delete m_world;
+	createWorld();
+	m_steptask->setWorld(m_world);
+	
+	m_player = NULL;
+	m_ispaused = false;
+	sad::Scene * sc = this->scene();
+
+	// Fill screne with background, label and rain of element (the last object does that).
+	sc->add(new sad::Background("title"));
+	sc->add(new StateLabel(this));
+	m_spawntask->setEvent(new StartScreenRain(this) );
+
+	// Handlers also register types in world, so they MUST BE added before
+	// any object ia added to scene
+	m_world->addHandler(this, &Game::onWallCollision);
+	this->createWalls();
+
 }
 
