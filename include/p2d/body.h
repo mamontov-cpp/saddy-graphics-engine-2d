@@ -56,6 +56,9 @@ public:
 	/*! Construct new body line with zero width at (0,0) with zero speed
 	 */
 	Body();
+	/*! Returns current shape for a body
+	 */
+	p2d::CollisionShape * currentShape();
 	/*! Sets user object for a body
 	 */
 	virtual void setUserObject(sad::Object * o);
