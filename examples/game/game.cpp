@@ -183,7 +183,7 @@ void Game::enterStartingScreen()
 	sad::Scene * sc = this->scene();
 	// Fill screne with background, label and rain of element (the last object does that).
 	sc->add(new sad::Background("title"));
-	sc->add(new StateLabel(HIGHSCORE,"times_lg"));
+	sc->add(new StateLabel(this));
 	sc->add(new EnemyEmitter(IDLE_RAIN));
 }
 
@@ -196,7 +196,7 @@ void Game::enterPlayingScreen()
 	addTestingTask();
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	sc->add(new sad::Background("background"));
-	sc->add(new StateLabel(PLAYERSTATE,"times_lg"));
+	sc->add(new StateLabel(this));
 	sc->add(new EnemyEmitter(REAL_SPAWN));
 	Player * p  = new  Player(hPointF(320.0,240.0));
 	p->setGame(this);
