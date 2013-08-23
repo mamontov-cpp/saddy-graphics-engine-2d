@@ -20,6 +20,8 @@ enum Objects
 
 class Player;
 class GameObject;
+class Walls;
+
 /*! Represents enumeration of game state data
  */
 class GameState
@@ -39,6 +41,7 @@ class Game
 	fsm::Machine * m_machine;    //!< A state machine, which describes all transitions
 	Player       * m_player;     //!< A link to in-game player
 	p2d::World   * m_world;      //!< A physical engine world
+	Walls        * m_walls;      //!< A new walls
  protected:
 	/*! Sets a new highscore for game, sets in if it's largest that current
 		score.

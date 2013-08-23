@@ -27,7 +27,7 @@ StateLabel::StateLabel(Game * g) : m_game(g)
 	}
 	// Set rendering point to current point
 	this->render_point()=this->point();
-	m_lastcl=0;
+	m_last_updated=0;
 }
 
 StateLabel::~StateLabel()
@@ -36,7 +36,7 @@ StateLabel::~StateLabel()
 }
 void StateLabel::render()
 {
-	if (clock()-m_lastcl>UPDATE_FREQ)
+	if (clock()-m_last_updated>UPDATE_FREQ)
 	{
 		m_last_updated = clock();
 	   (this->*m_text)();
@@ -62,7 +62,7 @@ void StateLabel::updateHighscore()
 void StateLabel::updateGameStatus()
 { 
   hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}")
-					  << m_game->player()->health()
+					  << m_game->player()->hitPoints()
 					  << m_game->player()->score()
 					  << m_game->highscore()
   );
