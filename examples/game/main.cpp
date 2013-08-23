@@ -74,61 +74,6 @@ bool load_font(const hst::string & fontfolder, const hst::string & fontname)
 	return result;
 }
 
-/*! A callback, called when bullet, owned by player, hits an enemy
-	An enemy dies and score rises by 100
-	\param[in] bullet object 1
-	\param[in] enemy  object 2
- */
-/*
-void playerbullet_collided_with_enemy(Collidable * bullet,Collidable * enemy)
-{
-	PlayingGame->increasePlayerScore(100);
-	enemy->die();
-}
-*/
-/*! A callback, called when player's bullet hits an enemy, which throws other enemies
-	An enemy decreases life by one and bullet is removed from scene
-	\param[in] playerbullet object 1
-	\param[in] enemy  object 2
- */
-/*
-void playerbullet_collided_with_supershootingenemy(Collidable * playerbullet, Collidable * enemy)
-{
-	SuperShootingEnemy * tenemy = (SuperShootingEnemy *) enemy;
-	tenemy->hit();
-	playerbullet->die();
-}
-*/
-/*! A callback, called when player hits a bonus
-	A score rises by 50, player's health rises by 1 and bonus removed from scene
-	\param[in] player object 1
-	\param[in] bonus  object 2
- */
-/*
-void player_collided_with_bonus(Collidable * player, Collidable * bonus)
-{
-	PlayingGame->increasePlayerScore(50);
-	PlayingGame->increasePlayerHealth(1);
-	bonus->die();
-}
-*/
-/*! A callback, called when player hits a bullet
-	A life decreases, and if becomes less than zero, player dies and start screen is toggled
-	\param[in] player object 1
-	\param[in] enemyorbullet  object 2
- */
-/*
-void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable * enemyorbullet)
-{
- if (enemyorbullet->type() == SuperShootingEnemy::ID)
- {
-	SL_DEBUG("Dying today");
- }
-  enemyorbullet->die();
-  PlayingGame->decreasePlayerHealth(1);
-}
-*/
-
 
 int main(int argc, char** argv)
 {
@@ -171,27 +116,6 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	SL_MESSAGE(hst::string("Resources successfully loaded"));
-		
-
-	// A bind macro  is defined between two types and callbacks
-	// two add a collision behavour between two collidable objects
-#define BIND(TYPE1, TYPE2, CALLBACK)                    \
-	CollisionManager::bind( TYPE1 ::ID,                 \
-							TYPE2 ::ID,                 \
-							testCollidables,            \
-							new CCHandler( CALLBACK ));
-	// Here we bind all of callbacks, declared before
-	/*
-	BIND(PlayerBullet, Enemy,  playerbullet_collided_with_enemy);
-	BIND(PlayerBullet, ShootingEnemy, playerbullet_collided_with_enemy);
-	BIND(PlayerBullet, SuperShootingEnemy, playerbullet_collided_with_supershootingenemy);
-	BIND(Player, Bonus, player_collided_with_bonus);
-	BIND(Player, EnemyBullet, player_collided_with_enemy_or_enemybullet);
-	BIND(Player, Enemy, player_collided_with_enemy_or_enemybullet);
-	BIND(Player, ShootingEnemy, player_collided_with_enemy_or_enemybullet);
-	BIND(Player, SuperShootingEnemy, player_collided_with_enemy_or_enemybullet);
-	*/
-#undef BIND
 	
 	// Create and run game
 	Game * game = new Game();
