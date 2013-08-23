@@ -1,15 +1,17 @@
 #include "game.h"
-#include "player.h"
 #include <renderer.h>
 #include <orthocamera.h>
 #include <extra/background.h>
 #include <extra/geometry2d.h>
+
 #include "statelabel.h"
-#include "gameobject.h"
 #include "bonus.h"
 #include "enemy.h"
 #include "shootingenemy.h"
 #include "supershootingenemy.h"
+#include "startscreenrain.h"
+#include "enemyspawn.h"
+#include "player.h"
 
 const hst::string GameState::START = "start";
 const hst::string GameState::PLAYING = "playing";
@@ -38,7 +40,7 @@ Game::Game()
 	playState->addKeyDownCallback('F', this, &Game::tryToggleFullscreen);
 	playState->addKeyDownCallback('P', this, &Game::togglePaused);
 	playState->addKeyDownCallback(KEY_ESC, this, &Game::quit);
-	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::tryShoot);
+	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
 
 	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
 	playState->addKeyDownCallback(KEY_RIGHT, this, &Game::player, &Player::tryStartMovingRight);
@@ -48,11 +50,13 @@ Game::Game()
 	playState->addKeyUpCallback(KEY_RIGHT, this, &Game::player, &Player::tryStopMovingHorizontally);
 	playState->addKeyUpCallback(KEY_UP,    this, &Game::player, &Player::tryStopMovingVertically);
 	playState->addKeyUpCallback(KEY_DOWN,  this, &Game::player, &Player::tryStopMovingVertically);
+	playState->addKeyUpCallback(KEY_ENTER,  this, &Game::player, &Player::stopShooting);
 
 
 	playState->addEventCallback(fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
-	playState->addEventCallback(fsm::Names::MOUSECLICK, this, &Game::player, &Player::tryShoot);
-
+	playState->addEventCallback(fsm::Names::MOUSEDOWN, this, &Game::player, &Player::startShooting);
+	playState->addEventCallback(fsm::Names::MOUSEUP, this, &Game::player, &Player::stopShooting);
+	
 	playState->addEnterCallback(this, &Game::enterPlayingScreen);
 	playState->addLeaveCallback(this, &Game::leavePlayingScreen);
 
@@ -150,16 +154,12 @@ void Game::increasePlayerScore(int delta)
 
 void Game::increasePlayerHealth(int by)
 {
-	this->player()->increaseHealth(by);
+	this->player()->incrementHP(by);
 }
 
 void Game::decreasePlayerHealth(int by)
 {
-	if (this->player()->decreaseHealth(by) <= 0)
-	{
-		this->player()->die();
-		this->m_machine->pushState(GameState::START);
-	}
+	this->player()->decrementHP(by);
 }
 
 
@@ -176,7 +176,6 @@ void Game::leaveStartingScreen()
 void Game::leavePlayingScreen()
 {
 	this->scene()->clear();
-	killTestingTask();
 	m_player = NULL;
 }
 
@@ -188,7 +187,11 @@ void Game::enterStartingScreen()
 	// Fill screne with background, label and rain of element (the last object does that).
 	sc->add(new sad::Background("title"));
 	sc->add(new StateLabel(this));
-	sc->add(new EnemyEmitter(IDLE_RAIN));
+	sad::Input::ref()->addPostRenderTask( 
+		new TimePeriodicalTask( 
+			new StartScreenRain(this) 
+		) 
+	);
 }
 
 
@@ -196,26 +199,27 @@ void Game::enterPlayingScreen()
 {
 	m_ispaused = false;
 	sad::Scene * sc = this->scene();
-	// We enable collision testing task, adding some item for computing collisions
-	addTestingTask();
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	sc->add(new sad::Background("background"));
 	sc->add(new StateLabel(this));
-	sc->add(new EnemyEmitter(REAL_SPAWN));
-	Player * p  = new  Player(hPointF(320.0,240.0));
-	p->setGame(this);
-	p->lookAt(_(sad::Renderer::ref()->mousePos()));
-    sc->add(p);
+	sad::Input::ref()->addPostRenderTask( 
+		new TimePeriodicalTask( 
+			new EnemySpawn(this) 
+		) 
+	);
+	Player * p  = new  Player();
+	p->setPosition(p2d::Point(320.0,240.0));
+	addObject(p);
 	m_player = p;	
 }
 
 void Game::removeObject(GameObject *o)
 {
 	m_world->removeBody(o->body());
-	sad::Renderer::ref()->scene()->remove(o);
+	sad::Renderer::ref()->getCurrentScene()->remove(o);
 	// If player is dead, no reason to continue playing, 
 	// return to start screen
-	if (o->metaData()->name == "Player")
+	if (o->metaData()->name() == "Player")
 	{
 		m_machine->pushState(GameState::START);
 	}
@@ -227,7 +231,7 @@ const hst::string & Game::state()
 	return m_machine->currentStateName();
 }
 
-void Game::produce(Objects type)
+GameObject *  Game::produce(Objects type)
 {
 	GameObject * result = NULL;
 	switch(type)

@@ -6,6 +6,7 @@
 #pragma once
 #include <extra/statemachine.h>
 #include <scene.h>
+#include <p2d/world.h>
 
 /*! An enumerations for creating factory objects
  */
@@ -37,6 +38,7 @@ class Game
 	bool m_ispaused;		     //!< Whether game is paused
 	fsm::Machine * m_machine;    //!< A state machine, which describes all transitions
 	Player       * m_player;     //!< A link to in-game player
+	p2d::World   * m_world;      //!< A physical engine world
  protected:
 	/*! Sets a new highscore for game, sets in if it's largest that current
 		score.

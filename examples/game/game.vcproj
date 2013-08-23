@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\enemyspawn.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\game.cpp"
 				>
 			</File>
@@ -215,10 +219,6 @@
 			</File>
 			<File
 				RelativePath=".\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\movitem.cpp"
 				>
 			</File>
 			<File
@@ -268,6 +268,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\enemyspawn.h"
+				>
+			</File>
+			<File
 				RelativePath=".\game.h"
 				>
 			</File>
@@ -277,10 +281,6 @@
 			</File>
 			<File
 				RelativePath=".\gameobjectconstants.h"
-				>
-			</File>
-			<File
-				RelativePath=".\movitem.h"
 				>
 			</File>
 			<File
