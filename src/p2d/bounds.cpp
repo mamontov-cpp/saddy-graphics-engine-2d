@@ -1,4 +1,4 @@
-#include "bounds.h"
+#include "p2d/bounds.h"
 
 DECLARE_SOBJ_INHERITANCE(p2d::Bound, p2d::CollisionShape);
 
