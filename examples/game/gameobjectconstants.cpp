@@ -33,6 +33,16 @@ p2d::CollisionShape * GameObjectConstants<PlayerBullet>::shape()
 	return c;
 }
 
+double GameObjectConstants<PlayerBullet>::velocity()
+{
+	return 121;
+}
+
+double GameObjectConstants<PlayerBullet>::interval()
+{
+	return 150;
+}
+
 Sprite2DAdapter::Options * GameObjectConstants<EnemyBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
@@ -45,6 +55,11 @@ Sprite2DAdapter::Options * GameObjectConstants<EnemyBullet>::sprite()
 double GameObjectConstants<EnemyBullet>::velocity()
 {
 	return 121;
+}
+
+double GameObjectConstants<EnemyBullet>::interval()
+{
+	return 150;
 }
 
 p2d::CollisionShape * GameObjectConstants<EnemyBullet>::shape()
@@ -104,6 +119,16 @@ Sprite2DAdapter::Options * GameObjectConstants<ShootingEnemy>::sprite()
 	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
 	o->Rectangle = hRectF(hPointF(-10, -10), hPointF(10, 10));
 	return o;
+}
+
+double GameObjectConstants<ShootingEnemy>::velocity()
+{
+	return 200;
+}
+
+double GameObjectConstants<ShootingEnemy>::interval()
+{
+	return 100;
 }
 
 p2d::CollisionShape * GameObjectConstants<ShootingEnemy>::shape()

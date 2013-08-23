@@ -63,6 +63,13 @@ class GameObjectConstants<PlayerBullet>
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for bullet
+		\return velocity
+	 */
+	static double velocity();
+	/*! Returns a shooting interval with this bullet type
+	 */
+	static double interval();
 };
 
 
@@ -76,6 +83,9 @@ public:
 		\return velocity
 	 */
 	static double velocity();
+	/*! Returns a shooting interval with this bullet type
+	 */
+	static double interval();
 };
 
 
@@ -103,6 +113,13 @@ class GameObjectConstants<ShootingEnemy>
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for shooting enemy as a bullet
+		\return velocity
+	 */
+	static double velocity();
+	/*! Returns a shooting interval for this enemy as a bullet
+	 */
+	static double interval();
 };
 
 

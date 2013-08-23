@@ -179,3 +179,9 @@ void GameObject::addGun(AbstractAutomaticGun * gun)
 	m_guns << gun;
 	gun->setObject(this);
 }
+
+
+void GameObject::setPosition(const p2d::Point & p)
+{
+	m_body->setCurrentPosition(p);
+}

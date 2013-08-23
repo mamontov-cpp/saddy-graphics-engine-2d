@@ -230,7 +230,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\shootingenemy.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\statelabel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\supershootingenemy.cpp"
 				>
 			</File>
 		</Filter>
@@ -280,7 +288,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\shootingenemy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\statelabel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\supershootingenemy.h"
 				>
 			</File>
 		</Filter>
