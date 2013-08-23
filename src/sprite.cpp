@@ -75,11 +75,14 @@ Sprite::Sprite(
 {
 	m_tex=tex;
 	DEFAULT_COLOR_INITIALIZATION;
+	if (m_tex != NULL)
+	{
 	for (int i=0;i<4;i++)
 	{
 	 m_rect[i]=rect[i];
 	 m_tex_coord[(3-i)<<1]=(float)(texrect[i].x()/m_tex->width());
 	 m_tex_coord[(3-i)<<1 | 1]=(float)(texrect[i].y()/m_tex->height());
+	}
 	}
 }
 

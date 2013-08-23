@@ -17,7 +17,7 @@ void PeriodicalEvent::tryPerform()
 	double deltainms = deltainsec * 1000.0;
 	if (deltainms >= m_interval && m_enabled)
 	{
-		m_last_shot = 0;
+		m_last_shot = clock();
 		perform();
 	}
 }
