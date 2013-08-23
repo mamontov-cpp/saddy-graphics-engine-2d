@@ -31,3 +31,25 @@ void PeriodicalEvent::enable()
 {
 	m_enabled = true;
 }
+
+
+TimePeriodicalTask::TimePeriodicalTask(PeriodicalEvent * e) : m_event(e)
+{
+
+}
+
+PeriodicalEvent * TimePeriodicalTask::e()
+{
+	return m_event;
+}
+
+void TimePeriodicalTask::perform()
+{
+	m_event->tryPerform();
+}
+
+
+TimePeriodicalTask::~TimePeriodicalTask()
+{
+	delete m_event;
+}

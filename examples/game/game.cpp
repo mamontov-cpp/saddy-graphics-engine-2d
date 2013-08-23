@@ -6,6 +6,10 @@
 #include <extra/geometry2d.h>
 #include "statelabel.h"
 #include "gameobject.h"
+#include "bonus.h"
+#include "enemy.h"
+#include "shootingenemy.h"
+#include "supershootingenemy.h"
 
 const hst::string GameState::START = "start";
 const hst::string GameState::PLAYING = "playing";
@@ -202,8 +206,7 @@ void Game::enterPlayingScreen()
 	p->setGame(this);
 	p->lookAt(_(sad::Renderer::ref()->mousePos()));
     sc->add(p);
-	m_player = p;
-	
+	m_player = p;	
 }
 
 void Game::removeObject(GameObject *o)
@@ -222,4 +225,21 @@ void Game::removeObject(GameObject *o)
 const hst::string & Game::state()
 {
 	return m_machine->currentStateName();
+}
+
+void Game::produce(Objects type)
+{
+	GameObject * result = NULL;
+	switch(type)
+	{
+		O_BONUS: result = new Bonus(); break;
+        O_ENEMY: result = new Enemy(); break;
+        O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
+		O_SUPERSHOOTINGENEMY: result = new SuperShootingEnemy(); break;
+	}
+	if (result)
+	{
+		this->addObject(result);
+	}
+	return result;
 }

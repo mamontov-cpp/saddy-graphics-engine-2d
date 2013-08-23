@@ -4,6 +4,7 @@
 	Describes a period event, which performs in specified interval
  */
 #include <time.h>
+#include <input.h>
 #pragma once
 
 /*! An event, that is performed if last time shot is less than specified interval
@@ -44,3 +45,33 @@ class PeriodicalEvent
 	 virtual ~PeriodicalEvent();
 };
 
+/*! A special case of repeating task, which invokes a periodical event
+ */
+class TimePeriodicalTask: public sad::RepeatingTask
+{
+  protected:
+	  PeriodicalEvent * m_event; //!< Inner event to be performed
+  public:
+	  /*! Created s periodical task with specified event
+		  \param[in] e event
+	   */
+	  TimePeriodicalTask(PeriodicalEvent * e);
+	  /*! Returns an event
+		  \return event
+	   */
+	  PeriodicalEvent * e();
+	  /*! Calls try perform upon event
+	   */
+	  virtual void perform();
+	  /*! Destroys event
+	   */
+	  ~TimePeriodicalTask();
+	  /*! Creates new periodical task for specified event
+	      \return task
+	   */
+	  template<typename _Event>
+	  static TimePeriodicalTask * create()
+	  {
+		  return new TimePeriodicalTask( new _Event() );
+	  }
+};

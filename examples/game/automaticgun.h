@@ -52,15 +52,19 @@ class AutomaticGun: public AbstractAutomaticGun
 	  */
 	 virtual void perform()
 	 {
-		 _Bullet * bullet = new _Bullet();
-		 m_object->game()->addObject(bullet);
-		 p2d::Point p = m_object->position();
-		 double angle = m_object->angle() + m_dangle;
-		 bullet->setPosition(p);
-		 bullet->setAngularVelocity(1.0);
-		 double speed = GameObjectConstants<_Bullet>::velocity();
-		 bullet->setHorizontalSpeed(speed * cos(angle));
-		 bullet->setVerticalSpeed(speed * sin(angle));
+		 // Check paused flag
+		 if (m_object->game()->isPaused() == false)
+		 {
+		  _Bullet * bullet = new _Bullet();
+		  m_object->game()->addObject(bullet);
+		  p2d::Point p = m_object->position();
+		  double angle = m_object->angle() + m_dangle;
+		  bullet->setPosition(p);
+		  bullet->setAngularVelocity(1.0);
+		  double speed = GameObjectConstants<_Bullet>::velocity();
+		  bullet->setHorizontalSpeed(speed * cos(angle));
+		  bullet->setVerticalSpeed(speed * sin(angle));
+		 }
 	 }
  public:
 	 AutomaticGun() : AbstractAutomaticGun()
