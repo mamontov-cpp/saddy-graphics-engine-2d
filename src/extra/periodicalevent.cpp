@@ -22,6 +22,11 @@ void PeriodicalEvent::tryPerform()
 	}
 }
 
+void PeriodicalEvent::setInterval(double interval)
+{
+	m_interval = interval;
+}
+
 void PeriodicalEvent::disable()
 {
 	m_enabled = false;

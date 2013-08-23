@@ -247,3 +247,10 @@ GameObject *  Game::produce(Objects type)
 	}
 	return result;
 }
+
+void Game::addObject(GameObject * o)
+{
+	o->setGame(this);
+	sad::Renderer::ref()->getCurrentScene()->add(o);
+	m_world->addBody(o->body());
+}

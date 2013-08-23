@@ -13,8 +13,6 @@
 #include <fontmanager.h>
 #include <png/picopngloader.h>
 #include "game.h"
-#include "player.h"
-#include "movitem.h"
 
 #include <math.h>
 #include <time.h>
@@ -81,38 +79,45 @@ bool load_font(const hst::string & fontfolder, const hst::string & fontname)
 	\param[in] bullet object 1
 	\param[in] enemy  object 2
  */
+/*
 void playerbullet_collided_with_enemy(Collidable * bullet,Collidable * enemy)
 {
 	PlayingGame->increasePlayerScore(100);
 	enemy->die();
 }
+*/
 /*! A callback, called when player's bullet hits an enemy, which throws other enemies
 	An enemy decreases life by one and bullet is removed from scene
 	\param[in] playerbullet object 1
 	\param[in] enemy  object 2
  */
+/*
 void playerbullet_collided_with_supershootingenemy(Collidable * playerbullet, Collidable * enemy)
 {
 	SuperShootingEnemy * tenemy = (SuperShootingEnemy *) enemy;
 	tenemy->hit();
 	playerbullet->die();
 }
+*/
 /*! A callback, called when player hits a bonus
 	A score rises by 50, player's health rises by 1 and bonus removed from scene
 	\param[in] player object 1
 	\param[in] bonus  object 2
  */
+/*
 void player_collided_with_bonus(Collidable * player, Collidable * bonus)
 {
 	PlayingGame->increasePlayerScore(50);
 	PlayingGame->increasePlayerHealth(1);
 	bonus->die();
 }
+*/
 /*! A callback, called when player hits a bullet
 	A life decreases, and if becomes less than zero, player dies and start screen is toggled
 	\param[in] player object 1
 	\param[in] enemyorbullet  object 2
  */
+/*
 void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable * enemyorbullet)
 {
  if (enemyorbullet->type() == SuperShootingEnemy::ID)
@@ -122,7 +127,7 @@ void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable *
   enemyorbullet->die();
   PlayingGame->decreasePlayerHealth(1);
 }
-
+*/
 
 
 int main(int argc, char** argv)

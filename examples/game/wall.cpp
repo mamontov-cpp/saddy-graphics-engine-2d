@@ -17,7 +17,7 @@ void Wall::tryTeleport(Player * p)
   p->setPosition(pos);
 }
 
-#define PADDING 2
+#define PADDING -5
 
 p2d::Point Wall::position(p2d::Circle * c)
 {
@@ -43,4 +43,44 @@ p2d::Point Wall::position(p2d::Circle * c)
 		result =  p2d::Point(ce.x(), r + PADDING ); 
 	}
 	return result;
+}
+
+Walls::Walls()
+{
+	double w = sad::Renderer::ref()->settings().width();
+	double h = sad::Renderer::ref()->settings().height();
+	
+	hst::vector< minimal_t > pairs;
+	pairs << minimal_t( WT_LEFT, p2d::cutter(-7, 0, -7, h ) );
+	pairs << minimal_t( WT_RIGHT, p2d::cutter( w + 7 , 0, w + 7, h) );
+	pairs << minimal_t( WT_UP, p2d::cutter( 0 , h + 7, w, h + 7) );
+	pairs << minimal_t( WT_DOWN, p2d::cutter( 0 , - 7, w, h - 7) );
+
+	for(size_t i = 0; i < pairs.size(); i++)
+	{
+		p2d::Line * line = new p2d::Line();
+		line->setCutter(pairs[i].p2());
+		p2d::Body * b = new p2d::Body();
+		b->setShape(line);
+		m_bodies << b;
+
+		Wall * w = new Wall(pairs[i].p1());
+		b->setUserObject(w);
+		m_walls << w;
+	}
+
+}
+
+const hst::vector<p2d::Body *> Walls::bodies() const
+{
+	return m_bodies;
+}
+
+
+Walls::~Walls()
+{
+	for(size_t i = 0; i < m_walls.count(); i++)
+	{
+		delete m_walls[i];
+	}
 }
