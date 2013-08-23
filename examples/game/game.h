@@ -7,6 +7,16 @@
 #include <extra/statemachine.h>
 #include <scene.h>
 
+/*! An enumerations for creating factory objects
+ */
+enum Objects
+{
+	O_BONUS = 0,
+	O_ENEMY = 1,
+	O_SHOOTINGENEMY = 2,
+	O_SUPERSHOOTINGENEMY = 3
+};
+
 class Player;
 class GameObject;
 /*! Represents enumeration of game state data
@@ -106,6 +116,9 @@ class Game
 		\param[in] o game object
 	 */
 	void addObject(GameObject * o);
+	/*! Produces game object of specified type
+	 */
+	GameObject * produce(Objects type);
 	~Game();
 	 
 };
