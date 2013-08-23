@@ -12,6 +12,7 @@
 #include "startscreenrain.h"
 #include "enemyspawn.h"
 #include "player.h"
+#include "wall.h"
 
 const hst::string GameState::START = "start";
 const hst::string GameState::PLAYING = "playing";
@@ -68,6 +69,16 @@ Game::Game()
 	m_machine->addState(GameState::PLAYING, playState);
 	SL_MESSAGE("States bound successfully");
 
+	m_world = new p2d::World();
+	m_player = NULL;
+	
+	m_steptask = new p2d::WorldStepTask(m_world);
+	sad::Input::ref()->addPostRenderTask(m_steptask);
+
+	m_spawntask =  new TimePeriodicalTask(NULL);
+	sad::Input::ref()->addPostRenderTask(m_spawntask);
+
+	m_walls = NULL;
 }
 
 
@@ -93,6 +104,16 @@ bool Game::isPlaying() const
 void Game::togglePaused()
 {
 	m_ispaused = !m_ispaused;
+	if (isPaused())
+	{
+		// Disable stepping the world
+		this->m_steptask->disable();
+	}
+	else
+	{
+		// Enable stepping the world
+		this->m_steptask->enable();
+	}
 }
 
 int Game::highscore() const
@@ -171,12 +192,25 @@ sad::Scene * Game::scene()
 void Game::leaveStartingScreen()
 {
 	this->scene()->clear();
+	
+	delete m_world;
+	m_world = new p2d::World();
+	m_steptask->setWorld(m_world);
+	
+	this->createWalls();
+
 }
 
 void Game::leavePlayingScreen()
 {
 	this->scene()->clear();
+	
+	delete m_world;
+	m_world = new p2d::World();
+	m_steptask->setWorld(m_world);
+	
 	m_player = NULL;
+	this->createWalls();
 }
 
 
@@ -187,11 +221,7 @@ void Game::enterStartingScreen()
 	// Fill screne with background, label and rain of element (the last object does that).
 	sc->add(new sad::Background("title"));
 	sc->add(new StateLabel(this));
-	sad::Input::ref()->addPostRenderTask( 
-		new TimePeriodicalTask( 
-			new StartScreenRain(this) 
-		) 
-	);
+	m_spawntask->setEvent(new StartScreenRain(this) );
 }
 
 
@@ -199,17 +229,15 @@ void Game::enterPlayingScreen()
 {
 	m_ispaused = false;
 	sad::Scene * sc = this->scene();
-	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	sc->add(new sad::Background("background"));
 	sc->add(new StateLabel(this));
-	sad::Input::ref()->addPostRenderTask( 
-		new TimePeriodicalTask( 
-			new EnemySpawn(this) 
-		) 
-	);
+	m_spawntask->setEvent(new EnemySpawn(this) );
+
+	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	Player * p  = new  Player();
 	p->setPosition(p2d::Point(320.0,240.0));
 	addObject(p);
+
 	m_player = p;	
 }
 
@@ -223,7 +251,6 @@ void Game::removeObject(GameObject *o)
 	{
 		m_machine->pushState(GameState::START);
 	}
-	
 }
 
 const hst::string & Game::state()
@@ -236,10 +263,10 @@ GameObject *  Game::produce(Objects type)
 	GameObject * result = NULL;
 	switch(type)
 	{
-		O_BONUS: result = new Bonus(); break;
-        O_ENEMY: result = new Enemy(); break;
-        O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
-		O_SUPERSHOOTINGENEMY: result = new SuperShootingEnemy(); break;
+		case O_BONUS: result = new Bonus(); break;
+        case O_ENEMY: result = new Enemy(); break;
+        case O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
+		case O_SUPERSHOOTINGENEMY: result = new SuperShootingEnemy(); break;
 	}
 	if (result)
 	{
@@ -253,4 +280,16 @@ void Game::addObject(GameObject * o)
 	o->setGame(this);
 	sad::Renderer::ref()->getCurrentScene()->add(o);
 	m_world->addBody(o->body());
+}
+
+
+void Game::createWalls()
+{
+	delete m_walls;
+	m_walls = new Walls();
+	const hst::vector<p2d::Body *> & bodies = m_walls->bodies();
+	for(size_t i = 0; i < bodies.count(); i++)
+	{
+		m_world->addBody(bodies[i]);
+	}
 }

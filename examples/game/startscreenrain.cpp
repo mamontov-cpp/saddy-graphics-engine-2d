@@ -13,11 +13,11 @@ void StartScreenRain::perform()
 	if (m_game->isPaused() == false)
 	{
 		// Compute position for new object
-		double x, y;
 		double padding  = 12; // A small paddings out of scren borders
 		double xmin = padding,  ymin = padding; 
 		double xmax = sad::Renderer::ref()->settings().width() - padding;
 		double ymax = sad::Renderer::ref()->settings().height() - padding;
+		double x = padding, y = ymax - padding;
 		if (rand() % 4 > 1 )
 	    {x=((double)rand()/RAND_MAX)*(xmax-xmin)+xmin; }
 	   else

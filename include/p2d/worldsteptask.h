@@ -34,6 +34,10 @@ class WorldStepTask: public sad::RepeatingTask
 		 \return whether task is enabled
 	  */
 	 bool enabled() const;
+	 /*! Sets a world
+		 \param[in] world a world
+	  */
+	 void setWorld(p2d::World * world);
 	 /*! Steps a world
 	  */
 	 virtual void perform();

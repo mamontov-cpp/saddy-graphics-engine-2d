@@ -5,7 +5,9 @@
  */
 #pragma once
 #include <extra/statemachine.h>
+#include <extra/periodicalevent.h>
 #include <scene.h>
+#include <p2d/worldsteptask.h>
 #include <p2d/world.h>
 
 /*! An enumerations for creating factory objects
@@ -36,13 +38,18 @@ class GameState
 class Game
 {
  private:
-	int  m_highscore;		     //!< Defines a highest score, gained by player
-	bool m_ispaused;		     //!< Whether game is paused
-	fsm::Machine * m_machine;    //!< A state machine, which describes all transitions
-	Player       * m_player;     //!< A link to in-game player
-	p2d::World   * m_world;      //!< A physical engine world
-	Walls        * m_walls;      //!< A new walls
+	int  m_highscore;		         //!< Defines a highest score, gained by player
+	bool m_ispaused;		         //!< Whether game is paused
+	fsm::Machine * m_machine;        //!< A state machine, which describes all transitions
+	Player       * m_player;         //!< A link to in-game player
+	p2d::World   * m_world;          //!< A physical engine world
+	p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
+	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
+	Walls        * m_walls;          //!< A new walls
  protected:
+	/*! Create walls for game
+	 */
+    void createWalls();
 	/*! Sets a new highscore for game, sets in if it's largest that current
 		score.
 		\param

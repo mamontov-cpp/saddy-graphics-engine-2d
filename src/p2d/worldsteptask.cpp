@@ -15,6 +15,11 @@ void p2d::WorldStepTask::perform()
 }
 
 
+void p2d::WorldStepTask::setWorld(p2d::World * world)
+{
+	m_world = world;
+}
+
 void p2d::WorldStepTask::enable()
 {
 	m_enabled = true;
