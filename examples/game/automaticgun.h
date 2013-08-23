@@ -63,7 +63,7 @@ class AbstractAutomaticGun
 template<
 	typename _Bullet
 >
-class AutomaticGun
+class AutomaticGun: public AbstractAutomaticGun
 {
  protected:
 	 /*! Shoots with specified bullet
@@ -71,14 +71,14 @@ class AutomaticGun
 	 virtual void shoot()
 	 {
 		 _Bullet * bullet = new _Bullet();
-		 m_object->game()->addObject(b);
+		 m_object->game()->addObject(bullet);
 		 p2d::Point p = m_object->position();
 		 double angle = m_object->angle() + m_dangle;
 		 bullet->setPosition(p);
 		 bullet->setAngularVelocity(1.0);
 		 double speed = GameObjectConstants<_Bullet>::velocity();
 		 bullet->setHorizontalSpeed(speed * cos(angle));
-		 bullet->setVeticalSpeed(speed * sin(angle));
+		 bullet->setVerticalSpeed(speed * sin(angle));
 	 }
  public:
 	 AutomaticGun() : AbstractAutomaticGun()

@@ -134,6 +134,10 @@ class GameObject: public sad::BasicNode
 	 	 \return a positions
 	  */
 	 p2d::Point position() const;
+	 /*! Sets a position for game object
+		 \param[in] p point
+	  */
+	 void setPosition(const p2d::Point & p);
 	 /*! Returns an angle of game object
 		 \return an angle
 	  */
