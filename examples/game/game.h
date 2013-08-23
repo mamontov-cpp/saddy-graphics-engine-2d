@@ -78,6 +78,10 @@ class Game
 	/*! A callback for entering a playing screen
 	 */
 	void enterPlayingScreen();
+	/*! Moves to starting screen. Used to not break execution chain when
+		called from enterStartingScreen from playing state
+	 */
+	void moveToStartingScreen();
 	/*! Deletes an object if not player, when collision with wall
 		\param[in] ev event
 	 */
@@ -98,6 +102,22 @@ class Game
 		\param[in] ev event
 	 */
 	void onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev);
+	/*! Decreases player's hp and destroys bullet
+		\param[in] ev event
+	 */
+	void onPlayerEnemyBullet(const p2d::CollisionEvent<Player, EnemyBullet> & ev);
+	/*! Decreases player's hp and destroys enemy
+		\param[in] ev event
+	 */
+	void onPlayerEnemy(const p2d::CollisionEvent<Player, Enemy> & ev);
+	/*! Decreases player's hp and destroys shooting enemy
+		\param[in] ev event
+	 */
+	void onPlayerShootingEnemy(const p2d::CollisionEvent<Player, ShootingEnemy> & ev);
+	/*! Decreases player's hp and destroys super shooting enemy
+		\param[in] ev event
+	 */
+	void onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperShootingEnemy> & ev);
 	/*! Creates new physical world for working with optional bodies
 	  */
 	void createWorld();

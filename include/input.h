@@ -204,6 +204,31 @@ namespace sad
 			  */
 			  virtual ~CountableTask();
 	};
+	/*! A countable task, which invokes a specified method in object
+	 */
+	template<typename _Class>
+	class MethodCountableTask : public CountableTask
+	{
+	  protected:
+			_Class * m_o;      //!< Specified object
+			void (_Class::*m_task)();  //!< Determines a task function
+	  public:
+		  /*! A countable task, which invokes a specified method in object
+			  \param[in] o object
+			  \param[in] task an invoked method
+			  \param[in] how many times it should be invoked
+		   */
+		  MethodCountableTask(_Class * o, void (_Class::*task)(), int count = 1) : 
+		  sad::CountableTask(count), m_o(o), m_task(task)
+		  {
+		  }
+		  /*! Determines, the task, that should be performed
+		   */
+		  virtual void perform()
+		  {
+			  (m_o->*m_task)();
+		  }
+	};
 	/*! Class of repeating task, that can work every time, until it dies
 	*/
 	class RepeatingTask: public CountableTask
