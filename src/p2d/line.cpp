@@ -44,6 +44,10 @@ p2d::ConvexHull p2d::Line::toHull() const
 
 p2d::Cutter1D p2d::Line::project(const p2d::Axle & a) const
 {
-	return toHull().project(a);
+	double p1 = p2d::scalar(m_c.p1(), a);
+	double p2 = p2d::scalar(m_c.p2(), a);
+	if (p1 > p2)
+		std::swap(p1, p2);
+	return p2d::Cutter1D(p1, p2);
 }
 

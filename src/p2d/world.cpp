@@ -76,6 +76,7 @@ void p2d::World::addBody(p2d::Body * b)
 	if (m_stepping)
 	{
 		m_added_queue << b;
+		return;
 	}
 
 	hst::vector<hst::string> groups;
@@ -108,6 +109,7 @@ void p2d::World::removeBody(p2d::Body * b)
 	if (m_stepping)
 	{
 		m_removed_queue << b;
+		return;
 	}
 
 	if (m_allbodies.contains(b))
@@ -321,4 +323,3 @@ p2d::World::addHandler( void (*p)(const p2d::BasicCollisionEvent &))
 	this->addHandler(h, b, b);
 	return h;
 }
-

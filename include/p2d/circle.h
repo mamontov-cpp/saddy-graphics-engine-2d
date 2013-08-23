@@ -42,11 +42,11 @@ public:
 		\return radius
 	 */ 
 	inline double radius() const { return m_radius; }
-	/*! Returns new identical rectangle
+	/*! Returns new identical circle
 		\return rectangle
 	 */
 	p2d::CollisionShape * clone() const;
-	/*! Returns a center of rectangle
+	/*! Returns a center of circle
 		\return center of rectangle
 	 */
 	p2d::Point center() const;

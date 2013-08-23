@@ -18,7 +18,6 @@ class Player: public GameObject
 {
  SAD_OBJECT
  private:
-		 Game  *     m_game;            //!< Game data
 		 AbstractAutomaticGun * m_gun;  //!< A min object gun
 		 int         m_score;           //!< A current player score
 		 /*! A pivot key, which is pressed last, when player is moving

@@ -59,7 +59,7 @@ double GameObjectConstants<EnemyBullet>::velocity()
 
 double GameObjectConstants<EnemyBullet>::interval()
 {
-	return 350;
+	return 600;
 }
 
 p2d::CollisionShape * GameObjectConstants<EnemyBullet>::shape()
@@ -84,8 +84,9 @@ p2d::CollisionShape * GameObjectConstants<Bonus>::shape()
 	hRectF r = options->Rectangle;
 	delete options;
 
-	p2d::Rectangle * c = new p2d::Rectangle();
-	c->setRect(r);
+	// For a simple optimization, make bonus a circle
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(8);
 	return c;
 }
 
@@ -128,7 +129,7 @@ double GameObjectConstants<ShootingEnemy>::velocity()
 
 double GameObjectConstants<ShootingEnemy>::interval()
 {
-	return 200;
+	return 600;
 }
 
 p2d::CollisionShape * GameObjectConstants<ShootingEnemy>::shape()

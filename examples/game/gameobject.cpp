@@ -3,13 +3,16 @@
 
 DECLARE_SOBJ_INHERITANCE(GameObject, sad::BasicNode);
 
-
 GameObject::GameObject()
 {
 	// We don't init sprite as valid, to preserve working with simple
 	// objects
 	m_sprite = new Sprite2DAdapter(NULL, hRectF(), hRectF());
 	m_body = new p2d::Body();
+	
+	// Set self as user object to make type inference inside collisions
+	// possible
+	m_body->setUserObject(this);
 	
 	// Add listeners, needed to synchronize sprite and a game object
 	m_body->addMoveListener( 
@@ -63,7 +66,7 @@ void GameObject::render()
 	m_sprite->render();
 	for(size_t i = 0; i < m_guns.count(); i++)
 	{
-		m_guns[i]->tryShoot();;
+			m_guns[i]->tryShoot();;
 	}
 }
 
@@ -155,7 +158,7 @@ void GameObject::lookAt(const hPointF & p)
 	hPointF c = p - this->m_body->position();
 	double angle = angle_of(c.x(), c.y());
 	// We roate it counter-clockwise, because object looks to pi
-	setAngle(M_PI + angle);
+	setAngle(angle);
 }
 
 
@@ -185,3 +188,6 @@ void GameObject::setPosition(const p2d::Point & p)
 {
 	m_body->setCurrentPosition(p);
 }
+
+
+

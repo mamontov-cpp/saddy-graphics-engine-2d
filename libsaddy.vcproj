@@ -489,6 +489,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\bounds.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\broadcollisiondetector.cpp"
 					>
 				</File>
@@ -968,6 +972,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\body.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\bounds.h"
 					>
 				</File>
 				<File

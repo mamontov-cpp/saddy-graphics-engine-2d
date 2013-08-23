@@ -80,7 +80,6 @@ class Camera
 class Scene
 {
 private:
-	bool                       m_clear;                 //!< Scene cleanup flag
 	hst::vector<BasicNode *>   m_layers;                //!< Layers
 	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Hash by an index
 	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
@@ -89,6 +88,7 @@ private:
 	os::mutex                 m_add;                     //!< Add mutex
 	os::mutex                 m_rem;                     //!< Remove mutex
 	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
+	bool                      m_rendering;               //!< Set to true when rendering
 	/*! Adds object from adding to main queue 
 	 */
 	void fireNodeAdding();
@@ -100,6 +100,9 @@ protected:
 		\param[in] node node to be removed
 	 */
 	virtual void onNodeRemoval(sad::BasicNode * node);
+	/*! Performs queued nodes adding and removing
+	 */
+	void performLayerChanges();
 public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
@@ -132,11 +135,6 @@ public:
 		\param[in] node2 second node
 	 */
 	void swapLayers(sad::BasicNode * node1, sad::BasicNode * node2);
-	/*! Removes all from scene.
-	    DEPRECATED: use ::clear() instead, because it can be called
-		            only before renderer was started.
-	*/
-	void clearNow();
 	/*! Forces a scene to delete an object from scene
 	    \param[in] what object to be deleted
 	*/
@@ -185,6 +183,9 @@ public:
 		\return objects amount
 	*/
 	inline unsigned long objectCount() { return m_layers.count(); }
+	/*! Clears scene immediately
+	 */
+	void clearNow();
 };
 
 }

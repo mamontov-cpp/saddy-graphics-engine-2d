@@ -44,9 +44,9 @@ struct CollisionEvent: public BasicCollisionEvent
    T1 * m_object_1;
    T2 * m_object_2;
    double m_time;
-
-   T1 & object1() { return *m_object_1; }
-   T2 & object2() { return *m_object_2; }
+ 
+   T1 & object1() const{ return *m_object_1; }
+   T2 & object2() const { return *m_object_2; }
    double time() const { return m_time; }
 };
 

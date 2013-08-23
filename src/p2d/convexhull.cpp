@@ -147,7 +147,7 @@ bool p2d::ConvexHull::collides(const ConvexHull & c) const
 	c.appendAxisForCollision(axles);
 
 	bool collides = true;
-	for(int i = 0 ; i < axles.size(); i++)
+	for(int i = 0 ; i < axles.size() && collides; i++)
 	{
 		p2d::Cutter1D myproject = this->project(axles[i]);
 		p2d::Cutter1D cproject = c.project(axles[i]);

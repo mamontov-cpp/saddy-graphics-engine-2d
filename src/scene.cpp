@@ -27,7 +27,7 @@ sad::BasicNode::~BasicNode()
 
 sad::Scene::Scene()
 {
- m_clear    = false;
+
  m_camera   = new Camera();
  m_renderer = NULL;
 }
@@ -73,24 +73,39 @@ void sad::Scene::removeNow(const hst::string & name)
 
 void sad::Scene::clear()
 {
-	m_clear=true;
+	m_rem.lock();
+	m_marked = m_layers;
+	m_rem.unlock();
 }
 
 void sad::Scene::fireNodeRemoving()
 {
- for (unsigned long i=0;i<m_marked.count();i++)
- {
-  for (unsigned long j=0;j<m_layers.count();j++)
-  {
-   if (m_layers[j]==m_marked[i])
-   {
-	this->onNodeRemoval(m_layers[j]);
-    m_layers.removeAt(j);
-    break;
-   }
-  }
- }
- m_marked.clear();
+	for (unsigned long i=0;i<m_marked.count();i++)
+	{
+		for (unsigned long j=0;j<m_layers.count();j++)
+		{
+			if (m_layers[j] == m_marked[i])
+			{
+				this->onNodeRemoval(m_layers[j]);
+				m_layers.removeAt(j);
+				break;
+			}
+		}
+	}
+	// By default removal has a higher priority than adding
+	for (unsigned long i=0;i<m_marked.count();i++)
+	{
+		for (unsigned long j=0;j<m_toadd.count();j++)
+		{
+			if (m_toadd[j].p1() == m_marked[i])
+			{
+				this->onNodeRemoval(m_toadd[j].p1());
+				m_toadd.removeAt(j);
+				break;
+			}
+		}
+	}
+	m_marked.clear();
 }
 
 void sad::Scene::fireNodeAdding()
@@ -101,34 +116,29 @@ void sad::Scene::fireNodeAdding()
 }
 void sad::Scene::render()
 {
+  performLayerChanges();
+  
   m_camera->apply();
 
   this->m_renderer->controls()->preRender();
 
+  m_rendering = true;
   for (unsigned long i=0;i<m_layers.count();++i)
   {
 	  m_layers[i]->render();
   }
+  m_rendering = false;
 
   this->m_renderer->controls()->postRender();
 
+  performLayerChanges();
+}
 
-  if (!(m_marked.count() || m_toadd.count() || m_clear)) return;
-	
-  if (!m_clear)
-  {
-     fireNodeRemoving();      
-  }
-  else
-  {
-	  for (unsigned long i=0;i<m_layers.count();i++)
-		  this->onNodeRemoval(m_layers[i]);
-	  m_layers.clear();
-	  m_clear=false;
-  }
 
-  fireNodeAdding();
-  
+void sad::Scene::performLayerChanges()
+{
+	fireNodeRemoving();
+	fireNodeAdding();
 }
 
 void sad::Scene::onNodeRemoval(sad::BasicNode * node)
@@ -186,8 +196,14 @@ void sad::Scene::add(BasicNode * node, const hst::string & name,unsigned long la
 {
 	m_add.lock();
 
-	m_toadd<<hst::triplet<BasicNode*,hst::string,unsigned long>(node,name,lay);
-
+	if (m_rendering)
+	{
+		m_toadd<<hst::triplet<BasicNode*,hst::string,unsigned long>(node,name,lay);
+	}
+	else
+	{
+		addNow(node, name, lay);
+	}
 	m_add.unlock();
 }
 sad::Camera & sad::Scene::camera()

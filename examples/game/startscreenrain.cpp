@@ -10,7 +10,8 @@ StartScreenRain::StartScreenRain(Game * g) : m_game(g)
 
 void StartScreenRain::perform()
 {
-	if (m_game->isPaused() == false)
+	int ocount = sad::Renderer::ref()->getCurrentScene()->objectCount();
+	if (m_game->isPaused() == false &&  ocount < 12)
 	{
 		// Compute position for new object
 		double padding  = 12; // A small paddings out of scren borders
