@@ -18,7 +18,7 @@ class GameObject: public sad::BasicNode
 	   for collision detection
 	 */
 	SAD_OBJECT
- private:
+ protected:
 	 /*! A body is representation for a game object in physics engine, needed
 	  */
 	 p2d::Body * m_body;
@@ -31,6 +31,16 @@ class GameObject: public sad::BasicNode
 	 /*! Defines amount of times, which game object can be hit (one by default)
 	  */
 	 int m_hp;
+ protected:
+	 /*! Inits game object parameters from constants of specified type
+	  */
+	 template<typename T> void initFromConstants()
+	 {
+		 Sprite2DAdapter::Options * o = GameObjectConstants<T>::sprite();
+		 this->m_sprite->set(*o);
+		 delete o;
+		 this->m_body->setShape(GameObjectConstants<T>::shape());
+	 }
  public:
 	 /*! Creates an empty game object
 	  */
