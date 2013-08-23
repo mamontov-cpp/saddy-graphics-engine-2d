@@ -6,7 +6,7 @@
 #include "p2d/body.h"
 #include "sprite2dadapter.h"
 #include "primitives/object.h"
-#include "automaticgun.h"
+#include "abstractautomaticgun.h"
 #include "templates/hlvector.hpp"
 
 class Game;

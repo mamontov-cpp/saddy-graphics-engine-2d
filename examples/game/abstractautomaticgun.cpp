@@ -1,4 +1,4 @@
-#include "automaticgun.h"
+#include "abstractautomaticgun.h"
 
 
 AbstractAutomaticGun::AbstractAutomaticGun()

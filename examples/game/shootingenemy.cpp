@@ -1,6 +1,7 @@
 #include "shootingenemy.h"
 #include "enemybullet.h"
 #include "game.h"
+#include "automaticgun.h"
 
 DECLARE_SOBJ_INHERITANCE(ShootingEnemy, GameObject)
 
