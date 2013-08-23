@@ -17,4 +17,5 @@ SuperShootingEnemy::SuperShootingEnemy()
 		gun->setAngleDifference(diffs[i]);
 		this->addGun(gun);
 	}
+	this->setAngularVelocity(1.0);
 }
