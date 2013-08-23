@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\extra\periodicalevent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\extra\statemachine.cpp"
 					>
 				</File>
@@ -832,6 +836,10 @@
 				</File>
 				<File
 					RelativePath=".\include\extra\geometry2d.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\extra\periodicalevent.h"
 					>
 				</File>
 				<File
