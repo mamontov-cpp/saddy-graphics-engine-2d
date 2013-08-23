@@ -7,7 +7,6 @@
 */
 #include "gameobject.h"
 #include "gameobjectconstants.h"
-#include "objects.h"
 #pragma once
 
 class Game;

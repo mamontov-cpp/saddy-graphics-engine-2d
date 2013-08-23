@@ -8,6 +8,7 @@
 #include "../p2d/axle.h"
 #include "../primitives/hrect.h"
 #include "fuzzy_equal.h"
+#pragma once
 
 /*! Tests, whether point projection on axle, defined as [pivot1, pivot2] is within cutter defined by pivot1 
 	and pivot 2 projections
