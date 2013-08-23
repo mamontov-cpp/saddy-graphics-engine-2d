@@ -74,7 +74,10 @@ bool load_font(const hst::string & fontfolder, const hst::string & fontname)
 	return result;
 }
 
-
+/*! A main function 
+	\param[in] argc count of arguments
+	\param[in] argv arguments
+ */
 int main(int argc, char** argv)
 {
 	// Init logs with target streams to file  and console

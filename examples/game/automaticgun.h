@@ -42,13 +42,15 @@ class AbstractAutomaticGun: public PeriodicalEvent
 	  virtual ~AbstractAutomaticGun();
 };
 
+/*! An automatic gun, which shoots bullets of specified type
+ */
 template<
 	typename _Bullet
 >
 class AutomaticGun: public AbstractAutomaticGun
 {
  protected:
-	 /*! Shoots with specified bullet
+	 /*! Shoots bullets of specified bullet type
 	  */
 	 virtual void perform()
 	 {
@@ -67,6 +69,8 @@ class AutomaticGun: public AbstractAutomaticGun
 		 }
 	 }
  public:
+	 /*! Sets interval from game constants
+	  */
 	 AutomaticGun() : AbstractAutomaticGun()
 	 {
 		 setInterval(GameObjectConstants<_Bullet>::interval());
