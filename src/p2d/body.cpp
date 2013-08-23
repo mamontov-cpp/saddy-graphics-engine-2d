@@ -291,3 +291,8 @@ void p2d::Body::rotate(double delta)
 	return m_angular->setCurrentPosition(m_angular->position() + delta);
 }
 
+
+p2d::CollisionShape * p2d::Body::currentShape()
+{
+	return m_current;
+}

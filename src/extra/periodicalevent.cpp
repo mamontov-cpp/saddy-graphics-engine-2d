@@ -45,9 +45,17 @@ PeriodicalEvent * TimePeriodicalTask::e()
 
 void TimePeriodicalTask::perform()
 {
-	m_event->tryPerform();
+	if (m_event)
+	{
+		m_event->tryPerform();
+	}
 }
 
+void TimePeriodicalTask::setEvent(PeriodicalEvent * e)
+{
+	delete m_event;
+	m_event = e;
+}
 
 TimePeriodicalTask::~TimePeriodicalTask()
 {

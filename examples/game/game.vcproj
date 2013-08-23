@@ -245,6 +245,10 @@
 				RelativePath=".\supershootingenemy.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\wall.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -305,6 +309,10 @@
 			</File>
 			<File
 				RelativePath=".\supershootingenemy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\wall.h"
 				>
 			</File>
 		</Filter>

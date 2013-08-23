@@ -76,11 +76,6 @@ bool load_font(const hst::string & fontfolder, const hst::string & fontname)
 	return result;
 }
 
-
-/*! A game object for interacting with enemies
- */
-Game * PlayingGame;
-
 /*! A callback, called when bullet, owned by player, hits an enemy
 	An enemy dies and score rises by 100
 	\param[in] bullet object 1
@@ -129,10 +124,6 @@ void player_collided_with_enemy_or_enemybullet(Collidable * player, Collidable *
 }
 
 
-/*! A handler which takes two collidable objects
- */ 
-typedef CMHandler<Collidable,Collidable> CCHandler;
-
 
 int main(int argc, char** argv)
 {
@@ -159,7 +150,7 @@ int main(int argc, char** argv)
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	SL_MESSAGE("Renderer successfully initialized!");	
-	// Inits generator for EnemyEmitter
+	// Inits generator for spawns and random raings
 	srand((unsigned int)time(NULL));
 
 	//Loading resources
@@ -198,9 +189,9 @@ int main(int argc, char** argv)
 #undef BIND
 	
 	// Create and run game
-	PlayingGame = new Game();
-	PlayingGame->run();
-	delete PlayingGame;
+	Game * game = new Game();
+	game->run();
+	delete game;
 
 
 	// If we are here, this means, that window is closed and we can exit the main loop

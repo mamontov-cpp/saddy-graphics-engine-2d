@@ -60,6 +60,10 @@ class TimePeriodicalTask: public sad::RepeatingTask
 		  \return event
 	   */
 	  PeriodicalEvent * e();
+	  /*! Sets a peiodical event
+		  \param[in] e event
+	   */
+	  void setEvent(PeriodicalEvent * e);
 	  /*! Calls try perform upon event
 	   */
 	  virtual void perform();
