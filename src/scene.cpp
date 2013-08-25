@@ -33,113 +33,56 @@ sad::Scene::Scene()
 }
 sad::Scene::~Scene()
 {
-	fireNodeRemoving();
-	fireNodeAdding();
 	for (unsigned long i=0;i<this->m_layers.count();i++)
 		this->onNodeRemoval(m_layers[i]);
 	delete m_camera;
 }
-void sad::Scene::addNow(
-		                BasicNode * node, 
-		                const hst::string & name,
-		                unsigned long lay
-		               )
+void sad::Scene::addNow(sad::BasicNode * node)
 {
-	unsigned long pos;
-
-	if (lay==(unsigned long)-1)
-	{
-		this->m_layers.add(node);
-		pos=m_layers.count()-1;
-	}
-	else
-	{
-		this->m_layers.insert(node,lay);
-		pos=lay;
-	}
-	
-	if (name.empty()) return;
-    this->m_nodehash.insert(name,pos);
+	m_layers << node;
 }
 
-void sad::Scene::removeNow(const hst::string & name)
+void sad::Scene::removeNow(sad::BasicNode * node)
 {
-	if (m_nodehash.contains(name))
+	for(int i = 0; i < m_layers.count(); i++)
 	{
-		m_layers.removeAt(m_nodehash[name]);
-		m_nodehash.remove(name);
-	}
-}
-
-void sad::Scene::clear()
-{
-	m_rem.lock();
-	m_marked = m_layers;
-	m_rem.unlock();
-}
-
-void sad::Scene::fireNodeRemoving()
-{
-	for (unsigned long i=0;i<m_marked.count();i++)
-	{
-		for (unsigned long j=0;j<m_layers.count();j++)
+		if (node == m_layers[i])
 		{
-			if (m_layers[j] == m_marked[i])
-			{
-				this->onNodeRemoval(m_layers[j]);
-				m_layers.removeAt(j);
-				break;
-			}
+			this->onNodeRemoval(node);
+			m_layers.removeAt(i);
 		}
 	}
-	// By default removal has a higher priority than adding
-	for (unsigned long i=0;i<m_marked.count();i++)
-	{
-		for (unsigned long j=0;j<m_toadd.count();j++)
-		{
-			if (m_toadd[j].p1() == m_marked[i])
-			{
-				this->onNodeRemoval(m_toadd[j].p1());
-				m_toadd.removeAt(j);
-				break;
-			}
-		}
-	}
-	m_marked.clear();
 }
 
-void sad::Scene::fireNodeAdding()
+void sad::Scene::clearNow()
 {
- for (unsigned long i=0;i<m_toadd.count();i++)
-	 addNow(m_toadd[i].p1(),m_toadd[i].p2(),m_toadd[i].p3());
- m_toadd.clear();
+	for(int i = 0; i < m_layers.count(); i++)
+	{
+		this->onNodeRemoval(m_layers[i]);
+	}
+	m_layers.clear();
 }
+
+
 void sad::Scene::render()
 {
-  performLayerChanges();
   
   m_camera->apply();
 
   this->m_renderer->controls()->preRender();
 
-  m_rendering = true;
+  performQueuedActions();
+  lockChanges();
   for (unsigned long i=0;i<m_layers.count();++i)
   {
 	  m_layers[i]->render();
   }
-  m_rendering = false;
+  unlockChanges();
+  performQueuedActions();
 
   this->m_renderer->controls()->postRender();
-
-  performLayerChanges();
 }
 
-
-void sad::Scene::performLayerChanges()
-{
-	fireNodeRemoving();
-	fireNodeAdding();
-}
 
 void sad::Scene::onNodeRemoval(sad::BasicNode * node)
 {
@@ -184,28 +127,6 @@ void sad::Scene::setLayer(sad::BasicNode * node, unsigned int layer)
 	}
 }
 
-void sad::Scene::remove(BasicNode * what)
-{
-	m_rem.lock();
-
-	m_marked<<what;
-
-	m_rem.unlock();
-}
-void sad::Scene::add(BasicNode * node, const hst::string & name,unsigned long lay)
-{
-	m_add.lock();
-
-	if (m_rendering)
-	{
-		m_toadd<<hst::triplet<BasicNode*,hst::string,unsigned long>(node,name,lay);
-	}
-	else
-	{
-		addNow(node, name, lay);
-	}
-	m_add.unlock();
-}
 sad::Camera & sad::Scene::camera()
 {
 	return *m_camera;
@@ -241,11 +162,4 @@ void sad::Camera::apply()
 	glRotatef(m_angle,m_rotX,m_rotY,m_rotZ);
 }
 
-void sad::Scene::clearNow()
-{
-	m_layers.clear();
-	m_nodehash.clear();
-	m_marked.clear();
-	m_toadd.clear();
-}
 

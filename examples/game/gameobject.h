@@ -36,6 +36,12 @@ class GameObject: public sad::BasicNode
 	 /*! An inner guns for object
 	  */
 	 hst::vector<AbstractAutomaticGun * > m_guns;
+	 /*! A first listener for movement of body
+	  */
+	 p2d::MovementDeltaListener<GameObject, p2d::Vector> * m_listener1;
+	 /*! A second listener for movement of body
+	  */
+	 p2d::MovementDeltaListener<GameObject, double> * m_listener2;
  protected:
 	 /*! Inits game object parameters from constants of specified type
 	  */
