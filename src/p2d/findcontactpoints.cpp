@@ -4,6 +4,17 @@
 
 #undef max
 
+
+p2d::CannotDetermineContactPoints::CannotDetermineContactPoints() : std::exception()
+{
+
+}
+
+const char* p2d::CannotDetermineContactPoints::what() const
+{
+	return "Cannot determine contact points for given arguments";
+}
+
 void p2d::FindContactPoints::reverse(p2d::SetOfPointsPair & pairs)
 {
 	p2d::swap(pairs);
