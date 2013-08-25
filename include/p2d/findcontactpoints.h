@@ -4,16 +4,28 @@
 	Contains a multimethod, which can be used to determine a contact points
 	for shapes
  */
+#include <exception>
 #include "collisionmultimethod.h"
 #include "infiniteline.h"
 #include "point.h"
 #include "rectangle.h"
 #include "circle.h"
 #include "line.h"
+#include "bounds.h"
 #pragma once
 
 namespace p2d
 {
+
+/*! An exception, emitted, when p2d::FindContactPoints can't determine
+	contact points set
+ */
+class CannotDetermineContactPoints: public std::exception
+{
+ public:
+	CannotDetermineContactPoints();
+	virtual const char* what() const throw();
+};
 
 typedef hst::vector<p2d::PointsPair> SetOfPointsPair;
 /*! Inserts unique pair of points
