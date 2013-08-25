@@ -742,6 +742,10 @@
 					RelativePath=".\include\templates\stdafx.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\templates\temporarilyimmutablecontainer.hpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="primitives"

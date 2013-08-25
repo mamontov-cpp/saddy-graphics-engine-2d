@@ -14,19 +14,17 @@ GameObject::GameObject()
 	// possible
 	m_body->setUserObject(this);
 	
-	// Add listeners, needed to synchronize sprite and a game object
-	m_body->addMoveListener( 
-		new p2d::MovementDeltaListener<GameObject, p2d::Vector>(
+	m_listener1 = new p2d::MovementDeltaListener<GameObject, p2d::Vector>(
 			this, 
 			&GameObject::notifyMove
-		)
 	);
-	m_body->addRotateListener(
-		new p2d::MovementDeltaListener<GameObject, double>(
+	m_listener2 = new p2d::MovementDeltaListener<GameObject, double>(
 			this, 
 			&GameObject::notifyRotate
-		)
 	);
+	// Add listeners, needed to synchronize sprite and a game object
+	m_body->addMoveListener(m_listener1);
+	m_body->addRotateListener(m_listener2);
 
 	m_hp = 1;
 }
@@ -40,6 +38,11 @@ GameObject::~GameObject()
 	for(size_t i = 0; i < m_guns.count(); i++)
 	{
 		delete m_guns[i];
+	}
+	if (m_body)
+	{
+		m_body->removeMoveListener(m_listener1);
+		m_body->removeRotateListener(m_listener2);
 	}
 	delete m_sprite;
 }

@@ -250,14 +250,14 @@ void Game::enterPlayingScreen()
 void Game::removeObject(GameObject *o)
 {
 	p2d::Body * b = o->body();
-	m_world->removeBody(b);
-	sad::Renderer::ref()->getCurrentScene()->remove(o);
+	m_world->remove(b);
 	// If player is dead, no reason to continue playing, 
 	// return to start screen
 	if (o->metaData()->name() == "Player")
 	{
 		m_machine->pushState(GameState::START);
 	}
+	sad::Renderer::ref()->getCurrentScene()->remove(o);
 }
 
 const hst::string & Game::state()
@@ -286,7 +286,7 @@ void Game::addObject(GameObject * o)
 {
 	o->setGame(this);
 	sad::Renderer::ref()->getCurrentScene()->add(o);
-	m_world->addBody(o->body());
+	m_world->add(o->body());
 }
 
 
@@ -297,7 +297,7 @@ void Game::createWalls()
 	const hst::vector<p2d::Body *> & bodies = m_walls->bodies();
 	for(size_t i = 0; i < bodies.count(); i++)
 	{
-		m_world->addBody(bodies[i]);
+		m_world->add(bodies[i]);
 	}
 }
 

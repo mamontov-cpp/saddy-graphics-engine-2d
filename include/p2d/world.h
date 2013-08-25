@@ -12,6 +12,7 @@
 #include "collisionhandler.h"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
+#include "../templates/temporarilyimmutablecontainer.hpp"
 
 namespace p2d
 {
@@ -19,7 +20,7 @@ class Body;
 /*! A world is a set if simulated items, and callbacks used to define
 	behaviour between them
  */
-class World
+class World: public hst::TemporarilyImmutableContainer<p2d::Body>
 {
  protected:
 	 typedef hst::pair<hst::string, hst::string> type_pair_t;
@@ -36,15 +37,6 @@ public:
 	  */
 	 static bool compare(const reaction_t & r1, const reaction_t & r2);
 protected:
-	 /*! This flag is set to true, when world is stepping
-	  */
-	 bool   m_stepping;
-	 /*! An added bodies while stepping
-	  */
-	 hst::vector<p2d::Body *> m_added_queue;
-	 /*! A removed bodies while stepping
-	  */
-	 hst::vector<p2d::Body *> m_removed_queue;
 	 /*! Current time step
 	  */
 	 double m_time_step;
@@ -103,9 +95,17 @@ protected:
 		 const hst::string & t1, 
 		 const hst::string & t2
 	  );
-	 /*! Peforms all insertions and removal of queued bodies
+	 /*! Peforms adding a body
+		 \param[in] o body
 	  */
-	 void performQueuedActions();
+	 virtual void addNow(p2d::Body * o);
+	 /*! Peforms removing a body
+		 \param[in] o body
+	  */
+	 virtual void removeNow(p2d::Body * o);
+	 /*! Clears a world
+	  */
+	 virtual void clearNow();
  public:
 	 /*! Creates world with default transformer
 	  */
@@ -181,14 +181,6 @@ protected:
 		 \param[in] h registered handler
 	  */
 	 void removeHandler(p2d::BasicCollisionHandler * h);
-	 /*! Adds new body in system
-		 \param[in] b body
-	  */
-	 virtual void addBody(p2d::Body * b);
-	 /*! Removes body from system. Frees memory at end
-		  \param[in] b body
-	  */
-	 virtual void removeBody(p2d::Body * b);
 	 /*! When called inside of step() method, makes a world integrate
 		 velocities and positions to specified time, and restart step, not
 		 stepping through ghostoptions and forces
@@ -203,9 +195,6 @@ protected:
 		 \param[in] time a size of time step
 	  */
 	 void step(double time);
-	 /*! Clears a world
-	  */ 
-	 void clear();
 };
 
 }

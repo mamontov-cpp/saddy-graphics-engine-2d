@@ -4,6 +4,7 @@
 */
 #include "templates/hlvector.hpp"
 #include "templates/hhash.hpp"
+#include "templates/temporarilyimmutablecontainer.hpp"
 #include "os/mutex.h"
 #include "primitives/object.h"
 #include <assert.h>
@@ -77,32 +78,27 @@ class Camera
 };
 /*! Scene class
 */
-class Scene
+class Scene: public hst::TemporarilyImmutableContainer<sad::BasicNode>
 {
-private:
-	hst::vector<BasicNode *>   m_layers;                //!< Layers
-	hst::hash<hst::string,unsigned long>  m_nodehash;   //!< Hash by an index
-	hst::vector<BasicNode *>   m_marked;                //!< Marked for deletion nodes
-	hst::vector< hst::triplet<BasicNode *,hst::string,unsigned long > >   m_toadd;    //!< Marked for addition nodes             //!< Помеченные для добавления вершины 
-	sad::Camera      *        m_camera;                  //!< Current camera
-	os::mutex                 m_add;                     //!< Add mutex
-	os::mutex                 m_rem;                     //!< Remove mutex
-	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
-	bool                      m_rendering;               //!< Set to true when rendering
-	/*! Adds object from adding to main queue 
-	 */
-	void fireNodeAdding();
-	/*! Removes objects from queue, removing it from scene
-	 */
-	void fireNodeRemoving();
 protected:
+	hst::vector<BasicNode *>   m_layers;                 //!< Layers
+	sad::Camera      *        m_camera;                  //!< Current camera
+	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
 	/*! Defines a behaviour on node removal. Default is destructing some node, freeing memory from it
 		\param[in] node node to be removed
 	 */
 	virtual void onNodeRemoval(sad::BasicNode * node);
-	/*! Performs queued nodes adding and removing
+	/*! Adds an object to scene
+		\param[in] node 
 	 */
-	void performLayerChanges();
+	virtual void addNow(sad::BasicNode * node);
+	/*! Removes object from scene
+		\param[in] node
+	 */
+	virtual void removeNow(sad::BasicNode * node);
+	/*! Clears a scene
+	 */
+	virtual void clearNow();
 public:
 	sad::Camera   & camera();  //!< Returns a current camera
 
@@ -135,57 +131,13 @@ public:
 		\param[in] node2 second node
 	 */
 	void swapLayers(sad::BasicNode * node1, sad::BasicNode * node2);
-	/*! Forces a scene to delete an object from scene
-	    \param[in] what object to be deleted
-	*/
-	void remove(BasicNode * what);
-	/*! Forces a scene to add an object to scene.
-	    \param[in] node  object
-      	\param[in] name  name. Creates anonymous object if empty
-	    \param[in] lay   layer. -1 for the first layer
-	*/
-	void add(
-	         BasicNode * node, 
-		     const hst::string & name=hst::string(),
-		     unsigned long lay=(unsigned long)-1
-			);
-
-	/*! Adds an object to scene.
-	    DEPRECATED: It can be called if rendere is not started.
-		Use ::add() instead
-	    \param[in] node  object 
-	    \param[in] name  name. Creates anonymous object, if empty
-	    \param[in] lay   layer. -1 for the first layer
-	*/
-	void addNow(
-		     BasicNode * node, 
-		     const hst::string & name=hst::string(),
-		     unsigned long lay=(unsigned long)-1
-		    );
-	/*! Forces scene to make cleanup, after rendering cycle 
-	*/
-	void clear();
-	/*! Removes an object from scene.
-	    DEPRECATED: It can be called only if renderer is not started, or not in scene.
-		Use ::remove() instead.
-	    \param[in] name name of object
-	*/
-	void removeNow(const hst::string & name);
 	/*! Renders a scene
 	*/
 	virtual void render();
-	/*! Returns an instance of object by name. 
-	    \param[in] name name of object
-	    \return an instance of object. Returns NULL if can't be found
-	*/
-	template<typename T> T * get(const hst::string & name); 
 	/*! Returns amount of scene objects
 		\return objects amount
 	*/
 	inline unsigned long objectCount() { return m_layers.count(); }
-	/*! Clears scene immediately
-	 */
-	void clearNow();
 };
 
 }
@@ -193,11 +145,3 @@ public:
 typedef sad::BasicNode BasicNode;
 typedef sad::Scene     Scene;
 
-//=================Code goes here====================
-template<typename T> T * sad::Scene::get(const hst::string & name)
-{
-	if (!m_nodehash.contains(name)) return NULL;
-
-	BasicNode *  ind=m_layers[m_nodehash[name]];
-	return ind->as<T>();
-}

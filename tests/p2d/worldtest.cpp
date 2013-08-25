@@ -128,7 +128,7 @@ struct WorldTest : tpunit::TestFixture
 
    void removeFirstBody(const p2d::BasicCollisionEvent & ev)
    {
-	   ev.m_object_1->world()->removeBody(ev.m_object_1);
+	   ev.m_object_1->world()->remove(ev.m_object_1);
    }
 
    void clearWorld(const p2d::BasicCollisionEvent & ev)
@@ -165,8 +165,8 @@ struct WorldTest : tpunit::TestFixture
 	   p2d::World * w = new p2d::World();
 	   w->addHandler(::performEvent);
 	   w->addHandler(this, &WorldTest::performEvent);
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -202,8 +202,8 @@ struct WorldTest : tpunit::TestFixture
 	   w->addHandler(::performEvent11);
 	   w->addHandler(this, &WorldTest::performEvent11);
 	   
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -241,8 +241,8 @@ struct WorldTest : tpunit::TestFixture
 	   w->addHandler(::performEvent12);
 	   w->addHandler(this, &WorldTest::performEvent12);
 	   
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -263,11 +263,11 @@ struct WorldTest : tpunit::TestFixture
 	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
 	   
 	   p2d::World * w = new p2d::World();
-	   w->addBody(b1);
+	   w->add(b1);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
-	   w->removeBody(b1);
+	   w->remove(b1);
 	   ASSERT_TRUE( ::eventperformed == 1 );
 	   delete w;
    }
@@ -282,7 +282,7 @@ struct WorldTest : tpunit::TestFixture
 	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
 	   
 	   p2d::World * w = new p2d::World();
-	   w->addBody(b1);
+	   w->add(b1);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -308,8 +308,8 @@ struct WorldTest : tpunit::TestFixture
 
 	   p2d::World * w = new p2d::World();
 	   w->addHandler(this, &WorldTest::removeFirstBody);
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -334,8 +334,8 @@ struct WorldTest : tpunit::TestFixture
 
 	   p2d::World * w = new p2d::World();
 	   w->addHandler(this, &WorldTest::clearWorld);
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -373,8 +373,8 @@ struct WorldTest : tpunit::TestFixture
 	   
 	   p2d::World * w = new p2d::World();
 	   
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   w->step(1.0);
@@ -416,8 +416,8 @@ struct WorldTest : tpunit::TestFixture
 	   p2d::World * w = new p2d::World();
 	   w->setDetector(det);
 	   w->addHandler(&sm, &p2dworld::StateMachine::step);
-	   w->addBody(b1);
-	   w->addBody(b2);
+	   w->add(b1);
+	   w->add(b2);
 	   
 	   w->step(1.0);
 	   ASSERT_TRUE( sm.state == 2 );
