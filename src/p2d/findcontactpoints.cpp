@@ -3,6 +3,7 @@
 #include <limits>
 
 #undef max
+#undef min
 
 
 p2d::CannotDetermineContactPoints::CannotDetermineContactPoints() : std::exception()
@@ -27,7 +28,8 @@ void p2d::FindContactPoints::init()
 	add(p2d::FindContactPoints::getRtoC);
 	add(p2d::FindContactPoints::getCtoC);
 	add(p2d::FindContactPoints::getLtoC);
-	add(p2d::FindContactPoints::getLtoL);	
+	add(p2d::FindContactPoints::getLtoL);
+	add(p2d::FindContactPoints::getBtoB);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getRtoR(
@@ -456,6 +458,41 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	return result;
 }
 
+p2d::SetOfPointsPair p2d::FindContactPoints::getBtoB(
+		 p2d::Bound * s1, 
+		 const p2d::Vector & v1,
+		 p2d::Bound * s2,
+		 const p2d::Vector & v2
+	 )
+{
+	// In this cases, bounds are always colliding, so we should test a bounds for collision
+	if (s1->isOrthogonal(s2) || s1->type() == s2->type())
+	{
+		throw p2d::CannotDetermineContactPoints();
+	}
+
+	p2d::SetOfPointsPair result;
+	double minv = std::numeric_limits<double>::min();
+	double maxv = std::numeric_limits<double>::max();
+
+	if ( (s1->type() == p2d::BT_LEFT && s2->type() == p2d::BT_RIGHT)
+		|| (s1->type() == p2d::BT_RIGHT && s2->type() == p2d::BT_LEFT))
+	{
+		result << p2d::PointsPair(p2d::Point(s1->position(), minv), p2d::Point(s2->position(), minv));	
+		result << p2d::PointsPair(p2d::Point(s1->position(), maxv), p2d::Point(s2->position(), maxv));	
+	}
+
+	if ( (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN)
+		|| (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN))
+	{
+		result << p2d::PointsPair(p2d::Point(minv, s1->position()), p2d::Point(minv, s2->position()));	
+		result << p2d::PointsPair(p2d::Point(maxv, s1->position()), p2d::Point(maxv, s2->position()));	
+	}
+	
+	return result;
+}
+
+
 bool p2d::hasPair(const p2d::SetOfPointsPair & set,
 		     	  double x1, double y1,
 				  double x2, double y2)
@@ -472,3 +509,7 @@ bool p2d::hasPair(const p2d::SetOfPointsPair & set,
 	}
 	return exists;
 }
+
+
+
+

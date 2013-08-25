@@ -144,6 +144,13 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 p2d::Line * s2,
 		 const p2d::Vector & v2
 	 );
+	 static p2d::SetOfPointsPair getBtoB(
+		 p2d::Bound * s1, 
+		 const p2d::Vector & v1,
+		 p2d::Bound * s2,
+		 const p2d::Vector & v2
+	 );
+
     protected:
 		/*! Reverses a set of points if neeeded
 			\param[in, out] set
