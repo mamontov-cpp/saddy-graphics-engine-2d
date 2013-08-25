@@ -5,16 +5,15 @@
 #undef max
 #undef min
 
+using namespace std;
 
-p2d::CannotDetermineContactPoints::CannotDetermineContactPoints() : std::exception()
+#define MESSAGE (const char*)"Cannot determine contact points for given arguments"
+
+p2d::CannotDetermineContactPoints::CannotDetermineContactPoints(): std::logic_error(MESSAGE)
 {
 
 }
 
-const char* p2d::CannotDetermineContactPoints::what() const
-{
-	return "Cannot determine contact points for given arguments";
-}
 
 void p2d::FindContactPoints::reverse(p2d::SetOfPointsPair & pairs)
 {
