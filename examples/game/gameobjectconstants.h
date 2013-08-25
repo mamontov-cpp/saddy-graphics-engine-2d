@@ -33,7 +33,7 @@ class GameObjectConstants
 {
 public:
 	/*! Returns a sprite options, needed to create sprite
-		\param[in] sprite options
+		\return sprite options
 	 */
 	static Sprite2DAdapter::Options * sprite();
 	/*! Returns shape needed for physical engine

@@ -59,7 +59,7 @@ class Game
     void createWalls();
 	/*! Sets a new highscore for game, sets in if it's largest that current
 		score.
-		\param
+		\param[in] score 
 	 */
 	void trySetHighscore(int score);
 	/*! Returns current in-game scene. A helper function for renderer's scene
