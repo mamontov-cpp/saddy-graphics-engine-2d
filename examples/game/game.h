@@ -53,7 +53,11 @@ class Game
 	p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
 	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
 	Walls        * m_walls;          //!< A new walls
+	hst::vector<GameObject *> m_erasing_queue; //!< A queue for erasing an objects from a game
  protected:
+	/*! Erases a queued objects from a game
+	 */
+	void eraseQueuedObjects();
 	/*! Create walls for game
 	 */
     void createWalls();

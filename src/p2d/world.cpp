@@ -68,8 +68,6 @@ void p2d::World::removeHandler(p2d::BasicCollisionHandler * h)
 	}
 	delete h;
 }
-
-
 void p2d::World::addNow(p2d::Body * b)
 {
 	hst::vector<hst::string> groups;
