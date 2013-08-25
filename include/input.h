@@ -254,6 +254,29 @@ namespace sad
 			*/
 			~RepeatingTask();
 	};
+	template<typename _Class>
+	class MethodRepeatingTask : public RepeatingTask
+	{
+	  protected:
+			_Class * m_o;      //!< Specified object
+			void (_Class::*m_task)();  //!< Determines a task function
+	  public:
+		  /*! A countable task, which invokes a specified method in object
+			  \param[in] o object
+			  \param[in] task an invoked method
+			  \param[in] how many times it should be invoked
+		   */
+		  MethodRepeatingTask(_Class * o, void (_Class::*task)(), int count = 1) : 
+		  sad::RepeatingTask(), m_o(o), m_task(task)
+		  {
+		  }
+		  /*! Determines, the task, that should be performed
+		   */
+		  virtual void perform()
+		  {
+			  (m_o->*m_task)();
+		  }
+	};
 	class Input
 	{
 	 private:

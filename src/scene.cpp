@@ -50,6 +50,7 @@ void sad::Scene::removeNow(sad::BasicNode * node)
 		{
 			this->onNodeRemoval(node);
 			m_layers.removeAt(i);
+			--i;
 		}
 	}
 }
