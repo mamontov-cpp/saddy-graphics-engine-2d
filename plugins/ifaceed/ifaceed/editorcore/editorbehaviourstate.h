@@ -1,4 +1,4 @@
-/** \file editorbehaviourstate
+/** \file editorbehaviourstate.h
 	\author HiddenSeeker
 
 	Describes an editor behaviour state data

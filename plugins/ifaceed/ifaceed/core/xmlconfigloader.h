@@ -46,22 +46,19 @@ class XMLConfigLoader: public Sprite2DConfigLoader
  public:
 	    /*! Inits a config loader
 			\param[in] name filename to be loaded
-			\param[in] parent parent data
 		 */
 	 inline XMLConfigLoader(const QString & name)
-		{
-			m_filename=name;
-			m_parent = path::directory(name.toStdString().c_str());
-		}
-		/*! A function for loading a config. For loading a config, you must fill a container
-			with appropriate data and return true. If some errors occured, function must return false
-			\param[out] container container to be filled
-			\return     whether loading was correct
-		 */
-	    bool load(Sprite2DTemplateContainer & container);
-		/*! Does nothing
-		 */
-		~XMLConfigLoader();
+	 {
+		m_filename=name;
+		m_parent = path::directory(name.toStdString().c_str());
+	 }
+	 /*! A function for loading a config. For loading a config, you must fill a container
+		 with appropriate data and return true. If some errors occured, function must return false
+		 \param[out] container container to be filled
+		 \return     whether loading was correct
+	  */
+	 bool load(Sprite2DTemplateContainer & container);
+	 ~XMLConfigLoader();
 };
 
 #endif

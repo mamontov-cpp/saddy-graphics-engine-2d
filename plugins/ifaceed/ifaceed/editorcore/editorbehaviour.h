@@ -29,7 +29,7 @@ class EditorBehaviour
       */
 	 EditorBehaviour(Editor * ed, const hst::string & initial);
 	 /** Sets an editor
-		 \param[in] editor
+		 \param[in] ed a linked editor to behaviour
 	  */
 	 inline void setParent(Editor* ed)
 	 {
@@ -69,7 +69,7 @@ class EditorBehaviour
 	  */
 	 void removeState(const hst::string & statename);
 	 /** Returns a state from behaviour
-		 \param[in] name of state
+		 \param[in] statename of state
 		 \return state
 	  */
 	 EditorBehaviourState * getState(const hst::string & statename) const;

@@ -37,8 +37,8 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		\return MainPanel
 	 */
 	MainPanel * panel();
-	/*! Returns current resulting level
-		\param[in] result
+	/*! Returns current resulting in-game screen
+		\return result
 	 */
 	inline ScreenTemplate * result()
 	{
@@ -112,12 +112,12 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	  */
 	virtual void highlightState(const hst::string & hint);
 	/** Shows objects stats for selected object
-		Implemented in \core\states\changingselection.h
+		Implemented in \\core\\states\\changingselection.h
 		\param[in] o object, which must be selected
 	 */
 	virtual void showObjectStats(AbstractScreenObject * o);
 	/** Tries to select some object
-		Implemented in \core\states\changingselection.h
+		Implemented in \\core\\states\\changingselection.h
 		\param[in] p point
 		\param[in] enterSelected whether we should enter selected states if found
 	 */

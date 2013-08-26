@@ -14,7 +14,9 @@
 class EditorLog;
 class ScreenTemplate;
 
-// T is type of value
+/*! This command is invoked, when object changes any of his properties, except for bounding rectangle
+	and inner sprite
+ */
 template<
 	typename T
 >
@@ -49,6 +51,7 @@ public:
 		\param[in] o screen object
 		\param[in] s string
 		\param[in] new_value new value
+		\param[in] old_value an old value of property
 		\param[in] log       log
 	 */
 	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, T old_value, sad::Log * log) 
@@ -60,19 +63,27 @@ public:
 		m_prev_value = old_value;
 	}
 
-
+	/*! Sets new value for command
+		\param[in] v value
+	 */
 	void setValue(T v) 
 	{
 		m_current_value = v;	
 	}
-
+	/*! Commits a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void commit(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::commit") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_current_value, m_log);
 		ob->submitEvent("PropertyChangeCommand::commit", sad::Variant(0));
 	}
-
+	/*! Rollbacks a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::rollback") << m_property_name.data()) );
@@ -99,7 +110,8 @@ public:
 };
 
 
-
+/*! A command, which is performed when sprite changes any his inner texture property
+ */
 class SpritePropertyChangeCommand: public AbstractCommand 
 {
  private:
@@ -122,13 +134,20 @@ class SpritePropertyChangeCommand: public AbstractCommand
 		m_new = _new;
 		m_log = log;
 	}
-
+	/*! Commits a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
-
+	/*! Rollbacks a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 };
 
-
+/*! A command, which is performed when sprite changes bounding rectangle
+ */
 class SpriteRectChangeCommand: public AbstractCommand
 {
  private:
@@ -145,8 +164,15 @@ public:
 		m_old_rect = oldrect;
 		m_new_rect = newrect;
 	}
+	/*! Commits a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
-
+	/*! Rollbacks a command
+		\param[in] c context
+		\param[in] ob observer for command
+	 */
 	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 };
 

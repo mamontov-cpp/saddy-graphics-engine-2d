@@ -56,7 +56,7 @@ class MockSpriteTableWidget: public QObject
 	  */
 	 void clear();
 	 /** Adds new data  to iterator
-		 \param[in] iterator data
+		 \param[in] i an iterator with sprite, which is being added
 	  */
 	 void add(const AbstractSpriteDatabaseIterator & i ) ;
 	 /** Sets a selection for data

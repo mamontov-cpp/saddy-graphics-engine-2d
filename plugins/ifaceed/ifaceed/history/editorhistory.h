@@ -23,7 +23,7 @@ class EditorHistory
 	 ActionContext * m_c;
  public:
 	    /** Constructs empty history	
-			\param[in] context c
+			\param[in] c context 
 		 */
 		EditorHistory(ActionContext * c);
 		/** Frees memory from all commands

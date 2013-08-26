@@ -340,7 +340,6 @@ private:
 		 */
 		inline EditorHistory * history() { return m_history; }
 		/** Quits an editor
-			\param[in] quits editor
 		 */
 		virtual void quit();
 		/** Returns a behaviour data
@@ -357,7 +356,7 @@ private:
 		 */
 		virtual void highlightState(const hst::string & hint);
 	    /** Deactivates old behaviour and enters new behaviour
-			\param[in] behaviour name new behaviour
+			\param[in]  name name of new behaviour
 		 */
 		virtual void setBehaviour(const hst::string & name);
 		/** Enters a behaviour of editor

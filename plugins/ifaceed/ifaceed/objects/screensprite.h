@@ -79,7 +79,7 @@ protected:
 	    This check contains, whether all resources is in template.
 
 		Also it can be used to rebuild somke cached data in a rendering loop
-		\param[in] t template
+		\param[in] db a template database, which is label is tested against
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */

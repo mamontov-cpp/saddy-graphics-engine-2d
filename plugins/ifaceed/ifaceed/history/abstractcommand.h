@@ -12,10 +12,12 @@ class AbstractCommand
  public:
 	 /** Applies changes, described in command
 		 \param[in] c context
+		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL)=0;
 	 /** Reverts changes, described in command
 		 \param[in] c context
+		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL)=0;
 	 /** Descructor

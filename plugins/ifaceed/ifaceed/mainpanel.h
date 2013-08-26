@@ -163,7 +163,7 @@ protected slots:
 	 */
 	void moveObjectFront();
 	/*! Called, when name is changed
-		\param[in] new name new name of element
+		\param[in] name new name of element
 	 */
 	void nameChanged(const QString & name);
 	/*! Makes selected item a background

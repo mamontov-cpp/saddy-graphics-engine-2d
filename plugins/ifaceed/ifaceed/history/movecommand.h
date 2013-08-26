@@ -27,10 +27,12 @@ class MoveCommand: public AbstractCommand
 	MoveCommand(AbstractScreenObject * object, const hPointF & oldp, const hPointF & newp);
 	/** Applies changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Destroys a command
@@ -56,10 +58,12 @@ class ResizeCommand: public AbstractCommand
 	ResizeCommand(AbstractScreenObject * object, const hRectF & or, const hRectF & nr, float a);
 	/** Applies changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Destroys a command
@@ -81,10 +85,12 @@ class MakeBackgroundCommand: public AbstractCommand
 	MakeBackgroundCommand(AbstractScreenObject * object);
 	/** Applies changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Destroys a command

@@ -29,17 +29,11 @@ public:
 	int p3;
 
 	/*! Creates a new incorrect action
-		\param[in] s
-		\param[in] _1
-		\param[in] _2
-		\param[in] _3
-		\param[in] _4
 	 */
 	inline ResizingStateAction()
 	{
 	}
 	/*! Creates a new action as tuple of values
-		\param[in] s
 		\param[in] _1
 		\param[in] _2
 		\param[in] _3

@@ -172,7 +172,6 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	 /** Loads a database to data
 		 \param[in] maps maps for loading
 		 \param[out] counter counter, that makes texture containers unique, even if loaded the same config. Must be changed each time
-		 \param[in] log log for logging critical messages
 		 \return whether loading was successfull
 	  */
 	 virtual bool load(FontTemplatesMaps & maps, int & counter);

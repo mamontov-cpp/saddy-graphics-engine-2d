@@ -47,6 +47,7 @@ public:
 	 }
 	 /*! Starts a pending of rotation command
 		 \param[in] t		timer
+		 \param[in] rotatingobject an object, which is being rotated
 		 \param[in] angle	angle
 		 \param[in] clean_start whether rotation started clean
 		 \param[in] old_angle prevous angle
@@ -74,8 +75,9 @@ public:
 		return m_rotation_command_pending;
 	 }
 	 /*! Dismisses a rotation command if needed
+		\param[in,out] rotatingobject an object, which is being rotated 
 		\param[out] new_angle new angle which is set
-		\param[out[ old_angle old angle which is set
+		\param[out] old_angle old angle which is set
 	  */
 	 inline void getAndDismissRotationCommand(AbstractScreenObject *& rotatingobject, float & new_angle, float & old_angle)
 	 {
