@@ -16,6 +16,8 @@
 #       ...
 #       </sprites>
 # So, you can load new texture by loading it in saddy engine and parsing xml, resulting a texture atlas.
+# 
+# You can run the program using ruby main.rb "name of valid xml config"
 require_relative 'configreader'
 require_relative 'imagegluingorder.rb'
 require_relative 'imagearranger.rb'
