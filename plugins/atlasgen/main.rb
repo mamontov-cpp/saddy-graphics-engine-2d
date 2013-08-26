@@ -1,21 +1,21 @@
 ## 
-# :title: main.rb
+# :title: Atlas Generator
 # A script for automatic generation of configs and texture atlases for saddy
-# Suppose, you have an input script like
-# <sprites config="a.xml" texture="a.png" >
+# Suppose, you have an input xml file like
+#          <sprites config="a.xml" texture="a.png" >
 #          <a texture="aa.png" size="64;64" transparent="0;0;0" index="2" />
 #          ...
-# </sprites>  
+#          </sprites>  
 # You want to merge aa.png with other texture into a texture atlas (POT texture) 
 # converting it to a saddy XML config format and write atlas into a.png and config - a.xml
 # This is where this script comes in handy. Also you can omit size tag - it can be taken from size of source image file
 # and transparent - to make texture part non-transparent. By default index is "0", so you could omit it too.
-# The result config will be like 
-# <sprites>
+# The resulting config will be like 
+#       <sprites>
 #       <a texture="a.png" size="64;64" transparent="0;0;0" index="2"  texrect="0;0;w;h"/>
 #       ...
-# </sprites>
-# So, you can load it by passing it to saddy.
+#       </sprites>
+# So, you can load new texture by loading it in saddy engine and parsing xml, resulting a texture atlas.
 require_relative 'configreader'
 require_relative 'imagegluingorder.rb'
 require_relative 'imagearranger.rb'
