@@ -10,33 +10,34 @@
 #pragma warning(pop)
 
 /*!
- * Tests finding contact points between bound and line
+ * Tests finding contact points between bound and Circle
  */
-struct TestFindContactPointsLtoB : tpunit::TestFixture
+struct TestFindContactPointsCtoB : tpunit::TestFixture
 {
  public:
-   TestFindContactPointsLtoB() : tpunit::TestFixture(
-	   TEST(TestFindContactPointsLtoB::test1),
-	   TEST(TestFindContactPointsLtoB::test2),
-	   TEST(TestFindContactPointsLtoB::test3),
-	   TEST(TestFindContactPointsLtoB::test4),
-	   TEST(TestFindContactPointsLtoB::test5),
-	   TEST(TestFindContactPointsLtoB::test6),
-	   TEST(TestFindContactPointsLtoB::test7),
-	   TEST(TestFindContactPointsLtoB::test8),
-	   TEST(TestFindContactPointsLtoB::test9),
-	   TEST(TestFindContactPointsLtoB::test10),
-	   TEST(TestFindContactPointsLtoB::test11),
-	   TEST(TestFindContactPointsLtoB::test12)
+   TestFindContactPointsCtoB() : tpunit::TestFixture(
+	   TEST(TestFindContactPointsCtoB::test1),
+	   TEST(TestFindContactPointsCtoB::test2),
+	   TEST(TestFindContactPointsCtoB::test3),
+	   TEST(TestFindContactPointsCtoB::test4),
+	   TEST(TestFindContactPointsCtoB::test5),
+	   TEST(TestFindContactPointsCtoB::test6),
+	   TEST(TestFindContactPointsCtoB::test7),
+	   TEST(TestFindContactPointsCtoB::test8),
+	   TEST(TestFindContactPointsCtoB::test9),
+	   TEST(TestFindContactPointsCtoB::test10),
+	   TEST(TestFindContactPointsCtoB::test11),
+	   TEST(TestFindContactPointsCtoB::test12)
    ) {}
 
    void test1()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(-2);
 	   r2.setType(p2d::BT_LEFT);
 	   p2d::FindContactPoints m;
@@ -48,11 +49,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test2()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(-1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_RIGHT);
 	   p2d::FindContactPoints m;
@@ -63,11 +65,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test3()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, -1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_UP);
 	   p2d::FindContactPoints m;
@@ -79,11 +82,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test4()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, 1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(0);
 	   r2.setType(p2d::BT_DOWN);
 	   p2d::FindContactPoints m;
@@ -95,11 +99,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test5()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, 1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(-2);
 	   r2.setType(p2d::BT_LEFT);
 	   p2d::FindContactPoints m;
@@ -112,11 +117,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test6()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, 1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_RIGHT);
 	   p2d::FindContactPoints m;
@@ -128,11 +134,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test7()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_UP);
 	   p2d::FindContactPoints m;
@@ -145,11 +152,12 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test8()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(0);
 	   r2.setType(p2d::BT_DOWN);
 	   p2d::FindContactPoints m;
@@ -161,71 +169,71 @@ struct TestFindContactPointsLtoB : tpunit::TestFixture
 
    void test9()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(-1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 1, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(-2);
 	   r2.setType(p2d::BT_LEFT);
 	   p2d::FindContactPoints m;
 	   p2d::CollisionShape * s1 = &r1;
 	   p2d::CollisionShape * s2 = &r2;
 	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
-	   ASSERT_TRUE( p2d::hasPair(pairs, 1, 1, -2, 1) );
-	   ASSERT_TRUE( p2d::hasPair(pairs, 1, 2, -2, 2) );
+	   ASSERT_TRUE( p2d::hasPair(pairs, -1, 0, -2, 0) );
    }
 
    void test10()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(1, 0);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(2, 1, 2, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_RIGHT);
 	   p2d::FindContactPoints m;
 	   p2d::CollisionShape * s1 = &r1;
 	   p2d::CollisionShape * s2 = &r2;
 	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
-	   ASSERT_TRUE( p2d::hasPair(pairs, 2, 1, 3, 1) );
-	   ASSERT_TRUE( p2d::hasPair(pairs, 2, 2, 3, 2) );
+	   ASSERT_TRUE( p2d::hasPair(pairs, 1, 0, 3, 0) );
    }
 
    void test11()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, 1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 2, 2, 2) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(3);
 	   r2.setType(p2d::BT_UP);
 	   p2d::FindContactPoints m;
 	   p2d::CollisionShape * s1 = &r1;
 	   p2d::CollisionShape * s2 = &r2;
 	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
-	   ASSERT_TRUE( p2d::hasPair(pairs, 1, 2, 1, 3) );
-	   ASSERT_TRUE( p2d::hasPair(pairs, 2, 2, 2, 3) );
+	   ASSERT_TRUE( p2d::hasPair(pairs, 0, 1, 0, 3) );
    }
 
    void test12()
    {
-	   p2d::Line r1;
+	   p2d::Circle r1;
 	   p2d::Bound r2;
 	   p2d::Vector v1(0, -1);
 	   p2d::Vector v2(0, 0);
-	   r1.setCutter( p2d::cutter(1, 1, 2, 1) );
+	   r1.setCenter(p2d::Point(0,0));
+	   r1.setRadius(1.0);
 	   r2.setPosition(-3);
 	   r2.setType(p2d::BT_DOWN);
 	   p2d::FindContactPoints m;
 	   p2d::CollisionShape * s1 = &r1;
 	   p2d::CollisionShape * s2 = &r2;
 	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
-	   ASSERT_TRUE( p2d::hasPair(pairs, 1, 1, 1, -3) );
-	   ASSERT_TRUE( p2d::hasPair(pairs, 2, 1, 2, -3) );
+	   ASSERT_TRUE( p2d::hasPair(pairs, 0, -1, 0, -3) );
    }
 
-}  test_find_contact_points_ltob;
+}  test_find_contact_points_ctob;
 
