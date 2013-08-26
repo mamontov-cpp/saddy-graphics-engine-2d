@@ -1,1 +1,1 @@
-iface-editor-debug.exe -ifaceconfig globalconfig.xml
+iface-editor-release.exe -ifaceconfig globalconfig.xml
