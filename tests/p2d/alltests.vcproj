@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsltob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\findcontactpointsltol.cpp"
 				>
 			</File>
