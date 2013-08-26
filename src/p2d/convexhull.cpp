@@ -55,7 +55,7 @@ p2d::Vector  p2d::ConvexHull::normal(int number) const
 	p2d::Vector result = p2d::ortho(sidevector, p2d::OVI_DEG_90);	
 	size_t count = points();
 	bool notanormal = false;
-	for(int point = 0; (point < count) && !notanormal; point++)
+	for(size_t point = 0; (point < count) && !notanormal; point++)
 	{
 		bool is_not_side = (point != number && point != number + 1);
 		if (number == point - 1)
@@ -83,7 +83,7 @@ p2d::Cutter1D p2d::ConvexHull::project(const p2d::Axle & axle) const
 	double max = 0;
 	bool minisset = false;
 	bool maxisset = false;
-	for(int i = 0; i < m_set.size() ; i++)
+	for(size_t i = 0; i < m_set.size() ; i++)
 	{
 		double p = p2d::scalar(m_set[i], axle);
 		if (p < min || !minisset)
@@ -104,7 +104,7 @@ void p2d::ConvexHull::tryInsertAxle(hst::vector<p2d::Axle> & container,
 						            const p2d::Axle & axle) const
 {
 	bool found = false;
-	for(int i = 0 ; (i < container.size()) && !found; i++)
+	for(size_t i = 0 ; (i < container.size()) && !found; i++)
 	{
 		if (equal(container[i], axle))
 		{
@@ -127,7 +127,7 @@ void p2d::ConvexHull::appendAxisForSide(
 
 void p2d::ConvexHull::appendAxisForCollision(hst::vector<p2d::Axle> & container) const
 {
-	for(int i = 0; i < this->sides(); i++)
+	for(size_t i = 0; i < this->sides(); i++)
 	{
 		this->appendAxisForSide(container, i);
 	}
@@ -147,7 +147,7 @@ bool p2d::ConvexHull::collides(const ConvexHull & c) const
 	c.appendAxisForCollision(axles);
 
 	bool collides = true;
-	for(int i = 0 ; i < axles.size() && collides; i++)
+	for(size_t i = 0 ; i < axles.size() && collides; i++)
 	{
 		p2d::Cutter1D myproject = this->project(axles[i]);
 		p2d::Cutter1D cproject = c.project(axles[i]);
@@ -164,7 +164,7 @@ p2d::Vector p2d::ConvexHull::getSumOfNormalsFor(const p2d::Point & p) const
 	p2d::Vector result(0,0);
 	double nearest = 0;
 	bool nearest_is_found = false;
-	for(int i = 0; i < sides(); i++)
+	for(size_t i = 0; i < sides(); i++)
 	{
 		p2d::Cutter2D k = side(i);
 		p2d::Point center = (k.p1() + k.p2()) / 2.0;
@@ -195,7 +195,7 @@ p2d::Vector p2d::ConvexHull::getSumOfNormalsFor(const p2d::Point & p) const
 p2d::Point p2d::ConvexHull::center() const
 {
 	p2d::Point result;
-	for(int i = 0;  i < points(); i++)
+	for(size_t i = 0;  i < points(); i++)
 	{
 		result += m_set[i];
 	}

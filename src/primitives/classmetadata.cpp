@@ -17,7 +17,7 @@ bool sad::ClassMetaData::canBeCastedTo(const hst::string & name)
 		return true;
 	}
 	bool result = false;
-	for(int i = 0; i < m_ancestors.size(); i++) 
+	for(size_t i = 0; i < m_ancestors.size(); i++) 
 	{
 		result = result || m_ancestors[i]->canBeCastedTo(name);
 	}

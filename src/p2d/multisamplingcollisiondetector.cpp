@@ -6,7 +6,7 @@ p2d::MaybeTime p2d::MultisamplingCollisionDetector::collides(p2d::Body * b1,
 {
 	double slice = limit / m_tests;
 	p2d::MaybeTime result;
-	for(int  i = 1; i  <= m_tests && !(result.exists()); i++)
+	for(unsigned int  i = 1; i  <= m_tests && !(result.exists()); i++)
 	{
 		double time = slice * i ;
 		p2d::CollisionShape & s1 = b1->at(time);
