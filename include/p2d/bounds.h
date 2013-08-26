@@ -5,6 +5,7 @@
  */
 #include "collisionshape.h"
 #include "point.h"
+#include "infiniteline.h"
 #pragma once
 
 namespace p2d
@@ -80,6 +81,13 @@ class Bound: public p2d::CollisionShape
 		return ((bt1 == BT_LEFT || bt1 == BT_RIGHT) && (bt2  == BT_UP || bt2 == BT_DOWN))  ||
 			   ((bt1 == BT_UP || bt1 == BT_DOWN) && (bt2  == BT_LEFT || bt2 == BT_RIGHT));		
 	}
+	/*! A direction normal from bound
+		\return normal
+	 */
+	p2d::Vector normal();
+	/*! A bounding line for bound
+	 */
+	p2d::InfiniteLine boundingLine();
 };
 
 

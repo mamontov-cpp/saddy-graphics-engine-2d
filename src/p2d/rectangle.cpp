@@ -52,3 +52,13 @@ p2d::Cutter1D p2d::Rectangle::project(const p2d::Axle & a) const
 
 
 
+hst::vector<p2d::Point> p2d::Rectangle::points() const
+{
+	hst::vector<p2d::Point> points;
+	for(int i = 0; i < 4; i++)
+	{
+		points << m_rect[i];
+	}
+	return points;
+}
+
