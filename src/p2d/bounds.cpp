@@ -42,10 +42,10 @@ p2d::Vector p2d::Bound::normal()
 	p2d::Vector result;
 	switch(this->m_type)
 	{
-		case BT_LEFT: { result = p2d::Vector(1, 0); }
-		case BT_RIGHT: { result = p2d::Vector(-1, 0); }
-		case BT_DOWN: { result = p2d::Vector(1, 0); }
-		case BT_UP: { result = p2d::Vector(-1, 0); }
+		case BT_LEFT: { result = p2d::Vector(1, 0); break; }
+		case BT_RIGHT: { result = p2d::Vector(-1, 0); break; }
+		case BT_DOWN: { result = p2d::Vector(0, 1); break; }
+		case BT_UP: { result = p2d::Vector(0, -1); break; }
 	}
 	return result;
 }
