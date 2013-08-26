@@ -534,7 +534,8 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 	hst::vector<p2d::Point> p2 = s2->points();
 	p2d::SetOfPointsPair result;
 
-	p2d::Vector directionvector = s1->normal() * (-1);
+	p2d::Vector normal = s1->normal();
+	p2d::Vector directionvector = normal * (-1);
 	p2d::InfiniteLine bound = s1->boundingLine();
 	
 	double vp = p2d::scalar(v, directionvector);
@@ -547,31 +548,31 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 		throw p2d::CannotDetermineContactPoints();
 
 	// Find points with minimum scalar productions on vector
-	hst::vector<p2d::Point> minpoints;
-	double minprojection = std::numeric_limits<double>::max();
+	hst::vector<p2d::Point> maxpoints;
+	double maxprojection = - (std::numeric_limits<double>::max() - 1.0);
 	for(size_t i = 0 ; i < p2.size(); i++)
 	{
 		double projection = p2d::scalar(directionvector, p2[i]);
-		if (is_fuzzy_equal(projection, minprojection))
+		if (is_fuzzy_equal(projection, maxprojection))
 		{
-			minpoints << p2[i];
+			maxpoints << p2[i];
 		}
 		else
 		{
-			if (projection < minprojection)
+			if (projection > maxprojection)
 			{
-				minpoints.clear();
-				minpoints << p2[i];
-				minprojection = projection;
+				maxpoints.clear();
+				maxpoints << p2[i];
+				maxprojection = projection;
 			}
 		}
 	}
 
-	for(size_t i = 0; i < minpoints.size(); i++)
+	for(size_t i = 0; i < maxpoints.size(); i++)
 	{
-		p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(minpoints[i], v);
+		p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(maxpoints[i], v);
 		p2d::MaybePoint intersection = line.intersection(bound);
-		result << p2d::PointsPair(intersection.data(), minpoints[i]);
+		result << p2d::PointsPair(intersection.data(), maxpoints[i]);
 	}
 	return result;
 }
@@ -587,7 +588,8 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoC(
 
 	p2d::SetOfPointsPair result;
 
-	p2d::Vector directionvector = s1->normal() * (-1);
+	p2d::Vector normal = s1->normal();
+	p2d::Vector directionvector = normal * (-1);
 	p2d::InfiniteLine bound = s1->boundingLine();
 	
 	double vp = p2d::scalar(v, directionvector);
