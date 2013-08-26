@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsbtob.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\findcontactpointsctoc.cpp"
 				>
 			</File>

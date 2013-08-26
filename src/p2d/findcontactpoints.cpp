@@ -477,18 +477,25 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoB(
 	double minv = std::numeric_limits<double>::min();
 	double maxv = std::numeric_limits<double>::max();
 
+	p2d::Vector v = v2 - v1;
 	if ( (s1->type() == p2d::BT_LEFT && s2->type() == p2d::BT_RIGHT)
 		|| (s1->type() == p2d::BT_RIGHT && s2->type() == p2d::BT_LEFT))
 	{
-		result << p2d::PointsPair(p2d::Point(s1->position(), minv), p2d::Point(s2->position(), minv));	
-		result << p2d::PointsPair(p2d::Point(s1->position(), maxv), p2d::Point(s2->position(), maxv));	
+		if (non_fuzzy_zero(v.x()))
+		{
+		 result << p2d::PointsPair(p2d::Point(s1->position(), minv), p2d::Point(s2->position(), minv));	
+		 result << p2d::PointsPair(p2d::Point(s1->position(), maxv), p2d::Point(s2->position(), maxv));	
+		}
 	}
 
 	if ( (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN)
 		|| (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN))
 	{
-		result << p2d::PointsPair(p2d::Point(minv, s1->position()), p2d::Point(minv, s2->position()));	
-		result << p2d::PointsPair(p2d::Point(maxv, s1->position()), p2d::Point(maxv, s2->position()));	
+		if (non_fuzzy_zero(v.y()))
+		{
+		 result << p2d::PointsPair(p2d::Point(minv, s1->position()), p2d::Point(minv, s2->position()));	
+		 result << p2d::PointsPair(p2d::Point(maxv, s1->position()), p2d::Point(maxv, s2->position()));	
+		}
 	}
 	
 	return result;
