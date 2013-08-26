@@ -44,7 +44,7 @@ void sad::Scene::addNow(sad::BasicNode * node)
 
 void sad::Scene::removeNow(sad::BasicNode * node)
 {
-	for(int i = 0; i < m_layers.count(); i++)
+	for(size_t i = 0; i < m_layers.count(); i++)
 	{
 		if (node == m_layers[i])
 		{
@@ -57,7 +57,7 @@ void sad::Scene::removeNow(sad::BasicNode * node)
 
 void sad::Scene::clearNow()
 {
-	for(int i = 0; i < m_layers.count(); i++)
+	for(size_t i = 0; i < m_layers.count(); i++)
 	{
 		this->onNodeRemoval(m_layers[i]);
 	}

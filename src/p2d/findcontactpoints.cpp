@@ -140,13 +140,13 @@ void p2d::filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v)
 	// A vector of times for each pair
 	hst::deque<double> ts;
 	double min = std::numeric_limits<double>::max();
-	for(int i = 0; i < set.size(); i++)
+	for(size_t i = 0; i < set.size(); i++)
 	{
 		double t = p2d::scalar(set[i].p2() - set[i].p1(), v); 
 		if (t < min) min = t;
 		ts << t;
 	}
-	for(int i = 0; i < set.size(); i++)
+	for(size_t i = 0; i < set.size(); i++)
 	{
 		if (!is_fuzzy_equal(ts[i], min))
 		{
@@ -173,9 +173,9 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	{
 		return result;
 	}
-	for(int i = 0 ; i < c1.sides(); i++)
+	for(size_t i = 0 ; i < c1.sides(); i++)
 	{
-		for(int j = 0; j < c2.sides(); j++)
+		for(size_t j = 0; j < c2.sides(); j++)
 		{
 			p2d::Cutter2D s1 = c1.side(i);
 			p2d::Cutter2D s2 = c2.side(j);
@@ -292,7 +292,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 		hst::vector<p2d::Point> Ks;
 		double min = std::numeric_limits<double>::max();
 		int mini = 0;
-		for(int i = 0; i < tmppoints.size();i ++)
+		for(size_t i = 0; i < tmppoints.size();i ++)
 		{
 			p2d::InfiniteLine O1V = p2d::InfiniteLine::appliedVector(tmppoints[i], v);
 			p2d::MaybePoint F =  C1C2.intersection(O1V);
@@ -355,7 +355,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 		{
 			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p1(), v);
 			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
-			for(int i = 0; i < pts.size(); i++)
+			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << p2d::PointsPair(c.p1(), pts[i]);
 			}
@@ -363,7 +363,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 		{
 			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p2(), v);
 			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
-			for(int i = 0; i < pts.size(); i++)
+			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << p2d::PointsPair(c.p2(), pts[i]);
 			}
@@ -390,7 +390,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	{
 		return result;
 	}
-	for(int i = 0 ; i < c1.sides(); i++)
+	for(size_t i = 0 ; i < c1.sides(); i++)
 	{
 		p2d::Cutter2D c1i = c1.side(i);
 		p2d::SetOfPointsPair set = p2d::findContacts(c1i, v, c2);
@@ -446,7 +446,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	// Select nearest to c1center
 	p2d::Point min;
 	bool minexists = false;
-	for(int i = 0; i < points.size(); i++)
+	for(size_t i = 0; i < points.size(); i++)
 	{
 		if (min.distanceTo(O1) > points[i].distanceTo(O1) || !minexists)
 		{

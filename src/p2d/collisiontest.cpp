@@ -38,7 +38,7 @@ bool p2d::CollisionTest::collidesRtoC(p2d::Rectangle * p1, p2d::Circle * p2)
 	
 	p2d::ConvexHull hull = p1->toHull();
 	bool collides = true;
-	for(int i = 0; i < axles.size() && collides;i++)
+	for(size_t i = 0; i < axles.size() && collides;i++)
 	{
 		p2d::Cutter1D c1 = hull.project(axles[i]);
 		p2d::Cutter1D c2 = p2->project(axles[i]);
@@ -74,7 +74,7 @@ bool p2d::CollisionTest::collidesCtoL(p2d::Circle * p1, p2d::Line * p2)
 	axles << p2d::ortho(axles[4], p2d::OVI_DEG_90);
 	
 	bool collides = true;
-	for(int i = 0; i < axles.size() && collides;i++)
+	for(size_t i = 0; i < axles.size() && collides;i++)
 	{
 		p2d::Cutter1D c1 = p1->project(axles[i]);
 		p2d::Cutter1D c2 = p2->project(axles[i]);

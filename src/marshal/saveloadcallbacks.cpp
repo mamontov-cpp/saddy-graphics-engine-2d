@@ -35,7 +35,7 @@ hst::vector<int> SaveLoadCallback< hst::vector<int> >::load(ActionContext * cont
 {
 	hst::vector<int> result;
 	hst::stringlist lst=str.split(';');
-	for (int i=0;i<lst.count();i++)
+	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<int>::load(context,lst[i],
 										    abstract_names::type_string< hst::vector<int> >::type());
@@ -114,7 +114,7 @@ hst::vector<hPointF>  SaveLoadCallback< hst::vector<hPointF> >::load(ActionConte
 {
 	hst::vector<hPointF> result;
 	hst::stringlist lst=str.split(';');
-	for (int i=0;i<lst.count();i++)
+	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<hPointF>::load(context,lst[i],
 										        abstract_names::type_string< hst::vector<int> >::type());

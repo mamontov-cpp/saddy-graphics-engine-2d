@@ -110,7 +110,7 @@ void TMFont::render(const hst::string & str,const pointf & p)
   float curx=(float)(p.x());
   m_tex->enable();
   glBegin(GL_QUADS);
-  for (int i=0;i<str.length();i++)
+  for (size_t i=0;i<str.length();i++)
   {
     if (str[i]=='\r' || str[i]=='\n')
 	{
