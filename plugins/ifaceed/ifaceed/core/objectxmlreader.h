@@ -44,8 +44,8 @@ class ObjectXMLReader: public serializable::AbstractReader
 	/*! Finds next point, where document can be read
 	 */
 	virtual void findReadingPoint();
-	/*! Implement this function to read some entry.
-		\param[in] entry entry data
+	/*! Reads some entry with object parameters
+		\return entry
 	 */
 	virtual SerializationEntry * nextEntry();
 	 /*! Opens a stream data for writing

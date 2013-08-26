@@ -33,15 +33,15 @@ class QSpriteTableWidget : public QWidget
 public:
 	QSpriteTableWidget(QComboBox * configCombo, QLayout* layout);
 	/** Sets current selection
-	\param[in] sel selection object
+		\param[in] sel selection object
 	*/
 	void setSelection(const QSpriteTableWidgetSelection & sel);
 	/** Returns current selection
-	\return selection object
+		\return selection object
 	*/
 	QSpriteTableWidgetSelection selection();
 	/** Adds new sprite to spriteviewer
-	\param[in] it iterator of the sprite DB
+		\param[in] i iterator of the sprite DB
 	*/
 	void add(const AbstractSpriteDatabaseIterator & i);
 

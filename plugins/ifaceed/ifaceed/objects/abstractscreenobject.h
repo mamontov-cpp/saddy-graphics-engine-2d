@@ -1,4 +1,4 @@
-/** \file abstractobject.h
+/** \file abstractscreenobject.h
 	\author HiddenSeeker
 
 	Describes an abstract screen template object

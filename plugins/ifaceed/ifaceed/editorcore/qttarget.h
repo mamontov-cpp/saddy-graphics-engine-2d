@@ -12,6 +12,9 @@
 
 class Editor;
 
+/*! A target, which converts a warning and critical messages to a
+	user, using GUI
+ */
 class QtTarget:public sad::log::Target
 {
  protected:
@@ -38,7 +41,7 @@ class QtTarget:public sad::log::Target
 		 */
 		inline void disable() { m_enabled = false;}
 		/*! Receives a messages from targetting information
-				\param[in] message, taken message
+			\param[in] message taken message
 		 */
 		virtual void receive(const sad::log::Message & message);
 		~QtTarget();

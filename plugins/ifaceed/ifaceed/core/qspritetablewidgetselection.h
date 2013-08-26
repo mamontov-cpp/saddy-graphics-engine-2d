@@ -1,4 +1,4 @@
-/** \file qspritetablewidgetselection.cpp
+/** \file qspritetablewidgetselection.h
 	\author HiddenSeeker
 
 	Implements a selection for table widget

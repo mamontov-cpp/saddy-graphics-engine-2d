@@ -1,3 +1,8 @@
+/*! \mainpage IFaceEditor
+	
+	A simple editor for editing ingame screens. Supports placing some sprite and text, saving and
+	loading to xml files with those. Loads sprites from specific configs - see examples.
+ */
 #include "mainpanel.h"
 #include <QtGui/QApplication>
 #include <QTest>

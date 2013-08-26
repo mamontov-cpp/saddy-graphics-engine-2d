@@ -35,7 +35,7 @@ class SceneAddingTask: public sad::RepeatingTask
  public:
     /*! Constructs a new task
 		\param[in] _template a resulting template
-		\param[in]  a scene scene object data
+		\param[in]  scene scene object data
 	 */
 	SceneAddingTask(ScreenTemplate * _template, InterlockedScene * scene);
 	/*! Populates scene when empty

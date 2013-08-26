@@ -25,10 +25,12 @@ class LayerCommand: public AbstractCommand
 	LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer);
 	/** Applies changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
+		\param[in] ob observer for command
 	  */
 	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
 	/** Destroys a command
