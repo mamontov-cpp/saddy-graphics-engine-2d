@@ -28,7 +28,7 @@ class OrthoCamera: public sad::Camera
 		 /*! Creates a orthographic camera with specific viewing width and height
 			 \param[in]  width of field
 			 \param[in]  height of field
-			 \param[in]  renderer renderer which it works with
+			 \param[in]  r renderer which it works with
 		 */
 		 OrthoCamera(int width, int height, sad::Renderer * r = sad::Renderer::ref());
 		 /*! Applies a camera

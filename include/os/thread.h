@@ -78,10 +78,10 @@ namespace  os
                 /*! Destructor
                 */
                 ~thread();
-                /*!  Detaches a thread. Must be called before ::run()
+                /*!  Detaches a thread. Must be called before os::thread::run()
                 */
                 void detach();
-                /*! Makes a thread waitable. Must be called before ::run()
+                /*! Makes a thread waitable. Must be called before os::thread::run()
                 */
                 void makeWaitable();
                 /*! Runs a thread
@@ -97,7 +97,7 @@ namespace  os
                      \return true on successful wait
                 */
                 bool wait(unsigned int time=INFINITE);
-                /*! Returns a resulting thread exit code. If waitable, result is equal to ::wait(INFINITE) and returning exit code.
+                /*! Returns a resulting thread exit code. If waitable, result is equal to os::thread::wait(INFINITE) and returning exit code.
                      NOTE: Needs an original thread object  and waitable set to true
                      \return NULL if not run, otherwise wait for execution
                 */

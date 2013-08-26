@@ -64,6 +64,7 @@ namespace sad
 				\param[in] cfg mapping file (see examples/times_red.cfg for format)
 				\param[in] bk  background texture color
 				\param[in] fontdetermine determines an alpha or not?
+				\param[in] renderer linked renderer
 			*/
 			bool load(
 			           const hst::string & tex, 

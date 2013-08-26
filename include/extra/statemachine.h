@@ -360,14 +360,14 @@ public:
 	{ this->addCallback(fsm::Names::LEAVE, new fsm::Callback(o, f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
-		\param[in] callback a callback data
+		\param[in] f a callback 
 	 */
 	inline void addEventCallback(const hst::string & eventType, void (*f)(const sad::Event &))
 	{ this->addCallback(eventType, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
 		\param[in] o class object
-		\param[in] callback a callback data
+		\param[in] f a callback 
 	 */
 	template<typename _Class>
 	inline void addEventCallback(const hst::string & eventType, _Class * o,  void (_Class::*f)(const sad::Event &))
@@ -375,7 +375,8 @@ public:
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
 		\param[in] o class object
-		\param[in] callback a callback data
+		\param[in] f a function for getting second object
+		\param[in] g a callback
 	 */
 	template<typename _DelegatingClass, typename _InvokedClass>
 	inline void addEventCallback(
@@ -412,21 +413,21 @@ public:
 	 */
 	virtual void addKeyUpCallback(int key, fsm::AbstractCallback * c);
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
-		\param[in] callback a callback data
+		\param[in] key a handled key
+		\param[in] f callback 
 	 */
 	inline void addKeyUpCallback(int key, void (*f)())
 	{ this->addKeyUpCallback(key, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
-		\param[in] callback a callback data
+		\param[in] key a handled key
+		\param[in] f callback 
 	 */
 	inline void addKeyUpCallback(int key, void (*f)(const sad::Event &))
 	{ this->addKeyUpCallback(key, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
+		\param[in] key a handled key
 		\param[in] o class object
-		\param[in] callback a callback data
+		\param[in] f a callback 
 	 */
 	template<typename _Class>
 	inline void addKeyUpCallback(int key, _Class * o,  void (_Class::*f)(const sad::Event &))
@@ -471,23 +472,23 @@ public:
 	 */
 	virtual void addKeyDownCallback(int key, fsm::AbstractCallback * c);
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
-		\param[in] callback a callback data
+		\param[in] key a handled key
+		\param[in] f a callback
 	 */
 	inline void addKeyDownCallback(int key, void (*f)(const sad::Event &))
 	{ this->addKeyDownCallback(key, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
+		\param[in] key a handled key
 		\param[in] o class object
-		\param[in] callback a callback data
+		\param[in] f a callback data
 	 */
 	template<typename _Class>
 	inline void addKeyDownCallback(int key, _Class * o,  void (_Class::*f)())
 	{ this->addKeyDownCallback(key, new fsm::Callback(o, f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
-		\param[in] eventType type of event for state
+		\param[in] key a handled key
 		\param[in] o class object
-		\param[in] callback a callback data
+		\param[in] f a callback 
 	 */
 	template<typename _Class>
 	inline void addKeyDownCallback(int key, _Class * o,  void (_Class::*f)(const sad::Event &))
@@ -618,8 +619,8 @@ public:
 		\return previous name of state
 	 */
 	inline const hst::string & previousStateName()  { return m_previous_state_name;}
-	/*! A shared data 
-		\param[in] a shared data of machine
+	/*! Returns a shared data of state machine 
+		\return a shared data of machine
 	 */
 	inline fsm::Shared * sharedData() { return m_shared; }
 	/*! A shared data
@@ -642,6 +643,7 @@ public:
 	void removeState(const hst::string & name);
 	/*! An event name data
 		\param[in] eventName event name
+		\param[in] o         a linked event data
 	 */
 	void invokeEvent(const hst::string & eventName, const sad::Event & o);
 	/*! Pushes a new state for data
@@ -649,7 +651,6 @@ public:
 	 */
 	void pushState(const hst::string & newState);
 	/*! Returns a machine to an old state
-		\param[in] an old state
 	 */
 	void cancelState();
 	/*! Creates a new callback for event type

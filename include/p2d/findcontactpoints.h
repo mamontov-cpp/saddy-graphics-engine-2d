@@ -166,11 +166,10 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 
     protected:
 		/*! Reverses a set of points if neeeded
-			\param[in, out] set
+			\param[in, out] pairs a set of pairs to be reversed
 		 */
 		virtual void reverse(p2d::SetOfPointsPair & pairs);
 	    /*! Inits a callbacks in set
-			\param[in] initted set
 		 */
 		virtual void init();
 };

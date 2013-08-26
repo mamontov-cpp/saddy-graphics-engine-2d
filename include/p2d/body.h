@@ -138,7 +138,7 @@ public:
 	 */
 	void setCurrentGO(p2d::GhostOptions * ghost);
 	/*! Schedule changing ghost options on next iteration
-		\param[in] ghost ghost options
+		\param[in] next a new ghost options
 	 */
 	void sheduleGO(p2d::GhostOptions * next);
 	/*! Tests whether body is ghost
@@ -214,7 +214,7 @@ public:
 	 */
 	p2d::Vector nextTangentialVelocity() const;
 	/*! Sets current angle for object
-		\param[in] p point
+		\param[in] angle new angle
 	 */
 	void setCurrentAngle(double angle);
 	/*! Sets next angle for object

@@ -119,7 +119,7 @@ namespace sad
 	};
 
 	/*! \class Material
-		\sad http://www.opengl.org/sdk/docs/man/xhtml/glMaterial.xml
+		Taken from http://www.opengl.org/sdk/docs/man/xhtml/glMaterial.xml
 		Defines a material, specific for objects. Wraps glMaterial
 	*/
 	class Material
@@ -279,7 +279,7 @@ namespace sad
 			  static inline void disable(int light);
 			  /*! Sets a light
 				  \param[in] light light
-				  \param[in] type type of light
+				  \param[in] en type of light
 				  \param[in] a1 parameter
 				  \param[in] a2 parameter
 				  \param[in] a3 parameter

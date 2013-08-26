@@ -25,8 +25,8 @@ namespace hst
 	  \return hash
   */
   inline unsigned long basicHash(const unsigned char * name,unsigned long len);
-  /*! Hashes some value
-      \param[in] key  key value, that will be hashed
+  /*! Computes hash-function for value of specified type
+      \param[in] name  key value, that will be hashed
 	  \param[in] size table size
 	  \return index in the table
   */

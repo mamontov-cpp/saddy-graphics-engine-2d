@@ -52,9 +52,9 @@ namespace sad
 		 public:
 			 /*! This caster performs conversion from format library internal structure
 			     to ours
-				 \params[in] formatter with our string
+				 \param[in] string an inserter from inner library to make logging simpler
 			 */
-			 static hst::string cast(const fmt::internal::ArgInserter<char> & string)
+			static hst::string cast(const fmt::internal::ArgInserter<char> & string)
 			{
 				// We need to perform this, since operator FormatterProxy<Char>() is non-constant
 				fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(string); 
@@ -203,7 +203,7 @@ namespace sad
 		{
 		public:
 			/*! Receives a messages from targetting information
-				\param[in] message, taken message
+				\param[in] message taken message
 			 */
 			virtual void receive(const sad::log::Message & message) = 0;
 			// Performs nothing
@@ -248,7 +248,7 @@ namespace sad
 				 */
 				bool open(const hst::string & filename);
 				/*! Receives a messages from targetting information
-					\param[in] message, taken message
+					\param[in] message taken message
 				 */
 				virtual void receive(const sad::log::Message & message);
 				/*! Set maximum level
@@ -300,7 +300,7 @@ namespace sad
 				 */
 				ConsoleTarget(const hst::string & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6,  bool colored =  true, bool allocate_console = false);
 				/*! Receives a messages from targetting information
-				     \param[in] message, taken message
+				     \param[in] message  taken message
 				 */
 				virtual void receive(const sad::log::Message & message);
 				/*! Destroys a target
@@ -320,7 +320,7 @@ namespace sad
 		 */
 		hst::vector<sad::log::Target *> m_targets;
 		/*! Returns a current subsystem
-			\retrun subsystem
+			\return name of current subsystem
 		 */
 		virtual hst::string subsystem();
 		

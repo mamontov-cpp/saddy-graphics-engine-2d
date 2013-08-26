@@ -41,12 +41,14 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		*/
 		inline pointf &  render_point();
 		/*! Creates a label
+			\param[in] renderer associated renderer
 		*/
 		Label(sad::Renderer * renderer = sad::Renderer::ref());
 		/*! Creates a simple node
 		    \param[in] fnt  font object
 			\param[in] str  rendered string
 			\param[in] p    point
+			\param[in] renderer associated renderer
 		*/
 		Label(
 		      LabelFont  fnt,

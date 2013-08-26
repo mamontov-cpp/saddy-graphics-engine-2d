@@ -1,4 +1,4 @@
-/*! \file   setting.h
+/*! \file   settings.h
 	\author FreakyBlast
 
 	\brief  Declaration of SadSettings.
@@ -14,7 +14,8 @@
 namespace sad
 {
 
-/*!\class Settings for the renderer
+/*! \class Settings 
+	Describes a settings, passed to sad::Renderer
 */
 class Settings
 {

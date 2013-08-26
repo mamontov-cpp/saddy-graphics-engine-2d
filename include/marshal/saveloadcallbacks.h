@@ -1,7 +1,7 @@
-/*! \file   integerproperty.h
+/*! \file   saveloadcallbacks.h
 	\author HiddenSeeker
 
-	Here defined a property of integer type
+	Here defined a callbacks for saving and loading types of properties of marshalled objects
  */
 #include "abstractproperty.h"
 #include <primitives/hpoint.h>

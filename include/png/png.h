@@ -31,11 +31,11 @@ namespace png
 	Info & info();
 
 	/*! Returns a bpp
-	    \param[in] info i
+	    \param[in] i a header info
 	*/
 	unsigned long bpp(const Info & i);
 	/*! Checks, whether color is valid
-	    \param[in] type type
+	    \param[in] colorType type
 		\param[in] bd   BPP
 	*/
 	int checkColor(unsigned long colorType, unsigned long bd);

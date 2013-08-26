@@ -255,6 +255,7 @@ class Movement
 	 }
 	 /*! Steps a position a velocity
 		 \param[in] time specified time size
+		 \param[in] step_size a size of step for a movement
 	  */
 	 void step(double time, double step_size)
 	 {

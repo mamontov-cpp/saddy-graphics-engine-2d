@@ -132,7 +132,9 @@ public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 	bool reverse() const { return m_reverse; }
 	 /*! Invokes a method
 		 \param[in] a1 first object
+		 \param[in] ak1 argument, related to first object
 		 \param[in] a2 second object
+		 \param[in] ak2 argument, related to second object
 		 \return returned type
 	  */
 	 virtual _ReturnType invoke(
@@ -334,7 +336,9 @@ class CollisionMultiMethodWithArg
 		/*! Invokes a multi-method, if possible. Returns default object,
 			if can't handle.
 			\param[in] a first shape
+			\param[in] ka argument, related to first shape
 			\param[in] b second shape
+			\param[in] kb argument, related to second shape			
 		 */
 		virtual _ReturnType invoke(CollisionShape * a, const _Arg & ka, CollisionShape * b, const _Arg & kb)
 		{

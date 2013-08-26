@@ -12,16 +12,19 @@
 /*! Tests, whether two floats are equal with fuzzy
 	\param[in] x1 first float
 	\param[in] x2 second float
+	\param[in] precision for comparing two numbers
 	\return whether they are equal
  */
 bool is_fuzzy_equal(double x1, double x2, double precision = S2D_FP_PRECISION);
 /*! Tests, whether x modulo is lesser than precision
 	\param[in] x a number
+	\param[in] precision for comparing two numbers
 	\return whether x modulo is lesser than precision
  */
 bool is_fuzzy_zero(double x, double precision = S2D_FP_PRECISION);
 /*! Tests, whether x modulo is greater than precision
 	\param[in] x a number
+	\param[in] precision for comparing two numbers
 	\return whether x modulo is greater than precision
  */
 bool non_fuzzy_zero(double x, double precision = S2D_FP_PRECISION);

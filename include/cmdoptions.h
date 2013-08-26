@@ -130,7 +130,7 @@ class Args
  public:
 	/** Constructs a new command arguments
 	    \param[in] argc amount of arguments
-	    \param[in] argc arguments
+	    \param[in] argv arguments
 	 */
 	inline Args(int argc, char ** argv) {
 		this->argc = argc;
@@ -280,12 +280,12 @@ class Parser
 	 hst::vector<hst::string> & multiple(const hst::string & name);
 	 /*! Sets a flag by name
 		 \param[in] name name of option
-		 \param[on] v value
+		 \param[in] v value
 	  */
 	 void setFlag(const hst::string & name, bool v = false);
 	 /*! Sets a simple option by name
 		 \param[in] name name of option
-		 \param[on] v value
+		 \param[in] v value
 	  */
 	 void setSimple(const hst::string & name, const hst::string & v = hst::string());
 	 /*! Sets a simple option by name
@@ -313,8 +313,8 @@ class Parser
 		 same goes for multiple states. Boolean flags, can be simply supplied
 		 by entering a flag.
 		 The scheme so far is simple:
-		 <unknown option> - goes to defaultOption()
-		 <unknown keyword> - simply skipped,
+		 when found unknown option - goes to defaultOption()
+		 when found unknown keyword - simply skipped,
 		 -flag - sets flag to true
 		 -simple-option opt - sets a simple option's value to "opt"
 		 -multiple-option opt1 opt2 opt3 - sets a multiple option's value to "opt"

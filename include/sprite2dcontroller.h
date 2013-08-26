@@ -26,8 +26,9 @@ class Sprite2DController
 		  /*! Destroys a controller
 		   */
 		  ~Sprite2DController();
-		  /*! Determines, whether size is changed. It's not handles ::setSize calls, only changing by ::setTop
-			 due to changing size from config
+		  /*! Determines, whether size is changed. It's not handles Sprite2DController::setSize calls, only changing by 
+		      Sprite2DController::setTop
+			  due to changing size from config
 			 \return flag, whether size was changed.
 		   */
 		  bool wasSizeChanged() const;

@@ -79,10 +79,10 @@ static PFNGLUNMAPBUFFERARBPROC pglUnmapBufferARB ;                   // unmap VB
 			 \param[in] usage usage
 		*/
 		void store(void * data, size_t sz,VBO::Usage usage);
-		/*! Uses glBufferSubData to store. Must be called after ::store()
+		/*! Uses glBufferSubData to store. Must be called after VBO::store()
 			 \param[in] data  to store
 			 \param[in] sz    size
-			 \param[in] off   offset
+			 \param[in] offset  offset
 		*/
 		void substore(void * data, size_t sz,size_t offset);
 		//! Binds a buffer
