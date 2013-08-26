@@ -56,6 +56,10 @@ public:
 		\return cutter
 	 */
 	p2d::Cutter1D project(const p2d::Axle & a) const;
+	/*! Returns a points from rectangle
+		\return rectangle
+	 */
+	hst::vector<p2d::Point> points() const;
 };
 
 }

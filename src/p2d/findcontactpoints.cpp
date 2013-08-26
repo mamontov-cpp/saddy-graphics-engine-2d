@@ -29,6 +29,9 @@ void p2d::FindContactPoints::init()
 	add(p2d::FindContactPoints::getLtoC);
 	add(p2d::FindContactPoints::getLtoL);
 	add(p2d::FindContactPoints::getBtoB);
+	add(p2d::FindContactPoints::getBtoP<p2d::Rectangle>);
+	add(p2d::FindContactPoints::getBtoP<p2d::Line>);
+	add(p2d::FindContactPoints::getBtoC);
 }
 
 p2d::SetOfPointsPair p2d::FindContactPoints::getRtoR(
@@ -511,4 +514,87 @@ bool p2d::hasPair(const p2d::SetOfPointsPair & set,
 
 
 
+template<typename _Polygon>
+p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
+		 p2d::Bound * s1,
+		 const p2d::Vector & v1,
+		 _Polygon * s2,
+		 const p2d::Vector & v2
+)
+{
+	p2d::Vector v = v2 - v1;
 
+	hst::vector<p2d::Point> p2 = s2->points();
+	p2d::SetOfPointsPair result;
+
+	p2d::Vector directionvector = s1->normal() * (-1);
+	p2d::InfiniteLine bound = s1->boundingLine();
+	
+	double vp = p2d::scalar(v, directionvector);
+	// If cannot find, result is empty
+	if (is_fuzzy_zero(vp))
+		return result;
+	// If moving in opposite direction, it means it moving away from collisio, so contact
+	// points cannot be determined
+	if (vp < 0)
+		throw p2d::CannotDetermineContactPoints();
+
+	// Find points with minimum scalar productions on vector
+	hst::vector<p2d::Point> minpoints;
+	double minprojection = std::numeric_limits<double>::max();
+	for(size_t i = 0 ; i < p2.size(); i++)
+	{
+		double projection = p2d::scalar(directionvector, p2[i]);
+		if (is_fuzzy_equal(projection, minprojection))
+		{
+			minpoints << p2[i];
+		}
+		else
+		{
+			if (projection < minprojection)
+			{
+				minpoints.clear();
+				minpoints << p2[i];
+				minprojection = projection;
+			}
+		}
+	}
+
+	for(size_t i = 0; i < minpoints.size(); i++)
+	{
+		p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(minpoints[i], v);
+		p2d::MaybePoint intersection = line.intersection(bound);
+		result << p2d::PointsPair(intersection.data(), minpoints[i]);
+	}
+	return result;
+}
+
+p2d::SetOfPointsPair p2d::FindContactPoints::getBtoC(
+		 p2d::Bound * s1,
+		 const p2d::Vector & v1,
+		 p2d::Circle * s2,
+		 const p2d::Vector & v2	
+	 )
+{
+	p2d::Vector v = v2 - v1;
+
+	p2d::SetOfPointsPair result;
+
+	p2d::Vector directionvector = s1->normal() * (-1);
+	p2d::InfiniteLine bound = s1->boundingLine();
+	
+	double vp = p2d::scalar(v, directionvector);
+	// If cannot find, result is empty
+	if (is_fuzzy_zero(vp))
+		return result;
+	// If moving in opposite direction, it means it moving away from collisio, so contact
+	// points cannot be determined
+	if (vp < 0)
+		throw p2d::CannotDetermineContactPoints();
+
+	p2d::Point circlecontactpoint = s2->center() + directionvector * s2->radius();
+	p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(circlecontactpoint, v);
+	p2d::MaybePoint intersection = line.intersection(bound);
+	result << p2d::PointsPair(intersection.data(), circlecontactpoint);
+	return result;
+}

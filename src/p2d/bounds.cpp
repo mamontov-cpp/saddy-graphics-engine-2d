@@ -35,3 +35,33 @@ p2d::Cutter1D p2d::Bound::project(const p2d::Axle & a) const
 {
 	return p2d::Cutter1D();
 }	
+
+
+p2d::Vector p2d::Bound::normal()
+{
+	p2d::Vector result;
+	switch(this->m_type)
+	{
+		case BT_LEFT: { result = p2d::Vector(1, 0); }
+		case BT_RIGHT: { result = p2d::Vector(-1, 0); }
+		case BT_DOWN: { result = p2d::Vector(1, 0); }
+		case BT_UP: { result = p2d::Vector(-1, 0); }
+	}
+	return result;
+}
+
+
+p2d::InfiniteLine p2d::Bound::boundingLine()
+{
+	p2d::InfiniteLine result;
+	if (this->type() == BT_LEFT || this->type() == BT_RIGHT)
+	{
+		result = p2d::InfiniteLine::appliedVector( p2d::Point(m_p, 0), p2d::Vector(0, 1) );
+	}
+	else
+	{
+		result = p2d::InfiniteLine::appliedVector( p2d::Point(0, m_p), p2d::Vector(1, 0) );
+	}
+	return result;
+}
+

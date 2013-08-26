@@ -149,6 +149,20 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 p2d::Bound * s2,
 		 const p2d::Vector & v2
 	 );
+	 template<typename _Polygon>
+	 static p2d::SetOfPointsPair getBtoP(
+		 p2d::Bound * s1,
+		 const p2d::Vector & v1,
+		 _Polygon * s2,
+		 const p2d::Vector & v2
+	 );
+
+	 static p2d::SetOfPointsPair getBtoC(
+		 p2d::Bound * s1,
+		 const p2d::Vector & v1,
+		 p2d::Circle * s2,
+		 const p2d::Vector & v2	
+	 );
 
     protected:
 		/*! Reverses a set of points if neeeded
