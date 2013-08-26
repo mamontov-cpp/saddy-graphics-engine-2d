@@ -62,10 +62,10 @@ typedef std::vector<sad::Chunk> HuffmanTree;
 
 namespace huffman
 {
-	/*! Generates a huffman tree from given lengeh array
+	/*! Generates a huffman tree from given length array
 	    \param[out] tree         resulting tree
 		\param[in]  bit_lengths  lengths array
-		\param[in]  max_lengths  maximum length
+		\param[in]  max_length  maximum length of length array
 		\return error code, 0 if ok
 	*/
 	int generateFromLengthArray(
@@ -131,6 +131,7 @@ class Inflator
 		      \param[out]     out   output vector
 			  \param[in,out]  in    input stream
 			  \param[in,out]  bitp  position
+			  \param[in,out]  position a byte position
 			  \param[in]      inl   input length
 			  \param[in]      enctype encoded type
 		  */

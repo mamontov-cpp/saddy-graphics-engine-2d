@@ -63,6 +63,8 @@ class rect
          /*! Creates a rectangle from two points
              \param[in] p1 first point
              \param[in] p2 second point
+			 \param[in] p3 third point
+			 \param[in] p4 fourth point
          */
          rect(const T & p1,const T & p2,const T & p3,const T & p4);
          /*! Returns a constant reference to a point. Here is a map:

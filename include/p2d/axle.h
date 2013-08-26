@@ -43,7 +43,7 @@ namespace p2d
 						  const p2d::Axle & a);
 	/*! Projects a cutter to an axle
 		\param[in] p1 first point of cutter
-		\param[in] p1 second point of cutter
+		\param[in] p2 second point of cutter
 		\param[in] a axle
 		\return one-dimensional cutter
 	 */

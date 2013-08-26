@@ -189,7 +189,7 @@ namespace sad
 			  */
 		      CountableTask(int time=1);
 			  /*! Creates a new task with specific functions
-				  \param[in] task task functions
+				  \param[in] m_task executed function in task
 				  \param[in] time amount of tryPerform() calls;
 			  */
 			  CountableTask(void (*m_task)(),int time=1);
@@ -216,7 +216,7 @@ namespace sad
 		  /*! A countable task, which invokes a specified method in object
 			  \param[in] o object
 			  \param[in] task an invoked method
-			  \param[in] how many times it should be invoked
+			  \param[in] count how many times it should be performed
 		   */
 		  MethodCountableTask(_Class * o, void (_Class::*task)(), int count = 1) : 
 		  sad::CountableTask(count), m_o(o), m_task(task)
@@ -264,9 +264,8 @@ namespace sad
 		  /*! A countable task, which invokes a specified method in object
 			  \param[in] o object
 			  \param[in] task an invoked method
-			  \param[in] how many times it should be invoked
 		   */
-		  MethodRepeatingTask(_Class * o, void (_Class::*task)(), int count = 1) : 
+		  MethodRepeatingTask(_Class * o, void (_Class::*task)()) : 
 		  sad::RepeatingTask(), m_o(o), m_task(task)
 		  {
 		  }

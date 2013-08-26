@@ -1,7 +1,7 @@
-/*! \file tangentialforce.h
+/*! \file angularforce.h
 	\author HiddenSeeker
 
-	Describes a tangential force, acting on object
+	Describes a angular force, acting on object
  */
 #pragma once
 #include "tickable.h"

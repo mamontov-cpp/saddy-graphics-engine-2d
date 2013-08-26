@@ -18,18 +18,18 @@ class ConvexHull
  private: 
 	 hst::vector<p2d::Point> m_set;
 	 /*!  Inserts axle to container if not found in container
-		  \param[in, out] container container of axis
+		  \param[in, out] container container with axis
 		  \param[in] axle one axle
 	  */
 	 void tryInsertAxle(hst::vector<p2d::Axle> & container, 
 						const p2d::Axle & axle) const;
 	 /*! Appends axis for specified side in container
-		  \param[in, out] container container of axis
-		  \param[in] axle one axle
+		  \param[in, out] container container with axis
+		  \param[in] number number of current side of convex hull
 	  */
 	 void appendAxisForSide(hst::vector<p2d::Axle> & container, int number) const;
 	 /*! Creates a collision axis for all sides
-		 \param[in] container axis
+		 \param[in] container container with axis
 	  */
 	 void appendAxisForCollision(hst::vector<p2d::Axle> & container) const;
  public:

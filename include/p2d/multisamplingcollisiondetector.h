@@ -36,7 +36,7 @@ class MultisamplingCollisionDetector: public p2d::CollisionDetector
 		  time if possible
 		  \param[in] b1 first body
 		  \param[in] b2 second body
-		  \param[in] time time limit
+		  \param[in] limit a time limit for finding a position of bodies
 		  \return if detected collision - moment * limit
 	   */
 	  virtual p2d::MaybeTime collides(p2d::Body * b1, 

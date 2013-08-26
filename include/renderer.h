@@ -1,3 +1,8 @@
+/*! \mainpage Saddy
+	
+	A simple graphics engine for games. If you see any errors in documentation, or can
+	give idea for improving a documentation, we would appreciate your help
+ */
 /*! \file   renderer.h
     \author FreakyBlast, HiddenSeeker
 
@@ -139,13 +144,13 @@ namespace sad
         Renderer(void);
 		/*! Sets a current scene.
 		    DEPRECATED: Can only be used, when renderer is not started.
-			            Use ::pushScene() instead.
+			            Use sad::Renderer::pushScene() instead.
 		    \param[in] scene to be set as current
 		*/
 		void setCurrentScene(sad::Scene* scene);
         /*! Sets a current scene. 
 		    Use this function to set a scene, while running
-		    \param[in] Scene to be set as current
+		    \param[in] scene  a new scene
 		*/
         void pushScene(Scene * scene);
         /*! Destructor */
@@ -155,8 +160,8 @@ namespace sad
 		    \return Current window
 		*/
 		inline sad::Window * getCurrentWindow()  { return &m_window;}
-		/*! Initializes renderer with settings
-		    \param[in] _setting settings 
+		/*! Initializes renderer with specified settings
+		    \param[in] _settings settings 
 		    \return Success of operation
 		*/
 		bool init(const sad::Settings& _settings);

@@ -21,7 +21,7 @@ class AbstractReader
 			 */
 			virtual void findReadingPoint()=0;
 			/*! Implement this function to read some entry.
-				\param[in] entry entry data
+				\return entry entry data
 			 */
 			virtual SerializationEntry * nextEntry()=0;
 			/*! Opens a stream data for writing

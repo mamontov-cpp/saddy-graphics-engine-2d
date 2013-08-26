@@ -23,7 +23,7 @@ class CollisionDetector
 		  time if possible
 		  \param[in] b1 first body
 		  \param[in] b2 second body
-		  \param[in] time time limit
+		  \param[in] limit a time limit for finding a position of bodies
 		  \return time of impact if possible
 	   */
 	  virtual p2d::MaybeTime collides(p2d::Body * b1, 

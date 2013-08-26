@@ -111,7 +111,6 @@ class  Sprite2DConfig
 		 */
 		inline void removeObserver(Sprite2DConfigObserver * obs) { m_observers.remove(obs); }
 		/*! Reloads a config
-			\param[in] r renderer
 			\return result of loading
 		 */
 		Sprite2DConfigLoadingResult reload();

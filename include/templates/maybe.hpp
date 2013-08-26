@@ -1,4 +1,4 @@
-/*!  \file maybe.h
+/*!  \file maybe.hpp
 	 \author HiddenSeeker
 
 	 Describes a value, that can be presented or not exists

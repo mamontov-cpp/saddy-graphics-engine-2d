@@ -1,4 +1,4 @@
-/*! \file   extcheker.h
+/*! \file   extchecker.h
     \author HiddenSeeker
 	Provides a simple check for OpenGL extensions.
 */
