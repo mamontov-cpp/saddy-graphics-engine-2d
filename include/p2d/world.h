@@ -195,6 +195,11 @@ protected:
 		 \param[in] time a size of time step
 	  */
 	 void step(double time);
+	 /*! Removes a body from a world. Also clears a user object and body listeners, to make sure,
+		 that if user object removed before body, it won't be harmed
+		 \param[in] body a body
+	 */
+	 virtual void remove(p2d::Body * body);
 };
 
 }

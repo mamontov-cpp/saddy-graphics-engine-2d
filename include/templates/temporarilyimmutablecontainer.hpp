@@ -63,7 +63,10 @@ class TemporarilyImmutableContainer
 	 /*! Unlocks a changes inside  of container
 	  */
 	 inline void unlockChanges() { m_lock_changes = false; }
-
+	 /*! Tests, whether container is locked
+		 \return whether container is locked
+	  */
+	 inline bool containerLocked() const { return m_lock_changes; }
 	 /*! Immediately adds an object to container
 		  \param[in] o object
 	  */
@@ -103,7 +106,7 @@ class TemporarilyImmutableContainer
 	  /*! Adds new object to container
 		  \param[in] o object
 	   */
-	  void add(_Object * o)
+	  virtual void add(_Object * o)
 	  {
 		  if (m_lock_changes)
 		  {
@@ -120,7 +123,7 @@ class TemporarilyImmutableContainer
 	   /*! Removes an object
 		   \param[in] o object
 	    */
-	   void remove(_Object * o)
+	   virtual void remove(_Object * o)
 	   {
 		  if (m_lock_changes)
 		  {
@@ -136,7 +139,7 @@ class TemporarilyImmutableContainer
 
 	   /*! Clears a container
 	    */
-	   void clear()
+	   virtual void clear()
 	   {
 		  if (m_lock_changes)
 		  {

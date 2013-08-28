@@ -296,3 +296,10 @@ p2d::CollisionShape * p2d::Body::currentShape()
 {
 	return m_current;
 }
+
+
+void p2d::Body::clearListeners()
+{
+	m_tangential->clearListeners();
+	m_angular->clearListeners();
+}
