@@ -39,7 +39,12 @@ class FunctionCollisionHandler  : public p2d::BasicCollisionHandler
 	   */ 
 	  virtual void invoke(const BasicCollisionEvent & ev)
 	  {
-		  if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
+		  if (ev.m_object_1 != NULL && ev.m_object_2 != NULL
+			  // We must check those, because, when multiple collisions are found with same object
+			  // object and his userObject can be removed. So we MUST check userObject to make 
+			  // sure not to work with deleted metadata
+			  && ev.m_object_1->userObject() != NULL
+			  && ev.m_object_2->userObject() != NULL)
 		  {
 			  p2d::CollisionEvent<T1, T2> e;
 			  e.p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
@@ -90,7 +95,12 @@ class MethodCollisionHandler  : public p2d::BasicCollisionHandler
 	   */ 
 	  virtual void invoke(const BasicCollisionEvent & ev)
 	  {
-		  if (ev.m_object_1 != NULL && ev.m_object_2 != NULL)
+		  if (ev.m_object_1 != NULL && ev.m_object_2 != NULL
+			  // We must check those, because, when multiple collisions are found with same object
+			  // object and his userObject can be removed. So we MUST check userObject to make 
+			  // sure not to work with deleted metadata
+			  && ev.m_object_1->userObject() != NULL
+			  && ev.m_object_2->userObject() != NULL)
 		  {
 			  p2d::CollisionEvent<T1, T2> e;
 			  e.m_time = ev.m_time;

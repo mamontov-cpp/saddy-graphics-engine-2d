@@ -79,7 +79,6 @@ Game::Game()
 
 	m_spawntask =  new TimePeriodicalTask(NULL);
 	sad::Input::ref()->addPostRenderTask(m_spawntask);
-	sad::Input::ref()->addPostRenderTask(new sad::MethodRepeatingTask<Game>(this, &Game::eraseQueuedObjects));
 	m_walls = NULL;
 }
 
@@ -255,21 +254,12 @@ void Game::removeObject(GameObject *o)
 	{
 		m_machine->pushState(GameState::START);
 	}
-	m_erasing_queue << o;
+	p2d::Body * b = o->body();
+	sad::Renderer::ref()->getCurrentScene()->remove(o);
+	m_world->remove(b);
 }
 
-void Game::eraseQueuedObjects()
-{
-	for(size_t i = 0; i < m_erasing_queue.size(); i++)
-	{
-		GameObject * o = m_erasing_queue[i];
-		p2d::Body * b = o->body();
-		
-		sad::Renderer::ref()->getCurrentScene()->remove(o);
-		m_world->remove(b);
-	}
-	m_erasing_queue.clear();
-}
+
 
 const hst::string & Game::state()
 {

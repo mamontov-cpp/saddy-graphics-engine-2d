@@ -39,11 +39,6 @@ GameObject::~GameObject()
 	{
 		delete m_guns[i];
 	}
-	if (m_body)
-	{
-		m_body->removeMoveListener(m_listener1);
-		m_body->removeRotateListener(m_listener2);
-	}
 	delete m_sprite;
 }
 

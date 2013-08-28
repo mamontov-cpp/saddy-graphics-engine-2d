@@ -295,3 +295,10 @@ p2d::World::addHandler( void (*p)(const p2d::BasicCollisionEvent &))
 	this->addHandler(h, b, b);
 	return h;
 }
+
+void p2d::World::remove(p2d::Body * body)
+{
+	body->setUserObject(NULL);
+	body->clearListeners();
+	this->hst::TemporarilyImmutableContainer<p2d::Body>::remove(body);
+}

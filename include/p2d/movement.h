@@ -159,8 +159,15 @@ class Movement
 	 ~Movement()
 	 {
 		 delete m_force;
+		 clearListeners();
+	 }
+	 /*! Clears all of movement listeners
+	  */
+	 void clearListeners()
+	 {
 		 for(size_t i = 0 ; i < m_listeners.count(); i++)
 			delete m_listeners[i];
+		 m_listeners.clear();
 	 }
 	 /*! Adds a listener for movement
 		 \param[in] l listener

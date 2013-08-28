@@ -270,6 +270,9 @@ public:
 	/*! Rotates body by specified angle
 	 */
 	void rotate(double delta);
+	/*! Clears all of listeners for body
+	 */
+	void clearListeners();
 };
 
 }
