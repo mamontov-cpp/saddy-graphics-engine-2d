@@ -47,7 +47,7 @@ p2d::ConvexHull p2d::Rectangle::toHull() const
 
 p2d::Cutter1D p2d::Rectangle::project(const p2d::Axle & a) const
 {
-	return toHull().project(a);
+	return p2d::projectPointSet(m_rect, 4, a);
 }
 
 
