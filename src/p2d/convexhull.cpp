@@ -79,25 +79,7 @@ p2d::Vector  p2d::ConvexHull::normal(int number) const
 
 p2d::Cutter1D p2d::ConvexHull::project(const p2d::Axle & axle) const
 {
-    double min = 0;
-	double max = 0;
-	bool minisset = false;
-	bool maxisset = false;
-	for(size_t i = 0; i < m_set.size() ; i++)
-	{
-		double p = p2d::scalar(m_set[i], axle);
-		if (p < min || !minisset)
-		{
-			minisset = true;
-			min = p;
-		}
-		if (p > max || !maxisset)
-		{
-			maxisset = true;
-			max = p;
-		}
-	}
-	return p2d::Cutter1D(min, max);
+	return p2d::projectPointSet(m_set, m_set.size(), axle);
 }
 
 void p2d::ConvexHull::tryInsertAxle(hst::vector<p2d::Axle> & container, 

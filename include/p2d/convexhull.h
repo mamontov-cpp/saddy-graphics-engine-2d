@@ -89,4 +89,34 @@ class ConvexHull
 	 p2d::Point center() const;
 };
 
+/*! Projects a set of points of specified container to axle
+	\param[in] container a container
+	\param[in] size an amount of elements in container
+	\param[in] axle axle, where everything is projected to
+	\return resulting cutter
+ */
+template<typename T>
+p2d::Cutter1D projectPointSet(const T & container, unsigned int size, const p2d::Axle & axle)
+{
+	double min = 0;
+	double max = 0;
+	bool minisset = false;
+	bool maxisset = false;
+	for(size_t i = 0; i < size ; i++)
+	{
+		double p = p2d::scalar(container[i], axle);
+		if (p < min || !minisset)
+		{
+			minisset = true;
+			min = p;
+		}
+		if (p > max || !maxisset)
+		{
+			maxisset = true;
+			max = p;
+		}
+	}
+	return p2d::Cutter1D(min, max);
+}
+
 }
