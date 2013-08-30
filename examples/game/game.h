@@ -53,15 +53,11 @@ class Game
 	p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
 	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
 	Walls        * m_walls;          //!< A new walls
+	int            m_registered_supershooting_enemies_count; //!< Current count of super shooting enemies, active in game
  protected:
 	/*! Create walls for game
 	 */
     void createWalls();
-	/*! Sets a new highscore for game, sets in if it's largest that current
-		score.
-		\param[in] score 
-	 */
-	void trySetHighscore(int score);
 	/*! Returns current in-game scene. A helper function for renderer's scene
 		\return scene from renderer
 	 */
@@ -181,5 +177,9 @@ class Game
 	 */
 	GameObject * produce(Objects type);
 	~Game();
-	 
+	/*! Sets a new highscore for game, sets in if it's largest that current
+		score.
+		\param[in] score 
+	 */
+	void trySetHighscore(int score);
 };

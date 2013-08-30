@@ -61,10 +61,11 @@ void StateLabel::updateHighscore()
 
 void StateLabel::updateGameStatus()
 { 
-  hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}")
+  hst::string s = str(fmt::Format("Health: {0} Score: {1} Highscore: {2}\nFPS: {3}")
 					  << m_game->player()->hitPoints()
 					  << m_game->player()->score()
 					  << m_game->highscore()
+					  << sad::Renderer::ref()->fps()
   );
   string() = s;
 }

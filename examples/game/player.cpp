@@ -46,6 +46,7 @@ int Player::score() const
 int Player::increaseScore(int delta)
 {
 	m_score +=delta;
+	this->game()->trySetHighscore(m_score);
 	return m_score;
 }
 

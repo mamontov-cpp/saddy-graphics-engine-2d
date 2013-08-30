@@ -80,6 +80,7 @@ Game::Game()
 	m_spawntask =  new TimePeriodicalTask(NULL);
 	sad::Input::ref()->addPostRenderTask(m_spawntask);
 	m_walls = NULL;
+	m_registered_supershooting_enemies_count = 0;
 }
 
 
@@ -197,6 +198,7 @@ void Game::leaveStartingScreen()
 	delete m_world;
 	createWorld();
 	m_steptask->setWorld(m_world);
+	m_registered_supershooting_enemies_count = 0;
 }
 
 void Game::leavePlayingScreen()
@@ -254,6 +256,10 @@ void Game::removeObject(GameObject *o)
 	{
 		m_machine->pushState(GameState::START);
 	}
+	if (o->metaData()->name() == "SuperShootingEnemy")
+	{
+		--m_registered_supershooting_enemies_count;
+	}
 	p2d::Body * b = o->body();
 	sad::Renderer::ref()->getCurrentScene()->remove(o);
 	m_world->remove(b);
@@ -274,7 +280,15 @@ GameObject *  Game::produce(Objects type)
 		case O_BONUS: result = new Bonus(); break;
         case O_ENEMY: result = new Enemy(); break;
         case O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
-		case O_SUPERSHOOTINGENEMY: result = new SuperShootingEnemy(); break;
+		case O_SUPERSHOOTINGENEMY: 
+		{
+			if (m_registered_supershooting_enemies_count < 1)
+			{
+				result = new SuperShootingEnemy(); 
+				++m_registered_supershooting_enemies_count;
+			}
+			break;
+		}
 	}
 	if (result)
 	{
@@ -396,6 +410,6 @@ void Game::moveToStartingScreen()
 	// any object ia added to scene
 	m_world->addHandler(this, &Game::onWallCollision);
 	this->createWalls();
-
+	m_registered_supershooting_enemies_count = 0;
 }
 

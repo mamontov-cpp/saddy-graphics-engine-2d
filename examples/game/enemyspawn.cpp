@@ -26,8 +26,11 @@ void EnemySpawn::perform()
  
 		// Produce object, set new position and speed
 		GameObject * o = m_game->produce( (Objects) (rand() % 4) );
-		o->setPosition(p2d::Point(x, y));
-		o->setHorizontalSpeed(vx);
-		o->setVerticalSpeed(vy);
+		if (o)
+		{
+			o->setPosition(p2d::Point(x, y));
+			o->setHorizontalSpeed(vx);
+			o->setVerticalSpeed(vy);
+		}
 	}
 }
