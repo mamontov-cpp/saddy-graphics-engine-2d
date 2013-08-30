@@ -40,7 +40,7 @@ double GameObjectConstants<PlayerBullet>::velocity()
 
 double GameObjectConstants<PlayerBullet>::interval()
 {
-	return 150;
+	return 50;
 }
 
 Sprite2DAdapter::Options * GameObjectConstants<EnemyBullet>::sprite()
