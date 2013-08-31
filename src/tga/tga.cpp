@@ -146,7 +146,7 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 
 	header = getHeader(headerBuf);	// Get the object of header
 
-	// Fill the jbject of texture's data
+	// Fill the object of texture's data
 	data.m_TGA_bpp	  = header.bitsPerPix;
 	data.m_TGA_height = header.height;
 	data.m_TGA_width  = header.width;
