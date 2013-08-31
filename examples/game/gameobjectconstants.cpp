@@ -5,7 +5,7 @@ Sprite2DAdapter::Options * GameObjectConstants<Player>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(0,87),hPointF(87,174));
+	o->TextureRectangle = hRectF(hPointF(0,88),hPointF(88,174));
 	o->Rectangle = hRectF(hPointF(-11, -11), hPointF(11, 11));
 	return o;
 }
