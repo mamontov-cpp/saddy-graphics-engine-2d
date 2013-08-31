@@ -131,7 +131,8 @@ DECLARE_CASTS_AS_METHODS(sad::Object)
 /*! Use this macro to define a descendant of sad::Object in your include file
  */
 #define SAD_OBJECT												\
-																\
+protected:                                                      \
+	    static sad::ClassMetaData * m_global_metadata;          \
 public:															\
 		virtual sad::ClassMetaData * metaData() const;			\
 		virtual const hst::string & name() const;               \
@@ -142,16 +143,17 @@ public:															\
 	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
  */
 #define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			 \
-																 \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
-	bool created = false;																		\
-	sad::ClassMetaData * result = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);\
+	if (m_global_metadata != NULL) return m_global_metadata;     \
+    bool created = false;																		\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
-		result->addAncestor(#PARENT);															\
+		m_global_metadata->addAncestor(#PARENT);											    \
 	}																							\
-	return result;																				\
+	return m_global_metadata;																	\
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -173,17 +175,18 @@ const hst::string &  NAMEDCLASS ::name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE2(NAMEDCLASS, PARENT1, PARENT2)			 \
-															        	 \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
+	if (m_global_metadata != NULL) return m_global_metadata;             \
 	bool created = false;																		\
-	sad::ClassMetaData * result = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
-		result->addAncestor(#PARENT1);															\
-		result->addAncestor(#PARENT2);															\
+		m_global_metadata->addAncestor(#PARENT1);												\
+		m_global_metadata->addAncestor(#PARENT2);												\
 	}																							\
-	return result;																				\
+	return m_global_metadata;																	\
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -200,18 +203,19 @@ const hst::string &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE3(NAMEDCLASS, PARENT1, PARENT2, PARENT3) \
-															        	 \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
+	if (m_global_metadata != NULL) return m_global_metadata;             \
 	bool created = false;																		\
-	sad::ClassMetaData * result = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
-		result->addAncestor(#PARENT1);															\
-		result->addAncestor(#PARENT2);															\
-		result->addAncestor(#PARENT3);															\
+		m_global_metadata->addAncestor(#PARENT1);												\
+		m_global_metadata->addAncestor(#PARENT2);												\
+		m_global_metadata->addAncestor(#PARENT3);												\
 	}																							\
-	return result;																				\
+	return m_global_metadata;																	\
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
@@ -228,19 +232,20 @@ const hst::string &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE4(NAMEDCLASS, PARENT1, PARENT2, PARENT3, PARENT4) \
-															        			  \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \
+	if (m_global_metadata != NULL) return m_global_metadata;                      \
 	bool created = false;																		\
-	sad::ClassMetaData * result = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
-		result->addAncestor(#PARENT1);															\
-		result->addAncestor(#PARENT2);															\
-		result->addAncestor(#PARENT3);															\
-		result->addAncestor(#PARENT4);															\
+		m_global_metadata->addAncestor(#PARENT1);												\
+		m_global_metadata->addAncestor(#PARENT2);												\
+		m_global_metadata->addAncestor(#PARENT3);												\
+		m_global_metadata->addAncestor(#PARENT4);												\
 	}																							\
-	return result;																				\
+	return m_global_metadata;																	\
 }																								\
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \

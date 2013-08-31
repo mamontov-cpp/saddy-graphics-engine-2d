@@ -21,20 +21,28 @@ void  sad::Texture::copyTGA(const tga::Info & textureInfo)
  unsigned int colcheckval=m_width*(m_bpp/8);
 #define CHECKROW (i>=0) && (i<rowcheckval)
 #define CHECKCOL (j>=0) && (j<colcheckval)
-#define ADATA(X) add(textureInfo.m_TGA_data[X])
-
+ m_data.resize(textureInfo.m_TGA_height * textureInfo.m_TGA_width * 4);
+ unsigned int texpos = 0;
  for (unsigned int i=startrow;CHECKROW;i+=decrow )
  {
 		for (unsigned int j=startcol;CHECKCOL;j+=deccol)
 		{
-			if (m_bpp==32) m_data.ADATA(i+j).ADATA(i+j+1).ADATA(i+j+2).ADATA(i+j+3);
-			if (m_bpp==24) 
-				m_data.ADATA(i+j).ADATA(i+j+1).ADATA(i+j+2).add(255);
+			unsigned int offset = i+j;
+			memcpy(&(m_data[texpos]), &(textureInfo.m_TGA_data[offset]), 3 * sizeof(Uint8));
+			texpos+=3;
+			if (m_bpp==32) 
+			{	
+				m_data[texpos] = textureInfo.m_TGA_data[offset + 3];
+			}
+			else
+			{
+				m_data[texpos] = 255;
+			}
+		    texpos += 1; 			
 		}
  }
 #undef CHECKROW
 #undef CHECKCOL
-#undef ADATA
  
 }
 // Loading TGA texture.
