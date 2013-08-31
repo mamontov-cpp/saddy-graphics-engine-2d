@@ -165,13 +165,6 @@ bool tga::readTGA(FILE *handler, tga::Info & data)
 	else											// Other types of this texture format isn't supported
 		result = false;
 
-	// Convert pixels from BRG or BRGA to RGB or RGBA
-	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
-	{
-	    Uint8 t=data.m_TGA_data[i];
-		data.m_TGA_data[i]=data.m_TGA_data[i+2];
-		data.m_TGA_data[i+2]=t;
-	}
 
 	return result;
 }
