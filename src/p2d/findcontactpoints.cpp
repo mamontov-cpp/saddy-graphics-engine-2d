@@ -22,6 +22,7 @@ void p2d::FindContactPoints::reverse(p2d::SetOfPointsPair & pairs)
 
 void p2d::FindContactPoints::init()
 {
+	this->p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>::init();
 	add(p2d::FindContactPoints::getRtoR);
 	add(p2d::FindContactPoints::getRtoL);
 	add(p2d::FindContactPoints::getRtoC);

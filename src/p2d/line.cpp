@@ -1,7 +1,7 @@
 #include "p2d/line.h"
 #include "primitives/matrix2x2.h"
 
-DECLARE_SOBJ_INHERITANCE(p2d::Line, p2d::CollisionShape);
+DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Line, p2d::CollisionShape, 2);
 
 
 p2d::CollisionShape * p2d::Line::clone() const

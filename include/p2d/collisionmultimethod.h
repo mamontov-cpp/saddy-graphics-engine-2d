@@ -158,6 +158,10 @@ public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 };
 
 
+/*! An amount of registered multimethod type
+ */
+#define MULTIMETHOD_REGISTERED_TYPES 4
+
 /*! Defines a multi-method as set of specific methods
  */
 template<typename _ReturnType>
@@ -166,27 +170,34 @@ class CollisionMultiMethod
 	public:
 		typedef p2d::BasicCollisionMultiMethodInstance<_ReturnType> instance_t;
 		typedef hst::ptrhash<hst::string, instance_t> group_t;
-		typedef hst::hash<hst::string, group_t> instances_t;
+		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
 		instances_t m_instances; //!< Instances of method
 		bool m_init;             //!< Whether multimethod initted
 		/*! This function inits all callbacks. 
 			You should add your dispatchers here 
 		 */
-		virtual void init() { }
+		virtual void init() 
+		{
+			for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+			{
+				for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+				{
+					m_instances[i][j] = NULL;
+				}
+			}
+		}
 		/*!  Registers new callbacks. You should place calls of this 
 			 functions in init.
 		 */
 		template<typename _First, typename _Second>
 		void add( _ReturnType (*p)(_First *, _Second *) )
 		{
-			hst::string fst = _First::globalMetaData()->name();
-			hst::string snd = _Second::globalMetaData()->name();
-			if (m_instances.contains(fst) == false)
-			{
-				m_instances.insert(fst, group_t());
-			}
-			if (m_instances[fst].contains(snd) == false)
+			unsigned int fst = _First::globalMetaData()->privateIndex();
+			unsigned int snd = _Second::globalMetaData()->privateIndex();
+			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
+			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
+			if (m_instances[fst][snd] == NULL)
 			{
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
 				* a = 
@@ -194,14 +205,10 @@ class CollisionMultiMethod
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
 				p, false
 				);
-				m_instances[fst].insert(snd, a);
+				m_instances[fst][snd] = a;
 			}
 			// Try insert reverse call
-			if (m_instances.contains(snd) == false)
-			{
-				m_instances.insert(snd, group_t());
-			}
-			if (m_instances[snd].contains(fst) == false)
+			if (m_instances[snd][fst] == NULL)
 			{
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>
 				* a = 
@@ -209,7 +216,7 @@ class CollisionMultiMethod
 				p2d::CollisionMultiMethodInstance<_ReturnType, _First, _Second>(
 				p, true
 				);
-				m_instances[snd].insert(fst, a);
+				m_instances[snd][fst] = a;
 			}
 		}
 		/*! Lookups for needed instance of multimethod
@@ -219,16 +226,10 @@ class CollisionMultiMethod
 		 */
 		instance_t * lookup(CollisionShape * a, CollisionShape * b)
 		{
-			const hst::string & type1 = a->metaData()->name();
-			const hst::string & type2 = b->metaData()->name();
+			unsigned int type1 = a->metaData()->privateIndex();
+			unsigned int type2 = b->metaData()->privateIndex();
 			instance_t * result = NULL;
-			if (m_instances.contains(type1))
-			{
-				if (m_instances[type1].contains(type2))
-				{
-					result  = m_instances[type1][type2];;
-				}
-			}
+			result  = m_instances[type1][type2];;
 			return result;
 		}
 	public:
@@ -260,27 +261,34 @@ class CollisionMultiMethodWithArg
 	public:
 		typedef p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg> instance_t;
 		typedef hst::ptrhash<hst::string, instance_t> group_t;
-		typedef hst::hash<hst::string, group_t> instances_t;
+		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
 		instances_t m_instances; //!< Instances of method
 		bool m_init;             //!< Whether multimethod initted
 		/*! This function inits all callbacks. 
 			You should add your dispatchers here 
 		 */
-		virtual void init() { }
+		virtual void init() 
+		{ 
+			for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+			{
+				for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+				{
+					m_instances[i][j] = NULL;
+				}
+			}		
+		}
 		/*!  Registers new callbacks. You should place calls of this 
 			 functions in init.
 		 */
 		template<typename _First, typename _Second>
 		void add( _ReturnType (*p)(_First *,const _Arg&,  _Second *, const _Arg&) )
 		{
-			hst::string fst = _First::globalMetaData()->name();
-			hst::string snd = _Second::globalMetaData()->name();
-			if (m_instances.contains(fst) == false)
-			{
-				m_instances.insert(fst, group_t());
-			}
-			if (m_instances[fst].contains(snd) == false)
+			unsigned int fst = _First::globalMetaData()->privateIndex();
+			unsigned int snd = _Second::globalMetaData()->privateIndex();
+			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
+			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
+			if (m_instances[fst][snd] == NULL)
 			{
 				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
 				* a = 
@@ -288,14 +296,10 @@ class CollisionMultiMethodWithArg
 				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
 				p, false
 				);
-				m_instances[fst].insert(snd, a);
+				m_instances[fst][snd] = a;
 			}
 			// Try insert reverse call
-			if (m_instances.contains(snd) == false)
-			{
-				m_instances.insert(snd, group_t());
-			}
-			if (m_instances[snd].contains(fst) == false)
+			if (m_instances[snd][fst] == NULL)
 			{
 				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>
 				* a = 
@@ -303,7 +307,7 @@ class CollisionMultiMethodWithArg
 				p2d::CollisionMultiMethodInstanceWithArg<_ReturnType, _Arg, _First, _Second>(
 				p, true
 				);
-				m_instances[snd].insert(fst, a);
+				m_instances[snd][fst] = a;
 			}
 		}
 		/*! Lookups for needed instance of multimethod
@@ -313,16 +317,10 @@ class CollisionMultiMethodWithArg
 		 */
 		instance_t * lookup(CollisionShape * a, CollisionShape * b)
 		{
-			const hst::string & type1 = a->metaData()->name();
-			const hst::string & type2 = b->metaData()->name();
+			unsigned int type1 = a->metaData()->privateIndex();
+			unsigned int type2 = b->metaData()->privateIndex();
 			instance_t * result = NULL;
-			if (m_instances.contains(type1))
-			{
-				if (m_instances[type1].contains(type2))
-				{
-					result  = m_instances[type1][type2];;
-				}
-			}
+			result  = m_instances[type1][type2];;
 			return result;
 		}
 		/*! Reverses a parts return type if need to

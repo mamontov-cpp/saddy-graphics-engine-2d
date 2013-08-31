@@ -18,6 +18,9 @@ namespace sad
 class ClassMetaData
 {
  private:
+	/*! A special private index for class
+	 */
+    unsigned int   m_private_index;
 	/*! A name for class data
 	 */
 	hst::string m_name;
@@ -47,6 +50,13 @@ class ClassMetaData
 		\return whether it can be casted to this type
 	 */
 	bool canBeCastedFrom(const hst::string & name);
+	/*! Returns special index, which can be used in open-adressed tables
+		\return index
+	 */
+	unsigned int privateIndex() const;
+	/*! Sets new private index
+	 */
+	void setPrivateIndex(unsigned int privateIndex);
 };
 
 }

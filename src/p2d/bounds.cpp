@@ -1,6 +1,6 @@
 #include "p2d/bounds.h"
 
-DECLARE_SOBJ_INHERITANCE(p2d::Bound, p2d::CollisionShape);
+DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Bound, p2d::CollisionShape, 3);
 
 p2d::CollisionShape * p2d::Bound::clone() const
 {

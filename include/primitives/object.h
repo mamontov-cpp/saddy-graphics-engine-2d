@@ -93,7 +93,7 @@ namespace hst
 template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)                
 {                                                                
 	_Dest * result = NULL;                                       
-	hst::string destname = _Dest::globalMetaData()->name();      
+	const hst::string & destname = _Dest::globalMetaData()->name();      
 	if (arg->metaData()->canBeCastedTo(destname) == false)      
 	{                                                            
 		throw sad::InvalidCastException(arg->name(), destname); 
@@ -254,4 +254,34 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 const hst::string &  NAMEDCLASS :: name() const  \
 {                                                \
 	return this-> PARENT1 :: name();              \
+}
+
+
+
+/*! Use this macro to define in source files, 
+	that this object is inherited from descendant of sad::Object,
+	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
+	INDEX should be used as private Index in tables
+ */
+#define DECLARE_SOBJ_INHERITANCE_WITH_INDEX(NAMEDCLASS, PARENT, INDEX)			 \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
+sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
+{																 \
+	if (m_global_metadata != NULL) return m_global_metadata;     \
+    bool created = false;																		\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
+	if (created)																				\
+	{																							\
+		m_global_metadata->addAncestor(#PARENT);											    \
+		m_global_metadata->setPrivateIndex(INDEX);											    \
+	}																							\
+	return m_global_metadata;																	\
+}																								\
+sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
+{                                                                                               \
+	return NAMEDCLASS ::globalMetaData();                                                       \
+}                                                \
+const hst::string &  NAMEDCLASS ::name() const  \
+{                                                \
+	return this-> PARENT :: name();              \
 }
