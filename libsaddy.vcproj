@@ -954,6 +954,62 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="ttmath"
+					>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmath.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathbig.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathdec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathint.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathmisc.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathobjects.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathparser.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmaththreads.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathtypes.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathuint.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathuint_noasm.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathuint_x86.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\ttmath\ttmathuint_x86_64.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="log"
