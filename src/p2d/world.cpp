@@ -224,27 +224,21 @@ void p2d::World::findEvents(reactions_t & reactions)
 
 void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
 {
-	hst::hash<p2d::Body*, hst::hash<p2d::Body *, int> > set;
 	if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
 	{
 		hst::vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
 		hst::vector<p2d::Body *> & g2 = m_groups[twh.p1().p2()];
+		bool not_same_group = (twh.p1().p1() != twh.p1().p2());
 		p2d::BasicCollisionHandler * h = twh.p2();
 		for (size_t i = 0; i < g1.count(); i++)
 		{
-			for (size_t j = 0; j < g2.count(); j++)
+			size_t jmin = i + 1;
+			if (not_same_group) jmin = 0;
+			for (size_t j = jmin; j < g2.count(); j++)
 			{
 				p2d::Body * b1 = g1[i];
 				p2d::Body * b2 = g2[j];
-				bool cancollide = (b1 != b2);
-				if (cancollide)
-				{
-					if (set.contains(b1))
-					{
-						cancollide = !(set[b1].contains(b2));
-					}
-				}
-				if (cancollide)
+				if (b1 != b2)
 				{
 					hst::Maybe<double> time;
 					time = m_detector->collides(b1, b2, m_time_step);
@@ -252,12 +246,6 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 					{
 						BasicCollisionEvent ev(b1, b2, time.data());
 						reactions << reaction_t(ev, h);
-
-						// Guard same type groups from executing same event twice
-						if (!set.contains(b1)) set.insert(b1, hst::hash<p2d::Body*, int>());
-						if (!set.contains(b2)) set.insert(b2, hst::hash<p2d::Body*, int>());
-						set[b1].insert(b2, 0);
-						set[b2].insert(b1, 0);
 					}
 				}
 			}
