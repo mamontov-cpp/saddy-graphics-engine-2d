@@ -1,5 +1,6 @@
 #include "texture.h"
 #include "texturemanager.h"
+
 namespace BMP
 {
 	struct Header
@@ -91,19 +92,17 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 	texture->vdata().rescale(4*texture->width()*texture->height());
 	int x=0;
 	int y=m_height-1;
+	int bpp8 = m_bpp / 8;
+	unsigned char buf[4];
+	Uint8 * begin = &(m_data[0]);
 	for (unsigned long i=0;i<size;i++)
 	{
 		unsigned char b=0,g=0,r=0,a=255;
-		fread(&b,sizeof(char),1,file);
-		fread(&g,sizeof(char),1,file);
-		fread(&r,sizeof(char),1,file);
-		if (m_bpp==32)
-			fread(&a,sizeof(char),1,file);
+		fread(buf,sizeof(unsigned char),bpp8,file);
+		std::swap(*buf, *(buf+2));
+		if (bpp8 == 3) buf[3] = 255;
 		int coord=4*(y*m_width+x);
-		m_data[coord]=r;
-		m_data[coord+1]=g;
-		m_data[coord+2]=b;
-		m_data[coord+3]=a;
+		memcpy(begin + coord, buf, 4 * sizeof(unsigned char));
 		++x;
 		if (x==m_width)
 		{
