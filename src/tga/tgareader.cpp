@@ -104,9 +104,9 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 
 		  for (unsigned char i=0;i<rle;i++)
 		  {
-			  data.m_TGA_data[dataptr++]=r;
-			  data.m_TGA_data[dataptr++]=g;
 			  data.m_TGA_data[dataptr++]=b;
+			  data.m_TGA_data[dataptr++]=g;
+			  data.m_TGA_data[dataptr++]=r;
               if (bpp8==4) 
 			  { data.m_TGA_data[dataptr++]=a; } 
              
