@@ -30,10 +30,15 @@ TGAHeader tga::getHeader(Uint8 *buf)
 bool tga::loadUnCompressed(tga::Info & data, FILE *hFile)
 {
 	size_t res=fread(&data.m_TGA_data[0], 1, data.m_TGA_imageSize, hFile);
+	
 	if (res != data.m_TGA_imageSize)
 		return false;
-		
-  return true;
+	//  Swap pixels, since it's BGR format
+	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
+	{
+		std::swap(data.m_TGA_data[i], data.m_TGA_data[i+2]);
+	}
+    return true;
 }
 
 // Reading and decode pixels 
@@ -81,9 +86,9 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
           //Copy data
 		  for (unsigned char i=0;i<raw;i++)
 		  {
-             data.m_TGA_data[dataptr++]=RLEBuffer[curindex];      //Copy R
+             data.m_TGA_data[dataptr++]=RLEBuffer[curindex+2];    //Copy R (image format is BGR, so we swap it here)
 			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+1];    //Copy G
-			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+2];    //Copy B		 
+			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex];      //Copy B (image format is BGR, so we swap it here)		 
 			 if (bpp8==4) { data.m_TGA_data[dataptr++]=RLEBuffer[curindex+3]; } //Copy A
              
 			 curindex+=bpp8;
