@@ -29,15 +29,22 @@ TGAHeader tga::getHeader(Uint8 *buf)
 // Reading pixels from texture's file
 bool tga::loadUnCompressed(tga::Info & data, FILE *hFile)
 {
-	size_t res=fread(&data.m_TGA_data[0], 1, data.m_TGA_imageSize, hFile);
-	
-	if (res != data.m_TGA_imageSize)
-		return false;
+	data.m_TGA_data.resize(data.m_TGA_width * data.m_TGA_height * 4);	// Allocate memory for pixels
+	Uint8 * begin = &(data.m_TGA_data[0]);
 	//  Swap pixels, since it's BGR format
-	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=data.m_TGA_bpp / 8)
+	unsigned int bpp8 = data.m_TGA_bpp / 8;
+	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=bpp8)
 	{
-		std::swap(data.m_TGA_data[i], data.m_TGA_data[i+2]);
+		if (fread(begin, sizeof(Uint8), bpp8, hFile) != bpp8)
+			return false;
+		std::swap(*begin, *(begin+2));
+		if (bpp8 == 3) 
+		{
+			*(begin + 3) = 255;
+		}
+		begin += 4; 
 	}
+	data.m_TGA_bpp = 32;
     return true;
 }
 
@@ -75,6 +82,9 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 
 	size_t curindex=0;     //Pointer in RLE
 	size_t dataptr=0;    //Pointer in texturedata
+
+	data.m_TGA_data.resize(data.m_TGA_width * data.m_TGA_height * 4);	// Allocate memory for pixels
+
 	while (curindex<RLESize && dataptr<data.m_TGA_imageSize)
 	{
 	  if (RLEBuffer[curindex]<128) //RAW section
@@ -90,7 +100,7 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex+1];    //Copy G
 			 data.m_TGA_data[dataptr++]=RLEBuffer[curindex];      //Copy B (image format is BGR, so we swap it here)		 
 			 if (bpp8==4) { data.m_TGA_data[dataptr++]=RLEBuffer[curindex+3]; } //Copy A
-             
+			 else         { data.m_TGA_data[dataptr++]=255; }                   //Copy other
 			 curindex+=bpp8;
 		  }
 	  }
@@ -108,13 +118,16 @@ bool tga::loadCompressed(tga::Info & data, FILE *hFile)
 			  data.m_TGA_data[dataptr++]=g;
 			  data.m_TGA_data[dataptr++]=r;
               if (bpp8==4) 
-			  { data.m_TGA_data[dataptr++]=a; } 
+			  { data.m_TGA_data[dataptr++]=a; }
+			  else
+			  { data.m_TGA_data[dataptr++]=255;}
              
 		  }
 
 		  curindex+=bpp8;
 	  }
 	}
+	data.m_TGA_bpp = 32;
 	result=true;
 	
     delete RLEBuffer;  // Frees memory of RLE pixels

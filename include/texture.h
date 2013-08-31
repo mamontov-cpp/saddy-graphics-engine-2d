@@ -108,11 +108,20 @@ namespace sad
 		*/
 		void scale(int width, int height);
 		/*! Loads a BMP file, from file
+			\param[in] file file handle
 		*/
 		bool               loadBMP(FILE * file);
 		/*! Reloads TGA from info
+			\param textureInfo a texture information
 		*/
-		void                copyTGA(const tga::Info & textureInfo);
+		void                reverseTGA(const tga::Info & textureInfo);
+
+	protected:
+		/*! Loads a TGA image from specified file
+			\param[in] hFile supplied file
+			\return whether image was succesfully loaded
+		 */
+	    bool loadTGA(FILE * hFile);
 	public:
 		/*! Makes a texture POT
 		*/
