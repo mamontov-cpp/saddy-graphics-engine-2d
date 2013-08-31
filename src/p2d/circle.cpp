@@ -1,7 +1,7 @@
 #include <p2d/circle.h>
 #include <p2d/circletohulltransformer.h>
 
-DECLARE_SOBJ_INHERITANCE(p2d::Circle, p2d::CollisionShape);
+DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Circle, p2d::CollisionShape, 1);
 
 p2d::CollisionShape * p2d::Circle::clone() const
 {

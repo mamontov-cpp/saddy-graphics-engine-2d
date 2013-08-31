@@ -1,7 +1,7 @@
 #include "p2d/rectangle.h"
 #include "extra/geometry2d.h"
 
-DECLARE_SOBJ_INHERITANCE(p2d::Rectangle, p2d::CollisionShape);
+DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Rectangle, p2d::CollisionShape, 0);
 
 p2d::Point p2d::Rectangle::point(int index) const
 {

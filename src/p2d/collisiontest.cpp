@@ -3,6 +3,7 @@
 
 void p2d::CollisionTest::init()
 {
+	this->p2d::CollisionMultiMethod<bool>::init();
 	add(p2d::CollisionTest::collidesRtoR);
 	add(p2d::CollisionTest::collidesRtoC);
 	add(p2d::CollisionTest::collidesRtoL);

@@ -38,3 +38,17 @@ bool sad::ClassMetaData::canBeCastedFrom(const hst::string & name)
 	bool result = metaDataToBeCastedTo->canBeCastedTo(m_name);
 	return result;
 }
+
+
+unsigned int sad::ClassMetaData::privateIndex() const
+{
+	return m_private_index;
+}
+
+
+void sad::ClassMetaData::setPrivateIndex(unsigned int privateIndex)
+{
+	m_private_index = privateIndex;
+}
+
+
