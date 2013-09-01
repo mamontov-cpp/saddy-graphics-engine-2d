@@ -85,8 +85,8 @@ p2d::CollisionShape * GameObjectConstants<Bonus>::shape()
 	delete options;
 
 	// For a simple optimization, make bonus a circle
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(8);
+	p2d::Rectangle * c = new p2d::Rectangle();
+	c->setRect(r);
 	return c;
 }
 
