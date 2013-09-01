@@ -59,7 +59,7 @@ double GameObjectConstants<EnemyBullet>::velocity()
 
 double GameObjectConstants<EnemyBullet>::interval()
 {
-	return 600;
+	return 100;
 }
 
 p2d::CollisionShape * GameObjectConstants<EnemyBullet>::shape()
@@ -124,12 +124,12 @@ Sprite2DAdapter::Options * GameObjectConstants<ShootingEnemy>::sprite()
 
 double GameObjectConstants<ShootingEnemy>::velocity()
 {
-	return 300;
+	return 100;
 }
 
 double GameObjectConstants<ShootingEnemy>::interval()
 {
-	return 600;
+	return 200;
 }
 
 p2d::CollisionShape * GameObjectConstants<ShootingEnemy>::shape()

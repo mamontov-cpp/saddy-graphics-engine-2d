@@ -5,7 +5,7 @@
 
 EnemySpawn::EnemySpawn(Game * g) : m_game(g)
 {
-	setInterval(200);
+	setInterval(75);
 }
 
 void EnemySpawn::perform()

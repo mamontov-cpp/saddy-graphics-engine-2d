@@ -65,7 +65,7 @@ void StateLabel::updateGameStatus()
 					  << m_game->player()->hitPoints()
 					  << m_game->player()->score()
 					  << m_game->highscore()
-					  << sad::Renderer::ref()->fps()
+					  << (int)(sad::Renderer::ref()->fps())
   );
   string() = s;
 }
