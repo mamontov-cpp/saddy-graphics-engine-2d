@@ -29,11 +29,11 @@ struct CollisionTestTest : tpunit::TestFixture
 	   p2d::Rectangle r2;
 	   r1.setRect(
 			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 2))	  
+				   hPointF(2, 2), hPointF(1, 1))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(2,0), hPointF(2, 2.5),
-			       hPointF(4, 2.5), hPointF(4, 0))
+		    hRectF(hPointF(2,0), hPointF(2, 1.5),
+			       hPointF(4, 1.5), hPointF(4, 0))
 	   );
 	   p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );

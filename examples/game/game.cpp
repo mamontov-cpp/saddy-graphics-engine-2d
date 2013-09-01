@@ -282,7 +282,7 @@ GameObject *  Game::produce(Objects type)
         case O_SHOOTINGENEMY: result = new ShootingEnemy(); break;
 		case O_SUPERSHOOTINGENEMY: 
 		{
-			if (m_registered_supershooting_enemies_count < 1)
+			if (m_registered_supershooting_enemies_count < 3)
 			{
 				result = new SuperShootingEnemy(); 
 				++m_registered_supershooting_enemies_count;

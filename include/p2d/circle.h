@@ -46,6 +46,7 @@ public:
 		\return rectangle
 	 */
 	p2d::CollisionShape * clone() const;
+	const p2d::Point & centerRef() const;
 	/*! Returns a center of circle
 		\return center of rectangle
 	 */
