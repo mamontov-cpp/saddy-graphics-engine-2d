@@ -207,7 +207,7 @@ sad::Renderer::Renderer()
     m_running = false;
 	m_font_manager = new sad::FontManager();
 	m_texture_manager = new sad::TextureManager();
-	m_fps = 0;
+	m_fps = 75;
 	m_chscene = 0;
 	m_currentscene = new sad::Scene();
 	m_currentscene->setRenderer(this);

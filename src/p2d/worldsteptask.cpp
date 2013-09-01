@@ -11,7 +11,7 @@ void p2d::WorldStepTask::perform()
 {
 	// 1.0 is a second, so if 1 frame at 1s, we will step second
 	if (m_enabled)
-		m_world->step(1.0 / (double)(m_renderer->fps()));
+		m_world->step(1.0 / m_renderer->fps());
 }
 
 

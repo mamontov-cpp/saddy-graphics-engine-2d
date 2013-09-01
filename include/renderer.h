@@ -39,7 +39,7 @@ namespace sad
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
 		sad::Window          m_window;      //!< Window
-		int                  m_fps;         //!< Current FPS value
+		double               m_fps;         //!< Current FPS value
 		Settings             m_glsettings;  //!< Settings
 		hst::string          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
@@ -53,7 +53,7 @@ namespace sad
 		/*! Sets new fps value, but avoids fast jumps in fps
 			\param[in] fps  fps value
 		*/
-		void setFPS(int fps) { m_fps=( (m_fps << 1) + fps )/3; }
+		void setFPS(double fps) { m_fps = fps * 0.9 + m_fps * 0.1; }
 		/*! Setups a OpenGL for first use
 		    \return success of operation
 		*/
@@ -179,11 +179,11 @@ namespace sad
 		    \return Current scene
 		*/
 		inline Scene* getCurrentScene()const      {return m_currentscene;}
-		inline int fps()const                     {return m_fps;         }
+		inline double fps()const                     {return m_fps;         }
 		/*! elapsed time in milliseconds
 		    \return Time in milliseconds
 		*/
-		inline int elapsedInMSeconds(){return (clock() - m_starttimer)/CLOCKS_PER_SEC*1000;}
+		inline double elapsedInMSeconds(){return ((double)(clock() - m_starttimer))/CLOCKS_PER_SEC*1000;}
 
 		/*! Sets a window title
 		    \param[in] s  new title
