@@ -213,8 +213,11 @@ class Movement
 			 }
 			 return p;
 		 }
-		 this->acceleration(p);
-		 p *= time;
+		 if (m_force.hasForces())
+		 {
+			this->acceleration(p);
+			p *= time;
+		 }
 		 return p;
 	 }
 	 /*! Returns a velocity at specified time. 
@@ -249,11 +252,13 @@ class Movement
 		 // Compute constant velocity time
 		 _Value dp = m_velocity;
 		 dp *= time;
-
-		 _Value da = p2d::TickableDefaultValue<_Value>::zero();
-		 this->acceleration(da);
-		 da *= (time * time) / 2;
-		 dp += da;
+		 if (m_force.hasForces())
+		 {
+		  _Value da = p2d::TickableDefaultValue<_Value>::zero();
+		  this->acceleration(da);
+		  da *= (time * time) / 2;
+		  dp += da;
+		 }
 		 return dp;
 	 }
 

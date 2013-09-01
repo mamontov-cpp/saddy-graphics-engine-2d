@@ -227,6 +227,10 @@ class ActingForces
 			 accumulator += m_forces[i]->value();
 		 }
 	 }
+	 /*! Whether container has a forces
+		 \return whether container has a forces
+	  */
+	 bool hasForces() const { return m_forces.size() != 0; }
 };
 
 
