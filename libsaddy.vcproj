@@ -830,6 +830,10 @@
 					RelativePath=".\include\os\thread.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\os\timer.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="extra"

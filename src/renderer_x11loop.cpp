@@ -133,9 +133,18 @@ void sad::Renderer::mainLoop()
 
 	//Update a window, if active
 	if (m_window.active)
+    {
+         m_timer.start();  
 	     update();
-        else
-            sched_yield();
+         m_timer.stop();
+		 double elapsed = m_timer.elapsed();
+		 if (fabs(elapsed) > 0.0001)
+	     {
+	       setFPS(1000.0 / elapsed);
+	     }
+    }
+    else
+        sched_yield();
     
     double elapsed = this->elapsedInMSeconds();
 	if (fabs(elapsed) > 0.0001)

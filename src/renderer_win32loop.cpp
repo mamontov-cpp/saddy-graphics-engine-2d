@@ -39,8 +39,6 @@ void sad::Renderer::mainLoop()
 
  m_running = true;											// Program Looping Is Set To TRUE
  m_window.active=true;
- this->setTimer();
-
 
  while (m_running)											// Loop Until WM_QUIT Is Received
  {					
@@ -64,9 +62,10 @@ void sad::Renderer::mainLoop()
 	  //Update a window, if active
 	  if (m_window.active)
 	  {
-		 setTimer();
+		 m_timer.start();
 	     update();
-		 double elapsed = this->elapsedInMSeconds();
+		 m_timer.stop();
+		 double elapsed = m_timer.elapsed();
 		 if (fabs(elapsed) > 0.0001)
 	     {
 	       setFPS(1000.0 / elapsed);
