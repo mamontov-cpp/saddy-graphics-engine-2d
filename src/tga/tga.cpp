@@ -12,30 +12,50 @@ void  sad::Texture::reverseTGA(const tga::Info & textureInfo)
 	unsigned int halfpixelwidth = textureInfo.m_TGA_width / 2;
 	unsigned int halfwidth =  halfpixelwidth * 4;
 	unsigned int halfheight = textureInfo.m_TGA_height / 2;
-	hst::vector<Uint8>::iterator begin = m_data.begin();
+
+	Uint8 * flipbuffer = new Uint8[rowsize];
+	Uint8 * begin = &(m_data[0]);
 	if (textureInfo.m_horzflip && (m_height % 2) == 1)
 	{
 		unsigned int offset = halfheight * rowsize;
-		hst::vector<Uint8>::iterator wbegin = begin + offset;
-		std::swap_ranges(wbegin, wbegin + halfwidth, wbegin + rowsize - halfwidth); 
+		Uint8 * p1 = begin + offset;
+		Uint8 * p2 = begin + (offset + rowsize - halfwidth);
+		// Flip horizontally
+		memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
+		memcpy(p1, p2, halfwidth * sizeof(Uint8));
+		memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
 	}
 
 	for(unsigned int row = 0; row < halfheight; row++)
 	{
 		unsigned int offset1 = row * rowsize;
 		unsigned int offset2 =(textureInfo.m_TGA_height - 1 - row) * rowsize;
-		hst::vector<Uint8>::iterator wbegin1 = begin + offset1;
-		hst::vector<Uint8>::iterator wbegin2 = begin + offset2;
+		Uint8 * begin1 = begin + offset1;
+		Uint8 * begin2 = begin + offset2;
 		if (textureInfo.m_horzflip)
 		{
-			std::swap_ranges(wbegin1, wbegin1 + halfwidth, wbegin1 + rowsize - halfwidth);
-			std::swap_ranges(wbegin2, wbegin2 + halfwidth, wbegin2 + rowsize - halfwidth);
+			// Flip horizontally first row
+			Uint8 * p1 = begin1;
+			Uint8 * p2 = begin1 + (rowsize - halfwidth);
+			memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
+			memcpy(p1, p2, halfwidth * sizeof(Uint8));
+			memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
+
+			// Flip horizontally second row			
+			p1 = begin2;
+			p2 = begin2 + (rowsize - halfwidth);
+			memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
+			memcpy(p1, p2, halfwidth * sizeof(Uint8));
+			memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
 		}
 		if (textureInfo.m_vertflip)
 		{
-			std::swap_ranges(wbegin1, wbegin1 + rowsize, wbegin2);
+			memcpy(flipbuffer, begin1, rowsize * sizeof(Uint8));
+			memcpy(begin1, begin2, rowsize * sizeof(Uint8));
+			memcpy(begin2, flipbuffer, rowsize * sizeof(Uint8));
 		}
 	}
+	delete flipbuffer;
 }
 
 // Loading TGA texture.
