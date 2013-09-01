@@ -13,6 +13,7 @@
 #include "scene.h"
 #include "primitives/hpoint.h"
 #include "log/log.h"
+#include "os/timer.h"
 namespace sad
 {
 	class Input;
@@ -35,7 +36,7 @@ namespace sad
 		sad::Input       *    m_input_manager;    //!< Input manager data
 		sad::FontManager *    m_font_manager;     //!< Font manager
 		sad::TextureManager * m_texture_manager; //!< Texture manager
-		unsigned long        m_starttimer;  //!< Timer
+		os::timer		     m_timer;            //!< Timer
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
 		sad::Window          m_window;      //!< Window
@@ -53,7 +54,7 @@ namespace sad
 		/*! Sets new fps value, but avoids fast jumps in fps
 			\param[in] fps  fps value
 		*/
-		void setFPS(double fps) { m_fps = fps * 0.9 + m_fps * 0.1; }
+		void setFPS(double fps);
 		/*! Setups a OpenGL for first use
 		    \return success of operation
 		*/
@@ -111,10 +112,6 @@ namespace sad
 	*/
 	bool XContextInit();
 #endif
-		/*! Sets timer
-		*/
-		inline void setTimer(void){ m_starttimer = clock();}
-
 		/*! Reshapes view
 		    \param[in] width Needed width
 		    \param[in] height Needed height
@@ -179,12 +176,7 @@ namespace sad
 		    \return Current scene
 		*/
 		inline Scene* getCurrentScene()const      {return m_currentscene;}
-		inline double fps()const                     {return m_fps;         }
-		/*! elapsed time in milliseconds
-		    \return Time in milliseconds
-		*/
-		inline double elapsedInMSeconds(){return ((double)(clock() - m_starttimer))/CLOCKS_PER_SEC*1000;}
-
+		inline double fps()const                  {return m_fps;         }
 		/*! Sets a window title
 		    \param[in] s  new title
 		*/

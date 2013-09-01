@@ -237,3 +237,12 @@ void sad::Renderer::pushScene(Scene * scene)
 	m_chscene=scene;
 	scene->setRenderer(this);
 }
+
+
+void sad::Renderer::setFPS(double fps) 
+{
+	// Reject sudden raises or drops for frameate
+	if (fps > m_fps * 7)
+		return;
+	m_fps =  fps * 0.6 + m_fps * 0.4;
+}
