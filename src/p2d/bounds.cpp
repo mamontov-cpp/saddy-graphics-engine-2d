@@ -65,3 +65,8 @@ p2d::InfiniteLine p2d::Bound::boundingLine()
 	return result;
 }
 
+size_t p2d::Bound::sizeOfType() const
+{
+	return sizeof(p2d::Bound);
+}
+

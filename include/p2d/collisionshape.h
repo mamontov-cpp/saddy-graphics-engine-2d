@@ -35,6 +35,10 @@ public:
 		\return convex hull
 	 */
 	virtual p2d::ConvexHull toHull() const = 0;
+	/*! Returns size of current type
+		\param[in] size of type
+	 */
+	virtual size_t sizeOfType() const = 0;
 	/*! Projects shape on axle
 		\param[in] a axle
 		\return projection
