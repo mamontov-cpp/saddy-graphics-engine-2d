@@ -15,7 +15,7 @@ void sad::Renderer::mainLoop()
   m_window.active=true;
   this->setTimer();
   XEvent event;
-  m_fps=100;
+  m_fps=75.0;
   int frames=0;
   bool altstate=false;
   ::Window  winDummy = 0;
@@ -130,16 +130,19 @@ void sad::Renderer::mainLoop()
         };
        }
 	// Process Application Loop
-	frames++;
-	if (this->elapsedInMSeconds() >= 1000)
-	{
-		  setFPS(frames);frames=0;setTimer();
-	}
+
 	//Update a window, if active
 	if (m_window.active)
 	     update();
         else
             sched_yield();
+    
+    double elapsed = this->elapsedInMSeconds();
+	if (fabs(elapsed) > 0.0001)
+	{
+	    setFPS(1000.0 / elapsed);
+	    setTimer();
+    }
 	//Change scene, if need so
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}

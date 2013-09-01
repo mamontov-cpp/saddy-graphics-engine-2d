@@ -33,7 +33,7 @@ void sad::Renderer::mainLoop()
  m_data.unlock();
 
  int frames=0;
- m_fps=60;
+ m_fps=75;
  //bool isMessagePumpActive;
  MSG msg;
 
@@ -61,16 +61,20 @@ void sad::Renderer::mainLoop()
    else												// If There Are No Messages
    {
 	  // Process Application Loop
-	  frames++;
-	  if (this->elapsedInMSeconds() >= 1000)
-	  {
-		  setFPS(frames);frames=0;this->setTimer();
-	  }
 	  //Update a window, if active
 	  if (m_window.active)
+	  {
 	     update();
+	  }
 	  else
 		  Sleep(0);
+	  
+	  double elapsed = this->elapsedInMSeconds();
+	  if (fabs(elapsed) > 0.0001)
+	  {
+	    setFPS(1000.0 / elapsed);
+	    setTimer();
+	  }
 	  //Change scene, if need so
 	  if (m_chscene) 
 	  { setCurrentScene(m_chscene); m_chscene=NULL;}
