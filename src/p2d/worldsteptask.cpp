@@ -7,11 +7,15 @@ p2d::WorldStepTask::WorldStepTask(p2d::World * w, sad::Renderer * r)
 
 }
 
+clock_t debugtime = 0;
+
 void p2d::WorldStepTask::perform()
 {
 	// 1.0 is a second, so if 1 frame at 1s, we will step second
+	SL_DEBUG( fmt::Format("time: {0} ms") << (clock() - debugtime) * 1000.0 / CLOCKS_PER_SEC );
 	if (m_enabled)
 		m_world->step(1.0 / m_renderer->fps());
+	debugtime = clock();
 }
 
 
