@@ -74,6 +74,15 @@ public:
 		\param[in] size of type
 	 */
 	virtual size_t sizeOfType() const;
+	/*! Returns first point of line
+		\return first point
+	 */
+	const hPointF & p1() const { return m_c.p1();}
+	/*! Returns second point of line
+		\return second point
+	 */
+	const hPointF & p2() const { return m_c.p2();}
+
 };
 
 }

@@ -8,6 +8,11 @@ p2d::CollisionShape * p2d::Circle::clone() const
 	return new p2d::Circle(*this);
 }
 
+const p2d::Point & p2d::Circle::centerRef() const
+{
+	return m_center;
+}
+
 p2d::Point p2d::Circle::center() const
 {
 	return m_center;
