@@ -5,13 +5,13 @@
 
 StartScreenRain::StartScreenRain(Game * g) : m_game(g)
 {
-	setInterval(200);
+	setInterval(75);
 }
 
 void StartScreenRain::perform()
 {
 	int ocount = sad::Renderer::ref()->getCurrentScene()->objectCount();
-	if (m_game->isPaused() == false &&  ocount < 12)
+	if (m_game->isPaused() == false &&  ocount < 60)
 	{
 		// Compute position for new object
 		double padding  = 12; // A small paddings out of scren borders
@@ -28,8 +28,8 @@ void StartScreenRain::perform()
 		if (o)
 		{
 			o->setPosition(p2d::Point(x, y));
-			o->setHorizontalSpeed(101.5);
-			o->setVerticalSpeed(-101.5);
+			o->setHorizontalSpeed(50.5);
+			o->setVerticalSpeed(-50.5);
 		}
 	}
 }
