@@ -85,8 +85,9 @@ public:
 	void notifyMove(const p2d::Vector & delta);
 	/*! Steps values, that must be changed at end of time step, like
 		a ghost options and force
+		\param[in] time specified time
 	 */
-	void stepDiscreteChangingValues();
+	void stepDiscreteChangingValues(double time);
 	/*! Steps positions and values at specified time
 		\param[in] time specified time 
 	 */
@@ -273,6 +274,12 @@ public:
 	/*! Clears all of listeners for body
 	 */
 	void clearListeners();
+	/*! Returns a tangential forces, acting on body
+	 */
+	p2d::TangentialActingForces & tangentialForces();
+	/*! Returns an angular forces, acting on body
+	 */
+	p2d::AngularActingForces  & angularForces();
 };
 
 }

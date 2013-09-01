@@ -3,13 +3,14 @@
 	Describes a movement in discrete time, using force, weight, velocity 
 	and distance.
  */
+#pragma once
 #include "weight.h"
 #include "tickable.h"
 #include "vector.h"
+#include "force.h"
 #include "../templates/hlvector.hpp"
 #include "../extra/geometry2d.h"
 #include <algorithm>
-#pragma once
 
 namespace p2d
 {
@@ -78,10 +79,10 @@ class Movement
 	  */
 	 typedef p2d::AbstractMovementDeltaListener<_Value> * listener_t;
  protected:
-	 /*! A steppable force value, acting on body.
+	 /*! A steppable forces
 		 The force is owned by movement
 	  */
-	 p2d::TickableFlow<_Value> * m_force; 
+	 p2d::ActingForces<_Value> m_force; 
 	 /*! A weight of a moving body. By default, a weight of one
 		 is considered valid.
 	     The weight is not owned by movement
@@ -120,28 +121,22 @@ class Movement
 			 m_listeners[i]->notify(delta);
 		 }
 	 }
-	 /*! Computes an acceleration
+	 /*! Computes acceleration for movement
+		 \param[in] p determined position
 	  */
-	 _Value acceleration() const
+	 void acceleration(_Value & p) const
 	 {
-		 // Assume weight of one by default
-		 _Value result = m_force->value();
 		 if (m_weight != NULL)
 		 {
-			if (m_weight->isInfinite())
+			if (m_weight->isInfinite() == false )
 			{
-				result = p2d::TickableDefaultValue<_Value>::zero();
-			}
-			else
-			{
-				// Evade division by zero
+				m_force.value(p);
 				if (non_fuzzy_zero(m_weight->value()))
 				{
-					result /= m_weight->value(); 
+				 p /= m_weight->value();
 				}
 			}
 		 }
-		 return result;
 	 }
  public:
 	 /*! By a default  a weight is one, force is empty, and
@@ -150,7 +145,6 @@ class Movement
 	 Movement()
 	 {
 		 m_weight = NULL;
-		 m_force = new p2d::TickableFlow<_Value>();
 		 m_velocity = p2d::TickableDefaultValue<_Value>::zero();
 		 m_position = p2d::TickableDefaultValue<_Value>::zero();
 	 }
@@ -158,7 +152,6 @@ class Movement
 	  */
 	 ~Movement()
 	 {
-		 delete m_force;
 		 clearListeners();
 	 }
 	 /*! Clears all of movement listeners
@@ -186,15 +179,16 @@ class Movement
 		 m_listeners.removeFirst(l);
 	 }
 	 /*! Performs a force step for current time period
+		 \param[time] a time step size
 	  */
-	 void stepForce()
+	 void stepForce(double time)
 	 {
-		 m_force->step();
+		 m_force.step(time);
 	 }
-	 /*! Returns a force options	
-		 \return a force options for changing
+	 /*! Returns an acting forces	
+		 \return an acting forces	
 	  */
-	 p2d::TickableFlow<_Value> * force() { return m_force; }
+	 p2d::ActingForces<_Value> & forces() { return m_force; }
 	 /*! Determines a difference between velocity end of specified time
 	     period. A step size needed to handle situation with simultaneous 
 		 jumps in velocity
@@ -203,6 +197,7 @@ class Movement
 	  */
 	 _Value velocityDelta(double time, double step_size)
 	 {
+		 _Value p = p2d::TickableDefaultValue<_Value>::zero(); 
 		 if (m_next_velocity.exists())
 		 {
 			 if (is_fuzzy_equal(time, step_size))
@@ -216,9 +211,11 @@ class Movement
 					  return m_next_velocity.data() - m_velocity;
 				 }
 			 }
-			 return p2d::TickableDefaultValue<_Value>::zero();
+			 return p;
 		 }
-		 return this->acceleration() * time;
+		 this->acceleration(p);
+		 p *= time;
+		 return p;
 	 }
 	 /*! Returns a velocity at specified time. 
 		 \param[in] time specified time
@@ -249,7 +246,15 @@ class Movement
 			 }
 			 return p2d::TickableDefaultValue<_Value>::zero();
 		 }
-		 return m_velocity * time + this->acceleration() * time * time / 2;
+		 // Compute constant velocity time
+		 _Value dp = m_velocity;
+		 dp *= time;
+
+		 _Value da = p2d::TickableDefaultValue<_Value>::zero();
+		 this->acceleration(da);
+		 da *= (time * time) / 2;
+		 dp += da;
+		 return dp;
 	 }
 
 	 /*! Returns a position at specified time. 

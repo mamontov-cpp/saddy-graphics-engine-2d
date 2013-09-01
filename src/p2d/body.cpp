@@ -53,11 +53,11 @@ p2d::CollisionShape & p2d::Body::at(double time) const
 	return *(me->m_temporary);
 }
 
-void p2d::Body::stepDiscreteChangingValues()
+void p2d::Body::stepDiscreteChangingValues(double time)
 {
 	m_ghost->step();
-	m_tangential->force()->step();
-	m_angular->force()->step();
+	m_tangential->forces().step(time);
+	m_angular->forces().step(time);
 }
 
 void p2d::Body::stepPositionsAndVelocities(double time)
@@ -303,3 +303,14 @@ void p2d::Body::clearListeners()
 	m_tangential->clearListeners();
 	m_angular->clearListeners();
 }
+
+p2d::TangentialActingForces & p2d::Body::tangentialForces()
+{
+	return m_tangential->forces();
+}
+
+p2d::AngularActingForces & p2d::Body::angularForces()
+{
+	return m_angular->forces();
+}
+

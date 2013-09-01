@@ -59,8 +59,9 @@ protected:
 	  */
 	 bodies_to_types_t m_allbodies;
 	 /*! Steps all body options, like ghost options and body
+		 \param[in] timt a time step size
 	  */
-	 virtual void stepDiscreteChangingValues();
+	 virtual void stepDiscreteChangingValues(double time);
 	 /*! Steps a position and velocities
 		 \param[in] time a time step size
 	  */
