@@ -156,19 +156,19 @@ void p2d::World::step(double time)
 	// Set time step to something to not bug with some interstep calls
 	m_time_step = 1;
 	// Step forces and body options
-	stepDiscreteChangingValues();
+	stepDiscreteChangingValues(time);
 	unlockChanges();
 	performQueuedActions();
 }
 
-void p2d::World::stepDiscreteChangingValues()
+void p2d::World::stepDiscreteChangingValues(double time)
 {
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
 		it++
 	   )
 	{
-		it.key()->stepDiscreteChangingValues();
+		it.key()->stepDiscreteChangingValues(time);
 	}
 }
 
