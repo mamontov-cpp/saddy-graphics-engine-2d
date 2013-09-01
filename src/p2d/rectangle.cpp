@@ -62,3 +62,8 @@ hst::vector<p2d::Point> p2d::Rectangle::points() const
 	return points;
 }
 
+size_t p2d::Rectangle::sizeOfType() const
+{
+	return sizeof(p2d::Rectangle);
+}
+

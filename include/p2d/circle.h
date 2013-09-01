@@ -68,6 +68,10 @@ public:
 		\return cutter
 	 */
 	p2d::Cutter1D project(const p2d::Axle & a) const;
+	/*! Returns size of current type
+		\param[in] size of type
+	 */
+	virtual size_t sizeOfType() const;
 };
 
 }

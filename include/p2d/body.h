@@ -47,6 +47,9 @@ private:
 		Selected and freed here.
 	 */
 	CollisionShape * m_temporary;
+	/*! A type size of shape in body
+	 */
+	size_t  m_shapesize;
 protected:
 	/*! Returns  time step for body
 		\return time step

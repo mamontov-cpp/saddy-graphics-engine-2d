@@ -88,6 +88,10 @@ class Bound: public p2d::CollisionShape
 	/*! A bounding line for bound
 	 */
 	p2d::InfiniteLine boundingLine();
+	/*! Returns size of current type
+		\param[in] size of type
+	 */
+	virtual size_t sizeOfType() const;
 };
 
 

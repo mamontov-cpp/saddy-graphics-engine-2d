@@ -44,3 +44,8 @@ p2d::Cutter1D p2d::Circle::project(const p2d::Axle & a) const
 }
 
 
+size_t p2d::Circle::sizeOfType() const
+{
+	return sizeof(p2d::Circle);
+}
+

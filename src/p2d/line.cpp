@@ -60,3 +60,9 @@ hst::vector<p2d::Point> p2d::Line::points() const
 }
 
 
+
+size_t p2d::Line::sizeOfType() const
+{
+	return sizeof(p2d::Line);
+}
+

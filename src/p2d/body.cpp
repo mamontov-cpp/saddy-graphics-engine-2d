@@ -46,8 +46,12 @@ const hst::string & p2d::Body::userType() const
 p2d::CollisionShape & p2d::Body::at(double time) const
 {
 	p2d::Body * me = const_cast<p2d::Body *>(this);
-	delete me->m_temporary;
-	me->m_temporary = me->m_current->clone();
+
+	// Light optimization, because most of our collision shapes are POD-like structures
+	// We can reduce amount of allocations, using untyped copying instead all of high-level
+	// operations
+	memcpy(me->m_temporary, me->m_current, me->m_shapesize);
+
 	me->m_temporary->move(m_tangential->positionDelta(time, me->timeStep()));
 	me->m_temporary->rotate(m_angular->positionDelta(time, me->timeStep()));
 	return *(me->m_temporary);
@@ -156,6 +160,10 @@ void p2d::Body::setShape(p2d::CollisionShape * shape)
 	this->trySetTransformer();
 	m_current->move(this->m_tangential->position());
 	m_current->rotate(this->m_angular->position());
+	
+	delete m_temporary;
+	m_temporary = m_current->clone();
+	m_shapesize = m_current->sizeOfType();
 }
 
 

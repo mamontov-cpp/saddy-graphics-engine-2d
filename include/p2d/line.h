@@ -70,6 +70,10 @@ public:
 		\return points
 	 */
 	hst::vector<p2d::Point> points() const;
+	/*! Returns size of current type
+		\param[in] size of type
+	 */
+	virtual size_t sizeOfType() const;
 };
 
 }
