@@ -92,6 +92,10 @@ class Bound: public p2d::CollisionShape
 		\param[in] size of type
 	 */
 	virtual size_t sizeOfType() const;
+	/*! Populates a vector two pooints, belonging to a border of bound
+		\param[in] v vector
+	 */
+	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
 };
 
 

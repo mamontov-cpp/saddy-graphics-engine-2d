@@ -67,3 +67,10 @@ size_t p2d::Rectangle::sizeOfType() const
 	return sizeof(p2d::Rectangle);
 }
 
+void p2d::Rectangle::populatePoints(hst::vector<p2d::Point> & v) const
+{
+	for(int i = 0; i < 4; i++)
+	{
+		v << m_rect[i];
+	}
+}

@@ -6,19 +6,25 @@
 	collision is detected.
  */
 #include "collisiondetector.h"
+#include "collisiontest.h"
 #pragma once
 
 
 namespace p2d
 {
+class SimpleCollisionDetector;
 /*! Collision detector, based on building an extended figure
 	out of shapes at beginning and end. Returns half of time limit if
 	collision is detected.
  */
 class BroadCollisionDetector: public p2d::CollisionDetector
 {
- private:
+ protected:
+	 p2d::CollisionTest * m_tester; //!< A collision tester, used to determining a data
+	 p2d::SimpleCollisionDetector * m_detector; //!< Inner detector for simplified computing of collisions
  public:
+	 BroadCollisionDetector(p2d::CollisionTest * test = new p2d::CollisionTest());
+	 ~BroadCollisionDetector();
 	 /*! Tests, whether two bodies collide within specified limit
 		  testing their movement in interval [0, limit] and returning
 		  time if possible

@@ -5,6 +5,10 @@
 	convex hull
  */
 #include "convexhull.h"
+#include "point.h"
+#include "../templates/hlvector.hpp"
+
+#pragma once
 
 namespace p2d
 {
@@ -29,6 +33,15 @@ public:
 		\return converted hull
 	 */
 	virtual p2d::ConvexHull toHull(const p2d::Circle * c);
+	/*! Returns sides of transformer
+		\return sides
+	 */
+	inline int sides() const { return m_sides; }
+	/*! Populates vector with a points of circle
+		\param[in] c circle
+		\param[out] v populated vector
+	 */
+	void populate(const p2d::Circle * c, hst::vector<p2d::Point> &  v) const;
 	virtual ~CircleToHullTransformer();
 };
 

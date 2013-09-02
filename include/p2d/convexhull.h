@@ -11,6 +11,7 @@
 
 namespace p2d
 {
+class CollisionShape;
 /*! A convex hull is defined as a set of operations
  */
 class ConvexHull
@@ -36,6 +37,13 @@ class ConvexHull
 	 /*! Creates empty convex hull
 	  */
 	 ConvexHull();
+	 /*! Inserts a points from shape
+		 \param[in] s shape
+      */
+	 void insertPointsFromShape(p2d::CollisionShape * s);
+	 /*! Builds a hull for a hull
+	  */
+	 void buildHull();
 	 /*! Creates a nex convex hull from specified set of points
 		 \param[in] set set of points
 	  */
@@ -102,9 +110,10 @@ p2d::Cutter1D projectPointSet(const T & container, unsigned int size, const p2d:
 	double max = 0;
 	bool minisset = false;
 	bool maxisset = false;
+	double a2 = p2d::scalar(axle, axle);
 	for(size_t i = 0; i < size ; i++)
 	{
-		double p = p2d::scalar(container[i], axle);
+		double p = p2d::scalar(container[i], axle) / a2;
 		if (p < min || !minisset)
 		{
 			minisset = true;
