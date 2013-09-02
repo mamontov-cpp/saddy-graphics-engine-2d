@@ -30,7 +30,7 @@ public:
 		\param[in] index index of point
 		\return point of rectangle
 	 */
-	const p2d::Point & point(int index) const;
+	const hPointF & point(int index) const;
 	/*! Returns new identical rectangle
 		\return rectangle
 	 */

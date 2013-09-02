@@ -7,6 +7,7 @@
 #include <p2d/vector.h>
 #include "../templates/maybe.hpp"
 #include "../templates/hlvector.hpp"
+#include "../extra/fuzzy_equal.h"
 #include "tickable.h"
 
 
@@ -68,16 +69,16 @@ class ImpulseForce: public p2d::Force<T>
   public:
 	 /*! Creates zero force
 	  */
-	 inline ImpulseForce() : Force() {  }
+	 inline ImpulseForce() : p2d::Force<T>() {  }
 	 /*! Creates a force with specific value
 		 \param[in] v value
 	  */
-	 inline ImpulseForce(const T & v) : Force(v) {}
+	 inline ImpulseForce(const T & v) : p2d::Force<T>(v) {}
 
 	 /*! Steps a force to next iteration
 	     \param[in] time a time step size
 	  */
-	 virtual void step(double time) { die(); }
+	 virtual void step(double time) { this->die(); }
 };
 
 
@@ -144,7 +145,7 @@ class ActingForces
 		   */
 		  virtual bool perform(double time, ActingForces<T> * container)
 		  {
-			  if (time > m_time || is_fuzzy_equal(time, m_time))
+			  if (time > m_time || ::is_fuzzy_equal(time, m_time))
 			  {
 		          container->add(m_force);
 			      m_force = NULL;

@@ -263,7 +263,7 @@ const hst::string &  NAMEDCLASS :: name() const  \
 	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
 	INDEX should be used as private Index in tables
  */
-#define DECLARE_SOBJ_INHERITANCE_WITH_INDEX(NAMEDCLASS, PARENT, INDEX)			 \
+#define DECLARE_SOBJ_INHERITANCE_WITH_INDEX(NAMEDCLASS, PARENT, INDEX)	 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
@@ -281,7 +281,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }                                                \
-const hst::string &  NAMEDCLASS ::name() const  \
+const hst::string &  NAMEDCLASS ::name() const   \
 {                                                \
 	return this-> PARENT :: name();              \
 }
