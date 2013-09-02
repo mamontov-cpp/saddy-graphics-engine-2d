@@ -40,11 +40,19 @@ namespace sad
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
 		sad::Window          m_window;      //!< Window
-		double               m_fps;         //!< Current FPS value
+		
+		
 		Settings             m_glsettings;  //!< Settings
 		hst::string          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
         bool                 m_created;     //!< Whether we are created a window
+
+		// A FPS computing options
+		int                  m_frames;         //!< An elapsed frames count
+		bool                 m_reset;          //!< Whether timer should be reset on next iteration
+		bool				 m_setimmediately; //!< Whether we should immediately set FPS
+		double               m_fps;            //!< Current FPS value
+
 		/*! Destroys instance of renderer
 		 */
 		static void destroyInstance();

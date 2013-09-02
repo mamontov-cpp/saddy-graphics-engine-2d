@@ -13,10 +13,11 @@ void sad::Renderer::mainLoop()
 {
   m_running = true;											// Loop program
   m_window.active=true;
-  this->setTimer();
   XEvent event;
-  m_fps=75.0;
-  int frames=0;
+  m_fps = 75;
+  m_setimmediately = true;
+  m_reset = false;
+  m_frames = 0;
   bool altstate=false;
   ::Window  winDummy = 0;
   while(m_running)
@@ -134,14 +135,7 @@ void sad::Renderer::mainLoop()
 	//Update a window, if active
 	if (m_window.active)
     {
-         m_timer.start();  
 	     update();
-         m_timer.stop();
-		 double elapsed = m_timer.elapsed();
-		 if (fabs(elapsed) > 0.0001)
-	     {
-	       setFPS(1000.0 / elapsed);
-	     }
     }
     else
         sched_yield();
