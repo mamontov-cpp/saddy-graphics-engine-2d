@@ -2,9 +2,9 @@
 
 PeriodicalEvent::PeriodicalEvent()
 {
-	m_last_shot = 0;
 	m_interval = 50.0;
 	m_enabled = true;
+	m_timer.start();
 }
 
 PeriodicalEvent::~PeriodicalEvent()
@@ -13,11 +13,11 @@ PeriodicalEvent::~PeriodicalEvent()
 
 void PeriodicalEvent::tryPerform()
 {
-	double deltainsec = (clock() - m_last_shot) / CLOCKS_PER_SEC;
-	double deltainms = deltainsec * 1000.0;
+	m_timer.stop();
+	double deltainms = m_timer.elapsed();
 	if (deltainms >= m_interval && m_enabled)
 	{
-		m_last_shot = clock();
+		m_timer.start();
 		perform();
 	}
 }

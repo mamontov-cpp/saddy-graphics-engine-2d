@@ -4,7 +4,8 @@
 	Describes a period event, which performs in specified interval
  */
 #include <time.h>
-#include <input.h>
+#include "../input.h"
+#include "../os/timer.h"
 #pragma once
 
 /*! An event, that is performed if last time shot is less than specified interval
@@ -14,7 +15,7 @@ class PeriodicalEvent
  protected:
 	 bool  m_enabled;   //!< Whether periodical event is enabled
 	 double m_interval; //!< Interval of perforiming in milliseconds
-	 clock_t m_last_shot; //!< Last time, when event worked
+	 os::timer m_timer;  //!< A timer
 	 /*! Performs an actions inside of specified event
 	  */
 	 virtual void perform() = 0;
