@@ -8,9 +8,9 @@ DECLARE_SOBJ(p2d::Body);
 
 double p2d::Body::timeStep() const
 {
-	if (m_world == NULL)
-		return 1.0;
-	return m_world->timeStep();
+	if (m_world != NULL)
+		return m_world->timeStep();
+	return 1.0;
 }
 
 void p2d::Body::notifyRotate(const double & delta)
