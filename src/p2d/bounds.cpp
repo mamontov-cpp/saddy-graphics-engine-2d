@@ -1,4 +1,7 @@
 #include "p2d/bounds.h"
+#include <limits>
+#undef min
+#undef max
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Bound, p2d::CollisionShape, 3);
 
@@ -68,5 +71,20 @@ p2d::InfiniteLine p2d::Bound::boundingLine()
 size_t p2d::Bound::sizeOfType() const
 {
 	return sizeof(p2d::Bound);
+}
+
+void p2d::Bound::populatePoints(hst::vector<p2d::Point> & v) const
+{
+	if (this->type() == BT_LEFT || this->type() == BT_RIGHT)
+	{
+		// Evade overflow
+		v << p2d::Point(m_p, std::numeric_limits<double>::max() * - 0.99999);
+		v << p2d::Point(m_p, std::numeric_limits<double>::max());
+	}
+	else
+	{
+		v << p2d::Point(std::numeric_limits<double>::max() * - 0.99999, m_p);
+		v << p2d::Point(std::numeric_limits<double>::max(), m_p);
+	}
 }
 

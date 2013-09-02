@@ -44,8 +44,9 @@ p2d::ConvexHull p2d::Line::toHull() const
 
 p2d::Cutter1D p2d::Line::project(const p2d::Axle & a) const
 {
-	double p1 = p2d::scalar(m_c.p1(), a);
-	double p2 = p2d::scalar(m_c.p2(), a);
+	double a2 = p2d::scalar(a, a);
+	double p1 = p2d::scalar(m_c.p1(), a) / a2;
+	double p2 = p2d::scalar(m_c.p2(), a) / a2;
 	if (p1 > p2)
 		std::swap(p1, p2);
 	return p2d::Cutter1D(p1, p2);
@@ -64,5 +65,11 @@ hst::vector<p2d::Point> p2d::Line::points() const
 size_t p2d::Line::sizeOfType() const
 {
 	return sizeof(p2d::Line);
+}
+
+void p2d::Line::populatePoints(hst::vector<p2d::Point> & v) const
+{
+	v << m_c.p1();
+	v << m_c.p2();
 }
 

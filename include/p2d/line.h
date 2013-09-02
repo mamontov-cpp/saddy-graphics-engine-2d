@@ -82,7 +82,10 @@ public:
 		\return second point
 	 */
 	const hPointF & p2() const { return m_c.p2();}
-
+	/*! Populates a vector two pooints, belonging to a border of bound
+		\param[in] v vector
+	 */
+	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
 };
 
 }

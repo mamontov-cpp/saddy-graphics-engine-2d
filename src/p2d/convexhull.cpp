@@ -1,4 +1,5 @@
 #include <p2d/convexhull.h>
+#include <p2d/collisionshape.h>
 #include <extra/geometry2d.h>
 
 p2d::ConvexHull::ConvexHull()
@@ -184,3 +185,16 @@ p2d::Point p2d::ConvexHull::center() const
 	result /= points();
 	return result;
 }
+
+
+void p2d::ConvexHull::buildHull()
+{
+	m_set = p2d::graham_scan(m_set);
+}
+
+void p2d::ConvexHull::insertPointsFromShape(p2d::CollisionShape * s)
+{
+	s->populatePoints(m_set);
+}
+
+

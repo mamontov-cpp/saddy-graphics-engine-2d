@@ -38,14 +38,9 @@ p2d::ConvexHull p2d::Circle::toHull() const
 
 p2d::Cutter1D p2d::Circle::project(const p2d::Axle & a) const
 {
-	p2d::Vector v = p2d::unit(a);
-	hPointF left = m_center - v * m_radius;
-	hPointF right = m_center + v * m_radius;
-	double leftr = p2d::scalar(left, v);
-	double rightr = p2d::scalar(right, v);
-	if (leftr > rightr)
-		std::swap(leftr, rightr);
-	return p2d::Cutter1D(leftr, rightr);
+	double a2 = p2d::scalar(a, a);
+	double rcenter = p2d::scalar(m_center, a) / a2;
+	return p2d::Cutter1D(rcenter - m_radius, rcenter + m_radius);
 }
 
 
@@ -54,3 +49,9 @@ size_t p2d::Circle::sizeOfType() const
 	return sizeof(p2d::Circle);
 }
 
+void p2d::Circle::populatePoints(hst::vector<p2d::Point> & v) const
+{
+	p2d::CircleToHullTransformer * t = this->m_transformer;
+	if (t == NULL) t = p2d::CircleToHullTransformer::ref();
+	t->populate(this, v);
+}
