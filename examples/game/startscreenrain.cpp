@@ -5,7 +5,7 @@
 
 StartScreenRain::StartScreenRain(Game * g) : m_game(g)
 {
-	setInterval(75);
+	setInterval(1000);
 }
 
 void StartScreenRain::perform()

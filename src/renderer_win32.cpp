@@ -237,7 +237,8 @@ void sad::Renderer::update()
  m_timer.stop();
  if (m_setimmediately || m_timer.elapsed() > 100.0)
  {
-	 setFPS( 1000.0 * m_frames / m_timer.elapsed() ); 
+	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
+	 m_frames = 0;
 	 m_reset = true;
 	 m_setimmediately = false;
  }
