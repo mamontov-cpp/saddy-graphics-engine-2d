@@ -1,4 +1,5 @@
 #include "classmetadatacontainer.h"
+#include <cstdlib>
 
 sad::ClassMetaDataContainer::ClassMetaDataContainer()
 {

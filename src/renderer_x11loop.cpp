@@ -134,18 +134,13 @@ void sad::Renderer::mainLoop()
 
 	//Update a window, if active
 	if (m_window.active)
-    {
-	     update();
-    }
-    else
-        sched_yield();
+       {
+	    update();
+       }
+       else
+	    sched_yield();
     
-    double elapsed = this->elapsedInMSeconds();
-	if (fabs(elapsed) > 0.0001)
-	{
-	    setFPS(1000.0 / elapsed);
-	    setTimer();
-    }
+    
 	//Change scene, if need so
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}

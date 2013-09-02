@@ -3,7 +3,7 @@
 #include "gameobject.h"
 #include <renderer.h>
 
-StartScreenRain::StartScreenRain(Game * g) : m_game(g)
+StartScreenRain::StartScreenRain(Game * g) : PeriodicalEvent(),  m_game(g)
 {
 	setInterval(1000);
 }
@@ -11,7 +11,7 @@ StartScreenRain::StartScreenRain(Game * g) : m_game(g)
 void StartScreenRain::perform()
 {
 	int ocount = sad::Renderer::ref()->getCurrentScene()->objectCount();
-	if (m_game->isPaused() == false &&  ocount < 60)
+        if (m_game->isPaused() == false &&  ocount < 60)
 	{
 		// Compute position for new object
 		double padding  = 12; // A small paddings out of scren borders
