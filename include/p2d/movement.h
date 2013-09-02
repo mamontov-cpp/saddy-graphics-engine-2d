@@ -250,14 +250,20 @@ class Movement
 			 return p2d::TickableDefaultValue<_Value>::zero();
 		 }
 		 // Compute constant velocity time
-		 _Value dp = m_velocity;
-		 dp *= time;
 		 if (m_force.hasForces())
 		 {
-		  _Value da = p2d::TickableDefaultValue<_Value>::zero();
-		  this->acceleration(da);
-		  da *= (time * time) / 2;
-		  dp += da;
+		    _Value da = p2d::TickableDefaultValue<_Value>::zero();
+		    this->acceleration(da);
+		    da *= time / 2;
+		    da += m_velocity;
+		    da *= time;
+		    return da;
+		 }
+		 else
+		 {
+			_Value dp = m_velocity;
+			dp *= time;
+			return dp;
 		 }
 		 return dp;
 	 }
