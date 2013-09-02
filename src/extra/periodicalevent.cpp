@@ -1,4 +1,5 @@
 #include <extra/periodicalevent.h>
+#include <log/log.h>
 
 PeriodicalEvent::PeriodicalEvent()
 {
@@ -18,7 +19,7 @@ void PeriodicalEvent::tryPerform()
 	if (deltainms >= m_interval && m_enabled)
 	{
 		m_timer.start();
-		perform();
+		this->perform();
 	}
 }
 

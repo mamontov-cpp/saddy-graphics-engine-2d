@@ -212,6 +212,7 @@ void Game::enterStartingScreen()
 {
 	// See Game::moveToPlayingScreen. We should perform change from here,
 	// otherwise, execution chain will break
+	SL_SCOPE("Game::enterStartingScreen()");
 	sad::Renderer::ref()->controls()->addPostRenderTask(
 		new sad::MethodCountableTask<Game>(this, &Game::moveToStartingScreen)
 	);
@@ -391,6 +392,7 @@ void Game::onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperSho
 
 void Game::moveToStartingScreen()
 {
+	SL_SCOPE("Game::moveToStartingScreen()");
 	this->scene()->clear();
 	
 	delete m_world;
