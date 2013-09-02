@@ -38,8 +38,9 @@ public:
 	{
 #ifdef WIN32
 	    QueryPerformanceFrequency(&m_frequency);
-#endif
+#else
 		clock_getres(CLOCK_PROCESS_CPUTIME_ID, &m_frequency);
+#endif
 		start();
 	}
 
