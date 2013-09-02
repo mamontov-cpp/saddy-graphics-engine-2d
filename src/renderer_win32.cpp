@@ -223,11 +223,24 @@ bool sad::Renderer::setupPFD()
 
 void sad::Renderer::update()
 {
+ if (m_setimmediately || m_reset)
+ {
+	 m_timer.start();
+	 m_reset = false;
+ }
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  glMatrixMode(GL_MODELVIEW);
  glLoadIdentity();
  getCurrentScene()->render();
  SwapBuffers(m_window.hDC);
+ ++m_frames;
+ m_timer.stop();
+ if (m_setimmediately || m_timer.elapsed() > 100.0)
+ {
+	 setFPS( 1000.0 * m_frames / m_timer.elapsed() ); 
+	 m_reset = true;
+	 m_setimmediately = false;
+ }
 }
 
 void sad::Renderer::initWindowParameters(void)

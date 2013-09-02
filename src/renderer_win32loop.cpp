@@ -33,7 +33,11 @@ void sad::Renderer::mainLoop()
  m_data.unlock();
 
  int frames=0;
- m_fps=75;
+ 
+ m_fps = 75;
+ m_setimmediately = true;
+ m_frames = 0;
+
  //bool isMessagePumpActive;
  MSG msg;
 
