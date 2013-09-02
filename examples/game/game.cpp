@@ -334,7 +334,7 @@ void Game::onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev)
 void Game::createWorld()
 {
 	m_world = new p2d::World();
-	m_world->setDetector(new p2d::SimpleCollisionDetector());
+	m_world->setDetector(new p2d::BroadCollisionDetector());
 }
 
 void Game::onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev)
