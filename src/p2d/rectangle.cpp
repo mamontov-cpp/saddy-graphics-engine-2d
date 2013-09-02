@@ -3,7 +3,7 @@
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Rectangle, p2d::CollisionShape, 0);
 
-const p2d::Point & p2d::Rectangle::point(int index) const
+const hPointF & p2d::Rectangle::point(int index) const
 {
 	assert(index > -1 && index< 4);
 	return m_rect[index];

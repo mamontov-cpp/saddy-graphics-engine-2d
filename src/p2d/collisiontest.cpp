@@ -53,6 +53,17 @@ struct AxleFor
 		axle = p2d::axle( (c1->*p1)(num1), (c1->*p1)(num2) );
 	}
 
+	template< const hPointF & (_Class1::*p1)(int) const,
+			  int num1,
+			  int num2
+			>
+	static void hp1callsi(p2d::CollisionShape * s1, p2d::CollisionShape * s2, p2d::Axle & axle)
+	{
+		_Class1 * c1 = static_cast<_Class1 *>(s1);
+		_Class2 * c2 = static_cast<_Class2 *>(s2);
+		axle = p2d::axle( (c1->*p1)(num1), (c1->*p1)(num2) );
+	}
+
 	template< const p2d::Point & (_Class2::*p1)(int) const,
 			  int num1,
 			  int num2
@@ -64,11 +75,33 @@ struct AxleFor
 		axle = p2d::axle( (c2->*p1)(num1), (c2->*p1)(num2) );
 	}
 
+	template< const hPointF & (_Class2::*p1)(int) const,
+			  int num1,
+			  int num2
+			>
+	static void hp2callsi(p2d::CollisionShape * s1, p2d::CollisionShape * s2, p2d::Axle & axle)
+	{
+		_Class1 * c1 = static_cast<_Class1 *>(s1);
+		_Class2 * c2 = static_cast<_Class2 *>(s2);
+		axle = p2d::axle( (c2->*p1)(num1), (c2->*p1)(num2) );
+	}
+
 	template< const p2d::Point & (_Class1::*p1)(int) const,
 			  int num1,
 			  const p2d::Point & (_Class2::*p2)() const
 			>
 	static void p1ip2(p2d::CollisionShape * s1, p2d::CollisionShape * s2, p2d::Axle & axle)
+	{
+		_Class1 * c1 = static_cast<_Class1 *>(s1);
+		_Class2 * c2 = static_cast<_Class2 *>(s2);
+		axle = p2d::axle( (c1->*p1)(num1), (c2->*p2)() );
+	}
+
+	template< const hPointF & (_Class1::*p1)(int) const,
+			  int num1,
+			  const p2d::Point & (_Class2::*p2)() const
+			>
+	static void hp1ip2(p2d::CollisionShape * s1, p2d::CollisionShape * s2, p2d::Axle & axle)
 	{
 		_Class1 * c1 = static_cast<_Class1 *>(s1);
 		_Class2 * c2 = static_cast<_Class2 *>(s2);
@@ -146,10 +179,10 @@ struct AxleFor
 
 static void (*r_to_r_callbacks[4])(p2d::CollisionShape *, p2d::CollisionShape *, p2d::Axle &) =
 {
-	AxleFor<p2d::Rectangle, p2d::Rectangle>::p1callsi<&p2d::Rectangle::point, 0, 1>,
-	AxleFor<p2d::Rectangle, p2d::Rectangle>::p1callsi<&p2d::Rectangle::point, 2, 3>,
-	AxleFor<p2d::Rectangle, p2d::Rectangle>::p2callsi<&p2d::Rectangle::point, 0, 1>,
-	AxleFor<p2d::Rectangle, p2d::Rectangle>::p2callsi<&p2d::Rectangle::point, 2, 3>
+	AxleFor<p2d::Rectangle, p2d::Rectangle>::hp1callsi<&p2d::Rectangle::point, 0, 1>,
+	AxleFor<p2d::Rectangle, p2d::Rectangle>::hp1callsi<&p2d::Rectangle::point, 2, 3>,
+	AxleFor<p2d::Rectangle, p2d::Rectangle>::hp2callsi<&p2d::Rectangle::point, 0, 1>,
+	AxleFor<p2d::Rectangle, p2d::Rectangle>::hp2callsi<&p2d::Rectangle::point, 2, 3>
 };
 
 
@@ -160,12 +193,12 @@ bool p2d::CollisionTest::collidesRtoR(p2d::Rectangle * p1, p2d::Rectangle * p2)
 
 static void (*r_to_c_callbacks[6])(p2d::CollisionShape *, p2d::CollisionShape *, p2d::Axle &) =
 {
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1callsi<&p2d::Rectangle::point, 0, 1>,
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1callsi<&p2d::Rectangle::point, 2, 3>,
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1ip2<&p2d::Rectangle::point, 0, &p2d::Circle::centerRef>,
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1ip2<&p2d::Rectangle::point, 1, &p2d::Circle::centerRef>,
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1ip2<&p2d::Rectangle::point, 2, &p2d::Circle::centerRef>,
-	AxleFor<p2d::Rectangle, p2d::Circle>::p1ip2<&p2d::Rectangle::point, 3, &p2d::Circle::centerRef>
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1callsi<&p2d::Rectangle::point, 0, 1>,
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1callsi<&p2d::Rectangle::point, 2, 3>,
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1ip2<&p2d::Rectangle::point, 0, &p2d::Circle::centerRef>,
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1ip2<&p2d::Rectangle::point, 1, &p2d::Circle::centerRef>,
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1ip2<&p2d::Rectangle::point, 2, &p2d::Circle::centerRef>,
+	AxleFor<p2d::Rectangle, p2d::Circle>::hp1ip2<&p2d::Rectangle::point, 3, &p2d::Circle::centerRef>
 };
 
 bool p2d::CollisionTest::collidesRtoC(p2d::Rectangle * p1, p2d::Circle * p2)
@@ -175,8 +208,8 @@ bool p2d::CollisionTest::collidesRtoC(p2d::Rectangle * p1, p2d::Circle * p2)
 
 static void (*r_to_l_callbacks[4])(p2d::CollisionShape *, p2d::CollisionShape *, p2d::Axle &) =
 {
-	AxleFor<p2d::Rectangle, p2d::Line>::p1callsi<&p2d::Rectangle::point, 0, 1>,
-	AxleFor<p2d::Rectangle, p2d::Line>::p1callsi<&p2d::Rectangle::point, 2, 3>,
+	AxleFor<p2d::Rectangle, p2d::Line>::hp1callsi<&p2d::Rectangle::point, 0, 1>,
+	AxleFor<p2d::Rectangle, p2d::Line>::hp1callsi<&p2d::Rectangle::point, 2, 3>,
 	AxleFor<p2d::Rectangle, p2d::Line>::p2calls<&p2d::Line::p1, &p2d::Line::p2>,
 	AxleFor<p2d::Rectangle, p2d::Line>::op2calls<&p2d::Line::p1, &p2d::Line::p2>
 };
