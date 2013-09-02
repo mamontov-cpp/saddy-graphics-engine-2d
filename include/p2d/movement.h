@@ -265,7 +265,7 @@ class Movement
 			dp *= time;
 			return dp;
 		 }
-		 return dp;
+		 return _Value();
 	 }
 
 	 /*! Returns a position at specified time. 
