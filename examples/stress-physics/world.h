@@ -7,6 +7,7 @@
 #include <extra/periodicalevent.h>
 #include <scene.h>
 #include <p2d/worldsteptask.h>
+#include <p2d/findcontactpoints.h>
 #include <p2d/world.h>
 #include "wall.h"
 #include <label.h>
@@ -28,11 +29,16 @@ protected:
 
 	p2d::World * m_world;
 	p2d::WorldStepTask * m_steptask;
+	p2d::FindContactPoints * m_find;
 	Walls * m_walls;
-	/*! Increases score of player and decrements hp of enemy
+	/*! Makes node moving in opposite direction, of a wall
 		\param[in] ev event
 	 */
 	void onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev);
+	/*! Tests a collision between node and node
+		\param[in] ev event
+	 */
+	void onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev);
 public:
 
 	World();
@@ -48,4 +54,8 @@ public:
 		\param[in] o game object
 	 */
 	void addObject(WorldObject * o);
+
+	
 };
+
+

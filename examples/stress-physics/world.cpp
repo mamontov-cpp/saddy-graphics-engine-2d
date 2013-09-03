@@ -15,6 +15,7 @@ World::World()
 {
 	m_world = new p2d::World();
 	m_walls = new Walls();
+	m_find = new p2d::FindContactPoints();
 }
 
 
@@ -22,6 +23,7 @@ World::~World()
 {
 	delete m_world;
 	delete m_walls;
+	delete m_find;
 }
 
 
@@ -52,6 +54,7 @@ void World::run()
 
 	// SETUP WORLD CALLBACKS HERE!!!
 	m_world->addHandler(this, &World::onWallNode);
+	m_world->addHandler(this, &World::onNodeNode);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -69,7 +72,7 @@ void World::run()
 		// Add a gravity force
 		if (i != 0 && i != 2) 
 		{
-			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -1) ) );
+			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
 		}
 	}
 
@@ -79,8 +82,6 @@ void World::run()
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[1]->body()) );
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
 	
-	g[2]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[2]->body()) );
-	g[2]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[2]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[3]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[3]->body()) );
 	
@@ -146,13 +147,24 @@ void World::addObject(WorldObject * o)
 
 void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
 {
-	if (ev.m_object_2->type() == p2d::BT_LEFT || ev.m_object_2->type() == p2d::BT_RIGHT) 
+	p2d::BoundType bt = ev.m_object_2->type();
+	double x = fabs(ev.m_object_1->body()->tangentialVelocity().x());
+	double y = fabs(ev.m_object_1->body()->tangentialVelocity().y());
+	if (ev.m_object_2->type() == p2d::BT_LEFT)
 	{
-		ev.m_object_1->setHorizontalSpeed(ev.m_object_1->body()->tangentialVelocity().x() * -1);
+		ev.m_object_1->setHorizontalSpeed(x);
 	}
-	else
+	if (ev.m_object_2->type() == p2d::BT_RIGHT)
 	{
-		ev.m_object_1->setVerticalSpeed(ev.m_object_1->body()->tangentialVelocity().y() * -1);
+		ev.m_object_1->setHorizontalSpeed(-x);
+	}
+	if (ev.m_object_2->type() == p2d::BT_UP)
+	{
+		ev.m_object_1->setVerticalSpeed(-y);
+	}
+	if (ev.m_object_2->type() == p2d::BT_DOWN)
+	{
+		ev.m_object_1->setVerticalSpeed(y);
 	}
 }
 
@@ -171,3 +183,59 @@ void World::FPSLabel::render()
 	string() = hst::string::number(sad::Renderer::ref()->fps());
 	this->Label::render();
 }
+
+
+void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
+{
+	p2d::SetOfPointsPair pairs = m_find->invoke(ev.m_object_1->body()->currentShape(),
+												ev.m_object_1->body()->tangentialVelocity(),
+												ev.m_object_2->body()->currentShape(),
+												ev.m_object_2->body()->tangentialVelocity()
+											   );
+	if (pairs.size() == 1)
+	{
+		double m1 = ev.m_object_1->body()->weight().value();
+		double m2 = ev.m_object_2->body()->weight().value();
+
+		p2d::Point normal1 = pairs[0].p1();
+		normal1 -= ev.m_object_1->body()->currentShape()->center();
+		normal1 = p2d::unit(normal1);
+
+		p2d::Point normal2 = pairs[0].p2();
+		normal2 -= ev.m_object_2->body()->currentShape()->center();
+		normal2 = p2d::unit(normal2);
+
+		double project1 = p2d::scalar(ev.m_object_1->body()->tangentialVelocity(), normal1);
+		p2d::Vector normalPart1 = normal1;
+		normalPart1 *= project1;
+
+		p2d::Vector tangentialPart1 = ev.m_object_1->body()->tangentialVelocity();
+		tangentialPart1 -= normalPart1;
+
+		double project2 = p2d::scalar(ev.m_object_2->body()->tangentialVelocity(), normal2);
+		p2d::Vector normalPart2 = normal2;
+		normalPart2 *= project2;
+
+		p2d::Vector tangentialPart2 = ev.m_object_2->body()->tangentialVelocity();
+		tangentialPart2 -= normalPart2;
+
+		if (project1 > 0)
+		{
+			normalPart1 = normalPart1 * (m1 - m2) -  normalPart2 * (2 * m2);
+			normalPart1 /= -(m1 + m2);
+		}
+
+		ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
+		
+
+		if (project2 > 0)
+		{
+			normalPart2 = normalPart2 * (m2 - m1) -  normalPart1 * (2 * m1);
+			normalPart2 /= -(m1 + m2);
+		}
+
+		ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
+	}		   
+}
+
+

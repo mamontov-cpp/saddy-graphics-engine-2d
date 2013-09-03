@@ -13,7 +13,8 @@ const p2d::Vector & ElasticForce::value() const
 	ElasticForce * force = const_cast<ElasticForce *>(this);
 	p2d::Point s1 = m_first->currentShape()->center();	
 	p2d::Point s2 = m_second->currentShape()->center();
-	double k = 1;
+	double k = 20;
+	double b = 0.001;
 	double distance = s1.distanceTo(s2);
 	double delta = distance - m_defaultdistance;
 
@@ -21,6 +22,12 @@ const p2d::Vector & ElasticForce::value() const
 	force->m_value -= s2;
 	force->m_value = p2d::unit(force->m_value);
 	force->m_value *= k * delta;
+
+	p2d::Vector v = m_second->tangentialVelocity();
+	v *= p2d::modulo(v) * -1;
+	v *= b;
+	force->m_value += v;
+
 	return m_value;
 }
 
