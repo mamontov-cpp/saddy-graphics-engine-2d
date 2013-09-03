@@ -92,9 +92,9 @@ int main(int argc, char** argv)
 
 	SL_MESSAGE ("This is stress-test for physics engine.\nYou will see what capabilities does it have");
 
-	// Inits a renderer as non-fullscreen 640x480 window
+	// Inits a renderer as non-fullscreen 800x600 window
 	// And set PicoPNG loader for images
-	sad::Renderer::ref()->init(sad::Settings(640,480,false));
+	sad::Renderer::ref()->init(sad::Settings(800,600,false));
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	SL_MESSAGE("Renderer successfully initialized!");	
 	// Inits generator for spawns and random raings

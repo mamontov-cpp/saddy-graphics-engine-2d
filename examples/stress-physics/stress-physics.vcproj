@@ -186,6 +186,18 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\elasticforce.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gridnode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gridnodeedge.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -211,6 +223,18 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\elasticforce.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gridnode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gridnodedge.h"
+				>
+			</File>
 			<File
 				RelativePath=".\wall.h"
 				>

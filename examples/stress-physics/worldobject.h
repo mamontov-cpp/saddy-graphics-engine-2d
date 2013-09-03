@@ -1,6 +1,6 @@
-/*! \file gameobject.h
+/*! \file worldobject.h
 
-	Describes main game object, that is basic for all objects in game
+	Describes main object
  */
 #pragma once
 #include "p2d/body.h"
@@ -9,9 +9,7 @@
 #include "templates/hlvector.hpp"
 
 class World;
-/*! Describes a basic in-game object, which provides primitives, needed to 
-	describe all in-game objects
- */
+
 class WorldObject: public sad::BasicNode
 {
 	/* Declare metadata, needed to describe inheritance tree, name of class

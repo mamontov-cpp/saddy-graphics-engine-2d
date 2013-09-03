@@ -48,6 +48,8 @@ class Bonus;
 class Enemy;
 class ShootingEnemy;
 class SuperShootingEnemy;
+class GridNode;
+class GridNodeEdge;
 
 template<>
 class WorldObjectConstants<Player>
@@ -129,4 +131,20 @@ class WorldObjectConstants<SuperShootingEnemy>
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
+};
+
+
+template<>
+class WorldObjectConstants<GridNode>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
+
+template<>
+class WorldObjectConstants<GridNodeEdge>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
 };

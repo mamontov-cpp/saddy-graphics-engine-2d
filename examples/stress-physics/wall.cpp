@@ -14,7 +14,7 @@ void Wall::tryTeleport(p2d::Body * b)
   b->setCurrentPosition(pos);
 }
 
-#define PADDING -5
+#define PADDING 0
 
 p2d::Point Wall::position(const p2d::Point & ce)
 {

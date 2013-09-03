@@ -91,9 +91,11 @@ p2d::Body::Body()
 	
 	m_tangential = new p2d::TangentialMovement();
 	m_tangential->addListener( new move_t(this, &p2d::Body::notifyMove) );
+	m_tangential->setWeight(m_weight);
 
 	m_angular = new p2d::AngularMovement();
 	m_angular->addListener( new rotate_t(this, &p2d::Body::notifyRotate) );
+	m_angular->setWeight(m_weight);
 
 	p2d::Line * l = new p2d::Line();
 	l->setCutter(p2d::cutter(0,0,0,0));
@@ -115,6 +117,8 @@ void p2d::Body::setWeight(p2d::Weight * weight)
 {
 	delete m_weight;
 	m_weight = weight;
+	m_tangential->setWeight(m_weight);
+	m_angular->setWeight(m_weight);
 }
 
 void p2d::Body::setWeight(const p2d::Weight & weight)
