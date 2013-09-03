@@ -117,6 +117,8 @@ void World::run()
 	sc->add( new GridNodeEdge(g[5]->body(), g[8]->body()) );
 	sc->add( new GridNodeEdge(g[7]->body(), g[8]->body()) );
     
+	sc->add( new World::FPSLabel() );
+
 	for(int i = 0 ; i < 9; i++)
 	{
 		this->addObject(g[i]);
@@ -152,4 +154,20 @@ void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
 	{
 		ev.m_object_1->setVerticalSpeed(ev.m_object_1->body()->tangentialVelocity().y() * -1);
 	}
+}
+
+
+World::FPSLabel::FPSLabel()
+{
+	// Extract font with label
+	this->font()=sad::Renderer::ref()->fonts()->get("times_lg");
+	this->point()=pointf(0,sad::Renderer::ref()->settings().height());
+	// Set rendering point to current point
+	this->render_point()=this->point();
+}
+
+void World::FPSLabel::render()
+{
+	string() = hst::string::number(sad::Renderer::ref()->fps());
+	this->Label::render();
 }
