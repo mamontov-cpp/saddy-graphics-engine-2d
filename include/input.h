@@ -153,7 +153,7 @@ namespace sad
 			*/
             template<typename T>
 			BasicEventHandler(T * functor);
-		     
+		    
 			/*! Captures a simple functor
 			*/
 			BasicEventHandler( void (*functor)(const EventType &) );
@@ -167,6 +167,30 @@ namespace sad
 			/*! Is it is empty
 			*/
 			virtual bool empty() { return !m_functor; }
+	};
+	/*! Describes an event handler, which invokes specified method to handle methods
+	 */
+	template<typename EventType, typename Class>
+	class MethodEventHandler: public sad::BasicEventHandler<EventType>
+	{
+	 private:
+			Class * m_o;  //!< An object
+			void (Class::*m_f)(const EventType &); //!< A method
+	 public:
+			/*! Creates newhandler
+				 \param[in] o object
+				 \param[in] f function
+			*/
+		    MethodEventHandler(Class * o, void (Class::*f)(const EventType &))
+			: sad::BasicEventHandler<EventType>(), m_o(o), m_f(f) 
+			{}
+			/*! Invokes a functor with event
+			     \param[in] o event
+			*/
+			virtual void operator()(const EventType & o) { (m_o->*m_f)(o); }
+			/*! Is it is empty
+			*/
+			virtual bool empty() { return false; }
 	};
 	/*! Common input handler
 	*/
