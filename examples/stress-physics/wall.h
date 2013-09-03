@@ -31,6 +31,8 @@ class Wall: public sad::Object
 	  /*! Tries to teleport an object
 	   */
 	  void tryTeleport(p2d::Body * b);
+
+	  inline p2d::BoundType type() const { return m_type; }
 };
 
 

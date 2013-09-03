@@ -169,7 +169,7 @@ Sprite2DAdapter::Options * WorldObjectConstants<GridNode>::sprite()
 p2d::CollisionShape * WorldObjectConstants<GridNode>::shape()
 {
 	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(44);
+	c->setRadius(18);
 	return c;
 }
 

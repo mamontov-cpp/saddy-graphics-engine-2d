@@ -47,10 +47,10 @@ Walls::Walls()
 	double h = sad::Renderer::ref()->settings().height();
 	
 	hst::vector< minimal_t > pairs;
-	pairs << minimal_t( p2d::BT_LEFT, -14 );
-	pairs << minimal_t( p2d::BT_RIGHT, w + 14);
-	pairs << minimal_t( p2d::BT_UP, h + 14 );
-	pairs << minimal_t( p2d::BT_DOWN, -14 );
+	pairs << minimal_t( p2d::BT_LEFT, 0 );
+	pairs << minimal_t( p2d::BT_RIGHT, w );
+	pairs << minimal_t( p2d::BT_UP, h );
+	pairs << minimal_t( p2d::BT_DOWN, 0 );
 
 	for(size_t i = 0; i < pairs.size(); i++)
 	{

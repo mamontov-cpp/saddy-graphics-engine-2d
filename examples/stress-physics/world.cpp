@@ -64,7 +64,7 @@ void World::run()
 		g[i] = new GridNode();
 		g[i]->setPosition(p2d::Point(300 + (i % 3) * 100, 400 - (i / 3) * 100));
 		// Add a gravity force
-		if (i > 0) 
+		if (i != 0 && i != 2) 
 		{
 			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -1) ) );
 		}
@@ -76,8 +76,8 @@ void World::run()
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[1]->body()) );
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
 	
-	g[2]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[2]->body()) );
-	g[2]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[2]->body()) );
+	//g[2]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[2]->body()) );
+	//g[2]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[2]->body()) );
 	
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[3]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[3]->body()) );
@@ -142,5 +142,12 @@ void World::addObject(WorldObject * o)
 
 void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
 {
-	ev.m_object_1->setVerticalSpeed(ev.m_object_1->body()->tangentialVelocity().y() * -1);
+	if (ev.m_object_2->type() == p2d::BT_LEFT || ev.m_object_2->type() == p2d::BT_RIGHT) 
+	{
+		ev.m_object_1->setHorizontalSpeed(ev.m_object_1->body()->tangentialVelocity().x() * -1);
+	}
+	else
+	{
+		ev.m_object_1->setVerticalSpeed(ev.m_object_1->body()->tangentialVelocity().y() * -1);
+	}
 }
