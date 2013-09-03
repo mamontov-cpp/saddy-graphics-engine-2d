@@ -298,12 +298,12 @@ bool p2d::CollisionTest::collidesBtoC(p2d::Bound * p1, p2d::Circle * p2)
 	}
 	if (p1->type() == BT_UP)
 	{
-		double p = p2->center().y() - p2->radius();
+		double p = p2->center().y() + p2->radius();
 		return p >= p1->position();
 	}
 	if (p1->type() == BT_DOWN)
 	{
-		double p = p2->center().y() + p2->radius();
+		double p = p2->center().y() - p2->radius();
 		return p <= p1->position();
 	}
 	return false;

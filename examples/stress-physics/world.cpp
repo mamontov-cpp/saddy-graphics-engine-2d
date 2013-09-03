@@ -2,6 +2,7 @@
 #include "worldobject.h"
 #include <orthocamera.h>
 #include <texturemanager.h>
+#include <input.h>
 #include <extra/background.h>
 #include "worldobject.h"
 
@@ -24,6 +25,8 @@ World::~World()
 }
 
 
+
+
 void World::run()
 {
 	
@@ -35,7 +38,7 @@ void World::run()
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
-	
+
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();
 	SL_MESSAGE("Mips built successfully");	
