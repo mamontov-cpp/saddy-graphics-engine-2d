@@ -59,7 +59,7 @@ void World::run()
 
 	// Produce a grid of nodes
 	GridNode * g[9];
-	for(int i = 0; i < 2; i++)
+	for(int i = 0; i < 9; i++)
 	{
 		g[i] = new GridNode();
 		g[i]->setPosition(p2d::Point(300 + (i % 3) * 100, 400 - (i / 3) * 100));
@@ -74,11 +74,10 @@ void World::run()
 
 	// TODO: Simplify
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[1]->body()) );
-	//g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
+	g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
 	
-	//g[2]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[2]->body()) );
-	//g[2]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[2]->body()) );
-	/*
+	g[2]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[2]->body()) );
+	g[2]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[2]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[3]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[3]->body()) );
 	
@@ -101,9 +100,8 @@ void World::run()
 
 	g[8]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[8]->body()) );
 	g[8]->body()->tangentialForces().add( new ElasticForce(g[7]->body(), g[8]->body()) );
-    */
+    
 	sc->add( new GridNodeEdge(g[0]->body(), g[1]->body()) );
-	/*
 	sc->add( new GridNodeEdge(g[1]->body(), g[2]->body()) );
 	sc->add( new GridNodeEdge(g[0]->body(), g[3]->body()) );
 	sc->add( new GridNodeEdge(g[1]->body(), g[4]->body()) );
@@ -115,8 +113,8 @@ void World::run()
 	sc->add( new GridNodeEdge(g[6]->body(), g[7]->body()) );
 	sc->add( new GridNodeEdge(g[5]->body(), g[8]->body()) );
 	sc->add( new GridNodeEdge(g[7]->body(), g[8]->body()) );
-    */
-	for(int i = 0 ; i < 2; i++)
+    
+	for(int i = 0 ; i < 9; i++)
 	{
 		this->addObject(g[i]);
 	}
