@@ -6,14 +6,13 @@
 #include "p2d/body.h"
 #include "sprite2dadapter.h"
 #include "primitives/object.h"
-#include "abstractautomaticgun.h"
 #include "templates/hlvector.hpp"
 
-class Game;
+class World;
 /*! Describes a basic in-game object, which provides primitives, needed to 
 	describe all in-game objects
  */
-class GameObject: public sad::BasicNode
+class WorldObject: public sad::BasicNode
 {
 	/* Declare metadata, needed to describe inheritance tree, name of class
 	   This metadata can be used where real type is needed - for most part,
@@ -29,33 +28,27 @@ class GameObject: public sad::BasicNode
 	 Sprite2DAdapter * m_sprite;
 	 /*! An object is linked to game to forward the in-game to a game object 
 	  */
-	 Game * m_game;
-	 /*! Defines amount of times, which game object can be hit (one by default)
-	  */
-	 int m_hp;
-	 /*! An inner guns for object
-	  */
-	 hst::vector<AbstractAutomaticGun * > m_guns;
+	 World * m_world;
 	 /*! A first listener for movement of body
 	  */
-	 p2d::MovementDeltaListener<GameObject, p2d::Vector> * m_listener1;
+	 p2d::MovementDeltaListener<WorldObject, p2d::Vector> * m_listener1;
 	 /*! A second listener for movement of body
 	  */
-	 p2d::MovementDeltaListener<GameObject, double> * m_listener2;
+	 p2d::MovementDeltaListener<WorldObject, double> * m_listener2;
  protected:
 	 /*! Inits game object parameters from constants of specified type
 	  */
 	 template<typename T> void initFromConstants()
 	 {
-		 Sprite2DAdapter::Options * o = GameObjectConstants<T>::sprite();
+		 Sprite2DAdapter::Options * o = WorldObjectConstants<T>::sprite();
 		 this->m_sprite->set(*o);
 		 delete o;
-		 this->m_body->setShape(GameObjectConstants<T>::shape());
+		 this->m_body->setShape(WorldObjectConstants<T>::shape());
 	 }
  public:
 	 /*! Creates an empty game object
 	  */
-	 GameObject();
+	 WorldObject();
 	 /*! Moves an object sprite by specified direction.
 	     Note, that this function should be called only from body's listener,
 		 to preserve synchronization between sprite and physical body
@@ -100,34 +93,14 @@ class GameObject: public sad::BasicNode
 	 /*! Sets a game, which object belongs to
 		 \param[in] g game
 	  */
-	 void setGame(Game * g);
+	 void setWorld(World * g);
 	 /*! The object does not own anything, if game is not null
 	  */
-	 ~GameObject();
+	 ~WorldObject();
 	 /*! Returns body of game object	
 	     \return body of game object
 	  */ 
 	 p2d::Body * body();
-	 /*! Teleports a game object to specified point now
-		 \param[in] p new center of game object
-	  */
-	 void teleportNow(const p2d::Point & p);
-	 /*! Teleports a game object on next iteration at start of next iteration
-		 \param[in] p new center of game object
-	  */
-	 void teleportLater(const p2d::Point & p);
-	 /*! Returns remaining hit points
-	  */
-	 int hitPoints() const;
-	 /*! Increments hit points, by specified count
-		 \param[in] count how much hit points should be incremented
-	  */
-	 void incrementHP(int count);
-	 /*! Decrements hit points, by specified count.
-	     If hit points became less or equal to zero, game object is removed
-		 \param[in] count how much
-	  */ 
-	 void decrementHP(int count);
 	 /*! Called, when object is rendered. Object can easily reimplement
 		 it to work with AI, or do something other (like shoot). 
 	  */
@@ -135,7 +108,7 @@ class GameObject: public sad::BasicNode
 	 /*! Returns a game from game object
 		 \return game
 	  */
-	 Game * game();
+	 World * world();
 	 /*! Returns a position of game object
 	 	 \return a positions
 	  */
@@ -144,13 +117,14 @@ class GameObject: public sad::BasicNode
 		 \param[in] p point
 	  */
 	 void setPosition(const p2d::Point & p);
+	 /*! Sets a tangential velocity
+		 \param[in] v vector
+	  */
+	 void setTangentialVelocity(const p2d::Vector & v);
 	 /*! Returns an angle of game object
 		 \return an angle
 	  */
 	 double angle() const;
-	 /*! Adds a new gun for object
-		 \param[in] gun a gun
-	  */
-	 void addGun(AbstractAutomaticGun * gun);
+
 };
 
