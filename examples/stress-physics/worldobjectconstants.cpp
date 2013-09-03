@@ -156,3 +156,29 @@ p2d::CollisionShape * WorldObjectConstants<SuperShootingEnemy>::shape()
 	return c;
 }
 
+
+Sprite2DAdapter::Options * WorldObjectConstants<GridNode>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(178,90),hPointF(265,177));
+	o->Rectangle = hRectF(hPointF(-18, -18), hPointF(18, 18));
+	return o;
+}
+
+p2d::CollisionShape * WorldObjectConstants<GridNode>::shape()
+{
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(44);
+	return c;
+}
+
+
+Sprite2DAdapter::Options * WorldObjectConstants<GridNodeEdge>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(89,89),hPointF(176,111));
+	o->Rectangle = hRectF(hPointF(-43, -11), hPointF(43, 11));
+	return o;
+}
