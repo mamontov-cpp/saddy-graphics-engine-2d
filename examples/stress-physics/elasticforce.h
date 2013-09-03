@@ -13,7 +13,7 @@ class ElasticForce: public p2d::TangentialForce
  private:
 	 p2d::Body * m_first;
 	 p2d::Body * m_second;
-	 p2d::Point  m_defaultdistance;
+	 double  m_defaultdistance;
  public:
 	/*! An elastic force
 		\param[in] first a first body

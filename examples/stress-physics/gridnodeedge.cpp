@@ -17,12 +17,12 @@ void GridNodeEdge::render()
 {
 	p2d::Point p1 = m_b1->currentShape()->center();
 	p2d::Point p2 = m_b2->currentShape()->center();
-	hRectF r(hPointF(-43, -11), hPointF(43, 11));
+	hRectF r(hPointF(0, -11), hPointF(0, 11));
 	double distance = p1.distanceTo(p2) / 2;
-	r[0].setX(r[0].x() - distance + 43);
-	r[2].setX(r[2].x() + distance - 43);
-	r[1].setX(r[1].x() + distance - 43);
-	r[3].setX(r[3].x() - distance + 43);
+	r[0].setX(r[0].x() - distance );
+	r[2].setX(r[2].x() + distance );
+	r[1].setX(r[1].x() + distance );
+	r[3].setX(r[3].x() - distance );
 
 	this->m_ad->rotate(this->m_ad->angle() * -1);
 	this->m_ad->setRect(r);
