@@ -9,7 +9,7 @@
 #include <p2d/worldsteptask.h>
 #include <p2d/world.h>
 #include "wall.h"
-
+#include <label.h>
 class WorldObject;
 class GridNode;
 /*! Main class for application
@@ -17,6 +17,15 @@ class GridNode;
 class World
 {
 protected:
+	/*! Describes a label, which displays current FPS
+	 */
+	class FPSLabel: public Label
+	{
+	 public:
+		 FPSLabel();
+		 virtual void render();
+	};
+
 	p2d::World * m_world;
 	p2d::WorldStepTask * m_steptask;
 	Walls * m_walls;

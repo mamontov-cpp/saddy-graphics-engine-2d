@@ -41,7 +41,7 @@ void StateLabel::render()
 		m_last_updated = clock();
 	   (this->*m_text)();
 	}
-	// We push and restore transformation to make sur, that no transformation
+	// We push and restore transformation to make sure, that no transformation
 	// will affect label
 	
 	// You can remove this code, if you think no transformations will occur
