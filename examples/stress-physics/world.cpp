@@ -207,7 +207,7 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		// A before colliison time
 		if (p2d::scalar(dc, dv) < 0)
 		{
-			time *= -2;
+			time *= -1;
 		}
 
 		double m1 = ev.m_object_1->body()->weight().value();
