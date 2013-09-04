@@ -187,15 +187,33 @@ void World::FPSLabel::render()
 
 void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 {
+	p2d::Vector av1 = ev.m_object_1->body()->averageChangeIndependentTangentialVelocity();
+	p2d::Vector av2 = ev.m_object_2->body()->averageChangeIndependentTangentialVelocity();
+
 	p2d::SetOfPointsPair pairs = m_find->invoke(ev.m_object_1->body()->currentShape(),
-												ev.m_object_1->body()->tangentialVelocity(),
+												av1,
 												ev.m_object_2->body()->currentShape(),
-												ev.m_object_2->body()->tangentialVelocity()
+												av2
 											   );
-	if (pairs.size() == 1)
+
+	p2d::Vector dv = av1 - av2;
+	double mdv = p2d::modulo(av1 - av2);
+	if (pairs.size() == 1 && fabs(mdv) > 0.0000001)
 	{
+		// Compute time of impact
+		p2d::Vector dc = pairs[0].p1() - pairs[0].p2();
+		double      mdc = p2d::distance(pairs[0].p1(), pairs[0].p2());
+		double time = mdc / mdv;
+		// A before colliison time
+		if (p2d::scalar(dc, dv) < 0)
+		{
+			time *= -2;
+		}
+
 		double m1 = ev.m_object_1->body()->weight().value();
 		double m2 = ev.m_object_2->body()->weight().value();
+
+		
 
 		p2d::Point normal1 = pairs[0].p1();
 		normal1 -= ev.m_object_1->body()->currentShape()->center();
