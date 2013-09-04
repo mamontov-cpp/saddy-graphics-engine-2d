@@ -55,6 +55,7 @@ public:
 	 */
 	void addObject(WorldObject * o);
 
+	void onMouseMove(const sad::Event & ev);
 	
 };
 

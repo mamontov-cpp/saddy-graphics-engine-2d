@@ -83,7 +83,8 @@ namespace sad
 		bool                 fullscreen;            //!< Full screen
 		unsigned int         width;                 //!< Width of window
 		unsigned int         height;                //!< Height of window
-
+		unsigned int         clientwidth;           //!< A client width of window
+		unsigned int         clientheight;          //!< A client height of window
 		inline Window() {}
 	};	
 
