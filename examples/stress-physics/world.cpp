@@ -41,6 +41,7 @@ void World::run()
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
+	sad::Renderer::ref()->controls()->setMouseMoveHandler( new sad::MethodEventHandler<sad::Event, World>(this, &World::onMouseMove));
 
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();
@@ -81,9 +82,11 @@ void World::run()
 
 	// TODO: Simplify
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[1]->body()) );
+	g[1]->body()->tangentialForces().add( new ElasticForce(g[2]->body(), g[1]->body()) );
 	g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
 	
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[3]->body()) );
+	g[3]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[3]->body()) );
 	g[3]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[3]->body()) );
 	
 
@@ -94,7 +97,7 @@ void World::run()
 
 	g[5]->body()->tangentialForces().add( new ElasticForce(g[2]->body(), g[5]->body()) );
 	g[5]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[5]->body()) );
-	g[5]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[8]->body()) );
+	g[5]->body()->tangentialForces().add( new ElasticForce(g[8]->body(), g[5]->body()) );
 
 	g[6]->body()->tangentialForces().add( new ElasticForce(g[3]->body(), g[6]->body()) );
 	g[6]->body()->tangentialForces().add( new ElasticForce(g[7]->body(), g[6]->body()) );
@@ -281,4 +284,9 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 	}
 }
 
+
+void World::onMouseMove(const sad::Event & ev)
+{
+	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
+}
 

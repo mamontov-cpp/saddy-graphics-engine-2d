@@ -101,6 +101,25 @@ bool sad::Renderer::createWindow()
 		                         0,0,rect.right-rect.left,rect.bottom-rect.top,
 								 NULL,NULL,m_window.hInstance,NULL);
 
+	if (m_window.hWND)
+	{
+	  SetWindowPos(m_window.hWND, NULL, 0, 0, rect.right-rect.left,rect.bottom-rect.top, SWP_NOSENDCHANGING);  
+	  RECT r;
+	  GetWindowRect(m_window.hWND, &r);
+	  //SL_WARNING(fmt::Format("Created window with {0} {1} {2} {3}") << r.left << r.top << r.right << r.bottom);
+	}
+	// Compute how screen should be mapped if CreateWindowExA creates smaller window
+	// than requested
+	m_window.clientwidth = m_glsettings.width();
+	m_window.clientheight = m_glsettings.height();
+
+	//long dx = (rect.right - rect.left) - (r.right - r.left);
+	//long dy = (rect.bottom - rect.top) - (r.bottom - r.top);
+	
+	//m_window.clientwidth -= dx;
+	//m_window.clientheight -= dy;
+
+	
 	//Handle error
 	if (!m_window.hWND)
 	{
@@ -140,7 +159,7 @@ bool sad::Renderer::createWindow()
 	ShowWindow(m_window.hWND,SW_SHOW);
 	SetForegroundWindow(m_window.hWND);
 	SetFocus(m_window.hWND);
-	reshape(m_glsettings.width(),m_glsettings.height());
+	reshape(m_window.clientwidth,m_window.clientheight);
 
 	if (!initGLRendering())
 	{
