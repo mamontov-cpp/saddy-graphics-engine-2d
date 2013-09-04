@@ -287,6 +287,11 @@ public:
 		\return average velocity
 	 */
 	p2d::Vector averageChangeIndependentTangentialVelocity(); 
+	/*! Returns a tangential velocity at specified time
+		\param[in] time a time
+		\return velocity
+	 */
+	p2d::Vector tangentialVelocityAt(double time);
 };
 
 }
