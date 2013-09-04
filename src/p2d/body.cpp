@@ -326,3 +326,7 @@ p2d::AngularActingForces & p2d::Body::angularForces()
 	return m_angular->forces();
 }
 
+p2d::Vector p2d::Body::averageChangeIndependentTangentialVelocity()
+{
+	return m_tangential->averageChangeIndependentVelocityPer(this->timeStep());
+}

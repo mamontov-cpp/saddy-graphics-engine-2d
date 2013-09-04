@@ -397,6 +397,20 @@ class Movement
 		 m_next_position.setValue(v);
 		 m_next_position_time.setValue(time);
 	 }
+	 /*! Computes average velocity, based on force
+		 Note, that this function ignores any of velocity changes, made by calling
+		 sheduleVelocity or sheduleVelocityAt
+		 \param[in] time a time for velocity
+		 \return a velocity
+	  */
+	 _Value averageChangeIndependentVelocityPer(double  time)
+	 {
+		 _Value p = p2d::TickableDefaultValue<_Value>::zero(); 
+		 this->acceleration(p);
+		 p *= time / 2;
+		 p += m_velocity;
+		 return p;
+	 }
 };
 
 /*! A angular movement, as a rotation around ceneter

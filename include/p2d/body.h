@@ -283,6 +283,10 @@ public:
 	/*! Returns an angular forces, acting on body
 	 */
 	p2d::AngularActingForces  & angularForces();
+	/*! Returns an average velocity
+		\return average velocity
+	 */
+	p2d::Vector averageChangeIndependentTangentialVelocity(); 
 };
 
 }
