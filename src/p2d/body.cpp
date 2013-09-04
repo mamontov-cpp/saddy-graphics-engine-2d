@@ -330,3 +330,9 @@ p2d::Vector p2d::Body::averageChangeIndependentTangentialVelocity()
 {
 	return m_tangential->averageChangeIndependentVelocityPer(this->timeStep());
 }
+
+p2d::Vector p2d::Body::tangentialVelocityAt(double time)
+{
+	return m_tangential->velocityAt(time, this->timeStep());
+}
+

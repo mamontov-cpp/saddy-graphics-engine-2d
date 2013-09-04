@@ -14,6 +14,7 @@
 World::World()
 {
 	m_world = new p2d::World();
+	m_world->setDetector(new p2d::MultisamplingCollisionDetector(3));
 	m_walls = new Walls();
 	m_find = new p2d::FindContactPoints();
 }
@@ -198,12 +199,12 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 
 	p2d::Vector dv = av1 - av2;
 	double mdv = p2d::modulo(av1 - av2);
-	if (pairs.size() == 1 && fabs(mdv) > 0.0000001)
+	if (pairs.size() > 0 && fabs(mdv) > 0.0000001)
 	{
 		// Compute time of impact
 		p2d::Vector dc = pairs[0].p1() - pairs[0].p2();
 		double      mdc = p2d::distance(pairs[0].p1(), pairs[0].p2());
-		double time = mdc / mdv;
+		double time = mdc / mdv - 0.00001;
 		// A before colliison time
 		if (p2d::scalar(dc, dv) > 0)
 		{
@@ -223,37 +224,61 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		normal2 -= ev.m_object_2->body()->currentShape()->center();
 		normal2 = p2d::unit(normal2);
 
-		double project1 = p2d::scalar(ev.m_object_1->body()->tangentialVelocity(), normal1);
+		p2d::Vector v1 = ev.m_object_1->body()->tangentialVelocityAt(time);
+		double project1 = p2d::scalar(v1, normal1);
 		p2d::Vector normalPart1 = normal1;
 		normalPart1 *= project1;
 
-		p2d::Vector tangentialPart1 = ev.m_object_1->body()->tangentialVelocity();
+		p2d::Vector tangentialPart1 = v1;
 		tangentialPart1 -= normalPart1;
 
-		double project2 = p2d::scalar(ev.m_object_2->body()->tangentialVelocity(), normal2);
+		p2d::Vector v2 = ev.m_object_1->body()->tangentialVelocityAt(time);
+		double project2 = p2d::scalar(v2, normal2);
 		p2d::Vector normalPart2 = normal2;
 		normalPart2 *= project2;
 
-		p2d::Vector tangentialPart2 = ev.m_object_2->body()->tangentialVelocity();
+		p2d::Vector tangentialPart2 = v2;
 		tangentialPart2 -= normalPart2;
 
-		if (project1 > 0)
-		{
-			normalPart1 = normalPart1 * (m1 - m2) -  normalPart2 * (2 * m2);
-			normalPart1 /= -(m1 + m2);
-		}
-
+		normalPart1 = normalPart1 * (m1 - m2) -  normalPart2 * (2 * m2);
+		normalPart1 /= -(m1 + m2);
+		
 		ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
 		
+		p2d::Vector position1 = ev.m_object_1->body()->currentShape()->center();
+		position1 += av1 * time;
+		ev.m_object_1->body()->shedulePosition(position1);
 
-		if (project2 > 0)
-		{
-			normalPart2 = normalPart2 * (m2 - m1) -  normalPart1 * (2 * m1);
-			normalPart2 /= -(m1 + m2);
-		}
+
+		normalPart2 = normalPart2 * (m2 - m1) -  normalPart1 * (2 * m1);
+		normalPart2 /= -(m1 + m2);
 
 		ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
-	}		   
+
+		p2d::Vector position2 = ev.m_object_2->body()->currentShape()->center();
+		position2 += av2 * time;
+		ev.m_object_2->body()->shedulePosition(position2);
+	}
+	else
+	{
+		hst::string tpl = "Cannot find a contact points. Performing an object dump\n";
+		tpl <<  "1st body:\ncenter at ({0},{1})\nradius {2}\n";
+		tpl <<  "velocity ({3},{4})\n";
+		tpl <<  "2nd body:\ncenter at ({5},{6})\nradius {7}\n";
+		tpl <<  "velocity ({8},{9})\n";
+		
+		p2d::Point center1 = ev.m_object_1->body()->currentShape()->center();
+		double radius1 = static_cast<p2d::Circle*>(ev.m_object_1->body()->currentShape())->radius();
+
+		p2d::Point center2 = ev.m_object_2->body()->currentShape()->center();
+		double radius2 = static_cast<p2d::Circle*>(ev.m_object_2->body()->currentShape())->radius();
+
+		SL_CRITICAL(fmt::Format(tpl) << center1.x() << center1.y() << radius1
+									 << av1.x() << av1.y()
+									 << center2.x() << center2.y() << radius2
+									 << av2.x() << av2.y()
+			       );
+	}
 }
 
 
