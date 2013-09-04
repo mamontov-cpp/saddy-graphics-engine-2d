@@ -205,7 +205,7 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		double      mdc = p2d::distance(pairs[0].p1(), pairs[0].p2());
 		double time = mdc / mdv;
 		// A before colliison time
-		if (p2d::scalar(dc, dv) < 0)
+		if (p2d::scalar(dc, dv) > 0)
 		{
 			time *= -1;
 		}
