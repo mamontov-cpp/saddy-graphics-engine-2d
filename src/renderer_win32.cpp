@@ -28,7 +28,9 @@ void sad::Renderer::releaseWindow()
 	  ShowCursor(TRUE);
   }
   
-  //Release rendering context
+  // Unload all textures, because their freeing will cause segfault on some machines
+  this->m_texture_manager->unload();
+  // Release rendering context
   if (m_window.hRC)
   {
 	  if (!wglMakeCurrent(NULL,NULL)) 

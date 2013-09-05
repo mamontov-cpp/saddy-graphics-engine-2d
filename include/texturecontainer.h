@@ -47,6 +47,9 @@ class TextureContainer
 		/*! Clears a container
 		 */
 		void clear();
+		/*! Unloads every texture from a container
+		 */
+		void unload();
 };
 
 }

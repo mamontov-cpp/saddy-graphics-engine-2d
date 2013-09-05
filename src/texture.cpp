@@ -40,8 +40,7 @@ Texture::Texture()
 Texture::~Texture()
 {
 	m_data.clear();			/*!< Cleaning the container of pixels.  */
-	if (m_generated)
-		glDeleteTextures(1,&m_id);
+	this->unload();
 }
 void Texture::disable()
 {
@@ -234,5 +233,13 @@ void Texture::save(const char * method, const char * file)
 TextureLoader::~TextureLoader()
 {
 
+}
+
+
+void Texture::unload()
+{
+	if (m_generated)
+		glDeleteTextures(1,&m_id);
+	m_generated = false;
 }
 
