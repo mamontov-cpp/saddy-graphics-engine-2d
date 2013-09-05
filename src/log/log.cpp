@@ -1,5 +1,6 @@
 #include "../../include/3rdparty/format/format.h"
 #include "../../include/renderer.h"
+#include "../../include/texturemanager.h"
 
 static const char * logmesgs[6] = {
 	"FATAL",
@@ -304,6 +305,13 @@ void sad::log::Console::initConsole()
 		m_oldattributes = csbiInfo.wAttributes;
 	}
 }
+
+#endif
+
+
+
+#ifdef  WIN32
+
 
 #endif
 

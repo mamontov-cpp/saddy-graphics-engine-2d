@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include "input.h"
+#include "texturemanager.h"
 #include "3rdparty/format/format.h"
 
 
@@ -17,8 +18,28 @@
 #endif
 
 
-static  hst::hash<HWND, sad::Renderer *> m_renderers;
+hst::hash<HWND, sad::Renderer *> m_renderers;
 static  os::mutex m_data;
+
+
+
+static int WINAPI  handleClosing(DWORD dwCtrlType)
+{
+	if (dwCtrlType == CTRL_CLOSE_EVENT)
+	{
+		for(hst::hash<HWND, sad::Renderer *>::iterator it = m_renderers.begin();
+			it != m_renderers.end();
+			it++)
+		{
+			it.value()->textures()->unload();
+		}
+	}
+	return FALSE;
+}
+
+
+
+
 void sad::Renderer::mainLoop()
 {
  m_data.lock();
@@ -31,6 +52,10 @@ void sad::Renderer::mainLoop()
 	 m_renderers.insert(m_window.hWND, this);
  }
  m_data.unlock();
+
+
+ SetConsoleCtrlHandler(handleClosing, FALSE);
+ SetConsoleCtrlHandler(handleClosing, TRUE);
 
  int frames=0;
  
@@ -79,6 +104,7 @@ void sad::Renderer::mainLoop()
   }
  this->controls()->postQuit();
  m_window.active=false;
+ m_renderers.remove(m_window.hWND);
  this->releaseWindow();
 }
 
