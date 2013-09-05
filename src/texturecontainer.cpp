@@ -45,3 +45,9 @@ void  sad::TextureContainer::clear()
 		delete it.value();
 	m_data.clear();
 }
+
+void sad::TextureContainer::unload()
+{
+	for (hst::hash<hst::string,sad::Texture *>::iterator it=m_data.begin();it!=m_data.end();it++)
+		it.value()->unload();
+}

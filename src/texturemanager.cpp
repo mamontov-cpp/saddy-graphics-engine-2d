@@ -128,3 +128,16 @@ bool sad::TextureManager::hasContainer(const hst::string & name) const
 {
 	return m_containers.contains(name);
 }
+
+void sad::TextureManager::unload()
+{
+	m_m.lock();
+
+	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+		it!=m_containers.end();
+		it++
+		)
+		it.value()->unload();
+
+	m_m.unlock();
+}

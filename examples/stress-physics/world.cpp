@@ -55,7 +55,7 @@ void World::run()
 
 
 	// SETUP WORLD CALLBACKS HERE!!!
-	m_world->addHandler(this, &World::onWallNode);
+	//m_world->addHandler(this, &World::onWallNode);
 	m_world->addHandler(this, &World::onNodeNode);
 
 	// Add walls

@@ -77,6 +77,9 @@ namespace sad
 			\param[in] l loader
 		 */
 		void setLoader(const hst::string & format, sad::TextureLoader * l);
+		/*! Unloads all textures from videocard memory
+		 */
+		void unload();
 	};
 
 }

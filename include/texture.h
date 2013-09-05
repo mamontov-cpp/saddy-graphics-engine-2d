@@ -208,5 +208,8 @@ namespace sad
 		inline Uint8& bpp()      { return m_bpp;}
 		inline Uint8 * data() const { return m_data.data(); }
 		inline hst::vector<Uint8> & vdata() { return m_data; }
+		/*! Unloads a texture from videocard memory
+		 */
+		void unload();
 	};
 }
