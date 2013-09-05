@@ -23,6 +23,9 @@ class Wall: public sad::Object
 		  \param[in] c circle
 	   */
 	  p2d::Point position(const p2d::Point & ce);
+	  /*! A body
+	   */
+	  p2d::Body * m_body;
   public:
 	  /*! A type of wall
 		  \param[in] w wall type
@@ -33,6 +36,8 @@ class Wall: public sad::Object
 	  void tryTeleport(p2d::Body * b);
 
 	  inline p2d::BoundType type() const { return m_type; }
+	  inline p2d::Body * body() { return m_body; }
+	  inline void setBody(p2d::Body * b) { m_body = b; }
 };
 
 

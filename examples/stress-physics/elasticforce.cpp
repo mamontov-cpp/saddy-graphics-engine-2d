@@ -23,10 +23,10 @@ const p2d::Vector & ElasticForce::value() const
 	force->m_value = p2d::unit(force->m_value);
 	force->m_value *= k * delta;
 
-	p2d::Vector v = m_second->tangentialVelocity();
-	v *= p2d::modulo(v) * -1;
-	v *= b;
-	force->m_value += v;
+	//p2d::Vector v = m_second->tangentialVelocity();
+	//v *= p2d::modulo(v) * -1;
+	//v *= b;
+	//force->m_value += v;
 
 	return m_value;
 }

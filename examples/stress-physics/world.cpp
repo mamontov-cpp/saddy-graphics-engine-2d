@@ -154,21 +154,49 @@ void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
 	p2d::BoundType bt = ev.m_object_2->type();
 	double x = fabs(ev.m_object_1->body()->tangentialVelocity().x());
 	double y = fabs(ev.m_object_1->body()->tangentialVelocity().y());
+	
+	p2d::Vector av1 = ev.m_object_1->body()->averageChangeIndependentTangentialVelocity();
+	p2d::SetOfPointsPair pairs = m_find->invoke(ev.m_object_1->body()->currentShape(),
+												av1,
+												ev.m_object_2->body()->currentShape(),
+												p2d::Vector(0,0)
+											   );
+	if (pairs.size() > 0)
+	{
+		double time = 0;
+		double x1 = pairs[0].p1().x();
+		double x2 = pairs[0].p2().x();
+		double y1 = pairs[0].p1().y();
+		double y2 = pairs[0].p2().y();
+		if (non_fuzzy_zero(av1.x()) )
+		{
+			time = (x1 - x2) / (- (av1.x()));  
+		}
+		else
+		{
+			time = (y1 - y2) / (- (av1.y()));  
+		}
+		p2d::Point p = ev.m_object_1->body()->currentShape()->center();
+		p += av1 * time;
+		ev.m_object_1->body()->shedulePosition(p);
+	}
+
 	if (ev.m_object_2->type() == p2d::BT_LEFT)
 	{
-		ev.m_object_1->setHorizontalSpeed(x);
+		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(x,ev.m_object_1->body()->tangentialVelocity().y()) );
 	}
 	if (ev.m_object_2->type() == p2d::BT_RIGHT)
 	{
-		ev.m_object_1->setHorizontalSpeed(-x);
+		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(-x,ev.m_object_1->body()->tangentialVelocity().y()) );
+	
 	}
 	if (ev.m_object_2->type() == p2d::BT_UP)
 	{
-		ev.m_object_1->setVerticalSpeed(-y);
+		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(ev.m_object_1->body()->tangentialVelocity().x(), -y) );	
 	}
 	if (ev.m_object_2->type() == p2d::BT_DOWN)
 	{
-		ev.m_object_1->setVerticalSpeed(y);
+		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(ev.m_object_1->body()->tangentialVelocity().x(), y) );	
 	}
 }
 
@@ -205,15 +233,27 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 	if (pairs.size() > 0 && fabs(mdv) > 0.0000001)
 	{
 		// Compute time of impact
-		p2d::Vector dc = pairs[0].p1() - pairs[0].p2();
-		double      mdc = p2d::distance(pairs[0].p1(), pairs[0].p2());
-		double time = mdc / mdv;
-		// A before colliison time
-		if (p2d::scalar(dc, dv) > 0)
+		double x1 = pairs[0].p1().x();
+		double y1 = pairs[0].p1().y();
+		double x2 = pairs[0].p2().x();
+		double y2 = pairs[0].p2().y();
+
+		double avx1 = av1.x();
+		double avy1 = av1.y();
+		double avx2 = av2.x();
+		double avy2 = av2.y();
+
+		double time = 0;
+		if (non_fuzzy_zero(avx2 - avx1))
 		{
-			time *= -1;
+			time = (x1 - x2) / (avx2 - avx1);
 		}
-		time -= - 0.00001
+		else
+		{
+			time = (y1 - y2) / (avy2 - avy1);
+		}
+		
+		//time -= 0.00001;
 
 		double m1 = ev.m_object_1->body()->weight().value();
 		double m2 = ev.m_object_2->body()->weight().value();
@@ -244,20 +284,35 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		p2d::Vector tangentialPart2 = v2;
 		tangentialPart2 -= normalPart2;
 
+		p2d::Vector cachedNormal1 = normalPart1;
 		normalPart1 = normalPart1 * (m1 - m2) -  normalPart2 * (2 * m2);
-		normalPart1 /= -(m1 + m2);
+		normalPart1 /= (m1 + m2);
 		
-		ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
+		if (true)
+		{
+			ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
+		}
+		else
+		{
+			ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(0,0));
+		}
 		
 		p2d::Vector position1 = ev.m_object_1->body()->currentShape()->center();
 		position1 += av1 * time;
 		ev.m_object_1->body()->shedulePosition(position1);
 
 
-		normalPart2 = normalPart2 * (m2 - m1) -  normalPart1 * (2 * m1);
-		normalPart2 /= -(m1 + m2);
+		normalPart2 = normalPart2 * (m2 - m1) -  cachedNormal1 * (2 * m1);
+		normalPart2 /= (m1 + m2);
 
-		ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
+		if (true)
+		{
+			ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
+		}
+		else
+		{
+			ev.m_object_2->body()->sheduleTangentialVelocity(p2d::Vector(0, 0));
+		}
 
 		p2d::Vector position2 = ev.m_object_2->body()->currentShape()->center();
 		position2 += av2 * time;

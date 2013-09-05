@@ -179,6 +179,13 @@ void p2d::World::stepPositionsAndVelocities(double time)
 		it++
 	   )
 	{
+		it.key()->buildAccelerationCache();
+	}
+	for( bodies_to_types_t::iterator it = m_allbodies.begin();
+		it != m_allbodies.end();
+		it++
+	   )
+	{
 		it.key()->stepPositionsAndVelocities(time);
 	}
 }
