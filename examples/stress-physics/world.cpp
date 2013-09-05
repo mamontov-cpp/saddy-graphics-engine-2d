@@ -207,12 +207,13 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		// Compute time of impact
 		p2d::Vector dc = pairs[0].p1() - pairs[0].p2();
 		double      mdc = p2d::distance(pairs[0].p1(), pairs[0].p2());
-		double time = mdc / mdv - 0.00001;
+		double time = mdc / mdv;
 		// A before colliison time
 		if (p2d::scalar(dc, dv) > 0)
 		{
 			time *= -1;
 		}
+		time -= - 0.00001
 
 		double m1 = ev.m_object_1->body()->weight().value();
 		double m2 = ev.m_object_2->body()->weight().value();
