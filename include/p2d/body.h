@@ -134,9 +134,14 @@ public:
 		\param[in] weight new weight
 	 */
 	void setWeight(const p2d::Weight & weight);
-	/*! Returns current weight for bodys
+	/*! Returns current weight for body
+		\return  weight
 	 */
 	const p2d::Weight & weight() const;
+	/*! Returns current weight for body
+		\return  weight
+	 */
+	p2d::Weight & weight();
 	/*! Sets current ghost options
 		\param[in] ghost ghost options
 	 */

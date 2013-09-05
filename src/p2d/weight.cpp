@@ -30,3 +30,8 @@ p2d::Weight p2d::Weight::infinite()
 	return p2d::Weight(0.0, false);
 }
 
+void p2d::Weight::setValue(double value)
+{
+	m_value = value;
+	m_finite = true;
+}
