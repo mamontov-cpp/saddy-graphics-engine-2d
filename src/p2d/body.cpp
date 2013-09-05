@@ -343,3 +343,9 @@ void p2d::Body::buildAccelerationCache()
 	m_tangential->cacheAcceleration();
 	m_angular->cacheAcceleration();
 }
+
+
+p2d::Weight & p2d::Body::weight()
+{
+	return *m_weight;
+}

@@ -55,7 +55,7 @@ void World::run()
 
 
 	// SETUP WORLD CALLBACKS HERE!!!
-	//m_world->addHandler(this, &World::onWallNode);
+	m_world->addHandler(this, &World::onWallNode);
 	m_world->addHandler(this, &World::onNodeNode);
 
 	// Add walls
@@ -75,6 +75,11 @@ void World::run()
 		if (i != 0 && i != 2) 
 		{
 			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
+		}
+		else
+		{
+			// Make bodies unmovable
+			g[i]->body()->weight().setValue(1E+6);
 		}
 	}
 
@@ -129,6 +134,14 @@ void World::run()
 		this->addObject(g[i]);
 	}
 
+	// Add ball to scene
+	GridNode * gi = new GridNode();
+	gi->setPosition(p2d::Point(20, 300));
+	gi->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
+	gi->body()->setCurrentTangentialVelocity(p2d::Vector(100, 120));
+	this->addObject(gi);
+			
+
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
 
@@ -148,7 +161,9 @@ void World::addObject(WorldObject * o)
 	m_world->add(o->body());
 }
 
-
+/*! Handled this type of collision with manual from
+	http://alexandr4784.narod.ru/sdvmpdf1/smgl04_28.pdf
+ */
 void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
 {
 	p2d::BoundType bt = ev.m_object_2->type();
@@ -253,7 +268,8 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 			time = (y1 - y2) / (avy2 - avy1);
 		}
 		
-		//time -= 0.00001;
+		
+		time -= 1.0E-7;
 
 		double m1 = ev.m_object_1->body()->weight().value();
 		double m2 = ev.m_object_2->body()->weight().value();
@@ -276,7 +292,7 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		p2d::Vector tangentialPart1 = v1;
 		tangentialPart1 -= normalPart1;
 
-		p2d::Vector v2 = ev.m_object_1->body()->tangentialVelocityAt(time);
+		p2d::Vector v2 = ev.m_object_2->body()->tangentialVelocityAt(time);
 		double project2 = p2d::scalar(v2, normal2);
 		p2d::Vector normalPart2 = normal2;
 		normalPart2 *= project2;
@@ -285,38 +301,85 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		tangentialPart2 -= normalPart2;
 
 		p2d::Vector cachedNormal1 = normalPart1;
-		normalPart1 = normalPart1 * (m1 - m2) -  normalPart2 * (2 * m2);
-		normalPart1 /= (m1 + m2);
+		normalPart1 *= -1;
+		normalPart1 += (cachedNormal1 * m1 + normalPart2 * m2) / (m1 + m2);
+
 		
-		if (true)
+
+		if (ev.m_object_1->body()->willTangentialVelocityChange())
+		{
+			// Merge two impulses into one
+			p2d::Vector impulse = ev.m_object_1->body()->nextTangentialVelocity();
+			impulse -= ev.m_object_1->body()->tangentialVelocity();
+
+			impulse += (normalPart1 + tangentialPart1) - ev.m_object_1->body()->tangentialVelocity();
+			
+			impulse /= 2.0;
+			// Here sum of speeds is computed
+			impulse +=  ev.m_object_1->body()->tangentialVelocity();
+			ev.m_object_1->body()->sheduleTangentialVelocity(impulse);
+		}
+		else
 		{
 			ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
 		}
-		else
+		
+		
+		
+		if (ev.m_object_1->body()->willPositionChange())
 		{
-			ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(0,0));
+			p2d::Vector position1 = av1;
+			position1 *= time;
+			position1 += ev.m_object_1->body()->nextPosition() - ev.m_object_1->body()->position();
+			position1 /= 2.0;
+			ev.m_object_1->body()->shedulePosition(ev.m_object_1->body()->position() + position1);
 		}
 		
-		p2d::Vector position1 = ev.m_object_1->body()->currentShape()->center();
-		position1 += av1 * time;
-		ev.m_object_1->body()->shedulePosition(position1);
+		else
+		{
+			p2d::Vector position1 = ev.m_object_1->body()->currentShape()->center();
+			position1 += av1 * time;
+			ev.m_object_1->body()->shedulePosition(position1);
+		}
 
+		p2d::Vector cachedNormal2 = normalPart2;
+		normalPart2 *= -1;
+		normalPart2 += (cachedNormal1 * m1 + cachedNormal2 * m2) / (m1 + m2);
+	
 
-		normalPart2 = normalPart2 * (m2 - m1) -  cachedNormal1 * (2 * m1);
-		normalPart2 /= (m1 + m2);
+		if (ev.m_object_2->body()->willTangentialVelocityChange())
+		{
+			// Merge two impulses into one
+			p2d::Vector impulse = ev.m_object_2->body()->nextTangentialVelocity();
+			impulse -= ev.m_object_2->body()->tangentialVelocity();
 
-		if (true)
+			impulse += (normalPart2 + tangentialPart2) - ev.m_object_2->body()->tangentialVelocity();
+			impulse /= 2.0;
+			// Here sum of speeds is computed
+			impulse +=  ev.m_object_2->body()->tangentialVelocity();
+			ev.m_object_2->body()->sheduleTangentialVelocity(impulse);
+		}
+		else
 		{
 			ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
 		}
+
+		if (ev.m_object_2->body()->willPositionChange())
+		{
+			p2d::Vector position2 = av2;
+			position2 *= time;
+			position2 += ev.m_object_2->body()->nextPosition() - ev.m_object_2->body()->position();
+			position2 /= 2;
+			ev.m_object_2->body()->shedulePosition(ev.m_object_2->body()->position() + position2);
+		}
 		else
 		{
-			ev.m_object_2->body()->sheduleTangentialVelocity(p2d::Vector(0, 0));
+			p2d::Vector position2 = ev.m_object_2->body()->currentShape()->center();
+			position2 += av2 * time;
+			ev.m_object_2->body()->shedulePosition(position2);
 		}
 
-		p2d::Vector position2 = ev.m_object_2->body()->currentShape()->center();
-		position2 += av2 * time;
-		ev.m_object_2->body()->shedulePosition(position2);
+		
 	}
 	else
 	{

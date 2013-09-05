@@ -28,6 +28,10 @@ public:
 		\return true value
 	 */
 	virtual double value() const;
+	/*! Sets a value for a weight
+		\param[in] value a value for a weight
+	 */
+	virtual void setValue(double value);
 	/*! Creates new constant weight
 		\param[in] value weight 
 		\return created weight
