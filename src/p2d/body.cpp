@@ -174,6 +174,7 @@ void p2d::Body::setShape(p2d::CollisionShape * shape)
 void p2d::Body::setCurrentPosition(const p2d::Point & p)
 {
 	m_tangential->setCurrentPosition(p);
+	m_tangential->cacheAcceleration();
 }
 
 void p2d::Body::shedulePosition(const p2d::Point & p)
@@ -235,6 +236,7 @@ p2d::Vector p2d::Body::nextTangentialVelocity() const
 void p2d::Body::setCurrentAngle(double angle)
 {
 	m_angular->setCurrentPosition(angle);
+	m_angular->cacheAcceleration();
 }
 
 void p2d::Body::sheduleAngle(double angle)
@@ -336,3 +338,8 @@ p2d::Vector p2d::Body::tangentialVelocityAt(double time)
 	return m_tangential->velocityAt(time, this->timeStep());
 }
 
+void p2d::Body::buildAccelerationCache()
+{
+	m_tangential->cacheAcceleration();
+	m_angular->cacheAcceleration();
+}

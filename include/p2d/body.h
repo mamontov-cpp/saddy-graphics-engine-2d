@@ -292,6 +292,9 @@ public:
 		\return velocity
 	 */
 	p2d::Vector tangentialVelocityAt(double time);
+	/*! Builds an acceleration cache for any of bodies
+	 */
+	void buildAccelerationCache();
 };
 
 }

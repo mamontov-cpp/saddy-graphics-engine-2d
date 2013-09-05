@@ -110,6 +110,12 @@ class Movement
 	 /*! A listeners for a position changes
 	  */
 	 hst::vector<listener_t> m_listeners;
+	 /*! A cache for a sum of forces
+	  */
+	 _Value m_acceleration_cache;
+	 /*! Whether forces are cached
+	  */
+	 bool   m_acceleration_is_cached; 
  protected:
 	 /*! Called, when object moved on step, or by setting a current value
 		 \param[in] delta a difference from new value and current value
@@ -126,6 +132,8 @@ class Movement
 	  */
 	 void acceleration(_Value & p) const
 	 {
+		 if (m_acceleration_is_cached)
+			 p += m_acceleration_cache;
 		 if (m_weight != NULL)
 		 {
 			if (m_weight->isInfinite() == false )
@@ -147,12 +155,23 @@ class Movement
 		 m_weight = NULL;
 		 m_velocity = p2d::TickableDefaultValue<_Value>::zero();
 		 m_position = p2d::TickableDefaultValue<_Value>::zero();
+		 m_acceleration_is_cached = false;
 	 }
 	 /*! Destroys force and listeners
 	  */
 	 ~Movement()
 	 {
 		 clearListeners();
+	 }
+	 /*! Builds inner cache for accelerations, so, when bodies move, acceleration
+		 would be taken from here
+	  */
+	 void cacheAcceleration()
+	 {
+		 m_acceleration_is_cached = false;
+		 m_acceleration_cache = p2d::TickableDefaultValue<_Value>::zero();
+		 this->acceleration(m_acceleration_cache);
+		 m_acceleration_is_cached = true;
 	 }
 	 /*! Clears all of movement listeners
 	  */
@@ -184,6 +203,7 @@ class Movement
 	 void stepForce(double time)
 	 {
 		 m_force.step(time);
+		 m_acceleration_cache = false;
 	 }
 	 /*! Returns an acting forces	
 		 \return an acting forces	

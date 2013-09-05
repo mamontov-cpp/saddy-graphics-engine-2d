@@ -64,6 +64,7 @@ Walls::Walls()
 
 		Wall * w = new Wall(pairs[i].p1());
 		b->setUserObject(w);
+		w->setBody(b);
 		m_walls << w;
 	}
 
