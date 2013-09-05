@@ -416,7 +416,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	bool iszero = is_fuzzy_zero(p2d::modulo(v));
 	if ((xlessthanzero && ylessthanzero) || iszero)
 	{
-		return result;
+		//return result;
 	}
 	
 	double x1 = c1->center().x();
@@ -435,29 +435,74 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		double A  = v.x() * v.x() + v.y() * v.y();
 		double B = 2 * (dx * v.x() + dy * v.y());
 		double C = dx * dx + dy * dy - D2;
-		double DI = B * B - 4 * A * C; 
+		double DI = B * B - 4 * A * C;
+		// Not a quadratic equation
+		if (is_fuzzy_zero(A) && is_fuzzy_zero(B) && !is_fuzzy_zero(C))
+		{
+			return result;
+		}
 		if (DI < 0) return result;
 		double sqDI = sqrt(DI);
-		t = (-B - sqDI) / 2.0 / A;
-	}
+		double t1 = (-B - sqDI) / 2.0 / A;
+		double t2 = (-B + sqDI) / 2.0 / A;
 
-	p2d::Point O1 = c1->center() + v * t;
-	p2d::InfiniteLine line = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(c2->center(), O1));
-	hst::vector<p2d::Point> points = p2d::intersection(line, c2);
-	// Select nearest to c1center
-	p2d::Point min;
-	bool minexists = false;
-	for(size_t i = 0; i < points.size(); i++)
-	{
-		if (min.distanceTo(O1) > points[i].distanceTo(O1) || !minexists)
-		{
-			minexists = true;
-			min = points[i];
-		}
+		// Pick a correct toi
+		t = std::min(t1, t2);
 	}
-	p2d::Point c2contact = min;
-	p2d::Point c1contact = min - v * t;
-	result << p2d::PointsPair(c1contact, c2contact);
+	
+	x1 += v1.x() * t;
+	y1 += v1.y() * t;
+
+	x2 += v2.x() * t;
+	y2 += v2.y() * t;
+
+	// Compute contact point at TOI
+	// If y1 != y2
+	p2d::Point commoncontact;
+	if (fabs(y1 - y2) > 1.0E-7)
+	{
+		double R1pR2 = (x2 * x2 - x1 * x1) + (y2 * y2 - y1 * y1);
+		double DR =  ( R1pR2 - (R2 * R2 - R1 * R1) ) / 2;
+		double A = DR / (y1-y2);
+		double B = (x1 - x2) / (y1 - y2);
+
+		double K1 = (1 + B * B);
+		double K2 = 2 * ((A + y1)*B - x1);
+		double K3 = x1 * x1 + (y1 + A) * (y1 + A) - R1 * R1;
+
+		double DI = K2 * K2 - 4 * K1 *K3;
+		
+		if (DI < 0 && fabs(DI) > 0.0000001)
+				return result;
+
+		double x = -K2 / K1 / 2;
+		double y = -A - B * x;
+		commoncontact.setX(x);
+		commoncontact.setY(y);
+	}
+	else
+	{
+		double R1pR2 = (x2 * x2 - x1 * x1) + (y2 * y2 - y1 * y1);
+		double DR =  ( R1pR2 - (R2 * R2 - R1 * R1) ) / 2;
+		double A = DR / (x1-x2);
+		double B = (y1-y2) / (x1 - x2);
+
+		double K1 = (1 + B * B);
+		double K2 = 2 * ((A + x1)*B - y1);
+		double K3 = y1 * y1 + (x1 + A) * (x1 + A) - R1 * R1;
+
+		double DI = K2 * K2 - 4 * K1 *K3;
+
+		if (DI < 0 && fabs(DI) > 0.0000001)
+				return result;
+
+		double y = -K2 / K1 / 2;
+		double x = -A - B * y;
+		commoncontact.setX(x);
+		commoncontact.setY(y);
+	}
+	// Compute current contact points
+	result << p2d::PointsPair( commoncontact - v1 * t, commoncontact - v2 * t);
 	return result;
 }
 
