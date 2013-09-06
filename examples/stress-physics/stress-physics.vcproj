@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\elasticforce.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\gridnode.cpp"
 				>
 			</File>
@@ -229,10 +225,6 @@
 			>
 			<File
 				RelativePath=".\bouncesolver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\elasticforce.h"
 				>
 			</File>
 			<File

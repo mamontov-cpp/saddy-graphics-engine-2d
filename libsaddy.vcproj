@@ -533,6 +533,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\elasticforce.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\findcontactpoints.cpp"
 					>
 				</File>
@@ -1084,6 +1088,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\convexhull.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\elasticforce.h"
 					>
 				</File>
 				<File

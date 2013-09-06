@@ -4,12 +4,12 @@
 #include <texturemanager.h>
 #include <input.h>
 #include <extra/background.h>
+#include <p2d/elasticforce.h>
 #include "worldobject.h"
 
 #include "gridnode.h"
 #include "gridnodedge.h"
 
-#include "elasticforce.h"
 
 World::World()
 {
