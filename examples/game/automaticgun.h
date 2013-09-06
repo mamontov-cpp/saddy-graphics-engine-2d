@@ -4,9 +4,9 @@
 	Describes an concrete automatic gun, that shoots to enemy or specified 
 	direction by emitting some bullet with specified speed
  */
+#include <p2d/app/constants.h>
 #include "abstractautomaticgun.h"
 #include "gameobject.h"
-#include "gameobjectconstants.h"
 #pragma once
 /*! An automatic gun, which shoots bullets of specified type
  */
@@ -29,7 +29,7 @@ class AutomaticGun: public AbstractAutomaticGun
 		  double angle = m_object->angle() + m_dangle;
 		  bullet->setPosition(p);
 		  bullet->setAngularVelocity(1.0);
-		  double speed = GameObjectConstants<_Bullet>::velocity();
+		  double speed = p2d::app::Constants<_Bullet>::velocity();
 		  bullet->setHorizontalSpeed(speed * cos(angle));
 		  bullet->setVerticalSpeed(speed * sin(angle));
 		 }
@@ -39,6 +39,6 @@ class AutomaticGun: public AbstractAutomaticGun
 	  */
 	 AutomaticGun() : AbstractAutomaticGun()
 	 {
-		 setInterval(GameObjectConstants<_Bullet>::interval());
+		 setInterval(p2d::app::Constants<_Bullet>::interval());
 	 }
 };

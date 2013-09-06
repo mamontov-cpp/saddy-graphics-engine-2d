@@ -26,6 +26,11 @@ class Sprite2DAdapter: public sad::BasicNode
 		  hRectF Rectangle;         //!<  A main rectangle
 
 		  inline Options() {}
+		  inline Options(const Sprite2DAdapter::Options & o) : Texture(o.Texture),
+		  TextureContainer(o.TextureContainer), TextureRectangle(o.TextureRectangle),
+		  Rectangle(o.Rectangle)
+		  {
+		  }
 	};
  private:
 		  Sprite * m_sprite;  //!< Sprite, that is being rendered

@@ -22,6 +22,7 @@ class Bonus;
 class Enemy;
 class ShootingEnemy;
 class SuperShootingEnemy;
+
 class GridNode;
 class GridNodeEdge;
 

@@ -43,8 +43,80 @@ public:
 	 */
 	static Sprite2DAdapter::Options * sprite();
 	/*! Returns shape needed for physical engine
+		\return a shape
 	 */
 	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for shooting enemy as a bullet
+		\return velocity
+	 */
+	static double velocity();
+	/*! Returns a shooting interval for this enemy as a bullet
+		\return interval
+	 */
+	static double interval();
+};
+
+/*! A dynamically stored constants as a simple container
+	Works same, as Constants
+ */
+class DynamicConstants
+{
+public:
+	Sprite2DAdapter::Options * Options;
+	p2d::CollisionShape * Shape;
+	double Velocity;
+	double Interval;
+
+	/*! Clones an options
+		\return options clone
+	 */
+	inline Sprite2DAdapter::Options * options()  const
+	{ 
+		return new Sprite2DAdapter::Options(*(this->Options)); 
+	}
+	/*! Clones a shape
+		\returns a shape clone
+	 */
+	inline p2d::CollisionShape * shape() const
+	{
+		return Shape->clone();
+	}
+
+	inline double velocity() const
+	{
+		return Velocity;
+	}
+
+	inline double interval() const
+	{
+		return Interval;
+	}
+
+	inline DynamicConstants()
+	{
+		this->Options = NULL;
+		this->Shape = NULL;
+		Velocity = 0;
+		Interval = 0;
+	}
+
+	/*! Inits constants from static constants
+	 */
+	template<typename T>
+	void initFromStatic()
+	{
+		this->Options = typename p2d::app::Constants<T>::sprite();
+		this->Shape = typename  p2d::app::Constants<T>::shape();
+		this->Velocity = typename  p2d::app::Constants<T>::velocity();
+		this->Interval = typename  p2d::app::Constants<T>::interval();
+	}
+
+	inline ~DynamicConstants()
+	{
+		delete this->Options;
+		delete this->Shape;
+	}
+
 };
 
 }

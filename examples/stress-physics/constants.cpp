@@ -1,4 +1,4 @@
-#include "WorldObjectConstants.h"
+#include "constants.h"
 #include <cstdlib>
 
 Sprite2DAdapter::Options * p2d::app::Constants<Player>::sprite()

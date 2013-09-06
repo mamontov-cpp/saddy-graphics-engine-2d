@@ -4,7 +4,7 @@
 	Describes a basic grid node
  */
 #include "worldobject.h"
-#include "worldobjectconstants.h"
+#include <p2d/app/constants.h>
 #pragma once
 
 /*! As a default, grid node is a node
