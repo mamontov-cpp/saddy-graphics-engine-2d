@@ -9,10 +9,15 @@
 	bouncing of various objects. 
 	
 	Due to hard problems with force detection it is HIGHLY recommended, that
-	objects must be checked against with p2d::CollisionTest, before calling a
+	objects must be checked for collision with p2d::CollisionTest, before calling a
 	bounce. 
 
-	This must be performed, because BounceSolver CA
+	This must be performed, because BounceSolver CAN MOVE OBJECTS! This is performed,
+	because we need to solve toi, when objects change their speeds too fast 
+	and average velocities cannot be used for solving, since the precision is lost.
+
+	TODO: Should we really need to move objects? Maybe, if we optionally clone a shape
+	it would make things better. I think, we need a better approach for this
  */
 class BounceSolver
 {
@@ -24,20 +29,33 @@ protected:
 	p2d::Vector m_av1;   //!< An approximated speeed for first body
 	p2d::Vector m_av2;   //!< An approximated speed for second body
 	
-	/*! Performs bouncing off a solver
-		\param[in] pairs a pairs
+	/*! Performs bouncing off for an object with a solver
+		\param[in] pairs a set of pairs of collision points for time of impact
 	 */ 
 	void performBouncing(const p2d::SetOfPointsPair & pairs);
-	/*! Approximately solves time of impact and finds contact points
+	/*! Approximately solves time of impact and finds contact points for two object
+		\param[out] pairs a set of pairs of collision points for time of impact
 	 */
 	void solveTOIFCP(const p2d::SetOfPointsPair & pairs);	
 public:
 	/*! Constructs new solver
 	 */
 	BounceSolver();
-	/*! A solver for bounces
+	/*! Removes allocated algorithm for finding data
 	 */
 	~BounceSolver();
+	/*! Returns current method for finding contact points
+		\return current method
+	 */
+	inline p2d::FindContactPoints * find() { return m_find; }
+	/*! Sets method for finding contact points
+		\param[in] new method
+	 */
+	inline void setFind(p2d::FindContactPoints * find ) 
+	{ 
+		delete m_find; 
+		m_find = find;
+	}
 	/*! A solver, for bodies
 		\param[in] b1 first body
 		\param[in] b2 second body
