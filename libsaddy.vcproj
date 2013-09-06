@@ -592,6 +592,10 @@
 					RelativePath=".\src\p2d\worldsteptask.cpp"
 					>
 				</File>
+				<Filter
+					Name="app"
+					>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1158,6 +1162,14 @@
 					RelativePath=".\include\p2d\worldsteptask.h"
 					>
 				</File>
+				<Filter
+					Name="app"
+					>
+					<File
+						RelativePath=".\include\p2d\app\constants.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
