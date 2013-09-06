@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "p2d/body.h"
+#include "p2d/app/constants.h"
 #include "sprite2dadapter.h"
 #include "primitives/object.h"
 #include "abstractautomaticgun.h"
@@ -47,10 +48,10 @@ class GameObject: public sad::BasicNode
 	  */
 	 template<typename T> void initFromConstants()
 	 {
-		 Sprite2DAdapter::Options * o = GameObjectConstants<T>::sprite();
+		 Sprite2DAdapter::Options * o = p2d::app::Constants<T>::sprite();
 		 this->m_sprite->set(*o);
 		 delete o;
-		 this->m_body->setShape(GameObjectConstants<T>::shape());
+		 this->m_body->setShape(p2d::app::Constants<T>::shape());
 	 }
  public:
 	 /*! Creates an empty game object

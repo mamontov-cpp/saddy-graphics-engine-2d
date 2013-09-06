@@ -7,7 +7,7 @@
 
 #include <time.h>
 #include <extra/periodicalevent.h>
-#include "gameobjectconstants.h"
+#include "constants.h"
 #pragma once
 
 class GameObject;

@@ -1,4 +1,4 @@
-/*! \file GameObjectConstants.h
+/*! \file p2d::app::Constants.h
 	\author HiddenSeeker
 
 	Describes game object  constants, used to initialize sprites for
@@ -10,36 +10,8 @@
 
 	Also they contain shape templates.
  */
-#include <sprite2dadapter.h>
-#include <p2d/circle.h>
-#include <p2d/line.h>
-#include <p2d/rectangle.h>
+#include <p2d/app/constants.h>
 #pragma once
-
-
-/*! Main class for getting a sprite constants.
-
-	Constants contain various rendering parameters, such as
-	name of texture, texture coordinates and size of polygon, which is
-	texture and texture coordinates mapped to.
-
-	For most parts, this class defined mapping of game object type T to sprite
-	options, related to him, so we define it for all game object type we have.
- */
-template<
-	typename T
->
-class GameObjectConstants
-{
-public:
-	/*! Returns a sprite options, needed to create sprite
-		\return sprite options
-	 */
-	static Sprite2DAdapter::Options * sprite();
-	/*! Returns shape needed for physical engine
-	 */
-	static p2d::CollisionShape * shape();
-};
 
 class Player;
 class PlayerBullet;
@@ -49,32 +21,24 @@ class Enemy;
 class ShootingEnemy;
 class SuperShootingEnemy;
 
+namespace p2d
+{
+
+namespace app
+{
+
 template<>
-class GameObjectConstants<Player>
+class Constants<Player>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
-template<>
-class GameObjectConstants<PlayerBullet>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-	/*! Describes a velocity for bullet
-		\return velocity
-	 */
-	static double velocity();
-	/*! Returns a shooting interval with this bullet type
-	 */
-	static double interval();
-};
 
 
 template<>
-class GameObjectConstants<EnemyBullet>
+class Constants<PlayerBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -90,7 +54,23 @@ public:
 
 
 template<>
-class GameObjectConstants<Bonus>
+class Constants<EnemyBullet>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for bullet
+		\return velocity
+	 */
+	static double velocity();
+	/*! Returns a shooting interval with this bullet type
+	 */
+	static double interval();
+};
+
+
+template<>
+class Constants<Bonus>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -99,7 +79,7 @@ public:
 
 
 template<>
-class GameObjectConstants<Enemy>
+class Constants<Enemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -108,7 +88,7 @@ public:
 
 
 template<>
-class GameObjectConstants<ShootingEnemy>
+class Constants<ShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -124,9 +104,14 @@ public:
 
 
 template<>
-class GameObjectConstants<SuperShootingEnemy>
+class Constants<SuperShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
+
+
+}
+
+}

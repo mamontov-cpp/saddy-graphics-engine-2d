@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\constants.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\gridnode.cpp"
 				>
 			</File>
@@ -213,10 +217,6 @@
 				RelativePath=".\worldobject.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\worldobjectconstants.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -225,6 +225,10 @@
 			>
 			<File
 				RelativePath=".\bouncesolver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\constants.h"
 				>
 			</File>
 			<File
@@ -245,10 +249,6 @@
 			</File>
 			<File
 				RelativePath=".\worldobject.h"
-				>
-			</File>
-			<File
-				RelativePath=".\worldobjectconstants.h"
 				>
 			</File>
 		</Filter>
