@@ -10,36 +10,10 @@
 
 	Also they contain shape templates.
  */
-#include <sprite2dadapter.h>
-#include <p2d/circle.h>
-#include <p2d/line.h>
-#include <p2d/rectangle.h>
+#include <p2d/app/constants.h>
 #pragma once
 
 
-/*! Main class for getting a sprite constants.
-
-	Constants contain various rendering parameters, such as
-	name of texture, texture coordinates and size of polygon, which is
-	texture and texture coordinates mapped to.
-
-	For most parts, this class defined mapping of game object type T to sprite
-	options, related to him, so we define it for all game object type we have.
- */
-template<
-	typename T
->
-class WorldObjectConstants
-{
-public:
-	/*! Returns a sprite options, needed to create sprite
-		\return sprite options
-	 */
-	static Sprite2DAdapter::Options * sprite();
-	/*! Returns shape needed for physical engine
-	 */
-	static p2d::CollisionShape * shape();
-};
 
 class Player;
 class PlayerBullet;
@@ -52,7 +26,7 @@ class GridNode;
 class GridNodeEdge;
 
 template<>
-class WorldObjectConstants<Player>
+class p2d::app::Constants<Player>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -60,23 +34,7 @@ public:
 };
 
 template<>
-class WorldObjectConstants<PlayerBullet>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-	/*! Describes a velocity for bullet
-		\return velocity
-	 */
-	static double velocity();
-	/*! Returns a shooting interval with this bullet type
-	 */
-	static double interval();
-};
-
-
-template<>
-class WorldObjectConstants<EnemyBullet>
+class p2d::app::Constants<PlayerBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -92,7 +50,23 @@ public:
 
 
 template<>
-class WorldObjectConstants<Bonus>
+class p2d::app::Constants<EnemyBullet>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+	/*! Describes a velocity for bullet
+		\return velocity
+	 */
+	static double velocity();
+	/*! Returns a shooting interval with this bullet type
+	 */
+	static double interval();
+};
+
+
+template<>
+class p2d::app::Constants<Bonus>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -101,7 +75,7 @@ public:
 
 
 template<>
-class WorldObjectConstants<Enemy>
+class p2d::app::Constants<Enemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -110,7 +84,7 @@ public:
 
 
 template<>
-class WorldObjectConstants<ShootingEnemy>
+class p2d::app::Constants<ShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -126,7 +100,7 @@ public:
 
 
 template<>
-class WorldObjectConstants<SuperShootingEnemy>
+class p2d::app::Constants<SuperShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -135,7 +109,7 @@ public:
 
 
 template<>
-class WorldObjectConstants<GridNode>
+class p2d::app::Constants<GridNode>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -143,7 +117,7 @@ public:
 };
 
 template<>
-class WorldObjectConstants<GridNodeEdge>
+class p2d::app::Constants<GridNodeEdge>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
