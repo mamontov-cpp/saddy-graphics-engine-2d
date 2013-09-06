@@ -12,7 +12,7 @@
 	objects must be checked against with p2d::CollisionTest, before calling a
 	bounce. 
 
-	This is 
+	This must be performed, because BounceSolver CA
  */
 class BounceSolver
 {
