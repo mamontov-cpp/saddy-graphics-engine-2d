@@ -14,7 +14,7 @@
 World::World()
 {
 	m_world = new p2d::World();
-	m_world->setDetector(new p2d::MultisamplingCollisionDetector(3));
+	/*m_world->setDetector(new p2d::MultisamplingCollisionDetector(3))*/;
 	m_walls = new Walls();
 	m_find = new p2d::FindContactPoints();
 }
@@ -121,7 +121,7 @@ void World::run()
 	GridNode * ball = new GridNode();
 	ball->setPosition(p2d::Point(20, 300));
 	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
-	ball->body()->setCurrentTangentialVelocity(p2d::Vector(100, 120));
+	ball->body()->setCurrentTangentialVelocity(p2d::Vector(140, 120));
 	this->addObject(ball);
 	
 	// Add FPS counter
@@ -230,8 +230,7 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 											   );
 
 	p2d::Vector dv = av1 - av2;
-	double mdv = p2d::modulo(av1 - av2);
-	if (pairs.size() > 0 && fabs(mdv) > 0.0000001)
+	if (pairs.size() > 0)
 	{
 		// Compute time of impact
 		double x1 = pairs[0].p1().x();
