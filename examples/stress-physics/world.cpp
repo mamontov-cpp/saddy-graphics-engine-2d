@@ -65,7 +65,9 @@ void World::run()
 		m_world->add(bodies[i]);
 	}
 
-	// Produce a grid of nodes
+	// Build elastic grid with 9 nodes
+
+	// Produce a nodes of grids
 	GridNode * g[9];
 	for(int i = 0; i < 9; i++)
 	{
@@ -83,64 +85,48 @@ void World::run()
 		}
 	}
 
-	// Build elastic grid for all 9 nodes
-
-	// TODO: Simplify
-	g[1]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[1]->body()) );
-	g[1]->body()->tangentialForces().add( new ElasticForce(g[2]->body(), g[1]->body()) );
-	g[1]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[1]->body()) );
-	
-	g[3]->body()->tangentialForces().add( new ElasticForce(g[0]->body(), g[3]->body()) );
-	g[3]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[3]->body()) );
-	g[3]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[3]->body()) );
-	
-
-	g[4]->body()->tangentialForces().add( new ElasticForce(g[3]->body(), g[4]->body()) );
-	g[4]->body()->tangentialForces().add( new ElasticForce(g[1]->body(), g[4]->body()) );
-	g[4]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[4]->body()) );
-	g[4]->body()->tangentialForces().add( new ElasticForce(g[7]->body(), g[4]->body()) );
-
-	g[5]->body()->tangentialForces().add( new ElasticForce(g[2]->body(), g[5]->body()) );
-	g[5]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[5]->body()) );
-	g[5]->body()->tangentialForces().add( new ElasticForce(g[8]->body(), g[5]->body()) );
-
-	g[6]->body()->tangentialForces().add( new ElasticForce(g[3]->body(), g[6]->body()) );
-	g[6]->body()->tangentialForces().add( new ElasticForce(g[7]->body(), g[6]->body()) );
-
-	g[7]->body()->tangentialForces().add( new ElasticForce(g[6]->body(), g[7]->body()) );
-	g[7]->body()->tangentialForces().add( new ElasticForce(g[4]->body(), g[7]->body()) );
-	g[7]->body()->tangentialForces().add( new ElasticForce(g[8]->body(), g[7]->body()) );
-
-	g[8]->body()->tangentialForces().add( new ElasticForce(g[5]->body(), g[8]->body()) );
-	g[8]->body()->tangentialForces().add( new ElasticForce(g[7]->body(), g[8]->body()) );
+	// Sets forces, between nodes	
+	int forces[20][2] =  {
+		{0, 1}, {2, 1}, {4, 1},
+		{0, 3}, {4, 3}, {6, 3},
+		{3, 4}, {1, 4}, {5, 4}, {7, 4},
+		{2, 5}, {4, 5}, {8, 5},
+		{3, 6}, {7, 6},
+		{6, 7}, {4, 7}, {8, 7},
+		{5, 8}, {7, 8}
+	};
+	for(int i = 0; i < 20; i++)
+	{
+		int  f = forces[i][0];
+		int  s = forces[i][1];
+		g[s]->body()->tangentialForces().add( new ElasticForce(g[f]->body(), g[s]->body()) );
+	}
+	int graphic[12][2] = { 
+		{0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
+		{4, 5}, {3, 6}, {4, 7}, {6, 7}, {5, 8}, {7, 8}
+	};
+	// Build grafical representaion for elastic grid
+	for(int i = 0; i < 12; i++)
+	{
+		sc->add( new GridNodeEdge(g[graphic[i][0]]->body(), g[graphic[i][1]]->body()) );
+	}
     
-	sc->add( new GridNodeEdge(g[0]->body(), g[1]->body()) );
-	sc->add( new GridNodeEdge(g[1]->body(), g[2]->body()) );
-	sc->add( new GridNodeEdge(g[0]->body(), g[3]->body()) );
-	sc->add( new GridNodeEdge(g[1]->body(), g[4]->body()) );
-	sc->add( new GridNodeEdge(g[3]->body(), g[4]->body()) );
-	sc->add( new GridNodeEdge(g[2]->body(), g[5]->body()) );
-	sc->add( new GridNodeEdge(g[4]->body(), g[5]->body()) );
-	sc->add( new GridNodeEdge(g[3]->body(), g[6]->body()) );
-	sc->add( new GridNodeEdge(g[4]->body(), g[7]->body()) );
-	sc->add( new GridNodeEdge(g[6]->body(), g[7]->body()) );
-	sc->add( new GridNodeEdge(g[5]->body(), g[8]->body()) );
-	sc->add( new GridNodeEdge(g[7]->body(), g[8]->body()) );
-    
-	sc->add( new World::FPSLabel() );
-
+	// Add elastic grid nodes to scene
 	for(int i = 0 ; i < 9; i++)
 	{
 		this->addObject(g[i]);
 	}
 
 	// Add ball to scene
-	GridNode * gi = new GridNode();
-	gi->setPosition(p2d::Point(20, 300));
-	gi->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
-	gi->body()->setCurrentTangentialVelocity(p2d::Vector(100, 120));
-	this->addObject(gi);
-			
+	GridNode * ball = new GridNode();
+	ball->setPosition(p2d::Point(20, 300));
+	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
+	ball->body()->setCurrentTangentialVelocity(p2d::Vector(100, 120));
+	this->addObject(ball);
+	
+	// Add FPS counter
+	sc->add( new World::FPSLabel() );
+
 
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
