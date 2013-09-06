@@ -459,48 +459,39 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	// Compute contact point at TOI
 	// If y1 != y2
 	p2d::Point commoncontact;
-	if (fabs(y1 - y2) > 1.0E-7)
-	{
-		double R1pR2 = (x2 * x2 - x1 * x1) + (y2 * y2 - y1 * y1);
-		double DR =  ( R1pR2 - (R2 * R2 - R1 * R1) ) / 2;
-		double A = DR / (y1-y2);
-		double B = (x1 - x2) / (y1 - y2);
-
-		double K1 = (1 + B * B);
-		double K2 = 2 * ((A + y1)*B - x1);
-		double K3 = x1 * x1 + (y1 + A) * (y1 + A) - R1 * R1;
-
-		double DI = K2 * K2 - 4 * K1 *K3;
+	double R1pR2 = (x2 * x2 - x1 * x1) + (y2 * y2 - y1 * y1);
+	double DR =  ( R1pR2 - (R2 * R2 - R1 * R1) ) / 2;
 		
-		if (DI < 0 && fabs(DI) > 0.0000001)
-				return result;
+	bool dynull = fabs(y1 - y2) < 1.0E-7;
 
-		double x = -K2 / K1 / 2;
-		double y = -A - B * x;
-		commoncontact.setX(x);
-		commoncontact.setY(y);
-	}
-	else
+	double x = 0, y = 0;
+	double * py1 = &y1, * py2 = &y2;
+	double * px1 = &x1, * px2 = &x2;
+	double * px = &x,  * py = &y;
+	if (dynull)
 	{
-		double R1pR2 = (x2 * x2 - x1 * x1) + (y2 * y2 - y1 * y1);
-		double DR =  ( R1pR2 - (R2 * R2 - R1 * R1) ) / 2;
-		double A = DR / (x1-x2);
-		double B = (y1-y2) / (x1 - x2);
+		std::swap(px1, py1);
+		std::swap(px2, py2);
+		std::swap(px, py);
 
-		double K1 = (1 + B * B);
-		double K2 = 2 * ((A + x1)*B - y1);
-		double K3 = y1 * y1 + (x1 + A) * (x1 + A) - R1 * R1;
-
-		double DI = K2 * K2 - 4 * K1 *K3;
-
-		if (DI < 0 && fabs(DI) > 0.0000001)
-				return result;
-
-		double y = -K2 / K1 / 2;
-		double x = -A - B * y;
-		commoncontact.setX(x);
-		commoncontact.setY(y);
 	}
+
+	double A = DR / (*py1-*py2);
+	double B = (*px1 - *px2) / (*py1 - *py2);
+
+	double K1 = (1 + B * B);
+	double K2 = 2 * ((A + *py1) * B - *px1);
+	double K3 = (*px1) * (*px1) + (*py1 + A) * (*py1 + A) - R1 * R1;
+
+	double DI = K2 * K2 - 4 * K1 *K3;
+	// This precision is taken empirically
+	if (DI < 0 && fabs(DI) > 1E-5)
+		return result;
+
+	*px = -K2 / K1 / 2;
+	*py = -A - B * (*px);
+	commoncontact.setX(x);
+	commoncontact.setY(y);
 	// Compute current contact points
 	result << p2d::PointsPair( commoncontact - v1 * t, commoncontact - v2 * t);
 	return result;
