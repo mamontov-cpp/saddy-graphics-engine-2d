@@ -6,6 +6,9 @@
 #include <p2d/force.h>
 #include <p2d/body.h>
 
+
+namespace p2d
+{
 /*! An elastic force is implemented, using formulo
 	- k * dx + b * v, where dx is difference, between distance of
 	centers of both bodies and default distance, which by default is constructed,
@@ -62,3 +65,6 @@ class ElasticForce: public p2d::TangentialForce
 	 */
 	inline double resistance() const { return m_resistance; }
 };
+
+}
+
