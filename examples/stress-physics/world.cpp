@@ -268,51 +268,15 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		p2d::Vector cachedNormal1 = normalPart1;
 		normalPart1 *= -1;
 		normalPart1 += (cachedNormal1 * m1 + normalPart2 * m2) / (m1 + m2);
-
 		
-
-		if (ev.m_object_1->body()->willTangentialVelocityChange())
-		{
-			// Merge two impulses into one
-			p2d::Vector impulse = ev.m_object_1->body()->nextTangentialVelocity();
-			impulse -= ev.m_object_1->body()->tangentialVelocity();
-
-			impulse += (normalPart1 + tangentialPart1) - ev.m_object_1->body()->tangentialVelocity();
-			
-			impulse /= 2.0;
-			// Here sum of speeds is computed
-			impulse +=  ev.m_object_1->body()->tangentialVelocity();
-			ev.m_object_1->body()->sheduleTangentialVelocity(impulse);
-		}
-		else
-		{
-			ev.m_object_1->body()->sheduleTangentialVelocity(normalPart1 + tangentialPart1);
-		}
-		
-		
+		ev.m_object_1->body()->correctTangentialVelocity(normalPart1 + tangentialPart1);		
 		ev.m_object_1->body()->correctPosition(av1 * time);
 		
 		p2d::Vector cachedNormal2 = normalPart2;
 		normalPart2 *= -1;
 		normalPart2 += (cachedNormal1 * m1 + cachedNormal2 * m2) / (m1 + m2);
-	
-		if (ev.m_object_2->body()->willTangentialVelocityChange())
-		{
-			// Merge two impulses into one
-			p2d::Vector impulse = ev.m_object_2->body()->nextTangentialVelocity();
-			impulse -= ev.m_object_2->body()->tangentialVelocity();
 
-			impulse += (normalPart2 + tangentialPart2) - ev.m_object_2->body()->tangentialVelocity();
-			impulse /= 2.0;
-			// Here sum of speeds is computed
-			impulse +=  ev.m_object_2->body()->tangentialVelocity();
-			ev.m_object_2->body()->sheduleTangentialVelocity(impulse);
-		}
-		else
-		{
-			ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
-		}
-
+		ev.m_object_2->body()->correctTangentialVelocity(normalPart2 + tangentialPart2);		
 		ev.m_object_2->body()->correctPosition(av2 * time);		
 	}
 	else
