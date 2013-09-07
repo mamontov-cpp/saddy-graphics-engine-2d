@@ -129,6 +129,14 @@ class Object: public sad::BasicNode
 		 \return an angle
 	  */
 	 double angle() const;
+	 /*! Adds new tangential force
+		 \param[in] f force
+	  */
+	 void addTangentialForce(p2d::TangentialForce * f);
+	 /*! Adds new angular force
+		 \param[in] f force
+	  */
+	 void addAngularForce(p2d::AngularForce * f);
 };
 
 }

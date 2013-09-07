@@ -96,7 +96,7 @@ void World::run()
 	{
 		int  f = forces[i][0];
 		int  s = forces[i][1];
-		g[s]->body()->tangentialForces().add( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
+		g[s]->addTangentialForce( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
 	}
 	int graphic[12][2] = { 
 		{0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
