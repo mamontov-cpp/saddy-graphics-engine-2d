@@ -8,6 +8,7 @@
 #include <extra/periodicalevent.h>
 #include <scene.h>
 #include <p2d/app/app.h>
+#include <p2d/walls.h>
 
 /*! An enumerations for creating factory objects
  */
@@ -49,7 +50,7 @@ class Game: public p2d::app::App
 	fsm::Machine * m_machine;        //!< A state machine, which describes all transitions
 	Player       * m_player;         //!< A link to in-game player
 	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
-	Walls        * m_walls;          //!< A new walls
+	p2d::Walls        * m_walls;          //!< A new walls
 	int            m_registered_supershooting_enemies_count; //!< Current count of super shooting enemies, active in game
  protected:
 	/*! Create walls for game
@@ -74,7 +75,7 @@ class Game: public p2d::app::App
 	/*! Deletes an object if not player, when collision with wall
 		\param[in] ev event
 	 */
-	void onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev);
+	void onWallCollision(const p2d::CollisionEvent<p2d::Wall, GameObject> & ev);
 	/*! Increases score and hp of bonus and player
 		\param[in] ev event
 	 */

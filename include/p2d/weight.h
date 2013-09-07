@@ -36,11 +36,11 @@ public:
 		\param[in] value weight 
 		\return created weight
 	 */
-	static Weight constant(double value);
+	static Weight * constant(double value);
 	/*! Returns infinite weight
 		\return created weight
 	 */
-	static Weight infinite();
+	static Weight * infinite();
 };
 
 

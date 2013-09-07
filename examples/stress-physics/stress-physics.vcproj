@@ -206,10 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\wall.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\world.cpp"
 				>
 			</File>
@@ -233,10 +229,6 @@
 			</File>
 			<File
 				RelativePath=".\gridnodedge.h"
-				>
-			</File>
-			<File
-				RelativePath=".\wall.h"
 				>
 			</File>
 			<File

@@ -20,14 +20,14 @@ double p2d::Weight::value() const
 	return result;
 }
 
-p2d::Weight p2d::Weight::constant(double value)
+p2d::Weight * p2d::Weight::constant(double value)
 {
-	return p2d::Weight(value, true);
+	return new p2d::Weight(value, true);
 }
 
-p2d::Weight p2d::Weight::infinite()
+p2d::Weight * p2d::Weight::infinite()
 {
-	return p2d::Weight(0.0, false);
+	return new p2d::Weight(0.0, false);
 }
 
 void p2d::Weight::setValue(double value)

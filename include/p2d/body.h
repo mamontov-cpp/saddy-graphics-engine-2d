@@ -12,6 +12,11 @@
 #include "movement.h"
 #pragma once
 
+/*! A special point, which can be added to time or other values to make objects
+	not collide
+ */
+#define COLLISION_PRECISION 1.0E-4
+
 namespace p2d
 {
 class World;
