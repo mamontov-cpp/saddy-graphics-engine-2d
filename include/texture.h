@@ -11,12 +11,15 @@
 #include <stdio.h>
 
 #ifdef WIN32
-#include <windows.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+	#ifndef NOMINMAX
+    #define NOMINMAX 
+    #endif
+	#include <windows.h>
+	#include <gl/gl.h>
+	#include <gl/glu.h>
 #else
-#include <GL/gl.h>
-#include <GL/glu.h>
+	#include <GL/gl.h>
+	#include <GL/glu.h>
 #endif
 #include <renderer.h>
 

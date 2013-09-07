@@ -14,7 +14,6 @@
 #include "player.h"
 #include "playerbullet.h"
 #include "enemybullet.h"
-#include "wall.h"
 
 const hst::string GameState::START = "start";
 const hst::string GameState::PLAYING = "playing";

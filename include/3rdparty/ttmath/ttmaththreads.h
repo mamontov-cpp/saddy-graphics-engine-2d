@@ -43,6 +43,9 @@
 #include "ttmathtypes.h"
 
 #ifdef TTMATH_WIN32_THREADS
+#ifndef NOMINMAX
+#define NOMINMAX 
+#endif
 #include <windows.h>
 #include <cstdio>
 #endif

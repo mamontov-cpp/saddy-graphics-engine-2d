@@ -4,11 +4,14 @@
 */
 #pragma once
 #ifdef WIN32
-          #include <windows.h>
+    #ifndef NOMINMAX
+	#define NOMINMAX 
+	#endif
+    #include <windows.h>
 #else
-          #include <fcntl.h>
-          #include <sys/stat.h>
-          #include  <semaphore.h>
+    #include <fcntl.h>
+    #include <sys/stat.h>
+    #include  <semaphore.h>
 #endif
 
 
