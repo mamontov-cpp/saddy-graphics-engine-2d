@@ -891,6 +891,7 @@ class BasicFormatter : public BasicWriter<Char> {
   typedef void (*FormatFunc)(
       BasicWriter<Char> &w, const void *arg, const FormatSpec &spec);
 
+ public:
   // A format argument.
   class Arg {
    private:
@@ -1113,6 +1114,14 @@ class ArgInserter {
     arg.formatter = formatter_;
     formatter_->Add(arg);
     return *this;
+  }
+
+  void append(typename BasicFormatter<Char>::Arg * arg) {
+    formatter_->Add(*arg);
+  }
+
+  void completeFormatting() {
+    formatter_->CompleteFormatting();
   }
 
   operator FormatterProxy<Char>() {
