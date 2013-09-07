@@ -6,16 +6,15 @@
 #pragma once
 #include <extra/periodicalevent.h>
 #include <scene.h>
-#include <p2d/worldsteptask.h>
+#include <p2d/app/app.h>
 #include <p2d/findcontactpoints.h>
-#include <p2d/world.h>
 #include "wall.h"
 #include <label.h>
 class WorldObject;
 class GridNode;
 /*! Main class for application
  */
-class World
+class World: public p2d::app::App
 {
 protected:
 	/*! Describes a label, which displays current FPS
@@ -27,8 +26,6 @@ protected:
 		 virtual void render();
 	};
 
-	p2d::World * m_world;
-	p2d::WorldStepTask * m_steptask;
 	p2d::FindContactPoints * m_find;
 	Walls * m_walls;
 	/*! Makes node moving in opposite direction, of a wall
@@ -50,10 +47,6 @@ public:
 	/*! Quits a simulation
 	 */
 	void quit();
-	/*! Adds a game object
-		\param[in] o game object
-	 */
-	void addObject(WorldObject * o);
 
 	void onMouseMove(const sad::Event & ev);
 	

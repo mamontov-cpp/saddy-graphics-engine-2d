@@ -59,7 +59,7 @@ int Player::increaseScore(int delta)
 
 void Player::tryStartMovingLeft(const sad::Event & e)
 {
-	if (m_game->isPlaying())
+	if (this->game()->isPlaying())
 	{
 	    this->setHorizontalSpeed(N_SPEED);
 		m_stopkeys[0] = e.key;
@@ -68,7 +68,7 @@ void Player::tryStartMovingLeft(const sad::Event & e)
 
 void Player::tryStartMovingRight(const sad::Event & e)
 {
-	if (m_game->isPlaying())
+	if (this->game()->isPlaying())
 	{
 		this->setHorizontalSpeed(P_SPEED);
 		m_stopkeys[0] = e.key;
@@ -77,7 +77,7 @@ void Player::tryStartMovingRight(const sad::Event & e)
 
 void Player::tryStartMovingUp(const sad::Event & e)
 {
-	if (m_game->isPlaying())
+	if (this->game()->isPlaying())
 	{
 		this->setVerticalSpeed(P_SPEED);
 		m_stopkeys[1] = e.key;
@@ -86,7 +86,7 @@ void Player::tryStartMovingUp(const sad::Event & e)
 
 void Player::tryStartMovingDown(const sad::Event & e)
 {
-	if (m_game->isPlaying())
+	if (this->game()->isPlaying())
 	{
 		this->setVerticalSpeed(N_SPEED);
 		m_stopkeys[1] = e.key;

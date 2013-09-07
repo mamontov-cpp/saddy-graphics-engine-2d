@@ -7,8 +7,7 @@
 #include <extra/statemachine.h>
 #include <extra/periodicalevent.h>
 #include <scene.h>
-#include <p2d/worldsteptask.h>
-#include <p2d/world.h>
+#include <p2d/app/app.h>
 
 /*! An enumerations for creating factory objects
  */
@@ -42,15 +41,13 @@ class GameState
 
 /*! A main class of game
  */
-class Game
+class Game: public p2d::app::App
 {
  private:
 	int  m_highscore;		         //!< Defines a highest score, gained by player
 	bool m_ispaused;		         //!< Whether game is paused
 	fsm::Machine * m_machine;        //!< A state machine, which describes all transitions
 	Player       * m_player;         //!< A link to in-game player
-	p2d::World   * m_world;          //!< A physical engine world
-	p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
 	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
 	Walls        * m_walls;          //!< A new walls
 	int            m_registered_supershooting_enemies_count; //!< Current count of super shooting enemies, active in game
@@ -58,10 +55,6 @@ class Game
 	/*! Create walls for game
 	 */
     void createWalls();
-	/*! Returns current in-game scene. A helper function for renderer's scene
-		\return scene from renderer
-	 */
-	sad::Scene * scene();
 	/*! A callback for leaving starting screen
 	 */
 	void leaveStartingScreen();
@@ -114,9 +107,6 @@ class Game
 		\param[in] ev event
 	 */
 	void onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperShootingEnemy> & ev);
-	/*! Creates new physical world for working with optional bodies
-	  */
-	void createWorld();
  public:
 	/*! Creates a new non-paused game with no highscore
 	 */
@@ -124,9 +114,6 @@ class Game
 	/*! Tries to toggle fullscreen mode if not paused
 	 */
 	void tryToggleFullscreen();
-	/*! Quits a game 
-	 */
-	void quit();
 	/*! Increases a score for player
 	 */
 	void increasePlayerScore(int delta);
@@ -159,9 +146,6 @@ class Game
 	/*! Returns ingame player
 	 */
 	Player * player();
-	/*! Removes a game object from game
-	 */
-	void removeObject(GameObject * o);
 	/*! Runs a game
 	 */
 	void run();
@@ -169,10 +153,6 @@ class Game
 		\return current game state
 	 */
 	const hst::string & state();
-	/*! Adds a game object
-		\param[in] o game object
-	 */
-	void addObject(GameObject * o);
 	/*! Produces game object of specified type
 	 */
 	GameObject * produce(Objects type);
@@ -182,4 +162,8 @@ class Game
 		\param[in] score 
 	 */
 	void trySetHighscore(int score);
+	/*! Removes an object
+		\param[in] o object
+	 */
+	void removeObject(p2d::app::Object * o);
 };

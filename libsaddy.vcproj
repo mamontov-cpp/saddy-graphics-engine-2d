@@ -595,6 +595,14 @@
 				<Filter
 					Name="app"
 					>
+					<File
+						RelativePath=".\src\p2d\app\app.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\p2d\app\appobject.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -1166,7 +1174,15 @@
 					Name="app"
 					>
 					<File
+						RelativePath=".\include\p2d\app\app.h"
+						>
+					</File>
+					<File
 						RelativePath=".\include\p2d\app\constants.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\p2d\app\object.h"
 						>
 					</File>
 				</Filter>

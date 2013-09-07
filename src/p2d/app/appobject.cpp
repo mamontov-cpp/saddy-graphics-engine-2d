@@ -1,9 +1,8 @@
-#include "worldobject.h"
-#include "world.h"
+#include <p2d/app/object.h>
 
-DECLARE_SOBJ_INHERITANCE(WorldObject, sad::BasicNode);
+DECLARE_SOBJ_INHERITANCE(p2d::app::Object, sad::BasicNode);
 
-WorldObject::WorldObject()
+p2d::app::Object::Object()
 {
 	// We don't init sprite as valid, to preserve working with simple
 	// objects
@@ -14,110 +13,97 @@ WorldObject::WorldObject()
 	// possible
 	m_body->setUserObject(this);
 	
-	m_listener1 = new p2d::MovementDeltaListener<WorldObject, p2d::Vector>(
+	m_listener1 = new p2d::MovementDeltaListener<p2d::app::Object, p2d::Vector>(
 			this, 
-			&WorldObject::notifyMove
+			&p2d::app::Object::notifyMove
 	);
-	m_listener2 = new p2d::MovementDeltaListener<WorldObject, double>(
+	m_listener2 = new p2d::MovementDeltaListener<p2d::app::Object, double>(
 			this, 
-			&WorldObject::notifyRotate
+			&p2d::app::Object::notifyRotate
 	);
 	// Add listeners, needed to synchronize sprite and a game object
 	m_body->addMoveListener(m_listener1);
 	m_body->addRotateListener(m_listener2);
-
 }
 
-WorldObject::~WorldObject()
+p2d::app::Object::~Object()
 {
-	if (m_world == NULL)
+	if (m_app == NULL)
 	{
 		delete m_body;
 	}
 	delete m_sprite;
 }
 
-
-void WorldObject::setWorld(World * g)
+void p2d::app::Object::setApp(p2d::app::App * g)
 {
-	m_world = g;
+	m_app = g;
 }
 
-void WorldObject::notifyMove(const p2d::Vector & dist)
+void p2d::app::Object::notifyMove(const p2d::Vector & dist)
 {
 	m_sprite->move(dist);
 }
 
-void WorldObject::notifyRotate(const double & angle)
+void p2d::app::Object::notifyRotate(const double & angle)
 {
 	m_sprite->rotate(angle);
 }
 
-
-void WorldObject::render()
+void p2d::app::Object::render()
 {
 	m_sprite->render();
 }
 
-
-void WorldObject::setAngularVelocity(double v)
+void p2d::app::Object::setAngularVelocity(double v)
 {
 	m_body->setCurrentAngularVelocity(v);
 }
 
-void WorldObject::setHorizontalSpeed(double v)
+void p2d::app::Object::setHorizontalSpeed(double v)
 {
 	p2d::Vector velocity = m_body->tangentialVelocity();
 	velocity.setX(v);
 	m_body->setCurrentTangentialVelocity(velocity);
 }
 
-void WorldObject::setVerticalSpeed(double v)
+void p2d::app::Object::setVerticalSpeed(double v)
 {
 	p2d::Vector velocity = m_body->tangentialVelocity();
 	velocity.setY(v);
 	m_body->setCurrentTangentialVelocity(velocity);
 }
 
-void WorldObject::setTangentialVelocity(const p2d::Vector & v)
-{
-	m_body->setCurrentTangentialVelocity(v);
-}
-
-void WorldObject::stopHorizontal()
+void p2d::app::Object::stopHorizontal()
 {
 	p2d::Vector velocity = m_body->tangentialVelocity();
 	velocity.setX(0);
 	m_body->setCurrentTangentialVelocity(velocity);
 }
 
-void WorldObject::stopVertical()
+void p2d::app::Object::stopVertical()
 {
 	p2d::Vector velocity = m_body->tangentialVelocity();
 	velocity.setY(0);
 	m_body->setCurrentTangentialVelocity(velocity);
 } 
 
-void WorldObject::stop()
+void p2d::app::Object::stop()
 {
 	m_body->setCurrentTangentialVelocity(p2d::Vector(0,0));	
 }
 
-
-p2d::Body * WorldObject::body()
+p2d::Body * p2d::app::Object::body()
 {
 	return m_body;
 }
 
-
-
-
-void WorldObject::setAngle(double angle)
+void p2d::app::Object::setAngle(double angle)
 {
 	this->m_body->setCurrentAngle(angle);
 }
 
-void WorldObject::lookAt(const hPointF & p)
+void p2d::app::Object::lookAt(const hPointF & p)
 {
 	hPointF c = p - this->m_body->position();
 	double angle = angle_of(c.x(), c.y());
@@ -125,28 +111,22 @@ void WorldObject::lookAt(const hPointF & p)
 	setAngle(angle);
 }
 
-
-World * WorldObject::world()
+p2d::app::App * p2d::app::Object::app()
 {
-	return m_world;
+	return m_app;
 }
 
-p2d::Point WorldObject::position() const
+p2d::Point p2d::app::Object::position() const
 {
 	return m_body->position();
 }
 
-double WorldObject::angle() const
+double p2d::app::Object::angle() const
 {
 	return m_body->angle();
 }
 
-
-
-void WorldObject::setPosition(const p2d::Point & p)
+void p2d::app::Object::setPosition(const p2d::Point & p)
 {
 	m_body->setCurrentPosition(p);
 }
-
-
-

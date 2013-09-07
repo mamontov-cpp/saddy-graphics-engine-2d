@@ -32,7 +32,7 @@ Game::Game()
 	// Create a new idle state
 	fsm::State * idleState = new fsm::State();
 	idleState->addKeyDownCallback('F',       this, &Game::tryToggleFullscreen);
-	idleState->addKeyDownCallback(KEY_ESC,   this, &Game::quit);
+	idleState->addKeyDownCallback(KEY_ESC,   (p2d::app::App *)this, &p2d::app::App::quit);
 	idleState->addKeyDownCallback(KEY_ENTER, this, &Game::startPlaying);
 	
 	idleState->addEnterCallback(this, &Game::enterStartingScreen);
@@ -42,7 +42,7 @@ Game::Game()
 	fsm::State * playState = new fsm::State();
 	playState->addKeyDownCallback('F', this, &Game::tryToggleFullscreen);
 	playState->addKeyDownCallback('P', this, &Game::togglePaused);
-	playState->addKeyDownCallback(KEY_ESC, this, &Game::quit);
+	playState->addKeyDownCallback(KEY_ESC, (p2d::app::App*)this, &p2d::app::App::quit);
 	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
 
 	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
@@ -71,14 +71,12 @@ Game::Game()
 	m_machine->addState(GameState::PLAYING, playState);
 	SL_MESSAGE("States bound successfully");
 
-	createWorld();
 	m_player = NULL;
 	
-	m_steptask = new p2d::WorldStepTask(m_world);
-	sad::Input::ref()->addPostRenderTask(m_steptask);
-
+	this->initApp();
 	m_spawntask =  new TimePeriodicalTask(NULL);
-	sad::Input::ref()->addPostRenderTask(m_spawntask);
+	sad::Input::ref()->addPostRenderTask(m_spawntask);	
+
 	m_walls = NULL;
 	m_registered_supershooting_enemies_count = 0;
 }
@@ -88,6 +86,7 @@ void Game::startPlaying()
 {
 	m_machine->pushState(GameState::PLAYING);
 }
+
 Game::~Game()
 {
 	delete m_machine;
@@ -137,11 +136,6 @@ void Game::tryToggleFullscreen()
 		sad::Renderer::ref()->toggleFullscreen();
 }
 
-void Game::quit()
-{
-	sad::Renderer::ref()->quit();
-}
-
 void Game::run()
 {
 	// Init new empty scene with orthographic projection
@@ -183,12 +177,6 @@ void Game::increasePlayerHealth(int by)
 void Game::decreasePlayerHealth(int by)
 {
 	this->player()->decrementHP(by);
-}
-
-
-sad::Scene * Game::scene()
-{
-	return sad::Renderer::ref()->getCurrentScene();
 }
 
 void Game::leaveStartingScreen()
@@ -249,7 +237,7 @@ void Game::enterPlayingScreen()
 	createWalls();
 }
 
-void Game::removeObject(GameObject *o)
+void Game::removeObject(p2d::app::Object *o)
 {
 	// If player is dead, no reason to continue playing, 
 	// return to start screen
@@ -261,9 +249,7 @@ void Game::removeObject(GameObject *o)
 	{
 		--m_registered_supershooting_enemies_count;
 	}
-	p2d::Body * b = o->body();
-	sad::Renderer::ref()->getCurrentScene()->remove(o);
-	m_world->remove(b);
+	this->p2d::app::App::removeObject(o);
 }
 
 
@@ -298,12 +284,7 @@ GameObject *  Game::produce(Objects type)
 	return result;
 }
 
-void Game::addObject(GameObject * o)
-{
-	o->setGame(this);
-	sad::Renderer::ref()->getCurrentScene()->add(o);
-	m_world->add(o->body());
-}
+
 
 
 void Game::createWalls()
@@ -331,11 +312,7 @@ void Game::onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev)
 	}
 }
 
-void Game::createWorld()
-{
-	m_world = new p2d::World();
-	m_world->setDetector(new p2d::SimpleCollisionDetector());
-}
+
 
 void Game::onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev)
 {
