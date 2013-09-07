@@ -581,6 +581,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\walls.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\weight.cpp"
 					>
 				</File>
@@ -1156,6 +1160,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\vector.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\walls.h"
 					>
 				</File>
 				<File
