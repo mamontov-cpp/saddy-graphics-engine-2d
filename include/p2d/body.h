@@ -304,6 +304,12 @@ public:
 		\return time step
 	 */
 	double timeStep() const;
+	/*! If next position is scheduled, places object between two positions,
+		otherwise schedules new position. Note, that instead a position, a distance
+		between current position and new is passed
+		\param[in] distance
+	 */
+	void correctPosition(const p2d::Vector & distance);
 };
 
 }
