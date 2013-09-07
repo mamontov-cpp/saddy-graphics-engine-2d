@@ -2,6 +2,7 @@
 #include "renderer.h"
 
 DECLARE_SOBJ_INHERITANCE(Label,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(FormattedLabel,Label)
 
 void Label::operator()(const sad::ResizeEvent & o)
 {
@@ -38,4 +39,59 @@ Label::~Label()
 void Label::render()
 {
 	m_fnt->render(m_str,m_rend_point);
+}
+
+FormattedLabel::Arg::~Arg()
+{
+
+}
+
+FormattedLabel::FormattedLabel(sad::Renderer * renderer) : Label(renderer)
+{
+	m_created = true;
+	m_timer.start();
+}
+
+void FormattedLabel::setFont(const hst::string & fnt, sad::Renderer * r)
+{
+	sad::BasicFont * font = r->fonts()->get(fnt);
+	if (font)
+		setFont(font);
+}
+
+
+void FormattedLabel::update()
+{
+	fmt::TempFormatter<> stream = fmt::Format(m_format_string);
+	for(unsigned int i = 0; i < m_args.size(); i++)
+	{
+		m_args[i]->substitute(stream);
+	}
+	this->string() = str(stream);
+}
+
+void FormattedLabel::render()
+{
+	m_timer.stop();
+	if (m_created || m_timer.elapsed() >= m_update_interval)	
+	{
+		m_timer.start();
+		m_created = false;
+		this->update();
+	}
+	this->Label::render();
+}
+
+FormattedLabel::~FormattedLabel()
+{
+	for(unsigned int i = 0; i < m_args.size(); i++)
+	{
+		delete m_args[i];
+	}
+}
+
+
+FormattedLabel * FormattedLabel::argFPS(sad::Renderer * r)
+{
+	return this->arg(r, &sad::Renderer::fps);
 }

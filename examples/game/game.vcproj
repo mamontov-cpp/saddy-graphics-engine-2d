@@ -238,10 +238,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\statelabel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\supershootingenemy.cpp"
 				>
 			</File>
@@ -301,10 +297,6 @@
 			</File>
 			<File
 				RelativePath=".\startscreenrain.h"
-				>
-			</File>
-			<File
-				RelativePath=".\statelabel.h"
 				>
 			</File>
 			<File

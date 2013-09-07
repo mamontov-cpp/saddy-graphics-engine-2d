@@ -3,8 +3,8 @@
 #include <orthocamera.h>
 #include <extra/background.h>
 #include <extra/geometry2d.h>
+#include <label.h>
 
-#include "statelabel.h"
 #include "bonus.h"
 #include "enemy.h"
 #include "shootingenemy.h"
@@ -211,7 +211,19 @@ void Game::enterPlayingScreen()
 	m_ispaused = false;
 	sad::Scene * sc = this->scene();
 	sc->add(new sad::Background("background"));
-	sc->add(new StateLabel(this));
+
+	FormattedLabel * label = new FormattedLabel();
+	label->setFont("times_lg");
+	label->setPoint(0, 480);
+	label->setUpdateInterval(200);
+	
+	label->setFormatString("Health: {0} Score: {1} Highscore: {2}\nFPS: {3}");
+	label->arg(this, &Game::player, &GameObject::hitPoints);
+	label->arg(this, &Game::player, &Player::score);
+	label->arg(this, &Game::highscore);
+	label->argFPS();
+
+	sc->add(label);
 	m_spawntask->setEvent(new EnemySpawn(this) );
 
 	// Handlers also register types in world, so they MUST BE added before
@@ -380,7 +392,17 @@ void Game::moveToStartingScreen()
 
 	// Fill screne with background, label and rain of element (the last object does that).
 	sc->add(new sad::Background("title"));
-	sc->add(new StateLabel(this));
+	
+	FormattedLabel  * label = new FormattedLabel();
+	label->setFont("times_lg");
+	label->setPoint(260, 240);
+	label->setUpdateInterval(1000);
+	// Here we build a format string, where {0} will be replaced with call of this->highscore()
+	label->setFormatString("Highscore: {0}");
+	label->arg(this, &Game::highscore);
+	sc->add(label);
+
+	
 	m_spawntask->setEvent(new StartScreenRain(this) );
 
 	// Handlers also register types in world, so they MUST BE added before
