@@ -10,6 +10,9 @@
     #define _WIN32_WINNT  0x0501
     #undef _WIN32_WINDOWS
     #define _WIN32_WINDOWS 0x0501
+    #ifndef NOMINMAX
+    #define NOMINMAX 
+    #endif
     #include <windows.h>
     #include <gl/gl.h>														
     #include <gl/glu.h>

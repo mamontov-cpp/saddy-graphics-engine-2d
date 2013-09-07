@@ -5,9 +5,12 @@
  */
 #pragma once
 #ifdef WIN32
-          #include  <windows.h>
+    #ifndef NOMINMAX
+    #define NOMINMAX 
+    #endif
+    #include  <windows.h>
 #else
-          #include  <sys/time.h>
+    #include  <sys/time.h>
 #endif
 
 
