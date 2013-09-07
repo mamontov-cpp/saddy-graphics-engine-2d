@@ -50,11 +50,6 @@ private:
 	/*! A type size of shape in body
 	 */
 	size_t  m_shapesize;
-protected:
-	/*! Returns  time step for body
-		\return time step
-	 */
-	double timeStep() const;
 public:
 	/*! Construct new body line with zero width at (0,0) with zero speed
 	 */
@@ -300,6 +295,10 @@ public:
 	/*! Builds an acceleration cache for any of bodies
 	 */
 	void buildAccelerationCache();
+	/*! Returns  time step for body
+		\return time step
+	 */
+	double timeStep() const;
 };
 
 }
