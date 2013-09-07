@@ -122,7 +122,13 @@ void World::run()
 	this->addObject(ball);
 	
 	// Add FPS counter
-	sc->add( new World::FPSLabel() );
+	FormattedLabel * label = new FormattedLabel();
+	label->setFont("times_lg");
+	label->setPoint(0, sad::Renderer::ref()->settings().height());
+	label->setFormatString("{0}");
+	label->setUpdateInterval(1000.0);
+	label->argFPS();
+	sc->add( label );
 
 
 	// Run an engine, starting a main loop
@@ -192,21 +198,6 @@ void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
 	}
 }
 
-
-World::FPSLabel::FPSLabel()
-{
-	// Extract font with label
-	this->font()=sad::Renderer::ref()->fonts()->get("times_lg");
-	this->point()=pointf(0,sad::Renderer::ref()->settings().height());
-	// Set rendering point to current point
-	this->render_point()=this->point();
-}
-
-void World::FPSLabel::render()
-{
-	string() = hst::string::number(sad::Renderer::ref()->fps());
-	this->Label::render();
-}
 
 
 void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
