@@ -130,3 +130,15 @@ void p2d::app::Object::setPosition(const p2d::Point & p)
 {
 	m_body->setCurrentPosition(p);
 }
+
+
+void p2d::app::Object::addTangentialForce(p2d::TangentialForce * f)
+{
+	this->body()->tangentialForces().add(f);
+}
+
+void p2d::app::Object::addAngularForce(p2d::AngularForce * f)
+{
+	this->body()->angularForces().add(f);
+}
+
