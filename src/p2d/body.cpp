@@ -367,3 +367,26 @@ void p2d::Body::correctPosition(const p2d::Vector & distance)
 		this->shedulePosition(position);
 	}
 }
+
+void p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
+{
+	if (this->willTangentialVelocityChange())
+	{
+		// Merge two impulses into one
+		p2d::Vector impulse = this->nextTangentialVelocity();
+		impulse -= this->tangentialVelocity();
+
+		impulse += v - this->tangentialVelocity();
+			
+		impulse /= 2.0;
+		// Here sum of speeds is computed
+		impulse +=  this->tangentialVelocity();
+		this->sheduleTangentialVelocity(impulse);
+	}
+	else
+	{
+		this->sheduleTangentialVelocity(v);
+	}
+}
+
+

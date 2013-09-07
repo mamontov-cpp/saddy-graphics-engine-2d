@@ -310,6 +310,11 @@ public:
 		\param[in] distance
 	 */
 	void correctPosition(const p2d::Vector & distance);
+	/*! If next velocity is scheduled, computes middle of two velocities, otherwise
+		schedules new velocity. 
+		\param[in] v new velocity
+	 */
+	void correctTangentialVelocity(const p2d::Vector & v);
 };
 
 }
