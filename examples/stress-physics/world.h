@@ -17,15 +17,6 @@ class GridNode;
 class World: public p2d::app::App
 {
 protected:
-	/*! Describes a label, which displays current FPS
-	 */
-	class FPSLabel: public Label
-	{
-	 public:
-		 FPSLabel();
-		 virtual void render();
-	};
-
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
 	/*! Makes node moving in opposite direction, of a wall

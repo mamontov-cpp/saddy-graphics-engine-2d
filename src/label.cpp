@@ -48,6 +48,7 @@ FormattedLabel::Arg::~Arg()
 
 FormattedLabel::FormattedLabel(sad::Renderer * renderer) : Label(renderer)
 {
+	m_update_interval = 200;
 	m_created = true;
 	m_timer.start();
 }
