@@ -1,14 +1,14 @@
-/*! \file game.h
+/*! \file world.h
 	\author HiddenSeeker
 
-	Describes a game state with all references and other stuff
+	Describes a main physics simulation
  */
 #pragma once
 #include <extra/periodicalevent.h>
 #include <scene.h>
 #include <p2d/app/app.h>
 #include <p2d/findcontactpoints.h>
-#include "wall.h"
+#include <p2d/walls.h>
 #include <label.h>
 class WorldObject;
 class GridNode;
@@ -27,11 +27,11 @@ protected:
 	};
 
 	p2d::FindContactPoints * m_find;
-	Walls * m_walls;
+	p2d::Walls * m_walls;
 	/*! Makes node moving in opposite direction, of a wall
 		\param[in] ev event
 	 */
-	void onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev);
+	void onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev);
 	/*! Tests a collision between node and node
 		\param[in] ev event
 	 */

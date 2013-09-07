@@ -11,7 +11,8 @@
 #include <p2d/bounds.h>
 #pragma once
 
-class Player;
+namespace p2d
+{
 /*! Describes a static non-moving wall
  */
 class Wall: public sad::Object
@@ -39,7 +40,7 @@ class Wall: public sad::Object
 	  /*! Returns a body
 		  \return body
 	   */
-	  inline p2d::Body * body() { return m_body; }
+	  inline p2d::Body * body() const { return m_body; }
 	  /*! Sets new body
 		  \param[in] b body
 	   */
@@ -47,11 +48,15 @@ class Wall: public sad::Object
 	  /*! Returns body for opposite wall
 		  \return opposite body
 	   */
-	  inline p2d::Body * oppositeBody() { return m_body; }
+	  inline p2d::Body * oppositeBody() const { return m_body; }
 	  /*! Sets body for opposite wall
 		  \param[in] b opposite body
 	   */
 	  inline void setOppositeBody(p2d::Body * b) {m_opposite_body = b;} 
+	  /*! Returns type of a wall
+		  \return type of wall
+	   */
+	  p2d::BoundType  type() const;
 };
 
 
@@ -70,10 +75,12 @@ class Walls
 	  /*! A minimal definition for a wall
 	   */
 	  typedef hst::pair<p2d::BoundType, double> minimal_t;
-	  /*! Creates bounding walls with specified padding
+	  /*! Creates bounding walls with specified padding, which defines how far
+		  walls are from edges of window. If we pass here 14, that the bounding
+		  rectangle will be 14 points larger than screen bounds.
 		  \param[in] padding
 	   */
-	  Walls(double padding);
+	  Walls(double padding = 0);
 	  /*! Returns physical bodies of walls to add them into a game world
 	   */
 	  const hst::vector<p2d::Body *> bodies() const;
@@ -81,3 +88,5 @@ class Walls
 	   */
 	  virtual ~Walls();
 };
+
+}

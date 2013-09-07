@@ -15,7 +15,7 @@ World::World()
 {
 	this->initApp();
 	/*m_world->setDetector(new p2d::MultisamplingCollisionDetector(3))*/;
-	m_walls = new Walls();
+	m_walls = new p2d::Walls();
 	m_find = new p2d::FindContactPoints();
 }
 
@@ -141,7 +141,7 @@ void World::quit()
 /*! Handled this type of collision with manual from
 	http://alexandr4784.narod.ru/sdvmpdf1/smgl04_28.pdf
  */
-void World::onWallNode(const p2d::CollisionEvent<GridNode, Wall> & ev)
+void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
 {
 	p2d::BoundType bt = ev.m_object_2->type();
 	double x = fabs(ev.m_object_1->body()->tangentialVelocity().x());

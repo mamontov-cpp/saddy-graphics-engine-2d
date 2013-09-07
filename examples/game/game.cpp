@@ -290,7 +290,7 @@ GameObject *  Game::produce(Objects type)
 void Game::createWalls()
 {
 	delete m_walls;
-	m_walls = new Walls();
+	m_walls = new p2d::Walls(14);
 	const hst::vector<p2d::Body *> & bodies = m_walls->bodies();
 	for(size_t i = 0; i < bodies.count(); i++)
 	{
@@ -299,12 +299,11 @@ void Game::createWalls()
 }
 
 
-void Game::onWallCollision(const p2d::CollisionEvent<Wall, GameObject> & ev)
+void Game::onWallCollision(const p2d::CollisionEvent<p2d::Wall, GameObject> & ev)
 {
 	if (ev.object2().metaData()->name() == "Player")
 	{
-		Player * p = hst::checked_cast<Player>(& (ev.object2()));
-		ev.object1().tryTeleport(p);
+		ev.object1().tryTeleport(ev.object2().body());
 	}
 	else
 	{
