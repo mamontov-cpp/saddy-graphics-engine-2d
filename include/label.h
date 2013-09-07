@@ -79,7 +79,7 @@ class FormattedLabel: public Label
 			/*! Substitutes an argument to an output stream
 				\param[in] stream, stream to substitute to
 			 */
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) = 0;
+			virtual fmt::BasicFormatter<char>::Arg * substitute() = 0;
 			virtual ~Arg();
 	 };
 	 template<
@@ -91,9 +91,9 @@ class FormattedLabel: public Label
 			_Value m_arg; //!< Argument for substitution
 		public:
 			StaticArg(const _Value & arg) : m_arg(arg) { }
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
-				stream << m_arg;
+				return new fmt::BasicFormatter<char>::Arg(m_arg);
 			}
 	 };
 	 template<
@@ -105,9 +105,9 @@ class FormattedLabel: public Label
 			_Value (*m_f)(); 
 		public:
 			ZeroFunctionArg(_Value  (*f)()) : m_f(f) { }
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
-				stream << m_f();
+				return new fmt::BasicFormatter<char>::Arg( m_f() );
 			}
 	 };
 	 template<
@@ -121,9 +121,9 @@ class FormattedLabel: public Label
 			_Value (_Class::*m_f)(); 
 		public:
 			ZeroMethodArg(_Class * o, _Value (_Class::*f)()) : m_o(o), m_f(f) { }
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
-				stream << (m_o->*m_f)();
+				return new fmt::BasicFormatter<char>::Arg( (m_o->*m_f)() );
 			}
 	 };
 	 template<
@@ -137,9 +137,26 @@ class FormattedLabel: public Label
 			_Value (_Class::*m_f)() const; 
 		public:
 			ZeroConstMethodArg(_Class * o, _Value (_Class::*f)() const) : m_o(o), m_f(f) { }
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
-				stream << (m_o->*m_f)();
+				return new fmt::BasicFormatter<char>::Arg( (m_o->*m_f)() );
+			}
+	 };
+	 template<
+		typename _RetValue,
+		typename _Class,
+		typename _Value
+	 >
+	 class ZeroCastedConstMethodArg: public FormattedLabel::Arg
+	 {
+ 		 private:
+			_Class * m_o;
+			_Value (_Class::*m_f)() const; 
+		public:
+			ZeroCastedConstMethodArg(_Class * o, _Value (_Class::*f)() const) : m_o(o), m_f(f) { }
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
+			{ 
+				return new fmt::BasicFormatter<char>::Arg( (_RetValue)((m_o->*m_f)()) );
 			}
 	 };
 	 template<
@@ -160,10 +177,10 @@ class FormattedLabel: public Label
 									  _Value (_Class2::*g)() ) : m_o(o), m_f(f), m_g(g) 
 			{ 
 			}
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
 				_Class2 * p = (m_o->*m_f)();
-				stream << (p->*m_g)();
+				return new fmt::BasicFormatter<char>::Arg( (p->*m_g)() );
 			}
 	 };
 	 template<
@@ -185,11 +202,11 @@ class FormattedLabel: public Label
 									    _Value (_Class3::*g)() const ) : m_o(o), m_f(f), m_g(g) 
 			{ 
 			}
-			virtual void substitute(fmt::internal::ArgInserter<char> & stream) 
+			virtual fmt::BasicFormatter<char>::Arg * substitute() 
 			{ 
 				_Class2 * p = (m_o->*m_f)();
 				_Class3 * k = static_cast<_Class3*>(p);
-				stream << (k->*m_g)();
+				return new fmt::BasicFormatter<char>::Arg( (k->*m_g)() );
 			}
 	 };
  protected:
@@ -348,6 +365,20 @@ class FormattedLabel: public Label
 		 return this->addArg(
 			 new FormattedLabel::ZeroCompatibleCompositionArg3C<_Class1,_Class2, _Class3, _Value>(o, f, g)
 		 );
+	 }
+	 /*! Adds an argument to label
+		 \param[in] o object
+		 \param[in] f a function
+		 \return this
+	  */
+	 template<
+		typename _Retval,
+		typename _Class,
+		typename _Value
+	 >
+	 inline FormattedLabel * castedConstArg(_Class * o, _Value (_Class::*f)() const)
+	 {
+		 return this->addArg(new FormattedLabel::ZeroCastedConstMethodArg<_Retval,_Class,_Value>(o, f));
 	 }
 	 /*! Adds fps argument, taken from specified renderer
 		 \param[in] r renderer

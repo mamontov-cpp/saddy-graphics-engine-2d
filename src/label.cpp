@@ -63,11 +63,19 @@ void FormattedLabel::setFont(const hst::string & fnt, sad::Renderer * r)
 void FormattedLabel::update()
 {
 	fmt::TempFormatter<> stream = fmt::Format(m_format_string);
+	std::vector<fmt::BasicFormatter<char>::Arg *> args;
 	for(unsigned int i = 0; i < m_args.size(); i++)
 	{
-		m_args[i]->substitute(stream);
+		fmt::BasicFormatter<char>::Arg * a = m_args[i]->substitute();
+		args.push_back(a);
+		stream.append(a);
 	}
+	stream.completeFormatting();
 	this->string() = str(stream);
+	for(int i = 0; i < args.size(); i++)
+	{
+		delete args[i];
+	}
 }
 
 void FormattedLabel::render()
@@ -93,5 +101,5 @@ FormattedLabel::~FormattedLabel()
 
 FormattedLabel * FormattedLabel::argFPS(sad::Renderer * r)
 {
-	return this->arg(r, &sad::Renderer::fps);
+	return this->castedConstArg<int>(r, &sad::Renderer::fps);
 }
