@@ -3,7 +3,8 @@
 
 	Describes a basic grid node edge
  */
-#include "worldobject.h"
+#include <scene.h>
+#include <p2d/body.h>
 #include <p2d/app/constants.h>
 #include <sprite2dadapter.h>
 #pragma once

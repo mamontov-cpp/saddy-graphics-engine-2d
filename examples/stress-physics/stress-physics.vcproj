@@ -213,10 +213,6 @@
 				RelativePath=".\world.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\worldobject.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -245,10 +241,6 @@
 			</File>
 			<File
 				RelativePath=".\world.h"
-				>
-			</File>
-			<File
-				RelativePath=".\worldobject.h"
 				>
 			</File>
 		</Filter>

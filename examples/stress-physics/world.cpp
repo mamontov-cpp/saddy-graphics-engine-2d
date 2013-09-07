@@ -1,11 +1,11 @@
-#include "world.h"
-#include "worldobject.h"
+#include <p2d/app/object.h>
 #include <orthocamera.h>
 #include <texturemanager.h>
 #include <input.h>
 #include <extra/background.h>
 #include <p2d/elasticforce.h>
-#include "worldobject.h"
+
+#include "world.h"
 
 #include "gridnode.h"
 #include "gridnodedge.h"
@@ -13,7 +13,7 @@
 
 World::World()
 {
-	m_world = new p2d::World();
+	this->initApp();
 	/*m_world->setDetector(new p2d::MultisamplingCollisionDetector(3))*/;
 	m_walls = new Walls();
 	m_find = new p2d::FindContactPoints();
@@ -22,7 +22,6 @@ World::World()
 
 World::~World()
 {
-	delete m_world;
 	delete m_walls;
 	delete m_find;
 }
@@ -32,8 +31,6 @@ World::~World()
 
 void World::run()
 {
-	
-
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc= new sad::Scene();
 	sc->setCamera(new OrthoCamera());
@@ -140,12 +137,6 @@ void World::quit()
 	sad::Renderer::ref()->quit();
 }
 
-void World::addObject(WorldObject * o)
-{
-	o->setWorld(this);
-	sad::Renderer::ref()->getCurrentScene()->add(o);
-	m_world->add(o->body());
-}
 
 /*! Handled this type of collision with manual from
 	http://alexandr4784.narod.ru/sdvmpdf1/smgl04_28.pdf

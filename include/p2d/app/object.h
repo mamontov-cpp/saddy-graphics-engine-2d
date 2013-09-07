@@ -1,17 +1,26 @@
-/*! \file worldobject.h
+/*! \file object.h
 
-	Describes main object
+	Describes main application object, that is basic for all objects in application
  */
 #pragma once
-#include <p2d/body.h>
-#include <p2d/app/constants.h>
-#include "sprite2dadapter.h"
-#include "primitives/object.h"
-#include "templates/hlvector.hpp"
+#include "../body.h"
+#include "constants.h"
+#include "../../sprite2dadapter.h"
+#include "../../primitives/object.h"
+#include "../../templates/hlvector.hpp"
 
-class World;
 
-class WorldObject: public sad::BasicNode
+namespace p2d
+{
+
+namespace app
+{
+
+class App;
+/*! Describes a basic in-game object, which provides primitives, needed to 
+	describe all in-game objects
+ */
+class Object: public sad::BasicNode
 {
 	/* Declare metadata, needed to describe inheritance tree, name of class
 	   This metadata can be used where real type is needed - for most part,
@@ -27,15 +36,15 @@ class WorldObject: public sad::BasicNode
 	 Sprite2DAdapter * m_sprite;
 	 /*! An object is linked to game to forward the in-game to a game object 
 	  */
-	 World * m_world;
+	 p2d::app::App * m_app;
 	 /*! A first listener for movement of body
 	  */
-	 p2d::MovementDeltaListener<WorldObject, p2d::Vector> * m_listener1;
+	 p2d::MovementDeltaListener<p2d::app::Object, p2d::Vector> * m_listener1;
 	 /*! A second listener for movement of body
 	  */
-	 p2d::MovementDeltaListener<WorldObject, double> * m_listener2;
+	 p2d::MovementDeltaListener<p2d::app::Object, double> * m_listener2;
  protected:
-	 /*! Inits game object parameters from constants of specified type
+	 /*! Inits object parameters from constants of specified type
 	  */
 	 template<typename T> void initFromConstants()
 	 {
@@ -45,9 +54,9 @@ class WorldObject: public sad::BasicNode
 		 this->m_body->setShape(p2d::app::Constants<T>::shape());
 	 }
  public:
-	 /*! Creates an empty game object
+	 /*! Creates an empty object
 	  */
-	 WorldObject();
+	 Object();
 	 /*! Moves an object sprite by specified direction.
 	     Note, that this function should be called only from body's listener,
 		 to preserve synchronization between sprite and physical body
@@ -89,41 +98,40 @@ class WorldObject: public sad::BasicNode
 	 /*! Stops a game object tangential movement
 	  */
 	 void stop();
-	 /*! Sets a game, which object belongs to
-		 \param[in] g game
+	 /*! Sets a world, which object belongs to
+		 \param[in] g world
 	  */
-	 void setWorld(World * g);
+	 void setApp(p2d::app::App * g);
 	 /*! The object does not own anything, if game is not null
 	  */
-	 ~WorldObject();
-	 /*! Returns body of game object	
-	     \return body of game object
+	 virtual ~Object();
+	 /*! Returns body of object	
+	     \return body of object
 	  */ 
 	 p2d::Body * body();
 	 /*! Called, when object is rendered. Object can easily reimplement
 		 it to work with AI, or do something other (like shoot). 
 	  */
 	 virtual void render();
-	 /*! Returns a game from game object
-		 \return game
+	 /*! Returns a world for object
+		 \return object
 	  */
-	 World * world();
-	 /*! Returns a position of game object
+	 p2d::app::App * app();
+	 /*! Returns a position of  object
 	 	 \return a positions
 	  */
 	 p2d::Point position() const;
-	 /*! Sets a position for game object
+	 /*! Sets a position for  object
 		 \param[in] p point
 	  */
 	 void setPosition(const p2d::Point & p);
-	 /*! Sets a tangential velocity
-		 \param[in] v vector
-	  */
-	 void setTangentialVelocity(const p2d::Vector & v);
-	 /*! Returns an angle of game object
+	 /*! Returns an angle of  object
 		 \return an angle
 	  */
 	 double angle() const;
-
 };
+
+}
+
+}
 
