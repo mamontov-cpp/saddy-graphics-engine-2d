@@ -349,3 +349,21 @@ p2d::Weight & p2d::Body::weight()
 {
 	return *m_weight;
 }
+
+
+void p2d::Body::correctPosition(const p2d::Vector & distance)
+{
+	if (this->willPositionChange())
+	{
+		p2d::Vector position = distance;
+		position += this->nextPosition() - this->position();
+		position /= 2.0;
+		this->shedulePosition(this->position() + position);
+	}	
+	else
+	{
+		p2d::Vector position = this->position();
+		position += distance;
+		this->shedulePosition(position);
+	}
+}

@@ -290,28 +290,12 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 		}
 		
 		
+		ev.m_object_1->body()->correctPosition(av1 * time);
 		
-		if (ev.m_object_1->body()->willPositionChange())
-		{
-			p2d::Vector position1 = av1;
-			position1 *= time;
-			position1 += ev.m_object_1->body()->nextPosition() - ev.m_object_1->body()->position();
-			position1 /= 2.0;
-			ev.m_object_1->body()->shedulePosition(ev.m_object_1->body()->position() + position1);
-		}
-		
-		else
-		{
-			p2d::Vector position1 = ev.m_object_1->body()->currentShape()->center();
-			position1 += av1 * time;
-			ev.m_object_1->body()->shedulePosition(position1);
-		}
-
 		p2d::Vector cachedNormal2 = normalPart2;
 		normalPart2 *= -1;
 		normalPart2 += (cachedNormal1 * m1 + cachedNormal2 * m2) / (m1 + m2);
 	
-
 		if (ev.m_object_2->body()->willTangentialVelocityChange())
 		{
 			// Merge two impulses into one
@@ -329,22 +313,7 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 			ev.m_object_2->body()->sheduleTangentialVelocity(normalPart2 + tangentialPart2);
 		}
 
-		if (ev.m_object_2->body()->willPositionChange())
-		{
-			p2d::Vector position2 = av2;
-			position2 *= time;
-			position2 += ev.m_object_2->body()->nextPosition() - ev.m_object_2->body()->position();
-			position2 /= 2;
-			ev.m_object_2->body()->shedulePosition(ev.m_object_2->body()->position() + position2);
-		}
-		else
-		{
-			p2d::Vector position2 = ev.m_object_2->body()->currentShape()->center();
-			position2 += av2 * time;
-			ev.m_object_2->body()->shedulePosition(position2);
-		}
-
-		
+		ev.m_object_2->body()->correctPosition(av2 * time);		
 	}
 	else
 	{
