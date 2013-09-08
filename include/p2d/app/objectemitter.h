@@ -86,6 +86,9 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 	p2d::Point  m_min_position; //!< A minimal position of point
 	p2d::Point  m_max_position; //!< A minimal position of point
 
+	unsigned int m_min_count;  //!< Determines, how many objects should be emitted (minimal)
+	unsigned int m_max_count;  //!< Determines, how many objects should be emitted  (maximal)
+
 	inline double prand()
 	{
 		return ((double)rand()) / RAND_MAX;
@@ -98,6 +101,8 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 		m_max_angle = 0;
 		m_min_angular = 0;
 		m_max_angular = 0;
+		m_min_count = 1;
+		m_max_count = 1;
 	}
 
 	void setMinAngle(double a) { m_min_angle = a; }
@@ -112,6 +117,9 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 	void setMinPosition(const p2d::Vector & s) { m_min_position = s; }
 	void setMaxPosition(const p2d::Vector & s) { m_max_position = s; }
 	
+
+	void setMinCount(unsigned int c) {m_min_count = c;}
+	void setMaxCount(unsigned int c) {m_max_count = c;}
 
 
 	/*! Returns angular velocity
@@ -151,6 +159,17 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 	virtual p2d::app::Object * produce()
 	{
 		return new _Object();
+	}
+
+	/*! Emits objects
+	 */
+	virtual void perform()
+	{
+		unsigned int c = (unsigned int)(m_min_count + (m_max_count - m_min_count) * this->prand());
+		for(int i = 0; i < c; i++)
+		{
+			this->p2d::app::AbstractObjectEmitter::perform();
+		}
 	}
 };
 

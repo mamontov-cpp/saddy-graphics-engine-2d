@@ -154,6 +154,7 @@ void World::run()
 	b->setMaxSpeed(p2d::Vector(40, -100));
 	
 	b->setInterval(200);
+	b->setMaxCount(3);
 	// Added periodical task
 	sad::Renderer::ref()->controls()->addPreRenderTask( new TimePeriodicalTask(b) );
 	// Run an engine, starting a main loop
@@ -187,18 +188,14 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 
 void World::onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev)
 {
+	m_solver->pushRotationFriction(0.0001, 1);
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }
 
 void World::onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev)
 {
+	m_solver->pushRotationFriction(0.0001, 1);
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
-
-
-void World::onMouseMove(const sad::Event & ev)
-{
-	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
 }
 
 void World::onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev)
@@ -215,4 +212,9 @@ void World::onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Bal
 void World::onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, GridNode> & ev)
 {
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+}
+
+void World::onMouseMove(const sad::Event & ev)
+{
+	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
 }

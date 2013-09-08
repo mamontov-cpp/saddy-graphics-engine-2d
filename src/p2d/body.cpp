@@ -284,6 +284,11 @@ double p2d::Body::angularVelocity() const
 	return m_angular->velocity();
 }
 
+double p2d::Body::angularVelocityAt(double time) const
+{
+	return m_angular->velocityAt(time, this->timeStep());
+}
+
 bool p2d::Body::willAngularVelocityChange() const
 {
 	return m_angular->willVelocityChange();

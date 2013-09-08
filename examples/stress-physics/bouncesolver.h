@@ -24,6 +24,8 @@ protected:
 	
 	double      m_toi;  //!< Current time of impact
 
+	double      m_resilience[2]; //!< A resilience coefficients for bodies
+	double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
 	/*! Performs bouncing off for an object with a solver
 		\param[in] pairs a set of pairs of collision points for time of impact
 	 */ 
@@ -37,8 +39,20 @@ protected:
 		\param[in,out] n1 normal part of first velocity
 		\param[in] b2 second body
 		\param[in,out] n2 normal part of second velocity
+		\param[in] index index for coefficients
 	 */
-	void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2);
+	void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2, int index);
+	/*! Resets coefficients for bouncing
+	 */
+	void resetCoefficients();
+	/*! Tries to resolve friction of rotation for a body, changing it's rotation speed
+		\param[in] b this body
+		\param[in] t a tangential speed for body
+		\param[in] ni a normal speed for body
+		\param[in] index for a body
+		\param[in] pivot of force
+	 */
+	inline void tryResolveFriction(p2d::Body * b, const p2d::Vector & t, const p2d::Vector & ni, int index, double pivot);
 public:
 	/*! Constructs new solver
 	 */
@@ -46,6 +60,44 @@ public:
 	/*! Removes allocated algorithm for finding data
 	 */
 	~BounceSolver();
+	/*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
+		after performing bounce.
+		\param[in] r coefficient
+		\param[in] index an index
+	 */
+	inline void pushResilienceCoefficient(double r, int index)
+	{
+		assert(index == 1 || index == 2 );
+		m_resilience[index - 1] = r;
+	}
+	/*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
+		after performing bounce.
+		\param[in] r coefficient
+	 */
+	inline void pushResilienceCoefficient(double r)
+	{
+		m_resilience[0] = r;
+		m_resilience[1] = r;
+	}
+	/*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
+		after performing bounce.
+		\param[in] r coefficient
+		\param[in] index an index
+	 */
+	inline void pushRotationFriction(double r, int index)
+	{
+		assert(index == 1 || index == 2 );
+		m_rotationfriction[index - 1] = r;
+	}
+	/*! Pushes resilience coefficient for two objects. A coefficients are restored to normal,
+		after performing bounce.
+		\param[in] r coefficient
+	 */
+	inline void pushRotationFriction(double r)
+	{
+		m_rotationfriction[0] = r;
+		m_rotationfriction[1] = r;
+	}
 	/*! Returns current method for finding contact points
 		\return current method
 	 */
@@ -64,6 +116,7 @@ public:
 	 */
 	void bounce(p2d::Body * b1, p2d::Body * b2);
 	/*! Logs error, when unable to find contact points
+		\param[in] m message
 	 */
-	virtual void logFCPError();
+	virtual void logFCPError(const char * m);
 };

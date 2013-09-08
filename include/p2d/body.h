@@ -264,6 +264,10 @@ public:
 		\return tangential velocity
 	 */
 	double angularVelocity() const;
+	/*! A angular velocity
+		\return tangential velocity
+	 */
+	double angularVelocityAt(double time) const;
 	/*! Determines, whether body will leap to other velocity at end of current time step
 		\return whether position will change
 	 */

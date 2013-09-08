@@ -8,7 +8,7 @@ bool is_fuzzy_equal(double x1, double x2, double precision)
 
 bool is_fuzzy_zero(double x, double precision)
 {
-	return fabs(x) <= precision;
+	return fabs(x) < precision;
 }
 
 bool non_fuzzy_zero(double x, double precision)
