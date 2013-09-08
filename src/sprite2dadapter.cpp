@@ -1,5 +1,6 @@
 #include "sprite2dadapter.h"
 #include "texturemanager.h"
+#include "extra/geometry2d.h"
 
 DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
 
@@ -259,4 +260,24 @@ void Sprite2DAdapter::set(const Sprite2DAdapter::Options & o)
 	}
 	this->setSprite(tex, o.TextureRectangle);
 	this->setRect(o.Rectangle);
+}
+
+
+void Sprite2DAdapter::makeSpanBetweenPoints(const hRectF & r, const hPointF & p1, const hPointF & p2)
+{
+	hRectF kr(r);
+	for(int i = 0; i < 4; i++)
+		kr[i].setX(0);
+
+	double distance = p2d::distance(p1, p2) / 2;
+	kr[0].setX(kr[0].x() - distance );
+	kr[2].setX(kr[2].x() + distance );
+	kr[1].setX(kr[1].x() + distance );
+	kr[3].setX(kr[3].x() - distance );
+
+	this->rotate(this->angle() * -1);
+	this->setRect(kr);
+	this->move( (p1 +p2) / 2);
+	double angle = atan2(p2.y() - p1.y(), p2.x() - p1.x());
+	this->rotate(angle);
 }
