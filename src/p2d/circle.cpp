@@ -55,3 +55,12 @@ void p2d::Circle::populatePoints(hst::vector<p2d::Point> & v) const
 	if (t == NULL) t = p2d::CircleToHullTransformer::ref();
 	t->populate(this, v);
 }
+
+
+void p2d::Circle::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
+{
+	n = p;
+	n -= m_center;
+	p2d::mutableUnit(n);
+}
+

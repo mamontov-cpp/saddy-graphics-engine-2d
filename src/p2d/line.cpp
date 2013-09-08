@@ -73,3 +73,9 @@ void p2d::Line::populatePoints(hst::vector<p2d::Point> & v) const
 	v << m_c.p2();
 }
 
+void p2d::Line::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
+{
+	n = m_c.p2() - m_c.p1();
+	p2d::mutableUnit(n);
+	p2d::mutableNormalizedOrtho(n, p2d::OVI_DEG_90);
+}

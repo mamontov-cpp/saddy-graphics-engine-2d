@@ -48,6 +48,14 @@ public:
 		\param[in] v vector
 	 */
 	virtual void populatePoints(hst::vector<p2d::Point> & v) const = 0;
+	/*! Computes a normal to point on surface. Can be used to work around with 
+		bouncing.
+		Note that function, does not check, which it belongs to surface or not.
+		You must check this manually in order to get to work with it.
+		\param[in] p point
+		\param[out] n resulting normal
+	 */
+	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n) = 0;
 	virtual ~CollisionShape();
 };
 }

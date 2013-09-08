@@ -234,20 +234,16 @@ void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 			time = (y1 - y2) / (avy2 - avy1);
 		}
 				
-		time -= 1.0E-7;
+		time -= COLLISION_PRECISION;
 
 		double m1 = ev.m_object_1->body()->weight().value();
 		double m2 = ev.m_object_2->body()->weight().value();
 
-		
+		p2d::Point normal1; 
+		ev.m_object_1->body()->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
 
-		p2d::Point normal1 = pairs[0].p1();
-		normal1 -= ev.m_object_1->body()->currentShape()->center();
-		normal1 = p2d::unit(normal1);
-
-		p2d::Point normal2 = pairs[0].p2();
-		normal2 -= ev.m_object_2->body()->currentShape()->center();
-		normal2 = p2d::unit(normal2);
+		p2d::Point normal2;
+		ev.m_object_2->body()->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
 
 		p2d::Vector v1 = ev.m_object_1->body()->tangentialVelocityAt(time);
 		double project1 = p2d::scalar(v1, normal1);
