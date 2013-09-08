@@ -15,8 +15,6 @@
 
 
 
-class Player;
-class PlayerBullet;
 class EnemyBullet;
 class Bonus;
 class Enemy;
@@ -27,33 +25,9 @@ class GridNode;
 class GridNodeEdge;
 class Ball;
 class UncoloredBullet;
+class Platform;
 
 
-
-
-template<>
-class p2d::app::Constants<EnemyBullet>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-	/*! Describes a velocity for bullet
-		\return velocity
-	 */
-	static double velocity();
-	/*! Returns a shooting interval with this bullet type
-	 */
-	static double interval();
-};
-
-
-template<>
-class p2d::app::Constants<Bonus>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-};
 
 
 template<>
@@ -123,3 +97,11 @@ public:
 	static p2d::CollisionShape * shape();
 };
 
+
+template<>
+class p2d::app::Constants<Platform>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
