@@ -125,4 +125,5 @@ class p2d::app::Constants<GridNodeEdge>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
+	static hRectF sourceRect();
 };

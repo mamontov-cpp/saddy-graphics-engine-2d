@@ -176,6 +176,12 @@ class Sprite2DAdapter: public sad::BasicNode
 			 \param[in] o options
 		  */
 		 void set(const Sprite2DAdapter::Options & o);
+		 /*! Makes centers span between two points
+			 \param[in] r source rectangle for adapter
+			 \param[in] p1 first point
+			 \param[in] p2 second point
+		  */
+		 void makeSpanBetweenPoints(const hRectF & r, const hPointF & p1, const hPointF & p2);
 };
 
 
