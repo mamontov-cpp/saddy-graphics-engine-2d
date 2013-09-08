@@ -161,8 +161,8 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 {
 	p2d::Vector vn1 = n1;
 	n1 *= -1;
-	if (b1->weight().isInfinite() == false && b2->weight().isInfinite() == false
-		|| b1->weight().isInfinite() == true && b2->weight().isInfinite() == true)
+	if ( (b1->weight().isInfinite() == false && b2->weight().isInfinite() == false)
+		|| (b1->weight().isInfinite() == true && b2->weight().isInfinite() == true))
 	{
 		double m1 = b1->weight().value();
 		double m2 = b2->weight().value();
@@ -174,20 +174,33 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 			m2 = 1;
 		}
 		n1 += ((vn1 * m1 + n2 * m2) / (m1 + m2)) * 2 ;
+		n1 *= m_resilience[index];
+		
+		hst::string k1 = b1->currentShape()->metaData()->name();
+		hst::string k2 = b2->currentShape()->metaData()->name();
+
+		if ( k1 == "p2d::Rectangle" && k2== "p2d::Bound"
+			|| k2 == "p2d::Rectangle" && k1== "p2d::Bound"
+			)
+		{
+			printf("1");
+		}
 		return;
 	}
 	// If only first object has infinite weight
 	// his speed won't change
 	if (b1->weight().isInfinite())
 	{
+		n1 *= m_resilience[index];
 		return;
 	}
 	if (b2->weight().isInfinite())
 	{
 		n1 =  (n2 * 2 - vn1);
+		n1 *= m_resilience[index];
 		return;
 	}
-	n1 *= m_resilience[index];
+	
 }
 
 

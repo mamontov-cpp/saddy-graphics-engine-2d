@@ -20,7 +20,8 @@ struct CollisionTestTest : tpunit::TestFixture
 	   TEST(CollisionTestTest::testRtoL1),
 	   TEST(CollisionTestTest::testCtoC1),
 	   TEST(CollisionTestTest::testCtoL1),
-	   TEST(CollisionTestTest::testLtoL1)
+	   TEST(CollisionTestTest::testLtoL1),
+	   TEST(CollisionTestTest::testRtoB1)
    ) {}
    
    void testRtoR1()
@@ -147,6 +148,21 @@ struct CollisionTestTest : tpunit::TestFixture
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
 	   r2.setCutter( 0, 0, 3, 0 );
+	   ASSERT_TRUE( t.invoke(&r1, &r2) );
+	   ASSERT_TRUE( t.invoke(&r2, &r1) );
+   }
+
+   void testRtoB1()
+   {
+	   p2d::Rectangle r1;
+	   p2d::Bound r2;
+	   r1.setRect(
+			hRectF(hPointF(108, 0), hPointF(192, 0),
+				   hPointF(108, 20), hPointF(192, 20))	  
+	   );
+	   r2.setType(p2d::BT_DOWN);
+	   r2.setPosition(0);
+	   p2d::CollisionTest t;
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
    }
