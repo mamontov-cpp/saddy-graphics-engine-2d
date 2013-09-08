@@ -1,21 +1,7 @@
 #include "constants.h"
 #include <cstdlib>
 
-Sprite2DAdapter::Options * p2d::app::Constants<Player>::sprite()
-{
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(0,88),hPointF(88,174));
-	o->Rectangle = hRectF(hPointF(-11, -11), hPointF(11, 11));
-	return o;
-}
 
-p2d::CollisionShape * p2d::app::Constants<Player>::shape()
-{
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(11);
-	return c;
-}
 
 Sprite2DAdapter::Options * p2d::app::Constants<PlayerBullet>::sprite()
 {
@@ -156,6 +142,22 @@ p2d::CollisionShape * p2d::app::Constants<SuperShootingEnemy>::shape()
 	return c;
 }
 
+
+Sprite2DAdapter::Options * p2d::app::Constants<Ball>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(0,88),hPointF(88,174));
+	o->Rectangle = hRectF(hPointF(-11, -11), hPointF(11, 11));
+	return o;
+}
+
+p2d::CollisionShape * p2d::app::Constants<Ball>::shape()
+{
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(11);
+	return c;
+}
 
 Sprite2DAdapter::Options * p2d::app::Constants<GridNode>::sprite()
 {

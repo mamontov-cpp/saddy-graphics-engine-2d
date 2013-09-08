@@ -25,14 +25,8 @@ class SuperShootingEnemy;
 
 class GridNode;
 class GridNodeEdge;
+class Ball;
 
-template<>
-class p2d::app::Constants<Player>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-};
 
 template<>
 class p2d::app::Constants<PlayerBullet>
@@ -102,6 +96,15 @@ public:
 
 template<>
 class p2d::app::Constants<SuperShootingEnemy>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
+
+
+template<>
+class p2d::app::Constants<Ball>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();

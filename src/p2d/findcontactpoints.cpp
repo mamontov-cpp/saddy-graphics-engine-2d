@@ -483,10 +483,11 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	double K2 = 2 * ((A + *py1) * B - *px1);
 	double K3 = (*px1) * (*px1) + (*py1 + A) * (*py1 + A) - R1 * R1;
 
-	double DI = K2 * K2 - 4 * K1 *K3;
+	// BUG: Ignore it, so we can work around
+	//double DI = K2 * K2 - 4 * K1 *K3;
 	// This precision is taken empirically
-	if (DI < 0 && fabs(DI) > 1E-5)
-		return result;
+	//if (DI < 0 && fabs(DI) > 1E-5)
+	//	return result;
 
 	*px = -K2 / K1 / 2;
 	*py = -A - B * (*px);

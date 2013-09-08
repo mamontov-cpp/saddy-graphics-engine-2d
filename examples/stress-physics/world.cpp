@@ -7,6 +7,7 @@
 
 #include "world.h"
 
+#include "ball.h"
 #include "gridnode.h"
 #include "gridnodedge.h"
 
@@ -57,6 +58,8 @@ void World::run()
 	// SETUP WORLD CALLBACKS HERE!!!
 	m_world->addHandler(this, &World::onWallNode);
 	m_world->addHandler(this, &World::onNodeNode);
+	m_world->addHandler(this, &World::onWallBall);
+	m_world->addHandler(this, &World::onBallNode);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -76,7 +79,7 @@ void World::run()
 		// Add a gravity force
 		if (i != 0 && i != 2) 
 		{
-			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
+			//g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
 		}
 		else
 		{
@@ -99,7 +102,7 @@ void World::run()
 	{
 		int  f = forces[i][0];
 		int  s = forces[i][1];
-		g[s]->addTangentialForce( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
+		//g[s]->addTangentialForce( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
 	}
 	int graphic[12][2] = { 
 		{0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
@@ -118,10 +121,11 @@ void World::run()
 	}
 
 	// Add ball to scene
-	GridNode * ball = new GridNode();
+	Ball * ball = new Ball();
 	ball->setPosition(p2d::Point(20, 300));
-	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
+	//ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
 	ball->body()->setCurrentTangentialVelocity(p2d::Vector(140, 120));
+	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
 	
 	// Add FPS counter
@@ -148,7 +152,7 @@ void World::quit()
 
 
 /*! Handled this type of collision with manual from
-	http://alexandr4784.narod.ru/sdvmpdf1/smgl04_28.pdf
+	
  */
 void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
 {
@@ -158,6 +162,17 @@ void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
 
 
 void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+}
+
+
+void World::onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+}
+
+void World::onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev)
 {
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }

@@ -1,5 +1,6 @@
 #include "p2d/line.h"
 #include "primitives/matrix2x2.h"
+#include <log/log.h>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Line, p2d::CollisionShape, 2);
 
@@ -79,3 +80,14 @@ void p2d::Line::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
 	p2d::mutableUnit(n);
 	p2d::mutableNormalizedOrtho(n, p2d::OVI_DEG_90);
 }
+
+
+
+hst::string p2d::Line::dump() const
+{
+	return str(fmt::Format("Line at ({0}, {1}) - ({2}, {3})")
+							<< m_c.p1().x() << m_c.p1().y()
+							<< m_c.p2().x() << m_c.p2().y()
+			  );
+}
+
