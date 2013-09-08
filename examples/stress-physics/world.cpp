@@ -10,6 +10,7 @@
 #include "gridnode.h"
 #include "gridnodedge.h"
 
+#include "bouncesolver.h"
 
 World::World()
 {
@@ -17,6 +18,7 @@ World::World()
 	/*m_world->setDetector(new p2d::MultisamplingCollisionDetector(3))*/;
 	m_walls = new p2d::Walls();
 	m_find = new p2d::FindContactPoints();
+	m_solver = new BounceSolver();
 }
 
 
@@ -24,6 +26,7 @@ World::~World()
 {
 	delete m_walls;
 	delete m_find;
+	delete m_solver;
 }
 
 
@@ -149,152 +152,14 @@ void World::quit()
  */
 void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
 {
-	p2d::BoundType bt = ev.m_object_2->type();
-	double x = fabs(ev.m_object_1->body()->tangentialVelocity().x());
-	double y = fabs(ev.m_object_1->body()->tangentialVelocity().y());
-	
-	p2d::Vector av1 = ev.m_object_1->body()->averageChangeIndependentTangentialVelocity();
-	p2d::SetOfPointsPair pairs = m_find->invoke(ev.m_object_1->body()->currentShape(),
-												av1,
-												ev.m_object_2->body()->currentShape(),
-												p2d::Vector(0,0)
-											   );
-	if (pairs.size() > 0)
-	{
-		double time = 0;
-		double x1 = pairs[0].p1().x();
-		double x2 = pairs[0].p2().x();
-		double y1 = pairs[0].p1().y();
-		double y2 = pairs[0].p2().y();
-		if (non_fuzzy_zero(av1.x()) )
-		{
-			time = (x1 - x2) / (- (av1.x()));  
-		}
-		else
-		{
-			time = (y1 - y2) / (- (av1.y()));  
-		}
-		p2d::Point p = ev.m_object_1->body()->currentShape()->center();
-		p += av1 * time;
-		ev.m_object_1->body()->shedulePosition(p);
-	}
-
-	if (ev.m_object_2->type() == p2d::BT_LEFT)
-	{
-		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(x,ev.m_object_1->body()->tangentialVelocity().y()) );
-	}
-	if (ev.m_object_2->type() == p2d::BT_RIGHT)
-	{
-		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(-x,ev.m_object_1->body()->tangentialVelocity().y()) );
-	
-	}
-	if (ev.m_object_2->type() == p2d::BT_UP)
-	{
-		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(ev.m_object_1->body()->tangentialVelocity().x(), -y) );	
-	}
-	if (ev.m_object_2->type() == p2d::BT_DOWN)
-	{
-		ev.m_object_1->body()->sheduleTangentialVelocity(p2d::Vector(ev.m_object_1->body()->tangentialVelocity().x(), y) );	
-	}
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }
 
 
 
 void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
 {
-	p2d::Vector av1 = ev.m_object_1->body()->averageChangeIndependentTangentialVelocity();
-	p2d::Vector av2 = ev.m_object_2->body()->averageChangeIndependentTangentialVelocity();
-
-	p2d::SetOfPointsPair pairs = m_find->invoke(ev.m_object_1->body()->currentShape(),
-												av1,
-												ev.m_object_2->body()->currentShape(),
-												av2
-											   );
-
-	if (pairs.size() > 0)
-	{
-		// Compute time of impact
-		double x1 = pairs[0].p1().x();
-		double y1 = pairs[0].p1().y();
-		double x2 = pairs[0].p2().x();
-		double y2 = pairs[0].p2().y();
-
-		double avx1 = av1.x();
-		double avy1 = av1.y();
-		double avx2 = av2.x();
-		double avy2 = av2.y();
-
-		double time = 0;
-		if (non_fuzzy_zero(avx2 - avx1))
-		{
-			time = (x1 - x2) / (avx2 - avx1);
-		}
-		else
-		{
-			time = (y1 - y2) / (avy2 - avy1);
-		}
-				
-		time -= COLLISION_PRECISION;
-
-		double m1 = ev.m_object_1->body()->weight().value();
-		double m2 = ev.m_object_2->body()->weight().value();
-
-		p2d::Point normal1; 
-		ev.m_object_1->body()->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
-
-		p2d::Point normal2;
-		ev.m_object_2->body()->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
-
-		p2d::Vector v1 = ev.m_object_1->body()->tangentialVelocityAt(time);
-		double project1 = p2d::scalar(v1, normal1);
-		p2d::Vector normalPart1 = normal1;
-		normalPart1 *= project1;
-
-		p2d::Vector tangentialPart1 = v1;
-		tangentialPart1 -= normalPart1;
-
-		p2d::Vector v2 = ev.m_object_2->body()->tangentialVelocityAt(time);
-		double project2 = p2d::scalar(v2, normal2);
-		p2d::Vector normalPart2 = normal2;
-		normalPart2 *= project2;
-
-		p2d::Vector tangentialPart2 = v2;
-		tangentialPart2 -= normalPart2;
-
-		p2d::Vector cachedNormal1 = normalPart1;
-		normalPart1 *= -1;
-		normalPart1 += (cachedNormal1 * m1 + normalPart2 * m2) / (m1 + m2);
-		
-		ev.m_object_1->body()->correctTangentialVelocity(normalPart1 + tangentialPart1);		
-		ev.m_object_1->body()->correctPosition(av1 * time);
-		
-		p2d::Vector cachedNormal2 = normalPart2;
-		normalPart2 *= -1;
-		normalPart2 += (cachedNormal1 * m1 + cachedNormal2 * m2) / (m1 + m2);
-
-		ev.m_object_2->body()->correctTangentialVelocity(normalPart2 + tangentialPart2);		
-		ev.m_object_2->body()->correctPosition(av2 * time);		
-	}
-	else
-	{
-		hst::string tpl = "Cannot find a contact points. Performing an object dump\n";
-		tpl <<  "1st body:\ncenter at ({0},{1})\nradius {2}\n";
-		tpl <<  "velocity ({3},{4})\n";
-		tpl <<  "2nd body:\ncenter at ({5},{6})\nradius {7}\n";
-		tpl <<  "velocity ({8},{9})\n";
-		
-		p2d::Point center1 = ev.m_object_1->body()->currentShape()->center();
-		double radius1 = static_cast<p2d::Circle*>(ev.m_object_1->body()->currentShape())->radius();
-
-		p2d::Point center2 = ev.m_object_2->body()->currentShape()->center();
-		double radius2 = static_cast<p2d::Circle*>(ev.m_object_2->body()->currentShape())->radius();
-
-		SL_CRITICAL(fmt::Format(tpl) << center1.x() << center1.y() << radius1
-									 << av1.x() << av1.y()
-									 << center2.x() << center2.y() << radius2
-									 << av2.x() << av2.y()
-			       );
-	}
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }
 
 

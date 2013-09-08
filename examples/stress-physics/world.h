@@ -12,6 +12,7 @@
 #include <label.h>
 class WorldObject;
 class GridNode;
+class BounceSolver;
 /*! Main class for application
  */
 class World: public p2d::app::App
@@ -19,6 +20,7 @@ class World: public p2d::app::App
 protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
+	BounceSolver * m_solver; //!< A solver for bouncing objects
 	/*! Makes node moving in opposite direction, of a wall
 		\param[in] ev event
 	 */
