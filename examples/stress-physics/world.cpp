@@ -7,6 +7,7 @@
 #include <extra/background.h>
 
 #include "world.h"
+#include "platform.h"
 #include "uncoloredbullet.h"
 #include "ball.h"
 #include "gridnode.h"
@@ -64,6 +65,8 @@ void World::run()
 	m_world->addHandler(this, &World::onWallUncoloredBullet);
 	m_world->addHandler(this, &World::onBallUncoloredBullet);
 	m_world->addHandler(this, &World::onNodeUncoloredBullet);
+	m_world->addHandler(this, &World::onBallPlatform);
+	m_world->addHandler(this, &World::onWallPlatform);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -124,6 +127,19 @@ void World::run()
 		this->addObject(g[i]);
 	}
 
+	// Add two platforms to scene
+	Platform * platform1 = new Platform();
+	platform1->setPosition(p2d::Point(150, 200));
+	platform1->body()->setWeight(p2d::Weight::infinite());
+	platform1->setTangentialVelocity(p2d::Vector(0, -5));
+	this->addObject(platform1);
+
+	Platform * platform2= new Platform();
+	platform2->setPosition(p2d::Point(650, 200));
+	platform2->body()->setWeight(p2d::Weight::infinite());
+	platform2->setTangentialVelocity(p2d::Vector(0, -5));
+	this->addObject(platform2);
+
 	// Add ball to scene
 	Ball * ball = new Ball();
 	ball->setPosition(p2d::Point(20, 300));
@@ -131,7 +147,9 @@ void World::run()
 	ball->body()->setCurrentTangentialVelocity(p2d::Vector(140, 120));
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
+
 	
+
 	// Add FPS counter
 	FormattedLabel * label = new FormattedLabel();
 	label->setFont("times_lg");
@@ -214,7 +232,18 @@ void World::onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Gri
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }
 
+void World::onBallPlatform(const p2d::CollisionEvent<Ball, Platform> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+}
+
 void World::onMouseMove(const sad::Event & ev)
 {
 	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
+}
+
+
+void World::onWallPlatform(const p2d::CollisionEvent<p2d::Wall, Platform> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }

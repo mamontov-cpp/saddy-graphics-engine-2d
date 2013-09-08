@@ -12,6 +12,7 @@
 #include <label.h>
 class GridNode;
 class Ball;
+class Platform;
 class BounceSolver;
 class UncoloredBullet;
 /*! Main class for application
@@ -22,34 +23,15 @@ protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
 	BounceSolver * m_solver; //!< A solver for bouncing objects
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev);
-	/*! Tests a collision between node and node
-		\param[in] ev event
-	 */
 	void onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev);
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev);
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Ball> & ev);
-	/*! Makes node moving in opposite direction, of a wall
-		\param[in] ev event
-	 */
 	void onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, GridNode> & ev);
+	void onBallPlatform(const p2d::CollisionEvent<Ball, Platform> & ev);
+	void onWallPlatform(const p2d::CollisionEvent<p2d::Wall, Platform> & ev);
 public:
 
 	World();

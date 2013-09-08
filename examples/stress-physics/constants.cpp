@@ -29,27 +29,6 @@ p2d::CollisionShape * p2d::app::Constants<EnemyBullet>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<Bonus>::sprite()
-{
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(1,1),hPointF(86,86));
-	o->Rectangle = hRectF(hPointF(-8, -8), hPointF(8, 8));
-	return o;
-}
-
-p2d::CollisionShape * p2d::app::Constants<Bonus>::shape()
-{
-	Sprite2DAdapter::Options * options = p2d::app::Constants<Bonus>::sprite();
-	hRectF r = options->Rectangle;
-	delete options;
-
-	// For a simple optimization, make bonus a circle
-	p2d::Rectangle * c = new p2d::Rectangle();
-	c->setRect(r);
-	return c;
-}
-
 Sprite2DAdapter::Options * p2d::app::Constants<Enemy>::sprite()
 {
 	/*! A special texture rectangles, used to shape enemies
@@ -180,4 +159,26 @@ Sprite2DAdapter::Options * p2d::app::Constants<GridNodeEdge>::sprite()
 hRectF p2d::app::Constants<GridNodeEdge>::sourceRect()
 {
 	return hRectF(hPointF(-43, -11), hPointF(43, 11));
+}
+
+
+Sprite2DAdapter::Options * p2d::app::Constants<Platform>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(267,91),hPointF(437,132));
+	o->Rectangle = hRectF(hPointF(-42, -10), hPointF(42, 10));
+	return o;
+}
+
+p2d::CollisionShape * p2d::app::Constants<Platform>::shape()
+{
+	Sprite2DAdapter::Options * options = p2d::app::Constants<Platform>::sprite();
+	hRectF r = options->Rectangle;
+	delete options;
+
+	// For a simple optimization, make bonus a circle
+	p2d::Rectangle * c = new p2d::Rectangle();
+	c->setRect(r);
+	return c;
 }
