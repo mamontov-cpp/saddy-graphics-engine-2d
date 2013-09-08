@@ -245,7 +245,7 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 			{
 				p2d::Body * b1 = g1[i];
 				p2d::Body * b2 = g2[j];
-				if (b1 != b2)
+				if (b1 != b2 && b1->isGhost() == false && b2->isGhost() == false)
 				{
 					hst::Maybe<double> time;
 					time = m_detector->collides(b1, b2, m_time_step);
