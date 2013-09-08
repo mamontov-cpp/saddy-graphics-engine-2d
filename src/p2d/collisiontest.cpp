@@ -340,7 +340,7 @@ bool p2d::CollisionTest::collidesBtoS(p2d::Bound * p1, p2d::CollisionShape * p2)
 	{
 		p2d::Vector v(0, 1);
 		p2d::Cutter1D c = p2->project(v);
-		return c.p2() <= p1->position();
+		return c.p1() <= p1->position();
 	}
 	return false;
 }
