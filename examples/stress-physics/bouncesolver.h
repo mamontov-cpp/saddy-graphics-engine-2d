@@ -8,16 +8,9 @@
 /*! A bounce solver allows to easily solve problems with 
 	bouncing of various objects. 
 	
-	Due to hard problems with force detection it is HIGHLY recommended, that
+	Due to hard problems with fastly changed forces it is HIGHLY recommended, that
 	objects must be checked for collision with p2d::CollisionTest, before calling a
 	bounce. 
-
-	This must be performed, because BounceSolver CAN MOVE OBJECTS! This is performed,
-	because we need to solve toi, when objects change their speeds too fast 
-	and average velocities cannot be used for solving, since the precision is lost.
-
-	TODO: Should we really need to move objects? Maybe, if we optionally clone a shape
-	it would make things better. I think, we need a better approach for this
  */
 class BounceSolver
 {
@@ -26,9 +19,11 @@ protected:
 	p2d::Body * m_first;   //!< First body to test against
 	p2d::Body * m_second;  //!< Second body to test against
 	
-	p2d::Vector m_av1;   //!< An approximated speeed for first body
+	p2d::Vector m_av1;   //!< An approximated speed for first body
 	p2d::Vector m_av2;   //!< An approximated speed for second body
 	
+	double      m_toi;  //!< Current time of impact
+
 	/*! Performs bouncing off for an object with a solver
 		\param[in] pairs a set of pairs of collision points for time of impact
 	 */ 
@@ -36,7 +31,14 @@ protected:
 	/*! Approximately solves time of impact and finds contact points for two object
 		\param[out] pairs a set of pairs of collision points for time of impact
 	 */
-	void solveTOIFCP(const p2d::SetOfPointsPair & pairs);	
+	void solveTOIFCP(p2d::SetOfPointsPair & pairs);
+	/*! Resolves bouncing for first body
+		\param[in] b1 first body
+		\param[in,out] n1 normal part of first velocity
+		\param[in] b2 second body
+		\param[in,out] n2 normal part of second velocity
+	 */
+	void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2);
 public:
 	/*! Constructs new solver
 	 */
@@ -61,4 +63,7 @@ public:
 		\param[in] b2 second body
 	 */
 	void bounce(p2d::Body * b1, p2d::Body * b2);
+	/*! Logs error, when unable to find contact points
+	 */
+	virtual void logFCPError();
 };
