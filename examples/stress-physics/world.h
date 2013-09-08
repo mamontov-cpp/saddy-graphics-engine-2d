@@ -13,6 +13,7 @@
 class GridNode;
 class Ball;
 class BounceSolver;
+class UncoloredBullet;
 /*! Main class for application
  */
 class World: public p2d::app::App
@@ -37,6 +38,18 @@ protected:
 		\param[in] ev event
 	 */
 	void onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev);
+	/*! Makes node moving in opposite direction, of a wall
+		\param[in] ev event
+	 */
+	void onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev);
+	/*! Makes node moving in opposite direction, of a wall
+		\param[in] ev event
+	 */
+	void onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Ball> & ev);
+	/*! Makes node moving in opposite direction, of a wall
+		\param[in] ev event
+	 */
+	void onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, GridNode> & ev);
 public:
 
 	World();

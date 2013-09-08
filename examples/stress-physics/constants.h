@@ -26,22 +26,9 @@ class SuperShootingEnemy;
 class GridNode;
 class GridNodeEdge;
 class Ball;
+class UncoloredBullet;
 
 
-template<>
-class p2d::app::Constants<PlayerBullet>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-	/*! Describes a velocity for bullet
-		\return velocity
-	 */
-	static double velocity();
-	/*! Returns a shooting interval with this bullet type
-	 */
-	static double interval();
-};
 
 
 template<>
@@ -127,3 +114,12 @@ public:
 	static Sprite2DAdapter::Options * sprite();
 	static hRectF sourceRect();
 };
+
+template<>
+class p2d::app::Constants<UncoloredBullet>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
+
