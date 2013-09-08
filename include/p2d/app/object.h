@@ -137,6 +137,10 @@ class Object: public sad::BasicNode
 		 \param[in] f force
 	  */
 	 void addAngularForce(p2d::AngularForce * f);
+	 /*! Sets a tangential velocity
+		 \param[in] v velocity
+	  */
+	 void setTangentialVelocity(const p2d::Vector & v);
 };
 
 }

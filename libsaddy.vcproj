@@ -607,6 +607,10 @@
 						RelativePath=".\src\p2d\app\appobject.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\src\p2d\app\objectemitter.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -1191,6 +1195,10 @@
 					</File>
 					<File
 						RelativePath=".\include\p2d\app\object.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\p2d\app\objectemitter.h"
 						>
 					</File>
 				</Filter>

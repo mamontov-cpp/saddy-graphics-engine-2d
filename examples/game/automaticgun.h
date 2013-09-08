@@ -23,15 +23,7 @@ class AutomaticGun: public AbstractAutomaticGun
 		 // Check paused flag
 		 if (m_object->game()->isPaused() == false)
 		 {
-		  _Bullet * bullet = new _Bullet();
-		  m_object->game()->addObject(bullet);
-		  p2d::Point p = m_object->position();
-		  double angle = m_object->angle() + m_dangle;
-		  bullet->setPosition(p);
-		  bullet->setAngularVelocity(1.0);
-		  double speed = p2d::app::Constants<_Bullet>::velocity();
-		  bullet->setHorizontalSpeed(speed * cos(angle));
-		  bullet->setVerticalSpeed(speed * sin(angle));
+		  this->p2d::app::AbstractObjectEmitter::perform();
 		 }
 	 }
  public:
@@ -40,5 +32,38 @@ class AutomaticGun: public AbstractAutomaticGun
 	 AutomaticGun() : AbstractAutomaticGun()
 	 {
 		 setInterval(p2d::app::Constants<_Bullet>::interval());
+	 }
+
+	 /*! Produces an object
+		 \return onject
+	  */
+	 virtual p2d::app::Object * produce()
+	 {
+		 return new _Bullet();
+	 }
+	 /*! Returns angular velocity
+		 \return angular velocity
+	  */
+	 virtual double angularVelocity()
+	 {
+		 return 1.0;
+	 }
+	
+	 /*! Returns a position
+		 \param[out] a position
+	  */
+	 virtual void position(p2d::Point & p)
+	 {
+		 p = m_object->position();
+	 }
+	 /*! Sets a tangential velocity
+		 \param[out] v velocity
+	  */
+	 virtual void tangentialVelocity(p2d::Vector & v)
+	 {
+		 double angle = m_object->angle() + m_dangle;
+		 double speed = p2d::app::Constants<_Bullet>::velocity();
+		 v.setX(speed * cos(angle));
+		 v.setY(speed * sin(angle));
 	 }
 };
