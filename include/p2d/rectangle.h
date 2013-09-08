@@ -68,6 +68,11 @@ public:
 		\param[in] v vector
 	 */
 	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	/*! Fetches a normal for nearest point to surface
+		\param[in] p point
+		\param[in] n normal
+	 */
+	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n);
 };
 
 }

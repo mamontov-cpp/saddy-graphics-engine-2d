@@ -88,3 +88,19 @@ void p2d::Bound::populatePoints(hst::vector<p2d::Point> & v) const
 	}
 }
 
+void p2d::Bound::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
+{
+	// This function is duplicated for sake of optimization
+	double x;
+	double y;
+	switch(this->m_type)
+	{
+		case BT_LEFT:  { x =  1; y =  0;  break; }
+		case BT_RIGHT: { x = -1; y =  0;  break; }
+		case BT_DOWN:  { x =  0; y =  1;  break; }
+		case BT_UP:    { x =  0; y = -1;  break; }
+	}
+	n.setX(x);
+	n.setY(y);
+}
+

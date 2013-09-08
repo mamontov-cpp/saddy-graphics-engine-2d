@@ -25,6 +25,10 @@ namespace p2d
 		\return vector
 	 */
 	p2d::Vector unit(const p2d::Vector & v);
+	/*! Computes unit vector and replace value of vector with it's unit vector
+		\param[in, out] v vector
+	 */
+	void mutableUnit(p2d::Vector & v);
 	/*! A class for orthogonal vector index, used to
 		restrict range of optional vector index
 	 */
@@ -39,6 +43,12 @@ namespace p2d
 		\return a vector, corresponding to value
 	 */
 	p2d::Vector ortho(const p2d::Vector & v, OrthoVectorIndex i);
+	/*! Orthogonal vector to normalized vector
+		\param[in] v vector
+		\param[in] i index
+		\return a vector, corresponding to value
+	 */
+	void mutableNormalizedOrtho(p2d::Vector & v, OrthoVectorIndex i);
 	/*! Scalar multiplication of a vector
 		\param[in] v1 first vector
 		\param[in] v2 second vector

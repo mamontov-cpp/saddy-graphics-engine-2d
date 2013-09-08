@@ -77,6 +77,11 @@ public:
 		\param[out] v vector
 	 */
 	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	/*! Substracts a center from point and return a unit vector out of result
+		\param[in] p point
+		\param[out] n resulting normal
+	 */
+	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n);
 };
 
 }

@@ -96,6 +96,11 @@ class Bound: public p2d::CollisionShape
 		\param[in] v vector
 	 */
 	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	/*! In any case, returns normal to a bound
+		\param[in] p point
+		\param[out] n resulting normal
+	 */
+	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n) ;
 };
 
 

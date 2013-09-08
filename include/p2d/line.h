@@ -86,6 +86,17 @@ public:
 		\param[in] v vector
 	 */
 	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	/*! In any case, returns normal to a bound. A normal is returned as rotation
+		of unit vector of line by 90 degrees. So if line will be like [p1, p2] and normal is like (n1, n2)
+		the following cases will be valid:
+		[ (0, 0), (1, 0) ] - (0, -1),
+		[ (1, 0), (0, 0) ] - (0, 1),
+		[ (0, 0), (0, 1) ] - (1, 0),
+		[ (0, 1), (0, 0) ] - (-1, 0).
+		\param[in] p point
+		\param[out] n resulting normal
+	 */
+	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n) ;
 };
 
 }

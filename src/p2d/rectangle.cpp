@@ -74,3 +74,13 @@ void p2d::Rectangle::populatePoints(hst::vector<p2d::Point> & v) const
 		v << m_rect[i];
 	}
 }
+
+
+void p2d::Rectangle::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
+{
+	// Build unchecked convex hull
+	p2d::ConvexHull h;
+	h.insertPointsFromShape(this);
+
+	n = h.getSumOfNormalsFor(p);
+}
