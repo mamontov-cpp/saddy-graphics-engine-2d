@@ -6,7 +6,7 @@
  */
 
 #include <time.h>
-#include <extra/periodicalevent.h>
+#include <p2d/app/objectemitter.h>
 #include "constants.h"
 #pragma once
 
@@ -14,14 +14,14 @@ class GameObject;
 /*! A basic automatic gun can shoot. It's knows about position of object
 	and tries to shoot by a bullet every period of time
  */
-class AbstractAutomaticGun: public PeriodicalEvent
+class AbstractAutomaticGun: public p2d::app::AbstractObjectEmitter
 {
   protected:
 	  /*! A game object, which has a gun
 	   */
 	  GameObject * m_object;
 	  /*! A delta between game object angle and automatic gun's angle.
-		  For most parts it's need to be M_PI because sprites are facing right,
+		  For most parts it's need to be zero because sprites are facing right,
 		  and cos of zero will face bullets into opposite direction
 	   */
 	  double m_dangle;
@@ -32,6 +32,11 @@ class AbstractAutomaticGun: public PeriodicalEvent
 	  /*! Tries to shoot as fast as it can
 	   */
 	  void tryShoot();
+
+	  /*! Returns an application
+			\return application
+	    */
+	  virtual p2d::app::App * app();
       /*! Sets difference between angle of object and shooting angle
 		  \param[in] delta delta of angle
 	   */

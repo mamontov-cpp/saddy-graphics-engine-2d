@@ -1,5 +1,5 @@
 #include "abstractautomaticgun.h"
-
+#include "gameobject.h"
 
 AbstractAutomaticGun::AbstractAutomaticGun()
 {
@@ -28,4 +28,9 @@ void AbstractAutomaticGun::tryShoot()
 {
 	// Try to perform periodical event
 	this->tryPerform();
+}
+
+p2d::app::App * AbstractAutomaticGun::app()
+{
+	return m_object->app();
 }

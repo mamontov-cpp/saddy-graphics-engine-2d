@@ -142,3 +142,8 @@ void p2d::app::Object::addAngularForce(p2d::AngularForce * f)
 	this->body()->angularForces().add(f);
 }
 
+void p2d::app::Object::setTangentialVelocity(const p2d::Vector & v)
+{
+	this->body()->setCurrentTangentialVelocity(v);
+}
+
