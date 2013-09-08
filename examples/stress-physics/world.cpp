@@ -1,12 +1,13 @@
+#include <p2d/elasticforce.h>
 #include <p2d/app/object.h>
+#include <p2d/app/objectemitter.h>
 #include <orthocamera.h>
 #include <texturemanager.h>
 #include <input.h>
 #include <extra/background.h>
-#include <p2d/elasticforce.h>
 
 #include "world.h"
-
+#include "uncoloredbullet.h"
 #include "ball.h"
 #include "gridnode.h"
 #include "gridnodedge.h"
@@ -60,6 +61,9 @@ void World::run()
 	m_world->addHandler(this, &World::onNodeNode);
 	m_world->addHandler(this, &World::onWallBall);
 	m_world->addHandler(this, &World::onBallNode);
+	m_world->addHandler(this, &World::onWallUncoloredBullet);
+	m_world->addHandler(this, &World::onBallUncoloredBullet);
+	m_world->addHandler(this, &World::onNodeUncoloredBullet);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -137,7 +141,21 @@ void World::run()
 	label->argFPS();
 	sc->add( label );
 
+	typedef p2d::app::RandomDirectionObjectEmitter<UncoloredBullet> Emitter;
+	Emitter * b = new Emitter(this);
+	// Set emitting task at upper middle of screen
+	b->setMinPosition(p2d::Vector(400, 570));
+	b->setMaxPosition(p2d::Vector(400, 570));
 
+	b->setMaxAngularVelocity(1.0);
+	b->setMinAngularVelocity(0.0);
+	
+	b->setMinSpeed(p2d::Vector(-40, -100));
+	b->setMaxSpeed(p2d::Vector(40, -100));
+	
+	b->setInterval(200);
+	// Added periodical task
+	sad::Renderer::ref()->controls()->addPreRenderTask( new TimePeriodicalTask(b) );
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
 
@@ -183,3 +201,18 @@ void World::onMouseMove(const sad::Event & ev)
 	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
 }
 
+void World::onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev)
+{
+	this->removeObject(ev.m_object_1);
+}
+
+
+void World::onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Ball> & ev)
+{
+	this->removeObject(ev.m_object_1);
+}
+
+void World::onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, GridNode> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+}

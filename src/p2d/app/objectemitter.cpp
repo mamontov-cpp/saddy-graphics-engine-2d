@@ -13,6 +13,13 @@ void p2d::app::AbstractObjectEmitter::perform()
 	this->tangentialVelocity(v);
 	o->setTangentialVelocity(v);
 
+	o->setAngle(this->angle());
 	o->setAngularVelocity(this->angularVelocity());
+}
+
+
+double p2d::app::AbstractObjectEmitter::angle()
+{
+	return 0;
 }
 

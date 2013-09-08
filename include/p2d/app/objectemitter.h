@@ -7,6 +7,7 @@
 #include "object.h"
 #include "app.h"
 #include "../../extra/periodicalevent.h"
+#include <cstdlib>
 #pragma once
 
 namespace p2d
@@ -16,7 +17,7 @@ namespace app
 {
 
 
-/*! A basic object emitter
+/*! A basic object emitter, that can emit a lot of objectas
  */
 class AbstractObjectEmitter: public PeriodicalEvent
 {
@@ -46,6 +47,10 @@ class AbstractObjectEmitter: public PeriodicalEvent
 			\param[out] v velocity
 		 */
 		virtual void tangentialVelocity(p2d::Vector & v) = 0;
+		/*! Sets an angle
+			\return angle
+		 */
+		virtual double angle() = 0;
 		/*! Returns a position
 			\param[out] a position
 		 */
@@ -58,6 +63,97 @@ class AbstractObjectEmitter: public PeriodicalEvent
 		 */
 		virtual void perform();
 };
+
+
+/*! A random object emitter, emits objects in direction, specified by random
+	objects data
+ */
+template<
+	typename _Object
+>
+class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
+{
+ protected:
+	double m_min_angle; //!< A minimal angle, which objects speed differs
+	double m_max_angle; //!< A maximum angle, wichi objects speed differs
+
+	p2d::Vector m_min_speed; //!< A minimal speed of object
+	p2d::Vector m_max_speed; //!< A maximal speed of object
+
+	double m_min_angular; //!< A minimal angular speed
+	double m_max_angular; //!< A maximal angular speed
+
+	p2d::Point  m_min_position; //!< A minimal position of point
+	p2d::Point  m_max_position; //!< A minimal position of point
+
+	inline double prand()
+	{
+		return ((double)rand()) / RAND_MAX;
+	}
+ public:
+	RandomDirectionObjectEmitter(p2d::app::App * app = NULL)
+	: p2d::app::AbstractObjectEmitter(app)
+	{
+		m_min_angle = 0;
+		m_max_angle = 0;
+		m_min_angular = 0;
+		m_max_angular = 0;
+	}
+
+	void setMinAngle(double a) { m_min_angle = a; }
+	void setMaxAngle(double a) { m_max_angle = a; }
+
+	void setMinAngularVelocity(double a) { m_min_angular = a; }
+	void setMaxAngularVelocity(double a) { m_max_angular = a; }
+
+	void setMinSpeed(const p2d::Vector & s) { m_min_speed = s; }
+	void setMaxSpeed(const p2d::Vector & s) { m_max_speed = s; }
+
+	void setMinPosition(const p2d::Vector & s) { m_min_position = s; }
+	void setMaxPosition(const p2d::Vector & s) { m_max_position = s; }
+	
+
+
+	/*! Returns angular velocity
+		\return angular velocity
+	 */
+	virtual double angularVelocity()
+	{
+		return m_min_angular + (m_max_angular - m_min_angular) * this->prand();
+	}
+
+	/*! Sets a tangential velocity
+		\param[out] v velocity
+	 */
+	virtual void tangentialVelocity(p2d::Vector & v)
+	{
+		v = m_min_speed + (m_max_speed - m_min_speed) * this->prand();
+	}
+
+	/*! Sets an angle
+		\return angle
+	  */
+	virtual double angle() 
+	{
+		return m_min_angle + (m_max_angle - m_min_angle) * this->prand();
+	}
+	/*! Returns a position
+		\param[out] a position
+	 */
+	virtual void position(p2d::Point & p)
+	{
+		p = m_min_position + (m_max_position - m_min_position) * this->prand();
+	}
+
+	/*! Produces an object
+		\return onject
+	 */
+	virtual p2d::app::Object * produce()
+	{
+		return new _Object();
+	}
+};
+
 
 }
 
