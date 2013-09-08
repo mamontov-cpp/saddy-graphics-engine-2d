@@ -79,7 +79,7 @@ void World::run()
 		// Add a gravity force
 		if (i != 0 && i != 2) 
 		{
-			//g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
+			g[i]->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -60) ) );
 		}
 		else
 		{
@@ -102,7 +102,7 @@ void World::run()
 	{
 		int  f = forces[i][0];
 		int  s = forces[i][1];
-		//g[s]->addTangentialForce( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
+		g[s]->addTangentialForce( new p2d::ElasticForce(g[f]->body(), g[s]->body()) );
 	}
 	int graphic[12][2] = { 
 		{0, 1}, {1, 2}, {0, 3}, {1, 4}, {3, 4}, {2, 5},
@@ -123,7 +123,7 @@ void World::run()
 	// Add ball to scene
 	Ball * ball = new Ball();
 	ball->setPosition(p2d::Point(20, 300));
-	//ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
+	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
 	ball->body()->setCurrentTangentialVelocity(p2d::Vector(140, 120));
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);

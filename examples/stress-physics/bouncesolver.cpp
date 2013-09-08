@@ -64,7 +64,6 @@ void BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 				
 		time -= COLLISION_PRECISION;
 		m_toi = time;
-		SL_DEBUG(fmt::Format("{0}") << m_toi);
 	}
 }
 
