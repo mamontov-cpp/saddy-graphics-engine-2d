@@ -1,5 +1,7 @@
 #include "p2d/bounds.h"
 #include <limits>
+#include <log/log.h>
+
 #undef min
 #undef max
 
@@ -104,3 +106,17 @@ void p2d::Bound::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
 	n.setY(y);
 }
 
+hst::string p2d::Bound::dump() const
+{
+	hst::string type;
+	switch(this->m_type)
+	{
+		case BT_LEFT:  { type = "Left";  break; }
+		case BT_RIGHT: { type = "Right";  break; }
+		case BT_DOWN:  { type = "Down";  break; }
+		case BT_UP:    { type = "Up";  break; }
+	}
+	return str(fmt::Format("{0} bound at {1}")
+							<< type << m_p
+			  );
+}

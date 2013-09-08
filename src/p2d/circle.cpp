@@ -1,5 +1,6 @@
 #include <p2d/circle.h>
 #include <p2d/circletohulltransformer.h>
+#include <log/log.h>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Circle, p2d::CollisionShape, 1);
 
@@ -62,5 +63,12 @@ void p2d::Circle::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n)
 	n = p;
 	n -= m_center;
 	p2d::mutableUnit(n);
+}
+
+hst::string p2d::Circle::dump() const
+{
+	return str(fmt::Format("Circle with center ({0},{1}) and radius {2}")
+							<< m_center.x() << m_center.y() << m_radius
+			  );
 }
 

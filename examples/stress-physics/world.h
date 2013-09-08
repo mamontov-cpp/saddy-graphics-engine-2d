@@ -10,8 +10,8 @@
 #include <p2d/findcontactpoints.h>
 #include <p2d/walls.h>
 #include <label.h>
-class WorldObject;
 class GridNode;
+class Ball;
 class BounceSolver;
 /*! Main class for application
  */
@@ -21,6 +21,14 @@ protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
 	BounceSolver * m_solver; //!< A solver for bouncing objects
+	/*! Makes node moving in opposite direction, of a wall
+		\param[in] ev event
+	 */
+	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
+	/*! Makes node moving in opposite direction, of a wall
+		\param[in] ev event
+	 */
+	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
 	/*! Makes node moving in opposite direction, of a wall
 		\param[in] ev event
 	 */

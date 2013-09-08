@@ -1,5 +1,6 @@
 #include "p2d/rectangle.h"
 #include "extra/geometry2d.h"
+#include <log/log.h>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Rectangle, p2d::CollisionShape, 0);
 
@@ -83,4 +84,14 @@ void p2d::Rectangle::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & 
 	h.insertPointsFromShape(this);
 
 	n = h.getSumOfNormalsFor(p);
+}
+
+hst::string p2d::Rectangle::dump() const
+{
+	return str(fmt::Format("Rectangle:\n[{0}, {1} - {2}, {3}]\n[{4}, {5} - {6}, {7}]\n")
+							<< m_rect[0].x() << m_rect[0].y()
+							<< m_rect[1].x() << m_rect[1].y()
+							<< m_rect[2].x() << m_rect[2].y()
+							<< m_rect[3].x() << m_rect[3].y()
+			  );
 }

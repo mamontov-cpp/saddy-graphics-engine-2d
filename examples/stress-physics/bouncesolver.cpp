@@ -20,7 +20,7 @@ void BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 	m_second = b2;
 	p2d::SetOfPointsPair pairs;
 	this->solveTOIFCP(pairs);
-	if (pairs.size() > 0)
+	if (pairs.size() > 0 &&  (m_toi > 0 || is_fuzzy_zero(m_toi, COLLISION_PRECISION)))
 	{
 		this->performBouncing(pairs);
 	}
@@ -64,9 +64,13 @@ void BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 				
 		time -= COLLISION_PRECISION;
 		m_toi = time;
+		SL_DEBUG(fmt::Format("{0}") << m_toi);
 	}
 }
 
+/*! Implement solving for bouncing
+	\param[in] pairs pairs of contact points
+ */
 void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 {
 	//TODO: here is performed a simple bouncing off for an objects. 
@@ -78,16 +82,16 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 
 	p2d::Point normal1; 
 	m_first->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
-	p2d::Vector cachedNormal1 = normal1;
+	
 
 	p2d::Point normal2;
 	m_second->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
-	p2d::Vector cachedNormal2 = normal2;
 
 	p2d::Vector v1 = m_first->tangentialVelocityAt(m_toi);
 	double project1 = p2d::scalar(v1, normal1);
 	p2d::Vector normalPart1 = normal1;
 	normalPart1 *= project1;
+	p2d::Vector cachedNormal1 = normalPart1;
 
 	p2d::Vector tangentialPart1 = v1;
 	tangentialPart1 -= normalPart1;
@@ -96,6 +100,7 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 	double project2 = p2d::scalar(v2, normal2);
 	p2d::Vector normalPart2 = normal2;
 	normalPart2 *= project2;
+	p2d::Vector cachedNormal2 = normalPart2;
 
 	p2d::Vector tangentialPart2 = v2;
 	tangentialPart2 -= normalPart2;
@@ -114,19 +119,20 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 void BounceSolver::logFCPError()
 {
 	hst::string tpl = "Cannot find a contact points. Performing an object dump\n";
-	tpl <<  "1st body:\ncenter at ({0},{1})\n";
-	tpl <<  "velocity ({2},{3})\n";
-	tpl <<  "2nd body:\ncenter at ({4},{5})\n";
-	tpl <<  "velocity ({6},{7})\n";
+	tpl <<  "1st body: \n{0}\n";
+	tpl <<  "velocity ({1},{2})\n";
+	tpl <<  "2nd body: \n{3}\n";
+	tpl <<  "velocity ({4},{5})\nTOI: {6} \n";
 		
 	p2d::Point center1 = m_first->currentShape()->center();
 
 	p2d::Point center2 = m_second->currentShape()->center();
 
-	SL_CRITICAL(fmt::Format(tpl) << center1.x() << center1.y() 
+	SL_CRITICAL(fmt::Format(tpl) << m_first->currentShape()->dump()
 							     << m_av1.x() << m_av1.y()
-								 << center2.x() << center2.y() 
+								 << m_second->currentShape()->dump()
 								 << m_av2.x() << m_av2.y()
+								 << m_toi
 			   );
 }
 
@@ -146,7 +152,7 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Bod
 			m1 = 1;
 			m2 = 1;
 		}
-		n1 += ((vn1 * m1 + n2 * m2) / (m1 + m2)) * 2;
+		n1 += ((vn1 * m1 + n2 * m2) / (m1 + m2)) * 2 ;
 		return;
 	}
 	// If only first object has infinite weight

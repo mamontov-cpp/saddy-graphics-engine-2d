@@ -56,6 +56,10 @@ public:
 		\param[out] n resulting normal
 	 */
 	virtual void normalToPointOnSurface(const p2d::Point & p, p2d::Vector & n) = 0;
+	/*! Dumps object to string for debug
+		\return string
+	 */
+	virtual hst::string dump() const = 0;
 	virtual ~CollisionShape();
 };
 }
