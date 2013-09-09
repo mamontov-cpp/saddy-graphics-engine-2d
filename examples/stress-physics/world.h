@@ -9,11 +9,12 @@
 #include <p2d/app/app.h>
 #include <p2d/findcontactpoints.h>
 #include <p2d/walls.h>
+#include <p2d/bouncesolver.h>
 #include <label.h>
+
 class GridNode;
 class Ball;
 class Platform;
-class BounceSolver;
 class UncoloredBullet;
 /*! Main class for application
  */
@@ -22,7 +23,7 @@ class World: public p2d::app::App
 protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
-	BounceSolver * m_solver; //!< A solver for bouncing objects
+	p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
 	

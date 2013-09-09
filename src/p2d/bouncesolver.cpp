@@ -1,7 +1,7 @@
-#include "bouncesolver.h"
+#include <p2d/bouncesolver.h>
 #include <log/log.h>
 
-BounceSolver::BounceSolver()
+p2d::BounceSolver::BounceSolver()
 {
 	m_find = new p2d::FindContactPoints();
 	m_first = NULL;
@@ -10,13 +10,13 @@ BounceSolver::BounceSolver()
 	this->resetCoefficients();
 }
 
-BounceSolver::~BounceSolver()
+p2d::BounceSolver::~BounceSolver()
 {	
 	delete m_find;
 }
 
 
-void BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
+void p2d::BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 {
 	m_first = b1;
 	m_second = b2;
@@ -37,7 +37,7 @@ void BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 }
 
 
-void BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
+void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 {
 	m_av1 = m_first->averageChangeIndependentTangentialVelocity();
 	m_av2 = m_second->averageChangeIndependentTangentialVelocity();
@@ -84,7 +84,7 @@ void BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 /*! Implement solving for bouncing
 	\param[in] pairs pairs of contact points
  */
-void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
+void p2d::BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 {
 	//TODO: here is performed a simple bouncing off for an objects. 
 	//      But there can be friction and|or rotation
@@ -133,7 +133,7 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 }
 
 
-void BounceSolver::logFCPError(const char * m)
+void p2d::BounceSolver::logFCPError(const char * m)
 {
 	if (m_debug)
 	{
@@ -179,7 +179,7 @@ static int bound_solver_get_branch_index(p2d::Body * b)
 	return index;
 
 }
-void BounceSolver::resolveNormalSpeed(p2d::Body * b1, 
+void p2d::BounceSolver::resolveNormalSpeed(p2d::Body * b1, 
 									  p2d::Vector & n1, 
 									  p2d::Body * b2, 
 									  const p2d::Vector & n2,
@@ -226,7 +226,7 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 }
 
 
-void BounceSolver::resetCoefficients()
+void p2d::BounceSolver::resetCoefficients()
 {
 	m_resilience[0] = 1.0;
 	m_resilience[1] = 1.0;
@@ -235,12 +235,12 @@ void BounceSolver::resetCoefficients()
 	m_shouldperformrotationfriction = true;
 }
 
-void BounceSolver::tryResolveFriction(p2d::Body * b, 
-									  const p2d::Vector & t, 
-									  const p2d::Vector & ni, 
-									  int index,
-									  double pivot
-									  )
+void p2d::BounceSolver::tryResolveFriction(p2d::Body * b, 
+									       const p2d::Vector & t, 
+									       const p2d::Vector & ni, 
+								           int index,
+									       double pivot
+									      )
 {
 	if (non_fuzzy_zero(m_rotationfriction[index]) 
 		&& b->weight().isInfinite() == false 
