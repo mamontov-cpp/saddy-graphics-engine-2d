@@ -1,7 +1,7 @@
-/*! \file uncoloredbullet.h
+/*! \file coloredbullet.h
 	\author HiddenSeeker
 
-	Describes a uncolored bullet
+	Describes a colored bullet
  */
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
@@ -9,9 +9,9 @@
 
 /*! As a default, grid node is a node
  */
-class UncoloredBullet: public p2d::app::Object
+class ColoredBullet: public p2d::app::Object
 {
  SAD_OBJECT
  public:
-	 UncoloredBullet();
+	 ColoredBullet();
 };

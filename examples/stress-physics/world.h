@@ -16,6 +16,8 @@ class GridNode;
 class Ball;
 class Platform;
 class UncoloredBullet;
+class Shooter;
+class ColoredBullet;
 /*! Main class for application
  */
 class World: public p2d::app::App
@@ -24,9 +26,11 @@ protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
 	p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
+
+	int m_hit_count; //!< A hit count
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
-	
+	void incrementHitCount(const p2d::CollisionEvent<UncoloredBullet, Shooter> & ev);
 
 	template<typename _O1, typename _O2>
 	void performBounce(const p2d::CollisionEvent<_O1, _O2> & ev)
@@ -52,6 +56,9 @@ public:
 
 	void onMouseMove(const sad::Event & ev);
 	
+	/*! Returns count, how much times player is hit
+	 */
+	int hitCount();
 };
 
 

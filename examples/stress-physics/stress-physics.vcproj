@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\coloredbullet.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\constants.cpp"
 				>
 			</File>
@@ -207,6 +211,10 @@
 			</File>
 			<File
 				RelativePath=".\platform.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\shooter.cpp"
 				>
 			</File>
 			<File
@@ -228,6 +236,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\coloredbullet.h"
+				>
+			</File>
+			<File
 				RelativePath=".\constants.h"
 				>
 			</File>
@@ -241,6 +253,10 @@
 			</File>
 			<File
 				RelativePath=".\platform.h"
+				>
+			</File>
+			<File
+				RelativePath=".\shooter.h"
 				>
 			</File>
 			<File

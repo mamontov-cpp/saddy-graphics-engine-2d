@@ -9,10 +9,11 @@
 #include "world.h"
 #include "platform.h"
 #include "uncoloredbullet.h"
+#include "coloredbullet.h"
 #include "ball.h"
 #include "gridnode.h"
 #include "gridnodedge.h"
-
+#include "shooter.h"
 
 World::World()
 {
@@ -21,6 +22,7 @@ World::World()
 	m_walls = new p2d::Walls();
 	m_find = new p2d::FindContactPoints();
 	m_solver = new p2d::BounceSolver();
+	m_hit_count = 0;
 }
 
 
@@ -66,6 +68,9 @@ void World::run()
 	m_world->addHandler(this, &World::performBounce<GridNode,UncoloredBullet>);
 	m_world->addHandler(this, &World::performBounce<Ball,Platform>);
 	m_world->addHandler(this, &World::performBounce<p2d::Wall,Platform>);
+	m_world->addHandler(this, &World::performBounce<p2d::Wall,Shooter>);
+	m_world->addHandler(this, &World::incrementHitCount);
+	m_world->addHandler(this, &World::removeFirst<ColoredBullet, p2d::Wall>);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -147,14 +152,22 @@ void World::run()
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
 
+
+	// Add shooter to scene
+	Shooter * shooter = new Shooter();
+	shooter->setPosition(p2d::Point(400, 21));
+	shooter->body()->setCurrentTangentialVelocity(p2d::Vector(60, 0));
+	shooter->body()->setCurrentAngle(M_PI / 2);
+	this->addObject(shooter);
 	
 
 	// Add FPS counter
 	FormattedLabel * label = new FormattedLabel();
 	label->setFont("times_lg");
 	label->setPoint(0, sad::Renderer::ref()->settings().height());
-	label->setFormatString("{0}");
+	label->setFormatString("Shooter hits: {0} FPS: {1}");
 	label->setUpdateInterval(1000.0);
+	label->arg(this, &World::hitCount);
 	label->argFPS();
 	sc->add( label );
 
@@ -204,3 +217,13 @@ void World::onMouseMove(const sad::Event & ev)
 	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
 }
 
+int World::hitCount()
+{
+	return m_hit_count;
+}
+
+void World::incrementHitCount(const p2d::CollisionEvent<UncoloredBullet, Shooter> & ev)
+{
+	this->removeObject(ev.m_object_1);
+	++m_hit_count;
+}
