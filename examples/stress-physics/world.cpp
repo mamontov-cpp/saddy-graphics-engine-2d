@@ -62,8 +62,8 @@ void World::run()
 	m_world->addHandler(this, &World::performBounce<GridNode,GridNode>);
 	m_world->addHandler(this, &World::onWallBall);
 	m_world->addHandler(this, &World::onBallNode);
-	m_world->addHandler(this, &World::onWallUncoloredBullet);
-	m_world->addHandler(this, &World::onBallUncoloredBullet);
+	m_world->addHandler(this, &World::removeFirst<UncoloredBullet, p2d::Wall>);
+	m_world->addHandler(this, &World::removeFirst<UncoloredBullet, Ball>);
 	m_world->addHandler(this, &World::performBounce<GridNode,UncoloredBullet>);
 	m_world->addHandler(this, &World::performBounce<Ball,Platform>);
 	m_world->addHandler(this, &World::performBounce<p2d::Wall,Platform>);
@@ -188,11 +188,6 @@ void World::quit()
 	sad::Renderer::ref()->quit();
 }
 
-
-
-
-
-
 void World::onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev)
 {
 	m_solver->pushRotationFriction(0.0001, 1);
@@ -203,17 +198,6 @@ void World::onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev)
 {
 	m_solver->pushRotationFriction(0.0001, 1);
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
-
-void World::onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev)
-{
-	this->removeObject(ev.m_object_1);
-}
-
-
-void World::onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Ball> & ev)
-{
-	this->removeObject(ev.m_object_1);
 }
 
 void World::onMouseMove(const sad::Event & ev)
