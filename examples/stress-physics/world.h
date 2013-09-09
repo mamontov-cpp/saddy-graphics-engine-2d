@@ -31,6 +31,7 @@ protected:
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
 	void incrementHitCount(const p2d::CollisionEvent<UncoloredBullet, Shooter> & ev);
+	void eraseBullets(const p2d::CollisionEvent<ColoredBullet, UncoloredBullet> & ev);
 
 	template<typename _O1, typename _O2>
 	void performBounce(const p2d::CollisionEvent<_O1, _O2> & ev)
