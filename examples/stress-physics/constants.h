@@ -18,7 +18,6 @@
 class EnemyBullet;
 class Bonus;
 class Enemy;
-class ShootingEnemy;
 class SuperShootingEnemy;
 
 class GridNode;
@@ -26,6 +25,9 @@ class GridNodeEdge;
 class Ball;
 class UncoloredBullet;
 class Platform;
+class Shooter;
+class ColoredBullet;
+
 
 
 
@@ -40,22 +42,6 @@ public:
 
 
 template<>
-class p2d::app::Constants<ShootingEnemy>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-	/*! Describes a velocity for shooting enemy as a bullet
-		\return velocity
-	 */
-	static double velocity();
-	/*! Returns a shooting interval for this enemy as a bullet
-	 */
-	static double interval();
-};
-
-
-template<>
 class p2d::app::Constants<SuperShootingEnemy>
 {
 public:
@@ -63,6 +49,16 @@ public:
 	static p2d::CollisionShape * shape();
 };
 
+
+
+
+template<>
+class p2d::app::Constants<ColoredBullet>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
 
 template<>
 class p2d::app::Constants<Ball>
@@ -100,6 +96,14 @@ public:
 
 template<>
 class p2d::app::Constants<Platform>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
+
+template<>
+class p2d::app::Constants<Shooter>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();

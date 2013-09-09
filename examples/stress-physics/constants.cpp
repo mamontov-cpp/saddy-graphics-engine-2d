@@ -3,31 +3,7 @@
 
 
 
-Sprite2DAdapter::Options * p2d::app::Constants<EnemyBullet>::sprite()
-{
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(439,14),hPointF(458,33));
-	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
-	return o;
-}
 
-double p2d::app::Constants<EnemyBullet>::velocity()
-{
-	return 121;
-}
-
-double p2d::app::Constants<EnemyBullet>::interval()
-{
-	return 400;
-}
-
-p2d::CollisionShape * p2d::app::Constants<EnemyBullet>::shape()
-{
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(4);
-	return c;
-}
 
 Sprite2DAdapter::Options * p2d::app::Constants<Enemy>::sprite()
 {
@@ -52,31 +28,7 @@ p2d::CollisionShape * p2d::app::Constants<Enemy>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<ShootingEnemy>::sprite()
-{
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-10, -10), hPointF(10, 10));
-	return o;
-}
 
-double p2d::app::Constants<ShootingEnemy>::velocity()
-{
-	return 100;
-}
-
-double p2d::app::Constants<ShootingEnemy>::interval()
-{
-	return 1000;
-}
-
-p2d::CollisionShape * p2d::app::Constants<ShootingEnemy>::shape()
-{
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(10);
-	return c;
-}
 
 
 Sprite2DAdapter::Options * p2d::app::Constants<SuperShootingEnemy>::sprite()
@@ -186,5 +138,40 @@ p2d::CollisionShape * p2d::app::Constants<Platform>::shape()
 	
 	// If you plan using it for collisions only - you should not care
 	c->makeConvex();
+	return c;
+}
+
+
+Sprite2DAdapter::Options * p2d::app::Constants<Shooter>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
+	o->Rectangle = hRectF(hPointF(-10, -10), hPointF(10, 10));
+	return o;
+}
+
+
+p2d::CollisionShape * p2d::app::Constants<Shooter>::shape()
+{
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(20);
+	return c;
+}
+
+Sprite2DAdapter::Options * p2d::app::Constants<ColoredBullet>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(439,14),hPointF(458,33));
+	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
+	return o;
+}
+
+
+p2d::CollisionShape * p2d::app::Constants<ColoredBullet>::shape()
+{
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(2);
 	return c;
 }
