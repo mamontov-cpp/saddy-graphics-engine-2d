@@ -72,6 +72,8 @@ void World::run()
 	m_world->addHandler(this, &World::incrementHitCount);
 	m_world->addHandler(this, &World::removeFirst<ColoredBullet, p2d::Wall>);
 	m_world->addHandler(this, &World::eraseBullets);
+	m_world->addHandler(this, &World::boostBall);
+
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -235,4 +237,21 @@ void World::eraseBullets(const p2d::CollisionEvent<ColoredBullet, UncoloredBulle
 {
 	this->removeObject(ev.m_object_1);
 	this->removeObject(ev.m_object_2);
+}
+
+void World::boostBall(const p2d::CollisionEvent<ColoredBullet, Ball> & ev) 
+{
+	// If tangential velocity will change, ignore bullet, because it
+	// could lead to worse work with collisions
+	if (ev.m_object_2->body()->willTangentialVelocityChange() == false)
+	{
+		p2d::Vector v = ev.m_object_2->body()->tangentialVelocity() 
+					  * ev.m_object_2->body()->weight().value();
+		v += ev.m_object_1->body()->tangentialVelocity() 
+		   * ev.m_object_1->body()->weight().value();
+		v /= ev.m_object_2->body()->weight().value();
+		ev.m_object_2->body()->sheduleTangentialVelocity(v);
+	}
+
+	this->removeObject(ev.m_object_1);
 }
