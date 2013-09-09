@@ -1,10 +1,13 @@
 /*! \file bouncesolver.h
 	A solver for bouncing bodies, when they are colliding
  */
-#include <p2d/body.h>
-#include <p2d/findcontactpoints.h>
+#include "body.h"
+#include "findcontactpoints.h"
 #pragma once
 
+
+namespace p2d
+{
 /*! A bounce solver allows to easily solve problems with 
 	bouncing of various objects. 
 	
@@ -132,3 +135,5 @@ public:
 	 */
 	inline void enableDebug() { m_debug = true; }
 };
+
+}

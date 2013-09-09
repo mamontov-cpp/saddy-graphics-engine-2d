@@ -13,7 +13,6 @@
 #include "gridnode.h"
 #include "gridnodedge.h"
 
-#include "bouncesolver.h"
 
 World::World()
 {
@@ -21,7 +20,7 @@ World::World()
 	/*m_world->setDetector(new p2d::MultisamplingCollisionDetector(3))*/;
 	m_walls = new p2d::Walls();
 	m_find = new p2d::FindContactPoints();
-	m_solver = new BounceSolver();
+	m_solver = new p2d::BounceSolver();
 }
 
 

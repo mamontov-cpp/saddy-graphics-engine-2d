@@ -190,10 +190,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\bouncesolver.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\constants.cpp"
 				>
 			</File>
@@ -229,10 +225,6 @@
 			>
 			<File
 				RelativePath=".\ball.h"
-				>
-			</File>
-			<File
-				RelativePath=".\bouncesolver.h"
 				>
 			</File>
 			<File

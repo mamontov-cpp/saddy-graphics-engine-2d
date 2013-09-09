@@ -489,6 +489,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\p2d\bouncesolver.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\p2d\bounds.cpp"
 					>
 				</File>
@@ -1060,6 +1064,10 @@
 				</File>
 				<File
 					RelativePath=".\include\p2d\body.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\p2d\bouncesolver.h"
 					>
 				</File>
 				<File
