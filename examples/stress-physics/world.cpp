@@ -71,6 +71,7 @@ void World::run()
 	m_world->addHandler(this, &World::performBounce<p2d::Wall,Shooter>);
 	m_world->addHandler(this, &World::incrementHitCount);
 	m_world->addHandler(this, &World::removeFirst<ColoredBullet, p2d::Wall>);
+	m_world->addHandler(this, &World::eraseBullets);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -161,7 +162,7 @@ void World::run()
 	this->addObject(shooter);
 	
 
-	// Add FPS counter
+	// Add FPS and hit counters label
 	FormattedLabel * label = new FormattedLabel();
 	label->setFont("times_lg");
 	label->setPoint(0, sad::Renderer::ref()->settings().height());
@@ -228,4 +229,10 @@ void World::incrementHitCount(const p2d::CollisionEvent<UncoloredBullet, Shooter
 {
 	this->removeObject(ev.m_object_1);
 	++m_hit_count;
+}
+
+void World::eraseBullets(const p2d::CollisionEvent<ColoredBullet, UncoloredBullet> & ev)
+{
+	this->removeObject(ev.m_object_1);
+	this->removeObject(ev.m_object_2);
 }
