@@ -270,6 +270,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\rectanglenormaltosurface.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\testavintersection.cpp"
 				>
 			</File>
