@@ -58,15 +58,15 @@ void World::run()
 
 
 	// SETUP WORLD CALLBACKS HERE!!!
-	m_world->addHandler(this, &World::onWallNode);
-	m_world->addHandler(this, &World::onNodeNode);
+	m_world->addHandler(this, &World::performBounce<p2d::Wall,GridNode>);
+	m_world->addHandler(this, &World::performBounce<GridNode,GridNode>);
 	m_world->addHandler(this, &World::onWallBall);
 	m_world->addHandler(this, &World::onBallNode);
 	m_world->addHandler(this, &World::onWallUncoloredBullet);
 	m_world->addHandler(this, &World::onBallUncoloredBullet);
-	m_world->addHandler(this, &World::onNodeUncoloredBullet);
-	m_world->addHandler(this, &World::onBallPlatform);
-	m_world->addHandler(this, &World::onWallPlatform);
+	m_world->addHandler(this, &World::performBounce<GridNode,UncoloredBullet>);
+	m_world->addHandler(this, &World::performBounce<Ball,Platform>);
+	m_world->addHandler(this, &World::performBounce<p2d::Wall,Platform>);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -130,13 +130,13 @@ void World::run()
 	// Add two platforms to scene
 	Platform * platform1 = new Platform();
 	platform1->setPosition(p2d::Point(150, 300));
-	platform1->body()->setWeight(p2d::Weight::constant(1E+9));
+	platform1->body()->setWeight(p2d::Weight::infinite());
 	platform1->setTangentialVelocity(p2d::Vector(0, -5));
 	this->addObject(platform1);
 
 	Platform * platform2= new Platform();
 	platform2->setPosition(p2d::Point(650, 200));
-	platform2->body()->setWeight(p2d::Weight::constant(1E+9));
+	platform2->body()->setWeight(p2d::Weight::infinite());
 	platform2->setTangentialVelocity(p2d::Vector(0, -5));
 	this->addObject(platform2);
 
@@ -144,7 +144,7 @@ void World::run()
 	Ball * ball = new Ball();
 	ball->setPosition(p2d::Point(40, 200));
 	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
-	ball->body()->setCurrentTangentialVelocity(p2d::Vector(30, 120));
+	ball->body()->setCurrentTangentialVelocity(p2d::Vector(60, 120));
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
 
@@ -178,6 +178,7 @@ void World::run()
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
 
+	m_solver->enableDebug();
 	sad::Renderer::ref()->run();
 }
 
@@ -188,20 +189,8 @@ void World::quit()
 }
 
 
-/*! Handled this type of collision with manual from
-	
- */
-void World::onWallNode(const p2d::CollisionEvent<GridNode, p2d::Wall> & ev)
-{
-	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
 
 
-
-void World::onNodeNode(const p2d::CollisionEvent<GridNode, GridNode> & ev)
-{
-	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
 
 
 void World::onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev)
@@ -227,23 +216,8 @@ void World::onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Bal
 	this->removeObject(ev.m_object_1);
 }
 
-void World::onNodeUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, GridNode> & ev)
-{
-	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
-
-void World::onBallPlatform(const p2d::CollisionEvent<Ball, Platform> & ev)
-{
-	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}
-
 void World::onMouseMove(const sad::Event & ev)
 {
 	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
 }
 
-
-void World::onWallPlatform(const p2d::CollisionEvent<p2d::Wall, Platform> & ev)
-{
-	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
-}

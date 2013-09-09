@@ -55,6 +55,7 @@ p2d::Walls::Walls(double padding) : m_padding(padding)
 
 		Wall * w = new Wall(padding);
 		b->setUserObject(w);
+		b->setFixed(true);
 		w->setBody(b);
 		m_walls << w;
 	}

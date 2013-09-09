@@ -27,6 +27,7 @@ protected:
 	double      m_resilience[2]; //!< A resilience coefficients for bodies
 	double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
 		
+	bool		m_debug; //!< Whether debug logging is enabled
 	/*! A special flag, which is set to false if bodies has two points of collision
 		If it's set to false - we should not count rotation
 	 */
@@ -124,4 +125,7 @@ public:
 		\param[in] m message
 	 */
 	virtual void logFCPError(const char * m);
+	/*! Enables debug for solver
+	 */
+	inline void enableDebug() { m_debug = true; }
 };
