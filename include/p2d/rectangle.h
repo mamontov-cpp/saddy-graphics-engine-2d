@@ -77,6 +77,9 @@ public:
 		\return string
 	 */
 	virtual hst::string dump() const;
+	/* Makes rectangle convex
+	 */
+	void makeConvex();
 };
 
 }

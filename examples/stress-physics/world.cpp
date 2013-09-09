@@ -129,22 +129,22 @@ void World::run()
 
 	// Add two platforms to scene
 	Platform * platform1 = new Platform();
-	platform1->setPosition(p2d::Point(150, 200));
-	platform1->body()->setWeight(p2d::Weight::infinite());
+	platform1->setPosition(p2d::Point(150, 300));
+	platform1->body()->setWeight(p2d::Weight::constant(1E+9));
 	platform1->setTangentialVelocity(p2d::Vector(0, -5));
 	this->addObject(platform1);
 
 	Platform * platform2= new Platform();
 	platform2->setPosition(p2d::Point(650, 200));
-	platform2->body()->setWeight(p2d::Weight::infinite());
+	platform2->body()->setWeight(p2d::Weight::constant(1E+9));
 	platform2->setTangentialVelocity(p2d::Vector(0, -5));
 	this->addObject(platform2);
 
 	// Add ball to scene
 	Ball * ball = new Ball();
-	ball->setPosition(p2d::Point(20, 300));
+	ball->setPosition(p2d::Point(40, 200));
 	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
-	ball->body()->setCurrentTangentialVelocity(p2d::Vector(140, 120));
+	ball->body()->setCurrentTangentialVelocity(p2d::Vector(30, 120));
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
 

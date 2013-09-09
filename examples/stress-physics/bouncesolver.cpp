@@ -53,6 +53,14 @@ void BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 	pairs = m_find->invoke(m_first->currentShape(),   m_av1,
 						   m_second->currentShape(),  m_av2
 						   );
+	if (pairs.size()  == 2)
+	{
+		pairs[0].set1((pairs[0].p1() + pairs[1].p1()) / 2.0);
+		pairs[0].set2((pairs[0].p2() + pairs[1].p2()) / 2.0);
+		pairs.removeAt(1);
+		m_shouldperformrotationfriction = false;
+	}
+	
 	if (pairs.size() > 0)
 	{
 		// Compute time of impact
@@ -123,7 +131,6 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 	m_first->correctTangentialVelocity(normalPart1 + tangentialPart1);		
 	m_first->correctPosition(m_av1 * m_toi);
 	this->tryResolveFriction(m_first, tangentialPart1, normalPart1 - cachedNormal1, 0, pivot1);	
-	
 	this->resolveNormalSpeed(m_second, normalPart2, m_first, cachedNormal1, 1);		
 	m_second->correctTangentialVelocity(normalPart2 + tangentialPart2);		
 	m_second->correctPosition(m_av2 * m_toi);		
@@ -210,6 +217,7 @@ void BounceSolver::resetCoefficients()
 	m_resilience[1] = 1.0;
 	m_rotationfriction[0] = 0.0;
 	m_rotationfriction[1] = 0.0;
+	m_shouldperformrotationfriction = true;
 }
 
 void BounceSolver::tryResolveFriction(p2d::Body * b, 
@@ -219,7 +227,9 @@ void BounceSolver::tryResolveFriction(p2d::Body * b,
 									  double pivot
 									  )
 {
-	if (non_fuzzy_zero(m_rotationfriction[index]) && b->weight().isInfinite() == false)
+	if (non_fuzzy_zero(m_rotationfriction[index]) 
+		&& b->weight().isInfinite() == false 
+		&& m_shouldperformrotationfriction)
 	{
 		double w = b->angularVelocityAt(m_toi);
 	

@@ -180,5 +180,11 @@ p2d::CollisionShape * p2d::app::Constants<Platform>::shape()
 	// For a simple optimization, make bonus a circle
 	p2d::Rectangle * c = new p2d::Rectangle();
 	c->setRect(r);
+	// In common case, returned rectangle is not correct from point iteration perspective. 
+	// So we make it so, by calling this function
+	// this function
+	
+	// If you plan using it for collisions only - you should not care
+	c->makeConvex();
 	return c;
 }
