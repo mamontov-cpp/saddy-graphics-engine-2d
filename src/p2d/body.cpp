@@ -102,6 +102,7 @@ p2d::Body::Body()
 	m_current =  l;
 
 	m_temporary = NULL;
+	m_fixed = false;
 }
 
 p2d::Body::~Body()

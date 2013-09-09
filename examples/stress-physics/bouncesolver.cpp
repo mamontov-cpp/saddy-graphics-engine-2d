@@ -6,6 +6,7 @@ BounceSolver::BounceSolver()
 	m_find = new p2d::FindContactPoints();
 	m_first = NULL;
 	m_second = NULL;
+	m_debug = false;
 	this->resetCoefficients();
 }
 
@@ -141,6 +142,8 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 
 void BounceSolver::logFCPError(const char * m)
 {
+	if (m_debug)
+	{
 	hst::string tpl = "Cannot find a contact points. Performing an object dump\n";
 	tpl <<  "1st body: \n{0}\n";
 	tpl <<  "velocity ({1},{2})\n";
@@ -157,8 +160,32 @@ void BounceSolver::logFCPError(const char * m)
 								 << m_av2.x() << m_av2.y()
 								 << m_toi << m
 			   );
+	}
 }
 
+
+static int boundspeed_solving_branches[3][3] =
+{
+	{0, 2, 2},
+	{1, 0, 2},
+	{1, 1, 0}
+};
+
+static int bound_solver_get_branch_index(p2d::Body * b)
+{
+	int index = 0;
+	if (b->fixed())
+	{
+		index = 2;
+	}
+	else
+	{
+		if (b->weight().isInfinite()) 
+			index = 1;
+	}
+	return index;
+
+}
 void BounceSolver::resolveNormalSpeed(p2d::Body * b1, 
 									  p2d::Vector & n1, 
 									  p2d::Body * b2, 
@@ -168,8 +195,13 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 {
 	p2d::Vector vn1 = n1;
 	n1 *= -1;
-	if ( (b1->weight().isInfinite() == false && b2->weight().isInfinite() == false)
-		|| (b1->weight().isInfinite() == true && b2->weight().isInfinite() == true))
+	int index1 = bound_solver_get_branch_index(b1);
+	int index2 = bound_solver_get_branch_index(b2);
+
+	// Get outcome from table
+	int branch = boundspeed_solving_branches[index1][index2];
+
+	if ( branch == 0 )
 	{
 		double m1 = b1->weight().value();
 		double m2 = b2->weight().value();
@@ -182,26 +214,16 @@ void BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 		}
 		n1 += ((vn1 * m1 + n2 * m2) / (m1 + m2)) * 2 ;
 		n1 *= m_resilience[index];
-		
-		hst::string k1 = b1->currentShape()->metaData()->name();
-		hst::string k2 = b2->currentShape()->metaData()->name();
-
-		if ( k1 == "p2d::Rectangle" && k2== "p2d::Bound"
-			|| k2 == "p2d::Rectangle" && k1== "p2d::Bound"
-			)
-		{
-			printf("1");
-		}
 		return;
 	}
 	// If only first object has infinite weight
 	// his speed won't change
-	if (b1->weight().isInfinite())
+	if (branch == 1)
 	{
-		n1 *= m_resilience[index];
+		n1 *= -(m_resilience[index]);
 		return;
 	}
-	if (b2->weight().isInfinite())
+	if (branch == 2)
 	{
 		n1 =  (n2 * 2 - vn1);
 		n1 *= m_resilience[index];

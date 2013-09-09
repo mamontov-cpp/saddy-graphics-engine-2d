@@ -55,6 +55,9 @@ private:
 	/*! A type size of shape in body
 	 */
 	size_t  m_shapesize;
+	/*! Describes, whether this body should not be changed
+	 */
+	bool m_fixed;
 public:
 	/*! Construct new body line with zero width at (0,0) with zero speed
 	 */
@@ -319,6 +322,14 @@ public:
 		\param[in] v new velocity
 	 */
 	void correctTangentialVelocity(const p2d::Vector & v);
+	/*! Sets object as fixed. A fixed objects does not change their impulse on collision
+		\param[in] fixed new value for fixed
+	 */
+	inline void setFixed(bool fixed) { m_fixed = fixed;}
+	/*! Returns whether it's fixed
+		\param[in] whether it's fixed
+	 */
+	inline bool fixed() const { return m_fixed; }
 };
 
 }
