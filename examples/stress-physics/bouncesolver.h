@@ -26,6 +26,11 @@ protected:
 
 	double      m_resilience[2]; //!< A resilience coefficients for bodies
 	double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
+		
+	/*! A special flag, which is set to false if bodies has two points of collision
+		If it's set to false - we should not count rotation
+	 */
+	bool        m_shouldperformrotationfriction;
 	/*! Performs bouncing off for an object with a solver
 		\param[in] pairs a set of pairs of collision points for time of impact
 	 */ 

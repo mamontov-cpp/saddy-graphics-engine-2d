@@ -383,11 +383,11 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		 const p2d::Vector & v2
 )
 {
-	p2d::Vector v = v1 - v2;
 	p2d::SetOfPointsPair result;
-	bool xlessthanzero = (v.x() < 0 && non_fuzzy_zero(v.x()));
-	bool ylessthanzero = (v.y() < 0 && non_fuzzy_zero(v.y()));
-	if (xlessthanzero && ylessthanzero)
+	p2d::Vector v = v1 - v2;
+	p2d::Point  dp = c2->center() - c1.center();
+	double projection = p2d::scalar(dp, v);
+	if (is_fuzzy_zero(projection))
 	{
 		return result;
 	}

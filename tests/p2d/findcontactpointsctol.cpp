@@ -356,4 +356,4 @@ struct TestFindContactPointsCtoL : tpunit::TestFixture
 	   ASSERT_TRUE( pairs.size() == 0);
    }
 
-} test_find_contact_points_ctol;
+} /*test_find_contact_points_ctol*/;

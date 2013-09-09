@@ -94,3 +94,15 @@ hst::string p2d::Rectangle::dump() const
 							<< m_rect[3].x() << m_rect[3].y()
 			  );
 }
+
+
+void p2d::Rectangle::makeConvex()
+{
+	p2d::ConvexHull h;
+	h.insertPointsFromShape(this);
+	h.buildHull();
+	for(int i = 0; i < h.set().size(); i++)
+	{
+		this->m_rect[i] = h.set()[i];
+	}
+}

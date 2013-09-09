@@ -95,6 +95,9 @@ class ConvexHull
 		 \return center
 	  */
 	 p2d::Point center() const;
+	 /*! Returns set from hull
+	  */
+	 inline const hst::vector<p2d::Point> & set() { return m_set; }
 };
 
 /*! Projects a set of points of specified container to axle

@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\findcontactpointsrtocbug1.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\findcontactpointsrtol.cpp"
 				>
 			</File>
