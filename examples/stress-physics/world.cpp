@@ -185,7 +185,9 @@ void World::run()
 	
 	b->setInterval(200);
 	b->setMaxCount(3);
+
 	// Added periodical task
+	shooter->startShooting();
 	sad::Renderer::ref()->controls()->addPreRenderTask( new TimePeriodicalTask(b) );
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
