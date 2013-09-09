@@ -32,15 +32,6 @@ void BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 		const char * reason = "Can't find pairs";
 		if (pairs.size() > 0)
 			reason = "TOI is negative";
-		else
-		{
-			p2d::Point p1 = b1->at(b1->timeStep()).center();
-			p2d::Point p2 = b2->at(b2->timeStep()).center();
-			hst::string stri = str(fmt::Format("no pairs - at {0},{1} - {2},{3}, {4}, {5}") 
-								    << p1.x() << p1.y() << p2.x() << p2.y()
-									<< b1->willPositionChange() << b2->willPositionChange());
-			SL_WARNING(stri);
-		}
 		logFCPError(reason);
 	}
 }
@@ -105,10 +96,12 @@ void BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 	p2d::Point normal1; 
 	m_first->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
 	double pivot1 = m_first->currentShape()->center().distanceTo(pairs[0].p1());
+	m_force_moment[0] = (pairs[0].p1() - m_first->currentShape()->center());
 
 	p2d::Point normal2;
 	m_second->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
 	double pivot2 = m_first->currentShape()->center().distanceTo(pairs[0].p2());
+	m_force_moment[1] = (pairs[0].p2() - m_second->currentShape()->center());
 
 	p2d::Vector v1 = m_first->tangentialVelocityAt(m_toi);
 	double project1 = p2d::scalar(v1, normal1);
@@ -254,26 +247,28 @@ void BounceSolver::tryResolveFriction(p2d::Body * b,
 		&& m_shouldperformrotationfriction)
 	{
 		double w = b->angularVelocityAt(m_toi);
-	
-		p2d::Vector v = ni;
-		p2d::mutableUnit(v);
-		v *= -1;
-		p2d::mutableNormalizedOrtho(v, p2d::OVI_DEG_270);
+		p2d::Vector tangential = m_force_moment[index];
+		p2d::mutableUnit(tangential);
+		p2d::mutableNormalizedOrtho(tangential, p2d::OVI_DEG_90);
 
-		double dir = p2d::scalar(t, ni) / pivot; 
-		w += dir;
-		if (non_fuzzy_zero(w) )
+		p2d::Vector tangentialUnit = tangential;
+		double forcemomentlength = p2d::modulo(m_force_moment[index]);
+		double rotation_tangential_modulo = w * forcemomentlength;
+		tangential *= rotation_tangential_modulo;
+		tangential += t;
+
+		if (non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
 		{
-			double frictionImpulse = m_rotationfriction[index] * p2d::modulo(ni) / b->weight().value();
-			if (w > 0)
-			{
-				w -= frictionImpulse;
-			}
-			else
-			{
-				w += frictionImpulse;
-			}
-			w -= dir;
+			tangential *= (1 - m_rotationfriction[index] / b->weight().value());
+			// Compute new tangential velocity
+			// What should we do here
+			
+			// Since we have no sliding friction force, a tangential part of velocity
+			// won't change, so we must convert a tangential part to velocity. 
+			tangential -= t;
+			double wR = p2d::scalar(tangential, tangentialUnit);
+			double w = wR / forcemomentlength;
+
 			b->sheduleAngularVelocity(w);
 		}
 	}

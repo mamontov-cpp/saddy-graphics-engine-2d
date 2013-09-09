@@ -22,6 +22,9 @@ protected:
 	p2d::Vector m_av1;   //!< An approximated speed for first body
 	p2d::Vector m_av2;   //!< An approximated speed for second body
 	
+
+	p2d::Vector m_force_moment[2]; //!< A force moment to data 
+
 	double      m_toi;  //!< Current time of impact
 
 	double      m_resilience[2]; //!< A resilience coefficients for bodies
