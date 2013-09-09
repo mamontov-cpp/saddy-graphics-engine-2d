@@ -1,5 +1,6 @@
 #include <p2d/convexhull.h>
 #include <p2d/collisionshape.h>
+#include <p2d/infiniteline.h>
 #include <extra/geometry2d.h>
 
 p2d::ConvexHull::ConvexHull()
@@ -150,20 +151,21 @@ p2d::Vector p2d::ConvexHull::getSumOfNormalsFor(const p2d::Point & p) const
 	for(size_t i = 0; i < sides(); i++)
 	{
 		p2d::Cutter2D k = side(i);
-		p2d::Point center = (k.p1() + k.p2()) / 2.0;
-		double d = p.distanceTo(center);
+		p2d::Vector  n = normal(i);
+		double d = std::max( p2d::scalar(p - k.p1(), n), p2d::scalar(p - k.p2(), n) );
+		// Find a distance between side and projection on its point
 		if (is_fuzzy_equal(d, nearest))
 		{
 			nearest_is_found = true;
-			result += normal(i);
+			result += n;
 		} 
 		else
 		{
-			if (d < nearest || !nearest_is_found)
+			if (d > nearest || !nearest_is_found)
 			{
 				nearest_is_found = true;
 				nearest = d;
-				result = normal(i);
+				result = n;
 			}
 		}
 	}

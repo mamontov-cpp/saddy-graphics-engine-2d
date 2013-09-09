@@ -160,7 +160,7 @@ struct ConvexHullTest : tpunit::TestFixture
 	   p2d::ConvexHull hull(set);
 	   ASSERT_TRUE(
 				equal(
-				    hull.getSumOfNormalsFor(p2d::Point(-2, 1)),
+				    hull.getSumOfNormalsFor(p2d::Point(-1, 1)),
 					p2d::Vector(-1, 0)
 				)	
 		   );
@@ -170,9 +170,10 @@ struct ConvexHullTest : tpunit::TestFixture
 					p2d::Vector(-M_SQRT1_2, M_SQRT1_2)
 				)	
 		   );
+	   p2d::Vector v = hull.getSumOfNormalsFor(p2d::Point(1, 4));
 	   ASSERT_TRUE(
 				equal(
-				    hull.getSumOfNormalsFor(p2d::Point(1, 4)),
+				    v,
 					p2d::Vector(0, 1)
 				)	
 		   );
@@ -235,4 +236,4 @@ struct ConvexHullTest : tpunit::TestFixture
 	   ASSERT_TRUE( equal(center, p2d::Point(3,2)) );
    }
 
-} _convex_hull_tes;
+} _convex_hull_test;
