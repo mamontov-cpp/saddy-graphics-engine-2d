@@ -25,14 +25,17 @@ protected:
 	BounceSolver * m_solver; //!< A solver for bouncing objects
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
-	void onWallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, p2d::Wall> & ev);
-	void onBallUncoloredBullet(const p2d::CollisionEvent<UncoloredBullet, Ball> & ev);
 	
 
 	template<typename _O1, typename _O2>
 	void performBounce(const p2d::CollisionEvent<_O1, _O2> & ev)
 	{
 		m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+	}
+	template<typename _O1, typename _O2>
+	void removeFirst(const p2d::CollisionEvent<_O1, _O2> & ev)
+	{
+		this->removeObject(ev.m_object_1);
 	}
 public:
 
