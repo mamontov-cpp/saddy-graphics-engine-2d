@@ -14,12 +14,6 @@
 #pragma once
 
 
-
-class EnemyBullet;
-class Bonus;
-class Enemy;
-class SuperShootingEnemy;
-
 class GridNode;
 class GridNodeEdge;
 class Ball;
@@ -27,27 +21,9 @@ class UncoloredBullet;
 class Platform;
 class Shooter;
 class ColoredBullet;
+class MovingSmile;
 
 
-
-
-
-template<>
-class p2d::app::Constants<Enemy>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-};
-
-
-template<>
-class p2d::app::Constants<SuperShootingEnemy>
-{
-public:
-	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
-};
 
 
 
@@ -104,6 +80,15 @@ public:
 
 template<>
 class p2d::app::Constants<Shooter>
+{
+public:
+	static Sprite2DAdapter::Options * sprite();
+	static p2d::CollisionShape * shape();
+};
+
+
+template<>
+class p2d::app::Constants<MovingSmile>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();

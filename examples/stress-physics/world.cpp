@@ -23,6 +23,7 @@ World::World()
 	m_find = new p2d::FindContactPoints();
 	m_solver = new p2d::BounceSolver();
 	m_hit_count = 0;
+	m_way = new p2d::app::Way();
 }
 
 
@@ -31,6 +32,7 @@ World::~World()
 	delete m_walls;
 	delete m_find;
 	delete m_solver;
+	delete m_way;
 }
 
 
@@ -73,7 +75,7 @@ void World::run()
 	m_world->addHandler(this, &World::removeFirst<ColoredBullet, p2d::Wall>);
 	m_world->addHandler(this, &World::eraseBullets);
 	m_world->addHandler(this, &World::boostBall);
-
+	m_world->addHandler(this, &World::removeFirst<MovingSmile, Ball>);
 
 	// Add walls
 	hst::vector<p2d::Body *> bodies = m_walls->bodies();
@@ -168,7 +170,7 @@ void World::run()
 	FormattedLabel * label = new FormattedLabel();
 	label->setFont("times_lg");
 	label->setPoint(0, sad::Renderer::ref()->settings().height());
-	label->setFormatString("Shooter hits: {0} FPS: {1}");
+	label->setFormatString("Shooter hit: {0} FPS: {1}");
 	label->setUpdateInterval(1000.0);
 	label->arg(this, &World::hitCount);
 	label->argFPS();
@@ -188,6 +190,27 @@ void World::run()
 	
 	b->setInterval(200);
 	b->setMaxCount(3);
+
+
+	double total = 10.0;
+	m_way->startConstruction();
+	m_way->setTotalTime(total);
+	m_way->makeClosed();
+	double angle = M_PI / 6;
+	for(int i = 0; i < 12; i++)
+	{
+		m_way->addPoint( p2d::Point(400.0 + 200 * cos(angle * i), 300 + 200 * sin(angle * i)) );
+	}
+	m_way->construct();
+
+	double timestep = total / 12 ;
+	for(int i = 0; i < 12; i++)
+	{
+		MovingSmile * smile = new MovingSmile(m_way);
+		smile->setPosition(p2d::Point(600.0, 300));
+		smile->step(timestep * i);
+		this->addObject(smile);
+	}
 
 	// Added periodical task
 	shooter->startShooting();
