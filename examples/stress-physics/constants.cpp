@@ -2,54 +2,6 @@
 #include <cstdlib>
 
 
-
-
-
-Sprite2DAdapter::Options * p2d::app::Constants<Enemy>::sprite()
-{
-	/*! A special texture rectangles, used to shape enemies
-	 */
-	hRectF texture_rectangles[3]={
-		hRectF(hPointF(88,0),hPointF(176,88)),
-		hRectF(hPointF(266,0),hPointF(354,88)),
-		hRectF(hPointF(355,0),hPointF(443,88)),
-	};
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = texture_rectangles[ rand () % 3 ];
-	o->Rectangle = hRectF(hPointF(-8, -8), hPointF(8, 8));
-	return o;
-}
-
-p2d::CollisionShape * p2d::app::Constants<Enemy>::shape()
-{
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(8);
-	return c;
-}
-
-
-
-
-Sprite2DAdapter::Options * p2d::app::Constants<SuperShootingEnemy>::sprite()
-{
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
-	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-14, -14), hPointF(14, 14));
-	return o;
-}
-
-p2d::CollisionShape * p2d::app::Constants<SuperShootingEnemy>::shape()
-{
-	p2d::Circle * c = new p2d::Circle();
-	c->setRadius(14);
-	return c;
-}
-
-
-
-
 Sprite2DAdapter::Options * p2d::app::Constants<UncoloredBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
@@ -173,5 +125,22 @@ p2d::CollisionShape * p2d::app::Constants<ColoredBullet>::shape()
 {
 	p2d::Circle * c = new p2d::Circle();
 	c->setRadius(2);
+	return c;
+}
+
+
+Sprite2DAdapter::Options * p2d::app::Constants<MovingSmile>::sprite()
+{
+	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	o->Texture = "objects";
+	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
+	o->Rectangle = hRectF(hPointF(-14, -14), hPointF(14, 14));
+	return o;
+}
+
+p2d::CollisionShape * p2d::app::Constants<MovingSmile>::shape()
+{
+	p2d::Circle * c = new p2d::Circle();
+	c->setRadius(14);
 	return c;
 }

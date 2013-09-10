@@ -11,6 +11,7 @@
 #include <p2d/walls.h>
 #include <p2d/bouncesolver.h>
 #include <label.h>
+#include "movingsmile.h"
 
 class GridNode;
 class Ball;
@@ -26,6 +27,7 @@ protected:
 	p2d::FindContactPoints * m_find;
 	p2d::Walls * m_walls;
 	p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
+	p2d::app::Way          * m_way;    //!< A way
 
 	int m_hit_count; //!< A hit count
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);

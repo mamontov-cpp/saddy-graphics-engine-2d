@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\movingsmile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\platform.cpp"
 				>
 			</File>
@@ -249,6 +253,10 @@
 			</File>
 			<File
 				RelativePath=".\gridnodedge.h"
+				>
+			</File>
+			<File
+				RelativePath=".\movingsmile.h"
 				>
 			</File>
 			<File
