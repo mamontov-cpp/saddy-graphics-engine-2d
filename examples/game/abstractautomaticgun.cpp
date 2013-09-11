@@ -8,6 +8,10 @@ AbstractAutomaticGun::AbstractAutomaticGun()
 	setInterval(200); // Fairly random number, as a default
 }
 
+double AbstractAutomaticGun::angle()
+{
+	return 0;
+}
 
 void AbstractAutomaticGun::setAngleDifference(double delta)
 {
