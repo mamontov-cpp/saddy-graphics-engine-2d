@@ -115,7 +115,13 @@ class Movement
 	 _Value m_acceleration_cache;
 	 /*! Whether forces are cached
 	  */
-	 bool   m_acceleration_is_cached; 
+	 bool   m_acceleration_is_cached;
+	 /*! Whether a position is cached
+	  */
+	 _Value  m_position_cache;
+     /*! Whether position is cached
+	  */
+	 bool   m_position_is_cached;
  protected:
 	 /*! Called, when object moved on step, or by setting a current value
 		 \param[in] delta a difference from new value and current value
@@ -156,6 +162,7 @@ class Movement
 		 m_velocity = p2d::TickableDefaultValue<_Value>::zero();
 		 m_position = p2d::TickableDefaultValue<_Value>::zero();
 		 m_acceleration_is_cached = false;
+		 m_position_is_cached = false;
 	 }
 	 /*! Destroys force and listeners
 	  */
@@ -204,6 +211,7 @@ class Movement
 	 {
 		 m_force.step(time);
 		 m_acceleration_cache = false;
+		 m_position_cache = false;
 	 }
 	 /*! Returns an acting forces	
 		 \return an acting forces	
@@ -254,11 +262,17 @@ class Movement
 	  */
 	 _Value positionDelta(double time, double step_size)
 	 {
+		 bool iswholestep = is_fuzzy_equal(time, step_size);
+		 if (iswholestep && m_position_is_cached)
+		 {
+			 return m_position_cache;
+		 }
 		 if (m_next_position.exists())
 		 {
 			 if (is_fuzzy_equal(time, step_size))
 			 {
-				 return m_next_position.data() - m_position;
+				 m_position_is_cached = true;
+				 m_position_cache =  m_next_position.data() - m_position;
 			 }
 			 if (m_next_position_time.exists())
 			 {
@@ -272,18 +286,20 @@ class Movement
 		 // Compute constant velocity time
 		 if (m_force.hasForces())
 		 {
-		    _Value da = p2d::TickableDefaultValue<_Value>::zero();
-		    this->acceleration(da);
-		    da *= time / 2;
-		    da += m_velocity;
-		    da *= time;
-		    return da;
+		    m_position_cache = p2d::TickableDefaultValue<_Value>::zero();
+		    this->acceleration(m_position_cache);
+		    m_position_cache *= time / 2;
+		    m_position_cache += m_velocity;
+		    m_position_cache *= time;
+			m_position_is_cached = iswholestep;
+		    return m_position_cache;
 		 }
 		 else
 		 {
-			_Value dp = m_velocity;
-			dp *= time;
-			return dp;
+			m_position_cache = m_velocity;
+			m_position_cache *= time;
+			m_position_is_cached = iswholestep;
+			return m_position_cache;
 		 }
 		 return _Value();
 	 }
@@ -296,7 +312,7 @@ class Movement
 	 {
 		 return m_position + positionDelta(time, step_size);
 	 }
-	 /*! Steps a position a velocity
+	 /*! Steps a position of body and a velocity
 		 \param[in] time specified time size
 		 \param[in] step_size a size of step for a movement
 	  */
@@ -330,6 +346,7 @@ class Movement
 				 m_next_position_time.clear();
 			 }
 		 }
+		 m_position_is_cached = false;
 		 fireMovement(delta);
 	 }
 	 /*! Current weight of moved body
@@ -402,6 +419,7 @@ class Movement
 	 {
 		 _Value delta = v - m_position;
 		 m_position = v;
+		 m_position_is_cached =  false;
 		 fireMovement(delta);
 	 }
 	 /*! Sets next planned position for body
@@ -409,11 +427,13 @@ class Movement
 	  */
 	 void setNextPosition(const _Value & v)
 	 {
+		 m_position_is_cached = false;
 		 m_next_position.setValue(v);
 		 m_next_position_time.clear();
 	 }
 	 void setNextPositionAt(const _Value & v, double time)
 	 {
+		 m_position_is_cached = false;
 		 m_next_position.setValue(v);
 		 m_next_position_time.setValue(time);
 	 }

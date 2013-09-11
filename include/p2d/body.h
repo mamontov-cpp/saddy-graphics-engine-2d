@@ -330,6 +330,10 @@ public:
 		\param[in] whether it's fixed
 	 */
 	inline bool fixed() const { return m_fixed; }
+public:
+	/*! A special constant, needed to be set by world in order to set step for body
+	 */
+	double TimeStep;
 };
 
 }

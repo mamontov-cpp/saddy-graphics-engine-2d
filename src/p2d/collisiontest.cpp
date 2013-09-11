@@ -1,4 +1,5 @@
 #include "p2d/collisiontest.h"
+#include "p2d/collides1d.h"
 #include "extra/fuzzy_equal.h"
 
 void p2d::CollisionTest::init()
@@ -221,8 +222,17 @@ bool p2d::CollisionTest::collidesRtoL(p2d::Rectangle * p1, p2d::Line * p2)
 
 bool p2d::CollisionTest::collidesCtoC(p2d::Circle * p1, p2d::Circle * p2)
 {
-	double dist1 = p1->center().distanceTo(p2->center());
+	// A small optimization, since distance runs slow
 	double dist2 = p1->radius() + p2->radius();
+	if ( fabs(p1->centerRef().x() - p2->centerRef().x()) > dist2)
+	{
+		return false;
+	}
+	if (fabs(p1->centerRef().y() - p2->centerRef().y()) > dist2)
+	{
+		return false;
+	}
+	double dist1 = p2d::distance(p1->centerRef(), p2->centerRef());
 	// The precision was found empirical, because sometimes object collides in
 	// very strange phase
 	bool collides = (dist1 < dist2) || is_fuzzy_equal(dist1, dist2, 1.0E-6);

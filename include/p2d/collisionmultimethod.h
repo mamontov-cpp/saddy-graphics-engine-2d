@@ -85,14 +85,16 @@ public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
 	  */
 	 virtual _ReturnType invoke(p2d::CollisionShape * a1, p2d::CollisionShape * a2)
 	 {
+		 // Checked casts are replaced with static cast, since
+		 // type-checking is performed in p2d::CollisionMultiMethod
 		 if (!m_reverse)
 		 {
-		  _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a1);
-		  _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a2);
+		  _FirstObject * _a1 = static_cast<_FirstObject *>(a1);
+		  _SecondObject * _a2 = static_cast<_SecondObject *>(a2);
 		  return m_p(_a1, _a2);
 		 }
-		 _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a2);
-		 _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a1);
+		 _FirstObject * _a1 = static_cast<_FirstObject *>(a2);
+		 _SecondObject * _a2 = static_cast<_SecondObject *>(a1);
 		 return m_p(_a1, _a2);
 	 }
 	 virtual ~CollisionMultiMethodInstance() {}

@@ -181,11 +181,13 @@ void p2d::World::stepPositionsAndVelocities(double time)
 	{
 		it.key()->buildAccelerationCache();
 	}
+	double t = this->timeStep();
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
 		it++
 	   )
 	{
+		it.key()->TimeStep = t;
 		it.key()->stepPositionsAndVelocities(time);
 	}
 }
@@ -231,6 +233,7 @@ void p2d::World::findEvents(reactions_t & reactions)
 
 void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
 {
+	double step = this->timeStep();
 	if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
 	{
 		hst::vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
@@ -248,6 +251,8 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 				if (b1 != b2 && b1->isGhost() == false && b2->isGhost() == false)
 				{
 					hst::Maybe<double> time;
+					b1->TimeStep = step;
+					b2->TimeStep = step;
 					time = m_detector->collides(b1, b2, m_time_step);
 					if (time.exists())
 					{

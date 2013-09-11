@@ -25,11 +25,13 @@ p2d::Vector p2d::unit(const p2d::Vector & v)
 
 void p2d::mutableUnit(p2d::Vector & v)
 {
-	double modulo = p2d::modulo(v);
-	if (non_fuzzy_zero(modulo)) 
-		v /= modulo;
-	else
-		v = p2d::basis();
+	if (fabs(v.x()) > S2D_FP_PRECISION || fabs(v.y()) > S2D_FP_PRECISION)
+	{
+		double d = sqrt(v.x() * v.x() + v.y() * v.y());
+		v /= d;
+		return;
+	}
+	v  = p2d::basis();
 }
 
 p2d::Vector p2d::ortho(const p2d::Vector & v, OrthoVectorIndex i)

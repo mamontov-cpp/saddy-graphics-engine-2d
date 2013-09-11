@@ -10,7 +10,7 @@
 namespace p2d
 {
 /*! An elastic force is implemented, using formulo
-	- k * dx + b * v, where dx is difference, between distance of
+	- k * dx + b * v * v, where dx is difference, between distance of
 	centers of both bodies and default distance, which by default is constructed,
 	when creating force, v is a current speed of body, k is coefficient of elasticity 
 	(20) by default, b is a resistance coefficient, used to attenuate vibrations.
@@ -51,19 +51,19 @@ class ElasticForce: public p2d::TangentialForce
 	/*! Sets elasticity coefficient for force
 		\param[in] elasticity coefficient
 	 */
-	inline void setElasticity(double elasticity) { m_elasticity = elasticity; }
+	inline void setElasticity(double elasticity) { m_elasticity = -elasticity; }
 	/*! Returns elasticity coefficient
 		\return elasticity coefficient
 	 */
-	inline double elasticity() const { return m_elasticity; } 
+	inline double elasticity() const { return -m_elasticity; } 
 	/*! Sets a resistance coefficient
 		\param[in] resistance a resistance coefficient
 	 */
-	inline void setResistance(double resistance) { m_resistance = resistance; }
+	inline void setResistance(double resistance) { m_resistance = -resistance; }
 	/*! Returns a resistance coefficient
 		\return resistance coefficient
 	 */
-	inline double resistance() const { return m_resistance; }
+	inline double resistance() const { return -m_resistance; }
 };
 
 }
