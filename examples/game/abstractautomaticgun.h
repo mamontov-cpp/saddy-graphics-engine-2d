@@ -45,5 +45,9 @@ class AbstractAutomaticGun: public p2d::app::AbstractObjectEmitter
 		  \param[in] o game object
 	   */
 	  void setObject(GameObject * o);
+	  /*! Returns angle for created objec (0 in our case)
+		  \return angle
+	   */
+	  virtual double angle();
 	  virtual ~AbstractAutomaticGun();
 };
