@@ -86,9 +86,7 @@ void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
  */
 void p2d::BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 {
-	//TODO: here is performed a simple bouncing off for an objects. 
-	//      But there can be friction and|or rotation
-	//      Speeds, how they are changing?
+	//TODO: Implement another types of friction
 
 	double m1 = m_first->weight().value();
 	double m2 = m_second->weight().value();

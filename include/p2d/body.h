@@ -48,10 +48,12 @@ private:
 	/*! A current shape of data
 	 */
 	CollisionShape * m_current;
-	/*! A temporary shape for returning shape at specific time.
-		Selected and freed here.
+	/* An index for last sample
 	 */
-	CollisionShape * m_temporary;
+	int  m_lastsampleindex;
+	/*! Whether position is cached by valid
+	 */
+	bool m_samples_are_cached;
 	/*! A type size of shape in body
 	 */
 	size_t  m_shapesize;
@@ -78,9 +80,10 @@ public:
 	virtual const hst::string & userType() const;
 	/*! Returns a position of body at specified time.
 		\param[in] time time, when position is needed
+		\param[in] index index, where shape should be stored 
 		\return what shape, body had at specified time
 	 */
-	virtual p2d::CollisionShape & at(double time) const;
+	virtual p2d::CollisionShape & at(double time, int index = 0) const;
 	/*! Notifies body, that item is rotated
 		\param[in] delta difference between angles 
 	 */
@@ -306,7 +309,7 @@ public:
 	p2d::Vector tangentialVelocityAt(double time);
 	/*! Builds an acceleration cache for any of bodies
 	 */
-	void buildAccelerationCache();
+	void buildCaches();
 	/*! Returns  time step for body
 		\return time step
 	 */
@@ -330,10 +333,17 @@ public:
 		\param[in] whether it's fixed
 	 */
 	inline bool fixed() const { return m_fixed; }
+	/*! Set amount of sampling, needed to cache positions for collision detection
+	 */
+	void setSamplingCount(int samples);
 public:
 	/*! A special constant, needed to be set by world in order to set step for body
 	 */
 	double TimeStep;
+	/*! A temporary shapes for returning shape at specific time.
+		Selected and freed here. It's a temporary shapes 
+	 */
+	CollisionShape * Temporary;
 };
 
 }

@@ -41,18 +41,18 @@ const hst::string & p2d::Body::userType() const
 	return m_user_object->metaData()->name();
 }
 
-p2d::CollisionShape & p2d::Body::at(double time) const
+p2d::CollisionShape & p2d::Body::at(double time, int index) const
 {
 	p2d::Body * me = const_cast<p2d::Body *>(this);
 
 	// Light optimization, because most of our collision shapes are POD-like structures
 	// We can reduce amount of allocations, using untyped copying instead all of high-level
 	// operations
-	memcpy(me->m_temporary, me->m_current, me->m_shapesize);
+	memcpy(me->Temporary + index, me->m_current, me->m_shapesize);
 
-	me->m_temporary->move(m_tangential->positionDelta(time, me->TimeStep));
-	me->m_temporary->rotate(m_angular->positionDelta(time, me->TimeStep));
-	return *(me->m_temporary);
+	(me->Temporary + index)->move(m_tangential->positionDelta(time, me->TimeStep));
+	(me->Temporary + index)->rotate(m_angular->positionDelta(time, me->TimeStep));
+	return *(me->Temporary + index);
 }
 
 void p2d::Body::stepDiscreteChangingValues(double time)
@@ -99,7 +99,10 @@ p2d::Body::Body()
 	l->setCutter(p2d::cutter(0,0,0,0));
 	m_current =  l;
 
-	m_temporary = NULL;
+	Temporary = NULL;
+	m_lastsampleindex = -1;
+	m_samples_are_cached = false;
+
 	m_fixed = false;
 }
 
@@ -109,7 +112,7 @@ p2d::Body::~Body()
 	delete m_tangential;
 	delete m_angular;
 	delete m_current;
-	delete m_temporary;
+	delete[] Temporary;
 }
 
 void p2d::Body::setWeight(p2d::Weight * weight)
@@ -163,27 +166,31 @@ void p2d::Body::setShape(p2d::CollisionShape * shape)
 	this->trySetTransformer();
 	m_current->move(this->m_tangential->position());
 	m_current->rotate(this->m_angular->position());
-	
-	delete m_temporary;
-	m_temporary = m_current->clone();
 	m_shapesize = m_current->sizeOfType();
+
+	delete Temporary;
+	Temporary = NULL;
+	if (m_lastsampleindex > -1)
+		Temporary = m_current->clone(m_lastsampleindex + 1);	
 }
 
 
 void p2d::Body::setCurrentPosition(const p2d::Point & p)
 {
 	m_tangential->setCurrentPosition(p);
-	m_tangential->cacheAcceleration();
+	buildCaches();
 }
 
 void p2d::Body::shedulePosition(const p2d::Point & p)
 {
 	m_tangential->setNextPosition(p);
+	buildCaches();
 }
 
 void p2d::Body::shedulePositionAt(const p2d::Point & p, double time)
 {
 	m_tangential->setNextPositionAt(p, time);
+	buildCaches();
 }
 
 
@@ -205,6 +212,7 @@ p2d::Vector p2d::Body::nextPosition() const
 void p2d::Body::setCurrentTangentialVelocity(const p2d::Vector & v)
 {
 	m_tangential->setCurrentVelocity(v);
+	buildCaches();
 }
 
 void p2d::Body::sheduleTangentialVelocity(const p2d::Vector & v)
@@ -235,17 +243,19 @@ p2d::Vector p2d::Body::nextTangentialVelocity() const
 void p2d::Body::setCurrentAngle(double angle)
 {
 	m_angular->setCurrentPosition(angle);
-	m_angular->cacheAcceleration();
+	buildCaches();
 }
 
 void p2d::Body::sheduleAngle(double angle)
 {
 	m_angular->setNextPosition(angle);	
+	buildCaches();
 }
 
 void p2d::Body::sheduleAngleAt(double angle, double time)
 {
 	m_angular->setNextPositionAt(angle, time);
+	buildCaches();
 }
 
 double p2d::Body::angle() const
@@ -266,6 +276,7 @@ double p2d::Body::nextAngle() const
 void p2d::Body::setCurrentAngularVelocity(double v)
 {
 	m_angular->setCurrentVelocity(v);
+	buildCaches();
 }
 
 void p2d::Body::sheduleAngularVelocity(double v)
@@ -342,10 +353,19 @@ p2d::Vector p2d::Body::tangentialVelocityAt(double time)
 	return m_tangential->velocityAt(time, this->timeStep());
 }
 
-void p2d::Body::buildAccelerationCache()
+void p2d::Body::buildCaches()
 {
 	m_tangential->cacheAcceleration();
 	m_angular->cacheAcceleration();
+	double t = this->TimeStep;
+	int k = m_lastsampleindex + 1;
+	double slice = t / k;
+	for(int i = 0; i < k; i++)
+	{
+		// Saves inner data, using at. After that, caches results can be used by 
+		// any kind of detector to build data
+		this->at(t * (i+1), i );
+	}
 }
 
 
@@ -392,5 +412,14 @@ void p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 		this->sheduleTangentialVelocity(v);
 	}
 }
+
+
+void p2d::Body::setSamplingCount(int samples)
+{	
+	delete Temporary;
+	Temporary = m_current->clone(samples);
+	m_lastsampleindex = samples - 1;
+}
+
 
 

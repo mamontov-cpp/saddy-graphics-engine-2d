@@ -1,17 +1,17 @@
 #include "p2d/bounds.h"
 #include <limits>
 #include <log/log.h>
+#include <algorithm>
 
 #undef min
 #undef max
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Bound, p2d::CollisionShape, 3);
 
-p2d::CollisionShape * p2d::Bound::clone() const
+p2d::CollisionShape * p2d::Bound::clone(int count) const
 {
-	p2d::Bound * b = new p2d::Bound();
-	b->setPosition(this->position());
-	b->setType(this->type());
+	p2d::Bound * b = new p2d::Bound[count]();
+	std::fill_n(b, count, *this);
 	return b;
 }
 

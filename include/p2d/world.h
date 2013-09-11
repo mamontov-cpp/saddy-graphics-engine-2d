@@ -58,6 +58,9 @@ protected:
 	 /*! All bodies for checking all information
 	  */
 	 bodies_to_types_t m_allbodies;
+	 /*! Builds body's inner caches for shapes and acceleration
+	  */
+	 void buildBodyCaches();
 	 /*! Steps all body options, like ghost options and body
 		 \param[in] timt a time step size
 	  */

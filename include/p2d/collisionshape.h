@@ -24,9 +24,10 @@ public:
 	 */
 	virtual void move(const p2d::Vector & d) = 0;
 	/*! Clones a shape
+		\param[in] count count of cloned shape
 		\return copy of shape
 	 */
-	virtual p2d::CollisionShape * clone() const = 0;
+	virtual p2d::CollisionShape * clone(int count = 1) const = 0;
 	/*! Returns a center of shape
 		\return center of shape
 	 */

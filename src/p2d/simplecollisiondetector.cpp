@@ -5,10 +5,11 @@ p2d::MaybeTime p2d::SimpleCollisionDetector::collides(p2d::Body * b1,
 												      double limit)
 {
 	double time = m_moment * limit;
-	p2d::CollisionShape & s1 = b1->at(time);
-	p2d::CollisionShape & s2 = b2->at(time);
+	// A zero contains cache data from  bodies
+	p2d::CollisionShape * s1 = b1->Temporary;
+	p2d::CollisionShape * s2 = b2->Temporary;
 	p2d::MaybeTime result;
-	if(m_tester->invoke(&s1, &s2))
+	if(m_tester->invoke(s1, s2))
 	{
 		result.setValue(time);
 	}
