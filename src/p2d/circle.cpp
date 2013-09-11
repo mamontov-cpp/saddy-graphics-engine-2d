@@ -1,12 +1,15 @@
 #include <p2d/circle.h>
 #include <p2d/circletohulltransformer.h>
 #include <log/log.h>
+#include <algorithm>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Circle, p2d::CollisionShape, 1);
 
-p2d::CollisionShape * p2d::Circle::clone() const
+p2d::CollisionShape * p2d::Circle::clone(int count) const
 {
-	return new p2d::Circle(*this);
+	p2d::Circle * b = new p2d::Circle[count]();
+	std::fill_n(b, count, *this);
+	return b;
 }
 
 const p2d::Point & p2d::Circle::centerRef() const

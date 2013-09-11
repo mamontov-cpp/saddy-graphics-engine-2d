@@ -1,13 +1,16 @@
 #include "p2d/line.h"
 #include "primitives/matrix2x2.h"
 #include <log/log.h>
+#include <algorithm>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Line, p2d::CollisionShape, 2);
 
 
-p2d::CollisionShape * p2d::Line::clone() const
+p2d::CollisionShape * p2d::Line::clone(int count) const
 {
-	return new p2d::Line(*this);
+	p2d::Line * b = new p2d::Line[count]();
+	std::fill_n(b, count, *this);
+	return b;
 }
 
 

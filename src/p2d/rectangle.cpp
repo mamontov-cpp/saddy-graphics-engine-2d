@@ -1,6 +1,7 @@
 #include "p2d/rectangle.h"
 #include "extra/geometry2d.h"
 #include <log/log.h>
+#include <algorithm>
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(p2d::Rectangle, p2d::CollisionShape, 0);
 
@@ -10,9 +11,11 @@ const hPointF & p2d::Rectangle::point(int index) const
 	return m_rect[index];
 }
 
-p2d::CollisionShape * p2d::Rectangle::clone() const
+p2d::CollisionShape * p2d::Rectangle::clone(int count) const
 {
-	return new p2d::Rectangle(*this);
+	p2d::Rectangle * b = new p2d::Rectangle[count]();
+	std::fill_n(b, count, *this);
+	return b;
 }
 
 

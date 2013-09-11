@@ -43,6 +43,10 @@ class MultisamplingCollisionDetector: public p2d::CollisionDetector
 									  p2d::Body * b2, 
 									  double limit);
 
+	  /*! Returns a sample  count, needed to fetch samples for detection
+	   */
+	  virtual int sampleCount() const;
+
 	 ~MultisamplingCollisionDetector();
 };
 

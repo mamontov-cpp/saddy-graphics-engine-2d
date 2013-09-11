@@ -39,7 +39,13 @@ void p2d::World::setDetector(p2d::CollisionDetector * d)
 {
 	delete m_detector;
 	m_detector = d;
-	
+	for( bodies_to_types_t::iterator it = m_allbodies.begin();
+		it != m_allbodies.end();
+		it++
+	   )
+	{
+		it.key()->setSamplingCount(d->sampleCount());
+	}
 }
 
 
@@ -92,6 +98,7 @@ void p2d::World::addNow(p2d::Body * b)
 	{
 		m_groups[groups[i]] << b;
 	}
+	b->setSamplingCount(m_detector->sampleCount());
 	b->setWorld(this);
 }
 
@@ -141,6 +148,7 @@ void p2d::World::step(double time)
 	while ( non_fuzzy_zero(m_time_step) )
 	{
 		m_splitted_time_step.clear();
+		buildBodyCaches();
 		findAndExecuteCollisionCallbacks();
 		if (m_splitted_time_step.exists())
 		{
@@ -165,10 +173,23 @@ void p2d::World::stepDiscreteChangingValues(double time)
 {
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
-		it++
+		++it
 	   )
 	{
 		it.key()->stepDiscreteChangingValues(time);
+	}
+}
+
+void p2d::World::buildBodyCaches()
+{
+	double t = this->timeStep();
+	for( bodies_to_types_t::iterator it = m_allbodies.begin();
+		it != m_allbodies.end();
+		++it
+	   )
+	{
+		it.key()->TimeStep = t;
+		it.key()->buildCaches();
 	}
 }
 
@@ -176,18 +197,9 @@ void p2d::World::stepPositionsAndVelocities(double time)
 {
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
-		it++
+		++it
 	   )
 	{
-		it.key()->buildAccelerationCache();
-	}
-	double t = this->timeStep();
-	for( bodies_to_types_t::iterator it = m_allbodies.begin();
-		it != m_allbodies.end();
-		it++
-	   )
-	{
-		it.key()->TimeStep = t;
 		it.key()->stepPositionsAndVelocities(time);
 	}
 }
@@ -275,7 +287,7 @@ void p2d::World::clearNow()
 	hst::vector<p2d::Body *> bodies;
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
-		it++
+		++it
 	   )
 	{
 		bodies << it.key();

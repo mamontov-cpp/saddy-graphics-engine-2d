@@ -20,7 +20,8 @@ void MovingSmile::step(double time)
 void MovingSmile::render()
 {
 	p2d::Point p;
-	m_link.LinkedWay->step(&m_link, 1.0 / sad::Renderer::ref()->fps() , p);
+	this->body()->TimeStep = 1.0 / sad::Renderer::ref()->fps();
+	m_link.LinkedWay->step(&m_link, this->body()->TimeStep , p);
 	this->body()->setCurrentPosition(p);
 	this->p2d::app::Object::render();
 }

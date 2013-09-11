@@ -28,7 +28,10 @@ class CollisionDetector
 	   */
 	  virtual p2d::MaybeTime collides(p2d::Body * b1, 
 									  p2d::Body * b2, 
-									  double limit) = 0;	  
+									  double limit) = 0;
+	  /*! Returns a sample  count, needed to fetch samples for detection
+	   */
+	  virtual int sampleCount() const;
 	  virtual ~CollisionDetector();
 };
 

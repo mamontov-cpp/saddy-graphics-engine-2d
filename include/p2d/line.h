@@ -44,7 +44,7 @@ public:
 	/*! Returns new identical cutter
 		\return cutter
 	 */
-	p2d::CollisionShape * clone() const;
+	p2d::CollisionShape * clone(int count) const;
 	/*! Returns a center of cutter
 		\return center of cutter
 	 */

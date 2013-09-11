@@ -26,8 +26,8 @@ p2d::MaybeTime p2d::BroadCollisionDetector::collides(p2d::Body * b1,
 	// it will collide further, if force won't change direction inside of one step
 	if (b1->currentShape()->metaData()->privateIndex() == 3)
 	{
-		p2d::Bound * bound = static_cast<p2d::Bound*>(&(b1->at(limit)));
-		if (p2d::CollisionTest::collidesBtoS(bound, &(b2->at(limit))))
+		p2d::Bound * bound = static_cast<p2d::Bound*>(b1->Temporary);
+		if (p2d::CollisionTest::collidesBtoS(bound, b2->Temporary))
 			result.setValue(limit);
 		return result;
 	}
@@ -35,8 +35,8 @@ p2d::MaybeTime p2d::BroadCollisionDetector::collides(p2d::Body * b1,
 
 	if (b2->currentShape()->metaData()->privateIndex() == 3)
 	{
-		p2d::Bound * bound = static_cast<p2d::Bound*>(&(b2->at(limit)));
-		if (p2d::CollisionTest::collidesBtoS(bound, &(b1->at(limit))))
+		p2d::Bound * bound = static_cast<p2d::Bound*>(b2->Temporary);
+		if (p2d::CollisionTest::collidesBtoS(bound, b1->Temporary))
 			result.setValue(limit );
 		return result;
 	}
@@ -60,12 +60,12 @@ p2d::MaybeTime p2d::BroadCollisionDetector::collides(p2d::Body * b1,
 	// Build two hulls for determining a collision
 	p2d::ConvexHull s1;
 	s1.insertPointsFromShape(b1->currentShape());
-	s1.insertPointsFromShape( &(b1->at(limit)) );
+	s1.insertPointsFromShape( b1->Temporary );
 	s1.buildHull();
 
 	p2d::ConvexHull s2;
 	s2.insertPointsFromShape(b2->currentShape());
-	s2.insertPointsFromShape( &(b2->at(limit)) );
+	s2.insertPointsFromShape( b2->Temporary );
 	s2.buildHull();
 
 	if(s1.collides(s2))

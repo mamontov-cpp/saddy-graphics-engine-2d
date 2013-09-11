@@ -50,7 +50,7 @@ class Bound: public p2d::CollisionShape
 	 /*! Returns new identical bound
 		\return rectangle
 	 */
-	p2d::CollisionShape * clone() const;
+	p2d::CollisionShape * clone(int count) const;
 	/*! Returns a center of rectangle
 		\return center of rectangle
 	 */

@@ -4,3 +4,7 @@ p2d::CollisionDetector::~CollisionDetector()
 {
 }
 
+int p2d::CollisionDetector::sampleCount() const
+{
+	return 1;
+}

@@ -45,7 +45,7 @@ public:
 	/*! Returns new identical circle
 		\return rectangle
 	 */
-	p2d::CollisionShape * clone() const;
+	p2d::CollisionShape * clone(int count) const;
 	const p2d::Point & centerRef() const;
 	/*! Returns a center of circle
 		\return center of rectangle
