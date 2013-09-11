@@ -27,9 +27,13 @@ const p2d::Vector & p2d::ElasticForce::value() const
 
 	force->m_value = s1;
 	force->m_value -= s2;
-	p2d::mutableUnit(force->m_value);
-	force->m_value *= m_elasticity * delta;
-
+	if (fabs(distance) > 0)
+		force->m_value *= m_elasticity * delta / distance;
+	else
+	{
+		force->m_value = p2d::Vector();
+		return force->m_value;
+	}
 	p2d::Vector v = m_second->tangentialVelocity();
 	v *= p2d::modulo(v);
 	v *= m_resistance;
