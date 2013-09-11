@@ -8,9 +8,7 @@ DECLARE_SOBJ(p2d::Body);
 
 double p2d::Body::timeStep() const
 {
-	if (m_world != NULL)
-		return m_world->timeStep();
-	return 1.0;
+	return TimeStep;
 }
 
 void p2d::Body::notifyRotate(const double & delta)
@@ -52,8 +50,8 @@ p2d::CollisionShape & p2d::Body::at(double time) const
 	// operations
 	memcpy(me->m_temporary, me->m_current, me->m_shapesize);
 
-	me->m_temporary->move(m_tangential->positionDelta(time, me->timeStep()));
-	me->m_temporary->rotate(m_angular->positionDelta(time, me->timeStep()));
+	me->m_temporary->move(m_tangential->positionDelta(time, me->TimeStep));
+	me->m_temporary->rotate(m_angular->positionDelta(time, me->TimeStep));
 	return *(me->m_temporary);
 }
 

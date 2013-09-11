@@ -3,7 +3,7 @@
 
 bool is_fuzzy_equal(double x1, double x2, double precision)
 {
-	return is_fuzzy_zero(x1 - x2, precision);
+	return fabs(x1 - x2) < precision;
 }
 
 bool is_fuzzy_zero(double x, double precision)

@@ -26,7 +26,10 @@ p2d::Point p2d::Rectangle::center() const
 
 void p2d::Rectangle::rotate(double angle)
 {
-	::rotate((float)angle, m_rect);
+	if (fabs(angle) > S2D_FP_PRECISION)
+	{
+		::rotate((float)angle, m_rect);
+	}
 }
 
 void p2d::Rectangle::move(const p2d::Vector & d)
