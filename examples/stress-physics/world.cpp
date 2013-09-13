@@ -153,7 +153,7 @@ void World::run()
 	Ball * ball = new Ball();
 	ball->setPosition(p2d::Point(40, 200));
 	ball->body()->tangentialForces().add( new p2d::TangentialForce(p2d::Vector(0, -30) ) );
-	ball->body()->setCurrentTangentialVelocity(p2d::Vector(60, 120));
+	ball->body()->setCurrentTangentialVelocity(p2d::Vector(80, 180));
 	ball->body()->setCurrentAngularVelocity(1.0);
 	this->addObject(ball);
 
