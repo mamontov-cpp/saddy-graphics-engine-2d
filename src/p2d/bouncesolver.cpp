@@ -145,7 +145,7 @@ void p2d::BounceSolver::logFCPError(const char * m)
 
 	p2d::Point center2 = m_second->currentShape()->center();
 
-	SL_CRITICAL(fmt::Format(tpl) << m_first->currentShape()->dump()
+	SL_DEBUG  (fmt::Format(tpl) << m_first->currentShape()->dump()
 							     << m_av1.x() << m_av1.y()
 								 << m_second->currentShape()->dump()
 								 << m_av2.x() << m_av2.y()
