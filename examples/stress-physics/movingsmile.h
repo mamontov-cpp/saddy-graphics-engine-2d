@@ -3,9 +3,9 @@
 
 	Describes a moving smile
  */
+ #include <p2d/app/way.h>
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
-#include <p2d/app/way.h>
 #pragma once
 
 /*! As a default, grid node is a node

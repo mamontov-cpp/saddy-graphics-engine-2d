@@ -9,6 +9,11 @@
 #include "../axle.h"
 #include "../../templates/hlvector.hpp"
 
+
+
+#undef  CurrentTIme
+
+
 namespace p2d
 {
 
@@ -31,13 +36,13 @@ class Way
 public:
 	struct WayLink
 	{
-		p2d::app::Way * LinkedWay;
-		double     CurrentTime;
+                p2d::app::Way * LinkedWay;
+                double     CurrentTime;
 
 		inline WayLink(p2d::app::Way * w = NULL)
 		{
-			LinkedWay = w;
-			CurrentTime = 0;
+			this->LinkedWay = w;
+			this->CurrentTime = 0;
 		}
 	};
 protected:

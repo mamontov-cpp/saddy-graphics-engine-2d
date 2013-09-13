@@ -26,6 +26,7 @@
     #include <GL/glu.h>
     #include <X11/Xlib.h>
     #include <X11/keysym.h>
+     #undef CurrentTime
 #endif
 	
 #include <ctime>
