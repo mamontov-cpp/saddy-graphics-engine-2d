@@ -24,23 +24,47 @@ class ColoredBullet;
 class World: public p2d::app::App
 {
 protected:
-	p2d::FindContactPoints * m_find;
-	p2d::Walls * m_walls;
+	p2d::FindContactPoints * m_find; //!<  A method for finding contact points
+	p2d::Walls * m_walls;   //!< A walls
 	p2d::BounceSolver * m_solver; //!< A solver for bouncing objects
-	p2d::app::Way          * m_way;    //!< A way
+	p2d::app::Way          * m_way;    //!< A way for moving smilies
 
 	int m_hit_count; //!< A hit count
+	/*! This callback sets a friction for collision, so ball will lose speed
+		after touching wall
+		\param[in] ev event
+	 */
 	void onWallBall(const p2d::CollisionEvent<Ball, p2d::Wall> & ev);
+	/*! This callback sets a friction for collision, so ball will lose speed
+		after touching node
+		\param[in] ev event
+	 */
 	void onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev);
+	/*! This callback increments a hit count, after uncolored bullet hits a shooter
+		\param[in] ev event
+	 */
 	void incrementHitCount(const p2d::CollisionEvent<UncoloredBullet, Shooter> & ev);
+	/*! Erases both bullets
+		\param[in] ev event
+	 */
 	void eraseBullets(const p2d::CollisionEvent<ColoredBullet, UncoloredBullet> & ev);
+	/*! A shooter's colored bullets will boost a ball, when they hit him. Also, they will
+		be destroyed ar the moment
+		\param[in] ev event
+	 */
 	void boostBall(const p2d::CollisionEvent<ColoredBullet, Ball> & ev); 
 
+	/*! Performs bouncing off both objects, using solver
+		\param[in] ev event
+	 */
 	template<typename _O1, typename _O2>
 	void performBounce(const p2d::CollisionEvent<_O1, _O2> & ev)
 	{
 		m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 	}
+	/*! Removes object with type _O1 from a world
+		\param[in] ev event
+	 */
 	template<typename _O1, typename _O2>
 	void removeFirst(const p2d::CollisionEvent<_O1, _O2> & ev)
 	{
@@ -57,9 +81,6 @@ public:
 	/*! Quits a simulation
 	 */
 	void quit();
-
-	void onMouseMove(const sad::Event & ev);
-	
 	/*! Returns count, how much times player is hit
 	 */
 	int hitCount();
