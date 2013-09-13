@@ -24,11 +24,15 @@ void sad::Renderer::mainLoop()
   {
   	while (XPending(m_window.dpy) > 0)
         {
+	    if (m_window.active)
+	    {
+	         update();
+            }
             XNextEvent(m_window.dpy, &event);
              switch (event.type)
             {
             	case Expose:              {
-	                                            if (event.xexpose.count == 0) { m_window.active=true; update(); } //Expose event
+	                                            m_window.active=true; 
                                                     break;
                                                   }
                case ConfigureNotify:  {

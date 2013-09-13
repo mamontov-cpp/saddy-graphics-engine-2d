@@ -157,7 +157,7 @@ void sad::Renderer::update()
  ++m_frames;
  m_timer.stop();
  double elapsed = m_timer.elapsed();
- if (m_setimmediately || elapsed  > 600.0)
+ if (m_setimmediately || elapsed  > 1500.0)
  {
 	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
 	 m_frames = 0;
