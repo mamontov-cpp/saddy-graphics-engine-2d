@@ -1,7 +1,6 @@
-/*! \mainpage Game Example
+/*! \mainpage Strees Test For Physics
 	
-	Describes a simple shooting game example,
-	demonstrating engine basics.
+	Describes a small test for physics engine in a game
  */
 /*! \file main.cpp
 	\author HiddenSeeker

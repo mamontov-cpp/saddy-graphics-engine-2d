@@ -1,4 +1,4 @@
-/*! \file gridnodeedge.h
+/*! \file gridnodedge.h
 	\author HiddenSeeker
 
 	Describes a basic grid node edge

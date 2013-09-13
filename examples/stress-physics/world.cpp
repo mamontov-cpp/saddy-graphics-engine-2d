@@ -47,7 +47,6 @@ void World::run()
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
-	sad::Renderer::ref()->controls()->setMouseMoveHandler( new sad::MethodEventHandler<sad::Event, World>(this, &World::onMouseMove));
 
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();
@@ -240,10 +239,6 @@ void World::onBallNode(const p2d::CollisionEvent<Ball, GridNode> & ev)
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
 }
 
-void World::onMouseMove(const sad::Event & ev)
-{
-	//SL_DEBUG(fmt::Format("{0} {1}") << ev.x << ev.y);
-}
 
 int World::hitCount()
 {
