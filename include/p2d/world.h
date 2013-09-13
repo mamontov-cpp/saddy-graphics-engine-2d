@@ -62,7 +62,7 @@ protected:
 	  */
 	 void buildBodyCaches();
 	 /*! Steps all body options, like ghost options and body
-		 \param[in] timt a time step size
+		 \param[in] time a time step size
 	  */
 	 virtual void stepDiscreteChangingValues(double time);
 	 /*! Steps a position and velocities

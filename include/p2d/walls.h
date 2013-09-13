@@ -29,8 +29,8 @@ class Wall: public sad::Object
 	   */
 	  p2d::Body * m_body;
   public:
-	  /*! A type of wall
-		  \param[in] paddign a padding
+	  /*! Creates an empty wall as object
+		  \param[in] padding a padding between scene rectangle and wall positions
 	   */
 	  Wall(double padding = 0.0);
 	  /*! Tries to teleport an object

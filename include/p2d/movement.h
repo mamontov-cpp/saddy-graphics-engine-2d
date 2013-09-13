@@ -205,7 +205,8 @@ class Movement
 		 m_listeners.removeFirst(l);
 	 }
 	 /*! Performs a force step for current time period
-		 \param[time] a time step size
+		 Also clears all caches
+		 \param[in] time a time step size
 	  */
 	 void stepForce(double time)
 	 {

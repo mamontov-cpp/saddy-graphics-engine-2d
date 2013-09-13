@@ -47,8 +47,9 @@ class Bound: public p2d::CollisionShape
 		 \param[in] p position
 	  */
 	 inline void setPosition(double p) { m_p = p;}
-	 /*! Returns new identical bound
-		\return rectangle
+	 /*! Returns new identical bounds
+		\param[in] count count of created bounds
+		\return raw array of bounds
 	 */
 	p2d::CollisionShape * clone(int count) const;
 	/*! Returns a center of rectangle
@@ -89,7 +90,7 @@ class Bound: public p2d::CollisionShape
 	 */
 	p2d::InfiniteLine boundingLine();
 	/*! Returns size of current type
-		\param[in] size of type
+		\return size of type in bytes
 	 */
 	virtual size_t sizeOfType() const;
 	/*! Populates a vector two pooints, belonging to a border of bound

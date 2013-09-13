@@ -1,4 +1,4 @@
-/*! \file p2d::app::Constants.h
+/*! \file constants.h
 	\author HiddenSeeker
 
 	Describes game object  constants, used to initialize sprites for

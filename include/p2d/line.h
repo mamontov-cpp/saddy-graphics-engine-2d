@@ -41,8 +41,9 @@ public:
 		\return cutter
 	 */ 
 	inline const p2d::Cutter2D & cutter() const { return m_c; }
-	/*! Returns new identical cutter
-		\return cutter
+	/*! Returns new identical cuttes
+		\param[in] count how many cutters we should create
+		\return raw array of cutters
 	 */
 	p2d::CollisionShape * clone(int count) const;
 	/*! Returns a center of cutter
@@ -71,7 +72,7 @@ public:
 	 */
 	hst::vector<p2d::Point> points() const;
 	/*! Returns size of current type
-		\param[in] size of type
+		\return size of type in bytes
 	 */
 	virtual size_t sizeOfType() const;
 	/*! Returns first point of line

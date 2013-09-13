@@ -1,4 +1,4 @@
-/*! \file object.h
+/*! \file p2d/app/object.h
 
 	Describes main application object, that is basic for all objects in application
  */

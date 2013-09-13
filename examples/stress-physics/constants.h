@@ -1,4 +1,4 @@
-/*! \file WorldObjectConstants.h
+/*! \file constants.h
 	\author HiddenSeeker
 
 	Describes game object  constants, used to initialize sprites for
@@ -25,11 +25,15 @@ class MovingSmile;
 
 
 
+namespace p2d
+{
 
+namespace app
+{
 
 
 template<>
-class p2d::app::Constants<ColoredBullet>
+class Constants<ColoredBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -37,7 +41,7 @@ public:
 };
 
 template<>
-class p2d::app::Constants<Ball>
+class Constants<Ball>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -46,7 +50,7 @@ public:
 
 
 template<>
-class p2d::app::Constants<GridNode>
+class Constants<GridNode>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -54,7 +58,7 @@ public:
 };
 
 template<>
-class p2d::app::Constants<GridNodeEdge>
+class Constants<GridNodeEdge>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -62,7 +66,7 @@ public:
 };
 
 template<>
-class p2d::app::Constants<UncoloredBullet>
+class Constants<UncoloredBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -71,7 +75,7 @@ public:
 
 
 template<>
-class p2d::app::Constants<Platform>
+class Constants<Platform>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -79,7 +83,7 @@ public:
 };
 
 template<>
-class p2d::app::Constants<Shooter>
+class Constants<Shooter>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
@@ -88,9 +92,14 @@ public:
 
 
 template<>
-class p2d::app::Constants<MovingSmile>
+class Constants<MovingSmile>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
+
+}
+
+}
+

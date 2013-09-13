@@ -115,7 +115,7 @@ public:
 	 */
 	inline p2d::FindContactPoints * find() { return m_find; }
 	/*! Sets method for finding contact points
-		\param[in] new method
+		\param[in] find new method for finding contact points
 	 */
 	inline void setFind(p2d::FindContactPoints * find ) 
 	{ 

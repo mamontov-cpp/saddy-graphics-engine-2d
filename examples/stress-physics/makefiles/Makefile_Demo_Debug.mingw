@@ -1,0 +1,21 @@
+LDFLAGS= -L../../lib -lsaddy-debug -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config  
+OUTPUT   = ../../bin/stress-physics-debug.exe
+DEFINES  = -DWIN32 -DMINGW
+BUILD    = build/ball.o build/coloredbullet.o build/constants.o build/gridnode.o build/gridnodeedge.o build/main.o build/movingsmile.o build/platform.o build/shooter.o build/uncoloredbullet.o build/world.o
+all:
+	g++ -c -g ball.cpp -o build/ball.o $(INCLUDE) $(DEFINES)
+	g++ -c -g coloredbullet.cpp -o build/coloredbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g constants.cpp -o build/constants.o $(INCLUDE) $(DEFINES)
+	g++ -c -g gridnode.cpp -o build/gridnode.o $(INCLUDE) $(DEFINES)
+	g++ -c -g gridnodeedge.cpp -o build/gridnodeedge.o $(INCLUDE) $(DEFINES)
+	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ -c -g movingsmile.cpp -o build/movingsmile.o $(INCLUDE) $(DEFINES)
+	g++ -c -g platform.cpp -o build/platform.o $(INCLUDE) $(DEFINES)
+	g++ -c -g shooter.cpp -o build/shooter.o $(INCLUDE) $(DEFINES)
+	g++ -c -g uncoloredbullet.cpp -o build/uncoloredbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g world.cpp -o build/world.o $(INCLUDE) $(DEFINES)
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	delete $(OUTPUT)
+.PHONY: all clean

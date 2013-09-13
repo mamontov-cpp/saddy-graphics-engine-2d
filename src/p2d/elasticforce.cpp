@@ -1,4 +1,4 @@
-#include "elasticforce.h"
+#include <p2d/elasticforce.h>
 #include <log/log.h>
 
 p2d::ElasticForce::ElasticForce(

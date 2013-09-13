@@ -61,7 +61,7 @@ public:
 	 */
 	hst::vector<p2d::Point> points() const;
 	/*! Returns size of current type
-		\param[in] size of type
+		\return size of type in bytes
 	 */
 	virtual size_t sizeOfType() const;
 	/*! Populates a vector two pooints, belonging to a border of bound
