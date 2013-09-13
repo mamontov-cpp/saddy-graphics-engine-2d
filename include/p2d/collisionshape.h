@@ -37,7 +37,7 @@ public:
 	 */
 	virtual p2d::ConvexHull toHull() const = 0;
 	/*! Returns size of current type
-		\param[in] size of type
+		\return size of type in bytes
 	 */
 	virtual size_t sizeOfType() const = 0;
 	/*! Projects shape on axle

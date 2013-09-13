@@ -42,10 +42,14 @@ public:
 		\return radius
 	 */ 
 	inline double radius() const { return m_radius; }
-	/*! Returns new identical circle
-		\return rectangle
+	/*! Returns new identical circles
+		\param[in] count how many circles should be created
+		\return raw array of circles
 	 */
 	p2d::CollisionShape * clone(int count) const;
+	/*! Returns raw reference to center. Works faster than p2d::Circle::center()
+		\return reference to center
+	 */
 	const p2d::Point & centerRef() const;
 	/*! Returns a center of circle
 		\return center of rectangle
@@ -70,7 +74,7 @@ public:
 	 */
 	p2d::Cutter1D project(const p2d::Axle & a) const;
 	/*! Returns size of current type
-		\param[in] size of type
+		\return size of type in bytes
 	 */
 	virtual size_t sizeOfType() const;
 	/*! Populates a vector two pooints, belonging to a border of bound

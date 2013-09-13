@@ -52,7 +52,7 @@ class AbstractObjectEmitter: public PeriodicalEvent
 		 */
 		virtual double angle() = 0;
 		/*! Returns a position
-			\param[out] a position
+			\param[out] p position, where object will be emitted from
 		 */
 		virtual void position(p2d::Point & p) = 0;
 		/*! Produces an object
@@ -146,7 +146,7 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 		return m_min_angle + (m_max_angle - m_min_angle) * this->prand();
 	}
 	/*! Returns a position
-		\param[out] a position
+		\param[out] p  a position, where object should be created
 	 */
 	virtual void position(p2d::Point & p)
 	{

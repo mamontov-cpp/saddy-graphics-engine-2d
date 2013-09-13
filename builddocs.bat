@@ -1,3 +1,4 @@
+doxygen
 cd examples/multithreading
 doxygen
 cd ../..

@@ -329,8 +329,9 @@ public:
 		\param[in] fixed new value for fixed
 	 */
 	inline void setFixed(bool fixed) { m_fixed = fixed;}
-	/*! Returns whether it's fixed
-		\param[in] whether it's fixed
+	/*! Returns whether bodies are fixed. Fixed bodies can't change their speeds if moving.
+		They can change it, only if bounced from another fixed body.
+		\return whether body is fixed
 	 */
 	inline bool fixed() const { return m_fixed; }
 	/*! Set amount of sampling, needed to cache positions for collision detection

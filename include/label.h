@@ -76,8 +76,8 @@ class FormattedLabel: public Label
 	 class Arg
 	 {
 		public:
-			/*! Substitutes an argument to an output stream
-				\param[in] stream, stream to substitute to
+			/*! Returns substuted arg in notions of format library
+				\return substitituted argument
 			 */
 			virtual fmt::BasicFormatter<char>::Arg * substitute() = 0;
 			virtual ~Arg();
@@ -288,7 +288,7 @@ class FormattedLabel: public Label
 	 >
 	 inline FormattedLabel * arg(_Value (*f)())
 	 {
-		 return this->addArg(new FormattedLabel::ZeroFunctionArg(f));
+		 return this->addArg(new FormattedLabel::ZeroFunctionArg<_Value>(f));
 	 }
 	 /*! Adds an argument to label
 		 \param[in] v a value
@@ -299,7 +299,7 @@ class FormattedLabel: public Label
 	 >
 	 inline FormattedLabel * arg(const _Value & v)
 	 {
-		 return this->addArg(new FormattedLabel::StaticArg(v));
+		 return this->addArg(new FormattedLabel::StaticArg<_Value>(v));
 	 }
 	 /*! Adds an argument to label
 		 \param[in] o object
@@ -329,7 +329,8 @@ class FormattedLabel: public Label
 	 }
 	 /*! Adds an argument to label
 		 \param[in] o object
-		 \param[in] f a function
+		 \param[in] f a first composed method
+		 \param[in] g a second composed method
 		 \return this
 	  */
 	 template<
@@ -349,6 +350,7 @@ class FormattedLabel: public Label
 	 /*! Adds an argument to label
 		 \param[in] o object
 		 \param[in] f a function
+		 \param[in] g a second composed method
 		 \return this
 	  */
 	 template<

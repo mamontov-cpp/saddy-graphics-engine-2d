@@ -2,7 +2,7 @@ LDFLAGS= -L../../lib -lsaddy-debug -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
 OUTPUT   = ../../bin/saddy-test-debug
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD    = build/abstractautomaticgun.o build/bonus.o build/constants.o build/enemy.o build/enemybullet.o build/enemyspawn.o build/game.o build/gameobject.o build/main.o build/player.o build/playerbullet.o build/shootingenemy.o build/startscreenrain.o build/statelabel.o build/supershootingenemy.o build/wall.o
+BUILD    = build/abstractautomaticgun.o build/bonus.o build/constants.o build/enemy.o build/enemybullet.o build/enemyspawn.o build/game.o build/gameobject.o build/main.o build/player.o build/playerbullet.o build/shootingenemy.o build/startscreenrain.o build/supershootingenemy.o
 all:
 	./mkbuild.sh
 	g++ -c -g abstractautomaticgun.cpp -o build/abstractautomaticgun.o $(INCLUDE) $(DEFINES)
@@ -18,9 +18,7 @@ all:
 	g++ -c -g playerbullet.cpp -o build/playerbullet.o $(INCLUDE) $(DEFINES)
 	g++ -c -g shootingenemy.cpp -o build/shootingenemy.o $(INCLUDE) $(DEFINES)
 	g++ -c -g startscreenrain.cpp -o build/startscreenrain.o $(INCLUDE) $(DEFINES)
-	g++ -c -g statelabel.cpp -o build/statelabel.o $(INCLUDE) $(DEFINES)
 	g++ -c -g supershootingenemy.cpp -o build/supershootingenemy.o $(INCLUDE) $(DEFINES)
-	g++ -c -g wall.cpp -o build/wall.o $(INCLUDE) $(DEFINES)
 	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
 clean:
 	rm $(OUTPUT)

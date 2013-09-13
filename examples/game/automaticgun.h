@@ -50,7 +50,7 @@ class AutomaticGun: public AbstractAutomaticGun
 	 }
 	
 	 /*! Returns a position
-		 \param[out] a position
+		 \param[out] p position
 	  */
 	 virtual void position(p2d::Point & p)
 	 {
