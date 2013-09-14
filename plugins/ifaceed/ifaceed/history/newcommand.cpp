@@ -2,6 +2,14 @@
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 
 NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object)
 {
@@ -52,17 +60,17 @@ ScreenClearCommand::ScreenClearCommand(ScreenTemplate * container)
 
 ScreenClearCommand::~ScreenClearCommand()
 {
-	for (int i = 0; i < m_objects.count() ; i++)
+    for (unsigned int i = 0; i < m_objects.count() ; i++)
 	{
 		m_objects[i]->delRef();
 	}
 }
 
 
-void ScreenClearCommand::commit(ActionContext *c, CommandChangeObserver * ob)
+void ScreenClearCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::commit");
-	for (int i = 0 ; i < m_objects.count(); i++)
+    for (unsigned int i = 0 ; i < m_objects.count(); i++)
 	{
 		m_container->remove(m_objects[i]);
 		m_objects[i]->setProp<bool>("activity", false, sad::Log::ref());
@@ -71,10 +79,10 @@ void ScreenClearCommand::commit(ActionContext *c, CommandChangeObserver * ob)
 
 }
 
-void ScreenClearCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void ScreenClearCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::rollback");
-	for (int i = 0 ; i < m_objects.count(); i++)
+    for (unsigned int i = 0 ; i < m_objects.count(); i++)
 	{
 		m_container->add(m_objects[i]);
 		m_objects[i]->setProp<bool>("activity", true, sad::Log::ref());

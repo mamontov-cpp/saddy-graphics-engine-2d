@@ -1,5 +1,13 @@
 #include "qspritetablewidget.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 QSpriteTableWidget::QSpriteTableWidget(QComboBox * configCombo,
 									   QLayout* layout)
 {
@@ -83,7 +91,7 @@ void QSpriteTableWidget::addToForm(QLayout* layout)
 	layout->addWidget(m_viewer);
 }
 
-void QSpriteTableWidget::on_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn )
+void QSpriteTableWidget::on_currentCellChanged(UNUSED int currentRow, UNUSED int currentColumn, UNUSED int previousRow, UNUSED int previousColumn )
 {
 	if (m_viewer->currentItem()!=NULL)
 	{
@@ -182,8 +190,9 @@ void QSpriteTableWidget::rebuildTable()
 			m_viewer->resizeColumnsToContents();
 			m_viewer->resizeRowsToContents();
 
-			m_curRow = m_curCol ? ++m_curRow : m_curRow;
-			m_curCol = m_curCol ? 0 : 1;
+            if (m_curCol)
+                ++m_curRow;
+            m_curCol = m_curCol ? 0 : 1;
 
 		}
 	}

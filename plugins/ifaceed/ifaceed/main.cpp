@@ -4,6 +4,10 @@
 	loading to xml files with those. Loads sprites from specific configs - see examples.
  */
 #include "mainpanel.h"
+#ifdef LINUX
+    #undef KeyPress
+    #undef KeyRelease
+#endif
 #include <QtGui/QApplication>
 #include <QTest>
 #include <QTimer>

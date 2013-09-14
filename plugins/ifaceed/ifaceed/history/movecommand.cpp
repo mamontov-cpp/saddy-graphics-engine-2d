@@ -3,6 +3,14 @@
 #include "../objects/screentemplate.h"
 #include "../editorcore/editor.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 MoveCommand::MoveCommand(AbstractScreenObject * object, const hPointF & oldp, const hPointF & newp)
 {
 	SL_SCOPE("MoveCommand::MoveCommand");
@@ -16,24 +24,26 @@ MoveCommand::~MoveCommand()
 
 }
 
-void MoveCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+void MoveCommand::commit(UNUSED  ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->moveCenterTo(m_new_point);
 	ob->submitEvent("MoveCommand::commit", sad::Variant(0));
 }
 
-void MoveCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void MoveCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	m_object->moveCenterTo(m_old_point);
 	ob->submitEvent("MoveCommand::rollback", sad::Variant(0));
 }
 
 
-ResizeCommand::ResizeCommand(AbstractScreenObject * object, const hRectF & or, const hRectF & nr, float a)
+ResizeCommand::ResizeCommand(AbstractScreenObject * object,
+                             const hRectF & oldrect,
+                             const hRectF & nr, float a)
 {
 	SL_SCOPE("ResizeCommand::ResizeCommand");
 	m_object = object;
-	m_old_rect = or;
+    m_old_rect = oldrect;
 	m_new_rect = nr;
 	m_angle = a;
 }
@@ -43,13 +53,13 @@ ResizeCommand::~ResizeCommand()
 
 }
 
-void ResizeCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+void ResizeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->setRotatedRectangle(m_new_rect, m_angle);
 	ob->submitEvent("ResizeCommand::commit", sad::Variant(0));
 }
 
-void ResizeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void ResizeCommand::rollback(UNUSED  ActionContext *c, CommandChangeObserver * ob)
 {
 	m_object->setRotatedRectangle(m_old_rect, m_angle);
 	ob->submitEvent("ResizeCommand::rollback", sad::Variant(0));
@@ -65,7 +75,7 @@ MakeBackgroundCommand::MakeBackgroundCommand(AbstractScreenObject * object)
 	m_angle =  m_o->prop<float>("angle", sad::Log::ref());
 }
 
-void MakeBackgroundCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+void MakeBackgroundCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_o->setProp<unsigned int>("layer", 0, sad::Log::ref());
 	m_o->setProp<float>("angle", 0.0f, sad::Log::ref());
@@ -73,7 +83,7 @@ void MakeBackgroundCommand::commit(ActionContext *c, CommandChangeObserver * ob 
 	ob->submitEvent("MakeBackgroundCommand::commit", sad::Variant(0));
 }
 
-void MakeBackgroundCommand::rollback(ActionContext *c, CommandChangeObserver * ob )
+void MakeBackgroundCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_o->setProp<hRectF>("rect", m_rect, sad::Log::ref());	
 	m_o->setProp<float>("angle", m_angle, sad::Log::ref());	

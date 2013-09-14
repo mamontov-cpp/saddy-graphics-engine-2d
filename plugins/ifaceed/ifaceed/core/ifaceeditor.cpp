@@ -1,11 +1,11 @@
-#include "ifaceeditor.h"
-#include <ftfont.h>
-#include <label.h>
-#include <fontmanager.h>
 #include <QFontComboBox>
 #include <QFontDatabase>
 #include <QMessageBox>
 #include <QFileDialog>
+#include "ifaceeditor.h"
+#include <ftfont.h>
+#include <label.h>
+#include <fontmanager.h>
 #include "core/fonttemplatesdatabase.h"
 #include "../editorcore/editorbehaviour.h"
 #include "../objects/screentemplate.h"
@@ -101,7 +101,7 @@ void IFaceEditor::quitSaddyActions()
 
 }
 
-void IFaceEditor::quit(const sad::Event & ev)
+void IFaceEditor::quit(UNUSED const sad::Event & ev)
 {
 	sad::Renderer::ref()->quit();
 }
@@ -356,7 +356,7 @@ void IFaceEditor::tryEraseObject()
 	}
 }
 
-void IFaceEditor::submitEvent(const hst::string & eventType, const sad::Variant & v)
+void IFaceEditor::submitEvent(UNUSED const hst::string & eventType,UNUSED const sad::Variant & v)
 {
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )
@@ -463,7 +463,7 @@ void IFaceEditor::reload()
    {
 	   // 4.1. If failed, report error
 	   hst::string errorsasstring = "Not all objects are valid:\n";
-	   for(int i = 0; i < errors.count(); i++)
+       for(unsigned int i = 0; i < errors.count(); i++)
 	   {
 			errorsasstring << errors[i];
 	   }
@@ -550,7 +550,7 @@ void IFaceEditor::load()
 			it->addRef();
 			it = e->templateNext();
 		}
-		for(int i = 0; i < m_pairs.count(); i++)
+        for(unsigned int i = 0; i < m_pairs.count(); i++)
 		{
 			e->setUid(m_pairs[i].p2(), m_pairs[i].p1());
 		}

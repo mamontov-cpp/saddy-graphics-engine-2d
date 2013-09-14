@@ -2,6 +2,14 @@
 #include <QStyleOptionViewItem>
 #include <QPainter>
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 void FontDelegate::paint(QPainter * painter, 
 						 const QStyleOptionViewItem & option, 
 						 const QModelIndex & index ) const
@@ -28,7 +36,7 @@ void FontDelegate::paint(QPainter * painter,
         painter->restore();
 }
 
-QSize FontDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize FontDelegate::sizeHint(UNUSED const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	QString text = index.data(Qt::DisplayRole).toString();
     QFont font   = index.data(Qt::UserRole).value<QFont>();

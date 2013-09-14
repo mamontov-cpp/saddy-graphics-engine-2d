@@ -14,7 +14,7 @@
 #include <log/log.h>
 
 class DBCriticalLogger;
-
+class SpriteDatabase;
 /** Abstract sprite database iterator, used to iterate through database
  */
 class AbstractSpriteDatabaseIterator

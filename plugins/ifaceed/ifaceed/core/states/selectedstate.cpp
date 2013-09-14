@@ -36,7 +36,7 @@ void SelectedState::navigateOffset(bool next)
 	if (next) 
 	{
 		m_navposition += 1;
-		if (m_navposition == m_chain.size())
+        if ((unsigned int)m_navposition == m_chain.size())
 			m_navposition = 0;
 	}
 	else 
@@ -196,7 +196,7 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 void SelectedState::enter()
 {
 	IFaceEditor * ed = this->editor();
-	AbstractScreenObject * o = this->shdata()->selectedObject();
+    //AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
 	CLOSURE
@@ -209,7 +209,7 @@ void SelectedState::enter()
 void SelectedState::leave()
 {
 	IFaceEditor * ed = this->editor();
-	AbstractScreenObject * o = this->shdata()->selectedObject();
+    //AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::Variant(0));
 }
 

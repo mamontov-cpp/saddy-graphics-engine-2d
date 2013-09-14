@@ -6,6 +6,14 @@
 #include "saveloadcallbacks.h"
 #pragma once
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 /*! \class PropertyListener
    Defines a listener, that will be notified, that props has changed
  */
@@ -60,7 +68,7 @@ class AbstractField: public AbstractProperty
 		     */
 	        virtual hst::string save(ActionContext * context) const
 			{
-				return typename SaveLoadCallback< T >::save( get(context)->template get< T > (context));
+                return SaveLoadCallback< T >::save( get(context)->template get< T > (context));
 			}
 
 			/*! Loads data from string
@@ -102,7 +110,7 @@ class MappedField: public AbstractField<T>
 			}
 			/*! Returns a property value
 			 */
-			virtual sad::Variant * get(ActionContext * context) const
+            virtual sad::Variant * get(UNUSED ActionContext * context) const
 			{
 				delete m_variant;
 				const_cast<MappedField<T> *>(this)->m_variant = new sad::Variant(*m_real_field);

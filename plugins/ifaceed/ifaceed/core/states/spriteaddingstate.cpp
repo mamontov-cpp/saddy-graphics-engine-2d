@@ -7,6 +7,14 @@
 #include "../../history/newcommand.h"
 #include "../../objects/screensprite.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 void SimpleSpriteAddingState::enter()
 {
 	IFaceEditor * ed = this->editor();
@@ -55,7 +63,7 @@ void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
 	o->getProperty("angle")->set(sad::Variant((float)a),ed->log());
 }
 
-void SimpleSpriteAddingState::onMouseDown(const sad::Event & ev)
+void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::Event & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();

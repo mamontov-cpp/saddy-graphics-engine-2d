@@ -50,12 +50,12 @@ class ResizeCommand: public AbstractCommand
 	float				  m_angle;  //!< New angle
  public:
     /** Creates a new command
-		\param[in] object object to be added
-		\param[in] or old rect
+        \param[in] __object object to be added
+        \param[in] oldrectangle old rect
 		\param[in] nr new rect
 		\param[in] a   angle
 	 */
-	ResizeCommand(AbstractScreenObject * object, const hRectF & or, const hRectF & nr, float a);
+    ResizeCommand(AbstractScreenObject * __object, const hRectF & oldrectangle, const hRectF & nr, float a);
 	/** Applies changes, described in command
 		\param[in] c context
 		\param[in] ob observer for command

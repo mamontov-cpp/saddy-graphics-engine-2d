@@ -5,11 +5,56 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
 #include "../core/xmlconfigloader.h"
+// Avoid X11 namespace pollution
+#ifdef Status
+    #undef Status
+#endif
+#ifdef Bool
+    #undef Bool
+#endif
+#ifdef None
+    #undef None
+#endif
+#ifdef CursorShape
+    #undef CursorShape
+#endif
+#ifdef GrayScale
+    #undef GrayScale
+#endif
+#ifdef Color
+    #undef Color
+#endif
+#ifdef KeyPress
+    #undef KeyPress
+#endif
+#ifdef KeyRelease
+    #undef KeyRelease
+#endif
+#ifdef FocusIn
+    #undef FocusIn
+#endif
+#ifdef FocusOut
+    #undef FocusOut
+#endif
+#ifdef FontChange
+    #undef FontChange
+#endif
+#ifdef Unsorted
+    #undef Unsorted
+#endif
 #include <QMessageBox>
 #include <QDir>
 #include <QApplication>
 #include <png/picopngloader.h>
 #include <texturemanager.h>
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
 
 Editor::Editor():m_icons("editor_icons")
 {
@@ -170,7 +215,7 @@ void Editor::runSaddyEventLoop()
 		this->saddyQuitSlot();
 }
 
-void Editor::onSaddyWindowDestroySlot(const sad::Event & ev)
+void Editor::onSaddyWindowDestroySlot(UNUSED const sad::Event & ev)
 {
 	this->onSaddyWindowDestroy();
 }
@@ -344,7 +389,7 @@ void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event
 }
 
 
-void Editor::highlightState(const hst::string & hint)
+void Editor::highlightState(UNUSED const hst::string & hint)
 {
 
 }

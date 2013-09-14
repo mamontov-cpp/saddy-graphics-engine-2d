@@ -43,7 +43,7 @@ void ObjectXMLWriter::closeStream()
 void ObjectXMLWriter::write(SerializationEntry * entry)
 {
 	QDomElement e = m_doc->createElement(entry->Name.data());
-	for(int i = 0; i < entry->PropertiesName.count(); i++)
+    for(unsigned int i = 0; i < entry->PropertiesName.count(); i++)
 	{
 		e.setAttribute(entry->PropertiesName[i].data(), entry->PropertiesValue[i].data());
 	}

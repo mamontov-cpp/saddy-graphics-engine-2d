@@ -3,6 +3,9 @@
 
 	Describes a closure-like thing in terms of C++
  */
+#ifdef Bool
+    #undef Bool
+#endif
 #ifdef QT_VERSION
     #include <QMetaType>
 #endif

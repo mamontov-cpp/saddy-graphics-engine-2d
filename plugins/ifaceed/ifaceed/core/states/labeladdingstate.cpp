@@ -6,6 +6,14 @@
 #include "../../mainpanel.h"
 #include "../../history/newcommand.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 void LabelAddingState::onMouseMove(const sad::Event & ev)
 {
 	this->shdata()->activeObject()->moveCenterTo(hPointF(ev.x,ev.y));
@@ -51,7 +59,7 @@ void LabelAddingState::onWheel(const sad::Event & ev)
 }
 
 
-void LabelAddingState::onMouseDown(const sad::Event & ev)
+void LabelAddingState::onMouseDown(UNUSED const sad::Event & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	this->shdata()->activeObject();

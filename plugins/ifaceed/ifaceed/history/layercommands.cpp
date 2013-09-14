@@ -3,6 +3,14 @@
 #include "../objects/screentemplate.h"
 #include "../core/ifaceeditor.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer)
 {
 	SL_SCOPE("LayerCommand::LayerCommand");
@@ -11,14 +19,14 @@ LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer,
 	m_object = object;
 }
 
-void LayerCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+void LayerCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->scene()->setLayer(m_object, m_new_layer);
 	ob->submitEvent("LayerCommand::commit", sad::Variant(hPointF(m_old_layer, m_new_layer)));
 }
 
 
-void LayerCommand::rollback(ActionContext *c, CommandChangeObserver * ob )
+void LayerCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->scene()->setLayer(m_object, m_old_layer);
 	ob->submitEvent("LayerCommand::rollback", sad::Variant(hPointF(m_old_layer, m_new_layer)));

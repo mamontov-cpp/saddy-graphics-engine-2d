@@ -38,7 +38,7 @@ void SceneAddingTask::perform()
 		}
 		LayerPropertyComparator c;
 		std::sort(m_simple_list.begin(), m_simple_list.end(), c);
-		for(int i = 0; i < m_simple_list.size(); i++)
+        for(unsigned int i = 0; i < m_simple_list.size(); i++)
 		{
 			this->m_scene->add(m_simple_list[i]);
 		}

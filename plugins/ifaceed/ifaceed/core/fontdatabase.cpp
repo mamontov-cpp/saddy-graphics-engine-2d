@@ -1,7 +1,19 @@
 #include "fontdatabase.h"
 #include <fontmanager.h>
+// Avoid nasty bug with Qt's data stream
+#ifdef Status
+    #undef Status
+#endif
 #include <QStringList>
 #include <log/log.h>
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
 
 IFaceEditorFont::IFaceEditorFont()
 {
@@ -12,7 +24,7 @@ IFaceEditorFont::IFaceEditorFont()
 	m_name = "";
 }
 
-void IFaceEditorFont::unloadFromQDB(const QString & name,QFontDatabase & db)
+void IFaceEditorFont::unloadFromQDB(const QString & name,UNUSED QFontDatabase & db)
 {
  if (m_appfontindex != -1) {
 	 QFontDatabase::removeApplicationFont(m_appfontindex);
