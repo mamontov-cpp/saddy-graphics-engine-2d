@@ -104,6 +104,7 @@ p2d::Body::Body()
 	m_samples_are_cached = false;
 
 	m_fixed = false;
+	this->TimeStep = 0.0;
 }
 
 p2d::Body::~Body()
