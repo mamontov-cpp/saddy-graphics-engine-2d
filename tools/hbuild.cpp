@@ -345,12 +345,14 @@ class state
 		 stream_state m_ss;
 		 lexer_state  m_ls;
 		 state * m_parent;
+         std::string m_platform;
  public:
 	    state(state * prt) { m_parent=prt; }
 		command_list  & list() { return m_lst; }
 		stream_state  & streamState() { return m_ss; }
 		lexer_state   & lexerState()  { return m_ls; }
-		state * parent() {return m_parent;}
+		std::string   & platform() { return m_platform; }
+        state * parent() {return m_parent;}
 		~state() {}
 };
 
@@ -576,8 +578,40 @@ void gen_custom_list(state & s)
 void exclude(state & s)
 {
 	const svector & args=s.lexerState().context()->args();
-	for (unsigned int i=1;i<args.size();i++)
-		exclude_file(s.streamState().safe(),s.streamState().unsafe(),args[i]);
+    std::map<string, std::vector<string> > excluded;
+    excluded.insert(std::make_pair<string, std::vector<string> >("ALL", std::vector<string>()));
+    std::string platform = "ALL";
+    // Populate a map of excluded files for platform
+    for (unsigned int i=1;i<args.size();i++)
+	{
+        if (args[i].size() != 0)
+        {
+            if (args[i][0] == '{' && args[i][args[i].length() - 1] == '}')
+            {
+                std::string newplatform = args[i].substr(1, args[i].length() - 2);
+                platform = newplatform;
+                if (excluded.find(platform) == excluded.end())
+                {
+                    excluded.insert(std::make_pair<string, std::vector<string> >(platform, std::vector<string>()));
+                }
+            }
+            else
+            {
+                excluded[platform].push_back(args[i]);
+            }
+        }
+    }
+    
+    std::vector<std::string> & all = excluded["ALL"];
+	for (unsigned int i=1;i<all.size();i++)
+		exclude_file(s.streamState().safe(),s.streamState().unsafe(),all[i]);
+    // Exclude files specific for platform
+    if (excluded.find(s.platform()) != excluded.end())
+    {
+        std::vector<std::string> platformspecific = excluded[s.platform()];
+        for (unsigned int i=1;i<platformspecific.size();i++)
+            exclude_file(s.streamState().safe(),s.streamState().unsafe(),platformspecific[i]);
+    }
 }
 void file(state & s)
 {
@@ -628,9 +662,15 @@ std::string parse(const std::string & what, int argc, char ** argv)
 	s.list().insert("FOR_EACH",new basiccommand(gen_custom_list));
 	s.list().insert("EXCLUDE",new basiccommand(exclude));
 	s.list().insert("FILE",new basiccommand(file));
+    s.platform() == "";
     for(int i = 4; i + 1 < argc; i += 2 )
     {
         s.list().insert(argv[i], new simplemacrocommand(argv[i+1]));
+        // Handle currrent platform with platform command
+        if (std::string(argv[i]) == "PLATFORM") 
+        {
+            s.platform() = argv[i + 1];
+        }
     }
 	std::string  f=parse_with_custom_state(s,what);
 	delete p;
