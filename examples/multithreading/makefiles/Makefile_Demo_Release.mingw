@@ -1,0 +1,11 @@
+LDFLAGS= -L../../lib -lsaddy-release -lsaddy-ft-debug -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype -O2
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+OUTPUT   = ../../bin/multithreading-example-release.exe
+DEFINES  = -DWIN32 -DMINGW -O2
+BUILD    = build/main.o 
+all:
+	g++ -c main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	delete $(OUTPUT)
+.PHONY: all clean

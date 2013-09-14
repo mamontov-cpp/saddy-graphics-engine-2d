@@ -1,0 +1,7 @@
+Usage: exporter <font> <font size> <red color component> <green color component> <blue color component> <output file name>
+font - a font name
+font size - a size of font in pt
+red color component - a number from 0 to 255
+green color component - a number from 0 to 255
+blue color component - a number from 0 to 255
+output file name - name of output file

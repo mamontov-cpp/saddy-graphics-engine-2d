@@ -1,0 +1,17 @@
+{SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp}
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
+DEFINES  = -DUNIX -DLINUX -DGCC
+TYPE     = {TYPE}
+OUTPUT   = ../lib/libsaddy-{TYPE}.a 
+BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+CCOPTS = {CCOPTS}
+all: ../build $(OUTPUT)
+../build:
+	./mkbuild.sh
+{FOR_EACH ../build/{NAME}_$(TYPE).o:\s../src/{SOURCE}\n\tg++\s-c\s$(CCOPTS)\s../src/{SOURCE}\s-o\s../build/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+$(OUTPUT): {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+	ar cr  $(OUTPUT)   $(BUILD)
+clean:
+	del "../build/*"
+	del "$(OUTPUT)"
+.PHONY: all clean

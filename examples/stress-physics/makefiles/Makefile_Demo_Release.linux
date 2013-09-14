@@ -1,0 +1,23 @@
+LDFLAGS= -L../../lib -lsaddy-release -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11  
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config  
+OUTPUT   = ../../bin/stress-physics-release
+DEFINES  = -DUNIX -DLINUX -DGCC
+BUILD    = build/ball.o build/coloredbullet.o build/constants.o build/gridnode.o build/gridnodeedge.o build/main.o build/movingsmile.o build/platform.o build/shooter.o build/uncoloredbullet.o build/world.o
+all:
+	./mkbuild.sh
+	g++ -c ball.cpp -o build/ball.o $(INCLUDE) $(DEFINES)
+	g++ -c coloredbullet.cpp -o build/coloredbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c constants.cpp -o build/constants.o $(INCLUDE) $(DEFINES)
+	g++ -c gridnode.cpp -o build/gridnode.o $(INCLUDE) $(DEFINES)
+	g++ -c gridnodeedge.cpp -o build/gridnodeedge.o $(INCLUDE) $(DEFINES)
+	g++ -c main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ -c movingsmile.cpp -o build/movingsmile.o $(INCLUDE) $(DEFINES)
+	g++ -c platform.cpp -o build/platform.o $(INCLUDE) $(DEFINES)
+	g++ -c shooter.cpp -o build/shooter.o $(INCLUDE) $(DEFINES)
+	g++ -c uncoloredbullet.cpp -o build/uncoloredbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c world.cpp -o build/world.o $(INCLUDE) $(DEFINES)
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	rm $(OUTPUT)
+	rm -rf build
+.PHONY: all clean

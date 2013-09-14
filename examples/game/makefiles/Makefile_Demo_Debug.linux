@@ -1,0 +1,26 @@
+LDFLAGS= -L../../lib -lsaddy-debug -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+OUTPUT   = ../../bin/saddy-test-debug
+DEFINES  = -DUNIX -DLINUX -DGCC
+BUILD    = build/abstractautomaticgun.o build/bonus.o build/constants.o build/enemy.o build/enemybullet.o build/enemyspawn.o build/game.o build/gameobject.o build/main.o build/player.o build/playerbullet.o build/shootingenemy.o build/startscreenrain.o build/supershootingenemy.o
+all:
+	./mkbuild.sh
+	g++ -c -g abstractautomaticgun.cpp -o build/abstractautomaticgun.o $(INCLUDE) $(DEFINES)
+	g++ -c -g bonus.cpp -o build/bonus.o $(INCLUDE) $(DEFINES)
+	g++ -c -g constants.cpp -o build/constants.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemy.cpp -o build/enemy.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemybullet.cpp -o build/enemybullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g enemyspawn.cpp -o build/enemyspawn.o $(INCLUDE) $(DEFINES)
+	g++ -c -g game.cpp -o build/game.o $(INCLUDE) $(DEFINES)
+	g++ -c -g gameobject.cpp -o build/gameobject.o $(INCLUDE) $(DEFINES)
+	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
+	g++ -c -g player.cpp -o build/player.o $(INCLUDE) $(DEFINES)
+	g++ -c -g playerbullet.cpp -o build/playerbullet.o $(INCLUDE) $(DEFINES)
+	g++ -c -g shootingenemy.cpp -o build/shootingenemy.o $(INCLUDE) $(DEFINES)
+	g++ -c -g startscreenrain.cpp -o build/startscreenrain.o $(INCLUDE) $(DEFINES)
+	g++ -c -g supershootingenemy.cpp -o build/supershootingenemy.o $(INCLUDE) $(DEFINES)
+	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+clean:
+	rm $(OUTPUT)
+	rm -rf build
+.PHONY: all clean
