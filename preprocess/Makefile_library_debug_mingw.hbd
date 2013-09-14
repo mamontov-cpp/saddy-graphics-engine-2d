@@ -3,8 +3,9 @@ INCLUDE= -I../include -I../include/primitives -I../include/templates -I../includ
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DWIN32 -DMINGW
 BUILD    = {FOR_EACH ../build/{NAME}.o \s}
-all:
-{FOR_EACH 	g++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
+all: {FOR_EACH {NAME}.o \s} link
+{FOR_EACH {NAME}.o:\n\tg++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
+link:
 	ar cq  $(OUTPUT)   $(BUILD)
 clean:
 	delete $(OUTPUT)

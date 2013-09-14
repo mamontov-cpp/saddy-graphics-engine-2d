@@ -3,110 +3,214 @@ INCLUDE= -I../include -I../include/primitives -I../include/templates -I../includ
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DWIN32 -DMINGW
 BUILD    = ../build/3rdparty_format_format.o ../build/3rdparty_picopng_picopng.o ../build/bmploader.o ../build/cmdoptions.o ../build/config_sprite2dconfig.o ../build/config_sprite2dconfigloader.o ../build/config_sprite2dobserver.o ../build/defaulttexloader.o ../build/extchecker.o ../build/extra_background.o ../build/extra_fuzzy_equal.o ../build/extra_geometry2d.o ../build/extra_periodicalevent.o ../build/extra_statemachine.o ../build/fontmanager.o ../build/input.o ../build/label.o ../build/lightmodel.o ../build/log_log.o ../build/marshal_abstractproperty.o ../build/marshal_abstractreader.o ../build/marshal_abstractwriter.o ../build/marshal_actioncontext.o ../build/marshal_exceptions.o ../build/marshal_hashbasedserializablecontainer.o ../build/marshal_saveloadcallbacks.o ../build/marshal_serializablecontainer.o ../build/marshal_serializableobject.o ../build/marshal_variant.o ../build/orthocamera.o ../build/os_mutex.o ../build/os_semaphore.o ../build/os_thread.o ../build/p2d_app_app.o ../build/p2d_app_appobject.o ../build/p2d_app_objectemitter.o ../build/p2d_app_way.o ../build/p2d_axle.o ../build/p2d_body.o ../build/p2d_bouncesolver.o ../build/p2d_bounds.o ../build/p2d_broadcollisiondetector.o ../build/p2d_circle.o ../build/p2d_circletohulltransformer.o ../build/p2d_collisiondetector.o ../build/p2d_collisionevent.o ../build/p2d_collisionhandler.o ../build/p2d_collisionmultimethod.o ../build/p2d_collisionshape.o ../build/p2d_collisiontest.o ../build/p2d_convexhull.o ../build/p2d_elasticforce.o ../build/p2d_findcontactpoints.o ../build/p2d_force.o ../build/p2d_ghostoptions.o ../build/p2d_grahamscan.o ../build/p2d_infiniteline.o ../build/p2d_line.o ../build/p2d_movement.o ../build/p2d_multisamplingcollisiondetector.o ../build/p2d_rectangle.o ../build/p2d_simplecollisiondetector.o ../build/p2d_vector.o ../build/p2d_walls.o ../build/p2d_weight.o ../build/p2d_world.o ../build/p2d_worldsteptask.o ../build/png_convert.o ../build/png_decodepng.o ../build/png_decompress.o ../build/png_huffman.o ../build/png_inflateblock.o ../build/png_inflatedynamic.o ../build/png_inflator.o ../build/png_picopngloader.o ../build/png_pngbasic.o ../build/png_unfilter.o ../build/pngtexture.o ../build/primitives_classmetadata.o ../build/primitives_classmetadatacontainer.o ../build/primitives_hcolor.o ../build/primitives_object.o ../build/renderer.o ../build/renderer_win32.o ../build/renderer_win32loop.o ../build/scene.o ../build/Settings.o ../build/sprite.o ../build/sprite2dadapter.o ../build/sprite2dcontroller.o ../build/templates_closure.o ../build/templates_hhash.o ../build/templates_hstring.o ../build/templates_hwstring.o ../build/templates_refcountable.o ../build/texture.o ../build/texturecontainer.o ../build/texturemanager.o ../build/texture_resize_bilinear.o ../build/tga_tga.o ../build/tga_tgareader.o ../build/tmfont.o ../build/vbolayer.o
-all:
+all: 3rdparty_format_format.o 3rdparty_picopng_picopng.o bmploader.o cmdoptions.o config_sprite2dconfig.o config_sprite2dconfigloader.o config_sprite2dobserver.o defaulttexloader.o extchecker.o extra_background.o extra_fuzzy_equal.o extra_geometry2d.o extra_periodicalevent.o extra_statemachine.o fontmanager.o input.o label.o lightmodel.o log_log.o marshal_abstractproperty.o marshal_abstractreader.o marshal_abstractwriter.o marshal_actioncontext.o marshal_exceptions.o marshal_hashbasedserializablecontainer.o marshal_saveloadcallbacks.o marshal_serializablecontainer.o marshal_serializableobject.o marshal_variant.o orthocamera.o os_mutex.o os_semaphore.o os_thread.o p2d_app_app.o p2d_app_appobject.o p2d_app_objectemitter.o p2d_app_way.o p2d_axle.o p2d_body.o p2d_bouncesolver.o p2d_bounds.o p2d_broadcollisiondetector.o p2d_circle.o p2d_circletohulltransformer.o p2d_collisiondetector.o p2d_collisionevent.o p2d_collisionhandler.o p2d_collisionmultimethod.o p2d_collisionshape.o p2d_collisiontest.o p2d_convexhull.o p2d_elasticforce.o p2d_findcontactpoints.o p2d_force.o p2d_ghostoptions.o p2d_grahamscan.o p2d_infiniteline.o p2d_line.o p2d_movement.o p2d_multisamplingcollisiondetector.o p2d_rectangle.o p2d_simplecollisiondetector.o p2d_vector.o p2d_walls.o p2d_weight.o p2d_world.o p2d_worldsteptask.o png_convert.o png_decodepng.o png_decompress.o png_huffman.o png_inflateblock.o png_inflatedynamic.o png_inflator.o png_picopngloader.o png_pngbasic.o png_unfilter.o pngtexture.o primitives_classmetadata.o primitives_classmetadatacontainer.o primitives_hcolor.o primitives_object.o renderer.o renderer_win32.o renderer_win32loop.o scene.o Settings.o sprite.o sprite2dadapter.o sprite2dcontroller.o templates_closure.o templates_hhash.o templates_hstring.o templates_hwstring.o templates_refcountable.o texture.o texturecontainer.o texturemanager.o texture_resize_bilinear.o tga_tga.o tga_tgareader.o tmfont.o vbolayer.o link
+3rdparty_format_format.o:
 	g++ -c -g ../src/3rdparty/format/format.cc -o ../build/3rdparty_format_format.o $(INCLUDE) $(DEFINES)
+3rdparty_picopng_picopng.o:
 	g++ -c -g ../src/3rdparty/picopng/picopng.cpp -o ../build/3rdparty_picopng_picopng.o $(INCLUDE) $(DEFINES)
+bmploader.o:
 	g++ -c -g ../src/bmploader.cpp -o ../build/bmploader.o $(INCLUDE) $(DEFINES)
+cmdoptions.o:
 	g++ -c -g ../src/cmdoptions.cpp -o ../build/cmdoptions.o $(INCLUDE) $(DEFINES)
+config_sprite2dconfig.o:
 	g++ -c -g ../src/config/sprite2dconfig.cpp -o ../build/config_sprite2dconfig.o $(INCLUDE) $(DEFINES)
+config_sprite2dconfigloader.o:
 	g++ -c -g ../src/config/sprite2dconfigloader.cpp -o ../build/config_sprite2dconfigloader.o $(INCLUDE) $(DEFINES)
+config_sprite2dobserver.o:
 	g++ -c -g ../src/config/sprite2dobserver.cpp -o ../build/config_sprite2dobserver.o $(INCLUDE) $(DEFINES)
+defaulttexloader.o:
 	g++ -c -g ../src/defaulttexloader.cpp -o ../build/defaulttexloader.o $(INCLUDE) $(DEFINES)
+extchecker.o:
 	g++ -c -g ../src/extchecker.cpp -o ../build/extchecker.o $(INCLUDE) $(DEFINES)
+extra_background.o:
 	g++ -c -g ../src/extra/background.cpp -o ../build/extra_background.o $(INCLUDE) $(DEFINES)
+extra_fuzzy_equal.o:
 	g++ -c -g ../src/extra/fuzzy_equal.cpp -o ../build/extra_fuzzy_equal.o $(INCLUDE) $(DEFINES)
+extra_geometry2d.o:
 	g++ -c -g ../src/extra/geometry2d.cpp -o ../build/extra_geometry2d.o $(INCLUDE) $(DEFINES)
+extra_periodicalevent.o:
 	g++ -c -g ../src/extra/periodicalevent.cpp -o ../build/extra_periodicalevent.o $(INCLUDE) $(DEFINES)
+extra_statemachine.o:
 	g++ -c -g ../src/extra/statemachine.cpp -o ../build/extra_statemachine.o $(INCLUDE) $(DEFINES)
+fontmanager.o:
 	g++ -c -g ../src/fontmanager.cpp -o ../build/fontmanager.o $(INCLUDE) $(DEFINES)
+input.o:
 	g++ -c -g ../src/input.cpp -o ../build/input.o $(INCLUDE) $(DEFINES)
+label.o:
 	g++ -c -g ../src/label.cpp -o ../build/label.o $(INCLUDE) $(DEFINES)
+lightmodel.o:
 	g++ -c -g ../src/lightmodel.cpp -o ../build/lightmodel.o $(INCLUDE) $(DEFINES)
+log_log.o:
 	g++ -c -g ../src/log/log.cpp -o ../build/log_log.o $(INCLUDE) $(DEFINES)
+marshal_abstractproperty.o:
 	g++ -c -g ../src/marshal/abstractproperty.cpp -o ../build/marshal_abstractproperty.o $(INCLUDE) $(DEFINES)
+marshal_abstractreader.o:
 	g++ -c -g ../src/marshal/abstractreader.cpp -o ../build/marshal_abstractreader.o $(INCLUDE) $(DEFINES)
+marshal_abstractwriter.o:
 	g++ -c -g ../src/marshal/abstractwriter.cpp -o ../build/marshal_abstractwriter.o $(INCLUDE) $(DEFINES)
+marshal_actioncontext.o:
 	g++ -c -g ../src/marshal/actioncontext.cpp -o ../build/marshal_actioncontext.o $(INCLUDE) $(DEFINES)
+marshal_exceptions.o:
 	g++ -c -g ../src/marshal/exceptions.cpp -o ../build/marshal_exceptions.o $(INCLUDE) $(DEFINES)
+marshal_hashbasedserializablecontainer.o:
 	g++ -c -g ../src/marshal/hashbasedserializablecontainer.cpp -o ../build/marshal_hashbasedserializablecontainer.o $(INCLUDE) $(DEFINES)
+marshal_saveloadcallbacks.o:
 	g++ -c -g ../src/marshal/saveloadcallbacks.cpp -o ../build/marshal_saveloadcallbacks.o $(INCLUDE) $(DEFINES)
+marshal_serializablecontainer.o:
 	g++ -c -g ../src/marshal/serializablecontainer.cpp -o ../build/marshal_serializablecontainer.o $(INCLUDE) $(DEFINES)
+marshal_serializableobject.o:
 	g++ -c -g ../src/marshal/serializableobject.cpp -o ../build/marshal_serializableobject.o $(INCLUDE) $(DEFINES)
+marshal_variant.o:
 	g++ -c -g ../src/marshal/variant.cpp -o ../build/marshal_variant.o $(INCLUDE) $(DEFINES)
+orthocamera.o:
 	g++ -c -g ../src/orthocamera.cpp -o ../build/orthocamera.o $(INCLUDE) $(DEFINES)
+os_mutex.o:
 	g++ -c -g ../src/os/mutex.cpp -o ../build/os_mutex.o $(INCLUDE) $(DEFINES)
+os_semaphore.o:
 	g++ -c -g ../src/os/semaphore.cpp -o ../build/os_semaphore.o $(INCLUDE) $(DEFINES)
+os_thread.o:
 	g++ -c -g ../src/os/thread.cpp -o ../build/os_thread.o $(INCLUDE) $(DEFINES)
+p2d_app_app.o:
 	g++ -c -g ../src/p2d/app/app.cpp -o ../build/p2d_app_app.o $(INCLUDE) $(DEFINES)
+p2d_app_appobject.o:
 	g++ -c -g ../src/p2d/app/appobject.cpp -o ../build/p2d_app_appobject.o $(INCLUDE) $(DEFINES)
+p2d_app_objectemitter.o:
 	g++ -c -g ../src/p2d/app/objectemitter.cpp -o ../build/p2d_app_objectemitter.o $(INCLUDE) $(DEFINES)
+p2d_app_way.o:
 	g++ -c -g ../src/p2d/app/way.cpp -o ../build/p2d_app_way.o $(INCLUDE) $(DEFINES)
+p2d_axle.o:
 	g++ -c -g ../src/p2d/axle.cpp -o ../build/p2d_axle.o $(INCLUDE) $(DEFINES)
+p2d_body.o:
 	g++ -c -g ../src/p2d/body.cpp -o ../build/p2d_body.o $(INCLUDE) $(DEFINES)
+p2d_bouncesolver.o:
 	g++ -c -g ../src/p2d/bouncesolver.cpp -o ../build/p2d_bouncesolver.o $(INCLUDE) $(DEFINES)
+p2d_bounds.o:
 	g++ -c -g ../src/p2d/bounds.cpp -o ../build/p2d_bounds.o $(INCLUDE) $(DEFINES)
+p2d_broadcollisiondetector.o:
 	g++ -c -g ../src/p2d/broadcollisiondetector.cpp -o ../build/p2d_broadcollisiondetector.o $(INCLUDE) $(DEFINES)
+p2d_circle.o:
 	g++ -c -g ../src/p2d/circle.cpp -o ../build/p2d_circle.o $(INCLUDE) $(DEFINES)
+p2d_circletohulltransformer.o:
 	g++ -c -g ../src/p2d/circletohulltransformer.cpp -o ../build/p2d_circletohulltransformer.o $(INCLUDE) $(DEFINES)
+p2d_collisiondetector.o:
 	g++ -c -g ../src/p2d/collisiondetector.cpp -o ../build/p2d_collisiondetector.o $(INCLUDE) $(DEFINES)
+p2d_collisionevent.o:
 	g++ -c -g ../src/p2d/collisionevent.cpp -o ../build/p2d_collisionevent.o $(INCLUDE) $(DEFINES)
+p2d_collisionhandler.o:
 	g++ -c -g ../src/p2d/collisionhandler.cpp -o ../build/p2d_collisionhandler.o $(INCLUDE) $(DEFINES)
+p2d_collisionmultimethod.o:
 	g++ -c -g ../src/p2d/collisionmultimethod.cpp -o ../build/p2d_collisionmultimethod.o $(INCLUDE) $(DEFINES)
+p2d_collisionshape.o:
 	g++ -c -g ../src/p2d/collisionshape.cpp -o ../build/p2d_collisionshape.o $(INCLUDE) $(DEFINES)
+p2d_collisiontest.o:
 	g++ -c -g ../src/p2d/collisiontest.cpp -o ../build/p2d_collisiontest.o $(INCLUDE) $(DEFINES)
+p2d_convexhull.o:
 	g++ -c -g ../src/p2d/convexhull.cpp -o ../build/p2d_convexhull.o $(INCLUDE) $(DEFINES)
+p2d_elasticforce.o:
 	g++ -c -g ../src/p2d/elasticforce.cpp -o ../build/p2d_elasticforce.o $(INCLUDE) $(DEFINES)
+p2d_findcontactpoints.o:
 	g++ -c -g ../src/p2d/findcontactpoints.cpp -o ../build/p2d_findcontactpoints.o $(INCLUDE) $(DEFINES)
+p2d_force.o:
 	g++ -c -g ../src/p2d/force.cpp -o ../build/p2d_force.o $(INCLUDE) $(DEFINES)
+p2d_ghostoptions.o:
 	g++ -c -g ../src/p2d/ghostoptions.cpp -o ../build/p2d_ghostoptions.o $(INCLUDE) $(DEFINES)
+p2d_grahamscan.o:
 	g++ -c -g ../src/p2d/grahamscan.cpp -o ../build/p2d_grahamscan.o $(INCLUDE) $(DEFINES)
+p2d_infiniteline.o:
 	g++ -c -g ../src/p2d/infiniteline.cpp -o ../build/p2d_infiniteline.o $(INCLUDE) $(DEFINES)
+p2d_line.o:
 	g++ -c -g ../src/p2d/line.cpp -o ../build/p2d_line.o $(INCLUDE) $(DEFINES)
+p2d_movement.o:
 	g++ -c -g ../src/p2d/movement.cpp -o ../build/p2d_movement.o $(INCLUDE) $(DEFINES)
+p2d_multisamplingcollisiondetector.o:
 	g++ -c -g ../src/p2d/multisamplingcollisiondetector.cpp -o ../build/p2d_multisamplingcollisiondetector.o $(INCLUDE) $(DEFINES)
+p2d_rectangle.o:
 	g++ -c -g ../src/p2d/rectangle.cpp -o ../build/p2d_rectangle.o $(INCLUDE) $(DEFINES)
+p2d_simplecollisiondetector.o:
 	g++ -c -g ../src/p2d/simplecollisiondetector.cpp -o ../build/p2d_simplecollisiondetector.o $(INCLUDE) $(DEFINES)
+p2d_vector.o:
 	g++ -c -g ../src/p2d/vector.cpp -o ../build/p2d_vector.o $(INCLUDE) $(DEFINES)
+p2d_walls.o:
 	g++ -c -g ../src/p2d/walls.cpp -o ../build/p2d_walls.o $(INCLUDE) $(DEFINES)
+p2d_weight.o:
 	g++ -c -g ../src/p2d/weight.cpp -o ../build/p2d_weight.o $(INCLUDE) $(DEFINES)
+p2d_world.o:
 	g++ -c -g ../src/p2d/world.cpp -o ../build/p2d_world.o $(INCLUDE) $(DEFINES)
+p2d_worldsteptask.o:
 	g++ -c -g ../src/p2d/worldsteptask.cpp -o ../build/p2d_worldsteptask.o $(INCLUDE) $(DEFINES)
+png_convert.o:
 	g++ -c -g ../src/png/convert.cpp -o ../build/png_convert.o $(INCLUDE) $(DEFINES)
+png_decodepng.o:
 	g++ -c -g ../src/png/decodepng.cpp -o ../build/png_decodepng.o $(INCLUDE) $(DEFINES)
+png_decompress.o:
 	g++ -c -g ../src/png/decompress.cpp -o ../build/png_decompress.o $(INCLUDE) $(DEFINES)
+png_huffman.o:
 	g++ -c -g ../src/png/huffman.cpp -o ../build/png_huffman.o $(INCLUDE) $(DEFINES)
+png_inflateblock.o:
 	g++ -c -g ../src/png/inflateblock.cpp -o ../build/png_inflateblock.o $(INCLUDE) $(DEFINES)
+png_inflatedynamic.o:
 	g++ -c -g ../src/png/inflatedynamic.cpp -o ../build/png_inflatedynamic.o $(INCLUDE) $(DEFINES)
+png_inflator.o:
 	g++ -c -g ../src/png/inflator.cpp -o ../build/png_inflator.o $(INCLUDE) $(DEFINES)
+png_picopngloader.o:
 	g++ -c -g ../src/png/picopngloader.cpp -o ../build/png_picopngloader.o $(INCLUDE) $(DEFINES)
+png_pngbasic.o:
 	g++ -c -g ../src/png/pngbasic.cpp -o ../build/png_pngbasic.o $(INCLUDE) $(DEFINES)
+png_unfilter.o:
 	g++ -c -g ../src/png/unfilter.cpp -o ../build/png_unfilter.o $(INCLUDE) $(DEFINES)
+pngtexture.o:
 	g++ -c -g ../src/pngtexture.cpp -o ../build/pngtexture.o $(INCLUDE) $(DEFINES)
+primitives_classmetadata.o:
 	g++ -c -g ../src/primitives/classmetadata.cpp -o ../build/primitives_classmetadata.o $(INCLUDE) $(DEFINES)
+primitives_classmetadatacontainer.o:
 	g++ -c -g ../src/primitives/classmetadatacontainer.cpp -o ../build/primitives_classmetadatacontainer.o $(INCLUDE) $(DEFINES)
+primitives_hcolor.o:
 	g++ -c -g ../src/primitives/hcolor.cpp -o ../build/primitives_hcolor.o $(INCLUDE) $(DEFINES)
+primitives_object.o:
 	g++ -c -g ../src/primitives/object.cpp -o ../build/primitives_object.o $(INCLUDE) $(DEFINES)
+renderer.o:
 	g++ -c -g ../src/renderer.cpp -o ../build/renderer.o $(INCLUDE) $(DEFINES)
+renderer_win32.o:
 	g++ -c -g ../src/renderer_win32.cpp -o ../build/renderer_win32.o $(INCLUDE) $(DEFINES)
+renderer_win32loop.o:
 	g++ -c -g ../src/renderer_win32loop.cpp -o ../build/renderer_win32loop.o $(INCLUDE) $(DEFINES)
+scene.o:
 	g++ -c -g ../src/scene.cpp -o ../build/scene.o $(INCLUDE) $(DEFINES)
+Settings.o:
 	g++ -c -g ../src/Settings.cpp -o ../build/Settings.o $(INCLUDE) $(DEFINES)
+sprite.o:
 	g++ -c -g ../src/sprite.cpp -o ../build/sprite.o $(INCLUDE) $(DEFINES)
+sprite2dadapter.o:
 	g++ -c -g ../src/sprite2dadapter.cpp -o ../build/sprite2dadapter.o $(INCLUDE) $(DEFINES)
+sprite2dcontroller.o:
 	g++ -c -g ../src/sprite2dcontroller.cpp -o ../build/sprite2dcontroller.o $(INCLUDE) $(DEFINES)
+templates_closure.o:
 	g++ -c -g ../src/templates/closure.cpp -o ../build/templates_closure.o $(INCLUDE) $(DEFINES)
+templates_hhash.o:
 	g++ -c -g ../src/templates/hhash.cpp -o ../build/templates_hhash.o $(INCLUDE) $(DEFINES)
+templates_hstring.o:
 	g++ -c -g ../src/templates/hstring.cpp -o ../build/templates_hstring.o $(INCLUDE) $(DEFINES)
+templates_hwstring.o:
 	g++ -c -g ../src/templates/hwstring.cpp -o ../build/templates_hwstring.o $(INCLUDE) $(DEFINES)
+templates_refcountable.o:
 	g++ -c -g ../src/templates/refcountable.cpp -o ../build/templates_refcountable.o $(INCLUDE) $(DEFINES)
+texture.o:
 	g++ -c -g ../src/texture.cpp -o ../build/texture.o $(INCLUDE) $(DEFINES)
+texturecontainer.o:
 	g++ -c -g ../src/texturecontainer.cpp -o ../build/texturecontainer.o $(INCLUDE) $(DEFINES)
+texturemanager.o:
 	g++ -c -g ../src/texturemanager.cpp -o ../build/texturemanager.o $(INCLUDE) $(DEFINES)
+texture_resize_bilinear.o:
 	g++ -c -g ../src/texture_resize_bilinear.cpp -o ../build/texture_resize_bilinear.o $(INCLUDE) $(DEFINES)
+tga_tga.o:
 	g++ -c -g ../src/tga/tga.cpp -o ../build/tga_tga.o $(INCLUDE) $(DEFINES)
+tga_tgareader.o:
 	g++ -c -g ../src/tga/tgareader.cpp -o ../build/tga_tgareader.o $(INCLUDE) $(DEFINES)
+tmfont.o:
 	g++ -c -g ../src/tmfont.cpp -o ../build/tmfont.o $(INCLUDE) $(DEFINES)
+vbolayer.o:
 	g++ -c -g ../src/vbolayer.cpp -o ../build/vbolayer.o $(INCLUDE) $(DEFINES)
+link:
 	ar cq  $(OUTPUT)   $(BUILD)
 clean:
 	delete $(OUTPUT)

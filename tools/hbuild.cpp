@@ -404,11 +404,12 @@ template<int _newState>
 void shield_ex( state & v, char c) 
 {
 	command_context * ctxt=v.lexerState().context();
-	if (c!='\\' && c!='{' && c!='}' && c!='<' && c!='>' && c!='n' && c!='r' && c!='s')
+	if (c!='\\' && c!='{' && c!='}' && c!='<' && c!='>' && c!='n' && c!='r' && c!='s' && c!='t')
 		ctxt->push_character('\\');
-	if (c!='n' && c!='r' && c!='s')
+	if (c!='n' && c!='r' && c!='s' && c!= 't')
 		ctxt->push_character(c);
-	if (c=='n') ctxt->push_character('\n');
+	if (c=='t') ctxt->push_character('\t');	
+    if (c=='n') ctxt->push_character('\n');
 	if (c=='r') ctxt->push_character('\r');
 	if (c=='s') ctxt->push_character(' ');
 	v.lexerState().setState(_newState);
