@@ -143,27 +143,12 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::update()
 {
-  if (m_setimmediately || m_reset)
- {
-	 m_timer.start();
-	 m_reset = false;
- }
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
  glLoadIdentity();
   
  if (getCurrentScene())
  	getCurrentScene()->render();
  glXSwapBuffers(m_window.dpy, m_window.win);
- ++m_frames;
- m_timer.stop();
- double elapsed = m_timer.elapsed();
- if (m_setimmediately || elapsed  > 1500.0)
- {
-	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
-	 m_frames = 0;
-	 m_reset = true;
-	 m_setimmediately = false;
- }
 }
 
 void sad::Renderer::initWindowParameters()
