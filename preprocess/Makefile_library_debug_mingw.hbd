@@ -2,11 +2,13 @@
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config   
 OUTPUT   = ../lib/libsaddy-debug.a 
 DEFINES  = -DWIN32 -DMINGW
-BUILD    = {FOR_EACH ../build/{NAME}.o \s}
-all: {FOR_EACH {NAME}.o \s} link
-{FOR_EACH {NAME}.o:\n\tg++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
-link:
-	ar cq  $(OUTPUT)   $(BUILD)
+TYPE     = debug
+BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+all: $(OUTPUT)
+{FOR_EACH ../build/{NAME}_$(TYPE).o:\s../src/{SOURCE}\n\tg++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+$(OUTPUT): {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+	ar cr  $(OUTPUT)   $(BUILD)
 clean:
-	delete $(OUTPUT)
+	del "../build/*"
+	del "$(OUTPUT)"
 .PHONY: all clean

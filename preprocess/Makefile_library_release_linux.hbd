@@ -2,12 +2,15 @@
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
 OUTPUT   = ../lib/libsaddy-release.a 
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD    = {FOR_EACH ../build/{NAME}.o \s}
-all:
+TYPE     = release
+BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+all: ../build $(OUTPUT)
+../build:
 	./mkbuild.sh
-{FOR_EACH 	g++\s-c\s../src/{SOURCE}\s-o\s../build/{NAME}.o\s$(INCLUDE)\s$(DEFINES) \n}
-	ar cq  $(OUTPUT)   $(BUILD)
+{FOR_EACH ../build/{NAME}_$(TYPE).o:\s../src/{SOURCE}\n\tg++\s-c\s-g\s../src/{SOURCE}\s-o\s../build/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+$(OUTPUT): {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+	ar cr  $(OUTPUT)   $(BUILD)
 clean:
-	rm $(OUTPUT)
-	rm -rf build
+	del "../build/*"
+	del "$(OUTPUT)"
 .PHONY: all clean
