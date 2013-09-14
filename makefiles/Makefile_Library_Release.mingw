@@ -3,165 +3,143 @@ INCLUDE= -I../include -I../include/primitives -I../include/templates -I../includ
 DEFINES  = -DWIN32 -DMINGW
 TYPE     = release
 OUTPUT   = ../lib/libsaddy-release.a 
-BUILD    = ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/extra_background_$(TYPE).o ../build/extra_fuzzy_equal_$(TYPE).o ../build/extra_geometry2d_$(TYPE).o ../build/extra_periodicalevent_$(TYPE).o ../build/extra_statemachine_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_log_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/os_mutex_$(TYPE).o ../build/os_semaphore_$(TYPE).o ../build/os_thread_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionmultimethod_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_ghostoptions_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_movement_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/primitives_classmetadata_$(TYPE).o ../build/primitives_classmetadatacontainer_$(TYPE).o ../build/primitives_hcolor_$(TYPE).o ../build/primitives_object_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/templates_closure_$(TYPE).o ../build/templates_hhash_$(TYPE).o ../build/templates_hstring_$(TYPE).o ../build/templates_hwstring_$(TYPE).o ../build/templates_refcountable_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/vbolayer_$(TYPE).o
+BUILD    = ../build/sprite2dcontroller_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_collisionmultimethod_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_ghostoptions_$(TYPE).o ../build/p2d_movement_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/scene_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/input_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/label_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/templates_hwstring_$(TYPE).o ../build/templates_hhash_$(TYPE).o ../build/templates_closure_$(TYPE).o ../build/templates_refcountable_$(TYPE).o ../build/templates_hstring_$(TYPE).o ../build/vbolayer_$(TYPE).o ../build/sprite_$(TYPE).o ../build/os_semaphore_$(TYPE).o ../build/os_thread_$(TYPE).o ../build/os_mutex_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/primitives_classmetadata_$(TYPE).o ../build/primitives_classmetadatacontainer_$(TYPE).o ../build/primitives_hcolor_$(TYPE).o ../build/primitives_object_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/log_log_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/3rdparty_format_format_$(TYPE).o ../build/extra_background_$(TYPE).o ../build/extra_geometry2d_$(TYPE).o ../build/extra_fuzzy_equal_$(TYPE).o ../build/extra_statemachine_$(TYPE).o ../build/extra_periodicalevent_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/renderer_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/Settings_$(TYPE).o ../build/lightmodel_$(TYPE).o
 CCOPTS = -O2
 all: $(OUTPUT)
-../build/3rdparty_format_format_$(TYPE).o: ../src/3rdparty/format/format.cc
-	g++ -c $(CCOPTS) ../src/3rdparty/format/format.cc -o ../build/3rdparty_format_format_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/3rdparty_picopng_picopng_$(TYPE).o: ../src/3rdparty/picopng/picopng.cpp
-	g++ -c $(CCOPTS) ../src/3rdparty/picopng/picopng.cpp -o ../build/3rdparty_picopng_picopng_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/bmploader_$(TYPE).o: ../src/bmploader.cpp
-	g++ -c $(CCOPTS) ../src/bmploader.cpp -o ../build/bmploader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/cmdoptions_$(TYPE).o: ../src/cmdoptions.cpp
-	g++ -c $(CCOPTS) ../src/cmdoptions.cpp -o ../build/cmdoptions_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/config_sprite2dconfig_$(TYPE).o: ../src/config/sprite2dconfig.cpp
-	g++ -c $(CCOPTS) ../src/config/sprite2dconfig.cpp -o ../build/config_sprite2dconfig_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/config_sprite2dconfigloader_$(TYPE).o: ../src/config/sprite2dconfigloader.cpp
-	g++ -c $(CCOPTS) ../src/config/sprite2dconfigloader.cpp -o ../build/config_sprite2dconfigloader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/config_sprite2dobserver_$(TYPE).o: ../src/config/sprite2dobserver.cpp
-	g++ -c $(CCOPTS) ../src/config/sprite2dobserver.cpp -o ../build/config_sprite2dobserver_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/defaulttexloader_$(TYPE).o: ../src/defaulttexloader.cpp
-	g++ -c $(CCOPTS) ../src/defaulttexloader.cpp -o ../build/defaulttexloader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extchecker_$(TYPE).o: ../src/extchecker.cpp
-	g++ -c $(CCOPTS) ../src/extchecker.cpp -o ../build/extchecker_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extra_background_$(TYPE).o: ../src/extra/background.cpp
-	g++ -c $(CCOPTS) ../src/extra/background.cpp -o ../build/extra_background_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extra_fuzzy_equal_$(TYPE).o: ../src/extra/fuzzy_equal.cpp
-	g++ -c $(CCOPTS) ../src/extra/fuzzy_equal.cpp -o ../build/extra_fuzzy_equal_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extra_geometry2d_$(TYPE).o: ../src/extra/geometry2d.cpp
-	g++ -c $(CCOPTS) ../src/extra/geometry2d.cpp -o ../build/extra_geometry2d_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extra_periodicalevent_$(TYPE).o: ../src/extra/periodicalevent.cpp
-	g++ -c $(CCOPTS) ../src/extra/periodicalevent.cpp -o ../build/extra_periodicalevent_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/extra_statemachine_$(TYPE).o: ../src/extra/statemachine.cpp
-	g++ -c $(CCOPTS) ../src/extra/statemachine.cpp -o ../build/extra_statemachine_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/fontmanager_$(TYPE).o: ../src/fontmanager.cpp
-	g++ -c $(CCOPTS) ../src/fontmanager.cpp -o ../build/fontmanager_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/input_$(TYPE).o: ../src/input.cpp
-	g++ -c $(CCOPTS) ../src/input.cpp -o ../build/input_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/label_$(TYPE).o: ../src/label.cpp
-	g++ -c $(CCOPTS) ../src/label.cpp -o ../build/label_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/lightmodel_$(TYPE).o: ../src/lightmodel.cpp
-	g++ -c $(CCOPTS) ../src/lightmodel.cpp -o ../build/lightmodel_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/log_log_$(TYPE).o: ../src/log/log.cpp
-	g++ -c $(CCOPTS) ../src/log/log.cpp -o ../build/log_log_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_abstractproperty_$(TYPE).o: ../src/marshal/abstractproperty.cpp
-	g++ -c $(CCOPTS) ../src/marshal/abstractproperty.cpp -o ../build/marshal_abstractproperty_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_abstractreader_$(TYPE).o: ../src/marshal/abstractreader.cpp
-	g++ -c $(CCOPTS) ../src/marshal/abstractreader.cpp -o ../build/marshal_abstractreader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_abstractwriter_$(TYPE).o: ../src/marshal/abstractwriter.cpp
-	g++ -c $(CCOPTS) ../src/marshal/abstractwriter.cpp -o ../build/marshal_abstractwriter_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_actioncontext_$(TYPE).o: ../src/marshal/actioncontext.cpp
-	g++ -c $(CCOPTS) ../src/marshal/actioncontext.cpp -o ../build/marshal_actioncontext_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_exceptions_$(TYPE).o: ../src/marshal/exceptions.cpp
-	g++ -c $(CCOPTS) ../src/marshal/exceptions.cpp -o ../build/marshal_exceptions_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_hashbasedserializablecontainer_$(TYPE).o: ../src/marshal/hashbasedserializablecontainer.cpp
-	g++ -c $(CCOPTS) ../src/marshal/hashbasedserializablecontainer.cpp -o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_saveloadcallbacks_$(TYPE).o: ../src/marshal/saveloadcallbacks.cpp
-	g++ -c $(CCOPTS) ../src/marshal/saveloadcallbacks.cpp -o ../build/marshal_saveloadcallbacks_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_serializablecontainer_$(TYPE).o: ../src/marshal/serializablecontainer.cpp
-	g++ -c $(CCOPTS) ../src/marshal/serializablecontainer.cpp -o ../build/marshal_serializablecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_serializableobject_$(TYPE).o: ../src/marshal/serializableobject.cpp
-	g++ -c $(CCOPTS) ../src/marshal/serializableobject.cpp -o ../build/marshal_serializableobject_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_variant_$(TYPE).o: ../src/marshal/variant.cpp
-	g++ -c $(CCOPTS) ../src/marshal/variant.cpp -o ../build/marshal_variant_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/orthocamera_$(TYPE).o: ../src/orthocamera.cpp
-	g++ -c $(CCOPTS) ../src/orthocamera.cpp -o ../build/orthocamera_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/os_mutex_$(TYPE).o: ../src/os/mutex.cpp
-	g++ -c $(CCOPTS) ../src/os/mutex.cpp -o ../build/os_mutex_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/os_semaphore_$(TYPE).o: ../src/os/semaphore.cpp
-	g++ -c $(CCOPTS) ../src/os/semaphore.cpp -o ../build/os_semaphore_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/os_thread_$(TYPE).o: ../src/os/thread.cpp
-	g++ -c $(CCOPTS) ../src/os/thread.cpp -o ../build/os_thread_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_app_app_$(TYPE).o: ../src/p2d/app/app.cpp
-	g++ -c $(CCOPTS) ../src/p2d/app/app.cpp -o ../build/p2d_app_app_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_app_appobject_$(TYPE).o: ../src/p2d/app/appobject.cpp
-	g++ -c $(CCOPTS) ../src/p2d/app/appobject.cpp -o ../build/p2d_app_appobject_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_app_objectemitter_$(TYPE).o: ../src/p2d/app/objectemitter.cpp
-	g++ -c $(CCOPTS) ../src/p2d/app/objectemitter.cpp -o ../build/p2d_app_objectemitter_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_app_way_$(TYPE).o: ../src/p2d/app/way.cpp
-	g++ -c $(CCOPTS) ../src/p2d/app/way.cpp -o ../build/p2d_app_way_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_axle_$(TYPE).o: ../src/p2d/axle.cpp
-	g++ -c $(CCOPTS) ../src/p2d/axle.cpp -o ../build/p2d_axle_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_body_$(TYPE).o: ../src/p2d/body.cpp
-	g++ -c $(CCOPTS) ../src/p2d/body.cpp -o ../build/p2d_body_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_bouncesolver_$(TYPE).o: ../src/p2d/bouncesolver.cpp
-	g++ -c $(CCOPTS) ../src/p2d/bouncesolver.cpp -o ../build/p2d_bouncesolver_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_bounds_$(TYPE).o: ../src/p2d/bounds.cpp
-	g++ -c $(CCOPTS) ../src/p2d/bounds.cpp -o ../build/p2d_bounds_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_broadcollisiondetector_$(TYPE).o: ../src/p2d/broadcollisiondetector.cpp
-	g++ -c $(CCOPTS) ../src/p2d/broadcollisiondetector.cpp -o ../build/p2d_broadcollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_circle_$(TYPE).o: ../src/p2d/circle.cpp
-	g++ -c $(CCOPTS) ../src/p2d/circle.cpp -o ../build/p2d_circle_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_circletohulltransformer_$(TYPE).o: ../src/p2d/circletohulltransformer.cpp
-	g++ -c $(CCOPTS) ../src/p2d/circletohulltransformer.cpp -o ../build/p2d_circletohulltransformer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisiondetector_$(TYPE).o: ../src/p2d/collisiondetector.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisiondetector.cpp -o ../build/p2d_collisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisionevent_$(TYPE).o: ../src/p2d/collisionevent.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisionevent.cpp -o ../build/p2d_collisionevent_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisionhandler_$(TYPE).o: ../src/p2d/collisionhandler.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisionhandler.cpp -o ../build/p2d_collisionhandler_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisionmultimethod_$(TYPE).o: ../src/p2d/collisionmultimethod.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisionmultimethod.cpp -o ../build/p2d_collisionmultimethod_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisionshape_$(TYPE).o: ../src/p2d/collisionshape.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisionshape.cpp -o ../build/p2d_collisionshape_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_collisiontest_$(TYPE).o: ../src/p2d/collisiontest.cpp
-	g++ -c $(CCOPTS) ../src/p2d/collisiontest.cpp -o ../build/p2d_collisiontest_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_convexhull_$(TYPE).o: ../src/p2d/convexhull.cpp
-	g++ -c $(CCOPTS) ../src/p2d/convexhull.cpp -o ../build/p2d_convexhull_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_elasticforce_$(TYPE).o: ../src/p2d/elasticforce.cpp
-	g++ -c $(CCOPTS) ../src/p2d/elasticforce.cpp -o ../build/p2d_elasticforce_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_findcontactpoints_$(TYPE).o: ../src/p2d/findcontactpoints.cpp
-	g++ -c $(CCOPTS) ../src/p2d/findcontactpoints.cpp -o ../build/p2d_findcontactpoints_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_force_$(TYPE).o: ../src/p2d/force.cpp
-	g++ -c $(CCOPTS) ../src/p2d/force.cpp -o ../build/p2d_force_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_ghostoptions_$(TYPE).o: ../src/p2d/ghostoptions.cpp
-	g++ -c $(CCOPTS) ../src/p2d/ghostoptions.cpp -o ../build/p2d_ghostoptions_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_grahamscan_$(TYPE).o: ../src/p2d/grahamscan.cpp
-	g++ -c $(CCOPTS) ../src/p2d/grahamscan.cpp -o ../build/p2d_grahamscan_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_infiniteline_$(TYPE).o: ../src/p2d/infiniteline.cpp
-	g++ -c $(CCOPTS) ../src/p2d/infiniteline.cpp -o ../build/p2d_infiniteline_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_line_$(TYPE).o: ../src/p2d/line.cpp
-	g++ -c $(CCOPTS) ../src/p2d/line.cpp -o ../build/p2d_line_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_movement_$(TYPE).o: ../src/p2d/movement.cpp
-	g++ -c $(CCOPTS) ../src/p2d/movement.cpp -o ../build/p2d_movement_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_multisamplingcollisiondetector_$(TYPE).o: ../src/p2d/multisamplingcollisiondetector.cpp
-	g++ -c $(CCOPTS) ../src/p2d/multisamplingcollisiondetector.cpp -o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_rectangle_$(TYPE).o: ../src/p2d/rectangle.cpp
-	g++ -c $(CCOPTS) ../src/p2d/rectangle.cpp -o ../build/p2d_rectangle_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/p2d_simplecollisiondetector_$(TYPE).o: ../src/p2d/simplecollisiondetector.cpp
-	g++ -c $(CCOPTS) ../src/p2d/simplecollisiondetector.cpp -o ../build/p2d_simplecollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/sprite2dcontroller_$(TYPE).o: ../src/sprite2dcontroller.cpp
+	g++ -c $(CCOPTS) ../src/sprite2dcontroller.cpp -o ../build/sprite2dcontroller_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/p2d_vector_$(TYPE).o: ../src/p2d/vector.cpp
 	g++ -c $(CCOPTS) ../src/p2d/vector.cpp -o ../build/p2d_vector_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_circle_$(TYPE).o: ../src/p2d/circle.cpp
+	g++ -c $(CCOPTS) ../src/p2d/circle.cpp -o ../build/p2d_circle_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_multisamplingcollisiondetector_$(TYPE).o: ../src/p2d/multisamplingcollisiondetector.cpp
+	g++ -c $(CCOPTS) ../src/p2d/multisamplingcollisiondetector.cpp -o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisionmultimethod_$(TYPE).o: ../src/p2d/collisionmultimethod.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisionmultimethod.cpp -o ../build/p2d_collisionmultimethod_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_axle_$(TYPE).o: ../src/p2d/axle.cpp
+	g++ -c $(CCOPTS) ../src/p2d/axle.cpp -o ../build/p2d_axle_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_app_app_$(TYPE).o: ../src/p2d/app/app.cpp
+	g++ -c $(CCOPTS) ../src/p2d/app/app.cpp -o ../build/p2d_app_app_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_app_objectemitter_$(TYPE).o: ../src/p2d/app/objectemitter.cpp
+	g++ -c $(CCOPTS) ../src/p2d/app/objectemitter.cpp -o ../build/p2d_app_objectemitter_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_app_appobject_$(TYPE).o: ../src/p2d/app/appobject.cpp
+	g++ -c $(CCOPTS) ../src/p2d/app/appobject.cpp -o ../build/p2d_app_appobject_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_app_way_$(TYPE).o: ../src/p2d/app/way.cpp
+	g++ -c $(CCOPTS) ../src/p2d/app/way.cpp -o ../build/p2d_app_way_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/p2d_walls_$(TYPE).o: ../src/p2d/walls.cpp
 	g++ -c $(CCOPTS) ../src/p2d/walls.cpp -o ../build/p2d_walls_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_convexhull_$(TYPE).o: ../src/p2d/convexhull.cpp
+	g++ -c $(CCOPTS) ../src/p2d/convexhull.cpp -o ../build/p2d_convexhull_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisionevent_$(TYPE).o: ../src/p2d/collisionevent.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisionevent.cpp -o ../build/p2d_collisionevent_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_elasticforce_$(TYPE).o: ../src/p2d/elasticforce.cpp
+	g++ -c $(CCOPTS) ../src/p2d/elasticforce.cpp -o ../build/p2d_elasticforce_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/p2d_weight_$(TYPE).o: ../src/p2d/weight.cpp
 	g++ -c $(CCOPTS) ../src/p2d/weight.cpp -o ../build/p2d_weight_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/p2d_world_$(TYPE).o: ../src/p2d/world.cpp
 	g++ -c $(CCOPTS) ../src/p2d/world.cpp -o ../build/p2d_world_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_force_$(TYPE).o: ../src/p2d/force.cpp
+	g++ -c $(CCOPTS) ../src/p2d/force.cpp -o ../build/p2d_force_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_broadcollisiondetector_$(TYPE).o: ../src/p2d/broadcollisiondetector.cpp
+	g++ -c $(CCOPTS) ../src/p2d/broadcollisiondetector.cpp -o ../build/p2d_broadcollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/p2d_worldsteptask_$(TYPE).o: ../src/p2d/worldsteptask.cpp
 	g++ -c $(CCOPTS) ../src/p2d/worldsteptask.cpp -o ../build/p2d_worldsteptask_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_convert_$(TYPE).o: ../src/png/convert.cpp
-	g++ -c $(CCOPTS) ../src/png/convert.cpp -o ../build/png_convert_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_decodepng_$(TYPE).o: ../src/png/decodepng.cpp
-	g++ -c $(CCOPTS) ../src/png/decodepng.cpp -o ../build/png_decodepng_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_decompress_$(TYPE).o: ../src/png/decompress.cpp
-	g++ -c $(CCOPTS) ../src/png/decompress.cpp -o ../build/png_decompress_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_circletohulltransformer_$(TYPE).o: ../src/p2d/circletohulltransformer.cpp
+	g++ -c $(CCOPTS) ../src/p2d/circletohulltransformer.cpp -o ../build/p2d_circletohulltransformer_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisiontest_$(TYPE).o: ../src/p2d/collisiontest.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisiontest.cpp -o ../build/p2d_collisiontest_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_line_$(TYPE).o: ../src/p2d/line.cpp
+	g++ -c $(CCOPTS) ../src/p2d/line.cpp -o ../build/p2d_line_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_bounds_$(TYPE).o: ../src/p2d/bounds.cpp
+	g++ -c $(CCOPTS) ../src/p2d/bounds.cpp -o ../build/p2d_bounds_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisionshape_$(TYPE).o: ../src/p2d/collisionshape.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisionshape.cpp -o ../build/p2d_collisionshape_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisiondetector_$(TYPE).o: ../src/p2d/collisiondetector.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisiondetector.cpp -o ../build/p2d_collisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_collisionhandler_$(TYPE).o: ../src/p2d/collisionhandler.cpp
+	g++ -c $(CCOPTS) ../src/p2d/collisionhandler.cpp -o ../build/p2d_collisionhandler_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_rectangle_$(TYPE).o: ../src/p2d/rectangle.cpp
+	g++ -c $(CCOPTS) ../src/p2d/rectangle.cpp -o ../build/p2d_rectangle_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_infiniteline_$(TYPE).o: ../src/p2d/infiniteline.cpp
+	g++ -c $(CCOPTS) ../src/p2d/infiniteline.cpp -o ../build/p2d_infiniteline_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_grahamscan_$(TYPE).o: ../src/p2d/grahamscan.cpp
+	g++ -c $(CCOPTS) ../src/p2d/grahamscan.cpp -o ../build/p2d_grahamscan_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_ghostoptions_$(TYPE).o: ../src/p2d/ghostoptions.cpp
+	g++ -c $(CCOPTS) ../src/p2d/ghostoptions.cpp -o ../build/p2d_ghostoptions_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_movement_$(TYPE).o: ../src/p2d/movement.cpp
+	g++ -c $(CCOPTS) ../src/p2d/movement.cpp -o ../build/p2d_movement_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_simplecollisiondetector_$(TYPE).o: ../src/p2d/simplecollisiondetector.cpp
+	g++ -c $(CCOPTS) ../src/p2d/simplecollisiondetector.cpp -o ../build/p2d_simplecollisiondetector_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_bouncesolver_$(TYPE).o: ../src/p2d/bouncesolver.cpp
+	g++ -c $(CCOPTS) ../src/p2d/bouncesolver.cpp -o ../build/p2d_bouncesolver_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_body_$(TYPE).o: ../src/p2d/body.cpp
+	g++ -c $(CCOPTS) ../src/p2d/body.cpp -o ../build/p2d_body_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/p2d_findcontactpoints_$(TYPE).o: ../src/p2d/findcontactpoints.cpp
+	g++ -c $(CCOPTS) ../src/p2d/findcontactpoints.cpp -o ../build/p2d_findcontactpoints_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/texture_resize_bilinear_$(TYPE).o: ../src/texture_resize_bilinear.cpp
+	g++ -c $(CCOPTS) ../src/texture_resize_bilinear.cpp -o ../build/texture_resize_bilinear_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/scene_$(TYPE).o: ../src/scene.cpp
+	g++ -c $(CCOPTS) ../src/scene.cpp -o ../build/scene_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/cmdoptions_$(TYPE).o: ../src/cmdoptions.cpp
+	g++ -c $(CCOPTS) ../src/cmdoptions.cpp -o ../build/cmdoptions_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/input_$(TYPE).o: ../src/input.cpp
+	g++ -c $(CCOPTS) ../src/input.cpp -o ../build/input_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/fontmanager_$(TYPE).o: ../src/fontmanager.cpp
+	g++ -c $(CCOPTS) ../src/fontmanager.cpp -o ../build/fontmanager_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extchecker_$(TYPE).o: ../src/extchecker.cpp
+	g++ -c $(CCOPTS) ../src/extchecker.cpp -o ../build/extchecker_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/png_huffman_$(TYPE).o: ../src/png/huffman.cpp
 	g++ -c $(CCOPTS) ../src/png/huffman.cpp -o ../build/png_huffman_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflateblock_$(TYPE).o: ../src/png/inflateblock.cpp
-	g++ -c $(CCOPTS) ../src/png/inflateblock.cpp -o ../build/png_inflateblock_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflatedynamic_$(TYPE).o: ../src/png/inflatedynamic.cpp
-	g++ -c $(CCOPTS) ../src/png/inflatedynamic.cpp -o ../build/png_inflatedynamic_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflator_$(TYPE).o: ../src/png/inflator.cpp
-	g++ -c $(CCOPTS) ../src/png/inflator.cpp -o ../build/png_inflator_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/png_picopngloader_$(TYPE).o: ../src/png/picopngloader.cpp
 	g++ -c $(CCOPTS) ../src/png/picopngloader.cpp -o ../build/png_picopngloader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_pngbasic_$(TYPE).o: ../src/png/pngbasic.cpp
-	g++ -c $(CCOPTS) ../src/png/pngbasic.cpp -o ../build/png_pngbasic_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_decodepng_$(TYPE).o: ../src/png/decodepng.cpp
+	g++ -c $(CCOPTS) ../src/png/decodepng.cpp -o ../build/png_decodepng_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_inflator_$(TYPE).o: ../src/png/inflator.cpp
+	g++ -c $(CCOPTS) ../src/png/inflator.cpp -o ../build/png_inflator_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/png_unfilter_$(TYPE).o: ../src/png/unfilter.cpp
 	g++ -c $(CCOPTS) ../src/png/unfilter.cpp -o ../build/png_unfilter_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_convert_$(TYPE).o: ../src/png/convert.cpp
+	g++ -c $(CCOPTS) ../src/png/convert.cpp -o ../build/png_convert_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_inflatedynamic_$(TYPE).o: ../src/png/inflatedynamic.cpp
+	g++ -c $(CCOPTS) ../src/png/inflatedynamic.cpp -o ../build/png_inflatedynamic_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_pngbasic_$(TYPE).o: ../src/png/pngbasic.cpp
+	g++ -c $(CCOPTS) ../src/png/pngbasic.cpp -o ../build/png_pngbasic_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_inflateblock_$(TYPE).o: ../src/png/inflateblock.cpp
+	g++ -c $(CCOPTS) ../src/png/inflateblock.cpp -o ../build/png_inflateblock_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/png_decompress_$(TYPE).o: ../src/png/decompress.cpp
+	g++ -c $(CCOPTS) ../src/png/decompress.cpp -o ../build/png_decompress_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/sprite2dadapter_$(TYPE).o: ../src/sprite2dadapter.cpp
+	g++ -c $(CCOPTS) ../src/sprite2dadapter.cpp -o ../build/sprite2dadapter_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/label_$(TYPE).o: ../src/label.cpp
+	g++ -c $(CCOPTS) ../src/label.cpp -o ../build/label_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/pngtexture_$(TYPE).o: ../src/pngtexture.cpp
 	g++ -c $(CCOPTS) ../src/pngtexture.cpp -o ../build/pngtexture_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/templates_hwstring_$(TYPE).o: ../src/templates/hwstring.cpp
+	g++ -c $(CCOPTS) ../src/templates/hwstring.cpp -o ../build/templates_hwstring_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/templates_hhash_$(TYPE).o: ../src/templates/hhash.cpp
+	g++ -c $(CCOPTS) ../src/templates/hhash.cpp -o ../build/templates_hhash_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/templates_closure_$(TYPE).o: ../src/templates/closure.cpp
+	g++ -c $(CCOPTS) ../src/templates/closure.cpp -o ../build/templates_closure_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/templates_refcountable_$(TYPE).o: ../src/templates/refcountable.cpp
+	g++ -c $(CCOPTS) ../src/templates/refcountable.cpp -o ../build/templates_refcountable_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/templates_hstring_$(TYPE).o: ../src/templates/hstring.cpp
+	g++ -c $(CCOPTS) ../src/templates/hstring.cpp -o ../build/templates_hstring_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/vbolayer_$(TYPE).o: ../src/vbolayer.cpp
+	g++ -c $(CCOPTS) ../src/vbolayer.cpp -o ../build/vbolayer_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/sprite_$(TYPE).o: ../src/sprite.cpp
+	g++ -c $(CCOPTS) ../src/sprite.cpp -o ../build/sprite_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/os_semaphore_$(TYPE).o: ../src/os/semaphore.cpp
+	g++ -c $(CCOPTS) ../src/os/semaphore.cpp -o ../build/os_semaphore_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/os_thread_$(TYPE).o: ../src/os/thread.cpp
+	g++ -c $(CCOPTS) ../src/os/thread.cpp -o ../build/os_thread_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/os_mutex_$(TYPE).o: ../src/os/mutex.cpp
+	g++ -c $(CCOPTS) ../src/os/mutex.cpp -o ../build/os_mutex_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/tga_tga_$(TYPE).o: ../src/tga/tga.cpp
+	g++ -c $(CCOPTS) ../src/tga/tga.cpp -o ../build/tga_tga_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/tga_tgareader_$(TYPE).o: ../src/tga/tgareader.cpp
+	g++ -c $(CCOPTS) ../src/tga/tgareader.cpp -o ../build/tga_tgareader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/renderer_win32_$(TYPE).o: ../src/renderer_win32.cpp
+	g++ -c $(CCOPTS) ../src/renderer_win32.cpp -o ../build/renderer_win32_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/primitives_classmetadata_$(TYPE).o: ../src/primitives/classmetadata.cpp
 	g++ -c $(CCOPTS) ../src/primitives/classmetadata.cpp -o ../build/primitives_classmetadata_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/primitives_classmetadatacontainer_$(TYPE).o: ../src/primitives/classmetadatacontainer.cpp
@@ -170,49 +148,71 @@ all: $(OUTPUT)
 	g++ -c $(CCOPTS) ../src/primitives/hcolor.cpp -o ../build/primitives_hcolor_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/primitives_object_$(TYPE).o: ../src/primitives/object.cpp
 	g++ -c $(CCOPTS) ../src/primitives/object.cpp -o ../build/primitives_object_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/renderer_$(TYPE).o: ../src/renderer.cpp
-	g++ -c $(CCOPTS) ../src/renderer.cpp -o ../build/renderer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/renderer_win32_$(TYPE).o: ../src/renderer_win32.cpp
-	g++ -c $(CCOPTS) ../src/renderer_win32.cpp -o ../build/renderer_win32_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/renderer_win32loop_$(TYPE).o: ../src/renderer_win32loop.cpp
-	g++ -c $(CCOPTS) ../src/renderer_win32loop.cpp -o ../build/renderer_win32loop_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/scene_$(TYPE).o: ../src/scene.cpp
-	g++ -c $(CCOPTS) ../src/scene.cpp -o ../build/scene_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/Settings_$(TYPE).o: ../src/Settings.cpp
-	g++ -c $(CCOPTS) ../src/Settings.cpp -o ../build/Settings_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/sprite_$(TYPE).o: ../src/sprite.cpp
-	g++ -c $(CCOPTS) ../src/sprite.cpp -o ../build/sprite_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/sprite2dadapter_$(TYPE).o: ../src/sprite2dadapter.cpp
-	g++ -c $(CCOPTS) ../src/sprite2dadapter.cpp -o ../build/sprite2dadapter_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/sprite2dcontroller_$(TYPE).o: ../src/sprite2dcontroller.cpp
-	g++ -c $(CCOPTS) ../src/sprite2dcontroller.cpp -o ../build/sprite2dcontroller_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/templates_closure_$(TYPE).o: ../src/templates/closure.cpp
-	g++ -c $(CCOPTS) ../src/templates/closure.cpp -o ../build/templates_closure_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/templates_hhash_$(TYPE).o: ../src/templates/hhash.cpp
-	g++ -c $(CCOPTS) ../src/templates/hhash.cpp -o ../build/templates_hhash_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/templates_hstring_$(TYPE).o: ../src/templates/hstring.cpp
-	g++ -c $(CCOPTS) ../src/templates/hstring.cpp -o ../build/templates_hstring_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/templates_hwstring_$(TYPE).o: ../src/templates/hwstring.cpp
-	g++ -c $(CCOPTS) ../src/templates/hwstring.cpp -o ../build/templates_hwstring_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/templates_refcountable_$(TYPE).o: ../src/templates/refcountable.cpp
-	g++ -c $(CCOPTS) ../src/templates/refcountable.cpp -o ../build/templates_refcountable_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/texture_$(TYPE).o: ../src/texture.cpp
-	g++ -c $(CCOPTS) ../src/texture.cpp -o ../build/texture_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/texturecontainer_$(TYPE).o: ../src/texturecontainer.cpp
 	g++ -c $(CCOPTS) ../src/texturecontainer.cpp -o ../build/texturecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/texturemanager_$(TYPE).o: ../src/texturemanager.cpp
-	g++ -c $(CCOPTS) ../src/texturemanager.cpp -o ../build/texturemanager_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/texture_resize_bilinear_$(TYPE).o: ../src/texture_resize_bilinear.cpp
-	g++ -c $(CCOPTS) ../src/texture_resize_bilinear.cpp -o ../build/texture_resize_bilinear_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/tga_tga_$(TYPE).o: ../src/tga/tga.cpp
-	g++ -c $(CCOPTS) ../src/tga/tga.cpp -o ../build/tga_tga_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/tga_tgareader_$(TYPE).o: ../src/tga/tgareader.cpp
-	g++ -c $(CCOPTS) ../src/tga/tgareader.cpp -o ../build/tga_tgareader_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/tmfont_$(TYPE).o: ../src/tmfont.cpp
 	g++ -c $(CCOPTS) ../src/tmfont.cpp -o ../build/tmfont_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/vbolayer_$(TYPE).o: ../src/vbolayer.cpp
-	g++ -c $(CCOPTS) ../src/vbolayer.cpp -o ../build/vbolayer_$(TYPE).o $(INCLUDE) $(DEFINES)
-$(OUTPUT): ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/extra_background_$(TYPE).o ../build/extra_fuzzy_equal_$(TYPE).o ../build/extra_geometry2d_$(TYPE).o ../build/extra_periodicalevent_$(TYPE).o ../build/extra_statemachine_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_log_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/os_mutex_$(TYPE).o ../build/os_semaphore_$(TYPE).o ../build/os_thread_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionmultimethod_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_ghostoptions_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_movement_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/primitives_classmetadata_$(TYPE).o ../build/primitives_classmetadatacontainer_$(TYPE).o ../build/primitives_hcolor_$(TYPE).o ../build/primitives_object_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/templates_closure_$(TYPE).o ../build/templates_hhash_$(TYPE).o ../build/templates_hstring_$(TYPE).o ../build/templates_hwstring_$(TYPE).o ../build/templates_refcountable_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/vbolayer_$(TYPE).o
+../build/defaulttexloader_$(TYPE).o: ../src/defaulttexloader.cpp
+	g++ -c $(CCOPTS) ../src/defaulttexloader.cpp -o ../build/defaulttexloader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/texture_$(TYPE).o: ../src/texture.cpp
+	g++ -c $(CCOPTS) ../src/texture.cpp -o ../build/texture_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/texturemanager_$(TYPE).o: ../src/texturemanager.cpp
+	g++ -c $(CCOPTS) ../src/texturemanager.cpp -o ../build/texturemanager_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/log_log_$(TYPE).o: ../src/log/log.cpp
+	g++ -c $(CCOPTS) ../src/log/log.cpp -o ../build/log_log_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/config_sprite2dconfig_$(TYPE).o: ../src/config/sprite2dconfig.cpp
+	g++ -c $(CCOPTS) ../src/config/sprite2dconfig.cpp -o ../build/config_sprite2dconfig_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/config_sprite2dobserver_$(TYPE).o: ../src/config/sprite2dobserver.cpp
+	g++ -c $(CCOPTS) ../src/config/sprite2dobserver.cpp -o ../build/config_sprite2dobserver_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/config_sprite2dconfigloader_$(TYPE).o: ../src/config/sprite2dconfigloader.cpp
+	g++ -c $(CCOPTS) ../src/config/sprite2dconfigloader.cpp -o ../build/config_sprite2dconfigloader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/3rdparty_picopng_picopng_$(TYPE).o: ../src/3rdparty/picopng/picopng.cpp
+	g++ -c $(CCOPTS) ../src/3rdparty/picopng/picopng.cpp -o ../build/3rdparty_picopng_picopng_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/3rdparty_format_format_$(TYPE).o: ../src/3rdparty/format/format.cc
+	g++ -c $(CCOPTS) ../src/3rdparty/format/format.cc -o ../build/3rdparty_format_format_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extra_background_$(TYPE).o: ../src/extra/background.cpp
+	g++ -c $(CCOPTS) ../src/extra/background.cpp -o ../build/extra_background_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extra_geometry2d_$(TYPE).o: ../src/extra/geometry2d.cpp
+	g++ -c $(CCOPTS) ../src/extra/geometry2d.cpp -o ../build/extra_geometry2d_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extra_fuzzy_equal_$(TYPE).o: ../src/extra/fuzzy_equal.cpp
+	g++ -c $(CCOPTS) ../src/extra/fuzzy_equal.cpp -o ../build/extra_fuzzy_equal_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extra_statemachine_$(TYPE).o: ../src/extra/statemachine.cpp
+	g++ -c $(CCOPTS) ../src/extra/statemachine.cpp -o ../build/extra_statemachine_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/extra_periodicalevent_$(TYPE).o: ../src/extra/periodicalevent.cpp
+	g++ -c $(CCOPTS) ../src/extra/periodicalevent.cpp -o ../build/extra_periodicalevent_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/bmploader_$(TYPE).o: ../src/bmploader.cpp
+	g++ -c $(CCOPTS) ../src/bmploader.cpp -o ../build/bmploader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/orthocamera_$(TYPE).o: ../src/orthocamera.cpp
+	g++ -c $(CCOPTS) ../src/orthocamera.cpp -o ../build/orthocamera_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/renderer_$(TYPE).o: ../src/renderer.cpp
+	g++ -c $(CCOPTS) ../src/renderer.cpp -o ../build/renderer_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_variant_$(TYPE).o: ../src/marshal/variant.cpp
+	g++ -c $(CCOPTS) ../src/marshal/variant.cpp -o ../build/marshal_variant_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_serializableobject_$(TYPE).o: ../src/marshal/serializableobject.cpp
+	g++ -c $(CCOPTS) ../src/marshal/serializableobject.cpp -o ../build/marshal_serializableobject_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_abstractproperty_$(TYPE).o: ../src/marshal/abstractproperty.cpp
+	g++ -c $(CCOPTS) ../src/marshal/abstractproperty.cpp -o ../build/marshal_abstractproperty_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_exceptions_$(TYPE).o: ../src/marshal/exceptions.cpp
+	g++ -c $(CCOPTS) ../src/marshal/exceptions.cpp -o ../build/marshal_exceptions_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_abstractwriter_$(TYPE).o: ../src/marshal/abstractwriter.cpp
+	g++ -c $(CCOPTS) ../src/marshal/abstractwriter.cpp -o ../build/marshal_abstractwriter_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_actioncontext_$(TYPE).o: ../src/marshal/actioncontext.cpp
+	g++ -c $(CCOPTS) ../src/marshal/actioncontext.cpp -o ../build/marshal_actioncontext_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_saveloadcallbacks_$(TYPE).o: ../src/marshal/saveloadcallbacks.cpp
+	g++ -c $(CCOPTS) ../src/marshal/saveloadcallbacks.cpp -o ../build/marshal_saveloadcallbacks_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_abstractreader_$(TYPE).o: ../src/marshal/abstractreader.cpp
+	g++ -c $(CCOPTS) ../src/marshal/abstractreader.cpp -o ../build/marshal_abstractreader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_serializablecontainer_$(TYPE).o: ../src/marshal/serializablecontainer.cpp
+	g++ -c $(CCOPTS) ../src/marshal/serializablecontainer.cpp -o ../build/marshal_serializablecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/marshal_hashbasedserializablecontainer_$(TYPE).o: ../src/marshal/hashbasedserializablecontainer.cpp
+	g++ -c $(CCOPTS) ../src/marshal/hashbasedserializablecontainer.cpp -o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/renderer_win32loop_$(TYPE).o: ../src/renderer_win32loop.cpp
+	g++ -c $(CCOPTS) ../src/renderer_win32loop.cpp -o ../build/renderer_win32loop_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/Settings_$(TYPE).o: ../src/Settings.cpp
+	g++ -c $(CCOPTS) ../src/Settings.cpp -o ../build/Settings_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/lightmodel_$(TYPE).o: ../src/lightmodel.cpp
+	g++ -c $(CCOPTS) ../src/lightmodel.cpp -o ../build/lightmodel_$(TYPE).o $(INCLUDE) $(DEFINES)
+$(OUTPUT): ../build/sprite2dcontroller_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_collisionmultimethod_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_ghostoptions_$(TYPE).o ../build/p2d_movement_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/scene_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/input_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/label_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/templates_hwstring_$(TYPE).o ../build/templates_hhash_$(TYPE).o ../build/templates_closure_$(TYPE).o ../build/templates_refcountable_$(TYPE).o ../build/templates_hstring_$(TYPE).o ../build/vbolayer_$(TYPE).o ../build/sprite_$(TYPE).o ../build/os_semaphore_$(TYPE).o ../build/os_thread_$(TYPE).o ../build/os_mutex_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/primitives_classmetadata_$(TYPE).o ../build/primitives_classmetadatacontainer_$(TYPE).o ../build/primitives_hcolor_$(TYPE).o ../build/primitives_object_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/log_log_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/3rdparty_format_format_$(TYPE).o ../build/extra_background_$(TYPE).o ../build/extra_geometry2d_$(TYPE).o ../build/extra_fuzzy_equal_$(TYPE).o ../build/extra_statemachine_$(TYPE).o ../build/extra_periodicalevent_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/renderer_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/Settings_$(TYPE).o ../build/lightmodel_$(TYPE).o
 	ar cr  $(OUTPUT)   $(BUILD)
 clean:
 	del "../build/*"
