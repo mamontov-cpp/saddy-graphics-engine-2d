@@ -1,11 +1,14 @@
-{SCAN_FOLDER src}{EXCLUDE renderer_x11.cpp renderer_x11loop.cpp x11recode.cpp }
-INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config   
+{SCAN_FOLDER src}{EXCLUDE {WIN32} renderer_x11.cpp renderer_x11loop.cpp x11recode.cpp {LINUX} renderer_win32.cpp renderer_win32loop.cpp }
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
+PLATFORM = {PLATFORM} 
 DEFINES  = -DWIN32 -DMINGW
 TYPE     = {TYPE}
 OUTPUT   = ../lib/libsaddy-{TYPE}.a 
 BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
 CCOPTS = {CCOPTS}
-all: $(OUTPUT)
+all: ../build $(OUTPUT)
+../build:
+	./mkbuild.sh
 {FOR_EACH ../build/{NAME}_$(TYPE).o:\s../src/{SOURCE}\n\tg++\s-c\s$(CCOPTS)\s../src/{SOURCE}\s-o\s../build/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
 $(OUTPUT): {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
 	ar cr  $(OUTPUT)   $(BUILD)

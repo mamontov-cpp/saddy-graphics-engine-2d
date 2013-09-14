@@ -1,5 +1,6 @@
 {SCAN_FOLDER src}{EXCLUDE renderer_win32.cpp renderer_win32loop.cpp}
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
+PLATFORM = {PLATFORM} 
 DEFINES  = -DUNIX -DLINUX -DGCC
 TYPE     = {TYPE}
 OUTPUT   = ../lib/libsaddy-{TYPE}.a 
