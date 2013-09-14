@@ -101,5 +101,5 @@ class EditorBehaviour
 	 virtual void onKeyUp(const sad::Event & ev);
 	 /** Destroys all of states
 	  */
-	 ~EditorBehaviour();
+    virtual  ~EditorBehaviour();
 };

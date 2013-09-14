@@ -9,7 +9,9 @@
 #include <templates/hhash.hpp>
 #include <QString>
 #include <QFontDatabase>
-#pragma once;
+#pragma once
+
+class IFaceEditorFontList;
 
 /** Defines a font, used in editor
  */

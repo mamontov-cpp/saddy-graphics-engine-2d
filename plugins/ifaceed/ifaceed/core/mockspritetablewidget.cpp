@@ -100,7 +100,7 @@ QSpriteTableWidgetSelection MockSpriteTableWidget::selection()
 {
 	QString config;
 	QString group;
-	int index;
+    int index = -1;
 	if (m_configcombo->currentIndex()!=-1)
 	{
 		config = m_configcombo->currentText();
@@ -195,7 +195,7 @@ void MockSpriteTableWidget::indexChanged(int index)
 		QString config = m_configcombo->currentText();
 		QString group = m_groupcombo->currentText();
 		bool ok = true;
-		int groupIndex = m_indexcombo->itemText(index).toInt(&ok);
+        //int groupIndex = m_indexcombo->itemText(index).toInt(&ok);
 		ok = m_values.contains(config);
 		if (ok)
 		{

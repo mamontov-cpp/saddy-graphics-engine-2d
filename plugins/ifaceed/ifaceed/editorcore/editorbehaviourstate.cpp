@@ -1,5 +1,13 @@
 #include "editorbehaviourstate.h"
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 EditorBehaviourState::EditorBehaviourState()
 {
 	m_behaviour = NULL;
@@ -17,33 +25,33 @@ void EditorBehaviourState::leave()
 {
 }
 
-void EditorBehaviourState::onMouseMove(const sad::Event & ev)
+void EditorBehaviourState::onMouseMove(UNUSED const sad::Event & ev)
 {
 
 }
 
-void EditorBehaviourState::onMouseDown(const sad::Event & ev)
+void EditorBehaviourState::onMouseDown(UNUSED const sad::Event & ev)
 {
 
 }
 
-void EditorBehaviourState::onMouseUp(const sad::Event & ev)
+void EditorBehaviourState::onMouseUp(UNUSED const sad::Event & ev)
 {
 
 }
 
-void EditorBehaviourState::onWheel(const sad::Event & ev)
+void EditorBehaviourState::onWheel(UNUSED const sad::Event & ev)
 {
 
 }
 
 
-void EditorBehaviourState::onKeyDown(const sad::Event & ev)
+void EditorBehaviourState::onKeyDown(UNUSED const sad::Event & ev)
 {
 
 }
 
-void EditorBehaviourState::onKeyUp(const sad::Event & ev)
+void EditorBehaviourState::onKeyUp(UNUSED const sad::Event & ev)
 {
 
 }

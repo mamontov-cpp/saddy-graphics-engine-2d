@@ -1,5 +1,39 @@
 #include "spritedatabase.h"
 #include "fonttemplatesdatabase.h"
+// Avoid X11 namespace pollution
+#ifdef Status
+    #undef Status
+#endif
+#ifdef Bool
+    #undef Bool
+#endif
+#ifdef None
+    #undef None
+#endif
+#ifdef CursorShape
+    #undef CursorShape
+#endif
+#ifdef GrayScale
+    #undef GrayScale
+#endif
+#ifdef Color
+    #undef Color
+#endif
+#ifdef KeyPress
+    #undef KeyPress
+#endif
+#ifdef KeyRelease
+    #undef KeyRelease
+#endif
+#ifdef FocusIn
+    #undef FocusIn
+#endif
+#ifdef FocusOut
+    #undef FocusOut
+#endif
+#ifdef FontChange
+    #undef FontChange
+#endif
 #include <QSet>
 #include <QMessageBox>
 
@@ -198,7 +232,7 @@ void SpriteDatabase::importSprites(QISpriteConfigs & configs,
 {
 	configs.insert(name, QISpriteConfig());
 	Sprite2DTemplateContainer::const_iterator it = t.const_begin();
-	for(it; it!=t.const_end();it++)
+    for(; it!=t.const_end();it++)
 	{
 		QString group = it.key().data();
 		configs[name].insert(group, QISpriteGroup());
@@ -253,11 +287,11 @@ QVector<QString> extractTexturePaths(const Sprite2DTemplateContainer & c)
 
 	Sprite2DTemplateContainer::const_iterator x = c.const_begin();
 	Sprite2DTemplateContainer::const_iterator x_end = c.const_end();
-	for (x; x!=x_end; x++)
+    for (; x!=x_end; x++)
 	{
 		hst::hash<int, Sprite2DTemplate>::const_iterator y = x.value().const_begin();
 		hst::hash<int, Sprite2DTemplate>::const_iterator y_end = x.value().const_end();
-		for(y; y!=y_end; y++)
+        for(; y!=y_end; y++)
 		{
 			hst::string path = y.value().textureName();
 			if (set.contains(path.data()) == false) 

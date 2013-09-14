@@ -19,7 +19,7 @@ void ScreenObjectList::updateWidget(ScreenTemplate * t, AbstractScreenObject * t
 	LayerComparator c;
 	std::sort(m_simple_list.begin(), m_simple_list.end(), c);
 	m_widget->clear();
-	for(int i = 0; i < m_simple_list.size(); i++)
+    for(unsigned int i = 0; i < m_simple_list.size(); i++)
 	{
 		m_widget->addItem(m_simple_list[i]->description().data());
 		if (m_simple_list[i] == tw)

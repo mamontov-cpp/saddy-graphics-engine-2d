@@ -1,4 +1,14 @@
 #include "fonttemplatesdatabase.h"
+// Avoid nasty bug with Qt's data stream
+#ifdef Status
+    #undef Status
+#endif
+#ifdef Bool
+    #undef Bool
+#endif
+#ifdef CursorShape
+    #undef CursorShape
+#endif
 #include <QDomDocument>
 #include <QFile>
 #include <QMessageBox>
@@ -7,6 +17,14 @@
 #include "xmlconfigloader.h"
 #include "spritedatabase.h"
 #include <log/log.h>
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
 
 FontTemplatesMaps::FontTemplatesMaps()
 {
@@ -45,7 +63,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 	}
 	
 	QDomElement entry = root.firstChildElement();
-	bool test = entry.isNull();
+    //bool test = entry.isNull();
 	while(entry.isNull() == false) 
 	{
 		if (entry.tagName() == "font")
@@ -67,7 +85,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 	return true;
 }
 
-void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, sad::Log * log)
+void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, UNUSED sad::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadFont");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -92,7 +110,7 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent
 	}
 }
 
-void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, sad::Log * log)
+void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, UNUSED sad::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadConfig");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -130,7 +148,7 @@ FontTemplateDatabase::~FontTemplateDatabase()
 	delete m_fonts;
 }
 
-bool FontTemplateDatabase::load(FontTemplatesMaps & maps, sad::Log * log)
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps,UNUSED sad::Log * log)
 {
 	SL_SCOPE("FontTemplateDatabase::load()");
 	m_maps = maps;
@@ -141,7 +159,7 @@ bool FontTemplateDatabase::load(FontTemplatesMaps & maps, sad::Log * log)
 		db::NameFileMap::const_iterator end = maps.fonts().constEnd();
 		bool success = true;
 		
-		for (it;it!=end;it++)
+        for (;it!=end;it++)
 		{
 			IFaceEditorFontLoadResult r = fonts->tryLoadFont(it.key(), it.value());
 			if (r!=IEFLR_OK) 

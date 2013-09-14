@@ -8,6 +8,9 @@
 
 
 #include <QtGui/QMainWindow>
+#ifdef None
+    #undef None
+#endif
 #include "ui_mainpanel.h"
 #include "templates/hstring.h"
 #include "gui/spritewidget/qspritetablewidget.h"

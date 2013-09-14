@@ -4,6 +4,43 @@
 	A database for holding all of fonts and templates, loaded at time.
 	You can with
  */
+// Avoid X11 namespace pollution
+#ifdef Status
+    #undef Status
+#endif
+#ifdef Bool
+    #undef Bool
+#endif
+#ifdef None
+    #undef None
+#endif
+#ifdef CursorShape
+    #undef CursorShape
+#endif
+#ifdef GrayScale
+    #undef GrayScale
+#endif
+#ifdef Color
+    #undef Color
+#endif
+#ifdef KeyPress
+    #undef KeyPress
+#endif
+#ifdef KeyRelease
+    #undef KeyRelease
+#endif
+#ifdef FocusIn
+    #undef FocusIn
+#endif
+#ifdef FocusOut
+    #undef FocusOut
+#endif
+#ifdef FontChange
+    #undef FontChange
+#endif
+#ifdef None
+    #undef None
+#endif
 #include <QHash>
 #include <QString>
 #include <QDomDocument>

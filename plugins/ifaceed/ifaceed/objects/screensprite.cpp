@@ -161,7 +161,7 @@ bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 {
 	hPointF  point(0,0);
 	hPointF  size(0,0);
-	bool changesize = false;
+    //bool changesize = false;
 	if (m_observer)
 	{
 		point = m_observer->sprite()->pos();

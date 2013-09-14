@@ -108,7 +108,7 @@ bool ScreenTemplate::pickedIsBackground(const hPointF & p,AbstractScreenObject *
 	unsigned int l = o->prop<unsigned int>("layer", sad::Log::ref());
 	bool is_maximum_size = true;
 	unsigned int is_least_layer = true;
-	for(int i = 0; i < m_within_objects.size(); i++)
+    for(unsigned int i = 0; i < m_within_objects.size(); i++)
 	{
 		AbstractScreenObject * to = m_within_objects[i];
 		if (o != to)

@@ -31,6 +31,14 @@
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
@@ -73,10 +81,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	// Add SpriteViewer
 	QGridLayout* grPadLayout = new QGridLayout;
-	QPoint pointPad = ui.spriteViewerPad->pos();
-	QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
+    //QPoint pointPad = ui.spriteViewerPad->pos();
+    //QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
 	
-	QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
+    //QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
 	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
 													grPadLayout);
 
@@ -142,7 +150,7 @@ void MainPanel::synchronizeDatabase()
 	}
 	SpriteDatabase & sprites = db->sprites();
 	AbstractSpriteDatabaseIterator * it = sprites.begin();
-	for(it; !(it->isEnd());it->next())
+    for(; !(it->isEnd());it->next())
 	{
 		m_spriteTableWidget->add(*it);
 	}
@@ -327,7 +335,7 @@ void MainPanel::trySetProperty(const hst::string & prop, float v)
 	{
 		this->m_editor->lockRendering();
 		_property = o->getProperty(prop);
-		float  old;
+        float  old = 0;
 		if (_property) 
 		{
 			sad::Log * sl = this->m_editor->log();
@@ -383,7 +391,8 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 		selected = true;
 	}
 	// Ignore color change for anyone but label
-	if (prop == "color" && o->type() != "ScreenLabel")
+    if (!o) return;
+    if (prop == "color" && o->type() != "ScreenLabel")
 		return;
 	if (o) 
 	{
@@ -756,7 +765,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 	}
 }
 
-void SpritePropertyChangeCommand::commit(ActionContext *c, CommandChangeObserver * ob )
+void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	SL_SCOPE("SpritePropertyChangeCommand::commit");
 	hst::string rd = SaveLoadCallback<hRectF>::save(m_new.rect).data();
@@ -768,7 +777,7 @@ void SpritePropertyChangeCommand::commit(ActionContext *c, CommandChangeObserver
 	ob->submitEvent("SpritePropertyChangeCommand::commit", sad::Variant(0));
 }
 
-void SpritePropertyChangeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void SpritePropertyChangeCommand::rollback( UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	SL_SCOPE("SpritePropertyChangeCommand::rollback");
 	m_sprite->setProp<hst::string>("config", m_old.config, m_log);
@@ -825,14 +834,14 @@ void MainPanel::spriteRectChanged()
 	}
 }
 
-void SpriteRectChangeCommand::commit(ActionContext *c, CommandChangeObserver * ob)
+void SpriteRectChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_old_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::commit", sad::Variant(0));
 }
 
 
-void SpriteRectChangeCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void SpriteRectChangeCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_new_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::rollback", sad::Variant(0));

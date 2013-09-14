@@ -19,7 +19,10 @@ hst::string path::directory(const hst::string & path)
 	pathparts.removeAt(pathparts.count()-1);
 	if (pathparts.count() == 0) 
 		return hst::string();
-	hst::string result = pathparts[0];
+    hst::string result = "";
+    if (path[0] == delimiter[0])
+        result += delimiter;
+    result += pathparts[0];
 	for (unsigned int i=1;i<pathparts.count();i++) {
 		result << delimiter << pathparts[i];
 	}

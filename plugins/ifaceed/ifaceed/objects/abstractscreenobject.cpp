@@ -5,6 +5,15 @@
 #include "visibilityproperty.h"
 #include "uidproperty.h"
 
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::BasicNode, SerializableObject)
 
 AbstractScreenObject::AbstractScreenObject()
@@ -54,22 +63,22 @@ bool AbstractScreenObject::hasProperty(const hst::string & s)
 }
 
 
-void AbstractScreenObject::setTop(float x)
+void AbstractScreenObject::setTop(UNUSED float x)
 {
 
 }
 
-void AbstractScreenObject::setBottom(float x)
+void AbstractScreenObject::setBottom(UNUSED  float x)
 {
 
 }
 
-void AbstractScreenObject::setLeft(float x)
+void AbstractScreenObject::setLeft(UNUSED  float x)
 {
 
 }
 
-void AbstractScreenObject::setRight(float x)
+void AbstractScreenObject::setRight(UNUSED  float x)
 {
 
 }
@@ -86,7 +95,7 @@ hst::string AbstractScreenObject::description()
 	return _description();
 }
 
-void AbstractScreenObject::setRotatedRectangle(const hRectF & rotatedrectangle, float angle)
+void AbstractScreenObject::setRotatedRectangle(UNUSED const hRectF & rotatedrectangle, UNUSED float angle)
 {
 
 }

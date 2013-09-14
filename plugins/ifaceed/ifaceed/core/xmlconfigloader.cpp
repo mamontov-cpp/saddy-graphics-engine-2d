@@ -124,7 +124,7 @@ bool XMLConfigLoader::loadEntry(XMLConfigEntry & entry, const QDomElement & elem
 	}
 	
 	//Parse transparency
-	bool test = entry.spriteTemplate.isTransparent();
+    //bool test = entry.spriteTemplate.isTransparent();
 	if (element.attributes().contains(TRANSPARENCY_TAG))
 	{	
 		//This tag contains transparency definition, separated by semicolon in format R;G;B

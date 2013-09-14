@@ -12,6 +12,16 @@
 #define CELL_TEXT_Y (MAX_IMAGE_HEIGHT + IMAGE_SPACE)
 
 #define CELL_FONT_SIZE (12)
+
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+#endif
+
 /** Paints a cell
 	\param[in] painter painter
 	\param[in] option  options for rendering
@@ -68,7 +78,7 @@ void CellDelegate::paint(QPainter * painter,
 	\param[in] index   index of model
 	\return size hint
  */
-QSize CellDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize CellDelegate::sizeHint(UNUSED const QStyleOptionViewItem &option, UNUSED const QModelIndex &index) const
 {
 	return QSize(CELL_WIDTH,CELL_HEIGHT);
 }
@@ -123,7 +133,7 @@ QString getAcceptableString(QString in_group, QString in_index, int in_width, QF
 		QFont font;
 		font.setPixelSize(10);
 		QFontMetrics fm(font);
-		int needWidth = fm.width(str);
+        //int needWidth = fm.width(str);
 		if (group.size() > index.size() || index == "...")
 		{
 			group = halfStringWith3Dots(group);

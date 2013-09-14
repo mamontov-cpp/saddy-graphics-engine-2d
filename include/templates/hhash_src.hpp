@@ -318,7 +318,7 @@ template<typename T>
 	 while ( (f<m_table_size) && m_data[f].count()==0)
 		 ++f;
 	 if (f==m_table_size) return const_end();
-	 int cc=m_data[f].count();
+     //int cc=m_data[f].count();
 	 return const_iterator(const_cast<hash<Key,T>* >(this),f,m_data[f].const_begin());
  }
  TDEF typename hash<Key,T>::const_iterator hash<Key,T>::const_end() const

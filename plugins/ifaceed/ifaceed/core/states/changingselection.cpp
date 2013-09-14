@@ -25,7 +25,7 @@ void IFaceEditor::trySelectObject(hPointF p, bool enterSelected)
 		this->behaviourSharedData()->setSelectedObject(tbl[0]);
 		this->showObjectStats(tbl[0]);
 		std::vector<hst::string> chain;
-		for(int i = 0; i < tbl.size(); i++) 
+        for(unsigned int i = 0; i < tbl.size(); i++)
 		{
 			chain.push_back(tbl[i]->prop<hst::string>("uid", this->log()));
 		}

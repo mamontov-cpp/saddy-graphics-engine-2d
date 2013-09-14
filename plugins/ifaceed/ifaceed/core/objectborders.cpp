@@ -212,7 +212,7 @@ hst::vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 		.arg(p.x())
 		.arg(p.y())
 	);
-	for(int i = 0; i <  r.count(); i++) 
+    for(unsigned int i = 0; i <  r.count(); i++)
 	{
 		SL_DEBUG(
 			QString("%1: bounding rectangle [(%2, %3), (%4, %5), (%6, %7), (%8, %9)]")
@@ -266,4 +266,5 @@ bool SelectedObjectBorder::resizable()
   {
 	  return m_data->selectedObject()->resizable();
   }
+  return false;
 }
