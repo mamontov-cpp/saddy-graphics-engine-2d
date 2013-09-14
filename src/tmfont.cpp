@@ -105,7 +105,7 @@ static void restore()
 }
 void TMFont::render(const hst::string & str,const pointf & p)
 {
-  wcs();
+  //wcs();
   float cury=(float)(p.y());
   float curx=(float)(p.x());
   m_tex->enable();
@@ -147,7 +147,7 @@ void TMFont::render(const hst::string & str,const pointf & p)
 	}
   }
   glEnd();
-  restore();
+  //restore();
 }
 
 

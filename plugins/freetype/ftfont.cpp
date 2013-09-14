@@ -91,7 +91,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
 {
    if (fnt->m_texs == NULL)
 		return;
-   coord_system::switchToWCS();
+   //coord_system::switchToWCS();
    //Get color
    GLint   clr[4]={};
    glGetIntegerv(GL_CURRENT_COLOR,clr);
@@ -130,7 +130,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    glPopAttrib();		
    //Restore color
    glColor4iv(clr);
-   coord_system::restore();
+   //coord_system::restore();
 }
 void FTFont::render(const hst::string & str, float x, float y)
 {

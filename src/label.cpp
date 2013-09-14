@@ -14,7 +14,6 @@ void Label::operator()(const sad::ResizeEvent & o)
 Label::Label(sad::Renderer * renderer)
 {
 	m_renderer = renderer;
-	m_renderer->controls()->addResizeHandler(this,false);
 }
 Label::Label(
 		      LabelFont fnt,
@@ -28,12 +27,10 @@ Label::Label(
 	m_str=str;
 	m_p=p;
 	m_rend_point=p;
-	m_renderer->controls()->addResizeHandler(this,false);
 }
 
 Label::~Label()
 {
-	m_renderer->controls()->removeResizeHandler(this);
 }
 
 void Label::render()
