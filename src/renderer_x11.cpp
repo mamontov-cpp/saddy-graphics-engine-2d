@@ -143,12 +143,27 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::update()
 {
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-glLoadIdentity();
-sad::Scene * scene = getCurrentScene();
-if (scene)
- 	scene->render();
-glXSwapBuffers(m_window.dpy, m_window.win);
+	os::timer render;
+	render.start();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	render.stop();
+	double spike = render.elapsed();
+	render.start();
+	sad::Scene * scene = getCurrentScene();
+	if (scene)
+		scene->render();
+	glFinish();
+	render.stop();
+	spike +=  render.elapsed();
+	glXSwapBuffers(m_window.dpy, m_window.win);
+	// Some times OS scheduler just leaves us with nothing -
+	// clock_gettime returns zero, so we should not care and
+	// ignore shuch frames
+	if (fabs(spike) > 1.0E-2)
+	{
+		++m_frames;
+	}
 }
 
 void sad::Renderer::initWindowParameters()

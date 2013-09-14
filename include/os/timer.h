@@ -85,7 +85,7 @@ public:
 		{
 			elapsednsec = m_end.tv_nsec-m_start.tv_nsec;
 		}
-		elapsednsec /= (double)(m_frequency.tv_nsec);
+		//elapsednsec /= (double)(m_frequency.tv_nsec);
 		return elapsednsec / 1000000.0  + (m_end.tv_sec - m_start.tv_sec) * 1000.0;
 #endif
 	}
