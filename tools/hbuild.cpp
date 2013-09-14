@@ -602,14 +602,15 @@ void exclude(state & s)
         }
     }
     
+    
     std::vector<std::string> & all = excluded["ALL"];
-	for (unsigned int i=1;i<all.size();i++)
+	for (unsigned int i=0;i<all.size();i++)
 		exclude_file(s.streamState().safe(),s.streamState().unsafe(),all[i]);
     // Exclude files specific for platform
     if (excluded.find(s.platform()) != excluded.end())
     {
         std::vector<std::string> platformspecific = excluded[s.platform()];
-        for (unsigned int i=1;i<platformspecific.size();i++)
+        for (unsigned int i=0;i<platformspecific.size();i++)
             exclude_file(s.streamState().safe(),s.streamState().unsafe(),platformspecific[i]);
     }
 }
