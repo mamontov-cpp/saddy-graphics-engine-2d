@@ -600,11 +600,22 @@ void file(state & s)
     fputs(tmp2.c_str(),fl);
 	fclose(fl);
 }
+class simplemacrocommand: public basiccommand
+{
+ private:
+	     const char * m_to;
+ public:
+		simplemacrocommand(const char * to) : basiccommand(), m_to(to)  {}
+	    /*! Evaluates command
+		*/
+		virtual void evaluate(state & s) { s.streamState().stream()+=std::string(m_to); }
+		virtual ~simplemacrocommand() {}
+};
 /*! Main parsing function
 	\param[in] what string to parse
 	\return preprocessed function
 */
-std::string parse(const std::string & what)
+std::string parse(const std::string & what, int argc, char ** argv)
 {
 	std::string result;
 	state * p=new state(NULL);
@@ -617,7 +628,10 @@ std::string parse(const std::string & what)
 	s.list().insert("FOR_EACH",new basiccommand(gen_custom_list));
 	s.list().insert("EXCLUDE",new basiccommand(exclude));
 	s.list().insert("FILE",new basiccommand(file));
-
+    for(int i = 4; i + 1 < argc; i += 2 )
+    {
+        s.list().insert(argv[i], new simplemacrocommand(argv[i+1]));
+    }
 	std::string  f=parse_with_custom_state(s,what);
 	delete p;
 	return f;
@@ -648,6 +662,10 @@ void init_pred_handlers()
  predicates[7]<<is_greater <<is_nrsrb        <<is_anything;
  handlers[7]  <<strip_right<<apply_and_go_to2<<strip_and_go_to5;
 }
+
+
+
+
 /*! Preprocesses string with custom initial state
 	\param[in] s state
 	\param[in] what string
@@ -732,7 +750,7 @@ int main(int argc, char* argv[])
 		char c=0;
 		while (!feof(fl)) { c=fgetc(fl); old+=c; }
 		fclose(fl);
-		std::string new_s=parse(old);
+		std::string new_s=parse(old, argc, argv);
 		if (argc<4)
 			puts(new_s.c_str());
 		else
@@ -748,7 +766,7 @@ int main(int argc, char* argv[])
 			fclose(fl);
 		}
 	}
-	else printf("hbuild - small makefile preprocessor. Usage: hbuild <file> [-o file]");
+	else printf("hbuild - small makefile preprocessor. Usage: hbuild <file> [-o file]  <define1> <value1> <define2> <value2> ...");
 	
 	return 0;
 }
