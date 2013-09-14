@@ -143,12 +143,12 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::update()
 {
- glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- glLoadIdentity();
-  
- if (getCurrentScene())
- 	getCurrentScene()->render();
- glXSwapBuffers(m_window.dpy, m_window.win);
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+glLoadIdentity();
+sad::Scene * scene = getCurrentScene();
+if (scene)
+ 	scene->render();
+glXSwapBuffers(m_window.dpy, m_window.win);
 }
 
 void sad::Renderer::initWindowParameters()
