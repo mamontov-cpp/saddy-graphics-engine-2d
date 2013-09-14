@@ -22,6 +22,11 @@ void sad::Renderer::mainLoop()
   ::Window  winDummy = 0;
   while(m_running)
   {
+        if (m_setimmediately || m_reset)
+       {
+	  m_timer.start();
+	  m_reset = false;
+       }
   	while (XPending(m_window.dpy) > 0)
         {
 	    if (m_window.active)
@@ -148,6 +153,18 @@ void sad::Renderer::mainLoop()
 	//Change scene, if need so
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}
+	++m_frames;
+	m_timer.stop();
+	double elapsed = m_timer.elapsed();
+	// Reset counter to avoid FPS jumps
+	if (m_window.active == false)  m_timer.start();
+	//if (/*m_setimmediately || elapsed  > 50.0*/)
+	//{
+		setFPS( 1000.0 * m_frames / m_timer.elapsed() );
+		m_frames = 0;
+		m_reset = true;
+		m_setimmediately = false;
+	//}
   }
  this->controls()->postQuit();
   m_window.active=false;
