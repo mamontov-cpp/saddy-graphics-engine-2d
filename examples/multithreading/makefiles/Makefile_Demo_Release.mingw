@@ -1,7 +1,7 @@
-{SCAN_FOLDER src}
+
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
-PLATFORM = {PLATFORM}
-TYPE =  {TYPE}
+PLATFORM = WIN32
+TYPE =  release
 
 EXECUTABLE = multithreading-example
 
@@ -21,15 +21,16 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = {FOR_EACH build/{NAME}_$(TYPE).o \s}
+BUILD    = build/main_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): {FOR_EACH build/{NAME}_$(TYPE).o \s}
+$(OUTPUT): build/main_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
-{FOR_EACH build/{NAME}_$(TYPE).o:\s{SOURCE}\n\tg++\s-c\s$(CCOPTS)\s{SOURCE}\s-o\sbuild/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+build/main_$(TYPE).o: main.cpp
+	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:
 ifeq ($(PLATFORM),WIN32)
 	rd /s/q "build/*"

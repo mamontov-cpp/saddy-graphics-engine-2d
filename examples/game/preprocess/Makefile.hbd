@@ -21,7 +21,7 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = {FOR_EACH build/{NAME}.o \s}
+BUILD    = {FOR_EACH build/{NAME}_$(TYPE).o \s}
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build

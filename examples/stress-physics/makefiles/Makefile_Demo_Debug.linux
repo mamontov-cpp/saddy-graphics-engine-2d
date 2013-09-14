@@ -1,23 +1,62 @@
-LDFLAGS= -L../../lib -lsaddy-debug -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
+
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
-OUTPUT   = ../../bin/stress-physics-debug
+PLATFORM = LINUX
+TYPE =  debug
+
+EXECUTABLE = stress-physics-debug
+
+ifeq ($(PLATFORM),WIN32)
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2
+DEFINES  = -DWIN32 -DMINGW
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
+else
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
 DEFINES  = -DUNIX -DLINUX -DGCC
-BUILD    = build/ball.o build/coloredbullet.o build/constants.o build/gridnode.o build/gridnodeedge.o build/main.o build/movingsmile.o build/platform.o build/shooter.o build/uncoloredbullet.o build/world.o
-all:
-	./mkbuild.sh
-	g++ -c -g ball.cpp -o build/ball.o $(INCLUDE) $(DEFINES)
-	g++ -c -g coloredbullet.cpp -o build/coloredbullet.o $(INCLUDE) $(DEFINES)
-	g++ -c -g constants.cpp -o build/constants.o $(INCLUDE) $(DEFINES)
-	g++ -c -g gridnode.cpp -o build/gridnode.o $(INCLUDE) $(DEFINES)
-	g++ -c -g gridnodeedge.cpp -o build/gridnodeedge.o $(INCLUDE) $(DEFINES)
-	g++ -c -g main.cpp -o build/main.o $(INCLUDE) $(DEFINES)
-	g++ -c -g movingsmile.cpp -o build/movingsmile.o $(INCLUDE) $(DEFINES)
-	g++ -c -g platform.cpp -o build/platform.o $(INCLUDE) $(DEFINES)
-	g++ -c -g shooter.cpp -o build/shooter.o $(INCLUDE) $(DEFINES)
-	g++ -c -g uncoloredbullet.cpp -o build/uncoloredbullet.o $(INCLUDE) $(DEFINES)
-	g++ -c -g world.cpp -o build/world.o $(INCLUDE) $(DEFINES)
-	g++ $(BUILD)                                -o  $(OUTPUT)    $(LDFLAGS)
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
+endif
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+BUILD    = build/ball_$(TYPE).o build/coloredbullet_$(TYPE).o build/constants_$(TYPE).o build/gridnode_$(TYPE).o build/gridnodeedge_$(TYPE).o build/main_$(TYPE).o build/movingsmile_$(TYPE).o build/platform_$(TYPE).o build/shooter_$(TYPE).o build/uncoloredbullet_$(TYPE).o build/world_$(TYPE).o
+all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
+build:
+	mkdir build
+../../lib/libsaddy-$(TYPE).a:
+	echo "You forgot to build a library!"
+$(OUTPUT): build/ball_$(TYPE).o build/coloredbullet_$(TYPE).o build/constants_$(TYPE).o build/gridnode_$(TYPE).o build/gridnodeedge_$(TYPE).o build/main_$(TYPE).o build/movingsmile_$(TYPE).o build/platform_$(TYPE).o build/shooter_$(TYPE).o build/uncoloredbullet_$(TYPE).o build/world_$(TYPE).o
+	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/ball_$(TYPE).o: ball.cpp
+	g++ -c $(CCOPTS) ball.cpp -o build/ball_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/coloredbullet_$(TYPE).o: coloredbullet.cpp
+	g++ -c $(CCOPTS) coloredbullet.cpp -o build/coloredbullet_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/constants_$(TYPE).o: constants.cpp
+	g++ -c $(CCOPTS) constants.cpp -o build/constants_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/gridnode_$(TYPE).o: gridnode.cpp
+	g++ -c $(CCOPTS) gridnode.cpp -o build/gridnode_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/gridnodeedge_$(TYPE).o: gridnodeedge.cpp
+	g++ -c $(CCOPTS) gridnodeedge.cpp -o build/gridnodeedge_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/main_$(TYPE).o: main.cpp
+	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/movingsmile_$(TYPE).o: movingsmile.cpp
+	g++ -c $(CCOPTS) movingsmile.cpp -o build/movingsmile_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/platform_$(TYPE).o: platform.cpp
+	g++ -c $(CCOPTS) platform.cpp -o build/platform_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/shooter_$(TYPE).o: shooter.cpp
+	g++ -c $(CCOPTS) shooter.cpp -o build/shooter_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/uncoloredbullet_$(TYPE).o: uncoloredbullet.cpp
+	g++ -c $(CCOPTS) uncoloredbullet.cpp -o build/uncoloredbullet_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/world_$(TYPE).o: world.cpp
+	g++ -c $(CCOPTS) world.cpp -o build/world_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:
-	rm $(OUTPUT)
-	rm -rf build
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r ".build/*"
+	rm "$(OUTPUT)"
+endif
 .PHONY: all clean

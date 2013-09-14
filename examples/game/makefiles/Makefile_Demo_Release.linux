@@ -3,14 +3,16 @@ INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I
 PLATFORM = LINUX
 TYPE =  release
 
+EXECUTABLE = saddy-test
+
 ifeq ($(PLATFORM),WIN32)
 LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2
 DEFINES  = -DWIN32 -DMINGW
-OUTPUT   = ../../bin/saddy-test-$(TYPE).exe
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
 else
 LDFLAGS= -L../../lib -lsaddy-$(TYPE) -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11
 DEFINES  = -DUNIX -DLINUX -DGCC
-OUTPUT   = ../../bin/saddy-test-$(TYPE)
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
 endif
 
 ifeq ($(TYPE),debug)
@@ -19,7 +21,7 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/abstractautomaticgun.o build/bonus.o build/constants.o build/enemy.o build/enemybullet.o build/enemyspawn.o build/game.o build/gameobject.o build/main.o build/player.o build/playerbullet.o build/shootingenemy.o build/startscreenrain.o build/supershootingenemy.o
+BUILD    = build/abstractautomaticgun_$(TYPE).o build/bonus_$(TYPE).o build/constants_$(TYPE).o build/enemy_$(TYPE).o build/enemybullet_$(TYPE).o build/enemyspawn_$(TYPE).o build/game_$(TYPE).o build/gameobject_$(TYPE).o build/main_$(TYPE).o build/player_$(TYPE).o build/playerbullet_$(TYPE).o build/shootingenemy_$(TYPE).o build/startscreenrain_$(TYPE).o build/supershootingenemy_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build

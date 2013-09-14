@@ -3,7 +3,7 @@ INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I
 PLATFORM = {PLATFORM}
 TYPE =  {TYPE}
 
-EXECUTABLE = multithreading-example
+EXECUTABLE = stress-physics-debug
 
 ifeq ($(PLATFORM),WIN32)
 LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2
