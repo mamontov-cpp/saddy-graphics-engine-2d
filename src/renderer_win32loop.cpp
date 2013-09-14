@@ -93,9 +93,12 @@ void sad::Renderer::mainLoop()
 	  {
 		 update();
 	  }
-	  else
+	  else 
+	  {
+		  // Reset timer, so no big FPS jump at time
+		  m_timer.start();
 		  Sleep(0);
-	  
+	  }
 	  
 	  //Change scene, if need so
 	  if (m_chscene) 
