@@ -9,6 +9,11 @@ static int lastkey=0;
 
 #define DOUBLE_CLICK_FREQ 0.25
 
+static int predicate(Display *, XEvent * e, char *)
+{
+	return true;
+}
+
 void sad::Renderer::mainLoop()
 {
   m_running = true;											// Loop program
@@ -27,13 +32,8 @@ void sad::Renderer::mainLoop()
 	  m_timer.start();
 	  m_reset = false;
        }
-  	while (XPending(m_window.dpy) > 0)
+  	while (XCheckIfEvent(m_window.dpy, &event, predicate, NULL) )
         {
-	    if (m_window.active)
-	    {
-	         update();
-            }
-            XNextEvent(m_window.dpy, &event);
              switch (event.type)
             {
             	case Expose:              {
@@ -139,17 +139,16 @@ void sad::Renderer::mainLoop()
 		case UnmapNotify:   { m_window.active=false; break; } //Minimize   
         };
        }
-	// Process Application Loop
-
-	//Update a window, if active
-	if (m_window.active)
+       //Update a window, if active
+       if (m_window.active)
        {
-	    update();
+		update();
        }
        else
-	    sched_yield();
-    
-    
+       {
+		sched_yield();
+       }
+       
 	//Change scene, if need so
 	if (m_chscene) 
 	{ setCurrentScene(m_chscene); m_chscene=NULL;}
@@ -158,13 +157,13 @@ void sad::Renderer::mainLoop()
 	double elapsed = m_timer.elapsed();
 	// Reset counter to avoid FPS jumps
 	if (m_window.active == false)  m_timer.start();
-	//if (/*m_setimmediately || elapsed  > 50.0*/)
-	//{
+	if (m_setimmediately || elapsed  > 1000.0)
+	{
 		setFPS( 1000.0 * m_frames / m_timer.elapsed() );
 		m_frames = 0;
 		m_reset = true;
 		m_setimmediately = false;
-	//}
+	}
   }
  this->controls()->postQuit();
   m_window.active=false;
