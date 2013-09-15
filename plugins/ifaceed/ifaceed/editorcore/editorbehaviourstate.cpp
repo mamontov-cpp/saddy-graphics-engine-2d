@@ -1,12 +1,5 @@
 #include "editorbehaviourstate.h"
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 EditorBehaviourState::EditorBehaviourState()
 {

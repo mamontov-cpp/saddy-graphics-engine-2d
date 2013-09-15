@@ -133,17 +133,17 @@ SOURCES += ifaceed/main.cpp \
 RESOURCES += ifaceed/mainpanel.qrc
 
 
-DESTDIR = ../../bin/
+DESTDIR = ../../bin/ifaceed/
 
 unix {
 	DEFINES += "UNIX=1"
 	DEFINES += "LINUX=1"
-        DEFINES += "GCC=1"
+	DEFINES += "GCC=1"
 }
 
 win32 {
-         DEFINES += "WIN32=1"
-	 DEFINES +=  "MINGW=1"
+	DEFINES += "WIN32=1"
+	DEFINES +=  "MINGW=1"
 }
 
 debug {

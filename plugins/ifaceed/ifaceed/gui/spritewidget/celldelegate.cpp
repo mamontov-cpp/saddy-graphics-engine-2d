@@ -1,6 +1,7 @@
 #include "celldelegate.h"
 #include <QStyleOptionViewItem>
 #include <QImage>
+#include <unused.h>
 
 #define CELL_WIDTH (100)
 #define CELL_HEIGHT (100)
@@ -13,14 +14,6 @@
 
 #define CELL_FONT_SIZE (12)
 
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 /** Paints a cell
 	\param[in] painter painter

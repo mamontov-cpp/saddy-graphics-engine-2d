@@ -1,14 +1,7 @@
 #include "newcommand.h"
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 
 NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object)

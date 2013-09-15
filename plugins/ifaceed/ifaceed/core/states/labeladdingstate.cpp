@@ -5,14 +5,8 @@
 #include "../../objects/abstractscreenobject.h"
 #include "../../mainpanel.h"
 #include "../../history/newcommand.h"
+#include <unused.h>
 
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 void LabelAddingState::onMouseMove(const sad::Event & ev)
 {

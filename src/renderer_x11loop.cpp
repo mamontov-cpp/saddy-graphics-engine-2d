@@ -1,3 +1,4 @@
+#define  DO_NOT_CLEANUP_X11_NAMESPACE
 #include <x11recode.h>
 #include <time.h>
 #include <sched.h>

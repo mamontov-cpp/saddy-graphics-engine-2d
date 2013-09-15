@@ -6,14 +6,8 @@
 #include "../../mainpanel.h"
 #include "../../history/newcommand.h"
 #include "../../objects/screensprite.h"
+#include <unused.h>
 
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 void SimpleSpriteAddingState::enter()
 {

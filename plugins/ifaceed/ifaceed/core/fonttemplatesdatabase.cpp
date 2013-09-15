@@ -17,14 +17,7 @@
 #include "xmlconfigloader.h"
 #include "spritedatabase.h"
 #include <log/log.h>
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 FontTemplatesMaps::FontTemplatesMaps()
 {

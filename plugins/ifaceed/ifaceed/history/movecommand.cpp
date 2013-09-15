@@ -2,14 +2,7 @@
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 #include "../editorcore/editor.h"
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 MoveCommand::MoveCommand(AbstractScreenObject * object, const hPointF & oldp, const hPointF & newp)
 {
