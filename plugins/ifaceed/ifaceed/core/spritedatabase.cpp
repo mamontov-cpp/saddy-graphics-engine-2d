@@ -1,39 +1,5 @@
 #include "spritedatabase.h"
 #include "fonttemplatesdatabase.h"
-// Avoid X11 namespace pollution
-#ifdef Status
-    #undef Status
-#endif
-#ifdef Bool
-    #undef Bool
-#endif
-#ifdef None
-    #undef None
-#endif
-#ifdef CursorShape
-    #undef CursorShape
-#endif
-#ifdef GrayScale
-    #undef GrayScale
-#endif
-#ifdef Color
-    #undef Color
-#endif
-#ifdef KeyPress
-    #undef KeyPress
-#endif
-#ifdef KeyRelease
-    #undef KeyRelease
-#endif
-#ifdef FocusIn
-    #undef FocusIn
-#endif
-#ifdef FocusOut
-    #undef FocusOut
-#endif
-#ifdef FontChange
-    #undef FontChange
-#endif
 #include <QSet>
 #include <QMessageBox>
 

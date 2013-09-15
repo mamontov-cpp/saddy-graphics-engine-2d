@@ -2,14 +2,7 @@
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 #include "../core/ifaceeditor.h"
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer)
 {

@@ -1,27 +1,5 @@
 #ifndef QSPRITETABLEWIDGET_H
 #define QSPRITETABLEWIDGET_H
-// Avoid X11 namespace pollution
-#ifdef Status
-    #undef Status
-#endif
-#ifdef Bool
-    #undef Bool
-#endif
-#ifdef None
-    #undef None
-#endif
-#ifdef CursorShape
-    #undef CursorShape
-#endif
-#ifdef GrayScale
-    #undef GrayScale
-#endif
-#ifdef Color
-    #undef Color
-#endif
-#ifdef Unsorted
-    #undef Unsorted
-#endif
 #include <QtCore>
 #include <QtGui>
 #include "../../core/spritedatabase.h"

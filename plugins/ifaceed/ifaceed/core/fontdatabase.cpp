@@ -1,19 +1,9 @@
 #include "fontdatabase.h"
 #include <fontmanager.h>
-// Avoid nasty bug with Qt's data stream
-#ifdef Status
-    #undef Status
-#endif
 #include <QStringList>
 #include <log/log.h>
+#include <unused.h>
 
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 IFaceEditorFont::IFaceEditorFont()
 {

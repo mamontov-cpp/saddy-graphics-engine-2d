@@ -4,15 +4,8 @@
 	Defines a property and editor, used a base classes by user for implementing own functions
  */
 #include "saveloadcallbacks.h"
+#include "../unused.h"
 #pragma once
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 /*! \class PropertyListener
    Defines a listener, that will be notified, that props has changed

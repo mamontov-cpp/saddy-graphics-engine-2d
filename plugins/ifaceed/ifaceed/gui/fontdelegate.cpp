@@ -1,14 +1,7 @@
 #include "fontdelegate.h"
 #include <QStyleOptionViewItem>
 #include <QPainter>
-
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+#include <unused.h>
 
 void FontDelegate::paint(QPainter * painter, 
 						 const QStyleOptionViewItem & option, 

@@ -704,6 +704,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\unused.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\vbolayer.h"
 				>
 			</File>

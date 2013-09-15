@@ -26,7 +26,21 @@
     #include <GL/glu.h>
     #include <X11/Xlib.h>
     #include <X11/keysym.h>
-     #undef CurrentTime
+#ifndef DO_NOT_CLEANUP_X11_NAMESPACE
+    #undef CurrentTime
+	#undef Status
+	#undef Bool
+	#undef None
+	#undef CursorShape
+	#undef GrayScale
+	#undef Color
+	#undef KeyPress
+	#undef KeyRelease
+	#undef FocusIn
+	#undef FocusOut
+	#undef FontChange
+	#undef Unsorted
+#endif
 #endif
 	
 #include <ctime>
@@ -52,6 +66,14 @@
 
 typedef Window  X11Window;
 
+#endif
+
+#ifndef UNUSED
+#ifdef GCC
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
 #endif
 
 namespace sad

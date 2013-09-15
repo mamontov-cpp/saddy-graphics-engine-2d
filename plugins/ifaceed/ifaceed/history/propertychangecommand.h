@@ -9,15 +9,9 @@
 #include "primitives/hrect.h"
 #include <3rdparty/format/format.h>
 #include <log/log.h>
+#include <unused.h>
 #pragma once
 
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
 
 
 class EditorLog;
