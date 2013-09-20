@@ -11,7 +11,9 @@
     #include  <windows.h>
 #else
     #include  <sys/time.h>
+    #define SADDY_USED_CLOCK_TYPE CLOCK_MONOTONIC
 #endif
+
 
 
 namespace os
@@ -42,7 +44,7 @@ public:
 #ifdef WIN32
 	    QueryPerformanceFrequency(&m_frequency);
 #else
-		clock_getres(CLOCK_PROCESS_CPUTIME_ID, &m_frequency);
+		clock_getres(SADDY_USED_CLOCK_TYPE, &m_frequency);
 #endif
 		start();
 	}
@@ -54,7 +56,7 @@ public:
 #ifdef WIN32
 		QueryPerformanceCounter(&m_start);
 #else
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &m_start);
+		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_start);
 #endif
 	}
 	/*! Stops a timer
@@ -64,7 +66,7 @@ public:
 #ifdef WIN32
 		QueryPerformanceCounter(&m_end);
 #else
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &m_end);
+		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_end);
 #endif
 	}
 	/*! Returns elapsed time in milliseconds
@@ -75,18 +77,9 @@ public:
 #ifdef WIN32
 		return (m_end.QuadPart - m_start.QuadPart) * 1000.0 / m_frequency.QuadPart;
 #else
-		
-		double elapsednsec;
-		if (m_end.tv_nsec - m_start.tv_nsec < 0) 
-		{
-			elapsednsec = 1000000000.0+m_end.tv_nsec-m_start.tv_nsec;
-		}
-		else
-		{
-			elapsednsec = m_end.tv_nsec-m_start.tv_nsec;
-		}
-		//elapsednsec /= (double)(m_frequency.tv_nsec);
-		return elapsednsec / 1000000.0  + (m_end.tv_sec - m_start.tv_sec) * 1000.0;
+		double starttime = m_start.tv_sec * 1.0E+3 + m_start.tv_nsec * 1.0E-6;
+		double endtime = m_end.tv_sec * 1.0E+3 + m_end.tv_nsec * 1.0E-6;
+		return endtime - starttime;
 #endif
 	}
 
