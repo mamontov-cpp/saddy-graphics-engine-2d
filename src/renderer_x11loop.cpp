@@ -2,6 +2,8 @@
 #include <x11recode.h>
 #include <time.h>
 #include <sched.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 static clock_t dblclick=0;
 static clock_t clk=0;
@@ -17,6 +19,15 @@ static int predicate(Display *, XEvent * e, char *)
 
 void sad::Renderer::mainLoop()
 {
+  // Set realtime priority
+  pid_t myprocesspid = getpid();
+  sched_param param;
+  param.sched_priority = 77; // Don't set too much, since we still may need to switch	
+  if (sched_setscheduler(myprocesspid, SCHED_FIFO, &param) != 0) 
+  {
+	SL_DEBUG("Failed to set scheduler");
+  }
+  
   m_running = true;											// Loop program
   m_window.active=true;
   XEvent event;
