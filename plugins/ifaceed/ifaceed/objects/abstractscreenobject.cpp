@@ -55,25 +55,7 @@ bool AbstractScreenObject::hasProperty(const hst::string & s)
 }
 
 
-void AbstractScreenObject::setTop(UNUSED float x)
-{
 
-}
-
-void AbstractScreenObject::setBottom(UNUSED  float x)
-{
-
-}
-
-void AbstractScreenObject::setLeft(UNUSED  float x)
-{
-
-}
-
-void AbstractScreenObject::setRight(UNUSED  float x)
-{
-
-}
 
 hst::string AbstractScreenObject::type()
 {

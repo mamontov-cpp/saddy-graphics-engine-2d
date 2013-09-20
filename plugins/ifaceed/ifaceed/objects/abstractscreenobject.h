@@ -198,18 +198,6 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\return whether object has a property
 	 */
 	bool hasProperty(const hst::string & s);
-	/*! Sets a top
-	 */
-	virtual void setTop(float x);
-	/*! Sets a top
-	 */
-	virtual void setBottom(float x);
-	/*! Sets a top
-	 */
-	virtual void setRight(float x);
-	/*! Sets a top
-	 */
-	virtual void setLeft(float x);
 	/*! Sets an already rotated rectangle, restoring all data
 	 */
 	virtual void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);
