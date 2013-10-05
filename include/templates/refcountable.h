@@ -2,8 +2,12 @@
 	\author HiddenSeeker
 	Declares a simple reference-countable object.
 */
-#include <new>
 #pragma once
+#include <new>
+
+namespace sad
+{
+
 class RefCountable
 {
  private:
@@ -24,3 +28,4 @@ class RefCountable
 		 virtual ~RefCountable();
 };
 
+}
