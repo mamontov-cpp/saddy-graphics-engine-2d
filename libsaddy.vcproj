@@ -791,10 +791,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\primitives\glext.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\primitives\hcolor.h"
 					>
 				</File>
@@ -1043,6 +1039,14 @@
 					</File>
 					<File
 						RelativePath=".\include\3rdparty\ttmath\ttmathuint_x86_64.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="glext"
+					>
+					<File
+						RelativePath=".\include\3rdparty\glext\glext.h"
 						>
 					</File>
 				</Filter>
