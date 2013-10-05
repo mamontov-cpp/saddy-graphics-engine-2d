@@ -6,7 +6,9 @@
  */
 #pragma once
 
-
+// Those are not placed in input namespace, because we are avoiding long names
+// sad::input::F1 is simply too long for user to enter, so trying to not force doing
+// using namespace sad::input we allow writing something like sad::F1, sad::Esc, etc.
 namespace sad
 {
 /*! All keyboard keys, handled by input are stored here

@@ -624,6 +624,10 @@
 			<Filter
 				Name="input"
 				>
+				<File
+					RelativePath=".\src\input\events.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -681,14 +685,6 @@
 			</File>
 			<File
 				RelativePath=".\include\sprite2dcontroller.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\targetver.h"
 				>
 			</File>
 			<File
@@ -776,10 +772,6 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\sinstance.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\stdafx.h"
 					>
 				</File>
 				<File
@@ -1230,6 +1222,10 @@
 			<Filter
 				Name="input"
 				>
+				<File
+					RelativePath=".\include\input\events.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\input\keycodes.h"
 					>
