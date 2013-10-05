@@ -215,7 +215,7 @@ class FormattedLabel: public Label
 	 hst::string m_format_string;
 	 /*! A substitution arguments
 	  */
-	 hst::vector<FormattedLabel::Arg *> m_args;
+	 sad::vector<FormattedLabel::Arg *> m_args;
 	 /*! A timer for updating
 	  */
 	 os::timer m_timer;

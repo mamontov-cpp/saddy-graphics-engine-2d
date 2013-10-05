@@ -7,7 +7,7 @@
 #include "vector.h"
 #include "../primitives/matrix2x2.h"
 #include "../templates/hpair.hpp"
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 
 namespace p2d 
 {
@@ -65,7 +65,7 @@ namespace p2d
 	/*! Swaps all points in paird
 		\param[in, out] pairs a pairs of points
 	 */
-	void swap(hst::vector<p2d::PointsPair> & pairs);
+	void swap(sad::vector<p2d::PointsPair> & pairs);
 	/*! Returns a cutter by two points
 		\param[in] x1 x of first point
 		\param[in] y1 y of first point

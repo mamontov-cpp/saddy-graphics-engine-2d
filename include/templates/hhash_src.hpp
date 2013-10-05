@@ -49,7 +49,7 @@ template<typename T>
  }
  TDEF void hash<Key,T>::extend()
  {
-	 hst::vector<slot> m_tmp=m_data;
+	 sad::vector<slot> m_tmp=m_data;
      m_data.clear();
 	 m_table_size+=19;
 	 for (unsigned int i=0;i<m_table_size;i++)

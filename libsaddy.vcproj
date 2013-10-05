@@ -767,11 +767,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\templates\ptrvector.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\templates\refcountable.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\templates\sinstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\templates\svector.h"
 					>
 				</File>
 				<File
@@ -1224,6 +1232,10 @@
 				>
 				<File
 					RelativePath=".\include\input\events.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\input\handlers.h"
 					>
 				</File>
 				<File

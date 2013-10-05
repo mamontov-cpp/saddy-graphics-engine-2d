@@ -206,12 +206,12 @@ p2d::Point p2d::intersectionWithNormalFrom(
 	return l1.intersection(l2).data();
 }
 
-hst::vector<p2d::Point> p2d::intersection(
+sad::vector<p2d::Point> p2d::intersection(
 	const p2d::InfiniteLine & l,
 	const Circle * ci
 )
 {
-	hst::vector<p2d::Point> result;
+	sad::vector<p2d::Point> result;
 	double R = ci->radius();
 	if (is_fuzzy_zero(l.kx()) && non_fuzzy_zero(l.ky()))
 	{
@@ -288,9 +288,9 @@ p2d::SetOfPointsPair p2d::findContacts(
 	{
 		p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
 	
-		hst::vector<p2d::Point> tmppoints = p2d::intersection(CO, ci);
+		sad::vector<p2d::Point> tmppoints = p2d::intersection(CO, ci);
 		p2d::InfiniteLine C1C2 = p2d::InfiniteLine::fromCutter(c);
-		hst::vector<p2d::Point> Ks;
+		sad::vector<p2d::Point> Ks;
 		double min = std::numeric_limits<double>::max();
 		int mini = 0;
 		for(size_t i = 0; i < tmppoints.size();i ++)
@@ -320,7 +320,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 	else
 	{
 		p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(ci->center(), v); 
-		hst::vector<p2d::Point> points = p2d::intersection(line, ci);
+		sad::vector<p2d::Point> points = p2d::intersection(line, ci);
 		if (points.size() == 2)
 		{
 			O1 = O;
@@ -355,7 +355,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 		}
 		{
 			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p1(), v);
-			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
+			sad::vector<p2d::Point> pts = p2d::intersection(l, ci);
 			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << p2d::PointsPair(c.p1(), pts[i]);
@@ -363,7 +363,7 @@ p2d::SetOfPointsPair p2d::findContacts(
 		}
 		{
 			p2d::InfiniteLine l = p2d::InfiniteLine::appliedVector(c.p2(), v);
-			hst::vector<p2d::Point> pts = p2d::intersection(l, ci);
+			sad::vector<p2d::Point> pts = p2d::intersection(l, ci);
 			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << p2d::PointsPair(c.p2(), pts[i]);
@@ -569,7 +569,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 {
 	p2d::Vector v = v2 - v1;
 
-	hst::vector<p2d::Point> p2 = s2->points();
+	sad::vector<p2d::Point> p2 = s2->points();
 	p2d::SetOfPointsPair result;
 
 	p2d::Vector normal = s1->normal();
@@ -586,7 +586,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 		throw p2d::CannotDetermineContactPoints();
 
 	// Find points with minimum scalar productions on vector
-	hst::vector<p2d::Point> maxpoints;
+	sad::vector<p2d::Point> maxpoints;
 	double maxprojection = - (std::numeric_limits<double>::max() - 1.0);
 	for(size_t i = 0 ; i < p2.size(); i++)
 	{

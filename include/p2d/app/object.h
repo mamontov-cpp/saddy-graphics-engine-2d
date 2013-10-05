@@ -7,7 +7,7 @@
 #include "constants.h"
 #include "../../sprite2dadapter.h"
 #include "../../primitives/object.h"
-#include "../../templates/hlvector.hpp"
+#include "../../templates/svector.h"
 
 
 namespace p2d

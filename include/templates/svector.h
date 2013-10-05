@@ -1,17 +1,14 @@
-/*! \file    hlvector.hpp
+/*! \file    svector.h
     \author  HiddenSeeker
 
 	\brief   Definition of vector.
 
 	This file contains a definition of vector.
 */
-#include <string.h>
-#include <vector>
 #pragma once
+#include <vector>
 
-#ifndef __H_LINEAR_VECTOR
-	#define __H_LINEAR_VECTOR
-namespace hst
+namespace sad
 {
 /*! \class  vector
     \brief  Vector
@@ -55,7 +52,7 @@ template<class T> class vector:public std::vector<T>
 		       \param[in] obj vector to be added
 			   \return self-reference
 		   */
-		   vector & operator<<(const hst::vector<T> & obj);
+		   vector & operator<<(const sad::vector<T> & obj);
            /*! Copys a last object in vector, with removing it
 		       from vector
 			   \param[in] obj reference, where removed object will be stored
@@ -112,16 +109,5 @@ template<class T> class vector:public std::vector<T>
 
 }
 
+#include "svector_src.h"
 
-
-
-/*! Convenience typedef
-*/
-#define hlvector hst::vector
-
-#ifndef HI_LVECTOR_H
-       #include "hlvector_src.hpp"
-#endif
-#define HI_LVECTOR_H
-
-#endif

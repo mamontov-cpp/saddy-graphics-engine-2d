@@ -6,7 +6,7 @@
 #pragma once
 #include <p2d/vector.h>
 #include "../templates/maybe.hpp"
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 #include "../extra/fuzzy_equal.h"
 #include "tickable.h"
 
@@ -158,8 +158,8 @@ class ActingForces
 	 typedef p2d::Force<T> * force_t;
 	 typedef typename p2d::ActingForces<T>::Command * command_t;
  protected:
-	 hst::vector< force_t >    m_forces;                       //!< A forces list, acting on body
-	 hst::vector< command_t >  m_queued;                       //!< A queued list of commands
+	 sad::vector< force_t >    m_forces;                       //!< A forces list, acting on body
+	 sad::vector< command_t >  m_queued;                       //!< A queued list of commands
  public:
 	 ActingForces() {}
 	 /*! Force container owns all forces, belonging to it

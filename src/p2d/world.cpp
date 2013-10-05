@@ -76,8 +76,8 @@ void p2d::World::removeHandler(p2d::BasicCollisionHandler * h)
 }
 void p2d::World::addNow(p2d::Body * b)
 {
-	hst::vector<hst::string> groups;
-	for(hst::hash<hst::string, hst::vector<p2d::Body*> > ::iterator it = m_groups.begin();
+	sad::vector<hst::string> groups;
+	for(hst::hash<hst::string, sad::vector<p2d::Body*> > ::iterator it = m_groups.begin();
 		it != m_groups.end();
 		it++)
 	{
@@ -106,7 +106,7 @@ void p2d::World::removeNow(p2d::Body * b)
 {
 	if (m_allbodies.contains(b))
 	{
-		hst::vector<hst::string> groups = m_allbodies[b];
+		sad::vector<hst::string> groups = m_allbodies[b];
 		for(size_t i = 0; i < groups.size(); i++)
 		{
 			m_groups[groups[i]].removeAll(b);
@@ -129,11 +129,11 @@ void p2d::World::addHandler(
 {
 	if (m_groups.contains(t1) == false)
 	{
-		m_groups.insert(t1, hst::vector<p2d::Body *>());
+		m_groups.insert(t1, sad::vector<p2d::Body *>());
 	}
 	if (m_groups.contains(t2) == false)
 	{
-		 m_groups.insert(t2, hst::vector<p2d::Body *>());
+		 m_groups.insert(t2, sad::vector<p2d::Body *>());
 	}
 	type_pair_t tp(t1, t2);
 	types_with_handler_t twh(tp, h);
@@ -248,8 +248,8 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 	double step = this->timeStep();
 	if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
 	{
-		hst::vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
-		hst::vector<p2d::Body *> & g2 = m_groups[twh.p1().p2()];
+		sad::vector<p2d::Body *> & g1 = m_groups[twh.p1().p1()];
+		sad::vector<p2d::Body *> & g2 = m_groups[twh.p1().p2()];
 		bool not_same_group = (twh.p1().p1() != twh.p1().p2());
 		p2d::BasicCollisionHandler * h = twh.p2();
 		for (size_t i = 0; i < g1.count(); i++)
@@ -284,7 +284,7 @@ void p2d::World::clearNow()
 {
 	// To make no problems, with iterators, step through bodies
 	// as vector
-	hst::vector<p2d::Body *> bodies;
+	sad::vector<p2d::Body *> bodies;
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
 		++it

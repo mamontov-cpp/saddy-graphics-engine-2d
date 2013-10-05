@@ -6,7 +6,7 @@
  */
 #include "convexhull.h"
 #include "point.h"
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 
 #pragma once
 
@@ -41,7 +41,7 @@ public:
 		\param[in] c circle
 		\param[out] v populated vector
 	 */
-	void populate(const p2d::Circle * c, hst::vector<p2d::Point> &  v) const;
+	void populate(const p2d::Circle * c, sad::vector<p2d::Point> &  v) const;
 	virtual ~CircleToHullTransformer();
 };
 

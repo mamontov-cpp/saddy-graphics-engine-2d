@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "hwstring.h"
 #include <wchar.h>
 #include <stdlib.h>

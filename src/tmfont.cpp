@@ -217,8 +217,8 @@ float Luv::distance(const Luv & o)
 class ColorStorage
 {
  private:
-	     hst::vector<hst::color>    m_x;  //!< Colors
-		 hst::vector<unsigned int>  m_c;  //!< Counters
+	     sad::vector<hst::color>    m_x;  //!< Colors
+		 sad::vector<unsigned int>  m_c;  //!< Counters
 		 hst::color                 m_lasttaken; //Last taken color
  public:
 	     ColorStorage();

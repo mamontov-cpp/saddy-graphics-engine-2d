@@ -39,7 +39,7 @@ void p2d::Line::move(const p2d::Vector & d)
 
 p2d::ConvexHull p2d::Line::toHull() const
 {
-	hst::vector<p2d::Point> set;
+	sad::vector<p2d::Point> set;
 	set << m_c.p1();
 	set << m_c.p2();
 
@@ -56,9 +56,9 @@ p2d::Cutter1D p2d::Line::project(const p2d::Axle & a) const
 	return p2d::Cutter1D(p1, p2);
 }
 
-hst::vector<p2d::Point> p2d::Line::points() const
+sad::vector<p2d::Point> p2d::Line::points() const
 {
-	hst::vector<p2d::Point> result;
+	sad::vector<p2d::Point> result;
 	result << m_c.p1();
 	result << m_c.p2();
 	return result;
@@ -71,7 +71,7 @@ size_t p2d::Line::sizeOfType() const
 	return sizeof(p2d::Line);
 }
 
-void p2d::Line::populatePoints(hst::vector<p2d::Point> & v) const
+void p2d::Line::populatePoints(sad::vector<p2d::Point> & v) const
 {
 	v << m_c.p1();
 	v << m_c.p2();

@@ -2,7 +2,7 @@
     \author HiddenSeeker
     \brief  Here placed a scene files
 */
-#include "templates/hlvector.hpp"
+#include "templates/svector.h"
 #include "templates/hhash.hpp"
 #include "templates/temporarilyimmutablecontainer.hpp"
 #include "os/mutex.h"
@@ -81,7 +81,7 @@ class Camera
 class Scene: public hst::TemporarilyImmutableContainer<sad::BasicNode>
 {
 protected:
-	hst::vector<BasicNode *>   m_layers;                 //!< Layers
+	sad::vector<BasicNode *>   m_layers;                 //!< Layers
 	sad::Camera      *        m_camera;                  //!< Current camera
 	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
 	/*! Defines a behaviour on node removal. Default is destructing some node, freeing memory from it
