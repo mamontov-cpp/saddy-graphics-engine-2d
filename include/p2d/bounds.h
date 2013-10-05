@@ -3,10 +3,14 @@
 
 	Defines a bounds, useful for representing a solid walls
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
 #include "infiniteline.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -111,3 +115,4 @@ class Bound: public p2d::CollisionShape
 
 }
 
+}

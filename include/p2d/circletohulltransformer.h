@@ -4,11 +4,14 @@
 	Defines a transformer for approximated transformation from circle to
 	convex hull
  */
+#pragma once
 #include "convexhull.h"
 #include "point.h"
+
 #include "../templates/svector.h"
 
-#pragma once
+namespace sad
+{
 
 namespace p2d
 {
@@ -44,5 +47,7 @@ public:
 	void populate(const p2d::Circle * c, sad::vector<p2d::Point> &  v) const;
 	virtual ~CircleToHullTransformer();
 };
+
+}
 
 }

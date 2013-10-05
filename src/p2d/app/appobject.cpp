@@ -1,6 +1,8 @@
 #include <p2d/app/object.h>
 
-DECLARE_SOBJ_INHERITANCE(p2d::app::Object, sad::BasicNode);
+using namespace sad;
+
+DECLARE_SOBJ_INHERITANCE(sad::p2d::app::Object, sad::BasicNode);
 
 p2d::app::Object::Object()
 {
