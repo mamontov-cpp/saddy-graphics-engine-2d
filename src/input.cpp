@@ -1,38 +1,30 @@
 #include "input.h"
 #include "renderer.h"
+#include "input/keycodes.h"
 #include <stdlib.h>
 
 static void cleanup_ptr_vector(hst::vector<sad::CountableTask *> & ff);
 
-sad::Event::Event()
+sad::Event::Event() : x(0), y(0), z(0), key(0), delta(0)
 {
-	x=0;
-	y=0;
-	z=0;
-	key=0;
-	delta=0;
 }
-sad::Event::~Event()
+sad::Event::~Event() 
+{ 
+
+}
+sad::Event::Event(int _key) : key(_key) 
+{ 
+
+}
+sad::Event::Event(float _x, float _y, float _z, int _key) 
+: x(_x), y(_y), z(_z), key(_key)
 {
 
 }
-sad::Event::Event(int _key)
-{
-	this->key=_key;
-}
-sad::Event::Event(float _x, float _y, float _z, int _key)
-{
-	x=_x;
-	y=_y;
-	z=_z;
-	key=_key;
-}
 sad::Event::Event(float _x, float _y, float _z, float _delta)
+: x(_x), y(_y), z(_z), delta(_delta)
 {
-	x=_x;
-	y=_y;
-	z=_z;
-	delta=_delta;
+
 }
 
 sad::Input * sad::Input::m_instance=NULL;
@@ -51,11 +43,22 @@ sad::Input::Input()
 }
 sad::Input::~Input()
 {
-#define DEL(X) if (X) delete X;
-	DEL(m_mousemove);DEL(m_mousedown); DEL(m_mouseclick);
-	DEL(m_mouseup);DEL(m_mousewheel);DEL(m_dblclick); DEL(m_keyup);
-	DEL(m_keydown);DEL(m_quit);
-#undef DEL
+	const size_t handlerlistlength = 9;
+	sad::EventHandler * handlerlist[handlerlistlength] = {
+		m_mousemove,
+		m_mousedown,
+		m_mouseclick,
+		m_mouseup,
+		m_mousewheel,
+		m_dblclick,
+		m_keyup,
+		m_keydown,
+		m_quit
+	};
+	for(size_t i = 0; i < handlerlistlength; i++)
+	{
+		delete handlerlist[i];
+	}
 	for (unsigned int i=0;i<m_resizelisteners.count();i++)
 	{
 		if (m_removelisteners[i]) delete m_resizelisteners[i];
@@ -82,22 +85,22 @@ sad::Input * sad::Input::ref()
 	return sad::Renderer::ref()->controls();
 }
 
-#define TEMP_DEF(X,Y)                                \
-void sad::Input:: X (sad::EventHandler * h)          \
-{                                                    \
-	if (Y) delete Y;                                 \
-    Y=h;                                             \
-}                                                    \
+#define DEFINE_SETTER_FOR(METHOD, PROPERTYNAME)                         \
+void sad::Input:: METHOD (sad::EventHandler * h)                        \
+{                                                                       \
+	if (PROPERTYNAME) delete PROPERTYNAME;                              \
+    PROPERTYNAME=h;                                                     \
+}                                                                       \
 
-TEMP_DEF(setMouseMoveHandler,m_mousemove)
-TEMP_DEF(setMouseDownHandler,m_mousedown)
-TEMP_DEF(setMouseClickHandler,m_mouseclick)
-TEMP_DEF(setMouseUpHandler,m_mouseup)
-TEMP_DEF(setMouseDblClickHandler,m_dblclick)
-TEMP_DEF(setMouseWheelHandler,m_mousewheel)
-TEMP_DEF(setKeyUpHandler,m_keyup)
-TEMP_DEF(setKeyDownHandler,m_keydown)
-TEMP_DEF(setQuitHandler,m_quit)
+DEFINE_SETTER_FOR(setMouseMoveHandler,m_mousemove)
+DEFINE_SETTER_FOR(setMouseDownHandler,m_mousedown)
+DEFINE_SETTER_FOR(setMouseClickHandler,m_mouseclick)
+DEFINE_SETTER_FOR(setMouseUpHandler,m_mouseup)
+DEFINE_SETTER_FOR(setMouseDblClickHandler,m_dblclick)
+DEFINE_SETTER_FOR(setMouseWheelHandler,m_mousewheel)
+DEFINE_SETTER_FOR(setKeyUpHandler,m_keyup)
+DEFINE_SETTER_FOR(setKeyDownHandler,m_keydown)
+DEFINE_SETTER_FOR(setQuitHandler,m_quit)
 
 #undef TEMP_DEF
 

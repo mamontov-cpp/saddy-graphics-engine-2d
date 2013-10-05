@@ -621,6 +621,10 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="input"
+				>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1222,6 +1226,14 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="input"
+				>
+				<File
+					RelativePath=".\include\input\keycodes.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
