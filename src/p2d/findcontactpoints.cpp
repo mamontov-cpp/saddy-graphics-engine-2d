@@ -114,7 +114,7 @@ void p2d::insertUnique(
 	bool found = false;
 	for(size_t i = 0; i < set.size(); i++)
 	{
-		if (equal(set[i].p1(), pair.p1()) && equal(set[i].p2(), pair.p2()))
+		if (sad::equal(set[i].p1(), pair.p1()) && sad::equal(set[i].p2(), pair.p2()))
 		{
 			found = true;
 		}
@@ -149,7 +149,7 @@ void p2d::filterOptimalSet(p2d::SetOfPointsPair & set, const p2d::Vector & v)
 	}
 	for(size_t i = 0; i < set.size(); i++)
 	{
-		if (!is_fuzzy_equal(ts[i], min))
+		if (!sad::is_fuzzy_equal(ts[i], min))
 		{
 			ts.removeAt(i);
 			set.removeAt(i);
@@ -168,8 +168,8 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 {
 	p2d::Vector v = v1 - v2;
 	p2d::SetOfPointsPair result;
-	bool xlessthanzero = (v.x() < 0 && non_fuzzy_zero(v.x()));
-	bool ylessthanzero = (v.y() < 0 && non_fuzzy_zero(v.y()));
+	bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
+	bool ylessthanzero = (v.y() < 0 && sad::non_fuzzy_zero(v.y()));
 	if (xlessthanzero && ylessthanzero)
 	{
 		return result;
@@ -213,7 +213,7 @@ sad::vector<p2d::Point> p2d::intersection(
 {
 	sad::vector<p2d::Point> result;
 	double R = ci->radius();
-	if (is_fuzzy_zero(l.kx()) && non_fuzzy_zero(l.ky()))
+	if (sad::is_fuzzy_zero(l.kx()) && sad::non_fuzzy_zero(l.ky()))
 	{
 		double y = - l.b() /l.ky();
 		double dy = (y - ci->center().y());
@@ -226,7 +226,7 @@ sad::vector<p2d::Point> p2d::intersection(
 			result << p2d::Point(x2, y);
 		}
 	}
-	if (non_fuzzy_zero(l.kx()) && is_fuzzy_zero(l.ky()))
+	if (sad::non_fuzzy_zero(l.kx()) && sad::is_fuzzy_zero(l.ky()))
 	{
 		double x = - l.b() /l.kx();
 		double dx = (x - ci->center().x());
@@ -239,7 +239,7 @@ sad::vector<p2d::Point> p2d::intersection(
 			result << p2d::Point(x, y2);
 		}
 	}
-	if (non_fuzzy_zero(l.kx()) && non_fuzzy_zero(l.ky()))
+	if (sad::non_fuzzy_zero(l.kx()) && sad::non_fuzzy_zero(l.ky()))
 	{
 		p2d::Point c = ci->center();
 		double xc = c.x();
@@ -279,12 +279,12 @@ p2d::SetOfPointsPair p2d::findContacts(
 )
 {
 	p2d::SetOfPointsPair result;
-	if (is_fuzzy_zero(p2d::modulo(v))) 
+	if (sad::is_fuzzy_zero(p2d::modulo(v))) 
 		return result;
 	p2d::Point O = p2d::intersectionWithNormalFrom(ci->center(), c);
 	p2d::MaybePoint  K;
 	p2d::Point O1;
-	if (equal(O, ci->center()) == false)
+	if (sad::equal(O, ci->center()) == false)
 	{
 		p2d::InfiniteLine CO = p2d::InfiniteLine::fromCutter(p2d::Cutter2D(ci->center(), O));
 	
@@ -339,12 +339,12 @@ p2d::SetOfPointsPair p2d::findContacts(
 	}
 	if (K.exists())
 	{
-		if (projectionIsWithin(K.data(), c.p1(), c.p2()))
+		if (sad::projectionIsWithin(K.data(), c.p1(), c.p2()))
 		{
 			double dx = O1.x() - ci->center().x();
 			double dy = O1.y() - ci->center().y();
 			// If O1 belongs to circle
-			if (is_fuzzy_equal(dx* dx + dy * dy, ci->radius() * ci->radius()))
+			if (sad::is_fuzzy_equal(dx* dx + dy * dy, ci->radius() * ci->radius()))
 			{
 				result << p2d::PointsPair(K.data(), O1);	
 			} 
@@ -387,7 +387,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 	p2d::Vector v = v1 - v2;
 	p2d::Point  dp = c2->center() - c1.center();
 	double projection = p2d::scalar(dp, v);
-	if (is_fuzzy_zero(projection))
+	if (sad::is_fuzzy_zero(projection))
 	{
 		return result;
 	}
@@ -411,9 +411,9 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 {
 	p2d::SetOfPointsPair result;
 	p2d::Vector v = v1 - v2;
-	bool xlessthanzero = (v.x() < 0 && non_fuzzy_zero(v.x()));
-	bool ylessthanzero = (v.y() < 0 && non_fuzzy_zero(v.y()));
-	bool iszero = is_fuzzy_zero(p2d::modulo(v));
+	bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
+	bool ylessthanzero = (v.y() < 0 && sad::non_fuzzy_zero(v.y()));
+	bool iszero = sad::is_fuzzy_zero(p2d::modulo(v));
 	if ((xlessthanzero && ylessthanzero) || iszero)
 	{
 		//return result;
@@ -437,7 +437,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::exec(
 		double C = dx * dx + dy * dy - D2;
 		double DI = B * B - 4 * A * C;
 		// Not a quadratic equation
-		if (is_fuzzy_zero(A) && is_fuzzy_zero(B) && !is_fuzzy_zero(C))
+		if (sad::is_fuzzy_zero(A) && sad::is_fuzzy_zero(B) && !sad::is_fuzzy_zero(C))
 		{
 			return result;
 		}
@@ -519,7 +519,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoB(
 	if ( (s1->type() == p2d::BT_LEFT && s2->type() == p2d::BT_RIGHT)
 		|| (s1->type() == p2d::BT_RIGHT && s2->type() == p2d::BT_LEFT))
 	{
-		if (non_fuzzy_zero(v.x()))
+		if (sad::non_fuzzy_zero(v.x()))
 		{
 		 result << p2d::PointsPair(p2d::Point(s1->position(), minv), p2d::Point(s2->position(), minv));	
 		 result << p2d::PointsPair(p2d::Point(s1->position(), maxv), p2d::Point(s2->position(), maxv));	
@@ -529,7 +529,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoB(
 	if ( (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN)
 		|| (s1->type() == p2d::BT_UP && s2->type() == p2d::BT_DOWN))
 	{
-		if (non_fuzzy_zero(v.y()))
+		if (sad::non_fuzzy_zero(v.y()))
 		{
 		 result << p2d::PointsPair(p2d::Point(minv, s1->position()), p2d::Point(minv, s2->position()));	
 		 result << p2d::PointsPair(p2d::Point(maxv, s1->position()), p2d::Point(maxv, s2->position()));	
@@ -549,7 +549,7 @@ bool p2d::hasPair(const p2d::SetOfPointsPair & set,
 	bool exists = false;
 	for(size_t i = 0; i < set.size(); i++)
 	{
-		if (equal(set[i].p1(), p1) && equal(set[i].p2(), p2))
+		if (sad::equal(set[i].p1(), p1) && sad::equal(set[i].p2(), p2))
 		{
 			exists = true;
 		}
@@ -578,7 +578,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 	
 	double vp = p2d::scalar(v, directionvector);
 	// If cannot find, result is empty
-	if (is_fuzzy_zero(vp))
+	if (sad::is_fuzzy_zero(vp))
 		return result;
 	// If moving in opposite direction, it means it moving away from collisio, so contact
 	// points cannot be determined
@@ -591,7 +591,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoP(
 	for(size_t i = 0 ; i < p2.size(); i++)
 	{
 		double projection = p2d::scalar(directionvector, p2[i]);
-		if (is_fuzzy_equal(projection, maxprojection))
+		if (sad::is_fuzzy_equal(projection, maxprojection))
 		{
 			maxpoints << p2[i];
 		}
@@ -632,7 +632,7 @@ p2d::SetOfPointsPair p2d::FindContactPoints::getBtoC(
 	
 	double vp = p2d::scalar(v, directionvector);
 	// If cannot find, result is empty
-	if (is_fuzzy_zero(vp))
+	if (sad::is_fuzzy_zero(vp))
 		return result;
 	// If moving in opposite direction, it means it moving away from collisio, so contact
 	// points cannot be determined

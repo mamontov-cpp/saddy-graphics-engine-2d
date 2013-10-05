@@ -104,7 +104,7 @@ void p2d::app::Way::startConstruction()
 
 void p2d::app::Way::construct()
 {
-	assert( m_waypoints.size() > 1  && non_fuzzy_zero(m_totaltime) );
+	assert( m_waypoints.size() > 1  && sad::non_fuzzy_zero(m_totaltime) );
 	m_constructed = true;
 	double curtime = 0;
 	double totaldistance = 0;

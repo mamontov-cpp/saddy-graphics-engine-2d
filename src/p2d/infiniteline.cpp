@@ -7,7 +7,7 @@ p2d::InfiniteLine p2d::InfiniteLine::fromCutter(const p2d::Cutter2D & c)
 {
 	double dx = c.p2().x() - c.p1().x();
 	double dy = c.p2().y() - c.p1().y();
-	if (is_fuzzy_zero(dy))
+	if (sad::is_fuzzy_zero(dy))
 	{
 		return p2d::InfiniteLine(0, 1, - (c.p1().y()));
 	} 
@@ -24,11 +24,11 @@ p2d::InfiniteLine p2d::InfiniteLine::fromCutter(const p2d::Cutter2D & c)
 p2d::InfiniteLine p2d::InfiniteLine::appliedVector(const p2d::Point & p, const p2d::Vector & v)
 {
 	p2d::Vector u = p2d::unit(v);
-	if (is_fuzzy_zero(u.x()))
+	if (sad::is_fuzzy_zero(u.x()))
 	{
 		return p2d::InfiniteLine(1, 0, -p.x());
 	}
-	if (is_fuzzy_zero(u.y()))
+	if (sad::is_fuzzy_zero(u.y()))
 	{
 		return p2d::InfiniteLine(0, 1, -p.y());
 	}
@@ -43,11 +43,11 @@ bool p2d::InfiniteLine::isSame(const InfiniteLine & a) const
 {
 	double determinant =	m_kx * a.m_ky - m_ky * a.m_kx;
 	bool result = false;
-	if (is_fuzzy_zero(determinant))
+	if (sad::is_fuzzy_zero(determinant))
 	{
 		double fdet = m_kx * a.m_b - m_b * a.m_kx;
 		double sdet = m_ky * a.m_b - m_b * a.m_ky;
-		result = is_fuzzy_zero(fdet) && is_fuzzy_zero(sdet);
+		result = sad::is_fuzzy_zero(fdet) && sad::is_fuzzy_zero(sdet);
 	}
 	return result;
 }
@@ -57,11 +57,11 @@ bool p2d::InfiniteLine::isCollinear(const InfiniteLine & a) const
 {
 	double determinant =	m_kx * a.m_ky - m_ky * a.m_kx;
 	bool result = false;
-	if (is_fuzzy_zero(determinant))
+	if (sad::is_fuzzy_zero(determinant))
 	{
 		double fdet = m_kx * a.m_b - m_b * a.m_kx;
 		double sdet = m_ky * a.m_b - m_b * a.m_ky;
-		result = !is_fuzzy_zero(fdet) || !is_fuzzy_zero(sdet);
+		result = !sad::is_fuzzy_zero(fdet) || !sad::is_fuzzy_zero(sdet);
 	}
 	return result;
 }
@@ -70,9 +70,9 @@ bool p2d::InfiniteLine::isCollinear(const InfiniteLine & a) const
 p2d::Point p2d::InfiniteLine::randomPoint() const
 {
 	p2d::Point result;
-	if (non_fuzzy_zero(m_kx) || non_fuzzy_zero(m_ky))
+	if (sad::non_fuzzy_zero(m_kx) || sad::non_fuzzy_zero(m_ky))
 	{
-		if (is_fuzzy_zero(m_ky))
+		if (sad::is_fuzzy_zero(m_ky))
 		{
 			result = p2d::Point(-m_b/-m_kx, 0);
 		}
@@ -89,8 +89,8 @@ p2d::MaybePoint p2d::InfiniteLine::intersection(const InfiniteLine & a) const
 	p2d::MaybePoint result;
 	bool same = isSame(a);
 	bool iscollinear = isCollinear(a);
-	bool haskzero = is_fuzzy_zero(m_kx) && is_fuzzy_zero(m_ky);
-	bool hasbzero = is_fuzzy_zero(m_b);
+	bool haskzero = sad::is_fuzzy_zero(m_kx) && sad::is_fuzzy_zero(m_ky);
+	bool hasbzero = sad::is_fuzzy_zero(m_b);
 	if (same || (!iscollinear && haskzero && hasbzero))
 	{
 		result.setValue(randomPoint());
@@ -99,7 +99,7 @@ p2d::MaybePoint p2d::InfiniteLine::intersection(const InfiniteLine & a) const
 	{
 		if (!isCollinear(a) && !haskzero)
 		{
-			if (is_fuzzy_zero(m_ky))
+			if (sad::is_fuzzy_zero(m_ky))
 			{
 				double x =  - m_b / m_kx;
 				// If a.m_ky is zero than they are collinear, so
@@ -133,7 +133,7 @@ p2d::MaybePoint p2d::InfiniteLine::intersection(const p2d::Cutter2D & a) const
 		p2d::MaybePoint tmp = intersection(l);
 		if (tmp.exists())
 		{
-			if (projectionIsWithin(tmp.data(), a.p1(), a.p2()))
+			if (sad::projectionIsWithin(tmp.data(), a.p1(), a.p2()))
 			{
 				result = tmp;
 			}
@@ -144,7 +144,7 @@ p2d::MaybePoint p2d::InfiniteLine::intersection(const p2d::Cutter2D & a) const
 
 bool p2d::InfiniteLine::hasPoint(const p2d::Point & p) const
 {
-	return is_fuzzy_zero(m_kx * p.x() + m_ky * p.y() + m_b);
+	return sad::is_fuzzy_zero(m_kx * p.x() + m_ky * p.y() + m_b);
 }
 
 
@@ -157,8 +157,8 @@ p2d::MaybePoint p2d::intersection(const p2d::Cutter2D & a, const p2d::Cutter2D &
 	if (tmp.exists())
 	{
 		p2d::Point p = tmp.data();
-		bool isw1 = projectionIsWithin(p, a.p1(), a.p2());
-		bool isw2 = projectionIsWithin(p, b.p1(), b.p2());
+		bool isw1 = sad::projectionIsWithin(p, a.p1(), a.p2());
+		bool isw2 = sad::projectionIsWithin(p, b.p1(), b.p2());
 		if (isw1 && isw2)
 		{
 			result.setValue(p);
@@ -194,12 +194,12 @@ p2d::MaybePoint p2d::intersection(
 
 p2d::Vector p2d::InfiniteLine::direction() const
 {
-	assert( non_fuzzy_zero(m_kx) || non_fuzzy_zero(m_ky) );
-	if (is_fuzzy_zero(m_kx))
+	assert( sad::non_fuzzy_zero(m_kx) || sad::non_fuzzy_zero(m_ky) );
+	if (sad::is_fuzzy_zero(m_kx))
 	{
 		return p2d::Vector(1, 0);
 	}
-	if (is_fuzzy_zero(m_ky))
+	if (sad::is_fuzzy_zero(m_ky))
 	{
 		return p2d::Vector(0, 1);
 	}

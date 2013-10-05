@@ -4,11 +4,14 @@
 	Describes a simple emitter for objects, which emits objects
 	in specified direction
  */
+#pragma once
 #include "object.h"
 #include "app.h"
+
 #include "../../extra/periodicalevent.h"
+
 #include <cstdlib>
-#pragma once
+
 
 namespace p2d
 {
@@ -19,7 +22,7 @@ namespace app
 
 /*! A basic object emitter, that can emit a lot of objectas
  */
-class AbstractObjectEmitter: public PeriodicalEvent
+class AbstractObjectEmitter: public sad::PeriodicalEvent
 {
  protected:
 		p2d::app::App * m_app;

@@ -9,6 +9,9 @@
  */
 #define S2D_FP_PRECISION  1.0E-6
 
+namespace sad
+{
+
 /*! Tests, whether two floats are equal with fuzzy
 	\param[in] x1 first float
 	\param[in] x2 second float
@@ -28,3 +31,5 @@ bool is_fuzzy_zero(double x, double precision = S2D_FP_PRECISION);
 	\return whether x modulo is greater than precision
  */
 bool non_fuzzy_zero(double x, double precision = S2D_FP_PRECISION);
+
+}

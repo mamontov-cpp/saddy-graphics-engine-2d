@@ -9,7 +9,7 @@ void erase_equal_points(sad::vector<p2d::Point> & set)
 {
 	for(unsigned int i = 1; i < set.size(); i++)
 	{
-		if (equal(set[i], set[i-1]))
+		if (sad::equal(set[i], set[i-1]))
 		{
 			set.removeAt(i);
 			--i;
@@ -44,7 +44,7 @@ bool compare(const SetSortingEntry & o1, const SetSortingEntry & o2)
 double angle(const p2d::Point & p1, const p2d::Point & p2)
 {
 	double  result = 0;
-	if (!equal(p1, p2))
+	if (!sad::equal(p1, p2))
 	{
 		double dy = p2.y() - p1.y();
 		double dx = p2.x() - p1.x();
@@ -103,7 +103,7 @@ bool is_convex(const p2d::Point & prev,
 	double diff = (max - min);
 	bool diffisgreaterthanpi = (diff > M_PI);
 	bool result  = false;
-	if (!is_fuzzy_equal(diff, M_PI)) 
+	if (!sad::is_fuzzy_equal(diff, M_PI)) 
 	{
 		bool f1 = !cwisgreaterccw && diffisgreaterthanpi;
 		bool f2 = cwisgreaterccw && !diffisgreaterthanpi;

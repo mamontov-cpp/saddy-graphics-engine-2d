@@ -106,7 +106,7 @@ void p2d::app::Object::setAngle(double angle)
 void p2d::app::Object::lookAt(const hPointF & p)
 {
 	hPointF c = p - this->m_body->position();
-	double angle = angle_of(c.x(), c.y());
+	double angle = sad::angle_of(c.x(), c.y());
 	// We roate it counter-clockwise, because object looks to pi
 	setAngle(angle);
 }

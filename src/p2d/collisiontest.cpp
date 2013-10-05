@@ -235,7 +235,7 @@ bool p2d::CollisionTest::collidesCtoC(p2d::Circle * p1, p2d::Circle * p2)
 	double dist1 = p2d::distance(p1->centerRef(), p2->centerRef());
 	// The precision was found empirical, because sometimes object collides in
 	// very strange phase
-	bool collides = (dist1 < dist2) || is_fuzzy_equal(dist1, dist2, 1.0E-6);
+	bool collides = (dist1 < dist2) || sad::is_fuzzy_equal(dist1, dist2, 1.0E-6);
 	return collides;
 }
 

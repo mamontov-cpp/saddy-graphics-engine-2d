@@ -31,13 +31,13 @@ void p2d::Rectangle::rotate(double angle)
 {
 	if (fabs(angle) > S2D_FP_PRECISION)
 	{
-		::rotate((float)angle, m_rect);
+		sad::rotate((float)angle, m_rect);
 	}
 }
 
 void p2d::Rectangle::move(const p2d::Vector & d)
 {
-	::moveBy(d, m_rect);
+	sad::moveBy(d, m_rect);
 }
 
 
