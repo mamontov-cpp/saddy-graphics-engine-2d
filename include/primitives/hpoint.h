@@ -242,20 +242,17 @@ point<hst::D2,T> toPolar(const point<hst::D2,T> & o);
 /*! typedef hst::point2<int> point
  *  This typedef is provided for convenience
  */
- typedef hst::point<hst::D2,int> hPoint;
+typedef hst::point<hst::D2,int> hPoint;
 /*! typedef hst::point2<double> pointF
  *  This typedef is provided for convenience
  */
- typedef hst::point<hst::D2,double> hPointF;
+typedef hst::point<hst::D2,double> hPointF;
 /*! typedef hst::point2<double> pointf;
-*   Small conveniernce define
-*/
- typedef hst::point<hst::D2,double> pointf;
+ *   Small convenience define
+ */
+typedef hst::point<hst::D2,double> pointf;
 
-#ifndef HI_POINT_H
-     #define  HI_POINT_H
-     #include "hpoint_src.h"
-#endif
+#include "hpoint_src.h"
 
 /*! Converts 3d point to 2d point	
 	 \param[in] p point

@@ -1,25 +1,6 @@
-#include "stdafx.h"
-#include <stdlib.h>
 #include "hstring.h"
+#include <stdlib.h>
 #include <string.h>
-
-#ifdef _CRTMEMORYTEST
-	#include <crtdbg.h>
-#endif
-
-#ifdef H_USE_LOW_LEVEL_IO
-      #include <sys/types.h>
-      #include <sys/stat.h>
-      #include <fcntl.h>
-#ifdef __UBUNTU
-     #include <unistd.h>
-#else
-     #include <io.h>
-#endif
-#endif
-#ifndef _MSC_VER
-	#define _itoa itoa
-#endif
 
 using namespace hst;
 

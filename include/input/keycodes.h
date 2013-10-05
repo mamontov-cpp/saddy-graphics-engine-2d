@@ -109,16 +109,18 @@ enum KeyboardKey
 	RightControl = 293,  //!< A right control key
 	LeftAlt      = 294,  //!< A left alt key
 	RightAlt     = 295,  //!< A right alt key
+	KeyNone      = 296,  //!< None as no key pressed or invalid key
 };
 
 
 /*! Specified set of mouse maninpulator buttons, passed into window events
  */
-enum MouseKey
+enum MouseButton
 {
-	MouseLeft   = -16535,   //!< Left mouse key
-	MouseMiddle = -16534,   //!< Middle mouse key
-	MouseRight  = -16533,   //!< Right mouse key
+	MouseLeft   = -16535,   //!< Left mouse button
+	MouseMiddle = -16534,   //!< Middle mouse button
+	MouseRight  = -16533,   //!< Right mouse button
+	MouseNone   = 0         //!< None as no button pressed or invalid button
 };
 
 }
