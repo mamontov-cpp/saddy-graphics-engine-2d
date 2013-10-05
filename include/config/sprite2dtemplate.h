@@ -3,10 +3,11 @@
 	
 	Here is described loadable sprite template, that can be easily loaded from file
  */
+#pragma once
 #include "../primitives/hrect.h"
 #include "../primitives/hcolor.h"
 #include "../templates/hstring.h"
-#pragma once
+
 
 /*! \class Sprite2DTemplate
 	
