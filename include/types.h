@@ -46,7 +46,6 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
-#include "templates/habstract.hpp"
 #include "templates/hdeque.hpp"
 #include "templates/hhash.hpp"
 #include "templates/hlist.hpp"
