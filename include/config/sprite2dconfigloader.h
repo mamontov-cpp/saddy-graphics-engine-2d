@@ -3,9 +3,13 @@
 	
 	An abstract loader for config for 2d sprite
  */
-#include "../templates/hhash.hpp"
-#include "sprite2dtemplate.h"
 #pragma once
+#include "sprite2dtemplate.h"
+
+#include "../templates/hhash.hpp"
+
+namespace sad
+{
 
 /*! Inner container of sprites in config 
 	(string - is unique id of sprite group, int - an index of sprite in group)
@@ -42,3 +46,5 @@ class Sprite2DConfigLoader
 		 */
 		virtual ~Sprite2DConfigLoader();
 };
+
+}

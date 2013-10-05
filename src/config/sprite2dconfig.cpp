@@ -3,7 +3,7 @@
 #include <texturemanager.h>
 #include <assert.h>
 
-
+using namespace sad;
 
 bool Sprite2DObserverContainer::fireSpriteConsistencyCheck(const Sprite2DTemplateContainer & container)
 {

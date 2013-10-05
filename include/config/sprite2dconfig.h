@@ -3,11 +3,15 @@
 	
 	A config for 2d sprites hot reload
  */
+#pragma once
 #include "sprite2dconfigloader.h"
+
 #include "../renderer.h"
 #include "../texturecontainer.h"
-#pragma once
 
+
+namespace sad
+{
 
 // An observer, which listens to config changes
 class Sprite2DConfigObserver;
@@ -116,3 +120,4 @@ class  Sprite2DConfig
 		Sprite2DConfigLoadingResult reload();
 };
 
+}
