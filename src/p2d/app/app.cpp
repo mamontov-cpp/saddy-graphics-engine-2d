@@ -1,6 +1,8 @@
 #include <p2d/app/app.h>
 #include <p2d/app/object.h>
 
+using namespace sad;
+
 p2d::app::App::App()
 {
 }

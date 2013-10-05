@@ -9,6 +9,9 @@
 #include "../templates/hpair.hpp"
 #include "../templates/svector.h"
 
+namespace sad
+{
+
 namespace p2d 
 {
 	/*! An axle is a special case of a vector
@@ -74,3 +77,6 @@ namespace p2d
 	 */
 	p2d::Cutter2D cutter(double x1, double y1, double x2, double y2);
 }
+
+}
+

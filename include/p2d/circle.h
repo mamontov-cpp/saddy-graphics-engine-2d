@@ -3,9 +3,13 @@
 
 	Defines a circle as collision shape
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -91,6 +95,8 @@ public:
 	 */
 	virtual hst::string dump() const; 
 };
+
+}
 
 }
 

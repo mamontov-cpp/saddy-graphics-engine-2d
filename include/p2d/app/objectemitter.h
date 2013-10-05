@@ -12,6 +12,8 @@
 
 #include <cstdlib>
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -181,3 +183,4 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 
 }
 
+}

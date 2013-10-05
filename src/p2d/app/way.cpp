@@ -1,5 +1,9 @@
 #include "p2d/app/way.h"
+
 #include <extra/geometry2d.h>
+
+using namespace sad;
+
 
 p2d::app::Way::Way()
 {

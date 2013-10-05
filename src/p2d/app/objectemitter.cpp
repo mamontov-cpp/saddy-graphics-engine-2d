@@ -1,6 +1,8 @@
 #include <p2d/app/objectemitter.h>
 
-void p2d::app::AbstractObjectEmitter::perform()
+using namespace sad;
+
+void sad::p2d::app::AbstractObjectEmitter::perform()
 {
 	p2d::app::Object * o = this->produce();
 	this->app()->addObject(o);
@@ -18,7 +20,7 @@ void p2d::app::AbstractObjectEmitter::perform()
 }
 
 
-double p2d::app::AbstractObjectEmitter::angle()
+double sad::p2d::app::AbstractObjectEmitter::angle()
 {
 	return 0;
 }

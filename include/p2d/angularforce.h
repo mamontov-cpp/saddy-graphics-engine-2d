@@ -7,6 +7,9 @@
 #include "tickable.h"
 #include "force.h"
 
+namespace sad
+{
+
 namespace p2d
 {
 
@@ -82,6 +85,8 @@ typedef p2d::Force<double>        AngularForce;
 typedef p2d::ImpulseForce<double> AngularImpulseForce;
 typedef p2d::ActingForces<double>      AngularActingForces;
 
+
+}
 
 }
 

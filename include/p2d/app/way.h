@@ -7,12 +7,12 @@
 #include "../vector.h"
 #include "../point.h"
 #include "../axle.h"
+
 #include "../../templates/svector.h"
 
 
-
-#undef  CurrentTIme
-
+namespace sad
+{
 
 namespace p2d
 {
@@ -107,3 +107,4 @@ public:
 
 }
 
+}
