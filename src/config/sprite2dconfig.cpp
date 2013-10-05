@@ -69,9 +69,9 @@ Sprite2DConfig::~Sprite2DConfig()
 	delete m_loader;
 }
 
-hst::vector<hst::string> Sprite2DConfig::getTexturesToLoad(const Sprite2DTemplateContainer & container)
+sad::vector<hst::string> Sprite2DConfig::getTexturesToLoad(const Sprite2DTemplateContainer & container)
 {
-	hst::vector<hst::string>  result; //!< Resulting vector
+	sad::vector<hst::string>  result; //!< Resulting vector
 	hst::hash<hst::string,bool> lookup; //!< Lookup table to filter unique textures
 	for (Sprite2DTemplateContainer::const_iterator group=container.const_begin();
 		 group!=container.const_end();
@@ -119,7 +119,7 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 	}
 
 	//Try to load new textures
-	hst::vector<hst::string> textures=getTexturesToLoad(newtemplates);
+	sad::vector<hst::string> textures=getTexturesToLoad(newtemplates);
 	bool ok=true; //!< Whether textures loading was successful
 	//New container, where every texture is stored
 	sad::TextureContainer * newcontainer=new sad::TextureContainer();

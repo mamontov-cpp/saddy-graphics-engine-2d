@@ -29,21 +29,21 @@ hst::string SaveLoadCallback<hst::string>::save(const hst::string & obj)
 }
 
 
-hst::vector<int> SaveLoadCallback< hst::vector<int> >::load(ActionContext * context,
+sad::vector<int> SaveLoadCallback< sad::vector<int> >::load(ActionContext * context,
 															const hst::string & str,
 															const hst::string & typestring)
 {
-	hst::vector<int> result;
+	sad::vector<int> result;
 	hst::stringlist lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<int>::load(context,lst[i],
-										    abstract_names::type_string< hst::vector<int> >::type());
+										    abstract_names::type_string< sad::vector<int> >::type());
 	}
 	return result;
 }
 
-hst::string SaveLoadCallback< hst::vector<int> >::save(const hst::vector<int> & obj)
+hst::string SaveLoadCallback< sad::vector<int> >::save(const sad::vector<int> & obj)
 {
 	if (obj.count()==0)
 		return hst::string();
@@ -108,21 +108,21 @@ hst::string SaveLoadCallback<hRectF>::save(const hRectF & obj)
 	return result;
 }
 
-hst::vector<hPointF>  SaveLoadCallback< hst::vector<hPointF> >::load(ActionContext * context,
+sad::vector<hPointF>  SaveLoadCallback< sad::vector<hPointF> >::load(ActionContext * context,
 																	 const hst::string & str, 
 																	 const hst::string & typestring)
 {
-	hst::vector<hPointF> result;
+	sad::vector<hPointF> result;
 	hst::stringlist lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<hPointF>::load(context,lst[i],
-										        abstract_names::type_string< hst::vector<int> >::type());
+										        abstract_names::type_string< sad::vector<int> >::type());
 	}
 	return result;
 }
 
-hst::string SaveLoadCallback< hst::vector<hPointF> >::save(const hst::vector<hPointF> & obj)
+hst::string SaveLoadCallback< sad::vector<hPointF> >::save(const sad::vector<hPointF> & obj)
 {
 	if (obj.count()==0)
 		return hst::string();

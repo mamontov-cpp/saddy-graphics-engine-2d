@@ -43,7 +43,7 @@ void p2d::Rectangle::move(const p2d::Vector & d)
 
 p2d::ConvexHull p2d::Rectangle::toHull() const
 {
-	hst::vector<p2d::Point> set;
+	sad::vector<p2d::Point> set;
 	for(int i = 0 ; i < 4; i++)
 	{
 		set << m_rect[i];
@@ -59,9 +59,9 @@ p2d::Cutter1D p2d::Rectangle::project(const p2d::Axle & a) const
 
 
 
-hst::vector<p2d::Point> p2d::Rectangle::points() const
+sad::vector<p2d::Point> p2d::Rectangle::points() const
 {
-	hst::vector<p2d::Point> points;
+	sad::vector<p2d::Point> points;
 	for(int i = 0; i < 4; i++)
 	{
 		points << m_rect[i];
@@ -74,7 +74,7 @@ size_t p2d::Rectangle::sizeOfType() const
 	return sizeof(p2d::Rectangle);
 }
 
-void p2d::Rectangle::populatePoints(hst::vector<p2d::Point> & v) const
+void p2d::Rectangle::populatePoints(sad::vector<p2d::Point> & v) const
 {
 	for(int i = 0; i < 4; i++)
 	{

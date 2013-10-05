@@ -80,7 +80,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[out] v vector
 	 */
-	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	virtual void populatePoints(sad::vector<p2d::Point> & v) const;
 	/*! Substracts a center from point and return a unit vector out of result
 		\param[in] p point
 		\param[out] n resulting normal

@@ -36,7 +36,7 @@ p2d::Walls::Walls(double padding) : m_padding(padding)
 	double w = sad::Renderer::ref()->settings().width();
 	double h = sad::Renderer::ref()->settings().height();
 	
-	hst::vector< minimal_t > pairs;
+	sad::vector< minimal_t > pairs;
 	pairs << minimal_t( p2d::BT_LEFT, -padding );
 	pairs << minimal_t( p2d::BT_RIGHT, w + padding);
 	pairs << minimal_t( p2d::BT_UP, h + padding );
@@ -66,7 +66,7 @@ p2d::Walls::Walls(double padding) : m_padding(padding)
 	m_walls[3]->setOppositeBody(m_walls[2]->body());
 }
 
-const hst::vector<p2d::Body *> p2d::Walls::bodies() const
+const sad::vector<p2d::Body *> p2d::Walls::bodies() const
 {
 	return m_bodies;
 }

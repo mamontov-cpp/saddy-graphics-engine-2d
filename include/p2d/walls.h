@@ -67,8 +67,8 @@ class Wall: public sad::Object
 class Walls
 {
   protected:
-	  hst::vector<Wall *> m_walls;  //!< A bounding walls
-	  hst::vector<p2d::Body *> m_bodies; //!< A bodies
+	  sad::vector<Wall *> m_walls;  //!< A bounding walls
+	  sad::vector<p2d::Body *> m_bodies; //!< A bodies
 
 	  double m_padding; //!< A padding for walls and bodies
   public:
@@ -83,7 +83,7 @@ class Walls
 	  Walls(double padding = 0);
 	  /*! Returns physical bodies of walls to add them into a game world
 	   */
-	  const hst::vector<p2d::Body *> bodies() const;
+	  const sad::vector<p2d::Body *> bodies() const;
       /*! Destroys walls
 	   */
 	  virtual ~Walls();

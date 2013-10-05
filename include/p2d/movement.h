@@ -8,7 +8,7 @@
 #include "tickable.h"
 #include "vector.h"
 #include "force.h"
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 #include "../extra/geometry2d.h"
 #include <algorithm>
 
@@ -109,7 +109,7 @@ class Movement
 	 hst::Maybe<double> m_next_position_time;
 	 /*! A listeners for a position changes
 	  */
-	 hst::vector<listener_t> m_listeners;
+	 sad::vector<listener_t> m_listeners;
 	 /*! A cache for a sum of forces
 	  */
 	 _Value m_acceleration_cache;

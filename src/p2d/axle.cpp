@@ -35,7 +35,7 @@ p2d::PointsPair p2d::swap(const p2d::PointsPair & c)
 	return p2d::PointsPair(c.p2(), c.p1());
 }
 
-void p2d::swap(hst::vector<p2d::PointsPair> & pairs)
+void p2d::swap(sad::vector<p2d::PointsPair> & pairs)
 {
 	for(size_t i = 0 ; i < pairs.size(); i++)
 	{

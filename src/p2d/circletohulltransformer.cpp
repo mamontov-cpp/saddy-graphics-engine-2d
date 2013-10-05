@@ -14,12 +14,12 @@ p2d::CircleToHullTransformer::~CircleToHullTransformer()
 
 p2d::ConvexHull p2d::CircleToHullTransformer::toHull(const p2d::Circle * c)
 {
-	hst::vector<p2d::Point> set;
+	sad::vector<p2d::Point> set;
 	populate(c, set);
 	return p2d::ConvexHull::uncheckedCreate(set);
 }
 
-void p2d::CircleToHullTransformer::populate(const p2d::Circle * c, hst::vector<p2d::Point> &  v) const
+void p2d::CircleToHullTransformer::populate(const p2d::Circle * c, sad::vector<p2d::Point> &  v) const
 {
 	p2d::Point center = c->center();
 	double r = c->radius();

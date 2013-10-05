@@ -1,13 +1,11 @@
+#pragma once
 #include <malloc.h>
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
-#ifdef _CRTMEMORYTEST
-	#include <crtdbg.h>
-#endif
 
 
-namespace hst
+namespace sad
 {
 
 template<class T> vector<T>::vector()
@@ -37,21 +35,19 @@ template<class T> inline T*   vector<T>::data()  const
 {
 	if (this->size() == 0)
 		return  NULL;
-	hst::vector<T> & v = const_cast<hst::vector<T> &>(*this);
+	sad::vector<T> & v = const_cast<sad::vector<T> &>(*this);
 	return &(v[0]);
 }
 
 template<class T> vector<T> & vector<T>::operator<<(const T& obj)
 {
-    //printf("New params: %p %ld %ld %ld\n" , m_pool.p,m_pool.sz,sz,sz);
-	this->push_back(obj);
+    this->push_back(obj);
     return *this;
 }
 
 template<class T> vector<T> & vector<T>::operator<<(const vector<T> & obj)
 {
-    //printf("New params: %p %ld %ld %ld\n" , m_pool.p,m_pool.sz,sz,sz);
-	for(unsigned int i = 0; i < obj.size(); i++)
+    for(unsigned int i = 0; i < obj.size(); i++)
 		this->push_back(obj[i]);
     return *this;
 }

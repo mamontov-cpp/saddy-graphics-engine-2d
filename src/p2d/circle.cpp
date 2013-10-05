@@ -53,7 +53,7 @@ size_t p2d::Circle::sizeOfType() const
 	return sizeof(p2d::Circle);
 }
 
-void p2d::Circle::populatePoints(hst::vector<p2d::Point> & v) const
+void p2d::Circle::populatePoints(sad::vector<p2d::Point> & v) const
 {
 	p2d::CircleToHullTransformer * t = this->m_transformer;
 	if (t == NULL) t = p2d::CircleToHullTransformer::ref();

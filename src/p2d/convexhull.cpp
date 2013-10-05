@@ -8,12 +8,12 @@ p2d::ConvexHull::ConvexHull()
 
 }
 
-p2d::ConvexHull::ConvexHull(const hst::vector<p2d::Point> & set)
+p2d::ConvexHull::ConvexHull(const sad::vector<p2d::Point> & set)
 {
 	m_set = p2d::graham_scan(set);
 }
 
-p2d::ConvexHull p2d::ConvexHull::uncheckedCreate(const hst::vector<p2d::Point> & set)
+p2d::ConvexHull p2d::ConvexHull::uncheckedCreate(const sad::vector<p2d::Point> & set)
 {
 	p2d::ConvexHull  hull;
 	hull.m_set = set;
@@ -22,7 +22,7 @@ p2d::ConvexHull p2d::ConvexHull::uncheckedCreate(const hst::vector<p2d::Point> &
 
 p2d::ConvexHull p2d::ConvexHull::getUnion(const p2d::ConvexHull & o1, const p2d::ConvexHull & o2)
 {
-	hst::vector<p2d::Point> set = o1.m_set;
+	sad::vector<p2d::Point> set = o1.m_set;
 	set << o2.m_set;
 	return p2d::ConvexHull(set);
 }
@@ -84,7 +84,7 @@ p2d::Cutter1D p2d::ConvexHull::project(const p2d::Axle & axle) const
 	return p2d::projectPointSet(m_set, m_set.size(), axle);
 }
 
-void p2d::ConvexHull::tryInsertAxle(hst::vector<p2d::Axle> & container, 
+void p2d::ConvexHull::tryInsertAxle(sad::vector<p2d::Axle> & container, 
 						            const p2d::Axle & axle) const
 {
 	bool found = false;
@@ -100,7 +100,7 @@ void p2d::ConvexHull::tryInsertAxle(hst::vector<p2d::Axle> & container,
 }
 
 void p2d::ConvexHull::appendAxisForSide(
-										hst::vector<p2d::Axle> & container, 
+										sad::vector<p2d::Axle> & container, 
 										int number) const
 {
 	p2d::Cutter2D k = side(number);
@@ -109,7 +109,7 @@ void p2d::ConvexHull::appendAxisForSide(
 	this->tryInsertAxle(container, ortho);
 }
 
-void p2d::ConvexHull::appendAxisForCollision(hst::vector<p2d::Axle> & container) const
+void p2d::ConvexHull::appendAxisForCollision(sad::vector<p2d::Axle> & container) const
 {
 	for(size_t i = 0; i < this->sides(); i++)
 	{
@@ -126,7 +126,7 @@ bool p2d::ConvexHull::collides(const ConvexHull & c) const
 	{
 		return equal(this->m_set[0], c.m_set[0]);
 	}
-	hst::vector<p2d::Axle> axles;
+	sad::vector<p2d::Axle> axles;
 	this->appendAxisForCollision(axles);
 	c.appendAxisForCollision(axles);
 

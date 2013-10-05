@@ -6,7 +6,7 @@
 #ifdef QT_CORE_LIB
     #include<QString>
 #endif
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
 #include "../templates/hstring.h"
@@ -321,7 +321,7 @@ namespace sad
 	        os::mutex m_lock;
 	        /*! A vector of targets
 		 */
-		hst::vector<sad::log::Target *> m_targets;
+		sad::vector<sad::log::Target *> m_targets;
 		/*! Returns a current subsystem
 			\return name of current subsystem
 		 */

@@ -4,7 +4,7 @@
 	Here defined an action context, that can return current action string
  */
 #include "../templates/hstring.h"
-#include "../templates/hlvector.hpp"
+#include "../templates/svector.h"
 #pragma once
 
 /*! \class ActionContext
@@ -14,12 +14,12 @@
 class ActionContext
 {
  protected:
-	      hst::vector<hst::string> m_actions_stack;  //!< Stack of performed actions
+	      sad::vector<hst::string> m_actions_stack;  //!< Stack of performed actions
  public:
 	      /*! Get current action string 
 			  \return current action string
 		   */
-	      inline const hst::vector<hst::string> & getActions() const
+	      inline const sad::vector<hst::string> & getActions() const
 		  { 
 			 return  m_actions_stack;
 		  }

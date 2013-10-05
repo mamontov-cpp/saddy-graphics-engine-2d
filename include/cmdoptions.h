@@ -4,7 +4,7 @@
 	arguments
  */
 #include "templates/hstring.h"
-#include "templates/hlvector.hpp"
+#include "templates/svector.h"
 #include "templates/hpair.hpp"
 #pragma once
 namespace sad
@@ -165,16 +165,16 @@ class Parser
  private:
 	 hst::string m_default_option; //!< Default parser option
 	 hst::pair<
-		 hst::vector<Flag>,
-		 hst::vector<bool>
+		 sad::vector<Flag>,
+		 sad::vector<bool>
 	 >		 m_flags; //!< Flags data
 	 hst::pair<
-		 hst::vector<SimpleOption>, 
-		 hst::vector<hst::string>
+		 sad::vector<SimpleOption>, 
+		 sad::vector<hst::string>
 	 >		m_simple_options; //!< Simple options
 	 hst::pair<
-		 hst::vector<MultipleOption>, 
-		 hst::vector< hst::vector<hst::string> >
+		 sad::vector<MultipleOption>, 
+		 sad::vector< sad::vector<hst::string> >
 	 >	   m_multiple_options; //!< Multiple options
 	
 	 /*! Tests, whether options are in container
@@ -204,7 +204,7 @@ class Parser
 	 >
 	 typename std::vector<_ValueType>::reference 
 	 optionByName(const hst::string & name,
-	 hst::pair< hst::vector<_OptionType>, hst::vector<_ValueType> > & v
+	 hst::pair< sad::vector<_OptionType>, sad::vector<_ValueType> > & v
 	 )
 	 {
 		 for (unsigned int i = 0; i < v._1().count(); i++) 
@@ -220,7 +220,7 @@ class Parser
 	 typename _ValueType
 	 >
 	 void setOption(const hst::string & name,
-	 hst::pair< hst::vector<_OptionType>, hst::vector<_ValueType> > & v,
+	 hst::pair< sad::vector<_OptionType>, sad::vector<_ValueType> > & v,
 	 const _ValueType & val
 	 )
 	 {
@@ -235,7 +235,7 @@ class Parser
 	 typename _ValueType
 	 >
 	 void addOption(const hst::string & name,
-	 hst::pair< hst::vector<_OptionType>, hst::vector<_ValueType> > & v,
+	 hst::pair< sad::vector<_OptionType>, sad::vector<_ValueType> > & v,
 	 const _ValueType & val
 	 )
 	 {
@@ -277,7 +277,7 @@ class Parser
 		 \param[in] name name of options
 		 \return value
 	  */
-	 hst::vector<hst::string> & multiple(const hst::string & name);
+	 sad::vector<hst::string> & multiple(const hst::string & name);
 	 /*! Sets a flag by name
 		 \param[in] name name of option
 		 \param[in] v value
@@ -292,7 +292,7 @@ class Parser
 		 \param[in] name name of option
 		 \param[in] v value
 	  */
-	 void setMultiple(const hst::string & name, const hst::vector<hst::string> & v = hst::vector<hst::string>());
+	 void setMultiple(const hst::string & name, const sad::vector<hst::string> & v = sad::vector<hst::string>());
 	 /*! Adds a flag option (for "-name" option, "name" must be supplied)
 		 \param[in] name name of flag option
 		 \param[in] v value
@@ -307,7 +307,7 @@ class Parser
 		 \param[in] name name of simple option
 		 \param[in] v value
 	  */
-	 void addMultipleOption(const hst::string & name, const hst::vector<hst::string> & v = hst::vector<hst::string>());
+	 void addMultipleOption(const hst::string & name, const sad::vector<hst::string> & v = sad::vector<hst::string>());
 	 /*! Parses an arguments. If in simple option after keywords
 		 leads another keyword, we exit from this state and enter new,
 		 same goes for multiple states. Boolean flags, can be simply supplied
