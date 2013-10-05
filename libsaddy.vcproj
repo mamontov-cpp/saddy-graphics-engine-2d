@@ -719,10 +719,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\templates\habstract.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\include\templates\hdeque.hpp"
 					>
 				</File>
@@ -772,10 +768,6 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\refcountable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\sinstance.h"
 					>
 				</File>
 				<File
