@@ -145,7 +145,7 @@ class ActingForces
 		   */
 		  virtual bool perform(double time, ActingForces<T> * container)
 		  {
-			  if (time > m_time || ::is_fuzzy_equal(time, m_time))
+			  if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
 			  {
 		          container->add(m_force);
 			      m_force = NULL;

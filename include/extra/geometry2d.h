@@ -4,11 +4,16 @@
 	 Geometry collision functions for 2d points and rectangles.
 	 Can be used to perform commin geometrical operations.
  */
+#pragma once
+#include "fuzzy_equal.h"
+
 #include "../p2d/point.h"
 #include "../p2d/axle.h"
 #include "../primitives/hrect.h"
-#include "fuzzy_equal.h"
-#pragma once
+
+
+namespace sad
+{
 
 /*! Tests, whether point projection on axle, defined as [pivot1, pivot2] is within cutter defined by pivot1 
 	and pivot 2 projections
@@ -70,3 +75,5 @@ bool equal(const hRectF & p1, const hRectF & p2, float precision = S2D_FP_PRECIS
 	\return result of computation
  */
 double angle_of(double x, double y);
+
+}

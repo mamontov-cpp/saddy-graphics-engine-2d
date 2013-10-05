@@ -49,8 +49,8 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
 
 bool equal(const hPointF & p1, const hPointF & p2, float precision)
 {
-	bool e1 = is_fuzzy_equal(p1.x(), p2.x(), precision);
-	bool e2 = is_fuzzy_equal(p1.y(), p2.y(), precision);
+	bool e1 = sad::is_fuzzy_equal(p1.x(), p2.x(), precision);
+	bool e2 = sad::is_fuzzy_equal(p1.y(), p2.y(), precision);
 	return e1 && e2; 
 }
 
@@ -67,17 +67,17 @@ bool equal(const hRectF & p1, const hRectF & p2, float precision)
 
 double angle_of(double x, double y)
 {
-	if (is_fuzzy_zero(y) && is_fuzzy_zero(x))
+	if (sad::is_fuzzy_zero(y) && sad::is_fuzzy_zero(x))
 	{
 		return 0;
 	}
 	p2d::Vector u = p2d::unit(p2d::Vector(x, y));
 	
 	bool tests[4] = {
-		is_fuzzy_equal( u.x(), 1) && is_fuzzy_equal( u.y(), 0),
-		is_fuzzy_equal( u.x(), 0) && is_fuzzy_equal( u.y(), 1),
-		is_fuzzy_equal( u.x(), -1) && is_fuzzy_equal( u.y(), 0),
-		is_fuzzy_equal( u.x(), 0) && is_fuzzy_equal( u.y(), -1),
+		sad::is_fuzzy_equal( u.x(), 1) && sad::is_fuzzy_equal( u.y(), 0),
+		sad::is_fuzzy_equal( u.x(), 0) && sad::is_fuzzy_equal( u.y(), 1),
+		sad::is_fuzzy_equal( u.x(), -1) && sad::is_fuzzy_equal( u.y(), 0),
+		sad::is_fuzzy_equal( u.x(), 0) && sad::is_fuzzy_equal( u.y(), -1),
 	};
 
 	double angles[4] = { 0, M_PI / 2, M_PI, M_PI * 1.5};

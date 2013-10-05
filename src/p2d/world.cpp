@@ -145,7 +145,7 @@ void p2d::World::step(double time)
 	performQueuedActions();
 	lockChanges();
 	m_time_step = time;
-	while ( non_fuzzy_zero(m_time_step) )
+	while ( sad::non_fuzzy_zero(m_time_step) )
 	{
 		m_splitted_time_step.clear();
 		buildBodyCaches();

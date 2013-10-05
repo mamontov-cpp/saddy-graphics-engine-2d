@@ -16,7 +16,7 @@ p2d::Vector p2d::basis()
 p2d::Vector p2d::unit(const p2d::Vector & v)
 {
 	double modulo = p2d::modulo(v);
-	if (non_fuzzy_zero(modulo)) 
+	if (sad::non_fuzzy_zero(modulo)) 
 		return v / modulo;
 	else
 		return p2d::basis();

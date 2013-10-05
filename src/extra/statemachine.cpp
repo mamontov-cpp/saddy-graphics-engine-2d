@@ -1,12 +1,12 @@
 #include "statemachine.h"
+
 #include "../log/log.h"
+
+using namespace sad;
+
 fsm::Shared::~Shared() { }
 
-
-
 fsm::AbstractCallback::~AbstractCallback() { }
-
-
 
 void fsm::FreeFunction::invoke() { m_function(); }
 void fsm::FreeFunction::invoke(const sad::Event & o) { m_function(); }

@@ -90,7 +90,7 @@ void p2d::ConvexHull::tryInsertAxle(sad::vector<p2d::Axle> & container,
 	bool found = false;
 	for(size_t i = 0 ; (i < container.size()) && !found; i++)
 	{
-		if (equal(container[i], axle))
+		if (sad::equal(container[i], axle))
 		{
 			found = true;
 		}
@@ -124,7 +124,7 @@ bool p2d::ConvexHull::collides(const ConvexHull & c) const
 	}
 	if (this->points() == 1 && c.points() == 1)
 	{
-		return equal(this->m_set[0], c.m_set[0]);
+		return sad::equal(this->m_set[0], c.m_set[0]);
 	}
 	sad::vector<p2d::Axle> axles;
 	this->appendAxisForCollision(axles);
@@ -154,7 +154,7 @@ p2d::Vector p2d::ConvexHull::getSumOfNormalsFor(const p2d::Point & p) const
 		p2d::Vector  n = normal(i);
 		double d = std::max( p2d::scalar(p - k.p1(), n), p2d::scalar(p - k.p2(), n) );
 		// Find a distance between side and projection on its point
-		if (is_fuzzy_equal(d, nearest))
+		if (sad::is_fuzzy_equal(d, nearest))
 		{
 			nearest_is_found = true;
 			result += n;
@@ -169,7 +169,7 @@ p2d::Vector p2d::ConvexHull::getSumOfNormalsFor(const p2d::Point & p) const
 			}
 		}
 	}
-	if (non_fuzzy_zero( p2d::modulo(result) ))
+	if (sad::non_fuzzy_zero( p2d::modulo(result) ))
 	{
 		result = p2d::unit(result);
 	}

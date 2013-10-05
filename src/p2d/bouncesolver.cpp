@@ -22,7 +22,7 @@ void p2d::BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 	m_second = b2;
 	p2d::SetOfPointsPair pairs;
 	this->solveTOIFCP(pairs);
-	if (pairs.size() > 0 &&  (m_toi > 0 || is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+	if (pairs.size() > 0 &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
 	{
 		this->performBouncing(pairs);
 		this->resetCoefficients();
@@ -67,7 +67,7 @@ void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 		double avy2 = m_av2.y();
 
 		double time = 0;
-		if (non_fuzzy_zero(avx2 - avx1))
+		if (sad::non_fuzzy_zero(avx2 - avx1))
 		{
 			time = (x1 - x2) / (avx2 - avx1);
 		}
@@ -240,7 +240,7 @@ void p2d::BounceSolver::tryResolveFriction(p2d::Body * b,
 									       double pivot
 									      )
 {
-	if (non_fuzzy_zero(m_rotationfriction[index]) 
+	if (sad::non_fuzzy_zero(m_rotationfriction[index]) 
 		&& b->weight().isInfinite() == false 
 		&& m_shouldperformrotationfriction)
 	{
@@ -255,7 +255,7 @@ void p2d::BounceSolver::tryResolveFriction(p2d::Body * b,
 		tangential *= rotation_tangential_modulo;
 		tangential += t;
 
-		if (non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
+		if (sad::non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
 		{
 			tangential *= (1 - m_rotationfriction[index] / b->weight().value());
 			// Compute new tangential velocity
