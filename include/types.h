@@ -93,7 +93,10 @@ namespace sad
 		HGLRC				 hRC;				    //!< OpenGL context
 		HINSTANCE            hInstance;             //!< Instance of module
 		DEVMODEA             scr_settings;          //!< Screen settings
-		hst::string          window_class;          //!< Class of window       
+		hst::string          window_class;          //!< Class of window 
+		int                  previousx, previousy;  //!< A previous x and y positions, before changing to fullscreen
+		int                  previouswidth, previousheight;  //!< A previous width and height, before changing to fullscreen
+		LONG                 previousstyle;         //!< A previous style of window, before changing to fullscreen
 #else
         Display*             dpy;                   //!< Display
         int                  screen;                //!<  Screen
