@@ -25,23 +25,23 @@ Game::Game()
 	m_ispaused = false;
 
 	// Create a new machine
-	m_machine = new fsm::Machine();
+	m_machine = new sad::fsm::Machine();
 	m_machine->addCallbacks(sad::Renderer::ref()->controls());
 
 	// Create a new idle state
-	fsm::State * idleState = new fsm::State();
+	sad::fsm::State * idleState = new sad::fsm::State();
 	idleState->addKeyDownCallback('F',       this, &Game::tryToggleFullscreen);
-	idleState->addKeyDownCallback(KEY_ESC,   (p2d::app::App *)this, &p2d::app::App::quit);
+	idleState->addKeyDownCallback(KEY_ESC,   (sad::p2d::app::App *)this, &sad::p2d::app::App::quit);
 	idleState->addKeyDownCallback(KEY_ENTER, this, &Game::startPlaying);
 	
 	idleState->addEnterCallback(this, &Game::enterStartingScreen);
 	idleState->addLeaveCallback(this, &Game::leaveStartingScreen);
 
 	// Create a new playing state
-	fsm::State * playState = new fsm::State();
+	sad::fsm::State * playState = new sad::fsm::State();
 	playState->addKeyDownCallback('F', this, &Game::tryToggleFullscreen);
 	playState->addKeyDownCallback('P', this, &Game::togglePaused);
-	playState->addKeyDownCallback(KEY_ESC, (p2d::app::App*)this, &p2d::app::App::quit);
+	playState->addKeyDownCallback(KEY_ESC, (sad::p2d::app::App*)this, &sad::p2d::app::App::quit);
 	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
 
 	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
@@ -55,9 +55,9 @@ Game::Game()
 	playState->addKeyUpCallback(KEY_ENTER,  this, &Game::player, &Player::stopShooting);
 
 
-	playState->addEventCallback(fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
-	playState->addEventCallback(fsm::Names::MOUSEDOWN, this, &Game::player, &Player::startShooting);
-	playState->addEventCallback(fsm::Names::MOUSEUP, this, &Game::player, &Player::stopShooting);
+	playState->addEventCallback(sad::fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
+	playState->addEventCallback(sad::fsm::Names::MOUSEDOWN, this, &Game::player, &Player::startShooting);
+	playState->addEventCallback(sad::fsm::Names::MOUSEUP, this, &Game::player, &Player::stopShooting);
 	
 	playState->addEnterCallback(this, &Game::enterPlayingScreen);
 	playState->addLeaveCallback(this, &Game::leavePlayingScreen);
@@ -73,7 +73,7 @@ Game::Game()
 	m_player = NULL;
 	
 	this->initApp();
-	m_spawntask =  new TimePeriodicalTask(NULL);
+	m_spawntask =  new sad::TimePeriodicalTask(NULL);
 	sad::Input::ref()->addPostRenderTask(m_spawntask);	
 
 	m_walls = NULL;
@@ -240,7 +240,7 @@ void Game::enterPlayingScreen()
 
 	// We add background, emitter and new player's alter-ego at 320,240 - center of screen
 	Player * p  = new  Player();
-	p->setPosition(p2d::Point(320.0,240.0));
+	p->setPosition(sad::p2d::Point(320.0,240.0));
 	addObject(p);
 
 	m_player = p;	
@@ -248,7 +248,7 @@ void Game::enterPlayingScreen()
 	createWalls();
 }
 
-void Game::removeObject(p2d::app::Object *o)
+void Game::removeObject(sad::p2d::app::Object *o)
 {
 	// If player is dead, no reason to continue playing, 
 	// return to start screen
@@ -260,7 +260,7 @@ void Game::removeObject(p2d::app::Object *o)
 	{
 		--m_registered_supershooting_enemies_count;
 	}
-	this->p2d::app::App::removeObject(o);
+	this->sad::p2d::app::App::removeObject(o);
 }
 
 
@@ -301,8 +301,8 @@ GameObject *  Game::produce(Objects type)
 void Game::createWalls()
 {
 	delete m_walls;
-	m_walls = new p2d::Walls(14);
-	const hst::vector<p2d::Body *> & bodies = m_walls->bodies();
+	m_walls = new sad::p2d::Walls(14);
+	const sad::Vector<sad::p2d::Body *> & bodies = m_walls->bodies();
 	for(size_t i = 0; i < bodies.count(); i++)
 	{
 		m_world->add(bodies[i]);
@@ -310,7 +310,7 @@ void Game::createWalls()
 }
 
 
-void Game::onWallCollision(const p2d::CollisionEvent<p2d::Wall, GameObject> & ev)
+void Game::onWallCollision(const sad::p2d::CollisionEvent<sad::p2d::Wall, GameObject> & ev)
 {
 	if (ev.object2().metaData()->name() == "Player")
 	{
@@ -324,53 +324,53 @@ void Game::onWallCollision(const p2d::CollisionEvent<p2d::Wall, GameObject> & ev
 
 
 
-void Game::onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev)
+void Game::onBonusCollision(const sad::p2d::CollisionEvent<Player, Bonus> & ev)
 {
 	ev.object2().decrementHP(1);
 	ev.object1().incrementHP(1);
 	ev.object1().increaseScore(50);
 }
 
-void Game::onPlayerBulletEnemy(const p2d::CollisionEvent<PlayerBullet, Enemy> & ev)
+void Game::onPlayerBulletEnemy(const sad::p2d::CollisionEvent<PlayerBullet, Enemy> & ev)
 {
 	ev.object2().decrementHP(1);
 	ev.object1().decrementHP(1);
 	this->player()->increaseScore(100);
 }
 
-void Game::onPlayerBulletSEnemy(const p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev)
+void Game::onPlayerBulletSEnemy(const sad::p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev)
 {
 	ev.object2().decrementHP(1);
 	ev.object1().decrementHP(1);
 	this->player()->increaseScore(200);
 }
 
-void Game::onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev)
+void Game::onPlayerBulletSuperEnemy(const sad::p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev)
 {
 	ev.object2().decrementHP(1);
 	ev.object1().decrementHP(1);
 	this->player()->increaseScore(400);
 }
 
-void Game::onPlayerEnemyBullet(const p2d::CollisionEvent<Player, EnemyBullet> & ev)
+void Game::onPlayerEnemyBullet(const sad::p2d::CollisionEvent<Player, EnemyBullet> & ev)
 {
 	ev.object2().decrementHP(ev.object2().hitPoints());
 	ev.object1().decrementHP(1);
 }
 
-void Game::onPlayerEnemy(const p2d::CollisionEvent<Player, Enemy> & ev)
+void Game::onPlayerEnemy(const sad::p2d::CollisionEvent<Player, Enemy> & ev)
 {
 	ev.object2().decrementHP(ev.object2().hitPoints());
 	ev.object1().decrementHP(1);
 }
 
-void Game::onPlayerShootingEnemy(const p2d::CollisionEvent<Player, ShootingEnemy> & ev)
+void Game::onPlayerShootingEnemy(const sad::p2d::CollisionEvent<Player, ShootingEnemy> & ev)
 {
 	ev.object2().decrementHP(ev.object2().hitPoints());
 	ev.object1().decrementHP(1);
 }
 
-void Game::onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperShootingEnemy> & ev)
+void Game::onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, SuperShootingEnemy> & ev)
 {
 	ev.object2().decrementHP(ev.object2().hitPoints());
 	ev.object1().decrementHP(1);

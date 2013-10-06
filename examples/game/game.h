@@ -42,15 +42,15 @@ class GameState
 
 /*! A main class of game
  */
-class Game: public p2d::app::App
+class Game: public sad::p2d::app::App
 {
  private:
 	int  m_highscore;		         //!< Defines a highest score, gained by player
 	bool m_ispaused;		         //!< Whether game is paused
-	fsm::Machine * m_machine;        //!< A state machine, which describes all transitions
+	sad::fsm::Machine * m_machine;   //!< A state machine, which describes all transitions
 	Player       * m_player;         //!< A link to in-game player
-	TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
-	p2d::Walls        * m_walls;          //!< A new walls
+	sad::TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
+	sad::p2d::Walls        * m_walls;     //!< A new walls
 	int            m_registered_supershooting_enemies_count; //!< Current count of super shooting enemies, active in game
  protected:
 	/*! Create walls for game
@@ -75,39 +75,39 @@ class Game: public p2d::app::App
 	/*! Deletes an object if not player, when collision with wall
 		\param[in] ev event
 	 */
-	void onWallCollision(const p2d::CollisionEvent<p2d::Wall, GameObject> & ev);
+	void onWallCollision(const sad::p2d::CollisionEvent<sad::p2d::Wall, GameObject> & ev);
 	/*! Increases score and hp of bonus and player
 		\param[in] ev event
 	 */
-	void onBonusCollision(const p2d::CollisionEvent<Player, Bonus> & ev);
+	void onBonusCollision(const sad::p2d::CollisionEvent<Player, Bonus> & ev);
 	/*! Increases score of player and decrements hp of enemy
 		\param[in] ev event
 	 */
-	void onPlayerBulletEnemy(const p2d::CollisionEvent<PlayerBullet, Enemy> & ev);
+	void onPlayerBulletEnemy(const sad::p2d::CollisionEvent<PlayerBullet, Enemy> & ev);
 	/*! Increases score of player and decrements hp of enemy
 		\param[in] ev event
 	 */
-	void onPlayerBulletSEnemy(const p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev);
+	void onPlayerBulletSEnemy(const sad::p2d::CollisionEvent<PlayerBullet, ShootingEnemy> & ev);
 	/*! Increases score of player and decrements hp of enemy
 		\param[in] ev event
 	 */
-	void onPlayerBulletSuperEnemy(const p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev);
+	void onPlayerBulletSuperEnemy(const sad::p2d::CollisionEvent<PlayerBullet, SuperShootingEnemy> & ev);
 	/*! Decreases player's hp and destroys bullet
 		\param[in] ev event
 	 */
-	void onPlayerEnemyBullet(const p2d::CollisionEvent<Player, EnemyBullet> & ev);
+	void onPlayerEnemyBullet(const sad::p2d::CollisionEvent<Player, EnemyBullet> & ev);
 	/*! Decreases player's hp and destroys enemy
 		\param[in] ev event
 	 */
-	void onPlayerEnemy(const p2d::CollisionEvent<Player, Enemy> & ev);
+	void onPlayerEnemy(const sad::p2d::CollisionEvent<Player, Enemy> & ev);
 	/*! Decreases player's hp and destroys shooting enemy
 		\param[in] ev event
 	 */
-	void onPlayerShootingEnemy(const p2d::CollisionEvent<Player, ShootingEnemy> & ev);
+	void onPlayerShootingEnemy(const sad::p2d::CollisionEvent<Player, ShootingEnemy> & ev);
 	/*! Decreases player's hp and destroys super shooting enemy
 		\param[in] ev event
 	 */
-	void onPlayerSuperShootingEnemy(const p2d::CollisionEvent<Player, SuperShootingEnemy> & ev);
+	void onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, SuperShootingEnemy> & ev);
  public:
 	/*! Creates a new non-paused game with no highscore
 	 */
@@ -166,5 +166,5 @@ class Game: public p2d::app::App
 	/*! Removes an object
 		\param[in] o object
 	 */
-	void removeObject(p2d::app::Object * o);
+	void removeObject(sad::p2d::app::Object * o);
 };

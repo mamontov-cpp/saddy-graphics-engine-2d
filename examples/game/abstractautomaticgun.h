@@ -14,7 +14,7 @@ class GameObject;
 /*! A basic automatic gun can shoot. It's knows about position of object
 	and tries to shoot by a bullet every period of time
  */
-class AbstractAutomaticGun: public p2d::app::AbstractObjectEmitter
+class AbstractAutomaticGun: public sad::p2d::app::AbstractObjectEmitter
 {
   protected:
 	  /*! A game object, which has a gun
@@ -36,7 +36,7 @@ class AbstractAutomaticGun: public p2d::app::AbstractObjectEmitter
 	  /*! Returns an application
 			\return application
 	    */
-	  virtual p2d::app::App * app();
+	  virtual sad::p2d::app::App * app();
       /*! Sets difference between angle of object and shooting angle
 		  \param[in] delta delta of angle
 	   */
