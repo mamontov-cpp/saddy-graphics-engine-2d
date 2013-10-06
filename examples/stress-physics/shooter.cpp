@@ -2,8 +2,6 @@
 #include <renderer.h>
 #include <input.h>
 
-
-
 DECLARE_SOBJ_INHERITANCE(Shooter, sad::p2d::app::Object)
 
 Shooter::Shooter()
@@ -16,7 +14,7 @@ Shooter::Shooter()
 void Shooter::startShooting()
 {
 	sad::Renderer::ref()->controls()->addPreRenderTask(
-			new TimePeriodicalTask( m_gun )
+			new sad::TimePeriodicalTask( m_gun )
 		);
 }
 
@@ -24,22 +22,22 @@ void Shooter::startShooting()
 Shooter::Gun::Gun(Shooter * parent) : m_parent(parent)
 {
 	this->setInterval(500);
-	this->setMinSpeed(p2d::Vector(0, 100));
-	this->setMaxSpeed(p2d::Vector(0, 100));
+	this->setMinSpeed(sad::p2d::Vector(0, 100));
+	this->setMaxSpeed(sad::p2d::Vector(0, 100));
 	this->setMaxCount(2);
 }
 
-p2d::app::App * Shooter::Gun::app()
+sad::p2d::app::App * Shooter::Gun::app()
 {
 	return m_parent->app();
 }
 
 void Shooter::Gun::perform()
 {
-	this->setMinPosition(m_parent->position() - p2d::Vector(5, 0));
-	this->setMaxPosition(m_parent->position() + p2d::Vector(5, 0));
+	this->setMinPosition(m_parent->position() - sad::p2d::Vector(5, 0));
+	this->setMaxPosition(m_parent->position() + sad::p2d::Vector(5, 0));
 	this->setInterval(200.0 +  800.0 * this->prand());
-	this->p2d::app::RandomDirectionObjectEmitter<ColoredBullet>::perform();
+	this->sad::p2d::app::RandomDirectionObjectEmitter<ColoredBullet>::perform();
 }
 
 

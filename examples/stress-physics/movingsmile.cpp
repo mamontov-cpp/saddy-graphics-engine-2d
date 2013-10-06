@@ -23,6 +23,6 @@ void MovingSmile::render()
 	this->body()->TimeStep = 1.0 / sad::Renderer::ref()->fps();
 	m_link.LinkedWay->step(&m_link, this->body()->TimeStep , p);
 	this->body()->setCurrentPosition(p);
-	this->p2d::app::Object::render();
+	this->sad::p2d::app::Object::render();
 }
 
