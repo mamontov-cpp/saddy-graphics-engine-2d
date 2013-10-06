@@ -75,9 +75,6 @@ namespace sad
         /*! Releases a rendering context of window
 		*/
 		void releaseWindow();
-		/*! Adjusts video mode for work (fullscreen/windowed), returning styles
-		*/
-		void adjustVideoMode(unsigned long & style, unsigned long & ex_style);
 		/*! Setups a pixel format descriptor
 		*/
 		bool setupPFD();
@@ -112,6 +109,12 @@ namespace sad
 			\return point structure
 		 */
 		POINT _toClient(LPARAM lParam);
+		/*! Enters full screen, don't preserving any of sizes
+		 */
+		void enterFullScreen();
+		/*! Leaves full screen to windowed mode
+		 */
+		void leaveFullScreen();
 #endif
 #ifdef LINUX
         /*! Sends fullscreen atom to toggle fullscreen
