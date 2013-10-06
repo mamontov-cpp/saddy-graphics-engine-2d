@@ -723,10 +723,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\templates\hlvector.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\include\templates\hmatrix.hpp"
 					>
 				</File>

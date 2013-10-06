@@ -190,7 +190,7 @@ void Editor::initDefaultSaddyOptions()
 	a = QDir(a).filePath(ICONS_XML);
 	XMLConfigLoader * loader = new XMLConfigLoader(a);
 	m_icons.setLoader(loader);
-	bool loaded =  (m_icons.reload() == SCR_OK);
+	bool loaded =  (m_icons.reload() == sad::SCR_OK);
 	SL_DEBUG(QString("Loading icons from %1").arg(a));
 	if (!loaded) 
 	{
@@ -199,7 +199,7 @@ void Editor::initDefaultSaddyOptions()
 	this->assertSaddyInit(loaded);
 }
 
-Sprite2DConfig & Editor::icons()
+sad::Sprite2DConfig & Editor::icons()
 {
 	return m_icons;
 }

@@ -39,7 +39,7 @@ class AbstractSpriteDatabaseIterator
 		/** Sprite config data
 			\return resulting config
 		 */
-		virtual Sprite2DConfig * spriteConfig()=0;
+		virtual sad::Sprite2DConfig * spriteConfig()=0;
 		/** Goes to next item
 			\return this
 		 */
@@ -77,7 +77,7 @@ typedef QHash<QString, QISpriteConfig> QISpriteConfigs;
 
 namespace hst
 {
-	typedef hst::hash<hst::string, Sprite2DConfig *> Configs;
+	typedef hst::hash<hst::string, sad::Sprite2DConfig *> Configs;
 }
 
 class SpriteDatabaseIterator: public AbstractSpriteDatabaseIterator
@@ -130,7 +130,7 @@ class SpriteDatabaseIterator: public AbstractSpriteDatabaseIterator
 	/** Sprite config data
 	    \return resulting config
 	  */
-	virtual Sprite2DConfig * spriteConfig();
+	virtual sad::Sprite2DConfig * spriteConfig();
 	/** Goes to next item
 		\return this
 	  */
@@ -159,7 +159,7 @@ class SpriteDatabase: public AbstractSpriteDatabase
 	  */
 	 void importSprites(QISpriteConfigs & configs, 
 					    QHash<QString, QImage> & images, 
-						Sprite2DTemplateContainer & t,
+						sad::Sprite2DTemplateContainer & t,
 						const QString & name);
 	 /** Clears a database
 	  */
@@ -187,7 +187,7 @@ class SpriteDatabase: public AbstractSpriteDatabase
 /** Extracts texture paths
 	\param[in] c container
  */
-QVector<QString> extractTexturePaths(const Sprite2DTemplateContainer & c);
+QVector<QString> extractTexturePaths(const sad::Sprite2DTemplateContainer & c);
 
 /** Tries to load all of images to data
 	\param[in] loads a texture paths
@@ -200,7 +200,7 @@ bool tryLoadImages(const QVector<QString> & loads, QHash<QString, QImage> & imag
 	\param[in] t  template 
 	\return image data
  */
-QImage extractImage(const QImage & im, Sprite2DTemplate & t);
+QImage extractImage(const QImage & im, sad::Sprite2DTemplate & t);
 
 
 #endif

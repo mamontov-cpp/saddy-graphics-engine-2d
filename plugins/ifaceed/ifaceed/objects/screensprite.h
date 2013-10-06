@@ -46,7 +46,7 @@ protected:
 	float m_angle;
 	/** Observer, used to render object
 	 */
-	Sprite2DConfigObserver * m_observer;
+	sad::Sprite2DConfigObserver * m_observer;
 	/** Renders a screen sprite
 	 */
 	virtual void _render();
@@ -61,7 +61,7 @@ protected:
 	 */
 	inline const hRectF & rect() const { return m_rect;}
 
-	inline Sprite2DConfigObserver * observer() { return m_observer; }
+	inline sad::Sprite2DConfigObserver * observer() { return m_observer; }
 	/*! Returns a string type
 		\return a string type of object
 	 */
@@ -83,7 +83,7 @@ protected:
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors = NULL);
+	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors = NULL);
 	/*!	Initialize graphic part of data
 		\param[in] db database
 	 */

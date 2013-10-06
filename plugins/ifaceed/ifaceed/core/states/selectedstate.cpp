@@ -100,7 +100,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 		IFaceEditor * ed = this->editor();
 		hPointF p(ev.x, ev.y);
 		AbstractScreenObject * o = this->shdata()->selectedObject();
-		hst::vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
+		sad::Vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
 		if (r.count() != 0) 
 		{
 			BorderHotSpots bhs = r[r.count()-1]; 
@@ -229,8 +229,8 @@ hRectF ResizingStateAction::apply(const hRectF & x, const hPointF & xd)
 	hRectF xs  = x;
 	hPointF xc = (x[p0] + x[p1]) / 2;
 	hPointF xcp = (x[p2] + x[p3]) / 2;
-	p2d::Vector e = p2d::unit(xc - xcp);
-	float t = p2d::scalar(e, xd );
+	sad::p2d::Vector e = sad::p2d::unit(xc - xcp);
+	float t = sad::p2d::scalar(e, xd );
 	xs[p0] +=  e * t;
 	xs[p1] +=  e * t;
 	return xs;

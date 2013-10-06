@@ -4,7 +4,7 @@
 	A new command is a command for adding new object to container
  */
 #include "abstractcommand.h"
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #pragma once
 
 class ScreenTemplate;
@@ -43,7 +43,7 @@ class ScreenClearCommand: public AbstractCommand
 {
  private:
 	ScreenTemplate * m_container;
-	hst::vector<AbstractScreenObject *> m_objects;
+	sad::Vector<AbstractScreenObject *> m_objects;
  public:
 	/** Creates a new command
 		\param[in] container container with objects
