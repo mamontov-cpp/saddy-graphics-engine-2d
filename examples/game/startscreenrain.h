@@ -3,9 +3,10 @@
 
 	Describes a rain in start screen
  */
+#pragma once
 #include <input.h>
 #include <extra/periodicalevent.h>
-#pragma once
+
 
 class Game;
 

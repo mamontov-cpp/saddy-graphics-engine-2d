@@ -3,8 +3,9 @@
 
 	Describes a bonus item
  */
-#include "gameobject.h"
 #pragma once
+#include "gameobject.h"
+
 
 /*! As a default, bonus item is a simple object with settings from
     constant

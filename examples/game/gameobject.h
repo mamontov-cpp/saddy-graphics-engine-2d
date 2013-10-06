@@ -3,8 +3,10 @@
 	Describes main game object, that is basic for all objects in game
  */
 #pragma once
-#include "p2d/app/object.h"
 #include "abstractautomaticgun.h"
+
+#include "p2d/app/object.h"
+
 
 class Game;
 /*! Describes a basic in-game object, which provides primitives, needed to 

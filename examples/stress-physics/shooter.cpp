@@ -4,7 +4,7 @@
 
 
 
-DECLARE_SOBJ_INHERITANCE(Shooter, p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(Shooter, sad::p2d::app::Object)
 
 Shooter::Shooter()
 {

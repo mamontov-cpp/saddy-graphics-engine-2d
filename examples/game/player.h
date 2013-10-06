@@ -5,8 +5,9 @@
 	Here is placed class of player - class, that provides any player associated
 	objects
 */
-#include "gameobject.h"
 #pragma once
+#include "gameobject.h"
+
 
 class Game;
 

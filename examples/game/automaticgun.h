@@ -4,10 +4,13 @@
 	Describes an concrete automatic gun, that shoots to enemy or specified 
 	direction by emitting some bullet with specified speed
  */
-#include <p2d/app/constants.h>
+#pragma once
+
 #include "abstractautomaticgun.h"
 #include "gameobject.h"
-#pragma once
+
+#include <p2d/app/constants.h>
+
 /*! An automatic gun, which shoots bullets of specified type
  */
 template<

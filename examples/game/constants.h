@@ -10,8 +10,9 @@
 
 	Also they contain shape templates.
  */
-#include <p2d/app/constants.h>
 #pragma once
+#include <p2d/app/constants.h>
+
 
 class Player;
 class PlayerBullet;

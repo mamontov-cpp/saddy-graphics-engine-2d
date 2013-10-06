@@ -5,10 +5,13 @@
 	direction by emitting some bullet with specified speed
  */
 
-#include <time.h>
-#include <p2d/app/objectemitter.h>
-#include "constants.h"
 #pragma once
+#include "constants.h"
+
+#include <p2d/app/objectemitter.h>
+
+#include <time.h>
+
 
 class GameObject;
 /*! A basic automatic gun can shoot. It's knows about position of object

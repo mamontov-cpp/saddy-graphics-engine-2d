@@ -3,9 +3,10 @@
 
 	Describes an spawned enemy waves at specified times
  */
+#pragma once
 #include <input.h>
 #include <extra/periodicalevent.h>
-#pragma once
+
 
 class Game;
 
