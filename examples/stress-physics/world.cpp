@@ -1,11 +1,3 @@
-#include <p2d/elasticforce.h>
-#include <p2d/app/object.h>
-#include <p2d/app/objectemitter.h>
-#include <orthocamera.h>
-#include <texturemanager.h>
-#include <input.h>
-#include <extra/background.h>
-
 #include "world.h"
 #include "platform.h"
 #include "uncoloredbullet.h"
@@ -14,6 +6,16 @@
 #include "gridnode.h"
 #include "gridnodedge.h"
 #include "shooter.h"
+
+#include <p2d/elasticforce.h>
+#include <p2d/app/object.h>
+#include <p2d/app/objectemitter.h>
+#include <orthocamera.h>
+#include <texturemanager.h>
+#include <input.h>
+#include <extra/background.h>
+
+
 
 World::World()
 {
@@ -35,6 +37,10 @@ World::~World()
 }
 
 
+void World::toggleFullscreen(const sad::Event & )
+{
+	sad::Renderer::ref()->toggleFullscreen();
+}
 
 
 void World::run()
@@ -46,6 +52,7 @@ void World::run()
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
+	sad::Input::ref()->bindKeyDown('F', new sad::MethodEventHandler<sad::Event, World>(this, &World::toggleFullscreen));	
 
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();

@@ -73,6 +73,9 @@ protected:
 	{
 		this->removeObject(ev.m_object_1);
 	}
+	/*! Toggles fullscreen		
+	 */
+	void toggleFullscreen(const sad::Event & );
 public:
 
 	World();
