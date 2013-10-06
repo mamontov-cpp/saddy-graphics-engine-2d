@@ -624,6 +624,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\include\closure.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\cmdoptions.h"
 				>
 			</File>
@@ -706,10 +710,6 @@
 			<Filter
 				Name="templates"
 				>
-				<File
-					RelativePath=".\include\templates\closure.h"
-					>
-				</File>
 				<File
 					RelativePath=".\include\templates\hdeque.hpp"
 					>

@@ -3,25 +3,26 @@
 
 	Describes a global editor state
  */
+#pragma once
+#include "editoreventhandler.h"
+#include "../history/editorhistory.h"
+#include "qttarget.h"
+#include "editorbehaviour.h"
+
 #include <scene.h>
-#include <QObject>
-#include <QTimer>
-#include <QThread>
-#include <QApplication>
-#include <QMainWindow>
 #include <os/mutex.h>
 #include <renderer.h>
 #include <marshal/actioncontext.h>
 #include <input.h>
 #include <config/sprite2dconfig.h>
 #include <cmdoptions.h>
-#include "editoreventhandler.h"
-#include "../history/editorhistory.h"
-#include "templates/closure.h"
-#include "qttarget.h"
-#include "editorbehaviour.h"
-#pragma once
+#include <closure.h>
 
+#include <QObject>
+#include <QTimer>
+#include <QThread>
+#include <QApplication>
+#include <QMainWindow>
 
 #define WINDOW_WIDTH 800
 

@@ -1,9 +1,10 @@
 #include "idlestate.h"
 #include "../ifaceeditor.h"
-#include <templates/closure.h>
 #include "../../editorcore/editorbehaviour.h"
 #include "../../editorcore/editorbehaviourshareddata.h"
 #include "../../objects/screentemplate.h"
+
+#include <closure.h>
 #include <marshal/serializableobject.h>
 
 
