@@ -3,8 +3,9 @@
 
 	Describes a bullet owned by enemy
  */
-#include "gameobject.h"
 #pragma once
+#include "gameobject.h"
+
 
 /*! As a default, enemy bullet is a simple object with settings from
     constant

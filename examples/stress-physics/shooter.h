@@ -11,17 +11,17 @@
 
 /*! A simple default object
  */
-class Shooter: public p2d::app::Object
+class Shooter: public sad::p2d::app::Object
 {
  SAD_OBJECT
 
- class Gun: public p2d::app::RandomDirectionObjectEmitter<ColoredBullet>
+ class Gun: public sad::p2d::app::RandomDirectionObjectEmitter<ColoredBullet>
  {
   protected:
 	Shooter * m_parent;
   public:
 	 Gun(Shooter * parent);
-	 virtual p2d::app::App * app();
+	 virtual sad::p2d::app::App * app();
 	 virtual void perform();
  };
  protected:

@@ -1,16 +1,16 @@
 #include "movingsmile.h"
 #include <renderer.h>
 
-DECLARE_SOBJ_INHERITANCE(MovingSmile, p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(MovingSmile, sad::p2d::app::Object)
 
-MovingSmile::MovingSmile(p2d::app::Way * w) : m_link(w)
+MovingSmile::MovingSmile(sad::p2d::app::Way * w) : m_link(w)
 {
 	this->initFromConstants<MovingSmile>();
 }
 
 void MovingSmile::step(double time)
 {
-	p2d::Point p;
+	sad::p2d::Point p;
 	m_link.LinkedWay->step(&m_link, time, p);
 	this->body()->setCurrentPosition(p);
 }
@@ -19,7 +19,7 @@ void MovingSmile::step(double time)
 
 void MovingSmile::render()
 {
-	p2d::Point p;
+	sad::p2d::Point p;
 	this->body()->TimeStep = 1.0 / sad::Renderer::ref()->fps();
 	m_link.LinkedWay->step(&m_link, this->body()->TimeStep , p);
 	this->body()->setCurrentPosition(p);
