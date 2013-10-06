@@ -120,7 +120,7 @@ int main(int argc, char** argv)
 	}
 	SL_MESSAGE(hst::string("Resources successfully loaded"));
 	
-	// Create and run game
+	// Create and run game	
 	Game * game = new Game();
 	game->run();
 	delete game;

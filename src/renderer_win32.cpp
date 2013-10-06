@@ -92,10 +92,9 @@ bool sad::Renderer::createWindow()
 
 	if (!RegisterClass(&wc)) { SL_LOCAL_FATAL("Failed to register class", *this); return false;}
 	
-	//Setup fullscreen or windowed mode
-	DWORD       ex_style=0;
-	DWORD       style=0;
-	this->adjustVideoMode(style,ex_style);
+	//Setup indowed mode
+	DWORD ex_style = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+    DWORD style = WS_OVERLAPPEDWINDOW;
 	AdjustWindowRectEx(&rect,style,FALSE,ex_style);
 
 	//Create error
@@ -106,21 +105,14 @@ bool sad::Renderer::createWindow()
 	if (m_window.hWND)
 	{
 	  SetWindowPos(m_window.hWND, NULL, 0, 0, rect.right-rect.left,rect.bottom-rect.top, SWP_NOSENDCHANGING);  
-	  RECT r;
-	  GetWindowRect(m_window.hWND, &r);
+	  //RECT r;
+	  //GetWindowRect(m_window.hWND, &r);
 	  //SL_WARNING(fmt::Format("Created window with {0} {1} {2} {3}") << r.left << r.top << r.right << r.bottom);
 	}
 	// Compute how screen should be mapped if CreateWindowExA creates smaller window
 	// than requested
 	m_window.clientwidth = m_glsettings.width();
 	m_window.clientheight = m_glsettings.height();
-
-	//long dx = (rect.right - rect.left) - (r.right - r.left);
-	//long dy = (rect.bottom - rect.top) - (r.bottom - r.top);
-	
-	//m_window.clientwidth -= dx;
-	//m_window.clientheight -= dy;
-
 	
 	//Handle error
 	if (!m_window.hWND)
@@ -169,41 +161,15 @@ bool sad::Renderer::createWindow()
 		return false;
 	}
 
+	if (m_window.fullscreen)
+	{
+		enterFullScreen();
+		reshape(m_window.width, m_window.height);
+	}
+
 	return true;
 }
 
-void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_style)
-{
-	SL_LOCAL_SCOPE("sad::Renderer::adjustVideoMode()", *this);
-	DEVMODEA & scr_settings=m_window.scr_settings;
-	memset(&scr_settings,0,sizeof(scr_settings));
-    scr_settings.dmSize       = sizeof(scr_settings);
-    scr_settings.dmPelsWidth  = m_glsettings.width();
-    scr_settings.dmPelsHeight = m_glsettings.height();
-    scr_settings.dmBitsPerPel = 32;
-    scr_settings.dmFields     =  DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
-	if (m_window.fullscreen)
-	{
-		LONG result=ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN);
-		if (result!=DISP_CHANGE_SUCCESSFUL)
-		{
-			SL_LOCAL_CRITICAL(hst::string("Changing to fullscreen failed, switching to window . Failed with code") + hst::string::number(result), *this);
-			m_window.fullscreen=false;
-		}
-	}
-	//If successful change
-	if (m_window.fullscreen)
-	{
-		ex_style=WS_EX_APPWINDOW;
-		style=WS_POPUP;
-		ShowCursor(FALSE);
-	}
-	else
-	{
-		ex_style=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-        style=WS_OVERLAPPEDWINDOW;
-	}
-}
 bool sad::Renderer::setupPFD()
 {
 	SL_LOCAL_SCOPE("sad::Renderer::setupPFD()", *this);
@@ -286,42 +252,56 @@ void sad::Renderer::quit()
 		m_created=false;
 }
 
+void sad::Renderer::enterFullScreen()
+{
+	RECT rct={0,0,0,0};
+
+	// Save old position
+	GetWindowRect(m_window.hWND, &rct);
+	m_window.previousx = rct.left;
+	m_window.previousy = rct.top;
+	m_window.previouswidth = rct.right - rct.left;
+	m_window.previousheight = rct.bottom - rct.top;
+	m_window.previousstyle = GetWindowLongA(m_window.hWND, GWL_STYLE);
+		
+	const long screenwidth = ::GetSystemMetrics(SM_CXSCREEN);
+	const long screenheight = ::GetSystemMetrics(SM_CYSCREEN);
+	SetWindowLongPtr(m_window.hWND, GWL_STYLE, 
+		WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+	SetWindowPos(m_window.hWND, HWND_TOPMOST, 0, 0, screenwidth, screenheight, SWP_SHOWWINDOW | SWP_NOSENDCHANGING);	
+
+	m_window.width = screenwidth;
+	m_window.height = screenheight;
+}
+
+void sad::Renderer::leaveFullScreen()
+{
+	SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
+	SetWindowPos(m_window.hWND, 
+				 HWND_NOTOPMOST, 
+				 m_window.previousx, 
+				 m_window.previousy, 
+				 m_window.previouswidth, 
+				 m_window.previousheight, 
+				 SWP_SHOWWINDOW | SWP_NOSENDCHANGING  
+				);	
+}
+
 void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 {
   m_window.fullscreen=!m_window.fullscreen;   
   if (m_running)
   {
-   static RECT rct={0,0,0,0};
    // DON'T CHANGE DISPLAY SETTINGS
    // We can broke everything, using it 
    // just because driver flushes context-associated memory
    if (m_window.fullscreen)
    {
-		// Save old position
-	    GetWindowRect(m_window.hWND, &rct);
-		m_window.previousx = rct.left;
-		m_window.previousy = rct.top;
-		m_window.previouswidth = rct.right - rct.left;
-		m_window.previousheight = rct.bottom - rct.top;
-		m_window.previousstyle = GetWindowLongA(m_window.hWND, GWL_STYLE);
-		
-		const long screenwidth = ::GetSystemMetrics(SM_CXSCREEN);
-		const long screenheight = ::GetSystemMetrics(SM_CYSCREEN);
-	    SetWindowLongPtr(m_window.hWND, GWL_STYLE, 
-			WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
-	    SetWindowPos(m_window.hWND, /*HWND_TOPMOST*/ 0, 0, 0, screenwidth, screenheight, SWP_SHOWWINDOW);	
+		enterFullScreen();
    }
    else
    {
-	   SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
-	   SetWindowPos(m_window.hWND, 
-				    HWND_NOTOPMOST, 
-					m_window.previousx, 
-					m_window.previousy, 
-					m_window.previouswidth, 
-					m_window.previousheight, 
-					SWP_SHOWWINDOW
-				   );	
+		leaveFullScreen();
    }
   }
 }
