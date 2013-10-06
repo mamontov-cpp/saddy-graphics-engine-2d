@@ -1,14 +1,14 @@
 #include "p2d/worldsteptask.h"
 
 
-p2d::WorldStepTask::WorldStepTask(p2d::World * w, sad::Renderer * r)
+sad::p2d::WorldStepTask::WorldStepTask(sad::p2d::World * w, sad::Renderer * r)
 : m_world(w), m_renderer(r), m_enabled(true)
 {
 
 }
 
 
-void p2d::WorldStepTask::perform()
+void sad::p2d::WorldStepTask::perform()
 {
 	// 1.0 is a second, so if 1 frame at 1s, we will step second
 	double rendertime = 1.0 / m_renderer->fps();
@@ -25,23 +25,23 @@ void p2d::WorldStepTask::perform()
 }
 
 
-void p2d::WorldStepTask::setWorld(p2d::World * world)
+void sad::p2d::WorldStepTask::setWorld(p2d::World * world)
 {
 	m_world = world;
 }
 
-void p2d::WorldStepTask::enable()
+void sad::p2d::WorldStepTask::enable()
 {
 	m_enabled = true;
 }
 
 
-void p2d::WorldStepTask::disable()
+void sad::p2d::WorldStepTask::disable()
 {
 	m_enabled = false;
 }
 
-bool p2d::WorldStepTask::enabled() const
+bool sad::p2d::WorldStepTask::enabled() const
 {
 	return m_enabled;
 }

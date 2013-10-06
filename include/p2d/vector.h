@@ -6,6 +6,9 @@
 #pragma once
 #include "../primitives/hpoint.h"
 
+namespace sad
+{
+
 namespace p2d 
 {
 	/*! A vector is defined by two coordinated x and y
@@ -56,3 +59,4 @@ namespace p2d
 	double scalar(const p2d::Vector & v1, const p2d::Vector & v2);
 }
 
+}

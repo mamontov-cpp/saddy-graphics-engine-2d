@@ -3,7 +3,10 @@
 
 	Declares a functionfor solving collision problem in 1d case
  */
+#pragma once
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -20,6 +23,8 @@ inline bool collides1D(_Numeric x11, _Numeric x12, _Numeric x21, _Numeric x22)
 	if (x11>x12) { _Numeric tmp=x11; x11=x12; x12=tmp; }
 	if (x21>x22) { _Numeric tmp=x21; x21=x22; x22=tmp; }
 	return (x21<=x12) && (x22>=x11);
+}
+
 }
 
 }

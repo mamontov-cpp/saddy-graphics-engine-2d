@@ -1,12 +1,12 @@
 #include <p2d/elasticforce.h>
 #include <log/log.h>
 
-p2d::ElasticForce::ElasticForce(
-	   					   p2d::Body * first, 
-						   p2d::Body * second,
+sad::p2d::ElasticForce::ElasticForce(
+	   					   sad::p2d::Body * first, 
+						   sad::p2d::Body * second,
 						   double elasticity, 
 						   double resistance
-						  )
+)
 {
 	m_first = first;
 	m_second = second;
@@ -16,9 +16,9 @@ p2d::ElasticForce::ElasticForce(
 	m_resistance = resistance;
 }
 
-const p2d::Vector & p2d::ElasticForce::value() const
+const sad::p2d::Vector & sad::p2d::ElasticForce::value() const
 {
-	ElasticForce * force = const_cast<ElasticForce *>(this);
+	sad::p2d::ElasticForce * force = const_cast<sad::p2d::ElasticForce *>(this);
 	p2d::Point s1 = m_first->currentShape()->center();	
 	p2d::Point s2 = m_second->currentShape()->center();
 	

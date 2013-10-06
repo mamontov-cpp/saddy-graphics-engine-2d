@@ -8,9 +8,14 @@
 #include "tickable.h"
 #include "vector.h"
 #include "force.h"
+
 #include "../templates/svector.h"
 #include "../extra/geometry2d.h"
+
 #include <algorithm>
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -463,3 +468,4 @@ typedef p2d::Movement<p2d::Vector> TangentialMovement;
 
 }
 
+}

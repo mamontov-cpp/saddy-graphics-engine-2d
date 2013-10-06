@@ -11,6 +11,9 @@
 #include "line.h"
 #include "bounds.h"
 
+namespace sad
+{
+
 namespace p2d
 {
 /*! A collision tester can determine, whether two shapes are colliding
@@ -39,4 +42,5 @@ class CollisionTest: public p2d::CollisionMultiMethod<bool>
 
 }
 
+}
 

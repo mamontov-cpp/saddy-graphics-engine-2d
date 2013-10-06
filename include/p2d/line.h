@@ -3,9 +3,12 @@
 
 	Defines a line as a collision shape
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
-#pragma once
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -106,3 +109,4 @@ public:
 
 }
 
+}

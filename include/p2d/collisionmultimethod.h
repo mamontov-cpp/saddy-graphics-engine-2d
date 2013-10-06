@@ -4,12 +4,16 @@
 	Describes a collision multi-method, used to call
 	various type-dependent functions
  */
-#include "p2d/collisionshape.h"
-#include "../templates/ptrhash.hpp"
 #pragma once
+#include "collisionshape.h"
+#include "../templates/ptrhash.hpp"
+
+namespace sad
+{
 
 namespace p2d
 {
+
 /*! Describes a basic method for invocation a multi-method
  */
 template<typename _ReturnType>
@@ -357,6 +361,6 @@ class CollisionMultiMethodWithArg
 		virtual ~CollisionMultiMethodWithArg() {}
 };
 
-
 }
 
+}

@@ -1,6 +1,6 @@
 #include <p2d/collisionevent.h>
 
-p2d::BasicCollisionEvent::~BasicCollisionEvent()
+sad::p2d::BasicCollisionEvent::~BasicCollisionEvent()
 {
 }
 

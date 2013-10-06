@@ -4,8 +4,11 @@
 	Determines a collision detector, that performs a sequence of test
 	to determine whether two bodies collide
  */
-#include "collisiondetector.h"
 #pragma once
+#include "collisiondetector.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -49,5 +52,7 @@ class MultisamplingCollisionDetector: public p2d::CollisionDetector
 
 	 ~MultisamplingCollisionDetector();
 };
+
+}
 
 }

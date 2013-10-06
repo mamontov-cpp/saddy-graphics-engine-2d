@@ -3,9 +3,12 @@
 
 	Declares a rectangle as collision shape
  */
+#pragma once
 #include "collisionshape.h"
 #include "../primitives/hrect.h"
-#pragma once
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -84,3 +87,4 @@ public:
 
 }
 
+}

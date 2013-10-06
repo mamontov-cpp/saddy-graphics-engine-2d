@@ -10,9 +10,13 @@
 #include "broadcollisiondetector.h"
 #include "multisamplingcollisiondetector.h"
 #include "collisionhandler.h"
+
 #include "../templates/hhash.hpp"
 #include "../templates/hpair.hpp"
 #include "../templates/temporarilyimmutablecontainer.hpp"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -24,9 +28,10 @@ class World: public hst::TemporarilyImmutableContainer<p2d::Body>
 {
  protected:
 	 typedef hst::pair<hst::string, hst::string> type_pair_t;
-	 typedef hst::pair<type_pair_t, p2d::BasicCollisionHandler *> types_with_handler_t;
+	 typedef hst::pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
 	 typedef hst::hash<p2d::Body *, sad::vector<hst::string> > bodies_to_types_t;
-	 typedef hst::pair<p2d::BasicCollisionEvent, p2d::BasicCollisionHandler*> reaction_t;
+	 typedef hst::pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
+		     reaction_t;
 	 typedef sad::vector<reaction_t> reactions_t;
 public:
 	 /*! Compares two reactions, returns true if time of impact of first is lesser
@@ -95,7 +100,7 @@ protected:
 		 \param[in] t2 second type
 	  */
 	 virtual void addHandler(
-		 p2d::BasicCollisionHandler * h, 
+		 sad::p2d::BasicCollisionHandler * h, 
 		 const hst::string & t1, 
 		 const hst::string & t2
 	  );
@@ -134,11 +139,11 @@ protected:
 		 \return created handler
 	  */
 	 template<typename T1, typename T2>
-	 p2d::BasicCollisionHandler *
-	 addHandler( void (*p)(const p2d::CollisionEvent<T1, T2> &))
+	 sad::p2d::BasicCollisionHandler *
+	 addHandler( void (*p)(const sad::p2d::CollisionEvent<T1, T2> &))
 	 {
-		 p2d::BasicCollisionHandler * h = 
-			 new p2d::FunctionCollisionHandler<T1, T2>(p);
+		 sad::p2d::BasicCollisionHandler * h = 
+			 new sad::p2d::FunctionCollisionHandler<T1, T2>(p);
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
@@ -148,19 +153,19 @@ protected:
 		 \param[in] p handler
 		 \return created handler
 	  */
-	 p2d::BasicCollisionHandler *
-	 addHandler( void (*p)(const p2d::BasicCollisionEvent &));
+	 sad::p2d::BasicCollisionHandler *
+	 addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &));
 	 /*! Adds new handler
 	     \param[in] o binded object
 		 \param[in] p new handler
 		 \return created inner handler
 	  */
 	 template<typename _Class, typename T1, typename T2>
-	 p2d::BasicCollisionHandler *
-		 addHandler( _Class * o, void (_Class::*p)(const p2d::CollisionEvent<T1, T2> &))
+	 sad::p2d::BasicCollisionHandler *
+		 addHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> &))
 	 {
-		 p2d::BasicCollisionHandler * h = 
-			 new p2d::MethodCollisionHandler<_Class,T1, T2>(o,p);
+		 sad::p2d::BasicCollisionHandler * h = 
+			 new sad::p2d::MethodCollisionHandler<_Class,T1, T2>(o,p);
 		 hst::string t1 = T1::globalMetaData()->name();
 		 hst::string t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
@@ -172,11 +177,11 @@ protected:
 		 \return created inner handler
 	  */
 	 template<typename _Class>
-	 p2d::BasicCollisionHandler *
-		 addHandler(_Class * o, void (_Class::*p)(const p2d::BasicCollisionEvent &))
+	 sad::p2d::BasicCollisionHandler *
+		 addHandler(_Class * o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent &))
 	 {
-		 p2d::BasicCollisionHandler * h = 
-			 new p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
+		 sad::p2d::BasicCollisionHandler * h = 
+			 new sad::p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
 		 hst::string b = "p2d::Body";
 		 this->addHandler(h, b, b);
 		 return h;
@@ -184,7 +189,7 @@ protected:
 	 /*! Removes handler from a world
 		 \param[in] h registered handler
 	  */
-	 void removeHandler(p2d::BasicCollisionHandler * h);
+	 void removeHandler(sad::p2d::BasicCollisionHandler * h);
 	 /*! When called inside of step() method, makes a world integrate
 		 velocities and positions to specified time, and restart step, not
 		 stepping through ghostoptions and forces
@@ -208,3 +213,4 @@ protected:
 
 }
 
+}

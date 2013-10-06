@@ -2,14 +2,26 @@
 #include <p2d/angularforce.h>
 
 
-double p2d::Force<double>::value() const { return  m_value; }
+double sad::p2d::Force<double>::value() const 
+{ 
+	return  m_value; 
+}
 
 
-void p2d::Force<double>::setValue(double value) { m_value = value; }
+void sad::p2d::Force<double>::setValue(double value) 
+{ 
+	m_value = value; 
+}
 
 
-void p2d::Force<double>::step(double time) {}
+void sad::p2d::Force<double>::step(double time) 
+{
+
+}
 
 
-void p2d::ImpulseForce<double>::step(double time) { die(); }
+void sad::p2d::ImpulseForce<double>::step(double time) 
+{ 
+	die(); 
+}
 

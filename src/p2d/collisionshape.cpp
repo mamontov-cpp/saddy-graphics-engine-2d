@@ -1,8 +1,8 @@
 #include <p2d/collisionshape.h>
 
-DECLARE_SOBJ(p2d::CollisionShape);
+DECLARE_SOBJ(sad::p2d::CollisionShape);
 
-p2d::CollisionShape::~CollisionShape()
+sad::p2d::CollisionShape::~CollisionShape()
 {
 
 }
