@@ -18,10 +18,10 @@ class SerializationEntry
 		 hst::string Name;
 		 /*! Vector of properties names
 		  */
-		 sad::vector<hst::string> PropertiesName;
+		 sad::Vector<hst::string> PropertiesName;
 		 /*! Vector of properties values data
 		  */
-		 sad::vector<hst::string> PropertiesValue;
+		 sad::Vector<hst::string> PropertiesValue;
 
 
 		 /*! An empty entry

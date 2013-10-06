@@ -9,7 +9,7 @@
 #include "tickable.h"
 
 #include "../templates/maybe.hpp"
-#include "../templates/svector.h"
+#include "../sadvector.h"
 #include "../extra/fuzzy_equal.h"
 
 namespace sad
@@ -162,8 +162,8 @@ class ActingForces
 	 typedef p2d::Force<T> * force_t;
 	 typedef typename p2d::ActingForces<T>::Command * command_t;
  protected:
-	 sad::vector< force_t >    m_forces;                       //!< A forces list, acting on body
-	 sad::vector< command_t >  m_queued;                       //!< A queued list of commands
+	 sad::Vector< force_t >    m_forces;                       //!< A forces list, acting on body
+	 sad::Vector< command_t >  m_queued;                       //!< A queued list of commands
  public:
 	 ActingForces() {}
 	 /*! Force container owns all forces, belonging to it

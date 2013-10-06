@@ -8,7 +8,7 @@
 #include "convexhull.h"
 #include "point.h"
 
-#include "../templates/svector.h"
+#include "../sadvector.h"
 
 namespace sad
 {
@@ -44,7 +44,7 @@ public:
 		\param[in] c circle
 		\param[out] v populated vector
 	 */
-	void populate(const p2d::Circle * c, sad::vector<p2d::Point> &  v) const;
+	void populate(const p2d::Circle * c, sad::Vector<p2d::Point> &  v) const;
 	virtual ~CircleToHullTransformer();
 };
 

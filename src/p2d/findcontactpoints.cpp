@@ -208,12 +208,12 @@ sad::p2d::Point sad::p2d::intersectionWithNormalFrom(
 	return l1.intersection(l2).data();
 }
 
-sad::vector<sad::p2d::Point> sad::p2d::intersection(
+sad::Vector<sad::p2d::Point> sad::p2d::intersection(
 	const sad::p2d::InfiniteLine & l,
 	const sad::p2d::Circle * ci
 )
 {
-	sad::vector<sad::p2d::Point> result;
+	sad::Vector<sad::p2d::Point> result;
 	double R = ci->radius();
 	if (sad::is_fuzzy_zero(l.kx()) && sad::non_fuzzy_zero(l.ky()))
 	{
@@ -292,9 +292,9 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 															sad::p2d::Cutter2D(ci->center(), O)
 													       );
 	
-		sad::vector<sad::p2d::Point> tmppoints = sad::p2d::intersection(CO, ci);
+		sad::Vector<sad::p2d::Point> tmppoints = sad::p2d::intersection(CO, ci);
 		sad::p2d::InfiniteLine C1C2 = sad::p2d::InfiniteLine::fromCutter(c);
-		sad::vector<sad::p2d::Point> Ks;
+		sad::Vector<sad::p2d::Point> Ks;
 		double min = std::numeric_limits<double>::max();
 		int mini = 0;
 		for(size_t i = 0; i < tmppoints.size();i ++)
@@ -324,7 +324,7 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 	else
 	{
 		sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(ci->center(), v); 
-		sad::vector<sad::p2d::Point> points = sad::p2d::intersection(line, ci);
+		sad::Vector<sad::p2d::Point> points = sad::p2d::intersection(line, ci);
 		if (points.size() == 2)
 		{
 			O1 = O;
@@ -359,7 +359,7 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 		}
 		{
 			sad::p2d::InfiniteLine l = sad::p2d::InfiniteLine::appliedVector(c.p1(), v);
-			sad::vector<sad::p2d::Point> pts = sad::p2d::intersection(l, ci);
+			sad::Vector<sad::p2d::Point> pts = sad::p2d::intersection(l, ci);
 			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << sad::p2d::PointsPair(c.p1(), pts[i]);
@@ -367,7 +367,7 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 		}
 		{
 			sad::p2d::InfiniteLine l = sad::p2d::InfiniteLine::appliedVector(c.p2(), v);
-			sad::vector<sad::p2d::Point> pts = sad::p2d::intersection(l, ci);
+			sad::Vector<sad::p2d::Point> pts = sad::p2d::intersection(l, ci);
 			for(size_t i = 0; i < pts.size(); i++)
 			{
 				result << sad::p2d::PointsPair(c.p2(), pts[i]);
@@ -577,7 +577,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoP(
 {
 	sad::p2d::Vector v = v2 - v1;
 
-	sad::vector<sad::p2d::Point> p2 = s2->points();
+	sad::Vector<sad::p2d::Point> p2 = s2->points();
 	sad::p2d::SetOfPointsPair result;
 
 	sad::p2d::Vector normal = s1->normal();
@@ -594,7 +594,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoP(
 		throw sad::p2d::CannotDetermineContactPoints();
 
 	// Find points with minimum scalar productions on vector
-	sad::vector<sad::p2d::Point> maxpoints;
+	sad::Vector<sad::p2d::Point> maxpoints;
 	double maxprojection = - (std::numeric_limits<double>::max() - 1.0);
 	for(size_t i = 0 ; i < p2.size(); i++)
 	{

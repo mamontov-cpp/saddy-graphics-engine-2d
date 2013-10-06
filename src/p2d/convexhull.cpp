@@ -9,13 +9,13 @@ sad::p2d::ConvexHull::ConvexHull()
 
 }
 
-sad::p2d::ConvexHull::ConvexHull(const sad::vector<sad::p2d::Point> & set)
+sad::p2d::ConvexHull::ConvexHull(const sad::Vector<sad::p2d::Point> & set)
 {
 	m_set = p2d::graham_scan(set);
 }
 
 sad::p2d::ConvexHull sad::p2d::ConvexHull::uncheckedCreate(
-	const sad::vector<sad::p2d::Point> & set
+	const sad::Vector<sad::p2d::Point> & set
 )
 {
 	sad::p2d::ConvexHull  hull;
@@ -28,7 +28,7 @@ sad::p2d::ConvexHull sad::p2d::ConvexHull::getUnion(
 	const sad::p2d::ConvexHull & o2
 )
 {
-	sad::vector<sad::p2d::Point> set = o1.m_set;
+	sad::Vector<sad::p2d::Point> set = o1.m_set;
 	set << o2.m_set;
 	return sad::p2d::ConvexHull(set);
 }
@@ -90,7 +90,7 @@ sad::p2d::Cutter1D sad::p2d::ConvexHull::project(const sad::p2d::Axle & axle) co
 	return sad::p2d::projectPointSet(m_set, m_set.size(), axle);
 }
 
-void sad::p2d::ConvexHull::tryInsertAxle(sad::vector<sad::p2d::Axle> & container, 
+void sad::p2d::ConvexHull::tryInsertAxle(sad::Vector<sad::p2d::Axle> & container, 
 										 const sad::p2d::Axle & axle) const
 {
 	bool found = false;
@@ -106,7 +106,7 @@ void sad::p2d::ConvexHull::tryInsertAxle(sad::vector<sad::p2d::Axle> & container
 }
 
 void sad::p2d::ConvexHull::appendAxisForSide(
-	sad::vector<sad::p2d::Axle> & container, 
+	sad::Vector<sad::p2d::Axle> & container, 
 	int number
 ) const
 {
@@ -117,7 +117,7 @@ void sad::p2d::ConvexHull::appendAxisForSide(
 }
 
 void sad::p2d::ConvexHull::appendAxisForCollision(
-	sad::vector<sad::p2d::Axle> & container
+	sad::Vector<sad::p2d::Axle> & container
 ) const
 {
 	for(size_t i = 0; i < this->sides(); i++)
@@ -135,7 +135,7 @@ bool sad::p2d::ConvexHull::collides(const sad::p2d::ConvexHull & c) const
 	{
 		return sad::equal(this->m_set[0], c.m_set[0]);
 	}
-	sad::vector<p2d::Axle> axles;
+	sad::Vector<p2d::Axle> axles;
 	this->appendAxisForCollision(axles);
 	c.appendAxisForCollision(axles);
 

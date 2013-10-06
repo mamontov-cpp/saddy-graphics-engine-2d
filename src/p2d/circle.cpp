@@ -55,7 +55,7 @@ size_t sad::p2d::Circle::sizeOfType() const
 	return sizeof(sad::p2d::Circle);
 }
 
-void sad::p2d::Circle::populatePoints(sad::vector<p2d::Point> & v) const
+void sad::p2d::Circle::populatePoints(sad::Vector<p2d::Point> & v) const
 {
 	sad::p2d::CircleToHullTransformer * t = this->m_transformer;
 	if (t == NULL) t = sad::p2d::CircleToHullTransformer::ref();

@@ -93,7 +93,7 @@ class Variant
 
 /*! This vector holds all new variants and destroys them
  */
-class VariantVector: public sad::vector<sad::Variant *>
+class VariantVector: public sad::Vector<sad::Variant *>
 {
  public:
 		/*! Destroys all hold vectors of variants

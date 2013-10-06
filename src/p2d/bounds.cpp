@@ -83,7 +83,7 @@ size_t sad::p2d::Bound::sizeOfType() const
 	return sizeof(sad::p2d::Bound);
 }
 
-void sad::p2d::Bound::populatePoints(sad::vector<sad::p2d::Point> & v) const
+void sad::p2d::Bound::populatePoints(sad::Vector<sad::p2d::Point> & v) const
 {
 	if (this->type() == sad::p2d::BT_LEFT || this->type() == sad::p2d::BT_RIGHT)
 	{

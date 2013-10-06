@@ -7,7 +7,7 @@
 #pragma once
 #include "point.h"
 
-#include "../templates/svector.h"
+#include "../sadvector.h"
 
 
 namespace sad
@@ -20,7 +20,7 @@ namespace p2d
 		\param[in] set set of points
 		\return points in convex hull
 	 */
-	sad::vector<p2d::Point> graham_scan(const sad::vector<p2d::Point> & set);
+	sad::Vector<p2d::Point> graham_scan(const sad::Vector<p2d::Point> & set);
 }
 
 }

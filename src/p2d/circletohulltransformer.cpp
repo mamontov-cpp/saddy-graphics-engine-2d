@@ -14,14 +14,14 @@ sad::p2d::CircleToHullTransformer::~CircleToHullTransformer()
 
 sad::p2d::ConvexHull sad::p2d::CircleToHullTransformer::toHull(const sad::p2d::Circle * c)
 {
-	sad::vector<sad::p2d::Point> set;
+	sad::Vector<sad::p2d::Point> set;
 	populate(c, set);
 	return sad::p2d::ConvexHull::uncheckedCreate(set);
 }
 
 void sad::p2d::CircleToHullTransformer::populate(
 	const sad::p2d::Circle * c, 
-	sad::vector<sad::p2d::Point> &  v
+	sad::Vector<sad::p2d::Point> &  v
 ) const
 {
 	sad::p2d::Point center = c->center();

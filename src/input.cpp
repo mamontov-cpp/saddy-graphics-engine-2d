@@ -3,7 +3,7 @@
 #include "input/keycodes.h"
 #include <stdlib.h>
 
-static void cleanup_ptr_vector(sad::vector<sad::CountableTask *> & ff);
+static void cleanup_ptr_vector(sad::Vector<sad::CountableTask *> & ff);
 
 sad::Event::Event() : x(0), y(0), z(0), key(0), delta(0)
 {
@@ -226,14 +226,14 @@ bool sad::RepeatingTask::tryPerform()
 }
 sad::RepeatingTask::~RepeatingTask() {}
 
-static void cleanup_ptr_vector(sad::vector<sad::CountableTask *> & ff)
+static void cleanup_ptr_vector(sad::Vector<sad::CountableTask *> & ff)
 {
 	for (unsigned int i=0;i<ff.count();i++)
 		delete ff[i];
 	ff.clear();
 }
 
-void sad::Input::tryPerform(sad::vector<sad::CountableTask *> & v)
+void sad::Input::tryPerform(sad::Vector<sad::CountableTask *> & v)
 {
 	for (unsigned int i=0;i<v.count();i++)
 	{

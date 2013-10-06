@@ -21,10 +21,10 @@ DEFINE_PROPERTY_TYPESTRING( float )
 DEFINE_PROPERTY_TYPESTRING( double )
 DEFINE_PROPERTY_TYPESTRING( bool )
 DEFINE_PROPERTY_TYPESTRING( hst::string )
-DEFINE_PROPERTY_TYPESTRING( sad::vector<int> )
+DEFINE_PROPERTY_TYPESTRING( sad::Vector<int> )
 DEFINE_PROPERTY_TYPESTRING( hPointF )
 DEFINE_PROPERTY_TYPESTRING( hRectF )
-DEFINE_PROPERTY_TYPESTRING( sad::vector<hPointF> )
+DEFINE_PROPERTY_TYPESTRING( sad::Vector<hPointF> )
 DEFINE_PROPERTY_TYPESTRING( hst::color )
 /*! A template callback for loading some properties
  */
@@ -63,13 +63,13 @@ class SaveLoadCallback<hst::string>
 };
 
 template<>
-class SaveLoadCallback< sad::vector<int> >
+class SaveLoadCallback< sad::Vector<int> >
 {
  public:
-	static sad::vector<int> load(ActionContext * context,
+	static sad::Vector<int> load(ActionContext * context,
 								const hst::string & str, 
-								const hst::string & typestring = abstract_names::type_string< sad::vector<int> >::type());
-	static hst::string save(const sad::vector<int> & obj);
+								const hst::string & typestring = abstract_names::type_string< sad::Vector<int> >::type());
+	static hst::string save(const sad::Vector<int> & obj);
 };
 
 
@@ -96,13 +96,13 @@ class SaveLoadCallback<hRectF>
 
 
 template<>
-class SaveLoadCallback< sad::vector<hPointF> >
+class SaveLoadCallback< sad::Vector<hPointF> >
 {
  public:
-	static sad::vector<hPointF> load(ActionContext * context,
+	static sad::Vector<hPointF> load(ActionContext * context,
 						             const hst::string & str, 
-									 const hst::string & typestring = abstract_names::type_string< sad::vector<hPointF> >::type());
-	static hst::string save(const sad::vector<hPointF> & obj);
+									 const hst::string & typestring = abstract_names::type_string< sad::Vector<hPointF> >::type());
+	static hst::string save(const sad::Vector<hPointF> & obj);
 };
 
 

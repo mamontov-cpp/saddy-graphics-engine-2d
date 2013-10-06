@@ -49,7 +49,7 @@
 #include "templates/hdeque.hpp"
 #include "templates/hhash.hpp"
 #include "templates/hlist.hpp"
-#include "templates/svector.h"
+#include "sadvector.h"
 #include "templates/hpair.hpp"
 #include "templates/hptrie.hpp"
 #include "templates/hstring.h"

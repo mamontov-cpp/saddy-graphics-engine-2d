@@ -8,7 +8,7 @@ namespace sad
 namespace p2d
 {
 
-void erase_equal_points(sad::vector<sad::p2d::Point> & set)
+void erase_equal_points(sad::Vector<sad::p2d::Point> & set)
 {
 	for(unsigned int i = 1; i < set.size(); i++)
 	{
@@ -20,7 +20,7 @@ void erase_equal_points(sad::vector<sad::p2d::Point> & set)
 	}
 }
 
-int find_min_point_on_y_axis(const sad::vector<sad::p2d::Point> & set)
+int find_min_point_on_y_axis(const sad::Vector<sad::p2d::Point> & set)
 {
 	if (set.size() == 0) return -1;
 	
@@ -58,17 +58,17 @@ double angle(const sad::p2d::Point & p1, const sad::p2d::Point & p2)
 	return result;
 }
 
-sad::vector<p2d::Point> build_sorted_set(const sad::vector<sad::p2d::Point> & set, 
+sad::Vector<p2d::Point> build_sorted_set(const sad::Vector<sad::p2d::Point> & set, 
 										 int min_index)
 {
 	assert( min_index > -1 && min_index < (int)(set.size()) );
 
-	sad::vector<sad::p2d::Point> result;
+	sad::Vector<sad::p2d::Point> result;
 	sad::p2d::Point min_point = set[min_index]; 
 	result << min_point;
 
 	// Build heap
-	sad::vector<sad::p2d::SetSortingEntry> sortedset;
+	sad::Vector<sad::p2d::SetSortingEntry> sortedset;
 	for(unsigned int i = 0; i < set.size(); i++)
 	{
 		if (i != min_index) 
@@ -116,7 +116,7 @@ bool is_convex(const sad::p2d::Point & prev,
 	return result;
 }
 
-bool erase_concave_points(sad::vector<sad::p2d::Point> & result)
+bool erase_concave_points(sad::Vector<sad::p2d::Point> & result)
 {
 	bool erased = false;
 	for(unsigned int i = 1; (i < result.size()) && result.size() > 2; i++)
@@ -139,9 +139,9 @@ bool erase_concave_points(sad::vector<sad::p2d::Point> & result)
 
 }
 
-sad::vector<sad::p2d::Point> sad::p2d::graham_scan(const sad::vector<sad::p2d::Point> & set)
+sad::Vector<sad::p2d::Point> sad::p2d::graham_scan(const sad::Vector<sad::p2d::Point> & set)
 {
-	sad::vector<p2d::Point> result = set;
+	sad::Vector<p2d::Point> result = set;
 	sad::p2d::erase_equal_points(result);
 	if (result.size() > 2)
 	{
