@@ -16,8 +16,8 @@ GridNodeEdge::GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2)
 
 void GridNodeEdge::render()
 {
-	p2d::Point p1 = m_b1->currentShape()->center();
-	p2d::Point p2 = m_b2->currentShape()->center();
+	sad::p2d::Point p1 = m_b1->currentShape()->center();
+	sad::p2d::Point p2 = m_b2->currentShape()->center();
 	this->m_ad->makeSpanBetweenPoints(sad::p2d::app::Constants<GridNodeEdge>::sourceRect(), p1, p2);
 	this->m_ad->render();
 }
