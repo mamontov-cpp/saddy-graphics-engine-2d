@@ -181,7 +181,7 @@ void sad::Renderer::adjustVideoMode(unsigned long & style, unsigned long & ex_st
     scr_settings.dmPelsWidth  = m_glsettings.width();
     scr_settings.dmPelsHeight = m_glsettings.height();
     scr_settings.dmBitsPerPel = 32;
-    scr_settings.dmFields     = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+    scr_settings.dmFields     =  DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
 	if (m_window.fullscreen)
 	{
 		LONG result=ChangeDisplaySettings(&scr_settings,CDS_FULLSCREEN);
@@ -212,7 +212,7 @@ bool sad::Renderer::setupPFD()
 		sizeof(PIXELFORMATDESCRIPTOR),
 		1,
 		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER, PFD_TYPE_RGBA,
-		16,
+		PFD_TYPE_RGBA,
 		0,0,0,0,0,0,
 		0,              //No alpha buffer
 		0,
@@ -288,43 +288,41 @@ void sad::Renderer::quit()
 
 void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 {
+  m_window.fullscreen=!m_window.fullscreen;   
   if (m_running)
   {
-   this->m_window.fullscreen=!this->m_window.fullscreen;
-   LONG result;
    static RECT rct={0,0,0,0};
-   if (this->m_window.fullscreen)
+   // DON'T CHANGE DISPLAY SETTINGS
+   // We can broke everything, using it 
+   // just because driver flushes context-associated memory
+   if (m_window.fullscreen)
    {
-		GetWindowRect(this->m_window.hWND,&rct);
-		MoveWindow(m_window.hWND,0,0,rct.right-rct.left,rct.bottom-rct.top,TRUE);
-		LONG style=GetWindowLong(m_window.hWND,GWL_STYLE);
-		style &=~(WS_BORDER|WS_CAPTION|WS_THICKFRAME);
-		SetWindowLong(m_window.hWND,GWL_STYLE,style);
-		BOOL dp=SetWindowPos(this->m_window.hWND,NULL,rct.left,rct.top,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOZORDER|SWP_NOACTIVATE|SWP_FRAMECHANGED);
-	    if (!dp)
-		{
-			std::string c = str(fmt::Format("Can\'t position window, failed with {0}") << GetLastError());
-			SL_LOCAL_CRITICAL(c,*this);
-		}
-		result=ChangeDisplaySettings(&(this->m_window.scr_settings),CDS_FULLSCREEN);	
+		// Save old position
+	    GetWindowRect(m_window.hWND, &rct);
+		m_window.previousx = rct.left;
+		m_window.previousy = rct.top;
+		m_window.previouswidth = rct.right - rct.left;
+		m_window.previousheight = rct.bottom - rct.top;
+		m_window.previousstyle = GetWindowLongA(m_window.hWND, GWL_STYLE);
+		
+		const long screenwidth = ::GetSystemMetrics(SM_CXSCREEN);
+		const long screenheight = ::GetSystemMetrics(SM_CYSCREEN);
+	    SetWindowLongPtr(m_window.hWND, GWL_STYLE, 
+			WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+	    SetWindowPos(m_window.hWND, /*HWND_TOPMOST*/ 0, 0, 0, screenwidth, screenheight, SWP_SHOWWINDOW);	
    }
    else
    {
-	    MoveWindow(m_window.hWND,rct.left,rct.top,rct.right-rct.left,rct.bottom-rct.top,TRUE);
-	    result=ChangeDisplaySettings(NULL,0);
-		LONG style=GetWindowLong(m_window.hWND,GWL_STYLE);
-		style |=(WS_BORDER|WS_CAPTION|WS_THICKFRAME);
-		SetWindowLong(m_window.hWND,GWL_STYLE,style);
-		SetWindowPos(this->m_window.hWND,0,rct.left,rct.top,rct.right-rct.left,rct.bottom-rct.top,SWP_FRAMECHANGED);
+	   SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
+	   SetWindowPos(m_window.hWND, 
+				    HWND_NOTOPMOST, 
+					m_window.previousx, 
+					m_window.previousy, 
+					m_window.previouswidth, 
+					m_window.previousheight, 
+					SWP_SHOWWINDOW
+				   );	
    }
-   if (result!=DISP_CHANGE_SUCCESSFUL)
-   {
-	   SL_LOCAL_CRITICAL("Can\'t changed mode",*this);
-   }
-  }
-  else
-  {
-	  this->m_window.fullscreen=!this->m_window.fullscreen;
   }
 }
 
