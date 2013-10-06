@@ -70,7 +70,7 @@ void ScreenLabel::_render()
 
 }
 
-bool ScreenLabel::isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors)
+bool ScreenLabel::isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors)
 {
 	IFaceEditorFontList & d = db->fonts();
 	bool result = d.hasFont(m_font_name.data());
@@ -97,7 +97,7 @@ bool ScreenLabel::tryReload(FontTemplateDatabase * db)
 bool ScreenLabel::isWithin(const hPointF & p)
 {
 	hRectF r = this->region();
-	return ::isWithin(p, r);
+	return sad::isWithin(p, r);
 }
 
 hRectF ScreenLabel::region()

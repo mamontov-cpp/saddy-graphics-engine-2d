@@ -35,7 +35,7 @@ class ObjectBorder: public sad::RepeatingTask
 	 void renderHotSpots(AbstractScreenObject * o, bool canDelete);
 	 /** Creates all of hotspots for item
 	  */
-	 hst::vector<hRectF> createHotSpots(AbstractScreenObject * o, bool canDelete);
+	 sad::Vector<hRectF> createHotSpots(AbstractScreenObject * o, bool canDelete);
 	 /** Determines, whether object marked by this border is removable
 	     Default true
 	  */
@@ -51,10 +51,10 @@ class ObjectBorder: public sad::RepeatingTask
 	 }
 	 /** Tests, whether hotspot point is within
 	  */
-	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p, AbstractScreenObject * o);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p, AbstractScreenObject * o);
 	 /** Tests, whether is within
 	  */
-	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p) = 0;
+	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p) = 0;
 };
 
 class ActiveObjectBorder: public ObjectBorder
@@ -74,7 +74,7 @@ class ActiveObjectBorder: public ObjectBorder
 	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
-	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p);
 };
 
 class SelectedObjectBorder: public ObjectBorder
@@ -94,7 +94,7 @@ class SelectedObjectBorder: public ObjectBorder
 	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
-	 virtual hst::vector<BorderHotSpots> isWithin(const hPointF & p);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p);
 };
 
 

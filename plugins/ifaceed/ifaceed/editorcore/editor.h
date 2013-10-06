@@ -163,7 +163,7 @@ class Editor: public QObject
 		 EditorBehaviourSharedData * m_behavioursharedata;
 		 /** An icons container
 		  */
-		 Sprite2DConfig m_icons;
+		 sad::Sprite2DConfig m_icons;
 protected:
 		/** A defines editor behaviours
 		 */
@@ -383,7 +383,7 @@ private:
 		}
 		/** Returns an icon container
 		 */
-		Sprite2DConfig & icons();
+		sad::Sprite2DConfig & icons();
   signals:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure
