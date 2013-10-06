@@ -3,36 +3,41 @@
 
 	Defines  a convex hull and set of operations on it
  */
-#include "grahamscan.h"
-#include "../templates/maybe.hpp"
-#include "../templates/hlvector.hpp"
-#include "axle.h"
 #pragma once
+#include "axle.h"
+#include "grahamscan.h"
+
+#include "../templates/maybe.hpp"
+#include "../sadvector.h"
+
+namespace sad
+{
 
 namespace p2d
 {
+
 class CollisionShape;
 /*! A convex hull is defined as a set of operations
  */
 class ConvexHull
 {
  private: 
-	 hst::vector<p2d::Point> m_set;
+	 sad::Vector<p2d::Point> m_set;
 	 /*!  Inserts axle to container if not found in container
 		  \param[in, out] container container with axis
 		  \param[in] axle one axle
 	  */
-	 void tryInsertAxle(hst::vector<p2d::Axle> & container, 
+	 void tryInsertAxle(sad::Vector<p2d::Axle> & container, 
 						const p2d::Axle & axle) const;
 	 /*! Appends axis for specified side in container
 		  \param[in, out] container container with axis
 		  \param[in] number number of current side of convex hull
 	  */
-	 void appendAxisForSide(hst::vector<p2d::Axle> & container, int number) const;
+	 void appendAxisForSide(sad::Vector<p2d::Axle> & container, int number) const;
 	 /*! Creates a collision axis for all sides
 		 \param[in] container container with axis
 	  */
-	 void appendAxisForCollision(hst::vector<p2d::Axle> & container) const;
+	 void appendAxisForCollision(sad::Vector<p2d::Axle> & container) const;
  public:
 	 /*! Creates empty convex hull
 	  */
@@ -47,12 +52,12 @@ class ConvexHull
 	 /*! Creates a nex convex hull from specified set of points
 		 \param[in] set set of points
 	  */
-	 ConvexHull(const hst::vector<p2d::Point> & set);
+	 ConvexHull(const sad::Vector<p2d::Point> & set);
 	 /*! Creates new hull, don't performing creating algorithm on set
 		 \param[in] set set of points
 		 \return new convex hull
 	  */
-	 static ConvexHull  uncheckedCreate(const hst::vector<p2d::Point> & set);
+	 static ConvexHull  uncheckedCreate(const sad::Vector<p2d::Point> & set);
 	 /*! Computes a union for two hulls
 		 \param[in] o1 first hull
 		 \param[in] o2 second hull
@@ -97,7 +102,7 @@ class ConvexHull
 	 p2d::Point center() const;
 	 /*! Returns set from hull
 	  */
-	 inline const hst::vector<p2d::Point> & set() { return m_set; }
+	 inline const sad::Vector<p2d::Point> & set() { return m_set; }
 };
 
 /*! Projects a set of points of specified container to axle
@@ -129,6 +134,8 @@ p2d::Cutter1D projectPointSet(const T & container, unsigned int size, const p2d:
 		}
 	}
 	return p2d::Cutter1D(min, max);
+}
+
 }
 
 }

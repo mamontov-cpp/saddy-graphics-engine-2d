@@ -16,7 +16,7 @@
 /*! \class XMLConfigLoader 
 	A loader for config in XML format
  */
-class XMLConfigLoader: public Sprite2DConfigLoader
+class XMLConfigLoader: public sad::Sprite2DConfigLoader
 {
  private:
 		/*! \class XMLConfigEntry
@@ -27,7 +27,7 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 		 public:
 				 hst::string spriteGroup;    //!< Name of sprite group
 				 int         index;          //!< Index of sprite in group
-				 Sprite2DTemplate spriteTemplate;  //!< Template description of entry
+				 sad::Sprite2DTemplate spriteTemplate;  //!< Template description of entry
 		};
 
 		QString m_filename;   //!< File name, where we should load
@@ -57,7 +57,7 @@ class XMLConfigLoader: public Sprite2DConfigLoader
 		 \param[out] container container to be filled
 		 \return     whether loading was correct
 	  */
-	 bool load(Sprite2DTemplateContainer & container);
+	 bool load(sad::Sprite2DTemplateContainer & container);
 	 ~XMLConfigLoader();
 };
 

@@ -3,9 +3,13 @@
 
 	Describes a shape, used to determine collisions with objects
  */
+#pragma once
 #include "convexhull.h"
 #include "../primitives/object.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -48,7 +52,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */
-	virtual void populatePoints(hst::vector<p2d::Point> & v) const = 0;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const = 0;
 	/*! Computes a normal to point on surface. Can be used to work around with 
 		bouncing.
 		Note that function, does not check, which it belongs to surface or not.
@@ -63,4 +67,8 @@ public:
 	virtual hst::string dump() const = 0;
 	virtual ~CollisionShape();
 };
+
 }
+
+}
+

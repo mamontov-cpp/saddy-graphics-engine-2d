@@ -3,11 +3,15 @@
 	
 	A config for 2d sprites hot reload
  */
+#pragma once
 #include "sprite2dconfigloader.h"
+
 #include "../renderer.h"
 #include "../texturecontainer.h"
-#pragma once
 
+
+namespace sad
+{
 
 // An observer, which listens to config changes
 class Sprite2DConfigObserver;
@@ -80,7 +84,7 @@ class  Sprite2DConfig
 			\param[in] container container of textures
 			\return list of textures to load
 		 */
-		hst::vector<hst::string> getTexturesToLoad(const Sprite2DTemplateContainer & container);
+		sad::Vector<hst::string> getTexturesToLoad(const Sprite2DTemplateContainer & container);
  public:
 	    /*! Creates a config, with associated container
 			\param[in] containername container, where textures can be reloaded
@@ -116,3 +120,4 @@ class  Sprite2DConfig
 		Sprite2DConfigLoadingResult reload();
 };
 
+}

@@ -3,7 +3,7 @@
 #include "png/png.h"
 #include "os/mutex.h"
 
-static inline void bpp_dependent_copy(std::vector<unsigned char> & output, hst::vector<Uint8> & m_data, Uint8 m_bpp)
+static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::Vector<Uint8> & m_data, Uint8 m_bpp)
 {
 	size_t outsize=output.size();
 	unsigned char * p=NULL;
@@ -104,7 +104,7 @@ bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 {
 	m_pngtexture_loader_lock.lock();
 
-	hst::vector<Uint8> & m_data = texture->vdata();
+	sad::Vector<Uint8> & m_data = texture->vdata();
 	unsigned int & m_height = texture->height();
 	unsigned int & m_width = texture->width();
 	Uint8 & m_bpp = texture->bpp();

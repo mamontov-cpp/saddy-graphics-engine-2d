@@ -1,6 +1,6 @@
 #include "platform.h"
 
-DECLARE_SOBJ_INHERITANCE(Platform, p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(Platform, sad::p2d::app::Object)
 
 Platform::Platform()
 {

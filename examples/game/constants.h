@@ -10,8 +10,9 @@
 
 	Also they contain shape templates.
  */
-#include <p2d/app/constants.h>
 #pragma once
+#include <p2d/app/constants.h>
+
 
 class Player;
 class PlayerBullet;
@@ -20,6 +21,9 @@ class Bonus;
 class Enemy;
 class ShootingEnemy;
 class SuperShootingEnemy;
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -32,7 +36,7 @@ class Constants<Player>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 };
 
 
@@ -42,7 +46,7 @@ class Constants<PlayerBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for bullet
 		\return velocity
 	 */
@@ -58,7 +62,7 @@ class Constants<EnemyBullet>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for bullet
 		\return velocity
 	 */
@@ -74,7 +78,7 @@ class Constants<Bonus>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 };
 
 
@@ -83,7 +87,7 @@ class Constants<Enemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 };
 
 
@@ -92,7 +96,7 @@ class Constants<ShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for shooting enemy as a bullet
 		\return velocity
 	 */
@@ -108,9 +112,11 @@ class Constants<SuperShootingEnemy>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static p2d::CollisionShape * shape();
+	static sad::p2d::CollisionShape * shape();
 };
 
+
+}
 
 }
 

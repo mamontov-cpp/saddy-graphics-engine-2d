@@ -1,7 +1,7 @@
 #include "texture.h"
 #include "texturemanager.h"
 #include <errno.h>
-#include "primitives/glext.h"
+#include "3rdparty/glext/glext.h"
 #include "extchecker.h"
 #ifdef LINUX
 #include <renderer.h>

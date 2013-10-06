@@ -3,13 +3,10 @@
 
 	Describes a closure-like thing in terms of C++
  */
-#ifdef Bool
-    #undef Bool
-#endif
+#pragma once
 #ifdef QT_VERSION
     #include <QMetaType>
 #endif
-#pragma once
 
 namespace sad
 {

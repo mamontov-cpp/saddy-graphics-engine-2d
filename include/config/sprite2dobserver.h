@@ -3,11 +3,15 @@
 	
 	An observer, which can work with config for 2d sprites is placed here
  */
-#include "../sprite2dcontroller.h"
-#include "sprite2dtemplate.h"
-#include "../templates/hstring.h"
 #pragma once
+#include "sprite2dtemplate.h"
 
+#include "../sprite2dcontroller.h"
+#include "../templates/hstring.h"
+
+
+namespace sad
+{
 /* A config for sprites 
  */
 class Sprite2DConfig;
@@ -75,3 +79,4 @@ class Sprite2DConfigObserver
 		 inline void notifyConfigGone() { m_config = NULL; }
 };
 
+}

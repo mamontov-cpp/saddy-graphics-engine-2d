@@ -3,9 +3,12 @@
 
 	Describes an elastic force acting toward first object to second
  */
-#include <p2d/force.h>
-#include <p2d/body.h>
+#pragma once
+#include "force.h"
+#include "body.h"
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -68,3 +71,4 @@ class ElasticForce: public p2d::TangentialForce
 
 }
 
+}

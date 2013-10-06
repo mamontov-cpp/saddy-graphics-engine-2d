@@ -3,9 +3,13 @@
 
 	A world step task can perform world step, basing on rendering intervals
  */
+#pragma once
 #include "world.h"
 #include "../input.h"
 #include "../renderer.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -42,5 +46,7 @@ class WorldStepTask: public sad::RepeatingTask
 	  */
 	 virtual void perform();
 };
+
+}
 
 }

@@ -3,11 +3,17 @@
 
 	File, containing a definition of statemachine and global game state
 */
+#pragma once
+
 #include "../types.h"
 #include "../input.h"
 #include "../templates/hhash.hpp"
+
 #include <stdlib.h>
-#pragma once
+
+
+namespace sad
+{
 
 namespace fsm
 {
@@ -664,5 +670,7 @@ public:
 	~Machine();
 };
 
+
+}
 
 }

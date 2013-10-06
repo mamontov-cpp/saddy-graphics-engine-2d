@@ -1,6 +1,8 @@
 #include <extra/periodicalevent.h>
 #include <log/log.h>
 
+using namespace sad;
+
 PeriodicalEvent::PeriodicalEvent()
 {
 	m_interval = 50.0;

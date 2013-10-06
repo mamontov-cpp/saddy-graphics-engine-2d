@@ -5,10 +5,13 @@
 	out of shapes at beginning and end. Returns half of time limit if
 	collision is detected.
  */
+#pragma once
 #include "collisiondetector.h"
 #include "collisiontest.h"
-#pragma once
 
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -37,6 +40,8 @@ class BroadCollisionDetector: public p2d::CollisionDetector
 									  p2d::Body * b2, 
 									  double limit);
 };
+
+}
 
 }
 

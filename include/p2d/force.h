@@ -4,12 +4,16 @@
 	Describes a force, acting on object
  */
 #pragma once
-#include <p2d/vector.h>
-#include "../templates/maybe.hpp"
-#include "../templates/hlvector.hpp"
-#include "../extra/fuzzy_equal.h"
+
+#include "vector.h"
 #include "tickable.h"
 
+#include "../templates/maybe.hpp"
+#include "../sadvector.h"
+#include "../extra/fuzzy_equal.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -145,7 +149,7 @@ class ActingForces
 		   */
 		  virtual bool perform(double time, ActingForces<T> * container)
 		  {
-			  if (time > m_time || ::is_fuzzy_equal(time, m_time))
+			  if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
 			  {
 		          container->add(m_force);
 			      m_force = NULL;
@@ -158,8 +162,8 @@ class ActingForces
 	 typedef p2d::Force<T> * force_t;
 	 typedef typename p2d::ActingForces<T>::Command * command_t;
  protected:
-	 hst::vector< force_t >    m_forces;                       //!< A forces list, acting on body
-	 hst::vector< command_t >  m_queued;                       //!< A queued list of commands
+	 sad::Vector< force_t >    m_forces;                       //!< A forces list, acting on body
+	 sad::Vector< command_t >  m_queued;                       //!< A queued list of commands
  public:
 	 ActingForces() {}
 	 /*! Force container owns all forces, belonging to it
@@ -236,4 +240,6 @@ class ActingForces
 
 
 typedef p2d::ActingForces<p2d::Vector> TangentialActingForces;
+}
+
 }

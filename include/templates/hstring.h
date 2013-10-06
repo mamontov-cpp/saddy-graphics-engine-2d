@@ -5,13 +5,12 @@
 
 	This file contains a definition of string.
 */
-#include "stdafx.h"
+#include "../sadvector.h"
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
 #include <string.h>
 #include <vector>
-#include "hlvector.hpp"
 #include <string>
 #pragma once
 
@@ -22,12 +21,12 @@ namespace hst
 
 class string;
 
-typedef hst::vector<hst::string> stringlist;
+typedef sad::Vector<hst::string> stringlist;
 
 /*! \class  string
     \brief  String class
 
-	Some little big string class. I wrote it for my own purpose.
+	String class, written to extend standard class with some useful methods
 */
 class string: public std::string
 {

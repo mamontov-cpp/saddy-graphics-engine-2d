@@ -3,9 +3,13 @@
 
 	Defines a circle as collision shape
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -80,7 +84,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[out] v vector
 	 */
-	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const;
 	/*! Substracts a center from point and return a unit vector out of result
 		\param[in] p point
 		\param[out] n resulting normal
@@ -91,6 +95,8 @@ public:
 	 */
 	virtual hst::string dump() const; 
 };
+
+}
 
 }
 

@@ -61,7 +61,7 @@ class ScreenLabel: public AbstractScreenObject
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors = NULL);
+	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors = NULL);
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok

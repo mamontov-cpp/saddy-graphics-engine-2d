@@ -44,7 +44,7 @@ QImage SpriteDatabaseIterator::image()
 	return m_group_iterator.value();
 }
 
-Sprite2DConfig * SpriteDatabaseIterator::spriteConfig()
+sad::Sprite2DConfig * SpriteDatabaseIterator::spriteConfig()
 {
 	return m_db->m_configs[this->config().toStdString().c_str()];
 }
@@ -136,7 +136,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 	hst::Configs	 * configs = new hst::Configs();
 	for (db::NameFileMap::const_iterator it = map.begin();it != map.end();it++)
 	{
-		Sprite2DTemplateContainer testcontainer;
+		sad::Sprite2DTemplateContainer testcontainer;
 		XMLConfigLoader * loader = new XMLConfigLoader(it.value());
 		if (loader->load(testcontainer))
 		{
@@ -145,9 +145,9 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 			if (tryLoadImages(texturePaths,images))
 			{
 				this->importSprites(*qtimages,images,testcontainer,it.key());
-				Sprite2DConfig * cnf = new Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString());
+				sad::Sprite2DConfig * cnf = new sad::Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString());
 				cnf->setLoader(loader);
-				if (cnf->reload() != SCR_OK)
+				if (cnf->reload() != sad::SCR_OK)
 				{
 					SL_FATAL(QString("Saddy can\'t load images from config with path  %1")
 						       .arg(it.value())
@@ -193,21 +193,21 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 
 void SpriteDatabase::importSprites(QISpriteConfigs & configs, 
 								   QHash<QString, QImage> & images, 
-								   Sprite2DTemplateContainer & t,
+								   sad::Sprite2DTemplateContainer & t,
 								   const QString & name)
 {
 	configs.insert(name, QISpriteConfig());
-	Sprite2DTemplateContainer::const_iterator it = t.const_begin();
+	sad::Sprite2DTemplateContainer::const_iterator it = t.const_begin();
     for(; it!=t.const_end();it++)
 	{
 		QString group = it.key().data();
 		configs[name].insert(group, QISpriteGroup());
-		for(hst::hash<int,Sprite2DTemplate>::const_iterator g = it.value().const_begin(); 
+		for(hst::hash<int,sad::Sprite2DTemplate>::const_iterator g = it.value().const_begin(); 
 			g!=it.value().const_end();
 			g++)
 		{
 			configs[name][group].insert(g.key(), QImage());
-			Sprite2DTemplate s2dt = g.value();
+			sad::Sprite2DTemplate s2dt = g.value();
 			configs[name][group][g.key()] = extractImage(images[s2dt.textureName().data()],s2dt);
 		}
 	}
@@ -221,7 +221,7 @@ AbstractSpriteDatabaseIterator * SpriteDatabase::begin() const
 	return it;
 }
 
-QImage extractImage(const QImage & im, Sprite2DTemplate & t)
+QImage extractImage(const QImage & im, sad::Sprite2DTemplate & t)
 {
 	QImage result = im.convertToFormat(QImage::Format_RGB32);
 	result = result.copy( QRect(QPoint(t.textureRect().p().x(),t.textureRect().p().y()),
@@ -246,17 +246,17 @@ QImage extractImage(const QImage & im, Sprite2DTemplate & t)
 	return result;
 }
 
-QVector<QString> extractTexturePaths(const Sprite2DTemplateContainer & c)
+QVector<QString> extractTexturePaths(const sad::Sprite2DTemplateContainer & c)
 {
 	QVector<QString> result;
 	QSet<QString> set;
 
-	Sprite2DTemplateContainer::const_iterator x = c.const_begin();
-	Sprite2DTemplateContainer::const_iterator x_end = c.const_end();
+	sad::Sprite2DTemplateContainer::const_iterator x = c.const_begin();
+	sad::Sprite2DTemplateContainer::const_iterator x_end = c.const_end();
     for (; x!=x_end; x++)
 	{
-		hst::hash<int, Sprite2DTemplate>::const_iterator y = x.value().const_begin();
-		hst::hash<int, Sprite2DTemplate>::const_iterator y_end = x.value().const_end();
+		hst::hash<int, sad::Sprite2DTemplate>::const_iterator y = x.value().const_begin();
+		hst::hash<int, sad::Sprite2DTemplate>::const_iterator y_end = x.value().const_end();
         for(; y!=y_end; y++)
 		{
 			hst::string path = y.value().textureName();

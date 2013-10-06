@@ -1,28 +1,28 @@
 #include <p2d/bouncesolver.h>
 #include <log/log.h>
 
-p2d::BounceSolver::BounceSolver()
+sad::p2d::BounceSolver::BounceSolver()
 {
-	m_find = new p2d::FindContactPoints();
+	m_find = new sad::p2d::FindContactPoints();
 	m_first = NULL;
 	m_second = NULL;
 	m_debug = false;
 	this->resetCoefficients();
 }
 
-p2d::BounceSolver::~BounceSolver()
+sad::p2d::BounceSolver::~BounceSolver()
 {	
 	delete m_find;
 }
 
 
-void p2d::BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
+void sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
 {
 	m_first = b1;
 	m_second = b2;
 	p2d::SetOfPointsPair pairs;
 	this->solveTOIFCP(pairs);
-	if (pairs.size() > 0 &&  (m_toi > 0 || is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
+	if (pairs.size() > 0 &&  (m_toi > 0 || sad::is_fuzzy_zero(m_toi, COLLISION_PRECISION * 1000)))
 	{
 		this->performBouncing(pairs);
 		this->resetCoefficients();
@@ -37,7 +37,7 @@ void p2d::BounceSolver::bounce(p2d::Body * b1, p2d::Body * b2)
 }
 
 
-void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
+void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
 {
 	m_av1 = m_first->averageChangeIndependentTangentialVelocity();
 	m_av2 = m_second->averageChangeIndependentTangentialVelocity();
@@ -67,7 +67,7 @@ void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 		double avy2 = m_av2.y();
 
 		double time = 0;
-		if (non_fuzzy_zero(avx2 - avx1))
+		if (sad::non_fuzzy_zero(avx2 - avx1))
 		{
 			time = (x1 - x2) / (avx2 - avx1);
 		}
@@ -84,39 +84,39 @@ void p2d::BounceSolver::solveTOIFCP(p2d::SetOfPointsPair & pairs)
 /*! Implement solving for bouncing
 	\param[in] pairs pairs of contact points
  */
-void p2d::BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
+void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & pairs)
 {
 	//TODO: Implement another types of friction
 
 	double m1 = m_first->weight().value();
 	double m2 = m_second->weight().value();
 
-	p2d::Point normal1; 
+	sad::p2d::Point normal1; 
 	m_first->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
 	double pivot1 = m_first->currentShape()->center().distanceTo(pairs[0].p1());
 	m_force_moment[0] = (pairs[0].p1() - m_first->currentShape()->center());
 
-	p2d::Point normal2;
+	sad::p2d::Point normal2;
 	m_second->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
 	double pivot2 = m_first->currentShape()->center().distanceTo(pairs[0].p2());
 	m_force_moment[1] = (pairs[0].p2() - m_second->currentShape()->center());
 
-	p2d::Vector v1 = m_first->tangentialVelocityAt(m_toi);
+	sad::p2d::Vector v1 = m_first->tangentialVelocityAt(m_toi);
 	double project1 = p2d::scalar(v1, normal1);
-	p2d::Vector normalPart1 = normal1;
+	sad::p2d::Vector normalPart1 = normal1;
 	normalPart1 *= project1;
-	p2d::Vector cachedNormal1 = normalPart1;
+	sad::p2d::Vector cachedNormal1 = normalPart1;
 
-	p2d::Vector tangentialPart1 = v1;
+	sad::p2d::Vector tangentialPart1 = v1;
 	tangentialPart1 -= normalPart1;
 
-	p2d::Vector v2 = m_second->tangentialVelocityAt(m_toi);
+	sad::p2d::Vector v2 = m_second->tangentialVelocityAt(m_toi);
 	double project2 = p2d::scalar(v2, normal2);
-	p2d::Vector normalPart2 = normal2;
+	sad::p2d::Vector normalPart2 = normal2;
 	normalPart2 *= project2;
-	p2d::Vector cachedNormal2 = normalPart2;
+	sad::p2d::Vector cachedNormal2 = normalPart2;
 
-	p2d::Vector tangentialPart2 = v2;
+	sad::p2d::Vector tangentialPart2 = v2;
 	tangentialPart2 -= normalPart2;
 
 	this->resolveNormalSpeed(m_first, normalPart1, m_second, cachedNormal2, 0);		
@@ -131,7 +131,7 @@ void p2d::BounceSolver::performBouncing(const p2d::SetOfPointsPair & pairs)
 }
 
 
-void p2d::BounceSolver::logFCPError(const char * m)
+void sad::p2d::BounceSolver::logFCPError(const char * m)
 {
 	if (m_debug)
 	{
@@ -141,9 +141,9 @@ void p2d::BounceSolver::logFCPError(const char * m)
 	tpl <<  "2nd body: \n{3}\n";
 	tpl <<  "velocity ({4},{5})\nTOI: {6} Reason: {7} \n";
 		
-	p2d::Point center1 = m_first->currentShape()->center();
+	sad::p2d::Point center1 = m_first->currentShape()->center();
 
-	p2d::Point center2 = m_second->currentShape()->center();
+	sad::p2d::Point center2 = m_second->currentShape()->center();
 
 	SL_DEBUG  (fmt::Format(tpl) << m_first->currentShape()->dump()
 							     << m_av1.x() << m_av1.y()
@@ -162,7 +162,7 @@ static int boundspeed_solving_branches[3][3] =
 	{1, 1, 0}
 };
 
-static int bound_solver_get_branch_index(p2d::Body * b)
+static int bound_solver_get_branch_index(sad::p2d::Body * b)
 {
 	int index = 0;
 	if (b->fixed())
@@ -177,14 +177,15 @@ static int bound_solver_get_branch_index(p2d::Body * b)
 	return index;
 
 }
-void p2d::BounceSolver::resolveNormalSpeed(p2d::Body * b1, 
-									  p2d::Vector & n1, 
-									  p2d::Body * b2, 
-									  const p2d::Vector & n2,
-									  int index
-									  )
+void sad::p2d::BounceSolver::resolveNormalSpeed(
+	sad::p2d::Body * b1, 
+	sad::p2d::Vector & n1, 
+	sad::p2d::Body * b2, 
+	const sad::p2d::Vector & n2,
+	int index
+)
 {
-	p2d::Vector vn1 = n1;
+	sad::p2d::Vector vn1 = n1;
 	n1 *= -1;
 	int index1 = bound_solver_get_branch_index(b1);
 	int index2 = bound_solver_get_branch_index(b2);
@@ -224,7 +225,7 @@ void p2d::BounceSolver::resolveNormalSpeed(p2d::Body * b1,
 }
 
 
-void p2d::BounceSolver::resetCoefficients()
+void sad::p2d::BounceSolver::resetCoefficients()
 {
 	m_resilience[0] = 1.0;
 	m_resilience[1] = 1.0;
@@ -233,29 +234,30 @@ void p2d::BounceSolver::resetCoefficients()
 	m_shouldperformrotationfriction = true;
 }
 
-void p2d::BounceSolver::tryResolveFriction(p2d::Body * b, 
-									       const p2d::Vector & t, 
-									       const p2d::Vector & ni, 
-								           int index,
-									       double pivot
-									      )
+void sad::p2d::BounceSolver::tryResolveFriction(
+	sad::p2d::Body * b, 
+	const sad::p2d::Vector & t, 
+	const sad::p2d::Vector & ni, 
+	int index,
+	double pivot
+)
 {
-	if (non_fuzzy_zero(m_rotationfriction[index]) 
+	if (sad::non_fuzzy_zero(m_rotationfriction[index]) 
 		&& b->weight().isInfinite() == false 
 		&& m_shouldperformrotationfriction)
 	{
 		double w = b->angularVelocityAt(m_toi);
-		p2d::Vector tangential = m_force_moment[index];
-		p2d::mutableUnit(tangential);
-		p2d::mutableNormalizedOrtho(tangential, p2d::OVI_DEG_90);
+		sad::p2d::Vector tangential = m_force_moment[index];
+		sad::p2d::mutableUnit(tangential);
+		sad::p2d::mutableNormalizedOrtho(tangential, sad::p2d::OVI_DEG_90);
 
-		p2d::Vector tangentialUnit = tangential;
-		double forcemomentlength = p2d::modulo(m_force_moment[index]);
+		sad::p2d::Vector tangentialUnit = tangential;
+		double forcemomentlength = sad::p2d::modulo(m_force_moment[index]);
 		double rotation_tangential_modulo = w * forcemomentlength;
 		tangential *= rotation_tangential_modulo;
 		tangential += t;
 
-		if (non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
+		if (sad::non_fuzzy_zero(p2d::modulo(tangential)) && b->weight().isInfinite() == false)
 		{
 			tangential *= (1 - m_rotationfriction[index] / b->weight().value());
 			// Compute new tangential velocity
@@ -264,7 +266,7 @@ void p2d::BounceSolver::tryResolveFriction(p2d::Body * b,
 			// Since we have no sliding friction force, a tangential part of velocity
 			// won't change, so we must convert a tangential part to velocity. 
 			tangential -= t;
-			double wR = p2d::scalar(tangential, tangentialUnit);
+			double wR = sad::p2d::scalar(tangential, tangentialUnit);
 			double w = wR / forcemomentlength;
 
 			b->sheduleAngularVelocity(w);

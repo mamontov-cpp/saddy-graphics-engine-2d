@@ -4,12 +4,16 @@
 	Describes a bounding walls, that teleports collided player to other wall
 	and destroy other objects
  */
-#include <primitives/object.h>
-#include <p2d/body.h>
-#include <p2d/circle.h>
-#include <p2d/line.h>
-#include <p2d/bounds.h>
 #pragma once
+#include "body.h"
+#include "circle.h"
+#include "line.h"
+#include "bounds.h"
+
+#include "../primitives/object.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -67,8 +71,8 @@ class Wall: public sad::Object
 class Walls
 {
   protected:
-	  hst::vector<Wall *> m_walls;  //!< A bounding walls
-	  hst::vector<p2d::Body *> m_bodies; //!< A bodies
+	  sad::Vector<Wall *> m_walls;  //!< A bounding walls
+	  sad::Vector<p2d::Body *> m_bodies; //!< A bodies
 
 	  double m_padding; //!< A padding for walls and bodies
   public:
@@ -83,10 +87,12 @@ class Walls
 	  Walls(double padding = 0);
 	  /*! Returns physical bodies of walls to add them into a game world
 	   */
-	  const hst::vector<p2d::Body *> bodies() const;
+	  const sad::Vector<p2d::Body *> bodies() const;
       /*! Destroys walls
 	   */
 	  virtual ~Walls();
 };
+
+}
 
 }

@@ -6,6 +6,9 @@
 #pragma once
 #include "../primitives/hpoint.h"
 
+namespace sad
+{
+
 namespace p2d 
 {
 
@@ -27,7 +30,7 @@ T distance(const  hst::point<hst::D2, T> & p1,
  */ 
 class Point: public hPointF 
 {
-	public:
+public:
 	inline Point() : hPointF() {}
 	inline Point(const hPointF & o) : hPointF(o) {}
 	inline Point(double x, double y) : hPointF(x, y)
@@ -41,5 +44,7 @@ class Point: public hPointF
 		return distance(*this, p);
 	}
 };
+
+}
 
 }

@@ -3,10 +3,14 @@
 
 	Describes a period event, which performs in specified interval
  */
-#include <time.h>
+#pragma once
 #include "../input.h"
 #include "../os/timer.h"
-#pragma once
+
+#include <time.h>
+
+namespace sad
+{
 
 /*! An event, that is performed if last time shot is less than specified interval
  */
@@ -80,3 +84,5 @@ class TimePeriodicalTask: public sad::RepeatingTask
 		  return new TimePeriodicalTask( new _Event() );
 	  }
 };
+
+}

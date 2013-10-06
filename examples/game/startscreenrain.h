@@ -3,15 +3,16 @@
 
 	Describes a rain in start screen
  */
+#pragma once
 #include <input.h>
 #include <extra/periodicalevent.h>
-#pragma once
+
 
 class Game;
 
 /*! Descibes a rain of objects in start screen
  */ 
-class StartScreenRain: public PeriodicalEvent
+class StartScreenRain: public sad::PeriodicalEvent
 {
  protected:
 	 Game * m_game; //!< A game which rain is linked to

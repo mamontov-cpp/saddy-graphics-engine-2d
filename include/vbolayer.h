@@ -15,13 +15,13 @@
     #include <GL/glu.h>
 #endif
 #define GL_GLEXT_PROTOTYPES
-#include "primitives/glext.h"
+#include "3rdparty/glext/glext.h"
 
 /*! \class VBO
 	Provides a simple access functions for Vertex Buffer Objects.
 	
 	HINT: You must create this objects only after sad::Renderer::init. That's because
-	checks for extensions
+	of checks for extensions
 */
 class VBO
 {

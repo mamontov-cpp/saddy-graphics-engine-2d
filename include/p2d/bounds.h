@@ -3,10 +3,14 @@
 
 	Defines a bounds, useful for representing a solid walls
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
 #include "infiniteline.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -96,7 +100,7 @@ class Bound: public p2d::CollisionShape
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */
-	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const;
 	/*! In any case, returns normal to a bound
 		\param[in] p point
 		\param[out] n resulting normal
@@ -111,3 +115,4 @@ class Bound: public p2d::CollisionShape
 
 }
 
+}

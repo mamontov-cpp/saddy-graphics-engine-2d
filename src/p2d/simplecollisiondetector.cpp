@@ -1,14 +1,14 @@
 #include "p2d/simplecollisiondetector.h"
 
-p2d::MaybeTime p2d::SimpleCollisionDetector::collides(p2d::Body * b1, 
-						         					  p2d::Body * b2, 
-												      double limit)
+sad::p2d::MaybeTime sad::p2d::SimpleCollisionDetector::collides(sad::p2d::Body * b1, 
+																sad::p2d::Body * b2, 
+																double limit)
 {
 	double time = m_moment * limit;
 	// A zero contains cache data from  bodies
-	p2d::CollisionShape * s1 = b1->Temporary;
-	p2d::CollisionShape * s2 = b2->Temporary;
-	p2d::MaybeTime result;
+	sad::p2d::CollisionShape * s1 = b1->Temporary;
+	sad::p2d::CollisionShape * s2 = b2->Temporary;
+	sad::p2d::MaybeTime result;
 	if(m_tester->invoke(s1, s2))
 	{
 		result.setValue(time);
@@ -16,7 +16,7 @@ p2d::MaybeTime p2d::SimpleCollisionDetector::collides(p2d::Body * b1,
 	return result;
 }
 
-p2d::SimpleCollisionDetector::~SimpleCollisionDetector()
+sad::p2d::SimpleCollisionDetector::~SimpleCollisionDetector()
 {
 	delete m_tester;
 }

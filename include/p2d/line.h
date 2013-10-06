@@ -3,9 +3,12 @@
 
 	Defines a line as a collision shape
  */
+#pragma once
 #include "collisionshape.h"
 #include "point.h"
-#pragma once
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -70,7 +73,7 @@ public:
 	/*! Returns a points from a line
 		\return points
 	 */
-	hst::vector<p2d::Point> points() const;
+	sad::Vector<p2d::Point> points() const;
 	/*! Returns size of current type
 		\return size of type in bytes
 	 */
@@ -86,7 +89,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */
-	virtual void populatePoints(hst::vector<p2d::Point> & v) const;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const;
 	/*! In any case, returns normal to a bound. A normal is returned as rotation
 		of unit vector of line by 90 degrees. So if line will be like [p1, p2] and normal is like (n1, n2)
 		the following cases will be valid:
@@ -106,3 +109,4 @@ public:
 
 }
 
+}

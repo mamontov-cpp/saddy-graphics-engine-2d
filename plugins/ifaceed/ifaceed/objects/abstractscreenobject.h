@@ -17,7 +17,7 @@ class InterlockedScene;
 class FontTemplateDatabase;
 /** Describes an abstract object of screen template
  */
-class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public RefCountable
+class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public sad::RefCountable
 {
  SAD_OBJECT
  protected:
@@ -115,7 +115,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * t, hst::vector<hst::string> * errors = NULL)=0;
+	virtual bool isValid(FontTemplateDatabase * t, sad::Vector<hst::string> * errors = NULL)=0;
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok

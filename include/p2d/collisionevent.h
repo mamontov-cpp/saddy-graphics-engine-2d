@@ -6,6 +6,9 @@
 #pragma once
 #include <cstdlib>
 
+namespace sad
+{
+
 namespace p2d
 {
 
@@ -49,5 +52,7 @@ struct CollisionEvent: public BasicCollisionEvent
    T2 & object2() const { return *m_object_2; }
    double time() const { return m_time; }
 };
+
+}
 
 }

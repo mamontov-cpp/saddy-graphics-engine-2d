@@ -3,14 +3,17 @@
 	
 	Here is described loadable sprite template, that can be easily loaded from file
  */
+#pragma once
 #include "../primitives/hrect.h"
 #include "../primitives/hcolor.h"
 #include "../templates/hstring.h"
-#pragma once
+
+namespace sad
+{
 
 /*! \class Sprite2DTemplate
 	
-	A class of loadable 2D template
+	A class of serializable 2D sprite template
  */
 class Sprite2DTemplate
 {
@@ -80,4 +83,6 @@ class Sprite2DTemplate
 		 */
 		inline const hPointF & size() const {return m_size; }
 };
+
+}
 

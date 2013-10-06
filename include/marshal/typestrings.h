@@ -4,7 +4,7 @@
 	Here described a type string generator, which defines data properties
  */
 #include <templates/hstring.h>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #pragma once
 namespace abstract_names
 {

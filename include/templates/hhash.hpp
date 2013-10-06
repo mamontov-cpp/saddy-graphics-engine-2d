@@ -4,7 +4,7 @@
 
 	Contains a simple hashtable, based on ElfHash function
 */
-#include "hlvector.hpp"
+#include "../sadvector.h"
 #include "hdeque.hpp"
 #include "hstring.h"
 #include "hpair.hpp"
@@ -64,7 +64,7 @@ namespace hst
    friend class iterator;
    private:
 	       /*! Defines a hash inner data */
-	       hst::vector<slot> m_data;
+	       sad::Vector<slot> m_data;
 		   /*! Table size */
 		   unsigned long     m_table_size;
 		   /*! Count of elements */

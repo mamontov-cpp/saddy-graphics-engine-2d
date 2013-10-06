@@ -7,12 +7,12 @@
 #include "../vector.h"
 #include "../point.h"
 #include "../axle.h"
-#include "../../templates/hlvector.hpp"
+
+#include "../../sadvector.h"
 
 
-
-#undef  CurrentTIme
-
+namespace sad
+{
 
 namespace p2d
 {
@@ -49,8 +49,8 @@ protected:
 	bool m_constructed; //!< Whether way is constructed
 	bool m_closed;		//!< Whether way is closed
 	double m_totaltime; //!< Amount of time,  which is needed to pass all way
-	hst::vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
-	hst::vector<double>        m_times;     //!< A time, when the point should be reached
+	sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
+	sad::Vector<double>        m_times;     //!< A time, when the point should be reached
 public:
 	/*! Creates a default closed unconstructed way
 	 */
@@ -94,7 +94,7 @@ public:
 	/*! Returns a way points
 		\return way points
 	 */
-	inline const hst::vector<p2d::app::WayPoint> & wayPoints() const { return m_waypoints; }
+	inline const sad::Vector<p2d::app::WayPoint> & wayPoints() const { return m_waypoints; }
 	/*! Constructs a way
 	 */
 	void construct();
@@ -107,3 +107,4 @@ public:
 
 }
 
+}

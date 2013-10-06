@@ -521,10 +521,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\p2d\collisionmultimethod.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\p2d\collisionshape.cpp"
 					>
 				</File>
@@ -549,10 +545,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\p2d\ghostoptions.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\p2d\grahamscan.cpp"
 					>
 				</File>
@@ -562,10 +554,6 @@
 				</File>
 				<File
 					RelativePath=".\src\p2d\line.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\p2d\movement.cpp"
 					>
 				</File>
 				<File
@@ -621,6 +609,14 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="input"
+				>
+				<File
+					RelativePath=".\src\input\events.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -660,6 +656,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadvector.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\scene.h"
 				>
 			</File>
@@ -677,14 +677,6 @@
 			</File>
 			<File
 				RelativePath=".\include\sprite2dcontroller.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\targetver.h"
 				>
 			</File>
 			<File
@@ -719,10 +711,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\templates\habstract.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\include\templates\hdeque.hpp"
 					>
 				</File>
@@ -732,10 +720,6 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\hlist.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hlvector.hpp"
 					>
 				</File>
 				<File
@@ -767,15 +751,11 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\templates\ptrvector.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\templates\refcountable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\sinstance.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\stdafx.h"
 					>
 				</File>
 				<File
@@ -792,10 +772,6 @@
 				</File>
 				<File
 					RelativePath=".\include\primitives\classmetadatacontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\glext.h"
 					>
 				</File>
 				<File
@@ -1050,6 +1026,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="glext"
+					>
+					<File
+						RelativePath=".\include\3rdparty\glext\glext.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="log"
@@ -1222,6 +1206,22 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="input"
+				>
+				<File
+					RelativePath=".\include\input\events.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\input\handlers.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\input\keycodes.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

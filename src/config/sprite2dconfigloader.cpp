@@ -1,5 +1,6 @@
 #include "sprite2dconfigloader.h"
 
+using namespace sad;
 
 void Sprite2DConfigLoader::insertTemplate(const hst::string & group, 
 						        	      int index,

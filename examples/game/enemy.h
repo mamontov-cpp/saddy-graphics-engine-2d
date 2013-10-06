@@ -3,8 +3,9 @@
 
 	Describes an enemy
  */
-#include "gameobject.h"
 #pragma once
+#include "gameobject.h"
+
 
 /*! As a default, enemy is a simple object with settings from
     constant

@@ -20,7 +20,7 @@ public:
 
 	virtual void notify(const hRectF & data)
 	{
-		Sprite2DConfigObserver * o = m_sprite->observer();
+		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
 		{
 			m_sprite->observer()->sprite()->adapter()->setRect(data);
@@ -28,7 +28,7 @@ public:
 	}
 	virtual void notify(const float & data)
 	{
-		Sprite2DConfigObserver * o = m_sprite->observer();
+		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
 		{
 			Sprite2DController * c = o->sprite();
@@ -105,7 +105,7 @@ hst::string ScreenSprite::_description()
 hRectF ScreenSprite::region()
 {
 	hRectF rd = m_rect;
-	rotate(m_angle, rd);
+	sad::rotate(m_angle, rd);
 	return  rd;	
 }
 
@@ -117,7 +117,7 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
  		hPointF middle = (hregion[0] + hregion[2]) / 2; 
 		hPointF delta = point - middle;
 		m_observer->sprite()->move(delta);
-		moveBy(delta, m_rect);
+		sad::moveBy(delta, m_rect);
 	}
 }
 
@@ -128,11 +128,11 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
 bool ScreenSprite::isWithin(const hPointF & p)
 {
 	hRectF r = this->region();
-	return ::isWithin(p, r);
+	return sad::isWithin(p, r);
 }
 
 
-bool ScreenSprite::isValid(FontTemplateDatabase * db, hst::vector<hst::string> * errors)
+bool ScreenSprite::isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors)
 {
 
 	SpriteDatabase & d = db->sprites();
@@ -181,8 +181,8 @@ bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 
 void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 {
-	Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
-	Sprite2DConfigObserver * obs = new Sprite2DConfigObserver(m_group, m_index, cfg);
+	sad::Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
+	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(hPointF(0,0));
 	m_observer = obs;
 	m_rect = this->m_observer->sprite()->adapter()->rect();
@@ -192,9 +192,9 @@ void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float an
 {
 	float mangle = -1 * angle;
 	m_rect = rotatedrectangle;
-	rotate(mangle, m_rect);	
+	sad::rotate(mangle, m_rect);	
 	m_angle = angle;
-	Sprite2DConfigObserver * o = this->observer();
+	sad::Sprite2DConfigObserver * o = this->observer();
 	if (o)
 	{
 		this->observer()->sprite()->adapter()->setRect(rotatedrectangle);
@@ -203,11 +203,10 @@ void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float an
 
 void ScreenSprite::initializeGraphicAfterLoad(FontTemplateDatabase * db)
 {
-	Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
-	Sprite2DConfigObserver * obs = new Sprite2DConfigObserver(m_group, m_index, cfg);
+	sad::Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
+	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(hPointF(0,0));
 	m_observer = obs;
 	obs->sprite()->adapter()->setRect(m_rect);
 	obs->sprite()->rotate(m_angle);
-	
 }
