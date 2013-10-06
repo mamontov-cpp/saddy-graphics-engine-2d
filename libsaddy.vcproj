@@ -521,10 +521,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\p2d\collisionmultimethod.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\p2d\collisionshape.cpp"
 					>
 				</File>
@@ -549,10 +545,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\p2d\ghostoptions.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\p2d\grahamscan.cpp"
 					>
 				</File>
@@ -562,10 +554,6 @@
 				</File>
 				<File
 					RelativePath=".\src\p2d\line.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\p2d\movement.cpp"
 					>
 				</File>
 				<File

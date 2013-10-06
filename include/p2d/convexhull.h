@@ -3,14 +3,19 @@
 
 	Defines  a convex hull and set of operations on it
  */
+#pragma once
+#include "axle.h"
 #include "grahamscan.h"
+
 #include "../templates/maybe.hpp"
 #include "../templates/svector.h"
-#include "axle.h"
-#pragma once
+
+namespace sad
+{
 
 namespace p2d
 {
+
 class CollisionShape;
 /*! A convex hull is defined as a set of operations
  */
@@ -129,6 +134,8 @@ p2d::Cutter1D projectPointSet(const T & container, unsigned int size, const p2d:
 		}
 	}
 	return p2d::Cutter1D(min, max);
+}
+
 }
 
 }

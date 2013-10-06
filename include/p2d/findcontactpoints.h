@@ -4,7 +4,7 @@
 	Contains a multimethod, which can be used to determine a contact points
 	for shapes
  */
-#include <stdexcept>
+#pragma once
 #include "collisionmultimethod.h"
 #include "infiniteline.h"
 #include "point.h"
@@ -12,7 +12,11 @@
 #include "circle.h"
 #include "line.h"
 #include "bounds.h"
-#pragma once
+
+#include <stdexcept>
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -216,5 +220,7 @@ p2d::SetOfPointsPair findContacts(
 bool hasPair(const p2d::SetOfPointsPair & set,
 				double x1, double y1,
 				double x2, double y2);
+
+}
 
 }

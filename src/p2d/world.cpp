@@ -1,18 +1,18 @@
 #include "p2d/world.h"
 
-double p2d::World::timeStep() const
+double sad::p2d::World::timeStep() const
 {
 	return m_time_step;
 }
 
-p2d::World::World()
+sad::p2d::World::World()
 {
 	m_time_step = 1;
 	m_transformer = new p2d::CircleToHullTransformer(*(p2d::CircleToHullTransformer::ref()));
 	m_detector = new p2d::SimpleCollisionDetector();
 }
 
-p2d::World::~World()
+sad::p2d::World::~World()
 {
 	delete m_transformer;
 	delete m_detector;
@@ -29,13 +29,13 @@ p2d::World::~World()
 	}
 }
 
-p2d::CircleToHullTransformer * p2d::World::transformer()
+sad::p2d::CircleToHullTransformer * sad::p2d::World::transformer()
 {
 	return m_transformer;
 }
 
 
-void p2d::World::setDetector(p2d::CollisionDetector * d)
+void sad::p2d::World::setDetector(sad::p2d::CollisionDetector * d)
 {
 	delete m_detector;
 	m_detector = d;
@@ -49,7 +49,7 @@ void p2d::World::setDetector(p2d::CollisionDetector * d)
 }
 
 
-void p2d::World::setTransformer(p2d::CircleToHullTransformer * t)
+void sad::p2d::World::setTransformer(sad::p2d::CircleToHullTransformer * t)
 {
 	delete m_transformer;
 	m_transformer = t;
@@ -63,7 +63,7 @@ void p2d::World::setTransformer(p2d::CircleToHullTransformer * t)
 }
 
 
-void p2d::World::removeHandler(p2d::BasicCollisionHandler * h)
+void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
 {
 	for(size_t i = 0;  i < m_callbacks.count(); i++)
 	{
@@ -74,7 +74,7 @@ void p2d::World::removeHandler(p2d::BasicCollisionHandler * h)
 	}
 	delete h;
 }
-void p2d::World::addNow(p2d::Body * b)
+void sad::p2d::World::addNow(p2d::Body * b)
 {
 	sad::vector<hst::string> groups;
 	for(hst::hash<hst::string, sad::vector<p2d::Body*> > ::iterator it = m_groups.begin();
@@ -102,7 +102,7 @@ void p2d::World::addNow(p2d::Body * b)
 	b->setWorld(this);
 }
 
-void p2d::World::removeNow(p2d::Body * b)
+void sad::p2d::World::removeNow(p2d::Body * b)
 {
 	if (m_allbodies.contains(b))
 	{
@@ -116,13 +116,13 @@ void p2d::World::removeNow(p2d::Body * b)
 	}
 }
 
-void p2d::World::splitTimeStepAt(double time)
+void sad::p2d::World::splitTimeStepAt(double time)
 {
 	m_splitted_time_step.setValue(time);
 }
 
-void p2d::World::addHandler(
-		 p2d::BasicCollisionHandler * h, 
+void sad::p2d::World::addHandler(
+		 sad::p2d::BasicCollisionHandler * h, 
 		 const hst::string & t1, 
 		 const hst::string & t2
 )
@@ -140,7 +140,7 @@ void p2d::World::addHandler(
 	m_callbacks << twh;
 }
 
-void p2d::World::step(double time)
+void sad::p2d::World::step(double time)
 {
 	performQueuedActions();
 	lockChanges();
@@ -169,7 +169,7 @@ void p2d::World::step(double time)
 	performQueuedActions();
 }
 
-void p2d::World::stepDiscreteChangingValues(double time)
+void sad::p2d::World::stepDiscreteChangingValues(double time)
 {
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
@@ -180,7 +180,7 @@ void p2d::World::stepDiscreteChangingValues(double time)
 	}
 }
 
-void p2d::World::buildBodyCaches()
+void sad::p2d::World::buildBodyCaches()
 {
 	double t = this->timeStep();
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
@@ -193,7 +193,7 @@ void p2d::World::buildBodyCaches()
 	}
 }
 
-void p2d::World::stepPositionsAndVelocities(double time)
+void sad::p2d::World::stepPositionsAndVelocities(double time)
 {
 	for( bodies_to_types_t::iterator it = m_allbodies.begin();
 		it != m_allbodies.end();
@@ -204,7 +204,7 @@ void p2d::World::stepPositionsAndVelocities(double time)
 	}
 }
 
-void p2d::World::executeCallbacks(reactions_t & reactions)
+void sad::p2d::World::executeCallbacks(reactions_t & reactions)
 {
 	for (size_t i = 0; i < reactions.count(); i++)
 	{
@@ -217,17 +217,17 @@ void p2d::World::executeCallbacks(reactions_t & reactions)
 	}
 }
 
-bool p2d::World::compare(const reaction_t & r1, const reaction_t & r2)
+bool sad::p2d::World::compare(const reaction_t & r1, const reaction_t & r2)
 {
 	return r1.p1().m_time < r2.p1().m_time;
 }
 
-void p2d::World::sortCallbacks(reactions_t & reactions)
+void sad::p2d::World::sortCallbacks(reactions_t & reactions)
 {
 	std::sort(reactions.begin(), reactions.end(), p2d::World::compare);
 }
 
-void p2d::World::findAndExecuteCollisionCallbacks()
+void sad::p2d::World::findAndExecuteCollisionCallbacks()
 {
 	reactions_t reactions;
 	findEvents(reactions);
@@ -235,7 +235,7 @@ void p2d::World::findAndExecuteCollisionCallbacks()
 	executeCallbacks(reactions);
 }
 
-void p2d::World::findEvents(reactions_t & reactions)
+void sad::p2d::World::findEvents(reactions_t & reactions)
 {
 	for (size_t i = 0; i < m_callbacks.count(); i++)
 	{
@@ -243,7 +243,7 @@ void p2d::World::findEvents(reactions_t & reactions)
 	}
 }
 
-void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
+void sad::p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t & twh)
 {
 	double step = this->timeStep();
 	if (m_groups.contains(twh.p1().p1()) && m_groups.contains(twh.p1().p2()))
@@ -280,7 +280,7 @@ void p2d::World::findEvent(reactions_t & reactions, const types_with_handler_t &
 
 
 
-void p2d::World::clearNow()
+void sad::p2d::World::clearNow()
 {
 	// To make no problems, with iterators, step through bodies
 	// as vector
@@ -298,8 +298,8 @@ void p2d::World::clearNow()
 	}
 }
 
-p2d::BasicCollisionHandler *
-p2d::World::addHandler( void (*p)(const p2d::BasicCollisionEvent &))
+sad::p2d::BasicCollisionHandler *
+sad::p2d::World::addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &))
 {
 	p2d::BasicCollisionHandler * h = 
 	new p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>(p);
@@ -308,7 +308,7 @@ p2d::World::addHandler( void (*p)(const p2d::BasicCollisionEvent &))
 	return h;
 }
 
-void p2d::World::remove(p2d::Body * body)
+void sad::p2d::World::remove(p2d::Body * body)
 {
 	body->setUserObject(NULL);
 	body->clearListeners();

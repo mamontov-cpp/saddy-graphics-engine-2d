@@ -269,7 +269,7 @@ void Sprite2DAdapter::makeSpanBetweenPoints(const hRectF & r, const hPointF & p1
 	for(int i = 0; i < 4; i++)
 		kr[i].setX(0);
 
-	double distance = p2d::distance(p1, p2) / 2;
+	double distance = sad::p2d::distance(p1, p2) / 2;
 	kr[0].setX(kr[0].x() - distance );
 	kr[2].setX(kr[2].x() + distance );
 	kr[1].setX(kr[1].x() + distance );

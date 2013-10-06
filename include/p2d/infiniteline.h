@@ -3,10 +3,14 @@
 
 	Describes an infinite line and functions for working with other data
  */
+#pragma once
 #include "axle.h"
 #include "point.h"
+
 #include "../templates/maybe.hpp"
-#pragma once
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -95,5 +99,7 @@ p2d::MaybePoint intersection(
 	const p2d::Vector & v, 
 	const p2d::Cutter2D & c
 );
+
+}
 
 }

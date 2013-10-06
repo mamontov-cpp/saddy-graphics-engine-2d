@@ -4,12 +4,16 @@
 	Describes a force, acting on object
  */
 #pragma once
-#include <p2d/vector.h>
+
+#include "vector.h"
+#include "tickable.h"
+
 #include "../templates/maybe.hpp"
 #include "../templates/svector.h"
 #include "../extra/fuzzy_equal.h"
-#include "tickable.h"
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -236,4 +240,6 @@ class ActingForces
 
 
 typedef p2d::ActingForces<p2d::Vector> TangentialActingForces;
+}
+
 }

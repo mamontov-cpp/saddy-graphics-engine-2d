@@ -1,27 +1,30 @@
 #include "p2d/circletohulltransformer.h"
 #include "p2d/circle.h"
 
-p2d::CircleToHullTransformer p2d::CircleToHullTransformer::m_default(8);
+sad::p2d::CircleToHullTransformer sad::p2d::CircleToHullTransformer::m_default(8);
 
-p2d::CircleToHullTransformer * p2d::CircleToHullTransformer::ref()
+sad::p2d::CircleToHullTransformer * sad::p2d::CircleToHullTransformer::ref()
 {
 	return &p2d::CircleToHullTransformer::m_default;
 }
 
-p2d::CircleToHullTransformer::~CircleToHullTransformer()
+sad::p2d::CircleToHullTransformer::~CircleToHullTransformer()
 {
 }
 
-p2d::ConvexHull p2d::CircleToHullTransformer::toHull(const p2d::Circle * c)
+sad::p2d::ConvexHull sad::p2d::CircleToHullTransformer::toHull(const sad::p2d::Circle * c)
 {
-	sad::vector<p2d::Point> set;
+	sad::vector<sad::p2d::Point> set;
 	populate(c, set);
-	return p2d::ConvexHull::uncheckedCreate(set);
+	return sad::p2d::ConvexHull::uncheckedCreate(set);
 }
 
-void p2d::CircleToHullTransformer::populate(const p2d::Circle * c, sad::vector<p2d::Point> &  v) const
+void sad::p2d::CircleToHullTransformer::populate(
+	const sad::p2d::Circle * c, 
+	sad::vector<sad::p2d::Point> &  v
+) const
 {
-	p2d::Point center = c->center();
+	sad::p2d::Point center = c->center();
 	double r = c->radius();
 	for(int i = 0;i < m_sides; i++)
 	{

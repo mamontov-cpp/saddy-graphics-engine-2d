@@ -5,7 +5,11 @@
  */
 #pragma once
 #include "../templates/maybe.hpp"
+
 #include <cstdlib>
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -224,5 +228,6 @@ class TickableFlow
 		}
 };
 
-};
+}
 
+}

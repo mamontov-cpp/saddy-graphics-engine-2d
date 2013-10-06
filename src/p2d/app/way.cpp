@@ -2,23 +2,24 @@
 
 #include <extra/geometry2d.h>
 
-using namespace sad;
-
-
-p2d::app::Way::Way()
+sad::p2d::app::Way::Way()
 {
 	m_constructed = false;
 	m_closed = false;
 	m_totaltime = 100.0;
 }
 
-p2d::app::Way::~Way()
+sad::p2d::app::Way::~Way()
 {
 
 }
 
 
-void p2d::app::Way::step(WayLink * link, double step, p2d::Point & p)
+void sad::p2d::app::Way::step(
+	sad::p2d::app::Way::WayLink * link, 
+	double step,
+	sad::p2d::Point & p
+)
 {
 	assert( m_constructed );
 	if (m_waypoints.size() == 1)
@@ -49,8 +50,8 @@ void p2d::app::Way::step(WayLink * link, double step, p2d::Point & p)
 	}
 	double timespan = m_times[index+1] - m_times[index];
 	double relativetime = time - m_times[index];
-	p2d::Point p1 = m_waypoints[index]; 
-	p2d::Point p2;
+	sad::p2d::Point p1 = m_waypoints[index]; 
+	sad::p2d::Point p2;
 	if (index + 1 == m_waypoints.size())
 	{
 		p2 = m_waypoints[0];
@@ -64,49 +65,49 @@ void p2d::app::Way::step(WayLink * link, double step, p2d::Point & p)
 }
 
 
-void p2d::app::Way::setPoint(int i,  const p2d::app::WayPoint & p)
+void sad::p2d::app::Way::setPoint(int i,  const sad::p2d::app::WayPoint & p)
 {
 	assert( !m_constructed );
 	m_waypoints[i] = p;
 }
 
-void p2d::app::Way::addPoint(const p2d::app::WayPoint & p)
+void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 {
 	assert( !m_constructed );
 	m_waypoints << p;
 }
 
 
-void p2d::app::Way::removePoint(int i)
+void sad::p2d::app::Way::removePoint(int i)
 {
 	assert( !m_constructed );
 	m_waypoints.removeAt(i);
 }
 
 
-void p2d::app::Way::makeClosed()
+void sad::p2d::app::Way::makeClosed()
 {
 	m_closed = true;
 }
 
-void p2d::app::Way::makeOpen()
+void sad::p2d::app::Way::makeOpen()
 {
 	m_closed = false;
 }
 
-void p2d::app::Way::setTotalTime(double time)
+void sad::p2d::app::Way::setTotalTime(double time)
 {
 	assert( !m_constructed );
 	m_totaltime = time;
 }
 
-void p2d::app::Way::startConstruction()
+void sad::p2d::app::Way::startConstruction()
 {
 	m_constructed = false;
 }
 
 
-void p2d::app::Way::construct()
+void sad::p2d::app::Way::construct()
 {
 	assert( m_waypoints.size() > 1  && sad::non_fuzzy_zero(m_totaltime) );
 	m_constructed = true;

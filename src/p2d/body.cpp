@@ -3,36 +3,36 @@
 #include "p2d/circle.h"
 #include "p2d/line.h"
 
-DECLARE_SOBJ(p2d::Body);
+DECLARE_SOBJ(sad::p2d::Body);
 
 
-double p2d::Body::timeStep() const
+double sad::p2d::Body::timeStep() const
 {
 	return TimeStep;
 }
 
-void p2d::Body::notifyRotate(const double & delta)
+void sad::p2d::Body::notifyRotate(const double & delta)
 {
 	m_current->rotate(delta);
 }
 
-void p2d::Body::notifyMove(const p2d::Vector & delta)
+void sad::p2d::Body::notifyMove(const sad::p2d::Vector & delta)
 {
 	m_current->move(delta);
 }
 
-void p2d::Body::setUserObject(sad::Object * o)
+void sad::p2d::Body::setUserObject(sad::Object * o)
 {
 	m_user_object = o;
 }
 
 
-sad::Object * p2d::Body::userObject() const
+sad::Object * sad::p2d::Body::userObject() const
 {
 	return m_user_object;
 }
 
-const hst::string & p2d::Body::userType() const
+const hst::string & sad::p2d::Body::userType() const
 {
 	if (m_user_object == NULL)
 	{
@@ -41,9 +41,9 @@ const hst::string & p2d::Body::userType() const
 	return m_user_object->metaData()->name();
 }
 
-p2d::CollisionShape & p2d::Body::at(double time, int index) const
+sad::p2d::CollisionShape & sad::p2d::Body::at(double time, int index) const
 {
-	p2d::Body * me = const_cast<p2d::Body *>(this);
+	sad::p2d::Body * me = const_cast<sad::p2d::Body *>(this);
 
 	// Light optimization, because most of our collision shapes are POD-like structures
 	// We can reduce amount of allocations, using untyped copying instead all of high-level
@@ -55,20 +55,20 @@ p2d::CollisionShape & p2d::Body::at(double time, int index) const
 	return *(me->Temporary + index);
 }
 
-void p2d::Body::stepDiscreteChangingValues(double time)
+void sad::p2d::Body::stepDiscreteChangingValues(double time)
 {
 	m_ghost->step();
 	m_tangential->forces().step(time);
 	m_angular->forces().step(time);
 }
 
-void p2d::Body::stepPositionsAndVelocities(double time)
+void sad::p2d::Body::stepPositionsAndVelocities(double time)
 {
 	m_tangential->step(time, this->timeStep());
 	m_angular->step(time, this->timeStep());
 }
 
-void p2d::Body::trySetTransformer()
+void sad::p2d::Body::trySetTransformer()
 {
 	if (m_world)
 	{
@@ -80,7 +80,7 @@ void p2d::Body::trySetTransformer()
 	}
 }
 
-p2d::Body::Body()
+sad::p2d::Body::Body()
 {
 	m_weight = new p2d::Weight();
 	m_ghost = new p2d::GhostOptionsFlow();
@@ -107,7 +107,7 @@ p2d::Body::Body()
 	this->TimeStep = 0.0;
 }
 
-p2d::Body::~Body()
+sad::p2d::Body::~Body()
 {
 	delete m_weight;
 	delete m_tangential;
@@ -116,7 +116,7 @@ p2d::Body::~Body()
 	delete[] Temporary;
 }
 
-void p2d::Body::setWeight(p2d::Weight * weight)
+void sad::p2d::Body::setWeight(sad::p2d::Weight * weight)
 {
 	delete m_weight;
 	m_weight = weight;
@@ -124,43 +124,43 @@ void p2d::Body::setWeight(p2d::Weight * weight)
 	m_angular->setWeight(m_weight);
 }
 
-void p2d::Body::setWeight(const p2d::Weight & weight)
+void sad::p2d::Body::setWeight(const sad::p2d::Weight & weight)
 {
 	*m_weight = weight;
 }
 
-const p2d::Weight & p2d::Body::weight() const
+const sad::p2d::Weight & sad::p2d::Body::weight() const
 {
 	return *m_weight;
 }
 
-void p2d::Body::setCurrentGO(p2d::GhostOptions * ghost)
+void sad::p2d::Body::setCurrentGO(sad::p2d::GhostOptions * ghost)
 {
 	m_ghost->setCurrent(ghost);
 }
 
-void p2d::Body::sheduleGO(p2d::GhostOptions *next)
+void sad::p2d::Body::sheduleGO(sad::p2d::GhostOptions *next)
 {
 	m_ghost->push(next);	
 }
 
-bool p2d::Body::isGhost() const
+bool sad::p2d::Body::isGhost() const
 {
 	return m_ghost->value();
 }
 
-void p2d::Body::setWorld(p2d::World * world)
+void sad::p2d::Body::setWorld(sad::p2d::World * world)
 {
 	m_world = world;
 	this->trySetTransformer();
 }
 
-p2d::World * p2d::Body::world()
+sad::p2d::World * sad::p2d::Body::world()
 {
 	return m_world;
 }
 
-void p2d::Body::setShape(p2d::CollisionShape * shape)
+void sad::p2d::Body::setShape(sad::p2d::CollisionShape * shape)
 {
 	delete m_current;
 	m_current = shape;
@@ -176,185 +176,185 @@ void p2d::Body::setShape(p2d::CollisionShape * shape)
 }
 
 
-void p2d::Body::setCurrentPosition(const p2d::Point & p)
+void sad::p2d::Body::setCurrentPosition(const sad::p2d::Point & p)
 {
 	m_tangential->setCurrentPosition(p);
 	buildCaches();
 }
 
-void p2d::Body::shedulePosition(const p2d::Point & p)
+void sad::p2d::Body::shedulePosition(const sad::p2d::Point & p)
 {
 	m_tangential->setNextPosition(p);
 	buildCaches();
 }
 
-void p2d::Body::shedulePositionAt(const p2d::Point & p, double time)
+void sad::p2d::Body::shedulePositionAt(const sad::p2d::Point & p, double time)
 {
 	m_tangential->setNextPositionAt(p, time);
 	buildCaches();
 }
 
 
-const p2d::Vector & p2d::Body::position() const
+const sad::p2d::Vector & sad::p2d::Body::position() const
 {
 	return m_tangential->position();
 }
 
-bool p2d::Body::willPositionChange() const
+bool sad::p2d::Body::willPositionChange() const
 {
 	return m_tangential->willPositionChange();
 }
 
-p2d::Vector p2d::Body::nextPosition() const
+sad::p2d::Vector sad::p2d::Body::nextPosition() const
 {
 	return m_tangential->nextPosition();
 }
 
-void p2d::Body::setCurrentTangentialVelocity(const p2d::Vector & v)
+void sad::p2d::Body::setCurrentTangentialVelocity(const p2d::Vector & v)
 {
 	m_tangential->setCurrentVelocity(v);
 	buildCaches();
 }
 
-void p2d::Body::sheduleTangentialVelocity(const p2d::Vector & v)
+void sad::p2d::Body::sheduleTangentialVelocity(const p2d::Vector & v)
 {
 	m_tangential->setNextVelocity(v);
 }
 
-void p2d::Body::sheduleTangentialVelocityAt(const p2d::Vector & v, double time)
+void sad::p2d::Body::sheduleTangentialVelocityAt(const p2d::Vector & v, double time)
 {
 	m_tangential->setNextVelocityAt(v, time);
 }
 
-const p2d::Vector & p2d::Body::tangentialVelocity() const
+const sad::p2d::Vector & sad::p2d::Body::tangentialVelocity() const
 {
 	return m_tangential->velocity();
 }
 
-bool p2d::Body::willTangentialVelocityChange() const
+bool sad::p2d::Body::willTangentialVelocityChange() const
 {
 	return m_tangential->willVelocityChange();
 }
 
-p2d::Vector p2d::Body::nextTangentialVelocity() const
+sad::p2d::Vector sad::p2d::Body::nextTangentialVelocity() const
 {
 	return m_tangential->nextVelocity();
 }
 
-void p2d::Body::setCurrentAngle(double angle)
+void sad::p2d::Body::setCurrentAngle(double angle)
 {
 	m_angular->setCurrentPosition(angle);
 	buildCaches();
 }
 
-void p2d::Body::sheduleAngle(double angle)
+void sad::p2d::Body::sheduleAngle(double angle)
 {
 	m_angular->setNextPosition(angle);	
 	buildCaches();
 }
 
-void p2d::Body::sheduleAngleAt(double angle, double time)
+void sad::p2d::Body::sheduleAngleAt(double angle, double time)
 {
 	m_angular->setNextPositionAt(angle, time);
 	buildCaches();
 }
 
-double p2d::Body::angle() const
+double sad::p2d::Body::angle() const
 {
 	return m_angular->position();
 }
 
-bool p2d::Body::willAngleChange() const
+bool sad::p2d::Body::willAngleChange() const
 {
 	return m_angular->willPositionChange();
 }
 
-double p2d::Body::nextAngle() const
+double sad::p2d::Body::nextAngle() const
 {
 	return m_angular->nextPosition();
 }
 
-void p2d::Body::setCurrentAngularVelocity(double v)
+void sad::p2d::Body::setCurrentAngularVelocity(double v)
 {
 	m_angular->setCurrentVelocity(v);
 	buildCaches();
 }
 
-void p2d::Body::sheduleAngularVelocity(double v)
+void sad::p2d::Body::sheduleAngularVelocity(double v)
 {
 	m_angular->setNextVelocity(v);
 }
 
-void p2d::Body::sheduleAngularVelocityAt(double v, double time)
+void sad::p2d::Body::sheduleAngularVelocityAt(double v, double time)
 {
 	m_angular->setNextVelocityAt(v, time);
 }
 
-double p2d::Body::angularVelocity() const
+double sad::p2d::Body::angularVelocity() const
 {
 	return m_angular->velocity();
 }
 
-double p2d::Body::angularVelocityAt(double time) const
+double sad::p2d::Body::angularVelocityAt(double time) const
 {
 	return m_angular->velocityAt(time, this->timeStep());
 }
 
-bool p2d::Body::willAngularVelocityChange() const
+bool sad::p2d::Body::willAngularVelocityChange() const
 {
 	return m_angular->willVelocityChange();
 }
 
-double p2d::Body::nextAngularVelocity() const
+double sad::p2d::Body::nextAngularVelocity() const
 {
 	return m_angular->nextVelocity();
 }
 
-void p2d::Body::move(const p2d::Vector & v)
+void sad::p2d::Body::move(const p2d::Vector & v)
 {
 	return m_tangential->setCurrentPosition(m_tangential->position() + v);
 }
 
 
-void p2d::Body::rotate(double delta)
+void sad::p2d::Body::rotate(double delta)
 {
 	return m_angular->setCurrentPosition(m_angular->position() + delta);
 }
 
 
-p2d::CollisionShape * p2d::Body::currentShape()
+sad::p2d::CollisionShape * sad::p2d::Body::currentShape()
 {
 	return m_current;
 }
 
 
-void p2d::Body::clearListeners()
+void sad::p2d::Body::clearListeners()
 {
 	m_tangential->clearListeners();
 	m_angular->clearListeners();
 }
 
-p2d::TangentialActingForces & p2d::Body::tangentialForces()
+sad::p2d::TangentialActingForces & sad::p2d::Body::tangentialForces()
 {
 	return m_tangential->forces();
 }
 
-p2d::AngularActingForces & p2d::Body::angularForces()
+sad::p2d::AngularActingForces & sad::p2d::Body::angularForces()
 {
 	return m_angular->forces();
 }
 
-p2d::Vector p2d::Body::averageChangeIndependentTangentialVelocity()
+sad::p2d::Vector sad::p2d::Body::averageChangeIndependentTangentialVelocity()
 {
 	return m_tangential->averageChangeIndependentVelocityPer(this->timeStep());
 }
 
-p2d::Vector p2d::Body::tangentialVelocityAt(double time)
+sad::p2d::Vector sad::p2d::Body::tangentialVelocityAt(double time)
 {
 	return m_tangential->velocityAt(time, this->timeStep());
 }
 
-void p2d::Body::buildCaches()
+void sad::p2d::Body::buildCaches()
 {
 	m_tangential->cacheAcceleration();
 	m_angular->cacheAcceleration();
@@ -370,35 +370,35 @@ void p2d::Body::buildCaches()
 }
 
 
-p2d::Weight & p2d::Body::weight()
+sad::p2d::Weight & sad::p2d::Body::weight()
 {
 	return *m_weight;
 }
 
 
-void p2d::Body::correctPosition(const p2d::Vector & distance)
+void sad::p2d::Body::correctPosition(const sad::p2d::Vector & distance)
 {
 	if (this->willPositionChange())
 	{
-		p2d::Vector position = distance;
+		sad::p2d::Vector position = distance;
 		position += this->nextPosition() - this->position();
 		position /= 2.0;
 		this->shedulePosition(this->position() + position);
 	}	
 	else
 	{
-		p2d::Vector position = this->position();
+		sad::p2d::Vector position = this->position();
 		position += distance;
 		this->shedulePosition(position);
 	}
 }
 
-void p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
+void sad::p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 {
 	if (this->willTangentialVelocityChange())
 	{
 		// Merge two impulses into one
-		p2d::Vector impulse = this->nextTangentialVelocity();
+		sad::p2d::Vector impulse = this->nextTangentialVelocity();
 		impulse -= this->tangentialVelocity();
 
 		impulse += v - this->tangentialVelocity();
@@ -415,7 +415,7 @@ void p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 }
 
 
-void p2d::Body::setSamplingCount(int samples)
+void sad::p2d::Body::setSamplingCount(int samples)
 {	
 	delete Temporary;
 	Temporary = m_current->clone(samples);

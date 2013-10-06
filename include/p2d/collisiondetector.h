@@ -4,10 +4,14 @@
 	Describes a basic collision detector, used to determine, whether
 	bodies collide and when does it occured.
  */
+#pragma once
 #include "body.h"
 #include "collisiontest.h"
 #include "../templates/maybe.hpp"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -34,5 +38,7 @@ class CollisionDetector
 	  virtual int sampleCount() const;
 	  virtual ~CollisionDetector();
 };
+
+}
 
 }

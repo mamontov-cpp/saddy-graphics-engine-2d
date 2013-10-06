@@ -3,9 +3,13 @@
 
 	Describes a shape, used to determine collisions with objects
  */
+#pragma once
 #include "convexhull.h"
 #include "../primitives/object.h"
-#pragma once
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -63,4 +67,8 @@ public:
 	virtual hst::string dump() const = 0;
 	virtual ~CollisionShape();
 };
+
 }
+
+}
+

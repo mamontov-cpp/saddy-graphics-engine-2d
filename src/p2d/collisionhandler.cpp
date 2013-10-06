@@ -1,12 +1,14 @@
 #include "p2d/collisionhandler.h"
 
 
-p2d::BasicCollisionHandler::~BasicCollisionHandler()
+sad::p2d::BasicCollisionHandler::~BasicCollisionHandler()
 {
 }
 
 
-void p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>::invoke(const p2d::BasicCollisionEvent & ev)
+void sad::p2d::FunctionCollisionHandler<sad::p2d::Body, sad::p2d::Body>::invoke(
+	const sad::p2d::BasicCollisionEvent & ev
+)
 {
 	m_p(ev);
 }
