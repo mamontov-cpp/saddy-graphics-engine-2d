@@ -84,7 +84,7 @@ class  Sprite2DConfig
 			\param[in] container container of textures
 			\return list of textures to load
 		 */
-		sad::vector<hst::string> getTexturesToLoad(const Sprite2DTemplateContainer & container);
+		sad::Vector<hst::string> getTexturesToLoad(const Sprite2DTemplateContainer & container);
  public:
 	    /*! Creates a config, with associated container
 			\param[in] containername container, where textures can be reloaded

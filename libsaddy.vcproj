@@ -656,6 +656,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadvector.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\scene.h"
 				>
 			</File>
@@ -756,10 +760,6 @@
 				</File>
 				<File
 					RelativePath=".\include\templates\refcountable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\svector.h"
 					>
 				</File>
 				<File

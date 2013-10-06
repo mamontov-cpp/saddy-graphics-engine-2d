@@ -30,7 +30,7 @@ class CannotDetermineContactPoints: public std::logic_error
 	CannotDetermineContactPoints();
 };
 
-typedef sad::vector<p2d::PointsPair> SetOfPointsPair;
+typedef sad::Vector<p2d::PointsPair> SetOfPointsPair;
 /*! Inserts unique pair of points
 	\param[in,out] set set of points
 	\param[in] p1 first point
@@ -194,7 +194,7 @@ p2d::Point intersectionWithNormalFrom(
 	\param[in] c circle
 	\return intersection points
  */
-sad::vector<p2d::Point> intersection(
+sad::Vector<p2d::Point> intersection(
 	const p2d::InfiniteLine & l,
 	const Circle * c
 ); 

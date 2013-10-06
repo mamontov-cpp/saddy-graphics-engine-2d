@@ -5,7 +5,7 @@
 
 	This file contains a definition of string.
 */
-#include "svector.h"
+#include "../sadvector.h"
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
@@ -21,7 +21,7 @@ namespace hst
 
 class string;
 
-typedef sad::vector<hst::string> stringlist;
+typedef sad::Vector<hst::string> stringlist;
 
 /*! \class  string
     \brief  String class

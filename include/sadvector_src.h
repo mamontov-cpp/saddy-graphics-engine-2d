@@ -8,21 +8,21 @@
 namespace sad
 {
 
-template<class T> vector<T>::vector()
+template<class T> Vector<T>::Vector()
 {
 
 }
-template<class T> vector<T>::~vector()
-{
-
-}
-
-template<class T> vector<T>::vector(const vector & h): std::vector<T>(h)
+template<class T> Vector<T>::~Vector()
 {
 
 }
 
-template<class T> vector<T> & vector<T>::operator=(const vector<T>&  h)        //Присваивание
+template<class T> Vector<T>::Vector(const Vector & h): std::vector<T>(h)
+{
+
+}
+
+template<class T> Vector<T> & Vector<T>::operator=(const Vector<T>&  h)        //Присваивание
 {
   std::vector<T> & t1 = *this;
   const std::vector<T> & t2 = h;
@@ -30,59 +30,59 @@ template<class T> vector<T> & vector<T>::operator=(const vector<T>&  h)        /
   return *this;
 }
 
-template<class T> inline unsigned long vector<T>::count() const              {return this->size();}
-template<class T> inline T*   vector<T>::data()  const              
+template<class T> inline unsigned long Vector<T>::count() const              {return this->size();}
+template<class T> inline T*   Vector<T>::data()  const              
 {
 	if (this->size() == 0)
 		return  NULL;
-	sad::vector<T> & v = const_cast<sad::vector<T> &>(*this);
+	sad::Vector<T> & v = const_cast<sad::Vector<T> &>(*this);
 	return &(v[0]);
 }
 
-template<class T> vector<T> & vector<T>::operator<<(const T& obj)
+template<class T> Vector<T> & Vector<T>::operator<<(const T& obj)
 {
     this->push_back(obj);
     return *this;
 }
 
-template<class T> vector<T> & vector<T>::operator<<(const vector<T> & obj)
+template<class T> Vector<T> & Vector<T>::operator<<(const Vector<T> & obj)
 {
     for(unsigned int i = 0; i < obj.size(); i++)
 		this->push_back(obj[i]);
     return *this;
 }
 
-template<class T> vector<T> & vector<T>::operator>>(T& obj)
+template<class T> Vector<T> & Vector<T>::operator>>(T& obj)
 {
     obj=(*this)[this->size()-1];
     removeAt(this->size()-1);
     return *this;
 }
 
-template<class T> vector<T>& vector<T>::removeAt(unsigned long i)
+template<class T> Vector<T>& Vector<T>::removeAt(unsigned long i)
 {
     if (i>=this->size()) return *this;
     this->erase(this->begin() + i);
     return *this;
 }
 
-template<class T> vector<T> & vector<T>::add(const T & obj)
+template<class T> Vector<T> & Vector<T>::add(const T & obj)
 {
     return *this<<obj;
 }
-template<class T> vector<T> & vector<T>::addFront(const T & obj)
+template<class T> Vector<T> & Vector<T>::addFront(const T & obj)
 {
     return insert(obj,0);
 }
 
-template<class T> vector<T> & vector<T>::insert(const T &obj,unsigned long i)
+template<class T> Vector<T> & Vector<T>::insert(const T &obj,unsigned long i)
 {
   if (i>=this->size()) return add(obj);
   this->std::vector<T>::insert(this->begin() + i, obj);
   return *this;
 }
 
-template<class T> vector<T> & vector<T>::removeAll(const T& obj)
+template<class T> Vector<T> & Vector<T>::removeAll(const T& obj)
 {
     unsigned long i;
     for (i=0;i<this->size();i++)
@@ -95,7 +95,7 @@ template<class T> vector<T> & vector<T>::removeAll(const T& obj)
     }
    return *this;
 }
-template<class T> vector<T> & vector<T>::removeFirst(const T& obj)
+template<class T> Vector<T> & Vector<T>::removeFirst(const T& obj)
 {
     unsigned long i;
     for (i=0;i<this->size();i++)
@@ -107,7 +107,7 @@ template<class T> vector<T> & vector<T>::removeFirst(const T& obj)
     }
    return *this;
 }
-template<class T> vector<T> & vector<T>::removeLast(const T& obj)
+template<class T> Vector<T> & Vector<T>::removeLast(const T& obj)
 {
     unsigned long i,fnd=0;
     bool flag=false;
@@ -122,7 +122,7 @@ template<class T> vector<T> & vector<T>::removeLast(const T& obj)
     if (flag) removeAt(fnd);
    return *this;
 }
-template<class T> vector<T> & vector<T>::removeRange(unsigned long imin,unsigned long imax)
+template<class T> Vector<T> & Vector<T>::removeRange(unsigned long imin,unsigned long imax)
 {
     unsigned long i;
     for (i=imin;i<=imax;i++)
@@ -130,18 +130,18 @@ template<class T> vector<T> & vector<T>::removeRange(unsigned long imin,unsigned
     return *this;
 }
 
-template<class T> bool vector<T>::operator==(const vector<T> & o)
+template<class T> bool Vector<T>::operator==(const Vector<T> & o)
 {
-  const std::vector<T> & t1 = *this;
-  const std::vector<T> & t2 = o;
+  const std::Vector<T> & t1 = *this;
+  const std::Vector<T> & t2 = o;
   return t1 == t2;
 }
-template<class T> bool vector<T>::operator!=(const vector<T> & o)
+template<class T> bool Vector<T>::operator!=(const Vector<T> & o)
 {
 	return !(*this==o);
 }
 
-template<class T> void  vector<T>::rescale(unsigned long _sz)
+template<class T> void  Vector<T>::rescale(unsigned long _sz)
 {
    this->resize(_sz);
 }

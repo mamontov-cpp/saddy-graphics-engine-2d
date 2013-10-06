@@ -35,7 +35,7 @@ sad::p2d::PointsPair sad::p2d::swap(const sad::p2d::PointsPair & c)
 	return p2d::PointsPair(c.p2(), c.p1());
 }
 
-void sad::p2d::swap(sad::vector<sad::p2d::PointsPair> & pairs)
+void sad::p2d::swap(sad::Vector<sad::p2d::PointsPair> & pairs)
 {
 	for(size_t i = 0 ; i < pairs.size(); i++)
 	{

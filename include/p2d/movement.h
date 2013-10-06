@@ -9,7 +9,7 @@
 #include "vector.h"
 #include "force.h"
 
-#include "../templates/svector.h"
+#include "../sadvector.h"
 #include "../extra/geometry2d.h"
 
 #include <algorithm>
@@ -114,7 +114,7 @@ class Movement
 	 hst::Maybe<double> m_next_position_time;
 	 /*! A listeners for a position changes
 	  */
-	 sad::vector<listener_t> m_listeners;
+	 sad::Vector<listener_t> m_listeners;
 	 /*! A cache for a sum of forces
 	  */
 	 _Value m_acceleration_cache;

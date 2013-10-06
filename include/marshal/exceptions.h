@@ -29,7 +29,7 @@ namespace serializable
 	class AbstractException
 	{
 	 private:
-		      sad::vector<hst::string>  m_action_context; //!< Action context string
+		      sad::Vector<hst::string>  m_action_context; //!< Action context string
 		      hst::string m_string;                       //!< Exception string
 	 public:
 		      /*! Creates an exception with string, that is consists
@@ -47,7 +47,7 @@ namespace serializable
 		      }
 			 
 			  inline  const hst::string & getInformation() { return m_string;}
-			  inline  const sad::vector<hst::string> & getContext() { return m_action_context; }
+			  inline  const sad::Vector<hst::string> & getContext() { return m_action_context; }
 			  /*! Exception data
 			   */
 			  virtual ~AbstractException();

@@ -29,10 +29,10 @@ class World: public hst::TemporarilyImmutableContainer<p2d::Body>
  protected:
 	 typedef hst::pair<hst::string, hst::string> type_pair_t;
 	 typedef hst::pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
-	 typedef hst::hash<p2d::Body *, sad::vector<hst::string> > bodies_to_types_t;
+	 typedef hst::hash<p2d::Body *, sad::Vector<hst::string> > bodies_to_types_t;
 	 typedef hst::pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
 		     reaction_t;
-	 typedef sad::vector<reaction_t> reactions_t;
+	 typedef sad::Vector<reaction_t> reactions_t;
 public:
 	 /*! Compares two reactions, returns true if time of impact of first is lesser
 		 than second
@@ -56,10 +56,10 @@ protected:
 	 p2d::CollisionDetector * m_detector;
 	 /*! A callbacks, with related types
 	  */
-	 sad::vector<types_with_handler_t>  m_callbacks;
+	 sad::Vector<types_with_handler_t>  m_callbacks;
 	 /*! Bodies by groups
 	  */
-	 hst::hash<hst::string, sad::vector<p2d::Body *> > m_groups;
+	 hst::hash<hst::string, sad::Vector<p2d::Body *> > m_groups;
 	 /*! All bodies for checking all information
 	  */
 	 bodies_to_types_t m_allbodies;

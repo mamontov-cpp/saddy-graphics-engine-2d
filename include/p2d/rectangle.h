@@ -62,7 +62,7 @@ public:
 	/*! Returns a points from rectangle
 		\return rectangle
 	 */
-	sad::vector<p2d::Point> points() const;
+	sad::Vector<p2d::Point> points() const;
 	/*! Returns size of current type
 		\return size of type in bytes
 	 */
@@ -70,7 +70,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */
-	virtual void populatePoints(sad::vector<p2d::Point> & v) const;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const;
 	/*! Fetches a normal for nearest point to surface
 		\param[in] p point
 		\param[in] n normal

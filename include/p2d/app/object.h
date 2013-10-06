@@ -9,7 +9,7 @@
 
 #include "../../sprite2dadapter.h"
 #include "../../primitives/object.h"
-#include "../../templates/svector.h"
+#include "../../sadvector.h"
 
 namespace sad
 {

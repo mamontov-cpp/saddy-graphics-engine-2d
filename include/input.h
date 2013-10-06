@@ -327,11 +327,11 @@ namespace sad
 			  sad::EventHandler *  m_keyup;       //!<  Key up
 			  sad::EventHandler *  m_keydown;     //!<  Key down
 
-			  sad::vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
-			  sad::vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
+			  sad::Vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
+			  sad::Vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
 
-			  sad::vector<CountableTask *>           m_postrender_tasks;  //!< Tasks for postrendering
-			  sad::vector<CountableTask *>           m_prerender_tasks;   //!< Tasks for prerendering
+			  sad::Vector<CountableTask *>           m_postrender_tasks;  //!< Tasks for postrendering
+			  sad::Vector<CountableTask *>           m_prerender_tasks;   //!< Tasks for prerendering
 
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
@@ -347,7 +347,7 @@ namespace sad
 			  /*! Invokes try perform and removes worked task
 				  \param[in,out] v vector
 			  */
-			  void tryPerform(sad::vector<sad::CountableTask *> & v);
+			  void tryPerform(sad::Vector<sad::CountableTask *> & v);
 	 public:
 			 /*! Default constructor
 			  */

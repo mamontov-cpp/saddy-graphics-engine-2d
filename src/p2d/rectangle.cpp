@@ -45,7 +45,7 @@ void sad::p2d::Rectangle::move(const sad::p2d::Vector & d)
 
 sad::p2d::ConvexHull sad::p2d::Rectangle::toHull() const
 {
-	sad::vector<sad::p2d::Point> set;
+	sad::Vector<sad::p2d::Point> set;
 	for(int i = 0 ; i < 4; i++)
 	{
 		set << m_rect[i];
@@ -61,9 +61,9 @@ sad::p2d::Cutter1D sad::p2d::Rectangle::project(const p2d::Axle & a) const
 
 
 
-sad::vector<sad::p2d::Point> sad::p2d::Rectangle::points() const
+sad::Vector<sad::p2d::Point> sad::p2d::Rectangle::points() const
 {
-	sad::vector<sad::p2d::Point> points;
+	sad::Vector<sad::p2d::Point> points;
 	for(int i = 0; i < 4; i++)
 	{
 		points << m_rect[i];
@@ -76,7 +76,7 @@ size_t sad::p2d::Rectangle::sizeOfType() const
 	return sizeof(sad::p2d::Rectangle);
 }
 
-void sad::p2d::Rectangle::populatePoints(sad::vector<sad::p2d::Point> & v) const
+void sad::p2d::Rectangle::populatePoints(sad::Vector<sad::p2d::Point> & v) const
 {
 	for(int i = 0; i < 4; i++)
 	{

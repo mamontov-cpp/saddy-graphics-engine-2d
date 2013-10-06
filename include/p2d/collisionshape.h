@@ -52,7 +52,7 @@ public:
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */
-	virtual void populatePoints(sad::vector<p2d::Point> & v) const = 0;
+	virtual void populatePoints(sad::Vector<p2d::Point> & v) const = 0;
 	/*! Computes a normal to point on surface. Can be used to work around with 
 		bouncing.
 		Note that function, does not check, which it belongs to surface or not.

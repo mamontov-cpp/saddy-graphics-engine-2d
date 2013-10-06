@@ -13,12 +13,12 @@ namespace sad
 /*! A class for owning pointers. Automatically cleans memory, when destroyed
  */
 template<typename T>
-class ptrvector: public sad::vector<T*>
+class ptrvector: public sad::Vector<T*>
 {
  public:
 	/*! Creates new empty vector, holding a pointers
 	 */
-	inline ptrvector() : sad::vector() 
+	inline ptrvector() : sad::Vector() 
 	{
 	}
 	/*! Frees memory for each contained element
