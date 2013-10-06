@@ -31,7 +31,7 @@ QVector<QDomElement> XMLConfigLoader::getElements(const QDomNode & doc)
 	return result;
 }
 
-bool XMLConfigLoader::load(Sprite2DTemplateContainer & container)
+bool XMLConfigLoader::load(sad::Sprite2DTemplateContainer & container)
 {
  //Open file
  QFile file(m_filename);

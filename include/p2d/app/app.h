@@ -4,10 +4,13 @@
 	Describes a main application world
  */
 #pragma once
-#include <extra/periodicalevent.h>
-#include <scene.h>
-#include <p2d/worldsteptask.h>
-#include <p2d/world.h>
+#include "../worldsteptask.h"
+#include "../world.h"
+#include "../../scene.h"
+#include "../../extra/periodicalevent.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -62,3 +65,4 @@ protected:
 
 }
 
+}

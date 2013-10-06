@@ -18,7 +18,7 @@ private:
 	 // An editor log for shared data
 	 IFaceEditor      * m_editor;
 	 // An icons for rendering at borders
-	 Sprite2DConfig * m_icons;
+	 sad::Sprite2DConfig * m_icons;
 
 	 // A code for handling deferred command for comitting a rotation goes here
 	 QTimer * m_rotation_timer;			  //!< Returns current rotation timer
@@ -33,7 +33,7 @@ public:
 	 inline void setEditor(IFaceEditor * e) { m_editor = e;}
 	 /*! Returns current rendered icons
 	  */
-	 Sprite2DConfig * icons();
+	 sad::Sprite2DConfig * icons();
 	 /*! Returns log information
 		 \return log
 	  */

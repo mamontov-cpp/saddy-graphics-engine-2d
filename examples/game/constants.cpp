@@ -1,7 +1,7 @@
 #include "constants.h"
 #include <cstdlib>
 
-Sprite2DAdapter::Options * p2d::app::Constants<Player>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<Player>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -10,14 +10,14 @@ Sprite2DAdapter::Options * p2d::app::Constants<Player>::sprite()
 	return o;
 }
 
-p2d::CollisionShape * p2d::app::Constants<Player>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<Player>::shape()
 {
-	p2d::Circle * c = new p2d::Circle();
+	sad::p2d::Circle * c = new sad::p2d::Circle();
 	c->setRadius(11);
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<PlayerBullet>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<PlayerBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -26,24 +26,24 @@ Sprite2DAdapter::Options * p2d::app::Constants<PlayerBullet>::sprite()
 	return o;
 }
 
-p2d::CollisionShape * p2d::app::Constants<PlayerBullet>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<PlayerBullet>::shape()
 {
-	p2d::Circle * c = new p2d::Circle();
+	sad::p2d::Circle * c = new sad::p2d::Circle();
 	c->setRadius(4);
 	return c;
 }
 
-double p2d::app::Constants<PlayerBullet>::velocity()
+double sad::p2d::app::Constants<PlayerBullet>::velocity()
 {
 	return 121;
 }
 
-double p2d::app::Constants<PlayerBullet>::interval()
+double sad::p2d::app::Constants<PlayerBullet>::interval()
 {
 	return 400;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<EnemyBullet>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<EnemyBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -52,24 +52,24 @@ Sprite2DAdapter::Options * p2d::app::Constants<EnemyBullet>::sprite()
 	return o;
 }
 
-double p2d::app::Constants<EnemyBullet>::velocity()
+double sad::p2d::app::Constants<EnemyBullet>::velocity()
 {
 	return 121;
 }
 
-double p2d::app::Constants<EnemyBullet>::interval()
+double sad::p2d::app::Constants<EnemyBullet>::interval()
 {
 	return 400;
 }
 
-p2d::CollisionShape * p2d::app::Constants<EnemyBullet>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<EnemyBullet>::shape()
 {
-	p2d::Circle * c = new p2d::Circle();
+	sad::p2d::Circle * c = new sad::p2d::Circle();
 	c->setRadius(4);
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<Bonus>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<Bonus>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -78,19 +78,19 @@ Sprite2DAdapter::Options * p2d::app::Constants<Bonus>::sprite()
 	return o;
 }
 
-p2d::CollisionShape * p2d::app::Constants<Bonus>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<Bonus>::shape()
 {
 	Sprite2DAdapter::Options * options = p2d::app::Constants<Bonus>::sprite();
 	hRectF r = options->Rectangle;
 	delete options;
 
 	// For a simple optimization, make bonus a circle
-	p2d::Rectangle * c = new p2d::Rectangle();
+	sad::p2d::Rectangle * c = new sad::p2d::Rectangle();
 	c->setRect(r);
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<Enemy>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<Enemy>::sprite()
 {
 	/*! A special texture rectangles, used to shape enemies
 	 */
@@ -106,14 +106,14 @@ Sprite2DAdapter::Options * p2d::app::Constants<Enemy>::sprite()
 	return o;
 }
 
-p2d::CollisionShape * p2d::app::Constants<Enemy>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<Enemy>::shape()
 {
-	p2d::Circle * c = new p2d::Circle();
+	sad::p2d::Circle * c = new sad::p2d::Circle();
 	c->setRadius(8);
 	return c;
 }
 
-Sprite2DAdapter::Options * p2d::app::Constants<ShootingEnemy>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<ShootingEnemy>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -122,25 +122,25 @@ Sprite2DAdapter::Options * p2d::app::Constants<ShootingEnemy>::sprite()
 	return o;
 }
 
-double p2d::app::Constants<ShootingEnemy>::velocity()
+double sad::p2d::app::Constants<ShootingEnemy>::velocity()
 {
 	return 100;
 }
 
-double p2d::app::Constants<ShootingEnemy>::interval()
+double sad::p2d::app::Constants<ShootingEnemy>::interval()
 {
 	return 1000;
 }
 
-p2d::CollisionShape * p2d::app::Constants<ShootingEnemy>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<ShootingEnemy>::shape()
 {
-	p2d::Circle * c = new p2d::Circle();
+	sad::p2d::Circle * c = new sad::p2d::Circle();
 	c->setRadius(10);
 	return c;
 }
 
 
-Sprite2DAdapter::Options * p2d::app::Constants<SuperShootingEnemy>::sprite()
+Sprite2DAdapter::Options * sad::p2d::app::Constants<SuperShootingEnemy>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
@@ -149,7 +149,7 @@ Sprite2DAdapter::Options * p2d::app::Constants<SuperShootingEnemy>::sprite()
 	return o;
 }
 
-p2d::CollisionShape * p2d::app::Constants<SuperShootingEnemy>::shape()
+sad::p2d::CollisionShape * sad::p2d::app::Constants<SuperShootingEnemy>::shape()
 {
 	p2d::Circle * c = new p2d::Circle();
 	c->setRadius(14);

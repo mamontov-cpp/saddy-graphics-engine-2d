@@ -15,11 +15,11 @@ class GridNodeEdge: public sad::BasicNode
 {
  SAD_OBJECT
  protected:
-	 p2d::Body * m_b1;
-	 p2d::Body * m_b2;
+	 sad::p2d::Body * m_b1;
+	 sad::p2d::Body * m_b2;
 	 Sprite2DAdapter * m_ad;
  public:
-	 GridNodeEdge(p2d::Body * b1, p2d::Body * b2);
+	 GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2);
 
 	 virtual void render();
 };

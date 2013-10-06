@@ -28,7 +28,7 @@ void EnemySpawn::perform()
 		GameObject * o = m_game->produce( (Objects) (rand() % 4) );
 		if (o)
 		{
-			o->setPosition(p2d::Point(x, y));
+			o->setPosition(sad::p2d::Point(x, y));
 			o->setHorizontalSpeed(vx);
 			o->setVerticalSpeed(vy);
 		}

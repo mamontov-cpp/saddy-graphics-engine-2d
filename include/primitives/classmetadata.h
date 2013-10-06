@@ -6,7 +6,7 @@
 	This file contains a definition for class metadata.
 */
 #include "../templates/hstring.h"
-#include "../templates/hlvector.hpp"
+#include "../sadvector.h"
 #pragma once
 
 namespace sad
@@ -26,7 +26,7 @@ class ClassMetaData
 	hst::string m_name;
 	/*! An ancestor list for current class  
 	 */
-	hst::vector<ClassMetaData *> m_ancestors;
+	sad::Vector<ClassMetaData *> m_ancestors;
  public:
 	/*! A name for class is defined by macro @see SAD_DEFINE_BASIC_OBJECT, SAD_DEFINE_OBJECT
 		\param[in] name name of class

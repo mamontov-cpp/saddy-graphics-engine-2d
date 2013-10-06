@@ -4,7 +4,7 @@
 	Contains a multimethod, which can be used to determine a contact points
 	for shapes
  */
-#include <stdexcept>
+#pragma once
 #include "collisionmultimethod.h"
 #include "infiniteline.h"
 #include "point.h"
@@ -12,7 +12,11 @@
 #include "circle.h"
 #include "line.h"
 #include "bounds.h"
-#pragma once
+
+#include <stdexcept>
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -26,7 +30,7 @@ class CannotDetermineContactPoints: public std::logic_error
 	CannotDetermineContactPoints();
 };
 
-typedef hst::vector<p2d::PointsPair> SetOfPointsPair;
+typedef sad::Vector<p2d::PointsPair> SetOfPointsPair;
 /*! Inserts unique pair of points
 	\param[in,out] set set of points
 	\param[in] p1 first point
@@ -190,7 +194,7 @@ p2d::Point intersectionWithNormalFrom(
 	\param[in] c circle
 	\return intersection points
  */
-hst::vector<p2d::Point> intersection(
+sad::Vector<p2d::Point> intersection(
 	const p2d::InfiniteLine & l,
 	const Circle * c
 ); 
@@ -216,5 +220,7 @@ p2d::SetOfPointsPair findContacts(
 bool hasPair(const p2d::SetOfPointsPair & set,
 				double x1, double y1,
 				double x2, double y2);
+
+}
 
 }

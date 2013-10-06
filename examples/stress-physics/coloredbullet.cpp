@@ -1,10 +1,10 @@
 #include "coloredbullet.h"
 
-DECLARE_SOBJ_INHERITANCE(ColoredBullet, p2d::app::Object)
+DECLARE_SOBJ_INHERITANCE(ColoredBullet, sad::p2d::app::Object)
 
 ColoredBullet::ColoredBullet()
 {
 	this->initFromConstants<ColoredBullet>();
-	this->body()->setWeight( p2d::Weight::constant(3.0) );
+	this->body()->setWeight( sad::p2d::Weight::constant(3.0) );
 }
 

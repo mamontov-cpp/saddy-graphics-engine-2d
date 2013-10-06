@@ -7,6 +7,9 @@
 #pragma once
 #include "tickable.h"
 
+namespace sad
+{
+
 namespace p2d
 {
 
@@ -29,4 +32,4 @@ typedef p2d::TickableFlow<bool> GhostOptionsFlow;
 
 }
 
-
+}

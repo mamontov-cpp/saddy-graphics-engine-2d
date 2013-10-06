@@ -5,6 +5,9 @@
  */
 #pragma once
 
+namespace sad
+{
+
 namespace p2d
 {
 /*! Describes a weight of object
@@ -43,5 +46,6 @@ public:
 	static Weight * infinite();
 };
 
+}
 
 }

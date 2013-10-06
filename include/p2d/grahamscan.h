@@ -4,9 +4,14 @@
 	Contains implementation of graham scan algorithm
 	for building a convex hull.
  */
-#include "../templates/hlvector.hpp"
-#include "../p2d/point.h"
 #pragma once
+#include "point.h"
+
+#include "../sadvector.h"
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -15,5 +20,7 @@ namespace p2d
 		\param[in] set set of points
 		\return points in convex hull
 	 */
-	hst::vector<p2d::Point> graham_scan(const hst::vector<p2d::Point> & set);
+	sad::Vector<p2d::Point> graham_scan(const sad::Vector<p2d::Point> & set);
+}
+
 }

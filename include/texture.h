@@ -7,7 +7,7 @@
 #include "primitives/hrect.h"
 #include "templates/hstring.h"
 #include "templates/hwstring.h"
-#include "templates/hlvector.hpp"
+#include "sadvector.h"
 #include <stdio.h>
 
 #ifdef WIN32
@@ -79,7 +79,7 @@ namespace sad
 
 	private:
 
-		hst::vector<Uint8> m_data;   //!< Bits of texture
+		sad::Vector<Uint8> m_data;   //!< Bits of texture
 		Uint8              m_filter; //!< Filtering method
 		Uint8              m_bpp;    //!< Bits per pixel
 		unsigned int       m_width;  //!< Width
@@ -210,7 +210,7 @@ namespace sad
 		inline unsigned int& height()   { return m_height;}
 		inline Uint8& bpp()      { return m_bpp;}
 		inline Uint8 * data() const { return m_data.data(); }
-		inline hst::vector<Uint8> & vdata() { return m_data; }
+		inline sad::Vector<Uint8> & vdata() { return m_data; }
 		/*! Unloads a texture from videocard memory
 		 */
 		void unload();

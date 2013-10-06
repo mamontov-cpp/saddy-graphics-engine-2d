@@ -7,6 +7,8 @@
 #include "os/mutex.h"
 #pragma once
 
+// TODO: This should be moved into render win32 loop implementation,
+// why it's even here?
 #ifdef WIN32
 #define _WIN32_WINDOWS 0x0501 // Set windows version to obtain control over mouse wheel.
 #endif
@@ -68,12 +70,12 @@ namespace sad
 	class Event
 	{
 	 public:
-		     float x;      //!< X coordinate
-			 float y;      //!< Y coordinate
-			 float z;      //!< Z coordinate
-			 int   key;    //!< Pressed key (or mouse button)
-			 bool   alt;   //!< Whether alt is pressed
-			 bool   shift; //!< Whether shift is pressed
+		     float x;          //!< X coordinate is filled 
+			 float y;          //!< Y coordinate
+			 float z;          //!< Z coordinate
+			 int   key;       //!< Pressed key (or mouse button)
+			 bool   alt;      //!< Whether alt is pressed
+			 bool   shift;    //!< Whether shift is pressed
 			 bool   capslock; //!< Whether caps lock is toggled
 			 bool   ctrl;        //!< Whether ctrl is pressed   
 			 float delta;  //!< Delta for wheel coordinate. It's will be filled under Windows. On X11, you can't see it due a poor protocol specidfication, so on wheelup  event it will be filled with 1, on wheeldown -1.
@@ -94,16 +96,21 @@ namespace sad
 			 */
 			 ~Event();
 	}; 
-	/*! Resize event for window
+	/*! An event, which is passed to callback, after window is resized
 	*/
 	class ResizeEvent
 	{
 	 public:
-			unsigned int old_height;  //!< Old height
-			unsigned int old_width;   //!< Old width
-			unsigned int new_height;  //!< New height
-			unsigned int new_width;   //!< New width
-	        //! Default constructor
+			unsigned int old_height;  //!< Old height of window
+			unsigned int old_width;   //!< Old width of window
+			unsigned int new_height;  //!< New height of window
+			unsigned int new_width;   //!< New width of window
+	        /*! Constructs new event
+				\param[in] oh old height of window
+				\param[in] ow old with of window
+				\param[in] nh new height of window
+				\param[in] nw new width of window
+			 */
 			inline ResizeEvent(unsigned int oh, unsigned int ow, unsigned int nh, unsigned int nw)
 			{ old_height=oh; old_width=ow; new_height=nh; new_width=nw;  }
 			inline ~ResizeEvent() {}
@@ -135,9 +142,15 @@ namespace sad
 		template<typename EventType>
 		void invoke_ptr (void * m,const EventType & ev );
 	}
-	
-	/*! Handler functor function, used for handling objects
-	*/
+	/*! An input handler, used to specify callbacks, which should be
+	 */
+	template<typename EventType>
+	class AbstractInputHandler
+	{
+
+	};
+	/*! A simple handler, 
+	 */
 	template<typename EventType>
 	class BasicEventHandler
 	{
@@ -168,7 +181,7 @@ namespace sad
 			*/
 			virtual bool empty() { return !m_functor; }
 	};
-	/*! Describes an event handler, which invokes specified method to handle methods
+	/*! Describes an event handler, which invokes specified method to handle event
 	 */
 	template<typename EventType, typename Class>
 	class MethodEventHandler: public sad::BasicEventHandler<EventType>
@@ -303,7 +316,7 @@ namespace sad
 	class Input
 	{
 	 private:
-			 sad::EventHandler  * m_quit;         //!<  On quit window handler
+			  sad::EventHandler * m_quit;         //!<  On quit window handler
 		      sad::EventHandler *  m_mousemove;   //!<  Move
 			  sad::EventHandler *  m_mousedown;   //!<  Down
 			  sad::EventHandler *  m_mouseclick;  //!<  Click
@@ -314,11 +327,11 @@ namespace sad
 			  sad::EventHandler *  m_keyup;       //!<  Key up
 			  sad::EventHandler *  m_keydown;     //!<  Key down
 
-			  hst::vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
-			  hst::vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
+			  sad::Vector<sad::ResizeEventHandler *> m_resizelisteners;  //!< Handler for resize
+			  sad::Vector<bool>						 m_removelisteners;  //!< Whether we are going to kill listeners
 
-			  hst::vector<CountableTask *>           m_postrender_tasks;  //!< Tasks for postrendering
-			  hst::vector<CountableTask *>           m_prerender_tasks;   //!< Tasks for prerendering
+			  sad::Vector<CountableTask *>           m_postrender_tasks;  //!< Tasks for postrendering
+			  sad::Vector<CountableTask *>           m_prerender_tasks;   //!< Tasks for prerendering
 
 			  hst::hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  hst::hash<int,sad::EventHandler*>  m_down; //!< Key down functors
@@ -334,7 +347,7 @@ namespace sad
 			  /*! Invokes try perform and removes worked task
 				  \param[in,out] v vector
 			  */
-			  void tryPerform(hst::vector<sad::CountableTask *> & v);
+			  void tryPerform(sad::Vector<sad::CountableTask *> & v);
 	 public:
 			 /*! Default constructor
 			  */

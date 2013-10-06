@@ -8,9 +8,14 @@
 #include "tickable.h"
 #include "vector.h"
 #include "force.h"
-#include "../templates/hlvector.hpp"
+
+#include "../sadvector.h"
 #include "../extra/geometry2d.h"
+
 #include <algorithm>
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -109,7 +114,7 @@ class Movement
 	 hst::Maybe<double> m_next_position_time;
 	 /*! A listeners for a position changes
 	  */
-	 hst::vector<listener_t> m_listeners;
+	 sad::Vector<listener_t> m_listeners;
 	 /*! A cache for a sum of forces
 	  */
 	 _Value m_acceleration_cache;
@@ -145,7 +150,7 @@ class Movement
 			if (m_weight->isInfinite() == false )
 			{
 				m_force.value(p);
-				if (non_fuzzy_zero(m_weight->value()))
+				if (sad::non_fuzzy_zero(m_weight->value()))
 				{
 				 p /= m_weight->value();
 				}
@@ -229,13 +234,13 @@ class Movement
 		 _Value p = p2d::TickableDefaultValue<_Value>::zero(); 
 		 if (m_next_velocity.exists())
 		 {
-			 if (is_fuzzy_equal(time, step_size))
+			 if (sad::is_fuzzy_equal(time, step_size))
 			 {
 				 return m_next_velocity.data() - m_velocity;
 			 }
 			 if (m_next_velocity_time.exists())
 			 {
-				 if (is_fuzzy_equal(time, m_next_velocity_time.data()))
+				 if (sad::is_fuzzy_equal(time, m_next_velocity_time.data()))
 				 {
 					  return m_next_velocity.data() - m_velocity;
 				 }
@@ -263,21 +268,21 @@ class Movement
 	  */
 	 _Value positionDelta(double time, double step_size)
 	 {
-		 bool iswholestep = is_fuzzy_equal(time, step_size);
+		 bool iswholestep = sad::is_fuzzy_equal(time, step_size);
 		 if (iswholestep && m_position_is_cached)
 		 {
 			 return m_position_cache;
 		 }
 		 if (m_next_position.exists())
 		 {
-			 if (is_fuzzy_equal(time, step_size))
+			 if (sad::is_fuzzy_equal(time, step_size))
 			 {
 				 m_position_is_cached = true;
 				 m_position_cache =  m_next_position.data() - m_position;
 			 }
 			 if (m_next_position_time.exists())
 			 {
-				 if (is_fuzzy_equal(time, m_next_position_time.data()))
+				 if (sad::is_fuzzy_equal(time, m_next_position_time.data()))
 				 {
 					  return m_next_position.data() - m_position;
 				 }
@@ -324,7 +329,7 @@ class Movement
 		 _Value newposition = positionAt(time, step_size);
 		 m_velocity = newvelocity;
 		 m_position = newposition;
-		 if (is_fuzzy_equal(time, step_size))
+		 if (sad::is_fuzzy_equal(time, step_size))
 		 {
 			 m_next_velocity.clear();
 			 m_next_position.clear();
@@ -333,7 +338,7 @@ class Movement
 		 }
 		 if (m_next_velocity_time.exists())
 		 {
-			 if (is_fuzzy_equal(time, m_next_velocity_time.data()))
+			 if (sad::is_fuzzy_equal(time, m_next_velocity_time.data()))
 			 {
 				 m_next_velocity.clear();
 				 m_next_velocity_time.clear();
@@ -341,7 +346,7 @@ class Movement
 		 }
 		 if (m_next_position_time.exists())
 		 {
-			 if (is_fuzzy_equal(time, m_next_position_time.data()))
+			 if (sad::is_fuzzy_equal(time, m_next_position_time.data()))
 			 {
 				 m_next_position.clear();
 				 m_next_position_time.clear();
@@ -463,3 +468,4 @@ typedef p2d::Movement<p2d::Vector> TangentialMovement;
 
 }
 
+}

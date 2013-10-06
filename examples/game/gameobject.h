@@ -3,14 +3,16 @@
 	Describes main game object, that is basic for all objects in game
  */
 #pragma once
-#include "p2d/app/object.h"
 #include "abstractautomaticgun.h"
+
+#include "p2d/app/object.h"
+
 
 class Game;
 /*! Describes a basic in-game object, which provides primitives, needed to 
 	describe all in-game objects
  */
-class GameObject: public p2d::app::Object
+class GameObject: public sad::p2d::app::Object
 {
 	/* Declare metadata, needed to describe inheritance tree, name of class
 	   This metadata can be used where real type is needed - for most part,
@@ -23,7 +25,7 @@ class GameObject: public p2d::app::Object
 	 int m_hp;
 	 /*! An inner guns for object
 	  */
-	 hst::vector<AbstractAutomaticGun * > m_guns;
+	 sad::Vector<AbstractAutomaticGun * > m_guns;
  public:
 	 /*! Creates an empty game object
 	  */

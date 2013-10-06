@@ -3,19 +3,25 @@
 
     Describes a body object
  */
-#include "../primitives/object.h"
-#include "../templates/hstring.h"
+#pragma once
+
 #include "collisionshape.h"
 #include "force.h"
 #include "ghostoptions.h"
 #include "angularforce.h"
 #include "movement.h"
-#pragma once
+
+#include "../primitives/object.h"
+#include "../templates/hstring.h"
+
 
 /*! A special point, which can be added to time or other values to make objects
 	not collide
  */
 #define COLLISION_PRECISION 1.0E-4
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -346,6 +352,8 @@ public:
 	 */
 	CollisionShape * Temporary;
 };
+
+}
 
 }
 

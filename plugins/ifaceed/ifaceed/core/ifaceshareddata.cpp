@@ -1,7 +1,7 @@
 #include "ifaceshareddata.h"
 #include "ifaceeditor.h"
 
-Sprite2DConfig * IFaceSharedData::icons()
+sad::Sprite2DConfig * IFaceSharedData::icons()
 {
 	return &(this->m_editor->icons());
 }

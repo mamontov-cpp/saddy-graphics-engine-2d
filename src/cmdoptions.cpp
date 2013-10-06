@@ -63,7 +63,7 @@ hst::string & Parser::simple(const hst::string & name)
 	return this->optionByName(name, m_simple_options);
 }
 
-hst::vector<hst::string> & Parser::multiple(const hst::string & name)
+sad::Vector<hst::string> & Parser::multiple(const hst::string & name)
 {
 	return this->optionByName(name, m_multiple_options);
 }
@@ -78,7 +78,7 @@ void Parser::setSimple(const hst::string & name, const hst::string & v)
 	this->setOption(name, m_simple_options, v);
 }
 
-void Parser::setMultiple(const hst::string & name, const hst::vector<hst::string> & v)
+void Parser::setMultiple(const hst::string & name, const sad::Vector<hst::string> & v)
 {
 	this->setOption(name, m_multiple_options, v);
 }
@@ -93,7 +93,7 @@ void Parser::addSimpleOption(const hst::string & name, const hst::string & v)
 	addOption(name, m_simple_options, v);
 }
 
-void Parser::addMultipleOption(const hst::string & name, const hst::vector<hst::string> & v)
+void Parser::addMultipleOption(const hst::string & name, const sad::Vector<hst::string> & v)
 {
 	addOption(name, m_multiple_options, v);
 }

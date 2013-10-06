@@ -2,14 +2,17 @@
 #include <extra/geometry2d.h>
 #include <algorithm>
 
+namespace sad
+{
+
 namespace p2d
 {
 
-void erase_equal_points(hst::vector<p2d::Point> & set)
+void erase_equal_points(sad::Vector<sad::p2d::Point> & set)
 {
 	for(unsigned int i = 1; i < set.size(); i++)
 	{
-		if (equal(set[i], set[i-1]))
+		if (sad::equal(set[i], set[i-1]))
 		{
 			set.removeAt(i);
 			--i;
@@ -17,7 +20,7 @@ void erase_equal_points(hst::vector<p2d::Point> & set)
 	}
 }
 
-int find_min_point_on_y_axis(const hst::vector<p2d::Point> & set)
+int find_min_point_on_y_axis(const sad::Vector<sad::p2d::Point> & set)
 {
 	if (set.size() == 0) return -1;
 	
@@ -36,15 +39,15 @@ int find_min_point_on_y_axis(const hst::vector<p2d::Point> & set)
 
 typedef hst::pair<p2d::Point, double> SetSortingEntry;
 
-bool compare(const SetSortingEntry & o1, const SetSortingEntry & o2)
+bool compare(const sad::p2d::SetSortingEntry & o1, const sad::p2d::SetSortingEntry & o2)
 {
 	return o1.p2() < o2.p2();
 }
 
-double angle(const p2d::Point & p1, const p2d::Point & p2)
+double angle(const sad::p2d::Point & p1, const sad::p2d::Point & p2)
 {
 	double  result = 0;
-	if (!equal(p1, p2))
+	if (!sad::equal(p1, p2))
 	{
 		double dy = p2.y() - p1.y();
 		double dx = p2.x() - p1.x();
@@ -55,27 +58,28 @@ double angle(const p2d::Point & p1, const p2d::Point & p2)
 	return result;
 }
 
-hst::vector<p2d::Point> build_sorted_set(const hst::vector<p2d::Point> & set, int min_index)
+sad::Vector<p2d::Point> build_sorted_set(const sad::Vector<sad::p2d::Point> & set, 
+										 int min_index)
 {
 	assert( min_index > -1 && min_index < (int)(set.size()) );
 
-	hst::vector<p2d::Point> result;
-	p2d::Point min_point = set[min_index]; 
+	sad::Vector<sad::p2d::Point> result;
+	sad::p2d::Point min_point = set[min_index]; 
 	result << min_point;
 
 	// Build heap
-	hst::vector<p2d::SetSortingEntry> sortedset;
+	sad::Vector<sad::p2d::SetSortingEntry> sortedset;
 	for(unsigned int i = 0; i < set.size(); i++)
 	{
 		if (i != min_index) 
 		{
-			double angle= p2d::angle(min_point, set[i]);
-			sortedset << p2d::SetSortingEntry(set[i], angle);
+			double angle= sad::p2d::angle(min_point, set[i]);
+			sortedset << sad::p2d::SetSortingEntry(set[i], angle);
 		}
 	}
 
 	// Sort heap
-	std::sort(sortedset.begin(), sortedset.end(), p2d::compare);
+	std::sort(sortedset.begin(), sortedset.end(), sad::p2d::compare);
 
 	// Append it to an end
 	for(unsigned int i = 0; i < sortedset.size(); i++)
@@ -86,12 +90,12 @@ hst::vector<p2d::Point> build_sorted_set(const hst::vector<p2d::Point> & set, in
 	return result;
 }
 
-bool is_convex(const p2d::Point & prev, 
-			   const p2d::Point & cur,
-			   const p2d::Point & next)
+bool is_convex(const sad::p2d::Point & prev, 
+			   const sad::p2d::Point & cur,
+			   const sad::p2d::Point & next)
 {
-	double clockwiseangle = p2d::angle(cur, prev);
-	double counterclockwiseangle = p2d::angle(cur, next);
+	double clockwiseangle = sad::p2d::angle(cur, prev);
+	double counterclockwiseangle = sad::p2d::angle(cur, next);
 	
 	double max = clockwiseangle;
 	double min = counterclockwiseangle;
@@ -103,7 +107,7 @@ bool is_convex(const p2d::Point & prev,
 	double diff = (max - min);
 	bool diffisgreaterthanpi = (diff > M_PI);
 	bool result  = false;
-	if (!is_fuzzy_equal(diff, M_PI)) 
+	if (!sad::is_fuzzy_equal(diff, M_PI)) 
 	{
 		bool f1 = !cwisgreaterccw && diffisgreaterthanpi;
 		bool f2 = cwisgreaterccw && !diffisgreaterthanpi;
@@ -112,16 +116,16 @@ bool is_convex(const p2d::Point & prev,
 	return result;
 }
 
-bool erase_concave_points(hst::vector<p2d::Point> & result)
+bool erase_concave_points(sad::Vector<sad::p2d::Point> & result)
 {
 	bool erased = false;
 	for(unsigned int i = 1; (i < result.size()) && result.size() > 2; i++)
     {
-		p2d::Point prev = result[i-1];
-		p2d::Point next = result[0];
-		p2d::Point cur = result[i];
+		sad::p2d::Point prev = result[i-1];
+		sad::p2d::Point next = result[0];
+		sad::p2d::Point cur = result[i];
 		if (i !=  result.size() - 1) next = result[i+1];
-		if (p2d::is_convex(prev, cur, next) == false) 
+		if (sad::p2d::is_convex(prev, cur, next) == false) 
 		{
 			result.removeAt(i);
 			--i;
@@ -131,28 +135,29 @@ bool erase_concave_points(hst::vector<p2d::Point> & result)
 	return erased;
 }
 
+}
 
 }
 
-hst::vector<p2d::Point> p2d::graham_scan(const hst::vector<p2d::Point> & set)
+sad::Vector<sad::p2d::Point> sad::p2d::graham_scan(const sad::Vector<sad::p2d::Point> & set)
 {
-	hst::vector<p2d::Point> result = set;
-	p2d::erase_equal_points(result);
+	sad::Vector<p2d::Point> result = set;
+	sad::p2d::erase_equal_points(result);
 	if (result.size() > 2)
 	{
 		// Run graham scan implementation
 
 		// Find index of point with minimal y axis value
-		int min_point_index = p2d::find_min_point_on_y_axis(result);
+		int min_point_index = sad::p2d::find_min_point_on_y_axis(result);
 
 		// Builds sorted set by angle to point with minimal point
-		result = p2d::build_sorted_set(result, min_point_index);
+		result = sad::p2d::build_sorted_set(result, min_point_index);
 
 		// Optimize selected set, removing the concave points
 		bool changed = true;
 		do
 		{
-			changed = p2d::erase_concave_points(result);
+			changed = sad::p2d::erase_concave_points(result);
 		} while (changed);
 		
 	}

@@ -1,10 +1,12 @@
 /*! \file bouncesolver.h
 	A solver for bouncing bodies, when they are colliding
  */
+#pragma once
 #include "body.h"
 #include "findcontactpoints.h"
-#pragma once
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -137,3 +139,6 @@ public:
 };
 
 }
+
+}
+

@@ -49,7 +49,7 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 	Uint8 & m_bpp = texture->bpp();
 	unsigned int & m_width = texture->width();
 	unsigned int & m_height = texture->height();
-	hst::vector<Uint8> & m_data = texture->vdata();
+	sad::Vector<Uint8> & m_data = texture->vdata();
 
 	m_data.clear();
 	BMP::Header head;

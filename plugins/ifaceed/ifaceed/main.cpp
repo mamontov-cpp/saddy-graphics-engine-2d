@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 		unittests::Factory tests;
 		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
 
-		hst::vector<hst::string> data = p.multiple("test");
+		sad::Vector<hst::string> data = p.multiple("test");
 		for (int i=0;i<data.count();i++)
 		{
 			tests.run(data[i].data());

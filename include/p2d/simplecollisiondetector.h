@@ -5,8 +5,11 @@
 	by testing it at a specified moment, defined as proportion to time
 	limit
  */
-#include "collisiondetector.h"
 #pragma once
+#include "collisiondetector.h"
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -48,3 +51,4 @@ class SimpleCollisionDetector: public p2d::CollisionDetector
 
 }
 
+}

@@ -3,6 +3,8 @@
 #include "sprite2dtemplate.h"
 #include <assert.h>
 
+using namespace sad;
+
 Sprite2DConfigObserver::Sprite2DConfigObserver(const hst::string & spritegroup, int index, 
 											   Sprite2DConfig * config,
 										       Sprite2DConfigObserverPolicy policy

@@ -6,7 +6,7 @@
  */
 #pragma once
 #include "../os/mutex.h"
-#include "hlvector.hpp"
+#include "../sadvector.h"
 
 
 namespace hst
@@ -33,7 +33,7 @@ class TemporarilyImmutableContainer
 	 };
 	 /*! A queued commands container
 	  */
-	 hst::vector<QueuedCommand> m_command_queue;
+	 sad::Vector<QueuedCommand> m_command_queue;
 	 /*! A lock, for adding a commands into lock
 	  */
 	 os::mutex                  m_command_queue_lock;

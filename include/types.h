@@ -46,11 +46,10 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
-#include "templates/habstract.hpp"
 #include "templates/hdeque.hpp"
 #include "templates/hhash.hpp"
 #include "templates/hlist.hpp"
-#include "templates/hlvector.hpp"
+#include "sadvector.h"
 #include "templates/hpair.hpp"
 #include "templates/hptrie.hpp"
 #include "templates/hstring.h"

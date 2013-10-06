@@ -10,12 +10,17 @@
 
 	Also they contain collision shape templates.
  */
-#include "../../sprite2dadapter.h"
+#pragma once
+
 #include "../circle.h"
 #include "../line.h"
 #include "../rectangle.h"
-#pragma once
 
+#include "../../sprite2dadapter.h"
+
+
+namespace sad
+{
 
 namespace p2d
 {
@@ -118,6 +123,8 @@ public:
 	}
 
 };
+
+}
 
 }
 

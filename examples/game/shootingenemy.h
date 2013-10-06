@@ -3,8 +3,9 @@
 
 	Describes an enemy, that shoots with enemy bullets
  */
-#include "gameobject.h"
 #pragma once
+#include "gameobject.h"
+
 
 /*! Shooting enemy shoots with one enemy bullet
  */

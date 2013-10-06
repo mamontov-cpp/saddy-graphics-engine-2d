@@ -9,7 +9,7 @@
 
 /*! As a default, grid node is a node
  */
-class Platform: public p2d::app::Object
+class Platform: public sad::p2d::app::Object
 {
  SAD_OBJECT
  public:

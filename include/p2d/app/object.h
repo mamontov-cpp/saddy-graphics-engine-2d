@@ -3,12 +3,16 @@
 	Describes main application object, that is basic for all objects in application
  */
 #pragma once
-#include "../body.h"
 #include "constants.h"
+
+#include "../body.h"
+
 #include "../../sprite2dadapter.h"
 #include "../../primitives/object.h"
-#include "../../templates/hlvector.hpp"
+#include "../../sadvector.h"
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -147,3 +151,4 @@ class Object: public sad::BasicNode
 
 }
 
+}

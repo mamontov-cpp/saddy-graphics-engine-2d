@@ -278,8 +278,8 @@ void MainPanel::addSpriteObject()
 			int index = selection.index();
 			//  Adding a small screen sprite
 			ScreenSprite * a = new ScreenSprite();
-			Sprite2DConfig * c = m_editor->database()->sprites().hconfigs()[config];
-			Sprite2DTemplate t = c->getTemplates()[group][index];
+			sad::Sprite2DConfig * c = m_editor->database()->sprites().hconfigs()[config];
+			sad::Sprite2DTemplate t = c->getTemplates()[group][index];
 			hPointF p1 = hPointF(320,240);
 			hPointF p2 = p1 + t.size();
 			hRectF rect(p1, p2);
@@ -687,8 +687,8 @@ void MainPanel::setRegionParameters()
 			m_selfchanged = true;
 			ui.dblSpriteX->setValue(rect[0].x());
 			ui.dblSpriteY->setValue(rect[0].y());
-			ui.dblSpriteWidth->setValue(p2d::distance(rect[0], rect[1]));
-			ui.dblSpriteHeight->setValue(p2d::distance(rect[0], rect[3]));
+			ui.dblSpriteWidth->setValue(sad::p2d::distance(rect[0], rect[1]));
+			ui.dblSpriteHeight->setValue(sad::p2d::distance(rect[0], rect[3]));
 			m_selfchanged = false;
 		}
 	}
@@ -804,8 +804,8 @@ void MainPanel::spriteRectChanged()
 			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
 			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
 			float comparisonprec = 0.0001f;
-			float oldwidth = p2d::distance(oldrect[1], oldrect[0]);
-			float oldheight = p2d::distance(oldrect[3], oldrect[0]);
+			float oldwidth = sad::p2d::distance(oldrect[1], oldrect[0]);
+			float oldheight = sad::p2d::distance(oldrect[3], oldrect[0]);
 			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
 				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
 				&& fabs(size.x() - oldwidth) < comparisonprec
@@ -814,8 +814,8 @@ void MainPanel::spriteRectChanged()
 			{
 				return;
 			}
-			hPointF horizontal = p2d::unit(oldrect[1] - oldrect[0]);
-			hPointF vertical = p2d::unit(oldrect[3] - oldrect[0]);
+			hPointF horizontal = sad::p2d::unit(oldrect[1] - oldrect[0]);
+			hPointF vertical = sad::p2d::unit(oldrect[3] - oldrect[0]);
 			hRectF newrect;
 			ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 			newrect[0] = newpoint;

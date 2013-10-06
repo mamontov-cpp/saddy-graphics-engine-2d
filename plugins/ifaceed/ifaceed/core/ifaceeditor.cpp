@@ -452,7 +452,7 @@ void IFaceEditor::reload()
    // 4. Check, whether all scene needed data in DB
    bool allobjectsvalid = true;
    // Container of errors
-   hst::vector<hst::string> errors;
+   sad::Vector<hst::string> errors;
    AbstractScreenObject * it = this->result()->templateBegin();	
    while (it)
    {
@@ -535,7 +535,7 @@ void IFaceEditor::load()
 		// Also, we check when all objects are valid and can be loaded from db
 		AbstractScreenObject * it = e->templateBegin();
 		bool allobjectsarevalid = true;
-		hst::vector<hst::pair<hst::string, AbstractScreenObject *> > m_pairs;
+		sad::Vector<hst::pair<hst::string, AbstractScreenObject *> > m_pairs;
 		while(it)
 		{
 			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());

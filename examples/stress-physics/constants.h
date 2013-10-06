@@ -24,6 +24,8 @@ class ColoredBullet;
 class MovingSmile;
 
 
+namespace sad
+{
 
 namespace p2d
 {
@@ -103,3 +105,4 @@ public:
 
 }
 
+}

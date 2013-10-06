@@ -3,15 +3,16 @@
 
 	Describes an spawned enemy waves at specified times
  */
+#pragma once
 #include <input.h>
 #include <extra/periodicalevent.h>
-#pragma once
+
 
 class Game;
 
 /*! Descibes a rain of objects in start screen
  */ 
-class EnemySpawn: public PeriodicalEvent
+class EnemySpawn: public sad::PeriodicalEvent
 {
  protected:
 	 Game * m_game; //!< A game which rain is linked to
