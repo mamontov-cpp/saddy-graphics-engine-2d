@@ -132,8 +132,8 @@ template<class T> Vector<T> & Vector<T>::removeRange(unsigned long imin,unsigned
 
 template<class T> bool Vector<T>::operator==(const Vector<T> & o)
 {
-  const std::Vector<T> & t1 = *this;
-  const std::Vector<T> & t2 = o;
+  const std::vector<T> & t1 = *this;
+  const std::vector<T> & t2 = o;
   return t1 == t2;
 }
 template<class T> bool Vector<T>::operator!=(const Vector<T> & o)
