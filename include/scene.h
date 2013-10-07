@@ -3,8 +3,8 @@
     \brief  Here placed a scene files
 */
 #include "sadvector.h"
-#include "templates/hhash.hpp"
-#include "templates/temporarilyimmutablecontainer.hpp"
+#include "sadhash.h"
+#include "temporarilyimmutablecontainer.h"
 #include "os/mutex.h"
 #include "primitives/object.h"
 #include <assert.h>
@@ -78,7 +78,7 @@ class Camera
 };
 /*! Scene class
 */
-class Scene: public hst::TemporarilyImmutableContainer<sad::BasicNode>
+class Scene: public sad::TemporarilyImmutableContainer<sad::BasicNode>
 {
 protected:
 	sad::Vector<BasicNode *>   m_layers;                 //!< Layers
@@ -141,7 +141,3 @@ public:
 };
 
 }
-
-typedef sad::BasicNode BasicNode;
-typedef sad::Scene     Scene;
-

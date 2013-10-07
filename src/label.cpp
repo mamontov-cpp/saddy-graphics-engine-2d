@@ -17,7 +17,7 @@ Label::Label(sad::Renderer * renderer)
 }
 Label::Label(
 		      LabelFont fnt,
-		      const hst::string & str,
+		      const sad::String & str,
 			  const pointf      & p,
 			  sad::Renderer * renderer
 			)
@@ -50,7 +50,7 @@ FormattedLabel::FormattedLabel(sad::Renderer * renderer) : Label(renderer)
 	m_timer.start();
 }
 
-void FormattedLabel::setFont(const hst::string & fnt, sad::Renderer * r)
+void FormattedLabel::setFont(const sad::String & fnt, sad::Renderer * r)
 {
 	sad::BasicFont * font = r->fonts()->get(fnt);
 	if (font)

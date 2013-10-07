@@ -6,7 +6,7 @@ serializable::AbstractWriter::~AbstractWriter()
 
 bool serializable::AbstractWriter::write(SerializableContainer * container, ActionContext * context)
 {
-	context->pushAction(hst::string("serializable::AbstractWriter::write: writing data"));
+	context->pushAction(sad::String("serializable::AbstractWriter::write: writing data"));
 	if (!(this->openStream()))
 	{
 		context->popAction();

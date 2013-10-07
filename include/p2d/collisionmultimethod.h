@@ -6,7 +6,7 @@
  */
 #pragma once
 #include "collisionshape.h"
-#include "../templates/ptrhash.hpp"
+#include "../sadptrhash.h"
 
 namespace sad
 {
@@ -175,7 +175,7 @@ class CollisionMultiMethod
 {
 	public:
 		typedef p2d::BasicCollisionMultiMethodInstance<_ReturnType> instance_t;
-		typedef hst::ptrhash<hst::string, instance_t> group_t;
+		typedef sad::PtrHash<sad::String, instance_t> group_t;
 		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
 		instances_t m_instances; //!< Instances of method
@@ -266,7 +266,7 @@ class CollisionMultiMethodWithArg
 {
 	public:
 		typedef p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg> instance_t;
-		typedef hst::ptrhash<hst::string, instance_t> group_t;
+		typedef sad::PtrHash<sad::String, instance_t> group_t;
 		typedef instance_t * instances_t[MULTIMETHOD_REGISTERED_TYPES][MULTIMETHOD_REGISTERED_TYPES];
     protected:
 		instances_t m_instances; //!< Instances of method

@@ -6,7 +6,7 @@
 #pragma once
 #include "../primitives/hrect.h"
 #include "../primitives/hcolor.h"
-#include "../templates/hstring.h"
+#include "../sadstring.h"
 
 namespace sad
 {
@@ -18,7 +18,7 @@ namespace sad
 class Sprite2DTemplate
 {
  private:
-		 hst::string  m_texturename;  //!< Name of texture
+		 sad::String  m_texturename;  //!< Name of texture
 		 hRectF       m_texturerect;  //!< Texture coordinates of rectangle
 		 hPointF      m_size;         //!< Size of object
 		 
@@ -61,7 +61,7 @@ class Sprite2DTemplate
 		/*! Sets a texture name 
 			\param[in] name texture name
 		 */
-		inline void setTextureName(const hst::string & name) { m_texturename=name; }
+		inline void setTextureName(const sad::String & name) { m_texturename=name; }
 		/*! Sets a texture rectangle
 			\param[in] rect texture rectangle
 		 */
@@ -73,7 +73,7 @@ class Sprite2DTemplate
 		/*! Returns a texturename
 			\return texture name
 		 */
-		inline const hst::string & textureName() const { return m_texturename; }
+		inline const sad::String & textureName() const { return m_texturename; }
 		/*! Returns a texture rectangle
 			\return texture rectangle
 		 */

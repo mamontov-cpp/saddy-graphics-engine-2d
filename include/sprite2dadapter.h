@@ -5,7 +5,7 @@
  */
 #include <scene.h>
 #include <sprite.h>
-#include <templates/maybe.hpp>
+#include <maybe.h>
 #pragma once
 
 /*! \class Sprite2DAdapter
@@ -20,8 +20,8 @@ class Sprite2DAdapter: public sad::BasicNode
 	class Options
 	{
 	  public:
-		  hst::string Texture;      //!<  A texture name for current sprite
-		  hst::Maybe<hst::string> TextureContainer; //!< A texture container if needed
+		  sad::String Texture;      //!<  A texture name for current sprite
+		  sad::Maybe<sad::String> TextureContainer; //!< A texture container if needed
 		  hRectF TextureRectangle;  //!<  A texture coordinate rectangle
 		  hRectF Rectangle;         //!<  A main rectangle
 

@@ -5,8 +5,8 @@
 
 #include "primitives/hcolor.h"
 #include "primitives/hrect.h"
-#include "templates/hstring.h"
-#include "templates/hwstring.h"
+#include "sadstring.h"
+#include "sadwstring.h"
 #include "sadvector.h"
 #include <stdio.h>
 
@@ -140,36 +140,36 @@ namespace sad
 		    \param[in] filename name of file
 		    \param[in] r renderer where texture loader is getting from
 		*/
-		bool load(const hst::string & filename, sad::Renderer * r = sad::Renderer::ref());
+		bool load(const sad::String & filename, sad::Renderer * r = sad::Renderer::ref());
 		/*! Loads an image, depending of file extension
 		    \param[in] filename name of file
             \param[in] r renderer where texture loader is getting from
 		*/
-		bool load(const hst::wstring & filename, sad::Renderer * r = sad::Renderer::ref());
+		bool load(const sad::WString & filename, sad::Renderer * r = sad::Renderer::ref());
 		/*! Loads a BMP from file
 		\param[in] filename name of file
 		*/
-		bool loadBMP(const hst::string & filename);
+		bool loadBMP(const sad::String & filename);
 		/*! Loads a BMP from file
 		\param[in] filename name of file
 		*/
-		bool loadBMP(const hst::wstring & filename);
+		bool loadBMP(const sad::WString & filename);
 		/*! Loads a TGA from file
 		\param[in] filename name of file
 		*/
-		bool loadTGA(const hst::string & filename);
+		bool loadTGA(const sad::String & filename);
 		/*! Loads a TGA from file
 		\param[in] filename name of file
 		*/
-		bool loadTGA(const hst::wstring & filename);
+		bool loadTGA(const sad::WString & filename);
 		/*! Loads a PNG from a file
 		\param[in] filename name of file
 		*/
-		bool loadPNG(const hst::string & filename);
+		bool loadPNG(const sad::String & filename);
 		/*! Loads a PNG from a file
 		\param[in] filename name of file
 		*/
-		bool loadPNG(const hst::wstring & filename);
+		bool loadPNG(const sad::WString & filename);
 		/*! Loads default texture
 		*/
 		void loadDefaultTGATexture();

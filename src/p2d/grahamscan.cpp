@@ -37,7 +37,7 @@ int find_min_point_on_y_axis(const sad::Vector<sad::p2d::Point> & set)
 	return result;
 }
 
-typedef hst::pair<p2d::Point, double> SetSortingEntry;
+typedef sad::Pair<p2d::Point, double> SetSortingEntry;
 
 bool compare(const sad::p2d::SetSortingEntry & o1, const sad::p2d::SetSortingEntry & o2)
 {

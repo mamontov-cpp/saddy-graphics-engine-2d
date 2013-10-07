@@ -59,7 +59,7 @@ class AbstractField: public AbstractProperty
 			/*! Returns a string representation of property
 			    \return string representation
 		     */
-	        virtual hst::string save(ActionContext * context) const
+	        virtual sad::String save(ActionContext * context) const
 			{
                 return SaveLoadCallback< T >::save( get(context)->template get< T > (context));
 			}
@@ -68,7 +68,7 @@ class AbstractField: public AbstractProperty
 				\param[in] str      string data
 				\param[in] context  action context
 			 */
-			virtual void load(const hst::string & str, ActionContext * context)
+			virtual void load(const sad::String & str, ActionContext * context)
 			{
 				_set(SaveLoadCallback<T>::load(context,str));
 			}
@@ -156,7 +156,7 @@ typedef MappedField<long>                  LongMappedField;
 typedef MappedField<unsigned long>         ULongMappedField;
 typedef MappedField<long long>             LongLongMappedField;
 typedef MappedField<unsigned long long>    ULongLongMappedField;
-typedef MappedField<hst::string>           HStringMappedField;
+typedef MappedField<sad::String>           HStringMappedField;
 typedef MappedField< sad::Vector<int> >    HIntVectorMappedField;
 typedef MappedField<hPointF>                   PointMappedField;
 typedef MappedField<hRectF>                    RectMappedField;

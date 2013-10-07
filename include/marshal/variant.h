@@ -33,15 +33,15 @@ class Variant
 		  /*! Destructor function, which frees a memory, upon destruction of object
 		   */
 		  void (*m_destructor)(void *); 
-		  hst::string m_type;              //!< Type string of object
+		  sad::String m_type;              //!< Type string of object
 
 		  /*! Returns a variant::get function context
 		   */
-		  inline hst::string getGetContext() const 
+		  inline sad::String getGetContext() const 
 		  {
 			  char data[70];
 			  sprintf(data,"Performing %lx->sad::variant::get.",reinterpret_cast<unsigned long>(this));
-			  return hst::string(data);
+			  return sad::String(data);
 		  }
  public:
 		   /*! Constructs an object from value
@@ -68,7 +68,7 @@ class Variant
 		      //Push new action
 			  cont->pushAction(getGetContext());
 			  //Create new exception
-			  hst::string cast_type = abstract_names::type_string<T>::type();
+			  sad::String cast_type = abstract_names::type_string<T>::type();
 			  serializable::InvalidPropertyType * exc = new serializable::InvalidPropertyType(cast_type,
 				                                                                              m_type,
 		        																			  cont);
@@ -80,7 +80,7 @@ class Variant
 
 		   /*! Returns a type of variant
 		    */
-		   inline const hst::string & type() {return m_type; }
+		   inline const sad::String & type() {return m_type; }
 		   /*! Determines, whether type of object is declared in template
 		    */
 		   template<typename T>

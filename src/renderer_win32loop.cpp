@@ -18,7 +18,7 @@
 #endif
 
 
-hst::hash<HWND, sad::Renderer *> m_renderers;
+sad::Hash<HWND, sad::Renderer *> m_renderers;
 static  os::mutex m_data;
 
 
@@ -27,7 +27,7 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 {
 	if (dwCtrlType == CTRL_CLOSE_EVENT)
 	{
-		for(hst::hash<HWND, sad::Renderer *>::iterator it = m_renderers.begin();
+		for(sad::Hash<HWND, sad::Renderer *>::iterator it = m_renderers.begin();
 			it != m_renderers.end();
 			it++)
 		{
@@ -112,7 +112,7 @@ void sad::Renderer::mainLoop()
 }
 
 
-static hst::hash<WPARAM,int> table;
+static sad::Hash<WPARAM,int> table;
 
 static os::mutex m_table_init_lock;
 

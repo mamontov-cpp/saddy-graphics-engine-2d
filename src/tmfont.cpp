@@ -13,8 +13,8 @@ TMFont::~TMFont()
 }
 
 bool TMFont::load(
-			           const hst::string & tex, 
-					   const hst::string & cfg, 
+			           const sad::String & tex, 
+					   const sad::String & cfg, 
 					   const hst::color & bk,
 					   bool  fontdetermine,
 					   sad::Renderer * renderer
@@ -55,7 +55,7 @@ bool TMFont::load(
 	}
 	return true;
 }
-hRectF TMFont::size(const hst::string & str)
+hRectF TMFont::size(const sad::String & str)
 {
   float maxx=0.0f;
   float maxy=0.0f;
@@ -103,7 +103,7 @@ static void restore()
 	glPopMatrix();
 	glPopAttrib();
 }
-void TMFont::render(const hst::string & str,const pointf & p)
+void TMFont::render(const sad::String & str,const pointf & p)
 {
   //wcs();
   float cury=(float)(p.y());

@@ -3,9 +3,9 @@
 	Declares a simple command-line parser for
 	arguments
  */
-#include "templates/hstring.h"
+#include "sadstring.h"
 #include "sadvector.h"
-#include "templates/hpair.hpp"
+#include "sadpair.h"
 #pragma once
 namespace sad
 {
@@ -53,15 +53,15 @@ class InvalidReference<bool>
 class OptionType
 {
 protected:
-	hst::string m_name; //!< Name data
+	sad::String m_name; //!< Name data
 public:
 	OptionType();
 	/*! A simple constructor
 	 */
-	OptionType(const hst::string & name);
+	OptionType(const sad::String & name);
 	/*! A name for option type
 	 */
-	virtual const hst::string & name() const;
+	virtual const sad::String & name() const;
 
 	~OptionType();
 };
@@ -71,22 +71,22 @@ public:
 class Flag:public OptionType
 {
 public:
-	Flag(const hst::string & name);
+	Flag(const sad::String & name);
 };
 
 
 class SimpleOption: public OptionType
 {
 protected:
-	hst::string m_default;
+	sad::String m_default;
 public:
-	SimpleOption(const hst::string & name, const hst::string & d = ""): OptionType(name)
+	SimpleOption(const sad::String & name, const sad::String & d = ""): OptionType(name)
 	{
 		m_default = d;
 	}
 
 
-	const hst::string & defaultValue() 
+	const sad::String & defaultValue() 
 	{
 		return m_default;
 	}
@@ -98,7 +98,7 @@ public:
 class MultipleOption:public OptionType
 {
 public:
-	MultipleOption(const hst::string & name);
+	MultipleOption(const sad::String & name);
 };
 
 enum ParserTokenType
@@ -111,7 +111,7 @@ class Token
 {
  public:
 	sad::cmd::ParserTokenType type;
-	hst::string data;
+	sad::String data;
 };
 
 /** \class Args
@@ -163,18 +163,18 @@ class Args
 class Parser
 {
  private:
-	 hst::string m_default_option; //!< Default parser option
-	 hst::pair<
+	 sad::String m_default_option; //!< Default parser option
+	 sad::Pair<
 		 sad::Vector<Flag>,
 		 sad::Vector<bool>
 	 >		 m_flags; //!< Flags data
-	 hst::pair<
+	 sad::Pair<
 		 sad::Vector<SimpleOption>, 
-		 sad::Vector<hst::string>
+		 sad::Vector<sad::String>
 	 >		m_simple_options; //!< Simple options
-	 hst::pair<
+	 sad::Pair<
 		 sad::Vector<MultipleOption>, 
-		 sad::Vector< sad::Vector<hst::string> >
+		 sad::Vector< sad::Vector<sad::String> >
 	 >	   m_multiple_options; //!< Multiple options
 	
 	 /*! Tests, whether options are in container
@@ -186,7 +186,7 @@ class Parser
 	 typename _PairVector
 	 >
 	 bool is_in_container(
-		const hst::string & name,
+		const sad::String & name,
 		const _PairVector & v)
 	 {
 		 for (unsigned int i = 0; i < v.p1().count(); i++) 
@@ -203,8 +203,8 @@ class Parser
 	 typename _ValueType
 	 >
 	 typename std::vector<_ValueType>::reference 
-	 optionByName(const hst::string & name,
-	 hst::pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v
+	 optionByName(const sad::String & name,
+	 sad::Pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v
 	 )
 	 {
 		 for (unsigned int i = 0; i < v._1().count(); i++) 
@@ -219,8 +219,8 @@ class Parser
 	 typename _OptionType,
 	 typename _ValueType
 	 >
-	 void setOption(const hst::string & name,
-	 hst::pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v,
+	 void setOption(const sad::String & name,
+	 sad::Pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v,
 	 const _ValueType & val
 	 )
 	 {
@@ -234,8 +234,8 @@ class Parser
 	 typename _OptionType,
 	 typename _ValueType
 	 >
-	 void addOption(const hst::string & name,
-	 hst::pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v,
+	 void addOption(const sad::String & name,
+	 sad::Pair< sad::Vector<_OptionType>, sad::Vector<_ValueType> > & v,
 	 const _ValueType & val
 	 )
 	 {
@@ -252,62 +252,62 @@ class Parser
 	 /*! Creates a token, parsing it
 		 \param[in] v name of token
 	  */
-	sad::cmd::Token createToken(const hst::string & v);
+	sad::cmd::Token createToken(const sad::String & v);
 	/*!  Leaves a state, setting to a new state
 	 */
-	void leaveState(sad::cmd::Token & t, hst::string & currentkeyword, int & state);
+	void leaveState(sad::cmd::Token & t, sad::String & currentkeyword, int & state);
  public:
 	 Parser();
 	 /*! Checks, whether options is registered
 		 \param[in] name name of registered option
 		 \return whether option  is registered
 	  */
-	 bool isRegisteredOption(const hst::string & name);
+	 bool isRegisteredOption(const sad::String & name);
 	 /*! Returns a flag value, throws int  0, if unregistered
 		 \param[in] name name of options
 		 \return value
 	  */
-	 bool flag(const hst::string & name);
+	 bool flag(const sad::String & name);
 	 /*! Returns a simple value, throws int  0, if unregistered
 		 \param[in] name name of options
 		 \return value
 	  */
-	 hst::string & simple(const hst::string & name);
+	 sad::String & simple(const sad::String & name);
 	 /*! Returns a multiple value, throws int  0, if unregistered
 		 \param[in] name name of options
 		 \return value
 	  */
-	 sad::Vector<hst::string> & multiple(const hst::string & name);
+	 sad::Vector<sad::String> & multiple(const sad::String & name);
 	 /*! Sets a flag by name
 		 \param[in] name name of option
 		 \param[in] v value
 	  */
-	 void setFlag(const hst::string & name, bool v = false);
+	 void setFlag(const sad::String & name, bool v = false);
 	 /*! Sets a simple option by name
 		 \param[in] name name of option
 		 \param[in] v value
 	  */
-	 void setSimple(const hst::string & name, const hst::string & v = hst::string());
+	 void setSimple(const sad::String & name, const sad::String & v = sad::String());
 	 /*! Sets a simple option by name
 		 \param[in] name name of option
 		 \param[in] v value
 	  */
-	 void setMultiple(const hst::string & name, const sad::Vector<hst::string> & v = sad::Vector<hst::string>());
+	 void setMultiple(const sad::String & name, const sad::Vector<sad::String> & v = sad::Vector<sad::String>());
 	 /*! Adds a flag option (for "-name" option, "name" must be supplied)
 		 \param[in] name name of flag option
 		 \param[in] v value
 	  */
-	 void addFlagOption(const hst::string & name, bool v = false);
+	 void addFlagOption(const sad::String & name, bool v = false);
 	 /*! Adds a simple option (for "-name" option, "name" must be supplied) 
 		 \param[in] name name of simple option
 		 \param[in] v value
 	  */
-	 void addSimpleOption(const hst::string & name, const hst::string & v = hst::string());
+	 void addSimpleOption(const sad::String & name, const sad::String & v = sad::String());
 	 /*! Adds a multiple option  (for "-name" option, "name" must be supplied)
 		 \param[in] name name of simple option
 		 \param[in] v value
 	  */
-	 void addMultipleOption(const hst::string & name, const sad::Vector<hst::string> & v = sad::Vector<hst::string>());
+	 void addMultipleOption(const sad::String & name, const sad::Vector<sad::String> & v = sad::Vector<sad::String>());
 	 /*! Parses an arguments. If in simple option after keywords
 		 leads another keyword, we exit from this state and enter new,
 		 same goes for multiple states. Boolean flags, can be simply supplied
@@ -323,7 +323,7 @@ class Parser
 	 /*! A default option
 		 \return default option
 	  */
-	 const hst::string &  defaultOption() const;
+	 const sad::String &  defaultOption() const;
 	 ~Parser();
 };
 

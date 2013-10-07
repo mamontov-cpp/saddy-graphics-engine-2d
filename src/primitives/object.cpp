@@ -16,13 +16,13 @@ sad::ClassMetaData * sad::Object::metaData() const
 	return sad::Object::globalMetaData();
 }
 
-const hst::string & sad::Object::name() const
+const sad::String & sad::Object::name() const
 {
 	return this->metaData()->name();
 }
 
 
-sad::InvalidCastException::InvalidCastException(const hst::string &fromname, const hst::string &toname)
+sad::InvalidCastException::InvalidCastException(const sad::String &fromname, const sad::String &toname)
 {
 	m_fromname = fromname;
 	m_toname = toname;
@@ -32,18 +32,18 @@ sad::InvalidCastException::InvalidCastException(const hst::string &fromname, con
 	m_message << m_toname;
 }
 
-const hst::string & sad::InvalidCastException::fromName()
+const sad::String & sad::InvalidCastException::fromName()
 {
 	return m_fromname;
 }
 
 
-const hst::string & sad::InvalidCastException::toName()
+const sad::String & sad::InvalidCastException::toName()
 {
 	return m_toname;
 }
 
-const hst::string & sad::InvalidCastException::message()
+const sad::String & sad::InvalidCastException::message()
 {
 	return m_message;
 }

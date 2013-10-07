@@ -3,7 +3,7 @@
 
 	Here defined an action context, that can return current action string
  */
-#include "../templates/hstring.h"
+#include "../sadstring.h"
 #include "../sadvector.h"
 #pragma once
 
@@ -14,19 +14,19 @@
 class ActionContext
 {
  protected:
-	      sad::Vector<hst::string> m_actions_stack;  //!< Stack of performed actions
+	      sad::Vector<sad::String> m_actions_stack;  //!< Stack of performed actions
  public:
 	      /*! Get current action string 
 			  \return current action string
 		   */
-	      inline const sad::Vector<hst::string> & getActions() const
+	      inline const sad::Vector<sad::String> & getActions() const
 		  { 
 			 return  m_actions_stack;
 		  }
 	      /*! Sets current action
 			  \param[in] str string
 		   */
-		  virtual void  pushAction(const hst::string & str);
+		  virtual void  pushAction(const sad::String & str);
 		  /*!  Pops an actions
 		   */
 		  virtual void popAction();

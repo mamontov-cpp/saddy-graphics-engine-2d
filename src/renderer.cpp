@@ -140,7 +140,7 @@ bool sad::Renderer::initGLRendering()
 	const char * version=(const char *)glGetString(GL_VERSION);
 	if (version!=NULL)
 	{
-		SL_LOCAL_MESSAGE(hst::string("running OpenGL ")+hst::string(version), *this);
+		SL_LOCAL_MESSAGE(sad::String("running OpenGL ")+sad::String(version), *this);
 		if (version[0]>'1' || version[2] >='4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}

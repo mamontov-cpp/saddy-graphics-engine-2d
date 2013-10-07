@@ -12,7 +12,7 @@
 #include "movement.h"
 
 #include "../primitives/object.h"
-#include "../templates/hstring.h"
+#include "../sadstring.h"
 
 
 /*! A special point, which can be added to time or other values to make objects
@@ -83,7 +83,7 @@ public:
 	/*! Returns a type of user-defined object
 		\return type of object
 	 */
-	virtual const hst::string & userType() const;
+	virtual const sad::String & userType() const;
 	/*! Returns a position of body at specified time.
 		\param[in] time time, when position is needed
 		\param[in] index index, where shape should be stored 

@@ -46,14 +46,13 @@
 #include <ctime>
 #include <cstdio>
 #include <cstdlib>
-#include "templates/hdeque.hpp"
-#include "templates/hhash.hpp"
-#include "templates/hlist.hpp"
+#include "sadlinkedlist.h"
+#include "sadhash.h"
+#include "sadlist.h"
 #include "sadvector.h"
-#include "templates/hpair.hpp"
-#include "templates/hptrie.hpp"
-#include "templates/hstring.h"
-#include "templates/hwstring.h"
+#include "sadpair.h"
+#include "sadstring.h"
+#include "sadwstring.h"
 
 
 #include "primitives/hcolor.h"
@@ -93,7 +92,7 @@ namespace sad
 		HGLRC				 hRC;				    //!< OpenGL context
 		HINSTANCE            hInstance;             //!< Instance of module
 		DEVMODEA             scr_settings;          //!< Screen settings
-		hst::string          window_class;          //!< Class of window 
+		sad::String          window_class;          //!< Class of window 
 		int                  previousx, previousy;  //!< A previous x and y positions, before changing to fullscreen
 		int                  previouswidth, previousheight;  //!< A previous width and height, before changing to fullscreen
 		LONG                 previousstyle;         //!< A previous style of window, before changing to fullscreen

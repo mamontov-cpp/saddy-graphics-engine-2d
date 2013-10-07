@@ -19,12 +19,12 @@ sad::Variant * AbstractProperty::get(ActionContext * context) const
 	return new sad::Variant(0);
 }
 
-hst::string AbstractProperty::save(ActionContext * context) const
+sad::String AbstractProperty::save(ActionContext * context) const
 {
 	throw new serializable::MethodIsNotImplemented("AbstractProperty","save",const_cast<AbstractProperty*>(this),context);
 }
 
-void AbstractProperty::load(const hst::string & str, ActionContext * context)
+void AbstractProperty::load(const sad::String & str, ActionContext * context)
 {
 	throw new serializable::MethodIsNotImplemented("AbstractProperty","load",this,context);
 }

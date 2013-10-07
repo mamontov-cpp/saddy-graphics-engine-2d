@@ -7,7 +7,7 @@
 #include "sprite2dtemplate.h"
 
 #include "../sprite2dcontroller.h"
-#include "../templates/hstring.h"
+#include "../sadstring.h"
 
 
 namespace sad
@@ -35,7 +35,7 @@ class Sprite2DConfigObserver
  private:
 		 Sprite2DConfig *             m_config;    //!< Attached sprite config
 		 Sprite2DConfigObserverPolicy m_policy;    //!< How observer should act
-		 hst::string       m_spritegroup; //!< Sprite Group index in the config
+		 sad::String       m_spritegroup; //!< Sprite Group index in the config
 		 int               m_index;     //!< Sprite index in config
 		 
 		 Sprite2DController * m_sprite;  //!< Sprite, which we are working on 
@@ -48,7 +48,7 @@ class Sprite2DConfigObserver
 			\param[in] config  reference to config
 			\param[in] policy  policy, how observer should work with setting size
 		  */
-		 Sprite2DConfigObserver(const hst::string & spritegroup, int index, 
+		 Sprite2DConfigObserver(const sad::String & spritegroup, int index, 
 								Sprite2DConfig * config,
 								Sprite2DConfigObserverPolicy policy = COP_CHANGESIZE
 							   );

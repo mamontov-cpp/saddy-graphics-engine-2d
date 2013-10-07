@@ -4,13 +4,13 @@
 
 DECLARE_SOBJ(SerializableObject);
 
-hst::string SerializableObject::type()
+sad::String SerializableObject::type()
 {
 	return this->name();
 }
 
 
-void SerializableObject::addProperty(const hst::string & name, AbstractProperty * prop)
+void SerializableObject::addProperty(const sad::String & name, AbstractProperty * prop)
 {
 	assert( !m_properties.contains(name) ); 
 	prop->setParent(this);
@@ -18,7 +18,7 @@ void SerializableObject::addProperty(const hst::string & name, AbstractProperty 
 }
 
 
-AbstractProperty * SerializableObject::getProperty(const hst::string & name)
+AbstractProperty * SerializableObject::getProperty(const sad::String & name)
 {
 	if (m_properties.contains(name))
 		return m_properties[name];
@@ -29,10 +29,10 @@ SerializationEntry * SerializableObject::save(ActionContext * context)
 {
 	SerializationEntry * result = new SerializationEntry();
 	result->Name = this->type();
-	context->pushAction(hst::string("SerializableObject(")+
+	context->pushAction(sad::String("SerializableObject(")+
 						serializable::toString(this) + 
-						hst::string(")::save: saving object"));
-	for (hst::hash<hst::string, AbstractProperty *>::iterator it = m_properties.begin();
+						sad::String(")::save: saving object"));
+	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
 	{
 		if (it.value()->saveable())
@@ -49,9 +49,9 @@ SerializationEntry * SerializableObject::save(ActionContext * context)
 void SerializableObject::load(SerializationEntry * entry,ActionContext * context)
 {
 	assert(entry->Name == this->type());
-	context->pushAction(hst::string("SerializableObject(")+
+	context->pushAction(sad::String("SerializableObject(")+
 						serializable::toString(this) + 
-						hst::string(")::load: loading object"));
+						sad::String(")::load: loading object"));
 	
 	for (unsigned int i=0;i<entry->PropertiesName.count();i++)
 	{
@@ -64,7 +64,7 @@ void SerializableObject::load(SerializationEntry * entry,ActionContext * context
 
 void SerializableObject::resolveDeferred(ActionContext * context)
 {
-	for (hst::hash<hst::string, AbstractProperty *>::iterator it = m_properties.begin();
+	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
 	{
 	 it.value()->resolveDeferred(context);
@@ -73,14 +73,14 @@ void SerializableObject::resolveDeferred(ActionContext * context)
 
 SerializableObject::~SerializableObject()
 {
- for (hst::hash<hst::string, AbstractProperty *>::iterator it = m_properties.begin();
+ for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
  {
 	 delete it.value();
  }
 }
 
-SerializableObject* SerializableFactory::produce(const hst::string & obj) 
+SerializableObject* SerializableFactory::produce(const sad::String & obj) 
 {
 	return NULL;
 }

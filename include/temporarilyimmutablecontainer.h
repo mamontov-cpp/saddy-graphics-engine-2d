@@ -1,4 +1,4 @@
-/*! \file temporarilyimmutablecontainer.hpp
+/*! \file temporarilyimmutablecontainer.h
 	\author HiddenSeeker
 
 	Describes a temporarily immutable container, which is locked for actions, in between of 
@@ -6,10 +6,10 @@
  */
 #pragma once
 #include "../os/mutex.h"
-#include "../sadvector.h"
+#include "sadvector.h"
 
 
-namespace hst
+namespace sad
 {
 
 template< typename _Object >

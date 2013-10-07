@@ -59,7 +59,7 @@ void  sad::Texture::reverseTGA(const tga::Info & textureInfo)
 }
 
 // Loading TGA texture.
-bool sad::Texture::loadTGA(const hst::string & filename)
+bool sad::Texture::loadTGA(const sad::String & filename)
 {
 	bool result = false;	// Result of this function's work
 	FILE* hFile;			// File descriptor
@@ -68,7 +68,7 @@ bool sad::Texture::loadTGA(const hst::string & filename)
 }
 
 // Loading TGA texture with wide name.
-bool sad::Texture::loadTGA(const hst::wstring & filename)
+bool sad::Texture::loadTGA(const sad::WString & filename)
 {
 	bool result = false;	// Result of this function's work
 	FILE* hFile;			// File descriptor

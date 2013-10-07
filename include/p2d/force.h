@@ -8,7 +8,6 @@
 #include "vector.h"
 #include "tickable.h"
 
-#include "../templates/maybe.hpp"
 #include "../sadvector.h"
 #include "../extra/fuzzy_equal.h"
 

@@ -7,7 +7,7 @@
 #include "axle.h"
 #include "grahamscan.h"
 
-#include "../templates/maybe.hpp"
+#include "../maybe.h"
 #include "../sadvector.h"
 
 namespace sad

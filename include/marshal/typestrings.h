@@ -3,7 +3,7 @@
 
 	Here described a type string generator, which defines data properties
  */
-#include <templates/hstring.h>
+#include <sadstring.h>
 #include <sadvector.h>
 #pragma once
 namespace abstract_names
@@ -21,7 +21,7 @@ public:
 	/*! A type string which must be returned by PropertyEditor
 		\return type string
 	 */
-	static hst::string type();  
+	static sad::String type();  
 };
 
 }
@@ -34,7 +34,7 @@ public:
 										      class type_string< _type >           \
                                               {                                    \
 											  public:                              \
-                                               static hst::string type()           \
-											   { return hst::string( #_type ); }   \
+                                               static sad::String type()           \
+											   { return sad::String( #_type ); }   \
                                               };                                   \
                                             }                                   

@@ -7,7 +7,7 @@
 #include "axle.h"
 #include "point.h"
 
-#include "../templates/maybe.hpp"
+#include "../maybe.h"
 
 namespace sad
 {
@@ -15,7 +15,7 @@ namespace sad
 namespace p2d
 {
 
-typedef hst::Maybe<p2d::Point> MaybePoint;
+typedef sad::Maybe<sad::p2d::Point> MaybePoint;
 
 /*! Infinite line is described as equation m_kx * x + m_ky * y  + m_b = 0  
  */

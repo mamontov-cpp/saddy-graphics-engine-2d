@@ -1,4 +1,4 @@
-/*! \file    hdeque.hpp
+/*! \file    sadlinkedlist.hpp
     \author  HiddenSeeker
 
 	\brief   Definition of doubly linked list.
@@ -7,87 +7,19 @@
 */
 #pragma once
 
-#ifndef __H_DEQUE_HPP
-	#define __H_DEQUE_HPP
-namespace hst
+namespace sad
 {
-/*! \class  deque
+/*! \class  LinkedList
     \brief  Doubly linked list
 
 	Defines a template class of doubly linked list, with queuue functions.
 */
-template<class T> class deque
+template<class T> class LinkedList
 {
- public: class iterator;
  private:
-		 /*!
-		     \brief Class of node of list
-
-			 Defines a list node class.
-		 */
-		 class node
-		 {
-		  public:
-			     node * previous;                             //!< Pointer to previous node
-			     T    * me;                                   //!< Pointer to element
-			     node * next;                                 //!< Pointer to next node
-				 /*! Constructor to create some node
-				     \param[in] previous pointer to previous node
-					 \param[in] next     pointer to next node
-					 \param[in] me       pointer to object
-				 */
-				 node(node * previous, node * next, T * me);
-				 /*! Simple destructor, which destructs object
-				 */
-				 ~node();
-		 };
-
-		 node * firstnode;                                   //!< Pointer to head of list
-		 node * lastnode;        							 //!< Pointer to last object of list
-
-		 node * currentnode;                                 //!< Pointer to selected node
-         long   currentindex;    							 //!< Current index. An index, which indicates a current node position
-
-		 long   sz;              							 //!< Size of list.
-public:
-		 /*! Checks a corection
-		 */
-		 bool correct() { return currentindex<sz || (sz==0 && currentindex==0); }
-private:
-		 /*! Procedure that cleans all list
-		 */
-		 void makeClear();
-		 /*! Jump to previous nodes by amount of jumps
-             \param[in] from  beginning node
-             \param[in] jumps amount of jumps, to be done
-             \return    pointer to addressed node
-         */
-         void * jumpPrevious(node * from,long jumps) const;
-         /*! Jump to next nodes by amount of jumps
-             \param[in] from  beginning node
-             \param[in] jumps amount of jumps, to be done
-             \return    pointer to addressed node
-         */
-         void * jumpNext(node * from,long jumps) const;
-         /*! Gets node by index
-		     \param[in] i index
-			 \return pointer to node
-         */
-		 node * getNode(long i) const;
-
-         /*! Inserts value in iterator position. Element, that was here before shifts as next
-             \param[in,out] it  iterator, that will point to inserted element
-             \param[in]     val value
-         */
-         void insert(typename deque::iterator & it, const T & val);
-		 /*! Removes value at iterator position. Iterator will point
-		     to previous element, or next, if element is last, or be broken,
-		     if parent is empty.
-		     \param[in,out] it iterator.
-         */
-		 void remove(typename deque::iterator & it);
-
- public:
+	 class node;
+ public: 
+	 class iterator;
           /*!
 		     \brief const_iterator
 
@@ -95,19 +27,19 @@ private:
 		  */
           class const_iterator
           {
-            friend class deque;
+            friend class LinkedList;
             private:
-                    deque const * m_parent;                //!< Parent reference
-                    typename deque::node const * m_next;   //!< Next node
-                    typename deque::node const * m_me;     //!< Reference to node
-                    typename deque::node const * m_prev;   //!< Previous node, used by last iterator
+                    LinkedList const * m_parent;                //!< Parent reference
+                    typename LinkedList::node const * m_next;   //!< Next node
+                    typename LinkedList::node const * m_me;     //!< Reference to node
+                    typename LinkedList::node const * m_prev;   //!< Previous node, used by last iterator
             /*! Private constructor
-                \param[in] parent parent deque
+                \param[in] parent parent LinkedList
                 \param[in] next   next node
                 \param[in] me     self   node
                 \param[in] prev   previous node
             */
-            const_iterator(deque const * parent,typename deque::node const * next,typename deque::node const * me,typename deque::node const * prev);
+            const_iterator(LinkedList const * parent,typename LinkedList::node const * next,typename LinkedList::node const * me,typename LinkedList::node const * prev);
             /*! Breaks an iterator
             */
             inline void broke();
@@ -172,19 +104,19 @@ private:
 		  */
           class iterator
           {
-            friend class deque;
+            friend class LinkedList;
             private:
-                    deque * m_parent;                      //!< Parent reference
-                    typename deque::node  * m_next;   //!< Next node
-                    typename deque::node  * m_me;     //!< Reference to node
-                    typename deque::node  * m_prev;   //!< Previous node, used by last iterator
+                    LinkedList * m_parent;                      //!< Parent reference
+                    typename LinkedList::node  * m_next;   //!< Next node
+                    typename LinkedList::node  * m_me;     //!< Reference to node
+                    typename LinkedList::node  * m_prev;   //!< Previous node, used by last iterator
             /*! Private constructor
-                \param[in] parent parent deque
+                \param[in] parent parent LinkedList
                 \param[in] next   next node
                 \param[in] me     self   node
                 \param[in] prev   previous node
             */
-            iterator(deque  * parent,typename deque::node * next,typename deque::node * me,typename deque::node * prev);
+            iterator(LinkedList  * parent,typename LinkedList::node * next,typename LinkedList::node * me,typename LinkedList::node * prev);
             /*! Breaks an iterator
             */
             inline void broke();
@@ -231,7 +163,7 @@ private:
             iterator & insert(const T & val);
             /*!  Removes value at iterator position. Iterator will point
 		         to previous element, or next, if element is last, or be broken,
-		         if parent deque is empty.
+		         if parent LinkedList is empty.
             */
             iterator & erase();
             /*! Determines, whether iterator has next node
@@ -265,16 +197,16 @@ private:
           iterator end();
 
 
-          deque();                                          //!< Default constructor.
+          LinkedList();                                          //!< Default constructor.
           /*! Copy constructor.
-		      \param[in] h other deque
+		      \param[in] h other LinkedList
 		  */
-		  deque(const deque & h);
+		  LinkedList(const LinkedList & h);
           /*! Assignment operator overload.
-              \param[in] h other deque
+              \param[in] h other LinkedList
 		  */
-          deque & operator=(const deque & h);
-          ~deque();                                         //!< Destructor, which deletes all list nodes.
+          LinkedList & operator=(const LinkedList & h);
+          ~LinkedList();                                         //!< Destructor, which deletes all list nodes.
           //Getters---------------
 		   bool empty() const;                               //!< Detects, whether list is empty.
            long count() const;                               //!< Return amount of elements in list.
@@ -297,112 +229,169 @@ private:
 		   */
 		   const T &   operator[](long i) const;
            //----------------------
-		   /*! Adds an object to list. Equal to deque::add
-		       \param[in] obj deque to be added
+		   /*! Adds an object to list. Equal to LinkedList::add
+		       \param[in] obj LinkedList to be added
 			   \return self-reference
 		   */
-           deque & operator<<(const T & obj);
-		   /*! Adds a deque to deque. Equal to deque::add
-		       \param[in] obj deque to be added
+           LinkedList & operator<<(const T & obj);
+		   /*! Adds a LinkedList to LinkedList. Equal to LinkedList::add
+		       \param[in] obj LinkedList to be added
 			   \return self-reference
 		   */
-		   deque & operator<<(const deque & obj);
+		   LinkedList & operator<<(const LinkedList & obj);
            /*! Copys a last object in list to reference, with removing it from list.
 		       \param[in] obj reference, where object will be stored
 			   \return self-reference
 		   */
-		   deque & operator>>(T & obj);
+		   LinkedList & operator>>(T & obj);
            /*! Adds a object to list
 		       \param[in] obj object to be added
 			   \return self-reference
 		   */
-		   deque & add(const T & obj);
+		   LinkedList & add(const T & obj);
 		   /*! Adds a list to list.
 		       \param[in] o list to be added
 			   \return self-reference
 		   */
-		   deque & add(const deque & o);
+		   LinkedList & add(const LinkedList & o);
 		   /*! Adds an object to front of list. Equal to insert(T,0).
 		       \param[in] obj inserted object
 			   \return self-reference
 		   */
-		   deque & addFront(const T & obj);
+		   LinkedList & addFront(const T & obj);
            /*! Inserts an object to list in specified position.
 			   \param[in] obj  Object to add to
 			   \param[in] i    Position to add
 			   \return self-reference
 		   */
-		   deque & insert(const T &obj,long i);
+		   LinkedList & insert(const T &obj,long i);
            /*! Removes an element in specified position.
 		       \param[in] i index of object, which is being removed
 			   \return self-reference
            */
-           deque & removeAt(long i);
+           LinkedList & removeAt(long i);
            /*! Removes all occurences of element obj.
 		      \param[in] obj object, which occurences are being removed
 			  \return self-reference
 		   */
-		   deque & remove(const T & obj);
+		   LinkedList & remove(const T & obj);
            /*! Removes first occurence of element obj.
 		      \param[in] obj object, which occurences are being removed
 			  \return self-reference
 		   */
-		   deque & removeFirst(const T & obj);
+		   LinkedList & removeFirst(const T & obj);
            /*! Removes last occurence of element obj.
 		      \param[in] obj object, which occurences are being removed
 			  \return self-reference
 		   */
-		   deque & removeLast(const T & obj);
+		   LinkedList & removeLast(const T & obj);
            /*! Removes an elements in range from imin to imax
 		       \param[in] imin first bound of range
 			   \param[in] imax second bound of range
 			   \return self-reference
 		   */
-		   deque & removeRange(long imin,long imax);
+		   LinkedList & removeRange(long imin,long imax);
 
 		   //Queue procedures
-		   /*! This function is added to provide deque function.
+		   /*! This function is added to provide LinkedList function.
 		       Pushs an element to front.
 			   \param[in] obj object
 			   \return self-reference
 		   */
-		   deque & push_front(const T & obj);
-		   /*! This function is added to provide deque function.
+		   LinkedList & push_front(const T & obj);
+		   /*! This function is added to provide LinkedList function.
 		       Pops an element from back.
 			   \param[in] obj reference, where object will be stored
 			   \return self-reference
 		   */
-		   deque & pop_front(T & obj);
-		   /*! This function is added to provide deque function.
+		   LinkedList & pop_front(T & obj);
+		   /*! This function is added to provide LinkedList function.
 		       Pushs an element to back.
 			   \param[in] obj object
 			   \return self-reference
 		   */
-		   deque & push_back(const T & obj);
-		   /*! This function is added to provide deque function.
+		   LinkedList & push_back(const T & obj);
+		   /*! This function is added to provide LinkedList function.
 		       Pops an element from front.
 			   \param[in] obj reference, where object will be stored
 			   \return self-reference
 		   */
-		   deque & pop_back(T & obj);
+		   LinkedList & pop_back(T & obj);
 
 		   /*! Cleanups list, removing all elements
            */
 		   void		clear();
-	       /*! Maps function to every element in list
-		       \param[in] fptr pointer to mapping function
-		   */
-		   void     yield(void (*fptr)(T & obj));
+ private:
+		 /*!
+		     \brief Class of node of list
+
+			 Defines a list node class.
+		 */
+		 class node
+		 {
+		  public:
+			     node * previous;                             //!< Pointer to previous node
+			     T    * me;                                   //!< Pointer to element
+			     node * next;                                 //!< Pointer to next node
+				 /*! Constructor to create some node
+				     \param[in] previous pointer to previous node
+					 \param[in] next     pointer to next node
+					 \param[in] me       pointer to object
+				 */
+				 node(node * previous, node * next, T * me);
+				 /*! Simple destructor, which destructs object
+				 */
+				 ~node();
+		 };
+
+		 node * firstnode;                                   //!< Pointer to head of list
+		 node * lastnode;        							 //!< Pointer to last object of list
+
+		 node * currentnode;                                 //!< Pointer to selected node
+         long   currentindex;    							 //!< Current index. An index, which indicates a current node position
+
+		 long   sz;              							 //!< Size of list.
+public:
+		 /*! Checks a corection
+		 */
+		 bool correct() { return currentindex<sz || (sz==0 && currentindex==0); }
+private:
+		 /*! Procedure that cleans all list
+		 */
+		 void makeClear();
+		 /*! Jump to previous nodes by amount of jumps
+             \param[in] from  beginning node
+             \param[in] jumps amount of jumps, to be done
+             \return    pointer to addressed node
+         */
+         void * jumpPrevious(node * from,long jumps) const;
+         /*! Jump to next nodes by amount of jumps
+             \param[in] from  beginning node
+             \param[in] jumps amount of jumps, to be done
+             \return    pointer to addressed node
+         */
+         void * jumpNext(node * from,long jumps) const;
+         /*! Gets node by index
+		     \param[in] i index
+			 \return pointer to node
+         */
+		 node * getNode(long i) const;
+
+         /*! Inserts value in iterator position. Element, that was here before shifts as next
+             \param[in,out] it  iterator, that will point to inserted element
+             \param[in]     val value
+         */
+         void insert(typename LinkedList::iterator & it, const T & val);
+		 /*! Removes value at iterator position. Iterator will point
+		     to previous element, or next, if element is last, or be broken,
+		     if parent is empty.
+		     \param[in,out] it iterator.
+         */
+		 void remove(typename LinkedList::iterator & it);
+
+ 
 };
 
 }
-/*! Convenience typedef
-*/
-#define hdeque hst::deque
 
-#ifndef HI_DEQUE_H
-       #include "hdeque_src.hpp"
-#endif
-#define HI_DEQUE_H
-
-#endif
+#include "sadlinkedlist_src.h"

@@ -1,16 +1,16 @@
 #include <classmetadatacontainer.h>
 
-void sad::ClassMetaData::setName(const hst::string & name)
+void sad::ClassMetaData::setName(const sad::String & name)
 {
 	m_name = name;
 }
 
-const hst::string& sad::ClassMetaData::name() const
+const sad::String& sad::ClassMetaData::name() const
 {
 	return m_name;
 }
 
-bool sad::ClassMetaData::canBeCastedTo(const hst::string & name)
+bool sad::ClassMetaData::canBeCastedTo(const sad::String & name)
 {
 	if (m_name == name)
 	{
@@ -24,14 +24,14 @@ bool sad::ClassMetaData::canBeCastedTo(const hst::string & name)
 	return result;
 }
 
-void sad::ClassMetaData::addAncestor(const hst::string & name)
+void sad::ClassMetaData::addAncestor(const sad::String & name)
 {
 	bool created = false;
 	m_ancestors.add(sad::ClassMetaDataContainer::ref()->get(name, created));
 }
 
 
-bool sad::ClassMetaData::canBeCastedFrom(const hst::string & name)
+bool sad::ClassMetaData::canBeCastedFrom(const sad::String & name)
 {
 	bool created = false;
 	ClassMetaData * metaDataToBeCastedTo = sad::ClassMetaDataContainer::ref()->get(name, created);

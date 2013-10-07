@@ -1,23 +1,21 @@
-/*! \file    hpair.hpp
+/*! \file    sadpair.h
     \author  HiddenSeeker
 
-	\brief   Definition of pair class.
+	\brief   Definition of Pair class.
 
-	This file contains a definition of pair container class.
+	This file contains a definition of Pair container class.
 */
 #pragma once
 
-#ifndef __HPAIR_HPP
-	#define __HPAIR_HPP
-namespace hst
+namespace sad
 {
-/*! \class  pair
+/*! \class  Pair
     \brief  Pair container class
 
-    Defines a pair container class
+    Defines a Pair container class
 */
 template<class T1,class T2>
-class pair
+class Pair
 {
   private:
           T1 m_1;  //!< First property
@@ -25,36 +23,36 @@ class pair
   public:
           /*! Default constructor
           */
-          pair();
+          Pair();
           /*! Parametric
               \param[in] m1 first property
               \param[in] m2 second propery
           */
-          pair(const T1 & m1, const T2 & m2);
+          Pair(const T1 & m1, const T2 & m2);
           /*! Copy constructor
-              \param[in] o other pair
+              \param[in] o other Pair
           */
-          pair(const pair & o);
+          Pair(const Pair & o);
           /*!  Destructor
           */
-          ~pair();
-          /*!  Copies a pair
-               \param[in] o other pair
+          ~Pair();
+          /*!  Copies a Pair
+               \param[in] o other Pair
                \return self-reference
           */
-          pair & operator=(const pair & o);
+          Pair & operator=(const Pair & o);
 
           /*! Equiualence operator
-              \param[in] o other pair
+              \param[in] o other Pair
               \return true if equal
           */
-          bool operator==(const pair & o) const;
+          bool operator==(const Pair & o) const;
 
           /*! Equiualence operator
-              \param[in] o other pair
+              \param[in] o other Pair
               \return true if not equal
           */
-          bool operator!=(const pair & o) const;
+          bool operator!=(const Pair & o) const;
 
 
           /*! Returns first property
@@ -69,11 +67,11 @@ class pair
           /*! Sets first property
               \param[in] p first property
           */
-          inline pair & set1(const T1 & p);
+          inline Pair & set1(const T1 & p);
           /*! Sets second property
               \param[in] p second property
           */
-          inline pair & set2(const T2 & p);
+          inline Pair & set2(const T2 & p);
 		  /*! Returns a reference to property
 			  \return first property
 		  */
@@ -84,13 +82,13 @@ class pair
 		  inline T2 & _2() { return m_2; }
 };
 
-/*! \class  triplet
+/*! \class  Triplet
     \brief  Triplet container class
 
-    Defines a triplet container class
+    Defines a Triplet container class
 */
 template<class T1,class T2,class T3>
-class triplet
+class Triplet
 {
   private:
           T1 m_1;  //!< First property
@@ -99,37 +97,37 @@ class triplet
   public:
           /*! Default constructor
           */
-          triplet();
+          Triplet();
           /*! Parametric
               \param[in] m1 first property
               \param[in] m2 second propery
 			  \param[in] m3 third property
           */
-          triplet(const T1 & m1, const T2 & m2,const T3 & m3);
+          Triplet(const T1 & m1, const T2 & m2,const T3 & m3);
           /*! Copy constructor
-              \param[in] o other pair
+              \param[in] o other Pair
           */
-          triplet(const triplet & o);
+          Triplet(const Triplet & o);
           /*!  Destructor
           */
-          ~triplet();
-          /*!  Copies a pair
-               \param[in] o other pair
+          ~Triplet();
+          /*!  Copies a Pair
+               \param[in] o other Pair
                \return self-reference
           */
-          triplet & operator=(const triplet & o);
+          Triplet & operator=(const Triplet & o);
 
           /*! Equiualence operator
-              \param[in] o other pair
+              \param[in] o other Pair
               \return true if equal
           */
-          bool operator==(const triplet & o);
+          bool operator==(const Triplet & o);
 
           /*! Equiualence operator
-              \param[in] o other pair
+              \param[in] o other Pair
               \return true if not equal
           */
-          bool operator!=(const triplet & o);
+          bool operator!=(const Triplet & o);
 
           /*! Returns first property
               \return m_1
@@ -162,29 +160,17 @@ class triplet
           /*! Sets first property
               \param[in] p first property
           */
-          inline triplet & set1(const T1 & p);
+          inline Triplet & set1(const T1 & p);
           /*! Sets second property
               \param[in] p second property
           */
-          inline triplet & set2(const T2 & p);
+          inline Triplet & set2(const T2 & p);
 		  /*! Sets third property
               \param[in] p third property
           */
-          inline triplet & set3(const T3 & p);
+          inline Triplet & set3(const T3 & p);
 };
 
 }
 
-/*! Convenience typedef
-*/
-#define hpair hst::pair
-/*! Convenienct typedef
-*/
-#define htriplet hst::triplet
-
-#ifndef HI_PAIR
-    #define HI_PAIR
-    #include "hpair_src.hpp"
-#endif
-
-#endif
+#include "sadpair_src.h"

@@ -13,7 +13,7 @@ FontManager::FontManager()
 
 }
 
-void FontManager::add(sad::BasicFont * font,const hst::string & name )
+void FontManager::add(sad::BasicFont * font,const sad::String & name )
 {
 	m_m.lock();
 
@@ -24,7 +24,7 @@ void FontManager::add(sad::BasicFont * font,const hst::string & name )
 	m_m.unlock();
 }
 
-sad::BasicFont* FontManager::get(const hst::string &key) 
+sad::BasicFont* FontManager::get(const sad::String &key) 
 {	
 	m_m.lock();
 
@@ -36,7 +36,7 @@ sad::BasicFont* FontManager::get(const hst::string &key)
 
 	return r;
 }
-void FontManager::remove(const hst::string &key) 
+void FontManager::remove(const sad::String &key) 
 {
 	m_m.lock();
 
@@ -52,7 +52,7 @@ void FontManager::remove(const hst::string &key)
 */
 FontManager::~FontManager() 
 {
-	hhash<hString, sad::BasicFont*>::iterator font_iterator;
+	sad::Hash<sad::String, sad::BasicFont*>::iterator font_iterator;
 	font_iterator = m_fonts.begin();
 	while (font_iterator != m_fonts.end()) 
 	{

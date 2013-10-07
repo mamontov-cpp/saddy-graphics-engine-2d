@@ -4,7 +4,7 @@
 			  amounts of containers
 */
 #include "texture.h"
-#include "templates/hhash.hpp"
+#include "sadhash.h"
 #pragma once
 
 namespace sad
@@ -19,7 +19,7 @@ namespace sad
 class TextureContainer
 {
  	private:
-		hst::hash<hst::string,Texture *> m_data; //!< Texture data
+		sad::Hash<sad::String,Texture *> m_data; //!< Texture data
 	public:
 		/*! Creates a new empty container
 		 */
@@ -31,16 +31,16 @@ class TextureContainer
 			\param[in] name texture name
 			\param[in] tex texture
 		 */
-		void add(const hst::string & name, sad::Texture * tex);
+		void add(const sad::String & name, sad::Texture * tex);
 		/*! Removes a texture from container
 			\param[in] name texture name
     	 */
-		void remove(const hst::string & name);
+		void remove(const sad::String & name);
 		/*! Returns a texture by a name, if exists
 		    \param[in] name name of a texture
 			\return texture pointer. NULL, if can't be found
 		*/
-		Texture *  get(const hst::string & name);
+		Texture *  get(const sad::String & name);
 		/*! Builds a mipmap for every texture
 		 */
 		void build();

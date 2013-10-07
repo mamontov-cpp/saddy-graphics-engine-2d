@@ -16,17 +16,17 @@ static const char uid_vowels_table[6][2] =     { "a", "e", "i", "o", "u" };
 
 static const int uid_vowels_table_size = 6;
 
-hst::string HashBasedSerializableContainer::random_uid()
+sad::String HashBasedSerializableContainer::random_uid()
 {
 	int length = rand() % 15 + 5;
-	hst::string result;
+	sad::String result;
 	for (int i=0;i<length;i++)
 	{
 		result << uid_consonants_table[ rand() % uid_consonants_table_size];
 		result << uid_vowels_table[ rand() % uid_vowels_table_size];
 	}
 	result << "_";
-	result << hst::string::number(rand());
+	result << sad::String::number(rand());
 	return result;
 }
 
@@ -36,7 +36,7 @@ void HashBasedSerializableContainer::add(SerializableObject * obj)
 	if (m_reverse_container.contains(obj))
 		return;
 
-	hst::string result = this->random_uid();
+	sad::String result = this->random_uid();
 	while(m_container.contains(result))
 		result = this->random_uid();
 
@@ -50,7 +50,7 @@ void HashBasedSerializableContainer::remove(SerializableObject * obj)
 {
 	if (!m_reverse_container.contains(obj))
 		return;
-	hst::string uid = m_reverse_container[obj];
+	sad::String uid = m_reverse_container[obj];
 	
 	m_container.remove(uid);
 	m_reverse_container.remove(obj);
@@ -58,14 +58,14 @@ void HashBasedSerializableContainer::remove(SerializableObject * obj)
 	this->SerializableContainer::remove(obj);
 }
 
-const hst::string & HashBasedSerializableContainer::uid(SerializableObject * obj) const
+const sad::String & HashBasedSerializableContainer::uid(SerializableObject * obj) const
 {
 	if (!m_reverse_container.contains(obj))
-		return *(new hst::string());
+		return *(new sad::String());
 	return m_reverse_container[obj];
 }
 
-SerializableObject * HashBasedSerializableContainer::object(const hst::string & uid) const
+SerializableObject * HashBasedSerializableContainer::object(const sad::String & uid) const
 {
 	if (!m_container.contains(uid))
 		return NULL;
@@ -102,11 +102,11 @@ HashBasedSerializableContainer::~HashBasedSerializableContainer()
 }
 
 
-void HashBasedSerializableContainer::setUid(SerializableObject * obj, const hst::string & uid)
+void HashBasedSerializableContainer::setUid(SerializableObject * obj, const sad::String & uid)
 {
 	if (m_container.contains(uid))
 	{
-		SL_CRITICAL (hst::string("another object with uid ") + uid);
+		SL_CRITICAL (sad::String("another object with uid ") + uid);
 		return;
 	}
 	if (!m_reverse_container.contains(obj))
@@ -115,7 +115,7 @@ void HashBasedSerializableContainer::setUid(SerializableObject * obj, const hst:
 		SL_CRITICAL(o);
 		return;
 	}
-	hst::string old_uid = m_reverse_container[obj];
+	sad::String old_uid = m_reverse_container[obj];
     m_container.remove(old_uid);
 
 	m_container.insert(uid,obj);

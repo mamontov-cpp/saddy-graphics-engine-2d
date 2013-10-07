@@ -3,7 +3,7 @@
 
 	Defines a container for class meta data
  */
-#include "../templates/hhash.hpp"
+#include "../sadhash.h"
 #include "../os/mutex.h"
 #include "classmetadata.h"
 #pragma once
@@ -15,7 +15,7 @@ namespace sad
 class ClassMetaDataContainer
 {
 private:
-	typedef hst::hash<hst::string, sad::ClassMetaData *> ClassMetaDataHash;
+	typedef sad::Hash<sad::String, sad::ClassMetaData *> ClassMetaDataHash;
 	/*! A hash with all of meta data
 	 */
 	ClassMetaDataHash m_container;
@@ -45,7 +45,7 @@ public:
 		\param[out] created when metadata is created by container, this flag set to true 
 		\return a  metadata
 	 */
-	sad::ClassMetaData * get(const hst::string & name, bool & created);
+	sad::ClassMetaData * get(const sad::String & name, bool & created);
 	/*! Erases a container
 	 */
 	~ClassMetaDataContainer();

@@ -7,7 +7,7 @@
 
 #include "../types.h"
 #include "../input.h"
-#include "../templates/hhash.hpp"
+#include "../sadhash.h"
 
 #include <stdlib.h>
 
@@ -271,37 +271,37 @@ class Names
 public:
 	/*! Enter state callback name
 	 */
-	static const hst::string ENTER;
+	static const sad::String ENTER;
 	/*! Leave state callback name
 	 */
-	static const hst::string LEAVE;
+	static const sad::String LEAVE;
 	/*! A callback for mouse down event
 	 */
-	static const hst::string MOUSEDOWN;
+	static const sad::String MOUSEDOWN;
 	/*!  A callback for mouse up event
 	 */
-	static const hst::string MOUSEUP;
+	static const sad::String MOUSEUP;
 	/*!  A callback for mouse click event
 	 */
-	static const hst::string MOUSECLICK;
+	static const sad::String MOUSECLICK;
 	/*!  A callback for mouse double click event
 	 */
-	static const hst::string MOUSEDBLCLICK;
+	static const sad::String MOUSEDBLCLICK;
 	/*!  A callback for mouse move event
 	 */
-	static const hst::string MOUSEMOVE;
+	static const sad::String MOUSEMOVE;
 	/*!  A callback for mouse move event
 	 */
-	static const hst::string WHEEL;
+	static const sad::String WHEEL;
 	/*!  A callback for mouse move event
 	 */
-	static const hst::string KEYDOWN;
+	static const sad::String KEYDOWN;
 	/*!  A callback for mouse move event
 	 */
-	static const hst::string KEYUP;
+	static const sad::String KEYUP;
 	/*!  A callback for quit
 	 */
-	static const hst::string QUIT;
+	static const sad::String QUIT;
 };
 
 /*! An interface for handling state transitions
@@ -309,8 +309,8 @@ public:
 class State
 {
 private:
-	typedef hst::hash<hst::string, AbstractCallback *> CallbackList;
-	typedef hst::hash<int, AbstractCallback *> CharCallbackList;
+	typedef sad::Hash<sad::String, AbstractCallback *> CallbackList;
+	typedef sad::Hash<int, AbstractCallback *> CharCallbackList;
 
 	/*! Callbacks for hashes data
 	 */
@@ -339,7 +339,7 @@ public:
 		\param[in] eventType type of event for state
 		\param[in] callback a callback data
 	 */
-    virtual void addCallback(const hst::string & eventType, fsm::AbstractCallback * callback);
+    virtual void addCallback(const sad::String & eventType, fsm::AbstractCallback * callback);
 	/*! Adds new callback on enter
 		\param[in] f function
 	 */
@@ -368,7 +368,7 @@ public:
 		\param[in] eventType type of event for state
 		\param[in] f a callback 
 	 */
-	inline void addEventCallback(const hst::string & eventType, void (*f)(const sad::Event &))
+	inline void addEventCallback(const sad::String & eventType, void (*f)(const sad::Event &))
 	{ this->addCallback(eventType, new fsm::Callback(f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
@@ -376,7 +376,7 @@ public:
 		\param[in] f a callback 
 	 */
 	template<typename _Class>
-	inline void addEventCallback(const hst::string & eventType, _Class * o,  void (_Class::*f)(const sad::Event &))
+	inline void addEventCallback(const sad::String & eventType, _Class * o,  void (_Class::*f)(const sad::Event &))
 	{ this->addCallback(eventType, new fsm::Callback(o, f)); }
 	/*! Adds a new callback for event. Class takes ownership on callback 
 		\param[in] eventType type of event for state
@@ -386,7 +386,7 @@ public:
 	 */
 	template<typename _DelegatingClass, typename _InvokedClass>
 	inline void addEventCallback(
-		const hst::string & eventType, 
+		const sad::String & eventType, 
 		_DelegatingClass * o,  
 		_InvokedClass * (_DelegatingClass::*f)(),
 		void (_InvokedClass::*g)()
@@ -403,7 +403,7 @@ public:
 		typename _InvokedClass
 	>
 	inline void addEventCallback(
-		const hst::string & eventType, 
+		const sad::String & eventType, 
 		_DelegatingClass * o,  
 		_InvokedClass * (_DelegatingClass::*f)(),
 		void (_InvokedClass::*g)(const sad::Event &)
@@ -412,7 +412,7 @@ public:
 	/*! Removes a callback for eventtype
 		\param[in] eventType type of event
 	*/
-	virtual void removeCallback(const hst::string & eventType);
+	virtual void removeCallback(const sad::String & eventType);
 	/*! Adds a callback for key up event on specific key
 		\param[in] key key which it will be bind to
 		\param[in] c callback
@@ -545,12 +545,12 @@ public:
 	/*! Invokes a callback with eventype if any
 		\param[in] eventType type of event
 	 */
-	virtual void invoke(const hst::string & eventType);
+	virtual void invoke(const sad::String & eventType);
 	/*! Invokes a callback with eventype if any
 		\param[in] eventType type of event
 		\param[in] o real event
 	 */
-	virtual void invoke(const hst::string & eventType, const sad::Event & o);
+	virtual void invoke(const sad::String & eventType, const sad::Event & o);
 	virtual ~State();
 
 	template<typename T> inline T & as() { return static_cast<T&>(*this); }
@@ -565,13 +565,13 @@ class MachineEventCallback: public sad::EventHandler
 {
 private:
 	fsm::Machine * m_machine;
-	hst::string m_event_type;
+	sad::String m_event_type;
 public:
 	/*! Creates a new callback
 		\param[in] machine machine data
 		\param[in] eventType type of event
 	 */
-	inline MachineEventCallback(fsm::Machine * machine, hst::string eventType)
+	inline MachineEventCallback(fsm::Machine * machine, sad::String eventType)
 	: m_machine(machine), m_event_type(eventType)
 	{
 	}
@@ -592,9 +592,9 @@ class Machine
 public:
 	/*! Initial state machine name
 	 */
-	static const hst::string INITIAL;
+	static const sad::String INITIAL;
 private:
-	typedef hst::hash<hst::string, fsm::State *> StateList;
+	typedef sad::Hash<sad::String, fsm::State *> StateList;
 	/*! Callbacks for hashes data
 	 */
 	StateList m_states;
@@ -603,10 +603,10 @@ private:
 	fsm::Shared * m_shared;
 	/*! A current state name
 	 */ 
-	hst::string m_current_state_name;
+	sad::String m_current_state_name;
 	/*! A previous state name
 	 */
-	hst::string m_previous_state_name;
+	sad::String m_previous_state_name;
 
 	/*! Called on entering to a new state
 	 */
@@ -620,11 +620,11 @@ public:
 	/*! Returns a current state name. A fsm::Machine::INITIAL at start
 		\return a current name of state
 	 */
-	inline const hst::string & currentStateName() const { return m_current_state_name;}
+	inline const sad::String & currentStateName() const { return m_current_state_name;}
 	/*! At start both of previous and current state are set to fsm::Machine::INITIAL
 		\return previous name of state
 	 */
-	inline const hst::string & previousStateName()  { return m_previous_state_name;}
+	inline const sad::String & previousStateName()  { return m_previous_state_name;}
 	/*! Returns a shared data of state machine 
 		\return a shared data of machine
 	 */
@@ -642,27 +642,27 @@ public:
 		\param[in] name name of state
 		\param[in] state state of object
 	 */
-	void addState(const hst::string & name, fsm::State * state);
+	void addState(const sad::String & name, fsm::State * state);
 	/*! A removes a state for data
 		\param[in] name state to remove
 	 */
-	void removeState(const hst::string & name);
+	void removeState(const sad::String & name);
 	/*! An event name data
 		\param[in] eventName event name
 		\param[in] o         a linked event data
 	 */
-	void invokeEvent(const hst::string & eventName, const sad::Event & o);
+	void invokeEvent(const sad::String & eventName, const sad::Event & o);
 	/*! Pushes a new state for data
 		\param[in] newState a state for new data
 	 */
-	void pushState(const hst::string & newState);
+	void pushState(const sad::String & newState);
 	/*! Returns a machine to an old state
 	 */
 	void cancelState();
 	/*! Creates a new callback for event type
 		\param[in] type event type
 	 */
-	fsm::MachineEventCallback * callbackFor(const hst::string & type);
+	fsm::MachineEventCallback * callbackFor(const sad::String & type);
 	/*! Binds linking callbacks to a controls points, so events will be propagated to machine
 		\param[in] controls controls data
 	 */

@@ -5,25 +5,26 @@
 	automatically, when destroyed.
 */
 #pragma once
-#include "hlvector.h"
+#include "sadvector.h"
 
 namespace sad
 {
 
-/*! A class for owning pointers. Automatically cleans memory, when destroyed
+/*! A class for holding pointers by value, that they reference. 
+	Automatically cleans memory, when destroyed
  */
 template<typename T>
-class ptrvector: public sad::Vector<T*>
+class PtrVector: public sad::Vector<T*>
 {
  public:
 	/*! Creates new empty vector, holding a pointers
 	 */
-	inline ptrvector() : sad::Vector() 
+	inline PtrVector() : sad::Vector() 
 	{
 	}
 	/*! Frees memory for each contained element
 	 */
-	~ptrvector() 
+	~PtrVector() 
 	{
 		for(size_t i = 0; i < size(); i++)
 			delete (*this)[i];

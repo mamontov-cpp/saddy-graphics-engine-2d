@@ -6,7 +6,7 @@
 #pragma once
 #include "sprite2dtemplate.h"
 
-#include "../templates/hhash.hpp"
+#include "../sadhash.h"
 
 namespace sad
 {
@@ -14,8 +14,8 @@ namespace sad
 /*! Inner container of sprites in config 
 	(string - is unique id of sprite group, int - an index of sprite in group)
  */
-typedef hst::hash<hst::string, 
-				  hst::hash<int,Sprite2DTemplate> 
+typedef sad::Hash<sad::String, 
+				  sad::Hash<int,Sprite2DTemplate> 
 				 >  Sprite2DTemplateContainer;
 
 /*! \class Sprite2DConfigLoader
@@ -31,7 +31,7 @@ class Sprite2DConfigLoader
 				 \param[in]  stemplate  sprite template
 				 \param[out] container  container where it should be inserted
 			 */ 
-		    void insertTemplate(const hst::string & group, 
+		    void insertTemplate(const sad::String & group, 
 						    	int index,
 								const Sprite2DTemplate & stemplate,
 								Sprite2DTemplateContainer & container);

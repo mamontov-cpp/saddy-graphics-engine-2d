@@ -5,7 +5,7 @@
 
 using namespace sad;
 
-Sprite2DConfigObserver::Sprite2DConfigObserver(const hst::string & spritegroup, int index, 
+Sprite2DConfigObserver::Sprite2DConfigObserver(const sad::String & spritegroup, int index, 
 											   Sprite2DConfig * config,
 										       Sprite2DConfigObserverPolicy policy
 											  )
@@ -38,7 +38,7 @@ bool Sprite2DConfigObserver::createSprite(const hPointF & center)
 {
 	if ( m_config->getTemplates().contains(m_spritegroup) )
 	{
-		const hst::hash<int,Sprite2DTemplate> & hash=m_config->getTemplates()[m_spritegroup];
+		const sad::Hash<int,Sprite2DTemplate> & hash=m_config->getTemplates()[m_spritegroup];
 		if (hash.contains(m_index))
 		{
 			const Sprite2DTemplate & sprite_template=hash[m_index];	

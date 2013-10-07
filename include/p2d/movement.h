@@ -99,19 +99,19 @@ class Movement
 	 /*! A velocity for next time step, as it should be changed by
 		 user instantly.
 	  */
-	 hst::Maybe<_Value> m_next_velocity;
+	 sad::Maybe<_Value> m_next_velocity;
 	 /*! A next velocity time, when it need to be set
 	  */
-	 hst::Maybe<double> m_next_velocity_time;
+	 sad::Maybe<double> m_next_velocity_time;
 	 /*! A position for object at current time step
 	  */
 	 _Value m_position;
 	 /*! A next position, as it can be changed by a user
 	  */
-	 hst::Maybe<_Value> m_next_position;
+	 sad::Maybe<_Value> m_next_position;
 	 /*! A next position time, when it need to be set
 	  */
-	 hst::Maybe<double> m_next_position_time;
+	 sad::Maybe<double> m_next_position_time;
 	 /*! A listeners for a position changes
 	  */
 	 sad::Vector<listener_t> m_listeners;

@@ -3,7 +3,7 @@
 	Provides a simple check for OpenGL extensions.
 */
 #pragma once
-#include "templates/hpair.hpp"
+#include "sadpair.h"
 namespace ext
 {
 	/*! Checks for an extension, marked by name. Returns false if not found, or can't
@@ -13,7 +13,7 @@ namespace ext
 	/*! Parses OpenGL version, returning current used version
 		\return version pair <major, minor>
 	 */
-	hst::pair<int,int> version();
+	sad::Pair<int,int> version();
 	/*! Returns an extension list
 		\return NULL if can't be obtained
 	*/

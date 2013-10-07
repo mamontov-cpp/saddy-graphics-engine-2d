@@ -37,7 +37,7 @@ sad::ClassMetaDataContainer::~ClassMetaDataContainer()
 }
 
 
-sad::ClassMetaData * sad::ClassMetaDataContainer::get(const hst::string & name, bool & created)
+sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, bool & created)
 {
 	sad::ClassMetaData * result = NULL;
 	m_lock.lock();
