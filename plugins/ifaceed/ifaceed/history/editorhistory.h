@@ -4,7 +4,7 @@
 	Describes an editor history
  */
 #include "abstractcommand.h"
-#include "templates/hdeque.hpp"
+#include "sadlinkedlist.h"
 #pragma once
 
 /** A history of all saved changes
@@ -14,7 +14,7 @@ class EditorHistory
  private:
 	 /** A saved commands
 	  */
-	 hst::deque<AbstractCommand *> m_commands;
+	 sad::LinkedList<AbstractCommand *> m_commands;
 	 /** Current saved command
 	  */
 	 int  m_current;

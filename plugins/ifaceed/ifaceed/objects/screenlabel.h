@@ -15,10 +15,10 @@ class ScreenLabel: public AbstractScreenObject
 {
  SAD_OBJECT
  private:
-	 hst::string  m_font_name;    //!< Font name data
+	 sad::String  m_font_name;    //!< Font name data
 	 unsigned int m_font_size;    //!< Size of font
 	 hst::color   m_font_color;   //!< Color of font
-	 hst::string  m_text;         //!< Text of label
+	 sad::String  m_text;         //!< Text of label
 	 float        m_angle;        //!< Angle of label
 	 hPointF      m_point;        //!< Upper-left point of label
 	 int m_alpha;                 //!< Alpha of screen label
@@ -36,11 +36,11 @@ class ScreenLabel: public AbstractScreenObject
 	 /*! Returns a string type
 			\return a string type of object
 	  */
-	 virtual hst::string typeName();
+	 virtual sad::String typeName();
 	 /*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string _description();
+	virtual sad::String _description();
 	/*! Whether we can resize object
 	 */
 	virtual bool resizable();
@@ -61,7 +61,7 @@ class ScreenLabel: public AbstractScreenObject
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors = NULL);
+	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<sad::String> * errors = NULL);
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok

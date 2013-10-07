@@ -5,7 +5,7 @@
  */
 #include "abstractcommand.h"
 #include "../objects/abstractscreenobject.h"
-#include "templates/hstring.h"
+#include "sadstring.h"
 #include "primitives/hrect.h"
 #include <3rdparty/format/format.h>
 #include <log/log.h>
@@ -29,7 +29,7 @@ private:
 	AbstractScreenObject * m_object; //!< Object of data
 	sad::Log * m_log;				 //!< Log of editor
 	
-	hst::string m_property_name;     //!< Name of property
+	sad::String m_property_name;     //!< Name of property
 	T m_prev_value;				     //!< Previous value of object
 	T m_current_value;               //!< Current value of object
 
@@ -40,7 +40,7 @@ public:
 		\param[in] new_value new value
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, sad::Log * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, sad::Log * log) 
 	{
 		SL_SCOPE("PropertyChangeCommand::PropertyChangeCommand");
 		m_log = log;
@@ -57,7 +57,7 @@ public:
 		\param[in] old_value an old value of property
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const hst::string & s, T new_value, T old_value, sad::Log * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, T old_value, sad::Log * log) 
 	{
 		m_log = log;
 		m_object = o;
@@ -104,8 +104,8 @@ class ScreenSprite;
 class SpritePropertyChangeCommandInfo
 {
 public:
-	hst::string config;
-	hst::string group;
+	sad::String config;
+	sad::String group;
 	int index;
 
 	hRectF rect;

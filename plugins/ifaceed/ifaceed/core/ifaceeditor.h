@@ -110,7 +110,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	/** Highlights a state of editor in GUI. Override this for custom output
 		\param[in] hint hint of state
 	  */
-	virtual void highlightState(const hst::string & hint);
+	virtual void highlightState(const sad::String & hint);
 	/** Shows objects stats for selected object
 		Implemented in \\core\\states\\changingselection.h
 		\param[in] o object, which must be selected
@@ -128,7 +128,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	virtual void tryEraseObject();
 	/** Updates a list from event
 	 */
-	virtual void submitEvent(const hst::string & eventType, const sad::Variant & v);
+	virtual void submitEvent(const sad::String & eventType, const sad::Variant & v);
 	/** Appends a rotation command to a history
 		Used for deferred rotation appendance
 	 */

@@ -33,12 +33,12 @@ class SceneLayerProperty:public AbstractProperty
 	 /** Returns a string representation of property
 		 \return string representation
 	  */
-	 virtual hst::string save(ActionContext * context) const;
+	 virtual sad::String save(ActionContext * context) const;
 	 /** Loads data from string
 		 \param[in] str      string data
 		 \param[in] context  action context
 	  */
-	 virtual void load(const hst::string & str, ActionContext * context);
+	 virtual void load(const sad::String & str, ActionContext * context);
 	 /** Whether prop is saveable
 		 \return saveable
 	  */

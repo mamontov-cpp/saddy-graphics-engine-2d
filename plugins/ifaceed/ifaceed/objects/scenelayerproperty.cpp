@@ -51,12 +51,12 @@ sad::Variant * SceneLayerProperty::get(ActionContext * context) const
 	return m_variant;
 }
 
-hst::string SceneLayerProperty::save(ActionContext * context) const
+sad::String SceneLayerProperty::save(ActionContext * context) const
 {
 	return  SaveLoadCallback<unsigned int>::save( get(context)->get<unsigned int> (context));
 }
 
-void SceneLayerProperty::load(const hst::string & str, ActionContext * context)
+void SceneLayerProperty::load(const sad::String & str, ActionContext * context)
 {
 	set(sad::Variant(SaveLoadCallback<unsigned int>::load(context,str)),context);
 }

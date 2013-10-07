@@ -3,13 +3,15 @@
 
 	Defines a database with amount of fonts
  */
-#include <QFont>
+#pragma once
+
 #include <ftfont.h>
 #include <fontmanager.h>
-#include <templates/hhash.hpp>
+#include <sadhash.h>
+
+#include <QFont>
 #include <QString>
 #include <QFontDatabase>
-#pragma once
 
 class IFaceEditorFontList;
 
@@ -54,7 +56,7 @@ class IFaceEditorFont
 
 /** A map, which contains all fonts
  */
-typedef  hst::hash<hst::string, IFaceEditorFont *>  IFaceEditorFontsMap;
+typedef  sad::Hash<sad::String, IFaceEditorFont *>  IFaceEditorFontsMap;
 
 /** Determines possible results of loading data
  */

@@ -10,7 +10,7 @@ class UidProperty:public AbstractProperty
 {
  private:
 		 bool           m_loaded_data;     //!< Whether scene layer deferred
-		 hst::string    m_uid_deferred;  //!< Deferred layer data
+		 sad::String    m_uid_deferred;  //!< Deferred layer data
 		 sad::Variant * m_variant; //!< Variant value of data
  public:
 	 /** Default property is invalid and empty
@@ -33,12 +33,12 @@ class UidProperty:public AbstractProperty
 	 /** Returns a string representation of property
 		 \return string representation
 	  */
-	 virtual hst::string save(ActionContext * context) const;
+	 virtual sad::String save(ActionContext * context) const;
 	 /** Loads data from string
 		 \param[in] str      string data
 		 \param[in] context  action context
 	  */
-	 virtual void load(const hst::string & str, ActionContext * context);
+	 virtual void load(const sad::String & str, ActionContext * context);
 	 /** Whether prop is saveable
 		 \return saveable
 	  */

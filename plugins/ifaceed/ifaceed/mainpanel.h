@@ -9,7 +9,7 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_mainpanel.h"
-#include "templates/hstring.h"
+#include "sadstring.h"
 #include "gui/spritewidget/qspritetablewidget.h"
 #include "gui/objectlist.h"
 #include <marshal/variant.h>
@@ -67,7 +67,7 @@ public:
 	void setMouseMovePosView(float x, float y);
 	/*! Hints current editor state for highlighting
 	 */
-	void highlightState(const hst::string & hints);
+	void highlightState(const sad::String & hints);
 	/*! Sets, whether adding or removing is enabled
 		\param[in] enabled enabled flag
 	 */
@@ -85,13 +85,13 @@ public:
 		\param[in] prop property name
 		\param[in] v value
 	 */
-	template<typename T> void trySetProperty(const hst::string & prop, T v);
+	template<typename T> void trySetProperty(const sad::String & prop, T v);
 	/*! Tries to set current propertit of active object, otherwise  - of selected
 		if property exists. In a first place this for angle, that is believed as float
 		\param[in] prop property name
 		\param[in] v value
 	 */
-	void trySetProperty(const hst::string & prop, float v);	
+	void trySetProperty(const sad::String & prop, float v);	
 	inline Ui::MainPanelClass * myUI() { return &ui; }
 
 	void updateObjectStats(AbstractScreenObject * o);

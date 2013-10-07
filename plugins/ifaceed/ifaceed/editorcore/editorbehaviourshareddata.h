@@ -6,7 +6,7 @@
  */
 #pragma once
 #include <stdio.h>
-#include <templates/hstring.h>
+#include <sadstring.h>
 #include <log/log.h>
 class AbstractScreenObject;
 class EditorLog;
@@ -43,8 +43,8 @@ class EditorBehaviourSharedData
 	 inline void setSelectedObject(AbstractScreenObject * o) 
 	 {
 		 m_selected_object = o;
-		 SL_DEBUG(hst::string("selected object is now ") 
-			     + hst::string::number(reinterpret_cast<unsigned long>(o))
+		 SL_DEBUG(sad::String("selected object is now ") 
+			     + sad::String::number(reinterpret_cast<unsigned long>(o))
 				 );
 	 }
 	 /*! Returns a current active object

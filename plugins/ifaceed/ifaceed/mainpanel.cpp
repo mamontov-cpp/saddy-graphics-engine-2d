@@ -217,7 +217,7 @@ void MainPanel::highlightStateImpl()
 	ui.txtEditorState->setText(m_tmp_state);
 }
 
-void MainPanel::highlightState(const hst::string & hints)
+void MainPanel::highlightState(const sad::String & hints)
 {
 	m_tmp_state = hints.data();
 	QTimer::singleShot(0, this, SLOT(highlightStateImpl()));
@@ -238,7 +238,7 @@ void MainPanel::addFontObject()
 		
 		// Set props
 		ActionContext * c = this->m_editor->log();
-		hst::string fontName=ui.cmbFonts->currentText().toStdString().c_str();
+		sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
 		label->getProperty("font")->set(sad::Variant(fontName),c);
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
 		hst::color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
@@ -248,7 +248,7 @@ void MainPanel::addFontObject()
 		label->getProperty("angle")->set(sad::Variant(angle), c);
 		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
 		label->getProperty("size")->set(sad::Variant(size), c);
-		hst::string text=ui.txtLabelText->toPlainText().toStdString().c_str();
+		sad::String text=ui.txtLabelText->toPlainText().toStdString().c_str();
 		label->getProperty("text")->set(sad::Variant(text), c);
 
 
@@ -265,7 +265,7 @@ void MainPanel::addFontObject()
 
 void MainPanel::addSpriteObject()
 {
-	hst::string newstate = "";
+	sad::String newstate = "";
 	if (ui.rbPlaceAndRotate->isChecked()) newstate = "sprite_adding_simple";
 	if (ui.rbTwoClicksPlaces->isChecked()) newstate = "sprite_adding_diagonal";
 	if (newstate.length())
@@ -273,8 +273,8 @@ void MainPanel::addSpriteObject()
 		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
 		if (selection.invalid() == false)
 		{
-			hst::string config = selection.config().toStdString().c_str();
-			hst::string group = selection.group().toStdString().c_str();
+			sad::String config = selection.config().toStdString().c_str();
+			sad::String group = selection.group().toStdString().c_str();
 			int index = selection.index();
 			//  Adding a small screen sprite
 			ScreenSprite * a = new ScreenSprite();
@@ -285,8 +285,8 @@ void MainPanel::addSpriteObject()
 			hRectF rect(p1, p2);
 			a->setProp<hRectF>("rect",rect, m_editor->log());
 			a->setProp<float>("angle",ui.dblAngle->value(), m_editor->log());
-			a->setProp<hst::string>("config",config, m_editor->log());
-			a->setProp<hst::string>("group",group, m_editor->log());
+			a->setProp<sad::String>("config",config, m_editor->log());
+			a->setProp<sad::String>("group",group, m_editor->log());
 			a->setProp<int>("index",index, m_editor->log());
 			a->tryReload(m_editor->database());
 			InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
@@ -316,7 +316,7 @@ void MainPanel::setAddingEnabled(bool enabled)
 	this->ui.btnAddSprite->setEnabled(enabled);
 }
 
-void MainPanel::trySetProperty(const hst::string & prop, float v)
+void MainPanel::trySetProperty(const sad::String & prop, float v)
 {
 	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
 	AbstractScreenObject * o = NULL;
@@ -375,7 +375,7 @@ void MainPanel::trySetProperty(const hst::string & prop, float v)
 }
 
 
-template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T v)
+template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T v)
 {
 	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
 	AbstractScreenObject * o = NULL;
@@ -445,7 +445,7 @@ template<typename T> void MainPanel::trySetProperty(const hst::string & prop, T 
 void MainPanel::fontChanged(const QString & s)
 {
 	IGNORE_SELFCHANGING
-	hst::string hs = s.toStdString().c_str();
+	sad::String hs = s.toStdString().c_str();
 	trySetProperty("font", hs);
 }
 
@@ -479,14 +479,14 @@ void MainPanel::sizeChanged(int index)
 
 void MainPanel::nameChanged(const QString & name)
 {
-	trySetProperty("name", hst::string(name.toStdString().c_str()));
+	trySetProperty("name", sad::String(name.toStdString().c_str()));
 	this->updateList();
 }
 
 void MainPanel::textChanged()
 {
 	IGNORE_SELFCHANGING
-	hst::string s = ui.txtLabelText->toPlainText().toStdString().c_str();
+	sad::String s = ui.txtLabelText->toPlainText().toStdString().c_str();
 	trySetProperty("text",s);
 }
 
@@ -510,7 +510,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = true;
 		BLOCK_SIGNALS_AND_CALL(
 			ui.txtLabelText,
-			setPlainText(prop->get(l)->get<hst::string>(l).data())
+			setPlainText(prop->get(l)->get<sad::String>(l).data())
 		);
 	}
 	// Get size
@@ -560,7 +560,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
-		hst::string c = prop->get(l)->get<hst::string>(l);
+		sad::String c = prop->get(l)->get<sad::String>(l);
 		QString s = c.data();
 		int index = ui.cmbFonts->findText(s);
 		if (index != -1) 
@@ -587,7 +587,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{	
 		m_selfchanged = true;
-		hst::string c= prop->get(l)->get<hst::string>(l);
+		sad::String c= prop->get(l)->get<sad::String>(l);
 		BLOCK_SIGNALS_AND_CALL(ui.txtName, setText(c.data()));
 		m_selfchanged = false;
 	}
@@ -595,8 +595,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{
 		this->setRegionParameters();
 		
-		hst::string config = o->prop<hst::string>("config", m_editor->log());
-		hst::string group = o->prop<hst::string>("group", m_editor->log());
+		sad::String config = o->prop<sad::String>("config", m_editor->log());
+		sad::String group = o->prop<sad::String>("group", m_editor->log());
 		int index = o->prop<int>("index", m_editor->log());
 		
 		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
@@ -708,12 +708,12 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 		QSpriteTableWidgetSelection sel(config, group, index);
 		if (sel.invalid() == false  && o->getProperty("config") != NULL) 
 		{
-			hst::string oconf =  o->prop<hst::string>("config", m_editor->log());
-			hst::string ogroup =  o->prop<hst::string>("group", m_editor->log());
+			sad::String oconf =  o->prop<sad::String>("config", m_editor->log());
+			sad::String ogroup =  o->prop<sad::String>("group", m_editor->log());
 			int oindex =  o->prop<int>("index", m_editor->log());
 
-			o->setProp<hst::string>("config", config.toStdString().c_str(), m_editor->log());
-			o->setProp<hst::string>("group",  group.toStdString().c_str(), m_editor->log());
+			o->setProp<sad::String>("config", config.toStdString().c_str(), m_editor->log());
+			o->setProp<sad::String>("group",  group.toStdString().c_str(), m_editor->log());
 			o->setProp<int>("index",    index, m_editor->log());
 			
 			bool set_rect = false;
@@ -768,9 +768,9 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	SL_SCOPE("SpritePropertyChangeCommand::commit");
-	hst::string rd = SaveLoadCallback<hRectF>::save(m_new.rect).data();
-	m_sprite->setProp<hst::string>("config", m_new.config, m_log);
-	m_sprite->setProp<hst::string>("group",  m_new.group, m_log);
+	sad::String rd = SaveLoadCallback<hRectF>::save(m_new.rect).data();
+	m_sprite->setProp<sad::String>("config", m_new.config, m_log);
+	m_sprite->setProp<sad::String>("group",  m_new.group, m_log);
 	m_sprite->setProp<int>("index",    m_new.index, m_log);
 	m_sprite->tryReload(m_db);
 	m_sprite->setRotatedRectangle(m_new.rect, m_new.angle);
@@ -780,8 +780,8 @@ void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeO
 void SpritePropertyChangeCommand::rollback( UNUSED ActionContext *c, CommandChangeObserver * ob)
 {
 	SL_SCOPE("SpritePropertyChangeCommand::rollback");
-	m_sprite->setProp<hst::string>("config", m_old.config, m_log);
-	m_sprite->setProp<hst::string>("group",  m_old.group, m_log);
+	m_sprite->setProp<sad::String>("config", m_old.config, m_log);
+	m_sprite->setProp<sad::String>("group",  m_old.group, m_log);
 	m_sprite->setProp<int>("index",    m_old.index, m_log);
 	m_sprite->tryReload(m_db);
 	m_sprite->setRotatedRectangle(m_old.rect, m_old.angle);

@@ -118,7 +118,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	hPointF p(ev.x, ev.y);
 	bool highlight = false;
-	hst::string highlights;
+	sad::String highlights;
 	if (ss == DSAS_INITIAL)
 	{
 		ed->behaviourSharedData()->toggleActiveBorder(true);
@@ -146,7 +146,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 		this->behaviour()->enterState("selected");
 	}
 	CLOSURE
-	CLOSURE_DATA( MainPanel * p; bool h; hst::string hs; )
+	CLOSURE_DATA( MainPanel * p; bool h; sad::String hs; )
 	CLOSURE_CODE(
 		p->setRegionParameters();   
 		if (h)

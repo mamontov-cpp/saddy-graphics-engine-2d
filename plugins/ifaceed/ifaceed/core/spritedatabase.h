@@ -77,7 +77,7 @@ typedef QHash<QString, QISpriteConfig> QISpriteConfigs;
 
 namespace hst
 {
-	typedef hst::hash<hst::string, sad::Sprite2DConfig *> Configs;
+	typedef sad::Hash<sad::String, sad::Sprite2DConfig *> Configs;
 }
 
 class SpriteDatabaseIterator: public AbstractSpriteDatabaseIterator

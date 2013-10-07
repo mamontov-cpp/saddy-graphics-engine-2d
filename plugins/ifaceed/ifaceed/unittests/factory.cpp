@@ -24,7 +24,7 @@ void unittests::Factory::bind(const QString & name, unittests::AbstractFactoryDe
 	m_delegates.insert(name, test);
 }
 
-#define LWR(A) owrite(hst::string( A ))
+#define LWR(A) owrite(sad::String( A ))
 void unittests::Factory::run(const QString & name)
 {
 	if (m_delegates.contains(name)) 

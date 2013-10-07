@@ -1,7 +1,7 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourstate.h"
 
-EditorBehaviour::EditorBehaviour(Editor * ed, const hst::string & initial)
+EditorBehaviour::EditorBehaviour(Editor * ed, const sad::String & initial)
 {
 	m_parent = ed;
 	m_initial_state = initial;
@@ -10,7 +10,7 @@ EditorBehaviour::EditorBehaviour(Editor * ed, const hst::string & initial)
 
 EditorBehaviour::~EditorBehaviour()
 {
-	for (hst::hash<hst::string, EditorBehaviourState *>::iterator it= m_states.begin(); 
+	for (sad::Hash<sad::String, EditorBehaviourState *>::iterator it= m_states.begin(); 
 		 it!=m_states.end();
 		 it++)
 	{
@@ -18,7 +18,7 @@ EditorBehaviour::~EditorBehaviour()
 	}
 }
 
-void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourState * state)
+void EditorBehaviour::addState(const sad::String & statename, EditorBehaviourState * state)
 {
 	SL_SCOPE("EditorBehaviour::addState()");
 	if (m_states.contains(statename))
@@ -30,7 +30,7 @@ void EditorBehaviour::addState(const hst::string & statename, EditorBehaviourSta
 	m_states.insert(statename, state);
 }
 
-void EditorBehaviour::removeState(const hst::string & statename)
+void EditorBehaviour::removeState(const sad::String & statename)
 {
 	SL_SCOPE("EditorBehaviour::removeState()");
 	if (!m_states.contains(statename))
@@ -68,16 +68,16 @@ void EditorBehaviour::deactivate()
 	{
 		m_states[m_active_state]->leave();
 	}
-	m_active_state = hst::string();
+	m_active_state = sad::String();
 }
 
 void EditorBehaviour::cancelState()
 {
-	hst::string old_state = m_previous_state; 
+	sad::String old_state = m_previous_state; 
 	this->enterState(old_state);
 }
 
-void EditorBehaviour::enterState(const hst::string & state)
+void EditorBehaviour::enterState(const sad::String & state)
 {
 	SL_SCOPE("EditorBehaviour::enterState()");
 	if (m_active_state.length())
@@ -150,7 +150,7 @@ void EditorBehaviour::onKeyUp(const sad::Event & ev)
 	}
 }
 
-EditorBehaviourState * EditorBehaviour::getState(const hst::string & statename) const
+EditorBehaviourState * EditorBehaviour::getState(const sad::String & statename) const
 {
 	EditorBehaviourState * state = NULL;
 	if (m_states.contains(statename)) 

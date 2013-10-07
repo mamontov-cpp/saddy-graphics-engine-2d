@@ -30,13 +30,13 @@ class FontTemplatesMaps
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadFont(QDomElement & entry, const hst::string & parent, sad::Log * log);
+		void loadFont(QDomElement & entry, const sad::String & parent, sad::Log * log);
 		/** Loads a found config
 			\param[in] entry element
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadConfig(QDomElement & entry, const hst::string & parent, sad::Log * log);
+		void loadConfig(QDomElement & entry, const sad::String & parent, sad::Log * log);
 
  public:
 		/** Constructs new empty maps

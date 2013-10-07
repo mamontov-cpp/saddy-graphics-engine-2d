@@ -81,7 +81,7 @@ void Editor::quit()
 
 Editor::~Editor() 
 {
-	for (hst::hash<hst::string, EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
+	for (sad::Hash<sad::String, EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
 	{
 		delete it.value();
 	}
@@ -309,7 +309,7 @@ void Editor::eraseBehaviour()
 	m_current_behaviour.clear();
 }
 
-void Editor::setBehaviour(const hst::string & name)
+void Editor::setBehaviour(const sad::String & name)
 {
 	if (m_current_behaviour.length())
 	{
@@ -345,7 +345,7 @@ void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event
 }
 
 
-void Editor::highlightState(UNUSED const hst::string & hint)
+void Editor::highlightState(UNUSED const sad::String & hint)
 {
 
 }

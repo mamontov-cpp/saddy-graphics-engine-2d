@@ -145,7 +145,7 @@ bool SpriteDatabase::load(FontTemplatesMaps & maps, int & counter)
 			if (tryLoadImages(texturePaths,images))
 			{
 				this->importSprites(*qtimages,images,testcontainer,it.key());
-				sad::Sprite2DConfig * cnf = new sad::Sprite2DConfig( hst::string::number(counter++) + it.key().toStdString());
+				sad::Sprite2DConfig * cnf = new sad::Sprite2DConfig( sad::String::number(counter++) + it.key().toStdString());
 				cnf->setLoader(loader);
 				if (cnf->reload() != sad::SCR_OK)
 				{
@@ -202,7 +202,7 @@ void SpriteDatabase::importSprites(QISpriteConfigs & configs,
 	{
 		QString group = it.key().data();
 		configs[name].insert(group, QISpriteGroup());
-		for(hst::hash<int,sad::Sprite2DTemplate>::const_iterator g = it.value().const_begin(); 
+		for(sad::Hash<int,sad::Sprite2DTemplate>::const_iterator g = it.value().const_begin(); 
 			g!=it.value().const_end();
 			g++)
 		{
@@ -255,11 +255,11 @@ QVector<QString> extractTexturePaths(const sad::Sprite2DTemplateContainer & c)
 	sad::Sprite2DTemplateContainer::const_iterator x_end = c.const_end();
     for (; x!=x_end; x++)
 	{
-		hst::hash<int, sad::Sprite2DTemplate>::const_iterator y = x.value().const_begin();
-		hst::hash<int, sad::Sprite2DTemplate>::const_iterator y_end = x.value().const_end();
+		sad::Hash<int, sad::Sprite2DTemplate>::const_iterator y = x.value().const_begin();
+		sad::Hash<int, sad::Sprite2DTemplate>::const_iterator y_end = x.value().const_end();
         for(; y!=y_end; y++)
 		{
-			hst::string path = y.value().textureName();
+			sad::String path = y.value().textureName();
 			if (set.contains(path.data()) == false) 
 			{
 				set << path.data();

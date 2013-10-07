@@ -2,7 +2,7 @@
 	\author HiddenSeeker
 	An observer for working with element changing data
  */
-#include <templates/hstring.h>
+#include <sadstring.h>
 #include <marshal/variant.h>
 #pragma once
 
@@ -15,5 +15,5 @@ class CommandChangeObserver
 		\param[in] eventType type of event
 		\param[in] v    an associated value
 	 */
-	virtual void submitEvent(const hst::string & eventType, const sad::Variant & v) = 0;
+	virtual void submitEvent(const sad::String & eventType, const sad::Variant & v) = 0;
 };

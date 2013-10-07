@@ -25,13 +25,13 @@ class XMLConfigLoader: public sad::Sprite2DConfigLoader
 	    class XMLConfigEntry
 		{
 		 public:
-				 hst::string spriteGroup;    //!< Name of sprite group
+				 sad::String spriteGroup;    //!< Name of sprite group
 				 int         index;          //!< Index of sprite in group
 				 sad::Sprite2DTemplate spriteTemplate;  //!< Template description of entry
 		};
 
 		QString m_filename;   //!< File name, where we should load
-		hst::string m_parent; //!< Parent file name path
+		sad::String m_parent; //!< Parent file name path
 		/*! Returns elements from document
 			\param[in] doc parent element
 			\return elements vector

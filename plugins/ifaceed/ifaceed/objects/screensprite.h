@@ -30,10 +30,10 @@ protected:
 	int         m_alpha;
 	/*! A config to work with
 	 */
-	hst::string m_config;
+	sad::String m_config;
 	/** A group to work with
 	 */
-	hst::string m_group;
+	sad::String m_group;
 	/*! Defines an index of sprite in group
 	 */
 	int  m_index;
@@ -65,11 +65,11 @@ protected:
 	/*! Returns a string type
 		\return a string type of object
 	 */
-	virtual hst::string typeName();
+	virtual sad::String typeName();
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string _description();
+	virtual sad::String _description();
 	/*! Returns a region, where object is placed. 
 	     \param[in] p point
 		 \return whether point is within region
@@ -83,7 +83,7 @@ protected:
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors = NULL);
+	virtual bool isValid(FontTemplateDatabase * db, sad::Vector<sad::String> * errors = NULL);
 	/*!	Initialize graphic part of data
 		\param[in] db database
 	 */
