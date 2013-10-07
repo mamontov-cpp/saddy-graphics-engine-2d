@@ -1,11 +1,18 @@
 #include "ftfont.h"
-#include <assert.h>
+
 #include <log/log.h>
+
 #include <ft2build.h>
 #include <freetype/freetype.h>
 #include <freetype/ftglyph.h>
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
+
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+#include <assert.h>
 
 /** Font information about a freetype
  */
@@ -48,11 +55,11 @@ void FTFont::deleteFTHeightFont(FTFont::FTHeightFont *fnt)
 	}
 	delete  fnt;
 }
-hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const hst::string & str)
+hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const sad::String & str)
 {
   float maxx=0.0f,cury=(float)height,curx=0.0f;
 
-  hst::stringlist lines=str.split('\n');
+  sad::StringList lines=str.split('\n');
   // 1.3 - is a space of data
   cury = (lines.count()) * fnt->m_height*1.3f;
   for(unsigned int i=0;i<lines.count();i++)
@@ -70,7 +77,7 @@ hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const
   
   return hRectF(hPointF(0,0),hPointF(maxx,cury));
 }
-hRectF FTFont::size(const hst::string & str)
+hRectF FTFont::size(const sad::String & str)
 {
   if (m_lists_cache.contains(this->m_renderheight) == false) {
 	return hRectF(hPointF(0,0),hPointF(0,0));
@@ -84,14 +91,13 @@ os::mutex m_render_ft_font_mutex;
 
 void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt, 
 							  unsigned int height, 
-							  const hst::string & str, 
+							  const sad::String & str, 
 							  float x, 
 						      float y
 						     )
 {
    if (fnt->m_texs == NULL)
 		return;
-   //coord_system::switchToWCS();
    //Get color
    GLint   clr[4]={};
    glGetIntegerv(GL_CURRENT_COLOR,clr);
@@ -100,7 +106,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    GLuint font=fnt->m_base;
    float h=(float)height/0.63f;						//We make the height about 1.5* that of
 
-   hst::stringlist lines=str.split('\n');
+   sad::StringList lines=str.split('\n');
    
    glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);	
    glMatrixMode(GL_MODELVIEW);
@@ -132,7 +138,7 @@ void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt,
    glColor4iv(clr);
    //coord_system::restore();
 }
-void FTFont::render(const hst::string & str, float x, float y)
+void FTFont::render(const sad::String & str, float x, float y)
 {
    if (m_lists_cache.contains(this->m_renderheight) == false) {
 	return;
@@ -343,29 +349,8 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor 
    return setHeight(height);
 }
 
-void coord_system::switchToWCS()
-{
-    glPushAttrib(GL_TRANSFORM_BIT);
-	GLint	viewport[4]={};
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(viewport[0],viewport[2],viewport[1],viewport[3]);
-	glPopAttrib();
-}
 
-void coord_system::restore()
-{
-	glPushAttrib(GL_TRANSFORM_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPopAttrib();
-}
-
-
-
-void FTFont::render(const hst::string & str,const pointf & p)
+void FTFont::render(const sad::String & str,const pointf & p)
 {
   this->render(str,(float)(p.x()),float(p.y()));
 }
