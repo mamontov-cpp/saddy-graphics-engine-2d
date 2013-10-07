@@ -3,7 +3,7 @@
 #include "../objects/screensprite.h"
 #include <QFile>
 
-SerializableObject* ScreenObjectFactory::produce(const hst::string & obj)
+SerializableObject* ScreenObjectFactory::produce(const sad::String & obj)
 {
 	if (obj == "ScreenLabel")
 		return new ScreenLabel();

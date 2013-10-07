@@ -6,7 +6,7 @@
 #include "ifacestate.h"
 #include <time.h>
 #include <vector>
-#include <templates/hstring.h>
+#include <sadstring.h>
 #pragma once
 
 

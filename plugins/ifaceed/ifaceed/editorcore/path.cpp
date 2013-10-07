@@ -1,11 +1,11 @@
 #include "path.h"
-#include <templates/hstring.h>
+#include <sadstring.h>
 
-hst::string path::directory(const hst::string & path)
+sad::String path::directory(const sad::String & path)
 {
 	if (path.length() == 0)
-		return hst::string();
-	hst::string escaped = path;
+		return sad::String();
+	sad::String escaped = path;
 	// Extract path when on windows
 	char delimiter[2]="/";
 	if (escaped.getOccurence("\\")!=-1) 
@@ -15,11 +15,11 @@ hst::string path::directory(const hst::string & path)
 
 	if (escaped[escaped.length()-1] == delimiter[0])
 		escaped.removeLastOccurence(delimiter);
-	hst::stringlist pathparts = escaped.split(delimiter[0]);
+	sad::StringList pathparts = escaped.split(delimiter[0]);
 	pathparts.removeAt(pathparts.count()-1);
 	if (pathparts.count() == 0) 
-		return hst::string();
-    hst::string result = "";
+		return sad::String();
+    sad::String result = "";
     if (path[0] == delimiter[0])
         result += delimiter;
     result += pathparts[0];
@@ -29,18 +29,18 @@ hst::string path::directory(const hst::string & path)
 	return result;
 }
 
-hst::string path::concat(const hst::string & parent,const hst::string & path)
+sad::String path::concat(const sad::String & parent,const sad::String & path)
 {
 	if (parent.length() ==0){
 		return path;
 	}
-	hst::string escaped = parent;
+	sad::String escaped = parent;
 	// Handle windows path
 	if (escaped.getOccurence("\\")!=-1) 
 	{
 		if (escaped[escaped.length()-1] == '\\')
 			escaped.removeLastOccurence("\\");
-		hst::string escpath = path;
+		sad::String escpath = path;
 		if (escpath.getOccurence("/")!=-1)
 			escpath.replaceAllOccurences("/","\\");
 		if (escpath[0] == '\\')
@@ -50,9 +50,9 @@ hst::string path::concat(const hst::string & parent,const hst::string & path)
 
 	if (escaped[escaped.length()-1] == '/')
 		escaped.removeLastOccurence("/");
-	hst::string escpath = path;
+	sad::String escpath = path;
 	if (escpath.length() == 0)
-		return hst::string();
+		return sad::String();
 	if (escpath[0] == '/')
 		escpath.remove(0);
 	return escaped + "/" + escpath;

@@ -28,7 +28,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 {
 	SL_SCOPE( QString("FontTemplatesMaps::load(\"%1\")").arg(name).toStdString() );
 
-	hst::string parentdir =  path::directory(name.toStdString().c_str());
+	sad::String parentdir =  path::directory(name.toStdString().c_str());
 	log->message(QString("Parent dir is \"%1\"").arg(parentdir.data()));
 
 	m_fonts.clear();
@@ -78,7 +78,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 	return true;
 }
 
-void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent, UNUSED sad::Log * log)
+void FontTemplatesMaps::loadFont(QDomElement & entry, const sad::String & parent, UNUSED sad::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadFont");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -95,7 +95,7 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent
 		}
 		else
 		{
-			hst::string path = path::concat(parent,file.toStdString().c_str());
+			sad::String path = path::concat(parent,file.toStdString().c_str());
 			m_fonts.insert(name, path.data());
 			SL_DEBUG(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
@@ -103,7 +103,7 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const hst::string & parent
 	}
 }
 
-void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & parent, UNUSED sad::Log * log)
+void FontTemplatesMaps::loadConfig(QDomElement & entry, const sad::String & parent, UNUSED sad::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadConfig");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -120,7 +120,7 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const hst::string & pare
 		}
 		else 
 		{
-			hst::string path = path::concat(parent,file.toStdString().c_str());
+			sad::String path = path::concat(parent,file.toStdString().c_str());
 			m_configs.insert(name, path.data());
 			SL_DEBUG(QString("Deserialized XML Config entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));

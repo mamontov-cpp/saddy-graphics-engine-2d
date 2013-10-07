@@ -22,10 +22,10 @@ class QtTarget:public sad::log::Target
 		Editor * m_editor; //!< Editor information
 		/*! Sends a critical message
 		 */
-		void critical(const hst::string & m);
+		void critical(const sad::String & m);
 		/*! Sends a warning message
 		 */
-		void warning(const hst::string & m);
+		void warning(const sad::String & m);
  public:
 		/*! Creates a new disabled target
 		 */

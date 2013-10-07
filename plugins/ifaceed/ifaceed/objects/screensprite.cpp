@@ -50,8 +50,8 @@ ScreenSprite::ScreenSprite()
 	this->addProperty("color",new MappedField<hst::color>(&m_color, hst::color(255,255,255)));
 	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
 
-	this->addProperty("config" ,new MappedField<hst::string>(&m_config, ""));
-	this->addProperty("group" ,new MappedField<hst::string>(&m_group, ""));
+	this->addProperty("config" ,new MappedField<sad::String>(&m_config, ""));
+	this->addProperty("group" ,new MappedField<sad::String>(&m_group, ""));
 	this->addProperty("index" ,new MappedField<int>(&m_index, 0));
 	
 	MappedField<hRectF> * hr = new MappedField<hRectF>(&m_rect, hRectF(hPointF(0,0), hPointF(128,128)));
@@ -70,7 +70,7 @@ ScreenSprite::~ScreenSprite()
 	delete m_observer;
 }
 
-hst::string ScreenSprite::typeName()
+sad::String ScreenSprite::typeName()
 {
 	return "ScreenSprite";
 }
@@ -89,7 +89,7 @@ void ScreenSprite::_render()
 }
 
 
-hst::string ScreenSprite::_description()
+sad::String ScreenSprite::_description()
 {
 	QString a = QString("sprite(%1,%2,%3) at (%4,%5)");
 	hPointF  p = this->region()[0];
@@ -132,7 +132,7 @@ bool ScreenSprite::isWithin(const hPointF & p)
 }
 
 
-bool ScreenSprite::isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors)
+bool ScreenSprite::isValid(FontTemplateDatabase * db, sad::Vector<sad::String> * errors)
 {
 
 	SpriteDatabase & d = db->sprites();

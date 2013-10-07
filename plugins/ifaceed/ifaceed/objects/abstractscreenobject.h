@@ -6,7 +6,7 @@
 #include <log/log.h>
 #include "scene.h"
 #include "marshal/serializableobject.h"
-#include "templates/refcountable.h"
+#include "refcountable.h"
 #include "primitives/hpoint.h"
 #include <QString>
 #pragma once
@@ -29,7 +29,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	bool m_visible;
 	/** Name of object
 	 */
-	hst::string m_name;
+	sad::String m_name;
 	/** A scene with object
 	 */
 	InterlockedScene * m_scene;
@@ -38,7 +38,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	virtual void _render()=0;
 	/** Returns generated description of object
 	 */
-	virtual hst::string _description()=0;	
+	virtual sad::String _description()=0;	
  public:
 	/** Default screen object
 	 */
@@ -98,10 +98,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	virtual void render();
 	/*! A type
 	 */
-	virtual hst::string type();
+	virtual sad::String type();
 	/*! Names of type
 	 */
-	virtual hst::string typeName() = 0;
+	virtual sad::String typeName() = 0;
 	/*! Returns a region, where object is placed. 
 	    \param[in] p point
 		\return whether point is within region
@@ -115,7 +115,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[out] errors errors of objects
 		\return whether object is valid in context of template
 	 */
-	virtual bool isValid(FontTemplateDatabase * t, sad::Vector<hst::string> * errors = NULL)=0;
+	virtual bool isValid(FontTemplateDatabase * t, sad::Vector<sad::String> * errors = NULL)=0;
 	/*! Tries to reload a database, getting actual data from database 
 		\param[in] db database
 		\return whether reloading was ok
@@ -136,7 +136,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
-	virtual hst::string description();	
+	virtual sad::String description();	
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
@@ -145,7 +145,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] m_log log, where all messages go
 		\return property
 	 */
-	template<typename T> T prop(const hst::string & s, sad::Log * m_log) 
+	template<typename T> T prop(const sad::String & s, sad::Log * m_log) 
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);
@@ -171,7 +171,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		return T();
 	}
 
-	template<typename T> void setProp(const hst::string & s, T val, sad::Log * m_log)
+	template<typename T> void setProp(const sad::String & s, T val, sad::Log * m_log)
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);
@@ -197,7 +197,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] s property
 		\return whether object has a property
 	 */
-	bool hasProperty(const hst::string & s);
+	bool hasProperty(const sad::String & s);
 	/*! Sets an already rotated rectangle, restoring all data
 	 */
 	virtual void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);

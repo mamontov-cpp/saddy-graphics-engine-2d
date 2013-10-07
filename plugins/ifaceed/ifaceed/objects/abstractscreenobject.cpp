@@ -12,7 +12,7 @@ AbstractScreenObject::AbstractScreenObject()
 {
 	m_scene = NULL;
 
-	addProperty("name", new MappedField<hst::string>(&m_name, ""));
+	addProperty("name", new MappedField<sad::String>(&m_name, ""));
 	addProperty("layer", new SceneLayerProperty());
 	addProperty("uid", new UidProperty());
 	addProperty("activity", new ActivityProperty(&m_active,true));
@@ -49,7 +49,7 @@ bool AbstractScreenObject::resizable()
 	return true;
 }
 
-bool AbstractScreenObject::hasProperty(const hst::string & s)
+bool AbstractScreenObject::hasProperty(const sad::String & s)
 {
 	return this->getProperty(s) != NULL;
 }
@@ -57,12 +57,12 @@ bool AbstractScreenObject::hasProperty(const hst::string & s)
 
 
 
-hst::string AbstractScreenObject::type()
+sad::String AbstractScreenObject::type()
 {
 	return this->typeName();
 }
 
-hst::string AbstractScreenObject::description()
+sad::String AbstractScreenObject::description()
 {
 	if (m_name.length())
 		return m_name;

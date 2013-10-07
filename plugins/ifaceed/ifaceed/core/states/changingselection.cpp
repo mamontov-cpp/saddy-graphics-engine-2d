@@ -24,10 +24,10 @@ void IFaceEditor::trySelectObject(hPointF p, bool enterSelected)
 	if (tbl.empty() == false) {
 		this->behaviourSharedData()->setSelectedObject(tbl[0]);
 		this->showObjectStats(tbl[0]);
-		std::vector<hst::string> chain;
+		std::vector<sad::String> chain;
         for(unsigned int i = 0; i < tbl.size(); i++)
 		{
-			chain.push_back(tbl[i]->prop<hst::string>("uid", this->log()));
+			chain.push_back(tbl[i]->prop<sad::String>("uid", this->log()));
 		}
 		if (enterSelected) 
 		{

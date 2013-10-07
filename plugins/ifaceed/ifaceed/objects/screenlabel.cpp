@@ -12,10 +12,10 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 {
 	m_font = NULL;
 
-	this->addProperty("font" ,new MappedField<hst::string>(&m_font_name, ""));
+	this->addProperty("font" ,new MappedField<sad::String>(&m_font_name, ""));
 	this->addProperty("size" ,new MappedField<unsigned int>(&m_font_size, 0));
 	this->addProperty("color",new MappedField<hst::color>(&m_font_color, hst::color(0,0,0)));
-	this->addProperty("text" ,new MappedField<hst::string>(&m_text, ""));
+	this->addProperty("text" ,new MappedField<sad::String>(&m_text, ""));
 	this->addProperty("angle",new MappedField<float>(&m_angle, 0.0f));
 	this->addProperty("pos"  ,new MappedField<hPointF>(&m_point, hPointF(0,0)));
 	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
@@ -30,9 +30,9 @@ void ScreenLabel::moveCenterTo(const hPointF & p)
 	m_point.setY(p.y() + r.height()/2);
 }
 
-hst::string ScreenLabel::_description()
+sad::String ScreenLabel::_description()
 {
-	hst::string result = m_text.subString(0,10);
+	sad::String result = m_text.subString(0,10);
 	if (result.length() > 10)
 		result<<"... ";
 	else
@@ -40,12 +40,12 @@ hst::string ScreenLabel::_description()
 	result<<"(";
 	result<<m_font_name;
 	result<<",";
-	result<<hst::string::number(m_font_size);
+	result<<sad::String::number(m_font_size);
 	result<<")";
 	return result; 
 }
 
-hst::string ScreenLabel::typeName()
+sad::String ScreenLabel::typeName()
 {
 	return "ScreenLabel";
 }
@@ -70,7 +70,7 @@ void ScreenLabel::_render()
 
 }
 
-bool ScreenLabel::isValid(FontTemplateDatabase * db, sad::Vector<hst::string> * errors)
+bool ScreenLabel::isValid(FontTemplateDatabase * db, sad::Vector<sad::String> * errors)
 {
 	IFaceEditorFontList & d = db->fonts();
 	bool result = d.hasFont(m_font_name.data());

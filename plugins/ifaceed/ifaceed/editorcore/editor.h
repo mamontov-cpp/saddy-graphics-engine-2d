@@ -168,10 +168,10 @@ class Editor: public QObject
 protected:
 		/** A defines editor behaviours
 		 */
-	    hst::hash<hst::string, EditorBehaviour *> m_behaviours;
+	    sad::Hash<sad::String, EditorBehaviour *> m_behaviours;
 	    /** A current behaviour
 		 */
-		hst::string m_current_behaviour;
+		sad::String m_current_behaviour;
 		 /** A reason, while saddy quit
 		  */
 		 EditorQuitReason  m_quit_reason;
@@ -346,7 +346,7 @@ private:
 		virtual void quit();
 		/** Returns a behaviour data
 		 */
-		inline hst::hash<hst::string, EditorBehaviour *> & behaviours() 
+		inline sad::Hash<sad::String, EditorBehaviour *> & behaviours() 
 		{
 			return m_behaviours;
 		}
@@ -356,11 +356,11 @@ private:
 		/** Highlights a state of editor in GUI. Override this for custom output
 			\param[in] hint hint of state
 		 */
-		virtual void highlightState(const hst::string & hint);
+		virtual void highlightState(const sad::String & hint);
 	    /** Deactivates old behaviour and enters new behaviour
 			\param[in]  name name of new behaviour
 		 */
-		virtual void setBehaviour(const hst::string & name);
+		virtual void setBehaviour(const sad::String & name);
 		/** Enters a behaviour of editor
 			\return editor behaviour
 		 */
@@ -379,7 +379,7 @@ private:
 			\param[in] s string name of state
 			\return state
 		 */
-		template<typename T> T * cbStateAs(const hst::string & s) {
+		template<typename T> T * cbStateAs(const sad::String & s) {
 			return static_cast<T *>(this->currentBehaviour()->getState(s));
 		}
 		/** Returns an icon container

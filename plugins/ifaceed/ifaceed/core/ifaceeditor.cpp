@@ -323,7 +323,7 @@ FontTemplateDatabase * IFaceEditor::database()
 	return m_db;
 }
 
-void IFaceEditor::highlightState(const hst::string & hint)
+void IFaceEditor::highlightState(const sad::String & hint)
 {
 	this->panel()->highlightState(hint);
 }
@@ -334,7 +334,7 @@ InterlockedScene * IFaceEditor::myScene()
 }
 void IFaceEditor::tryEraseObject()
 {
-	hst::string state = this->currentBehaviour()->state(); 
+	sad::String state = this->currentBehaviour()->state(); 
 	if (state == "label_adding" 
 		|| state == "sprite_adding_simple" 
 		|| state == "sprite_adding_diagonal")
@@ -356,7 +356,7 @@ void IFaceEditor::tryEraseObject()
 	}
 }
 
-void IFaceEditor::submitEvent(UNUSED const hst::string & eventType,UNUSED const sad::Variant & v)
+void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::Variant & v)
 {
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )
@@ -452,7 +452,7 @@ void IFaceEditor::reload()
    // 4. Check, whether all scene needed data in DB
    bool allobjectsvalid = true;
    // Container of errors
-   sad::Vector<hst::string> errors;
+   sad::Vector<sad::String> errors;
    AbstractScreenObject * it = this->result()->templateBegin();	
    while (it)
    {
@@ -462,7 +462,7 @@ void IFaceEditor::reload()
    if (!allobjectsvalid)
    {
 	   // 4.1. If failed, report error
-	   hst::string errorsasstring = "Not all objects are valid:\n";
+	   sad::String errorsasstring = "Not all objects are valid:\n";
        for(unsigned int i = 0; i < errors.count(); i++)
 	   {
 			errorsasstring << errors[i];
@@ -535,13 +535,13 @@ void IFaceEditor::load()
 		// Also, we check when all objects are valid and can be loaded from db
 		AbstractScreenObject * it = e->templateBegin();
 		bool allobjectsarevalid = true;
-		sad::Vector<hst::pair<hst::string, AbstractScreenObject *> > m_pairs;
+		sad::Vector<sad::Pair<sad::String, AbstractScreenObject *> > m_pairs;
 		while(it)
 		{
 			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());
 			// We cannot perform ::setUid here, because it will broke some iterator
-			hst::string uid = it->prop<hst::string>("uid", this->log());
-			m_pairs << hst::pair<hst::string, AbstractScreenObject *>(uid, it);
+			sad::String uid = it->prop<sad::String>("uid", this->log());
+			m_pairs << sad::Pair<sad::String, AbstractScreenObject *>(uid, it);
 			// This must be done, because we data added via
 			// HashBasedSerializableContainer::add, which don't care
 			// to some reference-counting, but real container cares about it

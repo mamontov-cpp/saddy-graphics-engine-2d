@@ -6,7 +6,7 @@
 #include "ifacestate.h"
 #include <time.h>
 #include <vector>
-#include <templates/hstring.h>
+#include <sadstring.h>
 #include <primitives/hpoint.h>
 #include <extra/geometry2d.h>
 #pragma once
@@ -96,7 +96,7 @@ protected:
 	clock_t m_navigationstart;
 	// Navigation chain information (contains only UIDs of elements)
 	// UIDs are saved, because we can remove elements and chain will be broken
-	std::vector<hst::string> m_chain;
+	std::vector<sad::String> m_chain;
 	// Navigation chain position
 	int m_navposition;
 	/** Navigates next object in chain
@@ -120,7 +120,7 @@ public:
 	/** Enters navigation substate
 		\param[in] chain element UID chain
      */
-	void enterNavigation(const std::vector<hst::string> & chain);
+	void enterNavigation(const std::vector<sad::String> & chain);
 	/** Handles wheel  movement
 		 \param[in] ev event data
 	 */

@@ -21,7 +21,7 @@ SelectedState::SelectedState()
 }
 
 
-void SelectedState::enterNavigation(const std::vector<hst::string> & chain)
+void SelectedState::enterNavigation(const std::vector<sad::String> & chain)
 {
 	m_substate = SSSS_SELECTEDNAVIGATION;
 	m_movement_substate = SSMSS_NOMOVEMENT;

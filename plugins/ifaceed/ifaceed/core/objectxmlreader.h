@@ -18,7 +18,7 @@ class ScreenObjectFactory: public SerializableFactory
 			 \param[in] obj object
 			 \return data
 		  */
-		 virtual SerializableObject* produce(const hst::string & obj) ;
+		 virtual SerializableObject* produce(const sad::String & obj) ;
 		 /*! Does nothing
 		  */
 		 ~ScreenObjectFactory();

@@ -23,7 +23,7 @@ void QtTarget::receive(const sad::log::Message & message)
 	}
 }
 
-void QtTarget::critical(const hst::string & m)
+void QtTarget::critical(const sad::String & m)
 {
 	
 	CLOSURE
@@ -36,7 +36,7 @@ void QtTarget::critical(const hst::string & m)
 
 }
 
-void QtTarget::warning(const hst::string & m)
+void QtTarget::warning(const sad::String & m)
 {
 	
 	CLOSURE
