@@ -4,7 +4,7 @@
 	Describes a game state with all references and other stuff
  */
 #pragma once
-#include <extra/statemachine.h>
+#include <fsm/statemachine.h>
 #include <extra/periodicalevent.h>
 #include <scene.h>
 #include <p2d/app/app.h>

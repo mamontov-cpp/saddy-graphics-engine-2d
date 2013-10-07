@@ -11,7 +11,7 @@ sad::p2d::ConvexHull::ConvexHull()
 
 sad::p2d::ConvexHull::ConvexHull(const sad::Vector<sad::p2d::Point> & set)
 {
-	m_set = sad::graham_scan(set);
+	m_set = sad::p2d::graham_scan(set);
 }
 
 sad::p2d::ConvexHull sad::p2d::ConvexHull::uncheckedCreate(
@@ -200,7 +200,7 @@ sad::p2d::Point sad::p2d::ConvexHull::center() const
 
 void sad::p2d::ConvexHull::buildHull()
 {
-	m_set = sad::graham_scan(m_set);
+	m_set = sad::p2d::graham_scan(m_set);
 }
 
 void sad::p2d::ConvexHull::insertPointsFromShape(sad::p2d::CollisionShape * s)

@@ -270,6 +270,14 @@
 				>
 			</File>
 			<Filter
+				Name="fsm"
+				>
+				<File
+					RelativePath=".\src\fsm\statemachine.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
 				Name="primitives"
 				>
 				<File
@@ -378,10 +386,6 @@
 				</File>
 				<File
 					RelativePath=".\src\extra\periodicalevent.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\statemachine.cpp"
 					>
 				</File>
 			</Filter>
@@ -751,6 +755,14 @@
 				RelativePath=".\include\vbolayer.h"
 				>
 			</File>
+			<Filter
+				Name="fsm"
+				>
+				<File
+					RelativePath=".\include\fsm\statemachine.h"
+					>
+				</File>
+			</Filter>
 			<Filter
 				Name="primitives"
 				>
