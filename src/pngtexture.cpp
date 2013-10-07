@@ -40,7 +40,7 @@ static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::
 		}
 	}
 }
-bool sad::Texture::loadPNG(const hst::string & filename)
+bool sad::Texture::loadPNG(const sad::String & filename)
 {
         m_data.clear();
 	std::vector<unsigned char> buffer;
@@ -67,7 +67,7 @@ bool sad::Texture::loadPNG(const hst::string & filename)
 	return true;
 }
 
-bool sad::Texture::loadPNG(const hst::wstring & filename)
+bool sad::Texture::loadPNG(const sad::WString & filename)
 {
 	std::vector<unsigned char> buffer;
 	png::loadFile(buffer,filename.data());

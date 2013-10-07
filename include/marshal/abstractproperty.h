@@ -42,10 +42,10 @@ class AbstractProperty
 		virtual sad::Variant * get(ActionContext * context) const;
 		/*! Returns a type of property
 		 */
-		inline hst::string type(ActionContext * context) const 
+		inline sad::String type(ActionContext * context) const 
 		{ 
 			sad::Variant * tmp = get(context);
-			hst::string result = tmp->type();
+			sad::String result = tmp->type();
 			delete tmp;
 			return result; 
 		}
@@ -53,13 +53,13 @@ class AbstractProperty
 	    /*! Returns a string representation of property
 			\return string representation
 		 */
-	    virtual hst::string save(ActionContext * context) const;
+	    virtual sad::String save(ActionContext * context) const;
 	    
         /*! Loads data from string
 			\param[in] str      string data
 			\param[in] context  action context
 		 */
-	    virtual void load(const hst::string & str, ActionContext * context);
+	    virtual void load(const sad::String & str, ActionContext * context);
 
 		/*! Whether we should load this property. Methods won't be saveable
 		 */

@@ -11,9 +11,10 @@
 #include "multisamplingcollisiondetector.h"
 #include "collisionhandler.h"
 
-#include "../templates/hhash.hpp"
-#include "../templates/hpair.hpp"
-#include "../templates/temporarilyimmutablecontainer.hpp"
+#include "../sadhash.h"
+#include "../sadpair.h"
+
+#include "../temporarilyimmutablecontainer.h"
 
 namespace sad
 {
@@ -24,13 +25,13 @@ class Body;
 /*! A world is a set if simulated items, and callbacks used to define
 	behaviour between them
  */
-class World: public hst::TemporarilyImmutableContainer<p2d::Body>
+class World: public sad::TemporarilyImmutableContainer<p2d::Body>
 {
  protected:
-	 typedef hst::pair<hst::string, hst::string> type_pair_t;
-	 typedef hst::pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
-	 typedef hst::hash<p2d::Body *, sad::Vector<hst::string> > bodies_to_types_t;
-	 typedef hst::pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
+	 typedef sad::Pair<sad::String, sad::String> type_pair_t;
+	 typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
+	 typedef sad::Hash<p2d::Body *, sad::Vector<sad::String> > bodies_to_types_t;
+	 typedef sad::Pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
 		     reaction_t;
 	 typedef sad::Vector<reaction_t> reactions_t;
 public:
@@ -47,7 +48,7 @@ protected:
 	 double m_time_step;
 	 /*! A splitted time step
 	  */
-	 hst::Maybe<double> m_splitted_time_step;
+	 sad::Maybe<double> m_splitted_time_step;
 	 /*! A common transformer for all shapes
 	  */
 	 p2d::CircleToHullTransformer * m_transformer;
@@ -59,7 +60,7 @@ protected:
 	 sad::Vector<types_with_handler_t>  m_callbacks;
 	 /*! Bodies by groups
 	  */
-	 hst::hash<hst::string, sad::Vector<p2d::Body *> > m_groups;
+	 sad::Hash<sad::String, sad::Vector<p2d::Body *> > m_groups;
 	 /*! All bodies for checking all information
 	  */
 	 bodies_to_types_t m_allbodies;
@@ -101,8 +102,8 @@ protected:
 	  */
 	 virtual void addHandler(
 		 sad::p2d::BasicCollisionHandler * h, 
-		 const hst::string & t1, 
-		 const hst::string & t2
+		 const sad::String & t1, 
+		 const sad::String & t2
 	  );
 	 /*! Peforms adding a body
 		 \param[in] o body
@@ -144,8 +145,8 @@ protected:
 	 {
 		 sad::p2d::BasicCollisionHandler * h = 
 			 new sad::p2d::FunctionCollisionHandler<T1, T2>(p);
-		 hst::string t1 = T1::globalMetaData()->name();
-		 hst::string t2 = T2::globalMetaData()->name();
+		 sad::String t1 = T1::globalMetaData()->name();
+		 sad::String t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
@@ -166,8 +167,8 @@ protected:
 	 {
 		 sad::p2d::BasicCollisionHandler * h = 
 			 new sad::p2d::MethodCollisionHandler<_Class,T1, T2>(o,p);
-		 hst::string t1 = T1::globalMetaData()->name();
-		 hst::string t2 = T2::globalMetaData()->name();
+		 sad::String t1 = T1::globalMetaData()->name();
+		 sad::String t2 = T2::globalMetaData()->name();
 		 this->addHandler(h, t1, t2);
 		 return h;
 	 }
@@ -182,7 +183,7 @@ protected:
 	 {
 		 sad::p2d::BasicCollisionHandler * h = 
 			 new sad::p2d::MethodCollisionHandler<_Class,p2d::Body, p2d::Body>(o, p);
-		 hst::string b = "p2d::Body";
+		 sad::String b = "p2d::Body";
 		 this->addHandler(h, b, b);
 		 return h;
 	 }

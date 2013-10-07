@@ -23,7 +23,7 @@ class Object
 	 /*! Returns a name for class
 		 \return name of class
 	  */
-	 virtual const hst::string & name() const;
+	 virtual const sad::String & name() const;
 	 /*! An object data
 	  */
 	 virtual ~Object();
@@ -46,31 +46,31 @@ class InvalidCastException
  private:
 	 /*! A name of real type of object
 	  */
-	 hst::string m_fromname;
+	 sad::String m_fromname;
 	 /*! A name of type, which we were casting to
 	  */
-	 hst::string m_toname;
+	 sad::String m_toname;
 	 /*! A message for type
 	  */
-	 hst::string m_message;
+	 sad::String m_message;
  public:
 	 /*! Creates new exception with specified parameters
 		 \param[in] fromname real type of object
 		 \param[in] toname type, which we were casting to
 	  */
-	 InvalidCastException(const hst::string & fromname, const hst::string & toname);
+	 InvalidCastException(const sad::String & fromname, const sad::String & toname);
 	 /*! A real type of object
 		 \return real type of object
 	  */
-	 const hst::string & fromName();
+	 const sad::String & fromName();
 	 /*! A type, which we were casting to
 		 \return type, which we were casting to
 	  */ 
-	 const hst::string & toName();
+	 const sad::String & toName();
 	 /*! A human-readable message for object
 		 \return a message for exception
 	  */
-	 const hst::string & message();
+	 const sad::String & message();
 };
 
 
@@ -93,7 +93,7 @@ namespace hst
 template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)                
 {                                                                
 	_Dest * result = NULL;                                       
-	const hst::string & destname = _Dest::globalMetaData()->name();      
+	const sad::String & destname = _Dest::globalMetaData()->name();      
 	if (arg->metaData()->canBeCastedTo(destname) == false)      
 	{                                                            
 		throw sad::InvalidCastException(arg->name(), destname); 
@@ -135,7 +135,7 @@ protected:                                                      \
 	    static sad::ClassMetaData * m_global_metadata;          \
 public:															\
 		virtual sad::ClassMetaData * metaData() const;			\
-		virtual const hst::string & name() const;               \
+		virtual const sad::String & name() const;               \
 		static sad::ClassMetaData * globalMetaData();			\
 
 /*! Use this macro to define in source files, 
@@ -159,7 +159,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }                                                \
-const hst::string &  NAMEDCLASS ::name() const  \
+const sad::String &  NAMEDCLASS ::name() const  \
 {                                                \
 	return this-> PARENT :: name();              \
 }
@@ -192,7 +192,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }    \
-const hst::string &  NAMEDCLASS :: name() const  \
+const sad::String &  NAMEDCLASS :: name() const  \
 {                                                \
 	return this-> PARENT1 :: name();              \
 }
@@ -221,7 +221,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }   \
-const hst::string &  NAMEDCLASS :: name() const  \
+const sad::String &  NAMEDCLASS :: name() const  \
 {                                                \
 	return this-> PARENT1 :: name();              \
 }
@@ -251,7 +251,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }   \
-const hst::string &  NAMEDCLASS :: name() const  \
+const sad::String &  NAMEDCLASS :: name() const  \
 {                                                \
 	return this-> PARENT1 :: name();              \
 }
@@ -281,7 +281,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }                                                \
-const hst::string &  NAMEDCLASS ::name() const   \
+const sad::String &  NAMEDCLASS ::name() const   \
 {                                                \
 	return this-> PARENT :: name();              \
 }

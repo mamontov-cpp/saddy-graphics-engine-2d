@@ -4,7 +4,7 @@
 	A serializable object  that can be easily serialized to stream data
  */
 #include "property.h"
-#include <templates/hhash.hpp>
+#include <sadhash.h>
 #include "../primitives/object.h"
 #pragma once
 
@@ -15,13 +15,13 @@ class SerializationEntry
  public:
 		 /*! Name of object
 		  */
-		 hst::string Name;
+		 sad::String Name;
 		 /*! Vector of properties names
 		  */
-		 sad::Vector<hst::string> PropertiesName;
+		 sad::Vector<sad::String> PropertiesName;
 		 /*! Vector of properties values data
 		  */
-		 sad::Vector<hst::string> PropertiesValue;
+		 sad::Vector<sad::String> PropertiesValue;
 
 
 		 /*! An empty entry
@@ -37,7 +37,7 @@ class SerializableObject: public sad::Object
 {
  SAD_OBJECT
  private:
-		 hst::hash<hst::string, AbstractProperty *> m_properties; //!< Properties a data
+		 sad::Hash<sad::String, AbstractProperty *> m_properties; //!< Properties a data
 		 SerializableContainer * m_parent; //!< Parent container
  public:
 		/*! Parent container
@@ -52,12 +52,12 @@ class SerializableObject: public sad::Object
 			\param[in] name name of properties
 			\param[in] prop a property
 		 */ 
-	    void addProperty(const hst::string & name, AbstractProperty * prop);
+	    void addProperty(const sad::String & name, AbstractProperty * prop);
 		/*! Returns a property if it exists, otherwise null
 			\param[in] name name of property
 			\return property
 		 */
-		AbstractProperty * getProperty(const hst::string & name);
+		AbstractProperty * getProperty(const sad::String & name);
 
 		/*! Saves an object to a single entry
 			\param[in] context context
@@ -78,7 +78,7 @@ class SerializableObject: public sad::Object
 		/*! Returns a string type
 			\return a string type of object
 		 */
-		virtual hst::string type();
+		virtual sad::String type();
 		/*! Frees a memory from properties data
 		 */
 		virtual ~SerializableObject();
@@ -93,7 +93,7 @@ class SerializableFactory
 			 \param[in] obj object
 			 \return data
 		  */
-		 virtual SerializableObject* produce(const hst::string & obj) ;
+		 virtual SerializableObject* produce(const sad::String & obj) ;
 		 /*! Does nothing
 		  */
 		 ~SerializableFactory();

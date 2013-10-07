@@ -87,7 +87,7 @@ void Texture::buildMipMaps()
     
 	// Build Mip Maps	
 	GLint res;
-	hst::pair<int,int> version = ext::version();
+	sad::Pair<int,int> version = ext::version();
 	if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
 	{
 		if (version.p1() == 1 && version.p2() < 4)
@@ -182,9 +182,9 @@ void Texture::setMode(Texture::Mode mode)
 	m_mode=mode;
 }
 
-bool Texture::load(const hst::string & filename, sad::Renderer * r)
+bool Texture::load(const sad::String & filename, sad::Renderer * r)
 {
-	hst::string ff(filename.getExtension());
+	sad::String ff(filename.getExtension());
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
@@ -201,11 +201,11 @@ bool Texture::load(const hst::string & filename, sad::Renderer * r)
 	}
 	return false;
 }
-bool Texture::load(const hst::wstring & filename, sad::Renderer * r)
+bool Texture::load(const sad::WString & filename, sad::Renderer * r)
 {
 	char * tmp=new char[2*filename.length()+2];
 	wcstombs(tmp,filename.data(),2*filename.length()+2);
-	hst::string tt(tmp);
+	sad::String tt(tmp);
 	delete tmp;
 	return load(tt, r);
 }

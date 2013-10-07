@@ -1,18 +1,16 @@
-/*! \file    hhash.hpp
-    \author  Various
+/*! \file    sadhash.h
+    \author  HiddenSeeker, Various
 	\brief   Contains basic hash-table dictionary definition
 
 	Contains a simple hashtable, based on ElfHash function
 */
-#include "../sadvector.h"
-#include "hdeque.hpp"
-#include "hstring.h"
-#include "hpair.hpp"
 #pragma once
+#include "sadvector.h"
+#include "sadlinkedlist.h"
+#include "sadstring.h"
+#include "sadpair.h"
 
-#ifndef __H_HASH_HPP
- #define __H_HASH_HPP
-namespace hst
+namespace sad
 {
   /*! Hashes basically a 0-terminated string. Based on ElfHash
       \param[in] name name
@@ -43,10 +41,10 @@ namespace hst
    /*! Class of string hash function
   */
    template<>
-   class HashFunction<hst::string>
+   class HashFunction<sad::String>
    {
      public:
-               static unsigned long call(const hst::string & name,unsigned long size);
+               static unsigned long call(const sad::String & name,unsigned long size);
    };
   /*! \class hash
       Class of a simple hash-based dictionary
@@ -55,11 +53,11 @@ namespace hst
 	  will be slooow.
   */
   template<typename Key, typename T>
-  class hash
+  class Hash
   {
    /*! Defines a chain of collision
    */
-   typedef hst::deque< hst::pair<Key,T> > slot;
+   typedef sad::LinkedList< sad::Pair<Key,T> > slot;
    friend class const_iterator;
    friend class iterator;
    private:
@@ -83,12 +81,12 @@ namespace hst
 		   */
 	       class const_iterator
 		   {
-		    friend class hash<Key,T>;
+		    friend class Hash<Key,T>;
 		    private:
-				    hash<Key,T>       *  m_parent;                //!< Parent
+				    Hash<Key,T>       *  m_parent;                //!< Parent
 				    unsigned long        m_slotposition;          //!< Position of slot in vector
 					typename slot::const_iterator m_it;           //!< Iterator
-					const_iterator(hash<Key,T> * parent, unsigned long slot,  const typename hash<Key,T>::slot::const_iterator & it);
+					const_iterator(Hash<Key,T> * parent, unsigned long slot,  const typename Hash<Key,T>::slot::const_iterator & it);
 					/*! Goes to next element
 					*/
 					void goNext();
@@ -126,9 +124,9 @@ namespace hst
 		   };
 		   class iterator
 		   {
-		    friend class hash<Key,T>;
+		    friend class Hash<Key,T>;
 		    private:
-				    hash<Key,T>       *  m_parent;                //!< Parent
+				    Hash<Key,T>       *  m_parent;                //!< Parent
 				    unsigned long        m_slotposition;          //!< Position of slot in vector
 					typename slot::iterator m_it;           //!< Iterator
 					/*! Constructs an iterator
@@ -136,7 +134,7 @@ namespace hst
 						\param[in] slot   position
 						\param[in] it     simple iterator
 					*/
-					iterator(hash<Key,T> * parent, unsigned long slot,  const typename hash<Key,T>::slot::iterator & it);
+					iterator(Hash<Key,T> * parent, unsigned long slot,  const typename Hash<Key,T>::slot::iterator & it);
 					/*! Goes to next element
 					*/
 					void goNext();
@@ -188,19 +186,19 @@ namespace hst
 
 	       /*! Inits a small hash with size of 7 elements
 		   */
-	       hash();
+	       Hash();
 		   /*! Copies a hash
 		       \param[in] o other hash
 		   */
-		   hash(const hash & o);
+		   Hash(const Hash & o);
 		   /*! Assigns one hash, to other
 		       \param[in] o other hash
 			   \return self-reference
 		   */
-		   hash & operator=(const hash & o);
+		   Hash & operator=(const Hash & o);
 		   /*! Destructor
 		   */
-		   ~hash();
+		   ~Hash();
 		   /*! Clears a hash
 		   */
 		   void clear();
@@ -239,9 +237,4 @@ namespace hst
 
 }
 
-#define hhash hst::hash
-
-
-#include "hhash_src.hpp"
-
-#endif
+#include "sadhash_src.h"

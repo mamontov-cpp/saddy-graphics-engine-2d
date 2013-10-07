@@ -104,7 +104,7 @@ public:
 	/*! Dumps object to string
 		\return string
 	 */
-	virtual hst::string dump() const; 
+	virtual sad::String dump() const; 
 };
 
 }

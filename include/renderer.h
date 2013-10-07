@@ -45,7 +45,7 @@ namespace sad
 		
 		
 		Settings             m_glsettings;  //!< Settings
-		hst::string          m_windowtitle; //!< Title of window
+		sad::String          m_windowtitle; //!< Title of window
         bool                 m_running;     //!< Sets, whether we are running now
         bool                 m_created;     //!< Whether we are created a window
 
@@ -193,7 +193,7 @@ namespace sad
 		/*! Sets a window title
 		    \param[in] s  new title
 		*/
-		void setWindowTitle(const hst::string & s);
+		void setWindowTitle(const sad::String & s);
 		 /*! Enables fixed size window
 	     */
 	    void toggleFixedOn();

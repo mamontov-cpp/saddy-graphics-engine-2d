@@ -20,7 +20,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
  SAD_OBJECT
  private:
 	    LabelFont  m_fnt;        //!<  Associated font
-		hst::string      m_str;        //!<  String
+		sad::String      m_str;        //!<  String
 		pointf           m_p;          //!<  point
 		pointf           m_rend_point; //!<  Current rendering point
 		sad::Renderer *  m_renderer;  //!< Input data
@@ -33,7 +33,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		/*! Returns a string
 		    \return string
 		*/
-		inline hst::string &  string();
+		inline sad::String &  string();
 		/*! Returns a point position
 		    \return m_p
 		*/
@@ -54,7 +54,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		*/
 		Label(
 		      LabelFont  fnt,
-		      const hst::string & str,
+		      const sad::String & str,
 			  const pointf      & p,
 			  sad::Renderer * renderer = sad::Renderer::ref()
 			 );
@@ -212,7 +212,7 @@ class FormattedLabel: public Label
  protected:
 	 /*! A formatted string, which contains current format
 	  */
-	 hst::string m_format_string;
+	 sad::String m_format_string;
 	 /*! A substitution arguments
 	  */
 	 sad::Vector<FormattedLabel::Arg *> m_args;
@@ -250,7 +250,7 @@ class FormattedLabel: public Label
 	 /*! Sets a format string for label
 		 \param[in] s string
 	  */
-	 inline FormattedLabel * setFormatString(const hst::string & s ) 
+	 inline FormattedLabel * setFormatString(const sad::String & s ) 
 	 { 
 		 m_format_string = s; 
 		 return this;
@@ -259,7 +259,7 @@ class FormattedLabel: public Label
 		 \param[in] fnt font
 		 \param[in] r renderer
 	  */
-	 void setFont(const hst::string & fnt, sad::Renderer * r = sad::Renderer::ref());
+	 void setFont(const sad::String & fnt, sad::Renderer * r = sad::Renderer::ref());
 	 /*! Updates a label
 	  */
 	 virtual void update();
@@ -391,6 +391,6 @@ class FormattedLabel: public Label
 
 //======================================Source code=====================================
 LabelFont & Label::font()   { return m_fnt;  }
-hst::string &     Label::string() { return m_str;  }
+sad::String &     Label::string() { return m_str;  }
 pointf &          Label::point()    { return m_p; }
 pointf &		  Label::render_point() { return m_rend_point;}

@@ -5,7 +5,7 @@ ActionContext::~ActionContext()
 {
 }
 
-void ActionContext::pushAction(const hst::string & str)
+void ActionContext::pushAction(const sad::String & str)
 {
 	m_actions_stack<<str;
 }

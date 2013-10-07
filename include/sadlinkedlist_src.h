@@ -2,24 +2,24 @@
 #include <malloc.h>
 #include <cassert>
 #include <stdio.h>
-#define HPTRNULL 0
 
-namespace hst
+
+namespace sad
 {
-template<class T> deque<T>::node::node(typename deque<T>::node *previous, typename deque<T>::node *next, T *me)
+template<class T> LinkedList<T>::node::node(typename LinkedList<T>::node *previous, typename LinkedList<T>::node *next, T *me)
 {
   this->previous= previous;
   this->next    = next;
   this->me      = me;
 }
-template<class T> deque<T>::node::~node()
+template<class T> LinkedList<T>::node::~node()
 {
 	me->~T();
 	free(me);
 	me=NULL;
 }
 
-template<class T> deque<T>::deque()
+template<class T> LinkedList<T>::LinkedList()
 {
 	firstnode=NULL;
 	lastnode=NULL;
@@ -28,7 +28,7 @@ template<class T> deque<T>::deque()
 	sz=0;
 	
 }
-template<class T> deque<T>::deque(const deque & h)
+template<class T> LinkedList<T>::LinkedList(const LinkedList & h)
 {
 	firstnode=NULL;
 	lastnode=NULL;
@@ -38,7 +38,7 @@ template<class T> deque<T>::deque(const deque & h)
 	add(h);
 	
 }
-template<class T> deque<T> & deque<T>::operator=(const deque & h)
+template<class T> LinkedList<T> & LinkedList<T>::operator=(const LinkedList & h)
 {
 	
 	this->makeClear();
@@ -46,17 +46,17 @@ template<class T> deque<T> & deque<T>::operator=(const deque & h)
 	
 	return *this;
 }
-template<class T> void deque<T>::clear()
+template<class T> void LinkedList<T>::clear()
 {
   this->makeClear();
 }
-template<class T> void deque<T>::makeClear()
+template<class T> void LinkedList<T>::makeClear()
 {
  
  node * curr=firstnode;
  node * next;
  long   i=0;
- if (sz>0 && firstnode!=HPTRNULL)
+ if (sz>0 && firstnode!=0)
  {
   while (i<sz)
   {
@@ -74,17 +74,17 @@ template<class T> void deque<T>::makeClear()
  currentindex=0;
  sz=0;
 }
-template<class T> deque<T>::~deque()
+template<class T> LinkedList<T>::~LinkedList()
 {
    
    makeClear();
 }
 
-template<class T> T * deque<T>::data()   const {return firstnode;}
-template<class T> long deque<T>::count() const {return sz;}
-template<class T> bool deque<T>::empty() const {return count()==0;}
-template<class T> deque<T> & deque<T>::addFront(const T & obj) {return insert(obj,0);}
-template<class T> deque<T> & deque<T>::add(const T & obj)
+template<class T> T * LinkedList<T>::data()   const {return firstnode;}
+template<class T> long LinkedList<T>::count() const {return sz;}
+template<class T> bool LinkedList<T>::empty() const {return count()==0;}
+template<class T> LinkedList<T> & LinkedList<T>::addFront(const T & obj) {return insert(obj,0);}
+template<class T> LinkedList<T> & LinkedList<T>::add(const T & obj)
 {
  
  if (sz==0)
@@ -119,12 +119,12 @@ template<class T> deque<T> & deque<T>::add(const T & obj)
  return *this;
 }
 
-template<class T> deque<T> & deque<T>::operator<<(const T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::operator<<(const T & obj)
 {
 	
 	return add(obj);
 }
-template<class T> void deque<T>::dbg_ass(const char * cp) const
+template<class T> void LinkedList<T>::dbg_ass(const char * cp) const
 {
  node * curr=firstnode;
  long   i=0;
@@ -140,16 +140,16 @@ template<class T> void deque<T>::dbg_ass(const char * cp) const
 	++i;
   }
 }
-template<class T> T&   deque<T>::operator[](long i)
+template<class T> T&   LinkedList<T>::operator[](long i)
 {
 	return *(  getNode(i)->me );
 }
-template<class T> const T &  deque<T>::operator[](long i) const
+template<class T> const T &  LinkedList<T>::operator[](long i) const
 {
 	return *( getNode(i)->me );
 }
 
-template<class T> void * deque<T>::jumpPrevious(class deque<T>::node * from,long jumps) const
+template<class T> void * LinkedList<T>::jumpPrevious(class LinkedList<T>::node * from,long jumps) const
 {
 	
     long i;
@@ -159,7 +159,7 @@ template<class T> void * deque<T>::jumpPrevious(class deque<T>::node * from,long
 	
     return (void*)res;
 }
-template<class T> void * deque<T>::jumpNext(class deque<T>::node * from,long jumps) const
+template<class T> void * LinkedList<T>::jumpNext(class LinkedList<T>::node * from,long jumps) const
 {
 	
     long i;
@@ -169,7 +169,7 @@ template<class T> void * deque<T>::jumpNext(class deque<T>::node * from,long jum
 	
     return (void*)res;
 }
-template<class T> typename deque<T>::node *   deque<T>::getNode(long i) const
+template<class T> typename LinkedList<T>::node *   LinkedList<T>::getNode(long i) const
 {
 	
 	if (i<0 || i>=sz) return new node(NULL,NULL,new T());
@@ -179,7 +179,7 @@ template<class T> typename deque<T>::node *   deque<T>::getNode(long i) const
     /* dir detects a direction  of jump for current
        if (dir==true) i is next to current node else - previous
     */
-    deque * me=const_cast<deque *>(this);
+    LinkedList * me=const_cast<LinkedList *>(this);
     void * res;
     if (i>currentindex)
     {dir=true;cdist=i-currentindex;}
@@ -217,7 +217,7 @@ template<class T> typename deque<T>::node *   deque<T>::getNode(long i) const
 	
     return (node*)res;
 }
-template<class T> deque<T> & deque<T>::insert(const T &obj,long i)
+template<class T> LinkedList<T> & LinkedList<T>::insert(const T &obj,long i)
 {
 	
 	if (i>=sz) return add(obj);
@@ -245,7 +245,7 @@ template<class T> deque<T> & deque<T>::insert(const T &obj,long i)
 	
 	return *this;
 }
-template<class T> deque<T> & deque<T>::add(const deque & o)
+template<class T> LinkedList<T> & LinkedList<T>::add(const LinkedList & o)
 {
 	long i;
 	for (i=0;i<o.count();i++)
@@ -253,12 +253,12 @@ template<class T> deque<T> & deque<T>::add(const deque & o)
 	
 	return *this;
 }
-template<class T> deque<T> & deque<T>::operator<<(const deque & o)
+template<class T> LinkedList<T> & LinkedList<T>::operator<<(const LinkedList & o)
 {
 	
 	return add(o);
 }
-template<class T> deque<T> & deque<T>::operator>>(T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::operator>>(T & obj)
 {
 	
 	if (sz==0) {obj=T(); return *this;}
@@ -277,7 +277,7 @@ template<class T> deque<T> & deque<T>::operator>>(T & obj)
 		oldlastnode->~node();
 		free(oldlastnode);
 
-		newlastnode->next=HPTRNULL;
+		newlastnode->next=0;
 		lastnode=newlastnode;
 
 		sz--;
@@ -287,7 +287,7 @@ template<class T> deque<T> & deque<T>::operator>>(T & obj)
 	
 	return *this;
 }
-template<class T> deque<T> & deque<T>::removeAt(long i)
+template<class T> LinkedList<T> & LinkedList<T>::removeAt(long i)
 {
 	
 	if (i<0 || i>=sz) {return *this;}
@@ -306,7 +306,7 @@ template<class T> deque<T> & deque<T>::removeAt(long i)
 		oldlastnode->~node();
 		free(oldlastnode);
 
-		newlastnode->next=HPTRNULL;
+		newlastnode->next=0;
 		lastnode=newlastnode;
 
 		sz--;
@@ -324,7 +324,7 @@ template<class T> deque<T> & deque<T>::removeAt(long i)
 			oldfirstnode->~node();
 			free(oldfirstnode);
 
-			newfirstnode->previous=HPTRNULL;
+			newfirstnode->previous=0;
 			firstnode=newfirstnode;
 
 			sz--;
@@ -353,13 +353,7 @@ template<class T> deque<T> & deque<T>::removeAt(long i)
 	
 	return *this;
 }
-template<class T> void     deque<T>::yield(void (*fptr)(T & obj))
-{
-	long i;
-	for (i=0;i<sz;i++)
-		(*fptr)( (*this)[i]);
-}
-template<class T> deque<T> & deque<T>::remove(const T& obj)
+template<class T> LinkedList<T> & LinkedList<T>::remove(const T& obj)
 {
 	
     long i;
@@ -373,7 +367,7 @@ template<class T> deque<T> & deque<T>::remove(const T& obj)
     }
    return *this;
 }
-template<class T> deque<T> & deque<T>::removeFirst(const T& obj)
+template<class T> LinkedList<T> & LinkedList<T>::removeFirst(const T& obj)
 {
 	
     long i;
@@ -387,7 +381,7 @@ template<class T> deque<T> & deque<T>::removeFirst(const T& obj)
 	
    return *this;
 }
-template<class T> deque<T> & deque<T>::removeLast(const T& obj)
+template<class T> LinkedList<T> & LinkedList<T>::removeLast(const T& obj)
 {
 	
     long i,fnd=-1;
@@ -402,7 +396,7 @@ template<class T> deque<T> & deque<T>::removeLast(const T& obj)
 	
    return *this;
 }
-template<class T> deque<T> & deque<T>::removeRange(long imin,long imax)
+template<class T> LinkedList<T> & LinkedList<T>::removeRange(long imin,long imax)
 {
 	
     long i;
@@ -411,28 +405,28 @@ template<class T> deque<T> & deque<T>::removeRange(long imin,long imax)
 	
     return *this;
 }
-template<class T> deque<T> & deque<T>::push_back(const T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::push_back(const T & obj)
 {
 	return (*this)<<obj;
 }
-template<class T> deque<T> & deque<T>::pop_back(T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::pop_back(T & obj)
 {
 	obj=(*this)[0];
 	return this->removeAt(0);
 }
-template<class T> deque<T> & deque<T>::push_front(const T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::push_front(const T & obj)
 {
 	return this->insert(obj,0);
 }
-template<class T> deque<T> & deque<T>::pop_front(T & obj)
+template<class T> LinkedList<T> & LinkedList<T>::pop_front(T & obj)
 {
   return (*this)>>obj;
 }
 
-#define DQ_NODE deque<T>::node
-#define DQ_CIT  deque<T>::const_iterator
+#define DQ_NODE LinkedList<T>::node
+#define DQ_CIT  LinkedList<T>::const_iterator
 
-template<class T> DQ_CIT::const_iterator(class deque<T> const * parent,typename DQ_NODE const * next,typename DQ_NODE const * me,typename DQ_NODE const * prev)
+template<class T> DQ_CIT::const_iterator(class LinkedList<T> const * parent,typename DQ_NODE const * next,typename DQ_NODE const * me,typename DQ_NODE const * prev)
 {
     m_parent=parent;
     m_next=next;
@@ -518,22 +512,22 @@ template<class T> typename DQ_CIT & DQ_CIT::operator--()
     return *this;
 }
 
-template<class T> typename DQ_CIT deque<T>::const_begin() const
+template<class T> typename DQ_CIT LinkedList<T>::const_begin() const
 {
     return const_iterator(this,(firstnode)?firstnode->next:NULL,firstnode,NULL);
 }
 
-template<class T> typename DQ_CIT deque<T>::const_end() const
+template<class T> typename DQ_CIT LinkedList<T>::const_end() const
 {
     return const_iterator(this,NULL,NULL,lastnode);
 }
 
 #undef DQ_CIT
 
-#define DQ_IT  deque<T>::iterator
+#define DQ_IT  LinkedList<T>::iterator
 
 
-template<class T> DQ_IT::iterator(class deque<T>  * parent,typename DQ_NODE  * next,typename DQ_NODE  * me,typename DQ_NODE  * prev)
+template<class T> DQ_IT::iterator(class LinkedList<T>  * parent,typename DQ_NODE  * next,typename DQ_NODE  * me,typename DQ_NODE  * prev)
 {
     m_parent=parent;
     m_next=next;
@@ -619,16 +613,16 @@ template<class T> typename DQ_IT & DQ_IT::operator--()
     return *this;
 }
 
-template<class T> typename DQ_IT deque<T>::begin()
+template<class T> typename DQ_IT LinkedList<T>::begin()
 {
     return iterator(this,(firstnode)?firstnode->next:NULL,firstnode,NULL);
 }
 
-template<class T> typename DQ_IT deque<T>::end()
+template<class T> typename DQ_IT LinkedList<T>::end()
 {
     return iterator(this,NULL,NULL,lastnode);
 }
-template<class T> void  deque<T>::insert(typename DQ_IT & it, const T & val)
+template<class T> void  LinkedList<T>::insert(typename DQ_IT & it, const T & val)
 {
  if (it!=end())
  {
@@ -652,7 +646,7 @@ template<class T> void  deque<T>::insert(typename DQ_IT & it, const T & val)
  }
 }
 
-template<class T> void  deque<T>::remove(typename DQ_IT & it)
+template<class T> void  LinkedList<T>::remove(typename DQ_IT & it)
 {
   //Remove item
   if (it.m_me==firstnode)  {firstnode=(it.m_me)?it.m_me->next:it.m_next;}

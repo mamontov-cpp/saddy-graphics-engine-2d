@@ -24,11 +24,11 @@ class BasicFont
 	     \param[in] str string
 		 \param[in] p   upper-left point in window coordinates
 	 */
-	 virtual void render(const hst::string & str,const pointf & p)=0; 
+	 virtual void render(const sad::String & str,const pointf & p)=0; 
 	 /*! Returns a estimated size of label
 	     \param[in] str string
 	 */
-	 virtual hRectF size(const hst::string & str)=0;
+	 virtual hRectF size(const sad::String & str)=0;
 	 /*! Destroys an exemplar
 	 */
 	 virtual ~BasicFont();
@@ -67,8 +67,8 @@ namespace sad
 				\param[in] renderer linked renderer
 			*/
 			bool load(
-			           const hst::string & tex, 
-					   const hst::string & cfg, 
+			           const sad::String & tex, 
+					   const sad::String & cfg, 
 					   const hst::color & bk=hst::color(255,255,255),
 					   bool fontdetermine=true,
 					   sad::Renderer * renderer = sad::Renderer::ref() 
@@ -77,11 +77,11 @@ namespace sad
 				\param[in] str string
 				\param[in] p   upper-left point in window coordinates
 			*/
-	        void render(const hst::string & str,const pointf & p);
+	        void render(const sad::String & str,const pointf & p);
 			/*! Returns a estimated size of label
 				\param[in] str string
 			*/
-			hRectF size(const hst::string & str);
+			hRectF size(const sad::String & str);
 			/*! Destroys a file
 			*/
 			~TMFont();
@@ -97,7 +97,7 @@ namespace sad
 	class FontManager
 	{
 	 private:
-			 hst::hash<hst::string, sad::BasicFont *> m_fonts;
+			 sad::Hash<sad::String, sad::BasicFont *> m_fonts;
 			 os::mutex                                m_m;    //!< Mutex to block side effects
 
 			 FontManager(const FontManager & o);
@@ -111,16 +111,16 @@ namespace sad
 			    \param[in] font font pointer
 				\param[in] name associated name
 			*/
-		    void add(sad::BasicFont * font,const hst::string & name );
+		    void add(sad::BasicFont * font,const sad::String & name );
 			/*!	Returns an object by a key
 				\param[in] key associated key
 				\return pointer to font object
 			*/
-		    sad::BasicFont * get(const hst::string & key);
+		    sad::BasicFont * get(const sad::String & key);
 		    /*!	Deletes a font by a key
 			    \param[in] key 
 		    */
-			void remove(const hst::string &key);
+			void remove(const sad::String &key);
 	     	/*! Destructor
 		    */
 			~FontManager();

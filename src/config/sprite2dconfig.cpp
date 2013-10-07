@@ -8,7 +8,7 @@ using namespace sad;
 bool Sprite2DObserverContainer::fireSpriteConsistencyCheck(const Sprite2DTemplateContainer & container)
 {
 	bool ok=true;
-	for (hst::hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
+	for (sad::Hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
 		 it!=m_observers.end();
 		 it++)
 	{
@@ -19,7 +19,7 @@ bool Sprite2DObserverContainer::fireSpriteConsistencyCheck(const Sprite2DTemplat
 
 void Sprite2DObserverContainer::fireReloadSprite()
 {
- for (hst::hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
+ for (sad::Hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
 	  it!=m_observers.end();
 	  it++)
  {
@@ -29,7 +29,7 @@ void Sprite2DObserverContainer::fireReloadSprite()
 
 void Sprite2DObserverContainer::fireDying()
 {
- for (hst::hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
+ for (sad::Hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *>::iterator it=m_observers.begin();
 	  it!=m_observers.end();
 	  it++)
  {
@@ -54,7 +54,7 @@ sad::TextureContainer * Sprite2DConfig::getTextures()
 }
 
 
-Sprite2DConfig::Sprite2DConfig(const hst::string & containername, sad::Renderer * r)
+Sprite2DConfig::Sprite2DConfig(const sad::String & containername, sad::Renderer * r)
 {
 	m_renderer = r;
 	m_loader=NULL;
@@ -69,20 +69,20 @@ Sprite2DConfig::~Sprite2DConfig()
 	delete m_loader;
 }
 
-sad::Vector<hst::string> Sprite2DConfig::getTexturesToLoad(const Sprite2DTemplateContainer & container)
+sad::Vector<sad::String> Sprite2DConfig::getTexturesToLoad(const Sprite2DTemplateContainer & container)
 {
-	sad::Vector<hst::string>  result; //!< Resulting vector
-	hst::hash<hst::string,bool> lookup; //!< Lookup table to filter unique textures
+	sad::Vector<sad::String>  result; //!< Resulting vector
+	sad::Hash<sad::String,bool> lookup; //!< Lookup table to filter unique textures
 	for (Sprite2DTemplateContainer::const_iterator group=container.const_begin();
 		 group!=container.const_end();
 		 group++)
 	{
-		const hst::hash<int,Sprite2DTemplate> & hash=group.value();
-		for (hst::hash<int,Sprite2DTemplate>::const_iterator template_it=hash.const_begin();
+		const sad::Hash<int,Sprite2DTemplate> & hash=group.value();
+		for (sad::Hash<int,Sprite2DTemplate>::const_iterator template_it=hash.const_begin();
 			 template_it!=hash.const_end();
 			 template_it++)
 		{
-			const hst::string & texture_name=template_it.value().textureName();
+			const sad::String & texture_name=template_it.value().textureName();
 			if (lookup.contains(texture_name)==false)
 			{
 				lookup.insert(texture_name,true);
@@ -119,7 +119,7 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 	}
 
 	//Try to load new textures
-	sad::Vector<hst::string> textures=getTexturesToLoad(newtemplates);
+	sad::Vector<sad::String> textures=getTexturesToLoad(newtemplates);
 	bool ok=true; //!< Whether textures loading was successful
 	//New container, where every texture is stored
 	sad::TextureContainer * newcontainer=new sad::TextureContainer();
@@ -150,8 +150,8 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 	//Set transparency for all of textures, using information from sprites
 	for (Sprite2DTemplateContainer::iterator it=newtemplates.begin();it!=newtemplates.end();it++)
 	{
-		hst::hash<int,Sprite2DTemplate> & hash=it.value();
-		for (hst::hash<int,Sprite2DTemplate>::iterator it=hash.begin();it!=hash.end();it++)
+		sad::Hash<int,Sprite2DTemplate> & hash=it.value();
+		for (sad::Hash<int,Sprite2DTemplate>::iterator it=hash.begin();it!=hash.end();it++)
 		{
 			if (it.value().isTransparent())
 			{

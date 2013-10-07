@@ -1,44 +1,42 @@
-/*! \file   hptrie.hpp
+/*! \file   sadptrie.hpp
     \author HiddenSeeker
 
-    \brief contains a ptrie class definition.
+    \brief contains a Ptrie class definition.
 
-    Contains a ptrie class definition
+    Contains a Ptrie class definition
 */
-#include "hpair.hpp"
-#include "hdeque.hpp"
 #pragma once
+#include "sadpair.h"
+#include "sadlinkedlist.h"
 
-#ifndef __H_PTRIE_HPP
-	#define __H_PTRIE_HPP
-namespace hst
+namespace sad
 {
-    /*! \class ptrie
+    /*! \class Ptrie
         \brief tree-based associative array
 		
-        Defines a ptrie class, that provides fast associative array,
-        based on tree. You must be careful, because it works by byte
+        Defines a Ptrie class, that provides fast associative array,
+        based on trie. You must be careful, because it works by byte
         comparing elements of key.
     */
     template<typename Key,typename T>
-    class ptrie
+    class Ptrie
     {
         /*! Typedef for element of list. Third parameter is a pointer to
             element iterator
         */
-        typedef hst::triplet<Key,T,void *> hiddenel;
+        typedef sad::Triplet<Key,T,void *> hiddenel;
         protected:        //This is saved for successor
-                hst::deque< hiddenel > m_list; //!< List for fast iterations
+                sad::LinkedList< hiddenel > m_list; //!< List for fast iterations
                 class node
                 {
-                  friend class ptrie;
+                  friend class Ptrie;
                   public:
-                    typename hst::deque< hst::triplet<Key,T,void *> >::iterator m_val; //!< Value iterator
+                    typename sad::LinkedList< sad::Triplet<Key,T,void *> >::iterator m_val; //!< Value iterator
                     node ** m_children;                                   //!< Child pointers
                     /*! Gets a children from node
                         \param[in] byte byte value
                     */
-                    typename ptrie::node *&  getChildren(unsigned char byte);
+                    typename Ptrie::node *&  getChildren(unsigned char byte);
                   public:
                     /*! Default constructor
                     */
@@ -46,7 +44,7 @@ namespace hst
                     /*! Constructor
                         \param[in] m_t new value
                     */
-                    node(const typename hst::deque< hst::triplet<Key,T,void *> >::iterator & m_t);
+                    node(const typename sad::LinkedList< sad::Triplet<Key,T,void *> >::iterator & m_t);
                     /*! Default destructor
                     */
                     ~node();
@@ -55,7 +53,7 @@ namespace hst
                     Otherwise returns NULL;
                     \param[in] key key value
                 */
-                typename ptrie::node * jump(const Key & key) const;
+                typename Ptrie::node * jump(const Key & key) const;
                 /*! Clears all tree
                 */
                 void makeClear();
@@ -66,15 +64,15 @@ namespace hst
                */
                class const_iterator
                {
-                 friend class ptrie;
+                 friend class Ptrie;
                  private:
                    /*! Iterator, that he wraps
                    */
-                   typename hst::deque< hst::triplet<Key,T,void *> >::const_iterator m_imp;
+                   typename sad::LinkedList< sad::Triplet<Key,T,void *> >::const_iterator m_imp;
                    /*! Constant iterator
                        \param[in] rt constant iterator
                    */
-                   const_iterator(  const typename hst::deque< hst::triplet<Key,T,void *> >::const_iterator & rt);
+                   const_iterator(  const typename sad::LinkedList< sad::Triplet<Key,T,void *> >::const_iterator & rt);
                  public:
                      /*! Default iterator
                      */
@@ -131,15 +129,15 @@ namespace hst
                */
                class iterator
                {
-                 friend class ptrie;
+                 friend class Ptrie;
                  private:
                    /*! Iterator, that he wraps
                    */
-                   typename hst::deque< hst::triplet<Key,T,void *> >::iterator m_imp;
+                   typename sad::LinkedList< sad::Triplet<Key,T,void *> >::iterator m_imp;
                    /*! Constant iterator
                        \param[in] rt iterator
                    */
-                   iterator(  const typename hst::deque< hst::triplet<Key,T,void *> >::iterator & rt);
+                   iterator(  const typename sad::LinkedList< sad::Triplet<Key,T,void *> >::iterator & rt);
                  public:
                      /*! Default iterator
                      */
@@ -174,7 +172,7 @@ namespace hst
                      iterator & operator--();   //!< To previous value (prefix).
                      iterator operator--(int);  //!< To previous value (postfix).
 
-                     void erase();              //!< Erases element, behavour stolen from hst::deque::iterator. See hst::deque::iterator::erase() for detail
+                     void erase();              //!< Erases element, behavour stolen from sad::LinkedList::iterator. See sad::LinkedList::iterator::erase() for detail
 
                      /*! Determines, whether it works
                          \return true if works
@@ -212,41 +210,41 @@ namespace hst
                    \return last
                */
                iterator last() ;
-               /*! Default ptrie constructor
+               /*! Default Ptrie constructor
                */
-               ptrie();
-               /*! Construct ptrie from other ptrie
-                   \param[in] o other ptrie
+               Ptrie();
+               /*! Construct Ptrie from other Ptrie
+                   \param[in] o other Ptrie
                */
-               ptrie(const ptrie & o);
-               /*! Assigns ptrie other ptrie
-                   \param[in] o oher ptrie
+               Ptrie(const Ptrie & o);
+               /*! Assigns Ptrie other Ptrie
+                   \param[in] o oher Ptrie
                    \return self-reference
                */
-               ptrie & operator=( const ptrie & o);
+               Ptrie & operator=( const Ptrie & o);
                /*! Default destructor
                */
-               ~ptrie();
+               ~Ptrie();
                /*! Adds an element to tree. If an element exists, repllaces it
                    with new value.
                    \param[in]  key key
                    \param[in]  val inserted value
                */
-               ptrie & add(const Key & key, const T & val);
-               /*! Returns a constant pointer to element, if it exists in ptrie.
+               Ptrie & add(const Key & key, const T & val);
+               /*! Returns a constant pointer to element, if it exists in Ptrie.
                    Otherwise returns NULL.
                    \param[in] key key
                */
                T const * operator[](const Key & key) const;
-               /*! Returns a pointer to element, if it exists in ptrie.
+               /*! Returns a pointer to element, if it exists in Ptrie.
                    Otherwise returns NULL.
                    \param[in] key key
                */
                T  * operator[](const Key & key) ;
-               /*! Removes element from ptrie, if possible
+               /*! Removes element from Ptrie, if possible
                    \param[in] key key of removing element
                */
-               ptrie & remove(const Key & key);
+               Ptrie & remove(const Key & key);
 
                inline bool empty() const;                               //!< Detects, whether list is empty.
                inline long count() const;                               //!< Return amount of elements in list.
@@ -256,9 +254,4 @@ namespace hst
     };
 }
 
-#ifndef HI_PTRIE
-       #define HI_PTRIE
-       #include "hptrie_src.hpp"
-#endif
-
-#endif
+#include "sadptrie_src.h"

@@ -7,9 +7,9 @@
     #include<QString>
 #endif
 #include "../sadvector.h"
-#include "../templates/hhash.hpp"
-#include "../templates/hpair.hpp"
-#include "../templates/hstring.h"
+#include "../sadhash.h"
+#include "../sadpair.h"
+#include "../sadstring.h"
 #include "../marshal/actioncontext.h"
 #include "../os/mutex.h"
 #include "../3rdparty/format/format.h"
@@ -26,7 +26,7 @@
 
 
 
-inline std::ostream & operator<<(std::ostream & o, const hst::string & o2)
+inline std::ostream & operator<<(std::ostream & o, const sad::String & o2)
 {
 	return o << std::string(o2.data());
 }
@@ -41,7 +41,7 @@ namespace sad
 	     public:
 			/*! A caster for helping string find their ways
 			 */
-			static hst::string cast(const T & string)
+			static sad::String cast(const T & string)
 			{
 				std::ostringstream s; 
 				s << string;
@@ -57,7 +57,7 @@ namespace sad
 			     to ours
 				 \param[in] string an inserter from inner library to make logging simpler
 			 */
-			static hst::string cast(const fmt::internal::ArgInserter<char> & string)
+			static sad::String cast(const fmt::internal::ArgInserter<char> & string)
 			{
 				// We need to perform this, since operator FormatterProxy<Char>() is non-constant
 				fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(string); 
@@ -72,9 +72,9 @@ namespace sad
 	     public:
 			/*! A caster for helping string find their ways
              */
-			inline static hst::string cast(const QString & string)
+			inline static sad::String cast(const QString & string)
 			{
-				return hst::string(string.toStdString().c_str());
+				return sad::String(string.toStdString().c_str());
 			}
 		};
 #endif
@@ -118,11 +118,11 @@ namespace sad
 		{
 			private:	
 				char m_buffer[30];       //!< A buffer part
-				hst::string m_subsystem; //!< Subsystem
-				hst::string m_message;   //!< Message data
+				sad::String m_subsystem; //!< Subsystem
+				sad::String m_message;   //!< Message data
 				time_t      m_time;		 //!< Current time
 				sad::log::Priority m_priority; //!< Information about message priority
-				hst::string        m_user_priority; //!<  User priority, not used if non USER
+				sad::String        m_user_priority; //!<  User priority, not used if non USER
 				const char   *     m_file;          //!<  Compiled file, null if nothing
 				int                m_line;          //!<  A line of code, null if nothing
 			public:
@@ -134,27 +134,27 @@ namespace sad
 					\param[in] subsystem subsystem info
 					\param[in]  user_priority user priority information
 				 */
-				Message(const hst::string & message,
+				Message(const sad::String & message,
 						sad::log::Priority priority,
 						const char * file = NULL,
 						int line = 0,
-						const hst::string & subsystem = hst::string(),
-						const hst::string & user_priority = hst::string()
+						const sad::String & subsystem = sad::String(),
+						const sad::String & user_priority = sad::String()
 					   );
 					   
-				inline const hst::string & subsystem() const
+				inline const sad::String & subsystem() const
 				{ return m_subsystem; } //!< Returns a subsystem
-				inline const hst::string & message() const
+				inline const sad::String & message() const
 				{ return m_message; } //!< Returns a message					
 				const char * stime() const; //!< A string-alike time
 				inline const time_t & time() const
 				{ return m_time; }   //!< Returns a time
 				inline sad::log::Priority priority() const { return m_priority; } //!< A priority
-				inline const hst::string & upriority() const
+				inline const sad::String & upriority() const
 				{ return m_user_priority; } //!< Returns a user priority
 				/*! Returns string like "name of file", "line"				
 				 */
-				hst::string fileline() const;
+				sad::String fileline() const;
 				/*! Returns a stringified priority
 				 */
 				const char * spriority() const;
@@ -220,7 +220,7 @@ namespace sad
 			protected:
 				FILE * m_file; //!< Inner file handle
 				int         m_max_priority; //!< Priority of max message
-				hst::string m_format; //!< Format for outputting the message
+				sad::String m_format; //!< Format for outputting the message
 				/*! Formats a subsystem part, by default adds ": "
 					\return format string
 				 */
@@ -244,12 +244,12 @@ namespace sad
 					\param[in] maxpriority Maximum priority for outputting. 
 											Messages with priority maxpriority and bigger this are discarded
 				 */
-				FileTarget(const hst::string & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
+				FileTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
 				/*! Opens a file
 					\param[in] filename name of file
 					\return true if ok
 				 */
-				bool open(const hst::string & filename);
+				bool open(const sad::String & filename);
 				/*! Receives a messages from targetting information
 					\param[in] message taken message
 				 */
@@ -269,9 +269,9 @@ namespace sad
 		  private:
 				sad::log::Console * m_console; //!< A handle-like console
 				int         m_max_priority; //!< Priority of max message
-				hst::string m_format; //!< Format for outputting the message
-				hst::hash<sad::log::Priority, 
-				                 hst::pair<sad::log::Color, sad::log::Color>
+				sad::String m_format; //!< Format for outputting the message
+				sad::Hash<sad::log::Priority, 
+				                 sad::Pair<sad::log::Color, sad::log::Color>
 						 > m_coloring; //!< Color schema (first is back, second is fg)
 				/*! Formats a subsystem part, by default adds ": "
 					\return format string
@@ -301,7 +301,7 @@ namespace sad
 					\param[in] colored  whether output should be colored
 					\param[in] allocate_console whether we should allocate console
 				 */
-				ConsoleTarget(const hst::string & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6,  bool colored =  true, bool allocate_console = false);
+				ConsoleTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6,  bool colored =  true, bool allocate_console = false);
 				/*! Receives a messages from targetting information
 				     \param[in] message  taken message
 				 */
@@ -325,19 +325,19 @@ namespace sad
 		/*! Returns a current subsystem
 			\return name of current subsystem
 		 */
-		virtual hst::string subsystem();
+		virtual sad::String subsystem();
 		
-		virtual void createAndBroadcast(const hst::string & mesg, 
+		virtual void createAndBroadcast(const sad::String & mesg, 
 										sad::log::Priority priority,
 										const char * file = NULL, 
 										int line = 0,
-										const hst::string & upriority = hst::string());
+										const sad::String & upriority = sad::String());
 		template<typename T>
 		void _createAndBroadcast(const T & mesg, 
 								sad::log::Priority priority,
 								const char * file = NULL, 
 								int line = 0,
-								const hst::string & upriority = hst::string())
+								const sad::String & upriority = sad::String())
 		{
 			createAndBroadcast(sad::log::StringCaster<T>::cast(mesg), priority, file, line, upriority);
 		}
@@ -387,7 +387,7 @@ namespace sad
 		}
 		
 		template<typename T> 
-		void user(const T & mesg, const char * file = NULL, int line = 0, const hst::string & user =  hst::string())
+		void user(const T & mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
 		{
 			_createAndBroadcast(mesg, sad::log::USER, file, line, user);
 		}
@@ -396,46 +396,46 @@ namespace sad
 		// Overloads for const char *
 		void fatal(const char * mesg, const char * file = NULL, int line = 0)
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::FATAL, file, line);
+			_createAndBroadcast(sad::String(mesg), sad::log::FATAL, file, line);
 		}
 		
 		// Here are common interface for messages
 
 		void critical(const char * mesg, const char * file = NULL, int line = 0)
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::CRITICAL, file, line);
+			_createAndBroadcast(sad::String(mesg), sad::log::CRITICAL, file, line);
 		}
 		
 		void warning(const char * mesg, const char * file = NULL, int line = 0)
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::WARNING, file, line);
+			_createAndBroadcast(sad::String(mesg), sad::log::WARNING, file, line);
 		}
 		
 		void message(const char * mesg, const char * file = NULL, int line = 0)
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::MESSAGE, file, line);
+			_createAndBroadcast(sad::String(mesg), sad::log::MESSAGE, file, line);
 		}
 		
 		void debug(const char  * mesg, const char * file = NULL, int line = 0)
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::DEBUG, file, line);
+			_createAndBroadcast(sad::String(mesg), sad::log::DEBUG, file, line);
 		}
 		
-		void user(const char *  mesg, const char * file = NULL, int line = 0, const hst::string & user =  hst::string())
+		void user(const char *  mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
 		{
-			_createAndBroadcast(hst::string(mesg), sad::log::USER, file, line, user);
+			_createAndBroadcast(sad::String(mesg), sad::log::USER, file, line, user);
 		}
 		
 		/*! Sets current action
 			\param[in] str string
 		 */
-		virtual void pushAction(const hst::string & str);
+		virtual void pushAction(const sad::String & str);
 		/*! Sets current action
 			\param[in] str string
 			\param[in] file file data
 			\param[in] line line data
 		 */
-		virtual void pushAction(const hst::string & str, const char * file, int line);
+		virtual void pushAction(const sad::String & str, const char * file, int line);
 		/*!  Pops an actions
 		 */
 		virtual void popAction();
@@ -461,7 +461,7 @@ namespace sad
 				Scope(const char * c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
 				/*! Pushes a new state
 				 */
-				Scope(const hst::string & c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
+				Scope(const sad::String & c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
 				/*! Pushes a new state
 				 */
 				Scope(const std::string & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());

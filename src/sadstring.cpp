@@ -1,73 +1,68 @@
-#include "hstring.h"
+#include "../sadstring.h"
 #include <stdlib.h>
 #include <string.h>
 
-using namespace hst;
 
-string::string(): std::string() 
+sad::String::String(): std::string() 
 {
 
 }
-string::string(const char* _p) : std::string(_p)  
+sad::String::String(const char* _p) :  std::string(_p)  
 { 
 
 }
-string::string(const char* _p,long len) : std::string(_p, len)
+sad::String::String(const char* _p,long len) :  std::string(_p, len)
 {
 
 }
 
-string::string(const string & o) : std::string(o)
+sad::String::String(const sad::String & o) :  std::string(o)
 {
  
 }
-string::string(const std::string & o) : std::string(o)
+sad::String::String(const std::string & o) :  std::string(o)
 {
  
 }
-string::~string()
+sad::String::~String()
 {
 
 }
 
-void string::print() const
-{
-	puts(this->c_str());
-}
 //----Getters-------------------------------
-char * string::data()   const {return const_cast<char*>(this->c_str());}
-bool   string::empty()  const {return this->length() == 0;}
+char * sad::String::data()   const {return const_cast<char*>(this->c_str());}
+bool   sad::String::empty()  const {return this->length() == 0;}
 //------------------------------------------
 
-string & string::operator<<(char c)
+sad::String & sad::String::operator<<(char c)
 {
   this->push_back(c);
   return *this;
 }
 
-bool hst::string::operator==(const hst::string & o) const
+bool sad::String::operator==(const sad::String & o) const
 {
 	const std::string & p1 = (const std::string&)(*this);
 	const std::string & p2 = (const std::string&)(o);	
 	return p1.compare(p2) == 0;
 }
 
-bool  hst::string::operator!=(const hst::string & o) const
+bool  sad::String::operator!=(const sad::String & o) const
 {
 	return !(*this == o);
 }
 
-bool hst::string::operator==(const char * o) const
+bool sad::String::operator==(const char * o) const
 {
-	return (*this == hst::string(o));
+	return (*this == sad::String(o));
 }
 
-bool hst::string::operator!=(const char * o) const
+bool sad::String::operator!=(const char * o) const
 {
-	return (*this == hst::string(o));
+	return (*this == sad::String(o));
 }
 
-bool string::operator>(const string &o) const
+bool sad::String::operator>(const sad::String &o) const
 {
 	unsigned long minlen=(this->length()<o.length())?this->length():o.length();
 	unsigned long i;
@@ -83,19 +78,19 @@ bool string::operator>(const string &o) const
 		return true;
 	return false;
 }
-bool string::operator>=(const string & o) const
+bool sad::String::operator>=(const sad::String & o) const
 {
 	return (*this>o) || (*this==o);
 }
-bool string::operator<=(const string & o) const
+bool sad::String::operator<=(const sad::String & o) const
 {
 	return !(*this>o);
 }
-bool string::operator<(const string & o) const
+bool sad::String::operator<(const sad::String & o) const
 {
 	return !(*this>=o);
 }
-void string::remove(long i)
+void sad::String::remove(long i)
 {
 	if (i > -1 && i <= (long)(this->length()))
 	{
@@ -103,16 +98,17 @@ void string::remove(long i)
 	}
 }
 
-//Split a string to a list, using specified delimiter
-string & string::operator<<(const string & o)
+//Split a sad::String to a list, using specified delimiter
+sad::String & sad::String::operator<<(const sad::String & o)
 {
 	(*this)+=o;
 	return *this;
 }
-stringlist string::split(const char * delimiters) const
+
+sad::StringList sad::String::split(const char * delimiters) const
 {
-  hst::stringlist result;
-  hst::string buffer;
+  sad::StringList result;
+  sad::String buffer;
   for(unsigned long i = 0; i < this->length(); i++)
   {
 	char cur = (*this)[i];
@@ -131,65 +127,57 @@ stringlist string::split(const char * delimiters) const
       result << buffer;
   return result;
 }
-stringlist string::split(char delimiter) const
+sad::StringList sad::String::split(char delimiter) const
 {
 	char s[2]={delimiter, 0x0};
 	return split(s);
 }
-void string::readLine(FILE** pf)
-{
-	char c=0x00;
-	this->clear();
-	while((c=fgetc(*pf))=='\r' || (c=='\n') && (!feof(*pf))) {};         //Skipping strings
-    if ((c!='\r') && (c!='\n') && (c!=EOF)) (*this)<<c;                 //Appending first character
-	while((c=fgetc(*pf))!='\r' && (c!='\n') && (!feof(*pf))) (*this)<<c; //Append character
-}
 
-string  string::getLastCharacters(long i) const
+sad::String  sad::String::getLastCharacters(long i) const
 {
-	if (i<0) return string();
-	if ((unsigned long)i>=this->length()) return string();
+	if (i<0) return sad::String();
+	if ((unsigned long)i>=this->length()) return sad::String();
 	return this->substr(this->length()-i);
 }
-string string::getExtension() const
+sad::String sad::String::getExtension() const
 {
    size_t pos =  this->rfind('.');
-   if (pos == std::string::npos)  return string();
+   if (pos == std::string::npos)  return sad::String();
    return this->substr(pos + 1);
 }
-void string::removeExtension()
+void sad::String::removeExtension()
 {
    size_t pos =  this->rfind('.');
    if (pos == std::string::npos)  return;
    this->erase(this->begin() + pos, this->end());
 }
-void  string::addExtension(const string & newext)
+void  sad::String::addExtension(const sad::String & newext)
 {
 	(*this)<<'.'<<newext;
 }
-void  string::changeExtension(const string & newext)
+void  sad::String::changeExtension(const sad::String & newext)
 {
  removeExtension();
  addExtension(newext);
 }
-string  string::operator+(const string & o) const
+sad::String  sad::String::operator+(const sad::String & o) const
 {
-   string result(*this);
+   sad::String result(*this);
    result << o;
    return result;
 }
 
-string  string::operator+(const std::string & o) const
+sad::String  sad::String::operator+(const std::string & o) const
 {
-	return *this + hst::string(o);
+	return *this + sad::String(o);
 }
 
-string  string::operator+(const char * o) const
+sad::String  sad::String::operator+(const char * o) const
 {
-	return *this + hst::string(o);
+	return *this + sad::String(o);
 }
 
-string & string::insert(char c,long i)
+sad::String & sad::String::insert(char c,long i)
 {
 	if (i<0) i=0;
 	if ((unsigned long)i>=length())  return (*this)<<c;
@@ -199,7 +187,7 @@ string & string::insert(char c,long i)
 	return *this;
 }
 
-void string::trimSpaces()
+void sad::String::trimSpaces()
 {
    unsigned long i;
    int flag=1;
@@ -229,19 +217,19 @@ void string::trimSpaces()
 	}
    }
 }
-void string::removeSpaces()
+void sad::String::removeSpaces()
 {
-	this->removeAllOccurences(string(" "));
+	this->removeAllOccurences(sad::String(" "));
 }
 
-string & string::removeRange(long beg,long rlen)
+sad::String & sad::String::removeRange(long beg,long rlen)
 {
 	long k;
 	for (k=0;k<rlen;k++) //Remove old variable definition
 		 this->remove(beg);    //Remove
 	return *this;
 }
-string & string::insert(const string & o,long i)
+sad::String & sad::String::insert(const sad::String & o,long i)
 {
 	if (i < 0) return *this;
 	if ((unsigned long)i > this->length()) 
@@ -253,21 +241,15 @@ string & string::insert(const string & o,long i)
 	return *this;
 }
 
-string  string::number(int a,int radix)
+sad::String  sad::String::number(int a,int radix)
 {
-char buffer[40];
-#ifdef __HAS_A_ITOA_CONVERSION
- _itoa(a,buffer,radix);
- string result((const char*)buffer);
- return result;
-#else
-   if (radix==8) {sprintf(buffer,"%o",a);return string(buffer);}
-   if (radix==10) {sprintf(buffer,"%d",a);return string(buffer);}
-   if (radix==16) {sprintf(buffer,"%X",a);return string(buffer);}
-   return string();
-#endif
+   char buffer[40];
+   if (radix==8) {sprintf(buffer,"%o",a);return sad::String(buffer);}
+   if (radix==10) {sprintf(buffer,"%d",a);return sad::String(buffer);}
+   if (radix==16) {sprintf(buffer,"%X",a);return sad::String(buffer);}
+   return sad::String();
 }
-bool  string::queryPointer(const string & str, long * addr)
+bool  sad::String::queryPointer(const sad::String & str, long * addr)
 {
    long cwt=-32768;
    if (str.empty())
@@ -282,31 +264,31 @@ bool  string::queryPointer(const string & str, long * addr)
    }
    return 0;
 }
-int string::toInt(const string & str)
+int sad::String::toInt(const sad::String & str)
 {
     int result=0;
     sscanf(str.data(),"%d",&result);
     return result;
 }
-float string::toFloat(const string & str)
+float sad::String::toFloat(const sad::String & str)
 {
     float result=0;
     sscanf(str.data(),"%f",&result);
     return result;
 }
-string  string::subString(long beg,long len) const
+sad::String  sad::String::subString(long beg,long len) const
 {
 	return substr(beg, len);
 }
-string  string::getRightPart(long len)
+sad::String  sad::String::getRightPart(long len)
 {
  return subString(length()-len,len);
 }
-string  string::getLeftPart(long len)
+sad::String  sad::String::getLeftPart(long len)
 {
  return subString(0,len);
 }
-long string::getOccurences(const string & sstr)
+long sad::String::getOccurences(const sad::String & sstr)
 {
 	long count = 0;
 	size_t pos = this->find(sstr);
@@ -317,7 +299,7 @@ long string::getOccurences(const string & sstr)
 	}
 	return count;
 }
-long string::getOccurence(const string & sstr,long omax)
+long sad::String::getOccurence(const sad::String & sstr,long omax)
 {
   long result = -1;
   long count = 0;
@@ -331,7 +313,7 @@ long string::getOccurence(const string & sstr,long omax)
   }
   return result;
 }
-long string::getLastOccurence(const string & sstr)
+long sad::String::getLastOccurence(const sad::String & sstr)
 {
   long result = -1;
   size_t pos = this->find(sstr);
@@ -342,12 +324,12 @@ long string::getLastOccurence(const string & sstr)
   }
   return result;
 }
-void string::removeOccurence(const string & sstr,long omax)
+void sad::String::removeOccurence(const sad::String & sstr,long omax)
 {
    long pos=getOccurence(sstr,omax);
    if (pos!=-1) removeRange(pos,sstr.length());
 }
-void string::removeAllOccurences(const string & sstr)
+void sad::String::removeAllOccurences(const sad::String & sstr)
 {
    long pos=getOccurence(sstr,0);
    while (pos!=-1)
@@ -356,12 +338,12 @@ void string::removeAllOccurences(const string & sstr)
 	   pos=getOccurence(sstr,0);
    }
 }
-void string::removeLastOccurence(const string & sstr)
+void sad::String::removeLastOccurence(const sad::String & sstr)
 {
    long pos=getLastOccurence(sstr);
    if (pos!=-1) removeRange(pos,sstr.length());
 }
-void string::replaceOccurence(const string & sstr,const string & to,long omax)
+void sad::String::replaceOccurence(const sad::String & sstr,const sad::String & to,long omax)
 {
    long pos=getOccurence(sstr,omax);
    if (pos!=-1)
@@ -370,7 +352,7 @@ void string::replaceOccurence(const string & sstr,const string & to,long omax)
 	   insert(to,pos);
    }
 }
-void string::replaceAllOccurences(const string & sstr,const string & to)
+void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::String & to)
 {
    long pos=getOccurence(sstr,0);
    while (pos!=-1)
@@ -380,7 +362,7 @@ void string::replaceAllOccurences(const string & sstr,const string & to)
 	   pos=getOccurence(sstr,0);
    }
 }
-void string::replaceLastOccurence(const string & sstr,const string & to)
+void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::String & to)
 {
    long pos=getLastOccurence(sstr);
    if (pos!=-1)
@@ -389,7 +371,7 @@ void string::replaceLastOccurence(const string & sstr,const string & to)
 	   insert(to,pos);
    }
 }
-bool string::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
+bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
 {
 	int priority1,priority2;
 	if (c1>=65 && c1<=90)
@@ -432,11 +414,11 @@ bool string::cmpchar(char c1,char c2) const //Return false if c1 is bigger than 
 	return c1<c2;
 }
 
-hst::string join(const hst::stringlist list, const hst::string & sep)
+sad::String sad::join(const sad::StringList list, const sad::String & sep)
 {
 	if (list.count() == 0)
-		return hst::string();
-	hst::string result = list[0];
+		return sad::String();
+	sad::String result = list[0];
 	for(unsigned int i = 0; i < list.count(); i++)
 	{
 		result << sep << list[i];

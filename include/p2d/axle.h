@@ -6,7 +6,7 @@
 #pragma once
 #include "vector.h"
 #include "../primitives/matrix2x2.h"
-#include "../templates/hpair.hpp"
+#include "../sadpair.h"
 #include "../sadvector.h"
 
 namespace sad
@@ -19,13 +19,13 @@ namespace p2d
 	typedef p2d::Vector Axle;
 	/*! A one-dimensional cutter is a pair of doubles
 	 */
-	typedef hst::pair<double, double> Cutter1D;
+	typedef sad::Pair<double, double> Cutter1D;
 	/*! A two-dimensional cutter is a pair of points
 	 */
-	typedef hst::pair<hPointF, hPointF> Cutter2D;
+	typedef sad::Pair<hPointF, hPointF> Cutter2D;
 	/*! A pair of points, which can be contacts 
 	 */
-	typedef hst::pair<hPointF, hPointF> PointsPair;
+	typedef sad::Pair<hPointF, hPointF> PointsPair;
 	/*! A matrix 2x2 for out options
 	 */
 	typedef hst::matrix2x2<double> Matrix2x2; 

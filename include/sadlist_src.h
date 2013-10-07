@@ -1,11 +1,12 @@
+#pragma once
 #include <malloc.h>
 #include <stdio.h>
-#define HPTRNULL 0
 
-namespace hst
+
+namespace sad
 {
 
-template<class T> void list<T>::makeClear()
+template<class T> void List<T>::makeClear()
 {
 	if (_p!=NULL)
 	{
@@ -17,8 +18,8 @@ template<class T> void list<T>::makeClear()
 	  sz=0;
 	}
 }
-template<class T> void list<T>::clear () {makeClear();}
-template<class T> bool list<T>::operator!=(const list<T> & h)
+template<class T> void List<T>::clear () {makeClear();}
+template<class T> bool List<T>::operator!=(const List<T> & h)
 {
 	if (sz!=h.sz)
 		return true;
@@ -28,11 +29,11 @@ template<class T> bool list<T>::operator!=(const list<T> & h)
 			return true;
 	return false;
 }
-template<class T> bool list<T>::operator==(const list<T> & h)
+template<class T> bool List<T>::operator==(const List<T> & h)
 {
 	return !(*this!=h);
 }
-template<class T> void list<T>::copy(const list<T> & h)
+template<class T> void List<T>::copy(const List<T> & h)
 {
   if (h.sz!=0)
   {
@@ -44,32 +45,24 @@ template<class T> void list<T>::copy(const list<T> & h)
   }
   else
   {
-	_p=HPTRNULL;sz=0;
+	_p=0;sz=0;
   }
 }
-template<class T> void list<T>::yield(void (*fptr)(T & obj))
-{
-	long i;
-	for (i=0;i<sz;i++)
-	{
-	  (*fptr)(*(_p[i]));
-	}
-}
 
-template<class T> list<T>::list()
+template<class T> List<T>::List()
 {
-	_p=HPTRNULL;
+	_p=0;
 	sz=0;
 }
-template<class T> list<T>::~list()
+template<class T> List<T>::~List()
 {
 	makeClear();
 }
-template<class T> list<T>::list(const list<T> & h)
+template<class T> List<T>::List(const List<T> & h)
 {
 	copy(h);
 }
-template<class T> list<T> & list<T>::operator=(const list<T> & h)
+template<class T> List<T> & List<T>::operator=(const List<T> & h)
 {
  if (h._p!=_p)
  {
@@ -78,38 +71,28 @@ template<class T> list<T> & list<T>::operator=(const list<T> & h)
  }
  return *this;
 }
-template<class T> bool list<T>::empty() const {return sz==0;}
-template<class T> long list<T>::count() const {return sz;}
-template<class T> const T** list<T>::data()  const {return _p;}
+template<class T> bool List<T>::empty() const {return sz==0;}
+template<class T> long List<T>::count() const {return sz;}
+template<class T> const T** List<T>::data()  const {return _p;}
 
-template<class T> void list<T>::dbg_ass(const char * cp) const
-{
-	puts("====list Report====");
-	printf("Main pointer: %p\n",cp);
-	for (long i=0;i<sz;i++)
-	{
-		printf("Index: %ld, Pointer: %p\nValue:",i,_p[i]);
-		printf(cp,*(_p[i]));
-	}
-	puts("====================");
-}
-template<class T> T&   list<T>::operator[](long i)
+
+template<class T> T&   List<T>::operator[](long i)
 {
 	if (i<0 || i>=sz) return *(new T());
 	return *(_p[i]);
 }
-template<class T> const T&   list<T>::operator[](long i) const
+template<class T> const T&   List<T>::operator[](long i) const
 {
 	if (i<0 || i>=sz) return *(new T());
 	return *(_p[i]);
 }
-template<class T> list<T> & list<T>::operator<<(const T & obj)
+template<class T> List<T> & List<T>::operator<<(const T & obj)
 {
 	_p=(T**)realloc(_p,(++sz)*sizeof(T*));
 	_p[sz-1]=new T(obj);
 	return *this;
 }
-template<class T> list<T> & list<T>::operator<<(const list<T> & obj)
+template<class T> List<T> & List<T>::operator<<(const List<T> & obj)
 {
     sz+=obj.sz;
 	_p=(T**)realloc(_p,sz*sizeof(T*));
@@ -121,19 +104,19 @@ template<class T> list<T> & list<T>::operator<<(const list<T> & obj)
 	}
 	return *this;
 }
-template<class T> list<T>  & list<T>::add(const list<T> & o)
+template<class T> List<T>  & List<T>::add(const List<T> & o)
 {
 	return (*this)<<o;
 }
-template<class T> list<T>  & list<T>::add(const T & obj)
+template<class T> List<T>  & List<T>::add(const T & obj)
 {
 	return (*this)<<obj;
 }
-template<class T> list<T> & list<T>::insert(const T &obj,long pos)
+template<class T> List<T> & List<T>::insert(const T &obj,long pos)
 {
    if (pos>=sz) return (*this)<<obj;
    if (pos<0) pos=0;
-   //puts("Inner insertion in list");
+   //puts("Inner insertion in List");
    _p=(T**)realloc(_p,(++sz)*sizeof(T*));
    //printf("%p,%ld",_p,sz);
    for (long i=sz-1;i>pos;i--)
@@ -144,11 +127,11 @@ template<class T> list<T> & list<T>::insert(const T &obj,long pos)
    _p[pos]=new T(obj);
    return *this;
 }
-template<class T> list<T> & list<T>::addFront(const T & obj)
+template<class T> List<T> & List<T>::addFront(const T & obj)
 {
 	return insert(obj,0);
 }
-template<class T> list<T> & list<T>::removeAt(long i)
+template<class T> List<T> & List<T>::removeAt(long i)
 {
 	if (i<0 || i>=sz) return *this;
     if (sz!=1)
@@ -167,7 +150,7 @@ template<class T> list<T> & list<T>::removeAt(long i)
 	}
   return *this;
 }
-template<class T> list<T> & list<T>::remove(const T & obj)
+template<class T> List<T> & List<T>::remove(const T & obj)
 {
 	for (long i=0;i<count();i++)
 	{
@@ -179,7 +162,7 @@ template<class T> list<T> & list<T>::remove(const T & obj)
 	}
 	return *this;
 }
-template<class T> list<T> & list<T>::removeFirst(const T & obj)
+template<class T> List<T> & List<T>::removeFirst(const T & obj)
 {
 	for (long i=0;i<count();i++)
 	{
@@ -191,7 +174,7 @@ template<class T> list<T> & list<T>::removeFirst(const T & obj)
 	}
 	return *this;
 }
-template<class T> list<T> & list<T>::removeLast(const T & obj)
+template<class T> List<T> & List<T>::removeLast(const T & obj)
 {
   long pos=-1;
   for (long i=0;i<count();i++)
@@ -205,7 +188,7 @@ template<class T> list<T> & list<T>::removeLast(const T & obj)
 	  removeAt(pos);
   return *this;
 }
-template<class T> list<T> & list<T>::operator>>(T & obj)
+template<class T> List<T> & List<T>::operator>>(T & obj)
 {
 	if (count()!=0)
 	{
@@ -214,7 +197,7 @@ template<class T> list<T> & list<T>::operator>>(T & obj)
 	}
 	return *this;
 }
-template<class T> list<T> & list<T>::removeRange(long imin,long imax)
+template<class T> List<T> & List<T>::removeRange(long imin,long imax)
 {
   long xmin,xmax;
   xmin=(imin<imax)?( xmax=imax,imin ):( xmin=imin,imax );

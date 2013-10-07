@@ -87,7 +87,7 @@ bool sad::Renderer::createWindow()
 	wc.hbrBackground = NULL;
 	wc.lpszMenuName  = NULL;
 	m_window.window_class = UNIQUE_CLASS_NAME;
-	m_window.window_class += hst::string::number(reinterpret_cast<unsigned long>(this));
+	m_window.window_class += sad::String::number(reinterpret_cast<unsigned long>(this));
 	wc.lpszClassName = m_window.window_class.data();
 
 	if (!RegisterClass(&wc)) { SL_LOCAL_FATAL("Failed to register class", *this); return false;}
@@ -239,7 +239,7 @@ void sad::Renderer::initWindowParameters(void)
   this->m_window.hInstance=NULL;
 }
 
-void sad::Renderer::setWindowTitle(const hst::string & s)
+void sad::Renderer::setWindowTitle(const sad::String & s)
 {
 	m_windowtitle=s;
 	if (m_window.hWND)

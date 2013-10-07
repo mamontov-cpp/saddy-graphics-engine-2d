@@ -9,7 +9,7 @@ DECLARE_SOBJ_INHERITANCE(Background,Sprite)
 #define SCREEN_HEIGHT  (sad::Renderer::ref()->settings().height())
 #define SCREEN_WIDTH   (sad::Renderer::ref()->settings().width())
 
-Background::Background(const hst::string &name,const hRectF & r): 
+Background::Background(const sad::String &name,const hRectF & r): 
 Sprite(
 	   sad::TextureManager::ref()->get(name),
 	   hst::rect< ::s3d::point>(::s3d::point(0.0f,(float)SCREEN_HEIGHT,0.0f),::s3d::point((float)SCREEN_WIDTH,0.0f,0.0f)),
@@ -17,7 +17,7 @@ Sprite(
 {
 }
 #define TEX_PTR (sad::TextureManager::ref()->get(name))
-Background::Background(const hst::string &name): 
+Background::Background(const sad::String &name): 
 Sprite(
 	   TEX_PTR,
 	   hst::rect< ::s3d::point>(::s3d::point(0.0f,(float)SCREEN_HEIGHT,0.0f),::s3d::point((float)SCREEN_WIDTH,0.0f,0.0f)),

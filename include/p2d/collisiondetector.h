@@ -7,7 +7,7 @@
 #pragma once
 #include "body.h"
 #include "collisiontest.h"
-#include "../templates/maybe.hpp"
+#include "../maybe.h"
 
 
 namespace sad
@@ -15,7 +15,7 @@ namespace sad
 
 namespace p2d
 {
-typedef hst::Maybe<double> MaybeTime;
+typedef sad::Maybe<double> MaybeTime;
 /*! A basic collision detector, used to determine, whether bodies
 	collide and when does it ocurred.
  */
@@ -30,9 +30,9 @@ class CollisionDetector
 		  \param[in] limit a time limit for finding a position of bodies
 		  \return time of impact if possible
 	   */
-	  virtual p2d::MaybeTime collides(p2d::Body * b1, 
-									  p2d::Body * b2, 
-									  double limit) = 0;
+	  virtual sad::p2d::MaybeTime collides(sad::p2d::Body * b1, 
+										   sad::p2d::Body * b2, 
+									       double limit) = 0;
 	  /*! Returns a sample  count, needed to fetch samples for detection
 	   */
 	  virtual int sampleCount() const;

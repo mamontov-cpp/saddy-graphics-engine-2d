@@ -9,7 +9,7 @@ void sad::TextureManager::buildAll()
 {
 	m_m.lock();
 
-	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+	for (sad::Hash<sad::String,sad::TextureContainer *>::iterator it=m_containers.begin();
 		it!=m_containers.end();
 		it++
 		)
@@ -28,19 +28,19 @@ sad::TextureManager::TextureManager()
 sad::TextureManager::~TextureManager()
 {
 	{
-	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+	for (sad::Hash<sad::String,sad::TextureContainer *>::iterator it=m_containers.begin();
 		 it!=m_containers.end();
 		 it++)
 	delete it.value();
 	}
 	{
-	for (hst::hash<hst::string,sad::TextureLoader *>::iterator it=m_loaders.begin();
+	for (sad::Hash<sad::String,sad::TextureLoader *>::iterator it=m_loaders.begin();
 		 it!=m_loaders.end();
 		 it++)
 	delete it.value();
 	}
 }
-sad::Texture *  sad::TextureManager::get(const hst::string & name,const hst::string & containername)
+sad::Texture *  sad::TextureManager::get(const sad::String & name,const sad::String & containername)
 {
 	m_m.lock();
 
@@ -52,7 +52,7 @@ sad::Texture *  sad::TextureManager::get(const hst::string & name,const hst::str
 	return r;
 }
 
-void sad::TextureManager::add(const hst::string & name, Texture * tex,const hst::string & containername)
+void sad::TextureManager::add(const sad::String & name, Texture * tex,const sad::String & containername)
 {
 	m_m.lock();
 
@@ -63,7 +63,7 @@ void sad::TextureManager::add(const hst::string & name, Texture * tex,const hst:
 	m_m.unlock();
 }
 
-void sad::TextureManager::remove(const hst::string & name,const hst::string & containername)
+void sad::TextureManager::remove(const sad::String & name,const sad::String & containername)
 {
 	m_m.lock();
 
@@ -76,7 +76,7 @@ void sad::TextureManager::remove(const hst::string & name,const hst::string & co
 }
 
 
-void sad::TextureManager::setContainer(sad::TextureContainer * container,const hst::string & containername)
+void sad::TextureManager::setContainer(sad::TextureContainer * container,const sad::String & containername)
 {
 	m_m.lock();
 
@@ -85,7 +85,7 @@ void sad::TextureManager::setContainer(sad::TextureContainer * container,const h
 	m_m.unlock();
 }
 
-sad::TextureContainer * sad::TextureManager::getContainer(const hst::string & containername)
+sad::TextureContainer * sad::TextureManager::getContainer(const sad::String & containername)
 {
 	m_m.lock();
 	
@@ -103,14 +103,14 @@ sad::TextureManager * sad::TextureManager::ref()
 	return sad::Renderer::ref()->textures();
 }
 
-sad::TextureLoader * sad::TextureManager::loader(const hst::string & format)
+sad::TextureLoader * sad::TextureManager::loader(const sad::String & format)
 {
 	if (m_loaders.contains(format) == false)
 		return NULL;
 	return m_loaders[format];
 }
 
-void sad::TextureManager::setLoader(const hst::string & format, sad::TextureLoader * l)
+void sad::TextureManager::setLoader(const sad::String & format, sad::TextureLoader * l)
 {
 	if (m_loaders.contains(format))
 	{
@@ -124,7 +124,7 @@ void sad::TextureManager::setLoader(const hst::string & format, sad::TextureLoad
 	
 }
 
-bool sad::TextureManager::hasContainer(const hst::string & name) const
+bool sad::TextureManager::hasContainer(const sad::String & name) const
 {
 	return m_containers.contains(name);
 }
@@ -133,7 +133,7 @@ void sad::TextureManager::unload()
 {
 	m_m.lock();
 
-	for (hst::hash<hst::string,sad::TextureContainer *>::iterator it=m_containers.begin();
+	for (sad::Hash<sad::String,sad::TextureContainer *>::iterator it=m_containers.begin();
 		it!=m_containers.end();
 		it++
 		)

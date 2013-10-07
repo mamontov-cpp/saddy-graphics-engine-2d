@@ -135,7 +135,7 @@ void sad::p2d::BounceSolver::logFCPError(const char * m)
 {
 	if (m_debug)
 	{
-	hst::string tpl = "Cannot find a contact points. Performing an object dump\n";
+	sad::String tpl = "Cannot find a contact points. Performing an object dump\n";
 	tpl <<  "1st body: \n{0}\n";
 	tpl <<  "velocity ({1},{2})\n";
 	tpl <<  "2nd body: \n{3}\n";

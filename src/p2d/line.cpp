@@ -86,7 +86,7 @@ void sad::p2d::Line::normalToPointOnSurface(const p2d::Point & p, p2d::Vector & 
 
 
 
-hst::string sad::p2d::Line::dump() const
+sad::String sad::p2d::Line::dump() const
 {
 	return str(fmt::Format("Line at ({0}, {1}) - ({2}, {3})")
 							<< m_c.p1().x() << m_c.p1().y()

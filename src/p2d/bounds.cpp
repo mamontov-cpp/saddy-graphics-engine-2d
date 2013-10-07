@@ -114,9 +114,9 @@ void sad::p2d::Bound::normalToPointOnSurface(const sad::p2d::Point & p, sad::p2d
 	n.setY(y);
 }
 
-hst::string sad::p2d::Bound::dump() const
+sad::String sad::p2d::Bound::dump() const
 {
-	hst::string type;
+	sad::String type;
 	switch(this->m_type)
 	{
 		case sad::p2d::BT_LEFT:  { type = "Left";  break; }

@@ -16,11 +16,11 @@ class Background: public Sprite
 			\param[in] name name of texture
 			\param[in] r rectangle
 	    */
-	    Background(const hst::string & name,const hRectF & r);	
+	    Background(const sad::String & name,const hRectF & r);	
 		/*! Creates background from texture with name
 			\param[in] name name of texture
 	    */
-		Background(const hst::string & name);
+		Background(const sad::String & name);
 		/*! Destructor
 		*/
 		~Background();

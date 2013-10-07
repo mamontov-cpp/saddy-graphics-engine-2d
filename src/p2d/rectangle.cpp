@@ -94,7 +94,7 @@ void sad::p2d::Rectangle::normalToPointOnSurface(const sad::p2d::Point & p,
 	n = h.getSumOfNormalsFor(p);
 }
 
-hst::string sad::p2d::Rectangle::dump() const
+sad::String sad::p2d::Rectangle::dump() const
 {
 	return str(fmt::Format("Rectangle:\n[{0}, {1} - {2}, {3}]\n[{4}, {5} - {6}, {7}]\n")
 							<< m_rect[0].x() << m_rect[0].y()

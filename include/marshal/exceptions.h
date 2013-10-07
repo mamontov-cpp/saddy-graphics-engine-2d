@@ -16,11 +16,11 @@ namespace serializable
 		\param[in] pointer pointer to object 
 		\return string string data
 	 */
-	inline hst::string toString(void * pointer)
+	inline sad::String toString(void * pointer)
 	{
 		char buffer[25];
 		sprintf(buffer,"%lX", reinterpret_cast<unsigned long>(pointer));
-		return hst::string(buffer);
+		return sad::String(buffer);
 	}
 	/*!  \class AbstractException
 
@@ -29,14 +29,14 @@ namespace serializable
 	class AbstractException
 	{
 	 private:
-		      sad::Vector<hst::string>  m_action_context; //!< Action context string
-		      hst::string m_string;                       //!< Exception string
+		      sad::Vector<sad::String>  m_action_context; //!< Action context string
+		      sad::String m_string;                       //!< Exception string
 	 public:
 		      /*! Creates an exception with string, that is consists
 				  \param[in] exception_string error string, which identifies invalid action
 				  \param[in] context  context, that defines what were performing, when error occured
 			   */
-		      inline AbstractException(const hst::string &  exception_string, 
+		      inline AbstractException(const sad::String &  exception_string, 
 				                       ActionContext * context)
 		      {
 				  m_string = exception_string;
@@ -46,8 +46,8 @@ namespace serializable
 				  }
 		      }
 			 
-			  inline  const hst::string & getInformation() { return m_string;}
-			  inline  const sad::Vector<hst::string> & getContext() { return m_action_context; }
+			  inline  const sad::String & getInformation() { return m_string;}
+			  inline  const sad::Vector<sad::String> & getContext() { return m_action_context; }
 			  /*! Exception data
 			   */
 			  virtual ~AbstractException();
@@ -65,12 +65,12 @@ namespace serializable
 			  \param[in] real_type   real type data
 			  \param[in] context     used action context
 		   */	
-		  inline InvalidPropertyType( const hst::string & result_type,
-			                          const hst::string & real_type,
+		  inline InvalidPropertyType( const sad::String & result_type,
+			                          const sad::String & real_type,
 									  ActionContext * context)
-		   : AbstractException(hst::string("Can't cast type \"") + real_type + 
-		                       hst::string("\" to type \"") + result_type + 
-							   hst::string("\""), context)
+		   : AbstractException(sad::String("Can't cast type \"") + real_type + 
+		                       sad::String("\" to type \"") + result_type + 
+							   sad::String("\""), context)
 		  {
 		  }
 	};
@@ -88,13 +88,13 @@ namespace serializable
 			  \param[in] value       used value
 			  \param[in] context     used action context
 		   */	
-		  inline InvalidPropertyValue( const hst::string & type,
-			                           const hst::string & value,
+		  inline InvalidPropertyValue( const sad::String & type,
+			                           const sad::String & value,
 									   ActionContext * context)
-		   : AbstractException(hst::string("Can't asssign property of type \"") + 
+		   : AbstractException(sad::String("Can't asssign property of type \"") + 
 		                       type + 
-		                       hst::string("\" value \"") + value + 
-							   hst::string("\""), context)
+		                       sad::String("\" value \"") + value + 
+							   sad::String("\""), context)
 		  {
 		  }
 	};
@@ -112,10 +112,10 @@ namespace serializable
 				\param[in] ptr    pointer name
 				\param[in] context context
 			 */
-		 inline MethodIsNotImplemented( const hst::string & type, const hst::string & method, void * ptr,
+		 inline MethodIsNotImplemented( const sad::String & type, const sad::String & method, void * ptr,
 									    ActionContext * context)
-		 : AbstractException(type+hst::string("(")+toString(ptr)+hst::string(")::")+method+
-		                     hst::string(" is not implemented"),context)
+		 : AbstractException(type+sad::String("(")+toString(ptr)+sad::String(")::")+method+
+		                     sad::String(" is not implemented"),context)
 		 {
 		 }
 	};
@@ -134,7 +134,7 @@ namespace serializable
 			 */
 		 inline InvalidParams( int needed , int real,
 							   ActionContext * context)
-		 : AbstractException(hst::string::number(needed)+ hst::string(" arguments is needed, instead of") + hst::string::number(real),context)
+		 : AbstractException(sad::String::number(needed)+ sad::String(" arguments is needed, instead of") + sad::String::number(real),context)
 		 {
 		 }
 	};

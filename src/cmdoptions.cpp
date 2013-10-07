@@ -6,12 +6,12 @@ using namespace sad::cmd;
 std::vector<bool> sad::cmd::InvalidReference<bool>::m_s;
 bool sad::cmd::InvalidReference<bool>::m_initted = false;
 
-sad::cmd::OptionType::OptionType(const hst::string & name)
+sad::cmd::OptionType::OptionType(const sad::String & name)
 {
 	m_name = name;
 }
 
-const hst::string & sad::cmd::OptionType::name() const
+const sad::String & sad::cmd::OptionType::name() const
 {
 	return m_name;
 }
@@ -21,13 +21,13 @@ sad::cmd::OptionType::~OptionType()
 
 }
 
-Flag::Flag(const hst::string & name):OptionType(name)
+Flag::Flag(const sad::String & name):OptionType(name)
 {
 
 }
 
 
-MultipleOption::MultipleOption(const hst::string & name):OptionType(name)
+MultipleOption::MultipleOption(const sad::String & name):OptionType(name)
 {
 
 }
@@ -46,59 +46,59 @@ Parser::~Parser()
 
 }
 
-bool Parser::isRegisteredOption(const hst::string & name)
+bool Parser::isRegisteredOption(const sad::String & name)
 {
 	return this->is_in_container(name, m_flags)
 		|| this->is_in_container(name, m_simple_options)
 		|| this->is_in_container(name, m_multiple_options);
 }
 
-bool Parser::flag(const hst::string & name)
+bool Parser::flag(const sad::String & name)
 {
 	return this->optionByName(name, m_flags);
 }
 
-hst::string & Parser::simple(const hst::string & name)
+sad::String & Parser::simple(const sad::String & name)
 {
 	return this->optionByName(name, m_simple_options);
 }
 
-sad::Vector<hst::string> & Parser::multiple(const hst::string & name)
+sad::Vector<sad::String> & Parser::multiple(const sad::String & name)
 {
 	return this->optionByName(name, m_multiple_options);
 }
 
-void Parser::setFlag(const hst::string & name, bool v)
+void Parser::setFlag(const sad::String & name, bool v)
 {
 	this->setOption(name, m_flags, v);
 }
 
-void Parser::setSimple(const hst::string & name, const hst::string & v)
+void Parser::setSimple(const sad::String & name, const sad::String & v)
 {
 	this->setOption(name, m_simple_options, v);
 }
 
-void Parser::setMultiple(const hst::string & name, const sad::Vector<hst::string> & v)
+void Parser::setMultiple(const sad::String & name, const sad::Vector<sad::String> & v)
 {
 	this->setOption(name, m_multiple_options, v);
 }
 
-void Parser::addFlagOption(const hst::string & name, bool v)
+void Parser::addFlagOption(const sad::String & name, bool v)
 {
 	addOption(name, m_flags, v);
 }
 
-void Parser::addSimpleOption(const hst::string & name, const hst::string & v)
+void Parser::addSimpleOption(const sad::String & name, const sad::String & v)
 {
 	addOption(name, m_simple_options, v);
 }
 
-void Parser::addMultipleOption(const hst::string & name, const sad::Vector<hst::string> & v)
+void Parser::addMultipleOption(const sad::String & name, const sad::Vector<sad::String> & v)
 {
 	addOption(name, m_multiple_options, v);
 }
 
-sad::cmd::Token Parser::createToken(const hst::string & v)
+sad::cmd::Token Parser::createToken(const sad::String & v)
 {
 	sad::cmd::Token result;
 	if (v.length() != 0)
@@ -122,7 +122,7 @@ sad::cmd::Token Parser::createToken(const hst::string & v)
 	return result;
 }
 
-const hst::string &  Parser::defaultOption() const
+const sad::String &  Parser::defaultOption() const
 {
 	return m_default_option;
 }
@@ -130,7 +130,7 @@ const hst::string &  Parser::defaultOption() const
 void Parser::parse(int argc,const char ** argv)
 {
   int state = 0;
-  hst::string currentkeyword;
+  sad::String currentkeyword;
   for(int i = 1; i < argc; i++)
   {
 	sad::cmd::Token t = createToken(argv[i]);
@@ -179,7 +179,7 @@ void Parser::parse(int argc,const char ** argv)
 }
 
 
-void sad::cmd::Parser::leaveState(sad::cmd::Token & t, hst::string & currentkeyword, int & state)
+void sad::cmd::Parser::leaveState(sad::cmd::Token & t, sad::String & currentkeyword, int & state)
 {
 	if (is_in_container(t.data, m_flags))
 	{ setFlag(t.data, true); state = 0; }

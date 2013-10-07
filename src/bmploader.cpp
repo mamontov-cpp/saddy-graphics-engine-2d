@@ -118,7 +118,7 @@ bool  sad::Texture::loadBMP(FILE * file)
 	sad::TextureLoader * load = sad::TextureManager::ref()->loader("BMP");
 	return load->load(file, this);
 }
-bool sad::Texture::loadBMP(const hst::string &filename)
+bool sad::Texture::loadBMP(const sad::String &filename)
 {
 	FILE * fl=fopen(filename.data(),"rb");
     if (fl)
@@ -131,7 +131,7 @@ bool sad::Texture::loadBMP(const hst::string &filename)
 	this->loadDefaultTGATexture();
 	return false;
 }
-bool sad::Texture::loadBMP(const hst::wstring &filename)
+bool sad::Texture::loadBMP(const sad::WString &filename)
 {
 	char * tmp=new char[2*filename.length()+2];
 	wcstombs(tmp,filename.data(),2*filename.length()+2);

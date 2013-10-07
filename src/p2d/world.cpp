@@ -76,8 +76,8 @@ void sad::p2d::World::removeHandler(sad::p2d::BasicCollisionHandler * h)
 }
 void sad::p2d::World::addNow(p2d::Body * b)
 {
-	sad::Vector<hst::string> groups;
-	for(hst::hash<hst::string, sad::Vector<p2d::Body*> > ::iterator it = m_groups.begin();
+	sad::Vector<sad::String> groups;
+	for(sad::Hash<sad::String, sad::Vector<p2d::Body*> > ::iterator it = m_groups.begin();
 		it != m_groups.end();
 		it++)
 	{
@@ -106,7 +106,7 @@ void sad::p2d::World::removeNow(p2d::Body * b)
 {
 	if (m_allbodies.contains(b))
 	{
-		sad::Vector<hst::string> groups = m_allbodies[b];
+		sad::Vector<sad::String> groups = m_allbodies[b];
 		for(size_t i = 0; i < groups.size(); i++)
 		{
 			m_groups[groups[i]].removeAll(b);
@@ -123,8 +123,8 @@ void sad::p2d::World::splitTimeStepAt(double time)
 
 void sad::p2d::World::addHandler(
 		 sad::p2d::BasicCollisionHandler * h, 
-		 const hst::string & t1, 
-		 const hst::string & t2
+		 const sad::String & t1, 
+		 const sad::String & t2
 )
 {
 	if (m_groups.contains(t1) == false)
@@ -262,7 +262,7 @@ void sad::p2d::World::findEvent(reactions_t & reactions, const types_with_handle
 				p2d::Body * b2 = g2[j];
 				if (b1 != b2 && b1->isGhost() == false && b2->isGhost() == false)
 				{
-					hst::Maybe<double> time;
+					sad::Maybe<double> time;
 					b1->TimeStep = step;
 					b2->TimeStep = step;
 					time = m_detector->collides(b1, b2, m_time_step);
@@ -303,7 +303,7 @@ sad::p2d::World::addHandler( void (*p)(const sad::p2d::BasicCollisionEvent &))
 {
 	p2d::BasicCollisionHandler * h = 
 	new p2d::FunctionCollisionHandler<p2d::Body, p2d::Body>(p);
-	hst::string b = "p2d::Body";
+	sad::String b = "p2d::Body";
 	this->addHandler(h, b, b);
 	return h;
 }

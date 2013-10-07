@@ -3,7 +3,7 @@
 
 bool serializable::AbstractReader::read(SerializableContainer * container, ActionContext * context)
 {
-	context->pushAction(hst::string("serializable::AbstractReader::read: reading data"));
+	context->pushAction(sad::String("serializable::AbstractReader::read: reading data"));
 	if (!(this->openStream()))
 	{
 		context->popAction();

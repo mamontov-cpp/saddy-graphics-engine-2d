@@ -70,7 +70,7 @@ void sad::p2d::Circle::normalToPointOnSurface(const sad::p2d::Point & p, sad::p2
 	sad::p2d::mutableUnit(n);
 }
 
-hst::string sad::p2d::Circle::dump() const
+sad::String sad::p2d::Circle::dump() const
 {
 	return str(fmt::Format("Circle with center ({0},{1}) and radius {2}")
 							<< m_center.x() << m_center.y() << m_radius

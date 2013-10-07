@@ -29,12 +29,12 @@ const char * sad::log::Message::stime() const
 	return m_buffer;
 }
 
-sad::log::Message::Message(const hst::string & message,
+sad::log::Message::Message(const sad::String & message,
 					   	   sad::log::Priority priority,
 						   const char * file,
 						   int line ,
-						   const hst::string & subsystem ,
-						   const hst::string & user_priority 
+						   const sad::String & subsystem ,
+						   const sad::String & user_priority 
 					      )
 {
 	m_message = message;
@@ -47,11 +47,11 @@ sad::log::Message::Message(const hst::string & message,
 }
 
 
-hst::string sad::log::Message::fileline() const
+sad::String sad::log::Message::fileline() const
 {
 	if (!m_file)
-		return hst::string();
-	hst::string o;
+		return sad::String();
+	sad::String o;
 	const char * chslash = strrchr(m_file, '/');
 	const char * chbslash = strrchr(m_file, '\\');
 	const char * chk = NULL;
@@ -66,7 +66,7 @@ hst::string sad::log::Message::fileline() const
 
 	o =  (chk ? chk + 1 : m_file);
 	o << ",";
-	o << hst::string::number(m_line);
+	o << sad::String::number(m_line);
 	return o;
 }
 
@@ -93,7 +93,7 @@ void sad::Log::broadcast(const sad::log::Message & m)
 	m_lock.unlock();
 }
 
-hst::string sad::Log::subsystem() 
+sad::String sad::Log::subsystem() 
 {
 	if (m_actions_stack.count() != 0)
 	{
@@ -103,11 +103,11 @@ hst::string sad::Log::subsystem()
 }
 
 
-void sad::Log::createAndBroadcast(const hst::string & mesg, 
+void sad::Log::createAndBroadcast(const sad::String & mesg, 
 				            	  sad::log::Priority priority,
 						          const char * file , 
 								  int line ,
-								  const hst::string & upriority)
+								  const sad::String & upriority)
 {
 	sad::log::Message * m = new sad::log::Message(
 		mesg,
@@ -170,7 +170,7 @@ void sad::log::FileTarget::close()
 }
 
 
-sad::log::FileTarget::FileTarget(const hst::string & format, int maxpriority)
+sad::log::FileTarget::FileTarget(const sad::String & format, int maxpriority)
 {
 	m_format = format;
 	m_max_priority = maxpriority;
@@ -178,7 +178,7 @@ sad::log::FileTarget::FileTarget(const hst::string & format, int maxpriority)
 }
 
 
-bool sad::log::FileTarget::open(const hst::string & filename)
+bool sad::log::FileTarget::open(const sad::String & filename)
 {
 	close();
 	m_file = fopen(filename.data(), "wt");
@@ -228,7 +228,7 @@ sad::log::ConsoleTarget::~ConsoleTarget()
 }
 
 
-sad::log::ConsoleTarget::ConsoleTarget(const hst::string & format, int maxpriority,  bool colored , bool allocate_console )
+sad::log::ConsoleTarget::ConsoleTarget(const sad::String & format, int maxpriority,  bool colored , bool allocate_console )
 {
 	m_format = format;
 	m_max_priority = maxpriority;
@@ -242,23 +242,23 @@ sad::log::ConsoleTarget::ConsoleTarget(const hst::string & format, int maxpriori
 
 void sad::log::ConsoleTarget::createColoredOutput()
 {
-	m_coloring.insert(sad::log::FATAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_RED));
-	m_coloring.insert(sad::log::CRITICAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_MAGENTA));
-	m_coloring.insert(sad::log::WARNING, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_YELLOW));
-	m_coloring.insert(sad::log::MESSAGE, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::WHITE));
-	m_coloring.insert(sad::log::DEBUG, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_BLUE));
-	m_coloring.insert(sad::log::USER, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_CYAN));
+	m_coloring.insert(sad::log::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_RED));
+	m_coloring.insert(sad::log::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_MAGENTA));
+	m_coloring.insert(sad::log::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_YELLOW));
+	m_coloring.insert(sad::log::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::WHITE));
+	m_coloring.insert(sad::log::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_BLUE));
+	m_coloring.insert(sad::log::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::LIGHT_CYAN));
 }
 
 
 void sad::log::ConsoleTarget::createNormalOutput()
 {
-	m_coloring.insert(sad::log::FATAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-	m_coloring.insert(sad::log::CRITICAL, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-	m_coloring.insert(sad::log::WARNING, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-	m_coloring.insert(sad::log::MESSAGE, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-	m_coloring.insert(sad::log::DEBUG, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
-	m_coloring.insert(sad::log::USER, hst::pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::FATAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::CRITICAL, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::WARNING, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::MESSAGE, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::DEBUG, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
+	m_coloring.insert(sad::log::USER, sad::Pair<sad::log::Color, sad::log::Color>(sad::log::NONE, sad::log::NONE));
 }
 
 void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
@@ -437,22 +437,22 @@ sad::Log * sad::Log::ref()
 }
 
 
-void sad::Log::pushAction(const hst::string & str)
+void sad::Log::pushAction(const sad::String & str)
 {
-	debug( hst::string("Entering ") + str);
+	debug( sad::String("Entering ") + str);
 	this->ActionContext::pushAction(str);
 }
 
-void sad::Log::pushAction(const hst::string & str, const char * file, int line)
+void sad::Log::pushAction(const sad::String & str, const char * file, int line)
 {
-	debug( hst::string("Entering ") + str, file, line);
+	debug( sad::String("Entering ") + str, file, line);
 	this->ActionContext::pushAction(str);
 }
 
 void sad::Log::popAction()
 {
 	if (m_actions_stack.count()!=0) { 
-		debug( hst::string("Leaving ") + m_actions_stack[m_actions_stack.count()-1]);
+		debug( sad::String("Leaving ") + m_actions_stack[m_actions_stack.count()-1]);
 		this->ActionContext::popAction();
 	}
 }
@@ -464,7 +464,7 @@ sad::log::Scope::Scope(const char * c, const char * f, int l, sad::Log * log)
 	m_log = log;
 }
 
-sad::log::Scope::Scope(const hst::string & c, const char * f, int l, sad::Log * log)
+sad::log::Scope::Scope(const sad::String & c, const char * f, int l, sad::Log * log)
 {
 	log->pushAction(c, f, l);
 	m_log = log;

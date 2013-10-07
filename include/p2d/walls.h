@@ -78,7 +78,7 @@ class Walls
   public:
 	  /*! A minimal definition for a wall
 	   */
-	  typedef hst::pair<p2d::BoundType, double> minimal_t;
+	  typedef sad::Pair<p2d::BoundType, double> minimal_t;
 	  /*! Creates bounding walls with specified padding, which defines how far
 		  walls are from edges of window. If we pass here 14, that the bounding
 		  rectangle will be 14 points larger than screen bounds.

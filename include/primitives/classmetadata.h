@@ -5,7 +5,7 @@
 
 	This file contains a definition for class metadata.
 */
-#include "../templates/hstring.h"
+#include "../sadstring.h"
 #include "../sadvector.h"
 #pragma once
 
@@ -23,7 +23,7 @@ class ClassMetaData
     unsigned int   m_private_index;
 	/*! A name for class data
 	 */
-	hst::string m_name;
+	sad::String m_name;
 	/*! An ancestor list for current class  
 	 */
 	sad::Vector<ClassMetaData *> m_ancestors;
@@ -31,25 +31,25 @@ class ClassMetaData
 	/*! A name for class is defined by macro @see SAD_DEFINE_BASIC_OBJECT, SAD_DEFINE_OBJECT
 		\param[in] name name of class
 	 */
-	void setName(const hst::string & name);
+	void setName(const sad::String & name);
 	/*! Returns a name for class
 		\return name of class
 	 */
-	const hst::string& name() const;
+	const sad::String& name() const;
 	/*! Adds a new ancestor with name
 		\param[in] name name of ancestor class
 	 */
-	void addAncestor(const hst::string & name);  
+	void addAncestor(const sad::String & name);  
 	/*! Returns a true if class has ancestor with specified name
 		\param[in] name name of ancestor
 		\return whther it can be cated to type
 	 */
-	bool canBeCastedTo(const hst::string & name);
+	bool canBeCastedTo(const sad::String & name);
 	/*! Returns true if class can be casted from this class to another class
 		\param[in] name name of descendant
 		\return whether it can be casted to this type
 	 */
-	bool canBeCastedFrom(const hst::string & name);
+	bool canBeCastedFrom(const sad::String & name);
 	/*! Returns special index, which can be used in open-adressed tables
 		\return index
 	 */

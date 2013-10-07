@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "hpoint.h"
-#include "../templates/hpair.hpp"
+#include "../sadpair.h"
 #include <assert.h>
 
 namespace hst 
@@ -18,7 +18,7 @@ class matrix2x2
 private:
 	T m_o[2][2]; //!< An array used to store all of data
 public:
-	typedef hst::pair<unsigned int, unsigned int> index;
+	typedef sad::Pair<unsigned int, unsigned int> index;
 	/*! Constructs a new matrix
 		\param[in] a11 upper left element
 		\param[in] a12 upper right element

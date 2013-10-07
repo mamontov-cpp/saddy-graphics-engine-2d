@@ -4,7 +4,7 @@
 	Describes a tickable object which can be stepped
  */
 #pragma once
-#include "../templates/maybe.hpp"
+#include "..//maybe.h"
 
 #include <cstdlib>
 
@@ -143,7 +143,7 @@ class TickableFlow
 	typedef TickableState<_Value> * state; 
  protected:
 	 state  m_current; //!< A cuurent state
-	 hst::Maybe<state> m_next; //!< A next state
+	 sad::Maybe<state> m_next; //!< A next state
  public:
 	/*! Creates new force state with no force
 		 */

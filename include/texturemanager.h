@@ -17,8 +17,8 @@ namespace sad
 	class TextureManager
 	{
 	private:
-		hst::hash<hst::string, sad::TextureContainer *>  m_containers; //!< Container data
-		hst::hash<hst::string, sad::TextureLoader *>     m_loaders;     //!< A loaders for various formats
+		sad::Hash<sad::String, sad::TextureContainer *>  m_containers; //!< Container data
+		sad::Hash<sad::String, sad::TextureLoader *>     m_loaders;     //!< A loaders for various formats
 		os::mutex                        m_m;         //!< Mutex to block side effects		
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
@@ -39,44 +39,44 @@ namespace sad
 			\param[in] containername name of container
 			\return texture pointer. NULL, if can't be found
 		*/
-		Texture *  get(const hst::string & name,const hst::string & containername="default");
+		Texture *  get(const sad::String & name,const sad::String & containername="default");
 		/*! Tests, whether manager has a container
 			\param[in] name
 			\return true if has
 		 */
-		bool hasContainer(const hst::string & name) const;
+		bool hasContainer(const sad::String & name) const;
 		/*! Adds a texture. If container is not found, new container should be created.
 		    \param[in] name name of a texture
 		    \param[in] tex  texture
 			\param[in] containername name of container
 		*/
-		void add(const hst::string & name, Texture * tex,const hst::string & containername="default");
+		void add(const sad::String & name, Texture * tex,const sad::String & containername="default");
 		/*! Unloads a texture. If container is not found, nothing is done
 		    \param[in] name name of a texture
 			\param[in] containername name of container
 		*/
-		void remove(const hst::string & name,const hst::string & containername="default");
+		void remove(const sad::String & name,const sad::String & containername="default");
 		/*! Sets a new container within manager. An old container DOES NOT destroyed. 
 			To change container safely, remove old container manually
 			\param[in] container new container
 			\param[in] containername name of container
 		 */
-		void setContainer(sad::TextureContainer * container,const hst::string & containername="default");
+		void setContainer(sad::TextureContainer * container,const sad::String & containername="default");
 		/*! Returns a container from other container
 			\return container of textures
 			\param[in] containername name of container
 		 */
-		sad::TextureContainer * getContainer(const hst::string & containername="default");
+		sad::TextureContainer * getContainer(const sad::String & containername="default");
 		/*! Returns a loader for format
 			\param[in] format format data
 			\return loader data
 		 */
-		sad::TextureLoader * loader(const hst::string & format);
+		sad::TextureLoader * loader(const sad::String & format);
 		/*! Sets a loader for texture
 			\param[in] format format data
 			\param[in] l loader
 		 */
-		void setLoader(const hst::string & format, sad::TextureLoader * l);
+		void setLoader(const sad::String & format, sad::TextureLoader * l);
 		/*! Unloads all textures from videocard memory
 		 */
 		void unload();

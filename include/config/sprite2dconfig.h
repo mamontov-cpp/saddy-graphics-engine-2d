@@ -34,7 +34,7 @@ enum Sprite2DConfigLoadingResult
 class Sprite2DObserverContainer
 {
  private:
-		 hst::hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *> m_observers; //!< An observers for config
+		 sad::Hash<Sprite2DConfigObserver *,Sprite2DConfigObserver *> m_observers; //!< An observers for config
  public: 
 		 /*! A container is empty at beginning
 		  */
@@ -71,7 +71,7 @@ class  Sprite2DConfig
 		Sprite2DTemplateContainer  m_container;  //!< A container for sprites
 		Sprite2DConfigLoader    *  m_loader;     //!< A loader for sprites
 		Sprite2DObserverContainer  m_observers; //!< An observers for config
-		hst::string                m_texturecontainername;  //!< A name for container of texture
+		sad::String                m_texturecontainername;  //!< A name for container of texture
 		sad::Renderer           *  m_renderer;
 		/*! Fires a sprite consistency check, checking, whether all sprites are saved
 			\param[in] container container for checking consistency
@@ -84,13 +84,13 @@ class  Sprite2DConfig
 			\param[in] container container of textures
 			\return list of textures to load
 		 */
-		sad::Vector<hst::string> getTexturesToLoad(const Sprite2DTemplateContainer & container);
+		sad::Vector<sad::String> getTexturesToLoad(const Sprite2DTemplateContainer & container);
  public:
 	    /*! Creates a config, with associated container
 			\param[in] containername container, where textures can be reloaded
 			\param[in] r renderer, which it depends from
 		 */
-	    Sprite2DConfig(const hst::string & containername, sad::Renderer * r = sad::Renderer::ref());
+	    Sprite2DConfig(const sad::String & containername, sad::Renderer * r = sad::Renderer::ref());
 		/*! Destructor of sprite config, must delete loader
 		 */
 		~Sprite2DConfig();

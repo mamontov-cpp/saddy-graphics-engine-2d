@@ -74,17 +74,17 @@ fsm::Callback::Callback( void (*f)(const sad::Event &) )
 }
 
 
-const hst::string fsm::Names::ENTER         = "enter";
-const hst::string fsm::Names::LEAVE         = "leave";
-const hst::string fsm::Names::MOUSEDOWN     = "mousedown";
-const hst::string fsm::Names::MOUSEUP       = "mouseup";
-const hst::string fsm::Names::MOUSECLICK    = "mouseclick";
-const hst::string fsm::Names::MOUSEDBLCLICK = "mousedblclick";
-const hst::string fsm::Names::MOUSEMOVE     = "mousemove";
-const hst::string fsm::Names::WHEEL         = "wheel";
-const hst::string fsm::Names::KEYDOWN       = "keydown";
-const hst::string fsm::Names::KEYUP         = "keyup";
-const hst::string fsm::Names::QUIT          = "quit";
+const sad::String fsm::Names::ENTER         = "enter";
+const sad::String fsm::Names::LEAVE         = "leave";
+const sad::String fsm::Names::MOUSEDOWN     = "mousedown";
+const sad::String fsm::Names::MOUSEUP       = "mouseup";
+const sad::String fsm::Names::MOUSECLICK    = "mouseclick";
+const sad::String fsm::Names::MOUSEDBLCLICK = "mousedblclick";
+const sad::String fsm::Names::MOUSEMOVE     = "mousemove";
+const sad::String fsm::Names::WHEEL         = "wheel";
+const sad::String fsm::Names::KEYDOWN       = "keydown";
+const sad::String fsm::Names::KEYUP         = "keyup";
+const sad::String fsm::Names::QUIT          = "quit";
 
 fsm::State::State() { m_machine = NULL;}
 void fsm::State::setMachine(fsm::Machine * machine) { m_machine = machine; }
@@ -111,7 +111,7 @@ void fsm::State::eraseCallbackList(fsm::State::CharCallbackList & c)
 	}
 }
 
-void fsm::State::addCallback(const hst::string & eventType, fsm::AbstractCallback * callback)
+void fsm::State::addCallback(const sad::String & eventType, fsm::AbstractCallback * callback)
 {
 	if (m_callbacks.contains(eventType))
 	{
@@ -124,7 +124,7 @@ void fsm::State::addCallback(const hst::string & eventType, fsm::AbstractCallbac
 	}
 }
 
-void fsm::State::removeCallback(const hst::string & eventType)
+void fsm::State::removeCallback(const sad::String & eventType)
 {
 	if (m_callbacks.contains(eventType))
 	{
@@ -134,7 +134,7 @@ void fsm::State::removeCallback(const hst::string & eventType)
 }
 
 
-void fsm::State::invoke(const hst::string & eventType)
+void fsm::State::invoke(const sad::String & eventType)
 {
 	if (m_callbacks.contains(eventType))
 	{
@@ -143,7 +143,7 @@ void fsm::State::invoke(const hst::string & eventType)
 }
 
 
-void fsm::State::invoke(const hst::string & eventType,  const sad::Event & o)
+void fsm::State::invoke(const sad::String & eventType,  const sad::Event & o)
 {
 	if (eventType == fsm::Names::KEYUP && m_keyup.contains(o.key))
 	{
@@ -212,7 +212,7 @@ void fsm::MachineEventCallback::operator()(const sad::Event & o)
 
 
 
-const hst::string fsm::Machine::INITIAL = "previous";
+const sad::String fsm::Machine::INITIAL = "previous";
 
 fsm::Machine::~Machine()
 {
@@ -244,7 +244,7 @@ void fsm::Machine::setSharedData(fsm::Shared * data)
 	m_shared = data;
 }
 
-void fsm::Machine::addState(const hst::string & name, fsm::State * state)
+void fsm::Machine::addState(const sad::String & name, fsm::State * state)
 {
 	SL_SCOPE(fmt::Format("fsm::Machine::addState({0}, ...)") << name);
 	if (m_states.contains(name))
@@ -260,7 +260,7 @@ void fsm::Machine::addState(const hst::string & name, fsm::State * state)
 	}
 }
 
-void fsm::Machine::removeState(const hst::string & name)
+void fsm::Machine::removeState(const sad::String & name)
 {
 	SL_SCOPE(fmt::Format("fsm::Machine::removeState({0})") << name);
 	if (m_states.contains(name))
@@ -270,7 +270,7 @@ void fsm::Machine::removeState(const hst::string & name)
 	}
 }
 
-void fsm::Machine::invokeEvent(const hst::string & eventName, const sad::Event & o)
+void fsm::Machine::invokeEvent(const sad::String & eventName, const sad::Event & o)
 {
 	fsm::State * s = this->currentState();
 	if (s)
@@ -297,7 +297,7 @@ void fsm::Machine::leavePreviousState()
 	}
 }
 
-void fsm::Machine::pushState(const hst::string & newState)
+void fsm::Machine::pushState(const sad::String & newState)
 {
 	SL_SCOPE(fmt::Format("fsm::Machine::pushState({0})") << newState);
 	SL_DEBUG(fmt::Format("Current state is {0}") << m_current_state_name);
@@ -314,7 +314,7 @@ void fsm::Machine::cancelState()
 	pushState(m_previous_state_name);
 }
 
-fsm::MachineEventCallback * fsm::Machine::callbackFor(const hst::string & type)
+fsm::MachineEventCallback * fsm::Machine::callbackFor(const sad::String & type)
 {
 	return new fsm::MachineEventCallback(this, type);
 }
@@ -336,7 +336,7 @@ void fsm::Machine::addCallbacks(sad::Input * controls)
 		&sad::Input::setQuitHandler
 	};
 
-	hst::string names[length] = {
+	sad::String names[length] = {
 		fsm::Names::KEYDOWN,
 		fsm::Names::KEYUP,
 		fsm::Names::MOUSECLICK,

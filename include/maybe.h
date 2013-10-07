@@ -1,11 +1,11 @@
-/*!  \file maybe.hpp
+/*!  \file maybe.h
 	 \author HiddenSeeker
 
 	 Describes a value, that can be presented or not exists
  */
 #pragma once
 
-namespace hst
+namespace sad
 {
 /*! A class, that represents a value or absent value
  */

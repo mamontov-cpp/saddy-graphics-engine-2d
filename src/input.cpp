@@ -69,11 +69,11 @@ sad::Input::~Input()
 
 	m_resizelisteners.clear();
 	m_removelisteners.clear();
-	for (hst::hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
+	for (sad::Hash<int,sad::EventHandler *>::iterator it=m_ups.begin();it!=m_ups.end();++it)
 	{
 		delete it.value();
 	}
-    for (hst::hash<int,sad::EventHandler *>::iterator it=m_down.begin();it!=m_down.end();++it)
+    for (sad::Hash<int,sad::EventHandler *>::iterator it=m_down.begin();it!=m_down.end();++it)
 	{
 		delete it.value();
 	}

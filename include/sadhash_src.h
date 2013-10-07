@@ -2,7 +2,7 @@
 #define TDEF template<typename Key,typename T>
 #pragma once
 
-namespace hst
+namespace sad
 {
  unsigned long basicHash(const unsigned char * name)
  {
@@ -40,14 +40,14 @@ template<typename T>
   return ff % size;
  }
 
- TDEF void hash<Key,T>::init()
+ TDEF void Hash<Key,T>::init()
  {
 	 m_count=0;
 	 m_table_size=17;
 	 for (unsigned int i=0;i<m_table_size;i++)
 		 m_data<<slot();
  }
- TDEF void hash<Key,T>::extend()
+ TDEF void Hash<Key,T>::extend()
  {
 	 sad::Vector<slot> m_tmp=m_data;
      m_data.clear();
@@ -61,40 +61,40 @@ template<typename T>
 		 slot & from=m_tmp[i];
          for(int j=0;j<from.count();j++)
          {
-			 hst::pair<Key,T> & it=from[j];
+			 sad::Pair<Key,T> & it=from[j];
 			 m_data[ getHash( (it).p1(),m_table_size)  ] << it;
 		 }
 	 }
 	 for (unsigned int i=0;i<m_table_size;i++)
 		 assert( m_data[i].correct() );
  }
- TDEF bool hash<Key,T>::checkExtend()
+ TDEF bool Hash<Key,T>::checkExtend()
  {
 	 return m_count==m_table_size+1;
  }
- TDEF hash<Key,T>::hash()                       { init(); }
- TDEF hash<Key,T>::~hash()                      {         }
- TDEF hash<Key,T>::hash(const hash<Key,T> & o)
+ TDEF Hash<Key,T>::Hash()                       { init(); }
+ TDEF Hash<Key,T>::~Hash()                      {         }
+ TDEF Hash<Key,T>::Hash(const Hash<Key,T> & o)
  {
 	 m_data=o.m_data;
 	 m_count=o.m_count;
 	 m_table_size=o.m_table_size;
  }
- TDEF hash<Key,T> & hash<Key,T>::operator=(const hash<Key,T> & o)
+ TDEF Hash<Key,T> & Hash<Key,T>::operator=(const Hash<Key,T> & o)
  {
 	 m_data=o.m_data;
 	 m_count=o.m_count;
 	 m_table_size=o.m_table_size;
 	 return *this;
  }
- TDEF void hash<Key,T>::clear()
+ TDEF void Hash<Key,T>::clear()
  {
 	 m_data.clear();
 	 init();
  }
- TDEF unsigned long hash<Key,T>::count() const { return m_count; }
- TDEF unsigned long hash<Key,T>::tableSize() const { return m_table_size; }
- TDEF void hash<Key,T>::insert(const Key & k, const T & v)
+ TDEF unsigned long Hash<Key,T>::count() const { return m_count; }
+ TDEF unsigned long Hash<Key,T>::tableSize() const { return m_table_size; }
+ TDEF void Hash<Key,T>::insert(const Key & k, const T & v)
  {
     unsigned long ind=getHash(k,m_table_size);
     typename slot::iterator it=m_data[ind].begin();
@@ -111,12 +111,12 @@ template<typename T>
 	}
 	if (!foundflag)
 	{
-	  m_data[ind]<<(hst::pair<Key,T>(k,v));
+	  m_data[ind]<<(sad::Pair<Key,T>(k,v));
 	  ++m_count;
 	  if (checkExtend()) extend();
 	}
  }
- TDEF const T & hash<Key,T>::operator[](const Key & k) const
+ TDEF const T & Hash<Key,T>::operator[](const Key & k) const
  {
    unsigned long ind=getHash(k,m_table_size);
    const  slot & dl=m_data[ind];
@@ -129,7 +129,7 @@ template<typename T>
    }
    return *(new T());
  }
- TDEF  bool hash<Key,T>::contains(const Key &k) const
+ TDEF  bool Hash<Key,T>::contains(const Key &k) const
  {
   unsigned long ind=getHash(k,m_table_size);
   const slot & dl=m_data[ind];
@@ -142,7 +142,7 @@ template<typename T>
   }
   return false;
  }
- TDEF  T & hash<Key,T>::operator[](const Key & k)
+ TDEF  T & Hash<Key,T>::operator[](const Key & k)
  {
    unsigned long ind=getHash(k,m_table_size);
    slot & dl=m_data[ind];
@@ -155,7 +155,7 @@ template<typename T>
    }
    return *(new T());
  }
- TDEF void hash<Key,T>::remove(const Key & k)
+ TDEF void Hash<Key,T>::remove(const Key & k)
  {
    unsigned long ind=getHash(k,m_table_size);
    slot & dl=m_data[ind];
@@ -170,58 +170,58 @@ template<typename T>
    }
    if (!notfound) --m_count;
  }
- TDEF hash<Key,T>::const_iterator::const_iterator(
-	                                               hash<Key,T> * parent, 
+ TDEF Hash<Key,T>::const_iterator::const_iterator(
+	                                               Hash<Key,T> * parent, 
 	                                               unsigned long slot, 
-												    const typename hash<Key,T>::slot::const_iterator & it
+												    const typename Hash<Key,T>::slot::const_iterator & it
 												  )
  {
 	 m_parent=parent;
      m_slotposition=slot;
 	 m_it=it;
  }
- TDEF hash<Key,T>::const_iterator::const_iterator()
+ TDEF Hash<Key,T>::const_iterator::const_iterator()
  {
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::const_iterator::~const_iterator()
+ TDEF Hash<Key,T>::const_iterator::~const_iterator()
  {
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::const_iterator::const_iterator(const typename hash<Key,T>::const_iterator & o )
+ TDEF Hash<Key,T>::const_iterator::const_iterator(const typename Hash<Key,T>::const_iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
  }
- TDEF typename hash<Key,T>::const_iterator & hash<Key,T>::const_iterator::operator=( const typename hash<Key,T>::const_iterator & o )
+ TDEF typename Hash<Key,T>::const_iterator & Hash<Key,T>::const_iterator::operator=( const typename Hash<Key,T>::const_iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
    return *this;
  } 
- TDEF const Key& hash<Key,T>::const_iterator::key()
+ TDEF const Key& Hash<Key,T>::const_iterator::key()
  {
    if (m_it.dereferencable()) return (*m_it).p1();
    return *(new Key());
  }
- TDEF const T& hash<Key,T>::const_iterator::value()
+ TDEF const T& Hash<Key,T>::const_iterator::value()
  {
    if (m_it.dereferencable()) return (*m_it).p2();
    return *(new T());
  }
- TDEF bool hash<Key,T>::const_iterator::operator==( const typename hash<Key,T>::const_iterator & o) const
+ TDEF bool Hash<Key,T>::const_iterator::operator==( const typename Hash<Key,T>::const_iterator & o) const
  {
 	 return  m_it==o.m_it && m_parent==o.m_parent && m_slotposition==o.m_slotposition;
  }
- TDEF bool hash<Key,T>::const_iterator::operator!=( const typename hash<Key,T>::const_iterator & o) const
+ TDEF bool Hash<Key,T>::const_iterator::operator!=( const typename Hash<Key,T>::const_iterator & o) const
  {
 	 return  !(*this==o);
  }
- TDEF void hash<Key,T>::const_iterator::goNext()
+ TDEF void Hash<Key,T>::const_iterator::goNext()
  {
 	 if (!m_parent) return ;
 	 if (*this!=m_parent->const_end())
@@ -248,7 +248,7 @@ template<typename T>
 		  else (*this)=m_parent->const_end();
 	 }
  }
- TDEF void hash<Key,T>::const_iterator::goPrevious()
+ TDEF void Hash<Key,T>::const_iterator::goPrevious()
  {
 	 if (!m_parent) return ;
 	 if (*this!=m_parent->const_begin())
@@ -290,97 +290,97 @@ template<typename T>
 		}
 	 }	 
  }
- TDEF typename hash<Key,T>::const_iterator & hash<Key,T>::const_iterator::operator++()
+ TDEF typename Hash<Key,T>::const_iterator & Hash<Key,T>::const_iterator::operator++()
  {
 	 goNext();
 	 return *this;
  }
- TDEF typename hash<Key,T>::const_iterator & hash<Key,T>::const_iterator::operator--()
+ TDEF typename Hash<Key,T>::const_iterator & Hash<Key,T>::const_iterator::operator--()
  {
 	 goPrevious();
 	 return *this;
  }
- TDEF typename hash<Key,T>::const_iterator  hash<Key,T>::const_iterator::operator++(int)
+ TDEF typename Hash<Key,T>::const_iterator  Hash<Key,T>::const_iterator::operator++(int)
  {
-	 typename hash<Key,T>::const_iterator it=*this;
+	 typename Hash<Key,T>::const_iterator it=*this;
  	 goNext();
 	 return it;
  }
- TDEF typename hash<Key,T>::const_iterator  hash<Key,T>::const_iterator::operator--(int)
+ TDEF typename Hash<Key,T>::const_iterator  Hash<Key,T>::const_iterator::operator--(int)
  {
-	 typename hash<Key,T>::const_iterator it=*this;
+	 typename Hash<Key,T>::const_iterator it=*this;
 	 goPrevious();
 	 return it;
  }
- TDEF typename hash<Key,T>::const_iterator hash<Key,T>::const_begin() const
+ TDEF typename Hash<Key,T>::const_iterator Hash<Key,T>::const_begin() const
  {
      unsigned long f=0;
 	 while ( (f<m_table_size) && m_data[f].count()==0)
 		 ++f;
 	 if (f==m_table_size) return const_end();
      //int cc=m_data[f].count();
-	 return const_iterator(const_cast<hash<Key,T>* >(this),f,m_data[f].const_begin());
+	 return const_iterator(const_cast<Hash<Key,T>* >(this),f,m_data[f].const_begin());
  }
- TDEF typename hash<Key,T>::const_iterator hash<Key,T>::const_end() const
+ TDEF typename Hash<Key,T>::const_iterator Hash<Key,T>::const_end() const
  {
-	 return  const_iterator(const_cast<hash<Key,T>* >(this),m_table_size,typename slot::const_iterator());
+	 return  const_iterator(const_cast<Hash<Key,T>* >(this),m_table_size,typename slot::const_iterator());
  }
  
 
 
 
- TDEF hash<Key,T>::iterator::iterator(
-	                                               hash<Key,T> * parent, 
+ TDEF Hash<Key,T>::iterator::iterator(
+	                                               Hash<Key,T> * parent, 
 	                                               unsigned long slot, 
-												    const typename hash<Key,T>::slot::iterator & it
+												    const typename Hash<Key,T>::slot::iterator & it
 												  )
  {
 	 m_parent=parent;
      m_slotposition=slot;
 	 m_it=it;
  }
- TDEF hash<Key,T>::iterator::iterator()
+ TDEF Hash<Key,T>::iterator::iterator()
  {
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::iterator::~iterator()
+ TDEF Hash<Key,T>::iterator::~iterator()
  {
    m_parent=NULL;
    m_slotposition=0;
  }
- TDEF hash<Key,T>::iterator::iterator( const typename hash<Key,T>::iterator & o )
+ TDEF Hash<Key,T>::iterator::iterator( const typename Hash<Key,T>::iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
  }
- TDEF typename hash<Key,T>::iterator & hash<Key,T>::iterator::operator=( const typename hash<Key,T>::iterator & o )
+ TDEF typename Hash<Key,T>::iterator & Hash<Key,T>::iterator::operator=( const typename Hash<Key,T>::iterator & o )
  {
    m_parent=o.m_parent;
    m_slotposition=o.m_slotposition;
    m_it=o.m_it;
    return *this;
  } 
- TDEF const Key& hash<Key,T>::iterator::key()
+ TDEF const Key& Hash<Key,T>::iterator::key()
  {
    if (m_it.dereferencable()) return (*m_it).p1();
    return *(new Key());
  }
- TDEF T& hash<Key,T>::iterator::value()
+ TDEF T& Hash<Key,T>::iterator::value()
  {
    if (m_it.dereferencable()) return *(const_cast<T*>( &( (*m_it).p2() )));
    return *(new T());
  }
- TDEF bool hash<Key,T>::iterator::operator==( const typename hash<Key,T>::iterator & o) const
+ TDEF bool Hash<Key,T>::iterator::operator==( const typename Hash<Key,T>::iterator & o) const
  {
 	 return  m_it==o.m_it && m_parent==o.m_parent && m_slotposition==o.m_slotposition;
  }
- TDEF bool hash<Key,T>::iterator::operator!=(const  typename hash<Key,T>::iterator & o) const
+ TDEF bool Hash<Key,T>::iterator::operator!=(const  typename Hash<Key,T>::iterator & o) const
  {
 	 return  !(*this==o);
  }
- TDEF void hash<Key,T>::iterator::goNext()
+ TDEF void Hash<Key,T>::iterator::goNext()
  {
 	 if (!m_parent) return ;
 	 if (*this!=m_parent->end())
@@ -405,7 +405,7 @@ template<typename T>
 		  else (*this)=m_parent->end();
 	 }
  }
- TDEF void hash<Key,T>::iterator::goPrevious()
+ TDEF void Hash<Key,T>::iterator::goPrevious()
  {
 	 if (!m_parent) return ;
 	 if (*this!=m_parent->begin())
@@ -447,29 +447,29 @@ template<typename T>
 		}
 	 }	 
  }
- TDEF typename hash<Key,T>::iterator & hash<Key,T>::iterator::operator++()
+ TDEF typename Hash<Key,T>::iterator & Hash<Key,T>::iterator::operator++()
  {
 	 goNext();
 	 return *this;
  }
- TDEF typename hash<Key,T>::iterator & hash<Key,T>::iterator::operator--()
+ TDEF typename Hash<Key,T>::iterator & Hash<Key,T>::iterator::operator--()
  {
 	 goPrevious();
 	 return *this;
  }
- TDEF typename hash<Key,T>::iterator  hash<Key,T>::iterator::operator++(int)
+ TDEF typename Hash<Key,T>::iterator  Hash<Key,T>::iterator::operator++(int)
  {
-	 typename hash<Key,T>::iterator it=*this;
+	 typename Hash<Key,T>::iterator it=*this;
  	 goNext();
 	 return it;
  }
- TDEF typename hash<Key,T>::iterator  hash<Key,T>::iterator::operator--(int)
+ TDEF typename Hash<Key,T>::iterator  Hash<Key,T>::iterator::operator--(int)
  {
-	 typename hash<Key,T>::iterator it=*this;
+	 typename Hash<Key,T>::iterator it=*this;
 	 goPrevious();
 	 return it;
  }
- TDEF typename hash<Key,T>::iterator hash<Key,T>::begin()
+ TDEF typename Hash<Key,T>::iterator Hash<Key,T>::begin()
  {
      unsigned long f=0;
 	 while ( (f<m_table_size) && m_data[f].count()==0)
@@ -477,13 +477,11 @@ template<typename T>
 	 if (f==m_table_size) return end();
 	 return iterator(this,f,m_data[f].begin());
  }
- TDEF typename hash<Key,T>::iterator hash<Key,T>::end()
+ TDEF typename Hash<Key,T>::iterator Hash<Key,T>::end()
  {
 	 return iterator(this,m_table_size,typename slot::iterator());
  }
  
-
-
 }
 
 #undef TDEF

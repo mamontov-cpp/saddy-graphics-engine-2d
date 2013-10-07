@@ -34,7 +34,7 @@ bool ext::presented(const char * name)
 	return false;
 }
 
-hst::pair<int,int> ext::version()
+sad::Pair<int,int> ext::version()
 {
 	int major = 0, minor = 0;
     const char *verstr = (const char *) glGetString(GL_VERSION);
@@ -42,5 +42,5 @@ hst::pair<int,int> ext::version()
     {
         major = minor = 0;
     }
-	return hst::pair<int, int>(major, minor);
+	return sad::Pair<int, int>(major, minor);
 }

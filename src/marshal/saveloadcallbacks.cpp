@@ -1,14 +1,14 @@
 #include "marshal/saveloadcallbacks.h"
-#include <templates/hstring.h>
+#include <sadstring.h>
 
 #define MAX_TABLE 7
 char table_from[MAX_TABLE][10]={"&quot;","&amp;","&apos;","&lt;","&gt;","&#10;","&#13"};
 char table_to  [MAX_TABLE][10]={"\""    ,"&"    ,"\'"    ,"<"   ,">",   "\n"   ,"\r"  };
 
 
-static hst::string convert(const hst::string & str, char from[][10], char to[][10],int max = MAX_TABLE)
+static sad::String convert(const sad::String & str, char from[][10], char to[][10],int max = MAX_TABLE)
 {
-	hst::string result=str;
+	sad::String result=str;
 	for (int i=0;i<max;i++)
 	{
 	 result.replaceAllOccurences(from[i],to[i]);
@@ -16,25 +16,25 @@ static hst::string convert(const hst::string & str, char from[][10], char to[][1
 	return result;
 }
 
-hst::string SaveLoadCallback<hst::string>::load(ActionContext * context,
-												const hst::string & str, 
-												const hst::string & typestring)
+sad::String SaveLoadCallback<sad::String>::load(ActionContext * context,
+												const sad::String & str, 
+												const sad::String & typestring)
 {
 	return convert(str,table_from,table_to);
 }
 
-hst::string SaveLoadCallback<hst::string>::save(const hst::string & obj)
+sad::String SaveLoadCallback<sad::String>::save(const sad::String & obj)
 {
 	return convert(obj,table_to,table_from);
 }
 
 
 sad::Vector<int> SaveLoadCallback< sad::Vector<int> >::load(ActionContext * context,
-															const hst::string & str,
-															const hst::string & typestring)
+															const sad::String & str,
+															const sad::String & typestring)
 {
 	sad::Vector<int> result;
-	hst::stringlist lst=str.split(';');
+	sad::StringList lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<int>::load(context,lst[i],
@@ -43,11 +43,11 @@ sad::Vector<int> SaveLoadCallback< sad::Vector<int> >::load(ActionContext * cont
 	return result;
 }
 
-hst::string SaveLoadCallback< sad::Vector<int> >::save(const sad::Vector<int> & obj)
+sad::String SaveLoadCallback< sad::Vector<int> >::save(const sad::Vector<int> & obj)
 {
 	if (obj.count()==0)
-		return hst::string();
-	hst::string result = SaveLoadCallback<int>::save(obj[0]);
+		return sad::String();
+	sad::String result = SaveLoadCallback<int>::save(obj[0]);
 	for (unsigned int i=1; i< obj.count();i++)
 	{
 	  result << ";";
@@ -58,10 +58,10 @@ hst::string SaveLoadCallback< sad::Vector<int> >::save(const sad::Vector<int> & 
 
 
 hPointF SaveLoadCallback<hPointF>::load(ActionContext * context,
-										const hst::string & str, 
-										const hst::string & typestring)
+										const sad::String & str, 
+										const sad::String & typestring)
 {
-	hst::stringlist lst=str.split('@');
+	sad::StringList lst=str.split('@');
 	if (lst.count()!=2)
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 
@@ -74,17 +74,17 @@ hPointF SaveLoadCallback<hPointF>::load(ActionContext * context,
 	return hPointF(params[0],params[1]);
 }
 
-hst::string SaveLoadCallback<hPointF>::save(const hPointF & obj)
+sad::String SaveLoadCallback<hPointF>::save(const hPointF & obj)
 {
-	return SaveLoadCallback<double>::save(obj.x()) + hst::string("@") + SaveLoadCallback<double>::save(obj.y());
+	return SaveLoadCallback<double>::save(obj.x()) + sad::String("@") + SaveLoadCallback<double>::save(obj.y());
 }
 
 
 hRectF  SaveLoadCallback<hRectF>::load(ActionContext * context,
-									   const hst::string & str, 
-									   const hst::string & typestring)
+									   const sad::String & str, 
+									   const sad::String & typestring)
 {
-	hst::stringlist lst=str.split(':');
+	sad::StringList lst=str.split(':');
 	if (lst.count()!=4)
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 
@@ -97,23 +97,23 @@ hRectF  SaveLoadCallback<hRectF>::load(ActionContext * context,
 	return hRectF(params[0],params[1],params[2],params[3]);
 }
 
-hst::string SaveLoadCallback<hRectF>::save(const hRectF & obj)
+sad::String SaveLoadCallback<hRectF>::save(const hRectF & obj)
 {
-	hst::string result = SaveLoadCallback<hPointF>::save(obj[0]);
+	sad::String result = SaveLoadCallback<hPointF>::save(obj[0]);
 	for (int i=1;i<4;i++)
 	{
-		result << hst::string(":");
+		result << sad::String(":");
 		result << SaveLoadCallback<hPointF>::save(obj[i]);
 	}
 	return result;
 }
 
 sad::Vector<hPointF>  SaveLoadCallback< sad::Vector<hPointF> >::load(ActionContext * context,
-																	 const hst::string & str, 
-																	 const hst::string & typestring)
+																	 const sad::String & str, 
+																	 const sad::String & typestring)
 {
 	sad::Vector<hPointF> result;
-	hst::stringlist lst=str.split(';');
+	sad::StringList lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
 		result<<SaveLoadCallback<hPointF>::load(context,lst[i],
@@ -122,11 +122,11 @@ sad::Vector<hPointF>  SaveLoadCallback< sad::Vector<hPointF> >::load(ActionConte
 	return result;
 }
 
-hst::string SaveLoadCallback< sad::Vector<hPointF> >::save(const sad::Vector<hPointF> & obj)
+sad::String SaveLoadCallback< sad::Vector<hPointF> >::save(const sad::Vector<hPointF> & obj)
 {
 	if (obj.count()==0)
-		return hst::string();
-	hst::string result = SaveLoadCallback<hPointF>::save(obj[0]);
+		return sad::String();
+	sad::String result = SaveLoadCallback<hPointF>::save(obj[0]);
 	for (unsigned int i=1; i< obj.count();i++)
 	{
 	  result << ";";
@@ -137,14 +137,14 @@ hst::string SaveLoadCallback< sad::Vector<hPointF> >::save(const sad::Vector<hPo
 
 
 bool  SaveLoadCallback< bool >::load(ActionContext * context,
-									 const hst::string & str, 
-									 const hst::string & typestring)
+									 const sad::String & str, 
+									 const sad::String & typestring)
 {
 	if (str=="true") return true;
 	return false;
 }
 
-hst::string SaveLoadCallback< bool >::save(const bool & obj)
+sad::String SaveLoadCallback< bool >::save(const bool & obj)
 {
 	if (obj)
 		return "true";
@@ -152,10 +152,10 @@ hst::string SaveLoadCallback< bool >::save(const bool & obj)
 }
 
 hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
-									 const hst::string & str, 
-									 const hst::string & typestring)
+									 const sad::String & str, 
+									 const sad::String & typestring)
 {
-	hst::stringlist lst=str.split(';');
+	sad::StringList lst=str.split(';');
 	int r, g, b ;
 	if (lst.count()==3)
 	{
@@ -170,9 +170,9 @@ hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
 	return hst::color(r,g,b);
 }
 
-hst::string SaveLoadCallback< hst::color >::save(const hst::color & obj)
+sad::String SaveLoadCallback< hst::color >::save(const hst::color & obj)
 {
-	hst::string t(";");
+	sad::String t(";");
 	return SaveLoadCallback<int>::save(obj.r()) + t + 
 		   SaveLoadCallback<int>::save(obj.g()) + t +
 		   SaveLoadCallback<int>::save(obj.b());

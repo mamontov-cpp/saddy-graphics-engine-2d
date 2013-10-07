@@ -158,6 +158,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\closure.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cmdoptions.cpp"
 				>
 			</File>
@@ -194,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\refcountable.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\renderer.cpp"
 				>
 			</File>
@@ -203,6 +211,18 @@
 			</File>
 			<File
 				RelativePath=".\src\renderer_win32loop.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadhash.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadstring.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadwstring.cpp"
 				>
 			</File>
 			<File
@@ -249,30 +269,6 @@
 				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
-			<Filter
-				Name="templates"
-				>
-				<File
-					RelativePath=".\src\templates\closure.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\templates\hhash.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\templates\hstring.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\templates\hwstring.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\templates\refcountable.cpp"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="primitives"
 				>
@@ -652,7 +648,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\maybe.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\orthocamera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\refcountable.h"
 				>
 			</File>
 			<File
@@ -660,7 +664,43 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadhash.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadlinkedlist.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadlist.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadpair.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadptrhash.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadptrie.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadptrvector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadstring.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\sadvector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadwstring.h"
 				>
 			</File>
 			<File
@@ -681,6 +721,10 @@
 			</File>
 			<File
 				RelativePath=".\include\sprite2dcontroller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\temporarilyimmutablecontainer.h"
 				>
 			</File>
 			<File
@@ -707,62 +751,6 @@
 				RelativePath=".\include\vbolayer.h"
 				>
 			</File>
-			<Filter
-				Name="templates"
-				>
-				<File
-					RelativePath=".\include\templates\hdeque.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hhash.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hlist.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hmatrix.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hpair.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hptrie.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hstring.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\hwstring.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\maybe.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\ptrhash.hpp"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\ptrvector.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\refcountable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\templates\temporarilyimmutablecontainer.hpp"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="primitives"
 				>

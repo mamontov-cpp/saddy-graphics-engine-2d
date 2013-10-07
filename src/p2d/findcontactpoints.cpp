@@ -141,7 +141,7 @@ void sad::p2d::filterOptimalSet(sad::p2d::SetOfPointsPair & set, const sad::p2d:
 	if (vm == 0)
 		set.clear();
 	// A vector of times for each pair
-	hst::deque<double> ts;
+	sad::LinkedList<double> ts;
 	double min = std::numeric_limits<double>::max();
 	for(size_t i = 0; i < set.size(); i++)
 	{

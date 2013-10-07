@@ -64,7 +64,7 @@ public:
 	/*! Dumps object to string for debug
 		\return string
 	 */
-	virtual hst::string dump() const = 0;
+	virtual sad::String dump() const = 0;
 	virtual ~CollisionShape();
 };
 

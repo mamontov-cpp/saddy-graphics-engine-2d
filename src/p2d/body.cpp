@@ -32,7 +32,7 @@ sad::Object * sad::p2d::Body::userObject() const
 	return m_user_object;
 }
 
-const hst::string & sad::p2d::Body::userType() const
+const sad::String & sad::p2d::Body::userType() const
 {
 	if (m_user_object == NULL)
 	{
