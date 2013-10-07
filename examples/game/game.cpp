@@ -15,8 +15,8 @@
 #include "playerbullet.h"
 #include "enemybullet.h"
 
-const hst::string GameState::START = "start";
-const hst::string GameState::PLAYING = "playing";
+const sad::String GameState::START = "start";
+const sad::String GameState::PLAYING = "playing";
 
 
 Game::Game()
@@ -265,7 +265,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
 
 
 
-const hst::string & Game::state()
+const sad::String & Game::state()
 {
 	return m_machine->currentStateName();
 }

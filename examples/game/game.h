@@ -36,8 +36,8 @@ class SuperShootingEnemy;
 class GameState
 {
  public:
-	static const hst::string START;
-	static const hst::string PLAYING;
+	static const sad::String START;
+	static const sad::String PLAYING;
 };
 
 /*! A main class of game
@@ -153,7 +153,7 @@ class Game: public sad::p2d::app::App
 	/*! Returns current state of game
 		\return current game state
 	 */
-	const hst::string & state();
+	const sad::String & state();
 	/*! Produces game object of specified type
 	 */
 	GameObject * produce(Objects type);
