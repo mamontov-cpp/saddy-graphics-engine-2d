@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include <3rdparty/tpunit++/tpunit++.hpp>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #include <p2d/point.h>
 #include <p2d/collisiontest.h>
 #pragma warning(pop)
@@ -26,8 +26,8 @@ struct CollisionTestTest : tpunit::TestFixture
    
    void testRtoR1()
    {
-	   p2d::Rectangle r1;
-	   p2d::Rectangle r2;
+	   sad::p2d::Rectangle r1;
+	   sad::p2d::Rectangle r2;
 	   r1.setRect(
 			hRectF(hPointF(0, 2), hPointF(1, 3),
 				   hPointF(2, 2), hPointF(1, 1))	  
@@ -36,7 +36,7 @@ struct CollisionTestTest : tpunit::TestFixture
 		    hRectF(hPointF(2,0), hPointF(2, 1.5),
 			       hPointF(4, 1.5), hPointF(4, 0))
 	   );
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
 	   r1.setRect(
@@ -59,22 +59,22 @@ struct CollisionTestTest : tpunit::TestFixture
 
    void testRtoC1()
    {
-	   p2d::Rectangle r1;
-	   p2d::Circle r2;
+	   sad::p2d::Rectangle r1;
+	   sad::p2d::Circle r2;
 	   r1.setRect(
 			hRectF(hPointF(0, 2), hPointF(1, 3),
 				   hPointF(2, 2), hPointF(1, 1))	  
 	   );
-	   r2.setCenter( p2d::Point(1,1) );
+	   r2.setCenter( sad::p2d::Point(1,1) );
 	   r2.setRadius(1);
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
-	   r2.setCenter( p2d::Point(1,1) );
+	   r2.setCenter( sad::p2d::Point(1,1) );
 	   r2.setRadius(2);
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
-	   r2.setCenter( p2d::Point(-1,-1) );
+	   r2.setCenter( sad::p2d::Point(-1,-1) );
 	   r2.setRadius(1);
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
@@ -82,14 +82,14 @@ struct CollisionTestTest : tpunit::TestFixture
 
    void testRtoL1()
    {
-	   p2d::Rectangle r1;
-	   p2d::Line r2;
+	   sad::p2d::Rectangle r1;
+	   sad::p2d::Line r2;
 	   r1.setRect(
 			hRectF(hPointF(0, 2), hPointF(1, 3),
 				   hPointF(2, 2), hPointF(1, 1))	  
 	   );
 	   r2.setCutter( 1, 0,  3, 2 );
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
 	   r2.setCutter( 2, 1, 2, 3 );
@@ -102,28 +102,28 @@ struct CollisionTestTest : tpunit::TestFixture
 
    void testCtoC1()
    {
-	   p2d::Circle r1;
-	   p2d::Circle r2;
-	   r1.setCenter( p2d::Point(0,0) );
+	   sad::p2d::Circle r1;
+	   sad::p2d::Circle r2;
+	   r1.setCenter( sad::p2d::Point(0,0) );
 	   r1.setRadius(1);
-	   r2.setCenter( p2d::Point(2, -2) );
+	   r2.setCenter( sad::p2d::Point(2, -2) );
 	   r2.setRadius(1);
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
-	   r2.setCenter( p2d::Point(1, -1) );
+	   r2.setCenter( sad::p2d::Point(1, -1) );
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );	   
    }
 
    void testCtoL1()
    {
-	   p2d::Circle r1;
-	   p2d::Line r2;
-	   r1.setCenter( p2d::Point(0,0) );
+	   sad::p2d::Circle r1;
+	   sad::p2d::Line r2;
+	   r1.setCenter( sad::p2d::Point(0,0) );
 	   r1.setRadius(1);
 	   r2.setCutter( -1, -4, 4, 3 );
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
 	   r2.setCutter( 1, -1,  1, 1 );
@@ -136,11 +136,11 @@ struct CollisionTestTest : tpunit::TestFixture
 
    void testLtoL1()
    {
-	   p2d::Line r1;
-	   p2d::Line r2;
+	   sad::p2d::Line r1;
+	   sad::p2d::Line r2;
 	   r1.setCutter( 0, 1, 1, 0 );
 	   r2.setCutter( 0, 3, 3, 0 );
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
 	   r1.setCutter( 0, 3, 3, 0 );
@@ -154,15 +154,15 @@ struct CollisionTestTest : tpunit::TestFixture
 
    void testRtoB1()
    {
-	   p2d::Rectangle r1;
-	   p2d::Bound r2;
+	   sad::p2d::Rectangle r1;
+	   sad::p2d::Bound r2;
 	   r1.setRect(
 			hRectF(hPointF(108, 0), hPointF(192, 0),
 				   hPointF(108, 20), hPointF(192, 20))	  
 	   );
-	   r2.setType(p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_DOWN);
 	   r2.setPosition(0);
-	   p2d::CollisionTest t;
+	   sad::p2d::CollisionTest t;
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
    }

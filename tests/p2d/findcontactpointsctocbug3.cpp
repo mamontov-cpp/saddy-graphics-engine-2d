@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include <3rdparty/tpunit++/tpunit++.hpp>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #include <p2d/findcontactpoints.h>
 #include <extra/geometry2d.h>
 #pragma warning(pop)

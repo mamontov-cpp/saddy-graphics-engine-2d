@@ -38,8 +38,8 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(1,0);
 	   matrixf m = matrixf::counterclockwise(0.5 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 0.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }
 
    void testRotate90DegreesClockwise()
@@ -47,8 +47,8 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(1,0);
 	   matrixf m = matrixf::clockwise(0.5 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 0.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), -1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), -1.0) );
    }
 
    void testRotate270DegreesClockwise()
@@ -56,8 +56,8 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(-1,0);
 	   matrixf m = matrixf::clockwise(1.5 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 0.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), -1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), -1.0) );
    }
 
    void testRotate270DegreesCounterclockwise()
@@ -65,8 +65,8 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(-1,0);
 	   matrixf m = matrixf::counterclockwise(1.5 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 0.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }
 
    void testRotate45DegreesClockwise()
@@ -74,8 +74,8 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::clockwise(0.25 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 1.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 0.0) );
    }
 
    void testRotate45DegreesCounterclockwise()
@@ -83,19 +83,9 @@ struct Matrix2x2Test : tpunit::TestFixture
 	   hPointF p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::counterclockwise(0.25 * M_PI);
 	   hPointF r = p * m;
-	   ASSERT_TRUE(  is_fuzzy_equal(r.x(), 0.0) );
-	   ASSERT_TRUE(  is_fuzzy_equal(r.y(), 1.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
+	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }
 
-} test1;
+} test_matrix_2x2;
 
-int main(int argc, char ** argv)
-{
-   /**
-    * Run all of the registered tpunit++ tests. Returns 0 if
-    * all tests are successful, otherwise returns the number
-    * of failing assertions.
-    */
-   int result = tpunit::Tests::Run();
-   return result;
-}

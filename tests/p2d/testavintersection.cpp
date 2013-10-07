@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include <3rdparty/tpunit++/tpunit++.hpp>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #include <p2d/infiniteline.h>
 #include <extra/geometry2d.h>
 #pragma warning(pop)
@@ -27,106 +27,106 @@ struct TestAVIntersection : tpunit::TestFixture
    
    void test1()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( 2, 0, 4, 0) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( 2, 0, 4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , 0);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( -2, 0, -4, 0) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( -2, 0, -4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , -2);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , 0);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( -2, 1, -4, 1) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( -2, 1, -4, 1) 
 	   );
 	   ASSERT_FALSE( t.exists() );
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( -2, -1, -4, -1) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( -2, -1, -4, -1) 
 	   );
 	   ASSERT_FALSE( t.exists() );
    }
 
    void test2()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(0, 1),
-		   p2d::cutter( 0, 2, 0, 4) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(0, 1),
+		   sad::p2d::cutter( 0, 2, 0, 4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(0, 1),
-		   p2d::cutter( 0, -2, 0, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(0, 1),
+		   sad::p2d::cutter( 0, -2, 0, -4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , -2);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(0, 1),
-		   p2d::cutter( 1, -2,  1, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(0, 1),
+		   sad::p2d::cutter( 1, -2,  1, -4) 
 	   );
 	   ASSERT_FALSE( t.exists() );
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( -1, -2, -1, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( -1, -2, -1, -4) 
 	   );
 	   ASSERT_FALSE( t.exists() );
    }
 
    void test3()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 1),
-		   p2d::cutter( 2, 2, 4, 4) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 1),
+		   sad::p2d::cutter( 2, 2, 4, 4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 1),
-		   p2d::cutter( -2, -2, -4, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 1),
+		   sad::p2d::cutter( -2, -2, -4, -4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , -2);
 	   ASSERT_FLOAT_EQUAL( t.data().y() , -2);
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 1),
-		   p2d::cutter( 1, -2,  1, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 1),
+		   sad::p2d::cutter( 1, -2,  1, -4) 
 	   );
 	   ASSERT_FALSE( t.exists() );
-	   t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 1),
-		   p2d::cutter( -1, -2, -1, -4) 
+	   t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 1),
+		   sad::p2d::cutter( -1, -2, -1, -4) 
 	   );
 	   ASSERT_FALSE( t.exists() );
    }
 
    void test4()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 0),
-		   p2d::cutter( 2, 2, 2, -2) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 0),
+		   sad::p2d::cutter( 2, 2, 2, -2) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
@@ -135,10 +135,10 @@ struct TestAVIntersection : tpunit::TestFixture
 	
    void test5()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(0, 1),
-		   p2d::cutter( -2, 2, 2, 2) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(0, 1),
+		   sad::p2d::cutter( -2, 2, 2, 2) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
@@ -147,10 +147,10 @@ struct TestAVIntersection : tpunit::TestFixture
 
    void test6()
    {
-	   p2d::MaybePoint t = p2d::intersection(
-		   p2d::Point(0, 0), 
-		   p2d::Vector(1, 1),
-		   p2d::cutter( 0, 4, 4, 0) 
+	   sad::p2d::MaybePoint t = sad::p2d::intersection(
+		   sad::p2d::Point(0, 0), 
+		   sad::p2d::Vector(1, 1),
+		   sad::p2d::cutter( 0, 4, 4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
 	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);

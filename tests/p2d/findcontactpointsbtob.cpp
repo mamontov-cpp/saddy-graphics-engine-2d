@@ -4,7 +4,7 @@
 #pragma warning(disable: 4101)
 #include <stdio.h>
 #include <3rdparty/tpunit++/tpunit++.hpp>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #include <p2d/findcontactpoints.h>
 #include <extra/geometry2d.h>
 #pragma warning(pop)
@@ -39,281 +39,281 @@ struct TestFindContactPointsBtoB : tpunit::TestFixture
 
    void test1()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_LEFT);
-	   r2.setType(p2d::BT_LEFT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_LEFT);
+	   r2.setType(sad::p2d::BT_LEFT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test2()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_RIGHT);
-	   r2.setType(p2d::BT_RIGHT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_RIGHT);
+	   r2.setType(sad::p2d::BT_RIGHT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test3()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_UP);
-	   r2.setType(p2d::BT_UP);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_UP);
+	   r2.setType(sad::p2d::BT_UP);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test4()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_DOWN);
-	   r2.setType(p2d::BT_DOWN);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_DOWN);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test5()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_LEFT);
-	   r2.setType(p2d::BT_UP);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_LEFT);
+	   r2.setType(sad::p2d::BT_UP);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test6()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_LEFT);
-	   r2.setType(p2d::BT_DOWN);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_LEFT);
+	   r2.setType(sad::p2d::BT_DOWN);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test7()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_RIGHT);
-	   r2.setType(p2d::BT_UP);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_RIGHT);
+	   r2.setType(sad::p2d::BT_UP);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test8()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_RIGHT);
-	   r2.setType(p2d::BT_DOWN);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_RIGHT);
+	   r2.setType(sad::p2d::BT_DOWN);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
 
    void test9()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_UP);
-	   r2.setType(p2d::BT_LEFT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_UP);
+	   r2.setType(sad::p2d::BT_LEFT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test10()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_UP);
-	   r2.setType(p2d::BT_RIGHT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_UP);
+	   r2.setType(sad::p2d::BT_RIGHT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test11()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_DOWN);
-	   r2.setType(p2d::BT_LEFT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_LEFT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
    void test12()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(0, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(0, 0);
 	   r1.setPosition(0);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_DOWN);
-	   r2.setType(p2d::BT_RIGHT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , p2d::CannotDetermineContactPoints);
+	   r1.setType(sad::p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_RIGHT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   EXPECT_THROW( m.invoke(s1, v1, s2, v2) , sad::p2d::CannotDetermineContactPoints);
    }
 
 
    void test13()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(0, 1);
-	   p2d::Vector v2(0, -1);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(0, 1);
+	   sad::p2d::Vector v2(0, -1);
 	   r1.setPosition(1);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_LEFT);
-	   r2.setType(p2d::BT_RIGHT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_LEFT);
+	   r2.setType(sad::p2d::BT_RIGHT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 0);
    }
 
    void test14()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(0, 1);
-	   p2d::Vector v2(0, -1);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(0, 1);
+	   sad::p2d::Vector v2(0, -1);
 	   r1.setPosition(1);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_RIGHT);
-	   r2.setType(p2d::BT_LEFT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_RIGHT);
+	   r2.setType(sad::p2d::BT_LEFT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 0);
    }
 
 
    void test15()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(-1, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(-1, 0);
 	   r1.setPosition(1);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_UP);
-	   r2.setType(p2d::BT_DOWN);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_UP);
+	   r2.setType(sad::p2d::BT_DOWN);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 0);
    }
 
    void test16()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(-1, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(-1, 0);
 	   r1.setPosition(1);
 	   r2.setPosition(0);
-	   r1.setType(p2d::BT_DOWN);
-	   r2.setType(p2d::BT_UP);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_UP);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 0);
    }
 
    void test17()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(-1, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(-1, 0);
 	   r1.setPosition(2);
 	   r2.setPosition(3);
-	   r1.setType(p2d::BT_RIGHT);
-	   r2.setType(p2d::BT_LEFT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_RIGHT);
+	   r2.setType(sad::p2d::BT_LEFT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 2);
 	   ASSERT_TRUE(pairs[0].p1().x() == 2);
 	   ASSERT_TRUE(pairs[0].p2().x() == 3);
@@ -323,18 +323,18 @@ struct TestFindContactPointsBtoB : tpunit::TestFixture
 
    void test18()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(1, 0);
-	   p2d::Vector v2(-1, 0);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(1, 0);
+	   sad::p2d::Vector v2(-1, 0);
 	   r1.setPosition(2);
 	   r2.setPosition(3);
-	   r1.setType(p2d::BT_LEFT);
-	   r2.setType(p2d::BT_RIGHT);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_LEFT);
+	   r2.setType(sad::p2d::BT_RIGHT);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 2);
 	   ASSERT_TRUE(pairs[0].p1().x() == 2);
 	   ASSERT_TRUE(pairs[0].p2().x() == 3);
@@ -344,18 +344,18 @@ struct TestFindContactPointsBtoB : tpunit::TestFixture
 
    void test19()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(0, 1);
-	   p2d::Vector v2(0, -1);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(0, 1);
+	   sad::p2d::Vector v2(0, -1);
 	   r1.setPosition(2);
 	   r2.setPosition(3);
-	   r1.setType(p2d::BT_UP);
-	   r2.setType(p2d::BT_DOWN);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_UP);
+	   r2.setType(sad::p2d::BT_DOWN);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 2);
 	   ASSERT_TRUE(pairs[0].p1().y() == 2);
 	   ASSERT_TRUE(pairs[0].p2().y() == 3);
@@ -365,18 +365,18 @@ struct TestFindContactPointsBtoB : tpunit::TestFixture
 
    void test20()
    {
-	   p2d::Bound r1;
-	   p2d::Bound r2;
-	   p2d::Vector v1(0, 1);
-	   p2d::Vector v2(0, -1);
+	   sad::p2d::Bound r1;
+	   sad::p2d::Bound r2;
+	   sad::p2d::Vector v1(0, 1);
+	   sad::p2d::Vector v2(0, -1);
 	   r1.setPosition(2);
 	   r2.setPosition(3);
-	   r1.setType(p2d::BT_DOWN);
-	   r2.setType(p2d::BT_UP);
-	   p2d::FindContactPoints m;
-	   p2d::CollisionShape * s1 = &r1;
-	   p2d::CollisionShape * s2 = &r2;
-	   p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
+	   r1.setType(sad::p2d::BT_DOWN);
+	   r2.setType(sad::p2d::BT_UP);
+	   sad::p2d::FindContactPoints m;
+	   sad::p2d::CollisionShape * s1 = &r1;
+	   sad::p2d::CollisionShape * s2 = &r2;
+	   sad::p2d::SetOfPointsPair pairs = m.invoke(s1, v1, s2, v2);
 	   ASSERT_TRUE(pairs.count() == 2);
 	   ASSERT_TRUE(pairs[0].p1().y() == 2);
 	   ASSERT_TRUE(pairs[0].p2().y() == 3);

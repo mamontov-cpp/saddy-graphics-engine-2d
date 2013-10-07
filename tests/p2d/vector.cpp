@@ -24,72 +24,72 @@ struct VectorTest : tpunit::TestFixture
    
    void testModulo()
    {
-	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(0, 0) ), 0);
-	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(0, 1) ), 1);
-	   ASSERT_FLOAT_EQUAL( p2d::modulo( p2d::Vector(M_SQRT1_2, M_SQRT1_2) ), 1);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::modulo( sad::p2d::Vector(0, 0) ), 0);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::modulo( sad::p2d::Vector(0, 1) ), 1);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::modulo( sad::p2d::Vector(M_SQRT1_2, M_SQRT1_2) ), 1);
    }
 
    void testBasis()
    {
-	   p2d::Vector p = p2d::basis();
+	   sad::p2d::Vector p = sad::p2d::basis();
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
    }
 
    void testUnit()
    {
-	   p2d::Vector p = p2d::unit(p2d::Vector(0,0));
+	   sad::p2d::Vector p = sad::p2d::unit(sad::p2d::Vector(0,0));
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
-	   p = p2d::unit(p2d::Vector(0, 2));
+	   p = sad::p2d::unit(sad::p2d::Vector(0, 2));
 	   ASSERT_FLOAT_EQUAL( p.x(),  0);
 	   ASSERT_FLOAT_EQUAL( p.y(),  1);
-	   p = p2d::unit(p2d::Vector(2, 0));
+	   p = sad::p2d::unit(sad::p2d::Vector(2, 0));
 	   ASSERT_FLOAT_EQUAL( p.x(),  1);
 	   ASSERT_FLOAT_EQUAL( p.y(),  0);
-	   p = p2d::unit(p2d::Vector(10, 10));
+	   p = sad::p2d::unit(sad::p2d::Vector(10, 10));
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);	   
    }
 
    void testOrtho90()
    {
-	   p2d::Vector p;
+	   sad::p2d::Vector p;
 	   
-	   p = p2d::ortho(p2d::Vector(0,0), p2d::OVI_DEG_90);
+	   p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OVI_DEG_90);
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  -M_SQRT1_2);
 
-	   p = p2d::ortho(p2d::Vector(10,10), p2d::OVI_DEG_90);
+	   p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OVI_DEG_90);
 	   ASSERT_FLOAT_EQUAL( p.x(),  M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  -M_SQRT1_2);
 
-	   p = p2d::ortho(p2d::Vector(10,0), p2d::OVI_DEG_90);
+	   p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OVI_DEG_90);
 	   ASSERT_FLOAT_EQUAL( p.x(),  0.0);
 	   ASSERT_FLOAT_EQUAL( p.y(),  -1.0);
 
-	   p = p2d::ortho(p2d::Vector(0,10), p2d::OVI_DEG_90);
+	   p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OVI_DEG_90);
 	   ASSERT_FLOAT_EQUAL( p.x(),  1.0);
 	   ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }
 
    void testOrtho270()
    {
-	   p2d::Vector p;
+	   sad::p2d::Vector p;
 	   
-	   p = p2d::ortho(p2d::Vector(0,0), p2d::OVI_DEG_270);
+	   p = sad::p2d::ortho(sad::p2d::Vector(0,0), sad::p2d::OVI_DEG_270);
 	   ASSERT_FLOAT_EQUAL( p.x(),  -M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
 
-	   p = p2d::ortho(p2d::Vector(10,10), p2d::OVI_DEG_270);
+	   p = sad::p2d::ortho(sad::p2d::Vector(10,10), sad::p2d::OVI_DEG_270);
 	   ASSERT_FLOAT_EQUAL( p.x(),  -M_SQRT1_2);
 	   ASSERT_FLOAT_EQUAL( p.y(),  M_SQRT1_2);
 
-	   p = p2d::ortho(p2d::Vector(10,0), p2d::OVI_DEG_270);
+	   p = sad::p2d::ortho(sad::p2d::Vector(10,0), sad::p2d::OVI_DEG_270);
 	   ASSERT_FLOAT_EQUAL( p.x(),  0.0);
 	   ASSERT_FLOAT_EQUAL( p.y(),  1.0);
 
-	   p = p2d::ortho(p2d::Vector(0,10), p2d::OVI_DEG_270);
+	   p = sad::p2d::ortho(sad::p2d::Vector(0,10), sad::p2d::OVI_DEG_270);
 	   ASSERT_FLOAT_EQUAL( p.x(),  -1.0);
 	   ASSERT_FLOAT_EQUAL( p.y(),  0.0);
    }
@@ -97,16 +97,16 @@ struct VectorTest : tpunit::TestFixture
    void testScalar()
    {
 		ASSERT_FLOAT_EQUAL(
-			p2d::scalar( p2d::Vector(0,0), p2d::Vector(0,0)), 0
+			sad::p2d::scalar( sad::p2d::Vector(0,0), sad::p2d::Vector(0,0)), 0
 		);
 		ASSERT_FLOAT_EQUAL(
-			p2d::scalar( p2d::Vector(10,0), p2d::Vector(0,10)), 0
+			sad::p2d::scalar( sad::p2d::Vector(10,0), sad::p2d::Vector(0,10)), 0
 		);
 		ASSERT_FLOAT_EQUAL(
-			p2d::scalar( p2d::Vector(5,5), p2d::Vector(5,5)), 50
+			sad::p2d::scalar( sad::p2d::Vector(5,5), sad::p2d::Vector(5,5)), 50
 		);
 		ASSERT_FLOAT_EQUAL(
-			p2d::scalar( p2d::Vector(4,3), p2d::Vector(2,1)), 11
+			sad::p2d::scalar( sad::p2d::Vector(4,3), sad::p2d::Vector(2,1)), 11
 		);
    }
 

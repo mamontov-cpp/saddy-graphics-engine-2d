@@ -3,15 +3,20 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include <3rdparty/tpunit++/tpunit++.hpp>
-#include <templates/hlvector.hpp>
+#include <sadvector.h>
 #include <p2d/point.h>
 #pragma warning(pop)
 
 
 
+namespace sad
+{
+
 namespace p2d
 {
-void erase_equal_points(hst::vector<p2d::Point> & set);
+void erase_equal_points(sad::Vector<sad::p2d::Point> & set);
+}
+
 }
 
 /*!
@@ -31,16 +36,16 @@ struct GrahamTestEqual : tpunit::TestFixture
    
    void testEmpty()
    {
-	   hst::vector<p2d::Point> p;
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 0);
    }
 
    void testOne()
    {
-	   hst::vector<p2d::Point> p;
-	   p << p2d::Point(2,2);
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   p << sad::p2d::Point(2,2);
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 1);
 	   ASSERT_FLOAT_EQUAL(p[0].x(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].y(), 2);
@@ -48,10 +53,10 @@ struct GrahamTestEqual : tpunit::TestFixture
 
    void testTwo()
    {
-	   hst::vector<p2d::Point> p;
-	   p << p2d::Point(2,2);
-	   p << p2d::Point(3,3);
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   p << sad::p2d::Point(2,2);
+	   p << sad::p2d::Point(3,3);
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].x(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].y(), 2);
@@ -61,10 +66,10 @@ struct GrahamTestEqual : tpunit::TestFixture
 
    void testTwoEqual()
    {
-	   hst::vector<p2d::Point> p;
-	   p << p2d::Point(2,2);
-	   p << p2d::Point(2,2);
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   p << sad::p2d::Point(2,2);
+	   p << sad::p2d::Point(2,2);
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 1);
 	   ASSERT_FLOAT_EQUAL(p[0].x(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].y(), 2);
@@ -72,13 +77,13 @@ struct GrahamTestEqual : tpunit::TestFixture
 
    void testFiveNonEqual()
    {
-	   hst::vector<p2d::Point> p;
-	   p << p2d::Point(2,2);
-	   p << p2d::Point(1,2);
-	   p << p2d::Point(3,4);
-	   p << p2d::Point(5,6);
-	   p << p2d::Point(7,8);
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   p << sad::p2d::Point(2,2);
+	   p << sad::p2d::Point(1,2);
+	   p << sad::p2d::Point(3,4);
+	   p << sad::p2d::Point(5,6);
+	   p << sad::p2d::Point(7,8);
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 5);
 	   ASSERT_FLOAT_EQUAL(p[0].x(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].y(), 2);
@@ -94,13 +99,13 @@ struct GrahamTestEqual : tpunit::TestFixture
 
    void testComplex()
    {
-	   hst::vector<p2d::Point> p;
-	   p << p2d::Point(2,2);
-	   p << p2d::Point(2,2);
-	   p << p2d::Point(3,4);
-	   p << p2d::Point(7,7);
-	   p << p2d::Point(7,7);
-	   p2d::erase_equal_points(p);
+	   sad::Vector<sad::p2d::Point> p;
+	   p << sad::p2d::Point(2,2);
+	   p << sad::p2d::Point(2,2);
+	   p << sad::p2d::Point(3,4);
+	   p << sad::p2d::Point(7,7);
+	   p << sad::p2d::Point(7,7);
+	   sad::p2d::erase_equal_points(p);
 	   ASSERT_EQUAL(p.size(), 3);
 	   ASSERT_FLOAT_EQUAL(p[0].x(), 2);
 	   ASSERT_FLOAT_EQUAL(p[0].y(), 2);

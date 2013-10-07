@@ -6,7 +6,7 @@
 	This file contains a definition of string.
 */
 #pragma once
-#include "../sadvector.h"
+#include "sadvector.h"
 #include <string>
 
 namespace sad

@@ -4,8 +4,8 @@
 #include "primitives/object.h"
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "scene.h"
-#include "templates/ptrhash.hpp"
-#include "templates/hstring.h"
+#include "sadptrhash.h"
+#include "sadstring.h"
 #pragma warning(pop)
 
 // Declare primary descendants
@@ -139,7 +139,7 @@ struct SadObjectTest : tpunit::TestFixture
    ) {}
    /*! Cache, which stores objects by class
     */
-   hst::ptrhash<hst::string, sad::Object> m_cache;
+   sad::PtrHash<sad::String, sad::Object> m_cache;
    /*! Inits a cache with objects
     */
    void init() 
@@ -350,15 +350,5 @@ struct SadObjectTest : tpunit::TestFixture
 		}
    }
 
-} test1;
+} test_object;
 
-int main(int argc, char ** argv)
-{
-   /**
-    * Run all of the registered tpunit++ tests. Returns 0 if
-    * all tests are successful, otherwise returns the number
-    * of failing assertions.
-    */
-   int result = tpunit::Tests::Run();
-   return result;
-}
