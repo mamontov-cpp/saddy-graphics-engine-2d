@@ -24,7 +24,7 @@
 bool load_texture(const char * filename,const char * texturename)
 {
 	sad::Texture * texture=new sad::Texture();
-	bool result=texture->load(hst::string(filename));	
+	bool result=texture->load(sad::String(filename));	
 	if (result) { 
 		// Make some textures to square power of two, making them compatible to old videocards
 		// which does not support GL_ARB_texture_non_power_of_two or 
@@ -58,10 +58,10 @@ bool load_texture_with_alphachannel(const char * filename,const char * texturena
 } 
 /*! Returns a font from file and registers it in Font Manager 
  */
-bool load_font(const hst::string & fontfolder, const hst::string & fontname)
+bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 {
-	hst::string png = fontfolder + fontname + ".PNG";
-	hst::string cfg = fontfolder + fontname + ".CFG";
+	sad::String png = fontfolder + fontname + ".PNG";
+	sad::String cfg = fontfolder + fontname + ".CFG";
 	sad::TMFont * fnt=new sad::TMFont;
 	bool result = fnt->load(png, cfg, hst::color(255,255,255),true);
 	if (result) { 
@@ -101,16 +101,16 @@ int main(int argc, char** argv)
 
 	//Loading resources. We re-use textures from game example. 
 	bool res=true; 
-	hst::string fontfolder = "examples/game/";
+	sad::String fontfolder = "examples/game/";
 	res=res && load_font(fontfolder, "times_lg"); 
 	res=res && load_texture("examples/game/ingame.tga","background");
     res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
     if (!res)
 	{
-		SL_FATAL(hst::string("Resource loading failed!"));
+		SL_FATAL(sad::String("Resource loading failed!"));
 		return 1;
 	}
-	SL_MESSAGE(hst::string("Resources successfully loaded"));
+	SL_MESSAGE(sad::String("Resources successfully loaded"));
 	
 	// Create and run game
 	World * world = new World();
