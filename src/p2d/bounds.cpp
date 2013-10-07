@@ -19,7 +19,7 @@ sad::p2d::CollisionShape * sad::p2d::Bound::clone(int count) const
 
 sad::p2d::Point sad::p2d::Bound::center() const
 {
-	return p2d::Point();
+	return sad::p2d::Point();
 }
 
 

@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(InputDir)/../../../include/&quot;"
+				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="saddy-debug.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(InputDir)/../../../lib/&quot;"
+				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -175,6 +175,22 @@
 			>
 			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\matrix2x2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\object.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\rect2f.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sadptrhash.cpp"
 				>
 			</File>
 		</Filter>

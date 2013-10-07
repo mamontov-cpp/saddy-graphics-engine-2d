@@ -236,7 +236,7 @@ bool sad::p2d::CollisionTest::collidesRtoR(sad::p2d::Rectangle * p1, sad::p2d::R
 	return fast_collide(p1, p2, r_to_r_callbacks, 4);
 }
 
-static void (*r_to_c_callbacks[6])(sad::p2d::CollisionShape *,sad:: p2d::CollisionShape *, sad::p2d::Axle &) =
+static void (*r_to_c_callbacks[6])(sad::p2d::CollisionShape *,sad:: sad::p2d::CollisionShape *, sad::p2d::Axle &) =
 {
 	AxleFor<sad::p2d::Rectangle, sad::p2d::Circle>::hp1callsi<&sad::p2d::Rectangle::point, 0, 1>,
 	AxleFor<sad::p2d::Rectangle, sad::p2d::Circle>::hp1callsi<&sad::p2d::Rectangle::point, 1, 2>,
@@ -392,8 +392,8 @@ bool sad::p2d::CollisionTest::collidesBtoS(sad::p2d::Bound * p1, sad::p2d::Colli
 	}
 	if (p1->type() == sad::p2d::BT_DOWN)
 	{
-		p2d::Vector v(0, 1);
-		p2d::Cutter1D c = p2->project(v);
+		sad::p2d::Vector v(0, 1);
+		sad::p2d::Cutter1D c = p2->project(v);
 		return c.p1() <= p1->position();
 	}
 	return false;

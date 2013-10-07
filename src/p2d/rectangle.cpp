@@ -54,7 +54,7 @@ sad::p2d::ConvexHull sad::p2d::Rectangle::toHull() const
 }
 
 
-sad::p2d::Cutter1D sad::p2d::Rectangle::project(const p2d::Axle & a) const
+sad::p2d::Cutter1D sad::p2d::Rectangle::project(const sad::p2d::Axle & a) const
 {
 	return sad::p2d::projectPointSet(m_rect, 4, a);
 }

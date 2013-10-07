@@ -13,58 +13,58 @@ namespace p2dworld
 	{
 		SAD_OBJECT
 
-		p2d::Point m_pos;
+		sad::p2d::Point m_pos;
 		double m_angle;
       public:
 		  UserObject1() { m_angle = 0;}
 
-		  void notifyMove(const p2d::Vector & v) { m_pos += v; }
+		  void notifyMove(const sad::p2d::Vector & v) { m_pos += v; }
 		  void notifyRotate(const double & a) { m_angle += a; }
 		  
-		  const p2d::Point & position() const { return m_pos;}
+		  const sad::p2d::Point & position() const { return m_pos;}
 		  double angle() const { return m_angle; }
 	};
 
 	class UserObject2: public sad::Object
 	{
 		SAD_OBJECT
-		p2d::Point m_pos;
+		sad::p2d::Point m_pos;
 		double m_angle;
       public:
 		  UserObject2() { m_angle = 0;}
 
-		  void notifyMove(const p2d::Vector & v) { m_pos += v; }
+		  void notifyMove(const sad::p2d::Vector & v) { m_pos += v; }
 		  void notifyRotate(const double & a) { m_angle += a; }
 
-		  const p2d::Point & position() const { return m_pos;}
+		  const sad::p2d::Point & position() const { return m_pos;}
 		  double angle() const { return m_angle; }
 	};
 	
-	typedef p2d::MovementDeltaListener<p2dworld::UserObject1, p2d::Vector> move1_t;
-	typedef p2d::MovementDeltaListener<p2dworld::UserObject2, p2d::Vector> move2_t;
-	typedef p2d::MovementDeltaListener<p2dworld::UserObject1, double> rotate1_t;
-	typedef p2d::MovementDeltaListener<p2dworld::UserObject2, double> rotate2_t;
+	typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject1, sad::p2d::Vector> move1_t;
+	typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject2, sad::p2d::Vector> move2_t;
+	typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject1, double> rotate1_t;
+	typedef sad::p2d::MovementDeltaListener<p2dworld::UserObject2, double> rotate2_t;
 
 	struct StateMachine
 	{
 		   int state;
-		   p2d::Body * b1;
-		   p2d::Body * b2;
+		   sad::p2d::Body * b1;
+		   sad::p2d::Body * b2;
 
-		   void step(const p2d::BasicCollisionEvent & ev)
+		   void step(const sad::p2d::BasicCollisionEvent & ev)
 		   {		
 				this->state +=1;
 				if (this->state == 1)
 				{
 					b1->world()->splitTimeStepAt(ev.m_time);
-					b1->sheduleTangentialVelocityAt(p2d::Vector(0.0, 6.0), ev.m_time);
-					b2->setCurrentPosition(p2d::Vector(3.0, 3.0));
+					b1->sheduleTangentialVelocityAt(sad::p2d::Vector(0.0, 6.0), ev.m_time);
+					b2->setCurrentPosition(sad::p2d::Vector(3.0, 3.0));
 				}
 				if (this->state == 2)
 				{
 					b1->world()->splitTimeStepAt(ev.m_time);
-					b1->sheduleTangentialVelocityAt(p2d::Vector(-4.0, 0.0), ev.m_time);
-					b2->setCurrentPosition(p2d::Vector(7.0, 1.5));
+					b1->sheduleTangentialVelocityAt(sad::p2d::Vector(-4.0, 0.0), ev.m_time);
+					b2->setCurrentPosition(sad::p2d::Vector(7.0, 1.5));
 				}
 		   }
 
@@ -77,26 +77,26 @@ int eventperformed = 0;
 
 namespace p2dworld
 {
-	class Body: public p2d::Body
+	class Body: public sad::p2d::Body
 	{
       public:
-		  Body() : p2d::Body() {}
+		  Body() : sad::p2d::Body() {}
 
 		  ~Body() { ::eventperformed++; }
 	};
 }
 
-void performEvent(const p2d::BasicCollisionEvent & ev)
+void performEvent(const sad::p2d::BasicCollisionEvent & ev)
 {
 	eventperformed++;
 }
 
-void performEvent11(const p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
+void performEvent11(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
 {
 	eventperformed++;
 }
 
-void performEvent12(const p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject2> & ev)
+void performEvent12(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject2> & ev)
 {
 	eventperformed++;
 }
@@ -121,27 +121,27 @@ struct WorldTest : tpunit::TestFixture
 
    int eventperformed;
 
-   void performEvent(const p2d::BasicCollisionEvent & ev)
+   void performEvent(const sad::p2d::BasicCollisionEvent & ev)
    {
 	   this->eventperformed++;
    }
 
-   void removeFirstBody(const p2d::BasicCollisionEvent & ev)
+   void removeFirstBody(const sad::p2d::BasicCollisionEvent & ev)
    {
 	   ev.m_object_1->world()->remove(ev.m_object_1);
    }
 
-   void clearWorld(const p2d::BasicCollisionEvent & ev)
+   void clearWorld(const sad::p2d::BasicCollisionEvent & ev)
    {
 	   ev.m_object_1->world()->clear();
    }
 
-   void performEvent11(const p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
+   void performEvent11(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject1> & ev)
    {
 	   this->eventperformed++;
    }
 
-   void performEvent12(const p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject2> & ev)
+   void performEvent12(const sad::p2d::CollisionEvent<p2dworld::UserObject1, p2dworld::UserObject2> & ev)
    {
 	   this->eventperformed++;
    }
@@ -150,19 +150,19 @@ struct WorldTest : tpunit::TestFixture
    {
 	   this->eventperformed = 0;
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2d::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new sad::p2d::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   
-	   p2d::Body * b2 = new p2d::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new sad::p2d::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->addHandler(::performEvent);
 	   w->addHandler(this, &WorldTest::performEvent);
 	   w->add(b1);
@@ -182,21 +182,21 @@ struct WorldTest : tpunit::TestFixture
 
 	   this->eventperformed = 0;
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2d::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new sad::p2d::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   b1->setUserObject(u11);
 
-	   p2d::Body * b2 = new p2d::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new sad::p2d::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 	   b2->setUserObject(u21);
 
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->addHandler(::performEvent);
 	   w->addHandler(this, &WorldTest::performEvent);
 	   w->addHandler(::performEvent11);
@@ -221,21 +221,21 @@ struct WorldTest : tpunit::TestFixture
 
 	   this->eventperformed = 0;
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2d::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new sad::p2d::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   b1->setUserObject(u1);
 
-	   p2d::Body * b2 = new p2d::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new sad::p2d::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 	   b2->setUserObject(u2);
 
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->addHandler(::performEvent);
 	   w->addHandler(this, &WorldTest::performEvent);
 	   w->addHandler(::performEvent12);
@@ -256,13 +256,13 @@ struct WorldTest : tpunit::TestFixture
    void testRemove()
    {
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2dworld::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new p2dworld::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->add(b1);
 	   
 	   w->step(1.0);
@@ -275,13 +275,13 @@ struct WorldTest : tpunit::TestFixture
    void testClear()
    {
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2dworld::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new p2dworld::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->add(b1);
 	   
 	   w->step(1.0);
@@ -294,19 +294,19 @@ struct WorldTest : tpunit::TestFixture
    void testRemoveFromCallback()
    {
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2dworld::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new p2dworld::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   
-	   p2d::Body * b2 = new p2dworld::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new p2dworld::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->addHandler(this, &WorldTest::removeFirstBody);
 	   w->add(b1);
 	   w->add(b2);
@@ -320,19 +320,19 @@ struct WorldTest : tpunit::TestFixture
    void testClearFromCallback()
    {
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2dworld::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new p2dworld::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(3.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(3.0, 0.0));
 	   
-	   p2d::Body * b2 = new p2dworld::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new p2dworld::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->addHandler(this, &WorldTest::clearWorld);
 	   w->add(b1);
 	   w->add(b2);
@@ -350,28 +350,28 @@ struct WorldTest : tpunit::TestFixture
 
 	   this->eventperformed = 0;
 	   ::eventperformed = 0;
-	   p2d::Body * b1 = new p2d::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new sad::p2d::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(1.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(1.0, 0.0));
 	   b1->setCurrentAngularVelocity(1.0);
 	   b1->setUserObject(u1);
 	   b1->addMoveListener( new p2dworld::move1_t(u1, &p2dworld::UserObject1::notifyMove) );
 	   b1->addRotateListener( new p2dworld::rotate1_t(u1, &p2dworld::UserObject1::notifyRotate) );
 
-	   p2d::Body * b2 = new p2d::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new sad::p2d::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
 	   b2->setUserObject(u2);
-	   b2->setCurrentTangentialVelocity(p2d::Vector(1.0, 0.0));
+	   b2->setCurrentTangentialVelocity(sad::p2d::Vector(1.0, 0.0));
 	   b2->setCurrentAngularVelocity(1.0);
 	   b2->addMoveListener( new p2dworld::move2_t(u2, &p2dworld::UserObject2::notifyMove) );
 	   b2->addRotateListener( new p2dworld::rotate2_t(u2, &p2dworld::UserObject2::notifyRotate) );
-	   b2->setCurrentPosition(p2d::Point(6.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(6.0, 0.0));
 	   
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   
 	   w->add(b1);
 	   w->add(b2);
@@ -379,13 +379,13 @@ struct WorldTest : tpunit::TestFixture
 	   w->step(1.0);
 	   w->step(1.0);
 	   
-	   ASSERT_TRUE( is_fuzzy_equal(u1->position().x(), 2.0) );
-	   ASSERT_TRUE( is_fuzzy_equal(u2->position().x(), 8.0) );
-	   ASSERT_TRUE( is_fuzzy_equal(u1->position().y(), 0.0) );
-	   ASSERT_TRUE( is_fuzzy_equal(u2->position().y(), 0.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u1->position().x(), 2.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u2->position().x(), 8.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u1->position().y(), 0.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u2->position().y(), 0.0) );
 
-	   ASSERT_TRUE( is_fuzzy_equal(u1->angle(), 2.0) );
-	   ASSERT_TRUE( is_fuzzy_equal(u2->angle(), 2.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u1->angle(), 2.0) );
+	   ASSERT_TRUE( sad::is_fuzzy_equal(u2->angle(), 2.0) );
 
 	   delete w;
 	   delete u1;
@@ -396,24 +396,24 @@ struct WorldTest : tpunit::TestFixture
    {
 	   p2dworld::StateMachine sm;
 
-	   p2d::Body * b1 = new p2d::Body();
-	   p2d::Circle * c1 = new p2d::Circle();
+	   sad::p2d::Body * b1 = new sad::p2d::Body();
+	   sad::p2d::Circle * c1 = new sad::p2d::Circle();
 	   c1->setRadius(1.0);
 	   b1->setShape(c1);
-	   b1->setCurrentTangentialVelocity(p2d::Vector(6.0, 0.0));
+	   b1->setCurrentTangentialVelocity(sad::p2d::Vector(6.0, 0.0));
 	   
-	   p2d::Body * b2 = new p2d::Body();
-	   p2d::Circle * c2 = new p2d::Circle();
+	   sad::p2d::Body * b2 = new sad::p2d::Body();
+	   sad::p2d::Circle * c2 = new sad::p2d::Circle();
 	   c2->setRadius(1.0);
 	   b2->setShape(c2);
-	   b2->setCurrentPosition(p2d::Point(3.0, 0.0));
+	   b2->setCurrentPosition(sad::p2d::Point(3.0, 0.0));
 	
 	   sm.state = 0;
 	   sm.b1 = b1;
 	   sm.b2 = b2;
 
-	   p2d::BroadCollisionDetector * det = new p2d::BroadCollisionDetector();
-	   p2d::World * w = new p2d::World();
+	   sad::p2d::BroadCollisionDetector * det = new sad::p2d::BroadCollisionDetector();
+	   sad::p2d::World * w = new sad::p2d::World();
 	   w->setDetector(det);
 	   w->addHandler(&sm, &p2dworld::StateMachine::step);
 	   w->add(b1);

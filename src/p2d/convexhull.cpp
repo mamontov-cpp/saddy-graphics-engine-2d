@@ -11,7 +11,7 @@ sad::p2d::ConvexHull::ConvexHull()
 
 sad::p2d::ConvexHull::ConvexHull(const sad::Vector<sad::p2d::Point> & set)
 {
-	m_set = p2d::graham_scan(set);
+	m_set = sad::graham_scan(set);
 }
 
 sad::p2d::ConvexHull sad::p2d::ConvexHull::uncheckedCreate(
@@ -60,7 +60,7 @@ sad::p2d::Vector  sad::p2d::ConvexHull::normal(int number) const
 	sad::p2d::Cutter2D c = side(number);
 	sad::p2d::Point center = (c.p1() + c.p2()) / 2.0;
 	sad::p2d::Vector sidevector = c.p2() - c.p1();
-	sad::p2d::Vector result = p2d::ortho(sidevector, p2d::OVI_DEG_90);	
+	sad::p2d::Vector result = sad::p2d::ortho(sidevector, sad::p2d::OVI_DEG_90);	
 	size_t count = points();
 	bool notanormal = false;
 	for(size_t point = 0; (point < count) && !notanormal; point++)
@@ -112,7 +112,7 @@ void sad::p2d::ConvexHull::appendAxisForSide(
 {
 	sad::p2d::Cutter2D k = side(number);
 	this->tryInsertAxle(container, sad::p2d::axle(k.p1(), k.p2()));
-	p2d::Axle ortho =  sad::p2d::ortho(k.p2() - k.p1(), OVI_DEG_90);
+	sad::p2d::Axle ortho =  sad::p2d::ortho(k.p2() - k.p1(), OVI_DEG_90);
 	this->tryInsertAxle(container, ortho);
 }
 
@@ -135,7 +135,7 @@ bool sad::p2d::ConvexHull::collides(const sad::p2d::ConvexHull & c) const
 	{
 		return sad::equal(this->m_set[0], c.m_set[0]);
 	}
-	sad::Vector<p2d::Axle> axles;
+	sad::Vector<sad::p2d::Axle> axles;
 	this->appendAxisForCollision(axles);
 	c.appendAxisForCollision(axles);
 
@@ -161,7 +161,7 @@ sad::p2d::Vector sad::p2d::ConvexHull::getSumOfNormalsFor(const sad::p2d::Point 
 	{
 		sad::p2d::Cutter2D k = side(i);
 		sad::p2d::Vector  n = normal(i);
-		double d = std::max( p2d::scalar(p - k.p1(), n), p2d::scalar(p - k.p2(), n) );
+		double d = std::max( sad::p2d::scalar(p - k.p1(), n), sad::p2d::scalar(p - k.p2(), n) );
 		// Find a distance between side and projection on its point
 		if (sad::is_fuzzy_equal(d, nearest))
 		{
@@ -180,7 +180,7 @@ sad::p2d::Vector sad::p2d::ConvexHull::getSumOfNormalsFor(const sad::p2d::Point 
 	}
 	if (sad::non_fuzzy_zero( sad::p2d::modulo(result) ))
 	{
-		result = p2d::unit(result);
+		result = sad::p2d::unit(result);
 	}
 	return result;
 }
@@ -200,7 +200,7 @@ sad::p2d::Point sad::p2d::ConvexHull::center() const
 
 void sad::p2d::ConvexHull::buildHull()
 {
-	m_set = sad::p2d::graham_scan(m_set);
+	m_set = sad::graham_scan(m_set);
 }
 
 void sad::p2d::ConvexHull::insertPointsFromShape(sad::p2d::CollisionShape * s)

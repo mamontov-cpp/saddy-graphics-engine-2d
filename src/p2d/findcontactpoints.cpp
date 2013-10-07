@@ -44,7 +44,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getRtoR(
 		 const sad::p2d::Vector & v2
 )
 {
-	return p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
+	return sad::p2d::FindContactPoints::exec(s1->toHull(), v1, s2->toHull(), v2);
 }
 
 sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getRtoC(
@@ -137,7 +137,7 @@ void sad::p2d::merge(sad::p2d::SetOfPointsPair & set1, const sad::p2d::SetOfPoin
 
 void sad::p2d::filterOptimalSet(sad::p2d::SetOfPointsPair & set, const sad::p2d::Vector & v)
 {
-	double vm = p2d::modulo(v);
+	double vm = sad::p2d::modulo(v);
 	if (vm == 0)
 		set.clear();
 	// A vector of times for each pair
@@ -183,14 +183,14 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
 			sad::p2d::Cutter2D s1 = c1.side(i);
 			sad::p2d::Cutter2D s2 = c2.side(j);
 			sad::p2d::MaybePoint tmp;
-			tmp = p2d::intersection(s1.p1(), v, s2);
-			if (tmp.exists())  p2d::insertUnique(result, s1.p1(), tmp.data()); 
-			tmp = p2d::intersection(s1.p2(), v, s2);
-			if (tmp.exists())  p2d::insertUnique(result, s1.p2(), tmp.data());
-			tmp = p2d::intersection(s2.p1(), v, s1);
-			if (tmp.exists())  p2d::insertUnique(result, tmp.data(), s2.p1());
-			tmp = p2d::intersection(s2.p2(), v, s1);
-			if (tmp.exists())  p2d::insertUnique(result, tmp.data(), s2.p2());
+			tmp = sad::p2d::intersection(s1.p1(), v, s2);
+			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p1(), tmp.data()); 
+			tmp = sad::p2d::intersection(s1.p2(), v, s2);
+			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p2(), tmp.data());
+			tmp = sad::p2d::intersection(s2.p1(), v, s1);
+			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.data(), s2.p1());
+			tmp = sad::p2d::intersection(s2.p2(), v, s1);
+			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.data(), s2.p2());
 		}
 	}
 	sad::p2d::filterOptimalSet(result, v);
@@ -281,7 +281,7 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 )
 {
 	sad::p2d::SetOfPointsPair result;
-	if (sad::is_fuzzy_zero(p2d::modulo(v))) 
+	if (sad::is_fuzzy_zero(sad::p2d::modulo(v))) 
 		return result;
 	sad::p2d::Point O = sad::p2d::intersectionWithNormalFrom(ci->center(), c);
 	sad::p2d::MaybePoint  K;
@@ -328,8 +328,8 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 		if (points.size() == 2)
 		{
 			O1 = O;
-			double t1 = p2d::scalar(points[0] - O, v);
-			double t2 = p2d::scalar(points[1] - O, v);
+			double t1 = sad::p2d::scalar(points[0] - O, v);
+			double t2 = sad::p2d::scalar(points[1] - O, v);
 			if (t1 < t2)
 			{
 				K.setValue(points[0]);
@@ -417,7 +417,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
 	sad::p2d::Vector v = v1 - v2;
 	bool xlessthanzero = (v.x() < 0 && sad::non_fuzzy_zero(v.x()));
 	bool ylessthanzero = (v.y() < 0 && sad::non_fuzzy_zero(v.y()));
-	bool iszero = sad::is_fuzzy_zero(p2d::modulo(v));
+	bool iszero = sad::is_fuzzy_zero(sad::p2d::modulo(v));
 	if ((xlessthanzero && ylessthanzero) || iszero)
 	{
 		//return result;
@@ -504,9 +504,9 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
 
 sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
 		 sad::p2d::Bound * s1, 
-		 const p2d::Vector & v1,
+		 const sad::p2d::Vector & v1,
 		 sad::p2d::Bound * s2,
-		 const p2d::Vector & v2
+		 const sad::p2d::Vector & v2
 )
 {
 	// In this cases, bounds are always colliding, so we should test a bounds for collision
@@ -519,7 +519,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
 	double minv = std::numeric_limits<double>::min();
 	double maxv = std::numeric_limits<double>::max();
 
-	p2d::Vector v = v2 - v1;
+	sad::p2d::Vector v = v2 - v1;
 	if ( (s1->type() == sad::p2d::BT_LEFT && s2->type() == sad::p2d::BT_RIGHT)
 		|| (s1->type() == sad::p2d::BT_RIGHT && s2->type() == sad::p2d::BT_LEFT))
 	{
@@ -584,7 +584,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoP(
 	sad::p2d::Vector directionvector = normal * (-1);
 	sad::p2d::InfiniteLine bound = s1->boundingLine();
 	
-	double vp = p2d::scalar(v, directionvector);
+	double vp = sad::p2d::scalar(v, directionvector);
 	// If cannot find, result is empty
 	if (sad::is_fuzzy_zero(vp))
 		return result;
@@ -648,7 +648,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoC(
 		throw sad::p2d::CannotDetermineContactPoints();
 
 	sad::p2d::Point circlecontactpoint = s2->center() + directionvector * s2->radius();
-	sad::p2d::InfiniteLine line = p2d::InfiniteLine::appliedVector(circlecontactpoint, v);
+	sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(circlecontactpoint, v);
 	sad::p2d::MaybePoint intersection = line.intersection(bound);
 	result << sad::p2d::PointsPair(intersection.data(), circlecontactpoint);
 	return result;

@@ -27,9 +27,9 @@ struct RectangleNormalToSurfaceTest : tpunit::TestFixture
 	   TEST(RectangleNormalToSurfaceTest::test8)
    ) {}
 
-   p2d::Rectangle  testRect1()
+   sad::p2d::Rectangle  testRect1()
    {
-	   p2d::Rectangle r;
+	   sad::p2d::Rectangle r;
 	   r.setRect(
 			hRectF(hPointF(108, 0), hPointF(192, 0),
 				   hPointF(108, 20), hPointF(192, 20))	  
@@ -39,72 +39,72 @@ struct RectangleNormalToSurfaceTest : tpunit::TestFixture
    
    void test1()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(108, 0), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(108, 0), n);
 	   ASSERT_FLOAT_NEAR(n.x(), -M_SQRT1_2, 1.0E-2);
 	   ASSERT_FLOAT_NEAR(n.y(), -M_SQRT1_2, 1.0E-4);
    }
 
    void test2()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(192, 0), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(192, 0), n);
 	   ASSERT_FLOAT_NEAR(n.x(), M_SQRT1_2, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), -M_SQRT1_2, 1.0E-4);
    }
 
    void test3()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(108, 20), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(108, 20), n);
 	   ASSERT_FLOAT_NEAR(n.x(), -M_SQRT1_2, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), M_SQRT1_2, 1.0E-4);
    }
 
    void test4()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(192, 20), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(192, 20), n);
 	   ASSERT_FLOAT_NEAR(n.x(),M_SQRT1_2, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), M_SQRT1_2, 1.0E-4);
    }
 
    void test5()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(150, 0), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(150, 0), n);
 	   ASSERT_FLOAT_NEAR(n.x(), 0, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), -1, 1.0E-4);
    }
 
    void test6()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(150, 20), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(150, 20), n);
 	   ASSERT_FLOAT_NEAR(n.x(), 0, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), 1, 1.0E-4);
    }
 
    void test7()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(108, 10), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(108, 10), n);
 	   ASSERT_FLOAT_NEAR(n.x(), -1, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), 0, 1.0E-4);
    }
 
    void test8()
    {
-	   p2d::Rectangle r = this->testRect1();
-	   p2d::Vector n;
-	   r.normalToPointOnSurface(p2d::Point(192, 10), n);
+	   sad::p2d::Rectangle r = this->testRect1();
+	   sad::p2d::Vector n;
+	   r.normalToPointOnSurface(sad::p2d::Point(192, 10), n);
 	   ASSERT_FLOAT_NEAR(n.x(), 1, 1.0E-4);
 	   ASSERT_FLOAT_NEAR(n.y(), 0, 1.0E-4);
    }

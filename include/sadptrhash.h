@@ -4,7 +4,7 @@
 
 	Contains a simple hash, with pointers, which is freed automatically
 */
-#include "../sadhash.h"
+#include "sadhash.h"
 #pragma once
 
 namespace sad

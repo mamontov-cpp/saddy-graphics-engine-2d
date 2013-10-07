@@ -3,8 +3,9 @@
 #pragma warning(disable: 4351)
 #include <stdio.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
-#include "templates/ptrhash.hpp"
+#include "sadptrhash.h"
 #pragma warning(pop)
+
 
 class IncrementsInDestructor
 {
@@ -29,7 +30,7 @@ struct PtrHashTest : tpunit::TestFixture
 		int counter = 0;
 		int count = 10;
 		{
-			hst::ptrhash<int, IncrementsInDestructor> tested;
+			sad::PtrHash<int, IncrementsInDestructor> tested;
 			for(int i = 0; i < count; i++)
 			{
 				tested.insert(i, new IncrementsInDestructor(&counter));
@@ -38,15 +39,4 @@ struct PtrHashTest : tpunit::TestFixture
 		ASSERT_EQUAL(counter, count);
    }
 
-} test1;
-
-int main(int argc, char ** argv)
-{
-   /**
-    * Run all of the registered tpunit++ tests. Returns 0 if
-    * all tests are successful, otherwise returns the number
-    * of failing assertions.
-    */
-   int result = tpunit::Tests::Run();
-   return result;
-}
+} test_ptr_hash;
