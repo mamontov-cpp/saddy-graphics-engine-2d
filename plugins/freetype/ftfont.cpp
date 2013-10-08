@@ -55,7 +55,7 @@ void FTFont::deleteFTHeightFont(FTFont::FTHeightFont *fnt)
 	}
 	delete  fnt;
 }
-hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const sad::String & str)
+sad::Rect2D FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const sad::String & str)
 {
   float maxx=0.0f,cury=(float)height,curx=0.0f;
 
@@ -75,12 +75,12 @@ hRectF FTFont::sizeOfFont(FTFont::FTHeightFont * fnt, unsigned int height, const
 	  }
   }
   
-  return hRectF(hPointF(0,0),hPointF(maxx,cury));
+  return sad::Rect2D(sad::Point2D(0,0),sad::Point2D(maxx,cury));
 }
-hRectF FTFont::size(const sad::String & str)
+sad::Rect2D FTFont::size(const sad::String & str)
 {
   if (m_lists_cache.contains(this->m_renderheight) == false) {
-	return hRectF(hPointF(0,0),hPointF(0,0));
+	return sad::Rect2D(sad::Point2D(0,0),sad::Point2D(0,0));
   }
   return this->sizeOfFont(m_lists_cache[m_renderheight],m_renderheight,str);
 }
@@ -350,7 +350,7 @@ bool FTFont::load(const char * fnt_file, unsigned int height, const sad::AColor 
 }
 
 
-void FTFont::render(const sad::String & str,const pointf & p)
+void FTFont::render(const sad::String & str,const sad::Point2D & p)
 {
   this->render(str,(float)(p.x()),float(p.y()));
 }
