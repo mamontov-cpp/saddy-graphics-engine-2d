@@ -47,7 +47,7 @@ struct TestFindContactPointsCtoCBug1 : tpunit::TestFixture
 	   r1.move(v1 * toi1);
 	   r2.move(v2 * toi2);
 
-	   double distance = r1.center().distanceTo(r2.center());
+	   double distance = r1.center().distance(r2.center());
 	   ASSERT_FLOAT_NEAR(distance, 36.0, 1.0E-4);
    }
 

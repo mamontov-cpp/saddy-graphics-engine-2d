@@ -19,9 +19,9 @@ struct PointTest : tpunit::TestFixture
    
    void testDistance()
    {
-	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distanceTo(sad::p2d::Point(0.0,0.0)), 0);
-	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distanceTo(sad::p2d::Point(0.0,1.0)), 1);
-	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distanceTo(sad::p2d::Point(1.0,1.0)), M_SQRT2);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distance(sad::p2d::Point(0.0,0.0)), 0);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distance(sad::p2d::Point(0.0,1.0)), 1);
+	   ASSERT_FLOAT_EQUAL( sad::p2d::Point(0.0, 0.0).distance(sad::p2d::Point(1.0,1.0)), M_SQRT2);
    }
 
 } test2;

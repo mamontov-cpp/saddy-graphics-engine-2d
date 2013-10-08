@@ -36,54 +36,54 @@ struct Matrix2x2Test : tpunit::TestFixture
 
    void testRotate90DegreesCounterclockwise()
    {
-	   hPointF p(1,0);
+	   sad::Point2D p(1,0);
 	   matrixf m = matrixf::counterclockwise(0.5 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }
 
    void testRotate90DegreesClockwise()
    {
-	   hPointF p(1,0);
+	   sad::Point2D p(1,0);
 	   matrixf m = matrixf::clockwise(0.5 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), -1.0) );
    }
 
    void testRotate270DegreesClockwise()
    {
-	   hPointF p(-1,0);
+	   sad::Point2D p(-1,0);
 	   matrixf m = matrixf::clockwise(1.5 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), -1.0) );
    }
 
    void testRotate270DegreesCounterclockwise()
    {
-	   hPointF p(-1,0);
+	   sad::Point2D p(-1,0);
 	   matrixf m = matrixf::counterclockwise(1.5 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }
 
    void testRotate45DegreesClockwise()
    {
-	   hPointF p(M_SQRT1_2, M_SQRT1_2);
+	   sad::Point2D p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::clockwise(0.25 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 1.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 0.0) );
    }
 
    void testRotate45DegreesCounterclockwise()
    {
-	   hPointF p(M_SQRT1_2, M_SQRT1_2);
+	   sad::Point2D p(M_SQRT1_2, M_SQRT1_2);
 	   matrixf m = matrixf::counterclockwise(0.25 * M_PI);
-	   hPointF r = p * m;
+	   sad::Point2D r = p * m;
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.x(), 0.0) );
 	   ASSERT_TRUE(  sad::is_fuzzy_equal(r.y(), 1.0) );
    }

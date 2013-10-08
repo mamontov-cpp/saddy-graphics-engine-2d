@@ -42,8 +42,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 1), hPointF(1, 2),
-				   hPointF(2, 1), hPointF(1, 0))	  
+			sad::Rect2D(sad::Point2D(0, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 1), sad::Point2D(1, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(5,1));
 	   r2.setRadius(1);
@@ -63,8 +63,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 1), hPointF(1, 2),
-				   hPointF(2, 1), hPointF(1, 0))	  
+			sad::Rect2D(sad::Point2D(0, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 1), sad::Point2D(1, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(2,1));
 	   r2.setRadius(1);
@@ -84,8 +84,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 1), hPointF(1, 2),
-				   hPointF(2, 1), hPointF(1, 0))	  
+			sad::Rect2D(sad::Point2D(0, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 1), sad::Point2D(1, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(0,1));
 	   r2.setRadius(1);
@@ -105,8 +105,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 1), hPointF(1, 2),
-				   hPointF(2, 1), hPointF(1, 0))	  
+			sad::Rect2D(sad::Point2D(0, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 1), sad::Point2D(1, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(-1,1));
 	   r2.setRadius(1);
@@ -126,8 +126,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(0, 4),
-				   hPointF(2, 4), hPointF(2, 2))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(0, 4),
+				   sad::Point2D(2, 4), sad::Point2D(2, 2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,0));
 	   r2.setRadius(M_SQRT2);
@@ -147,8 +147,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(2, 0), hPointF(2, 2),
-				   hPointF(4, 2), hPointF(4, 0))	  
+			sad::Rect2D(sad::Point2D(2, 0), sad::Point2D(2, 2),
+				   sad::Point2D(4, 2), sad::Point2D(4, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,0));
 	   r2.setRadius(M_SQRT2);
@@ -168,8 +168,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(4, -2), hPointF(4, 0),
-				   hPointF(6, 0), hPointF(6, -2))	  
+			sad::Rect2D(sad::Point2D(4, -2), sad::Point2D(4, 0),
+				   sad::Point2D(6, 0), sad::Point2D(6, -2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,0));
 	   r2.setRadius(M_SQRT2);
@@ -189,8 +189,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(6, -4), hPointF(6, -2),
-				   hPointF(8, -2), hPointF(8, -4))	  
+			sad::Rect2D(sad::Point2D(6, -4), sad::Point2D(6, -2),
+				   sad::Point2D(8, -2), sad::Point2D(8, -4))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,0));
 	   r2.setRadius(M_SQRT2);
@@ -210,8 +210,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 5), hPointF(1, 6),
-				   hPointF(2, 5), hPointF(1, 4))	  
+			sad::Rect2D(sad::Point2D(0, 5), sad::Point2D(1, 6),
+				   sad::Point2D(2, 5), sad::Point2D(1, 4))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(1,1));
 	   r2.setRadius(1);
@@ -231,8 +231,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 1))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(1, 3),
+				   sad::Point2D(2, 2), sad::Point2D(1, 1))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(1,1));
 	   r2.setRadius(1);
@@ -252,8 +252,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(1, 1),
-				   hPointF(2, 0), hPointF(1, -1))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(1, 1),
+				   sad::Point2D(2, 0), sad::Point2D(1, -1))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(1,1));
 	   r2.setRadius(1);
@@ -273,8 +273,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, -3), hPointF(1, -2),
-				   hPointF(2, -3), hPointF(1, -4))	  
+			sad::Rect2D(sad::Point2D(0, -3), sad::Point2D(1, -2),
+				   sad::Point2D(2, -3), sad::Point2D(1, -4))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(1,1));
 	   r2.setRadius(1);
@@ -294,8 +294,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(0, 4),
-				   hPointF(2, 4), hPointF(2, 2))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(0, 4),
+				   sad::Point2D(2, 4), sad::Point2D(2, 2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,1));
 	   r2.setRadius(M_SQRT2);
@@ -315,8 +315,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(2, 2), hPointF(2, 4),
-				   hPointF(4, 4), hPointF(4, 2))	  
+			sad::Rect2D(sad::Point2D(2, 2), sad::Point2D(2, 4),
+				   sad::Point2D(4, 4), sad::Point2D(4, 2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,1));
 	   r2.setRadius(M_SQRT2);
@@ -336,8 +336,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(4, 2), hPointF(4, 4),
-				   hPointF(6, 4), hPointF(6, 2))	  
+			sad::Rect2D(sad::Point2D(4, 2), sad::Point2D(4, 4),
+				   sad::Point2D(6, 4), sad::Point2D(6, 2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,1));
 	   r2.setRadius(M_SQRT2);
@@ -357,8 +357,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(6, 2), hPointF(6, 4),
-				   hPointF(8, 4), hPointF(8, 2))	  
+			sad::Rect2D(sad::Point2D(6, 2), sad::Point2D(6, 4),
+				   sad::Point2D(8, 4), sad::Point2D(8, 2))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(4,1));
 	   r2.setRadius(M_SQRT2);
@@ -378,8 +378,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(5,1));
 	   r2.setRadius(1);
@@ -397,8 +397,8 @@ struct TestFindContactPointsRtoC : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setCenter(sad::p2d::Point(5,1));
 	   r2.setRadius(1);

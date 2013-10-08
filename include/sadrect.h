@@ -6,7 +6,7 @@
 	This file contains a definition of rectangle, used 
 	to be a bounding box or define shape.
 */
-#include "../sadpoint.h"
+#include "sadpoint.h"
 #include <algorithm>
 #pragma once
 

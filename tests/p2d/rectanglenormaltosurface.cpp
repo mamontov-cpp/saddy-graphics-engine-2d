@@ -31,8 +31,8 @@ struct RectangleNormalToSurfaceTest : tpunit::TestFixture
    {
 	   sad::p2d::Rectangle r;
 	   r.setRect(
-			hRectF(hPointF(108, 0), hPointF(192, 0),
-				   hPointF(108, 20), hPointF(192, 20))	  
+			sad::Rect2D(sad::Point2D(108, 0), sad::Point2D(192, 0),
+				   sad::Point2D(108, 20), sad::Point2D(192, 20))	  
 	   );
 	   return  r; 
    }

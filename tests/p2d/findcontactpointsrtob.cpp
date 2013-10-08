@@ -37,8 +37,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(-2);
 	   r2.setType(sad::p2d::BT_LEFT);
@@ -56,8 +56,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(-1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_RIGHT);
@@ -74,8 +74,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_UP);
@@ -93,8 +93,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(0);
 	   r2.setType(sad::p2d::BT_DOWN);
@@ -112,8 +112,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(-2);
 	   r2.setType(sad::p2d::BT_LEFT);
@@ -132,8 +132,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_RIGHT);
@@ -151,8 +151,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_UP);
@@ -171,8 +171,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(0);
 	   r2.setType(sad::p2d::BT_DOWN);
@@ -190,8 +190,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(-1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(-2);
 	   r2.setType(sad::p2d::BT_LEFT);
@@ -210,8 +210,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_RIGHT);
@@ -230,8 +230,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(3);
 	   r2.setType(sad::p2d::BT_UP);
@@ -250,8 +250,8 @@ struct TestFindContactPointsRtoB : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(1, 1), hPointF(1, 2),
-				   hPointF(2, 2), hPointF(2, 1))	  
+			sad::Rect2D(sad::Point2D(1, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 1))	  
 	   );
 	   r2.setPosition(-3);
 	   r2.setType(sad::p2d::BT_DOWN);
