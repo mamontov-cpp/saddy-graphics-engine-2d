@@ -25,8 +25,8 @@ public:
 	{
 	}
     /*! Constructs point by two coordinates
-		\param[in] X Coordinate
-		\param[in] Y Coordinate
+		\param[in] x X Coordinate
+		\param[in] y Y Coordinate
      */
 	inline Point2(_Type x, _Type y): m_x(x), m_y(y)
 	{
@@ -177,8 +177,9 @@ public:
 	{
 	}
     /*! Constructs point by two coordinates
-		\param[in] X Coordinate
-		\param[in] Y Coordinate
+		\param[in] x X Coordinate
+		\param[in] y Y Coordinate
+		\param[in] z Z Coordinate
      */
 	inline Point3(_Type x, _Type y, _Type z): sad::Point2<_Type>(x, y),  m_z(z)
 	{

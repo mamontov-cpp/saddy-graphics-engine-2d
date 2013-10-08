@@ -1,4 +1,4 @@
-/*! \file    sadlinkedlist.hpp
+/*! \file    sadlinkedlist.h
     \author  HiddenSeeker
 
 	\brief   Definition of doubly linked list.

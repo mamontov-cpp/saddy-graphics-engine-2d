@@ -1,4 +1,4 @@
-/*! \file   hcolor.h
+/*! \file   sadcolor.h
     \author HiddenSeeker
 
     \brief  Color class definition.
