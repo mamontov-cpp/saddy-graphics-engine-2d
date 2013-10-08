@@ -7,7 +7,7 @@ sad::p2d::app::Object::Object()
 {
 	// We don't init sprite as valid, to preserve working with simple
 	// objects
-	m_sprite = new Sprite2DAdapter(NULL, hRectF(), hRectF());
+	m_sprite = new Sprite2DAdapter(NULL, sad::Rect2D(), sad::Rect2D());
 	m_body = new sad::p2d::Body();
 	
 	// Set self as user object to make type inference inside collisions
@@ -104,9 +104,9 @@ void sad::p2d::app::Object::setAngle(double angle)
 	this->m_body->setCurrentAngle(angle);
 }
 
-void sad::p2d::app::Object::lookAt(const hPointF & p)
+void sad::p2d::app::Object::lookAt(const sad::Point2D & p)
 {
-	hPointF c = p - this->m_body->position();
+	sad::Point2D c = p - this->m_body->position();
 	double angle = sad::angle_of(c.x(), c.y());
 	// We roate it counter-clockwise, because object looks to pi
 	setAngle(angle);

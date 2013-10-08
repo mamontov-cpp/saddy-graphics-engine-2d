@@ -55,7 +55,7 @@ bool TMFont::load(
 	}
 	return true;
 }
-hRectF TMFont::size(const sad::String & str)
+sad::Rect2D TMFont::size(const sad::String & str)
 {
   float maxx=0.0f;
   float maxy=0.0f;
@@ -82,7 +82,7 @@ hRectF TMFont::size(const sad::String & str)
   maxy=leny;
   if (str.length()==0)
 	maxy=0;
-  return hRectF(hPointF(0,0),hPointF(maxx,maxy));
+  return sad::Rect2D(sad::Point2D(0,0),sad::Point2D(maxx,maxy));
 }
 
 static void wcs()
@@ -103,7 +103,7 @@ static void restore()
 	glPopMatrix();
 	glPopAttrib();
 }
-void TMFont::render(const sad::String & str,const pointf & p)
+void TMFont::render(const sad::String & str,const sad::Point2D & p)
 {
   //wcs();
   float cury=(float)(p.y());

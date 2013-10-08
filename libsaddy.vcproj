@@ -696,6 +696,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadpoint.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\sadptrhash.h"
 				>
 			</File>
@@ -705,6 +709,10 @@
 			</File>
 			<File
 				RelativePath=".\include\sadptrvector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadrect.h"
 				>
 			</File>
 			<File
@@ -772,26 +780,6 @@
 				>
 				<File
 					RelativePath=".\include\fsm\statemachine.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="primitives"
-				>
-				<File
-					RelativePath=".\include\primitives\hpoint.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\hpoint_src.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\hrect.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\hrect_src.h"
 					>
 				</File>
 			</Filter>

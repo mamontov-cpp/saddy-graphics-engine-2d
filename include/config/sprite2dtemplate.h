@@ -4,7 +4,7 @@
 	Here is described loadable sprite template, that can be easily loaded from file
  */
 #pragma once
-#include "../primitives/hrect.h"
+#include "../sadrect.h"
 #include "../sadcolor.h"
 #include "../sadstring.h"
 
@@ -19,8 +19,8 @@ class Sprite2DTemplate
 {
  private:
 		 sad::String  m_texturename;  //!< Name of texture
-		 hRectF       m_texturerect;  //!< Texture coordinates of rectangle
-		 hPointF      m_size;         //!< Size of object
+		 sad::Rect2D       m_texturerect;  //!< Texture coordinates of rectangle
+		 sad::Point2D      m_size;         //!< Size of object
 		 
 		 bool         m_transparent;       //!< Whether the template should be transparent
 		 sad::Color   m_transparencycolor; //!< A color, which should be transparent
@@ -65,11 +65,11 @@ class Sprite2DTemplate
 		/*! Sets a texture rectangle
 			\param[in] rect texture rectangle
 		 */
-		inline void setTextureRect(const hRectF & rect)  { m_texturerect=rect; }
+		inline void setTextureRect(const sad::Rect2D & rect)  { m_texturerect=rect; }
 		/*! Sets a size of object
 			\param[in] size size of object
 		 */
-		inline void setSize(const hPointF & size)  { m_size=size; }
+		inline void setSize(const sad::Point2D & size)  { m_size=size; }
 		/*! Returns a texturename
 			\return texture name
 		 */
@@ -77,11 +77,11 @@ class Sprite2DTemplate
 		/*! Returns a texture rectangle
 			\return texture rectangle
 		 */
-		inline const hRectF & textureRect() const { return m_texturerect; }
+		inline const sad::Rect2D & textureRect() const { return m_texturerect; }
 		/*! Returns a size of sprite
 			\return size of sprite
 		 */
-		inline const hPointF & size() const {return m_size; }
+		inline const sad::Point2D & size() const {return m_size; }
 };
 
 }

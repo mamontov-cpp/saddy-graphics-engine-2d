@@ -22,8 +22,8 @@ class Sprite2DAdapter: public sad::BasicNode
 	  public:
 		  sad::String Texture;      //!<  A texture name for current sprite
 		  sad::Maybe<sad::String> TextureContainer; //!< A texture container if needed
-		  hRectF TextureRectangle;  //!<  A texture coordinate rectangle
-		  hRectF Rectangle;         //!<  A main rectangle
+		  sad::Rect2D TextureRectangle;  //!<  A texture coordinate rectangle
+		  sad::Rect2D Rectangle;         //!<  A main rectangle
 
 		  inline Options() {}
 		  inline Options(const Sprite2DAdapter::Options & o) : Texture(o.Texture),
@@ -34,8 +34,8 @@ class Sprite2DAdapter: public sad::BasicNode
 	};
  private:
 		  Sprite * m_sprite;  //!< Sprite, that is being rendered
-		  hRectF   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)
-		  hRectF   m_texrect; //!< A non-rotated non-flipped texture coordinates
+		  sad::Rect2D   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)
+		  sad::Rect2D   m_texrect; //!< A non-rotated non-flipped texture coordinates
 		  bool     m_flipx;   //!< A flag, that determines, whether image is flipped on X axis
 		  bool     m_flipy;   //!< A flag, that determines, whether image is flipped on Y axis
 		  float    m_angle;   //!< An angle of rotation of sprite. Sprite is rotated around it's center
@@ -47,7 +47,7 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \param[in] bbox      bounding box
 			  \param[in] normalize normalization flag
 		   */
-		  void createSprite(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox, bool normalize=true);
+		  void createSprite(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox, bool normalize=true);
 		  /*! Updates bounding rect, preserving all properties
 		   */
 		  void updateBoundingRect();
@@ -68,7 +68,7 @@ class Sprite2DAdapter: public sad::BasicNode
 			  \param[in] texrect texture coordinates rectangle
 			  \param[in] bbox    bounding box of sprite
 		   */ 
-		  Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox);
+		  Sprite2DAdapter(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox);
 		  /*! Creates a new sprite, as copy of other
 			  \param[in] sprite sprite data
 		   */
@@ -79,15 +79,15 @@ class Sprite2DAdapter: public sad::BasicNode
 		  /*! Sets a position of middle of sprite to specified point
 			  \param[in] p point of middle
 		   */
-		  void setPos(const hPointF & p);
+		  void setPos(const sad::Point2D & p);
 		  /*! Moves a sprite by specified vector
 			  \param[in] p vector
 		   */
-		  void move(const hPointF & p);
+		  void move(const sad::Point2D & p);
 		  /*! Returns a middle point of sprite
 			  \return a middle point of sprite
 		   */
-		  hPointF pos() const;
+		  sad::Point2D pos() const;
 		  /*! Rotates a sprite around it's center clockwise
 			  \param[in] angle angle parameter
 		   */
@@ -127,11 +127,11 @@ class Sprite2DAdapter: public sad::BasicNode
 		  /*! Sets a size of sprite, preserving center of image
 			  \param[in] size size of sprite
 		   */
-		  void setSize(const hPointF & size);
+		  void setSize(const sad::Point2D & size);
 		  /*! Returns a current size of sprite
 			  \return size of sprite
 		   */
-		  hPointF size() const;
+		  sad::Point2D size() const;
 		  /*! Returns a top coordinate
 			  \return top coordinate
 		   */
@@ -155,15 +155,15 @@ class Sprite2DAdapter: public sad::BasicNode
 		      \param[in] tex texture
 			  \param[in] texrect texture rectangle
 		   */
-		 void setSprite(sad::Texture * tex, const hRectF & texrect);
+		 void setSprite(sad::Texture * tex, const sad::Rect2D & texrect);
 		 /*! Returns a rectangle
 			 \return rectangle
           */
-		 const hRectF & rect() const;
+		 const sad::Rect2D & rect() const;
 		 /*! Sets a rectangle
 			 \param[in] rect rectangle
 		  */
-		 void setRect(const hRectF & rect);
+		 void setRect(const sad::Rect2D & rect);
 		 /*! Sets a color
 			 \param[in] color color data
 		  */
@@ -181,7 +181,7 @@ class Sprite2DAdapter: public sad::BasicNode
 			 \param[in] p1 first point
 			 \param[in] p2 second point
 		  */
-		 void makeSpanBetweenPoints(const hRectF & r, const hPointF & p1, const hPointF & p2);
+		 void makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2);
 };
 
 

@@ -80,7 +80,7 @@ class Object: public sad::BasicNode
 	 /*! Makes game object look to specified point
 		 \param[in] p point
 	  */
-	 void lookAt(const hPointF & p);
+	 void lookAt(const sad::Point2D & p);
 	 /*! Sets angular velocity, making object rotating clockwise
 		 \param[in] v velocity
 	  */

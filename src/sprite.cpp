@@ -30,13 +30,13 @@ Sprite::~Sprite()
 static float default_tex_coord[8]={0,0,0,1,1,1,1,0};
 Sprite::Sprite(
 			   sad::Texture * tex,
-			   s3d::point rect[4], 
+			   sad::Point3D rect[4], 
 			   float * tex_coord
 			  )
 {
 	m_tex=tex;
 	DEFAULT_COLOR_INITIALIZATION;
-	memcpy(m_rect,rect,4*sizeof(s3d::point));
+	memcpy(m_rect,rect,4*sizeof(sad::Point3D));
     if (tex_coord)
 	{
 	 for (int i=0;i<4;i++)
@@ -51,12 +51,12 @@ Sprite::Sprite(
 
 Sprite::Sprite(
 			   sad::Texture * tex,
-			   s3d::point rect[4], 
+			   sad::Point3D rect[4], 
 			   int * tex_coord
 			  )
 {
 	m_tex=tex;
-	memcpy(m_rect,rect,4*sizeof(s3d::point));
+	memcpy(m_rect,rect,4*sizeof(sad::Point3D));
 	DEFAULT_COLOR_INITIALIZATION;
     if (tex_coord)  
 	{
@@ -71,8 +71,8 @@ Sprite::Sprite(
 
 Sprite::Sprite(
 			   sad::Texture * tex, 
-			   const hst::rect<  ::s3d::point> & rect,
-			   const hRectF  & texrect
+			   const sad::Rect<  ::sad::Point3D> & rect,
+			   const sad::Rect2D  & texrect
 			  )
 {
 	m_tex=tex;
@@ -92,7 +92,7 @@ Sprite::Sprite(const Sprite & sprite)
 {
  this->m_tex=sprite.m_tex;
  DEFAULT_COLOR_INITIALIZATION;
- memcpy(&(this->m_rect),&(sprite.m_rect),4*sizeof(s3d::point));
+ memcpy(&(this->m_rect),&(sprite.m_rect),4*sizeof(sad::Point3D));
  memcpy(&(this->m_tex_coord),&(sprite.m_tex_coord),8*sizeof(float));
 }
 
@@ -133,18 +133,18 @@ const float * Sprite::texCoords() const
   return m_tex_coord;
 }
 
-s3d::point & Sprite::point(int n)
+sad::Point3D & Sprite::point(int n)
 {
  return m_rect[n];
 }
 
-s3d::point Sprite::middle() const
+sad::Point3D Sprite::middle() const
 {
   return (m_rect[0]+m_rect[1]+m_rect[2]+m_rect[3])/4;
 }
 
 
-void Sprite::setBBox(const hst::rect< ::s3d::point> & rect)
+void Sprite::setBBox(const sad::Rect< ::sad::Point3D> & rect)
 {
 	for(int i = 0; i < 4; i++)
 	{
@@ -152,27 +152,27 @@ void Sprite::setBBox(const hst::rect< ::s3d::point> & rect)
 	}
 }
 
-void Sprite::moveBy(const s3d::point & p)
+void Sprite::moveBy(const sad::Point3D & p)
 {
   for (int i=0;i<4;i++)
        m_rect[i]+=p;
 }
 
-void Sprite::moveTo(const s3d::point & p)
+void Sprite::moveTo(const sad::Point3D & p)
 {
-  s3d::point  vector=p-middle();
+  sad::Point3D  vector=p-middle();
   moveBy(vector);
 }
 
 void Sprite::rotate(
-		            s3d::point & p, 
-					const s3d::point & pivot, 
+		            sad::Point3D & p, 
+					const sad::Point3D & pivot, 
 					double alpha, 
 					double theta 
 				   )
 {
-  s3d::point dist=p-pivot;
-  s3d::point result=dist;
+  sad::Point3D dist=p-pivot;
+  sad::Point3D result=dist;
   
   result.setX( (float)(dist.x()*cos(alpha)-dist.y()*sin(alpha))   );
   result.setY( (float)(dist.x()*sin(alpha)*cos(theta)+dist.y()*cos(alpha)*cos(theta)-dist.z()*sin(theta)) );
@@ -181,7 +181,7 @@ void Sprite::rotate(
   p=result+pivot;
 }
 
-void Sprite::rotate(const s3d::point & pivot, double alpha, double theta)
+void Sprite::rotate(const sad::Point3D & pivot, double alpha, double theta)
 {
   for (int i=0;i<4;i++)
      rotate(m_rect[i],pivot,alpha,theta);
@@ -193,9 +193,9 @@ void Sprite::rotate(double alpha, double theta)
 }
 
 
-hst::rect< ::s3d::point> Sprite::bbox() const
+sad::Rect< ::sad::Point3D> Sprite::bbox() const
 {
-	hst::rect< ::s3d::point> rect;
+	sad::Rect< ::sad::Point3D> rect;
 	for(int i = 0; i < 4; i++)
 	{
 		rect[i] = m_rect[i];

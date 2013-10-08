@@ -4,7 +4,7 @@
 */
 
 #include "sadcolor.h"
-#include "primitives/hrect.h"
+#include "sadrect.h"
 #include "sadstring.h"
 #include "sadwstring.h"
 #include "sadvector.h"
@@ -188,7 +188,7 @@ namespace sad
 			\param[in] clr color
 			\param[in] rect rectangle
 		 */
-		void setAlpha(sad::uchar a, const sad::Color & clr,const hRectF & rect);
+		void setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect);
 		/*! Sets an alpha-channel value for a color
 		    \param[in] a    alpha-channel value
 			\param[in] clr  color

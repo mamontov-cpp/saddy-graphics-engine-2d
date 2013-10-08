@@ -5,19 +5,19 @@
 DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
 
 
-void Sprite2DAdapter::createSprite(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox, 
+void Sprite2DAdapter::createSprite(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox, 
 								   bool normalize)
 {
 	delete m_sprite;
 	m_rect=bbox;
-	hst::rect< ::s3d::point > rect(::s3d::point((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
-								 ::s3d::point((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
+	sad::Rect< ::sad::Point3D > rect(::sad::Point3D((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
+								 ::sad::Point3D((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
 	m_texrect=texrect;
 	m_sprite=new Sprite(tex,rect,m_texrect);
 	m_sprite->setColor(m_color);
 	
 }
-Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox)
+Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox)
 {
 	m_flipx=false;
 	m_flipy=false;
@@ -42,23 +42,26 @@ Sprite2DAdapter::~Sprite2DAdapter()
 	delete m_sprite;
 }
 
-void Sprite2DAdapter::setPos(const hPointF & p)
+void Sprite2DAdapter::setPos(const sad::Point2D & p)
 {
-	hPointF vector=p-pos();
+	sad::Point2D vector=p-pos();
 	move(vector);
 }
 
-void Sprite2DAdapter::move(const hPointF & p)
+void Sprite2DAdapter::move(const sad::Point2D & p)
 {
-	::s3d::point vector((float)(p.x()),(float)(p.y()),0);
+	::sad::Point3D vector((float)(p.x()),(float)(p.y()),0);
 	m_sprite->moveBy(vector);
 	for (int i=0;i<4;i++)
 		m_rect[i]+=p;
 }
 
-hPointF Sprite2DAdapter::pos() const
+sad::Point2D Sprite2DAdapter::pos() const
 {
-	return m_rect.p()+hPointF(m_rect.width()/2,m_rect.height()/2);
+	sad::Point2D p = m_rect.p0();
+	p+=m_rect.p2();
+	p/=2.0;
+	return p;
 }
 
 void Sprite2DAdapter::rotate(float angle)
@@ -112,13 +115,13 @@ void Sprite2DAdapter::updateBoundingRect()
 	float angle=m_angle;
 	rotate(-angle);
 	for (int i=0;i<4;i++)
-		m_sprite->point(i)=::s3d::point((float)(m_rect[i].x()),(float)(m_rect[i].y()),0.0f);
+		m_sprite->point(i)=::sad::Point3D((float)(m_rect[i].x()),(float)(m_rect[i].y()),0.0f);
 	rotate(angle);
 }
 
 void Sprite2DAdapter::flipBoundingRectX()
 {
-	hRectF m_copy=m_rect;
+	sad::Rect2D m_copy=m_rect;
 	m_rect[0]=m_copy[1];
 	m_rect[1]=m_copy[0];
 	m_rect[2]=m_copy[3];
@@ -127,7 +130,7 @@ void Sprite2DAdapter::flipBoundingRectX()
 
 void Sprite2DAdapter::flipBoundingRectY()
 {
-	hRectF m_copy=m_rect;
+	sad::Rect2D m_copy=m_rect;
 	for (int i=0;i<4;i++)
 		m_rect[i]=m_copy[3-i];
 }
@@ -176,16 +179,16 @@ void Sprite2DAdapter::setBottom(float y)
 	updateBoundingRect();
 }
 
-hPointF Sprite2DAdapter::size() const
+sad::Point2D Sprite2DAdapter::size() const
 {
-	return hPointF(m_rect.width(),m_rect.height());
+	return sad::Point2D(m_rect.width(),m_rect.height());
 }
 
-void Sprite2DAdapter::setSize(const hPointF & size)
+void Sprite2DAdapter::setSize(const sad::Point2D & size)
 {
-  hPointF pos=this->pos();
-  hPointF halfsize=size/2;
-  m_rect=hRectF(pos-halfsize,pos+halfsize);
+  sad::Point2D pos=this->pos();
+  sad::Point2D halfsize=size/2;
+  m_rect=sad::Rect2D(pos-halfsize,pos+halfsize);
   updateBoundingRect();
 }
 
@@ -194,7 +197,7 @@ void Sprite2DAdapter::render()
 	m_sprite->render();
 }
 
-void Sprite2DAdapter::setSprite(sad::Texture * tex, const hRectF & texrect)
+void Sprite2DAdapter::setSprite(sad::Texture * tex, const sad::Rect2D & texrect)
 {
    createSprite(tex,texrect,m_rect);
    //Restore sprite rotation
@@ -213,20 +216,20 @@ void Sprite2DAdapter::setSprite(sad::Texture * tex, const hRectF & texrect)
 	   flipY(); 
 }
 
-const hRectF & Sprite2DAdapter::rect() const
+const sad::Rect2D & Sprite2DAdapter::rect() const
 {
 	return m_rect;
 }
 
-void Sprite2DAdapter::setRect(const hRectF & rect)
+void Sprite2DAdapter::setRect(const sad::Rect2D & rect)
 {
 	m_rect = rect;
 	if (m_sprite)
 	{
-		hst::rect< ::s3d::point> vrect;
+		sad::Rect< ::sad::Point3D> vrect;
 		for(int i = 0; i < 4; i++)
 		{
-			vrect[i] = ::s3d::point((float)(rect[i].x()), (float)(rect[i].y()), 0.0f);
+			vrect[i] = ::sad::Point3D((float)(rect[i].x()), (float)(rect[i].y()), 0.0f);
 		}
 		m_sprite->setBBox(vrect);
 	}
@@ -263,13 +266,13 @@ void Sprite2DAdapter::set(const Sprite2DAdapter::Options & o)
 }
 
 
-void Sprite2DAdapter::makeSpanBetweenPoints(const hRectF & r, const hPointF & p1, const hPointF & p2)
+void Sprite2DAdapter::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2)
 {
-	hRectF kr(r);
+	sad::Rect2D kr(r);
 	for(int i = 0; i < 4; i++)
 		kr[i].setX(0);
 
-	double distance = sad::p2d::distance(p1, p2) / 2;
+	double distance = p1.distance(p2) / 2;
 	kr[0].setX(kr[0].x() - distance );
 	kr[2].setX(kr[2].x() + distance );
 	kr[1].setX(kr[1].x() + distance );

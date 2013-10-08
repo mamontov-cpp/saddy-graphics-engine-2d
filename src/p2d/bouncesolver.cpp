@@ -93,12 +93,12 @@ void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & p
 
 	sad::p2d::Point normal1; 
 	m_first->currentShape()->normalToPointOnSurface(pairs[0].p1(), normal1);
-	double pivot1 = m_first->currentShape()->center().distanceTo(pairs[0].p1());
+	double pivot1 = m_first->currentShape()->center().distance(pairs[0].p1());
 	m_force_moment[0] = (pairs[0].p1() - m_first->currentShape()->center());
 
 	sad::p2d::Point normal2;
 	m_second->currentShape()->normalToPointOnSurface(pairs[0].p2(), normal2);
-	double pivot2 = m_first->currentShape()->center().distanceTo(pairs[0].p2());
+	double pivot2 = m_first->currentShape()->center().distance(pairs[0].p2());
 	m_force_moment[1] = (pairs[0].p2() - m_second->currentShape()->center());
 
 	sad::p2d::Vector v1 = m_first->tangentialVelocityAt(m_toi);

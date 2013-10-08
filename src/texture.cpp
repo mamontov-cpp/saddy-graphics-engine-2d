@@ -138,9 +138,9 @@ void Texture::setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec)
 	}
 }
 
-void Texture::setAlpha(sad::uchar a, const sad::Color & clr,const hRectF & rect)
+void Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
-	hRectF tmp=rect;
+	sad::Rect2D tmp=rect;
 	for (int i=0;i<4;i++)
 	{
 		if (tmp[i].x()<0) tmp[i].setX(0);

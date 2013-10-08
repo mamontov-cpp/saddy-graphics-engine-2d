@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "collisionshape.h"
-#include "../primitives/hrect.h"
+#include "../sadrect.h"
 
 namespace sad
 {
@@ -18,22 +18,22 @@ class Rectangle: public p2d::CollisionShape
 {
 	SAD_OBJECT
 protected:
-	hRectF m_rect; //!< Real rectangle
+	sad::Rect2D m_rect; //!< Real rectangle
 public:
 	inline Rectangle() {}
 	/*! Sets new inner rectangle
 		\param[in] rect rectangle
 	 */
-	inline void setRect(const hRectF & rect) { m_rect = rect; } 
+	inline void setRect(const sad::Rect2D & rect) { m_rect = rect; } 
 	/*! Returns inner rectangle
 		\return rectangle
 	 */ 
-	inline const hRectF & rect() const { return m_rect; }
+	inline const sad::Rect2D & rect() const { return m_rect; }
 	/*! Returns a point by index
 		\param[in] index index of point
 		\return point of rectangle
 	 */
-	const hPointF & point(int index) const;
+	const sad::Point2D & point(int index) const;
 	/*! Returns new identical rectangle
 		\return rectangle
 	 */

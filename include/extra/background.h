@@ -16,7 +16,7 @@ class Background: public Sprite
 			\param[in] name name of texture
 			\param[in] r rectangle
 	    */
-	    Background(const sad::String & name,const hRectF & r);	
+	    Background(const sad::String & name,const sad::Rect2D & r);	
 		/*! Creates background from texture with name
 			\param[in] name name of texture
 	    */

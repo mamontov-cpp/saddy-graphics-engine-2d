@@ -9,7 +9,7 @@
 
 #include "../p2d/point.h"
 #include "../p2d/axle.h"
-#include "../primitives/hrect.h"
+#include "../sadrect.h"
 
 
 namespace sad
@@ -22,27 +22,27 @@ namespace sad
 	\param[in] pivot2 second pivot
 	\return whether projection is within following cutter
  */
-bool projectionIsWithin(const hPointF & test, const hPointF & pivot1, const hPointF & pivot2);
+bool projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2);
 
 /*! Tests, whether point is within rectangle
 	\param[in] p point
 	\param[in] r rectangle
 	\return whether it's within
  */
-bool isWithin(const hPointF & p, const hRectF & r);
+bool isWithin(const sad::Point2D & p, const sad::Rect2D & r);
 
 /*! Moves a rectangle by a distance vector, stored in dp
 	\param[in] dp distance point
 	\param[in] r rectangle
  */
-void moveBy(const hPointF & dp , hRectF & r);
+void moveBy(const sad::Point2D & dp , sad::Rect2D & r);
 
 /*! Rotates counter-clockwise a rectangle 
 	around his center by specified angle
 	\param[in] angle angle
 	\param[in] r rectangle
  */
-void rotate(float angle, hRectF & r);
+void rotate(float angle, sad::Rect2D & r);
 
 
 /*! Moves a rectangle around by point by angle. 
@@ -51,7 +51,7 @@ void rotate(float angle, hRectF & r);
 	\param[in] result resulting
 	\param[in] r rectangle
  */
-void moveAndRotateNormalized(float angle, hPointF & result, hRectF & r);
+void moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & r);
 
 
 /*! Tests, whether two points are equal (precision based)
@@ -60,14 +60,14 @@ void moveAndRotateNormalized(float angle, hPointF & result, hRectF & r);
 	\param[in] precision precision for  comparing two numbers
 	\return whether they are equal
  */
-bool equal(const hPointF & p1, const hPointF & p2, float precision = S2D_FP_PRECISION);
+bool equal(const sad::Point2D & p1, const sad::Point2D & p2, float precision = S2D_FP_PRECISION);
 /*! Tests, whether two rects are equal (precision based)
 	\param[in] p1 first rect
 	\param[in] p2 second rect
 	\param[in] precision for comparing two numbers
 	\return whether they are equal
  */
-bool equal(const hRectF & p1, const hRectF & p2, float precision = S2D_FP_PRECISION);
+bool equal(const sad::Rect2D & p1, const sad::Rect2D & p2, float precision = S2D_FP_PRECISION);
 /*! Similar behaviour as atan2, only in range of [0..2 * M_PI].
 	Also handles (0, 0) as zero
 	\param[in] x x coordinate

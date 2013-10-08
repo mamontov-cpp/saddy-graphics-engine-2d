@@ -11,7 +11,7 @@
 #pragma once
 #include "settings.h"
 #include "scene.h"
-#include "primitives/hpoint.h"
+#include "sadpoint.h"
 #include "log/log.h"
 #include "os/timer.h"
 
@@ -213,7 +213,7 @@ namespace sad
 		/*! Returns a mouse position
 			\return mouse position in window coordinate.
 		*/
-		hst::point<hst::D3,float> mousePos();
+		sad::Point3D mousePos();
 		/*! Font manager data
 			\return fonts, loaded into renderer
 		 */

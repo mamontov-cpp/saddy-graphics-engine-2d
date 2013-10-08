@@ -21,8 +21,8 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
  private:
 	    LabelFont  m_fnt;        //!<  Associated font
 		sad::String      m_str;        //!<  String
-		pointf           m_p;          //!<  point
-		pointf           m_rend_point; //!<  Current rendering point
+		sad::Point2D           m_p;          //!<  point
+		sad::Point2D           m_rend_point; //!<  Current rendering point
 		sad::Renderer *  m_renderer;  //!< Input data
  public:
 	    void operator()(const sad::ResizeEvent & o);
@@ -37,11 +37,11 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		/*! Returns a point position
 		    \return m_p
 		*/
-		inline pointf &  point();
+		inline sad::Point2D &  point();
 		/*! Returns a rendering point position
 		    \return m_rend_point
 		*/
-		inline pointf &  render_point();
+		inline sad::Point2D &  render_point();
 		/*! Creates a label
 			\param[in] renderer associated renderer
 		*/
@@ -55,7 +55,7 @@ class Label: public sad::BasicNode, public sad::ResizeEventHandler
 		Label(
 		      LabelFont  fnt,
 		      const sad::String & str,
-			  const pointf      & p,
+			  const sad::Point2D      & p,
 			  sad::Renderer * renderer = sad::Renderer::ref()
 			 );
         /*! Renders it
@@ -237,12 +237,12 @@ class FormattedLabel: public Label
 	 /*! Sets an upper-left point for rendering
 		 \param[in] p point
 	  */
-	 inline void setPoint(const pointf & p) { this->point() = p; this->render_point() = p; }
+	 inline void setPoint(const sad::Point2D & p) { this->point() = p; this->render_point() = p; }
 	 /*! Sets an upper-left point for rendering
 		 \param[in] x x coordinate
 		 \param[in] y y coordinate
 	  */
-	 inline void setPoint(double x, double y) { setPoint(pointf(x, y)); }
+	 inline void setPoint(double x, double y) { setPoint(sad::Point2D(x, y)); }
 	 /*! Updates a label
 		 \param[in] time a time interval, between two updates
 	  */
@@ -392,5 +392,5 @@ class FormattedLabel: public Label
 //======================================Source code=====================================
 LabelFont & Label::font()   { return m_fnt;  }
 sad::String &     Label::string() { return m_str;  }
-pointf &          Label::point()    { return m_p; }
-pointf &		  Label::render_point() { return m_rend_point;}
+sad::Point2D &          Label::point()    { return m_p; }
+sad::Point2D &		  Label::render_point() { return m_rend_point;}

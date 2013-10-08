@@ -18,7 +18,7 @@ Label::Label(sad::Renderer * renderer)
 Label::Label(
 		      LabelFont fnt,
 		      const sad::String & str,
-			  const pointf      & p,
+			  const sad::Point2D      & p,
 			  sad::Renderer * renderer
 			)
 {

@@ -34,7 +34,7 @@ Sprite2DConfigObserver::~Sprite2DConfigObserver()
 		m_config->removeObserver(this);
 }
 
-bool Sprite2DConfigObserver::createSprite(const hPointF & center)
+bool Sprite2DConfigObserver::createSprite(const sad::Point2D & center)
 {
 	if ( m_config->getTemplates().contains(m_spritegroup) )
 	{
@@ -45,7 +45,7 @@ bool Sprite2DConfigObserver::createSprite(const hPointF & center)
 			sad::Texture  * texture=m_config->getTextures()->get(sprite_template.textureName());
 			if (texture!=NULL)
 			{
-				hRectF bounding_box(center-sprite_template.size()/2,center+sprite_template.size()/2);
+				sad::Rect2D bounding_box(center-sprite_template.size()/2,center+sprite_template.size()/2);
 				m_sprite=new Sprite2DController(texture,sprite_template.textureRect(),bounding_box);
 				return true;
 			}
