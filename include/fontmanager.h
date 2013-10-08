@@ -69,7 +69,7 @@ namespace sad
 			bool load(
 			           const sad::String & tex, 
 					   const sad::String & cfg, 
-					   const hst::color & bk=hst::color(255,255,255),
+					   const sad::Color & bk=sad::Color(255,255,255),
 					   bool fontdetermine=true,
 					   sad::Renderer * renderer = sad::Renderer::ref() 
 					  );

@@ -29,7 +29,7 @@ void sad::Texture::makePOT()
 }
 void sad::Texture::scaleFast(int width, int height)
 {
-	std::vector<Uint8> datax;
+	std::vector<sad::uchar> datax;
 	datax.resize(width*height*m_bpp/8);
     int b8=m_bpp/8;
     for (int i=0;i<height;i++)
@@ -58,14 +58,14 @@ void sad::Texture::scaleFast(int width, int height)
 	m_height=height;
 }
 
-inline Uint8 mid(Uint8 xx,Uint8 a1,Uint8 a2,Uint8 a3, Uint8 a4)
+inline sad::uchar mid(sad::uchar xx,sad::uchar a1,sad::uchar a2,sad::uchar a3, sad::uchar a4)
 {
-	//return (Uint8)( ( xx+(int)a1/10+(int)a2/10+(int)a3/10+(int)a4/10 )/5 );
+	//return (sad::uchar)( ( xx+(int)a1/10+(int)a2/10+(int)a3/10+(int)a4/10 )/5 );
 	return xx/5+a1/5+a2/5+a3/5+a4/5;
 }
 void sad::Texture::scale(int width, int height)
 {
-	std::vector<Uint8> datax;
+	std::vector<sad::uchar> datax;
 	datax.resize(width*height*m_bpp/8);
     int b8=m_bpp/8;
 	int pos_src_xm; int pos_src_xp;
@@ -86,11 +86,11 @@ void sad::Texture::scale(int width, int height)
 			pos_src_ym=(pos_src_y==0)?pos_src_y:pos_src_y-1;
 			pos_src_yp=(pos_src_y==m_height-1)?pos_src_y:pos_src_y+1;
 	
-			Uint8 * xx=&(m_data[pos_src]);
-			Uint8 * xmym=pixel(pos_src_ym,pos_src_xm);
-			Uint8 * xmyp=pixel(pos_src_ym,pos_src_xp);
-			Uint8 * xpym=pixel(pos_src_yp,pos_src_xm);
-			Uint8 * xpyp=pixel(pos_src_yp,pos_src_xp);
+			sad::uchar * xx=&(m_data[pos_src]);
+			sad::uchar * xmym=pixel(pos_src_ym,pos_src_xm);
+			sad::uchar * xmyp=pixel(pos_src_ym,pos_src_xp);
+			sad::uchar * xpym=pixel(pos_src_yp,pos_src_xm);
+			sad::uchar * xpyp=pixel(pos_src_yp,pos_src_xp);
 
 			datax[pos_dest]=mid(xx[0],xmym[0],xmyp[0],xpym[0],xpyp[0]);
 			datax[pos_dest+1]=mid(xx[1],xmym[1],xmyp[1],xpym[1],xpyp[1]);

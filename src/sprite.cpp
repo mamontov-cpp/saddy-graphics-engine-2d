@@ -19,7 +19,7 @@
 
 DECLARE_SOBJ_INHERITANCE(Sprite,sad::BasicNode)
 
-#define DEFAULT_COLOR_INITIALIZATION  m_color = hst::acolor(255,255,255,0);
+#define DEFAULT_COLOR_INITIALIZATION  m_color = sad::AColor(255,255,255,0);
 
 Sprite::~Sprite()
 {
@@ -204,12 +204,12 @@ hst::rect< ::s3d::point> Sprite::bbox() const
 }
 
 
-void Sprite::setColor(const hst::acolor & clr) 
+void Sprite::setColor(const sad::AColor & clr) 
 {
 	m_color = clr;
 }
 
-const hst::acolor & Sprite::color() const
+const sad::AColor & Sprite::color() const
 {
 	return m_color;
 }

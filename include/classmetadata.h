@@ -5,9 +5,9 @@
 
 	This file contains a definition for class metadata.
 */
-#include "../sadstring.h"
-#include "../sadvector.h"
 #pragma once
+#include "sadstring.h"
+#include "sadvector.h"
 
 namespace sad
 {

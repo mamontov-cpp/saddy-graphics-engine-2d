@@ -3,7 +3,7 @@
 void Inflator::inflate(uchrstream & out,const uchrstream & in, size_t inpos)
 {
 	zlib::temporary * state=new zlib::temporary(in,out);
-	state->m_in_pos=(Uint8*)(&in[inpos]);
+	state->m_in_pos=(sad::uchar*)(&in[inpos]);
 	this->m_error=0;
 	sad::Chunk final_code=0;
 	while( !final_code &&  !m_error)
@@ -49,7 +49,7 @@ void Inflator::createFixed(HuffmanTree & ctree, HuffmanTree & ctreeD)
 }
 
 
-sad::Chunk Inflator::decodeSym(const Uint8 * in, size_t & bitp, const HuffmanTree & ctree, size_t inl )
+sad::Chunk Inflator::decodeSym(const sad::uchar * in, size_t & bitp, const HuffmanTree & ctree, size_t inl )
 {
  bool decoded=false; unsigned long ct=0;
  sad::Chunk tmp=ctree.size()/2;

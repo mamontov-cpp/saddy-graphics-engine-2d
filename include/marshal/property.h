@@ -161,4 +161,4 @@ typedef MappedField< sad::Vector<int> >    HIntVectorMappedField;
 typedef MappedField<hPointF>                   PointMappedField;
 typedef MappedField<hRectF>                    RectMappedField;
 typedef MappedField< sad::Vector<hPointF> >    PointVectorMappedField;
-typedef MappedField< hst::color >			   ColorMappedField;
+typedef MappedField< sad::Color >			   ColorMappedField;

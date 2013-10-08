@@ -117,9 +117,9 @@ class Sprite2DController
 		  /*! Sets a color for sprite
 		      \param[in] clr color
 		   */
-		  void setColor(const hst::acolor & clr);
+		  void setColor(const sad::AColor & clr);
 		  /*! Returns a color of sprite
 		   */
-		  hst::acolor color() const; 
+		  sad::AColor color() const; 
 };
 

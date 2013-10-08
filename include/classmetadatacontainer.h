@@ -3,10 +3,11 @@
 
 	Defines a container for class meta data
  */
+#pragma once
+#include "classmetadata.h"
+
 #include "../sadhash.h"
 #include "../os/mutex.h"
-#include "classmetadata.h"
-#pragma once
 
 namespace sad
 {

@@ -5,7 +5,7 @@
  */
 #include "property.h"
 #include <sadhash.h>
-#include "../primitives/object.h"
+#include "../object.h"
 #pragma once
 
 /*! A serialization entry , that contents a string representation of object

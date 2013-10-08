@@ -6,7 +6,7 @@
 #include "abstractproperty.h"
 #include <primitives/hpoint.h>
 #include <primitives/hrect.h>
-#include <primitives/hcolor.h>
+#include <sadcolor.h>
 #include <sstream>
 #pragma once
 
@@ -25,7 +25,7 @@ DEFINE_PROPERTY_TYPESTRING( sad::Vector<int> )
 DEFINE_PROPERTY_TYPESTRING( hPointF )
 DEFINE_PROPERTY_TYPESTRING( hRectF )
 DEFINE_PROPERTY_TYPESTRING( sad::Vector<hPointF> )
-DEFINE_PROPERTY_TYPESTRING( hst::color )
+DEFINE_PROPERTY_TYPESTRING( sad::Color )
 /*! A template callback for loading some properties
  */
 template<typename T>
@@ -118,11 +118,11 @@ class SaveLoadCallback< bool >
 
 
 template<>
-class SaveLoadCallback< hst::color >
+class SaveLoadCallback< sad::Color >
 {
  public:
-	 static hst::color load(ActionContext * context,
+	 static sad::Color load(ActionContext * context,
 				     const sad::String & str, 
-					 const sad::String & typestring =  abstract_names::type_string<hst::color>::type());
-	 static sad::String save(const hst::color & obj);
+					 const sad::String & typestring =  abstract_names::type_string<sad::Color>::type());
+	 static sad::String save(const sad::Color & obj);
 };

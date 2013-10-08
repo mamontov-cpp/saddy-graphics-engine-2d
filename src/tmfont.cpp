@@ -15,7 +15,7 @@ TMFont::~TMFont()
 bool TMFont::load(
 			           const sad::String & tex, 
 					   const sad::String & cfg, 
-					   const hst::color & bk,
+					   const sad::Color & bk,
 					   bool  fontdetermine,
 					   sad::Renderer * renderer
 		         )
@@ -164,7 +164,7 @@ class Luv
 		  /*! Converts color to Luv model
 			  \return (r,g,b)->(L,u,v)
 		  */
-		  Luv(const hst::color & cl);
+		  Luv(const sad::Color & cl);
 		  /*! Calculates distance
 		      \param[in] lu second Luv
 		  */
@@ -174,9 +174,9 @@ class Luv
 /*! Converts color to Luv model
 	\return (r,g,b)->(L,u,v)
 */
-Luv::Luv(const hst::color & cl)
+Luv::Luv(const sad::Color & cl)
 {
-	Uint8 r=cl.r();Uint8 g=cl.g(); Uint8 b=cl.b();
+	sad::uchar r=cl.r();sad::uchar g=cl.g(); sad::uchar b=cl.b();
 	float rs=(float)r/255.0f,gs=(float)g/255.0f,bs=(float)b/255.0f;
 	float X=0.412454f*rs+0.35758f*gs+0.180423f*bs;
 	float Y=0.212671f*rs+0.71516f*gs+0.072169f*bs;
@@ -217,24 +217,24 @@ float Luv::distance(const Luv & o)
 class ColorStorage
 {
  private:
-	     sad::Vector<hst::color>    m_x;  //!< Colors
+	     sad::Vector<sad::Color>    m_x;  //!< Colors
 		 sad::Vector<unsigned int>  m_c;  //!< Counters
-		 hst::color                 m_lasttaken; //Last taken color
+		 sad::Color                 m_lasttaken; //Last taken color
  public:
 	     ColorStorage();
-		 void push(Uint8 r, Uint8 g, Uint8 b); //!< Adds new color and sorts
-		 hst::color   take();
+		 void push(sad::uchar r, sad::uchar g, sad::uchar b); //!< Adds new color and sorts
+		 sad::Color   take();
 		 ~ColorStorage();
 };
 
-hst::color ColorStorage::take()
+sad::Color ColorStorage::take()
 {
-	if (m_x.count()!=0) { hst::color tmp=m_x[0]; m_x.removeAt(0); m_lasttaken=tmp; }
+	if (m_x.count()!=0) { sad::Color tmp=m_x[0]; m_x.removeAt(0); m_lasttaken=tmp; }
 	return m_lasttaken;
 }
-void ColorStorage::push(Uint8 r, Uint8 g, Uint8 b)
+void ColorStorage::push(sad::uchar r, sad::uchar g, sad::uchar b)
 {
-	hst::color cl(r,g,b);
+	sad::Color cl(r,g,b);
 	int i=0;
 	int found=false;
 	for (unsigned i=0;(i<m_x.count()) && (!found);i++)
@@ -252,7 +252,7 @@ void ColorStorage::push(Uint8 r, Uint8 g, Uint8 b)
 			//Swap
 			if (swapind!=-1) 
 			{
-				hst::color tmp=m_x[swapind];m_x[swapind]=m_x[i];m_x[i]=tmp;
+				sad::Color tmp=m_x[swapind];m_x[swapind]=m_x[i];m_x[i]=tmp;
 				unsigned int t=m_c[swapind];m_c[swapind]=m_c[i];m_c[i]=t;
 			}
 		}
@@ -266,7 +266,7 @@ ColorStorage::~ColorStorage() {}
 void sad::TMFont::alphaDetermine()
 {
 	unsigned int cnt=m_tex->vdata().count();
-	Uint8 * p=m_tex->data();
+	sad::uchar * p=m_tex->data();
 	
 	Luv bk, fnt; //!< Background and font
 	{
@@ -280,14 +280,14 @@ void sad::TMFont::alphaDetermine()
 	if (c<0.001f) c=0.001f;
     for (unsigned int i=0;i<cnt;i+=4)
 	{
-		Luv rb(hst::color(p[i],p[i+1],p[i+2]));
+		Luv rb(sad::Color(p[i],p[i+1],p[i+2]));
 		int ax=22;
 		if (p[i]==0)
 		    ax=1;
 		a=fnt.distance(rb);
 		b=bk.distance(rb);
 		float D1=(a*a+c*c-b*b)/c/c/2;
-		Uint8 bb=255-(Uint8)(fabs(D1)*255);
+		sad::uchar bb=255-(sad::uchar)(fabs(D1)*255);
 		p[i+3]=bb;
 	}
 }

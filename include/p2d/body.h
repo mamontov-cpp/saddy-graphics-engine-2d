@@ -11,7 +11,7 @@
 #include "angularforce.h"
 #include "movement.h"
 
-#include "../primitives/object.h"
+#include "../object.h"
 #include "../sadstring.h"
 
 

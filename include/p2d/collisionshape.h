@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "convexhull.h"
-#include "../primitives/object.h"
+#include "../object.h"
 
 
 namespace sad

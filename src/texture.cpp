@@ -117,7 +117,7 @@ void Texture::buildMipMaps()
 	
 }
 
-void Texture::setAlpha(Uint8 a)
+void Texture::setAlpha(sad::uchar a)
 {
 	m_bpp=32;
 	for (unsigned int i=3;i<m_data.count();i+=4)
@@ -125,7 +125,7 @@ void Texture::setAlpha(Uint8 a)
 		m_data[i]=255-a;
 	}
 }
-void Texture::setAlpha(Uint8 a, const hst::color & clr, Uint8 prec)
+void Texture::setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec)
 {
 	m_bpp=32;
 	for (unsigned int i=3;i<m_data.count();i+=4)
@@ -138,7 +138,7 @@ void Texture::setAlpha(Uint8 a, const hst::color & clr, Uint8 prec)
 	}
 }
 
-void Texture::setAlpha(Uint8 a, const hst::color & clr,const hRectF & rect)
+void Texture::setAlpha(sad::uchar a, const sad::Color & clr,const hRectF & rect)
 {
 	hRectF tmp=rect;
 	for (int i=0;i<4;i++)
@@ -165,7 +165,7 @@ void Texture::setAlpha(Uint8 a, const hst::color & clr,const hRectF & rect)
 	{
 		for (int col=miny;col<=maxy;col++)
 		{
-			Uint8 * pix=this->pixel(row,col);
+			sad::uchar * pix=this->pixel(row,col);
 			bool rck=abs(clr.r()-pix[0])<10;
 			bool gck=abs(clr.g()-pix[1])<10;
 			bool bck=abs(clr.b()-pix[2])<10;

@@ -1,10 +1,10 @@
-/*! \file primitives/object.h
+/*! \file object.h
 	\author HiddenSeeker
 
 	Defines a universal object class, used as container for metadataa
  */
-#include "classmetadatacontainer.h"
 #pragma once
+#include "classmetadatacontainer.h"
 
 namespace sad
 {

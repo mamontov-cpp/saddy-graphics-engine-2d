@@ -105,16 +105,16 @@ void Sprite2DController::setSprite(sad::Texture * tex, const hRectF & texrect)
 	m_sprite->setSprite(tex,texrect);
 }
 
-void Sprite2DController::setColor(const hst::acolor & clr)
+void Sprite2DController::setColor(const sad::AColor & clr)
 {
 	if (m_sprite)
 		m_sprite->setColor(clr);
 }
 
-hst::acolor Sprite2DController::color() const
+sad::AColor Sprite2DController::color() const
 {
 	if (m_sprite)	
 		return m_sprite->color();
-	return hst::acolor();
+	return sad::AColor();
 }
 

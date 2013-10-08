@@ -5,7 +5,7 @@
 using namespace tga;
 
 // Writes bytes of TGA header to object
-TGAHeader tga::getHeader(Uint8 *buf)
+TGAHeader tga::getHeader(sad::uchar *buf)
 {
 	TGAHeader newHeader;
 
@@ -30,12 +30,12 @@ TGAHeader tga::getHeader(Uint8 *buf)
 bool tga::loadUnCompressed(tga::Info & data, FILE *hFile)
 {
 	data.m_TGA_data.resize(data.m_TGA_width * data.m_TGA_height * 4);	// Allocate memory for pixels
-	Uint8 * begin = &(data.m_TGA_data[0]);
+	sad::uchar * begin = &(data.m_TGA_data[0]);
 	//  Swap pixels, since it's BGR format
 	unsigned int bpp8 = data.m_TGA_bpp / 8;
 	for (unsigned int i=0;i<data.m_TGA_imageSize; i+=bpp8)
 	{
-		if (fread(begin, sizeof(Uint8), bpp8, hFile) != bpp8)
+		if (fread(begin, sizeof(sad::uchar), bpp8, hFile) != bpp8)
 			return false;
 		std::swap(*begin, *(begin+2));
 		if (bpp8 == 3) 

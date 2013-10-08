@@ -31,7 +31,7 @@ bool PicoPNGTextureLoader::load(FILE * file, sad::Texture * texture)
 	if (ok)
 	{
 		texture->vdata().rescale(outimg.size());
-		memcpy(&(texture->vdata()[0]), &(outimg[0]), outimg.size() * sizeof(Uint8));
+		memcpy(&(texture->vdata()[0]), &(outimg[0]), outimg.size() * sizeof(sad::uchar));
 	}
 	return ok;
 }

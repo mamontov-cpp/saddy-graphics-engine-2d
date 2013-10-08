@@ -55,7 +55,7 @@
 #include "sadwstring.h"
 
 
-#include "primitives/hcolor.h"
+#include "sadcolor.h"
 #include "primitives/hpoint.h"
 #include "primitives/hrect.h"
 #pragma once

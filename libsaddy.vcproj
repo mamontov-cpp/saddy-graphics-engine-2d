@@ -158,6 +158,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\classmetadata.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\classmetadatacontainer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\closure.cpp"
 				>
 			</File>
@@ -187,6 +195,10 @@
 			</File>
 			<File
 				RelativePath=".\src\lightmodel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\object.cpp"
 				>
 			</File>
 			<File
@@ -274,26 +286,6 @@
 				>
 				<File
 					RelativePath=".\src\fsm\statemachine.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="primitives"
-				>
-				<File
-					RelativePath=".\src\primitives\classmetadata.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\primitives\classmetadatacontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\primitives\hcolor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\primitives\object.cpp"
 					>
 				</File>
 			</Filter>
@@ -624,6 +616,14 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\include\classmetadata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\classmetadatacontainer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\closure.h"
 				>
 			</File>
@@ -652,7 +652,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\matrix2x2.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\maybe.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\object.h"
 				>
 			</File>
 			<File
@@ -665,6 +673,10 @@
 			</File>
 			<File
 				RelativePath=".\include\renderer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadcolor.h"
 				>
 			</File>
 			<File
@@ -767,18 +779,6 @@
 				Name="primitives"
 				>
 				<File
-					RelativePath=".\include\primitives\classmetadata.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\classmetadatacontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\hcolor.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\primitives\hpoint.h"
 					>
 				</File>
@@ -792,14 +792,6 @@
 				</File>
 				<File
 					RelativePath=".\include\primitives\hrect_src.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\matrix2x2.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\primitives\object.h"
 					>
 				</File>
 			</Filter>
