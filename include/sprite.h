@@ -3,20 +3,10 @@
 
 	Contains a definition of simple 3D Sprite
 */
-#include "../include/scene.h"
-#include "../include/texture.h"
-#include "../include/primitives/hrect.h"
 #pragma once
-
-
-namespace s3d
-{
-/*! typedef hst::point<hst::D3,float> point;
-*  
-*/
- typedef hst::point<hst::D3,float> point;
- 
- }
+#include "scene.h"
+#include "texture.h"
+#include "sadrect.h"
  
 /*! Class of simple quad that rotates
 */
@@ -25,7 +15,7 @@ class Sprite: public sad::BasicNode
  SAD_OBJECT
  private:
 	     float        m_tex_coord[8];    //!< Texture coordinates
-		 s3d::point   m_rect[4];         //!< Rectangle
+		 sad::Point3D   m_rect[4];         //!< Rectangle
 		 sad::AColor  m_color;           //!< Color of sprite
 		 sad::Texture * m_tex;           //!< Associated texture
 		 /*! Rotates one point around other point
@@ -35,8 +25,8 @@ class Sprite: public sad::BasicNode
 			 \param[in]   theta   theta angle of rotation on YZ axis
 		 */
 		 void rotate(
-		             s3d::point & p, 
-					 const s3d::point & pivot, 
+		             sad::Point3D & p, 
+					 const sad::Point3D & pivot, 
 					 double alpha, 
 					 double theta 
 					);
@@ -48,8 +38,8 @@ class Sprite: public sad::BasicNode
 		  */
 		  Sprite(
 			     sad::Texture * tex, 
-				 const hst::rect< ::s3d::point> & rect,
-				 const hRectF  & texrect
+				 const sad::Rect< sad::Point3D> & rect,
+				 const sad::Rect2D  & texrect
 			    );
           /*! Creates a simple node
 		      \param[in] tex        texture
@@ -58,7 +48,7 @@ class Sprite: public sad::BasicNode
 		  */
 		 Sprite(
 		        sad::Texture * tex,
-		        s3d::point rect[4], 
+		        sad::Point3D rect[4], 
 				float * tex_coord=NULL
 			   );
 		  /*! Creates a simple node
@@ -68,7 +58,7 @@ class Sprite: public sad::BasicNode
 		  */
 		 Sprite(
 		        sad::Texture * tex,
-		        s3d::point rect[4], 
+		        sad::Point3D rect[4], 
 				int * tex_coord
 			   );
 		 /*! Copies a sprite information
@@ -95,25 +85,25 @@ class Sprite: public sad::BasicNode
 		      \param[in] n number of point
 			  \return reference to point
 		  */
-		  s3d::point & point(int n);
+		  sad::Point3D & point(int n);
 		  /*! Calculates a middle point
 		      \return middle point
 		  */
-		  s3d::point middle() const;
+		  sad::Point3D  middle() const;
 		  /*! Moves a points by following vector
 			  \param[in] p point
 		  */
-		  void moveBy(const s3d::point & p);
+		  void moveBy(const sad::Point3D & p);
 		  /*! Moves a sprite center to a point
 		      \param[in] p point
 		  */
-		  void moveTo(const s3d::point & p);
+		  void moveTo(const sad::Point3D & p);
 		  /*! Rotates a sprite around the pivot in three dimensions
 		      \param[in]  pivot pivot point
 		      \param[in]  alpha angle of rotation on XY axis
 			  \param[in]  theta angle of rotation on YZ axis
 		  */
-		  void rotate(const s3d::point & pivot, double alpha, double theta);
+		  void rotate(const sad::Point3D & pivot, double alpha, double theta);
 		  /*! Rotates a sprite around his middle point in three dimensions
 		      \param[in]  alpha angle of rotation on XY axis
 			  \param[in]  theta angle of rotation on YZ axis
@@ -131,11 +121,11 @@ class Sprite: public sad::BasicNode
 		  inline void setTexture(sad::Texture * tex) { m_tex=tex; }
 		  /*! Returns a bounding box for rectangle
 		   */
-		  hst::rect< ::s3d::point> bbox() const;
+		  sad::Rect< sad::Point3D > bbox() const;
 		  /*! Sets boundary box of rect
 			  \param[in] rect rectangle
 		   */
-		  void setBBox(const hst::rect< ::s3d::point> & rect);
+		  void setBBox(const sad::Rect<sad::Point3D> & rect);
 		  /*! Sets a color for sprite
 			  \param[in] clr blending sprite color
 		   */

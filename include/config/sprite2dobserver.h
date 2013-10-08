@@ -57,7 +57,7 @@ class Sprite2DConfigObserver
 			 \param[in] center sprite center point.
 			 \return true if succeeded, false if data in config is not found
 		  */
-		 bool createSprite(const hPointF & center);
+		 bool createSprite(const sad::Point2D & center);
 		 /*! Checks, whether sprite can be updated from container. It can update if sprite group and index
 			 are presented in container
 			 \param[in] container container, from which we can find an object

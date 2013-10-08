@@ -22,10 +22,10 @@ namespace p2d
 	typedef sad::Pair<double, double> Cutter1D;
 	/*! A two-dimensional cutter is a pair of points
 	 */
-	typedef sad::Pair<hPointF, hPointF> Cutter2D;
+	typedef sad::Pair<sad::Point2D, sad::Point2D> Cutter2D;
 	/*! A pair of points, which can be contacts 
 	 */
-	typedef sad::Pair<hPointF, hPointF> PointsPair;
+	typedef sad::Pair<sad::Point2D, sad::Point2D> PointsPair;
 	/*! A matrix 2x2 for out options
 	 */
 	typedef sad::Matrix2x2<double> Matrix2x2; 
@@ -36,7 +36,7 @@ namespace p2d
 		\param[in] p2 second point
 		\return resulting axle
 	 */
-	p2d::Axle axle(const hPointF & p1, const hPointF & p2);
+	p2d::Axle axle(const sad::Point2D & p1, const sad::Point2D & p2);
 	/*! Projects a cutter to an axle
 		\param[in] c cutter
 		\param[in] a axle
@@ -50,8 +50,8 @@ namespace p2d
 		\param[in] a axle
 		\return one-dimensional cutter
 	 */
-	p2d::Cutter1D project(const hPointF & p1,
-						  const hPointF & p2,
+	p2d::Cutter1D project(const sad::Point2D & p1,
+						  const sad::Point2D & p2,
 						  const p2d::Axle & a);
 	/*! Tests, whether two one-dimensional cutters collide
 		\param[in] c1 first cutter

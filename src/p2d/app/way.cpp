@@ -115,11 +115,11 @@ void sad::p2d::app::Way::construct()
 	double totaldistance = 0;
 	for(unsigned int i = 0; i < m_waypoints.size() - 1; i++)
 	{
-		totaldistance += m_waypoints[i].distanceTo(m_waypoints[i+1]);
+		totaldistance += m_waypoints[i].distance(m_waypoints[i+1]);
 	}
 	if (m_closed)
 	{
-		totaldistance +=  m_waypoints[0].distanceTo(m_waypoints[m_waypoints.size()-1]);
+		totaldistance +=  m_waypoints[0].distance(m_waypoints[m_waypoints.size()-1]);
 	}
 
 	double avspeed = totaldistance / m_totaltime;
@@ -127,7 +127,7 @@ void sad::p2d::app::Way::construct()
 	m_times << 0;
 	for(unsigned int i = 1; i < m_waypoints.size(); i++)
 	{
-		double d = m_waypoints[i-1].distanceTo(m_waypoints[i]);
+		double d = m_waypoints[i-1].distance(m_waypoints[i]);
 		curtime += d / avspeed;
 		m_times << curtime;
 	}

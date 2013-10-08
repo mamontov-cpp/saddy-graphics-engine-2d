@@ -2,7 +2,7 @@
 #include "p2d/collides1d.h"
 #include "p2d/point.h"
 
-sad::p2d::Axle sad::p2d::axle(const hPointF & p1, const hPointF & p2)
+sad::p2d::Axle sad::p2d::axle(const sad::Point2D & p1, const sad::Point2D & p2)
 {
 	return sad::p2d::unit(p2-p1);
 }
@@ -15,8 +15,8 @@ sad::p2d::Cutter1D sad::p2d::project(const sad::p2d::Cutter2D & c,
 	return p2d::Cutter1D(x1, x2);
 }
 
-sad::p2d::Cutter1D sad::p2d::project(const hPointF & p1,
-									 const hPointF & p2,
+sad::p2d::Cutter1D sad::p2d::project(const sad::Point2D & p1,
+									 const sad::Point2D & p2,
 									 const p2d::Axle & a)
 {
 	p2d::Cutter2D c(p1, p2);
@@ -46,5 +46,5 @@ void sad::p2d::swap(sad::Vector<sad::p2d::PointsPair> & pairs)
 
 sad::p2d::Cutter2D sad::p2d::cutter(double x1, double y1, double x2, double y2)
 {
-	return sad::p2d::Cutter2D(p2d::Point(x1, y1), p2d::Point(x2, y2));
+	return sad::p2d::Cutter2D(sad::p2d::Point(x1, y1), sad::p2d::Point(x2, y2));
 }

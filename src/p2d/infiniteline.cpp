@@ -181,8 +181,8 @@ sad::p2d::MaybePoint sad::p2d::intersection(
 	sad::p2d::MaybePoint result;
 	if (l1.isSame(l2))
 	{
-		double d1 = x.distanceTo(c.p1());
-		double d2 = x.distanceTo(c.p2());
+		double d1 = x.distance(c.p1());
+		double d2 = x.distance(c.p2());
 		if (d1 < d2) 
 			result.setValue(c.p1()); 
 		else 

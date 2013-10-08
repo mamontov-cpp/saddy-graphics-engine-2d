@@ -58,7 +58,7 @@ struct AxleFor
 		axle = sad::p2d::axle( (c1->*p1)(num1), (c1->*p1)(num2) );
 	}
 
-	template< const hPointF & (_Class1::*p1)(int) const,
+	template< const sad::Point2D & (_Class1::*p1)(int) const,
 			  int num1,
 			  int num2
 			>
@@ -88,7 +88,7 @@ struct AxleFor
 		axle = sad::p2d::axle( (c2->*p1)(num1), (c2->*p1)(num2) );
 	}
 
-	template< const hPointF & (_Class2::*p1)(int) const,
+	template< const sad::Point2D & (_Class2::*p1)(int) const,
 			  int num1,
 			  int num2
 			>
@@ -118,7 +118,7 @@ struct AxleFor
 		axle = sad::p2d::axle( (c1->*p1)(num1), (c2->*p2)() );
 	}
 
-	template< const hPointF & (_Class1::*p1)(int) const,
+	template< const sad::Point2D & (_Class1::*p1)(int) const,
 			  int num1,
 			  const sad::p2d::Point & (_Class2::*p2)() const
 			>
@@ -134,8 +134,8 @@ struct AxleFor
 	}
 
 	template<
-			  const hPointF & (_Class2::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p1)() const,
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void p2calls(
 		sad::p2d::CollisionShape * s1, 
@@ -149,8 +149,8 @@ struct AxleFor
 	}
 
 	template<
-			  const hPointF & (_Class2::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p1)() const,
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void op2calls(
 		sad::p2d::CollisionShape * s1, 
@@ -165,8 +165,8 @@ struct AxleFor
 
 
 	template<
-			  const hPointF & (_Class2::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p1)() const,
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void p1calls(
 		sad::p2d::CollisionShape * s1, 
@@ -180,8 +180,8 @@ struct AxleFor
 	}
 
 	template<
-			  const hPointF & (_Class2::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p1)() const,
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void op1calls(
 		sad::p2d::CollisionShape * s1, 
@@ -196,7 +196,7 @@ struct AxleFor
 
 	template<
 			  const sad::p2d::Point & (_Class1::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void p1hp2(sad::p2d::CollisionShape * s1,
 					  sad::p2d::CollisionShape * s2, 
@@ -209,7 +209,7 @@ struct AxleFor
 
 	template<
 			  const sad::p2d::Point & (_Class1::*p1)() const,
-			  const hPointF & (_Class2::*p2)() const			  
+			  const sad::Point2D & (_Class2::*p2)() const			  
 			>
 	static void op1hp2(sad::p2d::CollisionShape * s1, 
 					   sad::p2d::CollisionShape * s2, 
@@ -276,7 +276,7 @@ bool sad::p2d::CollisionTest::collidesCtoC(sad::p2d::Circle * p1, sad::p2d::Circ
 	{
 		return false;
 	}
-	double dist1 = sad::p2d::distance(p1->centerRef(), p2->centerRef());
+	double dist1 = p1->centerRef().distance(p2->centerRef());
 	// The precision was found empirical, because sometimes object collides in
 	// very strange phase
 	bool collides = (dist1 < dist2) || sad::is_fuzzy_equal(dist1, dist2, 1.0E-6);

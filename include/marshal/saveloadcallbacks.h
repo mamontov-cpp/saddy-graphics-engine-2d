@@ -4,8 +4,8 @@
 	Here defined a callbacks for saving and loading types of properties of marshalled objects
  */
 #include "abstractproperty.h"
-#include <primitives/hpoint.h>
-#include <primitives/hrect.h>
+#include <sadpoint.h>
+#include <sadrect.h>
 #include <sadcolor.h>
 #include <sstream>
 #pragma once
@@ -22,9 +22,9 @@ DEFINE_PROPERTY_TYPESTRING( double )
 DEFINE_PROPERTY_TYPESTRING( bool )
 DEFINE_PROPERTY_TYPESTRING( sad::String )
 DEFINE_PROPERTY_TYPESTRING( sad::Vector<int> )
-DEFINE_PROPERTY_TYPESTRING( hPointF )
-DEFINE_PROPERTY_TYPESTRING( hRectF )
-DEFINE_PROPERTY_TYPESTRING( sad::Vector<hPointF> )
+DEFINE_PROPERTY_TYPESTRING( sad::Point2D )
+DEFINE_PROPERTY_TYPESTRING( sad::Rect2D )
+DEFINE_PROPERTY_TYPESTRING( sad::Vector<sad::Point2D> )
 DEFINE_PROPERTY_TYPESTRING( sad::Color )
 /*! A template callback for loading some properties
  */
@@ -74,35 +74,35 @@ class SaveLoadCallback< sad::Vector<int> >
 
 
 template<>
-class SaveLoadCallback<hPointF>
+class SaveLoadCallback<sad::Point2D>
 {
  public:
-	static hPointF load(ActionContext * context,
+	static sad::Point2D load(ActionContext * context,
 						    const sad::String & str, 
-							const sad::String & typestring = abstract_names::type_string< hPointF >::type() );
-	static sad::String save(const hPointF & obj);
+							const sad::String & typestring = abstract_names::type_string< sad::Point2D >::type() );
+	static sad::String save(const sad::Point2D & obj);
 };
 
 
 template<>
-class SaveLoadCallback<hRectF>
+class SaveLoadCallback<sad::Rect2D>
 {
  public:
-	static hRectF load(ActionContext * context,
+	static sad::Rect2D load(ActionContext * context,
 					   const sad::String & str, 
-					   const sad::String & typestring = abstract_names::type_string<hRectF>::type());
-	static sad::String save(const hRectF & obj);
+					   const sad::String & typestring = abstract_names::type_string<sad::Rect2D>::type());
+	static sad::String save(const sad::Rect2D & obj);
 };
 
 
 template<>
-class SaveLoadCallback< sad::Vector<hPointF> >
+class SaveLoadCallback< sad::Vector<sad::Point2D> >
 {
  public:
-	static sad::Vector<hPointF> load(ActionContext * context,
+	static sad::Vector<sad::Point2D> load(ActionContext * context,
 						             const sad::String & str, 
-									 const sad::String & typestring = abstract_names::type_string< sad::Vector<hPointF> >::type());
-	static sad::String save(const sad::Vector<hPointF> & obj);
+									 const sad::String & typestring = abstract_names::type_string< sad::Vector<sad::Point2D> >::type());
+	static sad::String save(const sad::Vector<sad::Point2D> & obj);
 };
 
 

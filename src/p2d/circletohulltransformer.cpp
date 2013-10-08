@@ -30,7 +30,7 @@ void sad::p2d::CircleToHullTransformer::populate(
 	{
 		double parts = M_PI * 2 / m_sides;
 		double angle = parts * i;
-		v <<  center + hPointF(cos(angle), sin(angle)) * r;  
+		v <<  center + sad::Point2D(cos(angle), sin(angle)) * r;  
 	}
 }
 

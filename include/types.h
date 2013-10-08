@@ -56,8 +56,8 @@
 
 
 #include "sadcolor.h"
-#include "primitives/hpoint.h"
-#include "primitives/hrect.h"
+#include "sadpoint.h"
+#include "sadrect.h"
 #pragma once
 
 #ifdef  LINUX

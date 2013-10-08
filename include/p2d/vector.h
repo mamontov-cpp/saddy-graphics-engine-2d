@@ -4,7 +4,7 @@
 	Defines a vector as a special case of point
  */
 #pragma once
-#include "../primitives/hpoint.h"
+#include "../sadpoint.h"
 
 namespace sad
 {
@@ -13,7 +13,7 @@ namespace p2d
 {
 	/*! A vector is defined by two coordinated x and y
 	 */
-	typedef hPointF Vector;
+	typedef sad::Point2D Vector;
 	/*!  Modulo of vector
 		 \param[in] v vector
 		 \return modulo
@@ -22,16 +22,16 @@ namespace p2d
 	/*! Returns a default vector as (1/2^0.5,1/2^0.5)
 		\return a default vector data
 	 */
-	p2d::Vector basis();	
+	sad::p2d::Vector basis();	
 	/*! Computes unit-vector for vector
 		\param[in] v vector
 		\return vector
 	 */
-	p2d::Vector unit(const p2d::Vector & v);
+	sad::p2d::Vector unit(const sad::p2d::Vector & v);
 	/*! Computes unit vector and replace value of vector with it's unit vector
 		\param[in, out] v vector
 	 */
-	void mutableUnit(p2d::Vector & v);
+	void mutableUnit(sad::p2d::Vector & v);
 	/*! A class for orthogonal vector index, used to
 		restrict range of optional vector index
 	 */
@@ -45,18 +45,18 @@ namespace p2d
 		\param[in] i index
 		\return a vector, corresponding to value
 	 */
-	p2d::Vector ortho(const p2d::Vector & v, OrthoVectorIndex i);
+	sad::p2d::Vector ortho(const sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i);
 	/*! Orthogonal vector to normalized vector
 		\param[in] v vector
 		\param[in] i index
 		\return a vector, corresponding to value
 	 */
-	void mutableNormalizedOrtho(p2d::Vector & v, OrthoVectorIndex i);
+	void mutableNormalizedOrtho(sad::p2d::Vector & v, sad::p2d::OrthoVectorIndex i);
 	/*! Scalar multiplication of a vector
 		\param[in] v1 first vector
 		\param[in] v2 second vector
 	 */
-	double scalar(const p2d::Vector & v1, const p2d::Vector & v2);
+	double scalar(const sad::p2d::Vector & v1, const sad::p2d::Vector & v2);
 }
 
 }

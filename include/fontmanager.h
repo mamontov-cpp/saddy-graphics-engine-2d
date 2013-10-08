@@ -24,11 +24,11 @@ class BasicFont
 	     \param[in] str string
 		 \param[in] p   upper-left point in window coordinates
 	 */
-	 virtual void render(const sad::String & str,const pointf & p)=0; 
+	 virtual void render(const sad::String & str,const sad::Point2D & p)=0; 
 	 /*! Returns a estimated size of label
 	     \param[in] str string
 	 */
-	 virtual hRectF size(const sad::String & str)=0;
+	 virtual sad::Rect2D size(const sad::String & str)=0;
 	 /*! Destroys an exemplar
 	 */
 	 virtual ~BasicFont();
@@ -48,8 +48,8 @@ namespace sad
 	{
 		private:
 			sad::Texture * m_tex;         //!< Current texture
-			pointf       m_ul[255];     //!< Glyph rectangles (upper left)
-			pointf       m_lr[255];     //!< Glyph rectangles (lower right)
+			sad::Point2D       m_ul[255];     //!< Glyph rectangles (upper left)
+			sad::Point2D       m_lr[255];     //!< Glyph rectangles (lower right)
 
 			/*! Determines a background and text and sets alpha component.
 			    Uses Luv model to determine it.
@@ -77,11 +77,11 @@ namespace sad
 				\param[in] str string
 				\param[in] p   upper-left point in window coordinates
 			*/
-	        void render(const sad::String & str,const pointf & p);
+	        void render(const sad::String & str,const sad::Point2D & p);
 			/*! Returns a estimated size of label
 				\param[in] str string
 			*/
-			hRectF size(const sad::String & str);
+			sad::Rect2D size(const sad::String & str);
 			/*! Destroys a file
 			*/
 			~TMFont();

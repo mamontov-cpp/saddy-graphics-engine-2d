@@ -6,7 +6,7 @@
  */
 #pragma once
 #include "keycodes.h"
-#include "../primitives/hpoint.h"
+#include "../sadpoint.h"
 
 namespace sad
 {
@@ -71,15 +71,11 @@ public:
 class MouseCursorEvent: public sad::input::AbstractEvent
 {
 public:
-	/*! A point in 2-dimensional space, for those, who use orthographic projection.
-		Suitable for common use-case.
-	 */
-	hPointF           Point2D; 
 	/*! A point in 3-dimensional space, for those, who don't use orthographic projections
 	 */
-	hst::point<hst::D3, double> Point3D;
+	sad::Point3D Point3D;
 
-	inline MouseCursorEvent() : Point2D(), Point3D()
+	inline MouseCursorEvent() : Point3D()
 	{
 
 	}
@@ -93,11 +89,16 @@ public:
 		
 		\param[in] p 3-dimensional point
 	 */
-	inline void setPoint(const hst::point<hst::D3, double> & p)
+	inline void setPoint(const sad::Point3D & p)
 	{
 		this->Point3D = p;
-		// Double is set to work-around problem with type-inference
-		this->Point2D = _<double, double>(p);
+	}
+	/*! Returns position of cursor in 2D space
+		\return position of cursor
+	 */
+	inline const sad::Point2D & pos2D()
+	{
+		return this->Point3D;
 	}
 
 };

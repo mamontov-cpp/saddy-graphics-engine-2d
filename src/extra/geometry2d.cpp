@@ -1,7 +1,7 @@
 #include "../../include/extra/geometry2d.h"
 #include "../../include/p2d/collides1d.h"
 
-bool sad::projectionIsWithin(const hPointF & test, const hPointF & pivot1, const hPointF & pivot2)
+bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2)
 {
 	sad::p2d::Axle axle = sad::p2d::axle(pivot1, pivot2);
 	sad::p2d::Cutter1D c1 = p2d::project(test, test, axle); 
@@ -9,14 +9,14 @@ bool sad::projectionIsWithin(const hPointF & test, const hPointF & pivot1, const
 	return p2d::collides(c1, c2);
 }
 
-bool sad::isWithin(const hPointF & p, const hRectF & r)
+bool sad::isWithin(const sad::Point2D & p, const sad::Rect2D & r)
 {
 	bool a1 = sad::projectionIsWithin(p, r[0], r[1]);
 	bool a2 = sad::projectionIsWithin(p, r[1], r[2]);
 	return a1 && a2; 
 }
 
-void sad::moveBy(const hPointF & dp , hRectF & r)
+void sad::moveBy(const sad::Point2D & dp , sad::Rect2D & r)
 {
 	for(int i = 0; i < 4; i++)
 	{
@@ -24,30 +24,30 @@ void sad::moveBy(const hPointF & dp , hRectF & r)
 	}
 }
 
-void sad::rotate(float angle, hRectF & r)
+void sad::rotate(float angle, sad::Rect2D & r)
 {
-	hPointF c = r[0]; c += r[2]; c/=2;
+	sad::Point2D c = r[0]; c += r[2]; c/=2;
 	sad::p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++)
 	{
-		hPointF vi = r[i] - c;
-		hPointF result = vi * m;
+		sad::Point2D vi = r[i] - c;
+		sad::Point2D result = vi * m;
 		r[i] = c; 
 		r[i] += result;
 	}
 }
 
-void sad::moveAndRotateNormalized(float angle, hPointF & result, hRectF & v)
+void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & v)
 {
 	sad::p2d::Matrix2x2 m = sad::p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++) {
-		hPointF r = v[i] * m;
+		sad::Point2D r = v[i] * m;
 		v[i] = result + r;
 	}
 }
 
 
-bool sad::equal(const hPointF & p1, const hPointF & p2, float precision)
+bool sad::equal(const sad::Point2D & p1, const sad::Point2D & p2, float precision)
 {
 	bool e1 = sad::is_fuzzy_equal(p1.x(), p2.x(), precision);
 	bool e2 = sad::is_fuzzy_equal(p1.y(), p2.y(), precision);
@@ -55,7 +55,7 @@ bool sad::equal(const hPointF & p1, const hPointF & p2, float precision)
 }
 
 
-bool sad::equal(const hRectF & p1, const hRectF & p2, float precision)
+bool sad::equal(const sad::Rect2D & p1, const sad::Rect2D & p2, float precision)
 {
 	bool ok = true;
 	for(int i = 0; i < 4; i++)

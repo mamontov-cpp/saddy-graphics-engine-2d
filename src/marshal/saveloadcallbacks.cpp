@@ -57,7 +57,7 @@ sad::String SaveLoadCallback< sad::Vector<int> >::save(const sad::Vector<int> & 
 }
 
 
-hPointF SaveLoadCallback<hPointF>::load(ActionContext * context,
+sad::Point2D SaveLoadCallback<sad::Point2D>::load(ActionContext * context,
 										const sad::String & str, 
 										const sad::String & typestring)
 {
@@ -71,16 +71,16 @@ hPointF SaveLoadCallback<hPointF>::load(ActionContext * context,
 		params[i]=SaveLoadCallback<double>::load(context,lst[i],typestring);
 	}
 
-	return hPointF(params[0],params[1]);
+	return sad::Point2D(params[0],params[1]);
 }
 
-sad::String SaveLoadCallback<hPointF>::save(const hPointF & obj)
+sad::String SaveLoadCallback<sad::Point2D>::save(const sad::Point2D & obj)
 {
 	return SaveLoadCallback<double>::save(obj.x()) + sad::String("@") + SaveLoadCallback<double>::save(obj.y());
 }
 
 
-hRectF  SaveLoadCallback<hRectF>::load(ActionContext * context,
+sad::Rect2D  SaveLoadCallback<sad::Rect2D>::load(ActionContext * context,
 									   const sad::String & str, 
 									   const sad::String & typestring)
 {
@@ -88,49 +88,49 @@ hRectF  SaveLoadCallback<hRectF>::load(ActionContext * context,
 	if (lst.count()!=4)
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 
-	hPointF params[4];
+	sad::Point2D params[4];
 	for (int i=0;i<4;i++)
 	{
-		params[i]=SaveLoadCallback<hPointF>::load(context,lst[i],typestring);
+		params[i]=SaveLoadCallback<sad::Point2D>::load(context,lst[i],typestring);
 	}
 
-	return hRectF(params[0],params[1],params[2],params[3]);
+	return sad::Rect2D(params[0],params[1],params[2],params[3]);
 }
 
-sad::String SaveLoadCallback<hRectF>::save(const hRectF & obj)
+sad::String SaveLoadCallback<sad::Rect2D>::save(const sad::Rect2D & obj)
 {
-	sad::String result = SaveLoadCallback<hPointF>::save(obj[0]);
+	sad::String result = SaveLoadCallback<sad::Point2D>::save(obj[0]);
 	for (int i=1;i<4;i++)
 	{
 		result << sad::String(":");
-		result << SaveLoadCallback<hPointF>::save(obj[i]);
+		result << SaveLoadCallback<sad::Point2D>::save(obj[i]);
 	}
 	return result;
 }
 
-sad::Vector<hPointF>  SaveLoadCallback< sad::Vector<hPointF> >::load(ActionContext * context,
+sad::Vector<sad::Point2D>  SaveLoadCallback< sad::Vector<sad::Point2D> >::load(ActionContext * context,
 																	 const sad::String & str, 
 																	 const sad::String & typestring)
 {
-	sad::Vector<hPointF> result;
+	sad::Vector<sad::Point2D> result;
 	sad::StringList lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
-		result<<SaveLoadCallback<hPointF>::load(context,lst[i],
+		result<<SaveLoadCallback<sad::Point2D>::load(context,lst[i],
 										        abstract_names::type_string< sad::Vector<int> >::type());
 	}
 	return result;
 }
 
-sad::String SaveLoadCallback< sad::Vector<hPointF> >::save(const sad::Vector<hPointF> & obj)
+sad::String SaveLoadCallback< sad::Vector<sad::Point2D> >::save(const sad::Vector<sad::Point2D> & obj)
 {
 	if (obj.count()==0)
 		return sad::String();
-	sad::String result = SaveLoadCallback<hPointF>::save(obj[0]);
+	sad::String result = SaveLoadCallback<sad::Point2D>::save(obj[0]);
 	for (unsigned int i=1; i< obj.count();i++)
 	{
 	  result << ";";
-	  result << SaveLoadCallback<hPointF>::save(obj[i]);
+	  result << SaveLoadCallback<sad::Point2D>::save(obj[i]);
 	}
 	return result;
 }

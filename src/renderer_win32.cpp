@@ -9,7 +9,7 @@
 #define UNIQUE_CLASS_NAME  "SADDY_RENDERER_WINDOW_INSTANCE_V_2"
 
 
-hst::point<hst::D3,float> sad::Renderer::mousePos()
+sad::Point3D sad::Renderer::mousePos()
 {
 	POINT p;
 	GetCursorPos(&p);
@@ -17,7 +17,7 @@ hst::point<hst::D3,float> sad::Renderer::mousePos()
 	p = sad::Renderer::_toClient(p);
 	float px=0.0f, py=0.0f,pz=0.0f; 
 	mapToOGL(p.x,p.y,px,py,pz);
-	return hst::point<hst::D3,float>(px,py,pz);
+	return sad::Point3D(px,py,pz);
 }
 void sad::Renderer::releaseWindow()
 {

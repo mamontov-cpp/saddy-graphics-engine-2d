@@ -81,11 +81,11 @@ public:
 	/*! Returns first point of line
 		\return first point
 	 */
-	const hPointF & p1() const { return m_c.p1();}
+	const sad::Point2D & p1() const { return m_c.p1();}
 	/*! Returns second point of line
 		\return second point
 	 */
-	const hPointF & p2() const { return m_c.p2();}
+	const sad::Point2D & p2() const { return m_c.p2();}
 	/*! Populates a vector two pooints, belonging to a border of bound
 		\param[in] v vector
 	 */

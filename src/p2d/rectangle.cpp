@@ -7,7 +7,7 @@
 
 DECLARE_SOBJ_INHERITANCE_WITH_INDEX(sad::p2d::Rectangle, sad::p2d::CollisionShape, 0);
 
-const hPointF & sad::p2d::Rectangle::point(int index) const
+const sad::Point2D & sad::p2d::Rectangle::point(int index) const
 {
 	assert(index > -1 && index< 4);
 	return m_rect[index];
@@ -23,7 +23,7 @@ sad::p2d::CollisionShape * sad::p2d::Rectangle::clone(int count) const
 
 sad::p2d::Point sad::p2d::Rectangle::center() const
 {
-	hPointF c = m_rect[0]; 
+	sad::Point2D c = m_rect[0]; 
 	c += m_rect[2]; 
 	c/=2;
 	return c;

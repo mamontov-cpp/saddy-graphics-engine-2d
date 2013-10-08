@@ -1,6 +1,6 @@
 #include "sprite2dcontroller.h"
 
-Sprite2DController::Sprite2DController(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox)
+Sprite2DController::Sprite2DController(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox)
 {
 	m_sprite=new Sprite2DAdapter(tex,texrect,bbox);
 	m_sizechanged=false;
@@ -19,17 +19,17 @@ bool Sprite2DController::wasSizeChanged() const
 }
 
 
-void Sprite2DController::setPos(const hPointF & p)
+void Sprite2DController::setPos(const sad::Point2D & p)
 {
 	m_sprite->setPos(p);
 }
 
-void Sprite2DController::move(const hPointF & p)
+void Sprite2DController::move(const sad::Point2D & p)
 {
 	m_sprite->move(p);
 }
 
-hPointF Sprite2DController::pos() const
+sad::Point2D Sprite2DController::pos() const
 {
 	return m_sprite->pos();
 }
@@ -88,19 +88,19 @@ void Sprite2DController::setBottom(float y)
 	m_sprite->setBottom(y);
 }
 
-void Sprite2DController::setSize(const hPointF & size, bool registerEvent)
+void Sprite2DController::setSize(const sad::Point2D & size, bool registerEvent)
 {
 	if (registerEvent)
 		m_sizechanged=true;
 	m_sprite->setSize(size);
 }
 
-hPointF Sprite2DController::size() const
+sad::Point2D Sprite2DController::size() const
 {
 	return m_sprite->size();
 }
 
-void Sprite2DController::setSprite(sad::Texture * tex, const hRectF & texrect)
+void Sprite2DController::setSprite(sad::Texture * tex, const sad::Rect2D & texrect)
 {
 	m_sprite->setSprite(tex,texrect);
 }

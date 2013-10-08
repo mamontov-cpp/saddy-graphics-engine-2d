@@ -22,7 +22,7 @@ class Sprite2DController
 			   \param[in] texrect texture coordinates rectangle
 			   \param[in] bbox    bounding box of sprite
 		   */ 
-		  Sprite2DController(sad::Texture * tex,const hRectF & texrect,const hRectF & bbox);
+		  Sprite2DController(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox);
 		  /*! Destroys a controller
 		   */
 		  ~Sprite2DController();
@@ -35,15 +35,15 @@ class Sprite2DController
 		  /*! Sets a position of middle of sprite to specified point
 			  \param[in] p point of middle
 		   */
-		  void setPos(const hPointF & p);
+		  void setPos(const sad::Point2D & p);
 		  /*! Moves a sprite by specified vector
 			  \param[in] p vector
 		   */
-		  void move(const hPointF & p);
+		  void move(const sad::Point2D & p);
 		  /*! Returns a middle point of sprite
 			  \return a middle point of sprite
 		   */
-		  hPointF pos() const;
+		  sad::Point2D pos() const;
 		  /*! Rotates a sprite around it's center clockwise
 			  \param[in] angle angle parameter
 		   */
@@ -84,16 +84,16 @@ class Sprite2DController
 			  \param[in] size size of sprite
 			  \param[in] registerEvent whether we should register size changing event
 		   */
-		  void setSize(const hPointF & size, bool registerEvent=true);
+		  void setSize(const sad::Point2D & size, bool registerEvent=true);
 		  /*! Returns a current size of sprite
 			  \return size of sprite
 		   */
-		  hPointF size() const;
+		  sad::Point2D size() const;
 		  /*! Changes a sprite parameters, preserving data  (Texture coordinates are ABSOLUTE )
 		      \param[in] tex texture
 			  \param[in] texrect texture rectangle
 		   */
-		 void setSprite(sad::Texture * tex, const hRectF & texrect);
+		 void setSprite(sad::Texture * tex, const sad::Rect2D & texrect);
 		 /*! Returns a top coordinate
 			  \return top coordinate
 		   */

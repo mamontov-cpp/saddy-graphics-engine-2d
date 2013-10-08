@@ -5,7 +5,7 @@
 	and rectangles
  */
 #pragma once
-#include "primitives/hpoint.h"
+#include "sadpoint.h"
 #include "sadpair.h"
 #include <assert.h>
 
@@ -70,10 +70,10 @@ public:
 	\return point
  */
 template<typename T>
-typename hst::point<hst::D2, T> 
+typename sad::Point2<T> 
 operator*
 (
-const typename hst::point<hst::D2, T> & p,
+const typename sad::Point2<T> & p,
 const typename sad::Matrix2x2<T> & m
 )
 {
@@ -81,6 +81,6 @@ const typename sad::Matrix2x2<T> & m
 	    + p.y() * m[typename sad::Matrix2x2<T>::index(1,0)];
 	T y = p.x() * m[typename sad::Matrix2x2<T>::index(0,1)] 
 	    + p.y() * m[typename sad::Matrix2x2<T>::index(1,1)];
-	return typename hst::point<hst::D2, T>(x,y);
+	return typename sad::Point2<T>(x,y);
 }
 
