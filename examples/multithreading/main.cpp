@@ -154,7 +154,7 @@ void * thread(void * p)
 	 */
 	sad::TMFont * fnt2=new sad::TMFont;
 	bool res2= fnt2->load("examples/game/times_lg.PNG","examples/game/times_lg.CFG",
-		                  hst::color(0,255,0), false, &r);
+		                  sad::Color(0,255,0), false, &r);
 	if (!res2) {
 		SL_LOCAL_FATAL("Failed to load texture-mapped font", r);
 		return NULL;
@@ -170,7 +170,7 @@ void * thread(void * p)
 		SL_LOCAL_FATAL("Failed to load font...", r);
 		return NULL;
   	}
-	fnt1->setColor(hst::acolor(255,0,0,0));
+	fnt1->setColor(sad::AColor(255,0,0,0));
 	r.fonts()->add(fnt1, "font");
     
 	/*! Load simple texture.

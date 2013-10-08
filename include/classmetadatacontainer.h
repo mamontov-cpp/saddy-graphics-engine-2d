@@ -5,9 +5,8 @@
  */
 #pragma once
 #include "classmetadata.h"
-
-#include "../sadhash.h"
-#include "../os/mutex.h"
+#include "sadhash.h"
+#include "os/mutex.h"
 
 namespace sad
 {

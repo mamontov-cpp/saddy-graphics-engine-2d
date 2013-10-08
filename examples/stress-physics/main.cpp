@@ -52,7 +52,7 @@ bool load_texture_with_alphachannel(const char * filename,const char * texturena
 	{
 		// With first component we set alpha channel to fully transparent (255) of white color
 		// (255,255,255)
-		sad::TextureManager::ref()->get(texturename)->setAlpha(255,hst::color(255,255,255));
+		sad::TextureManager::ref()->get(texturename)->setAlpha(255,sad::Color(255,255,255));
 	}
 	return result;
 } 
@@ -63,7 +63,7 @@ bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 	sad::String png = fontfolder + fontname + ".PNG";
 	sad::String cfg = fontfolder + fontname + ".CFG";
 	sad::TMFont * fnt=new sad::TMFont;
-	bool result = fnt->load(png, cfg, hst::color(255,255,255),true);
+	bool result = fnt->load(png, cfg, sad::Color(255,255,255),true);
 	if (result) { 
 		sad::FontManager::ref()->add(fnt, fontname);
 	} else	{

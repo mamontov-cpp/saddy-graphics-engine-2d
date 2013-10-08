@@ -47,7 +47,7 @@ ScreenSprite::ScreenSprite()
 	m_angle_listener = new SpritePropertyListener();
 	m_angle_listener->setSprite(this);
 
-	this->addProperty("color",new MappedField<hst::color>(&m_color, hst::color(255,255,255)));
+	this->addProperty("color",new MappedField<sad::Color>(&m_color, sad::Color(255,255,255)));
 	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
 
 	this->addProperty("config" ,new MappedField<sad::String>(&m_config, ""));
@@ -82,7 +82,7 @@ void ScreenSprite::_render()
 	if (m_observer)
 	{	
 		m_observer->sprite()->setColor(
-			hst::acolor(m_color.r(), m_color.g(), m_color.b(), (Uint8)m_alpha)
+			sad::AColor(m_color.r(), m_color.g(), m_color.b(), (sad::uchar)m_alpha)
 		);
 		m_observer->sprite()->adapter()->render();
 	}
