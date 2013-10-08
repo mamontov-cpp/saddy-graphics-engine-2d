@@ -1,4 +1,4 @@
-/*! \file    ptrvector.h
+/*! \file    sadptrvector.h
     \author  HiddenSeeker
 
 	This file contains a definition of vector, which holds a pointers and destroys them

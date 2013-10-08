@@ -1,4 +1,4 @@
-/*! \file    ptrhash.h
+/*! \file    sadptrhash.h
     \author  HiddenSeeker
 	\brief   Contains hash implementation with pointer function
 
