@@ -46,10 +46,10 @@ sad::BMPTextureLoader::~BMPTextureLoader()
 
 bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 {
-	Uint8 & m_bpp = texture->bpp();
+	sad::uchar & m_bpp = texture->bpp();
 	unsigned int & m_width = texture->width();
 	unsigned int & m_height = texture->height();
-	sad::Vector<Uint8> & m_data = texture->vdata();
+	sad::Vector<sad::uchar> & m_data = texture->vdata();
 
 	m_data.clear();
 	BMP::Header head;
@@ -80,7 +80,7 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 	m_data.clear();
 	texture->width()=info.width;
 	texture->height()=info.height;
-	texture->bpp()=(Uint8)(info.bitcount);
+	texture->bpp()=(sad::uchar)(info.bitcount);
 
 	
 
@@ -94,7 +94,7 @@ bool sad::BMPTextureLoader::load(FILE * file, sad::Texture * texture)
 	int y=m_height-1;
 	int bpp8 = m_bpp / 8;
 	unsigned char buf[4];
-	Uint8 * begin = &(m_data[0]);
+	sad::uchar * begin = &(m_data[0]);
 	for (unsigned long i=0;i<size;i++)
 	{
 		unsigned char b=0,g=0,r=0,a=255;

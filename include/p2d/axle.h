@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "vector.h"
-#include "../primitives/matrix2x2.h"
+#include "../matrix2x2.h"
 #include "../sadpair.h"
 #include "../sadvector.h"
 
@@ -28,7 +28,7 @@ namespace p2d
 	typedef sad::Pair<hPointF, hPointF> PointsPair;
 	/*! A matrix 2x2 for out options
 	 */
-	typedef hst::matrix2x2<double> Matrix2x2; 
+	typedef sad::Matrix2x2<double> Matrix2x2; 
 	/*! Makes an axle from two points by sequentially creating
 		a vector out of result of substraction of points and
 		computing unit-vector

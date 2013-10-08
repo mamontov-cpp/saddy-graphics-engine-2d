@@ -24,8 +24,8 @@ class Settings
   unsigned int m_screenwidth;  //!< Width of screen
   unsigned int m_screenheight; //!< Height of screen
   bool m_isfullscreen;         //!< Whether we are going fullscreen
-  Uint8 m_bpp;                 //!< Bits per pixel
-  Uint8 m_depth;               //!< Bits for z-buffer
+  sad::uchar m_bpp;                 //!< Bits per pixel
+  sad::uchar m_depth;               //!< Bits for z-buffer
   float m_fov;                 //!< Angle 
   float m_znear;               //!< Near-clipping plane
   float m_zfar;                //!< Far-clipping plane
@@ -36,8 +36,8 @@ class Settings
 		   unsigned int screenwidth,
 		   unsigned int screenheight,
 		   bool isfullscreen,
-		   Uint8 bpp=24,
-		   Uint8 depth=8,
+		   sad::uchar bpp=24,
+		   sad::uchar depth=8,
 		   float fov=45.0,
 		   float znear=0.1f,
 		   float zfar=100.0f,
@@ -51,8 +51,8 @@ class Settings
  inline unsigned int width(void)  const     {return m_screenwidth;     }
  inline unsigned int height(void) const     {return m_screenheight;    }
  inline bool isFullscreen(void)const        {return m_isfullscreen;    }
- inline Uint8 bpp(void)const                {return m_bpp;             }
- inline Uint8 depth(void)const              {return m_depth;           }
+ inline sad::uchar bpp(void)const                {return m_bpp;             }
+ inline sad::uchar depth(void)const              {return m_depth;           }
  inline float fov(void)const                {return m_fov;             }
  inline float znear(void)const              {return m_znear;           }
  inline float zfar(void)const               {return m_zfar;            }
@@ -62,11 +62,11 @@ class Settings
  inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
  inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
  inline void setHeightScreen(unsigned int value) {m_screenheight=value;}
- inline void setBPP(Uint8 value)                 {m_bpp=value;         }
+ inline void setBPP(sad::uchar value)                 {m_bpp=value;         }
  inline void setFoV(float value)                 {m_fov=value;         }
  inline void setZNear(float value)               {m_znear=value;       }
  inline void setZFar(float value)                {m_zfar=value;        }
- inline void setDepth(Uint8 value)               {m_depth=value;       }
+ inline void setDepth(sad::uchar value)               {m_depth=value;       }
  inline void setZTest(bool value)                {m_ztest=value;       }
  inline void setZTestValue(float value)          {m_zvalue=value;      }
 };

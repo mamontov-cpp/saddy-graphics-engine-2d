@@ -8,7 +8,7 @@
 #include "../body.h"
 
 #include "../../sprite2dadapter.h"
-#include "../../primitives/object.h"
+#include "../../object.h"
 #include "../../sadvector.h"
 
 namespace sad

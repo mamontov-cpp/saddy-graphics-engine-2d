@@ -3,7 +3,7 @@
     \brief   Contains a texture-related staff
 */
 
-#include "primitives/hcolor.h"
+#include "sadcolor.h"
 #include "primitives/hrect.h"
 #include "sadstring.h"
 #include "sadwstring.h"
@@ -79,9 +79,9 @@ namespace sad
 
 	private:
 
-		sad::Vector<Uint8> m_data;   //!< Bits of texture
-		Uint8              m_filter; //!< Filtering method
-		Uint8              m_bpp;    //!< Bits per pixel
+		sad::Vector<sad::uchar> m_data;   //!< Bits of texture
+		sad::uchar              m_filter; //!< Filtering method
+		sad::uchar              m_bpp;    //!< Bits per pixel
 		unsigned int       m_width;  //!< Width
 		unsigned int       m_height; //!< Height
 		unsigned int       m_id;     //!< ID of texture
@@ -91,14 +91,14 @@ namespace sad
 		    \param[in] i  row
 			\param[in] j  col
 		*/
-		inline Uint8 *  pixel(unsigned int i,unsigned int j)
+		inline sad::uchar *  pixel(unsigned int i,unsigned int j)
 		{ return   &(m_data[(i*m_width+j)*(m_bpp >> 3)]);}
 		/*! Sets pixel alpha component
 			\param[in] i row
 			\param[in] j col
 			\param[in] alpha alpha component
 		 */
-		inline void setPixelAlpha(unsigned int i, unsigned int j, Uint8 alpha)
+		inline void setPixelAlpha(unsigned int i, unsigned int j, sad::uchar alpha)
 		{  m_data[(i*m_width+j)*(m_bpp >> 3)+3] =alpha; }
 		/*! Upscales a texture, using a simple resize
 		    \param[in] width new width
@@ -182,19 +182,19 @@ namespace sad
 		/*! Sets an alpha-channel value for a color
 		    \param[in] a alpha-channel value
 		*/
-		void setAlpha(Uint8 a);
+		void setAlpha(sad::uchar a);
 		/*! Sets alpha-channel value fro a color in a rectangle
 			\param[in] a  alpha-channel value
 			\param[in] clr color
 			\param[in] rect rectangle
 		 */
-		void setAlpha(Uint8 a, const hst::color & clr,const hRectF & rect);
+		void setAlpha(sad::uchar a, const sad::Color & clr,const hRectF & rect);
 		/*! Sets an alpha-channel value for a color
 		    \param[in] a    alpha-channel value
 			\param[in] clr  color
 			\param[in] prec precision
 		*/
-		void setAlpha(Uint8 a, const hst::color & clr, Uint8 prec=0);
+		void setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec=0);
 		/*! Sets a mode for texture
 		    \param[in] mode mode of texture
 		*/
@@ -205,12 +205,12 @@ namespace sad
 
 		inline unsigned int width()  const { return m_width; }
 		inline unsigned int height() const { return m_height;}
-		inline Uint8 bpp()    const { return m_bpp;}
+		inline sad::uchar bpp()    const { return m_bpp;}
 		inline unsigned int& width()    { return m_width; }
 		inline unsigned int& height()   { return m_height;}
-		inline Uint8& bpp()      { return m_bpp;}
-		inline Uint8 * data() const { return m_data.data(); }
-		inline sad::Vector<Uint8> & vdata() { return m_data; }
+		inline sad::uchar& bpp()      { return m_bpp;}
+		inline sad::uchar * data() const { return m_data.data(); }
+		inline sad::Vector<sad::uchar> & vdata() { return m_data; }
 		/*! Unloads a texture from videocard memory
 		 */
 		void unload();

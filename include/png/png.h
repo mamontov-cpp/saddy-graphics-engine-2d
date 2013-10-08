@@ -24,7 +24,7 @@ namespace png
 	        unsigned long key_g;
 	        unsigned long key_b;
             bool key_defined;
-			std::vector<Uint8> palette;
+			std::vector<sad::uchar> palette;
 	};
 
 	int & error();

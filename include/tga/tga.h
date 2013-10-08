@@ -16,16 +16,16 @@ namespace tga
 	class Info
 	{
 	public:
-		std::vector<Uint8> & m_TGA_data;		/*!< Texture's bits.								  */
-		Uint8                m_TGA_filter;	/*!< Filtration metod.									  */
-		Uint8                m_TGA_bpp;		/*!< Bits per pixel.									  */
+		std::vector<sad::uchar> & m_TGA_data;		/*!< Texture's bits.								  */
+		sad::uchar                m_TGA_filter;	/*!< Filtration metod.									  */
+		sad::uchar                m_TGA_bpp;		/*!< Bits per pixel.									  */
 		unsigned int         m_TGA_width;		/*!< Width of the image.							  */
 		unsigned int         m_TGA_height;	/*!< Height of the image.								  */
 		unsigned int	     m_TGA_imageSize;	/*!< Size of texture image.							  */
 		bool                 m_horzflip;      /*!< Whether we must flip horizontally                  */
 		bool                 m_vertflip;      /*!< Whether we must flip vertically                    */
 
-		inline Info(std::vector<Uint8> * data) : m_TGA_data(*data) {}
+		inline Info(std::vector<sad::uchar> * data) : m_TGA_data(*data) {}
 	};
 
 	/*! Contains the header of Targa textures format (TGA)								(Total: 18 byte)
@@ -66,7 +66,7 @@ namespace tga
 	 \param[in] buf pointer to bytes array of TGA header.
 	 \return header object.
 	 */
-	TGAHeader getHeader(Uint8 *buf);
+	TGAHeader getHeader(sad::uchar *buf);
 
 	/*! Loads uncompressed type of TGA texture.
 	\param[out] data reference to the object of texture's data.

@@ -13,46 +13,46 @@ void  sad::Texture::reverseTGA(const tga::Info & textureInfo)
 	unsigned int halfwidth =  halfpixelwidth * 4;
 	unsigned int halfheight = textureInfo.m_TGA_height / 2;
 
-	Uint8 * flipbuffer = new Uint8[rowsize];
-	Uint8 * begin = &(m_data[0]);
+	sad::uchar * flipbuffer = new sad::uchar[rowsize];
+	sad::uchar * begin = &(m_data[0]);
 	if (textureInfo.m_horzflip && (m_height % 2) == 1)
 	{
 		unsigned int offset = halfheight * rowsize;
-		Uint8 * p1 = begin + offset;
-		Uint8 * p2 = begin + (offset + rowsize - halfwidth);
+		sad::uchar * p1 = begin + offset;
+		sad::uchar * p2 = begin + (offset + rowsize - halfwidth);
 		// Flip horizontally
-		memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
-		memcpy(p1, p2, halfwidth * sizeof(Uint8));
-		memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
+		memcpy(flipbuffer, p1, halfwidth * sizeof(sad::uchar));
+		memcpy(p1, p2, halfwidth * sizeof(sad::uchar));
+		memcpy(p2, flipbuffer, halfwidth * sizeof(sad::uchar));
 	}
 
 	for(unsigned int row = 0; row < halfheight; row++)
 	{
 		unsigned int offset1 = row * rowsize;
 		unsigned int offset2 =(textureInfo.m_TGA_height - 1 - row) * rowsize;
-		Uint8 * begin1 = begin + offset1;
-		Uint8 * begin2 = begin + offset2;
+		sad::uchar * begin1 = begin + offset1;
+		sad::uchar * begin2 = begin + offset2;
 		if (textureInfo.m_horzflip)
 		{
 			// Flip horizontally first row
-			Uint8 * p1 = begin1;
-			Uint8 * p2 = begin1 + (rowsize - halfwidth);
-			memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
-			memcpy(p1, p2, halfwidth * sizeof(Uint8));
-			memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
+			sad::uchar * p1 = begin1;
+			sad::uchar * p2 = begin1 + (rowsize - halfwidth);
+			memcpy(flipbuffer, p1, halfwidth * sizeof(sad::uchar));
+			memcpy(p1, p2, halfwidth * sizeof(sad::uchar));
+			memcpy(p2, flipbuffer, halfwidth * sizeof(sad::uchar));
 
 			// Flip horizontally second row			
 			p1 = begin2;
 			p2 = begin2 + (rowsize - halfwidth);
-			memcpy(flipbuffer, p1, halfwidth * sizeof(Uint8));
-			memcpy(p1, p2, halfwidth * sizeof(Uint8));
-			memcpy(p2, flipbuffer, halfwidth * sizeof(Uint8));
+			memcpy(flipbuffer, p1, halfwidth * sizeof(sad::uchar));
+			memcpy(p1, p2, halfwidth * sizeof(sad::uchar));
+			memcpy(p2, flipbuffer, halfwidth * sizeof(sad::uchar));
 		}
 		if (textureInfo.m_vertflip)
 		{
-			memcpy(flipbuffer, begin1, rowsize * sizeof(Uint8));
-			memcpy(begin1, begin2, rowsize * sizeof(Uint8));
-			memcpy(begin2, flipbuffer, rowsize * sizeof(Uint8));
+			memcpy(flipbuffer, begin1, rowsize * sizeof(sad::uchar));
+			memcpy(begin1, begin2, rowsize * sizeof(sad::uchar));
+			memcpy(begin2, flipbuffer, rowsize * sizeof(sad::uchar));
 		}
 	}
 	delete flipbuffer;
@@ -127,11 +127,11 @@ bool sad::Texture::loadTGA(FILE * hFile)
 bool tga::readTGA(FILE *handler, tga::Info & data)
 {
 	bool result = true;
-	Uint8 headerBuf[18];			// Bytes of TGA header
+	sad::uchar headerBuf[18];			// Bytes of TGA header
 	TGAHeader header;				// Header of TGA file
 
 	// Reading bytes of header
-	fread(headerBuf, sizeof(Uint8), sizeof(headerBuf), handler);
+	fread(headerBuf, sizeof(sad::uchar), sizeof(headerBuf), handler);
 
 	header = getHeader(headerBuf);	// Get the object of header
 

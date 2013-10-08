@@ -10,8 +10,8 @@ namespace sad{
 	}
 
 	sad::Settings::Settings(unsigned int screenwidth, unsigned int screenheight,
-		bool isfullscreen, Uint8 bpp,
-		Uint8 depth, float fov, float znear, float zfar, bool ztest, float zvalue)
+		bool isfullscreen, sad::uchar bpp,
+		sad::uchar depth, float fov, float znear, float zfar, bool ztest, float zvalue)
 	{
 
 		m_screenwidth = screenwidth;

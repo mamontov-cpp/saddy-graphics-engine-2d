@@ -8,11 +8,11 @@
 
 /*! We describe a bytestream, as a bunch of bytes
 */
-typedef Uint8 * bytestream;
+typedef sad::uchar * bytestream;
 
 /*! Unsigned char stream
 */
-typedef std::vector<Uint8> uchrstream;
+typedef std::vector<sad::uchar> uchrstream;
 
 namespace zlib
 {
@@ -46,7 +46,7 @@ namespace bitstream
 	/*! Reads a 32 bit ints
 	    \param[in] stream stream
 	*/
-	inline sad::Chunk read32(const Uint8 * stream);
+	inline sad::Chunk read32(const sad::uchar * stream);
 	/*! Sets a bit
 	    \param[in,out]  bitpos bit position
 		\param[in,out]  bits  stream
@@ -112,7 +112,7 @@ class Inflator
 			  \param[in]      ctree code tree
 			  \param[in]      inl   input length
 		  */
-		  sad::Chunk decodeSym(const Uint8 * in, size_t & bitp, const HuffmanTree & ctree, size_t inl );
+		  sad::Chunk decodeSym(const sad::uchar * in, size_t & bitp, const HuffmanTree & ctree, size_t inl );
           /*! Inflates dynamically and returns the tree
 		      \param[out]      ktree  first tree
 			  \param[out]      ktreeD second tree
@@ -171,7 +171,7 @@ namespace zlib
 	struct temporary
 	{
 		uchrstream * m_out;       //!< Pointer to out
-		Uint8      * m_in_pos;    //!< Inner pos
+		sad::uchar      * m_in_pos;    //!< Inner pos
 		size_t       m_bitp;      //!< Bit position
 		size_t       m_position;  //!< Position
 		size_t       m_in_size;   //!< Innersize
@@ -243,7 +243,7 @@ sad::Chunk bitstream::readRevBits(size_t & bit_position, const bytestream stream
 	return result;
 }
 
-sad::Chunk bitstream::read32(const Uint8 * stream)
+sad::Chunk bitstream::read32(const sad::uchar * stream)
 {
 	return (stream[0]<<24) | (stream[1]<<16) | (stream[2]<<8) | (stream[3]);
 }

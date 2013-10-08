@@ -10,7 +10,7 @@
 #include "line.h"
 #include "bounds.h"
 
-#include "../primitives/object.h"
+#include "../object.h"
 
 namespace sad
 {

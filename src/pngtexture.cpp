@@ -3,7 +3,7 @@
 #include "png/png.h"
 #include "os/mutex.h"
 
-static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::Vector<Uint8> & m_data, Uint8 m_bpp)
+static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::Vector<sad::uchar> & m_data, sad::uchar m_bpp)
 {
 	size_t outsize=output.size();
 	unsigned char * p=NULL;
@@ -25,7 +25,7 @@ static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::
 	//Convert
 	unsigned long data_index = 0;
 	unsigned long source_index = 0;
-	Uint8 * dst=m_data.data();
+	sad::uchar * dst=m_data.data();
     for (unsigned int i=0;i<output.size();i++)
     {
 		m_data[data_index] = output[source_index];
@@ -59,7 +59,7 @@ bool sad::Texture::loadPNG(const sad::String & filename)
 	this->m_data.clear();
 
 
-	this->m_bpp=(Uint8)png::bpp(png::info());
+	this->m_bpp=(sad::uchar)png::bpp(png::info());
 	this->m_height=png::info().height;
 	this->m_width=png::info().width;
     bpp_dependent_copy(output,m_data,m_bpp);
@@ -83,7 +83,7 @@ bool sad::Texture::loadPNG(const sad::WString & filename)
 	this->m_data.clear();
 
 
-	this->m_bpp=(Uint8)png::bpp(png::info());
+	this->m_bpp=(sad::uchar)png::bpp(png::info());
 	this->m_height=png::info().height;
 	this->m_width=png::info().width;
 	bpp_dependent_copy(output,m_data,m_bpp);
@@ -104,10 +104,10 @@ bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 {
 	m_pngtexture_loader_lock.lock();
 
-	sad::Vector<Uint8> & m_data = texture->vdata();
+	sad::Vector<sad::uchar> & m_data = texture->vdata();
 	unsigned int & m_height = texture->height();
 	unsigned int & m_width = texture->width();
-	Uint8 & m_bpp = texture->bpp();
+	sad::uchar & m_bpp = texture->bpp();
 
 	m_data.clear();
 	std::vector<unsigned char> buffer;
@@ -133,7 +133,7 @@ bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 	m_data.clear();
 
 
-	m_bpp=(Uint8)png::bpp(png::info());
+	m_bpp=(sad::uchar)png::bpp(png::info());
 	m_height=png::info().height;
 	m_width=png::info().width;
     bpp_dependent_copy(output,m_data,m_bpp);

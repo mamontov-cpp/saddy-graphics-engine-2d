@@ -57,8 +57,8 @@ void Inflator::inflateBlock(
 
             if (position+length>=out.size()) out.resize((position+length)*2);
 			
-			Uint8 * pos1=&(out[position]);
-			Uint8 * pos2=&(out[back]);
+			sad::uchar * pos1=&(out[position]);
+			sad::uchar * pos2=&(out[back]);
             for (size_t i=0; i< length ; i++)
 			{
 				*(pos1++)=*(pos2++);

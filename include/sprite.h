@@ -26,7 +26,7 @@ class Sprite: public sad::BasicNode
  private:
 	     float        m_tex_coord[8];    //!< Texture coordinates
 		 s3d::point   m_rect[4];         //!< Rectangle
-		 hst::acolor  m_color;           //!< Color of sprite
+		 sad::AColor  m_color;           //!< Color of sprite
 		 sad::Texture * m_tex;           //!< Associated texture
 		 /*! Rotates one point around other point
 			 \param[in]   p       rotating point
@@ -139,9 +139,9 @@ class Sprite: public sad::BasicNode
 		  /*! Sets a color for sprite
 			  \param[in] clr blending sprite color
 		   */
-		  void setColor(const hst::acolor & clr);
+		  void setColor(const sad::AColor & clr);
 		  /*! Returns a color for sprite
 			  \return blending color of sprite 
 		   */
-		  const hst::acolor & color() const;
+		  const sad::AColor & color() const;
 };

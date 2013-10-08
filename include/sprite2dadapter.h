@@ -39,7 +39,7 @@ class Sprite2DAdapter: public sad::BasicNode
 		  bool     m_flipx;   //!< A flag, that determines, whether image is flipped on X axis
 		  bool     m_flipy;   //!< A flag, that determines, whether image is flipped on Y axis
 		  float    m_angle;   //!< An angle of rotation of sprite. Sprite is rotated around it's center
-		  hst::acolor m_color; //!< Blending color
+		  sad::AColor m_color; //!< Blending color
 		  /*! Creates a new non-rotated non-swapped sprite and sets it
 			  Texture coordinates are ABSOLUTE, if normalize flag is set to true
 			  \param[in] tex       texture
@@ -167,11 +167,11 @@ class Sprite2DAdapter: public sad::BasicNode
 		 /*! Sets a color
 			 \param[in] color color data
 		  */
-		 void setColor(const hst::acolor & color);
+		 void setColor(const sad::AColor & color);
 		 /*! Returns a color
 			 \return color data
 		  */
-		 const hst::acolor & color() const;
+		 const sad::AColor & color() const;
 	     /*! Sets sprite parameters from options
 			 \param[in] o options
 		  */

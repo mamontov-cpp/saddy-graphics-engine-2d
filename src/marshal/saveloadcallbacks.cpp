@@ -151,7 +151,7 @@ sad::String SaveLoadCallback< bool >::save(const bool & obj)
 	return "false";
 }
 
-hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
+sad::Color SaveLoadCallback< sad::Color >::load(ActionContext * context,
 									 const sad::String & str, 
 									 const sad::String & typestring)
 {
@@ -159,18 +159,18 @@ hst::color SaveLoadCallback< hst::color >::load(ActionContext * context,
 	int r, g, b ;
 	if (lst.count()==3)
 	{
-		r = SaveLoadCallback<int>::load(context,lst[0], abstract_names::type_string<hst::color >::type());
-		g = SaveLoadCallback<int>::load(context,lst[1], abstract_names::type_string<hst::color >::type());
-		b = SaveLoadCallback<int>::load(context,lst[2], abstract_names::type_string<hst::color >::type());
+		r = SaveLoadCallback<int>::load(context,lst[0], abstract_names::type_string<sad::Color >::type());
+		g = SaveLoadCallback<int>::load(context,lst[1], abstract_names::type_string<sad::Color >::type());
+		b = SaveLoadCallback<int>::load(context,lst[2], abstract_names::type_string<sad::Color >::type());
 	}
 	else 
 	{
 		throw new serializable::InvalidPropertyValue(typestring,str,context);
 	}
-	return hst::color(r,g,b);
+	return sad::Color(r,g,b);
 }
 
-sad::String SaveLoadCallback< hst::color >::save(const hst::color & obj)
+sad::String SaveLoadCallback< sad::Color >::save(const sad::Color & obj)
 {
 	sad::String t(";");
 	return SaveLoadCallback<int>::save(obj.r()) + t + 

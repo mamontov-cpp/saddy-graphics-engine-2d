@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../primitives/hrect.h"
-#include "../primitives/hcolor.h"
+#include "../sadcolor.h"
 #include "../sadstring.h"
 
 namespace sad
@@ -23,7 +23,7 @@ class Sprite2DTemplate
 		 hPointF      m_size;         //!< Size of object
 		 
 		 bool         m_transparent;       //!< Whether the template should be transparent
-		 hst::color   m_transparencycolor; //!< A color, which should be transparent
+		 sad::Color   m_transparencycolor; //!< A color, which should be transparent
  public:
 	    /*! Creates empty invalid non-transparent 2d template. 
 		 */
@@ -39,7 +39,7 @@ class Sprite2DTemplate
 		/*! Makes a template transparent
 			\param[in] color transparent color
 		 */
-		inline void makeTransparent(const hst::color & color)
+		inline void makeTransparent(const sad::Color & color)
 		{
 			m_transparent=true;
 			m_transparencycolor=color;
@@ -57,7 +57,7 @@ class Sprite2DTemplate
 		/*! Returns color of transparemcy for the sprite
 			\return color
 		 */
-		inline const hst::color & transparencyColor() { return m_transparencycolor; }
+		inline const sad::Color & transparencyColor() { return m_transparencycolor; }
 		/*! Sets a texture name 
 			\param[in] name texture name
 		 */

@@ -1,5 +1,5 @@
 #include "p2d/line.h"
-#include "primitives/matrix2x2.h"
+#include "matrix2x2.h"
 #include "log/log.h"
 #include <algorithm>
 

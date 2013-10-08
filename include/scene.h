@@ -6,7 +6,7 @@
 #include "sadhash.h"
 #include "temporarilyimmutablecontainer.h"
 #include "os/mutex.h"
-#include "primitives/object.h"
+#include "object.h"
 #include <assert.h>
 #pragma once
 
