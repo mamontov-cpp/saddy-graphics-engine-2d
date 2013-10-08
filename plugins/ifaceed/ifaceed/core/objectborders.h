@@ -27,7 +27,7 @@ class ObjectBorder: public sad::RepeatingTask
 	 IFaceSharedData * m_data; //!< Data for rendering object
 	 /** Miscellaneos function for drawing a sprite at specified position of image
 	  */
-	 void renderSpot(const char * c, const hRectF & r, int r0, int r1, int r2, int r3, float dangle);
+	 void renderSpot(const char * c, const sad::Rect2D & r, int r0, int r1, int r2, int r3, float dangle);
 	 /** Renders hot spots of data
 		 \param[in] o object
 		 \param[in] canDelete where we can delete some data
@@ -35,7 +35,7 @@ class ObjectBorder: public sad::RepeatingTask
 	 void renderHotSpots(AbstractScreenObject * o, bool canDelete);
 	 /** Creates all of hotspots for item
 	  */
-	 sad::Vector<hRectF> createHotSpots(AbstractScreenObject * o, bool canDelete);
+	 sad::Vector<sad::Rect2D> createHotSpots(AbstractScreenObject * o, bool canDelete);
 	 /** Determines, whether object marked by this border is removable
 	     Default true
 	  */
@@ -51,10 +51,10 @@ class ObjectBorder: public sad::RepeatingTask
 	 }
 	 /** Tests, whether hotspot point is within
 	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p, AbstractScreenObject * o);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p, AbstractScreenObject * o);
 	 /** Tests, whether is within
 	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p) = 0;
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p) = 0;
 };
 
 class ActiveObjectBorder: public ObjectBorder
@@ -74,7 +74,7 @@ class ActiveObjectBorder: public ObjectBorder
 	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p);
 };
 
 class SelectedObjectBorder: public ObjectBorder
@@ -94,7 +94,7 @@ class SelectedObjectBorder: public ObjectBorder
 	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const hPointF & p);
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p);
 };
 
 

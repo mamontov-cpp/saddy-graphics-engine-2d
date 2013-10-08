@@ -20,7 +20,7 @@ class ScreenLabel: public AbstractScreenObject
 	 sad::Color   m_font_color;   //!< Color of font
 	 sad::String  m_text;         //!< Text of label
 	 float        m_angle;        //!< Angle of label
-	 hPointF      m_point;        //!< Upper-left point of label
+	 sad::Point2D      m_point;        //!< Upper-left point of label
 	 int m_alpha;                 //!< Alpha of screen label
 
 	 FTFont               * m_font; //!< Font to draw
@@ -48,11 +48,11 @@ class ScreenLabel: public AbstractScreenObject
 	     \param[in] p point
 		 \return whether point is within region
       */
-	 virtual bool isWithin(const hPointF & p);
+	 virtual bool isWithin(const sad::Point2D & p);
 	 /*! Returns a region of object. The region is not AABB
 		 \return region of object
 	  */
-	 virtual hRectF region();
+	 virtual sad::Rect2D region();
 	 /*! Validates, whether object is valid in context of template.
 	     This check contains, whether all resources is in template.
 
@@ -74,6 +74,6 @@ class ScreenLabel: public AbstractScreenObject
 	/*! Moves a center of object to a following point
 		\param[in] p point
 	 */
-	virtual void moveCenterTo(const hPointF & p);
+	virtual void moveCenterTo(const sad::Point2D & p);
 };
 

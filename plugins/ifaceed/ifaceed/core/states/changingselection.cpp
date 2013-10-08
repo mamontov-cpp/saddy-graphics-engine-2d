@@ -18,7 +18,7 @@ void IFaceEditor::showObjectStats(AbstractScreenObject * o)
 
 
 
-void IFaceEditor::trySelectObject(hPointF p, bool enterSelected) 
+void IFaceEditor::trySelectObject(sad::Point2D p, bool enterSelected) 
 {
 	const std::vector<AbstractScreenObject*> & tbl = this->result()->fetchObjectsWithin(p);
 	if (tbl.empty() == false) {

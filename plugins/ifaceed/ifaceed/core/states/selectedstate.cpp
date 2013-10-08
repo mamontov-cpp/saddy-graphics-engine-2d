@@ -99,7 +99,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 	SL_SCOPE(QString("SelectedState::onMouseDown(%1,%2)").arg(ev.x, ev.y).toStdString());
 	if (ev.key == MOUSE_BUTTON_LEFT) {
 		IFaceEditor * ed = this->editor();
-		hPointF p(ev.x, ev.y);
+		sad::Point2D p(ev.x, ev.y);
 		AbstractScreenObject * o = this->shdata()->selectedObject();
 		sad::Vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
 		if (r.count() != 0) 
@@ -127,7 +127,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 				&& ed->result()->pickedIsBackground(p,o) == false) 
 			{
 				m_substate = SSSS_SIMPLESELECTED;
-				hRectF region = o->region();
+				sad::Rect2D region = o->region();
 				m_picked_old_center = (region[0] + region[2]) / 2;
 				m_picked_point = p;
 				m_movement_substate = SSMSS_MOVING;
@@ -135,7 +135,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 			else 
 			{
 				CLOSURE
-				CLOSURE_DATA( IFaceEditor * e; hPointF m_p; )
+				CLOSURE_DATA( IFaceEditor * e; sad::Point2D m_p; )
 				CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
 				INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
 				SUBMITCLOSURE( ed->emitClosure );
@@ -148,7 +148,7 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 void SelectedState::onMouseMove(const sad::Event & ev)
 {
 	IFaceEditor * ed = this->editor();
-	hPointF p(ev.x, ev.y);
+	sad::Point2D p(ev.x, ev.y);
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	if (m_movement_substate == SSMSS_MOVING)
 	{	
@@ -161,8 +161,8 @@ void SelectedState::onMouseMove(const sad::Event & ev)
 	}
 	if (m_movement_substate == SSMSS_RESIZING)
 	{
-		hPointF d = p - m_resizingsubstate.oldPoint;
-		hRectF nr  = m_resizingsubstate.action.apply(m_resizingsubstate.oldRect, d);
+		sad::Point2D d = p - m_resizingsubstate.oldPoint;
+		sad::Rect2D nr  = m_resizingsubstate.action.apply(m_resizingsubstate.oldRect, d);
 		o->setRotatedRectangle(nr, o->prop<float>("angle", ed->log()));
 		CLOSURE
 		CLOSURE_DATA( IFaceEditor * e;  )
@@ -179,8 +179,8 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 	if (m_movement_substate == SSMSS_MOVING)
 	{
 		this->onMouseMove(ev);		
-		hRectF region = o->region();
-		hPointF newcenter = (region[0] + region[2]) / 2;
+		sad::Rect2D region = o->region();
+		sad::Point2D newcenter = (region[0] + region[2]) / 2;
 		ed->history()->add(new MoveCommand(o, m_picked_old_center, newcenter));
 		m_movement_substate = SSMSS_NOMOVEMENT;
 	}
@@ -225,11 +225,11 @@ void SelectedState::onKeyDown(const sad::Event & ev)
 	}
 }
 
-hRectF ResizingStateAction::apply(const hRectF & x, const hPointF & xd)
+sad::Rect2D ResizingStateAction::apply(const sad::Rect2D & x, const sad::Point2D & xd)
 {
-	hRectF xs  = x;
-	hPointF xc = (x[p0] + x[p1]) / 2;
-	hPointF xcp = (x[p2] + x[p3]) / 2;
+	sad::Rect2D xs  = x;
+	sad::Point2D xc = (x[p0] + x[p1]) / 2;
+	sad::Point2D xcp = (x[p2] + x[p3]) / 2;
 	sad::p2d::Vector e = sad::p2d::unit(xc - xcp);
 	float t = sad::p2d::scalar(e, xd );
 	xs[p0] +=  e * t;

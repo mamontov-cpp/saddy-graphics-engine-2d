@@ -60,7 +60,7 @@ bool LayerComparator::operator() (AbstractScreenObject * o1, AbstractScreenObjec
 
 #define PRECISION 0.00001
 
-const std::vector<AbstractScreenObject *> & ScreenTemplate::fetchObjectsWithin(const hPointF & point)
+const std::vector<AbstractScreenObject *> & ScreenTemplate::fetchObjectsWithin(const sad::Point2D & point)
 {
 	if (!(m_within_objects.size() != 0
 		&& (fabs(m_cached_point.x() - point.x()) < PRECISION 
@@ -89,22 +89,22 @@ const std::vector<AbstractScreenObject *> & ScreenTemplate::fetchObjectsWithin(c
 
 #undef PRECISION
 
-bool ScreenTemplate::isObjectInPicked(const hPointF & point,AbstractScreenObject * object)
+bool ScreenTemplate::isObjectInPicked(const sad::Point2D & point,AbstractScreenObject * object)
 {
 	this->fetchObjectsWithin(point);
 	return std::find(m_within_objects.begin(), m_within_objects.end(), object) 
 		!= m_within_objects.end();
 }
 
-bool ScreenTemplate::pickedIsBackground(const hPointF & p,AbstractScreenObject * o)
+bool ScreenTemplate::pickedIsBackground(const sad::Point2D & p,AbstractScreenObject * o)
 {
 	if (isObjectInPicked(p, o) == false)
 			return false;
 	// We don't change picked when don't need to
 	if (m_within_objects.size() == 1)
 			return false;
-	hRectF r = o->region();
-	float s = sad::p2d::distance(r[0], r[1]) * sad::p2d::distance(r[0], r[3]);
+	sad::Rect2D r = o->region();
+	float s = r[0].distance(r[1]) * r[0].distance(r[3]);
 	unsigned int l = o->prop<unsigned int>("layer", sad::Log::ref());
 	bool is_maximum_size = true;
 	unsigned int is_least_layer = true;
@@ -113,9 +113,9 @@ bool ScreenTemplate::pickedIsBackground(const hPointF & p,AbstractScreenObject *
 		AbstractScreenObject * to = m_within_objects[i];
 		if (o != to)
 		{
-			hRectF rt = to->region();
-			float ts = sad::p2d::distance(rt[0], rt[1]) 
-					 * sad::p2d::distance(rt[0], rt[3]);
+			sad::Rect2D rt = to->region();
+			float ts = rt[0].distance(rt[1]) 
+					  * rt[0].distance(rt[3]);
 			if (ts > s)  is_maximum_size = false;
 			unsigned int lt = to->prop<unsigned int>("layer", sad::Log::ref());
 			if (lt < l)	 is_least_layer  = false;

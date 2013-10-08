@@ -7,7 +7,7 @@
 #include <time.h>
 #include <vector>
 #include <sadstring.h>
-#include <primitives/hpoint.h>
+#include <sadpoint.h>
 #include <extra/geometry2d.h>
 #pragma once
 
@@ -51,14 +51,14 @@ public:
 		\param[in] xd distance
 		\returns new rectangle
 	 */
-	hRectF apply(const hRectF & x, const hPointF & xd);
+	sad::Rect2D apply(const sad::Rect2D & x, const sad::Point2D & xd);
 };
 
 class ResizingSubState
 {
  public:
-		hRectF oldRect;
-		hPointF oldPoint;
+		sad::Rect2D oldRect;
+		sad::Point2D oldPoint;
 		ResizingStateAction action;
 };
 
@@ -85,8 +85,8 @@ class SelectedState: public IFaceState
 protected:
 	// A substate for moving object
 	SelectedStateMovementSubState m_movement_substate;
-	hPointF m_picked_point;  //!< A first picked user point for moving
-	hPointF m_picked_old_center;	 //!< An old objects center, used for saving command 
+	sad::Point2D m_picked_point;  //!< A first picked user point for moving
+	sad::Point2D m_picked_old_center;	 //!< An old objects center, used for saving command 
 
 	// A state data
 	ResizingSubState    m_resizingsubstate;

@@ -6,7 +6,7 @@
 #include "abstractcommand.h"
 #include "../objects/abstractscreenobject.h"
 #include "sadstring.h"
-#include "primitives/hrect.h"
+#include "sadrect.h"
 #include <3rdparty/format/format.h>
 #include <log/log.h>
 #include <unused.h>
@@ -108,7 +108,7 @@ public:
 	sad::String group;
 	int index;
 
-	hRectF rect;
+	sad::Rect2D rect;
 	float angle;
 };
 
@@ -156,10 +156,10 @@ class SpriteRectChangeCommand: public AbstractCommand
  private:
 		ScreenSprite * m_sprite;
 		float m_angle;
-		hRectF m_old_rect;
-		hRectF m_new_rect;
+		sad::Rect2D m_old_rect;
+		sad::Rect2D m_new_rect;
 public:
-	inline SpriteRectChangeCommand(ScreenSprite * sprite, float angle, const hRectF & oldrect, const hRectF &  newrect)
+	inline SpriteRectChangeCommand(ScreenSprite * sprite, float angle, const sad::Rect2D & oldrect, const sad::Rect2D &  newrect)
 	{
 		SL_SCOPE("SpriteRectChangeCommand::SpriteRectChangeCommand");
 		m_sprite = sprite;

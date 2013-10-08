@@ -10,7 +10,7 @@
 
 void LabelAddingState::onMouseMove(const sad::Event & ev)
 {
-	this->shdata()->activeObject()->moveCenterTo(hPointF(ev.x,ev.y));
+	this->shdata()->activeObject()->moveCenterTo(sad::Point2D(ev.x,ev.y));
 }
 
 void LabelAddingState::enter()

@@ -15,14 +15,14 @@ LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer,
 void LayerCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->scene()->setLayer(m_object, m_new_layer);
-	ob->submitEvent("LayerCommand::commit", sad::Variant(hPointF(m_old_layer, m_new_layer)));
+	ob->submitEvent("LayerCommand::commit", sad::Variant(sad::Point2D(m_old_layer, m_new_layer)));
 }
 
 
 void LayerCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	m_object->scene()->setLayer(m_object, m_old_layer);
-	ob->submitEvent("LayerCommand::rollback", sad::Variant(hPointF(m_old_layer, m_new_layer)));
+	ob->submitEvent("LayerCommand::rollback", sad::Variant(sad::Point2D(m_old_layer, m_new_layer)));
 }
 
 LayerCommand::~LayerCommand()

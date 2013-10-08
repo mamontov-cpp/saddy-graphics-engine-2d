@@ -104,7 +104,7 @@ bool XMLConfigLoader::loadEntry(XMLConfigEntry & entry, const QDomElement & elem
 			int y=list[1].toInt(&ok);
 			int w=list[2].toInt(&ok);
 			int h=list[3].toInt(&ok);
-			entry.spriteTemplate.setTextureRect(hRectF(hPointF(x,y),hPointF(x+w,y+h)));
+			entry.spriteTemplate.setTextureRect(sad::Rect2D(sad::Point2D(x,y),sad::Point2D(x+w,y+h)));
 		}
 	}
 
@@ -119,7 +119,7 @@ bool XMLConfigLoader::loadEntry(XMLConfigEntry & entry, const QDomElement & elem
 		{
 			int w=list[0].toInt(&ok);
 			int h=list[1].toInt(&ok);
-			entry.spriteTemplate.setSize(hPointF(w,h));
+			entry.spriteTemplate.setSize(sad::Point2D(w,h));
 		}
 	}
 	

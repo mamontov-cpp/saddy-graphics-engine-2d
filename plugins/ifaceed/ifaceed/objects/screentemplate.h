@@ -4,7 +4,7 @@
 	Describes a main result of editing  - a screen template, which can be used in some other stuff
  */
 #include <marshal/hashbasedserializablecontainer.h>
-#include <primitives/hpoint.h>
+#include <sadpoint.h>
 #include <vector>
 #pragma once
 
@@ -26,7 +26,7 @@ class ScreenTemplate: public HashBasedSerializableContainer
  private:
 	 /*! Cached point within objects
 	  */
-	 hPointF  m_cached_point;
+	 sad::Point2D  m_cached_point;
 	 /*! A buffer, for picking
 	  */
 	 std::vector<AbstractScreenObject *> m_within_objects;
@@ -54,13 +54,13 @@ class ScreenTemplate: public HashBasedSerializableContainer
 		\param[in] point point
 		\return objects within range
 	 */
-	virtual const std::vector<AbstractScreenObject *> & fetchObjectsWithin(const hPointF & point);
+	virtual const std::vector<AbstractScreenObject *> & fetchObjectsWithin(const sad::Point2D & point);
 	/*! Tests, whether object is in picked list
 		\param[in] point point data
 		\param[in] object object
 		\return whether he is in list
 	 */
-	virtual bool isObjectInPicked(const hPointF & point,AbstractScreenObject * object);
+	virtual bool isObjectInPicked(const sad::Point2D & point,AbstractScreenObject * object);
 	/*! Tests, whether object is background for all oher
 		It's defines, when it's size is maximum and it's layer
 		is minumum of all
@@ -68,7 +68,7 @@ class ScreenTemplate: public HashBasedSerializableContainer
 		\param[in] object object
 		\return whether those conditions are met
 	 */
-	virtual bool pickedIsBackground(const hPointF & point,AbstractScreenObject * object);
+	virtual bool pickedIsBackground(const sad::Point2D & point,AbstractScreenObject * object);
 	
 	/*! Clears a picked element cache
 	 */ 

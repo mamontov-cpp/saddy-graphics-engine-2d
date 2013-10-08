@@ -121,7 +121,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		\param[in] p point
 		\param[in] enterSelected whether we should enter selected states if found
 	 */
-	virtual void trySelectObject(hPointF p, bool enterSelected);
+	virtual void trySelectObject(sad::Point2D p, bool enterSelected);
  public slots:
 	/** Tries erasing object, depending on current object state
 	 */
