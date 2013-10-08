@@ -36,7 +36,7 @@ struct GrahamScanTest : tpunit::TestFixture
 	   TEST(GrahamScanTest::testOctagonMovingUp)
    ) {}
 
-   bool pointIsInSet(const sad::Vector<sad::p2d::Point> & set, const hPointF & p)
+   bool pointIsInSet(const sad::Vector<sad::p2d::Point> & set, const sad::Point2D & p)
    {
 	   for(unsigned int i = 0; i < set.size(); i++)
 	   {

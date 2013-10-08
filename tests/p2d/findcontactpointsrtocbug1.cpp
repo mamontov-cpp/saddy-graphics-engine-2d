@@ -23,8 +23,8 @@ struct TestFindContactPointsRtoCBug1 : tpunit::TestFixture
 	   sad::p2d::Rectangle r1;
 	   sad::p2d::Circle r2;
 	   r1.setRect(
-			hRectF(hPointF(108, 190), hPointF(192, 190),
-				   hPointF(192, 210), hPointF(108, 210))	  
+			sad::Rect2D(sad::Point2D(108, 190), sad::Point2D(192, 190),
+				   sad::Point2D(192, 210), sad::Point2D(108, 210))	  
 	   );
 	   sad::p2d::Vector v1(0, 0);
 	   

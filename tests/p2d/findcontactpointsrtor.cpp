@@ -43,12 +43,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 1), hPointF(1, 2),
-				   hPointF(2, 1), hPointF(1, 0))	  
+			sad::Rect2D(sad::Point2D(0, 1), sad::Point2D(1, 2),
+				   sad::Point2D(2, 1), sad::Point2D(1, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(3, 2), hPointF(5, 2),
-			       hPointF(5, 0), hPointF(3, 0))
+		    sad::Rect2D(sad::Point2D(3, 2), sad::Point2D(5, 2),
+			       sad::Point2D(5, 0), sad::Point2D(3, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -66,12 +66,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(2, 1), hPointF(3, 2),
-				   hPointF(4, 1), hPointF(3, 0))	  
+			sad::Rect2D(sad::Point2D(2, 1), sad::Point2D(3, 2),
+				   sad::Point2D(4, 1), sad::Point2D(3, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(3, 2), hPointF(5, 2),
-			       hPointF(5, 0), hPointF(3, 0))
+		    sad::Rect2D(sad::Point2D(3, 2), sad::Point2D(5, 2),
+			       sad::Point2D(5, 0), sad::Point2D(3, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -89,12 +89,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(4, 1), hPointF(5, 2),
-				   hPointF(6, 1), hPointF(5, 0))	  
+			sad::Rect2D(sad::Point2D(4, 1), sad::Point2D(5, 2),
+				   sad::Point2D(6, 1), sad::Point2D(5, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(3, 2), hPointF(5, 2),
-			       hPointF(5, 0), hPointF(3, 0))
+		    sad::Rect2D(sad::Point2D(3, 2), sad::Point2D(5, 2),
+			       sad::Point2D(5, 0), sad::Point2D(3, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -112,12 +112,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(6, 1), hPointF(7, 2),
-				   hPointF(8, 1), hPointF(7, 0))	  
+			sad::Rect2D(sad::Point2D(6, 1), sad::Point2D(7, 2),
+				   sad::Point2D(8, 1), sad::Point2D(7, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(3, 2), hPointF(5, 2),
-			       hPointF(5, 0), hPointF(3, 0))
+		    sad::Rect2D(sad::Point2D(3, 2), sad::Point2D(5, 2),
+			       sad::Point2D(5, 0), sad::Point2D(3, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -136,12 +136,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 4), hPointF(1, 5),
-				   hPointF(2, 4), hPointF(1, 3))	  
+			sad::Rect2D(sad::Point2D(0, 4), sad::Point2D(1, 5),
+				   sad::Point2D(2, 4), sad::Point2D(1, 3))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(0, 2), hPointF(2, 2),
-			       hPointF(2, 0), hPointF(0, 0))
+		    sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(2, 2),
+			       sad::Point2D(2, 0), sad::Point2D(0, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -159,12 +159,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 1))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(1, 3),
+				   sad::Point2D(2, 2), sad::Point2D(1, 1))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(0, 2), hPointF(2, 2),
-			       hPointF(2, 0), hPointF(0, 0))
+		    sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(2, 2),
+			       sad::Point2D(2, 0), sad::Point2D(0, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -182,12 +182,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(1, 1),
-				   hPointF(2, 0), hPointF(1, -1))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(1, 1),
+				   sad::Point2D(2, 0), sad::Point2D(1, -1))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(0, 2), hPointF(2, 2),
-			       hPointF(2, 0), hPointF(0, 0))
+		    sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(2, 2),
+			       sad::Point2D(2, 0), sad::Point2D(0, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -205,12 +205,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, -2), hPointF(1, -1),
-				   hPointF(2, -2), hPointF(1, -3))	  
+			sad::Rect2D(sad::Point2D(0, -2), sad::Point2D(1, -1),
+				   sad::Point2D(2, -2), sad::Point2D(1, -3))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(0, 2), hPointF(2, 2),
-			       hPointF(2, 0), hPointF(0, 0))
+		    sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(2, 2),
+			       sad::Point2D(2, 0), sad::Point2D(0, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -228,12 +228,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -252,12 +252,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(3, 0), hPointF(3, 2),
-				   hPointF(5, 2), hPointF(5, 0))	  
+			sad::Rect2D(sad::Point2D(3, 0), sad::Point2D(3, 2),
+				   sad::Point2D(5, 2), sad::Point2D(5, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -276,12 +276,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(5, 0), hPointF(5, 2),
-				   hPointF(7, 2), hPointF(7, 0))	  
+			sad::Rect2D(sad::Point2D(5, 0), sad::Point2D(5, 2),
+				   sad::Point2D(7, 2), sad::Point2D(7, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -300,12 +300,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(7, 0), hPointF(7, 2),
-				   hPointF(9, 2), hPointF(9, 0))	  
+			sad::Rect2D(sad::Point2D(7, 0), sad::Point2D(7, 2),
+				   sad::Point2D(9, 2), sad::Point2D(9, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -324,12 +324,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(4, -1), hPointF(4, 1),
-			       hPointF(6, 1), hPointF(6, -1))
+		    sad::Rect2D(sad::Point2D(4, -1), sad::Point2D(4, 1),
+			       sad::Point2D(6, 1), sad::Point2D(6, -1))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -348,12 +348,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(1, -1), hPointF(1, 1),
-			       hPointF(3, 1), hPointF(3, -1))
+		    sad::Rect2D(sad::Point2D(1, -1), sad::Point2D(1, 1),
+			       sad::Point2D(3, 1), sad::Point2D(3, -1))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -372,12 +372,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r2.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r1.setRect(
-		    hRectF(hPointF(4, -1), hPointF(4, 1),
-			       hPointF(6, 1), hPointF(6, -1))
+		    sad::Rect2D(sad::Point2D(4, -1), sad::Point2D(4, 1),
+			       sad::Point2D(6, 1), sad::Point2D(6, -1))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -397,12 +397,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(1, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r2.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r1.setRect(
-		    hRectF(hPointF(1, -1), hPointF(1, 1),
-			       hPointF(3, 1), hPointF(3, -1))
+		    sad::Rect2D(sad::Point2D(1, -1), sad::Point2D(1, 1),
+			       sad::Point2D(3, 1), sad::Point2D(3, -1))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -421,12 +421,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, -1);
 	   sad::p2d::Vector v2(0, 0);
 	   r2.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r1.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;
@@ -442,12 +442,12 @@ struct TestFindContactPointsRtoR : tpunit::TestFixture
 	   sad::p2d::Vector v1(0, 0);
 	   sad::p2d::Vector v2(0, 0);
 	   r2.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r1.setRect(
-		    hRectF(hPointF(4, 0), hPointF(4, 2),
-			       hPointF(6, 2), hPointF(6, 0))
+		    sad::Rect2D(sad::Point2D(4, 0), sad::Point2D(4, 2),
+			       sad::Point2D(6, 2), sad::Point2D(6, 0))
 	   );
 	   sad::p2d::FindContactPoints m;
 	   sad::p2d::CollisionShape * s1 = &r1;

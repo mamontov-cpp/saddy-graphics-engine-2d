@@ -29,29 +29,29 @@ struct CollisionTestTest : tpunit::TestFixture
 	   sad::p2d::Rectangle r1;
 	   sad::p2d::Rectangle r2;
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 1))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(1, 3),
+				   sad::Point2D(2, 2), sad::Point2D(1, 1))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(2,0), hPointF(2, 1.5),
-			       hPointF(4, 1.5), hPointF(4, 0))
+		    sad::Rect2D(sad::Point2D(2,0), sad::Point2D(2, 1.5),
+			       sad::Point2D(4, 1.5), sad::Point2D(4, 0))
 	   );
 	   sad::p2d::CollisionTest t;
 	   ASSERT_FALSE( t.invoke(&r1, &r2) );
 	   ASSERT_FALSE( t.invoke(&r2, &r1) );
 	   r1.setRect(
-			hRectF(hPointF(0, 0), hPointF(0, 2),
-				   hPointF(2, 2), hPointF(2, 0))	  
+			sad::Rect2D(sad::Point2D(0, 0), sad::Point2D(0, 2),
+				   sad::Point2D(2, 2), sad::Point2D(2, 0))	  
 	   );
 	   r2.setRect(
-		    hRectF(hPointF(0,1), hPointF(1, 2),
-			       hPointF(2, 1), hPointF(1, 0))
+		    sad::Rect2D(sad::Point2D(0,1), sad::Point2D(1, 2),
+			       sad::Point2D(2, 1), sad::Point2D(1, 0))
 	   );
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
 	   r2.setRect(
-		    hRectF(hPointF(1,1), hPointF(2, 2),
-			       hPointF(3, 1), hPointF(2, 0))
+		    sad::Rect2D(sad::Point2D(1,1), sad::Point2D(2, 2),
+			       sad::Point2D(3, 1), sad::Point2D(2, 0))
 	   );
 	   ASSERT_TRUE( t.invoke(&r1, &r2) );
 	   ASSERT_TRUE( t.invoke(&r2, &r1) );
@@ -62,8 +62,8 @@ struct CollisionTestTest : tpunit::TestFixture
 	   sad::p2d::Rectangle r1;
 	   sad::p2d::Circle r2;
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 1))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(1, 3),
+				   sad::Point2D(2, 2), sad::Point2D(1, 1))	  
 	   );
 	   r2.setCenter( sad::p2d::Point(1,1) );
 	   r2.setRadius(1);
@@ -85,8 +85,8 @@ struct CollisionTestTest : tpunit::TestFixture
 	   sad::p2d::Rectangle r1;
 	   sad::p2d::Line r2;
 	   r1.setRect(
-			hRectF(hPointF(0, 2), hPointF(1, 3),
-				   hPointF(2, 2), hPointF(1, 1))	  
+			sad::Rect2D(sad::Point2D(0, 2), sad::Point2D(1, 3),
+				   sad::Point2D(2, 2), sad::Point2D(1, 1))	  
 	   );
 	   r2.setCutter( 1, 0,  3, 2 );
 	   sad::p2d::CollisionTest t;
@@ -157,8 +157,8 @@ struct CollisionTestTest : tpunit::TestFixture
 	   sad::p2d::Rectangle r1;
 	   sad::p2d::Bound r2;
 	   r1.setRect(
-			hRectF(hPointF(108, 0), hPointF(192, 0),
-				   hPointF(108, 20), hPointF(192, 20))	  
+			sad::Rect2D(sad::Point2D(108, 0), sad::Point2D(192, 0),
+				   sad::Point2D(108, 20), sad::Point2D(192, 20))	  
 	   );
 	   r2.setType(sad::p2d::BT_DOWN);
 	   r2.setPosition(0);

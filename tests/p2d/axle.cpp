@@ -23,20 +23,20 @@ struct AxleTest : tpunit::TestFixture
 	   sad::p2d::Axle axle;
 	   sad::p2d::Cutter2D  v;
 	   sad::p2d::Cutter1D  c;
-	   axle = sad::p2d::axle(hPointF(0,0), hPointF(10,0));
-	   v = sad::p2d::Cutter2D(hPointF(2,2), hPointF(5,6));
+	   axle = sad::p2d::axle(sad::Point2D(0,0), sad::Point2D(10,0));
+	   v = sad::p2d::Cutter2D(sad::Point2D(2,2), sad::Point2D(5,6));
 	   c = sad::p2d::project(v, axle);
 	   ASSERT_FLOAT_EQUAL(c.p1(), 2);
 	   ASSERT_FLOAT_EQUAL(c.p2(), 5);
 
-	   axle = sad::p2d::axle(hPointF(0,0), hPointF(0,10));
-	   v = sad::p2d::Cutter2D(hPointF(2,2), hPointF(5,6));
+	   axle = sad::p2d::axle(sad::Point2D(0,0), sad::Point2D(0,10));
+	   v = sad::p2d::Cutter2D(sad::Point2D(2,2), sad::Point2D(5,6));
 	   c = sad::p2d::project(v, axle);
 	   ASSERT_FLOAT_EQUAL(c.p1(), 2);
 	   ASSERT_FLOAT_EQUAL(c.p2(), 6);
 
-	   axle = sad::p2d::axle(hPointF(0,0), hPointF(1,1));
-	   v = sad::p2d::Cutter2D(hPointF(2,2), hPointF(3,3));
+	   axle = sad::p2d::axle(sad::Point2D(0,0), sad::Point2D(1,1));
+	   v = sad::p2d::Cutter2D(sad::Point2D(2,2), sad::Point2D(3,3));
 	   c = sad::p2d::project(v, axle);
 	   ASSERT_FLOAT_EQUAL(c.p1(), 2 * M_SQRT2 );
 	   ASSERT_FLOAT_EQUAL(c.p2(), sqrt(18.0) );
