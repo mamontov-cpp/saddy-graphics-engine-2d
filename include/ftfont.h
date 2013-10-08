@@ -37,7 +37,7 @@ class FTFont: public sad::BasicFont
 		 \param[in] str string
 		 \param[in] p   upper-left point in window coordinates
 	 */
-	 virtual void render(const sad::String & str,const pointf & p);
+	 virtual void render(const sad::String & str,const sad::Point2D & p);
 	 /*! Same as other, but little faster
 	     \param[in] str string
 		 \param[in]  x x coordinate
@@ -47,7 +47,7 @@ class FTFont: public sad::BasicFont
 	 /*! Currently returns only a height of font
 	     \param[in] str string
 	 */
-	 virtual hRectF size(const sad::String & str);
+	 virtual sad::Rect2D size(const sad::String & str);
 	 /*! Destructor
 	 */
 	 ~FTFont();
@@ -78,7 +78,7 @@ class FTFont: public sad::BasicFont
 		\param[in] str    string
 		\return bounding box
 	 */
-	hRectF sizeOfFont(FTHeightFont * fnt, unsigned int height, const sad::String & str);
+	sad::Rect2D sizeOfFont(FTHeightFont * fnt, unsigned int height, const sad::String & str);
 	/** Renders a specified box with height
 		\param[in] fnt   font
 		\param[in] height height
