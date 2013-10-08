@@ -224,7 +224,7 @@ AbstractSpriteDatabaseIterator * SpriteDatabase::begin() const
 QImage extractImage(const QImage & im, sad::Sprite2DTemplate & t)
 {
 	QImage result = im.convertToFormat(QImage::Format_RGB32);
-	result = result.copy( QRect(QPoint(t.textureRect().p().x(),t.textureRect().p().y()),
+	result = result.copy( QRect(QPoint(t.textureRect().p0().x(),t.textureRect().p0().y()),
 							    QSize(t.textureRect().width(),t.textureRect().height())));
 	if (t.isTransparent()) 
 	{

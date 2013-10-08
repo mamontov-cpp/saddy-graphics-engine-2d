@@ -243,7 +243,7 @@ void MainPanel::addFontObject()
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
 		sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
 		label->getProperty("color")->set(sad::Variant(hcolor), c);
-		label->getProperty("pos")->set(sad::Variant(hPointF(0,0)), c);
+		label->getProperty("pos")->set(sad::Variant(sad::Point2D(0,0)), c);
 		float angle = ui.dblAngle->value();
 		label->getProperty("angle")->set(sad::Variant(angle), c);
 		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
@@ -280,10 +280,10 @@ void MainPanel::addSpriteObject()
 			ScreenSprite * a = new ScreenSprite();
 			sad::Sprite2DConfig * c = m_editor->database()->sprites().hconfigs()[config];
 			sad::Sprite2DTemplate t = c->getTemplates()[group][index];
-			hPointF p1 = hPointF(320,240);
-			hPointF p2 = p1 + t.size();
-			hRectF rect(p1, p2);
-			a->setProp<hRectF>("rect",rect, m_editor->log());
+			sad::Point2D p1 = sad::Point2D(320,240);
+			sad::Point2D p2 = p1 + t.size();
+			sad::Rect2D rect(p1, p2);
+			a->setProp<sad::Rect2D>("rect",rect, m_editor->log());
 			a->setProp<float>("angle",ui.dblAngle->value(), m_editor->log());
 			a->setProp<sad::String>("config",config, m_editor->log());
 			a->setProp<sad::String>("group",group, m_editor->log());
@@ -681,14 +681,14 @@ void MainPanel::setRegionParameters()
 	AbstractScreenObject * o = (o1) ? o1 : o2;
 	if (o)
 	{
-		hRectF rect = o->region();
+		sad::Rect2D rect = o->region();
 		if (o->typeName() == "ScreenSprite")
 		{
 			m_selfchanged = true;
 			ui.dblSpriteX->setValue(rect[0].x());
 			ui.dblSpriteY->setValue(rect[0].y());
-			ui.dblSpriteWidth->setValue(sad::p2d::distance(rect[0], rect[1]));
-			ui.dblSpriteHeight->setValue(sad::p2d::distance(rect[0], rect[3]));
+			ui.dblSpriteWidth->setValue(rect[0].distance(rect[1]));
+			ui.dblSpriteHeight->setValue(rect[0].distance(rect[3]));
 			m_selfchanged = false;
 		}
 	}
@@ -717,7 +717,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 			o->setProp<int>("index",    index, m_editor->log());
 			
 			bool set_rect = false;
-			hRectF rect = o->region();
+			sad::Rect2D rect = o->region();
 			float angle = o->prop<float>("angle", m_editor->log());
 			set_rect = this->m_editor->currentBehaviour()->state() != "sprite_adding_simple";
 			
@@ -768,7 +768,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
 	SL_SCOPE("SpritePropertyChangeCommand::commit");
-	sad::String rd = SaveLoadCallback<hRectF>::save(m_new.rect).data();
+	sad::String rd = SaveLoadCallback<sad::Rect2D>::save(m_new.rect).data();
 	m_sprite->setProp<sad::String>("config", m_new.config, m_log);
 	m_sprite->setProp<sad::String>("group",  m_new.group, m_log);
 	m_sprite->setProp<int>("index",    m_new.index, m_log);
@@ -800,12 +800,12 @@ void MainPanel::spriteRectChanged()
 		if (o->getProperty("rect") != NULL && o->typeName() == "ScreenSprite")
 		{
 			float angle = o->prop<float>("angle", this->m_editor->log());
-			hRectF oldrect = o->region();
-			hPointF newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
-			hPointF size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
+			sad::Rect2D oldrect = o->region();
+			sad::Point2D newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
+			sad::Point2D size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
 			float comparisonprec = 0.0001f;
-			float oldwidth = sad::p2d::distance(oldrect[1], oldrect[0]);
-			float oldheight = sad::p2d::distance(oldrect[3], oldrect[0]);
+			float oldwidth = oldrect[1].distance(oldrect[0]);
+			float oldheight =oldrect[3].distance(oldrect[0]);
 			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
 				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
 				&& fabs(size.x() - oldwidth) < comparisonprec
@@ -814,9 +814,9 @@ void MainPanel::spriteRectChanged()
 			{
 				return;
 			}
-			hPointF horizontal = sad::p2d::unit(oldrect[1] - oldrect[0]);
-			hPointF vertical = sad::p2d::unit(oldrect[3] - oldrect[0]);
-			hRectF newrect;
+			sad::Point2D horizontal = sad::p2d::unit(oldrect[1] - oldrect[0]);
+			sad::Point2D vertical = sad::p2d::unit(oldrect[3] - oldrect[0]);
+			sad::Rect2D newrect;
 			ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 			newrect[0] = newpoint;
 			newrect[1] = newpoint;

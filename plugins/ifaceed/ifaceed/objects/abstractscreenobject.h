@@ -7,7 +7,7 @@
 #include "scene.h"
 #include "marshal/serializableobject.h"
 #include "refcountable.h"
-#include "primitives/hpoint.h"
+#include "sadpoint.h"
 #include <QString>
 #pragma once
 
@@ -106,7 +106,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	    \param[in] p point
 		\return whether point is within region
      */
-	virtual bool isWithin(const hPointF & p)=0;
+	virtual bool isWithin(const sad::Point2D & p)=0;
 	/*! Validates, whether object is valid in context of template.
 	    This check contains, whether all resources is in template.
 
@@ -128,11 +128,11 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/*! Returns a region of object. The region is not AABB
 		\return region of object
 	 */
-	virtual hRectF region()=0;
+	virtual sad::Rect2D region()=0;
 	/*! Moves a center of object to a following point
 		\param[in] p point
 	 */
-	virtual void moveCenterTo(const hPointF & p)=0;
+	virtual void moveCenterTo(const sad::Point2D & p)=0;
 	/*! Returns a description of object for putting it to a various list
 		\return string with description
 	 */
@@ -200,6 +200,6 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	bool hasProperty(const sad::String & s);
 	/*! Sets an already rotated rectangle, restoring all data
 	 */
-	virtual void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);
+	virtual void setRotatedRectangle(const sad::Rect2D & rotatedrectangle, float angle);
 };
 

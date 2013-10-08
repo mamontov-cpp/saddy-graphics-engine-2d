@@ -10,7 +10,7 @@
 DECLARE_SOBJ_INHERITANCE(ScreenSprite, AbstractScreenObject);
 
 
-class SpritePropertyListener: public PropertyListener<hRectF>,  public PropertyListener<float>
+class SpritePropertyListener: public PropertyListener<sad::Rect2D>,  public PropertyListener<float>
 {
 private:
 	ScreenSprite * m_sprite;
@@ -18,7 +18,7 @@ public:
 	inline SpritePropertyListener() {}
 	inline void setSprite(ScreenSprite * sprite) { m_sprite = sprite; }
 
-	virtual void notify(const hRectF & data)
+	virtual void notify(const sad::Rect2D & data)
 	{
 		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
@@ -54,7 +54,7 @@ ScreenSprite::ScreenSprite()
 	this->addProperty("group" ,new MappedField<sad::String>(&m_group, ""));
 	this->addProperty("index" ,new MappedField<int>(&m_index, 0));
 	
-	MappedField<hRectF> * hr = new MappedField<hRectF>(&m_rect, hRectF(hPointF(0,0), hPointF(128,128)));
+	MappedField<sad::Rect2D> * hr = new MappedField<sad::Rect2D>(&m_rect, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(128,128)));
 	hr->setListener(m_rect_listener);
 	this->addProperty("rect" , hr);
 	MappedField<float> * fr =  new MappedField<float>(&m_angle, 0.0f);
@@ -92,7 +92,7 @@ void ScreenSprite::_render()
 sad::String ScreenSprite::_description()
 {
 	QString a = QString("sprite(%1,%2,%3) at (%4,%5)");
-	hPointF  p = this->region()[0];
+	sad::Point2D  p = this->region()[0];
 	a = a.arg(m_config.data())
 		 .arg(m_group.data())
 		 .arg(QString::number(m_index))
@@ -102,20 +102,20 @@ sad::String ScreenSprite::_description()
 }
 
 
-hRectF ScreenSprite::region()
+sad::Rect2D ScreenSprite::region()
 {
-	hRectF rd = m_rect;
+	sad::Rect2D rd = m_rect;
 	sad::rotate(m_angle, rd);
 	return  rd;	
 }
 
-void ScreenSprite::moveCenterTo(const hPointF & point)
+void ScreenSprite::moveCenterTo(const sad::Point2D & point)
 {
 	if (m_observer)
 	{
-		hRectF  hregion = this->region();
- 		hPointF middle = (hregion[0] + hregion[2]) / 2; 
-		hPointF delta = point - middle;
+		sad::Rect2D  hregion = this->region();
+ 		sad::Point2D middle = (hregion[0] + hregion[2]) / 2; 
+		sad::Point2D delta = point - middle;
 		m_observer->sprite()->move(delta);
 		sad::moveBy(delta, m_rect);
 	}
@@ -125,9 +125,9 @@ void ScreenSprite::moveCenterTo(const hPointF & point)
 
 
 
-bool ScreenSprite::isWithin(const hPointF & p)
+bool ScreenSprite::isWithin(const sad::Point2D & p)
 {
-	hRectF r = this->region();
+	sad::Rect2D r = this->region();
 	return sad::isWithin(p, r);
 }
 
@@ -159,8 +159,8 @@ bool ScreenSprite::isValid(FontTemplateDatabase * db, sad::Vector<sad::String> *
 
 bool ScreenSprite::tryReload(FontTemplateDatabase * db)
 {
-	hPointF  point(0,0);
-	hPointF  size(0,0);
+	sad::Point2D  point(0,0);
+	sad::Point2D  size(0,0);
     //bool changesize = false;
 	if (m_observer)
 	{
@@ -183,12 +183,12 @@ void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 {
 	sad::Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
-	obs->createSprite(hPointF(0,0));
+	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
 	m_rect = this->m_observer->sprite()->adapter()->rect();
 }
 
-void ScreenSprite::setRotatedRectangle(const hRectF & rotatedrectangle, float angle)
+void ScreenSprite::setRotatedRectangle(const sad::Rect2D & rotatedrectangle, float angle)
 {
 	float mangle = -1 * angle;
 	m_rect = rotatedrectangle;
@@ -205,7 +205,7 @@ void ScreenSprite::initializeGraphicAfterLoad(FontTemplateDatabase * db)
 {
 	sad::Sprite2DConfig * cfg = db->sprites().hconfigs()[m_config];
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
-	obs->createSprite(hPointF(0,0));
+	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
 	obs->sprite()->adapter()->setRect(m_rect);
 	obs->sprite()->rotate(m_angle);

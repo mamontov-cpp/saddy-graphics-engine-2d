@@ -17,15 +17,15 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 	this->addProperty("color",new MappedField<sad::Color>(&m_font_color, sad::Color(0,0,0)));
 	this->addProperty("text" ,new MappedField<sad::String>(&m_text, ""));
 	this->addProperty("angle",new MappedField<float>(&m_angle, 0.0f));
-	this->addProperty("pos"  ,new MappedField<hPointF>(&m_point, hPointF(0,0)));
+	this->addProperty("pos"  ,new MappedField<sad::Point2D>(&m_point, sad::Point2D(0,0)));
 	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
 
 }
 
 
-void ScreenLabel::moveCenterTo(const hPointF & p)
+void ScreenLabel::moveCenterTo(const sad::Point2D & p)
 {
-	hRectF r = m_font->size(m_text);
+	sad::Rect2D r = m_font->size(m_text);
 	m_point.setX(p.x() - r.width()/2);
 	m_point.setY(p.y() + r.height()/2);
 }
@@ -59,7 +59,7 @@ void ScreenLabel::_render()
 	m_font->setColor(sad::AColor(m_font_color.r(),m_font_color.g(),m_font_color.b(),(sad::uchar)m_alpha));
 	m_font->setHeight(m_font_size);
 
-	hRectF s = m_font->size(m_text);
+	sad::Rect2D s = m_font->size(m_text);
 	glMatrixMode(GL_MODELVIEW_MATRIX);
 	glPushMatrix();
 	glTranslatef(m_point.x() +  s.width() /2, m_point.y() - s.height() /2, 0.0f);
@@ -94,24 +94,24 @@ bool ScreenLabel::tryReload(FontTemplateDatabase * db)
 }
 
 
-bool ScreenLabel::isWithin(const hPointF & p)
+bool ScreenLabel::isWithin(const sad::Point2D & p)
 {
-	hRectF r = this->region();
+	sad::Rect2D r = this->region();
 	return sad::isWithin(p, r);
 }
 
-hRectF ScreenLabel::region()
+sad::Rect2D ScreenLabel::region()
 {
 	if (!m_font)
 	{
-		return hRectF();
+		return sad::Rect2D();
 	}
 	m_font->setHeight(m_font_size);
 
-	hRectF s = m_font->size(m_text);
-	hRectF non_rotated_region( hPointF(s.width() / -2.0f, s.height() / -2.0f),
-		                       hPointF(s.width() / 2.0f, s.height() / 2.0f));
-	hPointF results[4];
+	sad::Rect2D s = m_font->size(m_text);
+	sad::Rect2D non_rotated_region( sad::Point2D(s.width() / -2.0f, s.height() / -2.0f),
+		                       sad::Point2D(s.width() / 2.0f, s.height() / 2.0f));
+	sad::Point2D results[4];
 	float cos_angle = cos(m_angle);
 	float sin_angle = sin(m_angle);
 	float centerx = m_point.x() + s.width() / 2;
@@ -121,7 +121,7 @@ hRectF ScreenLabel::region()
 		results[i].setX(centerx + non_rotated_region[i].x()*cos_angle - non_rotated_region[i].y() * sin_angle);
 		results[i].setY(centery + non_rotated_region[i].x()*sin_angle + non_rotated_region[i].y() * cos_angle);
 	}
-	return hRectF(results[0],results[1], results[2], results[3]);
+	return sad::Rect2D(results[0],results[1], results[2], results[3]);
 }
 
 

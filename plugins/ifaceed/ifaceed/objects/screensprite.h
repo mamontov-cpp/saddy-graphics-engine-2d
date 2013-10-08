@@ -40,7 +40,7 @@ protected:
 	/*! A rectangle to work with
 		\param[in] rect rectangle
 	 */
-	hRectF		m_rect;
+	sad::Rect2D		m_rect;
 	/** An angle to work with
 	 */
 	float m_angle;
@@ -59,7 +59,7 @@ protected:
 	/*! Returns bounding rectangle for data
 		\return bounding rectangle
 	 */
-	inline const hRectF & rect() const { return m_rect;}
+	inline const sad::Rect2D & rect() const { return m_rect;}
 
 	inline sad::Sprite2DConfigObserver * observer() { return m_observer; }
 	/*! Returns a string type
@@ -74,7 +74,7 @@ protected:
 	     \param[in] p point
 		 \return whether point is within region
       */
-	virtual bool isWithin(const hPointF & p);
+	virtual bool isWithin(const sad::Point2D & p);
 	 /*! Validates, whether object is valid in context of template.
 	    This check contains, whether all resources is in template.
 
@@ -100,13 +100,13 @@ protected:
 	virtual bool tryReload(FontTemplateDatabase * db);
 	/*! Returns a region for data
 	 */
-	virtual hRectF region();
+	virtual sad::Rect2D region();
 	/*! Sets a point for data
 	 */
-	virtual void moveCenterTo(const hPointF & point);
+	virtual void moveCenterTo(const sad::Point2D & point);
 	/*! Sets an already rotated rectangle, restoring all data
 	 */
-	virtual void setRotatedRectangle(const hRectF & rotatedrectangle, float angle);
+	virtual void setRotatedRectangle(const sad::Rect2D & rotatedrectangle, float angle);
 	/*! Destroys a screen sprite
 	 */
 	~ScreenSprite();

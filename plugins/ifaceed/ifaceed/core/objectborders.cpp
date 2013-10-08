@@ -10,7 +10,7 @@ bool ActiveObjectBorder::tryPerform()
 	AbstractScreenObject * o = this->m_data->activeObject();
 	if (this->m_data->mustShowActiveBorder()) 
 	{
-		hRectF r = o->region();
+		sad::Rect2D r = o->region();
 		glDisable(GL_TEXTURE_2D);
 		GLint   clr[4]={};
 		glGetIntegerv(GL_CURRENT_COLOR,clr);
@@ -45,7 +45,7 @@ bool SelectedObjectBorder::tryPerform()
 	AbstractScreenObject * o = this->m_data->selectedObject();
 	if (o) 
 	{
-		hRectF r = o->region();
+		sad::Rect2D r = o->region();
 		glDisable(GL_TEXTURE_2D);
 		GLint   clr[4]={};
 		glGetIntegerv(GL_CURRENT_COLOR,clr);
@@ -74,20 +74,20 @@ bool SelectedObjectBorder::tryPerform()
 
 #define HOTSPOT_PADDING 12
 
-static inline hPointF center(const hRectF & r, int p1, int p2, int a1, int a2, float size) 
+static inline sad::Point2D center(const sad::Rect2D & r, int p1, int p2, int a1, int a2, float size) 
 {
-	hPointF center = (r[p1] + r[p2]) / 2;
+	sad::Point2D center = (r[p1] + r[p2]) / 2;
 	float angle = atan2f(r[a2].y() - r[a1].y(), r[a2].x() - r[a1].x());
-	//hPointF result = center;
-	hPointF result = center  - ( hPointF(cos(angle), sin(angle)) * size);
+	//sad::Point2D result = center;
+	sad::Point2D result = center  - ( sad::Point2D(cos(angle), sin(angle)) * size);
 	return result;
 }
 
-void ObjectBorder::renderSpot(const char * c, const hRectF & r, int r0, int r1, int r2, int r3, float dangle)
+void ObjectBorder::renderSpot(const char * c, const sad::Rect2D & r, int r0, int r1, int r2, int r3, float dangle)
 {
 	sad::Sprite2DConfig * ci = this->m_data->icons();
 	sad::Sprite2DConfigObserver observer(c,0, ci);
-	hPointF point = center(r,r0,r1,r2,r3,HOTSPOT_PADDING); 
+	sad::Point2D point = center(r,r0,r1,r2,r3,HOTSPOT_PADDING); 
 	if (observer.createSprite(point))
 	{
 		observer.sprite()->rotate(atan2f(r[r3].y() - r[r2].y(), r[r3].x() - r[r2].x()) - dangle);
@@ -95,13 +95,13 @@ void ObjectBorder::renderSpot(const char * c, const hRectF & r, int r0, int r1, 
 	}
 }
 
-hRectF deletePositionRectangle(const hRectF & region,float size)
+sad::Rect2D deletePositionRectangle(const sad::Rect2D & region,float size)
 {
-	hPointF delposition = region[2];
-	hPointF center = (region[0] + region[2])/2;
+	sad::Point2D delposition = region[2];
+	sad::Point2D center = (region[0] + region[2])/2;
 	float angle = atan2f(delposition.y() - center.y(), delposition.x() - center.x() );
-	delposition += hPointF(cos(angle), sin(angle)) * HOTSPOT_PADDING;
-	hRectF v(hPointF(-size, -size), hPointF(size, -size), hPointF(size, size), hPointF(-size, size));
+	delposition += sad::Point2D(cos(angle), sin(angle)) * HOTSPOT_PADDING;
+	sad::Rect2D v(sad::Point2D(-size, -size), sad::Point2D(size, -size), sad::Point2D(size, size), sad::Point2D(-size, size));
 	for(int i = 0; i < 4; i++) 
 	{
 		v[i] += delposition; 
@@ -113,7 +113,7 @@ hRectF deletePositionRectangle(const hRectF & region,float size)
 void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 {
 	sad::Sprite2DConfig * c = this->m_data->icons();
-	hRectF region = o->region();
+	sad::Rect2D region = o->region();
 	if (o->resizable()) 
 	{
 		this->renderSpot("left",  region,3,0,0,1, 0.0f);
@@ -126,11 +126,11 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 	if (canDelete) 
 	{
 		sad::Sprite2DConfigObserver observer("delete", 0, c);
-		if (observer.createSprite(hPointF(0,0)))
+		if (observer.createSprite(sad::Point2D(0,0)))
 		{
-			hRectF v = deletePositionRectangle(region, DELETEPADDINGSIZE);
+			sad::Rect2D v = deletePositionRectangle(region, DELETEPADDINGSIZE);
 			observer.sprite()->adapter()->setRect(v);
-			//observer.sprite()->adapter()->setSize(hPointF(size,size));
+			//observer.sprite()->adapter()->setSize(sad::Point2D(size,size));
 			observer.sprite()->adapter()->render();
 		}
 	}
@@ -139,13 +139,13 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 }
 
 
-static inline hRectF hotSpotRectangleFrom(const hRectF & r, int p1, int p2, int a1, int a2, float size, float dangle) 
+static inline sad::Rect2D hotSpotRectangleFrom(const sad::Rect2D & r, int p1, int p2, int a1, int a2, float size, float dangle) 
 {
-	hPointF center = (r[p1] + r[p2]) / 2;
+	sad::Point2D center = (r[p1] + r[p2]) / 2;
 	float angle = atan2f(r[a2].y() - r[a1].y(), r[a2].x() - r[a1].x());
-	//hPointF result = center;
-	hPointF result = center  - ( hPointF(cos(angle), sin(angle)) * size);
-	hRectF v(hPointF(-size, -size), hPointF(size, -size), hPointF(size, size), hPointF(-size, size));
+	//sad::Point2D result = center;
+	sad::Point2D result = center  - ( sad::Point2D(cos(angle), sin(angle)) * size);
+	sad::Rect2D v(sad::Point2D(-size, -size), sad::Point2D(size, -size), sad::Point2D(size, size), sad::Point2D(-size, size));
 	float deltaangle = angle - dangle;
 	sad::moveAndRotateNormalized(deltaangle,  result, v);
 	return v;
@@ -153,10 +153,10 @@ static inline hRectF hotSpotRectangleFrom(const hRectF & r, int p1, int p2, int 
 
 
 
-sad::Vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool canDelete)
+sad::Vector<sad::Rect2D> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool canDelete)
 {
-	hRectF region = o->region();
-	sad::Vector<hRectF> result;
+	sad::Rect2D region = o->region();
+	sad::Vector<sad::Rect2D> result;
 	if (o->resizable())
 	{
 	 result <<  hotSpotRectangleFrom(region,3,0,0,1, HOTSPOT_PADDING, 0.0f);
@@ -166,7 +166,7 @@ sad::Vector<hRectF> ObjectBorder::createHotSpots(AbstractScreenObject * o, bool 
 	}
 	if (canDelete) 
 	{
-		hRectF v = 	deletePositionRectangle(region, HOTSPOT_PADDING);
+		sad::Rect2D v = 	deletePositionRectangle(region, HOTSPOT_PADDING);
 		result << v;
 	}
 	return result;
@@ -188,7 +188,7 @@ bool ActiveObjectBorder::removable()
 }
 
 
-sad::Vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractScreenObject * o)
+sad::Vector<BorderHotSpots> ObjectBorder::isWithin(const sad::Point2D & p, AbstractScreenObject * o)
 {
 	SL_SCOPE("ObjectBorder::isWithin()");
 	
@@ -206,7 +206,7 @@ sad::Vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 		hotspotsets << BHS_REMOVE; m_setnames << "BHS_REMOVE";
 	}
 	sad::Vector<BorderHotSpots> result;
-	sad::Vector<hRectF> r = this->createHotSpots(o, this->removable());
+	sad::Vector<sad::Rect2D> r = this->createHotSpots(o, this->removable());
 	SL_DEBUG(
 		QString("Testing click(%1, %2)")
 		.arg(p.x())
@@ -239,7 +239,7 @@ sad::Vector<BorderHotSpots> ObjectBorder::isWithin(const hPointF & p, AbstractSc
 	return result;
 }
 
-sad::Vector<BorderHotSpots> ActiveObjectBorder::isWithin(const hPointF & p)
+sad::Vector<BorderHotSpots> ActiveObjectBorder::isWithin(const sad::Point2D & p)
 {
 	AbstractScreenObject * o = this->m_data->activeObject();
 	if (o) 
@@ -249,7 +249,7 @@ sad::Vector<BorderHotSpots> ActiveObjectBorder::isWithin(const hPointF & p)
 	return sad::Vector<BorderHotSpots> ();
 }
 
-sad::Vector<BorderHotSpots> SelectedObjectBorder::isWithin(const hPointF & p)
+sad::Vector<BorderHotSpots> SelectedObjectBorder::isWithin(const sad::Point2D & p)
 {
 	AbstractScreenObject * o = this->m_data->selectedObject();
 	if (o) 

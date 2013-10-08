@@ -69,7 +69,7 @@ sad::String AbstractScreenObject::description()
 	return _description();
 }
 
-void AbstractScreenObject::setRotatedRectangle(UNUSED const hRectF & rotatedrectangle, UNUSED float angle)
+void AbstractScreenObject::setRotatedRectangle(UNUSED const sad::Rect2D & rotatedrectangle, UNUSED float angle)
 {
 
 }

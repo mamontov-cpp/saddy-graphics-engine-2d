@@ -4,8 +4,8 @@
 	A move command is a command for moving object's center to another point
  */
 #include "abstractcommand.h"
-#include <primitives/hpoint.h>
-#include <primitives/hrect.h>
+#include <sadpoint.h>
+#include <sadrect.h>
 #pragma once
 
 class AbstractScreenObject;
@@ -16,15 +16,15 @@ class MoveCommand: public AbstractCommand
 {
  private:
 	AbstractScreenObject * m_object;
-	hPointF                m_old_point;
-	hPointF                m_new_point;
+	sad::Point2D                m_old_point;
+	sad::Point2D                m_new_point;
  public:
     /** Creates a new command
 		\param[in] object object to be added
 		\param[in] oldp old point
 		\param[in] newp new point
 	 */
-	MoveCommand(AbstractScreenObject * object, const hPointF & oldp, const hPointF & newp);
+	MoveCommand(AbstractScreenObject * object, const sad::Point2D & oldp, const sad::Point2D & newp);
 	/** Applies changes, described in command
 		\param[in] c context
 		\param[in] ob observer for command
@@ -45,8 +45,8 @@ class ResizeCommand: public AbstractCommand
 {
  private:
 	AbstractScreenObject * m_object;
-	hRectF                m_old_rect;
-	hRectF                m_new_rect;
+	sad::Rect2D                m_old_rect;
+	sad::Rect2D                m_new_rect;
 	float				  m_angle;  //!< New angle
  public:
     /** Creates a new command
@@ -55,7 +55,7 @@ class ResizeCommand: public AbstractCommand
 		\param[in] nr new rect
 		\param[in] a   angle
 	 */
-    ResizeCommand(AbstractScreenObject * __object, const hRectF & oldrectangle, const hRectF & nr, float a);
+    ResizeCommand(AbstractScreenObject * __object, const sad::Rect2D & oldrectangle, const sad::Rect2D & nr, float a);
 	/** Applies changes, described in command
 		\param[in] c context
 		\param[in] ob observer for command
@@ -76,7 +76,7 @@ class MakeBackgroundCommand: public AbstractCommand
  private:
 	AbstractScreenObject * m_o;
 	unsigned int m_layer;
-	hRectF m_rect;
+	sad::Rect2D m_rect;
 	float  m_angle;
  public:
     /** Creates a new command

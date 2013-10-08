@@ -28,7 +28,7 @@ void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	o->moveCenterTo(hPointF(ev.x,ev.y));
+	o->moveCenterTo(sad::Point2D(ev.x,ev.y));
 
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -116,15 +116,15 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
-	hPointF p(ev.x, ev.y);
+	sad::Point2D p(ev.x, ev.y);
 	bool highlight = false;
 	sad::String highlights;
 	if (ss == DSAS_INITIAL)
 	{
 		ed->behaviourSharedData()->toggleActiveBorder(true);
 
-		hRectF brect = oo->rect();
-		hPointF ddelta = p - brect[3];
+		sad::Rect2D brect = oo->rect();
+		sad::Point2D ddelta = p - brect[3];
 		for(int i = 0; i < 4; i++)
 		{
 			brect[i] += ddelta;
@@ -180,8 +180,8 @@ void DiagonalSpriteAddingState::onMouseMove(const sad::Event & ev)
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	if (m_substate == DSAS_FIRSTCLICK)
 	{
-		hPointF newpoint(ev.x, ev.y);
-		hRectF nrect = oo->rect();
+		sad::Point2D newpoint(ev.x, ev.y);
+		sad::Rect2D nrect = oo->rect();
 		nrect[1] = newpoint;
 		nrect[0].setX(nrect[3].x());
 		nrect[0].setY(nrect[1].y());
