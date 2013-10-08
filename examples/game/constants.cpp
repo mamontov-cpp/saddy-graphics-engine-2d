@@ -5,8 +5,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Player>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(0,88),hPointF(88,174));
-	o->Rectangle = hRectF(hPointF(-11, -11), hPointF(11, 11));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(0,88),sad::Point2D(88,174));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-11, -11), sad::Point2D(11, 11));
 	return o;
 }
 
@@ -21,8 +21,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<PlayerBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(441,0),hPointF(452,11));
-	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(441,0),sad::Point2D(452,11));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
 	return o;
 }
 
@@ -47,8 +47,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<EnemyBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(439,14),hPointF(458,33));
-	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(439,14),sad::Point2D(458,33));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
 	return o;
 }
 
@@ -73,15 +73,15 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Bonus>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(1,1),hPointF(86,86));
-	o->Rectangle = hRectF(hPointF(-8, -8), hPointF(8, 8));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(1,1),sad::Point2D(86,86));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8));
 	return o;
 }
 
 sad::p2d::CollisionShape * sad::p2d::app::Constants<Bonus>::shape()
 {
 	Sprite2DAdapter::Options * options = p2d::app::Constants<Bonus>::sprite();
-	hRectF r = options->Rectangle;
+	sad::Rect2D r = options->Rectangle;
 	delete options;
 
 	// For a simple optimization, make bonus a circle
@@ -94,15 +94,15 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Enemy>::sprite()
 {
 	/*! A special texture rectangles, used to shape enemies
 	 */
-	hRectF texture_rectangles[3]={
-		hRectF(hPointF(88,0),hPointF(176,88)),
-		hRectF(hPointF(266,0),hPointF(354,88)),
-		hRectF(hPointF(355,0),hPointF(443,88)),
+	sad::Rect2D texture_rectangles[3]={
+		sad::Rect2D(sad::Point2D(88,0),sad::Point2D(176,88)),
+		sad::Rect2D(sad::Point2D(266,0),sad::Point2D(354,88)),
+		sad::Rect2D(sad::Point2D(355,0),sad::Point2D(443,88)),
 	};
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = texture_rectangles[ rand () % 3 ];
-	o->Rectangle = hRectF(hPointF(-8, -8), hPointF(8, 8));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8));
 	return o;
 }
 
@@ -117,8 +117,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<ShootingEnemy>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-10, -10), hPointF(10, 10));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-10, -10), sad::Point2D(10, 10));
 	return o;
 }
 
@@ -144,8 +144,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<SuperShootingEnemy>::sprite(
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-14, -14), hPointF(14, 14));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-14, -14), sad::Point2D(14, 14));
 	return o;
 }
 

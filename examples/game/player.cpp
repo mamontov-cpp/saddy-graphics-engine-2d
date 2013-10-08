@@ -23,7 +23,7 @@ void Player::tryLookAt(const sad::Event & p)
 {
 	if (this->game()->isPlaying())
 	{
-		this->lookAt(hPointF(p.x, p.y));
+		this->lookAt(sad::Point2D(p.x, p.y));
 	}
 }
 

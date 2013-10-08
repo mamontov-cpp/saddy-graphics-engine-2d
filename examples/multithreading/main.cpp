@@ -62,11 +62,11 @@ class EventHandler: public sad::EventHandler
 		else 
 		{
 			// This point is center of sprite
-			hPointF center = m_ad->pos();
+			sad::Point2D center = m_ad->pos();
 			// Since Sprite2DAdapter::move uses relative coordinates to move center of sprite
 			// we must compute distance between point, where user clicked ands center of sprite
 			// and call it.
-			hPointF v = hPointF(o.x,o.y) - center;
+			sad::Point2D v = sad::Point2D(o.x,o.y) - center;
 			m_ad->move(v);
 		}
 	 }
@@ -187,16 +187,16 @@ void * thread(void * p)
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
-	Sprite2DAdapter * a = new Sprite2DAdapter(tex, hRectF(hPointF(0,0), hPointF(512,512)), hRectF(hPointF(0,0), hPointF(512,512)));
+	Sprite2DAdapter * a = new Sprite2DAdapter(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
 	r.getCurrentScene()->add(a);
 
 	/* Add two labels with different fonts
 	 */
 	r.getCurrentScene()->add(
-		new Label(fnt1, "FTFont", pointf(300,200), &r)
+		new Label(fnt1, "FTFont", sad::Point2D(300,200), &r)
 	);
 	r.getCurrentScene()->add(
-		new Label(fnt2, "TMFont", pointf(400,400), &r)
+		new Label(fnt2, "TMFont", sad::Point2D(400,400), &r)
 	);
 	
 	/* Here we bind two different handlers with keydown

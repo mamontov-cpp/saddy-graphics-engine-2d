@@ -7,8 +7,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<UncoloredBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(441,0),hPointF(452,11));
-	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(441,0),sad::Point2D(452,11));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
 	return o;
 }
 
@@ -23,8 +23,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Ball>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(0,88),hPointF(88,174));
-	o->Rectangle = hRectF(hPointF(-11, -11), hPointF(11, 11));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(0,88),sad::Point2D(88,174));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-11, -11), sad::Point2D(11, 11));
 	return o;
 }
 
@@ -39,8 +39,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<GridNode>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(178,90),hPointF(265,177));
-	o->Rectangle = hRectF(hPointF(-18, -18), hPointF(18, 18));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(178,90),sad::Point2D(265,177));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-18, -18), sad::Point2D(18, 18));
 	return o;
 }
 
@@ -56,14 +56,14 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<GridNodeEdge>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(89,89),hPointF(176,111));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(89,89),sad::Point2D(176,111));
 	o->Rectangle = p2d::app::Constants<GridNodeEdge>::sourceRect();
 	return o;
 }
 
-hRectF sad::p2d::app::Constants<GridNodeEdge>::sourceRect()
+sad::Rect2D sad::p2d::app::Constants<GridNodeEdge>::sourceRect()
 {
-	return hRectF(hPointF(-43, -11), hPointF(43, 11));
+	return sad::Rect2D(sad::Point2D(-43, -11), sad::Point2D(43, 11));
 }
 
 
@@ -71,15 +71,15 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Platform>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(267,91),hPointF(437,132));
-	o->Rectangle = hRectF(hPointF(-42, -10), hPointF(42, 10));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(267,91),sad::Point2D(437,132));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-42, -10), sad::Point2D(42, 10));
 	return o;
 }
 
 sad::p2d::CollisionShape * sad::p2d::app::Constants<Platform>::shape()
 {
 	Sprite2DAdapter::Options * options = p2d::app::Constants<Platform>::sprite();
-	hRectF r = options->Rectangle;
+	sad::Rect2D r = options->Rectangle;
 	delete options;
 
 	// For a simple optimization, make bonus a circle
@@ -93,8 +93,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Shooter>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-10, -10), hPointF(10, 10));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-10, -10), sad::Point2D(10, 10));
 	return o;
 }
 
@@ -110,8 +110,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<ColoredBullet>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(439,14),hPointF(458,33));
-	o->Rectangle = hRectF(hPointF(-4, -4), hPointF(4, 4));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(439,14),sad::Point2D(458,33));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
 	return o;
 }
 
@@ -128,8 +128,8 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<MovingSmile>::sprite()
 {
 	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
 	o->Texture = "objects";
-	o->TextureRectangle = hRectF(hPointF(177,0),hPointF(265,88));
-	o->Rectangle = hRectF(hPointF(-14, -14), hPointF(14, 14));
+	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
+	o->Rectangle = sad::Rect2D(sad::Point2D(-14, -14), sad::Point2D(14, 14));
 	return o;
 }
 

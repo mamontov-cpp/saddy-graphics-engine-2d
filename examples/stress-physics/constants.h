@@ -64,7 +64,7 @@ class Constants<GridNodeEdge>
 {
 public:
 	static Sprite2DAdapter::Options * sprite();
-	static hRectF sourceRect();
+	static sad::Rect2D sourceRect();
 };
 
 template<>
