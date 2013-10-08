@@ -5,7 +5,7 @@
 */
 #pragma once
 #include "../include/fontmanager.h"
-#include "../include/primitives/hcolor.h"
+#include "sadcolor.h"
 #include "sadhash.h"
 
 
@@ -26,13 +26,13 @@ class FTFont: public sad::BasicFont
 	 bool setHeight(unsigned int height);   
 	 /*! Sets color for a font
 	  */
-	 void setColor(const hst::acolor & cl);
+	 void setColor(const sad::AColor & cl);
 	 /*! Loads a font
 	     \param[in] fnt_file file of TTF font
 		 \param[in] height  height of font
 		 \param[in] cl      color
 	 */
-	 virtual bool load(const char * fnt_file, unsigned int height,const hst::acolor & cl=hst::acolor(0,0,0,0));
+	 virtual bool load(const char * fnt_file, unsigned int height,const sad::AColor & cl=sad::AColor(0,0,0,0));
 	 /*! Renders a string
 		 \param[in] str string
 		 \param[in] p   upper-left point in window coordinates
@@ -111,7 +111,7 @@ class FTFont: public sad::BasicFont
  private:
 	FTFontInfo *    m_info;          //!< Info about used freetype data
 	unsigned int    m_renderheight;  //!< Current rendered height
-	hst::acolor     m_rendercolor;   //!< Current rendered color
+	sad::AColor     m_rendercolor;   //!< Current rendered color
 	HeightContainer m_lists_cache;   //!< Different created faces for font
 };
 

@@ -1,13 +1,14 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include <stdio.h>
-#include "3rdparty/tpunit++/tpunit++.hpp"
-#include "primitives/matrix2x2.h"
+#include <cstdio>
+#include "matrix2x2.h"
 #include "extra/fuzzy_equal.h"
+#define _INC_STDIO
+#include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
-typedef hst::matrix2x2<double> matrixf;
+typedef sad::Matrix2x2<double> matrixf;
 /*!
  * Tests object logic
  */

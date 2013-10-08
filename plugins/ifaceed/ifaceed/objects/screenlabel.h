@@ -17,7 +17,7 @@ class ScreenLabel: public AbstractScreenObject
  private:
 	 sad::String  m_font_name;    //!< Font name data
 	 unsigned int m_font_size;    //!< Size of font
-	 hst::color   m_font_color;   //!< Color of font
+	 sad::Color   m_font_color;   //!< Color of font
 	 sad::String  m_text;         //!< Text of label
 	 float        m_angle;        //!< Angle of label
 	 hPointF      m_point;        //!< Upper-left point of label

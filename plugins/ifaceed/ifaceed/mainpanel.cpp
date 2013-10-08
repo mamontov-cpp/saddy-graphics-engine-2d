@@ -241,7 +241,7 @@ void MainPanel::addFontObject()
 		sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
 		label->getProperty("font")->set(sad::Variant(fontName),c);
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
-		hst::color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
+		sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
 		label->getProperty("color")->set(sad::Variant(hcolor), c);
 		label->getProperty("pos")->set(sad::Variant(hPointF(0,0)), c);
 		float angle = ui.dblAngle->value();
@@ -462,7 +462,7 @@ void MainPanel::colorChanged(int index)
 	if (index!=-1) 
 	{
 		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
-		hst::color c(clr.red(),clr.green(),clr.blue());
+		sad::Color c(clr.red(),clr.green(),clr.blue());
 		trySetProperty("color", c);
 	}
 }
@@ -541,7 +541,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop && o->type() == "ScreenLabel")
 	{
 		m_selfchanged = true;
-		hst::color c = prop->get(l)->get<hst::color>(l);
+		sad::Color c = prop->get(l)->get<sad::Color>(l);
 		QColor clr(c.r(), c.g(), c.b()); 
 		int index = ui.cmbFontColor->findData(clr);
 		if (index != -1) 

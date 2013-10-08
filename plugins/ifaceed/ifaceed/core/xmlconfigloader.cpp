@@ -135,7 +135,7 @@ bool XMLConfigLoader::loadEntry(XMLConfigEntry & entry, const QDomElement & elem
 			int r=list[0].toInt(&ok);
 			int g=list[1].toInt(&ok);
 			int b=list[2].toInt(&ok);
-			entry.spriteTemplate.makeTransparent(hst::color(r,g,b));
+			entry.spriteTemplate.makeTransparent(sad::Color(r,g,b));
 		}
 	}
 	//Return flag

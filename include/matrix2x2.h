@@ -6,7 +6,7 @@
  */
 #pragma once
 #include "primitives/hpoint.h"
-#include "../sadpair.h"
+#include "sadpair.h"
 #include <assert.h>
 
 namespace sad 

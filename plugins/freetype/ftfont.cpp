@@ -33,7 +33,7 @@ FTFont::FTFont()
 	 m_info->library = NULL;
  }
  m_renderheight = 0;
- m_rendercolor = hst::acolor(0,0,0,0);
+ m_rendercolor = sad::AColor(0,0,0,0);
 }
 
 FTFont::FTHeightFont * FTFont::newFTHeightFont(unsigned int height) 
@@ -267,7 +267,7 @@ static bool create_list(FT_Face face, unsigned  char ch, GLuint base, GLuint * t
 	return true;
 }
 
-void FTFont::setColor(const hst::acolor & cl)
+void FTFont::setColor(const sad::AColor & cl)
 {
 	m_rendercolor=cl;
 }
@@ -329,7 +329,7 @@ bool FTFont::buildHeightFont(unsigned int height)
 
 
 
-bool FTFont::load(const char * fnt_file, unsigned int height, const hst::acolor & cl)
+bool FTFont::load(const char * fnt_file, unsigned int height, const sad::AColor & cl)
 {
    // If library does not exists
    if (m_info->library == 0) 

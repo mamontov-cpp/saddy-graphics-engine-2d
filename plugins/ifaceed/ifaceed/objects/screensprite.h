@@ -24,7 +24,7 @@ protected:
 
 	/*! A color to work with
 	 */
-	hst::color  m_color;
+	sad::Color  m_color;
 	/*! An alpha channel to work with
 	 */
 	int         m_alpha;

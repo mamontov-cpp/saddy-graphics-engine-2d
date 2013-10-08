@@ -1,11 +1,12 @@
 #pragma warning(push)
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
-#include "primitives/object.h"
-#include "3rdparty/tpunit++/tpunit++.hpp"
+#include "object.h"
 #include "scene.h"
 #include "sadptrhash.h"
 #include "sadstring.h"
+#define _INC_STDIO
+#include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
 // Declare primary descendants
