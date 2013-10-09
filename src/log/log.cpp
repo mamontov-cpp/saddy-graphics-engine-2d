@@ -170,7 +170,7 @@ bool sad::log::FileTarget::open(const sad::String & filename)
 
 void sad::log::FileTarget::receive(const sad::log::Message & message)
 {
-	if (((int)message.priority()) >= m_max_priority || m_file == NULL)
+	if (((int)message.priority()) > m_max_priority || m_file == NULL)
 		return;
 	std::string mesg = str(fmt::Format(m_format.data()) 
 						   << message.stime() 
