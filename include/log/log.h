@@ -138,17 +138,6 @@ enum Color
  */
 class Message
 {
-private:	
-	/*! A buffer part for converting time to string, using strftime.
-	 */
-	char m_buffer[30];    
-	sad::String m_subsystem; //!< Subsystem
-	sad::String m_message;   //!< Message data
-	time_t      m_time;		 //!< Current time stamp
-	sad::log::Priority m_priority; //!< Information about message priority
-	sad::String        m_user_priority; //!<  User priority, not used if non USER
-	const char   *     m_file;          //!<  Compiled file, null if nothing
-	int                m_line;          //!<  A line of code, null if nothing
 public:
 	/*! Creates a new message
 		\param[in] message message text
@@ -227,107 +216,133 @@ public:
 	{ 
 		return m_file; 
 	}
-	/*! Returns a source code line, where log 
+	/*! Returns a source code line, where log function is called
 	 */
-				inline int line()  const { return m_line; }
+	inline int line()  const 
+	{ 
+		return m_line; 
+	}
+private:	
+	/*! A buffer part for converting time to string, using strftime.
+	 */
+	char m_buffer[30];    
+	sad::String m_subsystem;            //!< Subsystem
+	sad::String m_message;              //!< Message data
+	time_t      m_time;		            //!< Current time stamp
+	sad::log::Priority m_priority;      //!< Information about message priority
+	sad::String        m_user_priority; //!<  User priority, not used if non USER
+	const char   *     m_file;          //!<  Compiled file, null if nothing
+	int                m_line;          //!<  A line of code, null if nothing
 };
-		/*! A console class, which implements all console functions
-		 */
-		class Console
-		{
+
+/*! A console class, which implements crossplatform support for low-level console IO
+ */
+class Console
+{
+public:
+	/*! Connects to console and initializates support for console
+     */
+	Console();
+	/*! Used to allocate console on Windows
+	 */
+	virtual void createConsole() ;
+	/*! Sets a color mode for console
+	 */
+	virtual void setColorMode(sad::log::Color foreground, sad::log::Color background) ; 
+	/*! Used to restore default color mode in console
+	 */
+	virtual void clearColorMode();
+	/*! Outputs a text, using color, set previously
+	 */
+	virtual void print(const char * text) ;
+	/*! Disconnects from console and restores default color scheme
+	 */
+	virtual ~Console();
 #ifdef WIN32
-		 private:
-				WORD m_oldattributes;
-				HANDLE m_console;
-				/*! Inits console information
-				 */
-				void initConsole();
+private:
+	WORD m_oldattributes;
+	HANDLE m_console;
+	/*! Inits console information
+	 */
+	void initConsole();
 #endif
-		 public:
-			 /*! Creates a new console
-		          */
-			 Console();
-			 /*! Used to allocate console on Windows
-			  */
-		        virtual void createConsole() ;
-			 /*! Sets a color mode for console
-			  */
-			virtual void setColorMode(sad::log::Color foreground, sad::log::Color background) ; 
-			/*! Used to restore color modes in console
-			 */
-			virtual void clearColorMode();
-			/*! Prines a text, using color mode
-			 */
-			virtual void print(const char * text) ;
-			/*! Handles console
-			 */
-			virtual ~Console();
-		};
-		/*! A log target class is the one, which acts and works with
-			output, redirecting it to class or console, depending on implementation 
+
+};
+/*! A log target class is the one, which works with
+	output log messages, redirecting it to 
+	file or console or other output device, depending on it's subclass
+
+	To implement writing to your output device, you must subclass it.
 			
-			Note, that this is a basic class, so it is abstract
-		 */
-		class Target
-		{
-		public:
-			/*! Receives a messages from targetting information
-				\param[in] message taken message
-			 */
-			virtual void receive(const sad::log::Message & message) = 0;
-			// Performs nothing
-			virtual ~Target();
-		};
-		/*! A log, that targets a file. 
-			File is opened at some other point, because it can fail
-		 */
-		class FileTarget: public sad::log::Target
-		{
-			protected:
-				FILE * m_file; //!< Inner file handle
-				int         m_max_priority; //!< Priority of max message
-				sad::String m_format; //!< Format for outputting the message
-				/*! Formats a subsystem part, by default adds ": "
-					\return format string
-				 */
-				virtual std::string formatSubsystem(const sad::log::Message & message);
-				/*! Formats file and line part, by default adds a space, or empty string
-					\return format string
-				 */
-				virtual std::string formatFileLine(const sad::log::Message & message);
-				/*! Closes a handle, if can, sets it to null
-				 */
-				virtual void close();
-			public:
-				/*! Creates a new file with specified format.
-					Format defined as followes
-					{0} - current time
-					{1} - message priority
-					{2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
-					{3} - formatFileLine() result, file and line through ', ', nothing if not specified
-					{4} - message text
-					\param[in] format format string 
-					\param[in] maxpriority Maximum priority for outputting. 
-											Messages with priority maxpriority and bigger this are discarded
-				 */
-				FileTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
-				/*! Opens a file
-					\param[in] filename name of file
-					\return true if ok
-				 */
-				bool open(const sad::String & filename);
-				/*! Receives a messages from targetting information
-					\param[in] message taken message
-				 */
-				virtual void receive(const sad::log::Message & message);
-				/*! Set maximum level
-					\param[in] level level message
-				 */ 
-				inline void setMaxLevel(int level) { m_max_priority = level; }
-				/*! Destructs a file
-				 */
-				virtual ~FileTarget();
-		};
+	Note, that this is a basic class, so it is abstract
+  */
+class Target
+{
+public:
+	/*! Receives a messages from targetting information
+		\param[in] message taken message
+	 */
+	virtual void receive(const sad::log::Message & message) = 0;
+	/*! Kept only for inheritance conformance. Does nothing
+	 */
+	virtual ~Target();
+};
+/*! A log, that writes formatted messages to a file. 
+	You must call sad::log::FileTarget::open() before doing any output, because 
+	OS could fail to opena file. Otherwise, or when OS fails to open FILE no output
+	is performed
+ */
+class FileTarget: public sad::log::Target
+{
+public:
+	/*! Creates a new file with specified format.
+		Format defined as followes
+		{0} - current time
+		{1} - message priority
+		{2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
+		{3} - formatFileLine() result, file and line through ', ', nothing if not specified
+		{4} - message text
+		\param[in] format format string 
+		\param[in] maxpriority Maximum priority for outputting. 
+							   Messages with priority  value, 
+							   bigger than maximum priority are discarded
+	 */
+	FileTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6);
+	/*! Tries to open file for writing. Previous file, if opened with object
+		of this target is closed and new file is opened, with destroying it's content
+		\param[in] filename name of file
+		\return true if opened successfully
+	 */
+	bool open(const sad::String & filename);
+	/*! Receives a messages from targetting information
+		\param[in] message taken message
+	 */
+	virtual void receive(const sad::log::Message & message);
+	/*! Set maximum priority, which can be output
+		\param[in] priority level message
+	 */ 
+	inline void setMaxPriority(int priority) { m_max_priority = priority; }
+	/*! Closes a file if opened it before
+	 */
+	virtual ~FileTarget();
+protected:
+	FILE * m_file;         //!< Inner file handle
+	int    m_max_priority; //!< Priority of bigger
+	sad::String m_format;  //!< Format for outputting the message
+	/*! Formats a subsystem part, by default adds ": "
+		\param[in] message a logged message
+		\return format string
+	 */
+	virtual std::string formatSubsystem(const sad::log::Message & message);
+	/*! Formats file and line part, by default adds a space, or empty string
+		\param[in] message a logged message
+		\return format string
+	 */
+	virtual std::string formatFileLine(const sad::log::Message & message);
+	/*! Closes a to opened file, if can. Also resets it to null
+	 */
+	virtual void close();
+};
 		/*! A targets, which targets a console
 		 */
 		class ConsoleTarget: public sad::log::Target
