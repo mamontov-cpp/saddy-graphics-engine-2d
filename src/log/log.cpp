@@ -29,23 +29,6 @@ const char * sad::log::Message::stime() const
 	return m_buffer;
 }
 
-sad::log::Message::Message(const sad::String & message,
-					   	   sad::log::Priority priority,
-						   const char * file,
-						   int line ,
-						   const sad::String & subsystem ,
-						   const sad::String & user_priority 
-					      )
-{
-	m_message = message;
-	m_priority = priority;
-	m_file = file;
-	m_line = line;
-	m_subsystem = subsystem;
-	m_user_priority = user_priority;
-	m_time = ::time(NULL);
-}
-
 
 sad::String sad::log::Message::fileline() const
 {

@@ -26,18 +26,28 @@ class Rect
  public:
 	/*! Creates a rectangle, where all points are filled with zeros
      */
-    Rect()
+    inline Rect()
 	{
 	}
 	/*! Creates a rectangle from two points
-        \param[in] p1 first point
-        \param[in] p2 second point
+        \param[in] p1 first (top-left) point
+        \param[in] p2 second (bottom-right) point
      */
-    Rect(const _Point & p1,const _Point & p2)
+    inline Rect(const _Point & p1,const _Point & p2)
 	: m_p0(p1), m_p1(p1), m_p3(p2), m_p2(p2)
 	{
 		m_p1.setX(p2.x());
 		m_p3.setX(p1.x());
+	}
+	/*! Creates a rectangle from two points
+		\param[in] x1 X coordinate of top-left point
+		\param[in] y1 Y coordinate of top-left point
+		\param[in] x2 X coordinate of bottom-right point
+		\param[in] y2 Y coordinate of bottom-right point
+	 */
+	inline Rect(double x1, double y1, double x2, double y2)
+	: m_p0(x1, y1), m_p1(x2, y1), m_p2(x2, y2), m_p3(x1, y2)
+	{
 	}
     /*! Creates a rectangle from four points
          \param[in] p1 top-left point
@@ -45,7 +55,10 @@ class Rect
 		 \param[in] p3 bottom-right point
 		 \param[in] p4 bottom-left point
      */
-    Rect(const _Point & p1,const _Point & p2,const _Point & p3,const _Point & p4)
+    inline Rect(const _Point & p1,
+			    const _Point & p2,
+				const _Point & p3,
+				const _Point & p4)
 	: m_p0(p1), m_p1(p2), m_p2(p3), m_p3(p4)
 	{
 	}

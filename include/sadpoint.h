@@ -176,7 +176,15 @@ public:
 	inline Point3(const  sad::Point2<_Type> & o) : sad::Point2<_Type>(o), m_z(0) 
 	{
 	}
-    /*! Constructs point by two coordinates
+    /*! Constructs point by two coordinates. Fills Z coordinate with zero
+		\param[in] x X Coordinate
+		\param[in] y Y Coordinate
+     */
+	inline Point3(_Type x, _Type y): sad::Point2<_Type>(x, y),  m_z(0)
+	{
+
+	}
+	/*! Constructs point by three coordinates
 		\param[in] x X Coordinate
 		\param[in] y Y Coordinate
 		\param[in] z Z Coordinate
