@@ -33,138 +33,204 @@ inline std::ostream & operator<<(std::ostream & o, const sad::String & o2)
 
 namespace sad
 {
-	namespace log
+
+namespace log
+{
+
+/*! Converts any object to string, using std::ostringstream, for a substitution
+	it to log message. 
+
+	Instantiate a template of this class, to make output of your class possible
+ */
+template<typename T>
+class StringCaster
+{
+public:
+	/*! Casts object to string, for passing it to a log message
+		\param[in] object an objecct
+		\return string representation of object
+	 */
+	static std::string cast(const T & object)
 	{
-		template<typename T>
-		class StringCaster
-		{
-	     public:
-			/*! A caster for helping string find their ways
-			 */
-			static sad::String cast(const T & string)
-			{
-				std::ostringstream s; 
-				s << string;
-				return s.str().c_str();
-			}
-		};
-		// Allows to write statements like SL_CRITICAL(fmt::Print("{0}") << 5)
-		template<>
-		class StringCaster<fmt::internal::ArgInserter<char> >
-		{
-		 public:
-			 /*! This caster performs conversion from format library internal structure
-			     to ours
-				 \param[in] string an inserter from inner library to make logging simpler
-			 */
-			static sad::String cast(const fmt::internal::ArgInserter<char> & string)
-			{
-				// We need to perform this, since operator FormatterProxy<Char>() is non-constant
-				fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(string); 
-				return str(fmt).c_str();
-			}
-		};
+		std::ostringstream s; 
+		s << object;
+		return s.str().c_str();
+	}
+};
+
+/*! This is special type of caster, which allows writing statementss, 
+	like SL_CRITICAL(fmt::Print("{0}") << 5)
+ */
+template<>
+class StringCaster<fmt::internal::ArgInserter<char> >
+{
+public:
+	/*! This caster performs conversion from format library internal structure
+	    to string, allowing to pass it to a log message
+		\param[in] string an inserter from inner formatlibrary
+		\return string
+	  */
+	static std::string cast(const fmt::internal::ArgInserter<char> & string)
+	{
+		// We need to perform this, since operator FormatterProxy<Char>() is non-constant
+		fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(string); 
+		return str(fmt);
+	}
+};
 
 #ifdef QT_CORE_LIB
-		template<>
-		class StringCaster<QString>
-		{
-	     public:
-			/*! A caster for helping string find their ways
-             */
-			inline static sad::String cast(const QString & string)
-			{
-				return sad::String(string.toStdString().c_str());
-			}
-		};
+
+/*! Converts QString to a string, allowing to pass it to a log message
+ */
+template<>
+class StringCaster<QString>
+{
+public:
+	/*! Converts QString to std::string, making possible to pass it to a log
+		message
+     */
+	inline static std::string cast(const QString & string)
+	{
+		return string.toStdString();
+	}
+};
+
 #endif
 
-		/*! Priotity of message of log
-		 */
-		enum Priority
-		{
-			FATAL = 0,
-			CRITICAL = 1,
-			WARNING = 2,
-			MESSAGE = 3,
-			DEBUG = 4,
-			USER = 5
-		};
-		/*! A colors table for coloring some text in console 
-		 */
-		enum Color
-		{
-			NONE =  0,
-			LIGHT_RED = 1,
-			LIGHT_GREEN = 2,
-			LIGHT_BLUE = 3,
-			DARK_RED = 4,
-			DARK_GREEN = 5,
-			DARK_BLUE = 6,
-			WHITE = 7,
-			LIGHT_GREY = 8,
-			DARK_GREY = 9,
-			BLACK = 10,
-			LIGHT_YELLOW = 11,
-			DARK_YELLOW = 12,
-			LIGHT_MAGENTA = 13,
-			DARK_MAGENTA = 14,
-			LIGHT_CYAN = 15,
-			DARK_CYAN = 16
-		};
-		/*! Describes a logging message 
-		 */
-		class Message
-		{
-			private:	
-				char m_buffer[30];       //!< A buffer part
-				sad::String m_subsystem; //!< Subsystem
-				sad::String m_message;   //!< Message data
-				time_t      m_time;		 //!< Current time
-				sad::log::Priority m_priority; //!< Information about message priority
-				sad::String        m_user_priority; //!<  User priority, not used if non USER
-				const char   *     m_file;          //!<  Compiled file, null if nothing
-				int                m_line;          //!<  A line of code, null if nothing
-			public:
-				/*! Creates a new message
-					\param[in] message message text
-					\param[in] priority priority type
-					\param[in] file file information
-					\param[in] line line info
-					\param[in] subsystem subsystem info
-					\param[in]  user_priority user priority information
-				 */
-				Message(const sad::String & message,
-						sad::log::Priority priority,
-						const char * file = NULL,
-						int line = 0,
-						const sad::String & subsystem = sad::String(),
-						const sad::String & user_priority = sad::String()
-					   );
-					   
-				inline const sad::String & subsystem() const
-				{ return m_subsystem; } //!< Returns a subsystem
-				inline const sad::String & message() const
-				{ return m_message; } //!< Returns a message					
-				const char * stime() const; //!< A string-alike time
-				inline const time_t & time() const
-				{ return m_time; }   //!< Returns a time
-				inline sad::log::Priority priority() const { return m_priority; } //!< A priority
-				inline const sad::String & upriority() const
-				{ return m_user_priority; } //!< Returns a user priority
-				/*! Returns string like "name of file", "line"				
-				 */
-				sad::String fileline() const;
-				/*! Returns a stringified priority
-				 */
-				const char * spriority() const;
-				/*! A file constant
-				 */
-				inline const char * file()  const { return m_file; }
-			    /*! A line constant
-				 */
+/*! Defines a priority of messages in log
+	Messages can be disabled by it's priority.
+	Also, when possible, they can be represented on screen by different colors
+ */
+enum Priority
+{
+	FATAL = 0,
+	CRITICAL = 1,
+	WARNING = 2,
+	MESSAGE = 3,
+	DEBUG = 4,
+	USER = 5
+};
+/*! Defines a color, for color scheme, which text will be colored, when log message
+	is represented on screen
+ */
+enum Color
+{
+	NONE =  0,
+	LIGHT_RED = 1,
+	LIGHT_GREEN = 2,
+	LIGHT_BLUE = 3,
+	DARK_RED = 4,
+	DARK_GREEN = 5,
+	DARK_BLUE = 6,
+	WHITE = 7,
+	LIGHT_GREY = 8,
+	DARK_GREY = 9,
+	BLACK = 10,
+	LIGHT_YELLOW = 11,
+	DARK_YELLOW = 12,
+	LIGHT_MAGENTA = 13,
+	DARK_MAGENTA = 14,
+	LIGHT_CYAN = 15,
+	DARK_CYAN = 16
+};
+/*! Describes a logging message, which is broadcasted by sad::log::Log to all targets
+	and contains information of all data
+ */
+class Message
+{
+private:	
+	/*! A buffer part for converting time to string, using strftime.
+	 */
+	char m_buffer[30];    
+	sad::String m_subsystem; //!< Subsystem
+	sad::String m_message;   //!< Message data
+	time_t      m_time;		 //!< Current time stamp
+	sad::log::Priority m_priority; //!< Information about message priority
+	sad::String        m_user_priority; //!<  User priority, not used if non USER
+	const char   *     m_file;          //!<  Compiled file, null if nothing
+	int                m_line;          //!<  A line of code, null if nothing
+public:
+	/*! Creates a new message
+		\param[in] message message text
+		\param[in] priority priority type
+		\param[in] file file information
+		\param[in] line line info
+		\param[in] subsystem subsystem info
+		\param[in]  user_priority user priority information
+	 */
+	inline Message(const sad::String & message,
+				   sad::log::Priority priority,
+				   const char * file = NULL,
+				   int line = 0,
+				   const sad::String & subsystem = sad::String(),
+				   const sad::String & user_priority = sad::String()
+				  )
+	: m_message(message), m_priority(priority), m_file(file),
+	  m_line(line), m_subsystem(subsystem), m_user_priority(user_priority)
+	{
+		m_time = ::time(NULL);
+	}
+	/*! Returns subsystem, passed into constructor.
+		\return subsystem
+	 */
+	inline const sad::String & subsystem() const
+	{ 
+		return m_subsystem; 
+	} 
+	/*! Returns message string, passed into constructor.
+		\return message string
+	 */
+	inline const sad::String & message() const
+	{ 
+		return m_message; 
+	} 				
+	/*! Returns string representation of message creation time
+		\return string representation of message creation time
+	 */
+	const char * stime() const; 
+	/*! Returns message creation time
+		\return message creation time
+	 */
+	inline const time_t & time() const
+	{ 
+		return m_time; 
+	}   
+	/*! Returns basic priority of message
+		\return basic priority of message
+	 */
+	inline sad::log::Priority priority() const 
+	{ 
+		return m_priority; 
+	} 
+	/*! Returns user priority of message
+		\return usage priority message
+	 */
+	inline const sad::String & upriority() const
+	{ 
+		return m_user_priority; 
+	} 
+	/*! Returns string with name and line, formatted like 
+		"name of file", "line"			
+		\return formatted file name and line
+	 */
+	sad::String fileline() const;
+	/*! Returns a string representation of priority.
+		If user representation of priority is set, than it's returned, otherwise
+		a built-in representation of priority
+		\return string representation of priority
+	 */
+	const char * spriority() const;
+	/*! Returns a source code file name, where log function is called
+		\return source code file name
+	 */
+	inline const char * file()  const 
+	{ 
+		return m_file; 
+	}
+	/*! Returns a source code line, where log 
+	 */
 				inline int line()  const { return m_line; }
-		};
+};
 		/*! A console class, which implements all console functions
 		 */
 		class Console

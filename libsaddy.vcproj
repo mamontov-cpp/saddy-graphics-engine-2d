@@ -846,10 +846,6 @@
 					RelativePath=".\include\extra\periodicalevent.h"
 					>
 				</File>
-				<File
-					RelativePath=".\include\extra\statemachine.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="config"
