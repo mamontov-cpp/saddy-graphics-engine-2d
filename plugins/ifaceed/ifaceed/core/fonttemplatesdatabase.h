@@ -30,13 +30,13 @@ class FontTemplatesMaps
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadFont(QDomElement & entry, const sad::String & parent, sad::Log * log);
+		void loadFont(QDomElement & entry, const sad::String & parent, sad::log::Log * log);
 		/** Loads a found config
 			\param[in] entry element
 			\param[in] parent parent directory
 			\param[in] log log data
 		 */
-		void loadConfig(QDomElement & entry, const sad::String & parent, sad::Log * log);
+		void loadConfig(QDomElement & entry, const sad::String & parent, sad::log::Log * log);
 
  public:
 		/** Constructs new empty maps
@@ -45,7 +45,7 @@ class FontTemplatesMaps
 		/** Loads a configs from file, specified by path and name
 			Also preprocesses a local paths from config data
 		 */
-		bool load(const QString & name, sad::Log * log);
+		bool load(const QString & name, sad::log::Log * log);
 		/** Read fonts
 			\return entities of fonts
 		 */
@@ -85,7 +85,7 @@ class FontTemplateDatabase
 			\param[in] maps maps data
 			\param[in] log log to write to
 		 */
-		bool load(FontTemplatesMaps & maps, sad::Log * log);
+		bool load(FontTemplatesMaps & maps, sad::log::Log * log);
 		/** Fonts, represented in database
 			\return fonts
 		 */

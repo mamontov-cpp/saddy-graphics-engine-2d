@@ -63,24 +63,24 @@ MakeBackgroundCommand::MakeBackgroundCommand(AbstractScreenObject * object)
 {
 	SL_SCOPE("MakeBackgroundCommand::MakeBackgroundCommand");
 	m_o = object;
-	m_layer = m_o->prop<unsigned int>("layer", sad::Log::ref());
-	m_rect = m_o->prop<sad::Rect2D>("rect", sad::Log::ref());
-	m_angle =  m_o->prop<float>("angle", sad::Log::ref());
+	m_layer = m_o->prop<unsigned int>("layer", sad::log::Log::ref());
+	m_rect = m_o->prop<sad::Rect2D>("rect", sad::log::Log::ref());
+	m_angle =  m_o->prop<float>("angle", sad::log::Log::ref());
 }
 
 void MakeBackgroundCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
-	m_o->setProp<unsigned int>("layer", 0, sad::Log::ref());
-	m_o->setProp<float>("angle", 0.0f, sad::Log::ref());
-	m_o->setProp<sad::Rect2D>("rect", sad::Rect2D(sad::Point2D(0,0), sad::Point2D(WINDOW_WIDTH, WINDOW_HEIGHT)), sad::Log::ref());	
+	m_o->setProp<unsigned int>("layer", 0, sad::log::Log::ref());
+	m_o->setProp<float>("angle", 0.0f, sad::log::Log::ref());
+	m_o->setProp<sad::Rect2D>("rect", sad::Rect2D(sad::Point2D(0,0), sad::Point2D(WINDOW_WIDTH, WINDOW_HEIGHT)), sad::log::Log::ref());	
 	ob->submitEvent("MakeBackgroundCommand::commit", sad::Variant(0));
 }
 
 void MakeBackgroundCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob )
 {
-	m_o->setProp<sad::Rect2D>("rect", m_rect, sad::Log::ref());	
-	m_o->setProp<float>("angle", m_angle, sad::Log::ref());	
-	m_o->setProp<unsigned int>("layer", m_layer, sad::Log::ref());	
+	m_o->setProp<sad::Rect2D>("rect", m_rect, sad::log::Log::ref());	
+	m_o->setProp<float>("angle", m_angle, sad::log::Log::ref());	
+	m_o->setProp<unsigned int>("layer", m_layer, sad::log::Log::ref());	
 	
 	ob->submitEvent("MakeBackgroundCommand::rollback", sad::Variant(0));
 }

@@ -66,7 +66,7 @@ void ScreenClearCommand::commit(UNUSED ActionContext *c, CommandChangeObserver *
     for (unsigned int i = 0 ; i < m_objects.count(); i++)
 	{
 		m_container->remove(m_objects[i]);
-		m_objects[i]->setProp<bool>("activity", false, sad::Log::ref());
+		m_objects[i]->setProp<bool>("activity", false, sad::log::Log::ref());
 	}
 	ob->submitEvent("ScreenClearCommand::commit", sad::Variant(0));
 
@@ -78,7 +78,7 @@ void ScreenClearCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver
     for (unsigned int i = 0 ; i < m_objects.count(); i++)
 	{
 		m_container->add(m_objects[i]);
-		m_objects[i]->setProp<bool>("activity", true, sad::Log::ref());
+		m_objects[i]->setProp<bool>("activity", true, sad::log::Log::ref());
 	}
 	ob->submitEvent("ScreenClearCommand::rollback", sad::Variant(0));
 

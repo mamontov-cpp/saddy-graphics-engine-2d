@@ -27,7 +27,7 @@ class PropertyChangeCommand: public AbstractCommand
 {
 private:
 	AbstractScreenObject * m_object; //!< Object of data
-	sad::Log * m_log;				 //!< Log of editor
+	sad::log::Log * m_log;				 //!< Log of editor
 	
 	sad::String m_property_name;     //!< Name of property
 	T m_prev_value;				     //!< Previous value of object
@@ -40,7 +40,7 @@ public:
 		\param[in] new_value new value
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, sad::Log * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, sad::log::Log * log) 
 	{
 		SL_SCOPE("PropertyChangeCommand::PropertyChangeCommand");
 		m_log = log;
@@ -57,7 +57,7 @@ public:
 		\param[in] old_value an old value of property
 		\param[in] log       log
 	 */
-	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, T old_value, sad::Log * log) 
+	PropertyChangeCommand(AbstractScreenObject * o, const sad::String & s, T new_value, T old_value, sad::log::Log * log) 
 	{
 		m_log = log;
 		m_object = o;
@@ -120,13 +120,13 @@ class SpritePropertyChangeCommand: public AbstractCommand
  private:
 	ScreenSprite * m_sprite;
 	FontTemplateDatabase * m_db;
-	sad::Log * m_log;				
+	sad::log::Log * m_log;				
 	SpritePropertyChangeCommandInfo m_old;
 	SpritePropertyChangeCommandInfo m_new;
  public:
 	inline SpritePropertyChangeCommand(ScreenSprite * sprite,
 									   FontTemplateDatabase * db,
-									   sad::Log * log,
+									   sad::log::Log * log,
 									   const SpritePropertyChangeCommandInfo & _old,
 									   const SpritePropertyChangeCommandInfo & _new)
 	{

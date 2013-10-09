@@ -338,7 +338,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
         float  old = 0;
 		if (_property) 
 		{
-			sad::Log * sl = this->m_editor->log();
+			sad::log::Log * sl = this->m_editor->log();
 			old = _property->get(sl)->get<float>(sl);	
 			_property->set(v, this->m_editor->log());
 		}
@@ -401,7 +401,7 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 		T  old;
 		if (_property) 
 		{
-			sad::Log * sl = this->m_editor->log();
+			sad::log::Log * sl = this->m_editor->log();
 			old = _property->get(sl)->get<T>(sl);	
 			_property->set(v, this->m_editor->log());
 		}
@@ -502,7 +502,7 @@ void MainPanel::textChanged()
 void MainPanel::updateObjectStats(AbstractScreenObject * o)
 {
 	AbstractProperty * prop = NULL;
-	sad::Log * l = this->m_editor->log();		
+	sad::log::Log * l = this->m_editor->log();		
 	// Get text
 	prop = o->getProperty("text");
 	if (prop)

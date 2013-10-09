@@ -145,7 +145,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		\param[in] m_log log, where all messages go
 		\return property
 	 */
-	template<typename T> T prop(const sad::String & s, sad::Log * m_log) 
+	template<typename T> T prop(const sad::String & s, sad::log::Log * m_log) 
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);
@@ -171,7 +171,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		return T();
 	}
 
-	template<typename T> void setProp(const sad::String & s, T val, sad::Log * m_log)
+	template<typename T> void setProp(const sad::String & s, T val, sad::log::Log * m_log)
 	{
 		#define STRINGCLASS QString
 		AbstractProperty * p = this->getProperty(s);

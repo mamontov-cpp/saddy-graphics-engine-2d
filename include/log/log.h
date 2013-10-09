@@ -314,8 +314,8 @@ public:
 		\return true if opened successfully
 	 */
 	bool open(const sad::String & filename);
-	/*! Receives a messages from targetting information
-		\param[in] message taken message
+	/*! Formats message and writes it to file
+		\param[in] message received message
 	 */
 	virtual void receive(const sad::log::Message & message);
 	/*! Set maximum priority, which can be output
@@ -327,7 +327,10 @@ public:
 	virtual ~FileTarget();
 protected:
 	FILE * m_file;         //!< Inner file handle
-	int    m_max_priority; //!< Priority of bigger
+	/*! Maximum priority of output message. 
+		Messages of bigger priority will not be printed
+	 */
+	int    m_max_priority; 
 	sad::String m_format;  //!< Format for outputting the message
 	/*! Formats a subsystem part, by default adds ": "
 		\param[in] message a logged message
@@ -343,234 +346,401 @@ protected:
 	 */
 	virtual void close();
 };
-		/*! A targets, which targets a console
-		 */
-		class ConsoleTarget: public sad::log::Target
-		{
-		  private:
-				sad::log::Console * m_console; //!< A handle-like console
-				int         m_max_priority; //!< Priority of max message
-				sad::String m_format; //!< Format for outputting the message
-				sad::Hash<sad::log::Priority, 
-				                 sad::Pair<sad::log::Color, sad::log::Color>
-						 > m_coloring; //!< Color schema (first is back, second is fg)
-				/*! Formats a subsystem part, by default adds ": "
-					\return format string
-				 */
-				virtual std::string formatSubsystem(const sad::log::Message & message);
-				/*! Formats file and line part, by default adds a space, or empty string
-					\return format string
-				 */
-				virtual std::string formatFileLine(const sad::log::Message & message);
-				/*!  Fills colors with priorities
-				 */
-				void createColoredOutput();
-				/*! Fills colors with normal data
-		                 */
-				void createNormalOutput();
-		  public:
-				/*! Creates console target  with specified format.
-					Format defined as followes
-					{0} - current time
-					{1} - message priority
-					{2} - formatSubsystem() result, by default, subsystem + ": ", nothing if subsystem is not specified. For example: "commit():", ""
-					{3} - formatFileLine() result, file and line through ', ', nothing if not specified
-					{4} - message text
-					\param[in] format format string 
-					\param[in] maxpriority Maximum priority for outputting. 
-											Messages with priority maxpriority and bigger this are discarded
-					\param[in] colored  whether output should be colored
-					\param[in] allocate_console whether we should allocate console
-				 */
-				ConsoleTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", int maxpriority = 6,  bool colored =  true, bool allocate_console = false);
-				/*! Receives a messages from targetting information
-				     \param[in] message  taken message
-				 */
-				virtual void receive(const sad::log::Message & message);
-				/*! Destroys a target
-				 */
-			        ~ConsoleTarget();
-		};
-	};
-	
-	/*! Log class takes frontend work, builds a messages and broadcasts it
-		it to all targets
+/*! A special kind of target, which prints output to console.
+	This kind of target, supports colored output and allocating console on Windows.
+ */
+class ConsoleTarget: public sad::log::Target
+{
+public:
+	/*! Creates console target  with specified format.
+		Format defined as followes
+		{0} - current time
+		{1} - message priority
+		{2} - formatSubsystem() result, by default, subsystem + ": ", 
+		      nothing if subsystem is not specified. For example: "commit():", ""
+		{3} - formatFileLine() result, file and line 
+		      through ', ', nothing if not specified
+		{4} - message text
+		\param[in] format format string 
+		\param[in] maxpriority Maximum priority for outputting. 
+							   Messages with priority  value, 
+							   bigger than maximum priority are discarded
+		\param[in] colored  whether output should be colored
+		\param[in] allocate_console forces allocating new console, 
+									if current platform is Windows. The console
+									will be allocated immediately after creation
 	 */
-	class Log: public ActionContext
+	ConsoleTarget(const sad::String & format = "{0}: [{1}] {3}{2}{4}", 
+				  int maxpriority = 6,  
+				  bool colored =  true, 
+				  bool allocate_console = false);
+	/*! Formats message and outputs it to console
+		\param[in] message received message
+	 */
+	virtual void receive(const sad::log::Message & message);
+	/*! Restores default color mode for console, saving problems
+	  */
+	~ConsoleTarget();
+protected:
+	/*! An inner implementation of console, used to support low-level console 
+		operations, like setting color and printing already formatted output
+	 */
+	sad::log::Console * m_console; //!< A handle-like console
+	/*! Maximum priority of output message. 
+		Messages of bigger priority will not be printed
+	 */
+	int         m_max_priority;  
+	sad::String m_format; //!< Format for converting message to string
+	/*! Color schema, as map from priority to pair of colors, where first is
+		background color and second is foreground color
+	 */
+	sad::Hash<sad::log::Priority, 
+			  sad::Pair<sad::log::Color, sad::log::Color>
+			 > m_coloring; 
+	/*! Formats a subsystem message part. By default adds ": " to and of name of
+		current subsystem, if it's specified
+		\return format string
+	 */
+	virtual std::string formatSubsystem(const sad::log::Message & message);
+	/*! Formats file and line message part. 
+		If file and line are specified,
+		encloses them in brackets and places between them
+		a sad::log::Message::fileline() result. Adds a trailing space after result.
+		If file and line are not specified, returns empty string 
+		\return format string
+	  */
+	virtual std::string formatFileLine(const sad::log::Message & message);
+	/*! Initializes default coloring schema
+	 */
+	void createColoredOutput();
+	/*! Initializes schema. The console output, initalized with
+		this method won't be colored at all.
+     */
+	void createNormalOutput();
+};
+	
+/*! Log class takes all the front work, building a messages 
+	and broadcasting them to all targets.
+
+	If you want to register some events, writing it to log, you should use 
+	this class.
+ */
+class Log: public ActionContext
+{
+public:
+	/*! Broadcasts a message to all targets
+		\param[in] m message
+	 */
+	virtual void broadcast(const sad::log::Message & m);
+	/*! Adds a target to a list of targets. A messages, created with 
+		sad::log::Log::broadcast() will be broadcasted to this target.
+		\param[in] t target 
+	 */
+	virtual sad::log::Log & addTarget(sad::log::Target * t);
+	/*! Removes a target to a list of targets. A messages, created with 
+		sad::log::Log::broadcast() will be broadcasted to this target.
+			
+		Note, that memory from target is not freed. You must delete it manually.
+
+		\param[in] t target 
+	 */
+	virtual sad::log::Log & removeTarget(sad::log::Target * t);
+	/*! Broadcasts a message of priority FATAL to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */
+	template<typename T> 
+	void fatal(const T & mesg, const char * file = NULL, int line = 0)
 	{
-	 protected:
-	        os::mutex m_lock;
-	        /*! A vector of targets
-		 */
-		sad::Vector<sad::log::Target *> m_targets;
-		/*! Returns a current subsystem
-			\return name of current subsystem
-		 */
-		virtual sad::String subsystem();
-		
-		virtual void createAndBroadcast(const sad::String & mesg, 
-										sad::log::Priority priority,
-										const char * file = NULL, 
-										int line = 0,
-										const sad::String & upriority = sad::String());
-		template<typename T>
-		void _createAndBroadcast(const T & mesg, 
-								sad::log::Priority priority,
-								const char * file = NULL, 
-								int line = 0,
-								const sad::String & upriority = sad::String())
-		{
-			createAndBroadcast(sad::log::StringCaster<T>::cast(mesg), priority, file, line, upriority);
-		}
-	 public:
-		/*! Broadcasts a message to all targets
-			\param[in] m message
-		 */
-		virtual void broadcast(const sad::log::Message & m);
-		/*! Adds a target into a log
-			\param[in] t target 
-		 */
-		virtual sad::Log & addTarget(sad::log::Target * t);
-		/*! Removes a target from a log
-			\param[in] t target
-		 */
-		virtual sad::Log & removeTarget(sad::log::Target * t);
-		// Here are common interface for messages
-		template<typename T> 
-		void fatal(const T & mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(mesg, sad::log::FATAL, file, line);
-		}
-		
-		// Here are common interface for messages
-		template<typename T> 
-		void critical(const T & mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(mesg, sad::log::CRITICAL, file, line);
-		}
-		
-		template<typename T> 
-		void warning(const T & mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(mesg, sad::log::WARNING, file, line);
-		}
-		
-		template<typename T> 
-		void message(const T & mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(mesg, sad::log::MESSAGE, file, line);
-		}
-		
-		template<typename T> 
-		void debug(const T & mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(mesg, sad::log::DEBUG, file, line);
-		}
-		
-		template<typename T> 
-		void user(const T & mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
-		{
-			_createAndBroadcast(mesg, sad::log::USER, file, line, user);
-		}
-
-
-		// Overloads for const char *
-		void fatal(const char * mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::FATAL, file, line);
-		}
-		
-		// Here are common interface for messages
-
-		void critical(const char * mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::CRITICAL, file, line);
-		}
-		
-		void warning(const char * mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::WARNING, file, line);
-		}
-		
-		void message(const char * mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::MESSAGE, file, line);
-		}
-		
-		void debug(const char  * mesg, const char * file = NULL, int line = 0)
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::DEBUG, file, line);
-		}
-		
-		void user(const char *  mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
-		{
-			_createAndBroadcast(sad::String(mesg), sad::log::USER, file, line, user);
-		}
-		
-		/*! Sets current action
-			\param[in] str string
-		 */
-		virtual void pushAction(const sad::String & str);
-		/*! Sets current action
-			\param[in] str string
-			\param[in] file file data
-			\param[in] line line data
-		 */
-		virtual void pushAction(const sad::String & str, const char * file, int line);
-		/*!  Pops an actions
-		 */
-		virtual void popAction();
-
-		virtual ~Log();
-		/*! Returns a renderer's log instance
-		 */
-		static Log * ref();
-	};
-	namespace log 
+		_createAndBroadcast(mesg, sad::log::FATAL, file, line);
+	}
+	/*! Broadcasts a message of priority CRITICAL to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */
+	template<typename T> 
+	void critical(const T & mesg, const char * file = NULL, int line = 0)
 	{
-	    /*! Scopes defines a current scope for log
-			It pushes action to it when creating, and 
-			pops it, when destroyed
-		 */
-		class Scope
-		{
-			private:
-				sad::Log * m_log;
-			public:
-				/*! Pushes a new state
-				 */
-				Scope(const char * c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
-				/*! Pushes a new state
-				 */
-				Scope(const sad::String & c, const char * file = NULL, int line = 0, sad::Log * log = sad::Log::ref());
-				/*! Pushes a new state
-				 */
-				Scope(const std::string & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());
-				/*! Pushes a new state
-				 */
-				Scope(const fmt::internal::ArgInserter<char> & c, const char * file = NULL, int line  = 0, sad::Log * log = sad::Log::ref());
-				
-				~Scope();
-		};
+		_createAndBroadcast(mesg, sad::log::CRITICAL, file, line);
+	}
+	/*! Broadcasts a message of priority WARNING to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	template<typename T> 
+	void warning(const T & mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(mesg, sad::log::WARNING, file, line);
+	}
+	/*! Broadcasts a message of priority MESSAGE to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	template<typename T> 
+	void message(const T & mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(mesg, sad::log::MESSAGE, file, line);
+	}
+	/*! Broadcasts a message of priority DEBUG to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	template<typename T> 
+	void debug(const T & mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(mesg, sad::log::DEBUG, file, line);
+	}
+	/*! Broadcasts a message of user priority to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+		\param[in] user a user priority name
+	 */		
+	template<typename T> 
+	void user(
+		const T & mesg, 
+		const char * file = NULL, 
+		int line = 0, 
+		const sad::String & user =  sad::String()
+	)
+	{
+		_createAndBroadcast(mesg, sad::log::USER, file, line, user);
+	}
+	/*! Broadcasts a message of priority FATAL to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */
+	void fatal(const char * mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::FATAL, file, line);
+	}
+	/*! Broadcasts a message of priority CRITICAL to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */
+	void critical(const char * mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::CRITICAL, file, line);
+	}
+	/*! Broadcasts a message of priority WARNING to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	void warning(const char * mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::WARNING, file, line);
+	}
+	/*! Broadcasts a message of priority MESSAGE to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	void message(const char * mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::MESSAGE, file, line);
+	}
+	/*! Broadcasts a message of priority DEBUG to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+	 */		
+	void debug(const char  * mesg, const char * file = NULL, int line = 0)
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::DEBUG, file, line);
+	}
+	/*! Broadcasts a message of user priority to all targets
+		\param[in] mesg message
+		\param[in] file source file name, where message was created
+		\param[in] line source file line, where message was created
+		\param[in] user a user priority name
+	 */		
+	void user(const char *  mesg, const char * file = NULL, int line = 0, const sad::String & user =  sad::String())
+	{
+		_createAndBroadcast(sad::String(mesg), sad::log::USER, file, line, user);
+	}
+	/*! Pushes current subsystem name into stack of subsystem names
+		\param[in] str string
+	 */
+	virtual void pushAction(const sad::String & str);
+	/*! Pushes current subsystem name into stack of subsystem names
+		\param[in] str string
+		\param[in] file a name of source file, where entering to subsystem occured
+		\param[in] line a source file line, where entering 
+	 */
+	virtual void pushAction(const sad::String & str, const char * file, int line);
+	/*! Pops last subsystem name from the stack of subsystem names
+	 */
+	virtual void popAction();
+	/*! Frees memory from all targets
+	 */
+	virtual ~Log();
+	/*! Returns a global renderer's log instance
+	 */
+	static Log * ref();
+protected:
+	/*! Locks, for making this compatible with multithreading applications
+	 */
+	os::mutex m_lock;
+	/*! A vector of targets, for broadcasting file
+	 */
+	sad::Vector<sad::log::Target *> m_targets;
+	/*! Returns a current subsystem
+		\return name of current subsystem
+	 */
+	virtual sad::String subsystem();
+	/*! Creates new message and broadcasts them to all contained targets
+		\param[in] mesg text message, that is being logged
+		\param[in] priority  a priority for message
+		\param[in] file      a name of file, where message was emitted
+		\param[in] line		 a lnumber of line, where message was emitted
+		\param[in] upriority 
+	 */
+	virtual void createAndBroadcast(
+		const sad::String & mesg, 
+		sad::log::Priority priority,
+		const char * file = NULL, 
+		int line = 0,
+		const sad::String & upriority = sad::String()
+	);
+	/*! Creates new message, converts it to string 
+		and broadcasts them to all contained targets
+		\param[in] mesg       message, that is being logged
+		\param[in] priority  a priority for message
+		\param[in] file      a name of file, where message was emitted
+		\param[in] line		 a lnumber of line, where message was emitted
+		\param[in] upriority 
+	 */
+	template<typename T>
+	void _createAndBroadcast(
+		const T & mesg, 
+		sad::log::Priority priority,
+		const char * file = NULL, 
+		int line = 0,
+		const sad::String & upriority = sad::String()
+	)
+	{
+		createAndBroadcast(sad::log::StringCaster<T>::cast(mesg), priority, file, line, upriority);
 	}
 };
+/*! Scopes define a current scope for log
+	It pushes subsystem name to it when are created, and  
+	pops it, when destroyed.
+ */
+class Scope
+{
+public:
+	/*! Pushes a new subsystem name into a log
+		\param[in] c subsystem name
+		\param[in] file source file name, where scope was created
+		\param[in] line source code line, where scope was created
+		\param[in] log a log, where changes will be registered
+	 */
+	Scope(
+		const char * c, 
+		const char * file = NULL, 
+		int line = 0, 
+		sad::log::Log * log = sad::log::Log::ref()
+	);
+	/*! Pushes a new subsystem name into a log
+		\param[in] c subsystem name
+		\param[in] file source file name, where scope was created
+		\param[in] line source code line, where scope was created
+		\param[in] log a log, where changes will be registered
+	 */
+	Scope(
+		const sad::String & c, 
+		const char * file = NULL, 
+		int line = 0, 
+		sad::log::Log * log = sad::log::Log::ref()
+	);
+	/*! Pushes a new subsystem name into a log
+		\param[in] c subsystem name
+		\param[in] file source file name, where scope was created
+		\param[in] line source code line, where scope was created
+		\param[in] log a log, where changes will be registered
+	 */
+	Scope(
+		const std::string & c, 
+		const char * file = NULL, 
+		int line  = 0, 
+		sad::log::Log * log = sad::log::Log::ref()
+	);
+	/*! Pushes a new subsystem name into a log
+		\param[in] c subsystem name
+		\param[in] file source file name, where scope was created
+		\param[in] line source code line, where scope was created
+		\param[in] log a log, where changes will be registered
+	 */
+	Scope(
+		const fmt::internal::ArgInserter<char> & c, 
+		const char * file = NULL, 
+		int line  = 0, 
+		sad::log::Log * log = sad::log::Log::ref()
+	);
+	/*! Pops  current subsystem, specified on creation of scope from subsystem names
+		stack of linked logger
+	 */
+	~Scope();
+private:
+	/*! A linked log, where all state changes will be registered
+	 */
+	sad::log::Log * m_log;
+};
+
+}
+
+}
  
+/*! Creates new message in global log with message X and piority FATAL
+ */
+#define SL_FATAL(X) sad::log::Log::ref()->fatal(X, __FILE__, __LINE__)
+/*! Creates new message in global log with message X and piority CRITICAL
+ */
+#define SL_CRITICAL(X) sad::log::Log::ref()->critical(X, __FILE__, __LINE__)
+/*! Creates new message in global log with message X and piority WARNING
+ */
+#define SL_WARNING(X) sad::log::Log::ref()->warning(X, __FILE__, __LINE__)
+/*! Creates new message in global log with message X and piority MESSAGE
+ */
+#define SL_MESSAGE(X) sad::log::Log::ref()->message(X, __FILE__, __LINE__)
+/*! Creates new message in global log with message X and piority DEBUG
+ */
+#define SL_DEBUG(X) sad::log::Log::ref()->debug(X, __FILE__, __LINE__)
+/*! Creates new user message in global log with message X and piority TYPE
+ */
+#define SL_USER(X, TYPE) sad::log::Log::ref()->user(X, __FILE__, __LINE__, TYPE)
 
-#define SL_FATAL(X) sad::Log::ref()->fatal(X, __FILE__, __LINE__)
-#define SL_CRITICAL(X) sad::Log::ref()->critical(X, __FILE__, __LINE__)
-#define SL_WARNING(X) sad::Log::ref()->warning(X, __FILE__, __LINE__)
-#define SL_MESSAGE(X) sad::Log::ref()->message(X, __FILE__, __LINE__)
-#define SL_DEBUG(X) sad::Log::ref()->debug(X, __FILE__, __LINE__)
-#define SL_USER(X, TYPE) sad::Log::ref()->user(X, __FILE__, __LINE__, TYPE)
-
+/*! Creates new message in local log R with message X and piority FATAL
+ */
 #define SL_LOCAL_FATAL(X,R)    (R).log()->fatal(X, __FILE__, __LINE__)
+/*! Creates new message in local log R with message X and piority CRITICAL
+ */
 #define SL_LOCAL_CRITICAL(X,R) (R).log()->critical(X, __FILE__, __LINE__)
+/*! Creates new message in local log R with message X and piority WARNING
+ */
 #define SL_LOCAL_WARNING(X,R)  (R).log()->warning(X, __FILE__, __LINE__)
+/*! Creates new message in local log R with message X and piority MESSAGE
+ */
 #define SL_LOCAL_MESSAGE(X,R)  (R).log()->message(X, __FILE__, __LINE__)
+/*! Creates new message in local log R with message X and piority DEBUG
+ */
 #define SL_LOCAL_DEBUG(X,R)    (R).log()->debug(X, __FILE__, __LINE__)
+/*! Creates new user message in local log R with message X and piority TYPE
+ */
 #define SL_LOCAL_USER(X, R, TYPE)  (R).log()->user(X, __FILE__, __LINE__, TYPE)
 
-
+/*! Creates new scope with subsystem name X
+ */
 #define SL_SCOPE(X)  sad::log::Scope  _____1_____(X, __FILE__, __LINE__)
+/*! Creates new scope in local log R with subsystem name X
+ */
 #define SL_LOCAL_SCOPE(X,R)  sad::log::Scope  _____1_____(X, __FILE__, __LINE__, (R).log())
 
