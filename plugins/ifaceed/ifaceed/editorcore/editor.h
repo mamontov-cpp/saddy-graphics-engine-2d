@@ -324,7 +324,7 @@ private:
 		}
 		/*! Returns a log for utils
 		 */
-		inline sad::Log * log() { return sad::Log::ref(); }
+		inline sad::log::Log * log() { return sad::log::Log::ref(); }
 		/*! Inits an editor, loading default data if nothing specified
 			\param[in] argc count of arguments
 			\param[in] argv arguments

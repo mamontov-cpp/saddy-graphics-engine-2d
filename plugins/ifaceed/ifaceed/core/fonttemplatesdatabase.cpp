@@ -24,7 +24,7 @@ FontTemplatesMaps::FontTemplatesMaps()
 
 }
 
-bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
+bool FontTemplatesMaps::load(const QString & name, sad::log::Log * log)
 {
 	SL_SCOPE( QString("FontTemplatesMaps::load(\"%1\")").arg(name).toStdString() );
 
@@ -78,7 +78,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::Log * log)
 	return true;
 }
 
-void FontTemplatesMaps::loadFont(QDomElement & entry, const sad::String & parent, UNUSED sad::Log * log)
+void FontTemplatesMaps::loadFont(QDomElement & entry, const sad::String & parent, UNUSED sad::log::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadFont");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -103,7 +103,7 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const sad::String & parent
 	}
 }
 
-void FontTemplatesMaps::loadConfig(QDomElement & entry, const sad::String & parent, UNUSED sad::Log * log)
+void FontTemplatesMaps::loadConfig(QDomElement & entry, const sad::String & parent, UNUSED sad::log::Log * log)
 {
 	SL_SCOPE("FontTemplatesMaps::loadConfig");
 	if (entry.hasAttribute("name")==false || entry.hasAttribute("file")==false)
@@ -141,7 +141,7 @@ FontTemplateDatabase::~FontTemplateDatabase()
 	delete m_fonts;
 }
 
-bool FontTemplateDatabase::load(FontTemplatesMaps & maps,UNUSED sad::Log * log)
+bool FontTemplateDatabase::load(FontTemplatesMaps & maps,UNUSED sad::log::Log * log)
 {
 	SL_SCOPE("FontTemplateDatabase::load()");
 	m_maps = maps;

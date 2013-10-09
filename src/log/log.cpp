@@ -58,7 +58,7 @@ sad::log::Target::~Target()
 
 }
 
-sad::Log::~Log()
+sad::log::Log::~Log()
 {
 	for(unsigned int i = 0; i < m_targets.count(); i++)
 	{
@@ -66,7 +66,7 @@ sad::Log::~Log()
 	}
 }
 
-void sad::Log::broadcast(const sad::log::Message & m)
+void sad::log::Log::broadcast(const sad::log::Message & m)
 {
 	m_lock.lock();
 	for(unsigned int i = 0; i < m_targets.count(); i++)
@@ -76,7 +76,7 @@ void sad::Log::broadcast(const sad::log::Message & m)
 	m_lock.unlock();
 }
 
-sad::String sad::Log::subsystem() 
+sad::String sad::log::Log::subsystem() 
 {
 	if (m_actions_stack.count() != 0)
 	{
@@ -86,11 +86,11 @@ sad::String sad::Log::subsystem()
 }
 
 
-void sad::Log::createAndBroadcast(const sad::String & mesg, 
-				            	  sad::log::Priority priority,
-						          const char * file , 
-								  int line ,
-								  const sad::String & upriority)
+void sad::log::Log::createAndBroadcast(const sad::String & mesg, 
+				            		   sad::log::Priority priority,
+									   const char * file , 
+									   int line ,
+										const sad::String & upriority)
 {
 	sad::log::Message * m = new sad::log::Message(
 		mesg,
@@ -104,7 +104,7 @@ void sad::Log::createAndBroadcast(const sad::String & mesg,
 	delete m;
 }
 
-sad::Log & sad::Log::addTarget(sad::log::Target * t)
+sad::log::Log & sad::log::Log::addTarget(sad::log::Target * t)
 {
 	m_lock.lock();
 	m_targets << t;
@@ -112,7 +112,7 @@ sad::Log & sad::Log::addTarget(sad::log::Target * t)
 	return *this;
 }
 
-sad::Log & sad::Log::removeTarget(sad::log::Target * t)
+sad::log::Log & sad::log::Log::removeTarget(sad::log::Target * t)
 {
 	m_lock.lock();
 	m_targets.removeAll(t);
@@ -172,12 +172,12 @@ void sad::log::FileTarget::receive(const sad::log::Message & message)
 {
 	if (((int)message.priority()) > m_max_priority || m_file == NULL)
 		return;
-	std::string mesg = str(fmt::Format(m_format.data()) 
+	std::string mesg = str(fmt::Format(m_format) 
 						   << message.stime() 
 						   << message.spriority()
-						   << formatSubsystem(message).data()
-						   << formatFileLine(message).data()
-						   << message.message().data()
+						   << formatSubsystem(message)
+						   << formatFileLine(message)
+						   << message.message()
 						  );
 	fputs(mesg.c_str(), m_file);
 	fputs("\n", m_file);
@@ -246,14 +246,14 @@ void sad::log::ConsoleTarget::createNormalOutput()
 
 void sad::log::ConsoleTarget::receive(const sad::log::Message & message)
 {
-	if (((int)message.priority()) >= m_max_priority)
+	if (((int)message.priority()) > m_max_priority)
 		return;
-	std::string mesg = str(fmt::Format(m_format.data()) 
+	std::string mesg = str(fmt::Format(m_format) 
 						   << message.stime() 
 						   << message.spriority()
-						   << formatSubsystem(message).data()
-						   << formatFileLine(message).data()
-						   << message.message().data()
+						   << formatSubsystem(message)
+						   << formatFileLine(message)
+						   << message.message()
 						  );
 	m_console->setColorMode(m_coloring[message.priority()].p2(),  m_coloring[message.priority()].p1());
 	m_console->print(mesg.c_str());
@@ -414,25 +414,25 @@ void sad::log::Console::setColorMode(sad::log::Color foreground, sad::log::Color
 }
 
 
-sad::Log * sad::Log::ref()
+sad::log::Log * sad::log::Log::ref()
 {
 	return sad::Renderer::ref()->log();
 }
 
 
-void sad::Log::pushAction(const sad::String & str)
+void sad::log::Log::pushAction(const sad::String & str)
 {
 	debug( sad::String("Entering ") + str);
 	this->ActionContext::pushAction(str);
 }
 
-void sad::Log::pushAction(const sad::String & str, const char * file, int line)
+void sad::log::Log::pushAction(const sad::String & str, const char * file, int line)
 {
 	debug( sad::String("Entering ") + str, file, line);
 	this->ActionContext::pushAction(str);
 }
 
-void sad::Log::popAction()
+void sad::log::Log::popAction()
 {
 	if (m_actions_stack.count()!=0) { 
 		debug( sad::String("Leaving ") + m_actions_stack[m_actions_stack.count()-1]);
@@ -441,25 +441,40 @@ void sad::Log::popAction()
 }
 
 
-sad::log::Scope::Scope(const char * c, const char * f, int l, sad::Log * log)
+sad::log::Scope::Scope(const char * c, const char * f, int l, sad::log::Log * log)
 {
 	log->pushAction(c, f, l);
 	m_log = log;
 }
 
-sad::log::Scope::Scope(const sad::String & c, const char * f, int l, sad::Log * log)
+sad::log::Scope::Scope(
+	const sad::String & c, 
+	const char * f, 
+	int l, 
+	sad::log::Log * log
+)
 {
 	log->pushAction(c, f, l);
 	m_log = log;
 }
 
-sad::log::Scope::Scope(const std::string & c, const char * f, int l, sad::Log * log)
+sad::log::Scope::Scope(
+	const std::string & c, 
+	const char * f, 
+	int l, 
+	sad::log::Log * log
+)
 {
 	log->pushAction(c.c_str(), f, l);
 	m_log = log;
 }
 
-sad::log::Scope::Scope(const fmt::internal::ArgInserter<char> & c, const char * f, int l, sad::Log * log)
+sad::log::Scope::Scope(
+	const fmt::internal::ArgInserter<char> & c, 
+	const char * f, 
+	int l, 
+	sad::log::Log * log
+)
 {
 	fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(c); 
 	log->pushAction(str(fmt).c_str() , f, l);

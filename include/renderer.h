@@ -33,7 +33,7 @@ namespace sad
 
 		static sad::Renderer * m_instance;  //!< Instance of renderer
 
-		sad::Log             m_log;
+		sad::log::Log             m_log;
 
 		sad::Input       *    m_input_manager;    //!< Input manager data
 		sad::FontManager *    m_font_manager;     //!< Font manager
@@ -228,7 +228,7 @@ namespace sad
 		/*! Returns a log for renderer
 			\return log information
 		 */
-		sad::Log * log();
+		sad::log::Log * log();
 	};
 
 	/*! Returns average render interval in milliseconds

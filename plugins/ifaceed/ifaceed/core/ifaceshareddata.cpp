@@ -7,7 +7,7 @@ sad::Sprite2DConfig * IFaceSharedData::icons()
 }
 
 
-sad::Log * IFaceSharedData::log()
+sad::log::Log * IFaceSharedData::log()
 {
 	return this->m_editor->log();
 }

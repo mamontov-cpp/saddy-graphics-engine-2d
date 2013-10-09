@@ -19,8 +19,8 @@ SceneAddingTask::SceneAddingTask(ScreenTemplate * _template, InterlockedScene * 
 
 bool LayerPropertyComparator::operator() (AbstractScreenObject * o1, AbstractScreenObject * o2) 
 { 
-	unsigned int i1 = o1->prop<unsigned int>("layer", sad::Log::ref());
-	unsigned int i2 = o2->prop<unsigned int>("layer", sad::Log::ref());
+	unsigned int i1 = o1->prop<unsigned int>("layer", sad::log::Log::ref());
+	unsigned int i2 = o2->prop<unsigned int>("layer", sad::log::Log::ref());
 	return i1 > i2;
 }
 

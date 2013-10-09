@@ -37,7 +37,7 @@ public:
 	 /*! Returns log information
 		 \return log
 	  */
-	 sad::Log * log();
+	 sad::log::Log * log();
 	 /*! Shared data is initialized with zero selected object
 	  */
 	 inline IFaceSharedData(): EditorBehaviourSharedData()

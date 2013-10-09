@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 	sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
 		"{0}: [{1}] {3}{2}{4}", 6, true
 	);
-	sad::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
+	sad::log::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
 
 	// Test console log images
 	SL_FATAL   ("This is sad::Game");

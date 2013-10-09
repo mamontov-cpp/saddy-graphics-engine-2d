@@ -49,10 +49,10 @@ bool LayerComparator::operator() (AbstractScreenObject * o1, AbstractScreenObjec
 	unsigned int i2;
 	
 	if (s1) i1 = s1->findLayer(o1); 
-	else    i1 = o1->prop<unsigned int>("layer", sad::Log::ref());
+	else    i1 = o1->prop<unsigned int>("layer", sad::log::Log::ref());
 	
 	if (s2) i2 = s2->findLayer(o2); 
-	else    i2 = o2->prop<unsigned int>("layer", sad::Log::ref());
+	else    i2 = o2->prop<unsigned int>("layer", sad::log::Log::ref());
 	
 	return i1 > i2;
 }
@@ -105,7 +105,7 @@ bool ScreenTemplate::pickedIsBackground(const sad::Point2D & p,AbstractScreenObj
 			return false;
 	sad::Rect2D r = o->region();
 	float s = r[0].distance(r[1]) * r[0].distance(r[3]);
-	unsigned int l = o->prop<unsigned int>("layer", sad::Log::ref());
+	unsigned int l = o->prop<unsigned int>("layer", sad::log::Log::ref());
 	bool is_maximum_size = true;
 	unsigned int is_least_layer = true;
     for(unsigned int i = 0; i < m_within_objects.size(); i++)
@@ -117,7 +117,7 @@ bool ScreenTemplate::pickedIsBackground(const sad::Point2D & p,AbstractScreenObj
 			float ts = rt[0].distance(rt[1]) 
 					  * rt[0].distance(rt[3]);
 			if (ts > s)  is_maximum_size = false;
-			unsigned int lt = to->prop<unsigned int>("layer", sad::Log::ref());
+			unsigned int lt = to->prop<unsigned int>("layer", sad::log::Log::ref());
 			if (lt < l)	 is_least_layer  = false;
 		}
 	}

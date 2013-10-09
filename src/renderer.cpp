@@ -214,7 +214,7 @@ sad::Renderer::Renderer()
 	initWindowParameters();
 }
 
-sad::Log * sad::Renderer::log()
+sad::log::Log * sad::Renderer::log()
 {
 	return &m_log;
 }

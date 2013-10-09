@@ -27,7 +27,7 @@
 IFaceEditor::IFaceEditor()
 {
 	m_handling_event = false;
-	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::DEBUG);
+	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
 	fh->open("user.txt");
 	this->log()->addTarget(fh);
 	m_target = new sad::log::FileTarget();
@@ -150,14 +150,14 @@ class DBLoadingTask: public sad::CountableTask
 	 FontTemplatesMaps * m_maps; //!< Maps data
 	 FontTemplateDatabase * m_db;  //!< Database for loading
 	 DBLoadingTaskFuture * m_future; //!< Future for computing
-	 sad::Log * m_log;    //!< Logger for logging data
+	 sad::log::Log * m_log;    //!< Logger for logging data
  public:
 	 /** Constructs new tasks
 	  */
 	 inline DBLoadingTask(FontTemplatesMaps * maps, 
 						  FontTemplateDatabase * db, 
 						  DBLoadingTaskFuture * f, 
-						  sad::Log * log)
+						  sad::log::Log * log)
 	 {
 		 m_maps = maps;
 		 m_db = db;
@@ -199,7 +199,7 @@ void IFaceEditor::onFullAppStart()
 	bool success = true;
 	// Load first stage - a maps of handling all of data
 	FontTemplatesMaps maps;
-	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), sad::Log::ref()))
+	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), sad::log::Log::ref()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		

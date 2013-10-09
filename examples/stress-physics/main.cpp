@@ -87,7 +87,7 @@ int main(int argc, char** argv)
 	sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
 		"{0}: [{1}] {3}{2}{4}", 6, true
 	);
-	sad::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
+	sad::log::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
 
 	SL_MESSAGE ("This is stress-test for physics engine.\nYou will see what capabilities does it have");
 
