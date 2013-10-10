@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <cstdio>
+#include <time.h>
 #ifdef WIN32
     #ifndef NOMINMAX
     #define NOMINMAX 
@@ -37,9 +38,15 @@ class TimerImpl
 {
 private:
 #ifdef WIN32
-	LARGE_INTEGER m_frequency;    
+	LARGE_INTEGER m_frequency1;
+	LARGE_INTEGER m_frequency2;
+	LARGE_INTEGER m_frequency3;
+
     LARGE_INTEGER m_start;         
-	LARGE_INTEGER m_end; 
+	LARGE_INTEGER m_end;
+
+	DWORD m_gettick_start;
+	DWORD m_gettick_end;
 #else
 	timespec      m_start;         
 	timespec     m_end;         

@@ -221,9 +221,11 @@ void sad::Renderer::update()
  SwapBuffers(m_window.hDC);
  ++m_frames;
  m_timer.stop();
- if (m_setimmediately || m_timer.elapsed() > 500.0)
+ double elapsed = m_timer.elapsed();
+ if (m_setimmediately || elapsed > 500.0)
  {
-	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
+	 double newfps = 1000.0 * m_frames / elapsed; 
+	 setFPS( newfps );
 	 m_frames = 0;
 	 m_reset = true;
 	 m_setimmediately = false;
