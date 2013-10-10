@@ -243,7 +243,7 @@ class Callback: public AbstractCallback
 	{ m_impl =  new fsm::MethodCallback<_Class>(o, f); }
 
 	template<typename _Class>
-	Callback( _Class * o, void (_Class::*f)(sad::Event & o) )  
+	Callback( _Class * o, void (_Class::*f)(const sad::Event & o) )  
 	{ m_impl =  new fsm::MethodEventCallback<_Class>(o, f); }
 
 	template<typename _DelegatingClass, typename _InvokingClass>
