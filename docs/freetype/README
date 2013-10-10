@@ -1,0 +1,1 @@
+This plugin provides a simple interface, like sad::Font or sad::TMFont, only with freetype backend.

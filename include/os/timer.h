@@ -1,0 +1,62 @@
+/*! \file      timer.h
+    \author    HiddenSeeker
+    
+	Describes a crossplatform high-resolution timer.
+ */
+#pragma once
+#include <cstdio>
+#ifdef WIN32
+    #ifndef NOMINMAX
+    #define NOMINMAX 
+    #endif
+    #include  <windows.h>
+#else
+    #include  <sys/time.h>
+    #define SADDY_USED_CLOCK_TYPE CLOCK_MONOTONIC
+#endif
+
+
+
+namespace os
+{
+
+#ifdef WIN32
+void put_last_error();
+#endif
+
+
+/*! A high-resolution timer to measure performance (sad::Renderer's fps and other places).
+    An approach taken from http://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c
+    Linux implementation taken from http://www.guyrutenberg.com/2007/09/22/profiling-code-using-clock_gettime/ 
+ */
+class timer
+{
+private:
+#ifdef WIN32
+	LARGE_INTEGER m_frequency;    
+    LARGE_INTEGER m_start;         
+	LARGE_INTEGER m_end; 
+#else
+	timespec      m_start;         
+	timespec     m_end;         
+    timespec     m_frequency;
+#endif
+public:
+	/*! Creates a new timer and starts it immediately
+	 */
+	timer();
+
+	/*! Starts a timer
+	 */
+	void start();
+	/*! Stops a timer. After stopping, you can measure time, using elapsed
+	 */
+	void stop();
+	/*! Returns elapsed time in milliseconds
+		\return elapsed time in milliseconds
+	 */
+	double elapsed() const;
+};
+
+
+}
