@@ -21,7 +21,7 @@ private:
 	ClassMetaDataHash m_container;
 	/*! A lock for mutex
 	 */
-	os::mutex m_lock;
+	::os::mutex m_lock;
 	/*! Locked, for singleton usage
 	 */
 	ClassMetaDataContainer();
