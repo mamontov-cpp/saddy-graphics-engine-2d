@@ -16,11 +16,15 @@
 #endif
 
 
+namespace sad
+{
 
 namespace os
 {
 
 #ifdef WIN32
+/*! Puts last error from calls of Window API functions
+ */
 void put_last_error();
 #endif
 
@@ -29,7 +33,7 @@ void put_last_error();
     An approach taken from http://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c
     Linux implementation taken from http://www.guyrutenberg.com/2007/09/22/profiling-code-using-clock_gettime/ 
  */
-class timer
+class TimerImpl
 {
 private:
 #ifdef WIN32
@@ -44,19 +48,21 @@ private:
 public:
 	/*! Creates a new timer and starts it immediately
 	 */
-	timer();
-
+	TimerImpl();
 	/*! Starts a timer
 	 */
 	void start();
 	/*! Stops a timer. After stopping, you can measure time, using elapsed
 	 */
 	void stop();
-	/*! Returns elapsed time in milliseconds
+	/*! Returns elapsed time between sad::os::TimerImpl::start() and 
+		sad::TimerImpl::stop()
+		in milliseconds
 		\return elapsed time in milliseconds
 	 */
 	double elapsed() const;
 };
 
+}
 
 }

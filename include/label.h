@@ -8,7 +8,7 @@
 #include "input.h"
 #include "renderer.h"
 #include "3rdparty/format/format.h"
-#include "os/timer.h"
+#include "timer.h"
 #pragma once
 
 typedef sad::BasicFont *  LabelFont;
@@ -218,7 +218,7 @@ class FormattedLabel: public Label
 	 sad::Vector<FormattedLabel::Arg *> m_args;
 	 /*! A timer for updating
 	  */
-	 os::timer m_timer;
+	 sad::Timer m_timer;
 	 /*! An update interval for label
 	  */
 	 double m_update_interval;

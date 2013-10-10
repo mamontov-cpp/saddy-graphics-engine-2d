@@ -98,7 +98,7 @@ namespace sad
 	{
 	 private:
 			 sad::Hash<sad::String, sad::BasicFont *> m_fonts;
-			 os::mutex                                m_m;    //!< Mutex to block side effects
+			 ::os::mutex                                m_m;    //!< Mutex to block side effects
 
 			 FontManager(const FontManager & o);
 			 FontManager & operator=(const FontManager & o);
