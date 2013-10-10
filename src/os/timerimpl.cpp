@@ -38,7 +38,7 @@ sad::os::TimerImpl::TimerImpl()
 	ULONG CurrentResolution = 0 ;
 	LONG ret = lpfnDLLProc(DesiredResolution, SetResolution,&CurrentResolution);
 
-	if(!QueryPerformanceFrequency(&m_frequency))
+	if(!QueryPerformanceFrequency(&m_frequency1))
 	{
 		sad::os::put_last_error();
 	}
@@ -52,11 +52,13 @@ sad::os::TimerImpl::TimerImpl()
 void sad::os::TimerImpl::start()
 {
 #ifdef WIN32
+	QueryPerformanceFrequency(&m_frequency1);
 	BOOL result = QueryPerformanceCounter(&m_start); 
 	if (!result)
 	{
 		sad::os::put_last_error();
 	}
+	m_gettick_start = GetTickCount64();
 #else
 		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_start);
 #endif
@@ -65,11 +67,13 @@ void sad::os::TimerImpl::start()
 void sad::os::TimerImpl::stop()
 {
 #ifdef WIN32
+	QueryPerformanceFrequency(&m_frequency2);
 	BOOL result = QueryPerformanceCounter(&m_end); 
 	if (!result)
 	{
 		sad::os::put_last_error();
 	}
+	m_gettick_end = GetTickCount64();
 #else
 		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_end);
 #endif
@@ -81,8 +85,11 @@ double sad::os::TimerImpl::elapsed() const
 {
 #ifdef WIN32
 	sad::os::TimerImpl * me = const_cast<sad::os::TimerImpl *>(this);
-	QueryPerformanceFrequency(&(me->m_frequency));
-	double millisecondsofhpc = (m_end.QuadPart - m_start.QuadPart) * 1000.0 / m_frequency.QuadPart;
+	QueryPerformanceFrequency(&(me->m_frequency3));
+	double frequency = std::max(std::max(m_frequency1.QuadPart, m_frequency2.QuadPart), m_frequency3.QuadPart);
+	double millisecondsofhpc = (m_end.QuadPart - m_start.QuadPart) / frequency * 1000.0;
+	
+	double millisecondsofgettick = m_gettick_end - m_gettick_start;
 	return millisecondsofhpc;
 #else
 	double starttime = m_start.tv_sec * 1.0E+3 + m_start.tv_nsec * 1.0E-6;
