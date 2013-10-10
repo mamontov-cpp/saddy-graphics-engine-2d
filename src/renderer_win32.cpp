@@ -97,18 +97,11 @@ bool sad::Renderer::createWindow()
     DWORD style = WS_OVERLAPPEDWINDOW;
 	AdjustWindowRectEx(&rect,style,FALSE,ex_style);
 
-	//Create error
+	//Create new window
 	m_window.hWND=CreateWindowExA(ex_style,m_window.window_class.data(),m_windowtitle.data(),style,
-		                         0,0,rect.right-rect.left,rect.bottom-rect.top,
+		                         rect.left,rect.top,rect.right,rect.bottom,
 								 NULL,NULL,m_window.hInstance,NULL);
 
-	if (m_window.hWND)
-	{
-	  SetWindowPos(m_window.hWND, NULL, 0, 0, rect.right-rect.left,rect.bottom-rect.top, SWP_NOSENDCHANGING);  
-	  //RECT r;
-	  //GetWindowRect(m_window.hWND, &r);
-	  //SL_WARNING(fmt::Format("Created window with {0} {1} {2} {3}") << r.left << r.top << r.right << r.bottom);
-	}
 	// Compute how screen should be mapped if CreateWindowExA creates smaller window
 	// than requested
 	m_window.clientwidth = m_glsettings.width();
@@ -153,7 +146,6 @@ bool sad::Renderer::createWindow()
 	ShowWindow(m_window.hWND,SW_SHOW);
 	SetForegroundWindow(m_window.hWND);
 	SetFocus(m_window.hWND);
-	reshape(m_window.clientwidth,m_window.clientheight);
 
 	if (!initGLRendering())
 	{
@@ -161,6 +153,13 @@ bool sad::Renderer::createWindow()
 		return false;
 	}
 
+	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, 0, 0, rect.right-rect.left,rect.bottom-rect.top, SWP_NOSENDCHANGING | SWP_SHOWWINDOW);  
+	RECT r;
+	GetWindowRect(m_window.hWND, &r);
+	SL_WARNING(fmt::Format("Window size is set to with {0} {1} {2} {3}") << r.left << r.top << r.right << r.bottom);
+
+	reshape(m_window.clientwidth,m_window.clientheight);
+		
 	if (m_window.fullscreen)
 	{
 		enterFullScreen();
@@ -184,7 +183,7 @@ bool sad::Renderer::setupPFD()
 		0,
 		0,
 		0,0,0,0,
-		16,
+		32,
 		0,
 		0,
 		PFD_MAIN_PLANE,
@@ -222,7 +221,7 @@ void sad::Renderer::update()
  SwapBuffers(m_window.hDC);
  ++m_frames;
  m_timer.stop();
- if (m_setimmediately || m_timer.elapsed() > 600.0)
+ if (m_setimmediately || m_timer.elapsed() > 500.0)
  {
 	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
 	 m_frames = 0;
@@ -276,6 +275,7 @@ void sad::Renderer::enterFullScreen()
 
 void sad::Renderer::leaveFullScreen()
 {
+	SL_DEBUG("sad::Renderer::leaveFullScreen");
 	SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
 	SetWindowPos(m_window.hWND, 
 				 HWND_NOTOPMOST, 

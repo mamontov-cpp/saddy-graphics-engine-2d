@@ -360,6 +360,10 @@
 					RelativePath=".\src\os\thread.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\os\timer.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="extra"
