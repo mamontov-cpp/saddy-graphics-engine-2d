@@ -244,7 +244,5 @@ void sad::Renderer::pushScene(Scene * scene)
 void sad::Renderer::setFPS(double fps) 
 {
 	// Reject sudden raises or drops for frameate
-	if (fps > m_fps * 7)
-		return;
-	m_fps =  fps * 0.6 + m_fps * 0.4;
+	m_fps =  fps * 0.8 + m_fps * 0.2;
 }

@@ -154,11 +154,14 @@ bool sad::Renderer::createWindow()
 	}
 
 	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, 0, 0, rect.right-rect.left,rect.bottom-rect.top, SWP_NOSENDCHANGING | SWP_SHOWWINDOW);  
-	RECT r;
-	GetWindowRect(m_window.hWND, &r);
-	SL_WARNING(fmt::Format("Window size is set to with {0} {1} {2} {3}") << r.left << r.top << r.right << r.bottom);
-
-	reshape(m_window.clientwidth,m_window.clientheight);
+	RECT windowrect;
+	RECT clientrect;
+	GetWindowRect(m_window.hWND, &windowrect);
+	SL_DEBUG(fmt::Format("Window rect is set to with {0} {1} {2} {3}") << windowrect.left << windowrect.top << windowrect.right << windowrect.bottom);
+	GetClientRect(m_window.hWND, &clientrect);
+	SL_DEBUG(fmt::Format("Client rect is set to with {0} {1} {2} {3}") << clientrect.left << clientrect.top << clientrect.right << clientrect.bottom);
+	
+	reshape(m_window.width, m_window.height);
 		
 	if (m_window.fullscreen)
 	{
@@ -221,9 +224,11 @@ void sad::Renderer::update()
  SwapBuffers(m_window.hDC);
  ++m_frames;
  m_timer.stop();
- if (m_setimmediately || m_timer.elapsed() > 500.0)
+ double elapsed = m_timer.elapsed();
+ if (m_setimmediately || elapsed > 500.0)
  {
-	 setFPS( 1000.0 * m_frames / m_timer.elapsed() );
+	 double newfps = 1000.0 * m_frames / elapsed; 
+	 setFPS( newfps );
 	 m_frames = 0;
 	 m_reset = true;
 	 m_setimmediately = false;
@@ -309,18 +314,36 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 
 void sad::Renderer::toggleFixedOn()
 {
+	SL_SCOPE("sad::Renderer::toggleFixedOn()");
+
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |= WS_OVERLAPPED;
-    style &=  ~WS_THICKFRAME;
+	style &=  ~WS_THICKFRAME;
 	style &=  ~WS_MAXIMIZEBOX;
 	LONG result=SetWindowLongA(m_window.hWND,GWL_STYLE,style);
+
+	// Force updating window rectangle, because some OS fails to redraw it
+	RECT r;
+	GetWindowRect(m_window.hWND, &r);
+	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, r.left, r.top, r.right,r.bottom, SWP_NOMOVE | SWP_NOSIZE | SWP_DRAWFRAME );
+	reshape(r.right - r.left, r.bottom - r.top);
+	
 }
 void sad::Renderer::toggleFixedOff()
 {
+	SL_SCOPE("sad::Renderer::toggleFixedOff()");
+
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |=WS_OVERLAPPED;
 	style |= WS_THICKFRAME;
+	style &= ~WS_SYSMENU;
 	style |= WS_MAXIMIZEBOX;
 	SetWindowLongA(m_window.hWND,GWL_STYLE,style);
+
+	// Force updating window rectangle, because some OS fails to redraw it
+	RECT r;
+	GetWindowRect(m_window.hWND, &r);
+	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, r.left, r.top, r.right,r.bottom, SWP_NOMOVE | SWP_NOSIZE | SWP_DRAWFRAME );
+	reshape(r.right - r.left, r.bottom - r.top);
 }
 #endif

@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../input.h"
-#include "../os/timer.h"
+#include "../timer.h"
 
 #include <time.h>
 
@@ -19,7 +19,7 @@ class PeriodicalEvent
  protected:
 	 bool  m_enabled;   //!< Whether periodical event is enabled
 	 double m_interval; //!< Interval of perforiming in milliseconds
-	 os::timer m_timer;  //!< A timer
+	 sad::Timer m_timer;  //!< A timer
 	 /*! Performs an actions inside of specified event
 	  */
 	 virtual void perform() = 0;
