@@ -19,7 +19,7 @@ namespace sad
 	private:
 		sad::Hash<sad::String, sad::TextureContainer *>  m_containers; //!< Container data
 		sad::Hash<sad::String, sad::TextureLoader *>     m_loaders;     //!< A loaders for various formats
-		os::mutex                        m_m;         //!< Mutex to block side effects		
+		::os::mutex                        m_m;         //!< Mutex to block side effects		
 		TextureManager(const TextureManager &);
 		TextureManager & operator=(const TextureManager &);
 	public:

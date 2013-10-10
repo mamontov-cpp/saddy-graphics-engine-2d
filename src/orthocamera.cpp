@@ -3,7 +3,7 @@
 OrthoCamera::OrthoCamera(bool fix, sad::Renderer * r)
 {
 	m_renderer =  r;
-	m_first_apply=true;
+	m_first_apply=fix;
 	m_width= r->settings().width();
 	m_height= r->settings().height();
 	m_set_renderfix=fix;

@@ -13,7 +13,7 @@
 #include "scene.h"
 #include "sadpoint.h"
 #include "log/log.h"
-#include "os/timer.h"
+#include "timer.h"
 
 
 namespace sad
@@ -38,7 +38,7 @@ namespace sad
 		sad::Input       *    m_input_manager;    //!< Input manager data
 		sad::FontManager *    m_font_manager;     //!< Font manager
 		sad::TextureManager * m_texture_manager; //!< Texture manager
-		os::timer		     m_timer;            //!< Timer
+		sad::Timer		     m_timer;            //!< Timer
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
 		sad::Window          m_window;      //!< Window

@@ -588,7 +588,7 @@ public:
 protected:
 	/*! Locks, for making this compatible with multithreading applications
 	 */
-	os::mutex m_lock;
+	::os::mutex m_lock;
 	/*! A vector of targets, for broadcasting file
 	 */
 	sad::Vector<sad::log::Target *> m_targets;
