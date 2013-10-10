@@ -80,7 +80,6 @@ Game::Game()
 	m_registered_supershooting_enemies_count = 0;
 }
 
-
 void Game::startPlaying()
 {
 	m_machine->pushState(GameState::PLAYING);
@@ -149,6 +148,7 @@ void Game::run()
 	SL_MESSAGE("Mips built successfully");	
 	
 	// Set window size to be fixed
+	
 	sad::Renderer::ref()->toggleFixedOn();
 
 	m_machine->pushState(GameState::START);
