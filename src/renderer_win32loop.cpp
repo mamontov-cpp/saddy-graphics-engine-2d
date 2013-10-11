@@ -42,10 +42,6 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 
 void sad::Renderer::mainLoop()
 {
- DWORD processor = GetCurrentProcessorNumber();
- SetProcessAffinityMask(GetCurrentProcess(), processor);
- SetThreadIdealProcessor(GetCurrentThread(), processor);
-
  m_data.lock();
  if (m_renderers.contains(m_window.hWND)) 
  {
