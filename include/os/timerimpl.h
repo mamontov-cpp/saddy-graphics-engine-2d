@@ -44,9 +44,6 @@ private:
 
     LARGE_INTEGER m_start;         
 	LARGE_INTEGER m_end;
-
-	DWORD m_gettick_start;
-	DWORD m_gettick_end;
 #else
 	timespec      m_start;         
 	timespec     m_end;         

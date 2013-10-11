@@ -58,7 +58,6 @@ void sad::os::TimerImpl::start()
 	{
 		sad::os::put_last_error();
 	}
-	m_gettick_start = GetTickCount64();
 #else
 		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_start);
 #endif
@@ -73,7 +72,6 @@ void sad::os::TimerImpl::stop()
 	{
 		sad::os::put_last_error();
 	}
-	m_gettick_end = GetTickCount64();
 #else
 		clock_gettime(SADDY_USED_CLOCK_TYPE, &m_end);
 #endif
@@ -88,8 +86,7 @@ double sad::os::TimerImpl::elapsed() const
 	QueryPerformanceFrequency(&(me->m_frequency3));
 	double frequency = std::max(std::max(m_frequency1.QuadPart, m_frequency2.QuadPart), m_frequency3.QuadPart);
 	double millisecondsofhpc = (m_end.QuadPart - m_start.QuadPart) / frequency * 1000.0;
-	
-	double millisecondsofgettick = m_gettick_end - m_gettick_start;
+
 	return millisecondsofhpc;
 #else
 	double starttime = m_start.tv_sec * 1.0E+3 + m_start.tv_nsec * 1.0E-6;
