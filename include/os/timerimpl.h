@@ -32,7 +32,9 @@ void put_last_error();
 
 /*! A high-resolution timer to measure performance (sad::Renderer's fps and other places).
     An approach taken from http://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c
-    Linux implementation taken from http://www.guyrutenberg.com/2007/09/22/profiling-code-using-clock_gettime/ 
+    Linux implementation taken from http://www.guyrutenberg.com/2007/09/22/profiling-code-using-clock_gettime/.
+
+	Note that this is platform dependent version. In any common case you should use @see sad::Timer
  */
 class TimerImpl
 {
