@@ -2,7 +2,7 @@
 #include <x11recode.h>
 
 
-static hst::hash<KeySym,int> rectbl;         //!< Recode table
+static sad::Hash<KeySym,int> rectbl;         //!< Recode table
 static bool hash_init=false;                       //!< Detects, whether hash is init.
 
 void init_recode_table()

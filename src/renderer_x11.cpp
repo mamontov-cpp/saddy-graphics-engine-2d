@@ -44,7 +44,7 @@ void sad::Renderer::sendFSAtom(int flag)
        XMoveResizeWindow(m_window.dpy, m_window.win, 0, 0, xwa.width, xwa.height);
       }
 }
-hst::point<hst::D3,float> sad::Renderer::mousePos()
+sad::Point3D sad::Renderer::mousePos()
 {
     int x=0, y=0;
 	int wx=0, wy=0;
@@ -53,7 +53,7 @@ hst::point<hst::D3,float> sad::Renderer::mousePos()
 	float px=0.0f,py=0.0f,pz=0.0f;
 	XQueryPointer(m_window.dpy, m_window.win, &rootw ,&childw, &x, &y, &wx, &wy, &mask);
 	mapToOGL((float)wx,(float)wy,px,py,pz);
-	return hst::point<hst::D3,float>(px,py,pz);
+	return sad::Point3D(px,py,pz);
 }
 
 void sad::Renderer::releaseWindow()
@@ -144,7 +144,7 @@ bool sad::Renderer::createWindow()
 
 void sad::Renderer::update()
 {
-	os::timer render;
+	sad::Timer render;
 	render.start();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
@@ -175,7 +175,7 @@ void sad::Renderer::initWindowParameters()
 }
 
 
-void sad::Renderer::setWindowTitle(const hst::string & s)
+void sad::Renderer::setWindowTitle(const sad::String & s)
 {
 	m_windowtitle=s;
 	if (m_window.ctx)
