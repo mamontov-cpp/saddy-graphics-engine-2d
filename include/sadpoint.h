@@ -199,7 +199,7 @@ public:
      */
 	inline sad::Point3<_Type> operator+(const sad::Point3<_Type> & o) const
 	{
-		return sad::Point3<_Type>(m_x + o.x(), m_y + o.y(), m_z + o.z());
+		return sad::Point3<_Type>(this->m_x + o.x(), this->m_y + o.y(), this->m_z + o.z());
 	}
     /*! Substracts coordinates of second point from first point and returns result
         \param[in] o second point
@@ -207,7 +207,7 @@ public:
      */
     inline sad::Point3<_Type> operator-(const sad::Point3<_Type> & o) const
 	{
-		return sad::Point3<_Type>(m_x - o.x(), m_y - o.y(), m_z - o.z());
+		return sad::Point3<_Type>(this->m_x - o.x(), this->m_y - o.y(), this->m_z - o.z());
 	}
     /*! Multiplicates both coordinates of point by number and returns result
 		\param[in] o number
@@ -215,7 +215,7 @@ public:
      */
     inline sad::Point3<_Type>  operator*(_Type o) const 
 	{
-		return sad::Point3<_Type>(m_x * o, m_y * o, m_z * o);
+		return sad::Point3<_Type>(this->m_x * o, this->m_y * o, this->m_z * o);
 	}
     /*! Performs a division of both coordinates of point by number and returns result
 		\param[in] o number
@@ -223,7 +223,7 @@ public:
      */
     inline sad::Point3<_Type>  operator/(_Type o)  const
 	{
-		return sad::Point3<_Type>(m_x / o, m_y / o, m_z / o);
+		return sad::Point3<_Type>(this->m_x / o, this->m_y / o, this->m_z / o);
 	}
     /*! Adds coordinates of second point to current point
 		\param[in] o second point
@@ -231,9 +231,9 @@ public:
      */
     inline sad::Point3<_Type>& operator+=(const sad::Point3<_Type> & o)
 	{
-		m_x += o.x();
-		m_y += o.y();
-		m_z += o.m_z;
+		this->m_x += o.x();
+		this->m_y += o.y();
+		this->m_z += o.m_z;
 		return *this;
 	}
     /*! Substracts coordinates of second point from current point
@@ -242,9 +242,9 @@ public:
      */
     inline sad::Point3<_Type>& operator-=(const sad::Point3<_Type> & o)
 	{
-		m_x -= o.x();
-		m_y -= o.y();
-		m_z -= o.m_z;
+		this->m_x -= o.x();
+		this->m_y -= o.y();
+		this->m_z -= o.m_z;
 		return *this;
 	}
     /*! Multiplicates both coordinates of current point by number
@@ -253,9 +253,9 @@ public:
      */
     inline sad::Point3<_Type>& operator*=(_Type o)
 	{
-		m_x *= o;
-		m_y *= o;
-		m_z *= o;
+		this->m_x *= o;
+		this->m_y *= o;
+		this->m_z *= o;
 		return *this;
 	}
 	/*! Performs division of both coordinates of current point by number
@@ -264,9 +264,9 @@ public:
      */
 	inline sad::Point3<_Type>& operator/=(_Type o)
 	{
-		m_x /= o;
-		m_y /= o;
-		m_z /= o;
+		this->m_x /= o;
+		this->m_y /= o;
+		this->m_z /= o;
 		return *this;
 	}
 	/*! Returns Z coordinate
@@ -289,9 +289,9 @@ public:
 	 */
 	inline double distance(const sad::Point3<_Type> & o) const
 	{
-		double dx = m_x - o.x();
-		double dy = m_y - o.y();
-		double dx = m_z - o.m_z;
+		double dx = this->m_x - o.x();
+		double dy = this->m_y - o.y();
+		double dz = this->m_z - o.m_z;
 		return sqrt(dx * dx + dy * dy + dz * dz);
 	}
 
@@ -303,9 +303,9 @@ public:
 	>
 	inline void toType(sad::Point3<_OtherType> & o) const
 	{
-		o.m_x = (_OtherType)m_x;
-		o.m_y = (_OtherType)m_y;
-		o.m_z = (_OtherType)m_z;
+		o.m_x = (_OtherType)(this->m_x);
+		o.m_y = (_OtherType)(this->m_y);
+		o.m_z = (_OtherType)(this->m_z);
 	}
 protected:
 	_Type m_z;

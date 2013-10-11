@@ -312,5 +312,5 @@ void sad::p2d::World::remove(p2d::Body * body)
 {
 	body->setUserObject(NULL);
 	body->clearListeners();
-	this->hst::TemporarilyImmutableContainer<p2d::Body>::remove(body);
+	this->sad::TemporarilyImmutableContainer<p2d::Body>::remove(body);
 }
