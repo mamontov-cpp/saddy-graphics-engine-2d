@@ -237,10 +237,11 @@ void sad::Renderer::update()
 
 void sad::Renderer::initWindowParameters(void)
 {
-  this->m_window.hRC=NULL;
-  this->m_window.hDC=NULL;
-  this->m_window.hWND=NULL;
-  this->m_window.hInstance=NULL;
+  this->m_window.hRC = NULL;
+  this->m_window.hDC = NULL;
+  this->m_window.hWND = NULL;
+  this->m_window.hInstance = NULL;
+  this->m_window.fixed = false;
 }
 
 void sad::Renderer::setWindowTitle(const sad::String & s)
@@ -317,33 +318,19 @@ void sad::Renderer::toggleFixedOn()
 	SL_SCOPE("sad::Renderer::toggleFixedOn()");
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
-	style |= WS_OVERLAPPED;
-	style &=  ~WS_THICKFRAME;
 	style &=  ~WS_MAXIMIZEBOX;
 	LONG result=SetWindowLongA(m_window.hWND,GWL_STYLE,style);
 
-	// Force updating window rectangle, because some OS fails to redraw it
-	RECT r;
-	GetWindowRect(m_window.hWND, &r);
-	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, r.left, r.top, r.right,r.bottom, SWP_NOMOVE | SWP_NOSIZE | SWP_DRAWFRAME );
-	reshape(r.right - r.left, r.bottom - r.top);
-	
+	m_window.fixed = true;
 }
 void sad::Renderer::toggleFixedOff()
 {
 	SL_SCOPE("sad::Renderer::toggleFixedOff()");
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
-	style |=WS_OVERLAPPED;
-	style |= WS_THICKFRAME;
-	style &= ~WS_SYSMENU;
 	style |= WS_MAXIMIZEBOX;
 	SetWindowLongA(m_window.hWND,GWL_STYLE,style);
 
-	// Force updating window rectangle, because some OS fails to redraw it
-	RECT r;
-	GetWindowRect(m_window.hWND, &r);
-	SetWindowPos(m_window.hWND, HWND_NOTOPMOST, r.left, r.top, r.right,r.bottom, SWP_NOMOVE | SWP_NOSIZE | SWP_DRAWFRAME );
-	reshape(r.right - r.left, r.bottom - r.top);
+	m_window.fixed = false;
 }
 #endif
