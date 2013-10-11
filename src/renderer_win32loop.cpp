@@ -176,6 +176,22 @@ POINT sad::Renderer::_toClient(LPARAM lParam)
 	return sad::Renderer::_toClient(pnt);
 }
 
+const int windowresizepointscount = 8;
+LRESULT windowresizepoints[windowresizepointscount] = {
+	HTTOPLEFT,
+	HTTOP,
+	
+	HTTOPRIGHT,
+	HTRIGHT,
+	HTLEFT,
+
+	HTBOTTOMLEFT,
+	HTBOTTOM,
+	HTBOTTOMRIGHT
+};
+
+#define MESSAGE_NOT_HANDLED 2000000
+
 LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static bool msg_init=false;
@@ -184,7 +200,6 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		msg_init=true;
 		table_init();
 	}
-
 	if (uMsg==WM_CLOSE)
 	{
      	this->m_running=false;					
@@ -199,6 +214,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		POINT pnt = this->_toClient(lParam);
 		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
 		this->controls()->postMouseMove(sad::Event(mx,my,mz,key));
+		return 0;
 	}
 	if (uMsg==WM_MOUSEWHEEL)
 	{
@@ -291,22 +307,45 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		}
 		return 0;
 	}
-	return 1;
+	
+	if (uMsg==WM_NCHITTEST && m_window.fixed) 
+	{
+		LRESULT result = DefWindowProcA(hWnd, uMsg, wParam, lParam);
+		
+		bool isusertriestoresize = false;
+		for(int i = 0; i < windowresizepointscount; i++)
+			isusertriestoresize = isusertriestoresize || (windowresizepoints[i] == result);
+		
+		if (isusertriestoresize)
+		{
+			result = HTBORDER;
+		}
+		else
+		{
+			result = MESSAGE_NOT_HANDLED;
+		}
+		
+		return result;
+	}
+	
+	return MESSAGE_NOT_HANDLED;
 }
 
 LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	sad::Renderer * r = NULL; 
 	m_data.lock();
-	LRESULT unhandled = (LRESULT)1;
+	LRESULT result = MESSAGE_NOT_HANDLED;
 	if (m_renderers.contains(hWnd))
 	{
 		r = m_renderers[hWnd]; 
-		unhandled =r->dispatchMessage(hWnd, uMsg, wParam, lParam);
+		result = r->dispatchMessage(hWnd, uMsg, wParam, lParam);
 	}
 	m_data.unlock();
-	if (!unhandled)
-		return 0;
+	if (result != MESSAGE_NOT_HANDLED)
+	{
+		return result;
+	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
 }
 

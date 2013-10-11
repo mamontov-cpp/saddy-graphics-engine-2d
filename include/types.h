@@ -96,6 +96,7 @@ namespace sad
 		int                  previousx, previousy;  //!< A previous x and y positions, before changing to fullscreen
 		int                  previouswidth, previousheight;  //!< A previous width and height, before changing to fullscreen
 		LONG                 previousstyle;         //!< A previous style of window, before changing to fullscreen
+		bool                 fixed;                 //!< Whether window size is fixed
 #else
         Display*             dpy;                   //!< Display
         int                  screen;                //!<  Screen
