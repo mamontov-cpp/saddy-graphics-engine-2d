@@ -1,0 +1,39 @@
+{SCAN_FOLDER src}{EXCLUDE {WIN32} renderer_x11.cpp renderer_x11loop.cpp x11recode.cpp {LINUX} renderer_win32.cpp renderer_win32loop.cpp }
+INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
+PLATFORM = {PLATFORM}
+
+ifeq ($(PLATFORM),WIN32)
+DEFINES  = -DWIN32 -DMINGW
+else
+DEFINES  = -DUNIX -DLINUX -DGCC
+endif
+
+TYPE     = {TYPE}
+OUTPUT   = ../lib/libsaddy-{TYPE}.a 
+BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+all: ../build $(OUTPUT)
+../build:
+ifeq ($(PLATFORM),WIN32)
+	mkdir ../build
+else
+	./mkbuild.sh
+endif
+{FOR_EACH ../build/{NAME}_$(TYPE).o:\s../src/{SOURCE}\n\tg++\s-c\s$(CCOPTS)\s../src/{SOURCE}\s-o\s../build/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+$(OUTPUT): {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
+	ar cr  $(OUTPUT)   $(BUILD)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "../build/*"
+	del "$(OUTPUT)"
+else
+	rm -r "../build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean
