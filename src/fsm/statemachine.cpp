@@ -1,5 +1,6 @@
 #include "fsm/statemachine.h"
 #include "log/log.h"
+#include "../renderer.h"
 
 sad::fsm::Shared::~Shared() { }
 
@@ -259,7 +260,8 @@ void sad::fsm::Machine::addState(const sad::String & name, sad::fsm::State * sta
 
 void sad::fsm::Machine::removeState(const sad::String & name)
 {
-	SL_SCOPE(fmt::Format("sad::fsm::Machine::removeState({0})") << name);
+	SL_INTERNAL_SCOPE(fmt::Format("sad::fsm::Machine::removeState({0})") << name, 
+					  *(sad::Renderer::ref()));
 	if (m_states.contains(name))
 	{
 		delete m_states[name];
@@ -278,7 +280,7 @@ void sad::fsm::Machine::invokeEvent(const sad::String & eventName, const sad::Ev
 
 void sad::fsm::Machine::enterCurrentState()
 {
-	SL_SCOPE("sad::fsm::Machine::enterCurrentState()");
+	SL_INTERNAL_SCOPE("sad::fsm::Machine::enterCurrentState()", *(sad::Renderer::ref()));
 	if (m_states.contains(m_current_state_name))
 	{
 		m_states[m_current_state_name]->invoke(sad::fsm::Names::ENTER);
@@ -287,7 +289,7 @@ void sad::fsm::Machine::enterCurrentState()
 
 void sad::fsm::Machine::leavePreviousState()
 {
-	SL_SCOPE("sad::fsm::Machine::leavePreviousState()");
+	SL_INTERNAL_SCOPE("sad::fsm::Machine::leavePreviousState()", *(sad::Renderer::ref()));
 	if (m_states.contains(m_previous_state_name))
 	{
 		m_states[m_previous_state_name]->invoke(sad::fsm::Names::LEAVE);
@@ -296,8 +298,9 @@ void sad::fsm::Machine::leavePreviousState()
 
 void sad::fsm::Machine::pushState(const sad::String & newState)
 {
-	SL_SCOPE(fmt::Format("sad::fsm::Machine::pushState({0})") << newState);
-	SL_DEBUG(fmt::Format("Current state is {0}") << m_current_state_name);
+	SL_INTERNAL_SCOPE(fmt::Format("sad::fsm::Machine::pushState({0})") << newState,
+					  *(sad::Renderer::ref()));
+	SL_INTERNAL(fmt::Format("Current state is {0}") << m_current_state_name);
 	m_previous_state_name = m_current_state_name;
 	m_current_state_name = newState;
 	leavePreviousState();
@@ -306,8 +309,8 @@ void sad::fsm::Machine::pushState(const sad::String & newState)
 
 void sad::fsm::Machine::cancelState()
 {
-	SL_SCOPE("sad::fsm::Machine::cancelState()");
-	SL_DEBUG(fmt::Format("Prevous state is {0}") << m_previous_state_name);
+	SL_INTERNAL_SCOPE("sad::fsm::Machine::cancelState()", *(sad::Renderer::ref()));
+	SL_INTERNAL(fmt::Format("Prevous state is {0}") << m_previous_state_name);
 	pushState(m_previous_state_name);
 }
 

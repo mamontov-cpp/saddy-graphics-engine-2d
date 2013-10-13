@@ -35,7 +35,7 @@ sad::Renderer::~Renderer(void)
 
 bool sad::Renderer::init(const sad::Settings& _settings)
 {
- SL_LOCAL_SCOPE("sad::Renderer::init", (*this));
+ SL_INTERNAL_SCOPE("sad::Renderer::init", (*this));
  m_glsettings.setWidthScreen(_settings.width());
  m_glsettings.setHeightScreen(_settings.height());
  m_glsettings.setIsFullscreen(_settings.isFullscreen());
@@ -57,7 +57,7 @@ bool sad::Renderer::init(const sad::Settings& _settings)
 
 void sad::Renderer::reshape(int width, int height)
 {
-  SL_LOCAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
+  SL_INTERNAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
 
   if (width==0) width=1;
   
@@ -98,7 +98,7 @@ sad::Renderer* sad::Renderer::ref()
 
 void sad::Renderer::run()
 {
- SL_LOCAL_SCOPE("sad::Renderer::run()", *this);
+ SL_INTERNAL_SCOPE("sad::Renderer::run()", *this);
  if (m_currentscene)
  {
 	 this->m_currentscene->setRenderer(this);
@@ -128,7 +128,7 @@ void sad::Renderer::run()
 //Getting a black background with all params
 bool sad::Renderer::initGLRendering()
 {
-    SL_LOCAL_SCOPE("sad::Renderer::initGLRendering()", *this);
+    SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f,0.0f,0.0f,0.0f); //Fill a black background
 	glClearDepth(1.0f);
@@ -142,7 +142,7 @@ bool sad::Renderer::initGLRendering()
 	const char * version=(const char *)glGetString(GL_VERSION);
 	if (version!=NULL)
 	{
-		SL_LOCAL_MESSAGE(sad::String("running OpenGL ")+sad::String(version), *this);
+		SL_LOCAL_INTERNAL(sad::String("running OpenGL ")+sad::String(version), *this);
 		if (version[0]>'1' || version[2] >='4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}

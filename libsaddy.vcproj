@@ -365,6 +365,10 @@
 				Name="os"
 				>
 				<File
+					RelativePath=".\src\os\consoleimpl.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\os\mutex.cpp"
 					>
 				</File>
@@ -485,7 +489,27 @@
 				Name="log"
 				>
 				<File
+					RelativePath=".\src\log\consoletarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\log\filetarget.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\log\log.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\log\logmessage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\log\logscope.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\log\logtarget.cpp"
 					>
 				</File>
 			</Filter>
@@ -847,6 +871,10 @@
 				Name="os"
 				>
 				<File
+					RelativePath=".\include\os\consoleimpl.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\os\mutex.h"
 					>
 				</File>
@@ -1051,7 +1079,39 @@
 				Name="log"
 				>
 				<File
+					RelativePath=".\include\log\color.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\consoletarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\filetarget.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\log\log.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\logmessage.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\logscope.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\logtarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\priority.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\log\stringcaster.h"
 					>
 				</File>
 			</Filter>

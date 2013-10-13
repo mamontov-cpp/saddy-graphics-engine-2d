@@ -74,7 +74,7 @@ void sad::Renderer::releaseWindow()
 
 bool sad::Renderer::XContextInit()
 {
-	SL_LOCAL_SCOPE("sad::Renderer::XContextInit()", *this);
+	SL_INTERNAL_SCOPE("sad::Renderer::XContextInit()", *this);
     // Static guard removed as preventing multithreading
     // It could be safely moved into field
     /*static*/ bool init=false;
@@ -103,7 +103,7 @@ bool sad::Renderer::XContextInit()
 }
 bool sad::Renderer::createWindow()
 {
-  SL_LOCAL_SCOPE("sad::Renderer::createWindow()", *this);
+  SL_INTERNAL_SCOPE("sad::Renderer::createWindow()", *this);
   Colormap cmap;
   Atom wmDelete;
   X11Window winDummy;
