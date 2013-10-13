@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 
 	// A format for console is described as {date}: [file and line] [subsystem] message
 	sad::log::ConsoleTarget * consoletarget = new sad::log::ConsoleTarget(
-		"{0}: [{1}] {3}{2}{4}", 6, true
+		"{0}: [{1}] {3}{2}{4}", 0, true
 	);
 	sad::log::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
 

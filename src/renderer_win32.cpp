@@ -21,7 +21,7 @@ sad::Point3D sad::Renderer::mousePos()
 }
 void sad::Renderer::releaseWindow()
 {
-  SL_LOCAL_SCOPE("sad::Renderer::releaseWindow()", *this);
+  SL_INTERNAL_SCOPE("sad::Renderer::releaseWindow()", *this);
   if (m_window.fullscreen) //If fullscreen
   {
 	  ChangeDisplaySettings(NULL,0);
@@ -64,7 +64,7 @@ void sad::Renderer::releaseWindow()
 
 bool sad::Renderer::createWindow()
 {
-    SL_LOCAL_SCOPE("sad::Renderer::createWindow()", *this);
+    SL_INTERNAL_SCOPE("sad::Renderer::createWindow()", *this);
 	//Window parameters
 	WNDCLASS    wc;
     //Rectangle
@@ -157,9 +157,15 @@ bool sad::Renderer::createWindow()
 	RECT windowrect;
 	RECT clientrect;
 	GetWindowRect(m_window.hWND, &windowrect);
-	SL_DEBUG(fmt::Format("Window rect is set to with {0} {1} {2} {3}") << windowrect.left << windowrect.top << windowrect.right << windowrect.bottom);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Window rect is set to with {0} {1} {2} {3}") << windowrect.left << windowrect.top << windowrect.right << windowrect.bottom,
+		*this
+	);
 	GetClientRect(m_window.hWND, &clientrect);
-	SL_DEBUG(fmt::Format("Client rect is set to with {0} {1} {2} {3}") << clientrect.left << clientrect.top << clientrect.right << clientrect.bottom);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Client rect is set to with {0} {1} {2} {3}") << clientrect.left << clientrect.top << clientrect.right << clientrect.bottom,
+		*this
+	);
 	
 	reshape(m_window.width, m_window.height);
 		
@@ -174,7 +180,7 @@ bool sad::Renderer::createWindow()
 
 bool sad::Renderer::setupPFD()
 {
-	SL_LOCAL_SCOPE("sad::Renderer::setupPFD()", *this);
+	SL_INTERNAL_SCOPE("sad::Renderer::setupPFD()", *this);
 	static PIXELFORMATDESCRIPTOR pfd=
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),
@@ -281,7 +287,7 @@ void sad::Renderer::enterFullScreen()
 
 void sad::Renderer::leaveFullScreen()
 {
-	SL_LOCAL_DEBUG("sad::Renderer::leaveFullScreen", *this);
+	SL_LOCAL_INTERNAL("sad::Renderer::leaveFullScreen", *this);
 	SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
 	SetWindowPos(m_window.hWND, 
 				 HWND_NOTOPMOST, 
@@ -315,7 +321,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 
 void sad::Renderer::toggleFixedOn()
 {
-	SL_LOCAL_SCOPE("sad::Renderer::toggleFixedOn()", *this);
+	SL_INTERNAL_SCOPE("sad::Renderer::toggleFixedOn()", *this);
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style &=  ~WS_MAXIMIZEBOX;
@@ -325,7 +331,7 @@ void sad::Renderer::toggleFixedOn()
 }
 void sad::Renderer::toggleFixedOff()
 {
-	SL_LOCAL_SCOPE("sad::Renderer::toggleFixedOff()", *this);
+	SL_INTERNAL_SCOPE("sad::Renderer::toggleFixedOff()", *this);
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |= WS_MAXIMIZEBOX;

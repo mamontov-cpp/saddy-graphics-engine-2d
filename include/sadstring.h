@@ -8,6 +8,7 @@
 #pragma once
 #include "sadvector.h"
 #include <string>
+#include <iostream>
 
 namespace sad
 {
@@ -281,3 +282,13 @@ class String: public std::string
 sad::String join(const sad::StringList list, const sad::String & sep);
 
 };
+
+/*! Writes a string to output stream
+	\param[in] stream output stream
+	\param[in] sadstring a string data
+ */
+inline std::ostream & operator<<(std::ostream & stream, const sad::String & sadstring)
+{
+	return stream << sadstring.data();
+}
+
