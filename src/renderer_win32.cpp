@@ -281,7 +281,7 @@ void sad::Renderer::enterFullScreen()
 
 void sad::Renderer::leaveFullScreen()
 {
-	SL_DEBUG("sad::Renderer::leaveFullScreen");
+	SL_LOCAL_DEBUG("sad::Renderer::leaveFullScreen", *this);
 	SetWindowLongPtr(m_window.hWND, GWL_STYLE, m_window.previousstyle);
 	SetWindowPos(m_window.hWND, 
 				 HWND_NOTOPMOST, 
@@ -315,7 +315,7 @@ void sad::Renderer::toggleFullscreen()								// Toggle Fullscreen/Windowed
 
 void sad::Renderer::toggleFixedOn()
 {
-	SL_SCOPE("sad::Renderer::toggleFixedOn()");
+	SL_LOCAL_SCOPE("sad::Renderer::toggleFixedOn()", *this);
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style &=  ~WS_MAXIMIZEBOX;
@@ -325,7 +325,7 @@ void sad::Renderer::toggleFixedOn()
 }
 void sad::Renderer::toggleFixedOff()
 {
-	SL_SCOPE("sad::Renderer::toggleFixedOff()");
+	SL_LOCAL_SCOPE("sad::Renderer::toggleFixedOff()", *this);
 
 	LONG style=GetWindowLongA(m_window.hWND,GWL_STYLE);
 	style |= WS_MAXIMIZEBOX;
