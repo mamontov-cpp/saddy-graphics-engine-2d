@@ -200,7 +200,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeZeroArgIntMethodExecutableFunction<
+		return new sad::FreeZeroArgVoidMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName>
 		(*this);
@@ -248,7 +248,7 @@ public:
 	}
 protected:
 	_ClassName * m_o;
-	void (_InvokedClassName::*m_m)();
+	int (_InvokedClassName::*m_m)();
 };
 
 /*! Executes a method with one argument and returns zero
@@ -286,7 +286,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeZeroArgVoidMethodExecutableFunction<
+		return new sad::FreeOneArgVoidMethodExecutableFunction<
 			_ClassName,
 			_InvokedClassName,
 			_MethodArg,
