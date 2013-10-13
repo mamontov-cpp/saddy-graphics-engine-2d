@@ -230,7 +230,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\sadsleep.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\sadstring.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadthread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadthreadexecutablefunction.cpp"
 				>
 			</File>
 			<File
@@ -361,7 +373,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\os\thread.cpp"
+					RelativePath=".\src\os\threadimpl.cpp"
 					>
 				</File>
 				<File
@@ -724,7 +736,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadsleep.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\sadstring.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadthread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadthreadexecutablefunction.h"
 				>
 			</File>
 			<File
@@ -831,7 +855,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\os\thread.h"
+					RelativePath=".\include\os\threadimpl.h"
 					>
 				</File>
 				<File

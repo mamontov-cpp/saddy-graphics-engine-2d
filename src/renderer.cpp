@@ -57,7 +57,7 @@ bool sad::Renderer::init(const sad::Settings& _settings)
 
 void sad::Renderer::reshape(int width, int height)
 {
-  SL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height);
+  SL_LOCAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
 
   if (width==0) width=1;
   

@@ -12,7 +12,7 @@
 #include "fontmanager.h"
 #include "orthocamera.h"
 #include "png/picopngloader.h"
-#include "os/thread.h"
+#include "sadthread.h"
 #include "input.h"
 #include "sprite2dadapter.h"
 #include "label.h"
@@ -116,9 +116,9 @@ class InterlockedScene:public sad::Scene
 	IFaceEditor plugin.
 
 	\param[in] p log name as pointer to characters.
-	\return NULL in most cases
+	\return 0 in most cases
  */
-void * thread(void * p)
+int thread(void * p)
 {
 	/* Firstly, we create our own renderer, which will do all kind of tasks
 	 */ 
@@ -216,7 +216,7 @@ void * thread(void * p)
 	r.run();
 
 	// Return default value
-	return NULL;
+	return 0;
 }
 
 
@@ -234,8 +234,8 @@ int main(int argc, char** argv)
 #endif
 {
 	// Here we create two waitable threads
-	os::thread a(thread,const_cast<void *>((void*)"thread1.txt"), true);
-	os::thread b(thread,const_cast<void *>((void*)"thread2.txt"), true);
+	sad::Thread a(thread,const_cast<void *>((void*)"thread1.txt"));
+	sad::Thread b(thread,const_cast<void *>((void*)"thread2.txt"));
 	// Run them
 	a.run();
 	b.run();
