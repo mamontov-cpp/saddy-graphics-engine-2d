@@ -193,6 +193,10 @@
 				RelativePath=".\sadrect.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\sadthread.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
