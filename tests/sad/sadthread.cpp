@@ -37,7 +37,8 @@ struct sadThreadTest : tpunit::TestFixture
 {
  public:
    sadThreadTest() : tpunit::TestFixture(
-	   TEST(sadThreadTest::testConstructors)
+	   TEST(sadThreadTest::testConstructors),
+	   TEST(sadThreadTest::testTerminate)
    ) {}
 
    void threadmv()
@@ -87,7 +88,7 @@ struct sadThreadTest : tpunit::TestFixture
 	   vthreadvrunned = false;
 	   sad::Thread thread(vthreadav, true);
 	   thread.run();
-	   thread.wait(100);
+	   thread.wait(2000);
 	   ASSERT_TRUE( vthreadvrunned == true );
 	   }
 	   {
@@ -122,7 +123,7 @@ struct sadThreadTest : tpunit::TestFixture
    }
    /*! Tests termination of thread
     */
-   void test_terminate()
+   void testTerminate()
    {
 	  sad::Thread thread(this, &sadThreadTest::sleepy);
 	  thread.run();
