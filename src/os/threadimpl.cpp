@@ -6,7 +6,6 @@
 #include "../sadthread.h"
 
 #ifdef LINUX
-
 #include <sys/time.h>
 
 /*! A special status structure, which allows us to do timed waits for thread, via
@@ -27,15 +26,17 @@ struct ThreadStatus
 		ThreadStatus result;
 		result.Running = true;
 		result.ResultCode = 0; 
+		return result;
 	}
 	/*! Returns a starus, when current thread is running
 		\return whether is finished
 	 */
-	static ThreadStatus makeFinished(int code = sad::ThreadCancelled)
+	static ThreadStatus makeFinished(int code = sad::Thread::Cancelled)
 	{
 		ThreadStatus result;
 		result.Running = false;
 		result.ResultCode = code; 
+		return result;
 	}
 };
 /*! A mutex for synchronized access to thread
@@ -69,7 +70,7 @@ static ThreadStatus read_thread_status(pthread_t thread)
 {
 	ThreadStatus result;
 	result.Running = false;
-	result.Status  = 0;
+	result.ResultCode  = 0;
 	m_thread_table_mtx.lock();
 	if (m_thread_table.contains(thread))
 	{
@@ -153,23 +154,24 @@ static DWORD WINAPI thread_implementation_function(LPVOID function)
 
 #else
 
-void * thread_implementation_function(void * info)
+static void * thread_implementation_function(void * function)
 {
-   // Make thread set status on cancel
-   pthread_cleanup_push(register_cancelled_thread, NULL);
+	int code = sad::Thread::Cancelled;
+	// Make thread set status on cancel
+	pthread_cleanup_push(register_cancelled_thread, NULL);
+	// Register thread 	
+	register_running_thread(pthread_self());	
    
-   // Register thread 	
-   register_running_thread(pthread_self());	
-   
-   // Execute code
-   sad::AbsractThreadExecutableFunction * f = reinterpret_cast<
+	// Execute code
+	sad::AbsractThreadExecutableFunction * f = reinterpret_cast<
 		sad::AbsractThreadExecutableFunction *
-	>(code);
-   int code = f->execute();
-   
-   // Register finished thread
-   register_finished_thread(code);
-   return reinterpret_cast<int*>(code);
+	>(function);
+	code = f->execute();
+	// Register finished thread
+	register_finished_thread(code);
+	pthread_cleanup_pop(0);
+
+	return  reinterpret_cast<void*>(code);
 }
 
 #endif
@@ -183,11 +185,11 @@ bool sad::os::ThreadImpl::run()
 #else
 	pthread_attr_t attrs;
 	pthread_attr_init(&attrs);
-	int result = pthread_create(&m_thread,thread_implementation_function,(void*)m_function);
+	int result = pthread_create(&m_handle,&attrs,thread_implementation_function,(void*)m_function);
 	bool running = (result == 0);
 	if (running)
 	{
-		register_running_thread(m_thread);
+		register_running_thread(m_handle);
 	}
 	return running;
 #endif
@@ -208,7 +210,7 @@ void sad::os::ThreadImpl::stop()
 	{
 		if (running())
 		{
-			pthread_cancel(m_thread);
+			pthread_cancel(m_handle);
 		}
 	}
 #endif
@@ -220,7 +222,7 @@ int sad::os::ThreadImpl::exitCode() const
 #ifdef WIN32
 	isvalid = m_handle != INVALID_HANDLE_VALUE;
 #else
-	ivalid = m_handle != 0;
+	isvalid = m_handle != 0;
 #endif
 	int result = sad::Thread::Cancelled;
 	if (isvalid)
@@ -246,7 +248,7 @@ void sad::os::ThreadImpl::wait()
 		WaitForSingleObject(m_handle, INFINITE);
 #else
 		void * result = NULL;
-		pthread_join(m_thread,&result);
+		pthread_join(m_handle,&result);
 #endif
 	}
 }
@@ -261,8 +263,14 @@ void sad::os::ThreadImpl::wait(unsigned int milliseconds)
 
 #ifdef _GNU_SOURCE
 		timespec ts;
-		ts.tv_sec = milliseconds / 1000;
-		ts.tv_sec = (milliseconds % 1000) * 1000000;
+		clock_gettime(CLOCK_REALTIME, &ts);
+		ts.tv_sec += milliseconds / 1000;
+		ts.tv_nsec  += (milliseconds % 1000) * 1000000;
+		if (ts.tv_nsec > 1000000000)
+		{
+			ts.tv_sec += 1;
+			ts.tv_nsec -= 1000000000;
+		}
 		void * result = NULL;
 		pthread_timedjoin_np(m_handle, &result, &ts);
 #else
@@ -289,8 +297,8 @@ void sad::os::ThreadImpl::wait(unsigned int milliseconds)
 
 bool sad::os::ThreadImpl::running() const
 {
-#ifdef WIN32
 	bool result = false;
+#ifdef WIN32
 	if (m_handle != INVALID_HANDLE_VALUE)
 	{
 		if (WaitForSingleObject(m_handle, 0) != WAIT_OBJECT_0)
@@ -301,7 +309,7 @@ bool sad::os::ThreadImpl::running() const
 #else
 	if (m_handle != 0)
 	{
-		ThreadStatus status = read_thread_status(m_thread)
+		ThreadStatus status = read_thread_status(m_handle);
 		if (status.Running)
 		{
 			result = true;
