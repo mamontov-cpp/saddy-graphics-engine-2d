@@ -67,7 +67,7 @@ public:
 /*! Converts QString to a string, allowing to pass it to a log message
  */
 template<>
-class inline StringCaster<QString>
+class StringCaster<QString>
 {
 public:
 	/*! Converts QString to std::string, making possible to pass it to a log

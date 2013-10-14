@@ -17,9 +17,9 @@ Editor::Editor():m_icons("editor_icons")
 	m_target = new QtTarget(this);
 	sad::Renderer::ref()->log()->addTarget(m_target);
 	m_cmdargs = NULL;
-	m_rendermutex = new os::mutex();
-	m_initmutex = new os::mutex();
-	m_saddywaitmutex = new os::mutex();
+	m_rendermutex = new sad::Mutex();
+	m_initmutex = new sad::Mutex();
+	m_saddywaitmutex = new sad::Mutex();
 	m_renderthread = new SaddyThread(this);
 	m_waitforqt = false;
 	m_waitforsaddy = false;

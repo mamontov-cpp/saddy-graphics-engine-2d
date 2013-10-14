@@ -5,7 +5,7 @@
 	performing some actions, like inserting or deleting or clearing a container.
  */
 #pragma once
-#include "os/mutex.h"
+#include "sadmutex.h"
 #include "sadvector.h"
 
 
@@ -36,10 +36,10 @@ class TemporarilyImmutableContainer
 	 sad::Vector<QueuedCommand> m_command_queue;
 	 /*! A lock, for adding a commands into lock
 	  */
-	 ::os::mutex                  m_command_queue_lock;
+	 ::sad::Mutex                  m_command_queue_lock;
 	 /*! A container changing lock
 	  */
-	 ::os::mutex                 m_mutability_lock;
+	 ::sad::Mutex                 m_mutability_lock;
 	 /*! A flag, whether actions is locked
 	  */
 	 bool                       m_lock_changes;

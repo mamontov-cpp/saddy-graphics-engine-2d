@@ -1,8 +1,9 @@
 /*! \file       muteximpl.h
     \author    HiddenSeeker
 	 
-    Contains crossplatform mutex implementation,  which uses pthread on Linux and WinAPI on Windows. 
-	A mutex can be locked or unlocked, blocking execution of thread, or unblocking it. 
+    Contains crossplatform mutex implementation,  which uses pthread on 
+	Linux and WinAPI on Windows.  A mutex can be locked or unlocked, blocking 
+	execution of thread, or unblocking it. 
 */
 #pragma once
 #ifdef WIN32
@@ -55,7 +56,7 @@ private:
 		\param[in] o other mutex
 		\return self-reference
 	 */	
-	sad::os::MutexImpl & operator=(const sad::os::MutexImpl & o)'
+	sad::os::MutexImpl & operator=(const sad::os::MutexImpl & o);
 };
 
 }

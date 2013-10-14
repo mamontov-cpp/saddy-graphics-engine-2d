@@ -1,72 +1,77 @@
-#include "os/semaphore.h"
-using namespace os;
+#include <os/semaphoreimpl.h>
+#include <cassert>
 
 #ifdef WIN32
 
-semaphore::semaphore(unsigned int beginvalue, unsigned int maxvalue)
+sad::os::SemaphoreImpl::SemaphoreImpl(unsigned int currentvalue, unsigned int maxvalue)
+: m_max_value(maxvalue)
 { 
- m_v=maxvalue;
- m_s=CreateSemaphoreA(NULL,beginvalue,maxvalue,NULL);
-}
-semaphore::~semaphore()
-{
-  CloseHandle(m_s);
-}
-int    semaphore::value()
-{
-	LONG val=4568;
-	ReleaseSemaphore(m_s,1,&val);
-	if (val!=m_v) WaitForSingleObject(m_s,INFINITE);
-	return (int)val;
-}
-void semaphore::consume(unsigned int v)
-{
-	for (unsigned int i=0;i<v;i++)   
-    {
-       while(WaitForSingleObject(m_s,1)!=WAIT_OBJECT_0); 
-    }
-}
-
-void semaphore::release(unsigned int v)
-{
- ReleaseSemaphore(m_s,(LONG)v,NULL);
+	m_s = CreateSemaphoreA(NULL,currentvalue,maxvalue,NULL);
 }
 
 #else
 
-semaphore::semaphore(unsigned int beginvalue, unsigned int maxvalue)
+sad::os::SemaphoreImpl::SemaphoreImpl(unsigned int currentvalue, unsigned int maxvalue)
 { 
- //printf("Creating semaphore\n");
-  int rs=sem_init(&m_s,0,beginvalue);
- //printf("Semaphore created %d\n",rs);
-}
-
-
-semaphore::~semaphore()
-{
-  sem_close(&m_s);
-}
-int    semaphore::value()
-{
-	int n=0;
-	sem_getvalue(&m_s,&n);
-        return n;
-}
-void semaphore::release(unsigned int v)
-{
-	for (int i=0;i<v;i++)  
-       {
-       	  //printf("Attempting to post sth\n");
-       	  sem_post(&m_s);
-          //printf("Posted\n");
-       }
-}
-void semaphore::consume(unsigned int v)
-{
-	for (int i=0;i<v;i++)   
-        {
-        	sem_wait(&m_s); 
-        }
+	assert(currentvalue <= SEM_VALUE_MAX);
+	assert(maxvalue  <= SEM_VALUE_MAX);
+	// printf("Creating semaphore\n");
+	int result = sem_init(&m_s,0,currentvalue);
+	// printf("Semaphore created %d\n", result);
 }
 
 #endif
+
+
+sad::os::SemaphoreImpl::~SemaphoreImpl()
+{
+#ifdef WIN32
+	CloseHandle(m_s);
+#else
+	sem_close(&m_s);
+#endif
+}
+
+void sad::os::SemaphoreImpl::consume(unsigned int v)
+{
+	for (unsigned int i=0;i < v;i++)   
+    {
+#ifdef WIN32
+		WaitForSingleObject(m_s, INFINITE); 
+#else
+		sem_wait(&m_s); 
+#endif
+	}
+}
+
+void sad::os::SemaphoreImpl::release(unsigned int v)
+{
+#ifdef WIN32
+	ReleaseSemaphore(m_s,(LONG)v,NULL);
+#else
+	for (unsigned int i = 0; i < v; i++)  
+    {
+		//printf("Attempting to post sth\n");
+       	sem_post(&m_s);
+        //printf("Posted\n");
+	}
+#endif
+}
+
+int sad::os::SemaphoreImpl::value() const
+{
+#ifdef WIN32
+	LONG val=4568;
+	if (ReleaseSemaphore(m_s,1,&val) == FALSE)
+	{
+		// Maximum value is exceeded, so just false
+		return m_max_value;
+	}
+	WaitForSingleObject(m_s, INFINITE);
+	return (int)val;
+#else
+	int n=0;
+	sem_getvalue(&m_s,&n);
+    return n;
+#endif
+}

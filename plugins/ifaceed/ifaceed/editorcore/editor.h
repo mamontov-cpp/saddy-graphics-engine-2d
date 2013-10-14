@@ -10,7 +10,7 @@
 #include "editorbehaviour.h"
 
 #include <scene.h>
-#include <os/mutex.h>
+#include <sadmutex.h>
 #include <renderer.h>
 #include <marshal/actioncontext.h>
 #include <input.h>
@@ -137,13 +137,13 @@ class Editor: public QObject
 		 sad::cmd::Args * m_cmdargs;
 		 /** Mutex, used to render all stuff
 		  */
-		 os::mutex * m_rendermutex;
+		 sad::Mutex * m_rendermutex;
 		 /** Mutex, that is used in initialize. DO NOT USE on other intensions
 		  */
-		 os::mutex * m_initmutex;
+		 sad::Mutex * m_initmutex;
 		 /** Mutex, that is used in waiting of saddy thread. DO NOT use on other intensions
 		  */
-		 os::mutex * m_saddywaitmutex;
+		 sad::Mutex * m_saddywaitmutex;
 		 /** Whether saddy thread must wait for qt thread
 		  */
 		 bool m_waitforqt;

@@ -1,7 +1,8 @@
 /*! \file sadsemaphore.h
 	\author HiddenSeeker
 	
-	Defines a semaphore as simple synchonization primitive. Semaphore blocks execution, when it's value less than zero, and does not
+	Defines a semaphore as simple synchonization primitive. Semaphore blocks execution, when
+	it's value less than zero, and does not
 	block execution otherwise.
  */
 #pragma once
@@ -40,9 +41,9 @@ public:
 		\param[in] amount how much should be consumed
 	 */ 
 	void consume(unsigned int amount);
-	 /*! Increments semaphore value
-         \param[in] amount how much should value increase. Does not block execution
-      */
+	/*! Increments semaphore value
+        \param[in] amount how much should value increase. Does not block execution
+     */
     void release(unsigned int amount);
 	/*! Returns current value of semaphore.
 		Can block execution in some implementations

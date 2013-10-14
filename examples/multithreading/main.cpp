@@ -87,7 +87,7 @@ class EventHandler: public sad::EventHandler
 // So we create a lock, which disables it.
 // If you don't have these kind of cards feel free to comment,
 // It has been tested on NVidia card without locks ans seems to work.
-os::mutex mipmap_part_mutex;
+sad::Mutex mipmap_part_mutex;
 // We override default scene to avoid bugs with IntelGMA modules
 // All we need to do is to override ::render()
 class InterlockedScene:public sad::Scene

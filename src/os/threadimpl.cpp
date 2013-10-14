@@ -1,5 +1,5 @@
 #include "os/threadimpl.h"
-#include "os/mutex.h"
+#include "sadmutex.h"
 #include "../sadsleep.h"
 #include "../sadthreadexecutablefunction.h"
 #include "../sadhash.h"
@@ -41,7 +41,7 @@ struct ThreadStatus
 };
 /*! A mutex for synchronized access to thread
  */ 
-::os::mutex  m_thread_table_mtx;
+::sad::Mutex  m_thread_table_mtx;
 /*! A thread table, for getting a status
  */
 static sad::Hash<pthread_t, ThreadStatus> m_thread_table;
