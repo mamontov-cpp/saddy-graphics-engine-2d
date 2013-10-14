@@ -1,0 +1,1 @@
+iface-editor-debug.exe -ifaceconfig globalconfig.xml
