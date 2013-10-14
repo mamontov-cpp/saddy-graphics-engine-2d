@@ -43,7 +43,7 @@ public:
 	void unlock();
 protected:
 #ifdef WIN32
-    HANDLE  m_m;          //!< A system-dependent handle of mutex
+    CRITICAL_SECTION  m_m;          //!< A system-dependent handle of mutex
 #else
     pthread_mutex_t m_m;  //!< A system-dependent handle of mutex
 #endif

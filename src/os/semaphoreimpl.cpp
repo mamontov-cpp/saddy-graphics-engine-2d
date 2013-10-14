@@ -1,8 +1,13 @@
 #include <os/semaphoreimpl.h>
 #include <cassert>
-#include <unistd.h>
+
+#ifndef WIN32
+
 #include <limits.h>
+#include <unistd.h>
 #include <sys/param.h>
+
+#endif
 
 #ifdef WIN32
 
