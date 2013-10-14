@@ -1,5 +1,8 @@
 #include <os/semaphoreimpl.h>
 #include <cassert>
+#include <unistd.h>
+#include <limits.h>
+#include <sys/param.h>
 
 #ifdef WIN32
 
@@ -71,7 +74,8 @@ int sad::os::SemaphoreImpl::value() const
 	return (int)val;
 #else
 	int n=0;
-	sem_getvalue(&m_s,&n);
-    return n;
+	sem_t *  s = const_cast<sem_t*>(&m_s);
+	sem_getvalue(s,&n);
+        return n;
 #endif
 }
