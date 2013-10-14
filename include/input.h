@@ -4,7 +4,7 @@
 	Definition of main input
 */
 #include "sadhash.h"
-#include "os/mutex.h"
+#include "sadmutex.h"
 #pragma once
 
 // TODO: This should be moved into render win32 loop implementation,
@@ -336,8 +336,8 @@ namespace sad
 			  sad::Hash<int,sad::EventHandler*>  m_ups;  //!< Key up functors
 			  sad::Hash<int,sad::EventHandler*>  m_down; //!< Key down functors
 			  
-			  ::os::mutex            m_umutex; //!< up mutex binding
-			  ::os::mutex            m_dmutex; //!< down mutex binding
+			  ::sad::Mutex            m_umutex; //!< up mutex binding
+			  ::sad::Mutex            m_dmutex; //!< down mutex binding
 
 		      Input & operator=(const Input &);
 		      Input(const Input&);

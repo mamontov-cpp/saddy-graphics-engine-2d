@@ -6,7 +6,7 @@
 #pragma once
 #include "classmetadata.h"
 #include "sadhash.h"
-#include "os/mutex.h"
+#include "sadmutex.h"
 
 namespace sad
 {
@@ -21,7 +21,7 @@ private:
 	ClassMetaDataHash m_container;
 	/*! A lock for mutex
 	 */
-	::os::mutex m_lock;
+	::sad::Mutex m_lock;
 	/*! Locked, for singleton usage
 	 */
 	ClassMetaDataContainer();

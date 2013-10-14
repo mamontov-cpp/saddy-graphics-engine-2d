@@ -19,7 +19,7 @@
 
 
 sad::Hash<HWND, sad::Renderer *> m_renderers;
-static  os::mutex m_data;
+static  sad::Mutex m_data;
 
 
 
@@ -114,7 +114,7 @@ void sad::Renderer::mainLoop()
 
 static sad::Hash<WPARAM,int> table;
 
-static os::mutex m_table_init_lock;
+static sad::Mutex m_table_init_lock;
 
 static void table_init()
 {

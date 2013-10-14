@@ -1,6 +1,7 @@
 #include "ftfont.h"
 
 #include <log/log.h>
+#include <sadmutex.h>
 
 #include <ft2build.h>
 #include <freetype/freetype.h>
@@ -87,7 +88,7 @@ sad::Rect2D FTFont::size(const sad::String & str)
 
 // BUG: on old Intel GMA drivers CallLists can segfault while
 // mulithreading. Have fun with that.
-os::mutex m_render_ft_font_mutex;
+sad::Mutex m_render_ft_font_mutex;
 
 void FTFont::renderWithHeight(FTFont::FTHeightFont * fnt, 
 							  unsigned int height, 
@@ -274,7 +275,8 @@ void FTFont::setColor(const sad::AColor & cl)
 
 // BUG: on old Intel GMA cards two concurrent calls
 // of glTexImage2D can cause texture corruption
-static os::mutex m_ftfont_setheight_lock;
+static sad::Mutex m_ftfont_setheight_lock;
+
 bool FTFont::setHeight(unsigned int height)
 {
 	m_ftfont_setheight_lock.lock();

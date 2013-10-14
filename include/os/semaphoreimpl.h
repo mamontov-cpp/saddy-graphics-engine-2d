@@ -1,8 +1,13 @@
-/*! \file       semaphore.h
-     \author    HiddenSeeker
-     Contains crossplatform semaphore implementation
+/*! \file      semaphoreimpl.h
+    \author    HiddenSeeker
+
+	Defines a semaphore as simple synchonization primitive. 
+	Semaphore blocks execution, when
+	it's value less than zero, and does not
+	block execution otherwise.
 */
 #pragma once
+
 #ifdef WIN32
     #ifndef NOMINMAX
 	#define NOMINMAX 
@@ -14,42 +19,66 @@
     #include  <semaphore.h>
 #endif
 
+namespace sad
+{
 
 namespace os
 {
- /*!  \class semaphore
-       Simple semaphore class, which can wait on 0, and release to maximum value
- */
- class semaphore
- {
-   private:
+
+/*!  \class SemaphoreImpl
+     
+	 A  semaphore is  asimple synchonization primitive. 
+	Semaphore blocks execution, when
+	it's value less than zero, and does not
+	block execution otherwise
+*/
+class SemaphoreImpl
+{
+public:
+	/*! Constructs new semaphore with specified values 
+		\param[in] currentvalue currentvalue of semaphore
+		\param[in] maxvalue maximum value of semaphore
+	 */
+    SemaphoreImpl(unsigned int currentvalue, unsigned int maxvalue); 
+	/*! Frees memory from implementation part
+	 */
+	~SemaphoreImpl();
+	/*! Consumes specified amount of resources, decrementing semaphore value. 
+		Will block execution, when semaphore becomes less or equal to zero
+		\param[in] amount how much should be consumed
+	 */ 
+    void consume(unsigned int amount);
+	/*! Increments semaphore value
+        \param[in] amount how much should value increase. Does not block execution
+     */
+	void release(unsigned int amount);
+	/*! Returns current value of semaphore.
+		Can block execution in some implementations
+		\return current value of semaphore
+	 */
+	int    value() const;
+protected:
+
 #ifdef WIN32
-                int    m_v; //!< Max value
-                HANDLE m_s; //!< Semaphore
+	int    m_max_value; //!< Maximum value, which can be hold in semaphore
+    HANDLE m_s;			//!< Semaphore
 #else
-                sem_t  m_s; //!< Semaphore
+    sem_t  m_s; //!< Semaphore
 #endif
-   public:
-                /*! Constructor
-                     \param[in] beginvalue startingvalue of semaphore
-                     \param[in] maxvalue   maximum value of semaphore
-                */
-                 semaphore(unsigned int beginvalue=0, unsigned int maxvalue=32767); 
-                /*! Destructor
-               */
-               ~semaphore();
-               /*! Consumes an amount of resources
-                    \param[in] v amount of resource to be consumed
-               */
-               void consume(unsigned int v);
-               /*! Releases an amount of resources
-                    \param[in] v amount of resorces to be released
-              */
-               void release(unsigned int v);
-              /*! Returns a current value of semaphore
-                   \return value
-              */ 
-              int    value();
- };
+
+private:
+	/*! Cannot be copied, so this is disabled and not implemented
+		\param[in] o other mutex
+	 */
+	SemaphoreImpl(const sad::os::SemaphoreImpl & o);
+	/*! Cannot be copied, so this is disabled and not implemented
+		\param[in] o other mutex
+		\return self-reference
+	 */	
+	sad::os::SemaphoreImpl & operator=(const sad::os::SemaphoreImpl & o);
+};
 
 }
+
+}
+

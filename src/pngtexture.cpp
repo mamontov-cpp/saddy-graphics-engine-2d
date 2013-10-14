@@ -1,7 +1,7 @@
 #include "texture.h"
 #include "png/zlib.h"
 #include "png/png.h"
-#include "os/mutex.h"
+#include "sadmutex.h"
 
 static inline void bpp_dependent_copy(std::vector<unsigned char> & output, sad::Vector<sad::uchar> & m_data, sad::uchar m_bpp)
 {
@@ -98,7 +98,7 @@ sad::PNGTextureLoader::~PNGTextureLoader()
 
 }
 // A mutex for loading PNG, otherwise it will be broken
-static os::mutex m_pngtexture_loader_lock;
+static sad::Mutex m_pngtexture_loader_lock;
 
 bool sad::PNGTextureLoader::load(FILE * file, sad::Texture * texture)
 {

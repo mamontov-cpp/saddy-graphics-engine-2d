@@ -230,6 +230,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\sadmutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadscopedlock.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sadsemaphore.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\sadsleep.cpp"
 				>
 			</File>
@@ -369,11 +381,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\os\mutex.cpp"
+					RelativePath=".\src\os\muteximpl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\os\semaphore.cpp"
+					RelativePath=".\src\os\semaphoreimpl.cpp"
 					>
 				</File>
 				<File
@@ -736,6 +748,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadmutex.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\sadpair.h"
 				>
 			</File>
@@ -757,6 +773,14 @@
 			</File>
 			<File
 				RelativePath=".\include\sadrect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadscopedlock.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sadsemaphore.h"
 				>
 			</File>
 			<File
@@ -875,11 +899,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\os\mutex.h"
+					RelativePath=".\include\os\muteximpl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\include\os\semaphore.h"
+					RelativePath=".\include\os\semaphoreimpl.h"
 					>
 				</File>
 				<File

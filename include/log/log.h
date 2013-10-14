@@ -14,7 +14,7 @@
 
 #include "../sadvector.h"
 #include "../marshal/actioncontext.h"
-#include "../os/mutex.h"
+#include "../sadmutex.h"
 
 
 
@@ -235,7 +235,7 @@ public:
 protected:
 	/*! Locks, for making this compatible with multithreading applications
 	 */
-	::os::mutex m_lock;
+	::sad::Mutex m_lock;
 	/*! Determines, whether log is in internal mode. If internal mode, 
 		sad::log::Log::pushAction creates an internal messaage
 	 */ 
