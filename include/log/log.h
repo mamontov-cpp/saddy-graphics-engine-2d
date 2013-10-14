@@ -198,7 +198,7 @@ public:
 		int line = 0
 	)
 	{
-		_createAndBroadcast(sad::String(mesg), sad::log::SADDY_INTERNAL, file, line, user);
+		_createAndBroadcast(sad::String(mesg), sad::log::SADDY_INTERNAL, file, line);
 	}
 	/*! Pushes current subsystem name into stack of subsystem names
 		\param[in] str string
