@@ -186,11 +186,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sadmutexscopedlock.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sadptrhash.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\sadrect.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\sadsemaphore.cpp"
 				>
 			</File>
 			<File

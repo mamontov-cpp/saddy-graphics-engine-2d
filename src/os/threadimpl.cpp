@@ -179,6 +179,9 @@ static void * thread_implementation_function(void * function)
 
 bool sad::os::ThreadImpl::run()
 {
+	// Do not start thread, if already running
+	if (running())
+		return false;
 #ifdef WIN32
 	m_handle=CreateThread(NULL,0,thread_implementation_function, m_function,0,NULL);
 	return m_handle!=NULL;
