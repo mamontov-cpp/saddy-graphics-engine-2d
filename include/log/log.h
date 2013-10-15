@@ -225,7 +225,8 @@ public:
 	{
 		m_internal_mode = false;
 	}
-	/*! Sets internal mode. If true, on ::pushAction, log will generate internal messages
+	/*! Sets internal mode. If true, on sad::log::Log::pushAction, 
+		log will generate internal messages
 		\param[in] mode a new internal mode
 	 */
 	inline void setInternalMode(bool mode)

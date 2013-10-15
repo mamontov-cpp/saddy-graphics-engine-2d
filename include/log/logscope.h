@@ -26,6 +26,7 @@ public:
 		\param[in] file source file name, where scope was created
 		\param[in] line source code line, where scope was created
 		\param[in] log a log, where changes will be registered (NULL for global)
+		\param[in] saddyinternal whether this is internal scope of library
 	 */
 	Scope(
 		const char * c, 

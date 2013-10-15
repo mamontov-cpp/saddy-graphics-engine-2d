@@ -30,7 +30,7 @@ public:
 		{3} - formatFileLine() result, file and line through ', ', nothing if not specified
 		{4} - message text
 		\param[in] format format string 
-		\param[in] maxpriority Maximum priority for outputting. 
+		\param[in] minpriority Minimal priority for outputting. 
 							   Messages with priority  value, 
 							   lesser than minimum priority are discarded
 	 */
