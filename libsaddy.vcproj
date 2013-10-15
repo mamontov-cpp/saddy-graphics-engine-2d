@@ -410,14 +410,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="extra"
-				>
-				<File
-					RelativePath=".\src\extra\background.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="config"
 				>
 				<File
@@ -924,18 +916,6 @@
 				</File>
 				<File
 					RelativePath=".\include\os\timerimpl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="extra"
-				>
-				<File
-					RelativePath=".\include\extra\background.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\periodicalevent.h"
 					>
 				</File>
 			</Filter>
