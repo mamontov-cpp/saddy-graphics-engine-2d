@@ -10,7 +10,7 @@
 #include "force.h"
 
 #include "../sadvector.h"
-#include "../extra/geometry2d.h"
+#include "../geometry2d.h"
 
 #include <algorithm>
 

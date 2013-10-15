@@ -1,8 +1,10 @@
 #include "screenlabel.h"
 #include "screentemplate.h"
+
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/fontdatabase.h"
-#include <extra/geometry2d.h>
+
+#include <geometry2d.h>
 #include <3rdparty/format/format.h>
 
 

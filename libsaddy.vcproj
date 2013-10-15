@@ -186,6 +186,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\fuzzyequal.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\geometry2d.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\input.cpp"
 				>
 			</File>
@@ -203,6 +211,10 @@
 			</File>
 			<File
 				RelativePath=".\src\orthocamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\periodicalevent.cpp"
 				>
 			</File>
 			<File
@@ -402,18 +414,6 @@
 				>
 				<File
 					RelativePath=".\src\extra\background.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\fuzzy_equal.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\geometry2d.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\extra\periodicalevent.cpp"
 					>
 				</File>
 			</Filter>
@@ -696,6 +696,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\fuzzyequal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\geometry2d.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\input.h"
 				>
 			</File>
@@ -721,6 +729,10 @@
 			</File>
 			<File
 				RelativePath=".\include\orthocamera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\periodicalevent.h"
 				>
 			</File>
 			<File
@@ -920,14 +932,6 @@
 				>
 				<File
 					RelativePath=".\include\extra\background.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\fuzzy_equal.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\extra\geometry2d.h"
 					>
 				</File>
 				<File

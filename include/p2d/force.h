@@ -9,7 +9,7 @@
 #include "tickable.h"
 
 #include "../sadvector.h"
-#include "../extra/fuzzy_equal.h"
+#include "../fuzzyequal.h"
 
 namespace sad
 {

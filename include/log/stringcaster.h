@@ -72,6 +72,8 @@ class StringCaster<QString>
 public:
 	/*! Converts QString to std::string, making possible to pass it to a log
 		message
+		\param[in] string a string to be caster
+		\return string as std::string
      */
 	static inline std::string cast(const QString & string)
 	{

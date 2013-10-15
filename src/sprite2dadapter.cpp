@@ -1,6 +1,6 @@
 #include "sprite2dadapter.h"
 #include "texturemanager.h"
-#include "extra/geometry2d.h"
+#include "geometry2d.h"
 
 DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
 

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sadrect.h>
 #include <sadpoint.h>
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "sadptrhash.h"
 #include "sadstring.h"

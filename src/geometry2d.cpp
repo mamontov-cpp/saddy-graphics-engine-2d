@@ -1,5 +1,9 @@
-#include "../../include/extra/geometry2d.h"
-#include "../../include/p2d/collides1d.h"
+#include "geometry2d.h"
+#include "sadrect.h"
+
+#include "p2d/collides1d.h"
+#include "p2d/point.h"
+#include "p2d/axle.h"
 
 bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2)
 {
@@ -44,25 +48,6 @@ void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2
 		sad::Point2D r = v[i] * m;
 		v[i] = result + r;
 	}
-}
-
-
-bool sad::equal(const sad::Point2D & p1, const sad::Point2D & p2, float precision)
-{
-	bool e1 = sad::is_fuzzy_equal(p1.x(), p2.x(), precision);
-	bool e2 = sad::is_fuzzy_equal(p1.y(), p2.y(), precision);
-	return e1 && e2; 
-}
-
-
-bool sad::equal(const sad::Rect2D & p1, const sad::Rect2D & p2, float precision)
-{
-	bool ok = true;
-	for(int i = 0; i < 4; i++)
-	{
-		ok = ok && equal(p1[i], p2[i], precision);
-	}
-	return ok;
 }
 
 double sad::angle_of(double x, double y)

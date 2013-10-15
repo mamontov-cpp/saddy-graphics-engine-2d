@@ -1,6 +1,6 @@
 #include "p2d/app/way.h"
 
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 
 sad::p2d::app::Way::Way()
 {

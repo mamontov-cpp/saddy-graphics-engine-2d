@@ -1,5 +1,5 @@
-#include "../../include/p2d/vector.h"
-#include "../../include/extra/fuzzy_equal.h"
+#include <p2d/vector.h>
+#include <fuzzyequal.h>
 
 #define _USE_MATH_DEFINES
 #include <math.h>

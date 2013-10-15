@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <cstdio>
 #include "matrix2x2.h"
-#include "extra/fuzzy_equal.h"
+#include "fuzzyequal.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)

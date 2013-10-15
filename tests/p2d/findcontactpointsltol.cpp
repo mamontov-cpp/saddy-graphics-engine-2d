@@ -5,7 +5,7 @@
 #include <3rdparty/tpunit++/tpunit++.hpp>
 #include <sadvector.h>
 #include <p2d/findcontactpoints.h>
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 #pragma warning(pop)
 
 

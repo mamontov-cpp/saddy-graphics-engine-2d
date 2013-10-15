@@ -1,9 +1,12 @@
 #include "screentemplate.h"
 #include "abstractscreenobject.h"
-#include <algorithm>
 #include "../editorcore/editor.h"
-#include <extra/geometry2d.h>
+
+#include <geometry2d.h>
 #include <p2d/point.h>
+
+#include <algorithm>
+
 
 AbstractScreenObject * ScreenTemplate::templateBegin()
 {

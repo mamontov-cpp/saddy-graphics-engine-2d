@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sadthread.h>
 #include <sadsleep.h>
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 

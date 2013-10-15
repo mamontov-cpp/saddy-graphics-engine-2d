@@ -1,11 +1,12 @@
 #include "screensprite.h"
-#include <QString>
-#include <extra/geometry2d.h>
-#include <3rdparty/format/format.h>
 
 #include "../core/fonttemplatesdatabase.h"
 #include "../core/spritedatabase.h"
 
+#include <geometry2d.h>
+#include <3rdparty/format/format.h>
+
+#include <QString>
 
 DECLARE_SOBJ_INHERITANCE(ScreenSprite, AbstractScreenObject);
 

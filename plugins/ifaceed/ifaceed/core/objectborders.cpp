@@ -3,8 +3,9 @@
 #include <renderer.h>
 #include "ifaceeditor.h"
 
+#include <geometry2d.h>
 #include <config/sprite2dobserver.h>
-#include <extra/geometry2d.h>
+
 bool ActiveObjectBorder::tryPerform()
 {
 	AbstractScreenObject * o = this->m_data->activeObject();

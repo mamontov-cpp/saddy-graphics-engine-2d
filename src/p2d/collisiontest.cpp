@@ -1,6 +1,6 @@
 #include "p2d/collisiontest.h"
 #include "p2d/collides1d.h"
-#include "extra/fuzzy_equal.h"
+#include "fuzzyequal.h"
 
 void sad::p2d::CollisionTest::init()
 {

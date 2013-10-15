@@ -2,7 +2,7 @@
 #include <p2d/collisionshape.h>
 #include <p2d/infiniteline.h>
 
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 
 sad::p2d::ConvexHull::ConvexHull()
 {

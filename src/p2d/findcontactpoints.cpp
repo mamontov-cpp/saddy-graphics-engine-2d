@@ -1,5 +1,5 @@
 #include "p2d/findcontactpoints.h"
-#include "extra/geometry2d.h"
+#include <geometry2d.h>
 #include <limits>
 
 #undef max

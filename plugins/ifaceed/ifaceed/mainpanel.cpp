@@ -1,17 +1,5 @@
 #include "mainpanel.h"
-#include <QDialog>
-#include <QTimer>
-#include <QFontDatabase>
-#include <QItemDelegate>
-#include <QPainter>
-#include <QColorDialog>
-#include <QInputDialog>
-#include <QLineEdit>
-#include <QTimer>
-#include <marshal/actioncontext.h>
-#include <extra/geometry2d.h>
-#include <p2d/vector.h>
-#include <p2d/point.h>
+
 #include "gui/fontdelegate.h"
 #include "gui/colordelegate.h"
 #include "core/ifaceeditor.h"
@@ -28,6 +16,22 @@
 #include "history/layercommands.h"
 #include "history/movecommand.h"
 #include "history/newcommand.h"
+
+#include <marshal/actioncontext.h>
+#include <geometry2d.h>
+#include <p2d/vector.h>
+#include <p2d/point.h>
+
+#include <QDialog>
+#include <QTimer>
+#include <QFontDatabase>
+#include <QItemDelegate>
+#include <QPainter>
+#include <QColorDialog>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QTimer>
+
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
