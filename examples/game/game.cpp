@@ -43,6 +43,7 @@ Game::Game()
 	playState->addKeyDownCallback('P', this, &Game::togglePaused);
 	playState->addKeyDownCallback(KEY_ESC, (sad::p2d::app::App*)this, &sad::p2d::app::App::quit);
 	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
+	playState->addKeyDownCallback(KEY_SPACE,  this, &Game::player, &Player::startShooting);
 
 	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
 	playState->addKeyDownCallback(KEY_RIGHT, this, &Game::player, &Player::tryStartMovingRight);
@@ -53,6 +54,7 @@ Game::Game()
 	playState->addKeyUpCallback(KEY_UP,    this, &Game::player, &Player::tryStopMovingVertically);
 	playState->addKeyUpCallback(KEY_DOWN,  this, &Game::player, &Player::tryStopMovingVertically);
 	playState->addKeyUpCallback(KEY_ENTER,  this, &Game::player, &Player::stopShooting);
+	playState->addKeyUpCallback(KEY_SPACE,  this, &Game::player, &Player::stopShooting);
 
 
 	playState->addEventCallback(sad::fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
