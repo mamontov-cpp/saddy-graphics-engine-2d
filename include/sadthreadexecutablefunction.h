@@ -102,6 +102,7 @@ class FreeOneArgVoidExecutableFunction
 public:
 	/*! Creates a function
 		\param[in] f function, which will be executed
+		\param[in] a argument
 	 */
 	inline FreeOneArgVoidExecutableFunction(
 		void (*f)(_FunctionArg),
@@ -141,6 +142,7 @@ class FreeOneArgIntExecutableFunction
 public:
 	/*! Creates a function
 		\param[in] f function, which will be executed
+		\param[in] a argument
 	 */
 	inline FreeOneArgIntExecutableFunction(
 		int (*f)(_FunctionArg),
@@ -179,7 +181,8 @@ class FreeZeroArgVoidMethodExecutableFunction
 {
 public:
 	/*! Creates a function
-		\param[in] f function, which will be executed
+		\param[in] o an object, where method will be called
+		\param[in] m a method of object
 	 */
 	inline FreeZeroArgVoidMethodExecutableFunction(
 		_ClassName * o,
@@ -221,7 +224,8 @@ class FreeZeroArgIntMethodExecutableFunction
 {
 public:
 	/*! Creates a function
-		\param[in] f function, which will be executed
+		\param[in] o an object, where method will be called
+		\param[in] m a method of object
 	 */
 	inline FreeZeroArgIntMethodExecutableFunction(
 		_ClassName * o,
@@ -264,7 +268,9 @@ class FreeOneArgVoidMethodExecutableFunction
 {
 public:
 	/*! Creates a function
-		\param[in] f function, which will be executed
+		\param[in] o an object, where method will be called
+		\param[in] m a method of object
+		\param[in] a argument of method
 	 */
 	inline FreeOneArgVoidMethodExecutableFunction(
 		_ClassName * o,
@@ -314,7 +320,9 @@ class FreeOneArgIntMethodExecutableFunction
 {
 public:
 	/*! Creates a function
-		\param[in] f function, which will be executed
+		\param[in] o an object, where method will be called
+		\param[in] m a method of object
+		\param[in] a argument of method
 	 */
 	inline FreeOneArgIntMethodExecutableFunction(
 		_ClassName * o,

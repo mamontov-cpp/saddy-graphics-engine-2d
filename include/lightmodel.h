@@ -114,7 +114,7 @@ namespace sad
 			Specular=GL_SPECULAR,
 			DiffuseAmbient=GL_AMBIENT_AND_DIFFUSE
 		};
-		/*! Sets color material. Call before ::enable()
+		/*! Sets color material. Call before sad::ColorMaterial::enable()
 			\param[in] f face
 			\param[in] m mode
 		*/
