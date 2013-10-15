@@ -51,7 +51,7 @@ void World::run()
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
 		tex, 
-		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 800, 600)
 	);
 	sc->add(background);

@@ -48,7 +48,7 @@ void  sad::Texture::reverseTGA(const tga::Info & textureInfo)
 			memcpy(p1, p2, halfwidth * sizeof(sad::uchar));
 			memcpy(p2, flipbuffer, halfwidth * sizeof(sad::uchar));
 		}
-		if (textureInfo.m_vertflip)
+		if (textureInfo.m_vertflip == false)
 		{
 			memcpy(flipbuffer, begin1, rowsize * sizeof(sad::uchar));
 			memcpy(begin1, begin2, rowsize * sizeof(sad::uchar));
