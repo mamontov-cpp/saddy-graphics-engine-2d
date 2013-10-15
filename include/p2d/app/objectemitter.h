@@ -8,7 +8,7 @@
 #include "object.h"
 #include "app.h"
 
-#include "../../extra/periodicalevent.h"
+#include "../../periodicalevent.h"
 
 #include <cstdlib>
 

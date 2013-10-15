@@ -3,7 +3,7 @@
 #include "game.h"
 #include <renderer.h>
 #include "automaticgun.h"
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 
 DECLARE_SOBJ_INHERITANCE(Player,GameObject)
 

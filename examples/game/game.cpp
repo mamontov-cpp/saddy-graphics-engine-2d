@@ -2,7 +2,7 @@
 #include <renderer.h>
 #include <orthocamera.h>
 #include <extra/background.h>
-#include <extra/geometry2d.h>
+#include <geometry2d.h>
 #include <label.h>
 
 #include "bonus.h"
