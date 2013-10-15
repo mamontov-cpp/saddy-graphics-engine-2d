@@ -1,7 +1,7 @@
 #include "game.h"
 #include <renderer.h>
 #include <orthocamera.h>
-#include <extra/background.h>
+#include <sprite2dadapter.h>
 #include <geometry2d.h>
 #include <label.h>
 
@@ -210,7 +210,14 @@ void Game::enterPlayingScreen()
 {
 	m_ispaused = false;
 	sad::Scene * sc = this->scene();
-	sc->add(new sad::Background("background"));
+
+	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
+	Sprite2DAdapter * background = new Sprite2DAdapter(
+		tex, 
+		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 640, 480)
+	);
+	sc->add(background);
 
 	FormattedLabel * label = new FormattedLabel();
 	label->setFont("times_lg");
@@ -391,7 +398,13 @@ void Game::moveToStartingScreen()
 	sad::Scene * sc = this->scene();
 
 	// Fill screne with background, label and rain of element (the last object does that).
-	sc->add(new sad::Background("title"));
+	sad::Texture * tex = sad::Renderer::ref()->textures()->get("title");
+	Sprite2DAdapter * background = new Sprite2DAdapter(
+		tex, 
+		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 640, 480)
+	);
+	sc->add(background);
 	
 	FormattedLabel  * label = new FormattedLabel();
 	label->setFont("times_lg");

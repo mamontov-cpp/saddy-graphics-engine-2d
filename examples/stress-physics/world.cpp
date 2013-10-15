@@ -13,7 +13,6 @@
 #include <orthocamera.h>
 #include <texturemanager.h>
 #include <input.h>
-#include <extra/background.h>
 
 
 
@@ -48,7 +47,15 @@ void World::run()
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc= new sad::Scene();
 	sc->setCamera(new OrthoCamera());
-	sc->add(new sad::Background("background"));
+
+	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
+	Sprite2DAdapter * background = new Sprite2DAdapter(
+		tex, 
+		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 800, 600)
+	);
+	sc->add(background);
+
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
