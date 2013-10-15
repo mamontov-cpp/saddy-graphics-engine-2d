@@ -214,7 +214,7 @@ void Game::enterPlayingScreen()
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
 		tex, 
-		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)
 	);
 	sc->add(background);
@@ -401,7 +401,7 @@ void Game::moveToStartingScreen()
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("title");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
 		tex, 
-		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)
 	);
 	sc->add(background);
