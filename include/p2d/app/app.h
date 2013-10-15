@@ -7,7 +7,7 @@
 #include "../worldsteptask.h"
 #include "../world.h"
 #include "../../scene.h"
-#include "../../extra/periodicalevent.h"
+#include "../../periodicalevent.h"
 
 namespace sad
 {

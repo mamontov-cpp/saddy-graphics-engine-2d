@@ -5,7 +5,7 @@
  */
 #pragma once
 #include <fsm/statemachine.h>
-#include <extra/periodicalevent.h>
+#include <periodicalevent.h>
 #include <scene.h>
 #include <p2d/app/app.h>
 #include <p2d/walls.h>
