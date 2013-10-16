@@ -112,7 +112,7 @@ void World::run()
 		else
 		{
 			// Make bodies unmovable
-			g[i]->body()->weight().setValue(1E+6);
+			g[i]->body()->setFixed(true);
 		}
 	}
 
