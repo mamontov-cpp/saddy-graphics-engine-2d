@@ -6,13 +6,19 @@
 #pragma once
 #include <p2d/app/object.h>
 #include <p2d/app/constants.h>
-
+#include <log/log.h>
+#include <log/filetarget.h>
 
 /*! As a default, grid node is a node
  */
 class Ball: public sad::p2d::app::Object
 {
- SAD_OBJECT
- public:
+SAD_OBJECT
+public:
 	 Ball();
+
+	 ~Ball();
+	 virtual void render();
+protected:
+	sad::log::Log * m_log;
 };
