@@ -21,7 +21,7 @@ void Ball::render()
 	sad::p2d::Point p = this->body()->position();
 	sad::p2d::Point v = this->body()->tangentialVelocity();
 	std::string s = str(fmt::Format("{0} {1} {2} {3}") << p.x() << p.y() << v.x() << v.y() << sad::Renderer::ref()->fps());
-	SL_DEBUG(s);
+	m_log->debug(s);
 }
 
 
