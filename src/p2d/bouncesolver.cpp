@@ -39,8 +39,11 @@ void sad::p2d::BounceSolver::bounce(sad::p2d::Body * b1, sad::p2d::Body * b2)
 
 void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
 {
+	m_contact.clear();
+	
 	m_av1 = m_first->averageChangeIndependentTangentialVelocity();
 	m_av2 = m_second->averageChangeIndependentTangentialVelocity();
+
 
 	pairs = m_find->invoke(m_first->currentShape(),   m_av1,
 						   m_second->currentShape(),  m_av2
@@ -55,6 +58,7 @@ void sad::p2d::BounceSolver::solveTOIFCP(sad::p2d::SetOfPointsPair & pairs)
 	
 	if (pairs.size() > 0)
 	{
+		m_contact.setValue(pairs[0]);
 		// Compute time of impact
 		double x1 = pairs[0].p1().x();
 		double y1 = pairs[0].p1().y();
@@ -131,6 +135,36 @@ void sad::p2d::BounceSolver::performBouncing(const sad::p2d::SetOfPointsPair & p
 }
 
 
+std::string sad::p2d::BounceSolver::dump()
+{
+	std::string contacts = "not found!\n";
+	if (m_contact.exists())
+	{
+		contacts = str(fmt::Format("({0}, {1}), ({2}, {3})") 
+				   << m_contact.data().p1().x()
+				   << m_contact.data().p1().y()
+				   << m_contact.data().p2().x()
+				   << m_contact.data().p2().y());
+	}
+	std::string result =  "1st body: {0} and  velocity ({1},{2})\n";
+	result += "2nd body: {3} and velocity  ({4},{5})\n";
+	result += "TOI: {6}\n";
+	result += "Contact points: {7}\n";
+	result += "1st body scheduled position at {8}, {9} velocity {10}, {11}\n";
+	result += "2nd body scheduled position at {12}, {13} velocity {14}, {15}\n";
+	result = str(fmt::Format(result) << m_first->currentShape()->dump()
+					   << m_av1.x() << m_av1.y()
+					   << m_second->currentShape()->dump()
+					   << m_av2.x() << m_av2.y()
+					   << m_toi << contacts
+					   << m_first->nextPosition().x() << m_first->nextPosition().y()
+					   << m_first->nextTangentialVelocity().x() <<m_first->nextTangentialVelocity().y()
+					   << m_second->nextPosition().x() << m_second->nextPosition().y()
+					   << m_second->nextTangentialVelocity().x() <<m_second->nextTangentialVelocity().y()					
+				);
+	return result;
+}
+
 void sad::p2d::BounceSolver::logFCPError(const char * m)
 {
 	if (m_debug)
@@ -145,7 +179,7 @@ void sad::p2d::BounceSolver::logFCPError(const char * m)
 
 	sad::p2d::Point center2 = m_second->currentShape()->center();
 
-	SL_DEBUG  (fmt::Format(tpl) << m_first->currentShape()->dump()
+	SL_INTERNAL(fmt::Format(tpl) << m_first->currentShape()->dump()
 							     << m_av1.x() << m_av1.y()
 								 << m_second->currentShape()->dump()
 								 << m_av2.x() << m_av2.y()
