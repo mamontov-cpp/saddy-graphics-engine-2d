@@ -80,7 +80,7 @@ void World::run()
 	m_world->addHandler(this, &World::removeFirst<UncoloredBullet, sad::p2d::Wall>);
 	m_world->addHandler(this, &World::removeFirst<UncoloredBullet, Ball>);
 	m_world->addHandler(this, &World::performBounce<GridNode,UncoloredBullet>);
-	m_world->addHandler(this, &World::performBounce<Ball,Platform>);
+	m_world->addHandler(this, &World::onBallPlatform);
 	m_world->addHandler(this, &World::performBounce<sad::p2d::Wall,Platform>);
 	m_world->addHandler(this, &World::performBounce<sad::p2d::Wall,Shooter>);
 	m_world->addHandler(this, &World::incrementHitCount);
@@ -240,16 +240,24 @@ void World::quit()
 	sad::Renderer::ref()->quit();
 }
 
+void World::onBallPlatform(const sad::p2d::CollisionEvent<Ball, Platform> & ev)
+{
+	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+	ev.m_object_1->log()->debug(std::string("Ball to Platform\n") + m_solver->dump());
+}
+
 void World::onWallBall(const sad::p2d::CollisionEvent<Ball, sad::p2d::Wall> & ev)
 {
 	m_solver->pushRotationFriction(0.0001, 1);
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+	ev.m_object_1->log()->debug(std::string("Ball to Wall\n") + m_solver->dump());
 }
 
 void World::onBallNode(const sad::p2d::CollisionEvent<Ball, GridNode> & ev)
 {
 	m_solver->pushRotationFriction(0.0001, 1);
 	m_solver->bounce(ev.m_object_1->body(), ev.m_object_2->body());
+	ev.m_object_1->log()->debug(std::string("Ball to GridNode\n") + m_solver->dump());
 }
 
 

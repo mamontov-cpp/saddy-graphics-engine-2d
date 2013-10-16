@@ -56,7 +56,10 @@ protected:
 		\param[in] ev event
 	 */
 	void boostBall(const sad::p2d::CollisionEvent<ColoredBullet, Ball> & ev); 
-
+	/*! A ball bounces on platform
+		\param[in] ev event
+	 */
+	void onBallPlatform(const sad::p2d::CollisionEvent<Ball, Platform> & ev); 
 	/*! Performs bouncing off both objects, using solver
 		\param[in] ev event
 	 */
