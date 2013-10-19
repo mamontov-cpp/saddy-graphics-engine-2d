@@ -17,25 +17,22 @@ namespace sad
 class OrthographicCamera: public sad::Camera
 {
 public:
-	     /*! Creates a camera, with width and height of window, taken from renderer.
-			 Created camera maps one in one coordinates
-			 \param[in] fix performs implementation specific fix. Use, if some coordinates a calculated wrongly
+	     /*! Creates a camera, with rectangle width and height, taken from window settings of renderer.
 			 \param[in] r renderer which it works with
-		 */
+		  */
 	     OrthoCamera(sad::Renderer * r = sad::Renderer::ref());
-		 /*! Creates a orthographic camera with specific viewing width and height
-			 \param[in]  width of field
-			 \param[in]  height of field
-			 \param[in]  r renderer which it works with
-		 */
-		 OrthoCamera(int width, int height, sad::Renderer * r = sad::Renderer::ref());
-		 /*! Applies a camera
-		 */
-		 void apply();
-
-		 /*! Destructor
-		 */
-		 ~OrthoCamera();
+		 /*! Creates a camera, width and height of orthographic projections, so all viwed objects will be within
+			 width and specified height
+			 \param[in]  width of bounding rectangle
+			 \param[in]  height of bounding rectangle
+		  */
+		 OrthoCamera(int width, int height);
+		 /*! Applies an orthographic projection matrices, using GLU functions
+		  */
+		 virtual void apply();
+		 /*! Kept for purpose of inheritance
+		  */
+		 virtual ~OrthoCamera();
   private:
 		 int  m_width;		    //!< Width of viewport
 		 int  m_height;         //!< Height of viewport
