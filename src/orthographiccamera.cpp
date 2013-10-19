@@ -1,30 +1,30 @@
-#include "orthocamera.h"
-#include <GL/gl.h>
+#include "orthographiccamera.h"
+#include "renderer.h"
 
-OrthoCamera::OrthoCamera(bool fix, sad::Renderer * r)
+#ifdef WIN32
+#include <windows.h>
+#endif
+#include <GL/gl.h>														
+#include <GL/glu.h>
+
+sad::OrthographicCamera::OrthographicCamera(sad::Renderer * r)
 {
-	m_renderer =  r;
-	m_first_apply=fix;
+	if (r == NULL)
+	{
+		r = sad::Renderer::ref();
+	}
 	m_width= r->settings().width();
 	m_height= r->settings().height();
-	m_set_renderfix=fix;
 }
 
-OrthoCamera::OrthoCamera(int width, int height, sad::Renderer * r)
-{
-	m_renderer = r;
-	m_first_apply=false;
-	m_set_renderfix=false;
-	m_width=width;
-	m_height=height;
-}
-
-OrthoCamera::~OrthoCamera()
+sad::OrthographicCamera::OrthographicCamera(int width, int height)
+: m_width(width), m_height(height)
 {
 }
 
 
-void OrthoCamera::apply()
+
+void sad::OrthographicCamera::apply()
 {
 	glPushAttrib(GL_TRANSFORM_BIT);
     glMatrixMode(GL_PROJECTION);
@@ -32,5 +32,9 @@ void OrthoCamera::apply()
     gluOrtho2D(0,m_width,0,m_height);
 	glPopAttrib();
 
-	this->Camera::apply();
+	this->sad::Camera::apply();
+}
+
+sad::OrthographicCamera::~OrthographicCamera()
+{
 }

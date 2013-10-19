@@ -325,5 +325,8 @@ typedef sad::Point3<double> Point3D;
 /*! A type, declared for symmetry with sad::Point2I
  */
 typedef sad::Point3<int>    Point3I;
+/*! A vector, used for 3D operations, like glTranslatef, glRotatef
+ */
+typedef sad::Point3D Vector3D;
 
 }

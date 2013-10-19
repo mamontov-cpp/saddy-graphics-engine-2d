@@ -1,7 +1,9 @@
 #include "scene.h"
+#include "camera.h"
+#include "input.h"
+#include "renderer.h"
+
 #include <time.h>
-#include <input.h>
-#include <renderer.h>
 
 #ifndef LINUX
 	#ifndef NOMINMAX
@@ -36,6 +38,14 @@ sad::Scene::~Scene()
 		this->onNodeRemoval(m_layers[i]);
 	delete m_camera;
 }
+
+
+void sad::Scene::setCamera(sad::Camera * camera) 
+{ 
+	delete m_camera; 
+	m_camera=camera; 
+}
+
 void sad::Scene::addNow(sad::BasicNode * node)
 {
 	m_layers << node;
@@ -131,35 +141,3 @@ sad::Camera & sad::Scene::camera()
 {
 	return *m_camera;
 }
-
-sad::Camera::~Camera()
-{
-}
-sad::Camera::Camera()
-{
-	this->m_curX=0.0f;
-    this->m_curY=0.0f;
-    this->m_curZ=0.0f;
-    this->m_rotX=0.0f;
-    this->m_rotY=0.0f;
-    this->m_rotZ=0.0f;
-	this->m_angle=0.0f;
-}
-
-sad::Camera::Camera(float x, float y, float z,float angle, float rx, float ry, float rz)
-{
-	this->m_curX=x;
-	this->m_curY=y;
-	this->m_curZ=z;
-	this->m_rotX=rx;
-	this->m_rotY=ry;
-	this->m_rotZ=rz;
-	this->m_angle=angle;
-}
-void sad::Camera::apply()
-{
-	glTranslatef(m_curX,m_curY,m_curZ);
-	glRotatef(m_angle,m_rotX,m_rotY,m_rotZ);
-}
-
-
