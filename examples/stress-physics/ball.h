@@ -18,12 +18,14 @@ public:
 	 Ball();
 
 	 ~Ball();
+// This added only for testing physics engine
+#ifdef PHYSICS_ENGINE_DEBUG
 	 virtual void render();
-
 	 inline sad::log::Log * log() 
 	 {
 		return m_log;
 	 }
 protected:
 	sad::log::Log * m_log;
+#endif
 };
