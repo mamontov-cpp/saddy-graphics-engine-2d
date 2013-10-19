@@ -14,6 +14,7 @@ namespace sad
 {
 
 class Renderer;
+class Camera;
 /*! Basic objects of a scene
 */
 class BasicNode: public sad::Object
@@ -30,52 +31,6 @@ public:
 	virtual ~BasicNode();
 };
 
-/*! Camera class
-*/
-class Camera
-{
- private:
-	     float m_curX;
-		 float m_curY;
-		 float m_curZ;
-
-		 float m_rotX;
-		 float m_rotY;
-		 float m_rotZ;
-		 
-		 float m_angle;
- public:
-	     /*! Default constructed camera
-		 */
-	     Camera();
-		 /*! Custom camera
-		     \param x    x coord
-			 \param y    y coord
-			 \param z    zoom
-			 \param angle angle
-			 \param rx    rotation of x
-			 \param ry    rotation of y
-			 \param rz    rotation of z
-		 */
-         Camera(float x, float y, float z,float angle=0, float rx=0, float ry=0, float rz=0);
-
-		 /*! Applies a camera
-		 */
-		 virtual void apply();
-		 
-		 inline float & x() { return m_curX;}
-         inline float & y() { return m_curY;}
-         inline float & z() { return m_curZ;}
-
-		 inline float & rotationX() { return m_rotX;}
-         inline float & rotationY() { return m_rotY;}
-         inline float & rotationZ() { return m_rotZ;}
-         inline float & angle() { return m_angle;}
-
-		 /*! Destructor
-		 */
-		 virtual ~Camera();
-};
 /*! Scene class
 */
 class Scene: public sad::TemporarilyImmutableContainer<sad::BasicNode>
@@ -111,10 +66,10 @@ public:
 	{
 		m_renderer = renderer;
 	}
-	/*! Sets a camera in scene
+	/*! Sets a camera in scene, deleting old camera
 		\param[in] camera  new camera
 	*/
-	inline void setCamera(Camera * camera) { delete m_camera;  m_camera=camera; }
+	void setCamera(sad::Camera * camera);
 	/** Finds a layers for node
 		\param[in] node this node
 		\return -1 if not found, index otherwise

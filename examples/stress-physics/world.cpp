@@ -10,7 +10,7 @@
 #include <p2d/elasticforce.h>
 #include <p2d/app/object.h>
 #include <p2d/app/objectemitter.h>
-#include <orthocamera.h>
+#include <orthographiccamera.h>
 #include <texturemanager.h>
 #include <input.h>
 
@@ -46,7 +46,7 @@ void World::run()
 {
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc= new sad::Scene();
-	sc->setCamera(new OrthoCamera());
+	sc->setCamera(new sad::OrthographicCamera());
 
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	Sprite2DAdapter * background = new Sprite2DAdapter(

@@ -10,7 +10,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "fontmanager.h"
-#include "orthocamera.h"
+#include "orthographiccamera.h"
 #include "png/picopngloader.h"
 #include "sadthread.h"
 #include "input.h"
@@ -140,7 +140,7 @@ int thread(void * p)
 	   Note, that we pass our renderer to camera - that's how it will know size of window
 	 */
 	r.setCurrentScene(new InterlockedScene());
-	r.getCurrentScene()->setCamera(new OrthoCamera(false,&r));
+	r.getCurrentScene()->setCamera(new sad::OrthographicCamera(&r));
 
 	/* Load texture mapped font. We don't make background transparent, because  font
 	   has black letters, which cannot be seen on black background (4th parameter). 

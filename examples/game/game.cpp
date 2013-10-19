@@ -1,6 +1,6 @@
 #include "game.h"
 #include <renderer.h>
-#include <orthocamera.h>
+#include <orthographiccamera.h>
 #include <sprite2dadapter.h>
 #include <geometry2d.h>
 #include <label.h>
@@ -140,7 +140,7 @@ void Game::run()
 {
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc= new sad::Scene();
-	sc->setCamera(new OrthoCamera());
+	sc->setCamera(new sad::OrthographicCamera());
 	sad::Renderer::ref()->setCurrentScene(sc);
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
 

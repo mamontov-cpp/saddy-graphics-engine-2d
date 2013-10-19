@@ -1,6 +1,6 @@
 #include <QTimer>
 #include "editor.h"
-#include <orthocamera.h>
+#include <orthographiccamera.h>
 #include "../objects/abstractscreenobject.h"
 #include "editorbehaviour.h"
 #include "editorbehaviourshareddata.h"
@@ -181,7 +181,7 @@ void Editor::initDefaultSaddyOptions()
 	sad::Settings sett(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	sad::Renderer::ref()->init(sett);
 	this->m_scene = new InterlockedScene(this);
-	this->m_scene->setCamera(new OrthoCamera(false));
+	this->m_scene->setCamera(new sad::OrthographicCamera());
 	sad::Renderer::ref()->setCurrentScene(this->m_scene);
 	sad::Renderer::ref()->toggleFixedOn();
 	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
