@@ -13,31 +13,28 @@ SceneLayerProperty::~SceneLayerProperty()
 	delete m_variant;
 }
 
-void SceneLayerProperty::set(const sad::Variant & value,ActionContext * context)
+void SceneLayerProperty::set(const sad::Variant & value)
 {
 	if (this->getParent())
 	{
-		context->pushAction("Entering SceneLayerProperty::set");
 		AbstractScreenObject * object = static_cast<AbstractScreenObject *>(this->getParent());
 		if (object->scene())
 		{
-			object->scene()->setLayer(object,value.get<unsigned int>(context));
+			object->scene()->setLayer(object,value.get<unsigned int>());
 		}
 		else
 		{
-			m_layer_deferred = value.get<unsigned int>(context);
+			m_layer_deferred = value.get<unsigned int>();
 		}
-		context->popAction();
 	}
 }
 
 
-sad::Variant * SceneLayerProperty::get(ActionContext * context) const
+sad::Variant * SceneLayerProperty::get() const
 {
 	if (this->getParent())
 	{
 		delete m_variant;
-		context->pushAction("Entering SceneLayerProperty::get");
 		AbstractScreenObject * object = static_cast<AbstractScreenObject *>(this->getParent());
 		unsigned int layer = m_layer_deferred;
 		if (object->scene()) 
@@ -45,20 +42,19 @@ sad::Variant * SceneLayerProperty::get(ActionContext * context) const
 			layer = object->scene()->findLayer(object);
 		}
 		const_cast<SceneLayerProperty*>(this)->m_variant = new sad::Variant(layer);
-		context->popAction();
 		return m_variant;
 	} 
 	return m_variant;
 }
 
-sad::String SceneLayerProperty::save(ActionContext * context) const
+sad::String SceneLayerProperty::save() const
 {
-	return  SaveLoadCallback<unsigned int>::save( get(context)->get<unsigned int> (context));
+	return  SaveLoadCallback<unsigned int>::save( get()->get<unsigned int> ());
 }
 
-void SceneLayerProperty::load(const sad::String & str, ActionContext * context)
+void SceneLayerProperty::load(const sad::String & str)
 {
-	set(sad::Variant(SaveLoadCallback<unsigned int>::load(context,str)),context);
+	set(sad::Variant(SaveLoadCallback<unsigned int>::load(str)));
 }
 
 

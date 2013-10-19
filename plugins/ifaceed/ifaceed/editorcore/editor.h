@@ -12,7 +12,6 @@
 #include <scene.h>
 #include <sadmutex.h>
 #include <renderer.h>
-#include <marshal/actioncontext.h>
 #include <input.h>
 #include <config/sprite2dconfig.h>
 #include <cmdoptions.h>

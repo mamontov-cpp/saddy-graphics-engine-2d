@@ -33,18 +33,18 @@ class AbstractProperty
 
 		/*! Calls a property, if this is method
 		 */
-		virtual void call(const sad::VariantVector & args,ActionContext * context);
+		virtual void call(const sad::VariantVector & args);
 		/*! Sets a property value
 		 */
-		virtual void set(const sad::Variant & value,ActionContext * context);
+		virtual void set(const sad::Variant & value);
 		/*! Returns a property value
 		 */
-		virtual sad::Variant * get(ActionContext * context) const;
+		virtual sad::Variant * get() const;
 		/*! Returns a type of property
 		 */
-		inline sad::String type(ActionContext * context) const 
+		inline sad::String type() const 
 		{ 
-			sad::Variant * tmp = get(context);
+			sad::Variant * tmp = get();
 			sad::String result = tmp->type();
 			delete tmp;
 			return result; 
@@ -53,13 +53,13 @@ class AbstractProperty
 	    /*! Returns a string representation of property
 			\return string representation
 		 */
-	    virtual sad::String save(ActionContext * context) const;
+	    virtual sad::String save() const;
 	    
         /*! Loads data from string
 			\param[in] str      string data
 			\param[in] context  action context
 		 */
-	    virtual void load(const sad::String & str, ActionContext * context);
+	    virtual void load(const sad::String & str);
 
 		/*! Whether we should load this property. Methods won't be saveable
 		 */
@@ -71,7 +71,7 @@ class AbstractProperty
 		/*! This function is called, when all props a set and all objects are created to ensure
 		    that pointers are resolved correctly
 		 */
-		virtual void resolveDeferred(ActionContext * context);
+		virtual void resolveDeferred();
 
 		virtual ~AbstractProperty();
 

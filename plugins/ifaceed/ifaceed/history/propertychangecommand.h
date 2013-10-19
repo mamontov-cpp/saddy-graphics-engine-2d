@@ -77,7 +77,7 @@ public:
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-    void commit(UNUSED ActionContext *c, CommandChangeObserver * ob = NULL)
+    void commit(CommandChangeObserver * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::commit") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_current_value, m_log);
@@ -87,7 +87,7 @@ public:
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-    void rollback(UNUSED ActionContext *c, CommandChangeObserver * ob = NULL)
+    void rollback(CommandChangeObserver * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::rollback") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_prev_value, m_log);
@@ -141,12 +141,12 @@ class SpritePropertyChangeCommand: public AbstractCommand
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	void commit(CommandChangeObserver * ob = NULL);
 	/*! Rollbacks a command
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	void rollback(CommandChangeObserver * ob = NULL);
 };
 
 /*! A command, which is performed when sprite changes bounding rectangle
@@ -171,11 +171,11 @@ public:
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-	void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	void commit(CommandChangeObserver * ob = NULL);
 	/*! Rollbacks a command
 		\param[in] c context
 		\param[in] ob observer for command
 	 */
-	void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	void rollback(CommandChangeObserver * ob = NULL);
 };
 

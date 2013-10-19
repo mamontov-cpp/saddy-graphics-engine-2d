@@ -445,10 +445,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\marshal\actioncontext.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\marshal\exceptions.cpp"
 					>
 				</File>
@@ -960,10 +956,6 @@
 				</File>
 				<File
 					RelativePath=".\include\marshal\abstractwriter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\actioncontext.h"
 					>
 				</File>
 				<File

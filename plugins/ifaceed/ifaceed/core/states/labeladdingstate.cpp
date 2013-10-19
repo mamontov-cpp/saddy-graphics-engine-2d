@@ -42,14 +42,14 @@ void LabelAddingState::onWheel(const sad::Event & ev)
 	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
+	float a = o->getProperty("angle")->get()->get<float>();
 	a+=dangle;
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; float angle; )
 	CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); )
 	INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 	SUBMITCLOSURE( ed->emitClosure );
-	o->getProperty("angle")->set(sad::Variant((float)a),ed->log());
+	o->getProperty("angle")->set(sad::Variant((float)a));
 }
 
 
@@ -59,7 +59,7 @@ void LabelAddingState::onMouseDown(UNUSED const sad::Event & ev)
 	AbstractScreenObject * o =	this->shdata()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
-	c->commit(ed->log(), ed);
+	c->commit(ed);
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	ed->behaviourSharedData()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");

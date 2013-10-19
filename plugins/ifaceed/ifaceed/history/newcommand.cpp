@@ -12,22 +12,20 @@ NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object
 	object->addRef();
 }
 
-void NewCommand::commit(ActionContext *c, CommandChangeObserver * ob)
+void NewCommand::commit(CommandChangeObserver * ob)
 {
+	SL_SCOPE("NewCommand::commit");
 	m_container->add(m_object);
-	c->pushAction("NewCommand::commit");
-	m_object->getProperty("activity")->set(sad::Variant(true),c);
+	m_object->getProperty("activity")->set(sad::Variant(true));
 	ob->submitEvent("NewCommand::commit", sad::Variant(0));
-	c->popAction();
 }
 
-void NewCommand::rollback(ActionContext *c, CommandChangeObserver * ob)
+void NewCommand::rollback(CommandChangeObserver * ob)
 {
+	SL_SCOPE("NewCommand::rollback");
 	m_container->remove(m_object);
-	c->pushAction("NewCommand::rollback");
-	m_object->getProperty("activity")->set(sad::Variant(false),c);
+	m_object->getProperty("activity")->set(sad::Variant(false));
 	ob->submitEvent("NewCommand::rollback", sad::Variant(0));
-	c->popAction();
 }
 
 NewCommand::~NewCommand()
@@ -60,7 +58,7 @@ ScreenClearCommand::~ScreenClearCommand()
 }
 
 
-void ScreenClearCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob)
+void ScreenClearCommand::commit(CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::commit");
     for (unsigned int i = 0 ; i < m_objects.count(); i++)
@@ -72,7 +70,7 @@ void ScreenClearCommand::commit(UNUSED ActionContext *c, CommandChangeObserver *
 
 }
 
-void ScreenClearCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob)
+void ScreenClearCommand::rollback(CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::rollback");
     for (unsigned int i = 0 ; i < m_objects.count(); i++)

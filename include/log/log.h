@@ -13,7 +13,7 @@
 #include "logscope.h"
 
 #include "../sadvector.h"
-#include "../marshal/actioncontext.h"
+#include "../sadstring.h"
 #include "../sadmutex.h"
 
 
@@ -31,7 +31,7 @@ namespace log
 	If you want to register some events, writing it to log, you should use 
 	this class.
  */
-class Log: public ActionContext
+class Log
 {
 public:
 	/*! Broadcasts a message to all targets
@@ -203,16 +203,16 @@ public:
 	/*! Pushes current subsystem name into stack of subsystem names
 		\param[in] str string
 	 */
-	virtual void pushAction(const sad::String & str);
+	virtual void pushSubsystem(const sad::String & str);
 	/*! Pushes current subsystem name into stack of subsystem names
 		\param[in] str string
 		\param[in] file a name of source file, where entering to subsystem occured
 		\param[in] line a source file line, where entering 
 	 */
-	virtual void pushAction(const sad::String & str, const char * file, int line);
+	virtual void pushSubsystem(const sad::String & str, const char * file, int line);
 	/*! Pops last subsystem name from the stack of subsystem names
 	 */
-	virtual void popAction();
+	virtual void popSubsystem();
 	/*! Frees memory from all targets
 	 */
 	virtual ~Log();
@@ -244,6 +244,10 @@ protected:
 	/*! A vector of targets, for broadcasting file
 	 */
 	sad::Vector<sad::log::Target *> m_targets;
+	/*! A subsystems in calling-stack order. Pushed with 
+		sad::log::Log::pushSubsystem(), popped with sad::log::Log::popSubsystem()
+	 */
+	sad::Vector<sad::String> m_subsystems;
 	/*! Returns a current subsystem
 		\return name of current subsystem
 	 */

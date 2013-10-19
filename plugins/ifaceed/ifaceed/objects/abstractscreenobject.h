@@ -153,8 +153,8 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		{
 			try 
 			{
-				sad::Variant * v = p->get(m_log); 
-				T result = v->get<T>(m_log);
+				sad::Variant * v = p->get(); 
+				T result = v->get<T>();
 				return result;
 			}
 			catch(serializable::InvalidPropertyType ex) 
@@ -179,7 +179,7 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 		{
 			try 
 			{
-				p->set(val,m_log);
+				p->set(val);
 			}
 			catch(serializable::InvalidPropertyType ex) 
 			{

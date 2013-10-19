@@ -27,12 +27,12 @@ class NewCommand: public AbstractCommand
 		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void rollback(CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~NewCommand();
@@ -53,12 +53,12 @@ class ScreenClearCommand: public AbstractCommand
 		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void rollback(CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~ScreenClearCommand();

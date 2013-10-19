@@ -2,10 +2,9 @@
 #include <3rdparty/format/format.h>
 #include <log/log.h>
 
-EditorHistory::EditorHistory(ActionContext * c)
+EditorHistory::EditorHistory()
 {
 	m_current = -1;
-	m_c = c;
 }
 
 EditorHistory::~EditorHistory()
@@ -40,7 +39,7 @@ void EditorHistory::commit(CommandChangeObserver * ob)
 				<< m_current + 1
 			)
 		);
-		m_commands[m_current+1]->commit(m_c, ob);
+		m_commands[m_current+1]->commit(ob);
 		++m_current;
 	}
 	else
@@ -66,7 +65,7 @@ void EditorHistory::rollback(CommandChangeObserver * ob)
 				<< m_current
 			)
 		);
-		m_commands[m_current]->rollback(m_c, ob);
+		m_commands[m_current]->rollback(ob);
 		--m_current;
 	}
 	else

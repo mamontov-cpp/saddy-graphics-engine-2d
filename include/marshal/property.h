@@ -42,7 +42,7 @@ class AbstractField: public AbstractProperty
 			{ m_listener = listener; }
 			/*! Sets a property value
 			 */
-			virtual void set(const sad::Variant & value,ActionContext * context)
+			virtual void set(const sad::Variant & value)
 			{
 				//Guard condition because listener can call set from notify and thus 
 				//have recursion call
@@ -50,27 +50,27 @@ class AbstractField: public AbstractProperty
 
 				m_already_changed = true;
 				if (m_listener)
-					m_listener->notify(value.get<T>(context));
+					m_listener->notify(value.get<T>());
 				m_already_changed = false;
 
-				_set(value.get<T>(context));
+				_set(value.get<T>());
 			}
 
 			/*! Returns a string representation of property
 			    \return string representation
 		     */
-	        virtual sad::String save(ActionContext * context) const
+	        virtual sad::String save() const
 			{
-                return SaveLoadCallback< T >::save( get(context)->template get< T > (context));
+                return SaveLoadCallback< T >::save( get()->template get< T > ());
 			}
 
 			/*! Loads data from string
 				\param[in] str      string data
 				\param[in] context  action context
 			 */
-			virtual void load(const sad::String & str, ActionContext * context)
+			virtual void load(const sad::String & str)
 			{
-				_set(SaveLoadCallback<T>::load(context,str));
+				_set(SaveLoadCallback<T>::load(str));
 			}
 
 			/*! Whether we should load this property. Methods won't be saveable
@@ -103,7 +103,7 @@ class MappedField: public AbstractField<T>
 			}
 			/*! Returns a property value
 			 */
-            virtual sad::Variant * get(UNUSED ActionContext * context) const
+            virtual sad::Variant * get() const
 			{
 				delete m_variant;
 				const_cast<MappedField<T> *>(this)->m_variant = new sad::Variant(*m_real_field);

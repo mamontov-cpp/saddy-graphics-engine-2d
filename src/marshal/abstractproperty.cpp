@@ -2,34 +2,34 @@
 
 DEFINE_PROPERTY_TYPESTRING( int )
 
-void AbstractProperty::call(const sad::VariantVector & args,ActionContext * context)
+void AbstractProperty::call(const sad::VariantVector & args)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","call",this,context);
+	throw new serializable::MethodIsNotImplemented("AbstractProperty","call");
 }
 
 
-void AbstractProperty::set(const sad::Variant & value,ActionContext * context)
+void AbstractProperty::set(const sad::Variant & value)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","set",this,context);
+	throw new serializable::MethodIsNotImplemented("AbstractProperty","set");
 }
 
-sad::Variant * AbstractProperty::get(ActionContext * context) const
+sad::Variant * AbstractProperty::get() const
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","get",const_cast<AbstractProperty*>(this),context);
+	throw new serializable::MethodIsNotImplemented("AbstractProperty","get");
 	return new sad::Variant(0);
 }
 
-sad::String AbstractProperty::save(ActionContext * context) const
+sad::String AbstractProperty::save() const
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","save",const_cast<AbstractProperty*>(this),context);
+	throw new serializable::MethodIsNotImplemented("AbstractProperty","save");
 }
 
-void AbstractProperty::load(const sad::String & str, ActionContext * context)
+void AbstractProperty::load(const sad::String & str)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","load",this,context);
+	throw new serializable::MethodIsNotImplemented("AbstractProperty","load");
 }
 
-void AbstractProperty::resolveDeferred(ActionContext * context)
+void AbstractProperty::resolveDeferred()
 {
 
 }

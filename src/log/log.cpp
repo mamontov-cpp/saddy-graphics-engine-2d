@@ -22,9 +22,9 @@ void sad::log::Log::broadcast(const sad::log::Message & m)
 
 sad::String sad::log::Log::subsystem() 
 {
-	if (m_actions_stack.count() != 0)
+	if (m_subsystems.count() != 0)
 	{
-		return m_actions_stack[m_actions_stack.count() - 1];
+		return m_subsystems[m_subsystems.count() - 1];
 	}
 	return "";
 }
@@ -70,7 +70,7 @@ sad::log::Log * sad::log::Log::ref()
 }
 
 
-void sad::log::Log::pushAction(const sad::String & str)
+void sad::log::Log::pushSubsystem(const sad::String & str)
 {
 	sad::String data="Entering ";
 	data += str;
@@ -82,10 +82,10 @@ void sad::log::Log::pushAction(const sad::String & str)
 	{
 		debug(data);
 	}
-	this->ActionContext::pushAction(str);
+	m_subsystems << str;
 }
 
-void sad::log::Log::pushAction(const sad::String & str, const char * file, int line)
+void sad::log::Log::pushSubsystem(const sad::String & str, const char * file, int line)
 {
 	sad::String data="Entering ";
 	data += str;
@@ -97,22 +97,23 @@ void sad::log::Log::pushAction(const sad::String & str, const char * file, int l
 	{
 		debug(data, file, line);
 	}
-	this->ActionContext::pushAction(str);
+	m_subsystems << str;
 }
 
-void sad::log::Log::popAction()
+void sad::log::Log::popSubsystem()
 {
-	if (m_actions_stack.count()!=0) { 
+	if (m_subsystems.size()!=0) { 
 		sad::String data = "Leaving ";
-		data += m_actions_stack[m_actions_stack.count()-1];
+		unsigned int last_item_index = m_subsystems.count()-1;
+		data += m_subsystems[last_item_index];
 		if (m_internal_mode)
 		{
 			saddyInternal(data);
 		}
 		else
 		{
-			debug(data);
+			debug(data);		
 		}
-		this->ActionContext::popAction();
+		m_subsystems.removeAt(last_item_index);
 	}
 }

@@ -44,7 +44,7 @@ class ObjectXMLWriter: public serializable::AbstractWriter
 			\param[in] container container data
 			\param[in] context   context of action
 		  */
-		virtual bool write(SerializableContainer * container, ActionContext * context);
+		virtual bool write(SerializableContainer * container);
 		/*! A writer for XML 
 		 */
 		~ObjectXMLWriter();
