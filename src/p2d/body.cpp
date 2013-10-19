@@ -380,10 +380,14 @@ void sad::p2d::Body::correctPosition(const sad::p2d::Vector & distance)
 {
 	if (this->willPositionChange())
 	{
-		sad::p2d::Vector position = distance;
-		position += this->nextPosition() - this->position();
-		position /= 2.0;
-		this->shedulePosition(this->position() + position);
+		sad::p2d::Vector olddistance = this->nextPosition() - this->position();
+		
+		double distancemodulo = p2d::modulo(distance);
+		double olddistancemodulo = p2d::modulo(olddistance);
+		if (distancemodulo < olddistancemodulo) 
+		{
+			this->shedulePosition(this->position() + distance);
+		}
 	}	
 	else
 	{
