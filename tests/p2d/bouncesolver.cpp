@@ -86,6 +86,11 @@ struct BounceSolverTest : tpunit::TestFixture
 		delete m_solver;
 		delete walls;
 		delete ball;
+
+		ASSERT_TRUE( sad::is_fuzzy_equal(v.x(), 0, 1) == false );
+		ASSERT_TRUE( sad::is_fuzzy_equal(v.y(), 0, 1) == false );
+		ASSERT_TRUE( pos.x() > 11.0 );
+		ASSERT_TRUE( pos.y() > 11.0 );
    }
 
 

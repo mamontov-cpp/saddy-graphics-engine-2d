@@ -398,12 +398,12 @@ void sad::p2d::Body::correctTangentialVelocity(const p2d::Vector & v)
 	if (this->willTangentialVelocityChange())
 	{
 		// Merge two impulses into one
+		sad::p2d::Vector currentv = this->tangentialVelocity();
 		sad::p2d::Vector impulse = this->nextTangentialVelocity();
-		impulse -= this->tangentialVelocity();
+		impulse -= currentv;
 
-		impulse += v - this->tangentialVelocity();
+		impulse += v - currentv;
 			
-		impulse /= 2.0;
 		// Here sum of speeds is computed
 		impulse +=  this->tangentialVelocity();
 		this->sheduleTangentialVelocity(impulse);
