@@ -31,16 +31,31 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 }
 
 
+
+
 sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 {
-	double w = sad::Renderer::ref()->settings().width();
-	double h = sad::Renderer::ref()->settings().height();
+	this->makeWalls(
+		sad::Renderer::ref()->settings().width(), 
+		sad::Renderer::ref()->settings().height()
+	);
+}
+
+sad::p2d::Walls::Walls(double width, double height, double padding) : m_padding(padding)
+{
+	this->makeWalls(width, height);
+}
+
+void sad::p2d::Walls::makeWalls(double width, double height)
+{
+	double w = width;
+	double h = height;
 	
 	sad::Vector< minimal_t > pairs;
-	pairs << minimal_t( sad::p2d::BT_LEFT, -padding );
-	pairs << minimal_t( sad::p2d::BT_RIGHT, w + padding);
-	pairs << minimal_t( sad::p2d::BT_UP, h + padding );
-	pairs << minimal_t( sad::p2d::BT_DOWN, -padding );
+	pairs << minimal_t( sad::p2d::BT_LEFT, -m_padding );
+	pairs << minimal_t( sad::p2d::BT_RIGHT, w + m_padding);
+	pairs << minimal_t( sad::p2d::BT_UP, h + m_padding );
+	pairs << minimal_t( sad::p2d::BT_DOWN, -m_padding );
 
 	for(size_t i = 0; i < pairs.size(); i++)
 	{
@@ -53,7 +68,7 @@ sad::p2d::Walls::Walls(double padding) : m_padding(padding)
 		b->setWeight( p2d::Weight::infinite() );
 		m_bodies << b;
 
-		sad::p2d::Wall * w = new sad::p2d::Wall(padding);
+		sad::p2d::Wall * w = new sad::p2d::Wall(m_padding);
 		b->setUserObject(w);
 		b->setFixed(true);
 		w->setBody(b);
