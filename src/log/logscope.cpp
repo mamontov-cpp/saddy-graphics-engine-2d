@@ -20,7 +20,7 @@ sad::log::Scope::Scope(
 		m_log = log;
 	}
 	if (m_saddyinternal) m_log->setInternalMode(true);
-	m_log->pushAction(c, f, l);
+	m_log->pushSubsystem(c, f, l);
 	if (m_saddyinternal) m_log->setInternalMode(false);	
 }
 
@@ -42,7 +42,7 @@ sad::log::Scope::Scope(
 		m_log = log;
 	}
 	if (m_saddyinternal) m_log->setInternalMode(true);
-	m_log->pushAction(c, f, l);
+	m_log->pushSubsystem(c, f, l);
 	if (m_saddyinternal) m_log->setInternalMode(false);	
 }
 
@@ -64,7 +64,7 @@ sad::log::Scope::Scope(
 		m_log = log;
 	}
 	if (m_saddyinternal) m_log->setInternalMode(true);
-	m_log->pushAction(c.c_str(), f, l);
+	m_log->pushSubsystem(c.c_str(), f, l);
 	if (m_saddyinternal) m_log->setInternalMode(false);	
 }
 
@@ -86,7 +86,7 @@ sad::log::Scope::Scope(
 	}
 	if (m_saddyinternal) m_log->setInternalMode(true);
 	fmt::internal::ArgInserter<char> & fmt = const_cast<fmt::internal::ArgInserter<char>&>(c); 
-	m_log->pushAction(str(fmt).c_str() , f, l);
+	m_log->pushSubsystem(str(fmt).c_str() , f, l);
 	if (m_saddyinternal) m_log->setInternalMode(false);	
 }
 
@@ -95,6 +95,6 @@ sad::log::Scope::Scope(
 sad::log::Scope::~Scope()
 {
 	if (m_saddyinternal) m_log->setInternalMode(true);
-	m_log->popAction();
+	m_log->popSubsystem();
 	if (m_saddyinternal) m_log->setInternalMode(false);
 }

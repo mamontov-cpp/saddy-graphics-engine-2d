@@ -16,8 +16,7 @@ static sad::String convert(const sad::String & str, char from[][10], char to[][1
 	return result;
 }
 
-sad::String SaveLoadCallback<sad::String>::load(ActionContext * context,
-												const sad::String & str, 
+sad::String SaveLoadCallback<sad::String>::load(const sad::String & str, 
 												const sad::String & typestring)
 {
 	return convert(str,table_from,table_to);
@@ -29,15 +28,14 @@ sad::String SaveLoadCallback<sad::String>::save(const sad::String & obj)
 }
 
 
-sad::Vector<int> SaveLoadCallback< sad::Vector<int> >::load(ActionContext * context,
-															const sad::String & str,
+sad::Vector<int> SaveLoadCallback< sad::Vector<int> >::load(const sad::String & str,
 															const sad::String & typestring)
 {
 	sad::Vector<int> result;
 	sad::StringList lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
-		result<<SaveLoadCallback<int>::load(context,lst[i],
+		result<<SaveLoadCallback<int>::load(lst[i],
 										    abstract_names::type_string< sad::Vector<int> >::type());
 	}
 	return result;
@@ -57,18 +55,17 @@ sad::String SaveLoadCallback< sad::Vector<int> >::save(const sad::Vector<int> & 
 }
 
 
-sad::Point2D SaveLoadCallback<sad::Point2D>::load(ActionContext * context,
-										const sad::String & str, 
-										const sad::String & typestring)
+sad::Point2D SaveLoadCallback<sad::Point2D>::load(const sad::String & str, 
+												  const sad::String & typestring)
 {
 	sad::StringList lst=str.split('@');
 	if (lst.count()!=2)
-		throw new serializable::InvalidPropertyValue(typestring,str,context);
+		throw new serializable::InvalidPropertyValue(typestring,str);
 
 	double params[2];
 	for (int i=0;i<2;i++)
 	{
-		params[i]=SaveLoadCallback<double>::load(context,lst[i],typestring);
+		params[i]=SaveLoadCallback<double>::load(lst[i],typestring);
 	}
 
 	return sad::Point2D(params[0],params[1]);
@@ -80,18 +77,17 @@ sad::String SaveLoadCallback<sad::Point2D>::save(const sad::Point2D & obj)
 }
 
 
-sad::Rect2D  SaveLoadCallback<sad::Rect2D>::load(ActionContext * context,
-									   const sad::String & str, 
-									   const sad::String & typestring)
+sad::Rect2D  SaveLoadCallback<sad::Rect2D>::load(const sad::String & str, 
+											     const sad::String & typestring)
 {
 	sad::StringList lst=str.split(':');
 	if (lst.count()!=4)
-		throw new serializable::InvalidPropertyValue(typestring,str,context);
+		throw new serializable::InvalidPropertyValue(typestring,str);
 
 	sad::Point2D params[4];
 	for (int i=0;i<4;i++)
 	{
-		params[i]=SaveLoadCallback<sad::Point2D>::load(context,lst[i],typestring);
+		params[i]=SaveLoadCallback<sad::Point2D>::load(lst[i],typestring);
 	}
 
 	return sad::Rect2D(params[0],params[1],params[2],params[3]);
@@ -108,15 +104,16 @@ sad::String SaveLoadCallback<sad::Rect2D>::save(const sad::Rect2D & obj)
 	return result;
 }
 
-sad::Vector<sad::Point2D>  SaveLoadCallback< sad::Vector<sad::Point2D> >::load(ActionContext * context,
-																	 const sad::String & str, 
-																	 const sad::String & typestring)
+sad::Vector<sad::Point2D>  SaveLoadCallback< sad::Vector<sad::Point2D> >::load(
+	const sad::String & str, 
+	const sad::String & typestring
+)
 {
 	sad::Vector<sad::Point2D> result;
 	sad::StringList lst=str.split(';');
 	for (size_t i=0;i<lst.count();i++)
 	{
-		result<<SaveLoadCallback<sad::Point2D>::load(context,lst[i],
+		result<<SaveLoadCallback<sad::Point2D>::load(lst[i],
 										        abstract_names::type_string< sad::Vector<int> >::type());
 	}
 	return result;
@@ -136,8 +133,7 @@ sad::String SaveLoadCallback< sad::Vector<sad::Point2D> >::save(const sad::Vecto
 }
 
 
-bool  SaveLoadCallback< bool >::load(ActionContext * context,
-									 const sad::String & str, 
+bool  SaveLoadCallback< bool >::load(const sad::String & str, 
 									 const sad::String & typestring)
 {
 	if (str=="true") return true;
@@ -151,7 +147,7 @@ sad::String SaveLoadCallback< bool >::save(const bool & obj)
 	return "false";
 }
 
-sad::Color SaveLoadCallback< sad::Color >::load(ActionContext * context,
+sad::Color SaveLoadCallback< sad::Color >::load(
 									 const sad::String & str, 
 									 const sad::String & typestring)
 {
@@ -159,13 +155,13 @@ sad::Color SaveLoadCallback< sad::Color >::load(ActionContext * context,
 	int r, g, b ;
 	if (lst.count()==3)
 	{
-		r = SaveLoadCallback<int>::load(context,lst[0], abstract_names::type_string<sad::Color >::type());
-		g = SaveLoadCallback<int>::load(context,lst[1], abstract_names::type_string<sad::Color >::type());
-		b = SaveLoadCallback<int>::load(context,lst[2], abstract_names::type_string<sad::Color >::type());
+		r = SaveLoadCallback<int>::load(lst[0], abstract_names::type_string<sad::Color >::type());
+		g = SaveLoadCallback<int>::load(lst[1], abstract_names::type_string<sad::Color >::type());
+		b = SaveLoadCallback<int>::load(lst[2], abstract_names::type_string<sad::Color >::type());
 	}
 	else 
 	{
-		throw new serializable::InvalidPropertyValue(typestring,str,context);
+		throw new serializable::InvalidPropertyValue(typestring,str);
 	}
 	return sad::Color(r,g,b);
 }

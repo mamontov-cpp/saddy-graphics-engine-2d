@@ -17,7 +17,6 @@
 #include "history/movecommand.h"
 #include "history/newcommand.h"
 
-#include <marshal/actioncontext.h>
 #include <geometry2d.h>
 #include <p2d/vector.h>
 #include <p2d/point.h>
@@ -241,19 +240,18 @@ void MainPanel::addFontObject()
 		label->setVisible(true);
 		
 		// Set props
-		ActionContext * c = this->m_editor->log();
 		sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
-		label->getProperty("font")->set(sad::Variant(fontName),c);
+		label->getProperty("font")->set(sad::Variant(fontName));
 		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
 		sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
-		label->getProperty("color")->set(sad::Variant(hcolor), c);
-		label->getProperty("pos")->set(sad::Variant(sad::Point2D(0,0)), c);
+		label->getProperty("color")->set(sad::Variant(hcolor));
+		label->getProperty("pos")->set(sad::Variant(sad::Point2D(0,0)));
 		float angle = ui.dblAngle->value();
-		label->getProperty("angle")->set(sad::Variant(angle), c);
+		label->getProperty("angle")->set(sad::Variant(angle));
 		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
-		label->getProperty("size")->set(sad::Variant(size), c);
+		label->getProperty("size")->set(sad::Variant(size));
 		sad::String text=ui.txtLabelText->toPlainText().toStdString().c_str();
-		label->getProperty("text")->set(sad::Variant(text), c);
+		label->getProperty("text")->set(sad::Variant(text));
 
 
 		label->tryReload(this->m_editor->database());
@@ -343,8 +341,8 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 		if (_property) 
 		{
 			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get(sl)->get<float>(sl);	
-			_property->set(v, this->m_editor->log());
+			old = _property->get()->get<float>();	
+			_property->set(v);
 		}
 		if (selected) 
 		{
@@ -354,7 +352,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 				t->setSingleShot(true);
 				bool pending = this->m_editor->shdata()->isRotationCommandPending();
 				sad::Variant new_v(v);
-				float new_val_escaped = new_v.get<float>(this->m_editor->log());
+				float new_val_escaped = new_v.get<float>();
 				float old_val_escaped = old;
 				if (pending) {
 					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
@@ -406,8 +404,8 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 		if (_property) 
 		{
 			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get(sl)->get<T>(sl);	
-			_property->set(v, this->m_editor->log());
+			old = _property->get()->get<T>();	
+			_property->set(v);
 		}
 		if (prop == "font")
 		{
@@ -422,8 +420,8 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 				bool pending = this->m_editor->shdata()->isRotationCommandPending();
 				sad::Variant new_v(v);
 				sad::Variant old_escaped(old);
-				float new_val_escaped = new_v.get<float>(this->m_editor->log());
-				float old_val_escaped = old_escaped.get<float>(this->m_editor->log());
+				float new_val_escaped = new_v.get<float>();
+				float old_val_escaped = old_escaped.get<float>();
 				if (pending) {
 					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
 				} else {
@@ -514,7 +512,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = true;
 		BLOCK_SIGNALS_AND_CALL(
 			ui.txtLabelText,
-			setPlainText(prop->get(l)->get<sad::String>(l).data())
+			setPlainText(prop->get()->get<sad::String>().data())
 		);
 	}
 	// Get size
@@ -522,7 +520,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
-		unsigned int size = prop->get(l)->get<unsigned int>(l);
+		unsigned int size = prop->get()->get<unsigned int>();
 		int index = ui.cmbFontSize->findData((int)size);
 		if (index != -1) 
 		{
@@ -545,7 +543,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop && o->type() == "ScreenLabel")
 	{
 		m_selfchanged = true;
-		sad::Color c = prop->get(l)->get<sad::Color>(l);
+		sad::Color c = prop->get()->get<sad::Color>();
 		QColor clr(c.r(), c.g(), c.b()); 
 		int index = ui.cmbFontColor->findData(clr);
 		if (index != -1) 
@@ -564,7 +562,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
-		sad::String c = prop->get(l)->get<sad::String>(l);
+		sad::String c = prop->get()->get<sad::String>();
 		QString s = c.data();
 		int index = ui.cmbFonts->findText(s);
 		if (index != -1) 
@@ -583,7 +581,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
-		float c = prop->get(l)->get<float>(l);
+		float c = prop->get()->get<float>();
 		BLOCK_SIGNALS_AND_CALL(ui.dblAngle, setValue(c));
 		m_selfchanged = false;
 	}
@@ -591,7 +589,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{	
 		m_selfchanged = true;
-		sad::String c= prop->get(l)->get<sad::String>(l);
+		sad::String c= prop->get()->get<sad::String>();
 		BLOCK_SIGNALS_AND_CALL(ui.txtName, setText(c.data()));
 		m_selfchanged = false;
 	}
@@ -638,7 +636,7 @@ void MainPanel::moveObjectBack()
 		if (my != min) 
 		{
 			LayerCommand * c = new LayerCommand(o, my, my - 1);
-			c->commit(m_editor->log(), m_editor);
+			c->commit(m_editor);
 			m_editor->history()->add(c);
 		}
 	}
@@ -654,7 +652,7 @@ void MainPanel::moveObjectFront()
 		if (my != max) 
 		{
 			LayerCommand * c = new LayerCommand(o, my, my + 1);
-			c->commit(m_editor->log(), m_editor);
+			c->commit(m_editor);
 			m_editor->history()->add(c);
 		}
 	}
@@ -769,7 +767,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 	}
 }
 
-void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob )
+void SpritePropertyChangeCommand::commit(CommandChangeObserver * ob )
 {
 	SL_SCOPE("SpritePropertyChangeCommand::commit");
 	sad::String rd = SaveLoadCallback<sad::Rect2D>::save(m_new.rect).data();
@@ -781,7 +779,7 @@ void SpritePropertyChangeCommand::commit(UNUSED ActionContext *c, CommandChangeO
 	ob->submitEvent("SpritePropertyChangeCommand::commit", sad::Variant(0));
 }
 
-void SpritePropertyChangeCommand::rollback( UNUSED ActionContext *c, CommandChangeObserver * ob)
+void SpritePropertyChangeCommand::rollback(CommandChangeObserver * ob)
 {
 	SL_SCOPE("SpritePropertyChangeCommand::rollback");
 	m_sprite->setProp<sad::String>("config", m_old.config, m_log);
@@ -838,14 +836,14 @@ void MainPanel::spriteRectChanged()
 	}
 }
 
-void SpriteRectChangeCommand::commit(UNUSED ActionContext *c, CommandChangeObserver * ob)
+void SpriteRectChangeCommand::commit(CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_old_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::commit", sad::Variant(0));
 }
 
 
-void SpriteRectChangeCommand::rollback(UNUSED ActionContext *c, CommandChangeObserver * ob)
+void SpriteRectChangeCommand::rollback(CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_new_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::rollback", sad::Variant(0));
@@ -862,7 +860,7 @@ void MainPanel::makeBackground()
 		{
 			AbstractCommand * d = new MakeBackgroundCommand(o2);
 			m_editor->history()->add(d);
-			d->commit(m_editor->log(), m_editor);
+			d->commit(m_editor);
 			SL_DEBUG("MakeBackgroundCommand() comitted");
 		}
 		else
@@ -892,7 +890,7 @@ void MainPanel::clearScreenTemplate()
 		}
 		ScreenClearCommand * c =new ScreenClearCommand(m_editor->result());
 		m_editor->history()->add(c);
-		c->commit(m_editor->log(), m_editor);
+		c->commit(m_editor);
 		m_editor->currentBehaviour()->enterState("idle");
 	}
 	}

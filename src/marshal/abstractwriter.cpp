@@ -1,29 +1,32 @@
 #include "marshal/abstractwriter.h"
+#include "log/log.h"
 
 serializable::AbstractWriter::~AbstractWriter()
 {
 }
 
-bool serializable::AbstractWriter::write(SerializableContainer * container, ActionContext * context)
+bool serializable::AbstractWriter::write(SerializableContainer * container)
 {
-	context->pushAction(sad::String("serializable::AbstractWriter::write: writing data"));
+	// Log entering reader
+	std::ostringstream str;
+	str << container;
+	SL_SCOPE(fmt::Format("serializable::AbstractWriter::write({0})") << str.str());
+	
 	if (!(this->openStream()))
 	{
-		context->popAction();
 		return false;
 	}
 	
 	SerializableObject * current=container->begin();
 	while(current)
 	{
-		SerializationEntry * entry = current->save(context);
+		SerializationEntry * entry = current->save();
 		this->write(entry);
 		delete entry;
 		current = container->next();
 	}
 
 	this->closeStream();
-	context->popAction();
 	return true;
 }
 

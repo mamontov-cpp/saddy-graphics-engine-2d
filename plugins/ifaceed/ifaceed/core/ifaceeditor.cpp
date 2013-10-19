@@ -351,7 +351,7 @@ void IFaceEditor::tryEraseObject()
 		this->behaviourSharedData()->setSelectedObject(NULL);
 		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
 		this->history()->add(cmd);
-		cmd->commit(this->log(), this);
+		cmd->commit(this);
 		this->currentBehaviour()->enterState("idle");
 	}
 }
@@ -506,7 +506,7 @@ void IFaceEditor::save()
 	if (filename.length())
 	{
 		ObjectXMLWriter w(filename, "screentemplate");
-		if(w.write(this->result(), this->log()) == false)
+		if(w.write(this->result()) == false)
 		{
 			SL_WARNING(QString("Cannot write into file \"") + filename + "\"");
 		}
@@ -525,7 +525,7 @@ void IFaceEditor::load()
 	{
 		ScreenObjectXMLReader  r(filename);
 		ScreenTemplate * e = new ScreenTemplate();
-		if (r.read(e, this->log()) == false)
+		if (r.read(e) == false)
 		{
 			delete e;
 			SL_WARNING(QString("Cannot load  file \"") + filename + "\"");

@@ -51,7 +51,7 @@ void ObjectXMLWriter::write(SerializationEntry * entry)
 }
 
 
-bool ObjectXMLWriter::write(SerializableContainer * container, ActionContext * context)
+bool ObjectXMLWriter::write(SerializableContainer * container)
 {
-	return this->serializable::AbstractWriter::write(container, context);
+	return this->serializable::AbstractWriter::write(container);
 }

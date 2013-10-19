@@ -38,9 +38,8 @@ class AbstractReader
 
 			/*! Reads an objects from streams
 				\param[in] container container data
-				\param[in] context   context of action
 			 */
-			virtual bool read(SerializableContainer * container, ActionContext * context);
+			virtual bool read(SerializableContainer * container);
 
 			/*! At destruction, reader will delete factory
 			 */

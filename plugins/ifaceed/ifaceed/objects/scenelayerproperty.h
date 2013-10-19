@@ -23,22 +23,22 @@ class SceneLayerProperty:public AbstractProperty
 		 \param[in] value value data
 		 \param[in] context context data
 	  */
-	 void set(const sad::Variant & value,ActionContext * context);
+	 void set(const sad::Variant & value);
 	 /** Returns a property value
 		 \param[in] context context data
 		 \return context data
 	  */
-	 virtual sad::Variant * get(ActionContext * context) const;
+	 virtual sad::Variant * get() const;
 
 	 /** Returns a string representation of property
 		 \return string representation
 	  */
-	 virtual sad::String save(ActionContext * context) const;
+	 virtual sad::String save() const;
 	 /** Loads data from string
 		 \param[in] str      string data
 		 \param[in] context  action context
 	  */
-	 virtual void load(const sad::String & str, ActionContext * context);
+	 virtual void load(const sad::String & str);
 	 /** Whether prop is saveable
 		 \return saveable
 	  */

@@ -1,12 +1,15 @@
 #include "marshal/abstractreader.h"
+#include "log/log.h"
 
-
-bool serializable::AbstractReader::read(SerializableContainer * container, ActionContext * context)
+bool serializable::AbstractReader::read(SerializableContainer * container)
 {
-	context->pushAction(sad::String("serializable::AbstractReader::read: reading data"));
+	// Log entering reader
+	std::ostringstream str;
+	str << container;
+	SL_SCOPE(fmt::Format("serializable::AbstractReader::read({0})") << str.str());
+	
 	if (!(this->openStream()))
 	{
-		context->popAction();
 		return false;
 	}
 	findReadingPoint();
@@ -17,7 +20,7 @@ bool serializable::AbstractReader::read(SerializableContainer * container, Actio
 		//If object was created successfully load it
 		if (obj)
 		{
-		 obj->load(entry,context);
+		 obj->load(entry);
 		 container->add(obj);
 		}
 
@@ -30,12 +33,11 @@ bool serializable::AbstractReader::read(SerializableContainer * container, Actio
 	SerializableObject * current = container->begin();
 	while(current)
 	{
-		current->resolveDeferred(context);
+		current->resolveDeferred();
 		current = container->next();
 	}
 
 	this->closeStream();
-	context->popAction();
 	return true;
 }
 

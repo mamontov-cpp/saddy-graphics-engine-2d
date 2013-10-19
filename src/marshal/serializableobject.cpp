@@ -1,4 +1,5 @@
 #include "marshal/serializableobject.h"
+#include "log/log.h"
 #include <assert.h>
 
 
@@ -25,49 +26,44 @@ AbstractProperty * SerializableObject::getProperty(const sad::String & name)
 	return NULL;
 }
 
-SerializationEntry * SerializableObject::save(ActionContext * context)
+SerializationEntry * SerializableObject::save()
 {
+	SL_SCOPE("SerializableObject::save()");
+
 	SerializationEntry * result = new SerializationEntry();
 	result->Name = this->type();
-	context->pushAction(sad::String("SerializableObject(")+
-						serializable::toString(this) + 
-						sad::String(")::save: saving object"));
 	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
 	{
 		if (it.value()->saveable())
 		{
 		 result->PropertiesName<<it.key();
-		 result->PropertiesValue<<it.value()->save(context);
+		 result->PropertiesValue<<it.value()->save();
 		}
 	}
-	context->popAction();
+
 	return result;
 }
 
 
-void SerializableObject::load(SerializationEntry * entry,ActionContext * context)
+void SerializableObject::load(SerializationEntry * entry)
 {
-	assert(entry->Name == this->type());
-	context->pushAction(sad::String("SerializableObject(")+
-						serializable::toString(this) + 
-						sad::String(")::load: loading object"));
-	
+	SL_SCOPE("SerializableObject::load()");
+	assert(entry->Name == this->type());	
 	for (unsigned int i=0;i<entry->PropertiesName.count();i++)
 	{
 		AbstractProperty * pop = this->getProperty(entry->PropertiesName[i]);
-		pop->load(entry->PropertiesValue[i],context);
+		pop->load(entry->PropertiesValue[i]);
 	}
-
-	context->popAction();
 }
 
-void SerializableObject::resolveDeferred(ActionContext * context)
+void SerializableObject::resolveDeferred()
 {
+	SL_SCOPE("SerializableObject::resolveDeferred()");
 	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
 	{
-	 it.value()->resolveDeferred(context);
+	 it.value()->resolveDeferred();
 	}
 }
 

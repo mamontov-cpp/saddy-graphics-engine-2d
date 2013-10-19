@@ -24,7 +24,7 @@ Editor::Editor():m_icons("editor_icons")
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
-	m_history = new EditorHistory(this->log());
+	m_history = new EditorHistory();
 	
 }
 

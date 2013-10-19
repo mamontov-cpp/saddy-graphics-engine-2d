@@ -34,15 +34,6 @@ class Variant
 		   */
 		  void (*m_destructor)(void *); 
 		  sad::String m_type;              //!< Type string of object
-
-		  /*! Returns a variant::get function context
-		   */
-		  inline sad::String getGetContext() const 
-		  {
-			  char data[70];
-			  sprintf(data,"Performing %lx->sad::variant::get.",reinterpret_cast<unsigned long>(this));
-			  return sad::String(data);
-		  }
  public:
 		   /*! Constructs an object from value
 			   \param[in] object object data
@@ -59,20 +50,18 @@ class Variant
 			   \param[in] cont context
 		    */
 		   template<typename T>
-		   const T & get(ActionContext * cont) const 
+		   const T & get() const 
 		   {  
 			  if (hasType<T>())
 			  {
 				  return *reinterpret_cast<T*>(m_object);
 			  }
 		      //Push new action
-			  cont->pushAction(getGetContext());
 			  //Create new exception
 			  sad::String cast_type = abstract_names::type_string<T>::type();
 			  serializable::InvalidPropertyType * exc = new serializable::InvalidPropertyType(cast_type,
-				                                                                              m_type,
-		        																			  cont);
-			  cont->popAction();
+				                                                                              m_type
+		        																			  );
 			  throw exc;
 
 			  return *(new T());

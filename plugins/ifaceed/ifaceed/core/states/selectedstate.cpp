@@ -84,7 +84,7 @@ void SelectedState::onWheel(const sad::Event & ev)
 	{
 		float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 		MainPanel * p = ed->panel();
-		float a = o->getProperty("angle")->get(ed->log())->get<float>(ed->log());
+		float a = o->getProperty("angle")->get()->get<float>();
 		a+=dangle;
 		CLOSURE
 		CLOSURE_DATA( MainPanel * p; float angle; )

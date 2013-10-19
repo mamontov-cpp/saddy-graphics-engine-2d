@@ -26,15 +26,13 @@ class MoveCommand: public AbstractCommand
 	 */
 	MoveCommand(AbstractScreenObject * object, const sad::Point2D & oldp, const sad::Point2D & newp);
 	/** Applies changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void rollback(CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~MoveCommand();
@@ -57,15 +55,13 @@ class ResizeCommand: public AbstractCommand
 	 */
     ResizeCommand(AbstractScreenObject * __object, const sad::Rect2D & oldrectangle, const sad::Rect2D & nr, float a);
 	/** Applies changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void rollback(CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~ResizeCommand();
@@ -84,15 +80,13 @@ class MakeBackgroundCommand: public AbstractCommand
 	 */
 	MakeBackgroundCommand(AbstractScreenObject * object);
 	/** Applies changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void commit(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(ActionContext *c, CommandChangeObserver * ob = NULL);
+	virtual void rollback(CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~MakeBackgroundCommand();

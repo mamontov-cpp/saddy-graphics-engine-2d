@@ -17,31 +17,28 @@ UidProperty::~UidProperty()
 	delete m_variant;
 }
 
-void UidProperty::set(const sad::Variant & value,ActionContext * context)
+void UidProperty::set(const sad::Variant & value)
 {
 	if (this->getParent())
 	{
-		context->pushAction("Entering UidProperty::set");
 		AbstractScreenObject * object = static_cast<AbstractScreenObject *>(this->getParent());
 		if (object->screenTemplate())
 		{
-			object->screenTemplate()->setUid(object,value.get<sad::String>(context));
+			object->screenTemplate()->setUid(object,value.get<sad::String>());
 		}
 		else
 		{
-			m_uid_deferred = value.get<sad::String>(context);
+			m_uid_deferred = value.get<sad::String>();
 		}
-		context->popAction();
 	}
 }
 
 
-sad::Variant * UidProperty::get(ActionContext * context) const
+sad::Variant * UidProperty::get() const
 {
 	if (this->getParent())
 	{
 		delete m_variant;
-		context->pushAction("Entering UidProperty::get");
 		AbstractScreenObject * object = static_cast<AbstractScreenObject *>(this->getParent());
 		sad::String uid = m_uid_deferred;
 		if (object->screenTemplate() && !m_loaded_data) 
@@ -53,20 +50,19 @@ sad::Variant * UidProperty::get(ActionContext * context) const
 			const_cast<UidProperty*>(this)->m_loaded_data = false;
 		}
 		const_cast<UidProperty*>(this)->m_variant = new sad::Variant(uid);
-		context->popAction();
 		return m_variant;
 	}
 	return NULL;
 }
 
-sad::String UidProperty::save(ActionContext * context) const
+sad::String UidProperty::save() const
 {
-	return  SaveLoadCallback<sad::String>::save( get(context)->get<sad::String> (context));
+	return  SaveLoadCallback<sad::String>::save( get()->get<sad::String> ());
 }
 
-void UidProperty::load(const sad::String & str, ActionContext * context)
+void UidProperty::load(const sad::String & str)
 {
-	m_uid_deferred = SaveLoadCallback<sad::String>::load(context,str);
+	m_uid_deferred = SaveLoadCallback<sad::String>::load(str);
 	m_loaded_data = true;
 }
 

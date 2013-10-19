@@ -32,13 +32,16 @@ template<typename T>
 class SaveLoadCallback
 {
  public:
-	 static T load(ActionContext * context,const sad::String & str, const sad::String & typestring = abstract_names::type_string<T>::type())
+	 static T load(
+		 const sad::String & str, 
+		 const sad::String & typestring = abstract_names::type_string<T>::type()
+	)
 	{
 		std::stringstream stream(str.data());
 	    T result = 0;
 	    if (!(stream >> result))
 	    {
-		 throw new serializable::InvalidPropertyValue(typestring,str,context);
+		 throw new serializable::InvalidPropertyValue(typestring,str);
 	    }
 
 		return result;
@@ -56,8 +59,7 @@ template<>
 class SaveLoadCallback<sad::String>
 {
  public:
-	static sad::String load(ActionContext * context,
-						    const sad::String & str, 
+	static sad::String load(const sad::String & str, 
 							const sad::String & typestring = abstract_names::type_string<sad::String>::type());
 	static sad::String save(const sad::String & obj);
 };
@@ -66,9 +68,8 @@ template<>
 class SaveLoadCallback< sad::Vector<int> >
 {
  public:
-	static sad::Vector<int> load(ActionContext * context,
-								const sad::String & str, 
-								const sad::String & typestring = abstract_names::type_string< sad::Vector<int> >::type());
+	static sad::Vector<int> load(const sad::String & str, 
+								 const sad::String & typestring = abstract_names::type_string< sad::Vector<int> >::type());
 	static sad::String save(const sad::Vector<int> & obj);
 };
 
@@ -77,9 +78,8 @@ template<>
 class SaveLoadCallback<sad::Point2D>
 {
  public:
-	static sad::Point2D load(ActionContext * context,
-						    const sad::String & str, 
-							const sad::String & typestring = abstract_names::type_string< sad::Point2D >::type() );
+	static sad::Point2D load(const sad::String & str, 
+							 const sad::String & typestring = abstract_names::type_string< sad::Point2D >::type() );
 	static sad::String save(const sad::Point2D & obj);
 };
 
@@ -88,9 +88,8 @@ template<>
 class SaveLoadCallback<sad::Rect2D>
 {
  public:
-	static sad::Rect2D load(ActionContext * context,
-					   const sad::String & str, 
-					   const sad::String & typestring = abstract_names::type_string<sad::Rect2D>::type());
+	static sad::Rect2D load(const sad::String & str, 
+						    const sad::String & typestring = abstract_names::type_string<sad::Rect2D>::type());
 	static sad::String save(const sad::Rect2D & obj);
 };
 
@@ -99,9 +98,8 @@ template<>
 class SaveLoadCallback< sad::Vector<sad::Point2D> >
 {
  public:
-	static sad::Vector<sad::Point2D> load(ActionContext * context,
-						             const sad::String & str, 
-									 const sad::String & typestring = abstract_names::type_string< sad::Vector<sad::Point2D> >::type());
+	static sad::Vector<sad::Point2D> load(const sad::String & str, 
+										  const sad::String & typestring = abstract_names::type_string< sad::Vector<sad::Point2D> >::type());
 	static sad::String save(const sad::Vector<sad::Point2D> & obj);
 };
 
@@ -110,8 +108,7 @@ template<>
 class SaveLoadCallback< bool >
 {
  public:
-	static bool load(ActionContext * context,
-				     const sad::String & str, 
+	static bool load(const sad::String & str, 
 					 const sad::String & typestring = abstract_names::type_string<bool>::type());
 	static sad::String save(const bool & obj);
 };
@@ -121,8 +118,7 @@ template<>
 class SaveLoadCallback< sad::Color >
 {
  public:
-	 static sad::Color load(ActionContext * context,
-				     const sad::String & str, 
-					 const sad::String & typestring =  abstract_names::type_string<sad::Color>::type());
+	 static sad::Color load(const sad::String & str, 
+							const sad::String & typestring =  abstract_names::type_string<sad::Color>::type());
 	 static sad::String save(const sad::Color & obj);
 };

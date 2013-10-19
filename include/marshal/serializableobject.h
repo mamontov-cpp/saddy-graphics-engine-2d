@@ -63,18 +63,18 @@ class SerializableObject: public sad::Object
 			\param[in] context context
 			\return new object
 		 */
-		virtual SerializationEntry * save(ActionContext * context);
+		virtual SerializationEntry * save();
 
 		/*! Loads an object from entry
 			\param[in] entry entry
 			\param[in] context context
 		 */
-		virtual void load(SerializationEntry * entry,ActionContext * context);
+		virtual void load(SerializationEntry * entry);
 
 
 		/*! Resolves deferred links when loaded
 		 */
-		virtual void resolveDeferred(ActionContext * context);
+		virtual void resolveDeferred();
 		/*! Returns a string type
 			\return a string type of object
 		 */
