@@ -210,7 +210,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\orthocamera.cpp"
+				RelativePath=".\src\orthographiccamera.cpp"
 				>
 			</File>
 			<File
@@ -720,7 +720,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\orthocamera.h"
+				RelativePath=".\include\orthographiccamera.h"
 				>
 			</File>
 			<File
