@@ -43,6 +43,7 @@ Game::Game()
 	playState->addKeyDownCallback('P', this, &Game::togglePaused);
 	playState->addKeyDownCallback(KEY_ESC, (sad::p2d::app::App*)this, &sad::p2d::app::App::quit);
 	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
+	playState->addKeyDownCallback(KEY_SPACE,  this, &Game::player, &Player::startShooting);
 
 	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
 	playState->addKeyDownCallback(KEY_RIGHT, this, &Game::player, &Player::tryStartMovingRight);
@@ -53,6 +54,7 @@ Game::Game()
 	playState->addKeyUpCallback(KEY_UP,    this, &Game::player, &Player::tryStopMovingVertically);
 	playState->addKeyUpCallback(KEY_DOWN,  this, &Game::player, &Player::tryStopMovingVertically);
 	playState->addKeyUpCallback(KEY_ENTER,  this, &Game::player, &Player::stopShooting);
+	playState->addKeyUpCallback(KEY_SPACE,  this, &Game::player, &Player::stopShooting);
 
 
 	playState->addEventCallback(sad::fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
@@ -214,7 +216,7 @@ void Game::enterPlayingScreen()
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
 		tex, 
-		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)
 	);
 	sc->add(background);
@@ -401,7 +403,7 @@ void Game::moveToStartingScreen()
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("title");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
 		tex, 
-		sad::Rect2D(0, 512, 512, 0),
+		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)
 	);
 	sc->add(background);

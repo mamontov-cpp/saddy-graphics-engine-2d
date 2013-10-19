@@ -182,10 +182,11 @@ public:
 	void wait();
 	/*! Blocks execution and waits for specified time, until thread is finished with execution,
 		or time is expired
+		\param[in] milliseconds how long should execution be blocked
 	 */
 	void wait(int milliseconds);
 	/*! Tests, whether thread  is finished
-		\param[in] whether thread finished his job
+		\return whether thread finished his job
 	 */
 	bool running() const;
 protected:

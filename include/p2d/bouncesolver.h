@@ -19,54 +19,6 @@ namespace p2d
  */
 class BounceSolver
 {
-protected:
-	p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
-	p2d::Body * m_first;   //!< First body to test against
-	p2d::Body * m_second;  //!< Second body to test against
-	
-	p2d::Vector m_av1;   //!< An approximated speed for first body
-	p2d::Vector m_av2;   //!< An approximated speed for second body
-	
-
-	p2d::Vector m_force_moment[2]; //!< A force moment to data 
-
-	double      m_toi;  //!< Current time of impact
-
-	double      m_resilience[2]; //!< A resilience coefficients for bodies
-	double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
-		
-	bool		m_debug; //!< Whether debug logging is enabled
-	/*! A special flag, which is set to false if bodies has two points of collision
-		If it's set to false - we should not count rotation
-	 */
-	bool        m_shouldperformrotationfriction;
-	/*! Performs bouncing off for an object with a solver
-		\param[in] pairs a set of pairs of collision points for time of impact
-	 */ 
-	void performBouncing(const p2d::SetOfPointsPair & pairs);
-	/*! Approximately solves time of impact and finds contact points for two object
-		\param[out] pairs a set of pairs of collision points for time of impact
-	 */
-	void solveTOIFCP(p2d::SetOfPointsPair & pairs);
-	/*! Resolves bouncing for first body
-		\param[in] b1 first body
-		\param[in,out] n1 normal part of first velocity
-		\param[in] b2 second body
-		\param[in,out] n2 normal part of second velocity
-		\param[in] index index for coefficients
-	 */
-	void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2, int index);
-	/*! Resets coefficients for bouncing
-	 */
-	void resetCoefficients();
-	/*! Tries to resolve friction of rotation for a body, changing it's rotation speed
-		\param[in] b this body
-		\param[in] t a tangential speed for body
-		\param[in] ni a normal speed for body
-		\param[in] index for a body
-		\param[in] pivot of force
-	 */
-	inline void tryResolveFriction(p2d::Body * b, const p2d::Vector & t, const p2d::Vector & ni, int index, double pivot);
 public:
 	/*! Constructs new solver
 	 */
@@ -136,6 +88,60 @@ public:
 	/*! Enables debug for solver
 	 */
 	inline void enableDebug() { m_debug = true; }
+	/*! Dumps all collision data to string
+		\return dump of all collected data
+	 */
+	std::string dump();
+protected:
+	p2d::FindContactPoints * m_find;  //!< Current algorithm for finding a contact poinnts
+	p2d::Body * m_first;   //!< First body to test against
+	p2d::Body * m_second;  //!< Second body to test against
+	
+	p2d::Vector m_av1;   //!< An approximated speed for first body
+	p2d::Vector m_av2;   //!< An approximated speed for second body
+	
+	sad::Maybe<sad::p2d::PointsPair> m_contact; //!< A contact point if set
+
+	p2d::Vector m_force_moment[2]; //!< A force moment to data 
+
+	double      m_toi;  //!< Current time of impact
+
+	double      m_resilience[2]; //!< A resilience coefficients for bodies
+	double      m_rotationfriction[2];   //!< A tangential friction, which is applied to rotation
+		
+	bool		m_debug; //!< Whether debug logging is enabled
+	/*! A special flag, which is set to false if bodies has two points of collision
+		If it's set to false - we should not count rotation
+	 */
+	bool        m_shouldperformrotationfriction;
+	/*! Performs bouncing off for an object with a solver
+		\param[in] pairs a set of pairs of collision points for time of impact
+	 */ 
+	void performBouncing(const p2d::SetOfPointsPair & pairs);
+	/*! Approximately solves time of impact and finds contact points for two object
+		\param[out] pairs a set of pairs of collision points for time of impact
+	 */
+	void solveTOIFCP(p2d::SetOfPointsPair & pairs);
+	/*! Resolves bouncing for first body
+		\param[in] b1 first body
+		\param[in,out] n1 normal part of first velocity
+		\param[in] b2 second body
+		\param[in,out] n2 normal part of second velocity
+		\param[in] index index for coefficients
+	 */
+	void resolveNormalSpeed(p2d::Body * b1, p2d::Vector & n1, p2d::Body * b2, const p2d::Vector & n2, int index);
+	/*! Resets coefficients for bouncing
+	 */
+	void resetCoefficients();
+	/*! Tries to resolve friction of rotation for a body, changing it's rotation speed
+		\param[in] b this body
+		\param[in] t a tangential speed for body
+		\param[in] ni a normal speed for body
+		\param[in] index for a body
+		\param[in] pivot of force
+	 */
+	inline void tryResolveFriction(p2d::Body * b, const p2d::Vector & t, const p2d::Vector & ni, int index, double pivot);
+
 };
 
 }
