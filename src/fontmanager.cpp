@@ -1,63 +1,45 @@
 #include "fontmanager.h"
 #include "renderer.h"
+#include "sadscopedlock.h"
 
-using namespace sad;
-
-
-FontManager::FontManager()
+sad::FontManager::FontManager()
 {
 
 }
 
-void FontManager::add(sad::Font * font,const sad::String & name )
+void sad::FontManager::add(sad::Font * font,const sad::String & name )
 {
-	m_m.lock();
-
+	sad::ScopedLock lock(&m_m);
 	if (m_fonts.contains(name))
+	{
 		delete m_fonts[name];
-	m_fonts.insert(name,font);
-	
-	m_m.unlock();
+	}
+	m_fonts.insert(name,font);	
 }
 
-sad::Font* FontManager::get(const sad::String &key) 
+sad::Font * sad::FontManager::get(const sad::String &key) 
 {	
-	m_m.lock();
+	sad::ScopedLock lock(&m_m);
 
-	sad::Font * r=NULL;
+	sad::Font * font = NULL;
 	if (m_fonts.contains(key)) 
-	    r=m_fonts[key]; 
-	
-	m_m.unlock();
-
-	return r;
+	{
+	    font = m_fonts[key]; 
+	}
+	return font;
 }
-void FontManager::remove(const sad::String &key) 
+void sad::FontManager::remove(const sad::String &key) 
 {
-	m_m.lock();
+	sad::ScopedLock lock(&m_m);
 
 	if (m_fonts.contains(key))  
 	{ 
 		delete m_fonts[key];
 		m_fonts.remove(key);
 	}
-
-	m_m.unlock();
-}
-/* destructor delete all fonts object keeping in this manager
-*/
-FontManager::~FontManager() 
-{
-	sad::Hash<sad::String, sad::Font*>::iterator font_iterator;
-	font_iterator = m_fonts.begin();
-	while (font_iterator != m_fonts.end()) 
-	{
-		delete font_iterator.value();
-		++font_iterator;
-	}
 }
 
-FontManager * FontManager::ref()
+sad::FontManager * sad::FontManager::ref()
 {
 	return sad::Renderer::ref()->fonts();
 }
