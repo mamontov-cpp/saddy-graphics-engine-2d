@@ -661,6 +661,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="imageformats"
+				>
+				<File
+					RelativePath=".\src\imageformats\bmploader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\imageformats\loader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\imageformats\pngloader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\imageformats\tgaloader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1316,6 +1336,26 @@
 				</File>
 				<File
 					RelativePath=".\include\input\keycodes.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="imageformats"
+				>
+				<File
+					RelativePath=".\include\imageformats\bmploader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\imageformats\loader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\imageformats\pngloader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\imageformats\tgaloader.h"
 					>
 				</File>
 			</Filter>
