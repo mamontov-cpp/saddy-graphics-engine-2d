@@ -16,7 +16,8 @@
 #include "input.h"
 #include "sprite2dadapter.h"
 #include "label.h"
-#include "ftfont.h"
+#include "texturemappedfont.h"
+#include "freetype/font.h"
 
 
 /*! \class EventHandler
@@ -142,19 +143,11 @@ int thread(void * p)
 	r.setCurrentScene(new InterlockedScene());
 	r.getCurrentScene()->setCamera(new sad::OrthographicCamera(&r));
 
-	/* Load texture mapped font. We don't make background transparent, because  font
-	   has black letters, which cannot be seen on black background (4th parameter). 
-
-	   In that case 3rd paramter is ignored. 
-
-	   Note, that we pass renderer, because we need to set explicitly, which container
-	   we must build.
-
+	/* Load texture mapped font. 
 	   We add it to font manager to be sure, that memory will be freed at exit.
 	 */
-	sad::TMFont * fnt2=new sad::TMFont;
-	bool res2= fnt2->load("examples/game/times_lg.PNG","examples/game/times_lg.CFG",
-		                  sad::Color(0,255,0), false, &r);
+	sad::TextureMappedFont * fnt2=new sad::TextureMappedFont();
+	bool res2= fnt2->load("font",  &r);
 	if (!res2) {
 		SL_LOCAL_FATAL("Failed to load texture-mapped font", r);
 		return NULL;
@@ -164,8 +157,8 @@ int thread(void * p)
 	/*! Load freetype test font. We set it's rendering color to red, so label will be
 		shown as red on screen
 	 */
-	FTFont * fnt1=new FTFont();
-    bool res1= fnt1->load("ifaceed/EMPORIUM.TTF", 22);
+	sad::freetype::Font * fnt1=new sad::freetype::Font();
+    bool res1= fnt1->load("ifaceed/EMPORIUM.TTF");
 	if (res1 == false) {
 		SL_LOCAL_FATAL("Failed to load font...", r);
 		return NULL;
