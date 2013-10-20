@@ -445,10 +445,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\marshal\exceptions.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\marshal\hashbasedserializablecontainer.cpp"
 					>
 				</File>
@@ -956,10 +952,6 @@
 				</File>
 				<File
 					RelativePath=".\include\marshal\abstractwriter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\exceptions.h"
 					>
 				</File>
 				<File

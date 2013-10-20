@@ -9,7 +9,7 @@ public:
        inline VoidMappedMethod0(  void (_Class::*callback)()  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=0) throw new serializable::InvalidParams(0,v.count());
+             if (v.count()!=0)  this->throwInvalidArgument(0,v.count());
              (this->realObject()->*m_callback)();
        }    
 };
@@ -28,7 +28,7 @@ public:
        inline VoidMappedMethod1(  void (_Class::*callback)(T0 a0)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=1) throw new serializable::InvalidParams(1,v.count());
+             if (v.count()!=1)  this->throwInvalidArgument(1,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c));
        }    
 };
@@ -47,7 +47,7 @@ public:
        inline VoidMappedMethod2(  void (_Class::*callback)(T0 a0, T1 a1)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=2) throw new serializable::InvalidParams(2,v.count());
+             if (v.count()!=2)  this->throwInvalidArgument(2,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c));
        }    
 };
@@ -66,7 +66,7 @@ public:
        inline VoidMappedMethod3(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=3) throw new serializable::InvalidParams(3,v.count());
+             if (v.count()!=3)  this->throwInvalidArgument(3,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c));
        }    
 };
@@ -85,7 +85,7 @@ public:
        inline VoidMappedMethod4(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=4) throw new serializable::InvalidParams(4,v.count());
+             if (v.count()!=4)  this->throwInvalidArgument(4,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c));
        }    
 };
@@ -104,7 +104,7 @@ public:
        inline VoidMappedMethod5(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=5) throw new serializable::InvalidParams(5,v.count());
+             if (v.count()!=5)  this->throwInvalidArgument(5,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c));
        }    
 };
@@ -123,7 +123,7 @@ public:
        inline VoidMappedMethod6(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=6) throw new serializable::InvalidParams(6,v.count());
+             if (v.count()!=6)  this->throwInvalidArgument(6,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c));
        }    
 };
@@ -142,7 +142,7 @@ public:
        inline VoidMappedMethod7(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=7) throw new serializable::InvalidParams(7,v.count());
+             if (v.count()!=7)  this->throwInvalidArgument(7,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c));
        }    
 };
@@ -161,7 +161,7 @@ public:
        inline VoidMappedMethod8(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=8) throw new serializable::InvalidParams(8,v.count());
+             if (v.count()!=8)  this->throwInvalidArgument(8,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c));
        }    
 };
@@ -180,7 +180,7 @@ public:
        inline VoidMappedMethod9(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=9) throw new serializable::InvalidParams(9,v.count());
+             if (v.count()!=9)  this->throwInvalidArgument(9,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c));
        }    
 };
@@ -199,7 +199,7 @@ public:
        inline VoidMappedMethod10(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=10) throw new serializable::InvalidParams(10,v.count());
+             if (v.count()!=10)  this->throwInvalidArgument(10,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c));
        }    
 };
@@ -218,7 +218,7 @@ public:
        inline VoidMappedMethod11(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=11) throw new serializable::InvalidParams(11,v.count());
+             if (v.count()!=11)  this->throwInvalidArgument(11,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c));
        }    
 };
@@ -237,7 +237,7 @@ public:
        inline VoidMappedMethod12(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=12) throw new serializable::InvalidParams(12,v.count());
+             if (v.count()!=12)  this->throwInvalidArgument(12,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c));
        }    
 };
@@ -256,7 +256,7 @@ public:
        inline VoidMappedMethod13(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=13) throw new serializable::InvalidParams(13,v.count());
+             if (v.count()!=13)  this->throwInvalidArgument(13,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c));
        }    
 };
@@ -275,7 +275,7 @@ public:
        inline VoidMappedMethod14(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=14) throw new serializable::InvalidParams(14,v.count());
+             if (v.count()!=14)  this->throwInvalidArgument(14,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c));
        }    
 };
@@ -294,7 +294,7 @@ public:
        inline VoidMappedMethod15(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13, T14 a14)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=15) throw new serializable::InvalidParams(15,v.count());
+             if (v.count()!=15)  this->throwInvalidArgument(15,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c));
        }    
 };
@@ -313,7 +313,7 @@ public:
        inline VoidMappedMethod16(  void (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13, T14 a14, T15 a15)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=16) throw new serializable::InvalidParams(16,v.count());
+             if (v.count()!=16)  this->throwInvalidArgument(16,v.count());
              (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c), v[15].template get<T15>(c));
        }    
 };
@@ -332,7 +332,7 @@ public:
        inline NonVoidMappedMethod0(  _ReturnType (_Class::*callback)()  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=0) throw new serializable::InvalidParams(0,v.count());
+             if (v.count()!=0)  this->throwInvalidArgument(0,v.count());
              this->m_return_data = (this->realObject()->*m_callback)();
        }    
 };
@@ -351,7 +351,7 @@ public:
        inline NonVoidMappedMethod1(  _ReturnType (_Class::*callback)(T0 a0)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=1) throw new serializable::InvalidParams(1,v.count());
+             if (v.count()!=1)  this->throwInvalidArgument(1,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c));
        }    
 };
@@ -370,7 +370,7 @@ public:
        inline NonVoidMappedMethod2(  _ReturnType (_Class::*callback)(T0 a0, T1 a1)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=2) throw new serializable::InvalidParams(2,v.count());
+             if (v.count()!=2)  this->throwInvalidArgument(2,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c));
        }    
 };
@@ -389,7 +389,7 @@ public:
        inline NonVoidMappedMethod3(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=3) throw new serializable::InvalidParams(3,v.count());
+             if (v.count()!=3)  this->throwInvalidArgument(3,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c));
        }    
 };
@@ -408,7 +408,7 @@ public:
        inline NonVoidMappedMethod4(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=4) throw new serializable::InvalidParams(4,v.count());
+             if (v.count()!=4)  this->throwInvalidArgument(4,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c));
        }    
 };
@@ -427,7 +427,7 @@ public:
        inline NonVoidMappedMethod5(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=5) throw new serializable::InvalidParams(5,v.count());
+             if (v.count()!=5)  this->throwInvalidArgument(5,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c));
        }    
 };
@@ -446,7 +446,7 @@ public:
        inline NonVoidMappedMethod6(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=6) throw new serializable::InvalidParams(6,v.count());
+             if (v.count()!=6)  this->throwInvalidArgument(6,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c));
        }    
 };
@@ -465,7 +465,7 @@ public:
        inline NonVoidMappedMethod7(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=7) throw new serializable::InvalidParams(7,v.count());
+             if (v.count()!=7)  this->throwInvalidArgument(7,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c));
        }    
 };
@@ -484,7 +484,7 @@ public:
        inline NonVoidMappedMethod8(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=8) throw new serializable::InvalidParams(8,v.count());
+             if (v.count()!=8)  this->throwInvalidArgument(8,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c));
        }    
 };
@@ -503,7 +503,7 @@ public:
        inline NonVoidMappedMethod9(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=9) throw new serializable::InvalidParams(9,v.count());
+             if (v.count()!=9)  this->throwInvalidArgument(9,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c));
        }    
 };
@@ -522,7 +522,7 @@ public:
        inline NonVoidMappedMethod10(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=10) throw new serializable::InvalidParams(10,v.count());
+             if (v.count()!=10)  this->throwInvalidArgument(10,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c));
        }    
 };
@@ -541,7 +541,7 @@ public:
        inline NonVoidMappedMethod11(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=11) throw new serializable::InvalidParams(11,v.count());
+             if (v.count()!=11)  this->throwInvalidArgument(11,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c));
        }    
 };
@@ -560,7 +560,7 @@ public:
        inline NonVoidMappedMethod12(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=12) throw new serializable::InvalidParams(12,v.count());
+             if (v.count()!=12)  this->throwInvalidArgument(12,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c));
        }    
 };
@@ -579,7 +579,7 @@ public:
        inline NonVoidMappedMethod13(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=13) throw new serializable::InvalidParams(13,v.count());
+             if (v.count()!=13)  this->throwInvalidArgument(13,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c));
        }    
 };
@@ -598,7 +598,7 @@ public:
        inline NonVoidMappedMethod14(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=14) throw new serializable::InvalidParams(14,v.count());
+             if (v.count()!=14)  this->throwInvalidArgument(14,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c));
        }    
 };
@@ -617,7 +617,7 @@ public:
        inline NonVoidMappedMethod15(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13, T14 a14)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=15) throw new serializable::InvalidParams(15,v.count());
+             if (v.count()!=15)  this->throwInvalidArgument(15,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c));
        }    
 };
@@ -636,7 +636,7 @@ public:
        inline NonVoidMappedMethod16(  _ReturnType (_Class::*callback)(T0 a0, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, T6 a6, T7 a7, T8 a8, T9 a9, T10 a10, T11 a11, T12 a12, T13 a13, T14 a14, T15 a15)  ) { m_callback=callback; }
        virtual void call(const sad::VariantVector & v)
        {    
-             if (v.count()!=16) throw new serializable::InvalidParams(16,v.count());
+             if (v.count()!=16)  this->throwInvalidArgument(16,v.count());
              this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c), v[15].template get<T15>(c));
        }    
 };

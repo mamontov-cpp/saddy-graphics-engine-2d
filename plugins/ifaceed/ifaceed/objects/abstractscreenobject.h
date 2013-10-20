@@ -157,10 +157,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 				T result = v->get<T>();
 				return result;
 			}
-			catch(serializable::InvalidPropertyType ex) 
+			catch(std::logic_error ex) 
 			{
 				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
-				SL_DEBUG( test + ex.getInformation().data());
+				SL_DEBUG( test + ex.what());
 			}
 		} 
 		else 
@@ -181,10 +181,10 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 			{
 				p->set(val);
 			}
-			catch(serializable::InvalidPropertyType ex) 
+			catch(std::logic_error ex) 
 			{
 				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
-				SL_DEBUG( test + ex.getInformation().data());
+				SL_DEBUG( test + ex.what());
 			}
 		} 
 		else 

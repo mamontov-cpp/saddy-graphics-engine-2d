@@ -11,7 +11,7 @@ static sad::String convert(const sad::String & str, char from[][10], char to[][1
 	sad::String result=str;
 	for (int i=0;i<max;i++)
 	{
-	 result.replaceAllOccurences(from[i],to[i]);
+		result.replaceAllOccurences(from[i],to[i]);
 	}
 	return result;
 }
@@ -59,8 +59,14 @@ sad::Point2D SaveLoadCallback<sad::Point2D>::load(const sad::String & str,
 												  const sad::String & typestring)
 {
 	sad::StringList lst=str.split('@');
-	if (lst.count()!=2)
-		throw new serializable::InvalidPropertyValue(typestring,str);
+	if (lst.count() != 2)
+	{
+		std::string message = fmt::str( fmt::Format("Invalid value {0} for type {1}")
+			<< str
+			<< typestring
+		);
+		throw std::logic_error(message);
+	}
 
 	double params[2];
 	for (int i=0;i<2;i++)
@@ -82,7 +88,13 @@ sad::Rect2D  SaveLoadCallback<sad::Rect2D>::load(const sad::String & str,
 {
 	sad::StringList lst=str.split(':');
 	if (lst.count()!=4)
-		throw new serializable::InvalidPropertyValue(typestring,str);
+	{
+		std::string message = fmt::str( fmt::Format("Invalid value {0} for type {1}")
+			<< str
+			<< typestring
+		);
+		throw std::logic_error(message);
+	}
 
 	sad::Point2D params[4];
 	for (int i=0;i<4;i++)
@@ -161,7 +173,11 @@ sad::Color SaveLoadCallback< sad::Color >::load(
 	}
 	else 
 	{
-		throw new serializable::InvalidPropertyValue(typestring,str);
+		std::string message = fmt::str( fmt::Format("Invalid value {0} for type {1}")
+			<< str
+			<< typestring
+		);
+		throw std::logic_error(message);
 	}
 	return sad::Color(r,g,b);
 }
