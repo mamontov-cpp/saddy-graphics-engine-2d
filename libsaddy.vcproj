@@ -788,6 +788,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\sadsize.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\sadsleep.h"
 				>
 			</File>
