@@ -1,26 +1,32 @@
-/*! \file   ftfont.h
+/*! \file   freetype/font.h
     \author HiddenSeeker
-	\brief  Contains an implementation of freetype font.
+	\brief  Contains an implementation of font, which is loaded and rendered via FreeType.
 	Here is placed an implementation of freetype font, based on NeHe Tutorial for MSVC by Sven Olsen,2003
 */
 #pragma once
-#include "../include/fontmanager.h"
+#include "../font.h"
 #include "sadcolor.h"
 #include "sadhash.h"
 
+namespace sad
+{
 
+namespace freetype
+{
+
+class FontImpl;
 /** A class, that encapsulates an information for font
  */
 struct FTFontInfo;
 
 /** A class of freetype font
  */
-class FTFont: public sad::BasicFont
+class Font: public sad::Font
 {
  public:
 	 /*! Empty font
 	  */
-     FTFont();
+     Font();
 	 /*! Sets height of color in pixels
 	  */
 	 bool setHeight(unsigned int height);   
@@ -50,7 +56,7 @@ class FTFont: public sad::BasicFont
 	 virtual sad::Rect2D size(const sad::String & str);
 	 /*! Destructor
 	 */
-	 ~FTFont();
+	 virtual ~Font();
  private:
 	/** Structure, that represents data, needed for rendering font with specified height
 	 */
@@ -109,9 +115,14 @@ class FTFont: public sad::BasicFont
 					   FTFont::FTHeightFont *
 					  > HeightContainer;
  private:
+	sad::freetype::FontImpl * m_impl; //!< Implementation of font
+
 	FTFontInfo *    m_info;          //!< Info about used freetype data
 	unsigned int    m_renderheight;  //!< Current rendered height
 	sad::AColor     m_rendercolor;   //!< Current rendered color
 	HeightContainer m_lists_cache;   //!< Different created faces for font
 };
 
+}
+
+}
