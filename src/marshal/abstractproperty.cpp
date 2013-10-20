@@ -4,29 +4,29 @@ DEFINE_PROPERTY_TYPESTRING( int )
 
 void AbstractProperty::call(const sad::VariantVector & args)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","call");
+	throw std::logic_error("Method AbstractProperty::call not implemented");
 }
 
 
 void AbstractProperty::set(const sad::Variant & value)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","set");
+	throw std::logic_error("Method AbstractProperty::set not implemented");
 }
 
 sad::Variant * AbstractProperty::get() const
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","get");
-	return new sad::Variant(0);
+	throw std::logic_error("Method AbstractProperty::get not implemented");
+	return NULL;
 }
 
 sad::String AbstractProperty::save() const
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","save");
+	throw std::logic_error("Method AbstractProperty::save not implemented");
 }
 
 void AbstractProperty::load(const sad::String & str)
 {
-	throw new serializable::MethodIsNotImplemented("AbstractProperty","load");
+	throw std::logic_error("Method AbstractProperty::load not implemented");
 }
 
 void AbstractProperty::resolveDeferred()

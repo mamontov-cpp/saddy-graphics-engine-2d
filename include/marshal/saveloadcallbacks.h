@@ -3,12 +3,16 @@
 
 	Here defined a callbacks for saving and loading types of properties of marshalled objects
  */
-#include "abstractproperty.h"
-#include <sadpoint.h>
-#include <sadrect.h>
-#include <sadcolor.h>
-#include <sstream>
 #pragma once
+#include "abstractproperty.h"
+
+#include "../sadpoint.h"
+#include "../sadrect.h"
+#include "../sadcolor.h"
+#include "../3rdparty/format/format.h"
+
+#include <sstream>
+#include <stdexcept>
 
 
 DEFINE_PROPERTY_TYPESTRING( int )
@@ -41,8 +45,13 @@ class SaveLoadCallback
 	    T result = 0;
 	    if (!(stream >> result))
 	    {
-		 throw new serializable::InvalidPropertyValue(typestring,str);
-	    }
+			std::string formatstring = "Invalid value {0} for type {1}";
+			std::string message = fmt::str( fmt::Format(formatstring)
+				<< str
+				<< typestring
+			);
+			throw std::logic_error(message);
+		}
 
 		return result;
 	}

@@ -4,6 +4,7 @@
 	Defines a property and editor, used a base classes by user for implementing own functions
  */
 #include "saveloadcallbacks.h"
+
 #include "../unused.h"
 #pragma once
 
@@ -116,34 +117,60 @@ class MappedField: public AbstractField<T>
 			}
 };
 
-/*! A mapped method, that returns noting
+/*! This is a method type, which maps to method of target class, allowing
+	to call it via accessing it with a string. A method must not return anything
  */
 template<typename _RealSerializable>
 class MappedMethod: public AbstractProperty
 {
- protected:
-	       inline _RealSerializable realObject() 
-		   { 
-			return  static_cast<_RealSerializable*>(getParent());
-		   }
- public:
-		   virtual bool callable() { return true;}
-
-
+public:
+	/*! Returns true, since we can call this method, by supplying vector of 
+		variant in runtime
+		\return true
+	 */
+	virtual bool callable() 
+	{ 
+		return true;
+	}
+protected:
+	/*! Returns real object, which method attached to
+		\return object
+	 */
+	inline _RealSerializable realObject() 
+	{ 
+		return  static_cast<_RealSerializable*>(getParent());
+	}
 };
 
-/*! A mapped method, that returns a value
+/*! This is a method type, which maps to method of target class, allowing
+	to call it via accessing it with a string. A method can returns a value, which
+	can be accessed via returnValue method.
  */
 template<typename _RealSerializable, typename _ReturnData>
 class ReturnMappedMethod: MappedMethod<_RealSerializable>
 {
- protected:
-	       _ReturnData m_return_data;  //!< Returned value of method
- public:
-	       sad::Variant * returnValue() const { return new sad::Variant(m_return_data); } 
-		   bool returnsValue() const  { return true; }
+public:
+	/*! Returns new value, returned by mapped method.
+		NOTE: You must free returned sad::Variant. A mapped method,
+		does not hold it
+		\return a value of method
+	 */
+	sad::Variant * returnValue() const 
+	{ 
+		return new sad::Variant(m_return_data); 
+	} 
+	/*! Determined, whether method returns a value.
+		\return true
+	 */
+	bool returnsValue() const  
+	{ 
+		return true; 
+	}
+protected:
+	/*! A value, returned by method
+	 */
+	_ReturnData m_return_data; 
 };
-
 
 #include "templatemappings.h"
 
