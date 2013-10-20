@@ -52,7 +52,7 @@ FormattedLabel::FormattedLabel(sad::Renderer * renderer) : Label(renderer)
 
 void FormattedLabel::setFont(const sad::String & fnt, sad::Renderer * r)
 {
-	sad::BasicFont * font = r->fonts()->get(fnt);
+	sad::Font * font = r->fonts()->get(fnt);
 	if (font)
 		setFont(font);
 }

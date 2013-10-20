@@ -158,6 +158,9 @@ class Rect
 /*! A shortcut for rectangle, which is defined by points in two dimensions
  */
 typedef sad::Rect<sad::Point2D> Rect2D;
+/*! A shortcut for rectangle, which is defined by integral points in two dimenions
+ */
+typedef sad::Rect<sad::Point2I> Rect2I;
 
 }
 

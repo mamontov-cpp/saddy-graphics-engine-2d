@@ -222,7 +222,7 @@ void Game::enterPlayingScreen()
 	sc->add(background);
 
 	FormattedLabel * label = new FormattedLabel();
-	label->setFont("times_lg");
+	label->setFont("font");
 	label->setPoint(0, 480);
 	label->setUpdateInterval(200);
 	
@@ -409,7 +409,7 @@ void Game::moveToStartingScreen()
 	sc->add(background);
 	
 	FormattedLabel  * label = new FormattedLabel();
-	label->setFont("times_lg");
+	label->setFont("font");
 	label->setPoint(260, 240);
 	label->setUpdateInterval(1000);
 	// Here we build a format string, where {0} will be replaced with call of this->highscore()

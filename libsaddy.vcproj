@@ -322,11 +322,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\timer.cpp"
+				RelativePath=".\src\texturemappedfont.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\tmfont.cpp"
+				RelativePath=".\src\timer.cpp"
 				>
 			</File>
 			<File
@@ -865,6 +865,10 @@
 			</File>
 			<File
 				RelativePath=".\include\texturemanager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\texturemappedfont.h"
 				>
 			</File>
 			<File

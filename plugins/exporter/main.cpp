@@ -4,11 +4,12 @@
 #include <QImage>
 #include <QHash>
 #include <QApplication>
+#include <QTextCodec>
 #include <stdio.h>
 #include <math.h>
 
 #define MIN_CHARACTER 32
-#define MAX_CHARACTER 128
+#define MAX_CHARACTER 255
 
 /*! Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 	Computes next power of two
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
 		printf("Usage: exporter <font> <font size> <red color component> <green color component> <blue color component> <output file name>\n");
 		return 1;
 	}
+	QTextCodec * codec = QTextCodec::codecForLocale();
 	int size=0;int colorr=0,colorg=0,colorb=0;
 	sscanf(argv[2],"%d",&size);
 	sscanf(argv[3],"%d",&colorr);
@@ -55,7 +57,8 @@ int main(int argc, char *argv[])
 	QFontMetrics metrics(font);
 	// 4. Compute bounding boxes
 	QHash<char, QRect> bounds;
-	for(unsigned char c =  MIN_CHARACTER; c < MAX_CHARACTER; c++)
+	char string[2] = "A";
+	for(unsigned char c =  MIN_CHARACTER; c <= MAX_CHARACTER && c != 0; c++)
 	{
 		unsigned char realCharacter = c;
 		// If we does not replace space, the bounding rect
@@ -63,8 +66,9 @@ int main(int argc, char *argv[])
 		// letters in data
 		if (c == ' ') 
 			realCharacter = 'A';
+		string[0] = realCharacter;
 		// We must take bounding rect of all character space, with advances
-		bounds.insert(c, metrics.boundingRect(QString(QChar(realCharacter))));
+		bounds.insert(c, metrics.boundingRect(codec->toUnicode(string)));
 	}
 	// 5. Compute maximal bounding rect
 	QRect max(0,0,0,0);
@@ -94,8 +98,8 @@ int main(int argc, char *argv[])
 	QImage image(QSize(real_image_size, real_image_size), QImage::Format_ARGB32);
 	// The image must be transparent,otherwise we wll have problems with it's loading
 	image.fill(QColor(255,255,255,0).rgba());
-	QString image_mapping_file = QString(argv[6]) + ".PNG";
-	QString config_mapping_file = QString(argv[6]) + ".CFG";
+	QString image_mapping_file = QString(argv[6]) + ".png";
+	QString config_mapping_file = QString(argv[6]) + ".cfg";
 	//Open a file
 	FILE * file = fopen(config_mapping_file.toStdString().c_str(), "wt");
 	if (file == NULL)
@@ -111,18 +115,25 @@ int main(int argc, char *argv[])
 	int current_x_pos = 0;
 	int current_y_pos = 0;
 	int character_in_row = 0;
-	for(unsigned char c =  MIN_CHARACTER; c < MAX_CHARACTER; c++)
+	int length = ((int)MAX_CHARACTER - (int)MIN_CHARACTER) + 1;
+	fprintf(file, "%d", length);
+
+	painter.setRenderHint(QPainter::Antialiasing, false);
+	painter.setRenderHint(QPainter::TextAntialiasing, false);
+
+	for(unsigned char c =  MIN_CHARACTER; c <= MAX_CHARACTER && c != 0; c++)
 	{
 		QRect bbox = bounds[c];
-		float relative_x_pos = ((float)current_x_pos)/real_image_size;
-		float relative_y_pos = ((float)current_y_pos)/real_image_size;
-		float relative_x_end_pos = relative_x_pos + ((float)bbox.width())/real_image_size;
-		float relative_y_end_pos = relative_y_pos + ((float)bbox.height())/real_image_size;
+		unsigned int relative_x_pos = current_x_pos;
+		unsigned int relative_y_pos = current_y_pos;
+		unsigned int relative_x_end_pos = relative_x_pos + bbox.width();
+		unsigned int relative_y_end_pos = relative_y_pos + bbox.height();
 		
 		bbox.moveTopLeft(QPoint(current_x_pos, current_y_pos));
-		painter.drawText(bbox, Qt::AlignCenter, QString(QChar(c)));
+		string[0] = c;
+		painter.drawText(bbox, Qt::AlignCenter, QString(codec->toUnicode(string)));
 
-		fprintf(file,"%c %f %f %f %f\n",c, relative_x_pos, relative_y_pos,
+		fprintf(file,"%c %u %u %u %u\n",c, relative_x_pos, relative_y_pos,
 										   relative_x_end_pos, relative_y_end_pos);
 		++character_in_row;
 		if (character_in_row == characters_in_row)
