@@ -40,13 +40,23 @@ public:
 	virtual void render(const sad::String & str,const sad::Point2D & p);
 	/*! Loads a font from files filename.png and filename.cfg.
 		You can generate font, using exporter tool in plugins directory
+
+		A font texture file 
+		must contain a transparent background, with glyphs blended with white-
+		colored glyphs on it.
+
 		\param[in] filename name of file
 		\param[in] r renderer, which texture is attached to. NULL is for global renderer
 		\return true on success
 	 */
 	bool load(const sad::String & filename, sad::Renderer * r = NULL);
 	/*! Loads a font from files filename.png and filename.cfg.
-		You can generate font, using exporter tool in plugins directory
+		You can generate font, using exporter tool in plugins directory.
+
+		A font texture file 
+		must contain a transparent background, with glyphs blended with white-
+		colored glyphs on it.
+
 		\param[in] texturefilename name of file of texture
 		\param[in] configfilename name of config file
 		\param[in] r renderer, which texture is attached to. NULL is for global renderer

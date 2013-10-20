@@ -34,17 +34,14 @@ int main(int argc, char *argv[])
 	// We miust construct it in order to work with fonts
 	QApplication a(argc, argv);
 	// 1. Parse command arguments
-	if (argc<7)
+	if (argc<3)
 	{
-		printf("Usage: exporter <font> <font size> <red color component> <green color component> <blue color component> <output file name>\n");
+		printf("Usage: exporter <font> <font size> <output file name>\n");
 		return 1;
 	}
 	QTextCodec * codec = QTextCodec::codecForLocale();
-	int size=0;int colorr=0,colorg=0,colorb=0;
+	int size=0;
 	sscanf(argv[2],"%d",&size);
-	sscanf(argv[3],"%d",&colorr);
-	sscanf(argv[4],"%d",&colorg);
-	sscanf(argv[5],"%d",&colorb);
 	// 2. Get font
 	QFont font(argv[1], size);
 	QString family = font.family();
@@ -98,8 +95,8 @@ int main(int argc, char *argv[])
 	QImage image(QSize(real_image_size, real_image_size), QImage::Format_ARGB32);
 	// The image must be transparent,otherwise we wll have problems with it's loading
 	image.fill(QColor(255,255,255,0).rgba());
-	QString image_mapping_file = QString(argv[6]) + ".png";
-	QString config_mapping_file = QString(argv[6]) + ".cfg";
+	QString image_mapping_file = QString(argv[3]) + ".png";
+	QString config_mapping_file = QString(argv[3]) + ".cfg";
 	//Open a file
 	FILE * file = fopen(config_mapping_file.toStdString().c_str(), "wt");
 	if (file == NULL)
@@ -110,7 +107,7 @@ int main(int argc, char *argv[])
 	// Draw image and write the mapping file
 	QPainter painter;
 	painter.begin(&image);
-	painter.setPen(QColor(colorr, colorg, colorb));
+	painter.setPen(QColor(255, 255, 255));
 	painter.setFont(font);
 	int current_x_pos = 0;
 	int current_y_pos = 0;

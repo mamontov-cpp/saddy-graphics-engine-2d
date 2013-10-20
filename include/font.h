@@ -7,6 +7,7 @@
 #include "sadpoint.h"
 #include "sadsize.h"
 #include "sadstring.h"
+#include "sadcolor.h"
 
 namespace sad
 {
@@ -24,6 +25,16 @@ public:
 		\param[in] p   upper-left point in viewport coordinates
 	 */
 	virtual void render(const sad::String & str,const sad::Point2D & p) = 0; 
+	/*! Sets a color, which label will be rendered with, if label is rendered,
+		using this font
+		\param[in] color color of font
+	 */
+	virtual void setColor(const sad::AColor & c);
+	/*! Returns a color, which label will be rendered with, if label is rendered,
+		using this font
+		\return color
+	 */
+	virtual sad::AColor color() const; 
 	/*! Returns a estimated size of label, rendered with specified size
 	    \param[in] str string
 		\return size of label
@@ -47,6 +58,18 @@ protected:
 	/*! Size of font in pixels
 	 */
 	unsigned int m_size;
+	/*! A color of font
+	 */
+	sad::AColor m_color;
+	/*! A buffer, used by fonts to store current color
+	 */
+	int m_current_color_buffer[4]; 
+	/*! Sets current OpenGL state rendering color to an inner color
+	 */
+	void setCurrentColor();
+	/*! Restores OpenGL state rendering color
+	 */
+	void restoreColor();
 };
 
 }

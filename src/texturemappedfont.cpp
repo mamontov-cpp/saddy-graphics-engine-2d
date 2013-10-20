@@ -55,11 +55,21 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 	
 	sad::String string = str;
 	string.removeAllOccurences("\r");
+
+	
 	m_texture->enable();
+	glPushAttrib( GL_LIGHTING_BIT | GL_ENABLE_BIT);
+	
+	glDisable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	this->setCurrentColor();
 
 	unsigned int glyphheight = 0;
 	unsigned int glyphwidth = 0;
-	
 	glBegin(GL_QUADS);
 	for(unsigned int i = 0;  i < string.length(); i++)
 	{
@@ -92,7 +102,8 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 		}
 	}
 	glEnd();
-	
+	this->restoreColor();
+	glPopAttrib();
 }
 
 bool sad::TextureMappedFont::load(const sad::String & filename, sad::Renderer * r)
@@ -179,3 +190,4 @@ bool sad::TextureMappedFont::load(
 	}
 	return result;
 }
+
