@@ -55,6 +55,8 @@ protected:
 	GLuint       m_base;			//!< First id
 	float        m_w[256];			//!< Widths
 	float        m_height;			//!< Height of font
+	int          m_y_min;           //!< A minimal y
+	int          m_y_max;           //!< A maximum y
 	/*! Whether call list was successfully built and is on GPU
 	 */
 	bool         m_on_gpu;  
@@ -161,7 +163,8 @@ sad::freetype::Font::~Font()
 }
 
 sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
-: m_on_gpu(false), m_textures(NULL), m_height((float)height), m_base(NULL)
+: m_on_gpu(false), m_textures(NULL), m_height((float)height), m_base(NULL),
+m_y_min(0), m_y_max(0)
 {
 	// if face is null, than there is nothing we can do
 	if (face == NULL)
@@ -172,6 +175,8 @@ sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
 	glGenTextures( 256, m_textures );
 	bool result = true;
 	FT_Set_Char_Size( face, height << 6, height << 6, 96, 96);
+	m_y_min = face->bbox.yMin >> 6;
+	m_y_max = face->bbox.yMax >> 6;	
 	for(unsigned int currentcharindex = 0; currentcharindex < 256; currentcharindex++)
 	{
 		// Avoid 255 max value overflow and convert to wide char
@@ -194,7 +199,7 @@ sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
 				glPushMatrix();
 
 				glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
-				glTranslatef(0.0f,(float)(bitmap_glyph->top-bitmap.rows),0.0f);
+				glTranslatef(0.0f,(float)(bitmap_glyph->top - bitmap.rows),0.0f);
 				float	x=(float)(bitmap.width) / (float)(size.Width);
 				float   y=(float)(bitmap.rows)  / (float)(size.Height);
 				glBegin(GL_QUADS);
@@ -214,10 +219,10 @@ sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
 	
 				// Set size computing props
 				m_w[currentcharindex]=(float)(face->glyph->advance.x >> 6);
-	
-				float glyph_height =  (float)(bitmap_glyph->top);
-			    glEndList();
-				m_height = (glyph_height > m_height)? glyph_height : m_height;
+
+				glEndList();
+				
+				m_height = std::max(m_height, (float)bitmap.rows);
 				characterresult = true;
 			}
 		}
@@ -228,6 +233,7 @@ sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
 		}
 		result = result && characterresult;
 	}
+	//m_height -= m_y_min;
 	m_on_gpu = result;
 }
 
@@ -262,10 +268,12 @@ void sad::freetype::FontCallList::render(const sad::String & s, const sad::Point
 	sad_freetype_font_lock.lock();
 	for(unsigned int i = 0; i < lines.count(); i++) 
 	{
+		float offset = (float)(p.y() - m_height * (i + 1)) - m_y_min;
+
 		glPushMatrix();
 		glLoadIdentity();
 		glMultMatrixf(modelview_matrix);
-		glTranslatef((float)p.x(), (float)(p.y() - m_height * i), 0);
+		glTranslatef((float)p.x(), offset, 0);
 		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].data());
 		glPopMatrix();
 	}
@@ -277,7 +285,7 @@ void sad::freetype::FontCallList::render(const sad::String & s, const sad::Point
 sad::Size2D sad::freetype::FontCallList::size(const sad::String & s)
 {
 	sad::String string = s;
-	string.removeAllOccurences("\n");
+	string.removeAllOccurences("\r");
 	sad::StringList lines = string.split('\n');
   	
 
@@ -288,13 +296,14 @@ sad::Size2D sad::freetype::FontCallList::size(const sad::String & s)
 	for(unsigned int i = 0; i < lines.count(); i++)
 	{
 		double width = 0;	  
-		for(unsigned int j = 0;j < lines[i].length(); j++)
+		for(unsigned int j = 0; j < lines[i].length(); j++)
 		{
 			unsigned char c = *reinterpret_cast<unsigned char*>(&(lines[i][j]));
 			width += m_w[c];
 		}
 		result.Width = std::max(width, result.Width); 
 	}
+	
 
 	return result;
 }

@@ -36,7 +36,7 @@ bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFont
 		unloadFromQDB(m_name,*m_qdb);
 	}
 	QFont fnt;
-	FTFont * tmp = new FTFont();
+	sad::freetype::Font * tmp = new sad::freetype::Font();
 	bool ok =true;
 
 	int id = db.addApplicationFont(file);
@@ -47,7 +47,7 @@ bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFont
 		fnt = db.font(lst[0],"",18);
 		ok = (fnt!=QFont());
 	}
-	ok = ok && tmp->load(file.toStdString().c_str(),18);
+	ok = ok && tmp->load(file.toStdString().c_str());
 	if (!ok) {
 		delete tmp;
 	} else {

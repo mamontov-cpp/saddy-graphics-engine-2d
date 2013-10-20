@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include <ftfont.h>
+#include <freetype/font.h>
 #include <fontmanager.h>
 #include <sadhash.h>
 
@@ -25,7 +25,7 @@ class IFaceEditorFont
 
 		  QFont m_qtfont;
 		  int   m_appfontindex;
-		  FTFont * m_saddyfont;
+		  sad::freetype::Font * m_saddyfont;
  public:
 		  /** Creates empty unusable font
 		   */
@@ -37,7 +37,7 @@ class IFaceEditorFont
 		  /** Returns Saddy font
 			  \return Saddy font data
 		   */
-		  inline FTFont * sadFont() const { return m_saddyfont; }
+		  inline sad::freetype::Font * sadFont() const { return m_saddyfont; }
 		  /** Unloads a font from qt database
 			  \param[in] name of fount, used to unregister it from FontManager
 			  \param[out] db

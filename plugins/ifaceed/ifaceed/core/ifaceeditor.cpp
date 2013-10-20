@@ -3,7 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "ifaceeditor.h"
-#include <ftfont.h>
+#include <freetype/font.h>
 #include <label.h>
 #include <fontmanager.h>
 #include "core/fonttemplatesdatabase.h"
