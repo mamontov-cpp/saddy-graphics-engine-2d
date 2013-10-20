@@ -186,6 +186,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\font.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\fontmanager.cpp"
 				>
 			</File>
@@ -681,6 +685,10 @@
 			</File>
 			<File
 				RelativePath=".\include\extchecker.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\font.h"
 				>
 			</File>
 			<File
