@@ -10,6 +10,7 @@
 #include <renderer.h>
 #include <input.h>
 #include <fontmanager.h>
+#include <texturemappedfont.h>
 #include <png/picopngloader.h>
 #include "world.h"
 
@@ -60,14 +61,13 @@ bool load_texture_with_alphachannel(const char * filename,const char * texturena
  */
 bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 {
-	sad::String png = fontfolder + fontname + ".PNG";
-	sad::String cfg = fontfolder + fontname + ".CFG";
-	sad::TMFont * fnt=new sad::TMFont;
-	bool result = fnt->load(png, cfg, sad::Color(255,255,255),true);
+	sad::String fontextendedname = fontfolder + fontname;
+	sad::TextureMappedFont * fnt=new sad::TextureMappedFont();
+	bool result = fnt->load(fontextendedname);
 	if (result) { 
 		sad::FontManager::ref()->add(fnt, fontname);
 	} else	{
-		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << fontname);
+		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << fontextendedname);
 		delete fnt;
 	}
 	return result;
@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 	//Loading resources. We re-use textures from game example. 
 	bool res=true; 
 	sad::String fontfolder = "examples/game/";
-	res=res && load_font(fontfolder, "times_lg"); 
+	res=res && load_font(fontfolder, "font"); 
 	res=res && load_texture("examples/game/ingame.tga","background");
     res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
     if (!res)

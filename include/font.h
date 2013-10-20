@@ -39,7 +39,7 @@ public:
 	/*! Sets size of font in pixels
 		\param[in] size size of font in points
 	 */
-	virtual void setSize(unsigned int size) = 0;
+	virtual void setSize(unsigned int size);
 	/*! Kept for purpose of inheritance
 	 */
 	virtual ~Font();

@@ -11,7 +11,7 @@
 #include "timer.h"
 #pragma once
 
-typedef sad::BasicFont *  LabelFont;
+typedef sad::Font *  LabelFont;
 /*! \class Label
     Class of simple label on scene
 */
