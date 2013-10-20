@@ -126,6 +126,12 @@ protected:
 	/*! Cleans all resources, freeing all data
 	 */
 	void cleanup();
+	/*! A cached size
+	 */
+	unsigned int m_cached_size;
+	/*! A cached list
+	 */
+	sad::freetype::FontCallList * m_cached_list;
 };
 
 }
@@ -401,7 +407,8 @@ unsigned int sad::freetype::FontCallList::nextPowerOfTwo(unsigned int v)
 	return v;
 }
 
-sad::freetype::FontImpl::FontImpl() : sad::Font(), m_library(0), m_face(0)
+sad::freetype::FontImpl::FontImpl() 
+: sad::Font(), m_library(0), m_face(0), m_cached_size(-1), m_cached_list(NULL)
 {
 	// If freetype failed, than do nothing
 	if (FT_Init_FreeType(&m_library))  
@@ -458,13 +465,23 @@ sad::freetype::FontImpl::~FontImpl()
 
 sad::freetype::FontCallList * sad::freetype::FontImpl::callList(unsigned int size)
 {
+	if (m_cached_list != NULL && size == m_cached_size)
+	{
+		return m_cached_list;
+	}
+
 	if (m_height_cache.contains(size))
 	{
-		return m_height_cache[size];
+		m_cached_size = size;
+		m_cached_list = m_height_cache[size];
+		return m_cached_list;
 	}
 
 	sad::freetype::FontCallList * list = new sad::freetype::FontCallList(m_face, size);
+	m_cached_size = size;
+	m_cached_list = list;
 	m_height_cache.insert(size, list);
+
 	return list;
 }
 
@@ -479,5 +496,6 @@ void sad::freetype::FontImpl::cleanup()
 		delete it.value();
 	}
 	m_height_cache.clear();
+	m_cached_list = NULL;
 }
 
