@@ -6,45 +6,21 @@
 	load, render and free it.
 */
 #pragma once
+#include "sadmutex.h"
 #include "types.h"
 #include "texturemanager.h"
 #include "renderer.h"
+#include "font.h"
 
 namespace sad
 {
 class Renderer;
-
-/*! Basic font class
-*/
-class BasicFont
-{
- private:
- public:
-	 /*! Renders a string
-	     \param[in] str string
-		 \param[in] p   upper-left point in window coordinates
-	 */
-	 virtual void render(const sad::String & str,const sad::Point2D & p)=0; 
-	 /*! Returns a estimated size of label
-	     \param[in] str string
-	 */
-	 virtual sad::Rect2D size(const sad::String & str)=0;
-	 /*! Destroys an exemplar
-	 */
-	 virtual ~BasicFont();
-};
-
-
-}
-
-namespace sad
-{
 	/*! Class of texture mapped font. 
 	    This class contains a texture, where are printed all glyphs, and a bunch of rects
 		where are placed texture coordinated. Hint: use Texture::enable to restore previous
 		state
 	*/
-	class TMFont: public BasicFont
+class TMFont: public sad::Font
 	{
 		private:
 			sad::Texture * m_tex;         //!< Current texture

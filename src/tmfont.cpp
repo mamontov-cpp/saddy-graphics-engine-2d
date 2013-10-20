@@ -85,27 +85,8 @@ sad::Rect2D TMFont::size(const sad::String & str)
   return sad::Rect2D(sad::Point2D(0,0),sad::Point2D(maxx,maxy));
 }
 
-static void wcs()
-{
-	glPushAttrib(GL_TRANSFORM_BIT);
-	GLint	viewport[4]={};
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(viewport[0],viewport[2],viewport[1],viewport[3]);
-	glPopAttrib();
-}
-static void restore()
-{
-	glPushAttrib(GL_TRANSFORM_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glPopAttrib();
-}
 void TMFont::render(const sad::String & str,const sad::Point2D & p)
 {
-  //wcs();
   float cury=(float)(p.y());
   float curx=(float)(p.x());
   m_tex->enable();
@@ -147,7 +128,6 @@ void TMFont::render(const sad::String & str,const sad::Point2D & p)
 	}
   }
   glEnd();
-  //restore();
 }
 
 

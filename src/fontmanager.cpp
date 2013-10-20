@@ -4,10 +4,6 @@
 using namespace sad;
 
 
-BasicFont::~BasicFont()
-{
-
-}
 FontManager::FontManager()
 {
 
