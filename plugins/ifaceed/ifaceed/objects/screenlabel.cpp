@@ -27,9 +27,9 @@ ScreenLabel::ScreenLabel() : AbstractScreenObject()
 
 void ScreenLabel::moveCenterTo(const sad::Point2D & p)
 {
-	sad::Rect2D r = m_font->size(m_text);
-	m_point.setX(p.x() - r.width()/2);
-	m_point.setY(p.y() + r.height()/2);
+	sad::Size2D r = m_font->size(m_text);
+	m_point.setX(p.x() - r.Width/2);
+	m_point.setY(p.y() + r.Height/2);
 }
 
 sad::String ScreenLabel::_description()
@@ -59,14 +59,15 @@ void ScreenLabel::_render()
 		return;
 	}
 	m_font->setColor(sad::AColor(m_font_color.r(),m_font_color.g(),m_font_color.b(),(sad::uchar)m_alpha));
-	m_font->setHeight(m_font_size);
+	m_font->setSize(m_font_size);
 
-	sad::Rect2D s = m_font->size(m_text);
+	sad::Size2D s = m_font->size(m_text);
 	glMatrixMode(GL_MODELVIEW_MATRIX);
 	glPushMatrix();
-	glTranslatef(m_point.x() +  s.width() /2, m_point.y() - s.height() /2, 0.0f);
+	glTranslatef(m_point.x() +  s.Width /2, m_point.y() - s.Height /2, 0.0f);
 	glRotatef(m_angle / M_PI*180.0f, 0.0f, 0.0f, 1.0f);
-	m_font->render(m_text, - (s.width()/2), (s.height()/2));	
+	sad::Point2D p(- (s.Width/2), (s.Height/2));
+	m_font->render(m_text, p);	
 	
 	glPopMatrix();
 
@@ -108,16 +109,16 @@ sad::Rect2D ScreenLabel::region()
 	{
 		return sad::Rect2D();
 	}
-	m_font->setHeight(m_font_size);
+	m_font->setSize(m_font_size);
 
-	sad::Rect2D s = m_font->size(m_text);
-	sad::Rect2D non_rotated_region( sad::Point2D(s.width() / -2.0f, s.height() / -2.0f),
-		                       sad::Point2D(s.width() / 2.0f, s.height() / 2.0f));
+	sad::Size2D s = m_font->size(m_text);
+	sad::Rect2D non_rotated_region( sad::Point2D(s.Width / -2.0f, s.Height / -2.0f),
+		                       sad::Point2D(s.Width / 2.0f, s.Height / 2.0f));
 	sad::Point2D results[4];
 	float cos_angle = cos(m_angle);
 	float sin_angle = sin(m_angle);
-	float centerx = m_point.x() + s.width() / 2;
-	float centery = m_point.y() - s.height() / 2;
+	float centerx = m_point.x() + s.Width / 2;
+	float centery = m_point.y() - s.Height / 2;
 	for (int i=0;i<4;i++)
 	{
 		results[i].setX(centerx + non_rotated_region[i].x()*cos_angle - non_rotated_region[i].y() * sin_angle);

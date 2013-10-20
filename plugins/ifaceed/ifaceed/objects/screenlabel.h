@@ -4,7 +4,7 @@
 	Describes a screen label, which can be worked with data
  */
 #include "abstractscreenobject.h"
-#include "ftfont.h"
+#include "freetype/font.h"
 #pragma once
 
 
@@ -23,7 +23,7 @@ class ScreenLabel: public AbstractScreenObject
 	 sad::Point2D      m_point;        //!< Upper-left point of label
 	 int m_alpha;                 //!< Alpha of screen label
 
-	 FTFont               * m_font; //!< Font to draw
+	 sad::freetype::Font  * m_font; //!< Font to draw
  protected:
 	 /** Renders an object. NOTE: Overload this to do actual render of object
 	 */
