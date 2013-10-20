@@ -9,9 +9,8 @@
 #pragma warning(pop)
 
 typedef sad::Matrix2x2<double> matrixf;
-/*!
- * Tests object logic
- */
+
+
 struct Matrix2x2Test : tpunit::TestFixture
 {
  public:

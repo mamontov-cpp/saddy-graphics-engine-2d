@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sadsize.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sadthread.cpp"
 				>
 			</File>
