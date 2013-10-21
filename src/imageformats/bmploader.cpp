@@ -47,7 +47,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 
 	// Try to read header
 	sad::imageformats::BMPHeader header;
-	size_t read = fread(&header, sizeof(sad::imageformats::BMPHeader), 1, file);
+	size_t read = fread(&header, 1, sizeof(sad::imageformats::BMPHeader), file);
 	if (read != sizeof(sad::imageformats::BMPHeader))
 	{
 		return false;
@@ -61,7 +61,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 
 	// Read image information
 	sad::imageformats::BMPImageHeader image_header;
-	read = fread(&image_header, sizeof(sad::imageformats::BMPImageHeader), 1, file);
+	read = fread(&image_header, 1, sizeof(sad::imageformats::BMPImageHeader), file);
 	if (read != sizeof(sad::imageformats::BMPImageHeader))
 	{
 		return false;
@@ -82,7 +82,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 	texture->width() = width;
 	texture->height() = image_header.height;
 	texture->bpp() = 32;
-	texture->vdata().resize(fileimagesize * 4);
+	texture->vdata().resize(fileimagesize * 4, 255);
 
 	int x = 0;
 	int y = image_header.height - 1;
@@ -100,7 +100,7 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 		
 		std::swap(*offset_buffer, *(offset_buffer+2));
 				
-		++x;
+		x = x + 1;
 		if (x == width)
 		{
 			y -= 1;
