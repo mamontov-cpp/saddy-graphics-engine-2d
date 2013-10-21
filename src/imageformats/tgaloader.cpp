@@ -57,7 +57,7 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 	unsigned int read_byte = fread(header_buffer, sizeof(sad::uchar), header_buffer_size, handler);
 	if (read_byte != header_buffer_size)
 	{
-		return false
+		return false;
 	}
 
 	sad::imageformats::TGAHeader header;
