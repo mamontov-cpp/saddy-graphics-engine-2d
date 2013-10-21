@@ -46,13 +46,19 @@ static const unsigned char supported_image_types[supported_image_types_count] = 
 bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 {
 	if (file == NULL || texture == NULL)
+	{
 		return false;
+	}
 
 	/*! Buffer of tga header
 	 */
 	const unsigned int header_buffer_size = 18;
 	sad::uchar header_buffer[header_buffer_size];
-	fread(header_buffer, sizeof(sad::uchar), header_buffer_size, handler);
+	unsigned int read_byte = fread(header_buffer, sizeof(sad::uchar), header_buffer_size, handler);
+	if (read_byte != header_buffer_size)
+	{
+		return false
+	}
 
 	sad::imageformats::TGAHeader header;
 
