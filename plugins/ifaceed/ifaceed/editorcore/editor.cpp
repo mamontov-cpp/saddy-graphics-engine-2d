@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QApplication>
-#include <png/picopngloader.h>
 #include <texturemanager.h>
 #include <unused.h>
 
@@ -184,7 +183,6 @@ void Editor::initDefaultSaddyOptions()
 	this->m_scene->setCamera(new sad::OrthographicCamera());
 	sad::Renderer::ref()->setCurrentScene(this->m_scene);
 	sad::Renderer::ref()->toggleFixedOn();
-	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	// Try to load default icons
 	QString a = QApplication::applicationDirPath();
 	a = QDir(a).filePath(ICONS_XML);

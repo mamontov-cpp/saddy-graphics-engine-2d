@@ -11,12 +11,12 @@
 #include "input.h"
 #include "fontmanager.h"
 #include "orthographiccamera.h"
-#include "png/picopngloader.h"
 #include "sadthread.h"
 #include "input.h"
 #include "sprite2dadapter.h"
 #include "label.h"
 #include "texturemappedfont.h"
+#include "texturemanager.h"
 #include "freetype/font.h"
 
 
