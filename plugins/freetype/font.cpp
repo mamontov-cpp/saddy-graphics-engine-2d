@@ -3,6 +3,7 @@
 #include <log/log.h>
 #include <sadmutex.h>
 #include <sadptrhash.h>
+#include <sadrect.h>
 
 #include <cassert>
 #include <algorithm>
@@ -20,6 +21,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+// Taken from SDL_TTF sources for ceiling data
+#define FT_CEIL(X)  (((X + 63) & -64) / 64)
 
 namespace sad
 {
@@ -50,13 +53,20 @@ public:
 	/*! Frees all resources from GPU
 	 */
 	~FontCallList();
+	/*! A total size of font
+	 */
+	inline float totalSize()
+	{
+		return m_height + m_descender;
+	}
 protected:
-	GLuint *     m_textures;	    //!< Textures
-	GLuint       m_base;			//!< First id
-	float        m_w[256];			//!< Widths
-	float        m_height;			//!< Height of font
-	int          m_y_min;           //!< A minimal y
-	int          m_y_max;           //!< A maximum y
+	GLuint *     m_textures;	     //!< Textures
+	GLuint       m_base;			 //!< First id
+	sad::Size2D  m_sizes[256];		 //!< Widths
+	float        m_height;			 //!< Height of font
+	float        m_descender;        //!< A maximal descender for a font
+	float        m_requested_height; //!< A requested height on creation
+	float        m_linegap;          //!< A gap between the lines
 	/*! Whether call list was successfully built and is on GPU
 	 */
 	bool         m_on_gpu;  
@@ -132,6 +142,19 @@ protected:
 	/*! A cached list
 	 */
 	sad::freetype::FontCallList * m_cached_list;
+	/*! A first creating time, when font is created
+	 */
+	bool m_first_time_create_calllist;
+	/*! A ratio for creating a call list
+	 */
+	double m_ratio;
+	/*! Creates new call list of specified size
+		If first time call list is being created, ratio is stored inside and value
+		is recalculated
+		\param[in] face a face for list creation
+		\param[in] size  
+	 */
+	sad::freetype::FontCallList * makeCallList(FT_Face face, unsigned int size);
 };
 
 }
@@ -168,9 +191,54 @@ sad::freetype::Font::~Font()
 	delete m_dptr;
 }
 
+// Uncommend to enable glyph rendering debug
+#define FREETYPE_GLYPH_DEBUG
+
+#ifdef FREETYPE_GLYPH_DEBUG
+
+static unsigned const int render_rect_indices_count = 4;
+
+static unsigned int render_rect_indices[render_rect_indices_count][2] = 
+{
+	{0, 1},
+	{1, 2},
+	{2, 3},
+	{3, 0}
+};
+/*! Renders rectangle
+	\param[in] x1 X coordinate of first point
+	\param[in] y1 Y coordinate of first point
+	\param[in] x2 X coordinate of second point
+	\param[in] y2 Y coordinate of second point
+	\param[in] c  ciolor
+ */
+void debug_render_rect(double x1, double y1, double x2, double y2, const sad::Color & c)
+{
+	sad::Rect2D r(x1, y1, x2, y2);
+
+	glDisable(GL_TEXTURE_2D);
+		
+	glBegin(GL_LINES);
+	glColor3ub(c.r(), c.g(),  c.b());
+
+	for(int i = 0; i < render_rect_indices_count; i++)
+	{
+		const sad::Point2D & p1 = r[render_rect_indices[i][0]];
+		const sad::Point2D & p2 = r[render_rect_indices[i][1]];
+
+		glVertex2f((float)(p1.x()), (float)(p1.y()));
+		glVertex2f((float)(p2.x()), (float)(p2.y()));
+	}
+
+	glEnd();
+
+	glEnable(GL_TEXTURE_2D);
+}
+
+#endif
 sad::freetype::FontCallList::FontCallList(FT_Face face, unsigned int height)
-: m_on_gpu(false), m_textures(NULL), m_height((float)height), m_base(NULL),
-m_y_min(0), m_y_max(0)
+: m_on_gpu(false), m_textures(NULL), m_height(0), m_base(NULL),
+m_descender(0), m_requested_height((float)height), m_linegap(0)
 {
 	// if face is null, than there is nothing we can do
 	if (face == NULL)
@@ -181,8 +249,9 @@ m_y_min(0), m_y_max(0)
 	glGenTextures( 256, m_textures );
 	bool result = true;
 	FT_Set_Char_Size( face, height << 6, height << 6, 96, 96);
-	m_y_min = face->bbox.yMin >> 6;
-	m_y_max = face->bbox.yMax >> 6;	
+
+	m_linegap = (float)(FT_CEIL(FT_MulFix(face->height, face->size->metrics.y_scale)));
+	double commonfontsize = 0;
 	for(unsigned int currentcharindex = 0; currentcharindex < 256; currentcharindex++)
 	{
 		// Avoid 255 max value overflow and convert to wide char
@@ -198,7 +267,8 @@ m_y_min(0), m_y_max(0)
 				FT_Bitmap & bitmap = bitmap_glyph->bitmap;
 				
 				sad::Size2D size = this->createTextureForBitmap(bitmap, currentcharindex);
-				
+				m_sizes[currentcharindex] = size;
+			
 				// Create new call list
 				glNewList(m_base + currentcharindex,GL_COMPILE);	
 				glBindTexture(GL_TEXTURE_2D, m_textures[currentcharindex]);	
@@ -209,7 +279,7 @@ m_y_min(0), m_y_max(0)
 				float	x=(float)(bitmap.width) / (float)(size.Width);
 				float   y=(float)(bitmap.rows)  / (float)(size.Height);
 				glBegin(GL_QUADS);
-				
+
 				glTexCoord2d(0.0f,0.0f); 
 				glVertex2f(0.0f,(float)(bitmap.rows));
 				glTexCoord2d(0.0f,y); 
@@ -219,16 +289,24 @@ m_y_min(0), m_y_max(0)
 				glTexCoord2d((float)x,0.0f); 
 				glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
 				glEnd();
-	
+
+#ifdef FREETYPE_GLYPH_DEBUG
+				debug_render_rect(0, 0, bitmap.width, bitmap.rows, sad::Color(255, 255, 0));
+#endif
+
 				glPopMatrix();
 				glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
 	
 				// Set size computing props
-				m_w[currentcharindex]=(float)(face->glyph->advance.x >> 6);
+				m_sizes[currentcharindex].Width = (float)(face->glyph->advance.x >> 6);
+				m_sizes[currentcharindex].Height = (float)(face->glyph->metrics.vertAdvance >> 6);
 
 				glEndList();
+
+				commonfontsize = std::max(commonfontsize, (double)(bitmap.rows));
+				m_descender = std::max(m_descender, (float)(bitmap.rows - bitmap_glyph->top));
+				m_height = std::max(m_height, (float)(bitmap_glyph->top));
 				
-				m_height = std::max(m_height, (float)bitmap.rows);
 				characterresult = true;
 			}
 		}
@@ -239,7 +317,9 @@ m_y_min(0), m_y_max(0)
 		}
 		result = result && characterresult;
 	}
-	//m_height -= m_y_min;
+
+	m_linegap *= this->totalSize() / (float)commonfontsize;
+
 	m_on_gpu = result;
 }
 
@@ -272,9 +352,17 @@ void sad::freetype::FontCallList::render(const sad::String & s, const sad::Point
 	glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
 
 	sad_freetype_font_lock.lock();
+	float lineheight = m_height + m_descender;
 	for(unsigned int i = 0; i < lines.count(); i++) 
 	{
-		float offset = (float)(p.y() - m_height * (i + 1)) - m_y_min;
+		float offset = (float)(p.y()) - lineheight * i;
+		if (i > 0)
+		{
+			offset -= m_linegap * i;
+		}
+		// We must decrement offset, since rendering starts at
+		// baseline, so we compute baseline by decremnenting line height
+		offset += - lineheight + m_descender;
 
 		glPushMatrix();
 		glLoadIdentity();
@@ -296,16 +384,21 @@ sad::Size2D sad::freetype::FontCallList::size(const sad::String & s)
   	
 
 	sad::Size2D result;
-	result.Height  = lines.size() * m_height;
+	result.Height  = lines.size() * (m_height + m_descender);
+	if (lines.size() > 1)
+	{
+		result.Height += m_linegap * (lines.size() - 1);
+	}
 	result.Width = 0.0;
 
+	double ratio =  1.0 /*m_requested_height / m_height*/;
 	for(unsigned int i = 0; i < lines.count(); i++)
 	{
 		double width = 0;	  
 		for(unsigned int j = 0; j < lines[i].length(); j++)
 		{
 			unsigned char c = *reinterpret_cast<unsigned char*>(&(lines[i][j]));
-			width += m_w[c];
+			width += m_sizes[c].Width * ratio;
 		}
 		result.Width = std::max(width, result.Width); 
 	}
@@ -408,7 +501,8 @@ unsigned int sad::freetype::FontCallList::nextPowerOfTwo(unsigned int v)
 }
 
 sad::freetype::FontImpl::FontImpl() 
-: sad::Font(), m_library(0), m_face(0), m_cached_size(-1), m_cached_list(NULL)
+: sad::Font(), m_library(0), m_face(0), m_cached_size(-1), m_cached_list(NULL),
+m_first_time_create_calllist(true), m_ratio(0)
 {
 	// If freetype failed, than do nothing
 	if (FT_Init_FreeType(&m_library))  
@@ -477,12 +571,19 @@ sad::freetype::FontCallList * sad::freetype::FontImpl::callList(unsigned int siz
 		return m_cached_list;
 	}
 
-	sad::freetype::FontCallList * list = new sad::freetype::FontCallList(m_face, size);
+	sad::freetype::FontCallList * list = makeCallList(m_face, size);
 	m_cached_size = size;
 	m_cached_list = list;
 	m_height_cache.insert(size, list);
 
 	return list;
+}
+
+
+sad::freetype::FontCallList * sad::freetype::FontImpl::makeCallList(FT_Face face, unsigned int size)
+{
+	unsigned int pointsize = (unsigned int)((float)size / 3 * 4);
+	return new sad::freetype::FontCallList(m_face, (unsigned int)pointsize);
 }
 
 void sad::freetype::FontImpl::cleanup()
