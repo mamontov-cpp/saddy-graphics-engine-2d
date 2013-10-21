@@ -3,7 +3,7 @@
 	\brief Declaration of FontManager class
 
 	This file contains declaration of FontManager class, which holds all fonts, 
-	registered in saddt
+	registered in saddy
 */
 #pragma once
 #include "font.h"
@@ -47,11 +47,11 @@ private:
 	/*! Mutex, which is blocked, when collection is changed
 	 */
 	::sad::Mutex	m_m;    
-	/*! Copying is disabled
+	/*! Copying is DISABLED
 		\param[in] o manager
 	 */
 	FontManager(const FontManager & o);
-	/*! Copying is disabled
+	/*! Copying is DISABLED
 		\param[in] o manager
 		\return self-reference
 	 */

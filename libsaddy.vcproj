@@ -154,10 +154,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\bmploader.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\camera.cpp"
 				>
 			</File>
@@ -223,10 +219,6 @@
 			</File>
 			<File
 				RelativePath=".\src\periodicalevent.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pngtexture.cpp"
 				>
 			</File>
 			<File
@@ -338,62 +330,6 @@
 				>
 				<File
 					RelativePath=".\src\fsm\statemachine.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="png"
-				>
-				<File
-					RelativePath=".\src\png\convert.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\decodepng.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\decompress.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\huffman.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\inflateblock.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\inflatedynamic.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\inflator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\picopngloader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\pngbasic.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\png\unfilter.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="tga"
-				>
-				<File
-					RelativePath=".\src\tga\tga.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\tga\tgareader.cpp"
 					>
 				</File>
 			</Filter>
@@ -912,30 +848,6 @@
 				>
 				<File
 					RelativePath=".\include\fsm\statemachine.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="png"
-				>
-				<File
-					RelativePath=".\include\png\picopngloader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\png\png.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\png\zlib.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="tga"
-				>
-				<File
-					RelativePath=".\include\tga\tga.h"
 					>
 				</File>
 			</Filter>

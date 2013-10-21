@@ -1,8 +1,12 @@
 #include "texture.h"
 #include "texturemanager.h"
-#include <errno.h>
+#include "log/log.h"
+
 #include "3rdparty/glext/glext.h"
 #include "extchecker.h"
+
+#include <errno.h>
+
 #ifdef LINUX
 #include <renderer.h>
 
@@ -51,7 +55,6 @@ void Texture::enable()
 	glBindTexture(GL_TEXTURE_2D,m_id);
 }
 
-#include "../include/log/log.h"
 
 void Texture::buildMipMaps()
 {
@@ -188,7 +191,7 @@ bool Texture::load(const sad::String & filename, sad::Renderer * r)
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	sad::TextureLoader * l = r->textures()->loader(ff);
+	sad::imageformats::Loader * l = r->textures()->loader(ff);
 	if (l)
 	{
 		FILE * fl = fopen(filename.data(), "rb");
@@ -229,12 +232,6 @@ void Texture::save(const char * method, const char * file)
 	}
 	
 }
-
-TextureLoader::~TextureLoader()
-{
-
-}
-
 
 void Texture::unload()
 {

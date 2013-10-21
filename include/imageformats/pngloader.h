@@ -21,7 +21,7 @@ public:
 		\param[in] texture
 		\return true on success
 	 */
-	virtual bool load(FILE * file, sad::Texture * texture) = 0;
+	virtual bool load(FILE * file, sad::Texture * texture);
 	/*! Kept for purpose of inheritance
 	 */
 	virtual ~PNGLoader();

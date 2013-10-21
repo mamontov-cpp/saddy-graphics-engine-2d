@@ -33,39 +33,11 @@ class Info;
 
 namespace sad
 {
-	class Texture;
-	/*! Texture loader class for specific formats, which can be put into a TextureManager
-		to perform all kinds of loading
-	 */
-	class TextureLoader
-	{
-	 public:
-		 /*! Loads a texture
-			 \param[in] file
-			 \param[in] texture
-		  */
-		 virtual bool load(FILE * file, sad::Texture * texture) = 0;
-
-		 virtual ~TextureLoader();
-	};
-	class BMPTextureLoader: public sad::TextureLoader
-	{
-	 public:
-		 /*! Loads a texture
-			 \param[in] file
-			 \param[in] texture
-		  */
-		 virtual bool load(FILE * file, sad::Texture * texture);
-
-		 ~BMPTextureLoader();
-	};
-	class TGATextureLoader;
 	/*! Texture class
 	*/
 	class Texture
 	{
 	public:
-		friend class TGATextureLoader;
 		/*! Texture mode
 		*/
 		enum Mode
@@ -110,21 +82,6 @@ namespace sad
 			\param[in] height new height
 		*/
 		void scale(int width, int height);
-		/*! Loads a BMP file, from file
-			\param[in] file file handle
-		*/
-		bool               loadBMP(FILE * file);
-		/*! Reloads TGA from info
-			\param textureInfo a texture information
-		*/
-		void                reverseTGA(const tga::Info & textureInfo);
-
-	protected:
-		/*! Loads a TGA image from specified file
-			\param[in] hFile supplied file
-			\return whether image was succesfully loaded
-		 */
-	    bool loadTGA(FILE * hFile);
 	public:
 		/*! Makes a texture POT
 		*/
@@ -146,32 +103,8 @@ namespace sad
             \param[in] r renderer where texture loader is getting from
 		*/
 		bool load(const sad::WString & filename, sad::Renderer * r = sad::Renderer::ref());
-		/*! Loads a BMP from file
-		\param[in] filename name of file
-		*/
-		bool loadBMP(const sad::String & filename);
-		/*! Loads a BMP from file
-		\param[in] filename name of file
-		*/
-		bool loadBMP(const sad::WString & filename);
-		/*! Loads a TGA from file
-		\param[in] filename name of file
-		*/
-		bool loadTGA(const sad::String & filename);
-		/*! Loads a TGA from file
-		\param[in] filename name of file
-		*/
-		bool loadTGA(const sad::WString & filename);
-		/*! Loads a PNG from a file
-		\param[in] filename name of file
-		*/
-		bool loadPNG(const sad::String & filename);
-		/*! Loads a PNG from a file
-		\param[in] filename name of file
-		*/
-		bool loadPNG(const sad::WString & filename);
 		/*! Loads default texture
-		*/
+		 */
 		void loadDefaultTGATexture();
 		/*! Disables texture
 		*/
