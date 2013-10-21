@@ -60,7 +60,21 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 		return false;
 	}
 
+	/*! Decode header
+	 */ 
 	sad::imageformats::TGAHeader header;
+    header.idLength			= header_buffer[0];
+	header.colorMapType		= header_buffer[1];
+	header.imageType		= header_buffer[2];
+	header.colorMapOrigin	= header_buffer[3]  + 256 * header_buffer[4];
+	header.colorMapSize		= header_buffer[5]  + 256 * header_buffer[6];
+    header.colorMapEntrySize= header_buffer[7];
+    header.XOrigin			= header_buffer[8]  + 256 * header_buffer[9];
+	header.YOrigin			= header_buffer[10] + 256 * header_buffer[11];
+	header.width			= header_buffer[12] + 256 * header_buffer[13];
+	header.height			= header_buffer[14] + 256 * header_buffer[15];
+	header.bitsPerPix		= header_buffer[16];
+    header.imageDescriptor	= header_buffer[17];
 
 	return true;
 }
