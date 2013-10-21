@@ -50,7 +50,7 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 		return false;
 	}
 
-	/*! Buffer of tga header
+	/*! Try to read the tga header
 	 */
 	const unsigned int header_buffer_size = 18;
 	sad::uchar header_buffer[header_buffer_size];
