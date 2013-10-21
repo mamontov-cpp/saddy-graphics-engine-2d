@@ -8,12 +8,13 @@
 
 	Describes a main file for game
  */
+#include "game.h"
+
 #include <renderer.h>
 #include <input.h>
 #include <fontmanager.h>
 #include <texturemappedfont.h>
-#include <png/picopngloader.h>
-#include "game.h"
+#include <texturemanager.h>
 
 #include <math.h>
 #include <time.h>
@@ -101,7 +102,6 @@ int main(int argc, char** argv)
 	// Inits a renderer as non-fullscreen 640x480 window
 	// And set PicoPNG loader for images
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
-	sad::Renderer::ref()->textures()->setLoader("PNG", new PicoPNGTextureLoader());
 	SL_MESSAGE("Renderer successfully initialized!");	
 	// Inits generator for spawns and random raings
 	srand((unsigned int)time(NULL));

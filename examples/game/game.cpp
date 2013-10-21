@@ -1,9 +1,4 @@
 #include "game.h"
-#include <renderer.h>
-#include <orthographiccamera.h>
-#include <sprite2dadapter.h>
-#include <geometry2d.h>
-#include <label.h>
 
 #include "bonus.h"
 #include "enemy.h"
@@ -14,6 +9,14 @@
 #include "player.h"
 #include "playerbullet.h"
 #include "enemybullet.h"
+
+#include <renderer.h>
+#include <texturemanager.h>
+#include <orthographiccamera.h>
+#include <sprite2dadapter.h>
+#include <geometry2d.h>
+#include <label.h>
+
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
