@@ -76,7 +76,7 @@ class InvalidCastException
 
 }
 
-namespace hst 
+namespace sad 
 {
 /*! Performs a checked cast from one type to another.
 	Used to widen domain, or when sad::Object::as does not work

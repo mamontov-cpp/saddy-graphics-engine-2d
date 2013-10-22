@@ -53,8 +53,8 @@ class FunctionCollisionHandler  : public sad::p2d::BasicCollisionHandler
 			  e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
 			  e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
 			  e.m_time = ev.m_time;
-			  e.m_object_1 = hst::checked_cast<T1>(ev.m_object_1->userObject());
-			  e.m_object_2 = hst::checked_cast<T2>(ev.m_object_2->userObject());
+			  e.m_object_1 = sad::checked_cast<T1>(ev.m_object_1->userObject());
+			  e.m_object_2 = sad::checked_cast<T2>(ev.m_object_2->userObject());
 			  m_p(e);
 		  }
 	  }
@@ -109,8 +109,8 @@ class MethodCollisionHandler  : public sad::p2d::BasicCollisionHandler
 			  e.m_time = ev.m_time;
 			  e.sad::p2d::BasicCollisionEvent::m_object_1 = ev.m_object_1;
 			  e.sad::p2d::BasicCollisionEvent::m_object_2 = ev.m_object_2;
-			  e.m_object_1 = hst::checked_cast<T1>(ev.m_object_1->userObject());
-			  e.m_object_2 = hst::checked_cast<T2>(ev.m_object_2->userObject());
+			  e.m_object_1 = sad::checked_cast<T1>(ev.m_object_1->userObject());
+			  e.m_object_2 = sad::checked_cast<T2>(ev.m_object_2->userObject());
 			  (m_o->*m_p)(e);
 		  }
 	  }

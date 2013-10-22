@@ -74,7 +74,7 @@ void sad::p2d::Body::trySetTransformer()
 	{
 		if (this->m_current->metaData()->canBeCastedTo("p2d::Circle"))
 		{
-			p2d::Circle * c = hst::checked_cast<p2d::Circle>(m_current);
+			p2d::Circle * c = sad::checked_cast<p2d::Circle>(m_current);
 			c->setTransformer(m_world->transformer());
 		}
 	}

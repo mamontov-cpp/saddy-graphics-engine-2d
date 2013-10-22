@@ -1,4 +1,4 @@
-/*! \file  font.h
+/*! \file  include/font.h
 	\author HiddenSeeker
 
 	Defines a basic class, for all renderable fonts in Saddy engine
@@ -27,7 +27,7 @@ public:
 	virtual void render(const sad::String & str,const sad::Point2D & p) = 0; 
 	/*! Sets a color, which label will be rendered with, if label is rendered,
 		using this font
-		\param[in] color color of font
+		\param[in] c color of font
 	 */
 	virtual void setColor(const sad::AColor & c);
 	/*! Returns a color, which label will be rendered with, if label is rendered,

@@ -152,12 +152,12 @@ public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 	 {
 		 if (!m_reverse)
 		 {
-		  _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a1);
-		  _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a2);
+		  _FirstObject * _a1 = sad::checked_cast<_FirstObject>(a1);
+		  _SecondObject * _a2 = sad::checked_cast<_SecondObject>(a2);
 		  return m_p(_a1, ak1, _a2, ak2);
 		 }
-		 _FirstObject * _a1 = hst::checked_cast<_FirstObject>(a2);
-		 _SecondObject * _a2 = hst::checked_cast<_SecondObject>(a1);
+		 _FirstObject * _a1 = sad::checked_cast<_FirstObject>(a2);
+		 _SecondObject * _a2 = sad::checked_cast<_SecondObject>(a1);
 		 return m_p(_a1, ak2, _a2,  ak1);
 	 }
 	 virtual ~CollisionMultiMethodInstanceWithArg() {}

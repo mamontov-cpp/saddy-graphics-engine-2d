@@ -26,11 +26,6 @@
 
 #pragma once
 
-namespace tga
-{
-class Info;
-}
-
 namespace sad
 {
 	/*! Texture class

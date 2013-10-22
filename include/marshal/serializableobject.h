@@ -60,14 +60,12 @@ class SerializableObject: public sad::Object
 		AbstractProperty * getProperty(const sad::String & name);
 
 		/*! Saves an object to a single entry
-			\param[in] context context
 			\return new object
 		 */
 		virtual SerializationEntry * save();
 
 		/*! Loads an object from entry
 			\param[in] entry entry
-			\param[in] context context
 		 */
 		virtual void load(SerializationEntry * entry);
 
