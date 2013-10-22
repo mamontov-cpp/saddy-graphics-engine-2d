@@ -1,4 +1,4 @@
-/*! \file   sadluv.h
+/*! \file   sadluvcolor.h
 	\author HiddenSeeker
 
 	Describes color in CIE LUV color model.
@@ -65,7 +65,7 @@ public:
 		m_L = L;
 	}
 	/*! Sets chrominance component, which defines shifts from green to red
-		\param[in] U chrominance component
+		\param[in] u chrominance component
 	 */
 	inline void setU(double u)
 	{

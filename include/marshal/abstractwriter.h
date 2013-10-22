@@ -27,7 +27,6 @@ class AbstractWriter
  public:
 			/*! Writes an objects from container to a stream
 				\param[in] container container data
-				\param[in] context   context of action
 			 */
 			virtual bool write(SerializableContainer * container);
 			/*! Does nothing

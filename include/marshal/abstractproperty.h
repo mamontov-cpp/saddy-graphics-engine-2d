@@ -62,7 +62,6 @@ public:
 	    
         /*! Loads data from string
 			\param[in] str      string data
-			\param[in] context  action context
 		 */
 	    virtual void load(const sad::String & str);
 

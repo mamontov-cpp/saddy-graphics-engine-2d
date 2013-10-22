@@ -76,10 +76,6 @@ typedef Window  X11Window;
 
 namespace sad
 {
-  /*! Chunk, for various loading operations
-  */
-  typedef unsigned long Chunk;
-
 	
    /*! Contains a window info
    */

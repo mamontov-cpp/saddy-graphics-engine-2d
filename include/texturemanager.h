@@ -95,12 +95,12 @@ private:
 	/*! Copying is DISABLED
 		\param[in] o manager
 	 */	
-	TextureManager(const TextureManager &);
+	TextureManager(const TextureManager & o);
 	/*! Copying is DISABLED
 		\param[in] o manager
 		\return self-reference
 	 */
-	TextureManager & operator=(const TextureManager &);
+	TextureManager & operator=(const TextureManager & o);
 };
 
 }
