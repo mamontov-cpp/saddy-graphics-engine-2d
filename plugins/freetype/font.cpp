@@ -210,7 +210,7 @@ sad::freetype::Font::~Font()
 }
 
 // Uncommend to enable glyph rendering debug
-#define FREETYPE_GLYPH_DEBUG
+// #define FREETYPE_GLYPH_DEBUG
 
 #ifdef FREETYPE_GLYPH_DEBUG
 

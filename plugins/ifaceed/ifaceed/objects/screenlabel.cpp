@@ -71,10 +71,9 @@ void ScreenLabel::_render()
 	sad::Size2D s = m_font->size(m_text);
 	glMatrixMode(GL_MODELVIEW_MATRIX);
 	glPushMatrix();
-	//glTranslatef(m_point.x() +  s.Width /2, m_point.y() - s.Height /2, 0.0f);
-	//glRotatef(m_angle / M_PI*180.0f, 0.0f, 0.0f, 1.0f);
-	//sad::Point2D p(- (s.Width/2), 0);
-	sad::Point2D p(m_point.x(), m_point.y());
+	glTranslatef(m_point.x() +  s.Width /2, m_point.y() - s.Height / 2, 0.0f);
+	glRotatef(m_angle / M_PI*180.0f, 0.0f, 0.0f, 1.0f);
+	sad::Point2D p(s.Width / -2 , s.Height / 2);
 	m_font->render(m_text, p);	
 	
 	glPopMatrix();
