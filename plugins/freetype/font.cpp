@@ -644,8 +644,7 @@ sad::freetype::FontCallList * sad::freetype::FontImpl::callList(unsigned int siz
 
 sad::freetype::FontCallList * sad::freetype::FontImpl::makeCallList(FT_Face face, unsigned int size)
 {
-	unsigned int pointsize = (unsigned int)((float)size / 3 * 4);
-	return new sad::freetype::FontCallList(m_face, (unsigned int)pointsize);
+	return new sad::freetype::FontCallList(m_face, size);
 }
 
 void sad::freetype::FontImpl::cleanup()
