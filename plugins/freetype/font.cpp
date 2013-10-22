@@ -80,6 +80,7 @@ protected:
 	float        m_descender;        //!< A maximal descender for a font
 	float        m_requested_height; //!< A requested height on creation
 	float        m_linegap;          //!< A gap between the lines
+	float        m_ratio;            //!< A scaling factor, since Freetype creates bigger fonts.
 	/*! Whether call list was successfully built and is on GPU
 	 */
 	bool         m_on_gpu;  
@@ -320,17 +321,27 @@ m_descender(0), m_requested_height((float)height), m_linegap(0)
 		result = result && characterresult;
 	}
 	
+
+	m_ratio = m_requested_height / this->totalSize();
+
+	m_linegap *= this->totalSize() / (float)commonfontsize;
+	m_linegap *= m_ratio;
+
 	// We perform make call list in other loop to compute scaling factor
 	// and scale textures accordingly. To properly do this, we need m_descender, m_height
 	// which is computed inside
 	for(unsigned int currentcharindex = 0; currentcharindex < 256; currentcharindex++)
 	{
 		makeCallList(currentcharindex);
+
+		m_sizes[currentcharindex].Width *= m_ratio;
+		m_sizes[currentcharindex].Height *= m_ratio;
 	}
 
 	delete m_unscaled_metrics;
 
-	m_linegap *= this->totalSize() / (float)commonfontsize;
+	m_height *= m_ratio;
+	m_descender *= m_ratio;
 
 	m_on_gpu = result;
 }
@@ -508,33 +519,33 @@ void sad::freetype::FontCallList::makeCallList(unsigned int currentcharindex)
 	glBindTexture(GL_TEXTURE_2D, m_textures[currentcharindex]);	
 	glPushMatrix();
 
-	glTranslatef(m.glyph_left,0.0f,0.0f);
-	glTranslatef(0.0f, m.top_and_rows_difference, 0.0f);
+	glTranslatef(m.glyph_left  * m_ratio,0.0f,0.0f);
+	glTranslatef(0.0f, m.top_and_rows_difference * m_ratio, 0.0f);
 	float	x = m.width / m.tex_width;
 	float   y = m.height / m.tex_height;
 	
 	glBegin(GL_QUADS);
 	
 	glTexCoord2d(0.0f,0.0f); 
-	glVertex2f(0.0f, m.height);
+	glVertex2f(0.0f, m.height * m_ratio);
 	
 	glTexCoord2d(0.0f, y); 
 	glVertex2f(0.0f, 0.0f);
 	
 	glTexCoord2d(x, y); 
-	glVertex2f(m.width,0);
+	glVertex2f(m.width * m_ratio,0);
 
 	glTexCoord2d(x, 0.0f); 
-	glVertex2f(m.width, m.height);
+	glVertex2f(m.width * m_ratio, m.height * m_ratio);
 	
 	glEnd();
 
 #ifdef FREETYPE_GLYPH_DEBUG
-	debug_render_rect(0, 0, m.width, m.height, sad::Color(255, 255, 0));
+	debug_render_rect(0, 0, m.width * m_ratio, m.height * m_ratio, sad::Color(255, 255, 0));
 #endif
 
 	glPopMatrix();
-	glTranslatef(m.advance_x ,0,0);
+	glTranslatef(m.advance_x * m_ratio ,0,0);
 	
 	glEndList();
 }
