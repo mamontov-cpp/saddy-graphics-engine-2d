@@ -63,6 +63,19 @@ protected:
 	GLuint *     m_textures;	     //!< Textures
 	GLuint       m_base;			 //!< First id
 	sad::Size2D  m_sizes[256];		 //!< Widths
+	struct GlyphMetrics
+	{
+		float glyph_left;
+		float top_and_rows_difference;
+		float advance_x;
+		float height;
+		float width;
+		float tex_width;
+		float tex_height;
+	}
+	/*! A cached unscaled metrics for building a glyph call list
+	 */
+	* m_unscaled_metrics; 
 	float        m_height;			 //!< Height of font
 	float        m_descender;        //!< A maximal descender for a font
 	float        m_requested_height; //!< A requested height on creation
@@ -84,6 +97,10 @@ protected:
 		FT_Bitmap & bitmap, 
 		unsigned int index
 	);
+	/*! Makes OpenGL call list for texture with specified index
+		\param[in] index an index part for call list
+	 */
+	void makeCallList(unsigned int index);
 	/*! Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 		Computes next power of two
 		\param[in] v integer
@@ -252,6 +269,8 @@ m_descender(0), m_requested_height((float)height), m_linegap(0)
 
 	m_linegap = (float)(FT_CEIL(FT_MulFix(face->height, face->size->metrics.y_scale)));
 	double commonfontsize = 0;
+
+	m_unscaled_metrics = new GlyphMetrics[256];
 	for(unsigned int currentcharindex = 0; currentcharindex < 256; currentcharindex++)
 	{
 		// Avoid 255 max value overflow and convert to wide char
@@ -269,40 +288,23 @@ m_descender(0), m_requested_height((float)height), m_linegap(0)
 				sad::Size2D size = this->createTextureForBitmap(bitmap, currentcharindex);
 				m_sizes[currentcharindex] = size;
 			
-				// Create new call list
-				glNewList(m_base + currentcharindex,GL_COMPILE);	
-				glBindTexture(GL_TEXTURE_2D, m_textures[currentcharindex]);	
-				glPushMatrix();
+				// Fill glyph metrics, so we can create call list
+				m_unscaled_metrics[currentcharindex].tex_width = (float)(size.Width);
+				m_unscaled_metrics[currentcharindex].tex_height = (float)(size.Height);
 
-				glTranslatef((float)(bitmap_glyph->left),0.0f,0.0f);
-				glTranslatef(0.0f,(float)(bitmap_glyph->top - bitmap.rows),0.0f);
-				float	x=(float)(bitmap.width) / (float)(size.Width);
-				float   y=(float)(bitmap.rows)  / (float)(size.Height);
-				glBegin(GL_QUADS);
+				m_unscaled_metrics[currentcharindex].glyph_left = (float)(bitmap_glyph->left);
+				float diff = (float)(bitmap_glyph->top - bitmap.rows);
+				m_unscaled_metrics[currentcharindex].top_and_rows_difference = diff;
+				float advance_x = (float)(face->glyph->advance.x >> 6);
+				m_unscaled_metrics[currentcharindex].advance_x = advance_x;
+				m_unscaled_metrics[currentcharindex].width = (float)(bitmap.width);
+				m_unscaled_metrics[currentcharindex].height = (float)(bitmap.rows);
 
-				glTexCoord2d(0.0f,0.0f); 
-				glVertex2f(0.0f,(float)(bitmap.rows));
-				glTexCoord2d(0.0f,y); 
-				glVertex2f(0.0f,0.0f);
-				glTexCoord2d(x,y); 
-				glVertex2f((float)(bitmap.width),0);
-				glTexCoord2d((float)x,0.0f); 
-				glVertex2f((float)(bitmap.width),(float)(bitmap.rows));
-				glEnd();
-
-#ifdef FREETYPE_GLYPH_DEBUG
-				debug_render_rect(0, 0, bitmap.width, bitmap.rows, sad::Color(255, 255, 0));
-#endif
-
-				glPopMatrix();
-				glTranslatef((float)(face->glyph->advance.x >> 6) ,0,0);
-	
+				
 				// Set size computing props
 				m_sizes[currentcharindex].Width = (float)(face->glyph->advance.x >> 6);
 				m_sizes[currentcharindex].Height = (float)(face->glyph->metrics.vertAdvance >> 6);
-
-				glEndList();
-
+				
 				commonfontsize = std::max(commonfontsize, (double)(bitmap.rows));
 				m_descender = std::max(m_descender, (float)(bitmap.rows - bitmap_glyph->top));
 				m_height = std::max(m_height, (float)(bitmap_glyph->top));
@@ -317,6 +319,16 @@ m_descender(0), m_requested_height((float)height), m_linegap(0)
 		}
 		result = result && characterresult;
 	}
+	
+	// We perform make call list in other loop to compute scaling factor
+	// and scale textures accordingly. To properly do this, we need m_descender, m_height
+	// which is computed inside
+	for(unsigned int currentcharindex = 0; currentcharindex < 256; currentcharindex++)
+	{
+		makeCallList(currentcharindex);
+	}
+
+	delete m_unscaled_metrics;
 
 	m_linegap *= this->totalSize() / (float)commonfontsize;
 
@@ -486,6 +498,45 @@ sad::Size2D sad::freetype::FontCallList::createTextureForBitmap(
 	result.Width = width;
 	result.Height = height;
 	return result;
+}
+
+void sad::freetype::FontCallList::makeCallList(unsigned int currentcharindex)
+{
+	// Actually create new call list
+	GlyphMetrics & m = m_unscaled_metrics[currentcharindex];
+	glNewList(m_base + currentcharindex,GL_COMPILE);	
+	glBindTexture(GL_TEXTURE_2D, m_textures[currentcharindex]);	
+	glPushMatrix();
+
+	glTranslatef(m.glyph_left,0.0f,0.0f);
+	glTranslatef(0.0f, m.top_and_rows_difference, 0.0f);
+	float	x = m.width / m.tex_width;
+	float   y = m.height / m.tex_height;
+	
+	glBegin(GL_QUADS);
+	
+	glTexCoord2d(0.0f,0.0f); 
+	glVertex2f(0.0f, m.height);
+	
+	glTexCoord2d(0.0f, y); 
+	glVertex2f(0.0f, 0.0f);
+	
+	glTexCoord2d(x, y); 
+	glVertex2f(m.width,0);
+
+	glTexCoord2d(x, 0.0f); 
+	glVertex2f(m.width, m.height);
+	
+	glEnd();
+
+#ifdef FREETYPE_GLYPH_DEBUG
+	debug_render_rect(0, 0, m.width, m.height, sad::Color(255, 255, 0));
+#endif
+
+	glPopMatrix();
+	glTranslatef(m.advance_x ,0,0);
+	
+	glEndList();
 }
 
 unsigned int sad::freetype::FontCallList::nextPowerOfTwo(unsigned int v)
