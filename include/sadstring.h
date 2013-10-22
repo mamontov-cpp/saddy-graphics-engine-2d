@@ -56,26 +56,6 @@ class String: public std::string
 	     ~String();                              //!< Destructor, which cleans a string.
 		 //Methods
 		 bool empty() const;                      //!< Detects emptyness of string.
-		 /*! Comparison of two strings
-			 \param[in] o string
-			 \return whether they are equal
-		  */
-		 bool operator==(const sad::String & o) const;
-		 /*! Comparison of two strings
-			 \param[in] o string
-			 \return whether they are equal
-		  */
-		 bool operator!=(const sad::String & o) const;
-		 /*! Comparison of two strings
-			 \param[in] o string
-			 \return whether they are equal
-		  */
-		 bool operator==(const char *  o) const;
-		 /*! Comparison of two strings
-			 \param[in] o string
-			 \return whether they are equal
-		  */
-		 bool operator!=(const char * o) const;
 		 /*! Removes a symbol at position
              \param[in] i position of symbol
 		 */

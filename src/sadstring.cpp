@@ -40,28 +40,6 @@ sad::String & sad::String::operator<<(char c)
   return *this;
 }
 
-bool sad::String::operator==(const sad::String & o) const
-{
-	const std::string & p1 = (const std::string&)(*this);
-	const std::string & p2 = (const std::string&)(o);	
-	return p1.compare(p2) == 0;
-}
-
-bool  sad::String::operator!=(const sad::String & o) const
-{
-	return !(*this == o);
-}
-
-bool sad::String::operator==(const char * o) const
-{
-	return (*this == sad::String(o));
-}
-
-bool sad::String::operator!=(const char * o) const
-{
-	return (*this == sad::String(o));
-}
-
 bool sad::String::operator>(const sad::String &o) const
 {
 	unsigned long minlen=(this->length()<o.length())?this->length():o.length();

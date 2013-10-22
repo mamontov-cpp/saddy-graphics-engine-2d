@@ -394,7 +394,8 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 	}
 	// Ignore color change for anyone but label
     if (!o) return;
-    if (prop == "color" && o->type() != "ScreenLabel")
+	sad::String type_name = o->type();
+    if (prop == "color" && type_name != "ScreenLabel")
 		return;
 	if (o) 
 	{
