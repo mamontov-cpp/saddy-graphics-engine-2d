@@ -12,3 +12,12 @@
 #include <cstdio>
 #include "tpunit++.hpp"
 #pragma warning(pop)
+
+/*! A macro, which runs all registered tests
+ */ 
+#define MAIN_RUNS_ALL_REGISTERED_TESTS     \
+	int main(int argc, char ** argv)       \
+    {									   \
+        int result = tpunit::Tests::Run(); \
+        return 0;                          \
+    }

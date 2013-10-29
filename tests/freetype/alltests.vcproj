@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;;&quot;$(InputDir)/../../include/plugins/freetype&quot;"
+				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;;&quot;$(InputDir)/../../include/plugins/freetype&quot;;&quot;$(FREETYPE_INCLUDE)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="saddy-debug.lib saddy-ft-debug.lib"
+				AdditionalDependencies="saddy-debug.lib saddy-ft-debug.lib freetype.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;"
+				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
