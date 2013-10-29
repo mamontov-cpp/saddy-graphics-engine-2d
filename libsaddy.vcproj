@@ -965,6 +965,10 @@
 						RelativePath=".\include\3rdparty\tpunit++\tpunit++.hpp"
 						>
 					</File>
+					<File
+						RelativePath=".\include\3rdparty\tpunit++\tpunitw.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="ttmath"
