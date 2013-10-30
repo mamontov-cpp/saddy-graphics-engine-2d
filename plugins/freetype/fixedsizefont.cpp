@@ -1,6 +1,8 @@
 #include "fixedsizefont.h"
 #include "towidechar.h"
 
+#include <sadmutex.h>
+
 #include <math.h>
 
 #ifdef _MSC_VER
@@ -37,12 +39,16 @@ sad::freetype::FixedSizeFont::~FixedSizeFont()
 	}
 }
 
+static sad::Mutex sad_freetype_font_lock;
+
 void sad::freetype::FixedSizeFont::render(
 	const sad::String & s, 
 	const sad::Point2D & p, 
 	float ratio
 )
 {
+	sad_freetype_font_lock.lock();
+
 	sad::String tmp = s;
 	tmp.removeAllOccurences("\r");
 	sad::StringList list = tmp.split("\n");
@@ -52,6 +58,8 @@ void sad::freetype::FixedSizeFont::render(
 	float xbegin = (float)(p.x());
 	float curx = xbegin;
 	float cury = (float)(p.y() - m_bearing_y);
+	
+	glBegin(GL_QUADS);
 	for(unsigned int i = 0; i < list.size(); i++)
 	{
 		for(unsigned int j = 0; j < list[i].size(); j++)
@@ -73,6 +81,9 @@ void sad::freetype::FixedSizeFont::render(
 		curx = xbegin;
 		previous = false;
 	}
+	glEnd();
+
+	sad_freetype_font_lock.unlock();
 }
 
 sad::Size2D sad::freetype::FixedSizeFont::size(
