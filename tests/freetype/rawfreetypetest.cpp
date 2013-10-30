@@ -38,9 +38,9 @@ public:
 	   //FT_Set_Char_Size(face, pointheight, pointheight, 96, 96);
 
 	   int ppem = face->size->metrics.y_ppem;
-	   double  height = ppem * ((double)(face->height) / face->units_per_EM);
-	   double  ascender = ppem * ((double)(face->ascender) / face->units_per_EM);
-	   double  descender = ppem * ((double)(face->descender) / face->units_per_EM);
+	   double  height = ppem * ((double)(face->bbox.yMax) / face->units_per_EM);
+	   double  ascender = ppem * ((double)(face->bbox.yMax) / face->units_per_EM);
+	   double  descender = ppem * ((double)(face->bbox.yMin) / face->units_per_EM);
 
 	   double mybaseheight = ppem * ((double)(face->ascender - face->descender + face->height) /  face->units_per_EM);
 
