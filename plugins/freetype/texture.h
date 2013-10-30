@@ -12,6 +12,14 @@
 #include <freetype/fttrigon.h>
 #include <vector>
 
+#ifdef WIN32
+	#define NOMINMAX
+	#include <windows.h>
+#endif
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+
 namespace sad
 {
 
@@ -27,17 +35,10 @@ public:
 	std::vector<unsigned char> Pixels;
 	/*! A width of texture
 	 */
-	unsigned int Width;
+	float Width;
 	/*! A height of texture
 	 */
-	unsigned int Height;
-
-	/*! A width of bitmap, stored in texture
-	 */
-	unsigned int BitmapWidth;
-	/*! A rows of bitmap, stored in texture
-	 */
-	unsigned int BitmapRows;
+	float Height;
 	
 	/*! Determines, whether texture is uploaded on GPU
 	 */
