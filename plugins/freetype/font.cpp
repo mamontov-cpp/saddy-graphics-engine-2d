@@ -19,11 +19,11 @@ void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p)
 	m_dptr->setSize(m_size);
 
 	this->setCurrentColor();
-	m_dptr->render(str, p);
+	m_dptr->render(str, p, m_linespacing_ratio);
 	this->restoreColor();
 }
 
-bool sad::freetype::Font::builtinLineSpacing() const
+float sad::freetype::Font::builtinLineSpacing() const
 {
 	return m_dptr->builtinLineSpacing();
 }
@@ -31,7 +31,7 @@ bool sad::freetype::Font::builtinLineSpacing() const
 sad::Size2D sad::freetype::Font::size(const sad::String & str)
 {
 	m_dptr->setSize(m_size);
-	return m_dptr->size(str);
+	return m_dptr->size(str, m_linespacing_ratio);
 }
 
 sad::freetype::Font::~Font()

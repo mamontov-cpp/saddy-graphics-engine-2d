@@ -41,7 +41,7 @@ public:
 	/*! Returns a builtin line spacing
 		\return line spacing
 	 */
-	virtual bool builtinLineSpacing() const;
+	virtual float builtinLineSpacing() const;
 	/*! Destructor
 	 */
 	virtual ~Font();

@@ -6,7 +6,7 @@
 #include <GL/gl.h>														
 #include <GL/glu.h>
 
-sad::Font::Font() : m_size(14)
+sad::Font::Font() : m_size(14), m_linespacing_ratio(1.0)
 {
 
 }
@@ -30,6 +30,12 @@ void sad::Font::setColor(const sad::AColor & c)
 sad::AColor sad::Font::color() const
 {
 	return m_color;
+}
+
+
+float sad::Font::builtinLineSpacing() const
+{
+	return 1;
 }
 
 void sad::Font::setCurrentColor()
