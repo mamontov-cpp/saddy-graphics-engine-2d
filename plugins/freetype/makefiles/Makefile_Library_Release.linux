@@ -1,0 +1,36 @@
+INCLUDE= -I../../include
+PLATFORM = LINUX
+
+ifeq ($(PLATFORM),WIN32)
+DEFINES  = -DWIN32 -DMINGW
+INCLUDE  = -I../../include -I"%FREETYPE_INCLUDE%"
+else
+DEFINES  = -DUNIX -DLINUX -DGCC
+endif
+
+TYPE     = release
+OUTPUT   = ../../lib/libsaddy-ft-release.a 
+BUILD    = build/font_$(TYPE).o
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+all: build $(OUTPUT)
+build: 
+	mkdir build
+build/font_$(TYPE).o: font.cpp
+	g++ -c $(CCOPTS) font.cpp -o build/font_$(TYPE).o $(INCLUDE) $(DEFINES)
+$(OUTPUT): build/font_$(TYPE).o
+	ar cr  $(OUTPUT)   $(BUILD)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r "build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean
