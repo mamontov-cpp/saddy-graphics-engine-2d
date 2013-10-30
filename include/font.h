@@ -51,6 +51,52 @@ public:
 		\param[in] size size of font in points
 	 */
 	virtual void setSize(unsigned int size);
+	/*! Returns a builtin line spacing
+		\return line spacing
+	 */
+	virtual float builtinLineSpacing() const;
+	/*! Sets size of font in points
+		\param[in] size size of font in points
+	 */
+	inline void setSizeInPoints(unsigned int size)
+	{
+		setSize((unsigned int)(size * 1.333));
+	}
+	/*! Returns size of font in points
+		\return size of points
+	 */
+	inline unsigned int sizeInPoints() const
+	{
+		return (unsigned int)(m_size / 1.333);
+	}
+	/*! Returns a line spacing ratio, relative to built-in
+		\return line spacing ratio
+	 */
+	inline float lineSpacingRatio() const
+	{
+		return m_linespacing_ratio;
+	}
+	/*! Sets line spacing ratio, relative to built-in
+		\param[in] ratio a new ratio
+	 */
+	inline void setLineSpacingRatio(float ratio)
+	{
+		m_linespacing_ratio = ratio;
+	}
+	/*! Returns a line spacing
+		\return a new line spacing
+	 */
+	inline float lineSpacing() const
+	{
+		return m_linespacing_ratio * this->builtinLineSpacing();
+	}
+	/*! Sets a new line spacing
+		\param[in] size a size of line spacing
+	 */
+	inline void setLineSpacing(float size)
+	{
+		m_linespacing_ratio = size / this->builtinLineSpacing();
+	}
 	/*! Kept for purpose of inheritance
 	 */
 	virtual ~Font();
@@ -58,6 +104,9 @@ protected:
 	/*! Size of font in pixels
 	 */
 	unsigned int m_size;
+	/*! A linespacing ratio for font
+	 */
+	float m_linespacing_ratio;
 	/*! A color of font
 	 */
 	sad::AColor m_color;
