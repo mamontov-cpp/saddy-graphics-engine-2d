@@ -1,2 +1,1 @@
-g++ -c font.cpp -o font.o -I"..\..\include" -I"%FREETYPE_INCLUDE%"  -DWIN32
-ar cr ../../lib/libsaddy-ft-release.a font.o 
+mingw32-make -f makefiles/Makefile_Library_Release.mingw
