@@ -156,12 +156,36 @@
 				RelativePath=".\font.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\nextpoweroftwo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\towidechar.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\nextpoweroftwo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\texture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\towidechar.h"
+				>
+			</File>
 			<Filter
 				Name="freetype"
 				>
