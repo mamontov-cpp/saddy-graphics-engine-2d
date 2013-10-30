@@ -1,5 +1,6 @@
 #include "helper.h"
 #include <math.h>
+
 /*!
  * Tests used workflow with freetype, using operations with raw freetype
  * A mistake here identificates, that here are major problems and freetype
@@ -22,7 +23,7 @@ public:
 
 	   ASSERT_TRUE( FT_New_Face(library, SOURCE_FONT, 0, &face) == 0 );
 
-	   double pixelheight = 16.0;
+	   double pixelheight = 72.0;
 	   double ptheight = pixelheight / 96.0 * 72.0;
 	   int  pointheight = ((int)ceil(ptheight)) << 6;
 
@@ -41,6 +42,8 @@ public:
 	   double  ascender = ppem * ((double)(face->ascender) / face->units_per_EM);
 	   double  descender = ppem * ((double)(face->descender) / face->units_per_EM);
 
+	   double mybaseheight = ppem * ((double)(face->ascender - face->descender + face->height) /  face->units_per_EM);
+
 	   double totalheight = ascender - descender;
 
 	   FT_Load_Glyph( face, FT_Get_Char_Index( face, '(' ), FT_LOAD_DEFAULT);
@@ -50,6 +53,22 @@ public:
 	   FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
 	   FT_Bitmap & bitmap = bitmap_glyph->bitmap;
 
+	   for(int i = bitmap.rows - 1; i > -1; i--)
+	   {
+		   for(int j = 0; j < bitmap.width; j++)
+		   {
+			   unsigned char pixel = bitmap.buffer[i * bitmap.width + j];
+			   if (pixel == 0) 
+			   {
+				   printf(" ");
+			   } 
+			   else
+			   {
+				   printf("1", pixel);
+			   }
+		   }
+		   printf("\n");
+	   }
 	   FT_Done_Face(face);
 	   FT_Done_FreeType(library);
    }
