@@ -23,7 +23,7 @@ public:
 
 	   ASSERT_TRUE( FT_New_Face(library, SOURCE_FONT, 0, &face) == 0 );
 
-	   double pixelheight = 72.0;
+	   double pixelheight = 16.0;
 	   double ptheight = pixelheight / 96.0 * 72.0;
 	   int  pointheight = ((int)ceil(ptheight)) << 6;
 
