@@ -26,8 +26,15 @@ public:
 	   double ptheight = pixelheight / 96.0 * 72.0;
 	   int  pointheight = ((int)ceil(ptheight)) << 6;
 
+	   FT_Size_RequestRec_ req;
+	   req.type = FT_SIZE_REQUEST_TYPE_BBOX;
+	   req.horiResolution = 96;
+	   req.vertResolution = 96;
+	   req.height = pointheight;
+	   req.width = pointheight;
 	   
-	   FT_Set_Char_Size(face, pointheight, pointheight, 96, 96);
+	   FT_Request_Size(face, &req);
+	   //FT_Set_Char_Size(face, pointheight, pointheight, 96, 96);
 
 	   int ppem = face->size->metrics.y_ppem;
 	   double  height = ppem * ((double)(face->height) / face->units_per_EM);
