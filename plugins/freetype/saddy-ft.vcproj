@@ -161,6 +161,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\fontimpl.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\glyph.cpp"
 				>
 			</File>
@@ -184,6 +188,10 @@
 			>
 			<File
 				RelativePath=".\fixedsizefont.h"
+				>
+			</File>
+			<File
+				RelativePath=".\fontimpl.h"
 				>
 			</File>
 			<File

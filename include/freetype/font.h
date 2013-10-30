@@ -38,6 +38,10 @@ public:
 		\return size of label
 	 */
 	virtual sad::Size2D size(const sad::String & str);
+	/*! Returns a builtin line spacing
+		\return line spacing
+	 */
+	virtual bool builtinLineSpacing() const;
 	/*! Destructor
 	 */
 	virtual ~Font();
