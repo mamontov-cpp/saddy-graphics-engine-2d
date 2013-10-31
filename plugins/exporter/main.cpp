@@ -166,7 +166,8 @@ int main(int argc, char *argv[])
 				float stringwidth = metrics.boundingRect(firstchar + secondchar).width();
 				kerning = stringwidth - (firstcharwidth + secondcharwidth);
 			}
-			fprintf(file, "%lf\n", kerning);
+			
+			fprintf(file, "%4.1lf\n", kerning);
 		}
 	}
 	fclose(file);
