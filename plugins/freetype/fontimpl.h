@@ -62,7 +62,7 @@ protected:
 		\param[in] size a new size for data
 		\return call list for rendering
 	 */
-	sad::freetype::FixedSizeFont * fontForSize(unsigned int size);
+	sad::freetype::FixedSizeFont * fontForSize(unsigned int size) const;
 	/*! A freetype library descriptor
 	 */
 	FT_Library m_library;

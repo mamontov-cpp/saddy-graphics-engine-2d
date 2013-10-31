@@ -36,6 +36,8 @@ void sad::freetype::Glyph::render(float x, float y)
 {
 	Texture.bind();
 
+	glBegin(GL_QUADS);
+
 	glTexCoord2f(0.0f,0.0f); 
 	glVertex2f(x, y + BearingY);
 	
@@ -47,6 +49,8 @@ void sad::freetype::Glyph::render(float x, float y)
 
 	glTexCoord2f(TexCoordinateWidth, 0.0f); 
 	glVertex2f(x + Width, y + BearingY);
+	
+	glEnd();
 }
 
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)

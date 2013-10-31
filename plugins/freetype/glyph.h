@@ -56,8 +56,7 @@ public:
 	Glyph(FT_Face face, unsigned char c);
 	
 	/*! Renders a glyph at specified baseline position. Note, that this
-		is BASELINE position. Note, that you must call glBegin(GL_QUADS), before
-		calling this
+		is BASELINE position. 
 		\param[in] x X coordinate position
 		\param[in] y Y coordinate position
 	 */

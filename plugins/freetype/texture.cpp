@@ -22,6 +22,16 @@ void sad::freetype::Texture::storeBitmap(FT_Bitmap & bitmap)
 	if (IsOnGPU)
 		return;
 
+	// Fallback to empty texture in  case when bitmap is empty
+	if (bitmap.width == 0 && bitmap.rows == 0)
+	{
+		Pixels.resize(4);
+		Width = 2.0f;
+		Height = 2.0f;
+		std::fill_n(Pixels.begin(), 4, 0);
+		return;
+	}
+
 	unsigned int w = sad::freetype::next_power_of_two( bitmap.width );
 	unsigned int h = sad::freetype::next_power_of_two( bitmap.rows );
 	Width = (float)w;
@@ -50,6 +60,7 @@ void sad::freetype::Texture::upload()
 	IsOnGPU = true;
 	
 	glGenTextures(1, &Id );
+	GLenum lasterror = glGetError();
 
 	glBindTexture(GL_TEXTURE_2D, Id);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -66,14 +77,11 @@ void sad::freetype::Texture::upload()
 				  GL_UNSIGNED_BYTE, 
 				  &(Pixels[0]) 
 				);	
+	lasterror = glGetError();
+	Pixels.clear();
 }
 
 void sad::freetype::Texture::bind()
 {
-	if (IsOnGPU == false)
-	{
-		upload();
-	}
-
 	glBindTexture( GL_TEXTURE_2D, Id);
 }
