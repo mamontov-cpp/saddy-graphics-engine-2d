@@ -65,6 +65,12 @@ int main(int argc, char *argv[])
 		// We must take bounding rect of all character space, with advances
 		QRect boundaries = metrics.boundingRect(codec->toUnicode(string));
 		QRect tight = metrics.tightBoundingRect(codec->toUnicode(string));
+		// For some reason horizontal tab seem to give absolutely large size number,
+		// which is unacceptable
+		if (c == '\t')
+		{
+			boundaries.setWidth(0);
+		}
 		bounds.insert(c, boundaries);
 	}
 	// 5. Compute maximal bounding rect
@@ -113,7 +119,7 @@ int main(int argc, char *argv[])
 	int current_y_pos = 0;
 	int character_in_row = 0;
 	int length = 256;
-	fprintf(file, "%d\n", length);
+	fprintf(file, "%d %d %d\n", length, max.width(), max.height());
 
 	painter.setRenderHint(QPainter::Antialiasing, false);
 	painter.setRenderHint(QPainter::TextAntialiasing, false);
@@ -129,10 +135,12 @@ int main(int argc, char *argv[])
 		
 		bbox.moveTopLeft(QPoint(current_x_pos, current_y_pos));
 		string[0] = c;
-		painter.drawText(bbox, Qt::AlignCenter, QString(codec->toUnicode(string)));
+		QString renderedstring = codec->toUnicode(string);
+		painter.drawText(bbox, Qt::AlignLeft | Qt::AlignVCenter, renderedstring);
 
-		fprintf(file,"%d %u %u %u %u\n", character, relative_x_pos, relative_y_pos,
-										   relative_x_end_pos, relative_y_end_pos);
+		int w = metrics.width(string);
+		fprintf(file,"%d %u %u %u %u %d\n", character, relative_x_pos, relative_y_pos,
+										   relative_x_end_pos, relative_y_end_pos, w);
 		++character_in_row;
 		if (character_in_row == characters_in_row)
 		{
@@ -167,8 +175,9 @@ int main(int argc, char *argv[])
 				kerning = stringwidth - (firstcharwidth + secondcharwidth);
 			}
 			
-			fprintf(file, "%4.1lf\n", kerning);
+			fprintf(file, "%4.1lf ", kerning);
 		}
+		fprintf(file, "\n");
 	}
 	fclose(file);
 	return 0;
