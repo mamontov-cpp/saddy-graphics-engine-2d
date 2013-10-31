@@ -187,6 +187,42 @@ namespace sad
 	       /*! Inits a small hash with size of 7 elements
 		   */
 	       Hash();
+		   /*! Creates a hash, with one key and one value
+			   \param[in] k1 first key
+			   \param[in] v1 first value
+		    */
+		   Hash(const Key & k1, const T & v1)
+		   {
+			   init();
+			   insert(k1, v1);
+		   }
+		   /*! Creates a hash, with two keys and two values. 
+			   \param[in] k1 first key
+			   \param[in] v1 first value
+			   \param[in] k2 second key
+			   \param[in] v2 second value
+		   */
+		   Hash(const Key & k1, const T & v1, const Key & k2, const T & v2)
+		   {
+			   init();
+			   insert(k1, v1);
+			   insert(k2, v2);
+		   }
+		   /*! Creates a hash, with two keys and two values. 
+			   \param[in] k1 first key
+			   \param[in] v1 first value
+			   \param[in] k2 second key
+			   \param[in] v2 second value
+			   \param[in] k3 third key
+			   \param[in] v3 third value
+		   */
+		   Hash(const Key & k1, const T & v1, const Key & k2, const T & v2, const Key & k3, const T & v3)
+		   {
+			   init();
+			   insert(k1, v1);
+			   insert(k2, v2);
+			   insert(k3, v3);
+		   }
 		   /*! Copies a hash
 		       \param[in] o other hash
 		   */
