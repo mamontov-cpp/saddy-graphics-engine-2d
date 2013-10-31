@@ -96,7 +96,10 @@ int main(int argc, char *argv[])
 	// Draw image and write the mapping file
 	QPainter painter;
 	painter.begin(&image);
-	painter.setPen(QColor(255, 255, 255));
+	QPen textpen(QColor(0, 0, 0));
+	QPen debugpen(QColor(255, 0, 0));
+	painter.setPen(textpen);
+	//painter.setPen(QColor(255, 255, 255));
 	painter.setFont(font);
 	int current_x_pos = 0;
 	int current_y_pos = 0;
@@ -108,34 +111,63 @@ int main(int argc, char *argv[])
 	painter.setRenderHint(QPainter::TextAntialiasing, false);
 
 	int characters_in_row = 16;
-	/*		
 	for(unsigned int character =  0; character < 256; character++)
 	{
 		unsigned char c = (unsigned char)character;
-		QRect bbox = bounds[c];
-		unsigned int relative_x_pos = current_x_pos;
-		unsigned int relative_y_pos = current_y_pos;
-		unsigned int relative_x_end_pos = relative_x_pos + bbox.width();
-		unsigned int relative_y_end_pos = relative_y_pos + bbox.height();
-		
-		bbox.moveTopLeft(QPoint(current_x_pos, current_y_pos));
+
 		string[0] = c;
 		QString renderedstring = codec->toUnicode(string);
-		painter.drawText(bbox, Qt::AlignLeft | Qt::AlignVCenter, renderedstring);
+
+		int width = metrics.width(string[0]);
+		int leftbearing = metrics.leftBearing(string[0]);
+		int rightbearing = metrics.rightBearing(string[0]);
+		totalwidth = width + abs(leftbearing) + abs(rightbearing);
+
+		unsigned int relative_x_pos = current_x_pos - leftbearing - 2;
+		unsigned int relative_y_pos = current_y_pos;
+		unsigned int relative_x_end_pos = relative_x_pos + totalwidth;
+		unsigned int relative_y_end_pos = relative_y_pos + linespacing;
+		
+
+		painter.setPen(textpen);
+		painter.drawText(relative_x_pos - leftbearing, 
+						 relative_y_pos + metrics.ascent(), 
+						 renderedstring);
+		painter.setPen(debugpen);
+		painter.drawLine(relative_x_pos, 
+						 relative_y_pos,
+						 relative_x_end_pos,
+						 relative_y_end_pos
+						);
 
 		int w = metrics.width(string);
-		fprintf(file,"%d %u %u %u %u %d\n", character, relative_x_pos, relative_y_pos,
-										   relative_x_end_pos, relative_y_end_pos, w);
+		fprintf(file,
+				"%u %u %u %u %d %d %d\n", 
+				relative_x_pos, 
+				relative_y_pos,
+				relative_x_end_pos, 
+				relative_y_end_pos, 
+				width,
+				leftbearing,
+				rightbearing
+			   );
+
 		++character_in_row;
 		if (character_in_row == characters_in_row)
 		{
 			character_in_row = 0;
 			current_x_pos = 0;
 			current_y_pos += linespacing;
+			painter.setPen(debugpen);
+			painter.drawLine(0, 
+							 current_y_pos,
+							 512,
+							 current_y_pos
+							);
 		}
 		else
 		{
-			current_x_pos += linespacing;
+			current_x_pos += totalwidth;
 		}
 	}
 	int spacing = metrics.lineSpacing();
@@ -147,7 +179,6 @@ int main(int argc, char *argv[])
 	// Qt uses a logical width, which allows to translate glyphs, aligning them
 	// kerning-alike
 	fclose(file);
-	*/
 	return 0;
 }
 
