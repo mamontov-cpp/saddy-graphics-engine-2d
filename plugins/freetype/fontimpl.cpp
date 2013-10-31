@@ -22,6 +22,8 @@ sad::freetype::FontImpl::~FontImpl()
 }
 
 
+
+
 bool sad::freetype::FontImpl::load(const sad::String & filename)
 {
 	cleanup();
@@ -71,10 +73,17 @@ sad::Size2D sad::freetype::FontImpl::size(const sad::String & str, float ratio)
 	return this->fontForSize(m_cached_size)->size(str, ratio);
 }
 
+float sad::freetype::FontImpl::builtinLineSpacing() const
+{
+	return this->fontForSize(m_cached_size)->builtinLineSpacing();
+}
+
 sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
 	unsigned int size
-)
+) const
 {
+	sad::freetype::FontImpl * me = const_cast<sad::freetype::FontImpl *>(this);
+	
 	if (m_font != NULL && size == m_cached_size)
 	{
 		return m_font;
@@ -82,8 +91,8 @@ sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
 
 	if (m_size_cache.contains(size))
 	{
-		m_cached_size = size;
-		m_font = m_size_cache[size];
+		me->m_cached_size = size;
+		me->m_font = m_size_cache[size];
 		return m_font;
 	}
 
@@ -92,9 +101,9 @@ sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
 		m_face, 
 		size
 	);
-	m_cached_size = size;
-	m_font = f;
-	m_size_cache.insert(size, f);
+	me->m_cached_size = size;
+	me->m_font = f;
+	me->m_size_cache.insert(size, f);
 
 	return f;
 }

@@ -53,6 +53,9 @@ protected:
 	/*! A bearing y for rendering all fonts
 	 */
 	float m_bearing_y;
+	/*! Whether font glyph textures is uploaded to GPU
+	 */
+	bool m_on_gpu;
 	/*! A glyphs table
 	 */
 	sad::freetype::Glyph * m_glyphs[256];

@@ -14,6 +14,7 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
 	FT_Face face, 
 	unsigned int height
 )
+: m_on_gpu(false)
 {
 	requestSize(library, face, height);
 
@@ -49,6 +50,15 @@ void sad::freetype::FixedSizeFont::render(
 {
 	sad_freetype_font_lock.lock();
 
+	if (!m_on_gpu)
+	{
+		for(unsigned int i = 0; i < 256; i++)
+		{
+			m_glyphs[i]->Texture.upload();
+		}
+		m_on_gpu = true;
+	}
+
 	sad::String tmp = s;
 	tmp.removeAllOccurences("\r");
 	sad::StringList list = tmp.split("\n");
@@ -59,7 +69,6 @@ void sad::freetype::FixedSizeFont::render(
 	float curx = xbegin;
 	float cury = (float)(p.y() - m_bearing_y);
 	
-	glBegin(GL_QUADS);
 	for(unsigned int i = 0; i < list.size(); i++)
 	{
 		for(unsigned int j = 0; j < list[i].size(); j++)
@@ -81,7 +90,6 @@ void sad::freetype::FixedSizeFont::render(
 		curx = xbegin;
 		previous = false;
 	}
-	glEnd();
 
 	sad_freetype_font_lock.unlock();
 }
@@ -128,7 +136,8 @@ sad::Size2D sad::freetype::FixedSizeFont::size(
 	} 
 	else
 	{
-		maxy = m_bearing_y + (list.size() - 1) * m_builtin_linespacing * ratio;
+		maxy = m_builtin_linespacing 
+			+ (list.size() - 1) * m_builtin_linespacing * ratio;
 	}
 
 	return sad::Size2D(maxx, maxy);
