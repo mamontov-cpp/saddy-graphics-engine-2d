@@ -73,6 +73,7 @@ protected:
 	sad::Rect2D    m_glyphs[256];   //!< A stored glyphs, as texture rectangle
 	sad::Size2I    m_sizes[256];    //!< Size of each glyph 
 	sad::Size2I    m_typical_glyph; //!< A glyph for A letter 
+	float          m_kerning[256][256]; //!< A kerning tables for each symbol
 };
 
 }
