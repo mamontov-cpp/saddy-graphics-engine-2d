@@ -51,49 +51,32 @@ int main(int argc, char *argv[])
 	// 3. create metrics
 	QFontMetrics metrics(font);
 	// 4. Compute bounding boxes
-	QHash<char, QRect> bounds;
 	char string[2] = "A";
+	QString renderedstring;
+	int linespacing = metrics.lineSpacing();
+	int totalwidth = 0;
+	int rowwidth = 0;
+	int totalrowwidth = 0;
 	for(unsigned int c =  0; c < 256; c++)
 	{
 		unsigned char realCharacter = (unsigned char)c;
-		// If we does not replace space, the bounding rect
-		// will be empty, which can lead to no space between
-		// letters in data
-		if (c == ' ') 
-			realCharacter = 'A';
 		string[0] = realCharacter;
-		// We must take bounding rect of all character space, with advances
-		QRect boundaries = metrics.boundingRect(codec->toUnicode(string));
-		QRect tight = metrics.tightBoundingRect(codec->toUnicode(string));
-		// For some reason horizontal tab seem to give absolutely large size number,
-		// which is unacceptable
-		if (c == '\t')
+		renderedstring = codec->toUnicode(string);
+		int width = metrics.width(string[0]);
+		int leftbearing = metrics.leftBearing(string[0]);
+		int rightbearing = metrics.rightBearing(string[0]);
+		totalwidth = width + abs(leftbearing) + abs(rightbearing);
+		rowwidth += totalwidth;
+		if ((c + 1) % 16 == 0)
 		{
-			boundaries.setWidth(0);
+			totalrowwidth = std::max(totalrowwidth, rowwidth);
+			rowwidth = 0;
 		}
-		bounds.insert(c, boundaries);
-	}
-	// 5. Compute maximal bounding rect
-	QRect max(0,0,0,0);
-	for(QHash<char, QRect>::iterator it = bounds.begin(); it != bounds.end(); it++)
-	{
-		if (it.value().width() > max.width()) max.setWidth(it.value().width());
-		if (it.value().height() > max.height()) max.setHeight(it.value().height());
+		
 	}
 	// 6. Compute image size
-	int total_characters = 256;
-	int characters_in_row = (int)sqrt((float)(total_characters));
-	if (characters_in_row*characters_in_row != total_characters)
-	{
-		++characters_in_row;
-	}
-	int rows = total_characters / characters_in_row;
-	if (total_characters % characters_in_row != 0)
-	{
-		++rows;
-	}
-	int image_width = characters_in_row * max.width();
-	int image_height = rows * max.height();
+	int image_width = totalrowwidth;
+	int image_height = 16 * linespacing;
 	// 7. Make image size a square with power of two
 	int max_image_size = std::max(image_width, image_height);
 	int real_image_size = next_power_of_two(max_image_size);
@@ -119,11 +102,13 @@ int main(int argc, char *argv[])
 	int current_y_pos = 0;
 	int character_in_row = 0;
 	int length = 256;
-	fprintf(file, "%d %d %d\n", length, max.width(), max.height());
+	fprintf(file, "%d\n", linespacing);
 
 	painter.setRenderHint(QPainter::Antialiasing, false);
 	painter.setRenderHint(QPainter::TextAntialiasing, false);
 
+	int characters_in_row = 16;
+	/*		
 	for(unsigned int character =  0; character < 256; character++)
 	{
 		unsigned char c = (unsigned char)character;
@@ -146,40 +131,23 @@ int main(int argc, char *argv[])
 		{
 			character_in_row = 0;
 			current_x_pos = 0;
-			current_y_pos += max.height();
+			current_y_pos += linespacing;
 		}
 		else
 		{
-			current_x_pos += max.width();
+			current_x_pos += linespacing;
 		}
 	}
+	int spacing = metrics.lineSpacing();
+	int pheight = metrics.height();
+	int ascent = metrics.ascent();
 	painter.end();
 	image.save(image_mapping_file);
-	// Compute kerning table
-	for(unsigned int i = 0; i < 255; i++)
-	{
-		string[0] = i;
-		QString firstchar = QString(codec->toUnicode(string));
-		float firstcharwidth = metrics.boundingRect(firstchar).width();
-
-		for(unsigned int j = 0; j < 255; j++)
-		{
-			double kerning = 0;
-			if (i != 0 && j != 0)
-			{
-
-				string[0] = j;
-				QString secondchar = QString(codec->toUnicode(string));
-				float secondcharwidth = metrics.boundingRect(secondchar).width();
-				float stringwidth = metrics.boundingRect(firstchar + secondchar).width();
-				kerning = stringwidth - (firstcharwidth + secondcharwidth);
-			}
-			
-			fprintf(file, "%4.1lf ", kerning);
-		}
-		fprintf(file, "\n");
-	}
+	// We don't construct kerning table, since
+	// Qt uses a logical width, which allows to translate glyphs, aligning them
+	// kerning-alike
 	fclose(file);
+	*/
 	return 0;
 }
 
