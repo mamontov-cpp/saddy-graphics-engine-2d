@@ -8,8 +8,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#define MIN_CHARACTER 32
-#define MAX_CHARACTER 255
 
 /*! Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 	Computes next power of two
@@ -55,9 +53,9 @@ int main(int argc, char *argv[])
 	// 4. Compute bounding boxes
 	QHash<char, QRect> bounds;
 	char string[2] = "A";
-	for(unsigned char c =  MIN_CHARACTER; c <= MAX_CHARACTER && c != 0; c++)
+	for(unsigned int c =  0; c < 256; c++)
 	{
-		unsigned char realCharacter = c;
+		unsigned char realCharacter = (unsigned char)c;
 		// If we does not replace space, the bounding rect
 		// will be empty, which can lead to no space between
 		// letters in data
@@ -65,7 +63,9 @@ int main(int argc, char *argv[])
 			realCharacter = 'A';
 		string[0] = realCharacter;
 		// We must take bounding rect of all character space, with advances
-		bounds.insert(c, metrics.boundingRect(codec->toUnicode(string)));
+		QRect boundaries = metrics.boundingRect(codec->toUnicode(string));
+		QRect tight = metrics.tightBoundingRect(codec->toUnicode(string));
+		bounds.insert(c, boundaries);
 	}
 	// 5. Compute maximal bounding rect
 	QRect max(0,0,0,0);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 		if (it.value().height() > max.height()) max.setHeight(it.value().height());
 	}
 	// 6. Compute image size
-	int total_characters = MAX_CHARACTER-MIN_CHARACTER+1;
+	int total_characters = 256;
 	int characters_in_row = (int)sqrt((float)(total_characters));
 	if (characters_in_row*characters_in_row != total_characters)
 	{
@@ -112,14 +112,15 @@ int main(int argc, char *argv[])
 	int current_x_pos = 0;
 	int current_y_pos = 0;
 	int character_in_row = 0;
-	int length = ((int)MAX_CHARACTER - (int)MIN_CHARACTER) + 1;
-	fprintf(file, "%d", length);
+	int length = 256;
+	fprintf(file, "%d\n", length);
 
 	painter.setRenderHint(QPainter::Antialiasing, false);
 	painter.setRenderHint(QPainter::TextAntialiasing, false);
 
-	for(unsigned char c =  MIN_CHARACTER; c <= MAX_CHARACTER && c != 0; c++)
+	for(unsigned int character =  0; character < 256; character++)
 	{
+		unsigned char c = (unsigned char)character;
 		QRect bbox = bounds[c];
 		unsigned int relative_x_pos = current_x_pos;
 		unsigned int relative_y_pos = current_y_pos;
@@ -130,7 +131,7 @@ int main(int argc, char *argv[])
 		string[0] = c;
 		painter.drawText(bbox, Qt::AlignCenter, QString(codec->toUnicode(string)));
 
-		fprintf(file,"%c %u %u %u %u\n",c, relative_x_pos, relative_y_pos,
+		fprintf(file,"%d %u %u %u %u\n", character, relative_x_pos, relative_y_pos,
 										   relative_x_end_pos, relative_y_end_pos);
 		++character_in_row;
 		if (character_in_row == characters_in_row)
@@ -146,6 +147,28 @@ int main(int argc, char *argv[])
 	}
 	painter.end();
 	image.save(image_mapping_file);
+	// Compute kerning table
+	for(unsigned int i = 0; i < 255; i++)
+	{
+		string[0] = i;
+		QString firstchar = QString(codec->toUnicode(string));
+		float firstcharwidth = metrics.boundingRect(firstchar).width();
+
+		for(unsigned int j = 0; j < 255; j++)
+		{
+			double kerning = 0;
+			if (i != 0 && j != 0)
+			{
+
+				string[0] = j;
+				QString secondchar = QString(codec->toUnicode(string));
+				float secondcharwidth = metrics.boundingRect(secondchar).width();
+				float stringwidth = metrics.boundingRect(firstchar + secondchar).width();
+				kerning = stringwidth - (firstcharwidth + secondcharwidth);
+			}
+			fprintf(file, "%lf\n", kerning);
+		}
+	}
 	fclose(file);
 	return 0;
 }
