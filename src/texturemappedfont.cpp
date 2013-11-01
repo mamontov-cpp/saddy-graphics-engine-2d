@@ -2,7 +2,8 @@
 #include "texturemanager.h"
 #include "renderer.h"
 
-sad::TextureMappedFont::TextureMappedFont() : sad::Font(), m_texture(NULL)
+sad::TextureMappedFont::TextureMappedFont() : sad::Font(), m_texture(NULL),
+m_builtin_linespacing(0), m_size_ratio(1.0)
 {
 
 }
@@ -21,17 +22,35 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
 	
 	// A font can have various sizes, so we need ratio to compute new width
 	// of glyph
-	unsigned int height = this->m_size;
-	double ratio = (double)height / m_typical_glyph.Height;
-	unsigned int width = m_typical_glyph.Width * ratio;
+	double height = m_builtin_linespacing * m_size_ratio;
+
 	// Lets break string into lines
+	sad::String tmp = str;
+	tmp.removeAllOccurences("\r");
 	sad::StringList lines = str.split("\n");
+	
 	// Compute result
-	result.Height = height * lines.size();
 	for(unsigned int i = 0; i < lines.size(); i++)
 	{
-		double linewidth = lines[i].size() * width;
+		double linewidth = 0;
+		sad::String & string = lines[i];
+		for(unsigned int j = 0; j < str.length(); j++)
+		{
+			unsigned char c = *reinterpret_cast<unsigned char*>(&(string[j]));
+			linewidth += m_leftbearings[c] * m_size_ratio;
+			linewidth += m_sizes[c].Width * m_size_ratio;
+			linewidth += m_rightbearings[c] * m_size_ratio;
+		}
 		result.Width = std::max(linewidth, result.Width);
+	}
+
+	if (lines.size() <= 1)
+	{
+		result.Height = (lines.size() == 1) ? height : 0;
+	}
+	else
+	{
+		result.Height = height + height * (lines.size() - 1) * m_linespacing_ratio; 
 	}
 	return result;
 }
@@ -46,12 +65,6 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 	double x = p.x();
 	double y = p.y();
 
-
-	// A font can have various sizes, so we need ratio to compute new width
-	// of glyph
-	unsigned int height = this->m_size;
-	double ratio = (double)height / m_typical_glyph.Height;
-	unsigned int width = m_typical_glyph.Width * ratio;
 	
 	sad::String string = str;
 	string.removeAllOccurences("\r");
@@ -76,29 +89,33 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 		unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(string[i]));
 		sad::Rect2D & glyph = m_glyphs[ glyphchar ];
 
-		glyphheight = m_sizes[glyphchar].Height;
-		glyphwidth = m_sizes[glyphchar].Width * ratio; 
+		if (string[i] != '\n' && string[i] != '\r')
+		{
+			x += m_leftbearings[ string[i] ] * m_size_ratio;
+			glyphheight = m_sizes[glyphchar].Height * m_size_ratio;
+			glyphwidth = m_sizes[glyphchar].Width * m_size_ratio; 
 
-		glTexCoord2f(glyph[0].x(), glyph[0].y()); 
- 		glVertex2f(x, y);
+			glTexCoord2f(glyph[0].x(), glyph[0].y()); 
+ 			glVertex2f(x, y);
 
-		glTexCoord2f(glyph[1].x(), glyph[1].y()); 
- 		glVertex2f(x + glyphwidth, y);
+			glTexCoord2f(glyph[1].x(), glyph[1].y()); 
+ 			glVertex2f(x + glyphwidth, y);
 
-		glTexCoord2f(glyph[2].x(), glyph[2].y()); 
- 		glVertex2f(x + glyphwidth, y - glyphheight);
+			glTexCoord2f(glyph[2].x(), glyph[2].y()); 
+ 			glVertex2f(x + glyphwidth, y - glyphheight);
 
-		glTexCoord2f(glyph[3].x(), glyph[3].y()); 
- 		glVertex2f(x, y - glyphheight);
-
+			glTexCoord2f(glyph[3].x(), glyph[3].y()); 
+ 			glVertex2f(x, y - glyphheight);
+		}
 		if (string[i] != '\n')
 		{
-			x += width;
+			x += glyphwidth;
+			x += m_rightbearings[ string[i] ] * m_size_ratio;
 		}
 		else
 		{
 			x = p.x();
-			y -= height;
+			y -= m_builtin_linespacing * m_size_ratio * m_linespacing_ratio;
 		}
 	}
 	glEnd();
@@ -138,7 +155,9 @@ bool sad::TextureMappedFont::load(
 		int count = 0;
 
 		// If failed to read file,result is false
-		fscanf(fl, "%d\n", &count);
+		int integralspacing = 0;
+		fscanf(fl, "%d", &integralspacing);
+		m_builtin_linespacing = (double)integralspacing;
 		if (ferror(fl)) 
 		{
 			result = false;
@@ -147,16 +166,24 @@ bool sad::TextureMappedFont::load(
 		// Try to load each glyph
 		unsigned int x1 = 0 , y1 = 0, x2 = 0, y2 = 0;
 		unsigned char c = 0;
-		for (int i = 0; i < count && result; i++ )
+		for (int i = 0; i < 256 && result; i++ )
 		{
-			fscanf(fl,"%c %u %u %u %u\n", &c, &x1, &y1, &x2,&y2);
+			fscanf(fl,
+				   "%u %u %u %u %d %d\n", 
+				   &x1, 
+				   &y1, 
+				   &x2, 
+				   &y2, 
+				   m_leftbearings + i, 
+				   m_rightbearings + i
+				  );
 			if (ferror(fl))
 			{
 				result = false;
 			}
 
-			m_sizes[c].Width = abs((int)(x2 - x1));
-			m_sizes[c].Height = abs((int)(y2 - y1));
+			m_sizes[i].Width = abs((int)(x2 - x1));
+			m_sizes[i].Height = abs((int)(y2 - y1));
 			
 			sad::Rect2D rect(
 				sad::Point2D(
@@ -168,7 +195,7 @@ bool sad::TextureMappedFont::load(
 					(double)y2 / m_texture->height()				
 				)
 			);
-			m_glyphs[c] = rect; 
+			m_glyphs[i] = rect; 
 		}
 		fclose(fl);
 	} 
@@ -184,10 +211,17 @@ bool sad::TextureMappedFont::load(
 	} 
 	else
 	{
-		// We take 'A' as a basic glyph
-		m_typical_glyph = m_sizes['A'];
-		m_size = m_typical_glyph.Height;
+		m_size_ratio = (float)(this->sad::Font::size()) / m_builtin_linespacing;
 	}
 	return result;
 }
 
+float sad::TextureMappedFont::builtinLineSpacing() const
+{
+	return m_builtin_linespacing * m_size_ratio;
+}
+
+void sad::TextureMappedFont::setSize(unsigned int size)
+{
+	m_size_ratio = (float)size / m_builtin_linespacing;
+}

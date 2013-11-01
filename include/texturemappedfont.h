@@ -67,13 +67,22 @@ public:
 		const sad::String & configfilename,
 		sad::Renderer * r = NULL
 	);
-
+	/*! Returns a builtin line spacing
+		\return line spacing
+	 */
+	virtual float builtinLineSpacing() const;
+	/*! Sets size of font in pixels
+		\param[in] size size of font in points
+	 */
+	virtual void setSize(unsigned int size);
 protected:
-	sad::Texture * m_texture;       //!< A texture, where all glyphs are stored
-	sad::Rect2D    m_glyphs[256];   //!< A stored glyphs, as texture rectangle
-	sad::Size2I    m_sizes[256];    //!< Size of each glyph 
-	sad::Size2I    m_typical_glyph; //!< A glyph for A letter 
-	float          m_kerning[256][256]; //!< A kerning tables for each symbol
+	sad::Texture * m_texture;             //!< A texture, where all glyphs are stored
+	float          m_builtin_linespacing; //!< A builtin linespacing
+	float          m_size_ratio;          //!< A ratio for size
+	sad::Rect2D    m_glyphs[256];         //!< A stored glyphs, as texture rectangle
+	sad::Size2D    m_sizes[256];          //!< A sizes for each glyph
+	int            m_leftbearings[256];   //!< Left bearings 
+	int            m_rightbearings[256];  //!< Right bearings 
 };
 
 }

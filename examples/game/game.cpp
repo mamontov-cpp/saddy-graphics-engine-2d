@@ -413,7 +413,7 @@ void Game::moveToStartingScreen()
 	
 	FormattedLabel  * label = new FormattedLabel();
 	label->setFont("font");
-	label->setPoint(260, 240);
+	label->setPoint(265, 240);
 	label->setUpdateInterval(1000);
 	// Here we build a format string, where {0} will be replaced with call of this->highscore()
 	label->setFormatString("Highscore: {0}");
