@@ -63,10 +63,10 @@ int main(int argc, char *argv[])
 		unsigned char realCharacter = (unsigned char)c;
 		string[0] = realCharacter;
 		renderedstring = codec->toUnicode(string);
-		int width = metrics.width(string[0]);
-		int leftbearing = metrics.leftBearing(string[0]);
-		int rightbearing = metrics.rightBearing(string[0]);
-		totalwidth = width + abs(leftbearing) + abs(rightbearing);
+		int width = metrics.width(renderedstring[0]);
+		int leftbearing = metrics.leftBearing(renderedstring[0]);
+		int rightbearing = metrics.rightBearing(renderedstring[0]);
+		totalwidth = width;
 		rowwidth += totalwidth;
 		if ((c + 1) % 16 == 0)
 		{
@@ -97,10 +97,9 @@ int main(int argc, char *argv[])
 	// Draw image and write the mapping file
 	QPainter painter;
 	painter.begin(&image);
-	QPen textpen(QColor(0, 0, 0));
+	QPen textpen(QColor(255, 255, 255));
 	QPen debugpen(QColor(255, 0, 0));
 	painter.setPen(textpen);
-	//painter.setPen(QColor(255, 255, 255));
 	painter.setFont(font);
 	int current_x_pos = 0;
 	int current_y_pos = 0;
@@ -111,6 +110,8 @@ int main(int argc, char *argv[])
 	painter.setRenderHint(QPainter::Antialiasing, false);
 	painter.setRenderHint(QPainter::TextAntialiasing, false);
 
+	metrics = painter.fontMetrics();
+
 	int characters_in_row = 16;
 	for(unsigned int character =  0; character < 256; character++)
 	{
@@ -119,19 +120,12 @@ int main(int argc, char *argv[])
 		string[0] = c;
 		QString renderedstring = codec->toUnicode(string);
 
-		int width = metrics.width(string[0]);
-		int leftbearing = metrics.leftBearing(string[0]);
-		int rightbearing = metrics.rightBearing(string[0]);
-		totalwidth = abs(width) + abs(leftbearing) + abs(rightbearing);
+		int width = metrics.width(renderedstring[0]);
+		int leftbearing = metrics.leftBearing(renderedstring[0]);
+		int rightbearing = metrics.rightBearing(renderedstring[0]);
+		totalwidth = width;
 
-		QRect bbox = metrics.boundingRect(string);
-		QRect tbbox = metrics.tightBoundingRect(string);
-		QSize size = metrics.size(Qt::TextSingleLine, string);
-		//if (totalwidth == 0) 
-		//{
-		totalwidth = std::max(tbbox.width(), bbox.width());
-		//}
-		//assert(totalwidth != 0);
+
 
 		unsigned int relative_x_pos = current_x_pos;
 		unsigned int relative_y_pos = current_y_pos;
@@ -140,15 +134,17 @@ int main(int argc, char *argv[])
 		
 
 		painter.setPen(textpen);
-		painter.drawText(relative_x_pos - leftbearing, 
+		painter.drawText(relative_x_pos, 
 						 relative_y_pos + metrics.ascent(), 
 						 renderedstring);
+		/*
 		painter.setPen(debugpen);
-		painter.drawLine(relative_x_pos, 
+		painter.drawLine(relative_x_end_pos, 
 						 relative_y_pos,
 						 relative_x_end_pos,
 						 relative_y_end_pos
 						);
+		*/
 
 		int w = metrics.width(string);
 		fprintf(file,
@@ -168,12 +164,14 @@ int main(int argc, char *argv[])
 			character_in_row = 0;
 			current_x_pos = 0;
 			current_y_pos += linespacing;
+			/*
 			painter.setPen(debugpen);
 			painter.drawLine(0, 
 							 current_y_pos,
 							 512,
 							 current_y_pos
 							);
+			*/
 		}
 		else
 		{
