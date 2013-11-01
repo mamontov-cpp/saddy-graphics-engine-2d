@@ -66,11 +66,13 @@ int main(int argc, char *argv[])
 		int width = metrics.width(renderedstring[0]);
 		int leftbearing = metrics.leftBearing(renderedstring[0]);
 		int rightbearing = metrics.rightBearing(renderedstring[0]);
-		totalwidth = width;
+		int delta = (leftbearing < 0 ) ? -leftbearing :  0; 
+		totalwidth = width + delta;
+		totalwidth += (rightbearing > 0) ? rightbearing : 0;
 		rowwidth += totalwidth;
 		if ((c + 1) % 16 == 0)
 		{
-			totalrowwidth = std::max(totalrowwidth, rowwidth);
+			totalrowwidth = std::max(totalrowwidth, rowwidth + 16);
 			rowwidth = 0;
 		}
 		
@@ -97,6 +99,7 @@ int main(int argc, char *argv[])
 	// Draw image and write the mapping file
 	QPainter painter;
 	painter.begin(&image);
+	//QPen textpen(QColor(0, 0, 0));
 	QPen textpen(QColor(255, 255, 255));
 	QPen debugpen(QColor(255, 0, 0));
 	painter.setPen(textpen);
@@ -124,10 +127,13 @@ int main(int argc, char *argv[])
 		int leftbearing = metrics.leftBearing(renderedstring[0]);
 		int rightbearing = metrics.rightBearing(renderedstring[0]);
 		totalwidth = width;
+		
+		int delta = (leftbearing < 0 ) ? -leftbearing :  0; 
+		totalwidth += delta;
+		totalwidth += (rightbearing < 0) ? -rightbearing : 0;
 
 
-
-		unsigned int relative_x_pos = current_x_pos;
+		unsigned int relative_x_pos = current_x_pos + delta;
 		unsigned int relative_y_pos = current_y_pos;
 		unsigned int relative_x_end_pos = relative_x_pos + totalwidth;
 		unsigned int relative_y_end_pos = relative_y_pos + linespacing;
@@ -148,14 +154,13 @@ int main(int argc, char *argv[])
 
 		int w = metrics.width(string);
 		fprintf(file,
-				"%u %u %u %u %d %d %d\n", 
+				"%u %u %u %u %d %d\n", 
 				relative_x_pos, 
 				relative_y_pos,
 				relative_x_end_pos, 
 				relative_y_end_pos, 
-				width,
-				leftbearing,
-				rightbearing
+				(leftbearing < 0) ? leftbearing : 0,
+				(rightbearing < 0) ? rightbearing : 0
 			   );
 
 		++character_in_row;
@@ -175,7 +180,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			current_x_pos += totalwidth;
+			current_x_pos += totalwidth + 1;
 		}
 	}
 	painter.end();
