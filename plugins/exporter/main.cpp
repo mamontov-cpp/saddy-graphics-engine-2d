@@ -7,7 +7,8 @@
 #include <QTextCodec>
 #include <stdio.h>
 #include <math.h>
-
+#include <cassert>
+#include <algorithm>
 
 /*! Taken from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 	Computes next power of two
@@ -121,9 +122,18 @@ int main(int argc, char *argv[])
 		int width = metrics.width(string[0]);
 		int leftbearing = metrics.leftBearing(string[0]);
 		int rightbearing = metrics.rightBearing(string[0]);
-		totalwidth = width + abs(leftbearing) + abs(rightbearing);
+		totalwidth = abs(width) + abs(leftbearing) + abs(rightbearing);
 
-		unsigned int relative_x_pos = current_x_pos - leftbearing - 2;
+		QRect bbox = metrics.boundingRect(string);
+		QRect tbbox = metrics.tightBoundingRect(string);
+		QSize size = metrics.size(Qt::TextSingleLine, string);
+		//if (totalwidth == 0) 
+		//{
+		totalwidth = std::max(tbbox.width(), bbox.width());
+		//}
+		//assert(totalwidth != 0);
+
+		unsigned int relative_x_pos = current_x_pos;
 		unsigned int relative_y_pos = current_y_pos;
 		unsigned int relative_x_end_pos = relative_x_pos + totalwidth;
 		unsigned int relative_y_end_pos = relative_y_pos + linespacing;
@@ -170,9 +180,6 @@ int main(int argc, char *argv[])
 			current_x_pos += totalwidth;
 		}
 	}
-	int spacing = metrics.lineSpacing();
-	int pheight = metrics.height();
-	int ascent = metrics.ascent();
 	painter.end();
 	image.save(image_mapping_file);
 	// We don't construct kerning table, since
