@@ -53,7 +53,9 @@ namespace sad
 		unsigned int       m_height; //!< Height
 		unsigned int       m_id;     //!< ID of texture
 		Mode               m_mode;   //!< Texture mode
-		bool               m_generated; //!< Determines, whether texture is used in OpenGL context
+		/*! Determines, whether texture is used in OpenGL context
+		 */
+		bool               m_ongpu; 
 		/*! Gets a pointer to pixel 
 		    \param[in] i  row
 			\param[in] j  col
@@ -85,9 +87,9 @@ namespace sad
 		*/
 		Texture();
 		~Texture();
-		/*! Builds a mipmap
+		/*! Uploads a texture to a GPU, building a mipmap
 		*/
-		void buildMipMaps();
+		void upload();
 		/*! Loads an image, depending of file extension
 		    \param[in] filename name of file
 		    \param[in] r renderer where texture loader is getting from
@@ -101,12 +103,9 @@ namespace sad
 		/*! Loads default texture
 		 */
 		void loadDefaultTGATexture();
-		/*! Disables texture
-		*/
-		void disable();
 		/*! Enables texture
 		*/
-		void enable();
+		void bind();
 		/*! Sets an alpha-channel value for a color
 		    \param[in] a alpha-channel value
 		*/
