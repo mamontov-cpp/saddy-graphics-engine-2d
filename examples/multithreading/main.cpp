@@ -147,7 +147,7 @@ int thread(void * p)
 	   We add it to font manager to be sure, that memory will be freed at exit.
 	 */
 	sad::TextureMappedFont * fnt2=new sad::TextureMappedFont();
-	bool res2= fnt2->load("font",  &r);
+	bool res2= fnt2->load("examples/game/font",  &r);
 	if (!res2) {
 		SL_LOCAL_FATAL("Failed to load texture-mapped font", r);
 		return NULL;
@@ -186,10 +186,10 @@ int thread(void * p)
 	/* Add two labels with different fonts
 	 */
 	r.getCurrentScene()->add(
-		new Label(fnt1, "FTFont", sad::Point2D(300,200), &r)
+		new sad::Label(fnt1, sad::Point2D(300,200), "FTFont")
 	);
 	r.getCurrentScene()->add(
-		new Label(fnt2, "TMFont", sad::Point2D(400,400), &r)
+		new sad::Label(fnt2, sad::Point2D(400,400), "TMFont")
 	);
 	
 	/* Here we bind two different handlers with keydown

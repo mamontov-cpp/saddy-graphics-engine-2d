@@ -34,7 +34,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
 	{
 		double linewidth = 0;
 		sad::String & string = lines[i];
-		for(unsigned int j = 0; j < str.length(); j++)
+		for(unsigned int j = 0; j < string.length(); j++)
 		{
 			unsigned char c = *reinterpret_cast<unsigned char*>(&(string[j]));
 			linewidth += m_leftbearings[c] * m_size_ratio;

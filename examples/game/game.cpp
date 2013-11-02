@@ -15,7 +15,7 @@
 #include <orthographiccamera.h>
 #include <sprite2dadapter.h>
 #include <geometry2d.h>
-#include <label.h>
+#include <formattedlabel.h>
 
 
 const sad::String GameState::START = "start";
@@ -224,11 +224,12 @@ void Game::enterPlayingScreen()
 	);
 	sc->add(background);
 
-	FormattedLabel * label = new FormattedLabel();
+	sad::FormattedLabel * label = new sad::FormattedLabel();
 	label->setFont("font");
 	label->setPoint(0, 480);
 	label->setUpdateInterval(200);
-	
+	label->setSize(30);
+
 	label->setFormatString("Health: {0} Score: {1} Highscore: {2}\nFPS: {3}");
 	label->arg(this, &Game::player, &GameObject::hitPoints);
 	label->arg(this, &Game::player, &Player::score);
@@ -411,8 +412,9 @@ void Game::moveToStartingScreen()
 	);
 	sc->add(background);
 	
-	FormattedLabel  * label = new FormattedLabel();
+	sad::FormattedLabel  * label = new sad::FormattedLabel();
 	label->setFont("font");
+	label->setSize(30);
 	label->setPoint(265, 240);
 	label->setUpdateInterval(1000);
 	// Here we build a format string, where {0} will be replaced with call of this->highscore()

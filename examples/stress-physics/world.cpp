@@ -179,8 +179,9 @@ void World::run()
 	
 
 	// Add FPS and hit counters label
-	FormattedLabel * label = new FormattedLabel();
+	sad::FormattedLabel * label = new sad::FormattedLabel();
 	label->setFont("font");
+	label->setSize(30);
 	label->setPoint(0, sad::Renderer::ref()->settings().height());
 	label->setFormatString("Shooter hit: {0} FPS: {1}");
 	label->setUpdateInterval(1000.0);
