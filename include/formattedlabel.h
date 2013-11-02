@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "label.h"
+#include "util/formattedlabelarg.h"
 
 namespace sad
 {
@@ -16,7 +17,6 @@ namespace sad
 class FormattedLabel: public sad::Label
 {
 SAD_OBJECT
-#include "util/formattedlabelarg.h"
 public:
 	 /*! A default renderer is empty
 	  */
@@ -50,7 +50,7 @@ public:
 		 \param[in] a argument
 		 \return this
 	  */
-	 inline FormattedLabel * addArg(FormattedLabel::Arg * a) 
+	 inline FormattedLabel * addArg(sad::formattedlabel::Arg * a) 
 	 { 
 		 m_args << a; 
 		 return this;
@@ -64,7 +64,7 @@ public:
 	 >
 	 inline FormattedLabel * arg(_Value (*f)())
 	 {
-		 return this->addArg(new FormattedLabel::ZeroFunctionArg<_Value>(f));
+		 return this->addArg(new sad::formattedlabel::ZeroFunctionArg<_Value>(f));
 	 }
 	 /*! Adds an argument to label
 		 \param[in] v a value
@@ -75,7 +75,7 @@ public:
 	 >
 	 inline FormattedLabel * arg(const _Value & v)
 	 {
-		 return this->addArg(new FormattedLabel::StaticArg<_Value>(v));
+		 return this->addArg(new sad::formattedlabel::StaticArg<_Value>(v));
 	 }
 	 /*! Adds an argument to label
 		 \param[in] o object
@@ -88,7 +88,7 @@ public:
 	 >
 	 inline FormattedLabel * arg(_Class * o, _Value (_Class::*f)())
 	 {
-		 return this->addArg(new FormattedLabel::ZeroMethodArg<_Class,_Value>(o, f));
+		 return this->addArg(new sad::formattedlabel::ZeroMethodArg<_Class,_Value>(o, f));
 	 }
 	  /*! Adds an argument to label
 		 \param[in] o object
@@ -101,7 +101,7 @@ public:
 	 >
 	 inline FormattedLabel * arg(_Class * o, _Value (_Class::*f)() const)
 	 {
-		 return this->addArg(new FormattedLabel::ZeroConstMethodArg<_Class,_Value>(o, f));
+		 return this->addArg(new sad::formattedlabel::ZeroConstMethodArg<_Class,_Value>(o, f));
 	 }
 	 /*! Adds an argument to label
 		 \param[in] o object
@@ -120,7 +120,7 @@ public:
 								 )
 	 {
 		 return this->addArg(
-			 new FormattedLabel::ZeroMethodsCompositionArg<_Class1,_Class2, _Value>(o, f, g)
+			 new sad::formattedlabel::ZeroMethodsCompositionArg<_Class1,_Class2, _Value>(o, f, g)
 		 );
 	 }
 	 /*! Adds an argument to label
@@ -141,7 +141,7 @@ public:
 								 )
 	 {
 		 return this->addArg(
-			 new FormattedLabel::ZeroCompatibleCompositionArg3C<_Class1,_Class2, _Class3, _Value>(o, f, g)
+			 new sad::formattedlabel::ZeroCompatibleCompositionArg3C<_Class1,_Class2, _Class3, _Value>(o, f, g)
 		 );
 	 }
 	 /*! Adds an argument to label
@@ -156,7 +156,7 @@ public:
 	 >
 	 inline FormattedLabel * castedConstArg(_Class * o, _Value (_Class::*f)() const)
 	 {
-		 return this->addArg(new FormattedLabel::ZeroCastedConstMethodArg<_Retval,_Class,_Value>(o, f));
+		 return this->addArg(new sad::formattedlabel::ZeroCastedConstMethodArg<_Retval,_Class,_Value>(o, f));
 	 }
 	 /*! Adds fps argument, taken from specified renderer
 		 \param[in] r renderer
@@ -168,7 +168,7 @@ public:
 	 sad::String m_format_string;
 	 /*! A substitution arguments
 	  */
-	 sad::Vector<FormattedLabel::Arg *> m_args;
+	 sad::Vector<sad::formattedlabel::Arg *> m_args;
 	 /*! A timer for updating
 	  */
 	 sad::Timer m_timer;

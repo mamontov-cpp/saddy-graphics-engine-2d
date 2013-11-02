@@ -1290,6 +1290,10 @@
 					RelativePath=".\include\util\formattedlabelarg.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\util\sadthreadexecutablefunction.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

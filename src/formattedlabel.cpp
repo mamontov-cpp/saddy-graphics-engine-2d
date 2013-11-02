@@ -3,7 +3,7 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::FormattedLabel,sad::Label)
 
-sad::FormattedLabel::Arg::~Arg()
+sad::formattedlabel::Arg::~Arg()
 {
 
 }

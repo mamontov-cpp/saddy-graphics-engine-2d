@@ -1,6 +1,5 @@
 #include <sadthreadexecutablefunction.h>
 
-
 sad::AbsractThreadExecutableFunction::~AbsractThreadExecutableFunction()
 {
 

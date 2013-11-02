@@ -64,7 +64,7 @@ class Label: public sad::BasicNode
 			return m_string;
 		}
 		/*! Sets a string for a label
-			\param[in] a rendered string in a label
+			\param[in] string a rendered string in a label
 		 */
 		void setString(const sad::String & string);
 		/*!  Returns an upper-left point, where label is placed

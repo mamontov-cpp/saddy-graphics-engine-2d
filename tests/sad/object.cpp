@@ -291,12 +291,12 @@ struct SadObjectTest : tpunit::TestFixture
    {
 	   sad::Object * testbase = m_cache["InheritedFrom2"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
-	   InheritedFrom2 * testif2 = hst::checked_cast<InheritedFrom2>(testif1);
+	   InheritedFrom2 * testif2 = sad::checked_cast<InheritedFrom2>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 6);
 	   ASSERT_EQUAL(testif1->local(), 5);
 	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
 	   DirectDescendant2 * testdd2 = 
-		   hst::checked_cast<DirectDescendant2>(testif2);								     
+		   sad::checked_cast<DirectDescendant2>(testif2);								     
 	   ASSERT_EQUAL(testdd2->local(), 2);
    }
 
@@ -304,15 +304,15 @@ struct SadObjectTest : tpunit::TestFixture
    {
 	   sad::Object * testbase = m_cache["InheritedFrom3"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
-	   InheritedFrom3 * testif2 = hst::checked_cast<InheritedFrom3>(testif1);
+	   InheritedFrom3 * testif2 = sad::checked_cast<InheritedFrom3>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 7);
 	   ASSERT_EQUAL(testif1->local(), 5);
 	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
 	   DirectDescendant2 * testdd2 = 
-		   hst::checked_cast<DirectDescendant2>(testif2);								     
+		   sad::checked_cast<DirectDescendant2>(testif2);								     
 	   ASSERT_EQUAL(testdd2->local(), 2);
 	   DirectDescendant3 * testdd3 = 
-		   hst::checked_cast<DirectDescendant3>(testif2);								     
+		   sad::checked_cast<DirectDescendant3>(testif2);								     
 	   ASSERT_EQUAL(testdd3->local(), 3);
    }
 
@@ -320,18 +320,18 @@ struct SadObjectTest : tpunit::TestFixture
    {
 	   sad::Object * testbase = m_cache["InheritedFrom4"];
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
-	   InheritedFrom4 * testif2 = hst::checked_cast<InheritedFrom4>(testif1);
+	   InheritedFrom4 * testif2 = sad::checked_cast<InheritedFrom4>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 8);
 	   ASSERT_EQUAL(testif1->local(), 5);
 	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
 	   DirectDescendant2 * testdd2 = 
-		   hst::checked_cast<DirectDescendant2>(testif2);								     
+		   sad::checked_cast<DirectDescendant2>(testif2);								     
 	   ASSERT_EQUAL(testdd2->local(), 2);
 	   DirectDescendant3 * testdd3 = 
-		   hst::checked_cast<DirectDescendant3>(testif2);								     
+		   sad::checked_cast<DirectDescendant3>(testif2);								     
 	   ASSERT_EQUAL(testdd3->local(), 3);
 	   DirectDescendant4 * testdd4 = 
-		   hst::checked_cast<DirectDescendant4>(testif2);								     
+		   sad::checked_cast<DirectDescendant4>(testif2);								     
 	   ASSERT_EQUAL(testdd4->local(), 4);
    }
 
