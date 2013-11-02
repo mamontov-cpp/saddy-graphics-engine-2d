@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\formattedlabel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\fuzzyequal.cpp"
 				>
 			</File>
@@ -653,6 +657,10 @@
 			</File>
 			<File
 				RelativePath=".\include\fontmanager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\formattedlabel.h"
 				>
 			</File>
 			<File
@@ -1272,6 +1280,14 @@
 				</File>
 				<File
 					RelativePath=".\include\imageformats\tgaloader.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="util"
+				>
+				<File
+					RelativePath=".\include\util\formattedlabelarg.h"
 					>
 				</File>
 			</Filter>

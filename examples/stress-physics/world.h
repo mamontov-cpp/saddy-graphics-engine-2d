@@ -13,7 +13,7 @@
 #include <p2d/findcontactpoints.h>
 #include <p2d/walls.h>
 #include <p2d/bouncesolver.h>
-#include <label.h>
+#include <formattedlabel.h>
 
 
 class GridNode;

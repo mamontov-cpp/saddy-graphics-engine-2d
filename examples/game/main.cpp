@@ -67,7 +67,6 @@ bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 	sad::TextureMappedFont * fnt =  new sad::TextureMappedFont();
 	bool result = fnt->load(fontextendedname);
 	if (result) { 
-		fnt->setSize(30);
 		sad::FontManager::ref()->add(fnt, fontname);
 	} else	{
 		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << fontname);
