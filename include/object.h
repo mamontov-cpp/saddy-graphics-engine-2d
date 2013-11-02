@@ -113,13 +113,13 @@ template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)
 #define DECLARE_CASTS_AS_METHODS(CLASSNAME)                      \
 template<typename _Dest> _Dest * CLASSNAME ::as()                \
 {                                                                \
-	return hst::checked_cast<_Dest, CLASSNAME > (this);          \
+	return sad::checked_cast<_Dest, CLASSNAME > (this);          \
 }                                                                \
                                                                  \
 template<typename T1, typename T2> T2 * CLASSNAME ::as()         \
 {                                                                \
-	T1 * tmp = hst::checked_cast<T1, CLASSNAME >(this);          \
-	T2 * result = hst::checked_cast<T2, T1>(tmp);                \
+	T1 * tmp = sad::checked_cast<T1, CLASSNAME >(this);          \
+	T2 * result = sad::checked_cast<T2, T1>(tmp);                \
 	return result;                                               \
 }                                                                \
 
