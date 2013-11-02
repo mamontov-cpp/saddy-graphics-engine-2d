@@ -36,7 +36,7 @@ sad::Texture *  sad::TextureContainer::get(const sad::String & name)
 void sad::TextureContainer::build()
 {
 	for (sad::Hash<sad::String,sad::Texture *>::iterator it=m_data.begin();it!=m_data.end();it++)
-		it.value()->buildMipMaps();
+		it.value()->upload();
 }
 
 void  sad::TextureContainer::clear()

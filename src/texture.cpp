@@ -13,7 +13,10 @@
 extern void ( * glXGetProcAddressARB (const GLubyte *procName)) (void);
 #endif
 
-using namespace sad;
+#ifdef WIN32
+	#include <windows.h>
+#endif
+
 
 static PFNGLGENERATEMIPMAPEXTPROC glGenerateMipMapsSaddy  = NULL;
 
@@ -34,31 +37,34 @@ static PFNGLGENERATEMIPMAPEXTPROC getglGenerateMipMaps()
 
  
 
-Texture::Texture()
+sad::Texture::Texture()
 {
-	m_mode = BORDER_CLAMP;	/*!< Set default mode of texture.		*/
-	m_filter = 10;			/*!< Set default filter of texture.		*/
-	m_generated=false;      /*!< Currently, this texture is not used */ 
+	// Set default mode of texture
+	m_mode   = BORDER_CLAMP;	
+	// Set default filter of texture
+	m_filter = 10;		
+	// Make uploading to gpu necessary
+	m_ongpu  = false;      
 }
 
-Texture::~Texture()
+sad::Texture::~Texture()
 {
-	m_data.clear();			/*!< Cleaning the container of pixels.  */
 	this->unload();
 }
-void Texture::disable()
+
+void sad::Texture::bind()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
-void Texture::enable()
-{
-	glBindTexture(GL_TEXTURE_2D,m_id);
+	if (!m_ongpu)
+		upload();
+	glBindTexture(GL_TEXTURE_2D, m_id);
 }
 
 
-void Texture::buildMipMaps()
+void sad::Texture::upload()
 {
-	// Строим текстуру
+	m_ongpu = true;
+	
+	// Get texture type and components
 	GLuint type,components;
 	switch (m_bpp)
 	{
@@ -70,7 +76,6 @@ void Texture::buildMipMaps()
     
 	glGenTextures(1, (GLuint *)&m_id);	
 	glBindTexture(GL_TEXTURE_2D, m_id);
-	m_generated=true;
 	GLuint what;
 	switch (m_mode)
 	{
@@ -120,7 +125,7 @@ void Texture::buildMipMaps()
 	
 }
 
-void Texture::setAlpha(sad::uchar a)
+void sad::Texture::setAlpha(sad::uchar a)
 {
 	m_bpp=32;
 	for (unsigned int i=3;i<m_data.count();i+=4)
@@ -128,7 +133,7 @@ void Texture::setAlpha(sad::uchar a)
 		m_data[i]=255-a;
 	}
 }
-void Texture::setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec)
+void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec)
 {
 	m_bpp=32;
 	for (unsigned int i=3;i<m_data.count();i+=4)
@@ -141,7 +146,7 @@ void Texture::setAlpha(sad::uchar a, const sad::Color & clr, sad::uchar prec)
 	}
 }
 
-void Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
+void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
 	sad::Rect2D tmp=rect;
 	for (int i=0;i<4;i++)
@@ -180,12 +185,12 @@ void Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & 
 	}
 
 }
-void Texture::setMode(Texture::Mode mode)
+void sad::Texture::setMode(Texture::Mode mode)
 {
 	m_mode=mode;
 }
 
-bool Texture::load(const sad::String & filename, sad::Renderer * r)
+bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
 	sad::String ff(filename.getExtension());
 	char * f=const_cast<char *>(ff.data());
@@ -204,7 +209,7 @@ bool Texture::load(const sad::String & filename, sad::Renderer * r)
 	}
 	return false;
 }
-bool Texture::load(const sad::WString & filename, sad::Renderer * r)
+bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
 {
 	char * tmp=new char[2*filename.length()+2];
 	wcstombs(tmp,filename.data(),2*filename.length()+2);
@@ -213,30 +218,10 @@ bool Texture::load(const sad::WString & filename, sad::Renderer * r)
 	return load(tt, r);
 }
 
-void Texture::save(const char * method, const char * file)
+void sad::Texture::unload()
 {
-	FILE * f=fopen(file,"wt");
-	if (f)
-	{
-		fputs("#include \"texture.h\"\n\nstatic const unsigned char texdata[",f);
-		fprintf(f,"%lu]=\n{\n",m_data.count());
-		if (m_data.count()!=0)
-			fprintf(f,"%d",m_data[0]);
-		for (unsigned long i=1;i<m_data.count();i++)
-               fprintf(f,", %d",m_data[i]);
-		fputs("\n};\n\n",f);
-		
-		fprintf(f,"static const unsigned int cnt=%lu;\n\n",m_data.count());
-		fprintf(f,"\nvoid sad::Texture::%s()\n{\n m_bpp=%d;m_width=%d;m_height=%d;\n for (unsigned int i=0;i<cnt;i++) m_data<<texdata[i]; \n}\n\n\n",method,m_bpp,m_width,m_height);
-		fclose(f);
-	}
-	
-}
-
-void Texture::unload()
-{
-	if (m_generated)
+	if (m_ongpu)
 		glDeleteTextures(1,&m_id);
-	m_generated = false;
+	m_ongpu = false;
 }
 

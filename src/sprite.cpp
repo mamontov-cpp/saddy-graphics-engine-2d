@@ -102,7 +102,7 @@ void Sprite::render()
    glGetIntegerv(GL_CURRENT_COLOR,clr);
    glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());
    
-   m_tex->enable();
+   m_tex->bind();
     
    glBegin(GL_QUADS);
    for (int i=0;i<4;i++)

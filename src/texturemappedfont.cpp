@@ -70,7 +70,7 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 	string.removeAllOccurences("\r");
 
 	
-	m_texture->enable();
+	m_texture->bind();
 	glPushAttrib( GL_LIGHTING_BIT | GL_ENABLE_BIT);
 	
 	glDisable(GL_LIGHTING);
