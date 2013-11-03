@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 	sscanf(argv[2],"%d",&size);
 	// 2. Get font
 	QFont font(argv[1], size);
+	font.setPixelSize(size);
 	QString family = font.family();
 	if (font.exactMatch() == false)
 	{
