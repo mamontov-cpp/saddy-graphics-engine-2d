@@ -152,8 +152,8 @@ void sad::p2d::World::step(double time)
 		findAndExecuteCollisionCallbacks();
 		if (m_splitted_time_step.exists())
 		{
-			stepPositionsAndVelocities(m_splitted_time_step.data());
-			m_time_step -= m_splitted_time_step.data();
+			stepPositionsAndVelocities(m_splitted_time_step.value());
+			m_time_step -= m_splitted_time_step.value();
 		}
 		else
 		{
@@ -268,7 +268,7 @@ void sad::p2d::World::findEvent(reactions_t & reactions, const types_with_handle
 					time = m_detector->collides(b1, b2, m_time_step);
 					if (time.exists())
 					{
-						BasicCollisionEvent ev(b1, b2, time.data());
+						BasicCollisionEvent ev(b1, b2, time.value());
 						reactions << reaction_t(ev, h);
 					}
 				}

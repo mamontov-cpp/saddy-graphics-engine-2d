@@ -178,7 +178,7 @@ class TickableFlow
 		{
 			if (m_next.exists())
 			{
-				delete m_next.data();
+				delete m_next.value();
 			}
 			m_next.setValue(s);
 		}
@@ -189,7 +189,7 @@ class TickableFlow
 			if (m_next.exists())
 			{
 				delete m_current;
-				m_current = m_next.data();
+				m_current = m_next.value();
 				m_next.clear();
 			}
 			else
@@ -215,7 +215,7 @@ class TickableFlow
 			state  p = NULL;
 			if (m_next.exists())
 			{
-				p = m_next.data();
+				p = m_next.value();
 			}
 			return p;
 		}

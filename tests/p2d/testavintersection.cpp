@@ -33,16 +33,16 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( 2, 0, 4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 0);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(1, 0),
 		   sad::p2d::cutter( -2, 0, -4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , -2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , -2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 0);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(1, 0),
@@ -65,16 +65,16 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( 0, 2, 0, 4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 2);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(0, 1),
 		   sad::p2d::cutter( 0, -2, 0, -4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , -2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , -2);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(0, 1),
@@ -97,16 +97,16 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( 2, 2, 4, 4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 2);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(1, 1),
 		   sad::p2d::cutter( -2, -2, -4, -4) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , -2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , -2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , -2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , -2);
 	   t = sad::p2d::intersection(
 		   sad::p2d::Point(0, 0), 
 		   sad::p2d::Vector(1, 1),
@@ -129,8 +129,8 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( 2, 2, 2, -2) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 0);
    }
 	
    void test5()
@@ -141,8 +141,8 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( -2, 2, 2, 2) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 0);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 0);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 2);
    }
 
    void test6()
@@ -153,8 +153,8 @@ struct TestAVIntersection : tpunit::TestFixture
 		   sad::p2d::cutter( 0, 4, 4, 0) 
 	   );
 	   ASSERT_TRUE( t.exists() );
-	   ASSERT_FLOAT_EQUAL( t.data().x() , 2);
-	   ASSERT_FLOAT_EQUAL( t.data().y() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().x() , 2);
+	   ASSERT_FLOAT_EQUAL( t.value().y() , 2);
    }
 
 } test_av_intersection;

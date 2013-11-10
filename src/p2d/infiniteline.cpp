@@ -135,7 +135,7 @@ sad::p2d::MaybePoint sad::p2d::InfiniteLine::intersection(const p2d::Cutter2D & 
 		sad::p2d::MaybePoint tmp = intersection(l);
 		if (tmp.exists())
 		{
-			if (sad::projectionIsWithin(tmp.data(), a.p1(), a.p2()))
+			if (sad::projectionIsWithin(tmp.value(), a.p1(), a.p2()))
 			{
 				result = tmp;
 			}
@@ -159,7 +159,7 @@ sad::p2d::MaybePoint sad::p2d::intersection(const sad::p2d::Cutter2D & a,
 	sad::p2d::MaybePoint  tmp = a1.intersection(a2);
 	if (tmp.exists())
 	{
-		sad::p2d::Point p = tmp.data();
+		sad::p2d::Point p = tmp.value();
 		bool isw1 = sad::projectionIsWithin(p, a.p1(), a.p2());
 		bool isw2 = sad::projectionIsWithin(p, b.p1(), b.p2());
 		if (isw1 && isw2)

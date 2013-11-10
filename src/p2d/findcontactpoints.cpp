@@ -184,13 +184,13 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::exec(
 			sad::p2d::Cutter2D s2 = c2.side(j);
 			sad::p2d::MaybePoint tmp;
 			tmp = sad::p2d::intersection(s1.p1(), v, s2);
-			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p1(), tmp.data()); 
+			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p1(), tmp.value()); 
 			tmp = sad::p2d::intersection(s1.p2(), v, s2);
-			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p2(), tmp.data());
+			if (tmp.exists())  sad::p2d::insertUnique(result, s1.p2(), tmp.value());
 			tmp = sad::p2d::intersection(s2.p1(), v, s1);
-			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.data(), s2.p1());
+			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.value(), s2.p1());
 			tmp = sad::p2d::intersection(s2.p2(), v, s1);
-			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.data(), s2.p2());
+			if (tmp.exists())  sad::p2d::insertUnique(result, tmp.value(), s2.p2());
 		}
 	}
 	sad::p2d::filterOptimalSet(result, v);
@@ -205,7 +205,7 @@ sad::p2d::Point sad::p2d::intersectionWithNormalFrom(
 	sad::p2d::InfiniteLine l1 = sad::p2d::InfiniteLine::fromCutter(c);
 	sad::p2d::Vector v = sad::p2d::ortho(l1.direction(), sad::p2d::OVI_DEG_90);
 	sad::p2d::InfiniteLine l2 = sad::p2d::InfiniteLine::appliedVector(p, v);
-	return l1.intersection(l2).data();
+	return l1.intersection(l2).value();
 }
 
 sad::Vector<sad::p2d::Point> sad::p2d::intersection(
@@ -303,8 +303,8 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 			sad::p2d::MaybePoint F =  C1C2.intersection(O1V);
 			if (F.exists()) 
 			{
-				Ks << F.data(); 
-				double sc = sad::p2d::scalar(tmppoints[i] - F.data(), v);
+				Ks << F.value(); 
+				double sc = sad::p2d::scalar(tmppoints[i] - F.value(), v);
 				if (sc < min)
 				{
 					mini = i;
@@ -343,18 +343,18 @@ sad::p2d::SetOfPointsPair sad::p2d::findContacts(
 	}
 	if (K.exists())
 	{
-		if (sad::projectionIsWithin(K.data(), c.p1(), c.p2()))
+		if (sad::projectionIsWithin(K.value(), c.p1(), c.p2()))
 		{
 			double dx = O1.x() - ci->center().x();
 			double dy = O1.y() - ci->center().y();
 			// If O1 belongs to circle
 			if (sad::is_fuzzy_equal(dx* dx + dy * dy, ci->radius() * ci->radius()))
 			{
-				result << sad::p2d::PointsPair(K.data(), O1);	
+				result << sad::p2d::PointsPair(K.value(), O1);	
 			} 
 			else
 			{
-				result << sad::p2d::PointsPair(O1, K.data());
+				result << sad::p2d::PointsPair(O1, K.value());
 			}
 		}
 		{
@@ -618,7 +618,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoP(
 	{
 		sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(maxpoints[i], v);
 		sad::p2d::MaybePoint intersection = line.intersection(bound);
-		result << sad::p2d::PointsPair(intersection.data(), maxpoints[i]);
+		result << sad::p2d::PointsPair(intersection.value(), maxpoints[i]);
 	}
 	return result;
 }
@@ -650,6 +650,6 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoC(
 	sad::p2d::Point circlecontactpoint = s2->center() + directionvector * s2->radius();
 	sad::p2d::InfiniteLine line = sad::p2d::InfiniteLine::appliedVector(circlecontactpoint, v);
 	sad::p2d::MaybePoint intersection = line.intersection(bound);
-	result << sad::p2d::PointsPair(intersection.data(), circlecontactpoint);
+	result << sad::p2d::PointsPair(intersection.value(), circlecontactpoint);
 	return result;
 }
