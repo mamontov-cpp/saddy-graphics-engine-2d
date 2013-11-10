@@ -236,13 +236,13 @@ class Movement
 		 {
 			 if (sad::is_fuzzy_equal(time, step_size))
 			 {
-				 return m_next_velocity.data() - m_velocity;
+				 return m_next_velocity.value() - m_velocity;
 			 }
 			 if (m_next_velocity_time.exists())
 			 {
-				 if (sad::is_fuzzy_equal(time, m_next_velocity_time.data()))
+				 if (sad::is_fuzzy_equal(time, m_next_velocity_time.value()))
 				 {
-					  return m_next_velocity.data() - m_velocity;
+					  return m_next_velocity.value() - m_velocity;
 				 }
 			 }
 			 return p;
@@ -278,13 +278,13 @@ class Movement
 			 if (sad::is_fuzzy_equal(time, step_size))
 			 {
 				 m_position_is_cached = true;
-				 m_position_cache =  m_next_position.data() - m_position;
+				 m_position_cache =  m_next_position.value() - m_position;
 			 }
 			 if (m_next_position_time.exists())
 			 {
-				 if (sad::is_fuzzy_equal(time, m_next_position_time.data()))
+				 if (sad::is_fuzzy_equal(time, m_next_position_time.value()))
 				 {
-					  return m_next_position.data() - m_position;
+					  return m_next_position.value() - m_position;
 				 }
 			 }
 			 return p2d::TickableDefaultValue<_Value>::zero();
@@ -338,7 +338,7 @@ class Movement
 		 }
 		 if (m_next_velocity_time.exists())
 		 {
-			 if (sad::is_fuzzy_equal(time, m_next_velocity_time.data()))
+			 if (sad::is_fuzzy_equal(time, m_next_velocity_time.value()))
 			 {
 				 m_next_velocity.clear();
 				 m_next_velocity_time.clear();
@@ -346,7 +346,7 @@ class Movement
 		 }
 		 if (m_next_position_time.exists())
 		 {
-			 if (sad::is_fuzzy_equal(time, m_next_position_time.data()))
+			 if (sad::is_fuzzy_equal(time, m_next_position_time.value()))
 			 {
 				 m_next_position.clear();
 				 m_next_position_time.clear();
@@ -378,7 +378,7 @@ class Movement
 	 {
 		 if (m_next_velocity.exists() == false)
 			 return p2d::TickableDefaultValue<_Value>::zero();
-		 return m_next_velocity.data();
+		 return m_next_velocity.value();
 	 }
 	 /*! Sets a current velocity for body
 		 \param[in] v velocity
@@ -416,7 +416,7 @@ class Movement
 	 {
 		 if (m_next_position.exists() == false)
 			 return p2d::TickableDefaultValue<_Value>::zero();
-		 return m_next_position.data();
+		 return m_next_position.value();
 	 }
 	 /*! Sets a current position for body
 		 \param[in] v position

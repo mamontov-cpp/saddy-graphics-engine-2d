@@ -254,7 +254,7 @@ void Sprite2DAdapter::set(const Sprite2DAdapter::Options & o)
 	if (o.TextureContainer.exists())
 	{
 		sad::TextureContainer * c =  
-			sad::TextureManager::ref()->getContainer(o.TextureContainer.data());
+			sad::TextureManager::ref()->getContainer(o.TextureContainer.value());
 		tex = c->get(o.Texture);
 	}
 	else

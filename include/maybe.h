@@ -34,10 +34,11 @@ class Maybe
 		  \return whether inner value is exists
 	   */
 	  bool exists() const { return m_exists; }
-	  /*! Returns inner value
+	  /*! Returns inner value. If value is not set, default value is returned,
+		  which is undefined for basic POD types.
 		  \return inner value
 	   */
-	  const  T & data() const  { return m_data; }
+	  const  T & value() const  { return m_data; }
 };
 
 }

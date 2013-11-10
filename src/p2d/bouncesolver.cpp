@@ -141,10 +141,10 @@ std::string sad::p2d::BounceSolver::dump()
 	if (m_contact.exists())
 	{
 		contacts = str(fmt::Format("({0}, {1}), ({2}, {3})") 
-				   << m_contact.data().p1().x()
-				   << m_contact.data().p1().y()
-				   << m_contact.data().p2().x()
-				   << m_contact.data().p2().y());
+				   << m_contact.value().p1().x()
+				   << m_contact.value().p1().y()
+				   << m_contact.value().p2().x()
+				   << m_contact.value().p2().y());
 	}
 	std::string result =  "1st body: {0} and  velocity ({1},{2})\n";
 	result += "2nd body: {3} and velocity  ({4},{5})\n";

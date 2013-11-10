@@ -22,7 +22,7 @@ void sad::p2d::Wall::tryTeleport(sad::p2d::Body * b)
 
   sad::p2d::Point P = bound->boundingLine().intersection(
 				sad::p2d::InfiniteLine::appliedVector(s.center(), n)
-			 ).data();
+			 ).value();
   double On = std::min(projection.p1(), projection.p2());
   double O =  p2d::scalar(s.center(), n);
 
