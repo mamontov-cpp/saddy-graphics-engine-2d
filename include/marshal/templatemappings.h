@@ -29,7 +29,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=1)  this->throwInvalidArgument(1,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>());
        }    
 };
 
@@ -48,7 +48,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=2)  this->throwInvalidArgument(2,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>());
        }    
 };
 
@@ -67,7 +67,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=3)  this->throwInvalidArgument(3,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>());
        }    
 };
 
@@ -86,7 +86,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=4)  this->throwInvalidArgument(4,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>());
        }    
 };
 
@@ -105,7 +105,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=5)  this->throwInvalidArgument(5,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>());
        }    
 };
 
@@ -124,7 +124,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=6)  this->throwInvalidArgument(6,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>());
        }    
 };
 
@@ -143,7 +143,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=7)  this->throwInvalidArgument(7,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>());
        }    
 };
 
@@ -162,7 +162,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=8)  this->throwInvalidArgument(8,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>());
        }    
 };
 
@@ -181,7 +181,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=9)  this->throwInvalidArgument(9,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>());
        }    
 };
 
@@ -200,7 +200,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=10)  this->throwInvalidArgument(10,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>());
        }    
 };
 
@@ -219,7 +219,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=11)  this->throwInvalidArgument(11,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>());
        }    
 };
 
@@ -238,7 +238,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=12)  this->throwInvalidArgument(12,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>());
        }    
 };
 
@@ -257,7 +257,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=13)  this->throwInvalidArgument(13,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>());
        }    
 };
 
@@ -276,7 +276,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=14)  this->throwInvalidArgument(14,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>());
        }    
 };
 
@@ -295,7 +295,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=15)  this->throwInvalidArgument(15,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>(), v[14].template get<T14>());
        }    
 };
 
@@ -314,7 +314,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=16)  this->throwInvalidArgument(16,v.count());
-             (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c), v[15].template get<T15>(c));
+             (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>(), v[14].template get<T14>(), v[15].template get<T15>());
        }    
 };
 
@@ -352,7 +352,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=1)  this->throwInvalidArgument(1,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>());
        }    
 };
 
@@ -371,7 +371,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=2)  this->throwInvalidArgument(2,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>());
        }    
 };
 
@@ -390,7 +390,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=3)  this->throwInvalidArgument(3,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>());
        }    
 };
 
@@ -409,7 +409,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=4)  this->throwInvalidArgument(4,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>());
        }    
 };
 
@@ -428,7 +428,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=5)  this->throwInvalidArgument(5,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>());
        }    
 };
 
@@ -447,7 +447,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=6)  this->throwInvalidArgument(6,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>());
        }    
 };
 
@@ -466,7 +466,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=7)  this->throwInvalidArgument(7,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>());
        }    
 };
 
@@ -485,7 +485,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=8)  this->throwInvalidArgument(8,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>());
        }    
 };
 
@@ -504,7 +504,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=9)  this->throwInvalidArgument(9,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>());
        }    
 };
 
@@ -523,7 +523,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=10)  this->throwInvalidArgument(10,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>());
        }    
 };
 
@@ -542,7 +542,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=11)  this->throwInvalidArgument(11,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>());
        }    
 };
 
@@ -561,7 +561,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=12)  this->throwInvalidArgument(12,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>());
        }    
 };
 
@@ -580,7 +580,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=13)  this->throwInvalidArgument(13,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>());
        }    
 };
 
@@ -599,7 +599,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=14)  this->throwInvalidArgument(14,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>());
        }    
 };
 
@@ -618,7 +618,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=15)  this->throwInvalidArgument(15,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>(), v[14].template get<T14>());
        }    
 };
 
@@ -637,7 +637,7 @@ public:
        virtual void call(const sad::VariantVector & v)
        {    
              if (v.count()!=16)  this->throwInvalidArgument(16,v.count());
-             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(c), v[1].template get<T1>(c), v[2].template get<T2>(c), v[3].template get<T3>(c), v[4].template get<T4>(c), v[5].template get<T5>(c), v[6].template get<T6>(c), v[7].template get<T7>(c), v[8].template get<T8>(c), v[9].template get<T9>(c), v[10].template get<T10>(c), v[11].template get<T11>(c), v[12].template get<T12>(c), v[13].template get<T13>(c), v[14].template get<T14>(c), v[15].template get<T15>(c));
+             this->m_return_data = (this->realObject()->*m_callback)(v[0].template get<T0>(), v[1].template get<T1>(), v[2].template get<T2>(), v[3].template get<T3>(), v[4].template get<T4>(), v[5].template get<T5>(), v[6].template get<T6>(), v[7].template get<T7>(), v[8].template get<T8>(), v[9].template get<T9>(), v[10].template get<T10>(), v[11].template get<T11>(), v[12].template get<T12>(), v[13].template get<T13>(), v[14].template get<T14>(), v[15].template get<T15>());
        }    
 };
 
