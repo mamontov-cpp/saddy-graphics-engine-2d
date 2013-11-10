@@ -22,6 +22,8 @@
 
 // Linux implementation, uses GLX for interactions between GL and window systems
 #ifdef LINUX
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glx.h>
 #endif
 
@@ -93,7 +95,7 @@ public:
 #ifdef X11
 		Dpy = NULL;
 		Screen = 0;
-		Win = NULL;
+		Win = 0;
 		VisualInfo = 0;
 #endif
 	}

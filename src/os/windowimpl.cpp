@@ -1,3 +1,4 @@
+#define DO_NOT_CLEANUP_X11_NAMESPACE
 #include "os/windowimpl.h"
 #include "renderer.h"
 
@@ -102,7 +103,7 @@ bool sad::os::WindowImpl::create()
 		if (this->renderer() != NULL)
 		{
 			SL_LOCAL_FATAL(
-				fmt::Format("Failed to create window") << m_handles.Class,
+				"Failed to create window",
 				*(this->renderer())
 			);
 		}
