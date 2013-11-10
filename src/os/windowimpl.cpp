@@ -524,7 +524,8 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 		0, 
 		NULL
 	);
-	XMapRaised(m_handles.Dpy,  m_handles.Win);
+	// Commented: unless explicity told to, we should not expos window
+	// XMapRaised(m_handles.Dpy,  m_handles.Win);
 
 	return true;
 }
