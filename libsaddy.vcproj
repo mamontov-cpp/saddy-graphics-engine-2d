@@ -329,6 +329,10 @@
 				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\window.cpp"
+				>
+			</File>
 			<Filter
 				Name="fsm"
 				>
@@ -358,6 +362,10 @@
 				</File>
 				<File
 					RelativePath=".\src\os\timerimpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\windowimpl.cpp"
 					>
 				</File>
 			</Filter>
@@ -851,6 +859,10 @@
 				RelativePath=".\include\vbolayer.h"
 				>
 			</File>
+			<File
+				RelativePath=".\include\window.h"
+				>
+			</File>
 			<Filter
 				Name="fsm"
 				>
@@ -880,6 +892,14 @@
 				</File>
 				<File
 					RelativePath=".\include\os\timerimpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\windowhandles.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\windowimpl.h"
 					>
 				</File>
 			</Filter>

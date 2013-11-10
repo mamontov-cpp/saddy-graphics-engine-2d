@@ -5,12 +5,12 @@ PLATFORM = WIN32
 ifeq ($(PLATFORM),WIN32)
 DEFINES  = -DWIN32 -DMINGW
 else
-DEFINES  = -DUNIX -DLINUX -DGCC
+DEFINES  = -DUNIX -DLINUX -DGCC -DX11
 endif
 
 TYPE     = release
 OUTPUT   = ../lib/libsaddy-release.a 
-BUILD    = ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/classmetadata_$(TYPE).o ../build/classmetadatacontainer_$(TYPE).o ../build/closure_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/fsm_statemachine_$(TYPE).o ../build/fuzzyequal_$(TYPE).o ../build/geometry2d_$(TYPE).o ../build/input_events_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_consoletarget_$(TYPE).o ../build/log_filetarget_$(TYPE).o ../build/log_log_$(TYPE).o ../build/log_logmessage_$(TYPE).o ../build/log_logscope_$(TYPE).o ../build/log_logtarget_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/object_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/os_consoleimpl_$(TYPE).o ../build/os_muteximpl_$(TYPE).o ../build/os_semaphoreimpl_$(TYPE).o ../build/os_threadimpl_$(TYPE).o ../build/os_timerimpl_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/periodicalevent_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/refcountable_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/sadhash_$(TYPE).o ../build/sadmutex_$(TYPE).o ../build/sadscopedlock_$(TYPE).o ../build/sadsemaphore_$(TYPE).o ../build/sadsleep_$(TYPE).o ../build/sadstring_$(TYPE).o ../build/sadthread_$(TYPE).o ../build/sadthreadexecutablefunction_$(TYPE).o ../build/sadwstring_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/timer_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/vbolayer_$(TYPE).o
+BUILD    = ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/camera_$(TYPE).o ../build/classmetadata_$(TYPE).o ../build/classmetadatacontainer_$(TYPE).o ../build/closure_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/font_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/formattedlabel_$(TYPE).o ../build/fsm_statemachine_$(TYPE).o ../build/fuzzyequal_$(TYPE).o ../build/geometry2d_$(TYPE).o ../build/imageformats_bmploader_$(TYPE).o ../build/imageformats_loader_$(TYPE).o ../build/imageformats_pngloader_$(TYPE).o ../build/imageformats_tgaloader_$(TYPE).o ../build/input_events_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_consoletarget_$(TYPE).o ../build/log_filetarget_$(TYPE).o ../build/log_log_$(TYPE).o ../build/log_logmessage_$(TYPE).o ../build/log_logscope_$(TYPE).o ../build/log_logtarget_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/object_$(TYPE).o ../build/orthographiccamera_$(TYPE).o ../build/os_consoleimpl_$(TYPE).o ../build/os_muteximpl_$(TYPE).o ../build/os_semaphoreimpl_$(TYPE).o ../build/os_threadimpl_$(TYPE).o ../build/os_timerimpl_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/periodicalevent_$(TYPE).o ../build/refcountable_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/sadhash_$(TYPE).o ../build/sadluvcolor_$(TYPE).o ../build/sadmutex_$(TYPE).o ../build/sadscopedlock_$(TYPE).o ../build/sadsemaphore_$(TYPE).o ../build/sadsleep_$(TYPE).o ../build/sadstring_$(TYPE).o ../build/sadthread_$(TYPE).o ../build/sadthreadexecutablefunction_$(TYPE).o ../build/sadwstring_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texturemappedfont_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/timer_$(TYPE).o ../build/vbolayer_$(TYPE).o
 
 ifeq ($(TYPE),debug)
 CCOPTS = -g
@@ -29,8 +29,8 @@ endif
 	g++ -c $(CCOPTS) ../src/3rdparty/format/format.cc -o ../build/3rdparty_format_format_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/3rdparty_picopng_picopng_$(TYPE).o: ../src/3rdparty/picopng/picopng.cpp
 	g++ -c $(CCOPTS) ../src/3rdparty/picopng/picopng.cpp -o ../build/3rdparty_picopng_picopng_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/bmploader_$(TYPE).o: ../src/bmploader.cpp
-	g++ -c $(CCOPTS) ../src/bmploader.cpp -o ../build/bmploader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/camera_$(TYPE).o: ../src/camera.cpp
+	g++ -c $(CCOPTS) ../src/camera.cpp -o ../build/camera_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/classmetadata_$(TYPE).o: ../src/classmetadata.cpp
 	g++ -c $(CCOPTS) ../src/classmetadata.cpp -o ../build/classmetadata_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/classmetadatacontainer_$(TYPE).o: ../src/classmetadatacontainer.cpp
@@ -49,14 +49,26 @@ endif
 	g++ -c $(CCOPTS) ../src/defaulttexloader.cpp -o ../build/defaulttexloader_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/extchecker_$(TYPE).o: ../src/extchecker.cpp
 	g++ -c $(CCOPTS) ../src/extchecker.cpp -o ../build/extchecker_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/font_$(TYPE).o: ../src/font.cpp
+	g++ -c $(CCOPTS) ../src/font.cpp -o ../build/font_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/fontmanager_$(TYPE).o: ../src/fontmanager.cpp
 	g++ -c $(CCOPTS) ../src/fontmanager.cpp -o ../build/fontmanager_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/formattedlabel_$(TYPE).o: ../src/formattedlabel.cpp
+	g++ -c $(CCOPTS) ../src/formattedlabel.cpp -o ../build/formattedlabel_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/fsm_statemachine_$(TYPE).o: ../src/fsm/statemachine.cpp
 	g++ -c $(CCOPTS) ../src/fsm/statemachine.cpp -o ../build/fsm_statemachine_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/fuzzyequal_$(TYPE).o: ../src/fuzzyequal.cpp
 	g++ -c $(CCOPTS) ../src/fuzzyequal.cpp -o ../build/fuzzyequal_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/geometry2d_$(TYPE).o: ../src/geometry2d.cpp
 	g++ -c $(CCOPTS) ../src/geometry2d.cpp -o ../build/geometry2d_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/imageformats_bmploader_$(TYPE).o: ../src/imageformats/bmploader.cpp
+	g++ -c $(CCOPTS) ../src/imageformats/bmploader.cpp -o ../build/imageformats_bmploader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/imageformats_loader_$(TYPE).o: ../src/imageformats/loader.cpp
+	g++ -c $(CCOPTS) ../src/imageformats/loader.cpp -o ../build/imageformats_loader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/imageformats_pngloader_$(TYPE).o: ../src/imageformats/pngloader.cpp
+	g++ -c $(CCOPTS) ../src/imageformats/pngloader.cpp -o ../build/imageformats_pngloader_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/imageformats_tgaloader_$(TYPE).o: ../src/imageformats/tgaloader.cpp
+	g++ -c $(CCOPTS) ../src/imageformats/tgaloader.cpp -o ../build/imageformats_tgaloader_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/input_events_$(TYPE).o: ../src/input/events.cpp
 	g++ -c $(CCOPTS) ../src/input/events.cpp -o ../build/input_events_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/input_$(TYPE).o: ../src/input.cpp
@@ -83,10 +95,6 @@ endif
 	g++ -c $(CCOPTS) ../src/marshal/abstractreader.cpp -o ../build/marshal_abstractreader_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/marshal_abstractwriter_$(TYPE).o: ../src/marshal/abstractwriter.cpp
 	g++ -c $(CCOPTS) ../src/marshal/abstractwriter.cpp -o ../build/marshal_abstractwriter_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_actioncontext_$(TYPE).o: ../src/marshal/actioncontext.cpp
-	g++ -c $(CCOPTS) ../src/marshal/actioncontext.cpp -o ../build/marshal_actioncontext_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/marshal_exceptions_$(TYPE).o: ../src/marshal/exceptions.cpp
-	g++ -c $(CCOPTS) ../src/marshal/exceptions.cpp -o ../build/marshal_exceptions_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/marshal_hashbasedserializablecontainer_$(TYPE).o: ../src/marshal/hashbasedserializablecontainer.cpp
 	g++ -c $(CCOPTS) ../src/marshal/hashbasedserializablecontainer.cpp -o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/marshal_saveloadcallbacks_$(TYPE).o: ../src/marshal/saveloadcallbacks.cpp
@@ -99,8 +107,8 @@ endif
 	g++ -c $(CCOPTS) ../src/marshal/variant.cpp -o ../build/marshal_variant_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/object_$(TYPE).o: ../src/object.cpp
 	g++ -c $(CCOPTS) ../src/object.cpp -o ../build/object_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/orthocamera_$(TYPE).o: ../src/orthocamera.cpp
-	g++ -c $(CCOPTS) ../src/orthocamera.cpp -o ../build/orthocamera_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/orthographiccamera_$(TYPE).o: ../src/orthographiccamera.cpp
+	g++ -c $(CCOPTS) ../src/orthographiccamera.cpp -o ../build/orthographiccamera_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/os_consoleimpl_$(TYPE).o: ../src/os/consoleimpl.cpp
 	g++ -c $(CCOPTS) ../src/os/consoleimpl.cpp -o ../build/os_consoleimpl_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/os_muteximpl_$(TYPE).o: ../src/os/muteximpl.cpp
@@ -175,28 +183,6 @@ endif
 	g++ -c $(CCOPTS) ../src/p2d/worldsteptask.cpp -o ../build/p2d_worldsteptask_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/periodicalevent_$(TYPE).o: ../src/periodicalevent.cpp
 	g++ -c $(CCOPTS) ../src/periodicalevent.cpp -o ../build/periodicalevent_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_convert_$(TYPE).o: ../src/png/convert.cpp
-	g++ -c $(CCOPTS) ../src/png/convert.cpp -o ../build/png_convert_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_decodepng_$(TYPE).o: ../src/png/decodepng.cpp
-	g++ -c $(CCOPTS) ../src/png/decodepng.cpp -o ../build/png_decodepng_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_decompress_$(TYPE).o: ../src/png/decompress.cpp
-	g++ -c $(CCOPTS) ../src/png/decompress.cpp -o ../build/png_decompress_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_huffman_$(TYPE).o: ../src/png/huffman.cpp
-	g++ -c $(CCOPTS) ../src/png/huffman.cpp -o ../build/png_huffman_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflateblock_$(TYPE).o: ../src/png/inflateblock.cpp
-	g++ -c $(CCOPTS) ../src/png/inflateblock.cpp -o ../build/png_inflateblock_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflatedynamic_$(TYPE).o: ../src/png/inflatedynamic.cpp
-	g++ -c $(CCOPTS) ../src/png/inflatedynamic.cpp -o ../build/png_inflatedynamic_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_inflator_$(TYPE).o: ../src/png/inflator.cpp
-	g++ -c $(CCOPTS) ../src/png/inflator.cpp -o ../build/png_inflator_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_picopngloader_$(TYPE).o: ../src/png/picopngloader.cpp
-	g++ -c $(CCOPTS) ../src/png/picopngloader.cpp -o ../build/png_picopngloader_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_pngbasic_$(TYPE).o: ../src/png/pngbasic.cpp
-	g++ -c $(CCOPTS) ../src/png/pngbasic.cpp -o ../build/png_pngbasic_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/png_unfilter_$(TYPE).o: ../src/png/unfilter.cpp
-	g++ -c $(CCOPTS) ../src/png/unfilter.cpp -o ../build/png_unfilter_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/pngtexture_$(TYPE).o: ../src/pngtexture.cpp
-	g++ -c $(CCOPTS) ../src/pngtexture.cpp -o ../build/pngtexture_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/refcountable_$(TYPE).o: ../src/refcountable.cpp
 	g++ -c $(CCOPTS) ../src/refcountable.cpp -o ../build/refcountable_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/renderer_$(TYPE).o: ../src/renderer.cpp
@@ -207,6 +193,8 @@ endif
 	g++ -c $(CCOPTS) ../src/renderer_win32loop.cpp -o ../build/renderer_win32loop_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/sadhash_$(TYPE).o: ../src/sadhash.cpp
 	g++ -c $(CCOPTS) ../src/sadhash.cpp -o ../build/sadhash_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/sadluvcolor_$(TYPE).o: ../src/sadluvcolor.cpp
+	g++ -c $(CCOPTS) ../src/sadluvcolor.cpp -o ../build/sadluvcolor_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/sadmutex_$(TYPE).o: ../src/sadmutex.cpp
 	g++ -c $(CCOPTS) ../src/sadmutex.cpp -o ../build/sadmutex_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/sadscopedlock_$(TYPE).o: ../src/sadscopedlock.cpp
@@ -239,19 +227,15 @@ endif
 	g++ -c $(CCOPTS) ../src/texturecontainer.cpp -o ../build/texturecontainer_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/texturemanager_$(TYPE).o: ../src/texturemanager.cpp
 	g++ -c $(CCOPTS) ../src/texturemanager.cpp -o ../build/texturemanager_$(TYPE).o $(INCLUDE) $(DEFINES)
+../build/texturemappedfont_$(TYPE).o: ../src/texturemappedfont.cpp
+	g++ -c $(CCOPTS) ../src/texturemappedfont.cpp -o ../build/texturemappedfont_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/texture_resize_bilinear_$(TYPE).o: ../src/texture_resize_bilinear.cpp
 	g++ -c $(CCOPTS) ../src/texture_resize_bilinear.cpp -o ../build/texture_resize_bilinear_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/tga_tga_$(TYPE).o: ../src/tga/tga.cpp
-	g++ -c $(CCOPTS) ../src/tga/tga.cpp -o ../build/tga_tga_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/tga_tgareader_$(TYPE).o: ../src/tga/tgareader.cpp
-	g++ -c $(CCOPTS) ../src/tga/tgareader.cpp -o ../build/tga_tgareader_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/timer_$(TYPE).o: ../src/timer.cpp
 	g++ -c $(CCOPTS) ../src/timer.cpp -o ../build/timer_$(TYPE).o $(INCLUDE) $(DEFINES)
-../build/tmfont_$(TYPE).o: ../src/tmfont.cpp
-	g++ -c $(CCOPTS) ../src/tmfont.cpp -o ../build/tmfont_$(TYPE).o $(INCLUDE) $(DEFINES)
 ../build/vbolayer_$(TYPE).o: ../src/vbolayer.cpp
 	g++ -c $(CCOPTS) ../src/vbolayer.cpp -o ../build/vbolayer_$(TYPE).o $(INCLUDE) $(DEFINES)
-$(OUTPUT): ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/bmploader_$(TYPE).o ../build/classmetadata_$(TYPE).o ../build/classmetadatacontainer_$(TYPE).o ../build/closure_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/fsm_statemachine_$(TYPE).o ../build/fuzzyequal_$(TYPE).o ../build/geometry2d_$(TYPE).o ../build/input_events_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_consoletarget_$(TYPE).o ../build/log_filetarget_$(TYPE).o ../build/log_log_$(TYPE).o ../build/log_logmessage_$(TYPE).o ../build/log_logscope_$(TYPE).o ../build/log_logtarget_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_actioncontext_$(TYPE).o ../build/marshal_exceptions_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/object_$(TYPE).o ../build/orthocamera_$(TYPE).o ../build/os_consoleimpl_$(TYPE).o ../build/os_muteximpl_$(TYPE).o ../build/os_semaphoreimpl_$(TYPE).o ../build/os_threadimpl_$(TYPE).o ../build/os_timerimpl_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/periodicalevent_$(TYPE).o ../build/png_convert_$(TYPE).o ../build/png_decodepng_$(TYPE).o ../build/png_decompress_$(TYPE).o ../build/png_huffman_$(TYPE).o ../build/png_inflateblock_$(TYPE).o ../build/png_inflatedynamic_$(TYPE).o ../build/png_inflator_$(TYPE).o ../build/png_picopngloader_$(TYPE).o ../build/png_pngbasic_$(TYPE).o ../build/png_unfilter_$(TYPE).o ../build/pngtexture_$(TYPE).o ../build/refcountable_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/sadhash_$(TYPE).o ../build/sadmutex_$(TYPE).o ../build/sadscopedlock_$(TYPE).o ../build/sadsemaphore_$(TYPE).o ../build/sadsleep_$(TYPE).o ../build/sadstring_$(TYPE).o ../build/sadthread_$(TYPE).o ../build/sadthreadexecutablefunction_$(TYPE).o ../build/sadwstring_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/tga_tga_$(TYPE).o ../build/tga_tgareader_$(TYPE).o ../build/timer_$(TYPE).o ../build/tmfont_$(TYPE).o ../build/vbolayer_$(TYPE).o
+$(OUTPUT): ../build/3rdparty_format_format_$(TYPE).o ../build/3rdparty_picopng_picopng_$(TYPE).o ../build/camera_$(TYPE).o ../build/classmetadata_$(TYPE).o ../build/classmetadatacontainer_$(TYPE).o ../build/closure_$(TYPE).o ../build/cmdoptions_$(TYPE).o ../build/config_sprite2dconfig_$(TYPE).o ../build/config_sprite2dconfigloader_$(TYPE).o ../build/config_sprite2dobserver_$(TYPE).o ../build/defaulttexloader_$(TYPE).o ../build/extchecker_$(TYPE).o ../build/font_$(TYPE).o ../build/fontmanager_$(TYPE).o ../build/formattedlabel_$(TYPE).o ../build/fsm_statemachine_$(TYPE).o ../build/fuzzyequal_$(TYPE).o ../build/geometry2d_$(TYPE).o ../build/imageformats_bmploader_$(TYPE).o ../build/imageformats_loader_$(TYPE).o ../build/imageformats_pngloader_$(TYPE).o ../build/imageformats_tgaloader_$(TYPE).o ../build/input_events_$(TYPE).o ../build/input_$(TYPE).o ../build/label_$(TYPE).o ../build/lightmodel_$(TYPE).o ../build/log_consoletarget_$(TYPE).o ../build/log_filetarget_$(TYPE).o ../build/log_log_$(TYPE).o ../build/log_logmessage_$(TYPE).o ../build/log_logscope_$(TYPE).o ../build/log_logtarget_$(TYPE).o ../build/marshal_abstractproperty_$(TYPE).o ../build/marshal_abstractreader_$(TYPE).o ../build/marshal_abstractwriter_$(TYPE).o ../build/marshal_hashbasedserializablecontainer_$(TYPE).o ../build/marshal_saveloadcallbacks_$(TYPE).o ../build/marshal_serializablecontainer_$(TYPE).o ../build/marshal_serializableobject_$(TYPE).o ../build/marshal_variant_$(TYPE).o ../build/object_$(TYPE).o ../build/orthographiccamera_$(TYPE).o ../build/os_consoleimpl_$(TYPE).o ../build/os_muteximpl_$(TYPE).o ../build/os_semaphoreimpl_$(TYPE).o ../build/os_threadimpl_$(TYPE).o ../build/os_timerimpl_$(TYPE).o ../build/p2d_app_app_$(TYPE).o ../build/p2d_app_appobject_$(TYPE).o ../build/p2d_app_objectemitter_$(TYPE).o ../build/p2d_app_way_$(TYPE).o ../build/p2d_axle_$(TYPE).o ../build/p2d_body_$(TYPE).o ../build/p2d_bouncesolver_$(TYPE).o ../build/p2d_bounds_$(TYPE).o ../build/p2d_broadcollisiondetector_$(TYPE).o ../build/p2d_circle_$(TYPE).o ../build/p2d_circletohulltransformer_$(TYPE).o ../build/p2d_collisiondetector_$(TYPE).o ../build/p2d_collisionevent_$(TYPE).o ../build/p2d_collisionhandler_$(TYPE).o ../build/p2d_collisionshape_$(TYPE).o ../build/p2d_collisiontest_$(TYPE).o ../build/p2d_convexhull_$(TYPE).o ../build/p2d_elasticforce_$(TYPE).o ../build/p2d_findcontactpoints_$(TYPE).o ../build/p2d_force_$(TYPE).o ../build/p2d_grahamscan_$(TYPE).o ../build/p2d_infiniteline_$(TYPE).o ../build/p2d_line_$(TYPE).o ../build/p2d_multisamplingcollisiondetector_$(TYPE).o ../build/p2d_rectangle_$(TYPE).o ../build/p2d_simplecollisiondetector_$(TYPE).o ../build/p2d_vector_$(TYPE).o ../build/p2d_walls_$(TYPE).o ../build/p2d_weight_$(TYPE).o ../build/p2d_world_$(TYPE).o ../build/p2d_worldsteptask_$(TYPE).o ../build/periodicalevent_$(TYPE).o ../build/refcountable_$(TYPE).o ../build/renderer_$(TYPE).o ../build/renderer_win32_$(TYPE).o ../build/renderer_win32loop_$(TYPE).o ../build/sadhash_$(TYPE).o ../build/sadluvcolor_$(TYPE).o ../build/sadmutex_$(TYPE).o ../build/sadscopedlock_$(TYPE).o ../build/sadsemaphore_$(TYPE).o ../build/sadsleep_$(TYPE).o ../build/sadstring_$(TYPE).o ../build/sadthread_$(TYPE).o ../build/sadthreadexecutablefunction_$(TYPE).o ../build/sadwstring_$(TYPE).o ../build/scene_$(TYPE).o ../build/Settings_$(TYPE).o ../build/sprite_$(TYPE).o ../build/sprite2dadapter_$(TYPE).o ../build/sprite2dcontroller_$(TYPE).o ../build/texture_$(TYPE).o ../build/texturecontainer_$(TYPE).o ../build/texturemanager_$(TYPE).o ../build/texturemappedfont_$(TYPE).o ../build/texture_resize_bilinear_$(TYPE).o ../build/timer_$(TYPE).o ../build/vbolayer_$(TYPE).o
 	ar cr  $(OUTPUT)   $(BUILD)
 clean:
 ifeq ($(PLATFORM),WIN32)
