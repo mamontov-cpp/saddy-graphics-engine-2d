@@ -40,7 +40,7 @@ struct sadWindowTest : tpunit::TestFixture
 	   r.log()->addTarget(new sad::log::ConsoleTarget());
 
 	   sad::Window win;
-	   win.setCreationSize(sad::Size2I(640, 480));
+	   win.setCreationSize(sad::Size2I(800, 600));
 	   win.setRenderer(&r);
 	   win.create();
 	   sad::sleep(50);
