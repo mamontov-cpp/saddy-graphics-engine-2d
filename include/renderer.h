@@ -41,7 +41,7 @@ namespace sad
 		sad::Timer		     m_timer;            //!< Timer
 		Scene*               m_currentscene;//!< Current scene
 		Scene*               m_chscene;     //!< Scene to be changed
-		sad::Window          m_window;      //!< Window
+		sad::WindowData          m_window;      //!< Window
 		
 		
 		Settings             m_glsettings;  //!< Settings
@@ -148,7 +148,7 @@ namespace sad
 		    \sa sad::Window
 		    \param[in] window structure
 		*/
-		inline void setCurrentWindow(sad::Window * window) { m_window=*window;}
+		inline void setCurrentWindow(sad::WindowData * window) { m_window=*window;}
 
 	public:
         Renderer(void);
@@ -169,7 +169,7 @@ namespace sad
 		    \sa sad::Window
 		    \return Current window
 		*/
-		inline sad::Window * getCurrentWindow()  { return &m_window;}
+		inline sad::WindowData * getCurrentWindow()  { return &m_window;}
 		/*! Initializes renderer with specified settings
 		    \param[in] _settings settings 
 		    \return Success of operation

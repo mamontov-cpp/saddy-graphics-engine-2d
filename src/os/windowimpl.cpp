@@ -55,7 +55,6 @@ bool sad::os::WindowImpl::create()
 		return true;
 
 	typedef bool (sad::os::WindowImpl::*CreationStep)(bool);
-	typedef void (sad::os::WindowImpl::*CleanupStep)();
 #ifdef WIN32
 	
 	const int creationstepscount = 4;
@@ -67,12 +66,6 @@ bool sad::os::WindowImpl::create()
 		&sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor
 	};
 
-	const int cleanupstepcount = 2;
-	
-	CleanupStep cleanupsteps[cleanupstepcount] = {
-		&sad::os::WindowImpl::releaseContextAndDestroyWindow,
-		&sad::os::WindowImpl::unregisterWindowClass		
-	};
 #endif
 
 #ifdef X11
@@ -84,11 +77,6 @@ bool sad::os::WindowImpl::create()
 		&sad::os::WindowImpl::createWindow
 	};
 
-	const int cleanupstepcount = 1;
-	
-	CleanupStep cleanupsteps[cleanupstepcount] = {
-		&sad::os::WindowImpl::closeConnection
-	};
 #endif
 
 	bool result = true;
@@ -108,11 +96,7 @@ bool sad::os::WindowImpl::create()
 			);
 		}
 
-		for(int i =  0; i < cleanupstepcount; i++ )
-		{
-			CleanupStep  step = cleanupsteps[i];
-			(this->*step)();
-		}
+		this->destroy();
 	}
 
 	
@@ -256,8 +240,12 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 	{
 		if (this->renderer() != NULL)
 		{
+			sad::String msg = str(
+				fmt::Format("CreateWindowExA() failed with code {0}") 
+				<< GetLastError()
+			);
 			SL_LOCAL_INTERNAL(
-				"CreateWindowExA() failed", *(this->renderer())
+				msg, *(this->renderer())
 			);
 		}
 	}
@@ -309,6 +297,8 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 			<< clientrect.bottom,
 			*(this->renderer())
 		);
+
+		ShowWindow(m_handles.WND, SW_HIDE);
 	}
 	return result;
 }
@@ -397,7 +387,29 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 	}
 	
 	m_handles.Dpy = XOpenDisplay(0);
+	unsigned long dpy = reinterpret_cast<unsigned long>(m_handles.Dpy);
+	if (m_handles.Dpy == NULL)
+	{
+		m_handles.Screen = 0;
+		if (this->renderer())
+		{
+			SL_LOCAL_INTERNAL("XOpenDisplay(0) failed", *(this->renderer()));
+		}
+		return false;
+	}
+
+	if (this->renderer())
+	{
+		sad::String message = str(fmt::Format("Connected to display 0 on handle {0}") << dpy);
+		SL_LOCAL_INTERNAL(message, *(this->renderer()));
+	}
+
   	m_handles.Screen = DefaultScreen(m_handles.Dpy);
+	if (this->renderer())
+	{
+		sad::String message = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
+		SL_LOCAL_INTERNAL(message, *(this->renderer()));
+	}
 	
 	return true;
 }
@@ -512,6 +524,16 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 		&attr
 	);
 
+	// Stop here, because we cannot create window
+	if (win == None)
+	{
+		if (this->renderer() != NULL)
+		{
+			SL_LOCAL_INTERNAL("XCreateWindow() failed", *(this->renderer()));
+		}
+		return false;
+	}
+
 	wmDelete = XInternAtom(m_handles.Dpy, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(m_handles.Dpy,  m_handles.Win, &wmDelete, 1);
 	XSetStandardProperties(
@@ -531,3 +553,144 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 }
 
 #endif
+
+
+void sad::os::WindowImpl::destroy()
+{
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::destroy()");
+
+	typedef void (sad::os::WindowImpl::*CleanupStep)();
+
+#ifdef WIN32	
+	const int cleanupstepcount = 2;
+	
+	CleanupStep cleanupsteps[cleanupstepcount] = {
+		&sad::os::WindowImpl::releaseContextAndDestroyWindow,
+		&sad::os::WindowImpl::unregisterWindowClass		
+	};
+#endif
+
+#ifdef X11
+	const int cleanupstepcount = 1;
+	
+	CleanupStep cleanupsteps[cleanupstepcount] = {
+		&sad::os::WindowImpl::closeConnection
+	};
+#endif
+
+	for(int i =  0; i < cleanupstepcount; i++ )
+	{
+		CleanupStep  step = cleanupsteps[i];
+		(this->*step)();
+	}
+	
+	m_handles.cleanup();
+}
+
+bool sad::os::WindowImpl::valid() const
+{
+#ifdef WIN32
+	return m_handles.WND != NULL;
+#endif
+
+#ifdef X11
+	return m_handles.Win != None;
+#endif
+
+}
+
+
+bool sad::os::WindowImpl::fixed() const
+{
+	return m_fixed;
+}
+
+void sad::os::WindowImpl::makeFixedSize()
+{
+	// Stub
+}
+
+void sad::os::WindowImpl::makeResizeable()
+{
+	// Stub
+}
+
+
+bool sad::os::WindowImpl::fullscreen() const
+{
+	return m_fullscreen;
+}
+
+void sad::os::WindowImpl::enterFullscreen()
+{
+	// Stub
+}
+
+void sad::os::WindowImpl::leaveFullscreen()
+{
+	// Stub
+}
+
+
+bool sad::os::WindowImpl::hidden() const
+{
+	// Stub
+	return m_hidden;
+}
+
+
+void sad::os::WindowImpl::show() 
+{
+	// Stub
+}
+
+
+void sad::os::WindowImpl::hide() 
+{
+	// Stub
+}
+
+void sad::os::WindowImpl::setRect(const sad::Rect2I& rect, bool notify)
+{
+	// Stub
+}
+
+void sad::os::WindowImpl::pushRect(const sad::Rect2I& rect)
+{
+	if (!valid())
+	{
+		return ;
+	}
+
+	m_window_rect_stack << this->rect();
+	setRect(rect);
+}
+void sad::os::WindowImpl::popRect()
+{
+	if (!valid() || m_window_rect_stack.size() == 0)
+	{
+		return ;
+	}
+
+	sad::Rect2I rect = m_window_rect_stack[m_window_rect_stack.size() - 1];
+	m_window_rect_stack.removeAt(m_window_rect_stack.size() - 1);
+	setRect(rect);
+}
+
+sad::Rect2I sad::os::WindowImpl::rect() const
+{
+	// Stub
+	return sad::Rect2I();
+}
+
+sad::Point2D sad::os::WindowImpl::toClient(const sad::Point2D & p)
+{
+	// Stub
+	return sad::Point2D();
+}
+
+sad::os::WindowHandles * sad::os::WindowImpl::handles()
+{
+	return &m_handles;
+}
+

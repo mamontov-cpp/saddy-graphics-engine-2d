@@ -79,7 +79,7 @@ namespace sad
 	
    /*! Contains a window info
    */
-   class Window
+   class WindowData
    {
     public:
 #ifdef WIN32
@@ -109,7 +109,7 @@ namespace sad
 		unsigned int         height;                //!< Height of window
 		unsigned int         clientwidth;           //!< A client width of window
 		unsigned int         clientheight;          //!< A client height of window
-		inline Window() {}
+
 	};	
 
 }

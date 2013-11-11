@@ -6,12 +6,11 @@ sad::Window::Window() : m_dptr(new sad::os::WindowImpl())
 
 }
 
-/*
 sad::Window::~Window()
 {
 	delete m_dptr;
 }
-*/
+
 
 void sad::Window::setRenderer(sad::Renderer * renderer)
 {
@@ -34,9 +33,9 @@ bool sad::Window::create()
 	return m_dptr->create();
 }
 
-bool sad::Window::destroy()
+void sad::Window::destroy()
 {
-	return m_dptr->destroy();
+	m_dptr->destroy();
 }
 
 bool sad::Window::valid() const
@@ -95,9 +94,9 @@ void sad::Window::setRect(const sad::Rect2I& rect, bool notify)
 	m_dptr->setRect(rect, notify);
 }
 
-void sad::Window::pushRect()
+void sad::Window::pushRect(const sad::Rect2I& rect)
 {
-	m_dptr->pushRect();
+	m_dptr->pushRect(rect);
 }
 
 void sad::Window::popRect()
