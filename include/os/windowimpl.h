@@ -79,7 +79,7 @@ public:
 	/*! Destroys a window
 		\return whether destruction was successfull 
 	 */
-	bool destroy();
+	void destroy();
 	/*! Tests, whether window is valid
 	 */
 	bool valid() const;
@@ -121,9 +121,10 @@ public:
 						  to OS.
 	 */
 	void setRect(const sad::Rect2I& rect, bool notify = true);
-	/*! Pushes window rectangle down to stack of sizes
+	/*! Pushes current window rectangle down to stack of sizes and sets new 
+		\param[in] rect a rectangle parameters
 	 */
-	void pushRect();
+	void pushRect(const sad::Rect2I& rect);
 	/*! Pops window rectangle from stack of sizes
 	 */
 	void popRect();

@@ -53,7 +53,7 @@ public:
 	/*! Destroys a window
 		\return whether destruction was successfull 
 	 */
-	bool destroy();
+	void destroy();
 	/*! Tests, whether window is valid
 	 */
 	bool valid() const;
@@ -90,14 +90,15 @@ public:
 	void hide();
 
 	/*! Sets rectangle to specified implementation
-		\param[in] rect a rectangle parameters
+		\param[in] rect a new window rectangle
 		\param[in] notify On Windows - whether notification about size should be sent
 						  to OS.
 	 */
 	void setRect(const sad::Rect2I& rect, bool notify = true);
 	/*! Pushes window rectangle down to stack of sizes
+		\param[in] rect a new window rectangle
 	 */
-	void pushRect();
+	void pushRect(const sad::Rect2I& rect);
 	/*! Pops window rectangle from stack of sizes
 	 */
 	void popRect();

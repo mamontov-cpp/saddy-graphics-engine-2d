@@ -95,7 +95,7 @@ public:
 #ifdef X11
 		Dpy = NULL;
 		Screen = 0;
-		Win = 0;
+		Win = None;
 		VisualInfo = 0;
 #endif
 	}

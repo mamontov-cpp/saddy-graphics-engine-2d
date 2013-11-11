@@ -209,6 +209,10 @@
 				RelativePath=".\sadthread.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\sadwindow.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
