@@ -50,7 +50,7 @@ void sad::os::WindowImpl::setCreationSize(const sad::Size2I& size)
 bool sad::os::WindowImpl::create()
 {
 	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::create()");
-	// Do not do anything, whether window implementation is valid
+	// Do not do anything, when window implementation is valid
 	if (valid())
 		return true;
 
@@ -634,7 +634,6 @@ void sad::os::WindowImpl::leaveFullscreen()
 
 bool sad::os::WindowImpl::hidden() const
 {
-	// Stub
 	return m_hidden;
 }
 
@@ -672,9 +671,33 @@ void sad::os::WindowImpl::hide()
 	}
 }
 
-void sad::os::WindowImpl::setRect(const sad::Rect2I& rect, bool notify)
+void sad::os::WindowImpl::setRect(const sad::Rect2I& rect)
 {
-	// Stub
+	if (!valid())
+		return;
+
+#ifdef WIN32
+	SetWindowPos(
+		m_handles.WND, 
+		HWND_NOTOPMOST, 
+		rect[0].x(), 
+		rect[0].y(), 
+		rect.width(), 
+		rect.height(),
+		SWP_FRAMECHANGED
+	);
+#endif
+
+#ifdef X11
+	XMoveResizeWindow(
+		m_handles.Dpy,
+		m_handles.Win,
+		rect[0].x(), 
+		rect[0].y(), 
+		rect.width(), 
+		rect.height()
+	);
+#endif
 }
 
 void sad::os::WindowImpl::pushRect(const sad::Rect2I& rect)
@@ -701,8 +724,34 @@ void sad::os::WindowImpl::popRect()
 
 sad::Rect2I sad::os::WindowImpl::rect() const
 {
-	// Stub
-	return sad::Rect2I();
+	if (!valid())
+		return sad::Rect2I();
+
+#ifdef WIN32
+	RECT rect;
+	GetWindowRect(m_handles.WND, &rect);
+	sad::Rect2I r(rect.left, rect.top, rect.right, rect.bottom);
+	return r;
+#endif
+
+#ifdef X11
+	int x = 0, y = 0;
+	unsigned int width = 0, height = 0, depth = 0, border = 0;
+	::Window root = None;
+	XGetGeometry(
+		m_handles.Dpy, 
+		m_handles.Win, 
+		&root, 
+		&x, 
+		&y,
+		&width, 
+		&height, 
+		&border, 
+		&depth
+	);
+	sad::Rect2I r(x, y, x + width + border, y - height - border);
+	return r;
+#endif
 }
 
 sad::Point2D sad::os::WindowImpl::toClient(const sad::Point2D & p)
@@ -716,3 +765,14 @@ sad::os::WindowHandles * sad::os::WindowImpl::handles()
 	return &m_handles;
 }
 
+const sad::String & sad::os::WindowImpl::title() const
+{
+	// Stub
+	return m_window_title;
+}
+
+void sad::os::WindowImpl::setTitle(const sad::String & s)
+{
+	// Stub
+	m_window_title = s;
+}

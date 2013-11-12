@@ -46,6 +46,17 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.create();
 	   win.show();
 	   sad::sleep(2000);
+	   win.setRect(sad::Rect2I(sad::Point2I(0, 0), sad::Point2I(640, 480)));
+	   sad::Rect2I rect = win.rect();
+	   sad::String message = str(
+		   fmt::Format("Rect is {0} {1} {2} {3}")
+		   << rect[0].x() 
+		   << rect[0].y()
+		   << rect.width()
+		   << rect.height()
+		   );
+	   SL_LOCAL_MESSAGE(message, (r));
+	   sad::sleep(2000);
 	   win.hide();
 	   win.destroy();
    }

@@ -89,9 +89,9 @@ void sad::Window::hide()
 	m_dptr->hide();
 }
 
-void sad::Window::setRect(const sad::Rect2I& rect, bool notify)
+void sad::Window::setRect(const sad::Rect2I& rect)
 {
-	m_dptr->setRect(rect, notify);
+	m_dptr->setRect(rect);
 }
 
 void sad::Window::pushRect(const sad::Rect2I& rect)
@@ -120,3 +120,12 @@ sad::os::WindowHandles * sad::Window::handles()
 	return m_dptr->handles();
 }
 
+const sad::String & sad::Window::title() const
+{
+	return m_dptr->title();
+}
+
+void  sad::Window::setTitle(const sad::String & s)
+{
+	m_dptr->setTitle(s);
+}
