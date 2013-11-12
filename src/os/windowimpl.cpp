@@ -749,7 +749,7 @@ sad::Rect2I sad::os::WindowImpl::rect() const
 		&border, 
 		&depth
 	);
-	sad::Rect2I r(x, y, x + width + border, y - height - border);
+	sad::Rect2I r(x, y, x + width + border, y + height + border);
 	return r;
 #endif
 }
