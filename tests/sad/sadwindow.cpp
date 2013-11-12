@@ -43,7 +43,9 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.setCreationSize(sad::Size2I(800, 600));
 	   win.setRenderer(&r);
 	   win.create();
-	   sad::sleep(50);
+	   win.show();
+	   sad::sleep(2000);
+	   win.hide();
 	   win.destroy();
    }
 
