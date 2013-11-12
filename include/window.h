@@ -52,7 +52,12 @@ public:
 		\return whether creation was successfull
 	 */
 	bool create();
-	/*! Destroys a window. Note, that you should not call this functions, since
+	/*! Closes a window. Note, that you should not call this function, use
+		sad::Renderer instead
+	 */
+	void close();
+	/*! Destroys a window, freeing all resources. 
+	    Note, that you should not call this functions, since
 		sad::Renderer automatically does it for you.
 		\return whether destruction was successfull 
 	 */

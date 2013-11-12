@@ -23,32 +23,6 @@ namespace os
 class WindowImpl
 {
 friend class sad::Window;
-private:
-	/*! A handles for a window
-	 */
-	sad::os::WindowHandles m_handles;
-	/*! Whether window is fixed
-	 */
-	bool m_fixed;
-	/*! Whether window is in fullscreen mode
-	 */
-	bool m_fullscreen;
-	/*! Whether window is hidden
-	 */
-	bool m_hidden;
-	/*! Size, that should be set, when creating a windo
-	 */
-	sad::Size2I  m_creation_size;
-	/*! A window title for window
-	 */
-	sad::String  m_window_title;
-	/*! A stack of window rectangles. Should be changed when 
-		toggling fullscreen or other times
-	 */
-	sad::Vector<sad::Rect2I> m_window_rect_stack;
-	/*! A linked renderer
-	 */
-	sad::Renderer * m_renderer;
 public:
 	/*! Creates new non-created window implementation. 
 		Default creation size will be 320x480
@@ -76,6 +50,9 @@ public:
 		\return whether creation was successfull
 	 */
 	bool create();
+	/*! Forcefully closes a window 
+	 */
+	void close();
 	/*! Destroys a window
 		\return whether destruction was successfull 
 	 */
@@ -148,6 +125,32 @@ public:
 	/*! Sets title for a window
 	 */
 	void setTitle(const sad::String & s);
+private:
+	/*! A handles for a window
+	 */
+	sad::os::WindowHandles m_handles;
+	/*! Whether window is fixed
+	 */
+	bool m_fixed;
+	/*! Whether window is in fullscreen mode
+	 */
+	bool m_fullscreen;
+	/*! Whether window is hidden
+	 */
+	bool m_hidden;
+	/*! Size, that should be set, when creating a windo
+	 */
+	sad::Size2I  m_creation_size;
+	/*! A window title for window
+	 */
+	sad::String  m_window_title;
+	/*! A stack of window rectangles. Should be changed when 
+		toggling fullscreen or other times
+	 */
+	sad::Vector<sad::Rect2I> m_window_rect_stack;
+	/*! A linked renderer
+	 */
+	sad::Renderer * m_renderer;
 private:
 
 #ifdef WIN32

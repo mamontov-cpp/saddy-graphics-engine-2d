@@ -3,7 +3,6 @@
 #include "renderer.h"
 
 
-
 #define SL_WINDOW_INTERNAL_SCOPE(X)   \
 if (this->renderer()) {				  \
 	SL_INTERNAL_SCOPE(X, *(this->renderer()));  \
@@ -554,6 +553,33 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 
 #endif
 
+void sad::os::WindowImpl::close() 
+{
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::close()");
+	
+	if (!valid())
+		return;
+
+#ifdef WIN32
+	PostMessage(m_handles.WND, WM_QUIT, 0, 0);
+#endif
+
+#ifdef X11
+	// Taken from 
+    // http://john.nachtimwald.com/2009/11/08/sending-wm_delete_window-client-messages/
+	XEvent ev;
+ 
+	memset(&ev, 0, sizeof (ev));
+ 
+	ev.xclient.type = ClientMessage;
+	ev.xclient.window = window;
+	ev.xclient.message_type = XInternAtom(display, "WM_PROTOCOLS", true);
+	ev.xclient.format = 32;
+	ev.xclient.data.l[0] = XInternAtom(display, "WM_DELETE_WINDOW", false);
+	ev.xclient.data.l[1] = CurrentTime;
+	XSendEvent(m_handles.Dpy, m_handles.Win, False, NoEventMask, &ev);
+#endif
+}
 
 void sad::os::WindowImpl::destroy()
 {

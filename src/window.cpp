@@ -33,6 +33,11 @@ bool sad::Window::create()
 	return m_dptr->create();
 }
 
+void sad::Window::close()
+{
+	m_dptr->close();
+}
+
 void sad::Window::destroy()
 {
 	m_dptr->destroy();
