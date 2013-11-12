@@ -34,6 +34,18 @@ struct sadWindowTest : tpunit::TestFixture
 	   TEST(sadWindowTest::testFullscreenClose)
    ) {}
 	
+   void putWIndowRect(sad::Window & w, sad::Renderer & r)
+    {
+	sad::Rect2I rect = w.rect();
+	sad::String message = str(
+		   fmt::Format("Rect is {0} {1} {2} {3}")
+		   << rect[0].x() 
+		   << rect[0].y()
+		   << rect.width()
+		   << rect.height()
+	);
+	SL_LOCAL_MESSAGE(message, (r));
+    }
    /*! Test manually, no message should be created
     */
    void testCreateDestroy()
@@ -48,15 +60,7 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.show();
 	   sad::sleep(2000);
 	   win.setRect(sad::Rect2I(sad::Point2I(0, 0), sad::Point2I(640, 480)));
-	   sad::Rect2I rect = win.rect();
-	   sad::String message = str(
-		   fmt::Format("Rect is {0} {1} {2} {3}")
-		   << rect[0].x() 
-		   << rect[0].y()
-		   << rect.width()
-		   << rect.height()
-		   );
-	   SL_LOCAL_MESSAGE(message, (r));
+	   putWIndowRect(win, r);
 	   sad::sleep(2000);
 	   win.hide();
 	   win.destroy();
@@ -73,9 +77,14 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.create();
 	   win.show();
 	   sad::sleep(1000);
+	   // Window size is set asynchronously, so it could print any value
+	   putWIndowRect(win, r);
 	   win.enterFullscreen();
+	   putWIndowRect(win, r);
 	   sad::sleep(2000);
+	   putWIndowRect(win, r);
 	   win.leaveFullscreen();
+	   putWIndowRect(win, r);
 	   sad::sleep(1000);
 	   win.close();
 	   win.destroy();

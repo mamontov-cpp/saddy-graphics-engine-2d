@@ -566,16 +566,16 @@ void sad::os::WindowImpl::close()
 
 #ifdef X11
 	// Taken from 
-    // http://john.nachtimwald.com/2009/11/08/sending-wm_delete_window-client-messages/
+	// http://john.nachtimwald.com/2009/11/08/sending-wm_delete_window-client-messages/
 	XEvent ev;
  
 	memset(&ev, 0, sizeof (ev));
  
 	ev.xclient.type = ClientMessage;
-	ev.xclient.window = window;
-	ev.xclient.message_type = XInternAtom(display, "WM_PROTOCOLS", true);
+	ev.xclient.window = m_handles.Win;
+	ev.xclient.message_type = XInternAtom(m_handles.Dpy, "WM_PROTOCOLS", true);
 	ev.xclient.format = 32;
-	ev.xclient.data.l[0] = XInternAtom(display, "WM_DELETE_WINDOW", false);
+	ev.xclient.data.l[0] = XInternAtom(m_handles.Dpy, "WM_DELETE_WINDOW", false);
 	ev.xclient.data.l[1] = CurrentTime;
 	XSendEvent(m_handles.Dpy, m_handles.Win, False, NoEventMask, &ev);
 #endif
@@ -715,29 +715,38 @@ void sad::os::WindowImpl::sendNetWMFullscreenEvent(bool fullscreen)
 	// Possibly taken from 
 	// http://boards.openpandora.org/topic/12280-x11-fullscreen-howto/#entry229890
 	XEvent xev;
-	Atom wm_state = XInternAtom(m_handles.Dpy, "_NET_WM_STATE", False);
-	Atom fullscreen = XInternAtom(m_handles.Dpy, "_NET_WM_STATE_FULLSCREEN", False);
+	Atom wmstateatom = XInternAtom(m_handles.Dpy, "_NET_WM_STATE", False);
+	Atom fullscreenatom = XInternAtom(m_handles.Dpy, "_NET_WM_STATE_FULLSCREEN", False);
 
 	memset(&xev, 0, sizeof(XEvent));
 
+	XWindowAttributes xwa;
+	XGetWindowAttributes(
+		m_handles.Dpy, 
+		m_handles.Win, 
+		&xwa
+	);
+
 	xev.type = ClientMessage;
-	xev.xclient.window = m_window.win;
-	xev.xclient.message_type = wm_state;
+	xev.xclient.display = m_handles.Dpy;
+	xev.xclient.window = m_handles.Win;
+	xev.xclient.message_type = wmstateatom;
 	xev.xclient.format = 32;
-	xev.xclient.data.l[0] = flag;
-	xev.xclient.data.l[1] = fullscreen;
+	xev.xclient.data.l[0] = (fullscreen) ? 1 : 0; 
+	xev.xclient.data.l[1] = fullscreenatom;
 	xev.xclient.data.l[2] = 0;
 
-    XSendEvent(
+	XSendEvent(
 		m_handles.Dpy, 
-		DefaultRootWindow(m_handles.Dpy), 
+		xwa.root, 
 		False, 
-		SubstructureNotifyMask, 
+		SubstructureNotifyMask | SubstructureRedirectMask, 
 		&xev
 	);
-      
+		
+         /*
 	if (fullscreen)
-    {
+	{
 		XWindowAttributes xwa;
 		XGetWindowAttributes(
 			m_handles.Dpy, 
@@ -753,6 +762,8 @@ void sad::os::WindowImpl::sendNetWMFullscreenEvent(bool fullscreen)
 			xwa.height
 		);
 	}
+	*/
+	XFlush(m_handles.Dpy);
 }
 
 #endif
