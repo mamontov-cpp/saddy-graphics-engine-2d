@@ -649,7 +649,9 @@ void sad::os::WindowImpl::show()
 #endif
 
 #ifdef X11
+		XMapWindow(m_handles.Dpy, m_handles.Win);
 		XMapRaised(m_handles.Dpy, m_handles.Win);
+		XFlush(m_handles.Dpy);
 #endif
 	}
 }
