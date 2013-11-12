@@ -134,3 +134,26 @@ void  sad::Window::setTitle(const sad::String & s)
 {
 	m_dptr->setTitle(s);
 }
+
+
+void sad::Window::initialize()
+{
+	if (!hidden())
+		show();
+
+	if (fixed())
+		makeFixedSize();
+
+	if (fullscreen())
+		enterFullscreen();
+}
+
+bool sad::Window::active() const
+{
+	return m_dptr->active();
+}
+
+void sad::Window::setActive(bool active)
+{
+	m_dptr->setActive(active);
+}

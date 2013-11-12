@@ -14,6 +14,7 @@ m_handles(),
 m_fixed(false), 
 m_fullscreen(false),
 m_hidden(false),
+m_active(true),
 m_creation_size(320, 240),
 m_window_rect_stack(),
 m_renderer(NULL),
@@ -979,3 +980,15 @@ void sad::os::WindowImpl::setTitle(const sad::String & s)
 #endif
 
 }
+
+
+bool sad::os::WindowImpl::active() const
+{
+	return m_active && !hidden();
+}
+
+void sad::os::WindowImpl::setActive(bool active)
+{
+	m_active = active;
+}
+

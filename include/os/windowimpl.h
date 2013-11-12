@@ -125,10 +125,21 @@ public:
 	/*! Sets title for a window
 	 */
 	void setTitle(const sad::String & s);
+	/*! Whether window is active
+		\return whether window is active
+	 */
+	bool active() const;
+	/*! Used by loop to mark window as active or not
+		\param[in] active whether window is active
+	 */
+	void setActive(bool active);
 private:
 	/*! A handles for a window
 	 */
 	sad::os::WindowHandles m_handles;
+	/*! Whether window is active
+	 */
+	bool m_active;
 	/*! Whether window is fixed
 	 */
 	bool m_fixed;
