@@ -30,12 +30,13 @@ struct sadWindowTest : tpunit::TestFixture
 {
  public:
    sadWindowTest() : tpunit::TestFixture(
-	   TEST(sadWindowTest::testOpenClose)
+	   TEST(sadWindowTest::testCreateDestroy),
+	   TEST(sadWindowTest::testFullscreenClose)
    ) {}
 	
    /*! Test manually, no message should be created
     */
-   void testOpenClose()
+   void testCreateDestroy()
    {
 	   sad::Renderer r;
 	   r.log()->addTarget(new sad::log::ConsoleTarget());
@@ -58,6 +59,25 @@ struct sadWindowTest : tpunit::TestFixture
 	   SL_LOCAL_MESSAGE(message, (r));
 	   sad::sleep(2000);
 	   win.hide();
+	   win.destroy();
+   }
+
+   /*! Test manually entering fullscreen
+    */
+   void testFullscreenClose() 
+   {
+	   sad::Renderer r;
+	   r.log()->addTarget(new sad::log::ConsoleTarget());
+
+	   sad::Window win;
+	   win.create();
+	   win.show();
+	   sad::sleep(1000);
+	   win.enterFullscreen();
+	   sad::sleep(2000);
+	   win.leaveFullscreen();
+	   sad::sleep(1000);
+	   win.close();
 	   win.destroy();
    }
 

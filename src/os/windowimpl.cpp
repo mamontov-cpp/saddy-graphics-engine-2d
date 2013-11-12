@@ -649,14 +649,113 @@ bool sad::os::WindowImpl::fullscreen() const
 
 void sad::os::WindowImpl::enterFullscreen()
 {
-	// Stub
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::enterFullscreen()");
+
+	m_fullscreen = true;
+
+	if (!valid())
+		return ;
+
+
+#ifdef WIN32
+	this->m_window_rect_stack << rect();
+	LONG_PTR style = WS_SYSMENU 
+				   | WS_POPUP 
+				   | WS_CLIPCHILDREN 
+				   | WS_CLIPSIBLINGS 
+				   | WS_VISIBLE;
+	SetWindowLongPtr(m_handles.WND,  GWL_STYLE,  style);
+
+	const long screenwidth = GetSystemMetrics(SM_CXSCREEN);
+	const long screenheight = GetSystemMetrics(SM_CYSCREEN);
+	SetWindowPos(
+		m_handles.WND, 
+		HWND_TOPMOST, 
+		0, 
+		0, 
+		screenwidth, 
+		screenheight, 
+		SWP_SHOWWINDOW | SWP_NOSENDCHANGING
+	);	
+#endif
+
+#ifdef X11
+	sendNetWMFullscreenEvent(true);
+#endif
 }
 
 void sad::os::WindowImpl::leaveFullscreen()
 {
-	// Stub
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::leaveFullscreen()");
+	m_fullscreen = false;
+
+	if (!valid())
+		return ;
+
+#ifdef WIN32
+	SetWindowLongPtr(m_handles.WND, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+	popRect();
+#endif
+
+#ifdef X11
+	sendNetWMFullscreenEvent(false);
+#endif
 }
 
+
+#ifdef X11
+
+void sad::os::WindowImpl::sendNetWMFullscreenEvent(bool fullscreen)
+{
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::sendNetWMFullscreenEvent()");
+
+	if (!valid())
+		return;
+
+	// Possibly taken from 
+	// http://boards.openpandora.org/topic/12280-x11-fullscreen-howto/#entry229890
+	XEvent xev;
+	Atom wm_state = XInternAtom(m_handles.Dpy, "_NET_WM_STATE", False);
+	Atom fullscreen = XInternAtom(m_handles.Dpy, "_NET_WM_STATE_FULLSCREEN", False);
+
+	memset(&xev, 0, sizeof(XEvent));
+
+	xev.type = ClientMessage;
+	xev.xclient.window = m_window.win;
+	xev.xclient.message_type = wm_state;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = flag;
+	xev.xclient.data.l[1] = fullscreen;
+	xev.xclient.data.l[2] = 0;
+
+    XSendEvent(
+		m_handles.Dpy, 
+		DefaultRootWindow(m_handles.Dpy), 
+		False, 
+		SubstructureNotifyMask, 
+		&xev
+	);
+      
+	if (fullscreen)
+    {
+		XWindowAttributes xwa;
+		XGetWindowAttributes(
+			m_handles.Dpy, 
+			DefaultRootWindow(m_handles.Dpy), 
+			&xwa
+		);
+		XMoveResizeWindow(
+			m_handles.Dpy,
+			m_handles.Win, 
+			0, 
+			0, 
+			xwa.width, 
+			xwa.height
+		);
+	}
+}
+
+#endif
 
 bool sad::os::WindowImpl::hidden() const
 {

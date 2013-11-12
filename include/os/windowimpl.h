@@ -202,6 +202,11 @@ private:
 	/*! Closes a connection for a window
 	 */
 	void closeConnection();
+	/*! Sends WM-specific fullscreen event to window to
+		turn it into fullscreen
+		\param[in] fullscreen whether we are entering fullscreen (false if leaving)
+	 */
+	void sendNetWMFullscreenEvent(bool fullscreen);
 #endif
 	/*! Cannot be copied, so this is disabled and not implemented
 		\param[in] o other window
