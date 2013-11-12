@@ -18,12 +18,15 @@ namespace os
 {
 class WindowHandles;
 class WindowImpl;
+class MainLoopImpl;
 }
 
 /*! A window, where rendering should be performed
  */
 class Window
 {
+friend class sad::Renderer;
+friend class sad::os::MainLoopImpl;
 public:
 	/*! Creates a new default window
 	 */
@@ -49,22 +52,6 @@ public:
 		\param[in] size a window size
 	 */ 
 	void setCreationSize(const sad::Size2I& size);
-
-	/*! Creates a new window. Note, that you should not call this functions, since
-		sad::Renderer automatically does it for you.
-		\return whether creation was successfull
-	 */
-	bool create();
-	/*! Closes a window. Note, that you should not call this function, use
-		sad::Renderer instead for shutting down everything.
-	 */
-	void close();
-	/*! Destroys a window, freeing all resources. 
-	    Note, that you should not call this functions, since
-		sad::Renderer automatically does it for you.
-		\return whether destruction was successfull 
-	 */
-	void destroy();
 	/*! Tests, whether window is valid. Valid window - is a window, for each a
 		sad::Window::create was called successfully
 		\return whether window is valid
@@ -138,6 +125,24 @@ public:
 		\return whether window is active
 	 */
 	bool active() const;
+#ifndef DO_NOT_HIDE_RENDERER_METHODS
+protected:
+#endif
+	/*! Creates a new window. Note, that you should not call this functions, since
+		sad::Renderer automatically does it for you.
+		\return whether creation was successfull
+	 */
+	bool create();
+	/*! Closes a window. Note, that you should not call this function, use
+		sad::Renderer instead for shutting down everything.
+	 */
+	void close();
+	/*! Destroys a window, freeing all resources. 
+	    Note, that you should not call this functions, since
+		sad::Renderer automatically does it for you.
+		\return whether destruction was successfull 
+	 */
+	void destroy();
 	/*! Used by loop to mark window as active or not
 		\param[in] active whether window is active
 	 */

@@ -2,6 +2,7 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <stdio.h>
+#define DO_NOT_HIDE_RENDERER_METHODS
 #include <window.h>
 #include <renderer.h>
 #include <sadsleep.h>
