@@ -5,6 +5,7 @@
 #include <window.h>
 #include <renderer.h>
 #include <sadsleep.h>
+#include <timer.h>
 #include <log/consoletarget.h>
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)

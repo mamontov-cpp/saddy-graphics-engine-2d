@@ -11,7 +11,7 @@ void sad::sleep(unsigned int milliseconds)
 #ifdef WIN32
 	Sleep(milliseconds);
 #else
-	usleep(milliseconds);
+	usleep(milliseconds * 1000);
 #endif
 
 }
