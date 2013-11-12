@@ -7,6 +7,7 @@
 #include "sadsize.h"
 #include "sadrect.h"
 #include "sadvector.h"
+#include "sadstring.h"
 
 namespace sad
 {
@@ -95,10 +96,8 @@ public:
 
 	/*! Sets rectangle to specified implementation
 		\param[in] rect a new window rectangle
-		\param[in] notify On Windows - whether notification about size should be sent
-						  to OS.
 	 */
-	void setRect(const sad::Rect2I& rect, bool notify = true);
+	void setRect(const sad::Rect2I& rect);
 	/*! Pushes window rectangle down to stack of sizes
 		\param[in] rect a new window rectangle
 	 */
@@ -120,6 +119,13 @@ public:
 		\return handles for a window
 	 */
 	sad::os::WindowHandles * handles();
+	/*! Returns a title for a window
+		\return title for a window
+	 */
+	const sad::String & title() const;
+	/*! Sets title for a window
+	 */
+	void setTitle(const sad::String & s);
 private:
 	/*! A pointer to implementation of window
 	 */
