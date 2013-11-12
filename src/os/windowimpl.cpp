@@ -525,7 +525,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	);
 
 	// Stop here, because we cannot create window
-	if (win == None)
+	if (m_handles.Win == None)
 	{
 		if (this->renderer() != NULL)
 		{
