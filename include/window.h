@@ -41,7 +41,10 @@ public:
 	 */
 	sad::Renderer * renderer() const;
 
-
+	/*! Called by a renderer to initialize created window settings, enter fullscreen,
+		make window fixed
+	 */
+	void initialize();
 	/*! Sets a size, which window will be created with
 		\param[in] size a window size
 	 */ 
@@ -53,7 +56,7 @@ public:
 	 */
 	bool create();
 	/*! Closes a window. Note, that you should not call this function, use
-		sad::Renderer instead
+		sad::Renderer instead for shutting down everything.
 	 */
 	void close();
 	/*! Destroys a window, freeing all resources. 
@@ -131,6 +134,14 @@ public:
 	/*! Sets title for a window
 	 */
 	void setTitle(const sad::String & s);
+	/*! Whether window is active
+		\return whether window is active
+	 */
+	bool active() const;
+	/*! Used by loop to mark window as active or not
+		\param[in] active whether window is active
+	 */
+	void setActive(bool active);
 private:
 	/*! A pointer to implementation of window
 	 */
