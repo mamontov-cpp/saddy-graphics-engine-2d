@@ -46,15 +46,19 @@ public:
 	 */ 
 	void setCreationSize(const sad::Size2I& size);
 
-	/*! Creates a new window
+	/*! Creates a new window. Note, that you should not call this functions, since
+		sad::Renderer automatically does it for you.
 		\return whether creation was successfull
 	 */
 	bool create();
-	/*! Destroys a window
+	/*! Destroys a window. Note, that you should not call this functions, since
+		sad::Renderer automatically does it for you.
 		\return whether destruction was successfull 
 	 */
 	void destroy();
-	/*! Tests, whether window is valid
+	/*! Tests, whether window is valid. Valid window - is a window, for each a
+		sad::Window::create was called successfully
+		\return whether window is valid
 	 */
 	bool valid() const;
 

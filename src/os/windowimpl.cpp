@@ -14,7 +14,7 @@ sad::os::WindowImpl::WindowImpl()
 m_handles(), 
 m_fixed(false), 
 m_fullscreen(false),
-m_hidden(true),
+m_hidden(false),
 m_creation_size(320, 240),
 m_window_rect_stack(),
 m_renderer(NULL),
@@ -641,13 +641,33 @@ bool sad::os::WindowImpl::hidden() const
 
 void sad::os::WindowImpl::show() 
 {
-	// Stub
+	m_hidden = false;
+	if (valid())
+	{
+#ifdef WIN32
+		ShowWindow(m_handles.WND, SW_SHOW);
+#endif
+
+#ifdef X11
+		XMapRaised(m_handles.Dpy, m_handles.Win);
+#endif
+	}
 }
 
 
 void sad::os::WindowImpl::hide() 
 {
-	// Stub
+	m_hidden = true;
+	if (valid())
+	{
+#ifdef WIN32
+		ShowWindow(m_handles.WND, SW_HIDE);
+#endif
+
+#ifdef X11
+		XUnmapWindow(m_handles.Dpy, m_handles.Win);
+#endif
+	}
 }
 
 void sad::os::WindowImpl::setRect(const sad::Rect2I& rect, bool notify)
