@@ -633,12 +633,59 @@ bool sad::os::WindowImpl::fixed() const
 
 void sad::os::WindowImpl::makeFixedSize()
 {
-	// Stub
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::makeFixedSize()");
+
+	m_fixed = true;
+
+	if (!valid())
+		return;
+
+#ifdef WIN32
+	LONG style = GetWindowLongA(m_handles.WND, GWL_STYLE);
+	style &=  ~WS_MAXIMIZEBOX;
+	LONG result = SetWindowLongA(m_handles.WND, GWL_STYLE, style);
+#endif
+
+#ifdef X11
+	sad::Rect2I rect = rect();
+	XSizeHints * sizehints = NULL;
+	sizehints = XAllocSizeHints();
+	sizehints->flags = PMinSize | PMaxSize;
+	sizehints->min_width = rect.width();
+	sizehints->max_width = rect.width();
+	sizehints->min_height = rect.height();
+	sizehints->max_height = rect.height();
+	XSetWMNormalHints(m_handles.Dpy,m_handles.Win,sizehints);
+	XFree(sizehints);
+#endif
 }
 
 void sad::os::WindowImpl::makeResizeable()
 {
-	// Stub
+	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::makeResizeable()");
+
+	m_fixed = false;
+
+	if (!valid())
+		return;
+
+#ifdef WIN32
+	LONG style=GetWindowLongA(m_handles.WND, GWL_STYLE);
+	style |= WS_MAXIMIZEBOX;
+	SetWindowLongA(m_handles.WND, GWL_STYLE, style);
+#endif
+
+#ifdef X11
+	XSizeHints * sizehints = NULL;
+	sizehints = XAllocSizeHints();
+	sizehints->flags = PMinSize | PMaxSize;
+	sizehints->min_width = 1;
+	sizehints->max_width = 40000;
+	sizehints->min_height = 1;
+	sizehints->max_height = 40000;
+	XSetWMNormalHints(m_handles.Dpy,m_handles.Win,sizehints);
+	XFree(sizehints);
+#endif
 }
 
 
@@ -744,25 +791,6 @@ void sad::os::WindowImpl::sendNetWMFullscreenEvent(bool fullscreen)
 		&xev
 	);
 		
-         /*
-	if (fullscreen)
-	{
-		XWindowAttributes xwa;
-		XGetWindowAttributes(
-			m_handles.Dpy, 
-			DefaultRootWindow(m_handles.Dpy), 
-			&xwa
-		);
-		XMoveResizeWindow(
-			m_handles.Dpy,
-			m_handles.Win, 
-			0, 
-			0, 
-			xwa.width, 
-			xwa.height
-		);
-	}
-	*/
 	XFlush(m_handles.Dpy);
 }
 
@@ -892,8 +920,18 @@ sad::Rect2I sad::os::WindowImpl::rect() const
 
 sad::Point2D sad::os::WindowImpl::toClient(const sad::Point2D & p)
 {
-	// Stub
-	return sad::Point2D();
+	if (!valid())
+		return p;
+	
+	sad::Point2D result =  p;
+
+#ifdef WIN32
+	RECT r;
+	GetClientRect(this->m_handles.WND, &r);
+	result.setY(r.bottom  - result.y());
+#endif
+
+	return result;
 }
 
 sad::os::WindowHandles * sad::os::WindowImpl::handles()
@@ -903,12 +941,41 @@ sad::os::WindowHandles * sad::os::WindowImpl::handles()
 
 const sad::String & sad::os::WindowImpl::title() const
 {
-	// Stub
+	if (!valid())
+		return m_window_title;
+
+	sad::os::WindowImpl * impl = const_cast<sad::os::WindowImpl *>(this);
+
+#ifdef WIN32	
+	int length = GetWindowTextLengthA(m_handles.WND);
+	impl->m_window_title.resize((sad::String::size_type)(length + 1));
+	GetWindowTextA(m_handles.WND, impl->m_window_title.data(), length + 1);
+#endif
+
+#ifdef X11
+	char * title = NULL;
+	XFetchName(m_handles.Dpy, m_handles.Win, &title);
+	impl->m_window_title = title;
+	XFree(title);
+#endif
+
 	return m_window_title;
 }
 
 void sad::os::WindowImpl::setTitle(const sad::String & s)
 {
-	// Stub
 	m_window_title = s;
+
+	if (!valid())
+		return;
+
+#ifdef WIN32
+	SetWindowTextA(m_handles.WND, m_window_title.data()); 
+#endif
+
+#ifdef X11
+	XStoreName(m_handles.Dpy, m_handles.Win, m_window_title.data());
+	XFlush(m_handles.Dpy);
+#endif
+
 }

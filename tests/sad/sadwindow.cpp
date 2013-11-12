@@ -30,11 +30,12 @@ struct sadWindowTest : tpunit::TestFixture
 {
  public:
    sadWindowTest() : tpunit::TestFixture(
-	   TEST(sadWindowTest::testCreateDestroy),
-	   TEST(sadWindowTest::testFullscreenClose)
+	   TEST(sadWindowTest::testCreateDestroyFixed),
+	   TEST(sadWindowTest::testFullscreenClose),
+	   TEST(sadWindowTest::testTitle)
    ) {}
 	
-   void putWIndowRect(sad::Window & w, sad::Renderer & r)
+   void putWindowRect(sad::Window & w, sad::Renderer & r)
     {
 	sad::Rect2I rect = w.rect();
 	sad::String message = str(
@@ -48,7 +49,7 @@ struct sadWindowTest : tpunit::TestFixture
     }
    /*! Test manually, no message should be created
     */
-   void testCreateDestroy()
+   void testCreateDestroyFixed()
    {
 	   sad::Renderer r;
 	   r.log()->addTarget(new sad::log::ConsoleTarget());
@@ -58,10 +59,12 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.setRenderer(&r);
 	   win.create();
 	   win.show();
+	   win.makeFixedSize();
 	   sad::sleep(2000);
+	   win.makeResizeable();
 	   win.setRect(sad::Rect2I(sad::Point2I(0, 0), sad::Point2I(640, 480)));
-	   putWIndowRect(win, r);
-	   sad::sleep(2000);
+	   putWindowRect(win, r);
+	   sad::sleep(2000);	   
 	   win.hide();
 	   win.destroy();
    }
@@ -78,14 +81,37 @@ struct sadWindowTest : tpunit::TestFixture
 	   win.show();
 	   sad::sleep(1000);
 	   // Window size is set asynchronously, so it could print any value
-	   putWIndowRect(win, r);
+	   putWindowRect(win, r);
 	   win.enterFullscreen();
-	   putWIndowRect(win, r);
+	   putWindowRect(win, r);
 	   sad::sleep(2000);
-	   putWIndowRect(win, r);
+	   putWindowRect(win, r);
 	   win.leaveFullscreen();
-	   putWIndowRect(win, r);
+	   putWindowRect(win, r);
 	   sad::sleep(1000);
+	   win.close();
+	   win.destroy();
+   }
+
+   /*! Sets title for item
+    */
+   void testTitle()
+   {
+	   sad::Renderer r;
+	   r.log()->addTarget(new sad::log::ConsoleTarget());
+
+	   sad::Window win;
+	   win.create();
+	   win.show();
+	   sad::sleep(1000);
+	   win.setTitle("");
+	   sad::String a = "";
+	   for(int i = 0; i < 20; i++)
+	   {
+		   a  += "A";	
+		   win.setTitle(a);
+		   sad::sleep(150);
+	   }
 	   win.close();
 	   win.destroy();
    }
