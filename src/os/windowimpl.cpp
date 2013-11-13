@@ -417,7 +417,7 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 void sad::os::WindowImpl::closeConnection()
 {
 	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::closeConnection()");
-	if (m_handles.Win != NULL)
+	if (m_handles.Win != 0)
 	{
 		XDestroyWindow(m_handles.Dpy, m_handles.Win);
 	}
@@ -553,7 +553,6 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	// Commented: unless explicity told to, we should not expos window
 	// XMapRaised(m_handles.Dpy,  m_handles.Win);
 
-	XFreeColormap(m_handles.Dpy, cmap);
 
 	return true;
 }
@@ -654,7 +653,7 @@ void sad::os::WindowImpl::makeFixedSize()
 #endif
 
 #ifdef X11
-	sad::Rect2I rect = rect();
+	sad::Rect2I rect = this->rect();
 	XSizeHints * sizehints = NULL;
 	sizehints = XAllocSizeHints();
 	sizehints->flags = PMinSize | PMaxSize;
