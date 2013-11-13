@@ -1,9 +1,12 @@
+#define DO_NOT_CLEANUP_X11_NAMESPACE
 #include "os/glcontextimpl.h"
 
 #include <GL/gl.h>
 #include <GL/glu.h>
 
 #include "sadmutex.h"
+#include "renderer.h"
+#include "log/log.h"
 #include "3rdparty/glext/glext.h"
 #ifdef WIN32
 #include "3rdparty/glext/wglext.h"
@@ -145,24 +148,69 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 		// Nobody should enter here, only us
 		context_creation.lock();
 		// Get the default screen's GLX extension list
+		if (m_win->renderer())
+		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Before querying glXQueryExtensionsString()", r);
+		}
 		const char *glxExts = glXQueryExtensionsString( 
 			m_win->handles()->Dpy,
-            m_win->handles()->Screen
+			m_win->handles()->Screen
 		);
+		
+		XSync( m_win->handles()->Dpy, False );
+		
+		if (m_win->renderer())
+		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Supported extensions are ...", r);
+			SL_LOCAL_INTERNAL(glxExts, r);			
+		}
+		
+		if (m_win->renderer())
+		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Getting glXCreateContextAttribsARB()", r);
+		}
  
 		// NOTE: It is not necessary to create or make current to a context before
 		// calling glXGetProcAddressARB
 		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
 		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)
-           glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
+		glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
+		
+		XSync( m_win->handles()->Dpy, False );
+		
+		if (m_win->renderer())
+		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Calling XSetErrorHandler()", r);
+		}
+		
 		
 		context_error_occured = false;
 		int (*oldHandler)(Display*, XErrorEvent*) =
 			XSetErrorHandler(&context_error_handler);
+			
 
-		if ( !isExtensionSupported( glxExts, "GLX_ARB_create_context" ) 
-			|| !glXCreateContextAttribsARB )
+		XSync( m_win->handles()->Dpy, False );
+
+		if (m_win->renderer())
 		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Checking extension support", r);
+		}
+		
+		if ( !isExtensionSupported( glxExts, "GLX_ARB_create_context" ) 
+			||  glXCreateContextAttribsARB == NULL )
+		{
+			XSync( m_win->handles()->Dpy, False );
+			
+			if (m_win->renderer())
+			{
+				sad::Renderer & r = *(m_win->renderer());
+				SL_LOCAL_INTERNAL("Trying to create context via glXCreateNewContext()", r);
+			}
 			m_handle.Context = glXCreateNewContext( 
 				m_win->handles()->Dpy,
 				m_win->handles()->FBC, 
@@ -171,9 +219,15 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 				True 
 			);
 			result = m_handle.Context != NULL;
+			glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
 		}
 		else
 		{
+			if (m_win->renderer())
+			{
+				sad::Renderer & r = *(m_win->renderer());
+				SL_LOCAL_INTERNAL("Started trying to obtain GL3 context", r);
+			}
 			result  = tryCreateOpenGL3Context(glXCreateContextAttribsARB);
 		}
 
@@ -190,6 +244,11 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 	}
 	else 
 	{
+		if (m_win->renderer())
+		{
+			sad::Renderer & r = *(m_win->renderer());
+			SL_LOCAL_INTERNAL("Trying to create simple context", r);
+		}
 		return this->makeDefaultContext();
 	}
 #endif
@@ -217,6 +276,11 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 		// If we could create more advanced context - create it
 		if (major * 10 + minor >= 30)
 		{
+			if (m_win->renderer())
+			{
+				sad::Renderer & r = *(m_win->renderer());
+				SL_LOCAL_INTERNAL("Trying to create GL3 context", r);
+			}
 			int contextattribs[] =
 			{
 				GLX_CONTEXT_MAJOR_VERSION_ARB, major,
@@ -224,17 +288,17 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 				GLX_CONTEXT_PROFILE_MASK_ARB , GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 				None
 			};
-			GLXContext context = ctx = cc( 
+			GLXContext context = cc( 
 				m_win->handles()->Dpy, 
 				m_win->handles()->FBC, 
 				0,
-                True, 
+				True, 
 				contextattribs 
 			);
 			if (context != NULL)
 			{
 				// We did it! Finally new context
-				glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, 0);    
+				glXMakeCurrent(m_win->handles()->Dpy, 0, 0);    
 				glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
 				m_handle.Context = context;
 				glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
@@ -283,8 +347,8 @@ void sad::os::GLContextImpl::destroy()
 #endif
 
 #ifdef X11
-	glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, 0);    
-    glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
+	glXMakeCurrent(m_win->handles()->Dpy, 0 , 0);    
+	glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
 #endif
 
 	m_isopengl3compatible = false;
