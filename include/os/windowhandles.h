@@ -32,7 +32,11 @@
 #ifdef X11
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
+#include <X11/Xutil.h>
+#include <GL/glx.h>
+#include "../3rdparty/glext/glxext.h"
 #endif
+
 
 namespace sad
 {
