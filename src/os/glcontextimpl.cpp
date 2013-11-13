@@ -1,6 +1,6 @@
 #include "os/glcontextimpl.h"
-#include <GL\gl.h>
-#include <GL\glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 sad::os::GLContextImpl::GLContextImpl()
 {
@@ -38,8 +38,8 @@ void sad::os::GLContextImpl::destroy()
 #endif
 
 #ifdef X11
-	glXMakeCurrent(m_win->handles().Dpy, 0, 0);    
-    glXDestroyContext(m_win->handles().Dpy, m_handle.Context);
+	glXMakeCurrent(m_win->handles()->Dpy, 0, 0);    
+    glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
 #endif
 	
 	m_handle.cleanup();
@@ -77,17 +77,17 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
 	GLdouble result[3];
 	
 	glGetDoublev(GL_MODELVIEW_MATRIX,modelview);
-    glGetDoublev(GL_PROJECTION_MATRIX,projection);
+	glGetDoublev(GL_PROJECTION_MATRIX,projection);
 	glGetIntegerv(GL_VIEWPORT,viewport);
 
 	winx=(float)p.x();
 #ifdef WIN32  // On win32 we explicitly handle coordinates
 	winy=(float)(p.y());
 #else
-	winy=(float)(viewport[3] - y);
+	winy=(float)(viewport[3] - p.y());
 #endif
 	if (ztest)
-	    glReadPixels(winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+		glReadPixels(winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
 		winz = 0;
 
