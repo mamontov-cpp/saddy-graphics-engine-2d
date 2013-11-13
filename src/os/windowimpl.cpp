@@ -417,6 +417,11 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 void sad::os::WindowImpl::closeConnection()
 {
 	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::closeConnection()");
+	if (m_handles.Win != NULL)
+	{
+		XDestroyWindow(m_handles.Dpy, m_handles.Win);
+	}
+	XFreeColormap(m_handles.Dpy, m_handles.ColorMap);
 	if (m_handles.Dpy != NULL)
 	{
 		XCloseDisplay(m_handles.Dpy);
@@ -487,11 +492,10 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 		return false;
 	}
 
-	Colormap cmap;
 	Atom wmDelete;
 	X11Window winDummy;
 
-	 cmap = XCreateColormap(
+	m_handles.ColorMap = XCreateColormap(
 		 m_handles.Dpy, 
 		 RootWindow(m_handles.Dpy, m_handles.VisualInfo->screen),
 		 m_handles.VisualInfo->visual, 
@@ -499,7 +503,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	);
  
 	XSetWindowAttributes attr;
-	attr.colormap = cmap;
+	attr.colormap = m_handles.ColorMap;
 	attr.border_pixel = 0;
 	attr.event_mask = ExposureMask 
 					| KeyPressMask 
@@ -548,6 +552,8 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	);
 	// Commented: unless explicity told to, we should not expos window
 	// XMapRaised(m_handles.Dpy,  m_handles.Win);
+
+	XFreeColormap(m_handles.Dpy, cmap);
 
 	return true;
 }

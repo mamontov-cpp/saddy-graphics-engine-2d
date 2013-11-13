@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\glcontext.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\input.cpp"
 				>
 			</File>
@@ -346,6 +350,10 @@
 				>
 				<File
 					RelativePath=".\src\os\consoleimpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\glcontextimpl.cpp"
 					>
 				</File>
 				<File
@@ -680,6 +688,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\glcontext.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\input.h"
 				>
 			</File>
@@ -876,6 +888,14 @@
 				>
 				<File
 					RelativePath=".\include\os\consoleimpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\glcontexthandle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\glcontextimpl.h"
 					>
 				</File>
 				<File
