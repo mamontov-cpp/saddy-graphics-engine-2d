@@ -122,6 +122,10 @@ public:
 		\return whether window is active
 	 */
 	bool active() const;
+	/*! Tests, whether implementation is compatible with OpenGL 3
+		\return whether OpenGL 3+ context can be created in this window
+	 */
+	bool isGL3compatible() const;
 	/*! Sets implementation. Use it to replace default implementation, to
 		replace construction step and other. Don't do it, when already created
 		window!

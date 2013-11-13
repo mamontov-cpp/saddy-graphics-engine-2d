@@ -1002,3 +1002,14 @@ void sad::os::WindowImpl::setActive(bool active)
 	m_active = active;
 }
 
+bool sad::os::WindowImpl::isGL3compatible() const
+{
+#ifdef WIN32
+	return true;
+#endif
+
+#ifdef X11
+	return m_gl3compatible;
+#endif
+}
+

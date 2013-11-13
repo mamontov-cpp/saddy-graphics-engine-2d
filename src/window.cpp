@@ -159,6 +159,11 @@ void sad::Window::setActive(bool active)
 }
 
 
+bool sad::Window::isGL3compatible() const
+{
+	return m_dptr->isGL3compatible();
+}
+
 void sad::Window::setImplementation(sad::os::WindowImpl * i)
 {
 	delete m_dptr;

@@ -18,6 +18,8 @@ class Renderer;
 namespace os
 {
 
+class GLContextImpl;
+
 /*! Describes an OS-dependent implementation of window
  */
 class WindowImpl
@@ -133,6 +135,10 @@ public:
 		\param[in] active whether window is active
 	 */
 	virtual void setActive(bool active);
+	/*! Tests, whether implementation is compatible with OpenGL 3
+		\return whether OpenGL 3+ context can be created in this window
+	 */
+	virtual bool isGL3compatible() const;
 private:
 	/*! A handles for a window
 	 */
@@ -195,6 +201,8 @@ protected:
 #endif
 
 #ifdef X11
+
+	bool m_gl3compatible;
 	/*! Opens a connection to X11 server and sets data from it
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
