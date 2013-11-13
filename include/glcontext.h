@@ -57,6 +57,12 @@ public:
 		\return whether it's compatible
 	 */
 	bool isOpenGL3compatible() const;
+	/*! Sets implementation. Use it to replace default implementation, to
+		replace construction step and other. Don't do it, when already created
+		context!
+		\param[in] i implementation
+	 */
+	void setImplementation(sad::os::GLContextImpl * i);
 //#ifndef DO_NOT_HIDE_RENDERER_METHODS
 //protected:
 //#endif

@@ -30,109 +30,109 @@ public:
 	WindowImpl();
 	/*! Frees all resources, which are not freed
 	 */
-	~WindowImpl();
+	virtual ~WindowImpl();
 
 	/*! Sets a linked renderer
 		\param[in] renderer linked renderer
 	 */
-	void setRenderer(sad::Renderer * renderer);
+	virtual void setRenderer(sad::Renderer * renderer);
 	/*! Returns a renderer for a window
 		\return linked renderer
 	 */
-	sad::Renderer * renderer() const;
+	virtual sad::Renderer * renderer() const;
 
 	/*! Sets a size, which window will be created with
 		\param[in] size a window size
 	 */ 
-	void setCreationSize(const sad::Size2I& size);
+	virtual void setCreationSize(const sad::Size2I& size);
 
 	/*! Creates a new window
 		\return whether creation was successfull
 	 */
-	bool create();
+	virtual bool create();
 	/*! Forcefully closes a window 
 	 */
-	void close();
+	virtual void close();
 	/*! Destroys a window
 		\return whether destruction was successfull 
 	 */
-	void destroy();
+	virtual void destroy();
 	/*! Tests, whether window is valid
 	 */
-	bool valid() const;
+	virtual bool valid() const;
 
 
 	/*! Tests, whether window is fixed size
 	 */
-	bool fixed() const;
+	virtual bool fixed() const;
 	/*! Toggles fixed size window on
 	 */
-	void makeFixedSize();
+	virtual void makeFixedSize();
 	/*! Toggles fixed size window off
 	 */
-	void makeResizeable();
+	virtual void makeResizeable();
 
 	/*! Tests, whether window is on fullscreen mode
 	 */
-	bool fullscreen() const;
+	virtual bool fullscreen() const;
 	/*! Enters fullscreen
 	 */
-	void enterFullscreen();
+	virtual void enterFullscreen();
 	/*! Leaves fullscreen
 	 */
-	void leaveFullscreen();
+	virtual void leaveFullscreen();
 
 	/*! Tests, whether window is hidden. This does not detect minimized windows.
 	 */
-	bool hidden() const;
+	virtual bool hidden() const;
 	/*! Shows a window
 	 */
-	void show();
+	virtual void show();
 	/*! Hides a window
 	 */
-	void hide();
+	virtual void hide();
 
 	/*! Sets rectangle to specified implementation
 		\param[in] rect a rectangle parameters
 	 */
-	void setRect(const sad::Rect2I& rect);
+	virtual void setRect(const sad::Rect2I& rect);
 	/*! Pushes current window rectangle down to stack of sizes and sets new 
 		\param[in] rect a rectangle parameters
 	 */
-	void pushRect(const sad::Rect2I& rect);
+	virtual void pushRect(const sad::Rect2I& rect);
 	/*! Pops window rectangle from stack of sizes
 	 */
-	void popRect();
+	virtual void popRect();
 	/*! Returns window rectangle 
 		\return window rectangle
 	 */
-	sad::Rect2I rect() const;
+	virtual sad::Rect2I rect() const;
 
 	/*! Maps a point from window coordinates to client coordinates
 		\param[in] p point
 		\return client point
 	 */
-	sad::Point2D toClient(const sad::Point2D & p);
+	virtual sad::Point2D toClient(const sad::Point2D & p);
 
 	/*! Returns a handles for a window
 		\return handles for a window
 	 */
-	sad::os::WindowHandles * handles();
+	virtual sad::os::WindowHandles * handles();
 	/*! Returns a title for a window
 		\return title for a window
 	 */
-	const sad::String & title() const;
+	virtual const sad::String & title() const;
 	/*! Sets title for a window
 	 */
-	void setTitle(const sad::String & s);
+	virtual void setTitle(const sad::String & s);
 	/*! Whether window is active
 		\return whether window is active
 	 */
-	bool active() const;
+	virtual bool active() const;
 	/*! Used by loop to mark window as active or not
 		\param[in] active whether window is active
 	 */
-	void setActive(bool active);
+	virtual void setActive(bool active);
 private:
 	/*! A handles for a window
 	 */
@@ -162,36 +162,36 @@ private:
 	/*! A linked renderer
 	 */
 	sad::Renderer * m_renderer;
-private:
+protected:
 
 #ifdef WIN32
 	/*! Registers WNDCLASS object via RegisterWindowClass, if last result is true
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool registerWindowClass(bool lastresult);
+	virtual bool registerWindowClass(bool lastresult);
 	/*! Adjust window rectangle for creation, if last result is true. Note, that 
 		size is being taken from size
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool adjustWindowRect(bool lastresult);
+	virtual bool adjustWindowRect(bool lastresult);
 	/*! Makes window and obtains device context
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool makeWindowAndObtainDeviceContext(bool lastresult);
+	virtual bool makeWindowAndObtainDeviceContext(bool lastresult);
 	/*! Tries to unregister window class, also checking that it correctly filled
 	 */
-	void unregisterWindowClass();
+	virtual void unregisterWindowClass();
 	/*! Releases contexts and destroys window
 	 */
-	void releaseContextAndDestroyWindow();
+	virtual void releaseContextAndDestroyWindow();
 	/*! Chooses and sets a pixel format descriptor for a window
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool chooseAndSetPixelFormatDescriptor(bool lastresult);
+	virtual bool chooseAndSetPixelFormatDescriptor(bool lastresult);
 #endif
 
 #ifdef X11
@@ -199,25 +199,25 @@ private:
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool openConnectionAndScreen(bool lastresult);
+	virtual bool openConnectionAndScreen(bool lastresult);
 	/*! Chooses visual information for result
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool chooseVisualInfo(bool lastresult);
+	virtual bool chooseVisualInfo(bool lastresult);
 	/*! Creates a window for result
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull
 	 */
-	bool createWindow(bool result);
+	virtual bool createWindow(bool result);
 	/*! Closes a connection for a window
 	 */
-	void closeConnection();
+	virtual void closeConnection();
 	/*! Sends WM-specific fullscreen event to window to
 		turn it into fullscreen
 		\param[in] fullscreen whether we are entering fullscreen (false if leaving)
 	 */
-	void sendNetWMFullscreenEvent(bool fullscreen);
+	virtual void sendNetWMFullscreenEvent(bool fullscreen);
 #endif
 	/*! Cannot be copied, so this is disabled and not implemented
 		\param[in] o other window

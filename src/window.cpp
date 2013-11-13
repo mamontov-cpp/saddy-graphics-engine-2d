@@ -157,3 +157,11 @@ void sad::Window::setActive(bool active)
 {
 	m_dptr->setActive(active);
 }
+
+
+void sad::Window::setImplementation(sad::os::WindowImpl * i)
+{
+	delete m_dptr;
+	m_dptr = i;
+}
+

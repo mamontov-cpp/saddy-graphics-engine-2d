@@ -122,6 +122,12 @@ public:
 		\return whether window is active
 	 */
 	bool active() const;
+	/*! Sets implementation. Use it to replace default implementation, to
+		replace construction step and other. Don't do it, when already created
+		window!
+		\param[in] i implementation
+	 */
+	void setImplementation(sad::os::WindowImpl * i);
 // TODO: Uncomment, when integrating in renderer
 //#ifndef DO_NOT_HIDE_RENDERER_METHODS
 //protected:
