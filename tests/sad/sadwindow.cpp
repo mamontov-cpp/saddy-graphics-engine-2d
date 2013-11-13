@@ -4,6 +4,7 @@
 #include <stdio.h>
 #define DO_NOT_HIDE_RENDERER_METHODS
 #include <window.h>
+#include <glcontext.h>
 #include <renderer.h>
 #include <sadsleep.h>
 #include <timer.h>
@@ -33,7 +34,8 @@ struct sadWindowTest : tpunit::TestFixture
    sadWindowTest() : tpunit::TestFixture(
 	   TEST(sadWindowTest::testCreateDestroyFixed),
 	   TEST(sadWindowTest::testFullscreenClose),
-	   TEST(sadWindowTest::testTitle)
+	   TEST(sadWindowTest::testTitle),
+	   TEST(sadWindowTest::testGLContext)
    ) {}
 	
    void putWindowRect(sad::Window & w, sad::Renderer & r)
@@ -114,6 +116,23 @@ struct sadWindowTest : tpunit::TestFixture
 		   sad::sleep(150);
 	   }
 	   win.close();
+	   win.destroy();
+   }
+
+   /*! Tests creating an OpenGL context
+    */
+   void testGLContext()
+   {
+	   sad::Renderer r;
+	   r.log()->addTarget(new sad::log::ConsoleTarget());
+
+	   sad::Window win;
+	   win.setRenderer(&r);
+	   sad::GLContext ctx;
+	   ASSERT_TRUE( win.create() );
+	   ASSERT_TRUE( ctx.createFor(&win) );
+
+	   ctx.destroy();
 	   win.destroy();
    }
 

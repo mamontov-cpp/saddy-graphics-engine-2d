@@ -53,9 +53,13 @@ public:
 		\return window, attached to context
 	 */
 	sad::Window * window() const;
-#ifndef DO_NOT_HIDE_RENDERER_METHODS
-protected:
-#endif
+	/*! Tests, whether OpenGL context is compatible with OpenGL 3.0+ specs
+		\return whether it's compatible
+	 */
+	bool isOpenGL3compatible() const;
+//#ifndef DO_NOT_HIDE_RENDERER_METHODS
+//protected:
+//#endif
 	/*! Tries to create context for specified window. Does nothing, if it's
 		already created
 		\param[in] win a window

@@ -38,3 +38,19 @@ sad::Window * sad::GLContext::window() const
 	return m_dptr->window();
 }
 
+bool sad::GLContext::isOpenGL3compatible() const
+{
+	return m_dptr->isOpenGL3compatible();
+}
+
+
+bool sad::GLContext::createFor(sad::Window * win)
+{
+	return m_dptr->createFor(win);
+}
+
+void sad::GLContext::destroy()
+{
+	m_dptr->destroy();
+}
+

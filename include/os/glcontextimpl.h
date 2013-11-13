@@ -57,6 +57,10 @@ public:
 		\return window, attached to context
 	 */
 	sad::Window * window() const;
+	/*! Tests, whether OpenGL context is compatible with OpenGL 3.0+ specs
+		\return whether it's compatible
+	 */
+	bool isOpenGL3compatible() const;
 private:
 	/*! A handle for implementation
 	 */
@@ -64,6 +68,9 @@ private:
 	/*! A window, attached when sad::os::GLContextImpl::createFor called
 	 */
 	sad::Window * m_win;
+	/*! Tests, whether context is opengl 3 compatible
+	 */
+	bool m_isopengl3compatible;
 	/*! Cannot be copied, so this is disabled and not implemented
 		\param[in] o other window
 	 */
