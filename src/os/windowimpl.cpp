@@ -25,7 +25,7 @@ m_window_rect_stack(),
 m_renderer(NULL),
 m_window_title("Saddy Engine")
 #ifdef X11
-m_gl3compatible
+,m_gl3compatible(false)
 #endif
 {
 
@@ -442,9 +442,9 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 	int glxmajor = 0, glxminor = 0;
  
 	// FBConfigs were added in GLX version 1.3.
-	 if (glXQueryVersion( m_handles.Dpy, &glxmajor, &glxminor) == True))
+	 if (glXQueryVersion( m_handles.Dpy, &glxmajor, &glxminor) == True)
 	 {
-		if (glxmajor > 1 || ((glxmajor == 1) && (glxminor >= 3))
+		if (glxmajor > 1 || ((glxmajor == 1) && (glxminor >= 3)))
 		{
 			int fbcount = 0;
 			GLXFBConfig * configs = glXChooseFBConfig( 
