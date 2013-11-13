@@ -7,6 +7,9 @@
 #include "glcontexthandle.h"
 #include "../window.h"
 
+#ifdef X11
+	typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*); 
+#endif
 
 namespace sad
 {
@@ -71,6 +74,16 @@ protected:
 	/*! Tests, whether context is opengl 3 compatible
 	 */
 	bool m_isopengl3compatible;
+#ifdef X11
+	/*! Tries to make default context
+	 */
+	bool makeDefaultContext();
+
+
+	/*! Tries to create opengl 3 context
+	 */
+	bool tryCreateOpenGL3Context(glXCreateContextAttribsARBProc cc);
+#endif
 	/*! Cannot be copied, so this is disabled and not implemented
 		\param[in] o other window
 	 */

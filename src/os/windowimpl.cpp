@@ -24,6 +24,9 @@ m_creation_size(320, 240),
 m_window_rect_stack(),
 m_renderer(NULL),
 m_window_title("Saddy Engine")
+#ifdef X11
+m_gl3compatible
+#endif
 {
 
 }
@@ -415,8 +418,89 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 		sad::String message = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
 		SL_LOCAL_INTERNAL(message, *(this->renderer()));
 	}
-	
+
+	//  Try to check, whether window can be created as OpenGL3 compatible
+	//  and set FBConfig
+	//  implementation taken from http://www.opengl.org/wiki/Tutorial:_OpenGL_3.0_Context_Creation_(GLX)
+	m_gl3compatible = false;
+	int visualattribs[] =
+	{
+		GLX_X_RENDERABLE    , True,
+		GLX_DRAWABLE_TYPE   , GLX_WINDOW_BIT,
+		GLX_RENDER_TYPE     , GLX_RGBA_BIT,
+		GLX_X_VISUAL_TYPE   , GLX_TRUE_COLOR,
+		GLX_RED_SIZE        , 8,
+		GLX_GREEN_SIZE      , 8,
+		GLX_BLUE_SIZE       , 8,
+		GLX_ALPHA_SIZE      , 8,
+		GLX_DEPTH_SIZE      , 24,
+		GLX_STENCIL_SIZE    , 8,
+		GLX_DOUBLEBUFFER    , True,
+    	None
+	};
+ 
+	int glxmajor = 0, glxminor = 0;
+ 
+	// FBConfigs were added in GLX version 1.3.
+	 if (glXQueryVersion( m_handles.Dpy, &glxmajor, &glxminor) == True))
+	 {
+		if (glxmajor > 1 || ((glxmajor == 1) && (glxminor >= 3))
+		{
+			int fbcount = 0;
+			GLXFBConfig * configs = glXChooseFBConfig( 
+				m_handles.Dpy, 
+				m_handles.Screen,                                         
+				visualattribs, 
+				&fbcount 
+			);
+			if (this->renderer())
+			{
+				sad::String message = str(fmt::Format("Found {0} matching FB configs") << fbcount);
+				SL_LOCAL_INTERNAL(message, *(this->renderer()));
+			}
+			int bestfbindex = pickBestFBConfig(fbcount, configs);
+			m_handles.FBC = configs[ bestfbindex ];
+			XFree( configs );
+			m_gl3compatible = true;
+		}
+	 }
+
 	return true;
+}
+
+int sad::os::WindowImpl::pickBestFBConfig(int fbcount, GLXFBConfig * configs)
+{
+	int bestfbc = -1,  
+		bestnumsamp = -1; 
+
+	for (int i = 0; i < fbcount; i++ )
+	{
+		XVisualInfo *vi = glXGetVisualFromFBConfig( m_handles.Dpy, configs[i] );
+		if ( vi )
+		{
+			int sampbuf = 0, samples = 0;
+			glXGetFBConfigAttrib( 
+				m_handles.Dpy, 
+				configs[i], 
+				GLX_SAMPLE_BUFFERS, 
+				&sampbuf 
+			);
+			glXGetFBConfigAttrib( 
+				m_handles.Dpy, 
+				configs[i], 
+				GLX_SAMPLES, 
+				&samples  
+			);
+
+			if ( bestfbc < 0 || sampbuf && samples > bestnumsamp )
+			{
+				bestfbc = i;
+				bestnumsamp = samples;
+			}
+		}
+		XFree( vi );
+	}
+	return bestfbc;
 }
 
 void sad::os::WindowImpl::closeConnection()
@@ -431,6 +515,8 @@ void sad::os::WindowImpl::closeConnection()
 	{
 		XCloseDisplay(m_handles.Dpy);
 	}
+
+	m_gl3compatible = false;
 }
 
 bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
@@ -439,6 +525,15 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 	if (!lastresult)
 	{
 		return false;
+	}
+	// If we are compatible with GL3  - pick visual info from FBConfig
+	if (m_gl3compatible)
+	{
+		if (this->renderer() != NULL)
+		{
+			SL_LOCAL_INTERNAL("Getting XVisualInfo from GLXFBConfig...", *(this->renderer()));
+		}
+		m_handles.VisualInfo = glXGetVisualFromFBConfig( m_handles.Dpy, m_handles.FBC );
 	}
 
 	int attrlistsinglebuffered[] = {
