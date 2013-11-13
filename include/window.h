@@ -44,10 +44,7 @@ public:
 	 */
 	sad::Renderer * renderer() const;
 
-	/*! Called by a renderer to initialize created window settings, enter fullscreen,
-		make window fixed
-	 */
-	void initialize();
+
 	/*! Sets a size, which window will be created with
 		\param[in] size a window size
 	 */ 
@@ -125,9 +122,14 @@ public:
 		\return whether window is active
 	 */
 	bool active() const;
-#ifndef DO_NOT_HIDE_RENDERER_METHODS
-protected:
-#endif
+// TODO: Uncomment, when integrating in renderer
+//#ifndef DO_NOT_HIDE_RENDERER_METHODS
+//protected:
+//#endif
+	/*! Called by a renderer to initialize created window settings, enter fullscreen,
+		make window fixed
+	 */
+	void initialize();
 	/*! Creates a new window. Note, that you should not call this functions, since
 		sad::Renderer automatically does it for you.
 		\return whether creation was successfull

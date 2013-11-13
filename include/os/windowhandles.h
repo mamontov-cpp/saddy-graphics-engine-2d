@@ -77,11 +77,17 @@ public:
     ::Window     Win;                   
 	/*! A visual information
 	 */
-	XVisualInfo * VisualInfo;                    
+	XVisualInfo * VisualInfo; 
+	/*! A color map for a window
+	 */
+	Colormap      ColorMap;
 #endif
 	/*! Creates new zero-filled handles
 	 */
-	inline WindowHandles() { cleanup(); }
+	inline WindowHandles() 
+	{ 
+		cleanup(); 
+	}
 
 	inline void cleanup()
 	{
