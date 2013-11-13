@@ -3,11 +3,61 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "sadmutex.h"
 #include "3rdparty/glext/glext.h"
 #ifdef WIN32
 #include "3rdparty/glext/wglext.h"
 #endif
 
+
+#ifdef X11
+
+static sad::Mutex context_creation;
+
+static bool context_error_occured = false;
+
+static int context_error_handler( Display *dpy, XErrorEvent *ev )
+{
+    context_error_occured = true;
+    return 0;
+}
+
+// Helper to check for extension string presence.  Adapted from:
+//   http://www.opengl.org/resources/features/OGLextensions/
+static bool isExtensionSupported(const char *extList, const char *extension)
+ 
+{
+ 
+  const char *start;
+  const char *where, *terminator;
+ 
+  /* Extension names should not have spaces. */
+  where = strchr(extension, ' ');
+  if ( where || *extension == '\0' )
+    return false;
+ 
+  /* It takes a bit of care to be fool-proof about parsing the
+     OpenGL extensions string. Don't be fooled by sub-strings,
+     etc. */
+  for ( start = extList; ; ) {
+    where = strstr( start, extension );
+ 
+    if ( !where )
+      break;
+ 
+    terminator = where + strlen( extension );
+ 
+    if ( where == start || *(where - 1) == ' ' )
+      if ( *terminator == ' ' || *terminator == '\0' )
+        return true;
+ 
+    start = terminator;
+  }
+ 
+  return false;
+}
+
+#endif
 
 
 sad::os::GLContextImpl::GLContextImpl()
@@ -88,9 +138,139 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 	return result;
 #endif
 
-	// Stub
+#ifdef X11
+	if (m_win->isGL3compatible())
+	{
+		bool result = false;
+		// Nobody should enter here, only us
+		context_creation.lock();
+		// Get the default screen's GLX extension list
+		const char *glxExts = glXQueryExtensionsString( 
+			m_win->handles()->Dpy,
+            m_win->handles()->Screen
+		);
+ 
+		// NOTE: It is not necessary to create or make current to a context before
+		// calling glXGetProcAddressARB
+		glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
+		glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)
+           glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
+		
+		context_error_occured = false;
+		int (*oldHandler)(Display*, XErrorEvent*) =
+			XSetErrorHandler(&context_error_handler);
+
+		if ( !isExtensionSupported( glxExts, "GLX_ARB_create_context" ) 
+			|| !glXCreateContextAttribsARB )
+		{
+			m_handle.Context = glXCreateNewContext( 
+				m_win->handles()->Dpy,
+				m_win->handles()->FBC, 
+				GLX_RGBA_TYPE, 
+				0, 
+				True 
+			);
+			result = m_handle.Context != NULL;
+		}
+		else
+		{
+			result  = tryCreateOpenGL3Context(glXCreateContextAttribsARB);
+		}
+
+		XSync( m_win->handles()->Dpy, False );
+ 
+		XSetErrorHandler( oldHandler );
+
+		if (context_error_occured)
+			result = false;
+
+		context_creation.unlock();
+
+		return result;
+	}
+	else 
+	{
+		return this->makeDefaultContext();
+	}
+#endif
+
+	
 	return false;
 }
+
+
+
+#ifdef X11
+
+
+bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBProc cc)
+{
+	if (makeDefaultContext())
+	{
+		// Try to parse version from context
+		int major = 0, minor = 0;
+		const char *verstr = (const char *) glGetString(GL_VERSION);
+		if ((verstr == NULL) || (sscanf(verstr,"%d.%d", &major, &minor) != 2))
+		{
+			major = minor = 0;
+		}
+		// If we could create more advanced context - create it
+		if (major * 10 + minor >= 30)
+		{
+			int contextattribs[] =
+			{
+				GLX_CONTEXT_MAJOR_VERSION_ARB, major,
+				GLX_CONTEXT_MINOR_VERSION_ARB, minor,
+				GLX_CONTEXT_PROFILE_MASK_ARB , GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+				None
+			};
+			GLXContext context = ctx = cc( 
+				m_win->handles()->Dpy, 
+				m_win->handles()->FBC, 
+				0,
+                True, 
+				contextattribs 
+			);
+			if (context != NULL)
+			{
+				// We did it! Finally new context
+				glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, 0);    
+				glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
+				m_handle.Context = context;
+				glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
+				m_isopengl3compatible = true;
+			}
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool sad::os::GLContextImpl::makeDefaultContext()
+{
+	m_isopengl3compatible = false;
+	m_handle.Context = glXCreateContext(
+		m_win->handles()->Dpy,
+		m_win->handles()->VisualInfo, 
+		0, 
+		GL_TRUE
+	);
+	if (m_handle.Context != NULL)
+	{
+		glXMakeCurrent(
+			m_win->handles()->Dpy, 
+			m_win->handles()->Win, 
+			m_handle.Context
+		);
+		return true;
+	}
+	return false;
+}
+
+#endif
 
 void sad::os::GLContextImpl::destroy()
 {
@@ -103,7 +283,7 @@ void sad::os::GLContextImpl::destroy()
 #endif
 
 #ifdef X11
-	glXMakeCurrent(m_win->handles()->Dpy, 0, 0);    
+	glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, 0);    
     glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
 #endif
 

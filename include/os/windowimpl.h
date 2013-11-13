@@ -226,6 +226,12 @@ protected:
 		\param[in] fullscreen whether we are entering fullscreen (false if leaving)
 	 */
 	virtual void sendNetWMFullscreenEvent(bool fullscreen);
+	/*! Picks best GLXFBConfig from a list
+		\param[in] fbcount of configs
+		\param[in] configs list of configs
+		\return index of best config
+	 */
+	int pickBestFBConfig(int fbcount, GLXFBConfig * configs);
 #endif
 	/*! Cannot be copied, so this is disabled and not implemented
 		\param[in] o other window

@@ -85,6 +85,9 @@ public:
 	/*! A color map for a window
 	 */
 	Colormap      ColorMap;
+	/*! A frame buffer config for window creation
+	 */
+	GLXFBConfig   FBC;
 #endif
 	/*! Creates new zero-filled handles
 	 */
