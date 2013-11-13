@@ -26,42 +26,42 @@ public:
 
 	/*! Destroys system implementation for gl context
 	 */
-	~GLContextImpl();
+	virtual ~GLContextImpl();
 
 	/*! Tries to create context for specified window. Does nothing, if it's
 		already created
 		\param[in] win a window
 		\return whether it was successfull
 	 */
-	bool createFor(sad::Window * win);
+	virtual bool createFor(sad::Window * win);
 	/*! Destroys a context
 	 */
-	void destroy();
+	virtual void destroy();
 	/*! Checks, whether context is valid
 	 */
-	bool valid() const;
+	virtual bool valid() const;
 	/*! Swaps buffers. Must be called, after scene is rendered
 	 */
-	void swapBuffers();
+	virtual void swapBuffers();
 	/*! Maps a point from client coordinates to OpenGL viewport
 		\param[in] p point
 		\param[in] ztest whether ztesting should be performed
 		\return mapped point in vierport
 	 */
-	sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
+	virtual sad::Point3D mapToViewport(const sad::Point2D & p, bool ztest = false);
 	/*! Returns current OpenGL context
 		\return OpenGL context
 	 */
-	sad::os::GLContextHandle * handle() const;
+	virtual sad::os::GLContextHandle * handle() const;
 	/*! Returns a window, attached to context
 		\return window, attached to context
 	 */
-	sad::Window * window() const;
+	virtual sad::Window * window() const;
 	/*! Tests, whether OpenGL context is compatible with OpenGL 3.0+ specs
 		\return whether it's compatible
 	 */
-	bool isOpenGL3compatible() const;
-private:
+	virtual bool isOpenGL3compatible() const;
+protected:
 	/*! A handle for implementation
 	 */
 	sad::os::GLContextHandle m_handle;

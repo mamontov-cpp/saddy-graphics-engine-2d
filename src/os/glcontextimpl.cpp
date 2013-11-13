@@ -7,6 +7,12 @@
 #ifdef WIN32
 #include "3rdparty/glext/wglext.h"
 #endif
+#ifdef X11
+#include <X11/Xutil.h>
+#include <GL/glx.h>
+#include "3rdparty/glext/glxext.h"
+#endif
+
 
 sad::os::GLContextImpl::GLContextImpl()
 : m_win(NULL), m_handle(), m_isopengl3compatible(false)

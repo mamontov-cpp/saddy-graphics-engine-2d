@@ -54,3 +54,8 @@ void sad::GLContext::destroy()
 	m_dptr->destroy();
 }
 
+void sad::GLContext::setImplementation(sad::os::GLContextImpl * i)
+{
+	delete m_dptr;
+	m_dptr = i;
+}

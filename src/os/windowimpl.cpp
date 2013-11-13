@@ -2,6 +2,11 @@
 #include "os/windowimpl.h"
 #include "renderer.h"
 
+#ifdef X11
+#include <X11/Xutil.h>
+#include <GL/glx.h>
+#include "3rdparty/glext/glxext.h"
+#endif
 
 #define SL_WINDOW_INTERNAL_SCOPE(X)   \
 if (this->renderer()) {				  \
