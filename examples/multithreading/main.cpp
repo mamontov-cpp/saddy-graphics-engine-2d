@@ -135,13 +135,13 @@ int thread(void * p)
 	/* Create 800x600 window in windowed mode and toggle a fixed size of window
 	 */
 	r.init(sad::Settings(800,600, false));
-	r.toggleFixedOn();
+	r.makeFixedSize();
 
 	/* Create new scene and toggle orthographic projection.
 	   Note, that we pass our renderer to camera - that's how it will know size of window
 	 */
-	r.setCurrentScene(new InterlockedScene());
-	r.getCurrentScene()->setCamera(new sad::OrthographicCamera(&r));
+	r.setScene(new InterlockedScene());
+	r.scene()->setCamera(new sad::OrthographicCamera(&r));
 
 	/* Load texture mapped font. 
 	   We add it to font manager to be sure, that memory will be freed at exit.
@@ -181,14 +181,14 @@ int thread(void * p)
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
 	Sprite2DAdapter * a = new Sprite2DAdapter(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
-	r.getCurrentScene()->add(a);
+	r.scene()->add(a);
 
 	/* Add two labels with different fonts
 	 */
-	r.getCurrentScene()->add(
+	r.scene()->add(
 		new sad::Label(fnt1, sad::Point2D(300,200), "FTFont")
 	);
-	r.getCurrentScene()->add(
+	r.scene()->add(
 		new sad::Label(fnt2, sad::Point2D(400,400), "TMFont")
 	);
 	

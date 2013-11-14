@@ -56,7 +56,7 @@ void World::run()
 	);
 	sc->add(background);
 
-	sad::Renderer::ref()->setCurrentScene(sc);
+	sad::Renderer::ref()->setScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
 	sad::Input::ref()->bindKeyDown('F', new sad::MethodEventHandler<sad::Event, World>(this, &World::toggleFullscreen));	
@@ -66,7 +66,7 @@ void World::run()
 	SL_MESSAGE("Mips built successfully");	
 	
 	// Set window size to be fixed
-	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->makeFixedSize();
 
 	m_steptask = new sad::p2d::WorldStepTask(m_world);
 	sad::Input::ref()->addPostRenderTask(m_steptask);
