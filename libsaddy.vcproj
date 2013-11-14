@@ -860,10 +860,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\types.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\unused.h"
 				>
 			</File>
