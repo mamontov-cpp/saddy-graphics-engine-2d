@@ -181,8 +181,8 @@ void Editor::initDefaultSaddyOptions()
 	sad::Renderer::ref()->init(sett);
 	this->m_scene = new InterlockedScene(this);
 	this->m_scene->setCamera(new sad::OrthographicCamera());
-	sad::Renderer::ref()->setCurrentScene(this->m_scene);
-	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->setScene(this->m_scene);
+	sad::Renderer::ref()->makeFixedSize();
 	// Try to load default icons
 	QString a = QApplication::applicationDirPath();
 	a = QDir(a).filePath(ICONS_XML);
