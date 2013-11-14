@@ -375,6 +375,11 @@ void sad::os::GLContextImpl::swapBuffers()
 #endif
 }
 
+
+#ifndef DEFAULT_DEPTH_VALUE
+#define DEFAULT_DEPTH_VALUE 0.8f //!< Value, which gives us a z=0.5 in mapping coordinates
+#endif
+
 sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool ztest)
 {
 	if (m_win->valid() == false || !valid())
@@ -400,7 +405,7 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
 	if (ztest)
 		glReadPixels(winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
-		winz = 0;
+		winz = DEFAULT_DEPTH_VALUE;
 
 
 	gluUnProject(winx,winy,winz,modelview,projection,viewport,result,result+1,result+2);

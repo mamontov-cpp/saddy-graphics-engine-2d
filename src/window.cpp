@@ -27,6 +27,11 @@ void sad::Window::setCreationSize(const sad::Size2I& size)
 	m_dptr->setCreationSize(size);
 }
 
+void sad::Window::setCreationSize(unsigned int width, unsigned int height)
+{
+	m_dptr->setCreationSize(sad::Size2I(width, height));
+}
+
 
 bool sad::Window::create()
 {

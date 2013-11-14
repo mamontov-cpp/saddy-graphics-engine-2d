@@ -49,6 +49,11 @@ public:
 		\param[in] size a window size
 	 */ 
 	void setCreationSize(const sad::Size2I& size);
+	/*! Sets a size, which window will be created with
+		\param[in] width a width for a window
+		\param[in] height a height for a window
+	 */ 
+	void setCreationSize(unsigned int width, unsigned int height);
 	/*! Tests, whether window is valid. Valid window - is a window, for each a
 		sad::Window::create was called successfully
 		\return whether window is valid
