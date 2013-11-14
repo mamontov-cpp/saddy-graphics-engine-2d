@@ -124,6 +124,20 @@ public:
 		\return OpenGL context
 	 */
 	sad::GLContext * context();
+	/*! Returns settings for a renderer
+		\return settings
+	 */
+	virtual const sad::Settings & settings() const;
+#ifdef WIN32
+	/*! Function for processing system messages and pressed keys
+		\param[in] hWnd Windows' handler
+		\param[in] uMsg The Message
+		\param[in] wParam Additional message information
+		\param[in] lParam Additional message information
+		\return Success of operation              
+	 */
+    LRESULT dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+#endif
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -201,29 +215,21 @@ protected:
 		\return success of operation
 	 */
 	bool initGLRendering();
-
-#ifdef WIN32
-	/*! Function for processing system messages and pressed keys
-		\param[in] hWnd Windows' handler
-		\param[in] uMsg The Message
-		\param[in] wParam Additional message information
-		\param[in] lParam Additional message information
-		\return Success of operation              
-	 */
-    LRESULT dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-#endif
 	/*! Reshapes view
 		\param[in] width Needed width
 		\param[in] height Needed height
 	 */
 	void reshape(int width, int height);
-
     /*! Main loop of renderer. Here it performs rendering cycle
 	 */
 	void mainLoop();
     /*! Updates a scene
 	 */
 	void update();
+	/*! Tries to swap both scened in tenderer, if need
+		so.
+	 */
+	virtual void trySwapScenes();
 };
 
 }

@@ -23,7 +23,7 @@ void sad::p2d::app::App::initApp()
 
 sad::Scene * sad::p2d::app::App::scene()
 {
-	return sad::Renderer::ref()->getCurrentScene();
+	return sad::Renderer::ref()->scene();
 }
 
 void sad::p2d::app::App::createWorld()
@@ -46,7 +46,7 @@ void sad::p2d::app::App::run()
 void sad::p2d::app::App::removeObject(sad::p2d::app::Object * o)
 {
 	sad::p2d::Body * b = o->body();
-	sad::Renderer::ref()->getCurrentScene()->remove(o);
+	sad::Renderer::ref()->scene()->remove(o);
 	m_world->remove(b);
 }
 
@@ -54,7 +54,7 @@ void sad::p2d::app::App::removeObject(sad::p2d::app::Object * o)
 void sad::p2d::app::App::addObject(sad::p2d::app::Object * o)
 {
 	o->setApp(this);
-	sad::Renderer::ref()->getCurrentScene()->add(o);
+	sad::Renderer::ref()->scene()->add(o);
 	m_world->add(o->body());
 }
 

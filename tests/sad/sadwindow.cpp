@@ -2,7 +2,6 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <stdio.h>
-#define DO_NOT_HIDE_RENDERER_METHODS
 #include <window.h>
 #include <glcontext.h>
 #include <renderer.h>
@@ -12,18 +11,6 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
-
-#ifdef WIN32
-long __stdcall sad_renderer_window_proc(
-	struct HWND__ * hWnd,
-	unsigned int uMsg,
-	unsigned int wParam,
-	long lParam
-)
-{
-	return DefWindowProcA(hWnd,uMsg,wParam,lParam);
-}
-#endif
 
 /*!
  * Tests object logic

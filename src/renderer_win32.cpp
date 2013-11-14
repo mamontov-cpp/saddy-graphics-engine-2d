@@ -14,7 +14,9 @@ sad::Point3D sad::Renderer::mousePos()
 	POINT p;
 	GetCursorPos(&p);
 	ScreenToClient(this->window()->handles()->WND,&p);
-	sad::Point2D point = this->window()->toClient(sad::Point2D(p.x, p.y()));
+	sad::Point2D point = this->window()->toClient(
+		sad::Point2D(p.x, p.y)
+	);
 	return this->context()->mapToViewport(point, m_glsettings.ztest());
 }
 
@@ -41,6 +43,7 @@ void sad::Renderer::update()
 	 m_reset = true;
 	 m_setimmediately = false;
  }
+ this->trySwapScenes();
 }
 
 
