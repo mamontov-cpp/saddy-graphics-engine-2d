@@ -1,4 +1,3 @@
-#define DO_NOT_CLEANUP_X11_NAMESPACE
 #include "os/glcontextimpl.h"
 
 #include <GL/gl.h>

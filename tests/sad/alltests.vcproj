@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="saddy-debug.lib"
+				AdditionalDependencies="saddy-debug.lib GLU32.lib OPENGL32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;"
 				GenerateDebugInformation="true"

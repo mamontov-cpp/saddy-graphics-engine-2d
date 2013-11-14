@@ -57,7 +57,7 @@ sad::Scene* sad::Renderer::scene() const
 }
 
 
-bool sad::Renderer::init(const sad::Settings& _settings)
+void sad::Renderer::init(const sad::Settings& _settings)
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::init", (*this));
 	m_glsettings = _settings;
@@ -81,13 +81,13 @@ bool sad::Renderer::init(const sad::Settings& _settings)
 		else
 		{
 			m_window->initialize();
+			this->initGLRendering();
 		}
 	}
 	if (!success) 
 	{ 
 		SL_LOCAL_FATAL("Cannot create window\n",*this);
 	}
-	return true;
 }
 
 bool sad::Renderer::run()
@@ -122,6 +122,7 @@ bool sad::Renderer::run()
 		else
 		{
 			m_window->initialize();
+			this->initGLRendering();
 		}
 	}
 
@@ -229,6 +230,11 @@ sad::GLContext * sad::Renderer::context()
 	return m_context;
 }
 
+const sad::Settings & sad::Renderer::settings() const
+{
+	return m_glsettings;
+}
+
 void sad::Renderer::destroyInstance()
 {
 	delete  sad::Renderer::m_instance;
@@ -244,51 +250,48 @@ void sad::Renderer::setFPS(double fps)
 
 void sad::Renderer::reshape(int width, int height)
 {
-  SL_INTERNAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
+	SL_INTERNAL_SCOPE(fmt::Format("sad::Renderer::reshape({0}, {1})") << width << height, *this);
 
-  if (width == 0) {
-	  width = 1;
-  }
+	if (width == 0) {
+		width = 1;
+	}
+
+	// Reset viewport for window
+	glViewport (0, 0, width, height);				
+	// Clear projection matrix
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
   
-  glViewport (0, 0, width, height);				// Переустанавливаем ViewPort (область видимости)
-  glMatrixMode (GL_PROJECTION);										// Выбираем матрицу проекции
-  glLoadIdentity ();													// Сбрасываем её на единичную
-  gluPerspective (m_glsettings.fov(), 
-			    (GLfloat)(width)/(GLfloat)(height),		      	// Calculate The Aspect Ratio Of The Window
-			     m_glsettings.znear(), 
-		             m_glsettings.zfar());		
-  glMatrixMode (GL_MODELVIEW);										// Выбираем видовую матрицу
-  glLoadIdentity ();													// Сбрасываем её на единичную
-  this->controls()->  postResize(sad::ResizeEvent( 
+	//  Set perspective projection
+	GLfloat aspectratio = (GLfloat)(width)/(GLfloat)(height);
+	gluPerspective(
+		m_glsettings.fov(), 
+		aspectratio,
+		m_glsettings.znear(), 
+		m_glsettings.zfar()
+	);		
+	
+	// Clear modelview matrix
+	glMatrixMode (GL_MODELVIEW);										
+	glLoadIdentity ();													
+	/*
+	this->controls()
+		->postResize(sad::ResizeEvent( 
 								 m_window.height,m_window.width,height,width
 	                             ));
-  m_window.width=width;
-  m_window.height=height;
+	*/
 }
 
 #ifndef GL_GENERATE_MIPMAP_HINT
 	#define GL_GENERATE_MIPMAP_HINT           0x8192
 #endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Getting a black background with all params
 bool sad::Renderer::initGLRendering()
 {
     SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
 	glShadeModel(GL_SMOOTH);
-	glClearColor(0.0f,0.0f,0.0f,0.0f); //Fill a black background
+	glClearColor(0.0f,0.0f,0.0f,0.0f); 
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LINE_SMOOTH);
@@ -301,7 +304,7 @@ bool sad::Renderer::initGLRendering()
 	if (version!=NULL)
 	{
 		SL_LOCAL_INTERNAL(sad::String("running OpenGL ")+sad::String(version), *this);
-		if (version[0]>'1' || version[2] >='4')
+		if (version[0]>'1' || version[2] >= '4')
 			glHint(GL_GENERATE_MIPMAP_HINT,GL_NICEST);
 	}
 
@@ -318,6 +321,15 @@ bool sad::Renderer::initGLRendering()
 
 
 
+void sad::Renderer::trySwapScenes()
+{
+	if (m_new_scene)
+	{
+		delete m_scene;
+		m_scene = m_new_scene;
+		m_scene->setRenderer(this);
+	}
+}
 
 
 

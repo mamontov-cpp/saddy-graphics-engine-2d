@@ -6,7 +6,7 @@
 	This file contains a declaration of SadSettings - settings upon OpenGL. 
 */
 #pragma once
-#define DEFAULT_DEPTH_VALUE 0.8f //!< Value, which gives us a z=0.5 in mapping coordinates
+#include "sadcolor.h"
 
 namespace sad
 {
@@ -39,7 +39,7 @@ class Settings
 		   float znear=0.1f,
 		   float zfar=100.0f,
 		   bool  ztest=false,
-		   float zvalue=DEFAULT_DEPTH_VALUE
+		   float zvalue=0.8
 		  ); //!< Default constructor
   Settings(const Settings& other);
   Settings();

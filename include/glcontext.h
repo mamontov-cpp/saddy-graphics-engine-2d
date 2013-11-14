@@ -63,16 +63,13 @@ public:
 		\param[in] i implementation
 	 */
 	void setImplementation(sad::os::GLContextImpl * i);
-//#ifndef DO_NOT_HIDE_RENDERER_METHODS
-//protected:
-//#endif
 	/*! Tries to create context for specified window. Does nothing, if it's
-		already created
+		already created. DO NOT USE IT!
 		\param[in] win a window
 		\return whether it was successfull
 	 */
 	bool createFor(sad::Window * win);
-	/*! Destroys a context
+	/*! Destroys a context. DO NOT USE IT!
 	 */
 	void destroy();
 private:

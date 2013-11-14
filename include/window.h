@@ -137,26 +137,22 @@ public:
 		\param[in] i implementation
 	 */
 	void setImplementation(sad::os::WindowImpl * i);
-// TODO: Uncomment, when integrating in renderer
-//#ifndef DO_NOT_HIDE_RENDERER_METHODS
-//protected:
-//#endif
 	/*! Called by a renderer to initialize created window settings, enter fullscreen,
-		make window fixed
+		make window fixed. DO NOT USE IT!
 	 */
 	void initialize();
 	/*! Creates a new window. Note, that you should not call this functions, since
 		sad::Renderer automatically does it for you.
-		\return whether creation was successfull
+		\return whether creation was successfull. DO NOT USE IT!
 	 */
 	bool create();
 	/*! Closes a window. Note, that you should not call this function, use
-		sad::Renderer instead for shutting down everything.
+		sad::Renderer instead for shutting down everything. DO NOT USE IT!
 	 */
 	void close();
 	/*! Destroys a window, freeing all resources. 
 	    Note, that you should not call this functions, since
-		sad::Renderer automatically does it for you.
+		sad::Renderer automatically does it for you. DO NOT USE IT!
 		\return whether destruction was successfull 
 	 */
 	void destroy();

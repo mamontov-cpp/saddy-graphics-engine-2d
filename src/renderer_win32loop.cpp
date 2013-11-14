@@ -2,7 +2,10 @@
 #include "input.h"
 #include "texturemanager.h"
 #include "3rdparty/format/format.h"
-
+#include "os/windowhandles.h"
+#include "window.h"
+#include "glcontext.h"
+#include "sadsleep.h"
 
 #ifdef WIN32
 
@@ -43,13 +46,13 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 void sad::Renderer::mainLoop()
 {
  m_data.lock();
- if (m_renderers.contains(m_window.hWND)) 
+ if (m_renderers.contains(this->window()->handles()->WND)) 
  {
-	m_renderers[m_window.hWND] =  this;
+	m_renderers[this->window()->handles()->WND] =  this;
  }
  else
  {
-	 m_renderers.insert(m_window.hWND, this);
+	 m_renderers.insert(this->window()->handles()->WND, this);
  }
  m_data.unlock();
 
@@ -67,12 +70,12 @@ void sad::Renderer::mainLoop()
  MSG msg;
 
  m_running = true;											// Program Looping Is Set To TRUE
- m_window.active=true;
+ this->window()->setActive(true);
 
  while (m_running)											// Loop Until WM_QUIT Is Received
  {					
   // Check For Window Messages
-  if (PeekMessage (&msg, m_window.hWND, 0, 0, PM_REMOVE) != 0)
+	if (PeekMessage (&msg, this->window()->handles()->WND, 0, 0, PM_REMOVE) != 0)
   {
      TranslateMessage(&msg);
 	 // Check For WM_QUIT Message
@@ -89,7 +92,7 @@ void sad::Renderer::mainLoop()
    {
 	  // Process Application Loop
 	  //Update a window, if active
-	  if (m_window.active)
+	  if (m_window->active())
 	  {
 		 update();
 	  }
@@ -97,18 +100,15 @@ void sad::Renderer::mainLoop()
 	  {
 		  // Reset timer, so no big FPS jump at time
 		  m_timer.start();
-		  Sleep(0);
+		  sad::sleep(50);
 	  }
 	  
-	  //Change scene, if need so
-	  if (m_chscene) 
-	  { setCurrentScene(m_chscene); m_chscene=NULL;}
+	  
    }
   }
  this->controls()->postQuit();
- m_window.active=false;
- m_renderers.remove(m_window.hWND);
- this->releaseWindow();
+ m_window->setActive(false);
+ m_renderers.remove(this->window()->handles()->WND);
 }
 
 
@@ -153,25 +153,6 @@ static void table_init()
 }
 
 
-POINT sad::Renderer::_toClient(POINT  _pnt)
-{
-	POINT pnt;
-	pnt.x = _pnt.x;
-	pnt.y = _pnt.y;
-	RECT r;
-	GetClientRect(this->m_window.hWND, &r);
-	pnt.y = r.bottom - pnt.y;
-	return pnt;
-}
-
-POINT sad::Renderer::_toClient(LPARAM lParam)
-{
-	POINT pnt;
-	pnt.x = GET_X_LPARAM(lParam);
-	pnt.y = GET_Y_LPARAM(lParam);
-	return sad::Renderer::_toClient(pnt);
-}
-
 const int windowresizepointscount = 8;
 LRESULT windowresizepoints[windowresizepointscount] = {
 	HTTOPLEFT,
@@ -207,9 +188,9 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = this->_toClient(lParam);
-		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		this->controls()->postMouseMove(sad::Event(mx,my,mz,key));
+		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
+		this->controls()->postMouseMove(sad::Event(op.x(), op.y(), op.z(),key));
 		return 0;
 	}
 	if (uMsg==WM_MOUSEWHEEL)
@@ -220,9 +201,9 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float fw=GET_WHEEL_DELTA_WPARAM(wParam)/(float)WHEEL_DELTA;
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = this->_toClient(lParam);
-		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		sad::Event ev(mx,my,mz,key);
+		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
+		sad::Event ev(op.x(),op.y(),op.z(),key);
 		ev.delta=fw;
 		this->controls()->postMouseWheel(ev);
 		return 0;
@@ -233,9 +214,9 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = this->_toClient(lParam);
-		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		this->controls()->postMouseDblClick(sad::Event(mx,my,mz,key));
+		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
+		this->controls()->postMouseDblClick(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;
 	}
 	if (uMsg==WM_LBUTTONUP || uMsg==WM_MBUTTONUP || uMsg==WM_RBUTTONUP)
@@ -244,9 +225,9 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = this->_toClient(lParam);
-		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		this->controls()->postMouseUp(sad::Event(mx,my,mz,key));
+		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
+		this->controls()->postMouseUp(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;
 	}
 	if (uMsg==WM_LBUTTONDOWN || uMsg==WM_MBUTTONDOWN || uMsg==WM_RBUTTONDOWN)
@@ -255,10 +236,9 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			return 0;
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
-		POINT pnt = this->_toClient(lParam);
-		this->mapToOGL(pnt.x,pnt.y,mx,my,mz);
-		this->controls()->postMouseDown(sad::Event(mx,my,mz,key));
-		this->controls()->postMouseClick(sad::Event(mx,my,mz,key));
+		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
+		this->controls()->postMouseDown(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;
 	}
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
@@ -294,20 +274,19 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	{
 		if (wParam==SIZE_MINIMIZED)
 		{
-			this->m_window.active=false;
+			window()->setActive(false);
 		}
 		else
 		{
-			this->m_window.active=true;
+			window()->setActive(true);
 			this->reshape(LOWORD (lParam), HIWORD (lParam));
 		}
 		return 0;
 	}
 	
-	if (uMsg==WM_NCHITTEST && m_window.fixed) 
-	{
+	if (uMsg == WM_NCHITTEST && window()->fixed()) 
+	{		
 		LRESULT result = DefWindowProcA(hWnd, uMsg, wParam, lParam);
-		
 		bool isusertriestoresize = false;
 		for(int i = 0; i < windowresizepointscount; i++)
 			isusertriestoresize = isusertriestoresize || (windowresizepoints[i] == result);
@@ -316,10 +295,6 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		{
 			result = HTBORDER;
 		}
-		else
-		{
-			result = MESSAGE_NOT_HANDLED;
-		}
 		
 		return result;
 	}
@@ -327,7 +302,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	return MESSAGE_NOT_HANDLED;
 }
 
-LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK sad_renderer_window_proc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	sad::Renderer * r = NULL; 
 	m_data.lock();
@@ -342,7 +317,7 @@ LRESULT CALLBACK sad::Renderer::WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam,
 	{
 		return result;
 	}
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);				
 }
 
 #endif
