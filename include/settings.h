@@ -6,9 +6,6 @@
 	This file contains a declaration of SadSettings - settings upon OpenGL. 
 */
 #pragma once
-
-#include "types.h"
-
 #define DEFAULT_DEPTH_VALUE 0.8f //!< Value, which gives us a z=0.5 in mapping coordinates
 
 namespace sad
