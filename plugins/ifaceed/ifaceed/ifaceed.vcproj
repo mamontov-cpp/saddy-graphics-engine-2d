@@ -4,6 +4,7 @@
 	Version="9,00"
 	Name="ifaceed"
 	ProjectGUID="{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}"
+	RootNamespace="ifaceed"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -125,7 +126,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtTest4.lib saddy-debug.lib saddy-ft-debug.lib freetype.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtTest4.lib saddy-debug.lib saddy-ft-debug.lib freetype.lib OPENGL32.lib GLU32.lib"
 				OutputFile="../../../bin/ifaceed/iface-editor-debug.exe"
 				AdditionalLibraryDirectories="&quot;$(SADDY_LIB)&quot;;&quot;$(QTDIR)\lib&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"

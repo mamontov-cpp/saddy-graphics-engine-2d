@@ -63,7 +63,7 @@ void IFaceEditor::initSaddyRendererOptions()
 {
 	this->Editor::initSaddyRendererOptions();
 	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
-	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->makeFixedSize();
 	this->assertSaddyInit(true);
 }
 
