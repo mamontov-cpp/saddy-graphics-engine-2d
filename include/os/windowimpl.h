@@ -171,6 +171,7 @@ private:
 protected:
 
 #ifdef WIN32
+	LONG_PTR m_style;
 	/*! Registers WNDCLASS object via RegisterWindowClass, if last result is true
 		\param[in] lastresult result of last operation, whether it was successfull
 		\return whether it was successfull

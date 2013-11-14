@@ -153,7 +153,6 @@ void Game::run()
 	SL_MESSAGE("Mips built successfully");	
 	
 	// Set window size to be fixed
-	
 	sad::Renderer::ref()->makeFixedSize();
 
 	m_machine->pushState(GameState::START);

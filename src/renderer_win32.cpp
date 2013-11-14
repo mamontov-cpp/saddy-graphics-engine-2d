@@ -31,6 +31,7 @@ void sad::Renderer::update()
  glMatrixMode(GL_MODELVIEW);
  glLoadIdentity();
  scene()->render();
+ glFinish();
  context()->swapBuffers();
  ++m_frames;
  m_timer.stop();
