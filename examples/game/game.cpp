@@ -144,7 +144,7 @@ void Game::run()
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc= new sad::Scene();
 	sc->setCamera(new sad::OrthographicCamera());
-	sad::Renderer::ref()->setCurrentScene(sc);
+	sad::Renderer::ref()->setScene(sc);
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
 
 	
@@ -154,7 +154,7 @@ void Game::run()
 	
 	// Set window size to be fixed
 	
-	sad::Renderer::ref()->toggleFixedOn();
+	sad::Renderer::ref()->makeFixedSize();
 
 	m_machine->pushState(GameState::START);
 	// Run an engine, starting a main loop

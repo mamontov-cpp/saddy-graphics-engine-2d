@@ -10,7 +10,7 @@ StartScreenRain::StartScreenRain(Game * g) : PeriodicalEvent(),  m_game(g)
 
 void StartScreenRain::perform()
 {
-	int ocount = sad::Renderer::ref()->getCurrentScene()->objectCount();
+	int ocount = sad::Renderer::ref()->scene()->objectCount();
         if (m_game->isPaused() == false &&  ocount < 60)
 	{
 		// Compute position for new object
