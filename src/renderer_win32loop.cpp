@@ -189,6 +189,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseMove(sad::Event(op.x(), op.y(), op.z(),key));
 		return 0;
@@ -202,6 +203,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		wParam=GET_KEYSTATE_WPARAM(wParam);
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		sad::Event ev(op.x(),op.y(),op.z(),key);
 		ev.delta=fw;
@@ -215,6 +217,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseDblClick(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;
@@ -226,6 +229,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseUp(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;
@@ -237,6 +241,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		float mx=0,my=0,mz=0;
 		int key=(wParam==MK_LBUTTON)?MOUSE_BUTTON_LEFT:(wParam==MK_RBUTTON)?MOUSE_BUTTON_RIGHT:(wParam==MK_MBUTTON)?MOUSE_BUTTON_MIDDLE:0;
 		sad::Point2D p(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseDown(sad::Event(op.x(),op.y(),op.z(),key));
 		return 0;

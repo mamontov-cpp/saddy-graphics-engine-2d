@@ -91,6 +91,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 	m_isopengl3compatible = false;
 
 #ifdef WIN32
+	BOOL  makeCurrentResult;
 	bool result = false;
 	m_handle.Context = wglCreateContext(win->handles()->DC); 
 	if(m_handle.Context) 
@@ -117,8 +118,8 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 					major,
 					WGL_CONTEXT_MINOR_VERSION_ARB, 
 					minor,
-					WGL_CONTEXT_FLAGS_ARB,         
-					WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+					WGL_CONTEXT_PROFILE_MASK_ARB,         
+					WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 					0
 				};
 				HGLRC newContext = wglCreateContextAttribsARB(
@@ -129,9 +130,10 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 				if (newContext != NULL)
 				{
 					m_isopengl3compatible = true;
+					wglMakeCurrent(m_win->handles()->DC, 0); 
 					wglDeleteContext(m_handle.Context);
 					m_handle.Context = newContext;
-					wglMakeCurrent(win->handles()->DC, m_handle.Context);
+					makeCurrentResult = wglMakeCurrent(win->handles()->DC, m_handle.Context);
 				}
 			}
 		}

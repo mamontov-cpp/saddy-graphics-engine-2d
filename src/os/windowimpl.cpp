@@ -306,6 +306,8 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 		);
 
 		ShowWindow(m_handles.WND, SW_HIDE);
+
+		m_style = GetWindowLongPtr(m_handles.WND, GWL_STYLE);
 	}
 	return result;
 }
@@ -749,6 +751,7 @@ void sad::os::WindowImpl::makeFixedSize()
 	LONG style = GetWindowLongA(m_handles.WND, GWL_STYLE);
 	style &=  ~WS_MAXIMIZEBOX;
 	LONG result = SetWindowLongA(m_handles.WND, GWL_STYLE, style);
+	m_style = GetWindowLongPtr(m_handles.WND, GWL_STYLE);
 #endif
 
 #ifdef X11
@@ -778,6 +781,7 @@ void sad::os::WindowImpl::makeResizeable()
 	LONG style=GetWindowLongA(m_handles.WND, GWL_STYLE);
 	style |= WS_MAXIMIZEBOX;
 	SetWindowLongA(m_handles.WND, GWL_STYLE, style);
+	m_style = GetWindowLongPtr(m_handles.WND, GWL_STYLE);
 #endif
 
 #ifdef X11
@@ -818,6 +822,7 @@ void sad::os::WindowImpl::enterFullscreen()
 				   | WS_VISIBLE;
 	SetWindowLongPtr(m_handles.WND,  GWL_STYLE,  style);
 
+		
 	const long screenwidth = GetSystemMetrics(SM_CXSCREEN);
 	const long screenheight = GetSystemMetrics(SM_CYSCREEN);
 	SetWindowPos(
@@ -845,7 +850,11 @@ void sad::os::WindowImpl::leaveFullscreen()
 		return ;
 
 #ifdef WIN32
-	SetWindowLongPtr(m_handles.WND, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+	SetWindowLongPtr(
+		m_handles.WND, 
+		GWL_STYLE, 
+		m_style
+	);
 	popRect();
 #endif
 
@@ -914,6 +923,7 @@ void sad::os::WindowImpl::show()
 	{
 #ifdef WIN32
 		ShowWindow(m_handles.WND, SW_SHOW);
+		m_style = GetWindowLongPtr(m_handles.WND, GWL_STYLE);
 #endif
 
 #ifdef X11
@@ -932,6 +942,7 @@ void sad::os::WindowImpl::hide()
 	{
 #ifdef WIN32
 		ShowWindow(m_handles.WND, SW_HIDE);
+		m_style = GetWindowLongPtr(m_handles.WND, GWL_STYLE);
 #endif
 
 #ifdef X11
