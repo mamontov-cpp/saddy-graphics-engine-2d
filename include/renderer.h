@@ -177,15 +177,15 @@ protected:
 	/*! A current scene. May be old, when user called sad::Renderer::setScene
 		and sad::Scene is being rendered
 	 */
-	Scene*               m_scene;	 
+	sad::Scene*               m_scene;	 
 	/*! A new scene. For most time is NULL, but if user set new scene via
 		sad::Renderer::setScene it could be not NULL
 	 */
-	Scene*               m_new_scene;     
+	sad::Scene*               m_new_scene;     
 		
 	/*! A settings for a renderer
 	 */
-	Settings             m_glsettings;  
+	sad::Settings             m_glsettings;  
 	/*! Determines whether sad::Renderer is entered main loop
 	 */
 	bool                 m_running;       
