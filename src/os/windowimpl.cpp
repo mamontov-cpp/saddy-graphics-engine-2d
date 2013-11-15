@@ -377,12 +377,12 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 		return false;
 	}
 
-	sad::String message = str(fmt::Format("Connected to display 0 on handle {0}") << dpy);
-	SL_COND_LOCAL_INTERNAL(message, this->renderer());
+	sad::String conmesg = str(fmt::Format("Connected to display 0 on handle {0}") << dpy);
+	SL_COND_LOCAL_INTERNAL(conmesg, this->renderer());
 
   	m_handles.Screen = DefaultScreen(m_handles.Dpy);
-	sad::String message = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
-	SL_COND_LOCAL_INTERNAL(message, this->renderer());
+	sad::String defscreenmesg = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
+	SL_COND_LOCAL_INTERNAL(defscreenmesg, this->renderer());
 
 	//  Try to check, whether window can be created as OpenGL3 compatible
 	//  and set FBConfig
@@ -468,7 +468,7 @@ int sad::os::WindowImpl::pickBestFBConfig(int fbcount, GLXFBConfig * configs)
 
 void sad::os::WindowImpl::closeConnection()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::closeConnection()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::closeConnection()", this->renderer());
 	if (m_handles.Win != 0)
 	{
 		XDestroyWindow(m_handles.Dpy, m_handles.Win);
@@ -489,14 +489,18 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 	{
 		return false;
 	}
+	bool result = true;
 	// If we are compatible with GL3  - pick visual info from FBConfig
 	if (m_gl3compatible)
-
+	{
 		SL_COND_LOCAL_INTERNAL(
 			"Getting XVisualInfo from GLXFBConfig...", 
 			this->renderer()
 		);
-		m_handles.VisualInfo = glXGetVisualFromFBConfig( m_handles.Dpy, m_handles.FBC );
+		m_handles.VisualInfo = glXGetVisualFromFBConfig( 
+			m_handles.Dpy, 
+			m_handles.FBC 
+		);
 	}
 
 	int attrlistsinglebuffered[] = {
@@ -517,7 +521,8 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 		None 
 	};
 
-	m_handles.VisualInfo = glXChooseVisual(
+	
+	this->m_handles.VisualInfo = glXChooseVisual(
 		m_handles.Dpy, 
 		m_handles.Screen, 
 		attrlistdoublebuffered
@@ -525,7 +530,7 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 
   	if (m_handles.VisualInfo == NULL)
   	{
-        m_handles.VisualInfo = glXChooseVisual(
+		m_handles.VisualInfo = glXChooseVisual(
 			m_handles.Dpy, 
 			m_handles.Screen, 
 			attrlistsinglebuffered
@@ -535,15 +540,14 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 			this->renderer()
 		);
 
-    }
-	bool result =  true;
+	}
   	if (m_handles.VisualInfo == NULL)
   	{
 		SL_COND_LOCAL_INTERNAL(
 			"glXChooseVisual() failed for singlebuffering", 
 			this->renderer()
 		);
-        result = false;
+		result = false;
   	}
 	return result;
 }
@@ -557,7 +561,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	}
 
 	Atom wmDelete;
-	X11Window winDummy;
+	::Window winDummy;
 
 	m_handles.ColorMap = XCreateColormap(
 		 m_handles.Dpy, 
@@ -828,7 +832,7 @@ void sad::os::WindowImpl::leaveFullscreen()
 
 void sad::os::WindowImpl::sendNetWMFullscreenEvent(bool fullscreen)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::sendNetWMFullscreenEvent()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::sendNetWMFullscreenEvent()", this->renderer());
 
 	if (!valid())
 		return;
