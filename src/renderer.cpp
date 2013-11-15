@@ -274,12 +274,6 @@ void sad::Renderer::reshape(int width, int height)
 	// Clear modelview matrix
 	glMatrixMode (GL_MODELVIEW);										
 	glLoadIdentity ();													
-	/*
-	this->controls()
-		->postResize(sad::ResizeEvent( 
-								 m_window.height,m_window.width,height,width
-	                             ));
-	*/
 }
 
 #ifndef GL_GENERATE_MIPMAP_HINT
@@ -289,7 +283,7 @@ void sad::Renderer::reshape(int width, int height)
 //Getting a black background with all params
 bool sad::Renderer::initGLRendering()
 {
-    SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
+	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f,0.0f,0.0f,0.0f); 
 	glClearDepth(1.0f);

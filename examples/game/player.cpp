@@ -22,6 +22,7 @@ Player::Player()
 
 void Player::tryLookAt(const sad::Event & p)
 {
+	SL_DEBUG(fmt::Format("{0} {1}") << p.x << p.y);
 	if (this->game()->isPlaying())
 	{
 		this->lookAt(sad::Point2D(p.x, p.y));

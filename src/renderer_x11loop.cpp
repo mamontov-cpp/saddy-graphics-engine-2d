@@ -28,7 +28,7 @@ void sad::Renderer::mainLoop()
 	param.sched_priority = 77; // Don't set too much, since we still may need to switch to other windows	
 	if (sched_setscheduler(myprocesspid, SCHED_FIFO, &param) != 0) 
 	{
-		SL_LOCAL_DEBUG("Failed to set process priority", *this);
+		SL_LOCAL_INTERNAL("Failed to set process priority", *this);
 	}
   
 	m_running = true;											
