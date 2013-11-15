@@ -14,7 +14,7 @@ void StartScreenRain::perform()
         if (m_game->isPaused() == false &&  ocount < 60)
 	{
 		// Compute position for new object
-		double padding  = 12; // A small paddings out of scren borders
+		double padding  = 12; // A small paddings out of screen borders
 		double xmin = padding,  ymin = padding; 
 		double xmax = sad::Renderer::ref()->settings().width() - padding;
 		double ymax = sad::Renderer::ref()->settings().height() - padding;
