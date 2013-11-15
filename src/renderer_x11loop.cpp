@@ -22,7 +22,7 @@ void sad::Renderer::mainLoop()
   // Set realtime priority
   pid_t myprocesspid = getpid();
   sched_param param;
-  param.sched_priority = 77; // Don't set too much, since we still may need to switch	
+  param.sched_priority = 77; // Don't set too much, since we still may need to switch to other windows	
   if (sched_setscheduler(myprocesspid, SCHED_FIFO, &param) != 0) 
   {
 	SL_DEBUG("Failed to set scheduler");
@@ -161,23 +161,10 @@ void sad::Renderer::mainLoop()
 		sched_yield();
        }
        
-	//Change scene, if need so
-	if (m_chscene) 
-	{ setCurrentScene(m_chscene); m_chscene=NULL;}
-	m_timer.stop();
-	double elapsed = m_timer.elapsed();
-	// Reset counter to avoid FPS jumps
-	if (m_window.active == false)  m_timer.start();
-	if (m_setimmediately || elapsed  > 2000.0)
-	{
-		setFPS( 1000.0 * m_frames / m_timer.elapsed() );
-		m_frames = 0;
-		m_reset = true;
-		m_setimmediately = false;
-	}
   }
- this->controls()->postQuit();
-  m_window.active=false;
-  this->releaseWindow();
+	this->controls()->postQuit();
+	m_window.active=false;
+	m_running = false;
+	this->releaseWindow();
 }
 

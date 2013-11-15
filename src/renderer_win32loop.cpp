@@ -45,70 +45,61 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 
 void sad::Renderer::mainLoop()
 {
- m_data.lock();
- if (m_renderers.contains(this->window()->handles()->WND)) 
- {
-	m_renderers[this->window()->handles()->WND] =  this;
- }
- else
- {
-	 m_renderers.insert(this->window()->handles()->WND, this);
- }
- m_data.unlock();
+	m_data.lock();
+	if (m_renderers.contains(this->window()->handles()->WND)) 
+	{
+		m_renderers[this->window()->handles()->WND] =  this;
+	}
+	else
+	{
+		m_renderers.insert(this->window()->handles()->WND, this);
+	}
+	m_data.unlock();
 
 
- SetConsoleCtrlHandler(handleClosing, FALSE);
- SetConsoleCtrlHandler(handleClosing, TRUE);
-
- int frames=0;
+	SetConsoleCtrlHandler(handleClosing, FALSE);
+	SetConsoleCtrlHandler(handleClosing, TRUE);
  
- m_fps = 75;
- m_setimmediately = true;
- m_frames = 0;
+	m_fps = 75;
+	m_setimmediately = true;
+	m_frames = 0;
 
- //bool isMessagePumpActive;
- MSG msg;
+	MSG msg;
 
- m_running = true;											// Program Looping Is Set To TRUE
- this->window()->setActive(true);
+	m_running = true;											
+	this->window()->setActive(true);
 
- while (m_running)											// Loop Until WM_QUIT Is Received
- {					
-  // Check For Window Messages
-	if (PeekMessage (&msg, this->window()->handles()->WND, 0, 0, PM_REMOVE) != 0)
-  {
-     TranslateMessage(&msg);
-	 // Check For WM_QUIT Message
-	 if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
-	 {		 
-	  DispatchMessage(&msg);
-	 }
-	 else											// Otherwise (If Message Is WM_QUIT)
-	 {
-		m_running = false;				// Terminate The Message Loop
-	 }
-   }
-   else												// If There Are No Messages
-   {
-	  // Process Application Loop
-	  //Update a window, if active
-	  if (m_window->active())
-	  {
-		 update();
-	  }
-	  else 
-	  {
-		  // Reset timer, so no big FPS jump at time
-		  m_timer.start();
-		  sad::sleep(50);
-	  }
-	  
-	  
-   }
-  }
- this->controls()->postQuit();
- m_window->setActive(false);
- m_renderers.remove(this->window()->handles()->WND);
+	while (m_running)											
+	{					
+		if (PeekMessage (&msg, this->window()->handles()->WND, 0, 0, PM_REMOVE) != 0)
+		{
+			TranslateMessage(&msg);
+			if (msg.message != WM_QUIT)					
+			{		 
+				DispatchMessage(&msg);
+			}
+			else											
+			{
+				m_running = false;				
+			}
+		}
+		else												
+		{
+			if (m_window->active())
+			{
+				update();
+			}
+			else 
+			{
+				m_timer.start();
+				sad::sleep(50);
+			} 
+		}
+	}
+	this->controls()->postQuit();
+	m_window->setActive(false);
+	m_running = false;
+	m_renderers.remove(this->window()->handles()->WND);
 }
 
 
