@@ -429,3 +429,13 @@ bool sad::os::GLContextImpl::isOpenGL3compatible() const
 {
 	return m_isopengl3compatible;
 }
+
+
+sad::Renderer * sad::os::GLContextImpl::renderer() const
+{
+	if (m_win) 
+	{
+		return m_win->renderer();
+	}
+	return NULL;
+}
