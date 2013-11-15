@@ -1,5 +1,7 @@
 #include "renderer.h"
 #include "texturemanager.h"
+#include "os/windowhandles.h"
+#include "window.h"
 
 sad::Point3D sad::Renderer::mousePos()
 {
@@ -7,10 +9,10 @@ sad::Point3D sad::Renderer::mousePos()
 	int wx=0, wy=0;
 	unsigned int mask=0;
 	::Window rootw,childw;
-	XQueryPointer(m_window.dpy, m_window.win, &rootw ,&childw, &x, &y, &wx, &wy, &mask);
+	XQueryPointer(m_window->handles()->Dpy, m_window->handles()->Win, &rootw ,&childw, &x, &y, &wx, &wy, &mask);
 	
 	sad::Point2D point = this->window()->toClient(
-		sad::Point2D(p.x, p.y)
+		sad::Point2D(x, y)
 	);
 	return this->context()->mapToViewport(point, m_glsettings.ztest());
 	
