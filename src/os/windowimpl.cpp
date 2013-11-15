@@ -259,7 +259,7 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 			0, 
 			m_handles.AdjustedWindowRect.right - m_handles.AdjustedWindowRect.left,
 			m_handles.AdjustedWindowRect.bottom - m_handles.AdjustedWindowRect.top, 
-			SWP_NOSENDCHANGING | SWP_SHOWWINDOW
+			SWP_NOSENDCHANGING 
 		);  
 		
 		RECT windowrect;
