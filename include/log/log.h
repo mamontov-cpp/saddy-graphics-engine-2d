@@ -334,3 +334,29 @@ protected:
 /*! Creates new message in local log R with message X and priority SADDY_INTERNAL
  */
 #define SL_LOCAL_INTERNAL(X, R) (R).log()->saddyInternal(X, __FILE__, __LINE__)
+
+
+/*! Created new internal message in local log of renderer R 
+    with message X and priority SADDY_INTERNAL, if
+    pointer to renderer R is not null
+ */
+#define SL_COND_LOCAL_INTERNAL(X, R)   \
+	{                                  \
+	   if (R)                          \
+	   {                               \
+	      (R)->log()->saddyInternal(X, __FILE__, __LINE__);  \
+       }                               \
+    }
+
+
+/*! Created new fatal message in local log of renderer R 
+    with message X and priority SADDY_INTERNAL, if
+    pointer to renderer R is not null
+ */
+#define SL_COND_LOCAL_FATAL(X, R)      \
+	{                                  \
+	   if (R)                          \
+	   {                               \
+	      (R)->log()->fatal(X, __FILE__, __LINE__);  \
+       }                               \
+    }
