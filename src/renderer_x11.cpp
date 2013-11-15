@@ -2,6 +2,7 @@
 #include "texturemanager.h"
 #include "os/windowhandles.h"
 #include "window.h"
+#include "glcontext.h"
 
 sad::Point3D sad::Renderer::mousePos()
 {

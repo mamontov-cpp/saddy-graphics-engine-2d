@@ -1,10 +1,12 @@
-#include <x11recode.h>
 #include <time.h>
 #include <sched.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include "os/windowhandles.h"
 #include "window.h"
+#include "glcontext.h"
+#include "x11recode.h"
+
 
 static clock_t dblclick=0;
 static clock_t clk=0;
@@ -47,7 +49,7 @@ void sad::Renderer::mainLoop()
 			switch (event.type)
 			{
 				case Expose:                 {
-												m_window->setActive(true)
+												m_window->setActive(true);
 												break;
                                              }
                case ConfigureNotify:         {
@@ -144,7 +146,7 @@ void sad::Renderer::mainLoop()
         };
        }
        //Update a window, if active
-       if (m_window.active)
+       if (m_window->active())
        {
 		update();
        }
