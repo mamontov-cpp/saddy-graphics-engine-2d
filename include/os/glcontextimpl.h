@@ -14,6 +14,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace os
 {
 
@@ -64,6 +66,9 @@ public:
 		\return whether it's compatible
 	 */
 	virtual bool isOpenGL3compatible() const;
+	/*! Returns current attached renderer, if has one
+	 */
+	virtual sad::Renderer * renderer() const;
 protected:
 	/*! A handle for implementation
 	 */
