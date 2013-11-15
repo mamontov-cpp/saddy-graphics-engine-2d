@@ -59,3 +59,8 @@ void sad::GLContext::setImplementation(sad::os::GLContextImpl * i)
 	delete m_dptr;
 	m_dptr = i;
 }
+
+sad::Renderer * sad::GLContext::renderer() const
+{
+	return m_dptr->renderer();
+}

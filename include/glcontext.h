@@ -72,6 +72,10 @@ public:
 	/*! Destroys a context. DO NOT USE IT!
 	 */
 	void destroy();
+	/*! Returns a renderer, associated with context
+		\return renderer
+	 */
+	sad::Renderer * renderer() const;
 private:
 	/*! A pointer to implementation of OpenGL context
 	 */
