@@ -7,10 +7,6 @@
 #include "3rdparty/glext/glxext.h"
 #endif
 
-#define SL_WINDOW_INTERNAL_SCOPE(X)   \
-if (this->renderer()) {				  \
-	SL_INTERNAL_SCOPE(X, *(this->renderer()));  \
-}
 
 sad::os::WindowImpl::WindowImpl()
 : 
@@ -56,7 +52,7 @@ void sad::os::WindowImpl::setCreationSize(const sad::Size2I& size)
 
 bool sad::os::WindowImpl::create()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::create()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::create()", this->renderer());
 	// Do not do anything, when window implementation is valid
 	if (valid())
 		return true;
@@ -95,14 +91,7 @@ bool sad::os::WindowImpl::create()
 
 	if (result == false)
 	{
-		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_FATAL(
-				"Failed to create window",
-				*(this->renderer())
-			);
-		}
-
+		SL_COND_LOCAL_FATAL("Failed to create window", this->renderer());
 		this->destroy();
 	}
 
@@ -122,7 +111,7 @@ LRESULT CALLBACK sad_renderer_window_proc (
 
 bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::registerWindowClass()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::registerWindowClass()", this->renderer());
 
 	if (!lastresult) 
 	{
@@ -149,11 +138,11 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
 
 	ATOM registerresult = RegisterClassA(&wc);
 	bool result = (registerresult != 0);
-    if (result == false && this->renderer() != NULL)
+    if (result == false)
 	{
-		SL_LOCAL_FATAL(
-			fmt::Format("Failed to register class \"{0}\"") << m_handles.Class,
-			*(this->renderer())
+		SL_COND_LOCAL_FATAL(
+			fmt::Format("Failed to register class \"{0}\"") << m_handles.Class, 
+			this->renderer()
 		);
 
 		m_handles.ProcessInstance = NULL;
@@ -165,6 +154,8 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
 
 void sad::os::WindowImpl::unregisterWindowClass()
 {
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::unregisterWindowClass()", this->renderer());
+
 	if (m_handles.Class.length() != 0)
 	{
 		UnregisterClassA(m_handles.Class.data(), m_handles.ProcessInstance);
@@ -176,7 +167,7 @@ void sad::os::WindowImpl::unregisterWindowClass()
 
 bool sad::os::WindowImpl::adjustWindowRect(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::adjustWindowRect()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::adjustWindowRect()", this->renderer());
 
 	if (!lastresult) 
 	{
@@ -191,37 +182,35 @@ bool sad::os::WindowImpl::adjustWindowRect(bool lastresult)
 	m_handles.AdjustedWindowRect.top   =(long)0;
 	m_handles.AdjustedWindowRect.bottom=(long)m_creation_size.Height;
 
-	if (this->renderer() != NULL)
-	{
-		SL_LOCAL_INTERNAL(
-			fmt::Format("Requested client size is [left: {0}, right: {1}, top: {2}, bottom: {3}]")
-			<< m_handles.AdjustedWindowRect.left
-			<< m_handles.AdjustedWindowRect.right
-			<< m_handles.AdjustedWindowRect.top
-			<< m_handles.AdjustedWindowRect.bottom			
-			, *(this->renderer())
-		);
-	}
+	SL_COND_LOCAL_INTERNAL(
+		fmt::Format("Requested client size is [left: {0}, right: {1}, top: {2}, bottom: {3}]")
+		<< m_handles.AdjustedWindowRect.left
+		<< m_handles.AdjustedWindowRect.right
+		<< m_handles.AdjustedWindowRect.top
+		<< m_handles.AdjustedWindowRect.bottom			
+		, 
+		this->renderer()
+	);
+
 
 	AdjustWindowRectEx(&(m_handles.AdjustedWindowRect),style,FALSE,ex_style);
 	
-	if (this->renderer() != NULL)
-	{
-		SL_LOCAL_INTERNAL(
-			fmt::Format("Adjusted window size is [left: {0}, right: {1}, top: {2}, bottom: {3}]")
-			<< m_handles.AdjustedWindowRect.left
-			<< m_handles.AdjustedWindowRect.right
-			<< m_handles.AdjustedWindowRect.top
-			<< m_handles.AdjustedWindowRect.bottom			
-			, *(this->renderer())
-		);
-	}
+	
+	SL_COND_LOCAL_INTERNAL(
+		fmt::Format("Adjusted window size is [left: {0}, right: {1}, top: {2}, bottom: {3}]")
+		<< m_handles.AdjustedWindowRect.left
+		<< m_handles.AdjustedWindowRect.right
+		<< m_handles.AdjustedWindowRect.top
+		<< m_handles.AdjustedWindowRect.bottom			
+		, this->renderer()
+	);
+
 	return true;
 }
 
 bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::makeWindowAndObtainDeviceContext()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::makeWindowAndObtainDeviceContext()", this->renderer());
 
 	if (!lastresult) 
 	{
@@ -245,16 +234,11 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 	bool result = (m_handles.WND != NULL);
 	if (m_handles.WND == NULL)
 	{
-		if (this->renderer() != NULL)
-		{
-			sad::String msg = str(
+		sad::String msg = str(
 				fmt::Format("CreateWindowExA() failed with code {0}") 
 				<< GetLastError()
-			);
-			SL_LOCAL_INTERNAL(
-				msg, *(this->renderer())
-			);
-		}
+		);
+		SL_COND_LOCAL_INTERNAL(msg, this->renderer());
 	}
 	else
 	{
@@ -262,16 +246,11 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 		if (m_handles.DC == NULL)
 		{
 			result = false;
-			if (this->renderer() != NULL)
-			{
-				SL_LOCAL_INTERNAL(
-					"GetDC() failed", *(this->renderer())
-				);
-			}
+			SL_COND_LOCAL_INTERNAL("GetDC() failed", this->renderer());
 		}
 	}
 	
-	if (result && this->renderer() != NULL)
+	if (result)
 	{
 		SetWindowPos(
 			m_handles.WND, 
@@ -285,24 +264,24 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 		
 		RECT windowrect;
 		GetWindowRect(m_handles.WND, &windowrect);
-		SL_LOCAL_INTERNAL(
+		SL_COND_LOCAL_INTERNAL(
 			fmt::Format("Created window rectangle with [left: {0}, top: {1}, right: {2}, bottom: {3}]") 
 			<< windowrect.left 
 			<< windowrect.top 
 			<< windowrect.right 
 			<< windowrect.bottom,
-			*(this->renderer())
+			this->renderer()
 	    );
 
 		RECT clientrect;
 		GetClientRect(m_handles.WND, &clientrect);
-		SL_LOCAL_INTERNAL(
+		SL_COND_LOCAL_INTERNAL(
 			fmt::Format("Created client rectangle with [left: {0}, top: {1}, right: {2}, bottom: {3}]") 
 			<< clientrect.left 
 			<< clientrect.top 
 			<< clientrect.right 
 			<< clientrect.bottom,
-			*(this->renderer())
+			this->renderer()
 		);
 
 		ShowWindow(m_handles.WND, SW_HIDE);
@@ -314,24 +293,24 @@ bool sad::os::WindowImpl::makeWindowAndObtainDeviceContext(bool lastresult)
 
 void sad::os::WindowImpl::releaseContextAndDestroyWindow()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::releaseContextAndDestroyWindow()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::releaseContextAndDestroyWindow()", this->renderer());
 
 	if (m_handles.DC && !ReleaseDC(m_handles.WND,m_handles.DC))
 	{
-		SL_LOCAL_INTERNAL("ReleaseDC() failed", *(this->renderer()));
+		SL_COND_LOCAL_INTERNAL("ReleaseDC() failed", this->renderer());
 		m_handles.DC = NULL;
 	}
   
 	if (m_handles.WND && !DestroyWindow(m_handles.WND))
 	{
-		SL_LOCAL_INTERNAL("DestroyWindow() failed", *(this->renderer()));
+		SL_COND_LOCAL_INTERNAL("DestroyWindow() failed", this->renderer());
 		m_handles.WND = NULL;
 	}
 }
 
 bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor()", this->renderer());
 
 	if (!lastresult)
 	{
@@ -364,20 +343,14 @@ bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)
 	if (!pixelformat)
 	{
 		result = false;
-		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_INTERNAL("ChoosePixelFormat() failed", *(this->renderer()));
-		}
+		SL_COND_LOCAL_INTERNAL("ChoosePixelFormat() failed", this->renderer());
 	} 
 	else
 	{
 		if (!SetPixelFormat(m_handles.DC, pixelformat, &pfd))
 		{
 			result = false;
-			if (this->renderer() != NULL)
-			{
-				SL_LOCAL_INTERNAL("SetPixelFormat() failed", *(this->renderer()));
-			}
+			SL_COND_LOCAL_INTERNAL("SetPixelFormat() failed", this->renderer());
 		}
 	}
 	return true;
@@ -389,7 +362,7 @@ bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)
 
 bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::openConnectionAndScreen()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::openConnectionAndScreen()", this->renderer());
 	if (!lastresult)
 	{
 		return false;
@@ -400,25 +373,16 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 	if (m_handles.Dpy == NULL)
 	{
 		m_handles.Screen = 0;
-		if (this->renderer())
-		{
-			SL_LOCAL_INTERNAL("XOpenDisplay(0) failed", *(this->renderer()));
-		}
+		SL_COND_LOCAL_INTERNAL("XOpenDisplay(0) failed", this->renderer());
 		return false;
 	}
 
-	if (this->renderer())
-	{
-		sad::String message = str(fmt::Format("Connected to display 0 on handle {0}") << dpy);
-		SL_LOCAL_INTERNAL(message, *(this->renderer()));
-	}
+	sad::String message = str(fmt::Format("Connected to display 0 on handle {0}") << dpy);
+	SL_COND_LOCAL_INTERNAL(message, this->renderer());
 
   	m_handles.Screen = DefaultScreen(m_handles.Dpy);
-	if (this->renderer())
-	{
-		sad::String message = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
-		SL_LOCAL_INTERNAL(message, *(this->renderer()));
-	}
+	sad::String message = str(fmt::Format("Default screen is {0}") << m_handles.Screen);
+	SL_COND_LOCAL_INTERNAL(message, this->renderer());
 
 	//  Try to check, whether window can be created as OpenGL3 compatible
 	//  and set FBConfig
@@ -454,11 +418,9 @@ bool sad::os::WindowImpl::openConnectionAndScreen(bool lastresult)
 				visualattribs, 
 				&fbcount 
 			);
-			if (this->renderer())
-			{
-				sad::String message = str(fmt::Format("Found {0} matching FB configs") << fbcount);
-				SL_LOCAL_INTERNAL(message, *(this->renderer()));
-			}
+			sad::String message = str(fmt::Format("Found {0} matching FB configs") << fbcount);
+			SL_COND_LOCAL_INTERNAL(message, this->renderer());
+
 			int bestfbindex = pickBestFBConfig(fbcount, configs);
 			m_handles.FBC = configs[ bestfbindex ];
 			XFree( configs );
@@ -522,18 +484,18 @@ void sad::os::WindowImpl::closeConnection()
 
 bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::chooseVisualInfo()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::chooseVisualInfo()", this->renderer());
 	if (!lastresult)
 	{
 		return false;
 	}
 	// If we are compatible with GL3  - pick visual info from FBConfig
 	if (m_gl3compatible)
-	{
-		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_INTERNAL("Getting XVisualInfo from GLXFBConfig...", *(this->renderer()));
-		}
+
+		SL_COND_LOCAL_INTERNAL(
+			"Getting XVisualInfo from GLXFBConfig...", 
+			this->renderer()
+		);
 		m_handles.VisualInfo = glXGetVisualFromFBConfig( m_handles.Dpy, m_handles.FBC );
 	}
 
@@ -568,18 +530,19 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 			m_handles.Screen, 
 			attrlistsinglebuffered
 		);
-		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_INTERNAL("glXChooseVisual() failed, defaulting to singlebuffering", *(this->renderer()));
-		}
+		SL_COND_LOCAL_INTERNAL(
+			"glXChooseVisual() failed, defaulting to singlebuffering", 
+			this->renderer()
+		);
+
     }
 	bool result =  true;
   	if (m_handles.VisualInfo == NULL)
   	{
-  		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_INTERNAL("glXChooseVisual() failed for singlebuffering", *(this->renderer()));
-		}
+		SL_COND_LOCAL_INTERNAL(
+			"glXChooseVisual() failed for singlebuffering", 
+			this->renderer()
+		);
         result = false;
   	}
 	return result;
@@ -587,7 +550,7 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 
 bool sad::os::WindowImpl::createWindow(bool lastresult)
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::createWindow()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::createWindow()", this->renderer());
 	if (!lastresult)
 	{
 		return false;
@@ -632,10 +595,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	// Stop here, because we cannot create window
 	if (m_handles.Win == None)
 	{
-		if (this->renderer() != NULL)
-		{
-			SL_LOCAL_INTERNAL("XCreateWindow() failed", *(this->renderer()));
-		}
+		SL_COND_LOCAL_INTERNAL("XCreateWindow() failed", this->renderer());
 		return false;
 	}
 
@@ -662,7 +622,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 
 void sad::os::WindowImpl::close() 
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::close()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::close()", this->renderer());
 	
 	if (!valid())
 		return;
@@ -690,7 +650,7 @@ void sad::os::WindowImpl::close()
 
 void sad::os::WindowImpl::destroy()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::destroy()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::destroy()", this->renderer());
 
 	typedef void (sad::os::WindowImpl::*CleanupStep)();
 
@@ -740,7 +700,7 @@ bool sad::os::WindowImpl::fixed() const
 
 void sad::os::WindowImpl::makeFixedSize()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::makeFixedSize()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::makeFixedSize()", this->renderer());
 
 	m_fixed = true;
 
@@ -770,7 +730,7 @@ void sad::os::WindowImpl::makeFixedSize()
 
 void sad::os::WindowImpl::makeResizeable()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::makeResizeable()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::makeResizeable()", this->renderer());
 
 	m_fixed = false;
 
@@ -805,7 +765,7 @@ bool sad::os::WindowImpl::fullscreen() const
 
 void sad::os::WindowImpl::enterFullscreen()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::enterFullscreen()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::enterFullscreen()", this->renderer());
 
 	m_fullscreen = true;
 
@@ -843,7 +803,7 @@ void sad::os::WindowImpl::enterFullscreen()
 
 void sad::os::WindowImpl::leaveFullscreen()
 {
-	SL_WINDOW_INTERNAL_SCOPE("sad::os::WindowImpl::leaveFullscreen()");
+	SL_COND_INTERNAL_SCOPE("sad::os::WindowImpl::leaveFullscreen()", this->renderer());
 	m_fullscreen = false;
 
 	if (!valid())
