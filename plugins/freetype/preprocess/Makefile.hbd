@@ -6,6 +6,7 @@ DEFINES  = -DWIN32 -DMINGW
 INCLUDE  = -I../../include -I"%FREETYPE_INCLUDE%"
 else
 DEFINES  = -DUNIX -DLINUX -DGCC
+INCLUDE = -I../../include -I/usr/include/freetype2/ -I/usr/include/
 endif
 
 TYPE     = {TYPE}
