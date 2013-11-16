@@ -501,6 +501,12 @@ bool sad::os::WindowImpl::chooseVisualInfo(bool lastresult)
 			m_handles.Dpy, 
 			m_handles.FBC 
 		);
+		sad::String visualidmesg = str(fmt::Format("Chosen visualID - {0}")  << m_handles.VisualInfo->visualid);
+		SL_COND_LOCAL_INTERNAL(
+			visualidmesg, 
+			this->renderer()
+		);
+		return true;
 	}
 
 	int attrlistsinglebuffered[] = {
@@ -573,6 +579,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	XSetWindowAttributes attr;
 	attr.colormap = m_handles.ColorMap;
 	attr.border_pixel = 0;
+	attr.background_pixmap = None ;
 	attr.event_mask = ExposureMask 
 					| KeyPressMask 
 					| ButtonPressMask 
@@ -602,7 +609,6 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 		SL_COND_LOCAL_INTERNAL("XCreateWindow() failed", this->renderer());
 		return false;
 	}
-
 	wmDelete = XInternAtom(m_handles.Dpy, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(m_handles.Dpy,  m_handles.Win, &wmDelete, 1);
 	XSetStandardProperties(
@@ -615,6 +621,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 		0, 
 		NULL
 	);
+	
 	// Commented: unless explicity told to, we should not expos window
 	// XMapRaised(m_handles.Dpy,  m_handles.Win);
 
