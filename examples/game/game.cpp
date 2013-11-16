@@ -141,13 +141,8 @@ void Game::tryToggleFullscreen()
 
 void Game::run()
 {
-	// Init new empty scene with orthographic projection
-	sad::Scene * sc= new sad::Scene();
-	sc->setCamera(new sad::OrthographicCamera());
-	sad::Renderer::ref()->setScene(sc);
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
 
-	
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();
 	SL_MESSAGE("Mips built successfully");	

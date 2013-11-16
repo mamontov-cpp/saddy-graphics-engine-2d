@@ -8,7 +8,7 @@
 
 namespace sad
 {
-
+class Scene;
 /*! A camera, which rotates and translates all space, using OpenGL functions, first
 	translates using glTranslatef, than rotates using glRotatef
  */
@@ -50,6 +50,9 @@ public:
 	/*! A pivot vector point for rotation, used to be substituted to glRotatef
 	 */
 	sad::Vector3D  RotationVectorDirection;
+	/*! Attached scene to a camera
+	 */
+	sad::Scene *   Scene;
 };
 
 }

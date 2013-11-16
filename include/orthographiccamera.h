@@ -22,9 +22,8 @@ class OrthographicCamera: public sad::Camera
 public:
 	/*! Creates a camera, with rectangle width and height, taken from 
 		window settings of renderer.
-		\param[in] r renderer which it works with. If NULL, global renderer is used
 	 */
-	OrthographicCamera(sad::Renderer * r = NULL);
+	OrthographicCamera();
 	/*! Creates a camera, width and height of orthographic projections, 
 		so all viwed objects will be within
 		width and specified height
@@ -40,6 +39,9 @@ public:
 	 */
 	virtual ~OrthographicCamera();
 private:
+	/*! Whether width and height is already set in camera
+	 */
+	bool m_fetched;  
 	int  m_width;    //!< Width or viewed maximal X coordinate 
 	int  m_height;   //!< Height  or viewed maximal Y coordinate 
 };

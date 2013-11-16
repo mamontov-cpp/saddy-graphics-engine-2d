@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "input.h"
 #include "renderer.h"
+#include "orthographiccamera.h"
 
 #include <time.h>
 
@@ -27,11 +28,11 @@ sad::BasicNode::~BasicNode()
 }
 
 sad::Scene::Scene()
+: m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
-
- m_camera   = new Camera();
- m_renderer = NULL;
+	m_camera->Scene = this;
 }
+
 sad::Scene::~Scene()
 {
 	for (unsigned long i=0;i<this->m_layers.count();i++)
