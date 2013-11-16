@@ -3,7 +3,8 @@
 #include "log/log.h"
 
 #include "3rdparty/glext/glext.h"
-#include "extchecker.h"
+#include <renderer.h>
+#include <opengl.h>
 
 #include <errno.h>
 
@@ -101,7 +102,7 @@ void sad::Texture::upload()
     
 	// Build Mip Maps	
 	GLint res;
-	sad::Pair<int,int> version = ext::version();
+	sad::Pair<int,int> version = sad::Renderer::ref()->opengl()->version();
 	if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
 	{
 		if (version.p1() == 1 && version.p2() < 4)

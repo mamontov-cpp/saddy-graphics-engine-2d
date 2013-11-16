@@ -33,6 +33,7 @@ class TextureManager;
 class Window;
 class GLContext;
 class MouseCursor;
+class OpenGL;
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -146,6 +147,10 @@ public:
 		\param[in] cursor cursor implementation
 	 */
 	virtual void setCursor(sad::MouseCursor * cursor);
+	/*! Returns an OpenGL platform, where you could query all data
+		about current platform spec
+	 */
+	virtual sad::OpenGL * opengl() const;
 #ifdef WIN32
 	/*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
@@ -191,7 +196,10 @@ protected:
 	sad::TextureManager * m_texture_manager; 
 	/*! Returns mouse cursor, associated with renderer
 	 */
-	sad::MouseCursor*         m_cursor;
+	sad::MouseCursor*       m_cursor;
+	/*! An OpenGL platform implementation part
+	 */
+	sad::OpenGL*            m_opengl;
 
 	/*! A timer, for computng FPS
 	 */

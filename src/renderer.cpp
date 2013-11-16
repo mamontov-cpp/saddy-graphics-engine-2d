@@ -8,6 +8,7 @@
 #include "window.h"
 #include "glcontext.h"
 #include "mousecursor.h"
+#include "opengl.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
@@ -22,11 +23,13 @@ m_scene(new sad::Scene()),
 m_new_scene(NULL),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
-m_cursor(new sad::MouseCursor())
+m_cursor(new sad::MouseCursor()),
+m_opengl(new sad::OpenGL())
 {
 	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
+	m_opengl->setRenderer(this);
 }
 
 sad::Renderer::~Renderer(void)
@@ -39,6 +42,7 @@ sad::Renderer::~Renderer(void)
 	delete m_texture_manager;
 	delete m_window;
 	delete m_context;
+	delete m_opengl;
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -259,6 +263,11 @@ void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 {
 	delete m_cursor;
 	m_cursor = cursor;
+}
+
+sad::OpenGL * sad::Renderer::opengl() const
+{
+	return m_opengl;
 }
 
 void sad::Renderer::destroyInstance()
