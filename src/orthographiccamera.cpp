@@ -1,5 +1,6 @@
 #include "orthographiccamera.h"
 #include "renderer.h"
+#include "log/log.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -27,9 +28,9 @@ sad::OrthographicCamera::OrthographicCamera(int width, int height)
 void sad::OrthographicCamera::apply()
 {
 	glPushAttrib(GL_TRANSFORM_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0,m_width,0,m_height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0,m_width,0,m_height);
 	glPopAttrib();
 
 	this->sad::Camera::apply();

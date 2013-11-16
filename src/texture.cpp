@@ -9,8 +9,15 @@
 
 #ifdef LINUX
 #include <renderer.h>
+#include <GL/gl.h>
+#include <GL/glx.h>
 
-extern void ( * glXGetProcAddressARB (const GLubyte *procName)) (void);
+#ifdef  GLX_ARB_get_proc_adress
+	#define glxGetProcAdress glXGetProcAddressARB
+#else
+	#define glxGetProcAdress glXGetProcAddress
+#endif
+
 #endif
 
 #ifdef WIN32
@@ -28,7 +35,7 @@ static PFNGLGENERATEMIPMAPEXTPROC getglGenerateMipMaps()
 #ifdef WIN32
 		glGenerateMipMapsSaddy = (PFNGLGENERATEMIPMAPEXTPROC)wglGetProcAddress((LPCSTR)"glGenerateMipmap");
 #else
-		glGenerateMipMapsSaddy = (PFNGLGENERATEMIPMAPEXTPROC)(*glXGetProcAddressARB)((const GLubyte*)"glGenerateMipmap");
+		glGenerateMipMapsSaddy = (PFNGLGENERATEMIPMAPEXTPROC)(glxGetProcAdress)((const GLubyte*)"glGenerateMipmap");
 #endif
 	}
 	return glGenerateMipMapsSaddy;
@@ -68,9 +75,9 @@ void sad::Texture::upload()
 	GLuint type,components;
 	switch (m_bpp)
 	{
-		case 24: // 24 бита
+		case 24: 
 			type=GL_RGB;components=3; break;
-		case 32: // 32 бита
+		case 32: 
 			type=GL_RGBA;components=4; break;
 	};
     
@@ -86,7 +93,6 @@ void sad::Texture::upload()
 	makePOT();
 
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
-	// Устанавливаем параметры границ
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, what);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, what);
 
