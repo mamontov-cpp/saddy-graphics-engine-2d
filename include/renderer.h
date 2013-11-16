@@ -15,6 +15,7 @@
 #include "sadpoint.h"
 #include "log/log.h"
 #include "timer.h"
+#include "maybe.h"
 
 // This is a  problem - we included a header just because we need a system ops
 // When created sad::SystemEventDispatcher - give him an opportunity to work with
@@ -31,6 +32,10 @@ class FontManager;
 class TextureManager;
 class Window;
 class GLContext;
+class MouseCursor;
+/*! Can be a point or none, depending on context
+ */
+typedef sad::Maybe<sad::Point3D> MaybePoint3D;
 /*! \class Renderer
     Class, that provides all rendering and window operations.
     It wraps a low-level system calls to provide a simple interface
@@ -97,10 +102,15 @@ public:
 	/*! Determines, whether renderer's window and context are valid
 	 */
 	virtual bool hasValidContext();
-	/*! Returns a mouse position
-		\return mouse position in window coordinate.
+	/*! Returns a mouse cursor position, if can.
+		\return mouse cursor position in OpenGL viewport coordinates.
 	 */
-	virtual sad::Point3D mousePos();
+	virtual sad::MaybePoint3D cursorPosition() const;
+	/*! Sets a mouse cursor position, where p is point in client window 
+		area coordinates
+		\param[in] p point
+	 */
+	virtual void setCursorPosition(const sad::Point2D & p);
 	/*! Font manager data
 		\return fonts, loaded into renderer
 	 */
@@ -128,6 +138,14 @@ public:
 		\return settings
 	 */
 	virtual const sad::Settings & settings() const;
+	/*! Returns current cursor implementation
+		\return cursor implementation
+	 */
+	virtual sad::MouseCursor* cursor() const;
+	/*! Sets a cursor implementations
+		\param[in] cursor cursor implementation
+	 */
+	virtual void setCursor(sad::MouseCursor * cursor);
 #ifdef WIN32
 	/*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
@@ -171,6 +189,10 @@ protected:
 	/*! A texture collection, attached to a renderer
 	 */
 	sad::TextureManager * m_texture_manager; 
+	/*! Returns mouse cursor, associated with renderer
+	 */
+	sad::MouseCursor*         m_cursor;
+
 	/*! A timer, for computng FPS
 	 */
 	sad::Timer		     m_timer;            
@@ -181,7 +203,8 @@ protected:
 	/*! A new scene. For most time is NULL, but if user set new scene via
 		sad::Renderer::setScene it could be not NULL
 	 */
-	sad::Scene*               m_new_scene;     
+	sad::Scene*               m_new_scene;   
+
 		
 	/*! A settings for a renderer
 	 */
