@@ -178,10 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\extchecker.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\font.cpp"
 				>
 			</File>
@@ -223,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\src\object.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\opengl.cpp"
 				>
 			</File>
 			<File
@@ -327,10 +327,6 @@
 			</File>
 			<File
 				RelativePath=".\src\timer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\vbolayer.cpp"
 				>
 			</File>
 			<File
@@ -664,10 +660,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\extchecker.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\font.h"
 				>
 			</File>
@@ -717,6 +709,10 @@
 			</File>
 			<File
 				RelativePath=".\include\object.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\opengl.h"
 				>
 			</File>
 			<File
@@ -865,10 +861,6 @@
 			</File>
 			<File
 				RelativePath=".\include\unused.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\vbolayer.h"
 				>
 			</File>
 			<File
