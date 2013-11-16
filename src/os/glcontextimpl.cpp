@@ -20,6 +20,9 @@ static bool context_error_occured = false;
 
 static int context_error_handler( Display *dpy, XErrorEvent *ev )
 {
+    char buffer[5000];
+    XGetErrorText(ev->display, ev->error_code, buffer, 5000);
+    printf("\n%d %d: %s\n", ev->request_code, ev->minor_code, buffer);
     context_error_occured = true;
     return 0;
 }
@@ -221,9 +224,11 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
  
 		XSetErrorHandler( oldHandler );
 
-		if (context_error_occured)
+		if (context_error_occured) 
+		{
+			SL_COND_LOCAL_INTERNAL("There was an xserver error, while creating OpenGL3+ context", this->renderer());
 			result = false;
-
+		}
 		context_creation.unlock();
 
 		return result;
@@ -257,11 +262,14 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 		{
 			major = minor = 0;
 		}
+
 		// If we could create more advanced context - create it
 		if (major * 10 + minor >= 30)
 		{
 			SL_COND_LOCAL_INTERNAL("Trying to create GL3 context", this->renderer());			
-		
+			sad::String vermsg = str(fmt::Format("Version of context will be {0}.{1}") << major << minor);
+			SL_COND_LOCAL_INTERNAL(vermsg, this->renderer());			
+			
 			int contextattribs[] =
 			{
 				GLX_CONTEXT_MAJOR_VERSION_ARB, major,
@@ -276,6 +284,9 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 				True, 
 				contextattribs 
 			);
+			
+			XSync( m_win->handles()->Dpy, False );
+			
 			if (context != NULL)
 			{
 				SL_COND_LOCAL_INTERNAL("OpenGL3+ context successfully created", this->renderer());			
@@ -283,7 +294,7 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 				// We did it! Finally new context
 				glXMakeCurrent(m_win->handles()->Dpy, 0, 0);    
 				glXDestroyContext(m_win->handles()->Dpy, m_handle.Context);
-				m_handle.Context = context;
+				m_handle.Context = context;								
 				glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
 				m_isopengl3compatible = true;
 			}
@@ -296,6 +307,7 @@ bool sad::os::GLContextImpl::tryCreateOpenGL3Context(glXCreateContextAttribsARBP
 	}
 	else
 	{
+		SL_COND_LOCAL_INTERNAL("Failed to create simple context", this->renderer());						
 		return false;
 	}
 }
@@ -314,7 +326,6 @@ bool sad::os::GLContextImpl::makeDefaultContext()
 	if (m_handle.Context != NULL)
 	{
 		SL_COND_LOCAL_INTERNAL("Successfully created simple OpenGL context", this->renderer());			
-
 		glXMakeCurrent(
 			m_win->handles()->Dpy, 
 			m_win->handles()->Win, 
