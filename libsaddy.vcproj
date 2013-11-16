@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mousecursor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\object.cpp"
 				>
 			</File>
@@ -235,10 +239,6 @@
 			</File>
 			<File
 				RelativePath=".\src\renderer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\renderer_win32.cpp"
 				>
 			</File>
 			<File
@@ -709,6 +709,10 @@
 			</File>
 			<File
 				RelativePath=".\include\maybe.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\mousecursor.h"
 				>
 			</File>
 			<File

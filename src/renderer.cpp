@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "window.h"
 #include "glcontext.h"
+#include "mousecursor.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
@@ -20,16 +21,19 @@ m_texture_manager(new sad::TextureManager()),
 m_scene(new sad::Scene()),
 m_new_scene(NULL),
 m_window(new sad::Window()),
-m_context(new sad::GLContext())
+m_context(new sad::GLContext()),
+m_cursor(new sad::MouseCursor())
 {
 	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
+	m_cursor->setRenderer(this);
 }
 
 sad::Renderer::~Renderer(void)
 {
 	if (m_scene)
 		delete m_scene;
+	delete m_cursor;
 	delete m_input_manager;
 	delete m_font_manager;
 	delete m_texture_manager;
@@ -200,6 +204,17 @@ bool sad::Renderer::hasValidContext()
 }
 
 
+sad::MaybePoint3D sad::Renderer::cursorPosition() const
+{
+	return this->cursor()->position();
+}
+
+void sad::Renderer::setCursorPosition(const sad::Point2D & p)
+{
+	this->cursor()->setPosition(p);
+}
+
+
 sad::FontManager * sad::Renderer::fonts()
 {
 	return m_font_manager;
@@ -233,6 +248,17 @@ sad::GLContext * sad::Renderer::context()
 const sad::Settings & sad::Renderer::settings() const
 {
 	return m_glsettings;
+}
+
+sad::MouseCursor* sad::Renderer::cursor() const
+{
+	return m_cursor;
+}
+
+void sad::Renderer::setCursor(sad::MouseCursor * cursor)
+{
+	delete m_cursor;
+	m_cursor = cursor;
 }
 
 void sad::Renderer::destroyInstance()
@@ -325,13 +351,29 @@ void sad::Renderer::trySwapScenes()
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
+void sad::Renderer::update()
+{
+	if (m_setimmediately || m_reset)
+	{
+		m_timer.start();
+		m_reset = false;
+	}
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	scene()->render();
+	glFinish();
+	context()->swapBuffers();
+	++m_frames;
+	m_timer.stop();
+	double elapsed = m_timer.elapsed();
+	if (m_setimmediately || elapsed > 500.0)
+	{
+		double newfps = 1000.0 * m_frames / elapsed; 
+		setFPS( newfps );
+		m_frames = 0;
+		m_reset = true;
+		m_setimmediately = false;
+	}
+	this->trySwapScenes();
+}
