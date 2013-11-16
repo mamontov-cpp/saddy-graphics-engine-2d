@@ -151,6 +151,7 @@ void sad::Window::initialize()
 
 	if (fullscreen())
 		enterFullscreen();
+
 }
 
 bool sad::Window::active() const

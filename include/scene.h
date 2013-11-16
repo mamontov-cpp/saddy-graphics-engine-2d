@@ -66,6 +66,13 @@ public:
 	{
 		m_renderer = renderer;
 	}
+	/*! Returns a renderer from scene
+		\return renderer from scene
+	 */
+	inline sad::Renderer * renderer() const
+	{
+		return m_renderer;
+	}
 	/*! Sets a camera in scene, deleting old camera
 		\param[in] camera  new camera
 	*/

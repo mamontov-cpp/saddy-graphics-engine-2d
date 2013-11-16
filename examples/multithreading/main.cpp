@@ -141,7 +141,6 @@ int thread(void * p)
 	   Note, that we pass our renderer to camera - that's how it will know size of window
 	 */
 	r.setScene(new InterlockedScene());
-	r.scene()->setCamera(new sad::OrthographicCamera(&r));
 
 	/* Load texture mapped font. 
 	   We add it to font manager to be sure, that memory will be freed at exit.

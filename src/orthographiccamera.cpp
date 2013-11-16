@@ -8,25 +8,27 @@
 #include <GL/gl.h>														
 #include <GL/glu.h>
 
-sad::OrthographicCamera::OrthographicCamera(sad::Renderer * r)
+sad::OrthographicCamera::OrthographicCamera()
+: m_fetched(false), m_width(1), m_height(1)
 {
-	if (r == NULL)
-	{
-		r = sad::Renderer::ref();
-	}
-	m_width= r->settings().width();
-	m_height= r->settings().height();
+
 }
 
 sad::OrthographicCamera::OrthographicCamera(int width, int height)
-: m_width(width), m_height(height)
+: m_width(width), m_height(height), m_fetched(true)
 {
+
 }
-
-
 
 void sad::OrthographicCamera::apply()
 {
+	if (!m_fetched)
+	{
+		m_fetched = true;
+		m_width = Scene->renderer()->settings().width();
+		m_height = Scene->renderer()->settings().height();
+	}
+
 	glPushAttrib(GL_TRANSFORM_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
