@@ -1,6 +1,5 @@
 #include "renderer.h"
 #include "input.h"
-#include "texturemanager.h"
 #include "3rdparty/format/format.h"
 #include "os/windowhandles.h"
 #include "window.h"
@@ -34,7 +33,7 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 			it != m_renderers.end();
 			it++)
 		{
-			it.value()->textures()->unload();
+			it.value()->emergencyShutdown();
 		}
 	}
 	return FALSE;
