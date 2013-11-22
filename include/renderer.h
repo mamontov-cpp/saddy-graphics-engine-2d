@@ -32,8 +32,10 @@ class FontManager;
 class TextureManager;
 class Window;
 class GLContext;
+class MainLoop;
 class MouseCursor;
 class OpenGL;
+
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -151,6 +153,16 @@ public:
 		about current platform spec
 	 */
 	virtual sad::OpenGL * opengl() const;
+	/*! Set main loop
+		\return main loop for a renderer
+	 */
+	virtual sad::MainLoop * mainLoop() const;
+	/*! This method is called, when somebody performs emergency shutdown.
+		In current implementation, this method is called when  console window
+		of application is closed on Windows OS. Note, that you SHOULD NOT call
+		this method under any circumstances
+	 */
+	virtual void emergencyShutdown();
 #ifdef WIN32
 	/*! Function for processing system messages and pressed keys
 		\param[in] hWnd Windows' handler
@@ -200,6 +212,9 @@ protected:
 	/*! An OpenGL platform implementation part
 	 */
 	sad::OpenGL*            m_opengl;
+	/*! A main loop handler, attached to renderer
+	 */
+	sad::MainLoop*          m_main_loop;
 
 	/*! A timer, for computng FPS
 	 */

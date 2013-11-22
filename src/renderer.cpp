@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "window.h"
 #include "glcontext.h"
+#include "mainloop.h"
 #include "mousecursor.h"
 #include "opengl.h"
 
@@ -24,12 +25,14 @@ m_new_scene(NULL),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
-m_opengl(new sad::OpenGL())
+m_opengl(new sad::OpenGL()),
+m_main_loop(new sad::MainLoop())
 {
 	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
+	m_main_loop->setRenderer(this);
 }
 
 sad::Renderer::~Renderer(void)
@@ -43,6 +46,7 @@ sad::Renderer::~Renderer(void)
 	delete m_window;
 	delete m_context;
 	delete m_opengl;
+	  
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -268,6 +272,18 @@ void sad::Renderer::setCursor(sad::MouseCursor * cursor)
 sad::OpenGL * sad::Renderer::opengl() const
 {
 	return m_opengl;
+}
+
+sad::MainLoop * sad::Renderer::mainLoop() const
+{
+	return m_main_loop;
+}
+
+void sad::Renderer::emergencyShutdown()
+{
+	// Unload all textures, because after shutdown context will be lost
+	// and glDeleteTextures could lead to segfault
+	this->textures()->unload();
 }
 
 void sad::Renderer::destroyInstance()

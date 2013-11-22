@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\mainloop.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\mousecursor.cpp"
 				>
 			</File>
@@ -693,6 +697,10 @@
 			</File>
 			<File
 				RelativePath=".\include\lightmodel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\mainloop.h"
 				>
 			</File>
 			<File
