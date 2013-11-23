@@ -7,7 +7,9 @@
 #include "log/log.h"
 #include "sadsleep.h"
 
-sad::MainLoop::MainLoop() : m_renderer(NULL)
+sad::MainLoop::MainLoop() : 
+m_renderer(NULL),
+m_running(false)
 {
 
 }

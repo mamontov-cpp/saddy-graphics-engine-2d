@@ -365,6 +365,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\os\systemwindowevent.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\os\threadimpl.cpp"
 					>
 				</File>
@@ -904,6 +908,10 @@
 				</File>
 				<File
 					RelativePath=".\include\os\semaphoreimpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\systemwindowevent.h"
 					>
 				</File>
 				<File
