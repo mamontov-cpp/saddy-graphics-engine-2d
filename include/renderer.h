@@ -231,7 +231,7 @@ protected:
 		
 	/*! A settings for a renderer
 	 */
-	sad::Settings             m_glsettings;  
+	sad::Settings        m_glsettings;  
 	/*! Determines whether sad::Renderer is entered main loop
 	 */
 	bool                 m_running;       
