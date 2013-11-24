@@ -712,6 +712,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\keycodes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\label.h"
 				>
 			</File>
@@ -1328,10 +1332,6 @@
 				</File>
 				<File
 					RelativePath=".\include\input\handlers.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\input\keycodes.h"
 					>
 				</File>
 			</Filter>

@@ -62,13 +62,28 @@ enum KeyboardKey
 	BackSlash = '\\', 
 	/*! On english keyboard, this is a key, where this is where tilda is located
 	 */
-	Tilda = '~', 
+	Tilde = '~', 
 	/*! A key, where opening square bracket is located 
 	 */
 	OpeningSquareBracket = '[',
 	/*! A key, where closing square bracket is located 
 	 */
 	ClosingSquareBracket = ']',
+	/*! A key, where semicolon is located
+	 */
+	Semicolon = ';',
+	/*! A key, where comma is located
+	 */
+	Comma = ',',
+	/*! A key, where period is located
+	 */
+	Period = '.',
+	/*! A key, where slash is located
+	 */
+	Slash = '/',
+	/*! A key, where apostrope is located
+	 */
+	Apostrophe = '\'',
 	Esc          = 256,  //!< An Escape key
 	F1           = 257,  //!< F1 key,
 	F2		     = 258,  //!< F2 key

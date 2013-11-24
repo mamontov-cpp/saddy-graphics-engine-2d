@@ -146,3 +146,10 @@ void sad::MainLoop::unregisterRenderer()
 	RegisteredRenderersLock.unlock();
 #endif
 }
+
+
+void sad::MainLoop::perform()
+{
+
+}
+

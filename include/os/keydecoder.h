@@ -6,6 +6,9 @@
 #pragma once
 #include "os/windowhandles.h"
 #include "../sadhash.h"
+#include "../keycodes.h"
+#include "../maybe.h"
+#include "../sadstring.h"
 
 namespace sad
 {
@@ -14,9 +17,8 @@ class Window;
 
 namespace os
 {
-/*! A saddy key typedef
- */
-typedef int  Key;
+
+class SystemWindowEvent;
 
 #ifdef WIN32
 /*! A key, received from OS
@@ -42,23 +44,26 @@ public:
 	KeyDecoder();
 	/*! Decodes a system key, converting it from common key to
 		current
-		\param[in] key a system key
+		\param[in] a system window event
 		\return decoded key from saddy
 	 */
-	sad::os::Key decode(sad::os::SystemKey key);
-	/*! Converts system key to character
-		\param[in] key key, received by system
+	sad::KeyboardKey decode(sad::os::SystemWindowEvent * e);
+	/*! Converts system key to character string
+		\param[in] e system window event
 		\param[in] win a window, where other parameters should come from
 		\return converted key
 	 */
-	char convert(sad::os::SystemKey key, sad::Window * win);
+	sad::Maybe<sad::String> convert(sad::os::SystemWindowEvent * e, sad::Window * win);
 protected:
 	/*! Fills table with mapppings
 	 */
 	void init();
+	/*! Test, whether keyboard key is readable
+	 */
+	bool isReadable(sad::KeyboardKey key);
 	/*! A recoding table for decoder
 	 */
-	sad::Hash<sad::os::SystemKey, sad::os::Key> m_table;
+	sad::Hash<sad::os::SystemKey, sad::KeyboardKey> m_table;
 };
 
 }
