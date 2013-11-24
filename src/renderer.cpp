@@ -10,13 +10,13 @@
 #include "mainloop.h"
 #include "mousecursor.h"
 #include "opengl.h"
+#include "fpsinterpolation.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
 : 
 m_running(false),
-m_fps(75),
 m_input_manager(new sad::Input()),
 m_font_manager(new sad::FontManager()),
 m_texture_manager(new sad::TextureManager()),
@@ -26,7 +26,8 @@ m_window(new sad::Window()),
 m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
 m_opengl(new sad::OpenGL()),
-m_main_loop(new sad::MainLoop())
+m_main_loop(new sad::MainLoop()),
+m_fps_interpolation(new sad::FPSInterpolation())
 {
 	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
@@ -46,6 +47,8 @@ sad::Renderer::~Renderer(void)
 	delete m_window;
 	delete m_context;
 	delete m_opengl;
+	delete m_main_loop;
+	delete m_fps_interpolation;
 	  
 }
 
@@ -170,7 +173,7 @@ sad::Renderer* sad::Renderer::ref()
 
 double sad::Renderer::fps() const
 {
-	return m_fps;
+	return fpsInterpolation()->fps();
 }
 
 void sad::Renderer::setWindowTitle(const sad::String & s)
@@ -291,13 +294,6 @@ void sad::Renderer::destroyInstance()
 	delete  sad::Renderer::m_instance;
 }
 
-void sad::Renderer::setFPS(double fps) 
-{
-	// Reject sudden raises or drops for frameate
-	m_fps =  fps * 0.8 + m_fps * 0.2;
-}
-
-
 
 void sad::Renderer::reshape(int width, int height)
 {
@@ -378,27 +374,13 @@ void sad::Renderer::trySwapScenes()
 
 void sad::Renderer::update()
 {
-	if (m_setimmediately || m_reset)
-	{
-		m_timer.start();
-		m_reset = false;
-	}
+	fpsInterpolation()->start();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	scene()->render();
 	glFinish();
 	context()->swapBuffers();
-	++m_frames;
-	m_timer.stop();
-	double elapsed = m_timer.elapsed();
-	if (m_setimmediately || elapsed > 500.0)
-	{
-		double newfps = 1000.0 * m_frames / elapsed; 
-		setFPS( newfps );
-		m_frames = 0;
-		m_reset = true;
-		m_setimmediately = false;
-	}
+	fpsInterpolation()->stop();
 	this->trySwapScenes();
 }
