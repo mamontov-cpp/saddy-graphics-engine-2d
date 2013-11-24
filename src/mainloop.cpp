@@ -6,17 +6,25 @@
 #include "os/windowhandles.h"
 #include "log/log.h"
 #include "sadsleep.h"
+#include "os/systemeventdispatcher.h"
 
 sad::MainLoop::MainLoop() : 
 m_renderer(NULL),
-m_running(false)
+m_running(false),
+m_dispatcher(new sad::os::SystemEventDispatcher())
 {
 
+}
+
+sad::MainLoop::~MainLoop()
+{
+	delete m_dispatcher;
 }
 
 void sad::MainLoop::setRenderer(sad::Renderer * r)
 {
 	m_renderer = r;
+	m_dispatcher->setRenderer(r);
 }
 
 sad::Renderer * sad::MainLoop::renderer() const
