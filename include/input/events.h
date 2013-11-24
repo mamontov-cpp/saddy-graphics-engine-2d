@@ -5,7 +5,7 @@
 	Events can contain useful data about cursor position, key part and other.
  */
 #pragma once
-#include "keycodes.h"
+#include "../keycodes.h"
 #include "../sadpoint.h"
 
 namespace sad

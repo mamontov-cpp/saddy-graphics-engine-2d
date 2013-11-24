@@ -282,6 +282,11 @@ sad::MainLoop * sad::Renderer::mainLoop() const
 	return m_main_loop;
 }
 
+sad::FPSInterpolation * sad::Renderer::fpsInterpolation() const
+{
+	return m_fps_interpolation;
+}
+
 void sad::Renderer::emergencyShutdown()
 {
 	// Unload all textures, because after shutdown context will be lost
