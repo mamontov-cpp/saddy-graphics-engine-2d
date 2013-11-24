@@ -1,6 +1,6 @@
 #include "input.h"
 #include "renderer.h"
-#include "input/keycodes.h"
+#include "keycodes.h"
 #include <stdlib.h>
 
 static void cleanup_ptr_vector(sad::Vector<sad::CountableTask *> & ff);
