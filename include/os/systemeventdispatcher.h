@@ -16,6 +16,7 @@ namespace os
 {
 
 class SystemWindowEvent;
+class KeyDecoder;
 
 /*! Determines, whether event is dispatched, and also result code for
 	this dispatch operation, when it's needed to be provided to main loop
@@ -33,6 +34,9 @@ public:
 	/*! Creates default event dispatcher
 	 */
 	SystemEventDispatcher();
+	/*! Destroys a dispatcher
+	 */
+	~SystemEventDispatcher();
 	/*! Sets attached renderer to a dispatcher
 	 */
 	void setRenderer(sad::Renderer * renderer);
@@ -53,6 +57,9 @@ protected:
 	/*! Attached renderer to a dispatcher
 	 */
 	sad::Renderer * m_renderer;
+	/*! A decoder for decoding keys of data
+	 */
+	sad::os::KeyDecoder * m_keys;
 };
 
 }

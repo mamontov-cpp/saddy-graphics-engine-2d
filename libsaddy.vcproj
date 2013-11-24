@@ -361,11 +361,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\os\keydecoder.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\os\muteximpl.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\os\semaphoreimpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\systemeventdispatcher.cpp"
 					>
 				</File>
 				<File
@@ -911,11 +919,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\os\keydecoder.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\os\muteximpl.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\os\semaphoreimpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\systemeventdispatcher.h"
 					>
 				</File>
 				<File
