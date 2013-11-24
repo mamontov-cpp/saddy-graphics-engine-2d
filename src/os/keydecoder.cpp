@@ -1,4 +1,5 @@
 #include "os/keydecoder.h"
+#include "input.h"
 
 sad::os::KeyDecoder::KeyDecoder()
 {
@@ -41,11 +42,11 @@ sad::os::KeyDecoder::KeyDecoder()
 */
 
 sad::os::SystemKey syskeys[] = {
-   0
+	VK_BACK
 };
 
 sad::os::Key keys[] = {
-   0
+	KEY_BACKSPACE
 };
 
 #endif
