@@ -61,6 +61,11 @@ protected:
 	/*! Test, whether keyboard key is readable
 	 */
 	bool isReadable(sad::KeyboardKey key);
+#ifdef WIN32
+	/*! A key state for decoding keys
+	 */
+	unsigned char m_key_states[256];
+#endif
 	/*! A recoding table for decoder
 	 */
 	sad::Hash<sad::os::SystemKey, sad::KeyboardKey> m_table;

@@ -6,6 +6,8 @@
 #include "glcontext.h"
 #include "sadsleep.h"
 #include "fpsinterpolation.h"
+#include "os/keydecoder.h"
+#include "os/systemwindowevent.h"
 
 #ifdef WIN32
 
@@ -158,13 +160,22 @@ LRESULT windowresizepoints[windowresizepointscount] = {
 
 #define MESSAGE_NOT_HANDLED 2000000
 
+sad::os::KeyDecoder decoder;
+
 LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	sad::os::SystemWindowEvent ev(hWnd, uMsg, wParam, lParam);
+
 	static bool msg_init=false;
 	if (!msg_init)
 	{
 		msg_init=true;
 		table_init();
+	}
+	if (uMsg==WM_INPUTLANGCHANGE)
+	{
+		SL_LOCAL_INTERNAL("Changing language!", *this);
+		return MESSAGE_NOT_HANDLED;
 	}
 	if (uMsg==WM_CLOSE)
 	{
@@ -181,7 +192,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseMove(sad::Event(op.x(), op.y(), op.z(),key));
-		return 0;
+		return MESSAGE_NOT_HANDLED;
 	}
 	if (uMsg==WM_MOUSEWHEEL)
 	{
@@ -238,6 +249,16 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
 	{
 		sad::Event sev(0);
+		
+		sad::Maybe<sad::String> result = decoder.convert(&ev, this->window());
+		if (result.exists())
+		{
+			SL_LOCAL_DEBUG(result.value(), *this);
+		}
+		else
+		{
+			SL_LOCAL_DEBUG("Cannot print key data!", *this);
+		}
 		SHORT c=GetAsyncKeyState(VK_CAPITAL)==1;
 		SHORT a=GetAsyncKeyState(VK_MENU)<0;
 		SHORT ct=GetAsyncKeyState(VK_CONTROL)<0;
@@ -253,7 +274,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			     this->controls()->postKeyDown(sev);
 			else
 				 this->controls()->postKeyUp(sev);
-			return 0;
+			return MESSAGE_NOT_HANDLED;
 		}
 		char af[5];
 		GetKeyNameTextA(lParam,af,5);
@@ -262,7 +283,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 				this->controls()->postKeyDown(sev);
 		else
 				this->controls()->postKeyUp(sev);
-		return 0;
+		return MESSAGE_NOT_HANDLED;
 	}
 	if (uMsg==WM_SIZE)
 	{
@@ -275,7 +296,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			window()->setActive(true);
 			this->reshape(LOWORD (lParam), HIWORD (lParam));
 		}
-		return 0;
+		return MESSAGE_NOT_HANDLED;
 	}
 	
 	if (uMsg == WM_NCHITTEST && window()->fixed()) 

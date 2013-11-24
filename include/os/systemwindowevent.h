@@ -33,10 +33,9 @@ public:
 #endif
 
 #ifdef X11
-	/*! Creates new window event with specified parameters
-		\param[in] event x11 event
+	/*! Creates new window event with not-initialized event data
 	 */
-	SystemWindowEvent(XEvent x11event);
+	SystemWindowEvent();
 #endif
 	/*! Converts mouse position from event to point
 		\return mouse position from event 

@@ -5,7 +5,7 @@
 
 sad::os::KeyDecoder::KeyDecoder()
 {
-
+	init();
 }
 
 
@@ -587,6 +587,7 @@ void sad::os::KeyDecoder::init()
 	{
 		m_table.insert((sad::os::SystemKey)i, syskeys[i]);
 	}
+	ZeroMemory(m_key_states, 256);
 #endif
 
 #ifdef X11
@@ -631,7 +632,22 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
 	if (isReadable(key) == false)
 		return result;
 #ifdef WIN32
+	GetKeyboardState(m_key_states);
+	char buffer[10] = "";
+	HKL kl = GetKeyboardLayout(GetCurrentThreadId());
+	ToAsciiEx(e->WParam, e->LParam, m_key_states, (LPWORD)buffer, 0, kl);
+	buffer[1] = 0;
+	result.setValue(buffer);
+	
+	m_key_states[e->WParam] = 0;
+	m_key_states[VK_SHIFT] = 0;
+	m_key_states[VK_CONTROL] = 0;
+	m_key_states[VK_LCONTROL] = 0;
+	m_key_states[VK_MENU] = 0;
+	m_key_states[VK_RMENU] = 0;
+	m_key_states[VK_CAPITAL] = 0;
 
+	
 #endif
 
 #ifdef X11
