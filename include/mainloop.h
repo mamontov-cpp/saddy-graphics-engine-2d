@@ -40,6 +40,9 @@ public:
 	/*! Runs a main loop
 	 */
 	void run();
+	/*! Stops a main loop
+	 */
+	void stop();
 protected:
 	/*! Tries to elevate priority of current process, when performing main loop
 	 */

@@ -1,9 +1,16 @@
 #include "os/systemeventdispatcher.h"
+#include "os/keydecoder.h"
 #include <cstring>
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
+: m_renderer(NULL), m_keys(new sad::os::KeyDecoder())
 {
-	m_renderer = NULL;
+
+}
+
+sad::os::SystemEventDispatcher::~SystemEventDispatcher()
+{
+	delete m_keys;
 }
 
 void sad::os::SystemEventDispatcher::setRenderer(sad::Renderer * renderer)
