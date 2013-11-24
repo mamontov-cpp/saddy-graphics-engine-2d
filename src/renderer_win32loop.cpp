@@ -5,6 +5,7 @@
 #include "window.h"
 #include "glcontext.h"
 #include "sadsleep.h"
+#include "fpsinterpolation.h"
 
 #ifdef WIN32
 
@@ -59,9 +60,7 @@ void sad::Renderer::mainLoop()
 	SetConsoleCtrlHandler(handleClosing, FALSE);
 	SetConsoleCtrlHandler(handleClosing, TRUE);
  
-	m_fps = 75;
-	m_setimmediately = true;
-	m_frames = 0;
+	fpsInterpolation()->reset();
 
 	MSG msg;
 
@@ -90,7 +89,7 @@ void sad::Renderer::mainLoop()
 			}
 			else 
 			{
-				m_timer.start();
+				fpsInterpolation()->resetTimer();
 				sad::sleep(50);
 			} 
 		}

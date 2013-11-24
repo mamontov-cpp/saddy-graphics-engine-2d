@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\fpsinterpolation.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\fuzzyequal.cpp"
 				>
 			</File>
@@ -677,6 +681,10 @@
 			</File>
 			<File
 				RelativePath=".\include\formattedlabel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\fpsinterpolation.h"
 				>
 			</File>
 			<File

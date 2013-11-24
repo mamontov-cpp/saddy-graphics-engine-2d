@@ -35,6 +35,7 @@ class GLContext;
 class MainLoop;
 class MouseCursor;
 class OpenGL;
+class FPSInterpolation;
 
 /*! Can be a point or none, depending on context
  */
@@ -153,10 +154,14 @@ public:
 		about current platform spec
 	 */
 	virtual sad::OpenGL * opengl() const;
-	/*! Set main loop
+	/*! Returns current main loop for renderer
 		\return main loop for a renderer
 	 */
 	virtual sad::MainLoop * mainLoop() const;
+	/*! Returns current FPS interpolation for renderer
+		\return fps interpolation instance
+	 */
+	virtual sad::FPSInterpolation * fpsInterpolation() const;
 	/*! This method is called, when somebody performs emergency shutdown.
 		In current implementation, this method is called when  console window
 		of application is closed on Windows OS. Note, that you SHOULD NOT call
@@ -215,10 +220,9 @@ protected:
 	/*! A main loop handler, attached to renderer
 	 */
 	sad::MainLoop*          m_main_loop;
-
-	/*! A timer, for computng FPS
+    /*! An interpolation for FPS
 	 */
-	sad::Timer		     m_timer;            
+	sad::FPSInterpolation * m_fps_interpolation;
 	/*! A current scene. May be old, when user called sad::Renderer::setScene
 		and sad::Scene is being rendered
 	 */
@@ -236,27 +240,9 @@ protected:
 	 */
 	bool                 m_running;       
 
-	// A FPS computing options
-	/*! An elapsed frames count
-	 */
-	int                  m_frames;      
-	/*! Whether timer should be reset on next iteration
-	 */
-	bool                 m_reset;          
-	/*! Whether we should immediately set FPS 
-	 */
-	bool				 m_setimmediately; 
-	/*!  Current FPS value
-	 */
-	double               m_fps;            
-
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();
-	/*! Sets new fps value, but avoids fast jumps in fps
-		\param[in] fps  fps value
-	*/
-	void setFPS(double fps);
 	/*! Setups a OpenGL for first use
 		\return success of operation
 	 */
