@@ -11,6 +11,11 @@ namespace sad
 {
 class Renderer;
 
+namespace os
+{
+class SystemEventDispatcher;
+}
+
 /*! Describes a main event loop.
 	Note, that you should not directly use this class,
 	use sad::Renderer::run() instead.
@@ -21,6 +26,9 @@ public:
 	/*! Constructs new main loop 
 	 */
 	MainLoop();
+	/*! Frees a main loop, removing attached dispatcher
+	 */
+	~MainLoop();
 	/*! Sets new renderer attached to a loop
 		\param[in] r renderer
 	 */
@@ -62,6 +70,19 @@ protected:
 	/*! A renderer, linked to loop
 	 */
 	sad::Renderer * m_renderer;
+	/*! A system event disptacher for dispachign all events
+	 */
+	sad::os::SystemEventDispatcher * m_dispatcher;
+private:
+	/*! Disabled to made main loop non-copyable
+		\param[in] o other main loop
+	 */
+	MainLoop(const sad::MainLoop & o);
+	/*! Disabled to made main loop non-copyable
+		\param[in] o other main loop
+		\return this
+	 */
+	const MainLoop & operator=(const sad::MainLoop & o);
 };
 
 }
