@@ -84,6 +84,11 @@ void sad::Texture::upload()
     
 	glGenTextures(1, (GLuint *)&m_id);	
 	glBindTexture(GL_TEXTURE_2D, m_id);
+	GLint result = glGetError();
+	if (result)
+	{
+		// We should check here for other context stuff
+	}
 	GLuint what;
 	switch (m_mode)
 	{
@@ -94,12 +99,20 @@ void sad::Texture::upload()
 	makePOT();
 
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
+	result = glGetError();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, what);
+	result = glGetError();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, what);
+	result = glGetError();
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	result = glGetError();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);	
-    
+    result = glGetError();
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+
 	// Build Mip Maps	
 	GLint res;
 	sad::Pair<int,int> version = sad::Renderer::ref()->opengl()->version();
@@ -113,7 +126,7 @@ void sad::Texture::upload()
 		{
 			  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
 			  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_width, m_height, 0, type, GL_UNSIGNED_BYTE, m_data.data());
-			  res = 0;
+			  res = glGetError();
 		}
 	} 
 	else
@@ -121,8 +134,17 @@ void sad::Texture::upload()
 		float max  = (float)((m_width > m_height) ? m_width : m_height);
 		int levels = (int)(::log(max)/::log(2.0f));
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  m_width, m_height, 0, type, GL_UNSIGNED_BYTE, m_data.data());			  
-		(*(getglGenerateMipMaps()))(GL_TEXTURE_2D);
-		res = 0;
+		res = glGetError();
+		PFNGLGENERATEMIPMAPEXTPROC proc = getglGenerateMipMaps();
+		if (proc != NULL)
+		{
+			proc(GL_TEXTURE_2D);
+		}
+		else
+		{
+			// TODO: Add here critical error message.
+		}
+		res = glGetError();
 	}
 	if (res)
 	{
