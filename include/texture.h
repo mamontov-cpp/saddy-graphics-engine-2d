@@ -28,6 +28,8 @@
 
 namespace sad
 {
+class TextureContainer;
+
 	/*! Texture class
 	*/
 	class Texture
@@ -141,5 +143,22 @@ namespace sad
 		/*! Unloads a texture from videocard memory
 		 */
 		void unload();
-	};
+
+	/*! Returns a container, which texture belongs to
+		\return a container, which texture belongs to
+	 */
+	sad::TextureContainer * container() const;
+	/*! Returns a renderer, which should render a texture
+	 */
+	sad::Renderer * renderer() const;
+	/*! Sets container, where texture belongs to
+		\param[in] container a container, where texture should belong
+	 */
+	void setContainer(sad::TextureContainer * container);
+protected: 
+	/*! A container for textures
+	 */
+	sad::TextureContainer * m_container;
+};
+
 }

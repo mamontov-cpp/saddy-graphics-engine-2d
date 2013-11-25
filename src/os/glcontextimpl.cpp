@@ -102,7 +102,10 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 	m_handle.Context = wglCreateContext(win->handles()->DC); 
 	if(m_handle.Context) 
 	{
-		wglMakeCurrent(win->handles()->DC, m_handle.Context);
+		if (wglMakeCurrent(win->handles()->DC, m_handle.Context) != TRUE)
+		{
+			SL_COND_LOCAL_INTERNAL("Cannot bing simple context!", this->renderer());
+		}
 		result = true;
 		// Try to parse version from context
 		int major = 0, minor = 0;
@@ -154,6 +157,7 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 				}
 			}
 		}
+
 	} 
 	
 	return result;
