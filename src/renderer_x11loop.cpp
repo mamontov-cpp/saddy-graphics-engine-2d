@@ -6,7 +6,8 @@
 #include "window.h"
 #include "glcontext.h"
 #include "x11recode.h"
-
+#include "os/systemwindowevent.h"
+#include "os/keydecoder.h"
 
 static clock_t dblclick=0;
 static clock_t clk=0;
@@ -20,8 +21,11 @@ static int predicate(Display *, XEvent * e, char *)
 	return true;
 }
 
+sad::os::KeyDecoder decoder;
+
 void sad::Renderer::mainLoop()
 {
+    sad::os::SystemWindowEvent ev;
 	// Set realtime priority
 	pid_t myprocesspid = getpid();
 	sched_param param;
@@ -105,6 +109,18 @@ void sad::Renderer::mainLoop()
                	                                 }
 		case KeyPress:          {
                                                    int key = sad::recode(&event.xkey); 
+						   ev.Event = event;
+						   
+						   sad::Maybe<sad::String> result = decoder.convert(&ev, this->window());
+						   if (result.exists())
+						   {
+								SL_LOCAL_DEBUG(result.value(), *this); 
+						   }
+						   else
+						   {
+								SL_LOCAL_DEBUG("Cannot print key data!", *this);
+						   }
+						   
 						   if (key==KEY_LALT || key==KEY_RALT) altstate=true;
 						   sad::Event sev(key);  sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
 						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
