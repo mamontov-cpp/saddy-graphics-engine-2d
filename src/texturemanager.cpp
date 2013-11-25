@@ -19,8 +19,9 @@ void sad::TextureManager::buildAll()
 	}
 }
 sad::TextureManager::TextureManager()
+: m_renderer(NULL)
 {
-  m_containers.insert("default",new sad::TextureContainer());
+  setContainer(new sad::TextureContainer(), "default");
   setLoader("BMP", new sad::imageformats::BMPLoader());
   setLoader("TGA", new sad::imageformats::TGALoader());
   setLoader("PNG", new sad::imageformats::PNGLoader());
@@ -45,7 +46,9 @@ void sad::TextureManager::add(const sad::String & name, Texture * tex,const sad:
 
 	if (m_containers.contains(containername) == false)
 	{
-		m_containers.insert(containername, new sad::TextureContainer());
+		sad::TextureContainer * c = new sad::TextureContainer();
+		c->setManager(this);
+		m_containers.insert(containername, c);
 	}
 	m_containers[containername]->add(name,tex);	
 }
@@ -66,6 +69,7 @@ void sad::TextureManager::setContainer(sad::TextureContainer * container,const s
 {
 	sad::ScopedLock lock(&m_m);
 
+	container->setManager(this);
 	m_containers.insert(containername,container);
 }
 
@@ -133,3 +137,14 @@ void sad::TextureManager::unload()
 	}
 
 }
+
+sad::Renderer * sad::TextureManager::renderer() const
+{
+	return m_renderer;
+}
+
+void sad::TextureManager::setRenderer(sad::Renderer * renderer)
+{
+	m_renderer = renderer;
+}
+

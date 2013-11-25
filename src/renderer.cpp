@@ -34,6 +34,7 @@ m_fps_interpolation(new sad::FPSInterpolation())
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
+	m_texture_manager->setRenderer(this);
 }
 
 sad::Renderer::~Renderer(void)

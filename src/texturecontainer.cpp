@@ -1,6 +1,7 @@
 #include "texturecontainer.h"
+#include "texturemanager.h"
 
-sad::TextureContainer::TextureContainer()
+sad::TextureContainer::TextureContainer() : m_manager(NULL)
 {
 
 }
@@ -13,6 +14,7 @@ sad::TextureContainer::~TextureContainer()
 void sad::TextureContainer::add(const sad::String & name, sad::Texture * tex)
 {
 	if (m_data.contains(name)) delete m_data[name];
+	tex->setContainer(this);
 	m_data.insert(name,tex);
 }
 
@@ -50,4 +52,23 @@ void sad::TextureContainer::unload()
 {
 	for (sad::Hash<sad::String,sad::Texture *>::iterator it=m_data.begin();it!=m_data.end();it++)
 		it.value()->unload();
+}
+
+void sad::TextureContainer::setManager(sad::TextureManager * m)
+{
+	m_manager = m;
+}
+
+sad::TextureManager * sad::TextureContainer::manager() const
+{
+	return m_manager;
+}
+
+sad::Renderer * sad::TextureContainer::renderer() const
+{
+	if (manager() == NULL)
+	{
+		return NULL;
+	}
+	return manager()->renderer();
 }

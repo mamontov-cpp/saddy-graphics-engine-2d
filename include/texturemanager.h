@@ -13,6 +13,7 @@
 
 namespace sad
 {
+class Renderer;
 /*!  \class TextureManager
 	 TextureManager provides an easy access to every texture. It
 	 can build mipmaps of every texture. Also, it frees all associated
@@ -79,7 +80,18 @@ public:
 		\param[in] l loader
 	 */
 	void setLoader(const sad::String & format, sad::imageformats::Loader * l);
+	/*! Returns renderer, linked to manager
+		\return renderer
+	 */
+	sad::Renderer * renderer() const;
+	/*! Sets new renderer, linked to manager
+		\param[in] renderer a linked renderer
+	 */
+	void setRenderer(sad::Renderer * renderer);
 private:
+	/*! Linked renderer, that allowes textures to work with specific data
+	 */
+	sad::Renderer * m_renderer;
 	/*! A hash of loaders for each of formats
 	 */
 	sad::PtrHash<sad::String, sad::imageformats::Loader>  m_loaders; 

@@ -45,7 +45,7 @@ static PFNGLGENERATEMIPMAPEXTPROC getglGenerateMipMaps()
 
  
 
-sad::Texture::Texture()
+sad::Texture::Texture() : m_container(NULL)
 {
 	// Set default mode of texture
 	m_mode   = BORDER_CLAMP;	
@@ -70,6 +70,12 @@ void sad::Texture::bind()
 
 void sad::Texture::upload()
 {
+	// We must not upload on our own to not cause
+	// undefined behaviour
+	sad::Renderer * r = renderer();
+	if (!r)
+		return;
+
 	m_ongpu = true;
 	
 	// Get texture type and components
@@ -81,8 +87,8 @@ void sad::Texture::upload()
 		case 32: 
 			type=GL_RGBA;components=4; break;
 	};
-    
-	glGenTextures(1, (GLuint *)&m_id);	
+
+    glGenTextures(1, (GLuint *)&m_id);
 	glBindTexture(GL_TEXTURE_2D, m_id);
 	GLint result = glGetError();
 	if (result)
@@ -108,7 +114,8 @@ void sad::Texture::upload()
 
 	// Build Mip Maps	
 	GLint res;
-	sad::Pair<int,int> version = sad::Renderer::ref()->opengl()->version();
+	unsigned char const * errorstring;
+	sad::Pair<int,int> version = r->opengl()->version();
 	if (version.p1() < 3) // In OpenGL 3.0  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);  is deprecated
 	{
 		if (version.p1() == 1 && version.p2() < 4)
@@ -120,6 +127,7 @@ void sad::Texture::upload()
 			  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); 
 			  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_width, m_height, 0, type, GL_UNSIGNED_BYTE, m_data.data());
 			  res = glGetError();
+			  errorstring = gluErrorString(res);
 		}
 	} 
 	else
@@ -135,13 +143,13 @@ void sad::Texture::upload()
 		}
 		else
 		{
-			// TODO: Add here critical error message.
+			SL_COND_LOCAL_INTERNAL("Failed to obtain glGenerateMipmap", r);
 		}
 		res = glGetError();
 	}
 	if (res)
 	{
-		SL_FATAL(gluErrorString(res));
+		SL_COND_LOCAL_INTERNAL(gluErrorString(res), r);
 	}
 
 	
@@ -247,3 +255,20 @@ void sad::Texture::unload()
 	m_ongpu = false;
 }
 
+
+sad::TextureContainer * sad::Texture::container() const
+{
+	return m_container;
+}
+
+sad::Renderer * sad::Texture::renderer() const
+{
+	if (container() == NULL)
+		return NULL;
+	return container()->renderer();
+}
+
+void sad::Texture::setContainer(sad::TextureContainer * container)
+{
+	m_container = container;
+}
