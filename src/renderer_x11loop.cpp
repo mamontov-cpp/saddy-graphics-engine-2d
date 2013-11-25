@@ -6,6 +6,7 @@
 #include "window.h"
 #include "glcontext.h"
 #include "x11recode.h"
+#include "fpsinterpolation.h"
 #include "os/systemwindowevent.h"
 #include "os/keydecoder.h"
 
@@ -25,7 +26,7 @@ sad::os::KeyDecoder decoder;
 
 void sad::Renderer::mainLoop()
 {
-    sad::os::SystemWindowEvent ev;
+	sad::os::SystemWindowEvent ev;
 	// Set realtime priority
 	pid_t myprocesspid = getpid();
 	sched_param param;
@@ -37,10 +38,7 @@ void sad::Renderer::mainLoop()
   
 	m_running = true;											
 	m_window->setActive(true);
-	m_fps = 75;
-	m_setimmediately = true;
-	m_reset = false;
-	m_frames = 0;
+	fpsInterpolation()->reset();
 	bool altstate=false;
 	
 	::Window  winDummy = 0;

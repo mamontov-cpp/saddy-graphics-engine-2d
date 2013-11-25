@@ -8,6 +8,10 @@
 #include "sadsleep.h"
 #include "os/systemeventdispatcher.h"
 
+#ifdef LINUX
+#include <unistd.h>
+#endif
+
 sad::MainLoop::MainLoop() : 
 m_renderer(NULL),
 m_running(false),

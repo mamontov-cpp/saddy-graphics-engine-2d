@@ -53,8 +53,8 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
 			unsigned int mask=0;
 			::Window rootw,childw;
 			successfullyqueried = (bool)XQueryPointer(
-				m_window->handles()->Dpy, 
-				m_window->handles()->Win, 
+				m_renderer->window()->handles()->Dpy, 
+				m_renderer->window()->handles()->Win, 
 				&rootw,
 				&childw, 
 				&x, 
@@ -65,10 +65,10 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
 			);
 			if (successfullyqueried)
 			{
-				sad::Rect2I rect = m_renderer->rect();
+				sad::Rect2I rect = m_renderer->window()->rect();
 				// Check if x and y is on window
 				successfullyqueried = (x >= 0) && (x <= rect.width())
-								   && (y >= 0) && (y <= rect.width())
+								   && (y >= 0) && (y <= rect.width());
 			}
 			point = sad::Point2D(x, y);
 #endif
@@ -103,9 +103,9 @@ void sad::MouseCursor::setPosition(const sad::Point2D & p)
 
 #ifdef X11
 			XWarpPointer(
-				m_window->handles()->Dpy, 
+				m_renderer->window()->handles()->Dpy, 
 				None, 
-				m_window->handles()->Win, 
+				m_renderer->window()->handles()->Win, 
 				0, 
 				0, 
 				0, 
