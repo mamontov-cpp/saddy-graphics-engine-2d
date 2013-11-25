@@ -18,7 +18,7 @@
 #include "texturemappedfont.h"
 #include "texturemanager.h"
 #include "freetype/font.h"
-
+#include "glcontext.h"
 
 /*! \class EventHandler
     A simple handler which, depending on settings cand quit renderer's main loop
@@ -136,6 +136,8 @@ int thread(void * p)
 	 */
 	r.init(sad::Settings(800,600, false));
 	r.makeFixedSize();
+	
+	
 
 	/* Create new scene and toggle orthographic projection.
 	   Note, that we pass our renderer to camera - that's how it will know size of window
@@ -229,12 +231,15 @@ int main(int argc, char** argv)
 	// Here we create two waitable threads
 	sad::Thread a(thread,const_cast<void *>((void*)"thread1.txt"));
 	sad::Thread b(thread,const_cast<void *>((void*)"thread2.txt"));
+	//sad::Thread c(thread,const_cast<void *>((void*)"thread3.txt"));
 	// Run them
 	a.run();
 	b.run();
+	//c.run();
 	// And wait
 	a.wait();
 	b.wait();
+	//c.wait();
 	return 0;
 }
 

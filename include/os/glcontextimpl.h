@@ -48,6 +48,9 @@ public:
 	/*! Swaps buffers. Must be called, after scene is rendered
 	 */
 	virtual void swapBuffers();
+	/*! Makes context current for a window
+	 */
+	virtual void makeCurrent();
 	/*! Maps a point from client coordinates to OpenGL viewport
 		\param[in] p point
 		\param[in] ztest whether ztesting should be performed

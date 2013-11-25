@@ -64,3 +64,10 @@ sad::Renderer * sad::GLContext::renderer() const
 {
 	return m_dptr->renderer();
 }
+
+
+void sad::GLContext::makeCurrent()
+{
+	m_dptr->makeCurrent();
+}
+
