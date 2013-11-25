@@ -450,3 +450,15 @@ sad::Renderer * sad::os::GLContextImpl::renderer() const
 	}
 	return NULL;
 }
+
+
+void sad::os::GLContextImpl::makeCurrent()
+{
+#ifdef WIN32
+	wglMakeCurrent(m_win->handles()->DC, m_handle.Context);
+#endif
+
+#ifdef X11
+	glXMakeCurrent(m_win->handles()->Dpy, m_win->handles()->Win, m_handle.Context);  
+#endif
+}

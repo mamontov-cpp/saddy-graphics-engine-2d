@@ -72,6 +72,9 @@ public:
 	/*! Destroys a context. DO NOT USE IT!
 	 */
 	void destroy();
+	/*! Makes context current 
+	 */
+	void makeCurrent();
 	/*! Returns a renderer, associated with context
 		\return renderer
 	 */
