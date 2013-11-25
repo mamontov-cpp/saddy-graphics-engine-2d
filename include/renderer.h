@@ -43,7 +43,12 @@ typedef sad::Maybe<sad::Point3D> MaybePoint3D;
 /*! \class Renderer
     Class, that provides all rendering and window operations.
     It wraps a low-level system calls to provide a simple interface
-    for window operations.		
+    for window operations. 
+
+	It should be noted, that each renderer should run in it's separate thread,
+	because it maintains a main loop and to prevent some problems with window
+	event handling. Note, that one sad::Renderer can run in main thread, but only
+	if there are no other windows attached to it.
  */
 class Renderer
 {

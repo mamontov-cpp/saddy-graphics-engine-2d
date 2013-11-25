@@ -6,8 +6,6 @@
 #include "glcontext.h"
 #include "sadsleep.h"
 #include "fpsinterpolation.h"
-#include "os/keydecoder.h"
-#include "os/systemwindowevent.h"
 
 #ifdef WIN32
 
@@ -71,7 +69,20 @@ void sad::Renderer::mainLoop()
 
 	while (m_running)											
 	{					
-		if (PeekMessage (&msg, this->window()->handles()->WND, 0, 0, PM_REMOVE) != 0)
+		if (PeekMessage (
+						 &msg, 
+						 // A PeekMessage docs state, that multithreading
+						 // should work with zero, since sad::Renderer-s must
+						 // be running at separate threads. Also, moving here
+						 // a handle to window  causes problems with switching
+						 // keyboard layout on Windows XP
+						 0
+						 /*this->window()->handles()->WND*/, 
+						 0, 
+						 0, 
+						 PM_REMOVE
+						) != 0
+		   )
 		{
 			TranslateMessage(&msg);
 			if (msg.message != WM_QUIT)					
@@ -160,22 +171,13 @@ LRESULT windowresizepoints[windowresizepointscount] = {
 
 #define MESSAGE_NOT_HANDLED 2000000
 
-sad::os::KeyDecoder decoder;
-
 LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	sad::os::SystemWindowEvent ev(hWnd, uMsg, wParam, lParam);
-
 	static bool msg_init=false;
 	if (!msg_init)
 	{
 		msg_init=true;
 		table_init();
-	}
-	if (uMsg==WM_INPUTLANGCHANGE)
-	{
-		SL_LOCAL_INTERNAL("Changing language!", *this);
-		return MESSAGE_NOT_HANDLED;
 	}
 	if (uMsg==WM_CLOSE)
 	{
@@ -192,7 +194,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 		p = this->window()->toClient(p);
 		sad::Point3D op = this->context()->mapToViewport(p, m_glsettings.ztest());
 		this->controls()->postMouseMove(sad::Event(op.x(), op.y(), op.z(),key));
-		return MESSAGE_NOT_HANDLED;
+		return 0;
 	}
 	if (uMsg==WM_MOUSEWHEEL)
 	{
@@ -249,16 +251,6 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
 	{
 		sad::Event sev(0);
-		
-		sad::Maybe<sad::String> result = decoder.convert(&ev, this->window());
-		if (result.exists())
-		{
-			SL_LOCAL_DEBUG(result.value(), *this);
-		}
-		else
-		{
-			SL_LOCAL_DEBUG("Cannot print key data!", *this);
-		}
 		SHORT c=GetAsyncKeyState(VK_CAPITAL)==1;
 		SHORT a=GetAsyncKeyState(VK_MENU)<0;
 		SHORT ct=GetAsyncKeyState(VK_CONTROL)<0;
@@ -274,7 +266,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			     this->controls()->postKeyDown(sev);
 			else
 				 this->controls()->postKeyUp(sev);
-			return MESSAGE_NOT_HANDLED;
+			return 0;
 		}
 		char af[5];
 		GetKeyNameTextA(lParam,af,5);
@@ -283,7 +275,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 				this->controls()->postKeyDown(sev);
 		else
 				this->controls()->postKeyUp(sev);
-		return MESSAGE_NOT_HANDLED;
+		return 0;
 	}
 	if (uMsg==WM_SIZE)
 	{
@@ -296,7 +288,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 			window()->setActive(true);
 			this->reshape(LOWORD (lParam), HIWORD (lParam));
 		}
-		return MESSAGE_NOT_HANDLED;
+		return 0;
 	}
 	
 	if (uMsg == WM_NCHITTEST && window()->fixed()) 
@@ -319,6 +311,7 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 
 LRESULT CALLBACK sad_renderer_window_proc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+
 	sad::Renderer * r = NULL; 
 	m_data.lock();
 	LRESULT result = MESSAGE_NOT_HANDLED;
@@ -332,6 +325,7 @@ LRESULT CALLBACK sad_renderer_window_proc (HWND hWnd, UINT uMsg, WPARAM wParam, 
 	{
 		return result;
 	}
+
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);				
 }
 
