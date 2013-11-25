@@ -16,72 +16,72 @@ const int syskeycount = 223;
 
 // Partially taken from Qt SDK, via qkeymapper_win.cpp
 sad::KeyboardKey syskeys[syskeycount] = { // Keyboard mapping table
-                        // Dec |  Hex | Windows Virtual key
+                                  // Dec |  Hex | Windows Virtual key
 	sad::KeyNone,    //   0   0x00
-    sad::KeyNone,    //   1   0x01   VK_LBUTTON          | Left mouse button
-    sad::KeyNone,    //   2   0x02   VK_RBUTTON          | Right mouse button
+	sad::KeyNone,    //   1   0x01   VK_LBUTTON          | Left mouse button
+	sad::KeyNone,    //   2   0x02   VK_RBUTTON          | Right mouse button
 	sad::KeyNone,    //   3   0x03   VK_CANCEL           | Control-Break processing
-    sad::KeyNone,    //   4   0x04   VK_MBUTTON          | Middle mouse button
-    sad::KeyNone,    //   5   0x05   VK_XBUTTON1         | X1 mouse button
-    sad::KeyNone,    //   6   0x06   VK_XBUTTON2         | X2 mouse button
-    sad::KeyNone,    //   7   0x07   -- unassigned --
-	sad::Backspace,  //   8   0x08   VK_BACK             | BackSpace key
-	sad::Tab,        //   9   0x09   VK_TAB              | Tab key
-    sad::KeyNone,    //  10   0x0A   -- reserved --
-    sad::KeyNone,    //  11   0x0B   -- reserved --
-    sad::KeyNone,    //  12   0x0C   VK_CLEAR            | Clear key
-	sad::Enter  ,    //  13   0x0D   VK_RETURN           | Enter key
-    sad::KeyNone,    //  14   0x0E   -- unassigned --
-    sad::KeyNone,    //  15   0x0F   -- unassigned --
-	sad::LeftShift,  //  16   0x10   VK_SHIFT            | Shift key
+	sad::KeyNone,    //   4   0x04   VK_MBUTTON          | Middle mouse button
+	sad::KeyNone,    //   5   0x05   VK_XBUTTON1         | X1 mouse button
+	sad::KeyNone,    //   6   0x06   VK_XBUTTON2         | X2 mouse button
+	sad::KeyNone,    //   7   0x07   -- unassigned --
+	sad::Backspace, //   8   0x08   VK_BACK             | BackSpace key
+	sad::Tab,            //   9   0x09   VK_TAB              | Tab key
+	sad::KeyNone,    //  10   0x0A   -- reserved --
+	sad::KeyNone,    //  11   0x0B   -- reserved --
+	sad::KeyNone,    //  12   0x0C   VK_CLEAR            | Clear key
+	sad::Enter  ,       //  13   0x0D   VK_RETURN           | Enter key
+	sad::KeyNone,    //  14   0x0E   -- unassigned --
+	sad::KeyNone,    //  15   0x0F   -- unassigned --
+	sad::LeftShift,    //  16   0x10   VK_SHIFT            | Shift key
 	sad::LeftControl,//  17   0x11   VK_CONTROL          | Ctrl key
-	sad::LeftAlt,    //  18   0x12   VK_MENU             | Alt key
-	sad::Pause,      //  19   0x13   VK_PAUSE            | Pause key
-	sad::CapsLock,   //  20   0x14   VK_CAPITAL          | Caps-Lock
-    sad::KeyNone,    //  21   0x15   VK_KANA / VK_HANGUL | IME Kana or Hangul mode
-    sad::KeyNone,    //  22   0x16   -- unassigned --
-    sad::KeyNone,    //  23   0x17   VK_JUNJA            | IME Junja mode
-    sad::KeyNone,    //  24   0x18   VK_FINAL            | IME final mode
-    sad::KeyNone,    //  25   0x19   VK_HANJA / VK_KANJI | IME Hanja or Kanji mode
-    sad::KeyNone,    //  26   0x1A   -- unassigned --
-	sad::Esc,        //  27   0x1B   VK_ESCAPE           | Esc key
-    sad::KeyNone,    //  28   0x1C   VK_CONVERT          | IME convert
-    sad::KeyNone,    //  29   0x1D   VK_NONCONVERT       | IME non-convert
-    sad::KeyNone,    //  30   0x1E   VK_ACCEPT           | IME accept
-    sad::KeyNone,    //  31   0x1F   VK_MODECHANGE       | IME mode change request
-	sad::Space,      //  32   0x20   VK_SPACE            | Spacebar
+	sad::LeftAlt,      //  18   0x12   VK_MENU             | Alt key
+	sad::Pause,       //  19   0x13   VK_PAUSE            | Pause key
+	sad::CapsLock, //  20   0x14   VK_CAPITAL          | Caps-Lock
+	sad::KeyNone,    //  21   0x15   VK_KANA / VK_HANGUL | IME Kana or Hangul mode
+	sad::KeyNone,    //  22   0x16   -- unassigned --
+	sad::KeyNone,    //  23   0x17   VK_JUNJA            | IME Junja mode
+	sad::KeyNone,    //  24   0x18   VK_FINAL            | IME final mode
+	sad::KeyNone,    //  25   0x19   VK_HANJA / VK_KANJI | IME Hanja or Kanji mode
+	sad::KeyNone,    //  26   0x1A   -- unassigned --
+	sad::Esc,            //  27   0x1B   VK_ESCAPE           | Esc key
+	sad::KeyNone,    //  28   0x1C   VK_CONVERT          | IME convert
+	sad::KeyNone,    //  29   0x1D   VK_NONCONVERT       | IME non-convert
+	sad::KeyNone,    //  30   0x1E   VK_ACCEPT           | IME accept
+	sad::KeyNone,    //  31   0x1F   VK_MODECHANGE       | IME mode change request
+	sad::Space,       //  32   0x20   VK_SPACE            | Spacebar
 	sad::PageUp,     //  33   0x21   VK_PRIOR            | Page Up key
-	sad::PageDown,   //  34   0x22   VK_NEXT             | Page Down key
-	sad::End,        //  35   0x23   VK_END              | End key
+	sad::PageDown, //  34   0x22   VK_NEXT             | Page Down key
+	sad::End,          //  35   0x23   VK_END              | End key
 	sad::Home,       //  36   0x24   VK_HOME             | Home key
 	sad::KeyLeft,    //  37   0x25   VK_LEFT             | Left arrow key
-	sad::KeyUp,      //  38   0x26   VK_UP               | Up arrow key
-	sad::KeyRight,   //  39   0x27   VK_RIGHT            | Right arrow key
-	sad::KeyDown,    //  40   0x28   VK_DOWN             | Down arrow key
-	sad::KeyNone,    //  41   0x29   VK_SELECT           | Select key
-	sad::KeyNone,    //  42   0x2A   VK_PRINT            | Print key
-	sad::KeyNone,    //  43   0x2B   VK_EXECUTE          | Execute key
+	sad::KeyUp,     //  38   0x26   VK_UP               | Up arrow key
+	sad::KeyRight, //  39   0x27   VK_RIGHT            | Right arrow key
+	sad::KeyDown,//  40   0x28   VK_DOWN             | Down arrow key
+	sad::KeyNone, //  41   0x29   VK_SELECT           | Select key
+	sad::KeyNone, //  42   0x2A   VK_PRINT            | Print key
+	sad::KeyNone, //  43   0x2B   VK_EXECUTE          | Execute key
 	sad::PrintScreen,//  44   0x2C   VK_SNAPSHOT         | Print Screen key
 	sad::Insert,     //  45   0x2D   VK_INSERT           | Ins key
 	sad::Delete,     //  46   0x2E   VK_DELETE           | Del key
 	sad::KeyNone,    //  47   0x2F   VK_HELP             | Help key
 	sad::Numeric0,   //  48   0x30   (VK_0)              | 0 key
 	sad::Numeric1,   //  49   0x31   (VK_1)              | 1 key
-    sad::Numeric2,   //  50   0x32   (VK_2)              | 2 key
-    sad::Numeric3,   //  51   0x33   (VK_3)              | 3 key
-    sad::Numeric4,   //  52   0x34   (VK_4)              | 4 key
-    sad::Numeric5,   //  53   0x35   (VK_5)              | 5 key
-    sad::Numeric6,   //  54   0x36   (VK_6)              | 6 key
-    sad::Numeric7,   //  55   0x37   (VK_7)              | 7 key
-    sad::Numeric8,   //  56   0x38   (VK_8)              | 8 key
-    sad::Numeric9,   //  57   0x39   (VK_9)              | 9 key
-    sad::KeyNone,    //  58   0x3A   -- unassigned --
-    sad::KeyNone,    //  59   0x3B   -- unassigned --
-    sad::KeyNone,    //  60   0x3C   -- unassigned --
-    sad::KeyNone,    //  61   0x3D   -- unassigned --
-    sad::KeyNone,    //  62   0x3E   -- unassigned --
-    sad::KeyNone,    //  63   0x3F   -- unassigned --
-    sad::KeyNone,    //  64   0x40   -- unassigned --
+	sad::Numeric2,   //  50   0x32   (VK_2)              | 2 key
+	sad::Numeric3,   //  51   0x33   (VK_3)              | 3 key
+	sad::Numeric4,   //  52   0x34   (VK_4)              | 4 key
+	sad::Numeric5,   //  53   0x35   (VK_5)              | 5 key
+	sad::Numeric6,   //  54   0x36   (VK_6)              | 6 key
+	sad::Numeric7,   //  55   0x37   (VK_7)              | 7 key
+	sad::Numeric8,   //  56   0x38   (VK_8)              | 8 key
+	sad::Numeric9,   //  57   0x39   (VK_9)              | 9 key
+	sad::KeyNone,    //  58   0x3A   -- unassigned --
+	sad::KeyNone,    //  59   0x3B   -- unassigned --
+	sad::KeyNone,    //  60   0x3C   -- unassigned --
+	sad::KeyNone,    //  61   0x3D   -- unassigned --
+	sad::KeyNone,    //  62   0x3E   -- unassigned --
+	sad::KeyNone,    //  63   0x3F   -- unassigned --
+	sad::KeyNone,    //  64   0x40   -- unassigned --
 	sad::A,          //  65   0x41   (VK_A)              | A key
     sad::B,          //  66   0x42   (VK_B)              | B key
     sad::C,          //  67   0x43   (VK_C)              | C key
@@ -250,60 +250,6 @@ sad::KeyboardKey syskeys[syskeycount] = { // Keyboard mapping table
 
 
 #ifdef X11
-
-/**
-	rectbl.insert(XK_Escape,KEY_ESC);
-        rectbl.insert(XK_F1,KEY_F1);
-	rectbl.insert(XK_F2,KEY_F2);
-	rectbl.insert(XK_F3,KEY_F3);
-	rectbl.insert(XK_F4,KEY_F4);
-	rectbl.insert(XK_F5,KEY_F5);
-	rectbl.insert(XK_F6,KEY_F6);
-	rectbl.insert(XK_F7,KEY_F7);
-	rectbl.insert(XK_F8,KEY_F8);
-	rectbl.insert(XK_F9,KEY_F9);
-	rectbl.insert(XK_F10,KEY_F10);
-	rectbl.insert(XK_F11,KEY_F11);
-	rectbl.insert(XK_F12,KEY_F12);
-	rectbl.insert(XK_grave,'~');
-	rectbl.insert(XK_minus,'-');
-	rectbl.insert(XK_equal,'=');
- 	rectbl.insert(XK_backslash,'\\');
-	rectbl.insert(XK_BackSpace,KEY_BACKSPACE);
-	rectbl.insert(XK_Scroll_Lock,KEY_SCROLLOCK);
-	rectbl.insert(XK_Pause,KEY_PAUSE);
-	rectbl.insert(XK_Insert,KEY_INSERT);
-	rectbl.insert(XK_Home,KEY_HOME);
-	rectbl.insert(XK_Page_Up,KEY_PGUP);
-	rectbl.insert(XK_Tab,KEY_TAB);
-	rectbl.insert(XK_bracketleft,'[');
-	rectbl.insert(XK_bracketright,']');
-	rectbl.insert(XK_Return,KEY_ENTER);
-	rectbl.insert(XK_Delete,KEY_DELETE);
-	rectbl.insert(XK_End,KEY_END);
-	rectbl.insert(XK_Page_Down,KEY_PGDOWN);
-	rectbl.insert(XK_Caps_Lock,KEY_CAPSLOCK);
-	rectbl.insert(XK_semicolon,';');
-	rectbl.insert(XK_apostrophe,'\'');
-	rectbl.insert(XK_Shift_L,KEY_LSHIFT);
-	rectbl.insert(XK_comma,',');
-	rectbl.insert(XK_period,'.');
-	rectbl.insert(XK_slash,'/');
-	rectbl.insert(XK_Shift_R,KEY_RSHIFT);
-	rectbl.insert(XK_Left,KEY_LEFT);
-	rectbl.insert(XK_Up,KEY_UP);
-	rectbl.insert(XK_Right,KEY_RIGHT);
-	rectbl.insert(XK_Down,KEY_DOWN);
-	rectbl.insert(XK_Control_L,KEY_LCTRL);
-	rectbl.insert(XK_Control_R,KEY_RCTRL);
-	rectbl.insert(XK_Super_L,KEY_WIN);
-	rectbl.insert(XK_Super_R,KEY_WIN);
-	rectbl.insert(XK_Alt_L,KEY_LALT);
-	rectbl.insert(XK_Alt_R,KEY_RALT);
-	rectbl.insert(XK_space, KEY_SPACE);
-	rectbl.insert(XK_Menu, KEY_APP);
- 	rectbl.insert(XK_Sys_Req, KEY_PRINTSCREEN); 
- */
 
 
 #ifdef  XK_CYRILLIC
@@ -554,7 +500,7 @@ unsigned int mapping[totalmappingsize] = {
 #endif
 	XK_slash,		   sad::Slash,
 	XK_question,	   sad::Slash,
-	XK_Return,         sad::Return,
+	XK_Return,         sad::Enter,
 	XK_Delete,         sad::Delete,
 	XK_End,            sad::End,
 	XK_Next,           sad::PageDown,
@@ -591,7 +537,8 @@ void sad::os::KeyDecoder::init()
 #endif
 
 #ifdef X11
-	for(unsigned int i = 0; i < totalmappingsize; i += 2);
+	unsigned int i = 0;
+	for(i = 0; i < totalmappingsize; i += 2);
 	{
 		sad::os::SystemKey syskey = (sad::os::SystemKey)mapping[i];
 		sad::KeyboardKey sadkey = (sad::KeyboardKey)mapping[i+1];
