@@ -6,6 +6,8 @@
 #include "glcontext.h"
 #include "sadsleep.h"
 #include "fpsinterpolation.h"
+#include "os/keydecoder.h"
+#include "os/systemwindowevent.h"
 
 #ifdef WIN32
 
@@ -171,8 +173,12 @@ LRESULT windowresizepoints[windowresizepointscount] = {
 
 #define MESSAGE_NOT_HANDLED 2000000
 
+sad::os::KeyDecoder decoder;
+
 LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	sad::os::SystemWindowEvent ev(hWnd, uMsg, wParam, lParam);
+
 	static bool msg_init=false;
 	if (!msg_init)
 	{
@@ -251,6 +257,17 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	if (uMsg==WM_KEYDOWN || uMsg==WM_KEYUP)
 	{
 		sad::Event sev(0);
+
+		sad::Maybe<sad::String> result = decoder.convert(&ev, this->window());
+ 		if (result.exists())
+ 		{
+ 			SL_LOCAL_DEBUG(result.value(), *this); 
+		}
+		else
+		{
+			SL_LOCAL_DEBUG("Cannot print key data!", *this);
+		}
+
 		SHORT c=GetAsyncKeyState(VK_CAPITAL)==1;
 		SHORT a=GetAsyncKeyState(VK_MENU)<0;
 		SHORT ct=GetAsyncKeyState(VK_CONTROL)<0;

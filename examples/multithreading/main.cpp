@@ -196,6 +196,7 @@ int thread(void * p)
 	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
 	r.controls()->setMouseDownHandler(new EventHandler(&r, a, false));
 
+	SL_LOCAL_DEBUG("Building mipmaps", r);
 	/* Because of bugs in Intel GMA drivers we must lock on thread, before building mipmaps
 	 */
 	mipmap_part_mutex.lock();

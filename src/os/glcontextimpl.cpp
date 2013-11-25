@@ -143,6 +143,10 @@ bool sad::os::GLContextImpl::createFor(sad::Window * win)
 					wglDeleteContext(m_handle.Context);
 					m_handle.Context = newContext;
 					makeCurrentResult = wglMakeCurrent(win->handles()->DC, m_handle.Context);
+					if (makeCurrentResult != TRUE)
+					{
+						SL_COND_LOCAL_INTERNAL("Cannot bind OpenGL3+ to window", this->renderer());
+					}
 				}
 				else
 				{
