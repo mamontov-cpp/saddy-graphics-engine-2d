@@ -9,6 +9,8 @@
 #include "fpsinterpolation.h"
 #include "os/systemwindowevent.h"
 #include "os/keydecoder.h"
+#include <X11/Xlocale.h>
+#include <locale.h>
 
 static clock_t dblclick=0;
 static clock_t clk=0;
@@ -43,6 +45,10 @@ void sad::Renderer::mainLoop()
 	
 	::Window  winDummy = 0;
 	XEvent event;
+	
+	
+	setlocale(LC_CTYPE, "");
+	XSetLocaleModifiers("");
 
 	while(m_running)
 	{
@@ -108,7 +114,6 @@ void sad::Renderer::mainLoop()
 		case KeyPress:          {
                                                    int key = sad::recode(&event.xkey); 
 						   ev.Event = event;
-						   
 						   sad::Maybe<sad::String> result = decoder.convert(&ev, this->window());
 						   if (result.exists())
 						   {
@@ -117,12 +122,12 @@ void sad::Renderer::mainLoop()
 						   else
 						   {
 								SL_LOCAL_DEBUG("Cannot print key data!", *this);
-						   }
-						   
+						   }	
+						   fflush(stdout);
 						   if (key==KEY_LALT || key==KEY_RALT) altstate=true;
 						   sad::Event sev(key);  sev.alt=altstate; sev.ctrl=(event.xkey.state & ControlMask) !=0;
 						   sev.capslock=(event.xkey.state & LockMask) !=0; sev.shift=(event.xkey.state & ShiftMask) !=0;
-						  this->controls()->postKeyDown(sev);
+						   this->controls()->postKeyDown(sev);
                     				   break;
                                                  }
 		case KeyRelease:      {

@@ -600,7 +600,7 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
 #ifdef X11
 	const int bufferlength = 10;
 	char buffer[bufferlength];
-	int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &m_key_sym, &m_compose_status);
+	int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &m_key_sym, NULL);
 	if (length != 0)
 	{
 		result.setValue(buffer);
