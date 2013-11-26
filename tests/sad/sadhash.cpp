@@ -283,17 +283,17 @@ struct SadHashTest : tpunit::TestFixture
    
    void testBug261113()
    {	
-		sad::Hash<unsigned int, sad::KeyboardKey> m_keys;
+		sad::Hash<unsigned long, sad::KeyboardKey> m_keys;
 
 		unsigned int i = 0;
 		for(i = 0; i < totalmappingsize; i += 2)
 		{
-			unsigned int syskey = mapping[i];
+			unsigned long syskey = mapping[i];
 			sad::KeyboardKey sadkey = (sad::KeyboardKey)mapping[i+1];
 			m_keys.insert(syskey, sadkey);
 		}
 
-		ASSERT_TRUE(m_keys.contains(0xffea));
+		ASSERT_TRUE(m_keys.contains(65509));
    }
 
 
