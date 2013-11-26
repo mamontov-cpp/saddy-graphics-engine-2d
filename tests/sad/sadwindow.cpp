@@ -12,6 +12,8 @@
 #pragma warning(pop)
 
 
+#ifdef USE_WINDOW_TEST
+
 /*!
  * Tests object logic
  */
@@ -124,3 +126,5 @@ struct sadWindowTest : tpunit::TestFixture
    }
 
 } sad_window_test;
+
+#endif

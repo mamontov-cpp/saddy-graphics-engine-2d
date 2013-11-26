@@ -538,7 +538,7 @@ void sad::os::KeyDecoder::init()
 
 #ifdef X11
 	unsigned int i = 0;
-	for(i = 0; i < totalmappingsize; i += 2);
+	for(i = 0; i < totalmappingsize; i += 2)
 	{
 		sad::os::SystemKey syskey = (sad::os::SystemKey)mapping[i];
 		sad::KeyboardKey sadkey = (sad::KeyboardKey)mapping[i+1];
@@ -562,14 +562,11 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 #ifdef X11
 	sad::KeyboardKey key = sad::KeyNone;
 	::KeySym keysym = XLookupKeysym(&(e->Event.xkey), 0);
-	/*
 	if (m_table.contains(keysym)) 
 	{
 		key = m_table[keysym];
 	}
 	return key;
-	*/
-	return (sad::KeyboardKey)keysym;
 #endif
 }
 
