@@ -66,6 +66,15 @@ protected:
 	 */
 	unsigned char m_key_states[256];
 #endif
+
+#ifdef X11
+	/*! A key symbol
+	 */
+	::KeySym m_key_sym;
+	/*! A compose status
+	 */
+	::XComposeStatus m_compose_status;
+#endif
 	/*! A recoding table for decoder
 	 */
 	sad::Hash<sad::os::SystemKey, sad::KeyboardKey> m_table;

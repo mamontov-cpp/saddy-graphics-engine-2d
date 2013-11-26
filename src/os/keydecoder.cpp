@@ -562,11 +562,14 @@ sad::KeyboardKey sad::os::KeyDecoder::decode(sad::os::SystemWindowEvent * e)
 #ifdef X11
 	sad::KeyboardKey key = sad::KeyNone;
 	::KeySym keysym = XLookupKeysym(&(e->Event.xkey), 0);
+	/*
 	if (m_table.contains(keysym)) 
 	{
 		key = m_table[keysym];
 	}
 	return key;
+	*/
+	return (sad::KeyboardKey)keysym;
 #endif
 }
 
@@ -600,8 +603,7 @@ sad::Maybe<sad::String>  sad::os::KeyDecoder::convert(sad::os::SystemWindowEvent
 #ifdef X11
 	const int bufferlength = 10;
 	char buffer[bufferlength];
-	::KeySym sym;
-	int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &sym, NULL);
+	int length = XLookupString(&(e->Event.xkey), buffer, bufferlength, &m_key_sym, &m_compose_status);
 	if (length != 0)
 	{
 		result.setValue(buffer);
