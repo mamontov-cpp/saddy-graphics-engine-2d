@@ -25,42 +25,42 @@ sad::KeyboardKey syskeys[syskeycount] = { // Keyboard mapping table
 	sad::KeyNone,    //   5   0x05   VK_XBUTTON1         | X1 mouse button
 	sad::KeyNone,    //   6   0x06   VK_XBUTTON2         | X2 mouse button
 	sad::KeyNone,    //   7   0x07   -- unassigned --
-	sad::Backspace, //   8   0x08   VK_BACK             | BackSpace key
-	sad::Tab,            //   9   0x09   VK_TAB              | Tab key
+	sad::Backspace,  //   8   0x08   VK_BACK             | BackSpace key
+	sad::Tab,        //   9   0x09   VK_TAB              | Tab key
 	sad::KeyNone,    //  10   0x0A   -- reserved --
 	sad::KeyNone,    //  11   0x0B   -- reserved --
 	sad::KeyNone,    //  12   0x0C   VK_CLEAR            | Clear key
-	sad::Enter  ,       //  13   0x0D   VK_RETURN           | Enter key
+	sad::Enter  ,    //  13   0x0D   VK_RETURN           | Enter key
 	sad::KeyNone,    //  14   0x0E   -- unassigned --
 	sad::KeyNone,    //  15   0x0F   -- unassigned --
-	sad::LeftShift,    //  16   0x10   VK_SHIFT            | Shift key
+	sad::LeftShift,  //  16   0x10   VK_SHIFT            | Shift key
 	sad::LeftControl,//  17   0x11   VK_CONTROL          | Ctrl key
-	sad::LeftAlt,      //  18   0x12   VK_MENU             | Alt key
-	sad::Pause,       //  19   0x13   VK_PAUSE            | Pause key
-	sad::CapsLock, //  20   0x14   VK_CAPITAL          | Caps-Lock
+	sad::LeftAlt,    //  18   0x12   VK_MENU             | Alt key
+	sad::Pause,      //  19   0x13   VK_PAUSE            | Pause key
+	sad::CapsLock,   //  20   0x14   VK_CAPITAL          | Caps-Lock
 	sad::KeyNone,    //  21   0x15   VK_KANA / VK_HANGUL | IME Kana or Hangul mode
 	sad::KeyNone,    //  22   0x16   -- unassigned --
 	sad::KeyNone,    //  23   0x17   VK_JUNJA            | IME Junja mode
 	sad::KeyNone,    //  24   0x18   VK_FINAL            | IME final mode
 	sad::KeyNone,    //  25   0x19   VK_HANJA / VK_KANJI | IME Hanja or Kanji mode
 	sad::KeyNone,    //  26   0x1A   -- unassigned --
-	sad::Esc,            //  27   0x1B   VK_ESCAPE           | Esc key
+	sad::Esc,        //  27   0x1B   VK_ESCAPE           | Esc key
 	sad::KeyNone,    //  28   0x1C   VK_CONVERT          | IME convert
 	sad::KeyNone,    //  29   0x1D   VK_NONCONVERT       | IME non-convert
 	sad::KeyNone,    //  30   0x1E   VK_ACCEPT           | IME accept
 	sad::KeyNone,    //  31   0x1F   VK_MODECHANGE       | IME mode change request
-	sad::Space,       //  32   0x20   VK_SPACE            | Spacebar
+	sad::Space,      //  32   0x20   VK_SPACE            | Spacebar
 	sad::PageUp,     //  33   0x21   VK_PRIOR            | Page Up key
-	sad::PageDown, //  34   0x22   VK_NEXT             | Page Down key
-	sad::End,          //  35   0x23   VK_END              | End key
+	sad::PageDown,   //  34   0x22   VK_NEXT             | Page Down key
+	sad::End,        //  35   0x23   VK_END              | End key
 	sad::Home,       //  36   0x24   VK_HOME             | Home key
 	sad::KeyLeft,    //  37   0x25   VK_LEFT             | Left arrow key
-	sad::KeyUp,     //  38   0x26   VK_UP               | Up arrow key
-	sad::KeyRight, //  39   0x27   VK_RIGHT            | Right arrow key
-	sad::KeyDown,//  40   0x28   VK_DOWN             | Down arrow key
-	sad::KeyNone, //  41   0x29   VK_SELECT           | Select key
-	sad::KeyNone, //  42   0x2A   VK_PRINT            | Print key
-	sad::KeyNone, //  43   0x2B   VK_EXECUTE          | Execute key
+	sad::KeyUp,      //  38   0x26   VK_UP               | Up arrow key
+	sad::KeyRight,   //  39   0x27   VK_RIGHT            | Right arrow key
+	sad::KeyDown,    //  40   0x28   VK_DOWN             | Down arrow key
+	sad::KeyNone,    //  41   0x29   VK_SELECT           | Select key
+	sad::KeyNone,    //  42   0x2A   VK_PRINT            | Print key
+	sad::KeyNone,    //  43   0x2B   VK_EXECUTE          | Execute key
 	sad::PrintScreen,//  44   0x2C   VK_SNAPSHOT         | Print Screen key
 	sad::Insert,     //  45   0x2D   VK_INSERT           | Ins key
 	sad::Delete,     //  46   0x2E   VK_DELETE           | Del key
