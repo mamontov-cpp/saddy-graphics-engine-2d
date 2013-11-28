@@ -632,6 +632,10 @@
 					RelativePath=".\src\input\events.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\input\handlers.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="imageformats"
