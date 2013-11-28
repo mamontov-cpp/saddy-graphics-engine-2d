@@ -629,6 +629,10 @@
 				Name="input"
 				>
 				<File
+					RelativePath=".\src\input\controls.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\input\events.cpp"
 					>
 				</File>
@@ -1330,6 +1334,10 @@
 			<Filter
 				Name="input"
 				>
+				<File
+					RelativePath=".\include\input\controls.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\input\events.h"
 					>
