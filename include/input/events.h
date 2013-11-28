@@ -26,31 +26,31 @@ enum EventType
 	ET_Quit       = 0,
 	/*! A type for window event, when window is activated
 	 */
-	ET_Activate   = 1,
+	ET_Activate         = 1,
 	/*! A type for window event, when window is deactivated
 	 */
-	ET_Deactivate = 2,
+	ET_Deactivate       = 2,
 	/*! A type for mouse enter event
 	 */
-	ET_MouseEnter = 3,
+	ET_MouseEnter       = 3,
 	/*! A type for mouse leave event
 	 */
-	ET_MouseLeave = 4,
+	ET_MouseLeave       = 4,
 	/*! A type for key press event
 	 */
-	ET_KeyPress   = 5,
+	ET_KeyPress         = 5,
 	/*! A type for key release event
 	 */
-	ET_KeyRelease = 6,
+	ET_KeyRelease       = 6,
 	/*! A type for mouse move event
 	 */
-	ET_MouseMove =  7,
+	ET_MouseMove        =  7,
 	/*! A type for mouse click event
 	 */
-	ET_MousePress =  8,
+	ET_MousePress       =  8,
 	/*! A type for mouse release event
 	 */
-	ET_MouseRelease =  9,
+	ET_MouseRelease     =  9,
 	/*! A type for mouse release event
 	 */
 	ET_MouseDoubleClick =  10,
@@ -111,10 +111,9 @@ class KeyEvent: public sad::input::AbstractEvent
 public:
 	sad::KeyboardKey Key;   //!< Code of key, pressed by user
 	sad::Maybe<sad::String> ReadableKey; // !< A readable part of key
-	bool   AltHeld;		    //!< True, if user held ALT key, when pressed
-	bool   ShiftHeld;	    //!< True, if user held SHIFT key, when pressed
-	bool   CtrlHeld;	    //!< True, if user held CTRL key, when pressed  
-	bool   CapsLockPressed; //!< True, if user pressed caps lock
+	bool   AltHeld;		    //!< True, if user held ALT key, when event was created
+	bool   ShiftHeld;	    //!< True, if user held SHIFT key, when event was created
+	bool   CtrlHeld;	    //!< True, if user held CTRL key, when event was created
 	
 	/*! Creates new empty key event
 	 */
@@ -122,8 +121,7 @@ public:
 	: Key(sad::KeyNone), 
 	  AltHeld(false), 
 	  ShiftHeld(false), 
-	  CtrlHeld(false), 
-	  CapsLockPressed(false)
+	  CtrlHeld(false) 
 	{
 	
 	}
