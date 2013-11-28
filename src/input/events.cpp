@@ -1,5 +1,8 @@
 #include "input/events.h"
 
+// A maximal value of enum element for arrays
+const int sad::input::AbstractEvent::EventTypeCount = 13;
+
 sad::input::AbstractEvent::~AbstractEvent()
 {
 

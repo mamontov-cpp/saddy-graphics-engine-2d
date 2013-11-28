@@ -17,6 +17,51 @@ namespace sad
 namespace input
 {
 
+/*! Determines emitted event type
+ */
+enum EventType
+{
+	/*! A type for quit event
+	 */
+	ET_Quit       = 0,
+	/*! A type for window event, when window is activated
+	 */
+	ET_Activate   = 1,
+	/*! A type for window event, when window is deactivated
+	 */
+	ET_Deactivate = 2,
+	/*! A type for mouse enter event
+	 */
+	ET_MouseEnter = 3,
+	/*! A type for mouse leave event
+	 */
+	ET_MouseLeave = 4,
+	/*! A type for key press event
+	 */
+	ET_KeyPress   = 5,
+	/*! A type for key release event
+	 */
+	ET_KeyRelease = 6,
+	/*! A type for mouse move event
+	 */
+	ET_MouseMove =  7,
+	/*! A type for mouse click event
+	 */
+	ET_MousePress =  8,
+	/*! A type for mouse release event
+	 */
+	ET_MouseRelease =  9,
+	/*! A type for mouse release event
+	 */
+	ET_MouseDoubleClick =  10,
+	/*! A type for wheel event
+	 */
+	ET_MouseWheel       =  11,
+	/*! A type for resize event
+	 */
+	ET_Resize           = 12
+};
+
 /*! An abstract event, which is base for all events of engine.
 	Can be used for marking or run-time check of events
  */
@@ -26,6 +71,9 @@ public:
 	/*! Kept, for purpose of inheritance
 	 */
 	virtual ~AbstractEvent();
+	/*! Determines count of all event types 
+	 */
+	static const int EventTypeCount;
 };
 
 /*! This type of events raised, when sad::Renderer exits sad::Renderer::run(), or
@@ -158,7 +206,7 @@ public:
 
 /*! A type of event, which is emitted, when user clicks on a mouse button
  */
-typedef MouseEvent MouseClickEvent;
+typedef MouseEvent MousePressEvent;
 
 /*! A type of event, which is emitted, when user releases a mouse button
  */
