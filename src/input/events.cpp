@@ -5,12 +5,12 @@ sad::input::AbstractEvent::~AbstractEvent()
 
 }
 
-sad::input::QuitEvent::QuitEvent()
+sad::input::NullEvent::NullEvent()
 {
 
 }
 
-sad::input::QuitEvent::~QuitEvent()
+sad::input::NullEvent::~NullEvent()
 {
 
 }
