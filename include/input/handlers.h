@@ -13,21 +13,43 @@ namespace sad
 namespace input
 {
 
-/*! A basic calback for handling window input
+/*! A basic callback for handling window input for any event
  */
-template<
-typename _EventType
->
 class AbstractHandler
 {
 public:
 	/*! Invokes a callback. Used by sad::Input
 		\param[in] e event type
 	 */
-	virtual void invoke(const _EventType & e) = 0;
+	virtual void invoke(const sad::input::AbstractEvent & e) = 0;
 	/*! Kept for inheritance compliance
 	 */
-	virtual ~AbstractHandler() {}
+	virtual ~AbstractHandler();
+};
+
+/*! A basic calback for handling window input
+ */
+template<
+typename _EventType
+>
+class AbstractHandleForType: public sad::input::AbstractHandler
+{
+public:
+	/*! Invokes a callback. Used by sad::Input
+		\param[in] e event type
+	 */
+	virtual void invoke(const sad::input::AbstractEvent & e)
+	{
+		this->invoke(static_cast<const _EventType&>(e));
+	}
+	/*! Kept for inheritance compliance
+	 */
+	virtual ~AbstractHandleForType() {}
+protected:
+	/*! Invokes a callback. Used by sad::Input
+		\param[in] e event type
+	 */
+	virtual void invoke(const _EventType & e) = 0;
 };
 
 /*! A callback, which calls a simple function, which is specified on creation.
@@ -35,10 +57,8 @@ public:
 template<
 typename _EventType
 >
-class FreeFunctionHandler: public sad::input::AbstractHandler<_EventType>
+class FreeFunctionHandler: public sad::input::AbstractHandleForType<_EventType>
 {
-private:
-	void (*m_f)(const _EventType &); //!< Called function
 public:
 	/*! Constructs new handler
 		\param[in] f callback
@@ -54,33 +74,29 @@ public:
 	{
 		m_f(e);
 	}
+private:
+	void (*m_f)(const _EventType &); //!< Called function
 };
 
 /*! A callback, which calls a simple function, which is specified on creation.
 	The function does not care about event.
  */
-template<
-typename _EventType
->
-class VoidFreeFunctionHandler: public sad::input::AbstractHandler<_EventType>
+class VoidFreeFunctionHandler: public sad::input::AbstractHandler
 {
-private:
-	void (*m_f)(); //!< Called function
 public:
 	/*! Constructs new handler
 		\param[in] f callback
 	 */
-	VoidFreeFunctionHandler(void (*f)()) : m_f(f)
+	inline VoidFreeFunctionHandler(void (*f)()) : m_f(f)
 	{
 	}
 
 	/*! Invokes a callback function
 		\param[in] e event type
 	 */
-	virtual void invoke(const _EventType & e)
-	{
-		m_f();
-	}
+	virtual void invoke(const sad::input::AbstractEvent & e);
+private:
+	void (*m_f)(); //!< Called function
 };
 
 /*! A callback, which calls a method on specified object. Both method an object, 
@@ -91,15 +107,8 @@ typename _EventType,
 typename _ObjectClass,
 typename _MethodCallback
 >
-class MethodHandler: public sad::input::AbstractHandler<_EventType>
-{
-private:
-	/*! Inner object, which callback will be called on
-	 */
-	_ObjectClass * m_o;                             
-	/*! Method, which specifies callback
-	 */
-	_MethodCallback m_f;      
+class MethodHandler: public sad::input::AbstractHandleForType<_EventType>
+{     
 public:
 	/*! Constructs new handler
 		\param[in] o object
@@ -119,6 +128,13 @@ public:
 	{
 		(m_o->*m_f)(e);
 	}
+private:
+	/*! Inner object, which callback will be called on
+	 */
+	_ObjectClass * m_o;                             
+	/*! Method, which specifies callback
+	 */
+	_MethodCallback m_f; 
 };
 
 /*! A callback, which calls a method on specified object. Both method an object, 
@@ -130,15 +146,8 @@ typename _EventType,
 typename _ObjectClass,
 typename _MethodCallback
 >
-class VoidMethodHandler: public sad::input::AbstractHandler<_EventType>
-{
-private:
-	/*! Inner object, which callback will be called on
-	 */
-	_ObjectClass * m_o;                             
-	/*! Method, which specifies callback
-	 */
-	_MethodCallback * m_f;      
+class VoidMethodHandler: public sad::input::AbstractHandler
+{     
 public:
 	/*! Constructs new handler
 		\param[in] o object
@@ -154,10 +163,17 @@ public:
 	/*! Invokes a callback function
 		\param[in] e event type
 	 */
-	virtual void invoke(const _EventType & e)
+	virtual void invoke(const sad::input::AbstractEvent & e)
 	{
 		(m_o->*m_f)();
 	}
+private:
+	/*! Inner object, which callback will be called on
+	 */
+	_ObjectClass * m_o;                             
+	/*! Method, which specifies callback
+	 */
+	_MethodCallback * m_f; 
 };
 
 /*! A callback, which composes two method calls on specified objects. All parameters, are
@@ -169,18 +185,8 @@ typename _ObjectClass,
 typename _FCallback,
 typename _GCallback
 >
-class CompositeHandler: public sad::input::AbstractHandler<_EventType>
+class CompositeHandler: public sad::input::AbstractHandleForType<_EventType>
 {
-private:
-	/*! Inner object, which callback will be called on
-	 */
-	_ObjectClass * m_o;                             
-	/*! Method, which returns object for callback
-	 */
-	_FCallback m_f;   
-	/*! Method, which is called, when event is raised
-	 */
-	_GCallback m_g;
 public:
 	/*! Constructs new handler
 		\param[in] o object
@@ -202,6 +208,16 @@ public:
 	{
 		(((m_o->*m_f)()) ->* m_g) (e);
 	}
+private:
+	/*! Inner object, which callback will be called on
+	 */
+	_ObjectClass * m_o;                             
+	/*! Method, which returns object for callback
+	 */
+	_FCallback m_f;   
+	/*! Method, which is called, when event is raised
+	 */
+	_GCallback m_g;
 };
 
 /*! A callback, which composes two method calls on specified objects. All parameters, are
@@ -215,18 +231,8 @@ typename _ObjectClass,
 typename _FCallback,
 typename _GCallback
 >
-class VoidCompositeHandler: public sad::input::AbstractHandler<_EventType>
+class VoidCompositeHandler: public sad::input::AbstractHandler
 {
-private:
-	/*! Inner object, which callback will be called on
-	 */
-	_ObjectClass * m_o;                             
-	/*! Method, which returns object for callback
-	 */
-	_FCallback m_f;   
-	/*! Method, which is called, when event is raised
-	 */
-	_GCallback m_g;
 public:
 	/*! Constructs new handler
 		\param[in] o object
@@ -244,10 +250,20 @@ public:
 	/*! Invokes a callback function
 		\param[in] e event type
 	 */
-	virtual void invoke(const _EventType & e)
+	virtual void invoke(const sad::input::AbstractEvent & e)
 	{
 		(((m_o->*m_f)()) ->* m_g) ();
 	}
+private:
+	/*! Inner object, which callback will be called on
+	 */
+	_ObjectClass * m_o;                             
+	/*! Method, which returns object for callback
+	 */
+	_FCallback m_f;   
+	/*! Method, which is called, when event is raised
+	 */
+	_GCallback m_g;
 };
 
 }
