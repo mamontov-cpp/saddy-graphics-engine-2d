@@ -38,6 +38,16 @@ protected:
 	/*! A handlers, attached to a events
 	 */
 	HandlerList m_handlers[SAD_INPUT_EVENTTYPE_COUNT];
+private:
+	/*! This object is non-copyable, this is not implemented
+		\param[in] o other controls object
+	 */
+	Controls(const sad::input::Controls & o);
+	/*! This object is non-copyable, this is not implemented
+		\param[in] o other controls object
+		\return self-reference
+	 */
+	Controls& operator=(const sad::input::Controls & o);
 };
 
 }

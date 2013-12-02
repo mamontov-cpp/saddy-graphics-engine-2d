@@ -5,7 +5,7 @@
 	callbacks to handle window input.
  */
 #pragma once
-#include "input/events.h"
+#include "events.h"
 
 namespace sad
 {
