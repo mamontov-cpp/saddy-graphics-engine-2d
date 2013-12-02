@@ -24,7 +24,7 @@ class Pair
           /*! Default constructor
           */
           Pair();
-          /*! Parametric
+          /*! Parametric constructor
               \param[in] m1 first property
               \param[in] m2 second propery
           */
