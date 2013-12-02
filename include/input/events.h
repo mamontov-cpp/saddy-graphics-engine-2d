@@ -62,6 +62,10 @@ enum EventType
 	ET_Resize           = 12
 };
 
+/*! A count of elements in EventType
+ */
+#define SAD_INPUT_EVENTTYPE_COUNT  (13)
+
 /*! An abstract event, which is base for all events of engine.
 	Can be used for marking or run-time check of events
  */
@@ -70,10 +74,7 @@ class AbstractEvent
 public:
 	/*! Kept, for purpose of inheritance
 	 */
-	virtual ~AbstractEvent();
-	/*! Determines count of all event types 
-	 */
-	static const int EventTypeCount;
+	virtual ~AbstractEvent();	
 };
 
 /*! This type of events raised, when sad::Renderer exits sad::Renderer::run(), or
