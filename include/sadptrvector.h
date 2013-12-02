@@ -19,7 +19,7 @@ class PtrVector: public sad::Vector<T*>
  public:
 	/*! Creates new empty vector, holding a pointers
 	 */
-	inline PtrVector() : sad::Vector() 
+	inline PtrVector() : sad::Vector<T*>() 
 	{
 	}
 	/*! Frees memory for each contained element
