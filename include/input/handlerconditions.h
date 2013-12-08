@@ -27,7 +27,7 @@ public:
 		\return clone a condition
 	 */
 	virtual sad::input::AbstractHanderCondition * clone() = 0;
-	/*! You can inherit condition for implementing very own conditions
+	/*! You can inherit condition for implementing your very own conditions
 	 */
 	virtual ~AbstractHanderCondition();
 };
