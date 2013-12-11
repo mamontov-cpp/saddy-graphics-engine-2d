@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\keymouseconditions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\label.cpp"
 				>
 			</File>
@@ -725,6 +729,10 @@
 			</File>
 			<File
 				RelativePath=".\include\keycodes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\keymouseconditions.h"
 				>
 			</File>
 			<File
