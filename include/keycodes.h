@@ -138,4 +138,13 @@ enum MouseButton
 	MouseNone   = 0         //!< None as no button pressed or invalid button
 };
 
+/*! A special key codes, which is composed with other buttons, presses by user
+ */
+enum SpecialKey
+{
+	HoldsControl =  -16538,  //!< User holds control button
+	HoldsAlt     =  -16537,  //!< User holds alt button
+	HoldsShift   =  -16536,  //!< User holds shift button
+};
+
 }
