@@ -84,7 +84,7 @@ public:
 class NullEvent: public sad::input::AbstractEvent
 {
 public:
-	/*! Constructs new quit event
+	/*! Constructs new empty event
 	 */
 	NullEvent();
 	/*! Kept, for purpose of inheritance
@@ -94,16 +94,48 @@ public:
 
 /*! A type of event, which is emitted, when user quits application
  */
-typedef NullEvent QuitEvent;
+class QuitEvent: public sad::input::NullEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline QuitEvent(): sad::input::NullEvent()
+	{
+	}
+};
 /*! A type of event, which is emitted when mouse cursor leaves window area
  */
-typedef NullEvent MouseLeaveEvent;
+class MouseLeaveEvent: public sad::input::NullEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MouseLeaveEvent(): sad::input::NullEvent()
+	{
+	}
+};
 /*! A type of event, which is emitted when window is activated 
  */
-typedef NullEvent ActivateEvent;
+class ActivateEvent: public sad::input::NullEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline ActivateEvent(): sad::input::NullEvent()
+	{
+	}
+};
 /*! A type of event, which is emitted when window is deactivated
  */
-typedef NullEvent DeactivateEvent;
+class DeactivateEvent: public sad::input::NullEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline DeactivateEvent(): sad::input::NullEvent()
+	{
+	}
+};
 
 /*! This type of events raised, when user presses or releases key
  */
@@ -133,11 +165,28 @@ public:
 
 /*! A type of event, which is emitted, when user presses keyboard buttton
  */
-typedef  KeyEvent KeyPressEvent;
+class KeyPressEvent: public sad::input::KeyEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline KeyPressEvent(): sad::input::KeyEvent()
+	{
+	}
+};
 
 /*! A type of event, which is emitted, when user releases keyboard button
  */
-typedef  KeyEvent KeyReleaseEvent;
+class KeyReleaseEvent: public sad::input::KeyEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline KeyReleaseEvent(): sad::input::KeyEvent()
+	{
+	}
+};
+
 
 /*! A basic event for all mouse events, like sad::input::MouseEvent,
 	sad::input::WheelEvent
@@ -179,10 +228,26 @@ public:
 
 /*! A type of event, which is emitted, when user moves a mouse
  */
-typedef MouseCursorEvent MouseMoveEvent;
+class MouseMoveEvent: public sad::input::MouseCursorEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MouseMoveEvent(): sad::input::MouseCursorEvent()
+	{
+	}
+};
 /*! A type of event, which is emitted when mouse cursor enters a window 
  */
-typedef MouseCursorEvent MouseEnterEvent;
+class MouseEnterEvent: public sad::input::MouseCursorEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MouseEnterEvent(): sad::input::MouseCursorEvent()
+	{
+	}
+};
 
 /*! This type of events raised, when user clicks a mouse, 
 	presses a mouse button, releases a mouse button or performs a double click
@@ -205,20 +270,44 @@ public:
 
 /*! A type of event, which is emitted, when user clicks on a mouse button
  */
-typedef MouseEvent MousePressEvent;
+class MousePressEvent: public sad::input::MouseEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MousePressEvent(): sad::input::MouseEvent()
+	{
+	}
+};
 
 /*! A type of event, which is emitted, when user releases a mouse button
  */
-typedef MouseEvent MouseReleaseEvent;
+class MouseReleaseEvent: public sad::input::MouseEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MouseReleaseEvent(): sad::input::MouseEvent()
+	{
+	}
+};
 
 /*! A type of event, which is emitted, when user performs a double click 
 	with a mouse button
  */
-typedef MouseEvent MouseDoubleClickEvent;
+class MouseDoubleClickEvent: public sad::input::MouseEvent
+{
+public:
+	/*! Constructs new empty event
+	 */
+	inline MouseDoubleClickEvent(): sad::input::MouseEvent()
+	{
+	}
+};
 
 /*! This type of events raised, when user moves a wheel
  */
-class WheelEvent: public sad::input::MouseCursorEvent
+class MouseWheelEvent: public sad::input::MouseCursorEvent
 {
 public:
 	/*! How much wheel has scrolled. Bigger than zero, means, that wheel was scrolled up,
@@ -228,13 +317,13 @@ public:
 
 	/*! Inits wheel event with zero delta
 	 */
-	inline WheelEvent() : MouseCursorEvent(), Delta(0)
+	inline MouseWheelEvent() : MouseCursorEvent(), Delta(0)
 	{
 
 	}
 	/*! Kept, for purpose of inheritance
 	 */
-	virtual ~WheelEvent();
+	virtual ~MouseWheelEvent();
 };
 
 /*! Event, which is raised, when window is being resized, maximized or minimized 
@@ -255,6 +344,40 @@ public:
 	 */
 	virtual ~ResizeEvent();
 };
+
+
+/*! Provides a helper for getting enum value for specified event type
+ */
+template<
+typename _EventType
+>
+struct EnumValueForEventType
+{
+
+};
+
+#define SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(TYPE)  \
+template< >                                         \
+struct EnumValueForEventType< TYPE >                \
+{                                                   \
+	static const sad::input::EventType Type;        \
+};
+
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::QuitEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::ActivateEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::DeactivateEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::KeyPressEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::KeyReleaseEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseMoveEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseEnterEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseLeaveEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MousePressEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseReleaseEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseDoubleClickEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::MouseWheelEvent)
+SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE(sad::input::ResizeEvent)
+
+#undef SAD_DECLARE_ENUM_VALUE_FOR_EVENTTYPE
 
 }
 
