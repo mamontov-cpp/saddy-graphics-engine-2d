@@ -7,6 +7,7 @@ sad::input::Controls::Controls()
 
 sad::input::Controls::~Controls()
 {
+	this->performQueuedActions();
 	for(unsigned int i = 0; i < SAD_INPUT_EVENTTYPE_COUNT; i++) 
 	{
 		for(unsigned int j = 0; j < m_handlers[i].size(); j++) 

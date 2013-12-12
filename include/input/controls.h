@@ -6,8 +6,9 @@
 #pragma once
 #include "events.h"
 #include "handlers.h"
-#include "../sadptrvector.h"
 #include "handlerconditions.h"
+#include "../sadptrvector.h"
+#include "../temporarilyimmutablecontainer.h"
 
 namespace sad
 {
@@ -15,12 +16,18 @@ namespace sad
 namespace input
 {
 
+	
+
 /*! A controls, which hold a event handlers, which handle queued events.
 	
 	Note that controls DOES NOT provide type-checking of events and handlers.
 	This is done, due to perfomance issues, caused by typecasting.
  */
 class Controls
+: public sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
+	sad::input::HandlerTypeAndConditions,
+	sad::input::AbstractHandler*
+>
 {
 public:
 	/*! Creates new empty controls with callbacks
