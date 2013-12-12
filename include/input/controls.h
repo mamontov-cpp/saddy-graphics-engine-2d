@@ -16,7 +16,12 @@ namespace sad
 namespace input
 {
 
-	
+/*! An immutable base container for controls, used as hints for IDE and other parts
+ */
+typedef sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
+	sad::Pair<sad::input::HandlerTypeAndConditions, sad::input::AbstractHandler*>,
+	sad::input::AbstractHandler*
+> ControlsImmutableBase;
 
 /*! A controls, which hold a event handlers, which handle queued events.
 	
@@ -24,10 +29,7 @@ namespace input
 	This is done, due to perfomance issues, caused by typecasting.
  */
 class Controls
-: public sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
-	sad::input::HandlerTypeAndConditions,
-	sad::input::AbstractHandler*
->
+: public sad::input::ControlsImmutableBase
 {
 public:
 	/*! Creates new empty controls with callbacks
@@ -37,16 +39,26 @@ public:
 		It's frees memory from them, when destroyed
 	 */ 
 	~Controls();
-	/*! Adds new handler and conditions for it invocation
+	/*! Adds new handler and conditions for it invocation. Enqueues it to queue, it cannot
+		be added now
 		\param[in] tac defines both type for events, received by handler
 		\param[in] h  handler, which will receive events
 	 */
-	void add(const sad::input::HandlerTypeAndConditions & tac, sad::input::AbstractHandler * h);
+	void add(const sad::input::HandlerTypeAndConditions & tac, sad::input::AbstractHandler * h);	
 	/*! Posts event to controls, running callbacks, determined by event type,  with argument of event e
 		\param[in] type type of event, which is run
 		\param[in] e event which is being emited
 	 */
 	void postEvent(EventType type, const sad::input::AbstractEvent & e);
+	/*! Must be called at start of new receiving session to make sure, that controls changing
+		of handlers is locked and we can't hurt it by messing with them. Also it add queued events
+		to make sure, nothing gets from container.
+	 */
+	void startReceivingEvents();
+	/*! Must be called, when all window events are processes to make sure, that all controls changing
+		is processed and nothing gets killed in between.
+	 */
+	void finishRecevingEvents();
 protected:
 	/*! A both handle and conditions, stored in controls
 	 */
@@ -57,6 +69,23 @@ protected:
 	/*! A handlers, attached to a event types
 	 */
 	HandlerList m_handlers[SAD_INPUT_EVENTTYPE_COUNT];	
+	/*! Immediately clears all handlers, removing all previous bindings
+	 */
+	virtual void clearNow();
+	/*! Adds immediately pair of type and handler to controls
+		\param[in] o a specified pair
+	 */
+	virtual void addNow(
+		sad::Pair<
+			sad::input::HandlerTypeAndConditions, 
+			sad::input::AbstractHandler*
+		> o
+	);
+	/*! Removes a handler from registered controls, freeing all of it's memory from handler
+		and it's conditions
+		\param[in] o an abstract handler, to be removed
+	 */
+	void removeNow(sad::input::AbstractHandler* o);
 private:
 	/*! This object is non-copyable, this is not implemented
 		\param[in] o other controls object
