@@ -48,6 +48,12 @@ typedef sad::Vector<sad::input::AbstractHanderCondition *>
 class HandlerTypeAndConditions: public sad::Pair<sad::input::EventType, sad::input::HandlerConditionsList>
 {
 public:
+	/*! A default constructor creates a quit event
+	 */
+	inline HandlerTypeAndConditions()
+	{
+		set1(sad::input::ET_Quit);
+	}
 	/*! A conversion hack for putting event type to handler insertion
 		\param[in] t type of event
 	 */

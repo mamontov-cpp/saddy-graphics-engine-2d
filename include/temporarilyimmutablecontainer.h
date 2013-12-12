@@ -105,6 +105,13 @@ protected:
 		 CommandType Type;              //!< An action, which should be performed
 		 _AddingObjectType  Added;      //!< An object, which is being added
 		 _RemovedObjectType Removed;    //!< An object, which is being removed
+
+		 /*! By default command is left unitialized
+		  */
+		 inline QueuedCommand()
+		 {
+
+		 }
 	 };
  	 /*! A queued commands container
 	  */
