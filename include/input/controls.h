@@ -44,7 +44,38 @@ public:
 		\param[in] tac defines both type for events, received by handler
 		\param[in] h  handler, which will receive events
 	 */
-	void add(const sad::input::HandlerTypeAndConditions & tac, sad::input::AbstractHandler * h);	
+	void add(const sad::input::HandlerTypeAndConditions & tac, sad::input::AbstractHandler * h);
+	/*! Adds new handler with conditions
+		\param[in] tac type and conditions
+		\param[in] f function
+	 */
+	template<
+		typename _EventType
+	>
+	inline void add(const sad::input::HandlerTypeAndConditions & tac, void (*f)(const _EventType &))
+	{
+		add(tac, new sad::input::FreeFunctionHandler<_EventType>(f));
+	}
+	/*! Adds new handler with no conditions
+		\param[in] f function
+	 */
+	template<
+		typename _EventType
+	>
+	inline void add(void (*f)(const _EventType &))
+	{
+		add(*(sad::input::EnumValueForEventType<_EventType>::Type), 
+			new sad::input::FreeFunctionHandler<_EventType>(f)
+		   );
+	}
+	/*! Adds new handler with conditions
+		\param[in] tac type and conditions
+		\param[in] f function
+	 */
+	inline void add(const sad::input::HandlerTypeAndConditions & tac, void (*f)())
+	{
+		add(tac, new sad::input::VoidFreeFunctionHandler(f));
+	}
 	/*! Posts event to controls, running callbacks, determined by event type,  with argument of event e
 		\param[in] type type of event, which is run
 		\param[in] e event which is being emited
