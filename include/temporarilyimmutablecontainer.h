@@ -12,10 +12,84 @@
 namespace sad
 {
 
-template< typename _Object >
-class TemporarilyImmutableContainer
+/*! A heterogenic temporarily immutable container, where 
+	added and removed objects can have different type
+ */
+template<
+	typename _AddingObjectType,
+	typename _RemovedObjectType
+>
+class TemporarilyImmutableContainerWithHeterogeneousCommands
 {
- protected:
+public:
+	/*! As a default, container is mutable
+	 */
+	TemporarilyImmutableContainerWithHeterogeneousCommands()
+	{
+		m_lock_changes = false;
+	}
+	/*! Adds new object to container
+		\param[in] o object
+	 */
+	virtual void add(const _AddingObjectType & o)
+	{
+		if (m_lock_changes)
+		{
+			QueuedCommand  c;
+			c.Type = CT_ADD;
+			c.Added = o;
+			pushCommand(c);
+		}
+		else
+		{
+			m_mutability_lock.lock();
+			addNow(o);
+			m_mutability_lock.unlock();
+		}
+	}
+	/*! Removes an object
+		\param[in] o object
+	 */
+	virtual void remove(const _RemovedObjectType & o)
+	{
+		if (m_lock_changes)
+		{
+			QueuedCommand  c;
+			c.Type = CT_REMOVE;
+			c.Removed = o;
+			pushCommand(c);
+		}
+		else
+		{
+			m_mutability_lock.lock();
+			removeNow(o);
+			m_mutability_lock.unlock();
+		}
+	}
+	/*! Clears a container
+	 */
+	virtual void clear()
+	{
+		if (m_lock_changes)
+		{
+			QueuedCommand  c;
+			c.Type = CT_CLEAR;
+			pushCommand(c);
+		}
+		else
+		{
+			m_mutability_lock.lock();
+			clearNow();
+			m_mutability_lock.unlock();
+		}
+	}
+	/*! You should implement your destructor, to handle potential memory leak from queues
+	 */
+	virtual ~TemporarilyImmutableContainerWithHeterogeneousCommands() 
+	{
+	
+	}
+protected:
 	 /*! A described command type for queue of commands
 	  */
 	 enum CommandType
@@ -24,14 +98,15 @@ class TemporarilyImmutableContainer
 		CT_REMOVE,
 		CT_CLEAR
 	 };
-	 /*! A command, which should be executed inside of queue
+ 	 /*! A command, which should be executed inside of queue
 	  */
 	 struct QueuedCommand
 	 {
-		 CommandType Type;  //!< An action, which should be performed
-		 _Object * Object;  //!< An object, which action is applied to
+		 CommandType Type;              //!< An action, which should be performed
+		 _AddingObjectType  Added;      //!< An object, which is being added
+		 _RemovedObjectType Removed;    //!< An object, which is being removed
 	 };
-	 /*! A queued commands container
+ 	 /*! A queued commands container
 	  */
 	 sad::Vector<QueuedCommand> m_command_queue;
 	 /*! A lock, for adding a commands into lock
@@ -44,15 +119,10 @@ class TemporarilyImmutableContainer
 	  */
 	 bool                       m_lock_changes;
 	 /*! Pushes new command to queue with specified type and object
-		 \param[in] type a type of command
-		 \param[in] o object
+		 \param[in] c queued command
 	  */
-	 void pushCommand(CommandType type, _Object * o)
+	 void pushCommand(const QueuedCommand & c)
 	 {
-		QueuedCommand c;
-		c.Type = type;
-		c.Object = o;
-
 		m_command_queue_lock.lock();
 		m_command_queue << c;
 		m_command_queue_lock.unlock();
@@ -70,11 +140,11 @@ class TemporarilyImmutableContainer
 	 /*! Immediately adds an object to container
 		  \param[in] o object
 	  */
-	 virtual void addNow(_Object * o) = 0;
+	 virtual void addNow(_AddingObjectType o) = 0;
 	 /*! Immediately removed an object from container
 		  \param[in] o object
 	  */
-	 virtual void removeNow(_Object * o) = 0;
+	 virtual void removeNow(_RemovedObjectType o) = 0;
 	 /*! Immediately clears a container
 	  */
 	 virtual void clearNow() = 0;
@@ -88,72 +158,36 @@ class TemporarilyImmutableContainer
 			QueuedCommand & c = m_command_queue[i];
 			switch(c.Type)
 			{
-				case CT_ADD : addNow(c.Object); break;
-				case CT_REMOVE: removeNow(c.Object); break;
+				case CT_ADD : addNow(c.Added); break;
+				case CT_REMOVE: removeNow(c.Removed); break;
 				case CT_CLEAR:  clearNow(); break;
 			};
 		}
 		m_command_queue.clear();
 	    m_command_queue_lock.unlock();
 	 }
-  public:
-	  /*! As a default, container is mutable
-	   */
-	  TemporarilyImmutableContainer()
-	  {
-		 m_lock_changes = false;
-	  }
-	  /*! Adds new object to container
-		  \param[in] o object
-	   */
-	  virtual void add(_Object * o)
-	  {
-		  if (m_lock_changes)
-		  {
-			  pushCommand(CT_ADD, o);
-		  }
-		  else
-		  {
-			  m_mutability_lock.lock();
-			  addNow(o);
-			  m_mutability_lock.unlock();
-		  }
-	  }
+};
 
-	   /*! Removes an object
-		   \param[in] o object
-	    */
-	   virtual void remove(_Object * o)
-	   {
-		  if (m_lock_changes)
-		  {
-			  pushCommand(CT_REMOVE, o);
-		  }
-		  else
-		  {
-			  m_mutability_lock.lock();
-			  removeNow(o);
-			  m_mutability_lock.unlock();
-		  }
-	   }
+/*! A common temporarily immutable container, where added and removed objects have the same type
+ */
+template< typename _Object >
+class TemporarilyImmutableContainer
+: public  TemporarilyImmutableContainerWithHeterogeneousCommands<_Object*, _Object *>
+{
+public:
+	/*! Default container is mutable
+	 */
+	inline TemporarilyImmutableContainer() 
+	: TemporarilyImmutableContainerWithHeterogeneousCommands<_Object*, _Object *>()
+	{
 
-	   /*! Clears a container
-	    */
-	   virtual void clear()
-	   {
-		  if (m_lock_changes)
-		  {
-			  pushCommand(CT_CLEAR, NULL);
-		  }
-		  else
-		  {
-			  m_mutability_lock.lock();
-			  clearNow();
-			  m_mutability_lock.unlock();
-		  }
-	   }
-
-	  virtual ~TemporarilyImmutableContainer() {}
+	}	   
+	/*! Reimplement this, to handle potential memory leaks in event queue
+	 */
+	virtual ~TemporarilyImmutableContainer() 
+	{
+	
+	}
 };
 
 }
