@@ -76,7 +76,7 @@ public:
 	{
 	}
 	/*! Adds new condition into list, preserving constant parts
-		\param[in] constants
+		\param[in] c a condition
 	 */
 	inline const HandlerTypeAndConditions & operator<<(sad::input::AbstractHanderCondition * c) const
 	{
