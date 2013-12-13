@@ -142,7 +142,6 @@ private:
 	A callback does not care for a data
  */
 template<
-typename _EventType,
 typename _ObjectClass,
 typename _MethodCallback
 >

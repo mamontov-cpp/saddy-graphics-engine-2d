@@ -64,7 +64,9 @@ public:
 	>
 	inline void add(void (*f)(const _EventType &))
 	{
-		add(*(sad::input::EnumValueForEventType<_EventType>::Type), 
+		sad::input::HandlerTypeAndConditions tac;
+		tac.set1(sad::input::EnumValueForEventType<_EventType>::Type);
+		add(tac, 
 			new sad::input::FreeFunctionHandler<_EventType>(f)
 		   );
 	}
@@ -76,6 +78,239 @@ public:
 	{
 		add(tac, new sad::input::VoidFreeFunctionHandler(f));
 	}
+	/*! Adds new handler as a method call for conditions
+		\param[in] tac type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f a method, which will handle event
+	 */
+	template<
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		void (_MethodObject::*f)()
+	)
+	{
+		add(tac, new sad::input::VoidMethodHandler<_Object, void (_MethodObject::*)()>(o, f));
+	}
+	/*! Adds new handler as a method call for conditions
+		\param[in] tac type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f a method, which will handle event
+	 */
+	template<
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		void (_MethodObject::*f)() const
+	)
+	{
+		add(tac, new sad::input::VoidMethodHandler<_Object, void (_MethodObject::*)() const>(o, f));
+	}
+	/*! Adds new handler as a method call for conditions
+		\param[in] tac type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] c a method, which will handle event
+	 */
+	template<
+		typename _EventType,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		void (_MethodObject::*c)(const _EventType &)
+	)
+	{
+		add(tac, new sad::input::MethodHandler<_EventType, _Object, void (_MethodObject::*)(const _EventType &)>(o, c));
+	}
+	/*! Adds new handler as a method call for conditions
+		\param[in] tac type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] c a method, which will handle event
+	 */
+	template<
+		typename _EventType,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		void (_MethodObject::*c)(const _EventType &) const
+	)
+	{
+		add(tac, new sad::input::MethodHandler<_EventType, _Object, void (_MethodObject::*)(const _EventType &) const>(o, c));
+	}
+
+	/*! Adds new handler as a method call with no conditions. 
+		\param[in] o object, which callback will be called on
+		\param[in] c a method, which will handle event
+	 */
+	template<
+		typename _EventType,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		_Object * o, 
+		void (_MethodObject::*c)(const _EventType &) const
+	)
+	{
+		sad::input::HandlerTypeAndConditions tac;
+		tac.set1(sad::input::EnumValueForEventType<_EventType>::Type);
+		add(tac, new sad::input::MethodHandler<_EventType, _Object, void (_MethodObject::*)(const _EventType &) const>(o, c));
+	}
+	/*! Adds new handler as a method call with no conditions. 
+		\param[in] o object, which callback will be called on
+		\param[in] c a method, which will handle event
+	 */
+	template<
+		typename _EventType,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		_Object * o, 
+		void (_MethodObject::*c)(const _EventType &)
+	)
+	{
+		sad::input::HandlerTypeAndConditions tac;
+		tac.set1(sad::input::EnumValueForEventType<_EventType>::Type);
+		add(tac, new sad::input::MethodHandler<_EventType, _Object, void (_MethodObject::*)(const _EventType &)>(o, c));
+	}
+
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] tac a type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _EventType,
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)(const _EventType &)
+	)
+	{
+		add(tac, new sad::input::CompositeHandler<_EventType, _Object, _FMethod, void (_MethodObject::*)(const _EventType &)>(o, f, g));
+	}
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] tac a type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _EventType,
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)(const _EventType &) const
+	)
+	{
+		add(tac, new sad::input::CompositeHandler<_EventType, _Object, _FMethod, void (_MethodObject::*)(const _EventType &) const>(o, f, g));
+	}	
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] tac a type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)()
+	)
+	{
+		add(tac, new sad::input::VoidCompositeHandler<_Object, _FMethod, void (_MethodObject::*)()>(o, f, g));
+	}
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] tac a type and conditions
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		const sad::input::HandlerTypeAndConditions & tac, 
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)() const
+	)
+	{
+		add(tac, new sad::input::VoidCompositeHandler<_Object, _FMethod, void (_MethodObject::*)() const>(o, f, g));
+	}
+
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _EventType,
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)(const _EventType &) 
+	)
+	{
+		sad::input::HandlerTypeAndConditions tac;
+		tac.set1(sad::input::EnumValueForEventType<_EventType>::Type);
+		add(tac, new sad::input::CompositeHandler<_EventType, _Object, _FMethod, void (_MethodObject::*)(const _EventType &)>(o, f, g));
+	}	
+	/*! Adds new handler as a composition of methods, applied sequentially to object. 
+		\param[in] o object, which callback will be called on
+		\param[in] f first composition method
+		\param[in] g second composition method
+	 */
+	template<
+		typename _EventType,
+		typename _FMethod,
+		typename _Object,
+		typename _MethodObject
+	>
+	inline void add(
+		_Object * o, 
+		_FMethod f,
+		void (_MethodObject::*g)(const _EventType &) const
+	)
+	{
+		sad::input::HandlerTypeAndConditions tac;
+		tac.set1(sad::input::EnumValueForEventType<_EventType>::Type);
+		add(tac, new sad::input::CompositeHandler<_EventType, _Object, _FMethod, void (_MethodObject::*)(const _EventType &) const>(o, f, g));
+	}	
 	/*! Posts event to controls, running callbacks, determined by event type,  with argument of event e
 		\param[in] type type of event, which is run
 		\param[in] e event which is being emited

@@ -83,7 +83,7 @@ class MouseButtonHoldCondition: public sad::input::AbstractHanderCondition
 {
 public:
 	/*! Creates a new condition, for specified mouse button
-		\param[in] button, a mouse button, which condition will be tested against
+		\param[in] button a mouse button, which condition will be tested against
 	 */
 	inline MouseButtonHoldCondition(sad::MouseButton button) : m_button(button)
 	{
