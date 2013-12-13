@@ -124,13 +124,39 @@ struct SadControlsTest : tpunit::TestFixture
 
 
 	   _triggered_count = 0;
+
+	   c.startReceivingEvents();
 	   c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+	   c.finishRecevingEvents();
+
 	   ASSERT_TRUE(_triggered_count == 21);
    }
 
    void testWorkflow()
    {
+		sad::input::Controls c;
+		_triggered_count = 0;
+		c.startReceivingEvents();
+		sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
+		c.add(*sad::input::ET_Quit, h);
+		// Handler will not be added
+		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+		ASSERT_TRUE(_triggered_count == 0);
+		// Here handler will be added
+		c.finishRecevingEvents();
+		
+		c.startReceivingEvents();
+		// Here handler will not be removed
+		c.remove(h);
+		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+		ASSERT_TRUE(_triggered_count == 1);
+		// Here handler will be removed
+		c.finishRecevingEvents();
 
+		c.startReceivingEvents();
+		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
+		c.finishRecevingEvents();
+		ASSERT_TRUE(_triggered_count == 1);
    }
 
 } _sad_controls_test;
