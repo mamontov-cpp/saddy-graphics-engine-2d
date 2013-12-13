@@ -154,7 +154,7 @@ public:
 	 */
 	VoidMethodHandler(
 		_ObjectClass * o,
-		_MethodCallback * f
+		_MethodCallback f
 	) : m_o(o), m_f(f)
 	{
 	}
@@ -172,7 +172,7 @@ private:
 	_ObjectClass * m_o;                             
 	/*! Method, which specifies callback
 	 */
-	_MethodCallback * m_f; 
+	_MethodCallback m_f; 
 };
 
 /*! A callback, which composes two method calls on specified objects. All parameters, are
@@ -225,7 +225,6 @@ private:
 	An ending callback does not care for event
  */
 template<
-typename _EventType,
 typename _ObjectClass,
 typename _FCallback,
 typename _GCallback
