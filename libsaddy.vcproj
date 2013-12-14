@@ -673,6 +673,10 @@
 				Name="pipeline"
 				>
 				<File
+					RelativePath=".\src\pipeline\pipeline.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\pipeline\pipelinedelegate.cpp"
 					>
 				</File>
@@ -1418,6 +1422,10 @@
 			<Filter
 				Name="pipeline"
 				>
+				<File
+					RelativePath=".\include\pipeline\pipeline.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\pipeline\pipelinedelegate.h"
 					>
