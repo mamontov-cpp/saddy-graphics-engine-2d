@@ -684,6 +684,10 @@
 					RelativePath=".\src\pipeline\pipelinestep.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\pipeline\pipelinetask.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1424,6 +1428,10 @@
 				</File>
 				<File
 					RelativePath=".\include\pipeline\pipelinestep.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\pipeline\pipelinetask.h"
 					>
 				</File>
 			</Filter>
