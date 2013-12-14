@@ -669,6 +669,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="pipeline"
+				>
+				<File
+					RelativePath=".\src\pipeline\pipelinedelegate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\pipeline\pipelineprocess.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\pipeline\pipelinestep.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1392,6 +1408,22 @@
 				</File>
 				<File
 					RelativePath=".\include\util\sadthreadexecutablefunction.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pipeline"
+				>
+				<File
+					RelativePath=".\include\pipeline\pipelinedelegate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\pipeline\pipelineprocess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\pipeline\pipelinestep.h"
 					>
 				</File>
 			</Filter>
