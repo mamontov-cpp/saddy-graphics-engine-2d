@@ -60,22 +60,52 @@ protected:
 	typedef sad::Vector<sad::pipeline::Step *> StepsList;
 	/*! Defines a position for insertion into steps list
 	 */
-	typedef sad::Pair<StepsList *, size_t>  Position;
+	typedef sad::Pair<StepsList *, size_t>  StepListPosition;
 	/*! Invokes specified steps
 		\param[in] steps steps to be invoked
 	 */
 	void invokeSteps(StepsList & steps);
+	/*! Finds a position in step list by mark. If not found first item in position will be
+		NULL.
+		\param[in] steps a steps container
+		\param[in] mark a string mark, which will be found in step
+		\return found position. If not found, first item of position, will be null
+	 */
+	static StepListPosition findByMark(StepsList* steps, const sad::String & mark);
+	/*! Finds a position in step list by step. If not found first item in position will be
+		NULL.
+		\param[in] steps a steps container
+		\param[in] step to be found
+		\return found position. If not found, first item of position, will be null
+	 */
+	static StepListPosition findByStep(StepsList* steps, sad::pipeline::Step* step);
+	/*! Finds a position of item with specified mark. If not found first item in position will be
+		NULL.
+		\param[in] mark a string mark, which will be found in step
+		\return found position. If not found, first item of position, will be null
+	 */
+	StepListPosition findByMark(const sad::String & mark);
+	/*! Finds a position of specified step
+		\param[in] mark a string mark, which will be found
+		\param[in] step to be found
+		\return found position. If not found, first item of position, will be null
+	 */
+	StepListPosition findByStep(sad::pipeline::Step* step);
+	/*! Erases all of steps, removing all of items from it and making it empty
+		\param[in] steps a steps list
+	 */
+	static void clearSteps(StepsList* steps);
 	/*! Performs immediate insertion to pipeline
 	    \param[in] o an insertion command data
 	 */
-	virtual void addNow(PipelineInsertionData o) = 0;
+	virtual void addNow(PipelineInsertionData o);
 	/*! Immediately removed a step from container
 	    \param[in] o immediately removes a pipeline data
 	 */
-	virtual void removeNow(sad::pipeline::Step * o) = 0;
+	virtual void removeNow(sad::pipeline::Step * o);
 	/*! Immediately removes all data from pipeline
 	 */
-	virtual void clearNow() = 0;
+	virtual void clearNow();
 	/*! All system steps of pipeline, executed before user steps 
 	 */
 	StepsList m_system_steps_before_user;
