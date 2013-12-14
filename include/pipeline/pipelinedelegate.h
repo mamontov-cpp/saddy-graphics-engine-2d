@@ -105,6 +105,7 @@ public:
 	/*! Creates new composed method call
 		\param[in] o an object
 		\param[in] f a method
+		\param[in] g a second method to be called
 	 */
 	inline ComposedMethodCall(_Object * o, _FirstMethod f, _SecondMethod g) : m_o(o), m_f(f), m_g(g)
 	{
