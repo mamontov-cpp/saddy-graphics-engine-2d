@@ -78,13 +78,13 @@ protected:
 	virtual void clearNow() = 0;
 	/*! All system steps of pipeline, executed before user steps 
 	 */
-	sad::Vector<sad::pipeline::Step *> m_system_steps_before_user;
+	StepsList m_system_steps_before_user;
 	/*! A user steps, for a pipeline
 	 */
-	sad::Vector<sad::pipeline::Step *> m_user_steps;
+	StepsList m_user_steps;
 	/*! All system steps of pipeline, executed before user steps 
 	 */
-	sad::Vector<sad::pipeline::Step *> m_system_steps_after_user;
+	StepsList m_system_steps_after_user;
 
 };
 
