@@ -17,6 +17,24 @@ namespace sad
 namespace pipeline
 {
 
+/*! Defines, where step came from - the main saddy infrastructure or user code.
+
+	Note, that sad::Scene::render will have user as step source.
+ */
+enum StepSource
+{
+	/*! A system type defines a type of step, added by sad::Renderer and other related classed
+		on insertion to beginning they are being inserted to a beginning of pipeline, and on appending
+		they are inserted to an end of container. User UNDER ANY CIRCUMSTANCES should not use this type
+		when adding tasks
+	 */
+	ST_SYSTEM,
+	/*! A user step is inserted before rendering scene, if inserted to beginning and after last user step, when
+		adding to an end to container
+	 */
+	ST_USER
+};
+
 /*! A base class, for step of pipeline, which should define a process, performed in
 	main pipeline, a task which should be performed once and be removed from a pipeline.
 
@@ -26,9 +44,10 @@ namespace pipeline
 class Step
 {
 public:
-	/*! Default step has no mark, and also it cannot be located
+	/*! Default step has no mark, and also it cannot be located.
+		By default - 
 	 */
-	inline Step() : m_enabled(true)
+	inline Step() : m_enabled(true), m_source(sad::pipeline::ST_USER)
 	{
 	}
 	/*! Marks step with specified mark
@@ -39,6 +58,13 @@ public:
 		\return mark for a step
 	 */
 	const sad::Maybe<sad::String> mark() const;
+	/*! Returns source for a pipeline step
+	 */
+	sad::pipeline::StepSource source() const;
+	/*! Sets a source for a pipeline step
+		\param[in] source a pipeline source
+	 */
+	void setSource(sad::pipeline::StepSource source);
 	/*! Processes step, invoking a user actions
 	 */
 	virtual void process();
@@ -62,6 +88,9 @@ protected:
 	/*! A mark, uniquely identifiying a tep
 	 */
 	sad::Maybe<sad::String> m_mark;
+	/*! Defines a source for a step
+	 */ 
+	sad::pipeline::StepSource m_source;
 };
 
 }

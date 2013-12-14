@@ -10,6 +10,16 @@ const sad::Maybe<sad::String> sad::pipeline::Step::mark() const
 	return m_mark;
 }
 
+sad::pipeline::StepSource sad::pipeline::Step::source() const
+{
+	return m_source;
+}
+
+void sad::pipeline::Step::setSource(sad::pipeline::StepSource source)
+{
+	m_source = source;
+}
+
 void sad::pipeline::Step::process()
 {
 	if (m_enabled)
