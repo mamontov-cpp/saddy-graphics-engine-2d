@@ -1,9 +1,44 @@
 #include "pipeline/pipeline.h"
+#include <cassert>
 
 sad::pipeline::Pipeline::Pipeline()
 {
 
 }
+
+
+sad::pipeline::Step * sad::pipeline::Pipeline::insertStep(
+		sad::pipeline::PipelineInsertionType type, 
+		sad::pipeline::Step * step
+	)
+{
+	assert(
+		type == sad::pipeline::PIT_BEGIN 
+	 || type == sad::pipeline::PIT_END
+	 || type == sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION
+	 || type == sad::pipeline::PIT_SYSTEM_AFTER_LAST_USER_ACTION 
+	);
+	sad::pipeline::PipelineInsertionData data;
+	data.set1(type);
+	data.set3(step);
+	add(data);
+	return step;
+}
+
+sad::pipeline::Step *  sad::pipeline::Pipeline::insertStep(
+		sad::pipeline::PipelineInsertionType type, 
+		sad::String mark,
+		sad::pipeline::Step * step
+	)
+{
+	sad::pipeline::PipelineInsertionData data;
+	data.set1(type);
+	data._2().setValue(mark);
+	data.set3(step);
+	add(data);
+	return step;
+}
+
 
 void sad::pipeline::Pipeline::run()
 {

@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "pipelinestep.h"
+#include "pipelineprocess.h"
 #include "../temporarilyimmutablecontainer.h"
 #include "../sadpair.h"
 #include "../sadvector.h"
@@ -48,6 +49,121 @@ public:
 	/*! Creates new empty pipeline
 	 */
 	Pipeline();
+	/*! Inserts a step to a position, specified by arguments. Note, that you can use only begin and
+		end here.
+		\param[in] type an insertion type
+		\param[in] step inserted step
+		\return reference to a step
+	 */
+	sad::pipeline::Step * insertStep(
+		sad::pipeline::PipelineInsertionType type, 
+		sad::pipeline::Step * step
+	);
+	/*! Inserts a step to a position, specified by arguments. Note, that you can use here any
+		insertion type
+		\param[in] type an insertion type
+		\param[in] mark a mark, where insertion goes
+		\param[in] step inserted step
+		\return reference to a step
+	 */
+	sad::pipeline::Step *  insertStep(
+		sad::pipeline::PipelineInsertionType type, 
+		sad::String mark,
+		sad::pipeline::Step * step
+	);
+	/*! A system method to prepend scene rendering with specified method call. Note, that this
+		methods are reserved for sad::Renderer only
+		\param[in] o object
+		\param[in] f method to be called
+		\param[in] mark mark for a step if not empty
+		\return reference to a step
+	 */
+	template<typename _Object, typename  _Method>
+	sad::pipeline::Step * systemPrependSceneRenderingWithProcess(
+		_Object * o, 
+		_Method f, 
+		const sad::String & mark = ""
+	)
+	{
+		sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
+		step->setSource(sad::pipeline::ST_SYSTEM);
+		if (mark.size())
+		{
+			step->mark(mark);
+		}
+		return insertStep(sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
+	}
+	/*! A system method to prepend scene rendering with specified chained method call. Note, that this
+		methods are reserved for sad::Renderer only
+		\param[in] o object
+		\param[in] f method to be called
+		\param[in] g second method
+		\param[in] mark mark for a step if not empty
+		\return reference to a step
+	 */
+	template<typename _Object, typename  _FirstMethod, typename _SecondMethod>
+	sad::pipeline::Step * systemPrependSceneRenderingWithProcess(
+		_Object * o, 
+		_FirstMethod f, 
+		_SecondMethod g,
+		const sad::String & mark = ""
+	)
+	{
+		sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
+		step->setSource(sad::pipeline::ST_SYSTEM);
+		if (mark.size())
+		{
+			step->mark(mark);
+		}
+		return insertStep(sad::pipeline::PIT_SYSTEM_BEFORE_FIRST_USER_ACTION, step);
+	}
+	/*! A system method to append process to a container. Note, that this method is reserved for
+		renderer only
+		\param[in] o object
+		\param[in] f method to be called
+		\param[in] mark mark for a step if not empty
+		\return reference to a step
+	 */
+	template<typename _Object, typename  _Method>
+	sad::pipeline::Step * systemAppendProcess(
+		_Object * o, 
+		_Method f, 
+		const sad::String & mark = ""
+	)
+	{
+		sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
+		step->setSource(sad::pipeline::ST_SYSTEM);
+		if (mark.size())
+		{
+			step->mark(mark);
+		}
+		return insertStep(sad::pipeline::PIT_END, step);
+	}
+	/*! A system method to append process as a chained method call to container. 
+	Note, that this method is reserved for
+		renderer only
+		\param[in] o object
+		\param[in] f method to be called
+		\param[in] g second method to be called
+		\param[in] mark mark for a step if not empty
+		\return reference to a step
+	 */
+	template<typename _Object, typename  _FirstMethod, typename _SecondMethod>
+	sad::pipeline::Step * systemAppendProcess(
+		_Object * o, 
+		_FirstMethod f, 
+		_SecondMethod g,
+		const sad::String & mark = ""
+	)
+	{
+		sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
+		step->setSource(sad::pipeline::ST_SYSTEM);
+		if (mark.size())
+		{
+			step->mark(mark);
+		}
+		return insertStep(sad::pipeline::PIT_END, step);
+	}
 	/*! Runs a pipeline loop
 	 */
 	void run();
@@ -86,8 +202,7 @@ protected:
 	 */
 	StepListPosition findByMark(const sad::String & mark);
 	/*! Finds a position of specified step
-		\param[in] mark a string mark, which will be found
-		\param[in] step to be found
+		\param[in] step a step to be found
 		\return found position. If not found, first item of position, will be null
 	 */
 	StepListPosition findByStep(sad::pipeline::Step* step);
