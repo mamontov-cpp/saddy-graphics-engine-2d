@@ -1,7 +1,7 @@
-/*! \file pipelineprocess.h
+/*! \file pipelinetask.h
 	\author HiddenSeeker
 
-	Describes a process, which should be performed every time inside of pipeline loop
+	Describes a task, which will be performed once, and then removed from process
  */
 #pragma once
 #include "pipelinestep.h"
@@ -13,13 +13,12 @@ namespace sad
 namespace pipeline
 {
 
-/*! Defines a basic pipeline process, which should be performed every time
-	insided of pipeline loop
+/*! Defines a basic pipeline task, which is being performed once and than removed from pipeline
  */
-class AbstractProcess: public sad::pipeline::Step
+class AbstractTask: public sad::pipeline::Step
 {
 public:
-	inline AbstractProcess() : sad::pipeline::Step()
+	inline AbstractTask() : sad::pipeline::Step()
 	{
 	}
 	/*! An abstract process should never be destroyed after processing
@@ -28,8 +27,10 @@ public:
 	virtual bool shouldBeDestroyedAfterProcessing();
 };
 
-
-class Process: public sad::pipeline::AbstractProcess
+/*! A task could be either a function call or method call, or chained method call, which is 
+	being performed once and then removed from pipeline
+ */
+class Task: public sad::pipeline::AbstractTask
 {
 public:
 	/*! Creates process for specified callable
@@ -38,7 +39,7 @@ public:
 	template<
 		typename _Callable
 	>
-	Process(_Callable f)
+	Task(_Callable f)
 	{
 		m_delegate = new sad::pipeline::Function<_Callable>(f);
 	}
@@ -50,7 +51,7 @@ public:
 		typename _Object,
 		typename _Method
 	>
-	Process(_Object * o, _Method f)
+	Task(_Object * o, _Method f)
 	{
 		m_delegate = new sad::pipeline::MethodCall<_Object, _Method>(o, f);
 	}
@@ -64,13 +65,13 @@ public:
 		typename _FirstMethod,
 		typename _SecondMethod
 	>
-	Process(_Object * o, _FirstMethod f, _SecondMethod g)
+	Task(_Object * o, _FirstMethod f, _SecondMethod g)
 	{
 		m_delegate = new sad::pipeline::MethodCall<_Object, _FirstMethod, _SecondMethod>(o, f, g);
 	}
 	/*! Destroys a delegate in process
 	 */
-	virtual ~Process();
+	virtual ~Task();
 protected:
 	/*! Invokes a delegate inside of process
 	 */ 
@@ -82,12 +83,12 @@ private:
 	/*! Disable copying for class
 		\param[in] o other process
 	 */
-	Process(const Process & o);
+	Task(const Task & o);
 	/*! Disable copying for class
 		\param[in] o other process
 		\return self-reference
 	 */
-	Process & operator=(const Process & o);
+	Task & operator=(const Task & o);
 };
 
 }
