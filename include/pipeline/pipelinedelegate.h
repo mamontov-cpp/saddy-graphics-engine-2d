@@ -19,6 +19,10 @@ public:
 	/*! Invokes a delegate
 	 */
 	virtual void call() = 0;
+	/*! Changes object for all method call. Object is casted down to method
+		\param[in] o object for method call
+	 */
+	virtual void changeObject(void * o);
 	/*! A pipeline delegate is a base class for all kinds of delegates
 	 */
 	virtual ~Delegate();
@@ -77,6 +81,13 @@ public:
 	{
 		(m_o ->* m_f)();
 	}
+	/*! Changes object for all method call. Object is casted down to method
+		\param[in] o object for method call
+	 */
+	virtual void changeObject(void * o)
+	{
+		m_o = reinterpret_cast<_Object *>(o);
+	}
 	/*! Destroys a method call
 	 */
 	virtual ~MethodCall() 
@@ -115,6 +126,13 @@ public:
 	virtual void call()
 	{
 		(((m_o ->* m_f)()) ->* m_g)();
+	}
+	/*! Changes object for all method call. Object is casted down to method
+		\param[in] o object for method call
+	 */
+	virtual void changeObject(void * o)
+	{
+		m_o = reinterpret_cast<_Object *>(o);
 	}
 	/*! Destroys a method call
 	 */

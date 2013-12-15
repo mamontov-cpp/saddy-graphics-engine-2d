@@ -66,6 +66,20 @@ sad::pipeline::Pipeline::~Pipeline()
 	}
 }
 
+void sad::pipeline::Pipeline::add(const sad::pipeline::PipelineInsertionData & o)
+{
+	if (o.p1() == sad::pipeline::PIT_END && o.p3()->source() == sad::pipeline::ST_USER)
+	{
+		addNow(o);
+	}
+	else
+	{
+		this->sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
+			sad::pipeline::PipelineInsertionData, 
+			sad::pipeline::Step *
+		>::add(o);
+	}
+}
 
 void sad::pipeline::Pipeline::invokeSteps(sad::pipeline::Pipeline::StepsList & steps)
 {
@@ -234,4 +248,5 @@ void sad::pipeline::Pipeline::clearNow()
 {
 	sad::pipeline::Pipeline::clearSteps(&m_user_steps);
 }
+
 

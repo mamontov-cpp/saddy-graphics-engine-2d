@@ -67,8 +67,12 @@ public:
 	>
 	Task(_Object * o, _FirstMethod f, _SecondMethod g)
 	{
-		m_delegate = new sad::pipeline::MethodCall<_Object, _FirstMethod, _SecondMethod>(o, f, g);
+		m_delegate = new sad::pipeline::ComposedMethodCall<_Object, _FirstMethod, _SecondMethod>(o, f, g);
 	}
+	/*! Changes object for all method call. Object is casted down to method
+		\param[in] o object for method call
+	 */
+	virtual void changeObject(void * o);
 	/*! Destroys a delegate in process
 	 */
 	virtual ~Task();

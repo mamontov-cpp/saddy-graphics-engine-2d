@@ -38,3 +38,9 @@ void  sad::pipeline::Step::disable()
 {
 	m_enabled = false;
 }
+
+
+void sad::pipeline::Step::changeObject(void * o)
+{
+
+}
