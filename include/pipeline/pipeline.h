@@ -170,7 +170,6 @@ public:
 		before any user action new process with specified
 		mark if not found
 		\param[in] f function
-		\param[in] mark a mark, with which process will be created
 		\return created step
 	 */
 	template<typename _Callable>
@@ -185,7 +184,6 @@ public:
 		mark if not found
 		\param[in] o object
 		\param[in] f method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
 	sad::pipeline::Step * prependProcess(_Object * o, _Method f) 
@@ -200,7 +198,6 @@ public:
 		\param[in] o object
 		\param[in] f first method
 		\param[in] g second method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _FirstMethod, typename _SecondMethod>
 	sad::pipeline::Step * prependProcess(
@@ -217,7 +214,6 @@ public:
 		before any user action new process with specified
 		mark if not found
 		\param[in] f function
-		\param[in] mark a mark, with which process will be created
 		\return created step
 	 */
 	template<typename _Callable>
@@ -232,7 +228,6 @@ public:
 		mark if not found
 		\param[in] o object
 		\param[in] f method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
 	sad::pipeline::Step * prependTask(_Object * o, _Method f) 
@@ -247,7 +242,6 @@ public:
 		\param[in] o object
 		\param[in] f first method
 		\param[in] g second method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _FirstMethod, typename _SecondMethod>
 	sad::pipeline::Step * prependTask(
@@ -264,7 +258,6 @@ public:
 		after all of user actions is performed
 		mark if not found
 		\param[in] f function
-		\param[in] mark a mark, with which process will be created
 		\return created step
 	 */
 	template<typename _Callable>
@@ -279,7 +272,6 @@ public:
 		mark if not found
 		\param[in] o object
 		\param[in] f method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
 	sad::pipeline::Step * appendProcess(_Object * o, _Method f) 
@@ -294,7 +286,6 @@ public:
 		\param[in] o object
 		\param[in] f first method
 		\param[in] g second method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _FirstMethod, typename _SecondMethod>
 	sad::pipeline::Step * appendProcess(
@@ -311,7 +302,6 @@ public:
 		after all of user actions is performed
 		mark if not found
 		\param[in] f function
-		\param[in] mark a mark, with which process will be created
 		\return created step
 	 */
 	template<typename _Callable>
@@ -326,7 +316,6 @@ public:
 		mark if not found
 		\param[in] o object
 		\param[in] f method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
 	sad::pipeline::Step * appendTask(_Object * o, _Method f) 
@@ -341,7 +330,6 @@ public:
 		\param[in] o object
 		\param[in] f first method
 		\param[in] g second method
-		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _FirstMethod, typename _SecondMethod>
 	sad::pipeline::Step * appendTask(
