@@ -14,3 +14,9 @@ void sad::pipeline::Task::_process()
 {
 	m_delegate->call();
 }
+
+void sad::pipeline::Task::changeObject(void * o)
+{
+	m_delegate->changeObject(o);
+}
+

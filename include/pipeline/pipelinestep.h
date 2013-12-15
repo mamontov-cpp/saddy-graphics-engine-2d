@@ -74,6 +74,10 @@ public:
 	/*! Disables a pipeline step
 	 */
 	virtual void disable();
+	/*! Changes object for all method call. Object is casted down to method
+		\param[in] o object for method call
+	 */
+	virtual void changeObject(void * o);
 	/*! Determines, whether after processing we should remove step from pipeline
 		\return whether we should remove step from pipeline
 	 */

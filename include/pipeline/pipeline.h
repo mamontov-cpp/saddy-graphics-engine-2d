@@ -174,14 +174,10 @@ public:
 		\return created step
 	 */
 	template<typename _Callable>
-	sad::pipeline::Step * prependProcess(_Callable f, const sad::String & mark = "") 
+	sad::pipeline::Step * prependProcess(_Callable f) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a method call as process into beginning of user actions,
@@ -192,14 +188,10 @@ public:
 		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
-	sad::pipeline::Step * prependProcess(_Object * o, _Method f, const sad::String & mark = "") 
+	sad::pipeline::Step * prependProcess(_Object * o, _Method f) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a chained method call as process into beginning of user actions,
@@ -214,16 +206,11 @@ public:
 	sad::pipeline::Step * prependProcess(
 		_Object * o,
 		_FirstMethod f, 
-		_SecondMethod g,
-		const sad::String & mark = ""
+		_SecondMethod g
 	) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a function call as task into beginning of user actions, 
@@ -234,14 +221,10 @@ public:
 		\return created step
 	 */
 	template<typename _Callable>
-	sad::pipeline::Step * prependTask(_Callable f, const sad::String & mark = "") 
+	sad::pipeline::Step * prependTask(_Callable f) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a method call as task into beginning of user actions,
@@ -252,14 +235,10 @@ public:
 		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
-	sad::pipeline::Step * prependTask(_Object * o, _Method f, const sad::String & mark = "") 
+	sad::pipeline::Step * prependTask(_Object * o, _Method f) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(o, f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a chained method call as task into beginning of user actions,
@@ -274,16 +253,11 @@ public:
 	sad::pipeline::Step * prependTask(
 		_Object * o,
 		_FirstMethod f, 
-		_SecondMethod g,
-		const sad::String & mark = ""
+		_SecondMethod g
 	) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(o, f, g);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_BEGIN, step);
 	}
 	/*! Inserts a function call as process into end of user actions, 
@@ -294,14 +268,10 @@ public:
 		\return created step
 	 */
 	template<typename _Callable>
-	sad::pipeline::Step * appendProcess(_Callable f, const sad::String & mark = "") 
+	sad::pipeline::Step * appendProcess(_Callable f) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts a method call as process into end of user actions, 
@@ -312,14 +282,10 @@ public:
 		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
-	sad::pipeline::Step * appendProcess(_Object * o, _Method f, const sad::String & mark = "") 
+	sad::pipeline::Step * appendProcess(_Object * o, _Method f) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(o, f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts a chained method call as process into into end of user actions, 
@@ -334,16 +300,11 @@ public:
 	sad::pipeline::Step * appendProcess(
 		_Object * o,
 		_FirstMethod f, 
-		_SecondMethod g,
-		const sad::String & mark = ""
+		_SecondMethod g
 	) 
 	{
 		sad::pipeline::Process * step = new sad::pipeline::Process(o, f, g);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts a function call as task into end of user actions, 
@@ -354,14 +315,10 @@ public:
 		\return created step
 	 */
 	template<typename _Callable>
-	sad::pipeline::Step * appendTask(_Callable f, const sad::String & mark = "") 
+	sad::pipeline::Step * appendTask(_Callable f) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts a method call as task into end of user actions, 
@@ -372,14 +329,10 @@ public:
 		\param[in] mark a mark, with which process will be created
 	 */
 	template<typename _Object, typename _Method>
-	sad::pipeline::Step * appendTask(_Object * o, _Method f, const sad::String & mark = "") 
+	sad::pipeline::Step * appendTask(_Object * o, _Method f) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(o, f);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts a chained method call as task into into end of user actions, 
@@ -394,16 +347,11 @@ public:
 	sad::pipeline::Step * appendTask(
 		_Object * o,
 		_FirstMethod f, 
-		_SecondMethod g,
-		const sad::String & mark = ""
+		_SecondMethod g
 	) 
 	{
 		sad::pipeline::Task * step = new sad::pipeline::Task(o, f, g);
 		step->setSource(sad::pipeline::ST_USER);
-		if (mark.size())
-		{
-			step->mark(mark);
-		}
 		return insertStep(sad::pipeline::PIT_END, step);
 	}
 	/*! Inserts step before specified step. If step with mark is not found, step will not be inserted
@@ -441,6 +389,13 @@ public:
 	/*! Runs a pipeline loop
 	 */
 	void run();
+
+	/*! Reimplemented. If user inserts step in runtime into end of scene rendering, we should add
+		it immediately, because it won't hurt performance and allows to perform transition at end
+		of frame and to not render next frame.
+		\param[in] o inserted data
+	 */
+	virtual void add(const sad::pipeline::PipelineInsertionData & o);
 	/*! Destroys all steps of pipeline
 	 */
 	~Pipeline();
