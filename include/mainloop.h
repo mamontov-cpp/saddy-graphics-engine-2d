@@ -40,7 +40,7 @@ public:
 	/*! Runs a main loop
 	 */
 	void run();
-	/*! Stops a main loop
+	/*! Stops a main loop by setting a running flag to false
 	 */
 	void stop();
 protected:

@@ -6,6 +6,10 @@ sad::pipeline::Pipeline::Pipeline()
 
 }
 
+bool sad::pipeline::Pipeline::contains(const sad::String & mark)
+{
+	return findByMark(mark).p1() != NULL;
+}
 
 sad::pipeline::Step * sad::pipeline::Pipeline::insertStep(
 		sad::pipeline::PipelineInsertionType type, 

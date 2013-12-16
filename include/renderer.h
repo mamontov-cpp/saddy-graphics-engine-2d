@@ -36,7 +36,14 @@ class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
-
+namespace pipeline
+{
+	class Pipeline;
+}
+namespace input
+{
+	class Controls;
+}
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -167,6 +174,15 @@ public:
 		\return fps interpolation instance
 	 */
 	virtual sad::FPSInterpolation * fpsInterpolation() const;
+	/*! Returns a pipeline for renderer
+		\return pipeline
+	 */
+	virtual sad::pipeline::Pipeline* pipeline() const;
+	/*! Returns a controls. You can use it to define your own actions
+		\return controls
+	 */
+	virtual sad::input::Controls* controls() const;
+
 	/*! This method is called, when somebody performs emergency shutdown.
 		In current implementation, this method is called when  console window
 		of application is closed on Windows OS. Note, that you SHOULD NOT call
@@ -236,8 +252,18 @@ protected:
 		sad::Renderer::setScene it could be not NULL
 	 */
 	sad::Scene*               m_new_scene;   
-
-		
+	/*! An input controls for user action callbacks
+	 */
+	sad::input::Controls*     m_controls;
+	
+	/*! A pipeline, as processes and tasks, which wille be performed in any time
+		of runtime
+	 */
+	sad::pipeline::Pipeline*  m_pipeline;
+	/*! Defines,  whether system pipeline, like FPS adding and resetting tasks was added to pipeline
+	 */
+	bool m_added_system_pipeline_tasks;
+	
 	/*! A settings for a renderer
 	 */
 	sad::Settings        m_glsettings;  
@@ -263,10 +289,22 @@ protected:
     /*! Updates a scene
 	 */
 	void update();
+	/*! Inits pipeline with data
+	 */
+	virtual void initPipeline();
+	/*! Cleans a pipeline from renderer data
+	 */
+	virtual void cleanPipeline();
 	/*! Tries to swap both scened in tenderer, if need
 		so.
 	 */
 	virtual void trySwapScenes();
+	/*! Called before rendering of scene
+	 */
+	virtual void startRendering();
+	/*! Called at end when we must finished rendering scenes, at end of rendering
+	 */
+	virtual void finishRendering();
 };
 
 }

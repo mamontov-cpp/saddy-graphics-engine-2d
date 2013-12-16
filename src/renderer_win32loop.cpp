@@ -8,6 +8,7 @@
 #include "fpsinterpolation.h"
 #include "os/keydecoder.h"
 #include "os/systemwindowevent.h"
+#include "pipeline/pipeline.h"
 
 #ifdef WIN32
 
@@ -100,7 +101,7 @@ void sad::Renderer::mainLoop()
 		{
 			if (m_window->active())
 			{
-				update();
+				this->pipeline()->run();
 			}
 			else 
 			{

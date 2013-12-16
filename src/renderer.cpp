@@ -11,6 +11,8 @@
 #include "mousecursor.h"
 #include "opengl.h"
 #include "fpsinterpolation.h"
+#include "input/controls.h"
+#include "pipeline/pipeline.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
@@ -27,7 +29,10 @@ m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
 m_opengl(new sad::OpenGL()),
 m_main_loop(new sad::MainLoop()),
-m_fps_interpolation(new sad::FPSInterpolation())
+m_fps_interpolation(new sad::FPSInterpolation()),
+m_controls(new sad::input::Controls()),
+m_pipeline(new sad::pipeline::Pipeline()),
+m_added_system_pipeline_tasks(false)
 {
 	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
@@ -35,6 +40,14 @@ m_fps_interpolation(new sad::FPSInterpolation())
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
 	m_texture_manager->setRenderer(this);
+	
+	// Add stopping a main loop to quite events of controls to make window close
+	// when user closs a window
+	m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
+
+	// Init pipeline to make sure, that user can add actions after rendering step, before 
+	// renderer started
+	this->initPipeline();
 }
 
 sad::Renderer::~Renderer(void)
@@ -45,12 +58,13 @@ sad::Renderer::~Renderer(void)
 	delete m_input_manager;
 	delete m_font_manager;
 	delete m_texture_manager;
+	delete m_pipeline;
+	delete m_controls;
 	delete m_window;
 	delete m_context;
 	delete m_opengl;
 	delete m_main_loop;
-	delete m_fps_interpolation;
-	  
+	delete m_fps_interpolation;  
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -145,7 +159,9 @@ bool sad::Renderer::run()
  
 	if (success)
 	{
+		initPipeline();
 		mainLoop();
+		cleanPipeline();
 		m_context->destroy();
 		m_window->destroy();
 	}
@@ -288,6 +304,16 @@ sad::FPSInterpolation * sad::Renderer::fpsInterpolation() const
 	return m_fps_interpolation;
 }
 
+sad::pipeline::Pipeline* sad::Renderer::pipeline() const
+{
+	return m_pipeline;
+}
+
+sad::input::Controls* sad::Renderer::controls() const
+{
+	return m_controls;
+}
+
 void sad::Renderer::emergencyShutdown()
 {
 	// Unload all textures, because after shutdown context will be lost
@@ -378,15 +404,51 @@ void sad::Renderer::trySwapScenes()
 	}
 }
 
-void sad::Renderer::update()
+void sad::Renderer::initPipeline()
 {
-	fpsInterpolation()->start();
+	if (this->m_added_system_pipeline_tasks == false)
+	{
+		this->pipeline()
+			->systemPrependSceneRenderingWithProcess(this, &sad::Renderer::fpsInterpolation, &sad::FPSInterpolation::start)
+			->mark("sad::FPSInterpolation::start");
+		this->pipeline()
+			->systemPrependSceneRenderingWithProcess(this, &sad::Renderer::startRendering)
+			->mark("sad::Renderer::startRendering");
+
+		this->pipeline()
+			->systemAppendProcess(this, &sad::Renderer::finishRendering)
+			->mark("sad::Renderer::finishRendering");
+		this->pipeline()
+			->systemAppendProcess(this, &sad::Renderer::fpsInterpolation, &sad::FPSInterpolation::stop)
+			->mark("sad::FPSInterpolation::stop");
+		this->pipeline()
+			->systemAppendProcess(this, &sad::Renderer::trySwapScenes)
+			->mark("sad::Renderer::trySwapScenes");
+		m_added_system_pipeline_tasks =  true;
+	}
+	//We should append rendering task to pipeline to make scene renderable
+	if (this->pipeline()->contains("sad::Scene::render") == false)
+	{
+		this->pipeline()->appendProcess(this, &sad::Renderer::scene, &sad::Scene::render)->mark("sad::Scene::render");
+	}
+}
+
+void sad::Renderer::cleanPipeline()
+{
+	this->pipeline()->clear();
+	this->initPipeline();
+}
+
+void sad::Renderer::startRendering()
+{
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	scene()->render();
+}
+
+void sad::Renderer::finishRendering()
+{
 	glFinish();
 	context()->swapBuffers();
-	fpsInterpolation()->stop();
-	this->trySwapScenes();
 }
+

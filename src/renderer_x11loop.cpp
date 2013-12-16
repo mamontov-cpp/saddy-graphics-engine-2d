@@ -167,7 +167,7 @@ void sad::Renderer::mainLoop()
        //Update a window, if active
        if (m_window->active())
        {
-		update();
+		this->pipeline()->run();
        }
        else
        {
