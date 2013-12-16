@@ -46,6 +46,11 @@ void sad::MainLoop::run()
 	unregisterRenderer();
 }
 
+void sad::MainLoop::stop()
+{
+	m_running = false;
+}
+
 void sad::MainLoop::tryElevatePriority()
 {
 	if (this->renderer() == NULL) 
@@ -154,6 +159,6 @@ void sad::MainLoop::unregisterRenderer()
 
 void sad::MainLoop::perform()
 {
-
+	m_running = true;
 }
 
