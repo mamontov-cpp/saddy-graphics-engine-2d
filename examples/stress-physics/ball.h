@@ -9,7 +9,7 @@
 #include <log/log.h>
 #include <log/filetarget.h>
 
-/*! As a default, grid node is a node
+/*! A ball is a simple primitive, rendered as sprite
  */
 class Ball: public sad::p2d::app::Object
 {
