@@ -78,8 +78,8 @@ Game::Game()
 	m_player = NULL;
 	
 	this->initApp();
-	m_spawntask =  new sad::TimePeriodicalTask(NULL);
-	sad::Renderer::ref()->pipeline()->insertStep(sad::pipeline::PIT_END, m_spawntask);
+	m_spawntask =  new sad::PeriodicalEventPollProcess(NULL);
+	sad::Renderer::ref()->pipeline()->append(m_spawntask);
 
 	m_walls = NULL;
 	m_registered_supershooting_enemies_count = 0;

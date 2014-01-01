@@ -25,11 +25,10 @@ void sad::p2d::app::App::initApp(sad::Renderer * r)
 	m_world = NULL;
 	createWorld();
 
-	// Insert world step task to an end of pipeline
+	// Inserts world step task to an end of pipeline
 	m_steptask = new p2d::WorldStepTask(m_world, r);
-	m_steptask->mark("p2d::WorldStepTask::perform");
-	m_steptask->setSource(sad::pipeline::ST_USER);
-	r->pipeline()->insertStep(sad::pipeline::PIT_END, m_steptask);
+	m_steptask->mark("sad::p2d::WorldStepTask");
+	r->pipeline()->append(m_steptask);
 }
 
 sad::Scene * sad::p2d::app::App::scene()

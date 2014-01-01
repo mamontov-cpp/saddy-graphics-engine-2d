@@ -358,13 +358,23 @@ public:
 	/*! Runs a pipeline loop
 	 */
 	void run();
-
 	/*! Reimplemented. If user inserts step in runtime into end of scene rendering, we should add
 		it immediately, because it won't hurt performance and allows to perform transition at end
 		of frame and to not render next frame.
 		\param[in] o inserted data
 	 */
 	virtual void add(const sad::pipeline::PipelineInsertionData & o);
+	/*! Appends a user step into pipeline. Note, that step source will be marked as user.
+		\param[in] step a step to be appended
+		\return reference to step
+	 */
+	sad::pipeline::Step * append(sad::pipeline::Step * step);
+	/*! Prepends a pipeline execution with user step. 
+		Note, that step source will be marked as user.
+		\param[in] step a step to be appended
+		\return reference to step
+	 */
+	sad::pipeline::Step * prepend(sad::pipeline::Step * step);
 	/*! Destroys all steps of pipeline
 	 */
 	~Pipeline();
