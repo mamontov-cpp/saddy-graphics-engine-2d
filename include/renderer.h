@@ -211,7 +211,7 @@ protected:
 	sad::GLContext * m_context;
 	/*! A local log, where all messages will be stored
 	 */
-	sad::log::Log  m_log; 
+	sad::log::Log *  m_log; 
 	/*! A font collection, attached to a renderer
 	 */
 	sad::FontManager *    m_font_manager;     

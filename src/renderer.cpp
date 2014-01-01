@@ -17,6 +17,7 @@ sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
 : 
+m_log(new sad::log::Log()),
 m_font_manager(new sad::FontManager()),
 m_texture_manager(new sad::TextureManager()),
 m_scene(new sad::Scene()),
@@ -60,7 +61,8 @@ sad::Renderer::~Renderer(void)
 	delete m_context;
 	delete m_opengl;
 	delete m_main_loop;
-	delete m_fps_interpolation;  
+	delete m_fps_interpolation; 
+	delete m_log;
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -255,7 +257,7 @@ sad::input::Controls  * sad::Renderer::controls()
 
 sad::log::Log * sad::Renderer::log()
 {
-	return &m_log;
+	return m_log;
 }
 
 sad::Window * sad::Renderer::window()
@@ -314,6 +316,11 @@ void sad::Renderer::emergencyShutdown()
 	// Unload all textures, because after shutdown context will be lost
 	// and glDeleteTextures could lead to segfault
 	this->textures()->unload();
+	// Destroy context and window, so nothing could go wrong
+	this->context()->destroy();
+	this->window()->destroy();
+	// Stop main loop
+	this->mainLoop()->stop();
 }
 
 sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
