@@ -1,6 +1,8 @@
 #include <p2d/app/app.h>
 #include <p2d/app/object.h>
 
+#include <renderer.h>
+#include <pipeline/pipeline.h>
 
 sad::p2d::app::App::App()
 {
@@ -12,13 +14,22 @@ sad::p2d::app::App::~App()
 		delete m_world;
 }
 
-void sad::p2d::app::App::initApp()
+void sad::p2d::app::App::initApp(sad::Renderer * r)
 {
+	// Fetch global renderer, if needed
+	if (r == NULL)
+	{
+		r = sad::Renderer::ref();
+	}
+
 	m_world = NULL;
 	createWorld();
 
-	m_steptask = new p2d::WorldStepTask(m_world);
-	sad::Input::ref()->addPostRenderTask(m_steptask);
+	// Insert world step task to an end of pipeline
+	m_steptask = new p2d::WorldStepTask(m_world, r);
+	m_steptask->mark("p2d::WorldStepTask::perform");
+	m_steptask->setSource(sad::pipeline::ST_USER);
+	r->pipeline()->insertStep(sad::pipeline::PIT_END, m_steptask);
 }
 
 sad::Scene * sad::p2d::app::App::scene()

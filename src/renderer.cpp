@@ -1,7 +1,6 @@
 #include "renderer.h"
 
 #include "texturemanager.h"
-#include "input.h"
 #include "fontmanager.h"
 #include "texturemanager.h"
 #include "scene.h"
@@ -18,8 +17,6 @@ sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
 : 
-m_running(false),
-m_input_manager(new sad::Input()),
 m_font_manager(new sad::FontManager()),
 m_texture_manager(new sad::TextureManager()),
 m_scene(new sad::Scene()),
@@ -55,7 +52,6 @@ sad::Renderer::~Renderer(void)
 	if (m_scene)
 		delete m_scene;
 	delete m_cursor;
-	delete m_input_manager;
 	delete m_font_manager;
 	delete m_texture_manager;
 	delete m_pipeline;
@@ -160,7 +156,7 @@ bool sad::Renderer::run()
 	if (success)
 	{
 		initPipeline();
-		mainLoop();
+		mainLoop()->run();
 		cleanPipeline();
 		m_context->destroy();
 		m_window->destroy();
@@ -171,7 +167,6 @@ bool sad::Renderer::run()
 
 void sad::Renderer::quit()
 {
-	m_running = false;
 	if (m_window->valid())
 	{
 		m_window->close();
@@ -223,7 +218,7 @@ void sad::Renderer::toggleFullscreen()
 
 bool sad::Renderer::running()
 {
-	return m_running;
+	return m_main_loop->running();
 }
 
 bool sad::Renderer::hasValidContext()
@@ -253,9 +248,9 @@ sad::TextureManager * sad::Renderer::textures()
 	return m_texture_manager;
 }
 
-sad::Input  * sad::Renderer::controls()
+sad::input::Controls  * sad::Renderer::controls()
 {
-	return m_input_manager;
+	return m_controls;
 }
 
 sad::log::Log * sad::Renderer::log()
@@ -321,6 +316,17 @@ void sad::Renderer::emergencyShutdown()
 	this->textures()->unload();
 }
 
+sad::Point3D sad::Renderer::mapToViewport(const sad::Point2D & p)
+{
+	sad::Point3D result;
+	if (window()->valid() && context()->valid())
+	{
+		sad::Point2D windowpoint = this->window()->toClient(p);
+		result = this->context()->mapToViewport(windowpoint, m_glsettings.ztest());
+	}
+	return result;
+}
+
 void sad::Renderer::destroyInstance()
 {
 	delete  sad::Renderer::m_instance;
@@ -359,7 +365,7 @@ void sad::Renderer::reshape(int width, int height)
 	#define GL_GENERATE_MIPMAP_HINT           0x8192
 #endif
 
-//Getting a black background with all params
+
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);

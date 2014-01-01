@@ -4,7 +4,7 @@
 	Describes a period event, which performs in specified interval
  */
 #pragma once
-#include "input.h"
+#include "pipeline/pipelineprocess.h"
 #include "timer.h"
 
 namespace sad
@@ -55,7 +55,7 @@ protected:
 /*! A special case of repeating task, which invokes a 
 	sad::PeriodicalEvent inside. Can be used as task in scene
  */
-class TimePeriodicalTask: public sad::RepeatingTask
+class TimePeriodicalTask: public sad::pipeline::AbstractProcess
 {
 protected:
 	PeriodicalEvent * m_event; //!< Inner event to be performed
@@ -72,9 +72,6 @@ public:
 	    \param[in] e event
 	 */
 	void setEvent(PeriodicalEvent * e);
-	/*! Calls sad::PeriodicalEvent::tryPerform() if called
-	 */
-	virtual void perform();
 	/*! Destroys event
      */
 	~TimePeriodicalTask();
@@ -86,6 +83,10 @@ public:
 	{
 		return new TimePeriodicalTask( new _Event() );
 	}
+protected:
+	/*! Calls sad::PeriodicalEvent::tryPerform() if called
+	 */
+	virtual void _process();
 };
 
 }

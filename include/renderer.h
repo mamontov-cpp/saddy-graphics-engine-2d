@@ -17,14 +17,6 @@
 #include "timer.h"
 #include "maybe.h"
 
-// This is a  problem - we included a header just because we need a system ops
-// When created sad::SystemEventDispatcher - give him an opportunity to work with
-// it
-#ifdef WIN32
-#define NOMINMAX
-#include <windows.h>
-#endif
-
 namespace sad
 {
 class Input;
@@ -135,9 +127,10 @@ public:
 		\return texture manager information
 	 */
 	sad::TextureManager * textures();
-	/*! Constrols of sad Input
+	/*! Returns controls for renderer
+		\return controls for renderer
 	 */
-	sad::Input  * controls(); 
+	sad::input::Controls  * controls(); 
 	/*! Returns a log for renderer
 		\return log 
 	 */
@@ -189,16 +182,12 @@ public:
 		this method under any circumstances
 	 */
 	virtual void emergencyShutdown();
-#ifdef WIN32
-	/*! Function for processing system messages and pressed keys
-		\param[in] hWnd Windows' handler
-		\param[in] uMsg The Message
-		\param[in] wParam Additional message information
-		\param[in] lParam Additional message information
-		\return Success of operation              
+	/*! Maps a point coordinates to current viewport coordinates. If window and context
+		are not created returns default values
+		\param[in] p first point
+		\return 3D point
 	 */
-    LRESULT dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-#endif
+	sad::Point3D mapToViewport(const sad::Point2D & p);
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -222,10 +211,7 @@ protected:
 	sad::GLContext * m_context;
 	/*! A local log, where all messages will be stored
 	 */
-	sad::log::Log  m_log;
-	/*! A proxy, who manages all input events
-	 */
-	sad::Input       *    m_input_manager;    
+	sad::log::Log  m_log; 
 	/*! A font collection, attached to a renderer
 	 */
 	sad::FontManager *    m_font_manager;     
@@ -267,10 +253,6 @@ protected:
 	/*! A settings for a renderer
 	 */
 	sad::Settings        m_glsettings;  
-	/*! Determines whether sad::Renderer is entered main loop
-	 */
-	bool                 m_running;       
-
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();
@@ -283,9 +265,6 @@ protected:
 		\param[in] height Needed height
 	 */
 	void reshape(int width, int height);
-    /*! Main loop of renderer. Here it performs rendering cycle
-	 */
-	void mainLoop();
     /*! Updates a scene
 	 */
 	void update();

@@ -49,7 +49,7 @@ sad::PeriodicalEvent * sad::TimePeriodicalTask::e()
 	return m_event;
 }
 
-void sad::TimePeriodicalTask::perform()
+void sad::TimePeriodicalTask::_process()
 {
 	if (m_event)
 	{

@@ -7,7 +7,7 @@
 */
 #pragma once
 #include "gameobject.h"
-
+#include <input.h>
 
 class Game;
 

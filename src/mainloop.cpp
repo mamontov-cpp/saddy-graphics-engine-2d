@@ -3,10 +3,16 @@
 #include "renderer.h"
 #include "window.h"
 #include "glcontext.h"
-#include "os/windowhandles.h"
-#include "log/log.h"
 #include "sadsleep.h"
+#include "fpsinterpolation.h"
+#include "pipeline/pipeline.h"
+
+#include "os/windowhandles.h"
+#include "os/systemwindowevent.h"
 #include "os/systemeventdispatcher.h"
+
+#include "log/log.h"
+
 
 #ifdef LINUX
 #include <unistd.h>
@@ -42,6 +48,7 @@ void sad::MainLoop::run()
 	tryElevatePriority();
 	trySetEmergencyShudownHandler();
 	registerRenderer();
+	initKeyboardInput();
 	perform();
 	unregisterRenderer();
 }
@@ -49,6 +56,17 @@ void sad::MainLoop::run()
 void sad::MainLoop::stop()
 {
 	m_running = false;
+}
+
+
+sad::os::SystemEventDispatcher *  sad::MainLoop::dispatcher()
+{
+	return m_dispatcher;
+}
+
+bool sad::MainLoop::running() const
+{
+	return m_running;
 }
 
 void sad::MainLoop::tryElevatePriority()
@@ -74,17 +92,6 @@ void sad::MainLoop::tryElevatePriority()
 	{
 		SL_COND_LOCAL_INTERNAL("Failed to elevate priority", this->renderer());
 	}
-}
-
-void sad::MainLoop::yield()
-{
-#ifdef WIN32
-	sad::sleep(50);
-#endif
-
-#ifdef LINUX
-	sched_yield();
-#endif
 }
 
 #ifdef WIN32
@@ -156,9 +163,118 @@ void sad::MainLoop::unregisterRenderer()
 #endif
 }
 
+void sad::MainLoop::initKeyboardInput()
+{
+#ifdef X11
+	setlocale(LC_CTYPE, "");
+	XSetLocaleModifiers("");
+#endif
+}
+
+
+void sad::MainLoop::forceSchedulerSwitchToOtherProcesses()
+{
+#ifdef WIN32
+			sad::sleep(50);
+#endif
+
+#ifdef LINUX
+			sched_yield();
+#endif	
+}
+
+
+#ifdef WIN32
+
+LRESULT CALLBACK sad_renderer_window_proc (HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	bool handled = false;
+	RegisteredRenderersLock.lock();
+	sad::os::SystemWindowEventDispatchResult result;
+	if (RegisteredRenderers.contains(wnd))
+	{
+		sad::os::SystemWindowEvent e(wnd, msg, wparam, lparam);
+		const sad::Renderer * r = RegisteredRenderers[wnd];
+		result = r->mainLoop()->dispatcher()->dispatch(e);
+	}
+	RegisteredRenderersLock.unlock();
+	if (result.exists())
+	{
+		return (LRESULT)(result.value());
+	}
+
+	return DefWindowProcA(wnd, msg, wparam, lparam);				
+}
+
+#endif
+
+#ifdef X11
+/*! Predicate for capturing all of X11 events
+ *  \return true
+ */
+static int predicate(Display *, XEvent * e, char *)
+{
+	return true;
+}
+#endif
 
 void sad::MainLoop::perform()
 {
 	m_running = true;
+	this->m_renderer->window()->setActive(true);
+	this->m_renderer->fpsInterpolation()->reset();
+	m_dispatcher->reset();
+
+#ifdef WIN32
+	MSG msg;
+#endif
+
+#ifdef X11
+	sad::os::SystemWindowEvent msg;
+#endif
+	while(m_running)
+	{
+		// Fetch window events. We only fetch one event from queue
+		// to reduce slowdown from all event handling 
+#ifdef WIN32
+		if (PeekMessage (
+						 &msg, 
+						 // A PeekMessage docs state, that multithreading
+						 // should work with zero, since sad::Renderer-s must
+						 // be running at separate threads. Also, moving here
+						 // a handle to window  causes problems with switching
+						 // keyboard layout on Windows XP
+						 0
+						 /*this->window()->handles()->WND*/, 
+						 0, 
+						 0, 
+						 PM_REMOVE
+						) != 0
+		   )
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);			
+		}
+#endif
+
+#ifdef X11
+		if (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) == True)
+		{
+			m_dispatcher->dispatch(msg);
+		}
+#endif
+		// Try render scene if can
+		if (this->m_renderer->window()->active() && m_running)
+		{
+			this->m_renderer->pipeline()->run();
+		}
+		else 
+		{
+			this->m_renderer->fpsInterpolation()->resetTimer();
+			this->forceSchedulerSwitchToOtherProcesses();
+		} 
+	}
+	this->m_renderer->window()->setActive(false);
+	m_running = false;
 }
 

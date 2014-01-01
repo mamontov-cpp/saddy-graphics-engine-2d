@@ -44,22 +44,46 @@ public:
 	 */
 	sad::Renderer * renderer() const;
 	/*! Starts new iteration of main loop for working with window properties.
-		Must be called at start of main loop
+		Must be called at start of main loop.
 	 */
 	void reset();
-
 	/*! Dispatches an event
 		\param[in] e event, that is being dispatched
 		\return result of event, that was dispatched
 	 */
 	sad::os::SystemWindowEventDispatchResult dispatch(SystemWindowEvent & e);
 protected:
+	/*! Processes quit event in dispatcher
+		\param[in] e system event
+	 */
+	void processQuit(SystemWindowEvent & e);
+	/*! Processes activate event in dispatcher
+		\param[in] e system event
+	 */ 
+	void processActivate(SystemWindowEvent & e);
+	/*! Processes deactivate event in dispatcher
+		\param[in] e system event
+	 */ 
+	void processDeactivate(SystemWindowEvent & e);	
+	/*! Processes mouse move event
+		\param[in] e mouse move event
+	 */
+	void processMouseMove(SystemWindowEvent & e);
+	/*! Processes mouse leave event
+		\param[in] e mouse leave event
+	 */
+	void processMouseLeave(SystemWindowEvent & e);
 	/*! Attached renderer to a dispatcher
 	 */
 	sad::Renderer * m_renderer;
 	/*! A decoder for decoding keys of data
 	 */
 	sad::os::KeyDecoder * m_keys;
+#ifdef WIN32
+	/*! Determines, whether window cursor is within window
+	 */
+	bool m_is_in_window;
+#endif
 };
 
 }

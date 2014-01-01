@@ -16,7 +16,7 @@
 #include <sprite2dadapter.h>
 #include <geometry2d.h>
 #include <formattedlabel.h>
-
+#include <pipeline/pipeline.h>
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
@@ -29,7 +29,7 @@ Game::Game()
 
 	// Create a new machine
 	m_machine = new sad::fsm::Machine();
-	m_machine->addCallbacks(sad::Renderer::ref()->controls());
+	//m_machine->addCallbacks(sad::Renderer::ref()->controls());
 
 	// Create a new idle state
 	sad::fsm::State * idleState = new sad::fsm::State();
@@ -79,7 +79,7 @@ Game::Game()
 	
 	this->initApp();
 	m_spawntask =  new sad::TimePeriodicalTask(NULL);
-	sad::Input::ref()->addPostRenderTask(m_spawntask);	
+	sad::Renderer::ref()->pipeline()->insertStep(sad::pipeline::PIT_END, m_spawntask);
 
 	m_walls = NULL;
 	m_registered_supershooting_enemies_count = 0;
@@ -199,10 +199,8 @@ void Game::enterStartingScreen()
 	// See Game::moveToPlayingScreen. We should perform change from here,
 	// otherwise, execution chain will break
 	SL_SCOPE("Game::enterStartingScreen()");
-	sad::Renderer::ref()->controls()->addPostRenderTask(
-		new sad::MethodCountableTask<Game>(this, &Game::moveToStartingScreen)
-	);
-}
+	sad::Renderer::ref()->pipeline()->appendTask(this, &Game::moveToStartingScreen);
+} 
 
 
 void Game::enterPlayingScreen()
