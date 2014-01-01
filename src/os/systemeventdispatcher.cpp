@@ -82,6 +82,9 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 		case WM_NCMOUSELEAVE:
 			processMouseLeave(e);
 			break;
+		case WM_NCHITTEST:
+			result = processHitTest(e);
+			break;
 	};
 	return result;
 }
@@ -176,3 +179,44 @@ void sad::os::SystemEventDispatcher::processMouseLeave(SystemWindowEvent & e)
 	SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);			
 #endif
 }
+
+
+#ifdef WIN32
+
+// A window resize array
+static const int windowresizepointscount = 8;
+static  LRESULT windowresizepoints[windowresizepointscount] = {
+	HTTOPLEFT,
+	HTTOP,
+	
+	HTTOPRIGHT,
+	HTRIGHT,
+	HTLEFT,
+
+	HTBOTTOMLEFT,
+	HTBOTTOM,
+	HTBOTTOMRIGHT
+};
+
+sad::os::SystemWindowEventDispatchResult  sad::os::SystemEventDispatcher::processHitTest(
+	SystemWindowEvent & e
+)
+{
+
+	sad::os::SystemWindowEventDispatchResult  result;
+	result.setValue(DefWindowProcA(e.WND, e.MSG, e.WParam, e.LParam));
+	if (m_renderer->window()->fixed() == false)
+		return result;
+	bool isusertriestoresize = false;
+	for(int i = 0; i < windowresizepointscount; i++)
+		isusertriestoresize = isusertriestoresize || (windowresizepoints[i] == result.value());
+		
+	if (isusertriestoresize)
+	{
+		result = HTBORDER;
+	}
+		
+	return result;
+}
+
+#endif
