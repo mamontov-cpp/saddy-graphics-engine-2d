@@ -45,7 +45,7 @@ static int WINAPI  handleClosing(DWORD dwCtrlType)
 
 
 
-
+/*
 void sad::Renderer::mainLoop()
 {
 	m_data.lock();
@@ -80,7 +80,7 @@ void sad::Renderer::mainLoop()
 						 // a handle to window  causes problems with switching
 						 // keyboard layout on Windows XP
 						 0
-						 /*this->window()->handles()->WND*/, 
+						 , 
 						 0, 
 						 0, 
 						 PM_REMOVE
@@ -115,7 +115,7 @@ void sad::Renderer::mainLoop()
 	m_running = false;
 	m_renderers.remove(this->window()->handles()->WND);
 }
-
+*/
 
 static sad::Hash<WPARAM,int> table;
 
@@ -175,7 +175,7 @@ LRESULT windowresizepoints[windowresizepointscount] = {
 #define MESSAGE_NOT_HANDLED 2000000
 
 sad::os::KeyDecoder decoder;
-
+/*
 LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	sad::os::SystemWindowEvent ev(hWnd, uMsg, wParam, lParam);
@@ -326,7 +326,8 @@ LRESULT sad::Renderer::dispatchMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	
 	return MESSAGE_NOT_HANDLED;
 }
-
+*/
+/*
 LRESULT CALLBACK sad_renderer_window_proc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 
@@ -346,5 +347,5 @@ LRESULT CALLBACK sad_renderer_window_proc (HWND hWnd, UINT uMsg, WPARAM wParam, 
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);				
 }
-
+*/
 #endif

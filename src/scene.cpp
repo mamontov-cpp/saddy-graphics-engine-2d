@@ -76,11 +76,8 @@ void sad::Scene::clearNow()
 
 
 void sad::Scene::render()
-{
-  
+{  
   m_camera->apply();
-
-  this->m_renderer->controls()->preRender();
 
   performQueuedActions();
   lockChanges();
@@ -90,8 +87,6 @@ void sad::Scene::render()
   }
   unlockChanges();
   performQueuedActions();
-
-  this->m_renderer->controls()->postRender();
 }
 
 

@@ -12,6 +12,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace p2d
 {
 
@@ -24,7 +26,7 @@ class Object;
  */
 class App
 {
- protected:
+protected:
 	p2d::World   * m_world;          //!< A physical engine world
 	p2d::WorldStepTask * m_steptask; //!< A main step task, used to work with world
 protected:
@@ -33,12 +35,13 @@ protected:
 	 */
 	sad::Scene * scene();
 	/*! Creates new physical world for working with optional bodies
-	  */
+	 */
 	virtual void createWorld();
 	/*! Inits application
+		\param[in] r renderer (NULL for global renderer)
 	 */
-	virtual void initApp();
- public:
+	virtual void initApp(sad::Renderer * r = NULL);
+public:
 	/*! Creates a new application
 	 */
 	App();

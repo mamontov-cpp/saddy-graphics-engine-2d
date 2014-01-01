@@ -43,13 +43,18 @@ public:
 	/*! Stops a main loop by setting a running flag to false
 	 */
 	void stop();
+	/*! Returns current dispatcher for loop
+		\return dispatcher for loop
+	 */
+	sad::os::SystemEventDispatcher *  dispatcher();
+	/*! Determines, whether main loop is running
+		\return whether main loop is running
+     */
+	bool running() const;	
 protected:
 	/*! Tries to elevate priority of current process, when performing main loop
 	 */
 	void tryElevatePriority();
-	/*! Yields execution, giving other processes time to run
-	 */
-	void yield();
 	/*! Tries to set emergency handler, which should handle case, when user
 		closes console window on Windows
 	 */
@@ -64,6 +69,13 @@ protected:
 		windows platform.
 	 */
 	void unregisterRenderer();
+	/*! Initializes keyboard locales on Linux, allowing to handle keyboard langugage
+		switch.
+	 */
+	void initKeyboardInput();
+	/*! Forces built-in OS scheduler switch to other processes
+	 */
+	void forceSchedulerSwitchToOtherProcesses();
 	/*! A real unchecked main loop function.
 	 */
 	void perform();

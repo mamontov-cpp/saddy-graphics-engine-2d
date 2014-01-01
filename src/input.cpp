@@ -82,7 +82,8 @@ sad::Input::~Input()
 
 sad::Input * sad::Input::ref()
 {
-	return sad::Renderer::ref()->controls();
+	return NULL;
+	//return sad::Renderer::ref()->controls();
 }
 
 #define DEFINE_SETTER_FOR(METHOD, PROPERTYNAME)                         \
