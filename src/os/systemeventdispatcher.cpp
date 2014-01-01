@@ -19,6 +19,7 @@
 #include <windowsx.h>
 #endif
 
+
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
 : m_renderer(NULL), m_keys(new sad::os::KeyDecoder())
 {
@@ -55,6 +56,8 @@ void sad::os::SystemEventDispatcher::reset()
 		e.dwHoverTime = HOVER_DEFAULT;
 		TrackMouseEvent(&e);
 	}
+	sad::Rect2I  r = m_renderer->window()->rect();  
+	m_old_window_size = sad::Size2I(r.width(), r.height());
 }
 
 sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatch(
@@ -81,6 +84,12 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 			break;
 		case WM_NCMOUSELEAVE:
 			processMouseLeave(e);
+			break;
+		case WM_MOUSEWHEEL:
+			processMouseWheel(e);
+			break;
+		case WM_SIZE:
+			processResize(e);
 			break;
 		case WM_NCHITTEST:
 			result = processHitTest(e);
@@ -180,6 +189,48 @@ void sad::os::SystemEventDispatcher::processMouseLeave(SystemWindowEvent & e)
 #endif
 }
 
+void sad::os::SystemEventDispatcher::processMouseWheel(SystemWindowEvent & e)
+{
+#ifdef WIN32
+	float delta=GET_WHEEL_DELTA_WPARAM(e.WParam)/(float)WHEEL_DELTA;
+	sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
+	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+
+	sad::input::MouseWheelEvent ev;
+	ev.Point3D = viewportpoint;
+	ev.Delta = delta;
+	m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Triggered MouseWheelEvent({0}, [{1}, {2}, {3}])") 
+		<< delta
+		<< viewportpoint.x() 
+		<< viewportpoint.y() 
+		<< viewportpoint.z(), 
+		*m_renderer
+	);
+	
+#endif
+}
+
+
+void sad::os::SystemEventDispatcher::processResize(SystemWindowEvent & e)
+{
+#ifdef WIN32
+	sad::Size2I size(LOWORD (e.LParam), HIWORD (e.LParam));
+	if (e.WParam != SIZE_MINIMIZED)
+	{
+		if (size.Width != m_old_window_size.Width 
+			&& size.Height != m_old_window_size.Height)
+		{
+			sad::input::ResizeEvent ev;
+			ev.OldSize = m_old_window_size;
+			ev.NewSize = size;
+			m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
+			m_renderer->reshape(size.Width, size.Height);
+		}
+	}
+#endif
+}
 
 #ifdef WIN32
 

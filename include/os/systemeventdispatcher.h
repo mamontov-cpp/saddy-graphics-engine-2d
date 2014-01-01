@@ -73,6 +73,14 @@ protected:
 		\param[in] e mouse leave event
 	 */
 	void processMouseLeave(SystemWindowEvent & e);
+	/*! Processes mouse wheel event
+		\param[in] e mouse wheel event
+	 */
+	void processMouseWheel(SystemWindowEvent & e);
+	/*! Processes resize event
+		\param[in] e mouse wheel event
+	 */
+	void processResize(SystemWindowEvent & e);
 #ifdef WIN32
 	/*! Processes hit testing in Win32, making window non-resizable if needed
 		\param[in] e event
@@ -91,6 +99,10 @@ protected:
 	 */
 	bool m_is_in_window;
 #endif
+	/*! Old window size
+	 */
+	sad::Size2I m_old_window_size;
+
 };
 
 }

@@ -188,6 +188,11 @@ public:
 		\return 3D point
 	 */
 	sad::Point3D mapToViewport(const sad::Point2D & p);
+	/*! Reshape a system of coordinates to deal with width and height
+		\param[in] width Needed width
+		\param[in] height Needed height
+	 */
+	void reshape(int width, int height);
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -260,11 +265,6 @@ protected:
 		\return success of operation
 	 */
 	bool initGLRendering();
-	/*! Reshapes view
-		\param[in] width Needed width
-		\param[in] height Needed height
-	 */
-	void reshape(int width, int height);
     /*! Updates a scene
 	 */
 	void update();
