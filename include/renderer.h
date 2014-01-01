@@ -122,27 +122,27 @@ public:
 	/*! Font manager data
 		\return fonts, loaded into renderer
 	 */
-	sad::FontManager * fonts();
+	sad::FontManager* fonts();
 	/*! Texture manager information
 		\return texture manager information
 	 */
-	sad::TextureManager * textures();
+	sad::TextureManager* textures();
 	/*! Returns controls for renderer
 		\return controls for renderer
 	 */
-	sad::input::Controls  * controls(); 
+	sad::input::Controls* controls(); 
 	/*! Returns a log for renderer
 		\return log 
 	 */
-	sad::log::Log * log();
+	sad::log::Log* log();
 	/*! Returns a window of a renderer
 		\return window
 	 */
-	sad::Window * window();
+	sad::Window* window();
 	/*! Returns an OpenGL context for a renderer
 		\return OpenGL context
 	 */
-	sad::GLContext * context();
+	sad::GLContext* context();
 	/*! Returns settings for a renderer
 		\return settings
 	 */
@@ -158,15 +158,15 @@ public:
 	/*! Returns an OpenGL platform, where you could query all data
 		about current platform spec
 	 */
-	virtual sad::OpenGL * opengl() const;
+	virtual sad::OpenGL* opengl() const;
 	/*! Returns current main loop for renderer
 		\return main loop for a renderer
 	 */
-	virtual sad::MainLoop * mainLoop() const;
+	virtual sad::MainLoop* mainLoop() const;
 	/*! Returns current FPS interpolation for renderer
 		\return fps interpolation instance
 	 */
-	virtual sad::FPSInterpolation * fpsInterpolation() const;
+	virtual sad::FPSInterpolation* fpsInterpolation() const;
 	/*! Returns a pipeline for renderer
 		\return pipeline
 	 */
@@ -202,22 +202,22 @@ protected:
 		procedures unnecessary. It's not a singleton, but can
 		be used as global variable
 	 */
-	static sad::Renderer * m_instance; 
+	static sad::Renderer* m_instance; 
 	/*! A window for working with GUI operations
 	 */
-	sad::Window * m_window;
+	sad::Window* m_window;
 	/*! An OpenGL Context for working with OpenGL
 	 */
-	sad::GLContext * m_context;
+	sad::GLContext* m_context;
 	/*! A local log, where all messages will be stored
 	 */
-	sad::log::Log *  m_log; 
+	sad::log::Log*  m_log; 
 	/*! A font collection, attached to a renderer
 	 */
-	sad::FontManager *    m_font_manager;     
+	sad::FontManager*    m_font_manager;     
 	/*! A texture collection, attached to a renderer
 	 */
-	sad::TextureManager * m_texture_manager; 
+	sad::TextureManager* m_texture_manager; 
 	/*! Returns mouse cursor, associated with renderer
 	 */
 	sad::MouseCursor*       m_cursor;
@@ -229,7 +229,7 @@ protected:
 	sad::MainLoop*          m_main_loop;
     /*! An interpolation for FPS
 	 */
-	sad::FPSInterpolation * m_fps_interpolation;
+	sad::FPSInterpolation* m_fps_interpolation;
 	/*! A current scene. May be old, when user called sad::Renderer::setScene
 		and sad::Scene is being rendered
 	 */

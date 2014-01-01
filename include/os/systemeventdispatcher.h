@@ -73,6 +73,13 @@ protected:
 		\param[in] e mouse leave event
 	 */
 	void processMouseLeave(SystemWindowEvent & e);
+#ifdef WIN32
+	/*! Processes hit testing in Win32, making window non-resizable if needed
+		\param[in] e event
+		\return whether a new region if needed
+	 */
+	sad::os::SystemWindowEventDispatchResult  processHitTest(SystemWindowEvent & e);
+#endif
 	/*! Attached renderer to a dispatcher
 	 */
 	sad::Renderer * m_renderer;
