@@ -52,10 +52,10 @@ protected:
 	sad::Timer m_timer;  //!< A timer
 };
 
-/*! A special case of repeating task, which invokes a 
-	sad::PeriodicalEvent inside. Can be used as task in scene
+/*! A special case of process, which invokes a 
+	sad::PeriodicalEvent inside. Can be used as process in pipeline
  */
-class TimePeriodicalTask: public sad::pipeline::AbstractProcess
+class PeriodicalEventPollProcess: public sad::pipeline::AbstractProcess
 {
 protected:
 	PeriodicalEvent * m_event; //!< Inner event to be performed
@@ -63,7 +63,7 @@ public:
 	/*! Created s periodical task with specified event
 		\param[in] e event
 	 */
-	TimePeriodicalTask(PeriodicalEvent * e);
+	PeriodicalEventPollProcess(PeriodicalEvent * e);
 	/*! Returns an event
 		\return event
 	 */
@@ -74,14 +74,14 @@ public:
 	void setEvent(PeriodicalEvent * e);
 	/*! Destroys event
      */
-	~TimePeriodicalTask();
+	~PeriodicalEventPollProcess();
 	/*! Creates new periodical task for specified event
 	    \return task
 	 */
 	template<typename _Event>
-	static TimePeriodicalTask * create()
+	static PeriodicalEventPollProcess * create()
 	{
-		return new TimePeriodicalTask( new _Event() );
+		return new PeriodicalEventPollProcess( new _Event() );
 	}
 protected:
 	/*! Calls sad::PeriodicalEvent::tryPerform() if called

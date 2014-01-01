@@ -57,6 +57,20 @@ void sad::pipeline::Pipeline::run()
 	this->performQueuedActions();
 }
 
+sad::pipeline::Step * sad::pipeline::Pipeline::append(sad::pipeline::Step * step)
+{
+	step->setSource(sad::pipeline::ST_USER);
+	this->insertStep(sad::pipeline::PIT_END, step);
+	return step;
+}
+
+sad::pipeline::Step * sad::pipeline::Pipeline::prepend(sad::pipeline::Step * step)
+{
+	step->setSource(sad::pipeline::ST_USER);
+	this->insertStep(sad::pipeline::PIT_BEGIN, step);
+	return step;	
+}
+
 sad::pipeline::Pipeline::~Pipeline()
 {
 	sad::pipeline::Pipeline::StepsList * lists[3] = {

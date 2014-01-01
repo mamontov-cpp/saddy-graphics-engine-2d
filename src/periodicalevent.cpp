@@ -39,17 +39,17 @@ void sad::PeriodicalEvent::enable()
 }
 
 
-sad::TimePeriodicalTask::TimePeriodicalTask(PeriodicalEvent * e) : m_event(e)
+sad::PeriodicalEventPollProcess::PeriodicalEventPollProcess(PeriodicalEvent * e) : m_event(e)
 {
 
 }
 
-sad::PeriodicalEvent * sad::TimePeriodicalTask::e()
+sad::PeriodicalEvent * sad::PeriodicalEventPollProcess::e()
 {
 	return m_event;
 }
 
-void sad::TimePeriodicalTask::_process()
+void sad::PeriodicalEventPollProcess::_process()
 {
 	if (m_event)
 	{
@@ -57,13 +57,13 @@ void sad::TimePeriodicalTask::_process()
 	}
 }
 
-void sad::TimePeriodicalTask::setEvent(PeriodicalEvent * e)
+void sad::PeriodicalEventPollProcess::setEvent(PeriodicalEvent * e)
 {
 	delete m_event;
 	m_event = e;
 }
 
-sad::TimePeriodicalTask::~TimePeriodicalTask()
+sad::PeriodicalEventPollProcess::~PeriodicalEventPollProcess()
 {
 	delete m_event;
 }

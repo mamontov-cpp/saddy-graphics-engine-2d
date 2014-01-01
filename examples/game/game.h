@@ -45,12 +45,12 @@ class GameState
 class Game: public sad::p2d::app::App
 {
  private:
-	int  m_highscore;		         //!< Defines a highest score, gained by player
-	bool m_ispaused;		         //!< Whether game is paused
+	int                 m_highscore; //!< Defines a highest score, gained by player
+	bool                m_ispaused;  //!< Whether game is paused
 	sad::fsm::Machine * m_machine;   //!< A state machine, which describes all transitions
-	Player       * m_player;         //!< A link to in-game player
-	sad::TimePeriodicalTask * m_spawntask;//!< A task for spawn an enemies
-	sad::p2d::Walls        * m_walls;     //!< A new walls
+	Player            * m_player;    //!< A link to in-game player
+	sad::PeriodicalEventPollProcess * m_spawntask;//!< A task for spawn an enemies
+	sad::p2d::Walls                 * m_walls;     //!< A new walls
 	int            m_registered_supershooting_enemies_count; //!< Current count of super shooting enemies, active in game
  protected:
 	/*! Create walls for game
