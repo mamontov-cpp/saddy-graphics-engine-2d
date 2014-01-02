@@ -114,7 +114,7 @@ private:
 	\param[in] key a condition, when user holds a key
 	\return type and conditions
  */
-inline sad::input::HandlerTypeAndConditions operator|(
+inline sad::input::HandlerTypeAndConditions operator&(
 	const sad::input::HandlerTypeAndConditions & t,
 	sad::KeyboardKey key
 )
@@ -126,12 +126,12 @@ inline sad::input::HandlerTypeAndConditions operator|(
 
 /*! Appends a condition, when user holds specified key
 	to list of conditions, returning it. Allows to write something like 
-	t | sad::Z | sad::HoldCtrl
+	t & sad::Z & sad::HoldCtrl
 	\param[in] t type and conditions
 	\param[in] key a condition, when user holds a key
 	\return type and conditions
  */
-inline sad::input::HandlerTypeAndConditions operator|(
+inline sad::input::HandlerTypeAndConditions operator&(
 	const sad::input::HandlerTypeAndConditions & t,
 	sad::SpecialKey key
 )
@@ -150,12 +150,12 @@ inline sad::input::HandlerTypeAndConditions operator|(
 
 /*! Appends a condition, when user pressed specified mouse button
 	to list of conditions, returning it. Allows to write something like 
-	t | sad::MouseLeft
+	t & sad::MouseLeft
 	\param[in] t type and conditions
 	\param[in] button a pressed button
 	\return type and conditions
  */
-inline sad::input::HandlerTypeAndConditions operator|(
+inline sad::input::HandlerTypeAndConditions operator&(
 	const sad::input::HandlerTypeAndConditions & t,
 	sad::MouseButton button
 )

@@ -17,6 +17,8 @@
 #include <geometry2d.h>
 #include <formattedlabel.h>
 #include <pipeline/pipeline.h>
+#include <input/controls.h>
+#include <keymouseconditions.h>
 
 const sad::String GameState::START = "start";
 const sad::String GameState::PLAYING = "playing";
@@ -29,41 +31,96 @@ Game::Game()
 
 	// Create a new machine
 	m_machine = new sad::fsm::Machine();
-	//m_machine->addCallbacks(sad::Renderer::ref()->controls());
+	sad::fsm::Machine * m = m_machine;
+
+	sad::input::Controls * controls = sad::Renderer::ref()->controls();
+	controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);
+	controls->add(*sad::input::ET_KeyPress & sad::Esc, this, &sad::p2d::app::App::quit);
 
 	// Create a new idle state
 	sad::fsm::State * idleState = new sad::fsm::State();
-	idleState->addKeyDownCallback('F',       this, &Game::tryToggleFullscreen);
-	idleState->addKeyDownCallback(KEY_ESC,   (sad::p2d::app::App *)this, &sad::p2d::app::App::quit);
-	idleState->addKeyDownCallback(KEY_ENTER, this, &Game::startPlaying);
-	
+
+	controls->add(
+		(*sad::input::ET_KeyPress) & sad::Enter & (m * GameState::START), 
+		this, &Game::startPlaying
+	);
+
 	idleState->addEnterCallback(this, &Game::enterStartingScreen);
 	idleState->addLeaveCallback(this, &Game::leaveStartingScreen);
 
 	// Create a new playing state
 	sad::fsm::State * playState = new sad::fsm::State();
-	playState->addKeyDownCallback('F', this, &Game::tryToggleFullscreen);
-	playState->addKeyDownCallback('P', this, &Game::togglePaused);
-	playState->addKeyDownCallback(KEY_ESC, (sad::p2d::app::App*)this, &sad::p2d::app::App::quit);
-	playState->addKeyDownCallback(KEY_ENTER,  this, &Game::player, &Player::startShooting);
-	playState->addKeyDownCallback(KEY_SPACE,  this, &Game::player, &Player::startShooting);
+	controls->add(
+		*sad::input::ET_KeyPress & sad::P & (m * GameState::PLAYING), 
+		this,  &Game::togglePaused
+	);
 
-	playState->addKeyDownCallback(KEY_LEFT,  this, &Game::player, &Player::tryStartMovingLeft);
-	playState->addKeyDownCallback(KEY_RIGHT, this, &Game::player, &Player::tryStartMovingRight);
-	playState->addKeyDownCallback(KEY_UP,    this, &Game::player, &Player::tryStartMovingUp);
-	playState->addKeyDownCallback(KEY_DOWN,  this, &Game::player, &Player::tryStartMovingDown);
-	playState->addKeyUpCallback(KEY_LEFT,  this, &Game::player, &Player::tryStopMovingHorizontally);
-	playState->addKeyUpCallback(KEY_RIGHT, this, &Game::player, &Player::tryStopMovingHorizontally);
-	playState->addKeyUpCallback(KEY_UP,    this, &Game::player, &Player::tryStopMovingVertically);
-	playState->addKeyUpCallback(KEY_DOWN,  this, &Game::player, &Player::tryStopMovingVertically);
-	playState->addKeyUpCallback(KEY_ENTER,  this, &Game::player, &Player::stopShooting);
-	playState->addKeyUpCallback(KEY_SPACE,  this, &Game::player, &Player::stopShooting);
+	// Controls, that respond for player shooting
+	controls->add(
+		*sad::input::ET_KeyPress & sad::Enter & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::startShooting
+	);
+	controls->add(
+		*sad::input::ET_KeyPress & sad::Space & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::startShooting
+	);
+	controls->add(
+		*sad::input::ET_MousePress & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::startShooting
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::Enter & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::stopShooting
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::Space & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::stopShooting
+	);
+	controls->add(
+		*sad::input::ET_MouseRelease & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::stopShooting
+	);
 
+	// Controls, that respond for player movement
+	controls->add(
+		*sad::input::ET_KeyPress & sad::KeyLeft & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStartMovingLeft
+	);
+	controls->add(
+		*sad::input::ET_KeyPress & sad::KeyRight & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStartMovingRight
+	);
+	controls->add(
+		*sad::input::ET_KeyPress & sad::KeyUp & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStartMovingUp
+	);
+	controls->add(
+		*sad::input::ET_KeyPress & sad::KeyDown & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStartMovingDown
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::KeyLeft & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStopMovingHorizontally
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::KeyRight & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStopMovingHorizontally
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::KeyUp & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStopMovingVertically
+	);
+	controls->add(
+		*sad::input::ET_KeyRelease & sad::KeyDown & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryStopMovingVertically
+	);
 
-	playState->addEventCallback(sad::fsm::Names::MOUSEMOVE, this, &Game::player, &Player::tryLookAt);
-	playState->addEventCallback(sad::fsm::Names::MOUSEDOWN, this, &Game::player, &Player::startShooting);
-	playState->addEventCallback(sad::fsm::Names::MOUSEUP, this, &Game::player, &Player::stopShooting);
-	
+	// Mouse movement
+	controls->add(
+		*sad::input::ET_MouseMove & (m * GameState::PLAYING), 
+		this, &Game::player, &Player::tryLookAt
+	);
+
 	playState->addEnterCallback(this, &Game::enterPlayingScreen);
 	playState->addLeaveCallback(this, &Game::leavePlayingScreen);
 

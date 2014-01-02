@@ -93,7 +93,7 @@ public:
 }
 
 /*! Converts event type to type and conditions, allowing to write something like 
-	*t | new Condition(...) | new Condition(...)
+	*t & new Condition(...) & new Condition(...)
 	\param[in] t type
 	\return type and conditions
  */
@@ -104,12 +104,12 @@ inline sad::input::HandlerTypeAndConditions operator*(sad::input::EventType t)
 
 
 /*! Appends a condition to list of conditions, returning it. Allows to write something like 
-	*t | new Condition(...) | new Condition(...)
+	*t & new Condition(...) & new Condition(...)
 	\param[in] t type and conditions
 	\param[in] condition a condition
 	\return type and conditions
  */
-inline sad::input::HandlerTypeAndConditions operator|(
+inline sad::input::HandlerTypeAndConditions operator&(
 	const sad::input::HandlerTypeAndConditions & t,
 	sad::input::AbstractHanderCondition * condition
 )

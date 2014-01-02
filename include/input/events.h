@@ -219,7 +219,7 @@ public:
 	/*! Returns position of cursor in 2D space
 		\return position of cursor
 	 */
-	inline const sad::Point2D & pos2D()
+	inline const sad::Point2D & pos2D() const
 	{
 		return this->Point3D;
 	}
