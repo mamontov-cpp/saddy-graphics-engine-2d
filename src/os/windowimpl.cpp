@@ -121,7 +121,7 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
 	m_handles.ProcessInstance = GetModuleHandle(NULL); 
 
 	WNDCLASS    wc;
-	wc.style       = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	wc.style       = CS_HREDRAW | CS_VREDRAW | CS_OWNDC | CS_DBLCLKS;
 	wc.lpfnWndProc = (WNDPROC) sad_renderer_window_proc;
 	wc.cbClsExtra  =  0;
 	wc.cbWndExtra  =  0;

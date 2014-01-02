@@ -53,35 +53,57 @@ public:
 	 */
 	sad::os::SystemWindowEventDispatchResult dispatch(SystemWindowEvent & e);
 protected:
-	/*! Processes quit event in dispatcher
+	/*! Processes event, when window is being closed
 		\param[in] e system event
 	 */
 	void processQuit(SystemWindowEvent & e);
-	/*! Processes activate event in dispatcher
+	/*! Processes event, when window gains focus
 		\param[in] e system event
 	 */ 
 	void processActivate(SystemWindowEvent & e);
-	/*! Processes deactivate event in dispatcher
+	/*! Processes event, when window loses focus
 		\param[in] e system event
 	 */ 
 	void processDeactivate(SystemWindowEvent & e);	
-	/*! Processes mouse move event
-		\param[in] e mouse move event
+	/*! Processes event, when user moves a mount
+		\param[in] e system event
 	 */
 	void processMouseMove(SystemWindowEvent & e);
-	/*! Processes mouse leave event
-		\param[in] e mouse leave event
+	/*! Processes event, when mouse leaves a window
+		\param[in] e system event
 	 */
 	void processMouseLeave(SystemWindowEvent & e);
-	/*! Processes mouse wheel event
-		\param[in] e mouse wheel event
+	/*! Processes event, when user scrolls a wheel
+		\param[in] e system event
 	 */
 	void processMouseWheel(SystemWindowEvent & e);
-	/*! Processes resize event
-		\param[in] e mouse wheel event
+	/*! Processes event, when user resizes window
+		\param[in] e system event
 	 */
 	void processResize(SystemWindowEvent & e);
+	/*! Processes event, when user presses a keyboard button
+		\param[in] e system event
+	 */
+	void processKeyPress(SystemWindowEvent & e);
+	/*! Processes event, when user releases a keyboard button
+		\param[in] e system event
+	 */
+	void processKeyRelease(SystemWindowEvent & e);
+	/*! Processes event, when user presees a mouse button
+		\param[in] e system event
+	 */ 
+	void processMousePress(SystemWindowEvent & e);
+	/*! Processes event, when user presees releases a mouse button
+		\param[in] e system event
+	 */ 
+	void processMouseRelease(SystemWindowEvent & e);
 #ifdef WIN32
+	/*! Processes event, when user performs a double click with a mouse button
+		Note, that X11 cannot recognize double click, so we are switching to simple
+		implementation via sensivity.
+		\param[in] e system event
+	 */ 
+	void processMouseDoubleClick(SystemWindowEvent & e);
 	/*! Processes hit testing in Win32, making window non-resizable if needed
 		\param[in] e event
 		\return whether a new region if needed
@@ -91,9 +113,12 @@ protected:
 	/*! Attached renderer to a dispatcher
 	 */
 	sad::Renderer * m_renderer;
-	/*! A decoder for decoding keys of data
+	/*! A decoder for decoding keys for press events
 	 */
-	sad::os::KeyDecoder * m_keys;
+	sad::os::KeyDecoder * m_decoder_for_keypress_events;
+	/*! A decoder for decoding keys for release events
+	 */
+	sad::os::KeyDecoder * m_decoder_for_keyrelease_events;
 #ifdef WIN32
 	/*! Determines, whether window cursor is within window
 	 */
