@@ -20,11 +20,11 @@ Player::Player()
 	this->addGun( m_gun );
 }
 
-void Player::tryLookAt(const sad::Event & p)
+void Player::tryLookAt(const sad::input::MouseMoveEvent & p)
 {
 	if (this->game()->isPlaying())
 	{
-		this->lookAt(sad::Point2D(p.x, p.y));
+		this->lookAt(p.pos2D());
 	}
 }
 
@@ -58,53 +58,53 @@ int Player::increaseScore(int delta)
  */
 #define N_SPEED -200.0
 
-void Player::tryStartMovingLeft(const sad::Event & e)
+void Player::tryStartMovingLeft(const sad::input::KeyPressEvent & e)
 {
 	if (this->game()->isPlaying())
 	{
 	    this->setHorizontalSpeed(N_SPEED);
-		m_stopkeys[0] = e.key;
+		m_stopkeys[0] = e.Key;
 	}
 }
 
-void Player::tryStartMovingRight(const sad::Event & e)
+void Player::tryStartMovingRight(const sad::input::KeyPressEvent & e)
 {
 	if (this->game()->isPlaying())
 	{
 		this->setHorizontalSpeed(P_SPEED);
-		m_stopkeys[0] = e.key;
+		m_stopkeys[0] = e.Key;
 	}
 }
 
-void Player::tryStartMovingUp(const sad::Event & e)
+void Player::tryStartMovingUp(const sad::input::KeyPressEvent & e)
 {
 	if (this->game()->isPlaying())
 	{
 		this->setVerticalSpeed(P_SPEED);
-		m_stopkeys[1] = e.key;
+		m_stopkeys[1] = e.Key;
 	}
 }
 
-void Player::tryStartMovingDown(const sad::Event & e)
+void Player::tryStartMovingDown(const sad::input::KeyPressEvent & e)
 {
 	if (this->game()->isPlaying())
 	{
 		this->setVerticalSpeed(N_SPEED);
-		m_stopkeys[1] = e.key;
+		m_stopkeys[1] = e.Key;
 	}
 }
 
-void Player::tryStopMovingHorizontally(const sad::Event & e)
+void Player::tryStopMovingHorizontally(const sad::input::KeyReleaseEvent & e)
 {
-	if (e.key == m_stopkeys[0])
+	if (e.Key == m_stopkeys[0])
 	{
 		this->setHorizontalSpeed(0);
 	}
 }
 
-void Player::tryStopMovingVertically(const sad::Event & e)
+void Player::tryStopMovingVertically(const sad::input::KeyReleaseEvent & e)
 {
-	if (e.key == m_stopkeys[1])
+	if (e.Key == m_stopkeys[1])
 	{
 		this->setVerticalSpeed(0);
 	}

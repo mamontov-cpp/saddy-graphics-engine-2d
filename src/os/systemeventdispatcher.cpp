@@ -157,7 +157,9 @@ void sad::os::SystemEventDispatcher::processActivate(sad::os::SystemWindowEvent 
 {
 	if (m_renderer->window()->active() == false)
 	{
+#ifdef EVENT_LOGGING
 		SL_LOCAL_INTERNAL("Triggered ActivateEvent()", *m_renderer);
+#endif
 		sad::input::ActivateEvent ev;
 		m_renderer->controls()->postEvent(sad::input::ET_Activate, ev);
 		m_renderer->window()->setActive(true);
@@ -168,7 +170,9 @@ void sad::os::SystemEventDispatcher::processDeactivate(sad::os::SystemWindowEven
 {
 	if (m_renderer->window()->active() == true)
 	{
+#ifdef EVENT_LOGGING
 		SL_LOCAL_INTERNAL("Triggered DeactivateEvent()", *m_renderer);
+#endif
 		sad::input::ActivateEvent ev;
 		m_renderer->controls()->postEvent(sad::input::ET_Deactivate, ev);
 		m_renderer->window()->setActive(false);
@@ -195,7 +199,9 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 		sad::input::MouseEnterEvent ev;
 		ev.Point3D = op;
 		m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+#ifdef EVENT_LOGGING
 		SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseEnterEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
+#endif
 	}
 	sad::input::MouseMoveEvent mmev;
 	mmev.Point3D = op;
@@ -209,7 +215,9 @@ void sad::os::SystemEventDispatcher::processMouseLeave(sad::os::SystemWindowEven
 	m_is_in_window = false;
 	sad::input::MouseLeaveEvent mlev;
 	m_renderer->controls()->postEvent(sad::input::ET_MouseLeave, mlev);
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);			
+#endif
 #endif
 }
 
@@ -224,6 +232,7 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
 	ev.Point3D = viewportpoint;
 	ev.Delta = delta;
 	m_renderer->controls()->postEvent(sad::input::ET_MouseWheel, ev);
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered MouseWheelEvent({0}, [{1}, {2}, {3}])") 
 		<< delta
@@ -232,7 +241,7 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
 		<< viewportpoint.z(), 
 		*m_renderer
 	);
-	
+#endif	
 #endif
 }
 
@@ -269,6 +278,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 	ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
 	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
 #endif
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered KeyPressEvent({0}, {1}, [{2}, {3}, {4}])") 
 		<< ev.Key
@@ -278,6 +288,7 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 		<< ev.ShiftHeld, 
 		*m_renderer
 	);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_KeyPress, ev);
 }
 
@@ -294,6 +305,7 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 	ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
 	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
 #endif
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered KeyReleaseEvent({0}, {1}, [{2}, {3}, {4}])") 
 		<< ev.Key
@@ -303,6 +315,7 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 		<< ev.ShiftHeld, 
 		*m_renderer
 	);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_KeyRelease, ev);	
 }
 
@@ -321,6 +334,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 	sad::input::MousePressEvent ev;
 	ev.Point3D  = viewportpoint;
 	ev.Button = btn;
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered MousePressEvent({0}, [{1}, {2}, {3}])") 
 		<< btn
@@ -329,6 +343,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 		<< viewportpoint.z(), 
 		*m_renderer
 	);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_MousePress, ev);	
 #endif
 }
@@ -348,6 +363,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 	sad::input::MouseReleaseEvent ev;
 	ev.Point3D  = viewportpoint;
 	ev.Button = btn;
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered MouseReleaseEvent({0}, [{1}, {2}, {3}])") 
 		<< btn
@@ -356,6 +372,7 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 		<< viewportpoint.z(), 
 		*m_renderer
 	);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);	
 #endif
 }
@@ -377,6 +394,8 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
 	sad::input::MouseDoubleClickEvent ev;
 	ev.Point3D  = viewportpoint;
 	ev.Button = btn;
+
+#ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])") 
 		<< btn
@@ -385,6 +404,7 @@ void sad::os::SystemEventDispatcher::processMouseDoubleClick(sad::os::SystemWind
 		<< viewportpoint.z(), 
 		*m_renderer
 	);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, ev);	
 }
 

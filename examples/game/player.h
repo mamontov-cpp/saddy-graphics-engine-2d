@@ -7,7 +7,7 @@
 */
 #pragma once
 #include "gameobject.h"
-#include <input.h>
+#include <input/events.h>
 
 class Game;
 
@@ -23,13 +23,13 @@ class Player: public GameObject
 		 /*! A pivot key, which is pressed last, when player is moving
 			 A moment, when player stops is the moment when this key is released
 		  */
-		 int         m_stopkeys[2];   
+		 sad::KeyboardKey   m_stopkeys[2];   
  public:
 	     Player();
 		 /*! Makes player look to position
 			 \param[in] p point
 		  */
-		 void tryLookAt(const sad::Event & p);
+		 void tryLookAt(const sad::input::MouseMoveEvent & p);
 		 /*! Shoots or not, depending on shooting frequency and current game state
 		  */
 		 void tryShoot();
@@ -45,25 +45,25 @@ class Player: public GameObject
 		 /*! Tries to start moving left
 			 \param[in] e event
 		  */
-		 void tryStartMovingLeft(const sad::Event & e);
+		 void tryStartMovingLeft(const sad::input::KeyPressEvent & e);
 		 /*! Tries to start moving right
 		 	 \param[in] e event
 		  */
-		 void tryStartMovingRight(const sad::Event & e);
+		 void tryStartMovingRight(const sad::input::KeyPressEvent & e);
 		 /*! Tries to start moving left
 			 \param[in] e event
 		  */
-		 void tryStartMovingUp(const sad::Event & e);
+		 void tryStartMovingUp(const sad::input::KeyPressEvent & e);
 		 /*! Tries to start moving left
 			 \param[in] e event
 		  */
-		 void tryStartMovingDown(const sad::Event & e);
+		 void tryStartMovingDown(const sad::input::KeyPressEvent & e);
 		 /*! Tries to stop moving horizontally if key matches
 		  */
-		 void tryStopMovingHorizontally(const sad::Event & e);
+		 void tryStopMovingHorizontally(const sad::input::KeyReleaseEvent & e);
 		 /*! Tries to stop moving horizontally if key matches
 		  */
-		 void tryStopMovingVertically(const sad::Event & e);
+		 void tryStopMovingVertically(const sad::input::KeyReleaseEvent & e);
 	     /*! Player starts shooting
 		  */
 		 void startShooting();
