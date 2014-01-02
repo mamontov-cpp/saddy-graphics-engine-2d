@@ -7,13 +7,10 @@ sad::fsm::Shared::~Shared() { }
 sad::fsm::AbstractCallback::~AbstractCallback() { }
 
 void sad::fsm::FreeFunction::invoke() { m_function(); }
-void sad::fsm::FreeFunction::invoke(const sad::Event & o) { m_function(); }
+
 sad::fsm::AbstractCallback * sad::fsm::FreeFunction::clone() { return new sad::fsm::FreeFunction(*this); }
 
 
-void sad::fsm::FreeEventFunction::invoke() { m_function(sad::Event()); }
-void sad::fsm::FreeEventFunction::invoke(const sad::Event & o) { m_function(o); }
-sad::fsm::AbstractCallback * sad::fsm::FreeEventFunction::clone() { return new sad::fsm::FreeEventFunction(*this); }
 
 
 void sad::fsm::Callback::copy(const sad::fsm::Callback & other)
@@ -52,13 +49,7 @@ void sad::fsm::Callback::invoke()
  }
 }
 
-void sad::fsm::Callback::invoke(const sad::Event & o)
-{
- if (m_impl)
- {
-	m_impl->invoke(o);
- }
-}
+
 
 
 sad::fsm::Callback::Callback( void (*f)() )
@@ -66,30 +57,17 @@ sad::fsm::Callback::Callback( void (*f)() )
 	m_impl = new sad::fsm::FreeFunction(f);
 }
 
-sad::fsm::Callback::Callback( void (*f)(const sad::Event &) )
-{
-	m_impl = new sad::fsm::FreeEventFunction(f);
-}
+
 
 
 const sad::String sad::fsm::Names::ENTER         = "enter";
 const sad::String sad::fsm::Names::LEAVE         = "leave";
-const sad::String sad::fsm::Names::MOUSEDOWN     = "mousedown";
-const sad::String sad::fsm::Names::MOUSEUP       = "mouseup";
-const sad::String sad::fsm::Names::MOUSECLICK    = "mouseclick";
-const sad::String sad::fsm::Names::MOUSEDBLCLICK = "mousedblclick";
-const sad::String sad::fsm::Names::MOUSEMOVE     = "mousemove";
-const sad::String sad::fsm::Names::WHEEL         = "wheel";
-const sad::String sad::fsm::Names::KEYDOWN       = "keydown";
-const sad::String sad::fsm::Names::KEYUP         = "keyup";
-const sad::String sad::fsm::Names::QUIT          = "quit";
+
 
 sad::fsm::State::State() { m_machine = NULL;}
 void sad::fsm::State::setMachine(sad::fsm::Machine * machine) { m_machine = machine; }
 sad::fsm::State::~State() 
 { 
-	eraseCallbackList(m_keyup);
-	eraseCallbackList(m_keydown);
 	eraseCallbackList(m_callbacks);
 }
 
@@ -131,84 +109,10 @@ void sad::fsm::State::removeCallback(const sad::String & eventType)
 	}
 }
 
-
-void sad::fsm::State::invoke(const sad::String & eventType)
+void sad::fsm::State::invoke(const sad::String &  name)
 {
-	if (m_callbacks.contains(eventType))
-	{
-		m_callbacks[eventType]->invoke();
-	}
+	m_callbacks[name]->invoke();
 }
-
-
-void sad::fsm::State::invoke(const sad::String & eventType,  const sad::Event & o)
-{
-	if (eventType == sad::fsm::Names::KEYUP && m_keyup.contains(o.key))
-	{
-		m_keyup[o.key]->invoke(o);
-	}
-	if (eventType == sad::fsm::Names::KEYDOWN && m_keydown.contains(o.key))
-	{
-		m_keydown[o.key]->invoke(o);
-	}
-	if (m_callbacks.contains(eventType))
-	{
-		m_callbacks[eventType]->invoke(o);
-	}
-}
-void sad::fsm::State::removeKeyUpCallback(int key)
-{
-	if (m_keyup.contains(key))
-	{
-		delete m_keyup[key];
-	}
-}
-void sad::fsm::State::removeKeyDownCallback(int key)
-{
-	if (m_keydown.contains(key))
-	{
-		delete m_keydown[key];
-	}
-}
-void sad::fsm::State::addKeyUpCallback(int key, sad::fsm::AbstractCallback * c)
-{
-	if (m_keyup.contains(key))
-	{
-		delete m_keyup[key];
-		m_keyup[key] = c;
-	}
-	else
-	{
-		m_keyup.insert(key, c);
-	}
-}
-void sad::fsm::State::addKeyDownCallback(int key, sad::fsm::AbstractCallback * c)
-{
-	if (m_keydown.contains(key))
-	{
-		delete m_keydown[key];
-		m_keydown[key] = c;
-	}
-	else
-	{
-		m_keydown.insert(key, c);
-	}
-}
-
-
-
-
-bool sad::fsm::MachineEventCallback::empty()
-{
-	return false;
-}
-
-void sad::fsm::MachineEventCallback::operator()(const sad::Event & o)
-{
-	this->m_machine->invokeEvent(m_event_type, o);	
-}
-
-
 
 const sad::String sad::fsm::Machine::INITIAL = "previous";
 
@@ -269,14 +173,7 @@ void sad::fsm::Machine::removeState(const sad::String & name)
 	}
 }
 
-void sad::fsm::Machine::invokeEvent(const sad::String & eventName, const sad::Event & o)
-{
-	sad::fsm::State * s = this->currentState();
-	if (s)
-	{
-		s->invoke(eventName, o);
-	}
-}
+
 
 void sad::fsm::Machine::enterCurrentState()
 {
@@ -314,44 +211,32 @@ void sad::fsm::Machine::cancelState()
 	pushState(m_previous_state_name);
 }
 
-sad::fsm::MachineEventCallback * sad::fsm::Machine::callbackFor(const sad::String & type)
+
+
+sad::fsm::Condition::Condition(sad::fsm::Machine * machine, const sad::String & state)
+: m_machine(machine), m_state(state)
 {
-	return new sad::fsm::MachineEventCallback(this, type);
+	
+}
+bool sad::fsm::Condition::check(const sad::input::AbstractEvent & e)
+{
+	return m_machine->currentStateName() == m_state;
 }
 
-void sad::fsm::Machine::addCallbacks(sad::Input * controls)
+sad::input::AbstractHanderCondition * sad::fsm::Condition::clone()
 {
-	const int length  = 9;
-	void (sad::Input::*callbacks[length])(sad::EventHandler *) = {
-		&sad::Input::setKeyDownHandler,
-		&sad::Input::setKeyUpHandler,
-		&sad::Input::setMouseClickHandler,
+	return new sad::fsm::Condition(*this);
+}
 
-		&sad::Input::setMouseDblClickHandler,
-		&sad::Input::setMouseDownHandler,
-		&sad::Input::setMouseUpHandler,
-		
-		&sad::Input::setMouseMoveHandler,
-		&sad::Input::setMouseWheelHandler,
-		&sad::Input::setQuitHandler
-	};
+sad::fsm::Condition::~Condition()
+{
+	
+}
 
-	sad::String names[length] = {
-		sad::fsm::Names::KEYDOWN,
-		sad::fsm::Names::KEYUP,
-		sad::fsm::Names::MOUSECLICK,
-
-		sad::fsm::Names::MOUSEDBLCLICK,
-		sad::fsm::Names::MOUSEDOWN,
-		sad::fsm::Names::MOUSEUP,
-
-		sad::fsm::Names::MOUSEMOVE,
-		sad::fsm::Names::WHEEL,
-		sad::fsm::Names::QUIT,
-	};
-
-	for(int i = 0; i < length; i++)
-	{
-		(controls->*(callbacks[i]))(this->callbackFor(names[i]));
-	}
+sad::input::AbstractHanderCondition * operator*(
+	sad::fsm::Machine * machine,
+	const sad::String & state
+)
+{
+	return new sad::fsm::Condition(machine, state);
 }
