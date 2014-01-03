@@ -1,7 +1,6 @@
 #include "os/keydecoder.h"
 #include "os/systemwindowevent.h"
 #include "window.h"
-#include "input.h"
 
 sad::os::KeyDecoder::KeyDecoder()
 {
