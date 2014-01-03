@@ -199,10 +199,6 @@ void Game::tryToggleFullscreen()
 void Game::run()
 {
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
-
-	// Load textures to videocard memory and build mipmaps
-	sad::Renderer::ref()->textures()->buildAll();
-	SL_MESSAGE("Mips built successfully");	
 	
 	// Set window size to be fixed
 	sad::Renderer::ref()->makeFixedSize();

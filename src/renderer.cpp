@@ -90,32 +90,6 @@ void sad::Renderer::init(const sad::Settings& _settings)
 	SL_INTERNAL_SCOPE("sad::Renderer::init", (*this));
 	m_glsettings = _settings;
 	m_window->setCreationSize(m_glsettings.width(), m_glsettings.height());
-
-	// TODO: Remove it, when testing lazy loads
-	if (running() || hasValidContext())
-	{
-		return;
-	}
-
-	bool success = m_window->create();
-	if (success)
-	{
-		success =  m_context->createFor(m_window);
-		if (!success)
-		{
-			SL_LOCAL_FATAL("Failed to create context\n",*this);
-			m_window->destroy();
-		} 
-		else
-		{
-			m_window->initialize();
-			this->initGLRendering();
-		}
-	}
-	if (!success) 
-	{ 
-		SL_LOCAL_FATAL("Cannot create window\n",*this);
-	}
 }
 
 bool sad::Renderer::run()

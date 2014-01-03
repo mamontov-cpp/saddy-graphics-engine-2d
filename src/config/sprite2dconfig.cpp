@@ -166,9 +166,6 @@ Sprite2DConfigLoadingResult Sprite2DConfig::reload()
 	delete m_renderer->textures()->getContainer(m_texturecontainername);
 	m_renderer->textures()->setContainer(newcontainer,m_texturecontainername);
 
-	//Build mips
-	newcontainer->build();
-
 	//Reload all sprites
 	fireReloadSprite();
 
