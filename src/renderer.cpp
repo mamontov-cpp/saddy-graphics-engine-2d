@@ -250,11 +250,6 @@ sad::TextureManager * sad::Renderer::textures()
 	return m_texture_manager;
 }
 
-sad::input::Controls  * sad::Renderer::controls()
-{
-	return m_controls;
-}
-
 sad::log::Log * sad::Renderer::log()
 {
 	return m_log;

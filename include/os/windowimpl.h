@@ -135,6 +135,18 @@ public:
 		\param[in] active whether window is active
 	 */
 	virtual void setActive(bool active);
+	/*! Sets hidden flag in window 
+		\param[in] hidden whether window is hidden
+	 */
+	virtual void setHidden(bool hidden);
+	/*! Tests, whether window is minimized
+		\return whether window is minimized
+	 */
+	virtual bool minimized() const;
+	/*! Sets minimized flag in window
+		\param[in] minimized  whether window is minimized
+	 */
+	virtual void setMinimized(bool minimized);
 	/*! Tests, whether implementation is compatible with OpenGL 3
 		\return whether OpenGL 3+ context can be created in this window
 	 */
@@ -155,6 +167,9 @@ private:
 	/*! Whether window is hidden
 	 */
 	bool m_hidden;
+	/*! Whether window is minimized
+	 */
+	bool m_minimized;
 	/*! Size, that should be set, when creating a windo
 	 */
 	sad::Size2I  m_creation_size;

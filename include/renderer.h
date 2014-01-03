@@ -127,10 +127,6 @@ public:
 		\return texture manager information
 	 */
 	sad::TextureManager* textures();
-	/*! Returns controls for renderer
-		\return controls for renderer
-	 */
-	sad::input::Controls* controls(); 
 	/*! Returns a log for renderer
 		\return log 
 	 */

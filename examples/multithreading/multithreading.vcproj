@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GLU32.lib OPENGL32.lib ..\..\lib\saddy-debug.lib ..\..\lib\saddy-ft-debug.lib $(FREETYPE_LIB)/freetype.lib"
+				AdditionalDependencies="GLU32.lib OPENGL32.lib ..\..\lib\saddy-debug.lib ..\..\lib\saddy-ft-debug.lib &quot;$(FREETYPE_LIB)\freetype.lib&quot;"
 				OutputFile="..\..\bin\multithreading-example-debug.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""

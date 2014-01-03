@@ -78,7 +78,7 @@ protected:
 	}
 	/*! Toggles fullscreen		
 	 */
-	void toggleFullscreen(const sad::Event & );
+	void toggleFullscreen();
 public:
 
 	World();

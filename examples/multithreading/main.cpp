@@ -7,17 +7,18 @@
 	A multithreading example is an example of two OpenGL windows in one process
 	running simultaneously.
  */
-#include "renderer.h"
-#include "input.h"
-#include "fontmanager.h"
-#include "orthographiccamera.h"
-#include "sadthread.h"
-#include "input.h"
-#include "sprite2dadapter.h"
-#include "label.h"
-#include "texturemappedfont.h"
-#include "texturemanager.h"
-#include "freetype/font.h"
+#include <renderer.h>
+#include <input/controls.h>
+#include <keymouseconditions.h>
+#include <input/handlers.h>
+#include <fontmanager.h>
+#include <orthographiccamera.h>
+#include <sadthread.h>
+#include <sprite2dadapter.h>
+#include <label.h>
+#include <texturemappedfont.h>
+#include <texturemanager.h>
+#include <freetype/font.h>
 
 /*! \class EventHandler
     A simple handler which, depending on settings cand quit renderer's main loop
@@ -31,7 +32,7 @@
 
     Current behaviour depends on m_quit variable, which is if set to true quits it
  */
-class EventHandler: public sad::EventHandler
+class EventHandler: public sad::input::AbstractHandler
 {
  private:
 	 sad::Renderer * m_renderer; //!< A current renderer, which working controls belong to
@@ -53,7 +54,7 @@ class EventHandler: public sad::EventHandler
 	     sad::Input is occured in window. Currently it implements behaviour specified
 		 in header of class
 	  */
-	 virtual void operator()(const sad::Event & o)
+	 virtual void invoke(const sad::input::AbstractEvent & e)
 	 {
 		if (m_quit)
 		{
@@ -61,12 +62,13 @@ class EventHandler: public sad::EventHandler
 		}
 		else 
 		{
+			const sad::input::MouseMoveEvent& ev = static_cast<const sad::input::MouseMoveEvent&>(e);
 			// This point is center of sprite
 			sad::Point2D center = m_ad->pos();
 			// Since Sprite2DAdapter::move uses relative coordinates to move center of sprite
 			// we must compute distance between point, where user clicked ands center of sprite
 			// and call it.
-			sad::Point2D v = sad::Point2D(o.x,o.y) - center;
+			sad::Point2D v = ev.pos2D() - center;
 			m_ad->move(v);
 		}
 	 }
@@ -194,8 +196,9 @@ int thread(void * p)
 	
 	/* Here we bind two different handlers with keydown
 	 */
-	r.controls()->bindKeyDown(KEY_ESC,  new EventHandler(&r, NULL, true));
-	r.controls()->setMouseDownHandler(new EventHandler(&r, a, false));
+	sad::input::Controls * c = r.controls();
+	c->add(*sad::input::ET_KeyPress & sad::Esc, new EventHandler(&r, NULL, true));
+	c->add(*sad::input::ET_MousePress         , new EventHandler(&r, a, false));
 
 	SL_LOCAL_DEBUG("Building mipmaps", r);
 	/* Because of bugs in Intel GMA drivers we must lock on thread, before building mipmaps
