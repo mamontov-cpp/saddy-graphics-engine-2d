@@ -1,6 +1,7 @@
 #include "input/controls.h"
 
 sad::input::Controls::Controls()
+: m_wheelticksensivity(1), m_doubleclicksensivity(500)
 {
 
 }
@@ -44,6 +45,26 @@ void sad::input::Controls::finishRecevingEvents()
 {
 	unlockChanges();
 	performQueuedActions();
+}
+
+void sad::input::Controls::setWheelTickSensivity(double delta)
+{
+	m_wheelticksensivity = delta;
+}
+
+double sad::input::Controls::wheelTickSensivity() const
+{
+	return m_wheelticksensivity;
+}
+
+void sad::input::Controls::setDoubleClickSensivity(double sensivity)
+{
+	m_doubleclicksensivity = sensivity;
+}
+
+double sad::input::Controls::doubleClickSensivity() const
+{
+	return m_doubleclicksensivity;
 }
 
 void sad::input::Controls::clearNow()

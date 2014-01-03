@@ -97,6 +97,12 @@ protected:
 		\param[in] e system event
 	 */ 
 	void processMouseRelease(SystemWindowEvent & e);
+#ifdef X11
+	/*! Processes event, when user presees enters a window
+		\param[in] e system event
+	 */ 
+	void processMouseEnter(SystemWindowEvent & e);
+#endif
 #ifdef WIN32
 	/*! Processes event, when user performs a double click with a mouse button
 		Note, that X11 cannot recognize double click, so we are switching to simple
@@ -123,6 +129,20 @@ protected:
 	/*! Determines, whether window cursor is within window
 	 */
 	bool m_is_in_window;
+#endif
+#ifdef X11
+	/*! Determines, whether user holds alt button
+	 */
+	bool m_alt_is_held;
+	/*! A timer for working with doubleclick
+	 */
+	sad::Timer m_doubleclick_timer;
+	/*! Determines, whether we could perform double click (one click is performed)
+	 */
+	bool m_in_doubleclick;
+	/*! A button which could be double clicked in some key
+	 */
+	sad::MouseButton m_doubleclick_button;
 #endif
 	/*! Old window size
 	 */

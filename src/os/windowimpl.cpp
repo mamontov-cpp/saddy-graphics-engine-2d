@@ -582,12 +582,19 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 	attr.border_pixel = 0;
 	attr.background_pixmap = None ;
 	attr.event_mask = ExposureMask 
-					| KeyPressMask 
+					| KeyPressMask
+					| FocusChangeMask
 					| ButtonPressMask 
 					| StructureNotifyMask 
 					| PointerMotionMask 
 					| ButtonReleaseMask 
-					| KeyReleaseMask;
+					| KeyReleaseMask
+					| EnterWindowMask
+					| LeaveWindowMask
+					| VisibilityChangeMask
+					| ResizeRedirectMask
+					| SubstructureNotifyMask
+					| SubstructureRedirectMask;
  
 	m_handles.Win = XCreateWindow(
 		m_handles.Dpy, 

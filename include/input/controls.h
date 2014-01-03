@@ -325,6 +325,24 @@ public:
 		is processed and nothing gets killed in between.
 	 */
 	void finishRecevingEvents();
+	/*! An amount of delta, that should be picked in mouse wheel event in X11,
+		since X11 does not support it natively.
+		\param[in] delta sensivity
+	 */
+	void setWheelTickSensivity(double delta);
+	/*! Returns amount of delta, that should be picked in mouse wheel event in X11,
+		since X11 does not support it natively.
+		\return sensivity value
+	 */
+	double wheelTickSensivity() const;
+	/*! Sets sensivity (in ms) for double click in X11, since it does not support it natively
+		\param[in] sensivity a sensivity for double click recognized
+	 */
+	void setDoubleClickSensivity(double sensivity);
+	/*! Returns sensivity (in ms) for double click in X11, since it does not support it natively
+		\return sensivity for double click
+	 */
+	double doubleClickSensivity() const;
 protected:
 	/*! A both handle and conditions, stored in controls
 	 */
@@ -334,7 +352,15 @@ protected:
 	typedef sad::Vector<HandlerAndConditions>  HandlerList;
 	/*! A handlers, attached to a event types
 	 */
-	HandlerList m_handlers[SAD_INPUT_EVENTTYPE_COUNT];	
+	HandlerList m_handlers[SAD_INPUT_EVENTTYPE_COUNT];
+	/*! An amount of delta, that should be picked in mouse wheel event in X11,
+		since X11 does not support it natively
+	 */
+	double m_wheelticksensivity;
+	/*! A sensivity for double click as amount of time between two clicks, needed to compose them
+		as double click
+	 */
+	double m_doubleclicksensivity;
 	/*! Immediately clears all handlers, removing all previous bindings
 	 */
 	virtual void clearNow();
