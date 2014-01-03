@@ -89,7 +89,7 @@ class EventHandler: public sad::input::AbstractHandler
 // So we create a lock, which disables it.
 // If you don't have these kind of cards feel free to comment,
 // It has been tested on NVidia card without locks ans seems to work.
-sad::Mutex mipmap_part_mutex;
+sad::Mutex RenderMutex;
 // We override default scene to avoid bugs with IntelGMA modules
 // All we need to do is to override ::render()
 class InterlockedScene:public sad::Scene
@@ -103,9 +103,9 @@ class InterlockedScene:public sad::Scene
 		 3) Unlocking on mutex
 	  */
 	 virtual void render() {
-		mipmap_part_mutex.lock();
+		RenderMutex.lock();
 		this->sad::Scene::render();
-		mipmap_part_mutex.unlock();
+		RenderMutex.unlock();
 	 }
 };
 
@@ -199,13 +199,6 @@ int thread(void * p)
 	sad::input::Controls * c = r.controls();
 	c->add(*sad::input::ET_KeyPress & sad::Esc, new EventHandler(&r, NULL, true));
 	c->add(*sad::input::ET_MousePress         , new EventHandler(&r, a, false));
-
-	SL_LOCAL_DEBUG("Building mipmaps", r);
-	/* Because of bugs in Intel GMA drivers we must lock on thread, before building mipmaps
-	 */
-	mipmap_part_mutex.lock();
-	r.textures()->buildAll();
-	mipmap_part_mutex.unlock();
 	
 	/* Start main rendering loop. Execution will not progress further, until user closes window
 	   or press Escape

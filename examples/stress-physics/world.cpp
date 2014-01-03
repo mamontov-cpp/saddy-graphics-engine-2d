@@ -61,10 +61,6 @@ void World::run()
 
 	sad::Renderer::ref()->controls()
 		                ->add(*sad::input::ET_KeyPress & sad::F, this, &World::toggleFullscreen);
-
-	// Load textures to videocard memory and build mipmaps
-	sad::Renderer::ref()->textures()->buildAll();
-	SL_MESSAGE("Mips built successfully");	
 	
 	// Set window size to be fixed
 	sad::Renderer::ref()->makeFixedSize();
