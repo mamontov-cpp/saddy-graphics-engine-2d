@@ -21,22 +21,22 @@ public:
 	/*! Moves a sprite
 		\param[in] ev event
 	  */
-	virtual void onMouseMove(const sad::Event & ev);
+	virtual void onMouseMove(const sad::input::MouseMoveEvent & ev);
 	/*! Handles wheel  movement
 		 \param[in] ev event data
 	 */
-	virtual void onWheel(const sad::Event & ev);
+	virtual void onWheel(const sad::input::MouseWheelEvent & ev);
 	/** Tries to select some item and enter selected state
 		 \param[in] ev  event  data
 	 */
-	virtual void onMouseDown(const sad::Event & ev);
+	virtual void onMouseDown(const sad::input::MousePressEvent & ev);
 	/** Leveas a state
 	 */
 	virtual void leave();
 	/*! Handles key down event
 		\param[in] ev event data
 	 */
-	virtual void onKeyDown(const sad::Event & ev);
+	virtual void onKeyDown(const sad::input::KeyPressEvent & ev);
 };
 
 enum DiagonalSpriteAddingSubState
@@ -62,17 +62,17 @@ public:
 	/** Tries to select some item and enter selected state
 		 \param[in] ev  event  data
 	 */
-	virtual void onMouseDown(const sad::Event & ev);
+	virtual void onMouseDown(const sad::input::MousePressEvent & ev);
 	/*! Moves a sprite
 		\param[in] ev event
 	  */
-	virtual void onMouseMove(const sad::Event & ev);
+	virtual void onMouseMove(const sad::input::MouseMoveEvent & ev);
 	/** Leveas a state
 	 */
 	virtual void leave();
 	/*! Handles key down event
 		\param[in] ev event data
 	 */
-	virtual void onKeyDown(const sad::Event & ev);
+	virtual void onKeyDown(const sad::input::KeyPressEvent & ev);
 };
 

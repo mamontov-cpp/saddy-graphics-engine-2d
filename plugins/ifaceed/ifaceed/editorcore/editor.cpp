@@ -10,6 +10,7 @@
 #include <QApplication>
 #include <texturemanager.h>
 #include <unused.h>
+#include <input/controls.h>
 
 Editor::Editor():m_icons("editor_icons")
 {
@@ -159,18 +160,14 @@ void Editor::runQtEventLoop()
 void Editor::runSaddyEventLoop() 
 {
 	m_quit_reason = EditorQuitReasonNotSet;
-	sad::Input::ref()->setQuitHandler( 
-										new HandlerFor<Editor>::Method<
-											void (Editor::*)(const sad::Event&),
-											sad::Event
-										>(this,&Editor::onSaddyWindowDestroySlot));
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_Quit, this, &Editor::onSaddyWindowDestroySlot);
 	sad::Renderer::ref()->run();
 	// Quit reason can be set by main thread, when window is closed
 	if (m_quit_reason == EditorQuitReasonNotSet)
 		this->saddyQuitSlot();
 }
 
-void Editor::onSaddyWindowDestroySlot(UNUSED const sad::Event & ev)
+void Editor::onSaddyWindowDestroySlot()
 {
 	this->onSaddyWindowDestroy();
 }
@@ -288,12 +285,13 @@ void Editor::onSaddyWindowDestroy()
 
 void Editor::onFullAppStart()
 {
-	sad::Input::ref()->setKeyDownHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyDown));
-	sad::Input::ref()->setKeyUpHandler(new EditorEventHandler(this, &EditorBehaviour::onKeyUp));
-	sad::Input::ref()->setMouseWheelHandler(new EditorEventHandler(this, &EditorBehaviour::onWheel));
-	sad::Input::ref()->setMouseDownHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseDown));
-	sad::Input::ref()->setMouseUpHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseUp));
-	sad::Input::ref()->setMouseMoveHandler(new EditorEventHandler(this, &EditorBehaviour::onMouseMove));
+	sad::input::Controls * c = sad::Renderer::ref()->controls();
+	c->add(*sad::input::ET_KeyPress, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyDown);
+	c->add(*sad::input::ET_KeyRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyUp);
+	c->add(*sad::input::ET_MouseWheel, this, &Editor::currentBehaviour, &EditorBehaviour::onWheel);
+	c->add(*sad::input::ET_MousePress, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseDown);
+	c->add(*sad::input::ET_MouseRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseUp);
+	c->add(*sad::input::ET_MouseMove, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseMove);
 }
 
 
@@ -323,23 +321,17 @@ void Editor::setBehaviour(const sad::String & name)
 	}
 }
 
+EditorBehaviour nullBehaviour(NULL,"");
+
 EditorBehaviour * Editor::currentBehaviour()
 {
 	if (m_current_behaviour.length())
 	{
 		return m_behaviours[m_current_behaviour];
 	}
-	return NULL;
+	return &nullBehaviour;
 }
 
-void Editor::postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev)
-{
-	EditorBehaviour  * b = currentBehaviour();
-	if (b)
-	{		
-		(b->*cb)(ev);
-	}
-}
 
 
 void Editor::highlightState(UNUSED const sad::String & hint)

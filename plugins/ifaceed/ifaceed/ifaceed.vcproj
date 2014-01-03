@@ -362,10 +362,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\editoreventhandler.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\editorcore\path.cpp"
 					>
 				</File>
@@ -685,10 +681,6 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editorbehaviourstate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\editorcore\editoreventhandler.h"
 					>
 				</File>
 				<File
@@ -1749,7 +1741,7 @@
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="$(DefaultQtVersion)"
+			Value="4.8.5"
 		/>
 		<Global
 			Name="RccDir"

@@ -206,10 +206,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\input.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\keymouseconditions.cpp"
 				>
 			</File>
@@ -251,10 +247,6 @@
 			</File>
 			<File
 				RelativePath=".\src\renderer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\renderer_win32loop.cpp"
 				>
 			</File>
 			<File
@@ -745,10 +737,6 @@
 			</File>
 			<File
 				RelativePath=".\include\glcontext.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\input.h"
 				>
 			</File>
 			<File

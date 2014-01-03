@@ -113,7 +113,7 @@ public:
 	/** Tries to select some item
 		 \param[in] ev  event  data
 	 */
-	virtual void onMouseDown(const sad::Event & ev);
+	virtual void onMouseDown(const sad::input::MousePressEvent & ev);
 	/** Constructs new selected state
 	 */
 	SelectedState();
@@ -124,19 +124,19 @@ public:
 	/** Handles wheel  movement
 		 \param[in] ev event data
 	 */
-	virtual void onWheel(const sad::Event & ev);
+	virtual void onWheel(const sad::input::MouseWheelEvent & ev);
 
 	/** Moves object if in moving object state
 		\param[in] ev event data
 	 */
-	virtual void onMouseMove(const sad::Event & ev);
+	virtual void onMouseMove(const sad::input::MouseMoveEvent & ev);
 
 	/** Commits a mouse up event
 		\param[in] ev  even  data
 	 */
-	 virtual void onMouseUp(const sad::Event & ev);
-	 /*! Handles key down event
+	virtual void onMouseUp(const sad::input::MouseReleaseEvent & ev);
+	/*! Handles key down event
 		 \param[in] ev event data
-	  */
-	 virtual void onKeyDown(const sad::Event & ev);
+	 */
+	virtual void onKeyDown(const sad::input::KeyPressEvent & ev);
 };

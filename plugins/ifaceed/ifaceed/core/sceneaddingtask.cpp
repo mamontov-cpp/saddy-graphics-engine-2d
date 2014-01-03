@@ -9,9 +9,9 @@ SceneAddingTask::~SceneAddingTask()
 }
 
 SceneAddingTask::SceneAddingTask(ScreenTemplate * _template, InterlockedScene * scene)
+: m_template(_template), m_scene(scene)
 {
-	m_template = _template;
-	m_scene = scene;
+
 }
 
 
@@ -24,7 +24,7 @@ bool LayerPropertyComparator::operator() (AbstractScreenObject * o1, AbstractScr
 	return i1 > i2;
 }
 
-void SceneAddingTask::perform()
+void SceneAddingTask::_process()
 {
 	if (m_scene->objectCount() == 0)
 	{
@@ -42,6 +42,5 @@ void SceneAddingTask::perform()
 		{
 			this->m_scene->add(m_simple_list[i]);
 		}
-		die();
 	}
 }

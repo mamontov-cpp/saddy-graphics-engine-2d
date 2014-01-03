@@ -24,11 +24,11 @@ void SimpleSpriteAddingState::enter()
 	SUBMITCLOSURE( ed->emitClosure );
 }
 
-void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
+void SimpleSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	o->moveCenterTo(sad::Point2D(ev.x,ev.y));
+	o->moveCenterTo(ev.pos2D());
 
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -41,9 +41,9 @@ void SimpleSpriteAddingState::onMouseMove(const sad::Event & ev)
 	SUBMITCLOSURE( ed->emitClosure );
 }
 
-void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
+void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 {
-	float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
+	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
@@ -57,7 +57,7 @@ void SimpleSpriteAddingState::onWheel(const sad::Event & ev)
 	o->getProperty("angle")->set(sad::Variant((float)a));
 }
 
-void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::Event & ev)
+void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
@@ -69,9 +69,9 @@ void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::Event & ev)
 	this->behaviour()->enterState("selected");
 }
 
-void SimpleSpriteAddingState::onKeyDown(const sad::Event & ev)
+void SimpleSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
-	if (ev.key == KEY_ESC) 
+	if (ev.Key == sad::Esc) 
 	{
 		this->editor()->tryEraseObject();
 	}
@@ -110,13 +110,13 @@ void DiagonalSpriteAddingState::enter()
 }
 
 
-void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
+void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & ev)
 {
 	DiagonalSpriteAddingSubState ss = m_substate;
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
-	sad::Point2D p(ev.x, ev.y);
+	sad::Point2D p = ev.pos2D();
 	bool highlight = false;
 	sad::String highlights;
 	if (ss == DSAS_INITIAL)
@@ -137,7 +137,9 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::Event & ev)
 	}
 	if (ss == DSAS_FIRSTCLICK)
 	{
-		this->onMouseMove(ev);
+		sad::input::MouseMoveEvent mousemoveevent;
+		mousemoveevent.Point3D = ev.Point3D;
+		this->onMouseMove(mousemoveevent);
 		NewCommand * c = new NewCommand(ed->result(), o);
 		ed->history()->add(c);
 		c->commit(ed);
@@ -173,14 +175,14 @@ void DiagonalSpriteAddingState::leave()
 }
 
 
-void DiagonalSpriteAddingState::onMouseMove(const sad::Event & ev)
+void DiagonalSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	if (m_substate == DSAS_FIRSTCLICK)
 	{
-		sad::Point2D newpoint(ev.x, ev.y);
+		sad::Point2D newpoint = ev.pos2D();
 		sad::Rect2D nrect = oo->rect();
 		nrect[1] = newpoint;
 		nrect[0].setX(nrect[3].x());
@@ -198,9 +200,9 @@ void DiagonalSpriteAddingState::onMouseMove(const sad::Event & ev)
 	}
 }
 
-void DiagonalSpriteAddingState::onKeyDown(const sad::Event & ev)
+void DiagonalSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
-	if (ev.key == KEY_ESC) 
+	if (ev.Key == sad::Esc) 
 	{
 		this->editor()->tryEraseObject();
 	}

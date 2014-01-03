@@ -8,9 +8,9 @@
 #include <unused.h>
 
 
-void LabelAddingState::onMouseMove(const sad::Event & ev)
+void LabelAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
-	this->shdata()->activeObject()->moveCenterTo(sad::Point2D(ev.x,ev.y));
+	this->shdata()->activeObject()->moveCenterTo(ev.pos2D());
 }
 
 void LabelAddingState::enter()
@@ -36,9 +36,9 @@ void LabelAddingState::leave()
 }
 
 
-void LabelAddingState::onWheel(const sad::Event & ev)
+void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 {
-	float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
+	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
@@ -53,7 +53,7 @@ void LabelAddingState::onWheel(const sad::Event & ev)
 }
 
 
-void LabelAddingState::onMouseDown(UNUSED const sad::Event & ev)
+void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o =	this->shdata()->activeObject();
@@ -65,9 +65,9 @@ void LabelAddingState::onMouseDown(UNUSED const sad::Event & ev)
 	this->behaviour()->enterState("selected");
 }
 
-void LabelAddingState::onKeyDown(const sad::Event & ev)
+void LabelAddingState::onKeyDown(const sad::input::KeyPressEvent  & ev)
 {
-	if (ev.key == KEY_ESC) 
+	if (ev.Key == sad::Esc) 
 	{
 		IFaceEditor * ed = this->editor();
 		ed->tryEraseObject();

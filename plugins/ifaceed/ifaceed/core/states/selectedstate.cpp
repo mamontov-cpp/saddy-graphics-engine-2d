@@ -63,7 +63,7 @@ void SelectedState::navigateOffset(bool next)
 	}
 }
 
-void SelectedState::onWheel(const sad::Event & ev)
+void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 {
 	if (m_substate == SSSS_SELECTEDNAVIGATION) 
 	{
@@ -71,7 +71,7 @@ void SelectedState::onWheel(const sad::Event & ev)
 		if ((cur-m_navigationstart) / CLOCKS_PER_SEC < SSSS_NAVIGATION_COOLDOWN)
 		{
 			m_navigationstart = clock();
-			this->navigateOffset(ev.delta > 0);
+			this->navigateOffset(ev.Delta > 0);
 		}
 		else 
 		{
@@ -82,7 +82,7 @@ void SelectedState::onWheel(const sad::Event & ev)
 	AbstractScreenObject * o =	this->shdata()->selectedObject();
 	if (m_substate == SSSS_SIMPLESELECTED && o->rotatable()) 
 	{
-		float dangle = (ev.delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
+		float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 		MainPanel * p = ed->panel();
 		float a = o->getProperty("angle")->get()->get<float>();
 		a+=dangle;
@@ -94,12 +94,15 @@ void SelectedState::onWheel(const sad::Event & ev)
 	}
 }
 
-void SelectedState::onMouseDown(const sad::Event & ev)
+void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 {
-	SL_SCOPE(QString("SelectedState::onMouseDown(%1,%2)").arg(ev.x, ev.y).toStdString());
-	if (ev.key == MOUSE_BUTTON_LEFT) {
+	SL_SCOPE(QString("SelectedState::onMouseDown(%1,%2)")
+		     .arg(ev.pos2D().x(), ev.pos2D().y())
+			 .toStdString()
+			);
+	if (ev.Button == sad::MouseLeft) {
 		IFaceEditor * ed = this->editor();
-		sad::Point2D p(ev.x, ev.y);
+		sad::Point2D p = ev.pos2D();
 		AbstractScreenObject * o = this->shdata()->selectedObject();
 		sad::Vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
 		if (r.count() != 0) 
@@ -145,10 +148,10 @@ void SelectedState::onMouseDown(const sad::Event & ev)
 }
 
 
-void SelectedState::onMouseMove(const sad::Event & ev)
+void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
-	sad::Point2D p(ev.x, ev.y);
+	sad::Point2D p = ev.pos2D();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	if (m_movement_substate == SSMSS_MOVING)
 	{	
@@ -172,13 +175,15 @@ void SelectedState::onMouseMove(const sad::Event & ev)
 	}
 }
 
-void SelectedState::onMouseUp(const sad::Event & ev)
+void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 {
 	IFaceEditor * ed = this->editor();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
+	sad::input::MouseMoveEvent movingevent;
+	movingevent.Point3D = ev.Point3D;
 	if (m_movement_substate == SSMSS_MOVING)
-	{
-		this->onMouseMove(ev);		
+	{		
+		this->onMouseMove(movingevent);		
 		sad::Rect2D region = o->region();
 		sad::Point2D newcenter = (region[0] + region[2]) / 2;
 		ed->history()->add(new MoveCommand(o, m_picked_old_center, newcenter));
@@ -186,7 +191,7 @@ void SelectedState::onMouseUp(const sad::Event & ev)
 	}
 	if (m_movement_substate == SSMSS_RESIZING)
 	{
-		this->onMouseMove(ev);
+		this->onMouseMove(movingevent);
 		ResizeCommand * r = new ResizeCommand(o, m_resizingsubstate.oldRect, o->region(), o->prop<float>("angle", ed->log()));
 		ed->history()->add(r);
 		m_movement_substate = SSMSS_NOMOVEMENT;
@@ -215,9 +220,9 @@ void SelectedState::leave()
 }
 
 
-void SelectedState::onKeyDown(const sad::Event & ev)
+void SelectedState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
-	if (ev.key == KEY_ESC)
+	if (ev.Key == sad::Esc)
 	{
 		IFaceEditor * ed = this->editor();
 		this->shdata()->setSelectedObject(NULL);

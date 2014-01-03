@@ -6,17 +6,16 @@
 
 #include <closure.h>
 #include <marshal/serializableobject.h>
+#include <keycodes.h>
 
-
-void IdleState::onMouseDown(const sad::Event & ev)
+void IdleState::onMouseDown(const sad::input::MousePressEvent & ev)
 {
-	if (ev.key == MOUSE_BUTTON_LEFT) {
+	if (ev.Button == sad::MouseLeft) {
 		IFaceEditor * ed = this->editor();
-		sad::Point2D p(ev.x, ev.y);
 		CLOSURE
 		CLOSURE_DATA( IFaceEditor * e; sad::Point2D m_p; )
 		CLOSURE_CODE( this->e->trySelectObject(m_p, true); )
-		INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
+		INITCLOSURE( CLSET(e, ed); CLSET(m_p, ev.pos2D()) );
 		SUBMITCLOSURE( ed->emitClosure );
 	}
 }

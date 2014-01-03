@@ -32,7 +32,7 @@ public:
 template<
 typename _EventType
 >
-class AbstractHandleForType: public sad::input::AbstractHandler
+class AbstractHandlerForType: public sad::input::AbstractHandler
 {
 public:
 	/*! Invokes a callback. Used by sad::Input
@@ -44,7 +44,7 @@ public:
 	}
 	/*! Kept for inheritance compliance
 	 */
-	virtual ~AbstractHandleForType() {}
+	virtual ~AbstractHandlerForType() {}
 protected:
 	/*! Invokes a callback. Used by sad::Input
 		\param[in] e event type
@@ -57,7 +57,7 @@ protected:
 template<
 typename _EventType
 >
-class FreeFunctionHandler: public sad::input::AbstractHandleForType<_EventType>
+class FreeFunctionHandler: public sad::input::AbstractHandlerForType<_EventType>
 {
 public:
 	/*! Constructs new handler
@@ -107,7 +107,7 @@ typename _EventType,
 typename _ObjectClass,
 typename _MethodCallback
 >
-class MethodHandler: public sad::input::AbstractHandleForType<_EventType>
+class MethodHandler: public sad::input::AbstractHandlerForType<_EventType>
 {     
 public:
 	/*! Constructs new handler
@@ -184,7 +184,7 @@ typename _ObjectClass,
 typename _FCallback,
 typename _GCallback
 >
-class CompositeHandler: public sad::input::AbstractHandleForType<_EventType>
+class CompositeHandler: public sad::input::AbstractHandlerForType<_EventType>
 {
 public:
 	/*! Constructs new handler

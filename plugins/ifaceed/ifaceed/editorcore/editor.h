@@ -4,7 +4,6 @@
 	Describes a global editor state
  */
 #pragma once
-#include "editoreventhandler.h"
 #include "../history/editorhistory.h"
 #include "qttarget.h"
 #include "editorbehaviour.h"
@@ -12,10 +11,10 @@
 #include <scene.h>
 #include <sadmutex.h>
 #include <renderer.h>
-#include <input.h>
-#include <config/sprite2dconfig.h>
 #include <cmdoptions.h>
 #include <closure.h>
+#include <input/controls.h>
+#include <config/sprite2dconfig.h>
 
 #include <QObject>
 #include <QTimer>
@@ -274,7 +273,7 @@ private:
 		 void saddyQuitSlot();
 		 /** Saddy destruction slot
 		  */
-		 void onSaddyWindowDestroySlot(const sad::Event & ev);
+		 void onSaddyWindowDestroySlot();
   protected slots:
 		 /** A method to init all saddy actiona
 		  */
@@ -364,9 +363,6 @@ private:
 			\return editor behaviour
 		 */
 		EditorBehaviour * currentBehaviour();
-		/** Posts a behaviour callback event for data
-		 */
-		void postBehaviourCallback( void (EditorBehaviour::*cb)(const sad::Event & ev), const sad::Event & ev);
 		/** Removes a command arguments data
 		 */
 		~Editor();
