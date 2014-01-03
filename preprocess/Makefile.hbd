@@ -1,4 +1,4 @@
-{SCAN_FOLDER src}{EXCLUDE {WIN32} renderer_x11loop.cpp x11recode.cpp {LINUX} renderer_win32loop.cpp }
+{SCAN_FOLDER src}
 INCLUDE= -I../include -I../include/primitives -I../include/templates -I../include/png -I../include/tga -I../include/extra -I../include/config  
 PLATFORM = {PLATFORM}
 

@@ -20,10 +20,16 @@
 #endif
 
 
+#define EVENT_LOGGING
+
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
 : m_renderer(NULL), 
 m_decoder_for_keypress_events(new sad::os::KeyDecoder()),
 m_decoder_for_keyrelease_events(new sad::os::KeyDecoder())
+#ifdef X11
+, m_alt_is_held(false),
+m_in_doubleclick(false)
+#endif
 {
 
 }
@@ -68,7 +74,8 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 )
 {
 	sad::os::SystemWindowEventDispatchResult result;
-	switch(e.MSG) {
+	switch(e.MSG) 
+	{
 		case WM_QUIT: 
 		case WM_CLOSE:
 			processQuit(e); break;
@@ -128,7 +135,11 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 
 void sad::os::SystemEventDispatcher::reset()
 {
-	
+	m_alt_is_held = false;	
+	m_in_doubleclick = false;
+	m_doubleclick_timer.start();
+	sad::Rect2I  r = m_renderer->window()->rect();  
+	m_old_window_size = sad::Size2I(r.width(), r.height());
 }
 
 sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatch(
@@ -136,7 +147,56 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 )
 {
 	sad::os::SystemWindowEventDispatchResult result;
-
+	XEvent & xev = e.Event;
+	switch(xev.type)
+	{
+		case ClientMessage:
+			sad::String atomname = XGetAtomName(
+				m_renderer->window()->handles()->Dpy, 
+				xev.xclient.message_type
+			);
+			if (atomname == "WM_PROTOCOLS")
+			{
+				processQuit(e);
+			}
+			break;
+		case ConfigureNotify:
+			processResize(e);
+			break;
+		case MapNotify:
+			m_rendererer->setMinimized(false);
+			break;
+		case UnmapNotify:
+			m_rendererer->setMinimized(true);
+			break;
+		case FocusIn:
+			processActivate(e);
+			break;
+		case FocusOut:
+			processDeactivate(e);
+			break;
+		case EnterNotify:
+			processMouseEnter(e);
+			break;
+		case LeaveNotify:
+			processMouseLeave(e);
+			break;
+		case MotionNotify:
+			processMouseMove(e);
+			break;
+		case ButtonPress:
+			processMousePress(e);
+			break;
+		case ButtonRelease:
+			processMouseRelease(e);
+			break;
+		case KeyPress:
+			processKeyPress(e);
+			break;
+		case KeyRelease:
+			processKeyRelease(e);
+			break;
+	};
 	return result;
 }
 
@@ -207,26 +267,51 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 	mmev.Point3D = op;
 	m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
 #endif
+#ifdef X11
+	sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
+	sad::Point3D op = m_renderer->mapToViewport(p);	
+	sad::input::MouseMoveEvent mmev;
+	mmev.Point3D = op;
+	m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
+#endif
 }
 
 void sad::os::SystemEventDispatcher::processMouseLeave(sad::os::SystemWindowEvent & e)
 {
 #ifdef WIN32
 	m_is_in_window = false;
+#endif
 	sad::input::MouseLeaveEvent mlev;
 	m_renderer->controls()->postEvent(sad::input::ET_MouseLeave, mlev);
 #ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL("Triggered MouseLeaveEvent()", *m_renderer);			
-#endif
 #endif
 }
 
 void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEvent & e)
 {
 #ifdef WIN32
-	float delta=GET_WHEEL_DELTA_WPARAM(e.WParam)/(float)WHEEL_DELTA;
+	double delta=GET_WHEEL_DELTA_WPARAM(e.WParam)/(double)WHEEL_DELTA;
 	sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
 	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+#endif
+
+
+#ifdef X11
+	m_in_doubleclick = false;
+	double delta = 0;
+	if (e.Event.xbutton.button == Button4)
+	{
+		delta  = m_renderer->controls()->wheelTickSensivity();
+	}
+	else
+	{
+		// e.Event.xbutton.button  should be Button5 here
+		delta  = m_renderer->controls()->wheelTickSensivity() * -1;
+	}
+	sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
+	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+#endif
 
 	sad::input::MouseWheelEvent ev;
 	ev.Point3D = viewportpoint;
@@ -242,7 +327,6 @@ void sad::os::SystemEventDispatcher::processMouseWheel(sad::os::SystemWindowEven
 		*m_renderer
 	);
 #endif	
-#endif
 }
 
 
@@ -268,6 +352,19 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 		m_renderer->window()->setMinimized(true);
 	}
 #endif
+
+#ifdef X11
+	sad::Size2I size(e.Event.xconfigure.width,e.Event.xconfigure.height);
+	if (size.Width != m_old_window_size.Width 
+			&& size.Height != m_old_window_size.Height)
+	{
+		sad::input::ResizeEvent ev;
+		ev.OldSize = m_old_window_size;
+		ev.NewSize = size;
+		m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
+		m_renderer->reshape(size.Width, size.Height);
+	}
+#endif
 }
 
 void sad::os::SystemEventDispatcher::processKeyPress(
@@ -282,6 +379,16 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 	ev.CtrlHeld  = GetAsyncKeyState(VK_CONTROL) < 0;
 	ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
 	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
+#endif
+
+#ifdef X11
+	if (ev.Key == sad::LeftAlt || ev.Key == sad::RightAlt)
+	{
+		m_alt_is_held = true;
+	}
+	ev.CtrlHeld  = (e.Event.xkey.state & ControlMask) != 0;
+	ev.AltHeld   = m_alt_is_held;
+	ev.ShiftHeld = (e.Event.xkey.state & ShiftMask) != 0;
 #endif
 #ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
@@ -310,6 +417,18 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 	ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
 	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
 #endif
+
+
+#ifdef X11
+	if (ev.Key == sad::LeftAlt || ev.Key == sad::RightAlt)
+	{
+		m_alt_is_held = false;
+	}
+	ev.CtrlHeld  = (e.Event.xkey.state & ControlMask) != 0;
+	ev.AltHeld   = m_alt_is_held;
+	ev.ShiftHeld = (e.Event.xkey.state & ShiftMask) != 0;
+#endif
+
 #ifdef EVENT_LOGGING
 	SL_LOCAL_INTERNAL(
 		fmt::Format("Triggered KeyReleaseEvent({0}, {1}, [{2}, {3}, {4}])") 
@@ -326,6 +445,7 @@ void sad::os::SystemEventDispatcher::processKeyRelease(
 
 void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEvent & e)
 {
+	sad::Maybe<sad::input::MouseDoubleClickEvent> maybedcev;
 #ifdef WIN32
 	sad::MouseButton btn = sad::MouseLeft;
 	switch(e.MSG) 
@@ -335,6 +455,51 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 	};
 	sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
 	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+#endif
+
+#ifdef X11
+	// Separate an dispatch wheel events
+	if (e.Event.xbutton.button == Button4 || e.Event.xbutton.button == Button5)
+	{
+		processMouseWheel(e);
+		return;
+	}
+
+	sad::MouseButton btn = sad::MouseLeft;
+	switch(e.Event.xbutton.button)
+	{
+		case Button1: btn = sad::MouseLeft; break;
+		case Button2: btn = sad::MouseMiddle; break;
+		case Button3: btn = sad::MouseRight; break;
+	};
+
+	sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
+	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+
+	if (m_in_doubleclick)
+	{
+		m_in_doubleclick = false;
+		if (btn == m_doubleclick_button)
+		{
+			m_doubleclick_timer.stop();
+			if (m_doubleclick_timer.elapsed() <= m_renderer->controls()->doubleClickSensivity())
+			{
+				sad::input::MouseDoubleClickEvent dlclev;
+				dlclev.Point3D = viewportpoint;
+				dlclev.Button = btn;
+				maybedcev.setValue(dlcev);
+			}
+		}
+	}
+	else
+	{
+		m_in_doubleclick = true;
+		m_doubleclick_button = btn;
+		m_doubleclick_timer.start();
+	}
+#endif
+
+	
 
 	sad::input::MousePressEvent ev;
 	ev.Point3D  = viewportpoint;
@@ -349,8 +514,24 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 		*m_renderer
 	);
 #endif
-	m_renderer->controls()->postEvent(sad::input::ET_MousePress, ev);	
-#endif
+	m_renderer->controls()->postEvent(sad::input::ET_MousePress, ev);
+
+	// Pose double click if need to
+	if (maybedcev.exists())
+	{
+#ifdef EVENT_LOGGING
+		SL_LOCAL_INTERNAL(
+			fmt::Format("Triggered MouseDoubleClickEvent({0}, [{1}, {2}, {3}])") 
+			<< btn
+			<< viewportpoint.x() 
+			<< viewportpoint.y() 
+			<< viewportpoint.z(), 
+			*m_renderer
+		);
+#endif	
+		m_renderer->controls()->postEvent(sad::input::ET_MouseDoubleClick, maybedcev.value());
+	}
+
 }
 
 void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEvent & e)
@@ -364,6 +545,24 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 	};
 	sad::Point2D p(GET_X_LPARAM(e.LParam), GET_Y_LPARAM(e.LParam));
 	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+#endif
+
+#ifdef X11
+	if (e.Event.xbutton.button != Button1 
+		&& e.Event.xbutton.button != Button2 
+		&& e.Event.xbutton.button != Button3)
+	{
+		return;
+	}
+	sad::MouseButton btn = sad::MouseLeft;
+	switch(e.Event.xbutton.button) 
+	{
+		case Button2: btn = sad::MouseRight; break;
+		case Button3: btn = sad::MouseMiddle; break;
+	};
+	sad::Point2D p(e.Event.xbutton.x, e.Event.xbutton.y);
+	sad::Point3D viewportpoint = m_renderer->mapToViewport(p);
+#endif
 
 	sad::input::MouseReleaseEvent ev;
 	ev.Point3D  = viewportpoint;
@@ -379,8 +578,24 @@ void sad::os::SystemEventDispatcher::processMouseRelease(sad::os::SystemWindowEv
 	);
 #endif
 	m_renderer->controls()->postEvent(sad::input::ET_MouseRelease, ev);	
+}
+
+
+#ifdef X11
+
+void sad::os::SystemEventDispatcher::processMouseEnter(sad::os::SystemWindowEvent & e)
+{
+	sad::Point2D p(e.Event.xcrossing.x, e.Event.xcrossing.y);
+	sad::Point3D op = m_renderer->mapToViewport(p);
+	sad::input::MouseEnterEvent ev;
+	ev.Point3D = op;
+	m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+#ifdef EVENT_LOGGING
+	SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseEnterEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
 #endif
 }
+
+#endif
 
 #ifdef WIN32
 
