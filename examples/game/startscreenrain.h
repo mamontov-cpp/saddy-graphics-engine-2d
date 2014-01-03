@@ -4,7 +4,6 @@
 	Describes a rain in start screen
  */
 #pragma once
-#include <input.h>
 #include <periodicalevent.h>
 
 

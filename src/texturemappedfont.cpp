@@ -156,7 +156,7 @@ bool sad::TextureMappedFont::load(
 
 		// If failed to read file,result is false
 		int integralspacing = 0;
-		fscanf(fl, "%d", &integralspacing);
+		int test = fscanf(fl, "%d", &integralspacing);
 		m_builtin_linespacing = (double)integralspacing;
 		if (ferror(fl)) 
 		{
@@ -168,7 +168,7 @@ bool sad::TextureMappedFont::load(
 		unsigned char c = 0;
 		for (int i = 0; i < 256 && result; i++ )
 		{
-			fscanf(fl,
+			test = fscanf(fl,
 				   "%u %u %u %u %d %d\n", 
 				   &x1, 
 				   &y1, 

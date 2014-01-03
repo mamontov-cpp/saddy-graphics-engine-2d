@@ -72,18 +72,18 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 	/*! Decode header
 	 */ 
 	sad::imageformats::TGAHeader header;
-    header.idLength			= header_buffer[0];
+	header.idLength			= header_buffer[0];
 	header.colorMapType		= header_buffer[1];
 	header.imageType		= header_buffer[2];
 	header.colorMapOrigin	= header_buffer[3]  + 256 * header_buffer[4];
 	header.colorMapSize		= header_buffer[5]  + 256 * header_buffer[6];
-    header.colorMapEntrySize= header_buffer[7];
-    header.XOrigin			= header_buffer[8]  + 256 * header_buffer[9];
+	header.colorMapEntrySize= header_buffer[7];
+	header.XOrigin			= header_buffer[8]  + 256 * header_buffer[9];
 	header.YOrigin			= header_buffer[10] + 256 * header_buffer[11];
 	header.width			= header_buffer[12] + 256 * header_buffer[13];
 	header.height			= header_buffer[14] + 256 * header_buffer[15];
 	header.bitsPerPix		= header_buffer[16];
-    header.imageDescriptor	= header_buffer[17];
+	header.imageDescriptor	= header_buffer[17];
 
 	bool image_unsupported = header.imageType == sad::imageformats::IT_TRUECOLOR
 						  && header.imageType == sad::imageformats::IT_TRUECOLOR_RLE;
@@ -155,8 +155,13 @@ bool sad::imageformats::TGALoader::loadCompressed(sad::Texture * texture)
 	unsigned int size = ftell(m_file);
 	fseek(m_file, 0L, SEEK_SET);
 	buffer.resize((size_t)size, 255);
-	fread((char*)(&buffer[0]), 1, size, m_file);
-
+	size_t readbytes = fread((char*)(&buffer[0]), 1, size, m_file);
+	if (readbytes != size)
+	{
+		buffer.clear();
+		return false;
+	}
+	
 	unsigned char * rle_buffer = &(buffer[0]);
 	unsigned char * image_buffer = &(texture->vdata()[0]);
 	unsigned int rle_buffer_pos = 0;

@@ -8,7 +8,6 @@
 	Describes a main file for game
  */
 #include <renderer.h>
-#include <input.h>
 #include <fontmanager.h>
 #include <texturemappedfont.h>
 #include <texturemanager.h>

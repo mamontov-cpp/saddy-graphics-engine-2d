@@ -6,6 +6,8 @@
 #pragma once
 #include "../maybe.h"
 #include "../sadsize.h"
+#include "../keycodes.h"
+#include "../timer.h"
 
 namespace sad
 {

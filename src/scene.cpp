@@ -1,6 +1,5 @@
 #include "scene.h"
 #include "camera.h"
-#include "input.h"
 #include "renderer.h"
 #include "orthographiccamera.h"
 

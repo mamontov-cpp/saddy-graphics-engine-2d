@@ -20,7 +20,7 @@
 #endif
 
 
-#define EVENT_LOGGING
+//#define EVENT_LOGGING
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
 : m_renderer(NULL), 
@@ -148,10 +148,11 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 {
 	sad::os::SystemWindowEventDispatchResult result;
 	XEvent & xev = e.Event;
+	sad::String atomname;
 	switch(xev.type)
 	{
 		case ClientMessage:
-			sad::String atomname = XGetAtomName(
+			atomname = XGetAtomName(
 				m_renderer->window()->handles()->Dpy, 
 				xev.xclient.message_type
 			);
@@ -164,10 +165,10 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 			processResize(e);
 			break;
 		case MapNotify:
-			m_rendererer->setMinimized(false);
+			m_renderer->window()->setMinimized(false);
 			break;
 		case UnmapNotify:
-			m_rendererer->setMinimized(true);
+			m_renderer->window()->setMinimized(true);
 			break;
 		case FocusIn:
 			processActivate(e);
@@ -487,7 +488,7 @@ void sad::os::SystemEventDispatcher::processMousePress(sad::os::SystemWindowEven
 				sad::input::MouseDoubleClickEvent dlclev;
 				dlclev.Point3D = viewportpoint;
 				dlclev.Button = btn;
-				maybedcev.setValue(dlcev);
+				maybedcev.setValue(dlclev);
 			}
 		}
 	}
