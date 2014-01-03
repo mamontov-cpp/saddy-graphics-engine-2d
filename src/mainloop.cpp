@@ -234,9 +234,9 @@ void sad::MainLoop::perform()
 #endif
 	while(m_running)
 	{
+#ifdef WIN32
 		// Fetch window events. We only fetch one event from queue
 		// to reduce slowdown from all event handling 
-#ifdef WIN32
 		if (PeekMessage (
 						 &msg, 
 						 // A PeekMessage docs state, that multithreading
@@ -258,7 +258,9 @@ void sad::MainLoop::perform()
 #endif
 
 #ifdef X11
-		if (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) == True)
+		// In fact in linux we get big slowdown if 
+		// all events is not dispatched
+		while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) == True)
 		{
 			m_dispatcher->dispatch(msg);
 		}
