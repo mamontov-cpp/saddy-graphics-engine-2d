@@ -264,7 +264,9 @@ void sad::MainLoop::perform()
 		}
 #endif
 		// Try render scene if can
-		if (this->m_renderer->window()->active() && m_running)
+		if (this->m_renderer->window()->hidden() == false 
+			&& this->m_renderer->window()->minimized() == false
+			&& m_running)
 		{
 			this->m_renderer->pipeline()->run();
 		}

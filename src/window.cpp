@@ -176,3 +176,18 @@ void sad::Window::setImplementation(sad::os::WindowImpl * i)
 	m_dptr = i;
 }
 
+void  sad::Window::setHidden(bool hidden)
+{
+	m_dptr->setHidden(hidden);
+}
+
+bool  sad::Window::minimized() const
+{
+	 return m_dptr->minimized();
+}
+
+void  sad::Window::setMinimized(bool minimized)
+{
+	m_dptr->setMinimized(minimized);
+}
+

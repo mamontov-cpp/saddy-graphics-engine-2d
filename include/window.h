@@ -160,6 +160,18 @@ public:
 		\param[in] active whether window is active
 	 */
 	void setActive(bool active);
+	/*! Sets hidden flag in window 
+		\param[in] hidden whether window is hidden
+	 */
+	virtual void setHidden(bool hidden);
+	/*! Tests, whether window is minimized
+		\return whether window is minimized
+	 */
+	virtual bool minimized() const;
+	/*! Sets minimized flag in window
+		\param[in] minimized  whether window is minimized
+	 */
+	virtual void setMinimized(bool minimized);
 private:
 	/*! A pointer to implementation of window
 	 */

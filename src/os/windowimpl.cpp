@@ -18,7 +18,8 @@ m_active(true),
 m_creation_size(320, 240),
 m_window_rect_stack(),
 m_renderer(NULL),
-m_window_title("Saddy Engine")
+m_window_title("Saddy Engine"),
+m_minimized(false)
 #ifdef X11
 ,m_gl3compatible(false)
 #endif
@@ -1077,6 +1078,22 @@ void sad::os::WindowImpl::setActive(bool active)
 {
 	m_active = active;
 }
+
+void sad::os::WindowImpl::setHidden(bool hidden)
+{
+	m_hidden = hidden;
+}
+
+bool sad::os::WindowImpl::minimized() const
+{
+	 return m_minimized;
+}
+
+void sad::os::WindowImpl::setMinimized(bool minimized)
+{
+	m_minimized = minimized;
+}
+
 
 bool sad::os::WindowImpl::isGL3compatible() const
 {

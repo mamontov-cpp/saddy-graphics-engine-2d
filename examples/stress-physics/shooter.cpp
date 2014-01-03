@@ -1,6 +1,7 @@
 #include "shooter.h"
 #include <renderer.h>
-#include <input.h>
+#include <periodicalevent.h>
+#include <pipeline/pipeline.h>
 
 DECLARE_SOBJ_INHERITANCE(Shooter, sad::p2d::app::Object)
 
@@ -13,8 +14,8 @@ Shooter::Shooter()
 
 void Shooter::startShooting()
 {
-	sad::Renderer::ref()->controls()->addPreRenderTask(
-			new sad::TimePeriodicalTask( m_gun )
+	sad::Renderer::ref()->pipeline()->append(
+			new sad::PeriodicalEventPollProcess( m_gun )
 		);
 }
 

@@ -7,14 +7,14 @@
 #include "gridnodedge.h"
 #include "shooter.h"
 
+#include <orthographiccamera.h>
+#include <texturemanager.h>
+#include <keymouseconditions.h>
 #include <p2d/elasticforce.h>
 #include <p2d/app/object.h>
 #include <p2d/app/objectemitter.h>
-#include <orthographiccamera.h>
-#include <texturemanager.h>
-#include <input.h>
-
-
+#include <pipeline/pipeline.h>
+#include <input/controls.h>
 
 World::World()
 {
@@ -36,7 +36,7 @@ World::~World()
 }
 
 
-void World::toggleFullscreen(const sad::Event & )
+void World::toggleFullscreen()
 {
 	sad::Renderer::ref()->toggleFullscreen();
 }
@@ -45,7 +45,7 @@ void World::toggleFullscreen(const sad::Event & )
 void World::run()
 {
 	// Init new empty scene with orthographic projection
-	sad::Scene * sc= new sad::Scene();
+	sad::Scene * sc = new sad::Scene();
 
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	Sprite2DAdapter * background = new Sprite2DAdapter(
@@ -55,10 +55,12 @@ void World::run()
 	);
 	sc->add(background);
 
+
 	sad::Renderer::ref()->setScene(sc);
 	sad::Renderer::ref()->setWindowTitle("Physics stress test");
 
-	sad::Input::ref()->bindKeyDown('F', new sad::MethodEventHandler<sad::Event, World>(this, &World::toggleFullscreen));	
+	sad::Renderer::ref()->controls()
+		                ->add(*sad::input::ET_KeyPress & sad::F, this, &World::toggleFullscreen);
 
 	// Load textures to videocard memory and build mipmaps
 	sad::Renderer::ref()->textures()->buildAll();
@@ -68,7 +70,7 @@ void World::run()
 	sad::Renderer::ref()->makeFixedSize();
 
 	m_steptask = new sad::p2d::WorldStepTask(m_world);
-	sad::Input::ref()->addPostRenderTask(m_steptask);
+	sad::Renderer::ref()->pipeline()->append(m_steptask);
 
 
 	// SETUP WORLD CALLBACKS HERE!!!
@@ -87,6 +89,7 @@ void World::run()
 	m_world->addHandler(this, &World::eraseBullets);
 	m_world->addHandler(this, &World::boostBall);
 	m_world->addHandler(this, &World::removeFirst<MovingSmile, Ball>);
+
 
 	// Add walls
 	sad::Vector<sad::p2d::Body *> bodies = m_walls->bodies();
@@ -146,6 +149,7 @@ void World::run()
 	{
 		this->addObject(g[i]);
 	}
+
 
 	// Add two platforms to scene
 	Platform * platform1 = new Platform();
@@ -215,6 +219,7 @@ void World::run()
 	}
 	m_way->construct();
 
+
 	double timestep = total / 12 ;
 	for(int i = 0; i < 12; i++)
 	{
@@ -224,9 +229,11 @@ void World::run()
 		this->addObject(smile);
 	}
 
+
 	// Added periodical task
 	shooter->startShooting();
-	sad::Renderer::ref()->controls()->addPreRenderTask( new sad::TimePeriodicalTask(b) );
+	
+	sad::Renderer::ref()->pipeline()->append( new sad::PeriodicalEventPollProcess(b) );
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
 

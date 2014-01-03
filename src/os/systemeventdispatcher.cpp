@@ -252,6 +252,7 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 	sad::Size2I size(LOWORD (e.LParam), HIWORD (e.LParam));
 	if (e.WParam != SIZE_MINIMIZED)
 	{
+		m_renderer->window()->setMinimized(false);
 		if (size.Width != m_old_window_size.Width 
 			&& size.Height != m_old_window_size.Height)
 		{
@@ -261,6 +262,10 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 			m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
 			m_renderer->reshape(size.Width, size.Height);
 		}
+	}
+	else
+	{
+		m_renderer->window()->setMinimized(true);
 	}
 #endif
 }
