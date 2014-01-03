@@ -330,7 +330,7 @@ class Condition: public sad::input::AbstractHanderCondition
 {
 public:
 	/*! Constructs a condition for handlers
-		\param[in] machine, which states will be tested
+		\param[in] machine  a machine, which states will be tested
 		\param[in] state a state, which current state of machine will be compared with
 	 */
 	Condition(sad::fsm::Machine * machine, const sad::String & state);
