@@ -106,7 +106,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
  public:
 	/** Quits an editor
 	 */
-	void quit(const sad::Event & ev = sad::Event());
+	void quit();
 	/** Highlights a state of editor in GUI. Override this for custom output
 		\param[in] hint hint of state
 	  */
@@ -147,8 +147,3 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	void load();
 };
 
-/** A special handler for method
- */
-typedef HandlerFor<IFaceEditor>::Method<void (IFaceEditor::*)(const sad::Event &o),
-										sad::Event
-										> IFaceEditorHandler;

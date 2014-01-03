@@ -98,7 +98,7 @@ void EditorBehaviour::enterState(const sad::String & state)
 	}
 }
 
-void EditorBehaviour::onMouseMove(const sad::Event & ev)
+void EditorBehaviour::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -106,7 +106,7 @@ void EditorBehaviour::onMouseMove(const sad::Event & ev)
 	}
 }
 
-void EditorBehaviour::onMouseDown(const sad::Event & ev)
+void EditorBehaviour::onMouseDown(const sad::input::MousePressEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -114,7 +114,7 @@ void EditorBehaviour::onMouseDown(const sad::Event & ev)
 	}
 }
 
-void EditorBehaviour::onMouseUp(const sad::Event & ev)
+void EditorBehaviour::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -122,7 +122,7 @@ void EditorBehaviour::onMouseUp(const sad::Event & ev)
 	}
 }
 
-void EditorBehaviour::onWheel(const sad::Event & ev)
+void EditorBehaviour::onWheel(const sad::input::MouseWheelEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -133,7 +133,7 @@ void EditorBehaviour::onWheel(const sad::Event & ev)
 
 
 
-void EditorBehaviour::onKeyDown(const sad::Event & ev)
+void EditorBehaviour::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -142,7 +142,7 @@ void EditorBehaviour::onKeyDown(const sad::Event & ev)
 }
 
 
-void EditorBehaviour::onKeyUp(const sad::Event & ev)
+void EditorBehaviour::onKeyUp(const sad::input::KeyReleaseEvent & ev)
 {
 	if (m_active_state.length())
 	{

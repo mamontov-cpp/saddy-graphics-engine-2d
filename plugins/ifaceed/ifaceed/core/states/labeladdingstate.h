@@ -15,7 +15,7 @@ class LabelAddingState: public IFaceState
 	 /*! Moves a label
 		 \param[in] ev event
 	  */
-	 virtual void onMouseMove(const sad::Event & ev);
+	 virtual void onMouseMove(const sad::input::MouseMoveEvent & ev);
 	 /*! Action, performed when entering state
 	  */
 	 virtual void enter();
@@ -25,13 +25,13 @@ class LabelAddingState: public IFaceState
 	 /*! Handles wheel  movement
 		 \param[in] ev event data
 	  */
-	 virtual void onWheel(const sad::Event & ev);
+	 virtual void onWheel(const sad::input::MouseWheelEvent & ev);
 	 /*! Handles mouse down event
 		 \param[in] ev  even  data
 	  */
-	 virtual void onMouseDown(const sad::Event & ev);
+	 virtual void onMouseDown(const sad::input::MousePressEvent & ev);
 	 /*! Handles key down event
 		 \param[in] ev event data
 	  */
-	 virtual void onKeyDown(const sad::Event & ev);
+	 virtual void onKeyDown(const sad::input::KeyPressEvent & ev);
 };

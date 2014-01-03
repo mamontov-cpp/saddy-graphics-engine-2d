@@ -6,7 +6,7 @@
 #include <geometry2d.h>
 #include <config/sprite2dobserver.h>
 
-bool ActiveObjectBorder::tryPerform()
+void ActiveObjectBorder::_process()
 {
 	AbstractScreenObject * o = this->m_data->activeObject();
 	if (this->m_data->mustShowActiveBorder()) 
@@ -35,13 +35,12 @@ bool ActiveObjectBorder::tryPerform()
 
 		//this->renderHotSpots(o, false);
 	}
-	return false;
 }
 
 
 
 
-bool SelectedObjectBorder::tryPerform()
+void SelectedObjectBorder::_process()
 {
 	AbstractScreenObject * o = this->m_data->selectedObject();
 	if (o) 
@@ -70,7 +69,6 @@ bool SelectedObjectBorder::tryPerform()
 
 		this->renderHotSpots(o, true);
 	}
-	return false;
 }
 
 #define HOTSPOT_PADDING 12

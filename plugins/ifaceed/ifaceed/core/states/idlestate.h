@@ -19,5 +19,5 @@ public:
 	/** Tries to select some item and enter selected state
 		 \param[in] ev  event  data
 	 */
-	virtual void onMouseDown(const sad::Event & ev);
+	virtual void onMouseDown(const sad::input::MousePressEvent & ev);
 };

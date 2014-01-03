@@ -3,7 +3,7 @@
 
 	Contains an object borders for some dynamic rendering
  */
-#include <input.h>
+#include <pipeline/pipelineprocess.h>
 #include "ifaceshareddata.h"
 #include <config/sprite2dconfig.h>
 #pragma once
@@ -21,9 +21,20 @@ enum BorderHotSpots
 	BHS_REMOVE = 4
 };
 
-class ObjectBorder: public sad::RepeatingTask
+class ObjectBorder: public sad::pipeline::AbstractProcess
 {
- protected:
+public:
+	 inline ObjectBorder(IFaceSharedData  * data)
+	 {
+		 m_data = data;
+	 }
+	 /** Tests, whether hotspot point is within
+	  */
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p, AbstractScreenObject * o);
+	 /** Tests, whether is within
+	  */
+	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p) = 0;
+protected:
 	 IFaceSharedData * m_data; //!< Data for rendering object
 	 /** Miscellaneos function for drawing a sprite at specified position of image
 	  */
@@ -44,57 +55,44 @@ class ObjectBorder: public sad::RepeatingTask
 	     Default false
 	  */
 	 virtual bool resizable();
- public:
-	 inline ObjectBorder(IFaceSharedData  * data)
-	 {
-		 m_data = data;
-	 }
-	 /** Tests, whether hotspot point is within
-	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p, AbstractScreenObject * o);
-	 /** Tests, whether is within
-	  */
-	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p) = 0;
 };
 
 class ActiveObjectBorder: public ObjectBorder
 {
- protected:
-	 /** Determines, whether object marked by this border is deletable
-	  */
-	 virtual bool removable();
- public:
+public:
 	 inline ActiveObjectBorder(IFaceSharedData  * data):ObjectBorder(data)
 	 {
 		
 	 }
-	 /*! Renders an active object border as blue border
-		 \return success of task
-	  */
-	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
 	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p);
+protected:
+	 /** Determines, whether object marked by this border is deletable
+	  */
+	 virtual bool removable();
+ 	 /*! Renders a selected object border as render border
+	  */
+	 void _process();
 };
 
 class SelectedObjectBorder: public ObjectBorder
 {
- protected:
-    /** Determines, whether object marked by this border is deletable
-	  */
-	 virtual bool resizable();
- public:
+public:
 	 inline SelectedObjectBorder(IFaceSharedData  * data):ObjectBorder(data)
 	 {
 		 
 	 }
-	 /*! Renders a selected object border as render border
-		 \return success of task
-	  */
-	 bool tryPerform();
 	 /** Tests, whether is within
 	  */
 	 virtual sad::Vector<BorderHotSpots> isWithin(const sad::Point2D & p);
+protected:
+    /** Determines, whether object marked by this border is deletable
+	  */
+	 virtual bool resizable();
+	 /*! Renders a selected object border as render border
+	  */
+	 void _process();
 };
 
 

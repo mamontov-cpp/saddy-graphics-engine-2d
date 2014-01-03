@@ -6,6 +6,8 @@
 #include <freetype/font.h>
 #include <label.h>
 #include <fontmanager.h>
+#include <pipeline/pipelinetask.h>
+#include <pipeline/pipeline.h>
 #include "core/fonttemplatesdatabase.h"
 #include "../editorcore/editorbehaviour.h"
 #include "../objects/screentemplate.h"
@@ -101,7 +103,7 @@ void IFaceEditor::quitSaddyActions()
 
 }
 
-void IFaceEditor::quit(UNUSED const sad::Event & ev)
+void IFaceEditor::quit()
 {
 	sad::Renderer::ref()->quit();
 }
@@ -144,7 +146,7 @@ class DBLoadingTaskFuture
 
 // An aynchronous task used to loading some sprite database. Because loading must be performed in
 // a rendering thread, because no OpenGL context is available to other threads
-class DBLoadingTask: public sad::CountableTask
+class DBLoadingTask: public sad::pipeline::AbstractTask
 {
  protected:
 	 FontTemplatesMaps * m_maps; //!< Maps data
@@ -165,7 +167,7 @@ class DBLoadingTask: public sad::CountableTask
 		 m_log = log;
 	 }
 	 // Loads a db
-	 virtual void perform()
+	 virtual void _process()
 	 {
 	    bool data = m_db->load(*m_maps, m_log);
 		m_future->setResult(data);
@@ -208,7 +210,7 @@ void IFaceEditor::onFullAppStart()
 		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->log());
 		// Locking rendering due to adding of new task
 		this->lockRendering();
-		sad::Input::ref()->addPreRenderTask(task);
+		sad::Renderer::ref()->pipeline()->append(task);
 		this->unlockRendering();
 		
 		if (future->result())
@@ -235,36 +237,39 @@ void IFaceEditor::onFullAppStart()
 		this->Editor::onFullAppStart();
 		
 		
-		class IFaceMouseMoveHandler : public EditorEventHandler
+		class IFaceMouseMoveHandler 
+		: public sad::input::AbstractHandlerForType<sad::input::MouseMoveEvent>
 		{
 		 public:
-			IFaceMouseMoveHandler(Editor * ed) : EditorEventHandler(ed, &EditorBehaviour::onMouseMove)
+			IFaceMouseMoveHandler(IFaceEditor * ed) : m_editor(ed)
 			{
 			}
-			virtual void operator()(const sad::Event & ev)
+			virtual void invoke(const sad::input::MouseMoveEvent & ev)
 			{
 				if (m_editor) 
 				{
-					MainPanel * p = static_cast<IFaceEditor*>(m_editor)->panel();
-					p->setMouseMovePosView(ev.x,ev.y);
+					MainPanel * p = m_editor->panel();
+					p->setMouseMovePosView(ev.pos2D().x(),ev.pos2D().y());
 				}
-				this->EditorEventHandler::operator()(ev);
+				m_editor->currentBehaviour()->onMouseMove(ev);
 			}
+		 protected:
+		   IFaceEditor * m_editor;
 		} * handler = new IFaceMouseMoveHandler(this);
-		class IFaceKeyDownHandler : public EditorEventHandler
+		class IFaceKeyDownHandler
+		: public sad::input::AbstractHandlerForType<sad::input::KeyPressEvent>
 		{
 		 public:
-			IFaceKeyDownHandler(Editor * ed) : EditorEventHandler(ed, &EditorBehaviour::onKeyDown)
+			IFaceKeyDownHandler(IFaceEditor * ed) : m_editor(ed)
 			{
 			}
 			void commitInEditor()
 			{
-				IFaceEditor * ed = static_cast<IFaceEditor*>(m_editor);
 				CLOSURE
 				CLOSURE_DATA(IFaceEditor * e;)
 				CLOSURE_CODE(e->history()->commit(e); )
-				INITCLOSURE( CLSET(e, ed); );
-				SUBMITCLOSURE( ed->emitClosure );
+				INITCLOSURE( CLSET(e, m_editor); );
+				SUBMITCLOSURE( m_editor->emitClosure );
 			}
 			void rollbackInEditor()
 			{
@@ -272,10 +277,10 @@ void IFaceEditor::onFullAppStart()
 				CLOSURE
 				CLOSURE_DATA(IFaceEditor * e;)
 				CLOSURE_CODE(e->history()->rollback(e); )
-				INITCLOSURE( CLSET(e, ed); );
-				SUBMITCLOSURE( ed->emitClosure );
+				INITCLOSURE( CLSET(e, m_editor); );
+				SUBMITCLOSURE( m_editor->emitClosure );
 			}
-			virtual void operator()(const sad::Event & ev)
+			virtual void invoke(const sad::input::KeyPressEvent & ev)
 			{
 				bool handled = false;
 				if (m_editor) 
@@ -283,34 +288,36 @@ void IFaceEditor::onFullAppStart()
 					if (m_editor->behaviourSharedData()->activeObject() == NULL
 						&& m_editor->behaviourSharedData()->selectedObject() == NULL)
 					{
-						if (ev.key == KEY_ESC)
+						if (ev.Key == sad::Esc)
 						{
 							handled = true;
-							static_cast<IFaceEditor*>(m_editor)->quit(ev);
+							m_editor->quit();
 						}
 					}
-					if (ev.key == 'Z' && ev.ctrl)
+					if (ev.Key == sad::Z && ev.CtrlHeld)
 					{
 						handled = true;
 						this->rollbackInEditor();
 					}
-					if (ev.key == 'R' && ev.ctrl)
+					if (ev.Key == sad::R && ev.CtrlHeld)
 					{
 						handled = true;
 						this->commitInEditor();
 					}
 				}
 				if (!handled)
-					this->EditorEventHandler::operator()(ev);
+					m_editor->currentBehaviour()->onKeyDown(ev);
 			}
+		protected:
+		   IFaceEditor * m_editor;
 		} * kbdhandler = new IFaceKeyDownHandler(this);
 
 
-		sad::Input::ref()->setMouseMoveHandler(handler);
-		sad::Input::ref()->setKeyDownHandler(kbdhandler);
+		sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, handler);
+		sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress, kbdhandler);
 		m_selection_border = new SelectedObjectBorder(this->shdata());
-		sad::Input::ref()->addPostRenderTask( new ActiveObjectBorder(this->shdata()) );
-		sad::Input::ref()->addPostRenderTask( m_selection_border );
+		sad::Renderer::ref()->pipeline()->append( new ActiveObjectBorder(this->shdata()) );
+		sad::Renderer::ref()->pipeline()->append( m_selection_border );
 
 		this->setBehaviour("main");
 		this->highlightState("Idle");
@@ -435,7 +442,7 @@ void IFaceEditor::reload()
    DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
    DBLoadingTask * task = new DBLoadingTask(maps,db,future,this->log());
    this->lockRendering();
-   sad::Input::ref()->addPreRenderTask(task);
+   sad::Renderer::ref()->pipeline()->prepend(task);
    this->unlockRendering();
    if (future->result() == false) {
 		// 3.1. If loading failed, report error	 
@@ -579,7 +586,7 @@ void IFaceEditor::load()
 		if (this->scene()->objectCount() != 0)
 			this->scene()->clear();
 		// Add post-render task, which adds a sorted results when scene is empty and dies
-		sad::Input::ref()->addPostRenderTask(new SceneAddingTask(e, this->myScene()));
+		sad::Renderer::ref()->pipeline()->append(new SceneAddingTask(e, this->myScene()));
 		this->unlockRendering();
 	}
 }
