@@ -13,7 +13,7 @@ sad::input::Controls::~Controls()
 	this->clearNow();
 }
 
-void sad::input::Controls::add(
+sad::input::AbstractHandler* sad::input::Controls::add(
 	const sad::input::HandlerTypeAndConditions & tac, 
 	sad::input::AbstractHandler * h
 )
@@ -23,6 +23,7 @@ void sad::input::Controls::add(
 			sad::input::AbstractHandler*
 		>(tac, h)		
 	);
+	return h;
 }
 
 void sad::input::Controls::postEvent(EventType type, const sad::input::AbstractEvent & e)

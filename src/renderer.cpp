@@ -132,7 +132,9 @@ bool sad::Renderer::run()
 	if (success)
 	{
 		initPipeline();
+		cursor()->insertHandlersIfNeeded();
 		mainLoop()->run();
+		cursor()->removeHandlersIfNeeded();
 		cleanPipeline();
 		m_context->destroy();
 		m_window->destroy();
@@ -397,6 +399,9 @@ void sad::Renderer::initPipeline()
 			->systemPrependSceneRenderingWithProcess(this, &sad::Renderer::startRendering)
 			->mark("sad::Renderer::startRendering");
 
+		this->pipeline()
+			->systemAppendProcess(this, &sad::Renderer::cursor, &sad::MouseCursor::renderCursorIfNeedTo)
+			->mark("sad::MouseCursor::renderCursorIfNeedTo");
 		this->pipeline()
 			->systemAppendProcess(this, &sad::Renderer::finishRendering)
 			->mark("sad::Renderer::finishRendering");
