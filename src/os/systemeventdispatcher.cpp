@@ -20,7 +20,7 @@
 #endif
 
 
-//#define EVENT_LOGGING
+#define EVENT_LOGGING
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
 : m_renderer(NULL), 
@@ -54,7 +54,8 @@ sad::Renderer * sad::os::SystemEventDispatcher::renderer() const
 
 void sad::os::SystemEventDispatcher::reset()
 {
-	m_is_in_window = m_renderer->cursorPosition().exists();
+	sad::MaybePoint3D pt = m_renderer->cursorPosition();
+	m_is_in_window = pt.exists();
 	// Force window to track mouse leave
 	if (m_is_in_window)
 	{
@@ -64,6 +65,10 @@ void sad::os::SystemEventDispatcher::reset()
 		e.hwndTrack = m_renderer->window()->handles()->WND;
 		e.dwHoverTime = HOVER_DEFAULT;
 		TrackMouseEvent(&e);
+
+		sad::input::MouseEnterEvent ev;
+		ev.Point3D = pt.value();
+		m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
 	}
 	sad::Rect2I  r = m_renderer->window()->rect();  
 	m_old_window_size = sad::Size2I(r.width(), r.height());
@@ -93,6 +98,7 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 			processMouseMove(e);
 			break;
 		case WM_NCMOUSELEAVE:
+		case WM_MOUSELEAVE:
 			processMouseLeave(e);
 			break;
 		case WM_MOUSEWHEEL:
@@ -274,6 +280,9 @@ void sad::os::SystemEventDispatcher::processMouseMove(sad::os::SystemWindowEvent
 	}
 	sad::input::MouseMoveEvent mmev;
 	mmev.Point3D = op;
+#ifdef EVENT_LOGGING
+		SL_LOCAL_INTERNAL(fmt::Format("Triggered MouseMoveEvent({0}, {1}, {2})") << op.x() << op.y() << op.z(), *m_renderer);
+#endif
 	m_renderer->controls()->postEvent(sad::input::ET_MouseMove, mmev);
 #endif
 #ifdef X11

@@ -192,8 +192,6 @@ void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 	{
 		if (this->position().exists())
 			hideDefaultCursor();
-		// Force notification, that cursor is hidden
-		m_hidden = true;
 	} 
 	m_usecustomcursor = true;
 }
