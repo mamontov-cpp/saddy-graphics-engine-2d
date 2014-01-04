@@ -356,13 +356,14 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 	{
 		m_renderer->window()->setMinimized(false);
 		if (size.Width != m_old_window_size.Width 
-			&& size.Height != m_old_window_size.Height)
+			|| size.Height != m_old_window_size.Height)
 		{
 			sad::input::ResizeEvent ev;
 			ev.OldSize = m_old_window_size;
 			ev.NewSize = size;
 			m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
 			m_renderer->reshape(size.Width, size.Height);
+			m_old_window_size = size;
 		}
 	}
 	else
@@ -373,14 +374,25 @@ void sad::os::SystemEventDispatcher::processResize(sad::os::SystemWindowEvent & 
 
 #ifdef X11
 	sad::Size2I size(e.Event.xconfigure.width,e.Event.xconfigure.height);
+#ifdef EVENT_LOGGING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Triggered Resize({0}, {1}), ({2}, {3})") 
+		<< size.Width
+		<< size.Height
+		<< m_old_window_size.Width 
+		<< m_old_window_size.Height, 
+		*m_renderer
+	);
+#endif	
 	if (size.Width != m_old_window_size.Width 
-			&& size.Height != m_old_window_size.Height)
+			|| size.Height != m_old_window_size.Height)
 	{
 		sad::input::ResizeEvent ev;
 		ev.OldSize = m_old_window_size;
 		ev.NewSize = size;
 		m_renderer->controls()->postEvent(sad::input::ET_Resize, ev);
 		m_renderer->reshape(size.Width, size.Height);
+		m_old_window_size = size;
 	}
 #endif
 }

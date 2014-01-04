@@ -201,7 +201,7 @@ void Game::run()
 	sad::Renderer::ref()->setWindowTitle("sad::Game");
 	
 	// Set window size to be fixed
-	sad::Renderer::ref()->makeFixedSize();
+	//sad::Renderer::ref()->makeFixedSize();
 
 	m_machine->pushState(GameState::START);
 	// Run an engine, starting a main loop

@@ -320,7 +320,13 @@ void sad::Renderer::reshape(int width, int height)
 	}
 
 	// Reset viewport for window
-	glViewport (0, 0, width, height);				
+	glViewport (0, 0, width, height);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("glViewport error code {0}")
+		<< glGetError(), 
+		*this
+	);
+	
 	// Clear projection matrix
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
@@ -336,7 +342,13 @@ void sad::Renderer::reshape(int width, int height)
 	
 	// Clear modelview matrix
 	glMatrixMode (GL_MODELVIEW);										
-	glLoadIdentity ();													
+	glLoadIdentity ();	
+
+	SL_LOCAL_INTERNAL(
+		fmt::Format("At end error code {0}")
+		<< glGetError(), 
+		*this
+	);
 }
 
 #ifndef GL_GENERATE_MIPMAP_HINT

@@ -280,8 +280,15 @@ void sad::MainLoop::perform()
 #ifdef X11
 		// In fact in linux we get big slowdown if 
 		// all events is not dispatched
-		while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) == True)
+		/*
+		while (XCheckIfEvent(m_renderer->window()->handles()->Dpy, &(msg.Event), predicate, NULL) != False)
 		{
+			m_dispatcher->dispatch(msg);
+		}
+		*/
+		while(XPending(m_renderer->window()->handles()->Dpy))
+		{
+			XNextEvent(m_renderer->window()->handles()->Dpy,&(msg.Event));
 			m_dispatcher->dispatch(msg);
 		}
 #endif
@@ -291,6 +298,9 @@ void sad::MainLoop::perform()
 			&& m_running)
 		{
 			this->m_renderer->pipeline()->run();
+#ifdef X11
+			XFlush(m_renderer->window()->handles()->Dpy);
+#endif
 		}
 		else 
 		{

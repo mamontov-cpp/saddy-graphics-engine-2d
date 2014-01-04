@@ -113,15 +113,16 @@ int main(int argc, char** argv)
 	res=res && load_font(fontfolder, "font"); 
 	res=res && load_texture("examples/game/title.tga","title");
 	res=res && load_texture("examples/game/ingame.tga","background");
-    res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
-
+	res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
+	/*
 	Sprite2DAdapter * a = new Sprite2DAdapter(
 		sad::TextureManager::ref()->get("objects"),
 		sad::Rect2D(sad::Point2D(441,32),sad::Point2D(457,48)),
 		sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8))
 	);
 	sad::Renderer::ref()->cursor()->setImage(a);
-    if (!res)
+	*/
+	if (!res)
 	{
 		SL_FATAL("Resource loading failed!");
 		return 1;

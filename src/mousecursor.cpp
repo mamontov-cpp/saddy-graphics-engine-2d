@@ -286,9 +286,23 @@ void sad::MouseCursor::hideDefaultCursor()
 	char data[1] = {0};
 	Cursor cursor;
 
-	blank = XCreateBitmapFromData (dpy, win, data, 1, 1);
-	cursor = XCreatePixmapCursor(dpy, blank, blank, &dummy, &dummy, 0, 0);
-	XFreePixmap (dpy, blank);
+	blank = XCreateBitmapFromData (
+		m_renderer->window()->handles()->Dpy, 
+		m_renderer->window()->handles()->Win, 
+		data, 
+		1, 
+		1
+	);
+	cursor = XCreatePixmapCursor(
+		m_renderer->window()->handles()->Dpy,
+		blank, 
+		blank, 
+		&dummy, 
+		&dummy, 
+		0, 
+		0
+	);
+	XFreePixmap (m_renderer->window()->handles()->Dpy, blank);
 	XDefineCursor(
 		m_renderer->window()->handles()->Dpy, 
 		m_renderer->window()->handles()->Win, 
