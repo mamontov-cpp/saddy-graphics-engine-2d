@@ -208,6 +208,7 @@ void sad::MouseCursor::clearCursorImage()
 {
 	delete m_cursor;
 	m_cursor = NULL;
+	removeHandlersIfNeeded();
 	if (m_usecustomcursor)
 	{
 		showDefaultCursor();
