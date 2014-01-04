@@ -140,6 +140,14 @@ void sad::os::SystemEventDispatcher::reset()
 	m_doubleclick_timer.start();
 	sad::Rect2I  r = m_renderer->window()->rect();  
 	m_old_window_size = sad::Size2I(r.width(), r.height());
+
+	sad::MaybePoint3D pnt = m_renderer->cursorPosition();
+	if (pnt.exists())
+	{
+		sad::input::MouseEnterEvent ev;
+		ev.Point3D = pnt.value();
+		m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
+	}
 }
 
 sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatch(
