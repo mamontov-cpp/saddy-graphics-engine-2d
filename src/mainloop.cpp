@@ -13,6 +13,7 @@
 
 #include "log/log.h"
 
+#define EVENT_LOGGING
 
 #ifdef LINUX
 #include <unistd.h>
@@ -227,6 +228,8 @@ void sad::MainLoop::perform()
 
 #ifdef WIN32
 	MSG msg;
+	POINT cursorpos;
+	RECT  windowrect;
 #endif
 
 #ifdef X11
@@ -235,9 +238,26 @@ void sad::MainLoop::perform()
 	while(m_running)
 	{
 #ifdef WIN32
-		// Fetch window events. We only fetch one event from queue
-		// to reduce slowdown from all event handling 
-		if (PeekMessage (
+		// There was some kind of bug, when mouse leave was not generated
+		// If this occurs one more time try uncommenting this code
+		/*
+		GetWindowRect(m_renderer->window()->handles()->WND, &windowrect);
+		GetCursorPos(&cursorpos);
+		if (!PtInRect(&windowrect, cursorpos) && m_dispatcher->m_is_in_window)
+		{
+#ifdef EVENT_LOGGING
+			SL_COND_LOCAL_INTERNAL("Cursor pos is outside of window, posting MouseLeave", m_renderer);
+#endif
+			sad::os::SystemWindowEvent ev(
+				m_renderer->window()->handles()->WND,
+				WM_MOUSELEAVE,
+				0,
+				0
+			);
+			m_dispatcher->dispatch(ev);
+		}
+		*/
+		while (PeekMessage (
 						 &msg, 
 						 // A PeekMessage docs state, that multithreading
 						 // should work with zero, since sad::Renderer-s must
@@ -245,7 +265,7 @@ void sad::MainLoop::perform()
 						 // a handle to window  causes problems with switching
 						 // keyboard layout on Windows XP
 						 0
-						 /*this->window()->handles()->WND*/, 
+						 /*m_renderer->window()->handles()->WND*/, 
 						 0, 
 						 0, 
 						 PM_REMOVE
@@ -254,7 +274,7 @@ void sad::MainLoop::perform()
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);			
-		}
+		}		
 #endif
 
 #ifdef X11

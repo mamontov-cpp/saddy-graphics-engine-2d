@@ -13,6 +13,7 @@ namespace sad
 {
 
 class Renderer;
+class MainLoop;
 
 namespace os
 {
@@ -33,6 +34,7 @@ typedef sad::Maybe<long> SystemWindowEventDispatchResult;
 class SystemEventDispatcher
 {
 public:
+	friend class sad::MainLoop;
 	/*! Creates default event dispatcher
 	 */
 	SystemEventDispatcher();
