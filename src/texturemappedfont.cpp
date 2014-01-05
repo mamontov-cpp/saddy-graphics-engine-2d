@@ -68,21 +68,80 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 	
 	sad::String string = str;
 	string.removeAllOccurences("\r");
-
-	
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Before binding texture {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);	
+#endif
 	m_texture->bind();
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After binding texture {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Before attr {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 	glPushAttrib( GL_LIGHTING_BIT | GL_ENABLE_BIT);
-	
+#ifdef LOG_RENDERING
+	GLint attribstackdepth = 0;
+	glGetIntegerv(GL_ATTRIB_STACK_DEPTH, &attribstackdepth);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After glPushAttrib {0} stack depth is {1}")
+		<< glGetError()
+		<< attribstackdepth, 		
+		*sad::Renderer::ref()
+	);
+#endif
 	glDisable(GL_LIGHTING);
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After glDisable(GL_LIGHTING) {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 	glEnable(GL_COLOR_MATERIAL);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After attr {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Before current color {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 	this->setCurrentColor();
-
+#ifdef LOG_RENDERING
+	glGetIntegerv(GL_ATTRIB_STACK_DEPTH, &attribstackdepth);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After current color {0} {1}")
+		<< glGetError()
+		<< attribstackdepth, 
+		*sad::Renderer::ref()
+	);
+#endif
 	unsigned int glyphheight = 0;
 	unsigned int glyphwidth = 0;
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Before quads {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 	glBegin(GL_QUADS);
 	for(unsigned int i = 0;  i < string.length(); i++)
 	{
@@ -119,8 +178,36 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 		}
 	}
 	glEnd();
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("After quads {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Restoring color {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 	this->restoreColor();
+#ifdef LOG_RENDERING
+	glGetIntegerv(GL_ATTRIB_STACK_DEPTH, &attribstackdepth);
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Restored color {0} stack depth {1}")
+		<< glGetError()
+		<< attribstackdepth, 
+		*sad::Renderer::ref()
+	);
+#endif
 	glPopAttrib();
+#ifdef LOG_RENDERING
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Popped attrib {0}")
+		<< glGetError(), 
+		*sad::Renderer::ref()
+	);
+#endif
 }
 
 bool sad::TextureMappedFont::load(const sad::String & filename, sad::Renderer * r)

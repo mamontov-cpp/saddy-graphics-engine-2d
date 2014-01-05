@@ -35,11 +35,12 @@ void sad::Label::render()
 	m_font->setColor(m_color);
 	m_font->setLineSpacingRatio(m_linespacing_ratio);
 
-	glMatrixMode(GL_MODELVIEW_MATRIX);
+	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glTranslatef(m_center.x(), m_center.y(), 0.0f);
 	glRotatef(m_angle / M_PI*180.0f, 0.0f, 0.0f, 1.0f);
 
+	
 	if (m_font)
 		m_font->render(m_string, m_halfpadding);
 

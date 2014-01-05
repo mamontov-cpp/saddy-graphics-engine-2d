@@ -98,12 +98,10 @@ Sprite::Sprite(const Sprite & sprite)
 
 void Sprite::render()
 {
-   GLint   clr[4]={};
-   glGetIntegerv(GL_CURRENT_COLOR,clr);
-   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());
-   
-   m_tex->bind();
-    
+   GLint   clr[4]={};   
+   glGetIntegerv(GL_CURRENT_COLOR,clr);   
+   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
+   m_tex->bind();	
    glBegin(GL_QUADS);
    for (int i=0;i<4;i++)
    {
@@ -112,8 +110,8 @@ void Sprite::render()
 	  glVertex3f(m_rect[i].x(),m_rect[i].y(),m_rect[i].z());
    }  
    glEnd();
+   glColor4iv(clr);
 
-	glColor4iv(clr);
 }
 
 void Sprite::setTexCoords(int ind, int x ,int y)

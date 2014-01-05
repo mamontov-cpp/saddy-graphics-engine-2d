@@ -46,6 +46,6 @@ void sad::Font::setCurrentColor()
 
 void sad::Font::restoreColor()
 {
-	glPopAttrib();
+	//glPopAttrib();
 	glColor4iv(m_current_color_buffer);
 }
