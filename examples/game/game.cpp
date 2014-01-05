@@ -286,6 +286,7 @@ void Game::enterPlayingScreen()
 
 	// Handlers also register types in world, so they MUST BE added before
 	// any object ia added to scene
+
 	m_world->addHandler(this, &Game::onWallCollision);
 	m_world->addHandler(this, &Game::onBonusCollision);
 	m_world->addHandler(this, &Game::onPlayerBulletEnemy);
@@ -466,14 +467,14 @@ void Game::moveToStartingScreen()
 	label->setFormatString("Highscore: {0}");
 	label->arg(this, &Game::highscore);
 	sc->add(label);
-
 	
-	m_spawntask->setEvent(new StartScreenRain(this) );
 
+	m_spawntask->setEvent(new StartScreenRain(this) );
 	// Handlers also register types in world, so they MUST BE added before
 	// any object ia added to scene
 	m_world->addHandler(this, &Game::onWallCollision);
 	this->createWalls();
+	
 	m_registered_supershooting_enemies_count = 0;
 }
 

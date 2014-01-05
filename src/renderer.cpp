@@ -12,6 +12,7 @@
 #include "fpsinterpolation.h"
 #include "input/controls.h"
 #include "pipeline/pipeline.h"
+#include "os/windowhandles.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
@@ -132,9 +133,9 @@ bool sad::Renderer::run()
 	if (success)
 	{
 		initPipeline();
-		cursor()->insertHandlersIfNeeded();
+		//cursor()->insertHandlersIfNeeded();
 		mainLoop()->run();
-		cursor()->removeHandlersIfNeeded();
+		//cursor()->removeHandlersIfNeeded();
 		cleanPipeline();
 		m_context->destroy();
 		m_window->destroy();
@@ -318,7 +319,11 @@ void sad::Renderer::reshape(int width, int height)
 	if (width == 0) {
 		width = 1;
 	}
-
+	SL_LOCAL_INTERNAL(
+		fmt::Format("Before glViewport error code {0}")
+		<< glGetError(), 
+		*this
+	);
 	// Reset viewport for window
 	glViewport (0, 0, width, height);
 	SL_LOCAL_INTERNAL(
@@ -343,12 +348,6 @@ void sad::Renderer::reshape(int width, int height)
 	// Clear modelview matrix
 	glMatrixMode (GL_MODELVIEW);										
 	glLoadIdentity ();	
-
-	SL_LOCAL_INTERNAL(
-		fmt::Format("At end error code {0}")
-		<< glGetError(), 
-		*this
-	);
 }
 
 #ifndef GL_GENERATE_MIPMAP_HINT
@@ -384,7 +383,7 @@ bool sad::Renderer::initGLRendering()
 	
 	reshape(m_glsettings.width(),m_glsettings.height());
 	
-	glFlush();
+	glFinish();
 	return true;
 }
 

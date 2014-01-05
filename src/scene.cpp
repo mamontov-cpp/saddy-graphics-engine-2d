@@ -82,7 +82,23 @@ void sad::Scene::render()
   lockChanges();
   for (unsigned long i=0;i<m_layers.count();++i)
   {
+#ifdef LOG_RENDERING
+	  SL_LOCAL_INTERNAL(
+		fmt::Format("Before rendering object {0} error code is {1}")
+	        << m_layers[i]->metaData()->name()
+		<< glGetError(), 
+		*m_renderer
+	);
+#endif
 	  m_layers[i]->render();
+#ifdef LOG_RENDERING
+	  SL_LOCAL_INTERNAL(
+		fmt::Format("After rendering object {0} error code is {1}")
+	        << m_layers[i]->metaData()->name()
+		<< glGetError(), 
+		*m_renderer
+	);
+#endif
   }
   unlockChanges();
   performQueuedActions();
