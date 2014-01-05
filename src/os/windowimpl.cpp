@@ -592,9 +592,7 @@ bool sad::os::WindowImpl::createWindow(bool lastresult)
 					| EnterWindowMask
 					| LeaveWindowMask
 					| VisibilityChangeMask
-					| ResizeRedirectMask
-					| SubstructureNotifyMask
-					| SubstructureRedirectMask;
+					| SubstructureNotifyMask;
  
 	m_handles.Win = XCreateWindow(
 		m_handles.Dpy, 

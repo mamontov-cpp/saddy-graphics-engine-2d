@@ -20,7 +20,7 @@
 #endif
 
 
-#define EVENT_LOGGING
+//#define EVENT_LOGGING
 
 sad::os::SystemEventDispatcher::SystemEventDispatcher()
 : m_renderer(NULL), 

@@ -133,9 +133,9 @@ bool sad::Renderer::run()
 	if (success)
 	{
 		initPipeline();
-		//cursor()->insertHandlersIfNeeded();
+		cursor()->insertHandlersIfNeeded();
 		mainLoop()->run();
-		//cursor()->removeHandlersIfNeeded();
+		cursor()->removeHandlersIfNeeded();
 		cleanPipeline();
 		m_context->destroy();
 		m_window->destroy();
@@ -319,18 +319,8 @@ void sad::Renderer::reshape(int width, int height)
 	if (width == 0) {
 		width = 1;
 	}
-	SL_LOCAL_INTERNAL(
-		fmt::Format("Before glViewport error code {0}")
-		<< glGetError(), 
-		*this
-	);
 	// Reset viewport for window
 	glViewport (0, 0, width, height);
-	SL_LOCAL_INTERNAL(
-		fmt::Format("glViewport error code {0}")
-		<< glGetError(), 
-		*this
-	);
 	
 	// Clear projection matrix
 	glMatrixMode (GL_PROJECTION);
