@@ -43,6 +43,11 @@ void sad::hfsm::State::addChild(const sad::String & name, sad::hfsm::State * sta
 	{
 		m_children.insert(name, state);
 	}
+
+	if (state)
+	{
+		state->setMachine(m_machine);
+	}
 }
 
 sad::hfsm::State * sad::hfsm::State::child(const sad::String & name) const

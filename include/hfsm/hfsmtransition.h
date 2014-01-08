@@ -13,7 +13,7 @@ namespace hfsm
 {
 
 class Machine;
-
+class TransitionRepository;
 /*! Defines a transition for hierarchical finite state machine
  */ 
 class Transition
@@ -25,10 +25,10 @@ public:
 	/*! Frees memory from linked handler
 	 */
 	virtual ~Transition();
-	/*! Sets a machine for transition
-		\param[in] machine a machine
+	/*! Sets a repository for transition
+		\param[in] repo a machine
 	 */
-	virtual void setMachine(sad::hfsm::Machine * machine);
+	virtual void setRepository(sad::hfsm::TransitionRepository * repo);
 	/*! Sets a handler for transition, destroying last handler
 		\param[in] handler a used handler
 	 */
@@ -37,13 +37,20 @@ public:
 		\return machine for transition
 	 */
 	virtual sad::hfsm::Machine * machine() const;
+	/*! Returns repository
+		\return linked repository
+	 */
+	virtual sad::hfsm::TransitionRepository * repository() const;
+	/*! Invokes a transition handler if can
+	 */
+	virtual void invoke();
 protected:
 	/*! An abstract handler for transition
 	 */
 	sad::hfsm::AbstractHandler * m_handler;
 	/*! An abstract machine
 	 */
-	sad::hfsm::Machine * m_machine;
+	sad::hfsm::TransitionRepository * m_repository;
 };
 
 }
