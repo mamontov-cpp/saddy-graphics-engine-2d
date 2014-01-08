@@ -700,6 +700,10 @@
 					RelativePath=".\src\hfsm\hfsmtransition.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\hfsm\hfsmtransitionrepository.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1460,6 +1464,10 @@
 				</File>
 				<File
 					RelativePath=".\include\hfsm\hfsmtransition.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\hfsm\hfsmtransitionrepository.h"
 					>
 				</File>
 			</Filter>
