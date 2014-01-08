@@ -685,6 +685,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="hfsm"
+				>
+				<File
+					RelativePath=".\src\hfsm\hfsmhandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\hfsm\hfsmstate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\hfsm\hfsmtransition.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1428,6 +1444,22 @@
 				</File>
 				<File
 					RelativePath=".\include\pipeline\pipelinetask.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="hfsm"
+				>
+				<File
+					RelativePath=".\include\hfsm\hfsmhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\hfsm\hfsmstate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\hfsm\hfsmtransition.h"
 					>
 				</File>
 			</Filter>
