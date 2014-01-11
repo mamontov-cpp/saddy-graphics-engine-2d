@@ -82,15 +82,16 @@ bool sad::hfsm::Machine::addState(
 	{
 		sad::hfsm::State * result = m_top;
 		sad::StringList path = trimmedfullpath.split("/");
-		for(int i = 0; (i < path.size()) && (result != NULL); i++)
+		for(int i = 0; (i < path.size() - 1) && (result != NULL); i++)
 		{
+			sad::hfsm::State * parent = result;
 			result = result->child(path[i]);
 			if (result == NULL)
 			{
 				if (force)
 				{
 					sad::hfsm::State * nstate = new sad::hfsm::State();
-					result->addChild(path[i], nstate);
+					parent->addChild(path[i], nstate);
 					result = nstate;
 				}
 				else
@@ -98,6 +99,10 @@ bool sad::hfsm::Machine::addState(
 					failedtoinsert = true;
 				}
 			}
+		}
+		if (result)
+		{
+			result->addChild(path[path.size() - 1], state);
 		}
 	}
 

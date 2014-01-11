@@ -4,7 +4,7 @@
 	Describes a game state with all references and other stuff
  */
 #pragma once
-#include <fsm/statemachine.h>
+#include <hfsm/hfsmmachine.h>
 #include <periodicalevent.h>
 #include <scene.h>
 #include <p2d/app/app.h>
@@ -47,7 +47,7 @@ class Game: public sad::p2d::app::App
  private:
 	int                 m_highscore; //!< Defines a highest score, gained by player
 	bool                m_ispaused;  //!< Whether game is paused
-	sad::fsm::Machine * m_machine;   //!< A state machine, which describes all transitions
+	sad::hfsm::Machine * m_machine;   //!< A state machine, which describes all transitions
 	Player            * m_player;    //!< A link to in-game player
 	sad::PeriodicalEventPollProcess * m_spawntask;//!< A task for spawn an enemies
 	sad::p2d::Walls                 * m_walls;     //!< A new walls

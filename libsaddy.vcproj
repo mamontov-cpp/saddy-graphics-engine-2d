@@ -338,14 +338,6 @@
 				>
 			</File>
 			<Filter
-				Name="fsm"
-				>
-				<File
-					RelativePath=".\src\fsm\statemachine.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="os"
 				>
 				<File
@@ -959,14 +951,6 @@
 				RelativePath=".\include\window.h"
 				>
 			</File>
-			<Filter
-				Name="fsm"
-				>
-				<File
-					RelativePath=".\include\fsm\statemachine.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="os"
 				>

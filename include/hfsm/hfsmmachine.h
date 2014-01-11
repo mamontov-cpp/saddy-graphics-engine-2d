@@ -17,6 +17,9 @@ namespace sad
 namespace hfsm
 {
 
+/*! Defines a hierarchical state machine. By default machine is in state with empty name, which
+	is a top-level state
+ */ 
 class Machine
 {
 public:

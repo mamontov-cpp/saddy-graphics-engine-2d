@@ -4,7 +4,10 @@
 	Defines a transition for hierarchical finite state transformation
  */
 #pragma once
+
 #include "hfsmhandler.h"
+
+#include "../sadptrvector.h"
 
 namespace sad
 {
@@ -28,39 +31,43 @@ public:
 	/*! Sets a repository for transition
 		\param[in] repo a machine
 	 */
-	virtual void setRepository(sad::hfsm::TransitionRepository * repo);
+	virtual void setRepository(sad::hfsm::TransitionRepository* repo);
 	/*! Sets a handler for transition, destroying last handler
 		\param[in] handler a used handler
+		\return handler
 	 */
-	virtual void handleWith(sad::hfsm::AbstractHandler * handler);
+	virtual sad::hfsm::AbstractHandler* handleWith(sad::hfsm::AbstractHandler* handler);
 	/*! Sets a handler for transition, destroying last handler and setting it to callable function
 		\param[in] f callable data
+		\return handler
 	 */
 	template<typename _Callable>
-	void setHandler(_Callable f)
+	sad::hfsm::AbstractHandler* addHandler(_Callable f)
 	{
-		this->handleWith(new sad::hfsm::Function<_Callable>(f));
+		return this->handleWith(new sad::hfsm::Function<_Callable>(f));
 	}
 	/*! Sets a handler for transition, destroying last handler and setting it to 
 		call a method on an object
 		\param[in] o object
 		\param[in] p method pointer
+		\return handler
 	 */
 	template<typename _Object, typename _MethodPointer>
-	void setHandler(_Object o, _MethodPointer p)
+	sad::hfsm::AbstractHandler* addHandler(_Object o, _MethodPointer p)
 	{
-		this->handleWith(new sad::hfsm::Method<_Object, _MethodPointer>(o, p));
+		return this->handleWith(new sad::hfsm::Method<_Object, _MethodPointer>(o, p));
 	}
 	/*! Sets a handler for transition, destroying last handler and setting it to 
 		call as sequential call of methods in object
 		\param[in] o object
 		\param[in] f first method pointer
 		\param[in] g second method pointer
+		\return handler
 	 */
 	template<typename _Object, typename _MethodFPointer, typename _MethodGPointer>
-	void setHandler(_Object o, _MethodFPointer f, _MethodGPointer g)
+	sad::hfsm::AbstractHandler* addHandler(_Object o, _MethodFPointer f, _MethodGPointer g)
 	{
-		this->handleWith(new sad::hfsm::MethodComposition<_Object, _MethodPointer>(o, f, g));
+		return this->handleWith(new sad::hfsm::MethodComposition<_Object, _MethodFPointer, _MethodGPointer>(o, f, g));
 	}
 	/*! Returns machine for transition
 		\return machine for transition
@@ -76,7 +83,7 @@ public:
 protected:
 	/*! An abstract handler for transition
 	 */
-	sad::hfsm::AbstractHandler * m_handler;
+	sad::PtrVector<sad::hfsm::AbstractHandler> m_handlers;
 	/*! An abstract machine
 	 */
 	sad::hfsm::TransitionRepository * m_repository;
