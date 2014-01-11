@@ -214,10 +214,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\lightmodel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\mainloop.cpp"
 				>
 			</File>
@@ -337,6 +333,14 @@
 				RelativePath=".\src\window.cpp"
 				>
 			</File>
+			<Filter
+				Name="cli"
+				>
+				<File
+					RelativePath=".\src\cli\invalidreference.cpp"
+					>
+				</File>
+			</Filter>
 			<Filter
 				Name="os"
 				>
@@ -772,10 +776,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\lightmodel.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\mainloop.h"
 				>
 			</File>
@@ -951,6 +951,14 @@
 				RelativePath=".\include\window.h"
 				>
 			</File>
+			<Filter
+				Name="cli"
+				>
+				<File
+					RelativePath=".\include\cli\invalidreference.h"
+					>
+				</File>
+			</Filter>
 			<Filter
 				Name="os"
 				>
