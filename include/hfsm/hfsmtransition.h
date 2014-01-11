@@ -32,7 +32,36 @@ public:
 	/*! Sets a handler for transition, destroying last handler
 		\param[in] handler a used handler
 	 */
-	virtual void setHandler(sad::hfsm::AbstractHandler * handler);
+	virtual void handleWith(sad::hfsm::AbstractHandler * handler);
+	/*! Sets a handler for transition, destroying last handler and setting it to callable function
+		\param[in] f callable data
+	 */
+	template<typename _Callable>
+	void setHandler(_Callable f)
+	{
+		this->handleWith(new sad::hfsm::Function<_Callable>(f));
+	}
+	/*! Sets a handler for transition, destroying last handler and setting it to 
+		call a method on an object
+		\param[in] o object
+		\param[in] p method pointer
+	 */
+	template<typename _Object, typename _MethodPointer>
+	void setHandler(_Object o, _MethodPointer p)
+	{
+		this->handleWith(new sad::hfsm::Method<_Object, _MethodPointer>(o, p));
+	}
+	/*! Sets a handler for transition, destroying last handler and setting it to 
+		call as sequential call of methods in object
+		\param[in] o object
+		\param[in] f first method pointer
+		\param[in] g second method pointer
+	 */
+	template<typename _Object, typename _MethodFPointer, typename _MethodGPointer>
+	void setHandler(_Object o, _MethodFPointer f, _MethodGPointer g)
+	{
+		this->handleWith(new sad::hfsm::MethodComposition<_Object, _MethodPointer>(o, f, g));
+	}
 	/*! Returns machine for transition
 		\return machine for transition
 	 */

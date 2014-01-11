@@ -12,6 +12,9 @@
 #include "../sadpair.h"
 #include "../sadvector.h"
 
+
+#include "../hfsm/hfsmmachine.h"
+
 namespace sad
 {
 
@@ -354,7 +357,11 @@ public:
 		}
 		return insertStep(sad::pipeline::PIT_AFTER, after, step);
 	}
-	/*
+	/*! Appends a transition of state of machine, at end of pipeline
+		\param[in] machine a machine
+		\param[in] state  a state, which machine should be set to
+	 */
+	void appendStateTransition(sad::hfsm::Machine * machine, const sad::String & state);
 	/*! Runs a pipeline loop
 	 */
 	void run();
@@ -438,7 +445,6 @@ protected:
 	/*! All system steps of pipeline, executed before user steps 
 	 */
 	StepsList m_system_steps_after_user;
-
 };
 
 }

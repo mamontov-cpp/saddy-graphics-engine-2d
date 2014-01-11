@@ -268,3 +268,11 @@ void sad::pipeline::Pipeline::clearNow()
 }
 
 
+void sad::pipeline::Pipeline::appendStateTransition(
+	sad::hfsm::Machine * machine, 
+	const sad::String & state
+)
+{
+	append(new sad::hfsm::MachineStateChangeTask(machine, state) );
+}
+

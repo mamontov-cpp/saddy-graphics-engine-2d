@@ -7,6 +7,7 @@
 #include "../sadhash.h"
 #include "../sadstring.h"
 #include "hfsmhandler.h"
+#include "hfsmshared.h"
 
 namespace sad
 {
@@ -59,17 +60,87 @@ public:
 	/*! Sets handler for entering state
 		\param[in] h handler
 	 */
-	virtual void setEnterHandler(sad::hfsm::AbstractHandler * h);
+	virtual void handleEnterWith(sad::hfsm::AbstractHandler * h);
 	/*! Sets handler for leaving state
 		\param[in] h handler
 	 */
-	virtual void setLeaveHandler(sad::hfsm::AbstractHandler * h);
+	virtual void handleLeaveWith(sad::hfsm::AbstractHandler * h);
+	/*! Sets handler for entering state as function call
+		\param[in] h callable handler
+	 */
+	template<typename _Callable>
+	void setEnterHandler(_Callable h)
+	{
+		handleEnterWith(new sad::hfsm::Function<_Callable>(h));
+	}
+	/*! Sets handler for entering state as call of method to object
+		\param[in] o object
+		\param[in] p pointer to method
+	 */
+	template<typename _Object, typename _MethodPointer>
+	void setEnterHandler(_Object o, _MethodPointer p)
+	{
+		handleEnterWith(new sad::hfsm::Method<_Object, _MethodPointer>(o, p));
+	}
+	/*! Sets handler for entering state as call of sequential calls of method to object
+		\param[in] o object
+		\param[in] f first pointer to method
+		\param[in] g second pointer to method
+	 */
+	template<typename _Object, typename _MethodFPointer, typename _MethodGPointer>
+	void setEnterHandler(_Object o, _MethodFPointer f, _MethodGPointer g)
+	{
+		handleEnterWith(new sad::hfsm::MethodComposition<_Object, _MethodFPointer, _MethodGPointer>(o, f, g));
+	}
+	/*! Sets handler for leaving state as function call
+		\param[in] h callable handler
+	 */
+	template<typename _Callable>
+	void setLeaveHandler(_Callable h)
+	{
+		handleLeaveWith(new sad::hfsm::Function<_Callable>(h));
+	}
+	/*! Sets handler for leaving state as call of method to object
+		\param[in] o object
+		\param[in] p pointer to method
+	 */
+	template<typename _Object, typename _MethodPointer>
+	void setLeaveHandler(_Object o, _MethodPointer p)
+	{
+		handleLeaveWith(new sad::hfsm::Method<_Object, _MethodPointer>(o, p));
+	}
+	/*! Sets handler for leaving state as call of sequential calls of method to object
+		\param[in] o object
+		\param[in] f first pointer to method
+		\param[in] g second pointer to method
+	 */
+	template<typename _Object, typename _MethodFPointer, typename _MethodGPointer>
+	void setLeaveHandler(_Object o, _MethodFPointer f, _MethodGPointer g)
+	{
+		handleLeaveWith(new sad::hfsm::MethodComposition<_Object, _MethodFPointer, _MethodGPointer>(o, f, g));
+	}
 	/*! Enters a state
 	 */
 	virtual void enter();
 	/*! Leaves a state
 	 */
 	virtual void leave();
+	/*! Sets a shared data for a state
+		\param[in] shahred a shared data
+	 */
+	virtual void setShared(sad::hfsm::Shared * shared);
+	/*! Returns a shared data from a state
+		\return shared data from a state
+	 */
+	virtual sad::hfsm::Shared * shared() const;
+	/*! Sets parent state for state
+		\param[in] state a parent state
+	 */
+	virtual void setParent(sad::hfsm::State * state);
+	/*! Returns parent state for state (NULL if it's top-level state)
+		\return parent state
+	 */
+	virtual sad::hfsm::State * parent() const;
 private:
 	/*! A handler to call, when entering a state
 	 */
@@ -77,6 +148,12 @@ private:
 	/*! A handler to call, when leaving a state
 	 */
 	sad::hfsm::AbstractHandler * m_leave;
+	/*! A shared data for a state
+	 */
+	sad::hfsm::Shared  * m_shared;
+	/*! A parent state
+	 */
+	sad::hfsm::State  *  m_parent;
 	/*! A children states in machine
 	 */
 	sad::hfsm::StateMap m_children;

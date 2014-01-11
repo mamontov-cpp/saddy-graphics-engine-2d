@@ -693,6 +693,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\hfsm\hfsmmachine.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\hfsm\hfsmshared.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\hfsm\hfsmstate.cpp"
 					>
 				</File>
@@ -1456,6 +1464,14 @@
 				>
 				<File
 					RelativePath=".\include\hfsm\hfsmhandler.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\hfsm\hfsmmachine.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\hfsm\hfsmshared.h"
 					>
 				</File>
 				<File

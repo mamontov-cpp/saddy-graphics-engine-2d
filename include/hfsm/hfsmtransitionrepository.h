@@ -62,7 +62,6 @@ public:
 		const sad::String & from, 
 		const sad::String & to
 	);
-
 	/*! Invokes a transition between two states
 		\param[in] from a full name of state from which transition is performed
 		\param[in] to   a full name of state to which transition is performed
@@ -70,6 +69,11 @@ public:
 	virtual void invoke(
 		const sad::String & from, 
 		const sad::String & to
+	);
+	/*! Tests, whether we could remove all state mentions
+	 */
+	virtual void removeStateMentions(
+		const sad::String & state
 	);
 protected:
 	/*! A transition map in repository
