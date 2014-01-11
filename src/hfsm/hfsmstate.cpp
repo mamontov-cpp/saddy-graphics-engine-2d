@@ -2,7 +2,7 @@
 #include "hfsm/hfsmhandler.h"
 
 sad::hfsm::State::State()
-: m_enter(NULL), m_leave(NULL), m_machine(NULL)
+: m_enter(NULL), m_leave(NULL), m_machine(NULL), m_shared(NULL), m_parent(NULL)
 {
 
 }
@@ -11,6 +11,7 @@ sad::hfsm::State::~State()
 {
 	delete m_enter;
 	delete m_leave;
+	delete m_shared;
 	for(sad::hfsm::StateMap::iterator it = m_children.begin(); it != m_children.end(); it++)
 	{
 		delete it.value();
@@ -47,6 +48,7 @@ void sad::hfsm::State::addChild(const sad::String & name, sad::hfsm::State * sta
 	if (state)
 	{
 		state->setMachine(m_machine);
+		state->setParent(this);
 	}
 }
 
@@ -73,7 +75,7 @@ void  sad::hfsm::State::removeChild(const sad::String & name)
 	}
 }
 
-void sad::hfsm::State::setEnterHandler(sad::hfsm::AbstractHandler * h)
+void sad::hfsm::State::handleEnterWith(sad::hfsm::AbstractHandler * h)
 {
 	delete m_enter;
 	m_enter = h;
@@ -83,7 +85,7 @@ void sad::hfsm::State::setEnterHandler(sad::hfsm::AbstractHandler * h)
 	}
 }
 
-void sad::hfsm::State::setLeaveHandler(sad::hfsm::AbstractHandler * h)
+void sad::hfsm::State::handleLeaveWith(sad::hfsm::AbstractHandler * h)
 {
 	delete m_leave;
 	m_leave = h;
@@ -109,3 +111,26 @@ void sad::hfsm::State::leave()
 		m_leave->invoke();
 	}
 }
+
+void sad::hfsm::State::setShared(sad::hfsm::Shared * shared)
+{
+	delete m_shared;
+	m_shared = shared;
+}
+
+
+sad::hfsm::Shared * sad::hfsm::State::shared() const
+{
+	return m_shared;
+}
+
+void sad::hfsm::State::setParent(sad::hfsm::State * state)
+{
+	m_parent = state;
+}
+
+sad::hfsm::State * sad::hfsm::State::parent() const
+{
+	return m_parent;
+}
+

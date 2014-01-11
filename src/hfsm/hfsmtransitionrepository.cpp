@@ -101,3 +101,23 @@ void sad::hfsm::TransitionRepository::invoke(
 	if (t)
 		t->invoke();
 }
+
+
+void sad::hfsm::TransitionRepository::removeStateMentions(
+		const sad::String & state
+)
+{
+	if (m_transitions.contains(state))
+	{
+		clearTransitions(m_transitions[state]);
+		m_transitions.remove(state);
+	}
+	for(TransitionMap::iterator it = m_transitions.begin(); it != m_transitions.end(); it++)
+	{
+		if (it.value().contains(state))
+		{
+			delete it.value()[state];
+			it.value().remove(state);
+		}
+	}
+}

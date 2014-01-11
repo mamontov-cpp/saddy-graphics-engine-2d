@@ -19,7 +19,7 @@ void sad::hfsm::Transition::setRepository(sad::hfsm::TransitionRepository * repo
 	m_repository = repo;
 }
 
-void sad::hfsm::Transition::setHandler(sad::hfsm::AbstractHandler * handler)
+void sad::hfsm::Transition::handleWith(sad::hfsm::AbstractHandler * handler)
 {
 	delete m_handler;
 	m_handler = handler;
