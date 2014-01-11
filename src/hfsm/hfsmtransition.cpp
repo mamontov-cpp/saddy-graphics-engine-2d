@@ -4,14 +4,14 @@
 
 #include <string.h>
 
-sad::hfsm::Transition::Transition() : m_repository(NULL), m_handler(NULL)
+sad::hfsm::Transition::Transition() : m_repository(NULL)
 {
 
 }
 
 sad::hfsm::Transition::~Transition()
 {
-	delete m_handler;
+
 }
 
 void sad::hfsm::Transition::setRepository(sad::hfsm::TransitionRepository * repo)
@@ -19,10 +19,13 @@ void sad::hfsm::Transition::setRepository(sad::hfsm::TransitionRepository * repo
 	m_repository = repo;
 }
 
-void sad::hfsm::Transition::handleWith(sad::hfsm::AbstractHandler * handler)
+sad::hfsm::AbstractHandler* sad::hfsm::Transition::handleWith(sad::hfsm::AbstractHandler * handler)
 {
-	delete m_handler;
-	m_handler = handler;
+	if (handler)
+	{
+		m_handlers << handler;
+	}
+	return handler;
 }
 
 sad::hfsm::Machine * sad::hfsm::Transition::machine() const
@@ -41,6 +44,8 @@ sad::hfsm::TransitionRepository * sad::hfsm::Transition::repository() const
 
 void sad::hfsm::Transition::invoke()
 {
-	if (m_handler)
-		m_handler->invoke();
+	for(size_t i = 0; i < m_handlers.size(); i++)
+	{
+		m_handlers[i]->invoke();
+	}
 }

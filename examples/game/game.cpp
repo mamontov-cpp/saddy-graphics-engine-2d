@@ -30,26 +30,26 @@ Game::Game()
 	m_ispaused = false;
 
 	// Create a new machine
-	m_machine = new sad::fsm::Machine();
-	sad::fsm::Machine * m = m_machine;
+	m_machine = new sad::hfsm::Machine();
+	sad::hfsm::Machine * m = m_machine;
 
 	sad::input::Controls * controls = sad::Renderer::ref()->controls();
 	controls->add(*sad::input::ET_KeyPress & sad::F, this, &Game::tryToggleFullscreen);
 	controls->add(*sad::input::ET_KeyPress & sad::Esc, this, &sad::p2d::app::App::quit);
 
 	// Create a new idle state
-	sad::fsm::State * idleState = new sad::fsm::State();
+	sad::hfsm::State * idleState = new sad::hfsm::State();
 
 	controls->add(
 		(*sad::input::ET_KeyPress) & sad::Enter & (m * GameState::START), 
 		this, &Game::startPlaying
 	);
 
-	idleState->addEnterCallback(this, &Game::enterStartingScreen);
-	idleState->addLeaveCallback(this, &Game::leaveStartingScreen);
+	idleState->addEnterHandler(this, &Game::enterStartingScreen);
+	idleState->addLeaveHandler(this, &Game::leaveStartingScreen);
 
 	// Create a new playing state
-	sad::fsm::State * playState = new sad::fsm::State();
+	sad::hfsm::State * playState = new sad::hfsm::State();
 	controls->add(
 		*sad::input::ET_KeyPress & sad::P & (m * GameState::PLAYING), 
 		this,  &Game::togglePaused
@@ -121,8 +121,8 @@ Game::Game()
 		this, &Game::player, &Player::tryLookAt
 	);
 
-	playState->addEnterCallback(this, &Game::enterPlayingScreen);
-	playState->addLeaveCallback(this, &Game::leavePlayingScreen);
+	playState->addEnterHandler(this, &Game::enterPlayingScreen);
+	playState->addLeaveHandler(this, &Game::leavePlayingScreen);
 
 
 	SL_MESSAGE("Input handlers bound succesfully");
@@ -144,7 +144,7 @@ Game::Game()
 
 void Game::startPlaying()
 {
-	m_machine->pushState(GameState::PLAYING);
+	m_machine->enterState(GameState::PLAYING);
 }
 
 Game::~Game()
@@ -203,7 +203,7 @@ void Game::run()
 	// Set window size to be fixed
 	sad::Renderer::ref()->makeFixedSize();
 
-	m_machine->pushState(GameState::START);
+	m_machine->enterState(GameState::START);
 	// Run an engine, starting a main loop
 	SL_MESSAGE("Will start now");	
 
@@ -313,7 +313,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
 	// return to start screen
 	if (o->metaData()->name() == "Player")
 	{
-		m_machine->pushState(GameState::START);
+		m_machine->enterState(GameState::START);
 	}
 	if (o->metaData()->name() == "SuperShootingEnemy")
 	{
@@ -326,7 +326,7 @@ void Game::removeObject(sad::p2d::app::Object *o)
 
 const sad::String & Game::state()
 {
-	return m_machine->currentStateName();
+	return m_machine->currentState();
 }
 
 GameObject *  Game::produce(Objects type)

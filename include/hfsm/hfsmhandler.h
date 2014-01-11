@@ -63,7 +63,7 @@ protected:
 template<
 typename _Callable
 >
-class Function: sad::hfsm::AbstractHandler
+class Function:public sad::hfsm::AbstractHandler
 {
 public:
 	/*! Creates simple function-like handler
@@ -97,7 +97,7 @@ template<
 	typename _Object,
 	typename _MethodPointer
 >
-class Method: sad::hfsm::AbstractHandler
+class Method:public sad::hfsm::AbstractHandler
 {
 public:
 	/*! Creates a simple handler for calling method
@@ -135,7 +135,7 @@ template<
 	typename _MethodFPointer,
 	typename _MethodGPointer
 >
-class MethodComposition
+class MethodComposition: public sad::hfsm::AbstractHandler
 {
 public:
 	/*! Creates a simple handler for calling method
