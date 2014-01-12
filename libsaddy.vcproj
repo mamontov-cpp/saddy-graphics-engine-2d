@@ -170,10 +170,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\defaulttexloader.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\font.cpp"
 				>
 			</File>
@@ -306,10 +302,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\texture_resize_bilinear.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\texturecontainer.cpp"
 				>
 			</File>
@@ -346,6 +338,10 @@
 				>
 				<File
 					RelativePath=".\src\os\consoleimpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\os\generatemipmaps30.cpp"
 					>
 				</File>
 				<File
@@ -979,11 +975,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\os\generatemipmaps30.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\os\glcontexthandle.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\os\glcontextimpl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\os\glheaders.h"
 					>
 				</File>
 				<File

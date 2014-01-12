@@ -1,9 +1,13 @@
 #include "texturemappedfont.h"
 #include "texturemanager.h"
 #include "renderer.h"
+#include "os/glheaders.h"
 
-sad::TextureMappedFont::TextureMappedFont() : sad::Font(), m_texture(NULL),
-m_builtin_linespacing(0), m_size_ratio(1.0)
+sad::TextureMappedFont::TextureMappedFont() 
+: sad::Font(), 
+  m_texture(NULL),
+  m_builtin_linespacing(0), 
+  m_size_ratio(1.0)
 {
 
 }

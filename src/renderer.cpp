@@ -13,6 +13,7 @@
 #include "input/controls.h"
 #include "pipeline/pipeline.h"
 #include "os/windowhandles.h"
+#include "os/glheaders.h"
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 

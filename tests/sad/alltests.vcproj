@@ -217,6 +217,10 @@
 				RelativePath=".\sadwindow.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\texture.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
