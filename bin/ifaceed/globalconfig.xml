@@ -1,0 +1,6 @@
+<globalconfig>
+    <font name="Times New Roman" file="EMPORIUM.TTF" />
+    <font name="Times New Roman 2" file="EMPORIUM.TTF" />
+    <config  name="Test" file="textures.xml" />
+    <config  name="Test2" file="textures.xml" />
+</globalconfig>

@@ -1,0 +1,41 @@
+{SCAN_FOLDER src}
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+PLATFORM = {PLATFORM}
+TYPE =  {TYPE}
+
+EXECUTABLE = multithreading-example
+
+ifeq ($(PLATFORM),WIN32)
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lsaddy-ft-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2 -lfreetype
+DEFINES  = -DWIN32 -DMINGW
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
+else
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lsaddy-ft-$(TYPE) -L/usr/X11R6/lib -lm -lGL -lGLU -lpthread -lX11 -lfreetype
+DEFINES  = -DUNIX -DLINUX -DGCC
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
+endif
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+BUILD    = {FOR_EACH build/{NAME}_$(TYPE).o \s}
+all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
+build:
+	mkdir build
+../../lib/libsaddy-$(TYPE).a:
+	echo "You forgot to build a library!"
+$(OUTPUT): {FOR_EACH build/{NAME}_$(TYPE).o \s}
+	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+{FOR_EACH build/{NAME}_$(TYPE).o:\s{SOURCE}\n\tg++\s-c\s$(CCOPTS)\s{SOURCE}\s-o\sbuild/{NAME}_$(TYPE).o\s$(INCLUDE)\s$(DEFINES) \n}
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r ".build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean
