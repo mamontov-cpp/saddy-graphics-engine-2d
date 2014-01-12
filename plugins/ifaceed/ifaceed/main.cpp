@@ -10,7 +10,6 @@
 #include <QThread>
 #include <QTextCodec>
 
-#include <cmdoptions.h>
 #include <stdio.h>
 #include <cstdlib>
 #include "editorcore/editor.h"

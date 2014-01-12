@@ -58,9 +58,16 @@ class Args
 	/** Returns full arguments array
 		\return arguments
 	 */
-	inline char ** fullArgv() 
+	inline char ** arguments()
 	{ 
 		return this->argv; 
+	}
+	/** Returns full arguments array
+		\return arguments
+	 */
+	inline const char ** arguments() const
+	{ 
+		return const_cast<const char **>(this->argv); 
 	}
 };
 

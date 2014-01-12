@@ -11,7 +11,7 @@
 #include <scene.h>
 #include <sadmutex.h>
 #include <renderer.h>
-#include <cmdoptions.h>
+#include <cli/parser.h>
 #include <closure.h>
 #include <input/controls.h>
 #include <config/sprite2dconfig.h>
@@ -132,7 +132,7 @@ class Editor: public QObject
 		 sad::Scene * m_scene;
 		 /** Command line arguments
 		  */
-		 sad::cmd::Args * m_cmdargs;
+		 sad::cli::Args * m_cmdargs;
 		 /** Mutex, used to render all stuff
 		  */
 		 sad::Mutex * m_rendermutex;
@@ -153,7 +153,7 @@ class Editor: public QObject
 		 bool m_saddystartedok;
 		 /** Command line options data
 		  */
-		 sad::cmd::Parser * m_cmdoptions;
+		 sad::cli::Parser * m_cmdoptions;
 		 /** History of data
 		  */
 		 EditorHistory * m_history;
@@ -176,7 +176,7 @@ protected:
 		 /** Creates a parser to parse command options
 			 \return new command line options
 		  */
-		 virtual sad::cmd::Parser * createOptionParser() = 0;
+		 virtual sad::cli::Parser * createOptionParser() = 0;
 private:
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not
@@ -230,7 +230,7 @@ private:
 		 /** Returns a command line arguments
 		 	 \return command line arguments
 		  */ 
-		 inline sad::cmd::Args * commandLineArguments() { return m_cmdargs;}
+		 inline sad::cli::Args * commandLineArguments() { return m_cmdargs;}
 		 /** Returns a qt application
 			 \return qt application
 		  */
@@ -308,7 +308,7 @@ private:
 		/*! Returns parsed arguments
 			\return parsed arguments
 		 */
-		sad::cmd::Parser * parsedArgs() const;
+		sad::cli::Parser * parsedArgs() const;
 		 /** Returns a scene
 			 \return used scene
 		  */

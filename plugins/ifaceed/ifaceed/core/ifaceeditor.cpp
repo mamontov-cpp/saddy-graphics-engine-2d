@@ -108,11 +108,11 @@ void IFaceEditor::quit()
 	sad::Renderer::ref()->quit();
 }
 
-sad::cmd::Parser * IFaceEditor::createOptionParser()
+sad::cli::Parser * IFaceEditor::createOptionParser()
 {
-	sad::cmd::Parser * r = new sad::cmd::Parser();
-	r->addSimpleOption("ifaceconfig");
-	r->addFlagOption("debug");
+	sad::cli::Parser * r = new sad::cli::Parser();
+	r->addSingleValuedOption("ifaceconfig");
+	r->addFlag("debug");
 	return r;
 }
 
@@ -182,7 +182,7 @@ class DBLoadingTask: public sad::pipeline::AbstractTask
 
 void IFaceEditor::onFullAppStart()
 {
-	if (this->parsedArgs()->simple("ifaceconfig").length() == 0)
+	if (this->parsedArgs()->single("ifaceconfig").value().length() == 0)
 	{
 		SL_WARNING("Config file is not specified. You must choose it now");
 		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
@@ -195,13 +195,13 @@ void IFaceEditor::onFullAppStart()
 		} 
 		else 
 		{
-			this->parsedArgs()->setSimple("ifaceconfig", config.toStdString().c_str());
+			this->parsedArgs()->setSingleValuedOption("ifaceconfig", config.toStdString().c_str());
 		}
 	}
 	bool success = true;
 	// Load first stage - a maps of handling all of data
 	FontTemplatesMaps maps;
-	if (maps.load(this->parsedArgs()->simple("ifaceconfig").data(), sad::log::Log::ref()))
+	if (maps.load(this->parsedArgs()->single("ifaceconfig").value().data(), sad::log::Log::ref()))
 	{
 		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
 		
@@ -428,12 +428,13 @@ void IFaceEditor::reload()
    SL_SCOPE("IFaceEditor::reload()");
    // 1. Load maps
    FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
-   if (maps->load(this->parsedArgs()->simple("ifaceconfig").data(),this->log()) 
+   sad::String filename = this->parsedArgs()->single("ifaceconfig").value();
+   if (maps->load(filename.data(),this->log()) 
 	   == false) {
 		// 2. If map loading failed, stop right there
 	    // 2.1. Report   error
 	    delete maps;
-		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading failed") << this->parsedArgs()->simple("ifaceconfig").data()));
+		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading failed") << filename.data()));
 		return;
    }
    // 3. Load texture database
@@ -449,7 +450,8 @@ void IFaceEditor::reload()
 	    delete maps;
 		delete future;
 		delete db;
-		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading font and templates failed") << this->parsedArgs()->simple("ifaceconfig").data()));
+		sad::String filename = this->parsedArgs()->single("ifaceconfig").value();
+		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading font and templates failed") << filename));
 		return;
    }
    // At this point we need only database, db to
