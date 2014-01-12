@@ -26,10 +26,10 @@ public:
 	bool Flag;
 	/*! A value for option as simple options
 	 */
-	sad::String Simple;
+	sad::String Single;
 	/*! A value for option as multiple options 
 	 */
-	sad::Vector<sad::String> Multiple;
+	sad::Vector<sad::String> Vector;
 
 	/*! Creates default option value
 	 */

@@ -28,7 +28,7 @@ Editor::Editor():m_icons("editor_icons")
 	
 }
 
-sad::cmd::Parser * Editor::parsedArgs() const
+sad::cli::Parser * Editor::parsedArgs() const
 {
 	return m_cmdoptions;
 }
@@ -44,9 +44,9 @@ void Editor::init(int argc,char ** argv)
 	m_behavioursharedata = this->createBehaviourData();
 	// Firstly we create an arguments and application
 	// to strip all of Qt's options, which wouldn't break a parser, after this work
-	m_cmdargs = new sad::cmd::Args(argc, argv);
-	this->m_qtapp = new QApplication(this->m_cmdargs->mutableCount(),
-									(this->m_cmdargs->fullArgv()));
+	m_cmdargs = new sad::cli::Args(argc, argv);
+	this->m_qtapp = new QApplication(this->m_cmdargs->count(),
+									(this->m_cmdargs->arguments()));
 
 	m_cmdoptions = this->createOptionParser();
 	m_cmdoptions->parse(argc, (const char **)argv);

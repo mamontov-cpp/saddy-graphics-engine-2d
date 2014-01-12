@@ -76,7 +76,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	void setDatabase(FontTemplateDatabase * db);
 	/** Creates a parser to parse command options
       */
-	virtual sad::cmd::Parser * createOptionParser();
+	virtual sad::cli::Parser * createOptionParser();
 	/** Sets my options and my data
 	 */
 	void initSaddyRendererOptions();

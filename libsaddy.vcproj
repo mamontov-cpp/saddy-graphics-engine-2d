@@ -170,10 +170,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\cmdoptions.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\defaulttexloader.cpp"
 				>
 			</File>
@@ -337,7 +333,11 @@
 				Name="cli"
 				>
 				<File
-					RelativePath=".\src\cli\optionvalue.cpp"
+					RelativePath=".\src\cli\clioptionvalue.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\cli\cliparser.cpp"
 					>
 				</File>
 			</Filter>
@@ -732,10 +732,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\cmdoptions.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\font.h"
 				>
 			</File>
@@ -964,6 +960,10 @@
 				</File>
 				<File
 					RelativePath=".\include\cli\optionvalue.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\cli\parser.h"
 					>
 				</File>
 				<File

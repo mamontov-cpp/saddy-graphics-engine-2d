@@ -18,18 +18,18 @@ enum OptionType
 	 * A flag is processed as passing single keyword, like
 	 * -<flag-name>
 	 */
-	OT_FLAG = 0;
+	OT_FLAG = 0,
 	/*!
-	 * A single-option keyword is processed as passing keyword and a value
+	 * An option keyword is processed as passing keyword and a value
 	 * after keyword:
 	 * -<option-name> <option-value>
 	 */
-	OT_SINGLE = 1;
+	OT_SINGLE = 1,
 	/*!
-	 * A multiple-options keyword is processed as passing keyword and several
+	 * An option is processed as passing keyword and several
 	 * values: -<option-name> <option-value-1> <option-value-2> <option-value-3>
 	 */
-	OT_MULTIPLE = 2;
+	OT_VECTOR = 2
 };
 
 }
