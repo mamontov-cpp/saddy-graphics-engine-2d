@@ -14,7 +14,6 @@ sad::TextureContainer::~TextureContainer()
 void sad::TextureContainer::add(const sad::String & name, sad::Texture * tex)
 {
 	if (m_data.contains(name)) delete m_data[name];
-	tex->setContainer(this);
 	m_data.insert(name,tex);
 }
 

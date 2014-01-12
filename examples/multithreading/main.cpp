@@ -20,6 +20,10 @@
 #include <texturemanager.h>
 #include <freetype/font.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 /*! \class EventHandler
     A simple handler which, depending on settings cand quit renderer's main loop
 	or just move sprite adapter to a new point, where user clicked. It's used 

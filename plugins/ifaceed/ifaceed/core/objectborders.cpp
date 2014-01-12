@@ -4,6 +4,7 @@
 #include "ifaceeditor.h"
 
 #include <geometry2d.h>
+#include <os/glheaders.h>
 #include <config/sprite2dobserver.h>
 
 void ActiveObjectBorder::_process()
