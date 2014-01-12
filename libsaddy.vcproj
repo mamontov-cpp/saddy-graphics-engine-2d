@@ -337,7 +337,7 @@
 				Name="cli"
 				>
 				<File
-					RelativePath=".\src\cli\invalidreference.cpp"
+					RelativePath=".\src\cli\optionvalue.cpp"
 					>
 				</File>
 			</Filter>
@@ -955,7 +955,19 @@
 				Name="cli"
 				>
 				<File
-					RelativePath=".\include\cli\invalidreference.h"
+					RelativePath=".\include\cli\args.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\cli\optiontype.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\cli\optionvalue.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\cli\token.h"
 					>
 				</File>
 			</Filter>
