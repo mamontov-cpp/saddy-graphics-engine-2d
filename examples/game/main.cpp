@@ -72,6 +72,8 @@ bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 	return result;
 }
 
+
+
 /*! A main function 
 	\param[in] argc count of arguments
 	\param[in] argv arguments

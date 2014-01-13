@@ -282,6 +282,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\scenenode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\settings.cpp"
 				>
 			</File>
@@ -893,6 +897,10 @@
 			</File>
 			<File
 				RelativePath=".\include\scene.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\scenenode.h"
 				>
 			</File>
 			<File

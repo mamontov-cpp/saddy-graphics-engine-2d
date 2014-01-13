@@ -19,7 +19,7 @@ class Renderer;
 	Note, that width of text is unbounded and it grows on right direction and
 	down from set rendering point
 */
-class Label: public sad::BasicNode
+class Label: public sad::SceneNode
 {
  SAD_OBJECT
  public:	

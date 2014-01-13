@@ -158,7 +158,7 @@ class TickableFlow
 			delete m_current;
 			if (m_next.exists())
 			{
-				delete m_next.data();
+				delete m_next.value();
 			}
 		}
 		/*! Sets current state. Will affect cureent iteration as well, so

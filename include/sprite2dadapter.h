@@ -11,7 +11,7 @@
 /*! \class Sprite2DAdapter
 	A class of 2d adapter for 3d sprite. Supports most of sprite operations.
  */
-class Sprite2DAdapter: public sad::BasicNode
+class Sprite2DAdapter: public sad::SceneNode
 {
  SAD_OBJECT
  public:
