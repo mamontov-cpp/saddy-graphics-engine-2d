@@ -149,6 +149,7 @@ void Game::startPlaying()
 
 Game::~Game()
 {
+	delete m_walls;
 	delete m_machine;
 }
 

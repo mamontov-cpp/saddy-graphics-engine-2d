@@ -24,7 +24,7 @@ class App;
 /*! Describes a basic in-game object, which provides primitives, needed to 
 	describe all in-game objects
  */
-class Object: public sad::BasicNode
+class Object: public sad::SceneNode
 {
 	/* Declare metadata, needed to describe inheritance tree, name of class
 	   This metadata can be used where real type is needed - for most part,

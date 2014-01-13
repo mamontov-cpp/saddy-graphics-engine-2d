@@ -8,6 +8,11 @@ StartScreenRain::StartScreenRain(Game * g) : PeriodicalEvent(),  m_game(g)
 	setInterval(1000);
 }
 
+StartScreenRain::~StartScreenRain()
+{
+	
+}
+
 void StartScreenRain::perform()
 {
 	int ocount = sad::Renderer::ref()->scene()->objectCount();

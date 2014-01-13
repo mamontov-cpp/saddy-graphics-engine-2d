@@ -110,6 +110,7 @@ sad::p2d::Body::Body()
 sad::p2d::Body::~Body()
 {
 	delete m_weight;
+	delete m_ghost;
 	delete m_tangential;
 	delete m_angular;
 	delete m_current;

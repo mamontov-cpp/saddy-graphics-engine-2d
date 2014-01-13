@@ -10,7 +10,7 @@
  
 /*! Class of simple quad that rotates
 */
-class Sprite: public sad::BasicNode
+class Sprite: public sad::SceneNode
 {
  SAD_OBJECT
  private:

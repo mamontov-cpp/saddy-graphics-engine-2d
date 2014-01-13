@@ -11,7 +11,7 @@
 #include <GL/gl.h>														
 #include <GL/glu.h>
 
-DECLARE_SOBJ_INHERITANCE(sad::Label,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
 
 sad::Label::Label(

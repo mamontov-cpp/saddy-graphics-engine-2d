@@ -50,6 +50,9 @@ public:
 	inline Step() : m_enabled(true), m_source(sad::pipeline::ST_USER)
 	{
 	}
+	/*! You can inherit step and implement your own steps
+	 */
+	virtual ~Step();
 	/*! Marks step with specified mark
 		\param[in] mark specified mark
 	 */

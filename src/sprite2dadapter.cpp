@@ -2,7 +2,7 @@
 #include "texturemanager.h"
 #include "geometry2d.h"
 
-DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::SceneNode)
 
 
 void Sprite2DAdapter::createSprite(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox, 

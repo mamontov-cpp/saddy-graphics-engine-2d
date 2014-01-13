@@ -1,23 +1,8 @@
 #include "../include/sprite.h"
 #include <math.h>
+#include "os/glheaders.h"
 
-
-#ifndef LINUX
-    #ifndef NOMINMAX
-    #define NOMINMAX 
-    #endif
-	#include <windows.h>
-	#include <gl/gl.h>														
-	#include <gl/glu.h>	
-#else
-
-	#include <GL/gl.h>														
-	#include <GL/glu.h>	
-
-#endif
-
-
-DECLARE_SOBJ_INHERITANCE(Sprite,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(Sprite,sad::SceneNode)
 
 #define DEFAULT_COLOR_INITIALIZATION  m_color = sad::AColor(255,255,255,0);
 

@@ -45,8 +45,8 @@ m_move_handler(NULL)
 }
 
 sad::MouseCursor::~MouseCursor()
-{
-
+{	
+	delete m_cursor;
 }
 
 void sad::MouseCursor::setRenderer(sad::Renderer * r)
