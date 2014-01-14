@@ -15,7 +15,7 @@
 				Attach="false"
 				DebuggerType="3"
 				Remote="1"
-				RemoteMachine=""
+				RemoteMachine="RUUKOTO"
 				RemoteCommand=""
 				HttpUrl=""
 				PDBPath=""
@@ -38,12 +38,12 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory="..\..\bin"
+				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
 				Remote="1"
-				RemoteMachine=""
+				RemoteMachine="RUUKOTO"
 				RemoteCommand=""
 				HttpUrl=""
 				PDBPath=""
