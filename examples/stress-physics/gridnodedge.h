@@ -11,7 +11,7 @@
 
 /*! As a default, grid node is a node
  */
-class GridNodeEdge: public sad::BasicNode
+class GridNodeEdge: public sad::SceneNode
 {
  SAD_OBJECT
  protected:
@@ -22,4 +22,6 @@ class GridNodeEdge: public sad::BasicNode
 	 GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2);
 
 	 virtual void render();
+
+	 virtual ~GridNodeEdge();
 };
