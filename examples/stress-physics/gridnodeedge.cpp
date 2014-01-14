@@ -1,7 +1,7 @@
 #include "gridnodedge.h"
 #include "constants.h"
 
-DECLARE_SOBJ_INHERITANCE(GridNodeEdge, sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(GridNodeEdge, sad::SceneNode)
 
 GridNodeEdge::GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2)
 {
@@ -20,4 +20,9 @@ void GridNodeEdge::render()
 	sad::p2d::Point p2 = m_b2->currentShape()->center();
 	this->m_ad->makeSpanBetweenPoints(sad::p2d::app::Constants<GridNodeEdge>::sourceRect(), p1, p2);
 	this->m_ad->render();
+}
+
+GridNodeEdge::~GridNodeEdge()
+{
+	delete m_ad;
 }
