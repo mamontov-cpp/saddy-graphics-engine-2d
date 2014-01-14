@@ -209,30 +209,6 @@ void InterlockedScene::render()
 	this->m_editor->unlockRendering();
 }
 
-void InterlockedScene::add(AbstractScreenObject * obj)
-{
-	obj->setScene(this);
-	obj->addRef();
-	this->Scene::add(obj);
-}
-void InterlockedScene::onNodeRemoval(sad::BasicNode * node)
-{
-	if (!node)
-		return;
-	if (node->metaData()->canBeCastedTo("AbstractScreenObject"))
-	{
-		static_cast<AbstractScreenObject*>(node)->delRef();
-	}
-	else
-	{
-		this->sad::Scene::onNodeRemoval(node);
-	}
-}
-void InterlockedScene::remove(AbstractScreenObject * rem)
-{
-	rem->setScene(NULL);
-	this->Scene::remove(rem);
-}
 
 InterlockedScene::~InterlockedScene()
 {

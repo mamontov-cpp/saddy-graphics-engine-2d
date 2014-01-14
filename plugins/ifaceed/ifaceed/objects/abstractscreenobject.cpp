@@ -6,7 +6,7 @@
 #include "uidproperty.h"
 #include <unused.h>
 
-DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::BasicNode, SerializableObject)
+DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::SceneNode, SerializableObject)
 
 AbstractScreenObject::AbstractScreenObject()
 {
