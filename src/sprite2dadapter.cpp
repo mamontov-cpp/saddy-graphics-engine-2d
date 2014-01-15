@@ -6,8 +6,9 @@ DECLARE_SOBJ_INHERITANCE(Sprite2DAdapter,sad::SceneNode)
 
 Sprite2DAdapter::Sprite2DAdapter(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox)
 {
-	sad::Rect< ::sad::Point3D > rect(::sad::Point3D((float)(bbox[0].x()),(float)(bbox[0].y()),0.0f),
-								 ::sad::Point3D((float)(bbox[2].x()),(float)(bbox[2].y()),0.0f));
+	sad::Point3D p1(bbox[0].x(),bbox[0].y(), 0.0f);
+	sad::Point3D p2(bbox[2].x(),bbox[2].y(), 0.0f);
+	sad::Rect< ::sad::Point3D > rect(p1, p2);
 	m_sprite = new sad::Sprite3D(tex, texrect, rect);
 }
 
