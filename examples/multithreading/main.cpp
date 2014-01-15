@@ -87,33 +87,6 @@ class EventHandler: public sad::input::AbstractHandler
 	 }
 };	
 
-// On some Intel GMA modules,
-// building a few mipmaps at the same time or rendering scenes
-// causes segault and texture corruption. 
-// So we create a lock, which disables it.
-// If you don't have these kind of cards feel free to comment,
-// It has been tested on NVidia card without locks ans seems to work.
-sad::Mutex RenderMutex;
-// We override default scene to avoid bugs with IntelGMA modules
-// All we need to do is to override ::render()
-class InterlockedScene:public sad::Scene
-{
- public:
-	 /*! So, all this scene is doing is
-		 1) Locking on mutex, so other scene won't be rendered
-		 
-		 2) Render scene as normal
-
-		 3) Unlocking on mutex
-	  */
-	 virtual void render() {
-		RenderMutex.lock();
-		this->sad::Scene::render();
-		RenderMutex.unlock();
-	 }
-};
-
-
 /*! This is simple thread function, which inits a renderer, with simple scene of
     two kind of fonts and sprite. Also it creates separate log for work, and sets 
 	it's separate callbacks to exit on Escape and move sprite on user click.
@@ -144,10 +117,8 @@ int thread(void * p)
 	
 	
 
-	/* Create new scene and toggle orthographic projection.
-	   Note, that we pass our renderer to camera - that's how it will know size of window
+	/* Bind built-ing scene to renderer 
 	 */
-	r.setScene(new InterlockedScene());
 	r.scene()->setRenderer(&r);
 
 	/* Load texture mapped font. 
