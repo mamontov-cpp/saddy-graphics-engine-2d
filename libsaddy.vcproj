@@ -290,15 +290,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\sprite.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\sprite2dadapter.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\sprite2dcontroller.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\sprite3d.cpp"
 				>
 			</File>
 			<File
@@ -908,15 +908,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\sprite.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\sprite2dadapter.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\sprite2dcontroller.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\sprite3d.h"
 				>
 			</File>
 			<File

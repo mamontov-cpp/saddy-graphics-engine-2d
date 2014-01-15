@@ -30,11 +30,11 @@ public:
 	/*! Sets scene 
 		\param[in] scene a scene, which will render a node
 	 */
-	void setScene(sad::Scene * scene);
+	virtual void setScene(sad::Scene * scene);
 	/*! Returns a scene, which will render a node
 		\return scene, which will render a node
 	 */
-	sad::Scene * scene() const;
+	virtual sad::Scene * scene() const;
 	/*! Returns a renderer, which scene is belongs to
 		\returns a renderer
 	 */

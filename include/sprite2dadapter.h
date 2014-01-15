@@ -4,7 +4,7 @@
 	Describes a 2d sprite adapter, that creates a 2d sprite
  */
 #include <scene.h>
-#include <sprite.h>
+#include <sprite3d.h>
 #include <maybe.h>
 #pragma once
 
@@ -32,37 +32,10 @@ class Sprite2DAdapter: public sad::SceneNode
 		  {
 		  }
 	};
- private:
-		  Sprite * m_sprite;  //!< Sprite, that is being rendered
-		  sad::Rect2D   m_rect;    //!< A bounding rectangle of sprite (non-rotated or flipped)
-		  sad::Rect2D   m_texrect; //!< A non-rotated non-flipped texture coordinates
-		  bool     m_flipx;   //!< A flag, that determines, whether image is flipped on X axis
-		  bool     m_flipy;   //!< A flag, that determines, whether image is flipped on Y axis
-		  float    m_angle;   //!< An angle of rotation of sprite. Sprite is rotated around it's center
-		  sad::AColor m_color; //!< Blending color
-		  /*! Creates a new non-rotated non-swapped sprite and sets it
-			  Texture coordinates are ABSOLUTE, if normalize flag is set to true
-			  \param[in] tex       texture
-			  \param[in] texrect   texture rectangle
-			  \param[in] bbox      bounding box
-			  \param[in] normalize normalization flag
-		   */
-		  void createSprite(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox, bool normalize=true);
-		  /*! Updates bounding rect, preserving all properties
-		   */
-		  void updateBoundingRect();
-		  /*! Flips bounding rect on X axis, changing properties to correct 
-		   */
-		  void flipBoundingRectX();
-		  /*! Flips bounding rect on Y axis, changing properties to correct 
-		   */
-		  void flipBoundingRectY();
-		  /*! Swaps two points in inner sprite texture rectangle
-			  \param[in] p1 index of first point
-			  \param[in] p2 index of second point
-		   */
-		  void swapPoints(int p1, int p2);
- public:
+private:
+		  sad::Sprite3D * m_sprite;  //!< Sprite, that is being rendered
+		  sad::Rect2D     m_buffer;
+public:
 	      /*! Creates a new sprite adapter with some properties, like ( Texture coordinates are ABSOLUTE)
 			  \param[in] tex     texture
 			  \param[in] texrect texture coordinates rectangle
