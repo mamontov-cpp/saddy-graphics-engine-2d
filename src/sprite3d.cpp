@@ -38,6 +38,7 @@ m_texture(texture),
 m_color(sad::AColor(255,255,255,0))
 {
 	normalizeTextureCoordinates();
+	buildRenderableArea();
 }
 
 sad::Sprite3D::Sprite3D(
