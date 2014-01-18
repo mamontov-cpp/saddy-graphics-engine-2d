@@ -24,6 +24,13 @@ bool sad::equal(const sad::Point2D & p1, const sad::Point2D & p2, float precisio
 	return e1 && e2; 
 }
 
+bool sad::equal(const sad::Point3D & p1, const sad::Point3D & p2, float precision)
+{
+	bool e1 = sad::is_fuzzy_equal(p1.x(), p2.x(), precision);
+	bool e2 = sad::is_fuzzy_equal(p1.y(), p2.y(), precision);
+	bool e3 = sad::is_fuzzy_equal(p1.z(), p2.z(), precision);
+	return e1 && e2 && e3; 
+}
 
 bool sad::equal(const sad::Rect2D & p1, const sad::Rect2D & p2, float precision)
 {

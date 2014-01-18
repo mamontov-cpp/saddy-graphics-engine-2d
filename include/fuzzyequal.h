@@ -40,6 +40,13 @@ bool non_fuzzy_zero(double x, double precision = S2D_FP_PRECISION);
 	\return whether they are equal
  */
 bool equal(const sad::Point2D & p1, const sad::Point2D & p2, float precision = S2D_FP_PRECISION);
+/*! Tests, whether two points are equal (precision based)
+	\param[in] p1 first point
+	\param[in] p2 second point
+	\param[in] precision precision for  comparing two numbers
+	\return whether they are equal
+ */
+bool equal(const sad::Point3D & p1, const sad::Point3D & p2, float precision = S2D_FP_PRECISION);
 /*! Tests, whether two rects are equal (precision based)
 	\param[in] p1 first rect
 	\param[in] p2 second rect
