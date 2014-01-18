@@ -83,3 +83,47 @@ double sad::angle_of(double x, double y)
 	}
 	return angle;
 }
+
+bool sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
+{
+	return p1.x() * p2.x() + p1.y() * p2.y() + p1.z() * p2.z();
+}
+
+bool sad::isOnSamePlane(const sad::Rect<sad::Point3D> & rect)
+{
+	// Compute coefficients for determining plane
+	// see http://www.pm298.ru/plosk3.php formula
+	// Here second and third determinants are stored
+
+	double a[2][3] = {
+		{ rect[1].x() - rect[0].x(), rect[1].y() - rect[0].y(), rect[1].z() - rect[0].z() },
+		{ rect[2].x() - rect[0].x(), rect[2].y() - rect[0].y(), rect[2].z() - rect[0].z() }
+	};
+
+	double cofactors[3] = {
+		a[0][1] * a[1][2] - a[1][1] * a[0][2],
+		(a[0][0] * a[1][2] - a[0][2] * a[1][0]) * (-1),
+		a[0][0] * a[1][1] - a[0][1] * a[1][0]
+	};
+	// Substitute fourth point to plane equation
+	double compared = cofactors[0] * (rect[3].x() - rect[0].x())
+					+ cofactors[1] * (rect[3].y() - rect[0].y())
+					+ cofactors[2] * (rect[3].z() - rect[0].z());
+
+	return  sad::is_fuzzy_zero(compared);
+}
+
+bool sad::isValid(const sad::Rect<sad::Point3D> & rect)
+{
+	if (!sad::isOnSamePlane(rect))
+		return false;
+
+	bool equal[4] = {
+		sad::is_fuzzy_zero(sad::scalar(rect[1] - rect[0], rect[3] - rect[0])),
+		sad::is_fuzzy_zero(sad::scalar(rect[0] - rect[1], rect[2] - rect[1])),
+		sad::is_fuzzy_zero(sad::scalar(rect[3] - rect[2], rect[1] - rect[2])),
+		sad::is_fuzzy_zero(sad::scalar(rect[0] - rect[3], rect[2] - rect[3]))
+	};
+
+	return equal[0] && equal[1] && equal[2] && equal[3];
+}

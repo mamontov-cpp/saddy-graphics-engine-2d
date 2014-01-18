@@ -143,10 +143,10 @@ void Sprite2DAdapter::setSprite(sad::Texture * tex, const sad::Rect2D & texrect)
 const sad::Rect2D & Sprite2DAdapter::rect() const
 {
 	const_cast<sad::Rect2D&>(m_buffer) = 	sad::Rect2D(
-		m_sprite->area()[0],
-		m_sprite->area()[1],
-		m_sprite->area()[2],
-		m_sprite->area()[3]
+		m_sprite->renderableArea()[0],
+		m_sprite->renderableArea()[1],
+		m_sprite->renderableArea()[2],
+		m_sprite->renderableArea()[3]
 	);
 	return m_buffer;
 }
