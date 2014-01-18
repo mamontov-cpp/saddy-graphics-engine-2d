@@ -53,5 +53,21 @@ void moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & r
 	\return result of computation
  */
 double angle_of(double x, double y);
+/*! Computes scalar multiplication of two vectors stored in points
+	\param[in] p1 first vector
+	\param[in] p2 second vector
+ */
+bool scalar(const sad::Point3D & p1, const sad::Point3D & p2);
+/*! Tests whether four points of rectangle is on same plane
+	\param[in] rect tested rectangle
+	\return whether points lay on plain
+ */
+bool isOnSamePlane(const sad::Rect<sad::Point3D> & rect);
+/*! Tests, whether four points of rectangle create a rectangle.
+	Note, that implementation skips degenerated cases, like a point
+	\param[in] rect tested rectangle
+	\return whether points is valid
+ */
+bool isValid(const sad::Rect<sad::Point3D> & rect);
 
 }
