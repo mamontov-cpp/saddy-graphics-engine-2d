@@ -22,8 +22,10 @@ struct Geometry2DTest : tpunit::TestFixture
 	   TEST(Geometry2DTest::testIsValid2),
 	   TEST(Geometry2DTest::testIsValid3),
 	   TEST(Geometry2DTest::testIsValid4),
-	   TEST(Geometry2DTest::testIsValid5)
-   ) {}
+	   TEST(Geometry2DTest::testIsValid5),
+	   TEST(Geometry2DTest::testGetBaseRect1),
+	   TEST(Geometry2DTest::testGetBaseRect)
+	) {}
 
    void testIsOnSamePlain1()
    {
@@ -122,6 +124,75 @@ struct Geometry2DTest : tpunit::TestFixture
 		   sad::Point3D(0, 481, 1)
 	   );
 	   ASSERT_FALSE( sad::isValid(r) );	   
+   }
+
+   void testGetBaseRect1()
+   {
+	   sad::Rect< sad::Point3D> r(
+		   sad::Point3D(0, 0, 0),
+		   sad::Point3D(640, 0, 0),
+		   sad::Point3D(640,480, 0),
+		   sad::Point3D(0, 480, 0)
+	   );
+
+	   sad::Rect< sad::Point3D> br;
+	   double alpha = 0;
+	   double theta = 0;
+	   sad::getBaseRect(r, br, alpha, theta);
+
+	   ASSERT_TRUE( sad::is_fuzzy_equal(alpha, 0) );	
+	   ASSERT_TRUE( sad::is_fuzzy_equal(theta, 0) );	
+   }
+
+   void testGetBaseRect()
+   {
+	   sad::Rect< sad::Point3D> r(
+		   sad::Point3D(0, 0, 0),
+		   sad::Point3D(640, 0, 0),
+		   sad::Point3D(640,480, 0),
+		   sad::Point3D(0, 480, 0)
+	   );
+
+	   sad::Rect< sad::Point3D> dists(
+		   sad::Point3D(-320.0, -240.0, 0),
+		   sad::Point3D( 320.0, -240.0, 0),
+		   sad::Point3D( 320.0,  240.0, 0),
+		   sad::Point3D(-320.0,  240.0, 0)
+	   );
+
+	   sad::Rect< sad::Point3D> br;
+
+	   sad::Point3D pivot(320, 240, 1.0);
+	   for (double _alpha = 0; _alpha < M_PI; _alpha += 0.5)
+	   {
+		   for(double _theta = 0; _theta < M_PI; _theta +=0.5)
+		   {
+				double alpha = 0;
+				double theta = 0;
+				for(int k = 0; k < 4; k++)
+				{
+					sad::Point3D dist = dists[k];
+					sad::Point3D result=dist;
+				
+					result.setX(dist.x() * cos(_alpha) - dist.y() * sin(_alpha));
+					result.setY(dist.x() * sin(_alpha) * cos(_theta)
+								+dist.y() * cos(_alpha) * cos(_theta)
+								-dist.z() * sin(_theta));
+					result.setZ(dist.x() * sin(_alpha) * sin(_theta)
+								+dist.y() * cos(_alpha) * sin(_theta)
+								+dist.z() * cos(_theta));
+    
+					r[k] = result + pivot;
+				}
+				sad::getBaseRect(r, br, alpha, theta);
+				if (!sad::is_fuzzy_equal(alpha, _alpha) || !sad::is_fuzzy_equal(theta, _theta))
+				{
+					//theta *= 2;
+				}
+				ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
+				ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );
+		   }
+	   }
    }
 
 } _geometry2d_test; 

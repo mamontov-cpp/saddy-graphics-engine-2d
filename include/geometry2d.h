@@ -69,5 +69,24 @@ bool isOnSamePlane(const sad::Rect<sad::Point3D> & rect);
 	\return whether points is valid
  */
 bool isValid(const sad::Rect<sad::Point3D> & rect);
+/*! Computes arccosine of value
+	\param[in] x x value
+	\return value (NaN if cannot be computed)
+ */
+double acos(double x);
+/*! Computes rectangle which lays in plane parallel to OXY, given a rotated rectangle
+	and angles by which he should be rotated in OXY and OYZ sequentially to result given
+	rectangle
+	\param[in] rect a rectangle
+	\param[out] base a rectangle, which lays in plane parallel to OXY
+	\param[out] alpha a rotation angle for OXY plane
+	\param[out] theta a rotation angle for OYZ angle
+ */
+void getBaseRect(
+	const sad::Rect<sad::Point3D> & rect, 
+	sad::Rect<sad::Point3D> & base,
+	double & alpha,
+	double & theta
+);
 
 }
