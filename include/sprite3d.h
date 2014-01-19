@@ -8,6 +8,7 @@
 #include "texture.h"
 #include "sadrect.h"
 #include "sadstring.h"
+#include "sadsize.h"
 
 namespace sad
 {
@@ -25,23 +26,26 @@ public:
 		\param[in] texture a texture, supplied for sprite (NULL to make sprite not viewable)
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
-		\param[in] area     a rectangle, where sprite should be rendered
+		\param[in] area      whether we should not init angle rotations for area and just treat it as base
 	 */
 	Sprite3D(
 		sad::Texture* texture,
 		const sad::Rect2D& texturecoordinates,
-		sad::Rect<sad::Point3D>& area		
+		sad::Rect<sad::Point3D>& area,
+		bool fast = true
 	);
 	/*! Creates a new sprite from supplied parameters
 		\param[in] a texture a full texture name (must not be empty)
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
+		\param[in] fast     whether we should not init angle rotations for area and just treat it as base
 	 */
 	Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
-		sad::Rect<sad::Point3D>& area		
+		sad::Rect<sad::Point3D>& area,
+		bool fast = true
 	);
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
@@ -70,14 +74,14 @@ public:
 		\return a texture coordinates
 	 */
 	const sad::Rect2D & textureCoordinates() const;
-	/*! Sets non-rotated area for a rectangle to following rectangle
+	/*! Sets area for a rectangle to following rectangle
 		\param[in] rect a non-rotated rectangle
 	 */
-	void setArea(const sad::Rect<sad::Point3D> & rect);
+	void setRenderableArea(const sad::Rect<sad::Point3D> & rect);
 	/*! Returns a non-rotated area for a sprite
 		\return area for sprite
 	 */
-	const sad::Rect<sad::Point3D> & area() const;
+	sad::Rect<sad::Point3D> area() const;
 	/*! Returna rotated renderable area for a sprite
 		\retirn area for sprite
 	 */
@@ -87,15 +91,22 @@ public:
 		\return reference to point
 	 */
 	const sad::Point3D & point(int n) const;
-	/*! Sets a point in sprite. Note that point is set in non-rotated sprite
-		\param[in] index an index for point
-		\param[in] p a point in non-rotated sprite
-	 */
-	void setPoint(int index, const sad::Point3D & p);
 	/*! Calculates a middle point of a sprite
 		\return middle point of sprite
 	 */
-	sad::Point3D  middle() const;
+	const sad::Point3D &  middle() const;
+	/*! Sets middle point of a sprite
+		\param[in] a point to be set
+	 */
+	void setMiddle(const sad::Point3D & p);
+	/*! Returns size of a sprite
+		\param[in] size of sprite
+	 */
+	const sad::Size2D & size() const;
+	/*! Sets size of a sprite
+		\param[in] size size of sprite
+	 */
+	void setSize(const sad::Size2D & size);
 	/*! Moves a sprite by following vector
 		\param[in] dist a distance to be moved
 	 */
@@ -171,6 +182,15 @@ public:
 	 */
 	virtual void setScene(sad::Scene * scene);
 protected:
+	/*! Fast version of 3D sprite initialization from rectangle. Just sets it as
+		current renderable rectangle, all angles to zero
+		\param[in] rect a rectangle
+	 */
+	void initFromRectangleFast(const sad::Rect<sad::Point3D> & rect);
+	/*! Initializes 3D sprite from rectangle
+		\param[in] rect a rectangle
+	 */
+	void initFromRectangle(const sad::Rect<sad::Point3D> & rect);
 	/*! Rebuilds renderable area for a sprite
 	 */
 	void buildRenderableArea();
@@ -202,9 +222,12 @@ protected:
 	/*! Denormalized texture coordinates, that is definted in pixels
 	 */
 	sad::Rect2D m_texture_coordinates;
-	/*! An area of screen, where sprite should be rendered
+	/*! A middle point for rectangle and pivot point
 	 */
-	sad::Rect< sad::Point3D >  m_area;
+	sad::Point3D  m_middle;
+	/*! A sizes for rectangle
+	 */
+	sad::Size2D   m_size;
 	/*! A renderable area is an area, that could be rendered, when a 
 		rendering is performed.
 	 */

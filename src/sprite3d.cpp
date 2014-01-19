@@ -8,17 +8,19 @@
 #include <math.h>
 
 
-DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode)
+DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode);
 
 sad::Sprite3D::Sprite3D()
 : 
-m_flipx(false),
-m_flipy(false),
 m_alpha(0),
 m_theta(0),
+m_flipx(false),
+m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(0,0,0,0),
-m_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
+m_middle(0,0,0),
+m_size(0,0),
+m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
 m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
@@ -28,27 +30,34 @@ m_color(sad::AColor(255,255,255,0))
 sad::Sprite3D::Sprite3D(		
 	sad::Texture * texture,
 	const sad::Rect2D & texturecoordinates,
-	sad::Rect<sad::Point3D> & area	
+	sad::Rect<sad::Point3D> & area,
+	bool fast
 )
 : 
 m_flipx(false),
 m_flipy(false),
-m_alpha(0),
-m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_area(area),
 m_texture(texture),
 m_color(sad::AColor(255,255,255,0))
 {
 	normalizeTextureCoordinates();
-	buildRenderableArea();
+	if (fast)
+	{
+		initFromRectangleFast(area);
+	}
+	else
+	{
+		initFromRectangle(area);
+		buildRenderableArea();
+	}
 }
 
 sad::Sprite3D::Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
-		sad::Rect<sad::Point3D>& area		
+		sad::Rect<sad::Point3D>& area,
+		bool fast
 	)
 : 
 m_texture_name(texture),
@@ -58,11 +67,19 @@ m_alpha(0),
 m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_area(area),
 m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
 	normalizeTextureCoordinates();
+	if (fast)
+	{
+		initFromRectangleFast(area);
+	}
+	else
+	{
+		initFromRectangle(area);
+		buildRenderableArea();
+	}
 }
 
 sad::Sprite3D::~Sprite3D()
@@ -142,15 +159,21 @@ const sad::Rect2D & sad::Sprite3D::textureCoordinates() const
 	return m_texture_coordinates;
 }
 
-void sad::Sprite3D::setArea(const sad::Rect<sad::Point3D> & rect)
+void sad::Sprite3D::setRenderableArea(const sad::Rect<sad::Point3D> & rect)
 {
-	m_area = rect;
+	initFromRectangle(rect);
 	buildRenderableArea();
 }
 
-const sad::Rect<sad::Point3D> & sad::Sprite3D::area() const
+sad::Rect<sad::Point3D> sad::Sprite3D::area() const
 {
-	return m_area;
+	sad::Rect<sad::Point3D> result(
+		m_middle + sad::Point3D(m_size.Width / -2,  m_size.Height / -2 , 0),
+		m_middle + sad::Point3D(m_size.Width /  2,  m_size.Height / -2 , 0),
+		m_middle + sad::Point3D(m_size.Width /  2,  m_size.Height / 2 , 0),
+		m_middle + sad::Point3D(m_size.Width / -2,  m_size.Height / 2 , 0)
+	);
+	return result;
 }
 
 const sad::Rect<sad::Point3D> & sad::Sprite3D::renderableArea() const
@@ -160,44 +183,36 @@ const sad::Rect<sad::Point3D> & sad::Sprite3D::renderableArea() const
 
 const sad::Point3D & sad::Sprite3D::point(int n) const
 {
-	return m_area[n];
+	return m_renderable_area[n];
 }
 
-void sad::Sprite3D::setPoint(int index, const sad::Point3D & p)
+const sad::Point3D & sad::Sprite3D::middle() const
 {
-	m_area[index] = p;
-	sad::Point3D  pivot = middle();
-	sad::Point3D  dist = p - pivot;
-	sad::Point3D  result= dist;
-  
-	result.setX(dist.x()*cos(m_alpha)-dist.y()*sin(m_alpha));
-	result.setY(dist.x()*sin(m_alpha)*cos(m_theta)
-			   +dist.y()*cos(m_alpha)*cos(m_theta)
-			   -dist.z()*sin(m_theta)
-			   );
-	result.setZ(dist.x()*sin(m_alpha)*sin(m_theta)
-			   +dist.y()*cos(m_alpha)*sin(m_theta)
-			   +dist.z()*cos(m_theta)
-			   );
-    
-  m_renderable_area[index] = result + pivot;
+	return m_middle;
 }
 
-sad::Point3D sad::Sprite3D::middle() const
+void sad::Sprite3D::setMiddle(const sad::Point3D & p)
 {
-	sad::Point3D result = m_area[0];
-	result += m_area[1];
-	result += m_area[2];
-	result += m_area[3];
-	result /= 4.0;
-	return result;
+	m_middle = p;
+	buildRenderableArea();
+}
+
+const sad::Size2D &  sad::Sprite3D::size() const
+{
+	return m_size;	
+}
+
+void sad::Sprite3D::setSize(const sad::Size2D & size)
+{
+	m_size = size;
+	buildRenderableArea();
 }
 
 void sad::Sprite3D::moveBy(const sad::Point3D & dist)
 {
+	m_middle += dist;
 	for (int i=0;i<4;i++)
 	{
-		m_area[i] += dist;
 		m_renderable_area[i] += dist;
 	}
 }
@@ -309,9 +324,40 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
 	}
 }
 
+void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
+{
+	m_alpha = 0;
+	m_theta = 0;
+
+	m_middle = rect[0];
+	m_middle += rect[2];
+	m_middle /= 2.0;
+
+	m_size.Width = rect[0].distance(rect[1]);
+	m_size.Height = rect[0].distance(rect[3]);
+
+	m_renderable_area = rect;
+}
+
+void sad::Sprite3D::initFromRectangle(const sad::Rect<sad::Point3D> & rect)
+{
+	bool error = false;
+	sad::Rect<sad::Point3D> baserect;
+	sad::getBaseRect(rect, baserect, m_alpha, m_theta, &error);
+	assert(!error);
+	
+	m_middle = baserect[0];
+	m_middle += baserect[2];
+	m_middle /= 2.0;
+
+	m_size.Width = baserect[0].distance(baserect[1]);
+	m_size.Height = baserect[0].distance(baserect[3]);
+}
+
 void sad::Sprite3D::buildRenderableArea()
 {
-	sad::rotate(m_area, m_renderable_area, m_alpha, m_theta);
+	sad::Rect<sad::Point3D> baserect = this->area();
+	sad::rotate(baserect, m_renderable_area, m_alpha, m_theta);
 }
 
 void sad::Sprite3D::reloadTexture()
