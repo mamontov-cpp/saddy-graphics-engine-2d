@@ -26,6 +26,7 @@ struct Geometry2DTest : tpunit::TestFixture
 	   TEST(Geometry2DTest::testGetBaseRect1),
 	   TEST(Geometry2DTest::testGetBaseRect2),
 	   TEST(Geometry2DTest::testGetBaseRect3),
+	   TEST(Geometry2DTest::testGetBaseRect4),
 	   TEST(Geometry2DTest::testGetBaseRect)
 	) {}
 
@@ -192,6 +193,29 @@ struct Geometry2DTest : tpunit::TestFixture
 		ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );	   
    }
 
+   void testGetBaseRect4()
+   {
+		sad::Rect< sad::Point3D> r(
+			sad::Point3D(0, 0, 0),
+			sad::Point3D(640, 0, 0),
+			sad::Point3D(640,480, 0),
+			sad::Point3D(0, 480, 0)
+		);
+
+		sad::Rect< sad::Point3D> br;
+
+		sad::Point3D pivot(320, 240, 1.0);
+		double _alpha = 0.0;
+		double _theta = 2.0;
+
+		double alpha = 0;
+		double theta = 0;
+		sad::rotate(r, r, _alpha, _theta);
+		sad::getBaseRect(r, br, alpha, theta);
+		ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
+		ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );		   
+   }
+
    void testGetBaseRect()
    {
 	   sad::Rect< sad::Point3D> r(
@@ -202,18 +226,20 @@ struct Geometry2DTest : tpunit::TestFixture
 	   );
 
 	   sad::Rect< sad::Point3D> target;
-	   sad::Rect< sad::Point3D> br;
+	   sad::Rect< sad::Point3D> baserect;
+	   sad::Rect< sad::Point3D> testrect;
 	   double alpha = 0;
 	   double theta = 0;
 
-	   for (double _alpha = 0; _alpha < M_PI / 2; _alpha += 0.5)
+	   for (double _alpha = 0; _alpha < M_PI * 2.0 ; _alpha += 0.5)
 	   {
-		   for(double _theta = 0; _theta < M_PI / 2; _theta +=0.5)
+		   for(double _theta = 0; _theta < M_PI * 2.0 ; _theta +=0.5)
 		   {
 				sad::rotate(r, target, _alpha, _theta);
-				sad::getBaseRect(target, br, alpha, theta);
-				ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
-				ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );
+				sad::getBaseRect(target, baserect, alpha, theta);
+				sad::rotate(baserect, testrect, alpha, theta);
+				ASSERT_TRUE( sad::equal(target, testrect) );	
+
 		   }
 	   }
    }

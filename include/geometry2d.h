@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "fuzzyequal.h"
+#include "maybe.h"
 
 namespace sad
 {
@@ -66,4 +67,16 @@ double acos(double x);
  */
 double asin(double x);
 
+/*! Makes angle fall in range from zero to 2 * M_PI
+	\param[in] x angle
+	\param[in] y angle
+ */
+double normalize_angle(double x);
+
+/*! Given sine and cosine, function will try to determine angle
+	\param[in] sina sine
+	\param[in] cosa cosine
+	\return result if any
+ */
+sad::Maybe<double> find_angle(double sina, double cosa);
 }

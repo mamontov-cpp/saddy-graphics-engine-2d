@@ -121,3 +121,43 @@ double sad::asin(double x)
 	double result = atan( x / sqrt(1 - x * x) );
 	return result;
 }
+
+double sad::normalize_angle(double x)
+{
+	// Don't handler zero x
+	if (sad::is_fuzzy_zero(x))
+	{
+		return x;
+	}
+
+	double result = x;
+	if (result < 0)
+	{
+		int count = (int)(result / (-2 * M_PI)) + 1;
+		result += count * 2* M_PI;
+	}
+	if (result > 0)
+	{
+		int count = (int)(result / (2 * M_PI));
+		result -= count * 2 * M_PI;
+	}
+	return result;
+}
+
+sad::Maybe<double> sad::find_angle(double sina, double cosa)
+{
+	sad::Maybe<double> result;
+	if (sad::is_fuzzy_equal(sina * sina + cosa * cosa, 1.0) == false)
+	{
+		return result;
+	}
+	double alpha = sad::acos(cosa);
+	if (sad::is_fuzzy_equal(sin(alpha), sina) == false)
+	{
+		alpha *= -1.0;
+	}
+	alpha = sad::normalize_angle(alpha);
+	
+	result.setValue(alpha);
+	return result;
+}

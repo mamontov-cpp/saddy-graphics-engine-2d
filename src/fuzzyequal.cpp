@@ -42,3 +42,17 @@ bool sad::equal(const sad::Rect2D & p1, const sad::Rect2D & p2, float precision)
 	return ok;
 }
 
+bool sad::equal(
+	const sad::Rect<sad::Point3D> & p1, 
+	const sad::Rect<sad::Point3D> & p2, 
+	float precision
+)
+{
+	bool ok = true;
+	for(int i = 0; i < 4; i++)
+	{
+		ok = ok && equal(p1[i], p2[i], precision);
+	}
+	return ok;
+}
+
