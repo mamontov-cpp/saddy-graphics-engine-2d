@@ -158,7 +158,7 @@ void Sprite2DAdapter::setRect(const sad::Rect2D & rect)
 	{
 		vrect[i] = ::sad::Point3D((float)(rect[i].x()), (float)(rect[i].y()), 0.0f);
 	}
-	m_sprite->setArea(vrect);
+	m_sprite->setRenderableArea(vrect);
 }
 
 void Sprite2DAdapter::setColor(const sad::AColor & color)
