@@ -79,18 +79,59 @@ void sad::rotate(
 	}
 }
 
+// -----             sad::getBaseRect implementation            ----- 
+
+// An utility function for getBaseRect which allows to recover after
+// some kind of mistake with theta computation was done, choosing other solution 
+// for theta (see getBaseRect for details)
+static inline void chooseOtherThetaInGetBaseRect(
+	const sad::Rect<sad::Point3D> & rect, 
+	sad::Rect<sad::Point3D> & base,
+	double & alpha,
+	double & theta,
+	bool   * error,	
+	const sad::Point3D & r,
+	double xs,
+	double y
+)
+{
+	theta = M_PI - theta;
+	theta = sad::normalize_angle(theta);
+	double ys = y * cos(theta);
+	double d = sqrt(xs * xs + ys * ys);
+	sad::Maybe<double> maybealphapphi = sad::find_angle(r.y() / d, r.x() / d);
+	sad::Maybe<double> maybephi = sad::find_angle(ys / d , xs /d);
+	if (maybealphapphi.exists() && maybephi.exists())
+	{
+		alpha = maybealphapphi.value() - maybephi.value();
+		alpha = sad::normalize_angle(alpha);
+	}
+	else
+	{
+		if (error)
+			*error = true;
+	}
+}
+
 void sad::getBaseRect(
 	const sad::Rect<sad::Point3D> & rect, 
 	sad::Rect<sad::Point3D> & base,
 	double & alpha,
-	double & theta
+	double & theta,
+	bool   * error
 )
 {
+#define SET_ERROR { if (error) *error = false; }
+	if (error)
+	{
+		*error = false;
+	}
+	base = rect;
+	alpha = 0;
+	theta = 0;
 	if (sad::isValid(rect) == false)
 	{
-		base = rect;
-		alpha = 0;
-		theta = 0;
+		SET_ERROR;
 		return;
 	}
 	
@@ -100,9 +141,7 @@ void sad::getBaseRect(
 		&& sad::equal(rect[2], rect[3])
 		&& sad::equal(rect[3], rect[0]))
 	{
-		base = rect;
-		alpha = 0;
-		theta = 0;
+		SET_ERROR;
 		return;
 	}
 
@@ -124,31 +163,79 @@ void sad::getBaseRect(
 	base[3]= p + sad::Point3D(-distx, disty, 0);
 
 	sad::Point3D r = (rect[0] - p);
-
+	double x = -distx;
+	double y = -disty;
 	if (sad::is_fuzzy_zero(disty))
 	{
-		theta = 0;
-		alpha = sad::acos(r.x() / (-distx));
+		sad::Maybe<double> maybealpha = sad::find_angle(r.y() / x, r.x() / x);		
+		if (maybealpha.exists())
+			alpha = maybealpha.value();
+		else
+		{
+			SET_ERROR;
+		}
 		return;
 	}
-	theta = sad::asin(r.z() / -disty);
-	if (sad::is_fuzzy_zero(distx))
+	// Try first theta value
+	theta = sad::asin(r.z() / y);
+	theta = sad::normalize_angle(theta);
+	sad::Maybe<double> maybealpha;
+	if (sad::is_fuzzy_zero(x))
 	{
-		alpha = sad::acos(r.y() / (-disty) / cos(theta));
+		double ys = y * cos(theta);
+		maybealpha = sad::find_angle(r.x() / ys / -1, r.y() / ys);
+		if (maybealpha.exists() == false)
+		{
+			theta = sad::normalize_angle(M_PI - theta);
+			ys = y * cos(theta);
+			maybealpha = sad::find_angle(r.x() / ys / -1, r.y() / ys);
+			if (maybealpha.exists())
+			{
+				alpha = maybealpha.value();
+			}
+			else
+			{
+				SET_ERROR;
+			}
+		}
+		else
+		{
+			alpha = maybealpha.value();
+		}
 		return;
 	}
-
-	double dx = -distx;
-	double dy = -disty * cos(theta);
-	double dr = sqrt(dx * dx + dy * dy);
-
-	double phi = sad::acos(dx / dr);
-
-	alpha = sad::acos(r.x() / dr) - phi;
-	
-	double testrx = dx * cos(alpha) - dy * sin(alpha);
-	if (sad::is_fuzzy_equal(testrx, r.x()) == false)
+	else
 	{
-		alpha *= -1;
+		double xs = x;
+		double ys = y * cos(theta);
+		double d = sqrt(xs * xs + ys * ys);
+
+		sad::Maybe<double> maybealphapphi = sad::find_angle(r.y() / d, r.x() / d);
+		sad::Maybe<double> maybephi = sad::find_angle(ys / d , xs /d);
+		if (maybealphapphi.exists() && maybephi.exists())
+		{
+			alpha = maybealphapphi.value() - maybephi.value();
+			alpha = sad::normalize_angle(alpha);
+
+			// Test if other point is not valid and if so, pick other solution for theta
+			sad::Point3D nr = (rect[1] - p);
+			double px = distx;
+			double py = -disty;
+			
+			sad::Point3D nrx(
+				px * cos(alpha) - py * sin(alpha) * cos(theta),
+				px * sin(alpha) + py * cos(alpha) * cos(theta),
+				py * sin(theta)
+			);
+			if (sad::equal(nr, nrx) == false)
+			{
+				chooseOtherThetaInGetBaseRect(rect, base, alpha, theta, error, r, xs, y);
+			}
+		}
+		else
+		{
+			chooseOtherThetaInGetBaseRect(rect, base, alpha, theta, error, r, xs, y);
+		}
 	}
+#undef SET_ERROR
 }

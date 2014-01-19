@@ -46,12 +46,14 @@ void rotate(
 	\param[out] base a rectangle, which lays in plane parallel to OXY
 	\param[out] alpha a rotation angle for OXY plane
 	\param[out] theta a rotation angle for OYZ angle
+	\param[out] error whether error is set to true
  */
 void getBaseRect(
 	const sad::Rect<sad::Point3D> & rect, 
 	sad::Rect<sad::Point3D> & base,
 	double & alpha,
-	double & theta
+	double & theta,
+	bool * error = NULL
 );
 
 }
