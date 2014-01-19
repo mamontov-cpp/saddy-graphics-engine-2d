@@ -231,9 +231,9 @@ struct Geometry2DTest : tpunit::TestFixture
 	   double alpha = 0;
 	   double theta = 0;
 
-	   for (double _alpha = 0; _alpha < M_PI * 2.0 ; _alpha += 0.5)
+	   for (double _alpha = 0; _alpha < M_PI * 2.0 ; _alpha += 0.1)
 	   {
-		   for(double _theta = 0; _theta < M_PI * 2.0 ; _theta +=0.5)
+		   for(double _theta = 0; _theta < M_PI * 2.0 ; _theta +=0.1)
 		   {
 				sad::rotate(r, target, _alpha, _theta);
 				sad::getBaseRect(target, baserect, alpha, theta);
