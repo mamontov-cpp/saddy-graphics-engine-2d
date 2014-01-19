@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <cstdio>
 #define _INC_STDIO
-#include "geometry2d.h"
+#include "geometry3d.h"
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
@@ -24,6 +24,8 @@ struct Geometry2DTest : tpunit::TestFixture
 	   TEST(Geometry2DTest::testIsValid4),
 	   TEST(Geometry2DTest::testIsValid5),
 	   TEST(Geometry2DTest::testGetBaseRect1),
+	   TEST(Geometry2DTest::testGetBaseRect2),
+	   TEST(Geometry2DTest::testGetBaseRect3),
 	   TEST(Geometry2DTest::testGetBaseRect)
 	) {}
 
@@ -144,6 +146,52 @@ struct Geometry2DTest : tpunit::TestFixture
 	   ASSERT_TRUE( sad::is_fuzzy_equal(theta, 0) );	
    }
 
+   // Bug-reproducing case, inferred from testGetBaseRect
+   void testGetBaseRect2()
+   {
+		sad::Rect< sad::Point3D> r(
+			sad::Point3D(0, 0, 0),
+			sad::Point3D(640, 0, 0),
+			sad::Point3D(640,480, 0),
+			sad::Point3D(0, 480, 0)
+		);
+
+		sad::Rect< sad::Point3D> br;
+
+		double _alpha = 0.5;
+		double _theta = 0.0;
+
+		double alpha = 0;
+		double theta = 0;
+		sad::rotate(r, r, _alpha, _theta);		
+		sad::getBaseRect(r, br, alpha, theta);
+		ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
+		ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );
+   }
+
+   void testGetBaseRect3()
+   {
+		sad::Rect< sad::Point3D> r(
+			sad::Point3D(0, 0, 0),
+			sad::Point3D(640, 0, 0),
+			sad::Point3D(640,480, 0),
+			sad::Point3D(0, 480, 0)
+		);
+
+		sad::Rect< sad::Point3D> br;
+
+		sad::Point3D pivot(320, 240, 1.0);
+		double _alpha = 0.5;
+		double _theta = 0.5;
+
+		double alpha = 0;
+		double theta = 0;
+		sad::rotate(r, r, _alpha, _theta);
+		sad::getBaseRect(r, br, alpha, theta);
+		ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
+		ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );	   
+   }
+
    void testGetBaseRect()
    {
 	   sad::Rect< sad::Point3D> r(
@@ -153,42 +201,17 @@ struct Geometry2DTest : tpunit::TestFixture
 		   sad::Point3D(0, 480, 0)
 	   );
 
-	   sad::Rect< sad::Point3D> dists(
-		   sad::Point3D(-320.0, -240.0, 0),
-		   sad::Point3D( 320.0, -240.0, 0),
-		   sad::Point3D( 320.0,  240.0, 0),
-		   sad::Point3D(-320.0,  240.0, 0)
-	   );
-
+	   sad::Rect< sad::Point3D> target;
 	   sad::Rect< sad::Point3D> br;
+	   double alpha = 0;
+	   double theta = 0;
 
-	   sad::Point3D pivot(320, 240, 1.0);
-	   for (double _alpha = 0; _alpha < M_PI; _alpha += 0.5)
+	   for (double _alpha = 0; _alpha < M_PI / 2; _alpha += 0.5)
 	   {
-		   for(double _theta = 0; _theta < M_PI; _theta +=0.5)
+		   for(double _theta = 0; _theta < M_PI / 2; _theta +=0.5)
 		   {
-				double alpha = 0;
-				double theta = 0;
-				for(int k = 0; k < 4; k++)
-				{
-					sad::Point3D dist = dists[k];
-					sad::Point3D result=dist;
-				
-					result.setX(dist.x() * cos(_alpha) - dist.y() * sin(_alpha));
-					result.setY(dist.x() * sin(_alpha) * cos(_theta)
-								+dist.y() * cos(_alpha) * cos(_theta)
-								-dist.z() * sin(_theta));
-					result.setZ(dist.x() * sin(_alpha) * sin(_theta)
-								+dist.y() * cos(_alpha) * sin(_theta)
-								+dist.z() * cos(_theta));
-    
-					r[k] = result + pivot;
-				}
-				sad::getBaseRect(r, br, alpha, theta);
-				if (!sad::is_fuzzy_equal(alpha, _alpha) || !sad::is_fuzzy_equal(theta, _theta))
-				{
-					//theta *= 2;
-				}
+				sad::rotate(r, target, _alpha, _theta);
+				sad::getBaseRect(target, br, alpha, theta);
 				ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
 				ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );
 		   }

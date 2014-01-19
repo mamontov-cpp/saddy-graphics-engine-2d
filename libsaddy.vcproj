@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\geometry3d.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\glcontext.cpp"
 				>
 			</File>
@@ -753,6 +757,10 @@
 			</File>
 			<File
 				RelativePath=".\include\geometry2d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\geometry3d.h"
 				>
 			</File>
 			<File

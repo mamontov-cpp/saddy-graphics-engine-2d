@@ -1,8 +1,12 @@
-#include "../include/sprite3d.h"
-#include <math.h>
+#include <sprite3d.h>
+#include <geometry3d.h>
 #include <renderer.h>
 #include <texturemanager.h>
-#include "os/glheaders.h"
+
+#include <os/glheaders.h>
+
+#include <math.h>
+
 
 DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode)
 
@@ -307,22 +311,7 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
 
 void sad::Sprite3D::buildRenderableArea()
 {
-	sad::Point3D pivot = middle();
-	for(int i = 0; i < 4; i++)
-	{
-		sad::Point3D dist = m_area[i] - pivot;
-		sad::Point3D result=dist;
-  
-		result.setX(dist.x() * cos(m_alpha) - dist.y() * sin(m_alpha));
-		result.setY(dist.x() * sin(m_alpha) * cos(m_theta)
-				   +dist.y() * cos(m_alpha) * cos(m_theta)
-				   -dist.z() * sin(m_theta));
-		result.setZ(dist.x() * sin(m_alpha) * sin(m_theta)
-				   +dist.y() * cos(m_alpha) * sin(m_theta)
-				   +dist.z() * cos(m_theta));
-    
-		m_renderable_area[i] = result + pivot;
-	}
+	sad::rotate(m_area, m_renderable_area, m_alpha, m_theta);
 }
 
 void sad::Sprite3D::reloadTexture()

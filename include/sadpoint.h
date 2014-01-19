@@ -133,6 +133,15 @@ public:
 	{
 		m_y = y;
 	}
+	/*! Sets both coordinates of point to values
+		\param[in] x X coordinate
+		\param[in] y Y coordinate
+	 */
+	inline void set(_Type x, _Type y)
+	{
+		m_x = x;
+		m_y = y;
+	}
 	/*! Computes a distance between two points
 		\param[in] o a second point
 		\return distance between two points
@@ -282,6 +291,17 @@ public:
 	inline void setZ(_Type z)
 	{
 		m_z = z;
+	}
+	/*! Sets all components of point to value
+		\param[in] x X coordinate
+		\param[in] y Y coordinate
+		\param[in] z Z coordinate
+	 */
+	inline void set(_Type x, _Type y, _Type z)
+	{
+		this->m_x = x;
+		this->m_y = y;
+		this->m_z = z;
 	}
 	/*! Computes a distance between two points
 		\param[in] o a second point
