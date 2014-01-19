@@ -85,51 +85,6 @@ double sad::angle_of(double x, double y)
 	return angle;
 }
 
-bool sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
-{
-	return p1.x() * p2.x() + p1.y() * p2.y() + p1.z() * p2.z();
-}
-
-bool sad::isOnSamePlane(const sad::Rect<sad::Point3D> & rect)
-{
-	// Compute coefficients for determining plane
-	// see http://www.pm298.ru/plosk3.php formula
-	// Here second and third determinants are stored
-
-	double a[2][3] = {
-		{ rect[1].x() - rect[0].x(), rect[1].y() - rect[0].y(), rect[1].z() - rect[0].z() },
-		{ rect[2].x() - rect[0].x(), rect[2].y() - rect[0].y(), rect[2].z() - rect[0].z() }
-	};
-
-	double cofactors[3] = {
-		a[0][1] * a[1][2] - a[1][1] * a[0][2],
-		(a[0][0] * a[1][2] - a[0][2] * a[1][0]) * (-1),
-		a[0][0] * a[1][1] - a[0][1] * a[1][0]
-	};
-	// Substitute fourth point to plane equation
-	double compared = cofactors[0] * (rect[3].x() - rect[0].x())
-					+ cofactors[1] * (rect[3].y() - rect[0].y())
-					+ cofactors[2] * (rect[3].z() - rect[0].z());
-
-	return  sad::is_fuzzy_zero(compared);
-}
-
-bool sad::isValid(const sad::Rect<sad::Point3D> & rect)
-{
-	if (!sad::isOnSamePlane(rect))
-		return false;
-
-	bool equal[4] = {
-		sad::is_fuzzy_zero(sad::scalar(rect[1] - rect[0], rect[3] - rect[0])),
-		sad::is_fuzzy_zero(sad::scalar(rect[0] - rect[1], rect[2] - rect[1])),
-		sad::is_fuzzy_zero(sad::scalar(rect[3] - rect[2], rect[1] - rect[2])),
-		sad::is_fuzzy_zero(sad::scalar(rect[0] - rect[3], rect[2] - rect[3]))
-	};
-
-	return equal[0] && equal[1] && equal[2] && equal[3];
-}
-
-
 double sad::acos(double x)
 {
 	if (sad::is_fuzzy_zero(x))
@@ -149,87 +104,20 @@ double sad::acos(double x)
 	return result;
 }
 
-void sad::getBaseRect(
-	const sad::Rect<sad::Point3D> & rect, 
-	sad::Rect<sad::Point3D> & base,
-	double & alpha,
-	double & theta
-)
+double sad::asin(double x)
 {
-	if (sad::isValid(rect) == false)
+	if (sad::is_fuzzy_equal(x, 1))
 	{
-		base = rect;
-		alpha = 0;
-		theta = 0;
-		return;
+		return M_PI / 2.0;
 	}
-	
-	// Handle degraded case, when rect is zero
-	if (sad::equal(rect[0], rect[1])
-		&& sad::equal(rect[1], rect[2])
-		&& sad::equal(rect[2], rect[3])
-		&& sad::equal(rect[3], rect[0]))
+	if (sad::is_fuzzy_equal(x, -1))
 	{
-		base = rect;
-		alpha = 0;
-		theta = 0;
-		return;
+		return M_PI / -2.0;
 	}
-
-	sad::Point3D p = rect.p0();
-	p += rect.p1();
-	p += rect.p2();
-	p += rect.p3();
-	p /= 4.0;
-
-
-	double distx = p.distance((rect[0] + rect[3]) / 2);
-	double disty = p.distance((rect[0] + rect[1]) / 2);
-
-	sad::Point3D v(-distx, -disty, 0.0);
-
-	base[0]= p + sad::Point3D(-distx, -disty, 0);
-	base[1]= p + sad::Point3D(distx, -disty, 0);
-	base[2]= p + sad::Point3D(distx, disty, 0);
-	base[3]= p + sad::Point3D(-distx, disty, 0);
-
-	sad::Point3D r = (rect[0] - p);
-	if (sad::is_fuzzy_zero(distx))
+	if (abs(x) > 1)
 	{
-		double sina = -(r.x() / disty);
-		assert(abs(sina) <= 1);
-		alpha = atan2(sina, sqrt(1 - sina * sina));
-		if (is_fuzzy_zero(cos(alpha)) != 0)
-		{
-			theta = sad::acos(r.y() / disty / cos (alpha) );
-		}
-		else
-		{
-			theta = 0;
-		}
-		return;
+		return std::numeric_limits<double>::quiet_NaN();
 	}
-	
-	if (sad::is_fuzzy_zero(disty))
-	{
-		double cosa = r.x() / distx;
-		assert(abs(cosa) <= 1);
-		alpha = sad::acos(cosa);
-		if (is_fuzzy_zero(cos(alpha)) != 0)
-		{
-			theta = sad::acos(r.y() / distx / sin (alpha) );
-		}
-		else
-		{
-			theta = 0;
-		}
-		return;
-	}
-
-	double d = sqrt(distx * distx + disty * disty);
-	assert(r.x() < d);
-	alpha = sad::acos(r.x() / d ) - sad::acos(- distx / d);
-
-	double dk = - distx * sin(alpha) - disty * cos(alpha);
-	theta = sad::acos(r.y() / dk); 
+	double result = atan( x / sqrt(1 - x * x) );
+	return result;
 }
