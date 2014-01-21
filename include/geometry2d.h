@@ -35,10 +35,15 @@ void moveBy(const sad::Point2D & dp , sad::Rect2D & r);
 /*! Rotates counter-clockwise a rectangle 
 	around his center by specified angle
 	\param[in] angle angle
-	\param[in] r rectangle
+	\param[in,out] r rectangle
  */
 void rotate(float angle, sad::Rect2D & r);
-
+/*! Rotates counter-clockwise a vector 
+	around his center by specified angle
+	\param[in] angle angle
+	\param[in, out] v vector
+ */
+void rotate(float angle, sad::Vector2D & v);
 /*! Moves a rectangle and rotates a rectangle around by point by angle. 
     A rectangle must have center at (0,0)
 	\param[in] angle angle

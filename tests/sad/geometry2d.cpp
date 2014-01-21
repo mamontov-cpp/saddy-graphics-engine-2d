@@ -18,16 +18,19 @@ struct Geometry2DTest : tpunit::TestFixture
 	   TEST(Geometry2DTest::testIsOnSamePlain2),
 	   TEST(Geometry2DTest::testIsOnSamePlain3),
 	   TEST(Geometry2DTest::testIsOnSamePlain4),
+	   /*
 	   TEST(Geometry2DTest::testIsValid1),
 	   TEST(Geometry2DTest::testIsValid2),
 	   TEST(Geometry2DTest::testIsValid3),
 	   TEST(Geometry2DTest::testIsValid4),
 	   TEST(Geometry2DTest::testIsValid5),
-	   TEST(Geometry2DTest::testGetBaseRect1),
-	   TEST(Geometry2DTest::testGetBaseRect2),
-	   TEST(Geometry2DTest::testGetBaseRect3),
-	   TEST(Geometry2DTest::testGetBaseRect4),
-	   TEST(Geometry2DTest::testGetBaseRect)
+	   */
+	   //TEST(Geometry2DTest::testGetBaseRect1),
+	   //TEST(Geometry2DTest::testGetBaseRect2),
+	   //TEST(Geometry2DTest::testGetBaseRect3),
+	   //TEST(Geometry2DTest::testGetBaseRect4),
+	   TEST(Geometry2DTest::testGetBaseRect5)
+	   //TEST(Geometry2DTest::testGetBaseRect)
 	) {}
 
    void testIsOnSamePlain1()
@@ -214,6 +217,27 @@ struct Geometry2DTest : tpunit::TestFixture
 		sad::getBaseRect(r, br, alpha, theta);
 		ASSERT_TRUE( sad::is_fuzzy_equal(alpha, _alpha) );	
 		ASSERT_TRUE( sad::is_fuzzy_equal(theta, _theta) );		   
+   }
+
+   /*! Some not cool bug taken from IFace Editor. 
+    */
+   void testGetBaseRect5()
+   {
+		sad::Rect< sad::Point3D> r(
+			sad::Point3D(346.74905395507812, 88.210494995117187, 0), 
+			sad::Point3D(576.20172119140625,281.47579956054687,  0),
+			sad::Point3D(366.83096313476562, 530.04949951171875, 0),
+			sad::Point3D(137.37829589843750, 336.78421020507812, 0)
+		);
+
+		sad::Rect< sad::Point3D> br;
+
+		double alpha = 0;
+		double theta = 0;
+		sad::getBaseRect(r, br, alpha, theta);
+		ASSERT_FALSE (sad::equal(r, br) );	   
+		sad::rotate(br, br, alpha, theta);
+		ASSERT_TRUE (sad::equal(r, br) );	   
    }
 
    void testGetBaseRect()

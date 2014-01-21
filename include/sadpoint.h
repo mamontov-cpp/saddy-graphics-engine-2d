@@ -348,5 +348,8 @@ typedef sad::Point3<int>    Point3I;
 /*! A vector, used for 3D operations, like glTranslatef, glRotatef
  */
 typedef sad::Point3D Vector3D;
+/*! A vector, used for 2D operations
+ */
+typedef sad::Point2D Vector2D;
 
 }

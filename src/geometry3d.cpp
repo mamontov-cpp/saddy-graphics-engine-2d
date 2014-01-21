@@ -48,10 +48,10 @@ bool sad::isValid(const sad::Rect<sad::Point3D> & rect)
 	{
 		distances[i] = middle.distance(rect[i]);
 	}
-
-	return sad::is_fuzzy_equal(distances[0], distances[1])
-		&& sad::is_fuzzy_equal(distances[0], distances[2])
-		&& sad::is_fuzzy_equal(distances[0], distances[3]);
+	// Enlarged precision, because does not worked in some stupid kind of cases
+	return sad::is_fuzzy_equal(distances[0], distances[1], 0.01)
+		&& sad::is_fuzzy_equal(distances[0], distances[2], 0.01)
+		&& sad::is_fuzzy_equal(distances[0], distances[3], 0.01);
 }
 
 void sad::rotate(
@@ -120,7 +120,7 @@ void sad::getBaseRect(
 	bool   * error
 )
 {
-#define SET_ERROR { if (error) *error = false; }
+#define SET_ERROR { if (error) *error = true; }
 	if (error)
 	{
 		*error = false;

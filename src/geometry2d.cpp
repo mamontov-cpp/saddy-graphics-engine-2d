@@ -42,6 +42,7 @@ void sad::rotate(float angle, sad::Rect2D & r)
 	}
 }
 
+
 void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & v)
 {
 	sad::p2d::Matrix2x2 m = sad::p2d::Matrix2x2::counterclockwise(angle);

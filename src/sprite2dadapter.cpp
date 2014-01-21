@@ -123,10 +123,7 @@ sad::Point2D Sprite2DAdapter::size() const
 
 void Sprite2DAdapter::setSize(const sad::Point2D & size)
 {
-  sad::Point2D pos=this->pos();
-  sad::Point2D halfsize=size/2;
-  sad::Rect2D r(pos-halfsize,pos+halfsize);
-  setRect(r);
+  m_sprite->setSize(sad::Size2D(size.x(), size.y()));
 }
 
 void Sprite2DAdapter::render()
