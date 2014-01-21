@@ -226,7 +226,8 @@ void sad::getBaseRect(
 				px * sin(alpha) + py * cos(alpha) * cos(theta),
 				py * sin(theta)
 			);
-			if (sad::equal(nr, nrx) == false)
+			// Enlarged precision, due to some implementation problems
+			if (sad::equal(nr, nrx, 0.001) == false)
 			{
 				chooseOtherThetaInGetBaseRect(rect, base, alpha, theta, error, r, xs, y);
 			}
