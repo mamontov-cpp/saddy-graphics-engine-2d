@@ -1,4 +1,5 @@
 #include "geometry3d.h"
+#include "matrix3x3.h"
 #include <cassert>
 
 bool sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
@@ -67,14 +68,12 @@ void sad::rotate(
 	}
 	middle /= 4.0;
 
+	sad::Matrix3x3<double> m = sad::Matrix3x3<double>::rotationXandZ(alpha, theta);
+
 	for(int i = 0; i < 4; i++)
 	{
 		sad::Point3D p = rect[i] - middle;
-		outrect[i].set(
-			p.x() * cos(alpha) - p.y() * sin(alpha) * cos(theta) + p.z() * sin(alpha) * sin(theta),
-			p.x() * sin(alpha) + p.y() * cos(alpha) * cos(theta) - p.z() * cos(alpha) * sin(theta),
-			p.y() * sin(theta) + p.z() * cos(theta)
-		);
+		outrect[i] = m * p ;
 		outrect[i] += middle;
 	}
 }

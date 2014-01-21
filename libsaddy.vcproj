@@ -788,6 +788,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\matrix3x3.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\maybe.h"
 				>
 			</File>
