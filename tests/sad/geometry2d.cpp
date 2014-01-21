@@ -18,19 +18,17 @@ struct Geometry2DTest : tpunit::TestFixture
 	   TEST(Geometry2DTest::testIsOnSamePlain2),
 	   TEST(Geometry2DTest::testIsOnSamePlain3),
 	   TEST(Geometry2DTest::testIsOnSamePlain4),
-	   /*
 	   TEST(Geometry2DTest::testIsValid1),
 	   TEST(Geometry2DTest::testIsValid2),
 	   TEST(Geometry2DTest::testIsValid3),
 	   TEST(Geometry2DTest::testIsValid4),
-	   TEST(Geometry2DTest::testIsValid5),
-	   */
-	   //TEST(Geometry2DTest::testGetBaseRect1),
-	   //TEST(Geometry2DTest::testGetBaseRect2),
-	   //TEST(Geometry2DTest::testGetBaseRect3),
-	   //TEST(Geometry2DTest::testGetBaseRect4),
-	   TEST(Geometry2DTest::testGetBaseRect5)
-	   //TEST(Geometry2DTest::testGetBaseRect)
+	   TEST(Geometry2DTest::testIsValid5),	   
+	   TEST(Geometry2DTest::testGetBaseRect1),
+	   TEST(Geometry2DTest::testGetBaseRect2),
+	   TEST(Geometry2DTest::testGetBaseRect3),
+	   TEST(Geometry2DTest::testGetBaseRect4),
+	   TEST(Geometry2DTest::testGetBaseRect5),
+	   TEST(Geometry2DTest::testGetBaseRect)
 	) {}
 
    void testIsOnSamePlain1()
@@ -237,7 +235,7 @@ struct Geometry2DTest : tpunit::TestFixture
 		sad::getBaseRect(r, br, alpha, theta);
 		ASSERT_FALSE (sad::equal(r, br) );	   
 		sad::rotate(br, br, alpha, theta);
-		ASSERT_TRUE (sad::equal(r, br) );	   
+		ASSERT_TRUE (sad::equal(r, br, 0.001) );	   
    }
 
    void testGetBaseRect()
