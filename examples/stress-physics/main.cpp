@@ -26,9 +26,6 @@ bool load_texture(const char * filename,const char * texturename)
 	sad::Texture * texture=new sad::Texture();
 	bool result=texture->load(sad::String(filename));	
 	if (result) { 
-		// Make some textures to square power of two, making them compatible to old videocards
-		// which does not support GL_ARB_texture_non_power_of_two or 
-		// GL_ARB_texture_rectangle extensions
 		sad::TextureManager::ref()->add(texturename, texture);
 	} else	{
 		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << filename);

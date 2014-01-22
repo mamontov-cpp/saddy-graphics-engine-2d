@@ -95,15 +95,15 @@ static inline void chooseOtherThetaInGetBaseRect(
 )
 {
 	theta = M_PI - theta;
-	theta = sad::normalize_angle(theta);
+	theta = sad::normalizeAngle(theta);
 	double ys = y * cos(theta);
 	double d = sqrt(xs * xs + ys * ys);
-	sad::Maybe<double> maybealphapphi = sad::find_angle(r.y() / d, r.x() / d);
-	sad::Maybe<double> maybephi = sad::find_angle(ys / d , xs /d);
+	sad::Maybe<double> maybealphapphi = sad::findAngle(r.y() / d, r.x() / d);
+	sad::Maybe<double> maybephi = sad::findAngle(ys / d , xs /d);
 	if (maybealphapphi.exists() && maybephi.exists())
 	{
 		alpha = maybealphapphi.value() - maybephi.value();
-		alpha = sad::normalize_angle(alpha);
+		alpha = sad::normalizeAngle(alpha);
 	}
 	else
 	{
@@ -166,7 +166,7 @@ void sad::getBaseRect(
 	double y = -disty;
 	if (sad::is_fuzzy_zero(disty))
 	{
-		sad::Maybe<double> maybealpha = sad::find_angle(r.y() / x, r.x() / x);		
+		sad::Maybe<double> maybealpha = sad::findAngle(r.y() / x, r.x() / x);		
 		if (maybealpha.exists())
 			alpha = maybealpha.value();
 		else
@@ -177,17 +177,17 @@ void sad::getBaseRect(
 	}
 	// Try first theta value
 	theta = sad::asin(r.z() / y);
-	theta = sad::normalize_angle(theta);
+	theta = sad::normalizeAngle(theta);
 	sad::Maybe<double> maybealpha;
 	if (sad::is_fuzzy_zero(x))
 	{
 		double ys = y * cos(theta);
-		maybealpha = sad::find_angle(r.x() / ys / -1, r.y() / ys);
+		maybealpha = sad::findAngle(r.x() / ys / -1, r.y() / ys);
 		if (maybealpha.exists() == false)
 		{
-			theta = sad::normalize_angle(M_PI - theta);
+			theta = sad::normalizeAngle(M_PI - theta);
 			ys = y * cos(theta);
-			maybealpha = sad::find_angle(r.x() / ys / -1, r.y() / ys);
+			maybealpha = sad::findAngle(r.x() / ys / -1, r.y() / ys);
 			if (maybealpha.exists())
 			{
 				alpha = maybealpha.value();
@@ -209,12 +209,12 @@ void sad::getBaseRect(
 		double ys = y * cos(theta);
 		double d = sqrt(xs * xs + ys * ys);
 
-		sad::Maybe<double> maybealphapphi = sad::find_angle(r.y() / d, r.x() / d);
-		sad::Maybe<double> maybephi = sad::find_angle(ys / d , xs /d);
+		sad::Maybe<double> maybealphapphi = sad::findAngle(r.y() / d, r.x() / d);
+		sad::Maybe<double> maybephi = sad::findAngle(ys / d , xs /d);
 		if (maybealphapphi.exists() && maybephi.exists())
 		{
 			alpha = maybealphapphi.value() - maybephi.value();
-			alpha = sad::normalize_angle(alpha);
+			alpha = sad::normalizeAngle(alpha);
 
 			// Test if other point is not valid and if so, pick other solution for theta
 			sad::Point3D nr = (rect[1] - p);
