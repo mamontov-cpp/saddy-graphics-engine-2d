@@ -58,7 +58,7 @@ void moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & r
 	\param[in] y y coordinate
 	\return result of computation
  */
-double angle_of(double x, double y);
+double angleOf(double x, double y);
 
 /*! Computes arccosine of value
 	\param[in] x x value
@@ -76,12 +76,12 @@ double asin(double x);
 	\param[in] x angle
 	\param[in] y angle
  */
-double normalize_angle(double x);
+double normalizeAngle(double x);
 
 /*! Given sine and cosine, function will try to determine angle
 	\param[in] sina sine
 	\param[in] cosa cosine
 	\return result if any
  */
-sad::Maybe<double> find_angle(double sina, double cosa);
+sad::Maybe<double> findAngle(double sina, double cosa);
 }

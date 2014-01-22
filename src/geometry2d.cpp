@@ -52,7 +52,7 @@ void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2
 	}
 }
 
-double sad::angle_of(double x, double y)
+double sad::angleOf(double x, double y)
 {
 	if (sad::is_fuzzy_zero(y) && sad::is_fuzzy_zero(x))
 	{
@@ -123,7 +123,7 @@ double sad::asin(double x)
 	return result;
 }
 
-double sad::normalize_angle(double x)
+double sad::normalizeAngle(double x)
 {
 	// Don't handler zero x
 	if (sad::is_fuzzy_zero(x))
@@ -145,7 +145,7 @@ double sad::normalize_angle(double x)
 	return result;
 }
 
-sad::Maybe<double> sad::find_angle(double sina, double cosa)
+sad::Maybe<double> sad::findAngle(double sina, double cosa)
 {
 	sad::Maybe<double> result;
 	if (sad::is_fuzzy_equal(sina * sina + cosa * cosa, 1.0) == false)
@@ -157,7 +157,7 @@ sad::Maybe<double> sad::find_angle(double sina, double cosa)
 	{
 		alpha *= -1.0;
 	}
-	alpha = sad::normalize_angle(alpha);
+	alpha = sad::normalizeAngle(alpha);
 	
 	result.setValue(alpha);
 	return result;
