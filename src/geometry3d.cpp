@@ -140,7 +140,6 @@ void sad::getBaseRect(
 		&& sad::equal(rect[2], rect[3])
 		&& sad::equal(rect[3], rect[0]))
 	{
-		SET_ERROR;
 		return;
 	}
 

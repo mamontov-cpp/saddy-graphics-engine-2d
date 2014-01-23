@@ -72,7 +72,7 @@ sad::Rect2D sad::Label::region() const
 						m_point.y(), 
 						m_point.x() + size.Width,
 						m_point.y() - size.Height);
-	sad::rotate(m_angle, result);
+	sad::rotate(result, m_angle);
 	return result;
 }
 

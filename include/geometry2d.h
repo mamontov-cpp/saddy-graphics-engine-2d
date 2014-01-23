@@ -37,13 +37,13 @@ void moveBy(const sad::Point2D & dp , sad::Rect2D & r);
 	\param[in] angle angle
 	\param[in,out] r rectangle
  */
-void rotate(float angle, sad::Rect2D & r);
+void rotate(sad::Rect2D & r, float angle);
 /*! Rotates counter-clockwise a vector 
 	around his center by specified angle
-	\param[in] angle angle
 	\param[in, out] v vector
+	\param[in] angle angle
  */
-void rotate(float angle, sad::Vector2D & v);
+void rotate(sad::Vector2D & v, float angle);
 /*! Moves a rectangle and rotates a rectangle around by point by angle. 
     A rectangle must have center at (0,0)
 	\param[in] angle angle
@@ -84,4 +84,25 @@ double normalizeAngle(double x);
 	\return result if any
  */
 sad::Maybe<double> findAngle(double sina, double cosa);
+
+/*! Tests, whether four points of rectangle create a rectangle.
+	Note, that implementation skips degenerated cases, like a point
+	\param[in] rect tested rectangle
+	\return whether points is valid
+ */
+bool isValid(const sad::Rect2D & rect);	
+
+/*! Computes rectangle which is axis-aligned to OXY and rotation angle for it
+	\param[in] rect a rectangle element
+	\param[out] base an-axis aligned element
+	\param[out] alpha an alpha angle
+	\param[out] error a error value
+ */
+void getBaseRect(
+	const sad::Rect2D & rect, 
+	sad::Rect2D & base,
+	double & alpha,
+	bool * error = NULL
+);
+
 }

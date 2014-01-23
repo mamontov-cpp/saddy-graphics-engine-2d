@@ -235,7 +235,7 @@ struct Geometry2DTest : tpunit::TestFixture
 		sad::getBaseRect(r, br, alpha, theta);
 		ASSERT_FALSE (sad::equal(r, br) );	   
 		sad::rotate(br, br, alpha, theta);
-		ASSERT_TRUE (sad::equal(r, br, 0.001) );	   
+		ASSERT_TRUE (sad::equal(r, br, 0.001f) );	   
    }
 
    void testGetBaseRect()
