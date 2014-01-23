@@ -234,5 +234,44 @@ void sad::getBaseRect(
 	base[2]= p + sad::Point2D(distx, disty);
 	base[3]= p + sad::Point2D(-distx, disty);
 
+	double x = -distx;
+	double y = -disty;
+
+	sad::Point3D r = (rect[0] - p);
+
+	if (sad::is_fuzzy_zero(y))
+	{
+		if (sad::is_fuzzy_zero(x))
+		{
+			SET_ERROR;
+			return;
+		}
+
+		sad::Maybe<double> maybealpha = sad::findAngle(r.y() / x, r.x() / y);
+		if (maybealpha.exists())
+		{
+			alpha = maybealpha.value();
+		}
+		else
+		{
+			SET_ERROR;
+		}
+		return;
+	}
+
+	double sq = x * x + y * y;
+	sad::Maybe<double> maybealpha = sad::findAngle(
+		(r.y() * x - r.x() * y)	/ sq,
+		(r.y() * y + r.x() * x) / sq
+	);
+
+	if (maybealpha.exists())
+	{
+		alpha = maybealpha.value();
+	}
+	else
+	{
+		SET_ERROR;
+	}
 #undef SET_ERROR
 }
