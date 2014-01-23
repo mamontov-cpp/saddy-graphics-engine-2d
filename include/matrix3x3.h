@@ -54,10 +54,14 @@ public:
 	 */
 	static sad::Matrix3x3<double> rotationXandZ(double alpha, double theta)
 	{
+		double cosa = cos(alpha);
+		double sina = sin(alpha);
+		double cost = cos(theta);
+		double sint = sin(theta);
 		return sad::Matrix3x3<double>(			
-									  cos(alpha), -1 * sin(alpha) * cos(theta),      sin(alpha) * sin(theta),
-									  sin(alpha),      cos(alpha) * cos(theta), -1 * cos(alpha) * sin(theta),
-									  0.0       ,       sin(theta),                  cos(theta)  );
+									  cosa, -1 * sina * cost,      sina * sint,
+									  sina,      cosa * cost, -1 * cosa * sint,
+									   0.0,             sint,             cost);
 	}
 	
 
@@ -83,8 +87,34 @@ public:
 	
 }
 
+/*! Multiplies a point as single-row matrix by matrix.
+	\param[in] p point
+	\param[in] m matrix
+	\return point
+ */
+template<typename T>
+typename sad::Point3<T> 
+operator*
+(
+ const typename sad::Point3<T> & p,
+ const typename sad::Matrix3x3<T> & m
+)
+{
+	T x = p.x() * m.get(0, 0) 
+	    + p.y() * m.get(1, 0)
+		+ p.z() * m.get(2, 0);
+	T y = p.x() * m.get(0, 1)  
+	    + p.y() * m.get(1, 1) 
+		+ p.z() * m.get(2, 1);
+	T z = p.x() * m.get(0, 2)  
+	    + p.y() * m.get(1, 2) 
+		+ p.z() * m.get(2, 2);
+	return typename sad::Point3<T>(x, y, z);
+}
 
-/*! Multiplies a matrix by a point, resulting a point
+
+
+/*! Multiplies a matrix by a point, resulting a point. Used by rotation of 3D sprite
 	\param[in] p point
 	\param[in] m matrix
 	\return point

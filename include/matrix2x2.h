@@ -54,17 +54,30 @@ public:
 		return sad::Matrix2x2<T>::counterclockwise(-angle);
 	}
 
-	/*! Returns a point by parameters
+	/*! Returns a value by index
+		\param[in] i index of element in matrix
+		\return value
 	 */
 	T operator[](const typename Matrix2x2<T>::index & i) const
 	{
-		if (i.p1() >= 2 || i.p2() >= 2) return (T)0;
-		return m_o[i.p1()][i.p2()];
+		return this->get(i.p1(), i.p2());
+	}
+	/*! Returns a value by index
+		\param[in] i index of element in matrix
+		\return 
+	 */
+	T get(unsigned int i, unsigned int j) const
+	{
+		if (i >= 2 || j >= 2) return (T)0;
+		return m_o[i][j];
+		
 	}
 };
 
 }
-/*! Multiplies a point by matrix
+/*! Multiplies a point by matrix. Note that behaves not as canonical multiplication, as
+	point behaves like  single-row matrix multiplied by a matrix. A current rotation uses
+	this implementation
 	\param[in] p point
 	\param[in] m matrix
 	\return point
@@ -77,10 +90,30 @@ const typename sad::Point2<T> & p,
 const typename sad::Matrix2x2<T> & m
 )
 {
-	T x = p.x() * m[typename sad::Matrix2x2<T>::index(0,0)] 
-	    + p.y() * m[typename sad::Matrix2x2<T>::index(1,0)];
-	T y = p.x() * m[typename sad::Matrix2x2<T>::index(0,1)] 
-	    + p.y() * m[typename sad::Matrix2x2<T>::index(1,1)];
+	T x = p.x() * m.get(0, 0) 
+	    + p.y() * m.get(1, 0);
+	T y = p.x() * m.get(0, 1) 
+	    + p.y() * m.get(1, 1);
+	return typename sad::Point2<T>(x,y);
+}
+
+/*! Multiplies a matrix by a point. 
+	\param[in] m matrix
+	\param[in] p point
+	\return point
+ */
+template<typename T>
+typename sad::Point2<T> 
+operator*
+(
+const typename sad::Matrix2x2<T> & m,
+const typename sad::Point2<T> & p
+)
+{
+	T x = m.get(0, 0) * p.x() 
+	    + m.get(0, 1) * p.y();
+	T y = m.get(1, 0) * p.x() 
+	    + m.get(1, 1) * p.y();
 	return typename sad::Point2<T>(x,y);
 }
 
