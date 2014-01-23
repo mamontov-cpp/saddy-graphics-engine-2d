@@ -42,8 +42,8 @@ public:
 	{
 		T cosa = cos(angle);
 		T sina = sin(angle);
-		return Matrix2x2(cosa, sina, 
-			             -sina, cosa);
+		return Matrix2x2(cosa, -sina, 
+			             sina, cosa);
 	}
 	/*! Constructs a clockwise rotation matrix for angle
 		\param[in] angle angle for rotation
@@ -75,9 +75,9 @@ public:
 };
 
 }
+
 /*! Multiplies a point by matrix. Note that behaves not as canonical multiplication, as
-	point behaves like  single-row matrix multiplied by a matrix. A current rotation uses
-	this implementation
+	point behaves like  single-row matrix multiplied by a matrix. 
 	\param[in] p point
 	\param[in] m matrix
 	\return point
@@ -97,7 +97,8 @@ const typename sad::Matrix2x2<T> & m
 	return typename sad::Point2<T>(x,y);
 }
 
-/*! Multiplies a matrix by a point. 
+/*! Multiplies a matrix by a point. A current rotation functions use
+	this multiplication to apply transformations.
 	\param[in] m matrix
 	\param[in] p point
 	\return point

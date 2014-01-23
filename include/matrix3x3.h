@@ -114,7 +114,8 @@ operator*
 
 
 
-/*! Multiplies a matrix by a point, resulting a point. Used by rotation of 3D sprite
+/*! Multiplies a matrix by a point, resulting a point. A current rotation functions use
+	this multiplication to apply transformations.
 	\param[in] p point
 	\param[in] m matrix
 	\return point
