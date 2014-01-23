@@ -36,7 +36,7 @@ void sad::rotate(sad::Rect2D & r, float angle)
 	for(int i = 0; i < 4; i++)
 	{
 		sad::Point2D vi = r[i] - c;
-		sad::Point2D result = vi * m;
+		sad::Point2D result = m * vi;
 		r[i] = c; 
 		r[i] += result;
 	}
@@ -45,14 +45,14 @@ void sad::rotate(sad::Rect2D & r, float angle)
 void sad::rotate(sad::Vector2D & v, float angle)
 {
 	sad::p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
-	v = v * m;
+	v = m * v;
 }
 
 void sad::moveAndRotateNormalized(float angle, sad::Point2D & result, sad::Rect2D & v)
 {
 	sad::p2d::Matrix2x2 m = sad::p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++) {
-		sad::Point2D r = v[i] * m;
+		sad::Point2D r = m * v[i];
 		v[i] = result + r;
 	}
 }
