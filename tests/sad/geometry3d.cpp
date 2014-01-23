@@ -10,25 +10,25 @@
 /*!
  * Tests sad::Geometry2DTest
  */
-struct Geometry2DTest : tpunit::TestFixture
+struct Geometry3DTest : tpunit::TestFixture
 {
  public:
-   Geometry2DTest() : tpunit::TestFixture(
-	   TEST(Geometry2DTest::testIsOnSamePlain1),
-	   TEST(Geometry2DTest::testIsOnSamePlain2),
-	   TEST(Geometry2DTest::testIsOnSamePlain3),
-	   TEST(Geometry2DTest::testIsOnSamePlain4),
-	   TEST(Geometry2DTest::testIsValid1),
-	   TEST(Geometry2DTest::testIsValid2),
-	   TEST(Geometry2DTest::testIsValid3),
-	   TEST(Geometry2DTest::testIsValid4),
-	   TEST(Geometry2DTest::testIsValid5),	   
-	   TEST(Geometry2DTest::testGetBaseRect1),
-	   TEST(Geometry2DTest::testGetBaseRect2),
-	   TEST(Geometry2DTest::testGetBaseRect3),
-	   TEST(Geometry2DTest::testGetBaseRect4),
-	   TEST(Geometry2DTest::testGetBaseRect5),
-	   TEST(Geometry2DTest::testGetBaseRect)
+   Geometry3DTest() : tpunit::TestFixture(
+	   TEST(Geometry3DTest::testIsOnSamePlain1),
+	   TEST(Geometry3DTest::testIsOnSamePlain2),
+	   TEST(Geometry3DTest::testIsOnSamePlain3),
+	   TEST(Geometry3DTest::testIsOnSamePlain4),
+	   TEST(Geometry3DTest::testIsValid1),
+	   TEST(Geometry3DTest::testIsValid2),
+	   TEST(Geometry3DTest::testIsValid3),
+	   TEST(Geometry3DTest::testIsValid4),
+	   TEST(Geometry3DTest::testIsValid5),	   
+	   TEST(Geometry3DTest::testGetBaseRect1),
+	   TEST(Geometry3DTest::testGetBaseRect2),
+	   TEST(Geometry3DTest::testGetBaseRect3),
+	   TEST(Geometry3DTest::testGetBaseRect4),
+	   TEST(Geometry3DTest::testGetBaseRect5),
+	   TEST(Geometry3DTest::testGetBaseRect)
 	) {}
 
    void testIsOnSamePlain1()
@@ -266,4 +266,4 @@ struct Geometry2DTest : tpunit::TestFixture
 	   }
    }
 
-} _geometry2d_test; 
+} _geometry3d_test; 
