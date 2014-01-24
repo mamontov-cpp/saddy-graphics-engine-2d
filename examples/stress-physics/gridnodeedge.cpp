@@ -7,8 +7,8 @@ GridNodeEdge::GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2)
 {
 	m_b1 = b1;
 	m_b2 = b2;
-	m_ad = new Sprite2DAdapter(NULL, sad::Rect2D(), sad::Rect2D());
-	Sprite2DAdapter::Options * o = sad::p2d::app::Constants<GridNodeEdge>::sprite();
+	m_ad = new sad::Sprite2D(NULL, sad::Rect2D(), sad::Rect2D());
+	sad::Sprite2D::Options * o = sad::p2d::app::Constants<GridNodeEdge>::sprite();
 	this->m_ad->set(*o);
     delete o;
 }

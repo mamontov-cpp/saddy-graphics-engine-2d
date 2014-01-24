@@ -129,7 +129,7 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 		if (observer.createSprite(sad::Point2D(0,0)))
 		{
 			sad::Rect2D v = deletePositionRectangle(region, DELETEPADDINGSIZE);
-			observer.sprite()->adapter()->setRect(v);
+			observer.sprite()->adapter()->setRenderableArea(v);
 			//observer.sprite()->adapter()->setSize(sad::Point2D(size,size));
 			observer.sprite()->adapter()->render();
 		}

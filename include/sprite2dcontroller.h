@@ -3,7 +3,7 @@
 
 	Describes a 2d sprite controller, that handles sprite size changing event, allowing to check it
  */
-#include "sprite2dadapter.h"
+#include "sprite2d.h"
 #pragma once
 
 /*! \class Sprite2DController
@@ -12,7 +12,7 @@
 class Sprite2DController
 {
  private:
-	     Sprite2DAdapter * m_sprite;       //!< A real sprite in scene
+		 sad::Sprite2D * m_sprite;       //!< A real sprite in scene
 		 bool              m_sizechanged;  //!< Whether size of sprite, has been changed
  public:
 		  /*! Creates a new sprite adapter with some properties, like ( Texture coordinates are ABSOLUTE)
@@ -81,7 +81,7 @@ class Sprite2DController
           /*! Returns adapter from sprite
               \return adapter
            */ 
-          inline Sprite2DAdapter * adapter() const { return m_sprite; }
+		  inline sad::Sprite2D * adapter() const { return m_sprite; }
 		  /*! Sets a color for sprite
 		      \param[in] clr color
 		   */

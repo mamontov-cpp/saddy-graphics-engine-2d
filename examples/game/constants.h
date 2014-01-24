@@ -35,7 +35,7 @@ template<>
 class Constants<Player>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 };
 
@@ -45,7 +45,7 @@ template<>
 class Constants<PlayerBullet>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for bullet
 		\return velocity
@@ -61,7 +61,7 @@ template<>
 class Constants<EnemyBullet>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for bullet
 		\return velocity
@@ -77,7 +77,7 @@ template<>
 class Constants<Bonus>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 };
 
@@ -86,7 +86,7 @@ template<>
 class Constants<Enemy>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 };
 
@@ -95,7 +95,7 @@ template<>
 class Constants<ShootingEnemy>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 	/*! Describes a velocity for shooting enemy as a bullet
 		\return velocity
@@ -111,7 +111,7 @@ template<>
 class Constants<SuperShootingEnemy>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::p2d::CollisionShape * shape();
 };
 
