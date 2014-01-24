@@ -64,29 +64,6 @@ bool Sprite2DController::isFlippedY() const
 	return m_sprite->isFlippedY();
 }
 
-void Sprite2DController::setLeft(float x)
-{
-	m_sizechanged=true;
-	m_sprite->setLeft(x);
-}
-
-void Sprite2DController::setRight(float x)
-{
-	m_sizechanged=true;
-	m_sprite->setRight(x);
-}
-
-void Sprite2DController::setTop(float y)
-{
-	m_sizechanged=true;
-	m_sprite->setTop(y);
-}
-
-void Sprite2DController::setBottom(float y)
-{
-	m_sizechanged=true;
-	m_sprite->setBottom(y);
-}
 
 void Sprite2DController::setSize(const sad::Point2D & size, bool registerEvent)
 {

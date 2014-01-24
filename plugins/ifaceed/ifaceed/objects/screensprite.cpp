@@ -106,7 +106,7 @@ sad::String ScreenSprite::_description()
 sad::Rect2D ScreenSprite::region()
 {
 	sad::Rect2D rd = m_rect;
-	sad::rotate(m_angle, rd);
+	sad::rotate(rd, m_angle);
 	return  rd;	
 }
 
@@ -193,7 +193,7 @@ void ScreenSprite::setRotatedRectangle(const sad::Rect2D & rotatedrectangle, flo
 {
 	float mangle = -1 * angle;
 	m_rect = rotatedrectangle;
-	sad::rotate(mangle, m_rect);	
+	sad::rotate(m_rect, mangle);	
 	m_angle = angle;
 	sad::Sprite2DConfigObserver * o = this->observer();
 	if (o)
