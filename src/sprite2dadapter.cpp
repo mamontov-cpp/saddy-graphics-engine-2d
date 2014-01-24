@@ -69,52 +69,6 @@ bool Sprite2DAdapter::isFlippedY() const
 	return m_sprite->flipY();
 }
 
-void Sprite2DAdapter::setLeft(float x)
-{
-	//Change rectangle, if rectangle becames flipped
-	sad::Rect2D k = rect();
-	bool mustflip=k[1].x()<x;
-	k[0].setX(x);
-	k[3].setX(x);
-	if (mustflip)
-		flipX();
-}
-
-void Sprite2DAdapter::setRight(float x)
-{
-	//Change rectangle, if rectangle becames flipped
-	sad::Rect2D k = rect();
-	bool mustflip=k[0].x()>x;
-	k[1].setX(x);
-	k[2].setX(x);
-	if (mustflip)
-		flipX();
-	setRect(k);
-}
-
-void Sprite2DAdapter::setTop(float y)
-{
-	//Change rectangle, if rectangle becames flipped
-	sad::Rect2D k = rect();
-	bool mustflip=k[0].y()>y;
-	k[2].setY(y);
-	k[3].setY(y);
-	if (mustflip)
-		flipY();	
-	setRect(k);
-}
-
-void Sprite2DAdapter::setBottom(float y)
-{
-	//Change rectangle, if rectangle becames flipped
-	sad::Rect2D k = rect();
-	bool mustflip=k[3].y()<y;
-	k[0].setY(y);
-	k[1].setY(y);
-	if (mustflip)
-		flipY();	
-	setRect(k);
-}
 
 sad::Point2D Sprite2DAdapter::size() const
 {

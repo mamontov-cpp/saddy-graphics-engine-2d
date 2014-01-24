@@ -81,22 +81,6 @@ public:
 		  /*! Determines, whether image is flipped on Y axis
 		   */  
 		  bool isFlippedY() const;
-		  /*! Sets a left side of sprite. May change right side, if width becomes negative
-			  \param[in] x left side of sprite
-		   */
-		  void setLeft(float x);
-		  /*! Sets a right side of sprite. May change left side, if width becomes negative
-			  \param[in] x right side of sprite
-		   */
-		  void setRight(float x);
-		  /*! Sets a top side of sprite. May change bottom side, if height becomes negative
-			  \param[in] y left side of sprite
-		   */
-		  void setTop(float y);
-		  /*! Sets a bottom side of sprite. May change top side, if height becomes negative
-			  \param[in] y right side of sprite
-		   */
-		  void setBottom(float y);
 		  /*! Sets a size of sprite, preserving center of image
 			  \param[in] size size of sprite
 		   */
@@ -105,22 +89,6 @@ public:
 			  \return size of sprite
 		   */
 		  sad::Point2D size() const;
-		  /*! Returns a top coordinate
-			  \return top coordinate
-		   */
-		  inline float top()  const { return (float)(pos().y()+size().y()/2);}
-		  /*! Returns a bottom coordinate
-			  \return bottom coordinate
-		   */
-		  inline float bottom()  const { return (float)(pos().y()-size().y()/2);}
-		  /*! Returns a left coordinate
-			  \return left coordinate
-		   */
-		  inline float left()  const { return (float)(pos().x()-size().x()/2);}
-		  /*! Returns a right coordinate
-			  \return right coordinate
-		   */
-		  inline float right()  const { return (float)(pos().x()+size().x()/2);}
 		  /*! Renders a sprite
 		   */
 		  virtual void render();

@@ -14,16 +14,17 @@ struct Geometry2DTest : tpunit::TestFixture
 {
  public:
    Geometry2DTest() : tpunit::TestFixture(
-	   TEST(Geometry2DTest::testGetBaseRect)
+	   TEST(Geometry2DTest::testGetBaseRect),
+	   TEST(Geometry2DTest::testRotate1)
 	) {}
 
    void testGetBaseRect()
    {
 	   sad::Rect2D r(
-		   sad::Point3D(0, 0),
-		   sad::Point3D(640, 0),
-		   sad::Point3D(640,480),
-		   sad::Point3D(0, 480)
+		   sad::Point2D(0, 0),
+		   sad::Point2D(640, 0),
+		   sad::Point2D(640,480),
+		   sad::Point2D(0, 480)
 	   );
 
 	   sad::Rect2D target;
@@ -40,6 +41,23 @@ struct Geometry2DTest : tpunit::TestFixture
 			sad::rotate(testrect, (float)alpha);
 			ASSERT_TRUE( sad::equal(target, testrect) );	
 	   }
+   }
+
+   void testRotate1()
+   {
+	   sad::Rect2D r(
+		   sad::Point2D(0, 0),
+		   sad::Point2D(2, 0),
+		   sad::Point2D(2, 2),
+		   sad::Point2D(0, 2)
+	   );
+
+	   sad::rotate(r,  (float)(M_PI / 2.0));
+
+	   ASSERT_TRUE(sad::equal(r[0], sad::Point2D(2, 0)));
+	   ASSERT_TRUE(sad::equal(r[1], sad::Point2D(2, 2)));
+	   ASSERT_TRUE(sad::equal(r[2], sad::Point2D(0, 2)));
+	   ASSERT_TRUE(sad::equal(r[3], sad::Point2D(0, 0)));
    }
 
 } _geometry2d_test; 
