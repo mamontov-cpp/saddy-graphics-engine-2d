@@ -14,7 +14,7 @@
 #include <fontmanager.h>
 #include <orthographiccamera.h>
 #include <sadthread.h>
-#include <sprite2dadapter.h>
+#include <sprite2d.h>
 #include <label.h>
 #include <texturemappedfont.h>
 #include <texturemanager.h>
@@ -40,7 +40,7 @@ class EventHandler: public sad::input::AbstractHandler
 {
  private:
 	 sad::Renderer * m_renderer; //!< A current renderer, which working controls belong to
-	 Sprite2DAdapter * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
+	 sad::Sprite2D * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
 	 bool m_quit;                //!< Whether we should quit renderer on event call
  public:
 	 /*! A new handler just consists from these three fields
@@ -48,7 +48,7 @@ class EventHandler: public sad::input::AbstractHandler
 		 \param[in] a sprite
 		 \param[in] quit quit
 	  */
-	 EventHandler(sad::Renderer * r, Sprite2DAdapter * a, bool quit)
+	 EventHandler(sad::Renderer * r, sad::Sprite2D * a, bool quit)
 	 {
 		 m_renderer = r;
 		 m_ad = a;
@@ -67,13 +67,8 @@ class EventHandler: public sad::input::AbstractHandler
 		else 
 		{
 			const sad::input::MouseMoveEvent& ev = static_cast<const sad::input::MouseMoveEvent&>(e);
-			// This point is center of sprite
-			sad::Point2D center = m_ad->pos();
-			// Since Sprite2DAdapter::move uses relative coordinates to move center of sprite
-			// we must compute distance between point, where user clicked ands center of sprite
-			// and call it.
-			sad::Point2D v = ev.pos2D() - center;
-			m_ad->move(v);
+			// Move sprite center to a position
+			m_ad->moveTo(ev.pos2D());
 		}
 	 }
 	 /*! This is convenient function for  implementation of sad::Input, which avoids calling
@@ -158,7 +153,7 @@ int thread(void * p)
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
-	Sprite2DAdapter * a = new Sprite2DAdapter(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
+	sad::Sprite2D * a = new sad::Sprite2D(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
 	r.scene()->add(a);
 
 	/* Add two labels with different fonts

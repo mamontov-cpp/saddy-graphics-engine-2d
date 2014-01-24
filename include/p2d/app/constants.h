@@ -16,7 +16,7 @@
 #include "../line.h"
 #include "../rectangle.h"
 
-#include "../../sprite2dadapter.h"
+#include "../../sprite2d.h"
 
 
 namespace sad
@@ -46,7 +46,7 @@ public:
 	/*! Returns a sprite options, needed to create sprite
 		\return sprite options
 	 */
-	static Sprite2DAdapter::Options * sprite();
+	static Sprite2D::Options * sprite();
 	/*! Returns shape needed for physical engine
 		\return a shape
 	 */
@@ -67,7 +67,7 @@ public:
 class DynamicConstants
 {
 public:
-	Sprite2DAdapter::Options * Options;
+	Sprite2D::Options * Options;
 	p2d::CollisionShape * Shape;
 	double Velocity;
 	double Interval;
@@ -75,9 +75,9 @@ public:
 	/*! Clones an options
 		\return options clone
 	 */
-	inline Sprite2DAdapter::Options * options()  const
+	inline Sprite2D::Options * options()  const
 	{ 
-		return new Sprite2DAdapter::Options(*(this->Options)); 
+		return new Sprite2D::Options(*(this->Options)); 
 	}
 	/*! Clones a shape
 		\returns a shape clone

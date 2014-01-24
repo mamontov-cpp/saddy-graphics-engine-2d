@@ -294,7 +294,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\sprite2dadapter.cpp"
+				RelativePath=".\src\sprite2d.cpp"
 				>
 			</File>
 			<File
@@ -920,7 +920,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\sprite2dadapter.h"
+				RelativePath=".\include\sprite2d.h"
 				>
 			</File>
 			<File

@@ -1,5 +1,5 @@
-#include <sprite3d.h>
-#include <geometry3d.h>
+#include "sprite2d.h"
+#include <geometry2d.h>
 #include <renderer.h>
 #include <texturemanager.h>
 
@@ -7,30 +7,28 @@
 
 #include <math.h>
 
+DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode)
 
-DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode);
-
-sad::Sprite3D::Sprite3D()
+sad::Sprite2D::Sprite2D()
 : 
-m_alpha(0),
-m_theta(0),
+m_angle(0),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(0,0,0,0),
-m_middle(0,0,0),
+m_middle(0,0),
 m_size(0,0),
-m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
+m_renderable_area(sad::Point2D(0, 0), sad::Point2D(0, 0)),
 m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
 
 }
 
-sad::Sprite3D::Sprite3D(		
+sad::Sprite2D::Sprite2D(		
 	sad::Texture * texture,
 	const sad::Rect2D & texturecoordinates,
-	const sad::Rect<sad::Point3D> & area,
+	const sad::Rect2D & area,
 	bool fast
 )
 : 
@@ -53,18 +51,17 @@ m_color(sad::AColor(255,255,255,0))
 	}
 }
 
-sad::Sprite3D::Sprite3D(
+sad::Sprite2D::Sprite2D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
-		const sad::Rect<sad::Point3D>& area,
+		const sad::Rect2D& area,
 		bool fast
 	)
 : 
 m_texture_name(texture),
 m_flipx(false),
 m_flipy(false),
-m_alpha(0),
-m_theta(0),
+m_angle(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
 m_texture(NULL),
@@ -82,12 +79,12 @@ m_color(sad::AColor(255,255,255,0))
 	}
 }
 
-sad::Sprite3D::~Sprite3D()
+sad::Sprite2D::~Sprite2D()
 {
 
 }
 
-void sad::Sprite3D::render()
+void sad::Sprite2D::render()
 {
   if (!m_texture)
 	  return;
@@ -98,19 +95,19 @@ void sad::Sprite3D::render()
    for (int i = 0;i < 4; i++)
    {
 	  glTexCoord2f(m_normalized_texture_coordinates[i].x(),m_normalized_texture_coordinates[i].y());
-	  glVertex3f(m_renderable_area[i].x(),m_renderable_area[i].y(),m_renderable_area[i].z());
+	  glVertex2f(m_renderable_area[i].x(),m_renderable_area[i].y());
    }  
    glEnd();
    glColor4iv(m_current_color_buffer);
 }
 
-void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
+void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
 	m_texture_coordinates = texturecoordinates;
 	normalizeTextureCoordinates();
 }
 
-void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
+void sad::Sprite2D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
 	m_texture_coordinates[index] = point;
 	// Try  to immediately convert point to normalized if needed
@@ -147,67 +144,66 @@ void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
 	}
 }
 
-void sad::Sprite3D::setTextureCoordinate(int index, double x ,double y)
+void sad::Sprite2D::setTextureCoordinate(int index, double x ,double y)
 {
 	this->setTextureCoordinate(index, sad::Point2D(x, y));
 }
 
-
-const sad::Rect2D & sad::Sprite3D::textureCoordinates() const
+const sad::Rect2D & sad::Sprite2D::textureCoordinates() const
 {
 	return m_texture_coordinates;
 }
 
-void sad::Sprite3D::setRenderableArea(const sad::Rect<sad::Point3D> & rect)
+void sad::Sprite2D::setRenderableArea(const sad::Rect2D & rect)
 {
 	initFromRectangle(rect);
 	buildRenderableArea();
 }
 
-sad::Rect<sad::Point3D> sad::Sprite3D::area() const
+sad::Rect2D sad::Sprite2D::area() const
 {
-	sad::Rect<sad::Point3D> result(
-		m_middle + sad::Point3D(m_size.Width / -2,  m_size.Height / -2 , 0),
-		m_middle + sad::Point3D(m_size.Width /  2,  m_size.Height / -2 , 0),
-		m_middle + sad::Point3D(m_size.Width /  2,  m_size.Height / 2 , 0),
-		m_middle + sad::Point3D(m_size.Width / -2,  m_size.Height / 2 , 0)
+	sad::Rect2D result(
+		m_middle + sad::Point2D(m_size.Width / -2,  m_size.Height / -2),
+		m_middle + sad::Point2D(m_size.Width /  2,  m_size.Height / -2),
+		m_middle + sad::Point2D(m_size.Width /  2,  m_size.Height / 2),
+		m_middle + sad::Point2D(m_size.Width / -2,  m_size.Height / 2)
 	);
 	return result;
 }
 
-const sad::Rect<sad::Point3D> & sad::Sprite3D::renderableArea() const
+const sad::Rect2D & sad::Sprite2D::renderableArea() const
 {
 	return m_renderable_area;
 }
 
-const sad::Point3D & sad::Sprite3D::point(int n) const
+const sad::Point2D & sad::Sprite2D::point(int n) const
 {
 	return m_renderable_area[n];
 }
 
-const sad::Point3D & sad::Sprite3D::middle() const
+const sad::Point2D & sad::Sprite2D::middle() const
 {
 	return m_middle;
 }
 
-void sad::Sprite3D::setMiddle(const sad::Point3D & p)
+void sad::Sprite2D::setMiddle(const sad::Point2D & p)
 {
 	m_middle = p;
 	buildRenderableArea();
 }
 
-const sad::Size2D &  sad::Sprite3D::size() const
+const sad::Size2D &  sad::Sprite2D::size() const
 {
 	return m_size;	
 }
 
-void sad::Sprite3D::setSize(const sad::Size2D & size)
+void sad::Sprite2D::setSize(const sad::Size2D & size)
 {
 	m_size = size;
 	buildRenderableArea();
 }
 
-void sad::Sprite3D::moveBy(const sad::Point3D & dist)
+void sad::Sprite2D::moveBy(const sad::Point2D & dist)
 {
 	m_middle += dist;
 	for (int i=0;i<4;i++)
@@ -216,53 +212,41 @@ void sad::Sprite3D::moveBy(const sad::Point3D & dist)
 	}
 }
 
-void sad::Sprite3D::moveTo(const sad::Point3D & p)
+void sad::Sprite2D::moveTo(const sad::Point2D & p)
 {
-	sad::Point3D  dist = p;
+	sad::Point2D  dist = p;
 	dist -= middle();
 	moveBy(dist);
 }
 
-void sad::Sprite3D::rotate(double alpha, double theta)
+void sad::Sprite2D::rotate(double angle)
 {
-	m_alpha += alpha;
-	m_theta += theta;
+	m_angle += angle;
 	buildRenderableArea();
 }
 
-void sad::Sprite3D::setAlpha(double alpha)
+void sad::Sprite2D::setAngle(double angle)
 {
-	m_alpha = alpha;
+	m_angle += angle;
 	buildRenderableArea();
 }
 
-void sad::Sprite3D::setTheta(double theta)
+double sad::Sprite2D::angle() const
 {
-	m_theta = theta;
-	buildRenderableArea();
+	return m_angle;
 }
 
-double sad::Sprite3D::alpha() const
-{
-	return m_alpha;
-}
-
-double sad::Sprite3D::theta() const
-{
-	return m_theta;
-}
-
-void sad::Sprite3D::setColor(const sad::AColor & clr) 
+void sad::Sprite2D::setColor(const sad::AColor & clr) 
 {
 	m_color = clr;
 }
 
-const sad::AColor & sad::Sprite3D::color() const
+const sad::AColor & sad::Sprite2D::color() const
 {
 	return m_color;
 }
 
-void sad::Sprite3D::setFlipX(bool flipx)
+void sad::Sprite2D::setFlipX(bool flipx)
 {
 	bool changed = m_flipx != flipx;
 	m_flipx = flipx;
@@ -272,7 +256,7 @@ void sad::Sprite3D::setFlipX(bool flipx)
 	}
 }
 
-void sad::Sprite3D::setFlipY(bool flipy)
+void sad::Sprite2D::setFlipY(bool flipy)
 {
 	bool changed = m_flipy != flipy;
 	m_flipy = flipy;
@@ -282,39 +266,39 @@ void sad::Sprite3D::setFlipY(bool flipy)
 	}
 }
 
-bool sad::Sprite3D::flipX() const
+bool sad::Sprite2D::flipX() const
 {
 	return m_flipx;
 }
 
-bool sad::Sprite3D::flipY() const
+bool sad::Sprite2D::flipY() const
 {
 	return m_flipy;
 }
 
-void sad::Sprite3D::setTexture(sad::Texture * texture)
+void sad::Sprite2D::setTexture(sad::Texture * texture)
 {
 	m_texture = texture;
 	normalizeTextureCoordinates();
 }
 
-sad::Texture * sad::Sprite3D::texture() const
+sad::Texture * sad::Sprite2D::texture() const
 {
 	return m_texture;
 }
 
-void sad::Sprite3D::setTexureName(const sad::String & name)
+void sad::Sprite2D::setTexureName(const sad::String & name)
 {
 	m_texture_name = name;
 	reloadTexture();
 }
 
-const sad::String& sad::Sprite3D::textureName()
+const sad::String& sad::Sprite2D::textureName()
 {
 	return m_texture_name;
 }
 
-void sad::Sprite3D::setScene(sad::Scene * scene)
+void sad::Sprite2D::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
 	if (m_texture_name.length() != 0)
@@ -323,10 +307,48 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
 	}
 }
 
-void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
+void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
-	m_alpha = 0;
-	m_theta = 0;
+
+	sad::Texture * tex = NULL;
+	if (o.TextureContainer.exists())
+	{
+		sad::TextureContainer * c =  
+			sad::TextureManager::ref()->getContainer(o.TextureContainer.value());
+		tex = c->get(o.Texture);
+	}
+	else
+	{
+		tex  = sad::TextureManager::ref()->get(o.Texture);
+	}
+	this->setTexture(tex);
+	this->setTextureCoordinates(o.TextureRectangle);
+	this->setRenderableArea(o.Rectangle);
+}
+
+
+void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2)
+{
+	sad::Rect2D kr(r);
+	for(int i = 0; i < 4; i++)
+		kr[i].setX(0);
+
+	double distance = p1.distance(p2) / 2;
+	kr[0].setX(kr[0].x() - distance );
+	kr[2].setX(kr[2].x() + distance );
+	kr[1].setX(kr[1].x() + distance );
+	kr[3].setX(kr[3].x() - distance );
+
+	this->rotate(this->angle() * -1);
+	this->setRenderableArea(kr);
+	this->moveTo( (p1 + p2) / 2);
+	double angle = atan2(p2.y() - p1.y(), p2.x() - p1.x());
+	this->rotate(angle);
+}
+
+void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
+{
+	m_angle = 0;
 
 	m_middle = rect[0];
 	m_middle += rect[2];
@@ -338,11 +360,11 @@ void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
 	m_renderable_area = rect;
 }
 
-void sad::Sprite3D::initFromRectangle(const sad::Rect<sad::Point3D> & rect)
+void sad::Sprite2D::initFromRectangle(const sad::Rect2D& rect)
 {
 	bool error = false;
-	sad::Rect<sad::Point3D> baserect;
-	sad::getBaseRect(rect, baserect, m_alpha, m_theta, &error);
+	sad::Rect2D baserect;
+	sad::getBaseRect(rect, baserect, m_angle, &error);
 	assert(!error);
 	
 	m_middle = baserect[0];
@@ -353,13 +375,13 @@ void sad::Sprite3D::initFromRectangle(const sad::Rect<sad::Point3D> & rect)
 	m_size.Height = baserect[0].distance(baserect[3]);
 }
 
-void sad::Sprite3D::buildRenderableArea()
+void sad::Sprite2D::buildRenderableArea()
 {
-	sad::Rect<sad::Point3D> baserect = this->area();
-	sad::rotate(baserect, m_renderable_area, m_alpha, m_theta);
+	m_renderable_area = this->area();
+	sad::rotate(m_renderable_area, m_angle);
 }
 
-void sad::Sprite3D::reloadTexture()
+void sad::Sprite2D::reloadTexture()
 {
 	if (m_texture_name.length() && scene())
 	{
@@ -372,7 +394,7 @@ void sad::Sprite3D::reloadTexture()
 	}	
 }
 
-void sad::Sprite3D::normalizeTextureCoordinates()
+void sad::Sprite2D::normalizeTextureCoordinates()
 {
 	if (m_texture)
 	{

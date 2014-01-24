@@ -7,7 +7,7 @@
 
 #include "../body.h"
 
-#include "../../sprite2dadapter.h"
+#include "../../sprite2d.h"
 #include "../../object.h"
 #include "../../sadvector.h"
 
@@ -37,7 +37,7 @@ class Object: public sad::SceneNode
 	 p2d::Body * m_body;
 	 /*! A sprite is a graphical representation for a game object
 	  */
-	 Sprite2DAdapter * m_sprite;
+	 sad::Sprite2D * m_sprite;
 	 /*! An object is linked to game to forward the in-game to a game object 
 	  */
 	 p2d::app::App * m_app;
@@ -52,7 +52,7 @@ class Object: public sad::SceneNode
 	  */
 	 template<typename T> void initFromConstants()
 	 {
-		 Sprite2DAdapter::Options * o = p2d::app::Constants<T>::sprite();
+		 Sprite2D::Options * o = p2d::app::Constants<T>::sprite();
 		 this->m_sprite->set(*o);
 		 delete o;
 		 this->m_body->setShape(p2d::app::Constants<T>::shape());

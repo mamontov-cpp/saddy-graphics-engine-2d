@@ -2,7 +2,7 @@
 
 Sprite2DController::Sprite2DController(sad::Texture * tex,const sad::Rect2D & texrect,const sad::Rect2D & bbox)
 {
-	m_sprite=new Sprite2DAdapter(tex,texrect,bbox);
+	m_sprite=new sad::Sprite2D(tex,texrect,bbox);
 	m_sizechanged=false;
 }
 
@@ -21,17 +21,17 @@ bool Sprite2DController::wasSizeChanged() const
 
 void Sprite2DController::setPos(const sad::Point2D & p)
 {
-	m_sprite->setPos(p);
+	m_sprite->moveTo(p);
 }
 
 void Sprite2DController::move(const sad::Point2D & p)
 {
-	m_sprite->move(p);
+	m_sprite->moveBy(p);
 }
 
 sad::Point2D Sprite2DController::pos() const
 {
-	return m_sprite->pos();
+	return m_sprite->middle();
 }
 
 void Sprite2DController::rotate(float angle)
@@ -56,12 +56,12 @@ void Sprite2DController::flipY()
 
 bool Sprite2DController::isFlippedX() const
 {
-	return m_sprite->isFlippedX();
+	return m_sprite->flipX();
 }
 
 bool Sprite2DController::isFlippedY() const
 {
-	return m_sprite->isFlippedY();
+	return m_sprite->flipY();
 }
 
 
@@ -69,17 +69,19 @@ void Sprite2DController::setSize(const sad::Point2D & size, bool registerEvent)
 {
 	if (registerEvent)
 		m_sizechanged=true;
-	m_sprite->setSize(size);
+	m_sprite->setSize(sad::Size2D(size.x(), size.y()));
 }
 
 sad::Point2D Sprite2DController::size() const
 {
-	return m_sprite->size();
+	sad::Point2D result(m_sprite->size().Width, m_sprite->size().Height);
+	return result;
 }
 
 void Sprite2DController::setSprite(sad::Texture * tex, const sad::Rect2D & texrect)
 {
-	m_sprite->setSprite(tex,texrect);
+	m_sprite->setTexture(tex);
+	m_sprite->setTextureCoordinates(texrect);
 }
 
 void Sprite2DController::setColor(const sad::AColor & clr)

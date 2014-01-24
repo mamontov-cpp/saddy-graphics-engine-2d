@@ -1,9 +1,9 @@
 #include "constants.h"
 #include <cstdlib>
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Player>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Player>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(0,88),sad::Point2D(88,174));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-11, -11), sad::Point2D(11, 11));
@@ -17,9 +17,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Player>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<PlayerBullet>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<PlayerBullet>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(441,0),sad::Point2D(452,11));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
@@ -43,9 +43,9 @@ double sad::p2d::app::Constants<PlayerBullet>::interval()
 	return 400;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<EnemyBullet>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<EnemyBullet>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(439,14),sad::Point2D(458,33));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
@@ -69,9 +69,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<EnemyBullet>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Bonus>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Bonus>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(1,1),sad::Point2D(86,86));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8));
@@ -80,7 +80,7 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Bonus>::sprite()
 
 sad::p2d::CollisionShape * sad::p2d::app::Constants<Bonus>::shape()
 {
-	Sprite2DAdapter::Options * options = p2d::app::Constants<Bonus>::sprite();
+	sad::Sprite2D::Options * options = p2d::app::Constants<Bonus>::sprite();
 	sad::Rect2D r = options->Rectangle;
 	delete options;
 
@@ -90,7 +90,7 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Bonus>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Enemy>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Enemy>::sprite()
 {
 	/*! A special texture rectangles, used to shape enemies
 	 */
@@ -99,7 +99,7 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Enemy>::sprite()
 		sad::Rect2D(sad::Point2D(266,0),sad::Point2D(354,88)),
 		sad::Rect2D(sad::Point2D(355,0),sad::Point2D(443,88)),
 	};
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = texture_rectangles[ rand () % 3 ];
 	o->Rectangle = sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8));
@@ -113,9 +113,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Enemy>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<ShootingEnemy>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<ShootingEnemy>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-10, -10), sad::Point2D(10, 10));
@@ -140,9 +140,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<ShootingEnemy>::shape()
 }
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<SuperShootingEnemy>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<SuperShootingEnemy>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-14, -14), sad::Point2D(14, 14));

@@ -7,7 +7,7 @@ sad::p2d::app::Object::Object()
 {
 	// We don't init sprite as valid, to preserve working with simple
 	// objects
-	m_sprite = new Sprite2DAdapter(NULL, sad::Rect2D(), sad::Rect2D());
+	m_sprite = new Sprite2D(NULL, sad::Rect2D(), sad::Rect2D());
 	m_body = new sad::p2d::Body();
 	
 	// Set self as user object to make type inference inside collisions
@@ -43,7 +43,7 @@ void sad::p2d::app::Object::setApp(p2d::app::App * g)
 
 void sad::p2d::app::Object::notifyMove(const p2d::Vector & dist)
 {
-	m_sprite->move(dist);
+	m_sprite->moveBy(dist);
 }
 
 void sad::p2d::app::Object::notifyRotate(const double & angle)

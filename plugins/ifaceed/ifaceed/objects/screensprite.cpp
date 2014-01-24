@@ -24,7 +24,7 @@ public:
 		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
 		{
-			m_sprite->observer()->sprite()->adapter()->setRect(data);
+			m_sprite->observer()->sprite()->adapter()->setRenderableArea(data);
 		}
 	}
 	virtual void notify(const float & data)
@@ -186,7 +186,7 @@ void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
-	m_rect = this->m_observer->sprite()->adapter()->rect();
+	m_rect = this->m_observer->sprite()->adapter()->renderableArea();
 }
 
 void ScreenSprite::setRotatedRectangle(const sad::Rect2D & rotatedrectangle, float angle)
@@ -198,7 +198,7 @@ void ScreenSprite::setRotatedRectangle(const sad::Rect2D & rotatedrectangle, flo
 	sad::Sprite2DConfigObserver * o = this->observer();
 	if (o)
 	{
-		this->observer()->sprite()->adapter()->setRect(rotatedrectangle);
+		this->observer()->sprite()->adapter()->setRenderableArea(rotatedrectangle);
 	}
 }
 
@@ -208,6 +208,6 @@ void ScreenSprite::initializeGraphicAfterLoad(FontTemplateDatabase * db)
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
-	obs->sprite()->adapter()->setRect(m_rect);
+	obs->sprite()->adapter()->setRenderableArea(m_rect);
 	obs->sprite()->rotate(m_angle);
 }

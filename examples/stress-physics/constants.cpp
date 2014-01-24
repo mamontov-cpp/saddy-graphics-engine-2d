@@ -3,9 +3,9 @@
 #include <cstdlib>
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<UncoloredBullet>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<UncoloredBullet>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(441,0),sad::Point2D(452,11));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
@@ -19,9 +19,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<UncoloredBullet>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Ball>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Ball>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(0,88),sad::Point2D(88,174));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-11, -11), sad::Point2D(11, 11));
@@ -35,9 +35,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Ball>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<GridNode>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<GridNode>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(178,90),sad::Point2D(265,177));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-18, -18), sad::Point2D(18, 18));
@@ -52,9 +52,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<GridNode>::shape()
 }
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<GridNodeEdge>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<GridNodeEdge>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(89,89),sad::Point2D(176,111));
 	o->Rectangle = p2d::app::Constants<GridNodeEdge>::sourceRect();
@@ -67,9 +67,9 @@ sad::Rect2D sad::p2d::app::Constants<GridNodeEdge>::sourceRect()
 }
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Platform>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Platform>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(267,91),sad::Point2D(437,132));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-42, -10), sad::Point2D(42, 10));
@@ -78,7 +78,7 @@ Sprite2DAdapter::Options * sad::p2d::app::Constants<Platform>::sprite()
 
 sad::p2d::CollisionShape * sad::p2d::app::Constants<Platform>::shape()
 {
-	Sprite2DAdapter::Options * options = p2d::app::Constants<Platform>::sprite();
+	sad::Sprite2D::Options * options = p2d::app::Constants<Platform>::sprite();
 	sad::Rect2D r = options->Rectangle;
 	delete options;
 
@@ -89,9 +89,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Platform>::shape()
 }
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<Shooter>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<Shooter>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-10, -10), sad::Point2D(10, 10));
@@ -106,9 +106,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<Shooter>::shape()
 	return c;
 }
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<ColoredBullet>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<ColoredBullet>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(439,14),sad::Point2D(458,33));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-4, -4), sad::Point2D(4, 4));
@@ -124,9 +124,9 @@ sad::p2d::CollisionShape * sad::p2d::app::Constants<ColoredBullet>::shape()
 }
 
 
-Sprite2DAdapter::Options * sad::p2d::app::Constants<MovingSmile>::sprite()
+sad::Sprite2D::Options * sad::p2d::app::Constants<MovingSmile>::sprite()
 {
-	Sprite2DAdapter::Options * o = new Sprite2DAdapter::Options();
+	sad::Sprite2D::Options * o = new sad::Sprite2D::Options();
 	o->Texture = "objects";
 	o->TextureRectangle = sad::Rect2D(sad::Point2D(177,0),sad::Point2D(265,88));
 	o->Rectangle = sad::Rect2D(sad::Point2D(-14, -14), sad::Point2D(14, 14));

@@ -10,10 +10,11 @@
 #include "input/handlers.h"
 #include "input/events.h"
 
-class Sprite2DAdapter;
 
 namespace sad
 {
+class Sprite2D;
+
 /*! Defines a basic class, that can be used for image for cursor
  */
 class MouseCursorImage
@@ -41,7 +42,7 @@ public:
 	/*! Creates a new sprite
 		\param[in] a sprite adapter
 	 */
-	MouseCursorSprite(Sprite2DAdapter * a);
+	MouseCursorSprite(Sprite2D * a);
 	/*! Sets a position for cursor image.
 		\param[in] p point 
 	 */
@@ -55,7 +56,7 @@ public:
 protected:
 	/*! A sprite, which should be rendered
 	 */
-	Sprite2DAdapter * m_a;
+	sad::Sprite2D * m_a;
 };
 
 /*! A mouse cursor is responsible for hetting a position or showing sprite, 
@@ -103,7 +104,7 @@ public:
 	virtual void setImage(sad::MouseCursorImage * image);
 	/*! Sets image as 2D sprite
 	 */
-	void setImage(Sprite2DAdapter * a);
+	void setImage(Sprite2D * a);
 	/*! Switches cursor image into default cursor image
 	 */
 	void clearCursorImage();
