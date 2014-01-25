@@ -8,7 +8,7 @@
 #include <time.h>
 
 sad::Scene::Scene()
-: m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
+: m_active(true), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
 	m_camera->Scene = this;
 }
@@ -85,7 +85,11 @@ void sad::Scene::render()
 		*m_renderer
 	);
 #endif
-	  m_layers[i]->render();
+	  sad::SceneNode * node = m_layers[i];
+	  if (node->active())
+	  {
+			node->render();
+	  }
 #ifdef LOG_RENDERING
 	  SL_LOCAL_INTERNAL(
 		fmt::Format("After rendering object {0} error code is {1}")

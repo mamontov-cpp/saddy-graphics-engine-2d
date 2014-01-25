@@ -440,8 +440,7 @@ void Game::onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, Sup
 void Game::moveToStartingScreen()
 {
 	SL_SCOPE("Game::moveToStartingScreen()");
-	this->scene()->clear();
-	
+	sad::Renderer::ref()->setScene(new sad::Scene());
 	delete m_world;
 	createWorld();
 	m_steptask->setWorld(m_world);
