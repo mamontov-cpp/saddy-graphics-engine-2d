@@ -39,7 +39,24 @@ public:
 		\returns a renderer
 	 */
 	sad::Renderer * renderer() const;
+	/*! Sets scene activity flag, which determines, whether it should be rendered
+		\param[in] active an activity flag
+	 */
+	inline void setActive(bool active)
+	{
+		m_active = active;
+	}
+	/*! Returns scene activity flag, which determines, whether it should be rendered
+		\return whether scene is active
+	 */
+	inline bool active()
+	{
+		return m_active;
+	}
 protected:
+	/*! Determines, whether scene is active and should be rendered
+	 */
+	bool         m_active;
 	/*! A scene, which node is attached to
 	 */
 	sad::Scene * m_scene;

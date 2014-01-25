@@ -97,6 +97,10 @@ int thread(void * p)
 	/* Firstly, we create our own renderer, which will do all kind of tasks
 	 */ 
 	sad::Renderer r;
+	/*! Create and set scene for renderer;
+	 */
+	sad::Scene * scene = new sad::Scene();
+	r.setScene(scene);
 	
 	/* Setup the logging. We redirect all messages to a file, passed as parameter to thread
 	   variable
@@ -114,7 +118,7 @@ int thread(void * p)
 
 	/* Bind built-ing scene to renderer 
 	 */
-	r.scene()->setRenderer(&r);
+	scene->setRenderer(&r);
 
 	/* Load texture mapped font. 
 	   We add it to font manager to be sure, that memory will be freed at exit.
@@ -154,14 +158,14 @@ int thread(void * p)
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
 	sad::Sprite2D * a = new sad::Sprite2D(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
-	r.scene()->add(a);
+	scene->add(a);
 
 	/* Add two labels with different fonts
 	 */
-	r.scene()->add(
+	scene->add(
 		new sad::Label(fnt1, sad::Point2D(300,200), "FTFont")
 	);
-	r.scene()->add(
+	scene->add(
 		new sad::Label(fnt2, sad::Point2D(400,400), "TMFont")
 	);
 	
