@@ -54,7 +54,7 @@ public:
 		return sad::Matrix2x2<T>::counterclockwise(-angle);
 	}
 
-	/*! Returns a value by index
+	/*! Returns a value, stored in matrix by index
 		\param[in] i index of element in matrix
 		\return value
 	 */
@@ -63,14 +63,14 @@ public:
 		return this->get(i.p1(), i.p2());
 	}
 	/*! Returns a value by index
-		\param[in] i index of element in matrix
-		\return 
+		\param[in] i index of row in matrix
+		\param[in] j index of column in matrix
+		\return value of matrix, 0 on error
 	 */
 	T get(unsigned int i, unsigned int j) const
 	{
 		if (i >= 2 || j >= 2) return (T)0;
 		return m_o[i][j];
-		
 	}
 };
 

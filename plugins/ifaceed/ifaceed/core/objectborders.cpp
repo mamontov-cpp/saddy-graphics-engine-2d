@@ -91,7 +91,7 @@ void ObjectBorder::renderSpot(const char * c, const sad::Rect2D & r, int r0, int
 	if (observer.createSprite(point))
 	{
 		observer.sprite()->rotate(atan2f(r[r3].y() - r[r2].y(), r[r3].x() - r[r2].x()) - dangle);
-		observer.sprite()->adapter()->render();
+		observer.sprite()->render();
 	}
 }
 
@@ -129,9 +129,9 @@ void ObjectBorder::renderHotSpots(AbstractScreenObject * o, bool canDelete)
 		if (observer.createSprite(sad::Point2D(0,0)))
 		{
 			sad::Rect2D v = deletePositionRectangle(region, DELETEPADDINGSIZE);
-			observer.sprite()->adapter()->setRenderableArea(v);
+			observer.sprite()->setRenderableArea(v);
 			//observer.sprite()->adapter()->setSize(sad::Point2D(size,size));
-			observer.sprite()->adapter()->render();
+			observer.sprite()->render();
 		}
 	}
 	

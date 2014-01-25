@@ -74,7 +74,7 @@ double asin(double x);
 
 /*! Makes angle fall in range from zero to 2 * M_PI
 	\param[in] x angle
-	\param[in] y angle
+	\return normalized angle in range of [0, 2 * M_PI) 
  */
 double normalizeAngle(double x);
 

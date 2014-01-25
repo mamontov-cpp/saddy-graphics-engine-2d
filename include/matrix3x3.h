@@ -65,9 +65,10 @@ public:
 	}
 	
 
-	/*! Returns point by index
-		\param[in] i index
-		\return index
+	/*! Returns a value by position
+		\param[in] i index of row in matrix
+		\param[in] j index of column in matrix
+		\return value, stored in matrix (0 if out of range)
 	 */
 	T get(unsigned int i , unsigned int j) const
 	{
@@ -75,9 +76,9 @@ public:
 		return m_o[i][j];
 	}
 
-	/*! Returns a point by parameters
-		\param[in] i index
-		\return index
+	/*! Returns a value by position
+		\param[in] i index of value in matrix
+		\return value, stored in matrix (0 if out of range)
 	 */
 	T operator[](const typename Matrix3x3<T>::index & i) const
 	{

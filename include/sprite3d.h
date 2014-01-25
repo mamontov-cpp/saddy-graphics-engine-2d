@@ -40,7 +40,7 @@ public:
 		bool fast = true
 	);
 	/*! Creates a new sprite from supplied parameters
-		\param[in] a texture a full texture name (must not be empty)
+		\param[in] texture a full texture name (must not be empty)
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
@@ -88,11 +88,11 @@ public:
 	 */
 	sad::Rect<sad::Point3D> area() const;
 	/*! Returns rotated renderable area for a sprite
-		\retirn area for sprite
+		\return area for sprite
 	 */
 	const sad::Rect<sad::Point3D> & renderableArea() const;
 	/*! Returns a reference to a sprite point
-		\param[in] index index of point in rectangle
+		\param[in] n index of point in rectangle
 		\return reference to point
 	 */
 	const sad::Point3D & point(int n) const;
@@ -101,11 +101,11 @@ public:
 	 */
 	const sad::Point3D &  middle() const;
 	/*! Sets middle point of a sprite
-		\param[in] a point to be set
+		\param[in] p middle point to be set
 	 */
 	void setMiddle(const sad::Point3D & p);
 	/*! Returns size of a sprite
-		\param[in] size of sprite
+		\return size of sprite
 	 */
 	const sad::Size2D & size() const;
 	/*! Sets size of a sprite
@@ -166,7 +166,7 @@ public:
 	 */
 	bool flipY() const;
 	/*! Sets a texture for sprite
-		\param[in] tex texture
+		\param[in] texture a new texture for a sprite
 	 */
 	void setTexture(sad::Texture * texture);
 	/*! Returns a texture for a sprite
