@@ -7,6 +7,7 @@
 #include "sprite2dtemplate.h"
 
 #include "../sprite2dcontroller.h"
+#include "../sprite2d.h"
 #include "../sadstring.h"
 
 
@@ -38,7 +39,7 @@ class Sprite2DConfigObserver
 		 sad::String       m_spritegroup; //!< Sprite Group index in the config
 		 int               m_index;     //!< Sprite index in config
 		 
-		 Sprite2DController * m_sprite;  //!< Sprite, which we are working on 
+		 sad::Sprite2D * m_sprite;  //!< Sprite, which we are working on 
  public:
 		 /*! Constructs a new observer. It does not creates a sprite, so you must create it
 			 manually, using createSprite. But observer registers in a config. as observer at
@@ -70,7 +71,7 @@ class Sprite2DConfigObserver
 		 /*! Returns current associated sprite
 			 \return sprite
 		  */ 
-		 inline Sprite2DController * sprite() const {return m_sprite; }
+		 inline sad::Sprite2D * sprite() const {return m_sprite; }
 		 /*! Destructor. Removes a sprite if have one and unregisters self from config.
 		  */
 		 ~Sprite2DConfigObserver();

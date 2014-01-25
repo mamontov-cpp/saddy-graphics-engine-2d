@@ -66,7 +66,7 @@ public:
 		bool fast = true
 	);
 	/*! Creates a new sprite from supplied parameters
-		\param[in] a texture a full texture name (must not be empty)
+		\param[in] texture a full texture name (must not be empty)
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
@@ -114,11 +114,11 @@ public:
 	 */
 	sad::Rect2D area() const;
 	/*! ReturnS rotated renderable area for a sprite
-		\retirn area for sprite
+		\return area for sprite
 	 */
 	const sad::Rect2D & renderableArea() const;
 	/*! Returns a reference to a sprite point
-		\param[in] index index of point in rectangle
+		\param[in] n index of point in rectangle
 		\return reference to point
 	 */
 	const sad::Point2D & point(int n) const;
@@ -127,17 +127,19 @@ public:
 	 */
 	const sad::Point2D &  middle() const;
 	/*! Sets middle point of a sprite
-		\param[in] a point to be set
+		\param[in] p a middle point to be set
 	 */
 	void setMiddle(const sad::Point2D & p);
 	/*! Returns size of a sprite
-		\param[in] size of sprite
+		\return size of sprite
 	 */
 	const sad::Size2D & size() const;
 	/*! Sets size of a sprite
 		\param[in] size size of sprite
+		\param[in] reg  whether we should register size change in flag, which will be returned
+						in sad::Sprite2D::sizeChanged().
 	 */
-	void setSize(const sad::Size2D & size);
+	void setSize(const sad::Size2D & size, bool reg = true);
 	/*! Moves a sprite by following vector
 		\param[in] dist a distance to be moved
 	 */
@@ -183,7 +185,7 @@ public:
 	 */
 	bool flipY() const;
 	/*! Sets a texture for sprite
-		\param[in] tex texture
+		\param[in] texture a new texture
 	 */
 	void setTexture(sad::Texture * texture);
 	/*! Returns a texture for a sprite
@@ -213,6 +215,10 @@ public:
 		const sad::Point2D & p1, 
 		const sad::Point2D & p2
 	);
+	/*! Whether size of sprite was changed
+		\return whether size of sprite was changed
+	 */
+	bool sizeChanged() const;
 	/*! When set scene and texture name is defined 2D sprite tries to reload
 		itself from scene's renderer
 		\param[in] scene a scene, which will render a node
@@ -243,6 +249,9 @@ protected:
 	/*! A counter-clockwise rotation angle
 	 */
 	double     m_angle;
+	/*! Determines, whether size of sprite is changed
+	 */ 
+	bool       m_size_changed;
 	/*! Whether sprite is flipped on X axis
 	 */
 	bool       m_flipx;

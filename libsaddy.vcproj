@@ -298,10 +298,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\sprite2dcontroller.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\sprite3d.cpp"
 				>
 			</File>
@@ -921,10 +917,6 @@
 			</File>
 			<File
 				RelativePath=".\include\sprite2d.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\sprite2dcontroller.h"
 				>
 			</File>
 			<File

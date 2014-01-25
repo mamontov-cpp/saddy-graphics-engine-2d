@@ -12,6 +12,7 @@ DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode)
 sad::Sprite2D::Sprite2D()
 : 
 m_angle(0),
+m_size_changed(false),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
@@ -32,6 +33,7 @@ sad::Sprite2D::Sprite2D(
 	bool fast
 )
 : 
+m_size_changed(false),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
@@ -58,6 +60,7 @@ sad::Sprite2D::Sprite2D(
 		bool fast
 	)
 : 
+m_size_changed(false),
 m_texture_name(texture),
 m_flipx(false),
 m_flipy(false),
@@ -197,10 +200,14 @@ const sad::Size2D &  sad::Sprite2D::size() const
 	return m_size;	
 }
 
-void sad::Sprite2D::setSize(const sad::Size2D & size)
+void sad::Sprite2D::setSize(const sad::Size2D & size, bool reg)
 {
 	m_size = size;
 	buildRenderableArea();
+	if (reg)
+	{
+		m_size_changed = true;
+	}
 }
 
 void sad::Sprite2D::moveBy(const sad::Point2D & dist)
@@ -311,11 +318,20 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
 
 	sad::Texture * tex = NULL;
+	sad::TextureManager * manager = NULL;
+	if (this->renderer())
+	{
+		manager = this->renderer()->textures();
+	} 
+	else
+	{
+		manager = sad::TextureManager::ref();
+	}
+		
 	if (o.TextureContainer.exists())
 	{
-		sad::TextureContainer * c =  
-			sad::TextureManager::ref()->getContainer(o.TextureContainer.value());
-		tex = c->get(o.Texture);
+		sad::TextureContainer * container = manager->getContainer(o.TextureContainer.value());
+		tex = container->get(o.Texture);
 	}
 	else
 	{
@@ -344,6 +360,11 @@ void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Poin
 	this->moveTo( (p1 + p2) / 2);
 	double angle = atan2(p2.y() - p1.y(), p2.x() - p1.x());
 	this->rotate(angle);
+}
+
+bool sad::Sprite2D::sizeChanged() const
+{
+	return m_size_changed;
 }
 
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
