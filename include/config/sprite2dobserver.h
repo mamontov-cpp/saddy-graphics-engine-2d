@@ -6,7 +6,6 @@
 #pragma once
 #include "sprite2dtemplate.h"
 
-#include "../sprite2dcontroller.h"
 #include "../sprite2d.h"
 #include "../sadstring.h"
 
