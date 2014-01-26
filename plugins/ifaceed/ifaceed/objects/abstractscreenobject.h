@@ -6,7 +6,6 @@
 #include <log/log.h>
 #include "scene.h"
 #include "marshal/serializableobject.h"
-#include "refcountable.h"
 #include "sadpoint.h"
 #include <QString>
 #pragma once
@@ -17,7 +16,7 @@ class InterlockedScene;
 class FontTemplateDatabase;
 /** Describes an abstract object of screen template
  */
-class AbstractScreenObject: public sad::BasicNode, public SerializableObject, public sad::RefCountable
+class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 {
  SAD_OBJECT
  protected:
@@ -30,9 +29,6 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/** Name of object
 	 */
 	sad::String m_name;
-	/** A scene with object
-	 */
-	InterlockedScene * m_scene;
 	/** Renders an object. NOTE: Overload this to do actual render of object
 	 */
 	virtual void _render()=0;
@@ -46,18 +42,14 @@ class AbstractScreenObject: public sad::BasicNode, public SerializableObject, pu
 	/** Returns parent object of template
 	 */
 	ScreenTemplate * screenTemplate();
-	/** Describes a scene with data
+	/*! Returns interlocked scene as needed
+		\return interlocked scene
 	 */
-	inline void setScene(InterlockedScene * scene)
+	inline InterlockedScene * scene() 
 	{
-		m_scene = scene;
-	}
-	/** Returns a scene for object
-		\return object scene
-	 */
-	inline InterlockedScene * scene()
-	{
-		return m_scene;
+		if (this->sad::SceneNode::scene() == NULL)
+			return NULL;
+		return reinterpret_cast<InterlockedScene *>(this->sad::SceneNode::scene());
 	}
 	/*! Whether object is active
 		\return object is active

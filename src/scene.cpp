@@ -3,42 +3,27 @@
 #include "renderer.h"
 #include "orthographiccamera.h"
 
+#include "os/glheaders.h"
+
 #include <time.h>
 
-#ifndef LINUX
-	#ifndef NOMINMAX
-    #define NOMINMAX 
-    #endif
-	#include <windows.h>
-	#include <gl/gl.h>														
-	#include <gl/glu.h>
-#else
-	#include <GL/gl.h>														
-	#include <GL/glu.h>
-#endif
-
-DECLARE_SOBJ(sad::BasicNode);
-
-sad::BasicNode::BasicNode()
-{
-}
-sad::BasicNode::~BasicNode()
-{
-}
-
 sad::Scene::Scene()
-: m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
+: m_active(true), m_camera(new sad::OrthographicCamera()), m_renderer(NULL)
 {
 	m_camera->Scene = this;
 }
 
 sad::Scene::~Scene()
 {
-	for (unsigned long i=0;i<this->m_layers.count();i++)
-		this->onNodeRemoval(m_layers[i]);
+	for (unsigned long i = 0; i < this->m_layers.count(); i++)
+		m_layers[i]->delRef();
 	delete m_camera;
 }
 
+sad::Camera & sad::Scene::camera()
+{
+	return *m_camera;
+}
 
 void sad::Scene::setCamera(sad::Camera * camera) 
 { 
@@ -46,73 +31,9 @@ void sad::Scene::setCamera(sad::Camera * camera)
 	m_camera=camera; 
 }
 
-void sad::Scene::addNow(sad::BasicNode * node)
+int sad::Scene::findLayer(sad::SceneNode * node)
 {
-	m_layers << node;
-}
-
-void sad::Scene::removeNow(sad::BasicNode * node)
-{
-	for(size_t i = 0; i < m_layers.count(); i++)
-	{
-		if (node == m_layers[i])
-		{
-			this->onNodeRemoval(node);
-			m_layers.removeAt(i);
-			--i;
-		}
-	}
-}
-
-void sad::Scene::clearNow()
-{
-	for(size_t i = 0; i < m_layers.count(); i++)
-	{
-		this->onNodeRemoval(m_layers[i]);
-	}
-	m_layers.clear();
-}
-
-
-void sad::Scene::render()
-{  
-  m_camera->apply();
-
-  performQueuedActions();
-  lockChanges();
-  for (unsigned long i=0;i<m_layers.count();++i)
-  {
-#ifdef LOG_RENDERING
-	  SL_LOCAL_INTERNAL(
-		fmt::Format("Before rendering object {0} error code is {1}")
-	        << m_layers[i]->metaData()->name()
-		<< glGetError(), 
-		*m_renderer
-	);
-#endif
-	  m_layers[i]->render();
-#ifdef LOG_RENDERING
-	  SL_LOCAL_INTERNAL(
-		fmt::Format("After rendering object {0} error code is {1}")
-	        << m_layers[i]->metaData()->name()
-		<< glGetError(), 
-		*m_renderer
-	);
-#endif
-  }
-  unlockChanges();
-  performQueuedActions();
-}
-
-
-void sad::Scene::onNodeRemoval(sad::BasicNode * node)
-{
-	delete node;
-}
-
-int sad::Scene::findLayer(sad::BasicNode * node)
-{
-	for (unsigned int i = 0;i<m_layers.count();i++) 
+	for (unsigned int i = 0; i < m_layers.count();i++) 
 	{
 		if (m_layers[i] == node)
 			return i;
@@ -120,18 +41,7 @@ int sad::Scene::findLayer(sad::BasicNode * node)
 	return -1;
 }
 
-void sad::Scene::swapLayers(sad::BasicNode * node1, sad::BasicNode * node2)
-{
-	int pos1 = findLayer(node1);
-	int pos2 = findLayer(node2);
-	if (pos1!=-1 && pos2!=-1)
-	{
-		m_layers[pos1] = node2;
-		m_layers[pos2] = node1;
-	}
-}
-
-void sad::Scene::setLayer(sad::BasicNode * node, unsigned int layer)
+void sad::Scene::setLayer(sad::SceneNode * node, unsigned int layer)
 {
 	int oldlayer = findLayer(node); 
 	if (oldlayer!=-1)
@@ -148,7 +58,76 @@ void sad::Scene::setLayer(sad::BasicNode * node, unsigned int layer)
 	}
 }
 
-sad::Camera & sad::Scene::camera()
+void sad::Scene::swapLayers(sad::SceneNode * node1, sad::SceneNode * node2)
 {
-	return *m_camera;
+	int pos1 = findLayer(node1);
+	int pos2 = findLayer(node2);
+	if (pos1!=-1 && pos2!=-1)
+	{
+		m_layers[pos1] = node2;
+		m_layers[pos2] = node1;
+	}
+}
+
+void sad::Scene::render()
+{  
+  m_camera->apply();
+
+  performQueuedActions();
+  lockChanges();
+  for (unsigned long i = 0;i < m_layers.count(); ++i)
+  {
+#ifdef LOG_RENDERING
+	  SL_LOCAL_INTERNAL(
+		fmt::Format("Before rendering object {0} error code is {1}")
+	        << m_layers[i]->metaData()->name()
+		<< glGetError(), 
+		*m_renderer
+	);
+#endif
+	  sad::SceneNode * node = m_layers[i];
+	  if (node->active())
+	  {
+			node->render();
+	  }
+#ifdef LOG_RENDERING
+	  SL_LOCAL_INTERNAL(
+		fmt::Format("After rendering object {0} error code is {1}")
+	        << m_layers[i]->metaData()->name()
+		<< glGetError(), 
+		*m_renderer
+	);
+#endif
+  }
+  unlockChanges();
+  performQueuedActions();
+}
+
+void sad::Scene::addNow(sad::SceneNode * node)
+{
+	node->addRef();
+	node->setScene(this);
+	m_layers << node;
+}
+
+void sad::Scene::removeNow(sad::SceneNode * node)
+{
+	for(size_t i = 0; i < m_layers.count(); i++)
+	{
+		if (node == m_layers[i])
+		{
+			node->delRef();
+			m_layers.removeAt(i);
+			--i;
+		}
+	}
+}
+
+void sad::Scene::clearNow()
+{
+	for(size_t i = 0; i < m_layers.count(); i++)
+	{
+		m_layers[i]->delRef();
+	}
+	m_layers.clear();
 }

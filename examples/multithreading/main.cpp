@@ -14,7 +14,7 @@
 #include <fontmanager.h>
 #include <orthographiccamera.h>
 #include <sadthread.h>
-#include <sprite2dadapter.h>
+#include <sprite2d.h>
 #include <label.h>
 #include <texturemappedfont.h>
 #include <texturemanager.h>
@@ -40,7 +40,7 @@ class EventHandler: public sad::input::AbstractHandler
 {
  private:
 	 sad::Renderer * m_renderer; //!< A current renderer, which working controls belong to
-	 Sprite2DAdapter * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
+	 sad::Sprite2D * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
 	 bool m_quit;                //!< Whether we should quit renderer on event call
  public:
 	 /*! A new handler just consists from these three fields
@@ -48,7 +48,7 @@ class EventHandler: public sad::input::AbstractHandler
 		 \param[in] a sprite
 		 \param[in] quit quit
 	  */
-	 EventHandler(sad::Renderer * r, Sprite2DAdapter * a, bool quit)
+	 EventHandler(sad::Renderer * r, sad::Sprite2D * a, bool quit)
 	 {
 		 m_renderer = r;
 		 m_ad = a;
@@ -67,13 +67,8 @@ class EventHandler: public sad::input::AbstractHandler
 		else 
 		{
 			const sad::input::MouseMoveEvent& ev = static_cast<const sad::input::MouseMoveEvent&>(e);
-			// This point is center of sprite
-			sad::Point2D center = m_ad->pos();
-			// Since Sprite2DAdapter::move uses relative coordinates to move center of sprite
-			// we must compute distance between point, where user clicked ands center of sprite
-			// and call it.
-			sad::Point2D v = ev.pos2D() - center;
-			m_ad->move(v);
+			// Move sprite center to a position
+			m_ad->moveTo(ev.pos2D());
 		}
 	 }
 	 /*! This is convenient function for  implementation of sad::Input, which avoids calling
@@ -86,33 +81,6 @@ class EventHandler: public sad::input::AbstractHandler
 		return false;
 	 }
 };	
-
-// On some Intel GMA modules,
-// building a few mipmaps at the same time or rendering scenes
-// causes segault and texture corruption. 
-// So we create a lock, which disables it.
-// If you don't have these kind of cards feel free to comment,
-// It has been tested on NVidia card without locks ans seems to work.
-sad::Mutex RenderMutex;
-// We override default scene to avoid bugs with IntelGMA modules
-// All we need to do is to override ::render()
-class InterlockedScene:public sad::Scene
-{
- public:
-	 /*! So, all this scene is doing is
-		 1) Locking on mutex, so other scene won't be rendered
-		 
-		 2) Render scene as normal
-
-		 3) Unlocking on mutex
-	  */
-	 virtual void render() {
-		RenderMutex.lock();
-		this->sad::Scene::render();
-		RenderMutex.unlock();
-	 }
-};
-
 
 /*! This is simple thread function, which inits a renderer, with simple scene of
     two kind of fonts and sprite. Also it creates separate log for work, and sets 
@@ -129,6 +97,10 @@ int thread(void * p)
 	/* Firstly, we create our own renderer, which will do all kind of tasks
 	 */ 
 	sad::Renderer r;
+	/*! Create and set scene for renderer;
+	 */
+	sad::Scene * scene = new sad::Scene();
+	r.setScene(scene);
 	
 	/* Setup the logging. We redirect all messages to a file, passed as parameter to thread
 	   variable
@@ -144,10 +116,9 @@ int thread(void * p)
 	
 	
 
-	/* Create new scene and toggle orthographic projection.
-	   Note, that we pass our renderer to camera - that's how it will know size of window
+	/* Bind built-ing scene to renderer 
 	 */
-	r.setScene(new InterlockedScene());
+	scene->setRenderer(&r);
 
 	/* Load texture mapped font. 
 	   We add it to font manager to be sure, that memory will be freed at exit.
@@ -186,15 +157,15 @@ int thread(void * p)
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
-	Sprite2DAdapter * a = new Sprite2DAdapter(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
-	r.scene()->add(a);
+	sad::Sprite2D * a = new sad::Sprite2D(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
+	scene->add(a);
 
 	/* Add two labels with different fonts
 	 */
-	r.scene()->add(
+	scene->add(
 		new sad::Label(fnt1, sad::Point2D(300,200), "FTFont")
 	);
-	r.scene()->add(
+	scene->add(
 		new sad::Label(fnt2, sad::Point2D(400,400), "TMFont")
 	);
 	

@@ -19,10 +19,13 @@ class Renderer;
 	Note, that width of text is unbounded and it grows on right direction and
 	down from set rendering point
 */
-class Label: public sad::BasicNode
+class Label: public sad::SceneNode
 {
  SAD_OBJECT
- public:	
+ public:
+		/*! Creates a default broken sprite at (0,0) and no string
+		 */
+		Label();
 		/*! Creates a simple label with font size of 20px and angle of zero.
 			Default color is black.
 		    \param[in] font  a font, which label is being rendered with
@@ -73,6 +76,17 @@ class Label: public sad::BasicNode
 		inline const sad::Point2D & point() const
 		{
 			return m_point;
+		}
+		/*! Set fonts name for a label
+			\param[in] name a name of font for a label
+		 */
+		void setFontName(const sad::String & name);
+		/*! Returns name for a font, used in label
+			\return name for a used font
+		 */
+		inline const sad::String & fontName() const
+		{
+			return m_font_name;
 		}
 		/*! Sets upper-left point for a label
 			\param[in] point a point
@@ -178,12 +192,21 @@ class Label: public sad::BasicNode
 		/*! Destructs it
 		*/
 		virtual ~Label();
+		/*! When set scene and font name is defined label tries to reload
+			itself from scene's renderer
+			\param[in] scene a scene, which will render a node
+		 */
+		virtual void setScene(sad::Scene * scene);
 private:
+		/*! Reloads font for a label from scene
+		 */
+		void reloadFont();
 		/*! Recomputes rotation coefficients, 
 			so rotation will be placed just in place 
 		 */
 		void recomputeRenderingPoint();
 		sad::Font  *     m_font;       //!< A font, that label is being renderd with
+		sad::String      m_font_name;   //!< A name for a font
 		sad::String      m_string;     //!< A rendered string
 		/*! An upper left point, where text is rendered
 		 */

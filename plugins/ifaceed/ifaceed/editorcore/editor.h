@@ -56,22 +56,13 @@ class InterlockedScene: public sad::Scene
 	      /** A parent editor
 		   */
 		  Editor * m_editor;
-		  /*! Deletes node on default, removes reference if AbstractScreenObject
-			  \param[in] node node to be removed
-		   */
-		  virtual void onNodeRemoval(sad::BasicNode * node);
  public:
 		  /** Constructs new interlocked scene
 		   */
-	      inline InterlockedScene(Editor * ed) { this->m_editor = ed;}
-		  /** Adds an object to scene
-			  \param[in] obj object to be added
-		   */
-		  virtual void add(AbstractScreenObject * obj);
-		  /** Removes an object from scene
-			  \param[in] rem removed object
-		   */
-		  virtual void remove(AbstractScreenObject * rem);
+	      inline InterlockedScene(Editor * ed) 
+		  { 
+			  this->m_editor = ed;
+		  }
 		  /** Renders a scene
 		   */
 		  virtual void render();

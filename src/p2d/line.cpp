@@ -26,8 +26,8 @@ void sad::p2d::Line::rotate(double angle)
 {
 	sad::p2d::Point center = this->center();	
 	sad::p2d::Matrix2x2 m = sad::p2d::Matrix2x2::counterclockwise(angle);
-	sad::p2d::Point x1 = (this->m_c.p1() - center )* m + center;
-	sad::p2d::Point x2 = (this->m_c.p2() - center )* m + center;
+	sad::p2d::Point x1 = m *(this->m_c.p1() - center ) + center;
+	sad::p2d::Point x2 = m *(this->m_c.p2() - center ) + center;
 	setCutter(sad::p2d::Cutter2D(x1 , x2) );
 }
 

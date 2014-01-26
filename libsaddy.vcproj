@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\geometry3d.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\glcontext.cpp"
 				>
 			</File>
@@ -227,6 +231,10 @@
 			</File>
 			<File
 				RelativePath=".\src\periodicalevent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\primitiverenderer.cpp"
 				>
 			</File>
 			<File
@@ -282,19 +290,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\scenenode.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\settings.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\sprite.cpp"
+				RelativePath=".\src\sprite2d.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\sprite2dadapter.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\sprite2dcontroller.cpp"
+				RelativePath=".\src\sprite3d.cpp"
 				>
 			</File>
 			<File
@@ -752,6 +760,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\geometry3d.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\glcontext.h"
 				>
 			</File>
@@ -776,6 +788,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\matrix3x3.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\maybe.h"
 				>
 			</File>
@@ -797,6 +813,10 @@
 			</File>
 			<File
 				RelativePath=".\include\periodicalevent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\primitiverenderer.h"
 				>
 			</File>
 			<File
@@ -896,19 +916,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\scenenode.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\settings.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\sprite.h"
+				RelativePath=".\include\sprite2d.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\sprite2dadapter.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\sprite2dcontroller.h"
+				RelativePath=".\include\sprite3d.h"
 				>
 			</File>
 			<File

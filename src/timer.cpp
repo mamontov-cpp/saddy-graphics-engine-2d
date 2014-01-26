@@ -33,3 +33,8 @@ double sad::Timer::elapsed() const
 {
 	return m_dptr->elapsed();
 }
+
+sad::Timer::~Timer()
+{
+	delete m_dptr;
+}

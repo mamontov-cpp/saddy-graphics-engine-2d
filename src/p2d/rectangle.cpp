@@ -33,7 +33,7 @@ void sad::p2d::Rectangle::rotate(double angle)
 {
 	if (fabs(angle) > S2D_FP_PRECISION)
 	{
-		sad::rotate((float)angle, m_rect);
+		sad::rotate(m_rect, (float)angle);
 	}
 }
 

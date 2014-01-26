@@ -43,6 +43,9 @@ public:
 		won't be available
 	 */
 	double elapsed() const;
+	/*! Frees memory from implementation
+	 */
+	~Timer();
 protected:
 	/*! An implementation of a timer
 	 */

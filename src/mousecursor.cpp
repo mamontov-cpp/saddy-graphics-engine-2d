@@ -2,7 +2,7 @@
 #include "renderer.h"
 #include "window.h"
 #include "glcontext.h"
-#include "sprite2dadapter.h"
+#include "sprite2d.h"
 #include "os/windowhandles.h"
 #include "input/controls.h"
 
@@ -11,14 +11,14 @@ sad::MouseCursorImage::~MouseCursorImage()
 	
 }
 
-sad::MouseCursorSprite::MouseCursorSprite(Sprite2DAdapter * a): m_a(a)
+sad::MouseCursorSprite::MouseCursorSprite(sad::Sprite2D * a): m_a(a)
 {
 	
 }
 
 void sad::MouseCursorSprite::setPos(const sad::Point2D & p)
 {
-	m_a->setPos(p);
+	m_a->moveTo(p);
 }
 
 void sad::MouseCursorSprite::render()
@@ -45,8 +45,8 @@ m_move_handler(NULL)
 }
 
 sad::MouseCursor::~MouseCursor()
-{
-
+{	
+	delete m_cursor;
 }
 
 void sad::MouseCursor::setRenderer(sad::Renderer * r)
@@ -196,7 +196,7 @@ void sad::MouseCursor::setImage(sad::MouseCursorImage * image)
 	m_usecustomcursor = true;
 }
 
-void sad::MouseCursor::setImage(Sprite2DAdapter * a)
+void sad::MouseCursor::setImage(Sprite2D * a)
 {
 	setImage(new sad::MouseCursorSprite(a));	
 }

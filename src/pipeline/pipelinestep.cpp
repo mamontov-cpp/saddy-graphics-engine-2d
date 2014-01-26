@@ -1,5 +1,10 @@
 #include "pipeline/pipelinestep.h"
 
+sad::pipeline::Step::~Step()
+{
+	
+}
+
 void sad::pipeline::Step::mark(const sad::String & mark)
 {
 	m_mark.setValue(mark);

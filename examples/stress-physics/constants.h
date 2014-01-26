@@ -38,7 +38,7 @@ template<>
 class Constants<ColoredBullet>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -46,7 +46,7 @@ template<>
 class Constants<Ball>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -55,7 +55,7 @@ template<>
 class Constants<GridNode>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -63,7 +63,7 @@ template<>
 class Constants<GridNodeEdge>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static sad::Rect2D sourceRect();
 };
 
@@ -71,7 +71,7 @@ template<>
 class Constants<UncoloredBullet>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -80,7 +80,7 @@ template<>
 class Constants<Platform>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -88,7 +88,7 @@ template<>
 class Constants<Shooter>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 
@@ -97,7 +97,7 @@ template<>
 class Constants<MovingSmile>
 {
 public:
-	static Sprite2DAdapter::Options * sprite();
+	static sad::Sprite2D::Options * sprite();
 	static p2d::CollisionShape * shape();
 };
 

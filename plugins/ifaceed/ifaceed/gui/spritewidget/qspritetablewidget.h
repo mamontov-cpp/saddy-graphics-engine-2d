@@ -1,7 +1,11 @@
 #ifndef QSPRITETABLEWIDGET_H
 #define QSPRITETABLEWIDGET_H
-#include <QtCore>
-#include <QtGui>
+#include <QWidget>
+#include <QTableWidget>
+#include <QComboBox>
+#include <QList>
+#include <QString>
+#include <QLayout>
 #include "../../core/spritedatabase.h"
 #include "../../core/qspritetablewidgetselection.h"
 #include "celldelegate.h"
