@@ -30,7 +30,8 @@ m_main_loop(new sad::MainLoop()),
 m_fps_interpolation(new sad::FPSInterpolation()),
 m_controls(new sad::input::Controls()),
 m_pipeline(new sad::pipeline::Pipeline()),
-m_added_system_pipeline_tasks(false)
+m_added_system_pipeline_tasks(false),
+m_primitiverenderer(new sad::PrimitiveRenderer())
 {
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
@@ -49,6 +50,7 @@ m_added_system_pipeline_tasks(false)
 
 sad::Renderer::~Renderer(void)
 {
+	delete m_primitiverenderer;
 	delete m_cursor;
 	delete m_font_manager;
 	delete m_texture_manager;
@@ -372,6 +374,17 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 	}
 }
 
+void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
+{
+	delete m_primitiverenderer;	
+}
+
+
+sad::PrimitiveRenderer * sad::Renderer::render() const
+{
+	return m_primitiverenderer;
+}
+
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
@@ -427,9 +440,11 @@ void sad::Renderer::initPipeline()
 		m_added_system_pipeline_tasks =  true;
 	}
 	//We should append rendering task to pipeline to make scene renderable
-	if (this->pipeline()->contains("sad::Renderer::render") == false)
+	if (this->pipeline()->contains("sad::Renderer::renderScenes") == false)
 	{
-		this->pipeline()->appendProcess(this, &sad::Renderer::render)->mark("sad::Renderer::render");
+		this->pipeline()
+			->appendProcess(this, &sad::Renderer::renderScenes)
+			->mark("sad::Renderer::renderScenes");
 	}
 }
 
@@ -446,7 +461,7 @@ void sad::Renderer::startRendering()
 	glLoadIdentity();
 }
 
-void sad::Renderer::render()
+void sad::Renderer::renderScenes()
 {
 	this->performQueuedActions();
 	this->lockChanges();
