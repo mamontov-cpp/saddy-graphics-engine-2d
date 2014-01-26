@@ -96,27 +96,6 @@ class ConfigEntry
         strings = array.collect{ |item| item.to_s() }
         return strings.join(";")
     end
-    ##
-    # :category: Public interface
-    # Writes an element into XML element. Does not appends self into a root element.
-    # [root]   _REXML::Element_ root element of document
-    # [return] _REXML::Element_ resulting element of entry to be appended to root element.
-    def write(root)
-        if (self.canOutput() == false)
-            raise 'Attempted to write invalid config'
-        end
-        result = REXML::Element.new(@name)
-        if (@index != nil)
-            result.add_attribute( "index", @index.to_s )
-        end
-        result.add_attribute( "texture", @outputTextureName )
-        result.add_attribute( "size", self.array_to_string(@size) )
-        result.add_attribute( "texrect", self.array_to_string(@textureRectangle) )
-        if (@transparent != nil)
-            result.add_attribute( "transparent", self.array_to_string(@transparent) )
-        end
-        return result
-    end
 end
 
 
