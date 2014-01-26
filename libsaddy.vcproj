@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\primitiverenderer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\refcountable.cpp"
 				>
 			</File>
@@ -809,6 +813,10 @@
 			</File>
 			<File
 				RelativePath=".\include\periodicalevent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\primitiverenderer.h"
 				>
 			</File>
 			<File

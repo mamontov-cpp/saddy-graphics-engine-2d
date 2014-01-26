@@ -18,6 +18,7 @@
 #include "maybe.h"
 #include "temporarilyimmutablecontainer.h"
 #include "sadptrvector.h"
+#include "primitiverenderer.h"
 
 namespace sad
 {
@@ -206,6 +207,14 @@ public:
 		\param[in] layer a layer ordering to be set
 	 */
 	void setLayer(sad::Scene * s, unsigned int layer);
+	/*! Sets primitive renderer
+		\param[in] r renderer for primitives
+	 */
+	void setPrimitiveRenderer(sad::PrimitiveRenderer * r);
+	/*! Returns primitive renderer, which can be used to render primitives
+		\return renderer for primitives
+	 */
+	sad::PrimitiveRenderer * render() const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -251,6 +260,9 @@ protected:
 	/*! A scenes to be rendered
 	 */
 	sad::PtrVector<sad::Scene> m_scenes; 
+	/*! A renderer for the primitives
+	 */ 
+	sad::PrimitiveRenderer *  m_primitiverenderer;
 	/*! An input controls for user action callbacks
 	 */
 	sad::input::Controls*     m_controls;
@@ -287,7 +299,7 @@ protected:
 	virtual void startRendering();
 	/*! Sequentially renders all scenes
 	 */
-	virtual void render();
+	virtual void renderScenes();
 	/*! Called at end when we must finished rendering scenes, at end of rendering
 	 */
 	virtual void finishRendering();

@@ -4,7 +4,6 @@
 #include "ifaceeditor.h"
 
 #include <geometry2d.h>
-#include <os/glheaders.h>
 #include <config/sprite2dobserver.h>
 
 void ActiveObjectBorder::_process()
@@ -13,28 +12,8 @@ void ActiveObjectBorder::_process()
 	if (this->m_data->mustShowActiveBorder()) 
 	{
 		sad::Rect2D r = o->region();
-		glDisable(GL_TEXTURE_2D);
-		GLint   clr[4]={};
-		glGetIntegerv(GL_CURRENT_COLOR,clr);
-		glColor4ub(0,255,255,255);
-		glBegin(GL_LINES);
-		glVertex2f(r[0].x(), r[0].y());
-		glVertex2f(r[1].x(), r[1].y());
-
-		glVertex2f(r[1].x(), r[1].y());
-		glVertex2f(r[2].x(), r[2].y());
-
-		glVertex2f(r[2].x(), r[2].y());
-		glVertex2f(r[3].x(), r[3].y());	
-
-		glVertex2f(r[3].x(), r[3].y());	
-		glVertex2f(r[0].x(), r[0].y());
-
-		glEnd();
-		glColor4iv(clr);
-		glEnable(GL_TEXTURE_2D);
-
-		//this->renderHotSpots(o, false);
+		sad::Renderer::ref()->render()
+							->rectangle(r, sad::AColor(0, 255, 255, 255));
 	}
 }
 
@@ -47,27 +26,8 @@ void SelectedObjectBorder::_process()
 	if (o) 
 	{
 		sad::Rect2D r = o->region();
-		glDisable(GL_TEXTURE_2D);
-		GLint   clr[4]={};
-		glGetIntegerv(GL_CURRENT_COLOR,clr);
-		glColor4ub(255,0,0,255);
-		glBegin(GL_LINES);
-		glVertex2f(r[0].x(), r[0].y());
-		glVertex2f(r[1].x(), r[1].y());
-
-		glVertex2f(r[1].x(), r[1].y());
-		glVertex2f(r[2].x(), r[2].y());
-
-		glVertex2f(r[2].x(), r[2].y());
-		glVertex2f(r[3].x(), r[3].y());	
-
-		glVertex2f(r[3].x(), r[3].y());	
-		glVertex2f(r[0].x(), r[0].y());
-
-		glEnd();
-		glColor4iv(clr);
-		glEnable(GL_TEXTURE_2D);
-
+		sad::Renderer::ref()->render()
+							->rectangle(r, sad::AColor(255, 0, 0, 255));
 		this->renderHotSpots(o, true);
 	}
 }
