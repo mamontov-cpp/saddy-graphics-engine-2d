@@ -27,7 +27,7 @@ class TestConfigReader < Test::Unit::TestCase
     # :category: Test Utilities
     # Here we only create a ConfigReader to be used in tests
     def setup()
-        @obj = ConfigReader.new()
+        @obj = XMLConfigReader.new()
     end
     
     ##
