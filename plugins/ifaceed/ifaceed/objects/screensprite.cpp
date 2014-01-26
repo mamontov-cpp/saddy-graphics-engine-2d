@@ -24,7 +24,7 @@ public:
 		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
 		{
-			m_sprite->observer()->sprite()->adapter()->setRect(data);
+			m_sprite->observer()->sprite()->setRenderableArea(data);
 		}
 	}
 	virtual void notify(const float & data)
@@ -32,7 +32,7 @@ public:
 		sad::Sprite2DConfigObserver * o = m_sprite->observer();
 		if (o)
 		{
-			Sprite2DController * c = o->sprite();
+			sad::Sprite2D * c = o->sprite();
 			c->rotate(data - c->angle()); 
 		}
 	}
@@ -85,7 +85,7 @@ void ScreenSprite::_render()
 		m_observer->sprite()->setColor(
 			sad::AColor(m_color.r(), m_color.g(), m_color.b(), (sad::uchar)m_alpha)
 		);
-		m_observer->sprite()->adapter()->render();
+		m_observer->sprite()->render();
 	}
 }
 
@@ -106,7 +106,7 @@ sad::String ScreenSprite::_description()
 sad::Rect2D ScreenSprite::region()
 {
 	sad::Rect2D rd = m_rect;
-	sad::rotate(m_angle, rd);
+	sad::rotate(rd, m_angle);
 	return  rd;	
 }
 
@@ -117,7 +117,7 @@ void ScreenSprite::moveCenterTo(const sad::Point2D & point)
 		sad::Rect2D  hregion = this->region();
  		sad::Point2D middle = (hregion[0] + hregion[2]) / 2; 
 		sad::Point2D delta = point - middle;
-		m_observer->sprite()->move(delta);
+		m_observer->sprite()->moveBy(delta);
 		sad::moveBy(delta, m_rect);
 	}
 }
@@ -165,7 +165,7 @@ bool ScreenSprite::tryReload(FontTemplateDatabase * db)
     //bool changesize = false;
 	if (m_observer)
 	{
-		point = m_observer->sprite()->pos();
+		point = m_observer->sprite()->middle();
 	}
 
 	delete m_observer;
@@ -186,19 +186,19 @@ void ScreenSprite::reloadNoSize(FontTemplateDatabase * db)
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
-	m_rect = this->m_observer->sprite()->adapter()->rect();
+	m_rect = this->m_observer->sprite()->renderableArea();
 }
 
 void ScreenSprite::setRotatedRectangle(const sad::Rect2D & rotatedrectangle, float angle)
 {
 	float mangle = -1 * angle;
 	m_rect = rotatedrectangle;
-	sad::rotate(mangle, m_rect);	
+	sad::rotate(m_rect, mangle);	
 	m_angle = angle;
 	sad::Sprite2DConfigObserver * o = this->observer();
 	if (o)
 	{
-		this->observer()->sprite()->adapter()->setRect(rotatedrectangle);
+		this->observer()->sprite()->setRenderableArea(rotatedrectangle);
 	}
 }
 
@@ -208,6 +208,6 @@ void ScreenSprite::initializeGraphicAfterLoad(FontTemplateDatabase * db)
 	sad::Sprite2DConfigObserver * obs = new sad::Sprite2DConfigObserver(m_group, m_index, cfg);
 	obs->createSprite(sad::Point2D(0,0));
 	m_observer = obs;
-	obs->sprite()->adapter()->setRect(m_rect);
+	obs->sprite()->setRenderableArea(m_rect);
 	obs->sprite()->rotate(m_angle);
 }

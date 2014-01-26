@@ -74,7 +74,7 @@ public:
 	void setEvent(PeriodicalEvent * e);
 	/*! Destroys event
      */
-	~PeriodicalEventPollProcess();
+	virtual ~PeriodicalEventPollProcess();
 	/*! Creates new periodical task for specified event
 	    \return task
 	 */

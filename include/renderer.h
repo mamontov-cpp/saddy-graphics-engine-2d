@@ -16,6 +16,9 @@
 #include "log/log.h"
 #include "timer.h"
 #include "maybe.h"
+#include "temporarilyimmutablecontainer.h"
+#include "sadptrvector.h"
+#include "primitiverenderer.h"
 
 namespace sad
 {
@@ -49,7 +52,7 @@ typedef sad::Maybe<sad::Point3D> MaybePoint3D;
 	event handling. Note, that one sad::Renderer can run in main thread, but only
 	if there are no other windows attached to it.
  */
-class Renderer
+class Renderer: public TemporarilyImmutableContainer<sad::Scene>
 {
 public:
     /*! Creates default renderer. Note, that you must call 
@@ -59,7 +62,7 @@ public:
 	/*! Frees system resources from a renderer, when destroyed 
 	 */
 	virtual ~Renderer();
-    /*! Sets a current scene. 
+    /*! Sets a current scene, clearing scene container and adding a new scene. 
 		Use this function to set a scene. Note that the pointer can not be null.
 		If you want to clear scene, use sad::Scene::clear instead
 		\param[in] scene  a new scene
@@ -68,7 +71,7 @@ public:
 	/*! Returns a current rendererd scene
 		\return current scene
 	 */
-	virtual sad::Scene* scene() const;
+	virtual const sad::Vector<sad::Scene*>& scenes() const;
 	/*! Initializes renderer with specified settings
 		 \param[in] _settings settings 
 		 \return Success of operation
@@ -189,6 +192,29 @@ public:
 		\param[in] height Needed height
 	 */
 	void reshape(int width, int height);
+	/*! Adds new scene to scene container
+		\param[in] scene a scene to be rendered
+	 */
+	void add(sad::Scene * scene);
+	/*! Returns order in which layer will be rendered. Higher order means the scene will
+		be rendered later
+		\param[in] s scene
+		\return order, -1 if not found
+	 */
+	int layer(sad::Scene * s);
+	/*! Sets scene order to be rendered, removing from previous point
+		\param[in] s a scene
+		\param[in] layer a layer ordering to be set
+	 */
+	void setLayer(sad::Scene * s, unsigned int layer);
+	/*! Sets primitive renderer
+		\param[in] r renderer for primitives
+	 */
+	void setPrimitiveRenderer(sad::PrimitiveRenderer * r);
+	/*! Returns primitive renderer, which can be used to render primitives
+		\return renderer for primitives
+	 */
+	sad::PrimitiveRenderer * render() const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -231,14 +257,12 @@ protected:
     /*! An interpolation for FPS
 	 */
 	sad::FPSInterpolation* m_fps_interpolation;
-	/*! A current scene. May be old, when user called sad::Renderer::setScene
-		and sad::Scene is being rendered
+	/*! A scenes to be rendered
 	 */
-	sad::Scene*               m_scene;	 
-	/*! A new scene. For most time is NULL, but if user set new scene via
-		sad::Renderer::setScene it could be not NULL
-	 */
-	sad::Scene*               m_new_scene;   
+	sad::PtrVector<sad::Scene> m_scenes; 
+	/*! A renderer for the primitives
+	 */ 
+	sad::PrimitiveRenderer *  m_primitiverenderer;
 	/*! An input controls for user action callbacks
 	 */
 	sad::input::Controls*     m_controls;
@@ -270,16 +294,26 @@ protected:
 	/*! Cleans a pipeline from renderer data
 	 */
 	virtual void cleanPipeline();
-	/*! Tries to swap both scened in tenderer, if need
-		so.
-	 */
-	virtual void trySwapScenes();
 	/*! Called before rendering of scene
 	 */
 	virtual void startRendering();
+	/*! Sequentially renders all scenes
+	 */
+	virtual void renderScenes();
 	/*! Called at end when we must finished rendering scenes, at end of rendering
 	 */
 	virtual void finishRendering();
+	/*! Adds a scene to scene list
+		\param[in] s scene to be added
+	 */
+	virtual void addNow(sad::Scene * s);
+	/*! Removes a scene to scene list
+		\param[in] s scene to be removed
+	 */
+	virtual void removeNow(sad::Scene * s);
+	/*! Clears scene from a scene list
+	 */
+	virtual void clearNow();
 };
 
 }

@@ -13,7 +13,7 @@
 #include <renderer.h>
 #include <texturemanager.h>
 #include <orthographiccamera.h>
-#include <sprite2dadapter.h>
+#include <sprite2d.h>
 #include <geometry2d.h>
 #include <formattedlabel.h>
 #include <pipeline/pipeline.h>
@@ -149,6 +149,7 @@ void Game::startPlaying()
 
 Game::~Game()
 {
+	delete m_walls;
 	delete m_machine;
 }
 
@@ -262,7 +263,7 @@ void Game::enterPlayingScreen()
 	sad::Scene * sc = this->scene();
 
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
-	Sprite2DAdapter * background = new Sprite2DAdapter(
+	sad::Sprite2D * background = new sad::Sprite2D(
 		tex, 
 		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)
@@ -439,8 +440,7 @@ void Game::onPlayerSuperShootingEnemy(const sad::p2d::CollisionEvent<Player, Sup
 void Game::moveToStartingScreen()
 {
 	SL_SCOPE("Game::moveToStartingScreen()");
-	this->scene()->clear();
-	
+	sad::Renderer::ref()->setScene(new sad::Scene());
 	delete m_world;
 	createWorld();
 	m_steptask->setWorld(m_world);
@@ -451,7 +451,7 @@ void Game::moveToStartingScreen()
 
 	// Fill screne with background, label and rain of element (the last object does that).
 	sad::Texture * tex = sad::Renderer::ref()->textures()->get("title");
-	Sprite2DAdapter * background = new Sprite2DAdapter(
+	sad::Sprite2D * background = new sad::Sprite2D(
 		tex, 
 		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 640, 480)

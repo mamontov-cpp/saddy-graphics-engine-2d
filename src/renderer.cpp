@@ -22,8 +22,6 @@ sad::Renderer::Renderer()
 m_log(new sad::log::Log()),
 m_font_manager(new sad::FontManager()),
 m_texture_manager(new sad::TextureManager()),
-m_scene(new sad::Scene()),
-m_new_scene(NULL),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
@@ -32,9 +30,9 @@ m_main_loop(new sad::MainLoop()),
 m_fps_interpolation(new sad::FPSInterpolation()),
 m_controls(new sad::input::Controls()),
 m_pipeline(new sad::pipeline::Pipeline()),
-m_added_system_pipeline_tasks(false)
+m_added_system_pipeline_tasks(false),
+m_primitiverenderer(new sad::PrimitiveRenderer())
 {
-	m_scene->setRenderer(this);
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
@@ -52,8 +50,7 @@ m_added_system_pipeline_tasks(false)
 
 sad::Renderer::~Renderer(void)
 {
-	if (m_scene)
-		delete m_scene;
+	delete m_primitiverenderer;
 	delete m_cursor;
 	delete m_font_manager;
 	delete m_texture_manager;
@@ -69,21 +66,13 @@ sad::Renderer::~Renderer(void)
 
 void sad::Renderer::setScene(Scene * scene)
 {
-	if (this->running())
-	{
-		m_new_scene = scene;
-	} 
-	else
-	{
-		delete m_scene;
-		m_scene = scene;
-	}
-	scene->setRenderer(this);
+	clear();
+	add(scene);
 }
 
-sad::Scene* sad::Renderer::scene() const
+const sad::Vector<sad::Scene*>& sad::Renderer::scenes() const
 {
-	return m_scene;
+	return m_scenes;
 }
 
 
@@ -341,10 +330,60 @@ void sad::Renderer::reshape(int width, int height)
 	glLoadIdentity ();	
 }
 
-#ifndef GL_GENERATE_MIPMAP_HINT
-	#define GL_GENERATE_MIPMAP_HINT           0x8192
-#endif
+void sad::Renderer::add(sad::Scene * scene)
+{
+	if (scene)
+		scene->setRenderer(this);
+	this->sad::TemporarilyImmutableContainer<sad::Scene>::add(scene);
+}
 
+int  sad::Renderer::layer(sad::Scene * s)
+{
+	std::vector<sad::Scene*>::iterator it = std::find(m_scenes.begin(), m_scenes.end(), s);
+	if (it == m_scenes.end())
+	{
+		return -1;
+	}
+	return it - m_scenes.begin();
+}
+
+void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
+{
+	int oldlayer = this->layer(s);
+	if (s)
+	{
+		s->setRenderer(this);
+	}
+
+	if (oldlayer != -1)
+	{
+		m_scenes.removeAt(oldlayer);
+		if (layer > oldlayer)
+		{
+			layer--;
+		}
+	}
+		
+	if (layer >= m_scenes.count())
+	{
+		m_scenes << s;
+	}
+	else
+	{
+		m_scenes.insert(s, layer);
+	}
+}
+
+void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
+{
+	delete m_primitiverenderer;	
+}
+
+
+sad::PrimitiveRenderer * sad::Renderer::render() const
+{
+	return m_primitiverenderer;
+}
 
 bool sad::Renderer::initGLRendering()
 {
@@ -378,18 +417,6 @@ bool sad::Renderer::initGLRendering()
 	return true;
 }
 
-
-
-void sad::Renderer::trySwapScenes()
-{
-	if (m_new_scene)
-	{
-		delete m_scene;
-		m_scene = m_new_scene;
-		m_scene->setRenderer(this);
-	}
-}
-
 void sad::Renderer::initPipeline()
 {
 	if (this->m_added_system_pipeline_tasks == false)
@@ -410,15 +437,14 @@ void sad::Renderer::initPipeline()
 		this->pipeline()
 			->systemAppendProcess(this, &sad::Renderer::fpsInterpolation, &sad::FPSInterpolation::stop)
 			->mark("sad::FPSInterpolation::stop");
-		this->pipeline()
-			->systemAppendProcess(this, &sad::Renderer::trySwapScenes)
-			->mark("sad::Renderer::trySwapScenes");
 		m_added_system_pipeline_tasks =  true;
 	}
 	//We should append rendering task to pipeline to make scene renderable
-	if (this->pipeline()->contains("sad::Scene::render") == false)
+	if (this->pipeline()->contains("sad::Renderer::renderScenes") == false)
 	{
-		this->pipeline()->appendProcess(this, &sad::Renderer::scene, &sad::Scene::render)->mark("sad::Scene::render");
+		this->pipeline()
+			->appendProcess(this, &sad::Renderer::renderScenes)
+			->mark("sad::Renderer::renderScenes");
 	}
 }
 
@@ -435,9 +461,52 @@ void sad::Renderer::startRendering()
 	glLoadIdentity();
 }
 
+void sad::Renderer::renderScenes()
+{
+	this->performQueuedActions();
+	this->lockChanges();
+	for(int i = 0; i < m_scenes.count(); i++)
+	{
+		sad::Scene * s = m_scenes[i];
+		if (s)
+		{
+			if (s->active())
+			{
+				s->render();
+			}
+		}
+	}
+	this->unlockChanges();
+	this->performQueuedActions();
+}
+
 void sad::Renderer::finishRendering()
 {
 	glFinish();
 	context()->swapBuffers();
 }
+
+void sad::Renderer::addNow(sad::Scene * s)
+{
+	m_scenes << s;	
+}
+
+void sad::Renderer::removeNow(sad::Scene * s)
+{
+	if (s)
+	{
+		delete s;
+	}
+	m_scenes.removeAll(s);
+}
+
+void sad::Renderer::clearNow()
+{
+	for(unsigned int i = 0; i < m_scenes.size(); i++)
+	{
+		delete m_scenes[i];
+	}
+	m_scenes.clear();
+}
+
 

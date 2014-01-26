@@ -256,7 +256,19 @@ class CollisionMultiMethod
 			if (!d) return _ReturnType();
 			return d->invoke(a, b);
 		}
-		virtual ~CollisionMultiMethod() {}
+		virtual ~CollisionMultiMethod()
+		{
+			if (m_init)
+			{
+				for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+				{
+					for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+					{
+						delete m_instances[i][j];
+					}
+				}
+			}
+		}
 };
 
 /*! Defines a multi-method as set of specific methods
@@ -358,7 +370,19 @@ class CollisionMultiMethodWithArg
 				reverse(k);
 			return k;
 		}
-		virtual ~CollisionMultiMethodWithArg() {}
+		virtual ~CollisionMultiMethodWithArg()
+		{
+			if (m_init)
+			{
+				for(int i = 0; i < MULTIMETHOD_REGISTERED_TYPES; i++)
+				{
+					for(int j = 0; j < MULTIMETHOD_REGISTERED_TYPES; j++)
+					{
+						delete m_instances[i][j];
+					}
+				}
+			}
+		}
 };
 
 }

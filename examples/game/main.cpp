@@ -15,7 +15,7 @@
 #include <texturemappedfont.h>
 #include <texturemanager.h>
 #include <mousecursor.h>
-#include <sprite2dadapter.h>
+#include <sprite2d.h>
 
 #include <math.h>
 #include <time.h>
@@ -72,6 +72,8 @@ bool load_font(const sad::String & fontfolder, const sad::String & fontname)
 	return result;
 }
 
+
+
 /*! A main function 
 	\param[in] argc count of arguments
 	\param[in] argv arguments
@@ -111,7 +113,7 @@ int main(int argc, char** argv)
 	res=res && load_texture("examples/game/ingame.tga","background");
 	res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
 	
-	Sprite2DAdapter * a = new Sprite2DAdapter(
+	sad::Sprite2D * a = new sad::Sprite2D(
 		sad::TextureManager::ref()->get("objects"),
 		sad::Rect2D(sad::Point2D(441,32),sad::Point2D(457,48)),
 		sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8))

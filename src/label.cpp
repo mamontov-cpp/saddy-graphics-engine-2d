@@ -11,8 +11,17 @@
 #include <GL/gl.h>														
 #include <GL/glu.h>
 
-DECLARE_SOBJ_INHERITANCE(sad::Label,sad::BasicNode)
+DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
+
+sad::Label::Label() :
+m_font(NULL), m_point(0, 0), 
+m_string(""), m_angle(0), 
+m_size(20), m_linespacing_ratio(1.0),
+m_color(0, 0, 0, 0)
+{
+	
+}
 
 sad::Label::Label(
 	sad::Font *  font,
@@ -31,6 +40,9 @@ m_color(0, 0, 0, 0)
 
 void sad::Label::render()
 {
+	if (!m_font)
+		return;
+
 	m_font->setSize(m_size);
 	m_font->setColor(m_color);
 	m_font->setLineSpacingRatio(m_linespacing_ratio);
@@ -60,7 +72,7 @@ sad::Rect2D sad::Label::region() const
 						m_point.y(), 
 						m_point.x() + size.Width,
 						m_point.y() - size.Height);
-	sad::rotate(m_angle, result);
+	sad::rotate(result, m_angle);
 	return result;
 }
 
@@ -68,13 +80,28 @@ sad::Rect2D sad::Label::region() const
 
 sad::Label::~Label()
 {
+
 }
 
+void sad::Label::setScene(sad::Scene * scene)
+{
+	this->sad::SceneNode::setScene(scene);
+	if (m_font_name.length() != 0)
+	{
+		reloadFont();
+	}
+}
 
 void sad::Label::setPoint(const sad::Point2D & point)
 {
 	m_point = point;
 	recomputeRenderingPoint();
+}
+
+void sad::Label::setFontName(const sad::String & name)
+{
+	m_font_name = name;
+	reloadFont();
 }
 
 void sad::Label::setFont(sad::Font * font)
@@ -121,6 +148,17 @@ void sad::Label::setLineSpacingRatio(float ratio)
 	m_linespacing_ratio = ratio;
 	recomputeRenderingPoint();
 }
+
+void sad::Label::reloadFont()
+{
+	if (this->renderer() != NULL && m_font_name.length())
+	{
+		m_font = this->renderer()->fonts()->get(m_font_name);
+		if (m_font)
+			recomputeRenderingPoint();
+	}
+}
+
 
 void sad::Label::recomputeRenderingPoint()
 {

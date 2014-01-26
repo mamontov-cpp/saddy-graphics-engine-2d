@@ -2,63 +2,35 @@
     \author HiddenSeeker
     \brief  Here placed a scene files
 */
+#pragma once
 #include "sadvector.h"
 #include "sadhash.h"
 #include "temporarilyimmutablecontainer.h"
 #include "sadmutex.h"
-#include "object.h"
+#include "scenenode.h"
+
 #include <assert.h>
-#pragma once
+
 
 namespace sad
 {
-
-class Renderer;
 class Camera;
-/*! Basic objects of a scene
-*/
-class BasicNode: public sad::Object
-{
- SAD_OBJECT
-protected:
-	BasicNode();
-public:
-	/*! Render procedure
-	*/
-	virtual void render()=0;
-	/*! Destructor
-	*/
-	virtual ~BasicNode();
-};
 
-/*! Scene class
-*/
-class Scene: public sad::TemporarilyImmutableContainer<sad::BasicNode>
+/*! Scene is a special container, which renders itself, using a renderer
+ */
+class Scene: public sad::TemporarilyImmutableContainer<sad::SceneNode>
 {
-protected:
-	sad::Vector<BasicNode *>   m_layers;                 //!< Layers
-	sad::Camera      *        m_camera;                  //!< Current camera
-	sad::Renderer    *        m_renderer;                //!< Renderer pointer, only set when rendering
-	/*! Defines a behaviour on node removal. Default is destructing some node, freeing memory from it
-		\param[in] node node to be removed
-	 */
-	virtual void onNodeRemoval(sad::BasicNode * node);
-	/*! Adds an object to scene
-		\param[in] node 
-	 */
-	virtual void addNow(sad::BasicNode * node);
-	/*! Removes object from scene
-		\param[in] node
-	 */
-	virtual void removeNow(sad::BasicNode * node);
-	/*! Clears a scene
-	 */
-	virtual void clearNow();
 public:
-	sad::Camera   & camera();  //!< Returns a current camera
-
-	Scene();                   //!< Creates an empty scene
-	virtual ~Scene();                  //!< Destructor
+	/*! Creates an empty scene
+	 */
+	Scene();                   
+	/*! You can freely inherit and implement your own scene
+	 */
+	virtual ~Scene(); 
+	/*! Returns current camera for scene
+		\return current camera for scene
+	 */
+	sad::Camera   & camera(); 
 	/*! Sets a renderer
 		\param[in] renderer renderer part
 	 */
@@ -77,29 +49,70 @@ public:
 		\param[in] camera  new camera
 	*/
 	void setCamera(sad::Camera * camera);
-	/** Finds a layers for node
+	/*! Finds a layers for node
 		\param[in] node this node
 		\return -1 if not found, index otherwise
      */
-	int findLayer(sad::BasicNode * node);
-	/** Sets a layer for node. If no node found in scene - nothing happens, if layer not found - it 
+	int findLayer(sad::SceneNode * node);
+	/*! Sets a layer for node. If no node found in scene - nothing happens, if layer not found - it 
 		pushes to end
 		\param[in] node node data
 		\param[in] layer layer number
 	 */
-	void setLayer(sad::BasicNode * node,unsigned int layer);
-	/** Swaps to layers for nodes
+	void setLayer(sad::SceneNode * node,unsigned int layer);
+	/*! Swaps to layers for nodes
 		\param[in] node1 first node
 		\param[in] node2 second node
 	 */
-	void swapLayers(sad::BasicNode * node1, sad::BasicNode * node2);
-	/*! Renders a scene
-	*/
+	void swapLayers(sad::SceneNode * node1, sad::SceneNode * node2);
+	/*! Renders a scene, making it visible
+	 */
 	virtual void render();
 	/*! Returns amount of scene objects
 		\return objects amount
-	*/
-	inline unsigned long objectCount() { return m_layers.count(); }
+	 */
+	inline unsigned long objectCount()
+	{
+		return m_layers.count();
+	}
+	/*! Sets scene activity flag, which determines, whether it should be rendered
+		\param[in] active an activity flag
+	 */
+	inline void setActive(bool active)
+	{
+		m_active = active;
+	}
+	/*! Returns scene activity flag, which determines, whether it should be rendered
+		\return whether scene is active
+	 */
+	inline bool active()
+	{
+		return m_active;
+	}
+protected:
+	/*! Determines, whether scene is active and should be rendered
+	 */
+	bool                      m_active;
+	/*! A layers, which stores a node 
+	 */
+	sad::Vector<SceneNode *>   m_layers;   
+	/*! A camera, to be applied before rendering
+	 */
+	sad::Camera      *        m_camera;       
+	/*! Renderer, which scene belongs to
+	 */
+	sad::Renderer    *        m_renderer;       
+	/*! Adds an object to scene
+		\param[in] node 
+	 */
+	virtual void addNow(sad::SceneNode * node);
+	/*! Removes object from scene
+		\param[in] node
+	 */
+	virtual void removeNow(sad::SceneNode * node);
+	/*! Clears a scene
+	 */
+	virtual void clearNow();
 };
 
 }
