@@ -18,6 +18,9 @@
 # So, you can load new texture by loading it in saddy engine and parsing xml, resulting a texture atlas.
 # 
 # You can run the program using ruby main.rb "name of valid xml config"
+# Required gems - devil (don't forget to include OpenIL libraries in Ruby's bin folder)
+# json to support json
+# Preferred version of ruby - 1.9.3
 require_relative 'configreader'
 require_relative 'imagegluingorder.rb'
 require_relative 'imagearranger.rb'

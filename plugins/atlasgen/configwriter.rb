@@ -49,7 +49,7 @@ class ConfigWriter
             entries = config.getConfigArray()
             entries.each{
                 |entry|
-                el = entry.write(root)
+                el = self.writeElement(entry, root)
                 root.add_element(el)
             }
             
@@ -65,6 +65,29 @@ class ConfigWriter
         end
         # If we get error, definiitely an error
         return false
+    end
+	
+	##
+    # :category: Public interface
+    # Writes an element into XML element. Does not appends self into a root element.
+	# [tmp]    _ConfigEntry_    a config entry for interface.
+    # [root]   _REXML::Element_ root element of document
+    # [return] _REXML::Element_ resulting element of entry to be appended to root element.
+    def writeElement(tmp, root)
+        if (tmp.canOutput() == false)
+            raise 'Attempted to write invalid config'
+        end
+        result = REXML::Element.new(@name)
+        if (tmp.index != nil)
+            result.add_attribute( "index", @index.to_s )
+        end
+        result.add_attribute( "texture", tmp.outputTextureName )
+        result.add_attribute( "size", tmp.array_to_string(tmp.size) )
+        result.add_attribute( "texrect", tmp.array_to_string(tmp.textureRectangle) )
+        if (tmp.transparent != nil)
+            result.add_attribute( "transparent", tmp.array_to_string(tmp.transparent) )
+        end
+        return result
     end
     ##
     # :category: Public interface
