@@ -77,7 +77,7 @@ class ConfigReader
                 # Reads a new subelement and add to config
                 # Element adds to texturearray source image, from +ConfigEntry::read+ by calling +TextureArray::pushUnique+
                 tmp = ConfigEntry.new()
-                errors = tmp.read(element,result)
+                errors = self.readElement(tmp, element,result)
                 # Merges array of errors
                 @errors = @errors + errors
                 # Checks for unique items
@@ -94,6 +94,56 @@ class ConfigReader
         else
             return nil
         end
+    end
+	
+	##
+    # :category: Public interface
+    # Reads an XML element to entry. Does not add self to a config, instead loads a source image if possible
+    # [tmp]     _ConfigEntry_     a sprite config entry
+	# [element] _REXML::Element_  an element, which is mapped to entry
+    # [config]  _SpriteConfig_    a resulting config
+    # [return]  _Array_ of _String_ a errors, empty array if nothing found
+    def readElement(tmp, element,config)
+       errors = []
+       # Parse name and index
+       tmp.name = element.name
+       if (element.attributes['index'] != nil)
+            tmp.index = element.attributes['index'].to_i
+       end
+       # Parse texture
+       if (element.attributes['texture'] != nil)
+            tmp.inputTextureName = element.attributes['texture'] 
+            if (config.getTextures().containsTexture(tmp.inputTextureName) == false)
+                texture = Texture.new(tmp.inputTextureName)
+                # If texture is loaded successfully
+                if (texture.load())
+                    config.getTextures().pushUnique(texture)
+                else
+                    errors = errors << ("Can't load texture with name " + @inputTextureName)
+                end
+            end
+       else
+            errors = errors << ("At element with name " + tmp.getFullName() + " texture is not specified" )
+       end
+       # Parse size
+       if (element.attributes['size'] != nil)
+            list = element.attributes['size'].split(';')
+            if (list.length!=2)
+                errors = errors << ("At element with name " + tmp.getFullName() + " size must be defined as \"width;height\", but defined incorrectly")
+            else
+                tmp.size = [ list[0].to_i(), list[1].to_i() ]
+            end
+       end
+       # Parse transparency
+       if (element.attributes['transparent'] != nil)
+            list = element.attributes['transparent'].split(';')
+            if (list.length!=3)
+                errors = errors << ("At element with name " + tmp.getFullName() + " transparency mask color must be defined as \"r;g;b\", but defined incorrectly")
+            else
+                tmp.transparent = [ list[0].to_i(), list[1].to_i(), list[2].to_i() ]
+            end
+       end
+       return errors
     end
     ##
     # :category: Public interface

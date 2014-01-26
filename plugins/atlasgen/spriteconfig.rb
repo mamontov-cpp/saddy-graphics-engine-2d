@@ -85,55 +85,7 @@ class ConfigEntry
     # [return]  _String_ full name
     def getFullName()
         return @name + ":" + index().to_s()
-    end
-    ##
-    # :category: Public interface
-    # Reads an XML element to entry. Does not add self to a config, instead loads a source image if possible
-    # [element] _REXML::Element_  an element, which is mapped to entry
-    # [config]  _SpriteConfig_    a resulting config
-    # [return]  _Array_ of _String_ a errors, empty array if nothing found
-    def read(element,config)
-       errors = []
-       # Parse name and index
-       @name = element.name
-       if (element.attributes['index'] != nil)
-            @index = element.attributes['index'].to_i
-       end
-       # Parse texture
-       if (element.attributes['texture'] != nil)
-            @inputTextureName = element.attributes['texture'] 
-            if (config.getTextures().containsTexture(@inputTextureName) == false)
-                texture = Texture.new(@inputTextureName)
-                # If texture is loaded successfully
-                if (texture.load())
-                    config.getTextures().pushUnique(texture)
-                else
-                    errors = errors << ("Can't load texture with name " + @inputTextureName)
-                end
-            end
-       else
-            errors = errors << ("At element with name " + self.getFullName() + " texture is not specified" )
-       end
-       # Parse size
-       if (element.attributes['size'] != nil)
-            list = element.attributes['size'].split(';')
-            if (list.length!=2)
-                errors = errors << ("At element with name " + self.getFullName() + " size must be defined as \"width;height\", but defined strangely")
-            else
-                @size = [ list[0].to_i(), list[1].to_i() ]
-            end
-       end
-       # Parse transparency
-       if (element.attributes['transparent'] != nil)
-            list = element.attributes['transparent'].split(';')
-            if (list.length!=3)
-                errors = errors << ("At element with name " + self.getFullName() + " transparency mask color must be defined as \"r;g;b\", but defined strangely")
-            else
-                @transparent = [ list[0].to_i(), list[1].to_i(), list[2].to_i() ]
-            end
-       end
-       return errors
-    end
+    end    
     ##
     # :category: Implementation. DEPRECATED to use
     # Converts an array of numbers to a semicolon-separated string for output an attributes like +ConfigEntry::size+,
