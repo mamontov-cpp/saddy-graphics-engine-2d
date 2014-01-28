@@ -64,6 +64,10 @@ void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEve
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
 	c->commit(ed);
+
+	InterlockedScene * scene = static_cast<InterlockedScene *>(ed->scene());
+	scene->add(o);
+
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	ed->behaviourSharedData()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
@@ -142,6 +146,10 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 		this->onMouseMove(mousemoveevent);
 		NewCommand * c = new NewCommand(ed->result(), o);
 		ed->history()->add(c);
+
+		InterlockedScene * scene = static_cast<InterlockedScene *>(ed->scene());
+		scene->add(o);
+
 		c->commit(ed);
 		ed->behaviourSharedData()->setActiveObject(NULL);
 		ed->behaviourSharedData()->setSelectedObject(o);
