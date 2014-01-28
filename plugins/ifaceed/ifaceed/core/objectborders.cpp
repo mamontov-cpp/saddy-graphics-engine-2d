@@ -17,7 +17,10 @@ void ActiveObjectBorder::_process()
 	}
 }
 
-
+ActiveObjectBorder::~ActiveObjectBorder()
+{
+	delete this->m_data->activeObject();
+}
 
 
 void SelectedObjectBorder::_process()

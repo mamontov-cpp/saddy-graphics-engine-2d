@@ -261,13 +261,7 @@ void Editor::onSaddyWindowDestroy()
 
 void Editor::onFullAppStart()
 {
-	sad::input::Controls * c = sad::Renderer::ref()->controls();
-	c->add(*sad::input::ET_KeyPress, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyDown);
-	c->add(*sad::input::ET_KeyRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyUp);
-	c->add(*sad::input::ET_MouseWheel, this, &Editor::currentBehaviour, &EditorBehaviour::onWheel);
-	c->add(*sad::input::ET_MousePress, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseDown);
-	c->add(*sad::input::ET_MouseRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseUp);
-	c->add(*sad::input::ET_MouseMove, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseMove);
+
 }
 
 

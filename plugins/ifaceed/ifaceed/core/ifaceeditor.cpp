@@ -313,11 +313,18 @@ void IFaceEditor::onFullAppStart()
 		} * kbdhandler = new IFaceKeyDownHandler(this);
 
 
-		sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, handler);
-		sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress, kbdhandler);
+		sad::input::Controls * c = sad::Renderer::ref()->controls();
+		c->add(*sad::input::ET_MouseMove, handler);
+		c->add(*sad::input::ET_KeyPress, kbdhandler);		
+		c->add(*sad::input::ET_KeyRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyUp);
+		c->add(*sad::input::ET_MouseWheel, this, &Editor::currentBehaviour, &EditorBehaviour::onWheel);
+		c->add(*sad::input::ET_MousePress, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseDown);
+		c->add(*sad::input::ET_MouseRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseUp);
+
 		m_selection_border = new SelectedObjectBorder(this->shdata());
-		sad::Renderer::ref()->pipeline()->append( new ActiveObjectBorder(this->shdata()) );
 		sad::Renderer::ref()->pipeline()->append( m_selection_border );
+		sad::Renderer::ref()->pipeline()->appendProcess(this, &IFaceEditor::tryRenderActiveObject);
+		sad::Renderer::ref()->pipeline()->append( new ActiveObjectBorder(this->shdata()) );
 
 		this->setBehaviour("main");
 		this->highlightState("Idle");
@@ -339,6 +346,13 @@ InterlockedScene * IFaceEditor::myScene()
 {
 	return static_cast<InterlockedScene*>(this->scene());
 }
+
+void IFaceEditor::tryRenderActiveObject()
+{
+	AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
+	if (o)
+		o->render();
+}
 void IFaceEditor::tryEraseObject()
 {
 	sad::String state = this->currentBehaviour()->state(); 
@@ -347,9 +361,8 @@ void IFaceEditor::tryEraseObject()
 		|| state == "sprite_adding_diagonal")
 	{
 		AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
+		delete o;
 		this->behaviourSharedData()->setActiveObject(NULL);
-		InterlockedScene * scene = this->myScene();
-		scene->remove(o);
 		this->currentBehaviour()->cancelState();
 	}
 	if (state == "selected")

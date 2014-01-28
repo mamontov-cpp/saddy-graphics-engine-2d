@@ -60,6 +60,10 @@ void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
 	c->commit(ed);
+
+	InterlockedScene * scene = static_cast<InterlockedScene *>(ed->scene());
+	scene->add(o);
+
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	ed->behaviourSharedData()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
