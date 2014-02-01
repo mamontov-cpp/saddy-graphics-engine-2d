@@ -9,7 +9,12 @@ bool sad::os::generateMipMaps30(sad::Renderer * r, GLenum target)
 	PFNGLGENERATEMIPMAPEXTPROC __generateMipMaps = _generateMipMaps;
 	if (_generateMipMaps == NULL)
 	{
+#ifdef WIN32
+		__generateMipMaps = (PFNGLGENERATEMIPMAPEXTPROC)getProcAdress("glGenerateMipmap");
+#endif
+#ifdef LINUX
 		__generateMipMaps = (PFNGLGENERATEMIPMAPEXTPROC)getProcAdress((const GLubyte*)("glGenerateMipmap"));
+#endif
 		_generateMipMaps = __generateMipMaps;
 	}
 	bool result = false;
