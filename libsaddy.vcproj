@@ -713,6 +713,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="util"
+				>
+				<File
+					RelativePath=".\src\util\fs.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1456,6 +1464,10 @@
 				>
 				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\fs.h"
 					>
 				</File>
 				<File
