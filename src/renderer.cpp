@@ -15,6 +15,11 @@
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
 
+#ifdef LINUX
+	#include <stdio.h>
+	#include <unistd.h>
+#endif
+
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
@@ -383,6 +388,36 @@ void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 sad::PrimitiveRenderer * sad::Renderer::render() const
 {
 	return m_primitiverenderer;
+}
+
+const sad::String & sad::Renderer::executablePath() const
+{
+	if (m_executable_cached_path.length() == 0)
+	{
+#ifdef WIN32
+		char result[_MAX_PATH+1];
+		GetModuleFileName(NULL, result, _MAX_PATH);
+		
+		const_cast<sad::Renderer*>(this)->m_executable_cached_path =  result;
+		sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
+		int pos = path->getLastOccurence("\\");
+		if (pos > 0)
+		{
+			*path = path->subString(0, pos);
+		}
+#endif
+
+#ifdef LINUX
+		char buffer[1500];
+		char proc[32];
+		sprintf(proc, "/proc/%d/exe", getpid());
+		int bytes = MIN(readlink(proc, buffer, 1500), 1500 - 1);
+		if(bytes >= 0)
+			buffer[bytes] = '\0';
+	    const_cast<sad::Renderer*>(this)->m_executable_cached_path = &(buffer[0]);
+#endif
+	}
+	return m_executable_cached_path;
 }
 
 bool sad::Renderer::initGLRendering()

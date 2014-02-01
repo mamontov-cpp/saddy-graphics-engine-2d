@@ -89,6 +89,10 @@ int main(int argc, char** argv)
 		"{0}: [{1}] {3}{2}{4}", 0, true
 	);
 	sad::log::Log::ref()->addTarget(filetarget).addTarget(consoletarget);
+	
+	// Output executable path
+	SL_DEBUG   ("Executable path is ");
+	SL_DEBUG   (sad::Renderer::ref()->executablePath());
 
 	// Test console log images
 	SL_FATAL   ("This is sad::Game");
