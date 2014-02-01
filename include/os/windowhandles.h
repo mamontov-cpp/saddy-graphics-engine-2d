@@ -15,7 +15,9 @@
 #undef _WIN32_WINDOWS
 #define _WIN32_WINDOWS 0x0501
 // Remove min max, as obsolete and leading to mistakes
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 
 #include <windows.h>
 #endif
