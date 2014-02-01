@@ -390,6 +390,34 @@ sad::PrimitiveRenderer * sad::Renderer::render() const
 	return m_primitiverenderer;
 }
 
+#ifdef LINUX
+// http://www.gnu.org/software/hurd/user/tlecarrour/porting_guide_for_dummies.html
+static char *readlink_malloc(const char *filename)
+{
+	int size = 100;
+
+	while (1) 
+	{
+		char *buff = (char*)malloc(size);
+		if (buff == NULL)
+			return NULL;
+		int nchars = readlink(filename, buff, size);
+		if (nchars < 0)
+		{
+			free(buff);
+			return NULL;
+		}
+		if (nchars < size) 
+		{
+			buff[nchars] = '\0';
+			return buff;
+		}
+		free (buff);
+		size *= 2;
+	}
+}
+#endif
+
 const sad::String & sad::Renderer::executablePath() const
 {
 	if (m_executable_cached_path.length() == 0)
@@ -397,9 +425,8 @@ const sad::String & sad::Renderer::executablePath() const
 #ifdef WIN32
 		char result[_MAX_PATH+1];
 		GetModuleFileName(NULL, result, _MAX_PATH);
-		
-		const_cast<sad::Renderer*>(this)->m_executable_cached_path =  result;
 		sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
+		*path =  result;		
 		int pos = path->getLastOccurence("\\");
 		if (pos > 0)
 		{
@@ -408,13 +435,20 @@ const sad::String & sad::Renderer::executablePath() const
 #endif
 
 #ifdef LINUX
-		char buffer[1500];
 		char proc[32];
 		sprintf(proc, "/proc/%d/exe", getpid());
-		int bytes = MIN(readlink(proc, buffer, 1500), 1500 - 1);
-		if(bytes >= 0)
-			buffer[bytes] = '\0';
-	    const_cast<sad::Renderer*>(this)->m_executable_cached_path = &(buffer[0]);
+		char * buffer = readlink_malloc(proc);
+		if(buffer != 0)
+		{		
+			sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);		
+			*path = buffer;
+			free(buffer);
+			int pos = path->getLastOccurence("/");
+			if (pos > 0)
+			{
+				*path = path->subString(0, pos);
+			}
+		}
 #endif
 	}
 	return m_executable_cached_path;

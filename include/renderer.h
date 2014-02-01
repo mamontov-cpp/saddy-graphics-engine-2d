@@ -215,7 +215,7 @@ public:
 		\return renderer for primitives
 	 */
 	sad::PrimitiveRenderer * render() const;
-	/*! Fetches path to executable. Returns empty string if fails
+	/*! Fetches path to executable without it's name and last delimiter. Returns empty string if fails
 		\return executable path
 	 */
 	const sad::String & executablePath() const;
