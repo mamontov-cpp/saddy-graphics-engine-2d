@@ -1214,6 +1214,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="picojson"
+					>
+					<File
+						RelativePath=".\include\3rdparty\picojson\picojson.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="log"
