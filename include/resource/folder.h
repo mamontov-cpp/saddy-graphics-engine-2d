@@ -5,10 +5,12 @@
 
  */
 #pragma once
-
+#include <../sadstring.h>
+#include <../sadhash.h>
 
 namespace resource
 {
+class Resource;
 
 /*! \class Folder
 
@@ -92,6 +94,6 @@ protected:
 	 */
 	sad::String m_name;
 
-}
+};
 
 }

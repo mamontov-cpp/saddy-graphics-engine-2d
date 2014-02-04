@@ -1,4 +1,5 @@
 #include "resource/resource.h"
+#include "resource/abstractlink.h"
 
 #include <algorithm>
 
@@ -14,18 +15,23 @@ resource::Resource::~Resource()
 {
 	for(size_t i = 0; i < m_links.size(); i++)
 	{
-		// TODO: Notify links, that resource is gone
-        /* */
-		/*! TODO: Uncomment this */
-		// delete m_links[i];
+        m_links[i]->detach();
 	}
+}
+
+bool resource::Resource::referenced() const
+{
+	return m_links.count() != 0;
 }
 
 void resource::Resource::replaceWith(resource::Resource* a)
 {
 	a->m_links << this->m_links;
 	// Notify links, that we are gone
-
+	for(size_t i = 0; i < m_links.size(); i++)
+	{
+        m_links[i]->attach(a);
+	}
 	// Clear self links
 	m_links.clear();
 }

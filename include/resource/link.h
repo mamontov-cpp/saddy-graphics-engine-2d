@@ -5,7 +5,7 @@
 
  */
 #pragma once
-
+#include "abstractlink.h"
 
 namespace resource
 {
@@ -13,9 +13,10 @@ namespace resource
 /*! \class Link
 
  */
-class Link<
+template<
 	typename _Resource
->: public resource::AbstractLink  
+>
+class Link: public resource::AbstractLink  
 {	
 public:	
 	/*! 

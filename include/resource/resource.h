@@ -53,6 +53,10 @@ public:
 		sad::Renderer * r = NULL,
 		bool store_links = true
 	) = 0;
+	/*! Returns true, if resource was referenced
+		\return true if resource is referenced
+	 */
+	bool referenced() const;
 	/*! Copies all links from current instance to other resource
 		\param[in] a new resource
 	 */
