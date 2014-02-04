@@ -753,7 +753,6 @@
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -773,31 +772,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\src\resource\fileloaderror.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\resource\folder.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\src\resource\missingresource.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1830,19 +1805,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\resource\fileloaderror.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\resource\folder.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\resource\link.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\resource\missingresource.h"
 					>
 				</File>
 				<File
