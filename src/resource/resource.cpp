@@ -75,3 +75,15 @@ void resource::Resource::removeLink(resource::AbstractLink* link)
 		m_links.removeFirst(link);
 	}		
 }
+
+
+void resource::Resource::enableStoringLinks()
+{
+	m_store_links = true;	
+}
+
+void resource::Resource::disableStoringLinks()
+{
+	m_store_links = false;
+	m_links.clear();
+}
