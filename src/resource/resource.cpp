@@ -6,7 +6,7 @@
 DECLARE_SOBJ(resource::Resource);
 
 
-resource::Resource::Resource() : m_folder(NULL), m_store_links(true)
+resource::Resource::Resource() : m_folder(NULL), m_store_links(true), m_file(NULL)
 {
 	
 }
@@ -86,4 +86,14 @@ void resource::Resource::disableStoringLinks()
 {
 	m_store_links = false;
 	m_links.clear();
+}
+
+void resource::Resource::setPhysicalFile(resource::PhysicalFile * file)
+{
+	m_file = file;	
+}
+
+resource::PhysicalFile * resource::Resource::file() const
+{
+	return m_file;	
 }
