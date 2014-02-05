@@ -3,15 +3,15 @@
 
 #include <algorithm>
 
-DECLARE_SOBJ(resource::Resource);
+DECLARE_SOBJ(sad::resource::Resource);
 
 
-resource::Resource::Resource() : m_folder(NULL), m_store_links(true), m_file(NULL)
+sad::resource::Resource::Resource() : m_folder(NULL), m_store_links(true), m_file(NULL)
 {
 	
 }
 
-resource::Resource::~Resource()
+sad::resource::Resource::~Resource()
 {
 	for(size_t i = 0; i < m_links.size(); i++)
 	{
@@ -19,12 +19,12 @@ resource::Resource::~Resource()
 	}
 }
 
-bool resource::Resource::referenced() const
+bool sad::resource::Resource::referenced() const
 {
 	return m_links.count() != 0;
 }
 
-void resource::Resource::replaceWith(resource::Resource* a)
+void sad::resource::Resource::replaceWith(resource::Resource* a)
 {
 	a->m_links << this->m_links;
 	// Notify links, that we are gone
@@ -37,27 +37,27 @@ void resource::Resource::replaceWith(resource::Resource* a)
 }
 
 
-void resource::Resource::setParentFolder(resource::Folder* folder)
+void sad::resource::Resource::setParentFolder(resource::Folder* folder)
 {
 	m_folder = folder;
 }
 
-resource::Folder* resource::Resource::parentFolder()
+sad::resource::Folder* sad::resource::Resource::parentFolder()
 {
 	return m_folder;
 }
 
-const sad::String& resource::Resource::name()
+const sad::String& sad::resource::Resource::name()
 {
 	return m_name;	
 }
 
-void resource::Resource::setName(const sad::String & name)
+void sad::resource::Resource::setName(const sad::String & name)
 {
 	m_name = name;
 }
 
-void resource::Resource::addLink(resource::AbstractLink* link)
+void sad::resource::Resource::addLink(sad::resource::AbstractLink* link)
 {	
 	if (m_store_links && link)
 	{
@@ -68,7 +68,7 @@ void resource::Resource::addLink(resource::AbstractLink* link)
 	}
 }
 
-void resource::Resource::removeLink(resource::AbstractLink* link)
+void sad::resource::Resource::removeLink(sad::resource::AbstractLink* link)
 {
 	if (m_store_links && link)
 	{
@@ -77,23 +77,23 @@ void resource::Resource::removeLink(resource::AbstractLink* link)
 }
 
 
-void resource::Resource::enableStoringLinks()
+void sad::resource::Resource::enableStoringLinks()
 {
 	m_store_links = true;	
 }
 
-void resource::Resource::disableStoringLinks()
+void sad::resource::Resource::disableStoringLinks()
 {
 	m_store_links = false;
 	m_links.clear();
 }
 
-void resource::Resource::setPhysicalFile(resource::PhysicalFile * file)
+void sad::resource::Resource::setPhysicalFile(sad::resource::PhysicalFile * file)
 {
 	m_file = file;	
 }
 
-resource::PhysicalFile * resource::Resource::file() const
+sad::resource::PhysicalFile * sad::resource::Resource::file() const
 {
 	return m_file;	
 }
