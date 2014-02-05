@@ -14,7 +14,6 @@
 namespace sad
 {
 class Renderer;
-}
 
 namespace resource
 {
@@ -46,7 +45,7 @@ public:
 		\param[in] store_links hints, whether we should store a links
 	 */
 	virtual bool load(
-		const resource::PhysicalFile & file,
+		const sad::resource::PhysicalFile & file,
 		sad::Renderer * r = NULL,
 		const picojson::value& options = picojson::value(picojson::object_type, false),
 		bool store_links = true
@@ -58,15 +57,15 @@ public:
 	/*! Copies all links from current instance to other resource
 		\param[in] a new resource
 	 */
-	void replaceWith(resource::Resource* a);
+	void replaceWith(sad::resource::Resource* a);
 	/*! Sets parent folder for a resource
 		\param[in] folder a parent folder for resource
 	 */
-	void setParentFolder(resource::Folder* folder);
+	void setParentFolder(sad::resource::Folder* folder);
 	/*! Returns parent folder for a resource
 		\return a parent folder for a resource
 	 */
-	resource::Folder* parentFolder();
+	sad::resource::Folder* parentFolder();
 	/*! Returns name for a resource. Names must be unique in this folder
 		\return name for a resource
 	 */
@@ -78,11 +77,11 @@ public:
 	/*! Adds link to resource. Note, that link is not notified about it.
 		\param[in] link a link to resource
 	 */
-	void addLink(resource::AbstractLink* link);
+	void addLink(sad::resource::AbstractLink* link);
 	/*! Removes link from resource. Note, that link is not notified about it.
 		\param[in] link a link to resource
 	 */
-	void removeLink(resource::AbstractLink* link);
+	void removeLink(sad::resource::AbstractLink* link);
 	/*! Enables storing links to resource in resource class
 	 */
 	void enableStoringLinks();
@@ -93,18 +92,18 @@ public:
 	/*! Sets physical file, where resource is stored
 		\param[in] file a file data
 	 */
-	void setPhysicalFile(resource::PhysicalFile * file);
+	void setPhysicalFile(sad::resource::PhysicalFile * file);
 	/*! Returns a physical fle, where resource supposedly stored
 		\return file
 	 */
-	resource::PhysicalFile * file() const;
+	sad::resource::PhysicalFile * file() const;
 protected: 
 	/*! A parent folder of resoruce
 	 */
-	resource::Folder* m_folder;
+	sad::resource::Folder* m_folder;
 	/*! A physical file, where resouces are stored
 	 */
-	resource::PhysicalFile * m_file;
+	sad::resource::PhysicalFile * m_file;
 	/*! Whether we should store links to resources
 	 */
 	bool m_store_links;
@@ -113,7 +112,10 @@ protected:
 	sad::String m_name;
 	/*! A links to a resource
 	 */
-	sad::Vector<resource::AbstractLink*> m_links;
+	sad::Vector<sad::resource::AbstractLink*> m_links;
 };
 
 }
+
+}
+

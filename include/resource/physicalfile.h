@@ -11,6 +11,9 @@
 #include "../sadvector.h"
 #include "error.h"
 
+namespace sad
+{
+
 namespace resource
 {
 class Tree;
@@ -45,33 +48,35 @@ public:
 	/*! Reloads all resources from a file
 		\return errors if any occured on resources
 	 */
-	sad::Vector<resource::Error*> reload();
+	sad::Vector<sad::resource::Error*> reload();
 	/*! Adds resource to file
 		\param[in] r a resource
 	 */
-	void add(resource::Resource * r);
+	void add(sad::resource::Resource * r);
 	/*! Removes a resource from registered resources of file
 		\param[in] r a resource
 	 */
-	void remove(resource::Resource * r);
+	void remove(sad::resource::Resource * r);
 	/*! Sets tree for file
 		\param[in] tree a tree
 	 */
-	void setTree(resource::Tree * tree);
+	void setTree(sad::resource::Tree * tree);
 	/*! Returns a tree for a file
 		\return a tree for file
 	 */
-	resource::Tree * tree() const;
+	sad::resource::Tree * tree() const;
 protected: 
 	/*! A file name (with or without path), where file is stored
 	 */
 	sad::String m_name;
 	/*! A tree, where all resources are stored
 	 */
-	resource::Tree* m_tree;
+	sad::resource::Tree* m_tree;
 	/*!  A resources, linked to file
 	 */
-	sad::Vector<resource::Resource*> m_resources;
+	sad::Vector<sad::resource::Resource*> m_resources;
 };
+
+}
 
 }

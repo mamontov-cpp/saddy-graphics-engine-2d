@@ -2,41 +2,41 @@
 
 #include <algorithm>
 
-resource::PhysicalFile::PhysicalFile(const sad::String & name) 
+sad::resource::PhysicalFile::PhysicalFile(const sad::String & name) 
 : m_name(name), m_tree(NULL)
 {
 			
 }
 
 
-resource::PhysicalFile::~PhysicalFile()
+sad::resource::PhysicalFile::~PhysicalFile()
 {
 
 }
 
 
-bool resource::PhysicalFile::isAnonymous() const
+bool sad::resource::PhysicalFile::isAnonymous() const
 {
 	return m_name.length() != 0;	
 }
 
-const sad::String & resource::PhysicalFile::name() const
+const sad::String & sad::resource::PhysicalFile::name() const
 {
 	return m_name;	
 }
 
-void resource::PhysicalFile::setName(const sad::String & name)
+void sad::resource::PhysicalFile::setName(const sad::String & name)
 {
 	m_name = name;
 }
 
-sad::Vector<resource::Error*> resource::PhysicalFile::reload()
+sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
 {
 	// TODO: Actually reload file
-	return sad::Vector<resource::Error*>();
+	return sad::Vector<sad::resource::Error*>();
 }
 
-void resource::PhysicalFile::add(resource::Resource * r)
+void sad::resource::PhysicalFile::add(sad::resource::Resource * r)
 {
 	if (r && std::find(m_resources.begin(), m_resources.end(), r) == m_resources.end())
 	{
@@ -44,17 +44,17 @@ void resource::PhysicalFile::add(resource::Resource * r)
 	}	
 }
 
-void resource::PhysicalFile::remove(resource::Resource * r)
+void sad::resource::PhysicalFile::remove(sad::resource::Resource * r)
 {
 	m_resources.removeAll(r);
 }
 
-void resource::PhysicalFile::setTree(resource::Tree * tree)
+void sad::resource::PhysicalFile::setTree(sad::resource::Tree * tree)
 {
 	m_tree = tree;
 }
 
-resource::Tree * resource::PhysicalFile::tree() const
+sad::resource::Tree * sad::resource::PhysicalFile::tree() const
 {
 	return m_tree;
 }

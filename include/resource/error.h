@@ -10,6 +10,10 @@
 #include <../sadstring.h>
 #include <3rdparty/format/format.h>
 
+namespace sad
+{
+	
+
 namespace resource
 {
 
@@ -142,5 +146,7 @@ protected:
 	 */
 	sad::String m_name;
 };
+
+}
 
 }

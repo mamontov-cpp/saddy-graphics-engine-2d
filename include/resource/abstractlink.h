@@ -9,6 +9,9 @@
 #pragma once
 #include "../sadstring.h"
 
+namespace sad
+{
+
 namespace resource
 {
 class Resource;
@@ -32,14 +35,14 @@ public:
 	/*! Attach a link to specified resource
 		\param[in] r a new resource, which links should be attached to
 	 */
-	void attach(resource::Resource* r);
+	void attach(sad::resource::Resource* r);
 	/*! Sets resource link to object to NULL
 	 */
 	void detach();
 	/*! Lazily fatches a resource
 		\return fetched resource
 	 */
-	resource::Resource* resource() const;
+	sad::resource::Resource* resource() const;
 	/*! Sets path to an abstract link
 		\param[in] path path to a linked resource
 	 */
@@ -58,11 +61,11 @@ public:
 	/*! Sets a tree for a link
 		\param[in] tree a tree for link
 	 */
-	void setTree(resource::Tree * tree);
+	void setTree(sad::resource::Tree * tree);
 	/*! Returns tree, which link references to
 		\return tree for a link
 	 */
-	resource::Tree* tree() const;
+	sad::resource::Tree* tree() const;
 protected:
 	/*! Whether user handled change
 	 */
@@ -72,10 +75,12 @@ protected:
 	sad::String m_path;
 	/*! 
 	 */
-	resource::Resource* m_resource;
+	sad::resource::Resource* m_resource;
 	/*! A tree, where resource is stored
 	 */
-	resource::Tree *   m_tree;
+	sad::resource::Tree *   m_tree;
 };
+
+}
 
 }

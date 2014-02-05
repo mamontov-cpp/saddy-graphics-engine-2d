@@ -1,21 +1,21 @@
 #include "resource/error.h"
 
-resource::Error::~Error()
+sad::resource::Error::~Error()
 {
 
 }
 
-resource::FileLoadError::~FileLoadError()
-{
-	
-}
-
-resource::ResourceLoadError::~ResourceLoadError()
+sad::resource::FileLoadError::~FileLoadError()
 {
 	
 }
 
-resource::MissingResource::~MissingResource()
+sad::resource::ResourceLoadError::~ResourceLoadError()
+{
+	
+}
+
+sad::resource::MissingResource::~MissingResource()
 {
 
 }

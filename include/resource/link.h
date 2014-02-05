@@ -9,6 +9,9 @@
 #include "abstractlink.h"
 #include "resource.h"
 
+namespace sad
+{
+
 namespace resource
 {
 
@@ -19,12 +22,12 @@ namespace resource
 template<
 	typename _Resource
 >
-class Link: public resource::AbstractLink  
+class Link: public sad::resource::AbstractLink  
 {	
 public:	
 	/*! Creates new link to specified resource
 	 */
-	Link() : resource::AbstractLink(_Resource::globalMetaData()->name())
+	Link() : sad::resource::AbstractLink(_Resource::globalMetaData()->name())
 	{
 	
 	}
@@ -37,5 +40,7 @@ public:
 		return static_cast<_Resource*>(this->resource());	
 	}
 };
+
+}
 
 }
