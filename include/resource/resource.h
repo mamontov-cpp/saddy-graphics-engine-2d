@@ -38,11 +38,6 @@ public:
 	/*! This class can be inherited 
 	 */
 	virtual ~Resource();
-	/*! A resources in factory should be created via resourceType() hint. So every resource type
-		should implement it
-		\return name for resource type. Must be unique.
-	 */
-	virtual sad::String resourceType() = 0;
 	/*! Loads a resource from specified file, using specified renderer for resolving some 
 		properties.
 		\param[in] file a file, via which a resource should be loaded
@@ -88,6 +83,13 @@ public:
 		\param[in] link a link to resource
 	 */
 	void removeLink(resource::AbstractLink* link);
+	/*! Enables storing links to resource in resource class
+	 */
+	void enableStoringLinks();
+	/*! Disables storing links to resource in resource class.
+		Also clears the pointers to links, stored in resource.
+	 */
+	void disableStoringLinks();
 protected: 
 	/*! A parent folder of resoruce
 	 */
