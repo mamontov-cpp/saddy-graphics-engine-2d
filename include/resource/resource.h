@@ -43,6 +43,7 @@ public:
 		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
 		\param[in] v  an options for loading a resource
 		\param[in] store_links hints, whether we should store a links
+		\return whether loading was successfull
 	 */
 	virtual bool load(
 		const sad::resource::PhysicalFile & file,

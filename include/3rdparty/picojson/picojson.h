@@ -916,9 +916,6 @@ int main(void)
   return 0;
 }
 
-#endif
-
-
 namespace picojson
 {
 	/*  Parses string to json value
@@ -940,3 +937,8 @@ namespace picojson
 		return v;
 	}
 }
+
+#endif
+
+
+

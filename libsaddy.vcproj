@@ -717,6 +717,10 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\src\util\conversions.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\util\fs.cpp"
 					>
 				</File>
@@ -771,13 +775,6 @@
 				<File
 					RelativePath=".\src\resource\physicalfile.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\src\resource\resource.cpp"
@@ -1697,6 +1694,10 @@
 			<Filter
 				Name="util"
 				>
+				<File
+					RelativePath=".\include\util\conversions.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
 					>
