@@ -4,7 +4,12 @@
 
 #include <renderer.h>
 #include <opengl.h>
+
 #include <os/generatemipmaps30.h>
+
+#include <resource/physicalfile.h>
+#include <util/fs.h>
+#include <util/conversions.h>
 
 #include <errno.h>
 
@@ -14,6 +19,9 @@ static const unsigned char texdata[16384]=
 };
 
 static const unsigned int cnt=16384;
+
+
+DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 
 sad::Texture::Texture() 
 : m_renderer(NULL), Bpp(32), Width(0), Height(0), Id(0), OnGPU(false)
@@ -104,6 +112,53 @@ void sad::Texture::loadDefaultTexture()
 	Height = 64;
 	for (unsigned int i = 0; i < cnt; i++) 
 		Data << texdata[i]; 
+}
+
+bool sad::Texture::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options,
+		bool store_links
+)
+{
+	if (!r)
+	{
+		r = sad::Renderer::ref();
+	}
+	if (file.name().length() != 0)
+	{
+		return false;
+	}
+	bool result = load(file.name(), r);
+	if (!result && util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath, r);
+	}
+
+	if (result && options.is<picojson::object>())
+	{
+		const picojson::object & o = options.get<picojson::object>();
+		picojson::object::const_iterator it = o.find("transparent");
+		if (it != o.end())
+		{
+			const picojson::value & colorvalue =  it->second;
+			sad::Color color;
+			if (util::parse_color(colorvalue, color))
+			{
+				this->setAlpha(255, color);
+			}
+		}
+	}
+	if (store_links)
+	{
+		enableStoringLinks();
+	}
+	else
+	{
+		disableStoringLinks();
+	}
+	return result;
 }
 
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
