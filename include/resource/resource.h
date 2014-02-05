@@ -9,6 +9,7 @@
 #pragma once
 #include "../object.h"
 #include "../sadstring.h"
+#include "../3rdparty/picojson/picojson.h"
 
 namespace sad
 {
@@ -46,11 +47,13 @@ public:
 		properties.
 		\param[in] file a file, via which a resource should be loaded
 		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] v  an options for loading a resource
 		\param[in] store_links hints, whether we should store a links
 	 */
 	virtual bool load(
 		const resource::PhysicalFile & file,
 		sad::Renderer * r = NULL,
+		const picojson::value& options = picojson::value(picojson::object_type, false),
 		bool store_links = true
 	) = 0;
 	/*! Returns true, if resource was referenced
