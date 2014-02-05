@@ -90,10 +90,21 @@ public:
 		Also clears the pointers to links, stored in resource.
 	 */
 	void disableStoringLinks();
+	/*! Sets physical file, where resource is stored
+		\param[in] file a file data
+	 */
+	void setPhysicalFile(resource::PhysicalFile * file);
+	/*! Returns a physical fle, where resource supposedly stored
+		\return file
+	 */
+	resource::PhysicalFile * file() const;
 protected: 
 	/*! A parent folder of resoruce
 	 */
 	resource::Folder* m_folder;
+	/*! A physical file, where resouces are stored
+	 */
+	resource::PhysicalFile * m_file;
 	/*! Whether we should store links to resources
 	 */
 	bool m_store_links;

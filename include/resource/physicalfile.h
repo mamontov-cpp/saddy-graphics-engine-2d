@@ -3,60 +3,75 @@
 	
 	Contains definition of class PhysicalFile.
 
+	This is a physical file, where resources were stored before loading, and where they are belong.
+	So you can try to reload it, replacing resources with new ones.
  */
 #pragma once
-
+#include "../sadstring.h"
+#include "../sadvector.h"
+#include "error.h"
 
 namespace resource
 {
-
+class Tree;
+class Resource;
 /*! \class PhysicalFile
 
+	This is a physical file, where resources were stored before loading, and where they are belong.
+	So you can try to reload it, replacing resources with new ones.
  */
 class PhysicalFile  
 {	
 public:	
-	/*! This class can be inherited 
+	/*! Creates new flle with specified name. Supposedly it must be path to specified file.
+		\param[in] name a filename (with or without path) to it
 	 */
-	virtual ~PhysicalFile();
-	/*! 
-		\param[in] name
+	PhysicalFile(const sad::String& name = "");	
+	/*! This class does not own any of resources, only tree frees a resources
 	 */
-	void File(sad::String name);
-	/*! 
-		\return
+	~PhysicalFile();
+	/*! Returns true if file is anonymous
+		\return whether file is anonymous
 	 */
-	bool isAnonymous();
-	/*! 
-		\return
+	bool isAnonymous() const;
+	/*! Returns name of file (with or without path)
+		\return name of file (with or without path)
 	 */
-	sad::String name();
-	/*! 
+	const sad::String & name() const;
+	/*! Sets name of file (with or without path)
+		\param[in] name name of file (with or without path)
 	 */
-	void reload();
-	/*! 
-		\param[in] name
-	 */
-	void setName(sad::String name);
-	/*! 
-		\return
+	void setName(const sad::String& name);
+	/*! Reloads all resources from a file
+		\return errors if any occured on resources
 	 */
 	sad::Vector<resource::Error*> reload();
-	/*! 
-		\param[in] filename
+	/*! Adds resource to file
+		\param[in] r a resource
 	 */
-	void save(sad::String filename);
+	void add(resource::Resource * r);
+	/*! Removes a resource from registered resources of file
+		\param[in] r a resource
+	 */
+	void remove(resource::Resource * r);
+	/*! Sets tree for file
+		\param[in] tree a tree
+	 */
+	void setTree(resource::Tree * tree);
+	/*! Returns a tree for a file
+		\return a tree for file
+	 */
+	resource::Tree * tree() const;
 protected: 
-	/*! 
+	/*! A file name (with or without path), where file is stored
 	 */
 	sad::String m_name;
-	/*! 
+	/*! A tree, where all resources are stored
 	 */
-	resource::Database* m_db;
-	/*! 
+	resource::Tree* m_tree;
+	/*!  A resources, linked to file
 	 */
-	sad::Hash<sad::String, resource::Resource*> m_resources;
-
-}
+	sad::Vector<resource::Resource*> m_resources;
+};
 
 }
