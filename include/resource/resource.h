@@ -41,16 +41,16 @@ public:
 		properties.
 		\param[in] file a file, via which a resource should be loaded
 		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
-		\param[in] v  an options for loading a resource
+		\param[in] options  an options for loading a resource
 		\param[in] store_links hints, whether we should store a links
 		\return whether loading was successfull
 	 */
-	virtual bool load(
+	virtual bool tryLoad(
 		const sad::resource::PhysicalFile & file,
 		sad::Renderer * r = NULL,
 		const picojson::value& options = picojson::value(picojson::object_type, false),
 		bool store_links = true
-	) = 0;
+	);
 	/*! Returns true, if resource was referenced
 		\return true if resource is referenced
 	 */
@@ -99,6 +99,18 @@ public:
 	 */
 	sad::resource::PhysicalFile * file() const;
 protected: 
+	/*! Loads a resource from specified file, using specified renderer for resolving some 
+		properties.
+		\param[in] file a file, via which a resource should be loaded
+		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] options  an options for loading a resource
+		\return whether loading was successfull
+	 */
+	virtual bool load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+	) = 0;
 	/*! A parent folder of resoruce
 	 */
 	sad::resource::Folder* m_folder;

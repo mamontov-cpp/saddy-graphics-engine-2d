@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\freetype\font.h"
+				>
+			</File>
+			<File
 				RelativePath=".\fontimpl.h"
 				>
 			</File>
@@ -210,14 +214,6 @@
 				RelativePath=".\towidechar.h"
 				>
 			</File>
-			<Filter
-				Name="freetype"
-				>
-				<File
-					RelativePath="..\..\include\freetype\font.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Файлы ресурсов"

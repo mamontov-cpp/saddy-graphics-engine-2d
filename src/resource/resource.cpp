@@ -1,5 +1,9 @@
 #include "resource/resource.h"
 #include "resource/abstractlink.h"
+#include "resource/physicalfile.h"
+
+
+#include "../renderer.h"
 
 #include <algorithm>
 
@@ -9,6 +13,36 @@ DECLARE_SOBJ(sad::resource::Resource);
 sad::resource::Resource::Resource() : m_folder(NULL), m_store_links(true), m_file(NULL)
 {
 	
+}
+
+bool sad::resource::Resource::tryLoad(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options,
+		bool store_links
+)
+{
+	if (!r)
+	{
+		r = sad::Renderer::ref();
+	}
+	if (file.name().length() != 0)
+	{
+		return false;
+	}
+	bool result = load(file, r, options);
+	if (result)
+	{
+		if (store_links)
+		{
+			enableStoringLinks();
+		}
+		else
+		{
+			disableStoringLinks();
+		}
+	}
+	return result;
 }
 
 sad::resource::Resource::~Resource()

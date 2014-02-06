@@ -3,6 +3,12 @@
 #include "renderer.h"
 #include "os/glheaders.h"
 
+#include "resource/physicalfile.h"
+
+#include "util/fs.h"
+
+DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
+
 sad::TextureMappedFont::TextureMappedFont() 
 : sad::Font(), 
   m_texture(NULL),
@@ -212,6 +218,22 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 		*sad::Renderer::ref()
 	);
 #endif
+}
+
+
+bool sad::TextureMappedFont::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+)
+{
+	bool result = load(file.name(), r);
+	if (!result && util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath, r);
+	}
+	return result;
 }
 
 bool sad::TextureMappedFont::load(const sad::String & filename, sad::Renderer * r)
