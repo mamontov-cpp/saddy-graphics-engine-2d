@@ -1,16 +1,16 @@
 #include "resource/factory.h"
 
-resource::Creator::~Creator()
+sad::resource::Creator::~Creator()
 {
 
 }
 
-resource::Factory::~Factory()
+sad::resource::Factory::~Factory()
 {
 
 }
 
-void resource::Factory::add(const sad::String & name, resource::Creator * c)
+void sad::resource::Factory::add(const sad::String & name, resource::Creator * c)
 {
 	if (c)
 	{
@@ -22,9 +22,9 @@ void resource::Factory::add(const sad::String & name, resource::Creator * c)
 	}
 }
 
-resource::Resource* resource::Factory::create(sad::String name)
+sad::resource::Resource* sad::resource::Factory::create(sad::String name)
 {
-	resource::Resource* result = NULL;
+	sad::resource::Resource* result = NULL;
 	if (m_creators.contains(name))
 	{
 		resource::Creator * c = m_creators[name];

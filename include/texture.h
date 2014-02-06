@@ -24,7 +24,7 @@ class Renderer;
 /*! A main texture class, which stores all related data to a texture
 	providing simple interface for working with it
  */
-class Texture: public resource::Resource
+class Texture: public sad::resource::Resource
 {
 SAD_OBJECT
 public:
