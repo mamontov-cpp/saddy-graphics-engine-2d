@@ -6,6 +6,7 @@
 	Note, that resource factory can create resources by their type string.
  */
 #pragma once
+#include "resource.h"
 #include "../texture.h"
 #include "../texturemappedfont.h"
 #include "../sprite2d.h"
@@ -16,10 +17,11 @@
 #include <freetype/font.h>
 #endif
 
+namespace sad
+{
+
 namespace resource
 {
-class Resource; 
-
 /*! A special kind of delegate, which is used by Factory to create resources
  */
 class Creator
@@ -28,7 +30,7 @@ public:
 	/*! Creates a resource
 		\return created resource (NULL if cannot)
 	 */ 
-	virtual resource::Resource* create() = 0;
+	virtual sad::resource::Resource* create() = 0;
 	/*! A creator must be inherited to create some stuff
 	 */
 	virtual ~Creator();
@@ -45,7 +47,7 @@ public:
 	/*! Creates a resource
 		\return created resource (NULL if cannot)
 	 */ 
-	virtual resource::Resource* create()
+	virtual sad::resource::Resource* create()
 	{
 		return new _Resource();
 	}
@@ -67,13 +69,14 @@ public:
 	 */
 	inline Factory()
 	{
-		add(sad::Texture::metaData()->name(), new resource::CreatorFor<sad::Texture>());
-		add(sad::TextureMappedFont::metaData()->name(), 
+		add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
+		add(sad::TextureMappedFont::globalMetaData()->name(), 
 			new resource::CreatorFor<sad::TextureMappedFont>());
-		add(sad::Sprite2D::Options::metaData()->name(), 
+		add(sad::Sprite2D::Options::globalMetaData()->name(), 
 			new resource::CreatorFor<sad::Sprite2D::Options>());
 #ifdef USE_FREETYPE
-		add(sad::freetype::Font::metaData()->name(), new resource::CreatorFor<sad::freetype::Font>());
+		add(sad::freetype::Font::globalMetaData()->name(), 
+			new resource::CreatorFor<sad::freetype::Font>());
 #endif
 	}
 	/*! This class can be inherited 
@@ -88,7 +91,7 @@ public:
 		\param[in] name a resource name
 		\return created resource
 	 */
-	virtual resource::Resource* create(sad::String name);
+	virtual sad::resource::Resource* create(sad::String name);
 protected:
 	/*! Creates a hash for returning data
 	 */
@@ -104,5 +107,7 @@ private:
 	 */
 	Factory & operator=(const Factory & o);
 };
+
+}
 
 }

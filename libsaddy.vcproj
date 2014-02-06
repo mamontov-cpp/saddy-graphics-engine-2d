@@ -729,18 +729,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\resource\database.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\resource\error.cpp"
 					>
 				</File>
@@ -1760,10 +1748,6 @@
 				>
 				<File
 					RelativePath=".\include\resource\abstractlink.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\resource\database.h"
 					>
 				</File>
 				<File

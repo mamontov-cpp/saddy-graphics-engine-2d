@@ -28,7 +28,7 @@ SAD_OBJECT
 public:
 	/*! A simple options to make 2d sprite from template. Could be stored in some places
 	 */
-	class Options: public resource::Resource
+	class Options: public sad::resource::Resource
 	{
       SAD_OBJECT
 	  public:
