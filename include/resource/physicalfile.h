@@ -32,7 +32,7 @@ public:
 	PhysicalFile(const sad::String& name = "");	
 	/*! This class does not own any of resources, only tree frees a resources
 	 */
-	~PhysicalFile();
+	virtual ~PhysicalFile();
 	/*! Returns true if file is anonymous
 		\return whether file is anonymous
 	 */
@@ -48,7 +48,7 @@ public:
 	/*! Reloads all resources from a file
 		\return errors if any occured on resources
 	 */
-	sad::Vector<sad::resource::Error*> reload();
+	virtual sad::Vector<sad::resource::Error*> reload();
 	/*! Adds resource to file
 		\param[in] r a resource
 	 */
