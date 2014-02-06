@@ -717,10 +717,6 @@
 				Name="util"
 				>
 				<File
-					RelativePath=".\src\util\conversions.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\util\fs.cpp"
 					>
 				</File>
@@ -1442,7 +1438,15 @@
 					Name="picojson"
 					>
 					<File
+						RelativePath=".\include\3rdparty\picojson\getproperty.h"
+						>
+					</File>
+					<File
 						RelativePath=".\include\3rdparty\picojson\picojson.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\picojson\valuetotype.h"
 						>
 					</File>
 				</Filter>
@@ -1694,10 +1698,6 @@
 			<Filter
 				Name="util"
 				>
-				<File
-					RelativePath=".\include\util\conversions.h"
-					>
-				</File>
 				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
 					>

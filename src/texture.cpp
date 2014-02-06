@@ -9,7 +9,7 @@
 
 #include <resource/physicalfile.h>
 #include <util/fs.h>
-#include <util/conversions.h>
+#include <3rdparty/picojson/valuetotype.h>
 
 #include <errno.h>
 
@@ -136,18 +136,14 @@ bool sad::Texture::load(
 		result = load(newpath, r);
 	}
 
-	if (result && options.is<picojson::object>())
+	if (result)
 	{
-		const picojson::object & o = options.get<picojson::object>();
-		picojson::object::const_iterator it = o.find("transparent");
-		if (it != o.end())
+		sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
+			picojson::get_property(options, "transparent")
+		);		
+		if (maybecolor.exists())
 		{
-			const picojson::value & colorvalue =  it->second;
-			sad::Color color;
-			if (util::parse_color(colorvalue, color))
-			{
-				this->setAlpha(255, color);
-			}
+			this->setAlpha(255, maybecolor.value());
 		}
 	}
 	if (store_links)
