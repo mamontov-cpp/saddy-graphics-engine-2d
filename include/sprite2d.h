@@ -9,6 +9,8 @@
 #include "sadstring.h"
 #include "sadsize.h"
 #include "texture.h"
+
+#include <resource/resource.h>
 #pragma once
 
 namespace sad
@@ -26,15 +28,14 @@ SAD_OBJECT
 public:
 	/*! A simple options to make 2d sprite from template. Could be stored in some places
 	 */
-	class Options
+	class Options: public resource::Resource
 	{
+      SAD_OBJECT
 	  public:
+		  
 		  /*! A texture name, that defines a texture in sprite
 		   */
 		  sad::String Texture;       
-		  /*! A container, which defines a used texture location in manager
-		   */ 
-		  sad::Maybe<sad::String> TextureContainer; 
 		  /*! Stored texture coordinates in pixelds
 		   */
 		  sad::Rect2D TextureRectangle;  
@@ -48,6 +49,23 @@ public:
 		  {
 			  
 		  }
+
+		  /*! Loads an options from specified file, using specified renderer for building mip maps.
+			  \param[in] file a file, via which a resource should be loaded
+			  \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+			  \param[in] options  an options for loading a resource
+			  \return whether loading was successfull
+	       */
+		   virtual bool load(
+				const sad::resource::PhysicalFile & file,
+				sad::Renderer * r,
+				const picojson::value& options
+		   );
+		   /*! Load an options from value
+			   \param[in] v an options to be loaded
+			   \return whether loading was successfull
+		    */
+		   bool load(const picojson::value& v);
 	};
 	/*! Creates default invalid sprite, which must be initialized via setter methods
 	 */

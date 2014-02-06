@@ -7,6 +7,9 @@
 #include "getproperty.h"
 #include "../../maybe.h"
 #include "../sadcolor.h"
+#include "../sadrect.h"
+#include "../sadstring.h"
+
 namespace picojson
 {
 
@@ -42,8 +45,50 @@ public:
 			if (a >= -0.000001 && a <= 255.000001)
 			{
 				result.setValue((unsigned char)a);
-				result = true;
 			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to double
+ */
+template<>
+class ValueToType<double>
+{
+public:
+	/*! Tries to convert a picojson::value to double
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<double> get(const picojson::value & v)
+	{
+		sad::Maybe<double> result;
+		if (v.is<double>())
+		{
+			double a = v.get<double>();
+			result.setValue(a);
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to string
+ */
+template<>
+class ValueToType<sad::String>
+{
+public:
+	/*! Tries to convert a picojson::value to string
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::String> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::String> result;
+		if (v.is<std::string>())
+		{
+			result.setValue(v.get<std::string>());
 		}
 		return result;
 	}
@@ -112,6 +157,67 @@ public:
 	}
 };
 
+/*! Tries to converts specific value to point
+ */
+template<>
+class ValueToType<sad::Point2D>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Point2D> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Point2D> result;
+		picojson::value const * xo = picojson::get_property(v, "x");
+		picojson::value const * yo = picojson::get_property(v, "y");
+		if (xo && yo)
+		{
+			sad::Maybe<double> x = picojson::ValueToType<double>::get(*xo);
+			sad::Maybe<double> y = picojson::ValueToType<double>::get(*yo);
+			if (x.exists() && y.exists())
+			{
+				result.setValue(sad::Point2D(x.value(), y.value()));
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
+class ValueToType<sad::Rect2D>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Rect2D> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Rect2D> result;
+		picojson::value const * p1o = picojson::get_property(v, "p1");
+		picojson::value const * p2o = picojson::get_property(v, "p2");
+		picojson::value const * p3o = picojson::get_property(v, "p3");
+		picojson::value const * p4o = picojson::get_property(v, "p4");
+		if (p1o && p2o && p3o && p4o)
+		{
+			sad::Maybe<sad::Point2D> p1 = picojson::ValueToType<sad::Point2D>::get(*p1o);
+			sad::Maybe<sad::Point2D> p2 = picojson::ValueToType<sad::Point2D>::get(*p2o);
+			sad::Maybe<sad::Point2D> p3 = picojson::ValueToType<sad::Point2D>::get(*p3o);
+			sad::Maybe<sad::Point2D> p4 = picojson::ValueToType<sad::Point2D>::get(*p4o);
+			if (p1.exists() && p2.exists() && p3.exists() && p4.exists())
+			{
+				result.setValue(sad::Rect2D(
+					p1.value(), p2.value(), p3.value(), p4.value()
+				));
+			}
+		}
+		return result;
+	}
+};
 /*! Tries to convert picojson::value to type
 	\param[in] v a value, to be converted
 	\return value if any

@@ -117,25 +117,15 @@ void sad::Texture::loadDefaultTexture()
 bool sad::Texture::load(
 		const sad::resource::PhysicalFile & file,
 		sad::Renderer * r,
-		const picojson::value& options,
-		bool store_links
+		const picojson::value& options
 )
 {
-	if (!r)
-	{
-		r = sad::Renderer::ref();
-	}
-	if (file.name().length() != 0)
-	{
-		return false;
-	}
 	bool result = load(file.name(), r);
 	if (!result && util::isAbsolutePath(file.name()))
 	{
 		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
 		result = load(newpath, r);
 	}
-
 	if (result)
 	{
 		sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
@@ -145,14 +135,6 @@ bool sad::Texture::load(
 		{
 			this->setAlpha(255, maybecolor.value());
 		}
-	}
-	if (store_links)
-	{
-		enableStoringLinks();
-	}
-	else
-	{
-		disableStoringLinks();
 	}
 	return result;
 }

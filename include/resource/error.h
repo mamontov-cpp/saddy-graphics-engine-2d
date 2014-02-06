@@ -7,8 +7,8 @@
  */
 #pragma once
 #include <stdexcept>
-#include <../sadstring.h>
-#include <3rdparty/format/format.h>
+#include "../sadstring.h"
+#include "../3rdparty/format/format.h"
 
 namespace sad
 {
