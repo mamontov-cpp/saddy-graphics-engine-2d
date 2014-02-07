@@ -135,22 +135,22 @@ void sad::resource::Folder::replaceResource(const sad::String& name, resource::R
 	this->addResource(name, r);
 }
 
-sad::resource::FolderIterator sad::resource::Folder::foldersBegin()
+sad::resource::FolderIterator sad::resource::Folder::folderListBegin()
 {
 	return m_subfolders.begin();
 }
 
-sad::resource::FolderIterator sad::resource::Folder::foldersEnd()
+sad::resource::FolderIterator sad::resource::Folder::folderListEnd()
 {
 	return m_subfolders.end();
 }
 
-sad::resource::ResourceIterator sad::resource::Folder::resourceBegin()
+sad::resource::ResourceIterator sad::resource::Folder::resourceListBegin()
 {
 	return m_resources.begin();
 }
 
-sad::resource::ResourceIterator sad::resource::Folder::resourceEnd()
+sad::resource::ResourceIterator sad::resource::Folder::resourceListEnd()
 {
 	return m_resources.end();
 }
@@ -165,6 +165,32 @@ sad::resource::Folder * sad::resource::Folder::parent() const
 	return m_parent;
 }
 
+sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
+{
+	sad::Maybe<sad::String> result;
+	for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
+		it != this->resourceListEnd(); 
+		it++)
+	{
+		if (it.value() == r)
+		{
+			result.setValue(it.key());
+			return result;
+		}
+	}
+	for(sad::resource::FolderIterator it = this->folderListBegin(); 
+		it != this->folderListEnd(); 
+		it++)
+	{
+		result = it.value()->find(r);
+		if (result.exists())
+		{
+			result.setValue(it.key() + "/" + result.value());
+			return result;
+		}
+	}
+	return result;
+}
 sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 		const sad::String & path, 
 		bool create,
