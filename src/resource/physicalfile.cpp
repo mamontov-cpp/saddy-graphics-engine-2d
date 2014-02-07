@@ -30,6 +30,11 @@ void sad::resource::PhysicalFile::setName(const sad::String & name)
 	m_name = name;
 }
 
+bool sad::resource::PhysicalFile::load()
+{
+	return false;
+}
+
 sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
 {
 	// TODO: Actually reload file
@@ -57,4 +62,9 @@ void sad::resource::PhysicalFile::setTree(sad::resource::Tree * tree)
 sad::resource::Tree * sad::resource::PhysicalFile::tree() const
 {
 	return m_tree;
+}
+
+const sad::Vector<sad::resource::Resource*> & sad::resource::PhysicalFile::resources() const
+{
+	return m_resources;	
 }

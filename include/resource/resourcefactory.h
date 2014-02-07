@@ -91,7 +91,12 @@ public:
 		\param[in] name a resource name
 		\return created resource
 	 */
-	virtual sad::resource::Resource* create(sad::String name);
+	virtual sad::resource::Resource* create(const sad::String& name);
+	/*! Creates a file type by a hint, using data
+		\param[in] typehint type data
+		\return data for a file
+	 */  
+	virtual sad::resource::PhysicalFile * fileByType(const sad::String & typehint);
 protected:
 	/*! Creates a hash for returning data
 	 */

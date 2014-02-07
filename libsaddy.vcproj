@@ -733,31 +733,8 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\resource\factory.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\resource\fileformat.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\resource\folder.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\src\resource\physicalfile.cpp"
@@ -768,11 +745,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\resource\resourcefactory.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\resource\tree.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
-						ExcludedFromBuild="true"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
@@ -1754,14 +1734,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\resource\factory.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\resource\fileformat.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\resource\folder.h"
 					>
 				</File>
@@ -1775,6 +1747,10 @@
 				</File>
 				<File
 					RelativePath=".\include\resource\resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\resourcefactory.h"
 					>
 				</File>
 				<File

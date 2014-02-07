@@ -45,6 +45,10 @@ public:
 		\param[in] name name of file (with or without path)
 	 */
 	void setName(const sad::String& name);
+	/*! Loads a physical file. By default only returns false, since resource
+		should be loaded only
+	 */
+	virtual bool load();
 	/*! Reloads all resources from a file
 		\return errors if any occured on resources
 	 */
@@ -65,6 +69,10 @@ public:
 		\return a tree for file
 	 */
 	sad::resource::Tree * tree() const;
+	/*! Returns a resources
+		\return a resource
+	 */
+	const sad::Vector<sad::resource::Resource*> & resources() const;
 protected: 
 	/*! A file name (with or without path), where file is stored
 	 */
@@ -76,6 +84,17 @@ protected:
 	 */
 	sad::Vector<sad::resource::Resource*> m_resources;
 };
+
+/*! Frees list of errors
+	\param[in] vector a vector of errors 
+ */
+inline void free_vector(const  sad::Vector<sad::resource::Error*> & vector)
+{
+	for(int i = 0; i < vector.size();i++)
+	{
+		delete vector[i];
+	}
+}
 
 }
 
