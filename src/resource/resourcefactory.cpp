@@ -1,4 +1,5 @@
-#include "resource/factory.h"
+#include "resource/resourcefactory.h"
+#include "resource/physicalfile.h"
 
 sad::resource::Creator::~Creator()
 {
@@ -22,7 +23,7 @@ void sad::resource::Factory::add(const sad::String & name, resource::Creator * c
 	}
 }
 
-sad::resource::Resource* sad::resource::Factory::create(sad::String name)
+sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
 {
 	sad::resource::Resource* result = NULL;
 	if (m_creators.contains(name))
@@ -31,5 +32,14 @@ sad::resource::Resource* sad::resource::Factory::create(sad::String name)
 		result = c->create();	
 	}
 	return result;	
+}
+
+sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::String & typehint)
+{
+	if (typehint == "spritesheet")
+	{
+		return NULL;
+	}
+	return new sad::resource::PhysicalFile();
 }
 

@@ -750,6 +750,30 @@ inline std::ostream& operator<<(std::ostream& os, const picojson::value& x)
   x.serialize(std::ostream_iterator<char>(os));
   return os;
 }
+
+namespace picojson
+{
+	/*  Parses string to json value
+		\param[in] name a string pf JSON
+		\return a parsed value
+	 */
+	inline picojson::value parse_string(const std::string & name)
+	{
+		picojson::value v(picojson::null_type, false);
+		if (name.size() != 0)
+		{
+			 std::istringstream s(name);
+			 s >> v;
+			 if (picojson::get_last_error().size() != 0)
+			 {
+				 v = picojson::value(picojson::null_type, false);
+			 }
+		}		
+		return v;
+	}
+}
+
+
 #ifdef _MSC_VER
     #pragma warning(pop)
 #endif
@@ -914,28 +938,6 @@ int main(void)
   }
 
   return 0;
-}
-
-namespace picojson
-{
-	/*  Parses string to json value
-		\param[in] name a string pf JSON
-		\return a parsed value
-	 */
-	inline picojson::value parse_string(const std::string & name)
-	{
-		picojson::value v(picojson::null_type, false);
-		if (name.size() != 0)
-		{
-			 std::istringstream s(name);
-			 s >> v;
-			 if (picojson::get_last_error().size() != 0)
-			 {
-				 v = picojson::value(picojson::null_type, false);
-			 }
-		}		
-		return v;
-	}
 }
 
 #endif
