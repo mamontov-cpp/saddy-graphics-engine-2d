@@ -8,6 +8,7 @@
 	subfolders causes creating new subfolders.
  */
 #pragma once
+#include <../maybe.h>
 #include <../sadstring.h>
 #include <../sadptrhash.h>
 
@@ -93,19 +94,19 @@ public:
 	/*! Returns begin iterator for folders
 		\return iterator for folders
 	 */
-	sad::resource::FolderIterator foldersBegin();
+	sad::resource::FolderIterator folderListBegin();
 	/*! Returns end iterator for folders
 		\return iterator for folders
 	 */
-	sad::resource::FolderIterator foldersEnd();
+	sad::resource::FolderIterator folderListEnd();
 	/*! Returns begin iterator for resources
 		\return begin iterator for resources
 	 */
-	sad::resource::ResourceIterator resourceBegin();
+	sad::resource::ResourceIterator resourceListBegin();
 	/*! Returns end iterator for resources
 		\return end iterator for resources
 	 */
-	sad::resource::ResourceIterator resourceEnd();
+	sad::resource::ResourceIterator resourceListEnd();
 	/*! A parent folder for current folder NULL for top-most
 		\param[in] folder parent folder
 	 */
@@ -114,6 +115,11 @@ public:
 		\return parent folder
 	 */
 	sad::resource::Folder * parent() const;
+	/*! Finds resource path by resource name
+		\param[in] r resource to be found
+		\return a path to resource if found
+	 */
+	sad::Maybe<sad::String> find(sad::resource::Resource * r);
 protected: 
 	/*! Navigates to parent folder of resource of folder named fullpath
 		\param[in] fullpath a path to folder or resource
