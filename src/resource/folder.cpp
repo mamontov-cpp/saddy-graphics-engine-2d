@@ -1,77 +1,199 @@
 #include "resource/folder.h"
+#include "resource/resource.h"
 
-resource::Folder::Folder()
+sad::resource::Folder::Folder() : m_parent(NULL)
 {
 
 }
 
-resource::Folder::~Folder()
+sad::resource::Folder::~Folder()
 {
 
 }
 
-bool resource::Folder::addFolder(sad::String name, resource::Folder* folder)
+bool sad::resource::Folder::hasFolders() const
 {
-		return bool();	
+	return m_subfolders.count() != 0;
 }
 
-bool resource::Folder::addResource(sad::String name, resource::Folder* folder)
+bool sad::resource::Folder::hasResources() const
 {
-		return bool();	
+	return m_resources.count() != 0;
 }
 
-void resource::Folder::removeFolder(sad::String name)
+bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Folder* folder)
 {
+	sad::String foldername;
+	sad::resource::Folder * parent = navigateParentFolder(path, true, foldername);
+	if (parent == NULL)
+	{
+		return false;
+	}
+	if (parent->m_subfolders.contains(foldername) != NULL)
+	{
+		delete parent->m_subfolders[foldername];
+	}
+	parent->m_subfolders.insert(foldername, folder);
+	folder->setParent(parent);
+	return true;
+}
+
+bool sad::resource::Folder::addResource(const sad::String & path, sad::resource::Resource* r)
+{
+	sad::String resourcename;
+	sad::resource::Folder * parent = navigateParentFolder(path, true, resourcename);
+	if (parent == NULL)
+	{
+		return false;
+	}
+	if (parent->m_resources.contains(resourcename) != NULL)
+	{
+		delete parent->m_resources[resourcename];
+	}
+	parent->m_resources.insert(resourcename, r);
+	r->setParentFolder(parent);
+	return true;	
+}
+
+void sad::resource::Folder::removeFolder(const sad::String& path, bool free)
+{
+	sad::String foldername;
+	sad::resource::Folder * parent = navigateParentFolder(path, false, foldername);
+	if (parent == NULL)
+	{
+		return;
+	}
+	if (parent->m_subfolders.contains(foldername))
+	{
+		parent->setParent(NULL);
+		if (free) 
+		{
+			delete parent->m_subfolders[foldername];
+		}
+		parent->m_subfolders.remove(foldername);
+	}
+}
+
+void sad::resource::Folder::removeResource(const sad::String& path, bool free)
+{
+	sad::String resourcename;
+	sad::resource::Folder * parent = navigateParentFolder(path, false, resourcename);
+	if (parent == NULL)
+	{
+		return;
+	}
+	if (parent->m_resources.contains(resourcename))
+	{
+		parent->setParent(NULL);
+		if (free) 
+		{
+			delete parent->m_resources[resourcename];
+		}
+		parent->m_resources.remove(resourcename);
+	}
 			
 }
 
-void resource::Folder::removeResource(sad::String name)
+sad::resource::Folder* sad::resource::Folder::folder(const sad::String& path)
 {
-			
+	sad::String foldername;
+	resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
+	resource::Folder * result = NULL;
+	if (parent)
+	{
+		if (parent->m_subfolders.contains(foldername))
+		{
+			result = parent->m_subfolders[foldername];
+		}
+	}
+	return result;
 }
 
-resource::Folder* resource::Folder::folder(sad::String name)
+sad::resource::Resource* sad::resource::Folder::resource(const sad::String& path)
 {
-		return resource::Folder*();	
+	sad::String foldername;
+	resource::Folder * parent = this->navigateParentFolder(path, false, foldername);
+	resource::Resource * result = NULL;
+	if (parent)
+	{
+		if (parent->m_resources.contains(foldername))
+		{
+			result = parent->m_resources[foldername];
+		}
+	}
+	return result;	
 }
 
-resource::Resource* resource::Folder::resource(sad::String name)
+void sad::resource::Folder::replaceResource(const sad::String& name, resource::Resource* r)
 {
-		return resource::Resource*();	
+	sad::resource::Resource * old = resource(name);
+	if (old)
+	{
+		old->replaceWith(r);
+		this->removeResource(name, true);
+	}
+	this->addResource(name, r);
 }
 
-void resource::Folder::setName(sad::String name)
+sad::resource::FolderIterator sad::resource::Folder::foldersBegin()
 {
-			
+	return m_subfolders.begin();
 }
 
-sad::String resource::Folder::name()
+sad::resource::FolderIterator sad::resource::Folder::foldersEnd()
 {
-		return sad::String();	
+	return m_subfolders.end();
 }
 
-void resource::Folder::replaceResource(sad::String name, resource::Resource* r)
+sad::resource::ResourceIterator sad::resource::Folder::resourceBegin()
 {
-			
+	return m_resources.begin();
 }
 
-sad::Hash<sad::String, resource::Folder*>::iterator resource::Folder::foldersBegin()
+sad::resource::ResourceIterator sad::resource::Folder::resourceEnd()
 {
-		return sad::Hash<sad::String, resource::Folder*>::iterator();	
+	return m_resources.end();
 }
 
-sad::Hash<sad::String, resource::Folder*>::iterator resource::Folder::foldersEnd()
+void sad::resource::Folder::setParent(sad::resource::Folder * folder)
 {
-		return sad::Hash<sad::String, resource::Folder*>::iterator();	
+	m_parent = folder;
 }
 
-sad::Hash<sad::String, resource::Resource*>::iterator resource::Folder::resourceBegin()
+sad::resource::Folder * sad::resource::Folder::parent() const
 {
-		return sad::Hash<sad::String, resource::Resource*>::iterator();	
+	return m_parent;
 }
 
-sad::Hash<sad::String, resource::Resource*>::iterator resource::Folder::resourceEnd()
+sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
+		const sad::String & path, 
+		bool create,
+		sad::String & name
+)
 {
-		return sad::Hash<sad::String, resource::Resource*>::iterator();	
+	if (path.size() == 0 )
+		return NULL;
+	if (path.getOccurences("/") > 1024)
+		return NULL;
+	sad::Vector<sad::String> splitpath = path.split("/");
+	if (splitpath.size() == 0)
+		return NULL;
+	sad::resource::Folder * parent = this;
+	for(int i = 0; i < (int)(splitpath.size()) - 2; i++)
+	{
+		if (parent->m_subfolders.contains(splitpath[i]) == NULL)
+		{
+			if (create)
+			{
+				parent->m_subfolders.insert(splitpath[i], new sad::resource::Folder());
+			}
+			else
+			{
+				return NULL;
+			}
+		}
+		parent = parent->m_subfolders[splitpath[i]];
+	}
+	name = splitpath[splitpath.count() - 1];
+	return parent;
 }
-

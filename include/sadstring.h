@@ -178,7 +178,7 @@ class String: public std::string
 		     \param[in] sstr string, which occurences will be counted
 			 \return -1 if no occurences, otherwise amount of occurences
 		 */
-		 long getOccurences(const String & sstr);
+		 long getOccurences(const String & sstr) const;
 		 /*! Returns a position of substring.
 		    \param[in] sstr  searching string
 			\param[in] omax  searching occurence of string.0 - for first.
