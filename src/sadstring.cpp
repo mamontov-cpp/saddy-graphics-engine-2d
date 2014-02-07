@@ -266,7 +266,7 @@ sad::String  sad::String::getLeftPart(long len)
 {
  return subString(0,len);
 }
-long sad::String::getOccurences(const sad::String & sstr)
+long sad::String::getOccurences(const sad::String & sstr) const
 {
 	long count = 0;
 	size_t pos = this->find(sstr);
