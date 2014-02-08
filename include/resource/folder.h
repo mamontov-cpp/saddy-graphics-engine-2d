@@ -8,9 +8,9 @@
 	subfolders causes creating new subfolders.
  */
 #pragma once
-#include <../maybe.h>
-#include <../sadstring.h>
-#include <../sadptrhash.h>
+#include "../maybe.h"
+#include "../sadstring.h"
+#include "../sadptrhash.h"
 
 namespace sad
 {

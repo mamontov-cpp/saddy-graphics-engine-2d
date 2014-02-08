@@ -205,7 +205,7 @@ sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 	if (splitpath.size() == 0)
 		return NULL;
 	sad::resource::Folder * parent = this;
-	for(int i = 0; i < (int)(splitpath.size()) - 2; i++)
+	for(int i = 0; i < (int)(splitpath.size()) - 1; i++)
 	{
 		if (parent->m_subfolders.contains(splitpath[i]) == NULL)
 		{
