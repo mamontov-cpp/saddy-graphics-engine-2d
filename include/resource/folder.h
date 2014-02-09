@@ -9,6 +9,7 @@
  */
 #pragma once
 #include "../maybe.h"
+#include "../sadpair.h"
 #include "../sadstring.h"
 #include "../sadptrhash.h"
 
@@ -26,6 +27,12 @@ typedef sad::Hash<sad::String, sad::resource::Resource*>::iterator ResourceItera
 /*! An iterator for iterating on subfolders of folder
  */
 typedef sad::Hash<sad::String, sad::resource::Folder*>::iterator FolderIterator;
+/*! An entry of resource, stored in folder
+ */
+typedef sad::Pair<sad::String, sad::resource::Resource*> ResourceEntry;
+/*! A list of resource entry, stored in folder
+ */
+typedef sad::Vector<sad::resource::ResourceEntry> ResourceEntryList;
 
 /*! \class Folder
 
@@ -120,6 +127,11 @@ public:
 		\return a path to resource if found
 	 */
 	sad::Maybe<sad::String> find(sad::resource::Resource * r);
+	/*! Recursively copies entities stored in folder in list, clearing data in 
+		folders rescursively
+		\return resource list
+	 */
+	ResourceEntryList copyAndClear();
 protected: 
 	/*! Navigates to parent folder of resource of folder named fullpath
 		\param[in] fullpath a path to folder or resource

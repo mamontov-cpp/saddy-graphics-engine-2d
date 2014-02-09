@@ -191,6 +191,30 @@ sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
 	}
 	return result;
 }
+
+sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
+{
+	sad::resource::ResourceEntryList result;
+	for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
+		it != this->resourceListEnd(); 
+		it++)
+	{
+		result << sad::resource::ResourceEntry(it.key(), it.value());
+	}
+	m_resources.clear();
+	for(sad::resource::FolderIterator it = this->folderListBegin(); 
+		it != this->folderListEnd(); 
+		it++)
+	{
+		sad::resource::ResourceEntryList tmp = it.value()->copyAndClear();
+		sad::String prefix = it.key() + "/"; 
+		for(size_t i = 0; i < tmp.size(); i++)
+		{
+			result <<  sad::resource::ResourceEntry(prefix + tmp[i].p1(), tmp[i].p2());
+		}
+	}
+	return result;
+}
 sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 		const sad::String & path, 
 		bool create,
