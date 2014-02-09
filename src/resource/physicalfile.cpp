@@ -30,7 +30,7 @@ void sad::resource::PhysicalFile::setName(const sad::String & name)
 	m_name = name;
 }
 
-bool sad::resource::PhysicalFile::load()
+bool sad::resource::PhysicalFile::load(sad::resource::Folder * parent)
 {
 	return false;
 }
