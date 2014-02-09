@@ -751,13 +751,6 @@
 				<File
 					RelativePath=".\src\resource\tree.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -1659,6 +1652,10 @@
 				>
 				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\free.h"
 					>
 				</File>
 				<File

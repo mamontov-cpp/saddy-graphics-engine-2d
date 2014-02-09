@@ -6,6 +6,8 @@
 #include "3rdparty/picojson/picojson.h"
 #include "3rdparty/picojson/valuetotype.h"
 
+#include "util/free.h"
+
 #include <fstream>
 
 sad::resource::Tree::Tree(sad::Renderer * r)
@@ -87,17 +89,17 @@ bool sad::resource::Tree::initFromString(const sad::String & string)
 		if (result)
 		{
 			delete oldroot;
-			for(int i = 0; i < m_files.size(); i++)
-				delete m_files[i];
+
+			util::free(m_files);
 			m_files.clear();
+
 			for(int i = 0; i < newfiles.size(); i++)
 				m_files << newfiles[i];
 		}
 		else
 		{
 			delete newroot;
-			for(int i = 0; i < newfiles.size(); i++)
-				delete newfiles[i];
+			util::free(newfiles);
 		}
 	}
 	return result;
