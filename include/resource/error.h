@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include "../sadstring.h"
 #include "../3rdparty/format/format.h"
+#include "../object.h"
 
 namespace sad
 {
@@ -21,8 +22,9 @@ namespace resource
 	
 	A basic class for all resource-related errors
  */
-class Error: public std::runtime_error
+class Error:public sad::Object, public std::runtime_error
 {	
+SAD_OBJECT
 public:	
 	/*! Constructs new error
 		\param[in] message a error message
@@ -42,6 +44,7 @@ public:
  */
 class FileLoadError : public resource::Error
 {
+SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
@@ -75,6 +78,7 @@ protected:
  */
 class ResourceLoadError : public resource::Error
 {
+SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
@@ -115,6 +119,7 @@ protected:
  */
 class MissingResource: public resource::Error  
 {	
+SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
@@ -141,6 +146,46 @@ public:
 	/*! This class can be inherited 
 	 */
 	virtual ~MissingResource();
+protected:
+	/*! A name of resource.
+	 */
+	sad::String m_name;
+};
+
+/*! \class MissingResource
+
+	Describes a error, which occurs, when such resource already exists in current database
+	and cannot be replaced. Occurs, when user tries to load seaparate file
+ */
+class ResourceAlreadyExists: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error(const sad::String & name)
+	{
+		sad::String errorres = name;
+		if (errorres.length() == 0)
+			errorres = "anonymous";
+		return fmt::str(fmt::Format("Cannot load resource \"{0}\", which is already exists in current database") 
+						<< errorres);
+	}
+
+	/*! Constructs a error for missing resource
+		\param[in] name a name of resource
+	 */
+	inline ResourceAlreadyExists(const sad::String & name)
+	: resource::Error(resource::ResourceAlreadyExists::format_error(name)), m_name(name)
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~ResourceAlreadyExists();
 protected:
 	/*! A name of resource.
 	 */
