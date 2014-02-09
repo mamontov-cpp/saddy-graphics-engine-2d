@@ -57,7 +57,8 @@ public:
 		\return whether folder has resources
 	 */
 	bool hasResources() const;
-	/*! Adds new subbolder with specified name to current folder
+	/*! Adds new subbolder with specified name to current folder. Note that old folder will
+		be replaced if it exists, destroying old linked resources.
 		\param[in] path	a path to subfolder, including  it's name, using "/" as separator.
 		\param[in] folder a subfolder to be added
 		\return whether adding was successfull 
