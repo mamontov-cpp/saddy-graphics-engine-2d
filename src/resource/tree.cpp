@@ -79,7 +79,7 @@ bool sad::resource::Tree::initFromString(const sad::String & string)
 					}
 					else
 					{
-						result = file->load();
+						result = file->load(m_root);
 					}
 					newfiles << file;
 				}

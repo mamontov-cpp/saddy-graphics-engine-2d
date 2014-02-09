@@ -18,6 +18,7 @@ namespace resource
 {
 class Tree;
 class Resource;
+class Folder;
 /*! \class PhysicalFile
 
 	This is a physical file, where resources were stored before loading, and where they are belong.
@@ -46,9 +47,14 @@ public:
 	 */
 	void setName(const sad::String& name);
 	/*! Loads a physical file. By default only returns false, since resource
-		should be loaded only
+		should be loaded only.
+
+		Default implementation only returns false. Implement your own type of files, if
+		you need some non-standard resources, like spritesheets or something.
+
+		\param[in] parent a parent folder, where all created resources should be stored
 	 */
-	virtual bool load();
+	virtual bool load(sad::resource::Folder * parent);
 	/*! Reloads all resources from a file
 		\return errors if any occured on resources
 	 */
