@@ -202,6 +202,7 @@ public:
 		picojson::value const * p2o = picojson::get_property(v, "p2");
 		picojson::value const * p3o = picojson::get_property(v, "p3");
 		picojson::value const * p4o = picojson::get_property(v, "p4");
+		// First try to create rectangle by four points
 		if (p1o && p2o && p3o && p4o)
 		{
 			sad::Maybe<sad::Point2D> p1 = picojson::ValueToType<sad::Point2D>::get(*p1o);
@@ -213,6 +214,19 @@ public:
 				result.setValue(sad::Rect2D(
 					p1.value(), p2.value(), p3.value(), p4.value()
 				));
+			}
+		}
+		else
+		{
+			// Try to create rectangle by two points
+			if (p1o && p3o)
+			{
+				sad::Maybe<sad::Point2D> p1 = picojson::ValueToType<sad::Point2D>::get(*p1o);
+				sad::Maybe<sad::Point2D> p3 = picojson::ValueToType<sad::Point2D>::get(*p3o);
+				if (p1.exists() && p3.exists())
+				{
+					result.setValue(sad::Rect2D(p1.value(), p3.value()));
+				}
 			}
 		}
 		return result;
