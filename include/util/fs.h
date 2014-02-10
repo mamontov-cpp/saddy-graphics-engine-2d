@@ -6,6 +6,9 @@
 #pragma once
 #include "../sadstring.h"
 
+namespace sad
+{
+
 namespace util
 {
 
@@ -26,5 +29,7 @@ bool isAbsolutePath(const sad::String & path);
 	\return parent + path in correct format
  */
 sad::String concatPaths(const sad::String & parent,const sad::String & path);
+
+}
 
 }

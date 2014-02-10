@@ -1663,6 +1663,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\util\pointercallback.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\util\sadthreadexecutablefunction.h"
 					>
 				</File>

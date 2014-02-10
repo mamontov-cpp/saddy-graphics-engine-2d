@@ -4,7 +4,7 @@
 	#include <windows.h>
 #endif
 
-sad::String util::pathDelimiter()
+sad::String sad::util::pathDelimiter()
 {
 #ifdef WIN32
 	return "\\";
@@ -17,7 +17,7 @@ sad::String util::pathDelimiter()
 }
 
 
-bool util::isAbsolutePath(const sad::String & path)
+bool sad::util::isAbsolutePath(const sad::String & path)
 {
 	bool result = false;
 	if (path.length() != 0)
@@ -38,7 +38,7 @@ bool util::isAbsolutePath(const sad::String & path)
 }
 
 
-sad::String util::concatPaths(const sad::String & parent,const sad::String & path)
+sad::String sad::util::concatPaths(const sad::String & parent,const sad::String & path)
 {
 	if (parent.length() ==0){
 		return path;
