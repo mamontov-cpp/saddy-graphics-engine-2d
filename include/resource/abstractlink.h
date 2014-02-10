@@ -35,7 +35,7 @@ public:
 	/*! Attach a link to specified resource
 		\param[in] r a new resource, which links should be attached to
 	 */
-	void attach(sad::resource::Resource* r);
+	virtual void attach(sad::resource::Resource* r);
 	/*! Sets resource link to object to NULL
 	 */
 	void detach();

@@ -6,6 +6,9 @@
 #pragma once
 #include "../sadvector.h"
 
+namespace sad
+{
+
 namespace util
 {
 
@@ -20,6 +23,8 @@ void free(const sad::Vector<T*> & v)
 	{
 		delete v[i];
 	}
+}
+
 }
 
 }
