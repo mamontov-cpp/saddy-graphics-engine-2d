@@ -181,6 +181,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 		// via file
 		if (resource)
 		{
+			resource->setFactoryName(typehint);
 			bool ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_storelinks);
 			// Sometimes loading of resource could fail
 			if (ok)

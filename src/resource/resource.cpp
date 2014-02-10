@@ -131,3 +131,14 @@ sad::resource::PhysicalFile * sad::resource::Resource::file() const
 {
 	return m_file;	
 }
+
+void sad::resource::Resource::setFactoryName(const sad::String & name)
+{
+	m_factory_name = name;
+}
+
+const sad::String & sad::resource::Resource::factoryName() const
+{
+	return m_factory_name;
+}
+

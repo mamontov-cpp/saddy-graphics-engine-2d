@@ -98,6 +98,14 @@ public:
 		\return file
 	 */
 	sad::resource::PhysicalFile * file() const;
+	/*! Sets factory name, via which resource was created in factory
+		\param[in] name a factory name
+	 */
+	void setFactoryName(const sad::String & name);
+	/*! Returns a factory name, via which resource was created in factory
+		\return factory name
+	 */
+	const sad::String & factoryName() const;
 protected: 
 	/*! Loads a resource from specified file, using specified renderer for resolving some 
 		properties.
@@ -123,6 +131,9 @@ protected:
 	/*! Returns name for resource
 	 */
 	sad::String m_name;
+	/*! A name for type, via which it was created in factory
+	 */
+	sad::String m_factory_name;
 	/*! A links to a resource
 	 */
 	sad::Vector<sad::resource::AbstractLink*> m_links;
