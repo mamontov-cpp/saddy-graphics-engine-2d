@@ -7,6 +7,7 @@
 #include "3rdparty/picojson/valuetotype.h"
 
 #include "util/free.h"
+#include "util/fs.h"
 
 #include <fstream>
 
@@ -30,21 +31,19 @@ sad::resource::Tree::~Tree()
 }
 
 
-bool sad::resource::Tree::initFromString(const sad::String & string)
+sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
-	bool result = false;
+	sad::Vector<sad::resource::Error*> errors;
 	picojson::value v = picojson::parse_string(string);
 	if (picojson::get_last_error().size() == 0 && v.is<picojson::array>())
 	{
+		// Check new root errors
 		sad::resource::Folder * newroot = new sad::resource::Folder();
 		sad::Vector<sad::resource::PhysicalFile *> newfiles;
 
-		sad::resource::Folder * oldroot = m_root;
-		m_root = newroot;
-
-		result = true;
+		// Try load data to temporary containers
 		picojson::array & resourcelist = v.get<picojson::array>();		
-		for(int i = 0 ; i < resourcelist.size() && result; i++)
+		for(int i = 0 ; i < resourcelist.size() && errors.size() != 0; i++)
 		{
 			sad::Maybe<sad::String>  maybetype = picojson::to_type<sad::String>(
 				picojson::get_property(resourcelist[i], "type")
@@ -54,58 +53,51 @@ bool sad::resource::Tree::initFromString(const sad::String & string)
 			);
 			if (maybetype.exists() && maybename.exists())
 			{
-				sad::resource::PhysicalFile * file = m_factory->fileByType(maybetype.value());
-				if (file)
-				{
-					file->setTree(this);
-					sad::resource::Resource  * resource = m_factory->create(maybetype.value());
-					if (resource)
-					{
-						result = resource->tryLoad(*file, m_renderer, resourcelist[i], m_storelinks);
-						file->add(resource);
-						resource->setPhysicalFile(file);
-						sad::Maybe<sad::String>  mayberesourcename = picojson::to_type<sad::String>(
+				sad::Maybe<sad::String>  mayberesourcename = picojson::to_type<sad::String>(
 							picojson::get_property(resourcelist[i], "name")
 						);
-						if (mayberesourcename.exists())
-						{
-							m_root->addResource(mayberesourcename.value(), resource);
-						}
-						else
-						{
-							delete resource;
-						}
-
-					}
-					else
-					{
-						result = file->load(m_root);
-					}
-					newfiles << file;
-				}
+				errors << load(
+					maybetype.value(), 
+					maybename.value(), 
+					mayberesourcename, 
+					newroot, 
+					resourcelist[i], 
+					newfiles
+				);
 			}
 		}
 
-		if (result)
+		// Try to copy resources to a core
+		if (errors.size() == 0)
 		{
-			delete oldroot;
-
-			util::free(m_files);
-			m_files.clear();
-
-			for(int i = 0; i < newfiles.size(); i++)
-				m_files << newfiles[i];
+			sad::resource::ResourceEntryList list = newroot->copyAndClear();
+			errors << this->duplicatesToErrors(m_root->duplicatesBetween(list));
+			if (errors.size() == 0)
+			{
+				m_root->addResources(list);
+				m_files << newfiles;
+				delete newroot;
+			}
+			else
+			{
+				sad::resource::free(list);
+			}
 		}
-		else
+		
+		if (errors.size() != 0)
 		{
 			delete newroot;
 			util::free(newfiles);
 		}
 	}
-	return result;
+	else
+	{
+		errors << new JSONParseError();
+	}
+	return errors;
 }
 
-bool sad::resource::Tree::initFromFile(const sad::String& string)
+sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::String& string)
 {
 	std::ifstream stream(string.c_str());
 	if (stream.good())
@@ -114,15 +106,157 @@ bool sad::resource::Tree::initFromFile(const sad::String& string)
 			(std::istreambuf_iterator<char>(stream)), 
 			std::istreambuf_iterator<char>()
 		);
-		return initFromString(string);
+		return loadFromString(string);
 	}
-	return false;
+	else
+	{
+		if (util::isAbsolutePath(string) == false)
+		{
+			sad::String path = util::concatPaths(m_renderer->executablePath(), string);
+			stream.open(path.c_str());
+			if (stream.good())
+			{
+				std::string alldata(
+					(std::istreambuf_iterator<char>(stream)), 
+					 std::istreambuf_iterator<char>()
+					);
+				return loadFromString(string);
+			}
+		}
+	}
+	sad::Vector<sad::resource::Error*> result;
+	result << new sad::resource::FileLoadError(string);
+	return result;
 }
 
-bool sad::resource::Tree::load(const sad::String& typehint, const sad::String& file, const sad::String& name)
+sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
+		const sad::String& typehint, 
+		const sad::String& filename, 
+		const sad::Maybe<sad::String>& resourcename
+)
 {
-	// TODO: Actually implement
-	return false;
+	return load(
+		typehint, 
+		filename, 
+		resourcename, 
+		m_root, 
+		picojson::value(picojson::null_type, false), 
+		m_files
+	);
+}
+
+sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
+	const sad::String& typehint, 
+	const sad::String& filename, 
+	const sad::Maybe<sad::String>& resourcename,
+	sad::resource::Folder * store,
+	const picojson::value & v,
+	sad::Vector<sad::resource::PhysicalFile *> & files
+)
+{
+	sad::resource::Folder * temporary = new sad::resource::Folder();
+	sad::Vector<sad::resource::Error*> errors;
+	
+	// Fill picojson value if needed
+ 	picojson::value resourcedescription = v;
+	if (resourcedescription.is<picojson::object>() == false)
+	{
+		resourcedescription = picojson::object();
+		resourcedescription.insert("type", picojson::value(typehint));
+		resourcedescription.insert("filename", picojson::value(filename));
+		if (resourcename.exists())
+		{
+			resourcedescription.insert("name", picojson::value(resourcename.value()));
+		}
+	}
+
+	// Try create physical file
+	sad::resource::PhysicalFile * file = m_factory->fileByType(typehint);
+	// First of all file could not be created sometimes
+	if (file)
+	{
+		file->setTree(this);
+		sad::resource::Resource  * resource = m_factory->create(typehint);
+		// Sometimes a resource takes care of loading itself, otherwise it could be done
+		// via file
+		if (resource)
+		{
+			bool ok = resource->tryLoad(*file, m_renderer, resourcedescription , m_storelinks);
+			// Sometimes loading of resource could fail
+			if (ok)
+			{
+				file->add(resource);
+				resource->setPhysicalFile(file);
+				// Whend appending a resource, resource could be anonymous
+				if (resourcename.exists())
+				{
+					// Sometimes resource could be duplicated
+					if (temporary->resource(resourcename.value()) != NULL)
+					{
+						errors << new sad::resource::ResourceAlreadyExists(resourcename.value());
+						delete resource;
+					}
+					else
+					{
+						temporary->addResource(resourcename.value(), resource);
+					}
+				}
+				else
+				{
+					errors << new sad::resource::AnonymousResource(filename);
+					delete resource;
+				}
+			}
+			else
+			{
+				sad::String fileerrorname = filename;
+				if (resourcename.exists())
+				{
+					fileerrorname = resourcename.value();
+				}
+				errors << new sad::resource::ResourceLoadError(fileerrorname);
+			}
+
+		}
+		else
+		{
+			 errors << file->load(temporary);
+		}
+	}
+	else
+	{
+		errors << new sad::resource::UnregisteredFileType(typehint);
+	}
+
+	// Cleanup all state or try to copy all data, if errors not found 
+	// Errors still can persist due to duplication of resources in store and temporary
+	if (errors.size() == 0)
+	{
+		// Checks whether resources already exists in stored place
+		sad::resource::ResourceEntryList list = temporary->copyAndClear();
+		errors << this->duplicatesToErrors( store->duplicatesBetween(list) );
+
+		// If everything is ok, append all elements, otherwise free lists
+		if (errors.size() == 0)
+		{
+			files << file;
+			store->addResources(list);
+			delete temporary;
+		}
+		else
+		{
+			sad::resource::free(list);
+		}
+	}
+
+	// If some errors exists, destroy temporary
+	if (errors.size() != 0)
+	{
+		if (file)
+			delete file;
+		delete temporary;
+	}
+	return errors;
 }
 
 bool sad::resource::Tree::unload(const sad::String& file)
@@ -206,4 +340,16 @@ bool sad::resource::Tree::shouldStoreLinks() const
 void sad::resource::Tree::setStoreLinks(bool store)
 {
 	m_storelinks = store;
+}
+
+sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
+		const sad::Vector<sad::String> & l
+)
+{
+	sad::Vector<sad::resource::Error *> result;
+	for(size_t i = 0; i < l.size(); i++)
+	{
+		result << new sad::resource::ResourceAlreadyExists(l[i]);
+	}
+	return result;
 }

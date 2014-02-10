@@ -11,6 +11,7 @@
 #include "resource.h"
 #include "resourcefactory.h"
 #include "folder.h"
+#include "error.h"
 
 namespace sad
 {
@@ -34,23 +35,48 @@ public:
 	/*! This class can be inherited 
 	 */
 	virtual ~Tree();
-	/*! Inits a tree from a string, loading resources, stored in JSON in string
+	/*! Loads a tree from a string, adding to existing data new stored resources if new errors
+		occured.
 		\param[in] string
-		\return whether it was successfull
+		\return list of errors
 	 */
-	virtual bool initFromString(const sad::String & string);
-	/*! Inits a tree, loading a resources from a file, where data stored here is successfull
+	virtual sad::Vector<sad::resource::Error*> loadFromString(const sad::String & string);
+	/*! Loads a tree from a file, adding to existing data new stored resources if new errors
+		occured.
 		\param[in] string
-		\return whether it was successfull
+		\return list of errors
 	 */
-	bool initFromFile(const sad::String& string);
-	/*! Loads new file, trying to load it
+	sad::Vector<sad::resource::Error*> loadFromFile(const sad::String& string);
+	/*! Loads new file. If no errors found, all resources will be stored in
+		node.
+
 		\param[in] typehint a hint for type of file to be loaded
-		\param[in] file a name of file to be loaded
-		\param[in] name a name of resource
-		\return whether it was successfull
+		\param[in] filename a name of file to be loaded
+		\param[in] resourcename a name of resource, if any should be loaded
+	*/
+	sad::Vector<sad::resource::Error*> load(
+		const sad::String& typehint, 
+		const sad::String& filename, 
+		const sad::Maybe<sad::String>& resourcename
+	);
+	/*! Loads new file. If no errors found, all resources will be stored in
+		node.
+
+		\param[in] typehint a hint for type of file to be loaded
+		\param[in] filename a name of file to be loaded
+		\param[in] resourcename a name of resource, if any should be loaded
+		\param[in] store where new resources, should be stored (NULL for current root)
+		\param[out] files list of files, where new resources should be stored
+		\return list of errors
 	 */
-	virtual bool load(const sad::String& typehint, const sad::String& file, const sad::String& name);
+	virtual sad::Vector<sad::resource::Error*> load(
+		const sad::String& typehint, 
+		const sad::String& filename, 
+		const sad::Maybe<sad::String>& resourcename,
+		sad::resource::Folder * store,
+		const picojson::value & v,
+		sad::Vector<sad::resource::PhysicalFile *> & files		
+	);
 	/*! Unloads file, removing all resources from it and freeing it's memory. 
 		Can fail if some of resources are referenced
 		\param[in] file a file to be unloaded
@@ -110,6 +136,13 @@ protected:
 	/*! Whether we should store links
 	 */
 	bool m_storelinks;
+	/*! Converts duplicates to errors, that resource already exists
+		\param[in] l a resource entry list
+		\return error list
+	 */
+	sad::Vector<sad::resource::Error *> duplicatesToErrors(
+		const sad::Vector<sad::String> & l
+	);
 private:
 	/*! Disabled, tree is uncopyable
 		\param[in] o other tree
