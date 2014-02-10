@@ -125,24 +125,35 @@ public:
 		typename _Object,
 		typename _CalledMethod
 	>
+	callback add(_Object * o, void (_CalledMethod::*f)() const)
+	{
+		return add(new sad::util::ConstMethodZeroArgCallback<_Resource, _Object, _CalledMethod>(o, f));
+	}
+	/*! Adds a method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _CalledMethod
+	>
 	callback add(_Object * o, void (_CalledMethod::*f)(_Resource *))
 	{
 		return add(new sad::util::MethodOneArgCallback<_Resource, _Object, _CalledMethod>(o, f));
 	}
-	/*! Adds a composed method call callback with no arguments
+	/*! Adds a method call callback with no arguments
 		\param[in] o an object
 		\param[in] f a called method
-		\param[in] g a second composed method
 		\return a callback
 	 */
 	template<
 		typename _Object,
-		typename _FCalledObject,
-		typename _GCalledObject
+		typename _CalledMethod
 	>
-	callback add(_Object * o, void (_FCalledObject::*f)(), void (_GCalledObject::*g)())
+	callback add(_Object * o, void (_CalledMethod::*f)(_Resource *) const)
 	{
-		return add(new sad::util::CompositionZeroArgCallback<_Resource, _Object, _FCalledObject, _GCalledObject>(o, f, g));
+		return add(new sad::util::ConstMethodOneArgCallback<_Resource, _Object, _CalledMethod>(o, f));
 	}
 	/*! Adds a composed method call callback with no arguments
 		\param[in] o an object
@@ -153,11 +164,140 @@ public:
 	template<
 		typename _Object,
 		typename _FCalledObject,
+		typename _RetObject,
 		typename _GCalledObject
 	>
-	callback add(_Object * o, void (_FCalledObject::*f)(), void (_GCalledObject::*g)(_Resource *))
+	callback add(_Object * o, _RetObject (_FCalledObject::*f)(), void (_GCalledObject::*g)())
 	{
-		return add(new sad::util::CompositionOneArgCallback<_Resource, _Object, _FCalledObject, _GCalledObject>(o, f, g));
+		return add(new sad::util::CompositionZeroArgCallback<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(_Object * o, _RetObject (_FCalledObject::*f)() const, void (_GCalledObject::*g)())
+	{
+		return add(new sad::util::CompositionZeroArgCallbackC1<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(_Object * o, _RetObject (_FCalledObject::*f)(), void (_GCalledObject::*g)() const)
+	{
+		return add(new sad::util::CompositionZeroArgCallbackC2<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(_Object * o, _RetObject (_FCalledObject::*f)() const, void (_GCalledObject::*g)() const)
+	{
+		return add(new sad::util::CompositionZeroArgCallbackC12<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(
+		_Object * o, 
+		_RetObject (_FCalledObject::*f)(), 
+		void (_GCalledObject::*g)(_Resource *)
+	)
+	{
+		return add(new sad::util::CompositionOneArgCallback<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(
+		_Object * o, 
+		_RetObject (_FCalledObject::*f)() const, 
+		void (_GCalledObject::*g)(_Resource *)
+	)
+	{
+		return add(new sad::util::CompositionOneArgCallbackC1<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(
+		_Object * o, 
+		_RetObject (_FCalledObject::*f)(), 
+		void (_GCalledObject::*g)(_Resource *) const
+	)
+	{
+		return add(new sad::util::CompositionOneArgCallbackC2<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
+	}
+	/*! Adds a composed method call callback with no arguments
+		\param[in] o an object
+		\param[in] f a called method
+		\param[in] g a second composed method
+		\return a callback
+	 */
+	template<
+		typename _Object,
+		typename _FCalledObject,
+		typename _RetObject,
+		typename _GCalledObject
+	>
+	callback add(
+		_Object * o, 
+		_RetObject (_FCalledObject::*f)() const, 
+		void (_GCalledObject::*g)(_Resource *) const
+	)
+	{
+		return add(new sad::util::CompositionOneArgCallbackC12<_Resource, _Object, _FCalledObject, _RetObject, _GCalledObject>(o, f, g));
 	}
 	/*! Removes a callback from list of attached callback
 		\param[in] callback a callback data
