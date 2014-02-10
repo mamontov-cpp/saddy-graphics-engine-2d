@@ -1,5 +1,7 @@
 #include "resource/abstractlink.h"
 #include "resource/resource.h"
+#include "resource/tree.h"
+#include "resource/folder.h"
 
 sad::resource::AbstractLink::AbstractLink(const sad::String & resource_type)
 : m_changed(false), m_resource(NULL),  m_path(""), m_tree(NULL)
@@ -17,7 +19,10 @@ sad::resource::AbstractLink::~AbstractLink()
 
 void sad::resource::AbstractLink::attach(resource::Resource* r)
 {
-	m_resource->removeLink(this);
+	if (m_resource)
+	{
+		m_resource->removeLink(this);
+	}
 	m_resource = r;
 	if (m_resource)
 	{
@@ -36,7 +41,8 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
 {
 	if (m_resource == NULL && m_tree != NULL)
 	{
-		// TODO: Actually implement
+		sad::resource::Resource * res = m_tree->root()->resource(m_path);
+		const_cast<sad::resource::AbstractLink*>(this)->attach(res);
 	}
 	return m_resource;
 }
