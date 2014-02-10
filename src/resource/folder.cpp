@@ -1,6 +1,14 @@
 #include "resource/folder.h"
 #include "resource/resource.h"
 
+void sad::resource::free(const sad::resource::ResourceEntryList & list)
+{
+	for(size_t i = 0; i < list.size(); i++)
+	{
+		delete list[i].p2();
+	}
+}
+
 sad::resource::Folder::Folder() : m_parent(NULL)
 {
 
@@ -36,6 +44,32 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 	parent->m_subfolders.insert(foldername, folder);
 	folder->setParent(parent);
 	return true;
+}
+
+
+bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList & list)
+{
+	bool result = true;
+	for(int i = 0; i < list.size(); i++)
+	{
+		result = result &&	this->addResource(list[i].p1(), list[i].p2());
+	}
+	return result;
+}
+
+sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
+	const sad::resource::ResourceEntryList & list
+)
+{
+	sad::Vector<sad::String> result;
+	for(int i = 0; i < list.size(); i++)
+	{
+		if (this->resource(list[i].p1()) != NULL)
+		{
+			result << list[i].p1();
+		}
+	}
+	return result;
 }
 
 bool sad::resource::Folder::addResource(const sad::String & path, sad::resource::Resource* r)

@@ -30,9 +30,11 @@ void sad::resource::PhysicalFile::setName(const sad::String & name)
 	m_name = name;
 }
 
-bool sad::resource::PhysicalFile::load(sad::resource::Folder * parent)
+sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::load(sad::resource::Folder * parent)
 {
-	return false;
+	sad::Vector<sad::resource::Error*>  result;
+	result << new sad::resource::FileLoadingNotImplemented(m_name);
+	return result;
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()

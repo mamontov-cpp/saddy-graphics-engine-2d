@@ -54,7 +54,7 @@ public:
 
 		\param[in] parent a parent folder, where all created resources should be stored
 	 */
-	virtual bool load(sad::resource::Folder * parent);
+	virtual sad::Vector<sad::resource::Error*> load(sad::resource::Folder * parent);
 	/*! Reloads all resources from a file
 		\return errors if any occured on resources
 	 */

@@ -33,7 +33,10 @@ typedef sad::Pair<sad::String, sad::resource::Resource*> ResourceEntry;
 /*! A list of resource entry, stored in folder
  */
 typedef sad::Vector<sad::resource::ResourceEntry> ResourceEntryList;
-
+/*! Frees a resource list
+	\param[in] list a list of resources
+ */
+void free(const sad::resource::ResourceEntryList & list);
 /*! \class Folder
 
 	A folder may contain resources and subfolders, behaving like leaf of tree
@@ -65,6 +68,16 @@ public:
 				(false if name is empty, or  count of separators is bigger than 1024).
 	 */
 	bool addFolder(const sad::String&  path, sad::resource::Folder* folder);
+	/*! Copies a resource list to a folder
+		\param[in] list a list
+		\return whether all resources are added successfully
+	 */
+	bool addResources(const sad::resource::ResourceEntryList & list);
+	/*! Returns list of resource names, which exists in both in folder and list
+		\param[in] list a list of resources
+		\return list of items
+	 */
+	sad::Vector<sad::String> duplicatesBetween(const sad::resource::ResourceEntryList & list);
 	/*! Adds new subresource with specified name to current folder
 		\param[in] path a path to resource, including  it's name, using "/" as separator 
 		\param[in] res a resource to be added

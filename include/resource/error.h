@@ -152,7 +152,7 @@ protected:
 	sad::String m_name;
 };
 
-/*! \class MissingResource
+/*! \class ResourceAlreadyExists
 
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
@@ -190,6 +190,156 @@ protected:
 	/*! A name of resource.
 	 */
 	sad::String m_name;
+};
+
+/*! \class MissingResource
+
+	Describes a error, which occurs, when such resource already exists in current database
+	and cannot be replaced. Occurs, when user tries to load seaparate file
+ */
+class UnregisteredFileType: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error(const sad::String & name)
+	{
+		sad::String errorres = name;
+		if (errorres.length() == 0)
+			errorres = "anonymous";
+		return fmt::str(fmt::Format("Cannot load file type with name \"{0}\"") 
+						<< errorres);
+	}
+
+	/*! Constructs a error for unregistered file type
+		\param[in] name a type of resource
+	 */
+	inline UnregisteredFileType(const sad::String & name)
+	: resource::Error(resource::UnregisteredFileType::format_error(name)), m_name(name)
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~UnregisteredFileType();
+protected:
+	/*! A name of resource.
+	 */
+	sad::String m_name;
+};
+
+
+/*! \class AnonymousResource
+
+	Describes a error, which occurs, when resource has no name
+ */
+class AnonymousResource: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error(const sad::String & name)
+	{
+		sad::String errorres = name;
+		if (errorres.length() == 0)
+			errorres = "anonymous";
+		return fmt::str(fmt::Format("A resource with type  \"{0}\" has no type. Please review your JSON and name it") 
+						<< errorres);
+	}
+
+	/*! Constructs a error for missing resource
+		\param[in] name a name of resource
+	 */
+	inline AnonymousResource(const sad::String & name)
+	: resource::Error(resource::AnonymousResource::format_error(name)), m_name(name)
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~AnonymousResource();
+protected:
+	/*! A name of resource.
+	 */
+	sad::String m_name;
+};
+
+/*! \class FileLoadingNotImplemented
+
+	Describes a error, which occurs, when such resource already exists in current database
+	and cannot be replaced. Occurs, when user tries to load seaparate file
+ */
+class FileLoadingNotImplemented: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error(const sad::String & name)
+	{
+		sad::String errorres = name;
+		if (errorres.length() == 0)
+			errorres = "anonymous";
+		return fmt::str(fmt::Format("A file of name does not implement  \"{0}\" loading of type") 
+						<< errorres);
+	}
+
+	/*! Constructs a error for missing resource
+		\param[in] name a name of resource
+	 */
+	inline FileLoadingNotImplemented(const sad::String & name)
+	: resource::Error(resource::FileLoadingNotImplemented::format_error(name)), m_name(name)
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~FileLoadingNotImplemented();
+protected:
+	/*! A name of resource.
+	 */
+	sad::String m_name;
+};
+
+/*! \class JSONParseError
+
+	Describes a error, which occurs, when parsing of file failed
+ */
+class JSONParseError: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error()
+	{
+		return "Failed to parse JSON";
+	}
+
+	/*! Constructs a error for missing resource
+	 */
+	inline JSONParseError()
+	: resource::Error(resource::JSONParseError::format_error())
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~JSONParseError();
 };
 
 }
