@@ -1,5 +1,6 @@
 #include "resource/resourcefactory.h"
 #include "resource/physicalfile.h"
+#include "resource/spritesheetfile.h"
 
 sad::resource::Creator::~Creator()
 {
@@ -36,9 +37,9 @@ sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
 
 sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::String & typehint)
 {
-	if (typehint == "spritesheet")
+	if (typehint == "sad::resource::SpriteSheetFile")
 	{
-		return NULL;
+		return new sad::resource::SpriteSheetFile();
 	}
 	return new sad::resource::PhysicalFile();
 }

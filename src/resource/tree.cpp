@@ -176,6 +176,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 	if (file)
 	{
 		file->setTree(this);
+		file->setName(filename);
 		sad::resource::Resource  * resource = m_factory->create(typehint);
 		// Sometimes a resource takes care of loading itself, otherwise it could be done
 		// via file
