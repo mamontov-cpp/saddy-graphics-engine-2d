@@ -33,6 +33,7 @@ class ConfigEntry
     ##
     # _Array_ of _Fixnum_  a position of source image in an output texture as rectangle [x,y,width, height]
     attr_accessor :textureRectangle
+	
     
     ##
     # :category: Public interface
@@ -116,6 +117,11 @@ class SpriteConfig
     attr_writer :errors
     
     public
+
+    ##
+    # _String_ A texture resource name
+	attr_accessor :textureResourceName
+	
     ##
     # :category: Public interface
     # Checks, whether sprite template has been loaded already. Used to check for unique.

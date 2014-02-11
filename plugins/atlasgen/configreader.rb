@@ -289,8 +289,17 @@ class JSONConfigReader
             @outputConfig = root['config']
         end
 		
+		
+		
 		# Try to read a config, scanning each subelement
         result = SpriteConfig.new()
+		
+		# Get resource texture name
+		if (root.key?('resource') == false)
+            @errors = @errors <<  "Output resource is not defined"
+        else
+            result.textureResourceName = root['resource']
+        end
         
         if (root.key?('sprites') == false)
             @errors = @errors <<  "Sprites is not defined"

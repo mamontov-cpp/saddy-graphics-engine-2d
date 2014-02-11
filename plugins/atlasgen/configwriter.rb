@@ -139,14 +139,31 @@ class JSONConfigWriter
         # If file opening was succesfull
         if (file.nil?() == false)
             # Create a document and root elements 
-            root = [];
-            
+            root = {};
+			root['resource'] = config.textureResourceName
+			
             #Writes all elements
             entries = config.getConfigArray()
+			
+			resourcetexture = ""
+			first = true
+			entries.each{
+                |entry|
+				if first == true || entry.outputTextureName == resourcetexture
+					first = false
+					resourcetexture = entry.outputTextureName
+				else
+					@errors = @errors << "Texture atlas file should consist of one texture"
+				end
+			}
+            
+			root['file'] = resourcetexture
+			root['atlas'] = []
+            
             entries.each{
                 |entry|
                 el = self.writeElement(entry, root, withindex)
-                root = root.push(el);
+                root['atlas'] = root['atlas'].push(el);
             }
             
             # Writes a file
@@ -177,7 +194,12 @@ class JSONConfigWriter
         if (tmp.index != nil && withindex)
             result["index"]  = tmp.index.to_s
         end
-        result["texture"] = tmp.outputTextureName
+		result["name"] = tmp.name
+        ##
+		# Erased: decrease of file size due to
+		# terminology change: texture atlas
+		# should contain only one texture
+		# result["texture"] = tmp.outputTextureName
         result["size"] = tmp.array_to_string(tmp.size)
         result["texrect"] = tmp.array_to_string(tmp.textureRectangle)
         if (tmp.transparent != nil)
