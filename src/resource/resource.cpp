@@ -22,6 +22,7 @@ bool sad::resource::Resource::tryLoad(
 		bool store_links
 )
 {
+	m_options = options;
 	if (!r)
 	{
 		r = sad::Renderer::ref();
@@ -122,6 +123,11 @@ void sad::resource::Resource::disableStoringLinks()
 	m_links.clear();
 }
 
+bool sad::resource::Resource::shouldStoreLinks() const
+{
+	return m_store_links;	
+}
+
 void sad::resource::Resource::setPhysicalFile(sad::resource::PhysicalFile * file)
 {
 	m_file = file;	
@@ -142,3 +148,7 @@ const sad::String & sad::resource::Resource::factoryName() const
 	return m_factory_name;
 }
 
+const picojson::value & sad::resource::Resource::options() const
+{
+	return m_options;	
+}
