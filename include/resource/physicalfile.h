@@ -49,7 +49,7 @@ public:
 	/*! Loads a physical file. By default only returns false, since resource
 		should be loaded only.
 
-		Default implementation only returns false. Implement your own type of files, if
+		Default implementation only returns error. Implement your own type of files, if
 		you need some non-standard resources, like spritesheets or something.
 
 		\param[in] parent a parent folder, where all created resources should be stored

@@ -749,6 +749,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\resource\spritesheetfile.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\resource\tree.cpp"
 					>
 				</File>
@@ -1752,6 +1756,10 @@
 				</File>
 				<File
 					RelativePath=".\include\resource\resourcefactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\spritesheetfile.h"
 					>
 				</File>
 				<File
