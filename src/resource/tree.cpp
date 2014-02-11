@@ -199,6 +199,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 					}
 					else
 					{
+						resource->setName(resourcename.value());
 						temporary->addResource(resourcename.value(), resource);
 					}
 				}

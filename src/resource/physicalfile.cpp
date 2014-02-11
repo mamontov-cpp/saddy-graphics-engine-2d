@@ -1,5 +1,7 @@
 #include "resource/physicalfile.h"
 
+#include "resource/tree.h"
+
 #include <algorithm>
 
 sad::resource::PhysicalFile::PhysicalFile(const sad::String & name) 
@@ -39,8 +41,62 @@ sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::load(sad::resour
 
 sad::Vector<sad::resource::Error*> sad::resource::PhysicalFile::reload()
 {
-	// TODO: Actually reload file
-	return sad::Vector<sad::resource::Error*>();
+	sad::Vector<sad::resource::Error*> errors;
+
+	sad::resource::ResourceEntryList list;
+	for(size_t i = 0; i < m_resources.size() && errors.size() == 0; i++)
+	{
+		sad::resource::Resource * res = m_tree->factory()->create(
+			m_resources[i]->factoryName()
+		);
+		if (res)
+		{
+			res->setFactoryName(m_resources[i]->factoryName());
+			sad::Maybe<sad::String> path = m_tree->root()->find(m_resources[i]); 
+			if (path.exists())
+			{
+				bool ok = res->tryLoad(
+					*this, 
+					m_tree->renderer(), 
+					m_resources[i]->options(), 
+					m_resources[i]->shouldStoreLinks()
+				);
+				if (ok)
+				{				
+					list << sad::resource::ResourceEntry(path.value(), res);
+				}
+				else
+				{
+					errors << new sad::resource::ResourceLoadError(path.value());
+				}
+			}
+			else
+			{
+				delete res;
+				errors << new sad::resource::AnonymousResource(m_resources[i]->factoryName());
+			}
+		}
+		else
+		{
+			errors << new sad::resource::UnregisteredResourceType(m_resources[i]->factoryName());
+		}
+	}
+
+	if (errors.size() == 0)
+	{
+		for(size_t i = 0; i < m_resources.size(); i++)
+		{
+			m_tree->root()->replaceResource(list[i].p1(), list[i].p2());
+			m_resources[i] = list[i].p2();
+			m_resources[i]->setName(list[i].p1());
+			list[i].p2()->setPhysicalFile(this);
+		}
+	}
+	else
+	{
+		sad::resource::free(list);
+	}
+	return errors;
 }
 
 void sad::resource::PhysicalFile::add(sad::resource::Resource * r)

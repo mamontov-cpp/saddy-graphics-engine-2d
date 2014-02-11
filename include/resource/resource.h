@@ -90,6 +90,10 @@ public:
 		Also clears the pointers to links, stored in resource.
 	 */
 	void disableStoringLinks();
+	/*! Checks, whether resource should store links
+		\return whether resource should store links
+	 */
+	bool shouldStoreLinks() const;
 	/*! Sets physical file, where resource is stored
 		\param[in] file a file data
 	 */
@@ -106,6 +110,10 @@ public:
 		\return factory name
 	 */
 	const sad::String & factoryName() const;
+	/*! Returns an options, which resource was created with
+		\return options
+	 */
+	const picojson::value & options() const;
 protected: 
 	/*! Loads a resource from specified file, using specified renderer for resolving some 
 		properties.
@@ -137,6 +145,9 @@ protected:
 	/*! A links to a resource
 	 */
 	sad::Vector<sad::resource::AbstractLink*> m_links;
+	/*! An options,  resource was created with
+	 */
+	picojson::value m_options;
 };
 
 }

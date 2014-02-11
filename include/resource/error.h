@@ -192,7 +192,7 @@ protected:
 	sad::String m_name;
 };
 
-/*! \class MissingResource
+/*! \class UnregisteredFileType
 
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
@@ -227,11 +227,50 @@ public:
 	 */
 	virtual ~UnregisteredFileType();
 protected:
-	/*! A name of resource.
+	/*! A name of file.
 	 */
 	sad::String m_name;
 };
 
+/*! \class UnregisteredFileType
+
+	Describes a error, which occurs, when such resource required to be created by a factory
+	could not be created. Can occur, when reloading a file
+ */
+class UnregisteredResourceType: public resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] file name of file
+		\return name of file
+	 */
+	inline static sad::String format_error(const sad::String & name)
+	{
+		sad::String errorres = name;
+		if (errorres.length() == 0)
+			errorres = "anonymous";
+		return fmt::str(fmt::Format("Cannot load file type with name \"{0}\"") 
+						<< errorres);
+	}
+
+	/*! Constructs a error for unregistered file type
+		\param[in] name a type of resource
+	 */
+	inline UnregisteredResourceType(const sad::String & name)
+	: resource::Error(resource::UnregisteredResourceType::format_error(name)), m_name(name)
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~UnregisteredResourceType();
+protected:
+	/*! A name of file.
+	 */
+	sad::String m_name;
+};
 
 /*! \class AnonymousResource
 
@@ -267,7 +306,7 @@ public:
 	 */
 	virtual ~AnonymousResource();
 protected:
-	/*! A name of resource.
+	/*! A type of resource.
 	 */
 	sad::String m_name;
 };
@@ -307,7 +346,7 @@ public:
 	 */
 	virtual ~FileLoadingNotImplemented();
 protected:
-	/*! A name of resource.
+	/*! A name of file.
 	 */
 	sad::String m_name;
 };
