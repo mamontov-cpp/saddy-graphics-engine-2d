@@ -120,6 +120,13 @@ public:
 		\param[in] a whether links should be stored.
 	 */
 	void setStoreLinks(bool store);
+	/*! Converts duplicates to errors, that resource already exists
+		\param[in] l a resource entry list
+		\return error list
+	 */
+	sad::Vector<sad::resource::Error *> duplicatesToErrors(
+		const sad::Vector<sad::String> & l
+	);
 protected: 
 	/*! A loaded files to be stored
 	 */
@@ -136,13 +143,6 @@ protected:
 	/*! Whether we should store links
 	 */
 	bool m_storelinks;
-	/*! Converts duplicates to errors, that resource already exists
-		\param[in] l a resource entry list
-		\return error list
-	 */
-	sad::Vector<sad::resource::Error *> duplicatesToErrors(
-		const sad::Vector<sad::String> & l
-	);
 private:
 	/*! Disabled, tree is uncopyable
 		\param[in] o other tree

@@ -42,6 +42,13 @@ public:
 		  /*! A rectangle, which defines current quad to be rendered
 		   */
 		  sad::Rect2D Rectangle;
+		  /*! Whether some color is transparent in sprite. Applied only in case
+			  of loading resources
+		   */
+		  bool Transparent;
+		  /*! A transparent color data
+		   */
+		  sad::Color TransparentColor;
 
 		  /*! Creates default invalid options
 		   */
