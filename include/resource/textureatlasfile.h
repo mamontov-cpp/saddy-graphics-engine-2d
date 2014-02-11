@@ -15,13 +15,13 @@ namespace resource
 
 /*! A sprit sheet file, which contains a list of Sprite2D::Options
  */
-class SpriteSheetFile: public sad::resource::PhysicalFile
+class TextureAtlasFile: public sad::resource::PhysicalFile
 {
 public:
 	/*! Creates new flle with specified name. Supposedly it must be path to specified file.
 		\param[in] name a filename (with or without path) to it
 	 */
-	SpriteSheetFile(const sad::String& name = "");	
+	TextureAtlasFile(const sad::String& name = "");	
 	/*! Loads a file. 
 		\param[in] parent a parent folder, where all created resources should be stored
 	 */
