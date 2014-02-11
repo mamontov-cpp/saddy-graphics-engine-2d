@@ -11,7 +11,9 @@ sad::Vector<sad::resource::Error*> sad::resource::SpriteSheetFile::load(
 )
 {
 	// TODO: Implement
-	return sad::Vector<sad::resource::Error*>();
+	sad::Vector<sad::resource::Error*> errors;
+
+	return errors;
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::SpriteSheetFile::reload()

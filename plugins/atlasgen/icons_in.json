@@ -1,0 +1,39 @@
+{
+	"config" : "icons.json",
+	"texture" : "icons.png",
+	"resource": "icons",
+	"sprites" : [
+		{
+			"name" : "rotate",
+			"texture" : "rotate.png",
+			"transparent" : "255;255;255",
+			"index" : 2
+		},
+		{
+			"name" : "delete",
+			"texture" : "delete.png",
+			"transparent" : "255;255;255",
+			"index" : 30
+		},
+		{
+			"name" : "top",
+			"texture" : "top.png",
+			"transparent" : "255;255;255"
+		},
+		{
+			"name" : "bottom",
+			"texture" : "bottom.png",
+			"transparent" : "255;255;255"
+		},
+		{
+			"name" : "left",
+			"texture" : "left.png",
+			"transparent" : "255;255;255"
+		},
+		{
+			"name" : "right",
+			"texture" : "right.png",
+			"transparent" : "255;255;255"
+		}
+	]
+}
