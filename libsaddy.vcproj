@@ -749,7 +749,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\resource\spritesheetfile.cpp"
+					RelativePath=".\src\resource\textureatlasfile.cpp"
 					>
 				</File>
 				<File
@@ -1759,7 +1759,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\resource\spritesheetfile.h"
+					RelativePath=".\include\resource\textureatlasfile.h"
 					>
 				</File>
 				<File

@@ -219,7 +219,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr)
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
-	sad::Rect2D tmp=rect;
+	sad::Rect2I tmp = sad::_(rect);
 	for (int i=0;i<4;i++)
 	{
 		if (tmp[i].x() < 0) tmp[i].setX(0);

@@ -8,6 +8,7 @@
 #include "../../maybe.h"
 #include "../sadcolor.h"
 #include "../sadrect.h"
+#include "../sadsize.h"
 #include "../sadstring.h"
 
 namespace picojson
@@ -107,6 +108,20 @@ public:
 	static sad::Maybe<sad::Color> get(const picojson::value & v)
 	{
 		sad::Maybe<sad::Color> result;
+		// A string conversion
+		if (v.is<std::string>())
+		{
+			sad::String tmp = v.get<std::string>();
+			sad::Vector<sad::String> parts = tmp.split(';');
+			if (parts.size() != 3)
+			{
+				sad::uchar r = (unsigned char)(sad::String::toInt(parts[0]));
+				sad::uchar g = (unsigned char)(sad::String::toInt(parts[1]));
+				sad::uchar b = (unsigned char)(sad::String::toInt(parts[2]));
+				result.setValue(sad::Color(r, g, b));
+			}
+			return result;
+		}
 		picojson::value const * ro = picojson::get_property(v, "r");
 		picojson::value const * go = picojson::get_property(v, "g");
 		picojson::value const * bo = picojson::get_property(v, "b");
@@ -198,6 +213,23 @@ public:
 	static sad::Maybe<sad::Rect2D> get(const picojson::value & v)
 	{
 		sad::Maybe<sad::Rect2D> result;
+		// Conversion from string <x>;<y>;<width>;<height>
+		if (v.is<std::string>())
+		{
+			sad::String stringtobeparsed = v.get<std::string>();
+			sad::Vector<sad::String> parts = stringtobeparsed.split(';');
+			if (parts.size() == 4)
+			{
+				double x = sad::String::toDouble(parts[0]);
+				double y = sad::String::toDouble(parts[1]);
+				double w = sad::String::toDouble(parts[2]);
+				double h = sad::String::toDouble(parts[3]);
+				sad::Point2D p(x, y);
+				sad::Point2D wh(w, h);
+				result.setValue(sad::Rect2D(p, p + wh));
+			}
+			return result;
+		}
 		picojson::value const * p1o = picojson::get_property(v, "p1");
 		picojson::value const * p2o = picojson::get_property(v, "p2");
 		picojson::value const * p3o = picojson::get_property(v, "p3");
@@ -227,6 +259,50 @@ public:
 				{
 					result.setValue(sad::Rect2D(p1.value(), p3.value()));
 				}
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
+class ValueToType<sad::Size2D>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Size2D> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Size2D> result;
+		// Conversion from string <x>;<y>;<width>;<height>
+		if (v.is<std::string>())
+		{
+			sad::String stringtobeparsed = v.get<std::string>();
+			sad::Vector<sad::String> parts = stringtobeparsed.split(';');
+			if (parts.size() == 2)
+			{
+				double w = sad::String::toDouble(parts[0]);
+				double h = sad::String::toDouble(parts[1]);
+				result.setValue(sad::Size2D(w, h));
+			}
+			return result;
+		}
+		picojson::value const * wo = picojson::get_property(v, "width");
+		picojson::value const * ho = picojson::get_property(v, "height");
+		// First try to create rectangle by four points
+		if (wo && ho)
+		{
+			sad::Maybe<double> mw = picojson::ValueToType<double>::get(*wo);
+			sad::Maybe<double> mh = picojson::ValueToType<double>::get(*ho);
+			if (mw.exists() && mh.exists())
+			{
+				result.setValue(sad::Size2D(
+					mw.value(), mh.value()
+				));
 			}
 		}
 		return result;
