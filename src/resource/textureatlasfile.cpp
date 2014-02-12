@@ -118,6 +118,10 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
 				parent->addResource(result.p1(), linkedresource);
 			}
 			parent->addResources(resourcelist);
+			for(int i = 0 ; i < resourcelist.size() - 1 ; i++)
+			{
+				m_resources << resourcelist[i].p2();
+			}
 		}
 	}
 	return errors;
