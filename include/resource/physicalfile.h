@@ -79,6 +79,11 @@ public:
 		\return a resource
 	 */
 	const sad::Vector<sad::resource::Resource*> & resources() const;
+	/*! Replaces links to resource from to resource to.
+		\param[in] from first resource
+		\param[in] to second resource
+	 */
+	void replace(sad::resource::Resource * from, sad::resource::Resource * to);
 protected: 
 	/*! A file name (with or without path), where file is stored
 	 */
