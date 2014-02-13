@@ -73,6 +73,16 @@ public:
 		\return whether all resources are added successfully
 	 */
 	bool addResources(const sad::resource::ResourceEntryList & list);
+	/*! Replaces a resource list
+		\param[in] list a list
+		\return whether all resources are added successfully
+	 */
+	void replaceResources(const sad::resource::ResourceEntryList & list);
+	/*! Removes a resource list, freeing or not a data
+		\param[in] list a list
+		\param[in] free whether we should free a resource
+	 */
+	void removeResources(const sad::resource::ResourceEntryList & list, bool free);
 	/*! Returns list of resource names, which exists in both in folder and list
 		\param[in] list a list of resources
 		\return list of items

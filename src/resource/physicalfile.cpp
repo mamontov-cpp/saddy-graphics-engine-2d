@@ -126,3 +126,17 @@ const sad::Vector<sad::resource::Resource*> & sad::resource::PhysicalFile::resou
 {
 	return m_resources;	
 }
+
+void sad::resource::PhysicalFile::replace(
+	sad::resource::Resource * from, 
+	sad::resource::Resource * to
+)
+{
+	for(size_t i = 0; i < m_resources.size(); i++)
+	{
+		if (m_resources[i] == from)
+		{
+			m_resources[i] = to;
+		}
+	}
+}

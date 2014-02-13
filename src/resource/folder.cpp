@@ -57,6 +57,25 @@ bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList 
 	return result;
 }
 
+void sad::resource::Folder::replaceResources(const sad::resource::ResourceEntryList & list)
+{
+	for(int i = 0; i < list.size(); i++)
+	{
+		this->replaceResource(list[i].p1(), list[i].p2());
+	}
+}
+
+void sad::resource::Folder::removeResources(
+	const sad::resource::ResourceEntryList & list, 
+	bool free
+)
+{
+	for(int i = 0; i < list.size(); i++)
+	{
+		this->removeResource(list[i].p1(), free);
+	}	
+}
+
 sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
 	const sad::resource::ResourceEntryList & list
 )

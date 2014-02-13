@@ -36,6 +36,11 @@ sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists()
 	
 }
 
+sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource()
+{
+	
+}
+
 sad::resource::UnregisteredFileType::~UnregisteredFileType()
 {
 	
