@@ -18,7 +18,7 @@ namespace os
 /*! An event, received by window as structre for representing all data, that
 	other classes needed to dispatch it
  */
-struct SystemWindowEvent
+class SystemWindowEvent
 {
 public:
 

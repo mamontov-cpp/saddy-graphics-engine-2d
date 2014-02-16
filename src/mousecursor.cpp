@@ -127,8 +127,8 @@ void sad::MouseCursor::setPosition(const sad::Point2D & p)
 		{
 #ifdef WIN32
 			POINT wp;
-			wp.x = p.x();
-			wp.y = p.y();
+			wp.x = (LONG)p.x();
+			wp.y = (LONG)p.y();
 			ClientToScreen(m_renderer->window()->handles()->WND, &wp);
 			SetCursorPos(wp.x, wp.y);
 #endif

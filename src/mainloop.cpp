@@ -228,8 +228,8 @@ void sad::MainLoop::perform()
 
 #ifdef WIN32
 	MSG msg;
-	POINT cursorpos;
-	RECT  windowrect;
+	//POINT cursorpos;
+	//RECT  windowrect;
 #endif
 
 #ifdef X11

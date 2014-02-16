@@ -49,8 +49,8 @@ void sad::Label::render()
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glTranslatef(m_center.x(), m_center.y(), 0.0f);
-	glRotatef(m_angle / M_PI*180.0f, 0.0f, 0.0f, 1.0f);
+	glTranslatef((GLfloat)m_center.x(), (GLfloat)m_center.y(), 0.0f);
+	glRotatef((GLfloat)(m_angle / M_PI*180.0f), 0.0f, 0.0f, 1.0f);
 
 	
 	if (m_font)

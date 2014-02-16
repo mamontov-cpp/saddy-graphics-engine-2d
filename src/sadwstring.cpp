@@ -80,7 +80,7 @@ sad::Vector<sad::WString> sad::WString::split(const sad::WString & o)
 		}
 	} while (th!=NULL);
 	res<<sad::WString(last);
-	for (int i=0;i<res.count();i++)
+	for (size_t i=0;i<res.count();i++)
 	{
 		if (res[i].empty())
 		{

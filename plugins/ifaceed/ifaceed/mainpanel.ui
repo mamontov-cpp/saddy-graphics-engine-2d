@@ -143,7 +143,7 @@ sprite (ignores an angle)</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="layoutWidget5">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -406,7 +406,7 @@ sprite (ignores an angle)</string>
       </rect>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="layoutWidget2">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -477,7 +477,7 @@ sprite (ignores an angle)</string>
       <string>Delete</string>
      </property>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="layoutWidget3">
      <property name="geometry">
       <rect>
        <x>10</x>

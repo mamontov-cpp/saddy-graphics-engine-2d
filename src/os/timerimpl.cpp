@@ -84,7 +84,7 @@ double sad::os::TimerImpl::elapsed() const
 #ifdef WIN32
 	sad::os::TimerImpl * me = const_cast<sad::os::TimerImpl *>(this);
 	QueryPerformanceFrequency(&(me->m_frequency3));
-	double frequency = std::max(std::max(m_frequency1.QuadPart, m_frequency2.QuadPart), m_frequency3.QuadPart);
+	double frequency = (double)(std::max(std::max(m_frequency1.QuadPart, m_frequency2.QuadPart), m_frequency3.QuadPart));
 	double millisecondsofhpc = (m_end.QuadPart - m_start.QuadPart) / frequency * 1000.0;
 
 	return millisecondsofhpc;

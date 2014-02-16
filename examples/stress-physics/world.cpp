@@ -89,7 +89,7 @@ void World::run()
 
 	// Add walls
 	sad::Vector<sad::p2d::Body *> bodies = m_walls->bodies();
-	for(int i = 0; i < bodies.count(); i++)
+	for(size_t i = 0; i < bodies.count(); i++)
 	{
 		m_world->add(bodies[i]);
 	}

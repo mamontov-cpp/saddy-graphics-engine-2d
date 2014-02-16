@@ -4,6 +4,7 @@
 	Version="9,00"
 	Name="exporter"
 	ProjectGUID="{AA778FA3-84C0-4A8B-B344-E76E19E30D94}"
+	RootNamespace="exporter"
 	Keyword="Qt4VSv1.0"
 	TargetFrameworkVersion="0"
 	>
@@ -210,7 +211,7 @@
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="4.8.0"
+			Value="4.8.5"
 		/>
 		<Global
 			Name="RccDir"

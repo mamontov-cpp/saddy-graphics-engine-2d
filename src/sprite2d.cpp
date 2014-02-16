@@ -97,8 +97,14 @@ void sad::Sprite2D::render()
    glBegin(GL_QUADS);
    for (int i = 0;i < 4; i++)
    {
-	  glTexCoord2f(m_normalized_texture_coordinates[i].x(),m_normalized_texture_coordinates[i].y());
-	  glVertex2f(m_renderable_area[i].x(),m_renderable_area[i].y());
+		glTexCoord2f(
+			(GLfloat)(m_normalized_texture_coordinates[i].x()),
+			(GLfloat)(m_normalized_texture_coordinates[i].y())
+		);
+		glVertex2f(
+			(GLfloat)(m_renderable_area[i].x()),
+			(GLfloat)(m_renderable_area[i].y())
+		);
    }  
    glEnd();
    glColor4iv(m_current_color_buffer);
@@ -399,7 +405,7 @@ void sad::Sprite2D::initFromRectangle(const sad::Rect2D& rect)
 void sad::Sprite2D::buildRenderableArea()
 {
 	m_renderable_area = this->area();
-	sad::rotate(m_renderable_area, m_angle);
+	sad::rotate(m_renderable_area, (float)m_angle);
 }
 
 void sad::Sprite2D::reloadTexture()

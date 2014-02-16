@@ -419,7 +419,7 @@ sad::Point3D sad::os::GLContextImpl::mapToViewport(const sad::Point2D & p, bool 
 	winy=(float)(viewport[3] - p.y());
 #endif
 	if (ztest)
-		glReadPixels(winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
+		glReadPixels((int)winx,(int)winy,1,1,GL_DEPTH_COMPONENT,GL_FLOAT,&winz);
 	else
 		winz = DEFAULT_DEPTH_VALUE;
 

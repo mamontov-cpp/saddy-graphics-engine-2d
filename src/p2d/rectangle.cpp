@@ -110,7 +110,7 @@ void sad::p2d::Rectangle::makeConvex()
 	sad::p2d::ConvexHull h;
 	h.insertPointsFromShape(this);
 	h.buildHull();
-	for(int i = 0; i < h.set().size(); i++)
+	for(unsigned int i = 0; i < h.set().size(); i++)
 	{
 		this->m_rect[i] = h.set()[i];
 	}
