@@ -28,7 +28,7 @@ void sad::FormattedLabel::update()
 	}
 	stream.completeFormatting();
 	this->setString(str(stream));
-	for(int i = 0; i < args.size(); i++)
+	for(size_t i = 0; i < args.size(); i++)
 	{
 		delete args[i];
 	}

@@ -143,7 +143,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="GLU32.lib OPENGL32.lib ..\..\lib\saddy-release.lib"
+				AdditionalDependencies="GLU32.lib OPENGL32.lib ..\..\lib\saddy-release.lib ..\..\lib\saddy-ft-release.lib &quot;$(FREETYPE_LIB)\freetype.lib&quot;"
 				OutputFile="..\..\bin\saddy-test-release.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"

@@ -10,6 +10,11 @@
 #include <algorithm>
 #pragma once
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
+
 namespace sad
 {
 
@@ -163,4 +168,8 @@ typedef sad::Rect<sad::Point2D> Rect2D;
 typedef sad::Rect<sad::Point2I> Rect2I;
 
 }
+
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 

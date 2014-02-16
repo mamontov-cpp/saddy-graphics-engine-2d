@@ -937,10 +937,10 @@ void sad::os::WindowImpl::setRect(const sad::Rect2I& rect)
 	SetWindowPos(
 		m_handles.WND, 
 		HWND_NOTOPMOST, 
-		rect[0].x(), 
-		rect[0].y(), 
-		rect.width(), 
-		rect.height(),
+		(int)(rect[0].x()), 
+		(int)(rect[0].y()), 
+		(int)(rect.width()), 
+		(int)(rect.height()),
 		SWP_FRAMECHANGED
 	);
 #endif

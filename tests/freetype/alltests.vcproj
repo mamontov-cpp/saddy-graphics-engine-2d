@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;;&quot;$(InputDir)/../../include/plugins/freetype&quot;;&quot;$(FREETYPE_INCLUDE)&quot;"
+				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;;&quot;$(InputDir)/../../include/plugins/freetype&quot;;&quot;$(FREETYPE_INCLUDE)&quot;;&quot;$(FREETYPE_INCLUDE)/../&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="saddy-debug.lib saddy-ft-debug.lib freetype.lib"
+				AdditionalDependencies="saddy-release.lib saddy-ft-release.lib freetype.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
@@ -117,6 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;;&quot;$(InputDir)/../../include/plugins/freetype&quot;;&quot;$(FREETYPE_INCLUDE)&quot;;&quot;$(FREETYPE_INCLUDE)/../&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -135,7 +136,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="saddy-release.lib saddy-ft-release.lib freetype.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

@@ -71,7 +71,7 @@ void sad::os::SystemEventDispatcher::reset()
 		m_renderer->controls()->postEvent(sad::input::ET_MouseEnter, ev);
 	}
 	sad::Rect2I  r = m_renderer->window()->rect();  
-	m_old_window_size = sad::Size2I(r.width(), r.height());
+	m_old_window_size = sad::Size2I((unsigned int)(r.width()), (unsigned)(r.height()));
 }
 
 sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatch(

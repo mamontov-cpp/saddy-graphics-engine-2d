@@ -21,34 +21,42 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/matrix2x2_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadwindow_$(TYPE).o build/main_$(TYPE).o build/sadrect_$(TYPE).o build/sadthread_$(TYPE).o build/object_$(TYPE).o build/sadsize_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadsemaphore_$(TYPE).o
+BUILD    = build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/matrix2x2_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadwindow_$(TYPE).o build/main_$(TYPE).o build/sadrect_$(TYPE).o build/sadthread_$(TYPE).o build/object_$(TYPE).o build/sadsize_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadsemaphore_$(TYPE).o
+$(OUTPUT): build/geometry2d_$(TYPE).o build/geometry3d_$(TYPE).o build/main_$(TYPE).o build/matrix2x2_$(TYPE).o build/object_$(TYPE).o build/sadhash_$(TYPE).o build/sadmutexscopedlock_$(TYPE).o build/sadptrhash_$(TYPE).o build/sadrect_$(TYPE).o build/sadsemaphore_$(TYPE).o build/sadsize_$(TYPE).o build/sadthread_$(TYPE).o build/sadwindow_$(TYPE).o build/texture_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
-build/matrix2x2_$(TYPE).o: matrix2x2.cpp
-	g++ -c $(CCOPTS) matrix2x2.cpp -o build/matrix2x2_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/sadptrhash_$(TYPE).o: sadptrhash.cpp
-	g++ -c $(CCOPTS) sadptrhash.cpp -o build/sadptrhash_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/sadwindow_$(TYPE).o: sadwindow.cpp
-	g++ -c $(CCOPTS) sadwindow.cpp -o build/sadwindow_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/geometry2d_$(TYPE).o: geometry2d.cpp
+	g++ -c $(CCOPTS) geometry2d.cpp -o build/geometry2d_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/geometry3d_$(TYPE).o: geometry3d.cpp
+	g++ -c $(CCOPTS) geometry3d.cpp -o build/geometry3d_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/main_$(TYPE).o: main.cpp
 	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/sadrect_$(TYPE).o: sadrect.cpp
-	g++ -c $(CCOPTS) sadrect.cpp -o build/sadrect_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/sadthread_$(TYPE).o: sadthread.cpp
-	g++ -c $(CCOPTS) sadthread.cpp -o build/sadthread_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/matrix2x2_$(TYPE).o: matrix2x2.cpp
+	g++ -c $(CCOPTS) matrix2x2.cpp -o build/matrix2x2_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/object_$(TYPE).o: object.cpp
 	g++ -c $(CCOPTS) object.cpp -o build/object_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/sadsize_$(TYPE).o: sadsize.cpp
-	g++ -c $(CCOPTS) sadsize.cpp -o build/sadsize_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadhash_$(TYPE).o: sadhash.cpp
+	g++ -c $(CCOPTS) sadhash.cpp -o build/sadhash_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/sadmutexscopedlock_$(TYPE).o: sadmutexscopedlock.cpp
 	g++ -c $(CCOPTS) sadmutexscopedlock.cpp -o build/sadmutexscopedlock_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadptrhash_$(TYPE).o: sadptrhash.cpp
+	g++ -c $(CCOPTS) sadptrhash.cpp -o build/sadptrhash_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadrect_$(TYPE).o: sadrect.cpp
+	g++ -c $(CCOPTS) sadrect.cpp -o build/sadrect_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/sadsemaphore_$(TYPE).o: sadsemaphore.cpp
 	g++ -c $(CCOPTS) sadsemaphore.cpp -o build/sadsemaphore_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadsize_$(TYPE).o: sadsize.cpp
+	g++ -c $(CCOPTS) sadsize.cpp -o build/sadsize_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadthread_$(TYPE).o: sadthread.cpp
+	g++ -c $(CCOPTS) sadthread.cpp -o build/sadthread_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/sadwindow_$(TYPE).o: sadwindow.cpp
+	g++ -c $(CCOPTS) sadwindow.cpp -o build/sadwindow_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/texture_$(TYPE).o: texture.cpp
+	g++ -c $(CCOPTS) texture.cpp -o build/texture_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:
 ifeq ($(PLATFORM),WIN32)
 	rd /s/q "build/*"

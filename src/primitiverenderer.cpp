@@ -25,8 +25,8 @@ void sad::PrimitiveRenderer::line(
 	
 	glBegin(GL_LINES);
 	
-	glVertex2f(p1.x(), p1.y());
-	glVertex2f(p2.x(), p2.y());
+	glVertex2f((GLfloat)p1.x(), (GLfloat)p1.y());
+	glVertex2f((GLfloat)p2.x(), (GLfloat)p2.y());
 
 	glEnd();
 	
@@ -45,17 +45,17 @@ void sad::PrimitiveRenderer::rectangle(
 	glColor4ub(c.r(),c.g(),c.b(),c.a());
 	
 	glBegin(GL_LINES);
-	glVertex2f(r[0].x(), r[0].y());
-	glVertex2f(r[1].x(), r[1].y());
+	glVertex2f((GLfloat)r[0].x(), (GLfloat)r[0].y());
+	glVertex2f((GLfloat)r[1].x(), (GLfloat)r[1].y());
 
-	glVertex2f(r[1].x(), r[1].y());
-	glVertex2f(r[2].x(), r[2].y());
+	glVertex2f((GLfloat)r[1].x(), (GLfloat)r[1].y());
+	glVertex2f((GLfloat)r[2].x(), (GLfloat)r[2].y());
 
-	glVertex2f(r[2].x(), r[2].y());
-	glVertex2f(r[3].x(), r[3].y());	
+	glVertex2f((GLfloat)r[2].x(), (GLfloat)r[2].y());
+	glVertex2f((GLfloat)r[3].x(), (GLfloat)r[3].y());	
 
-	glVertex2f(r[3].x(), r[3].y());	
-	glVertex2f(r[0].x(), r[0].y());
+	glVertex2f((GLfloat)r[3].x(), (GLfloat)r[3].y());	
+	glVertex2f((GLfloat)r[0].x(), (GLfloat)r[0].y());
 
 	glEnd();
 	glColor4iv(clr);

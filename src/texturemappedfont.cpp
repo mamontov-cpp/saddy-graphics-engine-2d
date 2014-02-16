@@ -155,20 +155,20 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 		if (string[i] != '\n' && string[i] != '\r')
 		{
 			x += m_leftbearings[ string[i] ] * m_size_ratio;
-			glyphheight = m_sizes[glyphchar].Height * m_size_ratio;
-			glyphwidth = m_sizes[glyphchar].Width * m_size_ratio; 
+			glyphheight = (unsigned int)(m_sizes[glyphchar].Height * m_size_ratio);
+			glyphwidth =  (unsigned int)(m_sizes[glyphchar].Width * m_size_ratio); 
 
-			glTexCoord2f(glyph[0].x(), glyph[0].y()); 
- 			glVertex2f(x, y);
+			glTexCoord2f((GLfloat)glyph[0].x(), (GLfloat)glyph[0].y()); 
+ 			glVertex2f((GLfloat)x, (GLfloat)y);
 
-			glTexCoord2f(glyph[1].x(), glyph[1].y()); 
- 			glVertex2f(x + glyphwidth, y);
+			glTexCoord2f((GLfloat)glyph[1].x(), (GLfloat)glyph[1].y()); 
+ 			glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)y);
 
-			glTexCoord2f(glyph[2].x(), glyph[2].y()); 
- 			glVertex2f(x + glyphwidth, y - glyphheight);
+			glTexCoord2f((GLfloat)glyph[2].x(), (GLfloat)glyph[2].y()); 
+ 			glVertex2f((GLfloat)(x + glyphwidth), (GLfloat)(y - glyphheight));
 
-			glTexCoord2f(glyph[3].x(), glyph[3].y()); 
- 			glVertex2f(x, y - glyphheight);
+			glTexCoord2f((GLfloat)(glyph[3].x()), (GLfloat)(glyph[3].y())); 
+ 			glVertex2f((GLfloat)x, (GLfloat)(y - glyphheight));
 		}
 		if (string[i] != '\n')
 		{
@@ -248,7 +248,7 @@ bool sad::TextureMappedFont::load(
 		// If failed to read file,result is false
 		int integralspacing = 0;
 		int test = fscanf(fl, "%d", &integralspacing);
-		m_builtin_linespacing = (double)integralspacing;
+		m_builtin_linespacing = (float)integralspacing;
 		if (ferror(fl)) 
 		{
 			result = false;

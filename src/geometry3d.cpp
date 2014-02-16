@@ -2,7 +2,7 @@
 #include "matrix3x3.h"
 #include <cassert>
 
-bool sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
+double sad::scalar(const sad::Point3D & p1, const sad::Point3D & p2)
 {
 	return p1.x() * p2.x() + p1.y() * p2.y() + p1.z() * p2.z();
 }
@@ -226,7 +226,7 @@ void sad::getBaseRect(
 				py * sin(theta)
 			);
 			// Enlarged precision, due to some implementation problems
-			if (sad::equal(nr, nrx, 0.001) == false)
+			if (sad::equal(nr, nrx, 0.001f) == false)
 			{
 				chooseOtherThetaInGetBaseRect(rect, base, alpha, theta, error, r, xs, y);
 			}
