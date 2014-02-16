@@ -7,6 +7,8 @@ EXECUTABLE = tests-freetype
 
 ifeq ($(PLATFORM),WIN32)
 INCLUDE += -I"$(FREETYPE_INCLUDE)" -I"$(FREETYPE_INCLUDE)/../" -I"$(FREETYPE_INCLUDE)/freetype/"
+else
+INCLUDE += -I"/usr/include/freetype" -I"/usr/include/freetype2"
 endif
 
 ifeq ($(PLATFORM),WIN32)
