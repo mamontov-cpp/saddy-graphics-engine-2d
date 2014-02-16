@@ -5,6 +5,7 @@ DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadError, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::ResourceLoadError, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::MissingResource, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::ResourceAlreadyExists, sad::resource::Error);
+DECLARE_SOBJ_INHERITANCE(sad::resource::CannotDeleteReferencedResource, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::UnregisteredFileType, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::UnregisteredResourceType, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::AnonymousResource, sad::resource::Error);
