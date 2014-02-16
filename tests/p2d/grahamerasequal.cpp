@@ -115,4 +115,4 @@ struct GrahamTestEqual : tpunit::TestFixture
 	   ASSERT_FLOAT_EQUAL(p[2].y(), 7);
    }
 
-} test5;
+} _test_graham_erase_equal;

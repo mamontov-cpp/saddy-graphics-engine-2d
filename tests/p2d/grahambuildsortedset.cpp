@@ -46,4 +46,4 @@ struct GrahamBuildSortedSet : tpunit::TestFixture
    }
 
 
-} test6;
+} _test_graham_build_sorted_set;

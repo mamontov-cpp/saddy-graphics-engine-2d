@@ -94,4 +94,4 @@ struct BounceSolverTest : tpunit::TestFixture
    }
 
 
-} _test_angle_of;
+} _test_bounce_solver;
