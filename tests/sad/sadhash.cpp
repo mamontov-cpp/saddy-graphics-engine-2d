@@ -10,7 +10,7 @@
 
 const int totalmappingsize = 522;
 
-unsigned int mapping[totalmappingsize] = {
+static unsigned int mapping[totalmappingsize] = {
 0xff1b, sad::Esc,
 0xffbe, sad::F1,
 0xffbf, sad::F2,
