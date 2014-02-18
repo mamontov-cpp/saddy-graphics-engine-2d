@@ -18,7 +18,6 @@
 
 namespace sad
 {
-class TextureContainer;
 class Renderer;
 
 /*! A main texture class, which stores all related data to a texture

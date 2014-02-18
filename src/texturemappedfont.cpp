@@ -20,7 +20,10 @@ sad::TextureMappedFont::TextureMappedFont()
 
 sad::TextureMappedFont::~TextureMappedFont()
 {
-
+	if (m_texture)
+	{
+		delete m_texture;
+	}
 }
 
 sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
@@ -252,11 +255,13 @@ bool sad::TextureMappedFont::load(
 		r = sad::Renderer::ref();
 
 	// Trying to load a textures
+	sad::Texture * oldtexture = m_texture;
 	m_texture = new sad::Texture;
-	r->textures()->add(texturefilename, m_texture);
+	m_texture->setRenderer(r);
 	if (!m_texture->load(texturefilename, r))
 	{
-		r->textures()->remove(texturefilename);
+		delete m_texture;
+		m_texture = oldtexture;
 		return false;
 	}
 	
@@ -320,10 +325,15 @@ bool sad::TextureMappedFont::load(
 	// If failed to load, remove texture
 	if (result == false)
 	{	
-		r->textures()->remove(texturefilename);
+		delete m_texture;
+		m_texture = oldtexture;
 	} 
 	else
 	{
+		if (oldtexture)
+		{
+			delete oldtexture;
+		}
 		m_size_ratio = (float)(this->sad::Font::size()) / m_builtin_linespacing;
 	}
 	return result;

@@ -101,7 +101,7 @@ protected:
  */
 inline void free_vector(const  sad::Vector<sad::resource::Error*> & vector)
 {
-	for(int i = 0; i < vector.size();i++)
+	for(size_t i = 0; i < vector.size();i++)
 	{
 		delete vector[i];
 	}
