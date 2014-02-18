@@ -179,10 +179,14 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
 						sad::Maybe<sad::Rect2D> maybetexrect = picojson::to_type<sad::Rect2D>(
 							picojson::get_property(list[i], "texrect")
 						);
-						schemeok = schemeok 
-							    && maybename.exists() 
+						bool entryisvalid = maybename.exists() 
 								&& maybesize.exists()
 								&& maybetexrect.exists();
+						schemeok = schemeok && entryisvalid;
+						if (!entryisvalid)
+						{
+							errors << new sad::resource::MalformedResourceEntry(list[i]);
+						}
 					}
 					if (schemeok)
 					{
@@ -190,19 +194,15 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
 						result.set2(maybefile.value());
 						result.set3(list);
 					}
-					else
-					{
-						errors << new sad::resource::JSONParseError();
-					}
 				}
 				else
 				{
-					errors << new sad::resource::JSONParseError();
+					errors << new sad::resource::MalformedResourceEntry(*atlas);
 				}
 			}
 			else
 			{
-				errors << new sad::resource::JSONParseError();
+				errors << new sad::resource::MalformedResourceEntry(rootvalue);
 			}
 		}
 		else
