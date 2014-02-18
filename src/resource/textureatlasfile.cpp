@@ -57,7 +57,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
 				*m_my_texture, 
 				this->tree()->renderer(), 
 				picojson::value(picojson::object()), 
-				true
+				this->tree()->shouldStoreLinks()
 			);
 			if (!ok)
 			{
@@ -284,7 +284,7 @@ void sad::resource::TextureAtlasFile::tryLoadNewTexture(
 	v.insert("type",     picojson::value(sad::Texture::globalMetaData()->name()));
 	v.insert("filename", picojson::value(result.NewTextureFile->name()));
 	v.insert("name", picojson::value(parsed.p1()));
-	bool ok = result.NewTexture->tryLoad(*file, r, v, true);
+	bool ok = result.NewTexture->tryLoad(*file, r, v, this->tree()->shouldStoreLinks());
 	if (!ok)
 	{
 		errors << new sad::resource::ResourceLoadError(parsed.p1());
