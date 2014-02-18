@@ -16,15 +16,15 @@ sad::Camera::Camera()
 void sad::Camera::apply()
 {
 	glTranslatef(
-		TranslationOffset.x(),
-		TranslationOffset.y(),
-		TranslationOffset.z()
+		(GLfloat)(TranslationOffset.x()),
+		(GLfloat)(TranslationOffset.y()),
+		(GLfloat)(TranslationOffset.z())
 	);
 	glRotatef(
-		Angle,
-		RotationVectorDirection.x(),
-		RotationVectorDirection.y(),
-		RotationVectorDirection.z()
+		(GLfloat)(Angle),
+		(GLfloat)(RotationVectorDirection.x()),
+		(GLfloat)(RotationVectorDirection.y()),
+		(GLfloat)(RotationVectorDirection.z())
 	);
 }
 

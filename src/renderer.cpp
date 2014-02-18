@@ -363,7 +363,7 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 	if (oldlayer != -1)
 	{
 		m_scenes.removeAt(oldlayer);
-		if (layer > oldlayer)
+		if ((int)layer > oldlayer)
 		{
 			layer--;
 		}
@@ -534,7 +534,7 @@ void sad::Renderer::renderScenes()
 {
 	this->performQueuedActions();
 	this->lockChanges();
-	for(int i = 0; i < m_scenes.count(); i++)
+	for(size_t i = 0; i < m_scenes.count(); i++)
 	{
 		sad::Scene * s = m_scenes[i];
 		if (s)

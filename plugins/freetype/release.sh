@@ -1,1 +1,1 @@
-make -f Makefile_Library_Release.linux
+make -f makefiles/Makefile_Library_Release.linux

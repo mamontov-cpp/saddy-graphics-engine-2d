@@ -10,6 +10,11 @@
 #include <algorithm>
 #pragma once
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#endif
+
 namespace sad
 {
 
@@ -177,4 +182,8 @@ inline sad::Rect2I _(const sad::Rect2D & r)
 }
 
 }
+
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 

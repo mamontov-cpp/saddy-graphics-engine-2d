@@ -171,7 +171,7 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 	virtual void perform()
 	{
 		unsigned int c = (unsigned int)(m_min_count + (m_max_count - m_min_count) * this->prand());
-		for(int i = 0; i < c; i++)
+		for(unsigned int i = 0; i < c; i++)
 		{
 			this->p2d::app::AbstractObjectEmitter::perform();
 		}

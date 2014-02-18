@@ -12,7 +12,7 @@ namespace sad
 	\param[in] p1 first vector
 	\param[in] p2 second vector
  */
-bool scalar(const sad::Point3D & p1, const sad::Point3D & p2);
+double scalar(const sad::Point3D & p1, const sad::Point3D & p2);
 
 /*! Tests whether four points of rectangle is on same plane
 	\param[in] rect tested rectangle

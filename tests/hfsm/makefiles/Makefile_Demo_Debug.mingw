@@ -1,7 +1,7 @@
 
 INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
 PLATFORM = WIN32
-TYPE =  Debug
+TYPE =  debug
 
 EXECUTABLE = tests-hfsm
 

@@ -21,14 +21,16 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/main_$(TYPE).o
+BUILD    = build/controls_$(TYPE).o build/main_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/main_$(TYPE).o
+$(OUTPUT): build/controls_$(TYPE).o build/main_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/controls_$(TYPE).o: controls.cpp
+	g++ -c $(CCOPTS) controls.cpp -o build/controls_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/main_$(TYPE).o: main.cpp
 	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:

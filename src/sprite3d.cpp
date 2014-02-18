@@ -97,8 +97,15 @@ void sad::Sprite3D::render()
    glBegin(GL_QUADS);
    for (int i = 0;i < 4; i++)
    {
-	  glTexCoord2f(m_normalized_texture_coordinates[i].x(),m_normalized_texture_coordinates[i].y());
-	  glVertex3f(m_renderable_area[i].x(),m_renderable_area[i].y(),m_renderable_area[i].z());
+		glTexCoord2f(
+		  (GLfloat)(m_normalized_texture_coordinates[i].x()),
+		  (GLfloat)(m_normalized_texture_coordinates[i].y())
+		);
+		glVertex3f(
+			(GLfloat)(m_renderable_area[i].x()),
+			(GLfloat)(m_renderable_area[i].y()),
+			(GLfloat)(m_renderable_area[i].z())
+		);
    }  
    glEnd();
    glColor4iv(m_current_color_buffer);
