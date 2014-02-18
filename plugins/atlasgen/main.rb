@@ -34,7 +34,7 @@ require_relative 'configwriter.rb'
 # Prints source array of errors as string, adding a new line after them
 # [arr] _Array_ of _Strings_ source array of strings to print on screen
 def printErrors(arr)
-    print arr.join('\n') + '\n'
+    print arr.join("\n") + "\n"
 end
 
 
