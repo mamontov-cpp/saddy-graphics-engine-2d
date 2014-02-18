@@ -66,6 +66,7 @@ public:
 		\param[in] filename a name of file to be loaded
 		\param[in] resourcename a name of resource, if any should be loaded
 		\param[in] store where new resources, should be stored (NULL for current root)
+		\param[in] v  a parsed JSON value
 		\param[out] files list of files, where new resources should be stored
 		\return list of errors
 	 */
@@ -117,7 +118,7 @@ public:
 	 */
 	bool shouldStoreLinks() const;
 	/*! Determines whether new resources should store links
-		\param[in] a whether links should be stored.
+		\param[in] store a whether links to resources should be stored.
 	 */
 	void setStoreLinks(bool store);
 	/*! Converts duplicates to errors, that resource already exists
