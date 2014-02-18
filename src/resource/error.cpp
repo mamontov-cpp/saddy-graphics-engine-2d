@@ -11,6 +11,7 @@ DECLARE_SOBJ_INHERITANCE(sad::resource::UnregisteredResourceType, sad::resource:
 DECLARE_SOBJ_INHERITANCE(sad::resource::AnonymousResource, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadingNotImplemented, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::JSONParseError, sad::resource::Error);
+DECLARE_SOBJ_INHERITANCE(sad::resource::MalformedResourceEntry, sad::resource::Error);
 
 sad::resource::Error::~Error()
 {
@@ -65,4 +66,9 @@ sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented()
 sad::resource::JSONParseError::~JSONParseError()
 {
 	
+}
+
+sad::resource::MalformedResourceEntry::~MalformedResourceEntry()
+{
+
 }
