@@ -64,6 +64,10 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 					resourcelist[i], 
 					newfiles
 				);
+			} 
+			else
+			{
+				errors << new sad::resource::MalformedResourceEntry(resourcelist[i]);
 			}
 		}
 
@@ -92,7 +96,14 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 	}
 	else
 	{
-		errors << new JSONParseError();
+		if (picojson::get_last_error().size() == 0)
+		{
+			errors << new  sad::resource::MalformedResourceEntry(v);
+		}
+		else
+		{
+			errors << new sad::resource::JSONParseError();
+		}
 	}
 	return errors;
 }
