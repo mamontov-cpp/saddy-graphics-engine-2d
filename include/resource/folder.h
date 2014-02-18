@@ -98,27 +98,27 @@ public:
 	bool addResource(const sad::String& path, sad::resource::Resource* res);
 	/*! Removes a subfolder with specified path, freeing it's memory from path
 		\param[in] path a path to folder, including it's name, using "/" as separator
-		\param[in] whether we should free memory from folder, erasing some data
+		\param[in] free whether we should free memory from folder, erasing some data
 	 */
 	void removeFolder(const sad::String& path, bool free = true);
 	/*! Removes a resource with specified path, freeing it's memory from path
 		\param[in] path a path to resource
-		\param[in] whether we should free memory from folder, erasing some data
+		\param[in] free whether we should free memory from folder, erasing some data
 	 */
 	void removeResource(const sad::String& path, bool free = true);
 	/*! Returns a subfollder  by specified path, or null if not found
-		\param[in] path a path to folder, including it's name, using "/" as separator
+		\param[in] name a path to folder, including it's name, using "/" as separator
 		\return a folder
 	 */
 	sad::resource::Folder* folder(const sad::String& name);
 	/*! Returns a subfollder  by specified path, or null if not found
-		\param[in] path a path to resource, including it's name, using "/" as separator
+		\param[in] name a path to resource, including it's name, using "/" as separator
 		\return a folder
 	 */
 	sad::resource::Resource* resource(const sad::String& name);
 	/*! Replaces a resource, defined by path with another resource, removing old resource 
 		(if exists).
-		\param[in] name a name of resource
+		\param[in] path a name of resource, using "/" as separator
 		\param[in] r a resource
 	 */
 	void replaceResource(const sad::String& path, sad::resource::Resource* r);
@@ -158,7 +158,7 @@ public:
 	ResourceEntryList copyAndClear();
 protected: 
 	/*! Navigates to parent folder of resource of folder named fullpath
-		\param[in] fullpath a path to folder or resource
+		\param[in] path a path to folder or resource
 		\param[in] create   whether we can create subfolders
 		\param[out] name extracted name of resource or folder
 	 */

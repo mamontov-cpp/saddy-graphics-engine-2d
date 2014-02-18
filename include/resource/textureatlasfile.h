@@ -1,4 +1,4 @@
-/*! \file spritesheetfile.h
+/*! \file textureatlasfile.h
 	\author HiddenSeeker
 
 	Describes a file, which contains a Sprite2D::Options - a spritesheet file 
@@ -90,7 +90,8 @@ protected:
 		sad::Vector<sad::resource::Error *> & errors
 	);
 	/*! Commits resources, allocated as a loading result
-		\param[in] result a loaded result
+		\param[in] parsed a result of parsing
+		\param[in] result a result of loading a new texture
 	 */
 	void commit(
 		sad::resource::TextureAtlasFile::parse_result & parsed,
@@ -121,7 +122,7 @@ protected:
 		\param[in] newlist a  new list of resources
 		\param[out] tobeadded a resources, that should be added to tree
 		\param[out] tobereplaced a resources from new list, that should replace old list
-		\param[out[ toberemoved a resources from old list, that should be removed
+		\param[out] toberemoved a resources from old list, that should be removed
 	 */
 	void diffResourcesLists(
 		const sad::resource::ResourceEntryList & oldlist,

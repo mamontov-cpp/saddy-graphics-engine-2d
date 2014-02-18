@@ -82,7 +82,7 @@ class ResourceLoadError : public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name a name of file
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -123,7 +123,7 @@ class MissingResource: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name a name of missing resource
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -163,7 +163,7 @@ class ResourceAlreadyExists: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name a name of existing resource
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -203,7 +203,7 @@ class CannotDeleteReferencedResource: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name  a name of resource
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -243,7 +243,7 @@ class UnregisteredFileType: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name name of file type
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -283,7 +283,7 @@ class UnregisteredResourceType: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name  a name of resource type
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -322,7 +322,7 @@ class AnonymousResource: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name a type of resource type
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
@@ -362,7 +362,7 @@ class FileLoadingNotImplemented: public sad::resource::Error
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
+		\param[in] name a name of file
 		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
