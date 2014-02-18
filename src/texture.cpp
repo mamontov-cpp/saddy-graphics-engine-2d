@@ -4,7 +4,12 @@
 
 #include <renderer.h>
 #include <opengl.h>
+
 #include <os/generatemipmaps30.h>
+
+#include <resource/physicalfile.h>
+#include <util/fs.h>
+#include <3rdparty/picojson/valuetotype.h>
 
 #include <errno.h>
 
@@ -14,6 +19,9 @@ static const unsigned char texdata[16384]=
 };
 
 static const unsigned int cnt=16384;
+
+
+DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 
 sad::Texture::Texture() 
 : m_renderer(NULL), Bpp(32), Width(0), Height(0), Id(0), OnGPU(false)
@@ -106,6 +114,31 @@ void sad::Texture::loadDefaultTexture()
 		Data << texdata[i]; 
 }
 
+bool sad::Texture::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+)
+{
+	bool result = load(file.name(), r);
+	if (!result && util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath, r);
+	}
+	if (result)
+	{
+		sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
+			picojson::get_property(options, "transparent")
+		);		
+		if (maybecolor.exists())
+		{
+			this->setAlpha(255, maybecolor.value());
+		}
+	}
+	return result;
+}
+
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
 	if (!r)
@@ -186,7 +219,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr)
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
-	sad::Rect2D tmp=rect;
+	sad::Rect2I tmp = sad::_(rect);
 	for (int i=0;i<4;i++)
 	{
 		if (tmp[i].x() < 0) tmp[i].setX(0);

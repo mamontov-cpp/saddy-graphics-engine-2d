@@ -254,6 +254,14 @@ float sad::String::toFloat(const sad::String & str)
     sscanf(str.data(),"%f",&result);
     return result;
 }
+
+double sad::String::toDouble(const sad::String & str)
+{
+	double result = 0;
+	sscanf(str.data(), "%lf", &result);
+	return result;
+}
+
 sad::String  sad::String::subString(long beg,long len) const
 {
 	return substr(beg, len);
@@ -266,7 +274,7 @@ sad::String  sad::String::getLeftPart(long len)
 {
  return subString(0,len);
 }
-long sad::String::getOccurences(const sad::String & sstr)
+long sad::String::getOccurences(const sad::String & sstr) const
 {
 	long count = 0;
 	size_t pos = this->find(sstr);

@@ -5,9 +5,16 @@
 
 #include <os/glheaders.h>
 
-#include <math.h>
+#include <util/fs.h>
 
-DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode)
+#include <resource/physicalfile.h>
+
+#include <3rdparty/picojson/valuetotype.h>
+
+#include <math.h>
+#include <fstream>
+
+DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode);
 
 sad::Sprite2D::Sprite2D()
 : 
@@ -334,15 +341,7 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 		manager = sad::TextureManager::ref();
 	}
 		
-	if (o.TextureContainer.exists())
-	{
-		sad::TextureContainer * container = manager->getContainer(o.TextureContainer.value());
-		tex = container->get(o.Texture);
-	}
-	else
-	{
-		tex  = sad::TextureManager::ref()->get(o.Texture);
-	}
+	tex = manager->get(o.Texture);
 	this->setTexture(tex);
 	this->setTextureCoordinates(o.TextureRectangle);
 	this->setRenderableArea(o.Rectangle);
@@ -442,4 +441,52 @@ void sad::Sprite2D::normalizeTextureCoordinates()
 			std::swap(m_normalized_texture_coordinates[1], m_normalized_texture_coordinates[2]);
 		}
 	}
+}
+
+DECLARE_SOBJ_INHERITANCE(sad::Sprite2D::Options, sad::resource::Resource);
+
+bool sad::Sprite2D::Options::load(
+	const sad::resource::PhysicalFile & file,
+	sad::Renderer * r,
+	const picojson::value& options
+)
+{
+	std::ifstream stream(file.name().c_str());
+	if (stream.bad())
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		stream.open(newpath.c_str());
+	}	
+	bool result = false;
+	if (stream.good())
+	{
+		picojson::value v;
+		stream >> v;		
+		if (picojson::get_last_error().size() == 0)
+		{
+			result  = this->load(v);
+		}
+	}
+	return result;
+}
+
+bool sad::Sprite2D::Options::load(const picojson::value& v)
+{
+	sad::Maybe<sad::String> texture = picojson::to_type<sad::String>(
+				picojson::get_property(v, "texture")
+	);
+	sad::Maybe<sad::Rect2D> texrect = picojson::to_type<sad::Rect2D>(
+				picojson::get_property(v, "coordinates")
+	);
+	sad::Maybe<sad::Rect2D> rect = picojson::to_type<sad::Rect2D>(
+				picojson::get_property(v, "rect")
+	);
+	bool result = texture.exists() && texrect.exists() && rect.exists();
+	if (result)
+	{
+		Texture = texture.value();
+		TextureRectangle = texrect.value();
+		Rectangle = rect.value();
+	}
+	return result;
 }

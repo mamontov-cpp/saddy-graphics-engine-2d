@@ -779,6 +779,16 @@ void command_context::evaluate(state * s)
 */
 int main(int argc, char* argv[])
 {
+#ifdef WIN32
+	// Somehow WIN32 cmd replaces "debug" with "Debug" and "release" with "Release"
+	for(int i = 1;  i < argc; i++)
+	{
+		if (!strcmp(argv[i], "Debug") || !strcmp(argv[i], "Release"))
+		{
+			argv[i][0] = tolower(argv[i][0]);
+		}
+	}
+#endif
 	if (argc>1)
 	{
 		FILE * fl=fopen(argv[1],"rt");

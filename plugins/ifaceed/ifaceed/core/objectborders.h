@@ -74,6 +74,9 @@ protected:
  	 /*! Renders a selected object border as render border
 	  */
 	 void _process();
+	 /*! Frees linked object if any
+	  */
+	 virtual ~ActiveObjectBorder();
 };
 
 class SelectedObjectBorder: public ObjectBorder

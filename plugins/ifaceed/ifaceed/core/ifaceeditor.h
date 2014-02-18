@@ -37,6 +37,9 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 		\return MainPanel
 	 */
 	MainPanel * panel();
+	/*! Tries to render active object, if any
+	 */ 
+	void tryRenderActiveObject();
 	/*! Returns current resulting in-game screen
 		\return result
 	 */

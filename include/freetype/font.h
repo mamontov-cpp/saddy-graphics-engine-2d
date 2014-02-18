@@ -6,6 +6,7 @@
 */
 #pragma once
 #include "../font.h"
+#include "../resource/resource.h"
 
 namespace sad
 {
@@ -20,10 +21,22 @@ class FontImpl;
  */
 class Font: public sad::Font
 {
+SAD_OBJECT;
 public:
 	/*! Creates an empty font
 	 */
 	Font();
+	/*! Loads a font from specified file, using specified renderer for building mip maps.
+		\param[in] file a file, via which a resource should be loaded
+		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] options  an options for loading a resource
+		\return whether loading was successfull
+	 */
+	virtual bool load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+	);
 	/*! Loads a font
 	    \param[in] filename a path to TTF or other files, to be loaded via freetype
 	 */

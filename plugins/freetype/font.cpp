@@ -2,11 +2,34 @@
 #include "fontimpl.h"
 #include <log/log.h>
 
+#include <renderer.h>
+
+#include <util/fs.h>
+
+#include <resource/physicalfile.h>
+
+
+DECLARE_SOBJ_INHERITANCE(sad::freetype::Font, sad::Font);
 
 sad::freetype::Font::Font()
 : m_dptr(new sad::freetype::FontImpl())
 {
 
+}
+
+bool sad::freetype::Font::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+)
+{
+	bool result = load(file.name());
+	if (!result && util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath);
+	}
+	return result;
 }
 
 bool sad::freetype::Font::load(const sad::String & filename)

@@ -167,6 +167,20 @@ typedef sad::Rect<sad::Point2D> Rect2D;
  */
 typedef sad::Rect<sad::Point2I> Rect2I;
 
+/*! Converts a double precision rectangle to integral dimensioned rectangle
+	\param[in] r rectangle
+	\return rectangle
+ */
+inline sad::Rect2I _(const sad::Rect2D & r)
+{
+	sad::Rect2I result;
+	for(int i = 0; i < 4; i++)
+	{
+		result[i] = sad::Point2I( (int)(r[i].x()), (int)(r[i].y()));
+	}
+	return result;
+}
+
 }
 
 #ifdef _MSC_VER

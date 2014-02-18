@@ -258,7 +258,6 @@ void MainPanel::addFontObject()
 		InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
 		label->setScene(static_cast<InterlockedScene*>(this->m_editor->scene()));
 		this->m_editor->behaviourSharedData()->setActiveObject(label);
-		scene->add(label);
 		
 		this->m_editor->currentBehaviour()->enterState("label_adding");
 	}
@@ -296,7 +295,6 @@ void MainPanel::addSpriteObject()
 
 			this->m_editor->behaviourSharedData()->setActiveObject(a);
 
-			scene->add(a);
 			this->m_editor->currentBehaviour()->enterState(newstate);
 		}
 		else

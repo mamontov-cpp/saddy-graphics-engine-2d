@@ -215,6 +215,10 @@ public:
 		\return renderer for primitives
 	 */
 	sad::PrimitiveRenderer * render() const;
+	/*! Fetches path to executable without it's name and last delimiter. Returns empty string if fails
+		\return executable path
+	 */
+	const sad::String & executablePath() const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -274,6 +278,9 @@ protected:
 	/*! Defines,  whether system pipeline, like FPS adding and resetting tasks was added to pipeline
 	 */
 	bool m_added_system_pipeline_tasks;
+	/*! A cached path to executable file
+	 */
+	sad::String  m_executable_cached_path;
 	
 	/*! A settings for a renderer
 	 */

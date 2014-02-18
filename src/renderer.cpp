@@ -15,6 +15,11 @@
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
 
+#ifdef LINUX
+	#include <stdio.h>
+	#include <unistd.h>
+#endif
+
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
@@ -383,6 +388,70 @@ void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 sad::PrimitiveRenderer * sad::Renderer::render() const
 {
 	return m_primitiverenderer;
+}
+
+#ifdef LINUX
+// http://www.gnu.org/software/hurd/user/tlecarrour/porting_guide_for_dummies.html
+static char *readlink_malloc(const char *filename)
+{
+	int size = 100;
+
+	while (1) 
+	{
+		char *buff = (char*)malloc(size);
+		if (buff == NULL)
+			return NULL;
+		int nchars = readlink(filename, buff, size);
+		if (nchars < 0)
+		{
+			free(buff);
+			return NULL;
+		}
+		if (nchars < size) 
+		{
+			buff[nchars] = '\0';
+			return buff;
+		}
+		free (buff);
+		size *= 2;
+	}
+}
+#endif
+
+const sad::String & sad::Renderer::executablePath() const
+{
+	if (m_executable_cached_path.length() == 0)
+	{
+#ifdef WIN32
+		char result[_MAX_PATH+1];
+		GetModuleFileName(NULL, result, _MAX_PATH);
+		sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
+		*path =  result;		
+		int pos = path->getLastOccurence("\\");
+		if (pos > 0)
+		{
+			*path = path->subString(0, pos);
+		}
+#endif
+
+#ifdef LINUX
+		char proc[32];
+		sprintf(proc, "/proc/%d/exe", getpid());
+		char * buffer = readlink_malloc(proc);
+		if(buffer != 0)
+		{		
+			sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);		
+			*path = buffer;
+			free(buffer);
+			int pos = path->getLastOccurence("/");
+			if (pos > 0)
+			{
+				*path = path->subString(0, pos);
+			}
+		}
+#endif
+	}
+	return m_executable_cached_path;
 }
 
 bool sad::Renderer::initGLRendering()
