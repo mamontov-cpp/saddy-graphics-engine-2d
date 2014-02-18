@@ -363,7 +363,7 @@ class JSONConfigReader
                 if (texture.load())
                     config.getTextures().pushUnique(texture)
                 else
-                    errors = errors << ("Can't load texture with name " + @inputTextureName)
+                    errors = errors << ("Can't load texture with name " + tmp.inputTextureName)
                 end
             end
        else
