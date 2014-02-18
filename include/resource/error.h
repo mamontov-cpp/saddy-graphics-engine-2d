@@ -1,7 +1,7 @@
 /*! \file resource/error.h
 	\author HiddenSeeker
 	
-	Contains definition of class Error.
+	Contains definition of class sad::resource::Error.
 
 	This is a basic class for all resource-related errors
  */
@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include "../sadstring.h"
 #include "../3rdparty/format/format.h"
+#include "../3rdparty/picojson/picojson.h"
 #include "../object.h"
 
 namespace sad
@@ -42,13 +43,13 @@ public:
 
 	A error, which determines a problem with loading of some file.
  */
-class FileLoadError : public resource::Error
+class FileLoadError : public sad::resource::Error
 {
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & file)
 	{
@@ -59,7 +60,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline FileLoadError(const sad::String & name)
-	: resource::Error(resource::FileLoadError::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::FileLoadError::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -76,13 +77,13 @@ protected:
 /*! \class ResourceLoadError
 	A resource loading error
  */
-class ResourceLoadError : public resource::Error
+class ResourceLoadError : public sad::resource::Error
 {
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -96,7 +97,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline ResourceLoadError(const sad::String & name)
-	: resource::Error(resource::ResourceLoadError::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::ResourceLoadError::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -117,13 +118,13 @@ protected:
 	while reloading a list of resources. A resource can be referenced by other objects,
 	@see resource::AbstractLink for details.
  */
-class MissingResource: public resource::Error  
+class MissingResource: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -138,7 +139,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline MissingResource(const sad::String & name)
-	: resource::Error(resource::MissingResource::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::MissingResource::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -157,13 +158,13 @@ protected:
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
  */
-class ResourceAlreadyExists: public resource::Error  
+class ResourceAlreadyExists: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -178,7 +179,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline ResourceAlreadyExists(const sad::String & name)
-	: resource::Error(resource::ResourceAlreadyExists::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::ResourceAlreadyExists::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -197,13 +198,13 @@ protected:
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
  */
-class CannotDeleteReferencedResource: public resource::Error  
+class CannotDeleteReferencedResource: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -218,7 +219,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline CannotDeleteReferencedResource(const sad::String & name)
-	: resource::Error(resource::CannotDeleteReferencedResource::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::CannotDeleteReferencedResource::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -237,13 +238,13 @@ protected:
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
  */
-class UnregisteredFileType: public resource::Error  
+class UnregisteredFileType: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -258,7 +259,7 @@ public:
 		\param[in] name a type of resource
 	 */
 	inline UnregisteredFileType(const sad::String & name)
-	: resource::Error(resource::UnregisteredFileType::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::UnregisteredFileType::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -277,13 +278,13 @@ protected:
 	Describes a error, which occurs, when such resource required to be created by a factory
 	could not be created. Can occur, when reloading a file
  */
-class UnregisteredResourceType: public resource::Error  
+class UnregisteredResourceType: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -298,7 +299,7 @@ public:
 		\param[in] name a type of resource
 	 */
 	inline UnregisteredResourceType(const sad::String & name)
-	: resource::Error(resource::UnregisteredResourceType::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::UnregisteredResourceType::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -316,20 +317,20 @@ protected:
 
 	Describes a error, which occurs, when resource has no name
  */
-class AnonymousResource: public resource::Error  
+class AnonymousResource: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
 		sad::String errorres = name;
 		if (errorres.length() == 0)
 			errorres = "anonymous";
-		return fmt::str(fmt::Format("A resource with type  \"{0}\" has no type. Please review your JSON and name it") 
+		return fmt::str(fmt::Format("A resource with type  \"{0}\" has no type. Please review your JSON source and name it") 
 						<< errorres);
 	}
 
@@ -337,7 +338,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline AnonymousResource(const sad::String & name)
-	: resource::Error(resource::AnonymousResource::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::AnonymousResource::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -356,13 +357,13 @@ protected:
 	Describes a error, which occurs, when such resource already exists in current database
 	and cannot be replaced. Occurs, when user tries to load seaparate file
  */
-class FileLoadingNotImplemented: public resource::Error  
+class FileLoadingNotImplemented: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
 		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error(const sad::String & name)
 	{
@@ -377,7 +378,7 @@ public:
 		\param[in] name a name of resource
 	 */
 	inline FileLoadingNotImplemented(const sad::String & name)
-	: resource::Error(resource::FileLoadingNotImplemented::format_error(name)), m_name(name)
+	: sad::resource::Error(sad::resource::FileLoadingNotImplemented::format_error(name)), m_name(name)
 	{
 		
 	}
@@ -395,13 +396,12 @@ protected:
 
 	Describes a error, which occurs, when parsing of file failed
  */
-class JSONParseError: public resource::Error  
+class JSONParseError: public sad::resource::Error  
 {	
 SAD_OBJECT
 public:
 	/*! Formats error
-		\param[in] file name of file
-		\return name of file
+		\return error string
 	 */
 	inline static sad::String format_error()
 	{
@@ -411,7 +411,7 @@ public:
 	/*! Constructs a error for missing resource
 	 */
 	inline JSONParseError()
-	: resource::Error(resource::JSONParseError::format_error())
+	: sad::resource::Error(sad::resource::JSONParseError::format_error())
 	{
 		
 	}
@@ -419,6 +419,38 @@ public:
 	/*! This class can be inherited 
 	 */
 	virtual ~JSONParseError();
+};
+
+/*! \class MalformedResourceEntry
+
+	Describes an error, when resource entry is malformed for some case
+ */
+class MalformedResourceEntry: public sad::resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] v a formatted entry
+		\return error string
+	 */
+	inline static sad::String format_error(const picojson::value & v)
+	{
+		std::string errorstring = "Malformed entry {0}, please consider revising";
+		return str(fmt::Format(errorstring) << v.serialize());
+	}
+
+	/*! Constructs a error for missing resource
+		\return error string
+	 */
+	inline MalformedResourceEntry(const picojson::value & v)
+	: sad::resource::Error(sad::resource::MalformedResourceEntry::format_error(v))
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~MalformedResourceEntry();
 };
 
 }
