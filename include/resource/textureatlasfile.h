@@ -15,7 +15,9 @@ namespace sad
 namespace resource
 {
 
-/*! A sprit sheet file, which contains a list of Sprite2D::Options
+/*! A texture atlas file, which contains a list of Sprite2D::Options, which can be used to initialize
+	texture atlas. Please note, that file reloading could break program, if storing links is disabled,
+	when loading a tree.
  */
 class TextureAtlasFile: public sad::resource::PhysicalFile
 {
