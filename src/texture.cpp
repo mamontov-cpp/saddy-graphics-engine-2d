@@ -255,6 +255,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect
 	}
 }
 
+
 sad::Renderer * sad::Texture::renderer() const
 {
 	return m_renderer;
