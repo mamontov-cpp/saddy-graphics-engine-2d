@@ -327,7 +327,7 @@ sad::Maybe<_Type> to_type(const picojson::value & v)
 template<
 	typename _Type
 >
-sad::Maybe<_Type> to_type(picojson::value * v)
+sad::Maybe<_Type> to_type(picojson::value const * v)
 {
 	sad::Maybe<_Type> result;
 	if (v)
