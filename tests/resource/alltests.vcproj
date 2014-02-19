@@ -61,10 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="saddy-debug.lib GLU32.lib OPENGL32.lib"
+				AdditionalDependencies="saddy-debug.lib saddy-ft-debug.lib GLU32.lib OPENGL32.lib freetype.lib"
 				OutputFile="$(InputDir)/../../bin/tests-resource-$(ConfigurationName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;"
+				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -118,6 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(InputDir)/../../include/&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +137,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="saddy-release.lib saddy-ft-release.lib GLU32.lib OPENGL32.lib freetype.lib"
+				OutputFile="$(InputDir)/../../bin/tests-resource-$(ConfigurationName).exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;;&quot;$(FREETYPE_LIB)&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
