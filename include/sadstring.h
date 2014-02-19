@@ -239,19 +239,24 @@ class String: public std::string
 		 static bool  queryPointer(const String & str, long * addr);
 		 /*! String conversion to integral type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static int  toInt(const String & str);
 		 /*! String conversion to float type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static float toFloat(const String & str);
 		 /*! String conversion to double type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static double toDouble(const String & str);
+		 /*! Tests, whether string consists only from white-space characters, like
+		     spaces, tabs, or newlines or return of carets
+			 \return result
+		  */
+		 bool consistsOfWhitespaceCharacters() const;
 };
 
 /*! Joins a list into a string with separator sep.

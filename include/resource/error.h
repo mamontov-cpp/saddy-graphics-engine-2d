@@ -439,7 +439,8 @@ public:
 		return str(fmt::Format(errorstring) << v.serialize());
 	}
 
-	/*! Constructs a error for missing resource
+	/*! Constructs a error for malformed resource entry
+		\param[in] v an invalid entry
 		\return error string
 	 */
 	inline MalformedResourceEntry(const picojson::value & v)
@@ -451,6 +452,39 @@ public:
 	/*! This class can be inherited 
 	 */
 	virtual ~MalformedResourceEntry();
+};
+
+/*! \class EmptyTextureAtlas
+
+	Describes an error, when texture atlas file is empty
+ */
+class EmptyTextureAtlas: public sad::resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] v a formatted entry
+		\return error string
+	 */
+	inline static sad::String format_error(const sad::String & v)
+	{
+		std::string errorstring = "Texture atlas file \"{0}\" is empty";
+		return str(fmt::Format(errorstring) << v);
+	}
+
+	/*! Constructs a error for file
+		\param[in] filename a name of file
+		\return error string
+	 */
+	inline EmptyTextureAtlas(const sad::String & name)
+	: sad::resource::Error(sad::resource::EmptyTextureAtlas::format_error(name))
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~EmptyTextureAtlas();
 };
 
 }

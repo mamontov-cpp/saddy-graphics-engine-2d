@@ -348,6 +348,7 @@ void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::Strin
 	   pos=getOccurence(sstr,0);
    }
 }
+
 void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::String & to)
 {
    long pos=getLastOccurence(sstr);
@@ -357,6 +358,21 @@ void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::Strin
 	   insert(to,pos);
    }
 }
+
+bool sad::String::consistsOfWhitespaceCharacters() const
+{
+	bool result = true;
+	for(int i = 0; i < this->size(); i++)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			result = false;
+		}
+	}
+	return result;
+}
+
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
 {
 	int priority1,priority2;
@@ -411,4 +427,3 @@ sad::String sad::join(const sad::StringList list, const sad::String & sep)
 	}
 	return result;
 }
-
