@@ -27,7 +27,7 @@ bool sad::resource::Resource::tryLoad(
 	{
 		r = sad::Renderer::ref();
 	}
-	if (file.name().length() != 0)
+	if (file.name().length() == 0)
 	{
 		return false;
 	}

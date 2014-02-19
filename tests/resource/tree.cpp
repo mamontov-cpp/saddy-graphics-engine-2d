@@ -2,6 +2,9 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include <cstdio>
+
+#define USE_FREETYPE
+
 #include "resource/link.h"
 #include "resource/physicalfile.h"
 #include "resource/tree.h"
@@ -10,6 +13,7 @@
 #include "util/free.h"
 
 #include "renderer.h"
+
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -49,7 +53,11 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testMalformed1),
 	   TEST(SadTreeTest::testMalformed2),
 	   TEST(SadTreeTest::testInvalidTree),
-	   TEST(SadTreeTest::testUnregisteredFileType)
+	   TEST(SadTreeTest::testUnregisteredFileType),
+	   TEST(SadTreeTest::testAnonymousResource),
+	   TEST(SadTreeTest::testLoadingFailure),
+	   TEST(SadTreeTest::testResourceDuplicates),
+	   TEST(SadTreeTest::testValid)
    ) {}
 
    
@@ -178,6 +186,69 @@ struct SadTreeTest : tpunit::TestFixture
 	   int count = count_errors_of_type(errors, "sad::resource::UnregisteredFileType");
 	   sad::util::free(errors);
 	   ASSERT_TRUE(count == 1);	   
+   }
+
+   void testAnonymousResource()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/anonymousresource.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::AnonymousResource");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);	   
+   }
+
+   void testLoadingFailure()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/loadingfailure.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::ResourceLoadError");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);
+   }
+
+   void testResourceDuplicates()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/duplicates.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::ResourceAlreadyExists");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);	   
+   }
+
+   void testValid()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   tree.factory()->add(
+		   "sad::freetype::Font", 
+		   new sad::resource::CreatorFor<sad::freetype::Font>()
+	   );
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/valid.json");
+		
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+	   ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
+	   ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
    }
 
 } _sad_tree_test;
