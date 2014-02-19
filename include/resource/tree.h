@@ -84,6 +84,12 @@ public:
 		\return whether it was successfull
 	 */
 	bool unload(const sad::String& file);
+	/*! Unloads file, removing all resources from it and freeing it's memory. 
+		Can fail if some of resources are referenced
+		\param[in] file a file to be unloaded
+		\return whether it was successfull
+	 */
+	bool unload(sad::resource::PhysicalFile * file);
 	/*! A root folder of tree
 		\return a root folder of tree
 	 */

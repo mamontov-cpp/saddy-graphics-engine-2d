@@ -58,7 +58,8 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testLoadingFailure),
 	   TEST(SadTreeTest::testResourceDuplicates),
 	   TEST(SadTreeTest::testValid),
-	   TEST(SadTreeTest::testUnload)
+	   TEST(SadTreeTest::testUnload),
+	   TEST(SadTreeTest::testUnload2)
    ) {}
 
    
@@ -290,6 +291,48 @@ struct SadTreeTest : tpunit::TestFixture
 
 	   ASSERT_FALSE( tree.unload("examples/game/objects.bmp") );
 	   ASSERT_TRUE ( tree.unload("examples/game/title.tga") );
+   }
+
+   void testUnload2()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   // In debug, sad::fretype::Factory fonts becomes in font
+	   tree.factory()->registerResource<sad::freetype::Font>();
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::Texture\","
+					"\"filename\": \"examples/game/objects.bmp\","
+					"\"name\"    : \"objects\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::Texture\","
+					"\"filename\": \"examples/game/objects.bmp\","
+					"\"name\"    : \"objects2\""
+				"}"
+			"]"
+		);
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+	   ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
+
+	   sad::resource::Link<sad::Texture> l1, l2;
+	   l1.setTree(&tree);
+	   l2.setTree(&tree);
+	   l1.setPath("objects");
+	   l2.setPath("objects");
+
+	   ASSERT_TRUE(l1.get() != NULL);
+	   ASSERT_TRUE(l2.get() != NULL);
+
+	   ASSERT_FALSE( tree.unload(tree.root()->resource("objects")->file()) );
+	   ASSERT_TRUE ( tree.unload(tree.root()->resource("objects2")->file()) );
    }
 
 } _sad_tree_test;
