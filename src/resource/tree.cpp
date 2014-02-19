@@ -34,6 +34,13 @@ sad::resource::Tree::~Tree()
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
 	sad::Vector<sad::resource::Error*> errors;
+	
+	// Check string for emptiness - should we do anything	
+	if (string.consistsOfWhitespaceCharacters())
+	{
+		return errors;
+	}
+
 	picojson::value v = picojson::parse_string(string);
 	if (picojson::get_last_error().size() == 0 && v.is<picojson::array>())
 	{

@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\..\..\bin\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -62,6 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="saddy-debug.lib GLU32.lib OPENGL32.lib"
+				OutputFile="$(InputDir)/../../bin/tests-resource-$(ConfigurationName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(InputDir)/../../lib/&quot;"
 				GenerateDebugInformation="true"
@@ -183,6 +184,10 @@
 			</File>
 			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tree.cpp"
 				>
 			</File>
 		</Filter>

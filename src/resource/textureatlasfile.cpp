@@ -152,6 +152,11 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
 	sad::Maybe<sad::String> maybecontent = this->tryReadToString();
 	if (maybecontent.exists())
 	{
+		if (maybecontent.value().consistsOfWhitespaceCharacters())
+		{
+			errors << new sad::resource::EmptyTextureAtlas(this->name());
+			return;
+		}
 		picojson::value rootvalue = picojson::parse_string(maybecontent.value());
 		if (picojson::get_last_error().size() == 0)
 		{
