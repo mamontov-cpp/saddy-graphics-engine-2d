@@ -40,6 +40,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include "../../sadstring.h"
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -762,12 +763,24 @@ namespace picojson
 		picojson::value v(picojson::null_type, false);
 		if (name.size() != 0)
 		{
-			 std::istringstream s(name);
-			 s >> v;
-			 if (picojson::get_last_error().size() != 0)
-			 {
-				 v = picojson::value(picojson::null_type, false);
-			 }
+			sad::String tmp(name);
+			tmp.trim();
+			std::istringstream s(tmp);
+			s >> v;
+			if (picojson::get_last_error().size() != 0)
+			{
+				v = picojson::value(picojson::null_type, false);
+			}
+			else
+			{
+				// Not all stream could be read
+				char c = 0;
+				s.get(c);
+				if (s.fail() == false)
+				{
+					picojson::set_last_error("Failed to parse JSON");
+				}
+			}
 		}		
 		return v;
 	}

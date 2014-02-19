@@ -42,8 +42,10 @@ struct SadTreeTest : tpunit::TestFixture
  public:
    SadTreeTest() : tpunit::TestFixture(
 	   TEST(SadTreeTest::testLoadFileNotExists),
-	   TEST(SadTreeTest::testLoadEmptyFile)
-
+	   TEST(SadTreeTest::testLoadEmptyFile),
+	   TEST(SadTreeTest::testLoadFileThatConsistsOfWhitespaces),
+	   TEST(SadTreeTest::testBinary),
+	   TEST(SadTreeTest::testParseError)
    ) {}
 
    
@@ -73,6 +75,48 @@ struct SadTreeTest : tpunit::TestFixture
 	   int count = errors.size();
 	   sad::util::free(errors);
 	   ASSERT_TRUE(count == 0);	   
+   }
+
+   void testLoadFileThatConsistsOfWhitespaces()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/totallyspaced.json");
+		
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);	   
+   }
+
+   void testBinary()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/binary.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::JSONParseError");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);  
+   }
+
+   void testParseError()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/parseerror.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::JSONParseError");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);  
    }
 
    
