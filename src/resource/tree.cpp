@@ -50,7 +50,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 
 		// Try load data to temporary containers
 		picojson::array & resourcelist = v.get<picojson::array>();		
-		for(int i = 0 ; i < resourcelist.size() && errors.size() != 0; i++)
+		for(int i = 0 ; i < resourcelist.size() && errors.size() == 0; i++)
 		{
 			sad::Maybe<sad::String>  maybetype = picojson::to_type<sad::String>(
 				picojson::get_property(resourcelist[i], "type")

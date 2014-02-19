@@ -45,7 +45,9 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testLoadEmptyFile),
 	   TEST(SadTreeTest::testLoadFileThatConsistsOfWhitespaces),
 	   TEST(SadTreeTest::testBinary),
-	   TEST(SadTreeTest::testParseError)
+	   TEST(SadTreeTest::testParseError),
+	   TEST(SadTreeTest::testMalformed1),
+	   TEST(SadTreeTest::testMalformed2)
    ) {}
 
    
@@ -119,5 +121,33 @@ struct SadTreeTest : tpunit::TestFixture
 	   ASSERT_TRUE(count == 1);  
    }
 
-   
+   void testMalformed1()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/malformed1.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::MalformedResourceEntry");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);  
+   }
+
+
+   void testMalformed2()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/malformed2.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::MalformedResourceEntry");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);  
+   }
+
 } _sad_tree_test;
