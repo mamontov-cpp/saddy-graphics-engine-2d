@@ -312,6 +312,38 @@ bool sad::resource::Tree::unload(const sad::String& file)
 	return false;
 }
 
+bool sad::resource::Tree::unload(sad::resource::PhysicalFile * file)
+{
+	sad::resource::PhysicalFile * f = file;
+	if (f)
+	{
+		sad::Vector<sad::resource::Resource*>  list = f->resources();
+		bool referenced = false;
+		for(int i = 0; i < list.size(); i++)
+		{
+			referenced = referenced || list[i]->referenced();
+		}
+		if (referenced)
+			return false;
+		for(int i = 0; i < list.size(); i++)
+		{
+			sad::Maybe<sad::String> path = this->root()->find(list[i]);
+			if (path.exists())
+			{
+				this->root()->removeResource(path.value(), true);
+			} 
+			else
+			{
+				delete list[i];
+			}
+		}
+		m_files.removeAll(f);
+		delete f;
+		return true;
+	}
+	return false;
+}
+
 sad::resource::Folder* sad::resource::Tree::root() const
 {
 	return m_root;
