@@ -79,6 +79,14 @@ public:
 			new resource::CreatorFor<sad::freetype::Font>());
 #endif
 	}
+	/*! Registers new resource in factory
+	 */ 
+	template<typename T>
+	void registerResource()
+	{
+		add(T::globalMetaData()->name(), 
+			new resource::CreatorFor<T>());
+	}
 	/*! This class can be inherited 
 	 */
 	virtual ~Factory();

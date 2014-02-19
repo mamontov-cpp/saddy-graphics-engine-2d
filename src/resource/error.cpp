@@ -1,4 +1,5 @@
 #include "resource/error.h"
+#include "3rdparty/format/format.h"
 
 DECLARE_SOBJ(sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadError, sad::resource::Error);
@@ -77,4 +78,18 @@ sad::resource::MalformedResourceEntry::~MalformedResourceEntry()
 sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas()
 {
 
+}
+
+sad::String sad::resource::format(
+	const sad::Vector<sad::resource::Error *> & errors,
+	const sad::String & lineformat,
+	const sad::String & separator
+)
+{
+	sad::Vector<sad::String> list;
+	for(size_t i = 0; i < errors.size(); i++)
+	{
+		list << fmt::str(fmt::Format(lineformat) << sad::String(errors[i]->what()));
+	}
+	return sad::join(list, separator);
 }

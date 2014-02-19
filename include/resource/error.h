@@ -487,6 +487,18 @@ public:
 	virtual ~EmptyTextureAtlas();
 };
 
+/*! Formats an error to string. Remember, that you still need to free errors.
+	\param[in] errors a list of errors
+	\param[in] lineformat a format of line (default is just a message)
+	\param[in] a separator for lines
+	\return stringified list of errors
+ */
+sad::String format(
+	const sad::Vector<sad::resource::Error *> & errors,
+	const sad::String & lineformat = "{0}",
+	const sad::String & separator = "\n"
+);
+
 }
 
 }
