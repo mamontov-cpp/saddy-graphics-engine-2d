@@ -47,7 +47,9 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testBinary),
 	   TEST(SadTreeTest::testParseError),
 	   TEST(SadTreeTest::testMalformed1),
-	   TEST(SadTreeTest::testMalformed2)
+	   TEST(SadTreeTest::testMalformed2),
+	   TEST(SadTreeTest::testInvalidTree),
+	   TEST(SadTreeTest::testUnregisteredFileType)
    ) {}
 
    
@@ -148,6 +150,34 @@ struct SadTreeTest : tpunit::TestFixture
 	   int count = count_errors_of_type(errors, "sad::resource::MalformedResourceEntry");
 	   sad::util::free(errors);
 	   ASSERT_TRUE(count == 1);  
+   }
+
+   void testInvalidTree()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/invalidtree.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::MalformedResourceEntry");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);
+   }
+
+   void testUnregisteredFileType()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/unregisteredtype.json");
+		
+	   int count = count_errors_of_type(errors, "sad::resource::UnregisteredFileType");
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 1);	   
    }
 
 } _sad_tree_test;

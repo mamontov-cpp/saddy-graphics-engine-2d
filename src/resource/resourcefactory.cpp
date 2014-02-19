@@ -41,6 +41,12 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
 	{
 		return new sad::resource::TextureAtlasFile();
 	}
-	return new sad::resource::PhysicalFile();
+	if (typehint == "sad::Texture" 
+		|| typehint == "sad::TextureMappedFont"
+		|| typehint == "sad::freetype::Font")
+	{
+		return new sad::resource::PhysicalFile();
+	}
+	return NULL;
 }
 
