@@ -17,7 +17,11 @@ struct PicoJSONTest : tpunit::TestFixture
  public:
    PicoJSONTest() : tpunit::TestFixture(
 	   TEST(PicoJSONTest::testParse),
-	   TEST(PicoJSONTest::testSerialize)
+	   TEST(PicoJSONTest::testSerialize),
+	   TEST(PicoJSONTest::testParseAllValid),
+	   TEST(PicoJSONTest::testParseAllValidButSecondIsNotAll),
+	   TEST(PicoJSONTest::testParseAllValid2),
+	   TEST(PicoJSONTest::testParseInvalid)
 	) {}
 
    void testParse()
@@ -89,6 +93,46 @@ struct PicoJSONTest : tpunit::TestFixture
 	   json.replaceAllOccurences("\r", "");
 	   json.replaceAllOccurences(" ", "");
 	   ASSERT_TRUE(json == result);	   
+   }
+
+   void testParseAllValid()
+   {
+	   sad::String s("{ \"a\" : \"\"}");
+	   std::istringstream stream(s);
+	   picojson::value v;	  
+	   stream >> v;
+	   ASSERT_TRUE(picojson::get_last_error().size() == 0);
+	   sad::String result;
+	   char c;
+	   stream.get(c);
+	   ASSERT_TRUE(stream.fail() == true);
+   }
+
+   void testParseAllValidButSecondIsNotAll()
+   {
+	   sad::String s("{ \"a\" : \"\"}    ");
+	   std::istringstream stream(s);
+	   picojson::value v;	  
+	   stream >> v;
+	   ASSERT_TRUE(picojson::get_last_error().size() == 0);
+	   sad::String result;
+	   char c;
+	   stream.get(c);
+	   ASSERT_TRUE(stream.fail() == false);
+   }
+
+   void testParseAllValid2()
+   {
+	   sad::String s("\t\r\n   { \"a\" : \"\"}    \t    \r\n");
+	   picojson::value v  = picojson::parse_string(s);
+	   ASSERT_TRUE(picojson::get_last_error().size() == 0 );
+   }
+
+   void testParseInvalid()
+   {
+	   sad::String s("\t\r\n   { \"a\" : \"\"} ; ;   \t    \r\n");
+	   picojson::value v  = picojson::parse_string(s);
+	   ASSERT_TRUE(picojson::get_last_error().size() != 0 );
    }
 
 } _picojson_test; 

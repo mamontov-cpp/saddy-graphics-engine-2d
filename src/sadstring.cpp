@@ -373,6 +373,46 @@ bool sad::String::consistsOfWhitespaceCharacters() const
 	return result;
 }
 
+void sad::String::trim()
+{
+	int length = 0;
+	bool found = false;
+	for(int  i = 0; (i < this->size()) && !found; i++)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			found = true;
+			length = i;
+		}
+	}
+	if (found)
+	{
+		this->erase(0, length);
+	}
+	else
+	{		
+		this->clear();
+		return;
+	}
+
+	found = false;
+	int pos = 0;
+	for(int  i = this->size() - 1; (i > -1) && !found; i--)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			found = true;
+			pos = i;
+		}
+	}
+	if (found)
+	{
+		this->erase(this->begin() + pos + 1, this->end());
+	}
+}
+
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
 {
 	int priority1,priority2;

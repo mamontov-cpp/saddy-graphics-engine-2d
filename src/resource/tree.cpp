@@ -124,7 +124,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::
 			(std::istreambuf_iterator<char>(stream)), 
 			std::istreambuf_iterator<char>()
 		);
-		return loadFromString(string);
+		return loadFromString(alldata);
 	}
 	else
 	{
@@ -138,7 +138,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::
 					(std::istreambuf_iterator<char>(stream)), 
 					 std::istreambuf_iterator<char>()
 					);
-				return loadFromString(string);
+				return loadFromString(alldata);
 			}
 		}
 	}

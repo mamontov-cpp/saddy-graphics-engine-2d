@@ -257,6 +257,9 @@ class String: public std::string
 			 \return result
 		  */
 		 bool consistsOfWhitespaceCharacters() const;
+		 /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
+		  */
+		 void trim();
 };
 
 /*! Joins a list into a string with separator sep.
