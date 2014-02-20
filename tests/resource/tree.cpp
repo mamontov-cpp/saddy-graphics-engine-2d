@@ -59,7 +59,10 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testResourceDuplicates),
 	   TEST(SadTreeTest::testValid),
 	   TEST(SadTreeTest::testUnload),
-	   TEST(SadTreeTest::testUnload2)
+	   TEST(SadTreeTest::testUnload2),
+	   TEST(SadTreeTest::testReloadTexture),
+	   TEST(SadTreeTest::testReloadTextureMappedFont),
+	   TEST(SadTreeTest::testReloadFreetypeFont)
    ) {}
 
    
@@ -333,6 +336,138 @@ struct SadTreeTest : tpunit::TestFixture
 
 	   ASSERT_FALSE( tree.unload(tree.root()->resource("objects")->file()) );
 	   ASSERT_TRUE ( tree.unload(tree.root()->resource("objects2")->file()) );
+   }
+
+   void testReloadTexture()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   // In debug, sad::fretype::Factory fonts becomes in font
+	   tree.factory()->registerResource<sad::freetype::Font>();
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::Texture\","
+					"\"filename\": \"examples/game/objects.bmp\","
+					"\"name\"    : \"objects\""
+				"}"
+			"]"
+		);
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+
+	   sad::resource::Link<sad::Texture> l1;
+	   l1.setTree(&tree);
+	   l1.setPath("objects");
+
+	   sad::Texture * old = l1.get();
+	   ASSERT_TRUE(old != NULL);
+
+	   rename("examples/game/objects.bmp", "examples/game/objects.bmp2");
+
+	   sad::Vector<sad::resource::Error *> result  = tree.root()->resource("objects")->file()->reload();
+	   count = result.size();
+	   sad::util::free(result);
+	   ASSERT_TRUE( count != 0 );
+
+	   rename("examples/game/objects.bmp2", "examples/game/objects.bmp");
+
+	   result  = tree.root()->resource("objects")->file()->reload();
+	   count = result.size();
+	   sad::util::free(result);
+	   ASSERT_TRUE( count == 0 );
+
+	   ASSERT_TRUE( l1.get() != old );
+   }
+
+   void testReloadTextureMappedFont()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   // In debug, sad::fretype::Factory fonts becomes in font
+	   tree.factory()->registerResource<sad::freetype::Font>();
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::TextureMappedFont\","
+					"\"filename\": \"examples/game/font\","
+					"\"name\"    : \"objects\""
+				"}"
+			"]"
+		);
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+
+	   sad::resource::Link<sad::TextureMappedFont> l1;
+	   l1.setTree(&tree);
+	   l1.setPath("objects");
+
+	   sad::TextureMappedFont * old = l1.get();
+	   ASSERT_TRUE(old != NULL);
+
+	   rename("examples/game/font.cfg", "examples/game/font.cfg2");
+
+	   sad::Vector<sad::resource::Error *> result  = tree.root()->resource("objects")->file()->reload();
+	   count = result.size();
+	   sad::util::free(result);
+	   ASSERT_TRUE( count != 0 );
+
+	   rename("examples/game/font.cfg2", "examples/game/font.cfg");
+
+	   result  = tree.root()->resource("objects")->file()->reload();
+	   count = result.size();
+	   sad::util::free(result);
+	   ASSERT_TRUE( count == 0 );
+
+	   ASSERT_TRUE( l1.get() != old );
+   }
+
+   void testReloadFreetypeFont()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   // In debug, sad::fretype::Factory fonts becomes in font
+	   tree.factory()->registerResource<sad::freetype::Font>();
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::freetype::Font\","
+					"\"filename\": \"ifaceed/EMPORIUM.TTF\","
+					"\"name\"    : \"objects\""
+				"}"
+			"]"
+		);
+	   int count = errors.size();
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+
+	   sad::resource::Link<sad::freetype::Font> l1;
+	   l1.setTree(&tree);
+	   l1.setPath("objects");
+
+	   sad::freetype::Font * old = l1.get();
+	   ASSERT_TRUE(old != NULL);
+
+	   sad::Vector<sad::resource::Error*> result  = tree.root()->resource("objects")->file()->reload();
+	   count = result.size();
+	   sad::util::free(result);
+	   ASSERT_TRUE( count == 0 );
+
+	   ASSERT_TRUE( l1.get() != old );
    }
 
 } _sad_tree_test;
