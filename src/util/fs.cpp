@@ -60,6 +60,8 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
 	if (escaped[escaped.length()-1] == '/')
 		escaped.removeLastOccurence("/");
 	sad::String escpath = path;
+	// Replace old path with new
+	escpath.replaceAllOccurences("\\","/");
 	if (escpath.length() == 0)
 		return sad::String();
 	if (escpath[0] == '/')
