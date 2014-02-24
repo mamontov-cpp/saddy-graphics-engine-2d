@@ -413,7 +413,7 @@ void sad::resource::TextureAtlasFile::diffResourcesLists(
 		bool exists = false;
 		for(size_t j = 0 ; j < noldlist.size() && !exists; j++)
 		{
-			if (newlist[i].p2() == noldlist[j].p2())
+			if (newlist[i].p1() == noldlist[j].p1())
 			{
 				tobereplaced << newlist[i];
 				exists = true;
@@ -449,13 +449,8 @@ void sad::resource::TextureAtlasFile::replaceResources(
 	const sad::resource::ResourceEntryList & resourcelist
 )
 {
-	if (resourcelist.size() == 0)
-	{
-		return;
-	}
-
 	m_resources.clear();
-	for(int i = 0 ; i < resourcelist.size() - 1 ; i++)
+	for(int i = 0 ; i < resourcelist.size(); i++)
 	{
 		m_resources << resourcelist[i].p2();
 		resourcelist[i].p2()->setPhysicalFile(this);

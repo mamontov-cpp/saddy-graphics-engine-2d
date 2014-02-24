@@ -13,6 +13,8 @@
 #include "util/free.h"
 
 #include "renderer.h"
+#include "sprite2d.h"
+#include "fuzzyequal.h"
 
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
@@ -41,7 +43,13 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
 	   TEST(SadTextureAtlasFileTest::testLoadMalformed8),
 	   TEST(SadTextureAtlasFileTest::testLoadResourceFail),
 	   TEST(SadTextureAtlasFileTest::testLoadValid),
-	   TEST(SadTextureAtlasFileTest::testLoadResourceExists)
+	   TEST(SadTextureAtlasFileTest::testLoadResourceExists),
+	   TEST(SadTextureAtlasFileTest::testReloadValid),
+	   TEST(SadTextureAtlasFileTest::testReloadSourceJSONIsAbsent),
+	   TEST(SadTextureAtlasFileTest::testReloadSourceResourceIsAbsent),
+	   TEST(SadTextureAtlasFileTest::testReloadCannotDeleteReferenced),
+	   TEST(SadTextureAtlasFileTest::testReloadAddedResource),
+	   TEST(SadTextureAtlasFileTest::testReloadReplacedResource)
    ) {}
 
    void testLoadDoesNotExists()
@@ -350,6 +358,246 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
 	   int count = count_errors_of_type(errors, "sad::resource::ResourceAlreadyExists");
 	   sad::util::free(errors);
 	   ASSERT_TRUE(count == 1);
+   }
+
+   void testReloadValid()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();
+
+	   sad::resource::Link<sad::Texture> l2;
+	   l2.setPath("2");
+	   l2.setTree(&tree);
+	   sad::Texture * test = l2.get();
+
+	   ASSERT_TRUE(old != NULL);
+	   ASSERT_TRUE(test == NULL);
+
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+
+	   ASSERT_TRUE(old != l.get());
+   }
+
+   void testReloadSourceJSONIsAbsent()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();;
+
+	   ASSERT_TRUE(old != NULL);
+
+
+	   rename("tests/icons.json", "tests/icons.json.tmp");
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = count_errors_of_type(errors, "sad::resource::FileLoadError");
+	   sad::util::free(errors);
+
+	   rename("tests/icons.json.tmp", "tests/icons.json");
+	   ASSERT_TRUE(count == 1);
+   }
+
+   void testReloadSourceResourceIsAbsent()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();;
+
+	   ASSERT_TRUE(old != NULL);
+
+
+	   rename("tests/icons.png", "tests/icons.png.tmp");
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = count_errors_of_type(errors, "sad::resource::ResourceLoadError");
+	   sad::util::free(errors);
+
+	   rename("tests/icons.png.tmp", "tests/icons.png");
+	   ASSERT_TRUE(count == 1);
+   }
+
+   void testReloadCannotDeleteReferenced()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();;
+
+	   ASSERT_TRUE(old != NULL);
+
+
+	   rename("tests/icons.json", "tests/icons.json.tmp");
+	   rename("tests/icons_deleted.json", "tests/icons.json");
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = count_errors_of_type(errors, "sad::resource::CannotDeleteReferencedResource");
+	   sad::util::free(errors);
+
+	   rename("tests/icons.json", "tests/icons_deleted.json");
+	   rename("tests/icons.json.tmp", "tests/icons.json");
+	   ASSERT_TRUE(count == 1);
+   }
+
+   void testReloadAddedResource()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();
+
+	   ASSERT_TRUE(old != NULL);
+
+
+	   rename("tests/icons.json", "tests/icons.json.tmp");
+	   rename("tests/icons_added.json", "tests/icons.json");
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = (int)(errors.size());
+	   sad::util::free(errors);
+
+	   rename("tests/icons.json", "tests/icons_added.json");
+	   rename("tests/icons.json.tmp", "tests/icons.json");
+	   ASSERT_TRUE(count == 0);
+
+	   sad::resource::Link<sad::Sprite2D::Options> l2;
+	   l2.setPath("7");
+	   l2.setTree(&tree);
+	   ASSERT_TRUE(l2.get() != NULL);
+   }
+
+   void testReloadReplacedResource()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromString(
+		   "["
+				"{"
+					"\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"}"
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+	
+	   sad::resource::Link<sad::Sprite2D::Options> l;
+	   l.setPath("1");
+	   l.setTree(&tree);
+	   sad::Sprite2D::Options * old = l.get();
+
+	   ASSERT_TRUE(old != NULL);
+
+
+	   rename("tests/icons.json", "tests/icons.json.tmp");
+	   rename("tests/icons_replaced.json", "tests/icons.json");
+
+	   errors = tree.root()->resource("1")->file()->reload();
+	   count = (int)(errors.size());
+	   sad::util::free(errors);
+
+	   rename("tests/icons.json", "tests/icons_replaced.json");
+	   rename("tests/icons.json.tmp", "tests/icons.json");
+	   ASSERT_TRUE(count == 0);
+
+	   double h = l.get()->Rectangle.height();
+	   ASSERT_TRUE( sad::is_fuzzy_equal(h, 500.0) );
    }
 
 } _sad_texture_atlas_file_test;
