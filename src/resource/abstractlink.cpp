@@ -4,7 +4,12 @@
 #include "resource/folder.h"
 
 sad::resource::AbstractLink::AbstractLink(const sad::String & resource_type)
-: m_changed(false), m_resource(NULL),  m_path(""), m_tree(NULL)
+: 
+m_changed(false), 
+m_resource(NULL),  
+m_path(""), 
+m_tree(NULL),
+m_resource_type(resource_type)
 {
 	
 }
@@ -42,7 +47,13 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
 	if (m_resource == NULL && m_tree != NULL)
 	{
 		sad::resource::Resource * res = m_tree->root()->resource(m_path);
-		const_cast<sad::resource::AbstractLink*>(this)->attach(res);
+		if (res)
+		{
+			if (res->metaData()->canBeCastedTo(m_resource_type))
+			{
+				const_cast<sad::resource::AbstractLink*>(this)->attach(res);
+			}
+		}
 	}
 	return m_resource;
 }

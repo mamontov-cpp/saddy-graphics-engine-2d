@@ -70,10 +70,13 @@ protected:
 	/*! Whether user handled change
 	 */
 	bool m_changed;
-	/*! 
+	/*!  A path to abstract link
 	 */
 	sad::String m_path;
-	/*! 
+	/*!  A type of resource
+	 */
+	sad::String m_resource_type;
+	/*!  A resource cache
 	 */
 	sad::resource::Resource* m_resource;
 	/*! A tree, where resource is stored
