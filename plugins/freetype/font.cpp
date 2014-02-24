@@ -24,7 +24,7 @@ bool sad::freetype::Font::load(
 )
 {
 	bool result = load(file.name());
-	if (!result && util::isAbsolutePath(file.name()))
+	if (!result && !util::isAbsolutePath(file.name()))
 	{
 		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
 		result = load(newpath);

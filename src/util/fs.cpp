@@ -26,7 +26,7 @@ bool sad::util::isAbsolutePath(const sad::String & path)
 #ifdef WIN32
 	if(path.length() > 1)
 	{
-		result = (path[0] >= 'A' && path[0] <= 'Z') && (path[1] == '\\');
+		result = ((path[0] >= 'A' && path[0] <= 'Z') || (path[0] >= 'a' && path[0] <= 'z')) && (path[1] == ':');
 	}
 #endif
 
