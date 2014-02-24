@@ -131,6 +131,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::
 		if (util::isAbsolutePath(string) == false)
 		{
 			sad::String path = util::concatPaths(m_renderer->executablePath(), string);
+			stream.clear();
 			stream.open(path.c_str());
 			if (stream.good())
 			{

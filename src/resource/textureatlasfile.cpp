@@ -238,6 +238,7 @@ sad::Maybe<sad::String> sad::resource::TextureAtlasFile::tryReadToString()
 		if (util::isAbsolutePath(m_name) == false)
 		{
 			sad::String path = util::concatPaths(m_tree->renderer()->executablePath(), m_name);
+			stream.clear();
 			stream.open(path.c_str());
 			if (stream.good())
 			{
