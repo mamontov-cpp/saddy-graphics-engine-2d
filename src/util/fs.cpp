@@ -13,7 +13,6 @@ sad::String sad::util::pathDelimiter()
 #ifdef LINUX
 	return "/";
 #endif
-
 }
 
 

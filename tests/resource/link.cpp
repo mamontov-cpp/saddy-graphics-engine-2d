@@ -73,7 +73,7 @@ public:
 } _mock_link;
 
 /*!
- * Tests sad::resource::Folder
+ * Tests sad::resource::Link
  */
 struct SadLinkTest : tpunit::TestFixture
 {
