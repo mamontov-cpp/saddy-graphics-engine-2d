@@ -89,6 +89,7 @@ sad::Vector<sad::resource::Error*> sad::resource::TextureAtlasFile::load(
 				parent->addResource(result.p1(), linkedresource);
 			}
 			this->replaceResources(resourcelist);
+			parent->addResources(resourcelist);
 		}
 	}
 	return errors;
@@ -378,8 +379,9 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
 				255, 
 				opts->TransparentColor,
 				opts->TextureRectangle
-				);
+			);
 		}
+		resources << sad::resource::ResourceEntry(maybename.value(), opts);
 	}
 }
 
@@ -447,6 +449,11 @@ void sad::resource::TextureAtlasFile::replaceResources(
 	const sad::resource::ResourceEntryList & resourcelist
 )
 {
+	if (resourcelist.size() == 0)
+	{
+		return;
+	}
+
 	m_resources.clear();
 	for(int i = 0 ; i < resourcelist.size() - 1 ; i++)
 	{
