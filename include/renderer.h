@@ -10,14 +10,17 @@
 	application is placed here.
 */
 #pragma once
+#include "log/log.h"
+#include "resource/physicalfile.h"
+#include "resource/tree.h"
 #include "settings.h"
 #include "scene.h"
 #include "sadpoint.h"
-#include "log/log.h"
 #include "timer.h"
 #include "maybe.h"
 #include "temporarilyimmutablecontainer.h"
 #include "sadptrvector.h"
+#include "sadptrhash.h"
 #include "primitiverenderer.h"
 
 namespace sad
@@ -219,6 +222,27 @@ public:
 		\return executable path
 	 */
 	const sad::String & executablePath() const;
+	/*! Returns a resource tree, by it's mark in rendererer. By default, returns default tree,
+		which guaranteed to exist, unless being explicitly removed by programmer
+		\param[in] name name of resource tree
+		\return tree if exists, or NULL if not found
+	 */
+	sad::resource::Tree * tree(const sad::String & name = "") const;
+	/*! Removes a tree from a renderer an returns owning pointer to it
+		\param[in] name a name for resource tree
+		\return tree if exists, or NULL if not found
+	 */
+	sad::resource::Tree * takeTree(const sad::String & name);
+	/*! Inserts new tree, replacing existing tree if needed. Existing tree's memory will be freed, if needed.
+		If tree is NULL, nothing is done.
+		\param[in] name a name for a tree
+		\param[in] tree an inserted tree
+	 */
+	void addTree(const sad::String & name, sad::resource::Tree * tree);
+	/*! Removes a tree, freeeing it's  memory if it's exiss
+		\param[in] name a name for a tree
+	 */
+	void removeTree(const sad::String & name);
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -270,6 +294,9 @@ protected:
 	/*! An input controls for user action callbacks
 	 */
 	sad::input::Controls*     m_controls;
+	/*! A resource trees, marked by a label, in case you need several
+	 */
+	sad::PtrHash<sad::String, sad::resource::Tree> m_resource_trees;
 	
 	/*! A pipeline, as processes and tasks, which wille be performed in any time
 		of runtime
