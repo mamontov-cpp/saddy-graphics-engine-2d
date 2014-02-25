@@ -29,6 +29,12 @@ class ClassMetaData
 	/*! An ancestor list for current class  
 	 */
 	sad::Vector<ClassMetaData *> m_ancestors;
+	/*! A list of cast function to metadata
+	 */
+	typedef sad::PtrHash<sad::String, sad::AbstractClassMetaDataCastFunction> CastFunctions;
+	/*! A list casted functions to class meta data
+	 */
+	CastFunctions m_casts;
  public:
 	/*! A name for class is defined by macro @see SAD_DEFINE_BASIC_OBJECT, SAD_DEFINE_OBJECT
 		\param[in] name name of class
@@ -41,12 +47,28 @@ class ClassMetaData
 	/*! Adds a new ancestor with name
 		\param[in] name name of ancestor class
 	 */
-	void addAncestor(const sad::String & name);  
+	void addAncestor(const sad::String & name);
+	/*! Adds casting data to casting all items
+		\param[in] name a name of casted type
+		\param[in] f a cast function to be casted
+	 */ 
+	inline void addCast(const sad::String & name, sad::AbstractClassMetaDataCastFunction * f)
+	{
+		if (m_casts.contains(name))
+			return;
+		m_casts.insert(name, f);
+	}
 	/*! Returns a true if class has ancestor with specified name
 		\param[in] name name of ancestor
 		\return whther it can be cated to type
 	 */
 	bool canBeCastedTo(const sad::String & name);
+	/*! Tries to cast one type to other if can
+		\param[in] o an object
+		\param[in] name name of type of other object
+		\return result (NULL if can't)
+	 */
+	sad::Object * castTo(sad::Object * o, const sad::String & name);
 	/*! Returns true if class can be casted from this class to another class
 		\param[in] name name of descendant
 		\return whether it can be casted to this type

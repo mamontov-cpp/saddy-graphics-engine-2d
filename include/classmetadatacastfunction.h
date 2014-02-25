@@ -20,6 +20,9 @@ public:
 		\return other object, which was casted
 	 */
 	virtual sad::Object * cast(sad::Object * o) = 0;
+	/*! Clones a casted function
+	 */
+	virtual AbstractClassMetaDataCastFunction * clone() const = 0;
 	/*! This class can be inherited to implement your own casts
 	 */
 	virtual ~AbstractClassMetaDataCastFunction();
@@ -35,11 +38,17 @@ class ClassMetaDataCastMethod: public AbstractClassMetaDataCastFunction
 {
 public:
 	/*! Creates new method for casted
-		\parma[in] f a casted function
+		\param[in] f a casted function
 	 */
 	ClassMetaDataCastMethod(_Method f) : m_f(f)
 	{
 
+	}
+	/*! Clones a casted function
+	 */
+	virtual AbstractClassMetaDataCastFunction * clone() const
+	{
+		return new ClassMetaDataCastMethod<_SourceType, _Method>(m_f);
 	}
 	/*! Casts one object to another
 		\param[in] o a metadata function for class

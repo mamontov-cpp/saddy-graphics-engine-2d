@@ -164,6 +164,34 @@ const sad::String &  NAMEDCLASS ::name() const  \
 	return this-> PARENT :: name();              \
 }
 
+/*! Use this macro to define in source files, 
+	that this object is inherited from descendant of sad::Object,
+	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class.
+	CASTOBJECT is callback for class metadata to add method for casting to CASTCLASS
+ */
+#define DECLARE_SOBJ_INHERITANCE_WITH_CAST(NAMEDCLASS, PARENT, CASTCLASS, CASTMETHOD)			 \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
+sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
+{																 \
+	if (m_global_metadata != NULL) return m_global_metadata;     \
+    bool created = false;																		\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
+	if (created)																				\
+	{																							\
+		m_global_metadata->addAncestor(#PARENT);											    \
+		m_global_metadata->addCast(#CASTCLASS , sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD) ); \
+	}																							\
+	return m_global_metadata;																	\
+}																								\
+sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
+{                                                                                               \
+	return NAMEDCLASS ::globalMetaData();                                                       \
+}                                                \
+const sad::String &  NAMEDCLASS ::name() const  \
+{                                                \
+	return this-> PARENT :: name();              \
+}
+
 /*! Use this macro to define, that this class is direct descendant of sad::Object in your source 
 	file. NAMEDCLASS is name of your class
  */ 
