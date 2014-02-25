@@ -162,6 +162,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\classmetadatacastfunction.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\classmetadatacontainer.cpp"
 				>
 			</File>
@@ -909,6 +913,10 @@
 			</File>
 			<File
 				RelativePath=".\include\classmetadata.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\classmetadatacastfunction.h"
 				>
 			</File>
 			<File

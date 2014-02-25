@@ -9,6 +9,7 @@
 #include "sadstring.h"
 #include "sadvector.h"
 #include "sadptrhash.h"
+#include "classmetadatacastfunction.h"
 
 namespace sad
 {
