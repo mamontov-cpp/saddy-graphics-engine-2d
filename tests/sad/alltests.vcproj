@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\renderer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sadhash.cpp"
 				>
 			</File>

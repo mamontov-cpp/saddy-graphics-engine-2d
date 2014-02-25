@@ -43,6 +43,9 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
 	m_texture_manager->setRenderer(this);
+
+	sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
+	m_resource_trees.insert("", defaulttree);
 	
 	// Add stopping a main loop to quite events of controls to make window close
 	// when user closs a window
@@ -452,6 +455,54 @@ const sad::String & sad::Renderer::executablePath() const
 #endif
 	}
 	return m_executable_cached_path;
+}
+
+sad::resource::Tree * sad::Renderer::tree(const sad::String & name) const
+{
+	if (m_resource_trees.contains(name))
+	{
+		return m_resource_trees[name];
+	}
+	return NULL;
+}
+
+sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
+{
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		result->setRenderer(NULL);
+		m_resource_trees.remove(name);
+		return result;
+	}
+	return NULL;
+}
+
+void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree)
+{
+	if (!tree)
+	{
+		return;
+	}
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		m_resource_trees.remove(name);
+		delete result;
+	} 
+	tree->setRenderer(this);
+	m_resource_trees.insert(name, tree);
+}
+
+
+void sad::Renderer::removeTree(const sad::String & name)
+{
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		m_resource_trees.remove(name);
+		delete result;
+	} 	
 }
 
 bool sad::Renderer::initGLRendering()
