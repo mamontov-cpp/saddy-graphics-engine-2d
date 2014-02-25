@@ -8,6 +8,7 @@
 #pragma once
 #include "sadstring.h"
 #include "sadvector.h"
+#include "sadptrhash.h"
 
 namespace sad
 {
