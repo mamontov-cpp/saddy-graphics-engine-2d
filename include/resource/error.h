@@ -473,7 +473,7 @@ public:
 	}
 
 	/*! Constructs a error for file
-		\param[in] filename a name of file
+		\param[in] name a name of file
 		\return error string
 	 */
 	inline EmptyTextureAtlas(const sad::String & name)
@@ -490,7 +490,7 @@ public:
 /*! Formats an error to string. Remember, that you still need to free errors.
 	\param[in] errors a list of errors
 	\param[in] lineformat a format of line (default is just a message)
-	\param[in] a separator for lines
+	\param[in] separator a separator for lines
 	\return stringified list of errors
  */
 sad::String format(
