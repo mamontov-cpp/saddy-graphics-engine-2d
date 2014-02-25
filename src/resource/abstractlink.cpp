@@ -51,6 +51,7 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
 		{
 			if (res->metaData()->canBeCastedTo(m_resource_type))
 			{
+				res = static_cast<sad::resource::Resource*>(res->metaData()->castTo(res, m_resource_type));
 				const_cast<sad::resource::AbstractLink*>(this)->attach(res);
 			}
 		}
