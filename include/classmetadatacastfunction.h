@@ -60,4 +60,24 @@ protected:
 	_Method m_f;
 };
 
+/*! Created cast metadata function family
+ */
+template<typename _SourceClass>
+class MetaDataCastFunctionFamily
+{
+public:
+	/*! Creates new cast method
+		\param[in] f a method
+		\return a method
+	 */
+	template<typename _Method>
+	static inline ClassMetaDataCastMethod<_SourceClass, _Method> * cast(_Method f)
+	{
+		return new ClassMetaDataCastMethod<_SourceClass, _Method>(f);
+	}
+
+};
+
+
+
 }
