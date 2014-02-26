@@ -4,6 +4,7 @@
 #include <cstdio>
 #include "resource/link.h"
 #include "resource/resource.h"
+#include "renderer.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -79,7 +80,8 @@ struct SadLinkTest : tpunit::TestFixture
 {
  public:
    SadLinkTest() : tpunit::TestFixture(
-	   TEST(SadLinkTest::testCallbacks)
+	   TEST(SadLinkTest::testCallbacks),
+	   TEST(SadLinkTest::testFetchMultipleTrees)
    ) {}
 
    void invoke0()
@@ -154,6 +156,25 @@ struct SadLinkTest : tpunit::TestFixture
 
 	   delete r1;
 	   delete r2;
+   }
+
+   void testFetchMultipleTrees()
+   {
+	   sad::Renderer r;
+	   r.addTree("mylittletree", new sad::resource::Tree());
+	   r.tree("mylittletree")->root()->addResource("friendshipismagic/s1", new LinkResource());
+	   r.tree()->root()->addResource("1/1/1", new LinkResource());
+
+	   sad::resource::Link<LinkResource> l1;
+	   l1.setTree(&r, "mylittletree");
+	   l1.setPath("friendshipismagic/s1");
+	   ASSERT_TRUE(l1.resource() != NULL);
+
+	   sad::resource::Link<LinkResource> l2;
+	   l2.setTree(&r, "");
+	   l2.setPath("1/1/1");
+	   ASSERT_TRUE(l2.resource() != NULL);
+
    }
 
    

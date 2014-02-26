@@ -15,6 +15,14 @@ class Object;
 class AbstractClassMetaDataCastFunction
 {
 public:
+	/*! A version of casting for ambiguous casting
+		\param[in] o an object
+		\return other object, which was casted
+	 */
+	inline sad::Object * cast(void * o)
+	{
+		return this->cast(reinterpret_cast<sad::Object *>(o));
+	}
 	/*! Casts one object to another
 		\param[in] o a metadata function for class
 		\return other object, which was casted

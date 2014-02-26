@@ -8,6 +8,7 @@
  */
 #pragma once
 #include "../sadstring.h"
+#include "../renderer.h"
 
 namespace sad
 {
@@ -66,6 +67,27 @@ public:
 		\return tree for a link
 	 */
 	sad::resource::Tree* tree() const;
+	/*! Sets a tree for a link, defined by renderer, where it's stored 
+		and treename
+		\param[in] r renderer
+		\param[in] treename a trename
+	 */
+	void setTree(sad::Renderer * r, const sad::String& treename = "");
+	/*! Whether link depends on renderer
+		\return whether link depends on renderer
+	 */ 
+	bool dependsOnRenderer() const
+	{
+		return m_render_dependent;
+	}
+	/*! Returns renderer, which link depends upon
+		\return renderer
+	 */
+	sad::Renderer * renderer() const;
+	/*! Sets new renderer for a link
+		\param[in] r renderer a renderer
+	 */
+	void setRenderer(sad::Renderer * r);
 protected:
 	/*! Whether user handled change
 	 */
@@ -82,6 +104,15 @@ protected:
 	/*! A tree, where resource is stored
 	 */
 	sad::resource::Tree *   m_tree;
+	/*! A source renderer for a link
+	 */
+	sad::Renderer * m_renderer;
+	/*! Sets treename, where tree should be located
+	 */
+	sad::String m_treename;
+	/*! Tests, whether link depends on renderer or on a tree
+	 */
+	bool m_render_dependent;
 };
 
 }
