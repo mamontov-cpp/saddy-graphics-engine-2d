@@ -74,6 +74,12 @@ bool sad::imageformats::BMPLoader::load(FILE * file, sad::Texture * texture)
 		return false;
 	}
 
+	// Try to move to image data beginning to read it
+	if (fseek(file, header.offsetbits, SEEK_SET) != 0)
+	{
+		return false;
+	}
+
 	unsigned char bypp = image_header.bitcount / 8;
 	
 	unsigned int width = image_header.width;
