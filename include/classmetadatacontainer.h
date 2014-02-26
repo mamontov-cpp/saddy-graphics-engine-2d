@@ -14,6 +14,21 @@ namespace sad
  */
 class ClassMetaDataContainer
 {
+public:
+	/*! Returns a reference for container
+		\return reference for  container
+	 */
+	static sad::ClassMetaDataContainer * ref();
+	/*! Returns a metadata for name. If metadata for name does not exists, creates it, with
+		initialized class ame and inserts it to container. 
+		\param[in] name name of class, which metadata is returned
+		\param[out] created when metadata is created by container, this flag set to true 
+		\return a  metadata
+	 */
+	sad::ClassMetaData * get(const sad::String & name, bool & created);
+	/*! Erases a container
+	 */
+	~ClassMetaDataContainer();
 private:
 	typedef sad::Hash<sad::String, sad::ClassMetaData *> ClassMetaDataHash;
 	/*! A hash with all of meta data
@@ -34,21 +49,6 @@ private:
 	/*! Destroys instance of container
 	 */
 	static void destroyInstance();
-public:
-	/*! Returns a reference for container
-		\return reference for  container
-	 */
-	static sad::ClassMetaDataContainer * ref();
-	/*! Returns a metadata for name. If metadata for name does not exists, creates it, with
-		initialized class ame and inserts it to container. 
-		\param[in] name name of class, which metadata is returned
-		\param[out] created when metadata is created by container, this flag set to true 
-		\return a  metadata
-	 */
-	sad::ClassMetaData * get(const sad::String & name, bool & created);
-	/*! Erases a container
-	 */
-	~ClassMetaDataContainer();
 };
 
 }

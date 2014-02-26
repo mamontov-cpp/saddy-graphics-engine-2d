@@ -19,23 +19,10 @@ namespace sad
  */
 class ClassMetaData
 {
- private:
-	/*! A special private index for class
-	 */
-    unsigned int   m_private_index;
-	/*! A name for class data
-	 */
-	sad::String m_name;
-	/*! An ancestor list for current class  
-	 */
-	sad::Vector<ClassMetaData *> m_ancestors;
+public:
 	/*! A list of cast function to metadata
 	 */
 	typedef sad::PtrHash<sad::String, sad::AbstractClassMetaDataCastFunction> CastFunctions;
-	/*! A list casted functions to class meta data
-	 */
-	CastFunctions m_casts;
- public:
 	/*! A name for class is defined by macro @see SAD_DEFINE_BASIC_OBJECT, SAD_DEFINE_OBJECT
 		\param[in] name name of class
 	 */
@@ -48,6 +35,13 @@ class ClassMetaData
 		\param[in] name name of ancestor class
 	 */
 	void addAncestor(const sad::String & name);
+	/*! Returns casts function lists
+		\return casts list
+	 */
+	inline const CastFunctions & casts() const
+	{
+		return m_casts;	
+	}
 	/*! Adds casting data to casting all items
 		\param[in] name a name of casted type
 		\param[in] f a cast function to be casted
@@ -81,6 +75,19 @@ class ClassMetaData
 	/*! Sets new private index
 	 */
 	void setPrivateIndex(unsigned int privateIndex);
+private:
+	/*! A special private index for class
+	 */
+    unsigned int   m_private_index;
+	/*! A name for class data
+	 */
+	sad::String m_name;
+	/*! An ancestor list for current class  
+	 */
+	sad::Vector<ClassMetaData *> m_ancestors;
+	/*! A list casted functions to class meta data
+	 */
+	CastFunctions m_casts;
 };
 
 }

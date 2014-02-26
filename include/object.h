@@ -99,8 +99,16 @@ template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)
 		throw sad::InvalidCastException(arg->name(), destname); 
 	}                                                            
 	else                                                         
-	{       
-		result = static_cast<_Dest*>(arg);                      
+	{ 
+		if (arg->metaData()->casts().contains(destname))
+		{
+			sad::Object * o = arg->metaData()->casts()[destname]->cast((void*)arg);
+			result = reinterpret_cast<_Dest*>(o); 
+		}
+		else
+		{
+			result = static_cast<_Dest*>(arg); 
+		}
 	}                                                            
 	return result;                                               
 }  
