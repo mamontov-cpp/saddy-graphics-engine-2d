@@ -21,10 +21,9 @@ m_texture_coordinates(0,0,0,0),
 m_middle(0,0,0),
 m_size(0,0),
 m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
-
+	
 }
 
 sad::Sprite3D::Sprite3D(		
@@ -38,9 +37,9 @@ m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(texture),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture->attach(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -57,6 +56,7 @@ sad::Sprite3D::Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect<sad::Point3D>& area,
+		const sad::String& tree,
 		bool fast
 	)
 : 
@@ -70,6 +70,8 @@ m_texture_coordinates(texturecoordinates),
 m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture->setTree(NULL, tree);
+	m_texture->setPath(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -89,11 +91,12 @@ sad::Sprite3D::~Sprite3D()
 
 void sad::Sprite3D::render()
 {
-  if (!m_texture)
+  sad::Texture * texture = m_texture->get();
+  if (!texture)
 	  return;
    glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
    glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
-   m_texture->bind();	
+   texture->bind();	
    glBegin(GL_QUADS);
    for (int i = 0;i < 4; i++)
    {
@@ -301,7 +304,7 @@ bool sad::Sprite3D::flipY() const
 
 void sad::Sprite3D::setTexture(sad::Texture * texture)
 {
-	m_texture = texture;
+	m_texture->attach(texture);
 	normalizeTextureCoordinates();
 }
 
@@ -312,20 +315,21 @@ sad::Texture * sad::Sprite3D::texture() const
 
 void sad::Sprite3D::setTexureName(const sad::String & name)
 {
-	m_texture_name = name;
+	m_texture->setPath(name);
 	reloadTexture();
 }
 
 const sad::String& sad::Sprite3D::textureName()
 {
-	return m_texture_name;
+	return m_texture->path();
 }
 
 void sad::Sprite3D::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_texture_name.length() != 0)
+	if (m_texture->dependsOnRenderer())
 	{
+		m_texture->setScene(scene->renderer());
 		reloadTexture();
 	}
 }
@@ -368,25 +372,18 @@ void sad::Sprite3D::buildRenderableArea()
 
 void sad::Sprite3D::reloadTexture()
 {
-	if (m_texture_name.length() && scene())
-	{
-		if (scene()->renderer())
-		{
-			sad::Texture * tex = scene()->renderer()->textures()->get(m_texture_name);
-			m_texture = tex;
-			normalizeTextureCoordinates();
-		}
-	}	
+	normalizeTextureCoordinates();
 }
 
 void sad::Sprite3D::normalizeTextureCoordinates()
 {
-	if (m_texture)
+	sad::Texture * texture = m_texture->get();
+	if (texture)
 	{
 		for(int i = 0; i < 4; i++)
 		{
 			const sad::Point2D & point = m_texture_coordinates[i];
-			sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+			sad::Point2D relativepoint(point.x() / texture->Width, point.y() / texture->Height );
 			m_normalized_texture_coordinates[3 - i] = relativepoint;
 		}
 		if (m_flipx)
