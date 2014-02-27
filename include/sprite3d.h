@@ -9,6 +9,7 @@
 #include "sadrect.h"
 #include "sadstring.h"
 #include "sadsize.h"
+#include "resource/link.h"
 
 namespace sad
 {
@@ -44,12 +45,14 @@ public:
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
+		\param[in] tree     a name of tree, from which texture must be taken
 		\param[in] fast     whether we should not init angle rotations for area and just treat it as base
 	 */
 	Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect<sad::Point3D>& area,
+		const sad::String& tree = "",
 		bool fast = true
 	);
 	/*! You can inherit the sprite, using various implementation
@@ -205,9 +208,6 @@ protected:
 	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
 	 */
 	void normalizeTextureCoordinates();
-	/*! Defines a name for a texture
-	 */ 
-	sad::String m_texture_name;
 	/*! A rotation angle in  XY plane
 	 */
 	double     m_alpha;
@@ -237,9 +237,9 @@ protected:
 		rendering is performed.
 	 */
 	sad::Rect< sad::Point3D >  m_renderable_area;
-	/*! A texture to be used in sprite
+	/*! A linked texture for a sprite
 	 */
-	sad::Texture * m_texture;
+	sad::resource::Link<sad::Texture> m_texture;
 	/*! A used color of sprite
 	 */
 	sad::AColor  m_color;
