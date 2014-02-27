@@ -184,6 +184,10 @@ public:
 		\return texture name
 	 */
 	const sad::String& textureName();
+	/*! Sets treename for a sprite
+		\param[in] treename a name for a tree
+	 */
+	void setTreeName(const sad::String & treename);
 	/*! When set scene and texture name is defined 3D sprite tries to reload
 		itself from scene's renderer
 		\param[in] scene a scene, which will render a node

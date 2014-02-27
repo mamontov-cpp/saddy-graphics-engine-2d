@@ -171,6 +171,12 @@ void sad::Label::setLineSpacingRatio(float ratio)
 	recomputeRenderingPoint();
 }
 
+void sad::Label::setTreeName(const sad::String & treename);
+{
+	m_texture.setTree(m_texture.renderer(), treename);
+	recomputeRenderingPoint();
+}
+
 void sad::Label::reloadFont()
 {
 	sad::Font * font = font->get();
