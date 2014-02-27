@@ -11,6 +11,10 @@
 #include "resource/resource.h"
 
 #include "util/free.h"
+#include "freetype/font.h"
+#include "texture.h"
+#include "texturemappedfont.h"
+#include "sprite2d.h"
 
 #include "renderer.h"
 

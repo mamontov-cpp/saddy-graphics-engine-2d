@@ -52,6 +52,10 @@ public:
 		\return path to a linked resource
 	 */
 	const sad::String & path() const;
+	/*! Returns linked tree's name
+		\return name of tree
+	 */
+	const sad::String & treeName() const;
 	/*! Sets changed flag to false, notifying that we finished changing
 	 */
 	void finishedChanging();

@@ -2,9 +2,22 @@
 #include "resource/physicalfile.h"
 #include "resource/textureatlasfile.h"
 
+#include "texture.h"
+#include "texturemappedfont.h"
+#include "sprite2d.h"
+
 sad::resource::Creator::~Creator()
 {
 
+}
+
+sad::resource::Factory::Factory()
+{
+	add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
+	add(sad::TextureMappedFont::globalMetaData()->name(), 
+		new resource::CreatorFor<sad::TextureMappedFont>());
+	add(sad::Sprite2D::Options::globalMetaData()->name(), 
+		new resource::CreatorFor<sad::Sprite2D::Options>());
 }
 
 sad::resource::Factory::~Factory()

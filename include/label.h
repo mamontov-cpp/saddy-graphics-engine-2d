@@ -62,7 +62,7 @@ class Label: public sad::SceneNode
 		 */
 		inline sad::Font * font() const
 		{
-			return m_font->get();
+			return m_font.get();
 		}
 		/*! Sets a font, that label is being rendered with			
 			\param[in] font a font
@@ -101,7 +101,7 @@ class Label: public sad::SceneNode
 		 */
 		inline const sad::String & fontName() const
 		{
-			return m_font_name;
+			return m_font.path();
 		}
 		/*! Sets upper-left point for a label
 			\param[in] point a point

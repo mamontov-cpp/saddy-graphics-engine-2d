@@ -1,7 +1,6 @@
 #include <sprite3d.h>
 #include <geometry3d.h>
 #include <renderer.h>
-#include <texturemanager.h>
 
 #include <os/glheaders.h>
 
@@ -60,14 +59,12 @@ sad::Sprite3D::Sprite3D(
 		bool fast
 	)
 : 
-m_texture_name(texture),
 m_flipx(false),
 m_flipy(false),
 m_alpha(0),
 m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
 	m_texture.setTree(NULL, tree);
@@ -124,9 +121,10 @@ void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
 	m_texture_coordinates[index] = point;
 	// Try  to immediately convert point to normalized if needed
-	if (m_texture)
+	sad::Texture * tex = m_texture.get();
+	if (tex)
 	{
-		sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+		sad::Point2D relativepoint(point.x() / tex->Width, point.y() / tex->Height );
 		int newindex = 3 - index;
 
 		// Take care of horizontal flip
@@ -310,7 +308,7 @@ void sad::Sprite3D::setTexture(sad::Texture * texture)
 
 sad::Texture * sad::Sprite3D::texture() const
 {
-	return m_texture->get();
+	return m_texture.get();
 }
 
 void sad::Sprite3D::setTexureName(const sad::String & name)
@@ -329,7 +327,7 @@ void sad::Sprite3D::setScene(sad::Scene * scene)
 	this->sad::SceneNode::setScene(scene);
 	if (m_texture.dependsOnRenderer())
 	{
-		m_texture.setScene(scene->renderer());
+		m_texture.setRenderer(scene->renderer());
 		reloadTexture();
 	}
 }
