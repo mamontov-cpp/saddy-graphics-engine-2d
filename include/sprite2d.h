@@ -96,12 +96,14 @@ public:
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
 		\param[in] fast     whether we should not init angle rotations for area and just treat it as base
+		\param[in] treename a name of tree, where we should take our texture resource
 	 */
 	Sprite2D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect2D& area,
-		bool fast = true
+		bool fast = true,
+		const sad::String & treename = ""
 	);
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
@@ -229,6 +231,18 @@ public:
 		\param[in] o options, which defines texture, texture coordinates and rendered rectangle
 	 */
 	void set(const sad::Sprite2D::Options & o);
+	/*! Initializes sprite parameters from options, passed to sprite
+		\param[in] optionsname a name of attached options element
+	 */
+	void set(const sad::String & optionsname);
+	/*! A tree name for new tree
+		\param[in] treename a name of renderer's tree
+	 */
+	void setTreeName(const sad::String & treename);
+	/*! A name of renderer's tree for texture resource
+		\return name of tree
+	 */
+	const sad::String & treeName() const;
 	/*! Makes sprite rectangle span between two points, which defines centers of opposite sides
 		of sprite
 		\param[in] r source rectangle for adapter
@@ -249,7 +263,23 @@ public:
 		\param[in] scene a scene, which will render a node
 	 */
 	virtual void setScene(sad::Scene * scene);
+	/*! Sets, whether or not sprite should change size, when options for a sprite are changed
+		\param[in] flag whether or  not
+	 */
+	void setChangeSizeWhenOptionsAreChanged(bool flag);
+	/*! Returns whether or not sprite, should change size, when options for a sprite are changed
+		\return flag
+	 */
+	bool changeSizeWhenOptionsAreChanged() const;
 protected:
+	/*! Performed, when texture is changed
+		\param[in] tex a new texture
+	 */
+	void onTextureChange(sad::Texture * tex);
+	/*! Performed, when sprite options are changed
+		\param[in] opts a new options
+	 */
+	void onOptionsChange(sad::Sprite2D::Options * opts);
 	/*! Fast version of 2D sprite initialization from rectangle. Just sets it as
 		current renderable rectangle, all angles to zero
 		\param[in] rect a rectangle
