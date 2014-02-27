@@ -9,8 +9,8 @@
 #include "sadstring.h"
 #include "sadsize.h"
 #include "texture.h"
-
-#include <resource/resource.h>
+#include "resource/link.h"
+#include "resource/resource.h"
 #pragma once
 
 namespace sad
@@ -302,13 +302,19 @@ protected:
 	sad::Rect2D  m_renderable_area;
 	/*! A texture to be used in sprite
 	 */
-	sad::Texture * m_texture;
+	sad::resource::Link<sad::Texture> m_texture;
+	/*! A link to an options
+	 */
+	sad::resource::Link<sad::Sprite2D::Options> m_options;
 	/*! A used color of sprite
 	 */
 	sad::AColor  m_color;
 	/*! A current color buffer, used when getting current color of scene
 	 */ 
 	int  m_current_color_buffer[4];
+	/*! Determines, whether we should change own size, if options size is changed
+	 */
+	bool m_changesizeifoptionssizechanged;
 };
 
 }
