@@ -212,6 +212,10 @@ class Label: public sad::SceneNode
 			\param[in] scene a scene, which will render a node
 		 */
 		virtual void setScene(sad::Scene * scene);
+		/*! Sets treename for a sprite
+			\param[in] treename a name for a tree
+		*/
+		void setTreeName(const sad::String & treename);
 private:
 		/*! Reloads font for a label from scene
 		 */
