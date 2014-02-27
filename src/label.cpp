@@ -15,7 +15,7 @@ DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
 
 sad::Label::Label() :
-m_font(NULL), m_point(0, 0), 
+m_point(0, 0), 
 m_string(""), m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
 m_color(0, 0, 0, 0)
@@ -28,11 +28,28 @@ sad::Label::Label(
 	const sad::Point2D  & point,
 	const sad::String & string
 ) : 
-m_font(font), m_point(point), 
+m_point(point), 
 m_string(string), m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
 m_color(0, 0, 0, 0)
 {
+	m_font.attach(font);
+	recomputeRenderingPoint();
+}
+
+sad::Label::Label(
+	const sad::String &  font,
+	const sad::Point2D  & point,
+	const sad::String & string,
+	const sad::String & tree
+)
+m_point(point), 
+m_string(string), m_angle(0), 
+m_size(20), m_linespacing_ratio(1.0),
+m_color(0, 0, 0, 0)
+{
+	m_font.setTree(NULL, tree);
+	m_font.setPath(font);
 	recomputeRenderingPoint();
 }
 
@@ -40,12 +57,13 @@ m_color(0, 0, 0, 0)
 
 void sad::Label::render()
 {
-	if (!m_font)
+	sad::Font * font = m_font->get();
+	if (!font)
 		return;
 
-	m_font->setSize(m_size);
-	m_font->setColor(m_color);
-	m_font->setLineSpacingRatio(m_linespacing_ratio);
+	font->setSize(m_size);
+	font->setColor(m_color);
+	font->setLineSpacingRatio(m_linespacing_ratio);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -53,21 +71,22 @@ void sad::Label::render()
 	glRotatef((GLfloat)(m_angle / M_PI*180.0f), 0.0f, 0.0f, 1.0f);
 
 	
-	if (m_font)
-		m_font->render(m_string, m_halfpadding);
+	if (font)
+		font->render(m_string, m_halfpadding);
 
 	glPopMatrix();
 }
 
 sad::Rect2D sad::Label::region() const
 {
-	if (!m_font)
+	sad::Font * font = m_font->get();
+	if (!font)
 		return sad::Rect2D();
 
-	m_font->setSize(m_size);
-	m_font->setLineSpacingRatio(m_linespacing_ratio);
+	font->setSize(m_size);
+	font->setLineSpacingRatio(m_linespacing_ratio);
 
-	sad::Size2D  size = m_font->size(m_string);
+	sad::Size2D  size = font->size(m_string);
 	sad::Rect2D  result(m_point.x(), 
 						m_point.y(), 
 						m_point.x() + size.Width,
@@ -86,8 +105,9 @@ sad::Label::~Label()
 void sad::Label::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_font_name.length() != 0)
+	if (m_font.dependsOnRenderer() != 0 && scene)
 	{
+		m_font.setRenderer(scene->renderer());
 		reloadFont();
 	}
 }
@@ -100,13 +120,13 @@ void sad::Label::setPoint(const sad::Point2D & point)
 
 void sad::Label::setFontName(const sad::String & name)
 {
-	m_font_name = name;
+	m_font.setPath(name);
 	reloadFont();
 }
 
 void sad::Label::setFont(sad::Font * font)
 {
-	m_font = font;
+	m_font.attach(font);
 	recomputeRenderingPoint();
 }
 
@@ -114,7 +134,8 @@ void sad::Label::setFont(const sad::String & name, sad::Renderer * r)
 {
 	if (!r)
 		r = sad::Renderer::ref();
-	setFont(r->fonts()->get(name));
+	m_font.setPath(name);
+	m_font.setRenderer(r);
 }
 
 void sad::Label::setString(const sad::String & string)
@@ -132,10 +153,11 @@ void sad::Label::setSize(unsigned int size)
 float sad::Label::builtinLineSpacing() const
 {
 	// 0.1f is placed to avoid division by zero
-	if (!m_font)
+	sad::Font * font = m_font.get();
+	if (!font)
 		return 0.1f;
-	m_font->setSize(m_size);
-	return m_font->builtinLineSpacing();
+	font->setSize(m_size);
+	return font->builtinLineSpacing();
 }
 
 void sad::Label::setLineSpacing(float spacing)
@@ -151,21 +173,21 @@ void sad::Label::setLineSpacingRatio(float ratio)
 
 void sad::Label::reloadFont()
 {
-	if (this->renderer() != NULL && m_font_name.length())
+	sad::Font * font = font->get();
+	if (font)
 	{
-		m_font = this->renderer()->fonts()->get(m_font_name);
-		if (m_font)
-			recomputeRenderingPoint();
+		recomputeRenderingPoint();
 	}
 }
 
 
 void sad::Label::recomputeRenderingPoint()
 {
-	if (!m_font)
+	sad::Font * font = font->get();
+	if (!font)
 		return;
 
-	sad::Size2D size = m_font->size(m_string);
+	sad::Size2D size = font->size(m_string);
 	m_center.setX(m_point.x() + size.Width / 2);
 	m_center.setY(m_point.y() - size.Height / 2);
 	m_halfpadding.setX(size.Width / -2.0);
