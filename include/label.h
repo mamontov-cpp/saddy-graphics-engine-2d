@@ -8,6 +8,7 @@
 #include "sadrect.h"
 #include "3rdparty/format/format.h"
 #include "timer.h"
+#include "resource/link.h"
 #pragma once
 
 namespace sad
@@ -37,6 +38,19 @@ class Label: public sad::SceneNode
 			  const sad::Point2D  & point,
 			  const sad::String & string
 			 );
+		/*! Creates a simple label with font size of 20px and angle of zero.
+			Default color is black.
+		    \param[in] font  a font, which label is being rendered with
+			\param[in] point an upper-left point, where text starts
+			\param[in] string  a string, which is being rendered
+			\param[in] tree a tree name, where font is stored
+		*/
+		Label(
+			  const sad::String &  font,
+			  const sad::Point2D  & point,
+			  const sad::String & string,
+			  const sad::String & tree
+			 );
         /*! Renders a string of text inside of label
 		*/
 		virtual void render();
@@ -48,7 +62,7 @@ class Label: public sad::SceneNode
 		 */
 		inline sad::Font * font() const
 		{
-			return m_font;
+			return m_font->get();
 		}
 		/*! Sets a font, that label is being rendered with			
 			\param[in] font a font
@@ -57,8 +71,9 @@ class Label: public sad::SceneNode
 	    /*! Sets new font by trying to get it from a rendered
 			\param[in] name a name for a font
 			\param[in] r a renderer
-		 */
-		void setFont(const sad::String & name, sad::Renderer * r = NULL);
+			\param[in] tree a tree, where font should be located
+		  */
+		void setFont(const sad::String & name, sad::Renderer * r = NULL, const sad::String & tree = "");
 		/*!  Returns a string for a label
 			 \return a string
 		 */
@@ -205,9 +220,12 @@ private:
 			so rotation will be placed just in place 
 		 */
 		void recomputeRenderingPoint();
-		sad::Font  *     m_font;       //!< A font, that label is being renderd with
-		sad::String      m_font_name;   //!< A name for a font
-		sad::String      m_string;     //!< A rendered string
+		/*! A link to font, that label is being renderd with
+		 */
+		sad::resource::Link<sad::Font> m_font;
+		/*! A rendered string
+		 */
+		sad::String      m_string; 
 		/*! An upper left point, where text is rendered
 		 */
 		sad::Point2D     m_point;  

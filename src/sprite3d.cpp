@@ -39,7 +39,7 @@ m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
 m_color(sad::AColor(255,255,255,0))
 {
-	m_texture->attach(texture);
+	m_texture.attach(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -70,8 +70,8 @@ m_texture_coordinates(texturecoordinates),
 m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
-	m_texture->setTree(NULL, tree);
-	m_texture->setPath(texture);
+	m_texture.setTree(NULL, tree);
+	m_texture.setPath(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -91,7 +91,7 @@ sad::Sprite3D::~Sprite3D()
 
 void sad::Sprite3D::render()
 {
-  sad::Texture * texture = m_texture->get();
+  sad::Texture * texture = m_texture.get();
   if (!texture)
 	  return;
    glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
@@ -304,32 +304,32 @@ bool sad::Sprite3D::flipY() const
 
 void sad::Sprite3D::setTexture(sad::Texture * texture)
 {
-	m_texture->attach(texture);
+	m_texture.attach(texture);
 	normalizeTextureCoordinates();
 }
 
 sad::Texture * sad::Sprite3D::texture() const
 {
-	return m_texture;
+	return m_texture->get();
 }
 
 void sad::Sprite3D::setTexureName(const sad::String & name)
 {
-	m_texture->setPath(name);
+	m_texture.setPath(name);
 	reloadTexture();
 }
 
 const sad::String& sad::Sprite3D::textureName()
 {
-	return m_texture->path();
+	return m_texture.path();
 }
 
 void sad::Sprite3D::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_texture->dependsOnRenderer())
+	if (m_texture.dependsOnRenderer())
 	{
-		m_texture->setScene(scene->renderer());
+		m_texture.setScene(scene->renderer());
 		reloadTexture();
 	}
 }
@@ -377,7 +377,7 @@ void sad::Sprite3D::reloadTexture()
 
 void sad::Sprite3D::normalizeTextureCoordinates()
 {
-	sad::Texture * texture = m_texture->get();
+	sad::Texture * texture = m_texture.get();
 	if (texture)
 	{
 		for(int i = 0; i < 4; i++)
