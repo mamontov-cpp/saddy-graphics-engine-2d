@@ -89,6 +89,11 @@ const sad::String&  sad::resource::AbstractLink::path() const
 	return m_path;	
 }
 
+const sad::String & sad::resource::AbstractLink::treeName() const
+{
+	return m_treename;
+}
+
 void sad::resource::AbstractLink::finishedChanging()
 {
 	m_changed = true;

@@ -7,15 +7,8 @@
  */
 #pragma once
 #include "resource.h"
-#include "../texture.h"
-#include "../texturemappedfont.h"
-#include "../sprite2d.h"
 #include "../sadptrhash.h"
 #include "../sadstring.h"
-
-#ifdef USE_FREETYPE
-#include <freetype/font.h>
-#endif
 
 namespace sad
 {
@@ -67,18 +60,7 @@ class Factory
 public:	
 	/*! Creates a factory
 	 */
-	inline Factory()
-	{
-		add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
-		add(sad::TextureMappedFont::globalMetaData()->name(), 
-			new resource::CreatorFor<sad::TextureMappedFont>());
-		add(sad::Sprite2D::Options::globalMetaData()->name(), 
-			new resource::CreatorFor<sad::Sprite2D::Options>());
-#ifdef USE_FREETYPE
-		add(sad::freetype::Font::globalMetaData()->name(), 
-			new resource::CreatorFor<sad::freetype::Font>());
-#endif
-	}
+	Factory();
 	/*! Registers new resource in factory
 	 */ 
 	template<typename T>

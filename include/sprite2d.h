@@ -3,14 +3,14 @@
 
 	Contains a definition of sprite in 2-dimensional space.
  */
+#include "resource/resource.h"
+#include "resource/link.h"
 #include "scene.h"
 #include "maybe.h"
 #include "sadrect.h"
 #include "sadstring.h"
 #include "sadsize.h"
 #include "texture.h"
-#include "resource/link.h"
-#include "resource/resource.h"
 #pragma once
 
 namespace sad
@@ -235,7 +235,7 @@ public:
 		\param[in] optionsname a name of attached options element
 	 */
 	void set(const sad::String & optionsname);
-	/*! A tree name for new tree
+	/*! Sets tree name for options and textures links
 		\param[in] treename a name of renderer's tree
 	 */
 	void setTreeName(const sad::String & treename);
@@ -254,10 +254,6 @@ public:
 		const sad::Point2D & p1, 
 		const sad::Point2D & p2
 	);
-	/*! Whether size of sprite was changed
-		\return whether size of sprite was changed
-	 */
-	bool sizeChanged() const;
 	/*! When set scene and texture name is defined 2D sprite tries to reload
 		itself from scene's renderer
 		\param[in] scene a scene, which will render a node
@@ -298,15 +294,13 @@ protected:
 	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
 	 */
 	void normalizeTextureCoordinates();
-	/*! Defines a name for a texture
-	 */ 
-	sad::String m_texture_name;
+	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
+		\param[in] tex a texture, which coordinates must be normalized with
+	 */
+	void normalizeTextureCoordinates(sad::Texture * tex);
 	/*! A counter-clockwise rotation angle
 	 */
 	double     m_angle;
-	/*! Determines, whether size of sprite is changed
-	 */ 
-	bool       m_size_changed;
 	/*! Whether sprite is flipped on X axis
 	 */
 	bool       m_flipx;
@@ -345,6 +339,9 @@ protected:
 	/*! Determines, whether we should change own size, if options size is changed
 	 */
 	bool m_changesizeifoptionssizechanged;
+	/*! Whether we should explicitly set a sprite value
+	 */
+	bool m_explicit_set;
 };
 
 }

@@ -1,7 +1,6 @@
 #include "label.h"
 #include "geometry2d.h"
 #include "renderer.h"
-#include "fontmanager.h"
 
 #include <cassert>
 
@@ -42,7 +41,7 @@ sad::Label::Label(
 	const sad::Point2D  & point,
 	const sad::String & string,
 	const sad::String & tree
-)
+) :
 m_point(point), 
 m_string(string), m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
@@ -57,7 +56,7 @@ m_color(0, 0, 0, 0)
 
 void sad::Label::render()
 {
-	sad::Font * font = m_font->get();
+	sad::Font * font = m_font.get();
 	if (!font)
 		return;
 
@@ -79,7 +78,7 @@ void sad::Label::render()
 
 sad::Rect2D sad::Label::region() const
 {
-	sad::Font * font = m_font->get();
+	sad::Font * font = m_font.get();
 	if (!font)
 		return sad::Rect2D();
 
@@ -130,12 +129,12 @@ void sad::Label::setFont(sad::Font * font)
 	recomputeRenderingPoint();
 }
 
-void sad::Label::setFont(const sad::String & name, sad::Renderer * r)
+void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad::String & tree)
 {
 	if (!r)
 		r = sad::Renderer::ref();
 	m_font.setPath(name);
-	m_font.setRenderer(r);
+	m_font.setTree(r, tree);
 }
 
 void sad::Label::setString(const sad::String & string)
@@ -171,15 +170,15 @@ void sad::Label::setLineSpacingRatio(float ratio)
 	recomputeRenderingPoint();
 }
 
-void sad::Label::setTreeName(const sad::String & treename);
+void sad::Label::setTreeName(const sad::String & treename)
 {
-	m_texture.setTree(m_texture.renderer(), treename);
+	m_font.setTree(m_font.renderer(), treename);
 	recomputeRenderingPoint();
 }
 
 void sad::Label::reloadFont()
 {
-	sad::Font * font = font->get();
+	sad::Font * font = m_font.get();
 	if (font)
 	{
 		recomputeRenderingPoint();
@@ -189,7 +188,7 @@ void sad::Label::reloadFont()
 
 void sad::Label::recomputeRenderingPoint()
 {
-	sad::Font * font = font->get();
+	sad::Font * font = m_font.get();
 	if (!font)
 		return;
 

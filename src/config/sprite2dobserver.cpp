@@ -72,7 +72,7 @@ void Sprite2DConfigObserver::notifyConfigChanged()
 		sad::Texture  * texture=m_config->getTextures()->get(sprite_template.textureName());
 		m_sprite->setTexture(texture);
 		m_sprite->setTextureCoordinates(sprite_template.textureRect());
-		if (m_policy==COP_CHANGESIZE || (m_policy==COP_CHANGEIFNOTCHANGED && m_sprite->sizeChanged()==false))
+		if (m_policy==COP_CHANGESIZE || (m_policy==COP_CHANGEIFNOTCHANGED))
 		{
 			sad::Size2D size(sprite_template.size().x(), sprite_template.size().y());
 			m_sprite->setSize(size);
