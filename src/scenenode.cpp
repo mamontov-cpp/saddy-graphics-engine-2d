@@ -13,6 +13,11 @@ sad::SceneNode::~SceneNode()
 
 }
 
+void sad::SceneNode::rendererChanged()
+{
+	
+}
+
 void sad::SceneNode::setScene(sad::Scene * scene)
 {
 	m_scene = scene;

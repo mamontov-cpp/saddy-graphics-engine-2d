@@ -20,6 +20,14 @@ sad::Scene::~Scene()
 	delete m_camera;
 }
 
+void sad::Scene::setRenderer(sad::Renderer * renderer)
+{
+	m_renderer = renderer;
+	for (unsigned long i = 0; i < this->m_layers.count(); i++)
+		m_layers[i]->rendererChanged();
+}
+
+
 sad::Camera & sad::Scene::camera()
 {
 	return *m_camera;

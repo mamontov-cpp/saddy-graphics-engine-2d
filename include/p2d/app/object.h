@@ -106,6 +106,13 @@ class Object: public sad::SceneNode
 		 \param[in] g world
 	  */
 	 void setApp(p2d::app::App * g);
+	 /*! Sets scene for a sprite
+		 \param[in] s scene
+	  */
+	 virtual void setScene(sad::Scene * s);
+	 /*! Called, when scene renderer's changed
+	  */
+	 virtual void rendererChanged();
 	 /*! The object does not own anything, if game is not null
 	  */
 	 virtual ~Object();

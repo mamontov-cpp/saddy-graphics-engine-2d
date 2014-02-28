@@ -56,13 +56,6 @@ public:
 		\return name of tree
 	 */
 	const sad::String & treeName() const;
-	/*! Sets changed flag to false, notifying that we finished changing
-	 */
-	void finishedChanging();
-	/*! Returns flag, whether we are changed a link
-		\return whether link is changed
-	 */
-	bool changed() const;
 	/*! Sets a tree for a link
 		\param[in] tree a tree for link
 	 */
@@ -93,9 +86,9 @@ public:
 	 */
 	void setRenderer(sad::Renderer * r);
 protected:
-	/*! Whether user handled change
+	/*! Whether we should notify resource, that we are gone
 	 */
-	bool m_changed;
+	bool m_notify_resource;
 	/*!  A path to abstract link
 	 */
 	sad::String m_path;

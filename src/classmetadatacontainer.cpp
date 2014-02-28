@@ -1,5 +1,7 @@
 #include "classmetadatacontainer.h"
+#include "sadmutex.h"
 #include <cstdlib>
+
 
 sad::ClassMetaDataContainer::ClassMetaDataContainer()
 {
@@ -13,18 +15,28 @@ sad::ClassMetaDataContainer::ClassMetaDataContainer(const ClassMetaDataContainer
 
 sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::m_instance = NULL;
 
+
+
+static sad::Mutex creationlock;
+
 void sad::ClassMetaDataContainer::destroyInstance()
 {
+	creationlock.lock();
 	delete sad::ClassMetaDataContainer::m_instance;
+	sad::ClassMetaDataContainer::m_instance = NULL;
+	creationlock.unlock();
 }
 
 sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::ref()
 {
+	creationlock.lock();
 	if (sad::ClassMetaDataContainer::m_instance == NULL)
 	{
 		sad::ClassMetaDataContainer::m_instance = new sad::ClassMetaDataContainer();
 		atexit(sad::ClassMetaDataContainer::destroyInstance);
 	}
+	creationlock.unlock();
+
 	return sad::ClassMetaDataContainer::m_instance;
 }
 

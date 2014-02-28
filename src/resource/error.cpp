@@ -14,6 +14,7 @@ DECLARE_SOBJ_INHERITANCE(sad::resource::FileLoadingNotImplemented, sad::resource
 DECLARE_SOBJ_INHERITANCE(sad::resource::JSONParseError, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::MalformedResourceEntry, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::EmptyTextureAtlas, sad::resource::Error);
+DECLARE_SOBJ_INHERITANCE(sad::resource::TreeNotFound, sad::resource::Error);
 
 sad::resource::Error::~Error()
 {
@@ -78,6 +79,11 @@ sad::resource::MalformedResourceEntry::~MalformedResourceEntry()
 sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas()
 {
 
+}
+
+sad::resource::TreeNotFound::~TreeNotFound()
+{
+	
 }
 
 sad::String sad::resource::format(

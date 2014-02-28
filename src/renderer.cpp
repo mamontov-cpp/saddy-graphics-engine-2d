@@ -70,6 +70,11 @@ sad::Renderer::~Renderer(void)
 	delete m_main_loop;
 	delete m_fps_interpolation; 
 	delete m_log;
+	// Force clearing of scenes, so resource links should be preserved
+	for(int i = 0; i < m_scenes.size(); i++)
+	{
+		m_scenes[i]->clear();
+	}
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -279,6 +284,31 @@ sad::pipeline::Pipeline* sad::Renderer::pipeline() const
 sad::input::Controls* sad::Renderer::controls() const
 {
 	return m_controls;
+}
+
+sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
+		const sad::String & filename,
+		const sad::String & treename
+)
+{
+	sad::Vector<sad::resource::Error *> result;
+	if (m_resource_trees.contains(treename))
+	{
+		result = m_resource_trees[treename]->loadFromFile(filename);
+	}
+	else
+	{
+		result << new sad::resource::TreeNotFound(treename);
+	}
+	return result;
+}
+
+sad::Texture * sad::Renderer::texture(
+	const sad::String & resourcename, 
+	const sad::String & treename
+)
+{
+	return resource<sad::Texture>(resourcename, treename);	
 }
 
 void sad::Renderer::emergencyShutdown()

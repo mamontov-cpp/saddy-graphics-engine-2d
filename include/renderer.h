@@ -13,6 +13,7 @@
 #include "log/log.h"
 #include "resource/physicalfile.h"
 #include "resource/tree.h"
+#include "resource/error.h"
 #include "settings.h"
 #include "scene.h"
 #include "sadpoint.h"
@@ -34,6 +35,7 @@ class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
+class Texture;
 namespace pipeline
 {
 	class Pipeline;
@@ -177,7 +179,37 @@ public:
 		\return controls
 	 */
 	virtual sad::input::Controls* controls() const;
-
+	/*! Loads resources to tree (default if treename is not supplied) from filename
+		\param[in] filename a name of loaded files
+		\param[in] treename a name of tree
+		\return error list
+	 */
+	sad::Vector<sad::resource::Error *> loadResources(
+		const sad::String & filename,
+		const sad::String & treename = ""
+	);
+	/*! Gets resource by name for a specified tree
+		\param[in] resourcename a resource name
+		\param[in] treename a name of tree, where resource should be taken from
+	 */
+	template<
+		typename _ResourceType
+	>
+	_ResourceType * resource(const sad::String & resourcename, const sad::String & treename = "")
+	{
+		sad::resource::Tree * tree = this->tree(treename);
+		_ResourceType * result = NULL;
+		if (tree)
+		{
+			result = tree->get<_ResourceType>(resourcename);
+		}
+		return result;
+	}
+	/*! Gets texture by name for a specified tree
+		\param[in] resourcename a resource name
+		\param[in] treename a name of tree, where resource should be taken from
+	 */
+	sad::Texture * texture(const sad::String & resourcename, const sad::String & treename = "");
 	/*! This method is called, when somebody performs emergency shutdown.
 		In current implementation, this method is called when  console window
 		of application is closed on Windows OS. Note, that you SHOULD NOT call
@@ -319,9 +351,6 @@ protected:
 		\return success of operation
 	 */
 	bool initGLRendering();
-    /*! Updates a scene
-	 */
-	void update();
 	/*! Inits pipeline with data
 	 */
 	virtual void initPipeline();

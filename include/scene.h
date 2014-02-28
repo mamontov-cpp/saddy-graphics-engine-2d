@@ -34,10 +34,7 @@ public:
 	/*! Sets a renderer
 		\param[in] renderer renderer part
 	 */
-	inline void setRenderer(sad::Renderer * renderer)
-	{
-		m_renderer = renderer;
-	}
+	void setRenderer(sad::Renderer * renderer);
 	/*! Returns a renderer from scene
 		\return renderer from scene
 	 */

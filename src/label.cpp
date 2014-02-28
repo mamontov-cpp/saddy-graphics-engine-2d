@@ -76,8 +76,18 @@ void sad::Label::render()
 	glPopMatrix();
 }
 
+
+void sad::Label::rendererChanged()
+{
+	if (m_font.dependsOnRenderer())
+	{
+		m_font.setRenderer(this->renderer());
+	}
+}
+
 sad::Rect2D sad::Label::region() const
 {
+	// Preserve linkage to a renderer
 	sad::Font * font = m_font.get();
 	if (!font)
 		return sad::Rect2D();
@@ -104,7 +114,7 @@ sad::Label::~Label()
 void sad::Label::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_font.dependsOnRenderer() != 0 && scene)
+	if (m_font.dependsOnRenderer() && scene)
 	{
 		m_font.setRenderer(scene->renderer());
 		reloadFont();

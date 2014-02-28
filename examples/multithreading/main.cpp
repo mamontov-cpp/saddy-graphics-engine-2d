@@ -101,6 +101,7 @@ int thread(void * p)
 	 */
 	sad::Scene * scene = new sad::Scene();
 	r.setScene(scene);
+	r.tree()->factory()->registerResource<sad::freetype::Font>();
 	
 	/* Setup the logging. We redirect all messages to a file, passed as parameter to thread
 	   variable
@@ -120,54 +121,32 @@ int thread(void * p)
 	 */
 	scene->setRenderer(&r);
 
-	/* Load texture mapped font. 
-	   We add it to font manager to be sure, that memory will be freed at exit.
+	/*! Load resources
 	 */
-	sad::TextureMappedFont * fnt2=new sad::TextureMappedFont();
-	bool res2= fnt2->load("examples/game/font",  &r);
-	if (!res2) {
-		SL_LOCAL_FATAL("Failed to load texture-mapped font", r);
-		return NULL;
-	}
-	r.fonts()->add(fnt2,"times_lg");
-
-	/*! Load freetype test font. We set it's rendering color to red, so label will be
-		shown as red on screen
-	 */
-	sad::freetype::Font * fnt1=new sad::freetype::Font();
-    bool res1= fnt1->load("ifaceed/EMPORIUM.TTF");
-	if (res1 == false) {
-		SL_LOCAL_FATAL("Failed to load font...", r);
-		return NULL;
-  	}
-	fnt1->setColor(sad::AColor(255,0,0,0));
-	r.fonts()->add(fnt1, "font");
-    
-	/*! Load simple texture.
-		
-		We add it to texture manager to be sure, that memory will be freed at exit.
-	 */
-	sad::Texture * tex = new sad::Texture();
-	if (tex->load("examples/game/ingame.tga",&r) == false)
+	bool res=true; 
+	sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multithreading.json");
+	sad::String errortext;
+	if (errors.size() != 0)
 	{
-		SL_LOCAL_FATAL("Failed to load texture...", r);
-		return NULL;
-	}
-	r.textures()->add("tex1", tex);
+		res = false;
+		SL_LOCAL_FATAL(sad::resource::format(errors), r);
+		sad::util::free(errors);
+		return 1;
+	} 
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
-	sad::Sprite2D * a = new sad::Sprite2D(tex, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
+	sad::Sprite2D * a = new sad::Sprite2D("tex1", sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
 	scene->add(a);
 
 	/* Add two labels with different fonts
 	 */
-	scene->add(
-		new sad::Label(fnt1, sad::Point2D(300,200), "FTFont")
-	);
-	scene->add(
-		new sad::Label(fnt2, sad::Point2D(400,400), "TMFont")
-	);
+	sad::Label * l1 = new sad::Label("ftfont", sad::Point2D(300,200), "FTFont");
+	sad::Label * l2 = new sad::Label("tmfont", sad::Point2D(400,400), "TMFont");
+	l1->setColor(255, 255, 255, 0);
+	l2->setColor(255, 255, 255, 0);
+	scene->add(l1);
+	scene->add(l2);
 	
 	/* Here we bind two different handlers with keydown
 	 */

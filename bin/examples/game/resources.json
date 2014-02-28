@@ -1,0 +1,23 @@
+[
+	{ 
+		"type": "sad::Texture",
+		"name": "objects",
+		"filename": "examples/game/objects.bmp",
+		"transparent":  {"r": 255, "g": 255, "b": 255}
+	},
+	{ 
+		"type": "sad::Texture",
+		"name": "title",
+		"filename": "examples/game/title.tga"
+	},
+	{ 
+		"type": "sad::Texture",
+		"name": "background",
+		"filename": "examples/game/ingame.tga"
+	},
+	{ 
+		"type": "sad::TextureMappedFont",
+		"name": "font",
+		"filename": "examples/game/font"
+	}	
+]

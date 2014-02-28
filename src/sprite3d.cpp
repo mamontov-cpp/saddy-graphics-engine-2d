@@ -111,6 +111,14 @@ void sad::Sprite3D::render()
    glColor4iv(m_current_color_buffer);
 }
 
+void sad::Sprite3D::rendererChanged()
+{
+	if (m_texture.dependsOnRenderer())
+	{
+		m_texture.setRenderer(this->renderer());
+	}
+}
+
 void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
 	m_texture_coordinates = texturecoordinates;
@@ -325,7 +333,7 @@ const sad::String& sad::Sprite3D::textureName()
 void sad::Sprite3D::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_texture.dependsOnRenderer())
+	if (m_texture.dependsOnRenderer() && scene)
 	{
 		m_texture.setRenderer(scene->renderer());
 		reloadTexture();

@@ -94,15 +94,15 @@ int main(int argc, char** argv)
 
 	//Loading resources. We re-use textures from game example. 
 	bool res=true; 
-	sad::String fontfolder = "examples/game/";
-	res=res && load_font(fontfolder, "font"); 
-	res=res && load_texture("examples/game/ingame.tga","background");
-    res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
-    if (!res)
+	sad::Vector<sad::resource::Error *> errors = sad::Renderer::ref()->loadResources("examples/stress-physics.json");
+	sad::String errortext;
+	if (errors.size() != 0)
 	{
-		SL_FATAL(sad::String("Resource loading failed!"));
+		res = false;
+		SL_FATAL(sad::resource::format(errors));
+		sad::util::free(errors);
 		return 1;
-	}
+	} 
 	SL_MESSAGE(sad::String("Resources successfully loaded"));
 	
 	// Create and run game

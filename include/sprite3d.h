@@ -62,6 +62,9 @@ public:
 	/*! Renders a sprite as a simple quad 
 	 */
 	virtual void render();
+	/*! Called, when renderer for scene is changed
+	 */
+	virtual void rendererChanged();
 	/*! Sets a texture coordinates for sprites
 		\param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
 									  constructor

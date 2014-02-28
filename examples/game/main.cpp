@@ -103,7 +103,6 @@ int main(int argc, char** argv)
 	SL_USER    ("it\'s sure will be hard for him...", "END");
 
 	// Inits a renderer as non-fullscreen 640x480 window
-	// And set PicoPNG loader for images
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
 	SL_MESSAGE("Renderer successfully initialized!");	
 	// Inits generator for spawns and random raings
@@ -111,26 +110,29 @@ int main(int argc, char** argv)
 
 	//Loading resources
 	bool res=true; 
-	sad::String fontfolder = "examples/game/";
-	res=res && load_font(fontfolder, "font"); 
-	res=res && load_texture("examples/game/title.tga","title");
-	res=res && load_texture("examples/game/ingame.tga","background");
-	res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
+	sad::Vector<sad::resource::Error *> errors = sad::Renderer::ref()->loadResources("examples/game/resources.json");
+	sad::String errortext;
+	if (errors.size() != 0)
+	{
+		res = false;
+		SL_FATAL(sad::resource::format(errors));
+	} 
+	sad::util::free(errors);
+
+	if (!res)
+	{
+		return 1;
+	}
+	SL_MESSAGE("Resources successfully loaded");
 	
+	// Set cursor
 	sad::Sprite2D * a = new sad::Sprite2D(
-		sad::TextureManager::ref()->get("objects"),
+		sad::Renderer::ref()->texture("objects"),
 		sad::Rect2D(sad::Point2D(441,32),sad::Point2D(457,48)),
 		sad::Rect2D(sad::Point2D(-8, -8), sad::Point2D(8, 8))
 	);
 	sad::Renderer::ref()->cursor()->setImage(a);
 
-	if (!res)
-	{
-		SL_FATAL("Resource loading failed!");
-		return 1;
-	}
-	SL_MESSAGE("Resources successfully loaded");
-	
 	// Create and run game	
 	Game * game = new Game();
 	game->run();
