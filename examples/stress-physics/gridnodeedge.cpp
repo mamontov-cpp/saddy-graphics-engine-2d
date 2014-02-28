@@ -22,6 +22,16 @@ void GridNodeEdge::render()
 	this->m_ad->render();
 }
 
+void GridNodeEdge::setScene(sad::Scene * o)
+{
+	this->m_ad->setScene(o);
+}
+
+void GridNodeEdge::rendererChanged()
+{
+	this->m_ad->rendererChanged();
+}
+
 GridNodeEdge::~GridNodeEdge()
 {
 	delete m_ad;

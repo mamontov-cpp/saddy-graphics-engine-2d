@@ -173,6 +173,18 @@ void sad::Sprite2D::render()
 	glColor4iv(m_current_color_buffer);
 }
 
+void sad::Sprite2D::rendererChanged()
+{
+	if (m_texture.dependsOnRenderer())
+	{
+		m_texture.setRenderer(this->renderer());
+	}
+	if (m_options.dependsOnRenderer())
+	{
+		m_options.setRenderer(this->renderer());
+	}
+}
+
 void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
 	m_texture_coordinates = texturecoordinates;
@@ -375,6 +387,9 @@ const sad::String& sad::Sprite2D::textureName()
 void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
 	m_explicit_set = true;
+	// Make texture render dependent
+	m_texture.setRenderer(this->renderer());
+
 	m_options.attach(const_cast<sad::Sprite2D::Options *>(&o));
 }
 
@@ -382,6 +397,9 @@ void sad::Sprite2D::set(const sad::String & optionsname)
 {
 	m_explicit_set = true;
 	m_options.setPath(optionsname);
+	// Make texture render dependent
+	m_options.setRenderer(this->renderer());
+	m_texture.setRenderer(this->renderer());
 }
 
 void sad::Sprite2D::setTreeName(const sad::String & treename)
@@ -423,7 +441,7 @@ void sad::Sprite2D::setScene(sad::Scene * scene)
 		{
 			m_texture.setRenderer(scene->renderer());
 		}
-		if (m_options.dependsOnRenderer())
+		if (m_texture.dependsOnRenderer())
 		{
 			m_options.setRenderer(scene->renderer());
 		}
@@ -517,6 +535,7 @@ void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
 
 void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 {
+	m_texture.setTree(this->renderer(), m_options.treeName());
 	m_texture.setPath(opts->Texture);
 	m_texture_coordinates = opts->TextureRectangle;	
 	reloadTexture();

@@ -487,6 +487,38 @@ public:
 	virtual ~EmptyTextureAtlas();
 };
 
+/*! \class TreeNotFound
+
+	Describes an error, when texture atlas file is empty
+ */
+class TreeNotFound: public sad::resource::Error  
+{	
+SAD_OBJECT
+public:
+	/*! Formats error
+		\param[in] v a formatted entry
+		\return error string
+	 */
+	inline static sad::String format_error(const sad::String & v)
+	{
+		std::string errorstring = "Tree with name \"{0}\" not found";
+		return str(fmt::Format(errorstring) << v);
+	}
+
+	/*! Constructs a error for specified tree name
+		\param[in] name a name of tree key
+		\return error string
+	 */
+	inline TreeNotFound(const sad::String & name)
+	: sad::resource::Error(sad::resource::TreeNotFound::format_error(name))
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~TreeNotFound();
+};
 /*! Formats an error to string. Remember, that you still need to free errors.
 	\param[in] errors a list of errors
 	\param[in] lineformat a format of line (default is just a message)

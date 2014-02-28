@@ -461,7 +461,7 @@ sad::String sad::join(const sad::StringList list, const sad::String & sep)
 	if (list.count() == 0)
 		return sad::String();
 	sad::String result = list[0];
-	for(unsigned int i = 0; i < list.count(); i++)
+	for(unsigned int i = 1; i < list.count(); i++)
 	{
 		result << sep << list[i];
 	}

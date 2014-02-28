@@ -134,6 +134,17 @@ public:
 	sad::Vector<sad::resource::Error *> duplicatesToErrors(
 		const sad::Vector<sad::String> & l
 	);
+	/*! Returns resource, casted to type
+		\param[in] name a name of resource
+		\return result
+	 */
+	template<
+		typename _ResourceType
+	>
+	_ResourceType * get(const sad::String & name)
+	{
+		return root()->resource(name)->as<_ResourceType>();
+	}
 protected: 
 	/*! A loaded files to be stored
 	 */

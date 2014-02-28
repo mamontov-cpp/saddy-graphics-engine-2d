@@ -24,6 +24,9 @@ public:
 	/*! Implement this to make object render a part of scene
 	 */
 	virtual void render() = 0;
+	/*! Called, when renderer is changed for a scene
+	 */
+	virtual void rendererChanged();
 	/*! Must be implemented in order to get node destroyed
 	 */
 	virtual ~SceneNode();

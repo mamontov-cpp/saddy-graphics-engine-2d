@@ -49,12 +49,15 @@ class Label: public sad::SceneNode
 			  const sad::String &  font,
 			  const sad::Point2D  & point,
 			  const sad::String & string,
-			  const sad::String & tree
+			  const sad::String & tree = ""
 			 );
         /*! Renders a string of text inside of label
 		*/
 		virtual void render();
-		/*! Returns a boundign region for a label
+		/*! Called, when renderer for scene is changed
+		 */
+		virtual void rendererChanged();
+		/*! Returns a bounding region for a label
 		 */
 		virtual sad::Rect2D region() const; 
 		/*! Returns a font for label

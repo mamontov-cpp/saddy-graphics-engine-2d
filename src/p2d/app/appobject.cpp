@@ -41,6 +41,16 @@ void sad::p2d::app::Object::setApp(p2d::app::App * g)
 	m_app = g;
 }
 
+void sad::p2d::app::Object::setScene(sad::Scene * s)
+{
+	m_sprite->setScene(s);
+}
+
+void sad::p2d::app::Object::rendererChanged()
+{
+	m_sprite->rendererChanged();
+}
+
 void sad::p2d::app::Object::notifyMove(const p2d::Vector & dist)
 {
 	m_sprite->moveBy(dist);

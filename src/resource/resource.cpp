@@ -10,7 +10,7 @@
 DECLARE_SOBJ(sad::resource::Resource);
 
 
-sad::resource::Resource::Resource() : m_folder(NULL), m_store_links(true), m_file(NULL)
+sad::resource::Resource::Resource() : m_folder(NULL), m_store_links(false), m_file(NULL)
 {
 	
 }
