@@ -13,6 +13,7 @@
     #include  <windows.h>
 #else
     #include  <pthread.h>
+	#include  <sys/types.h>
 #endif
 
 namespace sad
@@ -22,6 +23,19 @@ class AbsractThreadExecutableFunction;
 
 namespace os
 {
+
+#ifdef WIN32
+	typedef HANDLE ThreadId;
+#endif
+
+#ifdef LINUX
+	typedef pid_t ThreadId;
+#endif
+
+/*! Returns current thread id
+	\return thread id
+ */
+sad::os::ThreadId current_thread_id();
 
 /*! A platform-dependent implementation of thread, which uses WinAPI on Win32 and
 	pthreads on linux

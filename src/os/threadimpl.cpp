@@ -5,6 +5,25 @@
 #include "../sadhash.h"
 #include "../sadthread.h"
 
+#ifdef WIN32
+
+sad::os::ThreadId sad::os::current_thread_id()
+{
+	return 	GetCurrentThread();
+}
+
+#endif
+
+#ifdef LINUX
+
+sad::os::ThreadId sad::os::current_thread_id()
+{
+	return 	gettid();
+}
+
+#endif
+
+
 #ifdef LINUX
 #include <sys/time.h>
 

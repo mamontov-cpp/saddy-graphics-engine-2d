@@ -344,6 +344,9 @@ protected:
 	/*! A settings for a renderer
 	 */
 	sad::Settings        m_glsettings;  
+	/*! A context thread id, storead as void
+	 */
+	void*   m_context_thread;
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();
