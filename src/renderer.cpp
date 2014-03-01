@@ -14,6 +14,7 @@
 #include "pipeline/pipeline.h"
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
+#include "os/threadimpl.h"
 
 #ifdef LINUX
 	#include <stdio.h>
@@ -51,6 +52,8 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 	// when user closs a window
 	m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
 
+	// Set context thread
+	m_context_thread = (void*)sad::os::current_thread_id(); 
 	// Init pipeline to make sure, that user can add actions after rendering step, before 
 	// renderer started
 	this->initPipeline();
@@ -119,6 +122,8 @@ bool sad::Renderer::run()
 	// Try to create context if needed
 	if (m_context->valid() == false && success)
 	{
+		// Set context thread
+		m_context_thread = (void*)sad::os::current_thread_id(); 
 		success =  m_context->createFor(m_window);
 		if (!success)
 		{
