@@ -10,6 +10,7 @@
 
 namespace sad
 {
+class Renderer;
 
 namespace freetype
 {
@@ -55,11 +56,15 @@ public:
 		\return line spacing
 	 */
 	virtual float builtinLineSpacing() const;
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Destructor
 	 */
 	virtual ~Font();
 private:
 	sad::freetype::FontImpl * m_dptr; //!< A private implementation of font
+	sad::Renderer * m_renderer; //!<  A stored renderer for a font
 };
 
 }

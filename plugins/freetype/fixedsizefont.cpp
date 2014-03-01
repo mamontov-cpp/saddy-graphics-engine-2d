@@ -40,6 +40,25 @@ sad::freetype::FixedSizeFont::~FixedSizeFont()
 	}
 }
 
+void sad::freetype::FixedSizeFont::uploadedTextures(sad::Vector<unsigned int> & textures)
+{
+	for(unsigned int i = 0; i < 256; i++)
+	{
+		if (m_glyphs[i]->Texture.IsOnGPU)
+		{
+			textures << m_glyphs[i]->Texture.Id;
+		}
+	}
+}
+
+void sad::freetype::FixedSizeFont::markTexturesAsUnloaded()
+{
+	for(unsigned int i = 0; i < 256; i++)
+	{
+		m_glyphs[i]->Texture.IsOnGPU = false;
+	}
+}
+
 static sad::Mutex sad_freetype_font_lock;
 
 void sad::freetype::FixedSizeFont::render(

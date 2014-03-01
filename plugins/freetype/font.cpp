@@ -12,7 +12,7 @@
 DECLARE_SOBJ_INHERITANCE(sad::freetype::Font, sad::Font);
 
 sad::freetype::Font::Font()
-: m_dptr(new sad::freetype::FontImpl())
+: m_dptr(new sad::freetype::FontImpl()), m_renderer(NULL)
 {
 
 }
@@ -23,6 +23,7 @@ bool sad::freetype::Font::load(
 		const picojson::value& options
 )
 {
+	m_renderer = r;
 	bool result = load(file.name());
 	if (!result && !util::isAbsolutePath(file.name()))
 	{
@@ -57,8 +58,14 @@ sad::Size2D sad::freetype::Font::size(const sad::String & str)
 	return m_dptr->size(str, m_linespacing_ratio);
 }
 
+void sad::freetype::Font::unloadFromGPU()
+{
+	m_dptr->unload(m_renderer);
+}
+
 sad::freetype::Font::~Font()
 {
+	m_dptr->unload(m_renderer);
 	delete m_dptr;
 }
 
