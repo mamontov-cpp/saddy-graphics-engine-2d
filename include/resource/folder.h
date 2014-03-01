@@ -156,6 +156,9 @@ public:
 		\return resource list
 	 */
 	ResourceEntryList copyAndClear();
+	/*! Forces all resources to unload self from GPU
+	 */
+	void unloadResourcesFromGPU();
 protected: 
 	/*! Navigates to parent folder of resource of folder named fullpath
 		\param[in] path a path to folder or resource

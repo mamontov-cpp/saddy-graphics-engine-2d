@@ -46,6 +46,11 @@ bool sad::resource::Resource::tryLoad(
 	return result;
 }
 
+void sad::resource::Resource::unloadFromGPU()
+{
+
+}
+
 sad::resource::Resource::~Resource()
 {
 	for(size_t i = 0; i < m_links.size(); i++)

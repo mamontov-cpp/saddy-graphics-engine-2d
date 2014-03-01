@@ -268,6 +268,20 @@ sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
 	}
 	return result;
 }
+
+void sad::resource::Folder::unloadResourcesFromGPU()
+{
+	for(sad::resource::ResourceIterator it = this->resourceListBegin(); it != this->resourceListEnd(); it++)
+	{
+		it.value()->unloadFromGPU();
+	}
+
+	for(sad::resource::FolderIterator it = this->folderListBegin(); it != this->folderListEnd(); it++)
+	{
+		it.value()->unloadResourcesFromGPU();
+	}
+}
+
 sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 		const sad::String & path, 
 		bool create,

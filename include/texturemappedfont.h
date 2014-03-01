@@ -81,6 +81,9 @@ public:
 		const sad::String & configfilename,
 		sad::Renderer * r = NULL
 	);
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Returns a builtin line spacing
 		\return line spacing
 	 */

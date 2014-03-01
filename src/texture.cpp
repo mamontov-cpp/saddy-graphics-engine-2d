@@ -4,11 +4,17 @@
 
 #include <renderer.h>
 #include <opengl.h>
+#include <glcontext.h>
 
 #include <os/generatemipmaps30.h>
 
+#include <pipeline/pipeline.h>
+
 #include <resource/physicalfile.h>
+
 #include <util/fs.h>
+#include <util/deletetexturetask.h>
+
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <errno.h>
@@ -31,7 +37,23 @@ sad::Texture::Texture()
 
 sad::Texture::~Texture()
 {
-
+	if (this->renderer())
+	{
+		if (this->renderer()->context()->valid())
+		{
+			if (this->renderer()->isOwnThread())
+			{
+				this->unload();
+			}
+			else
+			{
+				if (this->renderer()->running())
+				{
+					this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
+				}
+			}
+		}
+	}
 }
 
 void sad::Texture::upload()
@@ -112,6 +134,11 @@ void sad::Texture::loadDefaultTexture()
 	Height = 64;
 	for (unsigned int i = 0; i < cnt; i++) 
 		Data << texdata[i]; 
+}
+
+void sad::Texture::unloadFromGPU()
+{
+	this->unload();
 }
 
 bool sad::Texture::load(

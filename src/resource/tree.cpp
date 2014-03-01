@@ -407,3 +407,8 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
 	}
 	return result;
 }
+
+void sad::resource::Tree::unloadResourcesFromGPU()
+{
+	this->root()->unloadResourcesFromGPU();
+}

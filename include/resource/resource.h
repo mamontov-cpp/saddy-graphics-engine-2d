@@ -51,6 +51,9 @@ public:
 		const picojson::value& options = picojson::value(picojson::object_type, false),
 		bool store_links = true
 	);
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Returns true, if resource was referenced
 		\return true if resource is referenced
 	 */
