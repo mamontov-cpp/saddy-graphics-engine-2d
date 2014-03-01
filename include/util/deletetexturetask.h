@@ -5,6 +5,7 @@
 	Used in resources to prevent resource leaks
  */
 #pragma once
+#include "../pipeline/pipelinetask.h"
 
 namespace sad
 {
@@ -16,7 +17,7 @@ namespace util
 	A special kind of task, which could be pushed in Renderer's pipeline to delete all textures in renderer's own thread. 
 	Used in resources to prevent resource leaks
  */
-class DeleteTextureTask
+class DeleteTextureTask: public sad::pipeline::AbstractTask
 {
 public:
 	/*! Creates new task

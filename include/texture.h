@@ -76,6 +76,9 @@ public:
 	/*! Loads default texture, hardcoded inside of engine
 	 */
 	void loadDefaultTexture();
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Loads a texture from specified file, using specified renderer for building mip maps.
 		\param[in] file a file, via which a resource should be loaded
 		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)

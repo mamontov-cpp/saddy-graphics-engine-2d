@@ -339,6 +339,14 @@ bool sad::TextureMappedFont::load(
 	return result;
 }
 
+void sad::TextureMappedFont::unloadFromGPU()
+{
+	if (m_texture)
+	{
+		m_texture->unloadFromGPU();
+	}
+}
+
 float sad::TextureMappedFont::builtinLineSpacing() const
 {
 	return m_builtin_linespacing * m_size_ratio;

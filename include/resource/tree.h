@@ -145,6 +145,9 @@ public:
 	{
 		return root()->resource(name)->as<_ResourceType>();
 	}
+	/*! Forces all resources to unload self from GPU
+	 */
+	void unloadResourcesFromGPU();
 protected: 
 	/*! A loaded files to be stored
 	 */

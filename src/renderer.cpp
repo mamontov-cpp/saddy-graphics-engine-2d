@@ -61,10 +61,28 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 
 sad::Renderer::~Renderer(void)
 {
+	// Force clearing of scenes, so resource links should be preserved
+	for(int i = 0; i < m_scenes.size(); i++)
+	{
+		m_scenes[i]->clear();
+	}
+
 	delete m_primitiverenderer;
 	delete m_cursor;
+	// TODO: Remove
 	delete m_font_manager;
 	delete m_texture_manager;
+
+	// Force freeing resources, to make sure, that pointer to context will be valid, when resource
+	// starting to be freed.
+	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+		it != m_resource_trees.end();
+		it++)
+	{
+		delete it.value();
+	}
+	m_resource_trees.clear();
+
 	delete m_pipeline;
 	delete m_controls;
 	delete m_window;
@@ -73,11 +91,7 @@ sad::Renderer::~Renderer(void)
 	delete m_main_loop;
 	delete m_fps_interpolation; 
 	delete m_log;
-	// Force clearing of scenes, so resource links should be preserved
-	for(int i = 0; i < m_scenes.size(); i++)
-	{
-		m_scenes[i]->clear();
-	}
+	
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -320,7 +334,17 @@ void sad::Renderer::emergencyShutdown()
 {
 	// Unload all textures, because after shutdown context will be lost
 	// and glDeleteTextures could lead to segfault
+	
+	// TOD0: Remove
 	this->textures()->unload();
+	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+		it != m_resource_trees.end();
+		it++)
+	{
+		it.value()->unloadResourcesFromGPU();
+	}
+	
+
 	// Destroy context and window, so nothing could go wrong
 	this->context()->destroy();
 	this->window()->destroy();
