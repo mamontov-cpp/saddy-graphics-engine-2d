@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "../pipeline/pipelinetask.h"
+#include "../sadvector.h"
 
 namespace sad
 {
@@ -24,6 +25,10 @@ public:
 		\param[in] id a new texture task
 	 */
 	DeleteTextureTask(unsigned int id);
+	/*! Creates new task
+		\param[in] ids a list of textures
+	 */
+	DeleteTextureTask(const sad::Vector<unsigned int> ids);
 	/*! Could be inherited
 	 */
 	virtual ~DeleteTextureTask();
@@ -33,7 +38,7 @@ protected:
 	virtual void _process();
 	/*! An ids of textures to be deleted
 	 */
-	unsigned int m_texture_id;
+	sad::Vector<unsigned int> m_texture_ids;
 };
 
 }

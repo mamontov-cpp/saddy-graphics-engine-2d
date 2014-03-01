@@ -9,6 +9,7 @@
 #include <sadstring.h>
 #include <sadsize.h>
 #include <sadpoint.h>
+#include <sadvector.h>
 
 namespace sad
 {
@@ -46,6 +47,12 @@ public:
 	{
 		return m_builtin_linespacing;
 	}	
+	/*! Appends uploaded textures to GPU
+	 */
+	void uploadedTextures(sad::Vector<unsigned int> & textures);
+	/*! Marks textures as unloaded
+	 */
+	void markTexturesAsUnloaded();
 protected:
 	/*! A builtin  linespacing
 	 */

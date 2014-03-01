@@ -14,6 +14,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace freetype
 {
 
@@ -43,6 +45,10 @@ public:
 		const sad::Point2D & p,
 		float ratio
 	); 
+	/*! Unloads a fonts from GPU
+		\param[in] r renderer
+	 */
+	void unload(sad::Renderer * r);
 	/*! Sets a size for font implementation
 		\param[in] size a new size
 	 */
