@@ -275,6 +275,10 @@ public:
 		\param[in] name a name for a tree
 	 */
 	void removeTree(const sad::String & name);
+	/*! Returns true if current thread is renderer's own thread, where it's performs rendering
+		\return whether current thread is renderer's
+	 */
+	bool isOwnThread() const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
