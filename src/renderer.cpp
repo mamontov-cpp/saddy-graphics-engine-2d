@@ -540,6 +540,12 @@ void sad::Renderer::removeTree(const sad::String & name)
 	} 	
 }
 
+
+bool sad::Renderer::isOwnThread() const
+{
+	return ((void*)sad::os::current_thread_id() == m_context_thread);
+}
+
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);

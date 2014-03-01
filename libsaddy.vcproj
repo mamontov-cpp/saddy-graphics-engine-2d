@@ -721,6 +721,10 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\src\util\deletetexturetask.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\util\fs.cpp"
 					>
 				</File>
@@ -1662,6 +1666,10 @@
 			<Filter
 				Name="util"
 				>
+				<File
+					RelativePath=".\include\util\deletetexturetask.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
 					>
