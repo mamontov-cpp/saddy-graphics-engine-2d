@@ -26,6 +26,11 @@ public:
 		\return a  metadata
 	 */
 	sad::ClassMetaData * get(const sad::String & name, bool & created);
+	/*! Returns true if class meta data container contains specified type
+		\param[in] name name of class
+		\return whether meta data is contained in type
+	 */
+	bool contains(const sad::String & name) const;
 	/*! Erases a container
 	 */
 	~ClassMetaDataContainer();

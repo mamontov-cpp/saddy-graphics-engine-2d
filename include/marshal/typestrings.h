@@ -26,7 +26,6 @@ public:
 
 }
 
-
 #define DEFINE_PROPERTY_TYPESTRING( _type )  namespace abstract_names              \
 										     {                                     \
 											                                       \

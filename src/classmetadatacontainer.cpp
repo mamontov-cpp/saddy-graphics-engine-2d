@@ -69,3 +69,7 @@ sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, 
 	return result;
 }
 
+bool sad::ClassMetaDataContainer::contains(const sad::String & name) const
+{
+	return m_container.contains(name);
+}
