@@ -793,16 +793,8 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\src\db\error.cpp"
+					RelativePath=".\src\db\dberror.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\src\db\mappedfield.cpp"
@@ -1795,7 +1787,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\db\error.h"
+					RelativePath=".\include\db\dberror.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbtypename.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\load.h"
 					>
 				</File>
 				<File
@@ -1812,6 +1812,10 @@
 				</File>
 				<File
 					RelativePath=".\include\db\objectfactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\save.h"
 					>
 				</File>
 				<File

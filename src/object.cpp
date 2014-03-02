@@ -1,4 +1,5 @@
 #include "object.h"
+#include "db/dberror.h"
 
 sad::Object::~Object()
 {
@@ -21,6 +22,18 @@ const sad::String & sad::Object::name() const
 	return this->metaData()->name();
 }
 
+picojson::value sad::Object::save() const
+{
+	throw sad::db::NotImplemented("sad::Object::save");
+	return picojson::value();
+}
+
+
+bool sad::Object::load(const picojson::value & v)
+{
+	throw sad::db::NotImplemented("sad::Object::load");
+	return false;	
+}
 
 sad::InvalidCastException::InvalidCastException(const sad::String &fromname, const sad::String &toname)
 {

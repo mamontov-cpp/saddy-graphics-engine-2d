@@ -5,6 +5,8 @@
  */
 #pragma once
 #include "classmetadatacontainer.h"
+#include "db/dbtypename.h"
+#include "3rdparty/picojson/picojson.h"
 
 namespace sad
 {
@@ -24,6 +26,17 @@ class Object
 		 \return name of class
 	  */
 	 virtual const sad::String & name() const;
+	 /*! Can be implemented to provide saving of object to picojson::value
+		 Default implementation throws sad::db::NotImplemented exception.
+		 \return value
+	  */
+	 virtual picojson::value save() const;
+	 /*! Can be implemeted to prodived loading of object to picojson::value
+		 Default implementation throws sad::db::NotImplemented exception.
+		 \param[in] v a value
+		 \return whether loading was successfull
+	  */
+	 virtual bool load(const picojson::value & v);
 	 /*! An object data
 	  */
 	 virtual ~Object();
@@ -151,6 +164,7 @@ public:															\
 	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
  */
 #define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
@@ -178,6 +192,7 @@ const sad::String &  NAMEDCLASS ::name() const  \
 	CASTOBJECT is callback for class metadata to add method for casting to CASTCLASS
  */
 #define DECLARE_SOBJ_INHERITANCE_WITH_CAST(NAMEDCLASS, PARENT, CASTCLASS, CASTMETHOD)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
@@ -211,6 +226,7 @@ const sad::String &  NAMEDCLASS ::name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE2(NAMEDCLASS, PARENT1, PARENT2)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -239,6 +255,7 @@ const sad::String &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE3(NAMEDCLASS, PARENT1, PARENT2, PARENT3) \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -268,6 +285,7 @@ const sad::String &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE4(NAMEDCLASS, PARENT1, PARENT2, PARENT3, PARENT4) \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                          \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \
