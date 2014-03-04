@@ -27,6 +27,31 @@ public:
 	static sad::Maybe<_Type> get(const picojson::value & v);
 };
 
+/*! Tries to converts specific value to char
+ */
+template<>
+class ValueToType<char>
+{
+public:
+	/*! Tries to convert a picojson::value to char
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<char> get(const picojson::value & v)
+	{
+		sad::Maybe<char> result;
+		if (v.is<double>())
+		{
+			double a = v.get<double>();
+			if (a >= -127.000001 && a <= 127.000001)
+			{
+				result.setValue((char)a);
+			}
+		}
+		return result;
+	}
+};
+
 /*! Tries to converts specific value to unsigned char
  */
 template<>
@@ -69,6 +94,49 @@ public:
 		{
 			double a = v.get<double>();
 			result.setValue(a);
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to float
+ */
+template<>
+class ValueToType<float>
+{
+public:
+	/*! Tries to convert a picojson::value to float
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<float> get(const picojson::value & v)
+	{
+		sad::Maybe<float> result;
+		if (v.is<double>())
+		{
+			double a = v.get<double>();
+			result.setValue((float)a);
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to string
+ */
+template<>
+class ValueToType<std::string>
+{
+public:
+	/*! Tries to convert a picojson::value to string
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<std::string> get(const picojson::value & v)
+	{
+		sad::Maybe<std::string> result;
+		if (v.is<std::string>())
+		{
+			result.setValue(v.get<std::string>());
 		}
 		return result;
 	}
@@ -308,6 +376,58 @@ public:
 		return result;
 	}
 };
+
+/*! Creates ValueToType specialization via cast from double fo specified signed type
+ */
+#define CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(TYPE)   \
+template<>                                                     \
+class ValueToType< TYPE >                                      \
+{                                                              \
+public:                                                        \
+	static inline sad::Maybe< TYPE > get(const picojson::value & v)  \
+	{                                                          \
+		sad::Maybe<TYPE> result;                               \
+		if (v.is<double>())                                    \
+		{                                                      \
+			double a = v.get<double>();                        \
+			result.setValue((TYPE) a);                         \
+		}                                                      \
+		return result;                                         \
+	}                                                          \
+};
+
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(short)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(int)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(long)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(long long)
+
+/*! Creates ValueToType specialization via cast from double fo specified unsigned type
+ */
+#define CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(TYPE)   \
+template<>                                                                                 \
+class ValueToType< ##TYPE >                                                                \
+{                                                                                          \
+public:                                                                                    \
+	static inline sad::Maybe< ##TYPE > get(const picojson::value & v)                      \
+	{                                                                                      \
+		sad::Maybe< ##TYPE > result;                                                       \
+		if (v.is<double>())                                                                \
+		{                                                                                  \
+			double a = v.get< double >();                                                  \
+			if (a >= -0.000001)                                                            \
+			{                                                                              \
+				result.setValue((##TYPE) a);                                               \
+			}                                                                              \
+		}                                                                                  \
+		return result;                                                                     \
+	}                                                                                      \
+};
+
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned short)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned int)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned long)
+CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned long long)
+
 /*! Tries to convert picojson::value to type
 	\param[in] v a value, to be converted
 	\return value if any

@@ -76,7 +76,7 @@ protected:
 
 /*! \class InvalidPointer
 
-	Defines that we cannot save an object, because pointer is invalid
+	Defines that we cannot save or load an object, because pointer is invalid
  */
 class InvalidPointer: public sad::db::Error
 {
