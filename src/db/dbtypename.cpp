@@ -7,9 +7,11 @@
 #include "sadcolor.h"
 #include "sadsize.h"
 
+DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
 DECLARE_COMMON_TYPE(unsigned char)
-DECLARE_COMMON_TYPE(bool)
+DECLARE_COMMON_TYPE(short)
+DECLARE_COMMON_TYPE(unsigned short)
 DECLARE_COMMON_TYPE(int)
 DECLARE_COMMON_TYPE(unsigned int)
 DECLARE_COMMON_TYPE(long)
