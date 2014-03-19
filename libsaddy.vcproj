@@ -1783,6 +1783,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbconversiontable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dberror.h"
 					>
 				</File>
