@@ -801,6 +801,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbvariant.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\mappedfield.cpp"
 					>
 					<FileConfiguration
@@ -850,18 +854,6 @@
 				</File>
 				<File
 					RelativePath=".\src\db\table.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\src\db\variant.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1799,6 +1791,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbvariant.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\load.h"
 					>
 				</File>
@@ -1824,10 +1820,6 @@
 				</File>
 				<File
 					RelativePath=".\include\db\table.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\variant.h"
 					>
 				</File>
 				<Filter
