@@ -74,6 +74,28 @@ protected:
 	sad::String m_method;	
 };
 
+/*! \class InvalidPointer
+
+	Defines that we cannot save or load an object, because pointer is invalid
+ */
+class InvalidPointer: public sad::db::Error
+{
+SAD_OBJECT
+public:
+
+	/*! Constructs a error
+		\param[in] method a name of method
+	 */
+	inline InvalidPointer()
+	: sad::db::Error("Pointer to object is invalid, while saving an object")
+	{
+		
+	}
+
+	/*! This class can be inherited 
+	 */
+	virtual ~InvalidPointer();
+};
 }
 
 }

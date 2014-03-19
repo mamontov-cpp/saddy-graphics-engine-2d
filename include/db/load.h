@@ -6,6 +6,7 @@
 #pragma once
 #include "dberror.h"
 #include "dbtypename.h"
+#include "3rdparty/picojson/valuetotype.h"
 #include "../object.h"
 
 namespace sad
@@ -27,6 +28,10 @@ class Load
  */
 static bool perform(void * ptr, const picojson::value & v)
 {
+	if (!ptr)
+	{
+		throw sad::db::InvalidPointer();
+	}
 	if (sad::db::TypeName<_Type>::isSadObject)
 	{
 		return reinterpret_cast<sad::Object *>(ptr)->load(v);
@@ -36,6 +41,46 @@ static bool perform(void * ptr, const picojson::value & v)
 }
 
 };
+
+/*! Declares template load for specified type
+ */
+#define DECLARE_DB_LOAD_FOR_TYPE( TYPE )                         \
+template<>                                                       \
+class Load< ##TYPE >                                             \
+{                                                                \
+static bool perform(void * ptr, const picojson::value & v)       \
+{                                                                \
+	if (!ptr)                                                    \
+		throw sad::db::InvalidPointer();                         \
+	sad::Maybe< ##TYPE >  cast = picojson::to_type< ##TYPE >(v); \
+	if (cast.exists())                                           \
+	{                                                            \
+		*(##TYPE*)ptr = cast.value();                            \
+	}                                                            \
+	return cast.exists();                                        \
+}                                                                \
+};                
+
+DECLARE_DB_LOAD_FOR_TYPE(bool)
+DECLARE_DB_LOAD_FOR_TYPE(char)
+DECLARE_DB_LOAD_FOR_TYPE(unsigned char)
+DECLARE_DB_LOAD_FOR_TYPE(short)
+DECLARE_DB_LOAD_FOR_TYPE(unsigned short)
+DECLARE_DB_LOAD_FOR_TYPE(int)
+DECLARE_DB_LOAD_FOR_TYPE(unsigned int)
+DECLARE_DB_LOAD_FOR_TYPE(long)
+DECLARE_DB_LOAD_FOR_TYPE(unsigned long)
+DECLARE_DB_LOAD_FOR_TYPE(long long)
+DECLARE_DB_LOAD_FOR_TYPE(unsigned long long)
+DECLARE_DB_LOAD_FOR_TYPE(float)
+DECLARE_DB_LOAD_FOR_TYPE(double)
+DECLARE_DB_LOAD_FOR_TYPE(std::string)
+DECLARE_DB_LOAD_FOR_TYPE(sad::String)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Point2D)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Rect2D)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Color)
+DECLARE_DB_LOAD_FOR_TYPE(sad::AColor)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Size2D)
 
 }
 

@@ -797,6 +797,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbtypename.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\mappedfield.cpp"
 					>
 					<FileConfiguration
