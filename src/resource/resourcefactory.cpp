@@ -1,0 +1,65 @@
+#include "resource/resourcefactory.h"
+#include "resource/physicalfile.h"
+#include "resource/textureatlasfile.h"
+
+#include "texture.h"
+#include "texturemappedfont.h"
+#include "sprite2d.h"
+
+sad::resource::Creator::~Creator()
+{
+
+}
+
+sad::resource::Factory::Factory()
+{
+	add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
+	add(sad::TextureMappedFont::globalMetaData()->name(), 
+		new resource::CreatorFor<sad::TextureMappedFont>());
+	add(sad::Sprite2D::Options::globalMetaData()->name(), 
+		new resource::CreatorFor<sad::Sprite2D::Options>());
+}
+
+sad::resource::Factory::~Factory()
+{
+
+}
+
+void sad::resource::Factory::add(const sad::String & name, resource::Creator * c)
+{
+	if (c)
+	{
+		if (m_creators.contains(name))
+		{
+			delete m_creators[name];
+		}
+		m_creators.insert(name, c);
+	}
+}
+
+sad::resource::Resource* sad::resource::Factory::create(const sad::String& name)
+{
+	sad::resource::Resource* result = NULL;
+	if (m_creators.contains(name))
+	{
+		resource::Creator * c = m_creators[name];
+		result = c->create();	
+	}
+	return result;	
+}
+
+sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::String & typehint)
+{
+	if (typehint == "sad::resource::TextureAtlasFile")
+	{
+		return new sad::resource::TextureAtlasFile();
+	}
+	if (typehint == "sad::Texture" 
+		|| typehint == "sad::TextureMappedFont"
+		|| typehint == "sad::freetype::Font")
+	{
+		return new sad::resource::PhysicalFile();
+	}
+	return NULL;
+}
+

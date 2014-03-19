@@ -1,0 +1,4 @@
+[
+	{ "type": "sad::Texture", "bug": "bug"},
+	{ "filename" : "malformed.jpg" }	
+]

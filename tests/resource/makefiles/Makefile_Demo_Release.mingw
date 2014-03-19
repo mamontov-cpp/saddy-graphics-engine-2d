@@ -1,0 +1,50 @@
+
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+PLATFORM = WIN32
+TYPE =  release
+
+EXECUTABLE = tests-resource
+
+ifeq ($(PLATFORM),WIN32)
+INCLUDE += -I"$(FREETYPE_INCLUDE)" -I"$(FREETYPE_INCLUDE)/../" -I"$(FREETYPE_INCLUDE)/freetype/"
+else
+INCLUDE += -I"/usr/include/freetype" -I"/usr/include/freetype2"
+endif
+
+ifeq ($(PLATFORM),WIN32)
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2 -L"$(FREETYPE_LIB)" -lfreetype
+DEFINES  = -DWIN32 -DMINGW
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
+else
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -L/usr/X11R6/lib -lm -lrt -lGL -lGLU -lpthread -lX11 -lfreetype
+DEFINES  = -DUNIX -DLINUX -DGCC
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
+endif
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+BUILD    = build/folder_$(TYPE).o build/main_$(TYPE).o
+all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
+build:
+	mkdir build
+../../lib/libsaddy-$(TYPE).a:
+	echo "You forgot to build a library!"
+$(OUTPUT): build/folder_$(TYPE).o build/main_$(TYPE).o
+	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/folder_$(TYPE).o: folder.cpp
+	g++ -c $(CCOPTS) folder.cpp -o build/folder_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/main_$(TYPE).o: main.cpp
+	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r ".build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean
