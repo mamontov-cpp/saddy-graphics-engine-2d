@@ -38,10 +38,10 @@ template<> sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;        \
 template<> bool sad::db::TypeName< TYPE >::isSadObject  = true;  
 #endif
 
-#ifndef  DECLARE_TYPE_AS_SAD_OBJECT
+#ifndef  DECLARE_COMMON_TYPE
 /*! Declares type compile-time metadata as not a sad::Object descendant
  */
-#define DECLARE_TYPE_AS_SAD_OBJECT(TYPE)                                \
+#define DECLARE_COMMON_TYPE(TYPE)                                \
 template<> sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;        \
 template<> bool sad::db::TypeName< TYPE >::isSadObject  = false;  
 #endif
