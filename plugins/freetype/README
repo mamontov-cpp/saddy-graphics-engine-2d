@@ -1,0 +1,3 @@
+Requirements: 
+Win32: Freetype2 library installed at C:\GnuWin32\. Otherwise, change makefile appropriately
+Linux: Freetype2 library installed.

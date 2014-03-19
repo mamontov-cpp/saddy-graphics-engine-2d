@@ -1,0 +1,4 @@
+This tool automatically generates a texture atlas from a config with some other textures, also
+converts it to config, that can be read by saddy using various tools.
+It needs Ruby with DevIL and REXml installed. To install it, install rubygems.
+You can install them, using gem install devil and gem install rexml.
