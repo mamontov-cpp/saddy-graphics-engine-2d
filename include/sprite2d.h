@@ -348,3 +348,6 @@ protected:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Sprite2D)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Sprite2D::Options)

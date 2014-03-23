@@ -96,6 +96,11 @@ public:
 	 */
 	virtual ~InvalidPointer();
 };
+
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::db::Error)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::db::NotImplemented)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::db::InvalidPointer)
