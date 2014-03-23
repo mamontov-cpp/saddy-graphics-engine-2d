@@ -81,3 +81,6 @@ void sad::db::ConversionTable::freeInstance()
 {
 	delete sad::db::ConversionTable::m_instance;
 }
+
+
+sad::db::ConversionTable* sad::db::ConversionTable::m_instance = NULL;

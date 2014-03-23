@@ -1659,6 +1659,10 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\include\util\commoncheckedcast.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\util\deletetexturetask.h"
 					>
 				</File>

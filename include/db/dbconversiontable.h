@@ -66,6 +66,7 @@ public:
  */
 class ConversionTable
 {
+public:
 	/*! Creates new conversion table
 	 */
 	ConversionTable();
