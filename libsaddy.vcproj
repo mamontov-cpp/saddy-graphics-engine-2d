@@ -793,6 +793,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\db\dbconversiontable.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dberror.cpp"
 					>
 				</File>

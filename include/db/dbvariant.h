@@ -9,7 +9,7 @@
 #pragma once
 #include "../sadstring.h"
 #include "../maybe.h"
-#include "dbtypename.h"
+#include "dbconversiontable.h"
 #include "save.h"
 #include "load.h"
 
@@ -115,12 +115,49 @@ public:
 		\param[in] v new value for variant
 	 */
 	template<typename T>
-	void set(const T & v);
+	void set(const T & v)
+	{
+		release();
+		m_object = new T(v);
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
+		m_typename = sad::db::TypeName<T>::Name;
+		m_copy = sad::db::variant::copy_value<T>;
+		m_delete = sad::db::variant::delete_value<T>;
+		m_save = sad::db:::Save<T>::perform;
+		m_load = sad::db:::Load<T>::perform;
+	}
 	/*! Returns a value for variant
 		\return value or throws exception if cannot cast
 	 */
 	template<typename T>
-	sad::Maybe<T> get();
+	sad::Maybe<T> get()
+	{
+		sad::Maybe<T> result;
+		if (sad::db::TypeName<T>::Name == m_typename)
+		{
+			result.setValue(*((T*)m_object));
+			return result;
+		}
+		if (m_is_sad_object && sad::db::TypeName<T>::isSadObject)
+		{
+			bool created = false;
+			if (sad::ClassMetaDataContainer::ref()->get(m_typename, created) == true)
+			{
+				sad::Object * o = (sad::Object*)m_object;
+				result.setValue(sad::checked_cast<T, sad::Object *>(o));
+			}
+			return result;
+		}
+		sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
+										  ->converter(m_typename, sad::db::TypeName<T>::Name);
+		if (c)
+		{
+			T tmp;
+			c->convert(m_object, &result);
+			result.setValue(tmp);
+		}
+		return result;
+	}
 	/*! Saves a value to JSON value
 		\throw throw sad::db::NotImplemented if not implemented
 		\return a value
