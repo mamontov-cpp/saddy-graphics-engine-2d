@@ -116,3 +116,5 @@ class Bound: public p2d::CollisionShape
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Bound)

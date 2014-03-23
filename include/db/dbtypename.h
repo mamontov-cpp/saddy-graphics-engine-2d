@@ -40,7 +40,7 @@ struct IsSadObject
 
 #ifndef  DECLARE_TYPE_AS_SAD_OBJECT_ENUM             
 #define DECLARE_TYPE_AS_SAD_OBJECT_ENUM(TYPE)        \
-template<> struct IsSadObject< TYPE > { static const int value = true; }; 
+namespace sad { namespace db{ template<> struct IsSadObject< TYPE > { static const int value = true; }; } }; 
 #endif
 
 #ifndef  DECLARE_TYPE_AS_SAD_OBJECT
