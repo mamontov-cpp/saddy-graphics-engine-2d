@@ -26,9 +26,22 @@ public:
 	static bool isSadObject;
 };
 
+template<
+	typename _Type
+>
+struct IsSadObject
+{
+	static const int value = false;
+};
+
 }
 
 }
+
+#ifndef  DECLARE_TYPE_AS_SAD_OBJECT_ENUM             
+#define DECLARE_TYPE_AS_SAD_OBJECT_ENUM(TYPE)        \
+template<> struct IsSadObject< TYPE > { static const int value = true; }; 
+#endif
 
 #ifndef  DECLARE_TYPE_AS_SAD_OBJECT
 /*! Declares type compile-time metadata as sad::Object descendant

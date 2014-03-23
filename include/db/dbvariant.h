@@ -10,6 +10,7 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 #include "dbconversiontable.h"
+#include "../util/commoncheckedcast.h"
 #include "save.h"
 #include "load.h"
 
@@ -105,8 +106,8 @@ public:
 		m_typename = sad::db::TypeName<T>::Name;
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
-		m_save = sad::db:::Save<T>::perform;
-		m_load = sad::db:::Load<T>::perform;
+		m_save = sad::db::Save<T>::perform;
+		m_load = sad::db::Load<T>::perform;
 	}
 	/*! Frees a value from variant
 	 */
@@ -123,8 +124,8 @@ public:
 		m_typename = sad::db::TypeName<T>::Name;
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
-		m_save = sad::db:::Save<T>::perform;
-		m_load = sad::db:::Load<T>::perform;
+		m_save = sad::db::Save<T>::perform;
+		m_load = sad::db::Load<T>::perform;
 	}
 	/*! Returns a value for variant
 		\return value or throws exception if cannot cast
@@ -140,12 +141,11 @@ public:
 		}
 		if (m_is_sad_object && sad::db::TypeName<T>::isSadObject)
 		{
-			bool created = false;
-			if (sad::ClassMetaDataContainer::ref()->get(m_typename, created) == true)
-			{
-				sad::Object * o = (sad::Object*)m_object;
-				result.setValue(sad::checked_cast<T, sad::Object *>(o));
-			}
+			sad::util::CommonCheckedCast<T, sad::db::IsSadObject<T>::value>::perform(
+				result,
+				m_object,
+				m_typename
+			);	
 			return result;
 		}
 		sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
@@ -153,7 +153,7 @@ public:
 		if (c)
 		{
 			T tmp;
-			c->convert(m_object, &result);
+			c->convert(m_object, &tmp);
 			result.setValue(tmp);
 		}
 		return result;
