@@ -23,6 +23,13 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~Property();
+	/*! Sets object for a property
+		\param[in] o object
+	 */
+	inline void setObject(sad::Object * o) 
+	{
+		m_o = o;
+	}
 	/*! Sets a value for a property
 		\param[in] v a variant for property
 		\return whether value is set successfully
@@ -46,10 +53,17 @@ public:
 	/*! Returns a value for property
 		\return value for a property
 	 */
+	template<
+		typename T
+	>
 	sad::Maybe<T> get() const
 	{
 		return getValue().get<T>();
 	}
+protected:
+	/*! Object, which property belongs to
+	 */
+	sad::Object * m_o;
 };
 
 }

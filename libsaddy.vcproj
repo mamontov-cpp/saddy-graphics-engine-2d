@@ -801,6 +801,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbproperty.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbtypename.cpp"
 					>
 				</File>
@@ -1799,10 +1803,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\db\dbproperty.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\include\db\dbproperty.h"
 					>
 				</File>
@@ -1816,14 +1816,6 @@
 				</File>
 				<File
 					RelativePath=".\include\db\load.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\mappedfield.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\mappedproperty.h"
 					>
 				</File>
 				<File
