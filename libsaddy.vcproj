@@ -1799,6 +1799,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbproperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbproperty.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbtypename.h"
 					>
 				</File>
