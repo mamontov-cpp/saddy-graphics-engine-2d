@@ -89,6 +89,8 @@ class InvalidCastException
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Object)
+
 namespace sad 
 {
 /*! Performs a checked cast from one type to another.

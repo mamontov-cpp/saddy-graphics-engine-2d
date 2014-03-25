@@ -534,3 +534,18 @@ sad::String format(
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::Error)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::FileLoadError)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::ResourceLoadError)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::MissingResource)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::ResourceAlreadyExists)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::CannotDeleteReferencedResource)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::UnregisteredFileType)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::UnregisteredResourceType)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::AnonymousResource)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::FileLoadingNotImplemented)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::JSONParseError)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::MalformedResourceEntry)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::EmptyTextureAtlas)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::resource::TreeNotFound)
