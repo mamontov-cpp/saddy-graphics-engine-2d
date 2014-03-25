@@ -813,30 +813,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\db\mappedfield.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\src\db\mappedproperty.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\db\object.cpp"
 					>
 					<FileConfiguration
@@ -1683,11 +1659,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\util\getterproxy.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\util\pointercallback.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\util\sadthreadexecutablefunction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\setterproxy.h"
 					>
 				</File>
 			</Filter>
@@ -1800,6 +1784,14 @@
 				</File>
 				<File
 					RelativePath=".\include\db\dberror.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbfield.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbmethodpair.h"
 					>
 				</File>
 				<File
