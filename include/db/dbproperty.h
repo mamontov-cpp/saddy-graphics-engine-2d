@@ -1,4 +1,4 @@
-/*! \file property.h
+/*! \file dbproperty.h
 	\author HiddenSeeker
 
 	Describes a basic property, which objects are consists of
@@ -26,7 +26,7 @@ public:
 	/*! Sets object for a property
 		\param[in] o object
 	 */
-	inline void setObject(sad::Object * o) 
+	virtual void setObject(sad::Object * o) 
 	{
 		m_o = o;
 	}

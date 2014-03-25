@@ -1,4 +1,4 @@
-/*! \file db/variant.h
+/*! \file dbvariant.h
 	\author HiddenSeeker
 	
 	Contains definition of class Variant, which could be used to
@@ -10,7 +10,7 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 #include "dbconversiontable.h"
-//#include "../util/commoncheckedcast.h"
+#include "../util/commoncheckedcast.h"
 #include "save.h"
 #include "load.h"
 
