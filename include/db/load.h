@@ -20,7 +20,7 @@ template<
 >
 class Load
 {
-
+public:
 /*! Load a value of specified type
 	\param[in] ptr a value to be saved
 	\param[in] v a special value, from which we should load stuff
@@ -48,6 +48,7 @@ static bool perform(void * ptr, const picojson::value & v)
 template<>                                                       \
 class Load< ##TYPE >                                             \
 {                                                                \
+public:                                                          \
 static bool perform(void * ptr, const picojson::value & v)       \
 {                                                                \
 	if (!ptr)                                                    \

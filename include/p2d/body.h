@@ -357,3 +357,4 @@ public:
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Body)
