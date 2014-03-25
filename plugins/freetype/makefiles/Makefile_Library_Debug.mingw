@@ -1,0 +1,49 @@
+INCLUDE= -I../../include
+PLATFORM = WIN32
+
+ifeq ($(PLATFORM),WIN32)
+DEFINES  = -DWIN32 -DMINGW
+INCLUDE  = -I../../include -I"$(FREETYPE_INCLUDE)" -I"$(FREETYPE_INCLUDE)/../" -I"$(FREETYPE_INCLUDE)/freetype/"
+else
+DEFINES  = -DUNIX -DLINUX -DGCC
+INCLUDE = -I../../include -I/usr/include/freetype2/ -I/usr/include/
+endif
+
+TYPE     = debug
+OUTPUT   = ../../lib/libsaddy-ft-debug.a 
+BUILD    = build/nextpoweroftwo_$(TYPE).o build/fixedsizefont_$(TYPE).o build/glyph_$(TYPE).o build/fontimpl_$(TYPE).o build/towidechar_$(TYPE).o build/font_$(TYPE).o build/texture_$(TYPE).o
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+all: build $(OUTPUT)
+build: 
+	mkdir build
+build/nextpoweroftwo_$(TYPE).o: nextpoweroftwo.cpp
+	g++ -c $(CCOPTS) nextpoweroftwo.cpp -o build/nextpoweroftwo_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/fixedsizefont_$(TYPE).o: fixedsizefont.cpp
+	g++ -c $(CCOPTS) fixedsizefont.cpp -o build/fixedsizefont_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/glyph_$(TYPE).o: glyph.cpp
+	g++ -c $(CCOPTS) glyph.cpp -o build/glyph_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/fontimpl_$(TYPE).o: fontimpl.cpp
+	g++ -c $(CCOPTS) fontimpl.cpp -o build/fontimpl_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/towidechar_$(TYPE).o: towidechar.cpp
+	g++ -c $(CCOPTS) towidechar.cpp -o build/towidechar_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/font_$(TYPE).o: font.cpp
+	g++ -c $(CCOPTS) font.cpp -o build/font_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/texture_$(TYPE).o: texture.cpp
+	g++ -c $(CCOPTS) texture.cpp -o build/texture_$(TYPE).o $(INCLUDE) $(DEFINES)
+$(OUTPUT): build/nextpoweroftwo_$(TYPE).o build/fixedsizefont_$(TYPE).o build/glyph_$(TYPE).o build/fontimpl_$(TYPE).o build/towidechar_$(TYPE).o build/font_$(TYPE).o build/texture_$(TYPE).o
+	ar cr  $(OUTPUT)   $(BUILD)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r "build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean

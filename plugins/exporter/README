@@ -1,0 +1,3 @@
+This is tool for automatic creation texture-mapped fonts.
+It needs Qt to be installed to be built.
+Use *.pro file to compile it in Linux or using MinGW

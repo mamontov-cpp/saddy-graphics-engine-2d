@@ -1,0 +1,9 @@
+{
+  "resource": "icons",
+  "file": "tests/icons.png",
+  "atlas": [
+    {
+      "name": "1"
+    }
+  ]
+}

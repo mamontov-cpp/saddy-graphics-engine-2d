@@ -1,0 +1,42 @@
+{
+  "resource": "icons",
+  "file": "icons.png",
+  "atlas": [
+    {
+      "name": "rotate",
+      "size": "16;16",
+      "texrect": "0;16;16;16",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "delete",
+      "size": "16;16",
+      "texrect": "16;16;16;16",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "top",
+      "size": "16;16",
+      "texrect": "0;32;16;16",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "bottom",
+      "size": "16;16",
+      "texrect": "16;32;16;16",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "left",
+      "size": "16;16",
+      "texrect": "0;0;16;16",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "right",
+      "size": "16;16",
+      "texrect": "16;0;16;16",
+      "transparent": "255;255;255"
+    }
+  ]
+}
