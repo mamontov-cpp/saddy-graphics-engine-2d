@@ -57,7 +57,7 @@ public:
 	virtual const sad::db::Variant & getValue() const
 	{
 		assert( m_o );
-		m_tmp.set( (static_cast<_Object*>(m_o)->*m_f) );
+		const_cast<sad::db::Variant&>(m_tmp).set( (static_cast<_Object*>(m_o)->*m_f) );
 		return m_tmp;
 	}
 

@@ -240,7 +240,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName));
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName))
 {
 	return new sad::util::setter::ProxyNCNR<_Object, _FieldTypeName>(f);
 }
@@ -249,7 +249,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName)  const);
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName)  const)
 {
 	return new sad::util::setter::ProxyCNR<_Object, _FieldTypeName>(f);
 }
@@ -258,7 +258,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName &) );
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName &) )
 {
 	return new sad::util::setter::ProxyNCMR<_Object, _FieldTypeName>(f);
 }
@@ -267,7 +267,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName &) const);
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(_FieldTypeName &) const)
 {
 	return new sad::util::setter::ProxyCMR<_Object, _FieldTypeName>(f);
 }
@@ -276,7 +276,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(const _FieldTypeName &));
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(const _FieldTypeName &))
 {
 	return new sad::util::setter::ProxyNCCR<_Object, _FieldTypeName>(f);
 }
@@ -285,7 +285,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(const _FieldTypeName &) const);
+sad::util::setter::Proxy<_Object, _FieldTypeName> * define_setter(void (_Object::*f)(const _FieldTypeName &) const)
 {
 	return new sad::util::setter::ProxyCCR<_Object, _FieldTypeName>(f);
 }

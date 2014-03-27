@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\property.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\variant.cpp"
 				>
 			</File>

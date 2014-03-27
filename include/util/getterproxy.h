@@ -58,7 +58,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o) 
 	{
 		return (o->*m_f)();
 	}
@@ -89,7 +89,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o) 
 	{
 		return (o->*m_f)();
 	}
@@ -121,7 +121,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o)
 	{
 		return (o->*m_f)();
 	}
@@ -152,7 +152,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o)
 	{
 		return (o->*m_f)();
 	}
@@ -183,7 +183,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o)
 	{
 		return (o->*m_f)();
 	}
@@ -214,7 +214,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0
+	virtual _FieldTypeName get(_Object * o) 
 	{
 		return (o->*m_f)();
 	}
@@ -235,7 +235,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName (_Object::*f)());
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName (_Object::*f)())
 {
 	return new sad::util::getter::ProxyNCNR<_Object, _FieldTypeName>(f);
 }
@@ -244,7 +244,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName (_Object::*f)() const);
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName (_Object::*f)() const)
 {
 	return new sad::util::getter::ProxyCNR<_Object, _FieldTypeName>(f);
 }
@@ -253,7 +253,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName & (_Object::*f)());
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName & (_Object::*f)())
 {
 	return new sad::util::getter::ProxyNCMR<_Object, _FieldTypeName>(f);
 }
@@ -262,7 +262,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName & (_Object::*f)() const);
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(_FieldTypeName & (_Object::*f)() const)
 {
 	return new sad::util::getter::ProxyCMR<_Object, _FieldTypeName>(f);
 }
@@ -271,7 +271,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(const _FieldTypeName & (_Object::*f)());
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(const _FieldTypeName & (_Object::*f)())
 {
 	return new sad::util::getter::ProxyNCCR<_Object, _FieldTypeName>(f);
 }
@@ -280,7 +280,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-Proxy<_Object, _FieldTypeName> * define_getter(const _FieldTypeName & (_Object::*f)() const);
+sad::util::getter::Proxy<_Object, _FieldTypeName> * define_getter(const _FieldTypeName & (_Object::*f)() const)
 {
 	return new sad::util::getter::ProxyCCR<_Object, _FieldTypeName>(f);
 }
