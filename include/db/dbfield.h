@@ -64,7 +64,7 @@ public:
 protected:
 	/*! A temporary variant for returning property from field
 	 */
-	sad::Variant m_tmp;
+	sad::db::Variant m_tmp;
 	/*! A field of class
 	 */
 	_FieldTypeName (_Object::*m_f);

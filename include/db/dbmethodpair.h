@@ -22,7 +22,7 @@ template<
 	typename _Object,
 	typename _FieldTypeName
 >
-class MethodPair
+class MethodPair: public sad::db::Property
 {
 public:
 	/*! Setups a pair of methods
@@ -51,23 +51,6 @@ public:
 	{
 		m_getter = sad::util::define_getter<_Object, _FieldTypeName>(g);
 		m_setter = sad::util::define_setter<_Object, _FieldTypeName>(s);
-	}
-
-	/*! Setups a value for a property
-		\param[in] v a variant for property
-		\return whether value is set successfully
-	 */
-	virtual bool setValue(const sad::db::Variant & v)
-	{
-		assert( m_o );
-		sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
-		bool result = false;
-		if (value.exists())
-		{
-			(static_cast<_Object*>(m_o)->*m_f)  = value.value();
-			result = true;
-		}
-		return result;
 	}
 	/*! Sets a value for a property
 		\param[in] v a variant for property
@@ -98,7 +81,7 @@ public:
 protected:
 	/*! A temporary variant for returning property from field
 	 */
-	sad::Variant m_tmp;
+	sad::db::Variant m_tmp;
 	/*! A getter for method pair
 	 */
 	sad::util::getter::Proxy<_Object, _FieldTypeName> * m_getter;
