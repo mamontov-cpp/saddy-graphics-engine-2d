@@ -131,7 +131,7 @@ public:
 		\return value or throws exception if cannot cast
 	 */
 	template<typename T>
-	sad::Maybe<T> get()
+	sad::Maybe<T> get() const
 	{
 		sad::Maybe<T> result;
 		if (sad::db::TypeName<T>::Name == m_typename)
