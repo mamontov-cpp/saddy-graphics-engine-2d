@@ -3,8 +3,8 @@
 
 	A serializable object  that can be easily serialized to stream data
  */
-#include "property.h"
-#include <sadhash.h>
+#include "../db/dbproperty.h"
+#include "../sadhash.h"
 #include "../object.h"
 #pragma once
 
@@ -37,7 +37,7 @@ class SerializableObject: public sad::Object
 {
  SAD_OBJECT
  private:
-		 sad::Hash<sad::String, AbstractProperty *> m_properties; //!< Properties a data
+		 sad::Hash<sad::String, sad::db::Property *> m_properties; //!< Properties a data
 		 SerializableContainer * m_parent; //!< Parent container
  public:
 		/*! Parent container
@@ -52,12 +52,12 @@ class SerializableObject: public sad::Object
 			\param[in] name name of properties
 			\param[in] prop a property
 		 */ 
-	    void addProperty(const sad::String & name, AbstractProperty * prop);
+		void addProperty(const sad::String & name, sad::db::Property * prop);
 		/*! Returns a property if it exists, otherwise null
 			\param[in] name name of property
 			\return property
 		 */
-		AbstractProperty * getProperty(const sad::String & name);
+		sad::db::Property * getProperty(const sad::String & name);
 
 		/*! Saves an object to a single entry
 			\return new object
@@ -67,12 +67,7 @@ class SerializableObject: public sad::Object
 		/*! Loads an object from entry
 			\param[in] entry entry
 		 */
-		virtual void load(SerializationEntry * entry);
-
-
-		/*! Resolves deferred links when loaded
-		 */
-		virtual void resolveDeferred();
+		virtual bool load(SerializationEntry * entry);
 		/*! Returns a string type
 			\return a string type of object
 		 */

@@ -31,11 +31,6 @@ bool serializable::AbstractReader::read(SerializableContainer * container)
 	
 
 	SerializableObject * current = container->begin();
-	while(current)
-	{
-		current->resolveDeferred();
-		current = container->next();
-	}
 
 	this->closeStream();
 	return true;
