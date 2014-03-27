@@ -75,7 +75,7 @@ public:
 	{
 		assert( m_o );
 		_FieldTypeName v = m_getter->get(static_cast<_Object*>(m_o));
-		m_tmp.set( v );
+		const_cast<sad::db::Variant&>(m_tmp).set( v );
 		return m_tmp;
 	}
 protected:
