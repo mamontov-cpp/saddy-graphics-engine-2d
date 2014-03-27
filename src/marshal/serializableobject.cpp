@@ -11,15 +11,15 @@ sad::String SerializableObject::type()
 }
 
 
-void SerializableObject::addProperty(const sad::String & name, AbstractProperty * prop)
+void SerializableObject::addProperty(const sad::String & name, sad::db::Property * prop)
 {
 	assert( !m_properties.contains(name) ); 
-	prop->setParent(this);
+	prop->setObject(this);
 	m_properties.insert(name,prop);
 }
 
 
-AbstractProperty * SerializableObject::getProperty(const sad::String & name)
+sad::db::Property * SerializableObject::getProperty(const sad::String & name)
 {
 	if (m_properties.contains(name))
 		return m_properties[name];
@@ -32,44 +32,42 @@ SerializationEntry * SerializableObject::save()
 
 	SerializationEntry * result = new SerializationEntry();
 	result->Name = this->type();
-	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
-														   it != m_properties.end();it++)
+	for (sad::Hash<sad::String, sad::db::Property *>::iterator it = m_properties.begin();
+														       it != m_properties.end();
+															   it++)
 	{
-		if (it.value()->saveable())
-		{
-		 result->PropertiesName<<it.key();
-		 result->PropertiesValue<<it.value()->save();
-		}
+		result->PropertiesName << it.key();
+		result->PropertiesValue << it.value()->getValue().save().serialize();
 	}
 
 	return result;
 }
 
 
-void SerializableObject::load(SerializationEntry * entry)
+bool SerializableObject::load(SerializationEntry * entry)
 {
 	SL_SCOPE("SerializableObject::load()");
 	assert(entry->Name == this->type());	
+	bool result = true;
 	for (unsigned int i=0;i<entry->PropertiesName.count();i++)
 	{
-		AbstractProperty * pop = this->getProperty(entry->PropertiesName[i]);
-		pop->load(entry->PropertiesValue[i]);
+		sad::db::Property * pop = this->getProperty(entry->PropertiesName[i]);
+		sad::db::Variant v  = pop->getValue();
+		bool ok = v.load(picojson::parse_string(entry->PropertiesValue[i]));
+		if (ok)
+		{
+			pop->setValue(v);
+		}
+		result = result && ok;
 	}
+	return result;
 }
 
-void SerializableObject::resolveDeferred()
-{
-	SL_SCOPE("SerializableObject::resolveDeferred()");
-	for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
-														   it != m_properties.end();it++)
-	{
-	 it.value()->resolveDeferred();
-	}
-}
+
 
 SerializableObject::~SerializableObject()
 {
- for (sad::Hash<sad::String, AbstractProperty *>::iterator it = m_properties.begin();
+	for (sad::Hash<sad::String, sad::db::Property *>::iterator it = m_properties.begin();
 														   it != m_properties.end();it++)
  {
 	 delete it.value();

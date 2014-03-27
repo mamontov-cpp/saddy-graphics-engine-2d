@@ -413,10 +413,6 @@
 				Name="marshal"
 				>
 				<File
-					RelativePath=".\src\marshal\abstractproperty.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\marshal\abstractreader.cpp"
 					>
 				</File>
@@ -438,10 +434,6 @@
 				</File>
 				<File
 					RelativePath=".\src\marshal\serializableobject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\variant.cpp"
 					>
 				</File>
 			</Filter>
@@ -1239,10 +1231,6 @@
 				Name="marshal"
 				>
 				<File
-					RelativePath=".\include\marshal\abstractproperty.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\marshal\abstractreader.h"
 					>
 				</File>
@@ -1255,10 +1243,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\marshal\property.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\marshal\saveloadcallbacks.h"
 					>
 				</File>
@@ -1268,18 +1252,6 @@
 				</File>
 				<File
 					RelativePath=".\include\marshal\serializableobject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\templatemappings.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\typestrings.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\variant.h"
 					>
 				</File>
 			</Filter>
