@@ -63,7 +63,7 @@ public:
 		bool result = false;
 		if (value.exists())
 		{
-			m_setter->set(static_cast<_Object*>(m_o), value.value());
+			m_setter->set(reinterpret_cast<_Object*>(m_o), value.value());
 			result = true;
 		}
 		return result;
@@ -74,7 +74,7 @@ public:
 	virtual const sad::db::Variant & getValue() const
 	{
 		assert( m_o );
-		_FieldTypeName v = m_getter->get(static_cast<_Object*>(m_o));
+		_FieldTypeName v = m_getter->get(reinterpret_cast<_Object*>(m_o));
 		const_cast<sad::db::Variant&>(m_tmp).set( v );
 		return m_tmp;
 	}

@@ -49,12 +49,26 @@ public:
 	{
 		m_active = active;
 	}
-	/*! Returns scene activity flag, which determines, whether it should be rendered
-		\return whether scene is active
+	/*! Returns scene node activity flag, which determines, whether it should be rendered
+		\return whether scene node is active
 	 */
 	inline bool active()
 	{
 		return m_active;
+	}
+	/*! Sets scene visibilty flag, which determines, whether it should be rendered
+		\param[in] visible a visibility flag
+	 */
+	inline void setVisible(bool visible)
+	{
+		m_visible = visible;
+	}
+	/*! Returns scene node visibility flag, which determines, whether it should be rendered
+		\return whether scene node is visible
+	 */
+	inline bool visible()
+	{
+		return m_visible;
 	}
 	/*! Sets cached layer value. If scene is set for node, forces node to set it's layer. 
 		Note, that value will not be preserved, when a layer set after that.
@@ -66,9 +80,13 @@ public:
 	 */
 	unsigned int cachedLayer() const;
 protected:
-	/*! Determines, whether scene is active and should be rendered
+	/*! Determines, whether scene node is active and should be rendered
 	 */
 	bool         m_active;
+	/*! Determines, whether scene node is visible and should be rendererd. It's same as m_active but can be used for different purposes,
+		when object is active, but hidden by somewhere else in chain of responsibility of application.
+	 */ 
+	bool         m_visible;
 	/*! A scene, which node is attached to
 	 */
 	sad::Scene * m_scene;
