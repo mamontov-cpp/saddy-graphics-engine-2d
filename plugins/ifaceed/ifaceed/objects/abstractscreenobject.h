@@ -20,12 +20,9 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 {
  SAD_OBJECT
  protected:
-	/** Whether object is active
+	/*! A unique ID of object in screenTemplate
 	 */
-	bool m_active;
-	/** Whether object is visible
-	 */ 
-	bool m_visible;
+	sad::String m_uid;
 	/** Name of object
 	 */
 	sad::String m_name;
@@ -132,6 +129,14 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 	/*! Deletes a object
 	 */
 	virtual ~AbstractScreenObject();
+	/*! Returns unique ID for an object
+		\return unique id for an object
+	 */
+	const sad::String & uid() const;
+	/*! Sets unique id for an object
+		\param[in] uid unique id
+	 */
+	void setUID(const sad::String & uid);
 	/** Returns a property of screen obejct, handling all problems
 		\param[in] s string
 		\param[in] m_log log, where all messages go
