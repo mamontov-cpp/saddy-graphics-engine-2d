@@ -36,3 +36,22 @@ sad::Renderer * sad::SceneNode::renderer() const
 	}
 	return NULL;
 }
+
+void sad::SceneNode::setCachedLayer(unsigned int layer)
+{
+	m_cached_layer = layer;
+	if (scene())
+	{
+		scene()->setLayer(this, layer);
+	}
+}
+
+unsigned int sad::SceneNode::cachedLayer() const
+{
+	if (scene())
+	{
+		sad::SceneNode * me = const_cast<sad::SceneNode *>(this);
+		me->m_cached_layer = (unsigned int)(scene()->findLayer(me));
+	}
+	return m_cached_layer;
+}

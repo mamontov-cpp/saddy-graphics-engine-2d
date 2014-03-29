@@ -56,6 +56,15 @@ public:
 	{
 		return m_active;
 	}
+	/*! Sets cached layer value. If scene is set for node, forces node to set it's layer. 
+		Note, that value will not be preserved, when a layer set after that.
+		\param[in] layer a layer valye
+	 */
+	void setCachedLayer(unsigned int layer);
+	/*! Returns cached value for scene node, if scene is not set, otherwise returns node.
+		\return cached layer value
+	 */
+	unsigned int cachedLayer() const;
 protected:
 	/*! Determines, whether scene is active and should be rendered
 	 */
@@ -63,6 +72,9 @@ protected:
 	/*! A scene, which node is attached to
 	 */
 	sad::Scene * m_scene;
+	/*! A special layer cache to be set for a scene node
+	 */
+	unsigned int m_cached_layer;
 };
 
 }
