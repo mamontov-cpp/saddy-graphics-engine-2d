@@ -145,19 +145,13 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 	template<typename T> T prop(const sad::String & s, sad::log::Log * m_log) 
 	{
 		#define STRINGCLASS QString
-		AbstractProperty * p = this->getProperty(s);
+		sad::db::Property * p = this->getProperty(s);
 		if (p != NULL)
 		{
-			try 
+			sad::Maybe<T> value = p->get<T>();
+			if (value.exists())
 			{
-				sad::Variant * v = p->get(); 
-				T result = v->get<T>();
-				return result;
-			}
-			catch(std::logic_error ex) 
-			{
-				STRINGCLASS test = (STRINGCLASS("Property \"") +  s.data()) + "\"";
-				SL_DEBUG( test + ex.what());
+				return value.value();
 			}
 		} 
 		else 
@@ -171,7 +165,7 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 	template<typename T> void setProp(const sad::String & s, T val, sad::log::Log * m_log)
 	{
 		#define STRINGCLASS QString
-		AbstractProperty * p = this->getProperty(s);
+		sad::db::Property * p = this->getProperty(s);
 		if (p != NULL)
 		{
 			try 
