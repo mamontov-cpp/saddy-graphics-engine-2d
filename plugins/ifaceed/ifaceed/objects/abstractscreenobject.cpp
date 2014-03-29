@@ -1,9 +1,9 @@
 #include "abstractscreenobject.h"
 #include "screentemplate.h"
-#include "scenelayerproperty.h"
-#include "activityproperty.h"
-#include "visibilityproperty.h"
-#include "uidproperty.h"
+
+#include <db/dbfield.h>
+#include <db/dbmethodpair.h>
+
 #include <unused.h>
 
 DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::SceneNode, SerializableObject)
@@ -12,11 +12,11 @@ AbstractScreenObject::AbstractScreenObject()
 {
 	m_scene = NULL;
 
-	addProperty("name", new MappedField<sad::String>(&m_name, ""));
-	addProperty("layer", new SceneLayerProperty());
-	addProperty("uid", new UidProperty());
-	addProperty("activity", new ActivityProperty(&m_active,true));
-	addProperty("visibility", new VisibilityProperty(&m_visible,true));
+	addProperty("name", new sad::db::Field<AbstractScreenObject, sad::String>(&AbstractScreenObject::m_name));
+	addProperty("layer", new sad::db::MethodPair<AbstractScreenObject, unsigned int>(&AbstractScreenObject::cachedLayer, &AbstractScreenObject::setCachedLayer) );
+	//addProperty("uid", new UidProperty());
+	addProperty("activity", new sad::db::MethodPair<AbstractScreenObject, bool>(&AbstractScreenObject::active, &AbstractScreenObject::setActive) );
+	addProperty("visibility", new sad::db::MethodPair<AbstractScreenObject, bool>(&AbstractScreenObject::visible, &AbstractScreenObject::setVisible) );
 }
 
 AbstractScreenObject::~AbstractScreenObject()

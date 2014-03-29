@@ -3,7 +3,7 @@
 
 DECLARE_SOBJ(sad::SceneNode);
 
-sad::SceneNode::SceneNode() : m_active(true), m_scene(NULL)
+sad::SceneNode::SceneNode() : m_active(true), m_visible(true), m_cached_layer(0), m_scene(NULL)
 {
 
 }

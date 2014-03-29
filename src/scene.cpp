@@ -94,7 +94,7 @@ void sad::Scene::render()
 	);
 #endif
 	  sad::SceneNode * node = m_layers[i];
-	  if (node->active())
+	  if (node->active() && node->visible())
 	  {
 			node->render();
 	  }

@@ -46,7 +46,7 @@ public:
 		bool result = false;
 		if (value.exists())
 		{
-			(static_cast<_Object*>(m_o)->*m_f)  = value.value();
+			(reinterpret_cast<_Object*>(m_o)->*m_f)  = value.value();
 			result = true;
 		}
 		return result;
@@ -57,7 +57,7 @@ public:
 	virtual const sad::db::Variant & getValue() const
 	{
 		assert( m_o );
-		const_cast<sad::db::Variant&>(m_tmp).set( (static_cast<_Object*>(m_o)->*m_f) );
+		const_cast<sad::db::Variant&>(m_tmp).set( (reinterpret_cast<_Object*>(m_o)->*m_f) );
 		return m_tmp;
 	}
 
