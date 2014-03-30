@@ -81,7 +81,7 @@ public:
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::commit") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_current_value, m_log);
-		ob->submitEvent("PropertyChangeCommand::commit", sad::Variant(0));
+		ob->submitEvent("PropertyChangeCommand::commit", sad::db::Variant(0));
 	}
 	/*! Rollbacks a command
 		\param[in] c context
@@ -91,7 +91,7 @@ public:
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::rollback") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_prev_value, m_log);
-		ob->submitEvent("PropertyChangeCommand::rollback", sad::Variant(0));
+		ob->submitEvent("PropertyChangeCommand::rollback", sad::db::Variant(0));
 	}
 
 

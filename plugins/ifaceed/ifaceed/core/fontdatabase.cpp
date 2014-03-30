@@ -102,11 +102,7 @@ IFaceEditorFontList::IFaceEditorFontList()
 
 IFaceEditorFontList::~IFaceEditorFontList()
 {
-	for(IFaceEditorFontsMap::iterator it = m_map.begin(); it!= m_map.end(); it++) 
-	{
-		delete it.value();
-	}
-	delete m_manager;
+	//delete m_manager;
 }
 
 bool IFaceEditorFontList::hasFont(const QString & fontName)

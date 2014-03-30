@@ -16,16 +16,16 @@ void NewCommand::commit(CommandChangeObserver * ob)
 {
 	SL_SCOPE("NewCommand::commit");
 	m_container->add(m_object);
-	m_object->getProperty("activity")->set(sad::Variant(true));
-	ob->submitEvent("NewCommand::commit", sad::Variant(0));
+	m_object->getProperty("activity")->set(sad::db::Variant(true));
+	ob->submitEvent("NewCommand::commit", sad::db::Variant(0));
 }
 
 void NewCommand::rollback(CommandChangeObserver * ob)
 {
 	SL_SCOPE("NewCommand::rollback");
 	m_container->remove(m_object);
-	m_object->getProperty("activity")->set(sad::Variant(false));
-	ob->submitEvent("NewCommand::rollback", sad::Variant(0));
+	m_object->getProperty("activity")->set(sad::db::Variant(false));
+	ob->submitEvent("NewCommand::rollback", sad::db::Variant(0));
 }
 
 NewCommand::~NewCommand()
@@ -66,7 +66,7 @@ void ScreenClearCommand::commit(CommandChangeObserver * ob)
 		m_container->remove(m_objects[i]);
 		m_objects[i]->setProp<bool>("activity", false, sad::log::Log::ref());
 	}
-	ob->submitEvent("ScreenClearCommand::commit", sad::Variant(0));
+	ob->submitEvent("ScreenClearCommand::commit", sad::db::Variant(0));
 
 }
 
@@ -78,6 +78,6 @@ void ScreenClearCommand::rollback(CommandChangeObserver * ob)
 		m_container->add(m_objects[i]);
 		m_objects[i]->setProp<bool>("activity", true, sad::log::Log::ref());
 	}
-	ob->submitEvent("ScreenClearCommand::rollback", sad::Variant(0));
+	ob->submitEvent("ScreenClearCommand::rollback", sad::db::Variant(0));
 
 }

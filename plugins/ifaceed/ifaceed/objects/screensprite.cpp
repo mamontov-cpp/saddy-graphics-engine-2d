@@ -11,63 +11,31 @@
 DECLARE_SOBJ_INHERITANCE(ScreenSprite, AbstractScreenObject);
 
 
-class SpritePropertyListener: public PropertyListener<sad::Rect2D>,  public PropertyListener<float>
-{
-private:
-	ScreenSprite * m_sprite;
-public:
-	inline SpritePropertyListener() {}
-	inline void setSprite(ScreenSprite * sprite) { m_sprite = sprite; }
-
-	virtual void notify(const sad::Rect2D & data)
-	{
-		sad::Sprite2DConfigObserver * o = m_sprite->observer();
-		if (o)
-		{
-			m_sprite->observer()->sprite()->setRenderableArea(data);
-		}
-	}
-	virtual void notify(const float & data)
-	{
-		sad::Sprite2DConfigObserver * o = m_sprite->observer();
-		if (o)
-		{
-			sad::Sprite2D * c = o->sprite();
-			c->rotate(data - c->angle()); 
-		}
-	}
-};
-
 ScreenSprite::ScreenSprite()
+: m_color(255, 255, 255), 
+m_alpha(0),
+m_index(0), 
+m_rect(sad::Rect2D(sad::Point2D(0,0), sad::Point2D(128,128))),
+m_angle(0.0f)
 {
 	m_observer = NULL;
 	
-	m_rect_listener = new SpritePropertyListener();
-	m_rect_listener->setSprite(this);
-	
-	m_angle_listener = new SpritePropertyListener();
-	m_angle_listener->setSprite(this);
+	this->addProperty("color",new sad::db::Field<ScreenSprite, sad::Color>(&ScreenSprite::m_color));
+	this->addProperty("alpha",new sad::db::Field<ScreenSprite, int>(&ScreenSprite::m_alpha));
 
-	this->addProperty("color",new MappedField<sad::Color>(&m_color, sad::Color(255,255,255)));
-	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
-
-	this->addProperty("config" ,new MappedField<sad::String>(&m_config, ""));
-	this->addProperty("group" ,new MappedField<sad::String>(&m_group, ""));
-	this->addProperty("index" ,new MappedField<int>(&m_index, 0));
+	this->addProperty("config",new sad::db::Field<ScreenSprite, sad::String>(&ScreenSprite::m_config));
+	this->addProperty("group" ,new sad::db::Field<ScreenSprite, sad::String>(&ScreenSprite::m_group));
+	this->addProperty("index" ,new sad::db::Field<ScreenSprite, int>(&ScreenSprite::m_index));
 	
-	MappedField<sad::Rect2D> * hr = new MappedField<sad::Rect2D>(&m_rect, sad::Rect2D(sad::Point2D(0,0), sad::Point2D(128,128)));
-	hr->setListener(m_rect_listener);
+	sad::db::Field<ScreenSprite, sad::Rect2D> * hr = new sad::db::Field<ScreenSprite, sad::Rect2D>(&ScreenSprite::m_rect);
 	this->addProperty("rect" , hr);
-	MappedField<float> * fr =  new MappedField<float>(&m_angle, 0.0f);
-	fr->setListener(m_angle_listener);
+	sad::db::Field<ScreenSprite, float> * fr =  new sad::db::Field<ScreenSprite, float>(&ScreenSprite::m_angle);
 	this->addProperty("angle", fr);
 }
 
 
 ScreenSprite::~ScreenSprite()
 {
-	delete  m_rect_listener;
-	delete  m_angle_listener;
 	delete m_observer;
 }
 

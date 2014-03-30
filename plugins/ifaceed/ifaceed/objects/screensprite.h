@@ -8,20 +8,11 @@
 #include <config/sprite2dobserver.h>
 #pragma once
 
-class SpritePropertyListener;
 
 class ScreenSprite: public AbstractScreenObject 
 {
-friend class SpritePropertyListener;
 SAD_OBJECT
 protected:
-	/** A rect listener
-	 */
-	SpritePropertyListener * m_rect_listener;
-	/** An angle listener
-	 */
-	SpritePropertyListener * m_angle_listener;
-
 	/*! A color to work with
 	 */
 	sad::Color  m_color;

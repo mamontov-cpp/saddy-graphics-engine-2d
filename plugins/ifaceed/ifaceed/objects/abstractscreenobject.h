@@ -6,6 +6,7 @@
 #include <log/log.h>
 #include "scene.h"
 #include "marshal/serializableobject.h"
+#include "db/dbfield.h"
 #include "sadpoint.h"
 #include <QString>
 #pragma once
@@ -38,7 +39,7 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
     AbstractScreenObject();
 	/** Returns parent object of template
 	 */
-	ScreenTemplate * screenTemplate();
+	ScreenTemplate * screenTemplate() const;
 	/*! Returns interlocked scene as needed
 		\return interlocked scene
 	 */
@@ -47,34 +48,6 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 		if (this->sad::SceneNode::scene() == NULL)
 			return NULL;
 		return reinterpret_cast<InterlockedScene *>(this->sad::SceneNode::scene());
-	}
-	/*! Whether object is active
-		\return object is active
-	 */
-	inline bool active() 
-	{
-		return m_active;
-	}
-	/*! Whether object is visible
-		\return object visible
-	 */
-	inline bool visible() 
-	{
-		return m_visible;
-	}
-	/*! Sets activity of object
-		\param[in] a activity
-	 */
-	inline void setActive(bool a) 
-	{
-		m_active = a;
-	}
-	/*! Sets visibility of object
-		\param[in] a activity
-	 */
-	inline void setVisible(bool a) 
-	{
-		m_visible = a;
 	}
 	/*! Whether we can rotate object
 	 */

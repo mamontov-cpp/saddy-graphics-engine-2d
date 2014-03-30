@@ -376,7 +376,7 @@ void IFaceEditor::tryEraseObject()
 	}
 }
 
-void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::Variant & v)
+void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::db::Variant & v)
 {
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * me; )

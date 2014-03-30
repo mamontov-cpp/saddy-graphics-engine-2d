@@ -42,14 +42,14 @@ void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	float a = o->getProperty("angle")->get()->get<float>();
+	float a = o->getProperty("angle")->get<float>().value();
 	a+=dangle;
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; float angle; )
 	CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); )
 	INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 	SUBMITCLOSURE( ed->emitClosure );
-	o->getProperty("angle")->set(sad::Variant((float)a));
+	o->getProperty("angle")->set(sad::db::Variant((float)a));
 }
 
 

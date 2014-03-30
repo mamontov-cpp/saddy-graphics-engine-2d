@@ -131,7 +131,7 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	virtual void tryEraseObject();
 	/** Updates a list from event
 	 */
-	virtual void submitEvent(const sad::String & eventType, const sad::Variant & v);
+	virtual void submitEvent(const sad::String & eventType, const sad::db::Variant & v);
 	/** Appends a rotation command to a history
 		Used for deferred rotation appendance
 	 */
