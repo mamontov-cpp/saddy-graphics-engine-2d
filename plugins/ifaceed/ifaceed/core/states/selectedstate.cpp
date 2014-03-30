@@ -84,7 +84,7 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 	{
 		float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 		MainPanel * p = ed->panel();
-		float a = o->getProperty("angle")->get()->get<float>();
+		float a = o->getProperty("angle")->get<float>().value();
 		a+=dangle;
 		CLOSURE
 		CLOSURE_DATA( MainPanel * p; float angle; )
@@ -203,7 +203,7 @@ void SelectedState::enter()
 {
 	IFaceEditor * ed = this->editor();
     //AbstractScreenObject * o = this->shdata()->selectedObject();
-	ed->submitEvent("selected_enter", sad::Variant(0));
+	ed->submitEvent("selected_enter", sad::db::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
 	CLOSURE
 	CLOSURE_DATA( IFaceEditor * e; )
@@ -216,7 +216,7 @@ void SelectedState::leave()
 {
 	IFaceEditor * ed = this->editor();
     //AbstractScreenObject * o = this->shdata()->selectedObject();
-	ed->submitEvent("selected_enter", sad::Variant(0));
+	ed->submitEvent("selected_enter", sad::db::Variant(0));
 }
 
 

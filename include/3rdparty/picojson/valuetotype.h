@@ -27,6 +27,33 @@ public:
 	static sad::Maybe<_Type> get(const picojson::value & v);
 };
 
+/*! Tries to converts specific value to bool
+ */
+template<>
+class ValueToType<bool>
+{
+public:
+	/*! Tries to convert a picojson::value to char
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<bool> get(const picojson::value & v)
+	{
+		sad::Maybe<bool> result;
+		if (v.is<bool>())
+		{
+			bool b = v.get<bool>();
+			result.setValue(b);
+		}
+		if (v.is<double>())
+		{
+			double a = v.get<double>();
+			result.setValue(a > 1.0E-6 || a < -1.0E-6);
+		}
+		return result;
+	}
+};
+
 /*! Tries to converts specific value to char
  */
 template<>

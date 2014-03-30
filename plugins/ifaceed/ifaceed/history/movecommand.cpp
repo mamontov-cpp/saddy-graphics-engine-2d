@@ -20,13 +20,13 @@ MoveCommand::~MoveCommand()
 void MoveCommand::commit(CommandChangeObserver * ob )
 {
 	m_object->moveCenterTo(m_new_point);
-	ob->submitEvent("MoveCommand::commit", sad::Variant(0));
+	ob->submitEvent("MoveCommand::commit", sad::db::Variant(0));
 }
 
 void MoveCommand::rollback(CommandChangeObserver * ob)
 {
 	m_object->moveCenterTo(m_old_point);
-	ob->submitEvent("MoveCommand::rollback", sad::Variant(0));
+	ob->submitEvent("MoveCommand::rollback", sad::db::Variant(0));
 }
 
 
@@ -49,13 +49,13 @@ ResizeCommand::~ResizeCommand()
 void ResizeCommand::commit(CommandChangeObserver * ob )
 {
 	m_object->setRotatedRectangle(m_new_rect, m_angle);
-	ob->submitEvent("ResizeCommand::commit", sad::Variant(0));
+	ob->submitEvent("ResizeCommand::commit", sad::db::Variant(0));
 }
 
 void ResizeCommand::rollback(CommandChangeObserver * ob)
 {
 	m_object->setRotatedRectangle(m_old_rect, m_angle);
-	ob->submitEvent("ResizeCommand::rollback", sad::Variant(0));
+	ob->submitEvent("ResizeCommand::rollback", sad::db::Variant(0));
 }
 
 
@@ -73,7 +73,7 @@ void MakeBackgroundCommand::commit(CommandChangeObserver * ob )
 	m_o->setProp<unsigned int>("layer", 0, sad::log::Log::ref());
 	m_o->setProp<float>("angle", 0.0f, sad::log::Log::ref());
 	m_o->setProp<sad::Rect2D>("rect", sad::Rect2D(sad::Point2D(0,0), sad::Point2D(WINDOW_WIDTH, WINDOW_HEIGHT)), sad::log::Log::ref());	
-	ob->submitEvent("MakeBackgroundCommand::commit", sad::Variant(0));
+	ob->submitEvent("MakeBackgroundCommand::commit", sad::db::Variant(0));
 }
 
 void MakeBackgroundCommand::rollback(CommandChangeObserver * ob )
@@ -82,7 +82,7 @@ void MakeBackgroundCommand::rollback(CommandChangeObserver * ob )
 	m_o->setProp<float>("angle", m_angle, sad::log::Log::ref());	
 	m_o->setProp<unsigned int>("layer", m_layer, sad::log::Log::ref());	
 	
-	ob->submitEvent("MakeBackgroundCommand::rollback", sad::Variant(0));
+	ob->submitEvent("MakeBackgroundCommand::rollback", sad::db::Variant(0));
 }
 
 

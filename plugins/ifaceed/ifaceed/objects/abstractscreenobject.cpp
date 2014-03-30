@@ -14,7 +14,7 @@ AbstractScreenObject::AbstractScreenObject()
 
 	addProperty("name", new sad::db::Field<AbstractScreenObject, sad::String>(&AbstractScreenObject::m_name));
 	addProperty("layer", new sad::db::MethodPair<AbstractScreenObject, unsigned int>(&AbstractScreenObject::cachedLayer, &AbstractScreenObject::setCachedLayer) );
-	//addProperty("uid", new UidProperty());
+	addProperty("uid", new sad::db::MethodPair<AbstractScreenObject, sad::String>(&AbstractScreenObject::uid, &AbstractScreenObject::setUID) );
 	addProperty("activity", new sad::db::MethodPair<AbstractScreenObject, bool>(&AbstractScreenObject::active, &AbstractScreenObject::setActive) );
 	addProperty("visibility", new sad::db::MethodPair<AbstractScreenObject, bool>(&AbstractScreenObject::visible, &AbstractScreenObject::setVisible) );
 }
@@ -23,14 +23,31 @@ AbstractScreenObject::~AbstractScreenObject()
 {
 }
 
+const sad::String & AbstractScreenObject::uid() const
+{
+	if (this->screenTemplate()) 
+	{
+		AbstractScreenObject * me = const_cast<AbstractScreenObject*>(this);
+		me->m_uid = this->screenTemplate()->uid(me);	 
+	}
+	return m_uid;
+}
+
+void AbstractScreenObject::setUID(const sad::String & uid)
+{
+	this->m_uid = uid;
+	if (this->screenTemplate())
+	{
+		this->screenTemplate()->setUid(this, m_uid);
+	}
+}
 
 void AbstractScreenObject::render()
 {
-	if (m_active && m_visible)
-		_render();
+	_render();
 }
 
-ScreenTemplate * AbstractScreenObject::screenTemplate()
+ScreenTemplate * AbstractScreenObject::screenTemplate() const
 {
 	SerializableContainer * parent = this->parent();
 	if (!parent)

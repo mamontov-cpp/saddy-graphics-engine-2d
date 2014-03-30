@@ -12,7 +12,7 @@
 #include "sadstring.h"
 #include "gui/spritewidget/qspritetablewidget.h"
 #include "gui/objectlist.h"
-#include <marshal/variant.h>
+#include <db/dbvariant.h>
 #pragma once
 
 

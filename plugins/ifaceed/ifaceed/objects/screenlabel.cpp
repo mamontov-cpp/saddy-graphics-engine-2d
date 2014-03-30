@@ -17,17 +17,18 @@
 
 DECLARE_SOBJ_INHERITANCE(ScreenLabel, AbstractScreenObject);
 
-ScreenLabel::ScreenLabel() : AbstractScreenObject()
+ScreenLabel::ScreenLabel() : AbstractScreenObject(),
+m_font_size(0), m_angle(0), m_alpha(0)
 {
 	m_font = NULL;
 
-	this->addProperty("font" ,new MappedField<sad::String>(&m_font_name, ""));
-	this->addProperty("size" ,new MappedField<unsigned int>(&m_font_size, 0));
-	this->addProperty("color",new MappedField<sad::Color>(&m_font_color, sad::Color(0,0,0)));
-	this->addProperty("text" ,new MappedField<sad::String>(&m_text, ""));
-	this->addProperty("angle",new MappedField<float>(&m_angle, 0.0f));
-	this->addProperty("pos"  ,new MappedField<sad::Point2D>(&m_point, sad::Point2D(0,0)));
-	this->addProperty("alpha"  ,new MappedField<int>(&m_alpha, 0));
+	this->addProperty("font" ,new sad::db::Field<ScreenLabel, sad::String>(&ScreenLabel::m_font_name));
+	this->addProperty("size" ,new sad::db::Field<ScreenLabel, unsigned int>(&ScreenLabel::m_font_size));
+	this->addProperty("color",new sad::db::Field<ScreenLabel, sad::Color>(&ScreenLabel::m_font_color));
+	this->addProperty("text" ,new sad::db::Field<ScreenLabel, sad::String>(&ScreenLabel::m_text));
+	this->addProperty("angle",new sad::db::Field<ScreenLabel, float>(&ScreenLabel::m_angle));
+	this->addProperty("pos"  ,new sad::db::Field<ScreenLabel, sad::Point2D>(&ScreenLabel::m_point));
+	this->addProperty("alpha",new sad::db::Field<ScreenLabel, int>(&ScreenLabel::m_alpha));
 
 }
 
