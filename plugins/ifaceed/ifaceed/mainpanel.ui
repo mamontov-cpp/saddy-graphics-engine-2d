@@ -6,17 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>597</height>
+    <width>545</width>
+    <height>850</height>
    </rect>
   </property>
   <property name="minimumSize">
-   <size>
-    <width>500</width>
-    <height>597</height>
-   </size>
-  </property>
-  <property name="maximumSize">
    <size>
     <width>500</width>
     <height>597</height>
@@ -645,9 +639,50 @@ sprite (ignores an angle)</string>
      </layout>
     </widget>
    </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>600</y>
+      <width>361</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Tab 1</string>
+     </attribute>
+     <widget class="ResourceTreeWidget" name="widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>341</width>
+        <height>181</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Tab 2</string>
+     </attribute>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ResourceTreeWidget</class>
+   <extends>QWidget</extends>
+   <header>resourcetreewidget/resourcetreewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="mainpanel.qrc"/>
  </resources>
