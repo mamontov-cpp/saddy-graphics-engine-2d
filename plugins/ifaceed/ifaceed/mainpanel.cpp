@@ -141,6 +141,9 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 
 void MainPanel::synchronizeDatabase()
 {
+	ui.rtwSpriteTree->update();
+	// TODO: Erase when not needed
+	/*
 	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
 	bool oldspritestate = m_spriteTableWidget->blockSignals(true);
 
@@ -163,11 +166,7 @@ void MainPanel::synchronizeDatabase()
 
 	ui.cmbFonts->blockSignals(oldfontsstate);
 	m_spriteTableWidget->blockSignals(oldspritestate);
-}
-
-void MainPanel::updateResourceTrees()
-{
-	ui.rtwSpriteTree->update();
+	*/
 }
 
 void MainPanel::addNewFontColor()

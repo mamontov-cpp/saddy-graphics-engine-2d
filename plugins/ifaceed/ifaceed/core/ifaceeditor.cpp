@@ -23,7 +23,8 @@
 #include <QTimer>
 #include "objectxmlreader.h"
 #include "sceneaddingtask.h"
-
+#include <renderer.h>
+#include <resource/tree.h>
 
 
 IFaceEditor::IFaceEditor()
@@ -178,7 +179,20 @@ class DBLoadingTask: public sad::pipeline::AbstractTask
 };
 
 
-
+void IFaceEditor::reportResourceLoadingErrors(
+		sad::Vector<sad::resource::Error *> & errors,
+		const sad::String& configname
+)
+{
+	sad::String errorlist = sad::resource::format(errors);
+	sad::String resultmessage = "There was errors while loading ";
+	resultmessage += configname;
+	resultmessage += ":\n";
+	resultmessage += errorlist;
+	sad::util::free(errors);
+	SL_FATAL(resultmessage);
+	QTimer::singleShot(0, this->panel(), SLOT(close()));
+}
 
 void IFaceEditor::onFullAppStart()
 {
@@ -199,38 +213,29 @@ void IFaceEditor::onFullAppStart()
 		}
 	}
 	bool success = true;
+	sad::resource::Tree * resourcetree = new sad::resource::Tree();
+	resourcetree->factory()->registerResource<sad::freetype::Font>();
+	resourcetree->setStoreLinks(true);
+	
+	sad::Renderer * renderer = sad::Renderer::ref();
+	renderer->addTree("resources", resourcetree);
+	sad::Vector<sad::resource::Error *> errors = resourcetree->loadFromFile("resources/resources.json");
+	if (errors.count())
+	{
+		reportResourceLoadingErrors(errors, "resources.json");
+		return;
+	}
+
 	// Load first stage - a maps of handling all of data
-	FontTemplatesMaps maps;
-	if (maps.load(this->parsedArgs()->single("ifaceconfig").value().data(), sad::log::Log::ref()))
+	sad::String configname = this->parsedArgs()->single("ifaceconfig").value();
+	renderer->tree()->factory()->registerResource<sad::freetype::Font>();
+	errors = renderer->tree()->loadFromFile(configname);
+	if (errors.count())
 	{
-		FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);
-		
-		
-		DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-		DBLoadingTask * task = new DBLoadingTask(&maps,db,future,this->log());
-		// Locking rendering due to adding of new task
-		this->lockRendering();
-		sad::Renderer::ref()->pipeline()->append(task);
-		this->unlockRendering();
-		
-		if (future->result())
-		{
-			this->setDatabase(db);
-		}
-		else
-		{
-			success = false;
-			QTimer::singleShot(0, this->panel(), SLOT(close()));
-			delete db;
-		}
-		delete future;
-	}
-	else 
-	{
+		reportResourceLoadingErrors(errors, "config");
 		success = false;
-		SL_FATAL("Can\'t load config file");
-		QTimer::singleShot(0, this->panel(), SLOT(close()));
 	}
+	
 	if (success) {
 		this->panel()->setEditor(this);
 		this->panel()->synchronizeDatabase();

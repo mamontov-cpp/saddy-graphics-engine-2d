@@ -95,9 +95,6 @@ public:
 	inline Ui::MainPanelClass * myUI() { return &ui; }
 
 	void updateObjectStats(AbstractScreenObject * o);
-	/*! Updates resource tree for main panel
-	 */
-	void updateResourceTrees();
 private:
 	Ui::MainPanelClass ui;         //!< UI
 	IFaceEditor    *   m_editor;   //!< Editor to work with
