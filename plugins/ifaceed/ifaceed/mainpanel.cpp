@@ -141,7 +141,7 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 
 void MainPanel::synchronizeDatabase()
 {
-	ui.rtwSpriteTree->update();
+	ui.rtwSpriteTree->updateTree();
 	// TODO: Erase when not needed
 	/*
 	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
