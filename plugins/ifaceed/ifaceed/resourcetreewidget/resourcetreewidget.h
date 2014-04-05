@@ -8,6 +8,8 @@
 #include <QTreeWidget>
 #include <QTableWidget>
 
+#include <resource/folder.h>
+
 class ResourceTreeWidget: public QWidget
 {
 	Q_OBJECT
@@ -34,26 +36,23 @@ public:
 	const QString & tree() const;
 	/*! Updates a resource tree widget
 	 */
-	virtual void update();
+	virtual void updateTree();
 protected slots:
 	/*! Activated, when tree picked item is changed
 		\param[in] current new item
 		\param[in] previous previous item
 	 */
-	void  treeItemChanges(QTreeWidgetItem * current, QTreeWidgetItem * previous);
+	void  treeItemChanged(QTreeWidgetItem * current, QTreeWidgetItem * previous);
 protected:
-	/*! A widget to view a tree, from a renderer of resources
-	 */ 
-	QTreeWidget  * m_tree_view;
-	/*! A widget to view elements of specific tree folder
+	void populateTree(
+		QTreeWidgetItem * parentitem, 
+		sad::resource::Folder * parentfolder
+	);
+	/*! Returns seletected folder for item
+		\param[in] item item to be selected
+		\return value
 	 */
-	QTableWidget * m_element_view;
-	/*! A spacing between two widget
-	 */
-	double m_padding;
-	/*! A name for a tree, which is being displayed in widget
-	 */
-	QString m_tree_name;
+	sad::Maybe<sad::String> selectedFolder(QTreeWidgetItem * item);
 	/*! Handles resize, resizing elements
 		\param[in] e event
 	 */
@@ -66,4 +65,17 @@ protected:
 		\param[in] r a rectangle
 	 */
 	void resizeWidgets(const QRect & r);
+
+	/*! A widget to view a tree, from a renderer of resources
+	 */ 
+	QTreeWidget  * m_tree_view;
+	/*! A widget to view elements of specific tree folder
+	 */
+	QTableWidget * m_element_view;
+	/*! A spacing between two widget
+	 */
+	double m_padding;
+	/*! A name for a tree, which is being displayed in widget
+	 */
+	QString m_tree_name;
 };

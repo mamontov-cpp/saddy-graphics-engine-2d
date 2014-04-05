@@ -13,7 +13,7 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 
 	resizeWidgets(this->geometry());
 
-	connect(m_tree_view, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(treeItemChanges(QTreeWidgetItem*, QTreeWidgetItem*)));
+	connect(m_tree_view, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(treeItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
 }
 
 ResourceTreeWidget::~ResourceTreeWidget()
@@ -43,17 +43,70 @@ const QString & ResourceTreeWidget::tree() const
 	return m_tree_name;
 }
 
-void ResourceTreeWidget::update()
+void ResourceTreeWidget::updateTree()
 {
-	this->QWidget::update();	
+	m_tree_view->clear();
+	m_element_view->clear();
+
+	QTreeWidgetItem * root = new QTreeWidgetItem(QStringList("/"));
+	m_tree_view->addTopLevelItem(root);
+
+	sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+	if (tree)
+	{
+		sad::resource::Folder * folderroot = tree->root();
+		populateTree(root, folderroot);
+	}
 }
 
-void	ResourceTreeWidget::treeItemChanges(
+void	ResourceTreeWidget::treeItemChanged(
 	QTreeWidgetItem * current, 
 	QTreeWidgetItem * previous
 )
 {
-	QMessageBox::warning(NULL, "1", "2");
+	if (current)
+	{
+		sad::Maybe<sad::String> v = selectedFolder(current);
+		if (v.exists())
+		{
+			QMessageBox::warning(NULL, "1", v.value().c_str());
+		}
+	}
+	
+}
+
+sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * item)
+{
+	sad::Maybe<sad::String> value;
+	if (item)
+	{
+		QStringList treepath;
+		while(item)
+		{
+			treepath << item->text(0);
+			item = item->parent();
+		}
+		treepath.removeAt(treepath.size() - 1);
+		std::reverse(treepath.begin(), treepath.end());
+		sad::String path = treepath.join("/").toStdString();
+		value.setValue(path);
+	}
+	return value;
+}
+
+void ResourceTreeWidget::populateTree(
+		QTreeWidgetItem * parentitem, 
+		sad::resource::Folder * parentfolder
+)
+{
+	sad::resource::FolderIterator it = parentfolder->folderListBegin();
+	while(it != parentfolder->folderListEnd())
+	{
+		QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(it.key().c_str()));
+		parentitem->addChild(item);
+		populateTree(item, it.value());
+		++it;
+	}
 }
 
 void ResourceTreeWidget::resizeEvent( QResizeEvent * e )
