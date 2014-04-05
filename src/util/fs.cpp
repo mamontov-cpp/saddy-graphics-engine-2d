@@ -67,3 +67,31 @@ sad::String sad::util::concatPaths(const sad::String & parent,const sad::String 
 		escpath.remove(0);
 	return escaped + "/" + escpath;
 }
+
+sad::String sad::util::folder(const sad::String & path)
+{
+	if (path.length() == 0)
+		return sad::String();
+	sad::String escaped = path;
+	// Extract path when on windows
+	char delimiter[2]="/";
+	if (escaped.getOccurence("\\")!=-1) 
+	{
+		delimiter[0]='\\';
+	}
+
+	if (escaped[escaped.length()-1] == delimiter[0])
+		escaped.removeLastOccurence(delimiter);
+	sad::StringList pathparts = escaped.split(delimiter[0]);
+	pathparts.removeAt(pathparts.count()-1);
+	if (pathparts.count() == 0) 
+		return sad::String();
+    sad::String result = "";
+    if (path[0] == delimiter[0])
+        result += delimiter;
+    result += pathparts[0];
+	for (unsigned int i=1;i<pathparts.count();i++) {
+		result << delimiter << pathparts[i];
+	}
+	return result;
+}

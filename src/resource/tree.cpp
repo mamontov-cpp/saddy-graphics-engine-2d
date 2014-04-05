@@ -112,12 +112,24 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 			errors << new sad::resource::JSONParseError();
 		}
 	}
+	if (errors.size() == 0)
+	{
+		m_current_root = m_temporary_root;
+	}
 	return errors;
 }
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::String& string)
 {
 	std::ifstream stream(string.c_str());
+	if (sad::util::isAbsolutePath(string))
+	{
+		m_temporary_root = sad::util::folder(string);
+	} 
+	else
+	{
+		m_temporary_root = "";
+	}
 	if (stream.good())
 	{
 		std::string alldata(
@@ -178,11 +190,16 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 	
 	// Fill picojson value if needed
  	picojson::value resourcedescription = v;
+	sad::String newfilename = filename;
+	if (m_temporary_root.length() != 0)
+	{
+		newfilename = sad::util::concatPaths(m_temporary_root, filename);
+	}
 	if (resourcedescription.is<picojson::object>() == false)
 	{
 		resourcedescription = picojson::object();
 		resourcedescription.insert("type", picojson::value(typehint));
-		resourcedescription.insert("filename", picojson::value(filename));
+		resourcedescription.insert("filename", picojson::value(newfilename));
 		if (resourcename.exists())
 		{
 			resourcedescription.insert("name", picojson::value(resourcename.value()));
@@ -195,7 +212,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 	if (file)
 	{
 		file->setTree(this);
-		file->setName(filename);
+		file->setName(newfilename);
 		sad::resource::Resource  * resource = m_factory->create(typehint);
 		// Sometimes a resource takes care of loading itself, otherwise it could be done
 		// via file

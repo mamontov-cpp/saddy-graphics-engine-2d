@@ -18,6 +18,29 @@ public:
 	/*! Destroys data from a widget
 	 */
 	~ResourceTreeWidget();
+	/*! Returns padding between two subwidgets
+		\return padding between two subwidgets
+	 */
+	double padding() const;
+	/*! Sets padding between two subwidgets
+		\return padding between two subwidgets
+	 */
+	void setPadding(double padding);
+	/*! Sets tree, which is being displayed in widget
+	 */
+	void setTree(const QString & name);
+	/*! Returns a tree, which is beign displayed in widget
+	 */
+	const QString & tree() const;
+	/*! Updates a resource tree widget
+	 */
+	virtual void update();
+protected slots:
+	/*! Activated, when tree picked item is changed
+		\param[in] current new item
+		\param[in] previous previous item
+	 */
+	void  treeItemChanges(QTreeWidgetItem * current, QTreeWidgetItem * previous);
 protected:
 	/*! A widget to view a tree, from a renderer of resources
 	 */ 
@@ -25,6 +48,12 @@ protected:
 	/*! A widget to view elements of specific tree folder
 	 */
 	QTableWidget * m_element_view;
+	/*! A spacing between two widget
+	 */
+	double m_padding;
+	/*! A name for a tree, which is being displayed in widget
+	 */
+	QString m_tree_name;
 	/*! Handles resize, resizing elements
 		\param[in] e event
 	 */
@@ -33,10 +62,8 @@ protected:
 		\param[in] e event
 	 */
 	virtual void moveEvent( QMoveEvent * e );
-protected slots:
-	/*! Activated, when tree picked item is changed
-		\param[in] current new item
-		\param[in] previous previous item
+	/*! Resizes widgets, making them fit to tree
+		\param[in] r a rectangle
 	 */
-	void  treeItemChanges(QTreeWidgetItem * current, QTreeWidgetItem * previous);
+	void resizeWidgets(const QRect & r);
 };

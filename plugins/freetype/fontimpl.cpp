@@ -72,13 +72,19 @@ void sad::freetype::FontImpl::unload(sad::Renderer * r)
 	}
 	if (!r)
 	{
-		glDeleteTextures(textures.size(), &(textures[0]));
+		if (textures.count())
+		{
+			glDeleteTextures(textures.size(), &(textures[0]));
+		}
 	}
 	else
 	{
 		if (r->isOwnThread())
 		{
-			glDeleteTextures(textures.size(), &(textures[0]));
+			if (textures.count())
+			{
+				glDeleteTextures(textures.size(), &(textures[0]));
+			}
 		}
 		else
 		{
