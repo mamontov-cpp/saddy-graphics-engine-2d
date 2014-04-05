@@ -3,21 +3,15 @@
 #include <QMoveEvent>
 #include <QMessageBox>
 
-// A pdding is padding for elements
-#define PADDING 6
+#include <renderer.h>
 
-ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) : QWidget(parent)
+ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
+: QWidget(parent), m_padding(6), m_tree_name("")
 {
 	m_tree_view = new QTreeWidget(parent);
-	QRect r = this->geometry();
-	double halfsizenopad = r.width() / 2.0 - PADDING / 2.0;
-	m_tree_view->setGeometry(r.x(), r.y(), halfsizenopad, r.height());
-
-	m_tree_view->addTopLevelItem( new QTreeWidgetItem(QStringList("22")) );
-	m_tree_view->addTopLevelItem( new QTreeWidgetItem(QStringList("44")) );
-
 	m_element_view = new QTableWidget(parent);
-	m_element_view->setGeometry(r.x() + r.width() / 2.0 + PADDING / 2.0, r.y(), halfsizenopad , r.height());
+
+	resizeWidgets(this->geometry());
 
 	connect(m_tree_view, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(treeItemChanges(QTreeWidgetItem*, QTreeWidgetItem*)));
 }
@@ -28,23 +22,30 @@ ResourceTreeWidget::~ResourceTreeWidget()
 	delete m_element_view;
 }
 
-
-void ResourceTreeWidget::resizeEvent( QResizeEvent * e )
+double ResourceTreeWidget::padding() const
 {
-	QRect r = this->geometry();
-	QSize size = e->size();
-	double halfsizenopad = size.width() / 2.0 - PADDING / 2.0;
-	m_tree_view->setGeometry(r.x(), r.y(), halfsizenopad, size.height());
-	m_element_view->setGeometry(r.x() + size.width() / 2.0 + PADDING / 2.0, r.y(), halfsizenopad , size.height());
+	return m_padding;
 }
 
-void ResourceTreeWidget::moveEvent( QMoveEvent * e )
+void ResourceTreeWidget::setPadding(double padding)
 {
-	QRect oldrect = this->geometry();	
-	QRect r(e->pos().x(), e->pos().y(), oldrect.width(), oldrect.height());
-	double halfsizenopad = r.width() / 2.0 - PADDING / 2.0;
-	m_tree_view->setGeometry(r.x(), r.y(), halfsizenopad, r.height());
-	m_element_view->setGeometry(r.x() + r.width() / 2.0 + PADDING / 2.0, r.y(), halfsizenopad , r.height());
+	m_padding = padding;
+	resizeWidgets(this->geometry());
+}
+
+void ResourceTreeWidget::setTree(const QString & name)
+{
+	m_tree_name = name;
+}
+
+const QString & ResourceTreeWidget::tree() const
+{
+	return m_tree_name;
+}
+
+void ResourceTreeWidget::update()
+{
+	this->QWidget::update();	
 }
 
 void	ResourceTreeWidget::treeItemChanges(
@@ -53,4 +54,26 @@ void	ResourceTreeWidget::treeItemChanges(
 )
 {
 	QMessageBox::warning(NULL, "1", "2");
+}
+
+void ResourceTreeWidget::resizeEvent( QResizeEvent * e )
+{
+	QRect oldrect = this->geometry();
+	QRect r(oldrect.x(), oldrect.y(), e->size().width(), e->size().height());
+	resizeWidgets(r);
+}
+
+void ResourceTreeWidget::moveEvent( QMoveEvent * e )
+{
+	QRect oldrect = this->geometry();	
+	QRect r(e->pos().x(), e->pos().y(), oldrect.width(), oldrect.height());
+	resizeWidgets(r);	
+}
+
+void ResourceTreeWidget::resizeWidgets(const QRect & r)
+{
+	double halfsizenopad = r.width() / 2.0 - this->padding() / 2.0;
+	m_tree_view->setGeometry(r.x(), r.y(), halfsizenopad, r.height());
+	double element_view_x = r.x() + r.width() / 2.0 + this->padding() / 2.0;
+	m_element_view->setGeometry(element_view_x, r.y(), halfsizenopad , r.height());
 }

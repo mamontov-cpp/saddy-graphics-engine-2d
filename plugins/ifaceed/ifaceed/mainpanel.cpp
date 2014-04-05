@@ -46,6 +46,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	ui.setupUi(this);
+	
 	m_selfchanged = false;
 	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
@@ -162,6 +163,11 @@ void MainPanel::synchronizeDatabase()
 
 	ui.cmbFonts->blockSignals(oldfontsstate);
 	m_spriteTableWidget->blockSignals(oldspritestate);
+}
+
+void MainPanel::updateResourceTrees()
+{
+	ui.rtwSpriteTree->update();
 }
 
 void MainPanel::addNewFontColor()

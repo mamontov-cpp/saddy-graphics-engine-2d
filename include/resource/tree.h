@@ -165,6 +165,12 @@ protected:
 	 */
 	bool m_storelinks;
 private:
+	/*! A current root for loading data
+	 */
+	sad::String m_current_root;
+	/*! A temporary root for loading data
+	 */
+	sad::String m_temporary_root;
 	/*! Disabled, tree is uncopyable
 		\param[in] o other tree
 	 */

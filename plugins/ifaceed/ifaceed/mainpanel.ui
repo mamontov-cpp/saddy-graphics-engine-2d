@@ -655,7 +655,7 @@ sprite (ignores an angle)</string>
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
-     <widget class="ResourceTreeWidget" name="widget" native="true">
+     <widget class="ResourceTreeWidget" name="rtwSpriteTree" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -683,8 +683,6 @@ sprite (ignores an angle)</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="mainpanel.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -30,6 +30,12 @@ bool isAbsolutePath(const sad::String & path);
  */
 sad::String concatPaths(const sad::String & parent,const sad::String & path);
 
+/*! Tries to extract a folder from absolute path
+	\param[in] path a path
+	\return folder, which file is stored in
+ */
+sad::String folder(const sad::String & path);
+
 }
 
 }

@@ -371,6 +371,10 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
 		opts->Rectangle = sad::Rect2D(0, 0,  maybesize.value().Width, maybesize.value().Height);
 		opts->TextureRectangle = maybetexrect.value();
 		opts->Texture = parsed.p1();
+		if (this->tree()->shouldStoreLinks())
+		{
+			opts->enableStoringLinks();
+		}
 		if (maybetransparent.exists())
 		{
 			opts->Transparent = true;
