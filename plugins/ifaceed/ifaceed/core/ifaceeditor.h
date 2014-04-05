@@ -106,6 +106,14 @@ class IFaceEditor: public Editor, public CommandChangeObserver
 	/** A function, which is called, when app fully started from main start
 	  */
 	virtual void onFullAppStart();
+	/*! Reports a errors an closes an editor
+		\param[in, out] errors a list of errors
+		\param[in] configname a name of config, which will be reported
+	 */
+	void reportResourceLoadingErrors(
+		sad::Vector<sad::resource::Error *> & errors,
+		const sad::String& configname
+	);
  public:
 	/** Quits an editor
 	 */
