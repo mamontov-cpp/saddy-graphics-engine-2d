@@ -18,14 +18,21 @@ public:
 	/*! Constructs new resulting cache for item
 	 */
 	ResourceCache();
+	/*! Destroys a resulting cache for item
+	 */
+	~ResourceCache();
+	/*! Sets new parent widget fo a resource cache
+	 */
+	void setParent(ResourceTreeWidget * parent);	
+	/*! Returns parent element for a cache
+		\return a parent widget
+	 */
+	ResourceTreeWidget* parent() const;
 	/*! Returns image for resource
 		\param[in] resourcename a name for resource
 		\return image, which should be rendered on resources
 	 */
 	const QImage& imageForResource(const QString & resourcename);
-	/*! Destroys a resulting cache for item
-	 */
-	~ResourceCache();
 protected:
 	/*! Creates default image for specific resource
 		\param[in, out] a default image for resource
