@@ -1,4 +1,7 @@
 #include "resourcetreewidget/resourcetreewidget.h"
+#include "resourcetreewidget/resourcecache.h"
+#include "resourcetreewidget/celldelegate.h"
+
 #include <QResizeEvent>
 #include <QMoveEvent>
 #include <QMessageBox>
@@ -11,9 +14,21 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	m_tree_view = new QTreeWidget(parent);
 	m_element_view = new QTableWidget(parent);
 
+	CellDelegate* mydelegate = new CellDelegate();
+	m_element_view->setItemDelegate(mydelegate);
+	mydelegate->setParent(m_element_view);
+
+	m_cache = new resourcetreewidget::ResourceCache();
+	m_cache->setParent(this);
+
 	resizeWidgets(this->geometry());
 
 	connect(m_tree_view, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(treeItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+}
+
+resourcetreewidget::ResourceCache * ResourceTreeWidget::cache()
+{
+	return m_cache;
 }
 
 ResourceTreeWidget::~ResourceTreeWidget()
@@ -69,6 +84,27 @@ void ResourceTreeWidget::updateTree()
 		sad::resource::Folder * folderroot = tree->root();
 		populateTree(root, folderroot);
 	}
+}
+
+sad::Maybe<sad::String> ResourceTreeWidget::pathToItemBySelection(const QString & name)
+{
+	sad::Maybe<sad::String> result;
+	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
+	if (items.count())
+	{
+		sad::String path = this->selectedFolder(items[0]).value();
+		if (path.length() != 0)
+		{
+			path += "/";
+			path += name.toStdString();
+			result.setValue(path);
+		} 
+		else
+		{
+			result.setValue(name.toStdString());
+		}
+	}
+	return result;
 }
 
 void	ResourceTreeWidget::treeItemChanged(

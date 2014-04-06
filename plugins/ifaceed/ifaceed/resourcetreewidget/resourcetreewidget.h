@@ -10,6 +10,11 @@
 
 #include <resource/folder.h>
 
+namespace resourcetreewidget
+{
+class ResourceCache;
+}
+
 class ResourceTreeWidget: public QWidget
 {
 	Q_OBJECT
@@ -20,6 +25,10 @@ public:
 	/*! Destroys data from a widget
 	 */
 	~ResourceTreeWidget();
+	/*! A resource cache for a widget
+		\return a resource cache for a widget
+	 */
+	resourcetreewidget::ResourceCache * cache();
 	/*! Returns padding between two subwidgets
 		\return padding between two subwidgets
 	 */
@@ -45,6 +54,11 @@ public:
 	/*! Updates a resource tree widget
 	 */
 	virtual void updateTree();
+	/*! Describes path to tree widget item, by selection
+		\param[in] name a name of resource 
+		\return path to resource if can be reconstructed
+	 */
+	sad::Maybe<sad::String> pathToItemBySelection(const QString & name);
 protected slots:
 	/*! Activated, when tree picked item is changed
 		\param[in] current new item
@@ -90,4 +104,7 @@ protected:
 		as delimiter
 	 */
 	QString m_filter;
+	/*! A cache for resource images inside of widget
+	 */
+	resourcetreewidget::ResourceCache * m_cache;
 };

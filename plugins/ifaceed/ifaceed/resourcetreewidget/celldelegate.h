@@ -9,6 +9,7 @@
 #include "../../core/spritedatabase.h"
 #include <QFontMetrics>
 
+
 class CellDelegate: public QItemDelegate
 {
 	/** Paints a cell
@@ -29,19 +30,22 @@ class CellDelegate: public QItemDelegate
 	\param[in] str source string
 	\return half string
  */
-QString halfString(QString str);
+QString halfString(const QString & str);
 /** Returns half string. String may ends with "..."
 	\param[in] str source string
 	\return half string
  */
-QString halfStringWith3Dots(QString str);
+QString halfStringWith3Dots(const QString & str);
 /** Returns acceptable string for cell geometry
-	\param[in] in_group group number (row)
-	\param[in] in_index index number (column)
+	\param[in] string   source string
 	\param[in] in_width width of the target cell
 	\param[in] metrics  metrics data
 	\return acceptable for current cell geometry string
  */
-QString getAcceptableString(QString in_group, QString in_index,  int in_width, QFontMetrics & metrics);
+QString getAcceptableString(
+	const QString& string,
+	int in_width, 
+	QFontMetrics & metrics
+);
 
 #endif
