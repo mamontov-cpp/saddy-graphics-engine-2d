@@ -8,8 +8,17 @@
 #include <QLayout>
 #include "../../core/spritedatabase.h"
 #include "../../core/qspritetablewidgetselection.h"
-#include "celldelegate.h"
+#include "../../resourcetreewidget/celldelegate.h"
 
+struct CellInfo
+{
+	QImage image;
+	QString config;
+	QString group;
+	int index;
+};
+
+Q_DECLARE_METATYPE(CellInfo)
 
 class QSpriteTableWidget : public QWidget
 {

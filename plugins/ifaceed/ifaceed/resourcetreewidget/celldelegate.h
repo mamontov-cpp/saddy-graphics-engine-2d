@@ -44,14 +44,4 @@ QString halfStringWith3Dots(QString str);
  */
 QString getAcceptableString(QString in_group, QString in_index,  int in_width, QFontMetrics & metrics);
 
-struct CellInfo
-{
-	QImage image;
-	QString config;
-	QString group;
-	int index;
-};
-
-Q_DECLARE_METATYPE(CellInfo)
-
 #endif

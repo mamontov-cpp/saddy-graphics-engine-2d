@@ -34,6 +34,14 @@ public:
 	/*! Returns a tree, which is beign displayed in widget
 	 */
 	const QString & tree() const;
+	/*! Sets filter for a resource tree widget
+		\param[in] filter a flter for a tree
+	 */
+	void setFilter(const QString & filter);
+	/*! Returns a filter for a widget
+		\return filter for items of a widget
+	 */
+	const QString & filter() const;
 	/*! Updates a resource tree widget
 	 */
 	virtual void updateTree();
@@ -78,4 +86,8 @@ protected:
 	/*! A name for a tree, which is being displayed in widget
 	 */
 	QString m_tree_name;
+	/*! A filter for getting elements. Must contain possible types or and use "|"
+		as delimiter
+	 */
+	QString m_filter;
 };
