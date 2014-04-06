@@ -36,11 +36,23 @@ void ResourceTreeWidget::setPadding(double padding)
 void ResourceTreeWidget::setTree(const QString & name)
 {
 	m_tree_name = name;
+	updateTree();
 }
 
 const QString & ResourceTreeWidget::tree() const
 {
 	return m_tree_name;
+}
+
+void ResourceTreeWidget::setFilter(const QString & filter)
+{
+	m_filter = filter;
+	updateTree();
+}
+
+const QString & ResourceTreeWidget::filter() const
+{
+	return m_filter;
 }
 
 void ResourceTreeWidget::updateTree()
