@@ -457,10 +457,6 @@
 					Name="spritewidget"
 					>
 					<File
-						RelativePath=".\gui\spritewidget\celldelegate.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\gui\spritewidget\qspritetablewidget.cpp"
 						>
 					</File>
@@ -509,6 +505,14 @@
 			<Filter
 				Name="resourcetreewidget"
 				>
+				<File
+					RelativePath=".\resourcetreewidget\celldelegate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\resourcetreewidget\resourcecache.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\resourcetreewidget\resourcetreewidget.cpp"
 					>
@@ -859,10 +863,6 @@
 					Name="spritewidget"
 					>
 					<File
-						RelativePath=".\gui\spritewidget\celldelegate.h"
-						>
-					</File>
-					<File
 						RelativePath=".\gui\spritewidget\qspritetablewidget.h"
 						>
 						<FileConfiguration
@@ -959,6 +959,14 @@
 			<Filter
 				Name="resourcetreewidget"
 				>
+				<File
+					RelativePath=".\resourcetreewidget\celldelegate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\resourcetreewidget\resourcecache.h"
+					>
+				</File>
 				<File
 					RelativePath=".\resourcetreewidget\resourcetreewidget.h"
 					>
