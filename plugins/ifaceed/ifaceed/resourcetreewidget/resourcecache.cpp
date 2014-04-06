@@ -35,7 +35,7 @@ const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString 
 	QImage result;
 	this->createDefaultImage(result);
 	m_resource_cache.insert(resourcename, result);
-	return result;
+	return m_resource_cache[resourcename];
 }
 
 

@@ -1,33 +1,27 @@
-#include "celldelegate.h"
 #include "gui/spritewidget/qspritetablewidget.h"
+#include "celldelegate.h"
+#include "resourcetreewidget/cell.h"
+#include "resourcetreewidget/resourcetreewidget.h"
+#include "resourcetreewidget/resourcecache.h"
 
 #include <QStyleOptionViewItem>
 #include <QImage>
 #include <unused.h>
 
-#define CELL_WIDTH (100)
-#define CELL_HEIGHT (100)
-
-#define MAX_IMAGE_WIDTH  (CELL_WIDTH)
-#define MAX_IMAGE_HEIGHT (CELL_HEIGHT/4*3)
-
-#define IMAGE_SPACE  (15)
-#define CELL_TEXT_Y (MAX_IMAGE_HEIGHT + IMAGE_SPACE)
-
-#define CELL_FONT_SIZE (12)
-
-
-/** Paints a cell
-	\param[in] painter painter
-	\param[in] option  options for rendering
-	\param[in] index   data to draw
- */
 void CellDelegate::paint(QPainter * painter, 
 						 const QStyleOptionViewItem & option, 
 						 const QModelIndex & index ) const
 {
-	CellInfo info = index.data(Qt::UserRole).value<CellInfo>();
-	if (info.group.size() == 0 && info.config.size() == 0)
+	if (this->parent() == NULL)
+	{
+		return;
+	}
+
+	ResourceTreeWidget * widget = (ResourceTreeWidget*)(this->parent());
+	QString resourcetext = index.data(Qt::DisplayRole).value<QString>();
+	sad::Maybe<sad::String> resourcepath = widget->pathToItemBySelection(resourcetext);
+
+	if (resourcepath.exists() == false || resourcetext.length() == 0)
 		return;
 	
 	if (option.state & QStyle::State_Selected) {
@@ -39,28 +33,26 @@ void CellDelegate::paint(QPainter * painter,
 		painter->restore();
     }
 	// Draw centered image
-	QImage img = info.image;
-	if (img.width() > CELL_WIDTH || img.height() > MAX_IMAGE_HEIGHT) 
-	{	
-		img = img.scaled(QSize(CELL_WIDTH, MAX_IMAGE_HEIGHT), Qt::KeepAspectRatio);
-	}
+	const QImage & img = widget->cache()->imageForResource(resourcepath.value().data());
 	painter->drawImage(option.rect.x() + option.rect.width()/2 - img.width()/2,
 					   option.rect.y(),img);
 
-	QString strGroup = info.group;
-	QString strIndex = QString::number(info.index);
-
 	
 	QFont font = QFont();
-	font.setPixelSize(CELL_FONT_SIZE);
+	font.setPixelSize(resourcetreewidget::Cell::FontSize);
 	QFont oldFont = painter->font();
 	painter->setFont(font);
 	QFontMetrics fontMetrics(font);
 	//Compute label
-	QString label = getAcceptableString(strGroup, strIndex, option.rect.width(), fontMetrics);
+	QString label = getAcceptableString(resourcetext, option.rect.width(), fontMetrics);
 	//Compute center
-	QPoint center = QPoint(option.rect.x() + option.rect.width()/2 - fontMetrics.width(label)/2,
-						   option.rect.y() + CELL_TEXT_Y);
+	int labelpointx = option.rect.x() 
+					+ option.rect.width() / 2 
+					- fontMetrics.width(label) / 2;
+	int labelpointy = option.rect.y() 
+				   + resourcetreewidget::Cell::ImageHeight
+				   + resourcetreewidget::Cell::SpaceBetweenImageAndText;
+	QPoint center = QPoint(labelpointx, labelpointy);
 	painter->drawText(center, label);
 
 	painter->setFont(oldFont);
@@ -68,20 +60,12 @@ void CellDelegate::paint(QPainter * painter,
 	
 }
 
-/** Returns a hints for size
-	\param[in] option  options for drawing
-	\param[in] index   index of model
-	\return size hint
- */
-QSize CellDelegate::sizeHint(UNUSED const QStyleOptionViewItem &option, UNUSED const QModelIndex &index) const
+QSize CellDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
 {
-	return QSize(CELL_WIDTH,CELL_HEIGHT);
+	return QSize(resourcetreewidget::Cell::Width, resourcetreewidget::Cell::Height);
 }
-/** Returns half string
-	\param[in] str source string
-	\return half string
- */
-QString halfString(QString str)
+
+QString halfString(const QString & str)
 {
 	QString res;
 
@@ -92,35 +76,32 @@ QString halfString(QString str)
 	}
 	return res;
 }
-/** Returns half string. String may ends with "..."
-	\param[in] str source string
-	\return half string
- */
-QString halfStringWith3Dots(QString str)
+
+QString halfStringWith3Dots(const QString & str)
 {
 	QString res;
 
-	if (str.endsWith("..."))
+	res = str;
+	if (res.endsWith("..."))
 	{
-		str.truncate(3);
+		res.truncate(3);
 	}
-	res = halfString(str);
+	res = halfString(res);
 	res+="...";
 
 	return res;
 }
 
-/** Returns acceptable string for cell geometry
-	\param[in] in_group group number (row)
-	\param[in] in_index index number (column)
-	\param[in] in_width width of the target cell
-	\return acceptable for current cell geometry string
- */
-QString getAcceptableString(QString in_group, QString in_index, int in_width, QFontMetrics & metrics)
+QString getAcceptableString(
+	const QString& string, 
+	int in_width, 
+	QFontMetrics & metrics
+)
 {
-	QString group = in_group;
-	QString index = in_index;
-	QString str = QString("%1, %2").arg(group).arg(index);
+	
+	QString part1 = string.mid(0, string.length() / 2);
+	QString part2 = string.mid(string.length() / 2);
+	QString str = QString("%1%2").arg(part1).arg(part2);
 	int w = metrics.width(str);
 	bool cutted_totally = false;
 	while(!cutted_totally && (w > in_width))
@@ -129,17 +110,17 @@ QString getAcceptableString(QString in_group, QString in_index, int in_width, QF
 		font.setPixelSize(10);
 		QFontMetrics fm(font);
         //int needWidth = fm.width(str);
-		if (group.size() > index.size() || index == "...")
+		if (part1.size() > part2.size() || part1 == "...")
 		{
-			group = halfStringWith3Dots(group);
+			part1 = halfStringWith3Dots(part1);
 		}
 		else
 		{
-			index = halfStringWith3Dots(index);
+			part2 = halfStringWith3Dots(part2);
 		}
-		str = QString("%1, %2").arg(group).arg(index);
+		str = QString("%1%2").arg(part1).arg(part2);
 		w = metrics.width(str);
-		cutted_totally = (group=="..." && index=="...") ;
+		cutted_totally = (part1=="..." && part2=="...") ;
 	}
 
 	return str;

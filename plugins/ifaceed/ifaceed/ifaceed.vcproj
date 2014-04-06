@@ -112,7 +112,7 @@
 				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_DLL"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
-				WarningLevel="0"
+				WarningLevel="2"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -505,6 +505,10 @@
 			<Filter
 				Name="resourcetreewidget"
 				>
+				<File
+					RelativePath=".\resourcetreewidget\cell.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\resourcetreewidget\celldelegate.cpp"
 					>
@@ -959,6 +963,10 @@
 			<Filter
 				Name="resourcetreewidget"
 				>
+				<File
+					RelativePath=".\resourcetreewidget\cell.h"
+					>
+				</File>
 				<File
 					RelativePath=".\resourcetreewidget\celldelegate.h"
 					>
@@ -1805,7 +1813,7 @@
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="4.8.0"
+			Value="4.8.5"
 		/>
 		<Global
 			Name="RccDir"
