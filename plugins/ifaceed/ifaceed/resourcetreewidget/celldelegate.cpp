@@ -1,4 +1,6 @@
 #include "celldelegate.h"
+#include "gui/spritewidget/qspritetablewidget.h"
+
 #include <QStyleOptionViewItem>
 #include <QImage>
 #include <unused.h>

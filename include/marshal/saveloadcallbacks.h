@@ -4,8 +4,7 @@
 	Here defined a callbacks for saving and loading types of properties of marshalled objects
  */
 #pragma once
-#include "abstractproperty.h"
-
+#include "../sadstring.h"
 #include "../sadpoint.h"
 #include "../sadrect.h"
 #include "../sadcolor.h"
@@ -14,22 +13,23 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace abstract_names
+{
 
-DEFINE_PROPERTY_TYPESTRING( int )
-DEFINE_PROPERTY_TYPESTRING( unsigned int )
-DEFINE_PROPERTY_TYPESTRING( long )
-DEFINE_PROPERTY_TYPESTRING( unsigned long )
-DEFINE_PROPERTY_TYPESTRING( long long )
-DEFINE_PROPERTY_TYPESTRING( unsigned long long )
-DEFINE_PROPERTY_TYPESTRING( float )
-DEFINE_PROPERTY_TYPESTRING( double )
-DEFINE_PROPERTY_TYPESTRING( bool )
-DEFINE_PROPERTY_TYPESTRING( sad::String )
-DEFINE_PROPERTY_TYPESTRING( sad::Vector<int> )
-DEFINE_PROPERTY_TYPESTRING( sad::Point2D )
-DEFINE_PROPERTY_TYPESTRING( sad::Rect2D )
-DEFINE_PROPERTY_TYPESTRING( sad::Vector<sad::Point2D> )
-DEFINE_PROPERTY_TYPESTRING( sad::Color )
+template<
+	typename T
+>
+class type_string
+{
+public:
+	static sad::String type()
+	{
+		return "TYPE";
+	}
+};
+
+}
+
 /*! A template callback for loading some properties
  */
 template<typename T>
