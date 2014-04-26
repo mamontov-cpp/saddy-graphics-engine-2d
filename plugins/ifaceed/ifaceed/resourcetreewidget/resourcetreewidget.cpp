@@ -13,6 +13,7 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 {
 	m_tree_view = new QTreeWidget(parent);
 
+	// Cleanup header of tree view
 	QStringList headerLabels;
 	headerLabels << "";
 	m_tree_view->setHeaderLabels(headerLabels);
