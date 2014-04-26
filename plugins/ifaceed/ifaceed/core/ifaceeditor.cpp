@@ -200,7 +200,7 @@ void IFaceEditor::onFullAppStart()
 	{
 		SL_WARNING("Config file is not specified. You must choose it now");
 		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
-													  ("Configs (*.xml)"));
+													  ("Configs (*.json)"));
 		if (config.length() == 0) 
 		{
 			SL_FATAL("Config file is not specified. Quitting...");
