@@ -12,6 +12,11 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 : QWidget(parent), m_padding(6), m_tree_name("")
 {
 	m_tree_view = new QTreeWidget(parent);
+
+	QStringList headerLabels;
+	headerLabels << "";
+	m_tree_view->setHeaderLabels(headerLabels);
+
 	m_element_view = new QTableWidget(parent);
 
 	CellDelegate* mydelegate = new CellDelegate();
