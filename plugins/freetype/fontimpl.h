@@ -10,6 +10,7 @@
 #include <sadstring.h>
 #include <sadsize.h>
 #include <sadpoint.h>
+#include <texture.h>
 
 namespace sad
 {
@@ -45,6 +46,16 @@ public:
 		const sad::Point2D & p,
 		float ratio
 	); 
+	/*! Renders text line to a texture. Before output all new line string are stripped.
+		Texture's memory should be freed manually
+		\param[in] string a string texture
+		\param[in] height a height for rendering
+		\return rendered image
+	 */
+	sad::Texture * renderToTexture(
+		const sad::String & string,
+		unsigned int height 
+	);
 	/*! Unloads a fonts from GPU
 		\param[in] r renderer
 	 */

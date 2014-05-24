@@ -8,6 +8,10 @@
 
 #include <renderer.h>
 
+#include <freetype/font.h>
+
+#include <QImage>
+
 ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
 : QWidget(parent), m_padding(6), m_tree_name("")
 {
@@ -124,6 +128,15 @@ void	ResourceTreeWidget::treeItemChanged(
 		if (v.exists())
 		{
 			QMessageBox::warning(NULL, "1", v.value().c_str());
+
+			sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+			sad::freetype::Font * f = tree->get<sad::freetype::Font>("fonts/emporium1.ttf");
+
+			sad::Texture * test  = f->renderToTexture("Test", 25);
+			QImage im(test->data(), test->width(), test->height(), QImage::Format_ARGB32);
+			im.save("resource_tree_widget.png");
+
+			delete test;
 		}
 	}
 	

@@ -11,6 +11,8 @@
 #include <sadpoint.h>
 #include <sadvector.h>
 
+#include <texture.h>
+
 namespace sad
 {
 
@@ -35,6 +37,20 @@ public:
 		\param[in] ratio a ratio for line-spacing, relative to line-spacing of font
 	 */
 	void render(const sad::String & s, const sad::Point2D & p, float ratio);
+	/*! Renders text line to a texture. Before output all new line string are stripped.
+		Texture's memory should be freed manually
+		\param[in] string a string texture
+		\param[in] library a library fo text
+		\param[in] face a face for rendering glyphs
+		\param[in] height a height for rendering
+		\return rendered image
+	 */
+	sad::Texture * renderToTexture(
+		const sad::String & string,
+		FT_Library library,
+		FT_Face face,
+		unsigned int height 
+	);
 	/*! Returns size for fixed height
 		\param[in] s rendered string
 		\param[in] ratio a ratio for line-spacing, relative to line-spacing of font
