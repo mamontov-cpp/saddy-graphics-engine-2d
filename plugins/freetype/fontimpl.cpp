@@ -62,6 +62,14 @@ void sad::freetype::FontImpl::render(
 	glPopAttrib();
 }
 
+sad::Texture * sad::freetype::FontImpl::renderToTexture(
+	const sad::String & string,
+	unsigned int height 
+)
+{
+	return this->fontForSize(m_cached_size)->renderToTexture(string, m_library, m_face, height);
+}
+
 void sad::freetype::FontImpl::unload(sad::Renderer * r)
 {
 	sad::Vector<unsigned int> textures;

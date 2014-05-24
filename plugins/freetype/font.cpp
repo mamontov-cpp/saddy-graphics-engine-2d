@@ -47,6 +47,19 @@ void sad::freetype::Font::render(const sad::String & str,const sad::Point2D & p)
 	this->restoreColor();
 }
 
+
+sad::Texture * sad::freetype::Font::renderToTexture(
+	const sad::String & string,
+	unsigned int height 
+)
+{
+	unsigned int size = m_size;
+	m_dptr->setSize(height);
+	sad::Texture *  result = m_dptr->renderToTexture(string, height);
+	m_dptr->setSize(size);
+	return result;
+}
+
 float sad::freetype::Font::builtinLineSpacing() const
 {
 	return m_dptr->builtinLineSpacing();

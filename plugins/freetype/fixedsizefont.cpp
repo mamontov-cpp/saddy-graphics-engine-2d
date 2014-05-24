@@ -113,6 +113,98 @@ void sad::freetype::FixedSizeFont::render(
 	sad_freetype_font_lock.unlock();
 }
 
+
+sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
+	const sad::String & string,
+	FT_Library library,
+	FT_Face face,
+	unsigned int height
+)
+{
+	requestSize(library, face, height);
+
+	sad::String tmp = string;
+	tmp.removeAllOccurences("\r");
+	tmp.removeAllOccurences("\n");
+
+	sad::Size2D size = this->size(string, 1.0);
+
+	sad::Texture * texture = new sad::Texture();
+	texture->width() = (unsigned int)ceil(size.Width);
+	texture->height() = (unsigned int)ceil(size.Height);
+	texture->bpp() = 32;
+	texture->vdata().resize(texture->width() * texture->height() * 4, 255);
+
+	// Fill alpha byte with 0
+	for(unsigned int i = 0; i < size.Height; i++)
+	{
+		for(unsigned int j = 0; j < size.Width; j++)
+		{
+			*(texture->pixel(i, j) + 3) = 0;
+		}
+	}
+
+	sad::freetype::Glyph ** glyphs = new sad::freetype::Glyph*[tmp.size()];
+	int y_max = -1; 
+	for(unsigned int i = 0; i < tmp.size(); i++)
+	{
+		glyphs[i] = new sad::freetype::Glyph(face, tmp[i]);
+		y_max = std::max(y_max, (int)(glyphs[i]->Height));
+	}
+	// Place glyphs
+	bool previous = false;
+	unsigned char prevchar = 0;
+	unsigned int curx = 0;
+	
+	for(unsigned int i = 0; i < tmp.size(); i++)
+	{
+		unsigned char curchar = tmp[i];
+		if (previous)
+		{
+			curx += (unsigned int)(m_kerning_table[prevchar][curchar]);
+		}
+		previous = true;	
+
+		sad::freetype::Glyph * g = glyphs[i];
+		sad::freetype::Texture& tex = g->Texture;
+
+		unsigned int rows = (unsigned int)(g->TexCoordinateHeight * g->Texture.Height);
+		unsigned int cols = (unsigned int)(g->TexCoordinateWidth  * g->Texture.Width);
+		
+		for(unsigned int ix = 0; ix < rows; ix++)
+		{
+			for(unsigned int iy = 0; iy < cols; iy++)
+			{
+				unsigned char pixel = g->Texture.Pixels[2 * (ix * (unsigned int)(g->Texture.Width)+ iy)];
+				pixel = 255 - pixel;
+
+				unsigned int posy = ix + y_max - (int)(g->Height);
+				unsigned int posx = curx + iy;
+
+				if (posy < texture->height() && posx < texture->width())
+				{
+					sad::uchar * tpixel = texture->pixel(posy, posx);
+					tpixel[0] = pixel;				
+					tpixel[1] = pixel;
+					tpixel[2] = pixel;
+					tpixel[3] = 255;
+				}
+			}
+		}
+
+		curx += (unsigned int)(g->AdvanceX);
+		prevchar = curchar;
+	}
+
+	for(unsigned int i = 0; i < tmp.size(); i++)
+	{
+		delete glyphs[i];
+	}
+	delete glyphs;
+
+	return texture;
+}
+
 sad::Size2D sad::freetype::FixedSizeFont::size(
 	const sad::String & s, 
 	float ratio

@@ -34,6 +34,10 @@ public:
 	 */
 	const QImage& imageForResource(const QString & resourcename);
 protected:
+	/*! Makes image size less or equal to a cell proportions
+		\param[in, out] image 
+	 */
+	void normalizeImage(QImage & im);
 	/*! Creates default image for specific resource
 		\param[in, out] a default image for resource
 	 */

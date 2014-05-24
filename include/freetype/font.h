@@ -8,6 +8,8 @@
 #include "../font.h"
 #include "../resource/resource.h"
 
+#include <texture.h>
+
 namespace sad
 {
 class Renderer;
@@ -47,6 +49,16 @@ public:
 		\param[in] p   upper-left point in window coordinates
 	 */
 	virtual void render(const sad::String & str,const sad::Point2D & p);
+	/*! Renders text line to a texture. Before output all new line string are stripped.
+		Texture's memory should be freed manually
+		\param[in] string a string texture
+		\param[in] height a height for rendering
+		\return rendered image
+	 */
+	sad::Texture * renderToTexture(
+		const sad::String & string,
+		unsigned int height 
+	);
 	/*! Returns a estimated size of label, rendered with specified size
 	    \param[in] str string
 		\return size of label
