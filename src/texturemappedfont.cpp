@@ -223,6 +223,101 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 #endif
 }
 
+sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
+{
+	if (m_texture == NULL)
+		return NULL;
+
+	sad::Texture * result = new sad::Texture();
+	
+	sad::String rendered_string = str;
+	rendered_string.removeAllOccurences("\n");
+	rendered_string.removeAllOccurences("\r");
+
+	sad::Vector<sad::Point2I> from;
+	sad::Vector<sad::Point2I> to;
+
+	int height = 0;
+	int width = 0;
+	// Compute size of texture
+	for(unsigned int i = 0; i < rendered_string.size(); i++)
+	{
+		unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
+
+		sad::Rect2D & glyph = m_glyphs[ glyphchar ];
+
+		sad::Point2I from_point(
+			(int)(glyph[0].x() * m_texture->width()),
+			(int)(glyph[0].y() * m_texture->height())
+		);
+		sad::Point2I to_point(
+			(int)(glyph[2].x() * m_texture->width()),
+			(int)(glyph[2].y() * m_texture->height())
+		);
+
+		from << from_point;
+		to << to_point;
+		width += to_point.x() - from_point.x();
+		height = std::max(height, to_point.y() - from_point.y());
+	}
+
+	result->width() = width + 1;
+	result->height() = height + 1;
+	result->bpp() = 32;
+	result->vdata().resize(4 * (width + 1) * (height + 1), 255);
+	
+	// Fill alpha with zero
+	for(size_t i = 0; i < result->vdata().size(); i+= 4)
+	{
+		result->vdata()[i + 3] = 0;
+	}
+
+	// Paint font
+	int x = 0;
+	for(unsigned int i = 0; i < rendered_string.size(); i++)
+	{
+		unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
+
+		sad::Rect2D & glyph = m_glyphs[ glyphchar ];
+
+		sad::Point2I from_point = from[i];
+		sad::Point2I to_point = to[i];
+
+		int y = height - (to_point.y() - from_point.y());
+		
+		for(int iy = from_point.y(); iy < to_point.y(); iy++)
+		{
+			for(int ix = from_point.x(); ix < to_point.x(); ix++)
+			{
+				int py = y + iy - from_point.y();
+				int px = x + ix - from_point.x();
+
+				sad::uchar* sourcepix = m_texture->pixel(iy, ix);
+				sad::uchar* destpix = result->pixel(py, px);
+				if (sourcepix[3] == 0) 
+				{
+					destpix[0] = 255;
+					destpix[1] = 255;
+					destpix[2] = 255;
+					destpix[3] = 255;
+				}
+				else
+				{
+					destpix[0] = 255 - sourcepix[0];
+					destpix[1] = 255 - sourcepix[1];
+					destpix[2] = 255 - sourcepix[2];
+					destpix[3] = sourcepix[3];
+				}
+			}
+		}
+
+		x += to_point.x() - from_point.x();
+	}
+	
+
+	return result;
+}
+
 
 bool sad::TextureMappedFont::load(
 		const sad::resource::PhysicalFile & file,

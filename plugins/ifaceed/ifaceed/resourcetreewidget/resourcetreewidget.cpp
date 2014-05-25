@@ -8,7 +8,7 @@
 
 #include <renderer.h>
 
-#include <freetype/font.h>
+#include <texturemappedfont.h>
 
 #include <QImage>
 
@@ -130,9 +130,9 @@ void	ResourceTreeWidget::treeItemChanged(
 			QMessageBox::warning(NULL, "1", v.value().c_str());
 
 			sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
-			sad::freetype::Font * f = tree->get<sad::freetype::Font>("fonts/emporium1.ttf");
+			sad::TextureMappedFont * f = tree->get<sad::TextureMappedFont>("fonts/tmfont");
 
-			sad::Texture * test  = f->renderToTexture("Test", 25);
+			sad::Texture * test  = f->renderToTexture("Test");
 			QImage im(test->data(), test->width(), test->height(), QImage::Format_ARGB32);
 			im.save("resource_tree_widget.png");
 

@@ -41,6 +41,12 @@ public:
 		\param[in] p   upper-left point in viewport coordinates
 	 */
 	virtual void render(const sad::String & str,const sad::Point2D & p);
+	/*! Renders a string of text to a texture. A texture memory is not freed.
+		A string rendered as line, so any newline symbols are stripped from rendered string.
+		\param[in] str string
+		\return rendered texture
+	 */
+	sad::Texture * renderToTexture(const sad::String & str);
 	/*! Loads a font from specified file, using specified renderer for building mip maps.
 		\param[in] file a file, via which a resource should be loaded
 		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
