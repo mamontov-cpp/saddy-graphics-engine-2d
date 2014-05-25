@@ -8,6 +8,7 @@
 #include <resource/tree.h>
 
 #include <freetype/font.h>
+#include <texturemappedfont.h>
 
 #include <cassert>
 
@@ -56,6 +57,15 @@ const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString 
 			delete texture;
 			handled = true;
 		}
+		if (resource->metaData()->name() == "sad::TextureMappedFont" && !handled)
+		{
+			sad::TextureMappedFont * font = (sad::TextureMappedFont*)resource;
+			sad::Texture * texture  = font->renderToTexture("Test");
+			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32);
+			delete texture;
+			handled = true;
+		}
+
 	}
 
 	if (!handled)

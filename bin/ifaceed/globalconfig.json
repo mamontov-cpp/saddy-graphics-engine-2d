@@ -1,5 +1,6 @@
 [
 	{ "type": "sad::freetype::Font",  "filename": "EMPORIUM.TTF", "name": "fonts/emporium1.ttf"},
 	{ "type": "sad::freetype::Font",  "filename": "EMPORIUM.TTF", "name": "fonts/emporium2.ttf"},
+	{ "type": "sad::TextureMappedFont",  "filename": "font", "name": "fonts/tmfont"},
 	{ "type": "sad::resource::TextureAtlasFile", "filename" : "textures.json" }	
 ]
