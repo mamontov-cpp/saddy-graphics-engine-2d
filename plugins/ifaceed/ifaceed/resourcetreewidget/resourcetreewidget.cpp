@@ -133,7 +133,9 @@ void	ResourceTreeWidget::treeItemChanged(
 			sad::TextureMappedFont * f = tree->get<sad::TextureMappedFont>("fonts/tmfont");
 
 			sad::Texture * test  = f->renderToTexture("Test");
-			QImage im(test->data(), test->width(), test->height(), QImage::Format_ARGB32);
+			QImage im;
+			resourcetreewidget::ResourceCache cache;
+			cache.createDefaultImage(im);
 			im.save("resource_tree_widget.png");
 
 			delete test;
