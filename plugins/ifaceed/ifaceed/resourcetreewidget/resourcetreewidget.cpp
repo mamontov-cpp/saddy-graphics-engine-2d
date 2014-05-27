@@ -1,6 +1,7 @@
 #include "resourcetreewidget/resourcetreewidget.h"
 #include "resourcetreewidget/resourcecache.h"
 #include "resourcetreewidget/celldelegate.h"
+#include "resourcetreewidget/defaultimage.h"
 
 #include <QResizeEvent>
 #include <QMoveEvent>
@@ -130,15 +131,11 @@ void	ResourceTreeWidget::treeItemChanged(
 			QMessageBox::warning(NULL, "1", v.value().c_str());
 
 			sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
-			sad::TextureMappedFont * f = tree->get<sad::TextureMappedFont>("fonts/tmfont");
+			sad::Texture* tex = tree->get<sad::Texture>("textures");
 
-			sad::Texture * test  = f->renderToTexture("Test");
 			QImage im;
-			resourcetreewidget::ResourceCache cache;
-			cache.createDefaultImage(im);
+			resourcetreewidget::ResourceCache::createImageForTexture(im, tex);
 			im.save("resource_tree_widget.png");
-
-			delete test;
 		}
 	}
 	

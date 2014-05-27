@@ -514,6 +514,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\resourcetreewidget\defaultimage.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\resourcetreewidget\resourcecache.cpp"
 					>
 				</File>
@@ -969,6 +973,10 @@
 				</File>
 				<File
 					RelativePath=".\resourcetreewidget\celldelegate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\resourcetreewidget\defaultimage.h"
 					>
 				</File>
 				<File

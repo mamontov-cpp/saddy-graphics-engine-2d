@@ -7,6 +7,8 @@
 #include <QImage>
 #include <QHash>
 
+#include <sprite2d.h>
+
 class ResourceTreeWidget;
 
 namespace resourcetreewidget
@@ -33,10 +35,28 @@ public:
 		\return image, which should be rendered on resources
 	 */
 	const QImage& imageForResource(const QString & resourcename);
-	/*! Creates default image for specific resource
-		\param[in, out] a default image for resource
+	/*! Creates image for a texture atlas entry
+		\param[in, out] im image, wheres should be placed texture atlas entry
+		\param[in] options options, where data about linked texture and coordinates are stored
+		\param[in] tree a tree, for a texture data
 	 */
-	void createDefaultImage(QImage & im);
+	static void createImageForTextureAtlasEntry(
+		QImage & im,
+		const sad::Sprite2D::Options & options,
+		sad::resource::Tree * tree
+	);
+	/*! Creates image for a texture
+		\param[in, out] im image, wheres should be placed texture 
+		\param[in] tex texture
+	 */ 
+	static void createImageForTexture(
+		QImage & im,
+		sad::Texture * tex
+	);
+	/*! Creates default image for specific resource
+		\param[in, out] im a default image for resource
+	 */
+	static void createDefaultImage(QImage & im);
 protected:
 	/*! Makes image size less or equal to a cell proportions
 		\param[in, out] image 
