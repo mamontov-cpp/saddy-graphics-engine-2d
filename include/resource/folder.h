@@ -138,6 +138,14 @@ public:
 		\return end iterator for resources
 	 */
 	sad::resource::ResourceIterator resourceListEnd();
+	/*! Returns count of subfolders in folder
+		\return count of subfolders in folder
+	 */
+	unsigned int foldersCount() const;
+	/*! Returns count of resources in folder
+		\return count of resources in folder
+	 */
+	unsigned int resourceCount() const;
 	/*! A parent folder for current folder NULL for top-most
 		\param[in] folder parent folder
 	 */

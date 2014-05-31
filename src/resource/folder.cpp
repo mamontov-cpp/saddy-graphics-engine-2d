@@ -208,6 +208,16 @@ sad::resource::ResourceIterator sad::resource::Folder::resourceListEnd()
 	return m_resources.end();
 }
 
+unsigned int  sad::resource::Folder::foldersCount() const
+{
+	return m_subfolders.count();
+}
+
+unsigned int  sad::resource::Folder::resourceCount() const
+{
+	return m_resources.count();
+}
+
 void sad::resource::Folder::setParent(sad::resource::Folder * folder)
 {
 	m_parent = folder;

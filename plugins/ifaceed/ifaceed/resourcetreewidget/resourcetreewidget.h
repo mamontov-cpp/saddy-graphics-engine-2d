@@ -18,6 +18,11 @@ class ResourceCache;
 class ResourceTreeWidget: public QWidget
 {
 	Q_OBJECT
+signals:
+	/*! Emitted, when user changed selection
+		\param[in] s selected resources
+	 */
+	void selectionChanged(sad::String s);
 public: 
 	/*! Constructs new resource tree widget 
 	 */
@@ -59,12 +64,29 @@ public:
 		\return path to resource if can be reconstructed
 	 */
 	sad::Maybe<sad::String> pathToItemBySelection(const QString & name);
+	/*! Sets selected resource name
+		\param[in] name a name for selected resource
+	 */
+	void setSelectedResourceName(const sad::String & name);
+	/*! Returns selected resource name, if any resource was selected
+		\return selected resource name
+	 */
+	sad::Maybe<sad::String> selectedResourceName() const;
+	/*! Returns selected resource
+		\return selected resource
+	 */
+	sad::resource::Resource* selectedResource() const;
 protected slots:
-	/*! Activated, when tree picked item is changed
+	/*! Activated, when selected item in tree is changed
 		\param[in] current new item
 		\param[in] previous previous item
 	 */
 	void  treeItemChanged(QTreeWidgetItem * current, QTreeWidgetItem * previous);
+	/*! Activated, when selected item in table is changed
+		\param[in] current new item
+		\param[in] previous previous item
+	 */
+	void  elementItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous);
 protected:
 	void populateTree(
 		QTreeWidgetItem * parentitem, 
@@ -74,7 +96,18 @@ protected:
 		\param[in] item item to be selected
 		\return value
 	 */
-	sad::Maybe<sad::String> selectedFolder(QTreeWidgetItem * item);
+	sad::Maybe<sad::String> selectedFolder(QTreeWidgetItem * item) const;
+	/*! Returns selected local path to a resource
+	 */ 
+	sad::Maybe<sad::String> selectedLocalPathToResource() const;
+	/*! Tries to restore selection in resource tree widget
+		\param[in] folder a folder to restore
+		\param[in] resourcelocal a local resource name
+	 */
+	void tryRestoreSelection(
+		const sad::Maybe<sad::String> & folder,
+		const sad::Maybe<sad::String> & resourcelocal
+	);
 	/*! Handles resize, resizing elements
 		\param[in] e event
 	 */

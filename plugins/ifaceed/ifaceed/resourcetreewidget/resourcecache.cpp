@@ -54,7 +54,7 @@ const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString 
 		{
 			sad::freetype::Font * font = (sad::freetype::Font*)resource;
 			sad::Texture * texture  = font->renderToTexture("Test", 20);
-			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32);
+			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32).copy();
 			delete texture;
 			handled = true;
 		}
@@ -62,7 +62,7 @@ const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString 
 		{
 			sad::TextureMappedFont * font = (sad::TextureMappedFont*)resource;
 			sad::Texture * texture  = font->renderToTexture("Test");
-			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32);
+			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32).copy();
 			delete texture;
 			handled = true;
 		}
@@ -191,26 +191,27 @@ void resourcetreewidget::ResourceCache::createDefaultImage(QImage & im)
 		resourcetreewidget::DefaultImage::Width, 
 		resourcetreewidget::DefaultImage::Height, 
 		QImage::Format_ARGB32
-	);
+	).copy();
 }
 
 void resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
 {
-	if (im.width() > resourcetreewidget::Cell::Width 
-		|| im.height() > resourcetreewidget::Cell::Height)
+	if (im.width() > resourcetreewidget::Cell::ImageWidth 
+		|| im.height() > resourcetreewidget::Cell::ImageHeight)
 	{
 		if ((unsigned int)(im.height()) != 0)
 		{
-			float ratio = im.height() / im.width();
+			float ratio = ((float)im.height()) / im.width();
 			int width, height;
-			if (im.width() > resourcetreewidget::Cell::Width)
+			if (im.width() > im.height() 
+				&& ratio * resourcetreewidget::Cell::ImageWidth <= resourcetreewidget::Cell::ImageHeight)
 			{
-				width = resourcetreewidget::Cell::Width;
+				width = resourcetreewidget::Cell::ImageWidth;
 				height = (int)(ratio * (float)width);
 			}
 			else
 			{
-				height = resourcetreewidget::Cell::Height;
+				height = resourcetreewidget::Cell::ImageHeight;
 				width = (int)((float)height / ratio);
 			}
 			im = im.scaled(width, height,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

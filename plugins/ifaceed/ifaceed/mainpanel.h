@@ -109,6 +109,9 @@ protected:
 	void closeEvent(QCloseEvent*);
     QSpriteTableWidget* m_spriteTableWidget; //!< Modified QTableWidget. Works with configs, groups, indexes
 protected slots:
+	/*! TODO: Remove
+	 */
+	void selected(sad::String item);
 	/*! A slot, when sprite rectangle changed
 	 */
 	void spriteRectChanged();
