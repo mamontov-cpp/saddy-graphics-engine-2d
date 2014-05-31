@@ -7,7 +7,7 @@ QSpriteTableWidget::QSpriteTableWidget(QComboBox * configCombo,
 
 	m_configCombo = configCombo;
 
-	CellDelegate* mydelegate = new CellDelegate();
+	resourcetreewidget::CellDelegate* mydelegate = new resourcetreewidget::CellDelegate();
 	m_viewer = new QTableWidget();
 	m_viewer->setItemDelegate(mydelegate);
 	m_viewer->setRowCount(255);

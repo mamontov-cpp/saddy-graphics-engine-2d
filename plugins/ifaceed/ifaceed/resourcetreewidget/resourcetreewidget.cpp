@@ -1,6 +1,7 @@
 #include "resourcetreewidget/resourcetreewidget.h"
 #include "resourcetreewidget/resourcecache.h"
 #include "resourcetreewidget/celldelegate.h"
+#include "resourcetreewidget/cell.h"
 #include "resourcetreewidget/defaultimage.h"
 
 #include <QResizeEvent>
@@ -8,10 +9,14 @@
 #include <QMessageBox>
 
 #include <renderer.h>
+#include <maybe.h>
+#include <sadstring.h>
 
 #include <texturemappedfont.h>
 
 #include <QImage>
+
+Q_DECLARE_METATYPE(sad::String);
 
 ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
 : QWidget(parent), m_padding(6), m_tree_name("")
@@ -24,10 +29,15 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	m_tree_view->setHeaderLabels(headerLabels);
 
 	m_element_view = new QTableWidget(parent);
+	m_element_view->horizontalHeader()->hide();
+	m_element_view->verticalHeader()->hide();
+	m_element_view->setSelectionMode(QAbstractItemView::SingleSelection);
+	m_element_view->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-	CellDelegate* mydelegate = new CellDelegate();
-	m_element_view->setItemDelegate(mydelegate);
+	resourcetreewidget::CellDelegate* mydelegate = new resourcetreewidget::CellDelegate();
 	mydelegate->setParent(m_element_view);
+	mydelegate->setResourceTreeWidget(this);
+	m_element_view->setItemDelegate(mydelegate);
 
 	m_cache = new resourcetreewidget::ResourceCache();
 	m_cache->setParent(this);
@@ -35,6 +45,7 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	resizeWidgets(this->geometry());
 
 	connect(m_tree_view, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(treeItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+	connect(m_element_view, SIGNAL(currentItemChanged(QTableWidgetItem*, QTableWidgetItem*)), this, SLOT(elementItemChanged(QTableWidgetItem*, QTableWidgetItem*)));
 }
 
 resourcetreewidget::ResourceCache * ResourceTreeWidget::cache()
@@ -83,6 +94,18 @@ const QString & ResourceTreeWidget::filter() const
 
 void ResourceTreeWidget::updateTree()
 {
+	sad::Maybe<sad::String> path;
+	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
+	if (items.size())
+	{
+		path =	this->selectedFolder(items[0]);
+	}
+	sad::Maybe<sad::String> resourcename;
+	if (path.exists())
+	{
+		resourcename = this->selectedLocalPathToResource();
+	}
+
 	m_tree_view->clear();
 	m_element_view->clear();
 
@@ -95,6 +118,7 @@ void ResourceTreeWidget::updateTree()
 		sad::resource::Folder * folderroot = tree->root();
 		populateTree(root, folderroot);
 	}
+	tryRestoreSelection(path, resourcename);
 }
 
 sad::Maybe<sad::String> ResourceTreeWidget::pathToItemBySelection(const QString & name)
@@ -118,6 +142,66 @@ sad::Maybe<sad::String> ResourceTreeWidget::pathToItemBySelection(const QString 
 	return result;
 }
 
+void ResourceTreeWidget::setSelectedResourceName(const sad::String & name)
+{
+	sad::StringList list = name.split("/");
+	if (list.size() == 1)
+	{
+		this->tryRestoreSelection(sad::Maybe<sad::String>(""), sad::Maybe<sad::String>(name));
+	}
+	else
+	{
+		sad::String resourcename = list[list.size() - 1];
+		list.removeAt(list.size() - 1);
+		sad::String path = sad::join(list, "/");
+		this->tryRestoreSelection(
+			sad::Maybe<sad::String>(path), 
+			sad::Maybe<sad::String>(resourcename)
+		);
+	}
+}
+
+
+sad::Maybe<sad::String> ResourceTreeWidget::selectedResourceName() const
+{
+	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
+	sad::Maybe<sad::String> result;
+	if (items.size())
+	{
+		sad::Maybe<sad::String> path = this->selectedFolder(items[0]);
+		if (path.exists())
+		{
+			sad::Maybe<sad::String> localresource = this->selectedLocalPathToResource();
+			if (localresource.exists())
+			{
+				if (path.value().length() == 0)
+				{
+					result = localresource;
+				}
+				else
+				{
+					result.setValue(path.value() + "/" + result.value());
+				}
+			}
+		}
+	}
+	return result;
+}
+
+sad::resource::Resource* ResourceTreeWidget::selectedResource() const
+{
+	sad::Maybe<sad::String> path = this->selectedResourceName();
+	sad::resource::Resource * result = NULL;
+
+	sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+	sad::resource::Folder * folder = tree->root();
+	if (path.exists())
+	{
+		result = folder->resource(path.value());
+	}
+	return result;
+}
+
 void	ResourceTreeWidget::treeItemChanged(
 	QTreeWidgetItem * current, 
 	QTreeWidgetItem * previous
@@ -128,20 +212,116 @@ void	ResourceTreeWidget::treeItemChanged(
 		sad::Maybe<sad::String> v = selectedFolder(current);
 		if (v.exists())
 		{
-			QMessageBox::warning(NULL, "1", v.value().c_str());
-
+			m_element_view->clear();
 			sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
-			sad::Texture* tex = tree->get<sad::Texture>("textures");
+			sad::resource::Folder * folder = tree->root();
+			if (v.value().length() != 0)
+			{
+				folder = tree->root()->folder(v.value());
+			}
+			sad::resource::ResourceIterator cur = folder->resourceListBegin();
+			
+			// Count rows in item
+			unsigned int rows = 0;
+			bool odd = false;
+			QStringList list = m_filter.split("|");
+			for(; cur != folder->resourceListEnd(); cur++)
+			{
+				bool shouldshowresource = true;
+				if (list.count())
+				{
+					const sad::String & name = cur.value()->metaData()->name();
+					shouldshowresource = list.indexOf(name.c_str()) != -1;
+				}
+				if (shouldshowresource)
+				{
+					if (odd)
+					{
+						rows += 1;
+						odd = false;
+					}
+					else
+					{
+						odd = true;
+					}
+				}
+			}
+			if (odd)
+			{
+				rows += 1;
+			}
+			m_element_view->setRowCount(rows);
+			m_element_view->setColumnCount(2);
 
-			QImage im;
-			resourcetreewidget::ResourceCache::createImageForTexture(im, tex);
-			im.save("resource_tree_widget.png");
+			// Fill table
+			int row = 0;
+			int column = 0;
+			cur = folder->resourceListBegin();
+			for(; cur != folder->resourceListEnd(); cur++)
+			{
+				bool shouldshowitem = true;
+				if (list.count())
+				{
+					shouldshowitem = list.indexOf(cur.value()->metaData()->name().c_str()) != -1;
+				}
+				if (shouldshowitem)
+				{
+					QTableWidgetItem * item = new QTableWidgetItem(cur.key().c_str());
+					item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+					item->setSizeHint(QSize(
+						resourcetreewidget::Cell::Width, 
+						resourcetreewidget::Cell::Height
+					));
+					m_element_view->setItem(row, column, item);
+					m_element_view->resizeColumnsToContents();
+					m_element_view->resizeRowsToContents();
+					if (column == 0)
+					{
+						column = 1;
+					}
+					else
+					{
+						column = 0;
+						row += 1;
+					}
+				}
+			}			
 		}
 	}
-	
+	else
+	{
+		m_element_view->clear();
+	}
 }
 
-sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * item)
+void ResourceTreeWidget::elementItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
+{
+	if (current)
+	{
+		sad::String name = current->text().toStdString();
+		QList<QTreeWidgetItem *> list = m_tree_view->selectedItems();
+		if (list.count())
+		{
+			sad::Maybe<sad::String> path = this->selectedFolder(list[0]);
+			if (path.exists())
+			{
+				sad::String result = path.value();
+				if (result.length())
+				{
+					result += "/";
+					result += name;
+				}
+				else
+				{
+					result = name;
+				}
+				emit selectionChanged(result);
+			}
+		}
+	}
+}
+
+sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * item) const
 {
 	sad::Maybe<sad::String> value;
 	if (item)
@@ -158,6 +338,76 @@ sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * ite
 		value.setValue(path);
 	}
 	return value;
+}
+
+sad::Maybe<sad::String> ResourceTreeWidget::selectedLocalPathToResource() const
+{
+	QList<QTableWidgetItem *> elements = m_element_view->selectedItems();
+	sad::Maybe<sad::String> result;
+	if (elements.count())
+	{
+		result.setValue(elements[0]->text().toStdString());
+	}
+	return result;
+}
+
+void ResourceTreeWidget::tryRestoreSelection(
+	const sad::Maybe<sad::String> & folder,
+	const sad::Maybe<sad::String> & resourcelocal
+)
+{
+	if (folder.exists())
+	{
+		sad::String pathvalue = folder.value();
+		bool found = false;
+		QTreeWidgetItem * current = NULL;
+		if (pathvalue.length() == 0)
+		{
+			current = m_tree_view->topLevelItem(0);
+			m_tree_view->setCurrentItem(current, 0);
+			found = true;
+		}
+		else
+		{
+			sad::StringList list = pathvalue.split("/");
+			current = m_tree_view->topLevelItem(0);
+			for(int i = 0; i < list.count() && current != NULL; i++)
+			{
+				bool hasspecifieditem = false;
+				for(int j = 0; j < current->childCount() && !hasspecifieditem; j++)
+				{
+				   if(current->child(j)->text(0) == list[j].c_str())
+				   {
+						current = current->child(j);
+						hasspecifieditem = true;
+				   }
+				}
+				if (!hasspecifieditem)
+				{
+					current = NULL;
+				}
+			}
+			if (current)
+			{
+				m_tree_view->setCurrentItem(current, 0);
+				found = true;
+			}
+		}
+
+		if (found)
+		{
+			this->treeItemChanged(current, NULL);
+			if (resourcelocal.exists())
+			{
+				// Try set selection for local
+				QList<QTableWidgetItem *> items = m_element_view->findItems(resourcelocal.value().c_str(), Qt::MatchExactly);
+				if (items.count())
+				{
+					m_element_view->setCurrentItem(items[0]);
+				}
+			}
+		}
+	}
 }
 
 void ResourceTreeWidget::populateTree(

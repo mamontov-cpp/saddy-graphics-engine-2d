@@ -46,7 +46,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	ui.setupUi(this);
-	
+
 	m_selfchanged = false;
 	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
@@ -123,6 +123,8 @@ void MainPanel::setEditor(IFaceEditor * editor)
 	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
+
+	connect(ui.rtwSpriteTree, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }
 
 
@@ -139,9 +141,14 @@ void MainPanel::closeEvent(QCloseEvent* ev)
  this->QMainWindow::closeEvent(ev);
 }
 
+void MainPanel::selected(sad::String item)
+{
+	QMessageBox::warning(NULL, "1", item.c_str());
+}
 void MainPanel::synchronizeDatabase()
 {
-	ui.rtwSpriteTree->updateTree();
+	ui.rtwSpriteTree->setFilter("sad::Sprite2D::Options|sad::freetype::Font|sad::TextureMappedFont");
+	
 	// TODO: Erase when not needed
 	/*
 	bool oldfontsstate = ui.cmbFonts->blockSignals(true);

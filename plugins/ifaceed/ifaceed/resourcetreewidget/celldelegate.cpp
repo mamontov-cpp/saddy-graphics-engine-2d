@@ -8,18 +8,23 @@
 #include <QImage>
 #include <unused.h>
 
-void CellDelegate::paint(QPainter * painter, 
-						 const QStyleOptionViewItem & option, 
-						 const QModelIndex & index ) const
+void resourcetreewidget::CellDelegate::paint(
+	QPainter * painter, 
+	const QStyleOptionViewItem & option, 
+	const QModelIndex & index 
+) const
 {
-	if (this->parent() == NULL)
+	ResourceTreeWidget * parent = m_widget;
+	if (parent == NULL)
 	{
 		return;
 	}
-
-	ResourceTreeWidget * widget = (ResourceTreeWidget*)(this->parent());
 	QString resourcetext = index.data(Qt::DisplayRole).value<QString>();
-	sad::Maybe<sad::String> resourcepath = widget->pathToItemBySelection(resourcetext);
+	if (resourcetext.length() == 0)
+	{
+		return;
+	}
+	sad::Maybe<sad::String> resourcepath = parent->pathToItemBySelection(resourcetext);
 
 	if (resourcepath.exists() == false || resourcetext.length() == 0)
 		return;
@@ -33,18 +38,24 @@ void CellDelegate::paint(QPainter * painter,
 		painter->restore();
     }
 	// Draw centered image
-	const QImage & img = widget->cache()->imageForResource(resourcepath.value().data());
-	painter->drawImage(option.rect.x() + option.rect.width()/2 - img.width()/2,
-					   option.rect.y(),img);
+	const QImage & img = parent->cache()->imageForResource(resourcepath.value().data());
+	painter->drawImage(
+		option.rect.x() + option.rect.width()/2 - img.width()/2,
+		option.rect.y() + resourcetreewidget::Cell::ImageHeight/2 - img.height()/2,
+		img
+	);
 
-	
 	QFont font = QFont();
 	font.setPixelSize(resourcetreewidget::Cell::FontSize);
 	QFont oldFont = painter->font();
 	painter->setFont(font);
 	QFontMetrics fontMetrics(font);
 	//Compute label
-	QString label = getAcceptableString(resourcetext, option.rect.width(), fontMetrics);
+	QString label = resourcetreewidget::getAcceptableString(
+		resourcetext, 
+		option.rect.width(), 
+		fontMetrics
+	);
 	//Compute center
 	int labelpointx = option.rect.x() 
 					+ option.rect.width() / 2 
@@ -60,68 +71,50 @@ void CellDelegate::paint(QPainter * painter,
 	
 }
 
-QSize CellDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
+QSize resourcetreewidget::CellDelegate::sizeHint(
+	const QStyleOptionViewItem &, 
+	const QModelIndex &
+) const
 {
 	return QSize(resourcetreewidget::Cell::Width, resourcetreewidget::Cell::Height);
 }
 
-QString halfString(const QString & str)
-{
-	QString res;
 
-	int sz = str.size();
-	if (sz > 1)
-	{
-		res = str.left(sz/2);
-	}
-	return res;
-}
-
-QString halfStringWith3Dots(const QString & str)
-{
-	QString res;
-
-	res = str;
-	if (res.endsWith("..."))
-	{
-		res.truncate(3);
-	}
-	res = halfString(res);
-	res+="...";
-
-	return res;
-}
-
-QString getAcceptableString(
+QString resourcetreewidget::getAcceptableString(
 	const QString& string, 
 	int in_width, 
 	QFontMetrics & metrics
 )
 {
-	
-	QString part1 = string.mid(0, string.length() / 2);
-	QString part2 = string.mid(string.length() / 2);
-	QString str = QString("%1%2").arg(part1).arg(part2);
-	int w = metrics.width(str);
+	int lengthpart1 = string.length() / 2;
+	int lengthpart2 = string.length() / 2;
+	int w = metrics.width(string);
 	bool cutted_totally = false;
+	bool changed = false;
 	while(!cutted_totally && (w > in_width))
 	{
-		QFont font;
-		font.setPixelSize(10);
-		QFontMetrics fm(font);
-        //int needWidth = fm.width(str);
-		if (part1.size() > part2.size() || part1 == "...")
+		changed = true;
+		if (lengthpart1 > 3 && lengthpart1 > (string.length () - lengthpart2))
 		{
-			part1 = halfStringWith3Dots(part1);
+			lengthpart1 -= 3;
 		}
 		else
 		{
-			part2 = halfStringWith3Dots(part2);
+			lengthpart2 += 3;
 		}
-		str = QString("%1%2").arg(part1).arg(part2);
+		
+		QFont font;
+		font.setPixelSize(10);
+		QFontMetrics fm(font);
+        QString str = string.mid(0, lengthpart1) + "..." + string.mid(lengthpart2);
 		w = metrics.width(str);
-		cutted_totally = (part1=="..." && part2=="...") ;
+		cutted_totally = (lengthpart1 <= 0) && (lengthpart2 >= string.length()) ;
 	}
-
-	return str;
+	// Resulting string data
+	QString result = string;
+	if (changed)
+	{
+		result = string.mid(0, lengthpart1) + "..." + string.mid(lengthpart2);
+	}
+	return result;
 }
