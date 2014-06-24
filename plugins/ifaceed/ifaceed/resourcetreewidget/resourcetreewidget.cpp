@@ -27,6 +27,7 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	QStringList headerLabels;
 	headerLabels << "";
 	m_tree_view->setHeaderLabels(headerLabels);
+	m_tree_view->header()->close();
 
 	m_element_view = new QTableWidget(parent);
 	m_element_view->horizontalHeader()->hide();
