@@ -649,7 +649,7 @@ sprite (ignores an angle)</string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -670,6 +670,16 @@ sprite (ignores an angle)</string>
      <attribute name="title">
       <string>Tab 2</string>
      </attribute>
+     <widget class="ColorPicker" name="clpColors" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>341</width>
+        <height>181</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -680,6 +690,12 @@ sprite (ignores an angle)</string>
    <class>ResourceTreeWidget</class>
    <extends>QWidget</extends>
    <header>resourcetreewidget/resourcetreewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QWidget</extends>
+   <header>colorpicker/colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
