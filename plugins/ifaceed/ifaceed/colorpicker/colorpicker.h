@@ -7,6 +7,8 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QSpinBox>
+#include <QImage>
+#include <QHash>
 
 class ColorPicker: public QWidget
 {
@@ -15,6 +17,9 @@ public:
 	/*! Constructs new resource tree widget 
 	 */
 	ColorPicker(QWidget * parent = NULL);
+	/*! Selected color data
+	 */
+	QColor selectedColor();
 	/*! Destroys data from a widget
 	 */
 	~ColorPicker();
@@ -65,6 +70,15 @@ protected:
 	/*! A column count for color preview 
 	 */
 	static int PreviewColumnCount;
+	/*! Width and height of markers in color picker
+	 */
+	static int MarkerSize;
+	/*! A width for lightness gradient
+	 */
+	static int LightnessGradientWidth;
+	/*! A height for alpha gradient
+	 */
+	static int AlphaGradientHeight;
 	/*! Paints color picker's palette and parts near palette
 		\param[in] e event
 	 */
@@ -115,6 +129,23 @@ protected:
 		\param[in] c new color
 	 */
 	void updateColorsInPalettePreviewColorWheel(const QColor & c);
+	/*! Regenerate images for painting
+	 */
+	void regenerateImages();
+	/*! Regenerates lightness image for
+		\param[in] height specified height of  image
+	 */
+	void regenerateLightnessImage(int height);
+	/*! Regenerates alpha image for
+		\param[in] width specified width of image
+	 */
+	void regenerateAlphaImage(int width);
+	/*! Generates color wheel
+		\param[in] lightnes a lightness for data
+		\param[in] alpha alpha for wheel 
+		\param[in] size a side part
+	 */
+	void generateColorWheel(int lightness, int alpha, int side);
 	/*! Describes a row to be set in color picker
 	 */
 	int m_row_to_be_set;
@@ -140,4 +171,16 @@ protected:
 	/*! A widget for showing color and adjacent preview colors
 	 */
 	QTableWidget* m_preview;
+	/*! A hash, where key is pair (lightness, alpha) and color wheel is value
+	 */
+	QHash<QPair<int, int>, QImage> m_color_wheels;
+	/*! Lightness image
+	 */
+	QImage* m_lightness_image;
+	/*! Alpha image data
+	 */
+	QImage* m_alpha_image;
+	/*! A size of color wheel for color picker
+	 */
+	int m_wheel_size;
 };
