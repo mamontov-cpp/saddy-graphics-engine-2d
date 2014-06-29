@@ -9,20 +9,43 @@
 #include <QSpinBox>
 #include <QImage>
 #include <QHash>
+#include <QMouseEvent>
+#include <QList>
+#include <QColor>
 
+/*! A color picker widget 
+ */
 class ColorPicker: public QWidget
 {
 	Q_OBJECT
 public: 
-	/*! Constructs new resource tree widget 
+	/*! Constructs new color picker
+		\param[in] parent a parent widget
 	 */
 	ColorPicker(QWidget * parent = NULL);
 	/*! Selected color data
 	 */
-	QColor selectedColor();
+	QColor selectedColor() const;
+	/*! Sets selected color for a widget. If color exists in palette,
+		sets selection to it, otherwise sets current color to a selection
+		\param[in] c a new color
+	 */
+	void setSelectedColor(const QColor & c);
+	/*! Returns palette as list of lists of colors
+		\return palette 
+	 */
+	QList<QList<QColor> > palette() const;
+	/*! Sets a palette for color picker
+		\param[in] palette a palette for color picker
+	 */
+	void setPalette(const QList<QList<QColor> > & palette);
 	/*! Destroys data from a widget
 	 */
 	~ColorPicker();
+signals: 
+	/*! A signal, emitted when color is changed
+	 */
+	void selectedColorChanged(QColor c);
 protected slots:
 	/*! Activated, when selected item in palette
 		\param[in] current new item
@@ -86,6 +109,10 @@ protected:
 		\param[in] e event
 	 */
 	virtual void paintEvent(QPaintEvent * e);
+	/*! Handle moving up and down on key press
+		\param[in] e event
+	 */ 
+	virtual void keyPressEvent(QKeyEvent * e);
 	/*! Handles resize, resizing elements
 		\param[in] e event
 	 */
@@ -94,6 +121,14 @@ protected:
 		\param[in] e event
 	 */
 	virtual void moveEvent(QMoveEvent * e);
+	/*! Handles mouse move event
+		\param[in] e event
+	 */
+	virtual void mouseMoveEvent (QMouseEvent * e);
+	/*! Handles mouse press event
+		\param[in] e event
+	 */
+	virtual void mousePressEvent(QMouseEvent * e);
 	/*! Resizes widgets, making them fit to tree
 		\param[in] r a rectangle
 	 */
@@ -128,6 +163,10 @@ protected:
 		\param[in] column a column cell from palette
 	 */
 	void updateSilentlyColorParts(int row, int column);
+	/*! Silently updates color parts spinboxes
+		\param[in] c color parts
+	 */
+	void updateSilentlyColorParts(const QColor & c);
 	/*! Updates colors in all places, when working with spinboxes
 		\param[in] c new color
 	 */
@@ -149,6 +188,22 @@ protected:
 		\param[in] size a side part
 	 */
 	void generateColorWheel(int lightness, int alpha, int side);
+	/*! Handles a mouse events
+		\param[in] e event
+	 */
+	void handleMouseEvents(QMouseEvent* e);
+	/*! Computes a current position of selection for color on wheel.
+		Returns saved position, if forced flag is set to true
+		\param[in] c color
+		\return position
+     */
+	QPointF colorPositionOnWheel(const QColor & c);
+	/*! Handles color wheel mouse change
+		\param[in] p position of mouse on color wheel
+		\param[out] c color
+		\return whether color should be changed
+	 */
+	bool handleColorWheelPositionChange(const QPointF & p, QColor & c);
 	/*! Describes a row to be set in color picker
 	 */
 	int m_row_to_be_set;
@@ -176,7 +231,7 @@ protected:
 	QTableWidget* m_preview;
 	/*! A hash, where key is pair (lightness, alpha) and color wheel is value
 	 */
-	QHash<QPair<int, int>, QImage> m_color_wheels;
+	QHash<int, QHash<int, QImage> > m_color_wheels;
 	/*! Lightness image
 	 */
 	QImage* m_lightness_image;
@@ -195,4 +250,13 @@ protected:
 	/*! A size of color wheel for color picker
 	 */
 	int m_wheel_size;
+	/*! Forces selection drawing on space, specified by point
+	 */
+	bool m_force_selection;
+	/*! A point place
+	 */
+	QPointF m_force_point;
+	/*! If removing data in picker
+	 */
+	bool m_removing_data;
 };

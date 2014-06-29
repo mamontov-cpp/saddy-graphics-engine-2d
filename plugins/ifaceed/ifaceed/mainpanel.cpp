@@ -114,6 +114,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
+	connect(ui.clpColors, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
@@ -917,3 +918,8 @@ void MainPanel::rollbackHistoryChange()
 	m_editor->history()->rollback(m_editor);
 }
 
+void MainPanel::colorChanged(QColor c)
+{
+	QString a = QString("%1%2%3%4\n").arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
+	qDebug(a.toStdString().c_str());
+}
