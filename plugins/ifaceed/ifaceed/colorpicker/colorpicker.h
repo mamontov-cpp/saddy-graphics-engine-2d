@@ -79,6 +79,9 @@ protected:
 	/*! A height for alpha gradient
 	 */
 	static int AlphaGradientHeight;
+	/*! A size for color wheel selection
+	 */
+	static int ColorWheelSelectionSize;
 	/*! Paints color picker's palette and parts near palette
 		\param[in] e event
 	 */
@@ -180,6 +183,15 @@ protected:
 	/*! Alpha image data
 	 */
 	QImage* m_alpha_image;
+	/*! A location for lightness image
+	 */
+	QRectF  m_lightness_image_location;
+	/*! A location for alpha image
+	 */
+	QRectF  m_alpha_image_location;
+	/*! A color wheel location for rendering
+	 */
+	QRectF m_color_wheel_location;
 	/*! A size of color wheel for color picker
 	 */
 	int m_wheel_size;

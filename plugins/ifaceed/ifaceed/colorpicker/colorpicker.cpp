@@ -30,6 +30,8 @@ int ColorPicker::LightnessGradientWidth = 5;
 
 int ColorPicker::AlphaGradientHeight = 5;
 
+int ColorPicker::ColorWheelSelectionSize = 3;
+
 ColorPicker::ColorPicker(QWidget * parent) 
 : QWidget(parent)
 {
@@ -100,7 +102,12 @@ ColorPicker::ColorPicker(QWidget * parent)
 
 QColor ColorPicker::selectedColor()
 {
-	return QColor(255, 0, 0);
+	QList<QTableWidgetItem *> items = m_palette->selectedItems();
+	if (items.count())
+	{
+		return items[0]->background().color();
+	}
+	return QColor(255, 255, 255);
 }
 
 ColorPicker::~ColorPicker()
@@ -258,27 +265,11 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 		QPainter qpainter (this);
 		if (m_lightness_image)
 		{
-			qpainter.drawImage(
-				QRectF(
-					QPointF(this->width() - ColorPicker::MarkerSize - ColorPicker::LightnessGradientWidth ,0), 
-					QSizeF(m_lightness_image->width(), m_lightness_image->height())
-				),
-				*m_lightness_image
-			);
+			qpainter.drawImage(m_lightness_image_location, *m_lightness_image);
 		}
 		if (m_alpha_image)
 		{
-			int y = this->height() / 2 
-				  - ColorPicker::VerticalPadding 
-				  - ColorPicker::MarkerSize 
-				  - ColorPicker::AlphaGradientHeight;
-			qpainter.drawImage(
-				QRectF(
-					QPointF(this->width() / 2 + ColorPicker::HorizontalPadding, y), 
-					QSizeF(m_alpha_image->width(), m_alpha_image->height())
-				),
-				*m_alpha_image
-			);
+			qpainter.drawImage(m_alpha_image_location, *m_alpha_image);
 		}
 
 
@@ -291,24 +282,48 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 		}
 
 		QImage & i = m_color_wheels[pair];
+		qpainter.drawImage(m_color_wheel_location, i);
 
-		int colorwheelmaxwidth = this->width() / 2 
-							   - ColorPicker::HorizontalPadding
-							   - ColorPicker::MarkerSize 
-							   - ColorPicker::LightnessGradientWidth;
-		int x = this->width() / 2 + ColorPicker::HorizontalPadding + colorwheelmaxwidth / 2 - i.width() / 2;
-		int colorwheelmaxheight = this->height() / 2
-						     - ColorPicker::VerticalPadding
-							 - ColorPicker::MarkerSize 
-							 - ColorPicker::AlphaGradientHeight;
-		int y = colorwheelmaxheight / 2 - i.height() / 2;
-		qpainter.drawImage(
-				QRectF(
-					QPointF(x, y), 
-					QSizeF(i.width(), i.height())
-				),
-				i
-		);
+		// Render color selection in color wheel
+		{
+			double hue = color.hue() / 180 * M_PI;
+			double saturation = color.saturation() / 255.0 * m_wheel_size / 2;
+			QPointF center = m_color_wheel_location.center();
+			center += QPointF(saturation * sin(hue), saturation * cos(hue));
+			qpainter.setPen(Qt::black);
+			int d = ColorPicker::ColorWheelSelectionSize / 2;
+			int size = ColorPicker::ColorWheelSelectionSize;
+			qpainter.drawRect(center.x() - d, center.y() - d, size, size);
+		}
+
+		// Render alpha selection
+		{
+			double alpha = color.alpha() / 255.0;
+			double x = m_alpha_image_location.x() + m_alpha_image_location.width() * alpha;
+			double y = m_alpha_image_location.bottom();
+			QPointF p1(x, y),
+					p2(x - ColorPicker::MarkerSize, y + ColorPicker::MarkerSize),
+					p3(x + ColorPicker::MarkerSize, y + ColorPicker::MarkerSize);
+			qpainter.setPen(Qt::black);
+			qpainter.drawLine(p1, p2);
+			qpainter.drawLine(p1, p3);
+			qpainter.drawLine(p2, p3);
+		}
+
+		// Render lightness selection
+		{
+			double lightness = (255 - color.lightness()) / 255.0;
+			double x = m_lightness_image_location.right();
+			double y = m_lightness_image_location.y() + m_lightness_image_location.height() * lightness;
+			// 1 is a padding to render right part, otherwise it will be clamped
+			QPointF p1(x, y),
+					p2(x + ColorPicker::MarkerSize - 1, y - ColorPicker::MarkerSize + 1),
+					p3(x + ColorPicker::MarkerSize - 1, y + ColorPicker::MarkerSize - 1);
+			qpainter.setPen(Qt::black);
+			qpainter.drawLine(p1, p2);
+			qpainter.drawLine(p1, p3);
+			qpainter.drawLine(p2, p3);
+		}
 	}
 	this->QWidget::paintEvent(e);
 }
@@ -351,7 +366,7 @@ void ColorPicker::resizeWidgets(const QRect & r)
 		r.height() / 2 - ColorPicker::VerticalPadding
 	);
 
-	regenerateImages();
+	regenerateImages();	
 }
 
 
@@ -503,6 +518,7 @@ void ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
 		items[0]->setBackground(c);
 	}
 	m_preview->item(1, 1)->setBackground(c);
+	this->repaint();
 }
 
 void ColorPicker::regenerateImages()
@@ -519,7 +535,20 @@ void ColorPicker::regenerateImages()
 
 	regenerateLightnessImage(height);
 	regenerateAlphaImage(width);
+
 	m_color_wheels.clear();
+	// Recompute color wheel location
+	int colorwheelmaxwidth = this->width() / 2 
+						   - ColorPicker::HorizontalPadding
+						   - ColorPicker::MarkerSize 
+						   - ColorPicker::LightnessGradientWidth;
+	int x = this->width() / 2 + ColorPicker::HorizontalPadding + colorwheelmaxwidth / 2 - m_wheel_size / 2;
+	int colorwheelmaxheight = this->height() / 2
+						    - ColorPicker::VerticalPadding
+							- ColorPicker::MarkerSize 
+							- ColorPicker::AlphaGradientHeight;
+	int y = colorwheelmaxheight / 2 - m_wheel_size / 2;
+	m_color_wheel_location = QRectF(QPointF(x, y),  QSizeF(m_wheel_size, m_wheel_size));
 }
 
 void ColorPicker::regenerateLightnessImage(int height)
@@ -527,34 +556,21 @@ void ColorPicker::regenerateLightnessImage(int height)
 	delete m_lightness_image;
 	m_lightness_image = new QImage(ColorPicker::LightnessGradientWidth, height, QImage::Format_ARGB32);
 	QPainter lightnesspainter(m_lightness_image);
-	if (height > 255)
-	{
-		double lineheight = height / 255.0;
-		for(int i = 0 ; i < 255; i++) 
-		{
-			lightnesspainter.fillRect(
-				QRect(
-					QPoint(0,  (int)(lineheight * i)), 
-					QSize(ColorPicker::LightnessGradientWidth, lineheight)	
-				), 
-				QColor::fromHsl(255, 255, i)
-			);
-		}
-	}
-	else
-	{
-		float parts = 255.0 / height;
-		for(int i = 0; i < height; i++)
-		{
-			lightnesspainter.fillRect(
-				QRect(
-					QPoint(0,  i), 
-					QSize(ColorPicker::LightnessGradientWidth, 1)	
-				), 
-				QColor::fromHsl(255, 255, 255 - parts * i)
-			);
-		}
-	}
+	QLinearGradient g(0, 0, ColorPicker::LightnessGradientWidth, height);
+	g.setColorAt(0, QColor::fromHsl(255, 255, 255));
+	g.setColorAt(1, QColor::fromHsl(255, 255, 0));
+	lightnesspainter.fillRect(
+		QRect(
+			QPoint(0,  0), 
+			QSize(ColorPicker::LightnessGradientWidth, height)	
+		),
+		g
+	);
+	
+	m_lightness_image_location = QRectF(
+		QPointF(this->width() - ColorPicker::MarkerSize - ColorPicker::LightnessGradientWidth ,0), 
+		QSizeF(m_lightness_image->width(), m_lightness_image->height())
+	);
 }
 
 void ColorPicker::regenerateAlphaImage(int width)
@@ -562,34 +578,25 @@ void ColorPicker::regenerateAlphaImage(int width)
 	delete m_alpha_image;
 	m_alpha_image = new QImage(width, ColorPicker::AlphaGradientHeight, QImage::Format_ARGB32);
 	QPainter painter(m_alpha_image);
-	if (width > 255)
-	{
-		double linewidth = width / 255.0;
-		for(int i = 0 ; i < 255; i++) 
-		{
-			painter.fillRect(
-				QRect(
-					QPoint((int)(linewidth * i), 0), 
-					QSize(linewidth, ColorPicker::AlphaGradientHeight)	
-				), 
-				QColor(255, 0, 0, i)
-			);
-		}
-	}
-	else
-	{
-		float parts = 255.0 / width;
-		for(int i = 0; i < width; i++)
-		{
-			painter.fillRect(
-				QRect(
-					QPoint(i, 0), 
-					QSize(1, ColorPicker::AlphaGradientHeight)	
-				), 
-				QColor(0, 0, 0, i)
-			);
-		}
-	}
+	QLinearGradient g(0, 0, width, ColorPicker::AlphaGradientHeight);
+	g.setColorAt(0, QColor(255, 0, 0, 0));
+	g.setColorAt(1, QColor(255, 0, 0, 255));
+	painter.fillRect(
+		QRect(
+			QPoint(0,  0), 
+			QSize(width, ColorPicker::AlphaGradientHeight)	
+		),
+		g
+	);
+	
+	int y = this->height() / 2 
+		  - ColorPicker::VerticalPadding 
+		  - ColorPicker::MarkerSize 
+		  - ColorPicker::AlphaGradientHeight;
+	m_alpha_image_location = QRectF(
+		QPointF(this->width() / 2 + ColorPicker::HorizontalPadding, y), 
+		QSizeF(m_alpha_image->width(), m_alpha_image->height())
+	);
 }
 
 void ColorPicker::generateColorWheel(int lightness, int alpha, int side)
