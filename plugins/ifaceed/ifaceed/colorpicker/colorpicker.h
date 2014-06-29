@@ -182,10 +182,10 @@ protected:
 		\param[in] width specified width of image
 	 */
 	void regenerateAlphaImage(int width);
-	/*! Generates color wheel
-		\param[in] lightnes a lightness for data
+	/*! Generates color wheel image
+		\param[in] lightness a lightness for data
 		\param[in] alpha alpha for wheel 
-		\param[in] size a side part
+		\param[in] side a side of square, where color wheel should be inside
 	 */
 	void generateColorWheel(int lightness, int alpha, int side);
 	/*! Handles a mouse events

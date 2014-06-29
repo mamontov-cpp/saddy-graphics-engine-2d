@@ -24,12 +24,10 @@ class NewCommand: public AbstractCommand
 	 */
 	NewCommand(ScreenTemplate * container, AbstractScreenObject * object);
 	/** Applies changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
 	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
 	virtual void rollback(CommandChangeObserver * ob = NULL);
@@ -50,12 +48,10 @@ class ScreenClearCommand: public AbstractCommand
 	 */
 	ScreenClearCommand(ScreenTemplate * container);
 	/** Applies changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
 	virtual void commit(CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
-		\param[in] c context
 		\param[in] ob observer for command
 	  */
 	virtual void rollback(CommandChangeObserver * ob = NULL);
