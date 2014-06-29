@@ -182,6 +182,11 @@ protected slots:
 	 */
 	void rollbackHistoryChange();
 
+	/*! Handled, when color changed
+		\param[in] c color
+	 */
+	void colorChanged(QColor c);
+
 };
 
 #endif // MAINPANEL_H

@@ -9,6 +9,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <cassert>
 
 int ColorPicker::PaletteDefaultRowCount = 5;
 
@@ -35,6 +36,8 @@ int ColorPicker::ColorWheelSelectionSize = 3;
 ColorPicker::ColorPicker(QWidget * parent) 
 : QWidget(parent)
 {
+	m_removing_data = false;
+	m_force_selection = false;
 	m_lightness_image = NULL;
 	m_alpha_image = NULL;
 
@@ -98,9 +101,10 @@ ColorPicker::ColorPicker(QWidget * parent)
 	
 
 	m_palette->setCurrentCell(ColorPicker::PaletteDefaultRowCount / 2, ColorPicker::PaletteDefaultColumnCount / 2);
+	this->update();
 }
 
-QColor ColorPicker::selectedColor()
+QColor ColorPicker::selectedColor() const
 {
 	QList<QTableWidgetItem *> items = m_palette->selectedItems();
 	if (items.count())
@@ -108,6 +112,119 @@ QColor ColorPicker::selectedColor()
 		return items[0]->background().color();
 	}
 	return QColor(255, 255, 255);
+}
+
+void ColorPicker::setSelectedColor(const QColor & c)
+{
+	bool found = false;
+	int foundrow = 0, foundcol = 0;
+	for(int i = 0; i < m_palette->rowCount(); i++)
+	{
+		for(int j = 0; j < m_palette->columnCount(); j++)
+		{
+			if (m_palette->item(i, j)->background().color() == c)
+			{
+				found = true;
+				foundrow = i;
+				foundcol = j;
+			}
+		}
+	}
+
+	if (found)
+	{
+		m_palette->setCurrentCell(foundrow, foundcol);
+	}
+	else
+	{
+		QList<QTableWidgetItem *> items = m_palette->selectedItems();
+		int row = 0;
+		int column = 0;
+		if (items.count() != 0)
+		{
+			row = items[0]->row();
+			column = items[0]->column();
+			items[0]->setBackground(c);
+			
+		}
+		else
+		{
+			bool b = m_palette->blockSignals(true);
+			m_palette->setCurrentCell(0, 0);
+			m_palette->blockSignals(false);
+			QTableWidgetItem * item = m_palette->item(0, 0);
+			item->setBackground(c);
+		}
+		updateFullPreviewTable(row, column);
+		updateSilentlyColorParts(row, column);
+		this->update();
+	}
+	m_palette->setStyleSheet(
+			QString("QTableWidget::item:selected{ background-color: rgba(%1, %2, %3, %4) }")
+			.arg(c.red())
+			.arg(c.green())
+			.arg(c.blue())
+			.arg(c.alpha())
+		);	
+	m_palette->update();
+}
+
+QList<QList<QColor> > ColorPicker::palette() const
+{
+	QList<QList<QColor> > result;
+	for(int i = 0; i < m_palette->rowCount(); i++)
+	{
+		result << QList<QColor>();
+		for(int j = 0; j < m_palette->columnCount(); j++)
+		{
+			result[i] << m_palette->item(i, j)->background().color(); 
+		}
+	}
+	return result;
+}
+
+void ColorPicker::setPalette(const QList<QList<QColor> > & palette)
+{
+	if (palette.count() < 1)
+	{
+		qDebug("A palette must at least have one row");
+		return;
+	}
+	if (palette[0].count() < 1)
+	{
+		qDebug("A palette must at least have one column");
+		return;
+	}
+	m_palette->clearSelection();
+	m_removing_data = true;
+	m_palette->setRowCount(palette.size());
+	int columncount = 0;
+	for(int i = 0; i < palette.size(); i++)
+	{
+		columncount = std::max(0, palette[i].size());
+	}
+	m_palette->setColumnCount(columncount);
+	m_removing_data = false;
+	for(int i = 0; i < palette.size(); i++)
+	{
+		this->fillRow(i);
+		for(int j = 0; j < palette[i].size(); j++)
+		{
+			m_palette->item(i, j)->setBackground(palette[i][j]);
+		}
+	}
+
+	m_row_to_be_set = 0;
+	m_col_to_be_set = 0;
+	m_palette->setStyleSheet(
+			QString("QTableWidget::item:selected{ background-color: rgba(%1, %2, %3, %4) }")
+			.arg(palette[0][0].red())
+			.arg(palette[0][0].green())
+			.arg(palette[0][0].blue())
+			.arg(palette[0][0].alpha())
+	);	
+	QTimer::singleShot(0, this, SLOT(setPaletteSelection()));
+	emit selectedColorChanged(palette[0][0]);
 }
 
 ColorPicker::~ColorPicker()
@@ -122,6 +239,8 @@ ColorPicker::~ColorPicker()
 
 void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
 {
+	if (m_removing_data)
+		return;
 	if (current)
 	{
 		int row = current->row();
@@ -172,6 +291,8 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 
 			fillColumn(m_palette->columnCount() - 1);
 		}
+		// Drop selection cache
+		m_force_selection = false;
 
 		if (changeselection)
 		{
@@ -183,6 +304,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 		{
 			updateFullPreviewTable(row, column);
 			updateSilentlyColorParts(row, column);
+			this->update();
 		}
 
 		m_palette->setStyleSheet(
@@ -191,10 +313,8 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 			.arg(color.green())
 			.arg(color.blue())
 			.arg(color.alpha())
-		);
-
-		// TODO: Handle selected color
-		
+		);	
+		emit selectedColorChanged(color);
 	}
 }
 
@@ -205,58 +325,63 @@ void  ColorPicker::setPaletteSelection()
 	m_palette->selectionModel()->clearSelection();
 	m_palette->setCurrentCell(m_row_to_be_set, m_col_to_be_set);
 	m_palette->blockSignals(old);
-	m_palette->repaint();
+	m_palette->update();
 
 	updateFullPreviewTable(m_row_to_be_set, m_col_to_be_set);
 	updateSilentlyColorParts(m_row_to_be_set, m_col_to_be_set);
+	this->update();
 }
 
 void  ColorPicker::redChanged(int v)
 {
-	updateColorsInPalettePreviewColorWheel(
-		QColor(
+	m_force_selection = false;
+	QColor color(
 			v, 
 			m_colors_data[1]->value(),
 			m_colors_data[2]->value(),
 			m_colors_data[3]->value()
-		)
 	);
+	updateColorsInPalettePreviewColorWheel(color);
+	emit selectedColorChanged(color);
 }
 
 void  ColorPicker::greenChanged(int v)
 {
-	updateColorsInPalettePreviewColorWheel(
-		QColor(
+	m_force_selection = false;
+	QColor color(
 			m_colors_data[0]->value(), 
 			v,
 			m_colors_data[2]->value(),
 			m_colors_data[3]->value()
-		)
 	);
+	updateColorsInPalettePreviewColorWheel(color);
+	emit selectedColorChanged(color);
 }
 
 void  ColorPicker::blueChanged(int v)
 {
-	updateColorsInPalettePreviewColorWheel(
-		QColor(
+	m_force_selection = false;
+	QColor color(
 			m_colors_data[0]->value(), 
 			m_colors_data[1]->value(),
 			v,
 			m_colors_data[3]->value()
-		)
 	);
+	updateColorsInPalettePreviewColorWheel(color);
+	emit selectedColorChanged(color);
 }
 
 void  ColorPicker::alphaChanged(int v)
 {
-	updateColorsInPalettePreviewColorWheel(
-		QColor(
+	m_force_selection = false;
+	QColor color(
 			m_colors_data[0]->value(), 
 			m_colors_data[1]->value(),
 			m_colors_data[2]->value(),
 			v
-		)
 	);
+	updateColorsInPalettePreviewColorWheel(color);
+	emit selectedColorChanged(color);
 }
 
 void ColorPicker::paintEvent(QPaintEvent * e)
@@ -275,21 +400,25 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 
 		QColor color = this->selectedColor();
 		
-		QPair<int, int> pair(color.lightness(), color.alpha());
-		if (m_color_wheels.contains(pair) == false)
+		bool contains = true;
+		if (m_color_wheels.contains(color.lightness()) == false)
+		{
+			contains = m_color_wheels.contains(color.alpha());
+		}
+		else
+		{
+			contains = false;
+		}
+		if (!contains)
 		{
 			generateColorWheel(color.lightness(), color.alpha(), m_wheel_size);
 		}
-
-		QImage & i = m_color_wheels[pair];
+		QImage & i = m_color_wheels[color.lightness()][color.alpha()];
 		qpainter.drawImage(m_color_wheel_location, i);
 
 		// Render color selection in color wheel
 		{
-			double hue = color.hue() / 180 * M_PI;
-			double saturation = color.saturation() / 255.0 * m_wheel_size / 2;
-			QPointF center = m_color_wheel_location.center();
-			center += QPointF(saturation * sin(hue), saturation * cos(hue));
+			QPointF center = this->colorPositionOnWheel(color);
 			qpainter.setPen(Qt::black);
 			int d = ColorPicker::ColorWheelSelectionSize / 2;
 			int size = ColorPicker::ColorWheelSelectionSize;
@@ -328,6 +457,91 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 	this->QWidget::paintEvent(e);
 }
 
+void	ColorPicker::keyPressEvent(QKeyEvent * e)
+{
+	QColor c = this->selectedColor();
+	bool must_handle = false;
+	QPointF d(0, 0);
+	if (e->key() == Qt::Key_A)
+	{
+		must_handle = true;
+		d = QPointF(-1, 0);
+	}
+	if (e->key() == Qt::Key_W)
+	{
+		must_handle = true;
+		d = QPointF(0, -1);
+	}
+	if (e->key() == Qt::Key_S)
+	{
+		must_handle = true;
+		d = QPointF(0, 1);
+	}
+	if (e->key() == Qt::Key_D)
+	{
+		must_handle = true;
+		d = QPointF(1, 0);
+	}
+	if (must_handle)
+	{	
+		QPointF p = colorPositionOnWheel(c);
+		p += d;
+		QColor result;
+		if (handleColorWheelPositionChange(p, result))
+		{
+			m_force_selection = true;
+			m_force_point = p;
+			updateColorsInPalettePreviewColorWheel(result);
+			updateSilentlyColorParts(result);
+		}
+	}
+	if (e->key() == Qt::Key_F)
+	{
+		int lightness = c.lightness();
+		if (lightness > 0) 
+		{
+			lightness--;
+		}
+		QColor newcolor = QColor::fromHsl(c.hue(), c.saturation(), lightness, c.alpha());
+		updateColorsInPalettePreviewColorWheel(newcolor);
+		updateSilentlyColorParts(newcolor);
+	}
+	if (e->key() == Qt::Key_R)
+	{
+		int lightness = c.lightness();
+		if (lightness < 255) 
+		{
+			lightness++;
+		}
+		QColor newcolor = QColor::fromHsl(c.hue(), c.saturation(), lightness, c.alpha());
+		updateColorsInPalettePreviewColorWheel(newcolor);
+		updateSilentlyColorParts(newcolor);
+	}
+	if (e->key() == Qt::Key_G)
+	{
+		int alpha = c.alpha();
+		if (alpha > 0)
+		{
+			alpha--;
+		}
+		c.setAlpha(alpha);
+		updateColorsInPalettePreviewColorWheel(c);
+		updateSilentlyColorParts(c);
+	}
+	if (e->key() == Qt::Key_T)
+	{
+		int alpha = c.alpha();
+		if (alpha < 255)
+		{
+			alpha++;
+		}
+		c.setAlpha(alpha);
+		updateColorsInPalettePreviewColorWheel(c);
+		updateSilentlyColorParts(c);
+	}
+	this->QWidget::keyPressEvent(e);
+}
+
 void ColorPicker::resizeEvent(QResizeEvent * e)
 {
 	QRect oldrect = this->geometry();
@@ -340,6 +554,25 @@ void ColorPicker::moveEvent(QMoveEvent * e)
 	QRect oldrect = this->geometry();	
 	QRect r(e->pos().x(), e->pos().y(), oldrect.width(), oldrect.height());
 	resizeWidgets(r);
+}
+
+void ColorPicker::mouseMoveEvent(QMouseEvent * e)
+{
+	if (e->buttons() & Qt::LeftButton)
+	{
+		this->handleMouseEvents(e);
+	}
+	this->QWidget::mouseMoveEvent(e);
+}
+
+void ColorPicker::mousePressEvent(QMouseEvent * e)
+{
+	setFocus();
+	if (e->buttons() & Qt::LeftButton)
+	{
+		this->handleMouseEvents(e);
+	}
+	this->QWidget::mousePressEvent(e);
 }
 
 void ColorPicker::resizeWidgets(const QRect & r)
@@ -476,11 +709,18 @@ void ColorPicker::updateFullPreviewTable(int row, int column)
 			int krow = i - 1;
 			int kcolumn = j - 1;
 			
-			const QBrush & brush = m_palette->item(
-				row + krow, 
-				column + kcolumn
-			)->background();
-			m_preview->item(i, j)->setBackground(brush);
+			int trow = row + krow;
+			int tcolumn = column + kcolumn;
+			if (trow > -1 && trow < m_palette->rowCount()
+				&& tcolumn > -1 && tcolumn < m_palette->columnCount())
+			{
+				const QBrush & brush = m_palette->item(trow, tcolumn)->background();
+				m_preview->item(i, j)->setBackground(brush);
+			}
+			else
+			{
+				m_preview->item(i, j)->setBackground(Qt::white);
+			}
 		}
 	}
 }
@@ -489,7 +729,11 @@ void ColorPicker::updateSilentlyColorParts(int row, int column)
 {
 	const QBrush & brush = m_palette->item(row,column)->background();
 	const QColor & c = brush.color();
+	updateSilentlyColorParts(c);
+}
 
+void ColorPicker::updateSilentlyColorParts(const QColor & c)
+{
 	int (QColor::*methods[4])() const = {
 		&QColor::red,
 		&QColor::green,
@@ -502,6 +746,7 @@ void ColorPicker::updateSilentlyColorParts(int row, int column)
 		m_colors_data[i]->setValue((c.*(methods[i]))());
 		m_colors_data[i]->blockSignals(b);
 	}
+	
 }
 
 void ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
@@ -518,8 +763,10 @@ void ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
 		items[0]->setBackground(c);
 	}
 	m_preview->item(1, 1)->setBackground(c);
-	this->repaint();
+	this->update();
 }
+
+
 
 void ColorPicker::regenerateImages()
 {
@@ -612,7 +859,7 @@ void ColorPicker::generateColorWheel(int lightness, int alpha, int side)
 		for(int y = 0; y < side; y++)
 		{
 			double relx = x - halfside;
-			double rely = y - halfside;
+			double rely = halfside - y;
 			double posx = relx * relx + rely * rely; 
 			if (posx <= sidesquared) 
 			{
@@ -635,6 +882,111 @@ void ColorPicker::generateColorWheel(int lightness, int alpha, int side)
 			}
 		}
 	}
+	if (m_color_wheels.contains(lightness) == false)
+	{
+		m_color_wheels.insert(lightness, QHash<int, QImage>());
+	}
+	m_color_wheels[lightness].insert(alpha, im.copy());
+}
 
-	m_color_wheels.insert(QPair<int,int>(lightness, alpha), im.copy());
+void ColorPicker::handleMouseEvents(QMouseEvent* e)
+{
+	QColor color = this->selectedColor();
+
+#define IS_WITHIN(A, R) ((A)->x() >= (R).left()  \
+					&&  (A)->x() <= (R).right()  \
+					&&  (A)->y() >= (R).top()    \
+					&&  (A)->y() <= ((R).bottom() + ColorPicker::MarkerSize))
+	if (IS_WITHIN(e, m_alpha_image_location))
+	{
+		double alpha = (e->x() - m_alpha_image_location.left()) / m_alpha_image_location.width() * 255.0;
+		color.setAlpha(alpha);
+		updateColorsInPalettePreviewColorWheel(color);
+		updateSilentlyColorParts(color);
+		emit selectedColorChanged(color);
+	}
+#undef IS_WITHIN
+#define IS_WITHIN(A, R) ((A)->x() >= (R).left()  \
+					&&  (A)->x() <= ((R).right() + ColorPicker::MarkerSize) \
+					&&  (A)->y() >= (R).top()    \
+					&&  (A)->y() <= ((R).bottom()))
+	if (IS_WITHIN(e, m_lightness_image_location))
+	{
+		double ky = e->y();
+		double dy = (ky - m_lightness_image_location.top());
+		double rellightness = dy / m_lightness_image_location.height();
+		double lightness = rellightness * 255.0;
+		lightness = 255 - lightness;
+		if (lightness < 0)
+		{
+			lightness = 0;
+		}
+		color = QColor::fromHsl(color.hue(), color.saturation(), lightness, color.alpha());
+		updateColorsInPalettePreviewColorWheel(color);
+		updateSilentlyColorParts(color);
+		emit selectedColorChanged(color);
+	}
+
+	if (IS_WITHIN(e, m_color_wheel_location))
+	{
+		QColor result;
+		if (handleColorWheelPositionChange(e->posF(), result))
+		{
+			m_force_selection = true;
+			m_force_point = e->posF();
+			updateColorsInPalettePreviewColorWheel(result);
+			updateSilentlyColorParts(result);
+			emit selectedColorChanged(result);
+		}
+	}
+
+#undef IS_WITHIN
+}
+
+QPointF ColorPicker::colorPositionOnWheel(const QColor & c)
+{
+	double hue = c.hue() / 180.0 * M_PI;
+	double saturation = c.saturation() / 255.0 * m_wheel_size / 2;
+	QPointF center = m_color_wheel_location.center();
+	center += QPointF(saturation * cos(hue) , saturation * sin(hue) * -1);
+	if (m_force_selection)
+	{
+		center = m_force_point;
+	}
+	return center;
+}
+
+bool ColorPicker::handleColorWheelPositionChange(const QPointF & p, QColor & c)
+{
+	QColor color = this->selectedColor();
+	double halfsize = m_color_wheel_location.width() / 2;
+	double dx = p.x() - m_color_wheel_location.center().x();
+	double dy = p.y() - m_color_wheel_location.center().y();
+	double dist2 = dx * dx + dy * dy; 
+	bool result = false;
+	if (dist2 <= halfsize * halfsize)
+	{
+		double saturation = sqrt(dist2) / halfsize * 255.0;
+		if (saturation > 255)
+		{
+			saturation = 255;
+		}
+		double hue = 0;
+		if (fabs(dx) > 0.001)
+		{
+			hue = atan2(-dy, dx);
+			if (hue < 0)
+			{
+				hue = 2 * M_PI + hue;
+			}
+			hue = hue / M_PI * 180.0;
+		}
+		else
+		{
+			hue = (-dy > 0) ? 90 : 270;
+		}
+		c = QColor::fromHsl(hue, saturation, color.lightness(), color.alpha());		
+		result = true;
+	}
+	return result;
 }
