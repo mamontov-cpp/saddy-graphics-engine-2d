@@ -59,7 +59,7 @@ public:
 	static void createDefaultImage(QImage & im);
 protected:
 	/*! Makes image size less or equal to a cell proportions
-		\param[in, out] image 
+		\param[in, out] im an image for normalizing 
 	 */
 	void normalizeImage(QImage & im);
 	/*! A cache for resources and data

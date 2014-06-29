@@ -74,7 +74,6 @@ public:
 		m_current_value = v;	
 	}
 	/*! Commits a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
     void commit(CommandChangeObserver * ob = NULL)
@@ -84,7 +83,6 @@ public:
 		ob->submitEvent("PropertyChangeCommand::commit", sad::db::Variant(0));
 	}
 	/*! Rollbacks a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
     void rollback(CommandChangeObserver * ob = NULL)
@@ -138,12 +136,10 @@ class SpritePropertyChangeCommand: public AbstractCommand
 		m_log = log;
 	}
 	/*! Commits a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
 	void commit(CommandChangeObserver * ob = NULL);
 	/*! Rollbacks a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
 	void rollback(CommandChangeObserver * ob = NULL);
@@ -168,12 +164,10 @@ public:
 		m_new_rect = newrect;
 	}
 	/*! Commits a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
 	void commit(CommandChangeObserver * ob = NULL);
 	/*! Rollbacks a command
-		\param[in] c context
 		\param[in] ob observer for command
 	 */
 	void rollback(CommandChangeObserver * ob = NULL);

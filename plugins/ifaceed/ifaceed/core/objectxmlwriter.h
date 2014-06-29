@@ -42,7 +42,6 @@ class ObjectXMLWriter: public serializable::AbstractWriter
 		ObjectXMLWriter(const QString & filename, const QString & rootname);
 		/*! Writes an objects from container to a stream
 			\param[in] container container data
-			\param[in] context   context of action
 		  */
 		virtual bool write(SerializableContainer * container);
 		/*! A writer for XML 
