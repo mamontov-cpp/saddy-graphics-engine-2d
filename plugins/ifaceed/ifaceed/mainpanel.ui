@@ -644,16 +644,26 @@ sprite (ignores an angle)</string>
      <rect>
       <x>70</x>
       <y>600</y>
-      <width>361</width>
+      <width>431</width>
       <height>221</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tab_scenes">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Scenes</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_scene">
+     <attribute name="title">
+      <string>Scene</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_basic_node">
+     <attribute name="title">
+      <string>SceneNode</string>
      </attribute>
      <widget class="ResourceTreeWidget" name="rtwSpriteTree" native="true">
       <property name="geometry">
@@ -666,9 +676,9 @@ sprite (ignores an angle)</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="tab_label">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Label</string>
      </attribute>
      <widget class="ColorPicker" name="clpColors" native="true">
       <property name="geometry">
@@ -680,6 +690,16 @@ sprite (ignores an angle)</string>
        </rect>
       </property>
      </widget>
+    </widget>
+    <widget class="QWidget" name="tab_sprite">
+     <attribute name="title">
+      <string>Sprite</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="tab_object">
+     <attribute name="title">
+      <string>Object</string>
+     </attribute>
     </widget>
    </widget>
   </widget>
