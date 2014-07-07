@@ -10,7 +10,6 @@
 #include <QtGui/QMainWindow>
 #include "ui_mainpanel.h"
 #include "sadstring.h"
-#include "gui/spritewidget/qspritetablewidget.h"
 #include "gui/objectlist.h"
 #include <db/dbvariant.h>
 #pragma once
@@ -107,7 +106,6 @@ protected:
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
-    QSpriteTableWidget* m_spriteTableWidget; //!< Modified QTableWidget. Works with configs, groups, indexes
 protected slots:
 	/*! TODO: Remove
 	 */

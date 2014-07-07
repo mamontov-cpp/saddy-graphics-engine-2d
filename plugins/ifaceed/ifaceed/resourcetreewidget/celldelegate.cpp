@@ -1,5 +1,4 @@
-#include "gui/spritewidget/qspritetablewidget.h"
-#include "celldelegate.h"
+#include "resourcetreewidget/celldelegate.h"
 #include "resourcetreewidget/cell.h"
 #include "resourcetreewidget/resourcetreewidget.h"
 #include "resourcetreewidget/resourcecache.h"
