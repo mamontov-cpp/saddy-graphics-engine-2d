@@ -118,10 +118,6 @@ protected slots:
 
 	void spriteSelected(QString config, QString group, int index);
 	/**
-	 * Adds new color for fonts in combo box
-	 */
-	void addNewFontColor();
-	/**
 	 * Adds new font size for font in combo box
 	 */ 
 	void addNewFontSize();
@@ -137,10 +133,6 @@ protected slots:
 	/*! Adds a sprite object
 	 */
 	void addSpriteObject();
-	/*! Changes a font in data
-		\param[in] s string
-	 */ 
-	void fontChanged(const QString & s);
 	/*! Changed an angle in data
 		\param[in] angle angle
 	 */

@@ -48,33 +48,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 
 	m_selfchanged = false;
-	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
 	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
 	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnAddSprite, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
-	ui.cmbFonts->setItemDelegate(new FontDelegate());
-	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
-
-	QColor colors[] = { Qt::red, 
-						Qt::darkRed,
-						Qt::blue,
-						Qt::darkBlue,
-						Qt::green,
-						Qt::darkGreen,
-						Qt::white, 
-						Qt::magenta, 
-						Qt::yellow, 
-						Qt::black 
-	                  };
-	for (int i=0;i<10;i++)
-	{
-		QString text = QString::number(colors[i].red()) + QString(",")
-			         + QString::number(colors[i].green()) + QString(",")
-					 + QString::number(colors[i].blue());
-		text = QString("(") + text + QString(")");
-		ui.cmbFontColor->addItem(text, QVariant(colors[i]));
-	}
 	// Populate font size
 	for (int i=5;i<201;i++)
 	{
@@ -84,28 +61,21 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.rbPlaceAndRotate->setChecked(true);
 
 	// Add SpriteViewer
+	/* TODO: Remake data getters
 	QGridLayout* grPadLayout = new QGridLayout;
-    //QPoint pointPad = ui.spriteViewerPad->pos();
-    //QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
-	
-    //QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
 	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
 													grPadLayout);
+	*/
 
 	m_list.setWidget(ui.lstObjects);
 
-
-	ui.spriteViewerPad->setLayout(grPadLayout);
-	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
-	connect(ui.cmbFonts, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(fontChanged(const QString&)));
 	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
 	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
-	connect(m_spriteTableWidget, SIGNAL(spriteSelected(QString,QString,int)), this, SLOT(spriteSelected(QString,QString,int)));	
 	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
-	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
-	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
-	connect(ui.txtName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
+	connect(ui.btnObjectMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
+	connect(ui.btnObjectMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
+	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
 	connect(ui.dblSpriteX, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 	connect(ui.dblSpriteY, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
 	connect(ui.dblSpriteWidth, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
@@ -120,12 +90,12 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 void MainPanel::setEditor(IFaceEditor * editor) 
 {  
 	m_editor = editor; 
-	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
-	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
-	connect(ui.btnSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
-	connect(ui.btnLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
+	connect(ui.btnObjectDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
+	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
+	connect(ui.btnSaveScene, SIGNAL(clicked()), this->m_editor, SLOT(save()));
+	connect(ui.btnLoadScene, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 
-	connect(ui.rtwSpriteTree, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
+	connect(ui.rtwSprites, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }
 
 
@@ -148,8 +118,8 @@ void MainPanel::selected(sad::String item)
 }
 void MainPanel::synchronizeDatabase()
 {
-	ui.rtwSpriteTree->setFilter("sad::Sprite2D::Options|sad::freetype::Font|sad::TextureMappedFont");
-	
+	ui.rtwSprites->setFilter("sad::Sprite2D::Options");
+	ui.rtwFonts->setFilter("sad::freetype::Font|sad::TextureMappedFont");
 	// TODO: Erase when not needed
 	/*
 	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
@@ -175,26 +145,6 @@ void MainPanel::synchronizeDatabase()
 	ui.cmbFonts->blockSignals(oldfontsstate);
 	m_spriteTableWidget->blockSignals(oldspritestate);
 	*/
-}
-
-void MainPanel::addNewFontColor()
-{
-	QColor initial(0,0,0);
-	if (ui.cmbFontColor->currentIndex()!=-1)
-	{
-		initial = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
-	}
-
-	QColor to_add = QColorDialog::getColor(initial,this,"Pick a new color for label");
-	if (to_add.isValid())
-	{
-		QString text = QString::number(to_add.red()) + QString(",")
-			         + QString::number(to_add.green()) + QString(",")
-					 + QString::number(to_add.blue());
-		text = QString("(") + text + QString(")");
-		ui.cmbFontColor->addItem(text, QVariant(to_add));
-		ui.cmbFontColor->setCurrentIndex(ui.cmbFontColor->count()-1);
-	}
 }
 
 
@@ -252,12 +202,14 @@ void MainPanel::addFontObject()
 		label->setActive(true);
 		label->setVisible(true);
 		
-		// Set props
-		sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
-		label->getProperty("font")->set(fontName);
-		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
-		sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
-		label->getProperty("color")->set(hcolor);
+		// TODO: Remake font
+		// Set font
+		// sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
+		// label->getProperty("font")->set(fontName);
+		// TODO: Remake color
+		// QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
+		// sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
+
 		label->getProperty("pos")->set(sad::Point2D(0,0));
 		float angle = ui.dblAngle->value();
 		label->getProperty("angle")->set(angle);
@@ -456,12 +408,6 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 	}	
 }
 
-void MainPanel::fontChanged(const QString & s)
-{
-	IGNORE_SELFCHANGING
-	sad::String hs = s.toStdString().c_str();
-	trySetProperty("font", hs);
-}
 
 void MainPanel::angleChanged(double angle)
 {
@@ -475,9 +421,10 @@ void MainPanel::colorChanged(int index)
 	IGNORE_SELFCHANGING
 	if (index!=-1) 
 	{
-		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
-		sad::Color c(clr.red(),clr.green(),clr.blue());
-		trySetProperty("color", c);
+		// TODO: Remake this
+		// QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
+		// sad::Color c(clr.red(),clr.green(),clr.blue());
+		// trySetProperty("color", c);
 	}
 }
 
@@ -557,6 +504,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = true;
 		sad::Color c = prop->get<sad::Color>().value();
 		QColor clr(c.r(), c.g(), c.b()); 
+		// TODO: Remake
+		/*
 		int index = ui.cmbFontColor->findData(clr);
 		if (index != -1) 
 		{
@@ -564,11 +513,13 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 				ui.cmbFontColor,
 				setCurrentIndex(index)
 			);
-		} 
+		}
 		else 
 		{
 			m_selfchanged = false;
 		}
+		*/
+		m_selfchanged = false;
 	}
 	prop = o->getProperty("font");
 	if (prop)
@@ -576,6 +527,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = true;
 		sad::String c = prop->get<sad::String>().value();
 		QString s = c.data();
+		// TODO: Remake data
+		/*
 		int index = ui.cmbFonts->findText(s);
 		if (index != -1) 
 		{
@@ -588,6 +541,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		{
 			m_selfchanged = false;
 		}
+		*/
 	}
 	prop = o->getProperty("angle");
 	if (prop)
@@ -602,7 +556,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{	
 		m_selfchanged = true;
 		sad::String c= prop->get<sad::String>().value();
-		BLOCK_SIGNALS_AND_CALL(ui.txtName, setText(c.data()));
+		BLOCK_SIGNALS_AND_CALL(ui.txtObjectName, setText(c.data()));
 		m_selfchanged = false;
 	}
 	if (o->getProperty("config") != NULL)
