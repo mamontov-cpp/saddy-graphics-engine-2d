@@ -102,7 +102,7 @@ void MainPanel::setEditor(IFaceEditor * editor)
 
 MainPanel::~MainPanel()
 {
-	delete m_spriteTableWidget;
+
 }
 
 
@@ -236,6 +236,8 @@ void MainPanel::addSpriteObject()
 	if (ui.rbTwoClicksPlaces->isChecked()) newstate = "sprite_adding_diagonal";
 	if (newstate.length())
 	{
+		// TODO: Remake
+		/*
 		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
 		if (selection.invalid() == false)
 		{
@@ -266,6 +268,7 @@ void MainPanel::addSpriteObject()
 		{
 			QMessageBox::critical(NULL, "IFace Editor", "You must select a sprite for adding");
 		}
+		*/
 	}
 	else
 	{
@@ -567,8 +570,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		sad::String group = o->prop<sad::String>("group", m_editor->log());
 		int index = o->prop<int>("index", m_editor->log());
 		
-		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
-		BLOCK_SIGNALS_AND_CALL(m_spriteTableWidget,setSelection(sel));
+		//QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
+		//BLOCK_SIGNALS_AND_CALL(m_spriteTableWidget,setSelection(sel));
 	}
 	// This added to prevent cases when selfchanging does not work and flag is not resetted.
 	m_selfchanged = false;
