@@ -1,9 +1,9 @@
-#include "objectlist.h"
+#include "gui/objectlist.h"
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 #include <algorithm>
 
-void ScreenObjectList::updateWidget(ScreenTemplate * t, AbstractScreenObject * tw)
+void gui::ScreenObjectList::updateWidget(ScreenTemplate * t, AbstractScreenObject * tw)
 {
 	m_simple_list.clear();
 	AbstractScreenObject * o = t->templateBegin();

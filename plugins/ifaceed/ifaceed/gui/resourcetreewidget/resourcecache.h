@@ -9,10 +9,13 @@
 
 #include <sprite2d.h>
 
-class ResourceTreeWidget;
+namespace gui
+{
 
 namespace resourcetreewidget
 {
+
+class ResourceTreeWidget;
 
 class ResourceCache
 {
@@ -67,7 +70,9 @@ protected:
 	QHash<QString, QImage> m_resource_cache;
 	/*! A parent widget 
 	 */
-	ResourceTreeWidget * m_parent;
+	gui::resourcetreewidget::ResourceTreeWidget * m_parent;
 };
 	
+}
+
 }

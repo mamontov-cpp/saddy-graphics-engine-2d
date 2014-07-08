@@ -1,7 +1,7 @@
-#include "resourcetreewidget/resourcecache.h"
-#include "resourcetreewidget/resourcetreewidget.h"
-#include "resourcetreewidget/cell.h"
-#include "resourcetreewidget/defaultimage.h"
+#include "gui/resourcetreewidget/resourcecache.h"
+#include "gui/resourcetreewidget/resourcetreewidget.h"
+#include "gui/resourcetreewidget/cell.h"
+#include "gui/resourcetreewidget/defaultimage.h"
 
 #include <renderer.h>
 
@@ -13,28 +13,28 @@
 
 #include <cassert>
 
-resourcetreewidget::ResourceCache::ResourceCache() : m_parent(NULL)
+gui::resourcetreewidget::ResourceCache::ResourceCache() : m_parent(NULL)
 {
 	
 }
 
-resourcetreewidget::ResourceCache::~ResourceCache()
+gui::resourcetreewidget::ResourceCache::~ResourceCache()
 {
 	
 }
 
-void resourcetreewidget::ResourceCache::setParent(ResourceTreeWidget * parent)
+void gui::resourcetreewidget::ResourceCache::setParent(ResourceTreeWidget * parent)
 {
 	m_parent = parent;
 	m_resource_cache.clear();
 }
 
-ResourceTreeWidget* resourcetreewidget::ResourceCache::parent() const
+gui::resourcetreewidget::ResourceTreeWidget* gui::resourcetreewidget::ResourceCache::parent() const
 {
 	return m_parent;
 }
 
-const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString & resourcename)
+const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QString & resourcename)
 {
 	// A name for resource
 	if (m_resource_cache.contains(resourcename))
@@ -96,7 +96,7 @@ const QImage& resourcetreewidget::ResourceCache::imageForResource(const QString 
 	return m_resource_cache[resourcename];
 }
 
-void resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
+void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 	QImage & im,
 	const sad::Sprite2D::Options & options,
 	sad::resource::Tree * tree
@@ -163,7 +163,7 @@ void resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 	delete result;
 }
 
-void resourcetreewidget::ResourceCache::createImageForTexture(
+void gui::resourcetreewidget::ResourceCache::createImageForTexture(
 	QImage & im,
 	sad::Texture * tex
 )
@@ -184,34 +184,34 @@ void resourcetreewidget::ResourceCache::createImageForTexture(
 	}
 }
 
-void resourcetreewidget::ResourceCache::createDefaultImage(QImage & im)
+void gui::resourcetreewidget::ResourceCache::createDefaultImage(QImage & im)
 {
 	im = QImage(
-		resourcetreewidget::DefaultImage::Data, 
-		resourcetreewidget::DefaultImage::Width, 
-		resourcetreewidget::DefaultImage::Height, 
+		gui::resourcetreewidget::DefaultImage::Data, 
+		gui::resourcetreewidget::DefaultImage::Width, 
+		gui::resourcetreewidget::DefaultImage::Height, 
 		QImage::Format_ARGB32
 	).copy();
 }
 
-void resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
+void gui::resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
 {
-	if (im.width() > resourcetreewidget::Cell::ImageWidth 
-		|| im.height() > resourcetreewidget::Cell::ImageHeight)
+	if (im.width() > gui::resourcetreewidget::Cell::ImageWidth 
+		|| im.height() > gui::resourcetreewidget::Cell::ImageHeight)
 	{
 		if ((unsigned int)(im.height()) != 0)
 		{
 			float ratio = ((float)im.height()) / im.width();
 			int width, height;
 			if (im.width() > im.height() 
-				&& ratio * resourcetreewidget::Cell::ImageWidth <= resourcetreewidget::Cell::ImageHeight)
+				&& ratio * gui::resourcetreewidget::Cell::ImageWidth <= gui::resourcetreewidget::Cell::ImageHeight)
 			{
-				width = resourcetreewidget::Cell::ImageWidth;
+				width = gui::resourcetreewidget::Cell::ImageWidth;
 				height = (int)(ratio * (float)width);
 			}
 			else
 			{
-				height = resourcetreewidget::Cell::ImageHeight;
+				height = gui::resourcetreewidget::Cell::ImageHeight;
 				width = (int)((float)height / ratio);
 			}
 			im = im.scaled(width, height,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

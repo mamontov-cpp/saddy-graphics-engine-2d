@@ -1,19 +1,19 @@
-#include "resourcetreewidget/celldelegate.h"
-#include "resourcetreewidget/cell.h"
-#include "resourcetreewidget/resourcetreewidget.h"
-#include "resourcetreewidget/resourcecache.h"
+#include "gui/resourcetreewidget/celldelegate.h"
+#include "gui/resourcetreewidget/cell.h"
+#include "gui/resourcetreewidget/resourcetreewidget.h"
+#include "gui/resourcetreewidget/resourcecache.h"
 
 #include <QStyleOptionViewItem>
 #include <QImage>
 #include <unused.h>
 
-void resourcetreewidget::CellDelegate::paint(
+void gui::resourcetreewidget::CellDelegate::paint(
 	QPainter * painter, 
 	const QStyleOptionViewItem & option, 
 	const QModelIndex & index 
 ) const
 {
-	ResourceTreeWidget * parent = m_widget;
+	gui::resourcetreewidget::ResourceTreeWidget * const parent = m_widget;
 	if (parent == NULL)
 	{
 		return;
@@ -40,12 +40,12 @@ void resourcetreewidget::CellDelegate::paint(
 	const QImage & img = parent->cache()->imageForResource(resourcepath.value().data());
 	painter->drawImage(
 		option.rect.x() + option.rect.width()/2 - img.width()/2,
-		option.rect.y() + resourcetreewidget::Cell::ImageHeight/2 - img.height()/2,
+		option.rect.y() + gui::resourcetreewidget::Cell::ImageHeight/2 - img.height()/2,
 		img
 	);
 
 	QFont font = QFont();
-	font.setPixelSize(resourcetreewidget::Cell::FontSize);
+	font.setPixelSize(gui::resourcetreewidget::Cell::FontSize);
 	QFont oldFont = painter->font();
 	painter->setFont(font);
 	QFontMetrics fontMetrics(font);
@@ -60,8 +60,8 @@ void resourcetreewidget::CellDelegate::paint(
 					+ option.rect.width() / 2 
 					- fontMetrics.width(label) / 2;
 	int labelpointy = option.rect.y() 
-				   + resourcetreewidget::Cell::ImageHeight
-				   + resourcetreewidget::Cell::SpaceBetweenImageAndText;
+				   + gui::resourcetreewidget::Cell::ImageHeight
+				   + gui::resourcetreewidget::Cell::SpaceBetweenImageAndText;
 	QPoint center = QPoint(labelpointx, labelpointy);
 	painter->drawText(center, label);
 
@@ -70,16 +70,18 @@ void resourcetreewidget::CellDelegate::paint(
 	
 }
 
-QSize resourcetreewidget::CellDelegate::sizeHint(
+QSize gui::resourcetreewidget::CellDelegate::sizeHint(
 	const QStyleOptionViewItem &, 
 	const QModelIndex &
 ) const
 {
-	return QSize(resourcetreewidget::Cell::Width, resourcetreewidget::Cell::Height);
+	return QSize(gui::resourcetreewidget::Cell::Width, 
+				 gui::resourcetreewidget::Cell::Height
+				);
 }
 
 
-QString resourcetreewidget::getAcceptableString(
+QString gui::resourcetreewidget::getAcceptableString(
 	const QString& string, 
 	int in_width, 
 	QFontMetrics & metrics

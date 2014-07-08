@@ -10,6 +10,9 @@ class ScreenTemplate;
 class BehaviourSharedData;
 class EditorLog;
 
+namespace gui
+{
+
 /*! Defines an object list, as presented on screen
  */
 class ScreenObjectList
@@ -38,3 +41,5 @@ class ScreenObjectList
 		  return oldc; 
 	  } //!< Whether we updated from self
 };
+
+}

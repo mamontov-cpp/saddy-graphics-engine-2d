@@ -1,4 +1,4 @@
-#include "colorpicker/colorpicker.h"
+#include "gui/colorpicker/colorpicker.h"
 
 #include <QResizeEvent>
 #include <QMoveEvent>
@@ -11,29 +11,29 @@
 #include <math.h>
 #include <cassert>
 
-int ColorPicker::PaletteDefaultRowCount = 5;
+int gui::colorpicker::ColorPicker::PaletteDefaultRowCount = 5;
 
-int ColorPicker::PaletteDefaultColumnCount = 5;
+int gui::colorpicker::ColorPicker::PaletteDefaultColumnCount = 5;
 
-int ColorPicker::PaletteCellSize = 15;
+int gui::colorpicker::ColorPicker::PaletteCellSize = 15;
 
-int ColorPicker::VerticalPadding = 2;
+int gui::colorpicker::ColorPicker::VerticalPadding = 2;
 
-int ColorPicker::HorizontalPadding = 2;
+int gui::colorpicker::ColorPicker::HorizontalPadding = 2;
 
-int ColorPicker::PreviewRowCount = 3;
+int gui::colorpicker::ColorPicker::PreviewRowCount = 3;
 
-int ColorPicker::PreviewColumnCount = 3;
+int gui::colorpicker::ColorPicker::PreviewColumnCount = 3;
 
-int ColorPicker::MarkerSize = 3;
+int gui::colorpicker::ColorPicker::MarkerSize = 3;
 
-int ColorPicker::LightnessGradientWidth = 5;
+int gui::colorpicker::ColorPicker::LightnessGradientWidth = 5;
 
-int ColorPicker::AlphaGradientHeight = 5;
+int gui::colorpicker::ColorPicker::AlphaGradientHeight = 5;
 
-int ColorPicker::ColorWheelSelectionSize = 3;
+int gui::colorpicker::ColorPicker::ColorWheelSelectionSize = 3;
 
-ColorPicker::ColorPicker(QWidget * parent) 
+gui::colorpicker::ColorPicker::ColorPicker(QWidget * parent) 
 : QWidget(parent)
 {
 	m_removing_data = false;
@@ -47,15 +47,15 @@ ColorPicker::ColorPicker(QWidget * parent)
 	m_palette->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_palette->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-	m_palette->setRowCount(ColorPicker::PaletteDefaultRowCount);
-	m_palette->setColumnCount(ColorPicker::PaletteDefaultColumnCount);
+	m_palette->setRowCount(gui::colorpicker::ColorPicker::PaletteDefaultRowCount);
+	m_palette->setColumnCount(gui::colorpicker::ColorPicker::PaletteDefaultColumnCount);
 	
-	for(int i = 0; i < ColorPicker::PaletteDefaultColumnCount; i++) {
-		m_palette->setColumnWidth(i, ColorPicker::PaletteCellSize);
+	for(int i = 0; i < gui::colorpicker::ColorPicker::PaletteDefaultColumnCount; i++) {
+		m_palette->setColumnWidth(i, gui::colorpicker::ColorPicker::PaletteCellSize);
 	}
 
-	for(int i = 0; i < ColorPicker::PaletteDefaultRowCount; i++) {
-		m_palette->setRowHeight(i, ColorPicker::PaletteCellSize);
+	for(int i = 0; i < gui::colorpicker::ColorPicker::PaletteDefaultRowCount; i++) {
+		m_palette->setRowHeight(i, gui::colorpicker::ColorPicker::PaletteCellSize);
 	}
 
 	m_preview = new QTableWidget(parent);
@@ -64,8 +64,8 @@ ColorPicker::ColorPicker(QWidget * parent)
 	m_preview->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_preview->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-	m_preview->setRowCount(ColorPicker::PreviewRowCount);
-	m_preview->setColumnCount(ColorPicker::PreviewColumnCount);
+	m_preview->setRowCount(gui::colorpicker::ColorPicker::PreviewRowCount);
+	m_preview->setColumnCount(gui::colorpicker::ColorPicker::PreviewColumnCount);
 
 	m_colors_grid_container = new QWidget(parent);
 	m_colors_layout = new QGridLayout(m_colors_grid_container);
@@ -100,11 +100,11 @@ ColorPicker::ColorPicker(QWidget * parent)
 	connect(m_colors_data[3], SIGNAL(valueChanged(int)), this, SLOT(alphaChanged(int)));
 	
 
-	m_palette->setCurrentCell(ColorPicker::PaletteDefaultRowCount / 2, ColorPicker::PaletteDefaultColumnCount / 2);
+	m_palette->setCurrentCell(gui::colorpicker::ColorPicker::PaletteDefaultRowCount / 2, gui::colorpicker::ColorPicker::PaletteDefaultColumnCount / 2);
 	this->update();
 }
 
-QColor ColorPicker::selectedColor() const
+QColor gui::colorpicker::ColorPicker::selectedColor() const
 {
 	QList<QTableWidgetItem *> items = m_palette->selectedItems();
 	if (items.count())
@@ -114,7 +114,7 @@ QColor ColorPicker::selectedColor() const
 	return QColor(255, 255, 255);
 }
 
-void ColorPicker::setSelectedColor(const QColor & c)
+void gui::colorpicker::ColorPicker::setSelectedColor(const QColor & c)
 {
 	bool found = false;
 	int foundrow = 0, foundcol = 0;
@@ -169,7 +169,7 @@ void ColorPicker::setSelectedColor(const QColor & c)
 	m_palette->update();
 }
 
-QList<QList<QColor> > ColorPicker::palette() const
+QList<QList<QColor> > gui::colorpicker::ColorPicker::palette() const
 {
 	QList<QList<QColor> > result;
 	for(int i = 0; i < m_palette->rowCount(); i++)
@@ -183,7 +183,7 @@ QList<QList<QColor> > ColorPicker::palette() const
 	return result;
 }
 
-void ColorPicker::setPalette(const QList<QList<QColor> > & palette)
+void gui::colorpicker::ColorPicker::setPalette(const QList<QList<QColor> > & palette)
 {
 	if (palette.count() < 1)
 	{
@@ -227,7 +227,7 @@ void ColorPicker::setPalette(const QList<QList<QColor> > & palette)
 	emit selectedColorChanged(palette[0][0]);
 }
 
-ColorPicker::~ColorPicker()
+gui::colorpicker::ColorPicker::~ColorPicker()
 {
 	delete m_palette;
 	delete m_preview;
@@ -237,7 +237,7 @@ ColorPicker::~ColorPicker()
 	delete m_alpha_image;
 }
 
-void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
+void gui::colorpicker::ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
 {
 	if (m_removing_data)
 		return;
@@ -253,7 +253,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 		if (row == 0) 
 		{
 			m_palette->setRowCount(m_palette->rowCount() + 1);
-			m_palette->setRowHeight(m_palette->rowCount() - 1, ColorPicker::PaletteCellSize);
+			m_palette->setRowHeight(m_palette->rowCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
 			fillRow(m_palette->rowCount() - 1);
 			shiftRows();
@@ -266,7 +266,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 		if (column == 0)
 		{
 			m_palette->setColumnCount(m_palette->columnCount() + 1);
-			m_palette->setColumnWidth(m_palette->columnCount() - 1, ColorPicker::PaletteCellSize);
+			m_palette->setColumnWidth(m_palette->columnCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
 			fillColumn(m_palette->columnCount() - 1);
 			shiftColumns();
@@ -279,7 +279,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 		if (row == m_palette->rowCount() - 1)
 		{
 			m_palette->setRowCount(m_palette->rowCount() + 1);
-			m_palette->setRowHeight(m_palette->rowCount() - 1, ColorPicker::PaletteCellSize);
+			m_palette->setRowHeight(m_palette->rowCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
 			fillRow(m_palette->rowCount() - 1);
 		}
@@ -287,7 +287,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 		if (column == m_palette->columnCount() - 1)
 		{
 			m_palette->setColumnCount(m_palette->columnCount() + 1);
-			m_palette->setColumnWidth(m_palette->columnCount() - 1, ColorPicker::PaletteCellSize);
+			m_palette->setColumnWidth(m_palette->columnCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
 			fillColumn(m_palette->columnCount() - 1);
 		}
@@ -318,7 +318,7 @@ void ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetIte
 	}
 }
 
-void  ColorPicker::setPaletteSelection()
+void  gui::colorpicker::ColorPicker::setPaletteSelection()
 {
 	bool old = m_palette->blockSignals(true);
 	m_palette->clearSelection();
@@ -332,7 +332,7 @@ void  ColorPicker::setPaletteSelection()
 	this->update();
 }
 
-void  ColorPicker::redChanged(int v)
+void  gui::colorpicker::ColorPicker::redChanged(int v)
 {
 	m_force_selection = false;
 	QColor color(
@@ -345,7 +345,7 @@ void  ColorPicker::redChanged(int v)
 	emit selectedColorChanged(color);
 }
 
-void  ColorPicker::greenChanged(int v)
+void  gui::colorpicker::ColorPicker::greenChanged(int v)
 {
 	m_force_selection = false;
 	QColor color(
@@ -358,7 +358,7 @@ void  ColorPicker::greenChanged(int v)
 	emit selectedColorChanged(color);
 }
 
-void  ColorPicker::blueChanged(int v)
+void  gui::colorpicker::ColorPicker::blueChanged(int v)
 {
 	m_force_selection = false;
 	QColor color(
@@ -371,7 +371,7 @@ void  ColorPicker::blueChanged(int v)
 	emit selectedColorChanged(color);
 }
 
-void  ColorPicker::alphaChanged(int v)
+void  gui::colorpicker::ColorPicker::alphaChanged(int v)
 {
 	m_force_selection = false;
 	QColor color(
@@ -384,7 +384,7 @@ void  ColorPicker::alphaChanged(int v)
 	emit selectedColorChanged(color);
 }
 
-void ColorPicker::paintEvent(QPaintEvent * e)
+void gui::colorpicker::ColorPicker::paintEvent(QPaintEvent * e)
 {
 	{
 		QPainter qpainter (this);
@@ -420,8 +420,8 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 		{
 			QPointF center = this->colorPositionOnWheel(color);
 			qpainter.setPen(Qt::black);
-			int d = ColorPicker::ColorWheelSelectionSize / 2;
-			int size = ColorPicker::ColorWheelSelectionSize;
+			int d = gui::colorpicker::ColorPicker::ColorWheelSelectionSize / 2;
+			int size = gui::colorpicker::ColorPicker::ColorWheelSelectionSize;
 			qpainter.drawRect(center.x() - d, center.y() - d, size, size);
 		}
 
@@ -431,8 +431,8 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 			double x = m_alpha_image_location.x() + m_alpha_image_location.width() * alpha;
 			double y = m_alpha_image_location.bottom();
 			QPointF p1(x, y),
-					p2(x - ColorPicker::MarkerSize, y + ColorPicker::MarkerSize),
-					p3(x + ColorPicker::MarkerSize, y + ColorPicker::MarkerSize);
+					p2(x - gui::colorpicker::ColorPicker::MarkerSize, y + gui::colorpicker::ColorPicker::MarkerSize),
+					p3(x + gui::colorpicker::ColorPicker::MarkerSize, y + gui::colorpicker::ColorPicker::MarkerSize);
 			qpainter.setPen(Qt::black);
 			qpainter.drawLine(p1, p2);
 			qpainter.drawLine(p1, p3);
@@ -446,8 +446,8 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 			double y = m_lightness_image_location.y() + m_lightness_image_location.height() * lightness;
 			// 1 is a padding to render right part, otherwise it will be clamped
 			QPointF p1(x, y),
-					p2(x + ColorPicker::MarkerSize - 1, y - ColorPicker::MarkerSize + 1),
-					p3(x + ColorPicker::MarkerSize - 1, y + ColorPicker::MarkerSize - 1);
+					p2(x + gui::colorpicker::ColorPicker::MarkerSize - 1, y - gui::colorpicker::ColorPicker::MarkerSize + 1),
+					p3(x + gui::colorpicker::ColorPicker::MarkerSize - 1, y + gui::colorpicker::ColorPicker::MarkerSize - 1);
 			qpainter.setPen(Qt::black);
 			qpainter.drawLine(p1, p2);
 			qpainter.drawLine(p1, p3);
@@ -457,7 +457,7 @@ void ColorPicker::paintEvent(QPaintEvent * e)
 	this->QWidget::paintEvent(e);
 }
 
-void	ColorPicker::keyPressEvent(QKeyEvent * e)
+void	gui::colorpicker::ColorPicker::keyPressEvent(QKeyEvent * e)
 {
 	QColor c = this->selectedColor();
 	bool must_handle = false;
@@ -542,21 +542,21 @@ void	ColorPicker::keyPressEvent(QKeyEvent * e)
 	this->QWidget::keyPressEvent(e);
 }
 
-void ColorPicker::resizeEvent(QResizeEvent * e)
+void gui::colorpicker::ColorPicker::resizeEvent(QResizeEvent * e)
 {
 	QRect oldrect = this->geometry();
 	QRect r(oldrect.x(), oldrect.y(), e->size().width(), e->size().height());
 	resizeWidgets(r);
 }
 
-void ColorPicker::moveEvent(QMoveEvent * e)
+void gui::colorpicker::ColorPicker::moveEvent(QMoveEvent * e)
 {
 	QRect oldrect = this->geometry();	
 	QRect r(e->pos().x(), e->pos().y(), oldrect.width(), oldrect.height());
 	resizeWidgets(r);
 }
 
-void ColorPicker::mouseMoveEvent(QMouseEvent * e)
+void gui::colorpicker::ColorPicker::mouseMoveEvent(QMouseEvent * e)
 {
 	if (e->buttons() & Qt::LeftButton)
 	{
@@ -565,7 +565,7 @@ void ColorPicker::mouseMoveEvent(QMouseEvent * e)
 	this->QWidget::mouseMoveEvent(e);
 }
 
-void ColorPicker::mousePressEvent(QMouseEvent * e)
+void gui::colorpicker::ColorPicker::mousePressEvent(QMouseEvent * e)
 {
 	setFocus();
 	if (e->buttons() & Qt::LeftButton)
@@ -575,35 +575,35 @@ void ColorPicker::mousePressEvent(QMouseEvent * e)
 	this->QWidget::mousePressEvent(e);
 }
 
-void ColorPicker::resizeWidgets(const QRect & r)
+void gui::colorpicker::ColorPicker::resizeWidgets(const QRect & r)
 {
 	m_palette->setGeometry(
 		r.x(), 
 		r.y(), 
-		r.width() / 2 - ColorPicker::HorizontalPadding, 
-		r.height() / 2 - ColorPicker::VerticalPadding
+		r.width() / 2 - gui::colorpicker::ColorPicker::HorizontalPadding, 
+		r.height() / 2 - gui::colorpicker::ColorPicker::VerticalPadding
 	);
 	m_preview->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 	m_preview->verticalHeader()->setResizeMode(QHeaderView::Stretch);
 	m_preview->setGeometry(
 		r.x(),
-		r.y() + r.height() / 2 + ColorPicker::VerticalPadding,
-		r.width() / 2 - ColorPicker::HorizontalPadding, 
-		r.height() / 2.0  - ColorPicker::VerticalPadding
+		r.y() + r.height() / 2 + gui::colorpicker::ColorPicker::VerticalPadding,
+		r.width() / 2 - gui::colorpicker::ColorPicker::HorizontalPadding, 
+		r.height() / 2.0  - gui::colorpicker::ColorPicker::VerticalPadding
 	);	
 
 	m_colors_grid_container->setGeometry(
-		r.x() + r.width() / 2 + ColorPicker::HorizontalPadding, 
-		r.y() + r.height() / 2 + ColorPicker::VerticalPadding , 
-		r.width() / 2 - ColorPicker::HorizontalPadding, 
-		r.height() / 2 - ColorPicker::VerticalPadding
+		r.x() + r.width() / 2 + gui::colorpicker::ColorPicker::HorizontalPadding, 
+		r.y() + r.height() / 2 + gui::colorpicker::ColorPicker::VerticalPadding , 
+		r.width() / 2 - gui::colorpicker::ColorPicker::HorizontalPadding, 
+		r.height() / 2 - gui::colorpicker::ColorPicker::VerticalPadding
 	);
 
 	regenerateImages();	
 }
 
 
-void ColorPicker::createPreviewCells()
+void gui::colorpicker::ColorPicker::createPreviewCells()
 {
 	for(int i = 0; i < m_preview->rowCount(); i++)
 	{
@@ -620,7 +620,7 @@ void ColorPicker::createPreviewCells()
 	}
 }
 
-void ColorPicker::initRandomPaletteAndMakeCellsNonEditable()
+void gui::colorpicker::ColorPicker::initRandomPaletteAndMakeCellsNonEditable()
 {
 	for(int i = 0; i < m_palette->rowCount(); i++)
 	{
@@ -636,7 +636,7 @@ void ColorPicker::initRandomPaletteAndMakeCellsNonEditable()
 	}
 }
 
-void ColorPicker::fillRow(int row)
+void gui::colorpicker::ColorPicker::fillRow(int row)
 {
 	for(int j = 0; j < m_palette->columnCount(); j++)
 	{
@@ -649,7 +649,7 @@ void ColorPicker::fillRow(int row)
 	}
 }
 
-void ColorPicker::shiftRows()
+void gui::colorpicker::ColorPicker::shiftRows()
 {
 	for(int i = m_palette->rowCount() - 1; i >= 1; i--)
 	{
@@ -668,7 +668,7 @@ void ColorPicker::shiftRows()
 	}
 }
 
-void ColorPicker::fillColumn(int column)
+void gui::colorpicker::ColorPicker::fillColumn(int column)
 {
 	for(int j = 0; j < m_palette->rowCount(); j++)
 	{
@@ -681,7 +681,7 @@ void ColorPicker::fillColumn(int column)
 	}
 }
 
-void ColorPicker::shiftColumns()
+void gui::colorpicker::ColorPicker::shiftColumns()
 {
 	for(int i = m_palette->columnCount() - 1; i >= 1; i--)
 	{
@@ -700,11 +700,11 @@ void ColorPicker::shiftColumns()
 	}
 }
 
-void ColorPicker::updateFullPreviewTable(int row, int column)
+void gui::colorpicker::ColorPicker::updateFullPreviewTable(int row, int column)
 {
-	for(int i = 0; i < ColorPicker::PreviewRowCount; i++)
+	for(int i = 0; i < gui::colorpicker::ColorPicker::PreviewRowCount; i++)
 	{
-		for(int j = 0; j < ColorPicker::PreviewColumnCount; j++)
+		for(int j = 0; j < gui::colorpicker::ColorPicker::PreviewColumnCount; j++)
 		{
 			int krow = i - 1;
 			int kcolumn = j - 1;
@@ -725,14 +725,14 @@ void ColorPicker::updateFullPreviewTable(int row, int column)
 	}
 }
 
-void ColorPicker::updateSilentlyColorParts(int row, int column)
+void gui::colorpicker::ColorPicker::updateSilentlyColorParts(int row, int column)
 {
 	const QBrush & brush = m_palette->item(row,column)->background();
 	const QColor & c = brush.color();
 	updateSilentlyColorParts(c);
 }
 
-void ColorPicker::updateSilentlyColorParts(const QColor & c)
+void gui::colorpicker::ColorPicker::updateSilentlyColorParts(const QColor & c)
 {
 	int (QColor::*methods[4])() const = {
 		&QColor::red,
@@ -749,7 +749,7 @@ void ColorPicker::updateSilentlyColorParts(const QColor & c)
 	
 }
 
-void ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
+void gui::colorpicker::ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
 {
 	m_palette->setStyleSheet(
 			QString("QTableWidget::item:selected{ background-color: rgba(%1, %2, %3, %4) }")
@@ -768,16 +768,16 @@ void ColorPicker::updateColorsInPalettePreviewColorWheel(const QColor & c)
 
 
 
-void ColorPicker::regenerateImages()
+void gui::colorpicker::ColorPicker::regenerateImages()
 {
 	int width = this->width() / 2 
-	  - ColorPicker::HorizontalPadding 
-	  - ColorPicker::MarkerSize
-	  - ColorPicker::LightnessGradientWidth;
+	  - gui::colorpicker::ColorPicker::HorizontalPadding 
+	  - gui::colorpicker::ColorPicker::MarkerSize
+	  - gui::colorpicker::ColorPicker::LightnessGradientWidth;
 	int height = this->height() / 2
-	  - ColorPicker::VerticalPadding
-	  - ColorPicker::MarkerSize
-	  - ColorPicker::AlphaGradientHeight;
+	  - gui::colorpicker::ColorPicker::VerticalPadding
+	  - gui::colorpicker::ColorPicker::MarkerSize
+	  - gui::colorpicker::ColorPicker::AlphaGradientHeight;
 	m_wheel_size = std::min(width,height);
 
 	regenerateLightnessImage(height);
@@ -786,67 +786,67 @@ void ColorPicker::regenerateImages()
 	m_color_wheels.clear();
 	// Recompute color wheel location
 	int colorwheelmaxwidth = this->width() / 2 
-						   - ColorPicker::HorizontalPadding
-						   - ColorPicker::MarkerSize 
-						   - ColorPicker::LightnessGradientWidth;
-	int x = this->width() / 2 + ColorPicker::HorizontalPadding + colorwheelmaxwidth / 2 - m_wheel_size / 2;
+						   - gui::colorpicker::ColorPicker::HorizontalPadding
+						   - gui::colorpicker::ColorPicker::MarkerSize 
+						   - gui::colorpicker::ColorPicker::LightnessGradientWidth;
+	int x = this->width() / 2 + gui::colorpicker::ColorPicker::HorizontalPadding + colorwheelmaxwidth / 2 - m_wheel_size / 2;
 	int colorwheelmaxheight = this->height() / 2
-						    - ColorPicker::VerticalPadding
-							- ColorPicker::MarkerSize 
-							- ColorPicker::AlphaGradientHeight;
+						    - gui::colorpicker::ColorPicker::VerticalPadding
+							- gui::colorpicker::ColorPicker::MarkerSize 
+							- gui::colorpicker::ColorPicker::AlphaGradientHeight;
 	int y = colorwheelmaxheight / 2 - m_wheel_size / 2;
 	m_color_wheel_location = QRectF(QPointF(x, y),  QSizeF(m_wheel_size, m_wheel_size));
 }
 
-void ColorPicker::regenerateLightnessImage(int height)
+void gui::colorpicker::ColorPicker::regenerateLightnessImage(int height)
 {
 	delete m_lightness_image;
-	m_lightness_image = new QImage(ColorPicker::LightnessGradientWidth, height, QImage::Format_ARGB32);
+	m_lightness_image = new QImage(gui::colorpicker::ColorPicker::LightnessGradientWidth, height, QImage::Format_ARGB32);
 	QPainter lightnesspainter(m_lightness_image);
-	QLinearGradient g(0, 0, ColorPicker::LightnessGradientWidth, height);
+	QLinearGradient g(0, 0, gui::colorpicker::ColorPicker::LightnessGradientWidth, height);
 	g.setColorAt(0, QColor::fromHsl(255, 255, 255));
 	g.setColorAt(1, QColor::fromHsl(255, 255, 0));
 	lightnesspainter.fillRect(
 		QRect(
 			QPoint(0,  0), 
-			QSize(ColorPicker::LightnessGradientWidth, height)	
+			QSize(gui::colorpicker::ColorPicker::LightnessGradientWidth, height)	
 		),
 		g
 	);
 	
 	m_lightness_image_location = QRectF(
-		QPointF(this->width() - ColorPicker::MarkerSize - ColorPicker::LightnessGradientWidth ,0), 
+		QPointF(this->width() - gui::colorpicker::ColorPicker::MarkerSize - gui::colorpicker::ColorPicker::LightnessGradientWidth ,0), 
 		QSizeF(m_lightness_image->width(), m_lightness_image->height())
 	);
 }
 
-void ColorPicker::regenerateAlphaImage(int width)
+void gui::colorpicker::ColorPicker::regenerateAlphaImage(int width)
 {
 	delete m_alpha_image;
-	m_alpha_image = new QImage(width, ColorPicker::AlphaGradientHeight, QImage::Format_ARGB32);
+	m_alpha_image = new QImage(width, gui::colorpicker::ColorPicker::AlphaGradientHeight, QImage::Format_ARGB32);
 	QPainter painter(m_alpha_image);
-	QLinearGradient g(0, 0, width, ColorPicker::AlphaGradientHeight);
+	QLinearGradient g(0, 0, width, gui::colorpicker::ColorPicker::AlphaGradientHeight);
 	g.setColorAt(0, QColor(255, 0, 0, 0));
 	g.setColorAt(1, QColor(255, 0, 0, 255));
 	painter.fillRect(
 		QRect(
 			QPoint(0,  0), 
-			QSize(width, ColorPicker::AlphaGradientHeight)	
+			QSize(width, gui::colorpicker::ColorPicker::AlphaGradientHeight)	
 		),
 		g
 	);
 	
 	int y = this->height() / 2 
-		  - ColorPicker::VerticalPadding 
-		  - ColorPicker::MarkerSize 
-		  - ColorPicker::AlphaGradientHeight;
+		  - gui::colorpicker::ColorPicker::VerticalPadding 
+		  - gui::colorpicker::ColorPicker::MarkerSize 
+		  - gui::colorpicker::ColorPicker::AlphaGradientHeight;
 	m_alpha_image_location = QRectF(
-		QPointF(this->width() / 2 + ColorPicker::HorizontalPadding, y), 
+		QPointF(this->width() / 2 + gui::colorpicker::ColorPicker::HorizontalPadding, y), 
 		QSizeF(m_alpha_image->width(), m_alpha_image->height())
 	);
 }
 
-void ColorPicker::generateColorWheel(int lightness, int alpha, int side)
+void gui::colorpicker::ColorPicker::generateColorWheel(int lightness, int alpha, int side)
 {
 	QImage im(side, side, QImage::Format_ARGB32);
 	im.fill(Qt::transparent);
@@ -889,14 +889,14 @@ void ColorPicker::generateColorWheel(int lightness, int alpha, int side)
 	m_color_wheels[lightness].insert(alpha, im.copy());
 }
 
-void ColorPicker::handleMouseEvents(QMouseEvent* e)
+void gui::colorpicker::ColorPicker::handleMouseEvents(QMouseEvent* e)
 {
 	QColor color = this->selectedColor();
 
 #define IS_WITHIN(A, R) ((A)->x() >= (R).left()  \
 					&&  (A)->x() <= (R).right()  \
 					&&  (A)->y() >= (R).top()    \
-					&&  (A)->y() <= ((R).bottom() + ColorPicker::MarkerSize))
+					&&  (A)->y() <= ((R).bottom() + gui::colorpicker::ColorPicker::MarkerSize))
 	if (IS_WITHIN(e, m_alpha_image_location))
 	{
 		double alpha = (e->x() - m_alpha_image_location.left()) / m_alpha_image_location.width() * 255.0;
@@ -907,7 +907,7 @@ void ColorPicker::handleMouseEvents(QMouseEvent* e)
 	}
 #undef IS_WITHIN
 #define IS_WITHIN(A, R) ((A)->x() >= (R).left()  \
-					&&  (A)->x() <= ((R).right() + ColorPicker::MarkerSize) \
+					&&  (A)->x() <= ((R).right() + gui::colorpicker::ColorPicker::MarkerSize) \
 					&&  (A)->y() >= (R).top()    \
 					&&  (A)->y() <= ((R).bottom()))
 	if (IS_WITHIN(e, m_lightness_image_location))
@@ -943,7 +943,7 @@ void ColorPicker::handleMouseEvents(QMouseEvent* e)
 #undef IS_WITHIN
 }
 
-QPointF ColorPicker::colorPositionOnWheel(const QColor & c)
+QPointF gui::colorpicker::ColorPicker::colorPositionOnWheel(const QColor & c)
 {
 	double hue = c.hue() / 180.0 * M_PI;
 	double saturation = c.saturation() / 255.0 * m_wheel_size / 2;
@@ -956,7 +956,7 @@ QPointF ColorPicker::colorPositionOnWheel(const QColor & c)
 	return center;
 }
 
-bool ColorPicker::handleColorWheelPositionChange(const QPointF & p, QColor & c)
+bool gui::colorpicker::ColorPicker::handleColorWheelPositionChange(const QPointF & p, QColor & c)
 {
 	QColor color = this->selectedColor();
 	double halfsize = m_color_wheel_location.width() / 2;

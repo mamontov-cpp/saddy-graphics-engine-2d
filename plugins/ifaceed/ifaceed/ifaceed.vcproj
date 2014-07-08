@@ -374,10 +374,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\mockspritetablewidget.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\core\objectborders.cpp"
 					>
 				</File>
@@ -387,10 +383,6 @@
 				</File>
 				<File
 					RelativePath=".\core\objectxmlwriter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\qspritetablewidgetselection.cpp"
 					>
 				</File>
 				<File
@@ -442,17 +434,41 @@
 				Name="gui"
 				>
 				<File
-					RelativePath=".\gui\colordelegate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\gui\fontdelegate.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\gui\objectlist.cpp"
 					>
 				</File>
+				<Filter
+					Name="colorpicker"
+					>
+					<File
+						RelativePath=".\gui\colorpicker\colorpicker.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="resourcetreewidget"
+					>
+					<File
+						RelativePath=".\gui\resourcetreewidget\cell.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\celldelegate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\defaultimage.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\resourcecache.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\resourcetreewidget.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="unittests"
@@ -495,36 +511,8 @@
 				>
 			</Filter>
 			<Filter
-				Name="resourcetreewidget"
+				Name="fontsizewidget"
 				>
-				<File
-					RelativePath=".\resourcetreewidget\cell.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\celldelegate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\defaultimage.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\resourcecache.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\resourcetreewidget.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="colorpicker"
-				>
-				<File
-					RelativePath=".\colorpicker\colorpicker.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -748,54 +736,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\mockspritetablewidget.h"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing mockspritetablewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL  &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing mockspritetablewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing mockspritetablewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing mockspritetablewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\core\objectborders.h"
 					>
 				</File>
@@ -805,10 +745,6 @@
 				</File>
 				<File
 					RelativePath=".\core\objectxmlwriter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\qspritetablewidgetselection.h"
 					>
 				</File>
 				<File
@@ -856,17 +792,129 @@
 				Name="gui"
 				>
 				<File
-					RelativePath=".\gui\colordelegate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\gui\fontdelegate.h"
-					>
-				</File>
-				<File
 					RelativePath=".\gui\objectlist.h"
 					>
 				</File>
+				<Filter
+					Name="colorpicker"
+					>
+					<File
+						RelativePath=".\gui\colorpicker\colorpicker.h"
+						>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing colorpicker.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing colorpicker.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="UnitTests|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing colorpicker.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="GUITests|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing colorpicker.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="resourcetreewidget"
+					>
+					<File
+						RelativePath=".\gui\resourcetreewidget\cell.h"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\celldelegate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\defaultimage.h"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\resourcecache.h"
+						>
+					</File>
+					<File
+						RelativePath=".\gui\resourcetreewidget\resourcetreewidget.h"
+						>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing resourcetreewidget.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing resourcetreewidget.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="UnitTests|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing resourcetreewidget.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="GUITests|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Moc&apos;ing resourcetreewidget.h..."
+								CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+								AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+								Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="unittests"
@@ -913,124 +961,8 @@
 				>
 			</Filter>
 			<Filter
-				Name="resourcetreewidget"
+				Name="fontsizewidget"
 				>
-				<File
-					RelativePath=".\resourcetreewidget\cell.h"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\celldelegate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\defaultimage.h"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\resourcecache.h"
-					>
-				</File>
-				<File
-					RelativePath=".\resourcetreewidget\resourcetreewidget.h"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing resourcetreewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing resourcetreewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing resourcetreewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing resourcetreewidget.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="colorpicker"
-				>
-				<File
-					RelativePath=".\colorpicker\colorpicker.h"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing colorpicker.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing colorpicker.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing colorpicker.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Moc&apos;ing colorpicker.h..."
-							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(QTDIR)\include\QtTest&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
-							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-						/>
-					</FileConfiguration>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1218,34 +1150,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\GeneratedFiles\Release\moc_mockspritetablewidget.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\GeneratedFiles\Release\moc_resourcetreewidget.cpp"
 					>
 					<FileConfiguration
@@ -1365,34 +1269,6 @@
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\Debug\moc_mainpanel.cpp"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\GeneratedFiles\Debug\moc_mockspritetablewidget.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
@@ -1566,34 +1442,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\GeneratedFiles\UnitTests\moc_mockspritetablewidget.cpp"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="GUITests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\GeneratedFiles\UnitTests\moc_resourcetreewidget.cpp"
 					>
 					<FileConfiguration
@@ -1713,34 +1561,6 @@
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\GUITests\moc_mainpanel.cpp"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="UnitTests|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\GeneratedFiles\GUITests\moc_mockspritetablewidget.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
