@@ -13,6 +13,12 @@
 #include <QList>
 #include <QColor>
 
+namespace gui
+{
+
+namespace colorpicker
+{
+
 /*! A color picker widget 
  */
 class ColorPicker: public QWidget
@@ -260,3 +266,7 @@ protected:
 	 */
 	bool m_removing_data;
 };
+
+}
+
+}

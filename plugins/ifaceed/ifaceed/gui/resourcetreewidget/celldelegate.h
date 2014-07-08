@@ -1,5 +1,5 @@
 /*!  \file celldelegate.h
-	 \author freakyblast
+	 \author HiddenSeeker
  */
 #ifndef CELLDELEGATE_H
 #define CELLDELEGATE_H
@@ -10,11 +10,17 @@
 #include <QFontMetrics>
 
 
-class ResourceTreeWidget;
+
+namespace gui
+{
 
 namespace resourcetreewidget
 {
 
+class ResourceTreeWidget;
+
+/*! A delegate for rendering items in resource treewidget
+ */
 class CellDelegate: public QItemDelegate
 {
 public:
@@ -44,7 +50,7 @@ public:
 protected:
 	/*! A widget, where delegate is belong
 	 */
-	ResourceTreeWidget * m_widget;
+	gui::resourcetreewidget::ResourceTreeWidget * m_widget;
 };
 
 /** Returns acceptable string for cell geometry
@@ -58,6 +64,8 @@ QString getAcceptableString(
 	int in_width, 
 	QFontMetrics & metrics
 );
+
+}
 
 }
 

@@ -7,6 +7,9 @@
 
 #include <texture.h>
 
+namespace gui
+{
+
 namespace resourcetreewidget
 {
 
@@ -25,5 +28,7 @@ public:
 	 */
 	static sad::uchar Data[22500];
 };
+
+}
 
 }

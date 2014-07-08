@@ -5,6 +5,9 @@
  */
 #pragma once
 
+namespace gui
+{
+
 namespace resourcetreewidget
 {
 /*! Describes a basic parameter of cell
@@ -30,5 +33,7 @@ struct Cell
 	 */
 	static const int FontSize;
 };
+
+}
 
 }

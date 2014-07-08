@@ -461,7 +461,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="ColorPicker" name="clpColors" native="true">
+     <widget class="gui::colorpicker::ColorPicker" name="clpColors" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -535,7 +535,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="ResourceTreeWidget" name="rtwFonts" native="true">
+     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwFonts" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -568,7 +568,7 @@
      <attribute name="title">
       <string>Sprite</string>
      </attribute>
-     <widget class="ResourceTreeWidget" name="rtwSprites" native="true">
+     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwSprites" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -725,15 +725,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ResourceTreeWidget</class>
+   <class>gui::resourcetreewidget::ResourceTreeWidget</class>
    <extends>QWidget</extends>
-   <header>resourcetreewidget/resourcetreewidget.h</header>
+   <header>gui/resourcetreewidget/resourcetreewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ColorPicker</class>
+   <class>gui::colorpicker::ColorPicker</class>
    <extends>QWidget</extends>
-   <header>colorpicker/colorpicker.h</header>
+   <header>gui/colorpicker/colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -10,10 +10,13 @@
 
 #include <resource/folder.h>
 
+namespace gui
+{
+
 namespace resourcetreewidget
 {
 class ResourceCache;
-}
+
 
 class ResourceTreeWidget: public QWidget
 {
@@ -33,7 +36,7 @@ public:
 	/*! A resource cache for a widget
 		\return a resource cache for a widget
 	 */
-	resourcetreewidget::ResourceCache * cache();
+	gui::resourcetreewidget::ResourceCache * cache();
 	/*! Returns padding between two subwidgets
 		\return padding between two subwidgets
 	 */
@@ -139,5 +142,9 @@ protected:
 	QString m_filter;
 	/*! A cache for resource images inside of widget
 	 */
-	resourcetreewidget::ResourceCache * m_cache;
+	gui::resourcetreewidget::ResourceCache * m_cache;
 };
+
+}
+
+}

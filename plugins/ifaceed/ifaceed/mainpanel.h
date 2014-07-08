@@ -9,15 +9,17 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_mainpanel.h"
-#include "sadstring.h"
+#include <sadstring.h>
+
 #include "gui/objectlist.h"
+
 #include <db/dbvariant.h>
 #pragma once
 
 
 class IFaceEditor;
 class AbstractScreenObject;
-class MockSpriteTableWidget;
+
 
 /*! A main window to edit level objects
  */
@@ -36,7 +38,7 @@ private:
 	QString m_tmp_state;
 	/** An object list for working with information
 	 */
-	ScreenObjectList m_list;
+	gui::ScreenObjectList m_list;
 public:
 	
 	/*! Change region parameters for data

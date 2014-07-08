@@ -1,12 +1,8 @@
 #include "mainpanel.h"
-
-#include "gui/fontdelegate.h"
-#include "gui/colordelegate.h"
 #include "core/ifaceeditor.h"
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
 #include "core/spritedatabase.h"
-#include "core/mockspritetablewidget.h"
 #include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
 #include "objects/screenlabel.h"
@@ -673,6 +669,8 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
 	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
+	// TODO: Reimplement
+	/*
 	if (o)
 	{
 		
@@ -734,6 +732,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 			}
 		}
 	}
+	*/
 }
 
 void SpritePropertyChangeCommand::commit(CommandChangeObserver * ob )

@@ -1,8 +1,8 @@
-#include "resourcetreewidget/resourcetreewidget.h"
-#include "resourcetreewidget/resourcecache.h"
-#include "resourcetreewidget/celldelegate.h"
-#include "resourcetreewidget/cell.h"
-#include "resourcetreewidget/defaultimage.h"
+#include "gui/resourcetreewidget/resourcetreewidget.h"
+#include "gui/resourcetreewidget/resourcecache.h"
+#include "gui/resourcetreewidget/celldelegate.h"
+#include "gui/resourcetreewidget/cell.h"
+#include "gui/resourcetreewidget/defaultimage.h"
 
 #include <QResizeEvent>
 #include <QMoveEvent>
@@ -18,7 +18,7 @@
 
 Q_DECLARE_METATYPE(sad::String);
 
-ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
+gui::resourcetreewidget::ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
 : QWidget(parent), m_padding(6), m_tree_name("")
 {
 	m_tree_view = new QTreeWidget(parent);
@@ -35,12 +35,12 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	m_element_view->setSelectionMode(QAbstractItemView::SingleSelection);
 	m_element_view->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-	resourcetreewidget::CellDelegate* mydelegate = new resourcetreewidget::CellDelegate();
+	gui::resourcetreewidget::CellDelegate* mydelegate = new gui::resourcetreewidget::CellDelegate();
 	mydelegate->setParent(m_element_view);
 	mydelegate->setResourceTreeWidget(this);
 	m_element_view->setItemDelegate(mydelegate);
 
-	m_cache = new resourcetreewidget::ResourceCache();
+	m_cache = new gui::resourcetreewidget::ResourceCache();
 	m_cache->setParent(this);
 
 	resizeWidgets(this->geometry());
@@ -49,51 +49,51 @@ ResourceTreeWidget::ResourceTreeWidget(QWidget * parent)
 	connect(m_element_view, SIGNAL(currentItemChanged(QTableWidgetItem*, QTableWidgetItem*)), this, SLOT(elementItemChanged(QTableWidgetItem*, QTableWidgetItem*)));
 }
 
-resourcetreewidget::ResourceCache * ResourceTreeWidget::cache()
+gui::resourcetreewidget::ResourceCache * gui::resourcetreewidget::ResourceTreeWidget::cache()
 {
 	return m_cache;
 }
 
-ResourceTreeWidget::~ResourceTreeWidget()
+gui::resourcetreewidget::ResourceTreeWidget::~ResourceTreeWidget()
 {
 	delete m_tree_view;
 	delete m_element_view;
 }
 
-double ResourceTreeWidget::padding() const
+double gui::resourcetreewidget::ResourceTreeWidget::padding() const
 {
 	return m_padding;
 }
 
-void ResourceTreeWidget::setPadding(double padding)
+void gui::resourcetreewidget::ResourceTreeWidget::setPadding(double padding)
 {
 	m_padding = padding;
 	resizeWidgets(this->geometry());
 }
 
-void ResourceTreeWidget::setTree(const QString & name)
+void gui::resourcetreewidget::ResourceTreeWidget::setTree(const QString & name)
 {
 	m_tree_name = name;
 	updateTree();
 }
 
-const QString & ResourceTreeWidget::tree() const
+const QString & gui::resourcetreewidget::ResourceTreeWidget::tree() const
 {
 	return m_tree_name;
 }
 
-void ResourceTreeWidget::setFilter(const QString & filter)
+void gui::resourcetreewidget::ResourceTreeWidget::setFilter(const QString & filter)
 {
 	m_filter = filter;
 	updateTree();
 }
 
-const QString & ResourceTreeWidget::filter() const
+const QString & gui::resourcetreewidget::ResourceTreeWidget::filter() const
 {
 	return m_filter;
 }
 
-void ResourceTreeWidget::updateTree()
+void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 {
 	sad::Maybe<sad::String> path;
 	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
@@ -122,7 +122,9 @@ void ResourceTreeWidget::updateTree()
 	tryRestoreSelection(path, resourcename);
 }
 
-sad::Maybe<sad::String> ResourceTreeWidget::pathToItemBySelection(const QString & name)
+sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::pathToItemBySelection(
+	const QString & name
+)
 {
 	sad::Maybe<sad::String> result;
 	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
@@ -143,7 +145,9 @@ sad::Maybe<sad::String> ResourceTreeWidget::pathToItemBySelection(const QString 
 	return result;
 }
 
-void ResourceTreeWidget::setSelectedResourceName(const sad::String & name)
+void gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName(
+	const sad::String & name
+)
 {
 	sad::StringList list = name.split("/");
 	if (list.size() == 1)
@@ -163,7 +167,7 @@ void ResourceTreeWidget::setSelectedResourceName(const sad::String & name)
 }
 
 
-sad::Maybe<sad::String> ResourceTreeWidget::selectedResourceName() const
+sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedResourceName() const
 {
 	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
 	sad::Maybe<sad::String> result;
@@ -189,7 +193,7 @@ sad::Maybe<sad::String> ResourceTreeWidget::selectedResourceName() const
 	return result;
 }
 
-sad::resource::Resource* ResourceTreeWidget::selectedResource() const
+sad::resource::Resource* gui::resourcetreewidget::ResourceTreeWidget::selectedResource() const
 {
 	sad::Maybe<sad::String> path = this->selectedResourceName();
 	sad::resource::Resource * result = NULL;
@@ -203,7 +207,7 @@ sad::resource::Resource* ResourceTreeWidget::selectedResource() const
 	return result;
 }
 
-void	ResourceTreeWidget::treeItemChanged(
+void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 	QTreeWidgetItem * current, 
 	QTreeWidgetItem * previous
 )
@@ -270,8 +274,8 @@ void	ResourceTreeWidget::treeItemChanged(
 					QTableWidgetItem * item = new QTableWidgetItem(cur.key().c_str());
 					item->setFlags(item->flags() ^ Qt::ItemIsEditable);
 					item->setSizeHint(QSize(
-						resourcetreewidget::Cell::Width, 
-						resourcetreewidget::Cell::Height
+						gui::resourcetreewidget::Cell::Width, 
+						gui::resourcetreewidget::Cell::Height
 					));
 					m_element_view->setItem(row, column, item);
 					m_element_view->resizeColumnsToContents();
@@ -295,7 +299,10 @@ void	ResourceTreeWidget::treeItemChanged(
 	}
 }
 
-void ResourceTreeWidget::elementItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
+void gui::resourcetreewidget::ResourceTreeWidget::elementItemChanged(
+	QTableWidgetItem * current, 
+	QTableWidgetItem * previous
+)
 {
 	if (current)
 	{
@@ -322,7 +329,9 @@ void ResourceTreeWidget::elementItemChanged(QTableWidgetItem * current, QTableWi
 	}
 }
 
-sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * item) const
+sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedFolder(
+	QTreeWidgetItem * item
+) const
 {
 	sad::Maybe<sad::String> value;
 	if (item)
@@ -341,7 +350,7 @@ sad::Maybe<sad::String> ResourceTreeWidget::selectedFolder(QTreeWidgetItem * ite
 	return value;
 }
 
-sad::Maybe<sad::String> ResourceTreeWidget::selectedLocalPathToResource() const
+sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedLocalPathToResource() const
 {
 	QList<QTableWidgetItem *> elements = m_element_view->selectedItems();
 	sad::Maybe<sad::String> result;
@@ -352,7 +361,7 @@ sad::Maybe<sad::String> ResourceTreeWidget::selectedLocalPathToResource() const
 	return result;
 }
 
-void ResourceTreeWidget::tryRestoreSelection(
+void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 	const sad::Maybe<sad::String> & folder,
 	const sad::Maybe<sad::String> & resourcelocal
 )
@@ -411,7 +420,7 @@ void ResourceTreeWidget::tryRestoreSelection(
 	}
 }
 
-void ResourceTreeWidget::populateTree(
+void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
 		QTreeWidgetItem * parentitem, 
 		sad::resource::Folder * parentfolder
 )
@@ -426,21 +435,21 @@ void ResourceTreeWidget::populateTree(
 	}
 }
 
-void ResourceTreeWidget::resizeEvent( QResizeEvent * e )
+void gui::resourcetreewidget::ResourceTreeWidget::resizeEvent( QResizeEvent * e )
 {
 	QRect oldrect = this->geometry();
 	QRect r(oldrect.x(), oldrect.y(), e->size().width(), e->size().height());
 	resizeWidgets(r);
 }
 
-void ResourceTreeWidget::moveEvent( QMoveEvent * e )
+void gui::resourcetreewidget::ResourceTreeWidget::moveEvent( QMoveEvent * e )
 {
 	QRect oldrect = this->geometry();	
 	QRect r(e->pos().x(), e->pos().y(), oldrect.width(), oldrect.height());
 	resizeWidgets(r);	
 }
 
-void ResourceTreeWidget::resizeWidgets(const QRect & r)
+void gui::resourcetreewidget::ResourceTreeWidget::resizeWidgets(const QRect & r)
 {
 	double halfsizenopad = r.width() / 2.0 - this->padding() / 2.0;
 	m_tree_view->setGeometry(r.x(), r.y(), halfsizenopad, r.height());
