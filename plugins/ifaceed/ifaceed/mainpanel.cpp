@@ -44,15 +44,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 
 	m_selfchanged = false;
-	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
 	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnAddSprite, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
-	// Populate font size
-	for (int i=5;i<201;i++)
-	{
-		ui.cmbFontSize->addItem(QString::number(i),QVariant(i));
-	}
+	
 	// Set default sprite adding model
 	ui.rbPlaceAndRotate->setChecked(true);
 
@@ -65,7 +60,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_list.setWidget(ui.lstObjects);
 
-	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
 	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
 	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
@@ -144,20 +138,7 @@ void MainPanel::synchronizeDatabase()
 }
 
 
-void MainPanel::addNewFontSize()
-{
-	QInputDialog d(this);
-	d.setInputMode(QInputDialog::IntInput);
-	d.setWindowTitle("Input some font size");
-	d.setIntRange(201,1000);
-	d.exec();
-	if (d.result() == QDialog::Accepted)
-	{
-		int size = d.intValue();
-		ui.cmbFontSize->addItem(QString::number(size), QVariant(size));
-		ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count()-1);
-	}
-}
+
 
 
 void MainPanel::setMouseMovePosView(float x, float y)
@@ -209,8 +190,9 @@ void MainPanel::addFontObject()
 		label->getProperty("pos")->set(sad::Point2D(0,0));
 		float angle = ui.dblAngle->value();
 		label->getProperty("angle")->set(angle);
-		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
-		label->getProperty("size")->set(size);
+		// TODO: Reimplement
+		// unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
+		// label->getProperty("size")->set(size);
 		sad::String text=ui.txtLabelText->toPlainText().toStdString().c_str();
 		label->getProperty("text")->set(text);
 
@@ -427,15 +409,7 @@ void MainPanel::colorChanged(int index)
 	}
 }
 
-void MainPanel::sizeChanged(int index)
-{
-	IGNORE_SELFCHANGING
-	if (index!=-1)
-	{
-		unsigned int size = ui.cmbFontSize->itemData(index).value<int>();
-		trySetProperty("size", size);
-	}
-}
+
 
 void MainPanel::nameChanged(const QString & name)
 {
@@ -478,6 +452,8 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	if (prop)
 	{
 		m_selfchanged = true;
+		/*
+		TODO: Reimplement
 		unsigned int size = prop->get<unsigned int>().value();
 		int index = ui.cmbFontSize->findData((int)size);
 		if (index != -1) 
@@ -495,6 +471,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 				setCurrentIndex(ui.cmbFontSize->count() - 1)
 			);
 		}
+		*/
 		m_selfchanged = false;
 	}
 	prop = o->getProperty("color");

@@ -137,7 +137,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_scenes">
      <attribute name="title">
@@ -476,46 +476,10 @@
      <attribute name="title">
       <string>Label</string>
      </attribute>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>71</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Size:</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="cmbFontSize">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>81</width>
-        <height>21</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnPickFontSize">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>81</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Pick other</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="lblText">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>120</x>
         <y>14</y>
         <width>46</width>
         <height>13</height>
@@ -528,10 +492,10 @@
      <widget class="QPlainTextEdit" name="txtLabelText">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>120</x>
         <y>30</y>
-        <width>241</width>
-        <height>51</height>
+        <width>221</width>
+        <height>71</height>
        </rect>
       </property>
      </widget>
@@ -539,9 +503,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>110</y>
         <width>331</width>
-        <height>221</height>
+        <height>201</height>
        </rect>
       </property>
      </widget>
@@ -561,6 +525,16 @@
       </property>
       <property name="text">
        <string>Add new label</string>
+      </property>
+     </widget>
+     <widget class="gui::fontsizewidget::FontSizeWidget" name="fswFontSize" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>101</width>
+        <height>91</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -734,6 +708,12 @@
    <class>gui::colorpicker::ColorPicker</class>
    <extends>QWidget</extends>
    <header>gui/colorpicker/colorpicker.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>gui::fontsizewidget::FontSizeWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/fontsizewidget/fontsizewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
