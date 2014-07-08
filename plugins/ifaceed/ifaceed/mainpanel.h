@@ -117,10 +117,6 @@ protected slots:
 	void spriteRectChanged();
 
 	void spriteSelected(QString config, QString group, int index);
-	/**
-	 * Adds new font size for font in combo box
-	 */ 
-	void addNewFontSize();
 	/** Implementation of setMouseMovePosView
 	 */
 	void setMouseMovePosViewImpl();
@@ -141,10 +137,6 @@ protected slots:
 		\param[in] index of color
 	 */
 	void colorChanged(int index);
-	/*! Whether size is changed
-		\param[in] index of size
-	 */
-	void sizeChanged(int index);
 	/*! Whether label object text changed
 	 */
 	void textChanged();
