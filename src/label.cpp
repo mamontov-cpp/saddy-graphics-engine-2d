@@ -85,7 +85,12 @@ void sad::Label::rendererChanged()
 	}
 }
 
-sad::Rect2D sad::Label::region() const
+void sad::Label::setArea(const sad::Rect2D & r)
+{
+	m_point = r[0];
+}
+
+sad::Rect2D sad::Label::area() const
 {
 	// Preserve linkage to a renderer
 	sad::Font * font = m_font.get();
@@ -100,6 +105,12 @@ sad::Rect2D sad::Label::region() const
 						m_point.y(), 
 						m_point.x() + size.Width,
 						m_point.y() - size.Height);
+	return result;
+}
+
+sad::Rect2D sad::Label::region() const
+{
+	sad::Rect2D result = this->area();
 	sad::rotate(result, m_angle);
 	return result;
 }
