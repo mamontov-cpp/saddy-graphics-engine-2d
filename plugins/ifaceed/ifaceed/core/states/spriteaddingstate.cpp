@@ -49,12 +49,15 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	float a = o->getProperty("angle")->get<float>().value();
 	a+=dangle;
+	/*
+	// TODO: Reimplement
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; float angle; )
 	CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); p->setRegionParameters();   )
 	INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 	SUBMITCLOSURE( ed->emitClosure );
 	o->getProperty("angle")->set(sad::db::Variant((float)a));
+	*/
 }
 
 void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)

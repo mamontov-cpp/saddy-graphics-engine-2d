@@ -65,13 +65,6 @@ unsigned int gui::fontsizewidget::FontSizeWidget::value() const
 	return (unsigned int)result;
 } 
 
-
-void gui::fontsizewidget::FontSizeWidget::setGeometry(const QRect & rect)
-{
-	m_layout->setGeometry(rect);
-	this->QWidget::setGeometry(rect);
-}
-
 void gui::fontsizewidget::FontSizeWidget::sizeChanged(int index)
 {
 	if (index != -1) 

@@ -34,10 +34,6 @@ public:
 		\return a value of size, picked in combo box
 	 */
 	unsigned int value() const;
-	/*! Set geometry for font size 
-		\param[in] rect rectangle
-	 */
-	void setGeometry(const QRect & rect);
 signals:
 	/*! Emitted, when new value is picked in combo box
 	 */

@@ -86,11 +86,14 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 		MainPanel * p = ed->panel();
 		float a = o->getProperty("angle")->get<float>().value();
 		a+=dangle;
+		/*
+		TODO: Reimplement
 		CLOSURE
 		CLOSURE_DATA( MainPanel * p; float angle; )
 		CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); p->setRegionParameters(); )
 		INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 		SUBMITCLOSURE( ed->emitClosure );
+		*/
 	}
 }
 

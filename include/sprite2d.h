@@ -143,7 +143,7 @@ public:
 		\return area for sprite
 	 */
 	sad::Rect2D area() const;
-	/*! ReturnS rotated renderable area for a sprite
+	/*! Returns rotated renderable area for a sprite
 		\return area for sprite
 	 */
 	const sad::Rect2D & renderableArea() const;

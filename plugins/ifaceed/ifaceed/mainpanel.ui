@@ -137,7 +137,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab_scenes">
      <attribute name="title">
@@ -176,7 +176,7 @@
        <string>New scene</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnSceneMoveFront">
+     <widget class="QPushButton" name="btnScenesMoveFront">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -189,7 +189,7 @@
        <string>Move front</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnSceneMoveBack">
+     <widget class="QPushButton" name="btnScenesMoveBack">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -215,7 +215,7 @@
        <string>Delete</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnSaveScenes">
+     <widget class="QPushButton" name="btnScenesSave">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -228,7 +228,7 @@
        <string>Save scenes</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnLoadScenes">
+     <widget class="QPushButton" name="btnScenesLoad">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -246,7 +246,7 @@
      <attribute name="title">
       <string>Scene</string>
      </attribute>
-     <widget class="QListWidget" name="lstObjects">
+     <widget class="QListWidget" name="lstSceneObjects">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -266,7 +266,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnObjectDelete">
+     <widget class="QPushButton" name="btnSceneNodeDelete">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -279,7 +279,7 @@
        <string>Delete</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnObjectMoveFront">
+     <widget class="QPushButton" name="btnSceneNodeMoveFront">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -292,7 +292,7 @@
        <string>Move front</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnObjectMoveBack">
+     <widget class="QPushButton" name="btnSceneNodeMoveBack">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -305,7 +305,7 @@
        <string>Move back</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnClear">
+     <widget class="QPushButton" name="btnSceneClear">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -318,7 +318,7 @@
        <string>Clear</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnSaveScene">
+     <widget class="QPushButton" name="btnSceneSave">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -331,7 +331,7 @@
        <string>Save scene</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnLoadScene">
+     <widget class="QPushButton" name="btnSceneLoad">
       <property name="geometry">
        <rect>
         <x>260</x>
@@ -349,119 +349,7 @@
      <attribute name="title">
       <string>SceneNode</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>331</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblSpriteX">
-         <property name="text">
-          <string>X:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="dblSpriteX">
-         <property name="minimum">
-          <double>-800.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>800.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="lblSpriteWidth">
-         <property name="text">
-          <string>W:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QDoubleSpinBox" name="dblSpriteWidth">
-         <property name="minimum">
-          <double>-800.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>800.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblSpriteY">
-         <property name="text">
-          <string>Y:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="dblSpriteY">
-         <property name="minimum">
-          <double>-600.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>600.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="lblSpriteHeight">
-         <property name="text">
-          <string>H:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QDoubleSpinBox" name="dblSpriteHeight">
-         <property name="minimum">
-          <double>-600.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>600.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>331</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="angleLayout">
-       <item>
-        <widget class="QLabel" name="lblAngle">
-         <property name="text">
-          <string>Angle:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="dblAngle">
-         <property name="minimum">
-          <double>-10000.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>10000.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.100000000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="gui::colorpicker::ColorPicker" name="clpColors" native="true">
+     <widget class="gui::colorpicker::ColorPicker" name="clpSceneNodeColor" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -471,12 +359,32 @@
        </rect>
       </property>
      </widget>
+     <widget class="gui::rectwidget::RectWidget" name="rwSceneNodeRect" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>331</width>
+        <height>61</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="gui::anglewidget::AngleWidget" name="awSceneNodeAngle" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>331</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_label">
      <attribute name="title">
       <string>Label</string>
      </attribute>
-     <widget class="QLabel" name="lblText">
+     <widget class="QLabel" name="lblLabelText">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -499,7 +407,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwFonts" native="true">
+     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwLabelFont" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -509,7 +417,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnAddLabel">
+     <widget class="QPushButton" name="btnLabelAdd">
       <property name="geometry">
        <rect>
         <x>250</x>
@@ -527,7 +435,7 @@
        <string>Add new label</string>
       </property>
      </widget>
-     <widget class="gui::fontsizewidget::FontSizeWidget" name="fswFontSize" native="true">
+     <widget class="gui::fontsizewidget::FontSizeWidget" name="fswLabelFontSize" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -542,7 +450,7 @@
      <attribute name="title">
       <string>Sprite</string>
      </attribute>
-     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwSprites" native="true">
+     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwSpriteSprite" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -552,7 +460,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnMakeBackground">
+     <widget class="QPushButton" name="btnSpriteMakeBackground">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -565,7 +473,7 @@
        <string>Make background</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnAddSprite">
+     <widget class="QPushButton" name="btnSpriteAdd">
       <property name="geometry">
        <rect>
         <x>230</x>
@@ -714,6 +622,18 @@
    <class>gui::fontsizewidget::FontSizeWidget</class>
    <extends>QWidget</extends>
    <header>gui/fontsizewidget/fontsizewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>gui::rectwidget::RectWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/rectwidget/rectwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>gui::anglewidget::AngleWidget</class>
+   <extends>QWidget</extends>
+   <header>gui/anglewidget/anglewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

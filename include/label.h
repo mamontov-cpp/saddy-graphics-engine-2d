@@ -57,7 +57,16 @@ class Label: public sad::SceneNode
 		/*! Called, when renderer for scene is changed
 		 */
 		virtual void rendererChanged();
+		/*! Sets non-rotated renderable area
+			\param[in] r non-rotated renderable area
+		 */
+		void setArea(const sad::Rect2D & r);
+		/*! Returns non-rotated renderable area for a label
+			\return non-rotated renderable area
+		 */
+		sad::Rect2D area() const;
 		/*! Returns a bounding region for a label
+			\return bounding region part
 		 */
 		virtual sad::Rect2D region() const; 
 		/*! Returns a font for label
@@ -121,14 +130,14 @@ class Label: public sad::SceneNode
 		/*! Returns counter-clockwise rotation angle for a label
 			\return angle
 		 */
-		inline float angle() const
+		inline double angle() const
 		{
 			return m_angle;
 		}
 		/*! Sets angle for rotation of label
 			\param[in] angle a rotation angle
 		 */
-		inline void setAngle(float angle)
+		inline void setAngle(double angle)
 		{
 			m_angle = angle;
 		}
@@ -238,7 +247,7 @@ private:
 		sad::Point2D     m_point;  
 		/*! A counter-clockwise rotation angle for a label
 		 */
-		float            m_angle;
+		double            m_angle;
 		/*! A size of font in label in pixels
 		 */
 		unsigned int     m_size;

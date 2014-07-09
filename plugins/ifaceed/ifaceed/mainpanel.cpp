@@ -43,49 +43,68 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 {
 	ui.setupUi(this);
 
+	// Init non-random palette
+	QList< QList<QColor> > defaultpalette;
+
+	defaultpalette << QList<QColor>();
+	defaultpalette[0] << QColor(255, 255, 0);
+	defaultpalette[0] << QColor(255, 0, 0);
+	defaultpalette[0] << QColor(0, 255, 0);
+	defaultpalette[0] << QColor(0, 0, 255);
+
+	defaultpalette << QList<QColor>();
+	defaultpalette[1] << QColor(192, 192, 0);
+	defaultpalette[1] << QColor(192, 0, 0);
+	defaultpalette[1] << QColor(0, 192, 0);
+	defaultpalette[1] << QColor(0, 0, 192);
+
+	defaultpalette << QList<QColor>();
+	defaultpalette[2] << QColor(128, 128, 0);
+	defaultpalette[2] << QColor(128, 0, 0);
+	defaultpalette[2] << QColor(0, 128, 0);
+	defaultpalette[2] << QColor(0, 0, 128);
+
+	defaultpalette << QList<QColor>();
+	defaultpalette[3] << QColor(64, 64, 0);
+	defaultpalette[3] << QColor(64, 0, 0);
+	defaultpalette[3] << QColor(0, 64, 0);
+	defaultpalette[3] << QColor(0, 0, 64);
+
+	ui.clpSceneNodeColor->setPalette(defaultpalette);
+
 	m_selfchanged = false;
-	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
-	connect(ui.btnAddSprite, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
+	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
+	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
 	
 	// Set default sprite adding model
 	ui.rbPlaceAndRotate->setChecked(true);
 
-	// Add SpriteViewer
-	/* TODO: Remake data getters
-	QGridLayout* grPadLayout = new QGridLayout;
-	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
-													grPadLayout);
-	*/
+	
 
-	m_list.setWidget(ui.lstObjects);
+	m_list.setWidget(ui.lstSceneObjects);
 
-	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
-	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
-	connect(ui.btnObjectMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
-	connect(ui.btnObjectMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
+	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
+	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
+	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
 	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
-	connect(ui.dblSpriteX, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteY, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteWidth, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteHeight, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.btnMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
-	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
+	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
+	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
-	connect(ui.clpColors, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
+	connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
 }
 
 void MainPanel::setEditor(IFaceEditor * editor) 
 {  
 	m_editor = editor; 
-	connect(ui.btnObjectDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
+	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
-	connect(ui.btnSaveScene, SIGNAL(clicked()), this->m_editor, SLOT(save()));
-	connect(ui.btnLoadScene, SIGNAL(clicked()), this->m_editor, SLOT(load()));
+	connect(ui.btnSceneSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
+	connect(ui.btnSceneLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 
-	connect(ui.rtwSprites, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
+	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }
 
 
@@ -108,8 +127,8 @@ void MainPanel::selected(sad::String item)
 }
 void MainPanel::synchronizeDatabase()
 {
-	ui.rtwSprites->setFilter("sad::Sprite2D::Options");
-	ui.rtwFonts->setFilter("sad::freetype::Font|sad::TextureMappedFont");
+	ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");
+	ui.rtwLabelFont->setFilter("sad::freetype::Font|sad::TextureMappedFont");
 	// TODO: Erase when not needed
 	/*
 	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
@@ -188,8 +207,8 @@ void MainPanel::addFontObject()
 		// sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
 
 		label->getProperty("pos")->set(sad::Point2D(0,0));
-		float angle = ui.dblAngle->value();
-		label->getProperty("angle")->set(angle);
+		//float angle = ui.dblAngle->value();
+		//label->getProperty("angle")->set(angle);
 		// TODO: Reimplement
 		// unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
 		// label->getProperty("size")->set(size);
@@ -257,9 +276,9 @@ void MainPanel::addSpriteObject()
 
 void MainPanel::setAddingEnabled(bool enabled)
 {
-	this->ui.lstObjects->setEnabled(enabled);
-	this->ui.btnAddLabel->setEnabled(enabled);
-	this->ui.btnAddSprite->setEnabled(enabled);
+	this->ui.lstSceneObjects->setEnabled(enabled);
+	this->ui.btnLabelAdd->setEnabled(enabled);
+	this->ui.btnSpriteAdd->setEnabled(enabled);
 }
 
 void MainPanel::trySetProperty(const sad::String & prop, float v)
@@ -519,6 +538,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		}
 		*/
 	}
+	/*
 	prop = o->getProperty("angle");
 	if (prop)
 	{
@@ -527,6 +547,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		BLOCK_SIGNALS_AND_CALL(ui.dblAngle, setValue(c));
 		m_selfchanged = false;
 	}
+	*/
 	prop = o->getProperty("name");
 	if (prop)
 	{	
@@ -602,19 +623,16 @@ void MainPanel::moveObjectFront()
 
 void MainPanel::setAngleChangingEnabled(bool enabled)
 {
-	ui.dblAngle->setEnabled(enabled);
+	ui.awSceneNodeAngle->setEnabled(enabled);
 	if (enabled == false)
 	{
-		ui.dblAngle->setValue(0.0);
+		ui.awSceneNodeAngle->setValue(0);
 	}
 }
 
 void MainPanel::setSpriteChangingEnabled(bool enabled)
 {
-	this->ui.dblSpriteX->setEnabled(enabled);
-	this->ui.dblSpriteY->setEnabled(enabled);
-	this->ui.dblSpriteWidth->setEnabled(enabled);
-	this->ui.dblSpriteHeight->setEnabled(enabled);
+	this->ui.rwSceneNodeRect->setEnabled(enabled);
 }
 
 
@@ -623,6 +641,8 @@ void MainPanel::setRegionParameters()
 	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
 	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
+	// Get rect
+	/*
 	if (o)
 	{
 		sad::Rect2D rect = o->region();
@@ -636,6 +656,7 @@ void MainPanel::setRegionParameters()
 			m_selfchanged = false;
 		}
 	}
+	*/
 }
 
 
@@ -741,6 +762,9 @@ void MainPanel::spriteRectChanged()
 	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
 	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
+	// TODO: implement
+	
+	/*
 	if (o)
 	{
 		if (o->getProperty("rect") != NULL && o->typeName() == "ScreenSprite")
@@ -776,8 +800,10 @@ void MainPanel::spriteRectChanged()
 			{
 				m_editor->history()->add(new  SpriteRectChangeCommand(oo, angle, oldrect, newrect));
 			}
+			
 		}
 	}
+	*/
 }
 
 void SpriteRectChangeCommand::commit(CommandChangeObserver * ob)
