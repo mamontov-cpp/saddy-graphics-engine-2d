@@ -98,6 +98,32 @@ public:
 		const sad::String & from, 
 		const sad::String & to
 	);
+
+	/*! Adds is sad object flag for type T to a conversion table
+	 */
+	template<
+		typename T
+	>
+	void declareIsSadObjectFlag() 
+	{
+		if (m_sad_object_flags.contains(sad::db::TypeName<T>::Name) == false) 
+		{
+			m_sad_object_flags.insert(sad::db::TypeName<T>::Name, sad::db::TypeName<T>::isSadObject);	
+		}
+	}
+	/*! Tests, whether type is sad object
+		\param[in] name name of type, which type must be determined
+		\return whether it's sad object
+	 */
+	bool isSadObject(const sad::String & name) const 
+	{
+		bool result = false;
+		if (m_sad_object_flags.contains(name))
+		{
+			result = m_sad_object_flags[name];
+		}
+		return result;
+	}
 	/*! Returns instance of conversion table
 		\return instance of table
 	 */
@@ -112,6 +138,9 @@ protected:
 	/*! A list of conversions for table
 	 */
 	sad::Hash<sad::String, sad::PtrHash<sad::String, sad::db::AbstractTypeConverter> > m_converters;
+	/*! A hash of types to flags, which indicate, whether type is sad object kind
+	 */
+	sad::Hash<sad::String, bool> m_sad_object_flags;
 };
 
 }

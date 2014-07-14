@@ -1,5 +1,11 @@
 #include "db/dbconversiontable.h"
 
+#include "object.h"
+#include "sadcolor.h"
+#include "sadstring.h"
+
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
+
 sad::db::AbstractTypeConverter::~AbstractTypeConverter()
 {
 	
@@ -28,6 +34,24 @@ sad::db::ConversionTable::ConversionTable()
 	declareImplicit<long long, unsigned long long>();
 
 	declareImplicit<float, double>();
+
+	declareIsSadObjectFlag<char>();
+	declareIsSadObjectFlag<int>();
+	declareIsSadObjectFlag<short>();
+	declareIsSadObjectFlag<long>();
+	declareIsSadObjectFlag<long long>();
+
+	declareIsSadObjectFlag<unsigned char>();
+	declareIsSadObjectFlag<unsigned int>();
+	declareIsSadObjectFlag<unsigned short>();
+	declareIsSadObjectFlag<unsigned long>();
+	declareIsSadObjectFlag<unsigned long long>();
+
+	declareIsSadObjectFlag<float>();
+	declareIsSadObjectFlag<double>();
+	declareIsSadObjectFlag<sad::Object>();
+	declareIsSadObjectFlag<sad::Color>();
+	declareIsSadObjectFlag<sad::AColor>();
 }
 
 void sad::db::ConversionTable::add(
