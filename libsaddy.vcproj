@@ -1751,6 +1751,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbcanbecastedto.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbconversiontable.h"
 					>
 				</File>
