@@ -69,7 +69,7 @@ public:
 		if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::Name) == true)
 		{
 			sad::Object ** o = (sad::Object**)object;
-			result.setValue(*sad::checked_cast<T, sad::Object>(*o));
+			result.setValue(sad::checked_cast<T, sad::Object>(*o));
 		}
 	}
 };

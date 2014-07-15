@@ -110,14 +110,14 @@ public:
 	{
 		sad::db::TypeName<T *>::init();
 		m_object = new T*(v);
-		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
-		m_typename = sad::db::TypeName<T*>::Name;
+		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_typename = sad::db::TypeName<T*>::name();
 		m_copy = sad::db::variant::copy_value<T*>;
 		m_delete = sad::db::variant::delete_value<T*>;
 		m_save = sad::db::Save<T*>::perform;
 		m_load = sad::db::Load<T*>::perform;
-		m_pointers_stars_count = sad::db::TypeName<T *>::pointerStarsCount;
-		m_base_name = sad::db::TypeName<T *>::BaseName;
+		m_pointers_stars_count = sad::db::TypeName<T *>::POINTER_STARS_COUNT;
+		m_base_name = sad::db::TypeName<T *>::baseName();
 	}
 	/*! A constructor, which assigns a value to a variant
 		\param[in] v a new value for a variant
@@ -126,14 +126,14 @@ public:
 	Variant(const T & v)
 	{
 		m_object = new T(v);
-		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
-		m_typename = sad::db::TypeName<T>::Name;
+		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_typename = sad::db::TypeName<T>::name();
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
 		m_save = sad::db::Save<T>::perform;
 		m_load = sad::db::Load<T>::perform;
-		m_pointers_stars_count = sad::db::TypeName<T>::pointerStarsCount;
-		m_base_name = sad::db::TypeName<T>::BaseName;
+		m_pointers_stars_count = sad::db::TypeName<T>::POINTER_STARS_COUNT;
+		m_base_name = sad::db::TypeName<T>::baseName();
 	}
 	/*! Frees a value from variant
 	 */
@@ -147,14 +147,14 @@ public:
 		release();
 		sad::db::TypeName<T *>::init();
 		m_object = new T*(v);
-		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
-		m_typename = sad::db::TypeName<T*>::Name;
+		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_typename = sad::db::TypeName<T*>::name();
 		m_copy = sad::db::variant::copy_value<T*>;
 		m_delete = sad::db::variant::delete_value<T*>;
 		m_save = sad::db::Save<T*>::perform;
 		m_load = sad::db::Load<T*>::perform;
-		m_pointers_stars_count = sad::db::TypeName<T *>::pointerStarsCount;
-		m_base_name = sad::db::TypeName<T *>::BaseName;
+		m_pointers_stars_count = sad::db::TypeName<T *>::POINTER_STARS_COUNT;
+		m_base_name = sad::db::TypeName<T *>::baseName();
 	}
 	/*! Sets a new value for variant
 		\param[in] v new value for variant
@@ -164,14 +164,14 @@ public:
 	{
 		release();
 		m_object = new T(v);
-		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
-		m_typename = sad::db::TypeName<T>::Name;
+		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_typename = sad::db::TypeName<T>::name();
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
 		m_save = sad::db::Save<T>::perform;
 		m_load = sad::db::Load<T>::perform;
-		m_pointers_stars_count = sad::db::TypeName<T>::pointerStarsCount;
-		m_base_name = sad::db::TypeName<T>::BaseName;
+		m_pointers_stars_count = sad::db::TypeName<T>::POINTER_STARS_COUNT;
+		m_base_name = sad::db::TypeName<T>::baseName();
 	}	
 	/*! Returns a value for variant
 		\return value or throws exception if cannot cast
@@ -181,27 +181,27 @@ public:
 	{
 		sad::Maybe<T> result;
 		sad::db::TypeName<T>::init();		
-		if (sad::db::TypeName<T>::Name == m_typename)
+		if (sad::db::TypeName<T>::name() == m_typename)
 		{
 			result.setValue(*((T*)m_object));
 			return result;
 		}
-		if (sad::db::TypeName<T>::isSadObject 
+		if (sad::db::TypeName<T>::is_sad_object() 
 			&& m_is_sad_object 
-			&& sad::db::TypeName<T>::pointerStarsCount == m_pointers_stars_count
+			&& sad::db::TypeName<T>::POINTER_STARS_COUNT == m_pointers_stars_count
 			&& m_pointers_stars_count == 1)
 		{
 			sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT>::perform(
 				result,
 				m_object,
-				sad::db::TypeName<T>::BaseName
+				sad::db::TypeName<T>::baseName()
 			);	
 			return result;
 		}
 		else
 		{
 			sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
-											  ->converter(m_typename, sad::db::TypeName<T>::Name);
+											  ->converter(m_typename, sad::db::TypeName<T>::name());
 			if (c)
 			{
 				T tmp;

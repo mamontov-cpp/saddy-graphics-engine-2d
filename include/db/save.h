@@ -31,7 +31,7 @@ static inline picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	if (sad::db::TypeName<_Type>::isSadObject)
+	if (sad::db::TypeName<_Type>::is_sad_object())
 	{
 		return reinterpret_cast<sad::Object *>(ptr)->save();
 	}
