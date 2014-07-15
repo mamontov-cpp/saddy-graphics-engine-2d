@@ -57,6 +57,12 @@ protected:
 	/*! A boxed object in variant
 	 */
 	void * m_object;
+	/*! Count of stars for base count
+	 */
+	int m_pointers_stars_count;
+	/*! When type is pointer, this is part of type name without a pointer
+	 */
+	sad::String m_base_name;
 	/*! Whether value of variant is sad object
 	 */
 	bool m_is_sad_object;
@@ -97,6 +103,24 @@ public:
 	 */
 	Variant & operator=(const sad::db::Variant  & v);
 	/*! A constructor, which assigns a value to a variant
+		\param[in] v a new value for a variant
+	 */
+	template<typename T>
+	Variant(T* v)
+	{
+		sad::db::TypeName<T *>::init();
+		m_object = new T*(v);
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
+		m_typename = sad::db::TypeName<T*>::Name;
+		m_copy = sad::db::variant::copy_value<T*>;
+		m_delete = sad::db::variant::delete_value<T*>;
+		m_save = sad::db::Save<T*>::perform;
+		m_load = sad::db::Load<T*>::perform;
+		m_pointers_stars_count = sad::db::TypeName<T *>::pointerStarsCount;
+		m_base_name = sad::db::TypeName<T *>::BaseName;
+	}
+	/*! A constructor, which assigns a value to a variant
+		\param[in] v a new value for a variant
 	 */
 	template<typename T>
 	Variant(const T & v)
@@ -108,11 +132,31 @@ public:
 		m_delete = sad::db::variant::delete_value<T>;
 		m_save = sad::db::Save<T>::perform;
 		m_load = sad::db::Load<T>::perform;
+		m_pointers_stars_count = sad::db::TypeName<T>::pointerStarsCount;
+		m_base_name = sad::db::TypeName<T>::BaseName;
 	}
 	/*! Frees a value from variant
 	 */
 	virtual ~Variant();
-	/*! Sets a value for variant
+	/*! Sets a new value for variant
+		\param[in] v new value for variant
+	 */
+	template<typename T>
+	void set(T * v)
+	{
+		release();
+		sad::db::TypeName<T *>::init();
+		m_object = new T*(v);
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject;
+		m_typename = sad::db::TypeName<T*>::Name;
+		m_copy = sad::db::variant::copy_value<T*>;
+		m_delete = sad::db::variant::delete_value<T*>;
+		m_save = sad::db::Save<T*>::perform;
+		m_load = sad::db::Load<T*>::perform;
+		m_pointers_stars_count = sad::db::TypeName<T *>::pointerStarsCount;
+		m_base_name = sad::db::TypeName<T *>::BaseName;
+	}
+	/*! Sets a new value for variant
 		\param[in] v new value for variant
 	 */
 	template<typename T>
@@ -126,7 +170,9 @@ public:
 		m_delete = sad::db::variant::delete_value<T>;
 		m_save = sad::db::Save<T>::perform;
 		m_load = sad::db::Load<T>::perform;
-	}
+		m_pointers_stars_count = sad::db::TypeName<T>::pointerStarsCount;
+		m_base_name = sad::db::TypeName<T>::BaseName;
+	}	
 	/*! Returns a value for variant
 		\return value or throws exception if cannot cast
 	 */
@@ -134,27 +180,34 @@ public:
 	sad::Maybe<T> get() const
 	{
 		sad::Maybe<T> result;
+		sad::db::TypeName<T>::init();		
 		if (sad::db::TypeName<T>::Name == m_typename)
 		{
 			result.setValue(*((T*)m_object));
 			return result;
 		}
-		if (m_is_sad_object && sad::db::TypeName<T>::isSadObject)
+		if (sad::db::TypeName<T>::isSadObject 
+			&& m_is_sad_object 
+			&& sad::db::TypeName<T>::pointerStarsCount == m_pointers_stars_count
+			&& m_pointers_stars_count == 1)
 		{
-			sad::util::CommonCheckedCast<T, sad::db::IsSadObject<T>::value>::perform(
+			sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT>::perform(
 				result,
 				m_object,
-				m_typename
+				sad::db::TypeName<T>::BaseName
 			);	
 			return result;
 		}
-		sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
-										  ->converter(m_typename, sad::db::TypeName<T>::Name);
-		if (c)
+		else
 		{
-			T tmp;
-			c->convert(m_object, &tmp);
-			result.setValue(tmp);
+			sad::db::AbstractTypeConverter * c = sad::db::ConversionTable::ref()
+											  ->converter(m_typename, sad::db::TypeName<T>::Name);
+			if (c)
+			{
+				T tmp;
+				c->convert(m_object, &tmp);
+				result.setValue(tmp);
+			}
 		}
 		return result;
 	}

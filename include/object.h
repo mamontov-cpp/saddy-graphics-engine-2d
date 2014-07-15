@@ -175,6 +175,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
 		m_global_metadata->addAncestor(#PARENT);											    \
 	}																							\
 	return m_global_metadata;																	\
@@ -203,7 +204,8 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
-		m_global_metadata->addAncestor(#PARENT);											    \
+		if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
+ 		m_global_metadata->addAncestor(#PARENT);											    \
 		m_global_metadata->addCast(#CASTCLASS , sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD) ); \
 	}																							\
 	return m_global_metadata;																	\
@@ -237,6 +239,8 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 	}																							\
@@ -266,6 +270,9 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT3 ::globalMetaData() == NULL) return NULL;                                    \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 		m_global_metadata->addAncestor(#PARENT3);												\
@@ -296,6 +303,10 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT3 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT4 ::globalMetaData() == NULL) return NULL;                                   \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 		m_global_metadata->addAncestor(#PARENT3);												\

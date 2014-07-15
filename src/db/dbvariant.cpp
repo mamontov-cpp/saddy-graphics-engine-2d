@@ -70,6 +70,8 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
 		m_delete = v.m_delete;
 		m_save = v.m_save;
 		m_load = v.m_load;
+		m_pointers_stars_count = v.m_pointers_stars_count;
+		m_base_name = v.m_base_name;
 	}
 	else
 	{
@@ -80,5 +82,7 @@ void sad::db::Variant::assign(const sad::db::Variant & v)
 		m_delete = NULL;
 		m_save = NULL;
 		m_load = NULL;
+		m_pointers_stars_count = 0;
+		m_base_name.clear();
 	}
 }
