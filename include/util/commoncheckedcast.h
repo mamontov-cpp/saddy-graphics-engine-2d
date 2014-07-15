@@ -48,11 +48,28 @@ public:
 	 */
 	static void perform(Maybe<T> & result, void * object, const sad::String & _typename)
 	{
+
+	}
+};
+
+/*! Defines a common checked cast case for solving problems with casting to a type.
+ */
+template<typename T>
+class CommonCheckedCast<T*, true>
+{
+public:
+	/*! Does nothing, since we don't have a conversion in common cast
+		\param[out] result converted value
+		\param[in] o object
+		\param[in] _typename a typename
+	 */
+	static void perform(Maybe<T*> & result, void * object, const sad::String & _typename)
+	{
 		bool created = false;
 		if (sad::ClassMetaDataContainer::ref()->get(_typename, created)->canBeCastedTo(sad::db::TypeName<T>::Name) == true)
 		{
-			sad::Object * o = (sad::Object*)object;
-			result.setValue(*sad::checked_cast<T, sad::Object>(o));
+			sad::Object ** o = (sad::Object**)object;
+			result.setValue(*sad::checked_cast<T, sad::Object>(*o));
 		}
 	}
 };

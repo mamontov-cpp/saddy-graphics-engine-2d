@@ -1,10 +1,21 @@
 #include "db/dbconversiontable.h"
 
+#include "sadstring.h"
+#include "sadpoint.h"
+#include "sadrect.h"
+#include "sadcolor.h"
+#include "sadsize.h"
 #include "object.h"
 #include "sadcolor.h"
-#include "sadstring.h"
+#include "sadrect.h"
 
-DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
+#include "font.h"
+#include "texturemappedfont.h"
+#include "scenenode.h"
+#include "label.h"
+#include "formattedlabel.h"
+#include "sprite2d.h"
+#include "sprite3d.h"
 
 sad::db::AbstractTypeConverter::~AbstractTypeConverter()
 {
@@ -35,6 +46,42 @@ sad::db::ConversionTable::ConversionTable()
 
 	declareImplicit<float, double>();
 
+	declareImplicit<float, unsigned short>();
+	declareImplicit<float, unsigned int>();
+	declareImplicit<float, unsigned long>();
+	declareImplicit<float, unsigned long long>();
+	declareImplicit<float, short>();
+	declareImplicit<float, int>();
+	declareImplicit<float, long>();
+	declareImplicit<float, long long>();
+
+	declareImplicit<double, unsigned short>();
+	declareImplicit<double, unsigned int>();
+	declareImplicit<double, unsigned long>();
+	declareImplicit<double, unsigned long long>();
+	declareImplicit<double, short>();
+	declareImplicit<double, int>();
+	declareImplicit<double, long>();
+	declareImplicit<double, long long>();
+
+	declareImplicit<unsigned short, float>();
+	declareImplicit<unsigned int, float>();
+	declareImplicit<unsigned long, float>();
+	declareImplicit<unsigned long long, float>();
+	declareImplicit<short, float>();
+	declareImplicit<int, float>();
+	declareImplicit<long, float>();
+	declareImplicit<long long, float>();
+
+	declareImplicit<unsigned short, double>();
+	declareImplicit<unsigned int, double>();
+	declareImplicit<unsigned long, double>();
+	declareImplicit<unsigned long long, double>();
+	declareImplicit<short, double>();
+	declareImplicit<int, double>();
+	declareImplicit<long, double>();
+	declareImplicit<long long, double>();
+
 	declareIsSadObjectFlag<char>();
 	declareIsSadObjectFlag<int>();
 	declareIsSadObjectFlag<short>();
@@ -49,9 +96,27 @@ sad::db::ConversionTable::ConversionTable()
 
 	declareIsSadObjectFlag<float>();
 	declareIsSadObjectFlag<double>();
-	declareIsSadObjectFlag<sad::Object>();
+	declareIsSadObjectFlag<sad::String>();
 	declareIsSadObjectFlag<sad::Color>();
 	declareIsSadObjectFlag<sad::AColor>();
+	declareIsSadObjectFlag<sad::Rect2D>();
+	declareIsSadObjectFlag<sad::Rect2I>();
+	declareIsSadObjectFlag<sad::Size2D>();
+	declareIsSadObjectFlag<sad::Size2I>();
+
+	declareIsSadObjectFlag<sad::Point2D>();
+	declareIsSadObjectFlag<sad::Point2I>();
+	declareIsSadObjectFlag<sad::Point3D>();
+	declareIsSadObjectFlag<sad::Point3I>();
+
+	declareIsSadObjectFlag<sad::Object>();
+	declareIsSadObjectFlag<sad::Font>();
+	declareIsSadObjectFlag<sad::TextureMappedFont>();
+	declareIsSadObjectFlag<sad::SceneNode>();
+	declareIsSadObjectFlag<sad::Label>();
+	declareIsSadObjectFlag<sad::FormattedLabel>();
+	declareIsSadObjectFlag<sad::Sprite2D>();
+	declareIsSadObjectFlag<sad::Sprite3D>();
 }
 
 void sad::db::ConversionTable::add(

@@ -6,6 +6,17 @@
 #include "sadrect.h"
 #include "sadcolor.h"
 #include "sadsize.h"
+#include "object.h"
+#include "sadcolor.h"
+#include "sadrect.h"
+
+#include "font.h"
+#include "texturemappedfont.h"
+#include "scenenode.h"
+#include "label.h"
+#include "formattedlabel.h"
+#include "sprite2d.h"
+#include "sprite3d.h"
 
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
@@ -23,7 +34,24 @@ DECLARE_COMMON_TYPE(double)
 DECLARE_COMMON_TYPE(std::string)
 DECLARE_COMMON_TYPE(sad::String)
 DECLARE_COMMON_TYPE(sad::Point2D)
+DECLARE_COMMON_TYPE(sad::Point2I)
+DECLARE_COMMON_TYPE(sad::Point3D)
+DECLARE_COMMON_TYPE(sad::Point3I)
 DECLARE_COMMON_TYPE(sad::Rect2D)
+DECLARE_COMMON_TYPE(sad::Rect2I)
 DECLARE_COMMON_TYPE(sad::Color)
 DECLARE_COMMON_TYPE(sad::AColor)
 DECLARE_COMMON_TYPE(sad::Size2D)
+DECLARE_COMMON_TYPE(sad::Size2I)
+
+
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Font);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::TextureMappedFont);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::SceneNode);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Label);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::FormattedLabel);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Sprite2D);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Sprite2D::Options);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Sprite3D);
+
