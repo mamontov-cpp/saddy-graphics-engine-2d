@@ -32,7 +32,7 @@ static bool perform(void * ptr, const picojson::value & v)
 	{
 		throw sad::db::InvalidPointer();
 	}
-	if (sad::db::TypeName<_Type>::isSadObject)
+	if (sad::db::TypeName<_Type>::is_sad_object())
 	{
 		return reinterpret_cast<sad::Object *>(ptr)->load(v);
 	}
