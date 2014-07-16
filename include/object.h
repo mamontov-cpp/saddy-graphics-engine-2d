@@ -25,7 +25,7 @@ class Object
 	 /*! Returns a name for class
 		 \return name of class
 	  */
-	 virtual const sad::String & name() const;
+	 virtual const sad::String & className() const;
 	 /*! Can be implemented to provide saving of object to picojson::value
 		 Default implementation throws sad::db::NotImplemented exception.
 		 \return value
@@ -111,7 +111,7 @@ template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)
 	const sad::String & destname = _Dest::globalMetaData()->name();      
 	if (arg->metaData()->canBeCastedTo(destname) == false)      
 	{                                                            
-		throw sad::InvalidCastException(arg->name(), destname); 
+		throw sad::InvalidCastException(arg->metaData()->name(), destname); 
 	}                                                            
 	else                                                         
 	{ 
@@ -158,7 +158,6 @@ protected:                                                      \
 	    static sad::ClassMetaData * m_global_metadata;          \
 public:															\
 		virtual sad::ClassMetaData * metaData() const;			\
-		virtual const sad::String & name() const;               \
 		static sad::ClassMetaData * globalMetaData();			\
 
 /*! Use this macro to define in source files, 
@@ -183,11 +182,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}                                                \
-const sad::String &  NAMEDCLASS ::name() const  \
-{                                                \
-	return this-> PARENT :: name();              \
-}
+}                                                
 
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object,
@@ -213,11 +208,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}                                                \
-const sad::String &  NAMEDCLASS ::name() const  \
-{                                                \
-	return this-> PARENT :: name();              \
-}
+}                                                
 
 /*! Use this macro to define, that this class is direct descendant of sad::Object in your source 
 	file. NAMEDCLASS is name of your class
@@ -249,11 +240,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}    \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}    
 
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object other classes,
@@ -282,11 +269,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}   \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}   
 
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object other classes,
@@ -317,11 +300,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}   \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}   
 
 
 
@@ -347,8 +326,4 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}                                                \
-const sad::String &  NAMEDCLASS ::name() const   \
-{                                                \
-	return this-> PARENT :: name();              \
-}
+}                                                

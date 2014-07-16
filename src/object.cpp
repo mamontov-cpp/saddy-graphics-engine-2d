@@ -17,7 +17,7 @@ sad::ClassMetaData * sad::Object::metaData() const
 	return sad::Object::globalMetaData();
 }
 
-const sad::String & sad::Object::name() const
+const sad::String & sad::Object::className() const
 {
 	return this->metaData()->name();
 }
