@@ -169,7 +169,8 @@ struct SadObjectTest : tpunit::TestFixture
 	   TEST(SadObjectTest::testInheritedFrom3),
 	   TEST(SadObjectTest::testInheritedFrom4),
 	   TEST(SadObjectTest::testFailCast),
-	   TEST(SadObjectTest::testCastMethod)
+	   TEST(SadObjectTest::testCastMethod),
+	   TEST(SadObjectTest::testName)
    ) {}
    /*! Cache, which stores objects by class
     */
@@ -390,6 +391,12 @@ struct SadObjectTest : tpunit::TestFixture
 	   sad::Object * casted = result->metaData()->castTo(result, "CarriedObject");
 	   CarriedObject * test = static_cast<CarriedObject*>(casted);
 	   ASSERT_TRUE(&(_carried_object2.local) == test);
+   }
+
+   void testName()
+   {
+		DirectDescendant1 a;
+		ASSERT_TRUE( a.className() == "DirectDescendant1" );
    }
 
 } test_object;

@@ -7,7 +7,7 @@ DECLARE_SOBJ(SerializableObject);
 
 sad::String SerializableObject::type()
 {
-	return this->name();
+	return this->className();
 }
 
 
