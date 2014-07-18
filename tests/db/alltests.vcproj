@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\object.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\property.cpp"
 				>
 			</File>

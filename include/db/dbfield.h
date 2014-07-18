@@ -60,6 +60,24 @@ public:
 		const_cast<sad::db::Variant&>(m_tmp).set( (reinterpret_cast<_Object*>(m_o)->*m_f) );
 		return m_tmp;
 	}
+	/*! Checks, whether value has property type in key field
+		\param[in] key a key of field to check
+		\param[in] v value
+		\return whether field has following type
+	 */
+	virtual bool check(const sad::String& key, const picojson::value& v)
+	{
+		bool result = false;
+		if (v.is<picojson::object>())
+		{
+			picojson::value data = v.get(key);
+			if (data.is<picojson::null>() == false) 
+			{
+				result = picojson::ValueToType<_FieldTypeName>().get(data).exists();
+			}
+		}
+		return result;
+	}
 
 protected:
 	/*! A temporary variant for returning property from field
