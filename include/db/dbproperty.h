@@ -5,6 +5,8 @@
  */
 #pragma once
 #include "dbvariant.h"
+#include "../sadstring.h"
+#include "../3rdparty/picojson/valuetotype.h"
 
 namespace sad
 {
@@ -60,6 +62,14 @@ public:
 	{
 		return getValue().get<T>();
 	}
+
+	/*! Checks, whether value has property type in key field
+		\param[in] key a key of field to check
+		\param[in] v value
+		\return whether field has following type
+	 */
+	virtual bool check(const sad::String& key, const picojson::value& v);
+
 protected:
 	/*! Object, which property belongs to
 	 */

@@ -793,6 +793,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbobject.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbproperty.cpp"
 					>
 				</File>
@@ -803,18 +807,6 @@
 				<File
 					RelativePath=".\src\db\dbvariant.cpp"
 					>
-				</File>
-				<File
-					RelativePath=".\src\db\object.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\src\db\objectfactory.cpp"
@@ -844,23 +836,10 @@
 					Name="schema"
 					>
 					<File
-						RelativePath=".\src\db\schema\propertytype.cpp"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
 						RelativePath=".\src\db\schema\schema.cpp"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
-							ExcludedFromBuild="true"
 							>
 							<Tool
 								Name="VCCLCompilerTool"
@@ -1771,6 +1750,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbobject.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbproperty.h"
 					>
 				</File>
@@ -1784,10 +1767,6 @@
 				</File>
 				<File
 					RelativePath=".\include\db\load.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\object.h"
 					>
 				</File>
 				<File
@@ -1805,10 +1784,6 @@
 				<Filter
 					Name="schema"
 					>
-					<File
-						RelativePath=".\include\db\schema\propertytype.h"
-						>
-					</File>
 					<File
 						RelativePath=".\include\db\schema\schema.h"
 						>
