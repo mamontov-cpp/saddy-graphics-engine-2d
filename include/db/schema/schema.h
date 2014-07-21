@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../dbproperty.h"
-#include "../object.h"
+#include "../dbobject.h"
 #include "../../sadptrhash.h"
 
 namespace sad
@@ -41,7 +41,7 @@ public:
 		\param[in] s a string
 		\return  a property (NULL if not found)
 	 */
-	virtual sad::db::Property* get(const sad::String& s) const;
+	virtual sad::db::Property* getProperty(const sad::String& s) const;
 	/*! Checks json value against schema
 		\param[in] v a value for a schema
 		\return a value for schema

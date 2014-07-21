@@ -4,12 +4,13 @@
 #include <cstdio>
 #include "db/dbvariant.h"
 #include "db/dbfield.h"
+#include "db/dbobject.h"
 #include "db/dbmethodpair.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
-class Mock: public sad::Object
+class Mock: public sad::db::Object
 {
 SAD_OBJECT
 public:
@@ -91,7 +92,9 @@ struct SadDbPropertyTest : tpunit::TestFixture
  public:
    SadDbPropertyTest() : tpunit::TestFixture(
 	   TEST(SadDbPropertyTest::testField),
-	   TEST(SadDbPropertyTest::testMethodPair)
+	   TEST(SadDbPropertyTest::testField_check),
+	   TEST(SadDbPropertyTest::testMethodPair),
+	   TEST(SadDbPropertyTest::testMethodPair_check)
    ) {}
 
    	int test;
@@ -101,22 +104,37 @@ struct SadDbPropertyTest : tpunit::TestFixture
 		Mock m;
 		
 		sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
-		test1->setObject(&m);
 
-		test1->set(3);
-		ASSERT_TRUE(test1->get<int>().value() == 3);
+		test1->set(&m, 3);
+		ASSERT_TRUE(test1->get<int>(&m).value() == 3);
+
+		delete test1;
+	}
+
+	void testField_check()
+	{
+		sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
+		{
+			picojson::value v(picojson::object_type, false);
+			v.insert("key", picojson::value(22.0));
+			ASSERT_TRUE( test1->check("key", v) );
+			ASSERT_FALSE( test1->check("key2", v) );
+		}
+		{
+			picojson::value v(picojson::object_type, false);
+			v.insert("key", picojson::value("truly non-integral value"));
+			ASSERT_FALSE( test1->check("key", v) );
+		}
 
 		delete test1;
 	}
 
 	void processProperty(Mock &m, sad::db::Property * prop)
-	{
-		prop->setObject(&m);
-		
+	{		
 		test++;
 
-		prop->set(test);
-		ASSERT_TRUE(prop->get<int>().value() == test);
+		prop->set(&m, test);
+		ASSERT_TRUE(prop->get<int>(&m).value() == test);
 
 		delete prop;
 	}
@@ -159,6 +177,25 @@ struct SadDbPropertyTest : tpunit::TestFixture
 
 		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdCRC);
 		processProperty(m, p);
+	}
+
+	void testMethodPair_check()
+	{
+		sad::db::Property * p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setId);
+
+		{
+			picojson::value v(picojson::object_type, false);
+			v.insert("key", picojson::value(22.0));
+			ASSERT_TRUE( p->check("key", v) );
+			ASSERT_FALSE( p->check("key2", v) );
+		}
+		{
+			picojson::value v(picojson::object_type, false);
+			v.insert("key", picojson::value("truly non-integral value"));
+			ASSERT_FALSE( p->check("key", v) );
+		}
+
+		delete p;
 	}
 
 } _sad_property;

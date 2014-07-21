@@ -25,9 +25,11 @@ public:
 	/*! Creates new field for a class
 		\param[in] o a field data
 	 */
-	Field(_FieldTypeName (_Object::*f)) : m_f(f)
+	Field(_FieldTypeName (_Object::*f)) : sad::db::Property(), m_f(f)
 	{
-		
+		m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
+		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::is_sad_object();
+		m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
 	}
 	/*! A field data
 	 */
@@ -36,36 +38,39 @@ public:
 
 	}
 	/*! Sets a value for a property
-		\param[in] v a variant for property
+		\param[in] o an object
+		\param[in] v a value for property
 		\return whether value is set successfully
 	 */
-	virtual bool setValue(const sad::db::Variant & v)
+	virtual bool set(sad::db::Object * o, const sad::db::Variant & v)
 	{
-		assert( m_o );
+		assert( o );
 		sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
 		bool result = false;
-		if (value.exists())
+		if (value.exists() && o)
 		{
-			(reinterpret_cast<_Object*>(m_o)->*m_f)  = value.value();
+			(reinterpret_cast<_Object*>(o)->*m_f)  = value.value();
 			result = true;
 		}
 		return result;
 	}
 	/*! Gets a value for a property
-		\return a value for a property
+		\param[in] o an object
+		\param[in] v a value for a property
 	 */
-	virtual const sad::db::Variant & getValue() const
+	virtual void  get(sad::db::Object * o, sad::db::Variant & v) const 
 	{
-		assert( m_o );
-		const_cast<sad::db::Variant&>(m_tmp).set( (reinterpret_cast<_Object*>(m_o)->*m_f) );
-		return m_tmp;
+		if (o)
+		{
+			v.set(reinterpret_cast<_Object*>(o)->*m_f);
+		}
 	}
 	/*! Checks, whether value has property type in key field
 		\param[in] key a key of field to check
 		\param[in] v value
 		\return whether field has following type
 	 */
-	virtual bool check(const sad::String& key, const picojson::value& v)
+	virtual bool check(const sad::String& key, const picojson::value& v) 
 	{
 		bool result = false;
 		if (v.is<picojson::object>())

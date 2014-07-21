@@ -6,6 +6,7 @@
  */
 #pragma once
 #include "dbconversiontable.h"
+#include "../classmetadatacontainer.h"
 
 namespace sad
 {

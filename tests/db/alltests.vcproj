@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\schema.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\variant.cpp"
 				>
 			</File>
