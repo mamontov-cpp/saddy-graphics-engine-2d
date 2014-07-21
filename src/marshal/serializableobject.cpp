@@ -14,7 +14,6 @@ sad::String SerializableObject::type()
 void SerializableObject::addProperty(const sad::String & name, sad::db::Property * prop)
 {
 	assert( !m_properties.contains(name) ); 
-	prop->setObject(this);
 	m_properties.insert(name,prop);
 }
 
@@ -32,12 +31,14 @@ SerializationEntry * SerializableObject::save()
 
 	SerializationEntry * result = new SerializationEntry();
 	result->Name = this->type();
+	sad::db::Variant v;
 	for (sad::Hash<sad::String, sad::db::Property *>::iterator it = m_properties.begin();
 														       it != m_properties.end();
 															   it++)
 	{
-		result->PropertiesName << it.key();
-		result->PropertiesValue << it.value()->getValue().save().serialize();
+		result->PropertiesName << it.key();		
+		it.value()->get((sad::db::Object *)this, v);
+		result->PropertiesValue << v.save().serialize();
 	}
 
 	return result;
@@ -49,6 +50,7 @@ bool SerializableObject::load(SerializationEntry * entry)
 	SL_SCOPE("SerializableObject::load()");
 	assert(entry->Name == this->type());	
 	bool result = true;
+	/*
 	for (unsigned int i=0;i<entry->PropertiesName.count();i++)
 	{
 		sad::db::Property * pop = this->getProperty(entry->PropertiesName[i]);
@@ -60,6 +62,7 @@ bool SerializableObject::load(SerializationEntry * entry)
 		}
 		result = result && ok;
 	}
+	*/
 	return result;
 }
 

@@ -13,7 +13,7 @@ sad::db::schema::Schema::~Schema()
 bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 {
 	bool ok = false;
-	if (this->get(s) == NULL)
+	if (this->getProperty(s) == NULL)
 	{
 		m_properties.insert(s, prop);
 		ok = true;
@@ -21,12 +21,12 @@ bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 	return ok;
 }
 
-sad::db::Property* sad::db::schema::Schema::get(const sad::String& s) const
+sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) const
 {
 	sad::db::Property * result = NULL;
 	if (this->parent())
 	{
-		result = this->parent()->get(s);
+		result = this->parent()->getProperty(s);
 	}
 
 	if (result == NULL && m_properties.contains(s))
