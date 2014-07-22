@@ -109,7 +109,7 @@ public:
 			);
 			if (canbecasted)
 			{
-				sad::db::Variant v;
+				sad::db::Variant v(o);
 				result = prop->set(this, v);
 			}
 		}
