@@ -26,7 +26,7 @@ public:
 	static sad::String BaseName;
 	/*! Whether type is an object (or points to it for pointers)
 	 */
-	static const bool isSadObject;
+	static const bool IsSadObject;
 	/*! A default constructor, being called just to make sure, that static fields of class are initialized
 	 */
 	static inline  void init()
@@ -35,9 +35,9 @@ public:
 	/*! Returns whether base type (without pointer size) is sad::Object descendant
 		\return whether type is sad sad::Object descendant
 	 */
-	static inline bool is_sad_object()
+	static inline bool isSadObject()
 	{
-		return sad::db::TypeName<_Type>::isSadObject;
+		return sad::db::TypeName<_Type>::IsSadObject;
 	}
 
 	/*! Returns name for a type name
@@ -84,7 +84,7 @@ public:
 	 */ 
 	static inline sad::String name()
 	{
-		return  sad::db::TypeName<_Type>::Name + sad::String(" *");
+		return  sad::db::TypeName<_Type>::name() + sad::String(" *");
 	}
 	/*! Returns base name for a type
 	 */
@@ -96,9 +96,9 @@ public:
 	/*! Returns whether base type (without pointer size) is sad::Object descendant
 		\return whether type is sad sad::Object descendant
 	 */
-	static inline bool is_sad_object()
+	static inline bool isSadObject()
 	{
-		return sad::db::TypeName<_Type>::isSadObject;
+		return sad::db::TypeName<_Type>::IsSadObject;
 	}
 
 	
@@ -126,7 +126,7 @@ namespace sad { namespace db{ template<> struct IsSadObject< TYPE > { static con
  */
 #define DECLARE_TYPE_AS_SAD_OBJECT(TYPE)                                \
 template<> sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;        \
-template<> const bool sad::db::TypeName< TYPE >::isSadObject  = true;   \
+template<> const bool sad::db::TypeName< TYPE >::IsSadObject  = true;   \
 template<> sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;            
 #endif
 
@@ -135,6 +135,6 @@ template<> sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;
  */
 #define DECLARE_COMMON_TYPE(TYPE)                                             \
 template<> sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;              \
-template<> const bool sad::db::TypeName< TYPE >::isSadObject  = false;        \
+template<> const bool sad::db::TypeName< TYPE >::IsSadObject  = false;        \
 template<> sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;          
 #endif

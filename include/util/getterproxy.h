@@ -32,7 +32,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) = 0;
+	virtual _FieldTypeName get(_Object const* o) = 0;
 	/*! Can be inherited
 	 */
 	virtual ~Proxy()
@@ -58,9 +58,9 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) 
+	virtual _FieldTypeName get(_Object const* o) 
 	{
-		return (o->*m_f)();
+		return (const_cast<_Object *>(o)->*m_f)();
 	}
 	/*! Can be inherited
 	 */
@@ -89,7 +89,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) 
+	virtual _FieldTypeName get(_Object const* o) 
 	{
 		return (o->*m_f)();
 	}
@@ -121,9 +121,9 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o)
+	virtual _FieldTypeName get(_Object const* o)
 	{
-		return (o->*m_f)();
+		return (const_cast<_Object *>(o)->*m_f)();
 	}
 	/*! Can be inherited
 	 */
@@ -152,7 +152,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o)
+	virtual _FieldTypeName get(_Object const* o)
 	{
 		return (o->*m_f)();
 	}
@@ -183,9 +183,9 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o)
+	virtual _FieldTypeName get(_Object const* o)
 	{
-		return (o->*m_f)();
+		return (const_cast<_Object*>(o)->*m_f)();
 	}
 	/*! Can be inherited
 	 */
@@ -214,7 +214,7 @@ public:
 		\param[in] o object, for which proxy should be get
 		\return field type name
 	 */
-	virtual _FieldTypeName get(_Object * o) 
+	virtual _FieldTypeName get(_Object const* o) 
 	{
 		return (o->*m_f)();
 	}

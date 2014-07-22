@@ -6,12 +6,13 @@
 #pragma once
 #include "classmetadatacontainer.h"
 #include "db/dbtypename.h"
+#include "db/dbobject.h"
 #include "3rdparty/picojson/picojson.h"
 
 namespace sad
 {
 
-class Object
+class Object:public sad::db::Object
 {
  public:
 	 /*! A metadata for class, must be implemented in any descendant

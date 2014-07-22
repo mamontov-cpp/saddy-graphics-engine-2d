@@ -4,7 +4,6 @@
 	Describes a basic property, which objects are consists of
  */
 #pragma once
-#include "dbvariant.h"
 #include "../sadstring.h"
 #include "../3rdparty/picojson/valuetotype.h"
 
@@ -14,6 +13,7 @@ namespace sad
 namespace db
 {
 class Object;
+class Variant;
 
 /*! A basic property, which objects are consists of
  */
@@ -29,11 +29,15 @@ public:
 	/*! Returns name of type of property
 		\return type of property
 	 */
-	virtual const sad::String & type() const;
+	virtual const sad::String & baseType() const;
 	/*! Returns whether type of property is kind of sad::Object
 		\return whether type of property is kind of sadd::Object
 	 */
 	virtual bool typeIsKindOfSadObject() const;
+	/*! Returns count for pointer stars count
+		\return pointer stars count data
+	 */
+	virtual int pointerStarsCount() const;
 	/*! Sets a value for a property
 		\param[in] o an object
 		\param[in] v a variant for property
@@ -44,33 +48,7 @@ public:
 		\param[in] o an object
 		\param[in] v a value for a property
 	 */
-	virtual void get(sad::db::Object * o, sad::db::Variant & v) const = 0;
-	/*! Sets a value for a property
-		\param[in] o object
-		\param[in] v a new value of property
-		\return whether value is set successfully
-	 */
-	template<
-		typename T
-	>
-	bool set(sad::db::Object* o, const T & v)
-	{
-		return set(o, sad::db::Variant(v));
-	}
-	/*! Returns a value for property
-		\param[in] o object
-		\return value for a property
-	 */
-	template<
-		typename T
-	>
-	sad::Maybe<T> get(sad::db::Object * o) const
-	{
-		sad::db::Variant v;
-		this->get(o, v);
-		return v.get<T>();
-	}
-
+	virtual void get(sad::db::Object const* o, sad::db::Variant & v) const = 0;
 	/*! Checks, whether value has property type in key field
 		\param[in] key a key of field to check
 		\param[in] v value

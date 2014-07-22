@@ -35,7 +35,7 @@ public:
 	) : m_getter(g), m_setter(s)
 	{
 		m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
-		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::is_sad_object();
+		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
 		m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
 	}
 	/*! Sets a pair of methods
@@ -75,12 +75,12 @@ public:
 		\param[in] o an object
 		\param[in] v a value for a property
 	 */
-	virtual void get(sad::db::Object * o, sad::db::Variant & v) const
+	virtual void get(sad::db::Object const* o, sad::db::Variant & v) const
 	{
 		assert( o );
 		if (o)
 		{
-			v.set(m_getter->get(reinterpret_cast<_Object*>(o)));
+			v.set(m_getter->get(reinterpret_cast<_Object const*>(o)));
 		}
 	}
 

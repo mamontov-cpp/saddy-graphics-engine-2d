@@ -108,7 +108,7 @@ public:
 	{
 		if (m_sad_object_flags.contains(sad::db::TypeName<T>::Name) == false) 
 		{
-			m_sad_object_flags.insert(sad::db::TypeName<T>::Name, sad::db::TypeName<T>::isSadObject);	
+			m_sad_object_flags.insert(sad::db::TypeName<T>::Name, sad::db::TypeName<T>::isSadObject());	
 		}
 	}
 	/*! Tests, whether type is sad object

@@ -1,5 +1,6 @@
 #include "marshal/serializableobject.h"
 #include "log/log.h"
+#include "db/dbvariant.h"
 #include <assert.h>
 
 

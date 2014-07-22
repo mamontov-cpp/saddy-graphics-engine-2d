@@ -5,8 +5,7 @@
 	between two types in terms of database type and variants.
  */
 #pragma once
-#include "dbconversiontable.h"
-#include "../classmetadatacontainer.h"
+#include "dbtypename.h"
 
 namespace sad
 {
@@ -22,36 +21,14 @@ namespace db
 	\param[in] to_is_sad_object whether type to cast to is sad::Object descendant
 	\param[in] to_pointer_star_count a pointer star count for  the second type
  */
-inline bool can_be_casted_from_to(
+bool can_be_casted_from_to(
 	const sad::String & from_base_name, 
 	bool from_is_sad_object,
 	int from_pointer_star_count,
 	const sad::String & to_base_name, 
 	bool to_is_sad_object,
 	int to_pointer_star_count
-) 
-{
-	bool result  = false;
-	if (from_base_name == to_base_name && from_pointer_star_count == to_pointer_star_count)
-		return true;
-
-	if (from_is_sad_object && to_is_sad_object 
-		&& from_pointer_star_count == to_pointer_star_count
-		&& from_pointer_star_count == 1)
-	{
-		bool created = false;
-		result = sad::ClassMetaDataContainer::ref()->get(from_base_name, created)
-												   ->canBeCastedTo(to_base_name);
-	}
-	else
-	{
-		if (from_pointer_star_count == to_pointer_star_count && to_pointer_star_count == 0) 
-		{
-			result = sad::db::ConversionTable::ref()->converter(from_base_name, to_base_name) != NULL;
-		}
-	}
-	return result;
-}
+);
 
 /*! Determines, whether we can cast between two types, (type, from which we are casting is declared statically)
 	\param[in] to_base_name a base name for type to cast to
@@ -64,13 +41,14 @@ template<
 >
 bool can_be_casted_from_to(const sad::String & to_base_name, bool to_is_sad_object, int to_pointer_stars_count)
 {
-	return sad::db::can_be_casted(sad::db::TypeName<T>::baseName(), 
-								  sad::db::TypeName<T>::is_sad_object(),
-								  sad::db::TypeName<T>::POINTER_STARS_COUNT
-								  to_base_name, 
-								  to_is_sad_object,
-								  to_pointer_stars_count
-								 );
+	return sad::db::can_be_casted_from_to(
+		sad::db::TypeName<T>::baseName(), 
+		sad::db::TypeName<T>::isSadObject(),
+		sad::db::TypeName<T>::POINTER_STARS_COUNT,
+		to_base_name, 
+		to_is_sad_object,
+		to_pointer_stars_count
+	);
 }
 
 }

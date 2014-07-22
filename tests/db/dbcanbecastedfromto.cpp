@@ -3,7 +3,7 @@
 #pragma warning(disable: 4351)
 #include <cstdio>
 #include "db/dbvariant.h"
-#include "db/dbcanbecastedto.h"
+#include "db/dbcanbecastedfromto.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #include "font.h"
@@ -14,11 +14,11 @@
 /*!
  * Tests sad::Controls callbacks working and main workflow
  */
-struct SadCanBeCastedToTest : tpunit::TestFixture
+struct SadCanBeCastedFromToTest : tpunit::TestFixture
 {
  public:
-   SadCanBeCastedToTest() : tpunit::TestFixture(
-	   TEST(SadCanBeCastedToTest::test)
+   SadCanBeCastedFromToTest() : tpunit::TestFixture(
+	   TEST(SadCanBeCastedFromToTest::test)
    ) {}
 
 	void test()
@@ -37,4 +37,4 @@ struct SadCanBeCastedToTest : tpunit::TestFixture
 		ASSERT_TRUE( sad::db::can_be_casted_from_to("sad::Font", true, 1, "sad::Object", true, 1) );
 	}
 
-} _sad_can_be_casted_to_test;
+} _sad_can_be_casted_from_to_test;

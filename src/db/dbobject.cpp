@@ -1,5 +1,5 @@
 #include "db/dbobject.h"
-
+#include "db/schema/schema.h"
 
 sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0)
 {
@@ -36,3 +36,13 @@ sad::db::schema::Schema * sad::db::Object::schema() const
 	return NULL;
 }
 
+sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
+{
+	sad::db::schema::Schema* schema = this->schema();
+	sad::db::Property* result = NULL;
+	if (schema)
+	{
+		result = schema->getProperty(s);
+	}
+	return result;
+}

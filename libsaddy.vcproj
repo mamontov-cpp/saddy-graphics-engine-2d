@@ -785,6 +785,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\src\db\dbcanbecastedfromto.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbconversiontable.cpp"
 					>
 				</File>
@@ -838,13 +842,6 @@
 					<File
 						RelativePath=".\src\db\schema\schema.cpp"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -1730,7 +1727,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\db\dbcanbecastedto.h"
+					RelativePath=".\include\db\dbcanbecastedfromto.h"
 					>
 				</File>
 				<File

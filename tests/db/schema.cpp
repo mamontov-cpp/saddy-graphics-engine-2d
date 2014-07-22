@@ -4,6 +4,7 @@
 #include <cstdio>
 #include "db/dbvariant.h"
 #include "db/dbfield.h"
+#include "db/dbobject.h"
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
 #define _INC_STDIO

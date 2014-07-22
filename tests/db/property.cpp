@@ -10,7 +10,7 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
-class Mock: public sad::db::Object
+class Mock: public sad::Object
 {
 SAD_OBJECT
 public:
@@ -104,9 +104,10 @@ struct SadDbPropertyTest : tpunit::TestFixture
 		Mock m;
 		
 		sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
-
-		test1->set(&m, 3);
-		ASSERT_TRUE(test1->get<int>(&m).value() == 3);
+		sad::db::Variant  k;
+		test1->set(&m, sad::db::Variant(3));
+		test1->get(&m,k);
+		ASSERT_TRUE(k.get<int>().value() == 3);
 
 		delete test1;
 	}
@@ -134,7 +135,9 @@ struct SadDbPropertyTest : tpunit::TestFixture
 		test++;
 
 		prop->set(&m, test);
-		ASSERT_TRUE(prop->get<int>(&m).value() == test);
+		sad::db::Variant k;
+		prop->get(&m, k);
+		ASSERT_TRUE(k.get<int>().value() == test);
 
 		delete prop;
 	}
