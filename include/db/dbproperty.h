@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "../sadstring.h"
+#include "dbtypename.h"
 #include "../3rdparty/picojson/valuetotype.h"
 
 namespace sad
