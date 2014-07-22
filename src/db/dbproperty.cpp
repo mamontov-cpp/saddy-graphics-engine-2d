@@ -11,7 +11,7 @@ sad::db::Property::~Property()
 
 }
 
-const sad::String & sad::db::Property::type() const
+const sad::String & sad::db::Property::baseType() const
 {
 	return m_base_type;
 }
@@ -19,6 +19,11 @@ const sad::String & sad::db::Property::type() const
 bool sad::db::Property::typeIsKindOfSadObject() const
 {
 	return m_type_is_kind_of_sad_object;
+}
+
+int sad::db::Property::pointerStarsCount() const
+{
+	return m_pointer_stars_count;
 }
 
 

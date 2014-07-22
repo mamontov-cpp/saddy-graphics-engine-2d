@@ -28,7 +28,7 @@ public:
 	Field(_FieldTypeName (_Object::*f)) : sad::db::Property(), m_f(f)
 	{
 		m_base_type = sad::db::TypeName<_FieldTypeName>::baseName();
-		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::is_sad_object();
+		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
 		m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
 	}
 	/*! A field data
@@ -58,11 +58,11 @@ public:
 		\param[in] o an object
 		\param[in] v a value for a property
 	 */
-	virtual void  get(sad::db::Object * o, sad::db::Variant & v) const 
+	virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const 
 	{
 		if (o)
 		{
-			v.set(reinterpret_cast<_Object*>(o)->*m_f);
+			v.set(reinterpret_cast<_Object const*>(o)->*m_f);
 		}
 	}
 	/*! Checks, whether value has property type in key field

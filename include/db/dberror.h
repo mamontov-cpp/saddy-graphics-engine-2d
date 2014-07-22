@@ -6,7 +6,6 @@
 	This is a basic class for all db-related errors
  */
 #pragma once
-#pragma once
 #include <stdexcept>
 #include "../sadstring.h"
 #include "../3rdparty/format/format.h"

@@ -110,7 +110,7 @@ public:
 	{
 		sad::db::TypeName<T *>::init();
 		m_object = new T*(v);
-		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject();
 		m_typename = sad::db::TypeName<T*>::name();
 		m_copy = sad::db::variant::copy_value<T*>;
 		m_delete = sad::db::variant::delete_value<T*>;
@@ -126,7 +126,7 @@ public:
 	Variant(const T & v)
 	{
 		m_object = new T(v);
-		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject();
 		m_typename = sad::db::TypeName<T>::name();
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
@@ -147,7 +147,7 @@ public:
 		release();
 		sad::db::TypeName<T *>::init();
 		m_object = new T*(v);
-		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject();
 		m_typename = sad::db::TypeName<T*>::name();
 		m_copy = sad::db::variant::copy_value<T*>;
 		m_delete = sad::db::variant::delete_value<T*>;
@@ -164,7 +164,7 @@ public:
 	{
 		release();
 		m_object = new T(v);
-		m_is_sad_object = sad::db::TypeName<T>::is_sad_object();
+		m_is_sad_object = sad::db::TypeName<T>::isSadObject();
 		m_typename = sad::db::TypeName<T>::name();
 		m_copy = sad::db::variant::copy_value<T>;
 		m_delete = sad::db::variant::delete_value<T>;
@@ -186,7 +186,7 @@ public:
 			result.setValue(*((T*)m_object));
 			return result;
 		}
-		if (sad::db::TypeName<T>::is_sad_object() 
+		if (sad::db::TypeName<T>::isSadObject() 
 			&& m_is_sad_object 
 			&& sad::db::TypeName<T>::POINTER_STARS_COUNT == m_pointers_stars_count
 			&& m_pointers_stars_count == 1)
