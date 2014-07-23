@@ -167,7 +167,7 @@ struct SadDbSchemaTest : tpunit::TestFixture
 		// Check getting through parent
 		{
 			sad::db::schema::Schema current, parent;
-			current.setParent(&parent);
+			current.addParent(&parent);
 			parent.add("key", new sad::db::Field<Mock2, int>(&Mock2::m_id));
 
 			ASSERT_TRUE( current.getProperty("key") != NULL );

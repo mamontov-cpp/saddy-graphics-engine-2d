@@ -1,8 +1,11 @@
 #include "db/schema/schema.h"
 
-sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) : m_parent(parent)
+sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) 
 {
-
+	if (parent)
+	{
+		addParent(parent);
+	}
 }
 
 sad::db::schema::Schema::~Schema()
@@ -24,9 +27,12 @@ bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) const
 {
 	sad::db::Property * result = NULL;
-	if (this->parent())
+	if (m_parent.size())
 	{
-		result = this->parent()->getProperty(s);
+		for(int i = 0; i < m_parent.size() && result == NULL; i++)
+		{
+			result = m_parent[i]->getProperty(s);
+		}
 	}
 
 	if (result == NULL && m_properties.contains(s))
@@ -38,11 +44,14 @@ sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) co
 
 bool sad::db::schema::Schema::check(const picojson::value& v)
 {
-	if (this->parent())
+	if (m_parent.size()) 
 	{
-		if (this->parent()->check(v) == false)
+		for(size_t i = 0; i < m_parent.size(); i++)
 		{
-			return false;
+			if (m_parent[i]->check(v) == false)
+			{
+				return false;
+			}
 		}
 	}
 	bool success = true;
@@ -65,13 +74,13 @@ picojson::value sad::db::schema::Schema::save(sad::db::Object * linked)
 	return picojson::value();
 }
 
-sad::db::schema::Schema* sad::db::schema::Schema::parent() const
+const sad::Vector<sad::db::schema::Schema*>& sad::db::schema::Schema::parent() const
 {
 	return m_parent;
 }
 
-void sad::db::schema::Schema::setParent(sad::db::schema::Schema* parent)
+void sad::db::schema::Schema::addParent(sad::db::schema::Schema* parent)
 {
-	m_parent = parent;
+	m_parent << parent;
 }
 
