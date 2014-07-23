@@ -7,6 +7,7 @@
 #include "../dbproperty.h"
 #include "../dbobject.h"
 #include "../../sadptrhash.h"
+#include "../../sadvector.h"
 
 namespace sad
 {
@@ -61,15 +62,15 @@ public:
 	/*! Return parent schema
 		\return parent schema
 	 */
-	sad::db::schema::Schema* parent() const;
+	const sad::Vector<sad::db::schema::Schema*>& parent() const;
 	/*! Sets parent schema
 		\param[in] parent parent schema
 	 */
-	void setParent(sad::db::schema::Schema* parent);
+	void addParent(sad::db::schema::Schema* parent);
 protected: 
 	/*! A parent schema for an object
 	 */
-	sad::db::schema::Schema* m_parent;
+	sad::Vector<sad::db::schema::Schema*> m_parent;
 	/*! A properties, stored inside of schema
 	 */
 	sad::PtrHash<sad::String, sad::db::Property> m_properties;
