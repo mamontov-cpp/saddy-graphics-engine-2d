@@ -6,83 +6,11 @@
 #include "db/dbfield.h"
 #include "db/dbobject.h"
 #include "db/dbmethodpair.h"
+#include "mock.h"
+#include "mock2.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
-
-class Mock: public sad::Object
-{
-SAD_OBJECT
-public:
-	Mock()
-	{
-		
-	}
-	
-	int id()
-	{
-		return m_id;
-	}
-	int id_c() const
-	{
-		return m_id;
-	}
-
-	int& id_r()
-	{
-		return m_id;
-	}
-
-	int& id_rc() const
-	{
-		return const_cast<Mock&>(*this).m_id;
-	}
-
-	const int& id_cr()
-	{
-		return m_id;
-	}
-
-	const int& id_crc() const
-	{
-		return m_id;
-	}
-
-	void setId(int i)
-	{
-		m_id = i;
-	}
-
-	void setIdC(int i) const
-	{
-		const_cast<Mock *>(this)->m_id = i;
-	}
-
-	void setIdR(int & i)
-	{
-		m_id = i;
-	}
-
-	void setIdRC(int & i) const
-	{
-		const_cast<Mock *>(this)->m_id = i;
-	}
-
-	void setIdCR(const int & i)
-	{
-		m_id = i;
-	}
-
-	void setIdCRC(const int & i) const
-	{
-		const_cast<Mock *>(this)->m_id = i;
-	}
-
-	int m_id;
-};
-
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(Mock);
-DECLARE_SOBJ_INHERITANCE(Mock, sad::Object)
 
 /*!
  * Tests sad::Controls callbacks working and main workflow
