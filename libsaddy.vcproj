@@ -801,6 +801,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbobjectfactory.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbproperty.cpp"
 					>
 				</File>
@@ -811,18 +815,6 @@
 				<File
 					RelativePath=".\src\db\dbvariant.cpp"
 					>
-				</File>
-				<File
-					RelativePath=".\src\db\objectfactory.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\src\db\table.cpp"
@@ -1751,6 +1743,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbobjectfactory.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbproperty.h"
 					>
 				</File>
@@ -1764,10 +1760,6 @@
 				</File>
 				<File
 					RelativePath=".\include\db\load.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\objectfactory.h"
 					>
 				</File>
 				<File

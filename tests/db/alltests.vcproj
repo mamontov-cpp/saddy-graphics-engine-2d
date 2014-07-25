@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\objectfactory.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\property.cpp"
 				>
 			</File>
