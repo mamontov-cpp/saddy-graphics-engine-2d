@@ -761,18 +761,6 @@
 				Name="db"
 				>
 				<File
-					RelativePath=".\src\db\abstractproperty.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\db\database.cpp"
 					>
 					<FileConfiguration
@@ -806,6 +794,10 @@
 				</File>
 				<File
 					RelativePath=".\src\db\dbproperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbstoredpropertyfactory.cpp"
 					>
 				</File>
 				<File
@@ -1711,10 +1703,6 @@
 				Name="db"
 				>
 				<File
-					RelativePath=".\include\db\abstractproperty.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\db\database.h"
 					>
 				</File>
@@ -1748,6 +1736,14 @@
 				</File>
 				<File
 					RelativePath=".\include\db\dbproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbstoredproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbstoredpropertyfactory.h"
 					>
 				</File>
 				<File

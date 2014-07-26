@@ -34,6 +34,10 @@ public:
 		\return field type name
 	 */
 	virtual void set(_Object * o, const _FieldTypeName & v) = 0;
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone() = 0;
 	/*! Can be inherited
 	 */
 	virtual ~Proxy()
@@ -63,6 +67,13 @@ public:
 	virtual void set(_Object * o, const _FieldTypeName & v)
 	{
 		(o->*m_f)(v);
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyNCNR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
@@ -96,6 +107,13 @@ public:
 	{
 		(o->*m_f)(v);
 	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyCNR<_Object, _FieldTypeName>(m_f);
+	}
 	/*! Can be inherited
 	 */
 	virtual ~ProxyCNR()
@@ -127,6 +145,13 @@ public:
 	virtual void set(_Object * o, const _FieldTypeName & v)
 	{
 		(o->*m_f)(const_cast<_FieldTypeName &>(v));
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyNCMR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
@@ -160,6 +185,13 @@ public:
 	{
 		(o->*m_f)(const_cast<_FieldTypeName &>(v));
 	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyCMR<_Object, _FieldTypeName>(m_f);
+	}
 	/*! Can be inherited
 	 */
 	virtual ~ProxyCMR()
@@ -192,6 +224,13 @@ public:
 	{
 		(o->*m_f)(v);
 	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyNCCR<_Object, _FieldTypeName>(m_f);
+	}
 	/*! Can be inherited
 	 */
 	virtual ~ProxyNCCR()
@@ -223,6 +262,13 @@ public:
 	virtual void set(_Object * o, const _FieldTypeName & v)
 	{
 		(o->*m_f)(v);
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::setter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::setter::ProxyCCR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
