@@ -33,6 +33,10 @@ public:
 		\return field type name
 	 */
 	virtual _FieldTypeName get(_Object const* o) = 0;
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone() = 0;
 	/*! Can be inherited
 	 */
 	virtual ~Proxy()
@@ -61,6 +65,14 @@ public:
 	virtual _FieldTypeName get(_Object const* o) 
 	{
 		return (const_cast<_Object *>(o)->*m_f)();
+	}
+	
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyNCNR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
@@ -92,6 +104,13 @@ public:
 	virtual _FieldTypeName get(_Object const* o) 
 	{
 		return (o->*m_f)();
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyCNR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
@@ -125,6 +144,13 @@ public:
 	{
 		return (const_cast<_Object *>(o)->*m_f)();
 	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyNCMR<_Object, _FieldTypeName>(m_f);
+	}
 	/*! Can be inherited
 	 */
 	virtual ~ProxyNCMR()
@@ -155,6 +181,13 @@ public:
 	virtual _FieldTypeName get(_Object const* o)
 	{
 		return (o->*m_f)();
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyCMR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */
@@ -187,6 +220,13 @@ public:
 	{
 		return (const_cast<_Object*>(o)->*m_f)();
 	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyNCCR<_Object, _FieldTypeName>(m_f);
+	}
 	/*! Can be inherited
 	 */
 	virtual ~ProxyNCCR()
@@ -217,6 +257,13 @@ public:
 	virtual _FieldTypeName get(_Object const* o) 
 	{
 		return (o->*m_f)();
+	}
+	/*! Clones a proxy
+		\return proxy object
+	 */
+	virtual sad::util::getter::Proxy<_Object, _FieldTypeName> * clone()
+	{
+		return new sad::util::getter::ProxyCCR<_Object, _FieldTypeName>(m_f);
 	}
 	/*! Can be inherited
 	 */

@@ -39,6 +39,10 @@ public:
 		\return pointer stars count data
 	 */
 	virtual int pointerStarsCount() const;
+	/*! Clones a property
+		\return a property clone
+	 */
+	virtual sad::db::Property* clone() const = 0;
 	/*! Sets a value for a property
 		\param[in] o an object
 		\param[in] v a variant for property

@@ -58,6 +58,14 @@ public:
 		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
 		m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
 	}
+
+	/*! Clones a property
+		\return a property clone
+	 */
+	virtual sad::db::Property* clone() const
+	{
+		return new sad::db::MethodPair<_Object,_FieldTypeName>(m_getter->clone(), m_setter->clone());
+	}
 	/*! Sets a value for a property
 		\param[in] o an object
 		\param[in] v a value for property
