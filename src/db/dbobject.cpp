@@ -36,6 +36,13 @@ sad::db::schema::Schema * sad::db::Object::schema() const
 	return NULL;
 }
 
+static sad::String DbObjectClassName = "sad::db::Object";
+
+const sad::String& sad::db::Object::serializableName() const
+{
+	return DbObjectClassName;
+}
+
 sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
 {
 	sad::db::schema::Schema* schema = this->schema();
