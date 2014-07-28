@@ -38,6 +38,10 @@ class Object:public sad::db::Object
 		 \return whether loading was successfull
 	  */
 	 virtual bool load(const picojson::value & v);
+	 /*! Returns name of class for metadata
+		 \return name of class for metadata
+	 */
+	 virtual const sad::String& serializableName() const;
 	 /*! An object data
 	  */
 	 virtual ~Object();

@@ -35,6 +35,11 @@ bool sad::Object::load(const picojson::value & v)
 	return false;	
 }
 
+const sad::String& sad::Object::serializableName() const
+{
+	return this->metaData()->name();
+}
+
 sad::InvalidCastException::InvalidCastException(const sad::String &fromname, const sad::String &toname)
 {
 	m_fromname = fromname;

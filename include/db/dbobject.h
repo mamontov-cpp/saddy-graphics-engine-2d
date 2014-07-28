@@ -55,6 +55,10 @@ public:
 		\return schema
 	 */
 	virtual sad::db::schema::Schema* schema() const;
+	/*! A name, under which object could be serialized
+		\return name, under which object will be serialized
+	 */
+	virtual const sad::String& serializableName() const;
 	/*! Tries to fetch property for  an object
 		\param[in] s name of property
 		\return property name
