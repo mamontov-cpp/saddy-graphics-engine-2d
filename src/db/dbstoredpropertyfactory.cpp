@@ -68,3 +68,19 @@ void sad::db::StoredPropertyFactory::add(
 	}
 	return p;
 }
+
+sad::db::StoredPropertyFactory* sad::db::StoredPropertyFactory::clone() const
+{
+	sad::db::StoredPropertyFactory* result = new sad::db::StoredPropertyFactory();
+	for(sad::PtrHash<sad::String, sad::db::StoredPropertyFactory::AbstractDelegate>::const_iterator it 
+		= m_delegates.const_begin();
+		it != m_delegates.const_end();
+		++it)
+	{
+		if (result->m_delegates.contains(it.key()) == false)
+		{
+			result->m_delegates.insert(it.key(), it.value()->clone());
+		}
+	}
+	return result;
+}

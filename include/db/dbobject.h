@@ -37,12 +37,12 @@ public:
 	/*! Saves object to a picojson::value
 		\return	a value with saved properties
 	 */
-	picojson::value save();
+	virtual picojson::value save();
 	/*! Loads an object to a value
 		\param[in] v a value for object
 		\return result value
 	 */
-	bool load(const picojson::value& v);
+	virtual bool load(const picojson::value& v);
 	/*! Returns a table, where object belongs
 		\return table
 	 */

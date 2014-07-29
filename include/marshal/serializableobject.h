@@ -62,7 +62,7 @@ class SerializableObject: public sad::Object
 		/*! Saves an object to a single entry
 			\return new object
 		 */
-		virtual SerializationEntry * save();
+		virtual SerializationEntry * saveToEntry();
 
 		/*! Loads an object from entry
 			\param[in] entry entry

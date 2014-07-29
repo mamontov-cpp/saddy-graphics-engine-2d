@@ -20,7 +20,7 @@ bool serializable::AbstractWriter::write(SerializableContainer * container)
 	SerializableObject * current=container->begin();
 	while(current)
 	{
-		SerializationEntry * entry = current->save();
+		SerializationEntry * entry = current->saveToEntry();
 		this->write(entry);
 		delete entry;
 		current = container->next();
