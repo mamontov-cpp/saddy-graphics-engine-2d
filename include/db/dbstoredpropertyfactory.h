@@ -28,6 +28,10 @@ public:
 		\return property
 	 */
 	virtual sad::db::Property* create() = 0;
+	/*! Clones a delegate
+		\return new delegate copy
+	 */
+	virtual sad::db::StoredPropertyFactory::AbstractDelegate* clone() = 0;
 	/*! Can be inherited
 	 */
 	virtual ~AbstractDelegate();
@@ -53,6 +57,13 @@ public:
 	virtual sad::db::Property* create()
 	{
 		return new sad::db::StoredProperty<T>();
+	}
+	/*! Clones a delegate
+		\return new delegate copy
+	 */
+	virtual sad::db::StoredPropertyFactory::AbstractDelegate* clone()
+	{
+		return new sad::db::StoredPropertyFactory::Delegate<T>();
 	}
 	/*! Can be inherited
 	 */
@@ -87,6 +98,10 @@ public:
 		\return  property
 	 */
 	virtual sad::db::Property * create(const sad::String & name) const;
+	/*! Clones a factory
+		\return new factory
+	 */
+	virtual sad::db::StoredPropertyFactory* clone() const;
 protected:
 	/*! A delegate list
 	 */

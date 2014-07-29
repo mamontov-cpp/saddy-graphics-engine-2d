@@ -26,7 +26,7 @@ sad::db::Property * SerializableObject::getProperty(const sad::String & name)
 	return NULL;
 }
 
-SerializationEntry * SerializableObject::save()
+SerializationEntry * SerializableObject::saveToEntry()
 {
 	SL_SCOPE("SerializableObject::save()");
 
