@@ -835,6 +835,10 @@
 						RelativePath=".\src\db\custom\customschema.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\src\db\custom\customschemafile.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -1787,6 +1791,10 @@
 					>
 					<File
 						RelativePath=".\include\db\custom\customschema.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\db\custom\customschemafile.h"
 						>
 					</File>
 				</Filter>
