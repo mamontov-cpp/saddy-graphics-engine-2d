@@ -47,7 +47,7 @@ public:
 protected:
 	/*! Parses file with texture atlas
 		\param[out] result a texture atlas file
-		\param[out] errors a error file
+		\param[out] errors a errors list
 	 */
 	void tryParsePartial(
 		sad::resource::TextureAtlasFile::parse_result & result,
