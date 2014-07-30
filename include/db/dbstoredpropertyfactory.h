@@ -93,11 +93,16 @@ public:
 	{
 		add(name, new sad::db::StoredPropertyFactory::Delegate<T>());
 	}
-	/*! Creates a property by it's class name
-		\param[in] name a name value
-		\return  property
+	/*! Creates a property by it's type of value
+		\param[in] name a name of property's type of value
+		\return  property or NULL if unable to created
 	 */
 	virtual sad::db::Property * create(const sad::String & name) const;
+	/*! Whether factory can create property by it's type of value
+		\param[in] name a name property's type of value
+		\return property type name
+	 */
+	virtual bool canCreate(const sad::String & name) const;
 	/*! Clones a factory
 		\return new factory
 	 */

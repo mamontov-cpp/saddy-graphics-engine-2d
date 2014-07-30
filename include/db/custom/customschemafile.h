@@ -23,12 +23,16 @@ namespace custom
 class SchemaFile: public sad::resource::PhysicalFile
 {
 public:
-	/*! A partial result to atlas file
+	/*! An entry for a parse result
 	 */
-	typedef sad::Pair<
+	typedef sad::Triplet<
+		sad::String,
 		sad::String,
 		sad::Vector< sad::Pair<sad::String, sad::String> >
-	> parse_result;
+	> parse_result_entry;
+	/*! A partial result to schema file
+	 */
+	typedef sad::Vector< parse_result_entry > parse_result;
 	/*! Creates new flle with specified name. Supposedly it must be path to specified file.
 		\param[in] name a filename (with or without path) to it
 	 */
@@ -53,13 +57,33 @@ public:
 	 */
 	virtual sad::Vector<sad::resource::Error*> reload();
 protected:
-	/*! Parses file with texture atlas
-		\param[out] result a texture atlas file
-		\param[out] errors a error file
+	/*! Parses file with schemas
+		\param[out] result a parsed data
+		\param[out] errors a errors list
 	 */
 	void tryParsePartial(
 		sad::db::custom::SchemaFile::parse_result & result,
 		sad::Vector<sad::resource::Error *> & errors 
+	);
+	/*! Tries to parse entry by schema
+		\param[out] parse_result a parsed entry 
+		\param[out] errors  a errors list
+		\param[in] v a parsed value
+		\return whether it was successfull
+	 */
+	bool tryParseEntry(
+		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
+		sad::Vector<sad::resource::Error *> & errors,
+		const picojson::value & v
+	);
+	/*! Validates references to tree resources in schema
+		\param[in] parse_result a result of parsing entry
+		\param[out] errors list of errors
+		\return whether it was successfull
+	 */
+	bool validateTreeReferences(
+		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
+		sad::Vector<sad::resource::Error *> & errors
 	);
 	/*! Tries to read a file to string
 	 */

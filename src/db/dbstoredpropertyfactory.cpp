@@ -69,6 +69,12 @@ void sad::db::StoredPropertyFactory::add(
 	return p;
 }
 
+
+bool sad::db::StoredPropertyFactory::canCreate(const sad::String & name) const
+{
+	return m_delegates.contains(name);
+}
+
 sad::db::StoredPropertyFactory* sad::db::StoredPropertyFactory::clone() const
 {
 	sad::db::StoredPropertyFactory* result = new sad::db::StoredPropertyFactory();
