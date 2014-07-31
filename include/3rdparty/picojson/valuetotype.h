@@ -6,10 +6,10 @@
 #pragma once
 #include "getproperty.h"
 #include "../../maybe.h"
-#include "../sadcolor.h"
-#include "../sadrect.h"
-#include "../sadsize.h"
-#include "../sadstring.h"
+#include "../../sadcolor.h"
+#include "../../sadrect.h"
+#include "../../sadsize.h"
+#include "../../sadstring.h"
 
 namespace picojson
 {

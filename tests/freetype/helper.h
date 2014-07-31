@@ -6,4 +6,4 @@
 #include <freetype/ftoutln.h>
 #include <freetype/fttrigon.h>
 
-#define SOURCE_FONT "../../bin/ifaceed/EMPORIUM.TTF"
+#define SOURCE_FONT "ifaceed/EMPORIUM.TTF"
