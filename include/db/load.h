@@ -15,18 +15,15 @@ namespace sad
 namespace db
 {
 
-template<
-	typename _Type
->
-class Load
-{
-public:
 /*! Load a value of specified type
 	\param[in] ptr a value to be saved
 	\param[in] v a special value, from which we should load stuff
 	\return result
  */
-static bool perform(void * ptr, const picojson::value & v)
+template<
+	typename _Type
+>
+bool Load<_Type>::perform(void * ptr, const picojson::value & v)
 {
 	if (!ptr)
 	{
@@ -40,23 +37,21 @@ static bool perform(void * ptr, const picojson::value & v)
 	return false;
 }
 
-};
-
 /*! Declares template load for specified type
  */
 #define DECLARE_DB_LOAD_FOR_TYPE( TYPE )                         \
 template<>                                                       \
-class Load< ##TYPE >                                             \
+class Load< TYPE >                                               \
 {                                                                \
 public:                                                          \
 static bool perform(void * ptr, const picojson::value & v)       \
 {                                                                \
 	if (!ptr)                                                    \
 		throw sad::db::InvalidPointer();                         \
-	sad::Maybe< ##TYPE >  cast = picojson::to_type< ##TYPE >(v); \
+	sad::Maybe< TYPE >  cast = picojson::to_type< TYPE >(v);     \
 	if (cast.exists())                                           \
 	{                                                            \
-		*(##TYPE*)ptr = cast.value();                            \
+		*( TYPE *)ptr = cast.value();                            \
 	}                                                            \
 	return cast.exists();                                        \
 }                                                                \

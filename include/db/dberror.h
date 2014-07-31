@@ -35,7 +35,7 @@ public:
 	}
 	/*! This class can be inherited 
 	 */
-	virtual ~Error();
+	virtual ~Error() throw();
 };
 
 /*! \class NotImplemented
@@ -66,7 +66,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~NotImplemented();
+	virtual ~NotImplemented() throw();
 protected:
 	/*! A name of file.
 	 */
@@ -93,7 +93,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~InvalidPointer();
+	virtual ~InvalidPointer() throw();
 };
 
 }

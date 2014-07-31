@@ -16,72 +16,72 @@ DECLARE_SOBJ_INHERITANCE(sad::resource::MalformedResourceEntry, sad::resource::E
 DECLARE_SOBJ_INHERITANCE(sad::resource::EmptyTextureAtlas, sad::resource::Error);
 DECLARE_SOBJ_INHERITANCE(sad::resource::TreeNotFound, sad::resource::Error);
 
-sad::resource::Error::~Error()
+sad::resource::Error::~Error() throw()
 {
 
 }
 
-sad::resource::FileLoadError::~FileLoadError()
-{
-	
-}
-
-sad::resource::ResourceLoadError::~ResourceLoadError()
+sad::resource::FileLoadError::~FileLoadError() throw()
 {
 	
 }
 
-sad::resource::MissingResource::~MissingResource()
-{
-
-}
-
-sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists()
+sad::resource::ResourceLoadError::~ResourceLoadError() throw()
 {
 	
 }
 
-sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource()
+sad::resource::MissingResource::~MissingResource() throw()
+{
+
+}
+
+sad::resource::ResourceAlreadyExists::~ResourceAlreadyExists() throw()
 {
 	
 }
 
-sad::resource::UnregisteredFileType::~UnregisteredFileType()
+sad::resource::CannotDeleteReferencedResource::~CannotDeleteReferencedResource() throw()
 {
 	
 }
 
-sad::resource::UnregisteredResourceType::~UnregisteredResourceType()
+sad::resource::UnregisteredFileType::~UnregisteredFileType() throw()
 {
 	
 }
 
-sad::resource::AnonymousResource::~AnonymousResource()
+sad::resource::UnregisteredResourceType::~UnregisteredResourceType() throw()
 {
 	
 }
 
-sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented()
+sad::resource::AnonymousResource::~AnonymousResource() throw()
 {
 	
 }
 
-sad::resource::JSONParseError::~JSONParseError()
+sad::resource::FileLoadingNotImplemented::~FileLoadingNotImplemented() throw()
 {
 	
 }
 
-sad::resource::MalformedResourceEntry::~MalformedResourceEntry()
+sad::resource::JSONParseError::~JSONParseError() throw()
+{
+	
+}
+
+sad::resource::MalformedResourceEntry::~MalformedResourceEntry() throw()
 {
 
 }
 
-sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas()
+sad::resource::EmptyTextureAtlas::~EmptyTextureAtlas() throw()
 {
 
 }
 
-sad::resource::TreeNotFound::~TreeNotFound()
+sad::resource::TreeNotFound::~TreeNotFound() throw()
 {
 	
 }

@@ -7,6 +7,7 @@
 #include "../3rdparty/picojson/valuetotype.h"
 #include "dbproperty.h"
 #include "dbcanbecastedfromto.h"
+#include "dbvariant.h"
 
 namespace sad
 {

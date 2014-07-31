@@ -6,13 +6,16 @@
  */
 #pragma once
 #include "../maybe.h"
-#include "../object.h"
 #include "../sadstring.h"
 #include "../classmetadatacontainer.h"
 #include "../db/dbtypename.h"
 
 namespace sad
 {
+
+class Object;
+template<typename _Dest, typename _Src> 
+_Dest * checked_cast(_Src * arg);
 
 namespace util
 {

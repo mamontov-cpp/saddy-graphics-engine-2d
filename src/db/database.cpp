@@ -1,81 +1,81 @@
 #include "db/database.h"
 
-db::Database::~Database()
+sad::db::Database::~Database()
 {
 
 }
 
-sad::String db::Database::save()
+sad::String sad::db::Database::save()
 {
 		return sad::String();	
 }
 
-void db::Database::saveToFile(sad::String s)
+void sad::db::Database::saveToFile(const sad::String& s)
 {
 			
 }
 
-void db::Database::loadFromFile(sad::String name)
+void sad::db::Database::loadFromFile(const sad::String& name)
 {
 			
 }
 
-void db::Database::load(sad::String text)
+void sad::db::Database::load(const sad::String& text)
 {
 			
 }
 
-void db::Database::addTable(sad::String name, db::Table* table)
+void sad::db::Database::addTable(const sad::String& name, db::Table* table)
 {
 			
 }
 
-void db::Database::removeTable(sad::String name)
+void sad::db::Database::removeTable(const sad::String& name)
 {
 			
 }
 
-unsigned long long db::Database::addMajor()
+unsigned long long sad::db::Database::addMajor()
 {
-		return unsigned long long();	
+	return 0;	
 }
 
-bool db::Database::save(unsigned long long id)
+bool sad::db::Database::save(unsigned long long id)
 {
-		return bool();	
+	return bool();	
 }
 
-bool db::Database::save(unsigned long long id, sad::String name)
+bool sad::db::Database::save(unsigned long long id, const sad::String& name)
 {
-		return bool();	
+	return bool();	
 }
 
-sad::Vector<db::Error*> db::Database::load(sad::String name, unsigned long long& id)
+sad::Vector<sad::db::Error*> sad::db::Database::load(const sad::String& name, unsigned long long& id)
 {
-		return sad::Vector<db::Error*>();	
+	return sad::Vector<sad::db::Error*>();	
 }
 
-db::Table* db::Database::table(sad::String name)
+sad::db::Table* sad::db::Database::table(const sad::String& name)
 {
-		return db::Table*();	
+	return NULL;	
 }
 
-sad::Hash<sad::String, db::Table*>::iterator db::Database::begin()
+sad::Hash<sad::String, sad::db::Table*>::iterator sad::db::Database::begin()
 {
-		return sad::Hash<sad::String, db::Table*>::iterator();	
+	return sad::Hash<sad::String, sad::db::Table*>::iterator();	
 }
 
-sad::Hash<sad::String, db::Table*>::iterator db::Database::end()
+sad::Hash<sad::String, sad::db::Table*>::iterator sad::db::Database::end()
 {
-		return sad::Hash<sad::String, db::Table*>::iterator();	
+	return sad::Hash<sad::String, sad::db::Table*>::iterator();	
 }
 
-db::ObjectFactory* db::Database::factory()
+sad::db::ObjectFactory* sad::db::Database::factory()
 {
-		return db::ObjectFactory*();	
+	return m_factory;	
 }
 
-void db::Database::setFactory(db::ObjectFactory* f)
+void sad::db::Database::setFactory(sad::db::ObjectFactory* f)
 {
 			
 }

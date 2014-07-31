@@ -62,10 +62,10 @@ public:
 			m_resource->removeLink(this);
 		}
 
-		m_changed = false;
-		m_path = o.m_path;
-		m_resource = o.m_resource;
-		m_tree = o.m_tree;
+		this->sad::resource::AbstractLink::m_changed = false;
+		this->m_path = o.m_path;
+		this->m_resource = o.m_resource;
+		this->m_tree = o.m_tree;
 
 		if (m_resource)
 		{

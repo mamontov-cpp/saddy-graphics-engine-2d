@@ -6,7 +6,6 @@
 #pragma once
 #include "dberror.h"
 #include "dbtypename.h"
-#include "../object.h"
 #include "../sadstring.h"
 #include "../sadrect.h"
 #include "../sadcolor.h"
@@ -17,17 +16,11 @@ namespace sad
 
 namespace db
 {
-
-template<
-	typename _Type
->
-class Save
-{
-public:
 /*! Saves a value of specified type
 	\param[in] ptr a value to be saved
  */
-static inline picojson::value perform(void * ptr)
+template<typename _Type>
+inline picojson::value Save<_Type>::perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
@@ -38,8 +31,6 @@ static inline picojson::value perform(void * ptr)
 	throw sad::db::NotImplemented("sad::db::Save<_Type>::perform");
 	return picojson::value();
 }
-
-};
 
 /*! Specification for saving bool values
  */
@@ -61,14 +52,14 @@ static picojson::value perform(void * ptr)
  */
 #define SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE( TYPENAME ) \
 template<>                                                     \
-class Save< ##TYPENAME >                                       \
+class Save<  TYPENAME >                                        \
 {                                                              \
 public:                                                        \
 static inline picojson::value perform(void * ptr)              \
 {                                                              \
 	if (!ptr)                                                  \
 		throw sad::db::InvalidPointer();                       \
-	return picojson::value((double)(*(##TYPENAME *)ptr));      \
+	return picojson::value((double)(*( TYPENAME *)ptr));       \
 }                                                              \
 };
 

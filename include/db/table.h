@@ -5,7 +5,10 @@
 
  */
 #pragma once
+#include "dbobject.h"
 
+namespace sad
+{
 
 namespace db
 {
@@ -22,32 +25,35 @@ public:
 	/*! 
 		\param[in] a
 	 */
-	void add(db::Object* a);
+	void add(sad::db::Object* a);
 	/*! 
 		\param[in] a
 	 */
-	void remove(db::Object* a);
+	void remove(sad::db::Object* a);
 	/*! 
 		\param[in] major_id
 		\param[in] minor_Id
 		\return
 	 */
-	db::Object* queryByID(int major_id, int minor_Id);
+	sad::db::Object* queryByID(int major_id, int minor_Id);
 	/*! 
 		\param[in] name
 		\return
 	 */
-	sad::Vector<db::Object*> queryByName(sad::String name);
+	sad::Vector<sad::db::Object*> queryByName(const sad::String& name);
 	/*! 
 		\param[in] major_id
 		\return
 	 */
-	sad::Vector<db::Object*> queryByMajorId(int major_id);
+	sad::Vector<sad::db::Object*> queryByMajorId(int major_id);
 protected: 
 	/*! 
 	 */
-	sad::Vector<db::Object*> m_objects;
+	sad::Vector<sad::db::Object*> m_objects;
+
+};
 
 }
 
 }
+

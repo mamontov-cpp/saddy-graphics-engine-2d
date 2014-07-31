@@ -21,18 +21,34 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/hfsmmachine_$(TYPE).o build/main_$(TYPE).o
+BUILD    = build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/variant_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/hfsmmachine_$(TYPE).o build/main_$(TYPE).o
+$(OUTPUT): build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/variant_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
-build/hfsmmachine_$(TYPE).o: hfsmmachine.cpp
-	g++ -c $(CCOPTS) hfsmmachine.cpp -o build/hfsmmachine_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/dbcanbecastedfromto_$(TYPE).o: dbcanbecastedfromto.cpp
+	g++ -c $(CCOPTS) dbcanbecastedfromto.cpp -o build/dbcanbecastedfromto_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/main_$(TYPE).o: main.cpp
 	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock_$(TYPE).o: mock.cpp
+	g++ -c $(CCOPTS) mock.cpp -o build/mock_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock2_$(TYPE).o: mock2.cpp
+	g++ -c $(CCOPTS) mock2.cpp -o build/mock2_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock3_$(TYPE).o: mock3.cpp
+	g++ -c $(CCOPTS) mock3.cpp -o build/mock3_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/object_$(TYPE).o: object.cpp
+	g++ -c $(CCOPTS) object.cpp -o build/object_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/objectfactory_$(TYPE).o: objectfactory.cpp
+	g++ -c $(CCOPTS) objectfactory.cpp -o build/objectfactory_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/property_$(TYPE).o: property.cpp
+	g++ -c $(CCOPTS) property.cpp -o build/property_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/schema_$(TYPE).o: schema.cpp
+	g++ -c $(CCOPTS) schema.cpp -o build/schema_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/variant_$(TYPE).o: variant.cpp
+	g++ -c $(CCOPTS) variant.cpp -o build/variant_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:
 ifeq ($(PLATFORM),WIN32)
 	rd /s/q "build/*"

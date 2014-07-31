@@ -1,32 +1,32 @@
 #include "db/table.h"
 
-db::Table::~Table()
+sad::db::Table::~Table()
 {
 
 }
 
-void db::Table::add(db::Object* a)
+void sad::db::Table::add(sad::db::Object* a)
 {
 			
 }
 
-void db::Table::remove(db::Object* a)
+void sad::db::Table::remove(sad::db::Object* a)
 {
 			
 }
 
-db::Object* db::Table::queryByID(int major_id, int minor_Id)
+sad::db::Object* sad::db::Table::queryByID(int major_id, int minor_Id)
 {
-		return db::Object*();	
+	return NULL;	
 }
 
-sad::Vector<db::Object*> db::Table::queryByName(sad::String name)
+sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& name)
 {
-		return sad::Vector<db::Object*>();	
+	return sad::Vector<db::Object*>();	
 }
 
-sad::Vector<db::Object*> db::Table::queryByMajorId(int major_id)
+sad::Vector<sad::db::Object*> sad::db::Table::queryByMajorId(int major_id)
 {
-		return sad::Vector<db::Object*>();	
+	return sad::Vector<db::Object*>();	
 }
 

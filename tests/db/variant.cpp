@@ -6,6 +6,8 @@
 #include "texturemappedfont.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
+#include "db/save.h"
+#include "db/load.h"
 #pragma warning(pop)
 
 
