@@ -145,6 +145,11 @@ public:
 	{
 		return root()->resource(name)->as<_ResourceType>();
 	}
+
+	/*! Returns a temporary root folder, when loading all files
+		\return temporary root folder
+	 */
+	sad::resource::Folder * temporaryRoot() const;
 	/*! Forces all resources to unload self from GPU
 	 */
 	void unloadResourcesFromGPU();
@@ -155,6 +160,9 @@ protected:
 	/*! A root folder
 	 */
 	sad::resource::Folder* m_root;
+	/*! A temporary root when loading
+	 */
+	sad::resource::Folder * m_temporary_root_folder;
 	/*! A factory to be used
 	 */
 	sad::resource::Factory* m_factory;

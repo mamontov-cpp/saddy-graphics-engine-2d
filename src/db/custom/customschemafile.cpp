@@ -36,7 +36,7 @@ sad::Vector<sad::resource::Error*> sad::db::custom::SchemaFile::load(sad::resour
 {
 	sad::Vector<sad::resource::Error*> errors;
 	sad::db::custom::SchemaFile::parse_result result;
-	this->tryParsePartial(result, errors);
+	this->tryParsePartial(result, errors, parent);
 	if (errors.size() == 0)
 	{
 		this->convertNonUniqueResourceNamesToErrors(result, errors);
@@ -55,7 +55,7 @@ sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
 {
 	sad::Vector<sad::resource::Error*> errors;
 	sad::db::custom::SchemaFile::parse_result result;
-	this->tryParsePartial(result, errors);
+	this->tryParsePartial(result, errors, NULL);
 	if (errors.size() == 0)
 	{
 		sad::resource::ResourceEntryList resourcelist,  oldresourcelist;
@@ -87,7 +87,8 @@ sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
 
 void sad::db::custom::SchemaFile::tryParsePartial(
 		sad::db::custom::SchemaFile::parse_result & result,
-		sad::Vector<sad::resource::Error *> & errors 
+		sad::Vector<sad::resource::Error *> & errors,
+		sad::resource::Folder * parent
 	)
 {
 	sad::Maybe<sad::String> maybecontent = this->tryReadToString();
@@ -110,7 +111,7 @@ void sad::db::custom::SchemaFile::tryParsePartial(
 					if (this->tryParseEntry(entry, errors, parse_item_list[i]))
 					{
 						// Validate whether we have a resource with name
-						if (this->validateTreeReferences(entry, errors))
+						if (this->validateTreeReferences(entry, errors, parent))
 						{
 							result.push_back(entry);
 						}
@@ -138,7 +139,7 @@ void sad::db::custom::SchemaFile::tryParsePartial(
 		sad::Hash<sad::String, char> names;
 		for(size_t i = 0; i < result.size(); i++)
 		{
-			if (names.contains(result[i]._1()))
+			if (names.contains(result[i]._1()) == false)
 			{
 				names.insert(result[i]._1(), 1);
 			}
@@ -224,14 +225,23 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 
 bool sad::db::custom::SchemaFile::validateTreeReferences(
 		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
-		sad::Vector<sad::resource::Error *> & errors
+		sad::Vector<sad::resource::Error *> & errors,
+		sad::resource::Folder * parent
 )
 {
 	bool result = true;
-	sad::resource::Resource * resource = this->tree()->root()->resource(parse_result._2());
+	sad::resource::Resource * resource = NULL;
+	if (this->tree()->temporaryRoot()) 
+	{
+		resource = this->tree()->temporaryRoot()->resource(parse_result._2());
+	} 
+	else
+	{
+		resource = this->tree()->root()->resource(parse_result._2());
+	}
 	if (resource)
 	{
-		if (resource->metaData()->name() != "sad::Sprite2D::Options")
+		if (resource->metaData()->name() == "sad::Sprite2D::Options")
 		{
 			result = true;
 		}
@@ -253,9 +263,15 @@ void sad::db::custom::SchemaFile::convertNonUniqueResourceNamesToErrors(
 		sad::Vector<sad::resource::Error *> & errors
 )
 {
+	sad::resource::Folder * r = this->tree()->root();
+	if (this->tree()->temporaryRoot() != NULL)
+	{
+		r = this->tree()->temporaryRoot();
+	}
 	for(size_t i = 0; i < parse_result.size(); i++)
 	{
-		if (this->tree()->root()->resource(parse_result[i]._1()) != NULL)
+		sad::resource::Resource* res = r->resource(parse_result[i]._1());
+		if (res != NULL)
 		{
 			errors << new sad::resource::ResourceAlreadyExists(parse_result[i]._1());
 		}
@@ -279,6 +295,6 @@ void sad::db::custom::SchemaFile::fillOptionsList(
 		{
 			schema->add(props[j].p1(), m_factory->create(props[j].p2()));
 		}
-		resources.push_back(sad::resource::ResourceEntry(resources[i]._1(), schema));
+		resources.push_back(sad::resource::ResourceEntry(parsed[i]._1(), schema));
 	}
 }

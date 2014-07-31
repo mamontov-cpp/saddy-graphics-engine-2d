@@ -295,6 +295,92 @@ public:
 	}
 };
 
+/*! Tries to converts specific value to point
+ */
+template<>
+class ValueToType<sad::Point3D>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Point3D> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Point3D> result;
+		picojson::value const * xo = picojson::get_property(v, "x");
+		picojson::value const * yo = picojson::get_property(v, "y");
+		picojson::value const * zo = picojson::get_property(v, "z");
+		if (xo && yo)
+		{
+			sad::Maybe<double> x = picojson::ValueToType<double>::get(*xo);
+			sad::Maybe<double> y = picojson::ValueToType<double>::get(*yo);
+			sad::Maybe<double> z = picojson::ValueToType<double>::get(*zo);
+			if (x.exists() && y.exists() && z.exists())
+			{
+				result.setValue(sad::Point3D(x.value(), y.value(), z.value()));
+			}
+		}
+		return result;
+	}
+};
+/*! Tries to converts specific value to point
+ */
+template<>
+class ValueToType<sad::Point2I>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Point2I> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Point2I> result;
+		picojson::value const * xo = picojson::get_property(v, "x");
+		picojson::value const * yo = picojson::get_property(v, "y");
+		if (xo && yo)
+		{
+			sad::Maybe<double> x = picojson::ValueToType<double>::get(*xo);
+			sad::Maybe<double> y = picojson::ValueToType<double>::get(*yo);
+			if (x.exists() && y.exists())
+			{
+				result.setValue(sad::Point2I((int)(x.value()), (int)(y.value())));
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to point
+ */
+template<>
+class ValueToType<sad::Point3I>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Point3I> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Point3I> result;
+		picojson::value const * xo = picojson::get_property(v, "x");
+		picojson::value const * yo = picojson::get_property(v, "y");
+		picojson::value const * zo = picojson::get_property(v, "z");
+		if (xo && yo)
+		{
+			sad::Maybe<double> x = picojson::ValueToType<double>::get(*xo);
+			sad::Maybe<double> y = picojson::ValueToType<double>::get(*yo);
+			sad::Maybe<double> z = picojson::ValueToType<double>::get(*zo);
+			if (x.exists() && y.exists())
+			{
+				result.setValue(sad::Point3I((int)(x.value()), (int)(y.value()), (int)(z.value())));
+			}
+		}
+		return result;
+	}
+};
 /*! Tries to converts specific value to rect
  */
 template<>
@@ -363,6 +449,71 @@ public:
 /*! Tries to converts specific value to rect
  */
 template<>
+class ValueToType<sad::Rect2I>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Rect2I> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Rect2I> result;
+		// Conversion from string <x>;<y>;<width>;<height>
+		if (v.is<std::string>())
+		{
+			sad::String stringtobeparsed = v.get<std::string>();
+			sad::Vector<sad::String> parts = stringtobeparsed.split(';');
+			if (parts.size() == 4)
+			{
+				double x = sad::String::toDouble(parts[0]);
+				double y = sad::String::toDouble(parts[1]);
+				double w = sad::String::toDouble(parts[2]);
+				double h = sad::String::toDouble(parts[3]);
+				sad::Point2I p((int)x, (int)y);
+				sad::Point2I wh((int)w, (int)h);
+				result.setValue(sad::Rect2I(p, p + wh));
+			}
+			return result;
+		}
+		picojson::value const * p1o = picojson::get_property(v, "p1");
+		picojson::value const * p2o = picojson::get_property(v, "p2");
+		picojson::value const * p3o = picojson::get_property(v, "p3");
+		picojson::value const * p4o = picojson::get_property(v, "p4");
+		// First try to create rectangle by four points
+		if (p1o && p2o && p3o && p4o)
+		{
+			sad::Maybe<sad::Point2I> p1 = picojson::ValueToType<sad::Point2I>::get(*p1o);
+			sad::Maybe<sad::Point2I> p2 = picojson::ValueToType<sad::Point2I>::get(*p2o);
+			sad::Maybe<sad::Point2I> p3 = picojson::ValueToType<sad::Point2I>::get(*p3o);
+			sad::Maybe<sad::Point2I> p4 = picojson::ValueToType<sad::Point2I>::get(*p4o);
+			if (p1.exists() && p2.exists() && p3.exists() && p4.exists())
+			{
+				result.setValue(sad::Rect2I(
+					p1.value(), p2.value(), p3.value(), p4.value()
+				));
+			}
+		}
+		else
+		{
+			// Try to create rectangle by two points
+			if (p1o && p3o)
+			{
+				sad::Maybe<sad::Point2I> p1 = picojson::ValueToType<sad::Point2I>::get(*p1o);
+				sad::Maybe<sad::Point2I> p3 = picojson::ValueToType<sad::Point2I>::get(*p3o);
+				if (p1.exists() && p3.exists())
+				{
+					result.setValue(sad::Rect2I(p1.value(), p3.value()));
+				}
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
 class ValueToType<sad::Size2D>
 {
 public:
@@ -397,6 +548,50 @@ public:
 			{
 				result.setValue(sad::Size2D(
 					mw.value(), mh.value()
+				));
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
+class ValueToType<sad::Size2I>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Size2I> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Size2I> result;
+		// Conversion from string <x>;<y>;<width>;<height>
+		if (v.is<std::string>())
+		{
+			sad::String stringtobeparsed = v.get<std::string>();
+			sad::Vector<sad::String> parts = stringtobeparsed.split(';');
+			if (parts.size() == 2)
+			{
+				double w = sad::String::toDouble(parts[0]);
+				double h = sad::String::toDouble(parts[1]);
+				result.setValue(sad::Size2I((int)w, (int)h));
+			}
+			return result;
+		}
+		picojson::value const * wo = picojson::get_property(v, "width");
+		picojson::value const * ho = picojson::get_property(v, "height");
+		// First try to create rectangle by four points
+		if (wo && ho)
+		{
+			sad::Maybe<double> mw = picojson::ValueToType<double>::get(*wo);
+			sad::Maybe<double> mh = picojson::ValueToType<double>::get(*ho);
+			if (mw.exists() && mh.exists())
+			{
+				result.setValue(sad::Size2I(
+					(int)(mw.value()), (int)(mh.value())
 				));
 			}
 		}

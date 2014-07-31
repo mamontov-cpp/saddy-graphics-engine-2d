@@ -16,7 +16,8 @@ sad::resource::Tree::Tree(sad::Renderer * r)
 m_renderer(r), 
 m_root(new sad::resource::Folder()), 
 m_factory(new sad::resource::Factory()),
-m_storelinks(false)
+m_storelinks(false),
+m_temporary_root_folder(NULL)
 {
 	if (r == NULL)
 	{
@@ -33,6 +34,7 @@ sad::resource::Tree::~Tree()
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
+	m_temporary_root_folder = NULL;
 	sad::Vector<sad::resource::Error*> errors;
 	
 	// Check string for emptiness - should we do anything	
@@ -46,6 +48,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 	{
 		// Check new root errors
 		sad::resource::Folder * newroot = new sad::resource::Folder();
+		m_temporary_root_folder = newroot;
 		sad::Vector<sad::resource::PhysicalFile *> newfiles;
 
 		// Try load data to temporary containers
@@ -116,6 +119,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 	{
 		m_current_root = m_temporary_root;
 	}
+	m_temporary_root_folder = NULL;
 	return errors;
 }
 
@@ -423,6 +427,11 @@ sad::Vector<sad::resource::Error *> sad::resource::Tree::duplicatesToErrors(
 		result << new sad::resource::ResourceAlreadyExists(l[i]);
 	}
 	return result;
+}
+
+sad::resource::Folder * sad::resource::Tree::temporaryRoot() const
+{
+	return m_temporary_root_folder;
 }
 
 void sad::resource::Tree::unloadResourcesFromGPU()

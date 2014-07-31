@@ -2,6 +2,9 @@
 
 #include <db/dbfield.h>
 #include <db/dbmethodpair.h>
+#include "db/save.h"
+#include "db/load.h"
+
 
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(Mock3);
 DECLARE_SOBJ_INHERITANCE(Mock3, sad::Object)

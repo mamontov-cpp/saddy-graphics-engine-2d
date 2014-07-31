@@ -1,0 +1,30 @@
+[
+{
+ "name" : "myschema",
+ "resource": "1",
+ "schema" : {
+	"pos" : "int"
+ } 
+},
+{
+ "name" : "myschema2",
+ "resource": "1",
+ "schema" : {
+	"size" : "int"
+}
+},
+{
+ "name" : "myschema3",
+ "resource": "1",
+ "schema" : {
+	"angle" : "int"
+} 
+},
+{
+ "name" : "myschema4",
+ "resource": "1",
+ "schema" : {
+	"rect" : "int"
+} 
+}
+]
