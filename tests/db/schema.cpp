@@ -7,6 +7,8 @@
 #include "db/dbobject.h"
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
+#include "db/save.h"
+#include "db/load.h"
 #include "mock2.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"

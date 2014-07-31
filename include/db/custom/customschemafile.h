@@ -4,8 +4,8 @@
 	A custom schema file, which holds all custom schemas
  */
 #pragma once
-#include "../resource/physicalfile.h"
-#include "../resource/tree.h"
+#include "../../resource/physicalfile.h"
+#include "../../resource/tree.h"
 #include "customschema.h"
 
 namespace sad
@@ -60,10 +60,12 @@ protected:
 	/*! Parses file with schemas
 		\param[out] result a parsed data
 		\param[out] errors a errors list
+		\param[in] parent a parent folder to load
 	 */
 	void tryParsePartial(
 		sad::db::custom::SchemaFile::parse_result & result,
-		sad::Vector<sad::resource::Error *> & errors 
+		sad::Vector<sad::resource::Error *> & errors,
+		sad::resource::Folder * parent
 	);
 	/*! Tries to parse entry by schema
 		\param[out] parse_result a parsed entry 
@@ -79,11 +81,13 @@ protected:
 	/*! Validates references to tree resources in schema
 		\param[in] parse_result a result of parsing entry
 		\param[out] errors list of errors
+		\param[in] parent a parent folder
 		\return whether it was successfull
 	 */
 	bool validateTreeReferences(
 		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
-		sad::Vector<sad::resource::Error *> & errors
+		sad::Vector<sad::resource::Error *> & errors,
+		sad::resource::Folder * parent
 	);	
 	/*! Converts non-unique resource names to errors
 		\param[in] parse_result a result of parsing entry
