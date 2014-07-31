@@ -27,18 +27,24 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/folder_$(TYPE).o build/main_$(TYPE).o
+BUILD    = build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/folder_$(TYPE).o build/main_$(TYPE).o
+$(OUTPUT): build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
 build/folder_$(TYPE).o: folder.cpp
 	g++ -c $(CCOPTS) folder.cpp -o build/folder_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/link_$(TYPE).o: link.cpp
+	g++ -c $(CCOPTS) link.cpp -o build/link_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/main_$(TYPE).o: main.cpp
 	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/textureatlasfile_$(TYPE).o: textureatlasfile.cpp
+	g++ -c $(CCOPTS) textureatlasfile.cpp -o build/textureatlasfile_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/tree_$(TYPE).o: tree.cpp
+	g++ -c $(CCOPTS) tree.cpp -o build/tree_$(TYPE).o $(INCLUDE) $(DEFINES)
 clean:
 ifeq ($(PLATFORM),WIN32)
 	rd /s/q "build/*"
