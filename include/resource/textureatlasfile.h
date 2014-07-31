@@ -53,9 +53,6 @@ protected:
 		sad::resource::TextureAtlasFile::parse_result & result,
 		sad::Vector<sad::resource::Error *> & errors 
 	);
-	/*! Tries to read a file to string
-	 */
-	sad::Maybe<sad::String> tryReadToString();
 	/*! Whether texture is found
 	 */
 	sad::resource::PhysicalFile * m_my_texture;
@@ -110,41 +107,6 @@ protected:
 		sad::resource::TextureAtlasFile::parse_result & parsed,
 		sad::resource::ResourceEntryList & resources,
 		sad::resource::Resource * texture
-	);
-	/*! Converts old resources to a resources
-		\param[out] resources a resource list
-	 */
-	void createOldResourceList(
-		sad::resource::ResourceEntryList & resources
-	);
-	/*! Computes differences between two resource lists
-		\param[in] oldlist an old list of resources
-		\param[in] newlist a  new list of resources
-		\param[out] tobeadded a resources, that should be added to tree
-		\param[out] tobereplaced a resources from new list, that should replace old list
-		\param[out] toberemoved a resources from old list, that should be removed
-	 */
-	void diffResourcesLists(
-		const sad::resource::ResourceEntryList & oldlist,
-		const sad::resource::ResourceEntryList & newlist,
-		sad::resource::ResourceEntryList & tobeadded,
-		sad::resource::ResourceEntryList & tobereplaced,
-		sad::resource::ResourceEntryList & toberemoved
-	);
-	/*! Converts referenced options to be removed to CannotDeleteReferencedResource errors, 
-		appending them to a vector
-		\param[in] toberemoved a list of resources
-		\param[in] errors an occured errors
-	 */
-	void convertReferencedOptionsToBeRemovedToErrors(
-		const sad::resource::ResourceEntryList & toberemoved,
-		sad::Vector<sad::resource::Error *> & errors
-	);
-	/*! Replaces resources of texture atlas file with list
-		\param[in] resourcelist a list of resources
-	 */
-	void replaceResources(
-		const sad::resource::ResourceEntryList & resourcelist
 	);
 };
 

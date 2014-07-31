@@ -13,6 +13,11 @@
 namespace sad
 {
 
+namespace db
+{
+class StoredPropertyFactory;
+}
+
 namespace resource
 {
 /*! A special kind of delegate, which is used by Factory to create resources
@@ -87,10 +92,21 @@ public:
 		\return data for a file
 	 */  
 	virtual sad::resource::PhysicalFile * fileByType(const sad::String & typehint);
+	/*! Sets stored property factory for created schemas
+		\param[in] factory  a factory for schema
+	 */
+	virtual void setStoredPropertyFactory(sad::db::StoredPropertyFactory * factory);
+	/*! Returns stored property factory
+		\return a factory
+	 */
+	virtual sad::db::StoredPropertyFactory* storedPropertyFactory() const;
 protected:
 	/*! Creates a hash for returning data
 	 */
 	sad::PtrHash<sad::String, resource::Creator> m_creators;
+	/*! A factory for stored properties. Used for creating itema in custom resources
+	 */
+	sad::db::StoredPropertyFactory * m_factory;
 private:
 	/*! Disabled, factory is uncopyable
 		\param[in] o other factory

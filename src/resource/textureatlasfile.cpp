@@ -222,38 +222,6 @@ void sad::resource::TextureAtlasFile::tryParsePartial(
 	}
 }
 
-sad::Maybe<sad::String> sad::resource::TextureAtlasFile::tryReadToString()
-{
-	sad::Maybe<sad::String> result;
-	std::ifstream stream(m_name.c_str());
-	if (stream.good())
-	{
-		std::string alldata(
-			(std::istreambuf_iterator<char>(stream)), 
-			std::istreambuf_iterator<char>()
-		);
-		result.setValue(alldata);
-	}
-	else
-	{
-		if (util::isAbsolutePath(m_name) == false)
-		{
-			sad::String path = util::concatPaths(m_tree->renderer()->executablePath(), m_name);
-			stream.clear();
-			stream.open(path.c_str());
-			if (stream.good())
-			{
-				std::string alldata(
-					(std::istreambuf_iterator<char>(stream)), 
-					 std::istreambuf_iterator<char>()
-					);
-				result.setValue(alldata);
-			}
-		}
-	}
-	return result;
-}
-
 void sad::resource::TextureAtlasFile::tryLoadNewTexture(
 	sad::resource::TextureAtlasFile::parse_result & parsed,
 	sad::resource::TextureAtlasFile::TextureLoadResult & result,
@@ -386,77 +354,5 @@ void sad::resource::TextureAtlasFile::fillOptionsList(
 			);
 		}
 		resources << sad::resource::ResourceEntry(maybename.value(), opts);
-	}
-}
-
-void sad::resource::TextureAtlasFile::createOldResourceList(
-	sad::resource::ResourceEntryList & resources
-)
-{
-	for(size_t i = 0; i < m_resources.size(); i++)
-	{
-		sad::Maybe<sad::String> name = this->tree()->root()->find(m_resources[i]);
-		if (name.exists())
-		{
-			resources << sad::resource::ResourceEntry(name.value(), m_resources[i]);
-		}
-	}
-}
-
-void sad::resource::TextureAtlasFile::diffResourcesLists(
-		const sad::resource::ResourceEntryList & oldlist,
-		const sad::resource::ResourceEntryList & newlist,
-		sad::resource::ResourceEntryList & tobeadded,
-		sad::resource::ResourceEntryList & tobereplaced,
-		sad::resource::ResourceEntryList & toberemoved
-)
-{
-	sad::resource::ResourceEntryList noldlist = oldlist;
-	for(size_t i = 0 ; i < newlist.size(); i++)
-	{
-		bool exists = false;
-		for(size_t j = 0 ; j < noldlist.size() && !exists; j++)
-		{
-			if (newlist[i].p1() == noldlist[j].p1())
-			{
-				tobereplaced << newlist[i];
-				exists = true;
-				noldlist.removeAt(j);
-			}
-		}
-		if (exists == false)
-		{
-			tobeadded << newlist[i];
-		}
-	}
-	for(size_t i = 0; i < noldlist.size(); i++)
-	{
-		toberemoved << noldlist[i];
-	}
-}
-
-void sad::resource::TextureAtlasFile::convertReferencedOptionsToBeRemovedToErrors(
-	const sad::resource::ResourceEntryList & toberemoved,
-	sad::Vector<sad::resource::Error *> & errors
-)
-{
-	for(size_t i = 0 ; i < toberemoved.size(); i++)
-	{
-		if (toberemoved[i].p2()->referenced())
-		{
-			errors << new sad::resource::CannotDeleteReferencedResource(toberemoved[i].p1());
-		}
-	}
-}
-
-void sad::resource::TextureAtlasFile::replaceResources(
-	const sad::resource::ResourceEntryList & resourcelist
-)
-{
-	m_resources.clear();
-	for(int i = 0 ; i < resourcelist.size(); i++)
-	{
-		m_resources << resourcelist[i].p2();
-		resourcelist[i].p2()->setPhysicalFile(this);
 	}
 }
