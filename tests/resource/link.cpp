@@ -178,4 +178,4 @@ struct SadLinkTest : tpunit::TestFixture
    }
 
    
-} _sad_folder_test;
+} _sad_link_test;
