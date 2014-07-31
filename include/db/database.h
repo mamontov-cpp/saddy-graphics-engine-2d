@@ -5,7 +5,13 @@
 
  */
 #pragma once
+#include "../sadstring.h"
+#include "dbobjectfactory.h"
+#include "dberror.h"
+#include "table.h"
 
+namespace sad
+{
 
 namespace db
 {
@@ -26,24 +32,24 @@ public:
 	/*! 
 		\param[in] s
 	 */
-	void saveToFile(sad::String s);
+	void saveToFile(const sad::String& s);
 	/*! 
 		\param[in] name
 	 */
-	void loadFromFile(sad::String name);
+	void loadFromFile(const sad::String& name);
 	/*! 
 		\param[in] text
 	 */
-	void load(sad::String text);
+	void load(const sad::String& text);
 	/*! 
 		\param[in] name
 		\param[in] table
 	 */
-	void addTable(sad::String name, db::Table* table);
+	void addTable(const sad::String& name, sad::db::Table* table);
 	/*! 
 		\param[in] name
 	 */
-	void removeTable(sad::String name);
+	void removeTable(const sad::String& name);
 	/*! 
 		\return
 	 */
@@ -58,45 +64,48 @@ public:
 		\param[in] name
 		\return
 	 */
-	bool save(unsigned long long id, sad::String name);
+	bool save(unsigned long long id, const sad::String& name);
 	/*! 
 		\param[in] name
 		\param[in] id
 		\return
 	 */
-	sad::Vector<db::Error*> load(sad::String name, unsigned long long& id);
+	sad::Vector<sad::db::Error*> load(const sad::String& name, unsigned long long& id);
 	/*! 
 		\param[in] name
 		\return
 	 */
-	db::Table* table(sad::String name);
+	sad::db::Table* table(const sad::String& name);
 	/*! 
 		\return
 	 */
-	sad::Hash<sad::String, db::Table*>::iterator begin();
+	sad::Hash<sad::String, sad::db::Table*>::iterator begin();
 	/*! 
 		\return
 	 */
-	sad::Hash<sad::String, db::Table*>::iterator end();
+	sad::Hash<sad::String, sad::db::Table*>::iterator end();
 	/*! 
 		\return
 	 */
-	db::ObjectFactory* factory();
+	sad::db::ObjectFactory* factory();
 	/*! 
 		\param[in] f
 	 */
-	void setFactory(db::ObjectFactory* f);
+	void setFactory(sad::db::ObjectFactory* f);
 protected: 
 	/*! 
 	 */
 	unsigned long long m_max_major_id;
 	/*! 
 	 */
-	sad::Hash<sad::String, db::Table*> m_tables;
+	sad::Hash<sad::String, sad::db::Table*> m_tables;
 	/*! 
 	 */
-	db::ObjectFactory* m_factory;
+	sad::db::ObjectFactory* m_factory;
+
+};
 
 }
 
 }
+

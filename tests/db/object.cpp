@@ -7,8 +7,10 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/schema/schema.h"
-#include "mock3.h"
+#include "db/save.h"
+#include "db/load.h"
 
+#include "mock3.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)

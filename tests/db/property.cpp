@@ -8,6 +8,8 @@
 #include "db/dbmethodpair.h"
 #include "mock.h"
 #include "mock2.h"
+#include "db/save.h"
+#include "db/load.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)

@@ -36,7 +36,7 @@ public:
 	}
 	/*! This class can be inherited 
 	 */
-	virtual ~Error();
+	virtual ~Error() throw();
 };
 
 /*! \class FileLoadError
@@ -67,7 +67,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~FileLoadError();
+	virtual ~FileLoadError() throw();
 protected:
 	/*! A name of file.
 	 */
@@ -104,7 +104,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~ResourceLoadError();
+	virtual ~ResourceLoadError() throw();
 protected:
 	/*! A name of resource.
 	 */
@@ -146,7 +146,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~MissingResource();
+	virtual ~MissingResource() throw();
 protected:
 	/*! A name of resource.
 	 */
@@ -186,7 +186,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~ResourceAlreadyExists();
+	virtual ~ResourceAlreadyExists() throw();
 protected:
 	/*! A name of resource.
 	 */
@@ -226,7 +226,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~CannotDeleteReferencedResource();
+	virtual ~CannotDeleteReferencedResource() throw();
 protected:
 	/*! A name of resource.
 	 */
@@ -266,7 +266,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~UnregisteredFileType();
+	virtual ~UnregisteredFileType() throw();
 protected:
 	/*! A name of file.
 	 */
@@ -306,7 +306,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~UnregisteredResourceType();
+	virtual ~UnregisteredResourceType() throw();
 protected:
 	/*! A name of file.
 	 */
@@ -345,7 +345,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~AnonymousResource();
+	virtual ~AnonymousResource() throw();
 protected:
 	/*! A type of resource.
 	 */
@@ -385,7 +385,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~FileLoadingNotImplemented();
+	virtual ~FileLoadingNotImplemented() throw(); 
 protected:
 	/*! A name of file.
 	 */
@@ -418,7 +418,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~JSONParseError();
+	virtual ~JSONParseError() throw();
 };
 
 /*! \class MalformedResourceEntry
@@ -451,7 +451,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~MalformedResourceEntry();
+	virtual ~MalformedResourceEntry() throw();
 };
 
 /*! \class EmptyTextureAtlas
@@ -484,7 +484,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~EmptyTextureAtlas();
+	virtual ~EmptyTextureAtlas() throw();
 };
 
 /*! \class TreeNotFound
@@ -517,7 +517,7 @@ public:
 
 	/*! This class can be inherited 
 	 */
-	virtual ~TreeNotFound();
+	virtual ~TreeNotFound() throw();
 };
 /*! Formats an error to string. Remember, that you still need to free errors.
 	\param[in] errors a list of errors

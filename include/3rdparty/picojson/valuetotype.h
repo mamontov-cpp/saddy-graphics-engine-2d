@@ -432,18 +432,18 @@ CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_SIGNED_TYPE_VIA_CAST_FROM_DOUBLE(long lo
  */
 #define CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(TYPE)   \
 template<>                                                                                 \
-class ValueToType< ##TYPE >                                                                \
+class ValueToType< TYPE >                                                                  \
 {                                                                                          \
 public:                                                                                    \
-	static inline sad::Maybe< ##TYPE > get(const picojson::value & v)                      \
+	static inline sad::Maybe< TYPE > get(const picojson::value & v)                        \
 	{                                                                                      \
-		sad::Maybe< ##TYPE > result;                                                       \
+		sad::Maybe< TYPE > result;                                                         \
 		if (v.is<double>())                                                                \
 		{                                                                                  \
 			double a = v.get< double >();                                                  \
 			if (a >= -0.000001)                                                            \
 			{                                                                              \
-				result.setValue((##TYPE) a);                                               \
+				result.setValue(( TYPE ) a);                                               \
 			}                                                                              \
 		}                                                                                  \
 		return result;                                                                     \
