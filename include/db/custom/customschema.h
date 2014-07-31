@@ -58,6 +58,10 @@ public:
 	    \return whether loading was successfull
 	 */
 	virtual bool load(const picojson::value& v);
+	/*! Returns all custom properties, needed to define an object
+		\param[out] props a new property list
+	 */
+	void getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props);
 protected:
 	/*! A linked resource item for a schema
 	 */

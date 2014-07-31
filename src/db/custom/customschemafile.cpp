@@ -32,6 +32,58 @@ sad::db::StoredPropertyFactory * sad::db::custom::SchemaFile::factory() const
 	return m_factory;
 }
 
+sad::Vector<sad::resource::Error*> sad::db::custom::SchemaFile::load(sad::resource::Folder * parent)
+{
+	sad::Vector<sad::resource::Error*> errors;
+	sad::db::custom::SchemaFile::parse_result result;
+	this->tryParsePartial(result, errors);
+	if (errors.size() == 0)
+	{
+		this->convertNonUniqueResourceNamesToErrors(result, errors);
+		if (errors.size() == 0)
+		{
+			sad::resource::ResourceEntryList resourcelist;
+			this->fillOptionsList(result, resourcelist);
+			this->replaceResources(resourcelist);
+			parent->addResources(resourcelist);
+		}
+	}
+	return errors;
+}
+
+sad::Vector<sad::resource::Error*>  sad::db::custom::SchemaFile::reload()
+{
+	sad::Vector<sad::resource::Error*> errors;
+	sad::db::custom::SchemaFile::parse_result result;
+	this->tryParsePartial(result, errors);
+	if (errors.size() == 0)
+	{
+		sad::resource::ResourceEntryList resourcelist,  oldresourcelist;
+		this->fillOptionsList(result, resourcelist);
+		this->createOldResourceList(oldresourcelist);
+		sad::resource::ResourceEntryList tobeadded, tobereplaced, toberemoved;
+		this->diffResourcesLists(oldresourcelist, resourcelist, tobeadded, tobereplaced, toberemoved);
+		errors << this->tree()->duplicatesToErrors(this->tree()->root()->duplicatesBetween(tobeadded));
+		convertReferencedOptionsToBeRemovedToErrors(toberemoved, errors);
+		if (errors.size() == 0)
+		{
+			sad::resource::Folder * root = this->tree()->root();
+			// Add an added resources
+			root->addResources(tobeadded);
+			// Replace replaced resources
+			root->replaceResources(tobereplaced);
+			// Remove removable resources
+			root->removeResources(toberemoved, true);
+			// Replace own resource list, setting correct reference to this
+			this->replaceResources(resourcelist);
+		}
+		else
+		{
+			sad::resource::free(resourcelist);
+		}
+	}
+	return errors;
+}
 
 void sad::db::custom::SchemaFile::tryParsePartial(
 		sad::db::custom::SchemaFile::parse_result & result,
@@ -195,34 +247,38 @@ bool sad::db::custom::SchemaFile::validateTreeReferences(
 	return result;
 }
 
-sad::Maybe<sad::String> sad::db::custom::SchemaFile::tryReadToString()
+
+void sad::db::custom::SchemaFile::convertNonUniqueResourceNamesToErrors(
+		sad::db::custom::SchemaFile::parse_result & parse_result,
+		sad::Vector<sad::resource::Error *> & errors
+)
 {
-	sad::Maybe<sad::String> result;
-	std::ifstream stream(m_name.c_str());
-	if (stream.good())
+	for(size_t i = 0; i < parse_result.size(); i++)
 	{
-		std::string alldata(
-			(std::istreambuf_iterator<char>(stream)), 
-			std::istreambuf_iterator<char>()
-		);
-		result.setValue(alldata);
-	}
-	else
-	{
-		if (util::isAbsolutePath(m_name) == false)
+		if (this->tree()->root()->resource(parse_result[i]._1()) != NULL)
 		{
-			sad::String path = util::concatPaths(m_tree->renderer()->executablePath(), m_name);
-			stream.clear();
-			stream.open(path.c_str());
-			if (stream.good())
-			{
-				std::string alldata(
-					(std::istreambuf_iterator<char>(stream)), 
-					 std::istreambuf_iterator<char>()
-					);
-				result.setValue(alldata);
-			}
+			errors << new sad::resource::ResourceAlreadyExists(parse_result[i]._1());
 		}
 	}
-	return result;
+}
+
+
+void sad::db::custom::SchemaFile::fillOptionsList(
+		sad::db::custom::SchemaFile::parse_result & parsed,
+		sad::resource::ResourceEntryList & resources
+)
+{
+	for(size_t i = 0; i < parsed.size(); i++)
+	{
+		sad::db::custom::Schema* schema = new sad::db::custom::Schema();
+		schema->setFactory(m_factory);
+		schema->setTreeItemName(parsed[i]._2());
+		schema->setPhysicalFile(this);
+		const sad::Vector<sad::Pair<sad::String, sad::String> > & props = parsed[i]._3();
+		for(size_t j = 0; j < props.size(); j++)
+		{
+			schema->add(props[j].p1(), m_factory->create(props[j].p2()));
+		}
+		resources.push_back(sad::resource::ResourceEntry(resources[i]._1(), schema));
+	}
 }

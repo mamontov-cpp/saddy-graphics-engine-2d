@@ -1,5 +1,8 @@
 #include "db/dbstoredpropertyfactory.h"
 
+#include "db/save.h"
+#include "db/load.h"
+
 #include "sadcolor.h"
 #include "sadrect.h"
 #include "sadpoint.h"

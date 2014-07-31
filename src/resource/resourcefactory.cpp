@@ -2,9 +2,14 @@
 #include "resource/physicalfile.h"
 #include "resource/textureatlasfile.h"
 
+#include "db/dbstoredpropertyfactory.h"
+#include "db/custom/customschemafile.h"
+
 #include "texture.h"
 #include "texturemappedfont.h"
 #include "sprite2d.h"
+
+#include <cassert>
 
 sad::resource::Creator::~Creator()
 {
@@ -18,11 +23,13 @@ sad::resource::Factory::Factory()
 		new resource::CreatorFor<sad::TextureMappedFont>());
 	add(sad::Sprite2D::Options::globalMetaData()->name(), 
 		new resource::CreatorFor<sad::Sprite2D::Options>());
+
+	m_factory = new sad::db::StoredPropertyFactory();
 }
 
 sad::resource::Factory::~Factory()
 {
-
+	delete m_factory;
 }
 
 void sad::resource::Factory::add(const sad::String & name, resource::Creator * c)
@@ -54,6 +61,12 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
 	{
 		return new sad::resource::TextureAtlasFile();
 	}
+	if (typehint == "sad::db::custom::SchemaFile")
+	{
+		sad::db::custom::SchemaFile* file = new sad::db::custom::SchemaFile();
+		file->setFactory(m_factory);
+		return file;
+	}
 	if (typehint == "sad::Texture" 
 		|| typehint == "sad::TextureMappedFont"
 		|| typehint == "sad::freetype::Font")
@@ -61,5 +74,17 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
 		return new sad::resource::PhysicalFile();
 	}
 	return NULL;
+}
+
+void sad::resource::Factory::setStoredPropertyFactory(sad::db::StoredPropertyFactory * factory)
+{
+	assert(m_factory);
+	delete m_factory;
+	m_factory = factory;
+}
+
+sad::db::StoredPropertyFactory* sad::resource::Factory::storedPropertyFactory() const
+{
+	return m_factory;
 }
 

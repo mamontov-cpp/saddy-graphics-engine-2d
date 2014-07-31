@@ -19,6 +19,14 @@ namespace resource
 class Tree;
 class Resource;
 class Folder;
+
+/*! An entry of resource, stored in folder
+ */
+typedef sad::Pair<sad::String, sad::resource::Resource*> ResourceEntry;
+/*! A list of resource entry, stored in folder
+ */
+typedef sad::Vector<sad::resource::ResourceEntry> ResourceEntryList;
+
 /*! \class PhysicalFile
 
 	This is a physical file, where resources were stored before loading, and where they are belong.
@@ -85,6 +93,44 @@ public:
 	 */
 	void replace(sad::resource::Resource * from, sad::resource::Resource * to);
 protected: 
+	/*! Tries to read a file to string
+	 */
+	sad::Maybe<sad::String> tryReadToString();
+	/*! Replaces resources of texture atlas file with list
+		\param[in] resourcelist a list of resources
+	 */
+	void replaceResources(
+		const sad::resource::ResourceEntryList & resourcelist
+	);
+	/*! Fills resources with resources, stored in this file
+		\param[out] resources a resource list
+	 */
+	void createOldResourceList(
+		sad::resource::ResourceEntryList & resources
+	);
+	/*! Computes differences between two resource lists
+		\param[in] oldlist an old list of resources
+		\param[in] newlist a  new list of resources
+		\param[out] tobeadded a resources, that should be added to tree
+		\param[out] tobereplaced a resources from new list, that should replace old list
+		\param[out] toberemoved a resources from old list, that should be removed
+	 */
+	void diffResourcesLists(
+		const sad::resource::ResourceEntryList & oldlist,
+		const sad::resource::ResourceEntryList & newlist,
+		sad::resource::ResourceEntryList & tobeadded,
+		sad::resource::ResourceEntryList & tobereplaced,
+		sad::resource::ResourceEntryList & toberemoved
+	);
+	/*! Converts referenced options to be removed to CannotDeleteReferencedResource errors, 
+		appending them to a vector
+		\param[in] toberemoved a list of resources
+		\param[in] errors an occured errors
+	 */
+	void convertReferencedOptionsToBeRemovedToErrors(
+		const sad::resource::ResourceEntryList & toberemoved,
+		sad::Vector<sad::resource::Error *> & errors
+	);
 	/*! A file name (with or without path), where file is stored
 	 */
 	sad::String m_name;

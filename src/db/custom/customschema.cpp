@@ -11,6 +11,7 @@ DECLARE_SOBJ_INHERITANCE(sad::db::custom::Schema, sad::resource::Resource);
 
 sad::db::custom::Schema::Schema()
 {
+	// TODO: Add new properties, same as Sprite2D
 	m_factory = new sad::db::StoredPropertyFactory();
 }
 
@@ -126,6 +127,35 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 		}
 	}
 	return result;
+}
+
+
+// A length of non-custom properties, taken from Sprite2D
+static const size_t Sprite2DPropertiesLength = 1;
+// An own properties for Sprite 2D
+static const char* Sprite2DOwnProperties[Sprite2DPropertiesLength] = {
+	"non-existant-property"
+};
+
+void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props)
+{
+	for (sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin(); 
+		 it != m_properties.const_end(); 
+		++it)
+	{
+		bool isown = true;
+		for(size_t i = 0; (i < Sprite2DPropertiesLength) && isown; i++)
+		{
+			if (it.key() == Sprite2DOwnProperties[i])
+			{
+				isown = false;
+			}
+		}
+		if (isown)
+		{
+			props.insert(it.key(), it.value()->clone());
+		}
+	}
 }
 
 sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s)

@@ -18,6 +18,7 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 
+
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
 DECLARE_COMMON_TYPE(unsigned char)

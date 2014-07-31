@@ -84,16 +84,14 @@ protected:
 	bool validateTreeReferences(
 		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
 		sad::Vector<sad::resource::Error *> & errors
-	);
-	/*! Tries to read a file to string
+	);	
+	/*! Converts non-unique resource names to errors
+		\param[in] parse_result a result of parsing entry
+		\param[out] errors list of errors
 	 */
-	sad::Maybe<sad::String> tryReadToString();
-	/*! Commits resources, allocated as a loading result
-		\param[in] parsed a result of parsing
-		\param[in] result a result of loading a new texture
-	 */
-	void commit(
-		sad::db::custom::SchemaFile::parse_result & parsed
+	void convertNonUniqueResourceNamesToErrors(
+		sad::db::custom::SchemaFile::parse_result & parse_result,
+		sad::Vector<sad::resource::Error *> & errors
 	);
 	/*! Fills list of resources  with parsed options from array, altering a texture
 		\param[in] parsed a parsed list
@@ -102,43 +100,7 @@ protected:
 	void fillOptionsList(
 		sad::db::custom::SchemaFile::parse_result & parsed,
 		sad::resource::ResourceEntryList & resources
-	);
-	/*! Converts old resources to a resources
-		\param[out] resources a resource list
-	 */
-	void createOldResourceList(
-		sad::resource::ResourceEntryList & resources
-	);
-	/*! Computes differences between two resource lists
-		\param[in] oldlist an old list of resources
-		\param[in] newlist a  new list of resources
-		\param[out] tobeadded a resources, that should be added to tree
-		\param[out] tobereplaced a resources from new list, that should replace old list
-		\param[out] toberemoved a resources from old list, that should be removed
-	 */
-	void diffResourcesLists(
-		const sad::resource::ResourceEntryList & oldlist,
-		const sad::resource::ResourceEntryList & newlist,
-		sad::resource::ResourceEntryList & tobeadded,
-		sad::resource::ResourceEntryList & tobereplaced,
-		sad::resource::ResourceEntryList & toberemoved
-	);
-	/*! Converts referenced options to be removed to CannotDeleteReferencedResource errors, 
-		appending them to a vector
-		\param[in] toberemoved a list of resources
-		\param[in] errors an occured errors
-	 */
-	void convertReferencedOptionsToBeRemovedToErrors(
-		const sad::resource::ResourceEntryList & toberemoved,
-		sad::Vector<sad::resource::Error *> & errors
-	);
-	/*! Replaces resources of texture atlas file with list
-		\param[in] resourcelist a list of resources
-	 */
-	void replaceResources(
-		const sad::resource::ResourceEntryList & resourcelist
-	);
-
+	);		
 	/*! A factory to test properties against
 	 */
 	sad::db::StoredPropertyFactory * m_factory;
