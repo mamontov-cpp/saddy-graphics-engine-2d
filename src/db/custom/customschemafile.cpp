@@ -181,7 +181,7 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 					if (maybeproptype.exists())
 					{
 						bool propresult = m_factory->canCreate(maybeproptype.value());
-						if (propresult)
+						if (propresult && it->first != "pos" && it->first != "size" && it->first != "angle" && it->first != "rect")
 						{
 							proplist.push_back(sad::Pair<sad::String, sad::String>(
 								it->first, maybeproptype.value()

@@ -67,6 +67,30 @@ bool sad::db::custom::Schema::load(
 	return result;
 }
 
+// A length of non-custom properties, taken from Sprite2D
+static const size_t Sprite2DPropertiesLength = 4;
+// An own properties for Sprite 2D
+static const char* Sprite2DOwnProperties[Sprite2DPropertiesLength] = {
+	"pos",
+    "size",
+    "angle",
+    "rect"    
+};
+
+/*! Tests, whether properties are not inherited
+	\param[in] prop property
+	\return whether property is not inherited
+ */
+static bool is_not_inherited(const sad::String & prop)
+{
+	for(size_t i = 0; i <  Sprite2DPropertiesLength; i++)
+	{
+		if (Sprite2DOwnProperties[i] == prop)
+			return false;
+	}
+	return true;
+}
+
 bool sad::db::custom::Schema::load(const picojson::value& v)
 {
 	bool result = false;
@@ -87,7 +111,7 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
 				{
 					sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(&(it->second));
-					if (maybeproptype.exists())
+					if (maybeproptype.exists() && is_not_inherited(it->first))
 					{
 						sad::db::Property * p = m_factory->create(maybeproptype.value());
 						if (p)
@@ -130,12 +154,7 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 }
 
 
-// A length of non-custom properties, taken from Sprite2D
-static const size_t Sprite2DPropertiesLength = 1;
-// An own properties for Sprite 2D
-static const char* Sprite2DOwnProperties[Sprite2DPropertiesLength] = {
-	"non-existant-property"
-};
+
 
 void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props)
 {
