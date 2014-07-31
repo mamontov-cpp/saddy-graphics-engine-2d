@@ -37,7 +37,7 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 	{
 		return false;
 	}
-	if (parent->m_subfolders.contains(foldername) != NULL)
+	if (parent->m_subfolders.contains(foldername))
 	{
 		delete parent->m_subfolders[foldername];
 	}
@@ -99,7 +99,7 @@ bool sad::resource::Folder::addResource(const sad::String & path, sad::resource:
 	{
 		return false;
 	}
-	if (parent->m_resources.contains(resourcename) != NULL)
+	if (parent->m_resources.contains(resourcename))
 	{
 		delete parent->m_resources[resourcename];
 	}
@@ -233,7 +233,7 @@ sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
 	sad::Maybe<sad::String> result;
 	for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
 		it != this->resourceListEnd(); 
-		it++)
+		++it)
 	{
 		if (it.value() == r)
 		{
@@ -243,7 +243,7 @@ sad::Maybe<sad::String> sad::resource::Folder::find(sad::resource::Resource * r)
 	}
 	for(sad::resource::FolderIterator it = this->folderListBegin(); 
 		it != this->folderListEnd(); 
-		it++)
+		++it)
 	{
 		result = it.value()->find(r);
 		if (result.exists())
@@ -260,14 +260,14 @@ sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
 	sad::resource::ResourceEntryList result;
 	for(sad::resource::ResourceIterator it = this->resourceListBegin(); 
 		it != this->resourceListEnd(); 
-		it++)
+		++it)
 	{
 		result << sad::resource::ResourceEntry(it.key(), it.value());
 	}
 	m_resources.clear();
 	for(sad::resource::FolderIterator it = this->folderListBegin(); 
 		it != this->folderListEnd(); 
-		it++)
+		++it)
 	{
 		sad::resource::ResourceEntryList tmp = it.value()->copyAndClear();
 		sad::String prefix = it.key() + "/"; 
@@ -281,12 +281,12 @@ sad::resource::ResourceEntryList sad::resource::Folder::copyAndClear()
 
 void sad::resource::Folder::unloadResourcesFromGPU()
 {
-	for(sad::resource::ResourceIterator it = this->resourceListBegin(); it != this->resourceListEnd(); it++)
+	for(sad::resource::ResourceIterator it = this->resourceListBegin(); it != this->resourceListEnd(); ++it)
 	{
 		it.value()->unloadFromGPU();
 	}
 
-	for(sad::resource::FolderIterator it = this->folderListBegin(); it != this->folderListEnd(); it++)
+	for(sad::resource::FolderIterator it = this->folderListBegin(); it != this->folderListEnd(); ++it)
 	{
 		it.value()->unloadResourcesFromGPU();
 	}
@@ -308,7 +308,7 @@ sad::resource::Folder * sad::resource::Folder::navigateParentFolder(
 	sad::resource::Folder * parent = this;
 	for(int i = 0; i < (int)(splitpath.size()) - 1; i++)
 	{
-		if (parent->m_subfolders.contains(splitpath[i]) == NULL)
+		if (parent->m_subfolders.contains(splitpath[i]) == false)
 		{
 			if (create)
 			{
