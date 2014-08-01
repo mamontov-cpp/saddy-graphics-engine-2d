@@ -295,6 +295,10 @@ void sad::db::custom::SchemaFile::fillOptionsList(
 		{
 			schema->add(props[j].p1(), m_factory->create(props[j].p2()));
 		}
+		if (this->tree()->shouldStoreLinks())
+		{
+			schema->enableStoringLinks();
+		}
 		resources.push_back(sad::resource::ResourceEntry(parsed[i]._1(), schema));
 	}
 }

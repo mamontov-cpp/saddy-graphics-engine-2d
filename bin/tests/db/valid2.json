@@ -1,0 +1,10 @@
+[
+{
+ "name" : "myschema",
+ "resource": "1",
+ "schema" : {
+	"prop2" : "int",
+	"prop1" : "double"
+ }
+}
+]
