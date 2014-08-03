@@ -58,7 +58,15 @@ public:
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
 	 */
-	virtual ~Sprite3D();	      
+	virtual ~Sprite3D();
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Renders a sprite as a simple quad 
 	 */
 	virtual void render();
@@ -182,7 +190,7 @@ public:
 	/*! Sets a name of texture, which should be taken from renderer's database
 		\param[in] name name of texture
 	 */
-	void setTexureName(const sad::String & name);
+	void setTextureName(const sad::String & name);
 	/*! Returns a texture name
 		\return texture name
 	 */

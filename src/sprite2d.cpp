@@ -13,6 +13,14 @@
 #include <math.h>
 #include <fstream>
 
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
+
 DECLARE_SOBJ_INHERITANCE(sad::Sprite2D::Options, sad::resource::Resource);
 
 bool sad::Sprite2D::Options::load(
@@ -147,6 +155,68 @@ m_color(sad::AColor(255,255,255,0))
 sad::Sprite2D::~Sprite2D()
 {
 
+}
+
+static sad::db::schema::Schema* Sprite2DBasicSchema = NULL;
+
+
+sad::db::schema::Schema* sad::Sprite2D::basicSchema()
+{
+	if (Sprite2DBasicSchema == NULL)
+	{
+		Sprite2DBasicSchema = new sad::db::schema::Schema();
+		Sprite2DBasicSchema->addParent(sad::SceneNode::basicSchema());
+
+		void (sad::Sprite2D::*p1)(const sad::String&) = &sad::Sprite2D::set;
+		Sprite2DBasicSchema->add(
+			"options", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::String>(
+				&sad::Sprite2D::optionsName,
+				p1
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"area", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				&sad::Sprite2D::area,
+				&sad::Sprite2D::setRenderableArea
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"angle", 
+			new sad::db::MethodPair<sad::Sprite2D, double>(
+				&sad::Sprite2D::angle,
+				&sad::Sprite2D::setAngle
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"color", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::AColor>(
+				&sad::Sprite2D::color,
+				&sad::Sprite2D::setColor
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"flipx", 
+			new sad::db::MethodPair<sad::Sprite2D, bool>(
+				&sad::Sprite2D::flipX,
+				&sad::Sprite2D::setFlipX
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"flipy", 
+			new sad::db::MethodPair<sad::Sprite2D, bool>(
+				&sad::Sprite2D::flipY,
+				&sad::Sprite2D::setFlipY
+			)
+		);
+	}
+	return Sprite2DBasicSchema;
+}
+
+sad::db::schema::Schema* sad::Sprite2D::schema() const
+{
+	return sad::Sprite2D::basicSchema();
 }
 
 void sad::Sprite2D::render()
@@ -400,6 +470,11 @@ void sad::Sprite2D::set(const sad::String & optionsname)
 	// Make texture render dependent
 	m_options.setRenderer(this->renderer());
 	m_texture.setRenderer(this->renderer());
+}
+
+const sad::String& sad::Sprite2D::optionsName() const
+{
+	return m_options.path();
 }
 
 void sad::Sprite2D::setTreeName(const sad::String & treename)

@@ -51,6 +51,14 @@ class Label: public sad::SceneNode
 			  const sad::String & string,
 			  const sad::String & tree = ""
 			 );
+		/*! A basic schema for object
+			\return a schema 
+		 */
+		static sad::db::schema::Schema* basicSchema();
+		/*! Returns schema for an object
+			\return schema
+		 */
+		virtual sad::db::schema::Schema* schema() const;
         /*! Renders a string of text inside of label
 		*/
 		virtual void render();

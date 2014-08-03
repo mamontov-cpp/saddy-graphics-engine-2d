@@ -3,6 +3,7 @@
     \brief  Here placed a scene files
 */
 #pragma once
+#include "db/dbobject.h"
 #include "sadvector.h"
 #include "sadhash.h"
 #include "temporarilyimmutablecontainer.h"
@@ -18,7 +19,7 @@ class Camera;
 
 /*! Scene is a special container, which renders itself, using a renderer
  */
-class Scene: public sad::TemporarilyImmutableContainer<sad::SceneNode>
+class Scene: public sad::db::Object, public sad::TemporarilyImmutableContainer<sad::SceneNode>
 {
 public:
 	/*! Creates an empty scene
@@ -27,6 +28,14 @@ public:
 	/*! You can freely inherit and implement your own scene
 	 */
 	virtual ~Scene(); 
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Returns current camera for scene
 		\return current camera for scene
 	 */
@@ -86,10 +95,21 @@ public:
 	{
 		return m_active;
 	}
+	/*! Returns big scene layer for scene
+		\return scene layer
+	 */
+	unsigned int sceneLayer() const;
+	/*! Sets new scene layer
+		\param[in] layer a layer
+	 */
+	void setSceneLayer(unsigned int layer);
 protected:
 	/*! Determines, whether scene is active and should be rendered
 	 */
 	bool                      m_active;
+	/*! A cached scene layer for scene
+	 */
+	unsigned int m_cached_layer;
 	/*! A layers, which stores a node 
 	 */
 	sad::Vector<SceneNode *>   m_layers;   

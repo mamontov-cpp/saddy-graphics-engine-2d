@@ -1,6 +1,11 @@
 #include "db/dbobject.h"
 #include "db/schema/schema.h"
 
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+
 sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0)
 {
 
@@ -31,9 +36,23 @@ void sad::db::Object::setTable(sad::db::Table* t)
 	m_table = t;
 }
 
+
+static sad::db::schema::Schema* DbObjectBasicSchema = NULL;
+sad::db::schema::Schema* sad::db::Object::basicSchema()
+{
+	if (DbObjectBasicSchema == NULL)
+	{
+		DbObjectBasicSchema = new sad::db::schema::Schema();
+		DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
+		DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
+		DbObjectBasicSchema->add("name"   , sad::db::define_field(&sad::db::Object::Name));
+	}
+	return DbObjectBasicSchema;
+}
+
 sad::db::schema::Schema * sad::db::Object::schema() const
 {
-	return NULL;
+	return  sad::db::Object::basicSchema();
 }
 
 static sad::String DbObjectClassName = "sad::db::Object";
