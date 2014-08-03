@@ -11,6 +11,7 @@ DECLARE_SOBJ_INHERITANCE(Mock3, sad::Object)
 
 Mock3::Mock3()
 {
+	m_schema.addParent(sad::db::Object::basicSchema());
 	m_schema.add("prop", new sad::db::Field<Mock3, int>(&Mock3::m_id));
 	m_schema.add("prop2", new sad::db::MethodPair<Mock3, int>(&Mock3::id_c, &Mock3::setId));
 }

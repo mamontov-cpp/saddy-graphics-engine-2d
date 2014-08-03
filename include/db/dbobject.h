@@ -36,9 +36,9 @@ public:
 	 */
 	virtual ~Object();
 	/*! Saves object to a picojson::value
-		\return	a value with saved properties
+		\param[in] v a value for object
 	 */
-	virtual picojson::value save();
+	virtual void save(picojson::value & v);
 	/*! Loads an object to a value
 		\param[in] v a value for object
 		\return result value

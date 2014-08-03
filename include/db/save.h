@@ -26,7 +26,9 @@ inline picojson::value Save<_Type>::perform(void * ptr)
 		throw sad::db::InvalidPointer();
 	if (sad::db::TypeName<_Type>::isSadObject())
 	{
-		return reinterpret_cast<sad::Object *>(ptr)->save();
+		picojson::value v;
+		reinterpret_cast<sad::Object *>(ptr)->save(v);
+		return v;
 	}
 	throw sad::db::NotImplemented("sad::db::Save<_Type>::perform");
 	return picojson::value();
