@@ -52,6 +52,10 @@ public:
 		\param[in] t a table
 	 */
 	virtual void setTable(sad::db::Table* t);
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema(); 
 	/*! Returns schema for an object
 		\return schema
 	 */
@@ -126,6 +130,9 @@ public:
 	/*! A minor id for a table
 	 */
 	int MinorId;
+	/*! A numeric name for object
+	 */
+	sad::String Name;
 protected:
 	/*! Fetches property for an object with specified game
 		\param[in] s string

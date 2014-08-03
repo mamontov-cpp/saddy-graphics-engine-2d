@@ -108,7 +108,15 @@ public:
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
 	 */
-	virtual ~Sprite2D();	      
+	virtual ~Sprite2D();
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Renders a sprite as a simple quad 
 	 */
 	virtual void render();
@@ -238,6 +246,10 @@ public:
 		\param[in] optionsname a name of attached options element
 	 */
 	void set(const sad::String & optionsname);
+	/*! Returns option name
+		\return options name
+	 */
+	const sad::String& optionsName() const;
 	/*! Sets tree name for options and textures links
 		\param[in] treename a name of renderer's tree
 	 */

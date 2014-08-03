@@ -30,6 +30,14 @@ public:
 	/*! Must be implemented in order to get node destroyed
 	 */
 	virtual ~SceneNode();
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Sets scene 
 		\param[in] scene a scene, which will render a node
 	 */
@@ -75,7 +83,7 @@ public:
 		\param[in] layer a layer valye
 	 */
 	void setCachedLayer(unsigned int layer);
-	/*! Returns cached value for scene node, if scene is not set, otherwise returns node.
+	/*! Returns cached value for scene node, if scene is not set, otherwise returns node's layer.
 		\return cached layer value
 	 */
 	unsigned int cachedLayer() const;

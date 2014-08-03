@@ -4,6 +4,13 @@
 
 #include <cassert>
 
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -53,6 +60,72 @@ m_color(0, 0, 0, 0)
 }
 
 
+static sad::db::schema::Schema* LabelBasicSchema = NULL;
+
+sad::db::schema::Schema* sad::Label::basicSchema()
+{
+	if (LabelBasicSchema == NULL)
+	{
+		LabelBasicSchema = new sad::db::schema::Schema();
+		LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
+		LabelBasicSchema->add(
+			"font", 
+			new sad::db::MethodPair<sad::Label, sad::String>(
+				&sad::Label::fontName,
+				&sad::Label::setFontName
+			)
+		);
+		LabelBasicSchema->add(
+			"fontsize", 
+			new sad::db::MethodPair<sad::Label, unsigned int>(
+				&sad::Label::size,
+				&sad::Label::setSize
+			)
+		);
+		LabelBasicSchema->add(
+			"linespacing", 
+			new sad::db::MethodPair<sad::Label, float>(
+				&sad::Label::lineSpacing,
+				&sad::Label::setLineSpacing
+			)
+		);
+		LabelBasicSchema->add(
+			"angle", 
+			new sad::db::MethodPair<sad::Label, double>(
+				&sad::Label::angle,
+				&sad::Label::setAngle
+			)
+		);
+		LabelBasicSchema->add(
+			"area", 
+			new sad::db::MethodPair<sad::Label, sad::Rect2D>(
+				&sad::Label::area,
+				&sad::Label::setArea
+			)
+		);		
+		LabelBasicSchema->add(
+			"text", 
+			new sad::db::MethodPair<sad::Label, sad::String>(
+				&sad::Label::string,
+				&sad::Label::setString
+			)
+		);
+		void (sad::Label::*p)(const sad::AColor&)= &sad::Label::setColor;
+		LabelBasicSchema->add(
+			"color", 
+			new sad::db::MethodPair<sad::Label, sad::AColor>(
+				&sad::Label::color,
+				p
+			)
+		);
+	}
+	return LabelBasicSchema;
+}
+
+sad::db::schema::Schema* sad::Label::schema() const
+{
+	return sad::Label::basicSchema();
+}
 
 void sad::Label::render()
 {

@@ -5,6 +5,13 @@
 
 #include "os/glheaders.h"
 
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
 #include <time.h>
 
 sad::Scene::Scene()
@@ -19,6 +26,40 @@ sad::Scene::~Scene()
 		m_layers[i]->delRef();
 	delete m_camera;
 }
+
+
+static sad::db::schema::Schema* SadSceneSchema;
+
+sad::db::schema::Schema* sad::Scene::basicSchema()
+{
+	if (SadSceneSchema == NULL)
+	{
+		SadSceneSchema = new sad::db::schema::Schema();
+		SadSceneSchema->addParent(sad::db::Object::basicSchema());
+		SadSceneSchema->add(
+			"active", 
+			new sad::db::MethodPair<sad::Scene, bool>(
+				&sad::Scene::active,
+				&sad::Scene::setActive
+			)
+		);		
+		SadSceneSchema->add(
+			"layer", 
+			new sad::db::MethodPair<sad::Scene, unsigned int>(
+				&sad::Scene::sceneLayer,
+				&sad::Scene::setSceneLayer
+			)
+		);
+	}
+	return SadSceneSchema;
+}
+
+
+sad::db::schema::Schema* sad::Scene::schema() const
+{
+	return sad::Scene::basicSchema();
+}
+
 
 void sad::Scene::setRenderer(sad::Renderer * renderer)
 {
@@ -109,6 +150,24 @@ void sad::Scene::render()
   }
   unlockChanges();
   performQueuedActions();
+}
+
+unsigned int sad::Scene::sceneLayer() const
+{
+	if (m_renderer)
+	{
+		return m_renderer->layer(const_cast<sad::Scene*>(this));
+	}
+	return m_cached_layer;
+}
+
+void sad::Scene::setSceneLayer(unsigned int layer)
+{
+	if (m_renderer)
+	{
+		m_renderer->setLayer(this, layer);
+	}
+	m_cached_layer = layer;
 }
 
 void sad::Scene::addNow(sad::SceneNode * node)
