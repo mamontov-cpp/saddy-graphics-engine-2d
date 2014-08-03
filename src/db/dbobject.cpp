@@ -27,6 +27,11 @@ void sad::db::Object::save(picojson::value & v)
 
 bool sad::db::Object::load(const picojson::value& v)
 {
+	sad::db::schema::Schema * schema = this->schema();
+	if (schema)
+	{
+		return schema->load(this, v);
+	}
 	return false;
 }
 
