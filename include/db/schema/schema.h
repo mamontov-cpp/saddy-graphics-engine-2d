@@ -56,9 +56,9 @@ public:
 	bool load(sad::db::Object * o, const picojson::value& v);
 	/*! Saved linked object from a schema
 		\param[in] linked a linked object
-		\return a saved value
+		\param[out] v a value, which will be filled with data from schema
 	 */
-	picojson::value save(sad::db::Object * linked);
+	void save(sad::db::Object * linked, picojson::value & v);
 	/*! Return parent schema
 		\return parent schema
 	 */

@@ -27,17 +27,6 @@ class Object:public sad::db::Object
 		 \return name of class
 	  */
 	 virtual const sad::String & className() const;
-	 /*! Can be implemented to provide saving of object to picojson::value
-		 Default implementation throws sad::db::NotImplemented exception.
-		 \return value
-	  */
-	 virtual picojson::value save() const;
-	 /*! Can be implemeted to prodived loading of object to picojson::value
-		 Default implementation throws sad::db::NotImplemented exception.
-		 \param[in] v a value
-		 \return whether loading was successfull
-	  */
-	 virtual bool load(const picojson::value & v);
 	 /*! Returns name of class for metadata
 		 \return name of class for metadata
 	 */

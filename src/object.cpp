@@ -22,19 +22,6 @@ const sad::String & sad::Object::className() const
 	return this->metaData()->name();
 }
 
-picojson::value sad::Object::save() const
-{
-	throw sad::db::NotImplemented("sad::Object::save");
-	return picojson::value();
-}
-
-
-bool sad::Object::load(const picojson::value & v)
-{
-	throw sad::db::NotImplemented("sad::Object::load");
-	return false;	
-}
-
 const sad::String& sad::Object::serializableName() const
 {
 	return this->metaData()->name();

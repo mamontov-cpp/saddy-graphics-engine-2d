@@ -25,14 +25,16 @@ struct SadDbObjectTest : tpunit::TestFixture
    SadDbObjectTest() : tpunit::TestFixture(
 	   TEST(SadDbObjectTest::test_schema),
 	   TEST(SadDbObjectTest::test_get),
-	   TEST(SadDbObjectTest::test_set)
+	   TEST(SadDbObjectTest::test_set),
+	   TEST(SadDbObjectTest::test_save)
    ) {}
 
     // By default, object has no schema
 	void test_schema()
 	{
 		sad::db::Object o;
-		ASSERT_TRUE(o.schema() == NULL);
+		// Actually object has own schema, which must be inherited
+		ASSERT_TRUE(o.schema() != NULL);
 	}
 
 	void test_get()
@@ -65,6 +67,20 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   ASSERT_TRUE( m.setProperty<int>("prop2", 5) );		
 	   ASSERT_FALSE( m.setProperty<bool>("prop2", false) );
 	   ASSERT_TRUE( m.m_id == 5 );
+   }
+
+   void test_save()
+   {
+	   Mock3 m;
+	   m.m_id = 3;
+	   m.MajorId = 12;
+	   m.MinorId = 22;
+	   m.Name = "Mock3";
+	   picojson::value result;
+	   m.save(result);
+	   picojson::object r2 = result.get<picojson::object>();
+	   ASSERT_TRUE( r2["type"].get<std::string>() == "Mock3" );
+	   ASSERT_TRUE( r2.size() == 6 );
    }
 
 } _sad_db_object;
