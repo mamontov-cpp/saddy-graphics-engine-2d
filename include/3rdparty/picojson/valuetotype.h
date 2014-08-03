@@ -449,6 +449,54 @@ public:
 /*! Tries to converts specific value to rect
  */
 template<>
+class ValueToType<sad::Rect<sad::Point3D> >
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Rect<sad::Point3D> > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Rect<sad::Point3D>> result;
+		picojson::value const * p1o = picojson::get_property(v, "p1");
+		picojson::value const * p2o = picojson::get_property(v, "p2");
+		picojson::value const * p3o = picojson::get_property(v, "p3");
+		picojson::value const * p4o = picojson::get_property(v, "p4");
+		// First try to create rectangle by four points
+		if (p1o && p2o && p3o && p4o)
+		{
+			sad::Maybe<sad::Point3D> p1 = picojson::ValueToType<sad::Point3D>::get(*p1o);
+			sad::Maybe<sad::Point3D> p2 = picojson::ValueToType<sad::Point3D>::get(*p2o);
+			sad::Maybe<sad::Point3D> p3 = picojson::ValueToType<sad::Point3D>::get(*p3o);
+			sad::Maybe<sad::Point3D> p4 = picojson::ValueToType<sad::Point3D>::get(*p4o);
+			if (p1.exists() && p2.exists() && p3.exists() && p4.exists())
+			{
+				result.setValue(sad::Rect<sad::Point3D>(
+					p1.value(), p2.value(), p3.value(), p4.value()
+				));
+			}
+		}
+		else
+		{
+			// Try to create rectangle by two points
+			if (p1o && p3o)
+			{
+				sad::Maybe<sad::Point3D> p1 = picojson::ValueToType<sad::Point3D>::get(*p1o);
+				sad::Maybe<sad::Point3D> p3 = picojson::ValueToType<sad::Point3D>::get(*p3o);
+				if (p1.exists() && p3.exists())
+				{
+					result.setValue(sad::Rect<sad::Point3D>(p1.value(), p3.value()));
+				}
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
 class ValueToType<sad::Rect2I>
 {
 public:

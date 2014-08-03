@@ -25,7 +25,8 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
  public:
    SadDbObjectFactoryTest() : tpunit::TestFixture(
            TEST(SadDbObjectFactoryTest::test_schema),
-           TEST(SadDbObjectFactoryTest::test_object)
+           TEST(SadDbObjectFactoryTest::test_object),
+		   TEST(SadDbObjectFactoryTest::test_basic)
    ) {}
 
 	void test_schema()
@@ -61,5 +62,27 @@ struct SadDbObjectFactoryTest : tpunit::TestFixture
 		ASSERT_TRUE( f.create("Mock3") == NULL );		
 	}
 	
+
+	void test_basic()
+    {
+	   sad::db::ObjectFactory factory;
+	   
+	   sad::db::Object * o = NULL;
+	   o = factory.create("sad::Label");
+	   ASSERT_TRUE(o);
+	   delete o;
+
+	   o = factory.create("sad::Sprite2D");
+	   ASSERT_TRUE(o);
+	   delete o;
+
+	   o = factory.create("sad::Sprite3D");
+	   ASSERT_TRUE(o);
+	   delete o;
+
+	   o = factory.create("sad::UnknownItem");
+	   ASSERT_TRUE(o == NULL);
+	   delete o;
+    }
        
 } _sad_object_factory;
