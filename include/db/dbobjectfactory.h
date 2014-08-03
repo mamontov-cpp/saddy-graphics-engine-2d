@@ -63,6 +63,9 @@ public:
 		
 		}
 	};
+	/*! Creates new factory with default objects
+	 */
+	ObjectFactory();
 	
 	/*! Adds new metadata to factory
 		\param[in] name a class name forobject

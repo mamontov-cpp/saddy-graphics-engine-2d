@@ -1,8 +1,23 @@
 #include "db/dbobjectfactory.h"
 
+#include "label.h"
+#include "sprite2d.h"
+#include "sprite3d.h"
+#include "scene.h"
+
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
+	
+}
 
+sad::db::ObjectFactory::ObjectFactory()
+{
+	add<sad::Label>("sad::Label", sad::Label::basicSchema(), false);
+	add<sad::Scene>("sad::Scene", sad::Scene::basicSchema(), false);
+	add<sad::Sprite2D>("sad::Sprite2D", sad::Sprite2D::basicSchema(), false);
+	add<sad::Sprite3D>("sad::Sprite3D", sad::Sprite3D::basicSchema(), false);
+
+	// TODO: Add handling for sad::db::ExtensibleObject
 }
 
 void sad::db::ObjectFactory::add(
