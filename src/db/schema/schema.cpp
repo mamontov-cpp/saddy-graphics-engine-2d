@@ -66,7 +66,41 @@ bool sad::db::schema::Schema::check(const picojson::value& v)
 
 bool sad::db::schema::Schema::load(sad::db::Object * o, const picojson::value& v)
 {
-	return false;
+	if (!o || v.is<picojson::object>() == false)
+	{
+		return false;
+	}
+	bool result = true;
+	for(size_t i = 0; i < m_parent.size() && result; i++)
+	{
+		result = result && m_parent[i]->load(o, v);
+	}
+	if (!result)
+	{
+		return result;
+	}
+	for(sad::PtrHash<sad::String, sad::db::Property>::iterator it = m_properties.begin();
+		(it != m_properties.end()) && result;
+		++it)
+	{
+		const picojson::value * prop = picojson::get_property(v, it.key());
+		if (prop)
+		{
+			sad::db::Variant tmp;
+			it.value()->get(o, tmp);
+			result = result && tmp.load(*prop);
+			if (result)
+			{
+				result = result && it.value()->set(o, tmp);
+			}
+		}
+		else
+		{
+			result = false;
+		}
+	}
+
+	return result;
 }
 
 void sad::db::schema::Schema::save(sad::db::Object * linked, picojson::value & v)
