@@ -832,6 +832,10 @@
 					Name="custom"
 					>
 					<File
+						RelativePath=".\src\db\custom\customobject.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\src\db\custom\customschema.cpp"
 						>
 					</File>
@@ -1789,6 +1793,10 @@
 				<Filter
 					Name="custom"
 					>
+					<File
+						RelativePath=".\include\db\custom\customobject.h"
+						>
+					</File>
 					<File
 						RelativePath=".\include\db\custom\customschema.h"
 						>
