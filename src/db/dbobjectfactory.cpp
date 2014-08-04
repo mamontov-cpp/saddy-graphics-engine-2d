@@ -1,5 +1,8 @@
 #include "db/dbobjectfactory.h"
 
+#include "3rdparty/picojson/getproperty.h"
+#include "3rdparty/picojson/valuetotype.h"
+
 #include "label.h"
 #include "sprite2d.h"
 #include "sprite3d.h"
@@ -49,6 +52,21 @@ sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
 	if (m_metadata_container.contains(name))
 	{
 		result = m_metadata_container[name]->Delegate->create();
+	}
+	return result;
+}
+
+sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value & v)
+{
+	const picojson::value * type = picojson::get_property(v, "type");
+	sad::db::Object*  result = NULL;
+	if (type)
+	{
+		sad::Maybe<sad::String> maybetype = picojson::ValueToType<sad::String>::get(*type);
+		if (maybetype.exists())
+		{
+			result = this->create(maybetype.value());
+		}
 	}
 	return result;
 }

@@ -105,7 +105,11 @@ public:
 		\return object or NULL, if can't create object 
 	 */
 	virtual sad::db::Object* create(const sad::String& name);
-
+	/*! Creates new object, fetching type from JSON value, mostly checking "type" value
+		\param[in] v a value
+		\return object or NULL, if can't create object
+	 */
+	virtual sad::db::Object* createFromEntry(const picojson::value & v);
 	/*! This class can be inherited
 	 */
 	virtual ~ObjectFactory();
