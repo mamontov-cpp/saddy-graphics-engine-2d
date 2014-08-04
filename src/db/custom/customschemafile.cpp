@@ -241,7 +241,7 @@ bool sad::db::custom::SchemaFile::validateTreeReferences(
 	}
 	if (resource)
 	{
-		if (resource->metaData()->name() == "sad::Sprite2D::Options")
+		if (resource->metaData()->name() == "sad::Sprite2D::Options" || resource->metaData()->canBeCastedTo("sad::Font"))
 		{
 			result = true;
 		}
