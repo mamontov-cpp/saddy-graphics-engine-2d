@@ -91,7 +91,7 @@ protected:
 	/*! Determines, whether scene node is active and should be rendered
 	 */
 	bool         m_active;
-	/*! Determines, whether scene node is visible and should be rendererd. It's same as m_active but can be used for different purposes,
+	/*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
 		when object is active, but hidden by somewhere else in chain of responsibility of application.
 	 */ 
 	bool         m_visible;

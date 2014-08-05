@@ -151,6 +151,10 @@ public:
 		\return area for sprite
 	 */
 	sad::Rect2D area() const;
+	/*! Sets non-rotated area for a sprite
+		\param[in] a area
+	 */
+	void setArea(const sad::Rect2D & a);
 	/*! Returns rotated renderable area for a sprite
 		\return area for sprite
 	 */
