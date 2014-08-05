@@ -31,3 +31,10 @@ bool sad::db::Property::check(const sad::String& key, const picojson::value& v)
 {
 	return true;
 }
+
+bool  sad::db::Property::hasEqualTypeAs(sad::db::Property * o) const
+{
+	return baseType() == o->baseType() 
+		&& typeIsKindOfSadObject() == o->typeIsKindOfSadObject()	
+		&& pointerStarsCount() == o->pointerStarsCount();
+}
