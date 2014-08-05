@@ -157,6 +157,11 @@ sad::Sprite2D::~Sprite2D()
 
 }
 
+void sad::Sprite2D::regions(sad::Vector<sad::Rect2D> & r)
+{
+	r << this->renderableArea();
+}
+
 static sad::db::schema::Schema* Sprite2DBasicSchema = NULL;
 
 

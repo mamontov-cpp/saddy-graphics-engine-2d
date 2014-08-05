@@ -60,6 +60,11 @@ m_color(0, 0, 0, 0)
 }
 
 
+void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
+{
+	r << this->region();
+}
+
 static sad::db::schema::Schema* LabelBasicSchema = NULL;
 
 sad::db::schema::Schema* sad::Label::basicSchema()

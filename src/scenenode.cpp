@@ -15,6 +15,11 @@ sad::SceneNode::SceneNode() : m_active(true), m_visible(true), m_cached_layer(0)
 
 }
 
+void sad::SceneNode::regions(sad::Vector<sad::Rect2D> & r)
+{
+	
+}
+
 sad::SceneNode::~SceneNode()
 {
 
