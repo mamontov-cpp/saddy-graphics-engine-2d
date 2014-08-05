@@ -179,7 +179,7 @@ sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 			"area", 
 			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
 				&sad::Sprite2D::area,
-				&sad::Sprite2D::setRenderableArea
+				&sad::Sprite2D::setArea
 			)
 		);
 		Sprite2DBasicSchema->add(
@@ -324,6 +324,16 @@ sad::Rect2D sad::Sprite2D::area() const
 		m_middle + sad::Point2D(m_size.Width / -2,  m_size.Height / 2)
 	);
 	return result;
+}
+
+void sad::Sprite2D::setArea(const sad::Rect2D & a)
+{
+	m_middle = a[0];
+	m_middle += a[2];
+	m_middle /= 2.0;
+
+	m_size.Width = a[0].distance(a[1]);
+	m_size.Height = a[0].distance(a[3]);
 }
 
 const sad::Rect2D & sad::Sprite2D::renderableArea() const
