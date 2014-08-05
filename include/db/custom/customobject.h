@@ -27,6 +27,26 @@ class Object: public sad::SceneNode
 {
 SAD_OBJECT
 public:
+	/*! Creates new empty stub object
+	 */
+	Object();
+	/*! Deletes own schema and data
+	 */
+	virtual ~Object();
+	/*! Sets a tree name for object with specified renderer
+		\param[in] r renderer, which tree should be fetched from
+		\param[in] tree_name a name for an item for object
+	 */
+	void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
+	/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+		As default, no regions are produced.
+		\param[out] r a vector of regions
+	 */
+	virtual void regions(sad::Vector<sad::Rect2D> & r);
 	/*! Returns fully rotated region for object
 		\return region
 	 */
@@ -34,6 +54,14 @@ public:
 	/*! Renders a current rendered object
 	 */ 
 	virtual void render();
+	/*! Sets new schema name for an object
+		\param[in] s a string name
+	 */
+	void setSchemaName(const sad::String & s);
+	/*! Returns schema path as path to resource 
+		\return schema path to resource
+	 */
+	const sad::String& schemaName() const;
 	/*! Returns size of font, used in label
 		\return font size
 	 */
@@ -98,6 +126,13 @@ public:
 	 */
 	void setFlipY(bool f);
 protected:
+	/*! Fills custom object with defailt item properties
+	 */
+	void initDefaultSchema();
+	/*! Updates configuration of object, basing on schema
+		\param[in] s a new schema 
+	 */
+	void updateConfiguration(sad::db::custom::Schema * s);
 	/*! A current rendered object for custom object
 	 */
 	sad::SceneNode * m_current_rendered_object;
@@ -107,6 +142,9 @@ protected:
 	/*! A label as defined
 	 */
 	sad::Label * m_label;
+	/*! A stored properties schema for object
+	 */
+	sad::db::schema::Schema * m_custom_schema;
 	/*! An object's schema
 	 */
 	sad::db::schema::Schema * m_my_schema;

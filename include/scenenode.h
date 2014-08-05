@@ -5,6 +5,8 @@
  */
 #pragma once
 #include "object.h"
+#include "sadvector.h"
+#include "sadrect.h"
 #include "refcountable.h"
 
 namespace sad
@@ -24,6 +26,11 @@ public:
 	/*! Implement this to make object render a part of scene
 	 */
 	virtual void render() = 0;
+	/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+		As default, no regions are produced.
+		\param[out] r a vector of regions
+	 */
+	virtual void regions(sad::Vector<sad::Rect2D> & r);
 	/*! Called, when renderer is changed for a scene
 	 */
 	virtual void rendererChanged();

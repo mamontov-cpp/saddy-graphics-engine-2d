@@ -109,6 +109,11 @@ public:
 		defined behaviour
 	 */
 	virtual ~Sprite2D();
+	/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+		As default, no regions are produced.
+		\param[out] r a vector of regions
+	 */
+	virtual void regions(sad::Vector<sad::Rect2D> & r);
 	/*! A basic schema for object
 		\return a schema 
 	 */
