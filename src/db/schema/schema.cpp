@@ -24,6 +24,15 @@ bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 	return ok;
 }
 
+void sad::db::schema::Schema::remove(const sad::String & s)
+{
+	if (m_properties.contains(s))
+	{
+		delete m_properties[s];
+		m_properties.remove(s);
+	}
+}
+
 sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) const
 {
 	sad::db::Property * result = NULL;
@@ -147,3 +156,7 @@ void sad::db::schema::Schema::addParent(sad::db::schema::Schema* parent)
 	m_parent << parent;
 }
 
+const sad::Hash<sad::String, sad::db::Property*>& sad::db::schema::Schema::ownProperties() const
+{
+	return m_properties;
+}

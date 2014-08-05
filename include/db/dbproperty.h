@@ -60,7 +60,11 @@ public:
 		\return whether field has following type
 	 */
 	virtual bool check(const sad::String& key, const picojson::value& v);
-
+	/*! Whether properties has totally equal type
+		\param[in] o other type
+		\return whether types are equal
+	 */
+	bool hasEqualTypeAs(sad::db::Property * o) const;
 protected:
 	/*! Amount of pointers for type
 	 */

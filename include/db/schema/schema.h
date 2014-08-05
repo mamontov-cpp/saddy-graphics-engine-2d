@@ -38,6 +38,10 @@ public:
 		\return whether added successfully
 	 */ 
 	virtual bool add(const sad::String& s, sad::db::Property* prop);
+	/*! Removes property from schema
+		\param[in] s a schema
+	 */
+	virtual void remove(const sad::String & s);
 	/*! Gets a property from schema
 		\param[in] s a string
 		\return  a property (NULL if not found)
@@ -67,6 +71,10 @@ public:
 		\param[in] parent parent schema
 	 */
 	void addParent(sad::db::schema::Schema* parent);
+	/*! Returns own properties list
+		\return own properties list
+	 */
+	const sad::Hash<sad::String, sad::db::Property*>& ownProperties() const;
 protected: 
 	/*! A parent schema for an object
 	 */

@@ -21,6 +21,7 @@ sad::db::custom::Object::Object()
 	m_current_rendered_object = NULL;
 	// Make schema renderer-dependent
 	m_schema.setTree(sad::Renderer::ref());
+	m_schema.add(this, &sad::db::custom::Object::updateConfiguration);
 	this->initDefaultSchema();
 }
 
@@ -237,4 +238,89 @@ void sad::db::custom::Object::initDefaultSchema()
 void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
 {
 	// TODO: Actually implement	
+	if (s)
+	{
+		sad::Renderer * renderer = sad::Renderer::ref();
+		if (m_schema.renderer() != NULL)
+		{
+			renderer = m_schema.renderer();
+		}
+		sad::resource::Tree * tree = renderer->tree(m_schema.treeName());
+		sad::resource::Resource* resource = NULL;
+		if (tree)
+		{
+			resource = tree->root()->resource(s->treeItemName());
+		}
+		if (resource)
+		{
+			m_current_rendered_object = NULL;
+			if (resource->metaData()->canBeCastedTo("sad::Font"))
+			{
+				m_label->setTreeName(m_schema.treeName());
+				m_label->setFontName(s->treeItemName());
+				m_current_rendered_object = m_label;
+				m_sprite2d->setArea(m_label->area());
+			}
+			if (resource->metaData()->name() == "sad::Sprite2D::Options")
+			{
+				m_sprite2d->setTreeName(m_schema.treeName());
+				m_sprite2d->set(s->treeItemName());
+			}
+
+			// Update props
+			sad::Hash<sad::String, sad::db::Property*> hash;
+			sad::Hash<sad::String, sad::db::Property*> propstoberemoved = m_custom_schema->ownProperties();
+			
+			s->getCustomProperties(hash);
+			for(sad::Hash<sad::String, sad::db::Property*>::iterator it = hash.begin(); 
+				it != hash.end(); 
+				++it)
+			{
+				// DO NOT INSERT EXISTING PROPS
+				if (m_my_schema->getProperty(it.key()) != NULL)
+				{
+					delete it.value();
+				}
+				else
+				{
+					sad::db::Property* myprop = m_custom_schema->getProperty(it.key());
+					if (myprop != NULL)
+					{
+						propstoberemoved.remove(it.key());
+						if (myprop->hasEqualTypeAs(it.value()))
+						{
+							delete it.value();
+						}
+						else
+						{
+							m_custom_schema->remove(it.key());
+							m_custom_schema->add(it.key(), it.value());
+						}
+					}
+					else
+					{
+						m_custom_schema->add(it.key(), it.value());
+					}
+				}
+			}
+
+			for(sad::Hash<sad::String, sad::db::Property*>::iterator it = propstoberemoved.begin(); 
+				it != propstoberemoved.end(); 
+				++it)
+			{
+				m_custom_schema->remove(it.key());
+			}
+		}
+		else
+		{
+			m_current_rendered_object = NULL;
+		}
+	}
+	else
+	{
+		delete m_custom_schema;
+		m_custom_schema = new sad::db::custom::Schema();
+		m_custom_schema->addParent(m_my_schema);
+		m_current_rendered_object = NULL;
+	}
 }
