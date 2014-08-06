@@ -1,0 +1,10 @@
+[
+{
+ "name" : "myobject",
+ "resource": "objects",
+ "schema" : {
+	"prop1" : "int",
+	"prop2" : "int"
+ }
+}
+]

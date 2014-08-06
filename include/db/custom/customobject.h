@@ -4,8 +4,8 @@
 	Describes custom object with custom properties. Could be Sprite2D or Labels, depending on stuff
  */
 #include "../../scenenode.h"
-#include "../resource/link.h"
-#include "../resource/tree.h"
+#include "../../resource/link.h"
+#include "../../resource/tree.h"
 #include "customschema.h"
 
 
@@ -125,6 +125,10 @@ public:
 	/*! Whether sprite is flipped vertically 
 	 */
 	void setFlipY(bool f);
+	/*! Whether custom object could be rendered
+		\return whether object could be rendered
+	 */
+	bool canBeRendered() const;
 protected:
 	/*! Fills custom object with defailt item properties
 	 */

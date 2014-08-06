@@ -1,0 +1,10 @@
+[
+{
+ "name" : "myobject",
+ "resource": "1",
+ "schema" : {
+	"prop1" : "sad::String",
+	"prop2" : "sad::String"
+ }
+}
+]

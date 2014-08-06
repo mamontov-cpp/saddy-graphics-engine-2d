@@ -165,6 +165,11 @@ void sad::db::custom::Object::setFlipY(bool f)
 	m_sprite2d->setFlipY(f);
 }
 
+bool sad::db::custom::Object::canBeRendered() const
+{
+	return m_current_rendered_object != NULL;
+}
+
 void sad::db::custom::Object::initDefaultSchema()
 {
 	m_my_schema->addParent(sad::SceneNode::basicSchema());
@@ -237,7 +242,6 @@ void sad::db::custom::Object::initDefaultSchema()
 
 void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
 {
-	// TODO: Actually implement	
 	if (s)
 	{
 		sad::Renderer * renderer = sad::Renderer::ref();
@@ -264,6 +268,7 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
 			if (resource->metaData()->name() == "sad::Sprite2D::Options")
 			{
 				m_sprite2d->setTreeName(m_schema.treeName());
+				m_current_rendered_object = m_sprite2d;
 				m_sprite2d->set(s->treeItemName());
 			}
 
