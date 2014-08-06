@@ -95,6 +95,18 @@ public:
 	{
 		this->add(name, schema, own, new sad::db::ObjectFactory::Delegate<T>());
 	}
+	template<
+		typename T
+	>
+	void addCustom(const sad::String & name)
+	{
+		if (m_special_custom_handlers.contains(name))
+		{
+			delete m_special_custom_handlers[name];
+			m_special_custom_handlers.remove(name);
+		}
+		m_special_custom_handlers.insert(name, new sad::db::ObjectFactory::Delegate<T>());
+	}
 	/*! Returns schema for an object's class
 		\param[in] name  a name of object's class
 		\return schema or NULL, if no schema specified
@@ -142,6 +154,10 @@ protected:
 		 */
 		~Entry();
 	};
+
+	/*!  A special custom handlers for name and sad::db::custom::Object
+	 */
+	sad::PtrHash<sad::String, sad::db::ObjectFactory::AbstractDelegate> m_special_custom_handlers;
 	
 	/*! Contains all metadata with class name as a key
 	 */

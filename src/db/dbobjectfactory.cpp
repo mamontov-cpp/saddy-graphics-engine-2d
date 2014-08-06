@@ -7,6 +7,7 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 #include "scene.h"
+#include "db/custom/customobject.h"
 
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
@@ -19,7 +20,8 @@ sad::db::ObjectFactory::ObjectFactory()
 	add<sad::Scene>("sad::Scene", sad::Scene::basicSchema(), false);
 	add<sad::Sprite2D>("sad::Sprite2D", sad::Sprite2D::basicSchema(), false);
 	add<sad::Sprite3D>("sad::Sprite3D", sad::Sprite3D::basicSchema(), false);
-
+	// Custom object has no schema at all
+	add<sad::db::custom::Object>("sad::db::custom::Object", NULL, false);
 	// TODO: Add handling for sad::db::ExtensibleObject
 }
 
@@ -59,13 +61,31 @@ sad::db::Object* sad::db::ObjectFactory::create(const sad::String& name)
 sad::db::Object* sad::db::ObjectFactory::createFromEntry(const picojson::value & v)
 {
 	const picojson::value * type = picojson::get_property(v, "type");
+	const picojson::value * name = picojson::get_property(v, "name");
 	sad::db::Object*  result = NULL;
 	if (type)
 	{
 		sad::Maybe<sad::String> maybetype = picojson::ValueToType<sad::String>::get(*type);
+		sad::Maybe<sad::String> maybename;
+		if (name)
+		{
+			maybename = picojson::ValueToType<sad::String>::get(*name);
+		}
 		if (maybetype.exists())
 		{
-			result = this->create(maybetype.value());
+			if (maybename.exists() 
+				&& maybetype.value() == "sad::db::custom::Object" 
+			   )
+			{
+				if (m_special_custom_handlers.contains(maybename.value()))
+				{
+					result =  m_special_custom_handlers[maybename.value()]->create();
+				}
+			}
+			if (result == NULL)
+			{
+				result = this->create(maybetype.value());
+			}
 		}
 	}
 	return result;
