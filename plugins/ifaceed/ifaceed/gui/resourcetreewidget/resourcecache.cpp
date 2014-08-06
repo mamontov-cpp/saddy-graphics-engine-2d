@@ -10,6 +10,7 @@
 
 #include <freetype/font.h>
 #include <texturemappedfont.h>
+#include <db/custom/customschema.h>
 
 #include <cassert>
 
@@ -74,6 +75,13 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 				*options, 
 				tree
 			);
+			handled = true;
+		}
+		if (resource->metaData()->name() == "sad::db::custom::Schema" && !handled)
+		{
+			sad::db::custom::Schema* schema = (sad::db::custom::Schema*)resource;
+			result = this->imageForResource(schema->treeItemName().data()).copy();
+
 			handled = true;
 		}
 		if (resource->metaData()->name() == "sad::Texture" && !handled)
