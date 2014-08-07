@@ -15,12 +15,12 @@ void sad::db::Database::saveToFile(const sad::String& s)
 			
 }
 
-void sad::db::Database::loadFromFile(const sad::String& name)
+bool sad::db::Database::load(const sad::String& name)
 {
 			
 }
 
-void sad::db::Database::load(const sad::String& text)
+bool sad::db::Database::loadFromString(const sad::String& text)
 {
 			
 }
