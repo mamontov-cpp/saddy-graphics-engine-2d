@@ -8,7 +8,7 @@
 #include "../sadstring.h"
 #include "dbobjectfactory.h"
 #include "dberror.h"
-#include "table.h"
+#include "dbtable.h"
 
 namespace sad
 {
@@ -53,7 +53,7 @@ public:
 	/*! 
 		\return
 	 */
-	unsigned long long addMajor();
+	unsigned long long uniqueMajorId(sad::db::Table * t);
 	/*! 
 		\param[in] id
 		\return

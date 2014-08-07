@@ -1,4 +1,4 @@
-#include "db/database.h"
+#include "db/dbdatabase.h"
 
 sad::db::Database::~Database()
 {
@@ -35,7 +35,7 @@ void sad::db::Database::removeTable(const sad::String& name)
 			
 }
 
-unsigned long long sad::db::Database::addMajor()
+unsigned long long sad::db::Database::uniqueMajorId(sad::db::Table * t)
 {
 	return 0;	
 }

@@ -761,23 +761,15 @@
 				Name="db"
 				>
 				<File
-					RelativePath=".\src\db\database.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\db\dbcanbecastedfromto.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\db\dbconversiontable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbdatabase.cpp"
 					>
 				</File>
 				<File
@@ -801,24 +793,16 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbtable.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbtypename.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\db\dbvariant.cpp"
 					>
-				</File>
-				<File
-					RelativePath=".\src\db\table.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<Filter
 					Name="schema"
@@ -1719,15 +1703,15 @@
 				Name="db"
 				>
 				<File
-					RelativePath=".\include\db\database.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\db\dbcanbecastedfromto.h"
 					>
 				</File>
 				<File
 					RelativePath=".\include\db\dbconversiontable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbdatabase.h"
 					>
 				</File>
 				<File
@@ -1763,6 +1747,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dbtable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbtypename.h"
 					>
 				</File>
@@ -1776,10 +1764,6 @@
 				</File>
 				<File
 					RelativePath=".\include\db\save.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\db\table.h"
 					>
 				</File>
 				<Filter
