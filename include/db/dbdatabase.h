@@ -22,6 +22,7 @@ namespace db
 class Database  
 {	
 public:	
+	Database();
 	/*! This class can be inherited 
 	 */
 	virtual ~Database();
@@ -36,11 +37,11 @@ public:
 	/*! 
 		\param[in] name
 	 */
-	void loadFromFile(const sad::String& name);
+	bool load(const sad::String& name);
 	/*! 
 		\param[in] text
 	 */
-	void load(const sad::String& text);
+	bool loadFromString(const sad::String& text);
 	/*! 
 		\param[in] name
 		\param[in] table
@@ -67,12 +68,6 @@ public:
 	bool save(unsigned long long id, const sad::String& name);
 	/*! 
 		\param[in] name
-		\param[in] id
-		\return
-	 */
-	sad::Vector<sad::db::Error*> load(const sad::String& name, unsigned long long& id);
-	/*! 
-		\param[in] name
 		\return
 	 */
 	sad::db::Table* table(const sad::String& name);
@@ -96,6 +91,8 @@ protected:
 	/*! 
 	 */
 	unsigned long long m_max_major_id;
+
+	sad::Hash<unsigned long long, sad::db::Table*> m_majorid_to_table;
 	/*! 
 	 */
 	sad::Hash<sad::String, sad::db::Table*> m_tables;
