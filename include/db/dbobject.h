@@ -126,10 +126,10 @@ public:
 	}
 	/*! A major id for object
 	 */
-	int MajorId;
+	unsigned long long MajorId;
 	/*! A minor id for a table
 	 */
-	int MinorId;
+	unsigned long long MinorId;
 	/*! A numeric name for object
 	 */
 	sad::String Name;
