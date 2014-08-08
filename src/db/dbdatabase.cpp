@@ -5,9 +5,9 @@ sad::db::Database::~Database()
 
 }
 
-sad::String sad::db::Database::save()
+void sad::db::Database::save(sad::String & output)
 {
-		return sad::String();	
+
 }
 
 void sad::db::Database::saveToFile(const sad::String& s)
@@ -15,24 +15,24 @@ void sad::db::Database::saveToFile(const sad::String& s)
 			
 }
 
-bool sad::db::Database::load(const sad::String& name)
+bool sad::db::Database::load(const sad::String& text)
 {
 			
 }
 
-bool sad::db::Database::loadFromString(const sad::String& text)
+bool sad::db::Database::loadFromFile(const sad::String& name)
 {
 			
 }
 
-void sad::db::Database::addTable(const sad::String& name, db::Table* table)
+bool sad::db::Database::addTable(const sad::String& name, db::Table* table)
 {
-			
+	return false;		
 }
 
 void sad::db::Database::removeTable(const sad::String& name)
 {
-			
+	
 }
 
 unsigned long long sad::db::Database::uniqueMajorId(sad::db::Table * t)
@@ -40,29 +40,9 @@ unsigned long long sad::db::Database::uniqueMajorId(sad::db::Table * t)
 	return 0;	
 }
 
-bool sad::db::Database::save(unsigned long long id)
-{
-	return bool();	
-}
-
-bool sad::db::Database::save(unsigned long long id, const sad::String& name)
-{
-	return bool();	
-}
-
 sad::db::Table* sad::db::Database::table(const sad::String& name)
 {
 	return NULL;	
-}
-
-sad::Hash<sad::String, sad::db::Table*>::iterator sad::db::Database::begin()
-{
-	return sad::Hash<sad::String, sad::db::Table*>::iterator();	
-}
-
-sad::Hash<sad::String, sad::db::Table*>::iterator sad::db::Database::end()
-{
-	return sad::Hash<sad::String, sad::db::Table*>::iterator();	
 }
 
 sad::db::ObjectFactory* sad::db::Database::factory()
