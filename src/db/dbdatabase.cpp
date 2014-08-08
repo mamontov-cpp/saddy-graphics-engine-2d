@@ -50,11 +50,6 @@ bool sad::db::Database::save(unsigned long long id, const sad::String& name)
 	return bool();	
 }
 
-sad::Vector<sad::db::Error*> sad::db::Database::load(const sad::String& name, unsigned long long& id)
-{
-	return sad::Vector<sad::db::Error*>();	
-}
-
 sad::db::Table* sad::db::Database::table(const sad::String& name)
 {
 	return NULL;	

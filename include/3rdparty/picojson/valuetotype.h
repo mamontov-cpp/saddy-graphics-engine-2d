@@ -458,7 +458,7 @@ public:
 	 */
 	static sad::Maybe<sad::Rect<sad::Point3D> > get(const picojson::value & v)
 	{
-		sad::Maybe<sad::Rect<sad::Point3D>> result;
+		sad::Maybe<sad::Rect<sad::Point3D> > result;
 		picojson::value const * p1o = picojson::get_property(v, "p1");
 		picojson::value const * p2o = picojson::get_property(v, "p2");
 		picojson::value const * p3o = picojson::get_property(v, "p3");
