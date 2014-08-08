@@ -118,7 +118,7 @@ sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 		);
 		Sprite3DBasicSchema->add(
 			"area", 
-			new sad::db::MethodPair<sad::Sprite3D, sad::Rect<sad::Point3D>>(
+			new sad::db::MethodPair<sad::Sprite3D, sad::Rect<sad::Point3D> >(
 				&sad::Sprite3D::area,
 				&sad::Sprite3D::setRenderableArea
 			)
