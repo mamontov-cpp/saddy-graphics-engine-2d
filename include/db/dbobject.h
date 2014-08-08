@@ -64,9 +64,9 @@ public:
 		\return name, under which object will be serialized
 	 */
 	virtual const sad::String& serializableName() const;
-	/*! Tries to fetch property for  an object
+	/*! Tries to fetch property value from an object
 		\param[in] s name of property
-		\return property name
+		\return property value if it could be fetched
 	 */
 	template<
 		typename T

@@ -51,7 +51,6 @@ public:
 	 */
 	virtual bool set(sad::db::Object * o, const sad::db::Variant & v)
 	{
-		assert( o );
 		sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
 		bool result = false;
 		if (value.exists() && o)
@@ -67,10 +66,7 @@ public:
 	 */
 	virtual void  get(sad::db::Object const* o, sad::db::Variant & v) const 
 	{
-		if (o)
-		{
-			v.set(m_value);
-		}
+		v.set(m_value);
 	}
 	/*! Checks, whether value has property type in key field
 		\param[in] key a key of field to check

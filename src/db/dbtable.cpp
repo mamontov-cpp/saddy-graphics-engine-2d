@@ -51,6 +51,13 @@ void sad::db::Table::add(sad::db::Object* a, bool own)
 		}
 		a->MajorId = majorid;
 	}
+	else
+	{
+		if (database())
+		{
+			database()->trySetMaxMajorId(a->MajorId, this);
+		}
+	}
 
 	if (a->MinorId == 0)
 	{
