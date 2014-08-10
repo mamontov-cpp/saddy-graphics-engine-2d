@@ -17,6 +17,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace db
 {
 
@@ -42,14 +44,19 @@ public:
 		\param[in] filename a name of file
 	 */
 	void saveToFile(const sad::String& filename);
-	/*! Loads database from file, using specifying name
-		\param[in] name a name for file
-	 */
-	bool loadFromFile(const sad::String& name);
 	/*! Loads database from specified string
 		\param[in] text a text with JSON description of database
+		\param[in] own whether database must own objects
+		\return whether load was successfull
 	 */
-	bool load(const sad::String& input);
+	bool load(const sad::String& input, bool own);
+	/*! Loads database from file, using specifying name
+		\param[in] name a name for file
+		\param[in] own whether database must own objects
+		\param[in] r renderer, where it's locked (NULL for global)
+		\return whether load was successfull
+	 */
+	bool loadFromFile(const sad::String& name, bool own, sad::Renderer * r = NULL);
 	/*! Adds new custom property to database. Replaces another property, if such property exists.
 		\param[in] name name of property
 		\param[in] p a property
@@ -157,21 +164,21 @@ public:
 		\param[in] name name of searched objects
 		\return a vector of objects by name
 	 */
-	sad::Vector<sad::db::Object *> queryByName(const sad::String & name);
+	sad::Vector<sad::db::Object *> queryByName(const sad::String & name) const;
 	/*! Queries all tables in seatch of object by minor id
 		\param[in] id a minor id of searched objects
 		\return a vector of objects by name
 	 */
-	sad::Vector<sad::db::Object *> queryByMinorId(unsigned long long id);
+	sad::Vector<sad::db::Object *> queryByMinorId(unsigned long long id) const;
 	/*! Queries tables by major id
 		\param[in] id  a major if of searched objects
 		\return object
 	 */
-	sad::db::Object * queryByMajorId(unsigned long long id);
+	sad::db::Object * queryByMajorId(unsigned long long id) const;
 	/*! Fetches tables from a database
 		\param[out] tables a tables in database
 	 */
-	void getTables(sad::Vector<sad::Pair<sad::String, sad::db::Table*> > & tables);
+	void getTables(sad::Vector<sad::Pair<sad::String, sad::db::Table*> > & tables) const;
 	/*! Returns object factory for a database
 		\return  object factory for a database
 	 */
@@ -185,8 +192,23 @@ public:
 		\param[in] t a table, which want to set it
 	 */
 	void trySetMaxMajorId(unsigned long long v, sad::db::Table * t);
+	/*! Removes major id from hint tables
+		\param[in] v a major id
+	 */
+	void removeMajorId(unsigned long long v);
 protected: 
-	/*! Current maximal major id in database 
+	/*! Loads properties and tavles from a database
+		\param[in] properties a property items
+		\param[in] tables a tables from database
+		\param[in] own whether objects, loaded must be owned
+	 */
+	bool loadPropertiesAndTables(
+		const picojson::object & properties, 
+		const picojson::object & tables,
+		bool own
+	);
+	/*! Current maximal major id in database. Every object should have major id less,
+		than it.
 	 */
 	unsigned long long m_max_major_id;
 	/*! A links from major id to specified table
@@ -203,7 +225,7 @@ protected:
 	sad::db::StoredPropertyFactory* m_prop_factory;
 	/*! A map of properties,linked to database
 	 */
-	sad::PtrHash<sad::String, sad::db::Property> m_property;
+	sad::PtrHash<sad::String, sad::db::Property> m_properties;
 };
 
 }

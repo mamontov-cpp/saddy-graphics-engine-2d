@@ -38,3 +38,18 @@ bool  sad::db::Property::hasEqualTypeAs(sad::db::Property * o) const
 		&& typeIsKindOfSadObject() == o->typeIsKindOfSadObject()	
 		&& pointerStarsCount() == o->pointerStarsCount();
 }
+
+
+sad::String sad::db::Property::serializableType() const
+{
+	sad::String result = this->baseType();
+	if (pointerStarsCount() != 0)
+	{
+		result += " ";
+		for(int i = 0; i < this->pointerStarsCount(); i++)
+		{
+			result += "*";
+		}
+	}
+	return result;
+}
