@@ -40,9 +40,14 @@ public:
 	/*! Queries a table by full key
 		\param[in] major_id a major id, stored in DB
 		\param[in] minor_id a minor local key
-		\return a queried id 
+		\return a found object (NULL if not found) 
 	 */
-	virtual sad::db::Object* queryByID(unsigned long long major_id, unsigned long long minor_id);
+	virtual sad::db::Object* queryById(unsigned long long major_id, unsigned long long minor_id);
+	/*! Query table by minor id
+		\param[in] minor id a minor id
+		\return a found object (NULL if not found)
+	 */
+	virtual sad::db::Object* queryByMinorId(unsigned long long minor_id);
 	/*! Queries a table by name
 		\param[in] name a name
 		\return a vector of linked object

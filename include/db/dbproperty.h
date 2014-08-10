@@ -65,6 +65,9 @@ public:
 		\return whether types are equal
 	 */
 	bool hasEqualTypeAs(sad::db::Property * o) const;
+	/*! A type, under which property could be serialized
+	 */
+	sad::String serializableType() const;
 protected:
 	/*! Amount of pointers for type
 	 */

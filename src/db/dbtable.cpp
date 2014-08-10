@@ -29,7 +29,7 @@ void sad::db::Table::add(sad::db::Object* a, bool own)
 		sad::db::Object * old;
 		if (a->MinorId > 0)
 		{
-			old = queryByID(a->MajorId, a->MinorId);
+			old = queryById(a->MajorId, a->MinorId);
 			if (old)
 			{
 				remove(old);
@@ -94,7 +94,7 @@ void sad::db::Table::remove(sad::db::Object* a)
 	{
 		if (a->Name.size() != 0)
 		{
-			if (m_object_by_name.contains(a->Name) == false)
+			if (m_object_by_name.contains(a->Name))
 			{
 				sad::Vector<sad::db::Object*> & list = m_object_by_name[a->Name];
 				sad::Vector<sad::db::Object*>::iterator pos =  std::find(list.begin(), list.end(), a);
@@ -105,6 +105,10 @@ void sad::db::Table::remove(sad::db::Object* a)
 		if (a->MajorId > 0 && m_objects_by_majorid.contains(a->MajorId))
 		{
 			m_objects_by_majorid.remove(a->MajorId);
+			if (database())
+			{
+				this->database()->removeMajorId(a->MajorId);
+			}
 		}
 
 		if (a->MinorId > 0 && m_objects_by_minorid.contains(a->MinorId))
@@ -127,7 +131,7 @@ void sad::db::Table::remove(sad::db::Object* a)
 	}
 }
 
-sad::db::Object* sad::db::Table::queryByID(unsigned long long major_id, unsigned long long minor_id)
+sad::db::Object* sad::db::Table::queryById(unsigned long long major_id, unsigned long long minor_id)
 {
 	sad::db::Object* result = NULL;
 	if (m_objects_by_majorid.contains(major_id) && m_objects_by_minorid.contains(minor_id))
@@ -140,6 +144,16 @@ sad::db::Object* sad::db::Table::queryByID(unsigned long long major_id, unsigned
 		}
 	}
 	return result;	
+}
+
+sad::db::Object* sad::db::Table::queryByMinorId(unsigned long long minor_id)
+{
+	sad::db::Object* result = NULL;
+	if (m_objects_by_minorid.contains(minor_id))
+	{
+		result = m_objects_by_minorid[minor_id];
+	}
+	return result;
 }
 
 sad::Vector<sad::db::Object*> sad::db::Table::queryByName(const sad::String& name)
