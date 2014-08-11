@@ -10,7 +10,7 @@
 
 DECLARE_SOBJ(sad::SceneNode);
 
-sad::SceneNode::SceneNode() : m_active(true), m_visible(true), m_cached_layer(0), m_scene(NULL)
+sad::SceneNode::SceneNode() : m_visible(true), m_cached_layer(0), m_scene(NULL)
 {
 
 }
@@ -39,14 +39,14 @@ sad::db::schema::Schema* sad::SceneNode::basicSchema()
 				&sad::SceneNode::visible,
 				&sad::SceneNode::setVisible
 			)
-		);
+		);	
 		SceneNodeBasicSchema->add(
-			"active", 
-			new sad::db::MethodPair<sad::SceneNode, bool>(
-				&sad::SceneNode::active,
-				&sad::SceneNode::setActive
+			"scene", 
+			new sad::db::MethodPair<sad::SceneNode, unsigned long long>(
+				&sad::SceneNode::sceneId,
+				&sad::SceneNode::setCachedSceneId
 			)
-		);		
+		);	
 		SceneNodeBasicSchema->add(
 			"layer", 
 			new sad::db::MethodPair<sad::SceneNode, unsigned int>(
@@ -104,4 +104,18 @@ unsigned int sad::SceneNode::cachedLayer() const
 		me->m_cached_layer = (unsigned int)(scene()->findLayer(me));
 	}
 	return m_cached_layer;
+}
+
+void sad::SceneNode::setCachedSceneId(unsigned long long sceneid)
+{
+	m_cached_scene_id = sceneid;
+}
+
+unsigned long long  sad::SceneNode::sceneId() const
+{
+	if (scene())
+	{
+		return scene()->MinorId;
+	}
+	return m_cached_scene_id;
 }

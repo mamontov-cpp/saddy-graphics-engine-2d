@@ -785,6 +785,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\db\dbpopulatescenesfromdatabase.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\db\dbproperty.cpp"
 					>
 				</File>
@@ -1732,6 +1736,10 @@
 				</File>
 				<File
 					RelativePath=".\include\db\dbobjectfactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbpopulatescenesfromdatabase.h"
 					>
 				</File>
 				<File

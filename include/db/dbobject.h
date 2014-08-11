@@ -134,6 +134,9 @@ public:
 	/*! A numeric name for object
 	 */
 	sad::String Name;
+	/*! Whether object is active. Non-active objects are not saved in database
+	 */
+	bool Active;
 protected:
 	/*! Fetches property for an object with specified game
 		\param[in] s string

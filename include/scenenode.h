@@ -61,14 +61,14 @@ public:
 	 */
 	inline void setActive(bool active)
 	{
-		m_active = active;
+		this->Active = active;
 	}
 	/*! Returns scene node activity flag, which determines, whether it should be rendered
 		\return whether scene node is active
 	 */
 	inline bool active()
 	{
-		return m_active;
+		return this->Active;
 	}
 	/*! Sets scene visibilty flag, which determines, whether it should be rendered
 		\param[in] visible a visibility flag
@@ -93,10 +93,15 @@ public:
 		\return cached layer value
 	 */
 	unsigned int cachedLayer() const;
-protected:
-	/*! Determines, whether scene node is active and should be rendered
+	/*! Sets cached scene id for scene node
+		\param[in] sceneid a cached scene id
 	 */
-	bool         m_active;
+	void setCachedSceneId(unsigned long long sceneid);
+	/*! Returns scene id, if scene is set, otherwiser returns cached scene id
+		\return scene id
+	 */
+	unsigned long long sceneId() const;
+protected:
 	/*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
 		when object is active, but hidden by somewhere else in chain of responsibility of application.
 	 */ 
@@ -107,6 +112,9 @@ protected:
 	/*! A special layer cache to be set for a scene node
 	 */
 	unsigned int m_cached_layer;
+	/*! A cached scene minor id
+	 */
+	unsigned long long m_cached_scene_id;
 };
 
 }
