@@ -46,17 +46,15 @@ public:
 	void saveToFile(const sad::String& filename);
 	/*! Loads database from specified string
 		\param[in] text a text with JSON description of database
-		\param[in] own whether database must own objects
 		\return whether load was successfull
 	 */
-	bool load(const sad::String& input, bool own);
+	bool load(const sad::String& input);
 	/*! Loads database from file, using specifying name
 		\param[in] name a name for file
-		\param[in] own whether database must own objects
-		\param[in] r renderer, where it's locked (NULL for global)
+		\param[in] r renderer, which is used to determine global path's (NULL for global)
 		\return whether load was successfull
 	 */
-	bool loadFromFile(const sad::String& name, bool own, sad::Renderer * r = NULL);
+	bool loadFromFile(const sad::String& name, sad::Renderer * r = NULL);
 	/*! Adds new custom property to database. Replaces another property, if such property exists.
 		\param[in] name name of property
 		\param[in] p a property
@@ -200,12 +198,11 @@ protected:
 	/*! Loads properties and tavles from a database
 		\param[in] properties a property items
 		\param[in] tables a tables from database
-		\param[in] own whether objects, loaded must be owned
+		\return whether it was successfull
 	 */
 	bool loadPropertiesAndTables(
 		const picojson::object & properties, 
-		const picojson::object & tables,
-		bool own
+		const picojson::object & tables
 	);
 	/*! Current maximal major id in database. Every object should have major id less,
 		than it.

@@ -71,7 +71,7 @@ void sad::db::Database::saveToFile(const sad::String& s)
 	}
 }
 
-bool sad::db::Database::load(const sad::String& text, bool own)
+bool sad::db::Database::load(const sad::String& text)
 {
 	bool result = false;
 	if (text.consistsOfWhitespaceCharacters() == false)
@@ -87,8 +87,7 @@ bool sad::db::Database::load(const sad::String& text, bool own)
 				{
 					result = this->loadPropertiesAndTables(
 						propertiesroot->get<picojson::object>(),
-						tablesroot->get<picojson::object>(),
-						own
+						tablesroot->get<picojson::object>()
 					);
 				}
 			}
@@ -97,7 +96,7 @@ bool sad::db::Database::load(const sad::String& text, bool own)
 	return result;
 }
 
-bool sad::db::Database::loadFromFile(const sad::String& name, bool own, sad::Renderer * r)
+bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
 {
 	bool loadingresult = false;
 	sad::Maybe<sad::String> result;
@@ -134,7 +133,7 @@ bool sad::db::Database::loadFromFile(const sad::String& name, bool own, sad::Ren
 
 	if (result.exists())
 	{
-		loadingresult = this->load(result.value(), own);
+		loadingresult = this->load(result.value());
 	}
 
 	return loadingresult;
@@ -303,8 +302,7 @@ void sad::db::Database::removeMajorId(unsigned long long v)
 
 bool sad::db::Database::loadPropertiesAndTables(
 	const picojson::object & properties, 
-	const picojson::object & tables,
-	bool own
+	const picojson::object & tables
 )
 {
 	bool result = true;
@@ -357,7 +355,7 @@ bool sad::db::Database::loadPropertiesAndTables(
 	{
 		sad::db::Table* t = new sad::db::Table();
 		t->setDatabase(this);
-		bool deserialized = t->load(it->second, m_factory, own);
+		bool deserialized = t->load(it->second, m_factory);
 		if (deserialized)
 		{
 			newtables.insert(it->first, t);

@@ -4,6 +4,7 @@
 	Contains definition of basic serializable class Object.
  */
 #pragma once
+#include "../refcountable.h"
 #include "../3rdparty/picojson/valuetotype.h"
 #include "dbproperty.h"
 #include "dbcanbecastedfromto.h"
@@ -26,7 +27,7 @@ class Table;
 	
 	Defines a basic serializable object
  */
-class Object  
+class Object: public sad::RefCountable
 {	
 public:	
 	/*! A default object constructor
