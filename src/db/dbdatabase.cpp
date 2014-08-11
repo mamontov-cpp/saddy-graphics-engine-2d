@@ -10,6 +10,7 @@ sad::db::Database::Database()
 {
 	m_factory = new sad::db::ObjectFactory();
 	m_prop_factory = new sad::db::StoredPropertyFactory();
+	m_renderer = NULL;
 }
 
 sad::db::Database::~Database()
@@ -115,7 +116,7 @@ bool sad::db::Database::loadFromFile(const sad::String& name, sad::Renderer * r)
 		{
 			if (r == NULL)
 			{
-				r = sad::Renderer::ref();
+				r = this->renderer();
 			}
 			sad::String path = util::concatPaths(r->executablePath(), name);
 			stream.clear();
@@ -296,6 +297,20 @@ void sad::db::Database::trySetMaxMajorId(unsigned long long v, sad::db::Table * 
 void sad::db::Database::removeMajorId(unsigned long long v)
 {
 	m_majorid_to_table.remove(v);
+}
+
+void sad::db::Database::setRenderer(sad::Renderer * r)
+{
+	m_renderer = r;
+}
+
+sad::Renderer* sad::db::Database::renderer() const
+{
+	if (!m_renderer)
+	{
+		return sad::Renderer::ref();
+	}
+	return m_renderer;
 }
 
 // Protected methods
