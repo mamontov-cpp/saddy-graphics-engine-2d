@@ -15,6 +15,7 @@
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
 #include "os/threadimpl.h"
+#include "db/dbdatabase.h"
 
 #ifdef LINUX
 	#include <stdio.h>
@@ -92,6 +93,12 @@ sad::Renderer::~Renderer(void)
 	delete m_fps_interpolation; 
 	delete m_log;
 	
+	for(sad::Hash<sad::String, sad::db::Database*>::iterator it = m_databases.begin();
+		it != m_databases.end();
+		++it)
+	{
+		delete it.value();
+	}	
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -568,6 +575,36 @@ void sad::Renderer::removeTree(const sad::String & name)
 bool sad::Renderer::isOwnThread() const
 {
 	return ((void*)sad::os::current_thread_id() == m_context_thread);
+}
+
+bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
+{
+	assert( database );
+	if (m_databases.contains(name))
+	{
+		return false;
+	}
+	database->setRenderer(this);
+	m_databases.insert(name, database);
+	return true;
+}
+
+void sad::Renderer::removeDatabase(const sad::String & name)
+{
+	if (m_databases.contains(name))
+	{
+		delete m_databases[name];
+		m_databases.remove(name);
+	}
+}
+
+sad::db::Database * sad::Renderer::database(const sad::String & name) const
+{
+	if (m_databases.contains(name))
+	{
+		return m_databases[name];
+	}
+	return NULL;
 }
 
 bool sad::Renderer::initGLRendering()

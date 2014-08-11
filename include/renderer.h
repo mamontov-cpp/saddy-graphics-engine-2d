@@ -26,6 +26,7 @@
 
 namespace sad
 {
+
 class Input;
 class FontManager;
 class TextureManager;
@@ -36,6 +37,7 @@ class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
 class Texture;
+
 namespace pipeline
 {
 	class Pipeline;
@@ -44,6 +46,12 @@ namespace input
 {
 	class Controls;
 }
+
+namespace db
+{
+	class Database;
+}
+
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -279,6 +287,22 @@ public:
 		\return whether current thread is renderer's
 	 */
 	bool isOwnThread() const;
+	/*! Tries to add new database to renderer. A renderer takes ownership on database.
+		If database already exists, insertion is not performed and method returns false.
+		\param[in] name a name of database
+		\param[in] database a new database 
+		\return result of insertion
+	 */
+	bool addDatabase(const sad::String & name, sad::db::Database * database);
+	/*! Removes database from a renderer, destroying it
+		\param[in] name a name of database.
+	 */
+	void removeDatabase(const sad::String & name);
+	/*! Returns stored database by it's name
+		\param[in] name a name for database
+		\return database or  NULL if not found
+	 */
+	sad::db::Database * database(const sad::String & name) const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -333,6 +357,9 @@ protected:
 	/*! A resource trees, marked by a label, in case you need several
 	 */
 	sad::PtrHash<sad::String, sad::resource::Tree> m_resource_trees;
+	/*! An inner renderer databases
+	 */
+	sad::Hash<sad::String, sad::db::Database*> m_databases;
 	
 	/*! A pipeline, as processes and tasks, which wille be performed in any time
 		of runtime
