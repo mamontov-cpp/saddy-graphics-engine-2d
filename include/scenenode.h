@@ -7,7 +7,6 @@
 #include "object.h"
 #include "sadvector.h"
 #include "sadrect.h"
-#include "refcountable.h"
 
 namespace sad
 {
@@ -16,7 +15,7 @@ class Renderer;
 
 /*! Defines an object, which is basic for any renderable part of scene
  */
-class SceneNode: public sad::Object, public sad::RefCountable
+class SceneNode: public sad::Object
 {
 SAD_OBJECT
 public:

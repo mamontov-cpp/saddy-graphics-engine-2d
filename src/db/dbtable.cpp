@@ -10,18 +10,15 @@ sad::db::Table::Table() : m_max_minor_id(1)
 
 sad::db::Table::~Table() 
 {
-	for(sad::Hash<sad::db::Object*, bool>::iterator it = m_owns_objects.begin(); 
-		it != m_owns_objects.end();
+	for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+		it != m_objects_by_minorid.end();
 		++it)
 	{
-		if (it.value())
-		{
-			delete it.key();
-		}
+		it.value()->delRef();
 	}
 }
 
-void sad::db::Table::add(sad::db::Object* a, bool own)
+void sad::db::Table::add(sad::db::Object* a)
 {
 	assert(a);
 	if (a->MajorId > 0)
@@ -64,7 +61,7 @@ void sad::db::Table::add(sad::db::Object* a, bool own)
 		a->MinorId = this->m_max_minor_id++;
 	}
 
-	m_owns_objects.insert(a, own);
+	a->addRef();
 
 	if (a->Name.size() != 0)
 	{
@@ -115,19 +112,9 @@ void sad::db::Table::remove(sad::db::Object* a)
 		{
 			m_objects_by_minorid.remove(a->MinorId);
 		}
-
-		if (m_owns_objects.contains(a))
-		{
-			if (m_owns_objects[a])
-			{
-				delete a;
-			}
-			else
-			{
-				a->setTable(NULL);
-			}
-			m_owns_objects.remove(a);
-		}
+		
+		a->setTable(NULL);
+		a->delRef();		
 	}
 }
 
@@ -176,7 +163,7 @@ sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
 	return result;	
 }
 
-bool sad::db::Table::load(const picojson::value & v, sad::db::ObjectFactory * factory, bool own)
+bool sad::db::Table::load(const picojson::value & v, sad::db::ObjectFactory * factory)
 {
 	bool result = false;
 	if (v.is<picojson::array>())
@@ -210,7 +197,7 @@ bool sad::db::Table::load(const picojson::value & v, sad::db::ObjectFactory * fa
 		{
 			for(size_t i = 0; i < buffer.size(); i++)
 			{
-				add(buffer[i], own);
+				add(buffer[i]);
 			}
 		}
 		else
@@ -255,11 +242,11 @@ void sad::db::Table::setDatabase(sad::db::Database* d)
 
 void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
 {
-	for(sad::Hash<sad::db::Object*, bool>::iterator it = m_owns_objects.begin();
-		it != m_owns_objects.end();
+	for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+		it != m_objects_by_minorid.end();
 		++it)
 	{
-		o << it.key();
+		o << it.value();
 	}
 }
 

@@ -30,9 +30,8 @@ public:
 	virtual ~Table();
 	/*! Adds new object to a table
 		\param[in] a an object
-		\param[in] own whether table is owned
 	 */
-	virtual void add(sad::db::Object* a, bool own = true);
+	virtual void add(sad::db::Object* a);
 	/*! Removes objects from table
 		\param[in] a an object
 	 */
@@ -61,10 +60,9 @@ public:
 	/*! Loads table from a  value
 		\param[in] v value
 		\param[in] factory a factory
-		\param[in] own whether objects are owned by table
 		\return whether value was successfull
 	 */
-	virtual bool load(const picojson::value & v, sad::db::ObjectFactory * factory, bool own);
+	virtual bool load(const picojson::value & v, sad::db::ObjectFactory * factory);
 	/*! Saves a table to a value
 		\param[out] v a value for table
 	 */
@@ -88,9 +86,6 @@ protected:
 	/*! A database, which table is belongs to
 	 */
 	sad::db::Database * m_database;
-	/*! Define whether table owns objects
-	 */
-	sad::Hash<sad::db::Object*, bool> m_owns_objects;
 	/*! Objects, determined by name
 	 */
 	sad::Hash<sad::String, sad::Vector<sad::db::Object*> > m_object_by_name;
