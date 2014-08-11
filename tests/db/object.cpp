@@ -85,7 +85,7 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   m.save(result);
 	   picojson::object r2 = result.get<picojson::object>();
 	   ASSERT_TRUE( r2["type"].get<std::string>() == "Mock3" );
-	   ASSERT_TRUE( r2.size() == 6 );
+	   ASSERT_TRUE( r2.size() == 7 );
    }
 
    void test_load_valid()
@@ -97,6 +97,7 @@ struct SadDbObjectTest : tpunit::TestFixture
   	   r.insert("name", picojson::value("mock3"));
 	   r.insert("prop", picojson::value(3.0));
 	   r.insert("prop2", picojson::value(3.0));
+	   r.insert("active", picojson::value(true));
 	   bool result = m.load(r);
 	   ASSERT_TRUE(result);
 	   ASSERT_TRUE(m.MajorId == 22);
