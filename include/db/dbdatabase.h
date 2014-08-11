@@ -194,6 +194,13 @@ public:
 		\param[in] v a major id
 	 */
 	void removeMajorId(unsigned long long v);
+	/*! Sets renderer for database. Database will use this renderer to take executable path from it
+		\param[in] r renderer
+	 */
+	void setRenderer(sad::Renderer * r);
+	/*! Returns local renderer, if set, otherwise returns global renderer
+	 */
+	sad::Renderer* renderer() const;
 protected: 
 	/*! Loads properties and tavles from a database
 		\param[in] properties a property items
@@ -223,6 +230,9 @@ protected:
 	/*! A map of properties,linked to database
 	 */
 	sad::PtrHash<sad::String, sad::db::Property> m_properties;
+	/*! Linked renderer in database
+	 */
+	sad::Renderer * m_renderer;
 };
 
 }
