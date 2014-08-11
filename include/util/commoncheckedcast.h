@@ -28,7 +28,7 @@ class CommonCheckedCast
 {
 public:
 	/*! Does nothing, since we don't have a conversion in common cast
-		\param[out] result converted value
+		\param[out] v converted value
 		\param[in] o object
 		\param[in] _typename a typename
 	 */
@@ -46,7 +46,7 @@ class CommonCheckedCast<T, true>
 public:
 	/*! Does nothing, since we don't have a conversion in common cast
 		\param[out] result converted value
-		\param[in] o object
+		\param[in] object a converted object
 		\param[in] _typename a typename
 	 */
 	static void perform(Maybe<T> & result, void * object, const sad::String & _typename)
@@ -63,7 +63,7 @@ class CommonCheckedCast<T*, true>
 public:
 	/*! Does nothing, since we don't have a conversion in common cast
 		\param[out] result converted value
-		\param[in] o object
+		\param[in] object object to be converted
 		\param[in] _typename a typename
 	 */
 	static void perform(Maybe<T*> & result, void * object, const sad::String & _typename)
