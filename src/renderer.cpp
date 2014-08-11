@@ -710,6 +710,7 @@ void sad::Renderer::finishRendering()
 
 void sad::Renderer::addNow(sad::Scene * s)
 {
+	s->addRef();
 	m_scenes << s;	
 }
 
@@ -717,7 +718,7 @@ void sad::Renderer::removeNow(sad::Scene * s)
 {
 	if (s)
 	{
-		delete s;
+		s->delRef();
 	}
 	m_scenes.removeAll(s);
 }
@@ -726,7 +727,7 @@ void sad::Renderer::clearNow()
 {
 	for(unsigned int i = 0; i < m_scenes.size(); i++)
 	{
-		delete m_scenes[i];
+		m_scenes[i]->delRef();
 	}
 	m_scenes.clear();
 }

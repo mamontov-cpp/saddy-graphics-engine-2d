@@ -6,7 +6,7 @@
 #include "db/load.h"
 #include "db/dbfield.h"
 
-sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0)
+sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0), Active(true)
 {
 
 }
@@ -55,6 +55,7 @@ sad::db::schema::Schema* sad::db::Object::basicSchema()
 		DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
 		DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
 		DbObjectBasicSchema->add("name"   , sad::db::define_field(&sad::db::Object::Name));
+		DbObjectBasicSchema->add("active" , sad::db::define_field(&sad::db::Object::Active));
 	}
 	return DbObjectBasicSchema;
 }

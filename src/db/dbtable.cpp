@@ -222,9 +222,12 @@ void sad::db::Table::save(picojson::value & v)
 	this->objects(result);
 	for(size_t i = 0; i < result.size(); i++)
 	{
-		picojson::value tmp(picojson::object_type, false);
-		result[i]->save(tmp);
-		v.push_back(tmp);
+		if (result[i]->Active)
+		{
+			picojson::value tmp(picojson::object_type, false);
+			result[i]->save(tmp);
+			v.push_back(tmp);
+		}
 	}
 }
 
