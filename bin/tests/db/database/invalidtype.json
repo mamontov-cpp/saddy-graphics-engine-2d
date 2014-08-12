@@ -1,0 +1,12 @@
+{
+
+"properties": {
+	"myprop": { "type": "aaaaa", "value" : 0 }
+},
+"tables": {
+	"mocks" : [
+
+	]
+}
+
+}

@@ -1,0 +1,29 @@
+{
+
+"properties": {
+	"myprop": { "type": "int", "value" : 0 }
+},
+"tables": {
+	"mocks" : [
+		{
+			"type" : "Mock3",
+			"prop": 3,
+			"prop2": 3,
+			"name" : "test",
+			"active": true,
+			"majorid": 1,
+			"minorid": 1
+		},
+		{
+			"type" : "Mock3",
+			"prop": 3,
+			"prop2": 3,
+			"name" : "test2",
+			"active": true,
+			"majorid": 2,
+			"minorid": 2
+		}
+	]
+}
+
+}

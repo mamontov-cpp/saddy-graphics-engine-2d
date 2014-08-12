@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\database.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\dbcanbecastedfromto.cpp"
 				>
 			</File>
@@ -218,6 +222,10 @@
 			</File>
 			<File
 				RelativePath=".\schema.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\table.cpp"
 				>
 			</File>
 			<File

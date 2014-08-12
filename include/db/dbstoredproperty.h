@@ -53,7 +53,7 @@ public:
 	{
 		sad::Maybe<_FieldTypeName> value = v.get<_FieldTypeName>();
 		bool result = false;
-		if (value.exists() && o)
+		if (value.exists())
 		{
 			m_value  = value.value();
 			result = true;

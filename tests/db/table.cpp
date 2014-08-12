@@ -28,7 +28,9 @@ public:
 		TEST(SadDbTableTest::test_query_by_minor_id),
 		TEST(SadDbTableTest::test_query_by_name),
 		TEST(SadDbTableTest::test_query_by_id),
-		TEST(SadDbTableTest::test_save)
+		TEST(SadDbTableTest::test_save),
+		TEST(SadDbTableTest::test_load_invalid),
+		TEST(SadDbTableTest::test_load_valid)
 	) {}
    
 	void test_add()
@@ -169,6 +171,66 @@ public:
 		bool result = t2->load(v, &f);
 		ASSERT_TRUE(result);
 		delete t2;
+	}
+
+	void test_load_invalid()
+	{
+		sad::db::Table * t = new sad::db::Table();
+
+		sad::db::ObjectFactory f;
+		f.add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		{
+		picojson::value test;
+		ASSERT_FALSE(t->load(test, &f));
+		}
+
+		{
+		picojson::value test(22, false);
+		ASSERT_FALSE(t->load(test, &f));
+		}
+
+		{
+		picojson::value test(std::string("222"));
+		ASSERT_FALSE(t->load(test, &f));
+		}
+
+		{
+		picojson::value test(std::string("222"));
+		ASSERT_FALSE(t->load(test, &f));
+		}
+		
+		{
+		picojson::value test(picojson::array_type, false);
+		test.push_back(picojson::value(picojson::object_type, false));
+		ASSERT_FALSE(t->load(test, &f));
+		}
+
+		delete t;
+	}
+
+	void test_load_valid()
+	{
+		sad::db::Table * t = new sad::db::Table();
+
+		sad::db::ObjectFactory f;
+		f.add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		picojson::value test(picojson::array_type, false);
+		picojson::value object(picojson::object_type, false);
+		object.insert("type", picojson::value("Mock3"));
+		object.insert("prop", picojson::value(3.0));
+		object.insert("prop2", picojson::value(3.0));
+		object.insert("name", picojson::value("test"));
+		object.insert("active", picojson::value(true));
+		object.insert("majorid", picojson::value(1.0));
+		object.insert("minorid", picojson::value(1.0));
+		
+		test.push_back(object);
+		ASSERT_TRUE(t->load(test, &f));
+		ASSERT_TRUE(t->queryByMinorId(1)->Name == "test");
+
+		delete t;
 	}
 	
 	
