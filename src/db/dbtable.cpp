@@ -86,6 +86,13 @@ void sad::db::Table::add(sad::db::Object* a)
 		a->MinorId = this->m_max_minor_id++;
 		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::262\n");
 	}
+	else
+	{
+		if (a->MinorId > m_max_minor_id)
+		{
+			m_max_minor_id = a->MinorId + 1;
+		}
+	}
 	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::27\n");
 	a->addRef();
 	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::28\n");

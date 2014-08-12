@@ -6,11 +6,10 @@
 
 #include <fstream>
 
-sad::db::Database::Database()
+sad::db::Database::Database() : m_max_major_id(0), m_renderer(NULL)
 {
 	m_factory = new sad::db::ObjectFactory();
 	m_prop_factory = new sad::db::StoredPropertyFactory();
-	m_renderer = NULL;
 }
 
 sad::db::Database::~Database()
@@ -332,8 +331,17 @@ bool sad::db::Database::loadPropertiesAndTables(
 		if (it->second.is<picojson::object>())
 		{
 			picojson::object o = it->second.get<picojson::object>();
-			const picojson::value* maybetype = picojson::get_property(o, "type");
-			const picojson::value* maybevalue = picojson::get_property(o, "value");
+			const picojson::value* maybetype = NULL;
+			if (o.find("type") != o.end())
+			{
+				maybetype = &(o["type"]);
+			}			
+			const picojson::value* maybevalue = NULL;
+			if (o.find("value") != o.end())
+			{
+				maybevalue = &(o["value"]);
+			}
+
 			if (maybetype && maybevalue)
 			{
 				if (maybetype->is<std::string>())
@@ -342,6 +350,7 @@ bool sad::db::Database::loadPropertiesAndTables(
 					if (p)
 					{
 						sad::db::Variant value;
+						p->get(NULL, value);
 						deserialized = value.load(*maybevalue);
 						if (deserialized)
 						{
