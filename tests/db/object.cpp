@@ -153,4 +153,4 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   ASSERT_FALSE(result);
    }
 
-} _sad_db_object;
+} /*_sad_db_object*/;
