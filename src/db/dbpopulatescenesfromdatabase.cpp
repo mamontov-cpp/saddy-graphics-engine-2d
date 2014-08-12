@@ -5,6 +5,25 @@
 
 #include <algorithm>
 
+struct scene_comparator_t
+{
+	bool operator()(sad::db::Object* a, sad::db::Object* b) 
+	{
+		sad::Scene * aa = static_cast<sad::Scene*>(a);
+		sad::Scene * bb = static_cast<sad::Scene*>(b);
+
+		return aa->sceneLayer() < bb->sceneLayer();
+	}	
+};
+
+struct scenenodes_comparator_t
+{
+	bool operator()(sad::SceneNode* a, sad::SceneNode* b) 
+	{				
+		return a->cachedLayer() < b->cachedLayer();
+	}	
+};
+
 void sad::db::populateSceneFromDatabase(sad::Renderer * r, sad::db::Database * db)
 {
 	sad::db::Table* scenes = db->table("scenes");
@@ -15,16 +34,7 @@ void sad::db::populateSceneFromDatabase(sad::Renderer * r, sad::db::Database * d
 		// A vector of scenes
 		sad::Vector<sad::db::Object *> scenesdata;
 		scenes->objects(scenesdata);
-		struct
-		{
-			bool operator()(sad::db::Object* a, sad::db::Object* b) 
-			{
-				sad::Scene * aa = static_cast<sad::Scene*>(a);
-				sad::Scene * bb = static_cast<sad::Scene*>(b);
-
-				return aa->sceneLayer() < bb->sceneLayer();
-			}	
-		} scene_comparator;
+		scene_comparator_t scene_comparator;
 		std::sort(scenesdata.begin(), scenesdata.end(), scene_comparator);
 		// A sorted scenes
 		for(size_t i = 0; i < scenesdata.size(); i++)
@@ -48,13 +58,7 @@ void sad::db::populateSceneFromDatabase(sad::Renderer * r, sad::db::Database * d
 		}
 
 		// Fill scenes
-		struct
-		{
-			bool operator()(sad::SceneNode* a, sad::SceneNode* b) 
-			{				
-				return a->cachedLayer() < b->cachedLayer();
-			}	
-		} scenenodes_comparator;
+		scenenodes_comparator_t scenenodes_comparator;
 
 		for(sad::Hash<unsigned long long, sad::Vector<sad::SceneNode *> >::iterator it = minorids_to_objects.begin();
 			it != minorids_to_objects.end();

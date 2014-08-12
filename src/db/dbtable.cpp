@@ -3,7 +3,7 @@
 #include "db/dbobjectfactory.h"
 
 
-sad::db::Table::Table() : m_max_minor_id(1)
+sad::db::Table::Table() : m_max_minor_id(1), m_database(NULL)
 {
 	
 }
@@ -18,71 +18,111 @@ sad::db::Table::~Table()
 	}
 }
 
+#ifdef LOG_TABLE_ADD
+	#define LOG_TABLE_ADD_PRINTF(X) printf(X)
+#else
+	#define LOG_TABLE_ADD_PRINTF(X)
+#endif
+
 void sad::db::Table::add(sad::db::Object* a)
 {
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::1\n");
 	assert(a);
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2\n");
 	if (a->MajorId > 0)
 	{
 		sad::db::Object * old;
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::21\n");
 		if (a->MinorId > 0)
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::211\n");
 			old = queryById(a->MajorId, a->MinorId);
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::212\n");
 			if (old)
 			{
+				LOG_TABLE_ADD_PRINTF("sad::db::Table::add::213\n");
 				remove(old);
 			}
 		}
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::22\n");
 		old = queryByMajorId(a->MajorId);
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::23\n");
 		if (old)
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::24\n");
 			remove(old);
 		}
 	}
 	// Create major id if needed
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::25\n");
 	if (a->MajorId == 0)
 	{
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::251\n");
 		unsigned int majorid = 1;
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::252\n");
 		if (database())
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2523\n");
 			majorid = database()->uniqueMajorId(this);
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2524\n");
 		}
 		a->MajorId = majorid;
 	}
 	else
 	{
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2525\n");
 		if (database())
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::25251\n");
 			database()->trySetMaxMajorId(a->MajorId, this);
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::25252\n");
 		}
 	}
-
+	
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::26\n");
 	if (a->MinorId == 0)
 	{
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::261\n");
 		a->MinorId = this->m_max_minor_id++;
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::262\n");
 	}
-
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::27\n");
 	a->addRef();
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::28\n");
 
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::29\n");
 	if (a->Name.size() != 0)
 	{
+		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::291\n");
 		if (m_object_by_name.contains(a->Name) == false)
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2911\n");
 			m_object_by_name.insert(a->Name, sad::Vector<sad::db::Object*>());
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2912\n");
 			m_object_by_name[a->Name].push_back(a);
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2913\n");
 		}
 		else
 		{
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2914\n");
 			sad::Vector<sad::db::Object*> & list = m_object_by_name[a->Name];
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2915\n");
 			if (std::find(list.begin(), list.end(), a) == list.end())
 			{
+				LOG_TABLE_ADD_PRINTF("sad::db::Table::add::29151\n");
 				list.push_back(a);
+				LOG_TABLE_ADD_PRINTF("sad::db::Table::add::29152\n");
 			}
 		}
 	}
-
+	
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2A\n");
 	m_objects_by_minorid.insert(a->MinorId, a);
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2B\n");
 	m_objects_by_majorid.insert(a->MajorId, a);	
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2C\n");
 	a->setTable(this);
+	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2D\n");
 }
 
 void sad::db::Table::remove(sad::db::Object* a)
