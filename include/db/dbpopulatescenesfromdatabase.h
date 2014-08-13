@@ -19,7 +19,7 @@ class Database;
 	\param[in] r a renderer
 	\param[in] db a database
  */
-void populateSceneFromDatabase(sad::Renderer * r, sad::db::Database * db);
+void populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db);
 
 }
 

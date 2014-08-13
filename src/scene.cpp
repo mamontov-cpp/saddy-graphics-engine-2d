@@ -35,14 +35,7 @@ sad::db::schema::Schema* sad::Scene::basicSchema()
 	if (SadSceneSchema == NULL)
 	{
 		SadSceneSchema = new sad::db::schema::Schema();
-		SadSceneSchema->addParent(sad::db::Object::basicSchema());
-		SadSceneSchema->add(
-			"active", 
-			new sad::db::MethodPair<sad::Scene, bool>(
-				&sad::Scene::active,
-				&sad::Scene::setActive
-			)
-		);		
+		SadSceneSchema->addParent(sad::db::Object::basicSchema());	
 		SadSceneSchema->add(
 			"layer", 
 			new sad::db::MethodPair<sad::Scene, unsigned int>(

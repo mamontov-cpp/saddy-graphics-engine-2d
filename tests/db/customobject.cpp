@@ -239,4 +239,4 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
    }
 
 
-} /*_sad_db_custom_object_test*/;
+} _sad_db_custom_object_test;

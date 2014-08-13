@@ -540,7 +540,7 @@ struct SadDbCustomSchemaFileTest : tpunit::TestFixture
 	   ASSERT_TRUE(test != 0);
    }
 
-} /*_sad_db_custom_schema_file_test*/;
+} _sad_db_custom_schema_file_test;
 
 
 
