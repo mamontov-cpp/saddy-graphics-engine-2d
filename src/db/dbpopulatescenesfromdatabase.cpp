@@ -24,7 +24,7 @@ struct scenenodes_comparator_t
 	}	
 };
 
-void sad::db::populateSceneFromDatabase(sad::Renderer * r, sad::db::Database * db)
+void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * db)
 {
 	sad::db::Table* scenes = db->table("scenes");
 	sad::db::Table* scenenodes = db->table("scenenodes");
