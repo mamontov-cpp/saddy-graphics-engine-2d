@@ -21,18 +21,20 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+BUILD    = build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+$(OUTPUT): build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
 build/customobject_$(TYPE).o: customobject.cpp
 	g++ -c $(CCOPTS) customobject.cpp -o build/customobject_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/customschemafile_$(TYPE).o: customschemafile.cpp
 	g++ -c $(CCOPTS) customschemafile.cpp -o build/customschemafile_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/database_$(TYPE).o: database.cpp
+	g++ -c $(CCOPTS) database.cpp -o build/database_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/dbcanbecastedfromto_$(TYPE).o: dbcanbecastedfromto.cpp
 	g++ -c $(CCOPTS) dbcanbecastedfromto.cpp -o build/dbcanbecastedfromto_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/main_$(TYPE).o: main.cpp
