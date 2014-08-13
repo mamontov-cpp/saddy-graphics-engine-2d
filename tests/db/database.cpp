@@ -35,7 +35,13 @@ public:
 		TEST(SadDbDatabaseTest::test_load_invalid_property),
 		TEST(SadDbDatabaseTest::test_load_invalid_item),
 		TEST(SadDbDatabaseTest::test_load_valid),
-		TEST(SadDbDatabaseTest::test_load_valid2)
+		TEST(SadDbDatabaseTest::test_load_valid2),
+		TEST(SadDbDatabaseTest::test_add),
+		TEST(SadDbDatabaseTest::test_remove),
+		TEST(SadDbDatabaseTest::test_properties),
+		TEST(SadDbDatabaseTest::test_query_by_majorid),
+		TEST(SadDbDatabaseTest::test_query_by_minorid),
+		TEST(SadDbDatabaseTest::test_query_by_name)		
 	) {}
 
 	void test_save()
@@ -184,5 +190,96 @@ public:
 		bool result = r.database("")->loadFromFile("tests/db/database/valid2.json");
 		ASSERT_TRUE( result );
 	}
+	
+	void test_add()
+	{
+		sad::db::Database db;
+		ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
+		
+		sad::db::Table* t2 = new sad::db::Table();
+		ASSERT_FALSE( db.addTable("table", t2) );
+		delete t2;
+		
+		ASSERT_TRUE( db.table("table") != NULL );
+		ASSERT_TRUE( db.table("table2") == NULL );		
+	}
+	
+	void test_remove()
+	{
+		sad::db::Database db;
+		ASSERT_TRUE( db.addTable("table", new sad::db::Table()) );
+		
+		ASSERT_TRUE( db.table("table") != NULL );
+		
+		db.removeTable("table");
+		db.removeTable("table2");
+		
+		ASSERT_TRUE( db.table("table") == NULL );		
+	}
+	
+	void test_properties()
+	{
+		sad::db::Database db;
+		
+		db.addProperty("test", new sad::db::StoredProperty<int>());
+		
+		ASSERT_TRUE( db.propertyByName("test") != NULL );
+		
+		ASSERT_TRUE( db.setProperty("test", 3) );
+		
+		ASSERT_TRUE( db.getProperty<int>("test").value() == 3);
+	
+		db.removeProperty("test");
+		ASSERT_TRUE( db.propertyByName("test") == NULL );		
+	}
+	
+	void test_query_by_majorid()
+	{
+		sad::db::Database db;
+		db.addTable("table", new sad::db::Table());
+		
+		Mock3 * mock = new Mock3();
+		mock->Name = "test";
+		mock->MajorId = 1;
+		mock->MinorId = 1;
+		db.table("table")->add(mock);
+	
+		ASSERT_TRUE( db.queryByMajorId(1)->Name == "test");
+		ASSERT_TRUE( db.queryByMajorId(22) == NULL );
+	}
+	
+	void test_query_by_minorid()
+	{
+		sad::db::Database db;
+		db.addTable("table", new sad::db::Table());
+		
+		Mock3 * mock = new Mock3();
+		mock->Name = "test";
+		mock->MajorId = 1;
+		mock->MinorId = 1;
+		db.table("table")->add(mock);
+	
+		ASSERT_TRUE( db.queryByMinorId(1)[0]->Name == "test");
+		ASSERT_TRUE( db.queryByMinorId(22).size() == 0 );
+	}
+	
+	void test_query_by_name()
+	{
+		sad::db::Database db;
+		db.addTable("table", new sad::db::Table());
+		
+		Mock3 * mock = new Mock3();
+		mock->Name = "test";
+		mock->MajorId = 1;
+		mock->MinorId = 1;
+		db.table("table")->add(mock);
+	
+		ASSERT_TRUE( db.queryByName("test")[0]->MinorId == 1);
+		ASSERT_TRUE( db.queryByName("test2").size() == 0 );
+	}
+	
+	
+	
+	
 
 } _sad_db_database_test;
