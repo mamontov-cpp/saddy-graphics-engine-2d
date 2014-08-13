@@ -20,7 +20,7 @@
 #pragma warning(pop)
 
 /*!
- * Tests sad::db::custom::SchemaFile
+ * Tests sad::db::Database
  */
 struct SadDbDatabaseTest : tpunit::TestFixture
 {
@@ -277,9 +277,5 @@ public:
 		ASSERT_TRUE( db.queryByName("test")[0]->MinorId == 1);
 		ASSERT_TRUE( db.queryByName("test2").size() == 0 );
 	}
-	
-	
-	
-	
-
+				
 } _sad_db_database_test;

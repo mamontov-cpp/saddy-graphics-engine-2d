@@ -66,7 +66,7 @@ const sad::String& sad::db::Link::tableName() const
 
 void sad::db::Link::setTable(sad::db::Table * t)
 {
-	m_table_name = NULL;
+	m_table_name.clear();
 	m_table = t;
 	m_cached_object = NULL;
 }

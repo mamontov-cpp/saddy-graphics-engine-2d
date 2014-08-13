@@ -16,7 +16,7 @@
 #pragma warning(pop)
 
 /*!
- * Tests sad::db::custom::SchemaFile
+ * Tests sad::db::Table
  */
 struct SadDbTableTest : tpunit::TestFixture
 {
