@@ -297,6 +297,13 @@ sad::MainLoop * sad::Renderer::mainLoop() const
 	return m_main_loop;
 }
 
+void sad::Renderer::setFPSInterpolation(sad::FPSInterpolation * i)
+{
+	assert( i );
+	delete m_fps_interpolation;
+	m_fps_interpolation = i;
+}
+
 sad::FPSInterpolation * sad::Renderer::fpsInterpolation() const
 {
 	return m_fps_interpolation;
@@ -446,6 +453,16 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 	{
 		m_scenes.insert(s, layer);
 	}
+}
+
+unsigned int sad::Renderer::totalSceneObjects() const
+{
+	unsigned int result = 0;
+	for(size_t i = 0; i < m_scenes.size(); i++)
+	{
+		result += m_scenes[i]->objectCount();
+	}
+	return result;
 }
 
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
