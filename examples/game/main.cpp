@@ -16,6 +16,7 @@
 #include <texturemanager.h>
 #include <mousecursor.h>
 #include <sprite2d.h>
+#include <objectdependentfpsinterpolation.h>
 
 #include <math.h>
 #include <time.h>
@@ -103,7 +104,13 @@ int main(int argc, char** argv)
 	SL_USER    ("it\'s sure will be hard for him...", "END");
 
 	// Inits a renderer as non-fullscreen 640x480 window
+
+	sad::ObjectDependentFPSInterpolation * fps = new sad::ObjectDependentFPSInterpolation();
+	fps->setRenderer(sad::Renderer::ref());
+	sad::Renderer::ref()->setFPSInterpolation(fps);
+
 	sad::Renderer::ref()->init(sad::Settings(640,480,false));
+
 	SL_MESSAGE("Renderer successfully initialized!");	
 	// Inits generator for spawns and random raings
 	srand((unsigned int)time(NULL));

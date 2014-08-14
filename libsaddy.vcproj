@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\objectdependentfpsinterpolation.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\opengl.cpp"
 				>
 			</File>
@@ -929,6 +933,10 @@
 			</File>
 			<File
 				RelativePath=".\include\object.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\objectdependentfpsinterpolation.h"
 				>
 			</File>
 			<File
