@@ -175,6 +175,10 @@ public:
 		\return main loop for a renderer
 	 */
 	virtual sad::MainLoop* mainLoop() const;
+	/*! Sets fps interpolation for a renderer
+		\param[in] i interpolation delegate
+	 */
+	void setFPSInterpolation(sad::FPSInterpolation * i);
 	/*! Returns current FPS interpolation for renderer
 		\return fps interpolation instance
 	 */
@@ -250,6 +254,10 @@ public:
 		\param[in] layer a layer ordering to be set
 	 */
 	void setLayer(sad::Scene * s, unsigned int layer);
+	/*! Returns total scene objects in renderer
+		\return total scene objects
+	 */
+	unsigned int totalSceneObjects() const;
 	/*! Sets primitive renderer
 		\param[in] r renderer for primitives
 	 */
