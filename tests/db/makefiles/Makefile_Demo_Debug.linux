@@ -21,13 +21,13 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+BUILD    = build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/populatescenesfromdatabase_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+$(OUTPUT): build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/populatescenesfromdatabase_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
 build/customobject_$(TYPE).o: customobject.cpp
 	g++ -c $(CCOPTS) customobject.cpp -o build/customobject_$(TYPE).o $(INCLUDE) $(DEFINES)
@@ -51,6 +51,8 @@ build/object_$(TYPE).o: object.cpp
 	g++ -c $(CCOPTS) object.cpp -o build/object_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/objectfactory_$(TYPE).o: objectfactory.cpp
 	g++ -c $(CCOPTS) objectfactory.cpp -o build/objectfactory_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/populatescenesfromdatabase_$(TYPE).o: populatescenesfromdatabase.cpp
+	g++ -c $(CCOPTS) populatescenesfromdatabase.cpp -o build/populatescenesfromdatabase_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/property_$(TYPE).o: property.cpp
 	g++ -c $(CCOPTS) property.cpp -o build/property_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/schema_$(TYPE).o: schema.cpp
