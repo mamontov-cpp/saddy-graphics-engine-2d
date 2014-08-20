@@ -3,7 +3,7 @@
  "name" : "myschema",
  "resource": "1",
  "schema" : {
-	"myproperty" : "IUnknownProperty"
+	"myproperty" : {"type" : "IUnknownProperty", "value" : 0 }
  }
 }
 ]

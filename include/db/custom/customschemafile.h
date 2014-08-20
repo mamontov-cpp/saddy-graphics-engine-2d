@@ -28,7 +28,7 @@ public:
 	typedef sad::Triplet<
 		sad::String,
 		sad::String,
-		sad::Vector< sad::Pair<sad::String, sad::String> >
+		sad::Vector< sad::Triplet<sad::String, sad::String, picojson::value> >
 	> parse_result_entry;
 	/*! A partial result to schema file
 	 */

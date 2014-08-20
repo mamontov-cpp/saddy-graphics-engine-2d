@@ -3,28 +3,28 @@
  "name" : "myschema",
  "resource": "1",
  "schema" : {
-	"pos" : "int"
+	"pos" : {"type" : "int", "value" : 0 }
  } 
 },
 {
  "name" : "myschema2",
  "resource": "1",
  "schema" : {
-	"size" : "int"
+	"size" : {"type" : "int", "value" : 0 }
 }
 },
 {
  "name" : "myschema3",
  "resource": "1",
  "schema" : {
-	"angle" : "int"
+	"angle" : {"type" : "int", "value" : 0 }
 } 
 },
 {
  "name" : "myschema4",
  "resource": "1",
  "schema" : {
-	"rect" : "int"
+	"rect" : {"type" : "int", "value" : 0 }
 } 
 }
 ]

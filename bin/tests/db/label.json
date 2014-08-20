@@ -3,8 +3,8 @@
  "name" : "myobject",
  "resource": "objects",
  "schema" : {
-	"prop1" : "int",
-	"prop2" : "int"
+	"prop1" : {"type" : "int", "value" : 0 },
+	"prop2" : {"type" : "int", "value" : 0 }
  }
 }
 ]
