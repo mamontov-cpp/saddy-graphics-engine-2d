@@ -77,11 +77,20 @@ static const char* Sprite2DOwnProperties[Sprite2DPropertiesLength] = {
     "rect"    
 };
 
+namespace sad
+{
+
+namespace db 
+{
+
+namespace custom
+{
+
 /*! Tests, whether properties are not inherited
 	\param[in] prop property
 	\return whether property is not inherited
  */
-static bool is_not_inherited(const sad::String & prop)
+bool is_not_inherited(const sad::String & prop)
 {
 	for(size_t i = 0; i <  Sprite2DPropertiesLength; i++)
 	{
@@ -89,6 +98,12 @@ static bool is_not_inherited(const sad::String & prop)
 			return false;
 	}
 	return true;
+}
+
+}
+
+}
+
 }
 
 bool sad::db::custom::Schema::load(const picojson::value& v)
@@ -110,23 +125,40 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 				picojson::object o = maybeschema->get<picojson::object>();
 				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
 				{
-					sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(&(it->second));
-					if (maybeproptype.exists() && is_not_inherited(it->first))
+					bool entryloadresult = false;
+					const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
+					const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
+					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
 					{
-						sad::db::Property * p = m_factory->create(maybeproptype.value());
-						if (p)
+						sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);
+						if (maybeproptype.exists())
 						{
-							props.insert(it->first, p);
-						}
-						else
-						{
-							loadresult = false;
-						}
+							sad::db::Property * p = m_factory->create(maybeproptype.value());
+							if (p)
+							{
+								sad::db::Variant value;
+								p->get(NULL, value);
+								if (value.load(*maybevalueentry)) 
+								{
+									if (p->set(NULL, value))
+									{
+										props.insert(it->first, p);
+										entryloadresult = true;
+									}
+									else
+									{
+										delete p;
+									}
+								} 
+								else
+								{
+									delete p;
+								}
+							}						
+						}	
 					}
-					else
-					{
-						loadresult = false;
-					}
+
+					loadresult = loadresult && entryloadresult;
 				}
 				if (loadresult == false)
 				{

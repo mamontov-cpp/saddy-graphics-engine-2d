@@ -3,8 +3,8 @@
  "name" : "myobject",
  "resource": "1",
  "schema" : {
-	"prop1" : "sad::String",
-	"prop2" : "sad::String"
+	"prop1" : {"type" : "sad::String", "value" : "" },
+	"prop2" : {"type" : "sad::String", "value" : "" }
  }
 }
 ]

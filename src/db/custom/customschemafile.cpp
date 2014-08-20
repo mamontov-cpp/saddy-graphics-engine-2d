@@ -151,6 +151,28 @@ void sad::db::custom::SchemaFile::tryParsePartial(
 	}
 }
 
+
+namespace sad
+{
+
+namespace db 
+{
+
+namespace custom
+{
+
+/*! Tests, whether properties are not inherited. Defined in db/custom/customschema.cpp
+	\param[in] prop property
+	\return whether property is not inherited
+ */
+bool is_not_inherited(const sad::String & prop);
+
+}
+
+}
+
+}
+
 bool sad::db::custom::SchemaFile::tryParseEntry(
 		sad::db::custom::SchemaFile::parse_result_entry & parse_result,
 		sad::Vector<sad::resource::Error *> & errors,
@@ -173,27 +195,51 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 			{
 				parse_result.set1(maybename.value());
 				parse_result.set2(mayberesourcename.value());
-				sad::Vector< sad::Pair<sad::String, sad::String> > proplist;
+				sad::Vector< sad::Triplet<sad::String, sad::String, picojson::value> > proplist;
 				bool loadresult = true;
 				picojson::object o = maybeschema->get<picojson::object>();
 				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
 				{
-					sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(&(it->second));
-					if (maybeproptype.exists())
+					const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
+					const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
+					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
 					{
-						bool propresult = m_factory->canCreate(maybeproptype.value());
-						if (propresult && it->first != "pos" && it->first != "size" && it->first != "angle" && it->first != "rect")
+						sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);
+						if (maybeproptype.exists())
 						{
-							proplist.push_back(sad::Pair<sad::String, sad::String>(
-								it->first, maybeproptype.value()
-							));
+							bool propresult = m_factory->canCreate(maybeproptype.value());
+							if (propresult)
+							{
+								sad::db::Property * p = m_factory->create(maybeproptype.value());
+								sad::db::Variant v;
+								p->get(NULL, v);
+								bool canbeloadedandset = v.load(*maybevalueentry);
+								canbeloadedandset = canbeloadedandset && p->set(NULL, v);
+								delete p;
+								if (canbeloadedandset)
+								{
+									proplist.push_back(sad::Triplet<sad::String, sad::String, picojson::value>(
+										it->first, maybeproptype.value(), *maybevalueentry
+									));
+								}
+								else
+								{
+									errors << new sad::resource::MalformedResourceEntry(it->second);
+									loadresult = false;
+								}
+							}
+							else
+							{
+								errors << new sad::resource::MalformedResourceEntry(it->second);
+								loadresult = false;
+							}
 						}
 						else
 						{
 							errors << new sad::resource::MalformedResourceEntry(it->second);
 							loadresult = false;
 						}
-					}
+					} 
 					else
 					{
 						errors << new sad::resource::MalformedResourceEntry(it->second);
@@ -290,10 +336,15 @@ void sad::db::custom::SchemaFile::fillOptionsList(
 		schema->setFactory(m_factory);
 		schema->setTreeItemName(parsed[i]._2());
 		schema->setPhysicalFile(this);
-		const sad::Vector<sad::Pair<sad::String, sad::String> > & props = parsed[i]._3();
+		const sad::Vector<sad::Triplet<sad::String, sad::String, picojson::value> > & props = parsed[i]._3();
 		for(size_t j = 0; j < props.size(); j++)
 		{
-			schema->add(props[j].p1(), m_factory->create(props[j].p2()));
+			sad::db::Property * p = m_factory->create(props[j].p2());
+			sad::db::Variant v;
+			p->get(NULL, v);
+			v.load(props[j].p3());
+			p->set(NULL, v);
+			schema->add(props[j].p1(), p);
 		}
 		if (this->tree()->shouldStoreLinks())
 		{

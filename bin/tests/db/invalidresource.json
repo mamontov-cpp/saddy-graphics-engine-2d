@@ -3,8 +3,8 @@
  "name" : "myschema",
  "resource": [],
  "schema" : {
-   "k" : "int",
-   "k2" : "int"
+   "k" : {"type" : "int", "value" : 0 },
+   "k2" : {"type" : "int", "value" : 0 }
  }
 }
 ]

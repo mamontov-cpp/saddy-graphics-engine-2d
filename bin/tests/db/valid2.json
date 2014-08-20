@@ -3,8 +3,8 @@
  "name" : "myschema",
  "resource": "1",
  "schema" : {
-	"prop2" : "int",
-	"prop1" : "double"
+	"prop2" : {"type" : "int", "value" : 0 },
+	"prop1" : {"type" : "double", "value" : 0.0 }
  }
 }
 ]

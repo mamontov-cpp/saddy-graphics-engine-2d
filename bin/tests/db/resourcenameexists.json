@@ -3,7 +3,7 @@
  "name" : "1",
  "resource": "1",
  "schema" : {
-	"myproperty" : "int"
+	"myproperty" : {"type" : "int", "value" : 0 }
  }
 }
 ]
