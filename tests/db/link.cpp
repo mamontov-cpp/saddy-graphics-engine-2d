@@ -37,7 +37,7 @@ public:
 		db.addTable("table", new sad::db::Table());
 		
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 1;
 		mock->MinorId = 1;
 		db.table("table")->add(mock);

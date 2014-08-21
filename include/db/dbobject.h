@@ -65,6 +65,14 @@ public:
 		\return name, under which object will be serialized
 	 */
 	virtual const sad::String& serializableName() const;
+	/*! Returns current name for an objects
+		\return name for an object
+	 */
+	const sad::String& objectName() const;
+	/*! Sets new name for an object
+		\param[in] newname a name for object
+	 */
+	void setObjectName(const sad::String & newname);
 	/*! Tries to fetch property value from an object
 		\param[in] s name of property
 		\return property value if it could be fetched
@@ -131,9 +139,6 @@ public:
 	/*! A minor id for a table
 	 */
 	unsigned long long MinorId;
-	/*! A numeric name for object
-	 */
-	sad::String Name;
 	/*! Whether object is active. Non-active objects are not saved in database
 	 */
 	bool Active;
@@ -146,6 +151,9 @@ protected:
 	/*! A table for object, null by default
 	 */
 	sad::db::Table* m_table;
+	/*! An identifying name for object
+	 */
+	sad::String m_name;
 };
 
 }

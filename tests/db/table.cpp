@@ -36,22 +36,22 @@ public:
 	void test_add()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->Name == "test");
+		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->objectName() == "test");
 		ASSERT_TRUE(t->queryByMinorId(222) == NULL);
 		
 		// Replace old mock to test object replacement in adding items
 		Mock3 * mock2 = new Mock3();
-		mock2->Name = "test2";
+		mock2->setObjectName("test2");
 		mock2->MinorId = mock->MinorId;
 		t->add(mock2);
 		
-		ASSERT_TRUE(t->queryByMinorId(mock2->MinorId)->Name == "test2");
+		ASSERT_TRUE(t->queryByMinorId(mock2->MinorId)->objectName() == "test2");
 
 		delete t;
 	}
@@ -59,13 +59,13 @@ public:
 	void test_remove()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->Name == "test");
+		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->objectName() == "test");
 
 
 		unsigned long long oldminorid = mock->MinorId;
@@ -81,14 +81,14 @@ public:
 	void test_query_by_major_id()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MinorId = 1;
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryByMajorId(mock->MajorId)->Name == "test");
+		ASSERT_TRUE(t->queryByMajorId(mock->MajorId)->objectName() == "test");
 		ASSERT_TRUE(t->queryByMajorId(155) == NULL);
 		
 		delete t;
@@ -97,14 +97,14 @@ public:
 	void test_query_by_minor_id()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MinorId = 1;
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->Name == "test");
+		ASSERT_TRUE(t->queryByMinorId(mock->MinorId)->objectName() == "test");
 		ASSERT_TRUE(t->queryByMinorId(155) == NULL);
 		
 		delete t;
@@ -113,14 +113,14 @@ public:
 	void test_query_by_name()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MinorId = 1;
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryByName(mock->Name)[0]->MajorId == mock->MajorId);
+		ASSERT_TRUE(t->queryByName(mock->objectName())[0]->MajorId == mock->MajorId);
 		ASSERT_TRUE(t->queryByName("a").size() == 0);
 		
 		delete t;
@@ -130,14 +130,14 @@ public:
 	{
 		
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MinorId = 1;
 		mock->MajorId = 2;
 		
 		sad::db::Table * t = new sad::db::Table();
 		t->add(mock);
 		
-		ASSERT_TRUE(t->queryById(mock->MajorId, mock->MinorId)->Name == mock->Name);
+		ASSERT_TRUE(t->queryById(mock->MajorId, mock->MinorId)->objectName() == mock->objectName());
 		ASSERT_TRUE(t->queryById(mock->MajorId, 22) == NULL);
 		ASSERT_TRUE(t->queryById(22, mock->MinorId) == NULL);
 		ASSERT_TRUE(t->queryById(22, 155) == NULL);
@@ -148,12 +148,12 @@ public:
 	void test_save()
 	{
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MinorId = 1;
 		mock->MajorId = 2;
 		
 		Mock3 * mock2 = new Mock3();
-		mock2->Name = "test2";
+		mock2->setObjectName("test2");
 		mock2->MinorId = 2;
 		mock2->MajorId = 3;
 		
@@ -228,7 +228,7 @@ public:
 		
 		test.push_back(object);
 		ASSERT_TRUE(t->load(test, &f));
-		ASSERT_TRUE(t->queryByMinorId(1)->Name == "test");
+		ASSERT_TRUE(t->queryByMinorId(1)->objectName() == "test");
 
 		delete t;
 	}

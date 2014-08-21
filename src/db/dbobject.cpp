@@ -1,10 +1,12 @@
 #include "db/dbobject.h"
+#include "db/dbtable.h"
 #include "db/schema/schema.h"
 
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
 #include "db/dbfield.h"
+#include "db/dbmethodpair.h"
 
 sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0), Active(true)
 {
@@ -54,7 +56,13 @@ sad::db::schema::Schema* sad::db::Object::basicSchema()
 		DbObjectBasicSchema = new sad::db::schema::Schema();
 		DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
 		DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
-		DbObjectBasicSchema->add("name"   , sad::db::define_field(&sad::db::Object::Name));
+		DbObjectBasicSchema->add(
+			"name"   , 
+			new sad::db::MethodPair<sad::db::Object, sad::String>(
+				&sad::db::Object::objectName,	
+				&sad::db::Object::setObjectName				
+			)
+		);
 		DbObjectBasicSchema->add("active" , sad::db::define_field(&sad::db::Object::Active));
 	}
 	return DbObjectBasicSchema;
@@ -71,6 +79,21 @@ const sad::String& sad::db::Object::serializableName() const
 {
 	return DbObjectClassName;
 }
+
+const sad::String& sad::db::Object::objectName() const
+{
+	return this->m_name;
+}
+
+void sad::db::Object::setObjectName(const sad::String & newname)
+{
+	if (table())
+	{
+		this->table()->changeObjectName(this, this->m_name, newname);
+	}
+	this->m_name = newname;
+}
+
 
 sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
 {

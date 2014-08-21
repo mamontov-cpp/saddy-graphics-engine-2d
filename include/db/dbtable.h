@@ -79,6 +79,16 @@ public:
 		\param[out] o objects
 	 */
 	virtual void objects(sad::Vector<sad::db::Object*> & o);
+	/*! Changes object name in hash table to make container consistend
+		\param[in] o object
+		\param[in] oldname old name of object
+		\param[in] name a name of object
+	 */
+	virtual void changeObjectName(
+		sad::db::Object * o, 
+		const sad::String & oldname,
+		const sad::String & name
+	);
 protected: 
 	/*! Maximum minor id 
 	 */

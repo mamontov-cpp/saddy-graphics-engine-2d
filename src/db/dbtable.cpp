@@ -45,12 +45,23 @@ void sad::db::Table::add(sad::db::Object* a)
 			}
 		}
 		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::22\n");
-		old = queryByMajorId(a->MajorId);
-		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::23\n");
-		if (old)
+		if (database())
 		{
-			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::24\n");
-			remove(old);
+			old = database()->queryByMajorId(a->MajorId);
+			if (old)
+			{
+				old->table()->remove(old);
+			}
+		}
+		else 
+		{
+			old = queryByMajorId(a->MajorId);
+			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::23\n");
+			if (old)
+			{
+				LOG_TABLE_ADD_PRINTF("sad::db::Table::add::24\n");
+				remove(old);
+			}
 		}
 	}
 	// Create major id if needed
@@ -98,21 +109,21 @@ void sad::db::Table::add(sad::db::Object* a)
 	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::28\n");
 
 	LOG_TABLE_ADD_PRINTF("sad::db::Table::add::29\n");
-	if (a->Name.size() != 0)
+	if (a->objectName().size() != 0)
 	{
 		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::291\n");
-		if (m_object_by_name.contains(a->Name) == false)
+		if (m_object_by_name.contains(a->objectName()) == false)
 		{
 			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2911\n");
-			m_object_by_name.insert(a->Name, sad::Vector<sad::db::Object*>());
+			m_object_by_name.insert(a->objectName(), sad::Vector<sad::db::Object*>());
 			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2912\n");
-			m_object_by_name[a->Name].push_back(a);
+			m_object_by_name[a->objectName()].push_back(a);
 			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2913\n");
 		}
 		else
 		{
 			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2914\n");
-			sad::Vector<sad::db::Object*> & list = m_object_by_name[a->Name];
+			sad::Vector<sad::db::Object*> & list = m_object_by_name[a->objectName()];
 			LOG_TABLE_ADD_PRINTF("sad::db::Table::add::2915\n");
 			if (std::find(list.begin(), list.end(), a) == list.end())
 			{
@@ -136,11 +147,11 @@ void sad::db::Table::remove(sad::db::Object* a)
 {
 	if (a)
 	{
-		if (a->Name.size() != 0)
+		if (a->objectName().size() != 0)
 		{
-			if (m_object_by_name.contains(a->Name))
+			if (m_object_by_name.contains(a->objectName()))
 			{
-				sad::Vector<sad::db::Object*> & list = m_object_by_name[a->Name];
+				sad::Vector<sad::db::Object*> & list = m_object_by_name[a->objectName()];
 				sad::Vector<sad::db::Object*>::iterator pos =  std::find(list.begin(), list.end(), a);
 				list.erase(pos);
 			}
@@ -300,3 +311,37 @@ void sad::db::Table::objects(sad::Vector<sad::db::Object*> & o)
 	}
 }
 
+void sad::db::Table::changeObjectName(
+		sad::db::Object * o, 
+		const sad::String & oldname,
+		const sad::String & name
+	)
+{
+	// Check, whether we own object
+	if (o->table() != this)
+	{
+		return;
+	}
+
+	if (oldname.length())
+	{
+		if (m_object_by_name.contains(oldname))
+		{
+			sad::Vector<sad::db::Object*>& objects = m_object_by_name[oldname];
+			objects.removeAll(o);
+		}
+	}
+
+	if (name.length())
+	{
+		if (m_object_by_name.contains(name) == false)
+		{
+			m_object_by_name.insert(name, sad::Vector<sad::db::Object*>());
+		}
+		sad::Vector<sad::db::Object*>& objects =m_object_by_name[name];
+		if (std::find(objects.begin(), objects.end(), o) == objects.end())
+		{
+			objects << o;
+		}
+	}
+}
