@@ -80,7 +80,7 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   m.m_id = 3;
 	   m.MajorId = 12;
 	   m.MinorId = 22;
-	   m.Name = "Mock3";
+	   m.setObjectName("Mock3");
 	   picojson::value result;
 	   m.save(result);
 	   picojson::object r2 = result.get<picojson::object>();
@@ -102,7 +102,7 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   ASSERT_TRUE(result);
 	   ASSERT_TRUE(m.MajorId == 22);
 	   ASSERT_TRUE(m.MinorId == 12);
-	   ASSERT_TRUE(m.Name == "mock3");
+	   ASSERT_TRUE(m.objectName() == "mock3");
 	   ASSERT_TRUE(m.m_id == 3);
    }
 

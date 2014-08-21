@@ -173,7 +173,7 @@ public:
 		ASSERT_TRUE( result );
 
 		sad::db::Object * o = r.database("")->queryByMinorId(1)[0];
-		ASSERT_TRUE(o->Name == "test");
+		ASSERT_TRUE(o->objectName() == "test");
 	}
 
 	void test_load_valid2()
@@ -239,12 +239,12 @@ public:
 		db.addTable("table", new sad::db::Table());
 		
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 1;
 		mock->MinorId = 1;
 		db.table("table")->add(mock);
 	
-		ASSERT_TRUE( db.queryByMajorId(1)->Name == "test");
+		ASSERT_TRUE( db.queryByMajorId(1)->objectName() == "test");
 		ASSERT_TRUE( db.queryByMajorId(22) == NULL );
 	}
 	
@@ -254,12 +254,12 @@ public:
 		db.addTable("table", new sad::db::Table());
 		
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 1;
 		mock->MinorId = 1;
 		db.table("table")->add(mock);
 	
-		ASSERT_TRUE( db.queryByMinorId(1)[0]->Name == "test");
+		ASSERT_TRUE( db.queryByMinorId(1)[0]->objectName() == "test");
 		ASSERT_TRUE( db.queryByMinorId(22).size() == 0 );
 	}
 	
@@ -269,7 +269,7 @@ public:
 		db.addTable("table", new sad::db::Table());
 		
 		Mock3 * mock = new Mock3();
-		mock->Name = "test";
+		mock->setObjectName("test");
 		mock->MajorId = 1;
 		mock->MinorId = 1;
 		db.table("table")->add(mock);
