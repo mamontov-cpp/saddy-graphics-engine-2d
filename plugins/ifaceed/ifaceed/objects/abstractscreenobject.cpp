@@ -4,9 +4,12 @@
 #include <db/dbfield.h>
 #include <db/dbmethodpair.h>
 
+#include <db/load.h>
+#include <db/save.h>
+
 #include <unused.h>
 
-DECLARE_SOBJ_INHERITANCE2(AbstractScreenObject,sad::SceneNode, SerializableObject)
+DECLARE_SOBJ_INHERITANCE(AbstractScreenObject,sad::SceneNode)
 
 AbstractScreenObject::AbstractScreenObject()
 {
@@ -68,7 +71,7 @@ bool AbstractScreenObject::resizable()
 
 bool AbstractScreenObject::hasProperty(const sad::String & s)
 {
-	return this->getProperty(s) != NULL;
+	return this->SerializableObject::getProperty(s) != NULL;
 }
 
 

@@ -117,11 +117,12 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 	 */
 	template<typename T> T prop(const sad::String & s, sad::log::Log * m_log) 
 	{
+		/*
 		#define STRINGCLASS QString
 		sad::db::Property * p = this->getProperty(s);
 		if (p != NULL)
 		{
-			sad::Maybe<T> value = p->get<T>();
+			sad::Maybe<T> value;// = p->get<T>();
 			if (value.exists())
 			{
 				return value.value();
@@ -132,11 +133,13 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 			SL_DEBUG(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
 		}
 		#undef STRINGCLASS
+		*/
 		return T();
 	}
 
 	template<typename T> void setProp(const sad::String & s, T val, sad::log::Log * m_log)
 	{
+		/*
 		#define STRINGCLASS QString
 		sad::db::Property * p = this->getProperty(s);
 		if (p != NULL)
@@ -156,6 +159,7 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 			SL_DEBUG(STRINGCLASS("Property \"") +  s.data() + STRINGCLASS("\" is not found"));
 		}
 		#undef STRINGCLASS
+		*/
 	}
 	/*! Tests, whether object has following properties
 		\param[in] s property

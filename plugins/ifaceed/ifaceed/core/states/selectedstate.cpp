@@ -8,6 +8,9 @@
 #include "../../history/editorhistory.h"
 #include "../../history/movecommand.h"
 
+#include <db/load.h>
+#include <db/save.h>
+
 #include <closure.h>
 #include <marshal/serializableobject.h>
 #include <p2d/vector.h>
@@ -84,8 +87,8 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 	{
 		float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 		MainPanel * p = ed->panel();
-		float a = o->getProperty("angle")->get<float>().value();
-		a+=dangle;
+		//float a = o->getProperty("angle")->get<float>().value();
+		//a+=dangle;
 		/*
 		TODO: Reimplement
 		CLOSURE

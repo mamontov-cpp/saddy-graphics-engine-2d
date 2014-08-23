@@ -6,6 +6,9 @@
 #include <geometry2d.h>
 #include <3rdparty/format/format.h>
 
+#include <db/load.h>
+#include <db/save.h>
+
 #include <QString>
 
 DECLARE_SOBJ_INHERITANCE(ScreenSprite, AbstractScreenObject);

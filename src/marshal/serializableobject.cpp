@@ -4,11 +4,14 @@
 #include <assert.h>
 
 
-DECLARE_SOBJ(SerializableObject);
+SerializableObject::SerializableObject() : m_parent(NULL)
+{
+	
+}
 
 sad::String SerializableObject::type()
 {
-	return this->className();
+	return "";//this->className();
 }
 
 

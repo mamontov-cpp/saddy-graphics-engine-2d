@@ -1,21 +1,29 @@
 #include "mainpanel.h"
+
 #include "core/ifaceeditor.h"
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
 #include "core/spritedatabase.h"
+
 #include "editorcore/editorbehaviour.h"
 #include "editorcore/editorbehaviourshareddata.h"
+
 #include "objects/screenlabel.h"
 #include "objects/screensprite.h"
 #include "objects/screentemplate.h"
+
 #include "history/propertychangecommand.h"
 #include "history/layercommands.h"
 #include "history/movecommand.h"
 #include "history/newcommand.h"
 
 #include <geometry2d.h>
+
 #include <p2d/vector.h>
 #include <p2d/point.h>
+
+#include <db/save.h>
+#include <db/load.h>
 
 #include <QDialog>
 #include <QTimer>
@@ -26,7 +34,6 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QTimer>
-
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -206,14 +213,14 @@ void MainPanel::addFontObject()
 		// QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
 		// sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
 
-		label->getProperty("pos")->set(sad::Point2D(0,0));
+		//label->getProperty("pos")->set(sad::Point2D(0,0));
 		//float angle = ui.dblAngle->value();
 		//label->getProperty("angle")->set(angle);
 		// TODO: Reimplement
 		// unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
 		// label->getProperty("size")->set(size);
 		sad::String text=ui.txtLabelText->toPlainText().toStdString().c_str();
-		label->getProperty("text")->set(text);
+		//label->getProperty("text")->set(text);
 
 
 		label->tryReload(this->m_editor->database());
@@ -299,13 +306,13 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 	if (o) 
 	{
 		this->m_editor->lockRendering();
-		_property = o->getProperty(prop);
+		_property = o->SerializableObject::getProperty(prop);
         float  old = 0;
 		if (_property) 
 		{
 			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get<float>().value();	
-			_property->set(v);
+			//old = _property->get<float>().value();	
+			//_property->set(v);
 		}
 		if (selected) 
 		{
@@ -363,13 +370,13 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 	if (o) 
 	{
 		this->m_editor->lockRendering();
-		_property = o->getProperty(prop);
+		_property = o->SerializableObject::getProperty(prop);
 		T  old;
 		if (_property) 
 		{
 			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get<T>().value();	
-			_property->set(v);
+			//old = _property->get<T>().value();	
+			_property->set(NULL, v);
 		}
 		if (prop == "font")
 		{
@@ -457,17 +464,19 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	sad::db::Property * prop = NULL;
 	sad::log::Log * l = this->m_editor->log();		
 	// Get text
-	prop = o->getProperty("text");
+	prop = o->SerializableObject::getProperty("text");
 	if (prop)
 	{
 		m_selfchanged = true;
+		/*
 		BLOCK_SIGNALS_AND_CALL(
 			ui.txtLabelText,
 			setPlainText(prop->get<sad::String>().value().data())
 		);
+		*/
 	}
 	// Get size
-	prop = o->getProperty("size");
+	prop = o->SerializableObject::getProperty("size");
 	if (prop)
 	{
 		m_selfchanged = true;
@@ -493,12 +502,12 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		*/
 		m_selfchanged = false;
 	}
-	prop = o->getProperty("color");
+	prop = o->SerializableObject::getProperty("color");
 	if (prop && o->type() == "ScreenLabel")
 	{
 		m_selfchanged = true;
-		sad::Color c = prop->get<sad::Color>().value();
-		QColor clr(c.r(), c.g(), c.b()); 
+		//sad::Color c = prop->get<sad::Color>().value();
+		//QColor clr(c.r(), c.g(), c.b()); 
 		// TODO: Remake
 		/*
 		int index = ui.cmbFontColor->findData(clr);
@@ -516,12 +525,12 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		*/
 		m_selfchanged = false;
 	}
-	prop = o->getProperty("font");
+	prop = o->SerializableObject::getProperty("font");
 	if (prop)
 	{
 		m_selfchanged = true;
-		sad::String c = prop->get<sad::String>().value();
-		QString s = c.data();
+		//sad::String c = prop->get<sad::String>().value();
+		//QString s = c.data();
 		// TODO: Remake data
 		/*
 		int index = ui.cmbFonts->findText(s);
@@ -548,15 +557,15 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 		m_selfchanged = false;
 	}
 	*/
-	prop = o->getProperty("name");
+	prop = o->SerializableObject::getProperty("name");
 	if (prop)
 	{	
 		m_selfchanged = true;
-		sad::String c= prop->get<sad::String>().value();
-		BLOCK_SIGNALS_AND_CALL(ui.txtObjectName, setText(c.data()));
+		//sad::String c= prop->get<sad::String>().value();
+		// BLOCK_SIGNALS_AND_CALL(ui.txtObjectName, setText(c.data()));
 		m_selfchanged = false;
 	}
-	if (o->getProperty("config") != NULL)
+	if (o->SerializableObject::getProperty("config") != NULL)
 	{
 		this->setRegionParameters();
 		
