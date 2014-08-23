@@ -151,7 +151,7 @@ void gui::colorpicker::ColorPicker::setSelectedColor(const QColor & c)
 		{
 			bool b = m_palette->blockSignals(true);
 			m_palette->setCurrentCell(0, 0);
-			m_palette->blockSignals(false);
+			m_palette->blockSignals(b);
 			QTableWidgetItem * item = m_palette->item(0, 0);
 			item->setBackground(c);
 		}
@@ -400,7 +400,7 @@ void gui::colorpicker::ColorPicker::paintEvent(QPaintEvent * e)
 
 		QColor color = this->selectedColor();
 		
-		bool contains = true;
+		bool contains;
 		if (m_color_wheels.contains(color.lightness()) == false)
 		{
 			contains = m_color_wheels.contains(color.alpha());
@@ -863,7 +863,7 @@ void gui::colorpicker::ColorPicker::generateColorWheel(int lightness, int alpha,
 			double posx = relx * relx + rely * rely; 
 			if (posx <= sidesquared) 
 			{
-				double hue = 0;
+				double hue;
 				if (relx != 0)
 				{
 					hue = atan2(rely, relx) * 180.0 / M_PI;
@@ -971,7 +971,7 @@ bool gui::colorpicker::ColorPicker::handleColorWheelPositionChange(const QPointF
 		{
 			saturation = 255;
 		}
-		double hue = 0;
+		double hue;
 		if (fabs(dx) > 0.001)
 		{
 			hue = atan2(-dy, dx);

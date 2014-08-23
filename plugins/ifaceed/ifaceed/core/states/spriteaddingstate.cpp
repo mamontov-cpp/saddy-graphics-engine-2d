@@ -47,8 +47,8 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	IFaceEditor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
-	float a = o->getProperty("angle")->get<float>().value();
-	a+=dangle;
+	//float a = o->SerializableObject::getProperty("angle")->get<float>().value();
+	//a+=dangle;
 	/*
 	// TODO: Reimplement
 	CLOSURE

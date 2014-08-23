@@ -23,6 +23,10 @@
 #include <QTimer>
 #include "objectxmlreader.h"
 #include "sceneaddingtask.h"
+
+#include <db/load.h>
+#include <db/save.h>
+
 #include <renderer.h>
 #include <resource/tree.h>
 

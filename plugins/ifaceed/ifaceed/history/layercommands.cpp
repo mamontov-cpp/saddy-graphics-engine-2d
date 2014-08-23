@@ -1,7 +1,11 @@
 #include "layercommands.h"
+
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 #include "../core/ifaceeditor.h"
+
+#include <db/load.h>
+#include <db/save.h>
 #include <unused.h>
 
 LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer)

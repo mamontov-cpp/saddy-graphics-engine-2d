@@ -33,13 +33,13 @@ class SerializationEntry
 class SerializableContainer;
 /*! A object, that can be easily serialized and deserialized
  */
-class SerializableObject: public sad::Object
+class SerializableObject
 {
- SAD_OBJECT
  private:
 		 sad::Hash<sad::String, sad::db::Property *> m_properties; //!< Properties a data
 		 SerializableContainer * m_parent; //!< Parent container
  public:
+		SerializableObject();
 		/*! Parent container
 			\return parent container
 		 */
@@ -89,7 +89,7 @@ class SerializableFactory
 		 virtual SerializableObject* produce(const sad::String & obj) ;
 		 /*! Does nothing
 		  */
-		 ~SerializableFactory();
+		 virtual ~SerializableFactory();
 };
 
 DECLARE_TYPE_AS_SAD_OBJECT_ENUM(SerializableObject)

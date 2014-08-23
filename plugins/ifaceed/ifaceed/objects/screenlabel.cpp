@@ -11,6 +11,9 @@
 #include <windows.h>
 #endif
 
+#include <db/load.h>
+#include <db/save.h>
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 

@@ -2,6 +2,10 @@
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
 #include "../editorcore/editor.h"
+
+#include <db/load.h>
+#include <db/save.h>
+
 #include <unused.h>
 
 MoveCommand::MoveCommand(AbstractScreenObject * object, const sad::Point2D & oldp, const sad::Point2D & newp)

@@ -1,5 +1,7 @@
 #include "editorhistory.h"
 #include <3rdparty/format/format.h>
+#include <db/load.h>
+#include <db/save.h>
 #include <log/log.h>
 
 EditorHistory::EditorHistory()
