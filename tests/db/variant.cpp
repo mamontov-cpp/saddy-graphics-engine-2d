@@ -20,7 +20,8 @@ struct SadDbVariantTest : tpunit::TestFixture
  public:
    SadDbVariantTest() : tpunit::TestFixture(
 	   TEST(SadDbVariantTest::test),
-	   TEST(SadDbVariantTest::test_object)
+	   TEST(SadDbVariantTest::test_object),
+	   TEST(SadDbVariantTest::testVectorVectorAColor)
    ) {}
 
 	void test()
@@ -50,6 +51,37 @@ struct SadDbVariantTest : tpunit::TestFixture
 
 		ASSERT_TRUE(v.get<sad::Font*>().value() == font);
 		delete font;
+	}
+
+	void testVectorVectorAColor()
+	{
+		sad::Vector<sad::Vector<sad::AColor> > v;
+
+		v.push_back(sad::Vector<sad::AColor>());
+		v[0].push_back(sad::AColor(5, 5, 5, 0));
+		v[0].push_back(sad::AColor(5, 5, 5, 0));
+		v[0].push_back(sad::AColor(5, 5, 5, 0));
+
+		v.push_back(sad::Vector<sad::AColor>());
+		v[1].push_back(sad::AColor(5, 5, 5, 0));
+		v[1].push_back(sad::AColor(5, 5, 5, 0));
+		v[1].push_back(sad::AColor(5, 5, 5, 0));
+
+		sad::db::Variant k(v);
+
+		picojson::value saved;
+		saved = k.save();
+
+		sad::Vector<sad::Vector<sad::AColor> > tmp;
+		sad::db::Variant r(tmp);
+		
+		ASSERT_TRUE( r.load(saved) );
+
+		sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > > vk = r.get<sad::Vector<sad::Vector<sad::AColor> > >();
+		ASSERT_TRUE(vk.exists());
+		
+		sad::Vector<sad::Vector<sad::AColor> > vk_value = vk.value();
+		ASSERT_TRUE(vk_value.size() == 2);
 	}
 
 } _sad_db_variant;
