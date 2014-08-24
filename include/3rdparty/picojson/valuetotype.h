@@ -559,7 +559,7 @@ public:
 	}
 };
 
-/*! Tries to converts specific value to rect
+/*! Tries to converts specific value to size
  */
 template<>
 class ValueToType<sad::Size2D>
@@ -603,7 +603,7 @@ public:
 	}
 };
 
-/*! Tries to converts specific value to rect
+/*! Tries to converts specific value to size
  */
 template<>
 class ValueToType<sad::Size2I>
@@ -641,6 +641,59 @@ public:
 				result.setValue(sad::Size2I(
 					(int)(mw.value()), (int)(mh.value())
 				));
+			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to size
+ */
+template<>
+class ValueToType<sad::Vector<sad::Vector<sad::AColor> > >
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > > result;
+		// Conversion from string <x>;<y>;<width>;<height>
+		if (v.is<picojson::array>())
+		{
+			bool parseresult = true;
+			sad::Vector<sad::Vector<sad::AColor> > tmpresult;
+			const picojson::array & top = v.get<picojson::array>();
+			for(size_t i = 0; i < top.size() && parseresult; i++)
+			{
+				const picojson::value & topentry = top[i];
+				if (topentry.is<picojson::array>())
+				{
+					tmpresult << sad::Vector<sad::AColor>();
+					const picojson::array & inner = topentry.get<picojson::array>();
+					for(size_t j = 0; j < inner.size() && parseresult; j++)
+					{
+						sad::Maybe<sad::AColor> maybecolor = picojson::ValueToType<sad::AColor>::get(inner[j]);
+						if (maybecolor.exists())
+						{
+							tmpresult[tmpresult.size() - 1] << maybecolor.value();
+						}
+						else
+						{
+							parseresult = false;
+						}
+					}
+				}
+				else
+				{
+					parseresult = false;
+				}
+			}
+			if (parseresult)
+			{
+				result.setValue(tmpresult);
 			}
 		}
 		return result;

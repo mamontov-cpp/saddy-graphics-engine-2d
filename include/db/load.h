@@ -77,6 +77,7 @@ DECLARE_DB_LOAD_FOR_TYPE(sad::Rect2D)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Color)
 DECLARE_DB_LOAD_FOR_TYPE(sad::AColor)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Size2D)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 
 }
 

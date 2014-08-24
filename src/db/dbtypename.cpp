@@ -1,6 +1,7 @@
 #include "db/dbtypename.h"
 #include "db/save.h"
 #include "db/load.h"
+
 #include "sadstring.h"
 #include "sadpoint.h"
 #include "sadrect.h"
@@ -9,6 +10,7 @@
 #include "object.h"
 #include "sadcolor.h"
 #include "sadrect.h"
+#include "sadvector.h"
 
 #include "font.h"
 #include "texturemappedfont.h"
@@ -45,6 +47,7 @@ DECLARE_COMMON_TYPE(sad::Color)
 DECLARE_COMMON_TYPE(sad::AColor)
 DECLARE_COMMON_TYPE(sad::Size2D)
 DECLARE_COMMON_TYPE(sad::Size2I)
+DECLARE_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);

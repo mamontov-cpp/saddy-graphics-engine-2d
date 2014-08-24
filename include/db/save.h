@@ -206,6 +206,35 @@ static picojson::value perform(void * ptr)
 
 };
 
+/*! Specification for saving values of type vector of vectors of color with alpha-channel
+ */
+template<>
+class Save<sad::Vector<sad::Vector<sad::AColor> > >
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	sad::Vector<sad::Vector<sad::AColor> > & p = *((sad::Vector<sad::Vector<sad::AColor> > *)ptr);
+	picojson::value v(picojson::array_type, false);
+	for(size_t i = 0; i < p.size(); i++)
+	{
+		picojson::value tmp(picojson::array_type, false);
+		for(size_t j = 0; j < p[i].size(); j++)
+		{
+			tmp.push_back(sad::db::Save<sad::AColor>::perform(&(p[i][j])));
+		}
+		v.push_back(tmp);
+	}
+	return v;
+}
+
+};
+
 /*! Specification for saving size values
  */
 template<>

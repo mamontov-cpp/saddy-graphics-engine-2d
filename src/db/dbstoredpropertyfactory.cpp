@@ -39,6 +39,7 @@ sad::db::StoredPropertyFactory::StoredPropertyFactory()
 	add<sad::Rect2I>("sad::Rect2I");
 	add<sad::Size2D>("sad::Size2D");
 	add<sad::Size2I>("sad::Size2I");
+	add<sad::Vector<sad::Vector<sad::AColor> > >("sad::Vector<sad::Vector<saD::AColor> >");
 }
 
 sad::db::StoredPropertyFactory::~StoredPropertyFactory()
