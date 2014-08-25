@@ -10,7 +10,7 @@
 
 #include <db/save.h>
 
-#include "sadvectorsadvectoracolortoqvectorqvectorqcolor.h"
+#include "sadvectorsadvectoracolortoqlistqlistqcolor.h"
 
 
 namespace sad
@@ -57,7 +57,7 @@ static bool perform(void * ptr, const picojson::value & v)
 
 
 template<>                                                       
-class Load<QVector<QVector<QColor> > >                                               
+class Load<QList<QList<QColor> > >                                               
 {                                                                
 public:                                                          
 static bool perform(void * ptr, const picojson::value & v)       
@@ -70,11 +70,11 @@ static bool perform(void * ptr, const picojson::value & v)
 	if (cast.exists())                                           
 	{                 
 		const sad::Vector<sad::Vector<sad::AColor> > & src = cast.value();
-		QVector<QVector<QColor> > & dest = *reinterpret_cast<QVector<QVector<QColor> > *>(ptr);
+		QList<QList<QColor> > & dest = *reinterpret_cast<QList<QList<QColor> > *>(ptr);
 		
 		core
 		::typeconverters
-		::SadVectorSadVectorToAColorToQVectorQVectorQColor
+		::SadVectorSadVectorToAColorToQListQListQColor
 		::convert(src, dest);
 	}                                                            
 	return cast.exists();                                        

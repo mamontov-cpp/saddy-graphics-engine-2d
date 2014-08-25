@@ -10,7 +10,7 @@
 
 #include <db/save.h>
 
-#include "qvectorqvectorqcolortosadvectorsadvectoracolor.h"
+#include "qlistqlistqcolortosadvectorsadvectoracolor.h"
 
 namespace sad
 {
@@ -57,7 +57,7 @@ static picojson::value perform(void * ptr)
 /*! Specification for saving QVector<QVector<QColor> > values
  */
 template<>
-class Save<QVector<QVector<QColor> > >
+class Save<QList<QList<QColor> > >
 {
 public:
 /*! Saves a value of specified type
@@ -65,12 +65,12 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-	QVector<QVector<QColor> >  * src = reinterpret_cast<QVector<QVector<QColor> > *>(ptr);
+	QList<QList<QColor> >  * src = reinterpret_cast<QList<QList<QColor> > *>(ptr);
 	sad::Vector<sad::Vector<sad::AColor> > result;
 
 	core
 	::typeconverters
-	::QVectorQVectorQColorToSadVectorSadVectorToAColor
+	::QListQListQColorToSadVectorSadVectorToAColor
 	::convert(*src, result);
 	return sad::db::Save<sad::Vector<sad::Vector<sad::AColor> > >::perform(&result);
 }

@@ -30,6 +30,20 @@
 #include <renderer.h>
 #include <resource/tree.h>
 
+#include "typeconverters/save.h"
+#include "typeconverters/load.h"
+#include "typeconverters/qcolortosadcolor.h"
+#include "typeconverters/qcolortosadacolor.h"
+#include "typeconverters/qstringtosadstring.h"
+#include "typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.h"
+#include "typeconverters/sadcolortoqcolor.h"
+#include "typeconverters/sadacolortoqcolor.h"
+#include "typeconverters/sadstringtoqstring.h"
+#include "typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h"
+
+
+
+
 
 IFaceEditor::IFaceEditor()
 {
@@ -53,6 +67,49 @@ IFaceEditor::IFaceEditor()
 	behaviour->addState("sprite_adding_simple", new SimpleSpriteAddingState());
 	behaviour->addState("sprite_adding_diagonal", new DiagonalSpriteAddingState());
 	this->behaviours().insert("main", behaviour);
+
+	// Fill conversion table with converters
+	sad::db::ConversionTable::ref()->add(
+		"sad::Color", 
+		"QColor", 
+		new core::typeconverters::SadColorToQColor()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"sad::AColor", 
+		"QColor", 
+		new core::typeconverters::SadAColorToQColor()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"sad::String", 
+		"QString", 
+		new core::typeconverters::SadStringToQString()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"sad::Vector<sad::Vector<sad::AColor> >", 
+		"QList<QList<QColor> >", 
+		new core::typeconverters::SadVectorSadVectorToAColorToQListQListQColor()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"QColor", 
+		"sad::Color", 		
+		new core::typeconverters::QColorToSadColor()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"QColor", 		
+		"sad::AColor", 
+		new core::typeconverters::QColorToSadAColor()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"QString",
+		"sad::String",  
+		new core::typeconverters::QStringToSadString()
+	);
+	sad::db::ConversionTable::ref()->add(
+		"QList<QList<QColor> >", 
+		"sad::Vector<sad::Vector<sad::AColor> >", 
+		new core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor()
+	);
+
 }
 IFaceEditor::~IFaceEditor()
 {
