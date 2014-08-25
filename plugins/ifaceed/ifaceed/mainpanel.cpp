@@ -108,8 +108,8 @@ void MainPanel::setEditor(IFaceEditor * editor)
 	m_editor = editor; 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
-	connect(ui.btnSceneSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
-	connect(ui.btnSceneLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
+	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
+	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }

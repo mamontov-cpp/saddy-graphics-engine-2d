@@ -6,13 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>364</width>
+    <width>434</width>
     <height>446</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>364</width>
+    <width>434</width>
+    <height>446</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>434</width>
     <height>446</height>
    </size>
   </property>
@@ -49,8 +55,8 @@
    <widget class="QLabel" name="lblCoords">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>43</y>
+      <x>260</x>
+      <y>41</y>
       <width>51</width>
       <height>16</height>
      </rect>
@@ -62,8 +68,8 @@
    <widget class="QLineEdit" name="txtMousePosX">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>40</y>
+      <x>310</x>
+      <y>39</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -75,8 +81,8 @@
    <widget class="QLineEdit" name="txtMousePosY">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>40</y>
+      <x>370</x>
+      <y>39</y>
       <width>51</width>
       <height>20</height>
      </rect>
@@ -85,8 +91,8 @@
    <widget class="QPushButton" name="btnUndo">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>10</y>
+      <x>310</x>
+      <y>9</y>
       <width>51</width>
       <height>23</height>
      </rect>
@@ -98,8 +104,8 @@
    <widget class="QPushButton" name="btnRedo">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>10</y>
+      <x>370</x>
+      <y>9</y>
       <width>51</width>
       <height>23</height>
      </rect>
@@ -126,7 +132,7 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>351</width>
+      <width>421</width>
       <height>371</height>
      </rect>
     </property>
@@ -137,8 +143,104 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
+    <property name="usesScrollButtons">
+     <bool>false</bool>
+    </property>
+    <property name="documentMode">
+     <bool>false</bool>
+    </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="tab_db">
+     <attribute name="title">
+      <string>Database</string>
+     </attribute>
+     <widget class="QPushButton" name="btnDatabaseSave">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>10</y>
+        <width>81</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDatabaseLoad">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>40</y>
+        <width>81</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Load</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="saDatabaseProperties">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>311</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="saDatabasePropertiesConstents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>309</width>
+         <height>299</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btnDatabasePropertiesAdd">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>320</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add property</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="txtDatabasePropertyName">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>320</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="cmbDatabasePropertyType">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>320</y>
+        <width>151</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="tab_scenes">
      <attribute name="title">
       <string>Scenes</string>
@@ -148,7 +250,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>241</width>
+        <width>311</width>
         <height>301</height>
        </rect>
       </property>
@@ -158,7 +260,7 @@
        <rect>
         <x>10</x>
         <y>320</y>
-        <width>241</width>
+        <width>311</width>
         <height>20</height>
        </rect>
       </property>
@@ -166,8 +268,8 @@
      <widget class="QPushButton" name="btnSceneAdd">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>10</y>
+        <x>330</x>
+        <y>320</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -179,8 +281,8 @@
      <widget class="QPushButton" name="btnScenesMoveFront">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>40</y>
+        <x>330</x>
+        <y>10</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -192,8 +294,8 @@
      <widget class="QPushButton" name="btnScenesMoveBack">
       <property name="geometry">
        <rect>
-        <x>260</x>
-        <y>70</y>
+        <x>330</x>
+        <y>40</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -205,7 +307,7 @@
      <widget class="QPushButton" name="btnSceneDelete">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>330</x>
         <y>290</y>
         <width>75</width>
         <height>23</height>
@@ -213,32 +315,6 @@
       </property>
       <property name="text">
        <string>Delete</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnScenesSave">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>140</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save scenes</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnScenesLoad">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>170</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Load scenes</string>
       </property>
      </widget>
     </widget>
@@ -251,7 +327,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>241</width>
+        <width>311</width>
         <height>301</height>
        </rect>
       </property>
@@ -261,7 +337,7 @@
        <rect>
         <x>10</x>
         <y>320</y>
-        <width>241</width>
+        <width>311</width>
         <height>20</height>
        </rect>
       </property>
@@ -269,7 +345,7 @@
      <widget class="QPushButton" name="btnSceneNodeDelete">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>330</x>
         <y>290</y>
         <width>81</width>
         <height>23</height>
@@ -282,7 +358,7 @@
      <widget class="QPushButton" name="btnSceneNodeMoveFront">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>330</x>
         <y>10</y>
         <width>81</width>
         <height>23</height>
@@ -295,7 +371,7 @@
      <widget class="QPushButton" name="btnSceneNodeMoveBack">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>330</x>
         <y>40</y>
         <width>81</width>
         <height>23</height>
@@ -308,7 +384,7 @@
      <widget class="QPushButton" name="btnSceneClear">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>330</x>
         <y>220</y>
         <width>81</width>
         <height>23</height>
@@ -316,32 +392,6 @@
       </property>
       <property name="text">
        <string>Clear</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneSave">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>110</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save scene</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneLoad">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>140</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Load scene</string>
       </property>
      </widget>
     </widget>
@@ -354,7 +404,7 @@
        <rect>
         <x>10</x>
         <y>100</y>
-        <width>331</width>
+        <width>401</width>
         <height>241</height>
        </rect>
       </property>
@@ -364,7 +414,7 @@
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>331</width>
+        <width>401</width>
         <height>61</height>
        </rect>
       </property>
@@ -374,7 +424,7 @@
        <rect>
         <x>10</x>
         <y>60</y>
-        <width>331</width>
+        <width>401</width>
         <height>41</height>
        </rect>
       </property>
@@ -402,7 +452,7 @@
        <rect>
         <x>120</x>
         <y>30</y>
-        <width>221</width>
+        <width>281</width>
         <height>71</height>
        </rect>
       </property>
@@ -412,7 +462,7 @@
        <rect>
         <x>10</x>
         <y>110</y>
-        <width>331</width>
+        <width>391</width>
         <height>201</height>
        </rect>
       </property>
@@ -455,7 +505,7 @@
        <rect>
         <x>10</x>
         <y>80</y>
-        <width>321</width>
+        <width>391</width>
         <height>231</height>
        </rect>
       </property>
@@ -476,7 +526,7 @@
      <widget class="QPushButton" name="btnSpriteAdd">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>300</x>
         <y>320</y>
         <width>101</width>
         <height>23</height>
@@ -491,7 +541,7 @@
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>321</width>
+        <width>401</width>
         <height>71</height>
        </rect>
       </property>
@@ -541,34 +591,11 @@
      <attribute name="title">
       <string>Object</string>
      </attribute>
-     <widget class="QListWidget" name="lstSchemas">
+     <widget class="QPushButton" name="btnCustomObjectAdd">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>331</width>
-        <height>121</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnLoadSchema">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>140</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Load Schema</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnAddObject">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
+        <x>340</x>
+        <y>320</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -577,28 +604,38 @@
        <string>Add Object</string>
       </property>
      </widget>
-     <widget class="QScrollArea" name="scrollProperties">
+     <widget class="QScrollArea" name="saCustomObjectProperties">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>170</y>
-        <width>331</width>
-        <height>161</height>
+        <y>140</y>
+        <width>401</width>
+        <height>171</height>
        </rect>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
+      <widget class="QWidget" name="saCustomObjectPropertiesContents">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>329</width>
-         <height>159</height>
+         <width>399</width>
+         <height>169</height>
         </rect>
        </property>
       </widget>
+     </widget>
+     <widget class="QWidget" name="rtwCustomObjectSchemas" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>401</width>
+        <height>121</height>
+       </rect>
+      </property>
      </widget>
     </widget>
    </widget>
