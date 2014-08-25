@@ -117,9 +117,9 @@
    <widget class="QPushButton" name="btnReloadResources">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>110</x>
       <y>10</y>
-      <width>151</width>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
@@ -638,6 +638,19 @@
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="btnLoadResources">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LoadResources</string>
+    </property>
    </widget>
   </widget>
  </widget>
