@@ -1,21 +1,21 @@
-#include "sadvectorsadvectoracolortoqvectorqvectorqcolor.h"
+#include "sadvectorsadvectoracolortoqlistqlistqcolor.h"
 
-DECLARE_COMMON_TYPE(QVector<QVector<QColor> >)
+DECLARE_COMMON_TYPE(QList<QList<QColor> >)
 
 
 void 
 core
 ::typeconverters
-::SadVectorSadVectorToAColorToQVectorQVectorQColor
+::SadVectorSadVectorToAColorToQListQListQColor
 ::convert(
 	const sad::Vector<sad::Vector<sad::AColor> > & src,
-	QVector<QVector<QColor> > & dest
+	QList<QList<QColor> > & dest
 )
 {
-	dest = QVector<QVector<QColor> >();
+	dest = QList<QList<QColor> >();
 	for(size_t i = 0; i < src.size(); i++)
 	{
-		dest << QVector<QColor>();
+		dest << QList<QColor>();
 		for(size_t j = 0; j < src[i].size(); j++)
 		{
 			dest[i] << QColor(
@@ -31,24 +31,24 @@ core
 void 
 core
 ::typeconverters
-::SadVectorSadVectorToAColorToQVectorQVectorQColor
+::SadVectorSadVectorToAColorToQListQListQColor
 ::convert(void * source, void * dest)
 {
 	sad::Vector<sad::Vector<sad::AColor> > * src = reinterpret_cast<
 		sad::Vector<sad::Vector<sad::AColor> >*
 	>(source);
-	QVector<QVector<QColor> > * dst = reinterpret_cast<QVector<QVector<QColor> >*>(dest);
+	QList<QList<QColor> > * dst = reinterpret_cast<QList<QList<QColor> >*>(dest);
 
 	core
 	::typeconverters
-	::SadVectorSadVectorToAColorToQVectorQVectorQColor
+	::SadVectorSadVectorToAColorToQListQListQColor
 	::convert(*src, *dst);
 }
 
 core
 ::typeconverters
-::SadVectorSadVectorToAColorToQVectorQVectorQColor
-::~SadVectorSadVectorToAColorToQVectorQVectorQColor()
+::SadVectorSadVectorToAColorToQListQListQColor
+::~SadVectorSadVectorToAColorToQListQListQColor()
 {
 	
 }

@@ -1,11 +1,11 @@
-#include "qvectorqvectorqcolortosadvectorsadvectoracolor.h"
+#include "qlistqlistqcolortosadvectorsadvectoracolor.h"
 
 void 
 core
 ::typeconverters
-::QVectorQVectorQColorToSadVectorSadVectorToAColor
+::QListQListQColorToSadVectorSadVectorToAColor
 ::convert(
-	const QVector<QVector<QColor> > & src,
+	const QList<QList<QColor> > & src,
 	sad::Vector<sad::Vector<sad::AColor> > & dest
 )
 {
@@ -29,20 +29,20 @@ core
 void 
 core
 ::typeconverters
-::QVectorQVectorQColorToSadVectorSadVectorToAColor
+::QListQListQColorToSadVectorSadVectorToAColor
 ::convert(void * source, void * dest)
 {
-	QVector<QVector<QColor> > * src = reinterpret_cast<QVector<QVector<QColor> >*>(source);
+	QList<QList<QColor> > * src = reinterpret_cast<QList<QList<QColor> >*>(source);
 	sad::Vector<sad::Vector<sad::AColor> > * dst = reinterpret_cast<
 		sad::Vector<sad::Vector<sad::AColor> >*
 	>(dest);
-	core::typeconverters::QVectorQVectorQColorToSadVectorSadVectorToAColor::convert(*src, *dst);	
+	core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor::convert(*src, *dst);	
 }
 
 core
 ::typeconverters
-::QVectorQVectorQColorToSadVectorSadVectorToAColor
-::~QVectorQVectorQColorToSadVectorSadVectorToAColor()
+::QListQListQColorToSadVectorSadVectorToAColor
+::~QListQListQColorToSadVectorSadVectorToAColor()
 {
 	
 }

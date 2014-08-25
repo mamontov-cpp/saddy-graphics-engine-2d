@@ -1,7 +1,7 @@
-/*! \file qvectorqvectorqcolortosadvectorsadvectoracolor.h
+/*! \file qlistqlistqcolortosadvectorsadvectoracolor.h
 	\author HiddenSeeker
 
-	Defines conversion from QVector<QVector<QColor> > to sad::Vector<sad::Vector<sad::AColor> >.
+	Defines conversion from QList<QList<QColor> > to sad::Vector<sad::Vector<sad::AColor> >.
  */
 #pragma once
 
@@ -19,14 +19,14 @@ namespace core
 namespace typeconverters
 {
 
-/*! Defines a conversion from QVector<QVector<QColor> > to sad::Vector<sad::Vector<sad::AColor> >.
+/*! Defines a conversion from QList<QList<QColor> > to sad::Vector<sad::Vector<sad::AColor> >.
  */
-class QVectorQVectorQColorToSadVectorSadVectorToAColor: public sad::db::AbstractTypeConverter
+class QListQListQColorToSadVectorSadVectorToAColor: public sad::db::AbstractTypeConverter
 {
 public:
 	/*! Creates new converter
 	 */
-	inline QVectorQVectorQColorToSadVectorSadVectorToAColor()
+	inline QListQListQColorToSadVectorSadVectorToAColor()
 	{
 		
 	}
@@ -35,17 +35,17 @@ public:
 		\param[in] dest destination value
 	 */
 	static void convert(
-		const QVector<QVector<QColor> > & src,
+		const QList<QList<QColor> > & src,
 		sad::Vector<sad::Vector<sad::AColor> > & dest
 	);
 	/*! Converts source value from another and to another type
-		\param[in] source a pointer to QVector<QVector<QColor> > value
+		\param[in] source a pointer to QList<QList<QColor> > value
 		\param[in] dest a pointer to sad::Vector<sad::Vector<sad::AColor> > value
 	 */
 	virtual void convert(void * source, void * dest);
 	/*! Can be inherited
 	 */
-	virtual ~QVectorQVectorQColorToSadVectorSadVectorToAColor();
+	virtual ~QListQListQColorToSadVectorSadVectorToAColor();
 };
 
 }
