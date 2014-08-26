@@ -4,19 +4,22 @@
 	loading to xml files with those. Loads sprites from specific configs - see examples.
  */
 #include "mainpanel.h"
+
 #include <QtGui/QApplication>
-#include <QTest>
+
 #include <QTimer>
 #include <QThread>
 #include <QTextCodec>
 
 #include <stdio.h>
 #include <cstdlib>
+
 #include "editorcore/editor.h"
+
 #include "core/ifaceeditor.h"
+
 #include <log/log.h>
 
-#include "unittests/factory.h"
 #include <unused.h>
 
 
@@ -32,7 +35,7 @@ int main(int argc, char *argv[])
 		QTextCodec::setCodecForCStrings(codec);
 		QTextCodec::setCodecForLocale(codec);
 	#endif
-	Editor * editor =new IFaceEditor();
+	IFaceEditor * editor =new IFaceEditor();
 	editor->init(argc,argv);
 	delete editor;
 	return 0;

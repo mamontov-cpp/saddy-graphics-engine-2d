@@ -10,7 +10,7 @@
 #include <QMessageBox>
 #pragma once
 
-class Editor;
+class IFaceEditor;
 
 namespace core
 {
@@ -22,7 +22,7 @@ class QtTarget:public sad::log::Target
 {
  protected:
 		bool m_enabled;  //!< Whether we should enable showing messages
-		Editor * m_editor; //!< Editor information
+		IFaceEditor * m_editor; //!< Editor information
 		/*! Sends a critical message
 		 */
 		void critical(const sad::String & m);
@@ -32,7 +32,7 @@ class QtTarget:public sad::log::Target
  public:
 		/*! Creates a new disabled target
 		 */
-		inline QtTarget(Editor * ed)
+		inline QtTarget(IFaceEditor * ed)
 		{
 			m_enabled = false;
 			m_editor  = ed;

@@ -25,13 +25,14 @@ void IFaceEditor::showObjectStats(AbstractScreenObject * o)
 void IFaceEditor::trySelectObject(sad::Point2D p, bool enterSelected) 
 {
 	const std::vector<AbstractScreenObject*> & tbl = this->result()->fetchObjectsWithin(p);
+	sad::log::Log * log = sad::log::Log::ref();
 	if (tbl.empty() == false) {
 		this->behaviourSharedData()->setSelectedObject(tbl[0]);
 		this->showObjectStats(tbl[0]);
 		std::vector<sad::String> chain;
         for(unsigned int i = 0; i < tbl.size(); i++)
 		{
-			chain.push_back(tbl[i]->prop<sad::String>("uid", this->log()));
+			chain.push_back(tbl[i]->prop<sad::String>("uid",log));
 		}
 		if (enterSelected) 
 		{
