@@ -15,7 +15,6 @@
 #include "editorcore/editor.h"
 #include "core/ifaceeditor.h"
 #include <log/log.h>
-#include "editorcore/path.h"
 
 #include "unittests/factory.h"
 #include <unused.h>
@@ -33,23 +32,8 @@ int main(int argc, char *argv[])
 		QTextCodec::setCodecForCStrings(codec);
 		QTextCodec::setCodecForLocale(codec);
 	#endif
-	#ifdef __UNITTESTS
-		sad::cmd::Parser p;
-		p.addMultipleOption("test");
-		p.parse(argc, (const char **)argv);
-		unittests::Factory tests;
-		#define TEST(X) tests.bind(#X, new unittests::FactoryDelegate< X >());
-
-		sad::Vector<sad::String> data = p.multiple("test");
-		for (int i=0;i<data.count();i++)
-		{
-			tests.run(data[i].data());
-		}
-		hst::log::inst()->save("log.txt");
-	#else
-		Editor * editor =new IFaceEditor();
-		editor->init(argc,argv);
-		delete editor;
-	#endif
-		return 0;
+	Editor * editor =new IFaceEditor();
+	editor->init(argc,argv);
+	delete editor;
+	return 0;
 }

@@ -7,10 +7,11 @@
 #define XMLCONFIGLOADER_H
 
 #include <config/sprite2dconfigloader.h>
+#include <util/fs.h>
+
 #include <QString>
 #include <QDomElement>
 #include <QVector>
-#include "../editorcore/path.h"
 
 
 /*! \class XMLConfigLoader 
@@ -50,7 +51,7 @@ class XMLConfigLoader: public sad::Sprite2DConfigLoader
 	 inline XMLConfigLoader(const QString & name)
 	 {
 		m_filename=name;
-		m_parent = path::directory(name.toStdString().c_str());
+		m_parent = sad::util::folder(name.toStdString());
 	 }
 	 /*! A function for loading a config. For loading a config, you must fill a container
 		 with appropriate data and return true. If some errors occured, function must return false
