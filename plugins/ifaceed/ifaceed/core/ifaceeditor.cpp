@@ -417,9 +417,9 @@ void IFaceEditor::highlightState(const sad::String & hint)
 	this->panel()->highlightState(hint);
 }
 
-InterlockedScene * IFaceEditor::myScene()
+sad::Scene * IFaceEditor::myScene()
 {
-	return static_cast<InterlockedScene*>(this->scene());
+	return this->scene();
 }
 
 void IFaceEditor::tryRenderActiveObject()

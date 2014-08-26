@@ -69,7 +69,7 @@ void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev
 	ed->history()->add(c);
 	c->commit(ed);
 
-	InterlockedScene * scene = static_cast<InterlockedScene *>(ed->scene());
+	sad::Scene * scene = ed->scene();
 	scene->add(o);
 
 	ed->behaviourSharedData()->setActiveObject(NULL);

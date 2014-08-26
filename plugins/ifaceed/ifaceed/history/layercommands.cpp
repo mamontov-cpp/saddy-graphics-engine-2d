@@ -6,7 +6,9 @@
 
 #include <db/load.h>
 #include <db/save.h>
+
 #include <unused.h>
+#include <scene.h>
 
 LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer, unsigned int newlayer)
 {

@@ -4,7 +4,10 @@
 	A task, which is performed, when scene is empty. It will populate it
 	with sorted by layer property object
  */
+#include <scene.h>
+
 #include <pipeline/pipelinetask.h>
+
 #include "../objects/screentemplate.h"
 
 class InterlockedScene;
@@ -30,7 +33,7 @@ public:
 		\param[in] _template a resulting template
 		\param[in]  scene scene object data
 	 */
-	SceneAddingTask(ScreenTemplate * _template, InterlockedScene * scene);
+	SceneAddingTask(ScreenTemplate* _template, sad::Scene* scene);
 	/*! Task for adding scene
 	 */
 	~SceneAddingTask();
@@ -41,9 +44,9 @@ protected:
 private:
 	 /*! A template object
 	  */
-	 ScreenTemplate * m_template;
+	 ScreenTemplate* m_template;
 	 /*! A scene, which objects must be added into
 	  */
-	 InterlockedScene * m_scene;
+	 sad::Scene* m_scene;
 };
 
