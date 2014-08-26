@@ -26,11 +26,11 @@ class NewCommand: public AbstractCommand
 	/** Applies changes, described in command
 		\param[in] ob observer for command
 	  */
-	virtual void commit(CommandChangeObserver * ob = NULL);
+	virtual void commit(core::CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(CommandChangeObserver * ob = NULL);
+	virtual void rollback(core::CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~NewCommand();
@@ -50,11 +50,11 @@ class ScreenClearCommand: public AbstractCommand
 	/** Applies changes, described in command
 		\param[in] ob observer for command
 	  */
-	virtual void commit(CommandChangeObserver * ob = NULL);
+	virtual void commit(core::CommandChangeObserver * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] ob observer for command
 	  */
-	virtual void rollback(CommandChangeObserver * ob = NULL);
+	virtual void rollback(core::CommandChangeObserver * ob = NULL);
 	/** Destroys a command
 	 */
 	~ScreenClearCommand();

@@ -1,13 +1,13 @@
 #include "qttarget.h"
-#include "editor.h"
+#include "../editorcore/editor.h"
 
-QtTarget::~QtTarget()
+core::QtTarget::~QtTarget()
 {
 
 }
 
 
-void QtTarget::receive(const sad::log::Message & message)
+void core::QtTarget::receive(const sad::log::Message & message)
 {
 	if (m_enabled)
 	{
@@ -23,7 +23,7 @@ void QtTarget::receive(const sad::log::Message & message)
 	}
 }
 
-void QtTarget::critical(const sad::String & m)
+void core::QtTarget::critical(const sad::String & m)
 {
 	
 	CLOSURE
@@ -36,7 +36,7 @@ void QtTarget::critical(const sad::String & m)
 
 }
 
-void QtTarget::warning(const sad::String & m)
+void core::QtTarget::warning(const sad::String & m)
 {
 	
 	CLOSURE

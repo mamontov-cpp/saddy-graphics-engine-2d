@@ -31,10 +31,10 @@ class EditorHistory
 		void add(AbstractCommand * c);
 		/** Commits changes, moving to next non-applied command
 		 */
-		void commit(CommandChangeObserver * ob = NULL);
+		void commit(core::CommandChangeObserver * ob = NULL);
 		/** Rollbacks changed, moving to previous command
 		 */
-		void rollback(CommandChangeObserver * ob = NULL);
+		void rollback(core::CommandChangeObserver * ob = NULL);
 		/** Clears a history
 		 */
 		void clear();

@@ -350,13 +350,17 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\qttarget.cpp"
+					RelativePath=".\core\qttarget.cpp"
 					>
 				</File>
 			</Filter>
 			<Filter
 				Name="core"
 				>
+				<File
+					RelativePath=".\core\commandchangeobserver.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\core\fontdatabase.cpp"
 					>
@@ -708,10 +712,6 @@
 				Name="editorcore"
 				>
 				<File
-					RelativePath=".\editorcore\commandchangeobserver.h"
-					>
-				</File>
-				<File
 					RelativePath=".\editorcore\editor.h"
 					>
 					<FileConfiguration
@@ -771,14 +771,14 @@
 					RelativePath=".\editorcore\editorbehaviourstate.h"
 					>
 				</File>
-				<File
-					RelativePath=".\editorcore\qttarget.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
 				>
+				<File
+					RelativePath=".\core\commandchangeobserver.h"
+					>
+				</File>
 				<File
 					RelativePath=".\core\fontdatabase.h"
 					>
@@ -849,6 +849,10 @@
 				</File>
 				<File
 					RelativePath=".\core\objectxmlwriter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\qttarget.h"
 					>
 				</File>
 				<File

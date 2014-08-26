@@ -12,6 +12,9 @@
 
 class Editor;
 
+namespace core
+{
+
 /*! A target, which converts a warning and critical messages to a
 	user, using GUI
  */
@@ -46,3 +49,5 @@ class QtTarget:public sad::log::Target
 		virtual void receive(const sad::log::Message & message);
 		~QtTarget();
 };
+
+}

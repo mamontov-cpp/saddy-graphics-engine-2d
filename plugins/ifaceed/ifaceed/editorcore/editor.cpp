@@ -14,7 +14,7 @@
 
 Editor::Editor():m_icons("editor_icons")
 {
-	m_target = new QtTarget(this);
+	m_target = new core::QtTarget(this);
 	sad::Renderer::ref()->log()->addTarget(m_target);
 	m_cmdargs = NULL;
 	m_rendermutex = new sad::Mutex();

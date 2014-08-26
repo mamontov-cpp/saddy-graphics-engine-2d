@@ -4,7 +4,7 @@
 	Defines a main interface editor class
  */
 #include "../editorcore/editor.h"
-#include "../editorcore/commandchangeobserver.h"
+#include "../core/commandchangeobserver.h"
 #include "../mainpanel.h"
 #include "ifaceshareddata.h"
 #include "objectxmlwriter.h"
@@ -15,7 +15,7 @@ class FontTemplateDatabase;
 class SelectedObjectBorder;
 class IFaceSharedData;
 
-class IFaceEditor: public Editor, public CommandChangeObserver 
+class IFaceEditor: public Editor, public core::CommandChangeObserver 
 {
 	Q_OBJECT
  protected:

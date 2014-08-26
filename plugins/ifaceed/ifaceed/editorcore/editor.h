@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "../history/editorhistory.h"
-#include "qttarget.h"
+#include "../core/qttarget.h"
 #include "editorbehaviour.h"
 
 #include <scene.h>
@@ -102,13 +102,13 @@ public:
  */
 class Editor: public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
   friend class SaddyThread;
-  friend class QtTarget;
+  friend class core::QtTarget;
   private:
 	     /** Target for sending information
 		  */
-		 QtTarget * m_target;
+	     core::QtTarget * m_target;
 	     /** Thread for rendering
 		  */
 		 SaddyThread * m_renderthread; 
@@ -222,14 +222,6 @@ private:
 		 	 \return command line arguments
 		  */ 
 		 inline sad::cli::Args * commandLineArguments() { return m_cmdargs;}
-		 /** Returns a qt application
-			 \return qt application
-		  */
-		 inline QApplication * qtApp() { return this->m_qtapp;}
-		 /** Returns a qt main window
-			 \return qt main window, used in program
-		  */
-		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
 
 		 /** REIMPLEMENT this function to pass tour own shared data
 		  */
@@ -371,6 +363,14 @@ private:
 		/** Returns an icon container
 		 */
 		sad::Sprite2DConfig & icons();
+		 /** Returns a qt application
+			 \return qt application
+		  */
+		 inline QApplication * qtApp() { return this->m_qtapp;}
+		 /** Returns a qt main window
+			 \return qt main window, used in program
+		  */
+		 inline QMainWindow * qtWindow() { return this->m_mainwindow; }
   signals:
 		/** Signal is emitted, when closure is arrived
 			\param[in] closure data for closure

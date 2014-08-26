@@ -6,6 +6,9 @@
 #include <db/dbvariant.h>
 #pragma once
 
+namespace core
+{
+
 /*! A special observer for notifications of command changes
  */
 class CommandChangeObserver
@@ -16,4 +19,9 @@ class CommandChangeObserver
 		\param[in] v    an associated value
 	 */
 	virtual void submitEvent(const sad::String & eventType, const sad::db::Variant & v) = 0;
+	/*! This class can be inherited
+	 */
+	virtual ~CommandChangeObserver();
 };
+
+}

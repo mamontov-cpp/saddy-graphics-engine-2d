@@ -4,7 +4,7 @@
 	Describes an abstract command for data
  */
 #pragma once
-#include <editorcore/commandchangeobserver.h>
+#include <core/commandchangeobserver.h>
 
 class AbstractCommand
 {
@@ -12,11 +12,11 @@ class AbstractCommand
 	 /** Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
-	 virtual void commit(CommandChangeObserver * ob = NULL)=0;
+	 virtual void commit(core::CommandChangeObserver * ob = NULL)=0;
 	 /** Reverts changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
-	 virtual void rollback(CommandChangeObserver * ob = NULL)=0;
+	 virtual void rollback(core::CommandChangeObserver * ob = NULL)=0;
 	 /** Descructor
 	  */
 	 virtual ~AbstractCommand();
