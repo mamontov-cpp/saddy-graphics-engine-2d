@@ -2,33 +2,42 @@
 #include <QFontDatabase>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QTimer>
+
 #include "ifaceeditor.h"
+
 #include <freetype/font.h>
+
 #include <label.h>
 #include <fontmanager.h>
+#include <renderer.h>
+
 #include <pipeline/pipelinetask.h>
 #include <pipeline/pipeline.h>
-#include "core/fonttemplatesdatabase.h"
-#include "../editorcore/editorbehaviour.h"
-#include "../objects/screentemplate.h"
-#include "../objects/screenlabel.h"
-#include "../objects/screensprite.h"
-#include "states/idlestate.h"
-#include "states/labeladdingstate.h"
-#include "states/spriteaddingstate.h"
-#include "states/selectedstate.h"
-#include "objectborders.h"
-#include "../history/propertychangecommand.h"
-#include "../history/deletecommand.h"
-#include <QTimer>
-#include "objectxmlreader.h"
-#include "sceneaddingtask.h"
 
 #include <db/load.h>
 #include <db/save.h>
 
-#include <renderer.h>
 #include <resource/tree.h>
+
+#include "core/fonttemplatesdatabase.h"
+#include "core/editorbehaviour.h"
+
+#include "../objects/screentemplate.h"
+#include "../objects/screenlabel.h"
+#include "../objects/screensprite.h"
+
+#include "states/idlestate.h"
+#include "states/labeladdingstate.h"
+#include "states/spriteaddingstate.h"
+#include "states/selectedstate.h"
+
+#include "../history/propertychangecommand.h"
+#include "../history/deletecommand.h"
+
+#include "objectborders.h"
+#include "objectxmlreader.h"
+#include "sceneaddingtask.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -60,7 +69,7 @@ IFaceEditor::IFaceEditor()
 	m_result = new ScreenTemplate();
 	m_selection_border = NULL;
 
-	EditorBehaviour * behaviour = new EditorBehaviour(this,"idle");
+	core::EditorBehaviour * behaviour = new core::EditorBehaviour(this,"idle");
 	behaviour->addState("idle", new IdleState());
 	behaviour->addState("label_adding", new LabelAddingState());
 	behaviour->addState("selected", new SelectedState());
@@ -382,10 +391,10 @@ void IFaceEditor::onFullAppStart()
 		sad::input::Controls * c = sad::Renderer::ref()->controls();
 		c->add(*sad::input::ET_MouseMove, handler);
 		c->add(*sad::input::ET_KeyPress, kbdhandler);		
-		c->add(*sad::input::ET_KeyRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onKeyUp);
-		c->add(*sad::input::ET_MouseWheel, this, &Editor::currentBehaviour, &EditorBehaviour::onWheel);
-		c->add(*sad::input::ET_MousePress, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseDown);
-		c->add(*sad::input::ET_MouseRelease, this, &Editor::currentBehaviour, &EditorBehaviour::onMouseUp);
+		c->add(*sad::input::ET_KeyRelease, this, &Editor::currentBehaviour, &core::EditorBehaviour::onKeyUp);
+		c->add(*sad::input::ET_MouseWheel, this, &Editor::currentBehaviour, &core::EditorBehaviour::onWheel);
+		c->add(*sad::input::ET_MousePress, this, &Editor::currentBehaviour, &core::EditorBehaviour::onMouseDown);
+		c->add(*sad::input::ET_MouseRelease, this, &Editor::currentBehaviour, &core::EditorBehaviour::onMouseUp);
 
 		m_selection_border = new SelectedObjectBorder(this->shdata());
 		sad::Renderer::ref()->pipeline()->append( m_selection_border );
@@ -480,7 +489,7 @@ void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const 
 }
 
 
-EditorBehaviourSharedData * IFaceEditor::createBehaviourData()
+core::EditorBehaviourSharedData * IFaceEditor::createBehaviourData()
 {
 	IFaceSharedData * e = new IFaceSharedData();
 	e->setEditor(this);

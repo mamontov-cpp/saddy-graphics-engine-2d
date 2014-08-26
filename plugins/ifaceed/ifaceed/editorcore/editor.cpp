@@ -1,15 +1,21 @@
 #include <QTimer>
+
 #include "editor.h"
-#include <orthographiccamera.h>
+
 #include "../objects/abstractscreenobject.h"
-#include "editorbehaviour.h"
-#include "editorbehaviourshareddata.h"
+
+#include "../core/editorbehaviour.h"
+#include "../core/editorbehaviourshareddata.h"
 #include "../core/xmlconfigloader.h"
+
 #include <QMessageBox>
 #include <QDir>
 #include <QApplication>
+
+#include <orthographiccamera.h>
 #include <texturemanager.h>
 #include <unused.h>
+
 #include <input/controls.h>
 
 Editor::Editor():m_icons("editor_icons")
@@ -33,9 +39,9 @@ sad::cli::Parser * Editor::parsedArgs() const
 	return m_cmdoptions;
 }
 
-EditorBehaviourSharedData * Editor::createBehaviourData()
+core::EditorBehaviourSharedData * Editor::createBehaviourData()
 {
-	return new EditorBehaviourSharedData();
+	return new core::EditorBehaviourSharedData();
 }
 
 void Editor::init(int argc,char ** argv)
@@ -81,7 +87,7 @@ void Editor::quit()
 
 Editor::~Editor() 
 {
-	for (sad::Hash<sad::String, EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
+	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
 	{
 		delete it.value();
 	}
@@ -291,9 +297,9 @@ void Editor::setBehaviour(const sad::String & name)
 	}
 }
 
-EditorBehaviour nullBehaviour(NULL,"");
+core::EditorBehaviour nullBehaviour(NULL,"");
 
-EditorBehaviour * Editor::currentBehaviour()
+core::EditorBehaviour * Editor::currentBehaviour()
 {
 	if (m_current_behaviour.length())
 	{

@@ -1,9 +1,13 @@
 #include "../ifaceeditor.h"
+
 #include "../../objects/abstractscreenobject.h"
 #include "../../objects/screentemplate.h"
-#include "../../editorcore/editorbehaviour.h"
-#include "../../editorcore/editorbehaviourshareddata.h"
+
+#include "../../core/editorbehaviour.h"
+#include "../../core/editorbehaviourshareddata.h"
+
 #include "selectedstate.h"
+
 #include <algorithm>
 #include <vector>
 

@@ -1,7 +1,9 @@
 #include "ifacestate.h"
+
 #include "../ifaceeditor.h"
-#include "../../editorcore/editorbehaviour.h"
-#include "../../editorcore/editorbehaviourshareddata.h"
+
+#include "../../core/editorbehaviour.h"
+#include "../../core/editorbehaviourshareddata.h"
 
 IFaceEditor * IFaceState::editor()
 {

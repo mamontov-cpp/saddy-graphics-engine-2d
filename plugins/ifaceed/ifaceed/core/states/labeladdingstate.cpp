@@ -1,12 +1,17 @@
-#include "labeladdingstate.h"
-#include "../ifaceeditor.h"
-#include "../../editorcore/editorbehaviour.h"
-#include "../../editorcore/editorbehaviourshareddata.h"
-#include "../../objects/abstractscreenobject.h"
-#include "../../mainpanel.h"
-#include "../../history/newcommand.h"
 #include <unused.h>
 
+#include "labeladdingstate.h"
+
+#include "../ifaceeditor.h"
+
+#include "../../core/editorbehaviour.h"
+#include "../../core/editorbehaviourshareddata.h"
+
+#include "../../objects/abstractscreenobject.h"
+
+#include "../../mainpanel.h"
+
+#include "../../history/newcommand.h"
 
 void LabelAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {

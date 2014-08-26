@@ -1,18 +1,24 @@
 #include "selectedstate.h"
+
 #include "../ifaceeditor.h"
 #include "../objectborders.h"
-#include "../../editorcore/editorbehaviour.h"
-#include "../../editorcore/editorbehaviourshareddata.h"
+
+#include "../../core/editorbehaviour.h"
+#include "../../core/editorbehaviourshareddata.h"
+
 #include "../../objects/screentemplate.h"
 #include "../../objects/abstractscreenobject.h"
+
 #include "../../history/editorhistory.h"
 #include "../../history/movecommand.h"
+
+#include <closure.h>
 
 #include <db/load.h>
 #include <db/save.h>
 
-#include <closure.h>
 #include <marshal/serializableobject.h>
+
 #include <p2d/vector.h>
 
 SelectedState::SelectedState()

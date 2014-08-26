@@ -11,6 +11,8 @@
 class AbstractScreenObject;
 class EditorLog;
 
+namespace core
+{
 
 /*! A shared data for editor behaviour
  */
@@ -61,3 +63,4 @@ class EditorBehaviourSharedData
 	 }
 };
 
+}

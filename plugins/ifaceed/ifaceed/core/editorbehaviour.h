@@ -10,6 +10,10 @@
 #pragma once
 
 class Editor;
+
+namespace core
+{
+
 class EditorBehaviourState;
 
 /*! Describes editor behaviour, as amount of states with one state active, that handles event
@@ -17,7 +21,7 @@ class EditorBehaviourState;
 class EditorBehaviour
 {
  protected:
-	 sad::Hash<sad::String, EditorBehaviourState *> m_states; //!< All states in behaviour
+	 sad::Hash<sad::String, core::EditorBehaviourState *> m_states; //!< All states in behaviour
 	 sad::String m_previous_state; //!< Current previous state
 	 sad::String m_active_state; //!< Current active state (empty if nothing active)
 	 sad::String m_initial_state; //!< State, that will be choosed on initial start
@@ -103,3 +107,5 @@ class EditorBehaviour
 	  */
     virtual  ~EditorBehaviour();
 };
+
+}
