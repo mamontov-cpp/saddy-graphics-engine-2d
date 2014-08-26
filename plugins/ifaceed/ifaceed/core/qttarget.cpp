@@ -1,5 +1,6 @@
 #include "qttarget.h"
-#include "../core/ifaceeditor.h"
+
+#include "../core/editor.h"
 
 core::QtTarget::~QtTarget()
 {
@@ -27,7 +28,7 @@ void core::QtTarget::critical(const sad::String & m)
 {
 	
 	CLOSURE
-	CLOSURE_DATA(IFaceEditor * ed; QString w;)
+	CLOSURE_DATA(core::Editor * ed; QString w;)
 	CLOSURE_CODE(
 		QMessageBox::critical(ed->qtWindow(), "", w);
 	)
@@ -40,7 +41,7 @@ void core::QtTarget::warning(const sad::String & m)
 {
 	
 	CLOSURE
-	CLOSURE_DATA(IFaceEditor * ed; QString w;)
+	CLOSURE_DATA(core::Editor * ed; QString w;)
 	CLOSURE_CODE(
 		QMessageBox::warning(ed->qtWindow(), "", w);
 	)

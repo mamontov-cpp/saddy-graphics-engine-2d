@@ -1,4 +1,4 @@
-/*! \file   ifaceeditor.h
+/*! \file   core::Editor.h
 	\author HiddenSeeker
 
 	Defines a main interface editor class
@@ -47,9 +47,10 @@ namespace core
 class EditorBehaviour;
 class EditorBehaviourSharedData;
 class SaddyThread;
-}
 
-class IFaceEditor: public QObject, public core::CommandChangeObserver 
+/*! A main editor class, which works as event receiver and data container
+ */
+class Editor: public QObject, public core::CommandChangeObserver 
 {
 Q_OBJECT
 
@@ -58,10 +59,10 @@ friend class core::QtTarget;
 public:
 	/*! Constructs editor with empty db
 	 */
-	IFaceEditor();
+	Editor();
 	/*! Frees memory from db
 	 */
-	~IFaceEditor();
+	~Editor();
 	/*! Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
@@ -404,3 +405,4 @@ private:
 	inline bool saddyInitSuccessfull() { return this->m_saddystartedok; }
 };
 
+}

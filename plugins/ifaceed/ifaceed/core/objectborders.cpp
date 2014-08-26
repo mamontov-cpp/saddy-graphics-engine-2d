@@ -1,10 +1,17 @@
-#include "objectborders.h"
-#include "../objects/abstractscreenobject.h"
 #include <renderer.h>
-#include "ifaceeditor.h"
-
 #include <geometry2d.h>
+
+#include <config/sprite2dconfig.h>
+#include <config/sprite2dtemplate.h>
 #include <config/sprite2dobserver.h>
+
+#include "objectborders.h"
+
+#include "../objects/abstractscreenobject.h"
+
+#include "editor.h"
+
+
 
 void ActiveObjectBorder::_process()
 {

@@ -1,7 +1,9 @@
 #include "movecommand.h"
+
 #include "../objects/abstractscreenobject.h"
 #include "../objects/screentemplate.h"
-#include "../editorcore/editor.h"
+
+#include "core/editor.h"
 
 #include <db/load.h>
 #include <db/save.h>

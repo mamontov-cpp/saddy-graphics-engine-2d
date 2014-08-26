@@ -1,6 +1,6 @@
 #include "mainpanel.h"
 
-#include "core/ifaceeditor.h"
+#include "core/editor.h"
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
 #include "core/spritedatabase.h"
@@ -102,7 +102,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
 }
 
-void MainPanel::setEditor(IFaceEditor * editor) 
+void MainPanel::setEditor(core::Editor * editor) 
 {  
 	m_editor = editor; 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -142,9 +142,9 @@ void MainPanel::synchronizeDatabase()
 
 	ui.cmbFonts->clear();
 	FontTemplateDatabase * db = m_editor->database();
-	IFaceEditorFontList & list =db->fonts();
+	core::EditorFontList & list =db->fonts();
 	
-	for(IFaceEditorFontListCursor it = list.begin(); !(it.end()); it++)
+	for(core::EditorFontListCursor it = list.begin(); !(it.end()); it++)
 	{
 		ui.cmbFonts->addItem(it.name(), QVariant(it.fonts()->qtFont()));
 	}

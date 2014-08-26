@@ -4,7 +4,7 @@
 #include <QFileDialog>
 #include <QTimer>
 
-#include "ifaceeditor.h"
+#include "editor.h"
 
 #include <freetype/font.h>
 
@@ -52,11 +52,7 @@
 #include "typeconverters/sadstringtoqstring.h"
 #include "typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h"
 
-
-
-
-
-IFaceEditor::IFaceEditor() : m_icons("editor_icons")
+core::Editor::Editor() : m_icons("editor_icons")
 {
 	m_qttarget = new core::QtTarget(this);
 	sad::Renderer::ref()->log()->addTarget(m_qttarget);
@@ -133,7 +129,7 @@ IFaceEditor::IFaceEditor() : m_icons("editor_icons")
 	);
 
 }
-IFaceEditor::~IFaceEditor()
+core::Editor::~Editor()
 {
 	delete m_db;
 	delete m_result;
@@ -151,13 +147,13 @@ IFaceEditor::~IFaceEditor()
 	delete m_behavioursharedata;
 }
 
-void IFaceEditor::setDatabase(FontTemplateDatabase * db)
+void core::Editor::setDatabase(FontTemplateDatabase * db)
 {
 	delete m_db;
 	m_db = db;
 }
 
-void IFaceEditor::initSaddyRendererOptions()
+void core::Editor::initSaddyRendererOptions()
 {
 	sad::Renderer::ref()->init(sad::Settings(WINDOW_WIDTH, WINDOW_HEIGHT, false));
 	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
@@ -165,24 +161,24 @@ void IFaceEditor::initSaddyRendererOptions()
 	this->assertSaddyInit(true);
 }
 
-QMainWindow * IFaceEditor::createQtWindow()
+QMainWindow * core::Editor::createQtWindow()
 {
 	
 	return new MainPanel();
 }
 
-MainPanel * IFaceEditor::panel()
+MainPanel * core::Editor::panel()
 {
 	return static_cast<MainPanel*>(this->qtWindow());
 }
 
 
-void IFaceEditor::quit()
+void core::Editor::quit()
 {
 	sad::Renderer::ref()->quit();
 }
 
-sad::cli::Parser * IFaceEditor::createOptionParser()
+sad::cli::Parser * core::Editor::createOptionParser()
 {
 	sad::cli::Parser * r = new sad::cli::Parser();
 	r->addSingleValuedOption("ifaceconfig");
@@ -252,7 +248,7 @@ class DBLoadingTask: public sad::pipeline::AbstractTask
 };
 
 
-void IFaceEditor::reportResourceLoadingErrors(
+void core::Editor::reportResourceLoadingErrors(
 		sad::Vector<sad::resource::Error *> & errors,
 		const sad::String& configname
 )
@@ -267,7 +263,7 @@ void IFaceEditor::reportResourceLoadingErrors(
 	QTimer::singleShot(0, this->panel(), SLOT(close()));
 }
 
-void IFaceEditor::onFullAppStart()
+void core::Editor::onFullAppStart()
 {
 	if (this->parsedArgs()->single("ifaceconfig").value().length() == 0)
 	{
@@ -317,7 +313,7 @@ void IFaceEditor::onFullAppStart()
 		: public sad::input::AbstractHandlerForType<sad::input::MouseMoveEvent>
 		{
 		 public:
-			IFaceMouseMoveHandler(IFaceEditor * ed) : m_editor(ed)
+			IFaceMouseMoveHandler(core::Editor * ed) : m_editor(ed)
 			{
 			}
 			virtual void invoke(const sad::input::MouseMoveEvent & ev)
@@ -330,28 +326,28 @@ void IFaceEditor::onFullAppStart()
 				m_editor->currentBehaviour()->onMouseMove(ev);
 			}
 		 protected:
-		   IFaceEditor * m_editor;
+		   core::Editor * m_editor;
 		} * handler = new IFaceMouseMoveHandler(this);
 		class IFaceKeyDownHandler
 		: public sad::input::AbstractHandlerForType<sad::input::KeyPressEvent>
 		{
 		 public:
-			IFaceKeyDownHandler(IFaceEditor * ed) : m_editor(ed)
+			IFaceKeyDownHandler(core::Editor * ed) : m_editor(ed)
 			{
 			}
 			void commitInEditor()
 			{
 				CLOSURE
-				CLOSURE_DATA(IFaceEditor * e;)
+				CLOSURE_DATA(core::Editor * e;)
 				CLOSURE_CODE(e->history()->commit(e); )
 				INITCLOSURE( CLSET(e, m_editor); );
 				SUBMITCLOSURE( m_editor->emitClosure );
 			}
 			void rollbackInEditor()
 			{
-				IFaceEditor * ed = static_cast<IFaceEditor*>(m_editor);
+				core::Editor * ed = static_cast<core::Editor*>(m_editor);
 				CLOSURE
-				CLOSURE_DATA(IFaceEditor * e;)
+				CLOSURE_DATA(core::Editor * e;)
 				CLOSURE_CODE(e->history()->rollback(e); )
 				INITCLOSURE( CLSET(e, m_editor); );
 				SUBMITCLOSURE( m_editor->emitClosure );
@@ -385,21 +381,21 @@ void IFaceEditor::onFullAppStart()
 					m_editor->currentBehaviour()->onKeyDown(ev);
 			}
 		protected:
-		   IFaceEditor * m_editor;
+		   core::Editor * m_editor;
 		} * kbdhandler = new IFaceKeyDownHandler(this);
 
 
 		sad::input::Controls * c = sad::Renderer::ref()->controls();
 		c->add(*sad::input::ET_MouseMove, handler);
 		c->add(*sad::input::ET_KeyPress, kbdhandler);		
-		c->add(*sad::input::ET_KeyRelease, this, &IFaceEditor::currentBehaviour, &core::EditorBehaviour::onKeyUp);
-		c->add(*sad::input::ET_MouseWheel, this, &IFaceEditor::currentBehaviour, &core::EditorBehaviour::onWheel);
-		c->add(*sad::input::ET_MousePress, this, &IFaceEditor::currentBehaviour, &core::EditorBehaviour::onMouseDown);
-		c->add(*sad::input::ET_MouseRelease, this, &IFaceEditor::currentBehaviour, &core::EditorBehaviour::onMouseUp);
+		c->add(*sad::input::ET_KeyRelease, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onKeyUp);
+		c->add(*sad::input::ET_MouseWheel, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onWheel);
+		c->add(*sad::input::ET_MousePress, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onMouseDown);
+		c->add(*sad::input::ET_MouseRelease, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onMouseUp);
 
 		m_selection_border = new SelectedObjectBorder(this->shdata());
 		sad::Renderer::ref()->pipeline()->append( m_selection_border );
-		sad::Renderer::ref()->pipeline()->appendProcess(this, &IFaceEditor::tryRenderActiveObject);
+		sad::Renderer::ref()->pipeline()->appendProcess(this, &core::Editor::tryRenderActiveObject);
 		sad::Renderer::ref()->pipeline()->append( new ActiveObjectBorder(this->shdata()) );
 
 		this->setBehaviour("main");
@@ -408,24 +404,24 @@ void IFaceEditor::onFullAppStart()
 	}
 }
 
-FontTemplateDatabase * IFaceEditor::database()
+FontTemplateDatabase * core::Editor::database()
 {
 	return m_db;
 }
 
-void IFaceEditor::highlightState(const sad::String & hint)
+void core::Editor::highlightState(const sad::String & hint)
 {
 	this->panel()->highlightState(hint);
 }
 
 
-void IFaceEditor::tryRenderActiveObject()
+void core::Editor::tryRenderActiveObject()
 {
 	AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
 	if (o)
 		o->render();
 }
-void IFaceEditor::tryEraseObject()
+void core::Editor::tryEraseObject()
 {
 	sad::String state = this->currentBehaviour()->state(); 
 	if (state == "label_adding" 
@@ -448,12 +444,12 @@ void IFaceEditor::tryEraseObject()
 	}
 }
 
-void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::db::Variant & v)
+void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::db::Variant & v)
 {
 	CLOSURE
-	CLOSURE_DATA( IFaceEditor * me; )
+	CLOSURE_DATA( core::Editor * me; )
 	CLOSURE_CODE( 
-		SL_SCOPE("IFaceEditor::submitEvent()::closure");
+		SL_SCOPE("core::Editor::submitEvent()::closure");
 		if (me->m_handling_event)
 			return;
 		me->m_handling_event = true;
@@ -462,7 +458,7 @@ void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const 
 		{
 			if (me->behaviourSharedData()->activeObject() == NULL)
 			{
-				SL_SCOPE("IFaceEditor::submitEvent()::closure::callUpdateObjectStats()");
+				SL_SCOPE("core::Editor::submitEvent()::closure::callUpdateObjectStats()");
 				me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
 			}
 			// Remove order, if selected removed
@@ -470,7 +466,7 @@ void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const 
 			if (me->shdata()->selectedObject()->prop<bool>("activity",lg) == false
 			   )
 			{
-				SL_SCOPE("IFaceEditor::submitEvent()::closure::fixingSelected()");
+				SL_SCOPE("core::Editor::submitEvent()::closure::fixingSelected()");
 				if (me->currentBehaviour()->state() == "selected")
 				{
 					SL_DEBUG("Entering idle state");
@@ -487,19 +483,19 @@ void IFaceEditor::submitEvent(UNUSED const sad::String & eventType,UNUSED const 
 }
 
 
-core::EditorBehaviourSharedData * IFaceEditor::createBehaviourData()
+core::EditorBehaviourSharedData * core::Editor::createBehaviourData()
 {
 	IFaceSharedData * e = new IFaceSharedData();
 	e->setEditor(this);
 	return e;
 }
 
-IFaceSharedData * IFaceEditor::shdata()
+IFaceSharedData * core::Editor::shdata()
 {
 	return static_cast<IFaceSharedData *>(this->behaviourSharedData());
 }
 
-void IFaceEditor::appendRotationCommand()
+void core::Editor::appendRotationCommand()
 {
 	float new_angle = 0.0f;
 	float old_angle = 0.0f;
@@ -510,9 +506,9 @@ void IFaceEditor::appendRotationCommand()
 }
 
 
-void IFaceEditor::reload()
+void core::Editor::reload()
 {
-   SL_SCOPE("IFaceEditor::reload()");
+   SL_SCOPE("core::Editor::reload()");
    // 1. Load maps
    FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
    sad::String filename = this->parsedArgs()->single("ifaceconfig").value();
@@ -592,7 +588,7 @@ void IFaceEditor::reload()
 }
 
 
-void IFaceEditor::save()
+void core::Editor::save()
 {
 	QString filename = QFileDialog::getSaveFileName(
 		NULL, 
@@ -610,7 +606,7 @@ void IFaceEditor::save()
 	}
 }
 
-void IFaceEditor::load()
+void core::Editor::load()
 {
 	QString filename = QFileDialog::getOpenFileName(
 		NULL, 
@@ -682,12 +678,12 @@ void IFaceEditor::load()
 	}
 }
 
-sad::cli::Parser * IFaceEditor::parsedArgs() const
+sad::cli::Parser * core::Editor::parsedArgs() const
 {
 	return m_cmdoptions;
 }
 
-void IFaceEditor::init(int argc,char ** argv)
+void core::Editor::init(int argc,char ** argv)
 {
 	// Create dependent behaviour data
 	m_behavioursharedata = this->createBehaviourData();
@@ -718,17 +714,17 @@ void IFaceEditor::init(int argc,char ** argv)
 	m_renderthread->wait();
 
 }
-void IFaceEditor::waitForSaddyThread()
+void core::Editor::waitForSaddyThread()
 {
 	while(this->shouldMainThreadWaitForSaddy());
 }
 
-void IFaceEditor::initSaddyActions() 
+void core::Editor::initSaddyActions() 
 {
 	this->initSaddyRendererOptions();
 }
 
-void IFaceEditor::initQtActions() 
+void core::Editor::initQtActions() 
 {
 	this->m_mainwindow = this->createQtWindow();
 	this->bindQtSlots();
@@ -736,11 +732,11 @@ void IFaceEditor::initQtActions()
 }
 
 
-void IFaceEditor::bindQtSlots()
+void core::Editor::bindQtSlots()
 {
 }
 
-void IFaceEditor::runQtEventLoop()
+void core::Editor::runQtEventLoop()
 {
 	if (this->m_mainwindow) 
 	{
@@ -761,22 +757,22 @@ void IFaceEditor::runQtEventLoop()
 	}
 }
 
-void IFaceEditor::runSaddyEventLoop() 
+void core::Editor::runSaddyEventLoop() 
 {
 	m_quit_reason = core::QR_NOTSET;
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_Quit, this, &IFaceEditor::onSaddyWindowDestroySlot);
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_Quit, this, &core::Editor::onSaddyWindowDestroySlot);
 	sad::Renderer::ref()->run();
 	// Quit reason can be set by main thread, when window is closed
 	if (m_quit_reason == core::QR_NOTSET)
 		this->saddyQuitSlot();
 }
 
-void IFaceEditor::onSaddyWindowDestroySlot()
+void core::Editor::onSaddyWindowDestroySlot()
 {
 	this->onSaddyWindowDestroy();
 }
 
-void IFaceEditor::initDefaultSaddyOptions()
+void core::Editor::initDefaultSaddyOptions()
 {
 	sad::Settings sett(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	sad::Renderer::ref()->init(sett);
@@ -797,26 +793,26 @@ void IFaceEditor::initDefaultSaddyOptions()
 	this->assertSaddyInit(loaded);
 }
 
-sad::Sprite2DConfig & IFaceEditor::icons()
+sad::Sprite2DConfig & core::Editor::icons()
 {
 	return m_icons;
 }
 
-void IFaceEditor::saddyQuitSlot()
+void core::Editor::saddyQuitSlot()
 {
 	if (m_quit_reason == core::QR_NOTSET) {
 		m_quit_reason = core::QR_SADDY;
 		QTimer::singleShot(0,this,SLOT(onQuitActions()));
 	}
 }
-void IFaceEditor::qtQuitSlot()
+void core::Editor::qtQuitSlot()
 {
 	if (m_quit_reason == core::QR_NOTSET) {
 		m_quit_reason = core::QR_QTWINDOW;
 		this->onQuitActions();
 	}
 }
-void IFaceEditor::onQuitActions()
+void core::Editor::onQuitActions()
 {
 	this->onQtWindowDestroy();
 	if (m_quit_reason == core::QR_SADDY) {
@@ -829,7 +825,7 @@ void IFaceEditor::onQuitActions()
 	this->quitQtActions();
 }
 
-void IFaceEditor::eraseBehaviour()
+void core::Editor::eraseBehaviour()
 {
 	if (m_current_behaviour.length())
 	{
@@ -838,7 +834,7 @@ void IFaceEditor::eraseBehaviour()
 	m_current_behaviour.clear();
 }
 
-void IFaceEditor::setBehaviour(const sad::String & name)
+void core::Editor::setBehaviour(const sad::String & name)
 {
 	if (m_current_behaviour.length())
 	{
@@ -857,7 +853,7 @@ void IFaceEditor::setBehaviour(const sad::String & name)
 
 core::EditorBehaviour nullBehaviour(NULL,"");
 
-core::EditorBehaviour * IFaceEditor::currentBehaviour()
+core::EditorBehaviour * core::Editor::currentBehaviour()
 {
 	if (m_current_behaviour.length())
 	{
@@ -866,33 +862,33 @@ core::EditorBehaviour * IFaceEditor::currentBehaviour()
 	return &nullBehaviour;
 }
 
-void IFaceEditor::onClosureArrived(sad::ClosureBasic * closure)
+void core::Editor::onClosureArrived(sad::ClosureBasic * closure)
 {
 	closure->run();
 	delete closure;
 }
 
 
-void IFaceEditor::emitClosure(sad::ClosureBasic * closure)
+void core::Editor::emitClosure(sad::ClosureBasic * closure)
 {
 	emit closureArrived(closure);
 }
 
-void IFaceEditor::onSaddyWindowDestroy()
+void core::Editor::onSaddyWindowDestroy()
 {
 
 }
 
-void IFaceEditor::quitQtActions()
+void core::Editor::quitQtActions()
 {
 
 }
-void IFaceEditor::quitSaddyActions()
+void core::Editor::quitSaddyActions()
 {
 
 }
 
-void IFaceEditor::onQtWindowDestroy()
+void core::Editor::onQtWindowDestroy()
 {
 
 }

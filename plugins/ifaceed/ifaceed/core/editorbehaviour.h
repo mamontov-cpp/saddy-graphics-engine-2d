@@ -9,12 +9,10 @@
 #include <log/log.h>
 #pragma once
 
-class IFaceEditor;
-
 namespace core
 {
-
 class EditorBehaviourState;
+class Editor;
 
 /*! Describes editor behaviour, as amount of states with one state active, that handles event
  */
@@ -25,24 +23,24 @@ class EditorBehaviour
 	 sad::String m_previous_state; //!< Current previous state
 	 sad::String m_active_state; //!< Current active state (empty if nothing active)
 	 sad::String m_initial_state; //!< State, that will be choosed on initial start
-	 IFaceEditor * m_parent; //!< Parent editor
+	 core::Editor * m_parent; //!< Parent editor
  public:
 	 /** Constructs default empty behaviour
 		 \param[in] ed editor
 		 \param[in] initial initial state
       */
-	 EditorBehaviour(IFaceEditor* ed, const sad::String& initial);
+	 EditorBehaviour(core::Editor* ed, const sad::String& initial);
 	 /** Sets an editor
 		 \param[in] ed a linked editor to behaviour
 	  */
-	 inline void setParent(IFaceEditor* ed)
+	 inline void setParent(core::Editor* ed)
 	 {
 		 m_parent = ed;
 	 }
 	 /** Returns an editor
 		 \return editor
 	  */
-	 inline IFaceEditor * parent()
+	 inline core::Editor * parent()
 	 {
 		 return m_parent;
 	 }

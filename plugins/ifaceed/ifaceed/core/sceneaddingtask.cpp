@@ -1,6 +1,9 @@
 #include <algorithm>
+
 #include "sceneaddingtask.h"
-#include "../editorcore/editor.h"
+
+#include "../core/editor.h"
+
 #include "../objects/abstractscreenobject.h"
 
 SceneAddingTask::~SceneAddingTask()

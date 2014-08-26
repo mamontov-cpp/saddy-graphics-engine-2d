@@ -16,8 +16,10 @@
 #include <db/dbvariant.h>
 #pragma once
 
-
-class IFaceEditor;
+namespace core
+{
+class Editor;
+}
 class AbstractScreenObject;
 
 
@@ -56,7 +58,7 @@ public:
 	/** Sets an editor to work with
 		\param[in] editor editor
 	 */
-	void setEditor(IFaceEditor * editor);
+	void setEditor(core::Editor * editor);
 	
 	/*! Synchronizes database with an editor
 	 */
@@ -98,7 +100,7 @@ public:
 	void updateObjectStats(AbstractScreenObject * o);
 private:
 	Ui::MainPanelClass ui;         //!< UI
-	IFaceEditor    *   m_editor;   //!< Editor to work with
+	core::Editor    *   m_editor;   //!< Editor to work with
 protected:
 	/**
 	 * An utility flag to prevent events, from self-changing 

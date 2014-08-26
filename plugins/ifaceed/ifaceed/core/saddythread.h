@@ -6,10 +6,10 @@
 #pragma once
 #include <QThread>
 
-class IFaceEditor;
 
 namespace core
 {
+class Editor;
 
 /*! Defines a thread object, where renderer of Saddy is being run
  */
@@ -20,13 +20,13 @@ friend class Editor;
 private:
 	/*! Editor to work with
 	 */
-	IFaceEditor * m_editor;
+	core::Editor * m_editor;
 public:
 	/*! Constructs a children rendering thread. Editor is needed to
 	    send a signal to run Qt event loop
 	    \param[in] editor editor to run
 	 */
-	SaddyThread(IFaceEditor * editor);
+	SaddyThread(core::Editor * editor);
 	/*! Awaits for qt thread to do his job
 	 */
 	void waitForQtThread();
