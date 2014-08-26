@@ -350,19 +350,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\editorbehaviourstate.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\core\fontdatabase.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\core\fonttemplatesdatabase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\ifaceshareddata.cpp"
 					>
 				</File>
 				<File
@@ -394,6 +386,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\state.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\xmlconfigloader.cpp"
 					>
 				</File>
@@ -406,10 +402,6 @@
 					</File>
 					<File
 						RelativePath=".\core\states\idlestate.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\ifacestate.cpp"
 						>
 					</File>
 					<File
@@ -752,23 +744,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\editorbehaviourshareddata.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\editorbehaviourstate.h"
-					>
-				</File>
-				<File
 					RelativePath=".\core\fontdatabase.h"
 					>
 				</File>
 				<File
 					RelativePath=".\core\fonttemplatesdatabase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\ifaceshareddata.h"
 					>
 				</File>
 				<File
@@ -844,7 +824,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\shared.h"
+					>
+				</File>
+				<File
 					RelativePath=".\core\spritedatabase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\state.h"
 					>
 				</File>
 				<File
@@ -856,10 +844,6 @@
 					>
 					<File
 						RelativePath=".\core\states\idlestate.h"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\ifacestate.h"
 						>
 					</File>
 					<File

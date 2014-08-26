@@ -1,5 +1,5 @@
 #include "editorbehaviour.h"
-#include "editorbehaviourstate.h"
+#include "state.h"
 
 core::EditorBehaviour::EditorBehaviour(core::Editor* ed, const sad::String& initial)
 {
@@ -10,7 +10,7 @@ core::EditorBehaviour::EditorBehaviour(core::Editor* ed, const sad::String& init
 
 core::EditorBehaviour::~EditorBehaviour()
 {
-	for (sad::Hash<sad::String, core::EditorBehaviourState *>::iterator it= m_states.begin(); 
+	for (sad::Hash<sad::String, core::State *>::iterator it= m_states.begin(); 
 		 it!=m_states.end();
 		 it++)
 	{
@@ -18,7 +18,7 @@ core::EditorBehaviour::~EditorBehaviour()
 	}
 }
 
-void core::EditorBehaviour::addState(const sad::String & statename, core::EditorBehaviourState * state)
+void core::EditorBehaviour::addState(const sad::String & statename, core::State * state)
 {
 	SL_SCOPE("EditorBehaviour::addState()");
 	if (m_states.contains(statename))
@@ -150,9 +150,9 @@ void core::EditorBehaviour::onKeyUp(const sad::input::KeyReleaseEvent & ev)
 	}
 }
 
-core::EditorBehaviourState * core::EditorBehaviour::getState(const sad::String & statename) const
+core::State * core::EditorBehaviour::getState(const sad::String & statename) const
 {
-	core::EditorBehaviourState * state = NULL;
+	core::State * state = NULL;
 	if (m_states.contains(statename)) 
 	{
 		state = m_states[statename];

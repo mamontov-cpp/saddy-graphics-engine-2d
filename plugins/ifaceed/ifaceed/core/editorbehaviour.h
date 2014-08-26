@@ -11,7 +11,7 @@
 
 namespace core
 {
-class EditorBehaviourState;
+class State;
 class Editor;
 
 /*! Describes editor behaviour, as amount of states with one state active, that handles event
@@ -19,7 +19,7 @@ class Editor;
 class EditorBehaviour
 {
  protected:
-	 sad::Hash<sad::String, core::EditorBehaviourState *> m_states; //!< All states in behaviour
+	 sad::Hash<sad::String, core::State *> m_states; //!< All states in behaviour
 	 sad::String m_previous_state; //!< Current previous state
 	 sad::String m_active_state; //!< Current active state (empty if nothing active)
 	 sad::String m_initial_state; //!< State, that will be choosed on initial start
@@ -65,7 +65,7 @@ class EditorBehaviour
 		 \param[in] statename editor state name
 		 \param[in] state     editor state
 	  */
-	 void addState(const sad::String & statename, EditorBehaviourState * state);
+	 void addState(const sad::String & statename, State * state);
 	 /** Removes state from editor	
 		 \param[in] statename
 	  */
@@ -74,7 +74,7 @@ class EditorBehaviour
 		 \param[in] statename of state
 		 \return state
 	  */
-	 EditorBehaviourState * getState(const sad::String & statename) const;
+	 State * getState(const sad::String & statename) const;
 	/** Handles mouse movement
 		 \param[in] ev event data
 	  */

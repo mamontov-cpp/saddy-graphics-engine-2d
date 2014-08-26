@@ -3,13 +3,15 @@
 
 	Describes an selected state of editor
  */
-#include "ifacestate.h"
-#include <time.h>
-#include <vector>
+#pragma once
+#include "../state.h"
+
 #include <sadstring.h>
 #include <sadpoint.h>
 #include <geometry2d.h>
-#pragma once
+
+#include <time.h>
+#include <vector>
 
 // Screen Object
 class AbstractScreenObject;
@@ -80,7 +82,7 @@ enum SelectedStateMovementSubState
 };
 
 
-class SelectedState: public IFaceState
+class SelectedState: public core::State
 {
 protected:
 	// A substate for moving object
