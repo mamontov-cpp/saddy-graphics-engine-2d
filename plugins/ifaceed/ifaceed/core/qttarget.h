@@ -10,10 +10,10 @@
 #include <QMessageBox>
 #pragma once
 
-class IFaceEditor;
 
 namespace core
 {
+class Editor;
 
 /*! A target, which converts a warning and critical messages to a
 	user, using GUI
@@ -22,7 +22,7 @@ class QtTarget:public sad::log::Target
 {
  protected:
 		bool m_enabled;  //!< Whether we should enable showing messages
-		IFaceEditor * m_editor; //!< Editor information
+		core::Editor * m_editor; //!< Editor information
 		/*! Sends a critical message
 		 */
 		void critical(const sad::String & m);
@@ -32,7 +32,7 @@ class QtTarget:public sad::log::Target
  public:
 		/*! Creates a new disabled target
 		 */
-		inline QtTarget(IFaceEditor * ed)
+		inline QtTarget(core::Editor * ed)
 		{
 			m_enabled = false;
 			m_editor  = ed;

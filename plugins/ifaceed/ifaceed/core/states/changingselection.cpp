@@ -1,4 +1,4 @@
-#include "../ifaceeditor.h"
+#include "../editor.h"
 
 #include "../../objects/abstractscreenobject.h"
 #include "../../objects/screentemplate.h"
@@ -12,7 +12,7 @@
 #include <vector>
 
 // Contains methods for changing selection in editor
-void IFaceEditor::showObjectStats(AbstractScreenObject * o)
+void core::Editor::showObjectStats(AbstractScreenObject * o)
 {
 	if (o != NULL)
 	{
@@ -22,7 +22,7 @@ void IFaceEditor::showObjectStats(AbstractScreenObject * o)
 
 
 
-void IFaceEditor::trySelectObject(sad::Point2D p, bool enterSelected) 
+void core::Editor::trySelectObject(sad::Point2D p, bool enterSelected) 
 {
 	const std::vector<AbstractScreenObject*> & tbl = this->result()->fetchObjectsWithin(p);
 	sad::log::Log * log = sad::log::Log::ref();

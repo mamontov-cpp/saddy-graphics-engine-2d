@@ -1,6 +1,6 @@
 #include "idlestate.h"
 
-#include "../ifaceeditor.h"
+#include "../editor.h"
 
 #include "../../core/editorbehaviour.h"
 #include "../../core/editorbehaviourshareddata.h"
@@ -14,9 +14,9 @@
 void IdleState::onMouseDown(const sad::input::MousePressEvent & ev)
 {
 	if (ev.Button == sad::MouseLeft) {
-		IFaceEditor * ed = this->editor();
+		core::Editor * ed = this->editor();
 		CLOSURE
-		CLOSURE_DATA( IFaceEditor * e; sad::Point2D m_p; )
+		CLOSURE_DATA( core::Editor * e; sad::Point2D m_p; )
 		CLOSURE_CODE( this->e->trySelectObject(m_p, true); )
 		INITCLOSURE( CLSET(e, ed); CLSET(m_p, ev.pos2D()) );
 		SUBMITCLOSURE( ed->emitClosure );
@@ -25,10 +25,10 @@ void IdleState::onMouseDown(const sad::input::MousePressEvent & ev)
 
 void IdleState::enter()
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	ed->shdata()->setSelectedObject(NULL); // Disable borders
 	CLOSURE
-	CLOSURE_DATA( IFaceEditor * e; )
+	CLOSURE_DATA( core::Editor * e; )
 	CLOSURE_CODE( this->e->highlightState("Idle"); )
 	INITCLOSURE( CLSET(e, ed);  );
 	SUBMITCLOSURE( ed->emitClosure );

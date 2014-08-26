@@ -1,7 +1,7 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourstate.h"
 
-core::EditorBehaviour::EditorBehaviour(IFaceEditor* ed, const sad::String& initial)
+core::EditorBehaviour::EditorBehaviour(core::Editor* ed, const sad::String& initial)
 {
 	m_parent = ed;
 	m_initial_state = initial;

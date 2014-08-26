@@ -1,8 +1,8 @@
 #include "selectedstate.h"
 
-#include "../ifaceeditor.h"
 #include "../objectborders.h"
 
+#include "../../core/editor.h"
 #include "../../core/editorbehaviour.h"
 #include "../../core/editorbehaviourshareddata.h"
 
@@ -55,14 +55,14 @@ void SelectedState::navigateOffset(bool next)
 		if (m_navposition == -1)
 			m_navposition = m_chain.size() -1;
 	}
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	ScreenTemplate * t = ed->result();
 	SerializableObject * so = t->object(m_chain[m_navposition]);
 	if (so != NULL) 
 	{
 		AbstractScreenObject * o = static_cast<AbstractScreenObject *>(so);
 		CLOSURE
-		CLOSURE_DATA( IFaceEditor * m_e; AbstractScreenObject * m_o; )
+		CLOSURE_DATA( core::Editor * m_e; AbstractScreenObject * m_o; )
 		CLOSURE_CODE( 
 			this->m_e->behaviourSharedData()->setSelectedObject(this->m_o);
 			this->m_e->showObjectStats(this->m_o); 
@@ -87,7 +87,7 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 			m_substate = SSSS_SIMPLESELECTED;
 		}
 	}
-	IFaceEditor * ed = this->editor();	
+	core::Editor * ed = this->editor();	
 	AbstractScreenObject * o =	this->shdata()->selectedObject();
 	if (m_substate == SSSS_SIMPLESELECTED && o->rotatable()) 
 	{
@@ -113,7 +113,7 @@ void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 			 .toStdString()
 			);
 	if (ev.Button == sad::MouseLeft) {
-		IFaceEditor * ed = this->editor();
+		core::Editor * ed = this->editor();
 		sad::Point2D p = ev.pos2D();
 		AbstractScreenObject * o = this->shdata()->selectedObject();
 		sad::Vector<BorderHotSpots> r = ed->selectionBorder()->isWithin(p);
@@ -150,7 +150,7 @@ void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 			else 
 			{
 				CLOSURE
-				CLOSURE_DATA( IFaceEditor * e; sad::Point2D m_p; )
+				CLOSURE_DATA( core::Editor * e; sad::Point2D m_p; )
 				CLOSURE_CODE( this->e->trySelectObject(m_p, false); )
 				INITCLOSURE( CLSET(e, ed); CLSET(m_p, p) );
 				SUBMITCLOSURE( ed->emitClosure );
@@ -162,7 +162,7 @@ void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 
 void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	sad::Point2D p = ev.pos2D();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	sad::log::Log * log = sad::log::Log::ref();
@@ -170,7 +170,7 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 	{	
 		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
 		CLOSURE
-		CLOSURE_DATA( IFaceEditor * e;  )
+		CLOSURE_DATA( core::Editor * e;  )
 		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
 		INITCLOSURE( CLSET(e, ed);  );
 		SUBMITCLOSURE( ed->emitClosure );
@@ -181,7 +181,7 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 		sad::Rect2D nr  = m_resizingsubstate.action.apply(m_resizingsubstate.oldRect, d);
 		o->setRotatedRectangle(nr, o->prop<float>("angle", log));
 		CLOSURE
-		CLOSURE_DATA( IFaceEditor * e;  )
+		CLOSURE_DATA( core::Editor * e;  )
 		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
 		INITCLOSURE( CLSET(e, ed);  );
 		SUBMITCLOSURE( ed->emitClosure );
@@ -190,7 +190,7 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 
 void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	sad::input::MouseMoveEvent movingevent;
 	movingevent.Point3D = ev.Point3D;
@@ -215,12 +215,12 @@ void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 
 void SelectedState::enter()
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
     //AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::db::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
 	CLOSURE
-	CLOSURE_DATA( IFaceEditor * e; )
+	CLOSURE_DATA( core::Editor * e; )
 	CLOSURE_CODE( this->e->highlightState("Selected"); )
 	INITCLOSURE( CLSET(e, ed); );
 	SUBMITCLOSURE( ed->emitClosure );
@@ -228,7 +228,7 @@ void SelectedState::enter()
 
 void SelectedState::leave()
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
     //AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::db::Variant(0));
 }
@@ -238,7 +238,7 @@ void SelectedState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
 	if (ev.Key == sad::Esc)
 	{
-		IFaceEditor * ed = this->editor();
+		core::Editor * ed = this->editor();
 		this->shdata()->setSelectedObject(NULL);
 		ed->currentBehaviour()->enterState("idle");
 	}

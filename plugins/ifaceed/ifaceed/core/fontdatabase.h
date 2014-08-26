@@ -13,7 +13,7 @@
 #include <QString>
 #include <QFontDatabase>
 
-class IFaceEditorFontList;
+class IFaceEditorFont;
 
 /** Defines a font, used in editor
  */

@@ -29,7 +29,7 @@ void IFaceEditorFont::unloadFromQDB(const QString & name,UNUSED QFontDatabase & 
 
 bool IFaceEditorFont::loadFont(const QString & file, const QString & name, QFontDatabase & db, sad::FontManager * mgr)
 {
-	SL_SCOPE("IFaceEditorFont::loadFont");
+	SL_SCOPE("core::EditorFont::loadFont");
 	if (m_appfontindex!=-1 || m_saddyfont!=NULL) {
 		if (m_qdb==NULL || m_name.count() == 0)
 			SL_CRITICAL("Empty QDB or name is empty!");
@@ -75,7 +75,7 @@ IFaceEditorFont * IFaceEditorFontListCursor::fonts()
 	return m_impl.value();
 }
 
-QString    IFaceEditorFontListCursor::name()
+QString   IFaceEditorFontListCursor::name()
 {
 	if (end())
 		return QString("");
@@ -86,7 +86,7 @@ IFaceEditorFontListCursor & IFaceEditorFontListCursor::operator++(int)
 {
 	if (end())
 		return *this;
-	m_impl++;
+	++m_impl;
 	return *this;
 }
 

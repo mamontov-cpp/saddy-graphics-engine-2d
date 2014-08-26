@@ -2,8 +2,7 @@
 
 #include "labeladdingstate.h"
 
-#include "../ifaceeditor.h"
-
+#include "../../core/editor.h"
 #include "../../core/editorbehaviour.h"
 #include "../../core/editorbehaviourshareddata.h"
 
@@ -20,9 +19,9 @@ void LabelAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 
 void LabelAddingState::enter()
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	CLOSURE
-	CLOSURE_DATA( IFaceEditor * ed; )
+	CLOSURE_DATA( core::Editor * ed; )
 	CLOSURE_CODE( ed->panel()->setAddingEnabled(false); ed->highlightState("Place a label");  )
 	INITCLOSURE(  CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
@@ -30,7 +29,7 @@ void LabelAddingState::enter()
 
 void LabelAddingState::leave()
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	ed->behaviourSharedData()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -44,7 +43,7 @@ void LabelAddingState::leave()
 void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 {
 	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	MainPanel * p = ed->panel();
 	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
 	//float a = o->getProperty("angle")->get<float>().value();
@@ -63,7 +62,7 @@ void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 
 void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
-	IFaceEditor * ed = this->editor();
+	core::Editor * ed = this->editor();
 	AbstractScreenObject * o =	this->shdata()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
@@ -81,7 +80,7 @@ void LabelAddingState::onKeyDown(const sad::input::KeyPressEvent  & ev)
 {
 	if (ev.Key == sad::Esc) 
 	{
-		IFaceEditor * ed = this->editor();
+		core::Editor * ed = this->editor();
 		ed->tryEraseObject();
 	}
 }

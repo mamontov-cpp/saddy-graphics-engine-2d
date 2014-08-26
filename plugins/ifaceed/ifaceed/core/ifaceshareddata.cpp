@@ -1,5 +1,5 @@
 #include "ifaceshareddata.h"
-#include "ifaceeditor.h"
+#include "editor.h"
 
 sad::Sprite2DConfig * IFaceSharedData::icons()
 {

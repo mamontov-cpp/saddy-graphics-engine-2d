@@ -1,4 +1,4 @@
-/*! \mainpage IFaceEditor
+/*! \mainpage core::Editor
 	
 	A simple editor for editing ingame screens. Supports placing some sprite and text, saving and
 	loading to xml files with those. Loads sprites from specific configs - see examples.
@@ -14,9 +14,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "editorcore/editor.h"
-
-#include "core/ifaceeditor.h"
+#include "core/editor.h"
 
 #include <log/log.h>
 
@@ -35,7 +33,7 @@ int main(int argc, char *argv[])
 		QTextCodec::setCodecForCStrings(codec);
 		QTextCodec::setCodecForLocale(codec);
 	#endif
-	IFaceEditor * editor =new IFaceEditor();
+	core::Editor * editor =new core::Editor();
 	editor->init(argc,argv);
 	delete editor;
 	return 0;

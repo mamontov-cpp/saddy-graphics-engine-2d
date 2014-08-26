@@ -1,6 +1,7 @@
 #include "screentemplate.h"
 #include "abstractscreenobject.h"
-#include "../editorcore/editor.h"
+
+#include "../core/editor.h"
 
 #include <geometry2d.h>
 #include <p2d/point.h>

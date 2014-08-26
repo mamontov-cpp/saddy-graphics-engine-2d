@@ -1,13 +1,12 @@
 #include "ifacestate.h"
 
-#include "../ifaceeditor.h"
-
+#include "../../core/editor.h"
 #include "../../core/editorbehaviour.h"
 #include "../../core/editorbehaviourshareddata.h"
 
-IFaceEditor * IFaceState::editor()
+core::Editor * IFaceState::editor()
 {
-	return static_cast<IFaceEditor *>(this->behaviour()->parent());
+	return static_cast<core::Editor *>(this->behaviour()->parent());
 }
 
 IFaceSharedData * IFaceState::shdata()

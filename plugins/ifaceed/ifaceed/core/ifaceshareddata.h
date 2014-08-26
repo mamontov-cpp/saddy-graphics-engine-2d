@@ -12,15 +12,16 @@
 
 #include <log/log.h>
 
+namespace core
+{
+	class Editor;
+}
 
-
-class IFaceEditor;
-class EditorLog;
 class IFaceSharedData: public core::EditorBehaviourSharedData
 {
 private:
 	 // An editor log for shared data
-	 IFaceEditor      * m_editor;
+	 core::Editor      * m_editor;
 	 // An icons for rendering at borders
 	 sad::Sprite2DConfig * m_icons;
 
@@ -34,7 +35,7 @@ public:
 	 /*! Sets a current editor
 		 \param[in] e editor
 	  */
-	 inline void setEditor(IFaceEditor * e) { m_editor = e;}
+	 inline void setEditor(core::Editor * e) { m_editor = e;}
 	 /*! Returns current rendered icons
 	  */
 	 sad::Sprite2DConfig * icons();
