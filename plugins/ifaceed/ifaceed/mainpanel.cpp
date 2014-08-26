@@ -4,9 +4,8 @@
 #include "core/fonttemplatesdatabase.h"
 #include "core/fontdatabase.h"
 #include "core/spritedatabase.h"
-
-#include "editorcore/editorbehaviour.h"
-#include "editorcore/editorbehaviourshareddata.h"
+#include "core/editorbehaviour.h"
+#include "core/editorbehaviourshareddata.h"
 
 #include "objects/screenlabel.h"
 #include "objects/screensprite.h"
@@ -290,7 +289,7 @@ void MainPanel::setAddingEnabled(bool enabled)
 
 void MainPanel::trySetProperty(const sad::String & prop, float v)
 {
-	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
+	core::EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
 	AbstractScreenObject * o = NULL;
 	sad::db::Property * _property = NULL;
 	bool selected = false;
@@ -349,7 +348,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 
 template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T v)
 {
-	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
+	core::EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
 	AbstractScreenObject * o = NULL;
 	sad::db::Property * _property = NULL;
 	bool selected = false;

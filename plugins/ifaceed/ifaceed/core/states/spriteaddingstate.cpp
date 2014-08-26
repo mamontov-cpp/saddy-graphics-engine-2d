@@ -1,12 +1,19 @@
+#include <unused.h>
+
 #include "spriteaddingstate.h"
+
 #include "../ifaceeditor.h"
-#include "../../editorcore/editorbehaviour.h"
-#include "../../editorcore/editorbehaviourshareddata.h"
+
+#include "../../core/editorbehaviour.h"
+#include "../../core/editorbehaviourshareddata.h"
+
 #include "../../objects/abstractscreenobject.h"
+
 #include "../../mainpanel.h"
+
 #include "../../history/newcommand.h"
 #include "../../objects/screensprite.h"
-#include <unused.h>
+
 
 
 void SimpleSpriteAddingState::enter()

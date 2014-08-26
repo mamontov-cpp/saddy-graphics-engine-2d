@@ -7,6 +7,10 @@
 #include <log/log.h>
 #pragma once
 
+
+namespace core
+{
+
 class EditorBehaviour;
 
 
@@ -17,12 +21,12 @@ class EditorBehaviourState
  protected:
 	 /** Describes a behaviour for data
 	  */
-	 EditorBehaviour * m_behaviour;
+	 core::EditorBehaviour * m_behaviour;
  public:
 	 EditorBehaviourState();
 	 /** Sets a behaviour for state
 	  */
-	 inline void setBehaviour(EditorBehaviour * behaviour)
+	 inline void setBehaviour(core::EditorBehaviour * behaviour)
 	 {
 		 m_behaviour = behaviour;
 	 }
@@ -70,3 +74,5 @@ class EditorBehaviourState
 
 	
 };
+
+}

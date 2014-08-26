@@ -60,7 +60,7 @@ class IFaceEditor: public Editor, public core::CommandChangeObserver
  protected:
 	/** Returns a specific shared data
 	  */
-	 virtual EditorBehaviourSharedData * createBehaviourData();
+	 virtual core::EditorBehaviourSharedData * createBehaviourData();
 	/*! A selection border with capabilities spots to edit item
 	 */
     SelectedObjectBorder * m_selection_border;

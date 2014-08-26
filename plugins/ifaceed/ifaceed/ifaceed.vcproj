@@ -341,24 +341,20 @@
 					RelativePath=".\editorcore\editor.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\editorcore\editorbehaviour.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\editorcore\editorbehaviourstate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\qttarget.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
 				>
 				<File
 					RelativePath=".\core\commandchangeobserver.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\editorbehaviour.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\editorbehaviourstate.cpp"
 					>
 				</File>
 				<File
@@ -387,6 +383,10 @@
 				</File>
 				<File
 					RelativePath=".\core\objectxmlwriter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\core\qttarget.cpp"
 					>
 				</File>
 				<File
@@ -759,24 +759,24 @@
 						/>
 					</FileConfiguration>
 				</File>
-				<File
-					RelativePath=".\editorcore\editorbehaviour.h"
-					>
-				</File>
-				<File
-					RelativePath=".\editorcore\editorbehaviourshareddata.h"
-					>
-				</File>
-				<File
-					RelativePath=".\editorcore\editorbehaviourstate.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="core"
 				>
 				<File
 					RelativePath=".\core\commandchangeobserver.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\editorbehaviour.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\editorbehaviourshareddata.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\editorbehaviourstate.h"
 					>
 				</File>
 				<File

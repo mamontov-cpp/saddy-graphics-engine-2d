@@ -3,7 +3,7 @@
 
 	A special state, that knows that it's from IFaceEditor
  */
-#include "../../editorcore/editorbehaviourstate.h"
+#include "../../core/editorbehaviourstate.h"
 #pragma once
 
 
@@ -11,7 +11,7 @@ class IFaceEditor;
 class IFaceSharedData;
 class EditorBehaviourSharedData;
 
-class IFaceState: public EditorBehaviourState
+class IFaceState: public core::EditorBehaviourState
 {
  public:
 	/*! Returns an editor for state

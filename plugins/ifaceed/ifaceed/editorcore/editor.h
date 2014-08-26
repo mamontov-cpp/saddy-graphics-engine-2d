@@ -5,8 +5,9 @@
  */
 #pragma once
 #include "../history/editorhistory.h"
+
 #include "../core/qttarget.h"
-#include "editorbehaviour.h"
+#include "../core/editorbehaviour.h"
 
 #include <scene.h>
 #include <sadmutex.h>
@@ -45,9 +46,14 @@ enum EditorQuitReason
 
 class Editor;
 class EditogLog;
+class AbstractScreenObject;
+
+namespace core
+{
 class EditorBehaviour;
 class EditorBehaviourSharedData;
-class AbstractScreenObject;
+}
+
 /** Interlocked scene, used to iterate while rendering
  */
 class InterlockedScene: public sad::Scene
@@ -150,14 +156,14 @@ class Editor: public QObject
 		 EditorHistory * m_history;
 		 /** Describes a behaviour shared data
 		  */
-		 EditorBehaviourSharedData * m_behavioursharedata;
+		 core::EditorBehaviourSharedData * m_behavioursharedata;
 		 /** An icons container
 		  */
 		 sad::Sprite2DConfig m_icons;
 protected:
 		/** A defines editor behaviours
 		 */
-	    sad::Hash<sad::String, EditorBehaviour *> m_behaviours;
+		sad::Hash<sad::String, core::EditorBehaviour *> m_behaviours;
 	    /** A current behaviour
 		 */
 		sad::String m_current_behaviour;
@@ -225,7 +231,7 @@ private:
 
 		 /** REIMPLEMENT this function to pass tour own shared data
 		  */
-		 virtual EditorBehaviourSharedData * createBehaviourData();
+		 virtual core::EditorBehaviourSharedData * createBehaviourData();
 		 /** REIMPLEMENT this function to pass your own renderer settings into saddy
 		  */
 		 virtual void initSaddyRendererOptions();
@@ -299,7 +305,7 @@ private:
 	    /*! Returns a behaviour shated data, needed to implement some stuff
 			\return shared data for behaviour
 		 */
-		inline EditorBehaviourSharedData * behaviourSharedData() 
+		inline core::EditorBehaviourSharedData * behaviourSharedData() 
 		{
 			return m_behavioursharedata;
 		}
@@ -327,7 +333,7 @@ private:
 		virtual void quit();
 		/** Returns a behaviour data
 		 */
-		inline sad::Hash<sad::String, EditorBehaviour *> & behaviours() 
+		inline sad::Hash<sad::String, core::EditorBehaviour *> & behaviours() 
 		{
 			return m_behaviours;
 		}
@@ -345,7 +351,7 @@ private:
 		/** Enters a behaviour of editor
 			\return editor behaviour
 		 */
-		EditorBehaviour * currentBehaviour();
+		core::EditorBehaviour * currentBehaviour();
 		/** Removes a command arguments data
 		 */
 		~Editor();

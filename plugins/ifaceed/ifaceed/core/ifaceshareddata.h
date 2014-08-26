@@ -3,16 +3,20 @@
 
 	Creates  an editor shared data with information of shared data
  */
-#include "../editorcore/editorbehaviourshareddata.h"
-#include <QTimer>
-#include <config/sprite2dconfig.h>
-#include <log/log.h>
 #pragma once
+#include "../core/editorbehaviourshareddata.h"
+
+#include <QTimer>
+
+#include <config/sprite2dconfig.h>
+
+#include <log/log.h>
+
 
 
 class IFaceEditor;
 class EditorLog;
-class IFaceSharedData: public EditorBehaviourSharedData
+class IFaceSharedData: public core::EditorBehaviourSharedData
 {
 private:
 	 // An editor log for shared data
@@ -40,7 +44,7 @@ public:
 	 sad::log::Log * log();
 	 /*! Shared data is initialized with zero selected object
 	  */
-	 inline IFaceSharedData(): EditorBehaviourSharedData()
+	 inline IFaceSharedData(): core::EditorBehaviourSharedData()
 	 {
 		 m_rotation_timer = NULL;
 		 m_rotation_command_pending = false;

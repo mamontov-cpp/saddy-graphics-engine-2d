@@ -1,16 +1,16 @@
 #include "editorbehaviour.h"
 #include "editorbehaviourstate.h"
 
-EditorBehaviour::EditorBehaviour(Editor * ed, const sad::String & initial)
+core::EditorBehaviour::EditorBehaviour(Editor * ed, const sad::String & initial)
 {
 	m_parent = ed;
 	m_initial_state = initial;
 }
 
 
-EditorBehaviour::~EditorBehaviour()
+core::EditorBehaviour::~EditorBehaviour()
 {
-	for (sad::Hash<sad::String, EditorBehaviourState *>::iterator it= m_states.begin(); 
+	for (sad::Hash<sad::String, core::EditorBehaviourState *>::iterator it= m_states.begin(); 
 		 it!=m_states.end();
 		 it++)
 	{
@@ -18,7 +18,7 @@ EditorBehaviour::~EditorBehaviour()
 	}
 }
 
-void EditorBehaviour::addState(const sad::String & statename, EditorBehaviourState * state)
+void core::EditorBehaviour::addState(const sad::String & statename, core::EditorBehaviourState * state)
 {
 	SL_SCOPE("EditorBehaviour::addState()");
 	if (m_states.contains(statename))
@@ -30,7 +30,7 @@ void EditorBehaviour::addState(const sad::String & statename, EditorBehaviourSta
 	m_states.insert(statename, state);
 }
 
-void EditorBehaviour::removeState(const sad::String & statename)
+void core::EditorBehaviour::removeState(const sad::String & statename)
 {
 	SL_SCOPE("EditorBehaviour::removeState()");
 	if (!m_states.contains(statename))
@@ -47,7 +47,7 @@ void EditorBehaviour::removeState(const sad::String & statename)
 
 
 
-void EditorBehaviour::activate()
+void core::EditorBehaviour::activate()
 {
 	SL_SCOPE("EditorBehaviour::activate()");
 	if (m_active_state.length())
@@ -62,7 +62,7 @@ void EditorBehaviour::activate()
 }
 
 
-void EditorBehaviour::deactivate()
+void core::EditorBehaviour::deactivate()
 {
 	if (m_active_state.length())
 	{
@@ -71,13 +71,13 @@ void EditorBehaviour::deactivate()
 	m_active_state = sad::String();
 }
 
-void EditorBehaviour::cancelState()
+void core::EditorBehaviour::cancelState()
 {
 	sad::String old_state = m_previous_state; 
 	this->enterState(old_state);
 }
 
-void EditorBehaviour::enterState(const sad::String & state)
+void core::EditorBehaviour::enterState(const sad::String & state)
 {
 	SL_SCOPE("EditorBehaviour::enterState()");
 	if (m_active_state.length())
@@ -98,7 +98,7 @@ void EditorBehaviour::enterState(const sad::String & state)
 	}
 }
 
-void EditorBehaviour::onMouseMove(const sad::input::MouseMoveEvent & ev)
+void core::EditorBehaviour::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -106,7 +106,7 @@ void EditorBehaviour::onMouseMove(const sad::input::MouseMoveEvent & ev)
 	}
 }
 
-void EditorBehaviour::onMouseDown(const sad::input::MousePressEvent & ev)
+void core::EditorBehaviour::onMouseDown(const sad::input::MousePressEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -114,7 +114,7 @@ void EditorBehaviour::onMouseDown(const sad::input::MousePressEvent & ev)
 	}
 }
 
-void EditorBehaviour::onMouseUp(const sad::input::MouseReleaseEvent & ev)
+void core::EditorBehaviour::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -122,7 +122,7 @@ void EditorBehaviour::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 	}
 }
 
-void EditorBehaviour::onWheel(const sad::input::MouseWheelEvent & ev)
+void core::EditorBehaviour::onWheel(const sad::input::MouseWheelEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -133,7 +133,7 @@ void EditorBehaviour::onWheel(const sad::input::MouseWheelEvent & ev)
 
 
 
-void EditorBehaviour::onKeyDown(const sad::input::KeyPressEvent & ev)
+void core::EditorBehaviour::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -142,7 +142,7 @@ void EditorBehaviour::onKeyDown(const sad::input::KeyPressEvent & ev)
 }
 
 
-void EditorBehaviour::onKeyUp(const sad::input::KeyReleaseEvent & ev)
+void core::EditorBehaviour::onKeyUp(const sad::input::KeyReleaseEvent & ev)
 {
 	if (m_active_state.length())
 	{
@@ -150,9 +150,9 @@ void EditorBehaviour::onKeyUp(const sad::input::KeyReleaseEvent & ev)
 	}
 }
 
-EditorBehaviourState * EditorBehaviour::getState(const sad::String & statename) const
+core::EditorBehaviourState * core::EditorBehaviour::getState(const sad::String & statename) const
 {
-	EditorBehaviourState * state = NULL;
+	core::EditorBehaviourState * state = NULL;
 	if (m_states.contains(statename)) 
 	{
 		state = m_states[statename];
