@@ -3,7 +3,7 @@
 #include "../editor.h"
 
 #include "../../core/editorbehaviour.h"
-#include "../../core/editorbehaviourshareddata.h"
+#include "../../core/shared.h"
 
 #include "../../objects/screentemplate.h"
 

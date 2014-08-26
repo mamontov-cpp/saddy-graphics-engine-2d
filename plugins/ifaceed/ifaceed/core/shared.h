@@ -1,25 +1,39 @@
-/*! \file ifaceshareddata.h
+/*! \file   editorbehaviourshareddata.h
 	\author HiddenSeeker
 
-	Creates  an editor shared data with information of shared data
+	Defines an editor behaviour shared data, needed  to define
+	interaction with behaviours
  */
 #pragma once
-#include "../core/editorbehaviourshareddata.h"
+#include <stdio.h>
 
 #include <QTimer>
 
+#include <sadstring.h>
+
 #include <config/sprite2dconfig.h>
+
+#include <hfsm/hfsmshared.h>
 
 #include <log/log.h>
 
+class AbstractScreenObject;
+
+
 namespace core
 {
-	class Editor;
-}
 
-class IFaceSharedData: public core::EditorBehaviourSharedData
+class Editor;
+
+/*! A shared data for editor behaviour
+ */
+class Shared: public sad::hfsm::Shared
 {
 private:
+	 AbstractScreenObject * m_selected_object;    //!< A current selected object
+	 AbstractScreenObject * m_active_object;      //!< A current active obhect
+	 bool					m_show_active_border;  //!< A current active border
+
 	 // An editor log for shared data
 	 core::Editor      * m_editor;
 	 // An icons for rendering at borders
@@ -32,23 +46,56 @@ private:
 	 float	  m_new_angle;                //!< Toggles new angle
 	 float	  m_old_angle;                //!< Toggles old angle
 public:
+	 
+	 /*! Shared data is initialized with zero selected object
+	  */
+	 inline Shared() 
+	 {
+		 m_selected_object = NULL;
+		 m_active_object = NULL;
+		 m_show_active_border = true;
+		 m_rotation_timer = NULL;
+		 m_rotation_command_pending = false;
+	 }
+	 inline bool mustShowActiveBorder() { return m_show_active_border  && m_active_object != NULL;}
+	 inline void toggleActiveBorder(bool flag) { m_show_active_border = flag;}
+	 /*! Returns a current selected object
+	  */
+	 inline AbstractScreenObject * selectedObject() const
+	 {
+		return m_selected_object;
+	 }
+	 /*! Sets current selected object to a specified data
+	  */
+	 inline void setSelectedObject(AbstractScreenObject * o) 
+	 {
+		 m_selected_object = o;
+		 SL_DEBUG(sad::String("selected object is now ") 
+			     + sad::String::number(reinterpret_cast<unsigned long>(o))
+				 );
+	 }
+	 /*! Returns a current active object
+	  */
+	 inline AbstractScreenObject * activeObject() const
+	 {
+		return m_active_object;
+	 }
+	 /*! Sets current active object to a specified data
+	  */
+	 inline void setActiveObject(AbstractScreenObject * o) 
+	 {
+		 m_active_object = o;
+	 }
+
 	 /*! Sets a current editor
 		 \param[in] e editor
 	  */
 	 inline void setEditor(core::Editor * e) { m_editor = e;}
 	 /*! Returns current rendered icons
 	  */
-	 sad::Sprite2DConfig * icons();
-	 /*! Returns log information
-		 \return log
-	  */
-	 sad::log::Log * log();
-	 /*! Shared data is initialized with zero selected object
-	  */
-	 inline IFaceSharedData(): core::EditorBehaviourSharedData()
+	 inline sad::Sprite2DConfig * icons()
 	 {
-		 m_rotation_timer = NULL;
-		 m_rotation_command_pending = false;
+		 return m_icons;
 	 }
 	 /*! Starts a pending of rotation command
 		 \param[in] t		timer
@@ -94,3 +141,5 @@ public:
 		 old_angle = m_old_angle;
 	 }
 };
+
+}

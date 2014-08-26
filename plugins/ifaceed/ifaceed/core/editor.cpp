@@ -483,16 +483,16 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 }
 
 
-core::EditorBehaviourSharedData * core::Editor::createBehaviourData()
+core::Shared * core::Editor::createBehaviourData()
 {
-	IFaceSharedData * e = new IFaceSharedData();
+	core::Shared * e = new core::Shared();
 	e->setEditor(this);
 	return e;
 }
 
-IFaceSharedData * core::Editor::shdata()
+core::Shared* core::Editor::shdata()
 {
-	return static_cast<IFaceSharedData *>(this->behaviourSharedData());
+	return this->behaviourSharedData();
 }
 
 void core::Editor::appendRotationCommand()

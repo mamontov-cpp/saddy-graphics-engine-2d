@@ -14,7 +14,7 @@
 
 #include "../mainpanel.h"
 
-#include "ifaceshareddata.h"
+#include "shared.h"
 #include "objectxmlwriter.h"
 
 #include <scene.h>
@@ -45,7 +45,7 @@ class IFaceSharedData;
 namespace core
 {
 class EditorBehaviour;
-class EditorBehaviourSharedData;
+class Shared;
 class SaddyThread;
 
 /*! A main editor class, which works as event receiver and data container
@@ -87,7 +87,7 @@ public:
 	/*! Returns shared data
 		\return shared data information
 	*/
-	IFaceSharedData * shdata();
+	core::Shared * shdata();
 	/*! Quits an editor
 	 */
 	void quit();
@@ -117,7 +117,7 @@ public:
 	/*! Returns a behaviour shated data, needed to implement some stuff
 		\return shared data for behaviour
 	 */
-	inline core::EditorBehaviourSharedData * behaviourSharedData() 
+	inline core::Shared * behaviourSharedData() 
 	{
 		return m_behavioursharedata;
 	}
@@ -203,7 +203,7 @@ signals:
 protected:
 	/*! Returns a specific shared data
 	*/
-	virtual core::EditorBehaviourSharedData * createBehaviourData();
+	virtual core::Shared * createBehaviourData();
 	/*! A selection border with capabilities spots to edit item
 	*/
     SelectedObjectBorder * m_selection_border;
@@ -351,7 +351,7 @@ private:
 	EditorHistory * m_history;
 	/*! Describes a behaviour shared data
 	*/
-	core::EditorBehaviourSharedData * m_behavioursharedata;
+	core::Shared * m_behavioursharedata;
 	/*! An icons container
 	*/
 	sad::Sprite2DConfig m_icons;

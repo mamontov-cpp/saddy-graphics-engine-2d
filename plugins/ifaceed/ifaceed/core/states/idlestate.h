@@ -3,14 +3,16 @@
 
 	Describes an idle state of editor
  */
-#include "ifacestate.h"
+#pragma once
+#include "../state.h"
+
+#include <sadstring.h>
+
 #include <time.h>
 #include <vector>
-#include <sadstring.h>
-#pragma once
 
 
-class IdleState: public IFaceState
+class IdleState: public core::State
 {
 public:
 	/** Highlights entering a state

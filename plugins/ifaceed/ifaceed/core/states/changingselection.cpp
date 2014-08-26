@@ -4,7 +4,7 @@
 #include "../../objects/screentemplate.h"
 
 #include "../../core/editorbehaviour.h"
-#include "../../core/editorbehaviourshareddata.h"
+#include "../../core/shared.h"
 
 #include "selectedstate.h"
 
