@@ -624,6 +624,16 @@ sad::db::Database * sad::Renderer::database(const sad::String & name) const
 	return NULL;
 }
 
+void sad::Renderer::lockRendering()
+{
+	m_lockrendering.lock();	
+}
+
+void sad::Renderer::unlockRendering()
+{
+	m_lockrendering.unlock();	
+}
+
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);
@@ -702,6 +712,7 @@ void sad::Renderer::startRendering()
 
 void sad::Renderer::renderScenes()
 {
+	this->lockRendering();
 	this->performQueuedActions();
 	this->lockChanges();
 	for(size_t i = 0; i < m_scenes.count(); i++)
@@ -717,6 +728,7 @@ void sad::Renderer::renderScenes()
 	}
 	this->unlockChanges();
 	this->performQueuedActions();
+	this->unlockRendering();
 }
 
 void sad::Renderer::finishRendering()

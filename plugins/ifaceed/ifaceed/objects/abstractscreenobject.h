@@ -3,17 +3,20 @@
 
 	Describes an abstract screen template object
  */
-#include <log/log.h>
-#include "scene.h"
-#include "marshal/serializableobject.h"
-#include "db/dbfield.h"
-#include "sadpoint.h"
-#include <QString>
 #pragma once
+#include <QString>
+
+#include <log/log.h>
+
+#include <scene.h>
+#include <sadpoint.h>
+
+#include <marshal/serializableobject.h>
+
+#include <db/dbfield.h>
 
 class EditorLog;
 class ScreenTemplate;
-class InterlockedScene;
 class FontTemplateDatabase;
 /** Describes an abstract object of screen template
  */
@@ -40,15 +43,6 @@ class AbstractScreenObject: public sad::SceneNode, public SerializableObject
 	/** Returns parent object of template
 	 */
 	ScreenTemplate * screenTemplate() const;
-	/*! Returns interlocked scene as needed
-		\return interlocked scene
-	 */
-	inline InterlockedScene * scene() 
-	{
-		if (this->sad::SceneNode::scene() == NULL)
-			return NULL;
-		return reinterpret_cast<InterlockedScene *>(this->sad::SceneNode::scene());
-	}
 	/*! Whether we can rotate object
 	 */
 	virtual bool rotatable();

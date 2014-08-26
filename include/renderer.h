@@ -22,6 +22,7 @@
 #include "temporarilyimmutablecontainer.h"
 #include "sadptrvector.h"
 #include "sadptrhash.h"
+#include "sadmutex.h"
 #include "primitiverenderer.h"
 
 namespace sad
@@ -311,6 +312,12 @@ public:
 		\return database or  NULL if not found
 	 */
 	sad::db::Database * database(const sad::String & name) const;
+	/*! Locks rendering of scenes
+	 */
+	void lockRendering();
+	/*! Unlocks rendering of scenes
+	 */
+	void unlockRendering();
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -386,6 +393,9 @@ protected:
 	/*! A context thread id, storead as void
 	 */
 	void*   m_context_thread;
+	/*! A mutex, which locks rendering of scenes
+	 */
+	sad::Mutex m_lockrendering;
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();

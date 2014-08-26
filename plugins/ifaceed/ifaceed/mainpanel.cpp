@@ -223,8 +223,8 @@ void MainPanel::addFontObject()
 
 
 		label->tryReload(this->m_editor->database());
-		InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
-		label->setScene(static_cast<InterlockedScene*>(this->m_editor->scene()));
+		sad::Scene* scene = this->m_editor->scene();
+		label->setScene(scene);
 		this->m_editor->behaviourSharedData()->setActiveObject(label);
 		
 		this->m_editor->currentBehaviour()->enterState("label_adding");

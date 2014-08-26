@@ -165,11 +165,11 @@ void Editor::runQtEventLoop()
 
 void Editor::runSaddyEventLoop() 
 {
-	m_quit_reason = EditorQuitReasonNotSet;
+	m_quit_reason = core::QR_NOTSET;
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_Quit, this, &Editor::onSaddyWindowDestroySlot);
 	sad::Renderer::ref()->run();
 	// Quit reason can be set by main thread, when window is closed
-	if (m_quit_reason == EditorQuitReasonNotSet)
+	if (m_quit_reason == core::QR_NOTSET)
 		this->saddyQuitSlot();
 }
 
@@ -182,7 +182,7 @@ void Editor::initDefaultSaddyOptions()
 {
 	sad::Settings sett(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	sad::Renderer::ref()->init(sett);
-	this->m_scene = new InterlockedScene(this);
+	this->m_scene = new sad::Scene();
 	sad::Renderer::ref()->setScene(this->m_scene);
 	sad::Renderer::ref()->makeFixedSize();
 	// Try to load default icons
@@ -208,39 +208,28 @@ void Editor::initSaddyRendererOptions()
 {
 	this->initDefaultSaddyOptions();
 }
-void InterlockedScene::render()
-{
-	this->m_editor->lockRendering();
-	this->sad::Scene::render();
-	this->m_editor->unlockRendering();
-}
-
-
-InterlockedScene::~InterlockedScene()
-{
-}
 
 void Editor::saddyQuitSlot()
 {
-	if (m_quit_reason == EditorQuitReasonNotSet) {
-		m_quit_reason = QuitBySaddy;
+	if (m_quit_reason == core::QR_NOTSET) {
+		m_quit_reason = core::QR_SADDY;
 		QTimer::singleShot(0,this,SLOT(onQuitActions()));
 	}
 }
 void Editor::qtQuitSlot()
 {
-	if (m_quit_reason == EditorQuitReasonNotSet) {
-		m_quit_reason = QuitByQtWindow;
+	if (m_quit_reason == core::QR_NOTSET) {
+		m_quit_reason = core::QR_QTWINDOW;
 		this->onQuitActions();
 	}
 }
 void Editor::onQuitActions()
 {
 	this->onQtWindowDestroy();
-	if (m_quit_reason == QuitBySaddy) {
+	if (m_quit_reason == core::QR_SADDY) {
 		this->m_mainwindow->close();
 	}
-	if (m_quit_reason == QuitByQtWindow) {
+	if (m_quit_reason == core::QR_QTWINDOW) {
 		sad::Renderer::ref()->quit();
 	}
 	this->quitSaddyActions();

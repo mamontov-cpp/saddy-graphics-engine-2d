@@ -56,7 +56,7 @@ class IFaceEditor: public Editor, public core::CommandChangeObserver
 	 */
 	IFaceSharedData * shdata();
 
-	InterlockedScene * myScene();
+	sad::Scene * myScene();
  protected:
 	/** Returns a specific shared data
 	  */

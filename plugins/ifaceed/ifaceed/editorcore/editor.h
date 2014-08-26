@@ -4,17 +4,23 @@
 	Describes a global editor state
  */
 #pragma once
+#include "../macro.h"
+
 #include "../history/editorhistory.h"
 
 #include "../core/qttarget.h"
 #include "../core/editorbehaviour.h"
+#include "../core/quitreason.h"
 
 #include <scene.h>
 #include <sadmutex.h>
 #include <renderer.h>
-#include <cli/parser.h>
 #include <closure.h>
+
+#include <cli/parser.h>
+
 #include <input/controls.h>
+
 #include <config/sprite2dconfig.h>
 
 #include <QObject>
@@ -22,27 +28,6 @@
 #include <QThread>
 #include <QApplication>
 #include <QMainWindow>
-
-#define WINDOW_WIDTH 800
-
-#define WINDOW_HEIGHT 600
-
-/** Time, all rotation wheel events within can be counted as one (in milliseconds)
- */
-#define MAX_ROTATION_TIME 1500
-/** Rotation angle step
- */
-#define ROTATION_ANGLE_STEP 0.07
-/**	Icons xml data
- */
-#define ICONS_XML  "resources/icons.xml"
-
-enum EditorQuitReason
-{
-	EditorQuitReasonNotSet = 0,
-	QuitBySaddy = 1,
-	QuitByQtWindow = 2
-};
 
 class Editor;
 class EditogLog;
@@ -53,29 +38,6 @@ namespace core
 class EditorBehaviour;
 class EditorBehaviourSharedData;
 }
-
-/** Interlocked scene, used to iterate while rendering
- */
-class InterlockedScene: public sad::Scene
-{
- private:
-	      /** A parent editor
-		   */
-		  Editor * m_editor;
- public:
-		  /** Constructs new interlocked scene
-		   */
-	      inline InterlockedScene(Editor * ed) 
-		  { 
-			  this->m_editor = ed;
-		  }
-		  /** Renders a scene
-		   */
-		  virtual void render();
-		  /** A scene
-		   */ 
-		  virtual ~InterlockedScene();
-};
 
 /** Thread for rendering
   */
@@ -167,13 +129,13 @@ protected:
 	    /** A current behaviour
 		 */
 		sad::String m_current_behaviour;
-		 /** A reason, while saddy quit
-		  */
-		 EditorQuitReason  m_quit_reason;
-		 /** Creates a parser to parse command options
-			 \return new command line options
-		  */
-		 virtual sad::cli::Parser * createOptionParser() = 0;
+		/** A reason, while editor must be quit
+		 */
+		core::QuitReason  m_quit_reason;
+		/** Creates a parser to parse command options
+			\return new command line options
+		 */
+		virtual sad::cli::Parser * createOptionParser() = 0;
 private:
 		 /** Tests, whether saddy thread wait for qt
 			 \return should saddy awake or not

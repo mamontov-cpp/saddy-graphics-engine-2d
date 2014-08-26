@@ -8,7 +8,7 @@ SceneAddingTask::~SceneAddingTask()
 
 }
 
-SceneAddingTask::SceneAddingTask(ScreenTemplate * _template, InterlockedScene * scene)
+SceneAddingTask::SceneAddingTask(ScreenTemplate* _template,  sad::Scene* scene)
 : m_template(_template), m_scene(scene)
 {
 
