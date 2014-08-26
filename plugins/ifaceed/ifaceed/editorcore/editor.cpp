@@ -7,6 +7,7 @@
 #include "../core/editorbehaviour.h"
 #include "../core/editorbehaviourshareddata.h"
 #include "../core/xmlconfigloader.h"
+#include "../core/saddythread.h"
 
 #include <QMessageBox>
 #include <QDir>
@@ -25,7 +26,7 @@ Editor::Editor():m_icons("editor_icons")
 	m_cmdargs = NULL;
 	m_initmutex = new sad::Mutex();
 	m_saddywaitmutex = new sad::Mutex();
-	m_renderthread = new SaddyThread(this);
+	m_renderthread = new core::SaddyThread(this);
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
@@ -98,25 +99,6 @@ Editor::~Editor()
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;
-}
-
-void SaddyThread::run() 
-{
-	this->m_editor->initSaddyActions();
-	this->m_editor->m_waitforqt = true;
-	this->m_editor->awakeMainThread();
-	if (this->m_editor->saddyInitSuccessfull()) {
-		this->waitForQtThread();
-		this->m_editor->awakeMainThread();
-		this->m_editor->runSaddyEventLoop();
-	}
-}
-
-void SaddyThread::waitForQtThread() 
-{
-	while(this->m_editor->shouldSaddyThreadWaitForQt()) {
-		this->msleep(100);
-	}
 }
 
 void Editor::initSaddyActions() 
