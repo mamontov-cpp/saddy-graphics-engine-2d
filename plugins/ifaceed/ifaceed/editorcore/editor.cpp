@@ -23,7 +23,6 @@ Editor::Editor():m_icons("editor_icons")
 	m_target = new core::QtTarget(this);
 	sad::Renderer::ref()->log()->addTarget(m_target);
 	m_cmdargs = NULL;
-	m_rendermutex = new sad::Mutex();
 	m_initmutex = new sad::Mutex();
 	m_saddywaitmutex = new sad::Mutex();
 	m_renderthread = new SaddyThread(this);
@@ -96,7 +95,6 @@ Editor::~Editor()
 	delete m_qtapp;
 	delete m_initmutex;
 	delete m_renderthread;
-	delete m_rendermutex;
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;

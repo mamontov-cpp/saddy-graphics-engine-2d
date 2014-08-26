@@ -92,9 +92,6 @@ class Editor: public QObject
 		 /** Command line arguments
 		  */
 		 sad::cli::Args * m_cmdargs;
-		 /** Mutex, used to render all stuff
-		  */
-		 sad::Mutex * m_rendermutex;
 		 /** Mutex, that is used in initialize. DO NOT USE on other intensions
 		  */
 		 sad::Mutex * m_initmutex;
@@ -279,13 +276,6 @@ private:
 			\param[in] argv arguments
 		 */
 		virtual void init(int argc,char ** argv);
-
-		/** Locks rendering for current thread to synchronize scene-vulnerable actions
-		 */
-		inline void lockRendering() { m_rendermutex->lock(); }
-		/** Unlocks rendering
-		 */
-		inline void unlockRendering() { m_rendermutex->unlock();}
 		/** Returns a history
 			\return history
 		 */

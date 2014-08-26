@@ -530,9 +530,9 @@ void IFaceEditor::reload()
    FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);		
    DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
    DBLoadingTask * task = new DBLoadingTask(maps,db,future,this->log());
-   this->lockRendering();
+   sad::Renderer::ref()->lockRendering();
    sad::Renderer::ref()->pipeline()->prepend(task);
-   this->unlockRendering();
+   sad::Renderer::ref()->unlockRendering();
    if (future->result() == false) {
 		// 3.1. If loading failed, report error	 
 	    delete maps;
@@ -672,11 +672,11 @@ void IFaceEditor::load()
 		m_result = e;
 		// Perform cleanup data
 		this->currentBehaviour()->enterState("idle");
-		this->lockRendering();
+		sad::Renderer::ref()->lockRendering();
 		if (this->scene()->objectCount() != 0)
 			this->scene()->clear();
 		// Add post-render task, which adds a sorted results when scene is empty and dies
 		sad::Renderer::ref()->pipeline()->append(new SceneAddingTask(e, this->myScene()));
-		this->unlockRendering();
+		sad::Renderer::ref()->unlockRendering();
 	}
 }
