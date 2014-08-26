@@ -37,31 +37,8 @@ namespace core
 {
 class EditorBehaviour;
 class EditorBehaviourSharedData;
+class SaddyThread;
 }
-
-/** Thread for rendering
-  */
-class SaddyThread: public QThread 
-{
-Q_OBJECT
-friend class Editor;
-private:
-	/** Editor to work with
-	  */
-	Editor * m_editor;
-public:
-	/** Constructs a children rendering thread. Editor is needed to
-	    send a signal to run Qt event loop
-	    \param[in] editor editor to run
-	  */
-	inline SaddyThread(Editor * editor) { m_editor = editor;}
-	/** Awaits for qt thread to do his job
-	  */
-	void waitForQtThread();
-	/** Runs a thread to do stuff
-	  */
-	virtual void run();	
-};
 
 
 /*! \class Editor
@@ -71,7 +48,7 @@ public:
 class Editor: public QObject
 {
   Q_OBJECT
-  friend class SaddyThread;
+  friend class core::SaddyThread;
   friend class core::QtTarget;
   private:
 	     /** Target for sending information
@@ -79,7 +56,7 @@ class Editor: public QObject
 	     core::QtTarget * m_target;
 	     /** Thread for rendering
 		  */
-		 SaddyThread * m_renderthread; 
+		 core::SaddyThread * m_renderthread; 
 		 /** Main window of application
 		  */
 		 QMainWindow  * m_mainwindow;
