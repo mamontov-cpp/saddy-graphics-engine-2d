@@ -21,13 +21,13 @@ MoveCommand::~MoveCommand()
 
 }
 
-void MoveCommand::commit(CommandChangeObserver * ob )
+void MoveCommand::commit(core::CommandChangeObserver * ob )
 {
 	m_object->moveCenterTo(m_new_point);
 	ob->submitEvent("MoveCommand::commit", sad::db::Variant(0));
 }
 
-void MoveCommand::rollback(CommandChangeObserver * ob)
+void MoveCommand::rollback(core::CommandChangeObserver * ob)
 {
 	m_object->moveCenterTo(m_old_point);
 	ob->submitEvent("MoveCommand::rollback", sad::db::Variant(0));
@@ -50,13 +50,13 @@ ResizeCommand::~ResizeCommand()
 
 }
 
-void ResizeCommand::commit(CommandChangeObserver * ob )
+void ResizeCommand::commit(core::CommandChangeObserver * ob )
 {
 	m_object->setRotatedRectangle(m_new_rect, m_angle);
 	ob->submitEvent("ResizeCommand::commit", sad::db::Variant(0));
 }
 
-void ResizeCommand::rollback(CommandChangeObserver * ob)
+void ResizeCommand::rollback(core::CommandChangeObserver * ob)
 {
 	m_object->setRotatedRectangle(m_old_rect, m_angle);
 	ob->submitEvent("ResizeCommand::rollback", sad::db::Variant(0));
@@ -72,7 +72,7 @@ MakeBackgroundCommand::MakeBackgroundCommand(AbstractScreenObject * object)
 	m_angle =  m_o->prop<float>("angle", sad::log::Log::ref());
 }
 
-void MakeBackgroundCommand::commit(CommandChangeObserver * ob )
+void MakeBackgroundCommand::commit(core::CommandChangeObserver * ob )
 {
 	m_o->setProp<unsigned int>("layer", 0, sad::log::Log::ref());
 	m_o->setProp<float>("angle", 0.0f, sad::log::Log::ref());
@@ -80,7 +80,7 @@ void MakeBackgroundCommand::commit(CommandChangeObserver * ob )
 	ob->submitEvent("MakeBackgroundCommand::commit", sad::db::Variant(0));
 }
 
-void MakeBackgroundCommand::rollback(CommandChangeObserver * ob )
+void MakeBackgroundCommand::rollback(core::CommandChangeObserver * ob )
 {
 	m_o->setProp<sad::Rect2D>("rect", m_rect, sad::log::Log::ref());	
 	m_o->setProp<float>("angle", m_angle, sad::log::Log::ref());	

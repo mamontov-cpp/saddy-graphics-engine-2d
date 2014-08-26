@@ -16,7 +16,7 @@ NewCommand::NewCommand(ScreenTemplate * container, AbstractScreenObject * object
 	object->addRef();
 }
 
-void NewCommand::commit(CommandChangeObserver * ob)
+void NewCommand::commit(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("NewCommand::commit");
 	m_container->add(m_object);
@@ -24,7 +24,7 @@ void NewCommand::commit(CommandChangeObserver * ob)
 	ob->submitEvent("NewCommand::commit", sad::db::Variant(0));
 }
 
-void NewCommand::rollback(CommandChangeObserver * ob)
+void NewCommand::rollback(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("NewCommand::rollback");
 	m_container->remove(m_object);
@@ -62,7 +62,7 @@ ScreenClearCommand::~ScreenClearCommand()
 }
 
 
-void ScreenClearCommand::commit(CommandChangeObserver * ob)
+void ScreenClearCommand::commit(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::commit");
     for (unsigned int i = 0 ; i < m_objects.count(); i++)
@@ -74,7 +74,7 @@ void ScreenClearCommand::commit(CommandChangeObserver * ob)
 
 }
 
-void ScreenClearCommand::rollback(CommandChangeObserver * ob)
+void ScreenClearCommand::rollback(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("ScreenClearCommand::rollback");
     for (unsigned int i = 0 ; i < m_objects.count(); i++)

@@ -16,7 +16,7 @@ LayerCommand::LayerCommand(AbstractScreenObject * object, unsigned int oldlayer,
 	m_object = object;
 }
 
-void LayerCommand::commit(CommandChangeObserver * ob )
+void LayerCommand::commit(core::CommandChangeObserver * ob )
 {
 	SL_SCOPE("LayerCommand::commit");
 	m_object->scene()->setLayer(m_object, m_new_layer);
@@ -24,7 +24,7 @@ void LayerCommand::commit(CommandChangeObserver * ob )
 }
 
 
-void LayerCommand::rollback(CommandChangeObserver * ob )
+void LayerCommand::rollback(core::CommandChangeObserver * ob )
 {
 	SL_SCOPE("LayerCommand::rollback");
 	m_object->scene()->setLayer(m_object, m_old_layer);

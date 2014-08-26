@@ -24,7 +24,7 @@ void EditorHistory::clear()
 	m_current = -1;
 }
 
-void EditorHistory::commit(CommandChangeObserver * ob)
+void EditorHistory::commit(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("EditorHistory::commit");
 	SL_DEBUG(
@@ -50,7 +50,7 @@ void EditorHistory::commit(CommandChangeObserver * ob)
 	}
 }
 
-void EditorHistory::rollback(CommandChangeObserver * ob)
+void EditorHistory::rollback(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("EditorHistory::rollback");
 	SL_DEBUG(

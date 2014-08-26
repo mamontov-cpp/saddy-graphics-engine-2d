@@ -742,7 +742,7 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 	*/
 }
 
-void SpritePropertyChangeCommand::commit(CommandChangeObserver * ob )
+void SpritePropertyChangeCommand::commit(core::CommandChangeObserver * ob )
 {
 	SL_SCOPE("SpritePropertyChangeCommand::commit");
 	m_sprite->setProp<sad::String>("config", m_new.config, m_log);
@@ -753,7 +753,7 @@ void SpritePropertyChangeCommand::commit(CommandChangeObserver * ob )
 	ob->submitEvent("SpritePropertyChangeCommand::commit", sad::db::Variant(0));
 }
 
-void SpritePropertyChangeCommand::rollback(CommandChangeObserver * ob)
+void SpritePropertyChangeCommand::rollback(core::CommandChangeObserver * ob)
 {
 	SL_SCOPE("SpritePropertyChangeCommand::rollback");
 	m_sprite->setProp<sad::String>("config", m_old.config, m_log);
@@ -815,14 +815,14 @@ void MainPanel::spriteRectChanged()
 	*/
 }
 
-void SpriteRectChangeCommand::commit(CommandChangeObserver * ob)
+void SpriteRectChangeCommand::commit(core::CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_old_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::commit", sad::db::Variant(0));
 }
 
 
-void SpriteRectChangeCommand::rollback(CommandChangeObserver * ob)
+void SpriteRectChangeCommand::rollback(core::CommandChangeObserver * ob)
 {
 	m_sprite->setRotatedRectangle(m_new_rect, m_angle);
 	ob->submitEvent("SpriteRectChangeCommand::rollback", sad::db::Variant(0));
