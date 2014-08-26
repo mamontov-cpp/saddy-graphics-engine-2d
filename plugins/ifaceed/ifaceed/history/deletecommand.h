@@ -25,11 +25,11 @@ class DeleteCommand: public AbstractCommand
 	/** Applies changes, described in command
 		\param[in] ob an observer for looking for command
 	  */
-	virtual void commit(core::CommandChangeObserver * ob = NULL);
+	virtual void commit(core::Editor * ob = NULL);
 	/** Reverts changes, described in command
 		\param[in] ob an observer for looking for command
 	  */
-	virtual void rollback(core::CommandChangeObserver * ob = NULL);
+	virtual void rollback(core::Editor * ob = NULL);
 	/** Destroys a command
 	 */
 	~DeleteCommand();
