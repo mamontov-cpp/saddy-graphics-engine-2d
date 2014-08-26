@@ -304,7 +304,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 	}
 	if (o) 
 	{
-		this->m_editor->lockRendering();
+		sad::Renderer::ref()->lockRendering();
 		_property = o->SerializableObject::getProperty(prop);
         float  old = 0;
 		if (_property) 
@@ -340,7 +340,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 				));
 			}
 		}
-		this->m_editor->unlockRendering();
+		sad::Renderer::ref()->unlockRendering();
 		this->updateList();
 	}	
 }
@@ -368,7 +368,7 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 		return;
 	if (o) 
 	{
-		this->m_editor->lockRendering();
+		sad::Renderer::ref()->lockRendering();
 		_property = o->SerializableObject::getProperty(prop);
 		T  old;
 		if (_property) 
@@ -409,7 +409,7 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 				));
 			}
 		}
-		this->m_editor->unlockRendering();
+		sad::Renderer::ref()->unlockRendering();
 		this->updateList();
 	}	
 }
