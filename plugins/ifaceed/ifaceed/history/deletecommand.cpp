@@ -7,14 +7,14 @@ DeleteCommand::DeleteCommand(ScreenTemplate * container, AbstractScreenObject * 
 	m_cmd = new NewCommand(container, object);
 }
 
-void DeleteCommand::commit(core::CommandChangeObserver * ob)
+void DeleteCommand::commit(core::Editor * ob)
 {
 	SL_SCOPE("DeleteCommand::commit");
 	m_cmd->rollback(ob);
 }
 
 
-void DeleteCommand::rollback(core::CommandChangeObserver * ob)
+void DeleteCommand::rollback(core::Editor * ob)
 {
 	SL_SCOPE("DeleteCommand::rollback");
 	m_cmd->commit(ob);

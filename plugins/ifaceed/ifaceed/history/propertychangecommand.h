@@ -76,7 +76,7 @@ public:
 	/*! Commits a command
 		\param[in] ob observer for command
 	 */
-    void commit(core::CommandChangeObserver * ob = NULL)
+    void commit(core::Editor * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::commit") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_current_value, m_log);
@@ -85,7 +85,7 @@ public:
 	/*! Rollbacks a command
 		\param[in] ob observer for command
 	 */
-    void rollback(core::CommandChangeObserver * ob = NULL)
+    void rollback(core::Editor * ob = NULL)
 	{
 		SL_SCOPE(str(fmt::Format("PropertyChangeCommand<{0}>::rollback") << m_property_name.data()) );
 		m_object->setProp(m_property_name, m_prev_value, m_log);
@@ -138,11 +138,11 @@ class SpritePropertyChangeCommand: public AbstractCommand
 	/*! Commits a command
 		\param[in] ob observer for command
 	 */
-	void commit(core::CommandChangeObserver * ob = NULL);
+	void commit(core::Editor * ob = NULL);
 	/*! Rollbacks a command
 		\param[in] ob observer for command
 	 */
-	void rollback(core::CommandChangeObserver * ob = NULL);
+	void rollback(core::Editor * ob = NULL);
 };
 
 /*! A command, which is performed when sprite changes bounding rectangle
@@ -166,10 +166,10 @@ public:
 	/*! Commits a command
 		\param[in] ob observer for command
 	 */
-	void commit(core::CommandChangeObserver * ob = NULL);
+	void commit(core::Editor * ob = NULL);
 	/*! Rollbacks a command
 		\param[in] ob observer for command
 	 */
-	void rollback(core::CommandChangeObserver * ob = NULL);
+	void rollback(core::Editor * ob = NULL);
 };
 

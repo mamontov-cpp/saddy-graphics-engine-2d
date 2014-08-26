@@ -10,7 +10,7 @@
 #include "../core/qttarget.h"
 #include "../core/editorbehaviour.h"
 #include "../core/quitreason.h"
-#include "../core/commandchangeobserver.h"
+
 
 #include "../mainpanel.h"
 
@@ -50,7 +50,7 @@ class SaddyThread;
 
 /*! A main editor class, which works as event receiver and data container
  */
-class Editor: public QObject, public core::CommandChangeObserver 
+class Editor: public QObject
 {
 Q_OBJECT
 

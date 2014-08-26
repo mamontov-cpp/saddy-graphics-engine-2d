@@ -338,10 +338,6 @@
 				Name="core"
 				>
 				<File
-					RelativePath=".\core\commandchangeobserver.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\core\editor.cpp"
 					>
 				</File>
@@ -687,10 +683,6 @@
 			<Filter
 				Name="core"
 				>
-				<File
-					RelativePath=".\core\commandchangeobserver.h"
-					>
-				</File>
 				<File
 					RelativePath=".\core\editor.h"
 					>
