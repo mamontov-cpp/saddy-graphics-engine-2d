@@ -350,10 +350,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\editorcore\path.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\editorcore\qttarget.cpp"
 					>
 				</File>
@@ -773,10 +769,6 @@
 				</File>
 				<File
 					RelativePath=".\editorcore\editorbehaviourstate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\editorcore\path.h"
 					>
 				</File>
 				<File

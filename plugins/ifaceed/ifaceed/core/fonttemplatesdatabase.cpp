@@ -13,10 +13,13 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QTextStream>
-#include "../editorcore/path.h"
 #include "xmlconfigloader.h"
 #include "spritedatabase.h"
+
 #include <log/log.h>
+
+#include <util/fs.h>
+
 #include <unused.h>
 
 FontTemplatesMaps::FontTemplatesMaps()
@@ -28,7 +31,7 @@ bool FontTemplatesMaps::load(const QString & name, sad::log::Log * log)
 {
 	SL_SCOPE( QString("FontTemplatesMaps::load(\"%1\")").arg(name).toStdString() );
 
-	sad::String parentdir =  path::directory(name.toStdString().c_str());
+	sad::String parentdir =  sad::util::folder(name.toStdString());
 	log->message(QString("Parent dir is \"%1\"").arg(parentdir.data()));
 
 	m_fonts.clear();
@@ -95,7 +98,7 @@ void FontTemplatesMaps::loadFont(QDomElement & entry, const sad::String & parent
 		}
 		else
 		{
-			sad::String path = path::concat(parent,file.toStdString().c_str());
+			sad::String path = sad::util::concatPaths(parent,file.toStdString().c_str());
 			m_fonts.insert(name, path.data());
 			SL_DEBUG(QString("Deserialized XML Font entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
@@ -120,7 +123,7 @@ void FontTemplatesMaps::loadConfig(QDomElement & entry, const sad::String & pare
 		}
 		else 
 		{
-			sad::String path = path::concat(parent,file.toStdString().c_str());
+			sad::String path = sad::util::concatPaths(parent,file.toStdString().c_str());
 			m_configs.insert(name, path.data());
 			SL_DEBUG(QString("Deserialized XML Config entry \"%1\" with path \"%2\"")
 						 .arg(name).arg(path.data()));
