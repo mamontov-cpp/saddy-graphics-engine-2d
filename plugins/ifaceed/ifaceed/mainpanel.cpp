@@ -309,7 +309,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
         float  old = 0;
 		if (_property) 
 		{
-			sad::log::Log * sl = this->m_editor->log();
+			sad::log::Log * sl = sad::log::Log::ref();
 			//old = _property->get<float>().value();	
 			//_property->set(v);
 		}
@@ -333,10 +333,11 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 			}
 			else
 			{
+				sad::log::Log * log = sad::log::Log::ref();
 				this->m_editor->history()->add(new PropertyChangeCommand<float>(
 					o, prop, v, 
 					old,
-					this->m_editor->log()
+					log
 				));
 			}
 		}
@@ -373,7 +374,7 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 		T  old;
 		if (_property) 
 		{
-			sad::log::Log * sl = this->m_editor->log();
+			sad::log::Log * sl = sad::log::Log::ref();;
 			//old = _property->get<T>().value();	
 			_property->set(NULL, v);
 		}
@@ -402,10 +403,11 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 			}
 			else
 			{
+				sad::log::Log * log = sad::log::Log::ref();
 				this->m_editor->history()->add(new PropertyChangeCommand<T>(
 					o, prop, v, 
 					old,
-					this->m_editor->log()
+					log
 				));
 			}
 		}
@@ -461,7 +463,7 @@ void MainPanel::textChanged()
 void MainPanel::updateObjectStats(AbstractScreenObject * o)
 {
 	sad::db::Property * prop = NULL;
-	sad::log::Log * l = this->m_editor->log();		
+	sad::log::Log * l = sad::log::Log::ref();		
 	// Get text
 	prop = o->SerializableObject::getProperty("text");
 	if (prop)
@@ -568,9 +570,10 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 	{
 		this->setRegionParameters();
 		
-		sad::String config = o->prop<sad::String>("config", m_editor->log());
-		sad::String group = o->prop<sad::String>("group", m_editor->log());
-		int index = o->prop<int>("index", m_editor->log());
+		sad::log::Log * log = sad::log::Log::ref();
+		sad::String config = o->prop<sad::String>("config", log);
+		sad::String group = o->prop<sad::String>("group", log);
+		int index = o->prop<int>("index", log);
 		
 		//QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
 		//BLOCK_SIGNALS_AND_CALL(m_spriteTableWidget,setSelection(sel));

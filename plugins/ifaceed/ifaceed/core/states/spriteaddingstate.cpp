@@ -107,8 +107,9 @@ void DiagonalSpriteAddingState::enter()
 {
 	m_substate = DSAS_INITIAL;
 	IFaceEditor * ed = this->editor();
-	ed->behaviourSharedData()->activeObject()->setProp<float>("angle", 0.0f, ed->log());
-	ed->behaviourSharedData()->activeObject()->setProp<bool>("visibility", false, ed->log());
+	sad::log::Log * log = sad::log::Log::ref();
+	ed->behaviourSharedData()->activeObject()->setProp<float>("angle", 0.0f, log);
+	ed->behaviourSharedData()->activeObject()->setProp<bool>("visibility", false, log);
 	ed->behaviourSharedData()->toggleActiveBorder(false);
 
 	MainPanel * p = ed->panel();
@@ -133,6 +134,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 	sad::Point2D p = ev.pos2D();
 	bool highlight = false;
 	sad::String highlights;
+	sad::log::Log * log = sad::log::Log::ref();
 	if (ss == DSAS_INITIAL)
 	{
 		ed->behaviourSharedData()->toggleActiveBorder(true);
@@ -143,7 +145,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 		{
 			brect[i] += ddelta;
 		}
-		oo->setProp<bool>("visibility", true, ed->log());
+		oo->setProp<bool>("visibility", true, log);
 		oo->setRotatedRectangle(brect, 0.0f);
 		m_substate = DSAS_FIRSTCLICK;
 		highlight = true;

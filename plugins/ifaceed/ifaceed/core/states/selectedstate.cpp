@@ -165,6 +165,7 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 	IFaceEditor * ed = this->editor();
 	sad::Point2D p = ev.pos2D();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
+	sad::log::Log * log = sad::log::Log::ref();
 	if (m_movement_substate == SSMSS_MOVING)
 	{	
 		o->moveCenterTo(m_picked_old_center + (p - m_picked_point));
@@ -178,7 +179,7 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 	{
 		sad::Point2D d = p - m_resizingsubstate.oldPoint;
 		sad::Rect2D nr  = m_resizingsubstate.action.apply(m_resizingsubstate.oldRect, d);
-		o->setRotatedRectangle(nr, o->prop<float>("angle", ed->log()));
+		o->setRotatedRectangle(nr, o->prop<float>("angle", log));
 		CLOSURE
 		CLOSURE_DATA( IFaceEditor * e;  )
 		CLOSURE_CODE( this->e->panel()->setRegionParameters(); )
@@ -193,6 +194,7 @@ void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	sad::input::MouseMoveEvent movingevent;
 	movingevent.Point3D = ev.Point3D;
+	sad::log::Log * log = sad::log::Log::ref();
 	if (m_movement_substate == SSMSS_MOVING)
 	{		
 		this->onMouseMove(movingevent);		
@@ -204,7 +206,7 @@ void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 	if (m_movement_substate == SSMSS_RESIZING)
 	{
 		this->onMouseMove(movingevent);
-		ResizeCommand * r = new ResizeCommand(o, m_resizingsubstate.oldRect, o->region(), o->prop<float>("angle", ed->log()));
+		ResizeCommand * r = new ResizeCommand(o, m_resizingsubstate.oldRect, o->region(), o->prop<float>("angle", log));
 		ed->history()->add(r);
 		m_movement_substate = SSMSS_NOMOVEMENT;
 	}

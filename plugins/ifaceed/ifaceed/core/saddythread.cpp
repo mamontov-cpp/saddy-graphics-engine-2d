@@ -1,8 +1,7 @@
 #include "core/saddythread.h"
+#include "core/ifaceeditor.h"
 
-#include "editorcore/editor.h"
-
-core::SaddyThread::SaddyThread(Editor * editor) : m_editor(editor)
+core::SaddyThread::SaddyThread(IFaceEditor * editor) : m_editor(editor)
 {
 	
 }
