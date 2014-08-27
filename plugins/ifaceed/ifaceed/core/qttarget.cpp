@@ -30,7 +30,7 @@ void core::QtTarget::critical(const sad::String & m)
 	CLOSURE
 	CLOSURE_DATA(core::Editor * ed; QString w;)
 	CLOSURE_CODE(
-		QMessageBox::critical(ed->qtWindow(), "", w);
+		QMessageBox::critical(ed->panel(), "", w);
 	)
 	INITCLOSURE( CLSET(ed, m_editor); CLSET(w, m.data()); )
 	SUBMITCLOSURE( m_editor->emitClosure );
@@ -43,7 +43,7 @@ void core::QtTarget::warning(const sad::String & m)
 	CLOSURE
 	CLOSURE_DATA(core::Editor * ed; QString w;)
 	CLOSURE_CODE(
-		QMessageBox::warning(ed->qtWindow(), "", w);
+		QMessageBox::warning(ed->panel(), "", w);
 	)
 	INITCLOSURE( CLSET(ed, m_editor); CLSET(w, m.data()); )
 	SUBMITCLOSURE( m_editor->emitClosure );

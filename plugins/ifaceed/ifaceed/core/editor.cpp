@@ -54,8 +54,20 @@
 
 core::Editor::Editor() : m_icons("editor_icons")
 {
+	// Add message data
 	m_qttarget = new core::QtTarget(this);
 	sad::Renderer::ref()->log()->addTarget(m_qttarget);
+
+	// Add small user log
+	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
+	fh->open("user.txt");
+	sad::log::Log::ref()->addTarget(fh);
+
+	// Add large debug log
+	m_target = new sad::log::FileTarget();
+	m_target->open("full.txt");
+	sad::log::Log::ref()->addTarget(m_target);
+
 	m_cmdargs = NULL;
 	m_initmutex = new sad::Mutex();
 	m_saddywaitmutex = new sad::Mutex();
@@ -66,13 +78,6 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_history = new EditorHistory();
 
 	m_handling_event = false;
-	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
-	fh->open("user.txt");
-	sad::log::Log::ref()->addTarget(fh);
-	m_target = new sad::log::FileTarget();
-	m_target->open("full.txt");
-	sad::log::Log::ref()->addTarget(m_target);
-
 	m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
@@ -133,7 +138,9 @@ core::Editor::~Editor()
 {
 	delete m_db;
 	delete m_result;
-	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it =m_behaviours.begin();it!=m_behaviours.end();it++)
+	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it = m_behaviours.begin();
+		it!=m_behaviours.end();
+		++it)
 	{
 		delete it.value();
 	}
@@ -147,45 +154,45 @@ core::Editor::~Editor()
 	delete m_behavioursharedata;
 }
 
+void core::Editor::init(int argc,char ** argv)
+{
+	// Create data, shared between behaviours
+	m_behavioursharedata = new core::Shared();
+	m_behavioursharedata->setEditor(this);
+
+	// Create and parse command line arguments
+	m_cmdargs = new sad::cli::Args(argc, argv);
+	m_cmdoptions = new sad::cli::Parser();
+	m_cmdoptions->addSingleValuedOption("ifaceconfig");
+	m_cmdoptions->addSingleValuedOption("width");
+	m_cmdoptions->addSingleValuedOption("height");
+	m_cmdoptions->addFlag("debug");
+	m_cmdoptions->parse(argc, const_cast<const char **>(argv));
+	
+	// This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
+	m_waitforsaddy = true;
+	m_renderthread->start();
+	// Wait for Saddy's window to show up
+	this->waitForSaddyThread();
+	this->runQtEventLoop();
+	m_renderthread->wait();
+}
+
+MainPanel * core::Editor::panel()
+{
+	return m_mainwindow;
+}
+
 void core::Editor::setDatabase(FontTemplateDatabase * db)
 {
 	delete m_db;
 	m_db = db;
 }
 
-void core::Editor::initSaddyRendererOptions()
-{
-	sad::Renderer::ref()->init(sad::Settings(WINDOW_WIDTH, WINDOW_HEIGHT, false));
-	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
-	sad::Renderer::ref()->makeFixedSize();
-	this->assertSaddyInit(true);
-}
-
-QMainWindow * core::Editor::createQtWindow()
-{
-	
-	return new MainPanel();
-}
-
-MainPanel * core::Editor::panel()
-{
-	return static_cast<MainPanel*>(this->qtWindow());
-}
-
-
 void core::Editor::quit()
 {
 	sad::Renderer::ref()->quit();
 }
-
-sad::cli::Parser * core::Editor::createOptionParser()
-{
-	sad::cli::Parser * r = new sad::cli::Parser();
-	r->addSingleValuedOption("ifaceconfig");
-	r->addFlag("debug");
-	return r;
-}
-
 
 // A future result of loading database
 class DBLoadingTaskFuture
@@ -482,14 +489,6 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 	SUBMITCLOSURE( this->emitClosure );
 }
 
-
-core::Shared * core::Editor::createBehaviourData()
-{
-	core::Shared * e = new core::Shared();
-	e->setEditor(this);
-	return e;
-}
-
 core::Shared* core::Editor::shdata()
 {
 	return this->behaviourSharedData();
@@ -683,114 +682,33 @@ sad::cli::Parser * core::Editor::parsedArgs() const
 	return m_cmdoptions;
 }
 
-void core::Editor::init(int argc,char ** argv)
-{
-	// Create dependent behaviour data
-	m_behavioursharedata = this->createBehaviourData();
-	// Firstly we create an arguments and application
-	// to strip all of Qt's options, which wouldn't break a parser, after this work
-	m_cmdargs = new sad::cli::Args(argc, argv);
-	this->m_qtapp = new QApplication(this->m_cmdargs->count(),
-									(this->m_cmdargs->arguments()));
-
-	m_cmdoptions = this->createOptionParser();
-	m_cmdoptions->parse(argc, (const char **)argv);
-	
-	this->assertSaddyInit(true);
-	this->m_waitforsaddy = true;
-	
-	
-	// This thread also runs ALL of event loops
-	m_waitforsaddy = true;
-	m_renderthread->start();
-	this->waitForSaddyThread();
-	if (this->saddyInitSuccessfull()) {
-		this->initQtActions();
-		m_waitforsaddy = true;
-		this->awakeSaddyThread();
-		this->waitForSaddyThread();
-		this->runQtEventLoop();
-	}
-	m_renderthread->wait();
-
-}
 void core::Editor::waitForSaddyThread()
 {
 	while(this->shouldMainThreadWaitForSaddy());
 }
 
-void core::Editor::initSaddyActions() 
-{
-	this->initSaddyRendererOptions();
-}
-
-void core::Editor::initQtActions() 
-{
-	this->m_mainwindow = this->createQtWindow();
-	this->bindQtSlots();
-	this->awakeSaddyThread();
-}
-
-
-void core::Editor::bindQtSlots()
-{
-}
-
 void core::Editor::runQtEventLoop()
 {
-	if (this->m_mainwindow) 
-	{
-		if (this->m_qtapp) 
-		{
-			QObject::connect(this->m_qtapp,SIGNAL(lastWindowClosed()),this,SLOT(qtQuitSlot()));
-		}
-		this->m_mainwindow->show();
-	}
+	m_qtapp = new QApplication(m_cmdargs->count(), m_cmdargs->arguments());
+	m_mainwindow = new MainPanel();
 
-	if (this->m_qtapp) 
-	{
-		QObject::connect(this, SIGNAL(closureArrived(sad::ClosureBasic*)), this, SLOT(onClosureArrived(sad::ClosureBasic*)) );
-		m_qttarget->enable();
-		QTimer::singleShot(0,this,SLOT(onFullAppStart()));
-		this->m_qtapp->exec();
-		m_qttarget->disable();
-	}
+	QObject::connect(this->m_qtapp,SIGNAL(lastWindowClosed()),this,SLOT(qtQuitSlot()));
+	this->m_mainwindow->show();
+
+	QObject::connect(this, SIGNAL(closureArrived(sad::ClosureBasic*)), this, SLOT(onClosureArrived(sad::ClosureBasic*)) );
+	m_qttarget->enable();
+	QTimer::singleShot(0,this,SLOT(onFullAppStart()));
+	this->m_qtapp->exec();
+	m_qttarget->disable();
 }
 
 void core::Editor::runSaddyEventLoop() 
 {
 	m_quit_reason = core::QR_NOTSET;
-	sad::Renderer::ref()->controls()->add(*sad::input::ET_Quit, this, &core::Editor::onSaddyWindowDestroySlot);
 	sad::Renderer::ref()->run();
 	// Quit reason can be set by main thread, when window is closed
 	if (m_quit_reason == core::QR_NOTSET)
 		this->saddyQuitSlot();
-}
-
-void core::Editor::onSaddyWindowDestroySlot()
-{
-	this->onSaddyWindowDestroy();
-}
-
-void core::Editor::initDefaultSaddyOptions()
-{
-	sad::Settings sett(WINDOW_WIDTH, WINDOW_HEIGHT, false);
-	sad::Renderer::ref()->init(sett);
-	this->m_scene = new sad::Scene();
-	sad::Renderer::ref()->setScene(this->m_scene);
-	sad::Renderer::ref()->makeFixedSize();
-	// Try to load default icons
-	QString a = QApplication::applicationDirPath();
-	a = QDir(a).filePath(ICONS_XML);
-	XMLConfigLoader * loader = new XMLConfigLoader(a);
-	m_icons.setLoader(loader);
-	bool loaded =  (m_icons.reload() == sad::SCR_OK);
-	SL_DEBUG(QString("Loading icons from %1").arg(a));
-	if (!loaded) 
-	{
-		SL_FATAL(QString("Can\'t load %1").arg(a));
-	}
-	this->assertSaddyInit(loaded);
 }
 
 sad::Sprite2DConfig & core::Editor::icons()
@@ -814,15 +732,12 @@ void core::Editor::qtQuitSlot()
 }
 void core::Editor::onQuitActions()
 {
-	this->onQtWindowDestroy();
 	if (m_quit_reason == core::QR_SADDY) {
 		this->m_mainwindow->close();
 	}
 	if (m_quit_reason == core::QR_QTWINDOW) {
 		sad::Renderer::ref()->quit();
 	}
-	this->quitSaddyActions();
-	this->quitQtActions();
 }
 
 void core::Editor::eraseBehaviour()
@@ -872,23 +787,4 @@ void core::Editor::onClosureArrived(sad::ClosureBasic * closure)
 void core::Editor::emitClosure(sad::ClosureBasic * closure)
 {
 	emit closureArrived(closure);
-}
-
-void core::Editor::onSaddyWindowDestroy()
-{
-
-}
-
-void core::Editor::quitQtActions()
-{
-
-}
-void core::Editor::quitSaddyActions()
-{
-
-}
-
-void core::Editor::onQtWindowDestroy()
-{
-
 }

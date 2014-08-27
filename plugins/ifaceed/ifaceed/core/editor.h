@@ -63,13 +63,18 @@ public:
 	/*! Frees memory from db
 	 */
 	~Editor();
+	/*! Inits an editor, loading default data if nothing specified
+		\param[in] argc count of arguments
+		\param[in] argv arguments
+	 */
+	virtual void init(int argc,char ** argv);
+	/*! Returns editor's window, used by Qt part of application
+		\return editor's window
+	 */
+	MainPanel * panel();
 	/*! Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
-	/*! Returns editor qt window
-		\return MainPanel
-	 */
-	MainPanel * panel();
 	/*! Tries to render active object, if any
 	 */ 
 	void tryRenderActiveObject();
@@ -121,11 +126,6 @@ public:
 	{
 		return m_behavioursharedata;
 	}
-	/*! Inits an editor, loading default data if nothing specified
-		\param[in] argc count of arguments
-		\param[in] argv arguments
-	 */
-	virtual void init(int argc,char ** argv);
 	/*! Returns a history
 		\return history
 	*/
@@ -167,11 +167,7 @@ public:
 	 /*! Returns a qt application
 		 \return qt application
 	*/
-	inline QApplication * qtApp() { return this->m_qtapp;}
-	/*! Returns a qt main window
-		\return qt main window, used in program
-	*/
-	inline QMainWindow * qtWindow() { return this->m_mainwindow; }	
+	inline QApplication * qtApp() { return this->m_qtapp;}	
 public slots:
 	/*! Tries erasing object, depending on current object state
 	 */
@@ -201,9 +197,6 @@ signals:
 	*/
 	void closureArrived(sad::ClosureBasic * closure);	
 protected:
-	/*! Returns a specific shared data
-	*/
-	virtual core::Shared * createBehaviourData();
 	/*! A selection border with capabilities spots to edit item
 	*/
     SelectedObjectBorder * m_selection_border;
@@ -235,32 +228,6 @@ protected:
 		\param[in] db database
 	*/
 	void setDatabase(FontTemplateDatabase * db);
-	/*! Creates a parser to parse command options
-		\return created parser
-    */
-	virtual sad::cli::Parser * createOptionParser();
-	/*! Sets my options and my data
-	*/
-	void initSaddyRendererOptions();
-	/*! Returns new main window
-	    \return MainPanel
-	*/
-	QMainWindow * createQtWindow();
-	/*! Creates a new Qt slots for working
-	*/
-    void bindQtSlots();
-	/*! REIMPLEMENT. the action, when user closes window of qt
-	*/
-	void onQtWindowDestroy();
-	/*! REIMPLEMENT. the action, when user closes window of qt
-	*/
-	void onSaddyWindowDestroy();
-	/*! REIMPLEMENT this function to do work, when qt window quit 
-	*/
-	void quitQtActions();
-	/*! REIMPLEMENT this function to do work, when saddy window quit 
-	*/
-	void quitSaddyActions();
 	/*! A function, which is called, when app fully started from main start
 	*/
 	virtual void onFullAppStart();
@@ -272,9 +239,6 @@ protected:
 		sad::Vector<sad::resource::Error *> & errors,
 		const sad::String& configname
 	);
-	/*! Assert that saddy initted succesed or failed
-	 */
-	inline void assertSaddyInit( bool success) { this->m_saddystartedok = success;}
 	/*! Returns a command line arguments
 		\return command line arguments
 	 */ 
@@ -282,20 +246,12 @@ protected:
 	/*! A quit slot for saddy, which is run when user runs saddy
 	*/
 	void saddyQuitSlot();
-	/*! Saddy destruction slot
-	*/
-	void onSaddyWindowDestroySlot();
 protected slots:
-	/*! A method to init all saddy actiona
-	*/
-	virtual void initSaddyActions();
-	/*! A method to init all qt actions
-	*/
-	virtual void initQtActions();
 	/*! Runs qt event loop (qt app)
 	*/
 	virtual void runQtEventLoop();
-	/*! Runs saddy event loop saddy event loop
+	/*! Runs saddy renderer's event loop. Ran inside SaddyThread::run, sets quit flag,
+		when saddy quits working
 	*/
 	virtual void runSaddyEventLoop();
 	/*! Contains a different actions, which is runned from main thread
@@ -312,46 +268,43 @@ protected slots:
 private:
 	/*! Target for sending information
 	*/
-	core::QtTarget * m_qttarget;
+	core::QtTarget* m_qttarget;
 	/*! Thread for rendering
 	*/
-	core::SaddyThread * m_renderthread; 
+	core::SaddyThread* m_renderthread; 
 	/*! Main window of application
 	*/
-	QMainWindow  * m_mainwindow;
+	MainPanel* m_mainwindow;
 	/*! Application of qt, which is used
 	*/
-	QApplication * m_qtapp;
+	QApplication* m_qtapp;
 	/*! A scene used for output
 	*/
-	sad::Scene * m_scene;
+	sad::Scene* m_scene;
 	/*! Command line arguments
 	*/
-	sad::cli::Args * m_cmdargs;
+	sad::cli::Args* m_cmdargs;
 	/*! Mutex, that is used in initialize. DO NOT USE on other intensions
 	*/
-	sad::Mutex * m_initmutex;
+	sad::Mutex* m_initmutex;
 	/*! Mutex, that is used in waiting of saddy thread. DO NOT use on other intensions
 	*/
-	sad::Mutex * m_saddywaitmutex;
+	sad::Mutex* m_saddywaitmutex;
 	/*! Whether saddy thread must wait for qt thread
 	*/
 	bool m_waitforqt;
 	/*! Whether main thread should wait for saddy thread
 	*/
 	bool m_waitforsaddy;
-	/*! Whether saddy initialization was successfull
-	*/
-	bool m_saddystartedok;
 	/*! Command line options data
 	*/
-	sad::cli::Parser * m_cmdoptions;
+	sad::cli::Parser* m_cmdoptions;
 	/*! History of data
 	*/
-	EditorHistory * m_history;
+	EditorHistory* m_history;
 	/*! Describes a behaviour shared data
 	*/
-	core::Shared * m_behavioursharedata;
+	core::Shared* m_behavioursharedata;
 	/*! An icons container
 	*/
 	sad::Sprite2DConfig m_icons;
@@ -360,7 +313,7 @@ private:
 	*/
 	inline bool shouldSaddyThreadWaitForQt() 
 	{
-		bool result = false;
+		bool result;
 		m_initmutex->lock();
 		result = m_waitforqt;
 		m_initmutex->unlock();
@@ -371,7 +324,7 @@ private:
 	*/
 	inline bool shouldMainThreadWaitForSaddy() 
 	{
-		bool result = false;
+		bool result;
 		m_initmutex->lock();
 		result = m_waitforsaddy;
 		m_initmutex->unlock();
@@ -396,13 +349,6 @@ private:
 	/*! Makes thread wait for saddy thread
 	*/
 	void waitForSaddyThread();
-	/*! Inits renderer of Saddy with default values
-	*/
-	void initDefaultSaddyOptions();
-	/*! Returns, whether renderer of Saddy was successfull
-		\return whether it was successfull
-	*/
-	inline bool saddyInitSuccessfull() { return this->m_saddystartedok; }
 };
 
 }
