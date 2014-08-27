@@ -6,6 +6,8 @@
 #pragma once
 #include <QThread>
 
+#include <maybe.h>
+#include <sadstring.h>
 
 namespace core
 {
@@ -17,10 +19,6 @@ class SaddyThread: public QThread
 {
 Q_OBJECT
 friend class Editor;
-private:
-	/*! Editor to work with
-	 */
-	core::Editor * m_editor;
 public:
 	/*! Constructs a children rendering thread. Editor is needed to
 	    send a signal to run Qt event loop
@@ -33,6 +31,22 @@ public:
 	/*! Runs a thread to do stuff
 	 */
 	virtual void run();	
+private:
+	/*! Editor to work with
+	 */
+	core::Editor * m_editor;
+	/*! Tries to parse width of height from result of CLI parser
+		\param[in] maybevalue an input from parser
+		\param[in] default_value a value, returned from input in case that parse value
+		\param[in] min_value a minimal value for data
+		\param[in] max_value a maximal value
+	 */
+	static unsigned int tryParseWidthOrHeight(
+		const sad::Maybe<sad::String> & maybevalue,
+		unsigned int default_value,
+		unsigned int min_value,
+		unsigned int max_value
+	);
 };
 
 }

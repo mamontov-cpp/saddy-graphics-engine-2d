@@ -27,31 +27,26 @@ class AbstractScreenObject;
  */
 class MainPanel : public QMainWindow
 {
-	Q_OBJECT
-private:
-	/** Data for moving x
-	 */
-	float m_tmp_mov_x;
-	/** Data for moving y
-	 */
-	float m_tmp_mov_y;
-	/** State of main panel (temporary for slot)
-	 */
-	QString m_tmp_state;
-	/** An object list for working with information
-	 */
-	gui::ScreenObjectList m_list;
+Q_OBJECT
 public:
-	
-	/*! Change region parameters for data
-	 */
-	void setRegionParameters();
-	/*! Constructor, which inits all of callbacks
+	/*! Creates new window
+		\param[in] parent a parent widget
+		\param[in] flags a panel flags
 	 */
 	MainPanel(QWidget *parent = 0, Qt::WFlags flags = 0);
 	/*! Currently does nothing
 	 */
 	~MainPanel();
+	/*! Sets enabled property for editing buttons on panel to specified property
+		\param[in] enabled whether buttons are enabled
+	 */
+	void toggleEditingButtons(bool enabled);
+	/*! Determines, whether editing is enabled in main panel
+	 */
+	bool isEditingEnabled() const;
+	/*! Change region parameters for data
+	 */
+	void setRegionParameters();
 	/*! Updates list of objects
 	 */
 	void updateList();
@@ -172,7 +167,19 @@ protected slots:
 		\param[in] c color
 	 */
 	void colorChanged(QColor c);
-
+private:
+	/** Data for moving x
+	 */
+	float m_tmp_mov_x;
+	/** Data for moving y
+	 */
+	float m_tmp_mov_y;
+	/** State of main panel (temporary for slot)
+	 */
+	QString m_tmp_state;
+	/** An object list for working with information
+	 */
+	gui::ScreenObjectList m_list;
 };
 
 #endif // MAINPANEL_H

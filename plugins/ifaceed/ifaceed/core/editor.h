@@ -169,6 +169,10 @@ public:
 	*/
 	inline QApplication * qtApp() { return this->m_qtapp;}	
 public slots:
+	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
+		default behaviour
+	 */
+	void start();
 	/*! Tries erasing object, depending on current object state
 	 */
 	virtual void tryEraseObject();
@@ -209,9 +213,6 @@ protected:
 	/*! Screen template data
 	*/
 	ScreenTemplate * m_result;
-	/*! TODO: What's this?
-	 */
-	sad::log::FileTarget * m_target;
 	/*! Determines, whether we are already handling an event
 	*/
 	bool m_handling_event;
@@ -224,21 +225,21 @@ protected:
 	/*! A reason, while editor must be quit
 	*/
 	core::QuitReason  m_quit_reason;
+	/*! Reports errors to log
+		\param[in, out] errors a list of errors
+		\param[in] name a name of file, which has been loading
+	*/
+	void reportResourceLoadingErrors(
+		sad::Vector<sad::resource::Error *> & errors,
+		const sad::String& name
+	);
+	/*! Initializes conversion table with all conversion table
+	 */
+	void initConversionTable();
 	/*! Sets a database for templates
 		\param[in] db database
 	*/
 	void setDatabase(FontTemplateDatabase * db);
-	/*! A function, which is called, when app fully started from main start
-	*/
-	virtual void onFullAppStart();
-	/*! Reports a errors an closes an editor
-		\param[in, out] errors a list of errors
-		\param[in] configname a name of config, which will be reported
-	*/
-	void reportResourceLoadingErrors(
-		sad::Vector<sad::resource::Error *> & errors,
-		const sad::String& configname
-	);
 	/*! Returns a command line arguments
 		\return command line arguments
 	 */ 
