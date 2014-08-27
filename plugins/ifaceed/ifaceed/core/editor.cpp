@@ -59,14 +59,14 @@ core::Editor::Editor() : m_icons("editor_icons")
 	sad::Renderer::ref()->log()->addTarget(m_qttarget);
 
 	// Add small user log
-	sad::log::FileTarget * fh = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
-	fh->open("user.txt");
-	sad::log::Log::ref()->addTarget(fh);
+	sad::log::FileTarget * t = new sad::log::FileTarget("{0}: [{1}] {3}{2}{4}", sad::log::MESSAGE);
+	t->open("user.txt");
+	sad::log::Log::ref()->addTarget(t);
 
 	// Add large debug log
-	m_target = new sad::log::FileTarget();
-	m_target->open("full.txt");
-	sad::log::Log::ref()->addTarget(m_target);
+	t = new sad::log::FileTarget();
+	t->open("full.txt");
+	sad::log::Log::ref()->addTarget(t);
 
 	m_cmdargs = NULL;
 	m_initmutex = new sad::Mutex();
@@ -92,6 +92,114 @@ core::Editor::Editor() : m_icons("editor_icons")
 	this->behaviours().insert("main", behaviour);
 
 	// Fill conversion table with converters
+	this->initConversionTable();
+}
+core::Editor::~Editor()
+{
+	delete m_db;
+	delete m_result;
+	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it = m_behaviours.begin();
+		it!=m_behaviours.end();
+		++it)
+	{
+		delete it.value();
+	}
+	delete m_cmdoptions;
+	delete m_saddywaitmutex;
+	delete m_qtapp;
+	delete m_initmutex;
+	delete m_renderthread;
+	delete m_cmdargs;
+	delete m_history;
+	delete m_behavioursharedata;
+}
+
+void core::Editor::init(int argc,char ** argv)
+{
+	// Create data, shared between behaviours
+	m_behavioursharedata = new core::Shared();
+	m_behavioursharedata->setEditor(this);
+
+	// Create and parse command line arguments
+	m_cmdargs = new sad::cli::Args(argc, argv);
+	m_cmdoptions = new sad::cli::Parser();
+	m_cmdoptions->addSingleValuedOption("resources");
+	m_cmdoptions->addSingleValuedOption("width");
+	m_cmdoptions->addSingleValuedOption("height");
+	m_cmdoptions->addFlag("debug");
+	m_cmdoptions->parse(argc, const_cast<const char **>(argv));
+	
+	// This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
+	m_waitforsaddy = true;
+	m_renderthread->start();
+	// Wait for Saddy's window to show up
+	this->waitForSaddyThread();
+	this->runQtEventLoop();
+	m_renderthread->wait();
+}
+
+MainPanel * core::Editor::panel()
+{
+	return m_mainwindow;
+}
+
+void core::Editor::start()
+{
+	SL_SCOPE("core::Editor::start()");
+	bool mustquit = false;
+
+	// Try load icons resources
+	sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
+	sad::Renderer::ref()->tree("icons")->factory()->registerResource<sad::freetype::Font>();
+	sad::Vector<sad::resource::Error * > errors;
+	errors = sad::Renderer::ref()->tree("icons")->loadFromFile(ICONS_PATH);
+	if (errors.size())
+	{
+		mustquit = true;
+		this->reportResourceLoadingErrors(errors, ICONS_PATH);
+	}
+
+	// Try load specified resources, if need to
+	sad::Renderer::ref()->tree("")->factory()->registerResource<sad::freetype::Font>();
+	sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
+	if (maybefilename.exists())
+	{
+		errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
+		if (errors.size())
+		{
+			mustquit = true;
+			this->reportResourceLoadingErrors(errors, maybefilename.value());
+		}
+	}
+	else
+	{
+		this->m_mainwindow->toggleEditingButtons(false);
+	}
+	
+
+	if (mustquit)
+	{
+		 QTimer::singleShot(0, this->panel(), SLOT(close()));
+	}
+}
+
+void core::Editor::reportResourceLoadingErrors(
+		sad::Vector<sad::resource::Error *> & errors,
+		const sad::String& name
+)
+{
+	sad::String errorlist = sad::resource::format(errors);
+	sad::String resultmessage = "There was errors while loading ";
+	resultmessage += name;
+	resultmessage += ":\n";
+	resultmessage += errorlist;
+	sad::util::free(errors);
+	errors.clear();
+	SL_FATAL(resultmessage);
+}
+
+void core::Editor::initConversionTable()
+{
 	sad::db::ConversionTable::ref()->add(
 		"sad::Color", 
 		"QColor", 
@@ -132,55 +240,64 @@ core::Editor::Editor() : m_icons("editor_icons")
 		"sad::Vector<sad::Vector<sad::AColor> >", 
 		new core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor()
 	);
-
 }
-core::Editor::~Editor()
+
+void core::Editor::runQtEventLoop()
 {
-	delete m_db;
-	delete m_result;
-	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it = m_behaviours.begin();
-		it!=m_behaviours.end();
-		++it)
-	{
-		delete it.value();
+	m_qtapp = new QApplication(m_cmdargs->count(), m_cmdargs->arguments());
+	m_mainwindow = new MainPanel();
+	m_mainwindow->setEditor(this);
+
+	QObject::connect(
+		this->m_qtapp,
+		SIGNAL(lastWindowClosed()),
+		this,
+		SLOT(qtQuitSlot()));
+	this->m_mainwindow->show();
+
+	QObject::connect(
+		this, 
+		SIGNAL(closureArrived(sad::ClosureBasic*)), 
+		this, 
+		SLOT(onClosureArrived(sad::ClosureBasic*)) 
+	);
+	m_qttarget->enable();
+	QTimer::singleShot(0, this, SLOT(start()));
+	this->m_qtapp->exec();
+	m_qttarget->disable();
+}
+
+void core::Editor::runSaddyEventLoop() 
+{
+	m_quit_reason = core::QR_NOTSET;
+	sad::Renderer::ref()->run();
+	// Quit reason can be set by main thread, when window is closed
+	if (m_quit_reason == core::QR_NOTSET)
+		this->saddyQuitSlot();
+}
+
+void core::Editor::saddyQuitSlot()
+{
+	if (m_quit_reason == core::QR_NOTSET) {
+		m_quit_reason = core::QR_SADDY;
+		QTimer::singleShot(0,this,SLOT(onQuitActions()));
 	}
-	delete m_cmdoptions;
-	delete m_saddywaitmutex;
-	delete m_qtapp;
-	delete m_initmutex;
-	delete m_renderthread;
-	delete m_cmdargs;
-	delete m_history;
-	delete m_behavioursharedata;
 }
-
-void core::Editor::init(int argc,char ** argv)
+void core::Editor::qtQuitSlot()
 {
-	// Create data, shared between behaviours
-	m_behavioursharedata = new core::Shared();
-	m_behavioursharedata->setEditor(this);
-
-	// Create and parse command line arguments
-	m_cmdargs = new sad::cli::Args(argc, argv);
-	m_cmdoptions = new sad::cli::Parser();
-	m_cmdoptions->addSingleValuedOption("ifaceconfig");
-	m_cmdoptions->addSingleValuedOption("width");
-	m_cmdoptions->addSingleValuedOption("height");
-	m_cmdoptions->addFlag("debug");
-	m_cmdoptions->parse(argc, const_cast<const char **>(argv));
-	
-	// This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
-	m_waitforsaddy = true;
-	m_renderthread->start();
-	// Wait for Saddy's window to show up
-	this->waitForSaddyThread();
-	this->runQtEventLoop();
-	m_renderthread->wait();
+	if (m_quit_reason == core::QR_NOTSET) {
+		m_quit_reason = core::QR_QTWINDOW;
+		this->onQuitActions();
+	}
 }
-
-MainPanel * core::Editor::panel()
+void core::Editor::onQuitActions()
 {
-	return m_mainwindow;
+	if (m_quit_reason == core::QR_SADDY) {
+		this->m_mainwindow->close();
+	}
+	if (m_quit_reason == core::QR_QTWINDOW) {
+		sad::Renderer::ref()->quit();
+	}
 }
 
 void core::Editor::setDatabase(FontTemplateDatabase * db)
@@ -253,163 +370,6 @@ class DBLoadingTask: public sad::pipeline::AbstractTask
 	 {
 	 }
 };
-
-
-void core::Editor::reportResourceLoadingErrors(
-		sad::Vector<sad::resource::Error *> & errors,
-		const sad::String& configname
-)
-{
-	sad::String errorlist = sad::resource::format(errors);
-	sad::String resultmessage = "There was errors while loading ";
-	resultmessage += configname;
-	resultmessage += ":\n";
-	resultmessage += errorlist;
-	sad::util::free(errors);
-	SL_FATAL(resultmessage);
-	QTimer::singleShot(0, this->panel(), SLOT(close()));
-}
-
-void core::Editor::onFullAppStart()
-{
-	if (this->parsedArgs()->single("ifaceconfig").value().length() == 0)
-	{
-		SL_WARNING("Config file is not specified. You must choose it now");
-		QString config = QFileDialog::getOpenFileName(this->panel(),"Choose a config file",QString(),
-													  ("Configs (*.json)"));
-		if (config.length() == 0) 
-		{
-			SL_FATAL("Config file is not specified. Quitting...");
-			QTimer::singleShot(0, this->panel(), SLOT(close()));
-			return;
-		} 
-		else 
-		{
-			this->parsedArgs()->setSingleValuedOption("ifaceconfig", config.toStdString().c_str());
-		}
-	}
-	bool success = true;
-	sad::resource::Tree * resourcetree = new sad::resource::Tree();
-	resourcetree->factory()->registerResource<sad::freetype::Font>();
-	resourcetree->setStoreLinks(true);
-	
-	sad::Renderer * renderer = sad::Renderer::ref();
-	renderer->addTree("resources", resourcetree);
-	sad::Vector<sad::resource::Error *> errors = resourcetree->loadFromFile("resources/resources.json");
-	if (errors.count())
-	{
-		reportResourceLoadingErrors(errors, "resources.json");
-		return;
-	}
-
-	// Load first stage - a maps of handling all of data
-	sad::String configname = this->parsedArgs()->single("ifaceconfig").value();
-	renderer->tree()->factory()->registerResource<sad::freetype::Font>();
-	errors = renderer->tree()->loadFromFile(configname);
-	if (errors.count())
-	{
-		reportResourceLoadingErrors(errors, "config");
-		success = false;
-	}
-	
-	if (success) {
-		this->panel()->setEditor(this);
-		this->panel()->synchronizeDatabase();
-				
-		class IFaceMouseMoveHandler 
-		: public sad::input::AbstractHandlerForType<sad::input::MouseMoveEvent>
-		{
-		 public:
-			IFaceMouseMoveHandler(core::Editor * ed) : m_editor(ed)
-			{
-			}
-			virtual void invoke(const sad::input::MouseMoveEvent & ev)
-			{
-				if (m_editor) 
-				{
-					MainPanel * p = m_editor->panel();
-					p->setMouseMovePosView(ev.pos2D().x(),ev.pos2D().y());
-				}
-				m_editor->currentBehaviour()->onMouseMove(ev);
-			}
-		 protected:
-		   core::Editor * m_editor;
-		} * handler = new IFaceMouseMoveHandler(this);
-		class IFaceKeyDownHandler
-		: public sad::input::AbstractHandlerForType<sad::input::KeyPressEvent>
-		{
-		 public:
-			IFaceKeyDownHandler(core::Editor * ed) : m_editor(ed)
-			{
-			}
-			void commitInEditor()
-			{
-				CLOSURE
-				CLOSURE_DATA(core::Editor * e;)
-				CLOSURE_CODE(e->history()->commit(e); )
-				INITCLOSURE( CLSET(e, m_editor); );
-				SUBMITCLOSURE( m_editor->emitClosure );
-			}
-			void rollbackInEditor()
-			{
-				core::Editor * ed = static_cast<core::Editor*>(m_editor);
-				CLOSURE
-				CLOSURE_DATA(core::Editor * e;)
-				CLOSURE_CODE(e->history()->rollback(e); )
-				INITCLOSURE( CLSET(e, m_editor); );
-				SUBMITCLOSURE( m_editor->emitClosure );
-			}
-			virtual void invoke(const sad::input::KeyPressEvent & ev)
-			{
-				bool handled = false;
-				if (m_editor) 
-				{
-					if (m_editor->behaviourSharedData()->activeObject() == NULL
-						&& m_editor->behaviourSharedData()->selectedObject() == NULL)
-					{
-						if (ev.Key == sad::Esc)
-						{
-							handled = true;
-							m_editor->quit();
-						}
-					}
-					if (ev.Key == sad::Z && ev.CtrlHeld)
-					{
-						handled = true;
-						this->rollbackInEditor();
-					}
-					if (ev.Key == sad::R && ev.CtrlHeld)
-					{
-						handled = true;
-						this->commitInEditor();
-					}
-				}
-				if (!handled)
-					m_editor->currentBehaviour()->onKeyDown(ev);
-			}
-		protected:
-		   core::Editor * m_editor;
-		} * kbdhandler = new IFaceKeyDownHandler(this);
-
-
-		sad::input::Controls * c = sad::Renderer::ref()->controls();
-		c->add(*sad::input::ET_MouseMove, handler);
-		c->add(*sad::input::ET_KeyPress, kbdhandler);		
-		c->add(*sad::input::ET_KeyRelease, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onKeyUp);
-		c->add(*sad::input::ET_MouseWheel, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onWheel);
-		c->add(*sad::input::ET_MousePress, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onMouseDown);
-		c->add(*sad::input::ET_MouseRelease, this, &core::Editor::currentBehaviour, &core::EditorBehaviour::onMouseUp);
-
-		m_selection_border = new SelectedObjectBorder(this->shdata());
-		sad::Renderer::ref()->pipeline()->append( m_selection_border );
-		sad::Renderer::ref()->pipeline()->appendProcess(this, &core::Editor::tryRenderActiveObject);
-		sad::Renderer::ref()->pipeline()->append( new ActiveObjectBorder(this->shdata()) );
-
-		this->setBehaviour("main");
-		this->highlightState("Idle");
-
-	}
-}
 
 FontTemplateDatabase * core::Editor::database()
 {
@@ -687,57 +647,9 @@ void core::Editor::waitForSaddyThread()
 	while(this->shouldMainThreadWaitForSaddy());
 }
 
-void core::Editor::runQtEventLoop()
-{
-	m_qtapp = new QApplication(m_cmdargs->count(), m_cmdargs->arguments());
-	m_mainwindow = new MainPanel();
-
-	QObject::connect(this->m_qtapp,SIGNAL(lastWindowClosed()),this,SLOT(qtQuitSlot()));
-	this->m_mainwindow->show();
-
-	QObject::connect(this, SIGNAL(closureArrived(sad::ClosureBasic*)), this, SLOT(onClosureArrived(sad::ClosureBasic*)) );
-	m_qttarget->enable();
-	QTimer::singleShot(0,this,SLOT(onFullAppStart()));
-	this->m_qtapp->exec();
-	m_qttarget->disable();
-}
-
-void core::Editor::runSaddyEventLoop() 
-{
-	m_quit_reason = core::QR_NOTSET;
-	sad::Renderer::ref()->run();
-	// Quit reason can be set by main thread, when window is closed
-	if (m_quit_reason == core::QR_NOTSET)
-		this->saddyQuitSlot();
-}
-
 sad::Sprite2DConfig & core::Editor::icons()
 {
 	return m_icons;
-}
-
-void core::Editor::saddyQuitSlot()
-{
-	if (m_quit_reason == core::QR_NOTSET) {
-		m_quit_reason = core::QR_SADDY;
-		QTimer::singleShot(0,this,SLOT(onQuitActions()));
-	}
-}
-void core::Editor::qtQuitSlot()
-{
-	if (m_quit_reason == core::QR_NOTSET) {
-		m_quit_reason = core::QR_QTWINDOW;
-		this->onQuitActions();
-	}
-}
-void core::Editor::onQuitActions()
-{
-	if (m_quit_reason == core::QR_SADDY) {
-		this->m_mainwindow->close();
-	}
-	if (m_quit_reason == core::QR_QTWINDOW) {
-		sad::Renderer::ref()->quit();
-	}
 }
 
 void core::Editor::eraseBehaviour()

@@ -102,6 +102,58 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
 }
 
+
+MainPanel::~MainPanel()
+{
+	
+}
+
+void MainPanel::toggleEditingButtons(bool enabled)
+{
+	const int affectedpushbuttonscount = 18;
+	QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
+		ui.btnReloadResources,
+		ui.btnUndo,
+		ui.btnRedo,
+
+		ui.btnDatabaseSave,
+		ui.btnDatabaseLoad,
+		ui.btnDatabasePropertiesAdd,
+
+		ui.btnScenesMoveFront,
+		ui.btnScenesMoveBack,
+		ui.btnSceneDelete,
+
+		ui.btnSceneAdd,
+		ui.btnSceneNodeMoveFront,
+		ui.btnSceneNodeMoveBack,
+
+		ui.btnSceneClear,
+		ui.btnSceneNodeDelete,
+		ui.btnLabelAdd,
+
+		ui.btnSpriteMakeBackground,
+		ui.btnSpriteAdd,
+		ui.btnCustomObjectAdd
+	};
+	for(int i = 0; i < affectedpushbuttonscount; i++)
+	{
+		affectedpushbuttons[i]->setEnabled(enabled);
+	}
+	// TODO: Here, cleanup any kind of widget that is linked to resources
+	if (!enabled)
+	{
+		
+	}
+}
+
+bool MainPanel::isEditingEnabled() const
+{
+	return ui.btnLabelAdd->isEnabled() 
+		&& ui.btnSpriteAdd->isEnabled()
+		&& ui.btnCustomObjectAdd->isEnabled();
+}
+
 void MainPanel::setEditor(core::Editor * editor) 
 {  
 	m_editor = editor; 
@@ -112,15 +164,6 @@ void MainPanel::setEditor(core::Editor * editor)
 
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }
-
-
-
-MainPanel::~MainPanel()
-{
-
-}
-
-
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
