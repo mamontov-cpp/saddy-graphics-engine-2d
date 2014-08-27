@@ -1,6 +1,8 @@
 #include "core/saddythread.h"
 #include "core/editor.h"
 
+#include <renderer.h>
+
 core::SaddyThread::SaddyThread(core::Editor * editor) : m_editor(editor)
 {
 	
@@ -15,12 +17,11 @@ void core::SaddyThread::waitForQtThread()
 
 void core::SaddyThread::run() 
 {
-	this->m_editor->initSaddyActions();
-	this->m_editor->m_waitforqt = true;
+	sad::Renderer::ref()->init(sad::Settings(WINDOW_WIDTH, WINDOW_HEIGHT, false));
+	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
+	sad::Renderer::ref()->makeFixedSize();
+
 	this->m_editor->awakeMainThread();
-	if (this->m_editor->saddyInitSuccessfull()) {
-		this->waitForQtThread();
-		this->m_editor->awakeMainThread();
-		this->m_editor->runSaddyEventLoop();
-	}
+
+	this->m_editor->runSaddyEventLoop();
 }
