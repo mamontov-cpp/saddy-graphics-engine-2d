@@ -5,7 +5,7 @@
  */
 #include "../macro.h"
 
-#include "../history/editorhistory.h"
+#include "../history/history.h"
 
 #include "../core/qttarget.h"
 #include "../core/editorbehaviour.h"
@@ -129,7 +129,7 @@ public:
 	/*! Returns a history
 		\return history
 	*/
-	inline EditorHistory * history() { return m_history; }
+	inline history::History * history() { return m_history; }
 
 	/*! Returns a behaviour hash
 		\return behaviour hash
@@ -302,7 +302,7 @@ private:
 	sad::cli::Parser* m_cmdoptions;
 	/*! History of data
 	*/
-	EditorHistory* m_history;
+	history::History* m_history;
 	/*! Describes a behaviour shared data
 	*/
 	core::Shared* m_behavioursharedata;

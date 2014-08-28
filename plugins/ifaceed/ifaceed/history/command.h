@@ -11,7 +11,11 @@ namespace core
 	class Editor;
 }
 
-class AbstractCommand
+
+namespace history
+{
+
+class Command
 {
  public:
 	 /** Applies changes, described in command
@@ -24,5 +28,7 @@ class AbstractCommand
 	 virtual void rollback(core::Editor * ob = NULL)=0;
 	 /** Descructor
 	  */
-	 virtual ~AbstractCommand();
+	 virtual ~Command();
 };
+
+}

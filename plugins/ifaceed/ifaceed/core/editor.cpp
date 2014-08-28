@@ -17,6 +17,7 @@
 
 #include <db/load.h>
 #include <db/save.h>
+#include <db/dbdatabase.h>
 
 #include <resource/tree.h>
 
@@ -75,7 +76,7 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_waitforqt = false;
 	m_waitforsaddy = false;
 	m_qtapp = NULL;
-	m_history = new EditorHistory();
+	m_history = new history::History();
 
 	m_handling_event = false;
 	m_db = NULL;
@@ -176,6 +177,21 @@ void core::Editor::start()
 		this->m_mainwindow->toggleEditingButtons(false);
 	}
 	
+	bool database_loaded = false;
+	if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists())
+	{
+		// Try load database	
+	}
+
+	// If no database loaded, init default database, add a palette to it.
+	if (database_loaded == false)
+	{
+		// Create a default database
+		sad::db::Database * db = new sad::db::Database();
+		// Default database has empty name
+		sad::Renderer::ref()->addDatabase("", db);
+	}
+	this->m_mainwindow->viewDatabase();
 
 	if (mustquit)
 	{
