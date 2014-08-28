@@ -3,7 +3,7 @@
 	
 	This command allows setting and resetting some object property
  */
-#include "abstractcommand.h"
+#include "command.h"
 #include "../objects/abstractscreenobject.h"
 #include "sadstring.h"
 #include "sadrect.h"
@@ -23,7 +23,7 @@ class ScreenTemplate;
 template<
 	typename T
 >
-class PropertyChangeCommand: public AbstractCommand 
+class PropertyChangeCommand: public history::Command 
 {
 private:
 	AbstractScreenObject * m_object; //!< Object of data
@@ -113,7 +113,7 @@ public:
 
 /*! A command, which is performed when sprite changes any his inner texture property
  */
-class SpritePropertyChangeCommand: public AbstractCommand 
+class SpritePropertyChangeCommand: public history::Command 
 {
  private:
 	ScreenSprite * m_sprite;
@@ -147,7 +147,7 @@ class SpritePropertyChangeCommand: public AbstractCommand
 
 /*! A command, which is performed when sprite changes bounding rectangle
  */
-class SpriteRectChangeCommand: public AbstractCommand
+class SpriteRectChangeCommand: public history::Command
 {
  private:
 		ScreenSprite * m_sprite;

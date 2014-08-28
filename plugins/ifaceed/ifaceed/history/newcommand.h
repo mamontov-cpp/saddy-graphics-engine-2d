@@ -3,7 +3,7 @@
 	
 	A new command is a command for adding new object to container
  */
-#include "abstractcommand.h"
+#include "command.h"
 #include <sadvector.h>
 #pragma once
 
@@ -12,7 +12,7 @@ class AbstractScreenObject;
 
 /** A new command is a command for adding new object to container
  */
-class NewCommand: public AbstractCommand
+class NewCommand: public history::Command
 {
  private:
 	ScreenTemplate * m_container;
@@ -37,7 +37,7 @@ class NewCommand: public AbstractCommand
 };
 
 
-class ScreenClearCommand: public AbstractCommand
+class ScreenClearCommand: public history::Command
 {
  private:
 	ScreenTemplate * m_container;

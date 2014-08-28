@@ -19,7 +19,7 @@ core
 				src[i][j].red(),
 				src[i][j].green(),
 				src[i][j].blue(),
-				src[i][j].alpha()
+				255- src[i][j].alpha()
 			);
 		}
 	}

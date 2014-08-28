@@ -184,29 +184,6 @@
        <string>Load</string>
       </property>
      </widget>
-     <widget class="QScrollArea" name="saDatabaseProperties">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>311</width>
-        <height>301</height>
-       </rect>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="saDatabasePropertiesConstents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>309</width>
-         <height>299</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
      <widget class="QPushButton" name="btnDatabasePropertiesAdd">
       <property name="geometry">
        <rect>
@@ -237,6 +214,16 @@
         <y>320</y>
         <width>151</width>
         <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="twDatabaseProperties">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>311</width>
+        <height>301</height>
        </rect>
       </property>
      </widget>
@@ -604,29 +591,6 @@
        <string>Add Object</string>
       </property>
      </widget>
-     <widget class="QScrollArea" name="saCustomObjectProperties">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
-        <width>401</width>
-        <height>171</height>
-       </rect>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="saCustomObjectPropertiesContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>399</width>
-         <height>169</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
      <widget class="QWidget" name="rtwCustomObjectSchemas" native="true">
       <property name="geometry">
        <rect>
@@ -634,6 +598,16 @@
         <y>10</y>
         <width>401</width>
         <height>121</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="twCustomObjectSchemas">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>401</width>
+        <height>171</height>
        </rect>
       </property>
      </widget>

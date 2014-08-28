@@ -9,7 +9,7 @@
 #include "../../objects/screentemplate.h"
 #include "../../objects/abstractscreenobject.h"
 
-#include "../../history/editorhistory.h"
+#include "../../history/history.h"
 #include "../../history/movecommand.h"
 
 #include <closure.h>

@@ -12,7 +12,7 @@ class AbstractScreenObject;
 
 /** A delete command is a command for adding new object to container.
  */
-class DeleteCommand: public AbstractCommand
+class DeleteCommand: public history::Command
 {
  private:
 	NewCommand * m_cmd;

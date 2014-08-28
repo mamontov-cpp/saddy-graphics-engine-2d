@@ -22,7 +22,7 @@ core
 				src[i][j].r(),
 				src[i][j].g(),
 				src[i][j].b(),
-				src[i][j].a()
+				255 - src[i][j].a()
 			);
 		}
 	}

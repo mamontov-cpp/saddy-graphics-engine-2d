@@ -3,7 +3,7 @@
 	
 	A move command is a command for moving object's center to another point
  */
-#include "abstractcommand.h"
+#include "command.h"
 #include <sadpoint.h>
 #include <sadrect.h>
 #pragma once
@@ -12,7 +12,7 @@ class AbstractScreenObject;
 
 /** A new command is a command for adding new object to container
  */
-class MoveCommand: public AbstractCommand
+class MoveCommand: public history::Command
 {
  private:
 	AbstractScreenObject * m_object;
@@ -39,7 +39,7 @@ class MoveCommand: public AbstractCommand
 };
 
 
-class ResizeCommand: public AbstractCommand
+class ResizeCommand: public history::Command
 {
  private:
 	AbstractScreenObject * m_object;
@@ -67,7 +67,7 @@ class ResizeCommand: public AbstractCommand
 	~ResizeCommand();
 };
 
-class MakeBackgroundCommand: public AbstractCommand
+class MakeBackgroundCommand: public history::Command
 {
  private:
 	AbstractScreenObject * m_o;

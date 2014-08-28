@@ -1,20 +1,23 @@
-#include "editorhistory.h"
+#include "history.h"
+
 #include <3rdparty/format/format.h>
+
 #include <db/load.h>
 #include <db/save.h>
+
 #include <log/log.h>
 
-EditorHistory::EditorHistory()
+history::History::History()
 {
 	m_current = -1;
 }
 
-EditorHistory::~EditorHistory()
+history::History::~History()
 {
 	this->clear();
 }
 
-void EditorHistory::clear()
+void history::History::clear()
 {
 	for (int i=0;i<m_commands.count();i++)
 	{
@@ -24,7 +27,7 @@ void EditorHistory::clear()
 	m_current = -1;
 }
 
-void EditorHistory::commit(core::Editor * ob)
+void history::History::commit(core::Editor * ob)
 {
 	SL_SCOPE("EditorHistory::commit");
 	SL_DEBUG(
@@ -50,7 +53,7 @@ void EditorHistory::commit(core::Editor * ob)
 	}
 }
 
-void EditorHistory::rollback(core::Editor * ob)
+void history::History::rollback(core::Editor * ob)
 {
 	SL_SCOPE("EditorHistory::rollback");
 	SL_DEBUG(
@@ -76,7 +79,7 @@ void EditorHistory::rollback(core::Editor * ob)
 	}
 }
 
-void EditorHistory::add(AbstractCommand * c)
+void history::History::add(history::Command * c)
 {
 	int count = m_commands.count();
 	for(int i=m_current+1;i<count;i++)

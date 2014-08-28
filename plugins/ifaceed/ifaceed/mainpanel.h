@@ -44,17 +44,19 @@ public:
 	/*! Determines, whether editing is enabled in main panel
 	 */
 	bool isEditingEnabled() const;
+	/** Sets an editor to work with
+		\param[in] editor editor
+	 */
+	void setEditor(core::Editor * editor);
+	/*! Check database for consistency and set palettes, after database was loaded
+	 */
+	void viewDatabase();
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
 	/*! Updates list of objects
 	 */
-	void updateList();
-	/** Sets an editor to work with
-		\param[in] editor editor
-	 */
-	void setEditor(core::Editor * editor);
-	
+	void updateList();	
 	/*! Synchronizes database with an editor
 	 */
 	void synchronizeDatabase();
@@ -94,17 +96,20 @@ public:
 
 	void updateObjectStats(AbstractScreenObject * o);
 private:
-	Ui::MainPanelClass ui;         //!< UI
+	Ui::MainPanelClass ui;          //!< UI
 	core::Editor    *   m_editor;   //!< Editor to work with
 protected:
-	/**
+	/*!
 	 * An utility flag to prevent events, from self-changing 
 	 */
 	bool m_selfchanged;
-	/**
+	/*!
 	 * Whether panel is closed it must close a dialogs if present
 	 */
 	void closeEvent(QCloseEvent*);
+	/*! Fixes database scenes and scene nodes tables and palette if need to
+	 */
+	void fixDatabase();
 protected slots:
 	/*! TODO: Remove
 	 */

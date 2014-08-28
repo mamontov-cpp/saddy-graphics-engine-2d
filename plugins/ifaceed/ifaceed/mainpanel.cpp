@@ -23,6 +23,9 @@
 
 #include <db/save.h>
 #include <db/load.h>
+#include <db/dbdatabase.h>
+#include <db/dbtable.h>
+#include <db/dbstoredproperty.h>
 
 #include <QDialog>
 #include <QTimer>
@@ -45,40 +48,10 @@
 #endif
 
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags)
+	: QMainWindow(parent, flags), m_selfchanged(false)
 {
 	ui.setupUi(this);
 
-	// Init non-random palette
-	QList< QList<QColor> > defaultpalette;
-
-	defaultpalette << QList<QColor>();
-	defaultpalette[0] << QColor(255, 255, 0);
-	defaultpalette[0] << QColor(255, 0, 0);
-	defaultpalette[0] << QColor(0, 255, 0);
-	defaultpalette[0] << QColor(0, 0, 255);
-
-	defaultpalette << QList<QColor>();
-	defaultpalette[1] << QColor(192, 192, 0);
-	defaultpalette[1] << QColor(192, 0, 0);
-	defaultpalette[1] << QColor(0, 192, 0);
-	defaultpalette[1] << QColor(0, 0, 192);
-
-	defaultpalette << QList<QColor>();
-	defaultpalette[2] << QColor(128, 128, 0);
-	defaultpalette[2] << QColor(128, 0, 0);
-	defaultpalette[2] << QColor(0, 128, 0);
-	defaultpalette[2] << QColor(0, 0, 128);
-
-	defaultpalette << QList<QColor>();
-	defaultpalette[3] << QColor(64, 64, 0);
-	defaultpalette[3] << QColor(64, 0, 0);
-	defaultpalette[3] << QColor(0, 64, 0);
-	defaultpalette[3] << QColor(0, 0, 64);
-
-	ui.clpSceneNodeColor->setPalette(defaultpalette);
-
-	m_selfchanged = false;
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
@@ -105,7 +78,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 MainPanel::~MainPanel()
 {
-	
+
 }
 
 void MainPanel::toggleEditingButtons(bool enabled)
@@ -157,6 +130,7 @@ bool MainPanel::isEditingEnabled() const
 void MainPanel::setEditor(core::Editor * editor) 
 {  
 	m_editor = editor; 
+
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
@@ -165,9 +139,83 @@ void MainPanel::setEditor(core::Editor * editor)
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
 }
 
+void MainPanel::viewDatabase()
+{
+	this->fixDatabase();
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	ui.clpSceneNodeColor->setPalette(db->getProperty<QList<QList<QColor> > >("palette").value());
+}
+
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
  this->QMainWindow::closeEvent(ev);
+}
+
+
+void MainPanel::fixDatabase()
+{
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	if (db->table("scenes") == NULL)
+	{
+		db->addTable("scenes", new sad::db::Table());
+	}
+	if (db->table("scenenodes") == NULL)
+	{
+		db->addTable("scenenodes", new sad::db::Table());
+	}
+
+	bool needtosetpalette = false;
+	if (db->propertyByName("palette") != NULL)
+	{
+		if (db->propertyByName("palette")->baseType() != "sad::Vector<sad::Vector<sad::AColor> >"
+			|| db->propertyByName("palette")->pointerStarsCount() != 0)
+		{
+			needtosetpalette = true;
+			db->removeProperty("palette");
+			db->addProperty(
+				"palette", 
+				new sad::db::StoredProperty<sad::Vector<sad::Vector<sad::AColor> > >()
+			);
+		}
+	} 
+	else
+	{
+		needtosetpalette = true;
+		db->addProperty(
+			"palette", 
+			new sad::db::StoredProperty<sad::Vector<sad::Vector<sad::AColor> > >()
+		);
+	}
+	// Init palette
+	if (needtosetpalette)
+	{
+		sad::Vector<sad::Vector<sad::AColor> > default_palette;
+
+		default_palette << sad::Vector<sad::AColor >();
+		default_palette[0] << sad::AColor(255, 0, 0, 0);
+		default_palette[0] << sad::AColor(0, 255, 0, 0);
+		default_palette[0] << sad::AColor(0, 255, 255, 0);
+		default_palette[0] << sad::AColor(0, 0, 255, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+		default_palette[1] << sad::AColor(192, 0, 0, 0);
+		default_palette[1] << sad::AColor(0, 192, 0, 0);
+		default_palette[1] << sad::AColor(0, 192, 192, 0);
+		default_palette[1] << sad::AColor(0, 0, 192, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+		default_palette[2] << sad::AColor(164, 0, 0, 0);
+		default_palette[2] << sad::AColor(0, 164, 0, 0);
+		default_palette[2] << sad::AColor(0, 164, 164, 0);
+		default_palette[2] << sad::AColor(0, 0, 164, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+		default_palette[3] << sad::AColor(128, 0, 0, 0);
+		default_palette[3] << sad::AColor(0, 128, 0, 0);
+		default_palette[3] << sad::AColor(0, 128, 128, 0);
+		default_palette[3] << sad::AColor(0, 0, 128, 0);
+		db->setProperty("palette", default_palette);
+	}
 }
 
 void MainPanel::selected(sad::String item)
@@ -882,7 +930,7 @@ void MainPanel::makeBackground()
 	{
 		if (o2->hasProperty("rect") && o2->rotatable())
 		{
-			AbstractCommand * d = new MakeBackgroundCommand(o2);
+			history::Command * d = new MakeBackgroundCommand(o2);
 			m_editor->history()->add(d);
 			d->commit(m_editor);
 			SL_DEBUG("MakeBackgroundCommand() comitted");

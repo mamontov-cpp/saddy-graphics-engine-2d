@@ -3,14 +3,14 @@
 	
 	A layer commands are used to prioritize objects when drawing
  */
-#include "abstractcommand.h"
+#include "command.h"
 #pragma once
 
 class AbstractScreenObject;
 
 /** A new command is a command for adding new object to container
  */
-class LayerCommand: public AbstractCommand
+class LayerCommand: public history::Command
 {
  private:
 	AbstractScreenObject * m_object;

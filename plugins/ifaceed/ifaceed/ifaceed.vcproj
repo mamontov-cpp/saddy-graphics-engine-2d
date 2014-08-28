@@ -522,7 +522,7 @@
 				Name="history"
 				>
 				<File
-					RelativePath=".\history\abstractcommand.cpp"
+					RelativePath=".\history\command.cpp"
 					>
 				</File>
 				<File
@@ -530,7 +530,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\history\editorhistory.cpp"
+					RelativePath=".\history\history.cpp"
 					>
 				</File>
 				<File
@@ -651,10 +651,6 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\rendermutex.h"
-				>
 			</File>
 			<File
 				RelativePath=".\GeneratedFiles\ui_mainpanel.h"
@@ -1184,7 +1180,7 @@
 				Name="history"
 				>
 				<File
-					RelativePath=".\history\abstractcommand.h"
+					RelativePath=".\history\command.h"
 					>
 				</File>
 				<File
@@ -1192,7 +1188,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\history\editorhistory.h"
+					RelativePath=".\history\history.h"
 					>
 				</File>
 				<File
