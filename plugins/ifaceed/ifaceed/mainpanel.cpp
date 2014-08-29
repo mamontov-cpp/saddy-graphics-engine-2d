@@ -51,16 +51,14 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags), m_selfchanged(false)
 {
 	ui.setupUi(this);
+	// Set default sprite adding model
+	ui.rbPlaceAndRotate->setChecked(true);
+	this->fillDatabasePropertyTypesCombo();
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
 	
-	// Set default sprite adding model
-	ui.rbPlaceAndRotate->setChecked(true);
-
-	
-
 	m_list.setWidget(ui.lstSceneObjects);
 
 	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -222,6 +220,37 @@ void MainPanel::selected(sad::String item)
 {
 	QMessageBox::warning(NULL, "1", item.c_str());
 }
+
+void MainPanel::fillDatabasePropertyTypesCombo()
+{
+	const unsigned int typescount = 14;
+	const QString types[typescount] = {
+		"unsigned char",
+        "signed char",
+        "char",
+
+        "short",
+        "unsigned short",
+
+        "int",
+        "unsigned int",
+
+        "long",
+        "unsigned long",
+
+        "long long",
+        "unsigned long long",
+
+		"sad::String",
+		"sad::Color",
+		"sad::AColor"        
+	};	
+	for(int i = 0; i < typescount; i++)
+	{
+		ui.cmbDatabasePropertyType->addItem(types[i]);
+	}
+}
+
 void MainPanel::synchronizeDatabase()
 {
 	ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");

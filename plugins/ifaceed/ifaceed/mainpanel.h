@@ -98,6 +98,9 @@ public:
 private:
 	Ui::MainPanelClass ui;          //!< UI
 	core::Editor    *   m_editor;   //!< Editor to work with
+	/*! Fills combo box with database property types
+	 */
+	void fillDatabasePropertyTypesCombo();
 protected:
 	/*!
 	 * An utility flag to prevent events, from self-changing 

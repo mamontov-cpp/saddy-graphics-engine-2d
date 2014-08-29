@@ -9,6 +9,11 @@
 #include <QTableWidget>
 #include <QString>
 
+#include <db/dbvariant.h>
+#include <db/save.h>
+#include <db/load.h>
+
+
 namespace core
 {
 
@@ -58,10 +63,16 @@ public:
 	/*! Constructs a property name for delegate
 	 */
 	const QString& propertyName() const;
-	/*! Make editor for delegate
-		\return editor
+	/*! Adds a delegate to table
 	 */
-	virtual QWidget* editor() = 0;
+	virtual void add() = 0;
+	/*! Removes a delegate from table
+	 */
+	virtual void remove() = 0;
+	/*! Sets a value for a delegate. Used by commands to reset
+		\param[in] v a value
+	 */
+	virtual void set(const sad::db::Variant& v) = 0;
 protected:
 	/*! A name of property (for database or custom object)
 	 */
@@ -75,6 +86,9 @@ protected:
 	/*! An editor, linked to delegate
 	 */
 	core::Editor* m_editor;
+	/*! A local widget for delegate for setting value
+	 */
+	QWidget* m_my_widget;
 };
 
 }
