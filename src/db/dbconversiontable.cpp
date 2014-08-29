@@ -24,6 +24,9 @@ sad::db::AbstractTypeConverter::~AbstractTypeConverter()
 
 sad::db::ConversionTable::ConversionTable()
 {
+	declareImplicit<char, signed char>();
+	declareImplicit<signed char, char>();
+
 	declareImplicit<short, unsigned short>();
 	declareImplicit<short, unsigned int>();
 	declareImplicit<short, unsigned long>();
@@ -83,6 +86,7 @@ sad::db::ConversionTable::ConversionTable()
 	declareImplicit<long long, double>();
 
 	declareIsSadObjectFlag<char>();
+	declareIsSadObjectFlag<signed char>();
 	declareIsSadObjectFlag<int>();
 	declareIsSadObjectFlag<short>();
 	declareIsSadObjectFlag<long>();
