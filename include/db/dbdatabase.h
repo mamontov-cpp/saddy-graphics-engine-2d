@@ -30,6 +30,9 @@ namespace db
 class Database  
 {	
 public:	
+	/*! A typename for property list
+	 */
+	typedef sad::PtrHash<sad::String, sad::db::Property> Properties;
 	/*! Constructs default empty database
 	 */
 	Database();
@@ -201,6 +204,14 @@ public:
 	/*! Returns local renderer, if set, otherwise returns global renderer
 	 */
 	sad::Renderer* renderer() const;
+	/*! Returns iterator begin for properties
+		\return begin iterator
+	 */
+	sad::db::Database::Properties::const_iterator begin() const;
+	/*! Returns iterator begin for properties
+		\return begin iterator
+	 */
+	sad::db::Database::Properties::const_iterator end() const;
 protected: 
 	/*! Loads properties and tavles from a database
 		\param[in] properties a property items
@@ -229,7 +240,7 @@ protected:
 	sad::db::StoredPropertyFactory* m_prop_factory;
 	/*! A map of properties,linked to database
 	 */
-	sad::PtrHash<sad::String, sad::db::Property> m_properties;
+	sad::db::Database::Properties m_properties;
 	/*! Linked renderer in database
 	 */
 	sad::Renderer * m_renderer;

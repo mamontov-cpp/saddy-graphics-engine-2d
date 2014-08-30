@@ -312,6 +312,17 @@ sad::Renderer* sad::db::Database::renderer() const
 	return m_renderer;
 }
 
+sad::db::Database::Properties::const_iterator sad::db::Database::begin() const
+{
+	return m_properties.const_begin();
+}
+
+
+sad::db::Database::Properties::const_iterator sad::db::Database::end() const
+{
+	return m_properties.const_end();
+}
+
 // Protected methods
 
 bool sad::db::Database::loadPropertiesAndTables(

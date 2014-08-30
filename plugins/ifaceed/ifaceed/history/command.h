@@ -17,7 +17,7 @@ namespace history
 
 class Command
 {
- public:
+public:
 	 /** Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */

@@ -123,16 +123,31 @@ sad::db::ConversionTable::ConversionTable()
 	declareIsSadObjectFlag<sad::Sprite3D>();
 }
 
+sad::db::ConversionTable::~ConversionTable()
+{
+	sad::Hash<sad::String, sad::Hash<sad::String, sad::db::AbstractTypeConverter*> >::iterator it = m_converters.begin();
+	for(; it != m_converters.end(); ++it)
+	{
+		sad::Hash<sad::String, sad::db::AbstractTypeConverter*> & value = it.value();
+		for(sad::Hash<sad::String, sad::db::AbstractTypeConverter*>::iterator kit = value.begin();
+			kit != value.end();
+			++kit)
+		{
+			delete kit.value();
+		}
+	}
+}
+
 void sad::db::ConversionTable::add(
 	const sad::String & from, 
 	const sad::String & to, 
 	sad::db::AbstractTypeConverter * c
 )
 {
-	sad::PtrHash<sad::String, sad::db::AbstractTypeConverter> * h = NULL;
+	sad::Hash<sad::String, sad::db::AbstractTypeConverter*> * h = NULL;
 	if (m_converters.contains(from) == false)
 	{
-		m_converters.insert(from, sad::PtrHash<sad::String, sad::db::AbstractTypeConverter>());
+		m_converters.insert(from, sad::Hash<sad::String, sad::db::AbstractTypeConverter*>());
 	}
 	h = &(m_converters[from]);
 	if (h->contains(to))
@@ -150,7 +165,7 @@ sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
 	sad::db::AbstractTypeConverter * result = NULL;
 	if (m_converters.contains(from))
 	{
-		sad::PtrHash<sad::String, sad::db::AbstractTypeConverter> & h = m_converters[from];
+		sad::Hash<sad::String, sad::db::AbstractTypeConverter*> & h = m_converters[from];
 		if (h.contains(to))
 		{
 			result = h[to];
