@@ -9,11 +9,15 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_mainpanel.h"
+
 #include <sadstring.h>
+#include <sadptrhash.h>
 
 #include "gui/objectlist.h"
+#include "gui/table/delegatefactory.h"
 
 #include <db/dbvariant.h>
+#include <db/dbstoredpropertyfactory.h>
 #pragma once
 
 namespace core
@@ -58,6 +62,11 @@ public:
 	/*! Sets palette for node's palette
 	 */
 	void setColorPalette(const QList<QList<QColor> >& palette);
+	/*! Takes delegate ownership by propert name
+		\param[in] name a name of delegate by property
+		\return if ownership is taken - returns true, if panel does not own it - false
+	 */
+	bool takeDelegateByPropertyName(const QString & name);
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
@@ -113,6 +122,16 @@ protected:
 	 * An utility flag to prevent events, from self-changing 
 	 */
 	bool m_selfchanged;
+	/*! A property delegates, which belongs only to a loaded database and were here
+		before user added any property
+	 */
+	sad::PtrHash<sad::String, gui::table::Delegate> m_property_delegates;
+	/*! A delegate factory for creating rows in db
+	 */
+	gui::table::DelegateFactory m_dbdelegate_factory;
+	/*! A factory for creating propertis in database
+	 */
+	sad::db::StoredPropertyFactory m_property_factory;
 	/*!
 	 * Whether panel is closed it must close a dialogs if present
 	 */
@@ -121,6 +140,9 @@ protected:
 	 */
 	void fixDatabase();
 protected slots:
+	/*! Adds a property to database slot
+	 */
+	void addDatabaseProperty();
 	/*! TODO: Remove
 	 */
 	void selected(sad::String item);

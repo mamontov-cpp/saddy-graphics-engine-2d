@@ -17,6 +17,7 @@ sad::db::StoredPropertyFactory::StoredPropertyFactory()
 {
 	add<char>("char");
 	add<unsigned char>("unsigned char");
+	add<signed char>("signed char");
 	add<short>("short");
 	add<unsigned short>("unsigned short");
 	add<int>("int");

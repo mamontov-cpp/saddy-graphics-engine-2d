@@ -15,6 +15,7 @@
 #include <db/dbdatabase.h>
 
 #include <renderer.h>
+#include <refcountable.h>
 
 
 namespace core
@@ -31,7 +32,7 @@ namespace table
 {
 /*! A delegate for editing row in property table
  */
-class Delegate: public QObject
+class Delegate: public QObject, public sad::RefCountable
 {
 Q_OBJECT
 public:
@@ -78,6 +79,9 @@ public slots:
 	/*! Removes a delegate from table
 	 */
 	virtual void remove();
+	/*! Removes with command with delegate 
+	 */
+	virtual void removeWithCommand();
 protected:
 	/*! A name of property (for database or custom object)
 	 */

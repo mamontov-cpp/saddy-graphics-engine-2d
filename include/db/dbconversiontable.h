@@ -70,6 +70,9 @@ public:
 	/*! Creates new conversion table
 	 */
 	ConversionTable();
+	/*! Destroys a conversion table
+	 */
+	~ConversionTable();
 	/*! Inserts a conveter into table. Replaces an existing converter, erasing it, if
 		needed
 		\param[in] from a typename from which conversion is performed
@@ -137,7 +140,7 @@ protected:
 	static sad::db::ConversionTable * m_instance;
 	/*! A list of conversions for table
 	 */
-	sad::Hash<sad::String, sad::PtrHash<sad::String, sad::db::AbstractTypeConverter> > m_converters;
+	sad::Hash<sad::String, sad::Hash<sad::String, sad::db::AbstractTypeConverter*> > m_converters;
 	/*! A hash of types to flags, which indicate, whether type is sad object kind
 	 */
 	sad::Hash<sad::String, bool> m_sad_object_flags;

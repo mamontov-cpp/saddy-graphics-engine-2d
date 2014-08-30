@@ -79,6 +79,31 @@ public:
 	}
 };
 
+/*! Tries to converts specific value to signed char
+ */
+template<>
+class ValueToType<signed char>
+{
+public:
+	/*! Tries to convert a picojson::value to char
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<signed char> get(const picojson::value & v)
+	{
+		sad::Maybe<signed char> result;
+		if (v.is<double>())
+		{
+			double a = v.get<double>();
+			if (a >= -127.000001 && a <= 127.000001)
+			{
+				result.setValue((signed char)a);
+			}
+		}
+		return result;
+	}
+};
+
 /*! Tries to converts specific value to unsigned char
  */
 template<>

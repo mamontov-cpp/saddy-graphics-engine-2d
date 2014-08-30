@@ -633,6 +633,18 @@
 					RelativePath=".\history\newcommand.cpp"
 					>
 				</File>
+				<Filter
+					Name="database"
+					>
+					<File
+						RelativePath=".\history\database\newproperty.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\database\removeproperty.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -2231,7 +2243,15 @@
 					Name="database"
 					>
 					<File
+						RelativePath=".\history\database\newproperty.h"
+						>
+					</File>
+					<File
 						RelativePath=".\history\database\propertychanged.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\database\removeproperty.h"
 						>
 					</File>
 				</Filter>

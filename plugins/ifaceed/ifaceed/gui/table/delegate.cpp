@@ -2,6 +2,11 @@
 
 #include "core/editor.h"
 
+#include "../../mainpanel.h"
+
+#include "../../history/database/removeproperty.h"
+
+
 #include <QTableWidgetItem>
 #include <QSpinBox>
 #include <QPushButton>
@@ -65,6 +70,7 @@ void gui::table::Delegate::add()
 	{
 		m_widget->insertRow(m_widget->rowCount());
 		unsigned int lastrow = m_widget->rowCount() - 1;
+		m_row = lastrow;
 		m_widget->setItem(lastrow, 0, new QTableWidgetItem(this->propertyName()));
 		
 		this->makeEditor();
@@ -72,11 +78,11 @@ void gui::table::Delegate::add()
 		QPushButton * button = new QPushButton();
 		button->setText("X");
 		QFont font = button->font();
-		font.setPointSize(20);
+		font.setPointSize(16);
 		button->setFont(font);
 		button->setStyleSheet("QPushButton {color: red}");
 		m_widget->setCellWidget(lastrow, 2, button);
-		QObject::connect(button, SIGNAL(clicked()), this, SLOT(remove()));
+		QObject::connect(button, SIGNAL(clicked()), this, SLOT(removeWithCommand()));
 	}
 	else
 	{
@@ -93,7 +99,7 @@ void gui::table::Delegate::remove()
 		if (row != -1)
 		{
 			this->disconnect();
-			QObject::disconnect(this, SLOT(remove()));
+			QObject::disconnect(this, SLOT(removeWithCommand()));
 			m_widget->removeRow(row);
 			m_my_widget = NULL;
 		}
@@ -102,6 +108,14 @@ void gui::table::Delegate::remove()
 	{
 		// TODO: Implement for custom object
 	}
+}
+
+void gui::table::Delegate::removeWithCommand()
+{
+	m_editor->panel()->takeDelegateByPropertyName(this->propertyName());
+	history::database::RemoveProperty* p = new history::database::RemoveProperty(this);
+	p->commit();
+	m_editor->history()->add(p);
 }
 
 int gui::table::Delegate::findPropertyInDatabase()

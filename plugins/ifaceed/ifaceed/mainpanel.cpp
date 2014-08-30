@@ -16,6 +16,8 @@
 #include "history/movecommand.h"
 #include "history/newcommand.h"
 
+#include "history/database/newproperty.h"
+
 #include <geometry2d.h>
 
 #include <p2d/vector.h>
@@ -54,6 +56,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	// Set default sprite adding model
 	ui.rbPlaceAndRotate->setChecked(true);
 	this->fillDatabasePropertyTypesCombo();
+	ui.twDatabaseProperties->setColumnCount(3);
+	ui.twDatabaseProperties->horizontalHeader()->hide();
+	ui.twDatabaseProperties->verticalHeader()->hide();
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
@@ -129,6 +134,8 @@ void MainPanel::setEditor(core::Editor * editor)
 {  
 	m_editor = editor; 
 
+	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
+
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
@@ -142,6 +149,32 @@ void MainPanel::viewDatabase()
 	this->fixDatabase();
 	sad::db::Database* db = sad::Renderer::ref()->database("");
 	ui.clpSceneNodeColor->setPalette(db->getProperty<QList<QList<QColor> > >("palette").value());
+
+	// Remove old delegates
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		delete it.value();
+	}
+
+	for(sad::db::Database::Properties::const_iterator it = db->begin();
+		it != db->end();
+		++it)
+	{
+		// Skip palette
+		if (it.key() != "palette" && it.value()->pointerStarsCount() == 0)
+		{
+			gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+			if (d)
+			{
+				d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
+				d->setPropertyName(it.key().c_str());
+				d->linkToDatabase();
+				d->add();				
+			}
+		}
+	}
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const
@@ -156,6 +189,15 @@ void MainPanel::setColorPalette(const QList<QList<QColor> >& palette)
 	db->setProperty("palette", palette);
 }
 
+bool  MainPanel::takeDelegateByPropertyName(const QString & name)
+{
+	bool owns = false;
+	if (m_property_delegates.contains(name.toStdString()))
+	{
+		m_property_delegates.remove(name.toStdString());
+	}
+	return owns;
+}
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
@@ -229,6 +271,32 @@ void MainPanel::fixDatabase()
 	}
 }
 
+void MainPanel::addDatabaseProperty()
+{
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	sad::String propname = ui.txtDatabasePropertyName->text().toStdString();
+	if (db->propertyByName(propname) == NULL && propname.size()!= 0)
+	{
+		gui::table::Delegate* d  = m_dbdelegate_factory.create(ui.cmbDatabasePropertyType->currentText());
+		sad::db::Property* prop = m_property_factory.create(ui.cmbDatabasePropertyType->currentText().toStdString());
+		if (d && prop)
+		{
+			sad::Renderer::ref()->database("")->addProperty(propname, prop);
+			d->setPropertyName(propname.c_str());
+			d->linkToDatabase();
+			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
+			d->add();
+			history::database::NewProperty* p = new history::database::NewProperty(d);
+			m_editor->history()->add(p);
+		}
+		else
+		{
+			delete d;
+			delete prop;
+		}
+	}
+}
+
 void MainPanel::selected(sad::String item)
 {
 	QMessageBox::warning(NULL, "1", item.c_str());
@@ -255,7 +323,7 @@ void MainPanel::fillDatabasePropertyTypesCombo()
         "unsigned long long",
 
         "float",
-        "double"        
+        "double",        
 
 		"sad::String",
 		"sad::Color",
