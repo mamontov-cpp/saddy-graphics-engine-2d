@@ -3,6 +3,7 @@
 
 	Describes a widget, which performs color picking
  */
+#pragma once
 #include <QTableWidget>
 #include <QGridLayout>
 #include <QLabel>

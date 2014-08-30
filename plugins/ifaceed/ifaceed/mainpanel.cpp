@@ -144,6 +144,19 @@ void MainPanel::viewDatabase()
 	ui.clpSceneNodeColor->setPalette(db->getProperty<QList<QList<QColor> > >("palette").value());
 }
 
+QList<QList<QColor> >  MainPanel::colorPalette() const
+{
+	return ui.clpSceneNodeColor->palette();
+}
+
+void MainPanel::setColorPalette(const QList<QList<QColor> >& palette)
+{
+	ui.clpSceneNodeColor->setPalette(palette);
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	db->setProperty("palette", palette);
+}
+
+
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
  this->QMainWindow::closeEvent(ev);
@@ -223,7 +236,7 @@ void MainPanel::selected(sad::String item)
 
 void MainPanel::fillDatabasePropertyTypesCombo()
 {
-	const unsigned int typescount = 14;
+	const unsigned int typescount = 16;
 	const QString types[typescount] = {
 		"unsigned char",
         "signed char",
@@ -240,6 +253,9 @@ void MainPanel::fillDatabasePropertyTypesCombo()
 
         "long long",
         "unsigned long long",
+
+        "float",
+        "double"        
 
 		"sad::String",
 		"sad::Color",

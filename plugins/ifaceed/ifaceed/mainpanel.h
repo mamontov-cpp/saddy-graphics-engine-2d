@@ -51,6 +51,13 @@ public:
 	/*! Check database for consistency and set palettes, after database was loaded
 	 */
 	void viewDatabase();
+	/*! Returns palette for main palette
+		\return palette
+	 */
+	QList<QList<QColor> > colorPalette() const;
+	/*! Sets palette for node's palette
+	 */
+	void setColorPalette(const QList<QList<QColor> >& palette);
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
