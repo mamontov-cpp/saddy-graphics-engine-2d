@@ -29,7 +29,8 @@ namespace gui
 
 namespace table
 {
-	
+/*! A delegate for editing row in property table
+ */
 class Delegate: public QObject
 {
 Q_OBJECT
@@ -135,7 +136,7 @@ protected:
 		{
 			sad::Renderer::ref()
 			->database("")
-			->setProperty<signed char>(this->propertyName().toStdString(), o);
+			->setProperty<T>(this->propertyName().toStdString(), o);
 		}
 		else
 		{

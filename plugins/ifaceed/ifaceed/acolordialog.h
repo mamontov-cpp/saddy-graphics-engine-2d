@@ -7,6 +7,8 @@
 
 #include <QDialog>
 
+#include "gui/colorpicker/colorpicker.h"
+
 #include "ui_acolordialog.h"
 
 /*! A dialog for picking color with alpha
