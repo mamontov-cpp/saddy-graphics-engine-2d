@@ -13,7 +13,7 @@ namespace  gui
 namespace colorview
 {
 	
-class ColorView: public QLabel
+class ColorView: public QWidget
 {
 Q_OBJECT
 public:
@@ -36,6 +36,13 @@ signals:
 	 */
 	void clicked();
 protected:
+	/*! A background color for widget
+	 */
+	QColor m_background_color;
+	/*! Paints color picker's palette and parts near palette
+		\param[in] e event
+	 */
+	virtual void paintEvent(QPaintEvent * e);
 	/*! Used to emit clicked to on click
 		\param[in] e event object
 	 */

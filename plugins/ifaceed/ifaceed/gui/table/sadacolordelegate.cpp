@@ -49,13 +49,17 @@ void gui::table::SadAColorDelegate::clicked()
 		QColor i = dlg.selectedColor();
 		m_editor->panel()->setColorPalette(dlg.colorPalette());
 		m_editor->history()->add(new history::database::PropertyChanged<QColor>(oldvalue, i, this));
+		static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);
 		this->setCurrentValue<QColor>(i);
 	}
 }
 
 void gui::table::SadAColorDelegate::makeEditor()
 {
-	QColor value = this->currentValue<QColor>();
+	// Take first color from palette
+	QList<QList<QColor> > palette = m_editor->panel()->colorPalette();
+	QColor value = palette[0][0];
+	this->setCurrentValue<QColor>(value);
 	gui::colorview::ColorView * d = new gui::colorview::ColorView();
 	d->setBackgroundColor(value);
 	m_my_widget = d;
