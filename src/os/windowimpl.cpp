@@ -133,7 +133,9 @@ bool sad::os::WindowImpl::registerWindowClass(bool lastresult)
 	wc.lpszMenuName  = NULL;
 	
 	m_handles.Class = "sad::os::WindowImpl at ";
-	m_handles.Class += sad::String::number(reinterpret_cast<unsigned long>(this));
+	char pointernamebuffer[20];
+	sprintf(pointernamebuffer, "%p", this);
+	m_handles.Class += sad::String(pointernamebuffer);
 	
 	wc.lpszClassName = m_handles.Class.data();
 
