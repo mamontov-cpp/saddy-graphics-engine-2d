@@ -329,7 +329,7 @@ void MainPanel::fillDatabasePropertyTypesCombo()
 		"sad::Color",
 		"sad::AColor"        
 	};	
-	for(int i = 0; i < typescount; i++)
+    for(unsigned int i = 0; i < typescount; i++)
 	{
 		ui.cmbDatabasePropertyType->addItem(types[i]);
 	}
