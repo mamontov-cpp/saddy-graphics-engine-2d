@@ -44,6 +44,7 @@ void gui::table::SadColorDelegate::clicked()
 	{
 		m_editor->history()->add(new history::database::PropertyChanged<QColor>(oldvalue, i, this));
 		this->setCurrentValue<QColor>(i);
+		static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);
 	}
 }
 
