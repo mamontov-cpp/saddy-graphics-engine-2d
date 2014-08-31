@@ -36,7 +36,6 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += ifaceed/mainpanel.h \
-           ifaceed/rendermutex.h \
            ifaceed/core/fontdatabase.h \
            ifaceed/core/fonttemplatesdatabase.h \
            ifaceed/core/ifaceeditor.h \
