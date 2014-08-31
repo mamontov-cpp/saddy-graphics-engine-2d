@@ -66,6 +66,9 @@ enum IFaceEditorFontLoadResult
 	IEFLR_ALREADY_EXISTS = 2,
 	IEFLR_FAIL = 3
 };
+
+class IFaceEditorFontList;
+
 /** A cursor for iterating through font list
  */
 class IFaceEditorFontListCursor
