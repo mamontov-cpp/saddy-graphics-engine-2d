@@ -57,8 +57,11 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.rbPlaceAndRotate->setChecked(true);
 	this->fillDatabasePropertyTypesCombo();
 	ui.twDatabaseProperties->setColumnCount(3);
+	double width = ui.twDatabaseProperties->width() - ui.twDatabaseProperties->verticalHeader()->width();
+	ui.twDatabaseProperties->setColumnWidth(2, width / 6 - 12); // 12 is  a padding for header
+	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
 	ui.twDatabaseProperties->horizontalHeader()->hide();
-	ui.twDatabaseProperties->verticalHeader()->hide();
+	//ui.twDatabaseProperties->verticalHeader()->hide();
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
@@ -304,7 +307,7 @@ void MainPanel::selected(sad::String item)
 
 void MainPanel::fillDatabasePropertyTypesCombo()
 {
-	const unsigned int typescount = 16;
+	const unsigned int typescount = 17;
 	const QString types[typescount] = {
 		"unsigned char",
         "signed char",
@@ -327,7 +330,9 @@ void MainPanel::fillDatabasePropertyTypesCombo()
 
 		"sad::String",
 		"sad::Color",
-		"sad::AColor"        
+		"sad::AColor",
+
+		"sad::Point2D"
 	};	
     for(unsigned int i = 0; i < typescount; i++)
 	{
