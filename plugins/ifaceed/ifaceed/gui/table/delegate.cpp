@@ -71,7 +71,14 @@ void gui::table::Delegate::add()
 		m_widget->insertRow(m_widget->rowCount());
 		unsigned int lastrow = m_widget->rowCount() - 1;
 		m_row = lastrow;
-		m_widget->setItem(lastrow, 0, new QTableWidgetItem(this->propertyName()));
+
+		QTableWidgetItem* item = new QTableWidgetItem(this->propertyName());
+		item->setFlags(item->flags() 
+					   & ~Qt::ItemIsEditable 
+					   & ~Qt::ItemIsSelectable
+					   & ~Qt::ItemIsEnabled
+		);
+		m_widget->setItem(lastrow, 0, item);
 		
 		this->makeEditor();
 
@@ -135,4 +142,5 @@ int gui::table::Delegate::findPropertyInDatabase()
 void gui::table::Delegate::insertToTable()
 {
 	m_widget->setCellWidget(m_row, 1, m_my_widget);
+	m_widget->resizeRowToContents(m_row);
 }
