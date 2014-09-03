@@ -307,7 +307,7 @@ void MainPanel::selected(sad::String item)
 
 void MainPanel::fillDatabasePropertyTypesCombo()
 {
-	const unsigned int typescount = 17;
+    const unsigned int typescount = 20;
 	const QString types[typescount] = {
 		"unsigned char",
         "signed char",
@@ -332,7 +332,11 @@ void MainPanel::fillDatabasePropertyTypesCombo()
 		"sad::Color",
 		"sad::AColor",
 
-		"sad::Point2D"
+        "sad::Point2D",
+        "sad::Point2I",
+
+        "sad::Size2D",
+        "sad::Size2I"
 	};	
     for(unsigned int i = 0; i < typescount; i++)
 	{

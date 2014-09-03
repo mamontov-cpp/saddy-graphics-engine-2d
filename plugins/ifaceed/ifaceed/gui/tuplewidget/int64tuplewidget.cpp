@@ -51,6 +51,8 @@ void gui::tuplewidget::Int64TupleWidget::setLabel(const QString& first, const QS
 {
 	this->item(0, 0)->setText(first);
 	this->item(1, 0)->setText(second);
+    this->resizeColumnsToContents();
+    this->resizeRowsToContents();
 }
 
 QPair<QString, QString> gui::tuplewidget::Int64TupleWidget::label() const
