@@ -33,6 +33,8 @@ void core::SaddyThread::run()
 	sad::Renderer::ref()->init(sad::Settings(window_width, window_height, false));
 	sad::Renderer::ref()->setWindowTitle("Saddy Interface Editor");
 	sad::Renderer::ref()->makeFixedSize();
+    // Clear scenes
+    sad::Renderer::ref()->clear();
 
 	this->m_editor->awakeMainThread();
 
