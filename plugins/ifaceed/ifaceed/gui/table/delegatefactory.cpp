@@ -7,6 +7,9 @@
 #include "sadacolordelegate.h"
 #include "sadcolordelegate.h"
 #include "sadpoint2ddelegate.h"
+#include "sadpoint2idelegate.h"
+#include "sadsize2ddelegate.h"
+#include "sadsize2idelegate.h"
 #include "sadstringdelegate.h"
 #include "shortdelegate.h"
 #include "signedchardelegate.h"
@@ -49,6 +52,9 @@ gui::table::DelegateFactory::DelegateFactory()
 	this->insert<gui::table::SadAColorDelegate>("sad::AColor");
 
 	this->insert<gui::table::SadPoint2DDelegate>("sad::Point2D");
+    this->insert<gui::table::SadPoint2IDelegate>("sad::Point2I");
+    this->insert<gui::table::SadSize2DDelegate>("sad::Size2D");
+    this->insert<gui::table::SadSize2IDelegate>("sad::Size2I");
 }
 
 gui::table::DelegateFactory::~DelegateFactory()

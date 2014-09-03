@@ -112,7 +112,13 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/table/unsignedintdelegate.h \
     ifaceed/gui/table/unsignedlongdelegate.h \
     ifaceed/gui/table/unsignedlonglongdelegate.h \
-    ifaceed/gui/table/unsignedshortdelegate.h
+    ifaceed/gui/table/unsignedshortdelegate.h \
+    ifaceed/gui/tuplewidget/doubletuplewidget.h \
+    ifaceed/gui/tuplewidget/int64tuplewidget.h \
+    ifaceed/gui/table/sadpoint2ddelegate.h \
+    ifaceed/gui/table/sadsize2ddelegate.h \
+    ifaceed/gui/table/sadpoint2idelegate.h \
+    ifaceed/gui/table/sadsize2idelegate.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -186,7 +192,13 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/table/unsignedintdelegate.cpp \
     ifaceed/gui/table/unsignedlongdelegate.cpp \
     ifaceed/gui/table/unsignedlonglongdelegate.cpp \
-    ifaceed/gui/table/unsignedshortdelegate.cpp
+    ifaceed/gui/table/unsignedshortdelegate.cpp \
+    ifaceed/gui/tuplewidget/doubletuplewidget.cpp \
+    ifaceed/gui/tuplewidget/int64tuplewidget.cpp \
+    ifaceed/gui/table/sadpoint2ddelegate.cpp \
+    ifaceed/gui/table/sadsize2ddelegate.cpp \
+    ifaceed/gui/table/sadpoint2idelegate.cpp \
+    ifaceed/gui/table/sadsize2idelegate.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
