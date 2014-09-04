@@ -28,6 +28,10 @@
 
 #include <config/sprite2dconfig.h>
 
+#include <hfsm/hfsmmachine.h>
+#include <hfsm/hfsmstate.h>
+#include <hfsm/hfsmhandler.h>
+
 #include <QObject>
 #include <QTimer>
 #include <QThread>
@@ -71,7 +75,11 @@ public:
 	/*! Returns editor's window, used by Qt part of application
 		\return editor's window
 	 */
-	MainPanel * panel();
+	MainPanel* panel();
+	/*! Returns a machine for editor
+		\return machine editor
+	 */
+	sad::hfsm::Machine* machine();
 	/*! Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
@@ -173,6 +181,12 @@ public slots:
 		default behaviour
 	 */
 	void start();
+	/*! Undoes history action 
+	 */
+	void undo();
+	/*! Redoes history action
+	 */
+	void redo();
 	/*! Tries erasing object, depending on current object state
 	 */
 	virtual void tryEraseObject();
@@ -279,6 +293,9 @@ private:
 	/*! Application of qt, which is used
 	*/
 	QApplication* m_qtapp;
+	/*! A hierarchical state machine
+	 */
+	sad::hfsm::Machine* m_machine;
 	/*! A scene used for output
 	*/
 	sad::Scene* m_scene;
