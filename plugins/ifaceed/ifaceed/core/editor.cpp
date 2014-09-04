@@ -12,6 +12,9 @@
 #include <fontmanager.h>
 #include <renderer.h>
 
+#include <input/controls.h>
+#include <keymouseconditions.h>
+
 #include <pipeline/pipelinetask.h>
 #include <pipeline/pipeline.h>
 
@@ -78,6 +81,15 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_qtapp = NULL;
 	m_history = new history::History();
 
+	m_machine = new sad::hfsm::Machine();
+	m_machine->addState("idle", new sad::hfsm::State(), true);
+	m_machine->enterState("idle");
+	sad::String idle = "idle";
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
+
+
 	m_handling_event = false;
 	m_db = NULL;
 	m_counter = 0;
@@ -113,6 +125,7 @@ core::Editor::~Editor()
 	delete m_cmdargs;
 	delete m_history;
 	delete m_behavioursharedata;
+	delete m_machine;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -139,9 +152,14 @@ void core::Editor::init(int argc,char ** argv)
 	m_renderthread->wait();
 }
 
-MainPanel * core::Editor::panel()
+MainPanel* core::Editor::panel()
 {
 	return m_mainwindow;
+}
+
+sad::hfsm::Machine* core::Editor::machine()
+{
+	return m_machine;
 }
 
 void core::Editor::start()
@@ -198,6 +216,17 @@ void core::Editor::start()
 		 QTimer::singleShot(0, this->panel(), SLOT(close()));
 	}
 }
+
+void core::Editor::undo()
+{
+	m_history->rollback(this);
+}
+
+void core::Editor::redo()
+{
+	m_history->commit(this);
+}
+
 
 void core::Editor::reportResourceLoadingErrors(
 		sad::Vector<sad::resource::Error *> & errors,
