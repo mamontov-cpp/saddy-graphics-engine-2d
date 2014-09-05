@@ -183,7 +183,7 @@ void core::Editor::start()
 	// Try load specified resources, if need to
 	sad::Renderer::ref()->tree("")->factory()->registerResource<sad::freetype::Font>();
 	sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
-	if (maybefilename.exists())
+	if (maybefilename.exists() && this->parsedArgs()->specified("resources"))
 	{
 		errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
 		if (errors.size())

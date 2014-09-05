@@ -209,7 +209,7 @@ bool  MainPanel::takeDelegateByPropertyName(const QString & name)
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
- this->QMainWindow::closeEvent(ev);
+	this->QMainWindow::closeEvent(ev);
 }
 
 
