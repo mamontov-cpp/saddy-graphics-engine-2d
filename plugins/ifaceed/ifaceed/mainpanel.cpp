@@ -18,6 +18,8 @@
 
 #include "history/database/newproperty.h"
 
+#include "history/scenes/scenesadd.h"
+
 #include <geometry2d.h>
 
 #include <p2d/vector.h>
@@ -38,6 +40,12 @@
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QTimer>
+#include <QListWidget>
+#include <QListWidgetItem>
+
+#include <cstdio>
+
+Q_DECLARE_METATYPE(sad::Scene*)
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -138,6 +146,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	m_editor = editor; 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
+	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
+	connect(ui.lstScenes, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneChanged(int)));
+	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
+
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
@@ -183,6 +195,12 @@ void MainPanel::viewDatabase()
 			}
 		}
 	}
+
+	const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
+	for(unsigned int i = 0; i < scenes.size(); i++)
+	{
+		addSceneToSceneList(scenes[i]);
+	}
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const
@@ -205,6 +223,66 @@ bool  MainPanel::takeDelegateByPropertyName(const QString & name)
 		m_property_delegates.remove(name.toStdString());
 	}
 	return owns;
+}
+
+void MainPanel::addSceneToSceneList(sad::Scene* s)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstScenes->addItem(i);
+}
+
+void MainPanel::removeLastSceneFromSceneList()
+{
+	if (ui.lstScenes->count())
+	{
+		QListWidgetItem* i = ui.lstScenes->takeItem(ui.lstScenes->count() - 1);
+		delete i;
+	}
+}
+
+sad::Scene* MainPanel::currentScene()
+{
+	QListWidgetItem* item = ui.lstScenes->currentItem();
+	sad::Scene* scene = NULL;
+	if (item)
+	{
+		scene = item->data(Qt::UserRole).value<sad::Scene*>();
+	}
+	return scene;
+}
+
+void MainPanel::updateSceneName(sad::Scene* s)
+{
+	int row = this->findSceneInList(s);
+	if (row != -1)
+	{
+		ui.lstScenes->item(row)->setText(this->viewableObjectName(s));
+	}
+	if (s == currentScene())
+	{
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
+	}
+}
+
+int MainPanel::findSceneInList(sad::Scene* s)
+{
+	int row = -1;
+	for(int i = 0; i < ui.lstScenes->count(); i++)
+	{	
+		if (ui.lstScenes->item(i)->data(Qt::UserRole).value<sad::Scene*>() == s)
+		{
+			row = i;
+		}
+	}
+	return row;
 }
 
 void MainPanel::closeEvent(QCloseEvent* ev)
@@ -279,6 +357,18 @@ void MainPanel::fixDatabase()
 	}
 }
 
+QString MainPanel::viewableObjectName(sad::db::Object* o)
+{
+	QString result = o->objectName().c_str();
+	if (result.length() == 0)
+	{
+		char buffer[20];
+		sprintf(buffer, "%p", o);
+		result = QString(buffer);
+	}
+	return result;
+}
+
 void MainPanel::addDatabaseProperty()
 {
 	sad::db::Database* db = sad::Renderer::ref()->database("");
@@ -302,6 +392,47 @@ void MainPanel::addDatabaseProperty()
 			delete d;
 			delete prop;
 		}
+	}
+}
+
+void MainPanel::addScene()
+{
+	sad::Scene* s  = new sad::Scene();
+
+	QString name = ui.txtSceneName->text();
+	if (name.length())
+	{
+		s->setObjectName(name.toStdString());
+	}
+
+	sad::Renderer::ref()->add(s);
+	sad::Renderer::ref()->database("")->table("scenes")->add(s);
+
+	history::Command* c = new history::scenes::Add(s);
+	c->commit(m_editor);
+	m_editor->history()->add(c);
+}
+
+void MainPanel::currentSceneChanged(int index)
+{
+	if (index != -1) 
+	{
+		QListWidgetItem* i = ui.lstScenes->item(index);
+		sad::Scene* s = i->data(Qt::UserRole).value<sad::Scene*>();
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
+	}
+}
+
+void MainPanel::sceneNameChanged(const QString& name)
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		sad::String oldname = scene->objectName();
+		sad::String newname = ui.txtSceneName->text().toStdString();
+
 	}
 }
 
