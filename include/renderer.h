@@ -53,6 +53,11 @@ namespace db
 	class Database;
 }
 
+namespace util
+{
+	class SwapLayersTask;
+}
+
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -68,6 +73,7 @@ typedef sad::Maybe<sad::Point3D> MaybePoint3D;
  */
 class Renderer: public TemporarilyImmutableContainer<sad::Scene>
 {
+friend class sad::util::SwapLayersTask;
 public:
     /*! Creates default renderer. Note, that you must call 
 		sad::Renderer::init() to start working
@@ -243,13 +249,18 @@ public:
 	/*! Adds new scene to scene container
 		\param[in] scene a scene to be rendered
 	 */
-	void add(sad::Scene * scene);
+	void add(sad::Scene* scene);
+	/*! Swap layers between two scenes
+		\param[in] s1 first scene
+		\param[in] s2 second scene
+	 */
+	void swapLayers(sad::Scene* s1, sad::Scene* s2);
 	/*! Returns order in which layer will be rendered. Higher order means the scene will
 		be rendered later
 		\param[in] s scene
 		\return order, -1 if not found
 	 */
-	int layer(sad::Scene * s);
+	int layer(sad::Scene* s);
 	/*! Sets scene order to be rendered, removing from previous point
 		\param[in] s a scene
 		\param[in] layer a layer ordering to be set

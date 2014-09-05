@@ -724,6 +724,10 @@
 					RelativePath=".\src\util\fs.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\util\swaplayerstask.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="resource"
@@ -1620,6 +1624,10 @@
 				</File>
 				<File
 					RelativePath=".\include\util\setterproxy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\swaplayerstask.h"
 					>
 				</File>
 			</Filter>

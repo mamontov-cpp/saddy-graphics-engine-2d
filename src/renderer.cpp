@@ -11,11 +11,16 @@
 #include "opengl.h"
 #include "fpsinterpolation.h"
 #include "input/controls.h"
+
 #include "pipeline/pipeline.h"
+
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
 #include "os/threadimpl.h"
+
 #include "db/dbdatabase.h"
+
+#include "util/swaplayerstask.h"
 
 #ifdef LINUX
 	#include <stdio.h>
@@ -416,6 +421,17 @@ void sad::Renderer::add(sad::Scene * scene)
 	if (scene)
 		scene->setRenderer(this);
 	this->sad::TemporarilyImmutableContainer<sad::Scene>::add(scene);
+}
+
+void sad::Renderer::swapLayers(sad::Scene* s1, sad::Scene* s2)
+{
+	int layer1 = this->layer(s1);
+	int layer2 = this->layer(s2);
+	if (layer1 != -1 && layer2 != -2)
+	{
+		sad::pipeline::AbstractTask* t = new sad::util::SwapLayersTask(this, s1, s2, layer1, layer2);
+		this->pipeline()->insertStep(sad::pipeline::PIT_END, t);
+	}
 }
 
 int  sad::Renderer::layer(sad::Scene * s)
