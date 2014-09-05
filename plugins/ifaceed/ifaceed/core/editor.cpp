@@ -29,6 +29,8 @@
 #include "core/saddythread.h"
 #include "core/xmlconfigloader.h"
 
+#include "gui/eventfilter.h"
+
 #include "../objects/screentemplate.h"
 #include "../objects/screenlabel.h"
 #include "../objects/screensprite.h"
@@ -290,8 +292,14 @@ void core::Editor::initConversionTable()
 void core::Editor::runQtEventLoop()
 {
 	m_qtapp = new QApplication(m_cmdargs->count(), m_cmdargs->arguments());
+
 	m_mainwindow = new MainPanel();
 	m_mainwindow->setEditor(this);
+
+
+    gui::EventFilter* filter = new gui::EventFilter();
+    filter->setPanel(m_mainwindow);
+    QCoreApplication::instance()->installEventFilter(filter);
 
 	QObject::connect(
 		this->m_qtapp,
