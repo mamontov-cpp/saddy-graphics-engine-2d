@@ -319,12 +319,12 @@ void MainPanel::setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int po
 	ui.lstScenes->item(pos1)->setText(this->viewableObjectName(s1));
 	QVariant v1;
 	v1.setValue(s1);
-	ui.lstScenes->item(pos1)->setData(Qt::UserRole, pos1);
+	ui.lstScenes->item(pos1)->setData(Qt::UserRole, v1);
 
 	ui.lstScenes->item(pos2)->setText(this->viewableObjectName(s2));
 	QVariant v2;
 	v2.setValue(s2);
-	ui.lstScenes->item(pos2)->setData(Qt::UserRole, pos2);
+	ui.lstScenes->item(pos2)->setData(Qt::UserRole, v2);
 
 	if (s == s1 || s == s2)
 	{
@@ -474,13 +474,16 @@ void MainPanel::currentSceneChanged(int index)
 		const sad::Vector<sad::SceneNode*>& nodes = s->objects();
 		for(size_t i = 0; i < nodes.size(); i++)
 		{
-			QListWidgetItem* ki = new QListWidgetItem();
-			ki->setText(this->viewableObjectName(nodes[i]));
-			
-			QVariant v;
-			v.setValue(nodes[i]);
-			ki->setData(Qt::UserRole, v);
-			ui.lstSceneObjects->addItem(ki);
+			if (nodes[i]->active())
+			{
+				QListWidgetItem* ki = new QListWidgetItem();
+				ki->setText(this->viewableObjectName(nodes[i]));
+				
+				QVariant v;
+				v.setValue(nodes[i]);
+				ki->setData(Qt::UserRole, v);
+				ui.lstSceneObjects->addItem(ki);
+			}
 		}
 	}
 }
@@ -520,14 +523,30 @@ void MainPanel::sceneMoveBack()
 		int row = ui.lstScenes->currentRow();
 		if (row != 0)
 		{
+			sad::Scene* previousscene = ui.lstScenes->item(row -1)->data(Qt::UserRole).value<sad::Scene*>();
 
+			history::Command* c = new history::scenes::LayerSwap(scene, previousscene, row, row - 1);
+			this->m_editor->history()->add(c);
+			c->commit(m_editor);
 		}
 	}
 }
 
 void MainPanel::sceneMoveFront()
 {
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		int row = ui.lstScenes->currentRow();
+		if (row < ui.lstScenes->count() - 1)
+		{
+			sad::Scene* nextscene = ui.lstScenes->item(row + 1)->data(Qt::UserRole).value<sad::Scene*>();
 
+			history::Command* c = new history::scenes::LayerSwap(scene, nextscene, row, row + 1);
+			this->m_editor->history()->add(c);
+			c->commit(m_editor);
+		}
+	}
 }
 
 void MainPanel::selected(sad::String item)
