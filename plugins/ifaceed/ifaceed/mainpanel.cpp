@@ -133,7 +133,7 @@ bool MainPanel::isEditingEnabled() const
 		&& ui.btnCustomObjectAdd->isEnabled();
 }
 
-void MainPanel::setEditor(core::Editor * editor) 
+void MainPanel::setEditor(core::Editor* editor)
 {  
 	m_editor = editor; 
 
@@ -145,6 +145,11 @@ void MainPanel::setEditor(core::Editor * editor)
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
+}
+
+core::Editor* MainPanel::editor() const
+{
+    return m_editor;
 }
 
 void MainPanel::viewDatabase()

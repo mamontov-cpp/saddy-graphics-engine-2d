@@ -28,7 +28,7 @@ public:
 	Machine();
 	/*! Destroys a machine
 	 */
-	~Machine();	
+	virtual ~Machine();	
 	/*! Immediately enters new state. Does nothing if state does not exists.
 		At moment of invocation current state of machine will point to new state name,
 		with method is called

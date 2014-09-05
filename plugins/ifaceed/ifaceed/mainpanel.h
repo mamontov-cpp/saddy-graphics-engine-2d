@@ -48,10 +48,14 @@ public:
 	/*! Determines, whether editing is enabled in main panel
 	 */
 	bool isEditingEnabled() const;
-	/** Sets an editor to work with
+    /*! Sets an editor to work with
 		\param[in] editor editor
 	 */
 	void setEditor(core::Editor * editor);
+    /*! Returns editor
+        \return editor
+     */
+    core::Editor* editor() const;
 	/*! Check database for consistency and set palettes, after database was loaded
 	 */
 	void viewDatabase();
@@ -67,6 +71,10 @@ public:
 		\return if ownership is taken - returns true, if panel does not own it - false
 	 */
 	bool takeDelegateByPropertyName(const QString & name);
+    /*! Returns ui for main panel
+        \return main panel's ui
+     */
+    inline Ui::MainPanelClass * myUI() { return &ui; }
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
@@ -107,9 +115,7 @@ public:
 		\param[in] prop property name
 		\param[in] v value
 	 */
-	void trySetProperty(const sad::String & prop, float v);	
-	inline Ui::MainPanelClass * myUI() { return &ui; }
-
+	void trySetProperty(const sad::String & prop, float v);		
 	void updateObjectStats(AbstractScreenObject * o);
 private:
 	Ui::MainPanelClass ui;          //!< UI
