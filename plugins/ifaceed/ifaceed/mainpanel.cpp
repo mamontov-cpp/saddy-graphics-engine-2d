@@ -19,6 +19,7 @@
 #include "history/database/newproperty.h"
 
 #include "history/scenes/scenesadd.h"
+#include "history/scenes/scenesremove.h"
 #include "history/scenes/sceneschangename.h"
 
 #include <geometry2d.h>
@@ -148,6 +149,7 @@ void MainPanel::setEditor(core::Editor* editor)
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
+	connect(ui.btnSceneDelete, SIGNAL(clicked()), this, SLOT(removeScene()));
 	connect(ui.lstScenes, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneChanged(int)));
 	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
 
@@ -245,6 +247,24 @@ void MainPanel::removeLastSceneFromSceneList()
 		QListWidgetItem* i = ui.lstScenes->takeItem(ui.lstScenes->count() - 1);
 		delete i;
 	}
+}
+
+void MainPanel::insertSceneToSceneList(sad::Scene* s, int position)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstScenes->insertItem(position, i);
+}
+
+void MainPanel::removeSceneFromSceneList(int position)
+{
+	QListWidgetItem* i =  ui.lstScenes->takeItem(position);
+	delete i;
 }
 
 sad::Scene* MainPanel::currentScene()
@@ -435,6 +455,19 @@ void MainPanel::sceneNameChanged(const QString& name)
 		sad::String newname = ui.txtSceneName->text().toStdString();
 		
 		history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
+}
+
+void MainPanel::removeScene()
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		int row = ui.lstScenes->currentRow();
+
+		history::Command* c = new history::scenes::Remove(scene, row);
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}

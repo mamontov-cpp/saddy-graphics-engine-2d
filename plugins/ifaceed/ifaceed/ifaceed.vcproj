@@ -688,6 +688,10 @@
 						RelativePath=".\history\scenes\sceneschangename.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\history\scenes\scenesremove.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -2648,6 +2652,10 @@
 					</File>
 					<File
 						RelativePath=".\history\scenes\sceneschangename.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenes\scenesremove.h"
 						>
 					</File>
 				</Filter>
