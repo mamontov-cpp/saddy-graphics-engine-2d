@@ -143,7 +143,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -269,7 +269,7 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>10</y>
+        <y>40</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -282,7 +282,7 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>40</y>
+        <y>10</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -346,7 +346,7 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>10</y>
+        <y>40</y>
         <width>81</width>
         <height>23</height>
        </rect>
@@ -359,7 +359,7 @@
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>40</y>
+        <y>10</y>
         <width>81</width>
         <height>23</height>
        </rect>

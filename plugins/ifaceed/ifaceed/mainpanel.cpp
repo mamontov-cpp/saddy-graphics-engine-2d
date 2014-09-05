@@ -48,6 +48,8 @@
 #include <cstdio>
 
 Q_DECLARE_METATYPE(sad::Scene*)
+Q_DECLARE_METATYPE(sad::SceneNode*)
+
 
 #define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
 
@@ -443,6 +445,19 @@ void MainPanel::currentSceneChanged(int index)
 		bool b = ui.txtSceneName->blockSignals(true);
 		ui.txtSceneName->setText(s->objectName().c_str());
 		ui.txtSceneName->blockSignals(b);
+
+		ui.lstSceneObjects->clear();
+		const sad::Vector<sad::SceneNode*>& nodes = s->objects();
+		for(size_t i = 0; i < nodes.size(); i++)
+		{
+			QListWidgetItem* ki = new QListWidgetItem();
+			ki->setText(this->viewableObjectName(nodes[i]));
+			
+			QVariant v;
+			v.setValue(nodes[i]);
+			ki->setData(Qt::UserRole, v);
+			ui.lstSceneObjects->addItem(ki);
+		}
 	}
 }
 

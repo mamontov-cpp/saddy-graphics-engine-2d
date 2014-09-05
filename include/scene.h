@@ -77,9 +77,16 @@ public:
 	/*! Returns amount of scene objects
 		\return objects amount
 	 */
-	inline unsigned long objectCount()
+	inline unsigned long objectCount() const
 	{
 		return m_layers.count();
+	}
+	/*! Returns objects for scene
+		\return objects list for a scene
+	 */
+	inline const sad::Vector<sad::SceneNode*>& objects() const
+	{
+		return m_layers;
 	}
 	/*! Sets scene activity flag, which determines, whether it should be rendered
 		\param[in] active an activity flag
