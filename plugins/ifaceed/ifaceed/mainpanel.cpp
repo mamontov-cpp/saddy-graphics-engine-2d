@@ -19,6 +19,7 @@
 #include "history/database/newproperty.h"
 
 #include "history/scenes/scenesadd.h"
+#include "history/scenes/sceneschangename.h"
 
 #include <geometry2d.h>
 
@@ -432,7 +433,10 @@ void MainPanel::sceneNameChanged(const QString& name)
 	{
 		sad::String oldname = scene->objectName();
 		sad::String newname = ui.txtSceneName->text().toStdString();
-
+		
+		history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
 	}
 }
 
