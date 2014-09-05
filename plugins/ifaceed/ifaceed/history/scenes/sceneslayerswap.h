@@ -17,7 +17,7 @@ namespace history
 namespace scenes
 {
 
-class LayerSwap
+class LayerSwap: public history::Command
 {
 public: 
 	/*! Adds a scene, which was added. Command links to scene
