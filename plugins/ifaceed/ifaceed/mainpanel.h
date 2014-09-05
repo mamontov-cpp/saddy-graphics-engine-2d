@@ -82,6 +82,15 @@ public:
 	/*! Removes last scene from scene list
 	 */
 	void removeLastSceneFromSceneList();
+	/*! Inserts scene to a scene list
+		\param[in] s scene
+		\param[in] position a position in scene list
+	 */
+	void insertSceneToSceneList(sad::Scene* s, int position);
+	/*! Removes scene from a scene list
+		\param[in] position a position, where scene must be removed
+	 */
+	void removeSceneFromSceneList(int position);
 	/*! Returns current scene for main panel
 		\return current scene
 	 */
@@ -175,7 +184,7 @@ protected slots:
 	/*! Adds a property to database slot
 	 */
 	void addDatabaseProperty();
-	/*! Adds new scene to a panel
+	/*! Adds new scene to a database
 	 */
 	void addScene();
 	/*! Emitted, when current scene is chaned
@@ -186,6 +195,9 @@ protected slots:
 		\param[in] name new scene name
 	 */
 	void sceneNameChanged(const QString& name);
+	/*! Removes scene from a database (making it inactive)
+	 */
+	void removeScene();
 
 
 
