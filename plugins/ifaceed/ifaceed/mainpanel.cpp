@@ -21,6 +21,7 @@
 #include "history/scenes/scenesadd.h"
 #include "history/scenes/scenesremove.h"
 #include "history/scenes/sceneschangename.h"
+#include "history/scenes/sceneslayerswap.h"
 
 #include <geometry2d.h>
 
@@ -150,10 +151,14 @@ void MainPanel::setEditor(core::Editor* editor)
 	m_editor = editor; 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
+	
 	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
 	connect(ui.btnSceneDelete, SIGNAL(clicked()), this, SLOT(removeScene()));
 	connect(ui.lstScenes, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneChanged(int)));
 	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
+	connect(ui.btnScenesMoveBack, SIGNAL(clicked()), this, SLOT(sceneMoveBack()));
+	connect(ui.btnScenesMoveFront, SIGNAL(clicked()), this, SLOT(sceneMoveFront()));
+
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -306,6 +311,25 @@ int MainPanel::findSceneInList(sad::Scene* s)
 		}
 	}
 	return row;
+}
+
+void MainPanel::setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2)
+{
+	sad::Scene* s = this->currentScene();
+	ui.lstScenes->item(pos1)->setText(this->viewableObjectName(s1));
+	QVariant v1;
+	v1.setValue(s1);
+	ui.lstScenes->item(pos1)->setData(Qt::UserRole, pos1);
+
+	ui.lstScenes->item(pos2)->setText(this->viewableObjectName(s2));
+	QVariant v2;
+	v2.setValue(s2);
+	ui.lstScenes->item(pos2)->setData(Qt::UserRole, pos2);
+
+	if (s == s1 || s == s2)
+	{
+		this->currentSceneChanged(ui.lstScenes->currentRow());
+	}
 }
 
 void MainPanel::closeEvent(QCloseEvent* ev)
@@ -486,6 +510,16 @@ void MainPanel::removeScene()
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}
+}
+
+void MainPanel::sceneMoveBack()
+{
+	sad::Scene* scene = currentScene();
+}
+
+void MainPanel::sceneMoveFront()
+{
+
 }
 
 void MainPanel::selected(sad::String item)

@@ -681,6 +681,10 @@
 					Name="scenes"
 					>
 					<File
+						RelativePath=".\history\scenes\scenelayerswap.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenes\scenesadd.cpp"
 						>
 					</File>
@@ -2652,6 +2656,10 @@
 					</File>
 					<File
 						RelativePath=".\history\scenes\sceneschangename.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenes\sceneslayerswap.h"
 						>
 					</File>
 					<File

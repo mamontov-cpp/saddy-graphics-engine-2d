@@ -99,11 +99,18 @@ public:
 		\param[in] s scene
 	 */
 	void updateSceneName(sad::Scene* s);
-	/*! Fins scene in scene list
+	/*! Finds scene in scene list
 		\param[in] s scene
 		\return scene row
 	 */
 	int findSceneInList(sad::Scene* s);
+	/*! Sets scenes positions in list
+		\param[in] s1 first scene
+		\param[in] s2 second scene
+		\param[in] pos1 position of first scene
+		\param[in] pos2 position of second scenee
+	 */
+	void setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2);
 
 	/*! Change region parameters for data
 	 */
@@ -198,6 +205,12 @@ protected slots:
 	/*! Removes scene from a database (making it inactive)
 	 */
 	void removeScene();
+	/*! Moves scene back
+	 */
+	void sceneMoveBack();
+	/*! Moves scene front
+	 */
+	void sceneMoveFront();
 
 
 
