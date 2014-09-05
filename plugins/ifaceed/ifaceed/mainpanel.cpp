@@ -515,6 +515,14 @@ void MainPanel::removeScene()
 void MainPanel::sceneMoveBack()
 {
 	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		int row = ui.lstScenes->currentRow();
+		if (row != 0)
+		{
+
+		}
+	}
 }
 
 void MainPanel::sceneMoveFront()
