@@ -18,11 +18,11 @@ namespace history
 class Command
 {
 public:
-	 /** Applies changes, described in command
+	 /*! Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void commit(core::Editor * ob = NULL)=0;
-	 /** Reverts changes, described in command
+	 /*! Reverts changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void rollback(core::Editor * ob = NULL)=0;

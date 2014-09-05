@@ -75,6 +75,27 @@ public:
         \return main panel's ui
      */
     inline Ui::MainPanelClass * myUI() { return &ui; }
+	/*! Adds scene to scene list
+		\param[in] s scene list
+	 */
+	void addSceneToSceneList(sad::Scene* s);
+	/*! Removes last scene from scene list
+	 */
+	void removeLastSceneFromSceneList();
+	/*! Returns current scene for main panel
+		\return current scene
+	 */
+	sad::Scene* currentScene();
+	/*! Updates scene name, finding it in list, settting it to current name
+		\param[in] s scene
+	 */
+	void updateSceneName(sad::Scene* s);
+	/*! Fins scene in scene list
+		\param[in] s scene
+		\return scene row
+	 */
+	int findSceneInList(sad::Scene* s);
+
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
@@ -145,10 +166,29 @@ protected:
 	/*! Fixes database scenes and scene nodes tables and palette if need to
 	 */
 	void fixDatabase();
+	/*! Fetches object name, which can be used in object list
+		\param[in] o object
+		\return object name
+	 */
+	QString viewableObjectName(sad::db::Object* o);
 protected slots:
 	/*! Adds a property to database slot
 	 */
 	void addDatabaseProperty();
+	/*! Adds new scene to a panel
+	 */
+	void addScene();
+	/*! Emitted, when current scene is chaned
+		\param[in] index index of scene in list
+	 */
+	void currentSceneChanged(int index);
+	/*! Emitted, when scene name is changed
+		\param[in] name new scene name
+	 */
+	void sceneNameChanged(const QString& name);
+
+
+
 	/*! TODO: Remove
 	 */
 	void selected(sad::String item);

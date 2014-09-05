@@ -677,6 +677,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="scenes"
+					>
+					<File
+						RelativePath=".\history\scenes\scenesadd.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -2624,6 +2632,14 @@
 					</File>
 					<File
 						RelativePath=".\history\database\removeproperty.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="scenes"
+					>
+					<File
+						RelativePath=".\history\scenes\scenesadd.h"
 						>
 					</File>
 				</Filter>
