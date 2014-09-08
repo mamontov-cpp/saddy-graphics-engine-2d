@@ -18,6 +18,9 @@
 
 #include <db/dbvariant.h>
 #include <db/dbstoredpropertyfactory.h>
+
+#include <input/events.h>
+
 #pragma once
 
 namespace core
@@ -111,6 +114,17 @@ public:
 		\param[in] pos2 position of second scenee
 	 */
 	void setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2);
+	/*! Updates labels with coordinates on mouse move
+		\param[in] e event objects
+	 */
+	void updateMousePosition(const sad::input::MouseMoveEvent & e);
+	/*! Sets state label's text to specified value
+		\param[in] text a label's text
+	 */
+	void highlightState(const sad::String & text);
+	/*! Highlights idle state
+	 */
+	void highlightIdleState();
 
 	/*! Change region parameters for data
 	 */
@@ -121,14 +135,6 @@ public:
 	/*! Synchronizes database with an editor
 	 */
 	void synchronizeDatabase();
-	/*! Sets labels, that performed on mouse move
-		\param[in] x x coordinates
-		\param[in] y y coordinates
-	 */
-	void setMouseMovePosView(float x, float y);
-	/*! Hints current editor state for highlighting
-	 */
-	void highlightState(const sad::String & hints);
 	/*! Sets, whether adding or removing is enabled
 		\param[in] enabled enabled flag
 	 */
@@ -211,6 +217,20 @@ protected slots:
 	/*! Moves scene front
 	 */
 	void sceneMoveFront();
+	/*! A slot version of MainPanel::updateMousePosition, which takes value 
+		from MainPanel::m_mousemove_point
+	 */
+	void updateMousePositionNow();
+	/*! A slot version of MainPanel::highlightState, which takes value 
+		from MainPanel::m_highlight_state
+	 */
+	void highlightStateNow();
+	/*! Undoes editor actions 
+	 */
+	void undo();
+	/*! Redoes editor actions
+	 */
+	void redo();
 
 
 
@@ -222,12 +242,6 @@ protected slots:
 	void spriteRectChanged();
 
 	void spriteSelected(QString config, QString group, int index);
-	/** Implementation of setMouseMovePosView
-	 */
-	void setMouseMovePosViewImpl();
-	/** Implementation of highlightState
-	 */
-	void highlightStateImpl();
 	/*! Adds a new font object
 	 */
 	void addFontObject();
@@ -264,27 +278,19 @@ protected slots:
 	/*! Clears a screen template
 	 */
 	void clearScreenTemplate();
-	/*! Repeats history
-	 */
-	void repeatHistoryChange();
-	/*! Rollbacks history
-	 */
-	void rollbackHistoryChange();
 
 	/*! Handled, when color changed
 		\param[in] c color
 	 */
 	void colorChanged(QColor c);
 private:
-	/** Data for moving x
+	/*! A point, which coordinates must be assigned to labels, when called
+		MainPanel::updateMousePositionNow
 	 */
-	float m_tmp_mov_x;
-	/** Data for moving y
+	sad::Point2D m_mousemove_point;
+	/** State of main panel, which must be set, when called MainPanel::highlightStateNow
 	 */
-	float m_tmp_mov_y;
-	/** State of main panel (temporary for slot)
-	 */
-	QString m_tmp_state;
+	QString m_highlight_state;
 	/** An object list for working with information
 	 */
 	gui::ScreenObjectList m_list;
