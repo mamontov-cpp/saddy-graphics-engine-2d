@@ -143,7 +143,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -440,7 +440,7 @@
         <x>120</x>
         <y>30</y>
         <width>281</width>
-        <height>71</height>
+        <height>41</height>
        </rect>
       </property>
      </widget>
@@ -480,6 +480,38 @@
         <width>101</width>
         <height>91</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblLineSpacing">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>80</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Line spacing:</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>80</y>
+        <width>191</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <double>0.100000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>10.000000000000000</double>
+      </property>
+      <property name="value">
+       <double>1.000000000000000</double>
       </property>
      </widget>
     </widget>
