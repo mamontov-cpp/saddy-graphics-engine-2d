@@ -86,6 +86,7 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_machine = new sad::hfsm::Machine();
 	m_machine->addState("idle", new sad::hfsm::State(), true);
 	m_machine->enterState("idle");
+	
 	sad::String idle = "idle";
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
@@ -296,6 +297,11 @@ void core::Editor::runQtEventLoop()
 	m_mainwindow = new MainPanel();
 	m_mainwindow->setEditor(this);
 
+	// Called this explicitly, because entered state before
+	m_machine->state("idle")->addEnterHandler(m_mainwindow, &MainPanel::highlightIdleState);
+	m_mainwindow->highlightIdleState();
+
+	sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
 
     gui::EventFilter* filter = new gui::EventFilter();
     filter->setPanel(m_mainwindow);

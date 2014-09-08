@@ -89,8 +89,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
 	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
 	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
-	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
-	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
 	connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
 }
 
@@ -158,7 +156,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
 	connect(ui.btnScenesMoveBack, SIGNAL(clicked()), this, SLOT(sceneMoveBack()));
 	connect(ui.btnScenesMoveFront, SIGNAL(clicked()), this, SLOT(sceneMoveFront()));
-
+	
+	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(redo()));
+	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -330,6 +330,24 @@ void MainPanel::setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int po
 	{
 		this->currentSceneChanged(ui.lstScenes->currentRow());
 	}
+}
+
+void MainPanel::updateMousePosition(const sad::input::MouseMoveEvent & e)
+{
+	m_mousemove_point = e.pos2D();
+	QTimer::singleShot(0, this, SLOT(updateMousePositionNow()));
+}
+
+
+void MainPanel::highlightState(const sad::String & text)
+{
+	m_highlight_state = text.c_str();
+	QTimer::singleShot(0, this, SLOT(highlightStateNow()));
+}
+
+void MainPanel::highlightIdleState()
+{
+	this->highlightState("Idle");
 }
 
 void MainPanel::closeEvent(QCloseEvent* ev)
@@ -549,6 +567,28 @@ void MainPanel::sceneMoveFront()
 	}
 }
 
+void MainPanel::updateMousePositionNow()
+{
+	ui.txtMousePosX->setText(QString::number((int)(m_mousemove_point.x())));
+	ui.txtMousePosY->setText(QString::number((int)(m_mousemove_point.y())));
+}
+
+void MainPanel::highlightStateNow()
+{
+	ui.txtEditorState->setText(m_highlight_state);
+}
+
+void MainPanel::undo()
+{
+	m_editor->undo();
+}
+
+void MainPanel::redo()
+{
+	m_editor->redo();
+}
+
+
 void MainPanel::selected(sad::String item)
 {
 	QMessageBox::warning(NULL, "1", item.c_str());
@@ -623,36 +663,6 @@ void MainPanel::synchronizeDatabase()
 	m_spriteTableWidget->blockSignals(oldspritestate);
 	*/
 }
-
-
-
-
-
-void MainPanel::setMouseMovePosView(float x, float y)
-{
-	m_tmp_mov_x = x;
-	m_tmp_mov_y = y;
-
-	QTimer::singleShot(0, this, SLOT(setMouseMovePosViewImpl()));
-}
-
-void MainPanel::setMouseMovePosViewImpl()
-{
-	ui.txtMousePosX->setText(QString::number(m_tmp_mov_x));
-	ui.txtMousePosY->setText(QString::number(m_tmp_mov_y));
-}
-
-void MainPanel::highlightStateImpl()
-{
-	ui.txtEditorState->setText(m_tmp_state);
-}
-
-void MainPanel::highlightState(const sad::String & hints)
-{
-	m_tmp_state = hints.data();
-	QTimer::singleShot(0, this, SLOT(highlightStateImpl()));
-}
-
 
 void MainPanel::addFontObject()
 {
@@ -1337,17 +1347,6 @@ void MainPanel::clearScreenTemplate()
 		m_editor->currentBehaviour()->enterState("idle");
 	}
 	}
-}
-
-
-void MainPanel::repeatHistoryChange()
-{
-	m_editor->history()->commit(m_editor);
-}
-
-void MainPanel::rollbackHistoryChange()
-{
-	m_editor->history()->rollback(m_editor);
 }
 
 void MainPanel::colorChanged(QColor c)
