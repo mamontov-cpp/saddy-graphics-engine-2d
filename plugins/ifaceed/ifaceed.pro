@@ -119,7 +119,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/table/sadsize2ddelegate.h \
     ifaceed/gui/table/sadpoint2idelegate.h \
     ifaceed/gui/table/sadsize2idelegate.h \
-    ifaceed/gui/eventfilter.h
+    ifaceed/gui/eventfilter.h \
+    ifaceed/history/scenes/scenesadd.h \
+    ifaceed/history/scenes/sceneschangename.h \
+    ifaceed/history/scenes/sceneslayerswap.h \
+    ifaceed/history/scenes/scenesremove.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -200,7 +204,11 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/table/sadsize2ddelegate.cpp \
     ifaceed/gui/table/sadpoint2idelegate.cpp \
     ifaceed/gui/table/sadsize2idelegate.cpp \
-    ifaceed/gui/eventfilter.cpp
+    ifaceed/gui/eventfilter.cpp \
+    ifaceed/history/scenes/scenelayerswap.cpp \
+    ifaceed/history/scenes/scenesadd.cpp \
+    ifaceed/history/scenes/sceneschangename.cpp \
+    ifaceed/history/scenes/scenesremove.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
