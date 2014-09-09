@@ -170,6 +170,17 @@ bool sad::db::custom::Object::canBeRendered() const
 	return m_current_rendered_object != NULL;
 }
 
+static sad::Hash<sad::String, sad::db::Property*>  SadDbCustomObjectEmptyProperties;
+
+const sad::Hash<sad::String, sad::db::Property*>&  sad::db::custom::Object::schemaProperties() const
+{
+	if (!m_custom_schema)
+	{
+		return SadDbCustomObjectEmptyProperties;
+	}
+	return m_custom_schema->ownProperties();
+}
+
 void sad::db::custom::Object::initDefaultSchema()
 {
 	m_my_schema->addParent(sad::SceneNode::basicSchema());

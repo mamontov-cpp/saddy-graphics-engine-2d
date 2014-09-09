@@ -143,7 +143,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -623,7 +623,7 @@
        <string>Add Object</string>
       </property>
      </widget>
-     <widget class="QWidget" name="rtwCustomObjectSchemas" native="true">
+     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwCustomObjectSchemas" native="true">
       <property name="geometry">
        <rect>
         <x>10</x>
