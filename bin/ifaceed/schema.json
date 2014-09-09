@@ -1,0 +1,16 @@
+[
+	{
+	 "name" : "placeable_item",
+	 "resource": "fonts/tmfont",
+	 "schema" : {
+		"prop1" : {"type" : "int", "value" : 0 }
+	 }
+	},
+	{
+	 "name" : "placeable_item2",
+	 "resource": "item2",
+	 "schema" : {
+		"prop1" : {"type" : "int", "value" : 0 }
+	 }
+	}
+]
