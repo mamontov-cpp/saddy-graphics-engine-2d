@@ -118,7 +118,11 @@ public:
 		\param[in] e event objects
 	 */
 	void updateMousePosition(const sad::input::MouseMoveEvent & e);
-	/*! Sets state label's text to specified value
+    /*! Makes all resource tree views view item to currrent tree. Must be called
+        after database is updated
+     */
+    void updateResourceViews();
+    /*! Sets state label's text to specified value
 		\param[in] text a label's text
 	 */
 	void highlightState(const sad::String & text);

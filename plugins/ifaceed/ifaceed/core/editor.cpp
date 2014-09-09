@@ -192,6 +192,10 @@ void core::Editor::start()
 			mustquit = true;
 			this->reportResourceLoadingErrors(errors, maybefilename.value());
 		}
+        else
+        {
+            this->m_mainwindow->updateResourceViews();
+        }
 	}
 	else
 	{

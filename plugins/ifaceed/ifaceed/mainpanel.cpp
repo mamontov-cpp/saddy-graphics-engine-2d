@@ -68,17 +68,19 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 	// Set default sprite adding model
 	ui.rbPlaceAndRotate->setChecked(true);
-	this->fillDatabasePropertyTypesCombo();
-	ui.twDatabaseProperties->setColumnCount(3);
+
+    this->fillDatabasePropertyTypesCombo();
+
+    ui.twDatabaseProperties->setColumnCount(3);
 	double width = ui.twDatabaseProperties->width() - ui.twDatabaseProperties->verticalHeader()->width();
 	ui.twDatabaseProperties->setColumnWidth(2, width / 6 - 12); // 12 is  a padding for header
 	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
 	ui.twDatabaseProperties->horizontalHeader()->hide();
-	//ui.twDatabaseProperties->verticalHeader()->hide();
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
+    ui.txtLabelText->setPlainText("Test");
 	
 	m_list.setWidget(ui.lstSceneObjects);
 
@@ -338,6 +340,20 @@ void MainPanel::updateMousePosition(const sad::input::MouseMoveEvent & e)
 	QTimer::singleShot(0, this, SLOT(updateMousePositionNow()));
 }
 
+void MainPanel::updateResourceViews()
+{
+    ui.rtwLabelFont->setTree("");
+    ui.rtwLabelFont->setFilter("sad::freetype::Font|sad::TextureMappedFont");
+    ui.rtwLabelFont->updateTree();
+
+    ui.rtwSpriteSprite->setTree("");
+    ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");
+    ui.rtwSpriteSprite->updateTree();
+
+    ui.rtwCustomObjectSchemas->setTree("");
+    ui.rtwCustomObjectSchemas->setFilter("sad::db::custom::Schema");
+    ui.rtwCustomObjectSchemas->updateTree();
+}
 
 void MainPanel::highlightState(const sad::String & text)
 {

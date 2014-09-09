@@ -129,6 +129,10 @@ public:
 		\return whether object could be rendered
 	 */
 	bool canBeRendered() const;
+	/*! Returns property list from schema
+		\return property list from schema
+	 */
+	const sad::Hash<sad::String, sad::db::Property*>& schemaProperties() const;
 protected:
 	/*! Fills custom object with defailt item properties
 	 */
