@@ -26,10 +26,5 @@ void IdleState::onMouseDown(const sad::input::MousePressEvent & ev)
 void IdleState::enter()
 {
 	core::Editor * ed = this->editor();
-	ed->shdata()->setSelectedObject(NULL); // Disable borders
-	CLOSURE
-	CLOSURE_DATA( core::Editor * e; )
-	CLOSURE_CODE( this->e->highlightState("Idle"); )
-	INITCLOSURE( CLSET(e, ed);  );
-	SUBMITCLOSURE( ed->emitClosure );
+	ed->shared()->setSelectedObject(NULL); // Disable borders
 }
