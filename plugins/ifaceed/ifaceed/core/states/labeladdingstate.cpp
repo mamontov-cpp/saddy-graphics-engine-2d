@@ -22,7 +22,7 @@ void LabelAddingState::enter()
 	core::Editor * ed = this->editor();
 	CLOSURE
 	CLOSURE_DATA( core::Editor * ed; )
-	CLOSURE_CODE( ed->panel()->setAddingEnabled(false); ed->highlightState("Place a label");  )
+	CLOSURE_CODE( ed->panel()->setAddingEnabled(false);  )
 	INITCLOSURE(  CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
 }
@@ -30,7 +30,7 @@ void LabelAddingState::enter()
 void LabelAddingState::leave()
 {
 	core::Editor * ed = this->editor();
-	ed->behaviourSharedData()->setActiveObject(NULL);
+	ed->shared()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; )
@@ -45,7 +45,7 @@ void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	core::Editor * ed = this->editor();
 	MainPanel * p = ed->panel();
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o =	ed->shared()->activeObject();
 	//float a = o->getProperty("angle")->get<float>().value();
 	//a+=dangle;
 	/*
@@ -71,8 +71,8 @@ void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev
 	sad::Scene * scene = ed->scene();
 	scene->add(o);
 
-	ed->behaviourSharedData()->setActiveObject(NULL);
-	ed->behaviourSharedData()->setSelectedObject(o);
+	ed->shared()->setActiveObject(NULL);
+	ed->shared()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
 }
 

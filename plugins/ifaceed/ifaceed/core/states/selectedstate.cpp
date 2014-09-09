@@ -64,7 +64,7 @@ void SelectedState::navigateOffset(bool next)
 		CLOSURE
 		CLOSURE_DATA( core::Editor * m_e; AbstractScreenObject * m_o; )
 		CLOSURE_CODE( 
-			this->m_e->behaviourSharedData()->setSelectedObject(this->m_o);
+			this->m_e->shared()->setSelectedObject(this->m_o);
 			this->m_e->showObjectStats(this->m_o); 
 		)
 		INITCLOSURE( CLSET(m_e, ed); CLSET(m_o, o) );
@@ -219,11 +219,6 @@ void SelectedState::enter()
     //AbstractScreenObject * o = this->shdata()->selectedObject();
 	ed->submitEvent("selected_enter", sad::db::Variant(0));
 	m_movement_substate = SSMSS_NOMOVEMENT;
-	CLOSURE
-	CLOSURE_DATA( core::Editor * e; )
-	CLOSURE_CODE( this->e->highlightState("Selected"); )
-	INITCLOSURE( CLSET(e, ed); );
-	SUBMITCLOSURE( ed->emitClosure );
 }
 
 void SelectedState::leave()

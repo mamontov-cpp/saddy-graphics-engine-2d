@@ -61,5 +61,5 @@ core::Editor* core::State::editor()
 
 core::Shared* core::State::shdata()
 {
-	return this->editor()->shdata();
+	return this->editor()->shared();
 }

@@ -713,7 +713,7 @@ void MainPanel::addFontObject()
 		label->tryReload(this->m_editor->database());
 		sad::Scene* scene = this->m_editor->scene();
 		label->setScene(scene);
-		this->m_editor->behaviourSharedData()->setActiveObject(label);
+		this->m_editor->shared()->setActiveObject(label);
 		
 		this->m_editor->currentBehaviour()->enterState("label_adding");
 	}
@@ -777,7 +777,7 @@ void MainPanel::setAddingEnabled(bool enabled)
 
 void MainPanel::trySetProperty(const sad::String & prop, float v)
 {
-	core::Shared * data = this->m_editor->behaviourSharedData();
+	core::Shared * data = this->m_editor->shared();
 	AbstractScreenObject * o = NULL;
 	sad::db::Property * _property = NULL;
 	bool selected = false;
@@ -807,14 +807,14 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 			{
 				QTimer * t =new QTimer();
 				t->setSingleShot(true);
-				bool pending = this->m_editor->shdata()->isRotationCommandPending();
+				bool pending = this->m_editor->shared()->isRotationCommandPending();
 				sad::db::Variant new_v(v);
 				float new_val_escaped = new_v.get<float>().value();
 				float old_val_escaped = old;
 				if (pending) {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
+					this->m_editor->shared()->submitRotationCommand(t, o, new_val_escaped, false);
 				} else {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
+					this->m_editor->shared()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
 				}
 				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
 				t->start(MAX_ROTATION_TIME);
@@ -837,7 +837,7 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 
 template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T v)
 {
-	core::Shared * data = this->m_editor->behaviourSharedData();
+	core::Shared * data = this->m_editor->shared();
 	AbstractScreenObject * o = NULL;
 	sad::db::Property * _property = NULL;
 	bool selected = false;
@@ -876,15 +876,15 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 			{
 				QTimer * t =new QTimer();
 				t->setSingleShot(true);
-				bool pending = this->m_editor->shdata()->isRotationCommandPending();
+				bool pending = this->m_editor->shared()->isRotationCommandPending();
 				sad::db::Variant new_v(v);
 				sad::db::Variant old_escaped(old);
 				float new_val_escaped = new_v.get<float>().value();
 				float old_val_escaped = old_escaped.get<float>().value();
 				if (pending) {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
+					this->m_editor->shared()->submitRotationCommand(t, o, new_val_escaped, false);
 				} else {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
+					this->m_editor->shared()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
 				}
 				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
 				t->start(MAX_ROTATION_TIME);
@@ -1073,7 +1073,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 
 void MainPanel::updateList()
 {
-	m_list.updateWidget(m_editor->result(), m_editor->behaviourSharedData()->selectedObject());
+	m_list.updateWidget(m_editor->result(), m_editor->shared()->selectedObject());
 }
 
 
@@ -1082,7 +1082,7 @@ void MainPanel::selectedObjectChanged(int index)
 	if (index != -1 && m_list.selfChanged() == false)
 	{
 		AbstractScreenObject * o = m_list.row(index);
-		this->m_editor->behaviourSharedData()->setSelectedObject(o);
+		this->m_editor->shared()->setSelectedObject(o);
 		m_editor->showObjectStats(o);
 		m_editor->currentBehaviour()->enterState("selected");
 	}
@@ -1090,7 +1090,7 @@ void MainPanel::selectedObjectChanged(int index)
 
 void MainPanel::moveObjectBack()
 {
-	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o = m_editor->shared()->selectedObject();
 	if (o && m_editor->currentBehaviour()->state() == "selected") 
 	{
 		unsigned int  my  = o->scene()->findLayer(o);
@@ -1106,7 +1106,7 @@ void MainPanel::moveObjectBack()
 
 void MainPanel::moveObjectFront()
 {
-	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o = m_editor->shared()->selectedObject();
 	if (o && m_editor->currentBehaviour()->state() == "selected") 
 	{
 		unsigned int  my  = o->scene()->findLayer(o);
@@ -1137,8 +1137,8 @@ void MainPanel::setSpriteChangingEnabled(bool enabled)
 
 void MainPanel::setRegionParameters()
 {
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
+	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
 	// Get rect
 	/*
@@ -1163,8 +1163,8 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 {
 	if (m_selfchanged)
 		return;
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
+	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
 	// TODO: Reimplement
 	/*
@@ -1258,8 +1258,8 @@ void MainPanel::spriteRectChanged()
 {
 	if (m_selfchanged)
 		return;
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
+	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
 	// TODO: implement
 	
@@ -1322,7 +1322,7 @@ void SpriteRectChangeCommand::rollback(core::Editor * ob)
 void MainPanel::makeBackground()
 {
 	SL_SCOPE("MainPanel::makeBackground()");
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
+	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	if (o2)
 	{
 		if (o2->hasProperty("rect") && o2->rotatable())
@@ -1354,7 +1354,7 @@ void MainPanel::clearScreenTemplate()
 	{
 		if (m_editor->currentBehaviour()->state() == "selected")
 		{
-			m_editor->shdata()->setSelectedObject(NULL);
+			m_editor->shared()->setSelectedObject(NULL);
 			m_editor->currentBehaviour()->enterState("idle");
 		}
 		ScreenClearCommand * c =new ScreenClearCommand(m_editor->result());

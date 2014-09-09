@@ -85,7 +85,14 @@ core::Editor::Editor() : m_icons("editor_icons")
 
 	m_machine = new sad::hfsm::Machine();
 	m_machine->addState("idle", new sad::hfsm::State(), true);
+	m_machine->addState("selected", new sad::hfsm::State(), true);
+	m_machine->addState("adding/label", new sad::hfsm::State(), true);
+	m_machine->addState("adding/sprite", new sad::hfsm::State(), true);
+	m_machine->addState("adding/customobject", new sad::hfsm::State(), true);
 	m_machine->enterState("idle");
+
+	m_shared = new core::Shared();
+	m_shared->setEditor(this);
 	
 	sad::String idle = "idle";
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
@@ -127,16 +134,12 @@ core::Editor::~Editor()
 	delete m_renderthread;
 	delete m_cmdargs;
 	delete m_history;
-	delete m_behavioursharedata;
+	delete m_shared;
 	delete m_machine;
 }
 
 void core::Editor::init(int argc,char ** argv)
 {
-	// Create data, shared between behaviours
-	m_behavioursharedata = new core::Shared();
-	m_behavioursharedata->setEditor(this);
-
 	// Create and parse command line arguments
 	m_cmdargs = new sad::cli::Args(argc, argv);
 	m_cmdoptions = new sad::cli::Parser();
@@ -439,15 +442,9 @@ FontTemplateDatabase * core::Editor::database()
 	return m_db;
 }
 
-void core::Editor::highlightState(const sad::String & hint)
-{
-	this->panel()->highlightState(hint);
-}
-
-
 void core::Editor::tryRenderActiveObject()
 {
-	AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o =	this->shared()->activeObject();
 	if (o)
 		o->render();
 }
@@ -458,15 +455,15 @@ void core::Editor::tryEraseObject()
 		|| state == "sprite_adding_simple" 
 		|| state == "sprite_adding_diagonal")
 	{
-		AbstractScreenObject * o =	this->behaviourSharedData()->activeObject();
+		AbstractScreenObject * o =	this->shared()->activeObject();
 		delete o;
-		this->behaviourSharedData()->setActiveObject(NULL);
+		this->shared()->setActiveObject(NULL);
 		this->currentBehaviour()->cancelState();
 	}
 	if (state == "selected")
 	{
-		AbstractScreenObject * o =	this->behaviourSharedData()->selectedObject();
-		this->behaviourSharedData()->setSelectedObject(NULL);
+		AbstractScreenObject * o =	this->shared()->selectedObject();
+		this->shared()->setSelectedObject(NULL);
 		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
 		this->history()->add(cmd);
 		cmd->commit(this);
@@ -484,16 +481,16 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 			return;
 		me->m_handling_event = true;
 		me->panel()->updateList(); 
-		if (me->behaviourSharedData()->selectedObject() != NULL )
+		if (me->shared()->selectedObject() != NULL )
 		{
-			if (me->behaviourSharedData()->activeObject() == NULL)
+			if (me->shared()->activeObject() == NULL)
 			{
 				SL_SCOPE("core::Editor::submitEvent()::closure::callUpdateObjectStats()");
-				me->panel()->updateObjectStats(me->behaviourSharedData()->selectedObject());
+				me->panel()->updateObjectStats(me->shared()->selectedObject());
 			}
 			// Remove order, if selected removed
 			sad::log::Log* lg = sad::log::Log::ref();
-			if (me->shdata()->selectedObject()->prop<bool>("activity",lg) == false
+			if (me->shared()->selectedObject()->prop<bool>("activity",lg) == false
 			   )
 			{
 				SL_SCOPE("core::Editor::submitEvent()::closure::fixingSelected()");
@@ -503,7 +500,7 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 					me->currentBehaviour()->enterState("idle");
 				}
 				SL_DEBUG("Unselecting object to null");
-				me->shdata()->setSelectedObject(NULL);
+				me->shared()->setSelectedObject(NULL);
 			}
 		}
 		me->m_handling_event = false;
@@ -512,18 +509,13 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 	SUBMITCLOSURE( this->emitClosure );
 }
 
-core::Shared* core::Editor::shdata()
-{
-	return this->behaviourSharedData();
-}
-
 void core::Editor::appendRotationCommand()
 {
 	float new_angle = 0.0f;
 	float old_angle = 0.0f;
 	AbstractScreenObject * o = NULL;
 	sad::log::Log* lg = sad::log::Log::ref();
-	this->shdata()->getAndDismissRotationCommand(o, new_angle, old_angle);
+	this->shared()->getAndDismissRotationCommand(o, new_angle, old_angle);
 	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, lg));
 }
 
@@ -605,7 +597,7 @@ void core::Editor::reload()
    */
    if (this->currentBehaviour()->state() == "selected")
    {
-   	   this->panel()->updateObjectStats(this->behaviourSharedData()->selectedObject());
+   	   this->panel()->updateObjectStats(this->shared()->selectedObject());
    }
 }
 

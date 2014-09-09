@@ -27,7 +27,7 @@ void core::Editor::trySelectObject(sad::Point2D p, bool enterSelected)
 	const std::vector<AbstractScreenObject*> & tbl = this->result()->fetchObjectsWithin(p);
 	sad::log::Log * log = sad::log::Log::ref();
 	if (tbl.empty() == false) {
-		this->behaviourSharedData()->setSelectedObject(tbl[0]);
+		this->shared()->setSelectedObject(tbl[0]);
 		this->showObjectStats(tbl[0]);
 		std::vector<sad::String> chain;
         for(unsigned int i = 0; i < tbl.size(); i++)

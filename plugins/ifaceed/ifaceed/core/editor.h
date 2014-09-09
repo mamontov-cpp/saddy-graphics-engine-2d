@@ -80,6 +80,11 @@ public:
 		\return machine editor
 	 */
 	sad::hfsm::Machine* machine();
+	/*! Returns shared data
+		\return shared data information
+	*/
+	inline core::Shared * shared()  { return m_shared; }
+
 	/*! Returns a database fwith all of resources
 	 */
 	FontTemplateDatabase * database();
@@ -97,17 +102,9 @@ public:
 	{
 		 return m_selection_border;
 	}
-	/*! Returns shared data
-		\return shared data information
-	*/
-	core::Shared * shdata();
 	/*! Quits an editor
 	 */
 	void quit();
-	/*! Highlights a state of editor in GUI. Override this for custom output
-		\param[in] hint hint of state
-	  */
-	virtual void highlightState(const sad::String & hint);
 	/*! Shows objects stats for selected object
 		Implemented in \\core\\states\\changingselection.h
 		\param[in] o object, which must be selected
@@ -127,13 +124,6 @@ public:
 		\return used scene
 	*/
 	inline sad::Scene * scene() { return this->m_scene; }
-	/*! Returns a behaviour shated data, needed to implement some stuff
-		\return shared data for behaviour
-	 */
-	inline core::Shared * behaviourSharedData() 
-	{
-		return m_behavioursharedata;
-	}
 	/*! Returns a history
 		\return history
 	*/
@@ -236,9 +226,6 @@ protected:
 	/*! A current behaviour
 	*/
 	sad::String m_current_behaviour;
-	/*! A reason, while editor must be quit
-	*/
-	core::QuitReason  m_quit_reason;
 	/*! Reports errors to log
 		\param[in, out] errors a list of errors
 		\param[in] name a name of file, which has been loading
@@ -296,33 +283,37 @@ private:
 	/*! A hierarchical state machine
 	 */
 	sad::hfsm::Machine* m_machine;
-	/*! A scene used for output
-	*/
-	sad::Scene* m_scene;
 	/*! Command line arguments
-	*/
+	 */
 	sad::cli::Args* m_cmdargs;
 	/*! Mutex, that is used in initialize. DO NOT USE on other intensions
-	*/
+	 */
 	sad::Mutex* m_initmutex;
 	/*! Mutex, that is used in waiting of saddy thread. DO NOT use on other intensions
-	*/
+	 */
 	sad::Mutex* m_saddywaitmutex;
 	/*! Whether saddy thread must wait for qt thread
-	*/
+	 */
 	bool m_waitforqt;
 	/*! Whether main thread should wait for saddy thread
-	*/
+	 */
 	bool m_waitforsaddy;
 	/*! Command line options data
-	*/
+	 */
 	sad::cli::Parser* m_cmdoptions;
 	/*! History of data
-	*/
+	 */
 	history::History* m_history;
 	/*! Describes a behaviour shared data
+	 */
+	core::Shared* m_shared;
+	/*! A reason, while editor must be quit
+	 */
+	core::QuitReason  m_quit_reason;
+
+	/*! A scene used for output
 	*/
-	core::Shared* m_behavioursharedata;
+	sad::Scene* m_scene;	
 	/*! An icons container
 	*/
 	sad::Sprite2DConfig m_icons;

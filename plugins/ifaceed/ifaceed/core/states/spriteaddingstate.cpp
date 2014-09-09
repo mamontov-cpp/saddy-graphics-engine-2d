@@ -22,7 +22,6 @@ void SimpleSpriteAddingState::enter()
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; core::Editor * ed; )
 	CLOSURE_CODE( p->setAddingEnabled(false); 
-				  ed->highlightState("Place a sprite"); 
 				  p->setRegionParameters();  
 				  p->setSpriteChangingEnabled(false);
 				 )
@@ -33,14 +32,13 @@ void SimpleSpriteAddingState::enter()
 void SimpleSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	core::Editor * ed = this->editor();
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o =	ed->shared()->activeObject();
 	o->moveCenterTo(ev.pos2D());
 
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; core::Editor * ed; )
 	CLOSURE_CODE( p->setAddingEnabled(false); 
-				  ed->highlightState("Place a sprite"); 
 				  p->setRegionParameters();  
 				 )
 	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
@@ -52,7 +50,7 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	core::Editor * ed = this->editor();
 	MainPanel * p = ed->panel();
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o =	ed->shared()->activeObject();
 	//float a = o->SerializableObject::getProperty("angle")->get<float>().value();
 	//a+=dangle;
 	/*
@@ -69,7 +67,7 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
 	core::Editor * ed = this->editor();
-	AbstractScreenObject * o =	ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o =	ed->shared()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
 	ed->history()->add(c);
 	c->commit(ed);
@@ -77,8 +75,8 @@ void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEve
 	sad::Scene * scene = ed->scene();
 	scene->add(o);
 
-	ed->behaviourSharedData()->setActiveObject(NULL);
-	ed->behaviourSharedData()->setSelectedObject(o);
+	ed->shared()->setActiveObject(NULL);
+	ed->shared()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
 }
 
@@ -107,9 +105,9 @@ void DiagonalSpriteAddingState::enter()
 	m_substate = DSAS_INITIAL;
 	core::Editor * ed = this->editor();
 	sad::log::Log * log = sad::log::Log::ref();
-	ed->behaviourSharedData()->activeObject()->setProp<float>("angle", 0.0f, log);
-	ed->behaviourSharedData()->activeObject()->setProp<bool>("visibility", false, log);
-	ed->behaviourSharedData()->toggleActiveBorder(false);
+	ed->shared()->activeObject()->setProp<float>("angle", 0.0f, log);
+	ed->shared()->activeObject()->setProp<bool>("visibility", false, log);
+	ed->shared()->toggleActiveBorder(false);
 
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -117,7 +115,6 @@ void DiagonalSpriteAddingState::enter()
 	CLOSURE_CODE( p->setAddingEnabled(false); 
 				  p->setAngleChangingEnabled(false); 
 				  p->setSpriteChangingEnabled(false);
-				  ed->highlightState("Place a first point");  
 				)
 	INITCLOSURE( CLSET(p,p); CLSET(ed,ed); )
 	SUBMITCLOSURE( ed->emitClosure );
@@ -128,7 +125,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 {
 	DiagonalSpriteAddingSubState ss = m_substate;
 	core::Editor * ed = this->editor();
-	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o = ed->shared()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	sad::Point2D p = ev.pos2D();
 	bool highlight = false;
@@ -136,7 +133,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 	sad::log::Log * log = sad::log::Log::ref();
 	if (ss == DSAS_INITIAL)
 	{
-		ed->behaviourSharedData()->toggleActiveBorder(true);
+		ed->shared()->toggleActiveBorder(true);
 
 		sad::Rect2D brect = oo->rect();
 		sad::Point2D ddelta = p - brect[3];
@@ -162,8 +159,8 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 		scene->add(o);
 
 		c->commit(ed);
-		ed->behaviourSharedData()->setActiveObject(NULL);
-		ed->behaviourSharedData()->setSelectedObject(o);
+		ed->shared()->setActiveObject(NULL);
+		ed->shared()->setSelectedObject(o);
 		this->behaviour()->enterState("selected");
 	}
 	CLOSURE
@@ -180,8 +177,8 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 void DiagonalSpriteAddingState::leave()
 {
 	core::Editor * ed = this->editor();
-	ed->behaviourSharedData()->toggleActiveBorder(true);
-	ed->behaviourSharedData()->setActiveObject(NULL);
+	ed->shared()->toggleActiveBorder(true);
+	ed->shared()->setActiveObject(NULL);
 	MainPanel * p = ed->panel();
 	CLOSURE
 	CLOSURE_DATA( MainPanel * p; )
@@ -197,7 +194,7 @@ void DiagonalSpriteAddingState::leave()
 void DiagonalSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	core::Editor * ed = this->editor();
-	AbstractScreenObject * o = ed->behaviourSharedData()->activeObject();
+	AbstractScreenObject * o = ed->shared()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
 	if (m_substate == DSAS_FIRSTCLICK)
 	{
