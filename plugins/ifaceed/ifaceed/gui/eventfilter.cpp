@@ -34,7 +34,7 @@ void gui::EventFilter::setPanel(MainPanel* panel)
             if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
             {
                 int index = ev->key() - Qt::Key_1;
-                m_panel->myUI()->tabWidget->setCurrentIndex(index);
+                m_panel->UI()->tabWidget->setCurrentIndex(index);
             }
         }
      }

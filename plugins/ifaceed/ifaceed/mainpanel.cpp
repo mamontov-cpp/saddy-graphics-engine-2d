@@ -178,6 +178,11 @@ core::Editor* MainPanel::editor() const
     return m_editor;
 }
 
+Ui::MainPanelClass* MainPanel::UI()
+{
+    return &ui;
+}
+
 void MainPanel::viewDatabase()
 {
 	this->fixDatabase();
