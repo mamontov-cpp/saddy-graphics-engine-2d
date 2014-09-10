@@ -102,6 +102,10 @@ public:
 		\return previous state
 	 */
 	const sad::String & previousState() const;
+	/*! Tests, whether current state is equal to specified, or parent of it
+		\param[in] state a state
+	 */
+	bool isInState(const sad::String & state) const;
 protected:
 	/*! A current state of machine
 	 */

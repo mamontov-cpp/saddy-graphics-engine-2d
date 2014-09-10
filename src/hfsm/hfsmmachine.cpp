@@ -187,6 +187,26 @@ const sad::String & sad::hfsm::Machine::previousState() const
 	return m_previousstate;
 }
 
+bool sad::hfsm::Machine::isInState(const sad::String & state) const
+{
+	sad::String currentstate = this->currentState();
+	sad::StringList currentstateparts = currentstate.split("/");
+	for(int i = currentstateparts.size() - 1; i > -1; --i)
+	{
+		sad::StringList currentstatecheckedparts;
+		for(int j = 0; j <= i; ++j)
+		{
+			currentstatecheckedparts << currentstateparts[j];
+		}
+		sad::String implodedcheckedparts = sad::join(currentstatecheckedparts, "/");
+		if (state == implodedcheckedparts)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 
 sad::hfsm::CurrentStateCheck::CurrentStateCheck(
 	sad::hfsm::Machine * machine,  
