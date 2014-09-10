@@ -62,6 +62,8 @@ Q_DECLARE_METATYPE(sad::SceneNode*)
 #endif
 #endif
 
+//====================  PUBLIC METHODS HERE ====================
+
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags), m_selfchanged(false)
 {
@@ -363,14 +365,54 @@ void MainPanel::highlightState(const sad::String & text)
 
 void MainPanel::highlightIdleState()
 {
-	this->highlightState("Idle");
+    this->highlightState("Idle");
+}
+
+//====================  PROTECTED METHODS HERE ====================
+
+void MainPanel::fillDatabasePropertyTypesCombo()
+{
+    const unsigned int typescount = 20;
+    const QString types[typescount] = {
+        "unsigned char",
+        "signed char",
+        "char",
+
+        "short",
+        "unsigned short",
+
+        "int",
+        "unsigned int",
+
+        "long",
+        "unsigned long",
+
+        "long long",
+        "unsigned long long",
+
+        "float",
+        "double",
+
+        "sad::String",
+        "sad::Color",
+        "sad::AColor",
+
+        "sad::Point2D",
+        "sad::Point2I",
+
+        "sad::Size2D",
+        "sad::Size2I"
+    };
+    for(unsigned int i = 0; i < typescount; i++)
+    {
+        ui.cmbDatabasePropertyType->addItem(types[i]);
+    }
 }
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
 	this->QMainWindow::closeEvent(ev);
 }
-
 
 void MainPanel::fixDatabase()
 {
@@ -449,6 +491,8 @@ QString MainPanel::viewableObjectName(sad::db::Object* o)
 	}
 	return result;
 }
+
+//====================  PROTECTED SLOTS HERE ====================
 
 void MainPanel::addDatabaseProperty()
 {
@@ -605,48 +649,10 @@ void MainPanel::redo()
 }
 
 
+
 void MainPanel::selected(sad::String item)
 {
 	QMessageBox::warning(NULL, "1", item.c_str());
-}
-
-void MainPanel::fillDatabasePropertyTypesCombo()
-{
-    const unsigned int typescount = 20;
-	const QString types[typescount] = {
-		"unsigned char",
-        "signed char",
-        "char",
-
-        "short",
-        "unsigned short",
-
-        "int",
-        "unsigned int",
-
-        "long",
-        "unsigned long",
-
-        "long long",
-        "unsigned long long",
-
-        "float",
-        "double",        
-
-		"sad::String",
-		"sad::Color",
-		"sad::AColor",
-
-        "sad::Point2D",
-        "sad::Point2I",
-
-        "sad::Size2D",
-        "sad::Size2I"
-	};	
-    for(unsigned int i = 0; i < typescount; i++)
-	{
-		ui.cmbDatabasePropertyType->addItem(types[i]);
-	}
 }
 
 void MainPanel::synchronizeDatabase()

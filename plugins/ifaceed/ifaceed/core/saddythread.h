@@ -25,10 +25,9 @@ public:
 	    \param[in] editor editor to run
 	 */
 	SaddyThread(core::Editor * editor);
-	/*! Awaits for qt thread to do his job
-	 */
-	void waitForQtThread();
-	/*! Runs a thread to do stuff
+    /*! Runs a thread, setting up a renderer,
+        awaking main thread and running renderer's
+        event loop
 	 */
 	virtual void run();	
 private:

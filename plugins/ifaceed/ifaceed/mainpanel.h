@@ -126,9 +126,9 @@ public:
 		\param[in] text a label's text
 	 */
 	void highlightState(const sad::String & text);
-	/*! Highlights idle state
-	 */
-	void highlightIdleState();
+    /*! Highlights idle state
+     */
+    void highlightIdleState();
 
 	/*! Change region parameters for data
 	 */
@@ -164,27 +164,38 @@ public:
 	 */
 	void trySetProperty(const sad::String & prop, float v);		
 	void updateObjectStats(AbstractScreenObject * o);
-private:
-	Ui::MainPanelClass ui;          //!< UI
-	core::Editor    *   m_editor;   //!< Editor to work with
+protected:
+    /*! Stores all widget for main panel
+     */
+    Ui::MainPanelClass ui;
+    /*! Current editor, used to work width
+     */
+    core::Editor*   m_editor;
+    /*! A property delegates, which belongs only to a loaded database and were here
+        before user added any property
+     */
+    sad::PtrHash<sad::String, gui::table::Delegate> m_property_delegates;
+    /*! A delegate factory for creating rows in db
+     */
+    gui::table::DelegateFactory m_dbdelegate_factory;
+    /*! A factory for creating propertis in database
+     */
+    sad::db::StoredPropertyFactory m_property_factory;
+    /*! A point, which coordinates must be assigned to labels, when called
+        MainPanel::updateMousePositionNow
+     */
+    sad::Point2D m_mousemove_point;
+    /*! State of main panel, which must be set, when called MainPanel::highlightStateNow
+     */
+    QString m_highlight_state;
+    /*! An utility flags, which could be used to prevent recursive calls of slots, due to
+        widget value changes
+     */
+    bool m_selfchanged;
+
 	/*! Fills combo box with database property types
 	 */
-	void fillDatabasePropertyTypesCombo();
-protected:
-	/*!
-	 * An utility flag to prevent events, from self-changing 
-	 */
-	bool m_selfchanged;
-	/*! A property delegates, which belongs only to a loaded database and were here
-		before user added any property
-	 */
-	sad::PtrHash<sad::String, gui::table::Delegate> m_property_delegates;
-	/*! A delegate factory for creating rows in db
-	 */
-	gui::table::DelegateFactory m_dbdelegate_factory;
-	/*! A factory for creating propertis in database
-	 */
-	sad::db::StoredPropertyFactory m_property_factory;
+	void fillDatabasePropertyTypesCombo();	
 	/*!
 	 * Whether panel is closed it must close a dialogs if present
 	 */
@@ -288,13 +299,6 @@ protected slots:
 	 */
 	void colorChanged(QColor c);
 private:
-	/*! A point, which coordinates must be assigned to labels, when called
-		MainPanel::updateMousePositionNow
-	 */
-	sad::Point2D m_mousemove_point;
-	/** State of main panel, which must be set, when called MainPanel::highlightStateNow
-	 */
-	QString m_highlight_state;
 	/** An object list for working with information
 	 */
 	gui::ScreenObjectList m_list;

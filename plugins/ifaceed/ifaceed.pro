@@ -123,7 +123,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenes/scenesadd.h \
     ifaceed/history/scenes/sceneschangename.h \
     ifaceed/history/scenes/sceneslayerswap.h \
-    ifaceed/history/scenes/scenesremove.h
+    ifaceed/history/scenes/scenesremove.h \
+    ifaceed/core/synchronization.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -208,7 +209,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenelayerswap.cpp \
     ifaceed/history/scenes/scenesadd.cpp \
     ifaceed/history/scenes/sceneschangename.cpp \
-    ifaceed/history/scenes/scenesremove.cpp
+    ifaceed/history/scenes/scenesremove.cpp \
+    ifaceed/core/synchronization.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

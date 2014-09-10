@@ -51,6 +51,7 @@ namespace core
 class EditorBehaviour;
 class Shared;
 class SaddyThread;
+class Synchronization;
 
 /*! A main editor class, which works as event receiver and data container
  */
@@ -75,15 +76,44 @@ public:
 	/*! Returns editor's window, used by Qt part of application
 		\return editor's window
 	 */
-	MainPanel* panel();
+    MainPanel* panel() const;
 	/*! Returns a machine for editor
 		\return machine editor
 	 */
-	sad::hfsm::Machine* machine();
-	/*! Returns shared data
-		\return shared data information
-	*/
-	inline core::Shared * shared()  { return m_shared; }
+    sad::hfsm::Machine* machine() const;
+    /*! Returns shared state data
+        \return shared state data information
+     */
+    core::Shared* shared() const;
+    /*! Returns parsed arguments
+        \return parsed arguments
+     */
+    sad::cli::Parser* parsedArgs() const;
+    /*! Returns a history
+        \return history
+    */
+    history::History * history() const;
+    /*! Returns main QApplication instance
+        \return qt application
+     */
+    QApplication* app() const;
+    /*! A synonym for sad::Renderer::ref()
+        \return current renderer
+     */
+    sad::Renderer* renderer() const;
+    /*! Returns synchronization primitive
+        \return synchronization primitive
+     */
+    core::Synchronization* synchronization() const;
+    /*! Quits an editor
+     */
+    void quit();
+    /*! Emits a signal core::Editor::closureArrived()
+        with specified arguments
+        \param[in] closure closure signal argument
+     */
+    void emitClosure(sad::ClosureBasic * closure);
+
 
 	/*! Returns a database fwith all of resources
 	 */
@@ -102,9 +132,6 @@ public:
 	{
 		 return m_selection_border;
 	}
-	/*! Quits an editor
-	 */
-	void quit();
 	/*! Shows objects stats for selected object
 		Implemented in \\core\\states\\changingselection.h
 		\param[in] o object, which must be selected
@@ -116,19 +143,10 @@ public:
 		\param[in] enterSelected whether we should enter selected states if found
 	 */
 	virtual void trySelectObject(sad::Point2D p, bool enterSelected);
-	/*! Returns parsed arguments
-		\return parsed arguments
-	*/
-	sad::cli::Parser * parsedArgs() const;
 	/*! Returns a scene
 		\return used scene
 	*/
 	inline sad::Scene * scene() { return this->m_scene; }
-	/*! Returns a history
-		\return history
-	*/
-	inline history::History * history() { return m_history; }
-
 	/*! Returns a behaviour hash
 		\return behaviour hash
 	*/
@@ -147,11 +165,7 @@ public:
 	/*! Enters a behaviour of editor
 		\return editor behaviour
 	*/
-	core::EditorBehaviour * currentBehaviour();
-	/*! Emits a closure signal closureArrived()
-		\param[in] closure closure signal arrived
-	*/
-	void emitClosure(sad::ClosureBasic * closure);
+	core::EditorBehaviour * currentBehaviour();	
 	/*! Casts a current behaviour state identified by state to needed
 		\param[in] s string name of state
 		\return state
@@ -161,11 +175,7 @@ public:
 	}
 	/*! Returns an icon container
 	 */
-	sad::Sprite2DConfig & icons();
-	 /*! Returns a qt application
-		 \return qt application
-	*/
-	inline QApplication * qtApp() { return this->m_qtapp;}	
+	sad::Sprite2DConfig & icons();	 	
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour
@@ -177,6 +187,8 @@ public slots:
 	/*! Redoes history action
 	 */
 	void redo();
+
+
 	/*! Tries erasing object, depending on current object state
 	 */
 	virtual void tryEraseObject();
@@ -202,9 +214,64 @@ public slots:
 signals:
 	/*! Signal is emitted, when closure is arrived
 		\param[in] closure data for closure
-	*/
+     */
 	void closureArrived(sad::ClosureBasic * closure);	
 protected:
+    /*! Target for sending information
+     */
+    core::QtTarget* m_qttarget;
+    /*! Thread for rendering
+     */
+    core::SaddyThread* m_renderthread;
+    /*! A synchronization primitive for
+        synchronizing threads
+     */
+    core::Synchronization* m_synchronization;
+    /*! Main window of application
+     */
+    MainPanel* m_mainwindow;
+    /*! Application of qt, which is used
+     */
+    QApplication* m_qtapp;
+    /*! A hierarchical state machine
+     */
+    sad::hfsm::Machine* m_machine;
+    /*! Command line arguments
+     */
+    sad::cli::Args* m_args;
+    /*! A parsed command-line arguments
+     */
+    sad::cli::Parser* m_parsed_args;
+    /*! History of data
+     */
+    history::History* m_history;
+    /*! Describes a behaviour shared data
+     */
+    core::Shared* m_shared;
+    /*! A reason, while editor must be quit
+     */
+    core::QuitReason  m_quit_reason;
+
+    /*! Reports errors to log
+        \param[in, out] errors a list of errors
+        \param[in] name a name of file, which has been loading
+     */
+    void reportResourceLoadingErrors(
+        sad::Vector<sad::resource::Error *> & errors,
+        const sad::String& name
+    );
+    /*! Initializes conversion table with all conversion table
+     */
+    void initConversionTable();
+    /*! Called, when core::SaddyThread finishes working. Sets
+        reason, why editor to quit as initiated by Saddy's renderer
+        and calls cleanup actions
+     */
+    void saddyQuitSlot();
+
+
+
+
 	/*! A selection border with capabilities spots to edit item
 	*/
     SelectedObjectBorder * m_selection_border;
@@ -217,147 +284,47 @@ protected:
 	/*! Screen template data
 	*/
 	ScreenTemplate * m_result;
-	/*! Determines, whether we are already handling an event
-	*/
-	bool m_handling_event;
 	/*! A defines editor behaviours
 	*/
 	sad::Hash<sad::String, core::EditorBehaviour *> m_behaviours;
 	/*! A current behaviour
 	*/
 	sad::String m_current_behaviour;
-	/*! Reports errors to log
-		\param[in, out] errors a list of errors
-		\param[in] name a name of file, which has been loading
-	*/
-	void reportResourceLoadingErrors(
-		sad::Vector<sad::resource::Error *> & errors,
-		const sad::String& name
-	);
-	/*! Initializes conversion table with all conversion table
-	 */
-	void initConversionTable();
 	/*! Sets a database for templates
 		\param[in] db database
 	*/
-	void setDatabase(FontTemplateDatabase * db);
-	/*! Returns a command line arguments
-		\return command line arguments
-	 */ 
-	inline sad::cli::Args * commandLineArguments() { return m_cmdargs;}
-	/*! A quit slot for saddy, which is run when user runs saddy
-	*/
-	void saddyQuitSlot();
+	void setDatabase(FontTemplateDatabase * db);    
 protected slots:
-	/*! Runs qt event loop (qt app)
-	*/
+    /*! Creates QApplication and window,
+        sets up global key handlers and starts event loop,
+        calling core::Editor::start(), after event loop is started
+     */
 	virtual void runQtEventLoop();
-	/*! Runs saddy renderer's event loop. Ran inside SaddyThread::run, sets quit flag,
+    /*! Runs saddy renderer's event loop. Called inside SaddyThread::run,
+        sets quit flag,
 		when saddy quits working
-	*/
+     */
 	virtual void runSaddyEventLoop();
-	/*! Contains a different actions, which is runned from main thread
-		use variable @see m_quit_reason for reason of exit
-	*/
+    /*! Сalled, when user closes last Qt window. Sets reason, why editor is quit
+        and calls quit actions
+     */
+    void qtQuitSlot();
+    /*! Depending on reasons, why editor is quit closes saddy renderer's window
+     *  or panel window
+     */
 	void onQuitActions();
-	/*! Runs, when qt quits 
-	*/
-	void qtQuitSlot();
-	/*! Runs a closure. Used by qt thread to work with closure.
+    /*! Runs a closure. Used by main thread to work
+        with user-defined actions.
 		\param[in] closure closure data
-	*/
-	virtual void onClosureArrived(sad::ClosureBasic * closure);
-private:
-	/*! Target for sending information
-	*/
-	core::QtTarget* m_qttarget;
-	/*! Thread for rendering
-	*/
-	core::SaddyThread* m_renderthread; 
-	/*! Main window of application
-	*/
-	MainPanel* m_mainwindow;
-	/*! Application of qt, which is used
-	*/
-	QApplication* m_qtapp;
-	/*! A hierarchical state machine
-	 */
-	sad::hfsm::Machine* m_machine;
-	/*! Command line arguments
-	 */
-	sad::cli::Args* m_cmdargs;
-	/*! Mutex, that is used in initialize. DO NOT USE on other intensions
-	 */
-	sad::Mutex* m_initmutex;
-	/*! Mutex, that is used in waiting of saddy thread. DO NOT use on other intensions
-	 */
-	sad::Mutex* m_saddywaitmutex;
-	/*! Whether saddy thread must wait for qt thread
-	 */
-	bool m_waitforqt;
-	/*! Whether main thread should wait for saddy thread
-	 */
-	bool m_waitforsaddy;
-	/*! Command line options data
-	 */
-	sad::cli::Parser* m_cmdoptions;
-	/*! History of data
-	 */
-	history::History* m_history;
-	/*! Describes a behaviour shared data
-	 */
-	core::Shared* m_shared;
-	/*! A reason, while editor must be quit
-	 */
-	core::QuitReason  m_quit_reason;
-
+     */
+    virtual void runClosure(sad::ClosureBasic * closure);
+private:	
 	/*! A scene used for output
 	*/
 	sad::Scene* m_scene;	
 	/*! An icons container
 	*/
 	sad::Sprite2DConfig m_icons;
-	/*! Tests, whether saddy thread wait for qt
-		\return should saddy awake or not
-	*/
-	inline bool shouldSaddyThreadWaitForQt() 
-	{
-		bool result;
-		m_initmutex->lock();
-		result = m_waitforqt;
-		m_initmutex->unlock();
-		return result;
-	}
-	/*! Tests, whether main thread wait for saddy
-		\return should saddy awake or not
-	*/
-	inline bool shouldMainThreadWaitForSaddy() 
-	{
-		bool result;
-		m_initmutex->lock();
-		result = m_waitforsaddy;
-		m_initmutex->unlock();
-		return result;
-	}
-	/*! Awakes main thread
-	*/
-	inline void awakeMainThread() 
-	{
-		m_saddywaitmutex->lock();
-		m_waitforsaddy = false;
-		m_saddywaitmutex->unlock();
-	}
-	/*! Awakes  a saddy thread
-	*/
-	inline void awakeSaddyThread() 
-	{
-		m_initmutex->lock();
-		m_waitforqt = false;
-		m_initmutex->unlock();
-	}
-	/*! Makes thread wait for saddy thread
-	*/
-	void waitForSaddyThread();
 };
 
 }
