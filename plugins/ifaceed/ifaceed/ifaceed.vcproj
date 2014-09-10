@@ -398,6 +398,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\core\synchronization.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\core\xmlconfigloader.cpp"
 					>
 				</File>
@@ -1077,6 +1081,10 @@
 				</File>
 				<File
 					RelativePath=".\core\state.h"
+					>
+				</File>
+				<File
+					RelativePath=".\core\synchronization.h"
 					>
 				</File>
 				<File
