@@ -59,6 +59,10 @@ public:
         \return editor
      */
     core::Editor* editor() const;
+    /*! Returns ui for main panel
+        \return main panel's ui
+     */
+    Ui::MainPanelClass* UI();
 	/*! Check database for consistency and set palettes, after database was loaded
 	 */
 	void viewDatabase();
@@ -74,10 +78,6 @@ public:
 		\return if ownership is taken - returns true, if panel does not own it - false
 	 */
 	bool takeDelegateByPropertyName(const QString & name);
-    /*! Returns ui for main panel
-        \return main panel's ui
-     */
-    inline Ui::MainPanelClass * myUI() { return &ui; }
 	/*! Adds scene to scene list
 		\param[in] s scene list
 	 */
