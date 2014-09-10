@@ -11,9 +11,9 @@
 #include <label.h>
 #include <fontmanager.h>
 #include <renderer.h>
+#include <keymouseconditions.h>
 
 #include <input/controls.h>
-#include <keymouseconditions.h>
 
 #include <pipeline/pipelinetask.h>
 #include <pipeline/pipeline.h>
@@ -24,10 +24,15 @@
 
 #include <resource/tree.h>
 
+#include "core/saddythread.h"
+#include "core/synchronization.h"
+
 #include "core/fonttemplatesdatabase.h"
 #include "core/editorbehaviour.h"
-#include "core/saddythread.h"
 #include "core/xmlconfigloader.h"
+#include "core/objectborders.h"
+#include "core/objectxmlreader.h"
+#include "core/sceneaddingtask.h"
 
 #include "gui/eventfilter.h"
 
@@ -43,9 +48,6 @@
 #include "../history/propertychangecommand.h"
 #include "../history/deletecommand.h"
 
-#include "objectborders.h"
-#include "objectxmlreader.h"
-#include "sceneaddingtask.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -57,6 +59,9 @@
 #include "typeconverters/sadacolortoqcolor.h"
 #include "typeconverters/sadstringtoqstring.h"
 #include "typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h"
+
+
+// =================== PUBLIC METHODS ===================
 
 core::Editor::Editor() : m_icons("editor_icons")
 {
@@ -74,13 +79,9 @@ core::Editor::Editor() : m_icons("editor_icons")
 	t->open("full.txt");
 	sad::log::Log::ref()->addTarget(t);
 
-	m_cmdargs = NULL;
-	m_initmutex = new sad::Mutex();
-	m_saddywaitmutex = new sad::Mutex();
-	m_renderthread = new core::SaddyThread(this);
-	m_waitforqt = false;
-	m_waitforsaddy = false;
-	m_qtapp = NULL;
+    m_args = NULL;
+    m_renderthread = new core::SaddyThread(this);
+    m_qtapp = NULL;
 	m_history = new history::History();
 
 	m_machine = new sad::hfsm::Machine();
@@ -94,14 +95,16 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_shared = new core::Shared();
 	m_shared->setEditor(this);
 	
+    m_synchronization = new core::Synchronization();
+
 	sad::String idle = "idle";
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Esc & (m_machine * idle), sad::Renderer::ref(), &sad::Renderer::quit);
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
 
 
-	m_handling_event = false;
-	m_db = NULL;
+
+    m_db = NULL;
 	m_counter = 0;
 	m_result = new ScreenTemplate();
 	m_selection_border = NULL;
@@ -127,46 +130,87 @@ core::Editor::~Editor()
 	{
 		delete it.value();
 	}
-	delete m_cmdoptions;
-	delete m_saddywaitmutex;
+    delete m_args;
 	delete m_qtapp;
-	delete m_initmutex;
 	delete m_renderthread;
-	delete m_cmdargs;
+    delete m_parsed_args;
 	delete m_history;
 	delete m_shared;
 	delete m_machine;
+    delete m_synchronization;
 }
 
 void core::Editor::init(int argc,char ** argv)
 {
 	// Create and parse command line arguments
-	m_cmdargs = new sad::cli::Args(argc, argv);
-	m_cmdoptions = new sad::cli::Parser();
-	m_cmdoptions->addSingleValuedOption("resources");
-	m_cmdoptions->addSingleValuedOption("width");
-	m_cmdoptions->addSingleValuedOption("height");
-	m_cmdoptions->addFlag("debug");
-	m_cmdoptions->parse(argc, const_cast<const char **>(argv));
+    m_args = new sad::cli::Args(argc, argv);
+    m_parsed_args = new sad::cli::Parser();
+    m_parsed_args->addSingleValuedOption("resources");
+    m_parsed_args->addSingleValuedOption("width");
+    m_parsed_args->addSingleValuedOption("height");
+    m_parsed_args->addFlag("debug");
+    m_parsed_args->parse(argc, const_cast<const char **>(argv));
 	
 	// This thread only runs qt event loop. SaddyThread runs only event loop of renderer of Saddy.
-	m_waitforsaddy = true;
+    m_synchronization->startSynchronizationWithSaddyThread();
 	m_renderthread->start();
 	// Wait for Saddy's window to show up
-	this->waitForSaddyThread();
+    m_synchronization->waitForSaddyThread();
 	this->runQtEventLoop();
 	m_renderthread->wait();
 }
 
-MainPanel* core::Editor::panel()
+MainPanel* core::Editor::panel() const
 {
 	return m_mainwindow;
 }
 
-sad::hfsm::Machine* core::Editor::machine()
+sad::hfsm::Machine* core::Editor::machine() const
 {
 	return m_machine;
 }
+
+core::Shared* core::Editor::shared() const
+{
+    return m_shared;
+}
+
+sad::cli::Parser * core::Editor::parsedArgs() const
+{
+    return m_parsed_args;
+}
+
+history::History* core::Editor::history() const
+{
+    return m_history;
+}
+
+QApplication* core::Editor::app() const
+{
+    return m_qtapp;
+}
+
+sad::Renderer* core::Editor::renderer() const
+{
+    return sad::Renderer::ref();
+}
+
+core::Synchronization* core::Editor::synchronization() const
+{
+    return m_synchronization;
+}
+
+void core::Editor::quit()
+{
+    sad::Renderer::ref()->quit();
+}
+
+void core::Editor::emitClosure(sad::ClosureBasic * closure)
+{
+    emit closureArrived(closure);
+}
+
+// =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
 {
@@ -237,6 +281,7 @@ void core::Editor::redo()
 	m_history->commit(this);
 }
 
+// =================== PROTECTED METHODS ===================
 
 void core::Editor::reportResourceLoadingErrors(
 		sad::Vector<sad::resource::Error *> & errors,
@@ -297,9 +342,19 @@ void core::Editor::initConversionTable()
 	);
 }
 
+void core::Editor::saddyQuitSlot()
+{
+    if (m_quit_reason == core::QR_NOTSET) {
+        m_quit_reason = core::QR_SADDY;
+        QTimer::singleShot(0,this,SLOT(onQuitActions()));
+    }
+}
+
+// =================== PROTECTED SLOTS METHODS ===================
+
 void core::Editor::runQtEventLoop()
 {
-	m_qtapp = new QApplication(m_cmdargs->count(), m_cmdargs->arguments());
+    m_qtapp = new QApplication(m_args->count(), m_args->arguments());
 
 	m_mainwindow = new MainPanel();
 	m_mainwindow->setEditor(this);
@@ -325,7 +380,7 @@ void core::Editor::runQtEventLoop()
 		this, 
 		SIGNAL(closureArrived(sad::ClosureBasic*)), 
 		this, 
-		SLOT(onClosureArrived(sad::ClosureBasic*)) 
+        SLOT(runClosure(sad::ClosureBasic*))
 	);
 	m_qttarget->enable();
 	QTimer::singleShot(0, this, SLOT(start()));
@@ -342,13 +397,6 @@ void core::Editor::runSaddyEventLoop()
 		this->saddyQuitSlot();
 }
 
-void core::Editor::saddyQuitSlot()
-{
-	if (m_quit_reason == core::QR_NOTSET) {
-		m_quit_reason = core::QR_SADDY;
-		QTimer::singleShot(0,this,SLOT(onQuitActions()));
-	}
-}
 void core::Editor::qtQuitSlot()
 {
 	if (m_quit_reason == core::QR_NOTSET) {
@@ -366,15 +414,17 @@ void core::Editor::onQuitActions()
 	}
 }
 
+void core::Editor::runClosure(sad::ClosureBasic * closure)
+{
+    closure->run();
+    delete closure;
+}
+
+
 void core::Editor::setDatabase(FontTemplateDatabase * db)
 {
 	delete m_db;
 	m_db = db;
-}
-
-void core::Editor::quit()
-{
-	sad::Renderer::ref()->quit();
 }
 
 // A future result of loading database
@@ -477,9 +527,9 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 	CLOSURE_DATA( core::Editor * me; )
 	CLOSURE_CODE( 
 		SL_SCOPE("core::Editor::submitEvent()::closure");
-		if (me->m_handling_event)
-			return;
-		me->m_handling_event = true;
+        //if (me->m_handling_event)
+        //	return;
+        //me->m_handling_event = true;
 		me->panel()->updateList(); 
 		if (me->shared()->selectedObject() != NULL )
 		{
@@ -503,7 +553,7 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 				me->shared()->setSelectedObject(NULL);
 			}
 		}
-		me->m_handling_event = false;
+        //me->m_handling_event = false;
 	)
 	INITCLOSURE ( CLSET(me, this) )
 	SUBMITCLOSURE( this->emitClosure );
@@ -692,16 +742,6 @@ void core::Editor::load()
 	}
 }
 
-sad::cli::Parser * core::Editor::parsedArgs() const
-{
-	return m_cmdoptions;
-}
-
-void core::Editor::waitForSaddyThread()
-{
-	while(this->shouldMainThreadWaitForSaddy());
-}
-
 sad::Sprite2DConfig & core::Editor::icons()
 {
 	return m_icons;
@@ -742,16 +782,4 @@ core::EditorBehaviour * core::Editor::currentBehaviour()
 		return m_behaviours[m_current_behaviour];
 	}
 	return &nullBehaviour;
-}
-
-void core::Editor::onClosureArrived(sad::ClosureBasic * closure)
-{
-	closure->run();
-	delete closure;
-}
-
-
-void core::Editor::emitClosure(sad::ClosureBasic * closure)
-{
-	emit closureArrived(closure);
 }

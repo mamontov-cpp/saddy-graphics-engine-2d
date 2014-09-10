@@ -1,5 +1,7 @@
 #include "core/saddythread.h"
+
 #include "core/editor.h"
+#include "core/synchronization.h"
 
 #include <renderer.h>
 
@@ -7,14 +9,6 @@ core::SaddyThread::SaddyThread(core::Editor * editor) : m_editor(editor)
 {
 	
 }
-
-void core::SaddyThread::waitForQtThread() 
-{
-	while(this->m_editor->shouldSaddyThreadWaitForQt()) {
-		this->msleep(100);
-	}
-}
-
 
 void core::SaddyThread::run() 
 {
@@ -36,7 +30,7 @@ void core::SaddyThread::run()
     // Clear scenes
     sad::Renderer::ref()->clear();
 
-	this->m_editor->awakeMainThread();
+    this->m_editor->synchronization()->awakeMainThread();
 
 	this->m_editor->runSaddyEventLoop();
 }
