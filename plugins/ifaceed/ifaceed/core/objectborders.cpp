@@ -15,12 +15,13 @@
 
 void ActiveObjectBorder::_process()
 {
-	AbstractScreenObject * o = this->m_data->activeObject();
-	if (this->m_data->mustShowActiveBorder()) 
+	sad::SceneNode * o = this->m_data->activeObject();
+	if (this->m_data->canShowActiveBorder()) 
 	{
-		sad::Rect2D r = o->region();
+		sad::Vector<sad::Rect2D> regions;
+		o->regions(regions);
 		sad::Renderer::ref()->render()
-							->rectangle(r, sad::AColor(0, 255, 255, 255));
+							->rectangle(regions[0], sad::AColor(0, 255, 255, 255));
 	}
 }
 
@@ -32,13 +33,14 @@ ActiveObjectBorder::~ActiveObjectBorder()
 
 void SelectedObjectBorder::_process()
 {
-	AbstractScreenObject * o = this->m_data->selectedObject();
+	sad::SceneNode* o = this->m_data->selectedObject();
 	if (o) 
 	{
-		sad::Rect2D r = o->region();
+		sad::Vector<sad::Rect2D> regions;
+		o->regions(regions);
 		sad::Renderer::ref()->render()
-							->rectangle(r, sad::AColor(255, 0, 0, 255));
-		this->renderHotSpots(o, true);
+							->rectangle(regions[0], sad::AColor(255, 0, 0, 255));
+		//this->renderHotSpots(o, true);
 	}
 }
 
@@ -211,30 +213,36 @@ sad::Vector<BorderHotSpots> ObjectBorder::isWithin(const sad::Point2D & p, Abstr
 
 sad::Vector<BorderHotSpots> ActiveObjectBorder::isWithin(const sad::Point2D & p)
 {
+	/*
 	AbstractScreenObject * o = this->m_data->activeObject();
 	if (o) 
 	{
 		return this->ObjectBorder::isWithin(p,o);
 	}
+	*/
 	return sad::Vector<BorderHotSpots> ();
 }
 
 sad::Vector<BorderHotSpots> SelectedObjectBorder::isWithin(const sad::Point2D & p)
 {
+	/*
 	AbstractScreenObject * o = this->m_data->selectedObject();
 	if (o) 
 	{
 		return this->ObjectBorder::isWithin(p,o);
 	}
+	*/
 	return sad::Vector<BorderHotSpots> ();
 }
 
 
 bool SelectedObjectBorder::resizable()
 {
+  /*
   if (m_data->selectedObject())
   {
 	  return m_data->selectedObject()->resizable();
   }
+  */
   return false;
 }

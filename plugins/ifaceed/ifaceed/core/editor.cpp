@@ -34,6 +34,9 @@
 #include "core/objectxmlreader.h"
 #include "core/sceneaddingtask.h"
 
+#include "core/borders/activeborder.h"
+#include "core/borders/selectionborder.h"
+
 #include "gui/eventfilter.h"
 
 #include "../objects/screentemplate.h"
@@ -94,6 +97,9 @@ core::Editor::Editor() : m_icons("editor_icons")
 
 	m_shared = new core::Shared();
 	m_shared->setEditor(this);
+
+	m_active_border = new core::borders::ActiveBorder(m_shared);
+	m_selection_border = new core::borders::SelectionBorder(m_shared);
 	
     m_synchronization = new core::Synchronization();
 
@@ -102,6 +108,8 @@ core::Editor::Editor() : m_icons("editor_icons")
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::Z & sad::HoldsControl, this, &core::Editor::undo);
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_KeyPress & sad::R & sad::HoldsControl, this, &core::Editor::redo);
 
+	sad::Renderer::ref()->pipeline()->append(m_selection_border);
+	sad::Renderer::ref()->pipeline()->append(m_active_border);
 
 
     m_db = NULL;
@@ -200,6 +208,16 @@ core::Synchronization* core::Editor::synchronization() const
     return m_synchronization;
 }
 
+core::borders::ActiveBorder* core::Editor::activeBorder() const
+{
+	return m_active_border;
+}
+
+core::borders::SelectionBorder* core::Editor::selectionBorder() const
+{
+	return m_selection_border;
+}
+
 void core::Editor::quit()
 {
     sad::Renderer::ref()->quit();
@@ -208,6 +226,20 @@ void core::Editor::quit()
 void core::Editor::emitClosure(sad::ClosureBasic * closure)
 {
     emit closureArrived(closure);
+}
+
+void core::Editor::cleanupBeforeAdding()
+{
+	if (this->machine()->isInState("adding"))
+	{
+		sad::Renderer::ref()->lockRendering();
+
+		sad::SceneNode* node = this->shared()->activeObject();
+		this->shared()->setActiveObject(NULL);
+		node->scene()->remove(node);
+
+		sad::Renderer::ref()->unlockRendering();
+	}
 }
 
 // =================== PUBLIC SLOTS METHODS ===================
@@ -361,6 +393,10 @@ void core::Editor::runQtEventLoop()
 
 	// Called this explicitly, because entered state before
 	m_machine->state("idle")->addEnterHandler(m_mainwindow, &MainPanel::highlightIdleState);
+	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
+	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
+	m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
+
 	m_mainwindow->highlightIdleState();
 
 	sad::Renderer::ref()->controls()->add(*sad::input::ET_MouseMove, m_mainwindow, &MainPanel::updateMousePosition);
@@ -494,9 +530,11 @@ FontTemplateDatabase * core::Editor::database()
 
 void core::Editor::tryRenderActiveObject()
 {
+	/*
 	AbstractScreenObject * o =	this->shared()->activeObject();
 	if (o)
 		o->render();
+	*/
 }
 void core::Editor::tryEraseObject()
 {
@@ -505,19 +543,23 @@ void core::Editor::tryEraseObject()
 		|| state == "sprite_adding_simple" 
 		|| state == "sprite_adding_diagonal")
 	{
+		/*
 		AbstractScreenObject * o =	this->shared()->activeObject();
 		delete o;
 		this->shared()->setActiveObject(NULL);
 		this->currentBehaviour()->cancelState();
+		*/
 	}
 	if (state == "selected")
 	{
+		/*
 		AbstractScreenObject * o =	this->shared()->selectedObject();
 		this->shared()->setSelectedObject(NULL);
 		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
 		this->history()->add(cmd);
 		cmd->commit(this);
 		this->currentBehaviour()->enterState("idle");
+		*/
 	}
 }
 
@@ -536,10 +578,11 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 			if (me->shared()->activeObject() == NULL)
 			{
 				SL_SCOPE("core::Editor::submitEvent()::closure::callUpdateObjectStats()");
-				me->panel()->updateObjectStats(me->shared()->selectedObject());
+				//me->panel()->updateObjectStats(me->shared()->selectedObject());
 			}
 			// Remove order, if selected removed
 			sad::log::Log* lg = sad::log::Log::ref();
+			/*
 			if (me->shared()->selectedObject()->prop<bool>("activity",lg) == false
 			   )
 			{
@@ -552,6 +595,7 @@ void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const
 				SL_DEBUG("Unselecting object to null");
 				me->shared()->setSelectedObject(NULL);
 			}
+			*/
 		}
         //me->m_handling_event = false;
 	)
@@ -647,7 +691,7 @@ void core::Editor::reload()
    */
    if (this->currentBehaviour()->state() == "selected")
    {
-   	   this->panel()->updateObjectStats(this->shared()->selectedObject());
+ //  	   this->panel()->updateObjectStats(this->shared()->selectedObject());
    }
 }
 

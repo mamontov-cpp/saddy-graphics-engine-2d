@@ -23,7 +23,12 @@
 #include "history/scenes/sceneschangename.h"
 #include "history/scenes/sceneslayerswap.h"
 
+#include "gui/scenenodeactions.h"
+#include "gui/labelactions.h"
+
 #include <geometry2d.h>
+#include <keymouseconditions.h>
+#include <keycodes.h>
 
 #include <p2d/vector.h>
 #include <p2d/point.h>
@@ -78,11 +83,14 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.twDatabaseProperties->setColumnWidth(2, width / 6 - 12); // 12 is  a padding for header
 	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
 	ui.twDatabaseProperties->horizontalHeader()->hide();
-
-	connect(ui.btnLabelAdd, SIGNAL(clicked()), this, SLOT(addFontObject()));
-	connect(ui.btnSpriteAdd, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
 	
     ui.txtLabelText->setPlainText("Test");
+
+	m_scene_node_actions = new gui::SceneNodeActions();
+	m_scene_node_actions->setPanel(this);
+
+	m_label_actions = new gui::LabelActions();
+	m_label_actions->setPanel(this);
 	
 	m_list.setWidget(ui.lstSceneObjects);
 
@@ -99,7 +107,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 MainPanel::~MainPanel()
 {
-
+	delete m_label_actions;
+	delete m_scene_node_actions;
 }
 
 void MainPanel::toggleEditingButtons(bool enabled)
@@ -152,6 +161,25 @@ void MainPanel::setEditor(core::Editor* editor)
 {  
 	m_editor = editor; 
 
+	sad::hfsm::Machine* m = editor->machine();
+	sad::String la = "adding/label";
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * la), 
+		m_label_actions, 
+		&gui::LabelActions::cancelAddLabel
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * la),
+		m_label_actions,
+		&gui::LabelActions::moveLabel
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * la),
+		m_label_actions,
+		&gui::LabelActions::commitLabelAdd
+	);
+
+
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
 	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
@@ -163,6 +191,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(redo()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
+
+	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -371,6 +401,49 @@ void MainPanel::highlightState(const sad::String & text)
 void MainPanel::highlightIdleState()
 {
     this->highlightState("Idle");
+}
+
+void MainPanel::highlightSelectedState()
+{
+    this->highlightState("Editing item...");
+}
+
+void MainPanel::highlightLabelAddingState()
+{
+	this->highlightState("Click, where you want label to be placed");
+}
+
+void MainPanel::addSceneNodeToSceneNodeList(sad::SceneNode* s)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstSceneObjects->addItem(i);
+}
+
+void MainPanel::removeLastSceneNodeFromSceneNodeList()
+{
+	if (ui.lstSceneObjects->count())
+	{
+		QListWidgetItem* i = ui.lstSceneObjects->takeItem(ui.lstSceneObjects->count() - 1);
+		delete i;
+	}
+}
+
+//====================  PUBLIC SLOTS METHODS HERE ====================
+
+void MainPanel::updateUIForSelectedItem()
+{
+	QTimer::singleShot(0, this, SLOT(updateUIForSelectedItemNow()));
+}
+
+void MainPanel::updateUIForSelectedItemNow()
+{
+	
 }
 
 //====================  PROTECTED METHODS HERE ====================
@@ -788,6 +861,7 @@ void MainPanel::setAddingEnabled(bool enabled)
 
 void MainPanel::trySetProperty(const sad::String & prop, float v)
 {
+	/*
 	core::Shared * data = this->m_editor->shared();
 	AbstractScreenObject * o = NULL;
 	sad::db::Property * _property = NULL;
@@ -842,7 +916,8 @@ void MainPanel::trySetProperty(const sad::String & prop, float v)
 		}
 		sad::Renderer::ref()->unlockRendering();
 		this->updateList();
-	}	
+	}
+	*/
 }
 
 
@@ -854,11 +929,11 @@ template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T 
 	bool selected = false;
 	if (data->activeObject()) 
 	{
-		o = data->activeObject();
+		//o = data->activeObject();
 	} 
 	else 
 	{
-		o = data->selectedObject();	
+		//o = data->selectedObject();	
 		selected = true;
 	}
 	// Ignore color change for anyone but label
@@ -1084,7 +1159,7 @@ void MainPanel::updateObjectStats(AbstractScreenObject * o)
 
 void MainPanel::updateList()
 {
-	m_list.updateWidget(m_editor->result(), m_editor->shared()->selectedObject());
+	//m_list.updateWidget(m_editor->result(), m_editor->shared()->selectedObject());
 }
 
 
@@ -1101,6 +1176,7 @@ void MainPanel::selectedObjectChanged(int index)
 
 void MainPanel::moveObjectBack()
 {
+	/*
 	AbstractScreenObject * o = m_editor->shared()->selectedObject();
 	if (o && m_editor->currentBehaviour()->state() == "selected") 
 	{
@@ -1113,10 +1189,12 @@ void MainPanel::moveObjectBack()
 			m_editor->history()->add(c);
 		}
 	}
+	*/
 }
 
 void MainPanel::moveObjectFront()
 {
+	/*
 	AbstractScreenObject * o = m_editor->shared()->selectedObject();
 	if (o && m_editor->currentBehaviour()->state() == "selected") 
 	{
@@ -1129,6 +1207,7 @@ void MainPanel::moveObjectFront()
 			m_editor->history()->add(c);
 		}
 	}
+	*/
 }
 
 void MainPanel::setAngleChangingEnabled(bool enabled)
@@ -1148,11 +1227,11 @@ void MainPanel::setSpriteChangingEnabled(bool enabled)
 
 void MainPanel::setRegionParameters()
 {
+	/*
 	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
 	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
-	// Get rect
-	/*
+	// Get rect	
 	if (o)
 	{
 		sad::Rect2D rect = o->region();
@@ -1174,11 +1253,11 @@ void MainPanel::spriteSelected(QString config, QString group, int index)
 {
 	if (m_selfchanged)
 		return;
+	/*
 	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
 	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
-	// TODO: Reimplement
-	/*
+	// TODO: Reimplement	
 	if (o)
 	{
 		
@@ -1269,12 +1348,11 @@ void MainPanel::spriteRectChanged()
 {
 	if (m_selfchanged)
 		return;
+	/*
 	AbstractScreenObject * o1 = m_editor->shared()->activeObject();
 	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
 	AbstractScreenObject * o = (o1) ? o1 : o2;
-	// TODO: implement
-	
-	/*
+	// TODO: implement	
 	if (o)
 	{
 		if (o->getProperty("rect") != NULL && o->typeName() == "ScreenSprite")
@@ -1333,7 +1411,7 @@ void SpriteRectChangeCommand::rollback(core::Editor * ob)
 void MainPanel::makeBackground()
 {
 	SL_SCOPE("MainPanel::makeBackground()");
-	AbstractScreenObject * o2 = m_editor->shared()->selectedObject();
+	AbstractScreenObject * o2 = NULL;
 	if (o2)
 	{
 		if (o2->hasProperty("rect") && o2->rotatable())

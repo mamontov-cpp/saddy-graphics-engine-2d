@@ -88,6 +88,7 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 		}
 	}
 	core::Editor * ed = this->editor();	
+	/*
 	AbstractScreenObject * o =	this->shdata()->selectedObject();
 	if (m_substate == SSSS_SIMPLESELECTED && o->rotatable()) 
 	{
@@ -95,15 +96,14 @@ void SelectedState::onWheel(const sad::input::MouseWheelEvent & ev)
 		MainPanel * p = ed->panel();
 		//float a = o->getProperty("angle")->get<float>().value();
 		//a+=dangle;
-		/*
-		TODO: Reimplement
 		CLOSURE
 		CLOSURE_DATA( MainPanel * p; float angle; )
 		CLOSURE_CODE( p->myUI()->dblAngle->setValue(angle); p->setRegionParameters(); )
 		INITCLOSURE( CLSET(p,p); CLSET(angle,a) )
 		SUBMITCLOSURE( ed->emitClosure );
-		*/
+		
 	}
+	*/
 }
 
 void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
@@ -112,6 +112,7 @@ void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 		     .arg(ev.pos2D().x(), ev.pos2D().y())
 			 .toStdString()
 			);
+	/*
 	if (ev.Button == sad::MouseLeft) {
 		core::Editor * ed = this->editor();
 		sad::Point2D p = ev.pos2D();
@@ -157,11 +158,13 @@ void SelectedState::onMouseDown(const sad::input::MousePressEvent & ev)
 			}
 		}
 	}
+	*/
 }
 
 
 void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
+	/*
 	core::Editor * ed = this->editor();
 	sad::Point2D p = ev.pos2D();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
@@ -186,10 +189,12 @@ void SelectedState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 		INITCLOSURE( CLSET(e, ed);  );
 		SUBMITCLOSURE( ed->emitClosure );
 	}
+	*/
 }
 
 void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 {
+	/*
 	core::Editor * ed = this->editor();
 	AbstractScreenObject * o = this->shdata()->selectedObject();
 	sad::input::MouseMoveEvent movingevent;
@@ -210,6 +215,7 @@ void SelectedState::onMouseUp(const sad::input::MouseReleaseEvent & ev)
 		ed->history()->add(r);
 		m_movement_substate = SSMSS_NOMOVEMENT;
 	}
+	*/
 }
 
 

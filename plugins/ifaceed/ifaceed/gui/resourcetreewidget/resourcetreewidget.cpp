@@ -185,7 +185,7 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedRes
 				}
 				else
 				{
-					result.setValue(path.value() + "/" + result.value());
+					result.setValue(path.value() + "/" + localresource.value());
 				}
 			}
 		}

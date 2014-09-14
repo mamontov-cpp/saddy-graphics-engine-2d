@@ -44,7 +44,7 @@
      <rect>
       <x>50</x>
       <y>40</y>
-      <width>113</width>
+      <width>201</width>
       <height>20</height>
      </rect>
     </property>
@@ -143,7 +143,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>0</number>
     </property>
     <property name="usesScrollButtons">
      <bool>false</bool>
@@ -486,7 +486,7 @@
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>80</y>
+        <y>83</y>
         <width>81</width>
         <height>16</height>
        </rect>
@@ -495,7 +495,7 @@
        <string>Line spacing:</string>
       </property>
      </widget>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="dsbLineSpacingRatio">
       <property name="geometry">
        <rect>
         <x>210</x>

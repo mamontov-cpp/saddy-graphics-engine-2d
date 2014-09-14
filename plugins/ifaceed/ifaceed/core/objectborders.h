@@ -59,7 +59,7 @@ protected:
 class ActiveObjectBorder: public ObjectBorder
 {
 public:
-	 inline ActiveObjectBorder(core::Shared  * data):ObjectBorder(data)
+	 inline ActiveObjectBorder(core::Shared* data):ObjectBorder(data)
 	 {
 		
 	 }
@@ -81,7 +81,7 @@ protected:
 class SelectedObjectBorder: public ObjectBorder
 {
 public:
-	 inline SelectedObjectBorder(core::Shared  * data):ObjectBorder(data)
+	 inline SelectedObjectBorder(core::Shared* data):ObjectBorder(data)
 	 {
 		 
 	 }

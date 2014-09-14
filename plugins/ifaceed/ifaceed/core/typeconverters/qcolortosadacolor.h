@@ -28,6 +28,14 @@ public:
 	{
 		
 	}
+	/*! Converts source color to another color type
+		\param[in] source a source color
+		\param[out] a destination color
+	 */
+	static void convert(
+		const QColor & source,
+		sad::AColor & dest
+	);
 	/*! Converts source value from another and to another type
 		\param[in] source a pointer to QColor value
 		\param[in] dest a pointer to sad::AColor value

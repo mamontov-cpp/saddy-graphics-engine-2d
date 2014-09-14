@@ -53,6 +53,12 @@ class Shared;
 class SaddyThread;
 class Synchronization;
 
+namespace borders
+{
+class ActiveBorder;
+class SelectionBorder;
+}
+
 /*! A main editor class, which works as event receiver and data container
  */
 class Editor: public QObject
@@ -105,6 +111,14 @@ public:
         \return synchronization primitive
      */
     core::Synchronization* synchronization() const;
+	/*! Returns active border, which renders borders of current active object
+		\return active border
+	 */
+	core::borders::ActiveBorder* activeBorder() const;
+	/*! Returns selection border, which is used for highlighting current item
+		\return selection border
+	 */
+	core::borders::SelectionBorder* selectionBorder() const;
     /*! Quits an editor
      */
     void quit();
@@ -113,6 +127,9 @@ public:
         \param[in] closure closure signal argument
      */
     void emitClosure(sad::ClosureBasic * closure);
+	/*! Cleans up if we were adding stuff before clicking "Add XXX", like "Add label" or "Add sprite"
+	 */
+	void cleanupBeforeAdding();
 
 
 	/*! Returns a database fwith all of resources
@@ -127,10 +144,6 @@ public:
 	inline ScreenTemplate * result()
 	{
 		return m_result;
-	}
-	inline SelectedObjectBorder * selectionBorder() 
-	{
-		 return m_selection_border;
 	}
 	/*! Shows objects stats for selected object
 		Implemented in \\core\\states\\changingselection.h
@@ -251,6 +264,12 @@ protected:
     /*! A reason, while editor must be quit
      */
     core::QuitReason  m_quit_reason;
+	/*! An active border, which renders current active object
+	 */
+	core::borders::ActiveBorder* m_active_border;
+	/*! A selection border, which is used for higlighting current item
+	 */
+	core::borders::SelectionBorder* m_selection_border;
 
     /*! Reports errors to log
         \param[in, out] errors a list of errors
@@ -272,9 +291,6 @@ protected:
 
 
 
-	/*! A selection border with capabilities spots to edit item
-	*/
-    SelectedObjectBorder * m_selection_border;
 	/*!	Counter for loading all of dbs
 	*/
     int m_counter;
