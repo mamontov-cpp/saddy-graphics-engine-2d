@@ -166,6 +166,7 @@ void sad::Label::rendererChanged()
 void sad::Label::setArea(const sad::Rect2D & r)
 {
 	m_point = r[0];
+	recomputeRenderingPoint();
 }
 
 sad::Rect2D sad::Label::area() const

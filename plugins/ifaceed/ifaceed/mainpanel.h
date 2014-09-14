@@ -27,6 +27,11 @@ namespace core
 {
 class Editor;
 }
+namespace gui
+{
+class SceneNodeActions;
+class LabelActions;
+}
 class AbstractScreenObject;
 
 
@@ -79,7 +84,7 @@ public:
 	 */
 	bool takeDelegateByPropertyName(const QString & name);
 	/*! Adds scene to scene list
-		\param[in] s scene list
+		\param[in] s scene 
 	 */
 	void addSceneToSceneList(sad::Scene* s);
 	/*! Removes last scene from scene list
@@ -129,6 +134,20 @@ public:
     /*! Highlights idle state
      */
     void highlightIdleState();
+	/*! Highlights selected state
+	 */
+	void highlightSelectedState();
+	/*! Highlights state, when label is adding
+	 */
+	void highlightLabelAddingState();
+	/*! Adds scene to scene node list
+		\param[in] s scene node
+	 */
+	void addSceneNodeToSceneNodeList(sad::SceneNode* s);
+	/*! Removes last scene node from scene list
+	 */
+	void removeLastSceneNodeFromSceneNodeList();
+
 
 	/*! Change region parameters for data
 	 */
@@ -164,6 +183,14 @@ public:
 	 */
 	void trySetProperty(const sad::String & prop, float v);		
 	void updateObjectStats(AbstractScreenObject * o);
+
+public slots:
+	/*! Fires signal for updating UI to selected item property values
+	 */
+	void updateUIForSelectedItem();
+	/*! Updates values for updating UI to selected item property values
+	 */
+	void updateUIForSelectedItemNow();
 protected:
     /*! Stores all widget for main panel
      */
@@ -178,6 +205,12 @@ protected:
     /*! A delegate factory for creating rows in db
      */
     gui::table::DelegateFactory m_dbdelegate_factory;
+	/*! An actions, linked to scene nodes editing
+	 */
+	gui::SceneNodeActions* m_scene_node_actions;
+	/*! An actions, linked to label editing
+	 */
+	gui::LabelActions* m_label_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;

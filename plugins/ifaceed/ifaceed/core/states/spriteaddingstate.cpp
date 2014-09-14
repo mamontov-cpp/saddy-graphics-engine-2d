@@ -32,8 +32,8 @@ void SimpleSpriteAddingState::enter()
 void SimpleSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
 	core::Editor * ed = this->editor();
-	AbstractScreenObject * o =	ed->shared()->activeObject();
-	o->moveCenterTo(ev.pos2D());
+	//AbstractScreenObject * o =	ed->shared()->activeObject();
+	//o->moveCenterTo(ev.pos2D());
 
 	MainPanel * p = ed->panel();
 	CLOSURE
@@ -50,7 +50,7 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	core::Editor * ed = this->editor();
 	MainPanel * p = ed->panel();
-	AbstractScreenObject * o =	ed->shared()->activeObject();
+	//AbstractScreenObject * o =	ed->shared()->activeObject();
 	//float a = o->SerializableObject::getProperty("angle")->get<float>().value();
 	//a+=dangle;
 	/*
@@ -66,6 +66,7 @@ void SimpleSpriteAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 
 void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
+	/*
 	core::Editor * ed = this->editor();
 	AbstractScreenObject * o =	ed->shared()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
@@ -78,6 +79,7 @@ void SimpleSpriteAddingState::onMouseDown(UNUSED const sad::input::MousePressEve
 	ed->shared()->setActiveObject(NULL);
 	ed->shared()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
+	*/
 }
 
 void SimpleSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)
@@ -105,8 +107,8 @@ void DiagonalSpriteAddingState::enter()
 	m_substate = DSAS_INITIAL;
 	core::Editor * ed = this->editor();
 	sad::log::Log * log = sad::log::Log::ref();
-	ed->shared()->activeObject()->setProp<float>("angle", 0.0f, log);
-	ed->shared()->activeObject()->setProp<bool>("visibility", false, log);
+	//ed->shared()->activeObject()->setProp<float>("angle", 0.0f, log);
+	//ed->shared()->activeObject()->setProp<bool>("visibility", false, log);
 	ed->shared()->toggleActiveBorder(false);
 
 	MainPanel * p = ed->panel();
@@ -123,6 +125,7 @@ void DiagonalSpriteAddingState::enter()
 
 void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & ev)
 {
+	/*
 	DiagonalSpriteAddingSubState ss = m_substate;
 	core::Editor * ed = this->editor();
 	AbstractScreenObject * o = ed->shared()->activeObject();
@@ -172,6 +175,7 @@ void DiagonalSpriteAddingState::onMouseDown(const sad::input::MousePressEvent & 
 	)
 	INITCLOSURE( CLSET(p,ed->panel()); CLSET(h, highlight); CLSET(hs, highlights);  )
 	SUBMITCLOSURE( ed->emitClosure );
+	*/
 }
 
 void DiagonalSpriteAddingState::leave()
@@ -193,6 +197,7 @@ void DiagonalSpriteAddingState::leave()
 
 void DiagonalSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
+	/*
 	core::Editor * ed = this->editor();
 	AbstractScreenObject * o = ed->shared()->activeObject();
 	ScreenSprite * oo = static_cast<ScreenSprite *>(o);
@@ -214,6 +219,7 @@ void DiagonalSpriteAddingState::onMouseMove(const sad::input::MouseMoveEvent & e
 		INITCLOSURE( CLSET(p,ed->panel());  )
 		SUBMITCLOSURE( ed->emitClosure );
 	}
+	*/
 }
 
 void DiagonalSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)

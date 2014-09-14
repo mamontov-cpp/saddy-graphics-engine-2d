@@ -14,7 +14,7 @@
 
 void LabelAddingState::onMouseMove(const sad::input::MouseMoveEvent & ev)
 {
-	this->shdata()->activeObject()->moveCenterTo(ev.pos2D());
+	//this->shdata()->activeObject()->moveCenterTo(ev.pos2D());
 }
 
 void LabelAddingState::enter()
@@ -45,7 +45,7 @@ void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 	float dangle = (ev.Delta < 0)? (- ROTATION_ANGLE_STEP ) : ROTATION_ANGLE_STEP;
 	core::Editor * ed = this->editor();
 	MainPanel * p = ed->panel();
-	AbstractScreenObject * o =	ed->shared()->activeObject();
+	//AbstractScreenObject * o =	ed->shared()->activeObject();
 	//float a = o->getProperty("angle")->get<float>().value();
 	//a+=dangle;
 	/*
@@ -62,6 +62,7 @@ void LabelAddingState::onWheel(const sad::input::MouseWheelEvent & ev)
 
 void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev)
 {
+	/*
 	core::Editor * ed = this->editor();
 	AbstractScreenObject * o =	this->shdata()->activeObject();
 	NewCommand * c = new NewCommand(ed->result(), o);
@@ -74,6 +75,7 @@ void LabelAddingState::onMouseDown(UNUSED const sad::input::MousePressEvent & ev
 	ed->shared()->setActiveObject(NULL);
 	ed->shared()->setSelectedObject(o);
 	this->behaviour()->enterState("selected");
+	*/
 }
 
 void LabelAddingState::onKeyDown(const sad::input::KeyPressEvent  & ev)
