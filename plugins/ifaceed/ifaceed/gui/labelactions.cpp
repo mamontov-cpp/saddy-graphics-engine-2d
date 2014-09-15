@@ -8,8 +8,12 @@
 
 #include "../history/scenenodes/scenenodesnew.h"
 
-#include <label.h>
+#include "../history/label/changefontname.h"
 
+#include <label.h>
+#include <geometry2d.h>
+
+#include <QDebug>
 
 
 // ===============================  PUBLIC METHODS ===============================
@@ -50,9 +54,15 @@ void gui::LabelActions::updateRegionForLabel()
 		if (maybearea.exists())
 		{
 			const sad::Rect2D & v = maybearea.value();
-			bool blocked =  this->m_panel->UI()->rwSceneNodeRect->blockSignals(true);
-			this->m_panel->UI()->rwSceneNodeRect->setValue(QRectF(v[0].x(), v[0].y(), v.width(), v.height()));
-			this->m_panel->UI()->rwSceneNodeRect->blockSignals(blocked);
+			CLOSURE
+			CLOSURE_DATA( gui::rectwidget::RectWidget* w; sad::Rect2D v; )
+			CLOSURE_CODE(
+				bool blocked =  w->blockSignals(true);
+				w->setValue(QRectF(v[0].x(), v[0].y(), v.width(), v.height()));
+				w->blockSignals(blocked);
+			)
+			INITCLOSURE( CLSET(w, m_panel->UI()->rwSceneNodeRect); CLSET(v, v); )
+			SUBMITCLOSURE(	m_panel->editor()->emitClosure );
 		}
 	}
 }
@@ -91,6 +101,47 @@ void gui::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 			node->setProperty("area", r);
 			this->updateRegionForLabel();
 		}
+	}
+}
+
+void gui::LabelActions::rotateLabelWhenAdding(const sad::input::MouseWheelEvent& e)
+{
+	sad::SceneNode* active = m_panel->editor()->shared()->activeObject();
+	sad::Maybe<float> maybeangle = active->getProperty<float>("angle");
+	if (maybeangle.exists())
+	{
+		float angle = maybeangle.value() / M_PI * 180;
+		if (sad::is_fuzzy_equal(0, angle, 0.001) && e.Delta < 0)
+		{
+			angle = 359.0f;
+		} 
+		else 
+		{ 
+			if (sad::is_fuzzy_equal(360, angle, 0.001) && e.Delta > 0)
+			{
+				angle = 1.0f;
+			} 
+			else
+			{
+				float delta = (e.Delta > 0) ? 1 : -1;
+				angle += delta;
+			}
+		}
+
+		angle  = angle / 180 * M_PI;
+		active->setProperty("angle", angle);
+
+		// Update label
+		CLOSURE
+		CLOSURE_DATA(double __angle; MainPanel* m_panel;)
+		CLOSURE_CODE(  
+			bool b =  m_panel->UI()->awSceneNodeAngle->blockSignals(true);
+			m_panel->UI()->awSceneNodeAngle->setValue((double)__angle);
+			m_panel->UI()->awSceneNodeAngle->blockSignals(b);
+			qDebug() << QString::number(__angle);		
+		);
+		INITCLOSURE( CLSET(__angle, angle); CLSET(m_panel, m_panel);  )
+		SUBMITCLOSURE(	m_panel->editor()->emitClosure )
 	}
 }
 
@@ -154,4 +205,26 @@ void gui::LabelActions::addLabel()
 	}
 }
 
-
+void gui::LabelActions::labelFontChanged(sad::String s)
+{
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+	{
+		m_panel->editor()->shared()->activeObject()->setProperty("font", s);
+	}
+	else
+	{
+		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+		if (node)
+		{
+			sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("font");
+			if (oldvalue.exists())
+			{
+				if (oldvalue.value() != s)
+				{
+					node->setProperty("font", s);
+					m_panel->editor()->history()->add(new history::label::ChangeFontName(node, oldvalue.value(), s));
+				}
+			}
+		}
+	}
+}

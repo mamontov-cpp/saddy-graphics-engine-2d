@@ -41,6 +41,10 @@ public:
 		\param[in] e event
 	 */
 	void moveLabel(const sad::input::MouseMoveEvent& e);
+	/*! Rotates label, when it's being added to scene
+		\param[in] e event
+	 */
+	void rotateLabelWhenAdding(const sad::input::MouseWheelEvent& e);
 	/*! Commits label adding to a scene
 		\param[in] e event
 	 */
@@ -49,6 +53,10 @@ public slots:
 	/*! Adds new label to a scene, if all parameters in form are valid
 	 */
 	void addLabel();
+	/*! Tests label font changes for an editable node
+		\param[in] s a new resource name
+	 */
+	void labelFontChanged(sad::String s);
 private:
 	/*! An panel, which actions are belong to
 	 */

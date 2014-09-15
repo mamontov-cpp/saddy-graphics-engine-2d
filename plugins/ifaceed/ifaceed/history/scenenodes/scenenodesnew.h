@@ -21,14 +21,14 @@ public:
 		\param[in] d a node
 	  */
 	 New(sad::SceneNode* d);
-	 /*! Erases link to a property
+	 /*! Erases link to a node
 	  */
 	 virtual ~New();
-	 /** Applies changes, described in command
+	 /*! Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void commit(core::Editor * ob = NULL);
-	 /** Reverts changes, described in command
+	 /*! Reverts changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void rollback(core::Editor * ob = NULL);

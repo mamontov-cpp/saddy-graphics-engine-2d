@@ -33,6 +33,11 @@ public:
 	/*! Deletes own schema and data
 	 */
 	virtual ~Object();
+	/*! Whether inner object is one of specified types
+		\param[in] type a name of type
+		\return whether it is of specified type
+	 */
+	bool innerTypeIs(const sad::String& type);
 	/*! Sets a tree name for object with specified renderer
 		\param[in] r renderer, which tree should be fetched from
 		\param[in] tree_name a name for an item for object

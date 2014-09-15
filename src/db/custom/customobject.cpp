@@ -32,6 +32,15 @@ sad::db::custom::Object::~Object()
 	delete m_my_schema;
 }
 
+bool sad::db::custom::Object::innerTypeIs(const sad::String &type)
+{
+	bool result = false;
+	if (m_current_rendered_object) 
+	{
+		result = m_current_rendered_object->metaData()->canBeCastedTo(type);
+	}
+	return result;
+}
 void sad::db::custom::Object::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
 	m_schema.setTree(r, tree_name);

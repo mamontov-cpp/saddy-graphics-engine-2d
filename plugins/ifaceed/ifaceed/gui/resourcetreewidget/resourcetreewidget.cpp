@@ -386,7 +386,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 				bool hasspecifieditem = false;
 				for(int j = 0; j < current->childCount() && !hasspecifieditem; j++)
 				{
-				   if(current->child(j)->text(0) == list[j].c_str())
+				   if(current->child(j)->text(0) == list[i].c_str())
 				   {
 						current = current->child(j);
 						hasspecifieditem = true;
@@ -410,10 +410,14 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 			if (resourcelocal.exists())
 			{
 				// Try set selection for local
-				QList<QTableWidgetItem *> items = m_element_view->findItems(resourcelocal.value().c_str(), Qt::MatchExactly);
+				QList<QTableWidgetItem *> items = m_element_view->findItems(resourcelocal.value().c_str(), Qt::MatchFixedString | Qt::MatchCaseSensitive);
 				if (items.count())
 				{
-					m_element_view->setCurrentItem(items[0]);
+					QTableWidgetItem* item = items[0];
+					bool b = m_element_view->blockSignals(true);
+					m_element_view->setCurrentItem(item);
+					m_element_view->blockSignals(b);
+					m_element_view->update();
 				}
 			}
 		}

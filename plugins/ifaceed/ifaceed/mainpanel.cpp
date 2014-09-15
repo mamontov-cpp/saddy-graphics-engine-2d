@@ -178,6 +178,11 @@ void MainPanel::setEditor(core::Editor* editor)
 		m_label_actions,
 		&gui::LabelActions::commitLabelAdd
 	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * la),
+		m_label_actions,
+		&gui::LabelActions::rotateLabelWhenAdding
+	);
 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
@@ -193,6 +198,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
+	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -200,7 +206,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
 
-	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(selected(sad::String)));
+	//connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(labelFontChanged(sad::String)));
 }
 
 core::Editor* MainPanel::editor() const
@@ -1165,6 +1171,7 @@ void MainPanel::updateList()
 
 void MainPanel::selectedObjectChanged(int index)
 {
+	/*
 	if (index != -1 && m_list.selfChanged() == false)
 	{
 		AbstractScreenObject * o = m_list.row(index);
@@ -1172,6 +1179,7 @@ void MainPanel::selectedObjectChanged(int index)
 		m_editor->showObjectStats(o);
 		m_editor->currentBehaviour()->enterState("selected");
 	}
+	*/
 }
 
 void MainPanel::moveObjectBack()
