@@ -58,6 +58,8 @@ sad::db::ConversionTable::ConversionTable()
 	declareImplicit<float, long>();
 	declareImplicit<float, long long>();
 
+	declareImplicit<double, float>();
+
 	declareImplicit<double, unsigned short>();
 	declareImplicit<double, unsigned int>();
 	declareImplicit<double, unsigned long>();

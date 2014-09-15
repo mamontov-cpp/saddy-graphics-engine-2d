@@ -737,6 +737,14 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="label"
+					>
+					<File
+						RelativePath=".\history\label\changefontname.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -2832,6 +2840,14 @@
 					>
 					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="label"
+					>
+					<File
+						RelativePath=".\history\label\changefontname.h"
 						>
 					</File>
 				</Filter>
