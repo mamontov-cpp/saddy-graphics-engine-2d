@@ -124,7 +124,14 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenes/sceneschangename.h \
     ifaceed/history/scenes/sceneslayerswap.h \
     ifaceed/history/scenes/scenesremove.h \
-    ifaceed/core/synchronization.h
+    ifaceed/core/synchronization.h \
+    ifaceed/history/scenenodes/scenenodesnew.h \
+    ifaceed/gui/labelactions.h \
+    ifaceed/gui/scenenodeactions.h \
+    ifaceed/core/borders/activeborder.h \
+    ifaceed/core/borders/border.h \
+    ifaceed/core/borders/hotspots.h \
+    ifaceed/core/borders/selectionborder.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -210,7 +217,14 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenes/scenesadd.cpp \
     ifaceed/history/scenes/sceneschangename.cpp \
     ifaceed/history/scenes/scenesremove.cpp \
-    ifaceed/core/synchronization.cpp
+    ifaceed/core/synchronization.cpp \
+    ifaceed/history/scenenodes/scenenodesnew.cpp \
+    ifaceed/gui/labelactions.cpp \
+    ifaceed/gui/scenenodeactions.cpp \
+    ifaceed/core/borders/activeborder.cpp \
+    ifaceed/core/borders/border.cpp \
+    ifaceed/core/borders/selectionborder.cpp \
+    ifaceed/core/shared.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
