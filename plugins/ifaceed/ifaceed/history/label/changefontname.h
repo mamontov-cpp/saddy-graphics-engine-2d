@@ -12,7 +12,7 @@ namespace history
 	
 namespace label
 {
-/*! A command, which change scene label's fonte
+/*! A command, which change scene label's font
  */
 class ChangeFontName: public history::Command
 {

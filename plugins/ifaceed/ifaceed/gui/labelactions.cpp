@@ -10,6 +10,7 @@
 
 #include "../history/label/changefontname.h"
 #include "../history/label/changefontsize.h"
+#include "../history/label/changetext.h"
 
 #include <label.h>
 #include <geometry2d.h>
@@ -253,4 +254,33 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
             }
         }
     }
+}
+
+
+void gui::LabelActions::labelTextChanged()
+{
+    sad::String newvalue = m_panel->UI()->txtLabelText->toPlainText().toStdString();
+    if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+        m_panel->editor()->shared()->activeObject()->setProperty("text", newvalue);
+        this->updateRegionForLabel();
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("text");
+            if (oldvalue.exists())
+            {
+                if (oldvalue.value() != newvalue)
+                {
+                    node->setProperty("text", newvalue);
+                    this->updateRegionForLabel();
+                    m_panel->editor()->history()->add(new history::label::ChangeText(node, oldvalue.value(), newvalue));
+                }
+            }
+        }
+    }
+
 }
