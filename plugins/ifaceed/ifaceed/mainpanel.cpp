@@ -94,11 +94,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	
 	m_list.setWidget(ui.lstSceneObjects);
 
-	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
 	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
 	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
-	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
 	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
 	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 	connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), this, SLOT(colorChanged(QColor)));
@@ -200,6 +198,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
     connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), m_label_actions, SLOT(labelSizeChanged(unsigned int)));
+    connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
 
 
 

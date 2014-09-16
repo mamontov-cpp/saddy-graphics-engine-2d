@@ -62,6 +62,10 @@ public slots:
      * \param[in] newsize new label size
      */
     void labelSizeChanged(unsigned int newsize);
+    /*!
+     * Called, when user types in label text
+     */
+    void labelTextChanged();
 private:
 	/*! An panel, which actions are belong to
 	 */

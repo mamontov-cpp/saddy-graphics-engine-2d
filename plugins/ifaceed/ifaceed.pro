@@ -135,7 +135,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/label/changefontname.h \
     ifaceed/closuremethodcall.h \
     ifaceed/blockedclosuremethodcall.h \
-    ifaceed/history/label/changefontsize.h
+    ifaceed/history/label/changefontsize.h \
+    ifaceed/history/label/changetext.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -230,7 +231,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/borders/selectionborder.cpp \
     ifaceed/core/shared.cpp \
     ifaceed/history/label/changefontname.cpp \
-    ifaceed/history/label/changefontsize.cpp
+    ifaceed/history/label/changefontsize.cpp \
+    ifaceed/history/label/changetext.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
