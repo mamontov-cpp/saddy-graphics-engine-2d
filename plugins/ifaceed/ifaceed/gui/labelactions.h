@@ -66,6 +66,11 @@ public slots:
      * Called, when user types in label text
      */
     void labelTextChanged();
+	/*!
+	 * Handles label line spacing changes
+	 * \param[in] newvalue a new value
+	 */
+	void labelLineSpacingChanged(double newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

@@ -195,11 +195,13 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(redo()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
 
+	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), m_scene_node_actions, SLOT(nameEdited(const QString&)));
+
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
     connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), m_label_actions, SLOT(labelSizeChanged(unsigned int)));
     connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
-
+	connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -443,6 +445,34 @@ void MainPanel::removeLastSceneNodeFromSceneNodeList()
 	{
 		QListWidgetItem* i = ui.lstSceneObjects->takeItem(ui.lstSceneObjects->count() - 1);
 		delete i;
+	}
+}
+
+int MainPanel::findSceneNodeInList(sad::SceneNode* s)
+{
+	int row = -1;
+	for(int i = 0; i < ui.lstSceneObjects->count(); i++)
+	{	
+		if (ui.lstSceneObjects->item(i)->data(Qt::UserRole).value<sad::SceneNode*>() == s)
+		{
+			row = i;
+		}
+	}
+	return row;
+}
+
+void MainPanel::updateSceneNodeName(sad::SceneNode* s)
+{
+	int row = this->findSceneNodeInList(s);
+	if (row != -1)
+	{
+		ui.lstSceneObjects->item(row)->setText(this->viewableObjectName(s));
+	}
+	if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
+	{
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
 	}
 }
 

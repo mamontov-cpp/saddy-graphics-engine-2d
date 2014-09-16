@@ -390,9 +390,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>100</y>
+        <y>130</y>
         <width>401</width>
-        <height>241</height>
+        <height>211</height>
        </rect>
       </property>
      </widget>
@@ -400,9 +400,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>0</y>
+        <y>20</y>
         <width>401</width>
-        <height>61</height>
+        <height>71</height>
        </rect>
       </property>
      </widget>
@@ -410,10 +410,26 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
+        <y>90</y>
         <width>401</width>
         <height>41</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbSceneNodeVisible">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>131</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Visible</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -560,7 +576,7 @@
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>401</width>
+        <width>251</width>
         <height>71</height>
        </rect>
       </property>
@@ -604,6 +620,32 @@
 (ignores an angle)</string>
        </property>
       </widget>
+     </widget>
+     <widget class="QCheckBox" name="cbFlipX">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>20</y>
+        <width>141</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Flip horizontally</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbFlipY">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>50</y>
+        <width>131</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Flip vertically</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_object">
