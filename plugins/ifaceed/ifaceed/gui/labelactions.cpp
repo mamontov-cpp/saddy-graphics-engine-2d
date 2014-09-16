@@ -9,6 +9,7 @@
 #include "../history/scenenodes/scenenodesnew.h"
 
 #include "../history/label/changefontname.h"
+#include "../history/label/changefontsize.h"
 
 #include <label.h>
 #include <geometry2d.h>
@@ -137,8 +138,7 @@ void gui::LabelActions::rotateLabelWhenAdding(const sad::input::MouseWheelEvent&
 		CLOSURE_CODE(  
 			bool b =  m_panel->UI()->awSceneNodeAngle->blockSignals(true);
 			m_panel->UI()->awSceneNodeAngle->setValue((double)__angle);
-			m_panel->UI()->awSceneNodeAngle->blockSignals(b);
-			qDebug() << QString::number(__angle);		
+			m_panel->UI()->awSceneNodeAngle->blockSignals(b);				
 		);
 		INITCLOSURE( CLSET(__angle, angle); CLSET(m_panel, m_panel);  )
 		SUBMITCLOSURE(	m_panel->editor()->emitClosure )
@@ -227,4 +227,30 @@ void gui::LabelActions::labelFontChanged(sad::String s)
 			}
 		}
 	}
+}
+
+void gui::LabelActions::labelSizeChanged(unsigned int s)
+{
+    if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+        m_panel->editor()->shared()->activeObject()->setProperty("fontsize", s);
+        this->updateRegionForLabel();
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>("fontsize");
+            if (oldvalue.exists())
+            {
+                if (oldvalue.value() != s)
+                {
+                    node->setProperty("fontsize", s);
+                    this->updateRegionForLabel();
+                    m_panel->editor()->history()->add(new history::label::ChangeFontSize(node, oldvalue.value(), s));
+                }
+            }
+        }
+    }
 }

@@ -199,6 +199,8 @@ void MainPanel::setEditor(core::Editor* editor)
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
+    connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), m_label_actions, SLOT(labelSizeChanged(unsigned int)));
+
 
 
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
@@ -212,6 +214,11 @@ void MainPanel::setEditor(core::Editor* editor)
 core::Editor* MainPanel::editor() const
 {
     return m_editor;
+}
+
+gui::LabelActions* MainPanel::labelActions() const
+{
+    return m_label_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
@@ -538,25 +545,29 @@ void MainPanel::fixDatabase()
 		sad::Vector<sad::Vector<sad::AColor> > default_palette;
 
 		default_palette << sad::Vector<sad::AColor >();
-		default_palette[0] << sad::AColor(255, 0, 0, 0);
-		default_palette[0] << sad::AColor(0, 255, 0, 0);
+        default_palette[0] << sad::AColor(255, 255, 255, 0);
+        default_palette[0] << sad::AColor(255, 0, 0, 0);
+        default_palette[0] << sad::AColor(0, 255, 0, 0);
 		default_palette[0] << sad::AColor(0, 255, 255, 0);
 		default_palette[0] << sad::AColor(0, 0, 255, 0);
 
 		default_palette << sad::Vector<sad::AColor >();
+        default_palette[1] << sad::AColor(192, 192, 192, 0);
 		default_palette[1] << sad::AColor(192, 0, 0, 0);
 		default_palette[1] << sad::AColor(0, 192, 0, 0);
 		default_palette[1] << sad::AColor(0, 192, 192, 0);
 		default_palette[1] << sad::AColor(0, 0, 192, 0);
 
 		default_palette << sad::Vector<sad::AColor >();
+        default_palette[2] << sad::AColor(164, 164, 164, 0);
 		default_palette[2] << sad::AColor(164, 0, 0, 0);
 		default_palette[2] << sad::AColor(0, 164, 0, 0);
 		default_palette[2] << sad::AColor(0, 164, 164, 0);
 		default_palette[2] << sad::AColor(0, 0, 164, 0);
 
 		default_palette << sad::Vector<sad::AColor >();
-		default_palette[3] << sad::AColor(128, 0, 0, 0);
+        default_palette[3] << sad::AColor(128, 128, 128, 0);
+        default_palette[3] << sad::AColor(128, 0, 0, 0);
 		default_palette[3] << sad::AColor(0, 128, 0, 0);
 		default_palette[3] << sad::AColor(0, 128, 128, 0);
 		default_palette[3] << sad::AColor(0, 0, 128, 0);
