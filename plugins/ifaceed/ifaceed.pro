@@ -131,7 +131,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/borders/activeborder.h \
     ifaceed/core/borders/border.h \
     ifaceed/core/borders/hotspots.h \
-    ifaceed/core/borders/selectionborder.h
+    ifaceed/core/borders/selectionborder.h \
+    ifaceed/history/label/changefontname.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -224,7 +225,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/borders/activeborder.cpp \
     ifaceed/core/borders/border.cpp \
     ifaceed/core/borders/selectionborder.cpp \
-    ifaceed/core/shared.cpp
+    ifaceed/core/shared.cpp \
+    ifaceed/history/label/changefontname.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
