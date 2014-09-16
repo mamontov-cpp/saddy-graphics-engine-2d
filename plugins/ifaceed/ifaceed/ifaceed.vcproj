@@ -736,12 +736,28 @@
 						RelativePath=".\history\scenenodes\scenenodesnew.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenesnodeschangename.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="label"
 					>
 					<File
 						RelativePath=".\history\label\changefontname.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changefontsize.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changelinespacing.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changetext.cpp"
 						>
 					</File>
 				</Filter>
@@ -983,6 +999,14 @@
 			<Filter
 				Name="core"
 				>
+				<File
+					RelativePath=".\blockedclosuremethodcall.h"
+					>
+				</File>
+				<File
+					RelativePath=".\closuremethodcall.h"
+					>
+				</File>
 				<File
 					RelativePath=".\core\editor.h"
 					>
@@ -2839,6 +2863,10 @@
 					Name="scenenodes"
 					>
 					<File
+						RelativePath=".\history\scenenodes\scenenodeschangename.h"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.h"
 						>
 					</File>
@@ -2848,6 +2876,18 @@
 					>
 					<File
 						RelativePath=".\history\label\changefontname.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changefontsize.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changelinespacing.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\label\changetext.h"
 						>
 					</File>
 				</Filter>

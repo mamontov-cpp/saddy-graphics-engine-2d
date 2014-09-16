@@ -151,6 +151,15 @@ public:
 	/*! Removes last scene node from scene list
 	 */
 	void removeLastSceneNodeFromSceneNodeList();
+	/*! Finds scene node in scene list
+		\param[in] s scene
+		\return scene row (-1 if not found)
+	 */
+	int findSceneNodeInList(sad::SceneNode* s);
+	/*! Updates scene node name, finding it in list, settting it to current name
+		\param[in] s scene
+	 */
+	void updateSceneNodeName(sad::SceneNode* s);
 
 
 	/*! Change region parameters for data

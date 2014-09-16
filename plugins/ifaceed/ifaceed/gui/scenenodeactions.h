@@ -29,6 +29,11 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+public slots:
+	/*! Called, when node name is edited
+		\param[in] name a name for action
+	 */
+	void nameEdited(const QString& name);
 private:
 	/*! An panel, which actions are belong to
 	 */

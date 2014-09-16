@@ -90,8 +90,8 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 		LabelBasicSchema->add(
 			"linespacing", 
 			new sad::db::MethodPair<sad::Label, float>(
-				&sad::Label::lineSpacing,
-				&sad::Label::setLineSpacing
+				&sad::Label::lineSpacingRatio,
+				&sad::Label::setLineSpacingRatio
 			)
 		);
 		LabelBasicSchema->add(

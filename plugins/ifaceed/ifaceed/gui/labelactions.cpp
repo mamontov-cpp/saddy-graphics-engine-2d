@@ -11,6 +11,7 @@
 #include "../history/label/changefontname.h"
 #include "../history/label/changefontsize.h"
 #include "../history/label/changetext.h"
+#include "../history/label/changelinespacing.h"
 
 #include <label.h>
 #include <geometry2d.h>
@@ -170,6 +171,10 @@ void gui::LabelActions::addLabel()
 	if (valid)
 	{
 		// Cleanup last adding item if was in that state
+		bool blocked = m_panel->UI()->cbSceneNodeVisible->blockSignals(true);
+		m_panel->UI()->cbSceneNodeVisible->setCheckState(Qt::Checked);
+		m_panel->UI()->cbSceneNodeVisible->blockSignals(blocked);
+
 		m_panel->editor()->cleanupBeforeAdding();
 
 		// Create and initialize label
@@ -282,5 +287,30 @@ void gui::LabelActions::labelTextChanged()
             }
         }
     }
+}
 
+void gui::LabelActions::labelLineSpacingChanged(double newvalue)
+{
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+        m_panel->editor()->shared()->activeObject()->setProperty("linespacing", newvalue);
+        this->updateRegionForLabel();
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<float> oldvalue = node->getProperty<float>("linespacing");
+            if (oldvalue.exists())
+            {
+				if (sad::is_fuzzy_equal(oldvalue.value(), newvalue, 0.0001) == false)
+                {
+                    node->setProperty("linespacing", newvalue);
+                    this->updateRegionForLabel();
+                    m_panel->editor()->history()->add(new history::label::ChangeLineSpacing(node, oldvalue.value(), newvalue));
+                }
+            }
+        }
+    }
 }
