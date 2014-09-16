@@ -132,7 +132,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/borders/border.h \
     ifaceed/core/borders/hotspots.h \
     ifaceed/core/borders/selectionborder.h \
-    ifaceed/history/label/changefontname.h
+    ifaceed/history/label/changefontname.h \
+    ifaceed/closuremethodcall.h \
+    ifaceed/blockedclosuremethodcall.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
