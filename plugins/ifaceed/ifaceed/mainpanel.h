@@ -64,6 +64,10 @@ public:
         \return editor
      */
     core::Editor* editor() const;
+    /*! Returns label actions for editor
+     *  Returns label actions for element
+     */
+    gui::LabelActions* labelActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */

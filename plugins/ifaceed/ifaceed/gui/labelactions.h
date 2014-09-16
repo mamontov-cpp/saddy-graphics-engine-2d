@@ -53,10 +53,15 @@ public slots:
 	/*! Adds new label to a scene, if all parameters in form are valid
 	 */
 	void addLabel();
-	/*! Tests label font changes for an editable node
+    /*! Handles label font changes for an editable node
 		\param[in] s a new resource name
 	 */
 	void labelFontChanged(sad::String s);
+    /*!
+     * Handles label size changes for an editable node
+     * \param[in] newsize new label size
+     */
+    void labelSizeChanged(unsigned int newsize);
 private:
 	/*! An panel, which actions are belong to
 	 */
