@@ -4,6 +4,9 @@
 
 #include "../../mainpanel.h"
 
+#include "../../blockedclosuremethodcall.h"
+#include "../../closuremethodcall.h"
+
 history::label::ChangeFontName::ChangeFontName(
 	sad::SceneNode* d,
 	const sad::String& oldvalue,
@@ -36,12 +39,11 @@ void history::label::ChangeFontName::tryUpdateUI(core::Editor* e, const sad::Str
 {
 	if (m_node  == e->shared()->selectedObject() && e->machine()->isInState("selected"))
 	{
-		CLOSURE
-		CLOSURE_DATA(sad::String v; gui::resourcetreewidget::ResourceTreeWidget* w;)
-		CLOSURE_CODE(  
-			w->setSelectedResourceName(v);
-		);
-		INITCLOSURE( CLSET(v, value); CLSET(w, e->panel()->UI()->rtwLabelFont);  )
-		SUBMITCLOSURE(	e->emitClosure )
+        e->emitClosure( bind(
+                e->panel()->UI()->rtwLabelFont,
+                &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
+                value
+            )
+        );
 	}
 }
