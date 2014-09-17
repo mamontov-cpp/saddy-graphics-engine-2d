@@ -12,38 +12,29 @@ history::label::ChangeFontName::ChangeFontName(
 	const sad::String& oldvalue,
 	const sad::String& newvalue
 	
-) : m_node(d), m_oldvalue(oldvalue), m_newvalue(newvalue)
+)
+: history::scenenodes::PropertyChanged<sad::String>(
+      d,
+      "font",
+      oldvalue,
+      newvalue
+)
 {
-	m_node->addRef();
+
 }
 
 history::label::ChangeFontName::~ChangeFontName()
 {
-	m_node->delRef();
-}
 
- void history::label::ChangeFontName::commit(core::Editor * ob)
-{
-	m_node->setProperty<sad::String>("font", m_newvalue);
-	tryUpdateUI(ob, m_newvalue);
-}
-
- void history::label::ChangeFontName::rollback(core::Editor * ob)
-{
-	m_node->setProperty<sad::String>("font", m_oldvalue);
-	tryUpdateUI(ob, m_oldvalue);
 }
 
 
-void history::label::ChangeFontName::tryUpdateUI(core::Editor* e, const sad::String& value)
+void history::label::ChangeFontName::updateUI(core::Editor* e, const sad::String& value)
 {
-	if (m_node  == e->shared()->selectedObject() && e->machine()->isInState("selected"))
-	{
-        e->emitClosure( bind(
-                e->panel()->UI()->rtwLabelFont,
-                &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
-                value
-            )
-        );
-	}
+    e->emitClosure( bind(
+            e->panel()->UI()->rtwLabelFont,
+            &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
+            value
+        )
+    );
 }

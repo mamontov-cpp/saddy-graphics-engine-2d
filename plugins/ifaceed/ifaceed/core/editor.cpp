@@ -242,6 +242,11 @@ void core::Editor::cleanupBeforeAdding()
 	}
 }
 
+bool core::Editor::isNodeSelected(sad::SceneNode* node) const
+{
+    return node  == m_shared->selectedObject() && m_machine->isInState("selected");
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()

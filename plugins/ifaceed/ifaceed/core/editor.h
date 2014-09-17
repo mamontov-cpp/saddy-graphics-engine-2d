@@ -126,10 +126,16 @@ public:
         with specified arguments
         \param[in] closure closure signal argument
      */
-    void emitClosure(sad::ClosureBasic * closure);
+    void emitClosure(sad::ClosureBasic* closure);
 	/*! Cleans up if we were adding stuff before clicking "Add XXX", like "Add label" or "Add sprite"
 	 */
 	void cleanupBeforeAdding();
+    /*!
+     * Tests whether editor is in selected state and current selected node equals passed
+     * \param[in] node checked node
+     * \return whether node is selected
+     */
+    bool isNodeSelected(sad::SceneNode* node) const;
 
 
 	/*! Returns a database fwith all of resources

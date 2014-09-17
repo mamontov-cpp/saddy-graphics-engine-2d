@@ -4,8 +4,7 @@
     Describe a command, which change scenes name text
  */
 #pragma once
-#include "../command.h"
-#include "scenenode.h"
+#include "scenenodespropertychanged.h"
 
 namespace history
 {
@@ -14,7 +13,7 @@ namespace scenenodes
 {
 /*! A command, which change scene label's text
  */
-class ChangeName: public history::Command
+class ChangeName: public history::scenenodes::PropertyChanged<sad::String>
 {
 public:
      /*! Constructs new command for node
@@ -26,29 +25,18 @@ public:
     /*! Erases link to a node
       */
     virtual ~ChangeName();
-    /*! Applies changes, described in command
-        \param[in] ob an observer for looking for command
-     */
-    virtual void commit(core::Editor * ob = NULL);
-    /*! Reverts changes, described in command
-        \param[in] ob an observer for looking for command
-     */
-    virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A node, which must be added to an item
-     */
-    sad::SceneNode * m_node;
-    /*! An  old value for font property of node
-     */
-    sad::String m_oldvalue;
-    /*! A new value for font property of node
-     */
-    sad::String m_newvalue;
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
      */
-    void tryUpdateUI(core::Editor* e, const sad::String& value);
+    virtual void tryUpdateUI(core::Editor* e, const sad::String& value);
+    /*!
+     * Updates current text in field of object name
+     * \param[in] e editor
+     * \param[in] value a value
+     */
+    virtual void updateUI(core::Editor* e, const sad::String& value);
 };
 
 }
