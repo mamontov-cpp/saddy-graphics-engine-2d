@@ -14,42 +14,36 @@ history::scenenodes::ChangeName::ChangeName(
     const sad::String& oldvalue,
     const sad::String& newvalue
 
-) : m_node(d), m_oldvalue(oldvalue), m_newvalue(newvalue)
+)
+: history::scenenodes::PropertyChanged<sad::String>(
+      d,
+      "name",
+      oldvalue,
+      newvalue
+)
 {
-    m_node->addRef();
 }
 
 history::scenenodes::ChangeName::~ChangeName()
 {
-    m_node->delRef();
-}
 
- void history::scenenodes::ChangeName::commit(core::Editor * ob)
-{
-    m_node->setObjectName(m_newvalue);
-	tryUpdateUI(ob, m_newvalue);
 }
-
- void history::scenenodes::ChangeName::rollback(core::Editor * ob)
-{
-    m_node->setObjectName(m_oldvalue);
-    tryUpdateUI(ob, m_oldvalue);
-}
-
 
 void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
-    if (m_node  == e->shared()->selectedObject() && e->machine()->isInState("selected"))
-    {
-        e->emitClosure( blocked_bind(
-                e->panel()->UI()->txtSceneName,
-                &QLineEdit::setText,
-                QString(value.c_str())
-            )
-        );
-    }
+    this->history::scenenodes::PropertyChanged<sad::String>::tryUpdateUI(e, value);
 	if (m_node->scene() == e->panel()->currentScene())
 	{
 		e->emitClosure(bind(e->panel(), &MainPanel::updateSceneNodeName, m_node));
 	}
+}
+
+void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)
+{
+    e->emitClosure( blocked_bind(
+            e->panel()->UI()->txtSceneName,
+            &QLineEdit::setText,
+            QString(value.c_str())
+        )
+    );
 }

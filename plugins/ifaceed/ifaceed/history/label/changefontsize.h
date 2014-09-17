@@ -4,8 +4,7 @@
     Describe a command, which change scene label's font size
  */
 #pragma once
-#include "../command.h"
-#include "scenenode.h"
+#include "../scenenodes/scenenodespropertychanged.h"
 
 namespace history
 {
@@ -14,7 +13,7 @@ namespace label
 {
 /*! A command, which change scene label's font size
  */
-class ChangeFontSize: public history::Command
+class ChangeFontSize: public history::scenenodes::PropertyChanged<unsigned int>
 {
 public:
      /*! Constructs new command for node
@@ -26,29 +25,12 @@ public:
     /*! Erases link to a node
       */
     virtual ~ChangeFontSize();
-    /*! Applies changes, described in command
-        \param[in] ob an observer for looking for command
-     */
-    virtual void commit(core::Editor * ob = NULL);
-    /*! Reverts changes, described in command
-        \param[in] ob an observer for looking for command
-     */
-    virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A node, which must be added to an item
-     */
-    sad::SceneNode * m_node;
-    /*! An  old value for font property of node
-     */
-    unsigned int m_oldvalue;
-    /*! A new value for font property of node
-     */
-    unsigned int m_newvalue;
     /*! Tries to update UI in case if node is selected
         \param[in] e editor
         \param[in] value a value
      */
-    void tryUpdateUI(core::Editor* e, unsigned int value);
+    virtual void updateUI(core::Editor* e, const unsigned int& value);
 };
 
 }
