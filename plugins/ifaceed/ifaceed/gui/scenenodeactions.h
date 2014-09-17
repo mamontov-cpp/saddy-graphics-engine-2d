@@ -34,6 +34,10 @@ public slots:
 		\param[in] name a name for action
 	 */
 	void nameEdited(const QString& name);
+	/*! Called, when user changes visibility of node
+		\param[in] state a state
+	 */
+	void visibilityChanged(bool state);
 private:
 	/*! An panel, which actions are belong to
 	 */

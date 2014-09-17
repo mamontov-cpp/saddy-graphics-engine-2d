@@ -196,6 +196,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
 
 	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), m_scene_node_actions, SLOT(nameEdited(const QString&)));
+	connect(ui.cbSceneNodeVisible, SIGNAL(clicked(bool)), m_scene_node_actions, SLOT(visibilityChanged(bool)));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
@@ -474,6 +475,21 @@ void MainPanel::updateSceneNodeName(sad::SceneNode* s)
 		ui.txtSceneName->setText(s->objectName().c_str());
 		ui.txtSceneName->blockSignals(b);
 	}
+}
+
+QCheckBox* MainPanel::visibilityCheckbox() const
+{
+	return ui.cbSceneNodeVisible;	
+}
+
+QCheckBox* MainPanel::flipXCheckbox() const
+{
+	return ui.cbFlipX;	
+}
+
+QCheckBox* MainPanel::flipYCheckbox() const
+{
+	return ui.cbFlipY;	
 }
 
 //====================  PUBLIC SLOTS METHODS HERE ====================
