@@ -733,7 +733,15 @@
 					Name="scenenodes"
 					>
 					<File
+						RelativePath=".\history\scenenodes\scenenodescheckboxreferencedpropertychange.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodesvisibilitychange.cpp"
 						>
 					</File>
 					<File
@@ -2867,7 +2875,19 @@
 						>
 					</File>
 					<File
+						RelativePath=".\history\scenenodes\scenenodescheckboxreferencedpropertychange.h"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodespropertychanged.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodesvisibilitychange.h"
 						>
 					</File>
 				</Filter>

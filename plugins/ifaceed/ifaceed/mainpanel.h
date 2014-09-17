@@ -160,6 +160,18 @@ public:
 		\param[in] s scene
 	 */
 	void updateSceneNodeName(sad::SceneNode* s);
+	/*! Returns check box for visibility property
+		\return checkbox
+	 */
+	QCheckBox* visibilityCheckbox() const;
+	/*! Returns check box for flipX property
+		\return checkbox
+	 */
+	QCheckBox* flipXCheckbox() const;
+	/*! Returns check box for flipY property
+		\return checkbox
+	 */
+	QCheckBox* flipYCheckbox() const;
 
 
 	/*! Change region parameters for data
