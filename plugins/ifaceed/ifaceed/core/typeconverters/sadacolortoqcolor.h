@@ -28,11 +28,19 @@ public:
 	{
 		
 	}
+    /*! Converts source color to another color type
+        \param[in] source a source color
+        \param[out] dest a destination color
+     */
+    static void convert(
+        const sad::AColor& source,
+        QColor& dest
+    );
 	/*! Converts source value from another and to another type
 		\param[in] source a pointer to sad::AColor value
 		\param[in] dest a pointer to QColor value
 	 */
-	virtual void convert(void * source, void * dest);
+    virtual void convert(void* source, void* dest);
 	/*! Can be inherited
 	 */
 	virtual ~SadAColorToQColor();

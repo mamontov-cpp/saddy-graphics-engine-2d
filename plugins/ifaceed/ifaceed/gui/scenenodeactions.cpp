@@ -5,9 +5,13 @@
 #include "../core/editor.h"
 #include "../core/shared.h"
 
+#include "../core/typeconverters/qcolortosadacolor.h"
+
 #include "../history/scenenodes/scenenodesnew.h"
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodesvisibilitychange.h"
+#include "../history/scenenodes/scenenodescolorchange.h"
+
 
 #include <label.h>
 #include <geometry2d.h>
@@ -85,6 +89,32 @@ void gui::SceneNodeActions::visibilityChanged(bool state)
 					));
 				}
 			}
+        }
+    }
+}
+
+void gui::SceneNodeActions::colorChanged(QColor newcolor)
+{
+    sad::AColor newvalue;
+    core::typeconverters::QColorToSadAColor::convert(newcolor, newvalue);
+    if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+        m_panel->editor()->shared()->activeObject()->setProperty("color", newvalue);
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<sad::AColor> oldvalue = node->getProperty<sad::AColor>("color");
+            if (oldvalue.exists()) {
+                sad::AColor ov = oldvalue.value();
+                if (newvalue.r() != ov.r() || newvalue.g() != ov.g() || newvalue.b() != ov.b() || newvalue.a() != ov.a())
+                {
+                    node->setProperty("color", newvalue);
+                    m_panel->editor()->history()->add(new history::scenenodes::ChangeColor(node, ov, newvalue));
+                }
+            }
         }
     }
 }

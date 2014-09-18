@@ -30,7 +30,7 @@ public:
 	}
 	/*! Converts source color to another color type
 		\param[in] source a source color
-		\param[out] a destination color
+        \param[out] dest a destination color
 	 */
 	static void convert(
 		const QColor & source,
