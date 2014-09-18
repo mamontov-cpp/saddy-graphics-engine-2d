@@ -58,11 +58,12 @@
 #include "typeconverters/qcolortosadacolor.h"
 #include "typeconverters/qstringtosadstring.h"
 #include "typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.h"
+#include "typeconverters/qrectftosadrect2d.h"
 #include "typeconverters/sadcolortoqcolor.h"
 #include "typeconverters/sadacolortoqcolor.h"
 #include "typeconverters/sadstringtoqstring.h"
 #include "typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h"
-
+#include "typeconverters/sadrect2dtoqrectf.h"
 
 // =================== PUBLIC METHODS ===================
 
@@ -357,6 +358,11 @@ void core::Editor::initConversionTable()
 		"QList<QList<QColor> >", 
 		new core::typeconverters::SadVectorSadVectorToAColorToQListQListQColor()
 	);
+    sad::db::ConversionTable::ref()->add(
+        "sad::Rect2D",
+        "QRectF",
+        new core::typeconverters::SadRect2DToQRectF()
+    );
 	sad::db::ConversionTable::ref()->add(
 		"QColor", 
 		"sad::Color", 		
@@ -377,6 +383,11 @@ void core::Editor::initConversionTable()
 		"sad::Vector<sad::Vector<sad::AColor> >", 
 		new core::typeconverters::QListQListQColorToSadVectorSadVectorToAColor()
 	);
+    sad::db::ConversionTable::ref()->add(
+        "sad::Rect2D",
+        "QRectF",
+        new core::typeconverters::SadRect2DToQRectF()
+    );
 }
 
 void core::Editor::saddyQuitSlot()
