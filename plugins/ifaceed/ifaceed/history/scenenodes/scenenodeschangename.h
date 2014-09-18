@@ -1,7 +1,7 @@
 /*! \file scenesnodeschangename.h
     \author HiddenSeeker
 
-    Describe a command, which change scenes name text
+    Describe a command, which change name of scene node
  */
 #pragma once
 #include "scenenodeschangeproperty.h"
@@ -11,7 +11,7 @@ namespace history
 
 namespace scenenodes
 {
-/*! A command, which change scene label's text
+/*! A command, which change name of scene node
  */
 class ChangeName: public history::scenenodes::ChangeProperty<sad::String>
 {
