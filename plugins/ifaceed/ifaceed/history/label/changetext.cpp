@@ -14,7 +14,7 @@ history::label::ChangeText::ChangeText(
     const sad::String& oldvalue,
     const sad::String& newvalue
 
-) : history::scenenodes::PropertyChanged<sad::String>(
+) : history::scenenodes::ChangeProperty<sad::String>(
     d,
     "text",
     oldvalue,

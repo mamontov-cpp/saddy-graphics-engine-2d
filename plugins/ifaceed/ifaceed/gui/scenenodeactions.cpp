@@ -10,8 +10,8 @@
 
 #include "../history/scenenodes/scenenodesnew.h"
 #include "../history/scenenodes/scenenodeschangename.h"
-#include "../history/scenenodes/scenenodesvisibilitychange.h"
-#include "../history/scenenodes/scenenodescolorchange.h"
+#include "../history/scenenodes/scenenodeschangevisibility.h"
+#include "../history/scenenodes/scenenodeschangecolor.h"
 #include "../history/scenenodes/scenenodeschangearea.h"
 
 
@@ -84,7 +84,7 @@ void gui::SceneNodeActions::visibilityChanged(bool state)
 				if (newvalue != oldvalue.value())
 				{
 					node->setProperty("visible", newvalue);
-					m_panel->editor()->history()->add(history::scenenodes::visibilityChange(
+					m_panel->editor()->history()->add(history::scenenodes::changeVisibility(
 						node, 
 						oldvalue.value(), 
 						newvalue

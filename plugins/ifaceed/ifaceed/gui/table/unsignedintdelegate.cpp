@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include "qwwulongspinbox.h"
 
@@ -38,7 +38,7 @@ void gui::table::UnsignedIntDelegate::set(const sad::db::Variant& v)
 void gui::table::UnsignedIntDelegate::widgetChanged(qulonglong i)
 {
 	unsigned int oldvalue = this->currentValue<unsigned int>();
-	m_editor->history()->add(new history::database::PropertyChanged<unsigned int>(oldvalue, i, this));
+	m_editor->history()->add(new history::database::ChangeProperty<unsigned int>(oldvalue, i, this));
 	this->setCurrentValue<unsigned int>(i);
 }
 

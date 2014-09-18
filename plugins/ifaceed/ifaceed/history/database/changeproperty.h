@@ -1,4 +1,4 @@
-/*! \file history/database/propertychanged.h
+/*! \file history/database/changeproperty.h
 	\author HiddenSeeker
 
 	Contains definitions of changed property of database.
@@ -18,7 +18,7 @@ namespace database
 template<
 	typename T
 >
-class PropertyChanged: public history::Command
+class ChangeProperty: public history::Command
 {
 public:
 	/*! Constructs new object, if property value is changed in database
@@ -26,7 +26,7 @@ public:
 		\param[in] newvalue new value of property
 		\param[in] d a delegate for objects
 	 */
-	PropertyChanged(
+	ChangeProperty(
 		const T& oldvalue,
 		const T& newvalue,
 		gui::table::Delegate* d
@@ -40,7 +40,7 @@ public:
 	}
 	/*! This command can be inherited
 	 */
-	virtual ~PropertyChanged()
+	virtual ~ChangeProperty()
 	{
 		
 	}

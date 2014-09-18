@@ -15,7 +15,7 @@ history::scenenodes::ChangeName::ChangeName(
     const sad::String& newvalue
 
 )
-: history::scenenodes::PropertyChanged<sad::String>(
+: history::scenenodes::ChangeProperty<sad::String>(
       d,
       "name",
       oldvalue,
@@ -31,7 +31,7 @@ history::scenenodes::ChangeName::~ChangeName()
 
 void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::String& value)
 {
-    this->history::scenenodes::PropertyChanged<sad::String>::tryUpdateUI(e, value);
+    this->history::scenenodes::ChangeProperty<sad::String>::tryUpdateUI(e, value);
 	if (m_node->scene() == e->panel()->currentScene())
 	{
 		e->emitClosure(bind(e->panel(), &MainPanel::updateSceneNodeName, m_node));

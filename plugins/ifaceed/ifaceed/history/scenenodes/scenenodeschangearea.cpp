@@ -15,7 +15,7 @@ history::scenenodes::ChangeArea::ChangeArea(
     const sad::Rect2D& newvalue
 
 )
-: history::scenenodes::PropertyChanged<sad::Rect2D>(
+: history::scenenodes::ChangeProperty<sad::Rect2D>(
       d,
       "area",
       oldvalue,

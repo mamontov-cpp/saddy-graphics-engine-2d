@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QSpinBox>
@@ -35,7 +35,7 @@ void gui::table::SignedCharDelegate::set(const sad::db::Variant& v)
 void gui::table::SignedCharDelegate::widgetChanged(int i)
 {
 	signed char oldvalue = this->currentValue<signed char>();
-	m_editor->history()->add(new history::database::PropertyChanged<signed char>(oldvalue, i, this));
+	m_editor->history()->add(new history::database::ChangeProperty<signed char>(oldvalue, i, this));
 	this->setCurrentValue<signed char>(i);
 }
 

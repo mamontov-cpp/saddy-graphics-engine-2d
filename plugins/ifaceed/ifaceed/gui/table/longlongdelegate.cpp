@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include "qwwlongspinbox.h"
 
@@ -38,7 +38,7 @@ void gui::table::LongLongDelegate::set(const sad::db::Variant& v)
 void gui::table::LongLongDelegate::widgetChanged(qlonglong i)
 {
 	long long oldvalue = this->currentValue<long long>();
-	m_editor->history()->add(new history::database::PropertyChanged<long long>(oldvalue, i, this));
+	m_editor->history()->add(new history::database::ChangeProperty<long long>(oldvalue, i, this));
 	this->setCurrentValue<long long>(i);
 }
 

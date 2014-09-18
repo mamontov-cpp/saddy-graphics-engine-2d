@@ -4,7 +4,7 @@
 	Describe a command, which change scene label's font
  */
 #pragma once
-#include "../scenenodes/scenenodespropertychanged.h"
+#include "../scenenodes/scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -13,7 +13,7 @@ namespace label
 {
 /*! A command, which change scene label's font
  */
-class ChangeFontName: public history::scenenodes::PropertyChanged<sad::String>
+class ChangeFontName: public history::scenenodes::ChangeProperty<sad::String>
 {
 public:
 	 /*! Constructs new command for node

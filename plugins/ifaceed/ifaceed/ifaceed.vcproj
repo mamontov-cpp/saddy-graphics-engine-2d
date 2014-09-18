@@ -449,6 +449,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\core\typeconverters\qrectftosadrect2d.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\core\typeconverters\qstringtosadstring.cpp"
 						>
 					</File>
@@ -458,6 +462,10 @@
 					</File>
 					<File
 						RelativePath=".\core\typeconverters\sadcolortoqcolor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\core\typeconverters\sadrect2dtoqrectf.cpp"
 						>
 					</File>
 					<File
@@ -733,15 +741,23 @@
 					Name="scenenodes"
 					>
 					<File
-						RelativePath=".\history\scenenodes\scenenodescheckboxreferencedpropertychange.cpp"
+						RelativePath=".\history\scenenodes\scenenodeschangearea.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangecolor.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangepropertywhichlinkedtocheckbox.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangevisibility.cpp"
 						>
 					</File>
 					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\history\scenenodes\scenenodesvisibilitychange.cpp"
 						>
 					</File>
 					<File
@@ -1207,6 +1223,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\core\typeconverters\qrectftosadrect2d.h"
+						>
+					</File>
+					<File
 						RelativePath=".\core\typeconverters\qstringtosadstring.h"
 						>
 					</File>
@@ -1216,6 +1236,10 @@
 					</File>
 					<File
 						RelativePath=".\core\typeconverters\sadcolortoqcolor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\core\typeconverters\sadrect2dtoqrectf.h"
 						>
 					</File>
 					<File
@@ -2835,11 +2859,11 @@
 					Name="database"
 					>
 					<File
-						RelativePath=".\history\database\newproperty.h"
+						RelativePath=".\history\database\changeproperty.h"
 						>
 					</File>
 					<File
-						RelativePath=".\history\database\propertychanged.h"
+						RelativePath=".\history\database\newproperty.h"
 						>
 					</File>
 					<File
@@ -2871,23 +2895,31 @@
 					Name="scenenodes"
 					>
 					<File
+						RelativePath=".\history\scenenodes\scenenodeschangearea.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangecolor.h"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenenodeschangename.h"
 						>
 					</File>
 					<File
-						RelativePath=".\history\scenenodes\scenenodescheckboxreferencedpropertychange.h"
+						RelativePath=".\history\scenenodes\scenenodeschangeproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangepropertywhichlinkedtocheckbox.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeschangevisibility.h"
 						>
 					</File>
 					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.h"
-						>
-					</File>
-					<File
-						RelativePath=".\history\scenenodes\scenenodespropertychanged.h"
-						>
-					</File>
-					<File
-						RelativePath=".\history\scenenodes\scenenodesvisibilitychange.h"
 						>
 					</File>
 				</Filter>

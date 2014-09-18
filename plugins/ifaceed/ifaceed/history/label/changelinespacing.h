@@ -4,7 +4,7 @@
     Describe a command, which change scene label's line spacing
  */
 #pragma once
-#include "../scenenodes/scenenodespropertychanged.h"
+#include "../scenenodes/scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -13,7 +13,7 @@ namespace label
 {
 /*! A command, which change scene label's line spacing
  */
-class ChangeLineSpacing: public history::scenenodes::PropertyChanged<float>
+class ChangeLineSpacing: public history::scenenodes::ChangeProperty<float>
 {
 public:
      /*! Constructs new command for node

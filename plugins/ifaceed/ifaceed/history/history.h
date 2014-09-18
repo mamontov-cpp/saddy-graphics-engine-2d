@@ -4,7 +4,7 @@
 	Describes an editor history
  */
 #pragma once
-
+#include <QMutex>
 
 #include <sadlinkedlist.h>
 
@@ -41,9 +41,12 @@ private:
 	/*! A saved commands
 	 */
 	sad::LinkedList<history::Command *> m_commands;
-	/** Current saved command
+	/*! Current saved command
 	 */
 	int  m_current;
+	/*! A lock for reading and writing
+	 */
+	QMutex m_lock;
 };
 
 }

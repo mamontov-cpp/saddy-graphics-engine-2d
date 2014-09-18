@@ -4,7 +4,7 @@
     Describe a command, which change scenes name text
  */
 #pragma once
-#include "scenenodespropertychanged.h"
+#include "scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -13,7 +13,7 @@ namespace scenenodes
 {
 /*! A command, which change scene label's text
  */
-class ChangeName: public history::scenenodes::PropertyChanged<sad::String>
+class ChangeName: public history::scenenodes::ChangeProperty<sad::String>
 {
 public:
      /*! Constructs new command for node
