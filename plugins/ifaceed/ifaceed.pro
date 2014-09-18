@@ -142,7 +142,10 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodespropertychanged.h \
     ifaceed/history/scenenodes/scenenodescheckboxreferencedpropertychange.h \
     ifaceed/history/scenenodes/scenenodesvisibilitychange.h \
-    ifaceed/history/scenenodes/scenenodescolorchange.h
+    ifaceed/history/scenenodes/scenenodescolorchange.h \
+    ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
+    ifaceed/core/typeconverters/qrectftosadrect2d.h \
+    ifaceed/history/scenenodes/scenenodeschangearea.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -243,7 +246,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenesnodeschangename.cpp \
     ifaceed/history/scenenodes/scenenodescheckboxreferencedpropertychange.cpp \
     ifaceed/history/scenenodes/scenenodesvisibilitychange.cpp \
-    ifaceed/history/scenenodes/scenenodescolorchange.cpp
+    ifaceed/history/scenenodes/scenenodescolorchange.cpp \
+    ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
+    ifaceed/core/typeconverters/qrectftosadrect2d.cpp \
+    ifaceed/history/scenenodes/scenenodeschangearea.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

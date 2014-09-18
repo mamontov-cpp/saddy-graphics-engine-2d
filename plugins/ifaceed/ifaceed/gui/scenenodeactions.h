@@ -6,6 +6,7 @@
 #pragma once
 #include <QObject>
 #include <QColor>
+#include <QRectF>
 
 class MainPanel;
 
@@ -40,10 +41,15 @@ public slots:
 	 */
 	void visibilityChanged(bool state);
     /*!
-     * Called, when user changed color of node
+     * Called, when user changes color of node
      * \param[in] newcolor a new color
      */
     void colorChanged(QColor newcolor);
+    /*!
+     * Called, when uuser changes area of node
+     * \param newarea
+     */
+    void areaChanged(QRectF newarea);
 private:
 	/*! An panel, which actions are belong to
 	 */

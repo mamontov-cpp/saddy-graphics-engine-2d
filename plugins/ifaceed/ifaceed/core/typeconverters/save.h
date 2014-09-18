@@ -11,6 +11,7 @@
 #include <db/save.h>
 
 #include "qlistqlistqcolortosadvectorsadvectoracolor.h"
+#include "qrectftosadrect2d.h"
 
 namespace sad
 {
@@ -73,6 +74,30 @@ static picojson::value perform(void * ptr)
 	::QListQListQColorToSadVectorSadVectorToAColor
 	::convert(*src, result);
 	return sad::db::Save<sad::Vector<sad::Vector<sad::AColor> > >::perform(&result);
+}
+
+};
+
+
+/*! Specification for saving QRectF values
+ */
+template<>
+class Save<QRectF >
+{
+public:
+/*! Saves a value of specified type
+    \param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+    QRectF  * src = reinterpret_cast<QRectF *>(ptr);
+    sad::Rect2D result;
+
+    core
+    ::typeconverters
+    ::QRectFToSadRect2D
+    ::convert(*src, result);
+    return sad::db::Save<QRectF>::perform(&result);
 }
 
 };

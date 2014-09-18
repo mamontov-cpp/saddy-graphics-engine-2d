@@ -11,7 +11,7 @@
 #include <db/save.h>
 
 #include "sadvectorsadvectoracolortoqlistqlistqcolor.h"
-
+#include "sadrect2dtoqrectf.h"
 
 namespace sad
 {
@@ -79,6 +79,31 @@ static bool perform(void * ptr, const picojson::value & v)
 	}                                                            
 	return cast.exists();                                        
 }                                                                
+};
+
+template<>
+class Load<QRectF >
+{
+public:
+static bool perform(void * ptr, const picojson::value & v)
+{
+    if (!ptr)
+        throw sad::db::InvalidPointer();
+    sad::Maybe<sad::Rect2D>  cast = picojson::to_type<
+        sad::Rect2D
+    >(v);
+    if (cast.exists())
+    {
+        const sad::Rect2D & src = cast.value();
+        QRectF& dest = *reinterpret_cast<QRectF*>(ptr);
+
+        core
+        ::typeconverters
+        ::SadRect2DToQRectF
+        ::convert(src, dest);
+    }
+    return cast.exists();
+}
 };
 
 }
