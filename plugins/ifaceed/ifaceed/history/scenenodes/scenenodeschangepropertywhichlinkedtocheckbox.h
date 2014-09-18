@@ -4,7 +4,7 @@
 	Describes a property change for property, which referenced in QCheckBox 
  */
 #pragma once
-#include "scenenodespropertychanged.h"
+#include "scenenodeschangeproperty.h"
 
 
 class MainPanel;
@@ -17,7 +17,7 @@ namespace scenenodes
 
 /*! Describes a property change, for property, which referenced in QCheckBox
  */
-class CheckboxReferencedProperyChange:public history::scenenodes::PropertyChanged<bool>
+class ChangePropertyWhichLinkedToCheckbox:public history::scenenodes::ChangeProperty<bool>
 {
 public:
 	/*! Constructs new command for node
@@ -27,7 +27,7 @@ public:
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
       */
-    CheckboxReferencedProperyChange(
+    ChangePropertyWhichLinkedToCheckbox(
 		QCheckBox* (MainPanel::*method)() const,
         sad::SceneNode* d,
         const sad::String& property,
@@ -37,7 +37,7 @@ public:
 
 	/*! Could be inherited
      */
-    virtual ~CheckboxReferencedProperyChange();
+    virtual ~ChangePropertyWhichLinkedToCheckbox();
 protected:
 	/*! A method, for getting a checkbox to set value to 
 	 */ 

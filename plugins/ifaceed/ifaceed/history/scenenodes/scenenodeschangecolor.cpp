@@ -1,4 +1,4 @@
-#include "scenenodescolorchange.h"
+#include "scenenodeschangecolor.h"
 
 #include "../../core/editor.h"
 
@@ -15,7 +15,7 @@ history::scenenodes::ChangeColor::ChangeColor(
     const sad::AColor& newvalue
 
 )
-: history::scenenodes::PropertyChanged<sad::AColor>(
+: history::scenenodes::ChangeProperty<sad::AColor>(
       d,
       "color",
       oldvalue,

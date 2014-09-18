@@ -15,7 +15,7 @@ history::label::ChangeFontSize::ChangeFontSize(
     unsigned int newvalue
 
 )
-: history::scenenodes::PropertyChanged<unsigned int>(
+: history::scenenodes::ChangeProperty<unsigned int>(
     d,
     "fontsize",
     oldvalue,

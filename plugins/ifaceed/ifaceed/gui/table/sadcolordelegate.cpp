@@ -4,7 +4,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QDoubleSpinBox>
@@ -42,7 +42,7 @@ void gui::table::SadColorDelegate::clicked()
 	QColor i = QColorDialog::getColor(oldvalue, NULL);
 	if (i.isValid())
 	{
-		m_editor->history()->add(new history::database::PropertyChanged<QColor>(oldvalue, i, this));
+		m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
 		this->setCurrentValue<QColor>(i);
 		static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);
 	}

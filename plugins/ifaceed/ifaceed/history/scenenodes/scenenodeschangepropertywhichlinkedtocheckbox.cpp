@@ -1,26 +1,26 @@
-#include "scenenodescheckboxreferencedpropertychange.h"
+#include "scenenodeschangepropertywhichlinkedtocheckbox.h"
 
 #include "../../core/editor.h"
 
 #include "../../blockedclosuremethodcall.h"
 
-history::scenenodes::CheckboxReferencedProperyChange::CheckboxReferencedProperyChange(
+history::scenenodes::ChangePropertyWhichLinkedToCheckbox::ChangePropertyWhichLinkedToCheckbox(
 	QCheckBox* (MainPanel::*method)() const,
     sad::SceneNode* d,
     const sad::String& property,
     bool oldvalue,
     bool newvalue
-) : history::scenenodes::PropertyChanged<bool>(d, property, oldvalue, newvalue), m_method(method)
+) : history::scenenodes::ChangeProperty<bool>(d, property, oldvalue, newvalue), m_method(method)
 {
 	
 }
 
-history::scenenodes::CheckboxReferencedProperyChange::~CheckboxReferencedProperyChange()
+history::scenenodes::ChangePropertyWhichLinkedToCheckbox::~ChangePropertyWhichLinkedToCheckbox()
 {
 	
 }
 
-void history::scenenodes::CheckboxReferencedProperyChange::updateUI(core::Editor* e, const bool& value)
+void history::scenenodes::ChangePropertyWhichLinkedToCheckbox::updateUI(core::Editor* e, const bool& value)
 {
 	Qt::CheckState state = Qt::Unchecked;
 	if (value)

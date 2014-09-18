@@ -4,7 +4,7 @@
     Describe a command, which change scene label's font size
  */
 #pragma once
-#include "../scenenodes/scenenodespropertychanged.h"
+#include "../scenenodes/scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -13,7 +13,7 @@ namespace label
 {
 /*! A command, which change scene label's font size
  */
-class ChangeFontSize: public history::scenenodes::PropertyChanged<unsigned int>
+class ChangeFontSize: public history::scenenodes::ChangeProperty<unsigned int>
 {
 public:
      /*! Constructs new command for node

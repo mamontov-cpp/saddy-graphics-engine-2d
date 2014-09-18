@@ -1,4 +1,4 @@
-/*! \file scenenodescolorchange.h
+/*! \file scenenodeschangecolor.h
     \author HiddenSeeker
 
     Describe a command, which describes change of node's color
@@ -6,7 +6,7 @@
 #pragma once
 #include <sadcolor.h>
 
-#include "scenenodespropertychanged.h"
+#include "scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -15,7 +15,7 @@ namespace scenenodes
 {
 /*! A command, which change scene label's text
  */
-class ChangeColor: public history::scenenodes::PropertyChanged<sad::AColor>
+class ChangeColor: public history::scenenodes::ChangeProperty<sad::AColor>
 {
 public:
      /*! Constructs new command for node

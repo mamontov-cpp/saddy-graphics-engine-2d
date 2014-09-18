@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QPlainTextEdit>
@@ -37,7 +37,7 @@ void gui::table::SadStringDelegate::widgetChanged()
 {
 	QString oldvalue = this->currentValue<QString>();
 	QString i = static_cast<QPlainTextEdit*>(m_my_widget)->toPlainText();
-	m_editor->history()->add(new history::database::PropertyChanged<QString>(oldvalue, i, this));
+	m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
 	this->setCurrentValue<QString>(i);
 }
 

@@ -6,7 +6,7 @@
 #pragma once
 #include <sadrect.h>
 
-#include "scenenodespropertychanged.h"
+#include "scenenodeschangeproperty.h"
 
 namespace history
 {
@@ -15,7 +15,7 @@ namespace scenenodes
 {
 /*! A command, which change scene label's text
  */
-class ChangeArea: public history::scenenodes::PropertyChanged<sad::Rect2D>
+class ChangeArea: public history::scenenodes::ChangeProperty<sad::Rect2D>
 {
 public:
      /*! Constructs new command for node

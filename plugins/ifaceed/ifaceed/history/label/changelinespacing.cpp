@@ -14,7 +14,7 @@ history::label::ChangeLineSpacing::ChangeLineSpacing(
     float oldvalue,
     float newvalue
 )
-: history::scenenodes::PropertyChanged<float>(
+: history::scenenodes::ChangeProperty<float>(
       d,
       "linespacing",
       oldvalue,

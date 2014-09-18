@@ -1,4 +1,4 @@
-/*!  \file scenenodespropertychanged.h
+/*!  \file scenenodeschangeproperty.h
  *   \author HiddenSeeker
  *
  *   Defines a command type, which describes change of property
@@ -21,7 +21,7 @@ namespace scenenodes
 template<
     typename T
 >
-class PropertyChanged: public history::Command
+class ChangeProperty: public history::Command
 {
 public:
      /*! Constructs new command for node
@@ -30,7 +30,7 @@ public:
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
       */
-    PropertyChanged(
+    ChangeProperty(
         sad::SceneNode* d,
         const sad::String& property,
         const T& oldvalue,
@@ -42,7 +42,7 @@ public:
     }
     /*! Erases link to a node
       */
-    virtual ~PropertyChanged()
+    virtual ~ChangeProperty()
     {
         m_node->delRef();
     }

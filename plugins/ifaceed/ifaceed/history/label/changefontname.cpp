@@ -13,7 +13,7 @@ history::label::ChangeFontName::ChangeFontName(
 	const sad::String& newvalue
 	
 )
-: history::scenenodes::PropertyChanged<sad::String>(
+: history::scenenodes::ChangeProperty<sad::String>(
       d,
       "font",
       oldvalue,

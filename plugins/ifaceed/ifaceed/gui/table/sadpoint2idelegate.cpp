@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QSpinBox>
@@ -37,7 +37,7 @@ void gui::table::SadPoint2IDelegate::widgetChanged(qlonglong f, qlonglong s)
 {
     sad::Point2I oldvalue = this->currentValue<sad::Point2I>();
     sad::Point2I newvalue(f, s);
-    m_editor->history()->add(new history::database::PropertyChanged<sad::Point2I>(oldvalue, newvalue, this));
+    m_editor->history()->add(new history::database::ChangeProperty<sad::Point2I>(oldvalue, newvalue, this));
     this->setCurrentValue<sad::Point2I>(newvalue);
 }
 

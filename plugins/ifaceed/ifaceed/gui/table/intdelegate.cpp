@@ -2,7 +2,7 @@
 
 #include "core/editor.h"
 
-#include "history/database/propertychanged.h"
+#include "history/database/changeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QSpinBox>
@@ -36,7 +36,7 @@ void gui::table::IntDelegate::set(const sad::db::Variant& v)
 void gui::table::IntDelegate::widgetChanged(int i)
 {
 	int oldvalue = this->currentValue<int>();
-	m_editor->history()->add(new history::database::PropertyChanged<int>(oldvalue, i, this));
+	m_editor->history()->add(new history::database::ChangeProperty<int>(oldvalue, i, this));
 	this->setCurrentValue<int>(i);
 }
 

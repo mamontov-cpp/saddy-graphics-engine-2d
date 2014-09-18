@@ -19,16 +19,22 @@ history::History::~History()
 
 void history::History::clear()
 {
+	m_lock.lock();
+
 	for (int i=0;i<m_commands.count();i++)
 	{
 		delete m_commands[i];
 	}
 	m_commands.clear();
 	m_current = -1;
+
+	m_lock.unlock();
 }
 
 void history::History::commit(core::Editor * ob)
 {
+	m_lock.lock();
+
 	SL_SCOPE("EditorHistory::commit");
 	SL_DEBUG(
 		str(
@@ -51,10 +57,14 @@ void history::History::commit(core::Editor * ob)
 	{
 		SL_DEBUG("Nothing to commit");
 	}
+
+	m_lock.unlock();
 }
 
 void history::History::rollback(core::Editor * ob)
 {
+	m_lock.lock();
+
 	SL_SCOPE("EditorHistory::rollback");
 	SL_DEBUG(
 		str(
@@ -77,10 +87,14 @@ void history::History::rollback(core::Editor * ob)
 	{
 		SL_DEBUG("Nothing to rollback");
 	}
+
+	m_lock.unlock();
 }
 
 void history::History::add(history::Command * c)
 {
+	m_lock.lock();
+
 	int count = m_commands.count();
 	for(int i=m_current+1;i<count;i++)
 	{
@@ -89,4 +103,6 @@ void history::History::add(history::Command * c)
 	}
 	m_commands << c;
 	++m_current;
+
+	m_lock.unlock();
 }
