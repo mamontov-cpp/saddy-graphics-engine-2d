@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <QObject>
+#include <QColor>
 
 class MainPanel;
 
@@ -38,6 +39,11 @@ public slots:
 		\param[in] state a state
 	 */
 	void visibilityChanged(bool state);
+    /*!
+     * Called, when user changed color of node
+     * \param[in] newcolor a new color
+     */
+    void colorChanged(QColor newcolor);
 private:
 	/*! An panel, which actions are belong to
 	 */
