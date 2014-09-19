@@ -20,6 +20,7 @@
 
 #include "history/scenes/scenesadd.h"
 #include "history/scenes/scenesremove.h"
+#include "history/scenes/scenesclear.h"
 #include "history/scenes/sceneschangename.h"
 #include "history/scenes/sceneslayerswap.h"
 
@@ -98,7 +99,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
 	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
-	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
 }
 
 
@@ -188,6 +188,11 @@ void MainPanel::setEditor(core::Editor* editor)
         m_scene_node_actions,
         &gui::SceneNodeActions::rotate
     );
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::cancelSelection
+    );
 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
@@ -198,6 +203,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
 	connect(ui.btnScenesMoveBack, SIGNAL(clicked()), this, SLOT(sceneMoveBack()));
 	connect(ui.btnScenesMoveFront, SIGNAL(clicked()), this, SLOT(sceneMoveFront()));
+	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScene()));
 	
 	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(redo()));
 	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
@@ -774,6 +780,17 @@ void MainPanel::sceneMoveFront()
 			this->m_editor->history()->add(c);
 			c->commit(m_editor);
 		}
+	}
+}
+
+void MainPanel::clearScene()
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		history::Command* c = new history::scenes::Clear(scene);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
 	}
 }
 

@@ -290,6 +290,9 @@ protected slots:
 	/*! Moves scene front
 	 */
 	void sceneMoveFront();
+	/*! Clears scene
+	 */
+	void clearScene();
 	/*! A slot version of MainPanel::updateMousePosition, which takes value 
 		from MainPanel::m_mousemove_point
 	 */

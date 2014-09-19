@@ -6,9 +6,12 @@
  */
 #pragma once
 
+#include <renderer.h>
+
 #include "../command.h"
 
 #include "../../core/editor.h"
+
 
 namespace history
 {
@@ -51,16 +54,22 @@ public:
      */
     virtual void commit(core::Editor * ob = NULL)
     {
+		sad::Renderer::ref()->lockRendering();
         m_node->setProperty<T>(m_property, m_newvalue);
-        tryUpdateUI(ob, m_newvalue);
+        sad::Renderer::ref()->unlockRendering();
+
+		tryUpdateUI(ob, m_newvalue);
     }
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL)
     {
+		sad::Renderer::ref()->lockRendering();        
         m_node->setProperty<T>(m_property, m_oldvalue);
-        tryUpdateUI(ob, m_oldvalue);
+        sad::Renderer::ref()->unlockRendering();
+
+		tryUpdateUI(ob, m_oldvalue);
     }
 protected:
     /*! A node, which must be added to an item

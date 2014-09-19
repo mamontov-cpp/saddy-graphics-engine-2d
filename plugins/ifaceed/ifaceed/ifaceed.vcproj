@@ -737,6 +737,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\history\scenes\scenesclear.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenes\scenesremove.cpp"
 						>
 					</File>
@@ -847,6 +851,14 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\blockedclosuremethodcall.h"
+				>
+			</File>
+			<File
+				RelativePath=".\closuremethodcall.h"
+				>
 			</File>
 			<File
 				RelativePath=".\macro.h"
@@ -1031,14 +1043,6 @@
 			<Filter
 				Name="core"
 				>
-				<File
-					RelativePath=".\blockedclosuremethodcall.h"
-					>
-				</File>
-				<File
-					RelativePath=".\closuremethodcall.h"
-					>
-				</File>
 				<File
 					RelativePath=".\core\editor.h"
 					>
@@ -2936,6 +2940,10 @@
 					</File>
 					<File
 						RelativePath=".\history\scenes\sceneschangename.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenes\scenesclear.h"
 						>
 					</File>
 					<File
