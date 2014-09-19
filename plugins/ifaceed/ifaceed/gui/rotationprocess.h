@@ -10,9 +10,9 @@
 
 #include <scenenode.h>
 
-namespace history
+namespace core
 {
-class History;	
+class Editor;
 }
 
 namespace gui
@@ -37,10 +37,10 @@ public:
 		\param[in] newvalue a new value for process
 	 */
 	void start(sad::SceneNode* node, float oldvalue, float newvalue);
-	/*! Sets a history for rotation process
-		\param[in] h history
+    /*! Sets a editor for rotation process
+        \param[in] e editor
 	 */
-	void setHistory(history::History* h);
+    void setEditor(core::Editor* e);
     /*! Defines a timeout for rotation process in milliseconds
 	 */
 	static const int TIMEOUT; 
@@ -56,18 +56,39 @@ protected:
 	/*! Whether rotation process is pending
 	 */
 	bool m_pending;
-	/*! A linked history
+    /*! A linked editor
 	 */
-	history::History* m_history;
+    core::Editor* m_editor;
 	/*! A pending node
 	 */
 	sad::SceneNode* m_node;
 	/*! An old value for angle
 	 */
-	bool m_oldvalue;
+    float m_oldvalue;
 	/*! A new value for angle
 	 */
-	bool m_newvalue;
+    float m_newvalue;
+
+    /*!
+     * Restarts timer
+     */
+    void restart();
+    /*!
+     * Sets timeout and starts timer
+     */
+    void setTimeoutAndStart();
+    /*!
+     * Start local timer
+     */
+    void startLocalTimer();
+    /*!
+     * Starts local timer. Must be called from main thread
+     */
+    void startLocalTimerNow();
+    /*!
+     * Stops local timer
+     */
+    void stopLocalTimer();
 };
 
 }

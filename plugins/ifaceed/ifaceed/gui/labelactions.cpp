@@ -1,5 +1,7 @@
 #include "labelactions.h"
 
+#include "../blockedclosuremethodcall.h"
+
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
@@ -57,15 +59,12 @@ void gui::LabelActions::updateRegionForLabel()
 		if (maybearea.exists())
 		{
 			const sad::Rect2D & v = maybearea.value();
-			CLOSURE
-			CLOSURE_DATA( gui::rectwidget::RectWidget* w; sad::Rect2D v; )
-			CLOSURE_CODE(
-				bool blocked =  w->blockSignals(true);
-				w->setValue(QRectF(v[0].x(), v[0].y(), v.width(), v.height()));
-				w->blockSignals(blocked);
-			)
-			INITCLOSURE( CLSET(w, m_panel->UI()->rwSceneNodeRect); CLSET(v, v); )
-			SUBMITCLOSURE(	m_panel->editor()->emitClosure );
+            QRectF newrect = QRectF(v[0].x(), v[0].y(), v.width(), v.height());
+            m_panel->editor()->emitClosure( blocked_bind(
+                m_panel->UI()->rwSceneNodeRect,
+                &gui::rectwidget::RectWidget::setValue,
+                newrect
+            ));
 		}
 	}
 }
@@ -104,46 +103,6 @@ void gui::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 			node->setProperty("area", r);
 			this->updateRegionForLabel();
 		}
-	}
-}
-
-void gui::LabelActions::rotateLabelWhenAdding(const sad::input::MouseWheelEvent& e)
-{
-	sad::SceneNode* active = m_panel->editor()->shared()->activeObject();
-	sad::Maybe<float> maybeangle = active->getProperty<float>("angle");
-	if (maybeangle.exists())
-	{
-		float angle = maybeangle.value() / M_PI * 180;
-		if (sad::is_fuzzy_equal(0, angle, 0.001) && e.Delta < 0)
-		{
-			angle = 359.0f;
-		} 
-		else 
-		{ 
-			if (sad::is_fuzzy_equal(360, angle, 0.001) && e.Delta > 0)
-			{
-				angle = 1.0f;
-			} 
-			else
-			{
-				float delta = (e.Delta > 0) ? 1 : -1;
-				angle += delta;
-			}
-		}
-
-		angle  = angle / 180 * M_PI;
-		active->setProperty("angle", angle);
-
-		// Update label
-		CLOSURE
-		CLOSURE_DATA(double __angle; MainPanel* m_panel;)
-		CLOSURE_CODE(  
-			bool b =  m_panel->UI()->awSceneNodeAngle->blockSignals(true);
-			m_panel->UI()->awSceneNodeAngle->setValue((double)__angle);
-			m_panel->UI()->awSceneNodeAngle->blockSignals(b);				
-		);
-		INITCLOSURE( CLSET(__angle, angle); CLSET(m_panel, m_panel);  )
-		SUBMITCLOSURE(	m_panel->editor()->emitClosure )
 	}
 }
 
