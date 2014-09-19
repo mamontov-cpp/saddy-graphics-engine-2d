@@ -12,6 +12,7 @@ class MainPanel;
 
 namespace gui
 {
+class RotationProcess;
 /*! A group of actions, linked to scene nodes
  */
 class SceneNodeActions: public QObject
@@ -54,6 +55,10 @@ private:
 	/*! An panel, which actions are belong to
 	 */
 	MainPanel* m_panel;
+    /*!
+     * A rotation process to work with
+     */
+    gui::RotationProcess* m_rotation;
 };
 
 }

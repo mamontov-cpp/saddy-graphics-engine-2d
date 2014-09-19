@@ -41,7 +41,7 @@ public:
 		\param[in] h history
 	 */
 	void setHistory(history::History* h);
-	/*! Defines a timeout for rotation process
+    /*! Defines a timeout for rotation process in milliseconds
 	 */
 	static const int TIMEOUT; 
 public slots:

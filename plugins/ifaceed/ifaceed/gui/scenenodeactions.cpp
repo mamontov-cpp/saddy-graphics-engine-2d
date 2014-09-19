@@ -8,6 +8,8 @@
 #include "../core/typeconverters/qcolortosadacolor.h"
 #include "../core/typeconverters/qrectftosadrect2d.h"
 
+#include "../gui/rotationprocess.h"
+
 #include "../history/scenenodes/scenenodesnew.h"
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodeschangevisibility.h"
@@ -22,17 +24,18 @@
 
 gui::SceneNodeActions::SceneNodeActions(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-	
+    m_rotation = new gui::RotationProcess();
 }
 
 gui::SceneNodeActions::~SceneNodeActions()
 {
-	
+    delete m_rotation;
 }
 
 void gui::SceneNodeActions::setPanel(MainPanel* e)
 {
 	m_panel = e;
+    m_rotation->setHistory(e->editor()->history());
 }
 
 MainPanel* gui::SceneNodeActions::panel() const
