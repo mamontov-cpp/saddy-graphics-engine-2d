@@ -62,7 +62,7 @@ m_color(0, 0, 0, 0)
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
 {
-	r << this->region();
+	r << m_cached_region;
 }
 
 static sad::db::schema::Schema* LabelBasicSchema = NULL;
@@ -297,4 +297,6 @@ void sad::Label::recomputeRenderingPoint()
 	m_center.setY(m_point.y() - size.Height / 2);
 	m_halfpadding.setX(size.Width / -2.0);
 	m_halfpadding.setY(size.Height / 2.0);
+
+	m_cached_region = this->region();
 }
