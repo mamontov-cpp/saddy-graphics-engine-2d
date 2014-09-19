@@ -276,6 +276,9 @@ private:
 		/*! A half size with negative parts, needed to render a font
 		 */
 		sad::Point2D     m_halfpadding;
+		/*! A cached region for label
+		 */
+		sad::Rect2D      m_cached_region;
 };
 
 }
