@@ -213,6 +213,7 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), m_scene_node_actions, SLOT(colorChanged(QColor)));
     connect(ui.rwSceneNodeRect, SIGNAL(valueChanged(QRectF)), m_scene_node_actions, SLOT(areaChanged(QRectF)));
     connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), m_scene_node_actions, SLOT(angleChanged(double)));
+	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneNodeChanged(int)));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
@@ -733,6 +734,28 @@ void MainPanel::sceneNameChanged(const QString& name)
 		history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
+	}
+}
+
+void MainPanel::currentSceneNodeChanged(int index)
+{
+	if (index != -1) 
+	{
+		QListWidgetItem* i = ui.lstSceneObjects->item(index);
+		sad::SceneNode* s = i->data(Qt::UserRole).value<sad::SceneNode*>();
+		bool b = ui.txtObjectName->blockSignals(true);
+		ui.txtObjectName->setText(s->objectName().c_str());
+		ui.txtObjectName->blockSignals(b);
+
+		if (m_editor->machine()->isInState("idle"))
+		{
+			m_editor->machine()->enterState("selected");
+		}
+		if (m_editor->machine()->isInState("selected"))
+		{
+			m_editor->shared()->setSelectedObject(s);
+			this->updateUIForSelectedItem();
+		}
 	}
 }
 
