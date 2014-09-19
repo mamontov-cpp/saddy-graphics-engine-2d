@@ -23,7 +23,7 @@
 
 gui::LabelActions::LabelActions(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-	
+
 }
 
 gui::LabelActions::~LabelActions()

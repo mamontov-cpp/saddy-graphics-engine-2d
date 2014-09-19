@@ -139,13 +139,16 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/label/changetext.h \
     ifaceed/history/label/changelinespacing.h \
     ifaceed/history/scenenodes/scenenodeschangename.h \
-    ifaceed/history/scenenodes/scenenodespropertychanged.h \
-    ifaceed/history/scenenodes/scenenodescheckboxreferencedpropertychange.h \
-    ifaceed/history/scenenodes/scenenodesvisibilitychange.h \
-    ifaceed/history/scenenodes/scenenodescolorchange.h \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
     ifaceed/core/typeconverters/qrectftosadrect2d.h \
-    ifaceed/history/scenenodes/scenenodeschangearea.h
+    ifaceed/history/scenenodes/scenenodeschangearea.h \
+    ifaceed/history/database/changeproperty.h \
+    ifaceed/history/scenenodes/scenenodeschangeangle.h \
+    ifaceed/history/scenenodes/scenenodeschangecolor.h \
+    ifaceed/history/scenenodes/scenenodeschangeproperty.h \
+    ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
+    ifaceed/history/scenenodes/scenenodeschangevisibility.h \
+    ifaceed/gui/rotationprocess.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -244,12 +247,14 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/label/changetext.cpp \
     ifaceed/history/label/changelinespacing.cpp \
     ifaceed/history/scenenodes/scenesnodeschangename.cpp \
-    ifaceed/history/scenenodes/scenenodescheckboxreferencedpropertychange.cpp \
-    ifaceed/history/scenenodes/scenenodesvisibilitychange.cpp \
-    ifaceed/history/scenenodes/scenenodescolorchange.cpp \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
     ifaceed/core/typeconverters/qrectftosadrect2d.cpp \
-    ifaceed/history/scenenodes/scenenodeschangearea.cpp
+    ifaceed/history/scenenodes/scenenodeschangearea.cpp \
+    ifaceed/history/scenenodes/scenenodeschangeangle.cpp \
+    ifaceed/history/scenenodes/scenenodeschangecolor.cpp \
+    ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp \
+    ifaceed/history/scenenodes/scenenodeschangevisibility.cpp \
+    ifaceed/gui/rotationprocess.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
