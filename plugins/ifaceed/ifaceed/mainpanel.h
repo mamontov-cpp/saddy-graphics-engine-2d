@@ -151,6 +151,15 @@ public:
 	/*! Removes last scene node from scene list
 	 */
 	void removeLastSceneNodeFromSceneNodeList();
+	/*! Inserts scene node to a scene node list
+		\param[in] s scene node
+		\param[in] position a position in scene list
+	 */
+	void insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position);
+	/*! Removes scene node from a scene node list
+		\param[in] position a position, where scene must be removed
+	 */
+	void removeSceneNodeFromSceneNodeList(int position);
 	/*! Finds scene node in scene list
 		\param[in] s scene
 		\return scene row (-1 if not found)

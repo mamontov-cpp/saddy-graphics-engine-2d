@@ -65,6 +65,10 @@ public slots:
      * \param newarea
      */
     void angleChanged(double newvalue);
+	/*!
+	 * Called, when user removes scene node
+	 */
+	void removeSceneNode();
 private:
 	/*! An panel, which actions are belong to
 	 */

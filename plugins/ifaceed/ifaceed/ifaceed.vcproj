@@ -773,6 +773,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\history\scenenodes\scenenodesremove.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenesnodeschangename.cpp"
 						>
 					</File>
@@ -2988,6 +2992,10 @@
 					</File>
 					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodesremove.h"
 						>
 					</File>
 				</Filter>

@@ -11,6 +11,7 @@
 #include "../gui/rotationprocess.h"
 
 #include "../history/scenenodes/scenenodesnew.h"
+#include "../history/scenenodes/scenenodesremove.h"
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodeschangevisibility.h"
 #include "../history/scenenodes/scenenodeschangecolor.h"
@@ -79,7 +80,6 @@ void gui::SceneNodeActions::cancelSelection()
 	m_panel->editor()->machine()->enterState("idle");
 	m_panel->editor()->shared()->setSelectedObject(NULL);
 }
-
 
 // ============================= PUBLIC SLOTS METHODS =============================
 
@@ -217,6 +217,26 @@ void gui::SceneNodeActions::angleChanged(double newvalue)
             }
         }
     }
+}
+
+void gui::SceneNodeActions::removeSceneNode()
+{
+	if (m_panel->editor()->machine()->isInState("selected"))
+	{
+		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+		if (node)
+		{
+			int row = m_panel->findSceneNodeInList(node);
+			if (row == -1)
+			{
+				row = (int)(node->scene()->findLayer(node));
+			}
+			
+			history::Command* c = new history::scenenodes::Remove(node, row);
+			m_panel->editor()->history()->add(c);
+			c->commit(m_panel->editor());
+		}
+	}
 }
 
 // ============================= PRIVATE METHODS =============================

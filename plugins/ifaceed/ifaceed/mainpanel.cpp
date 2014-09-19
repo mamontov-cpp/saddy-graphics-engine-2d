@@ -95,7 +95,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	
 	m_list.setWidget(ui.lstSceneObjects);
 
-	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
 	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
 	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
 	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
@@ -214,6 +213,7 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.rwSceneNodeRect, SIGNAL(valueChanged(QRectF)), m_scene_node_actions, SLOT(areaChanged(QRectF)));
     connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), m_scene_node_actions, SLOT(angleChanged(double)));
 	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneNodeChanged(int)));
+	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_scene_node_actions, SLOT(removeSceneNode()));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
@@ -464,6 +464,24 @@ void MainPanel::removeLastSceneNodeFromSceneNodeList()
 		QListWidgetItem* i = ui.lstSceneObjects->takeItem(ui.lstSceneObjects->count() - 1);
 		delete i;
 	}
+}
+
+void MainPanel::insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstSceneObjects->insertItem(position, i);
+}
+
+void MainPanel::removeSceneNodeFromSceneNodeList(int position)
+{
+	QListWidgetItem* i =  ui.lstSceneObjects->takeItem(position);
+	delete i;
 }
 
 int MainPanel::findSceneNodeInList(sad::SceneNode* s)
