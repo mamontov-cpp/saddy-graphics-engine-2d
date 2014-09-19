@@ -1,7 +1,7 @@
-/*! \file scenenodesnew.h
+/*! \file scenenodesremove.h
 	\author HiddenSeeker
 
-	Describes a command, when scene node is added to an editor scene
+	Describe a command, when scene node is removed from scene
  */
 #pragma once
 #include "../command.h"
@@ -14,16 +14,17 @@ namespace scenenodes
 {
 /*! A command, which must be added, when user added object to editor scene
  */
-class New: public history::Command
+class Remove: public history::Command
 {
 public:
 	 /*! Constructs new command for node
 		\param[in] d a node
+		\param[in] position a position 
 	  */
-	 New(sad::SceneNode* d);
+	 Remove(sad::SceneNode* d, int position);
 	 /*! Erases link to a node
 	  */
-	 virtual ~New();
+	 virtual ~Remove();
 	 /*! Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
@@ -36,7 +37,9 @@ protected:
 	/*! A node, which must be added to an item
 	 */
 	sad::SceneNode * m_node;
-
+	/*! A position, where node must be inserted
+	 */
+	int m_position;
 };
 
 }
