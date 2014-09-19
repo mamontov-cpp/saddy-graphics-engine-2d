@@ -74,6 +74,13 @@ void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
     }
 }
 
+void gui::SceneNodeActions::cancelSelection()
+{
+	m_panel->editor()->machine()->enterState("idle");
+	m_panel->editor()->shared()->setSelectedObject(NULL);
+}
+
+
 // ============================= PUBLIC SLOTS METHODS =============================
 
 void gui::SceneNodeActions::nameEdited(const QString& name)

@@ -174,7 +174,9 @@ void gui::LabelActions::labelFontChanged(sad::String s)
 {
 	if (m_panel->editor()->shared()->activeObject() != NULL)
 	{
+		sad::Renderer::ref()->lockRendering();
 		m_panel->editor()->shared()->activeObject()->setProperty("font", s);
+		sad::Renderer::ref()->unlockRendering();
 	}
 	else
 	{
@@ -186,7 +188,9 @@ void gui::LabelActions::labelFontChanged(sad::String s)
 			{
 				if (oldvalue.value() != s)
 				{
+					sad::Renderer::ref()->lockRendering();
 					node->setProperty("font", s);
+					sad::Renderer::ref()->unlockRendering();
 					m_panel->editor()->history()->add(new history::label::ChangeFontName(node, oldvalue.value(), s));
 				}
 			}
@@ -198,8 +202,11 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
 {
     if (m_panel->editor()->shared()->activeObject() != NULL)
     {
+		sad::Renderer::ref()->lockRendering();
         m_panel->editor()->shared()->activeObject()->setProperty("fontsize", s);
-        this->updateRegionForLabel();
+        sad::Renderer::ref()->unlockRendering();
+
+		this->updateRegionForLabel();
     }
     else
     {
@@ -211,7 +218,9 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
             {
                 if (oldvalue.value() != s)
                 {
+					sad::Renderer::ref()->lockRendering();
                     node->setProperty("fontsize", s);
+					sad::Renderer::ref()->unlockRendering();
                     this->updateRegionForLabel();
                     m_panel->editor()->history()->add(new history::label::ChangeFontSize(node, oldvalue.value(), s));
                 }

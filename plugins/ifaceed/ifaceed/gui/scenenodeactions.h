@@ -38,6 +38,9 @@ public:
         \param[in] e event
      */
     void rotate(const sad::input::MouseWheelEvent& e);
+	/*! Cancels selection of object
+	 */
+	void cancelSelection();
 public slots:
 	/*! Called, when node name is edited
 		\param[in] name a name for action
