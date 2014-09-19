@@ -281,6 +281,10 @@ protected slots:
 		\param[in] name new scene name
 	 */
 	void sceneNameChanged(const QString& name);
+	/*! Emitted, when current scene node is changed
+		\param[in] node a current scene node
+	 */
+	void currentSceneNodeChanged(int index);
 	/*! Removes scene from a database (making it inactive)
 	 */
 	void removeScene();
