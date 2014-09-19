@@ -1,4 +1,4 @@
-/*! \file scenelayerswap.h
+/*! \file scenenodeslayerswap.h
 	\author HiddenSeeker
 
 	Used to swap layers on scenes.
@@ -8,25 +8,25 @@
 
 namespace sad
 {
-class Scene;
+class SceneNode;
 }
 
 namespace history
 {
 
-namespace scenes
+namespace scenenodes
 {
 
 class LayerSwap: public history::Command
 {
 public: 
 	/*! Adds a scene, which was added. Command links to scene
-		\param[in] s1 first scene
-		\param[in] s2 second scene
+		\param[in] n1 first node
+		\param[in] n2 second node
 		\param[in] l1 first position
 		\param[in] l2 second position
 	 */
-	LayerSwap(sad::Scene* s1, sad::Scene* s2, int l1, int l2);
+	LayerSwap(sad::SceneNode* s1, sad::SceneNode* s2, int l1, int l2);
 	/*! Deletes reference to a scene
 	 */
 	~LayerSwap();
@@ -41,10 +41,10 @@ public:
 protected:
 	/*! A first scene
 	 */
-	sad::Scene* m_s1;
+	sad::SceneNode* m_n1;
 	/*! A second scene
 	 */
-	sad::Scene* m_s2;
+	sad::SceneNode* m_n2;
 	/*! A list position for first scene
 	 */
 	int m_list_position1;

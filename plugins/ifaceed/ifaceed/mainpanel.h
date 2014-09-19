@@ -116,11 +116,11 @@ public:
 		\return scene row
 	 */
 	int findSceneInList(sad::Scene* s);
-	/*! Sets scenes positions in list
+	/*! Sets scenes' positions in list
 		\param[in] s1 first scene
 		\param[in] s2 second scene
 		\param[in] pos1 position of first scene
-		\param[in] pos2 position of second scenee
+		\param[in] pos2 position of second scene
 	 */
 	void setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2);
 	/*! Updates labels with coordinates on mouse move
@@ -160,6 +160,13 @@ public:
 		\param[in] position a position, where scene must be removed
 	 */
 	void removeSceneNodeFromSceneNodeList(int position);
+	/*! Sets scene nodes' positions in list
+		\param[in] s1 first node
+		\param[in] s2 second node
+		\param[in] pos1 position of first node
+		\param[in] pos2 position of second node
+	 */
+	void setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2);
 	/*! Finds scene node in scene list
 		\param[in] s scene
 		\return scene row (-1 if not found)
@@ -320,7 +327,12 @@ protected slots:
 	/*! Redoes editor actions
 	 */
 	void redo();
-
+	/*! Moves scene back
+	 */
+	void sceneNodeMoveBack();
+	/*! Moves scene front
+	 */
+	void sceneNodeMoveFront();
 
 
 	/*! TODO: Remove

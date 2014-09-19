@@ -769,6 +769,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\history\scenenodes\scenenodeslayerswap.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\scenenodes\scenenodesnew.cpp"
 						>
 					</File>
@@ -2988,6 +2992,10 @@
 					</File>
 					<File
 						RelativePath=".\history\scenenodes\scenenodeschangevisibility.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\scenenodes\scenenodeslayerswap.h"
 						>
 					</File>
 					<File
