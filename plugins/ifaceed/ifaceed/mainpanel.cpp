@@ -24,6 +24,8 @@
 #include "history/scenes/sceneschangename.h"
 #include "history/scenes/sceneslayerswap.h"
 
+#include "history/scenenodes/scenenodeslayerswap.h"
+
 #include "gui/scenenodeactions.h"
 #include "gui/labelactions.h"
 
@@ -214,6 +216,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), m_scene_node_actions, SLOT(angleChanged(double)));
 	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneNodeChanged(int)));
 	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_scene_node_actions, SLOT(removeSceneNode()));
+	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(sceneNodeMoveBack()));
+	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(sceneNodeMoveFront()));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
@@ -482,6 +486,25 @@ void MainPanel::removeSceneNodeFromSceneNodeList(int position)
 {
 	QListWidgetItem* i =  ui.lstSceneObjects->takeItem(position);
 	delete i;
+}
+
+void MainPanel::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2)
+{
+	sad::SceneNode* s = this->editor()->shared()->selectedObject();
+	ui.lstSceneObjects->item(pos1)->setText(this->viewableObjectName(n1));
+	QVariant v1;
+	v1.setValue(n1);
+	ui.lstSceneObjects->item(pos1)->setData(Qt::UserRole, v1);
+
+	ui.lstSceneObjects->item(pos2)->setText(this->viewableObjectName(n2));
+	QVariant v2;
+	v2.setValue(n2);
+	ui.lstSceneObjects->item(pos2)->setData(Qt::UserRole, v2);
+
+	if (s == n1 || s == n2)
+	{
+		this->currentSceneNodeChanged(ui.lstSceneObjects->currentRow());
+	}
 }
 
 int MainPanel::findSceneNodeInList(sad::SceneNode* s)
@@ -856,6 +879,47 @@ void MainPanel::redo()
 	m_editor->redo();
 }
 
+void MainPanel::sceneNodeMoveBack()
+{
+	if (m_editor->machine()->isInState("selected"))
+	{
+		sad::SceneNode* node = m_editor->shared()->selectedObject();
+		if (node)
+		{
+			int row = ui.lstSceneObjects->currentRow();
+			int row2 = this->findSceneNodeInList(node);
+			if (row > 0 && row == row2)
+			{
+				sad::SceneNode* previousnode = ui.lstSceneObjects->item(row - 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+				history::Command* c = new history::scenenodes::LayerSwap(node, previousnode, row, row - 1);
+				this->m_editor->history()->add(c);
+				c->commit(m_editor);
+			}
+		}
+	}
+}
+
+void MainPanel::sceneNodeMoveFront()
+{
+	if (m_editor->machine()->isInState("selected"))
+	{
+		sad::SceneNode* node = m_editor->shared()->selectedObject();
+		if (node)
+		{
+			int row = ui.lstSceneObjects->currentRow();
+			int row2 = this->findSceneNodeInList(node);
+			if (row < ui.lstSceneObjects->count() - 1 && row > -1 && row == row2)
+			{
+				sad::SceneNode* nextnode = ui.lstSceneObjects->item(row + 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+				history::Command* c = new history::scenenodes::LayerSwap(node, nextnode, row, row + 1);
+				this->m_editor->history()->add(c);
+				c->commit(m_editor);
+			}
+		}
+	}
+}
 
 
 void MainPanel::selected(sad::String item)
