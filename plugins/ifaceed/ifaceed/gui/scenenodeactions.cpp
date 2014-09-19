@@ -16,6 +16,7 @@
 #include "../history/scenenodes/scenenodeschangecolor.h"
 #include "../history/scenenodes/scenenodeschangearea.h"
 
+#include "../../blockedclosuremethodcall.h"
 
 #include <label.h>
 #include <geometry2d.h>
@@ -35,12 +36,42 @@ gui::SceneNodeActions::~SceneNodeActions()
 void gui::SceneNodeActions::setPanel(MainPanel* e)
 {
 	m_panel = e;
-    m_rotation->setHistory(e->editor()->history());
 }
 
 MainPanel* gui::SceneNodeActions::panel() const
 {
 	return m_panel;
+}
+
+void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
+{
+    m_rotation->setEditor(m_panel->editor());
+
+    sad::SceneNode* node = m_panel->editor()->shared()->activeObject();
+    bool selected = false;
+    if (!node)
+    {
+        node = m_panel->editor()->shared()->selectedObject();
+        selected = true;
+    }
+    if (node)
+    {
+        sad::Maybe<float> maybeangle = node->getProperty<float>("angle");
+        if (maybeangle.exists())
+        {
+            float nextangle = this->computeChangedAngle(maybeangle.value(), e.Delta);
+            node->setProperty("angle", nextangle);
+            m_panel->editor()->emitClosure(blocked_bind(
+                m_panel->UI()->awSceneNodeAngle,
+                &gui::anglewidget::AngleWidget::setValue,
+                (double)nextangle
+            ));
+            if (selected)
+            {
+                m_rotation->start(node, maybeangle.value(), nextangle);
+            }
+        }
+    }
 }
 
 // ============================= PUBLIC SLOTS METHODS =============================
@@ -155,3 +186,54 @@ void gui::SceneNodeActions::areaChanged(QRectF newarea)
         }
     }
 }
+
+void gui::SceneNodeActions::angleChanged(double newvalue)
+{
+    m_rotation->setEditor(m_panel->editor());
+
+    sad::SceneNode* node = m_panel->editor()->shared()->activeObject();
+    bool selected = false;
+    if (!node)
+    {
+        node = m_panel->editor()->shared()->selectedObject();
+        selected = true;
+    }
+    if (node)
+    {
+        sad::Maybe<float> maybeangle = node->getProperty<float>("angle");
+        if (maybeangle.exists())
+        {
+            node->setProperty("angle", newvalue);
+            if (selected)
+            {
+                m_rotation->start(node, maybeangle.value(), newvalue);
+            }
+        }
+    }
+}
+
+// ============================= PRIVATE METHODS =============================
+
+float gui::SceneNodeActions::computeChangedAngle(float angle, float delta)
+{
+    double onedegree = 1.0 / 180.0 * M_PI;
+    double result = 0;
+    if (sad::is_fuzzy_equal(0, angle, 0.001) && delta < 0)
+    {
+        result = 2 * M_PI - onedegree;
+    }
+    else
+    {
+        if (sad::is_fuzzy_equal(2 * M_PI, angle, 0.001) && delta > 0)
+        {
+            result = onedegree;
+        }
+        else
+        {
+            float direction = (delta > 0) ? 1 : -1;
+            result = angle + direction * onedegree;
+        }
+    }
+    return result;
+}
+

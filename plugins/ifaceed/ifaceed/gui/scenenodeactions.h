@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QRectF>
 
+#include <input/events.h>
+
 class MainPanel;
 
 namespace gui
@@ -32,6 +34,10 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+    /*! Tries to rotate object, when user uses mouse wheel
+        \param[in] e event
+     */
+    void rotate(const sad::input::MouseWheelEvent& e);
 public slots:
 	/*! Called, when node name is edited
 		\param[in] name a name for action
@@ -47,10 +53,15 @@ public slots:
      */
     void colorChanged(QColor newcolor);
     /*!
-     * Called, when uuser changes area of node
+     * Called, when user changes area of node
      * \param newarea
      */
     void areaChanged(QRectF newarea);
+    /*!
+     * Called, when user changes angle of node
+     * \param newarea
+     */
+    void angleChanged(double newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */
@@ -59,6 +70,14 @@ private:
      * A rotation process to work with
      */
     gui::RotationProcess* m_rotation;
+
+    /*!
+     * Computes angle, after mouse wheel
+     * \param angle  a previous angle value
+     * \param delta  a mouse wheel event delta
+     * \return next angle
+     */
+    float computeChangedAngle(float angle, float delta);
 };
 
 }

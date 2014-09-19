@@ -160,6 +160,8 @@ void MainPanel::setEditor(core::Editor* editor)
 
 	sad::hfsm::Machine* m = editor->machine();
 	sad::String la = "adding/label";
+    sad::String s = "selected";
+
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_KeyPress & sad::Esc & (m * la), 
 		m_label_actions, 
@@ -175,11 +177,17 @@ void MainPanel::setEditor(core::Editor* editor)
 		m_label_actions,
 		&gui::LabelActions::commitLabelAdd
 	);
+
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_MouseWheel & (m * la),
-		m_label_actions,
-		&gui::LabelActions::rotateLabelWhenAdding
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
 	);
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseWheel & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+    );
 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
@@ -198,6 +206,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cbSceneNodeVisible, SIGNAL(clicked(bool)), m_scene_node_actions, SLOT(visibilityChanged(bool)));
     connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), m_scene_node_actions, SLOT(colorChanged(QColor)));
     connect(ui.rwSceneNodeRect, SIGNAL(valueChanged(QRectF)), m_scene_node_actions, SLOT(areaChanged(QRectF)));
+    connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), m_scene_node_actions, SLOT(angleChanged(double)));
 
 	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
 	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));

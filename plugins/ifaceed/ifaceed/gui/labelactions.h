@@ -41,10 +41,6 @@ public:
 		\param[in] e event
 	 */
 	void moveLabel(const sad::input::MouseMoveEvent& e);
-	/*! Rotates label, when it's being added to scene
-		\param[in] e event
-	 */
-	void rotateLabelWhenAdding(const sad::input::MouseWheelEvent& e);
 	/*! Commits label adding to a scene
 		\param[in] e event
 	 */
