@@ -340,6 +340,8 @@ void sad::Sprite2D::setArea(const sad::Rect2D & a)
 
 	m_size.Width = a[0].distance(a[1]);
 	m_size.Height = a[0].distance(a[3]);
+	
+	buildRenderableArea();
 }
 
 const sad::Rect2D & sad::Sprite2D::renderableArea() const

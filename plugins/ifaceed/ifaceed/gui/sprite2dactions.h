@@ -42,6 +42,14 @@ public:
 		\param[in] e event
 	 */
 	void commitAdd(const sad::input::MousePressEvent& e);
+	/*! Places first point for a sprite
+		\param[in] e event
+	 */
+	void placeFirstPointForSprite(const sad::input::MousePressEvent& e);
+	/*! Moves lower point of sprite to a position
+		\param[in] e a sprite
+	 */
+	void moveLowerPointOfSprite(const sad::input::MouseMoveEvent & e);
 public slots:
 	/*! Starts placing sprites
 	 */
