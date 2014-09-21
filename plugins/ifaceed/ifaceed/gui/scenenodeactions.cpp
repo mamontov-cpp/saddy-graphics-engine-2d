@@ -222,6 +222,16 @@ void gui::SceneNodeActions::areaChanged(QRectF newarea)
 
 void gui::SceneNodeActions::angleChanged(double newvalue)
 {
+	// Block changing in diagonal placing state
+	if (m_panel->editor()->machine()->isInState("adding/sprite_diagonal"))
+	{
+		gui::anglewidget::AngleWidget* w = m_panel->UI()->awSceneNodeAngle;
+		bool b = w->blockSignals(true);
+		w->setValue(0);
+		w->blockSignals(b);
+		return;
+	}
+
     m_rotation->setEditor(m_panel->editor());
 
     sad::SceneNode* node = m_panel->editor()->shared()->activeObject();

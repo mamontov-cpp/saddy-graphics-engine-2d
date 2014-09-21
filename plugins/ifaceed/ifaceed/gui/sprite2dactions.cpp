@@ -80,6 +80,37 @@ void gui::Sprite2DActions::commitAdd(const sad::input::MousePressEvent& e)
 	m_panel->editor()->machine()->enterState("selected");
 }
 
+void gui::Sprite2DActions::placeFirstPointForSprite(const sad::input::MousePressEvent& e)
+{
+	const sad::Point2D& p = e.pos2D();
+	core::Shared* s = m_panel->editor()->shared();
+	sad::SceneNode* node = s->activeObject();
+	sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(node);
+	sprite->setArea(sad::Rect2D(p, p));
+	sprite->setVisible(true);
+
+	m_panel->editor()->shared()->toggleActiveBorder(true);
+
+	m_panel->editor()->machine()->enterState("adding/sprite_diagonal/point_placed");
+	m_panel->highlightState("Click, where you want lower point to be placed");
+
+	m_panel->sceneNodeActions()->updateRegionForNode();
+}
+
+void gui::Sprite2DActions::moveLowerPointOfSprite(const sad::input::MouseMoveEvent & e)
+{
+	const sad::Point2D& p = e.pos2D();
+	sad::SceneNode* node = m_panel->editor()->shared()->activeObject();
+	if (node)
+	{
+		sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(node);
+		sad::Rect2D area = sprite->area();
+		area = sad::Rect2D(p, area[3]);
+		sprite->setArea(area);
+		this->m_panel->sceneNodeActions()->updateRegionForNode();
+	}
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::Sprite2DActions::add()
@@ -156,5 +187,27 @@ void gui::Sprite2DActions::addBySimplePlacing()
 
 void gui::Sprite2DActions::addByDiagonalPlacing()
 {
-	
+	sad::Sprite2D* sprite = new sad::Sprite2D();
+	sprite->setTreeName("");
+	sprite->set(m_panel->UI()->rtwSpriteSprite->selectedResourceName().value());
+
+	const sad::Settings & settings = sad::Renderer::ref()->settings();
+	sprite->setMiddle(sad::Point2D(settings.width() / 2.0, settings.height() / 2.0));
+
+	QString name = m_panel->UI()->txtObjectName->text();
+	if (name.length())
+	{
+		sprite->setObjectName(name.toStdString());
+	}
+
+	sprite->setVisible(false);
+
+	m_panel->currentScene()->add(sprite);
+	m_panel->editor()->shared()->setActiveObject(sprite);
+	m_panel->editor()->shared()->toggleActiveBorder(false);
+
+	m_panel->editor()->machine()->enterState("adding/sprite_diagonal");
+	m_panel->highlightState("Click, where you want upper point to be placed");
+
+	m_panel->sceneNodeActions()->updateRegionForNode();
 }

@@ -162,6 +162,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	sad::hfsm::Machine* m = editor->machine();
 	sad::String la = "adding/label";
 	sad::String ssa = "adding/sprite";
+	sad::String sda = "adding/sprite_diagonal";
+	sad::String sdap = "adding/sprite_diagonal/point_placed";
     sad::String s = "selected";
 
 	// A bindings for adding label
@@ -220,7 +222,36 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::SceneNodeActions::rotate
 	);
 
+	// A binding for adding sprite (after first click)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * sdap), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * sdap),
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sdap),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::moveLowerPointOfSprite
+	);
 
+	// A binding for adding sprite (when first click determines upper-left corner)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * sda), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * sda),
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::placeFirstPointForSprite
+	);
+
+	
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
 	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
