@@ -8,6 +8,8 @@
 
 #include "../core/typeconverters/qcolortosadacolor.h"
 
+#include "../gui/scenenodeactions.h"
+
 #include "../history/scenenodes/scenenodesnew.h"
 
 #include "../history/label/changefontname.h"
@@ -43,32 +45,6 @@ MainPanel* gui::LabelActions::panel() const
 	return m_panel;
 }
 
-void gui::LabelActions::updateRegionForLabel()
-{
-	core::Shared* s = this->m_panel->editor()->shared();
-	sad::SceneNode* node = s->activeObject();
-	if (node == NULL)
-	{
-		node  = s->selectedObject(); 
-	}
-	if (node)
-	{
-		sad::Renderer::ref()->lockRendering();
-		sad::Maybe<sad::Rect2D> maybearea = node->getProperty<sad::Rect2D>("area");
-		sad::Renderer::ref()->unlockRendering();
-		if (maybearea.exists())
-		{
-			const sad::Rect2D & v = maybearea.value();
-            QRectF newrect = QRectF(v[0].x(), v[0].y(), v.width(), v.height());
-            m_panel->editor()->emitClosure( blocked_bind(
-                m_panel->UI()->rwSceneNodeRect,
-                &gui::rectwidget::RectWidget::setValue,
-                newrect
-            ));
-		}
-	}
-}
-
 void gui::LabelActions::cancelAddLabel()
 {
 	core::Shared* s = this->m_panel->editor()->shared();
@@ -101,7 +77,7 @@ void gui::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 
 			r = sad::Rect2D(p.x() - width, p.y() + height, p.x() + width, p.y() - height);
 			node->setProperty("area", r);
-			this->updateRegionForLabel();
+			this->m_panel->sceneNodeActions()->updateRegionForNode();
 		}
 	}
 }
@@ -127,6 +103,7 @@ void gui::LabelActions::addLabel()
 	valid = valid && m_panel->currentScene() != NULL;
 	valid = valid && m_panel->UI()->txtLabelText->toPlainText().length() != 0;
 	valid = valid && m_panel->UI()->rtwLabelFont->selectedResourceName().exists();
+	valid = valid && m_panel->editor()->machine()->isInState("adding") == false;
 	if (valid)
 	{
 		// Cleanup last adding item if was in that state
@@ -166,7 +143,7 @@ void gui::LabelActions::addLabel()
 		m_panel->editor()->machine()->enterState("adding/label");
 		m_panel->highlightState("Click, where you want label to be placed");
 
-		this->updateRegionForLabel();
+		m_panel->sceneNodeActions()->updateRegionForNode();
 	}
 }
 
@@ -206,7 +183,7 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
         m_panel->editor()->shared()->activeObject()->setProperty("fontsize", s);
         sad::Renderer::ref()->unlockRendering();
 
-		this->updateRegionForLabel();
+		m_panel->sceneNodeActions()->updateRegionForNode();
     }
     else
     {
@@ -221,7 +198,7 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
 					sad::Renderer::ref()->lockRendering();
                     node->setProperty("fontsize", s);
 					sad::Renderer::ref()->unlockRendering();
-                    this->updateRegionForLabel();
+                    m_panel->sceneNodeActions()->updateRegionForNode();
                     m_panel->editor()->history()->add(new history::label::ChangeFontSize(node, oldvalue.value(), s));
                 }
             }
@@ -236,7 +213,7 @@ void gui::LabelActions::labelTextChanged()
     if (m_panel->editor()->shared()->activeObject() != NULL)
     {
         m_panel->editor()->shared()->activeObject()->setProperty("text", newvalue);
-        this->updateRegionForLabel();
+        m_panel->sceneNodeActions()->updateRegionForNode();
     }
     else
     {
@@ -249,7 +226,7 @@ void gui::LabelActions::labelTextChanged()
                 if (oldvalue.value() != newvalue)
                 {
                     node->setProperty("text", newvalue);
-                    this->updateRegionForLabel();
+                    m_panel->sceneNodeActions()->updateRegionForNode();
                     m_panel->editor()->history()->add(new history::label::ChangeText(node, oldvalue.value(), newvalue));
                 }
             }
@@ -262,7 +239,7 @@ void gui::LabelActions::labelLineSpacingChanged(double newvalue)
 	if (m_panel->editor()->shared()->activeObject() != NULL)
     {
         m_panel->editor()->shared()->activeObject()->setProperty("linespacing", newvalue);
-        this->updateRegionForLabel();
+        m_panel->sceneNodeActions()->updateRegionForNode();
     }
     else
     {
@@ -275,7 +252,7 @@ void gui::LabelActions::labelLineSpacingChanged(double newvalue)
 				if (sad::is_fuzzy_equal(oldvalue.value(), newvalue, 0.0001) == false)
                 {
                     node->setProperty("linespacing", newvalue);
-                    this->updateRegionForLabel();
+                    m_panel->sceneNodeActions()->updateRegionForNode();
                     m_panel->editor()->history()->add(new history::label::ChangeLineSpacing(node, oldvalue.value(), newvalue));
                 }
             }

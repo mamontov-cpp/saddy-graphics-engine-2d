@@ -28,6 +28,7 @@
 
 #include "gui/scenenodeactions.h"
 #include "gui/labelactions.h"
+#include "gui/sprite2dactions.h"
 
 #include <geometry2d.h>
 #include <keymouseconditions.h>
@@ -94,12 +95,11 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_label_actions = new gui::LabelActions();
 	m_label_actions->setPanel(this);
+
+	m_sprite2d_actions = new gui::Sprite2DActions();
+	m_sprite2d_actions->setPanel(this);
 	
 	m_list.setWidget(ui.lstSceneObjects);
-
-	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
-	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
-	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
 }
 
 
@@ -161,8 +161,10 @@ void MainPanel::setEditor(core::Editor* editor)
 
 	sad::hfsm::Machine* m = editor->machine();
 	sad::String la = "adding/label";
+	sad::String ssa = "adding/sprite";
     sad::String s = "selected";
 
+	// A bindings for adding label
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_KeyPress & sad::Esc & (m * la), 
 		m_label_actions, 
@@ -178,12 +180,13 @@ void MainPanel::setEditor(core::Editor* editor)
 		m_label_actions,
 		&gui::LabelActions::commitLabelAdd
 	);
-
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_MouseWheel & (m * la),
         m_scene_node_actions,
         &gui::SceneNodeActions::rotate
 	);
+
+	// A bindings for adding node actions
     sad::Renderer::ref()->controls()->add(
         *sad::input::ET_MouseWheel & (m * s),
         m_scene_node_actions,
@@ -194,6 +197,28 @@ void MainPanel::setEditor(core::Editor* editor)
         m_scene_node_actions,
         &gui::SceneNodeActions::cancelSelection
     );
+
+	// A binding for adding sprite actions (just placing)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * ssa), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * ssa),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::moveCenterOfSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * ssa),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * ssa),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+	);
 
 
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
@@ -225,8 +250,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
 	connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
 
+	connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
 
-	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
@@ -239,9 +264,19 @@ core::Editor* MainPanel::editor() const
     return m_editor;
 }
 
+gui::SceneNodeActions* MainPanel::sceneNodeActions() const
+{
+    return m_scene_node_actions;
+}
+
 gui::LabelActions* MainPanel::labelActions() const
 {
     return m_label_actions;
+}
+
+gui::Sprite2DActions* MainPanel::sprite2DActions() const
+{
+	return m_sprite2d_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()

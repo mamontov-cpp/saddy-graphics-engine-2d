@@ -8,6 +8,7 @@
 #include "../../closuremethodcall.h"
 
 #include "../../gui/labelactions.h"
+#include "../../gui/scenenodeactions.h"
 
 history::label::ChangeText::ChangeText(
     sad::SceneNode* d,
@@ -37,5 +38,5 @@ void history::label::ChangeText::updateUI(core::Editor* e, const sad::String& va
             QString(value.c_str())
         )
     );
-    e->panel()->labelActions()->updateRegionForLabel();
+    e->panel()->sceneNodeActions()->updateRegionForNode();
 }

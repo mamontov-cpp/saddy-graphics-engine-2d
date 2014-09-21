@@ -166,7 +166,12 @@ void sad::Scene::setSceneLayer(unsigned int layer)
 void sad::Scene::addNow(sad::SceneNode * node)
 {
 	node->addRef();
+	bool mustchangerenderer = node->renderer() == NULL;
 	node->setScene(this);
+	if (mustchangerenderer)
+	{
+		node->rendererChanged();
+	}
 	m_layers << node;
 }
 

@@ -81,6 +81,32 @@ void gui::SceneNodeActions::cancelSelection()
 	m_panel->editor()->shared()->setSelectedObject(NULL);
 }
 
+void gui::SceneNodeActions::updateRegionForNode()
+{
+	core::Shared* s = this->m_panel->editor()->shared();
+	sad::SceneNode* node = s->activeObject();
+	if (node == NULL)
+	{
+		node  = s->selectedObject(); 
+	}
+	if (node)
+	{
+		sad::Renderer::ref()->lockRendering();
+		sad::Maybe<sad::Rect2D> maybearea = node->getProperty<sad::Rect2D>("area");
+		sad::Renderer::ref()->unlockRendering();
+		if (maybearea.exists())
+		{
+			const sad::Rect2D & v = maybearea.value();
+            QRectF newrect = QRectF(v[0].x(), v[0].y(), v.width(), v.height());
+            m_panel->editor()->emitClosure( blocked_bind(
+                m_panel->UI()->rwSceneNodeRect,
+                &gui::rectwidget::RectWidget::setValue,
+                newrect
+            ));
+		}
+	}
+}
+
 // ============================= PUBLIC SLOTS METHODS =============================
 
 void gui::SceneNodeActions::nameEdited(const QString& name)
