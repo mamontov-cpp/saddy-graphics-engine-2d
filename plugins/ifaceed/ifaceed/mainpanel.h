@@ -31,6 +31,7 @@ namespace gui
 {
 class SceneNodeActions;
 class LabelActions;
+class Sprite2DActions;
 }
 class AbstractScreenObject;
 
@@ -64,10 +65,18 @@ public:
         \return editor
      */
     core::Editor* editor() const;
-    /*! Returns label actions for editor
-     *  Returns label actions for element
+	/*! Returns actions for scene nodes
+	    @return actions for scene nodes
+	 */
+	gui::SceneNodeActions* sceneNodeActions() const;
+    /*! Returns label actions
+     *  @return label actions 
      */
     gui::LabelActions* labelActions() const;
+	/*! Returns sprite actions
+     *  @return sprite actions 
+     */
+	gui::Sprite2DActions* sprite2DActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -252,6 +261,9 @@ protected:
 	/*! An actions, linked to label editing
 	 */
 	gui::LabelActions* m_label_actions;
+	/*! An actions, linked to sprite editing
+	 */
+	gui::Sprite2DActions* m_sprite2d_actions;	
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;

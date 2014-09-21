@@ -5,6 +5,7 @@
 #include "../../mainpanel.h"
 
 #include "../../gui/labelactions.h"
+#include "../../gui/scenenodeactions.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
@@ -40,5 +41,5 @@ void history::label::ChangeFontSize::updateUI(
             value
         )
     );
-    e->panel()->labelActions()->updateRegionForLabel();
+    e->panel()->sceneNodeActions()->updateRegionForNode();
 }

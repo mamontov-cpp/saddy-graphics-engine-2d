@@ -250,13 +250,14 @@ void sad::Sprite2D::render()
 
 void sad::Sprite2D::rendererChanged()
 {
-	if (m_texture.dependsOnRenderer())
-	{
-		m_texture.setRenderer(this->renderer());
-	}
 	if (m_options.dependsOnRenderer())
 	{
 		m_options.setRenderer(this->renderer());
+	}
+	m_options.get();
+	if (m_texture.dependsOnRenderer())
+	{
+		m_texture.setRenderer(this->renderer());
 	}
 }
 
@@ -397,7 +398,7 @@ void sad::Sprite2D::rotate(double angle)
 
 void sad::Sprite2D::setAngle(double angle)
 {
-	m_angle += angle;
+	m_angle = angle;
 	buildRenderableArea();
 }
 
@@ -485,6 +486,12 @@ void sad::Sprite2D::set(const sad::String & optionsname)
 	// Make texture render dependent
 	m_options.setRenderer(this->renderer());
 	m_texture.setRenderer(this->renderer());
+
+	sad::Sprite2D::Options* opts = m_options.get();
+	if (opts)
+	{
+		this->onOptionsChange(opts);
+	}
 }
 
 const sad::String& sad::Sprite2D::optionsName() const

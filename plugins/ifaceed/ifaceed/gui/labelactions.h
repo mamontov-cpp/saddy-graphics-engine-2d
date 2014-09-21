@@ -31,9 +31,6 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
-	/*! Updates panel's region for active label
-	 */
-	void updateRegionForLabel();
 	/*! Cancels adding label state, enters previous state
 	 */
 	void cancelAddLabel();
