@@ -809,6 +809,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="sprite2d"
+					>
+					<File
+						RelativePath=".\history\sprite2d\changeoptions.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\sprite2d\makebackground.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -3076,6 +3088,18 @@
 					</File>
 					<File
 						RelativePath=".\history\label\changetext.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="sprite2d"
+					>
+					<File
+						RelativePath=".\history\sprite2d\changeoptions.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\sprite2d\makebackground.h"
 						>
 					</File>
 				</Filter>

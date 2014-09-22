@@ -10,6 +10,10 @@
 
 #include "../history/scenenodes/scenenodesnew.h"
 
+#include "../history/sprite2d/changeoptions.h"
+#include "../history/sprite2d/makebackground.h"
+
+
 #include "../gui/scenenodeactions.h"
 
 #include <sprite2d.h>
@@ -210,4 +214,76 @@ void gui::Sprite2DActions::addByDiagonalPlacing()
 	m_panel->highlightState("Click, where you want upper point to be placed");
 
 	m_panel->sceneNodeActions()->updateRegionForNode();
+}
+
+
+void gui::Sprite2DActions::spriteOptionsChanged(sad::String s)
+{
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+	{
+		sad::Renderer::ref()->lockRendering();
+		m_panel->editor()->shared()->activeObject()->setProperty("options", s);
+		m_panel->editor()->shared()->activeObject()->rendererChanged();
+		m_panel->sceneNodeActions()->updateRegionForNode();
+		sad::Renderer::ref()->unlockRendering();
+	}
+	else
+	{
+		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+		if (node)
+		{
+			sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("options");
+			sad::Maybe<sad::Rect2D> oldrect = node->getProperty<sad::Rect2D>("area");
+			if (oldvalue.exists() && oldrect.exists())
+			{
+				if (oldvalue.value() != s)
+				{
+					sad::Renderer::ref()->lockRendering();
+					node->setProperty("options", s);
+					node->rendererChanged();
+					m_panel->sceneNodeActions()->updateRegionForNode();
+					sad::Renderer::ref()->unlockRendering();
+					m_panel->editor()->history()->add(
+						new history::sprite2d::ChangeOptions(
+							node, 
+							oldrect.value(), 
+							oldvalue.value(),
+							s
+						)
+					);
+				}
+			}
+		}
+	}
+}
+
+void gui::Sprite2DActions::makeBackground()
+{
+	const sad::Settings& settings = sad::Renderer::ref()->settings();
+	sad::Rect2D newrect(
+		sad::Point2D(0, 0),
+		sad::Point2D(settings.width(), settings.height())
+	);
+	sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+	if (m_panel->editor()->shared()->activeObject() == NULL && node)
+	{
+		sad::Maybe<sad::Rect2D> oldrect = node->getProperty<sad::Rect2D>("area");
+		sad::Maybe<float> oldangle = node->getProperty<float>("angle");
+		sad::Maybe<unsigned int> oldlayer = node->getProperty<unsigned int>("layer");
+
+		if (oldrect.exists() && oldangle.exists() && oldlayer.exists())
+		{
+			history::Command* c = new history::sprite2d::MakeBackground(
+				node,
+				oldrect.value(),
+				oldangle.value(),
+				oldlayer.value(),
+				newrect,
+				0,
+				0
+			);
+			m_panel->editor()->history()->add(c);
+			c->commit(m_panel->editor());
+		}
+	}
 }

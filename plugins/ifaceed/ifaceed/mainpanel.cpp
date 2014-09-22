@@ -282,6 +282,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
 
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
+	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), m_sprite2d_actions, SLOT(spriteOptionsChanged(sad::String)));
+	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), m_sprite2d_actions, SLOT(makeBackground()));
 
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
@@ -552,6 +554,15 @@ void MainPanel::removeSceneNodeFromSceneNodeList(int position)
 {
 	QListWidgetItem* i =  ui.lstSceneObjects->takeItem(position);
 	delete i;
+}
+
+void MainPanel::removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s)
+{
+	int position = this->findSceneNodeInList(s);
+	if (position >= 0)
+	{
+		removeSceneNodeFromSceneNodeList(position);
+	}
 }
 
 void MainPanel::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2)
