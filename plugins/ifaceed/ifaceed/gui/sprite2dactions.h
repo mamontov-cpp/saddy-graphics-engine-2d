@@ -60,6 +60,13 @@ public slots:
 	/*! Adds new sprite to a scene by diagonal placing
 	 */
 	void addByDiagonalPlacing();
+	/*! Called, when sprite options are changed
+		\param[in] s a new options for changed sprite
+	 */
+	void spriteOptionsChanged(sad::String s);
+	/*! Called, when user clicks on "Make background" button
+	 */
+	void makeBackground();
 private:
 	/*! An panel, which actions are belong to
 	 */

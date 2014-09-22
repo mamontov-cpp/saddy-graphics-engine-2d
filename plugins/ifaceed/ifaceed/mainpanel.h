@@ -169,6 +169,10 @@ public:
 		\param[in] position a position, where scene must be removed
 	 */
 	void removeSceneNodeFromSceneNodeList(int position);
+	/*! Removes scene node from a scene node list
+		\param[in] s scene node
+	 */
+	void removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s);
 	/*! Sets scene nodes' positions in list
 		\param[in] s1 first node
 		\param[in] s2 second node
