@@ -12,7 +12,8 @@
 
 #include "../history/sprite2d/changeoptions.h"
 #include "../history/sprite2d/makebackground.h"
-
+#include "../history/sprite2d/changeflipx.h"
+#include "../history/sprite2d/changeflipy.h"
 
 #include "../gui/scenenodeactions.h"
 
@@ -286,4 +287,62 @@ void gui::Sprite2DActions::makeBackground()
 			c->commit(m_panel->editor());
 		}
 	}
+}
+
+void gui::Sprite2DActions::flipXChanged(bool state)
+{
+	bool newvalue = state;
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+		m_panel->editor()->shared()->activeObject()->setProperty("flipx", newvalue);
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+			sad::Maybe<bool> oldvalue = node->getProperty<bool>("flipx");
+			if (oldvalue.exists())
+			{
+				if (newvalue != oldvalue.value())
+				{
+					node->setProperty("flipx", newvalue);
+					m_panel->editor()->history()->add(history::sprite2d::changeFlipX(
+						node, 
+						oldvalue.value(), 
+						newvalue
+					));
+				}
+			}
+        }
+    }
+}
+
+void gui::Sprite2DActions::flipYChanged(bool state)
+{
+	bool newvalue = state;
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+		m_panel->editor()->shared()->activeObject()->setProperty("flipy", newvalue);
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+			sad::Maybe<bool> oldvalue = node->getProperty<bool>("flipy");
+			if (oldvalue.exists())
+			{
+				if (newvalue != oldvalue.value())
+				{
+					node->setProperty("flipy", newvalue);
+					m_panel->editor()->history()->add(history::sprite2d::changeFlipY(
+						node, 
+						oldvalue.value(), 
+						newvalue
+					));
+				}
+			}
+        }
+    }
 }

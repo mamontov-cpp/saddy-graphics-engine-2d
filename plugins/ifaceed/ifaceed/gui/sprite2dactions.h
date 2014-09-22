@@ -67,6 +67,12 @@ public slots:
 	/*! Called, when user clicks on "Make background" button
 	 */
 	void makeBackground();
+	/*! Called, when user clicks on "Flip X" checkbox
+	 */
+	void flipXChanged(bool state);
+	/*! Called, when user clicks on "Flip Y" checkbox
+	 */
+	void flipYChanged(bool state);
 private:
 	/*! An panel, which actions are belong to
 	 */

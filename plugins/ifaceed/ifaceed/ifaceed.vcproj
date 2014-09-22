@@ -813,6 +813,14 @@
 					Name="sprite2d"
 					>
 					<File
+						RelativePath=".\history\sprite2d\changeflipx.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\sprite2d\changeflipy.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\sprite2d\changeoptions.cpp"
 						>
 					</File>
@@ -3094,6 +3102,14 @@
 				<Filter
 					Name="sprite2d"
 					>
+					<File
+						RelativePath=".\history\sprite2d\changeflipx.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\sprite2d\changeflipy.h"
+						>
+					</File>
 					<File
 						RelativePath=".\history\sprite2d\changeoptions.h"
 						>
