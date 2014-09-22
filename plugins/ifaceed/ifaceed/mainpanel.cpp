@@ -284,12 +284,12 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), m_sprite2d_actions, SLOT(spriteOptionsChanged(sad::String)));
 	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), m_sprite2d_actions, SLOT(makeBackground()));
-
+	connect(ui.cbFlipX, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipXChanged(bool)));
+	connect(ui.cbFlipY, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipYChanged(bool)));
+    
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
-
-	//connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), this, SLOT(labelFontChanged(sad::String)));
 }
 
 core::Editor* MainPanel::editor() const
