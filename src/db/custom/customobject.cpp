@@ -190,6 +190,12 @@ const sad::Hash<sad::String, sad::db::Property*>&  sad::db::custom::Object::sche
 	return m_custom_schema->ownProperties();
 }
 
+bool sad::db::custom::Object::load(const picojson::value& v)
+{
+	m_sprite2d->toggleLoadingMode();
+	return this->sad::SceneNode::load(v);
+}
+
 void sad::db::custom::Object::initDefaultSchema()
 {
 	m_my_schema->addParent(sad::SceneNode::basicSchema());

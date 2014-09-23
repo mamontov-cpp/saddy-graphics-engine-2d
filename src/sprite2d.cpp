@@ -75,6 +75,7 @@ sad::Sprite2D::Sprite2D()
 : 
 m_explicit_set(false),
 m_changesizeifoptionssizechanged(true),
+m_loading(false),
 m_angle(0),
 m_flipx(false),
 m_flipy(false),
@@ -98,6 +99,7 @@ sad::Sprite2D::Sprite2D(
 : 
 m_explicit_set(false),
 m_changesizeifoptionssizechanged(true),
+m_loading(false),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
@@ -557,6 +559,17 @@ bool sad::Sprite2D::changeSizeWhenOptionsAreChanged() const
 	return m_changesizeifoptionssizechanged;
 }
 
+void sad::Sprite2D::toggleLoadingMode()
+{
+	m_loading = true;
+}
+
+bool sad::Sprite2D::load(const picojson::value& v)
+{
+	toggleLoadingMode();
+	return this->sad::SceneNode::load(v);
+}
+
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
 {
 	m_angle = 0;
@@ -638,10 +651,19 @@ void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 	m_texture.setPath(opts->Texture);
 	m_texture_coordinates = opts->TextureRectangle;	
 	reloadTexture();
-	if (m_changesizeifoptionssizechanged || m_explicit_set)
+	if (m_loading)
 	{
-		m_size = sad::Size2D(opts->Rectangle.width(), opts->Rectangle.height());
 		this->buildRenderableArea();
 		m_explicit_set = false;
+		m_loading = false;
+	}
+	else 
+	{
+		if (m_changesizeifoptionssizechanged || m_explicit_set)
+		{
+			m_size = sad::Size2D(opts->Rectangle.width(), opts->Rectangle.height());
+			this->buildRenderableArea();
+			m_explicit_set = false;
+		}
 	}
 }
