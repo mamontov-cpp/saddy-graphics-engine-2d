@@ -40,9 +40,9 @@ public:
 		\param[in] v a value for object
 	 */
 	virtual void save(picojson::value & v);
-	/*! Loads an object to a value
-		\param[in] v a value for object
-		\return result value
+	/*! Loads object from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
 	 */
 	virtual bool load(const picojson::value& v);
 	/*! Returns a table, where object belongs

@@ -291,6 +291,16 @@ public:
 		\return flag
 	 */
 	bool changeSizeWhenOptionsAreChanged() const;
+	/*! Enables loading mode for sprite. In loading mode, when sprite changes options,
+		it's area will not be reset. Also, it works only once, so you can call it
+		before set method to make sure, that area will be preserved
+	 */
+	void toggleLoadingMode();
+	/*! Loads sprite from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
+	 */
+	virtual bool load(const picojson::value& v);
 protected:
 	/*! Performed, when texture is changed
 		\param[in] tex a new texture
@@ -366,6 +376,11 @@ protected:
 	/*! Whether we should explicitly set a sprite value
 	 */
 	bool m_explicit_set;
+	/*! Toggles loading time on sprite.
+		If sprite is loading, it would not synchronize it's area with 
+		options
+	 */
+	bool m_loading;
 };
 
 }

@@ -138,6 +138,11 @@ public:
 		\return property list from schema
 	 */
 	const sad::Hash<sad::String, sad::db::Property*>& schemaProperties() const;
+	/*! Loads object from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
+	 */
+	virtual bool load(const picojson::value& v);
 protected:
 	/*! Fills custom object with defailt item properties
 	 */
