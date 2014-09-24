@@ -148,7 +148,15 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenenodes/scenenodeschangeproperty.h \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
     ifaceed/history/scenenodes/scenenodeschangevisibility.h \
-    ifaceed/gui/rotationprocess.h
+    ifaceed/gui/rotationprocess.h \
+    ifaceed/gui/sprite2dactions.h \
+    ifaceed/history/sprite2d/changeflipx.h \
+    ifaceed/history/sprite2d/changeflipy.h \
+    ifaceed/history/sprite2d/changeoptions.h \
+    ifaceed/history/sprite2d/makebackground.h \
+    ifaceed/history/scenenodes/scenenodesremove.h \
+    ifaceed/history/scenenodes/scenenodeslayerswap.h \
+    ifaceed/history/scenes/scenesclear.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -254,7 +262,15 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenenodeschangecolor.cpp \
     ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp \
     ifaceed/history/scenenodes/scenenodeschangevisibility.cpp \
-    ifaceed/gui/rotationprocess.cpp
+    ifaceed/gui/rotationprocess.cpp \
+    ifaceed/gui/sprite2dactions.cpp \
+    ifaceed/history/sprite2d/changeflipx.cpp \
+    ifaceed/history/sprite2d/changeflipy.cpp \
+    ifaceed/history/sprite2d/changeoptions.cpp \
+    ifaceed/history/sprite2d/makebackground.cpp \
+    ifaceed/history/scenenodes/scenenodesremove.cpp \
+    ifaceed/history/scenenodes/scenenodeslayerswap.cpp \
+    ifaceed/history/scenes/scenesclear.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
