@@ -675,7 +675,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTableWidget" name="twCustomObjectSchemas">
+     <widget class="QTableWidget" name="twCustomObjectProperties">
       <property name="geometry">
        <rect>
         <x>10</x>

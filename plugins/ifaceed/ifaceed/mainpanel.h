@@ -201,7 +201,24 @@ public:
 		\return checkbox
 	 */
 	QCheckBox* flipYCheckbox() const;
-
+    /*! Cleans table of properties of custom object
+     */
+    void clearCustomObjectPropertiesTable();
+    /*! Finds delegate for custom object property in table
+     * \param[in] name a name for delegate for custom object
+     * \return found delegate, or NULL
+     */
+    gui::table::Delegate* delegateForCustomObjectProperty(const QString& name);
+    /*! Updates custom object property value in UI, if it's selected
+     *  \param[in] node a node, which must be selected
+     *  \param[in] name a name of property
+     *  \param[in] value a value for a property
+     */
+    void updateCustomObjectPropertyValue(
+            sad::SceneNode* node,
+            const sad::String& name,
+            const sad::db::Variant& value
+     );
 
 	/*! Change region parameters for data
 	 */
@@ -245,6 +262,9 @@ public slots:
 	/*! Updates values for updating UI to selected item property values
 	 */
 	void updateUIForSelectedItemNow();
+    /*! Updates value for updating custom object property in UI now
+     */
+    void updateCustomObjectPropertyValueNow();
 protected:
     /*! Stores all widget for main panel
      */
@@ -278,6 +298,14 @@ protected:
     /*! State of main panel, which must be set, when called MainPanel::highlightStateNow
      */
     QString m_highlight_state;
+    /*! A temporary value for custom object property name slot, which accessed in
+        MainPanel::updateCustomObjectPropertyValueNow
+     */
+    sad::String m_custom_object_property_name;
+    /*! A temporary value for custom object propert value slot, which accessed in
+        MainPanel::updateCustomObjectPropertyValueNow
+     */
+    sad::db::Variant m_custom_object_property_value;
     /*! An utility flags, which could be used to prevent recursive calls of slots, due to
         widget value changes
      */
