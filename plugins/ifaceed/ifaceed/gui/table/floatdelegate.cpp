@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include <QTableWidgetItem>
 #include <QDoubleSpinBox>
 #include <QPushButton>
@@ -12,6 +14,7 @@
 #include <db/dbdatabase.h>
 
 #include <climits>
+
 
 
 gui::table::FloatDelegate::FloatDelegate() : gui::table::Delegate()
@@ -36,7 +39,16 @@ void gui::table::FloatDelegate::set(const sad::db::Variant& v)
 void gui::table::FloatDelegate::widgetChanged(double i)
 {
 	float oldvalue = this->currentValue<float>();
-	m_editor->history()->add(new history::database::ChangeProperty<float>(oldvalue, i, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<float>(oldvalue, i, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<float>(m_object, m_property_name.toStdString(), oldvalue, i)
+		);
+	}
 	this->setCurrentValue<float>(i);
 }
 
