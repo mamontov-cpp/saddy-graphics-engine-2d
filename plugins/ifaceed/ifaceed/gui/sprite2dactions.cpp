@@ -59,6 +59,10 @@ void gui::Sprite2DActions::cancelAddSprite()
 	{
 		m->enterState("idle");
 	}
+	else
+	{
+		m_panel->updateUIForSelectedItem();
+	}
 }
 
 void gui::Sprite2DActions::moveCenterOfSprite(const sad::input::MouseMoveEvent & e)
