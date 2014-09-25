@@ -77,7 +77,7 @@ public:
 	/*! Adds a delegate to table
 	 */
 	virtual void add();
-	/*! Sets a value for a delegate. Used by commands to reset
+	/*! Sets a value for a delegate. Used by commands to set value
 		\param[in] v a value
 	 */
 	virtual void set(const sad::db::Variant& v) = 0;
