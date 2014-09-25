@@ -60,6 +60,10 @@ void gui::LabelActions::cancelAddLabel()
 	{
 		m->enterState("idle");
 	}
+	else
+	{
+		m_panel->updateUIForSelectedItem();
+	}
 }
 
 void gui::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
