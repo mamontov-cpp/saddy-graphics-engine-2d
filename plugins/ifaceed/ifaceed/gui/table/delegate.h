@@ -48,17 +48,13 @@ public:
 		\param[in] editor a linked editor
 	 */
 	void makeLinkedTo(QTableWidget* widget,core::Editor* editor);
-    /*! Links delegate to a custom object
-        \param[in] object an object, where delegate should be linked
-        \param[in] editor a linked editor
-     */
-    void makeLinkedTo(sad::db::custom::Object* object, core::Editor* editor);
 	/*! Links delegate to database
 	 */
 	void linkToDatabase();
 	/*! Links delegate to custom object
+		\param[in] o object
 	 */
-	void linkToCustomObject();
+	void linkToCustomObject(sad::db::custom::Object* o);
 	/*! Whether delegate is linked to database
 		\return whether delegate is linked to database
 	 */
@@ -136,7 +132,7 @@ protected:
 		}
 		else
 		{
-			// TODO: Implement for custom object
+			return m_object->getProperty<T>(this->propertyName().toStdString()).value();
 		}
 		return T();
 	}
@@ -156,7 +152,7 @@ protected:
 		}
 		else
 		{
-			// TODO: Implement for custom object
+			m_object->setProperty<T>(this->propertyName().toStdString(), o);
 		}
 	}
     /*! Finds property in table widget

@@ -829,6 +829,10 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="customobject"
+					>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -3116,6 +3120,14 @@
 					</File>
 					<File
 						RelativePath=".\history\sprite2d\makebackground.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="customobject"
+					>
+					<File
+						RelativePath=".\history\customobject\customobjectchangeproperty.h"
 						>
 					</File>
 				</Filter>
