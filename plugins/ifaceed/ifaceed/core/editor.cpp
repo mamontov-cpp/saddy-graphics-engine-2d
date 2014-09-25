@@ -242,6 +242,8 @@ void core::Editor::cleanupBeforeAdding()
 		node->scene()->remove(node);
 
 		sad::Renderer::ref()->unlockRendering();
+
+		this->panel()->clearCustomObjectPropertiesTable();
 	}
 }
 
