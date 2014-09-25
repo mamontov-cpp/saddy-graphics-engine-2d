@@ -674,6 +674,34 @@ void MainPanel::updateCustomObjectPropertyValue(
     }
 }
 
+void MainPanel::fillCustomObjectProperties(
+	sad::SceneNode* node	
+)
+{
+	this->clearCustomObjectPropertiesTable();
+	if (node)
+	{
+		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+		{
+			sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
+			const sad::Hash<sad::String, sad::db::Property*>& db = o->schemaProperties();
+			for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = db.const_begin();
+				it != db.const_end();
+				++it)
+			{
+				gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+				if (d)
+				{
+					d->makeLinkedTo(ui.twCustomObjectProperties, m_editor);
+					d->setPropertyName(it.key().c_str());
+					d->linkToCustomObject(o);
+					d->add();				
+				}
+			}
+		}
+	}
+}
+
 //====================  PUBLIC SLOTS METHODS HERE ====================
 
 void MainPanel::updateUIForSelectedItem()

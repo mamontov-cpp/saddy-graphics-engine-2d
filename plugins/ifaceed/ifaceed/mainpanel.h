@@ -219,7 +219,12 @@ public:
             const sad::String& name,
             const sad::db::Variant& value
      );
-
+	/*! Fills list of properties for custom objects
+		\param[in] node a node object
+	 */
+	void fillCustomObjectProperties(
+		sad::SceneNode* node	
+	);
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();

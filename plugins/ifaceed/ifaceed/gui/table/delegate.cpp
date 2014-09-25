@@ -37,20 +37,15 @@ void gui::table::Delegate::makeLinkedTo(QTableWidget* widget,core::Editor* edito
 	m_editor = editor;
 }
 
- void gui::table::Delegate::makeLinkedTo(sad::db::custom::Object* object, core::Editor* editor)
- {
-     m_object = object;
-     m_editor = editor;
- }
-
 void gui::table::Delegate::linkToDatabase()
 {
 	m_custom_object = false;
 }
 
-void  gui::table::Delegate::linkToCustomObject()
+void  gui::table::Delegate::linkToCustomObject(sad::db::custom::Object* o)
 {
 	m_custom_object = true;
+	m_object = o;
 }
 
 bool gui::table::Delegate::isLinkedToDatabase() const
