@@ -14,9 +14,12 @@
 #include <renderer.h>
 #include <db/dbdatabase.h>
 
+
+
 gui::table::Delegate::Delegate() 
 : m_custom_object(false), 
 m_widget(NULL), 
+m_object(NULL),
 m_editor(NULL),
 m_my_widget(NULL)
 {
@@ -33,6 +36,12 @@ void gui::table::Delegate::makeLinkedTo(QTableWidget* widget,core::Editor* edito
 	m_widget = widget;
 	m_editor = editor;
 }
+
+ void gui::table::Delegate::makeLinkedTo(sad::db::custom::Object* object, core::Editor* editor)
+ {
+     m_object = object;
+     m_editor = editor;
+ }
 
 void gui::table::Delegate::linkToDatabase()
 {
@@ -66,22 +75,22 @@ const QString& gui::table::Delegate::propertyName() const
 
 void gui::table::Delegate::add()
 {
+    m_widget->insertRow(m_widget->rowCount());
+    unsigned int lastrow = m_widget->rowCount() - 1;
+    m_row = lastrow;
+
+    QTableWidgetItem* item = new QTableWidgetItem(this->propertyName());
+    item->setFlags(item->flags()
+                   & ~Qt::ItemIsEditable
+                   & ~Qt::ItemIsSelectable
+                   & ~Qt::ItemIsEnabled
+    );
+    m_widget->setItem(lastrow, 0, item);
+
+    this->makeEditor();
+
 	if (this->isLinkedToDatabase())
-	{
-		m_widget->insertRow(m_widget->rowCount());
-		unsigned int lastrow = m_widget->rowCount() - 1;
-		m_row = lastrow;
-
-		QTableWidgetItem* item = new QTableWidgetItem(this->propertyName());
-		item->setFlags(item->flags() 
-					   & ~Qt::ItemIsEditable 
-					   & ~Qt::ItemIsSelectable
-					   & ~Qt::ItemIsEnabled
-		);
-		m_widget->setItem(lastrow, 0, item);
-		
-		this->makeEditor();
-
+	{		
 		QPushButton * button = new QPushButton();
 		button->setText("X");
 		QFont font = button->font();
@@ -93,28 +102,31 @@ void gui::table::Delegate::add()
 	}
 	else
 	{
-		// TODO: Implement for custom object
+        QVariant self;
+        self.setValue(this);
+        m_widget->item(lastrow, 1)->setData(Qt::UserRole, self);
 	}
+}
+
+void gui::table::Delegate::disconnectSlots()
+{
+    this->disconnect();
 }
 
 void gui::table::Delegate::remove()
 {
-	if (this->isLinkedToDatabase())
-	{
-		// Find a row in database
-		unsigned int row = this->findPropertyInDatabase();
-		if (row != -1)
-		{
-			this->disconnect();
-			QObject::disconnect(this, SLOT(removeWithCommand()));
-			m_widget->removeRow(row);
-			m_my_widget = NULL;
-		}
-	}
-	else
-	{
-		// TODO: Implement for custom object
-	}
+    // Find a row in table
+    unsigned int row = this->findPropertyInTable();
+    if (row != -1)
+    {
+        this->disconnect();
+        if (this->isLinkedToDatabase())
+        {
+            QObject::disconnect(this, SLOT(removeWithCommand()));
+        }
+        m_widget->removeRow(row);
+        m_my_widget = NULL;
+    }
 }
 
 void gui::table::Delegate::removeWithCommand()
@@ -125,7 +137,7 @@ void gui::table::Delegate::removeWithCommand()
 	m_editor->history()->add(p);
 }
 
-int gui::table::Delegate::findPropertyInDatabase()
+int gui::table::Delegate::findPropertyInTable()
 {
 	unsigned int findrow = -1;
 	for(unsigned int i = 0; i < m_widget->rowCount(); i++)

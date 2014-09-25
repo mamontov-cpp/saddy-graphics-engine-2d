@@ -13,6 +13,7 @@
 #include <db/save.h>
 #include <db/load.h>
 #include <db/dbdatabase.h>
+#include <db/custom/customobject.h>
 
 #include <renderer.h>
 #include <refcountable.h>
@@ -47,6 +48,11 @@ public:
 		\param[in] editor a linked editor
 	 */
 	void makeLinkedTo(QTableWidget* widget,core::Editor* editor);
+    /*! Links delegate to a custom object
+        \param[in] object an object, where delegate should be linked
+        \param[in] editor a linked editor
+     */
+    void makeLinkedTo(sad::db::custom::Object* object, core::Editor* editor);
 	/*! Links delegate to database
 	 */
 	void linkToDatabase();
@@ -75,6 +81,9 @@ public:
 		\param[in] v a value
 	 */
 	virtual void set(const sad::db::Variant& v) = 0;
+    /*! Disconnect common slots from delegate
+     */
+    virtual void disconnectSlots();
 public slots:
 	/*! Removes a delegate from table
 	 */
@@ -98,6 +107,9 @@ protected:
 	/*! A local widget for delegate for setting value
 	 */
 	QWidget* m_my_widget;
+    /*! A real custom object, where delegate belongs to
+     */
+    sad::db::custom::Object* m_object;
 	/*! A row, where element should be inserted
 	 */
 	int m_row;
@@ -147,10 +159,10 @@ protected:
 			// TODO: Implement for custom object
 		}
 	}
-	/*! Finds property in database table widget
+    /*! Finds property in table widget
 		\return row index
 	 */
-	int findPropertyInDatabase();
+    int findPropertyInTable();
 	/*! Inserts linked widget to table. MUST be called inside ::createWidget to make sure, that
 		widget is inserted to table
 	 */
@@ -160,3 +172,5 @@ protected:
 }
 
 }
+
+Q_DECLARE_METATYPE(gui::table::Delegate*)

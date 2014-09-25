@@ -54,6 +54,7 @@
 #include <QTimer>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QVariant>
 
 #include <cstdio>
 
@@ -627,6 +628,52 @@ QCheckBox* MainPanel::flipYCheckbox() const
 	return ui.cbFlipY;	
 }
 
+void MainPanel::clearCustomObjectPropertiesTable()
+{
+    for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
+    {
+        QVariant  v = ui.twCustomObjectProperties->item(i, 1)->data(Qt::UserRole);
+        gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+        if (d)
+        {
+            d->disconnectSlots();
+            delete d;
+        }
+    }
+    ui.twCustomObjectProperties->clear();
+}
+
+ gui::table::Delegate* MainPanel::delegateForCustomObjectProperty(const QString& name)
+ {
+     for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
+     {
+         if (ui.twCustomObjectProperties->item(i, 0)->text() == name) {
+             QVariant  v = ui.twCustomObjectProperties->item(i, 1)->data(Qt::UserRole);
+             gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+             if (d)
+             {
+                 d->disconnectSlots();
+                 delete d;
+             }
+         }
+     }
+     return NULL;
+ }
+
+void MainPanel::updateCustomObjectPropertyValue(
+     sad::SceneNode* node,
+     const sad::String& name,
+     const sad::db::Variant& value
+)
+{
+    if (m_editor->isNodeSelected(node))
+    {
+        m_custom_object_property_name = name;
+        m_custom_object_property_value = value;
+        QTimer::singleShot(0, this, SLOT(updateCustomObjectPropertyValueNow()));
+    }
+}
+
 //====================  PUBLIC SLOTS METHODS HERE ====================
 
 void MainPanel::updateUIForSelectedItem()
@@ -637,6 +684,15 @@ void MainPanel::updateUIForSelectedItem()
 void MainPanel::updateUIForSelectedItemNow()
 {
 	
+}
+
+void MainPanel::updateCustomObjectPropertyValueNow()
+{
+    gui::table::Delegate* d = this->delegateForCustomObjectProperty(m_custom_object_property_name.data());
+    if (d)
+    {
+        d->set(m_custom_object_property_value);
+    }
 }
 
 //====================  PROTECTED METHODS HERE ====================
