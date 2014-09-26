@@ -427,6 +427,12 @@ void sad::Sprite3D::setTreeName(const sad::String & treename)
 	reloadTexture();
 }
 
+void sad::Sprite3D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
+{
+	m_texture.setTree(r, tree_name);
+	reloadTexture();
+}
+
 void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
 {
 	m_alpha = 0;

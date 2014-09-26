@@ -13,6 +13,8 @@
 namespace sad
 {
 
+class Renderer;
+
 namespace db
 {
 
@@ -133,6 +135,15 @@ public:
 		}
 		return result;
 	}
+	/*! Called, when loading an object. Here, object must make all resource path links depend on specified tree.
+		By default, does nothing
+		\param[in] renderer a renderer
+		\param[in] treename a tree name
+	 */
+	virtual void setTreeName(
+		sad::Renderer* renderer,
+		const sad::String& treename
+	);
 	/*! A major id for object
 	 */
 	unsigned long long MajorId;

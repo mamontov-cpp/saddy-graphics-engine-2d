@@ -2,6 +2,7 @@
 #include "db/dbdatabase.h"
 #include "db/dbobjectfactory.h"
 
+#include "renderer.h"
 
 sad::db::Table::Table() : m_max_minor_id(1), m_database(NULL)
 {
@@ -221,8 +222,17 @@ sad::db::Object* sad::db::Table::queryByMajorId(unsigned long long major_id)
 	return result;	
 }
 
-bool sad::db::Table::load(const picojson::value & v, sad::db::ObjectFactory * factory)
+bool sad::db::Table::load(
+	const picojson::value & v, 
+	sad::db::ObjectFactory* factory,
+	sad::Renderer* renderer,
+	const sad::String& treename
+)
 {
+	if (renderer == NULL)
+	{
+		renderer = sad::Renderer::ref();
+	}
 	bool result = false;
 	if (v.is<picojson::array>())
 	{
@@ -239,6 +249,7 @@ bool sad::db::Table::load(const picojson::value & v, sad::db::ObjectFactory * fa
 			}
 			else
 			{
+				tmp->setTreeName(renderer, treename);
 				ok = ok && tmp->load(entries[i]);
 				if (!ok)
 				{

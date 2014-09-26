@@ -570,6 +570,12 @@ bool sad::Sprite2D::load(const picojson::value& v)
 	return this->sad::SceneNode::load(v);
 }
 
+void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
+{
+	m_texture.setTree(r, tree_name);
+	m_options.setTree(r, tree_name);
+}
+
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
 {
 	m_angle = 0;
@@ -604,7 +610,6 @@ void sad::Sprite2D::buildRenderableArea()
 	m_renderable_area = this->area();
 	sad::rotate(m_renderable_area, (float)m_angle);
 }
-
 
 void sad::Sprite2D::onTextureChange(sad::Texture * tex)
 {

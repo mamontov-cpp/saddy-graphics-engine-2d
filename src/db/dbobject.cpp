@@ -95,6 +95,14 @@ void sad::db::Object::setObjectName(const sad::String & newname)
 }
 
 
+void sad::db::Object::setTreeName(
+	sad::Renderer* renderer,
+	const sad::String& treename
+)
+{
+
+}
+
 sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) const
 {
 	sad::db::schema::Schema* schema = this->schema();

@@ -212,6 +212,14 @@ public:
 		\return begin iterator
 	 */
 	sad::db::Database::Properties::const_iterator end() const;
+	/*! Sets name for a default tree in database, which objects should link themselves to, when loading
+		\param[in] tree a tree name
+	 */
+	void setDefaultTreeName(const sad::String& tree);
+	/*! Returns name for a default tree, which objects should link themselves to, when loading
+		\return default tree name
+	 */
+	const sad::String& defaultTreeName() const;
 protected: 
 	/*! Loads properties and tavles from a database
 		\param[in] properties a property items
@@ -222,6 +230,9 @@ protected:
 		const picojson::object & properties, 
 		const picojson::object & tables
 	);
+	/*! Sets default tree name for a database
+	 */
+	sad::String m_default_tree_name;
 	/*! Current maximal major id in database. Every object should have major id less,
 		than it.
 	 */

@@ -204,6 +204,11 @@ public:
 		\param[in] scene a scene, which will render a node
 	 */
 	virtual void setScene(sad::Scene * scene);
+	/*! Sets a tree name for object with specified renderer
+		\param[in] r renderer, which tree should be fetched from
+		\param[in] tree_name a name for an item for object
+	 */
+	virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
 protected:
 	/*! Fast version of 3D sprite initialization from rectangle. Just sets it as
 		current renderable rectangle, all angles to zero
