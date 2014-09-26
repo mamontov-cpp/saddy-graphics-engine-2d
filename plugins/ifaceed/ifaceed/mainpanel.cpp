@@ -29,6 +29,7 @@
 #include "gui/scenenodeactions.h"
 #include "gui/labelactions.h"
 #include "gui/sprite2dactions.h"
+#include "gui/customobjectactions.h"
 
 #include <geometry2d.h>
 #include <keymouseconditions.h>
@@ -99,6 +100,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_sprite2d_actions = new gui::Sprite2DActions();
 	m_sprite2d_actions->setPanel(this);
+
+	m_custom_object_actions = new gui::CustomObjectActions();
+	m_custom_object_actions->setPanel(this);
 	
 	m_list.setWidget(ui.lstSceneObjects);
 }
@@ -107,7 +111,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 MainPanel::~MainPanel()
 {
 	delete m_label_actions;
+	delete m_sprite2d_actions;
 	delete m_scene_node_actions;
+	delete m_custom_object_actions;
 }
 
 void MainPanel::toggleEditingButtons(bool enabled)
@@ -311,6 +317,11 @@ gui::LabelActions* MainPanel::labelActions() const
 gui::Sprite2DActions* MainPanel::sprite2DActions() const
 {
 	return m_sprite2d_actions;
+}
+
+gui::CustomObjectActions* MainPanel::customObjectActions() const
+{
+	return m_custom_object_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
