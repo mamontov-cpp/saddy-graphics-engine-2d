@@ -36,12 +36,12 @@ void core::Editor::trySelectObject(sad::Point2D p, bool enterSelected)
 		}
 		if (enterSelected) 
 		{
-			this->currentBehaviour()->enterState("selected");
+            //this->currentBehaviour()->enterState("selected");
 		}
 		if (chain.size() > 1) 
 		{
-			SelectedState * s = this->cbStateAs<SelectedState>("selected");
-			s->enterNavigation(chain);
+            //SelectedState * s = this->cbStateAs<SelectedState>("selected");
+            //s->enterNavigation(chain);
 		}
 	}
 	this->result()->clearPickedCache();

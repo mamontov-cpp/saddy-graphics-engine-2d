@@ -171,6 +171,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	sad::String ssa = "adding/sprite";
 	sad::String sda = "adding/sprite_diagonal";
 	sad::String sdap = "adding/sprite_diagonal/point_placed";
+    sad::String coa = "adding/customobject";
     sad::String s = "selected";
 
 	// A bindings for adding label
@@ -1161,11 +1162,11 @@ void MainPanel::addFontObject()
 
 
 		label->tryReload(this->m_editor->database());
-		sad::Scene* scene = this->m_editor->scene();
-		label->setScene(scene);
+        //sad::Scene* scene = this->m_editor->scene();
+        //label->setScene(scene);
 		this->m_editor->shared()->setActiveObject(label);
 		
-		this->m_editor->currentBehaviour()->enterState("label_adding");
+        //this->m_editor->currentBehaviour()->enterState("label_adding");
 	}
 }
 
@@ -1803,6 +1804,7 @@ void MainPanel::makeBackground()
 
 void MainPanel::clearScreenTemplate()
 {
+    /*
 	if (m_editor->currentBehaviour()->state() == "idle"
 		|| m_editor->currentBehaviour()->state() == "selected"
 		)
@@ -1820,6 +1822,7 @@ void MainPanel::clearScreenTemplate()
 		m_editor->currentBehaviour()->enterState("idle");
 	}
 	}
+    */
 }
 
 void MainPanel::colorChanged(QColor c)

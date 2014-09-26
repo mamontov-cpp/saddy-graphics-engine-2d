@@ -86,7 +86,7 @@ void SimpleSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
 	if (ev.Key == sad::Esc) 
 	{
-		this->editor()->tryEraseObject();
+        //this->editor()->tryEraseObject();
 	}
 }
 
@@ -226,6 +226,6 @@ void DiagonalSpriteAddingState::onKeyDown(const sad::input::KeyPressEvent & ev)
 {
 	if (ev.Key == sad::Esc) 
 	{
-		this->editor()->tryEraseObject();
+        //this->editor()->tryEraseObject();
 	}
 }
