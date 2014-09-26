@@ -3,7 +3,11 @@
 	 "name" : "placeable_item",
 	 "resource": "fonts/tmfont",
 	 "schema" : {
-		"prop1" : {"type" : "int", "value" : 0 }
+	 	"prop_double" : {"type" : "double", "value" : 0 },
+		"prop_float" : {"type" : "float", "value" : 0 },		
+		"prop_int" : {"type" : "int", "value" : 0 },
+		"prop_long" : {"type" : "long", "value" : 0 },
+		"prop_long_long" : {"type" : "long long", "value" : 0 }	
 	 }
 	},
 	{
