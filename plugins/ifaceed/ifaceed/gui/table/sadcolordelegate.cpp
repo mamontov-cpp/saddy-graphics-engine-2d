@@ -4,7 +4,11 @@
 
 #include "core/editor.h"
 
+#include "core/typeconverters/qcolortosadcolor.h"
+
 #include "history/database/changeproperty.h"
+
+#include "history/customobject/customobjectchangeproperty.h"
 
 #include <QTableWidgetItem>
 #include <QDoubleSpinBox>
@@ -42,7 +46,20 @@ void gui::table::SadColorDelegate::clicked()
 	QColor i = QColorDialog::getColor(oldvalue, NULL);
 	if (i.isValid())
 	{
-		m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
+		if (this->isLinkedToDatabase())
+		{
+			m_editor->history()->add(new history::database::ChangeProperty<QColor>(oldvalue, i, this));
+		}
+		else
+		{
+			sad::Color oldvalueforprop;
+			sad::Color newvalueforprop;
+			core::typeconverters::QColorToSadColor::convert(oldvalue, oldvalueforprop);
+			core::typeconverters::QColorToSadColor::convert(i, newvalueforprop);
+			m_editor->history()->add( 
+				new history::customobject::ChangeProperty<sad::Color>(m_object, m_property_name.toStdString(), oldvalueforprop, newvalueforprop)
+			);
+		}
 		this->setCurrentValue<QColor>(i);
 		static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);
 	}

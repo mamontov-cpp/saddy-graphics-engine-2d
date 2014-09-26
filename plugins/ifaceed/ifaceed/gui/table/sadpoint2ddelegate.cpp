@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include <QTableWidgetItem>
 #include <QSpinBox>
 #include <QPushButton>
@@ -37,7 +39,16 @@ void gui::table::SadPoint2DDelegate::widgetChanged(double f, double s)
 {
 	sad::Point2D oldvalue = this->currentValue<sad::Point2D>();
 	sad::Point2D newvalue(f, s);
-	m_editor->history()->add(new history::database::ChangeProperty<sad::Point2D>(oldvalue, newvalue, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<sad::Point2D>(oldvalue, newvalue, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<sad::Point2D>(m_object, m_property_name.toStdString(), oldvalue, newvalue)
+		);
+	}
 	this->setCurrentValue<sad::Point2D>(newvalue);
 }
 

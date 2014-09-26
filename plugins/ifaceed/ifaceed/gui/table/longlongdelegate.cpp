@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include "qwwlongspinbox.h"
 
 #include <QTableWidgetItem>
@@ -38,7 +40,16 @@ void gui::table::LongLongDelegate::set(const sad::db::Variant& v)
 void gui::table::LongLongDelegate::widgetChanged(qlonglong i)
 {
 	long long oldvalue = this->currentValue<long long>();
-	m_editor->history()->add(new history::database::ChangeProperty<long long>(oldvalue, i, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<long long>(oldvalue, i, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<long long>(m_object, m_property_name.toStdString(), oldvalue, i)
+		);
+	}
 	this->setCurrentValue<long long>(i);
 }
 

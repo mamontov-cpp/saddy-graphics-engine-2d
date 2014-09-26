@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include <QTableWidgetItem>
 #include <QSpinBox>
 #include <QPushButton>
@@ -36,7 +38,16 @@ void gui::table::UnsignedShortDelegate::set(const sad::db::Variant& v)
 void gui::table::UnsignedShortDelegate::widgetChanged(int i)
 {
 	unsigned short oldvalue = this->currentValue<unsigned short>();
-	m_editor->history()->add(new history::database::ChangeProperty<unsigned short>(oldvalue, i, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<unsigned short>(oldvalue, i, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<unsigned short>(m_object, m_property_name.toStdString(), oldvalue, i)
+		);
+	}
 	this->setCurrentValue<unsigned short>(i);
 }
 
