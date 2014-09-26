@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include "qwwulongspinbox.h"
 
 #include <QTableWidgetItem>
@@ -38,7 +40,16 @@ void gui::table::UnsignedIntDelegate::set(const sad::db::Variant& v)
 void gui::table::UnsignedIntDelegate::widgetChanged(qulonglong i)
 {
 	unsigned int oldvalue = this->currentValue<unsigned int>();
-	m_editor->history()->add(new history::database::ChangeProperty<unsigned int>(oldvalue, i, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<unsigned int>(oldvalue, i, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<unsigned int>(m_object, m_property_name.toStdString(), oldvalue, i)
+		);
+	}
 	this->setCurrentValue<unsigned int>(i);
 }
 

@@ -4,6 +4,8 @@
 
 #include "history/database/changeproperty.h"
 
+#include "history/customobject/customobjectchangeproperty.h"
+
 #include <QTableWidgetItem>
 #include <QPlainTextEdit>
 #include <QPushButton>
@@ -37,7 +39,16 @@ void gui::table::SadStringDelegate::widgetChanged()
 {
 	QString oldvalue = this->currentValue<QString>();
 	QString i = static_cast<QPlainTextEdit*>(m_my_widget)->toPlainText();
-	m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
+	if (this->isLinkedToDatabase())
+	{
+		m_editor->history()->add(new history::database::ChangeProperty<QString>(oldvalue, i, this));
+	}
+	else
+	{
+		m_editor->history()->add( 
+			new history::customobject::ChangeProperty<sad::String>(m_object, m_property_name.toStdString(), oldvalue.toStdString(), i.toStdString())
+		);
+	}
 	this->setCurrentValue<QString>(i);
 }
 
