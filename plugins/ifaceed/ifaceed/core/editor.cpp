@@ -120,27 +120,13 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_result = new ScreenTemplate();
 	m_selection_border = NULL;
 
-	core::EditorBehaviour * behaviour = new core::EditorBehaviour(this,"idle");
-	behaviour->addState("idle", new IdleState());
-	behaviour->addState("label_adding", new LabelAddingState());
-	behaviour->addState("selected", new SelectedState());
-	behaviour->addState("sprite_adding_simple", new SimpleSpriteAddingState());
-	behaviour->addState("sprite_adding_diagonal", new DiagonalSpriteAddingState());
-	this->behaviours().insert("main", behaviour);
-
 	// Fill conversion table with converters
 	this->initConversionTable();
 }
 core::Editor::~Editor()
 {
 	delete m_db;
-	delete m_result;
-	for (sad::Hash<sad::String, core::EditorBehaviour*>::iterator it = m_behaviours.begin();
-		it!=m_behaviours.end();
-		++it)
-	{
-		delete it.value();
-	}
+	delete m_result;	
     delete m_args;
 	delete m_qtapp;
 	delete m_renderthread;
@@ -556,32 +542,6 @@ void core::Editor::tryRenderActiveObject()
 		o->render();
 	*/
 }
-void core::Editor::tryEraseObject()
-{
-	sad::String state = this->currentBehaviour()->state(); 
-	if (state == "label_adding" 
-		|| state == "sprite_adding_simple" 
-		|| state == "sprite_adding_diagonal")
-	{
-		/*
-		AbstractScreenObject * o =	this->shared()->activeObject();
-		delete o;
-		this->shared()->setActiveObject(NULL);
-		this->currentBehaviour()->cancelState();
-		*/
-	}
-	if (state == "selected")
-	{
-		/*
-		AbstractScreenObject * o =	this->shared()->selectedObject();
-		this->shared()->setSelectedObject(NULL);
-		DeleteCommand * cmd = new DeleteCommand(this->result(), o);
-		this->history()->add(cmd);
-		cmd->commit(this);
-		this->currentBehaviour()->enterState("idle");
-		*/
-	}
-}
 
 void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::db::Variant & v)
 {
@@ -705,14 +665,7 @@ void core::Editor::reload()
 	  7. Reload fonts in UI 
 	  8. Reload sprites in UI
     */
-   this->panel()->synchronizeDatabase();
-   /**	 
-	 9. Toggle selected object, if in selected state. This for resetting object data
-   */
-   if (this->currentBehaviour()->state() == "selected")
-   {
- //  	   this->panel()->updateObjectStats(this->shared()->selectedObject());
-   }
+   this->panel()->synchronizeDatabase();   
 }
 
 
@@ -796,54 +749,12 @@ void core::Editor::load()
 		delete m_result;
 		m_result = e;
 		// Perform cleanup data
-		this->currentBehaviour()->enterState("idle");
+        //this->currentBehaviour()->enterState("idle");
 		sad::Renderer::ref()->lockRendering();
-		if (this->scene()->objectCount() != 0)
-			this->scene()->clear();
+        //if (this->scene()->objectCount() != 0)
+        //	this->scene()->clear();
 		// Add post-render task, which adds a sorted results when scene is empty and dies
-		sad::Renderer::ref()->pipeline()->append(new SceneAddingTask(e, this->scene()));
+        //sad::Renderer::ref()->pipeline()->append(new SceneAddingTask(e, this->scene()));
 		sad::Renderer::ref()->unlockRendering();
 	}
-}
-
-sad::Sprite2DConfig & core::Editor::icons()
-{
-	return m_icons;
-}
-
-void core::Editor::eraseBehaviour()
-{
-	if (m_current_behaviour.length())
-	{
-		m_behaviours[m_current_behaviour]->deactivate();
-	}
-	m_current_behaviour.clear();
-}
-
-void core::Editor::setBehaviour(const sad::String & name)
-{
-	if (m_current_behaviour.length())
-	{
-		m_behaviours[m_current_behaviour]->deactivate();
-	}
-	if (behaviours().contains(name))
-	{
-		m_current_behaviour = name;
-		m_behaviours[m_current_behaviour]->activate();
-	}
-	else 
-	{
-		SL_DEBUG(QString("Can\'t find editor behaviour, named %1").arg(name.data()));
-	}
-}
-
-core::EditorBehaviour nullBehaviour(NULL,"");
-
-core::EditorBehaviour * core::Editor::currentBehaviour()
-{
-	if (m_current_behaviour.length())
-	{
-		return m_behaviours[m_current_behaviour];
-	}
-	return &nullBehaviour;
 }

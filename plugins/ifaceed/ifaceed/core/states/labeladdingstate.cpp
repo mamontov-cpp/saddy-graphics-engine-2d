@@ -83,6 +83,6 @@ void LabelAddingState::onKeyDown(const sad::input::KeyPressEvent  & ev)
 	if (ev.Key == sad::Esc) 
 	{
 		core::Editor * ed = this->editor();
-		ed->tryEraseObject();
+        //ed->tryEraseObject();
 	}
 }

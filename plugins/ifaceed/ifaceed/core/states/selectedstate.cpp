@@ -241,7 +241,7 @@ void SelectedState::onKeyDown(const sad::input::KeyPressEvent & ev)
 	{
 		core::Editor * ed = this->editor();
 		this->shdata()->setSelectedObject(NULL);
-		ed->currentBehaviour()->enterState("idle");
+        //ed->currentBehaviour()->enterState("idle");
 	}
 }
 

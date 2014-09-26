@@ -43,12 +43,10 @@
 
 class ScreenTemplate;
 class FontTemplateDatabase;
-class SelectedObjectBorder;
 class IFaceSharedData;
 
 namespace core
 {
-class EditorBehaviour;
 class Shared;
 class SaddyThread;
 class Synchronization;
@@ -162,39 +160,6 @@ public:
 		\param[in] enterSelected whether we should enter selected states if found
 	 */
 	virtual void trySelectObject(sad::Point2D p, bool enterSelected);
-	/*! Returns a scene
-		\return used scene
-	*/
-	inline sad::Scene * scene() { return this->m_scene; }
-	/*! Returns a behaviour hash
-		\return behaviour hash
-	*/
-	inline sad::Hash<sad::String, core::EditorBehaviour *> & behaviours() 
-	{
-		return m_behaviours;
-	}
-	/*! Erases a current behaviour for work and sets for nothing
-	*/
-	void eraseBehaviour();
-
-	/*! Deactivates old behaviour and enters new behaviour
-		\param[in]  name name of new behaviour
-	*/
-	virtual void setBehaviour(const sad::String & name);
-	/*! Enters a behaviour of editor
-		\return editor behaviour
-	*/
-	core::EditorBehaviour * currentBehaviour();	
-	/*! Casts a current behaviour state identified by state to needed
-		\param[in] s string name of state
-		\return state
-	*/
-	template<typename T> T * cbStateAs(const sad::String & s) {
-		return static_cast<T *>(this->currentBehaviour()->getState(s));
-	}
-	/*! Returns an icon container
-	 */
-	sad::Sprite2DConfig & icons();	 	
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour
@@ -207,10 +172,6 @@ public slots:
 	 */
 	void redo();
 
-
-	/*! Tries erasing object, depending on current object state
-	 */
-	virtual void tryEraseObject();
 	/*! Updates a list from event
 	 */
 	virtual void submitEvent(const sad::String & eventType, const sad::db::Variant & v);
@@ -306,12 +267,6 @@ protected:
 	/*! Screen template data
 	*/
 	ScreenTemplate * m_result;
-	/*! A defines editor behaviours
-	*/
-	sad::Hash<sad::String, core::EditorBehaviour *> m_behaviours;
-	/*! A current behaviour
-	*/
-	sad::String m_current_behaviour;
 	/*! Sets a database for templates
 		\param[in] db database
 	*/
@@ -341,9 +296,6 @@ protected slots:
      */
     virtual void runClosure(sad::ClosureBasic * closure);
 private:	
-	/*! A scene used for output
-	*/
-	sad::Scene* m_scene;	
 	/*! An icons container
 	*/
 	sad::Sprite2DConfig m_icons;
