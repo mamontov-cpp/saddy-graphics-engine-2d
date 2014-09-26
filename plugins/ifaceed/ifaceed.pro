@@ -156,7 +156,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/sprite2d/makebackground.h \
     ifaceed/history/scenenodes/scenenodesremove.h \
     ifaceed/history/scenenodes/scenenodeslayerswap.h \
-    ifaceed/history/scenes/scenesclear.h
+    ifaceed/history/scenes/scenesclear.h \
+    ifaceed/history/customobject/customobjectchangeproperty.h \
+    ifaceed/gui/customobjectactions.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
@@ -270,7 +272,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/sprite2d/makebackground.cpp \
     ifaceed/history/scenenodes/scenenodesremove.cpp \
     ifaceed/history/scenenodes/scenenodeslayerswap.cpp \
-    ifaceed/history/scenes/scenesclear.cpp
+    ifaceed/history/scenes/scenesclear.cpp \
+    ifaceed/gui/customobjectactions.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
