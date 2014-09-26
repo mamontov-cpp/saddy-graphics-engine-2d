@@ -60,9 +60,16 @@ public:
 	/*! Loads table from a  value
 		\param[in] v value
 		\param[in] factory a factory
+		\param[in] renderer a renderer, where should resources, linked to objects be stored
+		\param[in] treename a name for tree, where should resourced, linked to objects be stored
 		\return whether value was successfull
 	 */
-	virtual bool load(const picojson::value & v, sad::db::ObjectFactory * factory);
+	virtual bool load(
+		const picojson::value & v, 
+		sad::db::ObjectFactory* factory,
+		sad::Renderer* renderer = NULL,
+		const sad::String& treename = ""
+	);
 	/*! Saves a table to a value
 		\param[out] v a value for table
 	 */

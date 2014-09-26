@@ -42,7 +42,7 @@ public:
 		\param[in] r renderer, which tree should be fetched from
 		\param[in] tree_name a name for an item for object
 	 */
-	void setTreeName(sad::Renderer* r, const sad::String & tree_name);
+	virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
 	/*! Returns schema for an object
 		\return schema
 	 */

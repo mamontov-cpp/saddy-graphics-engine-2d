@@ -301,6 +301,11 @@ public:
 		\return  whether it as successfull
 	 */
 	virtual bool load(const picojson::value& v);
+	/*! Sets a tree name for object with specified renderer
+		\param[in] r renderer, which tree should be fetched from
+		\param[in] tree_name a name for an item for object
+	 */
+	virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
 protected:
 	/*! Performed, when texture is changed
 		\param[in] tex a new texture

@@ -323,6 +323,16 @@ sad::db::Database::Properties::const_iterator sad::db::Database::end() const
 	return m_properties.const_end();
 }
 
+void sad::db::Database::setDefaultTreeName(const sad::String& tree)
+{
+	m_default_tree_name = tree;
+}
+
+const sad::String& sad::db::Database::defaultTreeName() const
+{
+	return m_default_tree_name;
+}
+
 // Protected methods
 
 bool sad::db::Database::loadPropertiesAndTables(
@@ -390,7 +400,7 @@ bool sad::db::Database::loadPropertiesAndTables(
 	{
 		sad::db::Table* t = new sad::db::Table();
 		t->setDatabase(this);
-		bool deserialized = t->load(it->second, m_factory);
+		bool deserialized = t->load(it->second, m_factory, this->renderer(), this->defaultTreeName());
 		if (deserialized)
 		{
 			newtables.insert(it->first, t);
