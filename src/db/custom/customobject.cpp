@@ -32,6 +32,13 @@ sad::db::custom::Object::~Object()
 	delete m_my_schema;
 }
 
+void sad::db::custom::Object::setScene(sad::Scene * scene)
+{
+	this->sad::SceneNode::setScene(scene);
+	m_label->setScene(scene);
+	m_sprite2d->setScene(scene);
+}
+
 bool sad::db::custom::Object::innerTypeIs(const sad::String &type)
 {
 	bool result = false;
@@ -44,6 +51,8 @@ bool sad::db::custom::Object::innerTypeIs(const sad::String &type)
 void sad::db::custom::Object::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
 	m_schema.setTree(r, tree_name);
+	m_sprite2d->setTreeName(r, tree_name);
+	m_label->setTreeName(r, tree_name);
 }
 
 sad::db::schema::Schema* sad::db::custom::Object::schema() const
@@ -123,6 +132,10 @@ void sad::db::custom::Object::setAngle(double a)
 
 sad::Rect2D sad::db::custom::Object::area() const
 {
+	if (m_current_rendered_object == m_label)
+	{
+		return m_label->area();
+	}
 	return m_sprite2d->area();	
 }
 

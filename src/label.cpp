@@ -59,6 +59,10 @@ m_color(0, 0, 0, 0)
 	recomputeRenderingPoint();
 }
 
+void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
+{
+	m_font.setTree(r, treename);	
+}
 
 void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
 {

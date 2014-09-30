@@ -96,6 +96,8 @@ core::Editor::Editor() : m_icons("editor_icons")
 	m_machine->addState("adding/sprite_diagonal", new sad::hfsm::State(), true);
 	m_machine->addState("adding/sprite_diagonal/point_placed", new sad::hfsm::State(), true);
 	m_machine->addState("adding/customobject", new sad::hfsm::State(), true);
+	m_machine->addState("adding/customobject_diagonal", new sad::hfsm::State(), true);
+	m_machine->addState("adding/customobject_diagonal/point_placed", new sad::hfsm::State(), true);
 	m_machine->enterState("idle");
 
 	m_shared = new core::Shared();

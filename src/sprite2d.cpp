@@ -478,8 +478,10 @@ void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
 	m_explicit_set = true;
 	// Make texture render dependent
-	m_texture.setRenderer(this->renderer());
-
+	if (this->renderer() != NULL)
+	{
+		m_texture.setRenderer(this->renderer());
+	}
 	m_options.attach(const_cast<sad::Sprite2D::Options *>(&o));
 }
 
@@ -488,8 +490,11 @@ void sad::Sprite2D::set(const sad::String & optionsname)
 	m_explicit_set = true;
 	m_options.setPath(optionsname);
 	// Make texture render dependent
-	m_options.setRenderer(this->renderer());
-	m_texture.setRenderer(this->renderer());
+	if (this->renderer() != NULL)
+	{
+		m_options.setRenderer(this->renderer());
+		m_texture.setRenderer(this->renderer());
+	}
 
 	sad::Sprite2D::Options* opts = m_options.get();
 	if (opts)
@@ -572,8 +577,8 @@ bool sad::Sprite2D::load(const picojson::value& v)
 
 void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
-	m_texture.setTree(r, tree_name);
 	m_options.setTree(r, tree_name);
+	m_texture.setTree(r, tree_name);
 }
 
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)

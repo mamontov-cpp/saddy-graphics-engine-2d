@@ -51,6 +51,11 @@ class Label: public sad::SceneNode
 			  const sad::String & string,
 			  const sad::String & tree = ""
 			 );
+		/*! Sets links resources to a treename and renderer
+			\param[in] r renderer
+			\param[in] treename a name for tree
+		 */
+		virtual void setTreeName(sad::Renderer* r, const sad::String& treename);
 		/*! Fills vector of regions with data, that could be used for identifying bounds of item.
 			As default, no regions are produced.
 			\param[out] r a vector of regions
