@@ -89,6 +89,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	ui.twDatabaseProperties->setColumnWidth(2, width / 6 - 12); // 12 is  a padding for header
 	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
 	ui.twDatabaseProperties->horizontalHeader()->hide();
+
+	ui.twCustomObjectProperties->setColumnCount(2);
+	ui.twCustomObjectProperties->horizontalHeader()->hide();
 	
     ui.txtLabelText->setPlainText("Test");
 
@@ -172,6 +175,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	sad::String sda = "adding/sprite_diagonal";
 	sad::String sdap = "adding/sprite_diagonal/point_placed";
     sad::String coa = "adding/customobject";
+    sad::String coad = "adding/customobject_diagonal";
+	sad::String coadp = "adding/customobject_diagonal/point_placed";
+
     sad::String s = "selected";
 
 	// A bindings for adding label
@@ -259,6 +265,57 @@ void MainPanel::setEditor(core::Editor* editor)
 		&gui::Sprite2DActions::placeFirstPointForSprite
 	);
 
+	// A binding for adding custom object actions (just placing)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coa), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * coa),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::moveCenterOfObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coa),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * coa),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+	);
+
+	// A binding for adding sprite (after first click)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coadp), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coadp),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * coadp),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::moveLowerPoint
+	);
+
+	// A binding for adding sprite (when first click determines upper-left corner)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coad), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coad),
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::placeFirstPoint
+	);
+
 	
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
@@ -295,6 +352,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cbFlipX, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipXChanged(bool)));
 	connect(ui.cbFlipY, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipYChanged(bool)));
     
+	connect(ui.btnCustomObjectAdd, SIGNAL(clicked()), m_custom_object_actions, SLOT(add()));
+
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
@@ -644,7 +703,7 @@ void MainPanel::clearCustomObjectPropertiesTable()
 {
     for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
     {
-        QVariant  v = ui.twCustomObjectProperties->item(i, 1)->data(Qt::UserRole);
+        QVariant  v = ui.twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
         gui::table::Delegate* d = v.value<gui::table::Delegate*>();
         if (d)
         {
@@ -660,7 +719,7 @@ void MainPanel::clearCustomObjectPropertiesTable()
      for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
      {
          if (ui.twCustomObjectProperties->item(i, 0)->text() == name) {
-             QVariant  v = ui.twCustomObjectProperties->item(i, 1)->data(Qt::UserRole);
+             QVariant  v = ui.twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
              gui::table::Delegate* d = v.value<gui::table::Delegate*>();
              if (d)
              {

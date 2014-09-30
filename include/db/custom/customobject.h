@@ -3,6 +3,7 @@
 
 	Describes custom object with custom properties. Could be Sprite2D or Labels, depending on stuff
  */
+#pragma once
 #include "../../scenenode.h"
 #include "../../resource/link.h"
 #include "../../resource/tree.h"
@@ -33,6 +34,10 @@ public:
 	/*! Deletes own schema and data
 	 */
 	virtual ~Object();
+	/*! Sets scene 
+		\param[in] scene a scene, which will render a node
+	 */
+	virtual void setScene(sad::Scene * scene);
 	/*! Whether inner object is one of specified types
 		\param[in] type a name of type
 		\return whether it is of specified type

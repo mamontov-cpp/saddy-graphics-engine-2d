@@ -99,7 +99,7 @@ void gui::table::Delegate::add()
 	{
         QVariant self;
         self.setValue(this);
-        m_widget->item(lastrow, 1)->setData(Qt::UserRole, self);
+        m_widget->item(lastrow, 0)->setData(Qt::UserRole, self);
 	}
 }
 
