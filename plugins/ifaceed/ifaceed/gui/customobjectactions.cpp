@@ -11,10 +11,7 @@
 
 #include "../history/scenenodes/scenenodesnew.h"
 
-#include "../history/sprite2d/changeoptions.h"
-#include "../history/sprite2d/makebackground.h"
-#include "../history/sprite2d/changeflipx.h"
-#include "../history/sprite2d/changeflipy.h"
+#include "../history/customobject/customobjectchangeschema.h"
 
 #include "../gui/scenenodeactions.h"
 
@@ -166,7 +163,7 @@ void gui::CustomObjectActions::add()
 
 		m_panel->editor()->cleanupBeforeAdding();
 
-		if (m_panel->UI()->rbPlaceAndRotate->isChecked())
+		if (m_panel->UI()->rbCustomObjectPlaceAndRotate->isChecked())
 		{
 			this->addBySimplePlacing();
 		}
@@ -249,4 +246,39 @@ void gui::CustomObjectActions::addByDiagonalPlacing()
 	m_panel->highlightState("Click, where you want upper point to be placed");
 
 	m_panel->sceneNodeActions()->updateRegionForNode();
+	m_panel->fillCustomObjectProperties(object);
+}
+
+void gui::CustomObjectActions::schemaChanged(sad::String s)
+{
+	if (m_panel->editor()->shared()->activeObject() != NULL)
+	{
+		sad::Renderer::ref()->lockRendering();
+		m_panel->editor()->shared()->activeObject()->setProperty("schema", s);
+		m_panel->sceneNodeActions()->updateRegionForNode();
+		m_panel->fillCustomObjectProperties(m_panel->editor()->shared()->activeObject());
+		sad::Renderer::ref()->unlockRendering();
+	}
+	else
+	{
+		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+		if (node)
+		{
+			sad::Maybe<sad::String> oldvalue = node->getProperty<sad::String>("schema");
+			if (oldvalue.exists() && node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+			{
+				if (oldvalue.value() != s)
+				{
+					sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(
+						m_panel->editor()->shared()->selectedObject()
+					);
+					history::Command* c = new history::customobject::ChangeSchema(
+						o, oldvalue.value(), s
+					);
+					m_panel->editor()->history()->add(c);
+					c->commit(m_panel->editor());						
+				}
+			}
+		}
+	}
 }

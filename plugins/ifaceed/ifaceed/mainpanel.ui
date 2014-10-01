@@ -600,6 +600,9 @@
        <property name="text">
         <string>Click will place sprite as whole</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QRadioButton" name="rbTwoClicksPlaces">
        <property name="geometry">
@@ -668,9 +671,9 @@
      <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwCustomObjectSchemas" native="true">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>170</x>
         <y>10</y>
-        <width>401</width>
+        <width>241</width>
         <height>121</height>
        </rect>
       </property>
@@ -684,6 +687,62 @@
         <height>171</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QGroupBox" name="grpCustomObjectAddBehaviour">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>151</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>How object will be added</string>
+      </property>
+      <widget class="QRadioButton" name="rbCustomObjectPlaceAndRotate">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>17</y>
+         <width>171</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Click will place
+object as whole</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rbCustomObjectTwoClicksPlaces">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>161</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Two clicks will
+define a main diagonal
+for object 
+(ignores an angle)</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>

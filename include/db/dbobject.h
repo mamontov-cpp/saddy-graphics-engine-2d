@@ -144,6 +144,11 @@ public:
 		sad::Renderer* renderer,
 		const sad::String& treename
 	);
+	/*! Fetches property for an object with specified game
+		\param[in] s string
+		\return s string
+	 */
+	sad::db::Property* getObjectProperty(const sad::String& s) const;
 	/*! A major id for object
 	 */
 	unsigned long long MajorId;
@@ -154,11 +159,6 @@ public:
 	 */
 	bool Active;
 protected:
-	/*! Fetches property for an object with specified game
-		\param[in] s string
-		\return s string
-	 */
-	sad::db::Property* getObjectProperty(const sad::String& s) const;
 	/*! A table for object, null by default
 	 */
 	sad::db::Table* m_table;
