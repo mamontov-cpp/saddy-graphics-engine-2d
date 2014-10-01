@@ -74,3 +74,22 @@ sad::ClosureBasic* blocked_bind(_ClassName* o, _Method f, const _Arg& a)
     return new BlockedClosureMethodCall1<_ClassName, _Method, _Arg>(o, f, a);
 }
 
+
+
+/*!
+ * Invoked blocked call on specified widget
+ * \param[in] o object
+ * \param[in] f method
+ * \param[in] a argument
+ */
+template<
+	typename _ClassName,
+	typename _Method,
+	typename _Arg
+>
+void invoke_blocked(_ClassName* o, _Method f, const _Arg& a)
+{
+	bool b =  o->blockSignals(true);
+	(o->*f)(a);
+	o->blockSignals(b);
+}
