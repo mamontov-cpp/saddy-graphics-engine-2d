@@ -205,4 +205,3 @@ sad::ClosureBasic* bind(_ClassName* o, _Method f, const _Arg1& a1, const _Arg2& 
 {
     return new ClosureMethodCall2<_ClassName, _Method, _Arg1, _Arg2>(o, f, a1, a2);
 }
-

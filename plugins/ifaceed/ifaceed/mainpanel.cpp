@@ -1,4 +1,5 @@
 #include "mainpanel.h"
+#include "blockedclosuremethodcall.h"
 
 #include "core/editor.h"
 #include "core/fonttemplatesdatabase.h"
@@ -780,7 +781,18 @@ void MainPanel::updateUIForSelectedItem()
 
 void MainPanel::updateUIForSelectedItemNow()
 {
-	
+	sad::SceneNode* node = m_editor->shared()->selectedObject();
+	if (node)
+	{
+		invoke_blocked(ui.txtObjectName, &QLineEdit::setText, node->objectName().c_str());
+				
+		m_scene_node_actions->updateRegionForNode();
+
+		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+		{
+			this->fillCustomObjectProperties(node);
+		}
+	}
 }
 
 void MainPanel::updateCustomObjectPropertyValueNow()
