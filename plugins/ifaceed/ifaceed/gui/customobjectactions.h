@@ -60,6 +60,10 @@ public slots:
 	/*! Adds new custom object to a scene by diagonal placing
 	 */
 	void addByDiagonalPlacing();
+	/*! Emitted, when schema changed
+		\param[in] s  a schema name
+	 */
+	void schemaChanged(sad::String s);
 private:
 	/*! An panel, which actions are belong to
 	 */

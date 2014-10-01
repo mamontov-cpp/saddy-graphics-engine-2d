@@ -836,6 +836,10 @@
 				<Filter
 					Name="customobject"
 					>
+					<File
+						RelativePath=".\history\customobject\customobjectchangeschema.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -3180,6 +3184,10 @@
 					>
 					<File
 						RelativePath=".\history\customobject\customobjectchangeproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\customobject\customobjectchangeschema.h"
 						>
 					</File>
 				</Filter>

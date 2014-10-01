@@ -353,7 +353,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cbFlipY, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipYChanged(bool)));
     
 	connect(ui.btnCustomObjectAdd, SIGNAL(clicked()), m_custom_object_actions, SLOT(add()));
-
+	connect(ui.rtwCustomObjectSchemas, SIGNAL(selectionChanged(sad::String)), m_custom_object_actions, SLOT(schemaChanged(sad::String)));
+	
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
@@ -712,6 +713,7 @@ void MainPanel::clearCustomObjectPropertiesTable()
         }
     }
     ui.twCustomObjectProperties->clear();
+	ui.twCustomObjectProperties->setRowCount(0);
 }
 
  gui::table::Delegate* MainPanel::delegateForCustomObjectProperty(const QString& name)
@@ -721,11 +723,7 @@ void MainPanel::clearCustomObjectPropertiesTable()
          if (ui.twCustomObjectProperties->item(i, 0)->text() == name) {
              QVariant  v = ui.twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
              gui::table::Delegate* d = v.value<gui::table::Delegate*>();
-             if (d)
-             {
-                 d->disconnectSlots();
-                 delete d;
-             }
+             return d;
          }
      }
      return NULL;
