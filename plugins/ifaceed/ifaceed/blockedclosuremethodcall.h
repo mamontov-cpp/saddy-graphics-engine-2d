@@ -6,6 +6,53 @@
 #pragma once
 #include <closure.h>
 
+/*! \class BlockedClosureMethodCall0
+ *
+ * A class for closure method call with one argument
+ */
+template<
+    typename _ClassName,
+    typename _Method
+>
+class BlockedClosureMethodCall0: public sad::ClosureBasic
+{
+public:
+    /*!
+     * Constructs new instance of method call
+     * \param o object
+     * \param f method
+     */
+    inline BlockedClosureMethodCall0(_ClassName * o, _Method f) : m_o(o), m_f(f)
+    {
+
+    }
+    /*!
+     * Can be inherited
+     */
+    virtual ~BlockedClosureMethodCall0()
+    {
+
+    }
+    /*!
+     * Invokes method
+     */
+    virtual void run()
+    {
+        bool b = m_o->blockSignals(true);
+        (m_o->*m_f)();
+        m_o->blockSignals(b);
+    }
+protected:
+    /*!
+     * An object for method invocation
+     */
+    _ClassName* m_o;
+    /*!
+     * A method to be called on object
+     */
+    _Method m_f;
+};
+
 /*! \class BlockedClosureMethodCall1
  *
  * A class for closure method call with one argument
@@ -74,6 +121,20 @@ sad::ClosureBasic* blocked_bind(_ClassName* o, _Method f, const _Arg& a)
     return new BlockedClosureMethodCall1<_ClassName, _Method, _Arg>(o, f, a);
 }
 
+/*!
+ * Creates new call
+ * \param[in] o object
+ * \param[in] f method
+ * \param[in] a argument
+ */
+template<
+  typename _ClassName,
+  typename _Method
+>
+sad::ClosureBasic* blocked_bind(_ClassName* o, _Method f)
+{
+    return new BlockedClosureMethodCall0<_ClassName, _Method>(o, f);
+}
 
 
 /*!
@@ -93,3 +154,4 @@ void invoke_blocked(_ClassName* o, _Method f, const _Arg& a)
 	(o->*f)(a);
 	o->blockSignals(b);
 }
+

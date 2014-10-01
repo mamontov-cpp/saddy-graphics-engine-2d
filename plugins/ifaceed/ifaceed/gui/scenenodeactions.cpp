@@ -79,6 +79,14 @@ void gui::SceneNodeActions::cancelSelection()
 {
 	m_panel->editor()->machine()->enterState("idle");
 	m_panel->editor()->shared()->setSelectedObject(NULL);
+	QListWidget* w = m_panel->UI()->lstSceneObjects;
+
+	void (QListWidget::*setrow)(int) = &QListWidget::setCurrentRow;
+	m_panel->editor()->emitClosure(blocked_bind(
+		w,
+		setrow,
+		-1
+	));
 }
 
 void gui::SceneNodeActions::updateRegionForNode()

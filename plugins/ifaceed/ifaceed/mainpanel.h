@@ -230,6 +230,9 @@ public:
 	void fillCustomObjectProperties(
 		sad::SceneNode* node	
 	);
+	/*! Selects last scene node in panel
+	 */
+	void selectLastSceneNode();
 	/*! Change region parameters for data
 	 */
 	void setRegionParameters();
