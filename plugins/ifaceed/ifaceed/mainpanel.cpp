@@ -652,8 +652,16 @@ void MainPanel::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int 
 	v2.setValue(n2);
 	ui.lstSceneObjects->item(pos2)->setData(Qt::UserRole, v2);
 
-	if (s == n1 || s == n2)
+	if (s == n1)
 	{
+		void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+		invoke_blocked(ui.lstSceneObjects, row, pos1);
+		this->currentSceneNodeChanged(ui.lstSceneObjects->currentRow());
+	}
+	if (s == n2)
+	{
+		void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+		invoke_blocked(ui.lstSceneObjects, row, pos2);
 		this->currentSceneNodeChanged(ui.lstSceneObjects->currentRow());
 	}
 }
@@ -769,6 +777,16 @@ void MainPanel::fillCustomObjectProperties(
 				}
 			}
 		}
+	}
+}
+
+void MainPanel::selectLastSceneNode()
+{
+	if (ui.lstSceneObjects->count() != 0)
+	{
+		bool b = ui.lstSceneObjects->blockSignals(true);
+		ui.lstSceneObjects->setCurrentRow(ui.lstSceneObjects->count() - 1);
+		ui.lstSceneObjects->blockSignals(b);
 	}
 }
 
@@ -976,6 +994,8 @@ void MainPanel::addScene()
 	history::Command* c = new history::scenes::Add(s);
 	c->commit(m_editor);
 	m_editor->history()->add(c);
+
+	invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstScenes, &QListWidget::setCurrentRow, ui.lstScenes->count() - 1);
 }
 
 void MainPanel::currentSceneChanged(int index)
@@ -1137,6 +1157,8 @@ void MainPanel::sceneNodeMoveBack()
 				history::Command* c = new history::scenenodes::LayerSwap(node, previousnode, row, row - 1);
 				this->m_editor->history()->add(c);
 				c->commit(m_editor);
+
+				invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstSceneObjects, &QListWidget::setCurrentRow, row - 1);
 			}
 		}
 	}
@@ -1158,6 +1180,8 @@ void MainPanel::sceneNodeMoveFront()
 				history::Command* c = new history::scenenodes::LayerSwap(node, nextnode, row, row + 1);
 				this->m_editor->history()->add(c);
 				c->commit(m_editor);
+
+				invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstSceneObjects, &QListWidget::setCurrentRow, row + 1);
 			}
 		}
 	}

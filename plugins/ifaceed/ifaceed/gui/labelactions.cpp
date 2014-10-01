@@ -97,6 +97,11 @@ void gui::LabelActions::commitLabelAdd(const sad::input::MousePressEvent& e)
 	m_panel->editor()->history()->add(c);
 	c->commit(m_panel->editor());
 	m_panel->editor()->machine()->enterState("selected");
+
+	m_panel->editor()->emitClosure(blocked_bind(
+		m_panel,
+		&MainPanel::selectLastSceneNode
+	));
 }
 
 // ===============================  PUBLIC SLOTS METHODS ===============================

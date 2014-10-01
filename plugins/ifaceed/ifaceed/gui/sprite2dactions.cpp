@@ -87,6 +87,11 @@ void gui::Sprite2DActions::commitAdd(const sad::input::MousePressEvent& e)
 	m_panel->editor()->history()->add(c);
 	c->commit(m_panel->editor());
 	m_panel->editor()->machine()->enterState("selected");
+
+	m_panel->editor()->emitClosure(blocked_bind(
+		m_panel,
+		&MainPanel::selectLastSceneNode
+	));
 }
 
 void gui::Sprite2DActions::placeFirstPointForSprite(const sad::input::MousePressEvent& e)
