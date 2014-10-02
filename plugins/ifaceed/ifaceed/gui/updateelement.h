@@ -30,7 +30,7 @@ class UpdateElement
         typename _WidgetType,
         typename _Method
     >
-    void with(
+    static void with(
        sad::SceneNode* o,
        const sad::String& propertyname,
        _WidgetType* w,
