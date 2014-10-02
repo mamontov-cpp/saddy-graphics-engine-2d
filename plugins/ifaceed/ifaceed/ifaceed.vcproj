@@ -1627,6 +1627,10 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<File
+					RelativePath=".\gui\updateelement.h"
+					>
+				</File>
 				<Filter
 					Name="colorpicker"
 					>

@@ -190,6 +190,13 @@ sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 			)
 		);
 		Sprite2DBasicSchema->add(
+			"texturecoordinates", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				&sad::Sprite2D::textureCoordinates,
+				&sad::Sprite2D::setTextureCoordinates
+			)
+		);
+		Sprite2DBasicSchema->add(
 			"angle", 
 			new sad::db::MethodPair<sad::Sprite2D, double>(
 				&sad::Sprite2D::angle,
@@ -659,7 +666,10 @@ void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 {
 	m_texture.setTree(this->renderer(), m_options.treeName());
 	m_texture.setPath(opts->Texture);
-	m_texture_coordinates = opts->TextureRectangle;	
+	if (m_loading == false)
+	{
+		m_texture_coordinates = opts->TextureRectangle;	
+	}
 	reloadTexture();
 	if (m_loading)
 	{
