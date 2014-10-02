@@ -59,6 +59,7 @@ static bool perform(void * ptr, const picojson::value & v)       \
 
 DECLARE_DB_LOAD_FOR_TYPE(bool)
 DECLARE_DB_LOAD_FOR_TYPE(char)
+DECLARE_DB_LOAD_FOR_TYPE(signed char)
 DECLARE_DB_LOAD_FOR_TYPE(unsigned char)
 DECLARE_DB_LOAD_FOR_TYPE(short)
 DECLARE_DB_LOAD_FOR_TYPE(unsigned short)
@@ -73,10 +74,12 @@ DECLARE_DB_LOAD_FOR_TYPE(double)
 DECLARE_DB_LOAD_FOR_TYPE(std::string)
 DECLARE_DB_LOAD_FOR_TYPE(sad::String)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Point2D)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Point2I)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Rect2D)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Color)
 DECLARE_DB_LOAD_FOR_TYPE(sad::AColor)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Size2D)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Size2I)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 
 }

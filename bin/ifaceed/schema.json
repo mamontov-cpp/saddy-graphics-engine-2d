@@ -4,10 +4,25 @@
 	 "resource": "fonts/tmfont",
 	 "schema" : {
 	 	"prop_double" : {"type" : "double", "value" : 0 },
-		"prop_float" : {"type" : "float", "value" : 0 },		
+		"prop_float" : {"type" : "float", "value" : 0 },	
+		"prop_char" : {"type" : "char", "value" : 0 },
+		"prop_signed_char" : {"type" : "signed char", "value" : 0 },
+		"prop_unsigned_char" : {"type" : "unsigned char", "value" : 0 },		
+		"prop_short" : {"type" : "short", "value" : 0 },		
 		"prop_int" : {"type" : "int", "value" : 0 },
 		"prop_long" : {"type" : "long", "value" : 0 },
-		"prop_long_long" : {"type" : "long long", "value" : 0 }	
+		"prop_long_long" : {"type" : "long long", "value" : 0 },
+		"prop_unsigned_short" : {"type" : "unsigned short", "value" : 0 },		
+		"prop_unsigned_int" : {"type" : "unsigned int", "value" : 0 },
+		"prop_unsigned_long" : {"type" : "unsigned long", "value" : 0 },
+		"prop_unsigned_long_long" : {"type" : "unsigned long long", "value" : 0 },
+		"prop_string" : {"type" : "sad::String", "value" : "whatever" },
+		"prop_color" : {"type" : "sad::Color", "value" : {"r" : 0, "g": 255, "b": 255} },
+		"prop_acolor" : {"type" : "sad::AColor", "value" : {"r" : 0, "g": 255, "b": 255, "a": 0} },
+		"prop_point2d" : {"type" : "sad::Point2D", "value" : {"x" : 0, "y": 2} },
+		"prop_point2i" : {"type" : "sad::Point2I", "value" : {"x" : 0, "y": 2} },
+		"prop_size2d" : {"type" : "sad::Size2D", "value" : {"width" : 0, "height": 2} },
+		"prop_size2i" : {"type" : "sad::Size2I", "value" : {"width" : 0, "height": 2} }		
 	 }
 	},
 	{

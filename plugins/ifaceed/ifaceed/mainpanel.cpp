@@ -87,14 +87,19 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     this->fillDatabasePropertyTypesCombo();
 
     ui.twDatabaseProperties->setColumnCount(3);
+    const int header_padding = 12;  // 12 is  a padding for header
 	double width = ui.twDatabaseProperties->width() - ui.twDatabaseProperties->verticalHeader()->width();
-	ui.twDatabaseProperties->setColumnWidth(2, width / 6 - 12); // 12 is  a padding for header
+    ui.twDatabaseProperties->setColumnWidth(2, width / 6 - header_padding);
 	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
 	ui.twDatabaseProperties->horizontalHeader()->hide();
 
+
+    width = ui.twCustomObjectProperties->width() - ui.twCustomObjectProperties->verticalHeader()->width();
 	ui.twCustomObjectProperties->setColumnCount(2);
-	ui.twCustomObjectProperties->horizontalHeader()->hide();
-	
+    ui.twCustomObjectProperties->setColumnWidth(0, width / 2);
+    ui.twCustomObjectProperties->setColumnWidth(1, width / 2 - header_padding * 3.5);
+    ui.twCustomObjectProperties->horizontalHeader()->hide();
+
     ui.txtLabelText->setPlainText("Test");
 
 	m_scene_node_actions = new gui::SceneNodeActions();
