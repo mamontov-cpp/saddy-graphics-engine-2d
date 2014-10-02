@@ -159,7 +159,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/scenes/scenesclear.h \
     ifaceed/history/customobject/customobjectchangeproperty.h \
     ifaceed/gui/customobjectactions.h \
-    ifaceed/history/customobject/customobjectchangeschema.h
+    ifaceed/history/customobject/customobjectchangeschema.h \
+    ifaceed/gui/updateelement.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \

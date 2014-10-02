@@ -154,4 +154,3 @@ void invoke_blocked(_ClassName* o, _Method f, const _Arg& a)
 	(o->*f)(a);
 	o->blockSignals(b);
 }
-
