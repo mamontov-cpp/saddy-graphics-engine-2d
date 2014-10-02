@@ -803,9 +803,8 @@ void MainPanel::updateUIForSelectedItemNow()
 	sad::SceneNode* node = m_editor->shared()->selectedObject();
 	if (node)
 	{
-        int row = this->findSceneNodeInList(node);
-
         // Scene tab
+        int row = this->findSceneNodeInList(node);
         if (row != ui.lstSceneObjects->currentRow()) {
             void (QListWidget::*setRow)(int) = &QListWidget::setCurrentRow;
             invoke_blocked(ui.lstSceneObjects, setRow, row);
@@ -819,8 +818,17 @@ void MainPanel::updateUIForSelectedItemNow()
         {
             invoke_blocked(ui.cbSceneNodeVisible, &QCheckBox::setCheckState, (maybevisible.value()) ? Qt::Checked : Qt::Unchecked);
         }
+        gui::UpdateElement<double>::with(node, "angle", ui.awSceneNodeAngle, &gui::anglewidget::AngleWidget::setValue);
+        gui::UpdateElement<QColor>::with(node, "color", ui.clpSceneNodeColor, &gui::colorpicker::ColorPicker::setSelectedColor);
+
+        // Label tab
+        gui::UpdateElement<sad::String>::with(node, "font", ui.rtwLabelFont, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        gui::UpdateElement<unsigned int>::with(node, "fontsize", ui.fswLabelFontSize, &gui::fontsizewidget::FontSizeWidget::setValue);
+        gui::UpdateElement<float>::with(node, "linespacing", ui.dsbLineSpacingRatio, &QDoubleSpinBox::setValue);
+        gui::UpdateElement<QString>::with(node, "text", ui.txtLabelText, &QPlainTextEdit::setPlainText);
 
         // Sprite2D tab
+        gui::UpdateElement<sad::String>::with(node, "options", ui.rtwSpriteSprite, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
         sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");
         if (maybeflipx.exists())
         {
@@ -833,10 +841,16 @@ void MainPanel::updateUIForSelectedItemNow()
         }
 
 
+        // Custom object tab
+        gui::UpdateElement<sad::String>::with(node, "schema", ui.rtwCustomObjectSchemas, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
 		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
 		{
 			this->fillCustomObjectProperties(node);
-		}
+        }
+        else
+        {
+            this->clearCustomObjectPropertiesTable();
+        }
 	}
 }
 
