@@ -6,7 +6,6 @@
 
 #include <QtCore>
 #include <QtGui>
-#include "../../core/spritedatabase.h"
 #include <QFontMetrics>
 
 

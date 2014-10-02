@@ -3,19 +3,18 @@
 
 	Defines a main interface editor class
  */
+#pragma once
 #include "../macro.h"
 
 #include "../history/history.h"
 
 #include "../core/qttarget.h"
-#include "../core/editorbehaviour.h"
 #include "../core/quitreason.h"
 
 
 #include "../mainpanel.h"
 
 #include "shared.h"
-#include "objectxmlwriter.h"
 
 #include <scene.h>
 #include <sadmutex.h>
@@ -39,14 +38,9 @@
 #include <QMainWindow>
 
 
-#pragma once
-
-class ScreenTemplate;
-class FontTemplateDatabase;
-class IFaceSharedData;
-
 namespace core
 {
+class Selection;
 class Shared;
 class SaddyThread;
 class Synchronization;
@@ -117,6 +111,10 @@ public:
 		\return selection border
 	 */
 	core::borders::SelectionBorder* selectionBorder() const;
+	/*! Returns current selection algorithm for editor
+		\return selection
+	 */
+	core::Selection* selection() const;
     /*! Quits an editor
      */
     void quit();
@@ -134,32 +132,6 @@ public:
      * \return whether node is selected
      */
     bool isNodeSelected(sad::SceneNode* node) const;
-
-
-	/*! Returns a database fwith all of resources
-	 */
-	FontTemplateDatabase * database();
-	/*! Tries to render active object, if any
-	 */ 
-	void tryRenderActiveObject();
-	/*! Returns current resulting in-game screen
-		\return result
-	 */
-	inline ScreenTemplate * result()
-	{
-		return m_result;
-	}
-	/*! Shows objects stats for selected object
-		Implemented in \\core\\states\\changingselection.h
-		\param[in] o object, which must be selected
-	 */
-	virtual void showObjectStats(AbstractScreenObject * o);
-	/*! Tries to select some object
-		Implemented in \\core\\states\\changingselection.h
-		\param[in] p point
-		\param[in] enterSelected whether we should enter selected states if found
-	 */
-	virtual void trySelectObject(sad::Point2D p, bool enterSelected);
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour
@@ -171,26 +143,6 @@ public slots:
 	/*! Redoes history action
 	 */
 	void redo();
-
-	/*! Updates a list from event
-	 */
-	virtual void submitEvent(const sad::String & eventType, const sad::db::Variant & v);
-	/*! Appends a rotation command to a history
-		Used for deferred rotation appendance
-	 */
-	void appendRotationCommand();
-	/*! Performs full texture reload from a data
-		Uses current parsed data from reload, all object schemes and stuff.
-		Reload must be hit only from Qt code, otherwise 
-		everything would fail. 
-     */
-	void reload();
-	/*!  Saves a screen template into a file
-	 */ 
-	void save();
-	/*!  Loads an editor data from a file
-	 */
-	void load();
 signals:
 	/*! Signal is emitted, when closure is arrived
 		\param[in] closure data for closure
@@ -237,6 +189,9 @@ protected:
 	/*! A selection border, which is used for higlighting current item
 	 */
 	core::borders::SelectionBorder* m_selection_border;
+	/*! Current selection algorithm
+	 */
+	core::Selection* m_selection;
 
     /*! Reports errors to log
         \param[in, out] errors a list of errors
@@ -253,24 +208,7 @@ protected:
         reason, why editor to quit as initiated by Saddy's renderer
         and calls cleanup actions
      */
-    void saddyQuitSlot();
-
-
-
-
-	/*!	Counter for loading all of dbs
-	*/
-    int m_counter;
-	/*! A template database with fonts
-	*/
-	FontTemplateDatabase * m_db;
-	/*! Screen template data
-	*/
-	ScreenTemplate * m_result;
-	/*! Sets a database for templates
-		\param[in] db database
-	*/
-	void setDatabase(FontTemplateDatabase * db);    
+    void saddyQuitSlot(); 
 protected slots:
     /*! Creates QApplication and window,
         sets up global key handlers and starts event loop,
@@ -295,10 +233,6 @@ protected slots:
 		\param[in] closure closure data
      */
     virtual void runClosure(sad::ClosureBasic * closure);
-private:	
-	/*! An icons container
-	*/
-	sad::Sprite2DConfig m_icons;
 };
 
 }
