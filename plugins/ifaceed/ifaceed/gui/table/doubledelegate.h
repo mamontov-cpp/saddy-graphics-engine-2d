@@ -5,7 +5,7 @@
  */
 #pragma once
 #include "delegate.h"
-#include "../../history/propertychangecommand.h"
+
 #include <QObject>
 
 namespace gui

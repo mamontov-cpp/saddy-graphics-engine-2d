@@ -26,31 +26,12 @@
 
 #include "core/saddythread.h"
 #include "core/synchronization.h"
-
-#include "core/fonttemplatesdatabase.h"
-#include "core/editorbehaviour.h"
-#include "core/xmlconfigloader.h"
-#include "core/objectborders.h"
-#include "core/objectxmlreader.h"
-#include "core/sceneaddingtask.h"
+#include "core/selection.h"
 
 #include "core/borders/activeborder.h"
 #include "core/borders/selectionborder.h"
 
 #include "gui/eventfilter.h"
-
-#include "../objects/screentemplate.h"
-#include "../objects/screenlabel.h"
-#include "../objects/screensprite.h"
-
-#include "states/idlestate.h"
-#include "states/labeladdingstate.h"
-#include "states/spriteaddingstate.h"
-#include "states/selectedstate.h"
-
-#include "../history/propertychangecommand.h"
-#include "../history/deletecommand.h"
-
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -67,7 +48,7 @@
 
 // =================== PUBLIC METHODS ===================
 
-core::Editor::Editor() : m_icons("editor_icons")
+core::Editor::Editor()
 {
 	// Add message data
 	m_qttarget = new core::QtTarget(this);
@@ -117,18 +98,14 @@ core::Editor::Editor() : m_icons("editor_icons")
 	sad::Renderer::ref()->pipeline()->append(m_active_border);
 
 
-    m_db = NULL;
-	m_counter = 0;
-	m_result = new ScreenTemplate();
-	m_selection_border = NULL;
+	m_selection = new core::Selection();
+	m_selection->setEditor(this);
 
 	// Fill conversion table with converters
 	this->initConversionTable();
 }
 core::Editor::~Editor()
-{
-	delete m_db;
-	delete m_result;	
+{	
     delete m_args;
 	delete m_qtapp;
 	delete m_renderthread;
@@ -137,6 +114,7 @@ core::Editor::~Editor()
 	delete m_shared;
 	delete m_machine;
     delete m_synchronization;
+	delete m_selection;
 }
 
 void core::Editor::init(int argc,char ** argv)
@@ -207,6 +185,11 @@ core::borders::ActiveBorder* core::Editor::activeBorder() const
 core::borders::SelectionBorder* core::Editor::selectionBorder() const
 {
 	return m_selection_border;
+}
+
+core::Selection* core::Editor::selection() const
+{
+	return m_selection;
 }
 
 void core::Editor::quit()
@@ -464,299 +447,3 @@ void core::Editor::runClosure(sad::ClosureBasic * closure)
     delete closure;
 }
 
-
-void core::Editor::setDatabase(FontTemplateDatabase * db)
-{
-	delete m_db;
-	m_db = db;
-}
-
-// A future result of loading database
-class DBLoadingTaskFuture
-{
- protected:
-	 bool m_result;   //!< Result of computation
-	 bool m_computed; //!< Computed result
- public:
-	 inline DBLoadingTaskFuture()
-	 {
-		 m_result = false;
-		 m_computed = false;
-	 }
-
-	 inline void setResult(bool result) 
-	 {
-		 m_result = result;
-		 m_computed = true;
-	 }
-
-	 inline bool result() 
-	 {
-		 while (!m_computed) {}
-		 return m_result;
-	 }
-};
-
-
-// An aynchronous task used to loading some sprite database. Because loading must be performed in
-// a rendering thread, because no OpenGL context is available to other threads
-class DBLoadingTask: public sad::pipeline::AbstractTask
-{
- protected:
-	 FontTemplatesMaps * m_maps; //!< Maps data
-	 FontTemplateDatabase * m_db;  //!< Database for loading
-	 DBLoadingTaskFuture * m_future; //!< Future for computing
-	 sad::log::Log * m_log;    //!< Logger for logging data
- public:
-	 /** Constructs new tasks
-	  */
-	 inline DBLoadingTask(FontTemplatesMaps * maps, 
-						  FontTemplateDatabase * db, 
-						  DBLoadingTaskFuture * f, 
-						  sad::log::Log * log)
-	 {
-		 m_maps = maps;
-		 m_db = db;
-		 m_future = f;
-		 m_log = log;
-	 }
-	 // Loads a db
-	 virtual void _process()
-	 {
-	    bool data = m_db->load(*m_maps, m_log);
-		m_future->setResult(data);
-	 }
-	 virtual ~DBLoadingTask()
-	 {
-	 }
-};
-
-FontTemplateDatabase * core::Editor::database()
-{
-	return m_db;
-}
-
-void core::Editor::tryRenderActiveObject()
-{
-	/*
-	AbstractScreenObject * o =	this->shared()->activeObject();
-	if (o)
-		o->render();
-	*/
-}
-
-void core::Editor::submitEvent(UNUSED const sad::String & eventType,UNUSED const sad::db::Variant & v)
-{
-	CLOSURE
-	CLOSURE_DATA( core::Editor * me; )
-	CLOSURE_CODE( 
-		SL_SCOPE("core::Editor::submitEvent()::closure");
-        //if (me->m_handling_event)
-        //	return;
-        //me->m_handling_event = true;
-		me->panel()->updateList(); 
-		if (me->shared()->selectedObject() != NULL )
-		{
-			if (me->shared()->activeObject() == NULL)
-			{
-				SL_SCOPE("core::Editor::submitEvent()::closure::callUpdateObjectStats()");
-				//me->panel()->updateObjectStats(me->shared()->selectedObject());
-			}
-			// Remove order, if selected removed
-			sad::log::Log* lg = sad::log::Log::ref();
-			/*
-			if (me->shared()->selectedObject()->prop<bool>("activity",lg) == false
-			   )
-			{
-				SL_SCOPE("core::Editor::submitEvent()::closure::fixingSelected()");
-				if (me->currentBehaviour()->state() == "selected")
-				{
-					SL_DEBUG("Entering idle state");
-					me->currentBehaviour()->enterState("idle");
-				}
-				SL_DEBUG("Unselecting object to null");
-				me->shared()->setSelectedObject(NULL);
-			}
-			*/
-		}
-        //me->m_handling_event = false;
-	)
-	INITCLOSURE ( CLSET(me, this) )
-	SUBMITCLOSURE( this->emitClosure );
-}
-
-void core::Editor::appendRotationCommand()
-{
-	float new_angle = 0.0f;
-	float old_angle = 0.0f;
-	AbstractScreenObject * o = NULL;
-	sad::log::Log* lg = sad::log::Log::ref();
-	this->shared()->getAndDismissRotationCommand(o, new_angle, old_angle);
-	this->history()->add(new PropertyChangeCommand<float>(o, "angle", new_angle, old_angle, lg));
-}
-
-
-void core::Editor::reload()
-{
-   SL_SCOPE("core::Editor::reload()");
-   // 1. Load maps
-   FontTemplatesMaps * maps =  new FontTemplatesMaps(); 
-   sad::String filename = this->parsedArgs()->single("ifaceconfig").value();
-   sad::log::Log* lg = sad::log::Log::ref();
-   if (maps->load(filename.data(), lg) 
-	   == false) {
-		// 2. If map loading failed, stop right there
-	    // 2.1. Report   error
-	    delete maps;
-		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading failed") << filename.data()));
-		return;
-   }
-   // 3. Load texture database
-   m_counter++;
-   FontTemplateDatabase * db = new FontTemplateDatabase(&m_counter);		
-   DBLoadingTaskFuture * future = new DBLoadingTaskFuture();
-   DBLoadingTask * task = new DBLoadingTask(maps,db,future, lg);
-   sad::Renderer::ref()->lockRendering();
-   sad::Renderer::ref()->pipeline()->prepend(task);
-   sad::Renderer::ref()->unlockRendering();
-   if (future->result() == false) {
-		// 3.1. If loading failed, report error	 
-	    delete maps;
-		delete future;
-		delete db;
-		sad::String filename = this->parsedArgs()->single("ifaceconfig").value();
-		SL_WARNING(str(fmt::Print("Map file \"{0}\": loading font and templates failed") << filename));
-		return;
-   }
-   // At this point we need only database, db to
-   // check compliance with other objects
-   delete maps;
-   delete future;
-   // 4. Check, whether all scene needed data in DB
-   bool allobjectsvalid = true;
-   // Container of errors
-   sad::Vector<sad::String> errors;
-   AbstractScreenObject * it = this->result()->templateBegin();	
-   while (it)
-   {
-		allobjectsvalid = allobjectsvalid && it->isValid(db, &errors);
-		it = this->result()->templateNext();
-   }
-   if (!allobjectsvalid)
-   {
-	   // 4.1. If failed, report error
-	   sad::String errorsasstring = "Not all objects are valid:\n";
-       for(unsigned int i = 0; i < errors.count(); i++)
-	   {
-			errorsasstring << errors[i];
-	   }
-	   SL_WARNING(errorsasstring);
-	   delete db;
-	   return;
-   }
-   // 5. Reload scene data for db
-   it = this->result()->templateBegin();	
-   while (it)
-   {
-	    it->tryReload(db);
-		it = this->result()->templateNext();
-   }
-   // 6. Remove old DB
-   this->setDatabase(db);
-   /*
-	  7. Reload fonts in UI 
-	  8. Reload sprites in UI
-    */
-   this->panel()->synchronizeDatabase();   
-}
-
-
-void core::Editor::save()
-{
-	QString filename = QFileDialog::getSaveFileName(
-		NULL, 
-		"Please specify save file name",
-		"",
-		QString("XML (*.xml)")
-		);
-	if (filename.length())
-	{
-		ObjectXMLWriter w(filename, "screentemplate");
-		if(w.write(this->result()) == false)
-		{
-			SL_WARNING(QString("Cannot write into file \"") + filename + "\"");
-		}
-	}
-}
-
-void core::Editor::load()
-{
-	QString filename = QFileDialog::getOpenFileName(
-		NULL, 
-		"Please specify save file name",
-		"",
-		QString("XML (*.xml)")
-		);
-	if (filename.length())
-	{
-		ScreenObjectXMLReader  r(filename);
-		ScreenTemplate * e = new ScreenTemplate();
-		if (r.read(e) == false)
-		{
-			delete e;
-			SL_WARNING(QString("Cannot load  file \"") + filename + "\"");
-			return;
-		}
-		// We must save our uids, to force it to work with container 
-		// Also, we check when all objects are valid and can be loaded from db
-		AbstractScreenObject * it = e->templateBegin();
-		bool allobjectsarevalid = true;
-		sad::Vector<sad::Pair<sad::String, AbstractScreenObject *> > m_pairs;
-		sad::log::Log* lg = sad::log::Log::ref();
-		while(it)
-		{
-			allobjectsarevalid = allobjectsarevalid && it->isValid(this->database());
-			// We cannot perform ::setUid here, because it will broke some iterator
-			sad::String uid = it->prop<sad::String>("uid", lg);
-			m_pairs << sad::Pair<sad::String, AbstractScreenObject *>(uid, it);
-			// This must be done, because we data added via
-			// HashBasedSerializableContainer::add, which don't care
-			// to some reference-counting, but real container cares about it
-			// in destructor, so we need to increment counter
-			// to make object survive death of his container or scene
-			it->addRef();
-			it = e->templateNext();
-		}
-        for(unsigned int i = 0; i < m_pairs.count(); i++)
-		{
-			e->setUid(m_pairs[i].p2(), m_pairs[i].p1());
-		}
-		if (!allobjectsarevalid)
-		{
-			delete e;
-			SL_WARNING(QString("Not all objects can be mapped to database, aborting"));
-			return;
-		}
-		// Reload an objects
-		it = e->templateBegin();
-		while(it)
-		{
-			it->initializeGraphicAfterLoad(this->database());
-			it = e->templateNext();
-		}
-		
-		// Clear history
-		this->history()->clear();
-		// Clear result
-		delete m_result;
-		m_result = e;
-		// Perform cleanup data
-        //this->currentBehaviour()->enterState("idle");
-		sad::Renderer::ref()->lockRendering();
-        //if (this->scene()->objectCount() != 0)
-        //	this->scene()->clear();
-		// Add post-render task, which adds a sorted results when scene is empty and dies
-        //sad::Renderer::ref()->pipeline()->append(new SceneAddingTask(e, this->scene()));
-		sad::Renderer::ref()->unlockRendering();
-	}
-}

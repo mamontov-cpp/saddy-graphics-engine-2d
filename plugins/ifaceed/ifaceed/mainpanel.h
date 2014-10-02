@@ -13,11 +13,10 @@
 #include <sadstring.h>
 #include <sadptrhash.h>
 
-#include "gui/objectlist.h"
-#include "gui/table/delegatefactory.h"
-
 #include <db/dbvariant.h>
 #include <db/dbstoredpropertyfactory.h>
+
+#include "gui/table/delegatefactory.h"
 
 #include <input/events.h>
 
@@ -233,12 +232,6 @@ public:
 	/*! Selects last scene node in panel
 	 */
 	void selectLastSceneNode();
-	/*! Change region parameters for data
-	 */
-	void setRegionParameters();
-	/*! Updates list of objects
-	 */
-	void updateList();	
 	/*! Synchronizes database with an editor
 	 */
 	void synchronizeDatabase();
@@ -254,20 +247,6 @@ public:
 		\param[in] enabled 
 	 */
 	void setAngleChangingEnabled(bool enabled);	
-	/*! Tries to set current propertit of active object, otherwise  - of selected
-		if property exists
-		\param[in] prop property name
-		\param[in] v value
-	 */
-	template<typename T> void trySetProperty(const sad::String & prop, T v);
-	/*! Tries to set current propertit of active object, otherwise  - of selected
-		if property exists. In a first place this for angle, that is believed as float
-		\param[in] prop property name
-		\param[in] v value
-	 */
-	void trySetProperty(const sad::String & prop, float v);		
-	void updateObjectStats(AbstractScreenObject * o);
-
 public slots:
 	/*! Fires signal for updating UI to selected item property values
 	 */
@@ -393,61 +372,6 @@ protected slots:
 	/*! Moves scene front
 	 */
 	void sceneNodeMoveFront();
-
-
-	/*! TODO: Remove
-	 */
-	void selected(sad::String item);
-	/*! A slot, when sprite rectangle changed
-	 */
-	void spriteRectChanged();
-
-	void spriteSelected(QString config, QString group, int index);
-	/*! Adds a new font object
-	 */
-	void addFontObject();
-	/*! Adds a sprite object
-	 */
-	void addSpriteObject();
-	/*! Changed an angle in data
-		\param[in] angle angle
-	 */
-	void angleChanged(double angle);
-	/*! Whether color is changed
-		\param[in] index of color
-	 */
-	void colorChanged(int index);
-	/*! Whether label object text changed
-	 */
-	void textChanged();
-	/*! Emitted when object in list is changed
-	 */
-	void selectedObjectChanged(int index);
-	/*! Moves object back to layer
-	 */
-	void moveObjectBack();
-	/*! Moves object back to layer
-	 */
-	void moveObjectFront();
-	/*! Called, when name is changed
-		\param[in] name new name of element
-	 */
-	void nameChanged(const QString & name);
-	/*! Makes selected item a background
-	 */
-	void makeBackground();
-	/*! Clears a screen template
-	 */
-	void clearScreenTemplate();
-
-	/*! Handled, when color changed
-		\param[in] c color
-	 */
-	void colorChanged(QColor c);
-private:
-	/** An object list for working with information
-	 */
-	gui::ScreenObjectList m_list;
 };
 
 #endif // MAINPANEL_H

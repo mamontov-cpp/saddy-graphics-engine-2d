@@ -6,8 +6,6 @@
 #pragma once
 #include "delegate.h"
 
-#include "../../history/propertychangecommand.h"
-
 #include "../tuplewidget/doubletuplewidget.h"
 
 #include <QObject>

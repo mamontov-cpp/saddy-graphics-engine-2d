@@ -327,54 +327,10 @@
 				>
 			</File>
 			<Filter
-				Name="objects"
-				>
-				<File
-					RelativePath=".\objects\abstractscreenobject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screenlabel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screensprite.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screentemplate.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="core"
 				>
 				<File
 					RelativePath=".\core\editor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\editorbehaviour.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\fontdatabase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\fonttemplatesdatabase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectborders.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectxmlreader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectxmlwriter.cpp"
 					>
 				</File>
 				<File
@@ -386,7 +342,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\sceneaddingtask.cpp"
+					RelativePath=".\core\selection.cpp"
 					>
 				</File>
 				<File
@@ -394,45 +350,9 @@
 					>
 				</File>
 				<File
-					RelativePath=".\core\spritedatabase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\core\state.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\core\synchronization.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\core\xmlconfigloader.cpp"
-					>
-				</File>
-				<Filter
-					Name="states"
-					>
-					<File
-						RelativePath=".\core\states\changingselection.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\idlestate.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\labeladdingstate.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\selectedstate.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\spriteaddingstate.cpp"
-						>
-					</File>
-				</Filter>
 				<Filter
 					Name="typeconverters"
 					>
@@ -507,10 +427,6 @@
 				</File>
 				<File
 					RelativePath=".\gui\labelactions.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\gui\objectlist.cpp"
 					>
 				</File>
 				<File
@@ -698,23 +614,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\history\deletecommand.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\history\history.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\history\layercommands.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\history\movecommand.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\history\newcommand.cpp"
 					>
 				</File>
 				<Filter
@@ -1065,26 +965,6 @@
 				>
 			</File>
 			<Filter
-				Name="objects"
-				>
-				<File
-					RelativePath=".\objects\abstractscreenobject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screenlabel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screensprite.h"
-					>
-				</File>
-				<File
-					RelativePath=".\objects\screentemplate.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="core"
 				>
 				<File
@@ -1134,30 +1014,6 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\core\editorbehaviour.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\fontdatabase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\fonttemplatesdatabase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectborders.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectxmlreader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\objectxmlwriter.h"
-					>
 				</File>
 				<File
 					RelativePath=".\core\qttarget.h"
@@ -1216,49 +1072,61 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\core\sceneaddingtask.h"
+					RelativePath=".\core\selection.h"
 					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing selection.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I.\..\..\..\include&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing selection.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="UnitTests|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing selection.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="GUITests|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing selection.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_DLL &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I.\GeneratedFiles\$(ConfigurationName)\.&quot; &quot;-I$(QTDIR)\include\qtmain&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtXml&quot; &quot;-I.&quot; &quot;-I$(SADDY_INCLUDE)\.&quot; &quot;-I$(FREETYPE_INCLUDE)\.&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\core\shared.h"
 					>
 				</File>
 				<File
-					RelativePath=".\core\spritedatabase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\core\state.h"
-					>
-				</File>
-				<File
 					RelativePath=".\core\synchronization.h"
 					>
 				</File>
-				<File
-					RelativePath=".\core\xmlconfigloader.h"
-					>
-				</File>
-				<Filter
-					Name="states"
-					>
-					<File
-						RelativePath=".\core\states\idlestate.h"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\labeladdingstate.h"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\selectedstate.h"
-						>
-					</File>
-					<File
-						RelativePath=".\core\states\spriteaddingstate.h"
-						>
-					</File>
-				</Filter>
 				<Filter
 					Name="typeconverters"
 					>
@@ -1478,10 +1346,6 @@
 							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\gui\objectlist.h"
-					>
 				</File>
 				<File
 					RelativePath=".\gui\rotationprocess.h"
@@ -3036,27 +2900,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\history\deletecommand.h"
-					>
-				</File>
-				<File
 					RelativePath=".\history\history.h"
-					>
-				</File>
-				<File
-					RelativePath=".\history\layercommands.h"
-					>
-				</File>
-				<File
-					RelativePath=".\history\movecommand.h"
-					>
-				</File>
-				<File
-					RelativePath=".\history\newcommand.h"
-					>
-				</File>
-				<File
-					RelativePath=".\history\propertychangecommand.h"
 					>
 				</File>
 				<Filter
@@ -4234,6 +4078,34 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\GeneratedFiles\Release\moc_selection.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="UnitTests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="GUITests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\GeneratedFiles\Release\moc_shortdelegate.cpp"
 					>
 					<FileConfiguration
@@ -5349,6 +5221,34 @@
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\Debug\moc_scenenodeactions.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="UnitTests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="GUITests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\Debug\moc_selection.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
@@ -6518,6 +6418,34 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\GeneratedFiles\UnitTests\moc_selection.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="GUITests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\GeneratedFiles\UnitTests\moc_shortdelegate.cpp"
 					>
 					<FileConfiguration
@@ -7633,6 +7561,34 @@
 				</File>
 				<File
 					RelativePath=".\GeneratedFiles\GUITests\moc_scenenodeactions.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="UnitTests|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\GeneratedFiles\GUITests\moc_selection.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
