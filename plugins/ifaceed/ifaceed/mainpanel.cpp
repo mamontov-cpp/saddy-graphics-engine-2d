@@ -31,6 +31,7 @@
 #include "gui/labelactions.h"
 #include "gui/sprite2dactions.h"
 #include "gui/customobjectactions.h"
+#include "gui/updateelement.h"
 
 #include <geometry2d.h>
 #include <keymouseconditions.h>
@@ -802,9 +803,35 @@ void MainPanel::updateUIForSelectedItemNow()
 	sad::SceneNode* node = m_editor->shared()->selectedObject();
 	if (node)
 	{
-		invoke_blocked(ui.txtObjectName, &QLineEdit::setText, node->objectName().c_str());
-				
-		m_scene_node_actions->updateRegionForNode();
+        int row = this->findSceneNodeInList(node);
+
+        // Scene tab
+        if (row != ui.lstSceneObjects->currentRow()) {
+            void (QListWidget::*setRow)(int) = &QListWidget::setCurrentRow;
+            invoke_blocked(ui.lstSceneObjects, setRow, row);
+        }
+        invoke_blocked(ui.txtObjectName, &QLineEdit::setText, node->objectName().c_str());
+
+        // SceneNode tab
+        m_scene_node_actions->updateRegionForNode();
+        sad::Maybe<bool> maybevisible = node->getProperty<bool>("visible");
+        if (maybevisible.exists())
+        {
+            invoke_blocked(ui.cbSceneNodeVisible, &QCheckBox::setCheckState, (maybevisible.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+
+        // Sprite2D tab
+        sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");
+        if (maybeflipx.exists())
+        {
+            invoke_blocked(ui.cbFlipX, &QCheckBox::setCheckState, (maybeflipx.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+        sad::Maybe<bool> maybeflipy = node->getProperty<bool>("flipy");
+        if (maybeflipy.exists())
+        {
+            invoke_blocked(ui.cbFlipY, &QCheckBox::setCheckState, (maybeflipy.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+
 
 		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
 		{
@@ -1046,9 +1073,6 @@ void MainPanel::currentSceneNodeChanged(int index)
 	{
 		QListWidgetItem* i = ui.lstSceneObjects->item(index);
 		sad::SceneNode* s = i->data(Qt::UserRole).value<sad::SceneNode*>();
-		bool b = ui.txtObjectName->blockSignals(true);
-		ui.txtObjectName->setText(s->objectName().c_str());
-		ui.txtObjectName->blockSignals(b);
 
 		if (m_editor->machine()->isInState("idle"))
 		{
