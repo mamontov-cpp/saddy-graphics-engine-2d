@@ -66,6 +66,7 @@ static inline picojson::value perform(void * ptr)              \
 };
 
 SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE(char)
+SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE(signed char)
 SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE(unsigned char)
 SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE(short)
 SPECIFY_SAVE_AS_CASTING_TO_DOUBLE_FOR_TYPE(unsigned short)
@@ -127,6 +128,28 @@ static picojson::value perform(void * ptr)
 	if (!ptr)
 		throw sad::db::InvalidPointer();
 	const sad::Point2D & p = *((sad::Point2D *)ptr);
+	picojson::value v(picojson::object_type, false);
+	v.insert("x", picojson::value((double)(p.x())));
+	v.insert("y", picojson::value((double)(p.y())));
+	return v;
+}
+
+};
+
+/*! Specification for saving point values
+ */
+template<>
+class Save<sad::Point2I>
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	const sad::Point2I & p = *((sad::Point2I *)ptr);
 	picojson::value v(picojson::object_type, false);
 	v.insert("x", picojson::value((double)(p.x())));
 	v.insert("y", picojson::value((double)(p.y())));
@@ -249,6 +272,28 @@ static picojson::value perform(void * ptr)
 	if (!ptr)
 		throw sad::db::InvalidPointer();
 	const sad::Size2D & p = *((sad::Size2D *)ptr);
+	picojson::value v(picojson::object_type, false);
+	v.insert("width", picojson::value((double)(p.Width)));
+	v.insert("height", picojson::value((double)(p.Height)));
+	return v;
+}
+
+};
+
+/*! Specification for saving size values
+ */
+template<>
+class Save<sad::Size2I>
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	const sad::Size2I & p = *((sad::Size2I *)ptr);
 	picojson::value v(picojson::object_type, false);
 	v.insert("width", picojson::value((double)(p.Width)));
 	v.insert("height", picojson::value((double)(p.Height)));
