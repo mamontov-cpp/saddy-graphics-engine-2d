@@ -44,8 +44,13 @@ void core::Selection::trySelect(const sad::input::MousePressEvent& e)
 		m_editor->shared()->selectedObject()->regions(regions);
 		if (sad::isWithin(e.pos2D(), regions))
 		{			
-			// TODO: Implement moving sprite
-			
+			sad::Maybe<sad::Rect2D> oldarea = m_editor->shared()->selectedObject()->getProperty<sad::Rect2D>("area");
+			if (oldarea.exists())
+			{
+				m_editor->shared()->setPivotPoint(e.pos2D());
+				m_editor->shared()->setOldArea(oldarea.value());
+				m_editor->machine()->enterState("selected/moving");
+			}
 			return;
 		}
 	}
@@ -58,11 +63,14 @@ void core::Selection::trySelect(const sad::input::MousePressEvent& e)
 		const sad::Vector<sad::SceneNode*>& objects = m_editor->panel()->currentScene()->objects();		
 		for(int i = objects.size() - 1; i > -1; i--)
 		{
-			sad::Vector<sad::Rect2D> regions;
-			objects[i]->regions(regions);
-			if (sad::isWithin(e.pos2D(), regions))
+			if (objects[i]->active() && objects[i]->visible())
 			{
-				m_selection_chain << objects[i];
+				sad::Vector<sad::Rect2D> regions;
+				objects[i]->regions(regions);
+				if (sad::isWithin(e.pos2D(), regions))
+				{
+					m_selection_chain << objects[i];
+				}
 			}
 		}
 

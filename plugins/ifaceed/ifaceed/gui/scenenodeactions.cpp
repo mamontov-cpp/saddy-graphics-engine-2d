@@ -45,6 +45,35 @@ MainPanel* gui::SceneNodeActions::panel() const
 	return m_panel;
 }
 
+void gui::SceneNodeActions::moveObject(const sad::input::MouseMoveEvent& e)
+{
+	sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
+	sad::Rect2D area = m_panel->editor()->shared()->oldArea();
+	sad::moveBy(direction, area);
+	m_panel->editor()->shared()->selectedObject()->setProperty("area", area);
+	this->updateRegionForNode();
+}
+
+void gui::SceneNodeActions::commitObjectMoving(const sad::input::MouseReleaseEvent& e)
+{
+	sad::input::MouseMoveEvent ev;
+	ev.Point3D = e.Point3D;
+	this->moveObject(ev);
+
+	sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
+	sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
+    if (newvalue.exists()) {
+        sad::Rect2D nv = newvalue.value();
+		sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
+        bool eq = sad::equal(nv, ov);
+        if (!eq)
+        {
+            m_panel->editor()->history()->add(new history::scenenodes::ChangeArea(node, ov, nv));
+        }
+    }
+	m_panel->editor()->machine()->enterState("selected");
+}
+
 void gui::SceneNodeActions::navigateOrRotate(const sad::input::MouseWheelEvent& e)
 {
 	if (m_panel->editor()->selection()->isSelectionPending())
