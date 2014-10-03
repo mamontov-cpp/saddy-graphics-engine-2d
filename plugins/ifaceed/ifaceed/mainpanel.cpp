@@ -159,13 +159,27 @@ void MainPanel::setEditor(core::Editor* editor)
 	sad::String coadp = "adding/customobject_diagonal/point_placed";
 
 	sad::String i = "idle";
+
     sad::String s = "selected";
+	sad::String sm = "selected/moving";
 
 	// A bindings for idle state
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_MousePress & sad::MouseLeft & (m * i),
 		m_editor->selection(),
 		&core::Selection::trySelect
+	);
+
+	// A bindings for moving object
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sm),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::moveObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseRelease & (m * sm),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::commitObjectMoving
 	);
 
 	// A bindings for selected node actions

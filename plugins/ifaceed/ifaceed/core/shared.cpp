@@ -6,8 +6,6 @@ m_active(NULL),
 m_editor(NULL)
 {
 	m_show_active_border = true;
-	m_rotation_timer = NULL;
-	m_rotation_command_pending = false;
 }
 
 core::Shared::~Shared()
@@ -54,4 +52,24 @@ bool core::Shared::canShowActiveBorder() const
 void core::Shared::toggleActiveBorder(bool flag) 
 {
 	m_show_active_border = flag;
+}
+
+void core::Shared::setPivotPoint(const sad::Point2D& p)
+{
+	m_pivot_point = p;
+}
+
+const sad::Point2D& core::Shared::pivotPoint() const
+{
+	return m_pivot_point;
+}
+
+void core::Shared::setOldArea(const sad::Rect2D& r)
+{
+	m_old_area = r;
+}
+
+const sad::Rect2D& core::Shared::oldArea() const
+{
+	return m_old_area;
 }

@@ -34,6 +34,14 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+	/*! Moves object, according to pivot point (used in moving substate)
+		\param[in] e event object
+	 */
+	void moveObject(const sad::input::MouseMoveEvent& e);
+	/*! Commits moving of objects, according to pivot point (used in moving substate)
+		\param[in] e event object
+	 */
+	void commitObjectMoving(const sad::input::MouseReleaseEvent& e);
     /*! Tries to navigate selection or rotate object, when user uses mouse wheel
         \param[in] e event
      */
