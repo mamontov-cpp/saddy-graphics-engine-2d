@@ -4,6 +4,7 @@
 
 #include "../core/editor.h"
 #include "../core/shared.h"
+#include "../core/selection.h"
 
 #include "../core/typeconverters/qcolortosadacolor.h"
 #include "../core/typeconverters/qrectftosadrect2d.h"
@@ -42,6 +43,18 @@ void gui::SceneNodeActions::setPanel(MainPanel* e)
 MainPanel* gui::SceneNodeActions::panel() const
 {
 	return m_panel;
+}
+
+void gui::SceneNodeActions::navigateOrRotate(const sad::input::MouseWheelEvent& e)
+{
+	if (m_panel->editor()->selection()->isSelectionPending())
+	{
+		m_panel->editor()->selection()->navigateSelection(e);
+	}
+	else
+	{
+		this->rotate(e);
+	}
 }
 
 void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
