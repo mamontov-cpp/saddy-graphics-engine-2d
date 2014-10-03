@@ -21,6 +21,16 @@ bool sad::isWithin(const sad::Point2D & p, const sad::Rect2D & r)
 	return a1 && a2; 
 }
 
+bool sad::isWithin(const sad::Point2D & p, const sad::Vector<sad::Rect2D> & r)
+{
+	bool result  = false;
+	for(size_t i = 0; i < r.size(); i++)
+	{
+		result = result || sad::isWithin(p, r[i]);
+	}
+	return result;
+}
+
 void sad::moveBy(const sad::Point2D & dp , sad::Rect2D & r)
 {
 	for(int i = 0; i < 4; i++)

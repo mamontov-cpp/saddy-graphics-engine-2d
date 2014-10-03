@@ -3,6 +3,7 @@
 
 #include "core/editor.h"
 #include "core/shared.h"
+#include "core/selection.h"
 
 #include "history/database/newproperty.h"
 
@@ -57,8 +58,6 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags), m_selfchanged(false)
 {
 	ui.setupUi(this);
-	// Set default sprite adding model
-	ui.rbPlaceAndRotate->setChecked(true);
 
     this->fillDatabasePropertyTypesCombo();
 
@@ -159,7 +158,32 @@ void MainPanel::setEditor(core::Editor* editor)
     sad::String coad = "adding/customobject_diagonal";
 	sad::String coadp = "adding/customobject_diagonal/point_placed";
 
+	sad::String i = "idle";
     sad::String s = "selected";
+
+	// A bindings for idle state
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * i),
+		m_editor->selection(),
+		&core::Selection::trySelect
+	);
+
+	// A bindings for selected node actions
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseWheel & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::navigateOrRotate
+    );
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::cancelSelection
+    );
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * s),
+		m_editor->selection(),
+		&core::Selection::trySelect
+	);
 
 	// A bindings for adding label
 	sad::Renderer::ref()->controls()->add(
@@ -183,17 +207,6 @@ void MainPanel::setEditor(core::Editor* editor)
         &gui::SceneNodeActions::rotate
 	);
 
-	// A bindings for adding node actions
-    sad::Renderer::ref()->controls()->add(
-        *sad::input::ET_MouseWheel & (m * s),
-        m_scene_node_actions,
-        &gui::SceneNodeActions::rotate
-    );
-	sad::Renderer::ref()->controls()->add(
-		*sad::input::ET_KeyPress & sad::Esc & (m * s),
-        m_scene_node_actions,
-        &gui::SceneNodeActions::cancelSelection
-    );
 
 	// A binding for adding sprite actions (just placing)
 	sad::Renderer::ref()->controls()->add(

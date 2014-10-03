@@ -34,7 +34,11 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
-    /*! Tries to rotate object, when user uses mouse wheel
+    /*! Tries to navigate selection or rotate object, when user uses mouse wheel
+        \param[in] e event
+     */
+    void navigateOrRotate(const sad::input::MouseWheelEvent& e);
+	/*! Tries to rotate object, when user uses mouse wheel
         \param[in] e event
      */
     void rotate(const sad::input::MouseWheelEvent& e);
