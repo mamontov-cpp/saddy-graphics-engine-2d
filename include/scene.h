@@ -110,6 +110,10 @@ public:
 		\param[in] layer a layer
 	 */
 	void setSceneLayer(unsigned int layer);
+	/*! A name, under which object could be serialized
+		\return name, under which object will be serialized
+	 */
+	virtual const sad::String& serializableName() const;
 protected:
 	/*! Determines, whether scene is active and should be rendered
 	 */

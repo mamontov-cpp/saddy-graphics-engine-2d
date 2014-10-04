@@ -163,6 +163,13 @@ void sad::Scene::setSceneLayer(unsigned int layer)
 	m_cached_layer = layer;
 }
 
+static sad::String SceneSerializableName = "sad::Scene";
+
+const sad::String& sad::Scene::serializableName() const
+{
+	return SceneSerializableName;	
+}
+
 void sad::Scene::addNow(sad::SceneNode * node)
 {
 	node->addRef();

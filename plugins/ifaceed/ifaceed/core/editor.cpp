@@ -5,6 +5,7 @@
 #include <QTimer>
 
 #include "editor.h"
+#include "closuremethodcall.h"
 
 #include <freetype/font.h>
 
@@ -225,6 +226,12 @@ bool core::Editor::isNodeSelected(sad::SceneNode* node) const
     return node  == m_shared->selectedObject() && m_machine->isInState("selected");
 }
 
+void core::Editor::enteredIdleState()
+{
+	m_mainwindow->highlightIdleState();
+	this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
@@ -385,7 +392,7 @@ void core::Editor::runQtEventLoop()
 	m_mainwindow->setEditor(this);
 
 	// Called this explicitly, because entered state before
-	m_machine->state("idle")->addEnterHandler(m_mainwindow, &MainPanel::highlightIdleState);
+	m_machine->state("idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
 	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
 	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
 	m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);

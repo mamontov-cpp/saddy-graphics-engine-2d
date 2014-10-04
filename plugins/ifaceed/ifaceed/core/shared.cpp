@@ -126,3 +126,13 @@ const sad::p2d::Vector& core::Shared::normalizedResizingDirection() const
 {
 	return m_normalized_resizing_direction;
 }
+
+void core::Shared::setFileName(const QString& name)
+{
+	m_filename = name;
+}
+
+const QString& core::Shared::fileName() const
+{
+	return m_filename;
+}

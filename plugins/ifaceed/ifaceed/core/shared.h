@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include <QTimer>
+#include <QString>
 
 #include <sadstring.h>
 #include <scenenode.h>
@@ -112,6 +113,14 @@ public:
 		\return direction for resizing element
 	 */
 	const sad::p2d::Vector& normalizedResizingDirection() const;
+	/*! Sets file name for current database
+		\param[in] name a name for editor
+	 */ 
+	void setFileName(const QString& name);
+	/*! Returns file name for saved database
+		\return file name
+	 */
+	const QString& fileName() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -143,6 +152,9 @@ private:
 	/*! A normalized resizing direction
 	 */
 	sad::p2d::Vector m_normalized_resizing_direction;
+	/*! A file name
+	 */
+	QString m_filename;
 };
 
 }
