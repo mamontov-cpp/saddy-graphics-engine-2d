@@ -58,6 +58,13 @@ protected slots:
 	/*! Starts/restart timer for selection
 	 */
 	void startTimer();
+	/*! Forces editor to enter moving state
+		\return whether we should stop handling selection
+	 */
+	bool forceEditorEnterMovingState(const sad::input::MousePressEvent& e);
+	/*! Removes item from selection
+	 */
+	void removeItem();
 protected:
 	/*! An editor, linked to selection
 	 */

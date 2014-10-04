@@ -13,7 +13,6 @@
 
 #include "../shared.h"
 
-#include "hotspots.h"
 
 namespace core
 {

@@ -2,6 +2,10 @@
 
 #include "editor.h"
 
+#include "history/scenenodes/scenenodesremove.h"
+
+#include "borders/selectionborder.h"
+
 #include "../mainpanel.h"
 #include "../closuremethodcall.h"
 
@@ -40,19 +44,21 @@ void core::Selection::trySelect(const sad::input::MousePressEvent& e)
 
 	if (m_editor->shared()->selectedObject())
 	{
-		sad::Vector<sad::Rect2D> regions;
-		m_editor->shared()->selectedObject()->regions(regions);
-		if (sad::isWithin(e.pos2D(), regions))
-		{			
-			sad::Maybe<sad::Rect2D> oldarea = m_editor->shared()->selectedObject()->getProperty<sad::Rect2D>("area");
-			if (oldarea.exists())
-			{
-				m_editor->shared()->setPivotPoint(e.pos2D());
-				m_editor->shared()->setOldArea(oldarea.value());
-				m_editor->machine()->enterState("selected/moving");
-			}
-			return;
+		// Check, whether we hit the hotspot
+		bool ret;
+		if (m_editor->selectionBorder()->deleteHotspot()->isWithin(e.pos2D()))
+		{
+			m_editor->emitClosure(bind(this, &core::Selection::removeItem));
+			ret = true;
 		}
+		else
+		{
+			ret = this->forceEditorEnterMovingState(e);
+		}
+		if (ret)
+		{
+			return;
+		}		
 	}
 
 
@@ -147,4 +153,40 @@ void core::Selection::startTimer()
 	m_timer.setInterval(core::Selection::TIMEOUT);
 	m_timer.start();
 	m_selection_change = true;
+}
+
+bool core::Selection::forceEditorEnterMovingState(const sad::input::MousePressEvent& e)
+{
+	bool result = false;
+	sad::Vector<sad::Rect2D> regions;
+	m_editor->shared()->selectedObject()->regions(regions);
+	if (sad::isWithin(e.pos2D(), regions))
+	{			
+		sad::Maybe<sad::Rect2D> oldarea = m_editor->shared()->selectedObject()->getProperty<sad::Rect2D>("area");
+		if (oldarea.exists())
+		{
+			m_editor->shared()->setPivotPoint(e.pos2D());
+			m_editor->shared()->setOldArea(oldarea.value());
+			m_editor->machine()->enterState("selected/moving");
+		}
+		result = true;
+	}
+	return result;
+}
+
+void core::Selection::removeItem()
+{
+	sad::SceneNode* node = m_editor->shared()->selectedObject();
+	if (node)
+	{
+		int row = m_editor->panel()->findSceneNodeInList(node);
+		if (row == -1)
+		{
+			row = static_cast<int>(node->scene()->findLayer(node));
+		}
+		
+		history::Command* c = new history::scenenodes::Remove(node, row);
+		m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
 }
