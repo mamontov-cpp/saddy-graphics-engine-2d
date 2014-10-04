@@ -136,3 +136,13 @@ const QString& core::Shared::fileName() const
 {
 	return m_filename;
 }
+
+void core::Shared::setOldRegion(const sad::Rect2D& r)
+{
+	m_old_region = r;
+}
+
+const sad::Rect2D&  core::Shared::oldRegion() const
+{
+	return m_old_region;
+}

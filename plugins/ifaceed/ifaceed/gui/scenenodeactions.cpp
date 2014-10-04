@@ -78,11 +78,11 @@ void gui::SceneNodeActions::commitObjectMoving(const sad::input::MouseReleaseEve
 
 void gui::SceneNodeActions::resizeObject(const sad::input::MouseMoveEvent& e)
 {
-	sad::Rect2D area = m_panel->editor()->shared()->oldArea();
+	sad::Rect2D area = m_panel->editor()->shared()->oldRegion();
 	
 	// Compute movement distance
 	sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
-	sad::p2d::Vector movement = m_panel->editor()->shared()->normalizedResizingDirection();
+	sad::p2d::Vector movement = m_panel->editor()->shared()->resizingDirection();
 	movement *= sad::p2d::scalar(direction, m_panel->editor()->shared()->resizingDirection());
 
 	// Apply distance
@@ -90,8 +90,15 @@ void gui::SceneNodeActions::resizeObject(const sad::input::MouseMoveEvent& e)
 	area[indexes.p1()] += movement;
 	area[indexes.p2()] += movement;
 
-	m_panel->editor()->shared()->selectedObject()->setProperty("area", area);
-	this->updateRegionForNode();
+	sad::SceneNode* node = m_panel->editor()->shared()->selectedObject(); 
+	sad::Maybe<double> angle = node->getProperty<double>("angle");
+	if (angle.exists())
+	{
+		sad::rotate(area, angle.value() * -1);
+
+		node->setProperty("area", area);
+		this->updateRegionForNode();
+	}
 }
 
 void gui::SceneNodeActions::commitObjectResizing(const sad::input::MouseReleaseEvent& e)
