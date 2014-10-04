@@ -199,6 +199,7 @@ void core::Selection::forceEditorEnterResizingState(
 		m_editor->shared()->setResizingDirection(h->directionVector(
 			regions[0]
 		));
+		m_editor->shared()->setOldRegion(regions[0]);
 		m_editor->shared()->setNormalizedResizingDirection(h->defaultDirectionVector());
 		m_editor->machine()->enterState("selected/resizing");
 	}

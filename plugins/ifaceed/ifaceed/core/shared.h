@@ -121,6 +121,14 @@ public:
 		\return file name
 	 */
 	const QString& fileName() const;
+	/*! Sets old region
+		\param[in] r region
+	 */
+	void setOldRegion(const sad::Rect2D& r);
+	/*! Returns old region for object
+		\return old region
+	 */
+	const sad::Rect2D& oldRegion() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -140,6 +148,9 @@ private:
 	/*! An old area for moving or resizing items
 	 */
 	sad::Rect2D m_old_area;
+	/*! An old region for object
+	 */
+	sad::Rect2D m_old_region;
 	/*! A node types, which can't be resized
 	 */
 	sad::Vector<sad::String> m_nonresizeable_nodetypes;
