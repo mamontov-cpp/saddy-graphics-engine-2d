@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "border.h"
+#include "deletehotspot.h"
 
 namespace core
 {
@@ -24,10 +25,17 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~SelectionBorder();	
+	/*! Returns a hot spot for removal of object
+		\return hotspot
+	 */
+	core::borders::DeleteHotspot* deleteHotspot();
 protected:
  	 /*! Renders a selected object border as render border
 	  */
 	 void _process();
+	 /*! A delete hotspot for deletion
+	  */
+	 core::borders::DeleteHotspot* m_delete_hotspot;
 };
 
 }

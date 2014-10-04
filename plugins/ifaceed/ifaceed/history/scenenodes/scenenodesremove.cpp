@@ -25,7 +25,7 @@ void history::scenenodes::Remove::commit(core::Editor * ob)
 	if (ob)
 	{
 		if (ob->panel()->currentScene() == m_node->scene())
-		{
+		{			
 			ob->emitClosure( bind(ob->panel(), &MainPanel::removeSceneNodeFromSceneNodeList, m_position) );
 		}
 		if (ob->shared()->selectedObject() == m_node)

@@ -1,11 +1,14 @@
 #include "core/shared.h"
 
+#include <db/custom/customobject.h>
+
 core::Shared::Shared() : 
 m_selected(NULL),
 m_active(NULL),
 m_editor(NULL)
 {
 	m_show_active_border = true;
+	m_nonresizeable_nodetypes << "sad::Label";
 }
 
 core::Shared::~Shared()
@@ -73,3 +76,24 @@ const sad::Rect2D& core::Shared::oldArea() const
 {
 	return m_old_area;
 }
+
+bool core::Shared::isSelectionResizeable() const
+{
+	if (m_selected == NULL)
+		return false;
+	bool result  = true;
+	for(size_t i = 0; i < m_nonresizeable_nodetypes.size(); i++)
+	{
+		if (m_selected->metaData()->canBeCastedTo(m_nonresizeable_nodetypes[i]))
+		{
+			result = false;
+		}
+	}
+	if (m_selected->metaData()->canBeCastedTo("sad::db::custom::Object"))
+	{
+		sad::db::custom::Object* o  = static_cast<sad::db::custom::Object*>(m_selected);
+		result = o->innerTypeIs("sad::Label") == false;
+	}
+	return result;
+}
+

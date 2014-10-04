@@ -82,6 +82,10 @@ public:
 		\return rectangle
 	 */
 	const sad::Rect2D& oldArea() const;
+	/*! Whether selected object is resizeable
+		\return whether it can be resized
+	 */
+	bool isSelectionResizeable() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -101,6 +105,9 @@ private:
 	/*! An old area for moving or resizing items
 	 */
 	sad::Rect2D m_old_area;
+	/*! A node types, which can't be resized
+	 */
+	sad::Vector<sad::String> m_nonresizeable_nodetypes;
 };
 
 }

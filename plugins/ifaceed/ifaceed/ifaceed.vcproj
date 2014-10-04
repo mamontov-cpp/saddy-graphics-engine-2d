@@ -409,6 +409,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\core\borders\deletehotspot.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\core\borders\selectionborder.cpp"
 						>
 					</File>
@@ -1191,7 +1195,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\core\borders\hotspots.h"
+						RelativePath=".\core\borders\deletehotspot.h"
 						>
 					</File>
 					<File

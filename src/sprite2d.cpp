@@ -664,7 +664,12 @@ void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
 
 void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
 {
-	m_texture.setTree(this->renderer(), m_options.treeName());
+	sad::Renderer* r = this->renderer();
+	if (r == NULL)
+	{
+		r = m_options.renderer();
+	}
+	m_texture.setTree(r, m_options.treeName());
 	m_texture.setPath(opts->Texture);
 	if (m_loading == false)
 	{
