@@ -23,6 +23,8 @@
 #include <label.h>
 #include <geometry2d.h>
 
+#include <p2d/vector.h>
+
 // ============================= PUBLIC METHODS =============================
 
 gui::SceneNodeActions::SceneNodeActions(QObject* parent) : QObject(parent), m_panel(NULL)
@@ -74,6 +76,44 @@ void gui::SceneNodeActions::commitObjectMoving(const sad::input::MouseReleaseEve
 	m_panel->editor()->machine()->enterState("selected");
 }
 
+void gui::SceneNodeActions::resizeObject(const sad::input::MouseMoveEvent& e)
+{
+	sad::Rect2D area = m_panel->editor()->shared()->oldArea();
+	
+	// Compute movement distance
+	sad::Point2D direction = e.pos2D() - m_panel->editor()->shared()->pivotPoint();
+	sad::p2d::Vector movement = m_panel->editor()->shared()->normalizedResizingDirection();
+	movement *= sad::p2d::scalar(direction, m_panel->editor()->shared()->resizingDirection());
+
+	// Apply distance
+	const sad::Pair<int, int> & indexes = m_panel->editor()->shared()->resizingIndexes();
+	area[indexes.p1()] += movement;
+	area[indexes.p2()] += movement;
+
+	m_panel->editor()->shared()->selectedObject()->setProperty("area", area);
+	this->updateRegionForNode();
+}
+
+void gui::SceneNodeActions::commitObjectResizing(const sad::input::MouseReleaseEvent& e)
+{
+	sad::input::MouseMoveEvent ev;
+	ev.Point3D = e.Point3D;
+	this->resizeObject(ev);
+
+	sad::SceneNode * node = m_panel->editor()->shared()->selectedObject();
+	sad::Maybe<sad::Rect2D> newvalue = node->getProperty<sad::Rect2D>("area");
+    if (newvalue.exists()) {
+        sad::Rect2D nv = newvalue.value();
+		sad::Rect2D ov = m_panel->editor()->shared()->oldArea();
+        bool eq = sad::equal(nv, ov);
+        if (!eq)
+        {
+            m_panel->editor()->history()->add(new history::scenenodes::ChangeArea(node, ov, nv));
+        }
+    }
+	m_panel->editor()->machine()->enterState("selected");
+}
+
 void gui::SceneNodeActions::navigateOrRotate(const sad::input::MouseWheelEvent& e)
 {
 	if (m_panel->editor()->selection()->isSelectionPending())
@@ -107,7 +147,7 @@ void gui::SceneNodeActions::rotate(const sad::input::MouseWheelEvent& e)
             m_panel->editor()->emitClosure(blocked_bind(
                 m_panel->UI()->awSceneNodeAngle,
                 &gui::anglewidget::AngleWidget::setValue,
-                (double)nextangle
+                static_cast<double>(nextangle)
             ));
             if (selected)
             {
@@ -316,7 +356,7 @@ void gui::SceneNodeActions::removeSceneNode()
 			int row = m_panel->findSceneNodeInList(node);
 			if (row == -1)
 			{
-				row = (int)(node->scene()->findLayer(node));
+				row = static_cast<int>(node->scene()->findLayer(node));
 			}
 			
 			history::Command* c = new history::scenenodes::Remove(node, row);
@@ -331,7 +371,7 @@ void gui::SceneNodeActions::removeSceneNode()
 float gui::SceneNodeActions::computeChangedAngle(float angle, float delta)
 {
     double onedegree = 1.0 / 180.0 * M_PI;
-    double result = 0;
+    double result;
     if (sad::is_fuzzy_equal(0, angle, 0.001) && delta < 0)
     {
         result = 2 * M_PI - onedegree;

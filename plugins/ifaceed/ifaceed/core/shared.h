@@ -16,6 +16,8 @@
 
 #include <log/log.h>
 
+#include <p2d/vector.h>
+
 namespace core
 {
 
@@ -86,6 +88,30 @@ public:
 		\return whether it can be resized
 	 */
 	bool isSelectionResizeable() const;
+	/*! Sets indexes of source area for resizing element
+		\param[in] indexes an indexes to be resized
+	 */
+	void setResizingIndexes(const sad::Pair<int, int>& indexes);
+	/*! Returns indexes of source area for resizing element
+		\return indexes of resizing elements
+	 */
+	const sad::Pair<int, int>& resizingIndexes() const;
+	/*! Sets a direction for resizing element
+		\param[in] direction a direction for resizing
+	 */
+	void setResizingDirection(const sad::p2d::Vector& direction);
+	/*! Returns direction for resizing element
+		\return direction for resizing element
+	 */
+	const sad::p2d::Vector& resizingDirection() const;
+	/*! Sets a normalized direction for resizing element
+		\param[in] direction a direction for resizing
+	 */
+	void setNormalizedResizingDirection(const sad::p2d::Vector& direction);
+	/*! Returns normalized direction for resizing element
+		\return direction for resizing element
+	 */
+	const sad::p2d::Vector& normalizedResizingDirection() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -108,6 +134,15 @@ private:
 	/*! A node types, which can't be resized
 	 */
 	sad::Vector<sad::String> m_nonresizeable_nodetypes;
+	/*! An indexes, which should be used for resizing objects 
+	 */
+	sad::Pair<int, int> m_resizing_indexes;
+	/*! A direction for resizing indexes
+	 */	 
+	sad::p2d::Vector m_resizing_direction;
+	/*! A normalized resizing direction
+	 */
+	sad::p2d::Vector m_normalized_resizing_direction;
 };
 
 }

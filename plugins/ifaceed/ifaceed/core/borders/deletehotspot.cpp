@@ -36,7 +36,7 @@ void core::borders::DeleteHotspot::render(const sad::Rect2D & r)
 	int pointindex = 0;
 	for(size_t i = 1; i < 4; i++)
 	{
-		if (r[i].x() > r[pointindex].x() && (r[i].y() > r[pointindex].y()) && !sad::is_fuzzy_equal(r[i].y(), r[pointindex].y()))
+		if ((r[i].y() > r[pointindex].y()) && !sad::is_fuzzy_equal(r[i].y(), r[pointindex].y()))
 		{
 			pointindex = i;
 		}

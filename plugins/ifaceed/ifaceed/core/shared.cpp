@@ -97,3 +97,32 @@ bool core::Shared::isSelectionResizeable() const
 	return result;
 }
 
+void core::Shared::setResizingIndexes(const sad::Pair<int, int>& indexes)
+{
+	m_resizing_indexes = indexes;
+}
+
+const sad::Pair<int, int>& core::Shared::resizingIndexes() const
+{
+	return m_resizing_indexes;
+}
+
+void core::Shared::setResizingDirection(const sad::p2d::Vector& direction)
+{
+	m_resizing_direction = direction;
+}
+
+const sad::p2d::Vector& core::Shared::resizingDirection() const
+{
+	return m_resizing_direction;
+}
+
+void core::Shared::setNormalizedResizingDirection(const sad::p2d::Vector& direction)
+{
+	m_normalized_resizing_direction = direction;
+}
+
+const sad::p2d::Vector& core::Shared::normalizedResizingDirection() const
+{
+	return m_normalized_resizing_direction;
+}

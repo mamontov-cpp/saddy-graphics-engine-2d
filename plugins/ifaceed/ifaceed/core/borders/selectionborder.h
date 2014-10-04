@@ -6,6 +6,7 @@
 #pragma once
 #include "border.h"
 #include "deletehotspot.h"
+#include "resizehotspot.h"
 
 namespace core
 {
@@ -29,6 +30,10 @@ public:
 		\return hotspot
 	 */
 	core::borders::DeleteHotspot* deleteHotspot();
+	/*! Returns hotspot for resizing, whether point within one
+		\return a hotspot (NULL if not found)
+	 */
+	core::borders::ResizeHotspot* selectedResizeHotspot(const sad::Point2D& p);
 protected:
  	 /*! Renders a selected object border as render border
 	  */
@@ -36,6 +41,9 @@ protected:
 	 /*! A delete hotspot for deletion
 	  */
 	 core::borders::DeleteHotspot* m_delete_hotspot;
+	 /*! A hotspots for resizing elements
+	  */
+	 core::borders::ResizeHotspot* m_resize_hotspots[4];
 };
 
 }

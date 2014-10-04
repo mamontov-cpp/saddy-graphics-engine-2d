@@ -162,6 +162,7 @@ void MainPanel::setEditor(core::Editor* editor)
 
     sad::String s = "selected";
 	sad::String sm = "selected/moving";
+	sad::String sr = "selected/resizing";
 
 	// A bindings for idle state
 	sad::Renderer::ref()->controls()->add(
@@ -180,6 +181,18 @@ void MainPanel::setEditor(core::Editor* editor)
 		*sad::input::ET_MouseRelease & (m * sm),
 		m_scene_node_actions,
 		&gui::SceneNodeActions::commitObjectMoving
+	);
+
+	// A bindings for resizing object
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sr),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::resizeObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseRelease & (m * sr),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::commitObjectResizing
 	);
 
 	// A bindings for selected node actions
@@ -1043,6 +1056,22 @@ void MainPanel::addScene()
 
 void MainPanel::currentSceneChanged(int index)
 {
+	if (m_editor->machine()->isInState("adding")
+		|| (m_editor->machine()->isInState("selected") 
+		    && m_editor->machine()->currentState() != "selected"))
+	{
+		if (this->currentScene())
+		{
+			bool b = ui.lstScenes->blockSignals(true);
+			int row = this->findSceneInList(this->currentScene());
+			if (row != -1)
+			{
+				ui.lstScenes->setCurrentRow(row);
+			}
+			ui.lstScenes->blockSignals(b);
+			return;
+		}
+	}
 	if (index != -1) 
 	{
 		QListWidgetItem* i = ui.lstScenes->item(index);
@@ -1085,6 +1114,22 @@ void MainPanel::sceneNameChanged(const QString& name)
 
 void MainPanel::currentSceneNodeChanged(int index)
 {
+	if (m_editor->machine()->isInState("adding")
+		|| (m_editor->machine()->isInState("selected") 
+		    && m_editor->machine()->currentState() != "selected"))
+	{
+		if (this->editor()->shared()->selectedObject())
+		{
+			bool b = ui.lstSceneObjects->blockSignals(true);
+			int row = this->findSceneNodeInList(this->editor()->shared()->selectedObject());
+			if (row != -1)
+			{
+				ui.lstSceneObjects->setCurrentRow(row);
+			}
+			ui.lstSceneObjects->blockSignals(b);
+			return;
+		}
+	}
 	if (index != -1) 
 	{
 		QListWidgetItem* i = ui.lstSceneObjects->item(index);

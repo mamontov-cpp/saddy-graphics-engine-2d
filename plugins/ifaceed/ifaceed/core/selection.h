@@ -15,6 +15,11 @@
 namespace core
 {
 
+namespace borders
+{
+class ResizeHotspot;
+}
+
 class Editor;
 
 /*! A selection algorithm for an editor
@@ -59,9 +64,18 @@ protected slots:
 	 */
 	void startTimer();
 	/*! Forces editor to enter moving state
+		\param[in] e event object
 		\return whether we should stop handling selection
 	 */
 	bool forceEditorEnterMovingState(const sad::input::MousePressEvent& e);
+	/*! Forces editor to enter resizing state
+		\param[in] h hotspot for resizing
+		\param[in] e event object
+	 */
+	void forceEditorEnterResizingState(
+		core::borders::ResizeHotspot* h,
+		const sad::input::MousePressEvent& e
+	);
 	/*! Removes item from selection
 	 */
 	void removeItem();
