@@ -38,10 +38,18 @@ public:
 		\param[in] e event object
 	 */
 	void moveObject(const sad::input::MouseMoveEvent& e);
-	/*! Commits moving of objects, according to pivot point (used in moving substate)
+	/*! Commits moving of object, according to pivot point (used in moving substate)
 		\param[in] e event object
 	 */
 	void commitObjectMoving(const sad::input::MouseReleaseEvent& e);
+	/*! Resizes object, according to pivot point (used in resizing substate)
+		\param[in] e event object
+	 */
+	void resizeObject(const sad::input::MouseMoveEvent& e);
+	/*! Commits resizing of object, according to pivot point (used in moving substate)
+		\param[in] e event object
+	 */
+	void commitObjectResizing(const sad::input::MouseReleaseEvent& e);
     /*! Tries to navigate selection or rotate object, when user uses mouse wheel
         \param[in] e event
      */

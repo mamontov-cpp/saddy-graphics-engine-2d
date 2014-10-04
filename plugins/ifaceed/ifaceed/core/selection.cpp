@@ -46,14 +46,23 @@ void core::Selection::trySelect(const sad::input::MousePressEvent& e)
 	{
 		// Check, whether we hit the hotspot
 		bool ret;
-		if (m_editor->selectionBorder()->deleteHotspot()->isWithin(e.pos2D()))
+		core::borders::ResizeHotspot* h = m_editor->selectionBorder()->selectedResizeHotspot(e.pos2D());
+		if (h)
 		{
-			m_editor->emitClosure(bind(this, &core::Selection::removeItem));
+			this->forceEditorEnterResizingState(h, e);
 			ret = true;
 		}
 		else
 		{
-			ret = this->forceEditorEnterMovingState(e);
+			if (m_editor->selectionBorder()->deleteHotspot()->isWithin(e.pos2D()))
+			{
+				m_editor->emitClosure(bind(this, &core::Selection::removeItem));
+				ret = true;
+			}
+			else
+			{
+				ret = this->forceEditorEnterMovingState(e);
+			}
 		}
 		if (ret)
 		{
@@ -172,6 +181,27 @@ bool core::Selection::forceEditorEnterMovingState(const sad::input::MousePressEv
 		result = true;
 	}
 	return result;
+}
+
+void core::Selection::forceEditorEnterResizingState(
+	core::borders::ResizeHotspot* h,
+	const sad::input::MousePressEvent& e
+)
+{
+	sad::Maybe<sad::Rect2D> oldarea = m_editor->shared()->selectedObject()->getProperty<sad::Rect2D>("area");
+	if (oldarea.exists())
+	{
+		sad::Vector<sad::Rect2D> regions;
+		m_editor->shared()->selectedObject()->regions(regions);
+		m_editor->shared()->setPivotPoint(e.pos2D());
+		m_editor->shared()->setOldArea(oldarea.value());
+		m_editor->shared()->setResizingIndexes(h->resizingIndexes());
+		m_editor->shared()->setResizingDirection(h->directionVector(
+			regions[0]
+		));
+		m_editor->shared()->setNormalizedResizingDirection(h->defaultDirectionVector());
+		m_editor->machine()->enterState("selected/resizing");
+	}
 }
 
 void core::Selection::removeItem()
