@@ -1,0 +1,15 @@
+{
+	"config" : "icons.json",
+	"texture" : "icons.png",
+	"resource": "icons",
+	"sprites" : [
+		{
+			"name" : "delete",
+			"texture" : "btn-remove-small.png"
+		},
+		{
+			"name" : "directed",
+			"texture" : "btn-directed.png"
+		}
+	]
+}
