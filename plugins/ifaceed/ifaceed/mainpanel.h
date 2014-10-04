@@ -372,6 +372,15 @@ protected slots:
 	/*! Moves scene front
 	 */
 	void sceneNodeMoveFront();
+	/*! Tries to save database
+	 */
+	void save();
+	/*! Tries to save database with prompting user
+	 */
+	void saveAs();
+	/*! Tries to load database
+	 */
+	void load();
 };
 
 #endif // MAINPANEL_H

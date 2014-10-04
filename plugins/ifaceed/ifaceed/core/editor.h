@@ -132,6 +132,9 @@ public:
      * \return whether node is selected
      */
     bool isNodeSelected(sad::SceneNode* node) const;
+	/*! Performed, when editor entered idle state 
+	 */
+	void enteredIdleState();
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour

@@ -41,6 +41,7 @@
 #include <QPainter>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QFileDialog>
 #include <QLineEdit>
 #include <QTimer>
 #include <QListWidget>
@@ -337,6 +338,10 @@ void MainPanel::setEditor(core::Editor* editor)
 		&gui::CustomObjectActions::placeFirstPoint
 	);
 
+
+	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this, SLOT(save()));
+	connect(ui.btnDatabaseSaveAs, SIGNAL(clicked()), this, SLOT(saveAs()));
+	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this, SLOT(load()));
 	
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
@@ -348,9 +353,6 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnScenesMoveFront, SIGNAL(clicked()), this, SLOT(sceneMoveFront()));
 	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScene()));
 	
-	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(redo()));
-	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(undo()));
-
 	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), m_scene_node_actions, SLOT(nameEdited(const QString&)));
 	connect(ui.cbSceneNodeVisible, SIGNAL(clicked(bool)), m_scene_node_actions, SLOT(visibilityChanged(bool)));
     connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), m_scene_node_actions, SLOT(colorChanged(QColor)));
@@ -1297,4 +1299,31 @@ void MainPanel::setAngleChangingEnabled(bool enabled)
 	{
 		ui.awSceneNodeAngle->setValue(0);
 	}
+}
+
+void MainPanel::save()
+{
+	if (m_editor->shared()->fileName().length() == 0)
+	{
+		this->saveAs();
+	}
+	else
+	{
+		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+	}
+}
+
+void MainPanel::saveAs()
+{
+	QString name = QFileDialog::getSaveFileName(this, "Enter file, where we should store database", "", "*.json");
+	if (name.length() != 0)
+	{
+		m_editor->shared()->setFileName(name);
+		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+	}
+}
+
+void MainPanel::load()
+{
+	
 }
