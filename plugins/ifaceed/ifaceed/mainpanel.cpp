@@ -1315,6 +1315,7 @@ void MainPanel::setAngleChangingEnabled(bool enabled)
 void MainPanel::clearDatabaseProperties()
 {
 	ui.twDatabaseProperties->clear();
+	ui.twDatabaseProperties->setRowCount(0);
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -1361,6 +1362,8 @@ void MainPanel::load()
 		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
 		{
 			m_editor->shared()->setFileName(name);
+			m_editor->cleanDatabase();
+			sad::Renderer::ref()->addDatabase("", tmp);
 		}
 		else
 		{
