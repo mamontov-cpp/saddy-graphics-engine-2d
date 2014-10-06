@@ -1379,7 +1379,10 @@ void MainPanel::load()
 
 void MainPanel::loadResources()
 {
-
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
 }
 
 void MainPanel::reloadResources()
