@@ -95,6 +95,8 @@ const QString & gui::resourcetreewidget::ResourceTreeWidget::filter() const
 
 void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 {
+    m_cache->clear();
+
 	sad::Maybe<sad::String> path;
 	QList<QTreeWidgetItem *> items = m_tree_view->selectedItems();
 	if (items.size())

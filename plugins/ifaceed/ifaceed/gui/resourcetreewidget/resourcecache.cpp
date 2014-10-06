@@ -202,6 +202,11 @@ void gui::resourcetreewidget::ResourceCache::createDefaultImage(QImage & im)
 	).copy();
 }
 
+void gui::resourcetreewidget::ResourceCache::clear()
+{
+    m_resource_cache.clear();
+}
+
 void gui::resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
 {
 	if (im.width() > gui::resourcetreewidget::Cell::ImageWidth 

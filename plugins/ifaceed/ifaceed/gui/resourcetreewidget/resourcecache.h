@@ -60,6 +60,10 @@ public:
 		\param[in, out] im a default image for resource
 	 */
 	static void createDefaultImage(QImage & im);
+    /*!
+     * Clears resource cache
+     */
+    void clear();
 protected:
 	/*! Makes image size less or equal to a cell proportions
 		\param[in, out] im an image for normalizing 
