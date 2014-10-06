@@ -286,7 +286,7 @@ void sad::db::Database::setFactory(sad::db::ObjectFactory* f)
 
 void sad::db::Database::trySetMaxMajorId(unsigned long long v, sad::db::Table * t)
 {
-	if (v > m_max_major_id)
+    if (v >= m_max_major_id)
 	{
 		m_max_major_id = v + 1;
 	}

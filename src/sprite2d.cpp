@@ -483,7 +483,10 @@ const sad::String& sad::Sprite2D::textureName()
 
 void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
-	m_explicit_set = true;
+	if (!m_loading)
+	{
+		m_explicit_set = true;
+	}
 	// Make texture render dependent
 	if (this->renderer() != NULL)
 	{

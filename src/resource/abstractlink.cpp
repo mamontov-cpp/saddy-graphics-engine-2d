@@ -77,12 +77,16 @@ sad::resource::Resource* sad::resource::AbstractLink::resource() const
 
 void sad::resource::AbstractLink::setPath(sad::String path)
 {
+	bool changed = m_path != path;
 	m_path = path;
-	if (m_resource && m_notify_resource)
+	if (changed)
 	{
-		m_resource->removeLink(this);
+		if (m_resource && m_notify_resource)
+		{
+			m_resource->removeLink(this);
+		}
+		m_resource = NULL;
 	}
-	m_resource = NULL;
 }
 
 const sad::String&  sad::resource::AbstractLink::path() const
@@ -97,13 +101,17 @@ const sad::String & sad::resource::AbstractLink::treeName() const
 
 void  sad::resource::AbstractLink::setTree(resource::Tree * tree)
 {
+	bool changed = m_tree == NULL || m_resource == NULL || tree != m_tree || m_render_dependent;
 	m_render_dependent = false;
 	m_tree = tree;
-	if (m_resource && m_notify_resource)
-	{
-		m_resource->removeLink(this);
+	if (changed)
+	{				
+		if (m_resource && m_notify_resource)
+		{
+			m_resource->removeLink(this);
+		}
+		m_resource = NULL;
 	}
-	m_resource = NULL;
 }
 
 sad::resource::Tree* sad::resource::AbstractLink::tree() const
@@ -117,14 +125,18 @@ sad::resource::Tree* sad::resource::AbstractLink::tree() const
 
 void sad::resource::AbstractLink::setTree(sad::Renderer * r, const sad::String& treename)
 {
+	bool changed = m_render_dependent == false || m_tree == NULL || r != m_renderer || treename != m_treename;
 	m_render_dependent = true;
 	m_renderer = r;
 	m_treename = treename;
-	if (m_resource && m_notify_resource)
+	if (changed)
 	{
-		m_resource->removeLink(this);
+		if (m_resource && m_notify_resource)
+		{
+			m_resource->removeLink(this);
+		}
+		m_resource = NULL;
 	}
-	m_resource = NULL;
 }
 
 
