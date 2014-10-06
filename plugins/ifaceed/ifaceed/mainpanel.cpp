@@ -33,6 +33,7 @@
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 #include <db/dbstoredproperty.h>
+#include <db/dbpopulatescenesfromdatabase.h>
 
 #include <QMessageBox>
 #include <QDialog>
@@ -431,7 +432,7 @@ void MainPanel::viewDatabase()
 		it != m_property_delegates.end();
 		++it)
 	{
-		delete it.value();
+		it.value()->delRef();
 	}
 
 	for(sad::db::Database::Properties::const_iterator it = db->begin();
@@ -451,6 +452,8 @@ void MainPanel::viewDatabase()
 			}
 		}
 	}
+
+	sad::db::populateScenesFromDatabase(sad::Renderer::ref(), sad::Renderer::ref()->database(""));
 
 	const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
 	for(unsigned int i = 0; i < scenes.size(); i++)
@@ -1364,6 +1367,7 @@ void MainPanel::load()
 			m_editor->shared()->setFileName(name);
 			m_editor->cleanDatabase();
 			sad::Renderer::ref()->addDatabase("", tmp);
+			this->viewDatabase();
 		}
 		else
 		{

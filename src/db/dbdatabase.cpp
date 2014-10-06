@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-sad::db::Database::Database() : m_max_major_id(0), m_renderer(NULL)
+sad::db::Database::Database() : m_max_major_id(1), m_renderer(NULL)
 {
 	m_factory = new sad::db::ObjectFactory();
 	m_prop_factory = new sad::db::StoredPropertyFactory();
