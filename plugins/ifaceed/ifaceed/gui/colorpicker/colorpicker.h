@@ -238,7 +238,7 @@ protected:
 	QTableWidget* m_preview;
 	/*! A hash, where key is pair (lightness, alpha) and color wheel is value
 	 */
-	QHash<int, QHash<int, QImage> > m_color_wheels;
+	QHash<int, QHash<int, QImage*> > m_color_wheels;
 	/*! Lightness image
 	 */
 	QImage* m_lightness_image;
