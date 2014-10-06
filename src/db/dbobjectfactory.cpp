@@ -32,7 +32,7 @@ void sad::db::ObjectFactory::add(
 	sad::db::ObjectFactory::AbstractDelegate * d
 )
 {	
-	if (m_metadata_container.contains(name) == false && schema && d)
+	if (m_metadata_container.contains(name) == false && d)
 	{
 		m_metadata_container.insert(name, new sad::db::ObjectFactory::Entry(own, schema, d) );
 	}

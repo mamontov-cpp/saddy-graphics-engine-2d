@@ -232,6 +232,25 @@ void core::Editor::enteredIdleState()
 	this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
 }
 
+bool core::Editor::isInEditingState() const
+{
+	return (m_machine->isInState("adding") || m_machine->isInState("selected/moving") || m_machine->isInState("selected/resizing"));
+}
+
+void core::Editor::cleanDatabase()
+{
+	m_machine->enterState("idle");
+	m_shared->setSelectedObject(NULL);
+	m_shared->setActiveObject(NULL);
+	m_history->clear();
+	m_mainwindow->clearDatabaseProperties();
+	sad::Renderer::ref()->clear();
+	m_mainwindow->UI()->lstSceneObjects->clear();
+	m_mainwindow->UI()->lstScenes->clear();
+	m_mainwindow->clearDatabaseProperties();
+	sad::Renderer::ref()->removeDatabase("");
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
