@@ -100,7 +100,7 @@ void sad::db::Table::add(sad::db::Object* a)
 	}
 	else
 	{
-		if (a->MinorId > m_max_minor_id)
+        if (a->MinorId >= m_max_minor_id)
 		{
 			m_max_minor_id = a->MinorId + 1;
 		}
