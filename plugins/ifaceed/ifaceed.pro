@@ -36,28 +36,6 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += ifaceed/mainpanel.h \
-           ifaceed/core/fontdatabase.h \
-           ifaceed/core/fonttemplatesdatabase.h \
-           ifaceed/core/objectborders.h \
-           ifaceed/core/objectxmlreader.h \
-           ifaceed/core/objectxmlwriter.h \
-           ifaceed/core/sceneaddingtask.h \
-           ifaceed/core/spritedatabase.h \
-           ifaceed/core/xmlconfigloader.h \
-           ifaceed/gui/objectlist.h \
-           ifaceed/history/deletecommand.h \
-           ifaceed/history/layercommands.h \
-           ifaceed/history/movecommand.h \
-           ifaceed/history/newcommand.h \
-           ifaceed/history/propertychangecommand.h \
-           ifaceed/objects/abstractscreenobject.h \
-           ifaceed/objects/screenlabel.h \
-           ifaceed/objects/screensprite.h \
-           ifaceed/objects/screentemplate.h \
-           ifaceed/core/states/idlestate.h \
-           ifaceed/core/states/labeladdingstate.h \
-           ifaceed/core/states/selectedstate.h \
-           ifaceed/core/states/spriteaddingstate.h \
     ifaceed/core/typeconverters/load.h \
     ifaceed/core/typeconverters/qcolortosadacolor.h \
     ifaceed/core/typeconverters/qcolortosadcolor.h \
@@ -160,33 +138,14 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/customobject/customobjectchangeproperty.h \
     ifaceed/gui/customobjectactions.h \
     ifaceed/history/customobject/customobjectchangeschema.h \
-    ifaceed/gui/updateelement.h
+    ifaceed/gui/updateelement.h \
+    ifaceed/core/borders/deletehotspot.h \
+    ifaceed/core/borders/resizehotspot.h \
+    ifaceed/core/selection.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
-           ifaceed/core/fontdatabase.cpp \
-           ifaceed/core/fonttemplatesdatabase.cpp \
-           ifaceed/core/objectborders.cpp \
-           ifaceed/core/objectxmlreader.cpp \
-           ifaceed/core/objectxmlwriter.cpp \
-           ifaceed/core/sceneaddingtask.cpp \
-           ifaceed/core/spritedatabase.cpp \
-           ifaceed/core/xmlconfigloader.cpp \
-           ifaceed/gui/objectlist.cpp \
-           ifaceed/history/deletecommand.cpp \
-           ifaceed/history/layercommands.cpp \
-           ifaceed/history/movecommand.cpp \
-           ifaceed/history/newcommand.cpp \
-           ifaceed/objects/abstractscreenobject.cpp \
-           ifaceed/objects/screenlabel.cpp \
-           ifaceed/objects/screensprite.cpp \
-           ifaceed/objects/screentemplate.cpp \
-           ifaceed/core/states/changingselection.cpp \
-           ifaceed/core/states/idlestate.cpp \
-           ifaceed/core/states/labeladdingstate.cpp \
-           ifaceed/core/states/selectedstate.cpp \
-           ifaceed/core/states/spriteaddingstate.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
     ifaceed/core/typeconverters/qcolortosadcolor.cpp \
     ifaceed/core/typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.cpp \
@@ -196,10 +155,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/typeconverters/sadstringtoqstring.cpp \
     ifaceed/core/typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.cpp \
     ifaceed/core/editor.cpp \
-    ifaceed/core/editorbehaviour.cpp \
     ifaceed/core/qttarget.cpp \
     ifaceed/core/saddythread.cpp \
-    ifaceed/core/state.cpp \
     ifaceed/acolordialog.cpp \
     ifaceed/qwwlongspinbox.cpp \
     ifaceed/qwwulongspinbox.cpp \
@@ -276,7 +233,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/scenenodes/scenenodeslayerswap.cpp \
     ifaceed/history/scenes/scenesclear.cpp \
     ifaceed/gui/customobjectactions.cpp \
-    ifaceed/history/customobject/customobjectchangeschema.cpp
+    ifaceed/history/customobject/customobjectchangeschema.cpp \
+    ifaceed/core/borders/deletehotspot.cpp \
+    ifaceed/core/borders/resizehotspot.cpp \
+    ifaceed/core/selection.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
