@@ -1,5 +1,6 @@
 #include "mainpanel.h"
 #include "blockedclosuremethodcall.h"
+#include "reloadfilelist.h"
 
 #include "core/editor.h"
 #include "core/shared.h"
@@ -1426,5 +1427,23 @@ void MainPanel::reloadResources()
 	if (m_editor->isInEditingState())
 	{
 		return;
+	}
+	ReloadFileList list(this);
+	if (list.exec() == QDialog::Accepted && list.selectedFile() != NULL)
+	{
+		sad::resource::PhysicalFile* file = list.selectedFile();
+		sad::Renderer::ref()->lockRendering();
+		sad::Vector<sad::resource::Error*> errors = file->reload();
+		sad::Renderer::ref()->unlockRendering();
+		if (errors.size() == 0)
+		{
+			ui.rtwLabelFont->updateTree();
+            ui.rtwSpriteSprite->updateTree();
+            ui.rtwCustomObjectSchemas->updateTree();
+		}
+		else
+		{
+			m_editor->reportResourceLoadingErrors(errors, file->name());
+		}
 	}
 }
