@@ -18,7 +18,7 @@
 #include "../history/scenenodes/scenenodeschangecolor.h"
 #include "../history/scenenodes/scenenodeschangearea.h"
 
-#include "../../blockedclosuremethodcall.h"
+#include "../blockedclosuremethodcall.h"
 
 #include <label.h>
 #include <geometry2d.h>

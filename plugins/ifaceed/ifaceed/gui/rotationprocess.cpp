@@ -1,10 +1,10 @@
 #include "rotationprocess.h"
 
-#include "../../closuremethodcall.h"
+#include "../closuremethodcall.h"
 
-#include "../../history/history.h"
+#include "../history/history.h"
 
-#include "../../history/scenenodes/scenenodeschangeangle.h"
+#include "../history/scenenodes/scenenodeschangeangle.h"
 
 
 gui::RotationProcess::RotationProcess()
