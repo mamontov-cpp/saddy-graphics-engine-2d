@@ -135,6 +135,13 @@ public:
 	/*! Performed, when editor entered idle state 
 	 */
 	void enteredIdleState();
+	/*! Tests, whether editor is in state of adding or editing mode
+		\return whether editor is in state of adding or editing mode
+	 */
+	bool isInEditingState() const;
+	/*! Sets idle state, cleans database, erasing all objects and history
+	 */
+	void cleanDatabase();
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour

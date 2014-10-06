@@ -34,6 +34,7 @@
 #include <db/dbtable.h>
 #include <db/dbstoredproperty.h>
 
+#include <QMessageBox>
 #include <QDialog>
 #include <QTimer>
 #include <QFontDatabase>
@@ -98,6 +99,13 @@ MainPanel::~MainPanel()
 	delete m_sprite2d_actions;
 	delete m_scene_node_actions;
 	delete m_custom_object_actions;
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+	m_property_delegates.clear();
 }
 
 void MainPanel::toggleEditingButtons(bool enabled)
@@ -342,6 +350,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this, SLOT(save()));
 	connect(ui.btnDatabaseSaveAs, SIGNAL(clicked()), this, SLOT(saveAs()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this, SLOT(load()));
+	connect(ui.btnLoadResources, SIGNAL(clicked()), this, SLOT(loadResources()));
+	connect(ui.btnReloadResources, SIGNAL(clicked()), this, SLOT(reloadResources()));
+
 	
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
@@ -1301,6 +1312,18 @@ void MainPanel::setAngleChangingEnabled(bool enabled)
 	}
 }
 
+void MainPanel::clearDatabaseProperties()
+{
+	ui.twDatabaseProperties->clear();
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+	m_property_delegates.clear();
+}
+
 void MainPanel::save()
 {
 	if (m_editor->shared()->fileName().length() == 0)
@@ -1325,5 +1348,34 @@ void MainPanel::saveAs()
 
 void MainPanel::load()
 {
-	
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
+	QString name = QFileDialog::getOpenFileName(this, "Enter file, where database should be stored", "", "*.json");
+	if (name.length() != 0)
+	{
+		sad::db::Database* tmp = new sad::db::Database();
+		tmp->setRenderer(sad::Renderer::ref());
+		tmp->setDefaultTreeName("");
+		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
+		{
+			m_editor->shared()->setFileName(name);
+		}
+		else
+		{
+			delete tmp;
+			QMessageBox::critical(NULL, "Failed to load database", "Failed to load database");
+		}
+	}
+}
+
+void MainPanel::loadResources()
+{
+
+}
+
+void MainPanel::reloadResources()
+{
+
 }

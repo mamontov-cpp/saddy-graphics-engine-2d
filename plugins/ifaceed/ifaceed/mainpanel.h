@@ -247,6 +247,9 @@ public:
 		\param[in] enabled 
 	 */
 	void setAngleChangingEnabled(bool enabled);	
+	/*! Clears database properties
+	 */
+	void clearDatabaseProperties();
 public slots:
 	/*! Fires signal for updating UI to selected item property values
 	 */
@@ -381,6 +384,12 @@ protected slots:
 	/*! Tries to load database
 	 */
 	void load();
+	/*! Cleans database and loads new resources
+	 */
+	void loadResources();
+	/*! Tries to reload resources
+	 */
+	void reloadResources();
 };
 
 #endif // MAINPANEL_H
