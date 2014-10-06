@@ -1169,9 +1169,18 @@ void MainPanel::currentSceneNodeChanged(int index)
 
 void MainPanel::removeScene()
 {
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
 	sad::Scene* scene = currentScene();
 	if (scene)
 	{
+		if (m_editor->machine()->isInState("selected"))
+		{
+			m_editor->machine()->enterState("idle");
+			m_editor->shared()->setSelectedObject(NULL);
+		}
 		int row = ui.lstScenes->currentRow();
 
 		history::Command* c = new history::scenes::Remove(scene, row);
@@ -1397,8 +1406,7 @@ void MainPanel::loadResources()
             tree->setRenderer(sad::Renderer::ref());
             tree->setStoreLinks(true);
             tree->factory()->registerResource<sad::freetype::Font>();
-
-            //sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
+            
             sad::Vector<sad::resource::Error * > errors;
             errors = tree->loadFromFile(name.toStdString());
             if (errors.size())
@@ -1431,6 +1439,10 @@ void MainPanel::reloadResources()
 	ReloadFileList list(this);
 	if (list.exec() == QDialog::Accepted && list.selectedFile() != NULL)
 	{
+		m_editor->shared()->setActiveObject(NULL);
+		m_editor->shared()->setSelectedObject(NULL);
+		m_editor->machine()->enterState("idle");
+
 		sad::resource::PhysicalFile* file = list.selectedFile();
 		sad::Renderer::ref()->lockRendering();
 		sad::Vector<sad::resource::Error*> errors = file->reload();
