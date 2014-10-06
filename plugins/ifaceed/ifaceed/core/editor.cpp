@@ -291,9 +291,25 @@ void core::Editor::start()
 	}
 	
 	bool database_loaded = false;
-	if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists())
-	{
+	if (this->m_mainwindow->isEditingEnabled() && this->parsedArgs()->defaultOption().exists() && !mustquit)
+	{		
 		// Try load database	
+		sad::String value = this->parsedArgs()->defaultOption().value();
+		sad::db::Database* tmp = new sad::db::Database();
+		tmp->setRenderer(sad::Renderer::ref());
+		tmp->setDefaultTreeName("");
+		if (tmp->loadFromFile(value, sad::Renderer::ref()))
+		{
+			this->shared()->setFileName(value.data());
+			sad::Renderer::ref()->addDatabase("", tmp);
+			database_loaded = true;
+		}
+		else
+		{
+			delete tmp;
+			mustquit = true;
+			SL_FATAL("Failed to load database");
+		}
 	}
 
 	// If no database loaded, init default database, add a palette to it.
