@@ -35,6 +35,9 @@
 #include <db/dbstoredproperty.h>
 #include <db/dbpopulatescenesfromdatabase.h>
 
+#include <resource/tree.h>
+#include <freetype/font.h>
+
 #include <QMessageBox>
 #include <QDialog>
 #include <QTimer>
@@ -1356,7 +1359,7 @@ void MainPanel::load()
 	{
 		return;
 	}
-	QString name = QFileDialog::getOpenFileName(this, "Enter file, where database should be stored", "", "*.json");
+    QString name = QFileDialog::getOpenFileName(this, "Enter file, where database was stored", "", "*.json");
 	if (name.length() != 0)
 	{
 		sad::db::Database* tmp = new sad::db::Database();
@@ -1383,6 +1386,39 @@ void MainPanel::loadResources()
 	{
 		return;
 	}
+    QMessageBox::StandardButton btn = QMessageBox::warning(NULL, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+    if (btn == QMessageBox::Ok)
+    {
+        QString name = QFileDialog::getOpenFileName(this, "Enter new resource file", "", "*.json");
+        if (name.length())
+        {
+            sad::resource::Tree* tree = new sad::resource::Tree();
+            tree->setRenderer(sad::Renderer::ref());
+            tree->setStoreLinks(true);
+            tree->factory()->registerResource<sad::freetype::Font>();
+
+            //sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
+            sad::Vector<sad::resource::Error * > errors;
+            errors = tree->loadFromFile(name.toStdString());
+            if (errors.size())
+            {
+                delete tree;
+                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());
+            }
+            else
+            {
+                m_editor->cleanDatabase();
+                sad::Renderer::ref()->addDatabase("", new sad::db::Database());
+                this->viewDatabase();
+
+                sad::Renderer::ref()->removeTree("");
+                sad::Renderer::ref()->addTree("", tree);
+                ui.rtwLabelFont->updateTree();
+                ui.rtwSpriteSprite->updateTree();
+                ui.rtwCustomObjectSchemas->updateTree();
+            }
+        }
+    }
 }
 
 void MainPanel::reloadResources()

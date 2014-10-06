@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QMainWindow>
 
+class MainPanel;
 
 namespace core
 {
@@ -142,6 +143,14 @@ public:
 	/*! Sets idle state, cleans database, erasing all objects and history
 	 */
 	void cleanDatabase();
+    /*! Reports errors to log
+        \param[in, out] errors a list of errors
+        \param[in] name a name of file, which has been loading
+     */
+    void reportResourceLoadingErrors(
+        sad::Vector<sad::resource::Error *> & errors,
+        const sad::String& name
+    );
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour
@@ -202,15 +211,6 @@ protected:
 	/*! Current selection algorithm
 	 */
 	core::Selection* m_selection;
-
-    /*! Reports errors to log
-        \param[in, out] errors a list of errors
-        \param[in] name a name of file, which has been loading
-     */
-    void reportResourceLoadingErrors(
-        sad::Vector<sad::resource::Error *> & errors,
-        const sad::String& name
-    );
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

@@ -251,6 +251,21 @@ void core::Editor::cleanDatabase()
 	sad::Renderer::ref()->removeDatabase("");
 }
 
+void core::Editor::reportResourceLoadingErrors(
+        sad::Vector<sad::resource::Error *> & errors,
+        const sad::String& name
+)
+{
+    sad::String errorlist = sad::resource::format(errors);
+    sad::String resultmessage = "There was errors while loading ";
+    resultmessage += name;
+    resultmessage += ":\n";
+    resultmessage += errorlist;
+    sad::util::free(errors);
+    errors.clear();
+    SL_FATAL(resultmessage);
+}
+
 // =================== PUBLIC SLOTS METHODS ===================
 
 void core::Editor::start()
@@ -271,7 +286,8 @@ void core::Editor::start()
 
 	// Try load specified resources, if need to
 	sad::Renderer::ref()->tree("")->factory()->registerResource<sad::freetype::Font>();
-	sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
+    sad::Renderer::ref()->tree("")->setStoreLinks(true);
+    sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
 	if (maybefilename.exists() && this->parsedArgs()->specified("resources"))
 	{
 		errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
@@ -339,21 +355,6 @@ void core::Editor::redo()
 }
 
 // =================== PROTECTED METHODS ===================
-
-void core::Editor::reportResourceLoadingErrors(
-		sad::Vector<sad::resource::Error *> & errors,
-		const sad::String& name
-)
-{
-	sad::String errorlist = sad::resource::format(errors);
-	sad::String resultmessage = "There was errors while loading ";
-	resultmessage += name;
-	resultmessage += ":\n";
-	resultmessage += errorlist;
-	sad::util::free(errors);
-	errors.clear();
-	SL_FATAL(resultmessage);
-}
 
 void core::Editor::initConversionTable()
 {
