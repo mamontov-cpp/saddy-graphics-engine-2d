@@ -1387,5 +1387,8 @@ void MainPanel::loadResources()
 
 void MainPanel::reloadResources()
 {
-
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
 }
