@@ -18,6 +18,7 @@ class ImageGlue
         rect = srcTexture.textureRectangle
         x = rect[0]
         y = rect[1]
+		IL.Disable(1590); # Disable IL_BLIT_BLEND - disable blending alpha-channel when blitting
         destTexture.blit(srcTexture.getImage, x, y)
         return destTexture
 	end
@@ -28,7 +29,7 @@ class ImageGlue
     # [images]     _Array_ of _Texture_ images array of Texture object, which should be blitted 
     # [return]     _DevIL::Image_       resulting image
     def glue(widthheight, images)
-        res = Devil.create_image(widthheight, widthheight, {:color => [255, 255, 255, 255]})
+        res = Devil.create_image(widthheight, widthheight, {:color => [255, 255, 255, 0]})
         # Handle implementation exception
         if (res.nil?())
             raise 'Image not created'
