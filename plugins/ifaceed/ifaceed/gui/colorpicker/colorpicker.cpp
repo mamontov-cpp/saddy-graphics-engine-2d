@@ -235,6 +235,20 @@ gui::colorpicker::ColorPicker::~ColorPicker()
 	
 	delete m_lightness_image;
 	delete m_alpha_image;
+
+	for(QHash<int, QHash<int, QImage*> >::iterator it = m_color_wheels.begin();
+		it != m_color_wheels.end();
+		++it
+		)
+	{
+		QHash<int, QImage*> & h = it.value();
+		for(QHash<int, QImage*>::iterator iit = h.begin();
+			iit != h.end();
+			++iit)
+		{
+			delete iit.value();
+		}
+	}
 }
 
 void gui::colorpicker::ColorPicker::paletteItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous)
@@ -403,7 +417,7 @@ void gui::colorpicker::ColorPicker::paintEvent(QPaintEvent * e)
 		bool contains;
 		if (m_color_wheels.contains(color.lightness()) == false)
 		{
-			contains = m_color_wheels.contains(color.alpha());
+			contains = m_color_wheels[color.lightness()].contains(color.alpha());
 		}
 		else
 		{
@@ -413,7 +427,7 @@ void gui::colorpicker::ColorPicker::paintEvent(QPaintEvent * e)
 		{
 			generateColorWheel(color.lightness(), color.alpha(), m_wheel_size);
 		}
-		QImage & i = m_color_wheels[color.lightness()][color.alpha()];
+		QImage & i = *(m_color_wheels[color.lightness()][color.alpha()]);
 		qpainter.drawImage(m_color_wheel_location, i);
 
 		// Render color selection in color wheel
@@ -848,9 +862,9 @@ void gui::colorpicker::ColorPicker::regenerateAlphaImage(int width)
 
 void gui::colorpicker::ColorPicker::generateColorWheel(int lightness, int alpha, int side)
 {
-	QImage im(side, side, QImage::Format_ARGB32);
-	im.fill(Qt::transparent);
-	QPainter painter(&im);
+	QImage* im = new QImage(side, side, QImage::Format_ARGB32);
+	im->fill(Qt::transparent);
+	QPainter painter(im);
 	double halfside = side / 2.0;
 	double sidesquared = halfside * halfside;
 
@@ -884,9 +898,9 @@ void gui::colorpicker::ColorPicker::generateColorWheel(int lightness, int alpha,
 	}
 	if (m_color_wheels.contains(lightness) == false)
 	{
-		m_color_wheels.insert(lightness, QHash<int, QImage>());
+		m_color_wheels.insert(lightness, QHash<int, QImage*>());
 	}
-	m_color_wheels[lightness].insert(alpha, im.copy());
+	m_color_wheels[lightness].insert(alpha, im);
 }
 
 void gui::colorpicker::ColorPicker::handleMouseEvents(QMouseEvent* e)
