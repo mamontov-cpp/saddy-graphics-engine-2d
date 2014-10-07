@@ -1429,9 +1429,16 @@ void MainPanel::loadResources()
 
                 sad::Renderer::ref()->removeTree("");
                 sad::Renderer::ref()->addTree("", tree);
-                ui.rtwLabelFont->updateTree();
-                ui.rtwSpriteSprite->updateTree();
-                ui.rtwCustomObjectSchemas->updateTree();
+                if (ui.rtwLabelFont->filter().length() == 0)
+                {
+                    this->updateResourceViews();
+                }
+                else
+                {
+                    ui.rtwLabelFont->updateTree();
+                    ui.rtwSpriteSprite->updateTree();
+                    ui.rtwCustomObjectSchemas->updateTree();
+                }
                 this->toggleEditingButtons(true);
             }
         }
@@ -1457,9 +1464,16 @@ void MainPanel::reloadResources()
 		sad::Renderer::ref()->unlockRendering();
 		if (errors.size() == 0)
 		{
-			ui.rtwLabelFont->updateTree();
-            ui.rtwSpriteSprite->updateTree();
-            ui.rtwCustomObjectSchemas->updateTree();
+            if (ui.rtwLabelFont->filter().length() == 0)
+            {
+                this->updateResourceViews();
+            }
+            else
+            {
+                ui.rtwLabelFont->updateTree();
+                ui.rtwSpriteSprite->updateTree();
+                ui.rtwCustomObjectSchemas->updateTree();
+            }
 		}
 		else
 		{
