@@ -1,6 +1,6 @@
 {
-	"config" : "icons.json",
-	"texture" : "icons.png",
+	"config" : "icons_new.json",
+	"texture" : "icons_new.png",
 	"resource": "icons",
 	"sprites" : [
 		{
@@ -10,6 +10,14 @@
 		{
 			"name" : "directed",
 			"texture" : "btn-directed.png"
+		},
+		{
+			"name" : "default",
+			"texture" : "btn-default.png"
+		},
+		{
+			"name" : "default-red",
+			"texture" : "btn-red.png"
 		}
 	]
 }

@@ -11,6 +11,16 @@
       "name": "directed",
       "size": "22;22",
       "texrect": "22;0;22;22"
+    },
+    {
+      "name": "default",
+      "size": "22;22",
+      "texrect": "0;22;22;22"
+    },
+    {
+      "name": "default-red",
+      "size": "22;22",
+      "texrect": "22;22;22;22"
     }
   ]
 }
