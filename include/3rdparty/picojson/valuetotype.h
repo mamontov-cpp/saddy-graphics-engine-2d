@@ -672,7 +672,7 @@ public:
 	}
 };
 
-/*! Tries to converts specific value to size
+/*! Tries to converts specific value to vector of vector of colors with alpha-channel
  */
 template<>
 class ValueToType<sad::Vector<sad::Vector<sad::AColor> > >
@@ -685,7 +685,6 @@ public:
 	static sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > > get(const picojson::value & v)
 	{
 		sad::Maybe<sad::Vector<sad::Vector<sad::AColor> > > result;
-		// Conversion from string <x>;<y>;<width>;<height>
 		if (v.is<picojson::array>())
 		{
 			bool parseresult = true;
@@ -715,6 +714,47 @@ public:
 				{
 					parseresult = false;
 				}
+			}
+			if (parseresult)
+			{
+				result.setValue(tmpresult);
+			}
+		}
+		return result;
+	}
+};
+
+
+/*! Tries to converts specific value to vector of points
+ */
+template<>
+class ValueToType<sad::Vector<sad::Point2D> >
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Vector<sad::Point2D> > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Vector<sad::Point2D> > result;		
+		if (v.is<picojson::array>())
+		{
+			bool parseresult = true;
+			sad::Vector<sad::Point2D> tmpresult;
+			const picojson::array & top = v.get<picojson::array>();
+			for(size_t i = 0; i < top.size() && parseresult; i++)
+			{
+				const picojson::value & topentry = top[i];
+				sad::Maybe<sad::Point2D> maybeentry = picojson::ValueToType<sad::Point2D>::get(top[i]);
+				if (maybeentry.exists())
+				{
+					tmpresult << maybeentry.value();
+				}
+				else
+				{
+					parseresult = false;
+				}				
 			}
 			if (parseresult)
 			{

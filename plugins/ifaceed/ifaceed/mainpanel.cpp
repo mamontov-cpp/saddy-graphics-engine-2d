@@ -947,14 +947,21 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 void MainPanel::fixDatabase()
 {
 	sad::db::Database* db = sad::Renderer::ref()->database("");
-	if (db->table("scenes") == NULL)
+    // Contains sad::Scene
+    if (db->table("scenes") == NULL)
 	{
 		db->addTable("scenes", new sad::db::Table());
 	}
+    // Contains sad::SceneNode
 	if (db->table("scenenodes") == NULL)
 	{
 		db->addTable("scenenodes", new sad::db::Table());
 	}
+    // Contains sad::p2d::app::Way
+    if (db->table("ways") == NULL)
+    {
+        db->addTable("ways", new sad::db::Table());
+    }
 
 	bool needtosetpalette = false;
 	if (db->propertyByName("palette") != NULL)
@@ -1412,7 +1419,7 @@ void MainPanel::loadResources()
             if (errors.size())
             {
                 delete tree;
-                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());
+                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());               
             }
             else
             {
@@ -1422,9 +1429,17 @@ void MainPanel::loadResources()
 
                 sad::Renderer::ref()->removeTree("");
                 sad::Renderer::ref()->addTree("", tree);
-                ui.rtwLabelFont->updateTree();
-                ui.rtwSpriteSprite->updateTree();
-                ui.rtwCustomObjectSchemas->updateTree();
+                if (ui.rtwLabelFont->filter().length() == 0)
+                {
+                    this->updateResourceViews();
+                }
+                else
+                {
+                    ui.rtwLabelFont->updateTree();
+                    ui.rtwSpriteSprite->updateTree();
+                    ui.rtwCustomObjectSchemas->updateTree();
+                }
+                this->toggleEditingButtons(true);
             }
         }
     }
@@ -1449,9 +1464,16 @@ void MainPanel::reloadResources()
 		sad::Renderer::ref()->unlockRendering();
 		if (errors.size() == 0)
 		{
-			ui.rtwLabelFont->updateTree();
-            ui.rtwSpriteSprite->updateTree();
-            ui.rtwCustomObjectSchemas->updateTree();
+            if (ui.rtwLabelFont->filter().length() == 0)
+            {
+                this->updateResourceViews();
+            }
+            else
+            {
+                ui.rtwLabelFont->updateTree();
+                ui.rtwSpriteSprite->updateTree();
+                ui.rtwCustomObjectSchemas->updateTree();
+            }
 		}
 		else
 		{

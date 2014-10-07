@@ -10,6 +10,7 @@
 
 #include "../../sadvector.h"
 
+#include "../../db/dbobject.h"
 
 namespace sad
 {
@@ -31,7 +32,7 @@ typedef p2d::Point WayPoint;
 
 	You can reset state by calling p2d::Way::startConstruction.
  */
-class Way
+class Way: public sad::db::Object
 {
 public:
 	struct WayLink
@@ -82,7 +83,7 @@ public:
 	void makeClosed();
 	/*! Makes a way simple, as open
 	 */
-	void makeOpen();
+	void makeOpen();	
 	/*! Sets a total time for a way
 		\param[in] time a time for data
 	 */ 
@@ -90,7 +91,7 @@ public:
 	/*! Returns a time
 		\return time
 	 */
-	inline double totalTime() const   { return m_totaltime; }
+	double totalTime() const;
 	/*! Returns a way points
 		\return way points
 	 */
@@ -101,6 +102,23 @@ public:
 	/*! Starts anew construction of way
 	 */
 	void startConstruction();
+	/*! Returns string "sad::p2d::app::Way"
+		\return name, under which object will be serialized
+	 */
+	virtual const sad::String& serializableName() const;
+	/*! Returns schema for all kinds of way
+		\return schema
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
+	/*! Loads sprite from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
+	 */
+	virtual bool load(const picojson::value& v);
 };
 
 }

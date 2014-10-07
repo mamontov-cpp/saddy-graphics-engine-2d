@@ -32,8 +32,7 @@ public:
 	 */
 	virtual void set(const sad::db::Variant& v);
 public slots:
-	/*! When widget changed
-		\param[in] i a widget value
+	/*! Called, when widget is changed
 	 */
 	void widgetChanged();
 protected:

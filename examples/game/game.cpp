@@ -11,7 +11,6 @@
 #include "enemybullet.h"
 
 #include <renderer.h>
-#include <texturemanager.h>
 #include <orthographiccamera.h>
 #include <sprite2d.h>
 #include <geometry2d.h>

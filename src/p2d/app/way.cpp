@@ -2,11 +2,16 @@
 
 #include <geometry2d.h>
 
-sad::p2d::app::Way::Way()
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
+sad::p2d::app::Way::Way() : m_constructed(false), m_closed(false), m_totaltime(100)
 {
-	m_constructed = false;
-	m_closed = false;
-	m_totaltime = 100.0;
+
 }
 
 sad::p2d::app::Way::~Way()
@@ -67,21 +72,30 @@ void sad::p2d::app::Way::step(
 
 void sad::p2d::app::Way::setPoint(int i,  const sad::p2d::app::WayPoint & p)
 {
-	assert( !m_constructed );
 	m_waypoints[i] = p;
+	if (m_constructed)
+	{
+		construct();
+	}
 }
 
 void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 {
-	assert( !m_constructed );
 	m_waypoints << p;
+	if (m_constructed)
+	{
+		construct();
+	}
 }
 
 
 void sad::p2d::app::Way::removePoint(int i)
 {
-	assert( !m_constructed );
 	m_waypoints.removeAt(i);
+	if (m_constructed)
+	{
+		construct();
+	}
 }
 
 
@@ -97,8 +111,16 @@ void sad::p2d::app::Way::makeOpen()
 
 void sad::p2d::app::Way::setTotalTime(double time)
 {
-	assert( !m_constructed );
 	m_totaltime = time;
+	if (m_constructed)
+	{
+		construct();
+	}
+}
+
+double sad::p2d::app::Way::totalTime() const
+{
+	return m_totaltime;
 }
 
 void sad::p2d::app::Way::startConstruction()
@@ -109,8 +131,11 @@ void sad::p2d::app::Way::startConstruction()
 
 void sad::p2d::app::Way::construct()
 {
-	assert( m_waypoints.size() > 1  && sad::non_fuzzy_zero(m_totaltime) );
 	m_constructed = true;
+	if (m_waypoints.size() <= 1 || sad::is_fuzzy_zero(m_totaltime))
+	{
+		return;
+	}
 	double curtime = 0;
 	double totaldistance = 0;
 	for(unsigned int i = 0; i < m_waypoints.size() - 1; i++)
@@ -135,4 +160,54 @@ void sad::p2d::app::Way::construct()
 	{
 		m_times << m_totaltime;
 	}
+}
+
+static sad::String SadP2DAppWayName = "sad::p2d::app::Way";
+
+const sad::String&  sad::p2d::app::Way::serializableName() const
+{
+	return SadP2DAppWayName;
+}
+
+static sad::db::schema::Schema* SadP2DAppWaySchema = NULL;
+
+sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
+{
+	if (SadP2DAppWaySchema == NULL)
+	{
+		SadP2DAppWaySchema = new sad::db::schema::Schema();
+		SadP2DAppWaySchema->addParent(sad::db::Object::basicSchema());
+
+		SadP2DAppWaySchema->add(
+			"totaltime", 
+			new sad::db::MethodPair<sad::p2d::app::Way, double>(
+				&sad::p2d::app::Way::totalTime,
+				&sad::p2d::app::Way::setTotalTime
+			)
+		);
+		SadP2DAppWaySchema->add(
+			"closed", 
+			define_field(&sad::p2d::app::Way::m_closed)
+		);
+		SadP2DAppWaySchema->add(
+			"waypoints", 
+			define_field(&sad::p2d::app::Way::m_waypoints)
+		);		
+	}
+	return SadP2DAppWaySchema;
+}
+
+sad::db::schema::Schema* sad::p2d::app::Way::schema() const
+{
+	return sad::p2d::app::Way::basicSchema();
+}
+
+bool sad::p2d::app::Way::load(const picojson::value& v)
+{
+	bool result = this->sad::db::Object::load(v);
+	if (result)
+	{
+		construct();
+	}
+	return result;
 }

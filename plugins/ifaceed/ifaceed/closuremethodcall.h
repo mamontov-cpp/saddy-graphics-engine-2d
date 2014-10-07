@@ -67,6 +67,7 @@ public:
      * Constructs new instance of method call
      * \param o object
      * \param f method
+	 * \param a argument for calling
      */
     inline ClosureMethodCall1(_ClassName * o, _Method f, const _Arg & a) : m_o(o), m_f(f), m_a(a)
     {

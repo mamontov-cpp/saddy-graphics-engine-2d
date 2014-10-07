@@ -178,10 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\fontmanager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\formattedlabel.cpp"
 				>
 			</File>
@@ -318,14 +314,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\texturecontainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\texturemanager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\texturemappedfont.cpp"
 				>
 			</File>
@@ -394,50 +382,6 @@
 				</File>
 				<File
 					RelativePath=".\src\os\windowimpl.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="config"
-				>
-				<File
-					RelativePath=".\src\config\sprite2dconfig.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\config\sprite2dconfigloader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\config\sprite2dobserver.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="marshal"
-				>
-				<File
-					RelativePath=".\src\marshal\abstractreader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\abstractwriter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\hashbasedserializablecontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\saveloadcallbacks.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\serializablecontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\serializableobject.cpp"
 					>
 				</File>
 			</Filter>
@@ -876,10 +820,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\fontmanager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\formattedlabel.h"
 				>
 			</File>
@@ -1080,14 +1020,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\texturecontainer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\texturemanager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\texturemappedfont.h"
 				>
 			</File>
@@ -1184,54 +1116,6 @@
 				</File>
 				<File
 					RelativePath=".\include\os\windowimpl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="config"
-				>
-				<File
-					RelativePath=".\include\config\sprite2dconfig.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dconfigloader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dobserver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dtemplate.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="marshal"
-				>
-				<File
-					RelativePath=".\include\marshal\abstractreader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\abstractwriter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\hashbasedserializablecontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\saveloadcallbacks.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\serializablecontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\serializableobject.h"
 					>
 				</File>
 			</Filter>

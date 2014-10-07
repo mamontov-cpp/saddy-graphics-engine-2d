@@ -47,7 +47,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h \
     ifaceed/core/typeconverters/save.h \
     ifaceed/core/editor.h \
-    ifaceed/core/editorbehaviour.h \
     ifaceed/core/qttarget.h \
     ifaceed/core/quitreason.h \
     ifaceed/core/saddythread.h \
@@ -141,9 +140,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/updateelement.h \
     ifaceed/core/borders/deletehotspot.h \
     ifaceed/core/borders/resizehotspot.h \
-    ifaceed/core/selection.h
+    ifaceed/core/selection.h \
+    ifaceed/reloadfilelist.h
 FORMS += ifaceed/mainpanel.ui \
-    ifaceed/acolordialog.ui
+    ifaceed/acolordialog.ui \
+    ifaceed/reloadfilelist.ui
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
@@ -236,7 +237,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/customobject/customobjectchangeschema.cpp \
     ifaceed/core/borders/deletehotspot.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
-    ifaceed/core/selection.cpp
+    ifaceed/core/selection.cpp \
+    ifaceed/reloadfilelist.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
@@ -272,4 +274,4 @@ win32 {
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
-QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare
+QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w

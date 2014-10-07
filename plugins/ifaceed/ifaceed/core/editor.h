@@ -1,4 +1,4 @@
-/*! \file   core::Editor.h
+/*! \file   editor.h
 	\author HiddenSeeker
 
 	Defines a main interface editor class
@@ -24,8 +24,6 @@
 #include <cli/parser.h>
 
 #include <input/controls.h>
-
-#include <config/sprite2dconfig.h>
 
 #include <hfsm/hfsmmachine.h>
 #include <hfsm/hfsmstate.h>

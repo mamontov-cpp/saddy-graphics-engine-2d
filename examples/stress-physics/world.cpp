@@ -8,7 +8,6 @@
 #include "shooter.h"
 
 #include <orthographiccamera.h>
-#include <texturemanager.h>
 #include <keymouseconditions.h>
 #include <p2d/elasticforce.h>
 #include <p2d/app/object.h>
