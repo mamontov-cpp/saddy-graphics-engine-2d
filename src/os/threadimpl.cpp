@@ -1,9 +1,9 @@
 #include "os/threadimpl.h"
 #include "sadmutex.h"
-#include "../sadsleep.h"
-#include "../sadthreadexecutablefunction.h"
-#include "../sadhash.h"
-#include "../sadthread.h"
+#include "sadsleep.h"
+#include "sadthreadexecutablefunction.h"
+#include "sadhash.h"
+#include "sadthread.h"
 
 #ifdef WIN32
 
