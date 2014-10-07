@@ -1,5 +1,4 @@
 #include "texture.h"
-#include "texturemanager.h"
 #include "log/log.h"
 
 #include <renderer.h>
@@ -177,7 +176,7 @@ bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	sad::imageformats::Loader * l = r->textures()->loader(ff);
+	sad::imageformats::Loader * l = r->textureLoader(ff);
 	if (l)
 	{
 		FILE * fl = fopen(filename.data(), "rb");
