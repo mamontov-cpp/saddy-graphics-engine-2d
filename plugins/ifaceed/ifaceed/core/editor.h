@@ -25,8 +25,6 @@
 
 #include <input/controls.h>
 
-#include <config/sprite2dconfig.h>
-
 #include <hfsm/hfsmmachine.h>
 #include <hfsm/hfsmstate.h>
 #include <hfsm/hfsmhandler.h>
