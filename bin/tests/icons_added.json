@@ -1,0 +1,48 @@
+{
+  "resource": "icons",
+  "file": "tests/icons.png",
+  "atlas": [
+    {
+      "name": "1",
+      "size": "300;293",
+      "texrect": "0;0;300;293",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "2",
+      "size": "200;200",
+      "texrect": "0;293;200;200",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "3",
+      "size": "256;256",
+      "texrect": "0;493;256;256",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "4",
+      "size": "300;293",
+      "texrect": "0;0;300;293",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "5",
+      "size": "300;293",
+      "texrect": "0;0;300;293",
+      "transparent": "255;255;255"
+    },
+    {
+      "name": "6",
+      "size": "300;293",
+      "texrect": "0;0;300;293",
+      "transparent": "255;255;255"
+    },
+	{
+      "name": "7",
+      "size": "300;293",
+      "texrect": "0;0;300;293",
+      "transparent": "255;255;255"
+    }
+  ]
+}

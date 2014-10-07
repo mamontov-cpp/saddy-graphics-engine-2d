@@ -1,0 +1,4 @@
+[
+	{ "type": "sad::Texture",  "filename": "examples/game/objects.bmp", "name": "test1/test2"},
+	{ "type": "sad::Texture",  "filename": "examples/game/objects.bmp", "name": "test1/test2"}	
+]

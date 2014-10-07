@@ -1,0 +1,6 @@
+[
+	{
+		"type"   : "sad::resource::TextureAtlasFile",
+		"filename" : "resources/itemicons.json"
+	}
+]

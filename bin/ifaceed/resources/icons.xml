@@ -1,0 +1,8 @@
+<sprites>
+  <rotate texture='icons.png' size='16;16' texrect='0;16;16;16' transparent='255;255;255'/>
+  <delete texture='icons.png' size='16;16' texrect='16;16;16;16' transparent='255;255;255'/>
+  <top texture='icons.png' size='16;16' texrect='0;32;16;16' transparent='255;255;255'/>
+  <bottom texture='icons.png' size='16;16' texrect='16;32;16;16' transparent='255;255;255'/>
+  <left texture='icons.png' size='16;16' texrect='0;0;16;16' transparent='255;255;255'/>
+  <right texture='icons.png' size='16;16' texrect='16;0;16;16' transparent='255;255;255'/>
+</sprites>

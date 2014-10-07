@@ -1,0 +1,1 @@
+iface-editor-release.exe -ifaceconfig globalconfig.xml

@@ -1,0 +1,5 @@
+[
+	{ "type": "sad::Texture",  "filename": "examples/game/objects.bmp", "name" : "objects"},
+	{ "type": "sad::TextureMappedFont",  "filename": "examples/game/font", "name": "myfont"},
+	{ "type": "sad::freetype::Font",  "filename": "ifaceed/EMPORIUM.TTF", "name": "emporium.ttf"}
+]

@@ -1,0 +1,5 @@
+[
+	{ "type": "sad::Texture",  "filename": "1.jpg"},
+	{ "type": "sad::TextureMappedFont",  "filename": "1"},
+	{ "type": "sad::freetype::Font",  "filename": "1.ttf"}
+]
