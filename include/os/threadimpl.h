@@ -1,4 +1,4 @@
-/*! \file      thread.h
+/*! \file      threadimpl.h
     \author    HiddenSeeker
 
     Contains crossplatform thread implementation,  
@@ -12,8 +12,14 @@
     #endif
     #include  <windows.h>
 #else
+#ifndef _GNU_SOURCE
+    #define _GNU_SOURCE
+#endif
     #include  <pthread.h>
-	#include  <sys/types.h>
+    #include  <sys/types.h>
+    #include  <sys/syscall.h>
+    #include  <linux/unistd.h>
+    #include <unistd.h>
 #endif
 
 namespace sad

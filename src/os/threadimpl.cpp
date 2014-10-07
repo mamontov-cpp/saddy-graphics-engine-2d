@@ -16,9 +16,12 @@ sad::os::ThreadId sad::os::current_thread_id()
 
 #ifdef LINUX
 
+ #include <linux/unistd.h>
+ #include <sys/types.h>
+ 
 sad::os::ThreadId sad::os::current_thread_id()
 {
-	return 	gettid();
+	return  syscall(SYS_gettid);
 }
 
 #endif
