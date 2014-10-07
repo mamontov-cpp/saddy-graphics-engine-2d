@@ -1,5 +1,5 @@
 #include "texturemappedfont.h"
-#include "texturemanager.h"
+#include "texture.h"
 #include "renderer.h"
 #include "os/glheaders.h"
 

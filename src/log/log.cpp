@@ -1,6 +1,5 @@
 #include "../../include/3rdparty/format/format.h"
 #include "../../include/renderer.h"
-#include "../../include/texturemanager.h"
 
 sad::log::Log::~Log()
 {
@@ -30,11 +29,13 @@ sad::String sad::log::Log::subsystem()
 }
 
 
-void sad::log::Log::createAndBroadcast(const sad::String & mesg, 
-				            		   sad::log::Priority priority,
-									   const char * file , 
-									   int line ,
-										const sad::String & upriority)
+void sad::log::Log::createAndBroadcast(
+	const sad::String & mesg, 
+	sad::log::Priority priority,
+	const char * file , 
+	int line ,
+	const sad::String & upriority
+)
 {
 	sad::log::Message * m = new sad::log::Message(
 		mesg,

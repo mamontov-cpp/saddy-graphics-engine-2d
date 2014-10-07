@@ -1,8 +1,5 @@
 #include "renderer.h"
 
-#include "texturemanager.h"
-#include "fontmanager.h"
-#include "texturemanager.h"
 #include "scene.h"
 #include "window.h"
 #include "glcontext.h"
@@ -22,6 +19,10 @@
 
 #include "util/swaplayerstask.h"
 
+#include "imageformats/bmploader.h"
+#include "imageformats/pngloader.h"
+#include "imageformats/tgaloader.h"
+
 #ifdef LINUX
 	#include <stdio.h>
 	#include <unistd.h>
@@ -32,8 +33,6 @@ sad::Renderer * sad::Renderer::m_instance = NULL;
 sad::Renderer::Renderer()
 : 
 m_log(new sad::log::Log()),
-m_font_manager(new sad::FontManager()),
-m_texture_manager(new sad::TextureManager()),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
@@ -49,7 +48,12 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
-	m_texture_manager->setRenderer(this);
+
+	setTextureLoader("BMP", new sad::imageformats::BMPLoader());
+    setTextureLoader("TGA", new sad::imageformats::TGALoader());
+    setTextureLoader("PNG", new sad::imageformats::PNGLoader());
+
+
 
 	sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
 	m_resource_trees.insert("", defaulttree);
@@ -75,9 +79,6 @@ sad::Renderer::~Renderer(void)
 
 	delete m_primitiverenderer;
 	delete m_cursor;
-	// TODO: Remove
-	delete m_font_manager;
-	delete m_texture_manager;
 
 	// Force freeing resources, to make sure, that pointer to context will be valid, when resource
 	// starting to be freed.
@@ -250,17 +251,6 @@ void sad::Renderer::setCursorPosition(const sad::Point2D & p)
 	this->cursor()->setPosition(p);
 }
 
-
-sad::FontManager * sad::Renderer::fonts()
-{
-	return m_font_manager;
-}
-
-sad::TextureManager * sad::Renderer::textures()
-{
-	return m_texture_manager;
-}
-
 sad::log::Log * sad::Renderer::log()
 {
 	return m_log;
@@ -353,9 +343,6 @@ void sad::Renderer::emergencyShutdown()
 {
 	// Unload all textures, because after shutdown context will be lost
 	// and glDeleteTextures could lead to segfault
-	
-	// TOD0: Remove
-	this->textures()->unload();
 	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
 		it != m_resource_trees.end();
 		it++)
@@ -648,6 +635,29 @@ void sad::Renderer::lockRendering()
 void sad::Renderer::unlockRendering()
 {
 	m_lockrendering.unlock();	
+}
+
+void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader)
+{
+	if (m_texture_loaders.contains(format))
+	{
+		delete m_texture_loaders[format];
+		m_texture_loaders[format] = loader;
+	}
+	else
+	{
+		m_texture_loaders.insert(format, loader);
+	}
+}
+
+sad::imageformats::Loader* sad::Renderer::textureLoader(const sad::String& format) const
+{
+	sad::imageformats::Loader* l = NULL;
+	if (m_texture_loaders.contains(format))
+	{
+		l = m_texture_loaders[format];
+	}
+	return l;
 }
 
 bool sad::Renderer::initGLRendering()
