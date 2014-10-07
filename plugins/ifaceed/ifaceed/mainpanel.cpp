@@ -1419,7 +1419,7 @@ void MainPanel::loadResources()
             if (errors.size())
             {
                 delete tree;
-                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());
+                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());               
             }
             else
             {
@@ -1432,6 +1432,7 @@ void MainPanel::loadResources()
                 ui.rtwLabelFont->updateTree();
                 ui.rtwSpriteSprite->updateTree();
                 ui.rtwCustomObjectSchemas->updateTree();
+                this->toggleEditingButtons(true);
             }
         }
     }
