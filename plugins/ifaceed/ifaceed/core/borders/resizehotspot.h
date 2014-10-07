@@ -47,7 +47,7 @@ public:
 	 */
 	sad::p2d::Vector directionVector(const sad::Rect2D& r) const;
 	/*! Returns default direction vector for resizing
-		\param[in] r rectangle
+		\return default direction vector
 	 */
 	sad::p2d::Vector defaultDirectionVector() const;
 	/*! A points for resizing objects in hotspot

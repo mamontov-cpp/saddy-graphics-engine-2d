@@ -49,7 +49,7 @@ class SpecialKeyHoldCondition: public sad::input::AbstractHanderCondition
 {
 public:
 	/*! Creates new condition for key, which should be pressed, when event is emitted
-		\param[in] checked_field a field to be checked
+		\param[in] key a key, which must be hold to trigger condition
 	 */
 	SpecialKeyHoldCondition(sad::SpecialKey key);
 	/*! Casts event to a KetEvent and tests it against conditions

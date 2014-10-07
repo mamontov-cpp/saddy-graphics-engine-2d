@@ -1,4 +1,4 @@
-/*! \file scenesnodeschangeangle.h
+/*! \file scenenodeschangeangle.h
     \author HiddenSeeker
 
     Describe a command, which change angle of scene node

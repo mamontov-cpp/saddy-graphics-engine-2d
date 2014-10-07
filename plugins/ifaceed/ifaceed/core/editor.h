@@ -1,4 +1,4 @@
-/*! \file   core::Editor.h
+/*! \file   editor.h
 	\author HiddenSeeker
 
 	Defines a main interface editor class

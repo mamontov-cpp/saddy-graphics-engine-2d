@@ -1,4 +1,4 @@
-/*! \file   editorbehaviourshareddata.h
+/*! \file   shared.h
 	\author HiddenSeeker
 
 	Defines an editor's data, shared between all editor's states
