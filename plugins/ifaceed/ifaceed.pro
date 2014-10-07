@@ -141,9 +141,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/updateelement.h \
     ifaceed/core/borders/deletehotspot.h \
     ifaceed/core/borders/resizehotspot.h \
-    ifaceed/core/selection.h
+    ifaceed/core/selection.h \
+    ifaceed/reloadfilelist.h
 FORMS += ifaceed/mainpanel.ui \
-    ifaceed/acolordialog.ui
+    ifaceed/acolordialog.ui \
+    ifaceed/reloadfilelist.ui
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
@@ -236,7 +238,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/customobject/customobjectchangeschema.cpp \
     ifaceed/core/borders/deletehotspot.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
-    ifaceed/core/selection.cpp
+    ifaceed/core/selection.cpp \
+    ifaceed/reloadfilelist.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

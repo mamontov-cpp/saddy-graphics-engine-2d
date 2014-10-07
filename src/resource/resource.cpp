@@ -3,7 +3,7 @@
 #include "resource/physicalfile.h"
 
 
-#include "../renderer.h"
+#include "renderer.h"
 
 #include <algorithm>
 

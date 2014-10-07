@@ -52,5 +52,3 @@ DECLARE_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
-DECLARE_TYPE_AS_SAD_OBJECT(sad::FormattedLabel);
-
