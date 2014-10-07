@@ -69,6 +69,7 @@ public:
      * Constructs new instance of method call
      * \param o object
      * \param f method
+	 * \param a argument for method call
      */
     inline BlockedClosureMethodCall1(_ClassName * o, _Method f, const _Arg & a) : m_o(o), m_f(f), m_a(a)
     {
@@ -125,7 +126,6 @@ sad::ClosureBasic* blocked_bind(_ClassName* o, _Method f, const _Arg& a)
  * Creates new call
  * \param[in] o object
  * \param[in] f method
- * \param[in] a argument
  */
 template<
   typename _ClassName,

@@ -1,4 +1,4 @@
-/** \file abstractcommand.h
+/** \file command.h
 	\author HiddenSeeker
 
 	Describes an abstract command for data

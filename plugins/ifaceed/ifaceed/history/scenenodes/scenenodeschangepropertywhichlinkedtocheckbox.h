@@ -1,4 +1,4 @@
-/*! \file scenenodescheckboxreferencedpropertychange.h
+/*! \file scenenodeschangepropertywhichlinkedtocheckbox.h
 	\author HiddenSeeker
 
 	Describes a property change for property, which referenced in QCheckBox 

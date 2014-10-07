@@ -1,4 +1,4 @@
-/*! \file scenelayerswap.h
+/*! \file sceneslayerswap.h
 	\author HiddenSeeker
 
 	Used to swap layers on scenes.
