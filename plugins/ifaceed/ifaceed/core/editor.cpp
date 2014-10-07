@@ -10,7 +10,6 @@
 #include <freetype/font.h>
 
 #include <label.h>
-#include <fontmanager.h>
 #include <renderer.h>
 #include <keymouseconditions.h>
 
