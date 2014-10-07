@@ -106,6 +106,10 @@ public:
 		\return name, under which object will be serialized
 	 */
 	virtual const sad::String& serializableName() const;
+	/*! Returns schema for all kinds of way
+		\return schema
+	 */
+	static sad::db::schema::Schema* basicSchema();
 	/*! Returns schema for an object
 		\return schema
 	 */

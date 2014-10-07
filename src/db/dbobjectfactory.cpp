@@ -9,6 +9,8 @@
 #include "scene.h"
 #include "db/custom/customobject.h"
 
+#include "p2d/app/way.h"
+
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
 	
@@ -22,7 +24,7 @@ sad::db::ObjectFactory::ObjectFactory()
 	add<sad::Sprite3D>("sad::Sprite3D", sad::Sprite3D::basicSchema(), false);
 	// Custom object has no schema at all
 	add<sad::db::custom::Object>("sad::db::custom::Object", NULL, false);
-	// TODO: Add handling for sad::db::ExtensibleObject
+	add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
 }
 
 void sad::db::ObjectFactory::add(
