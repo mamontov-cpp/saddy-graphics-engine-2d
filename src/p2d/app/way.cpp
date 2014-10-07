@@ -171,7 +171,7 @@ const sad::String&  sad::p2d::app::Way::serializableName() const
 
 static sad::db::schema::Schema* SadP2DAppWaySchema = NULL;
 
-sad::db::schema::Schema* sad::p2d::app::Way::schema() const
+sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
 {
 	if (SadP2DAppWaySchema == NULL)
 	{
@@ -195,6 +195,11 @@ sad::db::schema::Schema* sad::p2d::app::Way::schema() const
 		);		
 	}
 	return SadP2DAppWaySchema;
+}
+
+sad::db::schema::Schema* sad::p2d::app::Way::schema() const
+{
+	return sad::p2d::app::Way::basicSchema();
 }
 
 bool sad::p2d::app::Way::load(const picojson::value& v)

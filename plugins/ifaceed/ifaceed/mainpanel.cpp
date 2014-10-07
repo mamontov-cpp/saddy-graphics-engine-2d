@@ -947,14 +947,21 @@ void MainPanel::closeEvent(QCloseEvent* ev)
 void MainPanel::fixDatabase()
 {
 	sad::db::Database* db = sad::Renderer::ref()->database("");
-	if (db->table("scenes") == NULL)
+    // Contains sad::Scene
+    if (db->table("scenes") == NULL)
 	{
 		db->addTable("scenes", new sad::db::Table());
 	}
+    // Contains sad::SceneNode
 	if (db->table("scenenodes") == NULL)
 	{
 		db->addTable("scenenodes", new sad::db::Table());
 	}
+    // Contains sad::p2d::app::Way
+    if (db->table("ways") == NULL)
+    {
+        db->addTable("ways", new sad::db::Table());
+    }
 
 	bool needtosetpalette = false;
 	if (db->propertyByName("palette") != NULL)
