@@ -11,13 +11,12 @@
 #include <input/controls.h>
 #include <keymouseconditions.h>
 #include <input/handlers.h>
-#include <fontmanager.h>
+#include <font.h>
 #include <orthographiccamera.h>
 #include <sadthread.h>
 #include <sprite2d.h>
 #include <label.h>
 #include <texturemappedfont.h>
-#include <texturemanager.h>
 #include <freetype/font.h>
 
 #ifdef WIN32

@@ -1,4 +1,4 @@
-/*! \file chaneoptions.h
+/*! \file changeoptions.h
 	\author HiddenSeeker
 
 	Describe a command, which change scene sprite options

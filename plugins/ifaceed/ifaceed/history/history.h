@@ -1,4 +1,4 @@
-/*! \file editorhistory.h
+/*! \file history.h
 	\author HiddenSeeker
 
 	Describes an editor history

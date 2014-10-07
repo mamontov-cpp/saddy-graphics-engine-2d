@@ -17,6 +17,7 @@
 #include "settings.h"
 #include "scene.h"
 #include "sadpoint.h"
+#include "sadptrhash.h"
 #include "timer.h"
 #include "maybe.h"
 #include "temporarilyimmutablecontainer.h"
@@ -24,20 +25,19 @@
 #include "sadptrhash.h"
 #include "sadmutex.h"
 #include "primitiverenderer.h"
+#include "texture.h"
+#include "imageformats/loader.h"
 
 namespace sad
 {
 
 class Input;
-class FontManager;
-class TextureManager;
 class Window;
 class GLContext;
 class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
-class Texture;
 
 namespace pipeline
 {
@@ -142,14 +142,6 @@ public:
 		\param[in] p point
 	 */
 	virtual void setCursorPosition(const sad::Point2D & p);
-	/*! Font manager data
-		\return fonts, loaded into renderer
-	 */
-	sad::FontManager* fonts();
-	/*! Texture manager information
-		\return texture manager information
-	 */
-	sad::TextureManager* textures();
 	/*! Returns a log for renderer
 		\return log 
 	 */
@@ -329,6 +321,16 @@ public:
 	/*! Unlocks rendering of scenes
 	 */
 	void unlockRendering();
+	/*! Sets new loader for a renderer
+		\param[in] format a format, which loader is attached to
+		\param[in] loader a loader data
+	 */
+	void setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader);
+	/*! Returns a loader for texture
+		\param[in] format a format
+		\return NULL, if loader not found
+	 */
+	sad::imageformats::Loader* textureLoader(const sad::String& format) const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -353,12 +355,6 @@ protected:
 	/*! A local log, where all messages will be stored
 	 */
 	sad::log::Log*  m_log; 
-	/*! A font collection, attached to a renderer
-	 */
-	sad::FontManager*    m_font_manager;     
-	/*! A texture collection, attached to a renderer
-	 */
-	sad::TextureManager* m_texture_manager; 
 	/*! Returns mouse cursor, associated with renderer
 	 */
 	sad::MouseCursor*       m_cursor;
@@ -386,6 +382,9 @@ protected:
 	/*! An inner renderer databases
 	 */
 	sad::Hash<sad::String, sad::db::Database*> m_databases;
+	/*! A list for loaders for textures
+	 */
+	sad::PtrHash<sad::String, sad::imageformats::Loader> m_texture_loaders;
 	
 	/*! A pipeline, as processes and tasks, which wille be performed in any time
 		of runtime

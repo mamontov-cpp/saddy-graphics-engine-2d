@@ -159,7 +159,7 @@ protected:
 		\return row index
 	 */
     int findPropertyInTable();
-	/*! Inserts linked widget to table. MUST be called inside ::createWidget to make sure, that
+	/*! Inserts linked widget to table. MUST be called inside gui::table::Delegate::createWidget to make sure, that
 		widget is inserted to table
 	 */
 	void insertToTable();

@@ -85,7 +85,7 @@ public slots:
     void areaChanged(QRectF newarea);
     /*!
      * Called, when user changes angle of node
-     * \param newarea
+     * \param newvalue a new value for angle
      */
     void angleChanged(double newvalue);
 	/*!

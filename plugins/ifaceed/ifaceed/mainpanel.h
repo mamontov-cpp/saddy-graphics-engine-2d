@@ -178,8 +178,8 @@ public:
 	 */
 	void removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s);
 	/*! Sets scene nodes' positions in list
-		\param[in] s1 first node
-		\param[in] s2 second node
+		\param[in] n1 first node
+		\param[in] n2 second node
 		\param[in] pos1 position of first node
 		\param[in] pos2 position of second node
 	 */
@@ -340,7 +340,7 @@ protected slots:
 	 */
 	void sceneNameChanged(const QString& name);
 	/*! Emitted, when current scene node is changed
-		\param[in] node a current scene node
+		\param[in] index a new index for node in list
 	 */
 	void currentSceneNodeChanged(int index);
 	/*! Removes scene from a database (making it inactive)

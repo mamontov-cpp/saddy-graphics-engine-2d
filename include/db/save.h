@@ -302,6 +302,30 @@ static picojson::value perform(void * ptr)
 
 };
 
+/*! Specification for saving values of type vector of vectors of 2-dimensional points
+ */
+template<>
+class Save<sad::Vector<sad::Point2D> >
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	sad::Vector<sad::Point2D> & p = *((sad::Vector<sad::Point2D> *)ptr);
+	picojson::value v(picojson::array_type, false);
+	for(size_t i = 0; i < p.size(); i++)
+	{
+		v.push_back(sad::db::Save<sad::Point2D>::perform(&(p[i])));
+	}
+	return v;
+}
+
+};
+
 }
 
 }

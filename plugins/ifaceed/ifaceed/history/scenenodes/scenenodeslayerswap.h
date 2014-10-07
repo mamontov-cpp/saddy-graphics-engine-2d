@@ -21,8 +21,8 @@ class LayerSwap: public history::Command
 {
 public: 
 	/*! Adds a scene, which was added. Command links to scene
-		\param[in] n1 first node
-		\param[in] n2 second node
+		\param[in] s1 first node
+		\param[in] s2 second node
 		\param[in] l1 first position
 		\param[in] l2 second position
 	 */
