@@ -47,7 +47,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h \
     ifaceed/core/typeconverters/save.h \
     ifaceed/core/editor.h \
-    ifaceed/core/editorbehaviour.h \
     ifaceed/core/qttarget.h \
     ifaceed/core/quitreason.h \
     ifaceed/core/saddythread.h \
@@ -275,4 +274,4 @@ win32 {
         LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
 }
 
-QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare
+QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w
