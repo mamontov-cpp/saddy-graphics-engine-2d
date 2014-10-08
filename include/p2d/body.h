@@ -31,41 +31,6 @@ class World;
 class Body: public sad::Object
 {
 SAD_OBJECT
-private:
-	/*! A weight of specific body
-	 */
-	p2d::Weight  *   m_weight;
-	/*! An options for ghost mode
-	 */
-	p2d::GhostOptionsFlow * m_ghost;
-	/*! A world simulation
-	 */
-	p2d::World * m_world;
-	/*! Returns a user object
-		\return user object for a body
-	 */
-	sad::Object * m_user_object;
-	/*! A tangential movement for body
-	 */
-	p2d::TangentialMovement * m_tangential;
-	/*! A angular movement for body
-	 */
-	p2d::AngularMovement * m_angular;
-	/*! A current shape of data
-	 */
-	CollisionShape * m_current;
-	/* An index for last sample
-	 */
-	int  m_lastsampleindex;
-	/*! Whether position is cached by valid
-	 */
-	bool m_samples_are_cached;
-	/*! A type size of shape in body
-	 */
-	size_t  m_shapesize;
-	/*! Describes, whether this body should not be changed
-	 */
-	bool m_fixed;
 public:
 	/*! Construct new body line with zero width at (0,0) with zero speed
 	 */
@@ -351,6 +316,41 @@ public:
 		Selected and freed here. It's a temporary shapes 
 	 */
 	CollisionShape * Temporary;
+private:
+	/*! A weight of specific body
+	 */
+	p2d::Weight  *   m_weight;
+	/*! An options for ghost mode
+	 */
+	p2d::GhostOptionsFlow * m_ghost;
+	/*! A world simulation
+	 */
+	p2d::World * m_world;
+	/*! Returns a user object
+		\return user object for a body
+	 */
+	sad::Object * m_user_object;
+	/*! A tangential movement for body
+	 */
+	p2d::TangentialMovement * m_tangential;
+	/*! A angular movement for body
+	 */
+	p2d::AngularMovement * m_angular;
+	/*! A current shape of data
+	 */
+	CollisionShape * m_current;
+	/* An index for last sample
+	 */
+	int  m_lastsampleindex;
+	/*! Whether position is cached by valid
+	 */
+	bool m_samples_are_cached;
+	/*! A type size of shape in body
+	 */
+	size_t  m_shapesize;
+	/*! Describes, whether this body should not be changed
+	 */
+	bool m_fixed;
 };
 
 }

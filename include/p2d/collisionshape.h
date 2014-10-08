@@ -65,6 +65,8 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const = 0;
+	/*! Could be inherited
+	 */
 	virtual ~CollisionShape();
 };
 

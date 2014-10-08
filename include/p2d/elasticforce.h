@@ -23,14 +23,7 @@ namespace p2d
  */
 class ElasticForce: public p2d::TangentialForce
 {
- private:
-	 p2d::Body * m_first;          //!< A first body, which is linked to current body
-	 p2d::Body * m_second;         //!< A second body, which is force is acting towards
-	 double  m_defaultdistance;    //!< An initial distance between bodies, which must persist
-
-	 double  m_elasticity; //!< An elasticity coefficient, used to describe elasticity
-	 double  m_resistance; //!< A resistant coeffficient
- public:
+public:
 	/*! Creates new elastic force with default distance, taken from distance between two
 		bodies
 		\param[in] first a first body, linked to current body
@@ -67,6 +60,13 @@ class ElasticForce: public p2d::TangentialForce
 		\return resistance coefficient
 	 */
 	inline double resistance() const { return -m_resistance; }
+private:
+	 p2d::Body * m_first;          //!< A first body, which is linked to current body
+	 p2d::Body * m_second;         //!< A second body, which is force is acting towards
+	 double  m_defaultdistance;    //!< An initial distance between bodies, which must persist
+
+	 double  m_elasticity; //!< An elasticity coefficient, used to describe elasticity
+	 double  m_resistance; //!< A resistant coeffficient
 };
 
 }

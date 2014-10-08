@@ -31,11 +31,28 @@ void gui::EventFilter::setPanel(MainPanel* panel)
                 handled = true;
                 m_panel->editor()->redo();
             }
-            if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
-            {
-                int index = ev->key() - Qt::Key_1;
-                m_panel->UI()->tabWidget->setCurrentIndex(index);
-            }
+			if (ev->key() == Qt::Key_F1)
+			{
+				if (m_panel->editor()->isInWaysEditingState())
+				{
+					m_panel->editor()->tryEnterObjectEditingState();
+				}
+			}
+			if (ev->key() == Qt::Key_F2)
+			{
+				if (m_panel->editor()->isInObjectEditingState())
+				{
+					m_panel->editor()->tryEnterWayEditingState();
+				}
+			}
+			if (m_panel->editor()->isInObjectEditingState())
+			{
+				if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
+				{
+					int index = ev->key() - Qt::Key_1;
+					m_panel->UI()->tabObjects->setCurrentIndex(index);
+				}
+			}
         }
      }
      bool result = true;

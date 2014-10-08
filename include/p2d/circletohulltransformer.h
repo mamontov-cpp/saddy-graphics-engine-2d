@@ -18,9 +18,6 @@ namespace p2d
 class Circle;
 class CircleToHullTransformer
 {
-private:
-	int m_sides;	//!< Amount of sides to transform to
-	static p2d::CircleToHullTransformer m_default;  //!< Default transformer
 public:
 	/*! Creates a transformer with arbitrary precision
 		\param[in] sides amount of sides in selected polygon
@@ -45,7 +42,12 @@ public:
 		\param[out] v populated vector
 	 */
 	void populate(const p2d::Circle * c, sad::Vector<p2d::Point> &  v) const;
+	/*! Could be inherited
+	 */
 	virtual ~CircleToHullTransformer();
+private:
+	int m_sides;	//!< Amount of sides to transform to
+	static p2d::CircleToHullTransformer m_default;  //!< Default transformer
 };
 
 }

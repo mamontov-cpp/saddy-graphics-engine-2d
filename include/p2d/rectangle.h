@@ -17,8 +17,6 @@ namespace p2d
 class Rectangle: public p2d::CollisionShape
 {
 	SAD_OBJECT
-protected:
-	sad::Rect2D m_rect; //!< Real rectangle
 public:
 	inline Rectangle() {}
 	/*! Sets new inner rectangle
@@ -83,6 +81,8 @@ public:
 	/* Makes rectangle convex
 	 */
 	void makeConvex();
+protected:
+	sad::Rect2D m_rect; //!< Real rectangle
 };
 
 }

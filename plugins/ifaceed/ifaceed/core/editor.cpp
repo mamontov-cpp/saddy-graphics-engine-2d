@@ -46,6 +46,8 @@
 #include "typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h"
 #include "typeconverters/sadrect2dtoqrectf.h"
 
+#include "../blockedclosuremethodcall.h"
+
 // =================== PUBLIC METHODS ===================
 
 core::Editor::Editor()
@@ -70,6 +72,7 @@ core::Editor::Editor()
 	m_history = new history::History();
 
 	m_machine = new sad::hfsm::Machine();
+	// A states for editing objects
 	m_machine->addState("idle", new sad::hfsm::State(), true);
 	m_machine->addState("selected", new sad::hfsm::State(), true);
 	m_machine->addState("selected/moving", new sad::hfsm::State(), true);
@@ -81,6 +84,12 @@ core::Editor::Editor()
 	m_machine->addState("adding/customobject", new sad::hfsm::State(), true);
 	m_machine->addState("adding/customobject_diagonal", new sad::hfsm::State(), true);
 	m_machine->addState("adding/customobject_diagonal/point_placed", new sad::hfsm::State(), true);
+	// A states for editing ways
+	m_machine->addState("ways/idle", new sad::hfsm::State(), true);
+	m_machine->addState("ways/selected", new sad::hfsm::State(), true);
+	m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
+	m_machine->addState("ways/adding_point", new sad::hfsm::State(), true);
+
 	m_machine->enterState("idle");
 
 	m_shared = new core::Shared();
@@ -231,9 +240,24 @@ void core::Editor::enteredIdleState()
 	this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
 }
 
+static const size_t CoreEditorEditingStatesCount = 5; 
+
+static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
+	sad::String("adding"),
+	sad::String("selected/moving"),
+	sad::String("selected/resizing"),
+	sad::String("ways/adding_point"),
+	sad::String("ways/selected/moving")
+};
+
 bool core::Editor::isInEditingState() const
 {
-	return (m_machine->isInState("adding") || m_machine->isInState("selected/moving") || m_machine->isInState("selected/resizing"));
+	bool result = false;
+	for (size_t i = 0; i < CoreEditorEditingStatesCount; ++i)
+	{
+		result = result || m_machine->isInState(CoreEditorEditingStates[i]);
+	}
+	return result;
 }
 
 void core::Editor::cleanDatabase()
@@ -263,6 +287,43 @@ void core::Editor::reportResourceLoadingErrors(
     sad::util::free(errors);
     errors.clear();
     SL_FATAL(resultmessage);
+}
+
+bool core::Editor::isInObjectEditingState() const
+{
+	return m_mainwindow->UI()->tabTypes->currentIndex() == 0;
+}
+
+bool core::Editor::isInWaysEditingState() const
+{
+	return m_mainwindow->UI()->tabTypes->currentIndex() == 1;
+}
+
+void core::Editor::tryEnterObjectEditingState()
+{
+	if (this->isInEditingState())
+	{
+		return;
+	}
+	this->m_machine->enterState("idle");
+	m_shared->setSelectedObject(NULL);
+	m_shared->setActiveObject(NULL);
+	m_shared->setSelectedWay(NULL);
+	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
+}
+
+void core::Editor::tryEnterWayEditingState()
+{
+	if (this->isInEditingState())
+	{
+		return;
+	}
+	this->m_machine->enterState("idle");
+	this->m_machine->enterState("ways/idle");
+	m_shared->setSelectedObject(NULL);
+	m_shared->setActiveObject(NULL);
+	m_shared->setSelectedWay(NULL);	
+	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
 }
 
 // =================== PUBLIC SLOTS METHODS ===================
@@ -431,6 +492,8 @@ void core::Editor::runQtEventLoop()
 	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
 	m_machine->state("selected")->addEnterHandler(m_mainwindow, &MainPanel::updateUIForSelectedItem);
 	m_machine->state("adding/label")->addEnterHandler(m_mainwindow, &MainPanel::highlightLabelAddingState);
+	m_machine->state("ways/idle")->addEnterHandler(this, &core::Editor::enteredIdleState);
+	m_machine->state("ways/selected")->addEnterHandler(m_mainwindow, &MainPanel::highlightSelectedState);
 
 	m_mainwindow->highlightIdleState();
 

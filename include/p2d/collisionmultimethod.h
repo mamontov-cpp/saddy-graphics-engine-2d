@@ -65,11 +65,8 @@ typename _SecondObject
 >
 class CollisionMultiMethodInstance: 
 public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
-{
- private:
-	 _ReturnType (*m_p)(_FirstObject * o1, _SecondObject * o2); //!< An inner function to call
-	 bool m_reverse;  //!< Whether arguments should be reversed	 
- public:
+{ 
+public:
 	/*! Constructs new instance
 		\param[in] p pointer to free function
 		\param[in] reverse whether arguments should be reversed
@@ -102,6 +99,9 @@ public  p2d::BasicCollisionMultiMethodInstance<_ReturnType>
 		 return m_p(_a1, _a2);
 	 }
 	 virtual ~CollisionMultiMethodInstance() {}
+private:
+	 _ReturnType (*m_p)(_FirstObject * o1, _SecondObject * o2); //!< An inner function to call
+	 bool m_reverse;  //!< Whether arguments should be reversed	
 };
 
 
@@ -114,16 +114,13 @@ typename _SecondObject
 class CollisionMultiMethodInstanceWithArg: 
 public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 {
- public:
+public:
 	 typedef _ReturnType (*inner_t)(_FirstObject * o1, 
 								const _Arg & a1, 
 								_SecondObject * o2,
 								const _Arg & a2
 							   );
- private:
-	 inner_t m_p; //!< An inner function to call
-	 bool m_reverse;  //!< Whether arguments should be reversed	 
- public:
+public:
 	/*! Constructs new instance
 		\param[in] p pointer to free function
 		\param[in] reverse whether arguments should be reversed
@@ -161,6 +158,9 @@ public  p2d::BasicCollisionMultiMethodInstanceWithArg<_ReturnType, _Arg>
 		 return m_p(_a1, ak2, _a2,  ak1);
 	 }
 	 virtual ~CollisionMultiMethodInstanceWithArg() {}
+private:
+	 inner_t m_p; //!< An inner function to call
+	 bool m_reverse;  //!< Whether arguments should be reversed	 
 };
 
 

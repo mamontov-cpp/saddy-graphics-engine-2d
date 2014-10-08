@@ -37,21 +37,15 @@ class Way: public sad::db::Object
 public:
 	struct WayLink
 	{
-                p2d::app::Way * LinkedWay;
-                double     CurrentTime;
-
-		inline WayLink(p2d::app::Way * w = NULL)
+		inline WayLink(p2d::app::Way* w = NULL)
 		{
 			this->LinkedWay = w;
 			this->CurrentTime = 0;
 		}
+		
+		p2d::app::Way * LinkedWay;
+        double     CurrentTime;
 	};
-protected:
-	bool m_constructed; //!< Whether way is constructed
-	bool m_closed;		//!< Whether way is closed
-	double m_totaltime; //!< Amount of time,  which is needed to pass all way
-	sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
-	sad::Vector<double>        m_times;     //!< A time, when the point should be reached
 public:
 	/*! Creates a default closed unconstructed way
 	 */
@@ -119,6 +113,12 @@ public:
 		\return  whether it as successfull
 	 */
 	virtual bool load(const picojson::value& v);
+protected:
+	bool m_constructed; //!< Whether way is constructed
+	bool m_closed;		//!< Whether way is closed
+	double m_totaltime; //!< Amount of time,  which is needed to pass all way
+	sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
+	sad::Vector<double>        m_times;     //!< A time, when the point should be reached
 };
 
 }

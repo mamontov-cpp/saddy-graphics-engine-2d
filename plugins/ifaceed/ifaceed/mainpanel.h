@@ -390,6 +390,10 @@ protected slots:
 	/*! Tries to reload resources
 	 */
 	void reloadResources();
+	/*! Emitted, when type of editing objects is changed
+		\param[in] index index of new tab
+	 */
+	void tabTypeChanged(int index);
 };
 
 #endif // MAINPANEL_H
