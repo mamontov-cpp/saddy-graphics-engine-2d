@@ -21,7 +21,8 @@ public:
 		\param[in] ev event
 	 */ 
 	virtual void invoke(const sad::p2d::BasicCollisionEvent & ev) = 0;
-
+	/*! Could be inherited
+	 */
 	virtual ~BasicCollisionHandler();
 };
 
@@ -30,9 +31,7 @@ public:
 template<typename T1, typename T2>
 class FunctionCollisionHandler  : public sad::p2d::BasicCollisionHandler
 {
-  private:
-	  void (*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
-  public:
+public:
 	  inline FunctionCollisionHandler( void (*p)(const sad::p2d::CollisionEvent<T1, T2> & ev) )
 	  : m_p(p)
 	  {
@@ -58,7 +57,8 @@ class FunctionCollisionHandler  : public sad::p2d::BasicCollisionHandler
 			  m_p(e);
 		  }
 	  }
-
+private:
+	  void (*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
 };
 
 /*! A specific collision handler for invoking events, for working with bodies
@@ -66,9 +66,7 @@ class FunctionCollisionHandler  : public sad::p2d::BasicCollisionHandler
 template<>
 class FunctionCollisionHandler<p2d::Body, p2d::Body> : public sad::p2d::BasicCollisionHandler
 {
-  private:
-	  void (*m_p)(const sad::p2d::BasicCollisionEvent & ev);
-  public:
+public:
 	  inline FunctionCollisionHandler( void (*p)(const sad::p2d::BasicCollisionEvent & ev) )
 	  : m_p(p)
 	  {
@@ -77,6 +75,8 @@ class FunctionCollisionHandler<p2d::Body, p2d::Body> : public sad::p2d::BasicCol
 		  \param[in] ev event
 	   */ 
 	  virtual void invoke(const sad::p2d::BasicCollisionEvent & ev);
+private:
+	  void (*m_p)(const sad::p2d::BasicCollisionEvent & ev);
 };
 
 
@@ -85,10 +85,7 @@ class FunctionCollisionHandler<p2d::Body, p2d::Body> : public sad::p2d::BasicCol
 template<typename _Class, typename T1, typename T2>
 class MethodCollisionHandler  : public sad::p2d::BasicCollisionHandler
 {
-  private:
-	  _Class * m_o;
-	  void (_Class::*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
-  public:
+public:
 	  inline MethodCollisionHandler( _Class * o, void (_Class::*p)(const sad::p2d::CollisionEvent<T1, T2> & ev) )
 	  : m_o(o), m_p(p)
 	  {
@@ -114,7 +111,9 @@ class MethodCollisionHandler  : public sad::p2d::BasicCollisionHandler
 			  (m_o->*m_p)(e);
 		  }
 	  }
-
+private:
+	  _Class * m_o;
+	  void (_Class::*m_p)(const sad::p2d::CollisionEvent<T1, T2> & ev);
 };
 
 /*! A basic collision handler for invoking events, calling a method
@@ -123,10 +122,7 @@ template<typename _Class>
 class MethodCollisionHandler<_Class, sad::p2d::Body, sad::p2d::Body>  
 : public sad::p2d::BasicCollisionHandler
 {
-  private:
-	  _Class * m_o;
-	  void (_Class::*m_p)(const sad::p2d::BasicCollisionEvent& ev);
-  public:
+public:
 	  inline MethodCollisionHandler( _Class * o, void (_Class::*p)(const sad::p2d::BasicCollisionEvent & ev) )
 	  : m_o(o), m_p(p)
 	  {
@@ -138,7 +134,9 @@ class MethodCollisionHandler<_Class, sad::p2d::Body, sad::p2d::Body>
 	  {
 		  (m_o->*m_p)(ev);
 	  }
-
+private:
+	  _Class * m_o;
+	  void (_Class::*m_p)(const sad::p2d::BasicCollisionEvent& ev);
 };
 
 }

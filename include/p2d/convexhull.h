@@ -21,24 +21,7 @@ class CollisionShape;
  */
 class ConvexHull
 {
- private: 
-	 sad::Vector<sad::p2d::Point> m_set;
-	 /*!  Inserts axle to container if not found in container
-		  \param[in, out] container container with axis
-		  \param[in] axle one axle
-	  */
-	 void tryInsertAxle(sad::Vector<sad::p2d::Axle> & container, 
-						const sad::p2d::Axle & axle) const;
-	 /*! Appends axis for specified side in container
-		  \param[in, out] container container with axis
-		  \param[in] number number of current side of convex hull
-	  */
-	 void appendAxisForSide(sad::Vector<sad::p2d::Axle> & container, int number) const;
-	 /*! Creates a collision axis for all sides
-		 \param[in] container container with axis
-	  */
-	 void appendAxisForCollision(sad::Vector<sad::p2d::Axle> & container) const;
- public:
+public:
 	 /*! Creates empty convex hull
 	  */
 	 ConvexHull();
@@ -103,6 +86,23 @@ class ConvexHull
 	 /*! Returns set from hull
 	  */
 	 inline const sad::Vector<sad::p2d::Point> & set() { return m_set; }
+private: 
+	 sad::Vector<sad::p2d::Point> m_set;
+	 /*!  Inserts axle to container if not found in container
+		  \param[in, out] container container with axis
+		  \param[in] axle one axle
+	  */
+	 void tryInsertAxle(sad::Vector<sad::p2d::Axle> & container, 
+						const sad::p2d::Axle & axle) const;
+	 /*! Appends axis for specified side in container
+		  \param[in, out] container container with axis
+		  \param[in] number number of current side of convex hull
+	  */
+	 void appendAxisForSide(sad::Vector<sad::p2d::Axle> & container, int number) const;
+	 /*! Creates a collision axis for all sides
+		 \param[in] container container with axis
+	  */
+	 void appendAxisForCollision(sad::Vector<sad::p2d::Axle> & container) const;
 };
 
 /*! Projects a set of points of specified container to axle

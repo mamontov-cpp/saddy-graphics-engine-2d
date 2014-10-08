@@ -36,6 +36,8 @@ class CollisionDetector
 	  /*! Returns a sample  count, needed to fetch samples for detection
 	   */
 	  virtual int sampleCount() const;
+	  /*! Could be inherited
+	   */
 	  virtual ~CollisionDetector();
 };
 

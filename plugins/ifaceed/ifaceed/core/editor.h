@@ -149,6 +149,20 @@ public:
         sad::Vector<sad::resource::Error *> & errors,
         const sad::String& name
     );
+	/*! Returns true, if current tab of main tab widget is for editing objects
+		\return whether editor could be used for editing objects
+	 */
+	bool isInObjectEditingState() const;
+	/*! Returns true, if current tab of main tab widget is for editing states
+		\return whether editor could be used for editing objects
+	 */
+	bool isInWaysEditingState() const;
+	/*! Tries to enter object editing state
+	 */
+	void tryEnterObjectEditingState();
+	/*! Tries to enter way editing state
+	 */ 
+	void tryEnterWayEditingState();
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour

@@ -18,6 +18,7 @@
 #include <log/log.h>
 
 #include <p2d/vector.h>
+#include <p2d/app/way.h>
 
 namespace core
 {
@@ -129,6 +130,14 @@ public:
 		\return old region
 	 */
 	const sad::Rect2D& oldRegion() const;
+	/*! Sets selected way
+		\param[in] way a way to be set
+	 */ 
+	void setSelectedWay(sad::p2d::app::Way* way);
+	/*! Returns selected way
+		\return selected way
+	 */
+	sad::p2d::app::Way* selectedWay() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -136,6 +145,9 @@ private:
 	/*! An active scene node
 	 */
 	sad::SceneNode* m_active;
+	/*! A selected way
+	 */
+	sad::p2d::app::Way* m_selected_way;
 	/*! A linked editor, which shared data belongs to
 	 */
 	core::Editor* m_editor;

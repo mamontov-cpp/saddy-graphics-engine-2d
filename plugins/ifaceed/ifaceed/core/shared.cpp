@@ -5,7 +5,8 @@
 core::Shared::Shared() : 
 m_selected(NULL),
 m_active(NULL),
-m_editor(NULL)
+m_editor(NULL),
+m_selected_way(NULL)
 {
 	m_show_active_border = true;
 	m_nonresizeable_nodetypes << "sad::Label";
@@ -145,4 +146,15 @@ void core::Shared::setOldRegion(const sad::Rect2D& r)
 const sad::Rect2D&  core::Shared::oldRegion() const
 {
 	return m_old_region;
+}
+
+
+void core::Shared::setSelectedWay(sad::p2d::app::Way* way)
+{
+	m_selected_way = way;
+}
+
+sad::p2d::app::Way* core::Shared::selectedWay() const
+{
+	return m_selected_way;
 }

@@ -352,6 +352,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	);
 
 
+	connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
+
 	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this, SLOT(save()));
 	connect(ui.btnDatabaseSaveAs, SIGNAL(clicked()), this, SLOT(saveAs()));
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this, SLOT(load()));
@@ -1481,3 +1483,26 @@ void MainPanel::reloadResources()
 		}
 	}
 }
+
+
+void MainPanel::tabTypeChanged(int index)
+{
+	int oldtypeindex = (m_editor->machine()->isInState("ways")) ? 1 : 0;
+	if (oldtypeindex == index)
+	{
+		return;
+	}
+	if (m_editor->isInEditingState())
+	{
+		invoke_blocked(ui.tabTypes, &QTabWidget::setCurrentIndex, oldtypeindex);
+	}
+	if (index == 0)
+	{
+		m_editor->tryEnterObjectEditingState();
+	}
+	if (index == 1)
+	{
+		m_editor->tryEnterWayEditingState();
+	}
+}
+

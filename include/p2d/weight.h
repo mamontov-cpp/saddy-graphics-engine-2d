@@ -14,9 +14,6 @@ namespace p2d
  */
 class Weight
 {
-protected:
-	bool m_finite;  //!< Is weight of object is finite
-	double m_value; //!< Value of weight
 public:
 	/*! Creates new weight
 		\param[in] value weight value
@@ -44,6 +41,9 @@ public:
 		\return created weight
 	 */
 	static Weight * infinite();
+protected:
+	bool m_finite;  //!< Is weight of object is finite
+	double m_value; //!< Value of weight
 };
 
 }

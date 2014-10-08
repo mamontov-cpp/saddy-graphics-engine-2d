@@ -27,14 +27,13 @@ class Body;
  */
 class World: public sad::TemporarilyImmutableContainer<p2d::Body>
 {
- protected:
+public:
 	 typedef sad::Pair<sad::String, sad::String> type_pair_t;
 	 typedef sad::Pair<type_pair_t, sad::p2d::BasicCollisionHandler *> types_with_handler_t;
 	 typedef sad::Hash<p2d::Body *, sad::Vector<sad::String> > bodies_to_types_t;
 	 typedef sad::Pair<sad::p2d::BasicCollisionEvent, sad::p2d::BasicCollisionHandler*> 
 		     reaction_t;
 	 typedef sad::Vector<reaction_t> reactions_t;
-public:
 	 /*! Compares two reactions, returns true if time of impact of first is lesser
 		 than second
 		 \param[in] r1 first reaction
@@ -42,81 +41,6 @@ public:
 		 \return whether less
 	  */
 	 static bool compare(const reaction_t & r1, const reaction_t & r2);
-protected:
-	 /*! Current time step
-	  */
-	 double m_time_step;
-	 /*! A splitted time step
-	  */
-	 sad::Maybe<double> m_splitted_time_step;
-	 /*! A common transformer for all shapes
-	  */
-	 p2d::CircleToHullTransformer * m_transformer;
-	 /*! A collision dispatcher for testing an items for collision
-	  */
-	 p2d::CollisionDetector * m_detector;
-	 /*! A callbacks, with related types
-	  */
-	 sad::Vector<types_with_handler_t>  m_callbacks;
-	 /*! Bodies by groups
-	  */
-	 sad::Hash<sad::String, sad::Vector<p2d::Body *> > m_groups;
-	 /*! All bodies for checking all information
-	  */
-	 bodies_to_types_t m_allbodies;
-	 /*! Builds body's inner caches for shapes and acceleration
-	  */
-	 void buildBodyCaches();
-	 /*! Steps all body options, like ghost options and body
-		 \param[in] time a time step size
-	  */
-	 virtual void stepDiscreteChangingValues(double time);
-	 /*! Steps a position and velocities
-		 \param[in] time a time step size
-	  */
-	 virtual void stepPositionsAndVelocities(double time);
-	 /*! Executes a reactions for a world
-		 \param[in] reactions found reactions
-	  */ 
-	 virtual void executeCallbacks(reactions_t & reactions);
-	 /*! Sorts callbacks. Ascending order of time of impact
-		 \param[in] reactions found reactions
-	  */
-	 virtual void sortCallbacks(reactions_t & reactions);
-	 /*! Find specific collision events and populates reactions
-		 \param[in] reactions a reactions
-	  */
-	 virtual void findEvents(reactions_t & reactions);
-	 /*! Finds a specifif collision event and populates reaction
-		 \param[in] reactions a reactions
-		 \param[in] twh  types and handlers
-	  */
-	 virtual void findEvent(reactions_t & reactions, const types_with_handler_t & twh);
-	 /*! Finds and executes callbacks
-	  */
-	 virtual void findAndExecuteCollisionCallbacks();
-	 /*! Adds new handler
-		 \param[in] h handler
-		 \param[in] t1 first type
-		 \param[in] t2 second type
-	  */
-	 virtual void addHandler(
-		 sad::p2d::BasicCollisionHandler * h, 
-		 const sad::String & t1, 
-		 const sad::String & t2
-	  );
-	 /*! Peforms adding a body
-		 \param[in] o body
-	  */
-	 virtual void addNow(p2d::Body * o);
-	 /*! Peforms removing a body
-		 \param[in] o body
-	  */
-	 virtual void removeNow(p2d::Body * o);
-	 /*! Clears a world
-	  */
-	 virtual void clearNow();
- public:
 	 /*! Creates world with default transformer
 	  */
 	 World();
@@ -210,6 +134,80 @@ protected:
 		 \param[in] body a body
 	 */
 	 virtual void remove(p2d::Body * body);
+protected:
+	 /*! Current time step
+	  */
+	 double m_time_step;
+	 /*! A splitted time step
+	  */
+	 sad::Maybe<double> m_splitted_time_step;
+	 /*! A common transformer for all shapes
+	  */
+	 p2d::CircleToHullTransformer * m_transformer;
+	 /*! A collision dispatcher for testing an items for collision
+	  */
+	 p2d::CollisionDetector * m_detector;
+	 /*! A callbacks, with related types
+	  */
+	 sad::Vector<types_with_handler_t>  m_callbacks;
+	 /*! Bodies by groups
+	  */
+	 sad::Hash<sad::String, sad::Vector<p2d::Body *> > m_groups;
+	 /*! All bodies for checking all information
+	  */
+	 bodies_to_types_t m_allbodies;
+	 /*! Builds body's inner caches for shapes and acceleration
+	  */
+	 void buildBodyCaches();
+	 /*! Steps all body options, like ghost options and body
+		 \param[in] time a time step size
+	  */
+	 virtual void stepDiscreteChangingValues(double time);
+	 /*! Steps a position and velocities
+		 \param[in] time a time step size
+	  */
+	 virtual void stepPositionsAndVelocities(double time);
+	 /*! Executes a reactions for a world
+		 \param[in] reactions found reactions
+	  */ 
+	 virtual void executeCallbacks(reactions_t & reactions);
+	 /*! Sorts callbacks. Ascending order of time of impact
+		 \param[in] reactions found reactions
+	  */
+	 virtual void sortCallbacks(reactions_t & reactions);
+	 /*! Find specific collision events and populates reactions
+		 \param[in] reactions a reactions
+	  */
+	 virtual void findEvents(reactions_t & reactions);
+	 /*! Finds a specifif collision event and populates reaction
+		 \param[in] reactions a reactions
+		 \param[in] twh  types and handlers
+	  */
+	 virtual void findEvent(reactions_t & reactions, const types_with_handler_t & twh);
+	 /*! Finds and executes callbacks
+	  */
+	 virtual void findAndExecuteCollisionCallbacks();
+	 /*! Adds new handler
+		 \param[in] h handler
+		 \param[in] t1 first type
+		 \param[in] t2 second type
+	  */
+	 virtual void addHandler(
+		 sad::p2d::BasicCollisionHandler * h, 
+		 const sad::String & t1, 
+		 const sad::String & t2
+	  );
+	 /*! Peforms adding a body
+		 \param[in] o body
+	  */
+	 virtual void addNow(p2d::Body * o);
+	 /*! Peforms removing a body
+		 \param[in] o body
+	  */
+	 virtual void removeNow(p2d::Body * o);
+	 /*! Clears a world
+	  */
+	 virtual void clearNow();
 };
 
 }

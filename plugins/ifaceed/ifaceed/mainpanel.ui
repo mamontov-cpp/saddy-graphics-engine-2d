@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>434</width>
-    <height>446</height>
+    <width>444</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>434</width>
-    <height>446</height>
+    <width>444</width>
+    <height>490</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>434</width>
-    <height>446</height>
+    <width>444</width>
+    <height>490</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -127,638 +127,6 @@
      <string>Reload resources</string>
     </property>
    </widget>
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>421</width>
-      <height>371</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>351</width>
-      <height>371</height>
-     </size>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <property name="usesScrollButtons">
-     <bool>false</bool>
-    </property>
-    <property name="documentMode">
-     <bool>false</bool>
-    </property>
-    <property name="tabsClosable">
-     <bool>false</bool>
-    </property>
-    <widget class="QWidget" name="tab_db">
-     <attribute name="title">
-      <string>Database</string>
-     </attribute>
-     <widget class="QPushButton" name="btnDatabaseSave">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>10</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDatabaseLoad">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>70</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Load</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDatabasePropertiesAdd">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>320</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add property</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="txtDatabasePropertyName">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>151</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="cmbDatabasePropertyType">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>320</y>
-        <width>151</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QTableWidget" name="twDatabaseProperties">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>311</width>
-        <height>301</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDatabaseSaveAs">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>40</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save As...</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_scenes">
-     <attribute name="title">
-      <string>Scenes</string>
-     </attribute>
-     <widget class="QListWidget" name="lstScenes">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>311</width>
-        <height>301</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="txtSceneName">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>311</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneAdd">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>320</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>New scene</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnScenesMoveFront">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>40</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Move front</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnScenesMoveBack">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>10</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Move back</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneDelete">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>290</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Delete</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_scene">
-     <attribute name="title">
-      <string>Scene</string>
-     </attribute>
-     <widget class="QListWidget" name="lstSceneObjects">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>311</width>
-        <height>301</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="txtObjectName">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>311</width>
-        <height>20</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneNodeDelete">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>290</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Delete</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneNodeMoveFront">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>40</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Move front</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneNodeMoveBack">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>10</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Move back</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSceneClear">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>220</y>
-        <width>81</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Clear</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_basic_node">
-     <attribute name="title">
-      <string>SceneNode</string>
-     </attribute>
-     <widget class="gui::colorpicker::ColorPicker" name="clpSceneNodeColor" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>130</y>
-        <width>401</width>
-        <height>211</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="gui::rectwidget::RectWidget" name="rwSceneNodeRect" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>401</width>
-        <height>71</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="gui::anglewidget::AngleWidget" name="awSceneNodeAngle" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>401</width>
-        <height>41</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbSceneNodeVisible">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>131</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Visible</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_label">
-     <attribute name="title">
-      <string>Label</string>
-     </attribute>
-     <widget class="QLabel" name="lblLabelText">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>14</y>
-        <width>46</width>
-        <height>13</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Text:</string>
-      </property>
-     </widget>
-     <widget class="QPlainTextEdit" name="txtLabelText">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>30</y>
-        <width>281</width>
-        <height>41</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwLabelFont" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>110</y>
-        <width>391</width>
-        <height>201</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnLabelAdd">
-      <property name="geometry">
-       <rect>
-        <x>250</x>
-        <y>320</y>
-        <width>91</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Add new label</string>
-      </property>
-     </widget>
-     <widget class="gui::fontsizewidget::FontSizeWidget" name="fswLabelFontSize" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>101</width>
-        <height>91</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="lblLineSpacing">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>83</y>
-        <width>81</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Line spacing:</string>
-      </property>
-     </widget>
-     <widget class="QDoubleSpinBox" name="dsbLineSpacingRatio">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>80</y>
-        <width>191</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <double>0.100000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>10.000000000000000</double>
-      </property>
-      <property name="value">
-       <double>1.000000000000000</double>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_sprite">
-     <attribute name="title">
-      <string>Sprite</string>
-     </attribute>
-     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwSpriteSprite" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>80</y>
-        <width>391</width>
-        <height>231</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSpriteMakeBackground">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>320</y>
-        <width>101</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Make background</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnSpriteAdd">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>320</y>
-        <width>101</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add new sprite...</string>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="grpSpriteAddBehaviour">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>251</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>How sprite will be added to scene</string>
-      </property>
-      <widget class="QRadioButton" name="rbPlaceAndRotate">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>17</y>
-         <width>221</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Click will place sprite as whole</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="rbTwoClicksPlaces">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>39</y>
-         <width>291</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Two clicks will define a main diagonal for sprite 
-(ignores an angle)</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QCheckBox" name="cbFlipX">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>20</y>
-        <width>141</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Flip horizontally</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbFlipY">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>50</y>
-        <width>131</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Flip vertically</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_object">
-     <attribute name="title">
-      <string>Object</string>
-     </attribute>
-     <widget class="QPushButton" name="btnCustomObjectAdd">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>320</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add Object</string>
-      </property>
-     </widget>
-     <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwCustomObjectSchemas" native="true">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>10</y>
-        <width>241</width>
-        <height>121</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QTableWidget" name="twCustomObjectProperties">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
-        <width>401</width>
-        <height>171</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="grpCustomObjectAddBehaviour">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>151</width>
-        <height>121</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>How object will be added</string>
-      </property>
-      <widget class="QRadioButton" name="rbCustomObjectPlaceAndRotate">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>17</y>
-         <width>171</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Click will place
-object as whole</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="rbCustomObjectTwoClicksPlaces">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>161</width>
-         <height>81</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Two clicks will
-define a main diagonal
-for object 
-(ignores an angle)</string>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="btnLoadResources">
     <property name="geometry">
      <rect>
@@ -771,6 +139,893 @@ for object
     <property name="text">
      <string>LoadResources</string>
     </property>
+   </widget>
+   <widget class="QTabWidget" name="tabTypes">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>431</width>
+      <height>416</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Objects</string>
+     </attribute>
+     <widget class="QTabWidget" name="tabObjects">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>421</width>
+        <height>376</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>351</width>
+        <height>371</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="tab_db">
+       <attribute name="title">
+        <string>Database</string>
+       </attribute>
+       <widget class="QPushButton" name="btnDatabaseSave">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>10</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnDatabaseLoad">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>70</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Load</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnDatabasePropertiesAdd">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>320</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add property</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtDatabasePropertyName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>151</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cmbDatabasePropertyType">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>320</y>
+          <width>151</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="twDatabaseProperties">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>311</width>
+          <height>301</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnDatabaseSaveAs">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>40</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save As...</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_scenes">
+       <attribute name="title">
+        <string>Scenes</string>
+       </attribute>
+       <widget class="QListWidget" name="lstScenes">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>311</width>
+          <height>301</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtSceneName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>311</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneAdd">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>320</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>New scene</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnScenesMoveFront">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>40</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Move front</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnScenesMoveBack">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>10</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Move back</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneDelete">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>290</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_scene">
+       <attribute name="title">
+        <string>Scene</string>
+       </attribute>
+       <widget class="QListWidget" name="lstSceneObjects">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>311</width>
+          <height>301</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtObjectName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>311</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneNodeDelete">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>290</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneNodeMoveFront">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>40</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Move front</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneNodeMoveBack">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>10</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Move back</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSceneClear">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>220</y>
+          <width>81</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_basic_node">
+       <attribute name="title">
+        <string>SceneNode</string>
+       </attribute>
+       <widget class="gui::colorpicker::ColorPicker" name="clpSceneNodeColor" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>401</width>
+          <height>211</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="gui::rectwidget::RectWidget" name="rwSceneNodeRect" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>401</width>
+          <height>71</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="gui::anglewidget::AngleWidget" name="awSceneNodeAngle" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>90</y>
+          <width>401</width>
+          <height>41</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbSceneNodeVisible">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>131</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Visible</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_label">
+       <attribute name="title">
+        <string>Label</string>
+       </attribute>
+       <widget class="QLabel" name="lblLabelText">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>14</y>
+          <width>46</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Text:</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="txtLabelText">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>30</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwLabelFont" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>391</width>
+          <height>201</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnLabelAdd">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>320</y>
+          <width>91</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Add new label</string>
+        </property>
+       </widget>
+       <widget class="gui::fontsizewidget::FontSizeWidget" name="fswLabelFontSize" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>101</width>
+          <height>91</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblLineSpacing">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>83</y>
+          <width>81</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Line spacing:</string>
+        </property>
+       </widget>
+       <widget class="QDoubleSpinBox" name="dsbLineSpacingRatio">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>80</y>
+          <width>191</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>10.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_sprite">
+       <attribute name="title">
+        <string>Sprite</string>
+       </attribute>
+       <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwSpriteSprite" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>391</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSpriteMakeBackground">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>101</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Make background</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSpriteAdd">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>320</y>
+          <width>101</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add new sprite...</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="grpSpriteAddBehaviour">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>251</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>How sprite will be added to scene</string>
+        </property>
+        <widget class="QRadioButton" name="rbPlaceAndRotate">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>17</y>
+           <width>221</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Click will place sprite as whole</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="rbTwoClicksPlaces">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>39</y>
+           <width>291</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Two clicks will define a main diagonal for sprite 
+(ignores an angle)</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QCheckBox" name="cbFlipX">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>20</y>
+          <width>141</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Flip horizontally</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbFlipY">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>50</y>
+          <width>131</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Flip vertically</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_object">
+       <attribute name="title">
+        <string>Object</string>
+       </attribute>
+       <widget class="QPushButton" name="btnCustomObjectAdd">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>320</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Object</string>
+        </property>
+       </widget>
+       <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwCustomObjectSchemas" native="true">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>10</y>
+          <width>241</width>
+          <height>121</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="twCustomObjectProperties">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>401</width>
+          <height>171</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="grpCustomObjectAddBehaviour">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>151</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>How object will be added</string>
+        </property>
+        <widget class="QRadioButton" name="rbCustomObjectPlaceAndRotate">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>17</y>
+           <width>171</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Click will place
+object as whole</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="rbCustomObjectTwoClicksPlaces">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>161</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Two clicks will
+define a main diagonal
+for object 
+(ignores an angle)</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Ways</string>
+     </attribute>
+     <widget class="QGroupBox" name="grpWays">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>221</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Ways</string>
+      </property>
+      <widget class="QListWidget" name="lstWays">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>15</y>
+         <width>201</width>
+         <height>281</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="txtWayName">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>300</y>
+         <width>91</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dsbWayTotalTime">
+       <property name="geometry">
+        <rect>
+         <x>61</x>
+         <y>330</y>
+         <width>91</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <double>10000.000000000000000</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblWayName">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>300</y>
+         <width>46</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Name:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblWayTotalTime">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>330</y>
+         <width>46</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Total time:</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="cbWayClosed">
+       <property name="geometry">
+        <rect>
+         <x>11</x>
+         <y>356</y>
+         <width>141</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Closed?</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayAdd">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>299</y>
+         <width>51</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayRemove">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>330</y>
+         <width>51</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="grpWayPoints">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>0</y>
+        <width>181</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Way Points</string>
+      </property>
+      <widget class="QListWidget" name="lstWayPoints">
+       <property name="geometry">
+        <rect>
+         <x>5</x>
+         <y>16</y>
+         <width>171</width>
+         <height>280</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblWayPointX">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>298</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>X:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lblWayPointY">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>330</y>
+         <width>21</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y:</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dsbWayPointX">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>300</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="dsbWayPointY">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>330</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayPointAdd">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>300</y>
+         <width>51</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayPointRemove">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>330</y>
+         <width>51</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayPointMoveBack">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>356</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Move back</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnWayPointMoveFront">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>356</y>
+         <width>79</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Move front</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
    </widget>
   </widget>
  </widget>
