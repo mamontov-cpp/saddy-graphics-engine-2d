@@ -50,10 +50,12 @@ void gui::RenderWays::_process()
 				{
 					sad::Sprite2D * s = m_red_sprite;
 					sad::AColor* c = &m_red;
+					bool selected = false;
 					if (way == m_panel->editor()->shared()->selectedWay())
 					{
 						s = m_default_sprite;
 						c = &m_default;
+						selected = true;
 					}
 					const sad::Vector<sad::Point2D>& pts = way->wayPoints();
 					for(int i = 1; i < pts.size(); i++)
@@ -68,6 +70,10 @@ void gui::RenderWays::_process()
 					{
 						s->setMiddle(pts[i]);
 						s->render();
+						if (selected && i == m_panel->UI()->lstWayPoints->currentRow())
+						{
+							sad::Renderer::ref()->render()->rectangle(s->area(), *c);
+						}
 					}
 				}
 			}
