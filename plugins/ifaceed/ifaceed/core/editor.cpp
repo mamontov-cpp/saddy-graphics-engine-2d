@@ -32,6 +32,7 @@
 #include "core/borders/selectionborder.h"
 
 #include "gui/eventfilter.h"
+#include "gui/renderways.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -401,6 +402,11 @@ void core::Editor::start()
 	if (mustquit)
 	{
 		 QTimer::singleShot(0, this->panel(), SLOT(close()));
+	}
+	else
+	{
+		gui::RenderWays* ways = new gui::RenderWays(m_mainwindow);
+		sad::Renderer::ref()->pipeline()->append(ways);
 	}
 }
 

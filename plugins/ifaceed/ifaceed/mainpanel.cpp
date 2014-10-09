@@ -21,6 +21,7 @@
 #include "gui/sprite2dactions.h"
 #include "gui/customobjectactions.h"
 #include "gui/updateelement.h"
+#include "gui/renderways.h"
 
 #include <geometry2d.h>
 #include <keymouseconditions.h>
@@ -1389,9 +1390,11 @@ void MainPanel::load()
 		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
 		{
 			m_editor->shared()->setFileName(name);
+			sad::Renderer::ref()->lockRendering();
 			m_editor->cleanDatabase();
 			sad::Renderer::ref()->addDatabase("", tmp);
 			this->viewDatabase();
+			sad::Renderer::ref()->unlockRendering();
 		}
 		else
 		{
@@ -1427,9 +1430,11 @@ void MainPanel::loadResources()
             }
             else
             {
+				sad::Renderer::ref()->lockRendering();
                 m_editor->cleanDatabase();
                 sad::Renderer::ref()->addDatabase("", new sad::db::Database());
                 this->viewDatabase();
+				sad::Renderer::ref()->unlockRendering();
 
                 sad::Renderer::ref()->removeTree("");
                 sad::Renderer::ref()->addTree("", tree);

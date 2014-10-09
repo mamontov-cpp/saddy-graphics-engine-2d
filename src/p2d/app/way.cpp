@@ -98,6 +98,10 @@ void sad::p2d::app::Way::removePoint(int i)
 	}
 }
 
+bool sad::p2d::app::Way::closed() const
+{
+	return m_closed;
+}
 
 void sad::p2d::app::Way::makeClosed()
 {

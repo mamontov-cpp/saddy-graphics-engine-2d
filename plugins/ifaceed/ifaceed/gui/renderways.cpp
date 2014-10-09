@@ -1,0 +1,76 @@
+#include "renderways.h"
+
+#include "../mainpanel.h"
+
+#include "../core/editor.h"
+#include "../core/shared.h"
+
+#include <renderer.h>
+
+#include <p2d/app/way.h>
+
+gui::RenderWays::RenderWays(MainPanel* panel) 
+: m_panel(panel), 
+m_init(false),
+m_default(0, 255, 255, 0),
+m_red(255, 0, 0, 0)
+{
+	m_default_sprite = new sad::Sprite2D();
+	m_red_sprite = new sad::Sprite2D();
+}
+
+gui::RenderWays::~RenderWays()
+{
+	delete m_default_sprite;
+	delete m_red_sprite;
+}
+
+void gui::RenderWays::_process()
+{
+	if (!m_init)
+	{
+		m_init = true;
+		m_default_sprite->setTreeName(sad::Renderer::ref(), "icons");
+		m_default_sprite->set("default");
+		m_red_sprite->setTreeName(sad::Renderer::ref(), "icons");
+		m_red_sprite->set("default-red");
+	}
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	if (db && m_panel->editor()->isInWaysEditingState())
+	{
+		sad::db::Table* t  = db->table("ways");
+		if (t)
+		{
+			sad::Vector<sad::db::Object*> objects;
+			t->objects(objects);
+			for(size_t i = 0; i < objects.size(); i++)
+			{
+				sad::p2d::app::Way* way = static_cast<sad::p2d::app::Way*>(objects[i]);
+				if (way->Active)
+				{
+					sad::Sprite2D * s = m_red_sprite;
+					sad::AColor* c = &m_red;
+					if (way == m_panel->editor()->shared()->selectedWay())
+					{
+						s = m_default_sprite;
+						c = &m_default;
+					}
+					const sad::Vector<sad::Point2D>& pts = way->wayPoints();
+					for(int i = 1; i < pts.size(); i++)
+					{
+						sad::Renderer::ref()->render()->line(pts[i-1], pts[i], *c);
+					}
+					if (way->closed() && pts.size() > 1)
+					{
+						sad::Renderer::ref()->render()->line(pts[0], pts[pts.size() - 1], *c);
+					}
+					for(int i = 0; i < pts.size(); i++)
+					{
+						s->setMiddle(pts[i]);
+						s->render();
+					}
+				}
+			}
+		}
+	}
+}
