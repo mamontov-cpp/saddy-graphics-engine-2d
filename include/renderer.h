@@ -382,6 +382,9 @@ protected:
 	/*! An inner renderer databases
 	 */
 	sad::Hash<sad::String, sad::db::Database*> m_databases;
+	/*! A lock for database operations
+	 */
+	sad::Mutex m_database_lock;
 	/*! A list for loaders for textures
 	 */
 	sad::PtrHash<sad::String, sad::imageformats::Loader> m_texture_loaders;

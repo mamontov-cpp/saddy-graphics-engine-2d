@@ -2,6 +2,7 @@
 
 #include "scene.h"
 #include "window.h"
+#include "sadscopedlock.h"
 #include "glcontext.h"
 #include "mainloop.h"
 #include "mousecursor.h"
@@ -599,6 +600,7 @@ bool sad::Renderer::isOwnThread() const
 
 bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
 {
+	sad::ScopedLock lock(&m_database_lock);
 	assert( database );
 	if (m_databases.contains(name))
 	{
@@ -611,6 +613,7 @@ bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * da
 
 void sad::Renderer::removeDatabase(const sad::String & name)
 {
+	sad::ScopedLock lock(&m_database_lock);
 	if (m_databases.contains(name))
 	{
 		delete m_databases[name];
@@ -620,6 +623,7 @@ void sad::Renderer::removeDatabase(const sad::String & name)
 
 sad::db::Database * sad::Renderer::database(const sad::String & name) const
 {
+	sad::ScopedLock lock(&(const_cast<sad::Renderer*>(this)->m_database_lock));
 	if (m_databases.contains(name))
 	{
 		return m_databases[name];
