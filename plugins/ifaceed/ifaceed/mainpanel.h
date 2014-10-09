@@ -32,8 +32,9 @@ class SceneNodeActions;
 class LabelActions;
 class Sprite2DActions;
 class CustomObjectActions;
+class WayActions;
 }
-class AbstractScreenObject;
+
 
 
 /*! A main window to edit level objects
@@ -81,6 +82,10 @@ public:
      *  \return actions for custom object 
      */
 	gui::CustomObjectActions* customObjectActions() const;
+	/*! Returns actions for way editing
+	 *  \return actions for way editing
+	 */
+	gui::WayActions* wayActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -286,6 +291,9 @@ protected:
 	/*! An actions, linked to custom object editing
 	 */
 	gui::CustomObjectActions* m_custom_object_actions;
+	/*! An actions, linked to way editing 
+	 */
+	gui::WayActions* m_way_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;

@@ -20,6 +20,7 @@
 #include "gui/labelactions.h"
 #include "gui/sprite2dactions.h"
 #include "gui/customobjectactions.h"
+#include "gui/wayactions.h"
 #include "gui/updateelement.h"
 #include "gui/renderways.h"
 
@@ -98,6 +99,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_custom_object_actions = new gui::CustomObjectActions();
 	m_custom_object_actions->setPanel(this);
+
+	m_way_actions = new gui::WayActions();
+	m_way_actions->setPanel(this);
 }
 
 
@@ -107,6 +111,7 @@ MainPanel::~MainPanel()
 	delete m_sprite2d_actions;
 	delete m_scene_node_actions;
 	delete m_custom_object_actions;
+	delete m_way_actions;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -423,6 +428,11 @@ gui::Sprite2DActions* MainPanel::sprite2DActions() const
 gui::CustomObjectActions* MainPanel::customObjectActions() const
 {
 	return m_custom_object_actions;
+}
+
+gui::WayActions* MainPanel::wayActions() const
+{
+	return m_way_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
