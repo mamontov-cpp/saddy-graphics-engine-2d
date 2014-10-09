@@ -72,6 +72,9 @@ public:
 		\param[in] i an index for point
 	 */
 	void removePoint(int i);
+	/*! Returns, true, whether way is closed
+	 */
+	bool closed() const;
 	/*! Makes a way closed, like circle
 	 */
 	void makeClosed();
