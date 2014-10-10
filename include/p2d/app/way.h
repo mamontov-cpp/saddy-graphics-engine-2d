@@ -58,16 +58,21 @@ public:
 		\param[in] step a time step
 		\param[out] p a current point
 	 */
-	void step(WayLink * link, double step, p2d::Point & p);
+	void step(WayLink * link, double step, sad::p2d::Point & p);
 	/*! Sets i-th point to another point
 		\param[in] i an index for point
 		\param[in] p point
 	 */
-	void setPoint(int i,  const p2d::app::WayPoint & p);
+	void setPoint(int i,  const sad::p2d::app::WayPoint & p);
 	/*! Add new point
 		\param[in] p point
 	 */
-	void addPoint(const p2d::app::WayPoint & p);	
+	void addPoint(const sad::p2d::app::WayPoint & p);
+	/*! Inserts point in specified position
+		\param[in] i a position
+		\param[in] p point
+	 */
+	void insertPoint(int i, const sad::p2d::app::WayPoint& p);
 	/*! Removes a point
 		\param[in] i an index for point
 	 */

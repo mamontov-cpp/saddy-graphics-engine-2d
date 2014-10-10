@@ -88,6 +88,14 @@ void sad::p2d::app::Way::addPoint(const sad::p2d::app::WayPoint & p)
 	}
 }
 
+void sad::p2d::app::Way::insertPoint(int i, const sad::p2d::app::WayPoint& p)
+{
+	m_waypoints.insert(p, i);
+	if (m_constructed)
+	{
+		construct();
+	}
+}
 
 void sad::p2d::app::Way::removePoint(int i)
 {
