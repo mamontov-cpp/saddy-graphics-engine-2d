@@ -20,6 +20,8 @@
 
 #include <input/events.h>
 
+#include <p2d/app/way.h>
+
 #pragma once
 
 namespace core
@@ -198,6 +200,16 @@ public:
 		\param[in] s scene
 	 */
 	void updateSceneNodeName(sad::SceneNode* s);
+	/*! Adds last way to end of items
+		\param[in] way a selected way
+	 */
+	void addLastWayToEnd(sad::p2d::app::Way* way);
+	/*! Removes last way from way list
+	 */
+	void removeLastWayFromWayList();
+	/*! Returns viewable name for a point
+	 */
+	QString nameForAPoint(const sad::Point2D& p);
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */

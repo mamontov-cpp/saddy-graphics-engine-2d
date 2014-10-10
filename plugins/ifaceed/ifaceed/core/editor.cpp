@@ -269,6 +269,8 @@ void core::Editor::cleanDatabase()
 	sad::Renderer::ref()->clear();
 	m_mainwindow->UI()->lstSceneObjects->clear();
 	m_mainwindow->UI()->lstScenes->clear();
+	m_mainwindow->UI()->lstWays->clear();
+	m_mainwindow->UI()->lstWayPoints->clear();
 	m_mainwindow->clearDatabaseProperties();
 	sad::Renderer::ref()->removeDatabase("");
 }
