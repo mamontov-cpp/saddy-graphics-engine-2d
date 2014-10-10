@@ -141,7 +141,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/borders/deletehotspot.h \
     ifaceed/core/borders/resizehotspot.h \
     ifaceed/core/selection.h \
-    ifaceed/reloadfilelist.h
+    ifaceed/reloadfilelist.h \
+    ifaceed/gui/renderways.h \
+    ifaceed/gui/wayactions.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -238,7 +240,9 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/borders/deletehotspot.cpp \
     ifaceed/core/borders/resizehotspot.cpp \
     ifaceed/core/selection.cpp \
-    ifaceed/reloadfilelist.cpp
+    ifaceed/reloadfilelist.cpp \
+    ifaceed/gui/renderways.cpp \
+    ifaceed/gui/wayactions.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
