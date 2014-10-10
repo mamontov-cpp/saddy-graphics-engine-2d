@@ -207,9 +207,27 @@ public:
 	/*! Removes last way from way list
 	 */
 	void removeLastWayFromWayList();
+	/*! Inserts way to a way list
+		\param[in] s scene node
+		\param[in] position a position in scene list
+	 */
+	void insertWayToWayList(sad::p2d::app::Way* s, int position);
+	/*! Removes way from a way list
+		\param[in] position a position, where scene must be removed
+	 */
+	void removeWayFromWayList(int position);
+	/*! Removes way from a way list
+		\param[in] s scene node
+	 */
+	void removeWayFromWayList(sad::p2d::app::Way* s);
+	/*! Finds way in way list
+		\param[in] s scene
+		\return scene row (-1 if not found)
+	 */
+	int findWayInList(sad::p2d::app::Way* s);
 	/*! Returns viewable name for a point
 	 */
-	QString nameForAPoint(const sad::Point2D& p);
+	QString nameForPoint(const sad::Point2D& p);
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */
