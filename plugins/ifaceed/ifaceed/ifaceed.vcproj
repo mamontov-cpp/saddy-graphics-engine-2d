@@ -761,6 +761,10 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="way"
+					>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -3162,6 +3166,10 @@
 						RelativePath=".\history\customobject\customobjectchangeschema.h"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="way"
+					>
 				</Filter>
 			</Filter>
 		</Filter>
