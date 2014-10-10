@@ -226,6 +226,8 @@ public:
 	 */
 	int findWayInList(sad::p2d::app::Way* s);
 	/*! Returns viewable name for a point
+		\param[in] p point
+		\return name for viewable point
 	 */
 	QString nameForPoint(const sad::Point2D& p);
 	/*! Returns check box for visibility property
