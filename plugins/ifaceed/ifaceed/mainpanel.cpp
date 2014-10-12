@@ -60,6 +60,7 @@
 
 Q_DECLARE_METATYPE(sad::Scene*)
 Q_DECLARE_METATYPE(sad::SceneNode*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 
 //====================  PUBLIC METHODS HERE ====================
 
@@ -743,6 +744,85 @@ void MainPanel::updateSceneNodeName(sad::SceneNode* s)
 		ui.txtSceneName->setText(s->objectName().c_str());
 		ui.txtSceneName->blockSignals(b);
 	}
+}
+
+void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
+{
+    ui.lstWays->addItem(this->viewableObjectName(way));
+    QVariant v;
+    v.setValue(way);
+    ui.lstWays->item(ui.lstWays->count()-1)->setData(Qt::UserRole, v);
+}
+
+void MainPanel::removeLastWayFromWayList()
+{
+    if (ui.lstWays->count() > 0)
+    {
+        QVariant v = ui.lstWays->item(ui.lstWays->count() - 1)->data(Qt::UserRole);
+        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+        if (w == m_editor->shared()->selectedWay())
+        {
+            m_editor->shared()->setSelectedWay(NULL);
+            m_editor->machine()->enterState("ways/idle");
+        }
+        delete ui.lstWays->takeItem(ui.lstWays->count() - 1);
+    }
+}
+
+void MainPanel::insertWayToWayList(sad::p2d::app::Way* s, int position)
+{
+    QListWidgetItem* i = new QListWidgetItem();
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    ui.lstWays->insertItem(position, i);
+}
+
+void MainPanel::removeWayFromWayList(int position)
+{
+    QVariant v = ui.lstWays->item(position)->data(Qt::UserRole);
+    sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+    if (w == m_editor->shared()->selectedWay())
+    {
+        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->machine()->enterState("ways/idle");
+    }
+    delete ui.lstWays->takeItem(position);
+}
+
+void MainPanel::removeWayFromWayList(sad::p2d::app::Way* s)
+{
+    int pos = this->findWayInList(s);
+    if (s == m_editor->shared()->selectedWay())
+    {
+        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->machine()->enterState("ways/idle");
+    }
+    if (pos >= 0)
+    {
+        delete ui.lstWays->takeItem(pos);
+    }
+}
+
+int MainPanel::findWayInList(sad::p2d::app::Way* s)
+{
+    for(int i = 0; i < ui.lstWays->count(); i++)
+    {
+        QVariant v = ui.lstWays->item(i)->data(Qt::UserRole);
+        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+        if (w == s)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+QString MainPanel::nameForPoint(const sad::Point2D& p) const
+{
+    return QString("(%1,%2)")
+           .arg(static_cast<int>(p.x()))
+           .arg(static_cast<int>(p.y()));
 }
 
 QCheckBox* MainPanel::visibilityCheckbox() const
