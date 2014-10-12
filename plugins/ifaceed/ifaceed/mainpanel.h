@@ -229,7 +229,7 @@ public:
 		\param[in] p point
 		\return name for viewable point
 	 */
-	QString nameForPoint(const sad::Point2D& p);
+    QString nameForPoint(const sad::Point2D& p) const;
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */
