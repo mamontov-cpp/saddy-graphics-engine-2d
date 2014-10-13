@@ -36,6 +36,9 @@ public slots:
     /*! Adds new way to a list
      */
     void addWay();
+    /*! Remove ways from a list
+     */
+    void removeWay();
     /*! Called, when a way changed in list
      */
     void wayChanged(int i);
