@@ -288,15 +288,21 @@ public:
 	 */
 	void clearDatabaseProperties();
 public slots:
-	/*! Fires signal for updating UI to selected item property values
+    /*! Fires signal for updating UI from selected item
 	 */
 	void updateUIForSelectedItem();
-	/*! Updates values for updating UI to selected item property values
+    /*! Updates UI views with values from selected item
 	 */
 	void updateUIForSelectedItemNow();
     /*! Updates value for updating custom object property in UI now
      */
     void updateCustomObjectPropertyValueNow();
+    /*! Fires signal for updating UI from selected way
+     */
+    void updateUIForSelectedWay();
+    /*! Updates UI, using properties from current way
+     */
+    void updateUIForSelectedWayNow();
 protected:
     /*! Stores all widget for main panel
      */

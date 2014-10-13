@@ -480,6 +480,14 @@ void MainPanel::viewDatabase()
 	{
 		addSceneToSceneList(scenes[i]);
 	}
+
+    sad::Vector<sad::db::Object*> wayslist;
+    db->table("ways")->objects(wayslist);
+    for(unsigned int i = 0; i < wayslist.size(); i++)
+    {
+        sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
+        addLastWayToEnd(w);
+    }
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const
@@ -990,6 +998,27 @@ void MainPanel::updateCustomObjectPropertyValueNow()
     if (d)
     {
         d->set(m_custom_object_property_value);
+    }
+}
+
+void MainPanel::updateUIForSelectedWay()
+{
+    QTimer::singleShot(0, this, SLOT(updateUIForSelectedWayNow()));
+}
+
+void MainPanel::updateUIForSelectedWayNow()
+{
+    if (m_editor->shared()->selectedWay())
+    {
+        ui.lstWayPoints->clear();
+        sad::p2d::app::Way* p = m_editor->shared()->selectedWay();
+        for(size_t i = 0; i < p->wayPoints().size(); ++i)
+        {
+            ui.lstWayPoints->addItem(this->nameForPoint(p->wayPoints()[i]));
+        }
+        invoke_blocked(ui.txtWayName, &QLineEdit::setText, p->objectName().c_str());
+        invoke_blocked(ui.dsbWayTotalTime, &QDoubleSpinBox::setValue, p->totalTime());
+        invoke_blocked(ui.cbWayClosed, &QCheckBox::setCheckState,  (p->closed()) ? Qt::Checked : Qt::Unchecked);
     }
 }
 

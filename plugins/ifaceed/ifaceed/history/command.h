@@ -26,7 +26,7 @@ public:
 		 \param[in] ob an observer for looking for command
 	  */
 	 virtual void rollback(core::Editor * ob = NULL)=0;
-	 /** Descructor
+     /*! Must be inherited
 	  */
 	 virtual ~Command();
 };
