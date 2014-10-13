@@ -32,6 +32,13 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+public slots:
+    /*! Adds new way to a list
+     */
+    void addWay();
+    /*! Called, when a way changed in list
+     */
+    void wayChanged(int i);
 private:
 	/*! An panel, which actions are belong to
 	 */
