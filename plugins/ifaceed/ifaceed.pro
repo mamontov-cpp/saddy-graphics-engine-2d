@@ -51,7 +51,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/quitreason.h \
     ifaceed/core/saddythread.h \
     ifaceed/core/shared.h \
-    ifaceed/core/state.h \
     ifaceed/acolordialog.h \
     ifaceed/macro.h \
     ifaceed/qwwlongspinbox.h \
@@ -61,7 +60,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/command.h \
     ifaceed/history/history.h \
     ifaceed/history/database/newproperty.h \
-    ifaceed/history/database/propertychanged.h \
     ifaceed/history/database/removeproperty.h \
     ifaceed/gui/anglewidget/anglewidget.h \
     ifaceed/gui/colorpicker/colorpicker.h \
@@ -107,7 +105,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/scenenodeactions.h \
     ifaceed/core/borders/activeborder.h \
     ifaceed/core/borders/border.h \
-    ifaceed/core/borders/hotspots.h \
     ifaceed/core/borders/selectionborder.h \
     ifaceed/history/label/changefontname.h \
     ifaceed/closuremethodcall.h \
@@ -143,7 +140,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/core/selection.h \
     ifaceed/reloadfilelist.h \
     ifaceed/gui/renderways.h \
-    ifaceed/gui/wayactions.h
+    ifaceed/gui/wayactions.h \
+    ifaceed/history/ways/waysnew.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -242,7 +240,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/core/selection.cpp \
     ifaceed/reloadfilelist.cpp \
     ifaceed/gui/renderways.cpp \
-    ifaceed/gui/wayactions.cpp
+    ifaceed/gui/wayactions.cpp \
+    ifaceed/history/ways/waysnew.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
