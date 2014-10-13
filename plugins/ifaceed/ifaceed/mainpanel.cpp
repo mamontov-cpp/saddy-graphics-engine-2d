@@ -407,6 +407,8 @@ void MainPanel::setEditor(core::Editor* editor)
 
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWay()));
+    connect(ui.btnWayRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWay()));
+
 }
 
 core::Editor* MainPanel::editor() const
@@ -782,7 +784,7 @@ void MainPanel::removeLastWayFromWayList()
 
 void MainPanel::insertWayToWayList(sad::p2d::app::Way* s, int position)
 {
-    QListWidgetItem* i = new QListWidgetItem();
+    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
     QVariant v;
     v.setValue(s);
     i->setData(Qt::UserRole, v);

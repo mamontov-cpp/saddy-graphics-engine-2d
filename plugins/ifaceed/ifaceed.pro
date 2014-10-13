@@ -141,7 +141,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/reloadfilelist.h \
     ifaceed/gui/renderways.h \
     ifaceed/gui/wayactions.h \
-    ifaceed/history/ways/waysnew.h
+    ifaceed/history/ways/waysnew.h \
+    ifaceed/history/ways/waysremove.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -241,7 +242,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/reloadfilelist.cpp \
     ifaceed/gui/renderways.cpp \
     ifaceed/gui/wayactions.cpp \
-    ifaceed/history/ways/waysnew.cpp
+    ifaceed/history/ways/waysnew.cpp \
+    ifaceed/history/ways/waysremove.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

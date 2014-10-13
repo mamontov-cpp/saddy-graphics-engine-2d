@@ -5,6 +5,7 @@
 #include "../core/editor.h"
 
 #include "../history/ways/waysnew.h"
+#include "../history/ways/waysremove.h"
 
 #include <renderer.h>
 
@@ -51,6 +52,19 @@ void gui::WayActions::addWay()
     m_panel->editor()->machine()->enterState("ways/selected");
     m_panel->editor()->shared()->setSelectedWay(w);
     m_panel->UI()->lstWays->setCurrentRow(m_panel->UI()->lstWays->count() - 1);
+}
+
+void gui::WayActions::removeWay()
+{
+    int row = m_panel->UI()->lstWays->currentRow();
+    if (row > -1)
+    {
+        QVariant variant = m_panel->UI()->lstWays->item(row)->data(Qt::UserRole);
+        sad::p2d::app::Way* w = variant.value<sad::p2d::app::Way*>();
+        history::ways::Remove* c = new history::ways::Remove(w, row);
+        c->commit(m_panel->editor());
+        m_panel->editor()->history()->add(c);
+    }
 }
 
 void gui::WayActions::wayChanged(int i)
