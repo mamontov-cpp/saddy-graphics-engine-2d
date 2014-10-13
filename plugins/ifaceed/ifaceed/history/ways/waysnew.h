@@ -16,7 +16,7 @@ namespace ways
 /*! \class history::ways::New
  *   A simple command for adding a new way to list
  */
-class New
+class New: public history::Command
 {
 public:
     /*! Creates new command
