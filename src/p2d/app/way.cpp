@@ -111,14 +111,31 @@ bool sad::p2d::app::Way::closed() const
 	return m_closed;
 }
 
+void sad::p2d::app::Way::setClosed(bool b)
+{
+	m_closed = b;
+	if (m_constructed)
+	{
+		construct();
+	}
+}
+
 void sad::p2d::app::Way::makeClosed()
 {
 	m_closed = true;
+	if (m_constructed)
+	{
+		construct();
+	}
 }
 
 void sad::p2d::app::Way::makeOpen()
 {
 	m_closed = false;
+	if (m_constructed)
+	{
+		construct();
+	}
 }
 
 void sad::p2d::app::Way::setTotalTime(double time)
@@ -199,7 +216,10 @@ sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
 		);
 		SadP2DAppWaySchema->add(
 			"closed", 
-			define_field(&sad::p2d::app::Way::m_closed)
+			new sad::db::MethodPair<sad::p2d::app::Way, bool>(
+				&sad::p2d::app::Way::closed,
+				&sad::p2d::app::Way::setClosed
+			)
 		);
 		SadP2DAppWaySchema->add(
 			"waypoints", 

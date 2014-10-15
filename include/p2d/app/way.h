@@ -80,6 +80,9 @@ public:
 	/*! Returns, true, whether way is closed
 	 */
 	bool closed() const;
+	/*! Sets, whether way open or closed
+	 */
+	void setClosed(bool b);
 	/*! Makes a way closed, like circle
 	 */
 	void makeClosed();
