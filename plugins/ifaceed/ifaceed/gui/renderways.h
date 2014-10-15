@@ -26,6 +26,9 @@ public:
         \param[in] editor editor
 	 */
     RenderWays(core::Editor* editor);
+	/*! Enables rendering of ways
+	 */
+	void enable();
 	/*! Can be inherited
 	 */
 	virtual ~RenderWays();
@@ -39,6 +42,9 @@ protected:
 	/*! Whether sprites are init
 	 */
 	bool m_init;
+	/*! Whether rendering of ways is enabled
+	 */
+	bool m_enabled;
 	/*! A default sprite to render points
 	 */
 	sad::Sprite2D* m_default_sprite;

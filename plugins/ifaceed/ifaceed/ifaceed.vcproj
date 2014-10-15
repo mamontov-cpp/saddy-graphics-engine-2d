@@ -327,10 +327,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\gui\wayactions.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\wwglobal_p.cpp"
 				>
 			</File>
@@ -459,6 +455,10 @@
 				</File>
 				<File
 					RelativePath=".\gui\sprite2dactions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\gui\wayactions.cpp"
 					>
 				</File>
 				<Filter
@@ -762,8 +762,36 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="way"
+					Name="ways"
 					>
+					<File
+						RelativePath=".\history\ways\wayschangeclosed.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayschangename.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayschangetotaltime.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\waysnew.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\waysremove.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointchange.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointnew.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -3168,8 +3196,40 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="way"
+					Name="ways"
 					>
+					<File
+						RelativePath=".\history\ways\wayschangeclosed.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayschangename.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayschangeproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayschangetotaltime.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\waysnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\waysremove.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointchange.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointnew.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>

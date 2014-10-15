@@ -13,7 +13,7 @@ namespace history
 namespace ways
 {
 
-/*! \class history::ways::New
+/*! \class history::ways::WayPointNew
  *   A simple command for adding a new way to list
  */
 class WayPointNew: public history::Command

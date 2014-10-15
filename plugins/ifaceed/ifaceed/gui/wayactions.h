@@ -61,6 +61,14 @@ public slots:
         \param[in] i point index
      */
     void viewPoint(int i);
+	/*! Called, when X coordinate is changed for point
+		\param[in] value a new value for X coordinate
+	 */
+	void wayPointXChanged(double value);
+	/*! Called, when Y coordinate is changed for point
+		\param[in] value a new value for Y coordinate
+	 */
+	void wayPointYChanged(double value);
 private:
 	/*! An panel, which actions are belong to
 	 */
