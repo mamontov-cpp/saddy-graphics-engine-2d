@@ -37,6 +37,11 @@
 
 class MainPanel;
 
+namespace gui
+{
+class RenderWays;
+}
+
 namespace core
 {
 class Selection;
@@ -110,6 +115,10 @@ public:
 		\return selection border
 	 */
 	core::borders::SelectionBorder* selectionBorder() const;
+    /*! Returns way to render elements
+        \return stuff for rendering ways
+     */
+    gui::RenderWays* renderWays() const;
 	/*! Returns current selection algorithm for editor
 		\return selection
 	 */
@@ -220,6 +229,9 @@ protected:
 	/*! A selection border, which is used for higlighting current item
 	 */
 	core::borders::SelectionBorder* m_selection_border;
+    /*! A way to render ways
+     */
+    gui::RenderWays* m_renderways;
 	/*! Current selection algorithm
 	 */
 	core::Selection* m_selection;

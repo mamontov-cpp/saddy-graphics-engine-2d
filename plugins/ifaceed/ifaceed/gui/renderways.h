@@ -7,6 +7,7 @@
 #include <pipeline/pipelineprocess.h>
 #include <sprite2d.h>
 #include <sadcolor.h>
+#include <orthographiccamera.h>
 
 namespace core
 {
@@ -29,6 +30,9 @@ public:
 	 */
 	virtual ~RenderWays();
 protected:
+    /*! A scene
+     */
+    sad::Scene* m_scene;
 	/*! A panel for rendering ways
 	 */
     core::Editor * m_editor;

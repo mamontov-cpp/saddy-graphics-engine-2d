@@ -107,8 +107,8 @@ core::Editor::Editor()
 
 	sad::Renderer::ref()->pipeline()->append(m_selection_border);
 	sad::Renderer::ref()->pipeline()->append(m_active_border);
-    gui::RenderWays* ways = new gui::RenderWays(this);
-    sad::Renderer::ref()->pipeline()->append(ways);
+    m_renderways = new gui::RenderWays(this);
+    sad::Renderer::ref()->pipeline()->append(m_renderways);
 
 
 	m_selection = new core::Selection();
@@ -198,6 +198,11 @@ core::borders::ActiveBorder* core::Editor::activeBorder() const
 core::borders::SelectionBorder* core::Editor::selectionBorder() const
 {
 	return m_selection_border;
+}
+
+gui::RenderWays* core::Editor::renderWays() const
+{
+    return m_renderways;
 }
 
 core::Selection* core::Editor::selection() const

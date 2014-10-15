@@ -18,6 +18,7 @@ m_init(false),
 m_default(0, 255, 255, 0),
 m_red(255, 0, 0, 0)
 {
+    m_scene = new sad::Scene();
 	m_default_sprite = new sad::Sprite2D();
 	m_red_sprite = new sad::Sprite2D();
 }
@@ -26,10 +27,12 @@ gui::RenderWays::~RenderWays()
 {
 	delete m_default_sprite;
 	delete m_red_sprite;
+    delete m_scene;
 }
 
 void gui::RenderWays::_process()
 {
+    m_scene->setRenderer(sad::Renderer::ref());
     if (m_editor->panel() == NULL)
     {
         return;
@@ -45,6 +48,7 @@ void gui::RenderWays::_process()
 	sad::db::Database* db = sad::Renderer::ref()->database("");
     if (db && m_editor->isInWaysEditingState())
 	{
+        m_scene->camera().apply();
 		sad::db::Table* t  = db->table("ways");
 		if (t)
 		{
