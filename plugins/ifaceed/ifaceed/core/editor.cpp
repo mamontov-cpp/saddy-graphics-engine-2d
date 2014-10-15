@@ -107,6 +107,8 @@ core::Editor::Editor()
 
 	sad::Renderer::ref()->pipeline()->append(m_selection_border);
 	sad::Renderer::ref()->pipeline()->append(m_active_border);
+    gui::RenderWays* ways = new gui::RenderWays(this);
+    sad::Renderer::ref()->pipeline()->append(ways);
 
 
 	m_selection = new core::Selection();
@@ -402,12 +404,7 @@ void core::Editor::start()
 	if (mustquit)
 	{
 		 QTimer::singleShot(0, this->panel(), SLOT(close()));
-	}
-	else
-	{
-		gui::RenderWays* ways = new gui::RenderWays(m_mainwindow);
-		sad::Renderer::ref()->pipeline()->append(ways);
-	}
+	}	
 }
 
 void core::Editor::undo()

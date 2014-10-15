@@ -8,7 +8,10 @@
 #include <sprite2d.h>
 #include <sadcolor.h>
 
-class MainPanel;
+namespace core
+{
+class Editor;
+}
 
 namespace gui
 {
@@ -19,15 +22,16 @@ class RenderWays: public sad::pipeline::AbstractProcess
 {
 public:
 	/*! Construct new delegate for rendering
+        \param[in] editor editor
 	 */
-	RenderWays(MainPanel* panel);
+    RenderWays(core::Editor* editor);
 	/*! Can be inherited
 	 */
 	virtual ~RenderWays();
 protected:
 	/*! A panel for rendering ways
 	 */
-	MainPanel * m_panel;
+    core::Editor * m_editor;
 	/*! Whether sprites are init
 	 */
 	bool m_init;
