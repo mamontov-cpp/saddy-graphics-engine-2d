@@ -411,6 +411,8 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.txtWayName, SIGNAL(textEdited(const QString&)), m_way_actions, SLOT(nameEdited(const QString&)));
     connect(ui.cbWayClosed, SIGNAL(clicked(bool)), m_way_actions, SLOT(closednessChanged(bool)));
     connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), m_way_actions, SLOT(totalTimeChanged(double)));
+    connect(ui.lstWayPoints, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(viewPoint(int)));
+    connect(ui.btnWayPointAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWayPoint()));
 
 }
 
@@ -840,6 +842,13 @@ void MainPanel::updateWayName(sad::p2d::app::Way* s)
     if (row != -1)
     {
         ui.lstWays->item(row)->setText(this->viewableObjectName(s));
+    }
+}
+
+void MainPanel::removeRowInWayPointList(int row)
+{
+    if (row >=0  && row < ui.lstWayPoints->count()) {
+        delete ui.lstWayPoints->takeItem(row);
     }
 }
 

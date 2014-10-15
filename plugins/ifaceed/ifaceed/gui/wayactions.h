@@ -54,6 +54,13 @@ public slots:
         \param[in] value value
      */
     void totalTimeChanged(double value);
+    /*! Adds new way point to an actions
+     */
+    void addWayPoint();
+    /*! Forces editor to view point
+        \param[in] i point index
+     */
+    void viewPoint(int i);
 private:
 	/*! An panel, which actions are belong to
 	 */

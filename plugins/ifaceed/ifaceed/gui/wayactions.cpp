@@ -4,11 +4,14 @@
 
 #include "../core/editor.h"
 
+#include "../blockedclosuremethodcall.h"
+
 #include "../history/ways/waysnew.h"
 #include "../history/ways/waysremove.h"
 #include "../history/ways/wayschangename.h"
 #include "../history/ways/wayschangetotaltime.h"
 #include "../history/ways/wayschangeclosed.h"
+#include "../history/ways/wayswaypointnew.h"
 
 #include <renderer.h>
 
@@ -130,6 +133,34 @@ void gui::WayActions::totalTimeChanged(double value)
         {
             w->setTotalTime(value);
             m_panel->editor()->history()->add(new history::ways::ChangeTotalTime(w, oldvalue, value));
+        }
+    }
+}
+
+void gui::WayActions::addWayPoint()
+{
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+        history::Command* c = new history::ways::WayPointNew(w);
+        c->commit(m_panel->editor());
+        m_panel->editor()->history()->add(c);
+
+        m_panel->UI()->lstWayPoints->setCurrentRow(m_panel->UI()->lstWayPoints->count() - 1);
+        this->viewPoint(w->wayPoints().size() - 1);
+    }
+}
+
+void gui::WayActions::viewPoint(int i)
+{
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+        if (i >= 0 && i <= w->wayPoints().count())
+        {
+            sad::Point2D p = w->wayPoints()[i];
+            invoke_blocked(m_panel->UI()->dsbWayPointX, &QDoubleSpinBox::setValue, p.x());
+            invoke_blocked(m_panel->UI()->dsbWayPointY, &QDoubleSpinBox::setValue, p.y());
         }
     }
 }

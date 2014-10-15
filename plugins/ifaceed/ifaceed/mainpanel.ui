@@ -150,7 +150,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -961,6 +961,9 @@ for object
          <height>22</height>
         </rect>
        </property>
+       <property name="maximum">
+        <double>20000.000000000000000</double>
+       </property>
       </widget>
       <widget class="QDoubleSpinBox" name="dsbWayPointY">
        <property name="geometry">
@@ -970,6 +973,9 @@ for object
          <width>81</width>
          <height>22</height>
         </rect>
+       </property>
+       <property name="maximum">
+        <double>20000.000000000000000</double>
        </property>
       </widget>
       <widget class="QPushButton" name="btnWayPointAdd">

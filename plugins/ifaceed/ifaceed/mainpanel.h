@@ -229,6 +229,10 @@ public:
         \param[in] s a way
      */
     void updateWayName(sad::p2d::app::Way* s);
+    /*!  Removes row from way point list
+         \param[in] row a row index
+     */
+    void removeRowInWayPointList(int row);
 	/*! Returns viewable name for a point
 		\param[in] p point
 		\return name for viewable point
