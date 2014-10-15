@@ -225,6 +225,10 @@ public:
 		\return scene row (-1 if not found)
 	 */
 	int findWayInList(sad::p2d::app::Way* s);
+    /*!  Updates way name in list
+        \param[in] s a way
+     */
+    void updateWayName(sad::p2d::app::Way* s);
 	/*! Returns viewable name for a point
 		\param[in] p point
 		\return name for viewable point

@@ -408,6 +408,9 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.lstWays, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(wayChanged(int)));
     connect(ui.btnWayAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWay()));
     connect(ui.btnWayRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWay()));
+    connect(ui.txtWayName, SIGNAL(textEdited(const QString&)), m_way_actions, SLOT(nameEdited(const QString&)));
+    connect(ui.cbWayClosed, SIGNAL(clicked(bool)), m_way_actions, SLOT(closednessChanged(bool)));
+    connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), m_way_actions, SLOT(totalTimeChanged(double)));
 
 }
 
@@ -829,6 +832,15 @@ int MainPanel::findWayInList(sad::p2d::app::Way* s)
         }
     }
     return -1;
+}
+
+void MainPanel::updateWayName(sad::p2d::app::Way* s)
+{
+    int row = this->findWayInList(s);
+    if (row != -1)
+    {
+        ui.lstWays->item(row)->setText(this->viewableObjectName(s));
+    }
 }
 
 QString MainPanel::nameForPoint(const sad::Point2D& p) const
