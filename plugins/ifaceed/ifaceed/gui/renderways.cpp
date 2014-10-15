@@ -9,18 +9,22 @@
 
 #include <p2d/app/way.h>
 
-#include <GL/gl.h>
-#include <GL/glu.h>
 
 gui::RenderWays::RenderWays(core::Editor* editor)
 : m_editor(editor),
 m_init(false),
-m_default(0, 255, 255, 0),
-m_red(255, 0, 0, 0)
+m_enabled(false),
+m_default(0, 255, 255, 255),
+m_red(255, 0, 0, 255)
 {
     m_scene = new sad::Scene();
 	m_default_sprite = new sad::Sprite2D();
 	m_red_sprite = new sad::Sprite2D();
+}
+
+void gui::RenderWays::enable()
+{
+	m_enabled = true;
 }
 
 gui::RenderWays::~RenderWays()
@@ -33,7 +37,7 @@ gui::RenderWays::~RenderWays()
 void gui::RenderWays::_process()
 {
     m_scene->setRenderer(sad::Renderer::ref());
-    if (m_editor->panel() == NULL)
+    if (m_editor->panel() == NULL || m_enabled == false)
     {
         return;
     }

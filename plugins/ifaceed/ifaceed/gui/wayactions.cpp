@@ -12,8 +12,10 @@
 #include "../history/ways/wayschangetotaltime.h"
 #include "../history/ways/wayschangeclosed.h"
 #include "../history/ways/wayswaypointnew.h"
+#include "../history/ways/wayswaypointchange.h"
 
 #include <renderer.h>
+#include <fuzzyequal.h>
 
 #include <p2d/app/way.h>
 
@@ -163,4 +165,45 @@ void gui::WayActions::viewPoint(int i)
             invoke_blocked(m_panel->UI()->dsbWayPointY, &QDoubleSpinBox::setValue, p.y());
         }
     }
+}
+
+
+void gui::WayActions::wayPointXChanged(double value)
+{
+	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+		int row = m_panel->UI()->lstWayPoints->currentRow();
+		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+		{
+			sad::Point2D oldvalue = w->wayPoints()[row];
+			sad::Point2D newvalue(value, m_panel->UI()->dsbWayPointY->value());
+			if (sad::is_fuzzy_equal(newvalue.x(), oldvalue.x()) == false)
+			{
+				history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+			    m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::WayActions::wayPointYChanged(double value)
+{
+	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+		int row = m_panel->UI()->lstWayPoints->currentRow();
+		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+		{
+			sad::Point2D oldvalue = w->wayPoints()[row];
+			sad::Point2D newvalue(m_panel->UI()->dsbWayPointX->value(), value);
+			if (sad::is_fuzzy_equal(newvalue.y(), oldvalue.y()) == false)
+			{
+				history::Command* c = new history::ways::WayPointChange(w, row, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+			    m_panel->editor()->history()->add(c);
+			}
+		}
+	}
 }

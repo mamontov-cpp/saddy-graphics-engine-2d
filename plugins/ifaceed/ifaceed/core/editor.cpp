@@ -409,7 +409,11 @@ void core::Editor::start()
 	if (mustquit)
 	{
 		 QTimer::singleShot(0, this->panel(), SLOT(close()));
-	}	
+	}
+	else
+	{
+		m_renderways->enable();
+	}
 }
 
 void core::Editor::undo()
