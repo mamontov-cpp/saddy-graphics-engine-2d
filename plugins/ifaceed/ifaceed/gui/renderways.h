@@ -60,6 +60,16 @@ protected:
 	/*! Invokes a delegate inside of process
 	 */ 
 	virtual void _process();
+	/*! Renders arrow from begin to end
+		\param[in] begin a beginning of arrow
+		\param[in] end an ending of arrow
+		\param[in] c color
+	 */
+	void renderArrow(
+		const sad::Point2D& begin, 
+		const sad::Point2D& end, 
+		const sad::AColor& c
+	);
 };
 
 }

@@ -54,9 +54,12 @@ public slots:
         \param[in] value value
      */
     void totalTimeChanged(double value);
-    /*! Adds new way point to an actions
+    /*! Adds new way point to a current way
      */
     void addWayPoint();
+	/*! Removes way point from a current way
+	 */
+	void removeWayPoint();
     /*! Forces editor to view point
         \param[in] i point index
      */
@@ -69,6 +72,12 @@ public slots:
 		\param[in] value a new value for Y coordinate
 	 */
 	void wayPointYChanged(double value);
+	/*! Moves back current way point
+	 */
+	void wayPointMoveBack();
+	/*! Moves front current way point
+	 */
+	void wayPointMoveFront();
 private:
 	/*! An panel, which actions are belong to
 	 */

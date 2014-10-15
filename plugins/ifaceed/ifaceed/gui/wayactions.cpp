@@ -12,7 +12,9 @@
 #include "../history/ways/wayschangetotaltime.h"
 #include "../history/ways/wayschangeclosed.h"
 #include "../history/ways/wayswaypointnew.h"
+#include "../history/ways/wayswaypointremove.h"
 #include "../history/ways/wayswaypointchange.h"
+#include "../history/ways/wayswaypointswap.h"
 
 #include <renderer.h>
 #include <fuzzyequal.h>
@@ -153,6 +155,21 @@ void gui::WayActions::addWayPoint()
     }
 }
 
+void gui::WayActions::removeWayPoint()
+{
+	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+		int row = m_panel->UI()->lstWayPoints->currentRow();
+		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count())
+		{
+			history::Command* c = new history::ways::WayPointRemove(w, row);
+			c->commit(m_panel->editor());
+		    m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
 void gui::WayActions::viewPoint(int i)
 {
     sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
@@ -204,6 +221,36 @@ void gui::WayActions::wayPointYChanged(double value)
 				c->commit(m_panel->editor());
 			    m_panel->editor()->history()->add(c);
 			}
+		}
+	}
+}
+
+void gui::WayActions::wayPointMoveBack()
+{
+	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+		int row = m_panel->UI()->lstWayPoints->currentRow();
+		if (row > 0 && row < m_panel->UI()->lstWayPoints->count())
+		{
+			history::Command* c = new history::ways::WayPointSwap(w, row - 1, row);
+			c->commit(m_panel->editor());
+		    m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void gui::WayActions::wayPointMoveFront()
+{
+	sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+		int row = m_panel->UI()->lstWayPoints->currentRow();
+		if (row >= 0 && row < m_panel->UI()->lstWayPoints->count() - 1)
+		{
+			history::Command* c = new history::ways::WayPointSwap(w, row, row + 1);
+			c->commit(m_panel->editor());
+		    m_panel->editor()->history()->add(c);
 		}
 	}
 }
