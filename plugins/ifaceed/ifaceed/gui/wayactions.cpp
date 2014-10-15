@@ -6,6 +6,9 @@
 
 #include "../history/ways/waysnew.h"
 #include "../history/ways/waysremove.h"
+#include "../history/ways/wayschangename.h"
+#include "../history/ways/wayschangetotaltime.h"
+#include "../history/ways/wayschangeclosed.h"
 
 #include <renderer.h>
 
@@ -82,5 +85,51 @@ void gui::WayActions::wayChanged(int i)
     {
         m_panel->editor()->machine()->enterState("ways/idle");
         m_panel->editor()->shared()->setSelectedWay(NULL);
+    }
+}
+
+void gui::WayActions::nameEdited(const QString& name)
+{
+    sad::String newvalue = name.toStdString();
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+        sad::String oldvalue =  w->objectName();
+        if (newvalue != oldvalue)
+        {
+            w->setObjectName(newvalue);
+            m_panel->updateWayName(w);
+            m_panel->editor()->history()->add(new history::ways::ChangeName(w, oldvalue, newvalue));
+        }
+    }
+}
+
+
+void gui::WayActions::closednessChanged(bool state)
+{
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+        bool oldvalue =  w->closed();
+        if (state != oldvalue)
+        {
+            w->setClosed(state);
+            m_panel->editor()->history()->add(new history::ways::ChangeClosed(w, oldvalue, state));
+        }
+    }
+}
+
+
+void gui::WayActions::totalTimeChanged(double value)
+{
+    sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
+    if (w)
+    {
+        double oldvalue =  w->totalTime();
+        if (value != oldvalue)
+        {
+            w->setTotalTime(value);
+            m_panel->editor()->history()->add(new history::ways::ChangeTotalTime(w, oldvalue, value));
+        }
     }
 }

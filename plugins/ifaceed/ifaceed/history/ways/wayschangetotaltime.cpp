@@ -31,7 +31,7 @@ void history::ways::ChangeTotalTime::updateUI(core::Editor* e, const double& val
 {
     e->emitClosure( blocked_bind(
             e->panel()->UI()->dsbWayTotalTime,
-            &QDoubleSpinBox,
+            &QDoubleSpinBox::setValue,
             value
         )
     );

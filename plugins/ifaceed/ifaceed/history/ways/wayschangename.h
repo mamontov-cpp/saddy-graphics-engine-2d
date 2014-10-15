@@ -21,11 +21,16 @@ public:
         \param[in] oldvalue old text
         \param[in] newvalue new text
       */
-    ChangeName(sad::p2d::app::Way* d, const sad::String oldvalue, sad::String newvalue);
+    ChangeName(sad::p2d::app::Way* d, const sad::String& oldvalue, const sad::String& newvalue);
     /*! Erases link to a node
       */
     virtual ~ChangeName();
 protected:
+    /*! Tries to update UI in case if node is selected
+        \param[in] e editor
+        \param[in] value a value
+     */
+    virtual void tryUpdateUI(core::Editor* e, const sad::String& value);
     /*!
      * Updates current text in field of object name
      * \param[in] e editor

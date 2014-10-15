@@ -42,6 +42,18 @@ public slots:
     /*! Called, when a way changed in list
      */
     void wayChanged(int i);
+    /*! Called, when way name is edited
+        \param[in] name a name for action
+     */
+    void nameEdited(const QString& name);
+    /*! Called, when user changes closedness of way
+        \param[in] state a state
+     */
+    void closednessChanged(bool state);
+    /*! Called, when user changed total time of way
+        \param[in] value value
+     */
+    void totalTimeChanged(double value);
 private:
 	/*! An panel, which actions are belong to
 	 */
