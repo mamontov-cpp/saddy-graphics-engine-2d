@@ -1,7 +1,7 @@
-/*! \file wayswaypointnew.h
+/*! \file wayswaypointremove.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding a waypoint to way
+ * Describes a simple command for removing a waypoint
  */
 #pragma once
 #include "../command.h"
@@ -13,24 +13,25 @@ namespace history
 namespace ways
 {
 
-/*! \class history::ways::WayPointNew
- *   A simple command for adding a new waypoint to way
+/*! \class history::ways::WayPointRemove
+ *   A simple command for removing a way
  */
-class WayPointNew: public history::Command
+class WayPointRemove: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] w way
+		\param[in] position a position of point
      */
-    WayPointNew(sad::p2d::app::Way* w);
+    WayPointRemove(sad::p2d::app::Way* w, int position);
     /*! Could be inherited
      */
-    virtual ~WayPointNew();
-    /*! Adds a way point
+    virtual ~WayPointRemove();
+    /*! Removes a way point
         \param[in] ob an observer for looking for command
      */
     virtual void commit(core::Editor * ob = NULL);
-    /*! Removes way point
+    /*! Adds a way point
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL);
@@ -38,9 +39,12 @@ protected:
     /*! A current selected way
      */
     sad::p2d::app::Way* m_way;
-    /*! An added point
+    /*! A stored point
      */
     sad::Point2D m_point;
+	/*! An index of point in way
+	 */
+	int m_position;
 };
 
 }

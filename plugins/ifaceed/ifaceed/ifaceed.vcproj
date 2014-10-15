@@ -792,6 +792,14 @@
 						RelativePath=".\history\ways\wayswaypointnew.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointremove.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointswap.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -3228,6 +3236,14 @@
 					</File>
 					<File
 						RelativePath=".\history\ways\wayswaypointnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointremove.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\ways\wayswaypointswap.h"
 						>
 					</File>
 				</Filter>

@@ -6,6 +6,7 @@
 #include "../core/shared.h"
 
 #include <renderer.h>
+#include <geometry2d.h>
 
 #include <p2d/app/way.h>
 
@@ -75,11 +76,11 @@ void gui::RenderWays::_process()
 					const sad::Vector<sad::Point2D>& pts = way->wayPoints();
                     for(int i = 1; i < pts.size(); i++)
 					{
-						sad::Renderer::ref()->render()->line(pts[i-1], pts[i], *c);
+						this->renderArrow(pts[i-1], pts[i], *c);
 					}
 					if (way->closed() && pts.size() > 1)
 					{
-						sad::Renderer::ref()->render()->line(pts[0], pts[pts.size() - 1], *c);
+						this->renderArrow(pts[pts.size() - 1], pts[0], *c);
 					}                    
                     int currentrow = m_editor->panel()->UI()->lstWayPoints->currentRow();
 					for(int i = 0; i < pts.size(); i++)
@@ -94,5 +95,35 @@ void gui::RenderWays::_process()
 				}
 			}
 		}
+	}
+}
+
+void gui::RenderWays::renderArrow(
+		const sad::Point2D& begin, 
+		const sad::Point2D& end, 
+		const sad::AColor& c
+)
+{
+	sad::PrimitiveRenderer* r = sad::Renderer::ref()->render();
+	const double mindistance = 11.0; // !< A minimal distance - radius of point
+	const double arrowpartlength = 5.0; //!< An arrow part
+	if (begin.distance(end) > 2 * mindistance)
+	{
+		double angle = sad::angleOf(end.x() - begin.x(), end.y() - begin.y());
+		sad::Point2D linepivot = end;
+		linepivot.setX(linepivot.x() - mindistance * cos(angle));
+		linepivot.setY(linepivot.y() - mindistance * sin(angle));
+		double maxangle = angle + M_PI / 8.0, minangle = angle - M_PI / 8.0;
+
+		sad::Point2D maxpoint(linepivot), minpoint(linepivot);
+		maxpoint.setX(maxpoint.x() - arrowpartlength * cos(maxangle));
+		maxpoint.setY(maxpoint.y() - arrowpartlength * sin(maxangle));
+
+		minpoint.setX(minpoint.x() - arrowpartlength * cos(minangle));
+		minpoint.setY(minpoint.y() - arrowpartlength * sin(minangle));
+
+		r->line(linepivot, maxpoint, c);
+		r->line(linepivot, minpoint, c);
+		r->line(begin, end, c);
 	}
 }

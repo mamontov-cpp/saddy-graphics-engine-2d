@@ -153,12 +153,7 @@ void MainPanel::toggleEditingButtons(bool enabled)
 	for(int i = 0; i < affectedpushbuttonscount; i++)
 	{
 		affectedpushbuttons[i]->setEnabled(enabled);
-	}
-	// TODO: Here, cleanup any kind of widget that is linked to resources
-	if (!enabled)
-	{
-		
-	}
+	}	
 }
 
 bool MainPanel::isEditingEnabled() const
@@ -186,6 +181,10 @@ void MainPanel::setEditor(core::Editor* editor)
     sad::String s = "selected";
 	sad::String sm = "selected/moving";
 	sad::String sr = "selected/resizing";
+
+	sad::String wi = "ways/idle";
+	sad::String ws = "ways/selected";
+	sad::String wsm = "ways/selected/moving";
 
 	// A bindings for idle state
 	sad::Renderer::ref()->controls()->add(
@@ -413,8 +412,11 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), m_way_actions, SLOT(totalTimeChanged(double)));
     connect(ui.lstWayPoints, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(viewPoint(int)));
     connect(ui.btnWayPointAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWayPoint()));
+    connect(ui.btnWayPointRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWayPoint()));
 	connect(ui.dsbWayPointX, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointXChanged(double)));
 	connect(ui.dsbWayPointY, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointYChanged(double)));
+	connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveBack()));
+	connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveFront()));
 }
 
 core::Editor* MainPanel::editor() const
