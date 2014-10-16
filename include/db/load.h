@@ -82,6 +82,8 @@ DECLARE_DB_LOAD_FOR_TYPE(sad::Size2D)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Size2I)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::Point2D>)
+DECLARE_DB_LOAD_FOR_TYPE(sad::dialogue::Phrase)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 
 }
 

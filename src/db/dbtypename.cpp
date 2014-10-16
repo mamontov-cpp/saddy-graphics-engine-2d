@@ -11,6 +11,7 @@
 #include "sadcolor.h"
 #include "sadrect.h"
 #include "sadvector.h"
+#include "sadptrvector.h"
 
 #include "font.h"
 #include "texturemappedfont.h"

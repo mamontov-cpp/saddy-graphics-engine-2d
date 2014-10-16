@@ -10,6 +10,7 @@
 #include "../../sadrect.h"
 #include "../../sadsize.h"
 #include "../../sadstring.h"
+#include "../../dialogue/phrase.h"
 
 namespace picojson
 {
@@ -760,6 +761,94 @@ public:
 			{
 				result.setValue(tmpresult);
 			}
+		}
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to rect
+ */
+template<>
+class ValueToType<sad::dialogue::Phrase>
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::dialogue::Phrase> get(const picojson::value & v)
+	{
+		sad::Maybe<sad::dialogue::Phrase> result;		
+		picojson::value const * no = picojson::get_property(v, "name");
+		picojson::value const * po = picojson::get_property(v, "portrait");
+		picojson::value const * pho = picojson::get_property(v, "phrase");
+		picojson::value const * duo = picojson::get_property(v, "duration");
+		picojson::value const * vho = picojson::get_property(v, "viewhint");		
+		if (no && po && pho && duo && vho )
+		{
+			sad::Maybe<sad::String> p1 = picojson::ValueToType<sad::String>::get(*no);
+			sad::Maybe<sad::String> p2 = picojson::ValueToType<sad::String>::get(*po);
+			sad::Maybe<sad::String> p3 = picojson::ValueToType<sad::String>::get(*pho);
+			sad::Maybe<double> p4 = picojson::ValueToType<double>::get(*duo);
+			sad::Maybe<sad::String> p5 = picojson::ValueToType<sad::String>::get(*vho);			
+			if (p1.exists() && p2.exists() && p3.exists() && p4.exists() && p5.exists())
+			{
+				sad::dialogue::Phrase tmp;
+				tmp.setActorName(p1.value());
+				tmp.setActorPortrait(p2.value());
+				tmp.setPhrase(p3.value());
+				tmp.setDuration(p4.value());
+				tmp.setViewHint(p5.value());
+				
+				result.setValue(tmp);
+			}
+		}		
+		return result;
+	}
+};
+
+/*! Tries to converts specific value to vector of points
+ */
+template<>
+class ValueToType<sad::Vector<sad::dialogue::Phrase*> >
+{
+public:
+	/*! Tries to convert a picojson::value to point
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Vector<sad::dialogue::Phrase*> > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Vector<sad::dialogue::Phrase*> > result;		
+		if (v.is<picojson::array>())
+		{
+			bool parseresult = true;
+			sad::Vector<sad::dialogue::Phrase*> tmpresult;
+			const picojson::array & top = v.get<picojson::array>();
+			for(size_t i = 0; i < top.size() && parseresult; i++)
+			{
+				const picojson::value & topentry = top[i];
+				sad::Maybe<sad::dialogue::Phrase> maybeentry = picojson::ValueToType<sad::dialogue::Phrase>::get(top[i]);
+				if (maybeentry.exists())
+				{
+					tmpresult << new sad::dialogue::Phrase(maybeentry.value());
+				}
+				else
+				{
+					parseresult = false;
+				}				
+			}
+			if (parseresult)
+			{
+				result.setValue(tmpresult);
+			}
+			else
+			{
+				for(size_t i = 0; i < tmpresult.size(); i++)
+				{
+					delete tmpresult[i];
+				}
+			}	
 		}
 		return result;
 	}
