@@ -95,6 +95,23 @@ protected:
 	/*! A current position of element in navigation chain
 	 */
 	int m_current_position;
+
+    /*! Tries to select an object on mouse press event
+        \param[in] e event object
+     */
+    void trySelectObject(const sad::input::MousePressEvent& e);
+    /*! Tries to select a way on mouse press event
+        \param[in] e event object
+     */
+    void trySelectWay(const sad::input::MousePressEvent& e);
+    /*! Commits selection of way
+        \param[in] i index of way
+        \param[in] j  index of way point
+     */
+    void commitWaySelection(int i, int j);
+    /*! Commits idle way selection
+     */
+    void commitIdleWaySelection();
 };
 
 }
