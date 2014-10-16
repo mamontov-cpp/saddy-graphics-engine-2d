@@ -20,6 +20,7 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 
+#include "dialogue/phrase.h"
 
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
@@ -50,5 +51,7 @@ DECLARE_COMMON_TYPE(sad::Size2D)
 DECLARE_COMMON_TYPE(sad::Size2I)
 DECLARE_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 DECLARE_COMMON_TYPE(sad::Vector<sad::Point2D>)
+DECLARE_COMMON_TYPE(sad::dialogue::Phrase)
+DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
