@@ -158,3 +158,23 @@ sad::p2d::app::Way* core::Shared::selectedWay() const
 {
 	return m_selected_way;
 }
+
+void core::Shared::setWayPointPosition(int p)
+{
+    m_way_point_position = p;
+}
+
+int core::Shared::wayPointPosition() const
+{
+    return m_way_point_position;
+}
+
+void core::Shared::setOldPoint(const sad::Point2D& p)
+{
+    m_old_point = p;
+}
+
+const sad::Point2D& core::Shared::oldPoint() const
+{
+    return m_old_point;
+}

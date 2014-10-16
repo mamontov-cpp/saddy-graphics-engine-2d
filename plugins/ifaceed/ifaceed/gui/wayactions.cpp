@@ -4,6 +4,7 @@
 
 #include "../core/editor.h"
 
+#include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 
 #include "../history/ways/waysnew.h"
@@ -43,6 +44,44 @@ void gui::WayActions::setPanel(MainPanel* e)
 MainPanel* gui::WayActions::panel() const
 {
 	return m_panel;
+}
+
+void gui::WayActions::moveWayPoint(const sad::input::MouseMoveEvent& e)
+{
+    core::Shared* s = m_panel->editor()->shared();
+    sad::p2d::app::Way* w = s->selectedWay();
+    int index = s->wayPointPosition();
+    sad::Point2D newpoint = s->oldPoint() + (e.pos2D() - s->pivotPoint());
+    w->setPoint(index, newpoint);
+    m_panel->editor()->emitClosure(bind(this, &gui::WayActions::updateWayPoint, index, newpoint));
+    m_panel->editor()->emitClosure(bind(this, &gui::WayActions::viewPoint, index));
+}
+
+void gui::WayActions::commitWayPointMoving(const sad::input::MouseReleaseEvent& e)
+{
+    sad::input::MouseMoveEvent ev;
+    ev.setPoint(e.Point3D);
+    this->moveWayPoint(ev);
+
+    core::Shared* s = m_panel->editor()->shared();
+    sad::p2d::app::Way* w = s->selectedWay();
+    int index = s->wayPointPosition();
+    sad::Point2D newpoint = w->wayPoints()[index];
+
+    history::Command* c = new history::ways::WayPointChange(
+        w,
+        index,
+        s->oldPoint(),
+        newpoint
+    );
+    m_panel->editor()->history()->add(c);
+
+    m_panel->editor()->machine()->enterState("ways/selected");
+}
+
+void gui::WayActions::updateWayPoint(int row, const sad::Point2D& p)
+{
+    m_panel->UI()->lstWayPoints->item(row)->setText(m_panel->nameForPoint(p));
 }
 
 void gui::WayActions::addWay()

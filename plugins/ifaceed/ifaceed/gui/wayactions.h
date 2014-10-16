@@ -31,7 +31,21 @@ public:
 	void setPanel(MainPanel* e);
 	/*! Returns panel, where actions belong to
 	 */
-	MainPanel* panel() const;
+	MainPanel* panel() const;    
+    /*! Moves way point, according to pivot point (used in moving substate)
+        \param[in] e event object
+     */
+    void moveWayPoint(const sad::input::MouseMoveEvent& e);
+    /*! Commits moving of way point,
+        according to pivot point (used in moving substate)
+        \param[in] e event object
+     */
+    void commitWayPointMoving(const sad::input::MouseReleaseEvent& e);
+    /*! Updates way point
+        \param[in] row a row
+        \param[in] p a point for row
+     */
+    void updateWayPoint(int row, const sad::Point2D& p);
 public slots:
     /*! Adds new way to a list
      */
@@ -77,7 +91,7 @@ public slots:
 	void wayPointMoveBack();
 	/*! Moves front current way point
 	 */
-	void wayPointMoveFront();
+	void wayPointMoveFront();    
 private:
 	/*! An panel, which actions are belong to
 	 */

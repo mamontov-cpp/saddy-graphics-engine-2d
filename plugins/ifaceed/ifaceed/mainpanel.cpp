@@ -359,6 +359,32 @@ void MainPanel::setEditor(core::Editor* editor)
 		&gui::CustomObjectActions::placeFirstPoint
 	);
 
+    // A binding for ways/selected/moving
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * wsm),
+        m_way_actions,
+        &gui::WayActions::moveWayPoint
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * wsm),
+        m_way_actions,
+        &gui::WayActions::commitWayPointMoving
+    );
+
+    // A binding for ways/selected
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * ws),
+        m_editor->selection(),
+        &core::Selection::trySelect
+    );
+
+    // A binding for ways/idle
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * wi),
+        m_editor->selection(),
+        &core::Selection::trySelect
+    );
+
 
 	connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
 

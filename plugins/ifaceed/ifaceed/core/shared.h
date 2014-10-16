@@ -138,6 +138,22 @@ public:
 		\return selected way
 	 */
 	sad::p2d::app::Way* selectedWay() const;
+    /*! Sets way point position in way
+        \param p position
+     */
+    void setWayPointPosition(int p);
+    /*! Returns way point position
+        \return
+     */
+    int wayPointPosition() const;
+    /*! Sets old point value
+        \param p point
+     */
+    void setOldPoint(const sad::Point2D& p);
+    /*! Returns old point value
+        \return old point
+     */
+    const sad::Point2D& oldPoint() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -148,6 +164,12 @@ private:
 	/*! A selected way
 	 */
 	sad::p2d::app::Way* m_selected_way;
+    /*! A way point position, when moving point
+     */
+    int m_way_point_position;
+    /*! A temporary old point value
+     */
+    sad::Point2D m_old_point;
 	/*! A linked editor, which shared data belongs to
 	 */
 	core::Editor* m_editor;

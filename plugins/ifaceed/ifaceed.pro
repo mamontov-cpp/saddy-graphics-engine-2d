@@ -147,7 +147,10 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/ways/wayschangename.h \
     ifaceed/history/ways/wayschangetotaltime.h \
     ifaceed/history/ways/wayschangeclosed.h \
-    ifaceed/history/ways/wayswaypointnew.h
+    ifaceed/history/ways/wayswaypointnew.h \
+    ifaceed/history/ways/wayswaypointchange.h \
+    ifaceed/history/ways/wayswaypointremove.h \
+    ifaceed/history/ways/wayswaypointswap.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -252,7 +255,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/ways/wayschangename.cpp \
     ifaceed/history/ways/wayschangetotaltime.cpp \
     ifaceed/history/ways/wayschangeclosed.cpp \
-    ifaceed/history/ways/wayswaypointnew.cpp
+    ifaceed/history/ways/wayswaypointnew.cpp \
+    ifaceed/history/ways/wayswaypointchange.cpp \
+    ifaceed/history/ways/wayswaypointremove.cpp \
+    ifaceed/history/ways/wayswaypointswap.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
