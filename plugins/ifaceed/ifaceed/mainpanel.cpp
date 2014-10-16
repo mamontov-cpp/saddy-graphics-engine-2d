@@ -1141,6 +1141,11 @@ void MainPanel::fixDatabase()
     {
         db->addTable("ways", new sad::db::Table());
     }
+    // Contains sad::dialogue::Dialogue
+    if (db->table("dialogues") == NULL)
+    {
+        db->addTable("dialogues", new sad::db::Table());
+    }
 
 	bool needtosetpalette = false;
 	if (db->propertyByName("palette") != NULL)
