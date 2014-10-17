@@ -7,6 +7,8 @@
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 
+#include "../history/dialogues/dialoguesnew.h"
+
 Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 
 // ========================== PUBLIC METHODS ==========================
@@ -32,6 +34,18 @@ MainPanel* gui::DialogueActions::panel() const
 }
 
 // ========================== PUBLIC SLOTS ==========================
+
+void gui::DialogueActions::addDialogue()
+{
+    sad::dialogue::Dialogue* w = new sad::dialogue::Dialogue();
+    w->setObjectName(m_panel->UI()->txtDialogueName->text().toStdString());
+    sad::Renderer::ref()->database("")->table("dialogues")->add(w);
+    history::dialogues::New* c = new history::dialogues::New(w);
+    c->commit(m_panel->editor());
+    m_panel->editor()->history()->add(c);
+    m_panel->editor()->shared()->setSelectedDialogue(w);
+    m_panel->UI()->lstDialogues->setCurrentRow(m_panel->UI()->lstDialogues->count() - 1);
+}
 
 void gui::DialogueActions::dialogueChanged(int i)
 {
