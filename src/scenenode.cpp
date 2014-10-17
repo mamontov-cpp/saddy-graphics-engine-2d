@@ -54,6 +54,8 @@ sad::db::schema::Schema* sad::SceneNode::basicSchema()
 				&sad::SceneNode::setCachedLayer
 			)
 		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SceneNodeBasicSchema);
 	}
 	return SceneNodeBasicSchema;
 }

@@ -11,6 +11,8 @@
 
 #include "p2d/app/way.h"
 
+#include "dialogue/dialogue.h"
+
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
 	
@@ -25,6 +27,7 @@ sad::db::ObjectFactory::ObjectFactory()
 	// Custom object has no schema at all
 	add<sad::db::custom::Object>("sad::db::custom::Object", NULL, false);
 	add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
+	add<sad::dialogue::Dialogue>("sad::dialogue::Dialogue", sad::dialogue::Dialogue::basicSchema(), false);
 }
 
 void sad::db::ObjectFactory::add(

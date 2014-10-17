@@ -7,9 +7,20 @@
 #include "classmetadata.h"
 #include "sadhash.h"
 #include "sadmutex.h"
+#include "sadptrvector.h"
 
 namespace sad
 {
+
+namespace db
+{
+
+namespace schema
+{
+class Schema;
+}
+
+}
 /*! A container for class meta dat
  */
 class ClassMetaDataContainer
@@ -31,11 +42,18 @@ public:
 		\return whether meta data is contained in type
 	 */
 	bool contains(const sad::String & name) const;
+	/*! Adds new schema
+		\param[in] s schema
+	 */
+	void pushGlobalSchema(sad::db::schema::Schema* s);
 	/*! Erases a container
 	 */
 	~ClassMetaDataContainer();
 private:
 	typedef sad::Hash<sad::String, sad::ClassMetaData *> ClassMetaDataHash;
+	/*! A global schemas to be deleted on app shutdown
+	 */
+	sad::Vector<sad::db::schema::Schema*> m_global_schemas;
 	/*! A hash with all of meta data
 	 */
 	ClassMetaDataHash m_container;

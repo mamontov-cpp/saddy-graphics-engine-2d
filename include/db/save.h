@@ -302,7 +302,7 @@ static picojson::value perform(void * ptr)
 
 };
 
-/*! Specification for saving values of type vector of vectors of 2-dimensional points
+/*! Specification for saving values of type vector of 2-dimensional points
  */
 template<>
 class Save<sad::Vector<sad::Point2D> >
@@ -320,6 +320,56 @@ static picojson::value perform(void * ptr)
 	for(size_t i = 0; i < p.size(); i++)
 	{
 		v.push_back(sad::db::Save<sad::Point2D>::perform(&(p[i])));
+	}
+	return v;
+}
+
+};
+
+/*! Specification for saving dialogue phrase values
+ */
+template<>
+class Save<sad::dialogue::Phrase>
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	const sad::dialogue::Phrase & p = *((sad::dialogue::Phrase *)ptr);
+	picojson::value v(picojson::object_type, false);
+	v.insert("name", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.actorName()))));
+	v.insert("portrait", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.actorPortrait()))));
+	v.insert("phrase", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.phrase()))));
+	double duration = p.duration();
+	v.insert("duration", sad::db::Save<double>::perform(&duration));
+	v.insert("viewhint", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.viewHint()))));
+	return v;
+}
+
+};
+
+/*! Specification for saving values of type vector of phrases
+ */
+template<>
+class Save<sad::Vector<sad::dialogue::Phrase*> >
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	sad::Vector<sad::dialogue::Phrase*> & p = *((sad::Vector<sad::dialogue::Phrase*> *)ptr);
+	picojson::value v(picojson::array_type, false);
+	for(size_t i = 0; i < p.size(); i++)
+	{
+		v.push_back(sad::db::Save<sad::dialogue::Phrase>::perform(p[i]));
 	}
 	return v;
 }

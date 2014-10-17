@@ -789,6 +789,18 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="dialogue"
+				>
+				<File
+					RelativePath=".\src\dialogue\dialogue.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\dialogue\phrase.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1702,6 +1714,18 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="dialogue"
+				>
+				<File
+					RelativePath=".\include\dialogue\dialogue.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\dialogue\phrase.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

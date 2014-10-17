@@ -224,6 +224,8 @@ sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 				&sad::Sprite2D::setFlipY
 			)
 		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite2DBasicSchema);
 	}
 	return Sprite2DBasicSchema;
 }

@@ -127,6 +127,8 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 				p
 			)
 		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
 	}
 	return LabelBasicSchema;
 }
