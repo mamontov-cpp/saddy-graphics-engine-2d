@@ -453,8 +453,12 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(dialogueChanged(int)));
 	connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(phraseChanged(int)));
 	connect(ui.btnDialogueAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addDialogue()));
-
-
+	connect(ui.btnDialogueRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removeDialogue()));
+	connect(ui.txtDialogueName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(nameEdited(const QString&)));
+	connect(ui.btnPhraseAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addPhrase()));
+    connect(ui.btnPhraseRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removePhrase()));
+	connect(ui.btnPhraseMoveBack, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseBack()));
+	connect(ui.btnPhraseMoveFront, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseFront()));
 }
 
 core::Editor* MainPanel::editor() const
@@ -982,11 +986,31 @@ int MainPanel::findDialogueInList(sad::dialogue::Dialogue* s)
     return -1;
 }
 
+void MainPanel::updateDialogueName(sad::dialogue::Dialogue* s)
+{
+	int row = this->findDialogueInList(s);
+	if (row != -1)
+	{
+		ui.lstDialogues->item(row)->setText(this->viewableObjectName(s));
+	}
+}
+
+void MainPanel::removePhraseFromPhraseList(int row)
+{
+	delete ui.lstPhrases->takeItem(row);
+}
+
 QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
 {
-	return QString("%1(%2...)")
+	sad::String s = p.phrase();
+	if (s.length() > 3)
+	{
+		s = s.subString(0, 3);
+		s += "...";
+	}
+	return QString("%1(%2)")
 		   .arg(p.actorName().c_str())
-		   .arg(p.phrase().subString(0, 3).c_str());
+		   .arg(s.c_str());
 }
 
 QCheckBox* MainPanel::visibilityCheckbox() const

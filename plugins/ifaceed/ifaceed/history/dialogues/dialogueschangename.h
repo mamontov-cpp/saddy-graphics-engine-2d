@@ -1,7 +1,7 @@
-/*! \file dialoguesnew.h
+/*! \file dialogueschangename.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding a dialogue
+ * Describes a simple command for changing name of dialogue
  */
 #pragma once
 #include "../command.h"
@@ -13,19 +13,25 @@ namespace history
 namespace dialogues
 {
 
-/*! \class history::dialogues::New
- *   A simple command for adding a new dialogues to list
+/*! \class history::dialogues::ChangeName
+ *   A simple command for changing name of dialogue
  */
-class New: public history::Command
+class ChangeName: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
+		\param[in] oldvalue old value for dialogue
+		\param[in] newvalue new value for dialogue
      */
-	New(sad::dialogue::Dialogue* dialogue);
+	ChangeName(
+		sad::dialogue::Dialogue* dialogue, 
+		const sad::String& oldvalue, 
+		const sad::String& newvalue
+	);
     /*! Could be inherited
      */
-    virtual ~New();
+    virtual ~ChangeName();
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -38,6 +44,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
+	/*! Old value for name
+	 */
+	sad::String m_oldvalue;
+	/*! New value for name
+	 */
+	sad::String m_newvalue;
 };
 
 }

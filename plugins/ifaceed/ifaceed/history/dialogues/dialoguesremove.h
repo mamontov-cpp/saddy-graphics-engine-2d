@@ -1,7 +1,7 @@
-/*! \file dialoguesnew.h
+/*! \file dialoguesremove.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding a dialogue
+ * Describes a simple command for removing a dialogue
  */
 #pragma once
 #include "../command.h"
@@ -14,30 +14,34 @@ namespace dialogues
 {
 
 /*! \class history::dialogues::New
- *   A simple command for adding a new dialogues to list
+ *   A simple command for removing a new way to list
  */
-class New: public history::Command
+class Remove: public history::Command
 {
 public:
     /*! Creates new command
-        \param[in] dialogue dialogue
+        \param[in] w dialogue
+        \param[in] pos a position of way in source list
      */
-	New(sad::dialogue::Dialogue* dialogue);
+    Remove(sad::dialogue::Dialogue* w, int pos);
     /*! Could be inherited
      */
-    virtual ~New();
-    /*! Makes way active, adds it to list
+    virtual ~Remove();
+    /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
      */
     virtual void commit(core::Editor * ob = NULL);
-    /*! Makes way inactive, removes it from list
+    /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A current dialogue
+    /*! A removed dialogue
      */
-    sad::dialogue::Dialogue* m_dialogue;
+    sad::dialogue::Dialogue* m_d;
+    /*! A position of item in list
+     */
+    int m_position;
 };
 
 }

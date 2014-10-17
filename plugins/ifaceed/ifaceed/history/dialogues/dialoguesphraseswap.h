@@ -1,7 +1,7 @@
-/*! \file dialoguesnew.h
+/*! \file dialoguesphraseswap.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding a dialogue
+ * Describes a simple command for swapping two phrases
  */
 #pragma once
 #include "../command.h"
@@ -13,19 +13,21 @@ namespace history
 namespace dialogues
 {
 
-/*! \class history::dialogues::New
- *   A simple command for adding a new dialogues to list
+/*! \class history::dialogues::PhraseSwap
+ *   A simple command for swapping two phrases
  */
-class New: public history::Command
+class PhraseSwap: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
+		\param[in] p1 a first position
+		\param[in] p2 a second position
      */
-	New(sad::dialogue::Dialogue* dialogue);
+	PhraseSwap(sad::dialogue::Dialogue* dialogue, int p1, int p2);
     /*! Could be inherited
      */
-    virtual ~New();
+    virtual ~PhraseSwap();
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -38,6 +40,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
+	/*! A first position
+	 */
+	int m_position1;
+	/*! A second position
+	 */
+	int m_position2;	
 };
 
 }

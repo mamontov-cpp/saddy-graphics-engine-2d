@@ -1,7 +1,7 @@
-/*! \file dialoguesnew.h
+/*! \file dialoguesphraseremove.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding a dialogue
+ * Describes a simple command for removing a phrase
  */
 #pragma once
 #include "../command.h"
@@ -13,19 +13,20 @@ namespace history
 namespace dialogues
 {
 
-/*! \class history::dialogues::New
+/*! \class history::dialogues::PhraseRemove
  *   A simple command for adding a new dialogues to list
  */
-class New: public history::Command
+class PhraseRemove: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
+		\param[in] a position of phrase in dialogue
      */
-	New(sad::dialogue::Dialogue* dialogue);
+	PhraseRemove(sad::dialogue::Dialogue* dialogue, int position);
     /*! Could be inherited
      */
-    virtual ~New();
+    virtual ~PhraseRemove();
     /*! Makes way active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -38,6 +39,12 @@ protected:
     /*! A current dialogue
      */
     sad::dialogue::Dialogue* m_dialogue;
+	/*! A position for phrase
+	 */
+	int m_position;
+	/*! A phrase to be added into dialogue
+	 */
+	sad::dialogue::Phrase m_phrase;
 };
 
 }
