@@ -20,6 +20,8 @@
 #include <p2d/vector.h>
 #include <p2d/app/way.h>
 
+#include <dialogue/dialogue.h>
+
 namespace core
 {
 
@@ -154,6 +156,14 @@ public:
         \return old point
      */
     const sad::Point2D& oldPoint() const;
+	/*! Sets selected dialogue
+		\param[in] d dialogue
+	 */ 
+	void setSelectedDialogue(sad::dialogue::Dialogue* d);
+	/*! Returns selected dialogue
+		\return selected dialogue
+	 */
+	sad::dialogue::Dialogue* selectedDialogue() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -164,6 +174,9 @@ private:
 	/*! A selected way
 	 */
 	sad::p2d::app::Way* m_selected_way;
+	/*! A selected dialogue
+	 */
+	sad::dialogue::Dialogue* m_selected_dialogue;
     /*! A way point position, when moving point
      */
     int m_way_point_position;

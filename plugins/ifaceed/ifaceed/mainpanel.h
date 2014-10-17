@@ -21,6 +21,7 @@
 #include <input/events.h>
 
 #include <p2d/app/way.h>
+#include <dialogue/dialogue.h>
 
 #pragma once
 
@@ -35,6 +36,7 @@ class LabelActions;
 class Sprite2DActions;
 class CustomObjectActions;
 class WayActions;
+class DialogueActions;
 }
 
 
@@ -88,6 +90,10 @@ public:
 	 *  \return actions for way editing
 	 */
 	gui::WayActions* wayActions() const;
+	/*! Returns actions for dialogue editing
+	 *  \return actions for dialogue editing
+	 */
+	gui::DialogueActions* dialogueActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -217,7 +223,7 @@ public:
 	 */
 	void removeWayFromWayList(int position);
 	/*! Removes way from a way list
-		\param[in] s scene node
+		\param[in] s way
 	 */
 	void removeWayFromWayList(sad::p2d::app::Way* s);
 	/*! Finds way in way list
@@ -235,9 +241,43 @@ public:
     void removeRowInWayPointList(int row);
 	/*! Returns viewable name for a point
 		\param[in] p point
-		\return name for viewable point
+		\return name for point
 	 */
     QString nameForPoint(const sad::Point2D& p) const;
+	/*! Adds last dialogue to end of items
+		\param[in] dialogue a dialogue
+	 */
+	void addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue);
+	/*! Removes last dialogue from dialogue list
+	 */
+	void removeLastDialogueFromDialogueList();
+	/*! Inserts dialogue to a dialogue list
+		\param[in] s dialogue
+		\param[in] position a position in dialogue list
+	 */
+	void insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position);
+	/*! Removes dialogue from a dialogue list
+		\param[in] position a position, where dialogue must be removed
+	 */
+	void removeDialogueFromDialogueList(int position);
+	/*! Removes way from a way list
+		\param[in] dialogue dialogue, to be removed
+	 */
+	void removeDialogueFromDialogueList(sad::dialogue::Dialogue* s);
+	/*! Finds dialogue in dialogue list
+		\param[in] s scene
+		\return scene row (-1 if not found)
+	 */
+	int findDialogueInList(sad::dialogue::Dialogue* s);
+    /*!  Updates dialogue in list
+        \param[in] s a way
+     */
+    void updateDialogueName(sad::dialogue::Dialogue* s);
+	/*! Returns viewable name for a phrase
+		\param[in] p phrase
+		\return name for phrase
+	 */
+	QString nameForPhrase(const sad::dialogue::Phrase& p) const;
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */
@@ -295,6 +335,11 @@ public:
 	/*! Clears database properties
 	 */
 	void clearDatabaseProperties();
+	/*! Fetches object name, which can be used in object list
+		\param[in] o object
+		\return object name
+	 */
+	QString viewableObjectName(sad::db::Object* o);
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */
@@ -340,6 +385,9 @@ protected:
 	/*! An actions, linked to way editing 
 	 */
 	gui::WayActions* m_way_actions;
+	/*! An actions, linked to dialogue editing
+	 */
+	gui::DialogueActions* m_dialogue_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;
@@ -373,11 +421,6 @@ protected:
 	/*! Fixes database scenes and scene nodes tables and palette if need to
 	 */
 	void fixDatabase();
-	/*! Fetches object name, which can be used in object list
-		\param[in] o object
-		\return object name
-	 */
-	QString viewableObjectName(sad::db::Object* o);
 protected slots:
 	/*! Adds a property to database slot
 	 */
