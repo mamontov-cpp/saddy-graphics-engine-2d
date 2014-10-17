@@ -449,6 +449,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbWayPointY, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointYChanged(double)));
 	connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveBack()));
 	connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveFront()));
+
+	connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(dialogueChanged(int)));
+	connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(phraseChanged(int)));
+
 }
 
 core::Editor* MainPanel::editor() const

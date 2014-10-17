@@ -54,6 +54,7 @@ public slots:
      */
     void removeWay();
     /*! Called, when a way changed in list
+		\param[in] i new row index
      */
     void wayChanged(int i);
     /*! Called, when way name is edited
