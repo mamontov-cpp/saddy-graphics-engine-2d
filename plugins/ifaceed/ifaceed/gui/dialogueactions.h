@@ -31,7 +31,16 @@ public:
 	void setPanel(MainPanel* e);
 	/*! Returns panel, where actions belong to
 	 */
-	MainPanel* panel() const;        
+	MainPanel* panel() const;
+public slots:
+	/*! Called, when a way changed in list
+		\param[in] i new row index
+     */
+    void dialogueChanged(int i);
+	/*! Called, when a phrase changed in list
+		\param[in] i new row index
+     */
+	void phraseChanged(int i);
 private:
 	/*! An panel, which actions are belong to
 	 */

@@ -270,6 +270,8 @@ void core::Editor::cleanDatabase()
 {
 	m_machine->enterState("idle");
 	m_shared->setSelectedObject(NULL);
+	m_shared->setSelectedWay(NULL);
+	m_shared->setSelectedDialogue(NULL);
 	m_shared->setActiveObject(NULL);
 	m_history->clear();
 	m_mainwindow->clearDatabaseProperties();
