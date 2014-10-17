@@ -6,7 +6,8 @@ core::Shared::Shared() :
 m_selected(NULL),
 m_active(NULL),
 m_editor(NULL),
-m_selected_way(NULL)
+m_selected_way(NULL),
+m_selected_dialogue(NULL)
 {
 	m_show_active_border = true;
 	m_nonresizeable_nodetypes << "sad::Label";
@@ -177,4 +178,15 @@ void core::Shared::setOldPoint(const sad::Point2D& p)
 const sad::Point2D& core::Shared::oldPoint() const
 {
     return m_old_point;
+}
+
+
+void core::Shared::setSelectedDialogue(sad::dialogue::Dialogue* d)
+{
+	m_selected_dialogue = d;
+}
+
+sad::dialogue::Dialogue*  core::Shared::selectedDialogue() const
+{
+	return m_selected_dialogue;
 }

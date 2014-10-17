@@ -3,6 +3,8 @@
 #include "../mainpanel.h"
 #include "../core/editor.h"
 
+#include <QTabWidget>
+
 gui::EventFilter::EventFilter(QObject *parent) :
     QObject(parent)
 {
@@ -44,6 +46,11 @@ void gui::EventFilter::setPanel(MainPanel* panel)
 				{
 					m_panel->editor()->tryEnterWayEditingState();
 				}
+			}
+			if (ev->key() == Qt::Key_F3)
+			{
+				m_panel->editor()->machine()->enterState("idle");
+				m_panel->UI()->tabTypes->setCurrentIndex(2);
 			}
 			if (m_panel->editor()->isInObjectEditingState())
 			{

@@ -19,7 +19,7 @@ class WayActions: public QObject
 {
 Q_OBJECT
 public:
-	/*! Creates new wat actions
+	/*! Creates new way actions
 		\param[in] parent a parent object
 	 */
 	WayActions(QObject* parent = NULL);

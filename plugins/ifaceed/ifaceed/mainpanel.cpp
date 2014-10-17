@@ -21,6 +21,7 @@
 #include "gui/sprite2dactions.h"
 #include "gui/customobjectactions.h"
 #include "gui/wayactions.h"
+#include "gui/dialogueactions.h"
 #include "gui/updateelement.h"
 #include "gui/renderways.h"
 
@@ -61,6 +62,7 @@
 Q_DECLARE_METATYPE(sad::Scene*)
 Q_DECLARE_METATYPE(sad::SceneNode*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 
 //====================  PUBLIC METHODS HERE ====================
 
@@ -103,6 +105,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_way_actions = new gui::WayActions();
 	m_way_actions->setPanel(this);
+	
+	m_dialogue_actions = new gui::DialogueActions();
+	m_dialogue_actions->setPanel(this);
 }
 
 
@@ -113,6 +118,7 @@ MainPanel::~MainPanel()
 	delete m_scene_node_actions;
 	delete m_custom_object_actions;
 	delete m_way_actions;
+	delete m_dialogue_actions;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -475,6 +481,11 @@ gui::WayActions* MainPanel::wayActions() const
 	return m_way_actions;
 }
 
+gui::DialogueActions* MainPanel::dialogueActions() const
+{
+	return m_dialogue_actions;
+}
+
 Ui::MainPanelClass* MainPanel::UI()
 {
     return &ui;
@@ -526,6 +537,14 @@ void MainPanel::viewDatabase()
     {
         sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
         addLastWayToEnd(w);
+    }
+
+	sad::Vector<sad::db::Object*> dialoguelist;
+    db->table("dialogues")->objects(dialoguelist);
+    for(unsigned int i = 0; i < dialoguelist.size(); i++)
+    {
+		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(wayslist[i]);
+        addDialogueToDialogueList(w);
     }
 }
 
@@ -888,6 +907,82 @@ QString MainPanel::nameForPoint(const sad::Point2D& p) const
            .arg(static_cast<int>(p.y()));
 }
 
+void MainPanel::addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue)
+{
+    ui.lstDialogues->addItem(this->viewableObjectName(dialogue));
+    QVariant v;
+    v.setValue(dialogue);
+    ui.lstDialogues->item(ui.lstDialogues->count()-1)->setData(Qt::UserRole, v);
+}
+
+void MainPanel::removeLastDialogueFromDialogueList()
+{
+    if (ui.lstDialogues->count() > 0)
+    {
+        QVariant v = ui.lstDialogues->item(ui.lstDialogues->count() - 1)->data(Qt::UserRole);
+		sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+        if (w == m_editor->shared()->selectedDialogue())
+        {
+            m_editor->shared()->setSelectedDialogue(NULL);
+        }
+        delete ui.lstDialogues->takeItem(ui.lstDialogues->count() - 1);
+    }
+}
+
+void MainPanel::insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position)
+{
+    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    ui.lstDialogues->insertItem(position, i);
+}
+
+void MainPanel::removeDialogueFromDialogueList(int position)
+{
+    QVariant v = ui.lstDialogues->item(position)->data(Qt::UserRole);
+    sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+    if (w == m_editor->shared()->selectedDialogue())
+    {
+        m_editor->shared()->setSelectedDialogue(NULL);
+    }
+    delete ui.lstDialogues->takeItem(position);
+}
+
+void MainPanel::removeDialogueFromDialogueList(sad::dialogue::Dialogue* s)
+{
+    int pos = this->findDialogueInList(s);
+    if (s == m_editor->shared()->selectedDialogue())
+    {
+        m_editor->shared()->setSelectedDialogue(NULL);
+    }
+    if (pos >= 0)
+    {
+        delete ui.lstDialogues->takeItem(pos);
+    }
+}
+
+int MainPanel::findDialogueInList(sad::dialogue::Dialogue* s)
+{
+    for(int i = 0; i < ui.lstDialogues->count(); i++)
+    {
+        QVariant v = ui.lstDialogues->item(i)->data(Qt::UserRole);
+        sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+        if (w == s)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
+{
+	return QString("%1(%2...)")
+		   .arg(p.actorName().c_str())
+		   .arg(p.phrase().subString(0, 3).c_str());
+}
+
 QCheckBox* MainPanel::visibilityCheckbox() const
 {
 	return ui.cbSceneNodeVisible;	
@@ -1205,18 +1300,6 @@ void MainPanel::fixDatabase()
 	}
 }
 
-QString MainPanel::viewableObjectName(sad::db::Object* o)
-{
-	QString result = o->objectName().c_str();
-	if (result.length() == 0)
-	{
-		char buffer[20];
-		sprintf(buffer, "%p", o);
-		result = QString(buffer);
-	}
-	return result;
-}
-
 //====================  PROTECTED SLOTS HERE ====================
 
 void MainPanel::addDatabaseProperty()
@@ -1530,6 +1613,18 @@ void MainPanel::clearDatabaseProperties()
 		it.value()->delRef();
 	}
 	m_property_delegates.clear();
+}
+
+QString MainPanel::viewableObjectName(sad::db::Object* o)
+{
+	QString result = o->objectName().c_str();
+	if (result.length() == 0)
+	{
+		char buffer[20];
+		sprintf(buffer, "%p", o);
+		result = QString(buffer);
+	}
+	return result;
 }
 
 void MainPanel::save()
