@@ -1,5 +1,8 @@
 #include "classmetadatacontainer.h"
 #include "sadmutex.h"
+
+#include "db/schema/schema.h"
+
 #include <cstdlib>
 
 
@@ -46,6 +49,10 @@ sad::ClassMetaDataContainer::~ClassMetaDataContainer()
 	{
 		delete it.value();
 	}
+	for(size_t i = 0; i < m_global_schemas.size(); ++i)
+	{
+		delete m_global_schemas[i];
+	}
 }
 
 
@@ -72,4 +79,9 @@ sad::ClassMetaData * sad::ClassMetaDataContainer::get(const sad::String & name, 
 bool sad::ClassMetaDataContainer::contains(const sad::String & name) const
 {
 	return m_container.contains(name);
+}
+
+void sad::ClassMetaDataContainer::pushGlobalSchema(sad::db::schema::Schema* s)
+{
+	m_global_schemas << s;
 }

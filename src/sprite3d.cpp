@@ -158,6 +158,8 @@ sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 				&sad::Sprite3D::setFlipY
 			)
 		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite3DBasicSchema);
 	}
 	return Sprite3DBasicSchema;
 }

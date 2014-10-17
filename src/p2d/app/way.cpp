@@ -224,7 +224,9 @@ sad::db::schema::Schema* sad::p2d::app::Way::basicSchema()
 		SadP2DAppWaySchema->add(
 			"waypoints", 
 			define_field(&sad::p2d::app::Way::m_waypoints)
-		);		
+		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadP2DAppWaySchema);
 	}
 	return SadP2DAppWaySchema;
 }
