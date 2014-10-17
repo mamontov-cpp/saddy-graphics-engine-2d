@@ -808,6 +808,10 @@
 				<Filter
 					Name="dialogues"
 					>
+					<File
+						RelativePath=".\history\dialogues\dialoguesnew.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -3306,6 +3310,10 @@
 				<Filter
 					Name="dialogues"
 					>
+					<File
+						RelativePath=".\history\dialogues\dialoguesnew.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>

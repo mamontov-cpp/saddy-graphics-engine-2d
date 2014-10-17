@@ -33,6 +33,9 @@ public:
 	 */
 	MainPanel* panel() const;
 public slots:
+	/*! Called, when user chosed to add new dialogue
+	 */
+	void addDialogue();
 	/*! Called, when a way changed in list
 		\param[in] i new row index
      */
