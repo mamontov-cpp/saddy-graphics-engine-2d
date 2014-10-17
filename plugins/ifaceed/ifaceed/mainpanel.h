@@ -273,6 +273,10 @@ public:
         \param[in] s a way
      */
     void updateDialogueName(sad::dialogue::Dialogue* s);
+	/*! Removes phrase from a phrase list
+		\param[in] row a row
+	 */
+	void removePhraseFromPhraseList(int row);
 	/*! Returns viewable name for a phrase
 		\param[in] p phrase
 		\return name for phrase

@@ -58,7 +58,7 @@ public slots:
      */
     void wayChanged(int i);
     /*! Called, when way name is edited
-        \param[in] name a name for action
+        \param[in] name a new name
      */
     void nameEdited(const QString& name);
     /*! Called, when user changes closedness of way

@@ -809,7 +809,27 @@
 					Name="dialogues"
 					>
 					<File
+						RelativePath=".\history\dialogues\dialogueschangename.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\dialogues\dialoguesnew.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasenew.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphraseremove.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphraseswap.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesremove.cpp"
 						>
 					</File>
 				</Filter>
@@ -3311,7 +3331,27 @@
 					Name="dialogues"
 					>
 					<File
+						RelativePath=".\history\dialogues\dialogueschangename.h"
+						>
+					</File>
+					<File
 						RelativePath=".\history\dialogues\dialoguesnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasenew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphraseremove.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphraseswap.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesremove.h"
 						>
 					</File>
 				</Filter>
