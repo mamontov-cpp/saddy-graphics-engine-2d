@@ -13,6 +13,11 @@
 #include "../history/dialogues/dialoguesphrasenew.h"
 #include "../history/dialogues/dialoguesphraseremove.h"
 #include "../history/dialogues/dialoguesphraseswap.h"
+#include "../history/dialogues/dialoguesphrasechangeduration.h"
+#include "../history/dialogues/dialoguesphrasechangephrase.h"
+#include "../history/dialogues/dialoguesphrasechangelineeditbasedproperty.h"
+
+#include <geometry2d.h>
 
 Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 
@@ -199,5 +204,116 @@ void gui::DialogueActions::phraseChanged(int i)
     {
 		sad::dialogue::Phrase* p = w->phrases()[i];
 		this->viewPhrase(p);
+	}
+}
+
+void gui::DialogueActions::phraseTextChanged()
+{
+	int row = m_panel->UI()->lstPhrases->currentRow();
+	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
+	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
+	{
+		sad::String oldvalue = d->phrases()[row]->phrase();
+		sad::String newvalue = m_panel->UI()->txtPhrasePhrase->toPlainText().toStdString();
+		if (oldvalue != newvalue)
+		{
+			d->phrases()[row]->setPhrase(newvalue);
+			m_panel->UI()->lstPhrases->item(row)->setText(m_panel->nameForPhrase(*(d->phrases()[row])));
+			history::dialogues::PhraseChangePhrase* c = new history::dialogues::PhraseChangePhrase(d, row, oldvalue, newvalue);
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::durationChanged(double newvalue)
+{
+	int row = m_panel->UI()->lstPhrases->currentRow();
+	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
+	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
+	{
+		double oldvalue = d->phrases()[row]->duration();
+		if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+		{
+			history::dialogues::PhraseChangeDuration* c = new history::dialogues::PhraseChangeDuration(d, row, oldvalue, newvalue);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+
+void gui::DialogueActions::actorNameChanged(const QString& newvalue)
+{
+	int row = m_panel->UI()->lstPhrases->currentRow();
+	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
+	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
+	{
+		sad::String oldvalue = d->phrases()[row]->actorName();
+		sad::String nv = newvalue.toStdString();
+		if (oldvalue != nv)
+		{
+			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+				m_panel->UI()->txtPhraseActorName,
+				&sad::dialogue::Phrase::setActorName,
+				true,
+				d, 
+				row, 
+				oldvalue, 
+				nv
+			);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+
+void gui::DialogueActions::actorPortraitChanged(const QString& newvalue)
+{
+	int row = m_panel->UI()->lstPhrases->currentRow();
+	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
+	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
+	{
+		sad::String oldvalue = d->phrases()[row]->actorPortrait();
+		sad::String nv = newvalue.toStdString();
+		if (oldvalue != nv)
+		{
+			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+				m_panel->UI()->txtPhraseActorPortrait,
+				&sad::dialogue::Phrase::setActorPortrait,
+				false,
+				d, 
+				row, 
+				oldvalue, 
+				nv
+			);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::viewHintChanged(const QString& newvalue)
+{
+	int row = m_panel->UI()->lstPhrases->currentRow();
+	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
+	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
+	{
+		sad::String oldvalue = d->phrases()[row]->viewHint();
+		sad::String nv = newvalue.toStdString();
+		if (oldvalue != nv)
+		{
+			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+				m_panel->UI()->txtPhraseViewHint,
+				&sad::dialogue::Phrase::setViewHint,
+				false,
+				d, 
+				row, 
+				oldvalue, 
+				nv
+			);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
 	}
 }

@@ -71,6 +71,25 @@ public slots:
 		\param[in] i new row index
      */
 	void phraseChanged(int i);
+	/*! Called, when text of phrase is changed
+	 */
+	void phraseTextChanged();
+	/*! Called, when user changes duration
+		\param[in] newvalue new value for duration
+	 */
+	void durationChanged(double newvalue);
+	/*! Called, when user changes actor name
+		\param[in] newvalue new value for actor name
+	 */
+	void actorNameChanged(const QString& newvalue);
+	/*! Called, when user changes actor portrait
+		\param[in] newvalue new value for actor portrait
+	 */
+	void actorPortraitChanged(const QString& newvalue);
+	/*! Called, when user changes view hint
+		\param[in] newvalue new value for view hint
+	 */
+	void viewHintChanged(const QString& newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

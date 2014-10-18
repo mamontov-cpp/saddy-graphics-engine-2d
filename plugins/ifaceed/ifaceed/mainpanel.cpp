@@ -459,6 +459,11 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.btnPhraseRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removePhrase()));
 	connect(ui.btnPhraseMoveBack, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseBack()));
 	connect(ui.btnPhraseMoveFront, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseFront()));
+	connect(ui.dsbPhraseDuration, SIGNAL(valueChanged(double)), m_dialogue_actions, SLOT(durationChanged(double)));
+	connect(ui.txtPhrasePhrase, SIGNAL(textChanged()), m_dialogue_actions, SLOT(phraseTextChanged()));
+	connect(ui.txtPhraseActorName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorNameChanged(const QString&)));
+	connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorPortraitChanged(const QString&)));
+	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
 }
 
 core::Editor* MainPanel::editor() const
@@ -553,7 +558,7 @@ void MainPanel::viewDatabase()
     db->table("dialogues")->objects(dialoguelist);
     for(unsigned int i = 0; i < dialoguelist.size(); i++)
     {
-		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(wayslist[i]);
+		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
         addDialogueToDialogueList(w);
     }
 }
