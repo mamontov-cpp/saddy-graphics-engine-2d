@@ -817,6 +817,18 @@
 						>
 					</File>
 					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangeduration.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangelineeditbasedproperty.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangephrase.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\history\dialogues\dialoguesphrasenew.cpp"
 						>
 					</File>
@@ -3336,6 +3348,18 @@
 					</File>
 					<File
 						RelativePath=".\history\dialogues\dialoguesnew.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangeduration.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangelineeditbasedproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\history\dialogues\dialoguesphrasechangephrase.h"
 						>
 					</File>
 					<File
