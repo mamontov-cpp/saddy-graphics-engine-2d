@@ -21,7 +21,7 @@ class PhraseRemove: public history::Command
 public:
     /*! Creates new command
         \param[in] dialogue dialogue
-		\param[in] a position of phrase in dialogue
+		\param[in] position  position of phrase in dialogue
      */
 	PhraseRemove(sad::dialogue::Dialogue* dialogue, int position);
     /*! Could be inherited

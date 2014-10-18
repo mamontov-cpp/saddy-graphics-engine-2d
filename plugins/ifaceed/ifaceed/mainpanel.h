@@ -261,7 +261,7 @@ public:
 	 */
 	void removeDialogueFromDialogueList(int position);
 	/*! Removes way from a way list
-		\param[in] dialogue dialogue, to be removed
+		\param[in] s dialogue, to be removed
 	 */
 	void removeDialogueFromDialogueList(sad::dialogue::Dialogue* s);
 	/*! Finds dialogue in dialogue list
