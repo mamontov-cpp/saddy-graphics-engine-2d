@@ -307,6 +307,8 @@ CONFIG(release, debug|release) {
 unix {
         LIBS += -lGL
         LIBS += -lGLU
+        LIBS += -lX11
+        LIBS += -lfreetype
 }
 
 win32 {
