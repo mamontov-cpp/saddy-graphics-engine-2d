@@ -21,15 +21,7 @@ typedef sad::Maybe<sad::p2d::Point> MaybePoint;
  */
 class InfiniteLine
 {
- private:
-	 double  m_kx; 
-	 double  m_ky;
-	 double  m_b;
-	 /*! Constructs a random point of line
-		 \return a random line
-	  */
-	 p2d::Point randomPoint() const;
- public:
+public:
 	 /*! Default line is y = 0
 	  */
 	 inline InfiniteLine() { m_kx = 0; m_ky = 1; m_b = 0; }
@@ -78,6 +70,14 @@ class InfiniteLine
 	 inline double ky() const { return m_ky; }
 	 inline double b() const { return m_b; }
 	 p2d::Vector direction() const;
+private:
+	 double  m_kx; 
+	 double  m_ky;
+	 double  m_b;
+	 /*! Constructs a random point of line
+		 \return a random line
+	  */
+	 p2d::Point randomPoint() const;
 };
 
 /*! Computes intesection of two cutters if can

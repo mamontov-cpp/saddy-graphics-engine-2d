@@ -11,7 +11,6 @@
 #include "enemybullet.h"
 
 #include <renderer.h>
-#include <texturemanager.h>
 #include <orthographiccamera.h>
 #include <sprite2d.h>
 #include <geometry2d.h>
@@ -262,7 +261,7 @@ void Game::enterPlayingScreen()
 	m_ispaused = false;
 	sad::Scene * sc = this->scene();
 
-	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
+	sad::Texture * tex = sad::Renderer::ref()->texture("background");
 	sad::Sprite2D * background = new sad::Sprite2D(
 		tex, 
 		sad::Rect2D(0, 0, 512, 512),
@@ -450,7 +449,7 @@ void Game::moveToStartingScreen()
 	sad::Scene * sc = this->scene();
 
 	// Fill screne with background, label and rain of element (the last object does that).
-	sad::Texture * tex = sad::Renderer::ref()->textures()->get("title");
+	sad::Texture * tex = sad::Renderer::ref()->texture("title");
 	sad::Sprite2D * background = new sad::Sprite2D(
 		tex, 
 		sad::Rect2D(0, 0, 512, 512),

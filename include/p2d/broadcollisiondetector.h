@@ -22,10 +22,7 @@ class SimpleCollisionDetector;
  */
 class BroadCollisionDetector: public p2d::CollisionDetector
 {
- protected:
-	 p2d::CollisionTest * m_tester; //!< A collision tester, used to determining a data
-	 p2d::SimpleCollisionDetector * m_detector; //!< Inner detector for simplified computing of collisions
- public:
+public:
 	 BroadCollisionDetector(p2d::CollisionTest * test = new p2d::CollisionTest());
 	 ~BroadCollisionDetector();
 	 /*! Tests, whether two bodies collide within specified limit
@@ -39,6 +36,9 @@ class BroadCollisionDetector: public p2d::CollisionDetector
 	  virtual p2d::MaybeTime collides(p2d::Body * b1, 
 									  p2d::Body * b2, 
 									  double limit);
+protected:
+	 p2d::CollisionTest * m_tester; //!< A collision tester, used to determining a data
+	 p2d::SimpleCollisionDetector * m_detector; //!< Inner detector for simplified computing of collisions
 };
 
 }

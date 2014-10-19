@@ -10,6 +10,8 @@
 #include "texture.h"
 #include "sadrect.h"
 
+#include "resource/resource.h"
+
 namespace sad
 {
 
@@ -20,6 +22,7 @@ class Renderer;
  */
 class TextureMappedFont: public sad::Font
 {
+SAD_OBJECT
 public:
 	/*! Creates new font. This font cannot render itself, because
 		all data is empty and not set
@@ -38,6 +41,23 @@ public:
 		\param[in] p   upper-left point in viewport coordinates
 	 */
 	virtual void render(const sad::String & str,const sad::Point2D & p);
+	/*! Renders a string of text to a texture. A texture memory is not freed.
+		A string rendered as line, so any newline symbols are stripped from rendered string.
+		\param[in] str string
+		\return rendered texture
+	 */
+	sad::Texture * renderToTexture(const sad::String & str);
+	/*! Loads a font from specified file, using specified renderer for building mip maps.
+		\param[in] file a file, via which a resource should be loaded
+		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] options  an options for loading a resource
+		\return whether loading was successfull
+	 */
+	virtual bool load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+	);
 	/*! Loads a font from files filename.png and filename.cfg.
 		You can generate font, using exporter tool in plugins directory
 
@@ -67,6 +87,9 @@ public:
 		const sad::String & configfilename,
 		sad::Renderer * r = NULL
 	);
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Returns a builtin line spacing
 		\return line spacing
 	 */
@@ -86,3 +109,5 @@ protected:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::TextureMappedFont)

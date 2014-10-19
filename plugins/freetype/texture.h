@@ -64,6 +64,9 @@ public:
 	/*! Marks texture as current
 	 */
 	void bind();
+	/*! Unloads texture from GPU
+	 */ 
+	void unload();
 };
 
 }

@@ -162,6 +162,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\classmetadatacastfunction.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\classmetadatacontainer.cpp"
 				>
 			</File>
@@ -171,10 +175,6 @@
 			</File>
 			<File
 				RelativePath=".\src\font.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fontmanager.cpp"
 				>
 			</File>
 			<File
@@ -219,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\src\object.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\objectdependentfpsinterpolation.cpp"
 				>
 			</File>
 			<File
@@ -310,14 +314,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\texturecontainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\texturemanager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\texturemappedfont.cpp"
 				>
 			</File>
@@ -386,58 +382,6 @@
 				</File>
 				<File
 					RelativePath=".\src\os\windowimpl.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="config"
-				>
-				<File
-					RelativePath=".\src\config\sprite2dconfig.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\config\sprite2dconfigloader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\config\sprite2dobserver.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="marshal"
-				>
-				<File
-					RelativePath=".\src\marshal\abstractproperty.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\abstractreader.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\abstractwriter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\hashbasedserializablecontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\saveloadcallbacks.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\serializablecontainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\serializableobject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\marshal\variant.cpp"
 					>
 				</File>
 			</Filter>
@@ -713,6 +657,150 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="util"
+				>
+				<File
+					RelativePath=".\src\util\deletetexturetask.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\util\fs.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\util\swaplayerstask.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="resource"
+				>
+				<File
+					RelativePath=".\src\resource\abstractlink.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\error.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\folder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\physicalfile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\resource.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\resourcefactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\textureatlasfile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\resource\tree.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="db"
+				>
+				<File
+					RelativePath=".\src\db\dbcanbecastedfromto.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbconversiontable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbdatabase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dberror.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dblink.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbobject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbobjectfactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbpopulatescenesfromdatabase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbproperty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbstoredpropertyfactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbtable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbtypename.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\db\dbvariant.cpp"
+					>
+				</File>
+				<Filter
+					Name="schema"
+					>
+					<File
+						RelativePath=".\src\db\schema\schema.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="custom"
+					>
+					<File
+						RelativePath=".\src\db\custom\customobject.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\db\custom\customschema.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\db\custom\customschemafile.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="dialogue"
+				>
+				<File
+					RelativePath=".\src\dialogue\dialogue.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\dialogue\phrase.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -728,6 +816,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\classmetadatacastfunction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\classmetadatacontainer.h"
 				>
 			</File>
@@ -737,10 +829,6 @@
 			</File>
 			<File
 				RelativePath=".\include\font.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\fontmanager.h"
 				>
 			</File>
 			<File
@@ -801,6 +889,10 @@
 			</File>
 			<File
 				RelativePath=".\include\object.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\objectdependentfpsinterpolation.h"
 				>
 			</File>
 			<File
@@ -940,14 +1032,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\texturecontainer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\texturemanager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\texturemappedfont.h"
 				>
 			</File>
@@ -1048,74 +1132,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="config"
-				>
-				<File
-					RelativePath=".\include\config\sprite2dconfig.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dconfigloader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dobserver.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\config\sprite2dtemplate.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="marshal"
-				>
-				<File
-					RelativePath=".\include\marshal\abstractproperty.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\abstractreader.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\abstractwriter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\hashbasedserializablecontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\property.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\saveloadcallbacks.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\serializablecontainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\serializableobject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\templatemappings.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\typestrings.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\marshal\variant.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="3rdparty"
 				>
 				<Filter
@@ -1203,6 +1219,22 @@
 					>
 					<File
 						RelativePath=".\include\3rdparty\glext\glext.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="picojson"
+					>
+					<File
+						RelativePath=".\include\3rdparty\picojson\getproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\picojson\picojson.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\3rdparty\picojson\valuetotype.h"
 						>
 					</File>
 				</Filter>
@@ -1455,11 +1487,43 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\include\util\commoncheckedcast.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\deletetexturetask.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\util\formattedlabelarg.h"
 					>
 				</File>
 				<File
+					RelativePath=".\include\util\free.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\fs.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\getterproxy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\pointercallback.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\util\sadthreadexecutablefunction.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\setterproxy.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\util\swaplayerstask.h"
 					>
 				</File>
 			</Filter>
@@ -1512,6 +1576,154 @@
 				</File>
 				<File
 					RelativePath=".\include\hfsm\hfsmtransitionrepository.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="resource"
+				>
+				<File
+					RelativePath=".\include\resource\abstractlink.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\error.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\folder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\link.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\physicalfile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\resourcefactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\textureatlasfile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\resource\tree.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="db"
+				>
+				<File
+					RelativePath=".\include\db\dbcanbecastedfromto.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbconversiontable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbdatabase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dberror.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbfield.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbmethodpair.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbobject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbobjectfactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbpopulatescenesfromdatabase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbstoredproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbstoredpropertyfactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbtable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbtypename.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\dbvariant.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\load.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\db\save.h"
+					>
+				</File>
+				<Filter
+					Name="schema"
+					>
+					<File
+						RelativePath=".\include\db\schema\schema.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="custom"
+					>
+					<File
+						RelativePath=".\include\db\custom\customobject.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\db\custom\customschema.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\db\custom\customschemafile.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="dialogue"
+				>
+				<File
+					RelativePath=".\include\dialogue\dialogue.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\dialogue\phrase.h"
 					>
 				</File>
 			</Filter>

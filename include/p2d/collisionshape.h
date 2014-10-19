@@ -65,6 +65,8 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const = 0;
+	/*! Could be inherited
+	 */
 	virtual ~CollisionShape();
 };
 
@@ -72,3 +74,4 @@ public:
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::CollisionShape)

@@ -1,11 +1,17 @@
 #include <sprite3d.h>
 #include <geometry3d.h>
 #include <renderer.h>
-#include <texturemanager.h>
 
 #include <os/glheaders.h>
 
 #include <math.h>
+
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
 
 
 DECLARE_SOBJ_INHERITANCE(sad::Sprite3D,sad::SceneNode);
@@ -21,10 +27,9 @@ m_texture_coordinates(0,0,0,0),
 m_middle(0,0,0),
 m_size(0,0),
 m_renderable_area(sad::Point3D(0, 0), sad::Point3D(0, 0)),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
-
+	
 }
 
 sad::Sprite3D::Sprite3D(		
@@ -38,9 +43,9 @@ m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(texture),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture.attach(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -57,19 +62,20 @@ sad::Sprite3D::Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect<sad::Point3D>& area,
+		const sad::String& tree,
 		bool fast
 	)
 : 
-m_texture_name(texture),
 m_flipx(false),
 m_flipy(false),
 m_alpha(0),
 m_theta(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture.setTree(NULL, tree);
+	m_texture.setPath(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -87,13 +93,90 @@ sad::Sprite3D::~Sprite3D()
 
 }
 
+static sad::db::schema::Schema* Sprite3DBasicSchema = NULL;
+
+
+sad::db::schema::Schema* sad::Sprite3D::basicSchema()
+{
+	if (Sprite3DBasicSchema == NULL)
+	{
+		Sprite3DBasicSchema = new sad::db::schema::Schema();
+		Sprite3DBasicSchema->addParent(sad::SceneNode::basicSchema());
+		Sprite3DBasicSchema->add(
+			"texture", 
+			new sad::db::MethodPair<sad::Sprite3D, sad::String>(
+				&sad::Sprite3D::textureName,
+				&sad::Sprite3D::setTextureName
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"texturecoordinates", 
+			new sad::db::MethodPair<sad::Sprite3D, sad::Rect2D>(
+				&sad::Sprite3D::textureCoordinates,
+				&sad::Sprite3D::setTextureCoordinates
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"area", 
+			new sad::db::MethodPair<sad::Sprite3D, sad::Rect<sad::Point3D> >(
+				&sad::Sprite3D::area,
+				&sad::Sprite3D::setRenderableArea
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"angle", 
+			new sad::db::MethodPair<sad::Sprite3D, double>(
+				&sad::Sprite3D::alpha,
+				&sad::Sprite3D::setAlpha
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"theta", 
+			new sad::db::MethodPair<sad::Sprite3D, double>(
+				&sad::Sprite3D::theta,
+				&sad::Sprite3D::setTheta
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"color", 
+			new sad::db::MethodPair<sad::Sprite3D, sad::AColor>(
+				&sad::Sprite3D::color,
+				&sad::Sprite3D::setColor
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"flipx", 
+			new sad::db::MethodPair<sad::Sprite3D, bool>(
+				&sad::Sprite3D::flipX,
+				&sad::Sprite3D::setFlipX
+			)
+		);
+		Sprite3DBasicSchema->add(
+			"flipy", 
+			new sad::db::MethodPair<sad::Sprite3D, bool>(
+				&sad::Sprite3D::flipY,
+				&sad::Sprite3D::setFlipY
+			)
+		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite3DBasicSchema);
+	}
+	return Sprite3DBasicSchema;
+}
+
+sad::db::schema::Schema* sad::Sprite3D::schema() const
+{
+	return sad::Sprite3D::basicSchema();
+}
+
 void sad::Sprite3D::render()
 {
-  if (!m_texture)
+  sad::Texture * texture = m_texture.get();
+  if (!texture)
 	  return;
    glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
    glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
-   m_texture->bind();	
+   texture->bind();	
    glBegin(GL_QUADS);
    for (int i = 0;i < 4; i++)
    {
@@ -111,6 +194,14 @@ void sad::Sprite3D::render()
    glColor4iv(m_current_color_buffer);
 }
 
+void sad::Sprite3D::rendererChanged()
+{
+	if (m_texture.dependsOnRenderer())
+	{
+		m_texture.setRenderer(this->renderer());
+	}
+}
+
 void sad::Sprite3D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
 {
 	m_texture_coordinates = texturecoordinates;
@@ -121,9 +212,10 @@ void sad::Sprite3D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
 	m_texture_coordinates[index] = point;
 	// Try  to immediately convert point to normalized if needed
-	if (m_texture)
+	sad::Texture * tex = m_texture.get();
+	if (tex)
 	{
-		sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+		sad::Point2D relativepoint(point.x() / tex->Width, point.y() / tex->Height );
 		int newindex = 3 - index;
 
 		// Take care of horizontal flip
@@ -301,33 +393,46 @@ bool sad::Sprite3D::flipY() const
 
 void sad::Sprite3D::setTexture(sad::Texture * texture)
 {
-	m_texture = texture;
+	m_texture.attach(texture);
 	normalizeTextureCoordinates();
 }
 
 sad::Texture * sad::Sprite3D::texture() const
 {
-	return m_texture;
+	return m_texture.get();
 }
 
-void sad::Sprite3D::setTexureName(const sad::String & name)
+void sad::Sprite3D::setTextureName(const sad::String & name)
 {
-	m_texture_name = name;
+	m_texture.setPath(name);
 	reloadTexture();
 }
 
 const sad::String& sad::Sprite3D::textureName()
 {
-	return m_texture_name;
+	return m_texture.path();
 }
 
 void sad::Sprite3D::setScene(sad::Scene * scene)
 {
 	this->sad::SceneNode::setScene(scene);
-	if (m_texture_name.length() != 0)
+	if (m_texture.dependsOnRenderer() && scene)
 	{
+		m_texture.setRenderer(scene->renderer());
 		reloadTexture();
 	}
+}
+
+void sad::Sprite3D::setTreeName(const sad::String & treename)
+{
+	m_texture.setTree(m_texture.renderer(), treename);
+	reloadTexture();
+}
+
+void sad::Sprite3D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
+{
+	m_texture.setTree(r, tree_name);
+	reloadTexture();
 }
 
 void sad::Sprite3D::initFromRectangleFast(const sad::Rect<sad::Point3D> & rect)
@@ -368,25 +473,18 @@ void sad::Sprite3D::buildRenderableArea()
 
 void sad::Sprite3D::reloadTexture()
 {
-	if (m_texture_name.length() && scene())
-	{
-		if (scene()->renderer())
-		{
-			sad::Texture * tex = scene()->renderer()->textures()->get(m_texture_name);
-			m_texture = tex;
-			normalizeTextureCoordinates();
-		}
-	}	
+	normalizeTextureCoordinates();
 }
 
 void sad::Sprite3D::normalizeTextureCoordinates()
 {
-	if (m_texture)
+	sad::Texture * texture = m_texture.get();
+	if (texture)
 	{
 		for(int i = 0; i < 4; i++)
 		{
 			const sad::Point2D & point = m_texture_coordinates[i];
-			sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+			sad::Point2D relativepoint(point.x() / texture->Width, point.y() / texture->Height );
 			m_normalized_texture_coordinates[3 - i] = relativepoint;
 		}
 		if (m_flipx)

@@ -10,6 +10,11 @@ sad::freetype::Texture::Texture()
 
 sad::freetype::Texture::~Texture()
 {
+
+}
+
+void sad::freetype::Texture::unload()
+{
 	if (IsOnGPU)
 	{
 		glDeleteTextures(1, &Id);

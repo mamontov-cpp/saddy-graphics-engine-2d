@@ -60,6 +60,11 @@ public:
 		\return multiple option value (can be not set if not registered)
 	 */
 	virtual sad::Maybe<sad::Vector<sad::String> > vector(const sad::String & s) const;
+	/*! Returns true, if command line option is specified
+		\param[in] s a string
+		\return whether command line option  is specified by user
+	 */
+	virtual bool specified(const sad::String & s) const;
 	/*! Adds new flag option. A default value for flag is false
 		\param[in] s name of flag
 	 */

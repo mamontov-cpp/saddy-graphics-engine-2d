@@ -3,6 +3,8 @@
 
 	Contains a definition of sprite in 2-dimensional space.
  */
+#include "resource/resource.h"
+#include "resource/link.h"
 #include "scene.h"
 #include "maybe.h"
 #include "sadrect.h"
@@ -26,21 +28,27 @@ SAD_OBJECT
 public:
 	/*! A simple options to make 2d sprite from template. Could be stored in some places
 	 */
-	class Options
+	class Options: public sad::resource::Resource
 	{
+      SAD_OBJECT
 	  public:
+		  
 		  /*! A texture name, that defines a texture in sprite
 		   */
 		  sad::String Texture;       
-		  /*! A container, which defines a used texture location in manager
-		   */ 
-		  sad::Maybe<sad::String> TextureContainer; 
 		  /*! Stored texture coordinates in pixelds
 		   */
 		  sad::Rect2D TextureRectangle;  
 		  /*! A rectangle, which defines current quad to be rendered
 		   */
 		  sad::Rect2D Rectangle;
+		  /*! Whether some color is transparent in sprite. Applied only in case
+			  of loading resources
+		   */
+		  bool Transparent;
+		  /*! A transparent color data
+		   */
+		  sad::Color TransparentColor;
 
 		  /*! Creates default invalid options
 		   */
@@ -48,6 +56,23 @@ public:
 		  {
 			  
 		  }
+
+		  /*! Loads an options from specified file, using specified renderer for building mip maps.
+			  \param[in] file a file, via which a resource should be loaded
+			  \param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+			  \param[in] options  an options for loading a resource
+			  \return whether loading was successfull
+	       */
+		   virtual bool load(
+				const sad::resource::PhysicalFile & file,
+				sad::Renderer * r,
+				const picojson::value& options
+		   );
+		   /*! Load an options from value
+			   \param[in] v an options to be loaded
+			   \return whether loading was successfull
+		    */
+		   bool load(const picojson::value& v);
 	};
 	/*! Creates default invalid sprite, which must be initialized via setter methods
 	 */
@@ -71,20 +96,38 @@ public:
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
 		\param[in] fast     whether we should not init angle rotations for area and just treat it as base
+		\param[in] treename a name of tree, where we should take our texture resource
 	 */
 	Sprite2D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect2D& area,
-		bool fast = true
+		bool fast = true,
+		const sad::String & treename = ""
 	);
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
 	 */
-	virtual ~Sprite2D();	      
+	virtual ~Sprite2D();
+	/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+		As default, no regions are produced.
+		\param[out] r a vector of regions
+	 */
+	virtual void regions(sad::Vector<sad::Rect2D> & r);
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Renders a sprite as a simple quad 
 	 */
 	virtual void render();
+	/*! Called, when renderer for scene is changed
+	 */
+	virtual void rendererChanged();
 	/*! Sets a texture coordinates for sprites
 		\param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
 									  constructor
@@ -113,7 +156,11 @@ public:
 		\return area for sprite
 	 */
 	sad::Rect2D area() const;
-	/*! ReturnS rotated renderable area for a sprite
+	/*! Sets non-rotated area for a sprite
+		\param[in] a area
+	 */
+	void setArea(const sad::Rect2D & a);
+	/*! Returns rotated renderable area for a sprite
 		\return area for sprite
 	 */
 	const sad::Rect2D & renderableArea() const;
@@ -204,6 +251,22 @@ public:
 		\param[in] o options, which defines texture, texture coordinates and rendered rectangle
 	 */
 	void set(const sad::Sprite2D::Options & o);
+	/*! Initializes sprite parameters from options, passed to sprite
+		\param[in] optionsname a name of attached options element
+	 */
+	void set(const sad::String & optionsname);
+	/*! Returns option name
+		\return options name
+	 */
+	const sad::String& optionsName() const;
+	/*! Sets tree name for options and textures links
+		\param[in] treename a name of renderer's tree
+	 */
+	void setTreeName(const sad::String & treename);
+	/*! A name of renderer's tree for texture resource
+		\return name of tree
+	 */
+	const sad::String & treeName() const;
 	/*! Makes sprite rectangle span between two points, which defines centers of opposite sides
 		of sprite
 		\param[in] r source rectangle for adapter
@@ -215,16 +278,43 @@ public:
 		const sad::Point2D & p1, 
 		const sad::Point2D & p2
 	);
-	/*! Whether size of sprite was changed
-		\return whether size of sprite was changed
-	 */
-	bool sizeChanged() const;
 	/*! When set scene and texture name is defined 2D sprite tries to reload
 		itself from scene's renderer
 		\param[in] scene a scene, which will render a node
 	 */
 	virtual void setScene(sad::Scene * scene);
+	/*! Sets, whether or not sprite should change size, when options for a sprite are changed
+		\param[in] flag whether or  not
+	 */
+	void setChangeSizeWhenOptionsAreChanged(bool flag);
+	/*! Returns whether or not sprite, should change size, when options for a sprite are changed
+		\return flag
+	 */
+	bool changeSizeWhenOptionsAreChanged() const;
+	/*! Enables loading mode for sprite. In loading mode, when sprite changes options,
+		it's area will not be reset. Also, it works only once, so you can call it
+		before set method to make sure, that area will be preserved
+	 */
+	void toggleLoadingMode();
+	/*! Loads sprite from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
+	 */
+	virtual bool load(const picojson::value& v);
+	/*! Sets a tree name for object with specified renderer
+		\param[in] r renderer, which tree should be fetched from
+		\param[in] tree_name a name for an item for object
+	 */
+	virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
 protected:
+	/*! Performed, when texture is changed
+		\param[in] tex a new texture
+	 */
+	void onTextureChange(sad::Texture * tex);
+	/*! Performed, when sprite options are changed
+		\param[in] opts a new options
+	 */
+	void onOptionsChange(sad::Sprite2D::Options * opts);
 	/*! Fast version of 2D sprite initialization from rectangle. Just sets it as
 		current renderable rectangle, all angles to zero
 		\param[in] rect a rectangle
@@ -243,15 +333,13 @@ protected:
 	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
 	 */
 	void normalizeTextureCoordinates();
-	/*! Defines a name for a texture
-	 */ 
-	sad::String m_texture_name;
+	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
+		\param[in] tex a texture, which coordinates must be normalized with
+	 */
+	void normalizeTextureCoordinates(sad::Texture * tex);
 	/*! A counter-clockwise rotation angle
 	 */
 	double     m_angle;
-	/*! Determines, whether size of sprite is changed
-	 */ 
-	bool       m_size_changed;
 	/*! Whether sprite is flipped on X axis
 	 */
 	bool       m_flipx;
@@ -277,13 +365,30 @@ protected:
 	sad::Rect2D  m_renderable_area;
 	/*! A texture to be used in sprite
 	 */
-	sad::Texture * m_texture;
+	sad::resource::Link<sad::Texture> m_texture;
+	/*! A link to an options
+	 */
+	sad::resource::Link<sad::Sprite2D::Options> m_options;
 	/*! A used color of sprite
 	 */
 	sad::AColor  m_color;
 	/*! A current color buffer, used when getting current color of scene
 	 */ 
 	int  m_current_color_buffer[4];
+	/*! Determines, whether we should change own size, if options size is changed
+	 */
+	bool m_changesizeifoptionssizechanged;
+	/*! Whether we should explicitly set a sprite value
+	 */
+	bool m_explicit_set;
+	/*! Toggles loading time on sprite.
+		If sprite is loading, it would not synchronize it's area with 
+		options
+	 */
+	bool m_loading;
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Sprite2D)
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Sprite2D::Options)

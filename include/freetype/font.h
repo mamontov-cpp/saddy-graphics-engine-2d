@@ -6,9 +6,13 @@
 */
 #pragma once
 #include "../font.h"
+#include "../resource/resource.h"
+
+#include <texture.h>
 
 namespace sad
 {
+class Renderer;
 
 namespace freetype
 {
@@ -20,10 +24,22 @@ class FontImpl;
  */
 class Font: public sad::Font
 {
+SAD_OBJECT;
 public:
 	/*! Creates an empty font
 	 */
 	Font();
+	/*! Loads a font from specified file, using specified renderer for building mip maps.
+		\param[in] file a file, via which a resource should be loaded
+		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] options  an options for loading a resource
+		\return whether loading was successfull
+	 */
+	virtual bool load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+	);
 	/*! Loads a font
 	    \param[in] filename a path to TTF or other files, to be loaded via freetype
 	 */
@@ -33,6 +49,16 @@ public:
 		\param[in] p   upper-left point in window coordinates
 	 */
 	virtual void render(const sad::String & str,const sad::Point2D & p);
+	/*! Renders text line to a texture. Before output all new line string are stripped.
+		Texture's memory should be freed manually
+		\param[in] string a string texture
+		\param[in] height a height for rendering
+		\return rendered image
+	 */
+	sad::Texture * renderToTexture(
+		const sad::String & string,
+		unsigned int height 
+	);
 	/*! Returns a estimated size of label, rendered with specified size
 	    \param[in] str string
 		\return size of label
@@ -42,13 +68,19 @@ public:
 		\return line spacing
 	 */
 	virtual float builtinLineSpacing() const;
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
 	/*! Destructor
 	 */
 	virtual ~Font();
 private:
 	sad::freetype::FontImpl * m_dptr; //!< A private implementation of font
+	sad::Renderer * m_renderer; //!<  A stored renderer for a font
 };
 
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::freetype::Font)

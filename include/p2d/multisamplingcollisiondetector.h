@@ -17,10 +17,7 @@ namespace p2d
  */
 class MultisamplingCollisionDetector: public p2d::CollisionDetector
 {
- private:
-	 p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
-	 unsigned int  m_tests;  //!< An amount of tests to be performed
- public:
+public:
 	 /*! Creates new detector
 		 \param[in] tests amount of tests to be performed on each iteration
 		 \param[in] t     a shape collision testing callbacks
@@ -51,6 +48,9 @@ class MultisamplingCollisionDetector: public p2d::CollisionDetector
 	  virtual int sampleCount() const;
 
 	 ~MultisamplingCollisionDetector();
+private:
+	 p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
+	 unsigned int  m_tests;  //!< An amount of tests to be performed
 };
 
 }

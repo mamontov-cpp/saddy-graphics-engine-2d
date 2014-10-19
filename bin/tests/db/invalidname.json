@@ -1,0 +1,10 @@
+[
+{
+ "name" : [],
+ "resource": "1",
+ "schema" : {
+   "k" : {"type" : "int", "value" : 0 },
+   "k2" : {"type" : "int", "value" : 0 }
+ }
+}
+]

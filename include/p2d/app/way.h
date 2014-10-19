@@ -10,6 +10,7 @@
 
 #include "../../sadvector.h"
 
+#include "../../db/dbobject.h"
 
 namespace sad
 {
@@ -31,26 +32,20 @@ typedef p2d::Point WayPoint;
 
 	You can reset state by calling p2d::Way::startConstruction.
  */
-class Way
+class Way: public sad::db::Object
 {
 public:
 	struct WayLink
 	{
-                p2d::app::Way * LinkedWay;
-                double     CurrentTime;
-
-		inline WayLink(p2d::app::Way * w = NULL)
+		inline WayLink(p2d::app::Way* w = NULL)
 		{
 			this->LinkedWay = w;
 			this->CurrentTime = 0;
 		}
+		
+		p2d::app::Way * LinkedWay;
+        double     CurrentTime;
 	};
-protected:
-	bool m_constructed; //!< Whether way is constructed
-	bool m_closed;		//!< Whether way is closed
-	double m_totaltime; //!< Amount of time,  which is needed to pass all way
-	sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
-	sad::Vector<double>        m_times;     //!< A time, when the point should be reached
 public:
 	/*! Creates a default closed unconstructed way
 	 */
@@ -63,26 +58,37 @@ public:
 		\param[in] step a time step
 		\param[out] p a current point
 	 */
-	void step(WayLink * link, double step, p2d::Point & p);
+	void step(WayLink * link, double step, sad::p2d::Point & p);
 	/*! Sets i-th point to another point
 		\param[in] i an index for point
 		\param[in] p point
 	 */
-	void setPoint(int i,  const p2d::app::WayPoint & p);
+	void setPoint(int i,  const sad::p2d::app::WayPoint & p);
 	/*! Add new point
 		\param[in] p point
 	 */
-	void addPoint(const p2d::app::WayPoint & p);	
+	void addPoint(const sad::p2d::app::WayPoint & p);
+	/*! Inserts point in specified position
+		\param[in] i a position
+		\param[in] p point
+	 */
+	void insertPoint(int i, const sad::p2d::app::WayPoint& p);
 	/*! Removes a point
 		\param[in] i an index for point
 	 */
 	void removePoint(int i);
+	/*! Returns, true, whether way is closed
+	 */
+	bool closed() const;
+	/*! Sets, whether way open or closed
+	 */
+	void setClosed(bool b);
 	/*! Makes a way closed, like circle
 	 */
 	void makeClosed();
 	/*! Makes a way simple, as open
 	 */
-	void makeOpen();
+	void makeOpen();	
 	/*! Sets a total time for a way
 		\param[in] time a time for data
 	 */ 
@@ -90,7 +96,7 @@ public:
 	/*! Returns a time
 		\return time
 	 */
-	inline double totalTime() const   { return m_totaltime; }
+	double totalTime() const;
 	/*! Returns a way points
 		\return way points
 	 */
@@ -101,6 +107,29 @@ public:
 	/*! Starts anew construction of way
 	 */
 	void startConstruction();
+	/*! Returns string "sad::p2d::app::Way"
+		\return name, under which object will be serialized
+	 */
+	virtual const sad::String& serializableName() const;
+	/*! Returns schema for all kinds of way
+		\return schema
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
+	/*! Loads sprite from picojson object
+		\param[in] v a picojson object
+		\return  whether it as successfull
+	 */
+	virtual bool load(const picojson::value& v);
+protected:
+	bool m_constructed; //!< Whether way is constructed
+	bool m_closed;		//!< Whether way is closed
+	double m_totaltime; //!< Amount of time,  which is needed to pass all way
+	sad::Vector<p2d::app::WayPoint> m_waypoints; //!< A set of waypoints
+	sad::Vector<double>        m_times;     //!< A time, when the point should be reached
 };
 
 }

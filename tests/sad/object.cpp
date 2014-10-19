@@ -118,6 +118,38 @@ DECLARE_SOBJ_INHERITANCE4(InheritedFrom4,
 						  DirectDescendant3,
 						  DirectDescendant4);
 
+class CarriedObject: public sad::Object
+{
+SAD_OBJECT
+public:
+	CarriedObject()
+	{
+	}
+}  _carried_object;
+
+DECLARE_SOBJ_INHERITANCE(CarriedObject, sad::Object);
+
+class CarriedObject2: public sad::Object
+{
+SAD_OBJECT
+public:
+	// Padding to make some insertion hacks fail
+	int _pad0;
+	int _pad1;
+	CarriedObject local;
+
+	CarriedObject2()
+	{
+	}
+
+	CarriedObject * to_new() const
+	{
+		return &(const_cast<CarriedObject2*>(this)->local);
+	}
+}  _carried_object2;
+
+DECLARE_SOBJ_INHERITANCE_WITH_CAST(CarriedObject2, sad::Object, CarriedObject, &CarriedObject2::to_new);
+
 /*!
  * Tests object logic
  */
@@ -136,7 +168,9 @@ struct SadObjectTest : tpunit::TestFixture
 	   TEST(SadObjectTest::testInheritedFrom2),
 	   TEST(SadObjectTest::testInheritedFrom3),
 	   TEST(SadObjectTest::testInheritedFrom4),
-	   TEST(SadObjectTest::testFailCast)
+	   TEST(SadObjectTest::testFailCast),
+	   TEST(SadObjectTest::testCastMethod),
+	   TEST(SadObjectTest::testName)
    ) {}
    /*! Cache, which stores objects by class
     */
@@ -349,6 +383,20 @@ struct SadObjectTest : tpunit::TestFixture
 			ASSERT_EQUAL(ex.fromName(), "DirectDescendant1");
 			ASSERT_EQUAL(ex.toName() , "InheritedFrom1");
 		}
+   }
+
+   void testCastMethod()
+   {
+	   sad::Object * result = &_carried_object2;
+	   sad::Object * casted = result->metaData()->castTo(result, "CarriedObject");
+	   CarriedObject * test = static_cast<CarriedObject*>(casted);
+	   ASSERT_TRUE(&(_carried_object2.local) == test);
+   }
+
+   void testName()
+   {
+		DirectDescendant1 a;
+		ASSERT_TRUE( a.className() == "DirectDescendant1" );
    }
 
 } test_object;

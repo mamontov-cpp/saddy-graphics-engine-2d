@@ -11,19 +11,21 @@
 #include "sadwstring.h"
 #include "sadvector.h"
 
+#include "resource/resource.h"
+
 #include <stdio.h>
 
 
 namespace sad
 {
-class TextureContainer;
 class Renderer;
 
 /*! A main texture class, which stores all related data to a texture
 	providing simple interface for working with it
  */
-class Texture
+class Texture: public sad::resource::Resource
 {
+SAD_OBJECT
 public:
 	/*! A texture pixels stored as bytes in RGBA order
 	 */
@@ -74,6 +76,20 @@ public:
 	/*! Loads default texture, hardcoded inside of engine
 	 */
 	void loadDefaultTexture();
+	/*! Unloads all resources from GPU. By default does nothing
+	 */
+	virtual void unloadFromGPU();
+	/*! Loads a texture from specified file, using specified renderer for building mip maps.
+		\param[in] file a file, via which a resource should be loaded
+		\param[in] r  a renderer, which resource should be linked to (NULL if global renderer)
+		\param[in] options  an options for loading a resource
+		\return whether loading was successfull
+	 */
+	virtual bool load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+	);
 	/*! Loads an image, depending of file extension
 		\param[in] filename name of file
 		\param[in] r renderer where texture loader is getting from
@@ -180,3 +196,5 @@ protected:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Texture)

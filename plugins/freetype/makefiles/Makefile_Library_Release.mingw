@@ -11,7 +11,7 @@ endif
 
 TYPE     = release
 OUTPUT   = ../../lib/libsaddy-ft-release.a 
-BUILD    = build/nextpoweroftwo_$(TYPE).o build/fixedsizefont_$(TYPE).o build/glyph_$(TYPE).o build/fontimpl_$(TYPE).o build/towidechar_$(TYPE).o build/font_$(TYPE).o build/texture_$(TYPE).o
+BUILD    = build/fixedsizefont_$(TYPE).o build/fontimpl_$(TYPE).o build/freetypefont_$(TYPE).o build/glyph_$(TYPE).o build/nextpoweroftwo_$(TYPE).o build/texture_$(TYPE).o build/towidechar_$(TYPE).o
 
 ifeq ($(TYPE),debug)
 CCOPTS = -g
@@ -22,21 +22,21 @@ endif
 all: build $(OUTPUT)
 build: 
 	mkdir build
-build/nextpoweroftwo_$(TYPE).o: nextpoweroftwo.cpp
-	g++ -c $(CCOPTS) nextpoweroftwo.cpp -o build/nextpoweroftwo_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/fixedsizefont_$(TYPE).o: fixedsizefont.cpp
 	g++ -c $(CCOPTS) fixedsizefont.cpp -o build/fixedsizefont_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/glyph_$(TYPE).o: glyph.cpp
-	g++ -c $(CCOPTS) glyph.cpp -o build/glyph_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/fontimpl_$(TYPE).o: fontimpl.cpp
 	g++ -c $(CCOPTS) fontimpl.cpp -o build/fontimpl_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/towidechar_$(TYPE).o: towidechar.cpp
-	g++ -c $(CCOPTS) towidechar.cpp -o build/towidechar_$(TYPE).o $(INCLUDE) $(DEFINES)
-build/font_$(TYPE).o: font.cpp
-	g++ -c $(CCOPTS) font.cpp -o build/font_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/freetypefont_$(TYPE).o: freetypefont.cpp
+	g++ -c $(CCOPTS) freetypefont.cpp -o build/freetypefont_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/glyph_$(TYPE).o: glyph.cpp
+	g++ -c $(CCOPTS) glyph.cpp -o build/glyph_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/nextpoweroftwo_$(TYPE).o: nextpoweroftwo.cpp
+	g++ -c $(CCOPTS) nextpoweroftwo.cpp -o build/nextpoweroftwo_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/texture_$(TYPE).o: texture.cpp
 	g++ -c $(CCOPTS) texture.cpp -o build/texture_$(TYPE).o $(INCLUDE) $(DEFINES)
-$(OUTPUT): build/nextpoweroftwo_$(TYPE).o build/fixedsizefont_$(TYPE).o build/glyph_$(TYPE).o build/fontimpl_$(TYPE).o build/towidechar_$(TYPE).o build/font_$(TYPE).o build/texture_$(TYPE).o
+build/towidechar_$(TYPE).o: towidechar.cpp
+	g++ -c $(CCOPTS) towidechar.cpp -o build/towidechar_$(TYPE).o $(INCLUDE) $(DEFINES)
+$(OUTPUT): build/fixedsizefont_$(TYPE).o build/fontimpl_$(TYPE).o build/freetypefont_$(TYPE).o build/glyph_$(TYPE).o build/nextpoweroftwo_$(TYPE).o build/texture_$(TYPE).o build/towidechar_$(TYPE).o
 	ar cr  $(OUTPUT)   $(BUILD)
 clean:
 ifeq ($(PLATFORM),WIN32)

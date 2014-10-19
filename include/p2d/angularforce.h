@@ -28,10 +28,7 @@ class TickableDefaultValue<double>
 template<>
 class Force<double>
 {
- protected:
-	 bool m_alive;       //!< If false, this force should be removed from container 
-	 double    m_value;  //!< A value of force
- public:
+public:
 	 /*! Creates zero force
 	  */
 	 inline Force() { m_alive = true; m_value = 0.0; }
@@ -58,6 +55,9 @@ class Force<double>
 	     \param[in] time a time step size
 	  */
 	 virtual void step(double time);
+protected:
+	 bool m_alive;       //!< If false, this force should be removed from container 
+	 double    m_value;  //!< A value of force
 };
 
 /*! Describes a simple impulse force with value T

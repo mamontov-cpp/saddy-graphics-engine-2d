@@ -22,6 +22,8 @@ class GridNodeEdge: public sad::SceneNode
 	 GridNodeEdge(sad::p2d::Body * b1, sad::p2d::Body * b2);
 
 	 virtual void render();
+	 virtual void setScene(sad::Scene * o);
+	 virtual void rendererChanged();
 
 	 virtual ~GridNodeEdge();
 };

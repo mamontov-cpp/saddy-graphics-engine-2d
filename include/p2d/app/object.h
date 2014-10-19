@@ -31,33 +31,7 @@ class Object: public sad::SceneNode
 	   for collision detection
 	 */
 	SAD_OBJECT
- protected:
-	 /*! A body is representation for a game object in physics engine, needed
-	  */
-	 p2d::Body * m_body;
-	 /*! A sprite is a graphical representation for a game object
-	  */
-	 sad::Sprite2D * m_sprite;
-	 /*! An object is linked to game to forward the in-game to a game object 
-	  */
-	 p2d::app::App * m_app;
-	 /*! A first listener for movement of body
-	  */
-	 p2d::MovementDeltaListener<p2d::app::Object, p2d::Vector> * m_listener1;
-	 /*! A second listener for movement of body
-	  */
-	 p2d::MovementDeltaListener<p2d::app::Object, double> * m_listener2;
- protected:
-	 /*! Inits object parameters from constants of specified type
-	  */
-	 template<typename T> void initFromConstants()
-	 {
-		 Sprite2D::Options * o = p2d::app::Constants<T>::sprite();
-		 this->m_sprite->set(*o);
-		 delete o;
-		 this->m_body->setShape(p2d::app::Constants<T>::shape());
-	 }
- public:
+public:
 	 /*! Creates an empty object
 	  */
 	 Object();
@@ -106,6 +80,13 @@ class Object: public sad::SceneNode
 		 \param[in] g world
 	  */
 	 void setApp(p2d::app::App * g);
+	 /*! Sets scene for a sprite
+		 \param[in] s scene
+	  */
+	 virtual void setScene(sad::Scene * s);
+	 /*! Called, when scene renderer's changed
+	  */
+	 virtual void rendererChanged();
 	 /*! The object does not own anything, if game is not null
 	  */
 	 virtual ~Object();
@@ -145,6 +126,32 @@ class Object: public sad::SceneNode
 		 \param[in] v velocity
 	  */
 	 void setTangentialVelocity(const p2d::Vector & v);
+protected:
+	 /*! A body is representation for a game object in physics engine, needed
+	  */
+	 p2d::Body * m_body;
+	 /*! A sprite is a graphical representation for a game object
+	  */
+	 sad::Sprite2D * m_sprite;
+	 /*! An object is linked to game to forward the in-game to a game object 
+	  */
+	 p2d::app::App * m_app;
+	 /*! A first listener for movement of body
+	  */
+	 p2d::MovementDeltaListener<p2d::app::Object, p2d::Vector> * m_listener1;
+	 /*! A second listener for movement of body
+	  */
+	 p2d::MovementDeltaListener<p2d::app::Object, double> * m_listener2;
+protected:
+	 /*! Inits object parameters from constants of specified type
+	  */
+	 template<typename T> void initFromConstants()
+	 {
+		 Sprite2D::Options * o = p2d::app::Constants<T>::sprite();
+		 this->m_sprite->set(*o);
+		 delete o;
+		 this->m_body->setShape(p2d::app::Constants<T>::shape());
+	 }
 };
 
 }
@@ -152,3 +159,5 @@ class Object: public sad::SceneNode
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::app::Object)

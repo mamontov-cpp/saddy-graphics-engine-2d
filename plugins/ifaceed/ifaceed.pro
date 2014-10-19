@@ -36,101 +36,249 @@ INCLUDEPATH += . \
 
 # Input
 HEADERS += ifaceed/mainpanel.h \
-           ifaceed/rendermutex.h \
-           ifaceed/core/fontdatabase.h \
-           ifaceed/core/fonttemplatesdatabase.h \
-           ifaceed/core/ifaceeditor.h \
-           ifaceed/core/ifaceshareddata.h \
-           ifaceed/core/mockspritetablewidget.h \
-           ifaceed/core/objectborders.h \
-           ifaceed/core/objectxmlreader.h \
-           ifaceed/core/objectxmlwriter.h \
-           ifaceed/core/qspritetablewidgetselection.h \
-           ifaceed/core/sceneaddingtask.h \
-           ifaceed/core/spritedatabase.h \
-           ifaceed/core/xmlconfigloader.h \
-           ifaceed/editorcore/commandchangeobserver.h \
-           ifaceed/editorcore/editor.h \
-           ifaceed/editorcore/editorbehaviour.h \
-           ifaceed/editorcore/editorbehaviourshareddata.h \
-           ifaceed/editorcore/editorbehaviourstate.h \
-           ifaceed/editorcore/editoreventhandler.h \
-           ifaceed/editorcore/path.h \
-           ifaceed/editorcore/qttarget.h \
-           ifaceed/gui/colordelegate.h \
-           ifaceed/gui/fontdelegate.h \
-           ifaceed/gui/objectlist.h \
-           ifaceed/history/abstractcommand.h \
-           ifaceed/history/deletecommand.h \
-           ifaceed/history/editorhistory.h \
-           ifaceed/history/layercommands.h \
-           ifaceed/history/movecommand.h \
-           ifaceed/history/newcommand.h \
-           ifaceed/history/propertychangecommand.h \
-           ifaceed/objects/abstractscreenobject.h \
-           ifaceed/objects/activityproperty.h \
-           ifaceed/objects/scenelayerproperty.h \
-           ifaceed/objects/screenlabel.h \
-           ifaceed/objects/screensprite.h \
-           ifaceed/objects/screentemplate.h \
-           ifaceed/objects/uidproperty.h \
-           ifaceed/objects/visibilityproperty.h \
-           ifaceed/unittests/factory.h \
-           ifaceed/core/states/idlestate.h \
-           ifaceed/core/states/ifacestate.h \
-           ifaceed/core/states/labeladdingstate.h \
-           ifaceed/core/states/selectedstate.h \
-           ifaceed/core/states/spriteaddingstate.h \
-           ifaceed/gui/spritewidget/celldelegate.h \
-           ifaceed/gui/spritewidget/qspritetablewidget.h
-FORMS += ifaceed/mainpanel.ui
+    ifaceed/core/typeconverters/load.h \
+    ifaceed/core/typeconverters/qcolortosadacolor.h \
+    ifaceed/core/typeconverters/qcolortosadcolor.h \
+    ifaceed/core/typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.h \
+    ifaceed/core/typeconverters/qstringtosadstring.h \
+    ifaceed/core/typeconverters/sadacolortoqcolor.h \
+    ifaceed/core/typeconverters/sadcolortoqcolor.h \
+    ifaceed/core/typeconverters/sadstringtoqstring.h \
+    ifaceed/core/typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.h \
+    ifaceed/core/typeconverters/save.h \
+    ifaceed/core/editor.h \
+    ifaceed/core/qttarget.h \
+    ifaceed/core/quitreason.h \
+    ifaceed/core/saddythread.h \
+    ifaceed/core/shared.h \
+    ifaceed/acolordialog.h \
+    ifaceed/macro.h \
+    ifaceed/qwwlongspinbox.h \
+    ifaceed/qwwulongspinbox.h \
+    ifaceed/wwglobal.h \
+    ifaceed/wwglobal_p.h \
+    ifaceed/history/command.h \
+    ifaceed/history/history.h \
+    ifaceed/history/database/newproperty.h \
+    ifaceed/history/database/removeproperty.h \
+    ifaceed/gui/anglewidget/anglewidget.h \
+    ifaceed/gui/colorpicker/colorpicker.h \
+    ifaceed/gui/colorview/colorview.h \
+    ifaceed/gui/fontsizewidget/fontsizewidget.h \
+    ifaceed/gui/rectwidget/rectwidget.h \
+    ifaceed/gui/resourcetreewidget/cell.h \
+    ifaceed/gui/resourcetreewidget/celldelegate.h \
+    ifaceed/gui/resourcetreewidget/defaultimage.h \
+    ifaceed/gui/resourcetreewidget/resourcecache.h \
+    ifaceed/gui/resourcetreewidget/resourcetreewidget.h \
+    ifaceed/gui/table/delegate.h \
+    ifaceed/gui/table/delegatefactory.h \
+    ifaceed/gui/table/doubledelegate.h \
+    ifaceed/gui/table/floatdelegate.h \
+    ifaceed/gui/table/intdelegate.h \
+    ifaceed/gui/table/longdelegate.h \
+    ifaceed/gui/table/longlongdelegate.h \
+    ifaceed/gui/table/sadacolordelegate.h \
+    ifaceed/gui/table/sadcolordelegate.h \
+    ifaceed/gui/table/sadstringdelegate.h \
+    ifaceed/gui/table/shortdelegate.h \
+    ifaceed/gui/table/signedchardelegate.h \
+    ifaceed/gui/table/unsignedchardelegate.h \
+    ifaceed/gui/table/unsignedintdelegate.h \
+    ifaceed/gui/table/unsignedlongdelegate.h \
+    ifaceed/gui/table/unsignedlonglongdelegate.h \
+    ifaceed/gui/table/unsignedshortdelegate.h \
+    ifaceed/gui/tuplewidget/doubletuplewidget.h \
+    ifaceed/gui/tuplewidget/int64tuplewidget.h \
+    ifaceed/gui/table/sadpoint2ddelegate.h \
+    ifaceed/gui/table/sadsize2ddelegate.h \
+    ifaceed/gui/table/sadpoint2idelegate.h \
+    ifaceed/gui/table/sadsize2idelegate.h \
+    ifaceed/gui/eventfilter.h \
+    ifaceed/history/scenes/scenesadd.h \
+    ifaceed/history/scenes/sceneschangename.h \
+    ifaceed/history/scenes/sceneslayerswap.h \
+    ifaceed/history/scenes/scenesremove.h \
+    ifaceed/core/synchronization.h \
+    ifaceed/history/scenenodes/scenenodesnew.h \
+    ifaceed/gui/labelactions.h \
+    ifaceed/gui/scenenodeactions.h \
+    ifaceed/core/borders/activeborder.h \
+    ifaceed/core/borders/border.h \
+    ifaceed/core/borders/selectionborder.h \
+    ifaceed/history/label/changefontname.h \
+    ifaceed/closuremethodcall.h \
+    ifaceed/blockedclosuremethodcall.h \
+    ifaceed/history/label/changefontsize.h \
+    ifaceed/history/label/changetext.h \
+    ifaceed/history/label/changelinespacing.h \
+    ifaceed/history/scenenodes/scenenodeschangename.h \
+    ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
+    ifaceed/core/typeconverters/qrectftosadrect2d.h \
+    ifaceed/history/scenenodes/scenenodeschangearea.h \
+    ifaceed/history/database/changeproperty.h \
+    ifaceed/history/scenenodes/scenenodeschangeangle.h \
+    ifaceed/history/scenenodes/scenenodeschangecolor.h \
+    ifaceed/history/scenenodes/scenenodeschangeproperty.h \
+    ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.h \
+    ifaceed/history/scenenodes/scenenodeschangevisibility.h \
+    ifaceed/gui/rotationprocess.h \
+    ifaceed/gui/sprite2dactions.h \
+    ifaceed/history/sprite2d/changeflipx.h \
+    ifaceed/history/sprite2d/changeflipy.h \
+    ifaceed/history/sprite2d/changeoptions.h \
+    ifaceed/history/sprite2d/makebackground.h \
+    ifaceed/history/scenenodes/scenenodesremove.h \
+    ifaceed/history/scenenodes/scenenodeslayerswap.h \
+    ifaceed/history/scenes/scenesclear.h \
+    ifaceed/history/customobject/customobjectchangeproperty.h \
+    ifaceed/gui/customobjectactions.h \
+    ifaceed/history/customobject/customobjectchangeschema.h \
+    ifaceed/gui/updateelement.h \
+    ifaceed/core/borders/deletehotspot.h \
+    ifaceed/core/borders/resizehotspot.h \
+    ifaceed/core/selection.h \
+    ifaceed/reloadfilelist.h \
+    ifaceed/gui/renderways.h \
+    ifaceed/gui/wayactions.h \
+    ifaceed/history/ways/waysnew.h \
+    ifaceed/history/ways/waysremove.h \
+    ifaceed/history/ways/wayschangeproperty.h \
+    ifaceed/history/ways/wayschangename.h \
+    ifaceed/history/ways/wayschangetotaltime.h \
+    ifaceed/history/ways/wayschangeclosed.h \
+    ifaceed/history/ways/wayswaypointnew.h \
+    ifaceed/history/ways/wayswaypointchange.h \
+    ifaceed/history/ways/wayswaypointremove.h \
+    ifaceed/history/ways/wayswaypointswap.h \
+    ifaceed/gui/dialogueactions.h \
+    ifaceed/history/dialogues/dialoguesremove.h \
+    ifaceed/history/dialogues/dialogueschangename.h \
+    ifaceed/history/dialogues/dialoguesnew.h \
+    ifaceed/history/dialogues/dialoguesphrasechangeduration.h \
+    ifaceed/history/dialogues/dialoguesphrasechangelineeditbasedproperty.h \
+    ifaceed/history/dialogues/dialoguesphrasechangephrase.h \
+    ifaceed/history/dialogues/dialoguesphrasenew.h \
+    ifaceed/history/dialogues/dialoguesphraseremove.h \
+    ifaceed/history/dialogues/dialoguesphraseswap.h
+FORMS += ifaceed/mainpanel.ui \
+    ifaceed/acolordialog.ui \
+    ifaceed/reloadfilelist.ui
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
-           ifaceed/core/fontdatabase.cpp \
-           ifaceed/core/fonttemplatesdatabase.cpp \
-           ifaceed/core/ifaceeditor.cpp \
-           ifaceed/core/ifaceshareddata.cpp \
-           ifaceed/core/mockspritetablewidget.cpp \
-           ifaceed/core/objectborders.cpp \
-           ifaceed/core/objectxmlreader.cpp \
-           ifaceed/core/objectxmlwriter.cpp \
-           ifaceed/core/qspritetablewidgetselection.cpp \
-           ifaceed/core/sceneaddingtask.cpp \
-           ifaceed/core/spritedatabase.cpp \
-           ifaceed/core/xmlconfigloader.cpp \
-           ifaceed/editorcore/editor.cpp \
-           ifaceed/editorcore/editorbehaviour.cpp \
-           ifaceed/editorcore/editorbehaviourstate.cpp \
-           ifaceed/editorcore/editoreventhandler.cpp \
-           ifaceed/editorcore/path.cpp \
-           ifaceed/editorcore/qttarget.cpp \
-           ifaceed/gui/colordelegate.cpp \
-           ifaceed/gui/fontdelegate.cpp \
-           ifaceed/gui/objectlist.cpp \
-           ifaceed/history/abstractcommand.cpp \
-           ifaceed/history/deletecommand.cpp \
-           ifaceed/history/editorhistory.cpp \
-           ifaceed/history/layercommands.cpp \
-           ifaceed/history/movecommand.cpp \
-           ifaceed/history/newcommand.cpp \
-           ifaceed/objects/abstractscreenobject.cpp \
-           ifaceed/objects/activityproperty.cpp \
-           ifaceed/objects/scenelayerproperty.cpp \
-           ifaceed/objects/screenlabel.cpp \
-           ifaceed/objects/screensprite.cpp \
-           ifaceed/objects/screentemplate.cpp \
-           ifaceed/objects/uidproperty.cpp \
-           ifaceed/objects/visibilityproperty.cpp \
-           ifaceed/unittests/factory.cpp \
-           ifaceed/core/states/changingselection.cpp \
-           ifaceed/core/states/idlestate.cpp \
-           ifaceed/core/states/ifacestate.cpp \
-           ifaceed/core/states/labeladdingstate.cpp \
-           ifaceed/core/states/selectedstate.cpp \
-           ifaceed/core/states/spriteaddingstate.cpp \
-           ifaceed/gui/spritewidget/celldelegate.cpp \
-           ifaceed/gui/spritewidget/qspritetablewidget.cpp
-RESOURCES += ifaceed/mainpanel.qrc
+    ifaceed/core/typeconverters/qcolortosadacolor.cpp \
+    ifaceed/core/typeconverters/qcolortosadcolor.cpp \
+    ifaceed/core/typeconverters/qlistqlistqcolortosadvectorsadvectoracolor.cpp \
+    ifaceed/core/typeconverters/qstringtosadstring.cpp \
+    ifaceed/core/typeconverters/sadacolortoqcolor.cpp \
+    ifaceed/core/typeconverters/sadcolortoqcolor.cpp \
+    ifaceed/core/typeconverters/sadstringtoqstring.cpp \
+    ifaceed/core/typeconverters/sadvectorsadvectoracolortoqlistqlistqcolor.cpp \
+    ifaceed/core/editor.cpp \
+    ifaceed/core/qttarget.cpp \
+    ifaceed/core/saddythread.cpp \
+    ifaceed/acolordialog.cpp \
+    ifaceed/qwwlongspinbox.cpp \
+    ifaceed/qwwulongspinbox.cpp \
+    ifaceed/wwglobal_p.cpp \
+    ifaceed/history/command.cpp \
+    ifaceed/history/history.cpp \
+    ifaceed/history/database/newproperty.cpp \
+    ifaceed/history/database/removeproperty.cpp \
+    ifaceed/gui/anglewidget/anglewidget.cpp \
+    ifaceed/gui/colorpicker/colorpicker.cpp \
+    ifaceed/gui/colorview/colorview.cpp \
+    ifaceed/gui/fontsizewidget/fontsizewidget.cpp \
+    ifaceed/gui/rectwidget/rectwidget.cpp \
+    ifaceed/gui/resourcetreewidget/cell.cpp \
+    ifaceed/gui/resourcetreewidget/celldelegate.cpp \
+    ifaceed/gui/resourcetreewidget/defaultimage.cpp \
+    ifaceed/gui/resourcetreewidget/resourcecache.cpp \
+    ifaceed/gui/resourcetreewidget/resourcetreewidget.cpp \
+    ifaceed/gui/table/delegate.cpp \
+    ifaceed/gui/table/delegatefactory.cpp \
+    ifaceed/gui/table/doubledelegate.cpp \
+    ifaceed/gui/table/floatdelegate.cpp \
+    ifaceed/gui/table/intdelegate.cpp \
+    ifaceed/gui/table/longdelegate.cpp \
+    ifaceed/gui/table/longlongdelegate.cpp \
+    ifaceed/gui/table/sadacolordelegate.cpp \
+    ifaceed/gui/table/sadcolordelegate.cpp \
+    ifaceed/gui/table/sadstringdelegate.cpp \
+    ifaceed/gui/table/shortdelegate.cpp \
+    ifaceed/gui/table/signedchardelegate.cpp \
+    ifaceed/gui/table/unsignedchardelegate.cpp \
+    ifaceed/gui/table/unsignedintdelegate.cpp \
+    ifaceed/gui/table/unsignedlongdelegate.cpp \
+    ifaceed/gui/table/unsignedlonglongdelegate.cpp \
+    ifaceed/gui/table/unsignedshortdelegate.cpp \
+    ifaceed/gui/tuplewidget/doubletuplewidget.cpp \
+    ifaceed/gui/tuplewidget/int64tuplewidget.cpp \
+    ifaceed/gui/table/sadpoint2ddelegate.cpp \
+    ifaceed/gui/table/sadsize2ddelegate.cpp \
+    ifaceed/gui/table/sadpoint2idelegate.cpp \
+    ifaceed/gui/table/sadsize2idelegate.cpp \
+    ifaceed/gui/eventfilter.cpp \
+    ifaceed/history/scenes/scenelayerswap.cpp \
+    ifaceed/history/scenes/scenesadd.cpp \
+    ifaceed/history/scenes/sceneschangename.cpp \
+    ifaceed/history/scenes/scenesremove.cpp \
+    ifaceed/core/synchronization.cpp \
+    ifaceed/history/scenenodes/scenenodesnew.cpp \
+    ifaceed/gui/labelactions.cpp \
+    ifaceed/gui/scenenodeactions.cpp \
+    ifaceed/core/borders/activeborder.cpp \
+    ifaceed/core/borders/border.cpp \
+    ifaceed/core/borders/selectionborder.cpp \
+    ifaceed/core/shared.cpp \
+    ifaceed/history/label/changefontname.cpp \
+    ifaceed/history/label/changefontsize.cpp \
+    ifaceed/history/label/changetext.cpp \
+    ifaceed/history/label/changelinespacing.cpp \
+    ifaceed/history/scenenodes/scenesnodeschangename.cpp \
+    ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
+    ifaceed/core/typeconverters/qrectftosadrect2d.cpp \
+    ifaceed/history/scenenodes/scenenodeschangearea.cpp \
+    ifaceed/history/scenenodes/scenenodeschangeangle.cpp \
+    ifaceed/history/scenenodes/scenenodeschangecolor.cpp \
+    ifaceed/history/scenenodes/scenenodeschangepropertywhichlinkedtocheckbox.cpp \
+    ifaceed/history/scenenodes/scenenodeschangevisibility.cpp \
+    ifaceed/gui/rotationprocess.cpp \
+    ifaceed/gui/sprite2dactions.cpp \
+    ifaceed/history/sprite2d/changeflipx.cpp \
+    ifaceed/history/sprite2d/changeflipy.cpp \
+    ifaceed/history/sprite2d/changeoptions.cpp \
+    ifaceed/history/sprite2d/makebackground.cpp \
+    ifaceed/history/scenenodes/scenenodesremove.cpp \
+    ifaceed/history/scenenodes/scenenodeslayerswap.cpp \
+    ifaceed/history/scenes/scenesclear.cpp \
+    ifaceed/gui/customobjectactions.cpp \
+    ifaceed/history/customobject/customobjectchangeschema.cpp \
+    ifaceed/core/borders/deletehotspot.cpp \
+    ifaceed/core/borders/resizehotspot.cpp \
+    ifaceed/core/selection.cpp \
+    ifaceed/reloadfilelist.cpp \
+    ifaceed/gui/renderways.cpp \
+    ifaceed/gui/wayactions.cpp \
+    ifaceed/history/ways/waysnew.cpp \
+    ifaceed/history/ways/waysremove.cpp \
+    ifaceed/history/ways/wayschangename.cpp \
+    ifaceed/history/ways/wayschangetotaltime.cpp \
+    ifaceed/history/ways/wayschangeclosed.cpp \
+    ifaceed/history/ways/wayswaypointnew.cpp \
+    ifaceed/history/ways/wayswaypointchange.cpp \
+    ifaceed/history/ways/wayswaypointremove.cpp \
+    ifaceed/history/ways/wayswaypointswap.cpp \
+    ifaceed/gui/dialogueactions.cpp \
+    ifaceed/history/dialogues/dialogueschangename.cpp \
+    ifaceed/history/dialogues/dialoguesnew.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangeduration.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangelineeditbasedproperty.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangephrase.cpp \
+    ifaceed/history/dialogues/dialoguesphrasenew.cpp \
+    ifaceed/history/dialogues/dialoguesphraseremove.cpp \
+    ifaceed/history/dialogues/dialoguesphraseswap.cpp \
+    ifaceed/history/dialogues/dialoguesremove.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
@@ -146,15 +294,26 @@ win32 {
 	DEFINES +=  "MINGW=1"
 }
 
-debug {
-	LIBS += -L../../lib/ -lsaddy-debug -lsaddy-ft-debug
-	TARGET = ifaceeditor-debug
+CONFIG(debug, debug|release) {
+    LIBS += -L../../lib/ -lsaddy-debug -lsaddy-ft-debug
+    TARGET = ifaceeditor-debug
 }
 
-release {
-	LIBS += -L../../lib/ -lsaddy-release -lsaddy-ft-release
-	TARGET = ifaceeditor-release	
+CONFIG(release, debug|release) {
+    LIBS += -L../../lib/ -lsaddy-release -lsaddy-ft-release
+    TARGET = ifaceeditor-release
 }
 
-LIBS += -lGL 
-LIBS += -lGLU
+unix {
+        LIBS += -lGL
+        LIBS += -lGLU
+        LIBS += -lX11
+        LIBS += -lfreetype
+}
+
+win32 {
+        QMAKE_LIBDIR += $(FREETYPE_LIB)
+        LIBS += -lglu32 -lopengl32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -lfreetype
+}
+
+QMAKE_CXXFLAGS += -Wno-reorder -Wno-unused -Wno-sign-compare -w

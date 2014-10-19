@@ -1,0 +1,43 @@
+{
+  "resource": "textures",
+  "file": "textures.png",
+  "atlas": [
+    {
+      "name": "item1",
+      "size": "300;293",
+      "texrect": "500;0;300;293"
+    },
+	{
+      "name": "item2",
+      "size": "300;293",
+      "texrect": "500;0;300;293"
+    },
+	{
+      "name": "scene1/1",
+      "size": "200;200",
+      "texrect": "500;293;200;200"
+    },
+	{
+      "name": "scene1/2",
+      "size": "200;200",
+      "texrect": "500;293;200;200"
+    },
+    {
+      "name": "scene1/3",
+      "size": "64;64",
+      "texrect": "500;293;200;200"
+    },
+    {
+      "name": "scene2/a very long name a very long name",
+      "size": "64;120",
+      "texrect": "0;0;500;588",
+      "transparent": "120;120;120"
+    },
+    {
+      "name": "scene2/another crazy name",
+      "size": "256;256",
+      "texrect": "500;493;256;256",
+      "transparent": "120;120;120"
+    }
+  ]
+}

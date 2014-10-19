@@ -10,27 +10,35 @@
 	application is placed here.
 */
 #pragma once
+#include "log/log.h"
+#include "resource/physicalfile.h"
+#include "resource/tree.h"
+#include "resource/error.h"
 #include "settings.h"
 #include "scene.h"
 #include "sadpoint.h"
-#include "log/log.h"
+#include "sadptrhash.h"
 #include "timer.h"
 #include "maybe.h"
 #include "temporarilyimmutablecontainer.h"
 #include "sadptrvector.h"
+#include "sadptrhash.h"
+#include "sadmutex.h"
 #include "primitiverenderer.h"
+#include "texture.h"
+#include "imageformats/loader.h"
 
 namespace sad
 {
+
 class Input;
-class FontManager;
-class TextureManager;
 class Window;
 class GLContext;
 class MainLoop;
 class MouseCursor;
 class OpenGL;
 class FPSInterpolation;
+
 namespace pipeline
 {
 	class Pipeline;
@@ -39,6 +47,17 @@ namespace input
 {
 	class Controls;
 }
+
+namespace db
+{
+	class Database;
+}
+
+namespace util
+{
+	class SwapLayersTask;
+}
+
 /*! Can be a point or none, depending on context
  */
 typedef sad::Maybe<sad::Point3D> MaybePoint3D;
@@ -54,6 +73,7 @@ typedef sad::Maybe<sad::Point3D> MaybePoint3D;
  */
 class Renderer: public TemporarilyImmutableContainer<sad::Scene>
 {
+friend class sad::util::SwapLayersTask;
 public:
     /*! Creates default renderer. Note, that you must call 
 		sad::Renderer::init() to start working
@@ -122,14 +142,6 @@ public:
 		\param[in] p point
 	 */
 	virtual void setCursorPosition(const sad::Point2D & p);
-	/*! Font manager data
-		\return fonts, loaded into renderer
-	 */
-	sad::FontManager* fonts();
-	/*! Texture manager information
-		\return texture manager information
-	 */
-	sad::TextureManager* textures();
 	/*! Returns a log for renderer
 		\return log 
 	 */
@@ -162,6 +174,10 @@ public:
 		\return main loop for a renderer
 	 */
 	virtual sad::MainLoop* mainLoop() const;
+	/*! Sets fps interpolation for a renderer
+		\param[in] i interpolation delegate
+	 */
+	void setFPSInterpolation(sad::FPSInterpolation * i);
 	/*! Returns current FPS interpolation for renderer
 		\return fps interpolation instance
 	 */
@@ -174,7 +190,37 @@ public:
 		\return controls
 	 */
 	virtual sad::input::Controls* controls() const;
-
+	/*! Loads resources to tree (default if treename is not supplied) from filename
+		\param[in] filename a name of loaded files
+		\param[in] treename a name of tree
+		\return error list
+	 */
+	sad::Vector<sad::resource::Error *> loadResources(
+		const sad::String & filename,
+		const sad::String & treename = ""
+	);
+	/*! Gets resource by name for a specified tree
+		\param[in] resourcename a resource name
+		\param[in] treename a name of tree, where resource should be taken from
+	 */
+	template<
+		typename _ResourceType
+	>
+	_ResourceType * resource(const sad::String & resourcename, const sad::String & treename = "")
+	{
+		sad::resource::Tree * tree = this->tree(treename);
+		_ResourceType * result = NULL;
+		if (tree)
+		{
+			result = tree->get<_ResourceType>(resourcename);
+		}
+		return result;
+	}
+	/*! Gets texture by name for a specified tree
+		\param[in] resourcename a resource name
+		\param[in] treename a name of tree, where resource should be taken from
+	 */
+	sad::Texture * texture(const sad::String & resourcename, const sad::String & treename = "");
 	/*! This method is called, when somebody performs emergency shutdown.
 		In current implementation, this method is called when  console window
 		of application is closed on Windows OS. Note, that you SHOULD NOT call
@@ -195,18 +241,27 @@ public:
 	/*! Adds new scene to scene container
 		\param[in] scene a scene to be rendered
 	 */
-	void add(sad::Scene * scene);
+	void add(sad::Scene* scene);
+	/*! Swap layers between two scenes
+		\param[in] s1 first scene
+		\param[in] s2 second scene
+	 */
+	void swapLayers(sad::Scene* s1, sad::Scene* s2);
 	/*! Returns order in which layer will be rendered. Higher order means the scene will
 		be rendered later
 		\param[in] s scene
 		\return order, -1 if not found
 	 */
-	int layer(sad::Scene * s);
+	int layer(sad::Scene* s);
 	/*! Sets scene order to be rendered, removing from previous point
 		\param[in] s a scene
 		\param[in] layer a layer ordering to be set
 	 */
 	void setLayer(sad::Scene * s, unsigned int layer);
+	/*! Returns total scene objects in renderer
+		\return total scene objects
+	 */
+	unsigned int totalSceneObjects() const;
 	/*! Sets primitive renderer
 		\param[in] r renderer for primitives
 	 */
@@ -215,6 +270,67 @@ public:
 		\return renderer for primitives
 	 */
 	sad::PrimitiveRenderer * render() const;
+	/*! Fetches path to executable without it's name and last delimiter. Returns empty string if fails
+		\return executable path
+	 */
+	const sad::String & executablePath() const;
+	/*! Returns a resource tree, by it's mark in rendererer. By default, returns default tree,
+		which guaranteed to exist, unless being explicitly removed by programmer
+		\param[in] name name of resource tree
+		\return tree if exists, or NULL if not found
+	 */
+	sad::resource::Tree * tree(const sad::String & name = "") const;
+	/*! Removes a tree from a renderer an returns owning pointer to it
+		\param[in] name a name for resource tree
+		\return tree if exists, or NULL if not found
+	 */
+	sad::resource::Tree * takeTree(const sad::String & name);
+	/*! Inserts new tree, replacing existing tree if needed. Existing tree's memory will be freed, if needed.
+		If tree is NULL, nothing is done.
+		\param[in] name a name for a tree
+		\param[in] tree an inserted tree
+	 */
+	void addTree(const sad::String & name, sad::resource::Tree * tree);
+	/*! Removes a tree, freeeing it's  memory if it's exiss
+		\param[in] name a name for a tree
+	 */
+	void removeTree(const sad::String & name);
+	/*! Returns true if current thread is renderer's own thread, where it's performs rendering
+		\return whether current thread is renderer's
+	 */
+	bool isOwnThread() const;
+	/*! Tries to add new database to renderer. A renderer takes ownership on database.
+		If database already exists, insertion is not performed and method returns false.
+		\param[in] name a name of database
+		\param[in] database a new database 
+		\return result of insertion
+	 */
+	bool addDatabase(const sad::String & name, sad::db::Database * database);
+	/*! Removes database from a renderer, destroying it
+		\param[in] name a name of database.
+	 */
+	void removeDatabase(const sad::String & name);
+	/*! Returns stored database by it's name
+		\param[in] name a name for database
+		\return database or  NULL if not found
+	 */
+	sad::db::Database * database(const sad::String & name) const;
+	/*! Locks rendering of scenes
+	 */
+	void lockRendering();
+	/*! Unlocks rendering of scenes
+	 */
+	void unlockRendering();
+	/*! Sets new loader for a renderer
+		\param[in] format a format, which loader is attached to
+		\param[in] loader a loader data
+	 */
+	void setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader);
+	/*! Returns a loader for texture
+		\param[in] format a format
+		\return NULL, if loader not found
+	 */
+	sad::imageformats::Loader* textureLoader(const sad::String& format) const;
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -239,12 +355,6 @@ protected:
 	/*! A local log, where all messages will be stored
 	 */
 	sad::log::Log*  m_log; 
-	/*! A font collection, attached to a renderer
-	 */
-	sad::FontManager*    m_font_manager;     
-	/*! A texture collection, attached to a renderer
-	 */
-	sad::TextureManager* m_texture_manager; 
 	/*! Returns mouse cursor, associated with renderer
 	 */
 	sad::MouseCursor*       m_cursor;
@@ -266,6 +376,18 @@ protected:
 	/*! An input controls for user action callbacks
 	 */
 	sad::input::Controls*     m_controls;
+	/*! A resource trees, marked by a label, in case you need several
+	 */
+	sad::PtrHash<sad::String, sad::resource::Tree> m_resource_trees;
+	/*! An inner renderer databases
+	 */
+	sad::Hash<sad::String, sad::db::Database*> m_databases;
+	/*! A lock for database operations
+	 */
+	sad::Mutex m_database_lock;
+	/*! A list for loaders for textures
+	 */
+	sad::PtrHash<sad::String, sad::imageformats::Loader> m_texture_loaders;
 	
 	/*! A pipeline, as processes and tasks, which wille be performed in any time
 		of runtime
@@ -274,10 +396,19 @@ protected:
 	/*! Defines,  whether system pipeline, like FPS adding and resetting tasks was added to pipeline
 	 */
 	bool m_added_system_pipeline_tasks;
+	/*! A cached path to executable file
+	 */
+	sad::String  m_executable_cached_path;
 	
 	/*! A settings for a renderer
 	 */
 	sad::Settings        m_glsettings;  
+	/*! A context thread id, storead as void
+	 */
+	void*   m_context_thread;
+	/*! A mutex, which locks rendering of scenes
+	 */
+	sad::Mutex m_lockrendering;
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();
@@ -285,9 +416,6 @@ protected:
 		\return success of operation
 	 */
 	bool initGLRendering();
-    /*! Updates a scene
-	 */
-	void update();
 	/*! Inits pipeline with data
 	 */
 	virtual void initPipeline();

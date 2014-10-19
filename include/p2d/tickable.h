@@ -36,10 +36,6 @@ template<
 >
 class TickableState
 {
-protected:
-	bool m_persistent;
-	int m_ticks;
-	_Value m_value;
 public:
 	/*! Computes new force
 		\param[in] value value of force
@@ -130,6 +126,10 @@ public:
 	{
 		return new p2d::TickableState<_Value>(v, false, 1);
 	}
+protected:
+	bool m_persistent;
+	int m_ticks;
+	_Value m_value;
 };
 
 /*! A simulation flow with specified step
@@ -139,12 +139,8 @@ typename _Value
 >
 class TickableFlow
 {
- public:
+public:
 	typedef TickableState<_Value> * state; 
- protected:
-	 state  m_current; //!< A cuurent state
-	 sad::Maybe<state> m_next; //!< A next state
- public:
 	/*! Creates new force state with no force
 		 */
 		TickableFlow()
@@ -226,6 +222,9 @@ class TickableFlow
 		{
 			return m_current->value();
 		}
+ protected:
+	 state  m_current; //!< A cuurent state
+	 sad::Maybe<state> m_next; //!< A next state
 };
 
 }

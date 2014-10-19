@@ -1,4 +1,4 @@
-#include "../sadstring.h"
+#include "sadstring.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -254,6 +254,14 @@ float sad::String::toFloat(const sad::String & str)
     sscanf(str.data(),"%f",&result);
     return result;
 }
+
+double sad::String::toDouble(const sad::String & str)
+{
+	double result = 0;
+	sscanf(str.data(), "%lf", &result);
+	return result;
+}
+
 sad::String  sad::String::subString(long beg,long len) const
 {
 	return substr(beg, len);
@@ -266,7 +274,7 @@ sad::String  sad::String::getLeftPart(long len)
 {
  return subString(0,len);
 }
-long sad::String::getOccurences(const sad::String & sstr)
+long sad::String::getOccurences(const sad::String & sstr) const
 {
 	long count = 0;
 	size_t pos = this->find(sstr);
@@ -340,6 +348,7 @@ void sad::String::replaceAllOccurences(const sad::String & sstr,const sad::Strin
 	   pos=getOccurence(sstr,0);
    }
 }
+
 void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::String & to)
 {
    long pos=getLastOccurence(sstr);
@@ -349,6 +358,61 @@ void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::Strin
 	   insert(to,pos);
    }
 }
+
+bool sad::String::consistsOfWhitespaceCharacters() const
+{
+	bool result = true;
+	for(int i = 0; i < this->size(); i++)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			result = false;
+		}
+	}
+	return result;
+}
+
+void sad::String::trim()
+{
+	int length = 0;
+	bool found = false;
+	for(int  i = 0; (i < this->size()) && !found; i++)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			found = true;
+			length = i;
+		}
+	}
+	if (found)
+	{
+		this->erase(0, length);
+	}
+	else
+	{		
+		this->clear();
+		return;
+	}
+
+	found = false;
+	int pos = 0;
+	for(int  i = this->size() - 1; (i > -1) && !found; i--)
+	{
+		char c = (*this)[i];
+		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+		{
+			found = true;
+			pos = i;
+		}
+	}
+	if (found)
+	{
+		this->erase(this->begin() + pos + 1, this->end());
+	}
+}
+
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2
 {
 	int priority1,priority2;
@@ -397,10 +461,9 @@ sad::String sad::join(const sad::StringList list, const sad::String & sep)
 	if (list.count() == 0)
 		return sad::String();
 	sad::String result = list[0];
-	for(unsigned int i = 0; i < list.count(); i++)
+	for(unsigned int i = 1; i < list.count(); i++)
 	{
 		result << sep << list[i];
 	}
 	return result;
 }
-

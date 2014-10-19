@@ -26,9 +26,7 @@ namespace app
  */
 class AbstractObjectEmitter: public sad::PeriodicalEvent
 {
- protected:
-		p2d::app::App * m_app;
- public:
+public:
 		/*! Sets application for emitter
 			\param[in] app application
 		 */
@@ -67,6 +65,8 @@ class AbstractObjectEmitter: public sad::PeriodicalEvent
 		/*! Emits object
 		 */
 		virtual void perform();
+protected:
+		p2d::app::App * m_app;
 };
 
 
@@ -78,27 +78,7 @@ template<
 >
 class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 {
- protected:
-	double m_min_angle; //!< A minimal angle, which objects speed differs
-	double m_max_angle; //!< A maximum angle, wichi objects speed differs
-
-	p2d::Vector m_min_speed; //!< A minimal speed of object
-	p2d::Vector m_max_speed; //!< A maximal speed of object
-
-	double m_min_angular; //!< A minimal angular speed
-	double m_max_angular; //!< A maximal angular speed
-
-	p2d::Point  m_min_position; //!< A minimal position of point
-	p2d::Point  m_max_position; //!< A minimal position of point
-
-	unsigned int m_min_count;  //!< Determines, how many objects should be emitted (minimal)
-	unsigned int m_max_count;  //!< Determines, how many objects should be emitted  (maximal)
-
-	inline double prand()
-	{
-		return ((double)rand()) / RAND_MAX;
-	}
- public:
+public:
 	RandomDirectionObjectEmitter(p2d::app::App * app = NULL)
 	: p2d::app::AbstractObjectEmitter(app)
 	{
@@ -175,6 +155,26 @@ class RandomDirectionObjectEmitter: public p2d::app::AbstractObjectEmitter
 		{
 			this->p2d::app::AbstractObjectEmitter::perform();
 		}
+	}
+protected:
+	double m_min_angle; //!< A minimal angle, which objects speed differs
+	double m_max_angle; //!< A maximum angle, wichi objects speed differs
+
+	p2d::Vector m_min_speed; //!< A minimal speed of object
+	p2d::Vector m_max_speed; //!< A maximal speed of object
+
+	double m_min_angular; //!< A minimal angular speed
+	double m_max_angular; //!< A maximal angular speed
+
+	p2d::Point  m_min_position; //!< A minimal position of point
+	p2d::Point  m_max_position; //!< A minimal position of point
+
+	unsigned int m_min_count;  //!< Determines, how many objects should be emitted (minimal)
+	unsigned int m_max_count;  //!< Determines, how many objects should be emitted  (maximal)
+
+	inline double prand()
+	{
+		return ((double)rand()) / RAND_MAX;
 	}
 };
 

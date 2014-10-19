@@ -41,6 +41,7 @@ public:
 		sad::Timer::stop() using high-perfomance counter, if possible. For
 		some chipsets could fall to wallclock time, since correct information
 		won't be available
+		\return time in milliseconds
 	 */
 	double elapsed() const;
 	/*! Frees memory from implementation

@@ -5,11 +5,14 @@
  */
 #pragma once
 #include "classmetadatacontainer.h"
+#include "db/dbtypename.h"
+#include "db/dbobject.h"
+#include "3rdparty/picojson/picojson.h"
 
 namespace sad
 {
 
-class Object
+class Object:public sad::db::Object
 {
  public:
 	 /*! A metadata for class, must be implemented in any descendant
@@ -23,7 +26,11 @@ class Object
 	 /*! Returns a name for class
 		 \return name of class
 	  */
-	 virtual const sad::String & name() const;
+	 virtual const sad::String & className() const;
+	 /*! Returns name of class for metadata
+		 \return name of class for metadata
+	 */
+	 virtual const sad::String& serializableName() const;
 	 /*! An object data
 	  */
 	 virtual ~Object();
@@ -76,6 +83,8 @@ class InvalidCastException
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Object)
+
 namespace sad 
 {
 /*! Performs a checked cast from one type to another.
@@ -96,11 +105,19 @@ template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)
 	const sad::String & destname = _Dest::globalMetaData()->name();      
 	if (arg->metaData()->canBeCastedTo(destname) == false)      
 	{                                                            
-		throw sad::InvalidCastException(arg->name(), destname); 
+		throw sad::InvalidCastException(arg->metaData()->name(), destname); 
 	}                                                            
 	else                                                         
-	{       
-		result = static_cast<_Dest*>(arg);                      
+	{ 
+		if (arg->metaData()->casts().contains(destname))
+		{
+			sad::Object * o = arg->metaData()->casts()[destname]->cast((void*)arg);
+			result = reinterpret_cast<_Dest*>(o); 
+		}
+		else
+		{
+			result = static_cast<_Dest*>(arg); 
+		}
 	}                                                            
 	return result;                                               
 }  
@@ -135,7 +152,6 @@ protected:                                                      \
 	    static sad::ClassMetaData * m_global_metadata;          \
 public:															\
 		virtual sad::ClassMetaData * metaData() const;			\
-		virtual const sad::String & name() const;               \
 		static sad::ClassMetaData * globalMetaData();			\
 
 /*! Use this macro to define in source files, 
@@ -143,6 +159,7 @@ public:															\
 	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
  */
 #define DECLARE_SOBJ_INHERITANCE(NAMEDCLASS, PARENT)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 {																 \
@@ -151,6 +168,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
 		m_global_metadata->addAncestor(#PARENT);											    \
 	}																							\
 	return m_global_metadata;																	\
@@ -158,11 +176,33 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}                                                \
-const sad::String &  NAMEDCLASS ::name() const  \
-{                                                \
-	return this-> PARENT :: name();              \
-}
+}                                                
+
+/*! Use this macro to define in source files, 
+	that this object is inherited from descendant of sad::Object,
+	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class.
+	CASTOBJECT is callback for class metadata to add method for casting to CASTCLASS
+ */
+#define DECLARE_SOBJ_INHERITANCE_WITH_CAST(NAMEDCLASS, PARENT, CASTCLASS, CASTMETHOD)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
+sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
+sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
+{																 \
+	if (m_global_metadata != NULL) return m_global_metadata;     \
+    bool created = false;																		\
+	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
+	if (created)																				\
+	{																							\
+		if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
+ 		m_global_metadata->addAncestor(#PARENT);											    \
+		m_global_metadata->addCast(#CASTCLASS , sad::MetaDataCastFunctionFamily< NAMEDCLASS >::cast(CASTMETHOD) ); \
+	}																							\
+	return m_global_metadata;																	\
+}																								\
+sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
+{                                                                                               \
+	return NAMEDCLASS ::globalMetaData();                                                       \
+}                                                
 
 /*! Use this macro to define, that this class is direct descendant of sad::Object in your source 
 	file. NAMEDCLASS is name of your class
@@ -175,6 +215,7 @@ const sad::String &  NAMEDCLASS ::name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE2(NAMEDCLASS, PARENT1, PARENT2)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -183,6 +224,8 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 	}																							\
@@ -191,11 +234,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}    \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}    
 
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object other classes,
@@ -203,6 +242,7 @@ const sad::String &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE3(NAMEDCLASS, PARENT1, PARENT2, PARENT3) \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -211,6 +251,9 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT3 ::globalMetaData() == NULL) return NULL;                                    \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 		m_global_metadata->addAncestor(#PARENT3);												\
@@ -220,11 +263,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}   \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}   
 
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object other classes,
@@ -232,6 +271,7 @@ const sad::String &  NAMEDCLASS :: name() const  \
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE4(NAMEDCLASS, PARENT1, PARENT2, PARENT3, PARENT4) \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                          \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \
@@ -240,6 +280,10 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 	m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
 	if (created)																				\
 	{																							\
+		if (PARENT1 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT2 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT3 ::globalMetaData() == NULL) return NULL;                                   \
+		if (PARENT4 ::globalMetaData() == NULL) return NULL;                                   \
 		m_global_metadata->addAncestor(#PARENT1);												\
 		m_global_metadata->addAncestor(#PARENT2);												\
 		m_global_metadata->addAncestor(#PARENT3);												\
@@ -250,11 +294,7 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}   \
-const sad::String &  NAMEDCLASS :: name() const  \
-{                                                \
-	return this-> PARENT1 :: name();              \
-}
+}   
 
 
 
@@ -280,8 +320,4 @@ sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
 sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 {                                                                                               \
 	return NAMEDCLASS ::globalMetaData();                                                       \
-}                                                \
-const sad::String &  NAMEDCLASS ::name() const   \
-{                                                \
-	return this-> PARENT :: name();              \
-}
+}                                                

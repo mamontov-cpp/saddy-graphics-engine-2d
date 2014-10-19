@@ -15,12 +15,12 @@ class TestConfigWriter  < Test::Unit::TestCase
     # prefix and tries to write it to output file. You need to check manually it's results, it is not
     # guaranteed, that they are correct
     def testPassthrough()
-        reader = ConfigReader.new()
-        writer = ConfigWriter.new()
+        reader = XMLConfigReader.new()
+        writer = XMLConfigWriter.new()
         config = reader.read('test_xml/passthrough.xml')
         assert( config!=nil, reader.getErrors().join("\n") )
         config.getTextures().each{ |tex| tex.textureRectangle = [120,120,120,120] }
-        result = writer.write(config, reader.getOutputConfigName(), reader.getOutputTextureName())
+        result = writer.write(config, reader.getOutputConfigName(), reader.getOutputTextureName(), true)
         assert( result == true, writer.getErrors().join("\n") ) 
     end
 end

@@ -1,0 +1,72 @@
+
+INCLUDE= -I../../include -I../../include/primitives -I../../include/templates -I../../include/png -I../../include/tga -I../../include/extra -I../../include/config 
+PLATFORM = LINUX
+TYPE =  debug
+
+EXECUTABLE = tests-db
+
+ifeq ($(PLATFORM),WIN32)
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lm -lopengl32  -lglu32 -lkernel32 -luser32 -lgdi32 -lwinspool  -lshell32 -lcomdlg32 -ladvapi32 -O2
+DEFINES  = -DWIN32 -DMINGW
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
+else
+LDFLAGS= -L../../lib -lsaddy-$(TYPE) -L/usr/X11R6/lib -lm -lrt -lGL -lGLU -lpthread -lX11
+DEFINES  = -DUNIX -DLINUX -DGCC
+OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
+endif
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+BUILD    = build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/populatescenesfromdatabase_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
+build:
+	mkdir build
+../../lib/libsaddy-$(TYPE).a:
+	echo "You forgot to build a library!"
+$(OUTPUT): build/customobject_$(TYPE).o build/customschemafile_$(TYPE).o build/database_$(TYPE).o build/dbcanbecastedfromto_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/mock_$(TYPE).o build/mock2_$(TYPE).o build/mock3_$(TYPE).o build/object_$(TYPE).o build/objectfactory_$(TYPE).o build/populatescenesfromdatabase_$(TYPE).o build/property_$(TYPE).o build/schema_$(TYPE).o build/table_$(TYPE).o build/variant_$(TYPE).o
+	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/customobject_$(TYPE).o: customobject.cpp
+	g++ -c $(CCOPTS) customobject.cpp -o build/customobject_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/customschemafile_$(TYPE).o: customschemafile.cpp
+	g++ -c $(CCOPTS) customschemafile.cpp -o build/customschemafile_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/database_$(TYPE).o: database.cpp
+	g++ -c $(CCOPTS) database.cpp -o build/database_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/dbcanbecastedfromto_$(TYPE).o: dbcanbecastedfromto.cpp
+	g++ -c $(CCOPTS) dbcanbecastedfromto.cpp -o build/dbcanbecastedfromto_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/link_$(TYPE).o: link.cpp
+	g++ -c $(CCOPTS) link.cpp -o build/link_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/main_$(TYPE).o: main.cpp
+	g++ -c $(CCOPTS) main.cpp -o build/main_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock_$(TYPE).o: mock.cpp
+	g++ -c $(CCOPTS) mock.cpp -o build/mock_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock2_$(TYPE).o: mock2.cpp
+	g++ -c $(CCOPTS) mock2.cpp -o build/mock2_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/mock3_$(TYPE).o: mock3.cpp
+	g++ -c $(CCOPTS) mock3.cpp -o build/mock3_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/object_$(TYPE).o: object.cpp
+	g++ -c $(CCOPTS) object.cpp -o build/object_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/objectfactory_$(TYPE).o: objectfactory.cpp
+	g++ -c $(CCOPTS) objectfactory.cpp -o build/objectfactory_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/populatescenesfromdatabase_$(TYPE).o: populatescenesfromdatabase.cpp
+	g++ -c $(CCOPTS) populatescenesfromdatabase.cpp -o build/populatescenesfromdatabase_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/property_$(TYPE).o: property.cpp
+	g++ -c $(CCOPTS) property.cpp -o build/property_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/schema_$(TYPE).o: schema.cpp
+	g++ -c $(CCOPTS) schema.cpp -o build/schema_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/table_$(TYPE).o: table.cpp
+	g++ -c $(CCOPTS) table.cpp -o build/table_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/variant_$(TYPE).o: variant.cpp
+	g++ -c $(CCOPTS) variant.cpp -o build/variant_$(TYPE).o $(INCLUDE) $(DEFINES)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r ".build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean

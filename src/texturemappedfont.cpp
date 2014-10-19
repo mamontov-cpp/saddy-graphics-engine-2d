@@ -1,7 +1,13 @@
 #include "texturemappedfont.h"
-#include "texturemanager.h"
+#include "texture.h"
 #include "renderer.h"
 #include "os/glheaders.h"
+
+#include "resource/physicalfile.h"
+
+#include "util/fs.h"
+
+DECLARE_SOBJ_INHERITANCE(sad::TextureMappedFont, sad::Font);
 
 sad::TextureMappedFont::TextureMappedFont() 
 : sad::Font(), 
@@ -14,7 +20,10 @@ sad::TextureMappedFont::TextureMappedFont()
 
 sad::TextureMappedFont::~TextureMappedFont()
 {
-
+	if (m_texture)
+	{
+		delete m_texture;
+	}
 }
 
 sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
@@ -214,6 +223,117 @@ void  sad::TextureMappedFont::render(const sad::String & str,const sad::Point2D 
 #endif
 }
 
+sad::Texture * sad::TextureMappedFont::renderToTexture(const sad::String & str)
+{
+	if (m_texture == NULL)
+		return NULL;
+
+	sad::Texture * result = new sad::Texture();
+	
+	sad::String rendered_string = str;
+	rendered_string.removeAllOccurences("\n");
+	rendered_string.removeAllOccurences("\r");
+
+	sad::Vector<sad::Point2I> from;
+	sad::Vector<sad::Point2I> to;
+
+	int height = 0;
+	int width = 0;
+	// Compute size of texture
+	for(unsigned int i = 0; i < rendered_string.size(); i++)
+	{
+		unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
+
+		sad::Rect2D & glyph = m_glyphs[ glyphchar ];
+
+		sad::Point2I from_point(
+			(int)(glyph[0].x() * m_texture->width()),
+			(int)(glyph[0].y() * m_texture->height())
+		);
+		sad::Point2I to_point(
+			(int)(glyph[2].x() * m_texture->width()),
+			(int)(glyph[2].y() * m_texture->height())
+		);
+
+		from << from_point;
+		to << to_point;
+		width += to_point.x() - from_point.x();
+		height = std::max(height, to_point.y() - from_point.y());
+	}
+
+	result->width() = width + 1;
+	result->height() = height + 1;
+	result->bpp() = 32;
+	result->vdata().resize(4 * (width + 1) * (height + 1), 255);
+	
+	// Fill alpha with zero
+	for(size_t i = 0; i < result->vdata().size(); i+= 4)
+	{
+		result->vdata()[i + 3] = 0;
+	}
+
+	// Paint font
+	int x = 0;
+	for(unsigned int i = 0; i < rendered_string.size(); i++)
+	{
+		unsigned char glyphchar = *reinterpret_cast<unsigned char*>(&(rendered_string[i]));
+
+		sad::Rect2D & glyph = m_glyphs[ glyphchar ];
+
+		sad::Point2I from_point = from[i];
+		sad::Point2I to_point = to[i];
+
+		int y = height - (to_point.y() - from_point.y());
+		
+		for(int iy = from_point.y(); iy < to_point.y(); iy++)
+		{
+			for(int ix = from_point.x(); ix < to_point.x(); ix++)
+			{
+				int py = y + iy - from_point.y();
+				int px = x + ix - from_point.x();
+
+				sad::uchar* sourcepix = m_texture->pixel(iy, ix);
+				sad::uchar* destpix = result->pixel(py, px);
+				if (sourcepix[3] == 0) 
+				{
+					destpix[0] = 255;
+					destpix[1] = 255;
+					destpix[2] = 255;
+					destpix[3] = 255;
+				}
+				else
+				{
+					destpix[0] = 255 - sourcepix[0];
+					destpix[1] = 255 - sourcepix[1];
+					destpix[2] = 255 - sourcepix[2];
+					destpix[3] = sourcepix[3];
+				}
+			}
+		}
+
+		x += to_point.x() - from_point.x();
+	}
+	
+
+	return result;
+}
+
+
+bool sad::TextureMappedFont::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+)
+{
+	bool result = load(file.name(), r);
+	if (!result && !util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath, r);
+	}
+	return result;
+}
+
 bool sad::TextureMappedFont::load(const sad::String & filename, sad::Renderer * r)
 {
 	return this->load(filename + ".png", filename + ".cfg", r);
@@ -230,11 +350,13 @@ bool sad::TextureMappedFont::load(
 		r = sad::Renderer::ref();
 
 	// Trying to load a textures
+	sad::Texture * oldtexture = m_texture;
 	m_texture = new sad::Texture;
-	r->textures()->add(texturefilename, m_texture);
+	m_texture->setRenderer(r);
 	if (!m_texture->load(texturefilename, r))
 	{
-		r->textures()->remove(texturefilename);
+		delete m_texture;
+		m_texture = oldtexture;
 		return false;
 	}
 	
@@ -298,13 +420,26 @@ bool sad::TextureMappedFont::load(
 	// If failed to load, remove texture
 	if (result == false)
 	{	
-		r->textures()->remove(texturefilename);
+		delete m_texture;
+		m_texture = oldtexture;
 	} 
 	else
 	{
+		if (oldtexture)
+		{
+			delete oldtexture;
+		}
 		m_size_ratio = (float)(this->sad::Font::size()) / m_builtin_linespacing;
 	}
 	return result;
+}
+
+void sad::TextureMappedFont::unloadFromGPU()
+{
+	if (m_texture)
+	{
+		m_texture->unloadFromGPU();
+	}
 }
 
 float sad::TextureMappedFont::builtinLineSpacing() const

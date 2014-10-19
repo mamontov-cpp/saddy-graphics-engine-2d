@@ -1,6 +1,11 @@
 #include "fontimpl.h"
 #include "fixedsizefont.h"
 
+#include <pipeline/pipeline.h>
+
+#include <util/deletetexturetask.h>
+
+#include <renderer.h>
 
 sad::freetype::FontImpl::FontImpl() 
 : m_library(0), m_face(0), 
@@ -55,6 +60,48 @@ void sad::freetype::FontImpl::render(
 	this->fontForSize(m_cached_size)->render(str, p, ratio);
 	
 	glPopAttrib();
+}
+
+sad::Texture * sad::freetype::FontImpl::renderToTexture(
+	const sad::String & string,
+	unsigned int height 
+)
+{
+	return this->fontForSize(m_cached_size)->renderToTexture(string, m_library, m_face, height);
+}
+
+void sad::freetype::FontImpl::unload(sad::Renderer * r)
+{
+	sad::Vector<unsigned int> textures;
+	for(SizeMap::iterator it = m_size_cache.begin(); it != m_size_cache.end(); it++)
+	{
+		it.value()->uploadedTextures(textures);
+		it.value()->markTexturesAsUnloaded();
+	}
+	if (!r)
+	{
+		if (textures.count())
+		{
+			glDeleteTextures(textures.size(), &(textures[0]));
+		}
+	}
+	else
+	{
+		if (r->isOwnThread())
+		{
+			if (textures.count())
+			{
+				glDeleteTextures(textures.size(), &(textures[0]));
+			}
+		}
+		else
+		{
+			if (r->running())
+			{
+				r->pipeline()->append(new  sad::util::DeleteTextureTask(textures));
+			}
+		}
+	}
 }
 
 void sad::freetype::FontImpl::setSize(unsigned int size)
