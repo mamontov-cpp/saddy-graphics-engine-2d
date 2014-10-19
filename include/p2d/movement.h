@@ -41,12 +41,9 @@ class AbstractMovementDeltaListener
 template<typename _Class, typename _Value>
 class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
 {
-  public:
+public:
 	  typedef void (_Class::*method_t)(const _Value &);
-  protected:
-	  _Class *  m_object; //!< An object
-	  method_t  m_fun;      //!< A called pointer to method of class
-  public:
+
 	  /*! Defines a listener, that calls a specific method for object
 		  \param[in] o object
 		  \param[in] f method
@@ -67,6 +64,9 @@ class MovementDeltaListener: public p2d::AbstractMovementDeltaListener<_Value>
 	  /*! This class does not own object nor method, so nothing here
 	   */
 	  ~MovementDeltaListener() {}
+protected:
+	  _Class *  m_object; //!< An object
+	  method_t  m_fun;      //!< A called pointer to method of class
 };
 
 /*! Describes a movement in specifiec direction, using _Value type as type

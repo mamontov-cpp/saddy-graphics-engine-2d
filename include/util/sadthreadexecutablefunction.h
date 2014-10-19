@@ -1,5 +1,9 @@
 namespace sad
 {
+
+namespace util
+{
+
 /*! Defines an empty code, which only returns zero on execution
  */
 class EmptyThreadExecutableFunction
@@ -97,7 +101,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeOneArgVoidExecutableFunction<_FunctionArg, _CalledArg>(*this);
+		return new sad::util::FreeOneArgVoidExecutableFunction<_FunctionArg, _CalledArg>(*this);
 	}
 protected:
 	void (*m_f)(_FunctionArg);
@@ -136,7 +140,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeOneArgIntExecutableFunction<_FunctionArg, _CalledArg>(*this);
+		return new sad::util::FreeOneArgIntExecutableFunction<_FunctionArg, _CalledArg>(*this);
 	}
 protected:
 	int (*m_f)(_FunctionArg);
@@ -177,7 +181,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeZeroArgVoidMethodExecutableFunction<
+		return new sad::util::FreeZeroArgVoidMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName>
 		(*this);
@@ -219,7 +223,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeZeroArgIntMethodExecutableFunction<
+		return new sad::util::FreeZeroArgIntMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName>
 		(*this);
@@ -266,7 +270,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeOneArgVoidMethodExecutableFunction<
+		return new sad::util::FreeOneArgVoidMethodExecutableFunction<
 			_ClassName,
 			_InvokedClassName,
 			_MethodArg,
@@ -317,7 +321,7 @@ public:
 	 */
 	virtual AbsractThreadExecutableFunction * clone() const
 	{
-		return new sad::FreeOneArgIntMethodExecutableFunction<
+		return new sad::util::FreeOneArgIntMethodExecutableFunction<
 			_ClassName,
 			_InvokedClassName,
 			_MethodArg,
@@ -330,5 +334,7 @@ protected:
 	int (_InvokedClassName::*m_m)(_MethodArg);
 	_InvokedArg m_a;
 };
+
+}
 
 }

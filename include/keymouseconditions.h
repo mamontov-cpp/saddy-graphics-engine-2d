@@ -45,34 +45,24 @@ private:
 /*! A condition, which is met, when user holds a special key, like Alt, Shift or Control
 	and key event for event data
  */
-template<
-bool sad::input::KeyEvent::* PressedEvent
->
 class SpecialKeyHoldCondition: public sad::input::AbstractHanderCondition
 {
 public:
 	/*! Creates new condition for key, which should be pressed, when event is emitted
+		\param[in] key a key, which must be hold to trigger condition
 	 */
-	inline SpecialKeyHoldCondition()
-	{
-	}
+	SpecialKeyHoldCondition(sad::SpecialKey key);
 	/*! Casts event to a KetEvent and tests it against conditions
 		\param[in] e event
 		\return whether we should  run an event
 	 */
-	virtual bool check(const sad::input::AbstractEvent & e)
-	{
-		const sad::input::KeyEvent & ke = static_cast<const sad::input::KeyEvent &>(e);
-		sad::input::KeyEvent & k = const_cast<sad::input::KeyEvent &>(ke);
-		return k.*PressedEvent;
-	}
+	virtual bool check(const sad::input::AbstractEvent & e);
 	/*! Clones a condition
 		\return clone a condition
 	 */
-	virtual sad::input::AbstractHanderCondition * clone()
-	{
-		return new sad::SpecialKeyHoldCondition<PressedEvent>();
-	}
+	virtual sad::input::AbstractHanderCondition* clone();
+protected:
+	sad::SpecialKey m_key;
 };
 
 
@@ -138,12 +128,7 @@ inline sad::input::HandlerTypeAndConditions operator&(
 {
 	sad::input::HandlerTypeAndConditions & mt = const_cast<sad::input::HandlerTypeAndConditions &>(t);
 	sad::input::AbstractHanderCondition * h = NULL;
-	switch(key) 
-	{
-		case sad::HoldsControl: { h = new sad::SpecialKeyHoldCondition<&sad::input::KeyEvent::CtrlHeld>();  }
-		case sad::HoldsAlt:     { h = new sad::SpecialKeyHoldCondition<&sad::input::KeyEvent::AltHeld>();  }
-		case sad::HoldsShift:   { h = new sad::SpecialKeyHoldCondition<&sad::input::KeyEvent::ShiftHeld>();  }
-	};
+	h = new sad::SpecialKeyHoldCondition(key);
 	mt._2() << h;
 	return t;
 }

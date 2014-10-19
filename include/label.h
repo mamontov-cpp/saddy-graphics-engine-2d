@@ -8,6 +8,7 @@
 #include "sadrect.h"
 #include "3rdparty/format/format.h"
 #include "timer.h"
+#include "resource/link.h"
 #pragma once
 
 namespace sad
@@ -37,10 +38,53 @@ class Label: public sad::SceneNode
 			  const sad::Point2D  & point,
 			  const sad::String & string
 			 );
+		/*! Creates a simple label with font size of 20px and angle of zero.
+			Default color is black.
+		    \param[in] font  a font, which label is being rendered with
+			\param[in] point an upper-left point, where text starts
+			\param[in] string  a string, which is being rendered
+			\param[in] tree a tree name, where font is stored
+		*/
+		Label(
+			  const sad::String &  font,
+			  const sad::Point2D  & point,
+			  const sad::String & string,
+			  const sad::String & tree = ""
+			 );
+		/*! Sets links resources to a treename and renderer
+			\param[in] r renderer
+			\param[in] treename a name for tree
+		 */
+		virtual void setTreeName(sad::Renderer* r, const sad::String& treename);
+		/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+			As default, no regions are produced.
+			\param[out] r a vector of regions
+		*/
+		virtual void regions(sad::Vector<sad::Rect2D> & r);
+		/*! A basic schema for object
+			\return a schema 
+		 */
+		static sad::db::schema::Schema* basicSchema();
+		/*! Returns schema for an object
+			\return schema
+		 */
+		virtual sad::db::schema::Schema* schema() const;
         /*! Renders a string of text inside of label
 		*/
 		virtual void render();
-		/*! Returns a boundign region for a label
+		/*! Called, when renderer for scene is changed
+		 */
+		virtual void rendererChanged();
+		/*! Sets non-rotated renderable area
+			\param[in] r non-rotated renderable area
+		 */
+		void setArea(const sad::Rect2D & r);
+		/*! Returns non-rotated renderable area for a label
+			\return non-rotated renderable area
+		 */
+		sad::Rect2D area() const;
+		/*! Returns a bounding region for a label
+			\return bounding region part
 		 */
 		virtual sad::Rect2D region() const; 
 		/*! Returns a font for label
@@ -48,7 +92,7 @@ class Label: public sad::SceneNode
 		 */
 		inline sad::Font * font() const
 		{
-			return m_font;
+			return m_font.get();
 		}
 		/*! Sets a font, that label is being rendered with			
 			\param[in] font a font
@@ -57,8 +101,9 @@ class Label: public sad::SceneNode
 	    /*! Sets new font by trying to get it from a rendered
 			\param[in] name a name for a font
 			\param[in] r a renderer
-		 */
-		void setFont(const sad::String & name, sad::Renderer * r = NULL);
+			\param[in] tree a tree, where font should be located
+		  */
+		void setFont(const sad::String & name, sad::Renderer * r = NULL, const sad::String & tree = "");
 		/*!  Returns a string for a label
 			 \return a string
 		 */
@@ -86,7 +131,7 @@ class Label: public sad::SceneNode
 		 */
 		inline const sad::String & fontName() const
 		{
-			return m_font_name;
+			return m_font.path();
 		}
 		/*! Sets upper-left point for a label
 			\param[in] point a point
@@ -103,14 +148,14 @@ class Label: public sad::SceneNode
 		/*! Returns counter-clockwise rotation angle for a label
 			\return angle
 		 */
-		inline float angle() const
+		inline double angle() const
 		{
 			return m_angle;
 		}
 		/*! Sets angle for rotation of label
 			\param[in] angle a rotation angle
 		 */
-		inline void setAngle(float angle)
+		inline void setAngle(double angle)
 		{
 			m_angle = angle;
 		}
@@ -197,6 +242,10 @@ class Label: public sad::SceneNode
 			\param[in] scene a scene, which will render a node
 		 */
 		virtual void setScene(sad::Scene * scene);
+		/*! Sets treename for a sprite
+			\param[in] treename a name for a tree
+		*/
+		void setTreeName(const sad::String & treename);
 private:
 		/*! Reloads font for a label from scene
 		 */
@@ -205,15 +254,18 @@ private:
 			so rotation will be placed just in place 
 		 */
 		void recomputeRenderingPoint();
-		sad::Font  *     m_font;       //!< A font, that label is being renderd with
-		sad::String      m_font_name;   //!< A name for a font
-		sad::String      m_string;     //!< A rendered string
+		/*! A link to font, that label is being renderd with
+		 */
+		sad::resource::Link<sad::Font> m_font;
+		/*! A rendered string
+		 */
+		sad::String      m_string; 
 		/*! An upper left point, where text is rendered
 		 */
 		sad::Point2D     m_point;  
 		/*! A counter-clockwise rotation angle for a label
 		 */
-		float            m_angle;
+		double            m_angle;
 		/*! A size of font in label in pixels
 		 */
 		unsigned int     m_size;
@@ -229,6 +281,11 @@ private:
 		/*! A half size with negative parts, needed to render a font
 		 */
 		sad::Point2D     m_halfpadding;
+		/*! A cached region for label
+		 */
+		sad::Rect2D      m_cached_region;
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Label)

@@ -17,8 +17,6 @@ namespace p2d
 class Line: public sad::p2d::CollisionShape
 {
 	SAD_OBJECT
-protected:
-	sad::p2d::Cutter2D m_c; //!< An inner cutter
 public:
 	inline Line() {}
 	/*! Sets new cutter
@@ -105,8 +103,12 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const; 
+protected:
+	sad::p2d::Cutter2D m_c; //!< An inner cutter
 };
 
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Line)

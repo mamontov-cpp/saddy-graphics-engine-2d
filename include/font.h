@@ -9,13 +9,16 @@
 #include "sadstring.h"
 #include "sadcolor.h"
 
+#include "resource/resource.h"
+
 namespace sad
 {
 
 /*! A basic class for font, which renders all fonts in Saddy engine
  */ 
-class Font
+class Font: public sad::resource::Resource
 {
+SAD_OBJECT
 public:
 	/*! Constructs new font with size of 14px
 	 */
@@ -122,3 +125,5 @@ protected:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Font)

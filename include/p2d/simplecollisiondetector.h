@@ -18,10 +18,7 @@ namespace p2d
  */
 class SimpleCollisionDetector: public p2d::CollisionDetector
 {
- private:
-	 p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
-	 double  m_moment;  //!< A moment, when we should determine collision
- public:
+public:
 	 /*! Creates new detector
 		 \param[in] moment moment when tests will be performed as proportion to time
 		 \param[in] t      a shape collision testing callbacks
@@ -47,6 +44,9 @@ class SimpleCollisionDetector: public p2d::CollisionDetector
 									  double limit);
 
 	 ~SimpleCollisionDetector();
+private:
+	 p2d::CollisionTest * m_tester; // !< A tester, which tests shapes for collisions
+	 double  m_moment;  //!< A moment, when we should determine collision
 };
 
 }

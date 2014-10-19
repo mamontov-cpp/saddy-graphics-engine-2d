@@ -17,24 +17,27 @@ public:
 	/*! Creates new non-started FPS computation
 	 */
 	FPSInterpolation();
+	/*! Can be inherited
+	 */
+	virtual ~FPSInterpolation();
 	/*! Starts new computing iteration. Must be called at beginning
 		of new main loop
 	 */
-	void reset();
+	virtual void reset();
 	/*! Starts measuring time for computing time interval
 	 */
-	void start();
+	virtual void start();
 	/*! Stops measuring time for computing time interval
 	 */
-	void stop();
+	virtual void stop();
 	/*! Resets timing for FPS interpolation. Used to remove FPS jumps, when
 		window is not active
 	 */
-	void resetTimer();
+	virtual void resetTimer();
 	/*! Returns current FPS
 		\return FPS
 	 */
-	double fps();
+	virtual double fps();
 protected:
 	/*! A timer, for computng FPS
 	 */

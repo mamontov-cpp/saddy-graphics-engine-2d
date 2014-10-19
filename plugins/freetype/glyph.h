@@ -6,6 +6,8 @@
 #pragma once
 #include "texture.h"
 
+#include <maybe.h>
+
 namespace sad
 {
 
@@ -45,6 +47,13 @@ public:
 	 */
 	float AdvanceX;
 
+	/*! Maximum Y of bounding box
+	 */
+	int YMax;
+	/*! Minimum Y of bounding box
+	 */
+	int YMin;
+
 	/*! Default glyph fills with zeroes
 	 */
 	Glyph();
@@ -61,6 +70,13 @@ public:
 		\param[in] y Y coordinate position
 	 */
 	void render(float x, float y);
+	/*! Tries to get a glyph for a face and char c
+		\param[in] face face to be used
+		\param[in] c character
+		\param[out] index index of character in list
+		\return glyph value
+	 */
+	static sad::Maybe<FT_Glyph> glyph(FT_Face face, unsigned char c, unsigned int & index);
 private:
 	/*! Sets all metrics of glyph from specified freetype glyph
 		\param[in] face  a global face

@@ -1,27 +1,39 @@
 #include "renderer.h"
 
-#include "texturemanager.h"
-#include "fontmanager.h"
-#include "texturemanager.h"
 #include "scene.h"
 #include "window.h"
+#include "sadscopedlock.h"
 #include "glcontext.h"
 #include "mainloop.h"
 #include "mousecursor.h"
 #include "opengl.h"
 #include "fpsinterpolation.h"
 #include "input/controls.h"
+
 #include "pipeline/pipeline.h"
+
 #include "os/windowhandles.h"
 #include "os/glheaders.h"
+#include "os/threadimpl.h"
+
+#include "db/dbdatabase.h"
+
+#include "util/swaplayerstask.h"
+
+#include "imageformats/bmploader.h"
+#include "imageformats/pngloader.h"
+#include "imageformats/tgaloader.h"
+
+#ifdef LINUX
+	#include <stdio.h>
+	#include <unistd.h>
+#endif
 
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
 : 
 m_log(new sad::log::Log()),
-m_font_manager(new sad::FontManager()),
-m_texture_manager(new sad::TextureManager()),
 m_window(new sad::Window()),
 m_context(new sad::GLContext()),
 m_cursor(new sad::MouseCursor()),
@@ -37,12 +49,22 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
-	m_texture_manager->setRenderer(this);
+
+	setTextureLoader("BMP", new sad::imageformats::BMPLoader());
+    setTextureLoader("TGA", new sad::imageformats::TGALoader());
+    setTextureLoader("PNG", new sad::imageformats::PNGLoader());
+
+
+
+	sad::resource::Tree * defaulttree = new sad::resource::Tree(this);
+	m_resource_trees.insert("", defaulttree);
 	
 	// Add stopping a main loop to quite events of controls to make window close
 	// when user closs a window
 	m_controls->add(*(sad::input::ET_Quit), m_main_loop, &sad::MainLoop::stop);
 
+	// Set context thread
+	m_context_thread = (void*)sad::os::current_thread_id(); 
 	// Init pipeline to make sure, that user can add actions after rendering step, before 
 	// renderer started
 	this->initPipeline();
@@ -50,10 +72,25 @@ m_primitiverenderer(new sad::PrimitiveRenderer())
 
 sad::Renderer::~Renderer(void)
 {
+	// Force clearing of scenes, so resource links should be preserved
+	for(int i = 0; i < m_scenes.size(); i++)
+	{
+		m_scenes[i]->clear();
+	}
+
 	delete m_primitiverenderer;
 	delete m_cursor;
-	delete m_font_manager;
-	delete m_texture_manager;
+
+	// Force freeing resources, to make sure, that pointer to context will be valid, when resource
+	// starting to be freed.
+	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+		it != m_resource_trees.end();
+		it++)
+	{
+		delete it.value();
+	}
+	m_resource_trees.clear();
+
 	delete m_pipeline;
 	delete m_controls;
 	delete m_window;
@@ -62,6 +99,13 @@ sad::Renderer::~Renderer(void)
 	delete m_main_loop;
 	delete m_fps_interpolation; 
 	delete m_log;
+	
+	for(sad::Hash<sad::String, sad::db::Database*>::iterator it = m_databases.begin();
+		it != m_databases.end();
+		++it)
+	{
+		delete it.value();
+	}	
 }
 
 void sad::Renderer::setScene(Scene * scene)
@@ -106,6 +150,8 @@ bool sad::Renderer::run()
 	// Try to create context if needed
 	if (m_context->valid() == false && success)
 	{
+		// Set context thread
+		m_context_thread = (void*)sad::os::current_thread_id(); 
 		success =  m_context->createFor(m_window);
 		if (!success)
 		{
@@ -206,17 +252,6 @@ void sad::Renderer::setCursorPosition(const sad::Point2D & p)
 	this->cursor()->setPosition(p);
 }
 
-
-sad::FontManager * sad::Renderer::fonts()
-{
-	return m_font_manager;
-}
-
-sad::TextureManager * sad::Renderer::textures()
-{
-	return m_texture_manager;
-}
-
 sad::log::Log * sad::Renderer::log()
 {
 	return m_log;
@@ -258,6 +293,13 @@ sad::MainLoop * sad::Renderer::mainLoop() const
 	return m_main_loop;
 }
 
+void sad::Renderer::setFPSInterpolation(sad::FPSInterpolation * i)
+{
+	assert( i );
+	delete m_fps_interpolation;
+	m_fps_interpolation = i;
+}
+
 sad::FPSInterpolation * sad::Renderer::fpsInterpolation() const
 {
 	return m_fps_interpolation;
@@ -273,11 +315,43 @@ sad::input::Controls* sad::Renderer::controls() const
 	return m_controls;
 }
 
+sad::Vector<sad::resource::Error *> sad::Renderer::loadResources(
+		const sad::String & filename,
+		const sad::String & treename
+)
+{
+	sad::Vector<sad::resource::Error *> result;
+	if (m_resource_trees.contains(treename))
+	{
+		result = m_resource_trees[treename]->loadFromFile(filename);
+	}
+	else
+	{
+		result << new sad::resource::TreeNotFound(treename);
+	}
+	return result;
+}
+
+sad::Texture * sad::Renderer::texture(
+	const sad::String & resourcename, 
+	const sad::String & treename
+)
+{
+	return resource<sad::Texture>(resourcename, treename);	
+}
+
 void sad::Renderer::emergencyShutdown()
 {
 	// Unload all textures, because after shutdown context will be lost
 	// and glDeleteTextures could lead to segfault
-	this->textures()->unload();
+	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
+		it != m_resource_trees.end();
+		it++)
+	{
+		it.value()->unloadResourcesFromGPU();
+	}
+	
+
 	// Destroy context and window, so nothing could go wrong
 	this->context()->destroy();
 	this->window()->destroy();
@@ -337,6 +411,17 @@ void sad::Renderer::add(sad::Scene * scene)
 	this->sad::TemporarilyImmutableContainer<sad::Scene>::add(scene);
 }
 
+void sad::Renderer::swapLayers(sad::Scene* s1, sad::Scene* s2)
+{
+	int layer1 = this->layer(s1);
+	int layer2 = this->layer(s2);
+	if (layer1 != -1 && layer2 != -2)
+	{
+		sad::pipeline::AbstractTask* t = new sad::util::SwapLayersTask(this, s1, s2, layer1, layer2);
+		this->pipeline()->insertStep(sad::pipeline::PIT_END, t);
+	}
+}
+
 int  sad::Renderer::layer(sad::Scene * s)
 {
 	std::vector<sad::Scene*>::iterator it = std::find(m_scenes.begin(), m_scenes.end(), s);
@@ -374,6 +459,16 @@ void sad::Renderer::setLayer(sad::Scene * s, unsigned int layer)
 	}
 }
 
+unsigned int sad::Renderer::totalSceneObjects() const
+{
+	unsigned int result = 0;
+	for(size_t i = 0; i < m_scenes.size(); i++)
+	{
+		result += m_scenes[i]->objectCount();
+	}
+	return result;
+}
+
 void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 {
 	delete m_primitiverenderer;	
@@ -383,6 +478,190 @@ void sad::Renderer::setPrimitiveRenderer(sad::PrimitiveRenderer * r)
 sad::PrimitiveRenderer * sad::Renderer::render() const
 {
 	return m_primitiverenderer;
+}
+
+#ifdef LINUX
+// http://www.gnu.org/software/hurd/user/tlecarrour/porting_guide_for_dummies.html
+static char *readlink_malloc(const char *filename)
+{
+	int size = 100;
+
+	while (1) 
+	{
+		char *buff = (char*)malloc(size);
+		if (buff == NULL)
+			return NULL;
+		int nchars = readlink(filename, buff, size);
+		if (nchars < 0)
+		{
+			free(buff);
+			return NULL;
+		}
+		if (nchars < size) 
+		{
+			buff[nchars] = '\0';
+			return buff;
+		}
+		free (buff);
+		size *= 2;
+	}
+}
+#endif
+
+const sad::String & sad::Renderer::executablePath() const
+{
+	if (m_executable_cached_path.length() == 0)
+	{
+#ifdef WIN32
+		char result[_MAX_PATH+1];
+		GetModuleFileName(NULL, result, _MAX_PATH);
+		sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
+		*path =  result;		
+		int pos = path->getLastOccurence("\\");
+		if (pos > 0)
+		{
+			*path = path->subString(0, pos);
+		}
+#endif
+
+#ifdef LINUX
+		char proc[32];
+		sprintf(proc, "/proc/%d/exe", getpid());
+		char * buffer = readlink_malloc(proc);
+		if(buffer != 0)
+		{		
+			sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);		
+			*path = buffer;
+			free(buffer);
+			int pos = path->getLastOccurence("/");
+			if (pos > 0)
+			{
+				*path = path->subString(0, pos);
+			}
+		}
+#endif
+	}
+	return m_executable_cached_path;
+}
+
+sad::resource::Tree * sad::Renderer::tree(const sad::String & name) const
+{
+	if (m_resource_trees.contains(name))
+	{
+		return m_resource_trees[name];
+	}
+	return NULL;
+}
+
+sad::resource::Tree * sad::Renderer::takeTree(const sad::String & name)
+{
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		result->setRenderer(NULL);
+		m_resource_trees.remove(name);
+		return result;
+	}
+	return NULL;
+}
+
+void sad::Renderer::addTree(const sad::String & name, sad::resource::Tree * tree)
+{
+	if (!tree)
+	{
+		return;
+	}
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		m_resource_trees.remove(name);
+		delete result;
+	} 
+	tree->setRenderer(this);
+	m_resource_trees.insert(name, tree);
+}
+
+
+void sad::Renderer::removeTree(const sad::String & name)
+{
+	if (m_resource_trees.contains(name))
+	{
+		sad::resource::Tree * result =  m_resource_trees[name];
+		m_resource_trees.remove(name);
+		delete result;
+	} 	
+}
+
+
+bool sad::Renderer::isOwnThread() const
+{
+	return ((void*)sad::os::current_thread_id() == m_context_thread);
+}
+
+bool sad::Renderer::addDatabase(const sad::String & name, sad::db::Database * database)
+{
+	sad::ScopedLock lock(&m_database_lock);
+	assert( database );
+	if (m_databases.contains(name))
+	{
+		return false;
+	}
+	database->setRenderer(this);
+	m_databases.insert(name, database);
+	return true;
+}
+
+void sad::Renderer::removeDatabase(const sad::String & name)
+{
+	sad::ScopedLock lock(&m_database_lock);
+	if (m_databases.contains(name))
+	{
+		delete m_databases[name];
+		m_databases.remove(name);
+	}
+}
+
+sad::db::Database * sad::Renderer::database(const sad::String & name) const
+{
+	sad::ScopedLock lock(&(const_cast<sad::Renderer*>(this)->m_database_lock));
+	if (m_databases.contains(name))
+	{
+		return m_databases[name];
+	}
+	return NULL;
+}
+
+void sad::Renderer::lockRendering()
+{
+	m_lockrendering.lock();	
+}
+
+void sad::Renderer::unlockRendering()
+{
+	m_lockrendering.unlock();	
+}
+
+void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformats::Loader* loader)
+{
+	if (m_texture_loaders.contains(format))
+	{
+		delete m_texture_loaders[format];
+		m_texture_loaders[format] = loader;
+	}
+	else
+	{
+		m_texture_loaders.insert(format, loader);
+	}
+}
+
+sad::imageformats::Loader* sad::Renderer::textureLoader(const sad::String& format) const
+{
+	sad::imageformats::Loader* l = NULL;
+	if (m_texture_loaders.contains(format))
+	{
+		l = m_texture_loaders[format];
+	}
+	return l;
 }
 
 bool sad::Renderer::initGLRendering()
@@ -463,6 +742,7 @@ void sad::Renderer::startRendering()
 
 void sad::Renderer::renderScenes()
 {
+	this->lockRendering();
 	this->performQueuedActions();
 	this->lockChanges();
 	for(size_t i = 0; i < m_scenes.count(); i++)
@@ -478,6 +758,7 @@ void sad::Renderer::renderScenes()
 	}
 	this->unlockChanges();
 	this->performQueuedActions();
+	this->unlockRendering();
 }
 
 void sad::Renderer::finishRendering()
@@ -488,6 +769,7 @@ void sad::Renderer::finishRendering()
 
 void sad::Renderer::addNow(sad::Scene * s)
 {
+	s->addRef();
 	m_scenes << s;	
 }
 
@@ -495,7 +777,7 @@ void sad::Renderer::removeNow(sad::Scene * s)
 {
 	if (s)
 	{
-		delete s;
+		s->delRef();
 	}
 	m_scenes.removeAll(s);
 }
@@ -504,7 +786,7 @@ void sad::Renderer::clearNow()
 {
 	for(unsigned int i = 0; i < m_scenes.size(); i++)
 	{
-		delete m_scenes[i];
+		m_scenes[i]->delRef();
 	}
 	m_scenes.clear();
 }

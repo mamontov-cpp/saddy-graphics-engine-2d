@@ -32,10 +32,7 @@ class TickableDefaultValue<p2d::Vector>
 template<typename T>
 class Force
 {
- protected:
-	 bool m_alive;  //!< If false, this force should be removed from container 
-	 T    m_value;  //!< A value of force
- public:
+public:
 	 /*! Creates zero force
 	  */
 	 inline Force() { m_alive = true; m_value = TickableDefaultValue<T>::zero(); }
@@ -62,6 +59,9 @@ class Force
 	     \param[in] time a time step size
 	  */
 	 virtual void step(double time) {}
+protected:
+	 bool m_alive;  //!< If false, this force should be removed from container 
+	 T    m_value;  //!< A value of force
 };
 
 /*! Describes a simple impulse force with value T
@@ -69,7 +69,7 @@ class Force
 template<typename T>
 class ImpulseForce: public p2d::Force<T>
 {
-  public:
+public:
 	 /*! Creates zero force
 	  */
 	 inline ImpulseForce() : p2d::Force<T>() {  }
@@ -96,74 +96,7 @@ typename T
 >
 class ActingForces
 {
- protected:
-	 /*! A queued command for performing of data
-	  */
-	 class Command
-	 {
-	  public:
-		  /*! Performs a command on container
-			  \param[in] time current time step size
-			  \param[in] container a container
-			  \return whether it was performed
-		   */
-		  virtual bool perform(double time, ActingForces<T> * container);
-
-		  virtual ~Command() {}
-	 };
-	 /*! A sheduled adding, without time checking
-	  */
-	 class ScheduledAdd
-	 {
-	  protected:
-		  p2d::Force<T> * m_force; //!< A force
-	  public:
-		  ScheduledAdd(p2d::Force<T> * f) : m_force(f) {}
-		  /*! Adds a force to container
-			  \param[in] time current time step size
-			  \param[in] container a container
-			  \return whether it was performed
-		   */
-		  virtual bool perform(double time, ActingForces<T> * container)
-		  {
-			  container->add(m_force);
-			  m_force = NULL;
-			  return true;
-		  }
-		  virtual ~ScheduledAdd() { delete m_force; }
-	 };
-	 /*! A sheduled adding, without time checking
-	  */
-	 class ScheduledAddAt
-	 {
-	  protected:
-		  p2d::Force<T> * m_force; //!< A force
-		  double  m_time;          //!< A time, when should be added a force  
-	  public:
-		  ScheduledAddAt(p2d::Force<T> * f) : m_force(f) {}
-		  /*! Adds a force to container
-			  \param[in] time current time step size
-			  \param[in] container a container
-			  \return whether it was performed
-		   */
-		  virtual bool perform(double time, ActingForces<T> * container)
-		  {
-			  if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
-			  {
-		          container->add(m_force);
-			      m_force = NULL;
-				  return true;
-			  }
-			  return false;
-		  }
-		  virtual ~ScheduledAddAt() { delete m_force; }
-	 };
-	 typedef p2d::Force<T> * force_t;
-	 typedef typename p2d::ActingForces<T>::Command * command_t;
- protected:
-	 sad::Vector< force_t >    m_forces;                       //!< A forces list, acting on body
-	 sad::Vector< command_t >  m_queued;                       //!< A queued list of commands
- public:
+public:
 	 ActingForces() {}
 	 /*! Force container owns all forces, belonging to it
 	  */
@@ -235,6 +168,73 @@ class ActingForces
 		 \return whether container has a forces
 	  */
 	 bool hasForces() const { return m_forces.size() != 0; }
+protected:
+	 /*! A queued command for performing of data
+	  */
+	 class Command
+	 {
+	  public:
+		  /*! Performs a command on container
+			  \param[in] time current time step size
+			  \param[in] container a container
+			  \return whether it was performed
+		   */
+		  virtual bool perform(double time, ActingForces<T> * container);
+
+		  virtual ~Command() {}
+	 };
+	 /*! A sheduled adding, without time checking
+	  */
+	 class ScheduledAdd
+	 {
+	  protected:
+		  p2d::Force<T> * m_force; //!< A force
+	  public:
+		  ScheduledAdd(p2d::Force<T> * f) : m_force(f) {}
+		  /*! Adds a force to container
+			  \param[in] time current time step size
+			  \param[in] container a container
+			  \return whether it was performed
+		   */
+		  virtual bool perform(double time, ActingForces<T> * container)
+		  {
+			  container->add(m_force);
+			  m_force = NULL;
+			  return true;
+		  }
+		  virtual ~ScheduledAdd() { delete m_force; }
+	 };
+	 /*! A sheduled adding, without time checking
+	  */
+	 class ScheduledAddAt
+	 {
+	  protected:
+		  p2d::Force<T> * m_force; //!< A force
+		  double  m_time;          //!< A time, when should be added a force  
+	  public:
+		  ScheduledAddAt(p2d::Force<T> * f) : m_force(f) {}
+		  /*! Adds a force to container
+			  \param[in] time current time step size
+			  \param[in] container a container
+			  \return whether it was performed
+		   */
+		  virtual bool perform(double time, ActingForces<T> * container)
+		  {
+			  if (time > m_time || ::sad::is_fuzzy_equal(time, m_time))
+			  {
+		          container->add(m_force);
+			      m_force = NULL;
+				  return true;
+			  }
+			  return false;
+		  }
+		  virtual ~ScheduledAddAt() { delete m_force; }
+	 };
+	 typedef p2d::Force<T> * force_t;
+	 typedef typename p2d::ActingForces<T>::Command * command_t;
+protected:
+	 sad::Vector< force_t >    m_forces;                       //!< A forces list, acting on body
+	 sad::Vector< command_t >  m_queued;                       //!< A queued list of commands
 };
 
 

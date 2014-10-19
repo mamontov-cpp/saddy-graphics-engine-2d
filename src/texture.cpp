@@ -1,10 +1,20 @@
 #include "texture.h"
-#include "texturemanager.h"
 #include "log/log.h"
 
 #include <renderer.h>
 #include <opengl.h>
+#include <glcontext.h>
+
 #include <os/generatemipmaps30.h>
+
+#include <pipeline/pipeline.h>
+
+#include <resource/physicalfile.h>
+
+#include <util/fs.h>
+#include <util/deletetexturetask.h>
+
+#include <3rdparty/picojson/valuetotype.h>
 
 #include <errno.h>
 
@@ -15,6 +25,9 @@ static const unsigned char texdata[16384]=
 
 static const unsigned int cnt=16384;
 
+
+DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
+
 sad::Texture::Texture() 
 : m_renderer(NULL), Bpp(32), Width(0), Height(0), Id(0), OnGPU(false)
 {
@@ -23,7 +36,23 @@ sad::Texture::Texture()
 
 sad::Texture::~Texture()
 {
-
+	if (this->renderer())
+	{
+		if (this->renderer()->context()->valid())
+		{
+			if (this->renderer()->isOwnThread())
+			{
+				this->unload();
+			}
+			else
+			{
+				if (this->renderer()->running())
+				{
+					this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
+				}
+			}
+		}
+	}
 }
 
 void sad::Texture::upload()
@@ -106,6 +135,36 @@ void sad::Texture::loadDefaultTexture()
 		Data << texdata[i]; 
 }
 
+void sad::Texture::unloadFromGPU()
+{
+	this->unload();
+}
+
+bool sad::Texture::load(
+		const sad::resource::PhysicalFile & file,
+		sad::Renderer * r,
+		const picojson::value& options
+)
+{
+	bool result = load(file.name(), r);
+	if (!result && !util::isAbsolutePath(file.name()))
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		result = load(newpath, r);
+	}
+	if (result)
+	{
+		sad::Maybe<sad::Color> maybecolor = picojson::to_type<sad::Color>(
+			picojson::get_property(options, "transparent")
+		);		
+		if (maybecolor.exists())
+		{
+			this->setAlpha(255, maybecolor.value());
+		}
+	}
+	return result;
+}
+
 bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 {
 	if (!r)
@@ -117,7 +176,7 @@ bool sad::Texture::load(const sad::String & filename, sad::Renderer * r)
 	char * f=const_cast<char *>(ff.data());
 	while(*f) { *f=toupper(*f); ++f; }
 
-	sad::imageformats::Loader * l = r->textures()->loader(ff);
+	sad::imageformats::Loader * l = r->textureLoader(ff);
 	if (l)
 	{
 		FILE * fl = fopen(filename.data(), "rb");
@@ -186,7 +245,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr)
 
 void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect2D & rect)
 {
-	sad::Rect2D tmp=rect;
+	sad::Rect2I tmp = sad::_(rect);
 	for (int i=0;i<4;i++)
 	{
 		if (tmp[i].x() < 0) tmp[i].setX(0);
@@ -221,6 +280,7 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect
 		}
 	}
 }
+
 
 sad::Renderer * sad::Texture::renderer() const
 {

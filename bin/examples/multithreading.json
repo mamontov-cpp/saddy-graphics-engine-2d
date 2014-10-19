@@ -1,0 +1,17 @@
+[
+	{ 
+		"type": "sad::Texture",
+		"name": "tex1",
+		"filename": "examples/game/ingame.tga"
+	},
+	{ 
+		"type": "sad::TextureMappedFont",
+		"name": "tmfont",
+		"filename": "examples/game/font"
+	},
+	{ 
+		"type": "sad::freetype::Font",
+		"name": "ftfont",
+		"filename": "ifaceed/EMPORIUM.TTF"
+	}
+]

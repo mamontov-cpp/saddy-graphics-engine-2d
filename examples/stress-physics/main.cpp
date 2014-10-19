@@ -8,65 +8,12 @@
 	Describes a main file for game
  */
 #include <renderer.h>
-#include <fontmanager.h>
+#include <font.h>
 #include <texturemappedfont.h>
-#include <texturemanager.h>
 #include "world.h"
 
 #include <math.h>
 #include <time.h>
-
-/*! Loads a texture from file and registers it in Texture Manager
-	\param[in] filename name of loaded file 
-	\param[in] texturename name of registered texture
-	\return whether loading of texture was successfull
- */
-bool load_texture(const char * filename,const char * texturename)
-{
-	sad::Texture * texture=new sad::Texture();
-	bool result=texture->load(sad::String(filename));	
-	if (result) { 
-		sad::TextureManager::ref()->add(texturename, texture);
-	} else	{
-		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << filename);
-		delete texture;
-	}
-	return result;
-}
-/*! Loads a texture from file and registers it in Texture Manager.
-	
-	This is a special case, when texture has a white background, which must be converted 
-	to tansparent before work.
-	\param[in] filename name of loaded file 
-	\param[in] texturename name of registered texture
-	\return whether loading of texture was successfull
- */
-bool load_texture_with_alphachannel(const char * filename,const char * texturename)
-{
-	bool result = load_texture(filename, texturename);
-	if (result)
-	{
-		// With first component we set alpha channel to fully transparent (255) of white color
-		// (255,255,255)
-		sad::TextureManager::ref()->get(texturename)->setAlpha(255,sad::Color(255,255,255));
-	}
-	return result;
-} 
-/*! Returns a font from file and registers it in Font Manager 
- */
-bool load_font(const sad::String & fontfolder, const sad::String & fontname)
-{
-	sad::String fontextendedname = fontfolder + fontname;
-	sad::TextureMappedFont * fnt=new sad::TextureMappedFont();
-	bool result = fnt->load(fontextendedname);
-	if (result) { 
-		sad::FontManager::ref()->add(fnt, fontname);
-	} else	{
-		SL_FATAL( fmt::Format("Loading \"{0}\" failed") << fontextendedname);
-		delete fnt;
-	}
-	return result;
-}
 
 /*! A main function 
 	\param[in] argc count of arguments
@@ -94,15 +41,15 @@ int main(int argc, char** argv)
 
 	//Loading resources. We re-use textures from game example. 
 	bool res=true; 
-	sad::String fontfolder = "examples/game/";
-	res=res && load_font(fontfolder, "font"); 
-	res=res && load_texture("examples/game/ingame.tga","background");
-    res=res && load_texture_with_alphachannel("examples/game/objects.bmp","objects"); 
-    if (!res)
+	sad::Vector<sad::resource::Error *> errors = sad::Renderer::ref()->loadResources("examples/stress-physics.json");
+	sad::String errortext;
+	if (errors.size() != 0)
 	{
-		SL_FATAL(sad::String("Resource loading failed!"));
+		res = false;
+		SL_FATAL(sad::resource::format(errors));
+		sad::util::free(errors);
 		return 1;
-	}
+	} 
 	SL_MESSAGE(sad::String("Resources successfully loaded"));
 	
 	// Create and run game

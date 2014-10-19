@@ -5,7 +5,8 @@
  */
 #pragma once
 #include "object.h"
-#include "refcountable.h"
+#include "sadvector.h"
+#include "sadrect.h"
 
 namespace sad
 {
@@ -14,7 +15,7 @@ class Renderer;
 
 /*! Defines an object, which is basic for any renderable part of scene
  */
-class SceneNode: public sad::Object, public sad::RefCountable
+class SceneNode: public sad::Object
 {
 SAD_OBJECT
 public:
@@ -24,9 +25,25 @@ public:
 	/*! Implement this to make object render a part of scene
 	 */
 	virtual void render() = 0;
+	/*! Fills vector of regions with data, that could be used for identifying bounds of item.
+		As default, no regions are produced.
+		\param[out] r a vector of regions
+	 */
+	virtual void regions(sad::Vector<sad::Rect2D> & r);
+	/*! Called, when renderer is changed for a scene
+	 */
+	virtual void rendererChanged();
 	/*! Must be implemented in order to get node destroyed
 	 */
 	virtual ~SceneNode();
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Sets scene 
 		\param[in] scene a scene, which will render a node
 	 */
@@ -44,22 +61,62 @@ public:
 	 */
 	inline void setActive(bool active)
 	{
-		m_active = active;
+		this->Active = active;
 	}
-	/*! Returns scene activity flag, which determines, whether it should be rendered
-		\return whether scene is active
+	/*! Returns scene node activity flag, which determines, whether it should be rendered
+		\return whether scene node is active
 	 */
 	inline bool active()
 	{
-		return m_active;
+		return this->Active;
 	}
-protected:
-	/*! Determines, whether scene is active and should be rendered
+	/*! Sets scene visibilty flag, which determines, whether it should be rendered
+		\param[in] visible a visibility flag
 	 */
-	bool         m_active;
+	inline void setVisible(bool visible)
+	{
+		m_visible = visible;
+	}
+	/*! Returns scene node visibility flag, which determines, whether it should be rendered
+		\return whether scene node is visible
+	 */
+	inline bool visible()
+	{
+		return m_visible;
+	}
+	/*! Sets cached layer value. If scene is set for node, forces node to set it's layer. 
+		Note, that value will not be preserved, when a layer set after that.
+		\param[in] layer a layer valye
+	 */
+	void setCachedLayer(unsigned int layer);
+	/*! Returns cached value for scene node, if scene is not set, otherwise returns node's layer.
+		\return cached layer value
+	 */
+	unsigned int cachedLayer() const;
+	/*! Sets cached scene id for scene node
+		\param[in] sceneid a cached scene id
+	 */
+	void setCachedSceneId(unsigned long long sceneid);
+	/*! Returns scene id, if scene is set, otherwiser returns cached scene id
+		\return scene id
+	 */
+	unsigned long long sceneId() const;
+protected:
+	/*! Determines, whether scene node is visible and should be rendered. It's same as m_active but can be used for different purposes,
+		when object is active, but hidden by somewhere else in chain of responsibility of application.
+	 */ 
+	bool         m_visible;
 	/*! A scene, which node is attached to
 	 */
 	sad::Scene * m_scene;
+	/*! A special layer cache to be set for a scene node
+	 */
+	unsigned int m_cached_layer;
+	/*! A cached scene minor id
+	 */
+	unsigned long long m_cached_scene_id;
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::SceneNode)

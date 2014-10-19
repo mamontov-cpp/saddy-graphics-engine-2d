@@ -28,7 +28,7 @@ public:
 	Machine();
 	/*! Destroys a machine
 	 */
-	~Machine();	
+	virtual ~Machine();	
 	/*! Immediately enters new state. Does nothing if state does not exists.
 		At moment of invocation current state of machine will point to new state name,
 		with method is called
@@ -102,6 +102,10 @@ public:
 		\return previous state
 	 */
 	const sad::String & previousState() const;
+	/*! Tests, whether current state is equal to specified, or parent of it
+		\param[in] state a state
+	 */
+	bool isInState(const sad::String & state) const;
 protected:
 	/*! A current state of machine
 	 */

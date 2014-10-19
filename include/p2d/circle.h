@@ -20,12 +20,6 @@ class CircleToHullTransformer;
 class Circle: public p2d::CollisionShape
 {
 	SAD_OBJECT
-protected:
-	p2d::Point m_center; //!< Center of circle
-	double m_radius; //!< Radius of circle
-	/*! Proxy, used to transform circle to hull
-	 */
-	p2d::CircleToHullTransformer *  m_transformer; 
 public:
 	inline Circle() { m_transformer = NULL; }
 	/*! Sets new center
@@ -93,10 +87,17 @@ public:
 	/*! Dumps object to string
 		\return string
 	 */
-	virtual sad::String dump() const; 
+	virtual sad::String dump() const;
+protected:
+	p2d::Point m_center; //!< Center of circle
+	double m_radius; //!< Radius of circle
+	/*! Proxy, used to transform circle to hull
+	 */
+	p2d::CircleToHullTransformer *  m_transformer; 
 };
 
 }
 
 }
 
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Circle)

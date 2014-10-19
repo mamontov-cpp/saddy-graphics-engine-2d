@@ -5,6 +5,11 @@ sad::FPSInterpolation::FPSInterpolation()
 	reset();
 }
 
+sad::FPSInterpolation::~FPSInterpolation()
+{
+	
+}
+
 void sad::FPSInterpolation::reset()
 {
 	m_fps = 75;

@@ -1,0 +1,9 @@
+[
+{
+ "name" : "myschema",
+ "resource": "1",
+ "schema" : {
+	"myproperty" : {"type" : "IUnknownProperty", "value" : 0 }
+ }
+}
+]

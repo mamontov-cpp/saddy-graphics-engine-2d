@@ -6,6 +6,7 @@
 #pragma once
 #include "fuzzyequal.h"
 #include "maybe.h"
+#include "sadvector.h"
 
 namespace sad
 {
@@ -24,7 +25,14 @@ bool projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, 
 	\param[in] r rectangle
 	\return whether it's within
  */
-bool isWithin(const sad::Point2D & p, const sad::Rect2D & r);
+bool isWithin(const sad::Point2D& p, const sad::Rect2D& r);
+
+/*! Tests, whether point is within one of rectang;es
+	\param[in] p point
+	\param[in] r rectangle list
+	\return whether it's within
+ */
+bool isWithin(const sad::Point2D& p, const sad::Vector<sad::Rect2D>& r);
 
 /*! Moves a rectangle by a distance vector, stored in dp
 	\param[in] dp distance point

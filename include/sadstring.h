@@ -178,7 +178,7 @@ class String: public std::string
 		     \param[in] sstr string, which occurences will be counted
 			 \return -1 if no occurences, otherwise amount of occurences
 		 */
-		 long getOccurences(const String & sstr);
+		 long getOccurences(const String & sstr) const;
 		 /*! Returns a position of substring.
 		    \param[in] sstr  searching string
 			\param[in] omax  searching occurence of string.0 - for first.
@@ -239,19 +239,27 @@ class String: public std::string
 		 static bool  queryPointer(const String & str, long * addr);
 		 /*! String conversion to integral type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static int  toInt(const String & str);
 		 /*! String conversion to float type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static float toFloat(const String & str);
 		 /*! String conversion to double type. Uses sscanf() to convert
 		     \param[in] str string to be converted
-			 \return    intergal conversion
+			 \return    result of conversion
 		 */
 		 static double toDouble(const String & str);
+		 /*! Tests, whether string consists only from white-space characters, like
+		     spaces, tabs, or newlines or return of carets
+			 \return result
+		  */
+		 bool consistsOfWhitespaceCharacters() const;
+		 /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
+		  */
+		 void trim();
 };
 
 /*! Joins a list into a string with separator sep.

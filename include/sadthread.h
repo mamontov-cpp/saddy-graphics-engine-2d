@@ -27,7 +27,7 @@ public:
 	 */
 	inline Thread()
 	{
-		this->initialize(new sad::EmptyThreadExecutableFunction() );
+		this->initialize(new sad::util::EmptyThreadExecutableFunction() );
 	}
 	/*! Constructs new thread as copy of current. Also current data of running
 		thread is copied
@@ -39,14 +39,14 @@ public:
 	 */
 	inline Thread(void (*f)() )
 	{
-		this->initialize(new sad::FreeZeroArgVoidExecutableFunction(f) );
+		this->initialize(new sad::util::FreeZeroArgVoidExecutableFunction(f) );
 	}
 	/*! Constructs new thread with specified function, returning it's code when exiting
 		\param[in] f function
 	 */
 	inline Thread(int (*f)() )
 	{
-		this->initialize(new sad::FreeZeroArgIntExecutableFunction(f) );
+		this->initialize(new sad::util::FreeZeroArgIntExecutableFunction(f) );
 	}
 	/*! Creates new thread, executing void function with one argument
 		\param[in] f function
@@ -58,7 +58,7 @@ public:
 	>
 	inline Thread(void (*f)(_FunctionArg), const _InvokedArg & a)
 	{
-		this->initialize(new sad::FreeOneArgVoidExecutableFunction<_FunctionArg, _InvokedArg>(f, a));
+		this->initialize(new sad::util::FreeOneArgVoidExecutableFunction<_FunctionArg, _InvokedArg>(f, a));
 	}
 	/*! Creates new thread, executing int function with one argument and returning it's code
 		as argument
@@ -71,7 +71,7 @@ public:
 	>
 	inline Thread(int (*f)(_FunctionArg), const _InvokedArg & a)
 	{
-		this->initialize(new sad::FreeOneArgIntExecutableFunction<_FunctionArg, _InvokedArg>(f, a));
+		this->initialize(new sad::util::FreeOneArgIntExecutableFunction<_FunctionArg, _InvokedArg>(f, a));
 	}
 	/*! Creates new thread, which executes void method on specified object and returns zero
 	 */
@@ -85,7 +85,7 @@ public:
 	)
 	{
 		this->initialize(
-			new sad::FreeZeroArgVoidMethodExecutableFunction<
+			new sad::util::FreeZeroArgVoidMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName
 			>(o, m)
@@ -104,7 +104,7 @@ public:
 	)
 	{
 		this->initialize(
-			new sad::FreeZeroArgIntMethodExecutableFunction<
+			new sad::util::FreeZeroArgIntMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName
 			>(o, m)
@@ -126,7 +126,7 @@ public:
 	)
 	{
 		this->initialize(
-			new sad::FreeOneArgVoidMethodExecutableFunction<
+			new sad::util::FreeOneArgVoidMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName,
 			_MethodArg,
@@ -150,7 +150,7 @@ public:
 	)
 	{
 		this->initialize(
-			new sad::FreeOneArgIntMethodExecutableFunction<
+			new sad::util::FreeOneArgIntMethodExecutableFunction<
 			_ClassName, 
 			_InvokedClassName,
 			_MethodArg,

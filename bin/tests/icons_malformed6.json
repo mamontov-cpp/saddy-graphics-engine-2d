@@ -1,0 +1,8 @@
+{
+  "resource": "icons",
+  "file": "tests/icons.png",
+  "atlas": [
+    22,
+	23
+  ]
+}

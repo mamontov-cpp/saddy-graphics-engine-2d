@@ -1,26 +1,48 @@
 #include "mainpanel.h"
+#include "blockedclosuremethodcall.h"
+#include "reloadfilelist.h"
 
-#include "gui/fontdelegate.h"
-#include "gui/colordelegate.h"
-#include "core/ifaceeditor.h"
-#include "core/fonttemplatesdatabase.h"
-#include "core/fontdatabase.h"
-#include "core/spritedatabase.h"
-#include "core/mockspritetablewidget.h"
-#include "editorcore/editorbehaviour.h"
-#include "editorcore/editorbehaviourshareddata.h"
-#include "objects/screenlabel.h"
-#include "objects/screensprite.h"
-#include "objects/screentemplate.h"
-#include "history/propertychangecommand.h"
-#include "history/layercommands.h"
-#include "history/movecommand.h"
-#include "history/newcommand.h"
+#include "core/editor.h"
+#include "core/shared.h"
+#include "core/selection.h"
+
+#include "history/database/newproperty.h"
+
+#include "history/scenes/scenesadd.h"
+#include "history/scenes/scenesremove.h"
+#include "history/scenes/scenesclear.h"
+#include "history/scenes/sceneschangename.h"
+#include "history/scenes/sceneslayerswap.h"
+
+#include "history/scenenodes/scenenodeslayerswap.h"
+
+#include "gui/scenenodeactions.h"
+#include "gui/labelactions.h"
+#include "gui/sprite2dactions.h"
+#include "gui/customobjectactions.h"
+#include "gui/wayactions.h"
+#include "gui/dialogueactions.h"
+#include "gui/updateelement.h"
+#include "gui/renderways.h"
 
 #include <geometry2d.h>
+#include <keymouseconditions.h>
+#include <keycodes.h>
+
 #include <p2d/vector.h>
 #include <p2d/point.h>
 
+#include <db/save.h>
+#include <db/load.h>
+#include <db/dbdatabase.h>
+#include <db/dbtable.h>
+#include <db/dbstoredproperty.h>
+#include <db/dbpopulatescenesfromdatabase.h>
+
+#include <resource/tree.h>
+#include <freetype/font.h>
+
+#include <QMessageBox>
 #include <QDialog>
 #include <QTimer>
 #include <QFontDatabase>
@@ -28,883 +50,1775 @@
 #include <QPainter>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QFileDialog>
 #include <QLineEdit>
 #include <QTimer>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QVariant>
 
+#include <cstdio>
 
-#define IGNORE_SELFCHANGING if (m_selfchanged) { m_selfchanged = false; return; }
+Q_DECLARE_METATYPE(sad::Scene*)
+Q_DECLARE_METATYPE(sad::SceneNode*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 
-#ifndef UNUSED
-#ifdef GCC
-#define UNUSED __attribute__((unused))
-#else
-#define UNUSED
-#endif
-#endif
+//====================  PUBLIC METHODS HERE ====================
 
 MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags)
+	: QMainWindow(parent, flags), m_selfchanged(false)
 {
 	ui.setupUi(this);
-	m_selfchanged = false;
-	connect(ui.btnPickFontColor,SIGNAL(clicked()),this,SLOT(addNewFontColor()));
-	connect(ui.btnPickFontSize,SIGNAL(clicked()), this, SLOT(addNewFontSize()));
-	connect(ui.btnAddLabel, SIGNAL(clicked()), this, SLOT(addFontObject()));
-	connect(ui.btnAddSprite, SIGNAL(clicked()), this, SLOT(addSpriteObject()));
+
+    this->fillDatabasePropertyTypesCombo();
+
+	ui.tabTypes->setCurrentIndex(0);
+
+    ui.twDatabaseProperties->setColumnCount(3);
+    const int header_padding = 12;  // 12 is  a padding for header
+	double width = ui.twDatabaseProperties->width() - ui.twDatabaseProperties->verticalHeader()->width();
+    ui.twDatabaseProperties->setColumnWidth(2, width / 6 - header_padding);
+	ui.twDatabaseProperties->setColumnWidth(1, width / 2); 
+	ui.twDatabaseProperties->horizontalHeader()->hide();
+
+
+    width = ui.twCustomObjectProperties->width() - ui.twCustomObjectProperties->verticalHeader()->width();
+	ui.twCustomObjectProperties->setColumnCount(2);
+    ui.twCustomObjectProperties->setColumnWidth(0, width / 2);
+    ui.twCustomObjectProperties->setColumnWidth(1, width / 2 - header_padding * 3.5);
+    ui.twCustomObjectProperties->horizontalHeader()->hide();
+
+    ui.txtLabelText->setPlainText("Test");
+
+	m_scene_node_actions = new gui::SceneNodeActions();
+	m_scene_node_actions->setPanel(this);
+
+	m_label_actions = new gui::LabelActions();
+	m_label_actions->setPanel(this);
+
+	m_sprite2d_actions = new gui::Sprite2DActions();
+	m_sprite2d_actions->setPanel(this);
+
+	m_custom_object_actions = new gui::CustomObjectActions();
+	m_custom_object_actions->setPanel(this);
+
+	m_way_actions = new gui::WayActions();
+	m_way_actions->setPanel(this);
 	
-	ui.cmbFonts->setItemDelegate(new FontDelegate());
-	ui.cmbFontColor->setItemDelegate(new ColorDelegate());
-
-	QColor colors[] = { Qt::red, 
-						Qt::darkRed,
-						Qt::blue,
-						Qt::darkBlue,
-						Qt::green,
-						Qt::darkGreen,
-						Qt::white, 
-						Qt::magenta, 
-						Qt::yellow, 
-						Qt::black 
-	                  };
-	for (int i=0;i<10;i++)
-	{
-		QString text = QString::number(colors[i].red()) + QString(",")
-			         + QString::number(colors[i].green()) + QString(",")
-					 + QString::number(colors[i].blue());
-		text = QString("(") + text + QString(")");
-		ui.cmbFontColor->addItem(text, QVariant(colors[i]));
-	}
-	// Populate font size
-	for (int i=5;i<201;i++)
-	{
-		ui.cmbFontSize->addItem(QString::number(i),QVariant(i));
-	}
-	// Set default sprite adding model
-	ui.rbPlaceAndRotate->setChecked(true);
-
-	// Add SpriteViewer
-	QGridLayout* grPadLayout = new QGridLayout;
-    //QPoint pointPad = ui.spriteViewerPad->pos();
-    //QPoint pointGroupPad = pointPad + ui.grpSprites->pos();
-	
-    //QRectF contentRect = QRectF(pointGroupPad,ui.spriteViewerPad->size());
-	m_spriteTableWidget = new QSpriteTableWidget(ui.cmbSpriteConfig,
-													grPadLayout);
-
-	m_list.setWidget(ui.lstObjects);
-
-
-	ui.spriteViewerPad->setLayout(grPadLayout);
-	connect(ui.cmbFontColor, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChanged(int)));
-	connect(ui.cmbFonts, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(fontChanged(const QString&)));
-	connect(ui.cmbFontSize, SIGNAL(currentIndexChanged(int)), this, SLOT(sizeChanged(int))); 
-	connect(ui.dblAngle, SIGNAL(valueChanged(double)), this, SLOT(angleChanged(double)));
-	connect(ui.txtLabelText, SIGNAL(textChanged()), this, SLOT(textChanged()));
-	connect(m_spriteTableWidget, SIGNAL(spriteSelected(QString,QString,int)), this, SLOT(spriteSelected(QString,QString,int)));	
-	connect(ui.lstObjects, SIGNAL(currentRowChanged(int)), this, SLOT(selectedObjectChanged(int)));
-	connect(ui.btnMoveBack, SIGNAL(clicked()), this, SLOT(moveObjectBack()));
-	connect(ui.btnMoveFront, SIGNAL(clicked()), this, SLOT(moveObjectFront()));
-	connect(ui.txtName, SIGNAL(textEdited(const QString&)), this, SLOT(nameChanged(const QString&)));
-	connect(ui.dblSpriteX, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteY, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteWidth, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.dblSpriteHeight, SIGNAL(editingFinished()), this, SLOT(spriteRectChanged()));
-	connect(ui.btnMakeBackground, SIGNAL(clicked()), this, SLOT(makeBackground()));
-	connect(ui.btnClear, SIGNAL(clicked()), this, SLOT(clearScreenTemplate()));
-	connect(ui.btnRedo, SIGNAL(clicked()), this, SLOT(repeatHistoryChange()));
-	connect(ui.btnUndo, SIGNAL(clicked()), this, SLOT(rollbackHistoryChange()));
+	m_dialogue_actions = new gui::DialogueActions();
+	m_dialogue_actions->setPanel(this);
 }
-
-void MainPanel::setEditor(IFaceEditor * editor) 
-{  
-	m_editor = editor; 
-	connect(ui.btnDelete, SIGNAL(clicked()), m_editor, SLOT(tryEraseObject()));
-	connect(ui.btnReloadDB, SIGNAL(clicked()), this->m_editor, SLOT(reload()));
-	connect(ui.btnSave, SIGNAL(clicked()), this->m_editor, SLOT(save()));
-	connect(ui.btnLoad, SIGNAL(clicked()), this->m_editor, SLOT(load()));
-}
-
 
 
 MainPanel::~MainPanel()
 {
-	delete m_spriteTableWidget;
+	delete m_label_actions;
+	delete m_sprite2d_actions;
+	delete m_scene_node_actions;
+	delete m_custom_object_actions;
+	delete m_way_actions;
+	delete m_dialogue_actions;
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+	m_property_delegates.clear();
 }
 
+void MainPanel::toggleEditingButtons(bool enabled)
+{
+	const int affectedpushbuttonscount = 18;
+	QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
+		ui.btnReloadResources,
+		ui.btnUndo,
+		ui.btnRedo,
 
+		ui.btnDatabaseSave,
+		ui.btnDatabaseLoad,
+		ui.btnDatabasePropertiesAdd,
+
+		ui.btnScenesMoveFront,
+		ui.btnScenesMoveBack,
+		ui.btnSceneDelete,
+
+		ui.btnSceneAdd,
+		ui.btnSceneNodeMoveFront,
+		ui.btnSceneNodeMoveBack,
+
+		ui.btnSceneClear,
+		ui.btnSceneNodeDelete,
+		ui.btnLabelAdd,
+
+		ui.btnSpriteMakeBackground,
+		ui.btnSpriteAdd,
+		ui.btnCustomObjectAdd
+	};
+	for(int i = 0; i < affectedpushbuttonscount; i++)
+	{
+		affectedpushbuttons[i]->setEnabled(enabled);
+	}	
+}
+
+bool MainPanel::isEditingEnabled() const
+{
+	return ui.btnLabelAdd->isEnabled() 
+		&& ui.btnSpriteAdd->isEnabled()
+		&& ui.btnCustomObjectAdd->isEnabled();
+}
+
+void MainPanel::setEditor(core::Editor* editor)
+{  
+	m_editor = editor; 
+
+	sad::hfsm::Machine* m = editor->machine();
+	sad::String la = "adding/label";
+	sad::String ssa = "adding/sprite";
+	sad::String sda = "adding/sprite_diagonal";
+	sad::String sdap = "adding/sprite_diagonal/point_placed";
+    sad::String coa = "adding/customobject";
+    sad::String coad = "adding/customobject_diagonal";
+	sad::String coadp = "adding/customobject_diagonal/point_placed";
+
+	sad::String i = "idle";
+
+    sad::String s = "selected";
+	sad::String sm = "selected/moving";
+	sad::String sr = "selected/resizing";
+
+	sad::String wi = "ways/idle";
+	sad::String ws = "ways/selected";
+	sad::String wsm = "ways/selected/moving";
+
+	// A bindings for idle state
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * i),
+		m_editor->selection(),
+		&core::Selection::trySelect
+	);
+
+	// A bindings for moving object
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sm),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::moveObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseRelease & (m * sm),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::commitObjectMoving
+	);
+
+	// A bindings for resizing object
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sr),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::resizeObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseRelease & (m * sr),
+		m_scene_node_actions,
+		&gui::SceneNodeActions::commitObjectResizing
+	);
+
+	// A bindings for selected node actions
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseWheel & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::navigateOrRotate
+    );
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * s),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::cancelSelection
+    );
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * s),
+		m_editor->selection(),
+		&core::Selection::trySelect
+	);
+
+	// A bindings for adding label
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * la), 
+		m_label_actions, 
+		&gui::LabelActions::cancelAddLabel
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * la),
+		m_label_actions,
+		&gui::LabelActions::moveLabel
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * la),
+		m_label_actions,
+		&gui::LabelActions::commitLabelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * la),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+	);
+
+
+	// A binding for adding sprite actions (just placing)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * ssa), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * ssa),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::moveCenterOfSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * ssa),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * ssa),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+	);
+
+	// A binding for adding sprite (after first click)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * sdap), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * sdap),
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * sdap),
+		m_sprite2d_actions,
+		&gui::Sprite2DActions::moveLowerPointOfSprite
+	);
+
+	// A binding for adding sprite (when first click determines upper-left corner)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * sda), 
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::cancelAddSprite
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * sda),
+		m_sprite2d_actions, 
+		&gui::Sprite2DActions::placeFirstPointForSprite
+	);
+
+	// A binding for adding custom object actions (just placing)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coa), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * coa),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::moveCenterOfObject
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coa),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseWheel & (m * coa),
+        m_scene_node_actions,
+        &gui::SceneNodeActions::rotate
+	);
+
+	// A binding for adding sprite (after first click)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coadp), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coadp),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::commitAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MouseMove & (m * coadp),
+		m_custom_object_actions,
+		&gui::CustomObjectActions::moveLowerPoint
+	);
+
+	// A binding for adding sprite (when first click determines upper-left corner)
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_KeyPress & sad::Esc & (m * coad), 
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::cancelAdd
+	);
+	sad::Renderer::ref()->controls()->add(
+		*sad::input::ET_MousePress & sad::MouseLeft & (m * coad),
+		m_custom_object_actions, 
+		&gui::CustomObjectActions::placeFirstPoint
+	);
+
+    // A binding for ways/selected/moving
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseMove & (m * wsm),
+        m_way_actions,
+        &gui::WayActions::moveWayPoint
+    );
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MouseRelease & (m * wsm),
+        m_way_actions,
+        &gui::WayActions::commitWayPointMoving
+    );
+
+    // A binding for ways/selected
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * ws),
+        m_editor->selection(),
+        &core::Selection::trySelect
+    );
+
+    // A binding for ways/idle
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * wi),
+        m_editor->selection(),
+        &core::Selection::trySelect
+    );
+
+
+	connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
+
+	connect(ui.btnDatabaseSave, SIGNAL(clicked()), this, SLOT(save()));
+	connect(ui.btnDatabaseSaveAs, SIGNAL(clicked()), this, SLOT(saveAs()));
+	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this, SLOT(load()));
+	connect(ui.btnLoadResources, SIGNAL(clicked()), this, SLOT(loadResources()));
+	connect(ui.btnReloadResources, SIGNAL(clicked()), this, SLOT(reloadResources()));
+
+	
+	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
+	
+	connect(ui.btnSceneAdd, SIGNAL(clicked()), this, SLOT(addScene()));
+	connect(ui.btnSceneDelete, SIGNAL(clicked()), this, SLOT(removeScene()));
+	connect(ui.lstScenes, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneChanged(int)));
+	connect(ui.txtSceneName, SIGNAL(textEdited(const QString&)), this, SLOT(sceneNameChanged(const QString&)));
+	connect(ui.btnScenesMoveBack, SIGNAL(clicked()), this, SLOT(sceneMoveBack()));
+	connect(ui.btnScenesMoveFront, SIGNAL(clicked()), this, SLOT(sceneMoveFront()));
+	connect(ui.btnSceneClear, SIGNAL(clicked()), this, SLOT(clearScene()));
+	
+	connect(ui.txtObjectName, SIGNAL(textEdited(const QString&)), m_scene_node_actions, SLOT(nameEdited(const QString&)));
+	connect(ui.cbSceneNodeVisible, SIGNAL(clicked(bool)), m_scene_node_actions, SLOT(visibilityChanged(bool)));
+    connect(ui.clpSceneNodeColor, SIGNAL(selectedColorChanged(QColor)), m_scene_node_actions, SLOT(colorChanged(QColor)));
+    connect(ui.rwSceneNodeRect, SIGNAL(valueChanged(QRectF)), m_scene_node_actions, SLOT(areaChanged(QRectF)));
+    connect(ui.awSceneNodeAngle, SIGNAL(valueChanged(double)), m_scene_node_actions, SLOT(angleChanged(double)));
+	connect(ui.lstSceneObjects, SIGNAL(currentRowChanged(int)), this, SLOT(currentSceneNodeChanged(int)));
+	connect(ui.btnSceneNodeDelete, SIGNAL(clicked()), m_scene_node_actions, SLOT(removeSceneNode()));
+	connect(ui.btnSceneNodeMoveBack, SIGNAL(clicked()), this, SLOT(sceneNodeMoveBack()));
+	connect(ui.btnSceneNodeMoveFront, SIGNAL(clicked()), this, SLOT(sceneNodeMoveFront()));
+
+	connect(ui.btnLabelAdd, SIGNAL(clicked()), m_label_actions, SLOT(addLabel()));
+	connect(ui.rtwLabelFont, SIGNAL(selectionChanged(sad::String)), m_label_actions, SLOT(labelFontChanged(sad::String)));
+    connect(ui.fswLabelFontSize, SIGNAL(valueChanged(unsigned int)), m_label_actions, SLOT(labelSizeChanged(unsigned int)));
+    connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
+	connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
+
+	connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
+	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), m_sprite2d_actions, SLOT(spriteOptionsChanged(sad::String)));
+	connect(ui.btnSpriteMakeBackground, SIGNAL(clicked()), m_sprite2d_actions, SLOT(makeBackground()));
+	connect(ui.cbFlipX, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipXChanged(bool)));
+	connect(ui.cbFlipY, SIGNAL(clicked(bool)), m_sprite2d_actions, SLOT(flipYChanged(bool)));
+    
+	connect(ui.btnCustomObjectAdd, SIGNAL(clicked()), m_custom_object_actions, SLOT(add()));
+	connect(ui.rtwCustomObjectSchemas, SIGNAL(selectionChanged(sad::String)), m_custom_object_actions, SLOT(schemaChanged(sad::String)));
+
+    connect(ui.lstWays, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(wayChanged(int)));
+    connect(ui.btnWayAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWay()));
+    connect(ui.btnWayRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWay()));
+    connect(ui.txtWayName, SIGNAL(textEdited(const QString&)), m_way_actions, SLOT(nameEdited(const QString&)));
+    connect(ui.cbWayClosed, SIGNAL(clicked(bool)), m_way_actions, SLOT(closednessChanged(bool)));
+    connect(ui.dsbWayTotalTime, SIGNAL(valueChanged(double)), m_way_actions, SLOT(totalTimeChanged(double)));
+    connect(ui.lstWayPoints, SIGNAL(currentRowChanged(int)), m_way_actions, SLOT(viewPoint(int)));
+    connect(ui.btnWayPointAdd, SIGNAL(clicked()), m_way_actions, SLOT(addWayPoint()));
+    connect(ui.btnWayPointRemove, SIGNAL(clicked()), m_way_actions, SLOT(removeWayPoint()));
+	connect(ui.dsbWayPointX, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointXChanged(double)));
+	connect(ui.dsbWayPointY, SIGNAL(valueChanged(double)), m_way_actions, SLOT(wayPointYChanged(double)));
+	connect(ui.btnWayPointMoveBack, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveBack()));
+	connect(ui.btnWayPointMoveFront, SIGNAL(clicked()), m_way_actions, SLOT(wayPointMoveFront()));
+
+	connect(ui.lstDialogues, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(dialogueChanged(int)));
+	connect(ui.lstPhrases, SIGNAL(currentRowChanged(int)), m_dialogue_actions, SLOT(phraseChanged(int)));
+	connect(ui.btnDialogueAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addDialogue()));
+	connect(ui.btnDialogueRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removeDialogue()));
+	connect(ui.txtDialogueName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(nameEdited(const QString&)));
+	connect(ui.btnPhraseAdd, SIGNAL(clicked()), m_dialogue_actions, SLOT(addPhrase()));
+    connect(ui.btnPhraseRemove, SIGNAL(clicked()), m_dialogue_actions, SLOT(removePhrase()));
+	connect(ui.btnPhraseMoveBack, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseBack()));
+	connect(ui.btnPhraseMoveFront, SIGNAL(clicked()), m_dialogue_actions, SLOT(movePhraseFront()));
+	connect(ui.dsbPhraseDuration, SIGNAL(valueChanged(double)), m_dialogue_actions, SLOT(durationChanged(double)));
+	connect(ui.txtPhrasePhrase, SIGNAL(textChanged()), m_dialogue_actions, SLOT(phraseTextChanged()));
+	connect(ui.txtPhraseActorName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorNameChanged(const QString&)));
+	connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorPortraitChanged(const QString&)));
+	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
+}
+
+core::Editor* MainPanel::editor() const
+{
+    return m_editor;
+}
+
+gui::SceneNodeActions* MainPanel::sceneNodeActions() const
+{
+    return m_scene_node_actions;
+}
+
+gui::LabelActions* MainPanel::labelActions() const
+{
+    return m_label_actions;
+}
+
+gui::Sprite2DActions* MainPanel::sprite2DActions() const
+{
+	return m_sprite2d_actions;
+}
+
+gui::CustomObjectActions* MainPanel::customObjectActions() const
+{
+	return m_custom_object_actions;
+}
+
+gui::WayActions* MainPanel::wayActions() const
+{
+	return m_way_actions;
+}
+
+gui::DialogueActions* MainPanel::dialogueActions() const
+{
+	return m_dialogue_actions;
+}
+
+Ui::MainPanelClass* MainPanel::UI()
+{
+    return &ui;
+}
+
+void MainPanel::viewDatabase()
+{
+	this->fixDatabase();
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	ui.clpSceneNodeColor->setPalette(db->getProperty<QList<QList<QColor> > >("palette").value());
+
+	// Remove old delegates
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+
+	for(sad::db::Database::Properties::const_iterator it = db->begin();
+		it != db->end();
+		++it)
+	{
+		// Skip palette
+		if (it.key() != "palette" && it.value()->pointerStarsCount() == 0)
+		{
+			gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+			if (d)
+			{
+				d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
+				d->setPropertyName(it.key().c_str());
+				d->linkToDatabase();
+				d->add();				
+			}
+		}
+	}
+
+	sad::db::populateScenesFromDatabase(sad::Renderer::ref(), sad::Renderer::ref()->database(""));
+
+	const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
+	for(unsigned int i = 0; i < scenes.size(); i++)
+	{
+		addSceneToSceneList(scenes[i]);
+	}
+
+    sad::Vector<sad::db::Object*> wayslist;
+    db->table("ways")->objects(wayslist);
+    for(unsigned int i = 0; i < wayslist.size(); i++)
+    {
+        sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
+        addLastWayToEnd(w);
+    }
+
+	sad::Vector<sad::db::Object*> dialoguelist;
+    db->table("dialogues")->objects(dialoguelist);
+    for(unsigned int i = 0; i < dialoguelist.size(); i++)
+    {
+		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
+        addDialogueToDialogueList(w);
+    }
+}
+
+QList<QList<QColor> >  MainPanel::colorPalette() const
+{
+	return ui.clpSceneNodeColor->palette();
+}
+
+void MainPanel::setColorPalette(const QList<QList<QColor> >& palette)
+{
+	ui.clpSceneNodeColor->setPalette(palette);
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	db->setProperty("palette", palette);
+}
+
+bool  MainPanel::takeDelegateByPropertyName(const QString & name)
+{
+	bool owns = false;
+	if (m_property_delegates.contains(name.toStdString()))
+	{
+		m_property_delegates.remove(name.toStdString());
+	}
+	return owns;
+}
+
+void MainPanel::addSceneToSceneList(sad::Scene* s)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstScenes->addItem(i);
+}
+
+void MainPanel::removeLastSceneFromSceneList()
+{
+	if (ui.lstScenes->count())
+	{
+		QListWidgetItem* i = ui.lstScenes->takeItem(ui.lstScenes->count() - 1);
+		delete i;
+	}
+}
+
+void MainPanel::insertSceneToSceneList(sad::Scene* s, int position)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstScenes->insertItem(position, i);
+}
+
+void MainPanel::removeSceneFromSceneList(int position)
+{
+	QListWidgetItem* i =  ui.lstScenes->takeItem(position);
+	delete i;
+}
+
+sad::Scene* MainPanel::currentScene()
+{
+	QListWidgetItem* item = ui.lstScenes->currentItem();
+	sad::Scene* scene = NULL;
+	if (item)
+	{
+		scene = item->data(Qt::UserRole).value<sad::Scene*>();
+	}
+	return scene;
+}
+
+void MainPanel::updateSceneName(sad::Scene* s)
+{
+	int row = this->findSceneInList(s);
+	if (row != -1)
+	{
+		ui.lstScenes->item(row)->setText(this->viewableObjectName(s));
+	}
+	if (s == currentScene())
+	{
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
+	}
+}
+
+int MainPanel::findSceneInList(sad::Scene* s)
+{
+	int row = -1;
+	for(int i = 0; i < ui.lstScenes->count(); i++)
+	{	
+		if (ui.lstScenes->item(i)->data(Qt::UserRole).value<sad::Scene*>() == s)
+		{
+			row = i;
+		}
+	}
+	return row;
+}
+
+void MainPanel::setScenesInList(sad::Scene* s1, sad::Scene* s2, int pos1, int pos2)
+{
+	sad::Scene* s = this->currentScene();
+	ui.lstScenes->item(pos1)->setText(this->viewableObjectName(s1));
+	QVariant v1;
+	v1.setValue(s1);
+	ui.lstScenes->item(pos1)->setData(Qt::UserRole, v1);
+
+	ui.lstScenes->item(pos2)->setText(this->viewableObjectName(s2));
+	QVariant v2;
+	v2.setValue(s2);
+	ui.lstScenes->item(pos2)->setData(Qt::UserRole, v2);
+
+	if (s == s1 || s == s2)
+	{
+		this->currentSceneChanged(ui.lstScenes->currentRow());
+	}
+}
+
+void MainPanel::updateMousePosition(const sad::input::MouseMoveEvent & e)
+{
+	m_mousemove_point = e.pos2D();
+	QTimer::singleShot(0, this, SLOT(updateMousePositionNow()));
+}
+
+void MainPanel::updateResourceViews()
+{
+    ui.rtwLabelFont->setTree("");
+    ui.rtwLabelFont->setFilter("sad::freetype::Font|sad::TextureMappedFont");
+    ui.rtwLabelFont->updateTree();
+
+    ui.rtwSpriteSprite->setTree("");
+    ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");
+    ui.rtwSpriteSprite->updateTree();
+
+    ui.rtwCustomObjectSchemas->setTree("");
+    ui.rtwCustomObjectSchemas->setFilter("sad::db::custom::Schema");
+    ui.rtwCustomObjectSchemas->updateTree();
+}
+
+void MainPanel::highlightState(const sad::String & text)
+{
+	m_highlight_state = text.c_str();
+	QTimer::singleShot(0, this, SLOT(highlightStateNow()));
+}
+
+void MainPanel::highlightIdleState()
+{
+    this->highlightState("Idle");
+}
+
+void MainPanel::highlightSelectedState()
+{
+    this->highlightState("Editing item...");
+}
+
+void MainPanel::highlightLabelAddingState()
+{
+	this->highlightState("Click, where you want label to be placed");
+}
+
+void MainPanel::addSceneNodeToSceneNodeList(sad::SceneNode* s)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstSceneObjects->addItem(i);
+}
+
+void MainPanel::removeLastSceneNodeFromSceneNodeList()
+{
+	if (ui.lstSceneObjects->count())
+	{
+		QListWidgetItem* i = ui.lstSceneObjects->takeItem(ui.lstSceneObjects->count() - 1);
+		delete i;
+	}
+}
+
+void MainPanel::insertSceneNodeToSceneNodeList(sad::SceneNode* s, int position)
+{
+	QString name = this->viewableObjectName(s);
+	QListWidgetItem* i =  new QListWidgetItem();
+	i->setText(name);
+	
+	QVariant v;
+	v.setValue(s);
+	i->setData(Qt::UserRole, v);
+	ui.lstSceneObjects->insertItem(position, i);
+}
+
+void MainPanel::removeSceneNodeFromSceneNodeList(int position)
+{
+	QListWidgetItem* i =  ui.lstSceneObjects->takeItem(position);
+	delete i;
+}
+
+void MainPanel::removeSceneNodeFromSceneNodeListByNode(sad::SceneNode* s)
+{
+	int position = this->findSceneNodeInList(s);
+	if (position >= 0)
+	{
+		removeSceneNodeFromSceneNodeList(position);
+	}
+}
+
+void MainPanel::setSceneNodesInList(sad::SceneNode* n1, sad::SceneNode* n2, int pos1, int pos2)
+{
+	sad::SceneNode* s = this->editor()->shared()->selectedObject();
+	ui.lstSceneObjects->item(pos1)->setText(this->viewableObjectName(n1));
+	QVariant v1;
+	v1.setValue(n1);
+	ui.lstSceneObjects->item(pos1)->setData(Qt::UserRole, v1);
+
+	ui.lstSceneObjects->item(pos2)->setText(this->viewableObjectName(n2));
+	QVariant v2;
+	v2.setValue(n2);
+	ui.lstSceneObjects->item(pos2)->setData(Qt::UserRole, v2);
+
+	if (s == n1)
+	{
+		void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+		invoke_blocked(ui.lstSceneObjects, row, pos1);
+		this->currentSceneNodeChanged(ui.lstSceneObjects->currentRow());
+	}
+	if (s == n2)
+	{
+		void (QListWidget::*row)(int) = &QListWidget::setCurrentRow;
+		invoke_blocked(ui.lstSceneObjects, row, pos2);
+		this->currentSceneNodeChanged(ui.lstSceneObjects->currentRow());
+	}
+}
+
+int MainPanel::findSceneNodeInList(sad::SceneNode* s)
+{
+	int row = -1;
+	for(int i = 0; i < ui.lstSceneObjects->count(); i++)
+	{	
+		if (ui.lstSceneObjects->item(i)->data(Qt::UserRole).value<sad::SceneNode*>() == s)
+		{
+			row = i;
+		}
+	}
+	return row;
+}
+
+void MainPanel::updateSceneNodeName(sad::SceneNode* s)
+{
+	int row = this->findSceneNodeInList(s);
+	if (row != -1)
+	{
+		ui.lstSceneObjects->item(row)->setText(this->viewableObjectName(s));
+	}
+	if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
+	{
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
+	}
+}
+
+void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
+{
+    ui.lstWays->addItem(this->viewableObjectName(way));
+    QVariant v;
+    v.setValue(way);
+    ui.lstWays->item(ui.lstWays->count()-1)->setData(Qt::UserRole, v);
+}
+
+void MainPanel::removeLastWayFromWayList()
+{
+    if (ui.lstWays->count() > 0)
+    {
+        QVariant v = ui.lstWays->item(ui.lstWays->count() - 1)->data(Qt::UserRole);
+        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+        if (w == m_editor->shared()->selectedWay())
+        {
+            m_editor->shared()->setSelectedWay(NULL);
+            m_editor->machine()->enterState("ways/idle");
+        }
+        delete ui.lstWays->takeItem(ui.lstWays->count() - 1);
+    }
+}
+
+void MainPanel::insertWayToWayList(sad::p2d::app::Way* s, int position)
+{
+    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    ui.lstWays->insertItem(position, i);
+}
+
+void MainPanel::removeWayFromWayList(int position)
+{
+    QVariant v = ui.lstWays->item(position)->data(Qt::UserRole);
+    sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+    if (w == m_editor->shared()->selectedWay())
+    {
+        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->machine()->enterState("ways/idle");
+    }
+    delete ui.lstWays->takeItem(position);
+}
+
+void MainPanel::removeWayFromWayList(sad::p2d::app::Way* s)
+{
+    int pos = this->findWayInList(s);
+    if (s == m_editor->shared()->selectedWay())
+    {
+        m_editor->shared()->setSelectedWay(NULL);
+        m_editor->machine()->enterState("ways/idle");
+    }
+    if (pos >= 0)
+    {
+        delete ui.lstWays->takeItem(pos);
+    }
+}
+
+int MainPanel::findWayInList(sad::p2d::app::Way* s)
+{
+    for(int i = 0; i < ui.lstWays->count(); i++)
+    {
+        QVariant v = ui.lstWays->item(i)->data(Qt::UserRole);
+        sad::p2d::app::Way* w  = v.value<sad::p2d::app::Way*>();
+        if (w == s)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void MainPanel::updateWayName(sad::p2d::app::Way* s)
+{
+    int row = this->findWayInList(s);
+    if (row != -1)
+    {
+        ui.lstWays->item(row)->setText(this->viewableObjectName(s));
+    }
+}
+
+void MainPanel::removeRowInWayPointList(int row)
+{
+    if (row >=0  && row < ui.lstWayPoints->count()) {
+        delete ui.lstWayPoints->takeItem(row);
+    }
+}
+
+QString MainPanel::nameForPoint(const sad::Point2D& p) const
+{
+    return QString("(%1,%2)")
+           .arg(static_cast<int>(p.x()))
+           .arg(static_cast<int>(p.y()));
+}
+
+void MainPanel::addDialogueToDialogueList(sad::dialogue::Dialogue* dialogue)
+{
+    ui.lstDialogues->addItem(this->viewableObjectName(dialogue));
+    QVariant v;
+    v.setValue(dialogue);
+    ui.lstDialogues->item(ui.lstDialogues->count()-1)->setData(Qt::UserRole, v);
+}
+
+void MainPanel::removeLastDialogueFromDialogueList()
+{
+    if (ui.lstDialogues->count() > 0)
+    {
+        QVariant v = ui.lstDialogues->item(ui.lstDialogues->count() - 1)->data(Qt::UserRole);
+		sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+        if (w == m_editor->shared()->selectedDialogue())
+        {
+            m_editor->shared()->setSelectedDialogue(NULL);
+        }
+        delete ui.lstDialogues->takeItem(ui.lstDialogues->count() - 1);
+    }
+}
+
+void MainPanel::insertDialogueToDialogueList(sad::dialogue::Dialogue* s, int position)
+{
+    QListWidgetItem* i = new QListWidgetItem(this->viewableObjectName(s));
+    QVariant v;
+    v.setValue(s);
+    i->setData(Qt::UserRole, v);
+    ui.lstDialogues->insertItem(position, i);
+}
+
+void MainPanel::removeDialogueFromDialogueList(int position)
+{
+    QVariant v = ui.lstDialogues->item(position)->data(Qt::UserRole);
+    sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+    if (w == m_editor->shared()->selectedDialogue())
+    {
+        m_editor->shared()->setSelectedDialogue(NULL);
+    }
+    delete ui.lstDialogues->takeItem(position);
+}
+
+void MainPanel::removeDialogueFromDialogueList(sad::dialogue::Dialogue* s)
+{
+    int pos = this->findDialogueInList(s);
+    if (s == m_editor->shared()->selectedDialogue())
+    {
+        m_editor->shared()->setSelectedDialogue(NULL);
+    }
+    if (pos >= 0)
+    {
+        delete ui.lstDialogues->takeItem(pos);
+    }
+}
+
+int MainPanel::findDialogueInList(sad::dialogue::Dialogue* s)
+{
+    for(int i = 0; i < ui.lstDialogues->count(); i++)
+    {
+        QVariant v = ui.lstDialogues->item(i)->data(Qt::UserRole);
+        sad::dialogue::Dialogue* w  = v.value<sad::dialogue::Dialogue*>();
+        if (w == s)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void MainPanel::updateDialogueName(sad::dialogue::Dialogue* s)
+{
+	int row = this->findDialogueInList(s);
+	if (row != -1)
+	{
+		ui.lstDialogues->item(row)->setText(this->viewableObjectName(s));
+	}
+}
+
+void MainPanel::removePhraseFromPhraseList(int row)
+{
+	delete ui.lstPhrases->takeItem(row);
+}
+
+QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
+{
+	sad::String s = p.phrase();
+	if (s.length() > 3)
+	{
+		s = s.subString(0, 3);
+		s += "...";
+	}
+	return QString("%1(%2)")
+		   .arg(p.actorName().c_str())
+		   .arg(s.c_str());
+}
+
+QCheckBox* MainPanel::visibilityCheckbox() const
+{
+	return ui.cbSceneNodeVisible;	
+}
+
+QCheckBox* MainPanel::flipXCheckbox() const
+{
+	return ui.cbFlipX;	
+}
+
+QCheckBox* MainPanel::flipYCheckbox() const
+{
+	return ui.cbFlipY;	
+}
+
+void MainPanel::clearCustomObjectPropertiesTable()
+{
+    for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
+    {
+        QVariant  v = ui.twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
+        gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+        if (d)
+        {
+            d->disconnectSlots();
+            delete d;
+        }
+    }
+    ui.twCustomObjectProperties->clear();
+	ui.twCustomObjectProperties->setRowCount(0);
+}
+
+ gui::table::Delegate* MainPanel::delegateForCustomObjectProperty(const QString& name)
+ {
+     for(size_t i = 0; i < ui.twCustomObjectProperties->rowCount(); i++)
+     {
+         if (ui.twCustomObjectProperties->item(i, 0)->text() == name) {
+             QVariant  v = ui.twCustomObjectProperties->item(i, 0)->data(Qt::UserRole);
+             gui::table::Delegate* d = v.value<gui::table::Delegate*>();
+             return d;
+         }
+     }
+     return NULL;
+ }
+
+void MainPanel::updateCustomObjectPropertyValue(
+     sad::SceneNode* node,
+     const sad::String& name,
+     const sad::db::Variant& value
+)
+{
+    if (m_editor->isNodeSelected(node))
+    {
+        m_custom_object_property_name = name;
+        m_custom_object_property_value = value;
+        QTimer::singleShot(0, this, SLOT(updateCustomObjectPropertyValueNow()));
+    }
+}
+
+void MainPanel::fillCustomObjectProperties(
+	sad::SceneNode* node	
+)
+{
+	this->clearCustomObjectPropertiesTable();
+	if (node)
+	{
+		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+		{
+			sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
+			const sad::Hash<sad::String, sad::db::Property*>& db = o->schemaProperties();
+			for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = db.const_begin();
+				it != db.const_end();
+				++it)
+			{
+				gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+				if (d)
+				{
+					d->makeLinkedTo(ui.twCustomObjectProperties, m_editor);
+					d->setPropertyName(it.key().c_str());
+					d->linkToCustomObject(o);
+					d->add();				
+				}
+			}
+		}
+	}
+}
+
+void MainPanel::selectLastSceneNode()
+{
+	if (ui.lstSceneObjects->count() != 0)
+	{
+		bool b = ui.lstSceneObjects->blockSignals(true);
+		ui.lstSceneObjects->setCurrentRow(ui.lstSceneObjects->count() - 1);
+		ui.lstSceneObjects->blockSignals(b);
+	}
+}
+
+//====================  PUBLIC SLOTS METHODS HERE ====================
+
+void MainPanel::updateUIForSelectedItem()
+{
+	QTimer::singleShot(0, this, SLOT(updateUIForSelectedItemNow()));
+}
+
+void MainPanel::updateUIForSelectedItemNow()
+{
+	sad::SceneNode* node = m_editor->shared()->selectedObject();
+	if (node)
+	{
+        // Scene tab
+        int row = this->findSceneNodeInList(node);
+        if (row != ui.lstSceneObjects->currentRow()) {
+            void (QListWidget::*setRow)(int) = &QListWidget::setCurrentRow;
+            invoke_blocked(ui.lstSceneObjects, setRow, row);
+        }
+        invoke_blocked(ui.txtObjectName, &QLineEdit::setText, node->objectName().c_str());
+
+        // SceneNode tab
+        m_scene_node_actions->updateRegionForNode();
+        sad::Maybe<bool> maybevisible = node->getProperty<bool>("visible");
+        if (maybevisible.exists())
+        {
+            invoke_blocked(ui.cbSceneNodeVisible, &QCheckBox::setCheckState, (maybevisible.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+        gui::UpdateElement<double>::with(node, "angle", ui.awSceneNodeAngle, &gui::anglewidget::AngleWidget::setValue);
+        gui::UpdateElement<QColor>::with(node, "color", ui.clpSceneNodeColor, &gui::colorpicker::ColorPicker::setSelectedColor);
+
+        // Label tab
+        gui::UpdateElement<sad::String>::with(node, "font", ui.rtwLabelFont, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        gui::UpdateElement<unsigned int>::with(node, "fontsize", ui.fswLabelFontSize, &gui::fontsizewidget::FontSizeWidget::setValue);
+        gui::UpdateElement<float>::with(node, "linespacing", ui.dsbLineSpacingRatio, &QDoubleSpinBox::setValue);
+        gui::UpdateElement<QString>::with(node, "text", ui.txtLabelText, &QPlainTextEdit::setPlainText);
+
+        // Sprite2D tab
+        gui::UpdateElement<sad::String>::with(node, "options", ui.rtwSpriteSprite, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+        sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");
+        if (maybeflipx.exists())
+        {
+            invoke_blocked(ui.cbFlipX, &QCheckBox::setCheckState, (maybeflipx.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+        sad::Maybe<bool> maybeflipy = node->getProperty<bool>("flipy");
+        if (maybeflipy.exists())
+        {
+            invoke_blocked(ui.cbFlipY, &QCheckBox::setCheckState, (maybeflipy.value()) ? Qt::Checked : Qt::Unchecked);
+        }
+
+
+        // Custom object tab
+        gui::UpdateElement<sad::String>::with(node, "schema", ui.rtwCustomObjectSchemas, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
+		if (node->metaData()->canBeCastedTo("sad::db::custom::Object"))
+		{
+			this->fillCustomObjectProperties(node);
+        }
+        else
+        {
+            this->clearCustomObjectPropertiesTable();
+        }
+	}
+}
+
+void MainPanel::updateCustomObjectPropertyValueNow()
+{
+    gui::table::Delegate* d = this->delegateForCustomObjectProperty(m_custom_object_property_name.data());
+    if (d)
+    {
+        d->set(m_custom_object_property_value);
+    }
+}
+
+void MainPanel::updateUIForSelectedWay()
+{
+    QTimer::singleShot(0, this, SLOT(updateUIForSelectedWayNow()));
+}
+
+void MainPanel::updateUIForSelectedWayNow()
+{
+    if (m_editor->shared()->selectedWay())
+    {
+        ui.lstWayPoints->clear();
+        sad::p2d::app::Way* p = m_editor->shared()->selectedWay();
+        for(size_t i = 0; i < p->wayPoints().size(); ++i)
+        {
+            ui.lstWayPoints->addItem(this->nameForPoint(p->wayPoints()[i]));
+        }
+        invoke_blocked(ui.txtWayName, &QLineEdit::setText, p->objectName().c_str());
+        invoke_blocked(ui.dsbWayTotalTime, &QDoubleSpinBox::setValue, p->totalTime());
+        invoke_blocked(ui.cbWayClosed, &QCheckBox::setCheckState,  (p->closed()) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+//====================  PROTECTED METHODS HERE ====================
+
+void MainPanel::fillDatabasePropertyTypesCombo()
+{
+    const unsigned int typescount = 20;
+    const QString types[typescount] = {
+        "unsigned char",
+        "signed char",
+        "char",
+
+        "short",
+        "unsigned short",
+
+        "int",
+        "unsigned int",
+
+        "long",
+        "unsigned long",
+
+        "long long",
+        "unsigned long long",
+
+        "float",
+        "double",
+
+        "sad::String",
+        "sad::Color",
+        "sad::AColor",
+
+        "sad::Point2D",
+        "sad::Point2I",
+
+        "sad::Size2D",
+        "sad::Size2I"
+    };
+    for(unsigned int i = 0; i < typescount; i++)
+    {
+        ui.cmbDatabasePropertyType->addItem(types[i]);
+    }
+}
 
 void MainPanel::closeEvent(QCloseEvent* ev)
 {
- this->QMainWindow::closeEvent(ev);
+	this->QMainWindow::closeEvent(ev);
+}
+
+void MainPanel::fixDatabase()
+{
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+    // Contains sad::Scene
+    if (db->table("scenes") == NULL)
+	{
+		db->addTable("scenes", new sad::db::Table());
+	}
+    // Contains sad::SceneNode
+	if (db->table("scenenodes") == NULL)
+	{
+		db->addTable("scenenodes", new sad::db::Table());
+	}
+    // Contains sad::p2d::app::Way
+    if (db->table("ways") == NULL)
+    {
+        db->addTable("ways", new sad::db::Table());
+    }
+    // Contains sad::dialogue::Dialogue
+    if (db->table("dialogues") == NULL)
+    {
+        db->addTable("dialogues", new sad::db::Table());
+    }
+
+	bool needtosetpalette = false;
+	if (db->propertyByName("palette") != NULL)
+	{
+		if (db->propertyByName("palette")->baseType() != "sad::Vector<sad::Vector<sad::AColor> >"
+			|| db->propertyByName("palette")->pointerStarsCount() != 0)
+		{
+			needtosetpalette = true;
+			db->removeProperty("palette");
+			db->addProperty(
+				"palette", 
+				new sad::db::StoredProperty<sad::Vector<sad::Vector<sad::AColor> > >()
+			);
+		}
+	} 
+	else
+	{
+		needtosetpalette = true;
+		db->addProperty(
+			"palette", 
+			new sad::db::StoredProperty<sad::Vector<sad::Vector<sad::AColor> > >()
+		);
+	}
+	// Init palette
+	if (needtosetpalette)
+	{
+		sad::Vector<sad::Vector<sad::AColor> > default_palette;
+
+		default_palette << sad::Vector<sad::AColor >();
+        default_palette[0] << sad::AColor(255, 255, 255, 0);
+        default_palette[0] << sad::AColor(255, 0, 0, 0);
+        default_palette[0] << sad::AColor(0, 255, 0, 0);
+		default_palette[0] << sad::AColor(0, 255, 255, 0);
+		default_palette[0] << sad::AColor(0, 0, 255, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+        default_palette[1] << sad::AColor(192, 192, 192, 0);
+		default_palette[1] << sad::AColor(192, 0, 0, 0);
+		default_palette[1] << sad::AColor(0, 192, 0, 0);
+		default_palette[1] << sad::AColor(0, 192, 192, 0);
+		default_palette[1] << sad::AColor(0, 0, 192, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+        default_palette[2] << sad::AColor(164, 164, 164, 0);
+		default_palette[2] << sad::AColor(164, 0, 0, 0);
+		default_palette[2] << sad::AColor(0, 164, 0, 0);
+		default_palette[2] << sad::AColor(0, 164, 164, 0);
+		default_palette[2] << sad::AColor(0, 0, 164, 0);
+
+		default_palette << sad::Vector<sad::AColor >();
+        default_palette[3] << sad::AColor(128, 128, 128, 0);
+        default_palette[3] << sad::AColor(128, 0, 0, 0);
+		default_palette[3] << sad::AColor(0, 128, 0, 0);
+		default_palette[3] << sad::AColor(0, 128, 128, 0);
+		default_palette[3] << sad::AColor(0, 0, 128, 0);
+		db->setProperty("palette", default_palette);
+	}
+}
+
+//====================  PROTECTED SLOTS HERE ====================
+
+void MainPanel::addDatabaseProperty()
+{
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	sad::String propname = ui.txtDatabasePropertyName->text().toStdString();
+	if (db->propertyByName(propname) == NULL && propname.size()!= 0)
+	{
+		gui::table::Delegate* d  = m_dbdelegate_factory.create(ui.cmbDatabasePropertyType->currentText());
+		sad::db::Property* prop = m_property_factory.create(ui.cmbDatabasePropertyType->currentText().toStdString());
+		if (d && prop)
+		{
+			sad::Renderer::ref()->database("")->addProperty(propname, prop);
+			d->setPropertyName(propname.c_str());
+			d->linkToDatabase();
+			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
+			d->add();
+			history::database::NewProperty* p = new history::database::NewProperty(d);
+			m_editor->history()->add(p);
+		}
+		else
+		{
+			delete d;
+			delete prop;
+		}
+	}
+}
+
+void MainPanel::addScene()
+{
+	sad::Scene* s  = new sad::Scene();
+
+	QString name = ui.txtSceneName->text();
+	if (name.length())
+	{
+		s->setObjectName(name.toStdString());
+	}
+
+	sad::Renderer::ref()->add(s);
+	sad::Renderer::ref()->database("")->table("scenes")->add(s);
+
+	history::Command* c = new history::scenes::Add(s);
+	c->commit(m_editor);
+	m_editor->history()->add(c);
+
+	invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstScenes, &QListWidget::setCurrentRow, ui.lstScenes->count() - 1);
+}
+
+void MainPanel::currentSceneChanged(int index)
+{
+	if (m_editor->machine()->isInState("adding")
+		|| (m_editor->machine()->isInState("selected") 
+		    && m_editor->machine()->currentState() != "selected"))
+	{
+		if (this->currentScene())
+		{
+			bool b = ui.lstScenes->blockSignals(true);
+			int row = this->findSceneInList(this->currentScene());
+			if (row != -1)
+			{
+				ui.lstScenes->setCurrentRow(row);
+			}
+			ui.lstScenes->blockSignals(b);
+			return;
+		}
+	}
+	if (index != -1) 
+	{
+		QListWidgetItem* i = ui.lstScenes->item(index);
+		sad::Scene* s = i->data(Qt::UserRole).value<sad::Scene*>();
+		bool b = ui.txtSceneName->blockSignals(true);
+		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->blockSignals(b);
+
+		ui.lstSceneObjects->clear();
+		const sad::Vector<sad::SceneNode*>& nodes = s->objects();
+		for(size_t i = 0; i < nodes.size(); i++)
+		{
+			if (nodes[i]->active())
+			{
+				QListWidgetItem* ki = new QListWidgetItem();
+				ki->setText(this->viewableObjectName(nodes[i]));
+				
+				QVariant v;
+				v.setValue(nodes[i]);
+				ki->setData(Qt::UserRole, v);
+				ui.lstSceneObjects->addItem(ki);
+			}
+		}
+	}
+}
+
+void MainPanel::sceneNameChanged(const QString& name)
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		sad::String oldname = scene->objectName();
+		sad::String newname = ui.txtSceneName->text().toStdString();
+		
+		history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
+}
+
+void MainPanel::currentSceneNodeChanged(int index)
+{
+	if (m_editor->machine()->isInState("adding")
+		|| (m_editor->machine()->isInState("selected") 
+		    && m_editor->machine()->currentState() != "selected"))
+	{
+		if (this->editor()->shared()->selectedObject())
+		{
+			bool b = ui.lstSceneObjects->blockSignals(true);
+			int row = this->findSceneNodeInList(this->editor()->shared()->selectedObject());
+			if (row != -1)
+			{
+				ui.lstSceneObjects->setCurrentRow(row);
+			}
+			ui.lstSceneObjects->blockSignals(b);
+			return;
+		}
+	}
+	if (index != -1) 
+	{
+		QListWidgetItem* i = ui.lstSceneObjects->item(index);
+		sad::SceneNode* s = i->data(Qt::UserRole).value<sad::SceneNode*>();
+
+		if (m_editor->machine()->isInState("idle"))
+		{
+			m_editor->machine()->enterState("selected");
+		}
+		if (m_editor->machine()->isInState("selected"))
+		{
+			m_editor->shared()->setSelectedObject(s);
+			this->updateUIForSelectedItem();
+		}
+	}
+}
+
+void MainPanel::removeScene()
+{
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		if (m_editor->machine()->isInState("selected"))
+		{
+			m_editor->machine()->enterState("idle");
+			m_editor->shared()->setSelectedObject(NULL);
+		}
+		int row = ui.lstScenes->currentRow();
+
+		history::Command* c = new history::scenes::Remove(scene, row);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
+}
+
+void MainPanel::sceneMoveBack()
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		int row = ui.lstScenes->currentRow();
+		if (row != 0)
+		{
+			sad::Scene* previousscene = ui.lstScenes->item(row -1)->data(Qt::UserRole).value<sad::Scene*>();
+
+			history::Command* c = new history::scenes::LayerSwap(scene, previousscene, row, row - 1);
+			this->m_editor->history()->add(c);
+			c->commit(m_editor);
+		}
+	}
+}
+
+void MainPanel::sceneMoveFront()
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		int row = ui.lstScenes->currentRow();
+		if (row < ui.lstScenes->count() - 1)
+		{
+			sad::Scene* nextscene = ui.lstScenes->item(row + 1)->data(Qt::UserRole).value<sad::Scene*>();
+
+			history::Command* c = new history::scenes::LayerSwap(scene, nextscene, row, row + 1);
+			this->m_editor->history()->add(c);
+			c->commit(m_editor);
+		}
+	}
+}
+
+void MainPanel::clearScene()
+{
+	sad::Scene* scene = currentScene();
+	if (scene)
+	{
+		history::Command* c = new history::scenes::Clear(scene);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
+}
+
+void MainPanel::updateMousePositionNow()
+{
+	ui.txtMousePosX->setText(QString::number(static_cast<int>(m_mousemove_point.x())));
+	ui.txtMousePosY->setText(QString::number(static_cast<int>(m_mousemove_point.y())));
+}
+
+void MainPanel::highlightStateNow()
+{
+	ui.txtEditorState->setText(m_highlight_state);
+}
+
+void MainPanel::undo()
+{
+	m_editor->undo();
+}
+
+void MainPanel::redo()
+{
+	m_editor->redo();
+}
+
+void MainPanel::sceneNodeMoveBack()
+{
+	if (m_editor->machine()->isInState("selected"))
+	{
+		sad::SceneNode* node = m_editor->shared()->selectedObject();
+		if (node)
+		{
+			int row = ui.lstSceneObjects->currentRow();
+			int row2 = this->findSceneNodeInList(node);
+			if (row > 0 && row == row2)
+			{
+				sad::SceneNode* previousnode = ui.lstSceneObjects->item(row - 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+				history::Command* c = new history::scenenodes::LayerSwap(node, previousnode, row, row - 1);
+				this->m_editor->history()->add(c);
+				c->commit(m_editor);
+
+				invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstSceneObjects, &QListWidget::setCurrentRow, row - 1);
+			}
+		}
+	}
+}
+
+void MainPanel::sceneNodeMoveFront()
+{
+	if (m_editor->machine()->isInState("selected"))
+	{
+		sad::SceneNode* node = m_editor->shared()->selectedObject();
+		if (node)
+		{
+			int row = ui.lstSceneObjects->currentRow();
+			int row2 = this->findSceneNodeInList(node);
+			if (row < ui.lstSceneObjects->count() - 1 && row > -1 && row == row2)
+			{
+				sad::SceneNode* nextnode = ui.lstSceneObjects->item(row + 1)->data(Qt::UserRole).value<sad::SceneNode*>();
+
+				history::Command* c = new history::scenenodes::LayerSwap(node, nextnode, row, row + 1);
+				this->m_editor->history()->add(c);
+				c->commit(m_editor);
+
+				invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstSceneObjects, &QListWidget::setCurrentRow, row + 1);
+			}
+		}
+	}
 }
 
 void MainPanel::synchronizeDatabase()
 {
-	bool oldfontsstate = ui.cmbFonts->blockSignals(true);
-	bool oldspritestate = m_spriteTableWidget->blockSignals(true);
-
-	ui.cmbFonts->clear();
-	FontTemplateDatabase * db = m_editor->database();
-	IFaceEditorFontList & list =db->fonts();
-	
-	for(IFaceEditorFontListCursor it = list.begin(); !(it.end()); it++)
-	{
-		ui.cmbFonts->addItem(it.name(), QVariant(it.fonts()->qtFont()));
-	}
-	SpriteDatabase & sprites = db->sprites();
-	AbstractSpriteDatabaseIterator * it = sprites.begin();
-    for(; !(it->isEnd());it->next())
-	{
-		m_spriteTableWidget->add(*it);
-	}
-	m_spriteTableWidget->finishSyncronizing();
-	delete it;
-
-	ui.cmbFonts->blockSignals(oldfontsstate);
-	m_spriteTableWidget->blockSignals(oldspritestate);
+	ui.rtwSpriteSprite->setFilter("sad::Sprite2D::Options");
+	ui.rtwLabelFont->setFilter("sad::freetype::Font|sad::TextureMappedFont");
 }
-
-void MainPanel::addNewFontColor()
-{
-	QColor initial(0,0,0);
-	if (ui.cmbFontColor->currentIndex()!=-1)
-	{
-		initial = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
-	}
-
-	QColor to_add = QColorDialog::getColor(initial,this,"Pick a new color for label");
-	if (to_add.isValid())
-	{
-		QString text = QString::number(to_add.red()) + QString(",")
-			         + QString::number(to_add.green()) + QString(",")
-					 + QString::number(to_add.blue());
-		text = QString("(") + text + QString(")");
-		ui.cmbFontColor->addItem(text, QVariant(to_add));
-		ui.cmbFontColor->setCurrentIndex(ui.cmbFontColor->count()-1);
-	}
-}
-
-
-void MainPanel::addNewFontSize()
-{
-	QInputDialog d(this);
-	d.setInputMode(QInputDialog::IntInput);
-	d.setWindowTitle("Input some font size");
-	d.setIntRange(201,1000);
-	d.exec();
-	if (d.result() == QDialog::Accepted)
-	{
-		int size = d.intValue();
-		ui.cmbFontSize->addItem(QString::number(size), QVariant(size));
-		ui.cmbFontSize->setCurrentIndex(ui.cmbFontSize->count()-1);
-	}
-}
-
-
-void MainPanel::setMouseMovePosView(float x, float y)
-{
-	m_tmp_mov_x = x;
-	m_tmp_mov_y = y;
-
-	QTimer::singleShot(0, this, SLOT(setMouseMovePosViewImpl()));
-}
-
-void MainPanel::setMouseMovePosViewImpl()
-{
-	ui.txtMousePosX->setText(QString::number(m_tmp_mov_x));
-	ui.txtMousePosY->setText(QString::number(m_tmp_mov_y));
-}
-
-void MainPanel::highlightStateImpl()
-{
-	ui.txtEditorState->setText(m_tmp_state);
-}
-
-void MainPanel::highlightState(const sad::String & hints)
-{
-	m_tmp_state = hints.data();
-	QTimer::singleShot(0, this, SLOT(highlightStateImpl()));
-}
-
-
-void MainPanel::addFontObject()
-{
-	if (ui.txtLabelText->toPlainText().length() == 0)
-	{
-		QMessageBox::critical(NULL, "IFace Editor", "You must specify label text to add it");
-	}
-	else
-	{
-		ScreenLabel * label = new ScreenLabel();
-		label->setActive(true);
-		label->setVisible(true);
-		
-		// Set props
-		sad::String fontName=ui.cmbFonts->currentText().toStdString().c_str();
-		label->getProperty("font")->set(sad::Variant(fontName));
-		QColor qcolor = ui.cmbFontColor->itemData(ui.cmbFontColor->currentIndex()).value<QColor>();
-		sad::Color hcolor(qcolor.red(), qcolor.green(), qcolor.blue());
-		label->getProperty("color")->set(sad::Variant(hcolor));
-		label->getProperty("pos")->set(sad::Variant(sad::Point2D(0,0)));
-		float angle = ui.dblAngle->value();
-		label->getProperty("angle")->set(sad::Variant(angle));
-		unsigned int size = ui.cmbFontSize->itemData(ui.cmbFontSize->currentIndex()).value<int>();
-		label->getProperty("size")->set(sad::Variant(size));
-		sad::String text=ui.txtLabelText->toPlainText().toStdString().c_str();
-		label->getProperty("text")->set(sad::Variant(text));
-
-
-		label->tryReload(this->m_editor->database());
-		InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
-		label->setScene(static_cast<InterlockedScene*>(this->m_editor->scene()));
-		this->m_editor->behaviourSharedData()->setActiveObject(label);
-		scene->add(label);
-		
-		this->m_editor->currentBehaviour()->enterState("label_adding");
-	}
-}
-
-
-void MainPanel::addSpriteObject()
-{
-	sad::String newstate = "";
-	if (ui.rbPlaceAndRotate->isChecked()) newstate = "sprite_adding_simple";
-	if (ui.rbTwoClicksPlaces->isChecked()) newstate = "sprite_adding_diagonal";
-	if (newstate.length())
-	{
-		QSpriteTableWidgetSelection selection = m_spriteTableWidget->selection();
-		if (selection.invalid() == false)
-		{
-			sad::String config = selection.config().toStdString().c_str();
-			sad::String group = selection.group().toStdString().c_str();
-			int index = selection.index();
-			//  Adding a small screen sprite
-			ScreenSprite * a = new ScreenSprite();
-			sad::Sprite2DConfig * c = m_editor->database()->sprites().hconfigs()[config];
-			sad::Sprite2DTemplate t = c->getTemplates()[group][index];
-			sad::Point2D p1 = sad::Point2D(320,240);
-			sad::Point2D p2 = p1 + t.size();
-			sad::Rect2D rect(p1, p2);
-			a->setProp<sad::Rect2D>("rect",rect, m_editor->log());
-			a->setProp<float>("angle",ui.dblAngle->value(), m_editor->log());
-			a->setProp<sad::String>("config",config, m_editor->log());
-			a->setProp<sad::String>("group",group, m_editor->log());
-			a->setProp<int>("index",index, m_editor->log());
-			a->tryReload(m_editor->database());
-			InterlockedScene * scene = static_cast<InterlockedScene*>(this->m_editor->scene());
-			a->setScene(scene);
-
-			this->m_editor->behaviourSharedData()->setActiveObject(a);
-
-			scene->add(a);
-			this->m_editor->currentBehaviour()->enterState(newstate);
-		}
-		else
-		{
-			QMessageBox::critical(NULL, "IFace Editor", "You must select a sprite for adding");
-		}
-	}
-	else
-	{
-		QMessageBox::critical(NULL, "IFace Editor", "You must select a mode for adding");
-	}
-}
-
 
 void MainPanel::setAddingEnabled(bool enabled)
 {
-	this->ui.lstObjects->setEnabled(enabled);
-	this->ui.btnAddLabel->setEnabled(enabled);
-	this->ui.btnAddSprite->setEnabled(enabled);
-}
-
-void MainPanel::trySetProperty(const sad::String & prop, float v)
-{
-	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
-	AbstractScreenObject * o = NULL;
-	AbstractProperty * _property = NULL;
-	bool selected = false;
-	if (data->activeObject()) 
-	{
-		o = data->activeObject();
-	} 
-	else 
-	{
-		o = data->selectedObject();	
-		selected = true;
-	}
-	if (o) 
-	{
-		this->m_editor->lockRendering();
-		_property = o->getProperty(prop);
-        float  old = 0;
-		if (_property) 
-		{
-			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get()->get<float>();	
-			_property->set(v);
-		}
-		if (selected) 
-		{
-			if (prop == "angle") 
-			{
-				QTimer * t =new QTimer();
-				t->setSingleShot(true);
-				bool pending = this->m_editor->shdata()->isRotationCommandPending();
-				sad::Variant new_v(v);
-				float new_val_escaped = new_v.get<float>();
-				float old_val_escaped = old;
-				if (pending) {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
-				} else {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
-				}
-				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
-				t->start(MAX_ROTATION_TIME);
-			}
-			else
-			{
-				this->m_editor->history()->add(new PropertyChangeCommand<float>(
-					o, prop, v, 
-					old,
-					this->m_editor->log()
-				));
-			}
-		}
-		this->m_editor->unlockRendering();
-		this->updateList();
-	}	
-}
-
-
-template<typename T> void MainPanel::trySetProperty(const sad::String & prop, T v)
-{
-	EditorBehaviourSharedData * data = this->m_editor->behaviourSharedData();
-	AbstractScreenObject * o = NULL;
-	AbstractProperty * _property = NULL;
-	bool selected = false;
-	if (data->activeObject()) 
-	{
-		o = data->activeObject();
-	} 
-	else 
-	{
-		o = data->selectedObject();	
-		selected = true;
-	}
-	// Ignore color change for anyone but label
-    if (!o) return;
-	sad::String type_name = o->type();
-    if (prop == "color" && type_name != "ScreenLabel")
-		return;
-	if (o) 
-	{
-		this->m_editor->lockRendering();
-		_property = o->getProperty(prop);
-		T  old;
-		if (_property) 
-		{
-			sad::log::Log * sl = this->m_editor->log();
-			old = _property->get()->get<T>();	
-			_property->set(v);
-		}
-		if (prop == "font")
-		{
-			o->tryReload(this->m_editor->database());
-		}
-		if (selected) 
-		{
-			if (prop == "angle") 
-			{
-				QTimer * t =new QTimer();
-				t->setSingleShot(true);
-				bool pending = this->m_editor->shdata()->isRotationCommandPending();
-				sad::Variant new_v(v);
-				sad::Variant old_escaped(old);
-				float new_val_escaped = new_v.get<float>();
-				float old_val_escaped = old_escaped.get<float>();
-				if (pending) {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, false);
-				} else {
-					this->m_editor->shdata()->submitRotationCommand(t, o, new_val_escaped, true, old_val_escaped);
-				}
-				QObject::connect(t, SIGNAL(timeout()), this->m_editor, SLOT(appendRotationCommand()));
-				t->start(MAX_ROTATION_TIME);
-			}
-			else
-			{
-				this->m_editor->history()->add(new PropertyChangeCommand<T>(
-					o, prop, v, 
-					old,
-					this->m_editor->log()
-				));
-			}
-		}
-		this->m_editor->unlockRendering();
-		this->updateList();
-	}	
-}
-
-void MainPanel::fontChanged(const QString & s)
-{
-	IGNORE_SELFCHANGING
-	sad::String hs = s.toStdString().c_str();
-	trySetProperty("font", hs);
-}
-
-void MainPanel::angleChanged(double angle)
-{
-	//IGNORE_SELFCHANGING
-	float fangle = angle;
-	trySetProperty("angle", fangle);
-}
-
-void MainPanel::colorChanged(int index)
-{
-	IGNORE_SELFCHANGING
-	if (index!=-1) 
-	{
-		QColor clr = ui.cmbFontColor->itemData(index).value<QColor>();
-		sad::Color c(clr.red(),clr.green(),clr.blue());
-		trySetProperty("color", c);
-	}
-}
-
-void MainPanel::sizeChanged(int index)
-{
-	IGNORE_SELFCHANGING
-	if (index!=-1)
-	{
-		unsigned int size = ui.cmbFontSize->itemData(index).value<int>();
-		trySetProperty("size", size);
-	}
-}
-
-void MainPanel::nameChanged(const QString & name)
-{
-	trySetProperty("name", sad::String(name.toStdString().c_str()));
-	this->updateList();
-}
-
-void MainPanel::textChanged()
-{
-	IGNORE_SELFCHANGING
-	sad::String s = ui.txtLabelText->toPlainText().toStdString().c_str();
-	trySetProperty("text",s);
-}
-
-// Applying this macro, we can temporarily block 
-// signals from Qt elements and restore them to
-// original form
-#define BLOCK_SIGNALS_AND_CALL(X, O)              \
-		{                                         \
-		  bool ___2___ = X -> blockSignals(true); \
-		  X -> O ;                                \
-		  X -> blockSignals(___2___);             \
-		}
-void MainPanel::updateObjectStats(AbstractScreenObject * o)
-{
-	AbstractProperty * prop = NULL;
-	sad::log::Log * l = this->m_editor->log();		
-	// Get text
-	prop = o->getProperty("text");
-	if (prop)
-	{
-		m_selfchanged = true;
-		BLOCK_SIGNALS_AND_CALL(
-			ui.txtLabelText,
-			setPlainText(prop->get()->get<sad::String>().data())
-		);
-	}
-	// Get size
-	prop = o->getProperty("size");
-	if (prop)
-	{
-		m_selfchanged = true;
-		unsigned int size = prop->get()->get<unsigned int>();
-		int index = ui.cmbFontSize->findData((int)size);
-		if (index != -1) 
-		{
-			BLOCK_SIGNALS_AND_CALL(
-				ui.cmbFontSize,
-				setCurrentIndex(index)
-			);
-		} 
-		else 
-		{
-			ui.cmbFontSize->addItem(QString::number(size), (int)size);
-			BLOCK_SIGNALS_AND_CALL(
-				ui.cmbFontSize,
-				setCurrentIndex(ui.cmbFontSize->count() - 1)
-			);
-		}
-		m_selfchanged = false;
-	}
-	prop = o->getProperty("color");
-	if (prop && o->type() == "ScreenLabel")
-	{
-		m_selfchanged = true;
-		sad::Color c = prop->get()->get<sad::Color>();
-		QColor clr(c.r(), c.g(), c.b()); 
-		int index = ui.cmbFontColor->findData(clr);
-		if (index != -1) 
-		{
-			BLOCK_SIGNALS_AND_CALL(
-				ui.cmbFontColor,
-				setCurrentIndex(index)
-			);
-		} 
-		else 
-		{
-			m_selfchanged = false;
-		}
-	}
-	prop = o->getProperty("font");
-	if (prop)
-	{
-		m_selfchanged = true;
-		sad::String c = prop->get()->get<sad::String>();
-		QString s = c.data();
-		int index = ui.cmbFonts->findText(s);
-		if (index != -1) 
-		{
-			BLOCK_SIGNALS_AND_CALL(
-				ui.cmbFonts,
-				setCurrentIndex(index)
-			);
-		} 
-		else 
-		{
-			m_selfchanged = false;
-		}
-	}
-	prop = o->getProperty("angle");
-	if (prop)
-	{
-		m_selfchanged = true;
-		float c = prop->get()->get<float>();
-		BLOCK_SIGNALS_AND_CALL(ui.dblAngle, setValue(c));
-		m_selfchanged = false;
-	}
-	prop = o->getProperty("name");
-	if (prop)
-	{	
-		m_selfchanged = true;
-		sad::String c= prop->get()->get<sad::String>();
-		BLOCK_SIGNALS_AND_CALL(ui.txtName, setText(c.data()));
-		m_selfchanged = false;
-	}
-	if (o->getProperty("config") != NULL)
-	{
-		this->setRegionParameters();
-		
-		sad::String config = o->prop<sad::String>("config", m_editor->log());
-		sad::String group = o->prop<sad::String>("group", m_editor->log());
-		int index = o->prop<int>("index", m_editor->log());
-		
-		QSpriteTableWidgetSelection sel(config.data(), group.data(), index);
-		BLOCK_SIGNALS_AND_CALL(m_spriteTableWidget,setSelection(sel));
-	}
-	// This added to prevent cases when selfchanging does not work and flag is not resetted.
-	m_selfchanged = false;
-}
-#undef BLOCK_SIGNALS_AND_CALL
-
-void MainPanel::updateList()
-{
-	m_list.updateWidget(m_editor->result(), m_editor->behaviourSharedData()->selectedObject());
-}
-
-
-void MainPanel::selectedObjectChanged(int index)
-{
-	if (index != -1 && m_list.selfChanged() == false)
-	{
-		AbstractScreenObject * o = m_list.row(index);
-		this->m_editor->behaviourSharedData()->setSelectedObject(o);
-		m_editor->showObjectStats(o);
-		m_editor->currentBehaviour()->enterState("selected");
-	}
-}
-
-void MainPanel::moveObjectBack()
-{
-	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
-	if (o && m_editor->currentBehaviour()->state() == "selected") 
-	{
-		unsigned int  my  = o->scene()->findLayer(o);
-		unsigned int  min = m_editor->result()->minLayer();
-		if (my != min) 
-		{
-			LayerCommand * c = new LayerCommand(o, my, my - 1);
-			c->commit(m_editor);
-			m_editor->history()->add(c);
-		}
-	}
-}
-
-void MainPanel::moveObjectFront()
-{
-	AbstractScreenObject * o = m_editor->behaviourSharedData()->selectedObject();
-	if (o && m_editor->currentBehaviour()->state() == "selected") 
-	{
-		unsigned int  my  = o->scene()->findLayer(o);
-		unsigned int  max = m_editor->result()->maxLayer();
-		if (my != max) 
-		{
-			LayerCommand * c = new LayerCommand(o, my, my + 1);
-			c->commit(m_editor);
-			m_editor->history()->add(c);
-		}
-	}
-}
-
-void MainPanel::setAngleChangingEnabled(bool enabled)
-{
-	ui.dblAngle->setEnabled(enabled);
-	if (enabled == false)
-	{
-		ui.dblAngle->setValue(0.0);
-	}
+	this->ui.lstSceneObjects->setEnabled(enabled);
+	this->ui.btnLabelAdd->setEnabled(enabled);
+	this->ui.btnSpriteAdd->setEnabled(enabled);
 }
 
 void MainPanel::setSpriteChangingEnabled(bool enabled)
 {
-	this->ui.dblSpriteX->setEnabled(enabled);
-	this->ui.dblSpriteY->setEnabled(enabled);
-	this->ui.dblSpriteWidth->setEnabled(enabled);
-	this->ui.dblSpriteHeight->setEnabled(enabled);
+	this->ui.rwSceneNodeRect->setEnabled(enabled);
 }
 
-
-void MainPanel::setRegionParameters()
+void MainPanel::setAngleChangingEnabled(bool enabled)
 {
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
-	AbstractScreenObject * o = (o1) ? o1 : o2;
-	if (o)
+	ui.awSceneNodeAngle->setEnabled(enabled);
+	if (enabled == false)
 	{
-		sad::Rect2D rect = o->region();
-		if (o->typeName() == "ScreenSprite")
-		{
-			m_selfchanged = true;
-			ui.dblSpriteX->setValue(rect[0].x());
-			ui.dblSpriteY->setValue(rect[0].y());
-			ui.dblSpriteWidth->setValue(rect[0].distance(rect[1]));
-			ui.dblSpriteHeight->setValue(rect[0].distance(rect[3]));
-			m_selfchanged = false;
-		}
+		ui.awSceneNodeAngle->setValue(0);
 	}
 }
 
-
-void MainPanel::spriteSelected(QString config, QString group, int index)
+void MainPanel::clearDatabaseProperties()
 {
-	if (m_selfchanged)
+	ui.twDatabaseProperties->clear();
+	ui.twDatabaseProperties->setRowCount(0);
+	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
+		it != m_property_delegates.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+	m_property_delegates.clear();
+}
+
+QString MainPanel::viewableObjectName(sad::db::Object* o)
+{
+	QString result = o->objectName().c_str();
+	if (result.length() == 0)
+	{
+		char buffer[20];
+		sprintf(buffer, "%p", o);
+		result = QString(buffer);
+	}
+	return result;
+}
+
+void MainPanel::save()
+{
+	if (m_editor->shared()->fileName().length() == 0)
+	{
+		this->saveAs();
+	}
+	else
+	{
+		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+	}
+}
+
+void MainPanel::saveAs()
+{
+	QString name = QFileDialog::getSaveFileName(this, "Enter file, where we should store database", "", "*.json");
+	if (name.length() != 0)
+	{
+		m_editor->shared()->setFileName(name);
+		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+	}
+}
+
+void MainPanel::load()
+{
+	if (m_editor->isInEditingState())
+	{
 		return;
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
-	AbstractScreenObject * o = (o1) ? o1 : o2;
-	if (o)
-	{
-		
-		QSpriteTableWidgetSelection sel(config, group, index);
-		if (sel.invalid() == false  && o->getProperty("config") != NULL) 
-		{
-			sad::String oconf =  o->prop<sad::String>("config", m_editor->log());
-			sad::String ogroup =  o->prop<sad::String>("group", m_editor->log());
-			int oindex =  o->prop<int>("index", m_editor->log());
-
-			o->setProp<sad::String>("config", config.toStdString().c_str(), m_editor->log());
-			o->setProp<sad::String>("group",  group.toStdString().c_str(), m_editor->log());
-			o->setProp<int>("index",    index, m_editor->log());
-			
-			bool set_rect = false;
-			sad::Rect2D rect = o->region();
-			float angle = o->prop<float>("angle", m_editor->log());
-			set_rect = this->m_editor->currentBehaviour()->state() != "sprite_adding_simple";
-			
-			o->tryReload(this->m_editor->database());
-			
-			if (set_rect)
-			{
-				static_cast<ScreenSprite *>(o)->setRotatedRectangle(rect,angle);
-			}
-
-			if (o2 == o)
-			{
-
-				SpritePropertyChangeCommandInfo * _old = new SpritePropertyChangeCommandInfo();
-	
-				_old->config = oconf;
-				_old->group = ogroup;
-				_old->index = oindex;
-				_old->rect = rect;
-				_old->angle = angle;
-
-				SpritePropertyChangeCommandInfo * _new = new SpritePropertyChangeCommandInfo();
-
-				_new->config = config.toStdString().c_str();
-				_new->group = group.toStdString().c_str();
-				_new->index = index;
-				_new->rect = rect;
-				_new->angle = angle;
-
-				SpritePropertyChangeCommand * c = new SpritePropertyChangeCommand(
-					static_cast<ScreenSprite *>(o),
-					m_editor->database(), 
-					m_editor->log(), 
-					*_old, 
-					*_new
-				);
-
-				m_editor->history()->add(c);
-
-				delete _old;
-				delete _new;
-
-			}
-		}
 	}
-}
-
-void SpritePropertyChangeCommand::commit(CommandChangeObserver * ob )
-{
-	SL_SCOPE("SpritePropertyChangeCommand::commit");
-	sad::String rd = SaveLoadCallback<sad::Rect2D>::save(m_new.rect).data();
-	m_sprite->setProp<sad::String>("config", m_new.config, m_log);
-	m_sprite->setProp<sad::String>("group",  m_new.group, m_log);
-	m_sprite->setProp<int>("index",    m_new.index, m_log);
-	m_sprite->tryReload(m_db);
-	m_sprite->setRotatedRectangle(m_new.rect, m_new.angle);
-	ob->submitEvent("SpritePropertyChangeCommand::commit", sad::Variant(0));
-}
-
-void SpritePropertyChangeCommand::rollback(CommandChangeObserver * ob)
-{
-	SL_SCOPE("SpritePropertyChangeCommand::rollback");
-	m_sprite->setProp<sad::String>("config", m_old.config, m_log);
-	m_sprite->setProp<sad::String>("group",  m_old.group, m_log);
-	m_sprite->setProp<int>("index",    m_old.index, m_log);
-	m_sprite->tryReload(m_db);
-	m_sprite->setRotatedRectangle(m_old.rect, m_old.angle);
-	ob->submitEvent("SpritePropertyChangeCommand::rollback", sad::Variant(0));
-}
-
-void MainPanel::spriteRectChanged()
-{
-	if (m_selfchanged)
-		return;
-	AbstractScreenObject * o1 = m_editor->behaviourSharedData()->activeObject();
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
-	AbstractScreenObject * o = (o1) ? o1 : o2;
-	if (o)
+    QString name = QFileDialog::getOpenFileName(this, "Enter file, where database was stored", "", "*.json");
+	if (name.length() != 0)
 	{
-		if (o->getProperty("rect") != NULL && o->typeName() == "ScreenSprite")
+		sad::db::Database* tmp = new sad::db::Database();
+		tmp->setRenderer(sad::Renderer::ref());
+		tmp->setDefaultTreeName("");
+		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
 		{
-			float angle = o->prop<float>("angle", this->m_editor->log());
-			sad::Rect2D oldrect = o->region();
-			sad::Point2D newpoint(ui.dblSpriteX->value(), ui.dblSpriteY->value());
-			sad::Point2D size(ui.dblSpriteWidth->value(), ui.dblSpriteHeight->value());
-			float comparisonprec = 0.0001f;
-			float oldwidth = oldrect[1].distance(oldrect[0]);
-			float oldheight =oldrect[3].distance(oldrect[0]);
-			if (fabs(newpoint.x() - oldrect[0].x()) < comparisonprec
-				&& fabs(newpoint.y() - oldrect[0].y()) < comparisonprec
-				&& fabs(size.x() - oldwidth) < comparisonprec
-				&& fabs(size.y() - oldheight) < comparisonprec
-				)
-			{
-				return;
-			}
-			sad::Point2D horizontal = sad::p2d::unit(oldrect[1] - oldrect[0]);
-			sad::Point2D vertical = sad::p2d::unit(oldrect[3] - oldrect[0]);
-			sad::Rect2D newrect;
-			ScreenSprite * oo = static_cast<ScreenSprite *>(o);
-			newrect[0] = newpoint;
-			newrect[1] = newpoint;
-			newrect[1] +=  horizontal * size.x(); 
-			newrect[2] = newpoint;
-			newrect[2] +=  (horizontal * size.x())  + (vertical * size.y());
-			newrect[3] = newpoint;
-			newrect[3] +=  (vertical * size.y());
-			oo->setRotatedRectangle(newrect, angle);
-			if (o == o2)
-			{
-				m_editor->history()->add(new  SpriteRectChangeCommand(oo, angle, oldrect, newrect));
-			}
-		}
-	}
-}
-
-void SpriteRectChangeCommand::commit(CommandChangeObserver * ob)
-{
-	m_sprite->setRotatedRectangle(m_old_rect, m_angle);
-	ob->submitEvent("SpriteRectChangeCommand::commit", sad::Variant(0));
-}
-
-
-void SpriteRectChangeCommand::rollback(CommandChangeObserver * ob)
-{
-	m_sprite->setRotatedRectangle(m_new_rect, m_angle);
-	ob->submitEvent("SpriteRectChangeCommand::rollback", sad::Variant(0));
-}
-
-
-void MainPanel::makeBackground()
-{
-	SL_SCOPE("MainPanel::makeBackground()");
-	AbstractScreenObject * o2 = m_editor->behaviourSharedData()->selectedObject();
-	if (o2)
-	{
-		if (o2->hasProperty("rect") && o2->rotatable())
-		{
-			AbstractCommand * d = new MakeBackgroundCommand(o2);
-			m_editor->history()->add(d);
-			d->commit(m_editor);
-			SL_DEBUG("MakeBackgroundCommand() comitted");
+			m_editor->shared()->setFileName(name);
+			sad::Renderer::ref()->lockRendering();
+			m_editor->cleanDatabase();
+			sad::Renderer::ref()->addDatabase("", tmp);
+			this->viewDatabase();
+			sad::Renderer::ref()->unlockRendering();
 		}
 		else
 		{
-			SL_DEBUG("Selected object has no \"rect\" or rotatable");
+			delete tmp;
+			QMessageBox::critical(NULL, "Failed to load database", "Failed to load database");
 		}
-	}
-	else 
-	{
-		SL_DEBUG("No object selected");
 	}
 }
 
-
-void MainPanel::clearScreenTemplate()
+void MainPanel::loadResources()
 {
-	if (m_editor->currentBehaviour()->state() == "idle"
-		|| m_editor->currentBehaviour()->state() == "selected"
-		)
+	if (m_editor->isInEditingState())
 	{
-	if (m_editor->result()->count() )
+		return;
+	}
+    QMessageBox::StandardButton btn = QMessageBox::warning(NULL, "Database will be erased", "Database will be erased. Proceed loading?", QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+    if (btn == QMessageBox::Ok)
+    {
+        QString name = QFileDialog::getOpenFileName(this, "Enter new resource file", "", "*.json");
+        if (name.length())
+        {
+            sad::resource::Tree* tree = new sad::resource::Tree();
+            tree->setRenderer(sad::Renderer::ref());
+            tree->setStoreLinks(true);
+            tree->factory()->registerResource<sad::freetype::Font>();
+            
+            sad::Vector<sad::resource::Error * > errors;
+            errors = tree->loadFromFile(name.toStdString());
+            if (errors.size())
+            {
+                delete tree;
+                this->m_editor->reportResourceLoadingErrors(errors, name.toStdString());               
+            }
+            else
+            {
+				sad::Renderer::ref()->lockRendering();
+                m_editor->cleanDatabase();
+                sad::Renderer::ref()->addDatabase("", new sad::db::Database());
+                this->viewDatabase();
+				sad::Renderer::ref()->unlockRendering();
+
+                sad::Renderer::ref()->removeTree("");
+                sad::Renderer::ref()->addTree("", tree);
+                if (ui.rtwLabelFont->filter().length() == 0)
+                {
+                    this->updateResourceViews();
+                }
+                else
+                {
+                    ui.rtwLabelFont->updateTree();
+                    ui.rtwSpriteSprite->updateTree();
+                    ui.rtwCustomObjectSchemas->updateTree();
+                }
+                this->toggleEditingButtons(true);
+            }
+        }
+    }
+}
+
+void MainPanel::reloadResources()
+{
+	if (m_editor->isInEditingState())
 	{
-		if (m_editor->currentBehaviour()->state() == "selected")
+		return;
+	}
+	ReloadFileList list(this);
+	if (list.exec() == QDialog::Accepted && list.selectedFile() != NULL)
+	{
+		m_editor->shared()->setActiveObject(NULL);
+		m_editor->shared()->setSelectedObject(NULL);
+		m_editor->machine()->enterState("idle");
+
+		sad::resource::PhysicalFile* file = list.selectedFile();
+		sad::Renderer::ref()->lockRendering();
+		sad::Vector<sad::resource::Error*> errors = file->reload();
+		sad::Renderer::ref()->unlockRendering();
+		if (errors.size() == 0)
 		{
-			m_editor->shdata()->setSelectedObject(NULL);
-			m_editor->currentBehaviour()->enterState("idle");
+            if (ui.rtwLabelFont->filter().length() == 0)
+            {
+                this->updateResourceViews();
+            }
+            else
+            {
+                ui.rtwLabelFont->updateTree();
+                ui.rtwSpriteSprite->updateTree();
+                ui.rtwCustomObjectSchemas->updateTree();
+            }
 		}
-		ScreenClearCommand * c =new ScreenClearCommand(m_editor->result());
-		m_editor->history()->add(c);
-		c->commit(m_editor);
-		m_editor->currentBehaviour()->enterState("idle");
-	}
+		else
+		{
+			m_editor->reportResourceLoadingErrors(errors, file->name());
+		}
 	}
 }
 
 
-void MainPanel::repeatHistoryChange()
+void MainPanel::tabTypeChanged(int index)
 {
-	m_editor->history()->commit(m_editor);
-}
-
-void MainPanel::rollbackHistoryChange()
-{
-	m_editor->history()->rollback(m_editor);
+	int oldtypeindex = (m_editor->machine()->isInState("ways")) ? 1 : 0;
+	if (oldtypeindex == index)
+	{
+		return;
+	}
+	if (m_editor->isInEditingState())
+	{
+		invoke_blocked(ui.tabTypes, &QTabWidget::setCurrentIndex, oldtypeindex);
+	}
+	if (index == 0)
+	{
+		m_editor->tryEnterObjectEditingState();
+	}
+	if (index == 1)
+	{
+		m_editor->tryEnterWayEditingState();
+	}
 }
 

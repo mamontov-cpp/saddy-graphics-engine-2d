@@ -27,11 +27,8 @@ enum BoundType
 
 class Bound: public p2d::CollisionShape
 {
- SAD_OBJECT;
- protected:
-	 BoundType m_type; //!< Type of bound
-	 double    m_p;    //!< Coordinate of bound
- public:
+SAD_OBJECT;
+public:
 	 /*! As a default bound of zero as down
 	  */
 	 inline Bound() { m_type = p2d::BT_DOWN; m_p = 0; }
@@ -110,9 +107,14 @@ class Bound: public p2d::CollisionShape
 		\return string
 	 */
 	virtual sad::String dump() const; 
+protected:
+	 BoundType m_type; //!< Type of bound
+	 double    m_p;    //!< Coordinate of bound
 };
 
 
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Bound)

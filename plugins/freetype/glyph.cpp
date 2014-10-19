@@ -5,28 +5,20 @@ sad::freetype::Glyph::Glyph()
 : Index(0), Width(0), 
 Height(0), BearingY(0), 
 Descender(0), AdvanceX(0),
-TexCoordinateWidth(0), TexCoordinateHeight(0)
+TexCoordinateWidth(0), TexCoordinateHeight(0), 
+YMax(0), YMin(0)
 {
 
 }
 
 sad::freetype::Glyph::Glyph(FT_Face face, unsigned char c)
 {
-	wchar_t widecharacter = sad::freetype::to_wide_char(c);
-	Index = FT_Get_Char_Index( face, widecharacter );
-	bool constructed = false;
-	
-	if (!FT_Load_Glyph( face, Index, FT_LOAD_DEFAULT))
+	sad::Maybe<FT_Glyph> result = sad::freetype::Glyph::glyph(face, c, Index);
+	if (result.exists())
 	{
-		FT_Glyph glyph = NULL;
-		if (!FT_Get_Glyph(face->glyph, &glyph))
-		{
-			makeGlyph(face, glyph);
-			constructed = true;
-		}		
+		makeGlyph(face, result.value());
 	}
-
-	if (!constructed)
+	else
 	{
 		makeEmptyGlyph();
 	}
@@ -53,6 +45,25 @@ void sad::freetype::Glyph::render(float x, float y)
 	glEnd();
 }
 
+
+sad::Maybe<FT_Glyph> sad::freetype::Glyph::glyph(FT_Face face, unsigned char c, unsigned int & index)
+{
+	wchar_t widecharacter = sad::freetype::to_wide_char(c);
+	index = FT_Get_Char_Index( face, widecharacter );
+	
+	sad::Maybe<FT_Glyph> result;
+
+	if (!FT_Load_Glyph( face, index, FT_LOAD_DEFAULT))
+	{
+		FT_Glyph glyph = NULL;
+		if (!FT_Get_Glyph(face->glyph, &glyph))
+		{
+			result.setValue(glyph);
+		}		
+	}
+	return result;
+}
+
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 {
 	FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL, 0, 1 );
@@ -70,6 +81,8 @@ void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 	Descender = diff;
 	BearingY = Height + Descender;
 	AdvanceX = (float)(face->glyph->advance.x >> 6);
+	YMax = face->bbox.yMax;
+	YMin = face->bbox.yMin;
 }
 
 void sad::freetype::Glyph::makeEmptyGlyph()

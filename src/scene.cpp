@@ -5,6 +5,13 @@
 
 #include "os/glheaders.h"
 
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
 #include <time.h>
 
 sad::Scene::Scene()
@@ -19,6 +26,43 @@ sad::Scene::~Scene()
 		m_layers[i]->delRef();
 	delete m_camera;
 }
+
+
+static sad::db::schema::Schema* SadSceneSchema;
+
+sad::db::schema::Schema* sad::Scene::basicSchema()
+{
+	if (SadSceneSchema == NULL)
+	{
+		SadSceneSchema = new sad::db::schema::Schema();
+		SadSceneSchema->addParent(sad::db::Object::basicSchema());	
+		SadSceneSchema->add(
+			"layer", 
+			new sad::db::MethodPair<sad::Scene, unsigned int>(
+				&sad::Scene::sceneLayer,
+				&sad::Scene::setSceneLayer
+			)
+		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadSceneSchema);
+	}
+	return SadSceneSchema;
+}
+
+
+sad::db::schema::Schema* sad::Scene::schema() const
+{
+	return sad::Scene::basicSchema();
+}
+
+
+void sad::Scene::setRenderer(sad::Renderer * renderer)
+{
+	m_renderer = renderer;
+	for (unsigned long i = 0; i < this->m_layers.count(); i++)
+		m_layers[i]->rendererChanged();
+}
+
 
 sad::Camera & sad::Scene::camera()
 {
@@ -86,7 +130,7 @@ void sad::Scene::render()
 	);
 #endif
 	  sad::SceneNode * node = m_layers[i];
-	  if (node->active())
+	  if (node->active() && node->visible())
 	  {
 			node->render();
 	  }
@@ -103,10 +147,40 @@ void sad::Scene::render()
   performQueuedActions();
 }
 
+unsigned int sad::Scene::sceneLayer() const
+{
+	if (m_renderer)
+	{
+		return m_renderer->layer(const_cast<sad::Scene*>(this));
+	}
+	return m_cached_layer;
+}
+
+void sad::Scene::setSceneLayer(unsigned int layer)
+{
+	if (m_renderer)
+	{
+		m_renderer->setLayer(this, layer);
+	}
+	m_cached_layer = layer;
+}
+
+static sad::String SceneSerializableName = "sad::Scene";
+
+const sad::String& sad::Scene::serializableName() const
+{
+	return SceneSerializableName;	
+}
+
 void sad::Scene::addNow(sad::SceneNode * node)
 {
 	node->addRef();
+	bool mustchangerenderer = node->renderer() == NULL;
 	node->setScene(this);
+	if (mustchangerenderer)
+	{
+		node->rendererChanged();
+	}
 	m_layers << node;
 }
 

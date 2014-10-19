@@ -1,0 +1,9 @@
+[
+{
+ "name" : "myobject",
+ "resource": "1",
+ "schema" : {
+	"prop2" : {"type" : "int", "value" : 0 }
+ }
+}
+]

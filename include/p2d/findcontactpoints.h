@@ -167,8 +167,7 @@ public p2d::CollisionMultiMethodWithArg<p2d::SetOfPointsPair, p2d::Vector>
 		 p2d::Circle * s2,
 		 const p2d::Vector & v2	
 	 );
-
-    protected:
+protected:
 		/*! Reverses a set of points if neeeded
 			\param[in, out] pairs a set of pairs to be reversed
 		 */

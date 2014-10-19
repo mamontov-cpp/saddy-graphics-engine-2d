@@ -197,6 +197,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\picojson.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\renderer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\sadhash.cpp"
 				>
 			</File>

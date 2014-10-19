@@ -1,4 +1,5 @@
 #include "object.h"
+#include "db/dberror.h"
 
 sad::Object::~Object()
 {
@@ -16,11 +17,15 @@ sad::ClassMetaData * sad::Object::metaData() const
 	return sad::Object::globalMetaData();
 }
 
-const sad::String & sad::Object::name() const
+const sad::String & sad::Object::className() const
 {
 	return this->metaData()->name();
 }
 
+const sad::String& sad::Object::serializableName() const
+{
+	return this->metaData()->name();
+}
 
 sad::InvalidCastException::InvalidCastException(const sad::String &fromname, const sad::String &toname)
 {

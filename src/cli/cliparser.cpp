@@ -63,6 +63,16 @@ sad::Maybe<sad::Vector<sad::String> > sad::cli::Parser::vector(const sad::String
 	return result;
 }
 
+bool sad::cli::Parser::specified(const sad::String & s) const
+{
+	bool result  = false;
+	if (m_options.contains(s))
+	{
+		result = m_options[s].p2().Specified;
+	}
+	return result;
+}
+
 
 void sad::cli::Parser::addFlag(const sad::String & s)
 {
@@ -96,6 +106,7 @@ void sad::cli::Parser::setFlag(const sad::String & name, bool value)
 		if (option.p1() == sad::cli::OT_FLAG)
 		{	
 			option._2().Flag = value;
+			option._2().Specified = true;
 		}
 	}
 }
@@ -108,6 +119,7 @@ void sad::cli::Parser::setSingleValuedOption(const sad::String & name, const sad
 		if (option.p1() == sad::cli::OT_SINGLE)
 		{	
 			option._2().Single = value;
+			option._2().Specified = true;
 		}
 	}
 }
@@ -123,6 +135,7 @@ void sad::cli::Parser::setMultipleValuedOption(
 		if (option.p1() == sad::cli::OT_VECTOR)
 		{	
 			option._2().Vector = v;
+			option._2().Specified = true;
 		}
 	}
 }

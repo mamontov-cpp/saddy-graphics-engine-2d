@@ -8,7 +8,6 @@
 #include "shooter.h"
 
 #include <orthographiccamera.h>
-#include <texturemanager.h>
 #include <keymouseconditions.h>
 #include <p2d/elasticforce.h>
 #include <p2d/app/object.h>
@@ -47,9 +46,8 @@ void World::run()
 	// Init new empty scene with orthographic projection
 	sad::Scene * sc = new sad::Scene();
 
-	sad::Texture * tex = sad::Renderer::ref()->textures()->get("background");
 	sad::Sprite2D * background = new sad::Sprite2D(
-		tex, 
+		"background", 
 		sad::Rect2D(0, 0, 512, 512),
 		sad::Rect2D(0, 0, 800, 600)
 	);

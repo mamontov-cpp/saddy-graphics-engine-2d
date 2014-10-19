@@ -9,6 +9,7 @@
 #include "sadrect.h"
 #include "sadstring.h"
 #include "sadsize.h"
+#include "resource/link.h"
 
 namespace sad
 {
@@ -44,21 +45,34 @@ public:
 		\param[in] texturecoordinates a texture coordinates from top left to bottom right
 									  in pixels
 		\param[in] area     a rectangle, where sprite should be rendered
+		\param[in] tree     a name of tree, from which texture must be taken
 		\param[in] fast     whether we should not init angle rotations for area and just treat it as base
 	 */
 	Sprite3D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect<sad::Point3D>& area,
+		const sad::String& tree = "",
 		bool fast = true
 	);
 	/*! You can inherit the sprite, using various implementation
 		defined behaviour
 	 */
-	virtual ~Sprite3D();	      
+	virtual ~Sprite3D();
+	/*! A basic schema for object
+		\return a schema 
+	 */
+	static sad::db::schema::Schema* basicSchema();
+	/*! Returns schema for an object
+		\return schema
+	 */
+	virtual sad::db::schema::Schema* schema() const;
 	/*! Renders a sprite as a simple quad 
 	 */
 	virtual void render();
+	/*! Called, when renderer for scene is changed
+	 */
+	virtual void rendererChanged();
 	/*! Sets a texture coordinates for sprites
 		\param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
 									  constructor
@@ -176,16 +190,25 @@ public:
 	/*! Sets a name of texture, which should be taken from renderer's database
 		\param[in] name name of texture
 	 */
-	void setTexureName(const sad::String & name);
+	void setTextureName(const sad::String & name);
 	/*! Returns a texture name
 		\return texture name
 	 */
 	const sad::String& textureName();
+	/*! Sets treename for a sprite
+		\param[in] treename a name for a tree
+	 */
+	void setTreeName(const sad::String & treename);
 	/*! When set scene and texture name is defined 3D sprite tries to reload
 		itself from scene's renderer
 		\param[in] scene a scene, which will render a node
 	 */
 	virtual void setScene(sad::Scene * scene);
+	/*! Sets a tree name for object with specified renderer
+		\param[in] r renderer, which tree should be fetched from
+		\param[in] tree_name a name for an item for object
+	 */
+	virtual void setTreeName(sad::Renderer* r, const sad::String & tree_name);
 protected:
 	/*! Fast version of 3D sprite initialization from rectangle. Just sets it as
 		current renderable rectangle, all angles to zero
@@ -205,9 +228,6 @@ protected:
 	/*! Normalizes texture coordinates, filling a normalized a texture coordinates
 	 */
 	void normalizeTextureCoordinates();
-	/*! Defines a name for a texture
-	 */ 
-	sad::String m_texture_name;
 	/*! A rotation angle in  XY plane
 	 */
 	double     m_alpha;
@@ -237,9 +257,9 @@ protected:
 		rendering is performed.
 	 */
 	sad::Rect< sad::Point3D >  m_renderable_area;
-	/*! A texture to be used in sprite
+	/*! A linked texture for a sprite
 	 */
-	sad::Texture * m_texture;
+	sad::resource::Link<sad::Texture> m_texture;
 	/*! A used color of sprite
 	 */
 	sad::AColor  m_color;
@@ -249,3 +269,5 @@ protected:
 };
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::Sprite3D)

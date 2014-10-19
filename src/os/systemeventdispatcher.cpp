@@ -406,9 +406,12 @@ void sad::os::SystemEventDispatcher::processKeyPress(
 	ev.ReadableKey = m_decoder_for_keypress_events->convert(&e, m_renderer->window());	
 	ev.Key = key;
 #ifdef WIN32
-	ev.CtrlHeld  = GetAsyncKeyState(VK_CONTROL) < 0;
+	short ctrlstate = GetAsyncKeyState(VK_CONTROL);
+	short lctrlstate =  GetAsyncKeyState(VK_LCONTROL);
+	short rctrlstate =  GetAsyncKeyState(VK_RCONTROL);
+	ev.CtrlHeld  = ctrlstate < 0 || lctrlstate < 0 || rctrlstate < 0;
 	ev.AltHeld   = GetAsyncKeyState(VK_MENU) < 0;
-	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0;	
+	ev.ShiftHeld = GetAsyncKeyState(VK_SHIFT) < 0 || GetAsyncKeyState(VK_LSHIFT) < 0 || GetAsyncKeyState(VK_RSHIFT) < 0;	
 #endif
 
 #ifdef X11

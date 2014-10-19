@@ -1,0 +1,5 @@
+[
+	{ "type": "sad::freetype::Font",             "filename": "EMPORIUM.TTF", "name": "e/emporium1.ttf"},
+	{ "type": "sad::freetype::Font",             "filename": "EMPORIUM.TTF", "name": "e/emporium2.ttf"},
+	{ "type": "sad::TextureMappedFont",          "filename": "font",         "name": "e/tmfont"}
+]

@@ -16,6 +16,10 @@ bool sad::ClassMetaData::canBeCastedTo(const sad::String & name)
 	{
 		return true;
 	}
+	if (m_casts.contains(name))
+	{
+		return true;
+	}
 	bool result = false;
 	for(size_t i = 0; i < m_ancestors.size(); i++) 
 	{
@@ -24,10 +28,33 @@ bool sad::ClassMetaData::canBeCastedTo(const sad::String & name)
 	return result;
 }
 
+
+sad::Object * sad::ClassMetaData::castTo(sad::Object * o, const sad::String & name)
+{
+	if (m_name == name)
+	{
+		return o;
+	}
+	if (m_casts.contains(name))
+	{
+		return m_casts[name]->cast(o);
+	}
+	if (this->canBeCastedTo(name))
+	{
+		return o;
+	}
+	return NULL;
+}
+
 void sad::ClassMetaData::addAncestor(const sad::String & name)
 {
 	bool created = false;
-	m_ancestors.add(sad::ClassMetaDataContainer::ref()->get(name, created));
+	sad::ClassMetaData * parent = sad::ClassMetaDataContainer::ref()->get(name, created);
+	m_ancestors.add(parent);
+	for(CastFunctions::iterator it = parent->m_casts.begin(); it != parent->m_casts.end(); it++)
+	{
+		this->m_casts.insert(it.key(), it.value()->clone());
+	}
 }
 
 

@@ -1,18 +1,82 @@
-#include "sprite2d.h"
+#include <sprite2d.h>
 #include <geometry2d.h>
 #include <renderer.h>
-#include <texturemanager.h>
 
 #include <os/glheaders.h>
 
-#include <math.h>
+#include <util/fs.h>
 
-DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode)
+#include <resource/physicalfile.h>
+
+#include <3rdparty/picojson/valuetotype.h>
+
+#include <math.h>
+#include <fstream>
+
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+
+
+DECLARE_SOBJ_INHERITANCE(sad::Sprite2D::Options, sad::resource::Resource);
+
+bool sad::Sprite2D::Options::load(
+	const sad::resource::PhysicalFile & file,
+	sad::Renderer * r,
+	const picojson::value& options
+)
+{
+	std::ifstream stream(file.name().c_str());
+	if (stream.bad())
+	{
+		sad::String newpath = util::concatPaths(r->executablePath(), file.name());
+		stream.open(newpath.c_str());
+	}	
+	bool result = false;
+	if (stream.good())
+	{
+		picojson::value v;
+		stream >> v;		
+		if (picojson::get_last_error().size() == 0)
+		{
+			result  = this->load(v);
+		}
+	}
+	return result;
+}
+
+bool sad::Sprite2D::Options::load(const picojson::value& v)
+{
+	sad::Maybe<sad::String> texture = picojson::to_type<sad::String>(
+				picojson::get_property(v, "texture")
+	);
+	sad::Maybe<sad::Rect2D> texrect = picojson::to_type<sad::Rect2D>(
+				picojson::get_property(v, "coordinates")
+	);
+	sad::Maybe<sad::Rect2D> rect = picojson::to_type<sad::Rect2D>(
+				picojson::get_property(v, "rect")
+	);
+	bool result = texture.exists() && texrect.exists() && rect.exists();
+	if (result)
+	{
+		Texture = texture.value();
+		TextureRectangle = texrect.value();
+		Rectangle = rect.value();
+	}
+	return result;
+}
+
+DECLARE_SOBJ_INHERITANCE(sad::Sprite2D,sad::SceneNode);
 
 sad::Sprite2D::Sprite2D()
 : 
+m_explicit_set(false),
+m_changesizeifoptionssizechanged(true),
+m_loading(false),
 m_angle(0),
-m_size_changed(false),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
@@ -20,10 +84,10 @@ m_texture_coordinates(0,0,0,0),
 m_middle(0,0),
 m_size(0,0),
 m_renderable_area(sad::Point2D(0, 0), sad::Point2D(0, 0)),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
-
+	m_options.add(this, &sad::Sprite2D::onOptionsChange);
+	m_texture.add(this, &sad::Sprite2D::onTextureChange);
 }
 
 sad::Sprite2D::Sprite2D(		
@@ -33,14 +97,16 @@ sad::Sprite2D::Sprite2D(
 	bool fast
 )
 : 
-m_size_changed(false),
+m_explicit_set(false),
+m_changesizeifoptionssizechanged(true),
+m_loading(false),
 m_flipx(false),
 m_flipy(false),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(texture),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture.attach(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -51,25 +117,29 @@ m_color(sad::AColor(255,255,255,0))
 		initFromRectangle(area);
 		buildRenderableArea();
 	}
+	m_options.add(this, &sad::Sprite2D::onOptionsChange);
+	m_texture.add(this, &sad::Sprite2D::onTextureChange);
 }
 
 sad::Sprite2D::Sprite2D(
 		const sad::String& texture,
 		const sad::Rect2D& texturecoordinates,
 		const sad::Rect2D& area,
-		bool fast
+		bool fast,
+		const sad::String & treename
 	)
 : 
-m_size_changed(false),
-m_texture_name(texture),
+m_explicit_set(false),
+m_changesizeifoptionssizechanged(true),
 m_flipx(false),
 m_flipy(false),
 m_angle(0),
 m_normalized_texture_coordinates(0, 0, 0, 0),
 m_texture_coordinates(texturecoordinates),
-m_texture(NULL),
 m_color(sad::AColor(255,255,255,0))
 {
+	m_texture.setTree(NULL, treename);
+	m_texture.setPath(texture);
 	normalizeTextureCoordinates();
 	if (fast)
 	{
@@ -80,6 +150,8 @@ m_color(sad::AColor(255,255,255,0))
 		initFromRectangle(area);
 		buildRenderableArea();
 	}
+	m_options.add(this, &sad::Sprite2D::onOptionsChange);
+	m_texture.add(this, &sad::Sprite2D::onTextureChange);
 }
 
 sad::Sprite2D::~Sprite2D()
@@ -87,16 +159,93 @@ sad::Sprite2D::~Sprite2D()
 
 }
 
+void sad::Sprite2D::regions(sad::Vector<sad::Rect2D> & r)
+{
+	r << this->renderableArea();
+}
+
+static sad::db::schema::Schema* Sprite2DBasicSchema = NULL;
+
+
+sad::db::schema::Schema* sad::Sprite2D::basicSchema()
+{
+	if (Sprite2DBasicSchema == NULL)
+	{
+		Sprite2DBasicSchema = new sad::db::schema::Schema();
+		Sprite2DBasicSchema->addParent(sad::SceneNode::basicSchema());
+
+		void (sad::Sprite2D::*p1)(const sad::String&) = &sad::Sprite2D::set;
+		Sprite2DBasicSchema->add(
+			"options", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::String>(
+				&sad::Sprite2D::optionsName,
+				p1
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"area", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				&sad::Sprite2D::area,
+				&sad::Sprite2D::setArea
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"texturecoordinates", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				&sad::Sprite2D::textureCoordinates,
+				&sad::Sprite2D::setTextureCoordinates
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"angle", 
+			new sad::db::MethodPair<sad::Sprite2D, double>(
+				&sad::Sprite2D::angle,
+				&sad::Sprite2D::setAngle
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"color", 
+			new sad::db::MethodPair<sad::Sprite2D, sad::AColor>(
+				&sad::Sprite2D::color,
+				&sad::Sprite2D::setColor
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"flipx", 
+			new sad::db::MethodPair<sad::Sprite2D, bool>(
+				&sad::Sprite2D::flipX,
+				&sad::Sprite2D::setFlipX
+			)
+		);
+		Sprite2DBasicSchema->add(
+			"flipy", 
+			new sad::db::MethodPair<sad::Sprite2D, bool>(
+				&sad::Sprite2D::flipY,
+				&sad::Sprite2D::setFlipY
+			)
+		);
+
+		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite2DBasicSchema);
+	}
+	return Sprite2DBasicSchema;
+}
+
+sad::db::schema::Schema* sad::Sprite2D::schema() const
+{
+	return sad::Sprite2D::basicSchema();
+}
+
 void sad::Sprite2D::render()
 {
-  if (!m_texture)
+	sad::Texture * tex = m_texture.get();
+	if (!tex)
 	  return;
-   glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
-   glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
-   m_texture->bind();	
-   glBegin(GL_QUADS);
-   for (int i = 0;i < 4; i++)
-   {
+	glGetIntegerv(GL_CURRENT_COLOR, m_current_color_buffer);   
+	glColor4ub(m_color.r(),m_color.g(),m_color.b(),255-m_color.a());	   
+	tex->bind();	
+	glBegin(GL_QUADS);
+	for (int i = 0;i < 4; i++)
+	{
 		glTexCoord2f(
 			(GLfloat)(m_normalized_texture_coordinates[i].x()),
 			(GLfloat)(m_normalized_texture_coordinates[i].y())
@@ -105,9 +254,22 @@ void sad::Sprite2D::render()
 			(GLfloat)(m_renderable_area[i].x()),
 			(GLfloat)(m_renderable_area[i].y())
 		);
-   }  
-   glEnd();
-   glColor4iv(m_current_color_buffer);
+	}  
+	glEnd();
+	glColor4iv(m_current_color_buffer);
+}
+
+void sad::Sprite2D::rendererChanged()
+{
+	if (m_options.dependsOnRenderer())
+	{
+		m_options.setRenderer(this->renderer());
+	}
+	m_options.get();
+	if (m_texture.dependsOnRenderer())
+	{
+		m_texture.setRenderer(this->renderer());
+	}
 }
 
 void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
@@ -118,11 +280,12 @@ void sad::Sprite2D::setTextureCoordinates(const sad::Rect2D & texturecoordinates
 
 void sad::Sprite2D::setTextureCoordinate(int index, const sad::Point2D & point)
 {
+	sad::Texture * tex = m_texture.get();
 	m_texture_coordinates[index] = point;
 	// Try  to immediately convert point to normalized if needed
-	if (m_texture)
+	if (tex)
 	{
-		sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+		sad::Point2D relativepoint(point.x() / tex->Width, point.y() / tex->Height );
 		int newindex = 3 - index;
 
 		// Take care of horizontal flip
@@ -180,6 +343,18 @@ sad::Rect2D sad::Sprite2D::area() const
 	return result;
 }
 
+void sad::Sprite2D::setArea(const sad::Rect2D & a)
+{
+	m_middle = a[0];
+	m_middle += a[2];
+	m_middle /= 2.0;
+
+	m_size.Width = a[0].distance(a[1]);
+	m_size.Height = a[0].distance(a[3]);
+	
+	buildRenderableArea();
+}
+
 const sad::Rect2D & sad::Sprite2D::renderableArea() const
 {
 	return m_renderable_area;
@@ -210,10 +385,6 @@ void sad::Sprite2D::setSize(const sad::Size2D & size, bool reg)
 {
 	m_size = size;
 	buildRenderableArea();
-	if (reg)
-	{
-		m_size_changed = true;
-	}
 }
 
 void sad::Sprite2D::moveBy(const sad::Point2D & dist)
@@ -240,7 +411,7 @@ void sad::Sprite2D::rotate(double angle)
 
 void sad::Sprite2D::setAngle(double angle)
 {
-	m_angle += angle;
+	m_angle = angle;
 	buildRenderableArea();
 }
 
@@ -291,63 +462,74 @@ bool sad::Sprite2D::flipY() const
 
 void sad::Sprite2D::setTexture(sad::Texture * texture)
 {
-	m_texture = texture;
-	normalizeTextureCoordinates();
+	m_texture.attach(texture);
 }
 
 sad::Texture * sad::Sprite2D::texture() const
 {
-	return m_texture;
+	return m_texture.get();
 }
 
 void sad::Sprite2D::setTexureName(const sad::String & name)
 {
-	m_texture_name = name;
+	m_texture.setPath(name);
 	reloadTexture();
 }
 
 const sad::String& sad::Sprite2D::textureName()
 {
-	return m_texture_name;
+	return m_texture.path();
 }
 
-void sad::Sprite2D::setScene(sad::Scene * scene)
-{
-	this->sad::SceneNode::setScene(scene);
-	if (m_texture_name.length() != 0)
-	{
-		reloadTexture();
-	}
-}
+
 
 void sad::Sprite2D::set(const sad::Sprite2D::Options & o)
 {
-
-	sad::Texture * tex = NULL;
-	sad::TextureManager * manager = NULL;
-	if (this->renderer())
+	if (!m_loading)
 	{
-		manager = this->renderer()->textures();
-	} 
-	else
-	{
-		manager = sad::TextureManager::ref();
+		m_explicit_set = true;
 	}
-		
-	if (o.TextureContainer.exists())
+	// Make texture render dependent
+	if (this->renderer() != NULL)
 	{
-		sad::TextureContainer * container = manager->getContainer(o.TextureContainer.value());
-		tex = container->get(o.Texture);
+		m_texture.setRenderer(this->renderer());
 	}
-	else
-	{
-		tex  = sad::TextureManager::ref()->get(o.Texture);
-	}
-	this->setTexture(tex);
-	this->setTextureCoordinates(o.TextureRectangle);
-	this->setRenderableArea(o.Rectangle);
+	m_options.attach(const_cast<sad::Sprite2D::Options *>(&o));
 }
 
+void sad::Sprite2D::set(const sad::String & optionsname)
+{
+	m_explicit_set = true;
+	m_options.setPath(optionsname);
+	// Make texture render dependent
+	if (this->renderer() != NULL)
+	{
+		m_options.setRenderer(this->renderer());
+		m_texture.setRenderer(this->renderer());
+	}
+
+	sad::Sprite2D::Options* opts = m_options.get();
+	if (opts)
+	{
+		this->onOptionsChange(opts);
+	}
+}
+
+const sad::String& sad::Sprite2D::optionsName() const
+{
+	return m_options.path();
+}
+
+void sad::Sprite2D::setTreeName(const sad::String & treename)
+{
+	m_options.setTree(m_options.renderer(), treename);
+	m_texture.setTree(m_texture.renderer(), treename);
+}
+
+const sad::String & sad::Sprite2D::treeName() const
+{
+	return m_texture.treeName();
+}
 
 void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Point2D & p1, const sad::Point2D & p2)
 {
@@ -368,9 +550,47 @@ void sad::Sprite2D::makeSpanBetweenPoints(const sad::Rect2D & r, const sad::Poin
 	this->rotate(angle);
 }
 
-bool sad::Sprite2D::sizeChanged() const
+void sad::Sprite2D::setScene(sad::Scene * scene)
 {
-	return m_size_changed;
+	this->sad::SceneNode::setScene(scene);
+	if (scene)
+	{
+		if (m_texture.dependsOnRenderer())
+		{
+			m_texture.setRenderer(scene->renderer());
+		}
+		if (m_texture.dependsOnRenderer())
+		{
+			m_options.setRenderer(scene->renderer());
+		}
+	}
+}
+
+void sad::Sprite2D::setChangeSizeWhenOptionsAreChanged(bool flag)
+{
+	m_changesizeifoptionssizechanged = flag;
+}
+
+bool sad::Sprite2D::changeSizeWhenOptionsAreChanged() const
+{
+	return m_changesizeifoptionssizechanged;
+}
+
+void sad::Sprite2D::toggleLoadingMode()
+{
+	m_loading = true;
+}
+
+bool sad::Sprite2D::load(const picojson::value& v)
+{
+	toggleLoadingMode();
+	return this->sad::SceneNode::load(v);
+}
+
+void sad::Sprite2D::setTreeName(sad::Renderer* r, const sad::String & tree_name)
+{
+	m_options.setTree(r, tree_name);
+	m_texture.setTree(r, tree_name);
 }
 
 void sad::Sprite2D::initFromRectangleFast(const sad::Rect2D& rect)
@@ -408,27 +628,30 @@ void sad::Sprite2D::buildRenderableArea()
 	sad::rotate(m_renderable_area, (float)m_angle);
 }
 
+void sad::Sprite2D::onTextureChange(sad::Texture * tex)
+{
+	normalizeTextureCoordinates(tex);
+}
+
 void sad::Sprite2D::reloadTexture()
 {
-	if (m_texture_name.length() && scene())
-	{
-		if (scene()->renderer())
-		{
-			sad::Texture * tex = scene()->renderer()->textures()->get(m_texture_name);
-			m_texture = tex;
-			normalizeTextureCoordinates();
-		}
-	}	
+	normalizeTextureCoordinates();	
 }
 
 void sad::Sprite2D::normalizeTextureCoordinates()
 {
-	if (m_texture)
+	sad::Texture * tex = m_texture.get();
+	normalizeTextureCoordinates(tex);
+}
+
+void sad::Sprite2D::normalizeTextureCoordinates(sad::Texture * tex)
+{
+	if (tex)
 	{
 		for(int i = 0; i < 4; i++)
 		{
 			const sad::Point2D & point = m_texture_coordinates[i];
-			sad::Point2D relativepoint(point.x() / m_texture->Width, point.y() / m_texture->Height );
+			sad::Point2D relativepoint(point.x() / tex->Width, point.y() / tex->Height );
 			m_normalized_texture_coordinates[3 - i] = relativepoint;
 		}
 		if (m_flipx)
@@ -440,6 +663,37 @@ void sad::Sprite2D::normalizeTextureCoordinates()
 		{
 			std::swap(m_normalized_texture_coordinates[0], m_normalized_texture_coordinates[3]);
 			std::swap(m_normalized_texture_coordinates[1], m_normalized_texture_coordinates[2]);
+		}
+	}
+}
+
+void sad::Sprite2D::onOptionsChange(sad::Sprite2D::Options * opts)
+{
+	sad::Renderer* r = this->renderer();
+	if (r == NULL)
+	{
+		r = m_options.renderer();
+	}
+	m_texture.setTree(r, m_options.treeName());
+	m_texture.setPath(opts->Texture);
+	if (m_loading == false)
+	{
+		m_texture_coordinates = opts->TextureRectangle;	
+	}
+	reloadTexture();
+	if (m_loading)
+	{
+		this->buildRenderableArea();
+		m_explicit_set = false;
+		m_loading = false;
+	}
+	else 
+	{
+		if (m_changesizeifoptionssizechanged || m_explicit_set)
+		{
+			m_size = sad::Size2D(opts->Rectangle.width(), opts->Rectangle.height());
+			this->buildRenderableArea();
+			m_explicit_set = false;
 		}
 	}
 }
