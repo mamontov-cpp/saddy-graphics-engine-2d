@@ -150,7 +150,17 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/ways/wayswaypointnew.h \
     ifaceed/history/ways/wayswaypointchange.h \
     ifaceed/history/ways/wayswaypointremove.h \
-    ifaceed/history/ways/wayswaypointswap.h
+    ifaceed/history/ways/wayswaypointswap.h \
+    ifaceed/gui/dialogueactions.h \
+    ifaceed/history/dialogues/dialoguesremove.h \
+    ifaceed/history/dialogues/dialogueschangename.h \
+    ifaceed/history/dialogues/dialoguesnew.h \
+    ifaceed/history/dialogues/dialoguesphrasechangeduration.h \
+    ifaceed/history/dialogues/dialoguesphrasechangelineeditbasedproperty.h \
+    ifaceed/history/dialogues/dialoguesphrasechangephrase.h \
+    ifaceed/history/dialogues/dialoguesphrasenew.h \
+    ifaceed/history/dialogues/dialoguesphraseremove.h \
+    ifaceed/history/dialogues/dialoguesphraseswap.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -258,7 +268,17 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/ways/wayswaypointnew.cpp \
     ifaceed/history/ways/wayswaypointchange.cpp \
     ifaceed/history/ways/wayswaypointremove.cpp \
-    ifaceed/history/ways/wayswaypointswap.cpp
+    ifaceed/history/ways/wayswaypointswap.cpp \
+    ifaceed/gui/dialogueactions.cpp \
+    ifaceed/history/dialogues/dialogueschangename.cpp \
+    ifaceed/history/dialogues/dialoguesnew.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangeduration.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangelineeditbasedproperty.cpp \
+    ifaceed/history/dialogues/dialoguesphrasechangephrase.cpp \
+    ifaceed/history/dialogues/dialoguesphrasenew.cpp \
+    ifaceed/history/dialogues/dialoguesphraseremove.cpp \
+    ifaceed/history/dialogues/dialoguesphraseswap.cpp \
+    ifaceed/history/dialogues/dialoguesremove.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
