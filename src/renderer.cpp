@@ -664,6 +664,50 @@ sad::imageformats::Loader* sad::Renderer::textureLoader(const sad::String& forma
 	return l;
 }
 
+#ifdef X11
+
+bool SDL_MessageBoxError(
+  const char * title,
+  const char * message
+);
+bool SDL_MessageBoxWarning(
+  const char * title,
+  const char * message
+);
+bool SDL_MessageBoxInformation(
+  const char * title,
+  const char * message
+);
+
+#endif
+
+bool sad::Renderer::error(const sad::String& title, const sad::String& message)
+{
+	bool result = false;
+#ifdef X11
+	return SDL_MessageBoxError(title.c_str(), message.c_str())
+#endif
+	return result;
+}
+
+bool sad::Renderer::warning(const sad::String& title, const sad::String& message)
+{
+	bool result = false;
+#ifdef X11
+	return SDL_MessageBoxWarning(title.c_str(), message.c_str())
+#endif
+	return result;
+}
+
+bool sad::Renderer::information(const sad::String& title, const sad::String& message)
+{
+	bool result = false;
+#ifdef X11
+	return SDL_MessageBoxInformation(title.c_str(), message.c_str())
+#endif
+	return result;
+}
+
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);

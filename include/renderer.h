@@ -331,6 +331,24 @@ public:
 		\return NULL, if loader not found
 	 */
 	sad::imageformats::Loader* textureLoader(const sad::String& format) const;
+	/*! Shows message box for error message
+		\param[in] title a title of window
+		\param[in] message a text of message window
+		\return whether message box is created
+	 */
+	bool error(const sad::String& title, const sad::String& message);
+	/*! Shows message box for warning message
+		\param[in] title a title of window
+		\param[in] message a text of message window
+		\return whether message box is created
+	 */
+	bool warning(const sad::String& title, const sad::String& message);
+	/*! Shows message box for information message
+		\param[in] title a title of window
+		\param[in] message a text of message window
+		\return whether message box is created
+	 */
+	bool information(const sad::String& title, const sad::String& message);
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
