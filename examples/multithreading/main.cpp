@@ -39,19 +39,22 @@ class EventHandler: public sad::input::AbstractHandler
 {
  private:
 	 sad::Renderer * m_renderer; //!< A current renderer, which working controls belong to
-	 sad::Sprite2D * m_ad;     //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
+	 sad::Sprite2D * m_ad;       //!< A sprite, which should be moved when user clicks. Could be NULL if m_quit is true
 	 bool m_quit;                //!< Whether we should quit renderer on event call
+	 bool m_messagebox;          //!< Whether we should show message box on event call
  public:
 	 /*! A new handler just consists from these three fields
 		 \param[in] r renderer
 		 \param[in] a sprite
-		 \param[in] quit quit
+		 \param[in] quit whether we should quit on call
+		 \param[in] messagebox  whether we should show message box on call
 	  */
-	 EventHandler(sad::Renderer * r, sad::Sprite2D * a, bool quit)
+	 EventHandler(sad::Renderer * r, sad::Sprite2D * a, bool quit, bool messagebox)
 	 {
 		 m_renderer = r;
 		 m_ad = a;
 		 m_quit = quit;
+		 m_messagebox = messagebox;
 	 }
 	 /*! This method is called, when  event, specified when passing handler to 
 	     sad::Input is occured in window. Currently it implements behaviour specified
@@ -65,9 +68,16 @@ class EventHandler: public sad::input::AbstractHandler
 		}
 		else 
 		{
-			const sad::input::MouseMoveEvent& ev = static_cast<const sad::input::MouseMoveEvent&>(e);
-			// Move sprite center to a position
-			m_ad->moveTo(ev.pos2D());
+			if (m_messagebox)
+			{
+				m_renderer->information("Right mouse button triggered!", "You\'ve pressed right mouse button");							
+			}
+			else
+			{
+				const sad::input::MouseMoveEvent& ev = static_cast<const sad::input::MouseMoveEvent&>(e);
+				// Move sprite center to a position
+				m_ad->moveTo(ev.pos2D());
+			}
 		}
 	 }
 	 /*! This is convenient function for  implementation of sad::Input, which avoids calling
@@ -150,8 +160,9 @@ int thread(void * p)
 	/* Here we bind two different handlers with keydown
 	 */
 	sad::input::Controls * c = r.controls();
-	c->add(*sad::input::ET_KeyPress & sad::Esc, new EventHandler(&r, NULL, true));
-	c->add(*sad::input::ET_MousePress         , new EventHandler(&r, a, false));
+	c->add(*sad::input::ET_KeyPress & sad::Esc, new EventHandler(&r, NULL, true, false));
+	c->add(*sad::input::ET_MousePress & sad::MouseLeft, new EventHandler(&r, a, false, false));
+	c->add(*sad::input::ET_MousePress & sad::MouseRight, new EventHandler(&r, a, false, true));
 	
 	/* Start main rendering loop. Execution will not progress further, until user closes window
 	   or press Escape
