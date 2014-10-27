@@ -70,7 +70,15 @@ class EventHandler: public sad::input::AbstractHandler
 		{
 			if (m_messagebox)
 			{
-				m_renderer->information("Right mouse button triggered!", "You\'ve pressed right mouse button");							
+				bool result = m_renderer->information("Right mouse button triggered!", "You\'ve pressed right mouse button");
+				if (result)
+				{
+					printf("Message box successfully triggered\n");
+				}
+				else
+				{
+					printf("Unable to show message box\n");
+				}
 			}
 			else
 			{
@@ -187,6 +195,7 @@ int main(int argc, char** argv)
 int main(int argc, char** argv)
 #endif
 {
+	sad::Renderer::ref()->information("Multithreading demo", "This is demo for multithreading");
 	// Here we create two waitable threads
 	sad::Thread a(thread,const_cast<void *>((void*)"thread1.txt"));
 	sad::Thread b(thread,const_cast<void *>((void*)"thread2.txt"));

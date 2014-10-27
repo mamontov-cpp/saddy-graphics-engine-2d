@@ -38,6 +38,7 @@
 #include <string.h>
 
 #include <algorithm>
+#include <cstdio>
 
 
 typedef unsigned int Uint32;
@@ -245,6 +246,7 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
     const SDL_MessageBoxColor *colorhints;
 
     if ( numbuttons > MAX_BUTTONS ) {
+        printf("Too many buttons\n");
         return -1;
     }
 
@@ -257,12 +259,17 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
 
     data->display = XOpenDisplay( NULL );
     if ( !data->display ) {
+        printf("No display\n");
         return -1;
     }
 
     data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFontLatin1 );
 	if ( data->font_struct == NULL ) {
-		return -1;
+		data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFont);
+		if (data->font_struct == NULL) {
+			printf("No such font\n");
+			return -1;
+		}
 	}
 
     if ( messageboxdata->colorScheme ) {
@@ -722,8 +729,14 @@ X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
             ret = X11_MessageBoxCreateWindow( &data );
             if ( ret != -1 ) {
                 ret = X11_MessageBoxLoop( &data );
-            }
-        }
+            } else {
+		//printf("Failed to create window\n");
+	    }
+        } else {
+	    //printf("Failed to init positions\n");
+	}
+    } else {
+      //printf("Failed to init\n");
     }
 
     X11_MessageBoxShutdown( &data );
