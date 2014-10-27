@@ -25,6 +25,10 @@ public:
 	/*! Invokes a callback
 	 */
 	virtual void invoke() = 0;
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const = 0;
 };
 
 /*! A callback, which represents a function call
@@ -52,6 +56,13 @@ public:
 	virtual void invoke()
 	{
 		m_f();
+	}
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const
+	{
+		return new sad::animations::FunctionCall<_Fun>(m_f);
 	}
 protected:
 	/*! An inner function
@@ -85,6 +96,13 @@ public:
 	virtual void invoke()
 	{
 		(m_o->*m_f)();
+	}
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const
+	{
+		return new sad::animations::MethodCall0<_Object, _Method>(m_o, m_f);
 	}
 protected:
 	/*! An object, which method is called upon
@@ -122,6 +140,13 @@ public:
 	virtual void invoke()
 	{
 		(m_o->*m_f)(m_a);
+	}
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const
+	{
+		return new sad::animations::MethodCall1<_Object, _Method, _Arg>(m_o, m_f, m_a);
 	}
 protected:
 	/*! An object, which method is called upon
@@ -164,6 +189,13 @@ public:
 	virtual void invoke()
 	{
 		(m_o->*m_f)(m_a1, m_a2);
+	}
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const
+	{
+		return new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(m_o, m_f, m_a1, m_a2);
 	}
 protected:
 	/*! An object, which method is called upon
@@ -209,6 +241,13 @@ public:
 	virtual void invoke()
 	{
 		(m_o->*m_f)(m_a1, m_a2, m_a3);
+	}
+	/*! Clones a callback
+		\return copy of callback
+	 */
+	virtual sad::animations::Callback* clone() const
+	{
+		return new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(m_o, m_f, m_a1, m_a2, m_a3);
 	}
 protected:
 	/*! An object, which method is called upon
