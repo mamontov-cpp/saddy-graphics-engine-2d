@@ -246,7 +246,7 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
     const SDL_MessageBoxColor *colorhints;
 
     if ( numbuttons > MAX_BUTTONS ) {
-        printf("Too many buttons\n");
+        //printf("Too many buttons\n");
         return -1;
     }
 
