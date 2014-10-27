@@ -259,7 +259,7 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
 
     data->display = XOpenDisplay( NULL );
     if ( !data->display ) {
-        printf("No display\n");
+        //printf("No display\n");
         return -1;
     }
 
@@ -267,7 +267,7 @@ X11_MessageBoxInit( SDL_MessageBoxDataX11 *data, const SDL_MessageBoxData * mess
 	if ( data->font_struct == NULL ) {
 		data->font_struct = XLoadQueryFont( data->display, g_MessageBoxFont);
 		if (data->font_struct == NULL) {
-			printf("No such font\n");
+			//printf("No such font\n");
 			return -1;
 		}
 	}
