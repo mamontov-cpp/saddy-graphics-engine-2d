@@ -813,6 +813,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="animations"
+				>
+				<File
+					RelativePath=".\src\animations\animationscallback.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Заголовочные файлы"
@@ -1740,6 +1748,14 @@
 				</File>
 				<File
 					RelativePath=".\include\dialogue\phrase.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="animations"
+				>
+				<File
+					RelativePath=".\include\animations\animationscallback.h"
 					>
 				</File>
 			</Filter>
