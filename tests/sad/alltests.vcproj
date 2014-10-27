@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\pausabletimer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\picojson.cpp"
 				>
 			</File>
