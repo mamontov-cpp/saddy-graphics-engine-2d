@@ -834,3 +834,52 @@ bool SDL_MessageBoxWarning(
 }
 
 #endif
+
+
+// Use Win32 backend
+#ifdef WIN32
+
+#include <algorithm>
+#include <cstdio>
+#include <windows.h>
+
+bool SDL_MessageBoxError(
+  const char * title,
+  const char * message
+)
+{
+	return MessageBoxA(
+		NULL,
+		title,
+		message,
+		MB_ICONERROR|MB_OK
+	) != 0;
+}
+
+bool SDL_MessageBoxInformation(
+  const char * title,
+  const char * message
+)
+{
+	return MessageBoxA(
+		NULL,
+		title,
+		message,
+		MB_ICONINFORMATION|MB_OK
+	) != 0;
+}
+
+bool SDL_MessageBoxWarning(
+  const char * title,
+  const char * message
+)
+{
+	return MessageBoxA(
+		NULL,
+		title,
+		message,
+		MB_ICONWARNING|MB_OK
+	) != 0;
+}
+
+#endif
