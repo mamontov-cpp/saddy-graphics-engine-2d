@@ -685,7 +685,7 @@ bool sad::Renderer::error(const sad::String& title, const sad::String& message)
 {
 	bool result = false;
 #ifdef X11
-	return SDL_MessageBoxError(title.c_str(), message.c_str())
+	return SDL_MessageBoxError(title.c_str(), message.c_str());
 #endif
 	return result;
 }
@@ -694,7 +694,7 @@ bool sad::Renderer::warning(const sad::String& title, const sad::String& message
 {
 	bool result = false;
 #ifdef X11
-	return SDL_MessageBoxWarning(title.c_str(), message.c_str())
+	return SDL_MessageBoxWarning(title.c_str(), message.c_str());
 #endif
 	return result;
 }
@@ -703,7 +703,7 @@ bool sad::Renderer::information(const sad::String& title, const sad::String& mes
 {
 	bool result = false;
 #ifdef X11
-	return SDL_MessageBoxInformation(title.c_str(), message.c_str())
+	return SDL_MessageBoxInformation(title.c_str(), message.c_str());
 #endif
 	return result;
 }
