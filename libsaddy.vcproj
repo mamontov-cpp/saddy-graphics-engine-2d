@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\pausabletimer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\periodicalevent.cpp"
 				>
 			</File>
@@ -401,6 +405,14 @@
 					>
 					<File
 						RelativePath=".\src\3rdparty\format\format.cc"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="SDL"
+					>
+					<File
+						RelativePath=".\src\3rdparty\SDL\x11messagebox.cpp"
 						>
 					</File>
 				</Filter>
@@ -901,6 +913,10 @@
 			</File>
 			<File
 				RelativePath=".\include\orthographiccamera.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\pausabletimer.h"
 				>
 			</File>
 			<File
