@@ -54,8 +54,9 @@ public:
     virtual void setState(sad::db::Object* o, double time) = 0;
     /*! Saves states of object in animation instance
         \param[in] i an animation instance
+        \return whether we can work further with this object in instance
      */
-    virtual void saveState(sad::animations::Instance* i) = 0;
+    virtual bool saveState(sad::animations::Instance* i) = 0;
     /*! Resets state of object in animation instance, when animation ended
         \param[in] i an animation instance
      */
