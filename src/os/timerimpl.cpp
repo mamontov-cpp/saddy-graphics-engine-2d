@@ -30,7 +30,7 @@ sad::os::TimerImpl::TimerImpl()
 
 	typedef LONG (__stdcall  *PTR) (ULONG,BOOLEAN,PULONG);
 
-	HMODULE hDll = LoadLibrary("ntdll.dll");
+    HMODULE hDll = LoadLibraryA("ntdll.dll");
 
 	PTR lpfnDLLProc = (PTR)GetProcAddress (hDll, "NtSetTimerResolution");
 	ULONG DesiredResolution = 50000; // 1ms
