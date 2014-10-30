@@ -5,7 +5,9 @@
 sad::db::Link::Link() 
 : m_cached_object(NULL),
 m_minor_id(0),
+m_major_id(0),
 m_link_by_name(false),
+m_link_by_major_id(false),
 m_table(NULL),
 m_database(NULL)
 {
@@ -21,9 +23,25 @@ sad::db::Object* sad::db::Link::get()
 {
 	if (m_cached_object == NULL)
 	{
+        if (m_link_by_major_id)
+        {
+            if (m_database)
+            {
+                return m_database->queryByMajorId(m_major_id);
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+        else
+        {
+            return NULL;
+        }
+
 		sad::db::Table* table = this->table();
 		if (table)
-		{
+		{            
 			if (m_link_by_name)
 			{
 				sad::Vector<sad::db::Object *> o = table->queryByName(m_name);
@@ -80,10 +98,27 @@ sad::db::Table* sad::db::Link::table() const
 	return m_table;
 }
 
+
+void sad::db::Link::setMajorId(unsigned long long major_id)
+{
+    m_cached_object = NULL;
+    m_link_by_name = false;
+    m_link_by_major_id = true;
+    m_name.clear();
+    m_major_id = major_id;
+}
+
+
+unsigned long long sad::db::Link::majorId() const
+{
+    return m_major_id;
+}
+
 void sad::db::Link::setMinorId(unsigned long long minor_id)
 {
 	m_cached_object = NULL;
 	m_link_by_name = false;
+    m_link_by_major_id = false;
 	m_name.clear();
 	m_minor_id = minor_id;
 }
@@ -97,6 +132,7 @@ void sad::db::Link::setName(const sad::String & name)
 {
 	m_cached_object = NULL;
 	m_link_by_name = true;
+    m_link_by_major_id = false;
 	m_name = name;
 	m_minor_id = 0;
 }
@@ -104,4 +140,9 @@ void sad::db::Link::setName(const sad::String & name)
 const sad::String & sad::db::Link::name() const
 {
 	return m_name;
+}
+
+void sad::db::Link::setObject(sad::db::Object* o)
+{
+    m_cached_object = o;
 }

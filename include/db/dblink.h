@@ -54,6 +54,14 @@ public:
 		\return a table for a link
 	 */
 	sad::db::Table* table() const;
+    /*! Makes link fetch object by it's major id
+        \param[in] minor_id a specified major id, which object must have
+     */
+    void setMajorId(unsigned long long major_id);
+    /*! A major id for a link
+        \return major id or 0, if objects are linked by other ways
+     */
+    unsigned long long majorId() const;
 	/*! Makes link fetch object by it's minor id
 		\param[in] minor_id a specified minor id, which object must have
 	 */
@@ -70,6 +78,10 @@ public:
 		\return name of object or empty string
 	 */ 
 	const sad::String & name() const;
+    /*! Explicitly sets cached object
+        \param[in] o new object
+     */
+    void setObject(sad::db::Object* o);
 protected:
 	/*! An object, cached in a linked
 	 */
@@ -77,12 +89,18 @@ protected:
 	/*! A linked minor id, if we are linking it by id (m_link_by_name is false)
 	 */
 	unsigned long long m_minor_id;
-	/*! A name of linked object, if we are linking by object
+    /*! A linked major id, if we are linking it by id (m_link_by_name is false)
+     */
+    unsigned long long m_major_id;
+    /*! A name of linked object, if we are linking by object
 	 */
 	sad::String m_name;
 	/*! Whether we are linking item by name
 	 */
 	bool m_link_by_name;
+    /*! Whether we are linking item by major id
+     */
+    bool m_link_by_major_id;
 	/*! A linked table to object
 	 */
 	sad::db::Table * m_table;
