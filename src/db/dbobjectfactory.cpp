@@ -13,6 +13,8 @@
 
 #include "dialogue/dialogue.h"
 
+#include "animations/animationsinstance.h"
+
 sad::db::ObjectFactory::AbstractDelegate::~AbstractDelegate()
 {
 	
@@ -28,6 +30,8 @@ sad::db::ObjectFactory::ObjectFactory()
 	add<sad::db::custom::Object>("sad::db::custom::Object", NULL, false);
 	add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
 	add<sad::dialogue::Dialogue>("sad::dialogue::Dialogue", sad::dialogue::Dialogue::basicSchema(), false);
+    add<sad::animations::Instance>("sad::animations::Instance", sad::animations::Instance::basicSchema(), false);
+
 }
 
 void sad::db::ObjectFactory::add(
