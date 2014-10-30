@@ -174,6 +174,10 @@ void sad::animations::Instance::process()
                 else
                 {
                     m_finished = true;
+                    for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+                    {
+                        m_callbacks_on_end[i]->invoke();
+                    }
                 }
             }
             else
