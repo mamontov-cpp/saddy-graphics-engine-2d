@@ -166,9 +166,15 @@ void sad::animations::Instance::process()
             }
             if (m_started == false)
             {
-                a->saveState(this);
-                m_timer.start();
-                m_started = true;
+                if (a->saveState(this))
+                {
+                    m_timer.start();
+                    m_started = true;
+                }
+                else
+                {
+                    m_finished = true;
+                }
             }
             else
             {
@@ -183,6 +189,7 @@ void sad::animations::Instance::process()
                     }
                     else
                     {
+                        m_started = false;
                         m_finished = true;
                         m_timer.stop();
                         for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
