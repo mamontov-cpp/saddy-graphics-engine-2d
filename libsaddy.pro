@@ -156,7 +156,8 @@ SOURCES += src/camera.cpp \
     src/resource/tree.cpp \
     src/util/deletetexturetask.cpp \
     src/util/fs.cpp \
-    src/util/swaplayerstask.cpp
+    src/util/swaplayerstask.cpp \
+    src/animations/animationsanimation.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -381,7 +382,8 @@ HEADERS += include/camera.h \
     include/util/pointercallback.h \
     include/util/sadthreadexecutablefunction.h \
     include/util/setterproxy.h \
-    include/util/swaplayerstask.h
+    include/util/swaplayerstask.h \
+    include/animations/animationsanimation.h
 
 
 DESTDIR = ../saddy/lib/
