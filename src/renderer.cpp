@@ -514,7 +514,7 @@ const sad::String & sad::Renderer::executablePath() const
 	{
 #ifdef WIN32
 		char result[_MAX_PATH+1];
-		GetModuleFileName(NULL, result, _MAX_PATH);
+        GetModuleFileNameA(NULL, result, _MAX_PATH);
 		sad::String * path = &(const_cast<sad::Renderer*>(this)->m_executable_cached_path);
 		*path =  result;		
 		int pos = path->getLastOccurence("\\");
