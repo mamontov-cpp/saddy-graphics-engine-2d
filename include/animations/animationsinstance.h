@@ -78,6 +78,14 @@ public:
         \return animation name
      */
     const sad::String& animationName() const;
+	/*! Sets time, which will be added to timer when playing animation
+		\param[in] time a starting time
+	 */
+	void setStartTime(double time);
+	/*! Returns start time, which will be added to timer, when playing animation
+		\return time
+	 */
+	double startTime() const;
     /*! Sets object id for animation instance
         \param[in] id an id for object
      */
@@ -178,6 +186,9 @@ protected:
     /*! A linked animation for instance
      */
     sad::resource::Link<sad::animations::Animation> m_animation;
+	/*! A time of animation, which would be added to timer time, when playing animation
+	 */
+	double m_start_time;
     /*! Whether instance is paused
      */
     bool m_paused;
