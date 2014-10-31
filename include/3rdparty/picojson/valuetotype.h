@@ -905,6 +905,48 @@ CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsig
 CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned long)
 CREATE_VALUE_TO_TYPE_SPECIALIZATION_FOR_UNSIGNED_TYPE_VIA_CAST_FROM_DOUBLE(unsigned long long)
 
+
+
+/*! Tries to converts specific value to vector of unsigned long longs
+ */
+template<>
+class ValueToType<sad::Vector<unsigned long long> >
+{
+public:
+	/*! Tries to convert a picojson::value to vector of unsigned long longs
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Vector<unsigned long long> > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Vector<unsigned long long> > result;		
+		if (v.is<picojson::array>())
+		{
+			bool parseresult = true;
+			sad::Vector<unsigned long long> tmpresult;
+			const picojson::array & top = v.get<picojson::array>();
+			for(size_t i = 0; i < top.size() && parseresult; i++)
+			{
+				const picojson::value & topentry = top[i];
+				sad::Maybe<unsigned long long> maybeentry = picojson::ValueToType<unsigned long long>::get(top[i]);
+				if (maybeentry.exists())
+				{
+					tmpresult << maybeentry.value();
+				}
+				else
+				{
+					parseresult = false;
+				}				
+			}
+			if (parseresult)
+			{
+				result.setValue(tmpresult);
+			}
+		}
+		return result;
+	}
+};
+
 /*! Tries to convert picojson::value to type
 	\param[in] v a value, to be converted
 	\return value if any
