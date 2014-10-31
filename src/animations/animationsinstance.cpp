@@ -55,6 +55,13 @@ sad::db::schema::Schema* sad::animations::Instance::basicSchema()
                 &sad::animations::Instance::setObjectId
             )
         );
+		AnimationInstanceSchema->add(
+            "starttime",
+            new sad::db::MethodPair<sad::animations::Instance, double>(
+                &sad::animations::Instance::startTime,
+                &sad::animations::Instance::setStartTime
+            )
+        );
 
         sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationInstanceSchema);
     }
@@ -124,6 +131,16 @@ unsigned long long sad::animations::Instance::objectId() const
     return m_object.majorId();
 }
 
+void sad::animations::Instance::setStartTime(double time)
+{
+	m_start_time = time;
+}
+
+double sad::animations::Instance::startTime() const
+{
+	return m_start_time;
+}
+
 sad::Vector<sad::db::Variant>& sad::animations::Instance::oldState()
 {
     return m_oldstate;
@@ -168,6 +185,7 @@ void sad::animations::Instance::process()
             {
                 if (a->saveState(this))
                 {
+					a->setState(o, m_start_time);
                     m_timer.start();
                     m_started = true;
                 }
@@ -182,7 +200,7 @@ void sad::animations::Instance::process()
             }
             else
             {
-                double elapsed = m_timer.elapsed();
+                double elapsed = m_start_time + m_timer.elapsed();
                 // If time is expired, animation is or looped, or should be stopped
                 if (elapsed > a->time())
                 {
