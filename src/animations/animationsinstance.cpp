@@ -267,6 +267,16 @@ void sad::animations::Instance::cancel()
     }
 }
 
+void sad::animations::Instance::addedToPipeline()
+{
+	this->addRef();
+}
+
+void sad::animations::Instance::removedFromPipeline()
+{
+	this->delRef();
+}
+
 // ================================== PROTECTED METHODS ==================================
 
 void sad::animations::Instance::_process()

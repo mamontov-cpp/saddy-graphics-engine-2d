@@ -825,7 +825,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsgroup.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsinstance.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationsprocess.cpp"
 					>
 				</File>
 			</Filter>
@@ -1771,7 +1779,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationsgroup.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationsinstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsprocess.h"
 					>
 				</File>
 			</Filter>

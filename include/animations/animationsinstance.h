@@ -17,6 +17,7 @@
 
 #include "animationsanimation.h"
 #include "animationscallback.h"
+#include "animationsprocess.h"
 
 namespace sad
 {
@@ -24,7 +25,7 @@ namespace sad
 namespace animations
 {
 
-class Instance: public sad::db::Object
+class Instance: public sad::db::Object, public sad::animations::Process
 {
 public:
     /*! Creates new  empty instance
@@ -159,10 +160,10 @@ public:
     }
     /*! Clears finished flag
      */
-    void clearFinished();
+    virtual void clearFinished();
     /*! Whether animation is finished
      */
-    bool finished() const;
+    virtual bool finished() const;
     /*! Called on every step of instance work
      */
     virtual void process();
@@ -175,6 +176,12 @@ public:
     /*! Cancels an animation
      */
     virtual void cancel();
+	/*! Called, when process is added to pipeline
+	 */
+	virtual void addedToPipeline();
+	/*! Called, when process is removed from pipeline
+	 */
+	virtual void removedFromPipeline();
 protected:
     /*! A custom processing part, which could be reimplemented to synchronize
         something
