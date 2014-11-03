@@ -158,6 +158,9 @@ public:
     {
         addCallback(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
+	/*! Restarts an animation process
+	 */
+	virtual void restart();
     /*! Clears finished flag
      */
     virtual void clearFinished();

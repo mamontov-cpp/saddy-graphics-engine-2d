@@ -29,13 +29,6 @@ sad::db::Object* sad::db::Link::get()
             {
                 return m_database->queryByMajorId(m_major_id);
             }
-            else
-            {
-                return NULL;
-            }
-        }
-        else
-        {
             return NULL;
         }
 
@@ -111,7 +104,20 @@ void sad::db::Link::setMajorId(unsigned long long major_id)
 
 unsigned long long sad::db::Link::majorId() const
 {
-    return m_major_id;
+	unsigned long long result = 0;
+	if (m_link_by_major_id)
+	{
+		result = m_major_id;
+	}
+	else
+	{
+		sad::db::Object* o = const_cast<sad::db::Link*>(this)->get();
+		if (o)
+		{
+			result = o->MajorId;
+		}
+	}
+    return result;
 }
 
 void sad::db::Link::setMinorId(unsigned long long minor_id)
@@ -125,7 +131,20 @@ void sad::db::Link::setMinorId(unsigned long long minor_id)
 
 unsigned long long sad::db::Link::minorId() const
 {
-	return m_minor_id;
+	unsigned long long result = 0;
+	if (m_link_by_name == false && m_link_by_major_id == false)
+	{
+		result = m_minor_id;
+	}
+	else
+	{
+		sad::db::Object* o = const_cast<sad::db::Link*>(this)->get();
+		if (o)
+		{
+			result = o->MinorId;
+		}
+	}
+	return result;
 }
 
 void sad::db::Link::setName(const sad::String & name)
