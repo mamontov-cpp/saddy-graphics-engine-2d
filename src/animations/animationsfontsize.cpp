@@ -1,4 +1,10 @@
 #include "animations/animationsfontsize.h"
+#include "animations/animationsinstance.h"
+
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
 
 #include <util/fs.h>
 
@@ -7,6 +13,8 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+
+
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::FontSize, sad::animations::Animation);
 
@@ -66,8 +74,49 @@ unsigned int sad::animations::FontSize::maxSize() const
 	return m_max_size;
 }
 
+void sad::animations::FontSize::setState(sad::db::Object* o, double time)
+{
+	if (sad::is_fuzzy_zero(m_time))
+		return;
+
+	double min = m_min_size;
+	double max = m_max_size;
+	double value = min + (max - min) * time / m_time;
+	unsigned int kvalue = static_cast<unsigned int>(value);
+	if (o)
+	{
+		o->setProperty("font_size", kvalue);
+	}
+}
+
 bool sad::animations::FontSize::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
+	bool result = false;
+	if (o)
+	{
+		sad::Maybe<unsigned int> maybesize = o->getProperty<unsigned int>("font_size"); 
+		if (maybesize.exists())
+		{
+			result = true;
 
+			i->oldState().clear();
+			i->oldState() << sad::db::Variant(maybesize.value());
+		}
+	}
+	return result;
+}
+
+
+void sad::animations::FontSize::resetState(sad::animations::Instance* i)
+{
+	sad::db::Object* o = i->object();
+	if (o && i->oldState().size() == 1)
+	{
+		sad::Maybe<unsigned int> value = i->oldState()[0].get<unsigned int>();
+		if (value.exists())
+		{
+			o->setProperty("font_size", value.value());
+		}
+	}
 }
