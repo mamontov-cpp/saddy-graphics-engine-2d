@@ -21,7 +21,7 @@
 
 // =========================== PUBLIC METHODS ===========================
 
-sad::animations::Group::Group()
+sad::animations::Group::Group() : m_started(true), m_looped(false)
 {
 	
 }
@@ -190,6 +190,16 @@ void sad::animations::Group::removeAsLink(sad::animations::Instance* inst)
 	}
 }
 
+void sad::animations::Group::restart()
+{
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+		m_instances[i]->cancel();
+	}
+
+	m_instances.clear();
+	m_started = true;
+}
 
 void sad::animations::Group::clearFinished()
 {
@@ -303,7 +313,15 @@ void sad::animations::Group::removeNow(sad::animations::Instance* o)
 	m_referenced.removeAll(o);
 	if (m_instances.size() != 0)
 	{
-		m_instances.removeAll(o);
+		for(size_t i = 0; i < m_instances.size(); i++)
+		{
+			if (m_instances[i] == o)
+			{
+				m_instances[i]->cancel();
+				m_instances.removeAt(i);
+				--i;
+			}
+		}
 	}
 	for(size_t i = 0; i < m_instance_links.size(); i++)
 	{
@@ -321,6 +339,10 @@ void sad::animations::Group::removeNow(sad::animations::Instance* o)
 
 void sad::animations::Group::clearNow()
 {
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+		m_instances[i]->cancel();
+	}
 	m_instances.clear();
 	for(size_t i = 0; i < m_referenced.size(); i++)
 	{

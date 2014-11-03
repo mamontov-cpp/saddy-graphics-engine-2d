@@ -79,6 +79,9 @@ public:
 		\param[in] inst instance
 	 */
 	void removeAsLink(sad::animations::Instance* inst);
+	/*! Restarts an animation group
+	 */
+	virtual void restart();
 	/*! Restarts every animation, which was finished
      */
     virtual void clearFinished();

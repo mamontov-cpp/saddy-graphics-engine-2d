@@ -19,6 +19,9 @@ public:
 	/*! Must be inherited
 	 */
 	virtual ~Process();
+	/*! Restarts an animation process
+	 */
+	virtual void restart() = 0;
 	/*! Clears finished flag
      */
     virtual void clearFinished() = 0;

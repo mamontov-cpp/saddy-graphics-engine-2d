@@ -158,6 +158,19 @@ void sad::animations::Instance::addCallbackOnEnd(sad::animations::Callback* c)
 }
 
 
+void sad::animations::Instance::restart()
+{
+	m_timer.stop();
+	if (m_started && !m_finished)
+	{
+		this->cancel();
+	}
+	m_started = false;
+	m_finished = false;
+	m_paused =  false;
+}
+
+
 void sad::animations::Instance::clearFinished()
 {
     m_finished = false;
