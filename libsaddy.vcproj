@@ -821,6 +821,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsanimations.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationscallback.cpp"
 					>
 				</File>
@@ -1772,6 +1776,10 @@
 				>
 				<File
 					RelativePath=".\include\animations\animationsanimation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsanimations.h"
 					>
 				</File>
 				<File
