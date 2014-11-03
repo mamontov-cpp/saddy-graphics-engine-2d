@@ -43,7 +43,8 @@ m_fps_interpolation(new sad::FPSInterpolation()),
 m_controls(new sad::input::Controls()),
 m_pipeline(new sad::pipeline::Pipeline()),
 m_added_system_pipeline_tasks(false),
-m_primitiverenderer(new sad::PrimitiveRenderer())
+m_primitiverenderer(new sad::PrimitiveRenderer()),
+m_animations(new sad::animations::Animations())
 {
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
@@ -78,6 +79,7 @@ sad::Renderer::~Renderer(void)
 		m_scenes[i]->clear();
 	}
 
+	delete m_animations;
 	delete m_primitiverenderer;
 	delete m_cursor;
 
@@ -631,6 +633,11 @@ sad::db::Database * sad::Renderer::database(const sad::String & name) const
 	return NULL;
 }
 
+sad::animations::Animations* sad::Renderer::animations() const
+{
+	return m_animations;
+}
+
 void sad::Renderer::lockRendering()
 {
 	m_lockrendering.lock();	
@@ -798,6 +805,9 @@ void sad::Renderer::initPipeline()
 		this->pipeline()
 			->appendProcess(this, &sad::Renderer::renderScenes)
 			->mark("sad::Renderer::renderScenes");
+		this->pipeline()
+			->appendProcess(m_animations, &sad::animations::Animations::process)
+			->mark("sad::animations::Animations::process");
 	}
 }
 

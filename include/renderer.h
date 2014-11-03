@@ -11,9 +11,11 @@
 */
 #pragma once
 #include "log/log.h"
+
 #include "resource/physicalfile.h"
 #include "resource/tree.h"
 #include "resource/error.h"
+
 #include "settings.h"
 #include "scene.h"
 #include "sadpoint.h"
@@ -26,7 +28,10 @@
 #include "sadmutex.h"
 #include "primitiverenderer.h"
 #include "texture.h"
+
 #include "imageformats/loader.h"
+
+#include "animations/animationsanimations.h"
 
 namespace sad
 {
@@ -315,6 +320,9 @@ public:
 		\return database or  NULL if not found
 	 */
 	sad::db::Database * database(const sad::String & name) const;
+	/*! An animations list of renderer
+     */
+	sad::animations::Animations* animations() const;
 	/*! Locks rendering of scenes
 	 */
 	void lockRendering();
@@ -406,6 +414,9 @@ protected:
 	/*! A list for loaders for textures
 	 */
 	sad::PtrHash<sad::String, sad::imageformats::Loader> m_texture_loaders;
+	/*! A list of animations
+	 */
+	sad::animations::Animations* m_animations;
 	
 	/*! A pipeline, as processes and tasks, which wille be performed in any time
 		of runtime

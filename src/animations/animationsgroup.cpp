@@ -310,7 +310,19 @@ void sad::animations::Group::addNow(sad::animations::Instance* o)
 
 void sad::animations::Group::removeNow(sad::animations::Instance* o)
 {
-	m_referenced.removeAll(o);
+	for(size_t i = 0; i < m_referenced.size(); i++)
+	{
+		if (m_referenced[i] == o)
+		{
+			m_referenced.removeAt(i);
+			if (o) 
+			{
+				o->delRef();
+			}
+			--i;
+		}
+	}
+
 	if (m_instances.size() != 0)
 	{
 		for(size_t i = 0; i < m_instances.size(); i++)
@@ -323,6 +335,7 @@ void sad::animations::Group::removeNow(sad::animations::Instance* o)
 			}
 		}
 	}
+
 	for(size_t i = 0; i < m_instance_links.size(); i++)
 	{
 		if (m_instance_links[i].get() == o)
@@ -330,10 +343,6 @@ void sad::animations::Group::removeNow(sad::animations::Instance* o)
 			m_instance_links.removeAt(i);
 			--i;
 		}
-	}
-	if (o)
-	{
-		o->delRef();
 	}
 }
 
