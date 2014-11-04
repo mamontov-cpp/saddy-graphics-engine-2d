@@ -19,7 +19,7 @@
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationsfontsize.h>
-#include <animations/animationsoptionlist.h>
+#include <animations/animationscamerarotation.h>
 #include <animations/animationsinstance.h>
 
 #ifdef WIN32
@@ -102,42 +102,6 @@ class EventHandler: public sad::input::AbstractHandler
 	 }
 };	
 
-/*! Initializes resources for specific renderer
-	\param[in] r renderer
- */ 
-void init_pregenerated_resources(sad::Renderer* r)
-{
-	sad::Sprite2D::Options opts[5];
-	opts[0].Texture = "tex1";
-	opts[0].TextureRectangle = sad::Rect2D(0, 0, 256, 256);
-	opts[0].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[0].Transparent = false;
-
-	opts[1].Texture = "tex1";
-	opts[1].TextureRectangle = sad::Rect2D(0, 0, 266, 266);
-	opts[1].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[1].Transparent = false;
-
-	opts[2].Texture = "tex1";
-	opts[2].TextureRectangle = sad::Rect2D(0, 0, 276, 276);
-	opts[2].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[2].Transparent = false;
-
-	opts[3].Texture = "tex1";
-	opts[3].TextureRectangle = sad::Rect2D(0, 0, 286, 286);
-	opts[3].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[3].Transparent = false;
-
-	opts[4].Texture = "tex1";
-	opts[4].TextureRectangle = sad::Rect2D(0, 0, 296, 296);
-	opts[4].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[4].Transparent = false;
-
-	for(size_t i = 0; i < 5 ; i++)
-	{
-		r->tree("")->root()->addResource(sad::String("opts") + sad::String::number(i), new sad::Sprite2D::Options(opts[i]));
-	}
-}
 /*! This is simple thread function, which inits a renderer, with simple scene of
     two kind of fonts and sprite. Also it creates separate log for work, and sets 
 	it's separate callbacks to exit on Escape and move sprite on user click.
@@ -192,7 +156,7 @@ int thread(void * p)
 		sad::util::free(errors);
 		return 1;
 	} 
-	init_pregenerated_resources(&r);
+	
 
 	// Create a simple animations
 	sad::animations::FontSize* fontsizeanimation = new sad::animations::FontSize();
@@ -201,17 +165,15 @@ int thread(void * p)
 	fontsizeanimation->setMinSize(11);
 	fontsizeanimation->setMaxSize(33);
 	r.tree("")->root()->addResource("fontsizeanimation", fontsizeanimation);
-	sad::animations::OptionList* optionlist = new sad::animations::OptionList();
-	optionlist->setLooped(true);
-	optionlist->setTime(400);
-	sad::Vector<sad::String> list;
-	list << "opts0";
-	list << "opts1";
-	list << "opts2";
-	list << "opts3";
-	list << "opts4";
-	optionlist->setList(list);
-	r.tree("")->root()->addResource("optionlist", optionlist);
+
+	sad::animations::CameraRotation* camerarotation = new sad::animations::CameraRotation();
+	camerarotation->setLooped(true);
+	camerarotation->setTime(1000);
+	camerarotation->setPivot(sad::Point3D(400, 300, 0));
+	camerarotation->setMinAngle(0);
+	camerarotation->setMaxAngle(360);
+	r.tree("")->root()->addResource("camerashaking", camerarotation);
+
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
@@ -232,11 +194,13 @@ int thread(void * p)
 	fontsizeanimationinstance->setObject(l1);
 	r.animations()->add(fontsizeanimationinstance);
 
-	sad::animations::Instance* optinstance = new sad::animations::Instance();
-	optinstance->setAnimation(optionlist);
-	optinstance->setObject(a);
-	r.animations()->add(optinstance);
-	
+
+	sad::animations::Instance* camerarotationinstance = new sad::animations::Instance();
+	camerarotationinstance->setAnimation(camerarotation);
+	camerarotationinstance->setObject(r.scenes()[0]);
+	r.animations()->add(camerarotationinstance);
+
+
 	/* Here we bind two different handlers with keydown
 	 */
 	sad::input::Controls * c = r.controls();

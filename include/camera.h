@@ -47,6 +47,9 @@ public:
 	/*! An angle, subsituted to camera
 	 */
 	double Angle;
+	/*! An offset for temporary rotation
+	 */
+	sad::Vector3D TemporaryRotationOffset;
 	/*! A pivot vector point for rotation, used to be substituted to glRotatef
 	 */
 	sad::Vector3D  RotationVectorDirection;
