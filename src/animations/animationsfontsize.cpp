@@ -85,7 +85,7 @@ void sad::animations::FontSize::setState(sad::db::Object* o, double time)
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (o)
 	{
-		o->setProperty("font_size", kvalue);
+		o->setProperty("fontsize", kvalue);
 	}
 }
 
@@ -95,7 +95,7 @@ bool sad::animations::FontSize::saveState(sad::animations::Instance* i)
 	bool result = false;
 	if (o)
 	{
-		sad::Maybe<unsigned int> maybesize = o->getProperty<unsigned int>("font_size"); 
+		sad::Maybe<unsigned int> maybesize = o->getProperty<unsigned int>("fontsize"); 
 		if (maybesize.exists())
 		{
 			result = true;
@@ -116,7 +116,7 @@ void sad::animations::FontSize::resetState(sad::animations::Instance* i)
 		sad::Maybe<unsigned int> value = i->oldState()[0].get<unsigned int>();
 		if (value.exists())
 		{
-			o->setProperty("font_size", value.value());
+			o->setProperty("fontsize", value.value());
 		}
 	}
 }

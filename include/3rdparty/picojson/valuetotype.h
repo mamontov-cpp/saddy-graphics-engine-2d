@@ -25,7 +25,10 @@ public:
 		\param[in] v value
 		\return a result (with value if any)
 	 */
-	static sad::Maybe<_Type> get(const picojson::value & v);
+	static inline sad::Maybe<_Type> get(const picojson::value & v)
+	{
+		return sad::Maybe<_Type>();
+	}
 };
 
 /*! Tries to converts specific value to bool
@@ -73,7 +76,7 @@ public:
 			double a = v.get<double>();
 			if (a >= -127.000001 && a <= 127.000001)
 			{
-				result.setValue((char)a);
+				result.setValue(static_cast<char>(a));
 			}
 		}
 		return result;
@@ -98,7 +101,7 @@ public:
 			double a = v.get<double>();
 			if (a >= -127.000001 && a <= 127.000001)
 			{
-				result.setValue((signed char)a);
+				result.setValue(static_cast<signed char>(a));
 			}
 		}
 		return result;
@@ -123,7 +126,7 @@ public:
 			double a = v.get<double>();
 			if (a >= -0.000001 && a <= 255.000001)
 			{
-				result.setValue((unsigned char)a);
+				result.setValue(static_cast<unsigned char>(a));
 			}
 		}
 		return result;
@@ -168,7 +171,7 @@ public:
 		if (v.is<double>())
 		{
 			double a = v.get<double>();
-			result.setValue((float)a);
+			result.setValue(static_cast<float>(a));
 		}
 		return result;
 	}
@@ -236,9 +239,9 @@ public:
 			sad::Vector<sad::String> parts = tmp.split(';');
 			if (parts.size() != 3)
 			{
-				sad::uchar r = (unsigned char)(sad::String::toInt(parts[0]));
-				sad::uchar g = (unsigned char)(sad::String::toInt(parts[1]));
-				sad::uchar b = (unsigned char)(sad::String::toInt(parts[2]));
+				sad::uchar r = static_cast<unsigned char>(sad::String::toInt(parts[0]));
+				sad::uchar g = static_cast<unsigned char>(sad::String::toInt(parts[1]));
+				sad::uchar b = static_cast<unsigned char>(sad::String::toInt(parts[2]));
 				result.setValue(sad::Color(r, g, b));
 			}
 			return result;
@@ -371,7 +374,7 @@ public:
 			sad::Maybe<double> y = picojson::ValueToType<double>::get(*yo);
 			if (x.exists() && y.exists())
 			{
-				result.setValue(sad::Point2I((int)(x.value()), (int)(y.value())));
+				result.setValue(sad::Point2I(static_cast<int>(x.value()), static_cast<int>(y.value())));
 			}
 		}
 		return result;
@@ -401,7 +404,7 @@ public:
 			sad::Maybe<double> z = picojson::ValueToType<double>::get(*zo);
 			if (x.exists() && y.exists())
 			{
-				result.setValue(sad::Point3I((int)(x.value()), (int)(y.value()), (int)(z.value())));
+				result.setValue(sad::Point3I(static_cast<int>(x.value()), static_cast<int>(y.value()), static_cast<int>(z.value())));
 			}
 		}
 		return result;
@@ -544,8 +547,8 @@ public:
 				double y = sad::String::toDouble(parts[1]);
 				double w = sad::String::toDouble(parts[2]);
 				double h = sad::String::toDouble(parts[3]);
-				sad::Point2I p((int)x, (int)y);
-				sad::Point2I wh((int)w, (int)h);
+				sad::Point2I p(static_cast<int>(x), static_cast<int>(y));
+				sad::Point2I wh(static_cast<int>(w), static_cast<int>(h));
 				result.setValue(sad::Rect2I(p, p + wh));
 			}
 			return result;
@@ -651,7 +654,7 @@ public:
 			{
 				double w = sad::String::toDouble(parts[0]);
 				double h = sad::String::toDouble(parts[1]);
-				result.setValue(sad::Size2I((int)w, (int)h));
+				result.setValue(sad::Size2I(static_cast<int>(w), static_cast<int>(h)));
 			}
 			return result;
 		}
@@ -665,7 +668,7 @@ public:
 			if (mw.exists() && mh.exists())
 			{
 				result.setValue(sad::Size2I(
-					(int)(mw.value()), (int)(mh.value())
+					static_cast<int>(mw.value()), static_cast<int>(mh.value())
 				));
 			}
 		}
@@ -929,6 +932,47 @@ public:
 			{
 				const picojson::value & topentry = top[i];
 				sad::Maybe<unsigned long long> maybeentry = picojson::ValueToType<unsigned long long>::get(top[i]);
+				if (maybeentry.exists())
+				{
+					tmpresult << maybeentry.value();
+				}
+				else
+				{
+					parseresult = false;
+				}				
+			}
+			if (parseresult)
+			{
+				result.setValue(tmpresult);
+			}
+		}
+		return result;
+	}
+};
+
+
+/*! Tries to converts specific value to vector of sad::String
+ */
+template<>
+class ValueToType<sad::Vector<sad::String> >
+{
+public:
+	/*! Tries to convert a picojson::value to vector of sad::String
+		\param[in] v value
+		\return a result (with value if any)
+	 */
+	static sad::Maybe<sad::Vector<sad::String> > get(const picojson::value & v)
+	{
+		sad::Maybe<sad::Vector<sad::String> > result;		
+		if (v.is<picojson::array>())
+		{
+			bool parseresult = true;
+			sad::Vector<sad::String> tmpresult;
+			const picojson::array & top = v.get<picojson::array>();
+			for(size_t i = 0; i < top.size() && parseresult; i++)
+			{
+				const picojson::value & topentry = top[i];
+				sad::Maybe<sad::String> maybeentry = picojson::ValueToType<sad::String>::get(top[i]);
 				if (maybeentry.exists())
 				{
 					tmpresult << maybeentry.value();
