@@ -19,7 +19,7 @@
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationsfontsize.h>
-#include <animations/animationstexturecoordinateslist.h>
+#include <animations/animationsoptionlist.h>
 #include <animations/animationsinstance.h>
 
 #ifdef WIN32
@@ -201,17 +201,17 @@ int thread(void * p)
 	fontsizeanimation->setMinSize(11);
 	fontsizeanimation->setMaxSize(33);
 	r.tree("")->root()->addResource("fontsizeanimation", fontsizeanimation);
-	sad::animations::TextureCoordinatesList* tcoords = new sad::animations::TextureCoordinatesList();
-	tcoords->setLooped(true);
-	tcoords->setTime(1000);
+	sad::animations::OptionList* optionlist = new sad::animations::OptionList();
+	optionlist->setLooped(true);
+	optionlist->setTime(400);
 	sad::Vector<sad::String> list;
 	list << "opts0";
 	list << "opts1";
 	list << "opts2";
 	list << "opts3";
 	list << "opts4";
-	tcoords->setList(list);
-	r.tree("")->root()->addResource("texturecoordinatesanimation", tcoords);
+	optionlist->setList(list);
+	r.tree("")->root()->addResource("optionlist", optionlist);
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
@@ -232,10 +232,10 @@ int thread(void * p)
 	fontsizeanimationinstance->setObject(l1);
 	r.animations()->add(fontsizeanimationinstance);
 
-	sad::animations::Instance* tcoordsinstance = new sad::animations::Instance();
-	tcoordsinstance->setAnimation(tcoords);
-	tcoordsinstance->setObject(a);
-	r.animations()->add(tcoordsinstance);
+	sad::animations::Instance* optinstance = new sad::animations::Instance();
+	optinstance->setAnimation(optionlist);
+	optinstance->setObject(a);
+	r.animations()->add(optinstance);
 	
 	/* Here we bind two different handlers with keydown
 	 */
