@@ -1,7 +1,7 @@
-/*! \file animations/animationstexturecoordinateslist.h
+/*! \file animations/animationsoptionlist.h
 	\author HiddenSeeker
 
-	An animations as animation of changing texture coordinates lists by time
+	An animations as animation of changing options of sprite by time
  */
 #pragma once
 
@@ -19,29 +19,29 @@ namespace sad
 namespace animations
 {
 
-/*! An animation, which changes texture coordinates of sprite over time
+/*! An animation, which changes options of sprite over time
  */
-class TextureCoordinatesList: public sad::animations::Animation
+class OptionList: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
 	/*! Creates new empty animation
 	 */
-	TextureCoordinatesList();
+	OptionList();
 	/*! Can be inherited
 	 */
-	virtual ~TextureCoordinatesList();
+	virtual ~OptionList();
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets list of options, which defines texture coordinate sources
+	/*! Sets list of options
 		\param[in] fonts a font list, used in animation
 	 */
 	void setList(const sad::Vector<sad::String>& list);
-	/*! Returns options list
-		\return options list
+	/*! Returns option list
+		\return option list
 	 */
 	const sad::Vector<sad::String> & list() const;
 	/*! Sets state of object from animation
@@ -59,20 +59,6 @@ public:
      */
     virtual void resetState(sad::animations::Instance* i);
 protected:
-	/*! Tries to fetch coordinates from cache
-		\param[in] c coordinates
-		\return NULL if not found, otherwise rectangle
-	 */ 
-	sad::Rect2D* coordinates(const sad::String& c);
-	/*! A texture coordinates cache
-	 */
-	sad::Hash<sad::String, sad::Rect2D> m_cache;
-	/*! A cached root folder for faster finding options with texture coordinates
-	 */
-	sad::resource::Folder* m_cache_root_folder;
-	/*! A folder, for which cache is being created
-	 */
-	sad::resource::Folder* m_cache_folder;
 	/*! A list of texture coordinates to be set
 	 */
 	sad::Vector<sad::String> m_list;

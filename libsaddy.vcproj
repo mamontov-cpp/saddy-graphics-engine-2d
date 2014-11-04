@@ -845,6 +845,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsoptionlist.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsprocess.cpp"
 					>
 				</File>
@@ -1812,6 +1816,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsinstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsoptionlist.h"
 					>
 				</File>
 				<File
