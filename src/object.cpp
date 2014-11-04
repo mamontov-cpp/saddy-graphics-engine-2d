@@ -22,6 +22,11 @@ const sad::String & sad::Object::className() const
 	return this->metaData()->name();
 }
 
+bool sad::Object::isInstanceOf(const sad::String& name)
+{
+	return this->metaData()->canBeCastedTo(name);	
+}
+
 const sad::String& sad::Object::serializableName() const
 {
 	return this->metaData()->name();

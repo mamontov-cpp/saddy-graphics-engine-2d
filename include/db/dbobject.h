@@ -149,6 +149,11 @@ public:
 		\return s string
 	 */
 	sad::db::Property* getObjectProperty(const sad::String& s) const;
+	/*! A basic introspection capability. Checks, whether object has specified type
+		\param[in] name name of class
+		\return in basic implementation - false
+	 */
+	virtual bool isInstanceOf(const sad::String& name);
 	/*! A major id for object
 	 */
 	unsigned long long MajorId;

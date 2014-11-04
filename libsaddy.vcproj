@@ -1803,6 +1803,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationscontinuousproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsdiscreteproperty.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationsfontlist.h"
 					>
 				</File>
