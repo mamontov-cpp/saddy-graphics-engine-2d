@@ -85,6 +85,7 @@ DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::Point2D>)
 DECLARE_DB_LOAD_FOR_TYPE(sad::dialogue::Phrase)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<unsigned long long>)
+DECLARE_DB_LOAD_FOR_TYPE(sad::Vector<sad::String>)
 
 }
 

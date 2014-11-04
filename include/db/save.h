@@ -31,7 +31,7 @@ inline picojson::value Save<_Type>::perform(void * ptr)
 		return v;
 	}
 	throw sad::db::NotImplemented("sad::db::Save<_Type>::perform");
-	return picojson::value();
+	//return picojson::value();
 }
 
 /*! Specification for saving bool values
@@ -45,7 +45,7 @@ public:
  */
 static picojson::value perform(void * ptr)
 {
-	return picojson::value(*(bool*)ptr);
+	return picojson::value(*reinterpret_cast<bool*>(ptr));
 }
 
 };
@@ -92,7 +92,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	return picojson::value(*(std::string*)ptr);
+	return picojson::value(*reinterpret_cast<std::string*>(ptr));
 }
 
 };
@@ -109,7 +109,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	return picojson::value((sad::String)(*(sad::String*)ptr));
+	return picojson::value(static_cast<sad::String>(*reinterpret_cast<sad::String*>(ptr)));
 }
 
 };
@@ -127,10 +127,10 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::Point2D & p = *((sad::Point2D *)ptr);
+	const sad::Point2D & p = *(reinterpret_cast<sad::Point2D *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("x", picojson::value((double)(p.x())));
-	v.insert("y", picojson::value((double)(p.y())));
+	v.insert("x", picojson::value(static_cast<double>(p.x())));
+	v.insert("y", picojson::value(static_cast<double>(p.y())));
 	return v;
 }
 
@@ -149,10 +149,10 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::Point2I & p = *((sad::Point2I *)ptr);
+	const sad::Point2I & p = *(reinterpret_cast<sad::Point2I *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("x", picojson::value((double)(p.x())));
-	v.insert("y", picojson::value((double)(p.y())));
+	v.insert("x", picojson::value(static_cast<double>(p.x())));
+	v.insert("y", picojson::value(static_cast<double>(p.y())));
 	return v;
 }
 
@@ -171,7 +171,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	sad::Rect2D & p = *((sad::Rect2D *)ptr);
+	sad::Rect2D & p = *(reinterpret_cast<sad::Rect2D *>(ptr));
 	picojson::value v(picojson::object_type, false);
 	v.insert("p1", sad::db::Save<sad::Point2D>::perform(&(p[0])));
 	v.insert("p2", sad::db::Save<sad::Point2D>::perform(&(p[1])));
@@ -195,11 +195,11 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::Color & p = *((sad::Color *)ptr);
+	const sad::Color & p = *(reinterpret_cast<sad::Color *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("r", picojson::value((double)(p.r())));
-	v.insert("g", picojson::value((double)(p.g())));
-	v.insert("b", picojson::value((double)(p.b())));
+	v.insert("r", picojson::value(static_cast<double>(p.r())));
+	v.insert("g", picojson::value(static_cast<double>(p.g())));
+	v.insert("b", picojson::value(static_cast<double>(p.b())));
 	return v;
 }
 
@@ -218,12 +218,12 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::AColor & p = *((sad::AColor *)ptr);
+	const sad::AColor & p = *(reinterpret_cast<sad::AColor *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("r", picojson::value((double)(p.r())));
-	v.insert("g", picojson::value((double)(p.g())));
-	v.insert("b", picojson::value((double)(p.b())));
-	v.insert("a", picojson::value((double)(p.a())));
+	v.insert("r", picojson::value(static_cast<double>(p.r())));
+	v.insert("g", picojson::value(static_cast<double>(p.g())));
+	v.insert("b", picojson::value(static_cast<double>(p.b())));
+	v.insert("a", picojson::value(static_cast<double>(p.a())));
 	return v;
 }
 
@@ -242,7 +242,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	sad::Vector<sad::Vector<sad::AColor> > & p = *((sad::Vector<sad::Vector<sad::AColor> > *)ptr);
+	sad::Vector<sad::Vector<sad::AColor> > & p = *(reinterpret_cast<sad::Vector<sad::Vector<sad::AColor> > *>(ptr));
 	picojson::value v(picojson::array_type, false);
 	for(size_t i = 0; i < p.size(); i++)
 	{
@@ -271,10 +271,10 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::Size2D & p = *((sad::Size2D *)ptr);
+	const sad::Size2D & p = *(reinterpret_cast<sad::Size2D *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("width", picojson::value((double)(p.Width)));
-	v.insert("height", picojson::value((double)(p.Height)));
+	v.insert("width", picojson::value(static_cast<double>(p.Width)));
+	v.insert("height", picojson::value(static_cast<double>(p.Height)));
 	return v;
 }
 
@@ -293,10 +293,10 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::Size2I & p = *((sad::Size2I *)ptr);
+	const sad::Size2I & p = *(reinterpret_cast<sad::Size2I *>(ptr));
 	picojson::value v(picojson::object_type, false);
-	v.insert("width", picojson::value((double)(p.Width)));
-	v.insert("height", picojson::value((double)(p.Height)));
+	v.insert("width", picojson::value(static_cast<double>(p.Width)));
+	v.insert("height", picojson::value(static_cast<double>(p.Height)));
 	return v;
 }
 
@@ -315,7 +315,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	sad::Vector<sad::Point2D> & p = *((sad::Vector<sad::Point2D> *)ptr);
+	sad::Vector<sad::Point2D> & p = *(reinterpret_cast<sad::Vector<sad::Point2D> *>(ptr));
 	picojson::value v(picojson::array_type, false);
 	for(size_t i = 0; i < p.size(); i++)
 	{
@@ -339,7 +339,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	const sad::dialogue::Phrase & p = *((sad::dialogue::Phrase *)ptr);
+	const sad::dialogue::Phrase & p = *(reinterpret_cast<sad::dialogue::Phrase *>(ptr));
 	picojson::value v(picojson::object_type, false);
 	v.insert("name", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.actorName()))));
 	v.insert("portrait", sad::db::Save<sad::String>::perform(const_cast<sad::String*>(&(p.actorPortrait()))));
@@ -365,7 +365,7 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	sad::Vector<sad::dialogue::Phrase*> & p = *((sad::Vector<sad::dialogue::Phrase*> *)ptr);
+	sad::Vector<sad::dialogue::Phrase*> & p = *(reinterpret_cast<sad::Vector<sad::dialogue::Phrase*> *>(ptr));
 	picojson::value v(picojson::array_type, false);
 	for(size_t i = 0; i < p.size(); i++)
 	{
@@ -389,11 +389,35 @@ static picojson::value perform(void * ptr)
 {
 	if (!ptr)
 		throw sad::db::InvalidPointer();
-	sad::Vector<unsigned long long> & p = *((sad::Vector<unsigned long long> *)ptr);
+	sad::Vector<unsigned long long> & p = *(reinterpret_cast<sad::Vector<unsigned long long> *>(ptr));
 	picojson::value v(picojson::array_type, false);
 	for(size_t i = 0; i < p.size(); i++)
 	{
 		v.push_back(sad::db::Save<unsigned long long>::perform(&(p[i])));
+	}
+	return v;
+}
+
+};
+
+/*! Specification for saving values of type vector of unsigned long long
+ */
+template<>
+class Save<sad::Vector<sad::String> >
+{
+public:
+/*! Saves a value of specified type
+	\param[in] ptr a value to be saved
+ */
+static picojson::value perform(void * ptr)
+{
+	if (!ptr)
+		throw sad::db::InvalidPointer();
+	sad::Vector<sad::String> & p = *(reinterpret_cast<sad::Vector<sad::String> *>(ptr));
+	picojson::value v(picojson::array_type, false);
+	for(size_t i = 0; i < p.size(); i++)
+	{
+		v.push_back(sad::db::Save<sad::String>::perform(&(p[i])));
 	}
 	return v;
 }

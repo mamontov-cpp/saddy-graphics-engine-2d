@@ -153,10 +153,11 @@ void sad::Label::render()
 	glTranslatef((GLfloat)m_center.x(), (GLfloat)m_center.y(), 0.0f);
 	glRotatef((GLfloat)(m_angle / M_PI*180.0f), 0.0f, 0.0f, 1.0f);
 
-	
-	if (font)
-		font->render(m_string, m_halfpadding);
-
+	if (m_size > 0)
+	{
+		if (font)
+			font->render(m_string, m_halfpadding);
+	}
 	glPopMatrix();
 }
 

@@ -18,6 +18,9 @@
 #include <label.h>
 #include <texturemappedfont.h>
 #include <freetype/font.h>
+#include <animations/animationsfontsize.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationsinstance.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -124,7 +127,11 @@ int thread(void * p)
 	   variable
 	 */
 	sad::log::FileTarget * fl = new sad::log::FileTarget();
-	bool b = fl->open((const char *)p);
+	bool b = fl->open(static_cast<const char *>(p));
+	if (!b)
+	{
+		SL_LOCAL_DEBUG("Failed to open local file", r);
+	}
 	r.log()->addTarget( fl);
 	
 	/* Create 800x600 window in windowed mode and toggle a fixed size of window
@@ -140,16 +147,31 @@ int thread(void * p)
 
 	/*! Load resources
 	 */
-	bool res=true; 
 	sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multithreading.json");
 	sad::String errortext;
 	if (errors.size() != 0)
 	{
-		res = false;
+
 		SL_LOCAL_FATAL(sad::resource::format(errors), r);
 		sad::util::free(errors);
 		return 1;
 	} 
+
+	// Create a simple animations
+	sad::animations::FontSize* fontsizeanimation = new sad::animations::FontSize();
+	fontsizeanimation->setLooped(true);
+	fontsizeanimation->setTime(1000);
+	fontsizeanimation->setMinSize(11);
+	fontsizeanimation->setMaxSize(33);
+	r.tree("")->root()->addResource("fontsizeanimation", fontsizeanimation);
+	sad::animations::FontList* fontlistanimation = new sad::animations::FontList();
+	fontlistanimation->setLooped(true);
+	fontlistanimation->setTime(1000);
+	sad::Vector<sad::String> fontlist;
+	fontlist << "tmfont";
+	fontlist << "ftfont";
+	fontlistanimation->setFonts(fontlist);
+	r.tree("")->root()->addResource("fontlistanimation", fontlistanimation);
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
 	 */
@@ -164,6 +186,16 @@ int thread(void * p)
 	l2->setColor(255, 255, 255, 0);
 	scene->add(l1);
 	scene->add(l2);
+
+	sad::animations::Instance* fontsizeanimationinstance = new sad::animations::Instance();
+	fontsizeanimationinstance->setAnimation(fontsizeanimation);
+	fontsizeanimationinstance->setObject(l1);
+	r.animations()->add(fontsizeanimationinstance);
+
+	sad::animations::Instance* fontlistanimationinstance = new sad::animations::Instance();
+	fontlistanimationinstance->setAnimation(fontlistanimation);
+	fontlistanimationinstance->setObject(l2);
+	r.animations()->add(fontlistanimationinstance);
 	
 	/* Here we bind two different handlers with keydown
 	 */
@@ -197,8 +229,8 @@ int main(int argc, char** argv)
 {
 	sad::Renderer::ref()->information("Multithreading demo", "This is demo for multithreading");
 	// Here we create two waitable threads
-	sad::Thread a(thread,const_cast<void *>((void*)"thread1.txt"));
-	sad::Thread b(thread,const_cast<void *>((void*)"thread2.txt"));
+	sad::Thread a(thread,static_cast<void *>(const_cast<char*>("thread1.txt")));
+	sad::Thread b(thread,static_cast<void *>(const_cast<char*>("thread2.txt")));
 	// Run them
 	a.run();
 	b.run();

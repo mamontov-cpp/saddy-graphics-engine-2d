@@ -829,6 +829,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsfontlist.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsfontsize.cpp"
 					>
 				</File>
@@ -1788,6 +1792,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationscallback.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsfontlist.h"
 					>
 				</File>
 				<File

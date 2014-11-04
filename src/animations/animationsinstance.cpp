@@ -21,7 +21,7 @@
 
 
 sad::animations::Instance::Instance()
-: m_paused(false), m_started(false), m_finished(false)
+: m_paused(false), m_started(false), m_finished(false), m_start_time(0)
 {
 
 }
