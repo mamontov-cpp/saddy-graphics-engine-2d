@@ -34,6 +34,11 @@ class Object:public sad::db::Object
 	 /*! An object data
 	  */
 	 virtual ~Object();
+	 /*! A basic introspection capability. Checks, whether object has specified type
+		\param[in] name name of class
+		\return in basic implementation - false
+	 */
+	 virtual bool isInstanceOf(const sad::String& name);
 	 /*! Performs checked casting to object, throws exception on error
 		 \return type if it can be casted, otherwise throws an exception
 	  */
@@ -101,23 +106,21 @@ namespace sad
  */
 template<typename _Dest, typename _Src> _Dest * checked_cast(_Src * arg)                
 {                                                                
-	_Dest * result = NULL;                                       
+	_Dest * result;                                       
 	const sad::String & destname = _Dest::globalMetaData()->name();      
 	if (arg->metaData()->canBeCastedTo(destname) == false)      
 	{                                                            
 		throw sad::InvalidCastException(arg->metaData()->name(), destname); 
-	}                                                            
-	else                                                         
-	{ 
-		if (arg->metaData()->casts().contains(destname))
-		{
-			sad::Object * o = arg->metaData()->casts()[destname]->cast((void*)arg);
-			result = reinterpret_cast<_Dest*>(o); 
-		}
-		else
-		{
-			result = static_cast<_Dest*>(arg); 
-		}
+	}          
+
+	if (arg->metaData()->casts().contains(destname))
+	{
+		sad::Object * o = arg->metaData()->casts()[destname]->cast(static_cast<void*>(arg));
+		result = reinterpret_cast<_Dest*>(o); 
+	}
+	else
+	{
+		result = static_cast<_Dest*>(arg); 
 	}                                                            
 	return result;                                               
 }  

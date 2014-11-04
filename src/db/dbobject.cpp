@@ -113,3 +113,9 @@ sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) cons
 	}
 	return result;
 }
+
+
+bool sad::db::Object::isInstanceOf(const sad::String& name)
+{
+	return false;
+}
