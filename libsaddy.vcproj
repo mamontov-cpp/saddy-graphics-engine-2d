@@ -829,6 +829,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationscamerarotation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationscamerashaking.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsfontlist.cpp"
 					>
 				</File>
@@ -1800,6 +1808,14 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationscallback.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationscamerarotation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationscamerashaking.h"
 					>
 				</File>
 				<File

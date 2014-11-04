@@ -117,5 +117,5 @@ sad::db::Property* sad::db::Object::getObjectProperty(const sad::String& s) cons
 
 bool sad::db::Object::isInstanceOf(const sad::String& name)
 {
-	return false;
+	return this->serializableName() == name;
 }
