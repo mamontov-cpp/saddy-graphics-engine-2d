@@ -848,6 +848,10 @@
 					RelativePath=".\src\animations\animationsprocess.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\src\animations\animationtexturecoordinateslist.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1812,6 +1816,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsprocess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationstexturecoordinateslist.h"
 					>
 				</File>
 			</Filter>
