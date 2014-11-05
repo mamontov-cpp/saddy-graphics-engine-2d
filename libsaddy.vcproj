@@ -865,6 +865,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationssavedobjectstate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationssavedobjectstatecache.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationtexturecoordinateslist.cpp"
 					>
 				</File>
@@ -1856,6 +1864,14 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsprocess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectstate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectstatecache.h"
 					>
 				</File>
 				<File

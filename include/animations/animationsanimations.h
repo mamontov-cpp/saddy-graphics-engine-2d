@@ -11,6 +11,7 @@
 #include "../pipeline/pipelineprocess.h"
 
 #include "animationsprocess.h"
+#include "animationssavedobjectstatecache.h"
 
 
 namespace sad
@@ -31,6 +32,10 @@ public:
 	/*! Removes links to processes
 	 */
 	virtual ~Animations();
+	/*! A cache, for saving object state
+		\return cache for saving state
+	 */
+	sad::animations::SavedObjectStateCache& cache();
 protected:
 	/*! Runs every process
 	 */ 
@@ -48,6 +53,9 @@ protected:
 	/*! A list of animations processes
 	 */
 	sad::Vector<sad::animations::Process*> m_list;
+	/*! A cache, for saving an animations
+	 */
+	sad::animations::SavedObjectStateCache m_cache;
 };
 
 }

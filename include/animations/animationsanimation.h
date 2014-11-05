@@ -7,6 +7,7 @@
 
 #include "../resource/resource.h"
 
+#include "animationssavedobjectstate.h"
 
 namespace sad
 {
@@ -61,6 +62,9 @@ public:
         \param[in] i an animation instance
      */
     virtual void resetState(sad::animations::Instance* i) = 0;
+	/*! Creates a save state for an object
+	 */
+	virtual sad::animations::SavedObjectState* saveState(sad::db::Object* o) = 0;
 protected:
 	/*! Updates flag of validity
 	 */
