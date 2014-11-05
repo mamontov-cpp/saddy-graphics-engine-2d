@@ -1,5 +1,7 @@
 #include "animations/animationsanimations.h"
 
+// ========================= PUBLIC METHODS =========================
+
 sad::animations::Animations::Animations()
 {
 	
@@ -9,6 +11,13 @@ sad::animations::Animations::~Animations()
 {
 	this->clearNow();
 }
+
+sad::animations::SavedObjectStateCache& sad::animations::Animations::cache()
+{
+	return m_cache;
+}
+
+// ========================= PROTECTED METHODS =========================
 
 void sad::animations::Animations::_process()
 {
