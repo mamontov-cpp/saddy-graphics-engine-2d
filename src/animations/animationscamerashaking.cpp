@@ -22,7 +22,43 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::CameraShaking, sad::animations::Animation);
 
-// =============================== PUBLIC METHODS ==========================
+// =============================== PUBLIC METHODS OF sad::animations::CameraShaking::AbstractFastCall ==========================
+
+sad::animations::CameraShaking::AbstractFastCall::~AbstractFastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS OF sad::animations::CameraShaking::DummyFastCall ==========================
+
+void sad::animations::CameraShaking::DummyFastCall::call(const sad::Point3D& v)
+{
+
+}
+
+sad::animations::CameraShaking::DummyFastCall::~DummyFastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS OF sad::animations::CameraShaking::FastCall ==========================
+
+sad::animations::CameraShaking::FastCall::FastCall(sad::Scene* s) : m_scene(s)
+{
+
+}
+
+void sad::animations::CameraShaking::FastCall::call(const sad::Point3D& v)
+{
+	m_scene->camera().TranslationOffset = v;
+}
+
+sad::animations::CameraShaking::FastCall::~FastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS of sad::animations::CameraShaking ==========================
 
 
 sad::animations::CameraShaking::CameraShaking() : m_frequency(0)
@@ -52,6 +88,9 @@ bool sad::animations::CameraShaking::loadFromValue(const picojson::value& v)
 		{
 			m_offset = offset.value();
 			m_frequency = frequency.value();
+
+			m_inner_valid  = m_frequency != 0;
+			this->updateValidFlag();
 		}
 
 		flag = flag && result;
@@ -79,24 +118,17 @@ int sad::animations::CameraShaking::frequency() const
 	return m_frequency;
 }
 
-void sad::animations::CameraShaking::setState(sad::db::Object* o, double time)
+void sad::animations::CameraShaking::setState(sad::animations::Instance* i, double time)
 {
-	if (o == NULL || m_frequency == NULL || sad::is_fuzzy_zero(m_time))
-		return;
-
-	if (o->isInstanceOf("sad::Scene"))
-	{
-		sad::Scene* scene = static_cast<sad::Scene*>(o);
-		sad::Point2D offset = m_offset * cos(time / m_time * static_cast<double>(m_frequency));
-		scene->camera().TranslationOffset = offset;
-	}
+	sad::Point2D offset = m_offset * cos(time / m_time * static_cast<double>(m_frequency));	
+	static_cast<sad::animations::CameraShaking::AbstractFastCall*>(i->fastCall())->call(offset);
 }
 
 bool sad::animations::CameraShaking::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		if (o->isInstanceOf("sad::Scene"))
 		{
@@ -105,7 +137,13 @@ bool sad::animations::CameraShaking::saveState(sad::animations::Instance* i)
 			sad::Point3D v = s->camera().TranslationOffset;
 			i->oldState().clear();
 			i->oldState() << sad::db::Variant(v);
+
+			i->setFastCall(new sad::animations::CameraShaking::FastCall(s));
 		}
+	}
+	if (!result)
+	{
+		i->setFastCall(new sad::animations::CameraShaking::DummyFastCall());
 	}
 	return result;
 }

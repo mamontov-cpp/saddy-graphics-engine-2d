@@ -5,8 +5,11 @@
  */
 #pragma once
 #include "animationsanimation.h"
+#include "animationsanimationfastcall.h"
 
 #include "../sadpoint.h"
+#include "../scene.h"
+
 
 namespace sad
 {
@@ -20,6 +23,62 @@ class CameraRotation: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
+	/*! An abstract fast call for rotating camera
+	 */
+	class AbstractFastCall: public sad::animations::AnimationFastCall
+	{
+	public: 
+		/*! Applies a rotation to camera
+			\param[in] angle angle for rotation
+		 */
+		virtual void call(double angle) = 0;
+		/*! Must be inherited
+		 */
+		virtual ~AbstractFastCall();
+	};
+
+	/*! A dummy fast call. Does nothing
+	 */
+	class DummyFastCall: public sad::animations::CameraRotation::AbstractFastCall
+	{
+	public: 
+		/*! Does nothing
+			\param[in] angle angle for rotation
+		 */
+		virtual void call(double angle);
+		/*! Must be inherited
+		 */
+		virtual ~DummyFastCall();
+	};
+
+	/*! A real fast call for scene
+	 */
+	class FastCall: public  sad::animations::CameraRotation::AbstractFastCall
+	{
+	public: 
+		/*! Sets a scene and pivot for translation
+			\param[in] s scene
+			\param[in] p a pivot offset for rotation
+		 */
+		FastCall(sad::Scene* s, const sad::Point3D& p);
+		/*! Applies rotation and translation
+			\param[in] angle angle for rotation
+		 */
+		virtual void call(double angle);
+		/*! Must be inherited
+		 */
+		virtual ~FastCall();
+	protected:
+		/*! A pivot for translation
+		 */
+		sad::Point3D m_pivot;
+		/*! A sceme for rotating a camera
+		 */
+		sad::Scene* m_scene;
+	};
+
+
+
 	/*! Creates new empty animation
 	 */
 	CameraRotation();
@@ -56,10 +115,10 @@ public:
 	 */
 	const sad::Point3D& pivot() const;
 	/*! Sets state of object from animation
-        \param[in] o object
+        \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::db::Object* o, double time);
+    virtual void setState(sad::animations::Instance* i, double time);
     /*! Saves states of object in animation instance
         \param[in] i an animation instance
         \return whether we can work further with this object in instance

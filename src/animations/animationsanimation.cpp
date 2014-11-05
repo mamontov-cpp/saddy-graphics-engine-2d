@@ -2,6 +2,8 @@
 
 #include "renderer.h"
 
+#include "fuzzyequal.h"
+
 #include <util/fs.h>
 
 #include <resource/physicalfile.h>
@@ -14,7 +16,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 
 // =============================== PUBLIC METHODS ==========================
 
-sad::animations::Animation::Animation() : m_looped(false), m_time(0)
+sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_valid(true), m_inner_valid(true)
 {
 
 }
@@ -37,6 +39,7 @@ bool sad::animations::Animation::looped() const
 void sad::animations::Animation::setTime(double time)
 {
     m_time = time;
+	this->updateValidFlag();	
 }
 
 double sad::animations::Animation::time() const
@@ -57,11 +60,17 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
     {
         m_looped = looped.value();
         m_time = time.value();
+		this->updateValidFlag();
     }
     return result;
 }
 
 // =============================== PROTECTED METHODS ==========================
+
+void sad::animations::Animation::updateValidFlag()
+{
+	m_valid = m_inner_valid && !sad::is_fuzzy_zero(m_time);
+}
 
 bool sad::animations::Animation::load(
     const sad::resource::PhysicalFile & file,

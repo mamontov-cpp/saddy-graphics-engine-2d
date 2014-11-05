@@ -80,6 +80,14 @@ public:
 		\param[in] size a size of custom object
 	 */
 	void setFontSize(unsigned int);
+	/*! Sets font name for custom object
+		\return font name
+	 */
+	const sad::String& fontName() const;
+	/*! Sets font name for object
+		\param[in] name name for font
+	 */
+	void setFontName(const sad::String& name);
 	/*! Returns line spacing for, used in label
 		\return line spacing for label
 	 */ 
@@ -143,11 +151,28 @@ public:
 		\return property list from schema
 	 */
 	const sad::Hash<sad::String, sad::db::Property*>& schemaProperties() const;
+	/*! Sets sprite options for custom object
+		\param[in] o options
+	 */
+	void setOptions(const sad::String& o);
+	/*! Returns sprite options for custom object
+		\return sprite options
+	 */
+	const sad::String& options() const;
 	/*! Loads object from picojson object
 		\param[in] v a picojson object
 		\return  whether it as successfull
 	 */
 	virtual bool load(const picojson::value& v);
+	/*! Sets a texture coordinates for sprites
+		\param[in] texturecoordinates a texture coordinates for a sprite in notation, defined in 
+									  constructor
+	 */
+	void setTextureCoordinates(const sad::Rect2D & texturecoordinates);
+	/*! Returns a texture coordinates
+		\return a texture coordinates
+	 */
+	const sad::Rect2D & textureCoordinates() const;
 protected:
 	/*! Fills custom object with defailt item properties
 	 */

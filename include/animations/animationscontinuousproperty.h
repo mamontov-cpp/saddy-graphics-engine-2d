@@ -114,13 +114,15 @@ public:
 		return m_max_value;	
 	}
 	/*! Sets state of object from animation
-        \param[in] o object
+        \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::db::Object* o, double time)
+    virtual void setState(sad::animations::Instance* i, double time)
 	{
-		if (sad::is_fuzzy_zero(m_time))
+		if (!m_valid)
 			return;
+		
+		sad::db::Object* o = i->object();
 
 		T min = m_min_value;
 		T max = m_max_value;

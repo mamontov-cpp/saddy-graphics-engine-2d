@@ -48,10 +48,10 @@ public:
      */
     double time() const;
     /*! Sets state of object from animation
-        \param[in] o object
+        \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::db::Object* o, double time) = 0;
+    virtual void setState(sad::animations::Instance* i, double time) = 0;
     /*! Saves states of object in animation instance
         \param[in] i an animation instance
         \return whether we can work further with this object in instance
@@ -62,6 +62,9 @@ public:
      */
     virtual void resetState(sad::animations::Instance* i) = 0;
 protected:
+	/*! Updates flag of validity
+	 */
+	void updateValidFlag();
     /*! Loads an animation from specified file, using specified renderer for resolving some
         properties.
         \param[in] file a file, via which a resource should be loaded
@@ -80,6 +83,12 @@ protected:
     /*! A total time of animation playback
      */
     double m_time;
+	/*! Whether animation's specific implementation is valid
+	 */
+	bool m_inner_valid;
+	/*! Whether all animation is valid
+	 */
+	bool m_valid;
 };
 
 }

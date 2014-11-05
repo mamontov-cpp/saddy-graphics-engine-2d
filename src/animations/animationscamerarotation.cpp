@@ -1,5 +1,6 @@
 #include "animations/animationscamerarotation.h"
 #include "animations/animationsinstance.h"
+#include "animations/animationsanimationfastcall.h"
 
 #include "../fuzzyequal.h"
 #include "../scene.h"
@@ -22,7 +23,46 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::CameraRotation, sad::animations::Animation);
 
-// =============================== PUBLIC METHODS ==========================
+// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::AbstractFastCall ==========================
+
+sad::animations::CameraRotation::AbstractFastCall::~AbstractFastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::DummyFastCall ==========================
+
+void sad::animations::CameraRotation::DummyFastCall::call(double angle)
+{
+
+}
+
+sad::animations::CameraRotation::DummyFastCall::~DummyFastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::FastCall ==========================
+
+sad::animations::CameraRotation::FastCall::FastCall(sad::Scene* s, const sad::Point3D& p) : m_scene(s), m_pivot(p)
+{
+
+}
+
+void sad::animations::CameraRotation::FastCall::call(double angle)
+{
+	sad::Camera& c = m_scene->camera();
+	c.Angle = angle;
+	c.RotationVectorDirection = sad::Vector3D(0, 0, 1);
+	c.TemporaryRotationOffset = m_pivot;
+}
+
+sad::animations::CameraRotation::FastCall::~FastCall()
+{
+
+}
+
+// =============================== PUBLIC METHODS OF sad::animations::CameraRotation ==========================
 
 sad::animations::CameraRotation::CameraRotation() : m_min_angle(0), m_max_angle(0)
 {
@@ -91,26 +131,17 @@ const sad::Point3D& sad::animations::CameraRotation::pivot() const
 	return m_pivot;
 }
 
-void sad::animations::CameraRotation::setState(sad::db::Object* o, double time)
+void sad::animations::CameraRotation::setState(sad::animations::Instance* i, double time)
 {
-	if (o == NULL || sad::is_fuzzy_zero(m_time))
-		return;
-
-	if (o->isInstanceOf("sad::Scene"))
-	{
-		sad::Scene* scene = static_cast<sad::Scene*>(o);
-		sad::Camera& c = scene->camera();
-		c.Angle = m_min_angle + (m_max_angle - m_min_angle) * time / m_time;
-		c.RotationVectorDirection = sad::Vector3D(0, 0, 1);
-		c.TemporaryRotationOffset = m_pivot;
-	}
+	double angle = m_min_angle + (m_max_angle - m_min_angle) * time / m_time;;
+	static_cast<sad::animations::CameraRotation::AbstractFastCall*>(i->fastCall())->call(angle);
 }
 
 bool sad::animations::CameraRotation::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		if (o->isInstanceOf("sad::Scene"))
 		{
@@ -123,7 +154,13 @@ bool sad::animations::CameraRotation::saveState(sad::animations::Instance* i)
 			i->oldState() << sad::db::Variant(v);
 			i->oldState() << sad::db::Variant(a);
 			i->oldState() << sad::db::Variant(offset);
+
+			i->setFastCall(new sad::animations::CameraRotation::FastCall(s, m_pivot));
 		}
+	}
+	if (!result)
+	{
+		i->setFastCall(new sad::animations::CameraRotation::DummyFastCall());
 	}
 	return result;
 }
