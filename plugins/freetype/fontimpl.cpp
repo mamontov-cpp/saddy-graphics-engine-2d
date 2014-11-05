@@ -40,6 +40,11 @@ bool sad::freetype::FontImpl::load(const sad::String & filename)
 		m_face = 0;
 		return false;
 	}
+	// Build partially a cache for freetype
+	for(size_t i = 10; i < 36; ++i)
+	{
+		this->fontForSize(i);
+	}
 	return true;
 }
 

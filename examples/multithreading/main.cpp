@@ -193,6 +193,7 @@ int thread(void * p)
 	fontsizeanimationinstance->setAnimation(fontsizeanimation);
 	fontsizeanimationinstance->setObject(l1);
 	r.animations()->add(fontsizeanimationinstance);
+	
 
 
 	sad::animations::Instance* camerarotationinstance = new sad::animations::Instance();
