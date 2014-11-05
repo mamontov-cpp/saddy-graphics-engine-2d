@@ -59,6 +59,8 @@ public:
 			if (result)
 			{
 				m_list = list.value();
+				m_inner_valid = m_list.size() != 0;
+				updateValidFlag();
 			}
 
 			flag = flag && result;
@@ -94,12 +96,12 @@ public:
 		return m_property_name;
 	}
 	/*! Sets state of object from animation
-        \param[in] o object
+        \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::db::Object* o, double time)
+    virtual void setState(sad::animations::Instance* i, double time)
 	{
-		if (sad::is_fuzzy_zero(m_time) || m_list.size() == 0)
+		if (!m_valid)
 			return;
 
 		double value = static_cast<double>(m_list.size()) * time / m_time;

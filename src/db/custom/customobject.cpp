@@ -108,6 +108,16 @@ void sad::db::custom::Object::setFontSize(unsigned int size)
 	m_label->setSize(size);
 }
 
+const sad::String& sad::db::custom::Object::fontName() const
+{
+	return m_label->fontName();
+}
+
+void sad::db::custom::Object::setFontName(const sad::String& name)
+{
+	m_label->setFontName(name);
+}
+
 float sad::db::custom::Object::lineSpacing() const
 {
 	return m_label->lineSpacing();
@@ -203,6 +213,27 @@ const sad::Hash<sad::String, sad::db::Property*>&  sad::db::custom::Object::sche
 	return m_custom_schema->ownProperties();
 }
 
+void sad::db::custom::Object::setOptions(const sad::String& o)
+{
+	m_sprite2d->set(o);
+}
+
+const sad::String& sad::db::custom::Object::options() const
+{
+	return m_sprite2d->optionsName();
+}
+
+void sad::db::custom::Object::setTextureCoordinates(const sad::Rect2D & texturecoordinates)
+{
+	m_sprite2d->setTextureCoordinates(texturecoordinates);
+}
+
+const sad::Rect2D & sad::db::custom::Object::textureCoordinates() const
+{
+	return  m_sprite2d->textureCoordinates();
+}
+
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
 	m_sprite2d->toggleLoadingMode();
@@ -220,6 +251,13 @@ void sad::db::custom::Object::initDefaultSchema()
 		)
 	);
 	m_my_schema->add(
+		"font", 
+		new sad::db::MethodPair<sad::db::custom::Object, sad::String>(
+			&sad::db::custom::Object::fontName,
+			&sad::db::custom::Object::setFontName
+		)
+	);
+	m_my_schema->add(
 		"fontsize", 
 		new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
 			&sad::db::custom::Object::fontSize,
@@ -227,10 +265,24 @@ void sad::db::custom::Object::initDefaultSchema()
 		)
 	);
 	m_my_schema->add(
+		"options", 
+		new sad::db::MethodPair<sad::db::custom::Object, sad::String>(
+			&sad::db::custom::Object::options,
+			&sad::db::custom::Object::setOptions
+		)
+	);
+	m_my_schema->add(
 		"linespacing", 
 		new sad::db::MethodPair<sad::db::custom::Object, float>(
 			&sad::db::custom::Object::lineSpacing,
 			&sad::db::custom::Object::setLineSpacing
+		)
+	);
+	m_my_schema->add(
+		"texturecoordinates", 
+		new sad::db::MethodPair<sad::db::custom::Object, sad::Rect2D>(
+			&sad::db::custom::Object::textureCoordinates,
+			&sad::db::custom::Object::setTextureCoordinates
 		)
 	);
 	m_my_schema->add(

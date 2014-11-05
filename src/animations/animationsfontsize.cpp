@@ -1,6 +1,9 @@
 #include "animations/animationsfontsize.h"
 #include "animations/animationsinstance.h"
 
+#include "label.h"
+#include "db/custom/customobject.h"
+
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -74,26 +77,20 @@ unsigned int sad::animations::FontSize::maxSize() const
 	return m_max_size;
 }
 
-void sad::animations::FontSize::setState(sad::db::Object* o, double time)
-{
-	if (sad::is_fuzzy_zero(m_time))
-		return;
-
+void sad::animations::FontSize::setState(sad::animations::Instance* i, double time)
+{	
 	double min = m_min_size;
 	double max = m_max_size;
 	double value = min + (max - min) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
-	if (o)
-	{
-		o->setProperty("fontsize", kvalue);
-	}
+	static_cast<sad::animations::AnimationFastCallFor<unsigned int> *>(i->fastCall())->call(kvalue);
 }
 
 bool sad::animations::FontSize::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		sad::Maybe<unsigned int> maybesize = o->getProperty<unsigned int>("fontsize"); 
 		if (maybesize.exists())
@@ -102,8 +99,30 @@ bool sad::animations::FontSize::saveState(sad::animations::Instance* i)
 
 			i->oldState().clear();
 			i->oldState() << sad::db::Variant(maybesize.value());
+
+			if (o->isInstanceOf("sad::Label"))
+			{
+				i->setFastCall( sad::animations::make_fastcall(o, &sad::Label::setSize));
+			}
+			else
+			{
+				if (o->isInstanceOf("sad::db::custom::Object"))
+				{
+					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setFontSize));
+				}
+				else
+				{
+					i->setFastCall( new sad::animations::SetProperty<unsigned int>(o, "fontsize"));
+				}
+			}
 		}
 	}
+
+	if (!result)
+	{
+		i->setFastCall( new sad::animations::AnimationFastCallFor<unsigned int>() );
+	}
+
 	return result;
 }
 

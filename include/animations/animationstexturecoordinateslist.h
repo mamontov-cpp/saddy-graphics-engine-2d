@@ -45,10 +45,10 @@ public:
 	 */
 	const sad::Vector<sad::String> & list() const;
 	/*! Sets state of object from animation
-        \param[in] o object
+        \param[in] i an animation instance
         \param[in] time a time of playing of animation
      */
-    virtual void setState(sad::db::Object* o, double time);
+    virtual void setState(sad::animations::Instance* i, double time);
     /*! Saves states of object in animation instance
         \param[in] i an animation instance
         \return whether we can work further with this object in instance

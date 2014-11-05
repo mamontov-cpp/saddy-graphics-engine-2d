@@ -18,6 +18,7 @@
 #include "animationsanimation.h"
 #include "animationscallback.h"
 #include "animationsprocess.h"
+#include "animationsanimationfastcall.h"
 
 namespace sad
 {
@@ -185,7 +186,18 @@ public:
 	/*! Called, when process is removed from pipeline
 	 */
 	virtual void removedFromPipeline();
+	/*! Sets fast call for animation 
+		\param[in] call fast call
+	 */
+	void setFastCall(sad::animations::AnimationFastCall* call);
+	/*! Returns fast call for animation
+		\return fast call for animation
+	 */
+	sad::animations::AnimationFastCall* fastCall() const;
 protected:
+	/*! Clears fast call for instance
+	 */
+	void clearFastCall();
     /*! A custom processing part, which could be reimplemented to synchronize
         something
      */
@@ -217,6 +229,9 @@ protected:
     /*! A lists of variants for saving old dstate
      */
     sad::Vector<sad::db::Variant> m_oldstate;
+	/*! A fast call animation for cache
+	 */
+	sad::animations::AnimationFastCall* m_fastcall;
 };
 
 }

@@ -1,6 +1,9 @@
 #include "animations/animationstexturecoordinateslist.h"
 #include "animations/animationsinstance.h"
 
+#include "sprite2d.h"
+#include "db/custom/customobject.h"
+
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -42,6 +45,8 @@ bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::valu
 		if (result)
 		{
 			m_list = list.value();
+			m_inner_valid = m_list.size() != 0;
+			this->updateValidFlag();
 		}
 
 		flag = flag && result;
@@ -60,11 +65,8 @@ const sad::Vector<sad::String> & sad::animations::TextureCoordinatesList::list()
 }
 
 
-void sad::animations::TextureCoordinatesList::setState(sad::db::Object* o, double time)
+void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance* i, double time)
 {
-	if (sad::is_fuzzy_zero(m_time) || m_list.size() == 0)
-		return;
-
 	double value = static_cast<double>(m_list.size()) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (kvalue < m_list.size())
@@ -72,7 +74,7 @@ void sad::animations::TextureCoordinatesList::setState(sad::db::Object* o, doubl
 		sad::Rect2D* r = this->coordinates(m_list[kvalue]);
 		if (r)
 		{
-			o->setProperty("texturecoordinates", *r);
+			static_cast<sad::animations::AnimationFastCallFor<sad::Rect2D>*>(i->fastCall())->call(*r);
 		}
 	}
 }
@@ -81,7 +83,7 @@ bool sad::animations::TextureCoordinatesList::saveState(sad::animations::Instanc
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		sad::Maybe<sad::Rect2D> maybetc = o->getProperty<sad::Rect2D>("texturecoordinates"); 
 		if (maybetc.exists())
@@ -90,7 +92,26 @@ bool sad::animations::TextureCoordinatesList::saveState(sad::animations::Instanc
 
 			i->oldState().clear();
 			i->oldState() << sad::db::Variant(maybetc.value());
+			if (o->isInstanceOf("sad::Sprite2D"))
+			{
+				i->setFastCall( sad::animations::make_fastcall(o, &sad::Sprite2D::setTextureCoordinates));
+			}
+			else
+			{
+				if (o->isInstanceOf("sad::db::custom::Object"))
+				{
+					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setTextureCoordinates));
+				}
+				else
+				{
+					i->setFastCall( new sad::animations::SetProperty<sad::Rect2D>(o, "texturecoordinates"));
+				}				
+			}
 		}
+	}
+	if (!result)
+	{
+		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::Rect2D>() );
 	}
 	return result;
 }

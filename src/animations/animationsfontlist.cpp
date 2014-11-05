@@ -1,6 +1,9 @@
 #include "animations/animationsfontlist.h"
 #include "animations/animationsinstance.h"
 
+#include "label.h"
+#include "db/custom/customobject.h"
+
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -43,6 +46,8 @@ bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 		if (result)
 		{
 			m_fonts = fonts.value();
+			m_inner_valid = m_fonts.size() != 0;
+			this->updateValidFlag();
 		}
 
 		flag = flag && result;
@@ -60,16 +65,14 @@ const sad::Vector<sad::String> & sad::animations::FontList::fonts() const
 	return m_fonts;
 }
 
-void sad::animations::FontList::setState(sad::db::Object* o, double time)
+void sad::animations::FontList::setState(sad::animations::Instance* i, double time)
 {
-	if (sad::is_fuzzy_zero(m_time) || m_fonts.size() == 0)
-		return;
 
 	double value = static_cast<double>(m_fonts.size()) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (kvalue < m_fonts.size())
 	{
-		o->setProperty("font", m_fonts[kvalue]);
+		static_cast<sad::animations::AnimationFastCallFor<sad::String>*>(i->fastCall())->call(m_fonts[kvalue]);
 	}
 }
 
@@ -78,7 +81,7 @@ bool sad::animations::FontList::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		sad::Maybe<sad::String> maybefont = o->getProperty<sad::String>("font"); 
 		if (maybefont.exists())
@@ -87,7 +90,28 @@ bool sad::animations::FontList::saveState(sad::animations::Instance* i)
 
 			i->oldState().clear();
 			i->oldState() << sad::db::Variant(maybefont.value());
+
+			if (o->isInstanceOf("sad::Label"))
+			{
+				i->setFastCall( sad::animations::make_fastcall(o, &sad::Label::setFontName));
+			}
+			else
+			{
+				if (o->isInstanceOf("sad::db::custom::Object"))
+				{
+					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setFontName));
+				}
+				else
+				{
+					i->setFastCall( new sad::animations::SetProperty<sad::String>(o, "font"));
+				}
+			}
 		}
+	}
+
+	if (!result)
+	{
+		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::String>() );
 	}
 	return result;
 }

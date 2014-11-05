@@ -1,6 +1,9 @@
 #include "animations/animationsoptionlist.h"
 #include "animations/animationsinstance.h"
 
+#include "sprite2d.h"
+#include "db/custom/customobject.h"
+
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -42,6 +45,8 @@ bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 		if (result)
 		{
 			m_list = list.value();
+			m_inner_valid = m_list.size() != 0;
+			this->updateValidFlag();
 		}
 
 		flag = flag && result;
@@ -60,16 +65,13 @@ const sad::Vector<sad::String> & sad::animations::OptionList::list() const
 }
 
 
-void sad::animations::OptionList::setState(sad::db::Object* o, double time)
+void sad::animations::OptionList::setState(sad::animations::Instance* i, double time)
 {
-	if (sad::is_fuzzy_zero(m_time) || m_list.size() == 0)
-		return;
-
 	double value = static_cast<double>(m_list.size()) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (kvalue < m_list.size())
 	{
-		o->setProperty("options", m_list[kvalue]);
+		static_cast<sad::animations::AnimationFastCallFor<sad::String>*>(i->fastCall())->call(m_list[kvalue]);
 	}
 }
 
@@ -77,7 +79,7 @@ bool sad::animations::OptionList::saveState(sad::animations::Instance* i)
 {
 	sad::db::Object* o = i->object();
 	bool result = false;
-	if (o)
+	if (o && m_valid)
 	{
 		sad::Maybe<sad::String> maybeopts = o->getProperty<sad::String>("options"); 
 		if (maybeopts.exists())
@@ -86,7 +88,29 @@ bool sad::animations::OptionList::saveState(sad::animations::Instance* i)
 
 			i->oldState().clear();
 			i->oldState() << sad::db::Variant(maybeopts.value());
+
+			if (o->isInstanceOf("sad::Sprite2D"))
+			{
+				void (sad::Sprite2D::*f)(const sad::String&) = &sad::Sprite2D::set;
+				i->setFastCall( sad::animations::make_fastcall(o, f));
+			}
+			else
+			{
+				if (o->isInstanceOf("sad::db::custom::Object"))
+				{
+					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setOptions));
+				}
+				else
+				{
+					i->setFastCall( new sad::animations::SetProperty<sad::String>(o, "options"));
+				}				
+			}
 		}
+	}
+
+	if (!result)
+	{
+		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::String>() );
 	}
 	return result;
 }
