@@ -34,16 +34,28 @@ public:
 	/*! Could be inherited
 	 */
 	virtual ~SavedObjectStateCache();
-	/*! Caches a saved state if needed 
+    /*! Lookups, whether saved state is present for cache
+        \param[in] o object
+        \param[in] name name of state name
+        \return whether saved stae is present
+     */
+    bool lookup(sad::db::Object* o, const sad::String& name) const;
+    /*! Increments reference count to saved state
+        \param[in] o object
+        \param[in] name name of state name
+     */
+    void increment(sad::db::Object* o, const sad::String& name) const;
+    /*! Caches a saved state if needed
 		\param[in] o object
-		\param[in] s an animation object
+        \param[in] name a name to be saved
+        \param[in] s a saved state
 	 */ 
-	void saveState(sad::db::Object* o, sad::animations::Animation* s);
+    void saveState(sad::db::Object* o, const sad::String& name, sad::animations::SavedObjectState* state);
 	/*! Tries to restore a saved object state for object, from an animation
 		\param[in] o object
-		\param[in] s an animation object		
+        \param[in] name a name of key of state to be restored
 	 */
-	void restore(sad::db::Object* o, sad::animations::Animation* s);
+    void restore(sad::db::Object* o, const sad::String& name);
 protected:
 	/*! Destroys a cache 
 	 */

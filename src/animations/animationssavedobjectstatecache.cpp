@@ -24,9 +24,29 @@ sad::animations::SavedObjectStateCache::~SavedObjectStateCache()
 	clear();
 }
 
-void sad::animations::SavedObjectStateCache::saveState(sad::db::Object* o, sad::animations::Animation* s)
+bool sad::animations::SavedObjectStateCache::lookup(sad::db::Object* o, const sad::String& name) const
 {
-	const sad::String& name = s->metaData()->name();
+    bool result = false;
+    if (m_cache.contains(o))
+    {
+        result = m_cache[o].contains(name);
+    }
+}
+
+void sad::animations::SavedObjectStateCache::increment(sad::db::Object* o, const sad::String& name) const
+{
+    if (m_cache.contains(o))
+    {
+        const sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
+        if (c.contains(name))
+        {
+            c[name]->increment();
+        }
+    }
+}
+
+void sad::animations::SavedObjectStateCache::saveState(sad::db::Object* o, const sad::String& name, sad::animations::SavedObjectState* state)
+{
 	if (m_cache.contains(o))
 	{
 		sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
@@ -36,20 +56,19 @@ void sad::animations::SavedObjectStateCache::saveState(sad::db::Object* o, sad::
 		}
 		else
 		{
-			c.insert(name, s->saveState(o));
+            c.insert(name, state);
 		}
 	}
 	else
 	{
 		sad::Hash<sad::String, sad::animations::SavedObjectState*> hash;
-		hash.insert(name, s->saveState(o));
+        hash.insert(name, state);
 		m_cache.insert(o, hash);
 	}
 }
 
-void sad::animations::SavedObjectStateCache::restore(sad::db::Object* o, sad::animations::Animation* s)
+void sad::animations::SavedObjectStateCache::restore(sad::db::Object* o, const sad::String& name)
 {
-	const sad::String& name = s->metaData()->name();
 	if (m_cache.contains(o))
 	{
 		sad::Hash<sad::String, sad::animations::SavedObjectState*> &c = m_cache[o];
