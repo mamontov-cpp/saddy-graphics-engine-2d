@@ -21,14 +21,14 @@
 
 
 sad::animations::Instance::Instance()
-: m_paused(false), m_started(false), m_finished(false), m_start_time(0), m_fastcall(NULL), m_valid(true)
+: m_paused(false), m_started(false), m_finished(false), m_start_time(0), m_state_command(NULL), m_valid(true)
 {
 
 }
 
 sad::animations::Instance::~Instance()
 {
-	delete m_fastcall;
+	delete m_state_command;
 }
 
 static sad::db::schema::Schema* AnimationInstanceSchema = NULL;
@@ -93,7 +93,7 @@ const sad::String& sad::animations::Instance::serializableName() const
 void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 {
     m_animation.attach(o);
-	this->clearFastCall();
+	this->clearSetState();
 }
 
 sad::animations::Animation* sad::animations::Instance::animation() const
@@ -104,7 +104,7 @@ sad::animations::Animation* sad::animations::Instance::animation() const
 void sad::animations::Instance::setObject(sad::db::Object* o)
 {
     m_object.setObject(o);
-	this->clearFastCall();
+	this->clearSetState();
 }
 
 
@@ -116,7 +116,7 @@ sad::db::Object* sad::animations::Instance::object() const
 void sad::animations::Instance::setAnimationName(const sad::String& name)
 {
     m_animation.setPath(name);
-	this->clearFastCall();
+	this->clearSetState();
 }
 
 const sad::String& sad::animations::Instance::animationName() const
@@ -127,7 +127,7 @@ const sad::String& sad::animations::Instance::animationName() const
 void sad::animations::Instance::setObjectId(unsigned long long id)
 {
     m_object.setMajorId(id);
-	this->clearFastCall();
+	this->clearSetState();
 }
 
 unsigned long long sad::animations::Instance::objectId() const
@@ -269,15 +269,15 @@ void sad::animations::Instance::removedFromPipeline()
 	this->delRef();
 }
 
-void sad::animations::Instance::setFastCall(sad::animations::AnimationFastCall* call)
+void sad::animations::Instance::setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call)
 {
-	delete m_fastcall;
-	m_fastcall = call;
+	delete m_state_command;
+	m_state_command = call;
 }
 
-sad::animations::AnimationFastCall* sad::animations::Instance::fastCall() const
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::Instance::stateCommand() const
 {
-	return m_fastcall;
+	return m_state_command;
 }
 
 // ================================== PROTECTED METHODS ==================================
@@ -288,7 +288,7 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
     if (m_valid)
     {
         this->saveStateAndCompile(animations);
-        a->setState(this, m_start_time);
+        m_animation.get()->setState(this, m_start_time);
         m_timer.start();
         m_started = true;
     }
@@ -336,21 +336,21 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
         }
     }
 
-    this->setFastCall(a->fastCallFor(o));
+    this->setStateCommand(a->stateCommand(o));
 }
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-    const sad::animations::SavedObjectStateDelegate& delegates = a->getCreators();
+    const sad::animations::SavedObjectStateDelegate& delegates = m_animation.get()->getCreators();
     for(size_t i = 0; i < delegates->size(); i++) {
-        animations->cache().restore(o, delegates[i]->name());
+        animations->cache().restore(m_object.get(), delegates[i]->name());
     }
 }
 
-void sad::animations::Instance::clearFastCall()
+void sad::animations::Instance::clearSetState()
 {
-	delete m_fastcall;
-	m_fastcall = NULL;
+	delete m_state_command;
+	m_state_command = NULL;
 }
 
 void sad::animations::Instance::_process()

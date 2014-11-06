@@ -31,6 +31,7 @@ bool sad::animations::SavedObjectStateCache::lookup(sad::db::Object* o, const sa
     {
         result = m_cache[o].contains(name);
     }
+	return result;
 }
 
 void sad::animations::SavedObjectStateCache::increment(sad::db::Object* o, const sad::String& name) const

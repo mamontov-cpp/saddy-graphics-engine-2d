@@ -18,7 +18,9 @@
 #include "animationsanimation.h"
 #include "animationscallback.h"
 #include "animationsprocess.h"
-#include "animationsanimationfastcall.h"
+
+#include "setstate/abstractsetstatecommand.h"
+#include "setstate/typedcommand.h"
 
 namespace sad
 {
@@ -189,14 +191,24 @@ public:
 	/*! Called, when process is removed from pipeline
 	 */
 	virtual void removedFromPipeline();
-	/*! Sets fast call for animation 
-		\param[in] call fast call
+	/*! Sets a command for setting state
+		\param[in] call a command to be set
 	 */
-	void setFastCall(sad::animations::AnimationFastCall* call);
-	/*! Returns fast call for animation
-		\return fast call for animation
+	void setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call);
+	/*! Returns a command for setting state
+		\return a command for setting state
 	 */
-	sad::animations::AnimationFastCall* fastCall() const;
+	sad::animations::setstate::AbstractSetStateCommand* stateCommand() const;
+	/*! Returns a command for setting state as specified type
+		\return a command for setting state
+	 */
+	template<
+		typename T
+	>
+	sad::animations::setstate::TypedCommmand<T>* stateCommandAs() const
+	{
+		return static_cast<sad::animations::setstate::TypedCommmand<T> *>(this->stateCommand());
+	}
     /*! Marks animatimation instance as valid
      */
     inline void markAsValid()
@@ -223,9 +235,9 @@ protected:
         \param animations[in] animations an animations
      */
     void restoreObjectState(sad::animations::Animations* animations);
-    /*! Clears fast call for instance
+    /*! Clears a state call on animation instance
 	 */
-	void clearFastCall();
+	void clearSetState();
     /*! A custom processing part, which could be reimplemented to synchronize
         something
      */
@@ -257,9 +269,9 @@ protected:
     /*! A lists of variants for saving old dstate
      */
     sad::Vector<sad::db::Variant> m_oldstate;
-	/*! A fast call animation for cache
+	/*! A command for setting state
 	 */
-	sad::animations::AnimationFastCall* m_fastcall;
+	sad::animations::setstate::AbstractSetStateCommand* m_state_command;
     /*! Whether animation instance is valid
      */
     bool m_valid;
