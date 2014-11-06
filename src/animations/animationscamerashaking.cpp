@@ -1,9 +1,9 @@
 #include "animations/animationscamerashaking.h"
 #include "animations/animationsinstance.h"
 
-#include "../fuzzyequal.h"
-#include "../scene.h"
-#include "../camera.h"
+#include "fuzzyequal.h"
+#include "scene.h"
+#include "camera.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
