@@ -10,7 +10,7 @@ namespace sad
 	
 namespace animations
 {
-
+class Animations;
 /*! A process for animations as element of animations pipeline
  */
 class Process
@@ -29,8 +29,9 @@ public:
      */
     virtual bool finished() const = 0;
     /*! Called on every step of instance work
+        \param[in] animations an animation pipeline, which should hold a state cache
      */
-    virtual void process() = 0;
+    virtual void process(sad::animations::Animations* animations) = 0;
     /*! Pauses an instance
      */
     virtual void pause() = 0;

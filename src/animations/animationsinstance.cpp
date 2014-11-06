@@ -21,7 +21,7 @@
 
 
 sad::animations::Instance::Instance()
-: m_paused(false), m_started(false), m_finished(false), m_start_time(0), m_fastcall(NULL)
+: m_paused(false), m_started(false), m_finished(false), m_start_time(0), m_fastcall(NULL), m_valid(true)
 {
 
 }
@@ -178,6 +178,7 @@ void sad::animations::Instance::restart()
 void sad::animations::Instance::clearFinished()
 {
     m_finished = false;
+    markAsValid();
 }
 
 bool sad::animations::Instance::finished() const
@@ -186,66 +187,40 @@ bool sad::animations::Instance::finished() const
 }
 
 
-void sad::animations::Instance::process()
+void sad::animations::Instance::process(sad::animations::Animations* animations)
 {
-    if (m_paused == false)
+    if (m_paused == false && m_valid)
     {
         sad::animations::Animation* a = m_animation.get();
-        sad::db::Object* o = m_object.get();
-        if (a && o)
+        if (m_started == false)
         {
-            if (sad::is_fuzzy_equal(a->time(), 0))
+           this->start(animations);
+           return;
+        }
+
+        double elapsed = m_start_time + m_timer.elapsed();
+        // If time is expired, animation is or looped, or should be stopped
+        if (elapsed > a->time())
+        {
+            if (a->looped())
             {
-                return ;
-            }
-            if (m_started == false)
-            {
-                if (a->saveState(this))
-                {
-					a->setState(this, m_start_time);
-                    m_timer.start();
-                    m_started = true;
-                }
-                else
-                {
-                    m_finished = true;
-                    for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
-                    {
-                        m_callbacks_on_end[i]->invoke();
-                    }
-                }
+                double t = elapsed - floor(elapsed / a->time()) * a->time();
+                a->setState(this, t);
             }
             else
             {
-                double elapsed = m_start_time + m_timer.elapsed();
-                // If time is expired, animation is or looped, or should be stopped
-                if (elapsed > a->time())
+                m_started = false;
+                m_timer.stop();
+                this->markAsFinished();
+                if (m_finished)
                 {
-                    if (a->looped())
-                    {
-                        double t = elapsed - floor(elapsed / a->time()) * a->time();
-                        a->setState(this, t);
-                    }
-                    else
-                    {
-                        m_started = false;
-                        m_finished = true;
-                        m_timer.stop();
-                        for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
-                        {
-                            m_callbacks_on_end[i]->invoke();
-                        }
-                        if (m_finished)
-                        {
-                            a->resetState(this);
-                        }
-                    }
-                }
-                else
-                {
-                    a->setState(this, elapsed);
+                    this->restoreObjectState(animations);
                 }
             }
+        }
+        else
+        {
+            a->setState(this, elapsed);
         }
     }
 }
@@ -306,6 +281,66 @@ sad::animations::AnimationFastCall* sad::animations::Instance::fastCall() const
 }
 
 // ================================== PROTECTED METHODS ==================================
+
+void sad::animations::Instance::start(sad::animations::Animations* animations)
+{
+    this->checkIfValid(animations);
+    if (m_valid)
+    {
+        this->saveStateAndCompile(animations);
+        a->setState(this, m_start_time);
+        m_timer.start();
+        m_started = true;
+    }
+    else
+    {
+        this->markAsFinished();
+    }
+}
+
+void sad::animations::Instance::markAsFinished()
+{
+    m_finished = true;
+    for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+    {
+        m_callbacks_on_end[i]->invoke();
+    }
+}
+
+void sad::animations::Instance::checkIfValid(sad::animations::Animations* animations)
+{
+    sad::animations::Animation* a = m_animation.get();
+    sad::db::Object* o = m_object.get();
+
+    m_valid = (a && o);
+    if (m_valid)
+    {
+        m_valid = a->valid() && a->applicableTo(o);
+    }
+}
+
+void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations* animations)
+{
+    sad::animations::Animation* a = m_animation.get();
+    sad::db::Object* o = m_object.get();
+
+    const sad::animations::SavedObjectStateDelegate& delegates = a->getCreators();
+    for(size_t i = 0; i < delegates->size(); i++) {
+        if (animations->cache().lookup(o, delegates[i]->name())) {
+            animations->cache().saveState(o, delegates[i]->name(), delegates[i]->saveState(o));
+        }
+    }
+
+    this->setFastCall(a->fastCallFor(o));
+}
+
+void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
+{
+    const sad::animations::SavedObjectStateDelegate& delegates = a->getCreators();
+    for(size_t i = 0; i < delegates->size(); i++) {
+        animations->cache().restore(o, delegates[i]->name());
+    }
+}
 
 void sad::animations::Instance::clearFastCall()
 {
