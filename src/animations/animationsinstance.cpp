@@ -326,8 +326,13 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
     const sad::animations::SavedObjectStateDelegate& delegates = a->getCreators();
     for(size_t i = 0; i < delegates->size(); i++) {
-        if (animations->cache().lookup(o, delegates[i]->name())) {
+        if (animations->cache().lookup(o, delegates[i]->name()) == false)
+        {
             animations->cache().saveState(o, delegates[i]->name(), delegates[i]->saveState(o));
+        }
+        else
+        {
+            animations->cache().increment(o, delegates[i]->name())
         }
     }
 
