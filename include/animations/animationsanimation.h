@@ -65,6 +65,13 @@ public:
 	/*! Creates a save state for an object
 	 */
 	virtual sad::animations::SavedObjectState* saveState(sad::db::Object* o) = 0;
+    /*! Returns, whether animation is valid
+        \return whether animation is valid
+     */
+    inline bool valid() const
+    {
+        return m_valid;
+    }
 protected:
 	/*! Updates flag of validity
 	 */

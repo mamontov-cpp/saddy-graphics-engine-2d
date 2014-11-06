@@ -27,7 +27,7 @@ void sad::animations::Animations::_process()
 	for(size_t i = 0; i < m_list.size(); i++)
 	{
 		sad::animations::Process * p = m_list[i];
-		p->process();
+        p->process(this);
 		if (p->finished())
 		{
 			p->removedFromPipeline();

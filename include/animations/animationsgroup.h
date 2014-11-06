@@ -89,8 +89,9 @@ public:
      */
     virtual bool finished() const;
     /*! Called on every step of group work
+        \param[in] animations an animation pipeline, which should hold a state cache
      */
-    virtual void process();
+    virtual void process(sad::animations::Animations* animations);
     /*! Pauses a group
      */
     virtual void pause();

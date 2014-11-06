@@ -26,6 +26,8 @@ namespace sad
 namespace animations
 {
 
+class Animations;
+
 class Instance: public sad::db::Object, public sad::animations::Process
 {
 public:
@@ -169,8 +171,9 @@ public:
      */
     virtual bool finished() const;
     /*! Called on every step of instance work
+        \param[in] animations animations, container, which contains all cached data
      */
-    virtual void process();
+    virtual void process(sad::animations::Animations* animations);
     /*! Pauses an instance
      */
     virtual void pause();
@@ -194,8 +197,33 @@ public:
 		\return fast call for animation
 	 */
 	sad::animations::AnimationFastCall* fastCall() const;
+    /*! Marks animatimation instance as valid
+     */
+    inline void markAsValid()
+    {
+        m_valid = true;
+    }
 protected:
-	/*! Clears fast call for instance
+    /*! Marks instance as finished
+     */
+    void markAsFinished();
+    /*! Starts an animation instance
+        \param[in] animations an animations
+     */
+    void start(sad::animations::Animations* animations);
+    /*! Checks if animations instance is valid, updating flags
+        \param[in] animations
+     */
+    void checkIfValid(sad::animations::Animations* animations);
+    /*! Compiles fast call and saves an animtions
+        \param[in] animations an animations
+     */
+    void saveStateAndCompile(sad::animations::Animations* animations);
+    /*! Tries to restore object state from cache
+        \param animations[in] animations an animations
+     */
+    void restoreObjectState(sad::animations::Animations* animations);
+    /*! Clears fast call for instance
 	 */
 	void clearFastCall();
     /*! A custom processing part, which could be reimplemented to synchronize
@@ -232,6 +260,9 @@ protected:
 	/*! A fast call animation for cache
 	 */
 	sad::animations::AnimationFastCall* m_fastcall;
+    /*! Whether animation instance is valid
+     */
+    bool m_valid;
 };
 
 }
