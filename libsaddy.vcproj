@@ -821,10 +821,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\animations\animationsanimationfastcall.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\animations\animationsanimations.cpp"
 					>
 				</File>
@@ -876,6 +872,14 @@
 					RelativePath=".\src\animations\animationtexturecoordinateslist.cpp"
 					>
 				</File>
+				<Filter
+					Name="setstate"
+					>
+					<File
+						RelativePath=".\src\animations\setstate\abstractsetstatecommand.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -1815,10 +1819,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\include\animations\animationsanimationfastcall.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\animations\animationsanimations.h"
 					>
 				</File>
@@ -1867,6 +1867,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationssavedobjectproperty.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationssavedobjectstate.h"
 					>
 				</File>
@@ -1878,6 +1882,30 @@
 					RelativePath=".\include\animations\animationstexturecoordinateslist.h"
 					>
 				</File>
+				<Filter
+					Name="setstate"
+					>
+					<File
+						RelativePath=".\include\animations\setstate\abstractsetstatecommand.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\dummycommand.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\methodcall.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\setproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\typedcommand.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
