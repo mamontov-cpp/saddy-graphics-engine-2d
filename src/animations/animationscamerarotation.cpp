@@ -2,9 +2,9 @@
 #include "animations/animationsinstance.h"
 #include "animations/animationsanimationfastcall.h"
 
-#include "../fuzzyequal.h"
-#include "../scene.h"
-#include "../camera.h"
+#include "fuzzyequal.h"
+#include "scene.h"
+#include "camera.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"

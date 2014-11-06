@@ -158,7 +158,19 @@ SOURCES += src/camera.cpp \
     src/util/fs.cpp \
     src/util/swaplayerstask.cpp \
     src/animations/animationsanimation.cpp \
-    src/animations/animationsinstance.cpp
+    src/animations/animationsinstance.cpp \
+    src/animations/animationsanimationfastcall.cpp \
+    src/animations/animationsanimations.cpp \
+    src/animations/animationscamerarotation.cpp \
+    src/animations/animationscamerashaking.cpp \
+    src/animations/animationsfontlist.cpp \
+    src/animations/animationsfontsize.cpp \
+    src/animations/animationsgroup.cpp \
+    src/animations/animationsoptionlist.cpp \
+    src/animations/animationsprocess.cpp \
+    src/animations/animationssavedobjectstate.cpp \
+    src/animations/animationssavedobjectstatecache.cpp \
+    src/animations/animationtexturecoordinateslist.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -385,7 +397,21 @@ HEADERS += include/camera.h \
     include/util/setterproxy.h \
     include/util/swaplayerstask.h \
     include/animations/animationsanimation.h \
-    include/animations/animationsinstance.h
+    include/animations/animationsinstance.h \
+    include/animations/animationsanimationfastcall.h \
+    include/animations/animationsanimations.h \
+    include/animations/animationscamerarotation.h \
+    include/animations/animationscamerashaking.h \
+    include/animations/animationscontinuousproperty.h \
+    include/animations/animationsdiscreteproperty.h \
+    include/animations/animationsfontlist.h \
+    include/animations/animationsfontsize.h \
+    include/animations/animationsgroup.h \
+    include/animations/animationsoptionlist.h \
+    include/animations/animationsprocess.h \
+    include/animations/animationssavedobjectstate.h \
+    include/animations/animationssavedobjectstatecache.h \
+    include/animations/animationstexturecoordinateslist.h
 
 
 DESTDIR = ../saddy/lib/
