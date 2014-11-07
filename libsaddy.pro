@@ -171,7 +171,8 @@ SOURCES += src/camera.cpp \
     src/animations/animationssavedobjectstatecache.cpp \
     src/animations/animationtexturecoordinateslist.cpp \
     src/animations/setstate/abstractsetstatecommand.cpp \
-    src/animations/animationsabstractsavedobjectstatecreator.cpp
+    src/animations/animationsabstractsavedobjectstatecreator.cpp \
+    src/animations/animationssavedobjectstatecreators.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -420,7 +421,8 @@ HEADERS += include/camera.h \
     include/animations/animationsabstractsavedobjectstatecreator.h \
     include/animations/animationssavedobjectproperty.h \
     include/animations/animationssavedobjectpropertycreator.h \
-    include/animations/animationssavedobjectstatecreator.h
+    include/animations/animationssavedobjectstatecreator.h \
+    include/animations/animationssavedobjectstatecreators.h
 
 
 DESTDIR = ../saddy/lib/
