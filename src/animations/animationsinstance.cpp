@@ -191,36 +191,16 @@ void sad::animations::Instance::process(sad::animations::Animations* animations)
 {
     if (m_paused == false && m_valid)
     {
-        sad::animations::Animation* a = m_animation.get();
         if (m_started == false)
         {
            this->start(animations);
            return;
         }
 
-        double elapsed = m_start_time + m_timer.elapsed();
-        // If time is expired, animation is or looped, or should be stopped
-        if (elapsed > a->time())
+        double time = this->computeTime(animations);
+        if (m_finished == false)
         {
-            if (a->looped())
-            {
-                double t = elapsed - floor(elapsed / a->time()) * a->time();
-                a->setState(this, t);
-            }
-            else
-            {
-                m_started = false;
-                m_timer.stop();
-                this->markAsFinished();
-                if (m_finished)
-                {
-                    this->restoreObjectState(animations);
-                }
-            }
-        }
-        else
-        {
-            a->setState(this, elapsed);
+            this->processTime(animations, time);
         }
     }
 }
@@ -281,6 +261,45 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::Instance::s
 }
 
 // ================================== PROTECTED METHODS ==================================
+
+
+double sad::animations::Instance::computeTime(sad::animations::Animations* animations)
+{
+    double elapsed = m_start_time + m_timer.elapsed();
+    double result = elapsed;
+
+    sad::animations::Animation* a = m_animation.get();
+    // If time is expired, animation is or looped, or should be stopped
+    if (elapsed > a->time())
+    {
+        if (a->looped())
+        {
+            double t = elapsed - floor(elapsed / a->time()) * a->time();
+            result = t;
+        }
+        else
+        {
+            m_started = false;
+            m_timer.stop();
+            this->markAsFinished();
+            if (m_finished)
+            {
+                this->restoreObjectState(animations);
+            }
+            else
+            {
+                result = m_start_time;
+            }
+        }
+    }
+    return result;
+}
+
+void sad::animations::Instance::processTime(sad::animations::Animations* animations, double time)
+{
+    sad::animations::Animation* a = m_animation.get();
+    a->setState(this, time);
+}
 
 void sad::animations::Instance::start(sad::animations::Animations* animations)
 {
