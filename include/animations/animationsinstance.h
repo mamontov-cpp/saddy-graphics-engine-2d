@@ -234,7 +234,11 @@ public:
 	/*! A basic area for rectangle
 		\return basic area
 	 */
-	const sad::Rect2D& basicArea();
+	const sad::Rect2D& basicArea() const;
+	/*! Returns basic center for rectangle
+		\return basic center
+	 */
+	const sad::Point2D& basicCenter() const;	
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -307,6 +311,9 @@ protected:
 	/*! A basic area
 	 */
 	sad::Rect2D m_basic_area;
+	/*! A basic center
+	 */
+	sad::Point2D m_basic_center;
 };
 
 }
