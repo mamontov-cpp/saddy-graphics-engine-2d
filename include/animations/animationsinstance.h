@@ -216,6 +216,16 @@ public:
         m_valid = true;
     }
 protected:
+    /*!  Computes time, which should be used to animate. Finishes
+         animations to be finished
+         \param[in] animations an animations
+     */
+    virtual double computeTime(sad::animations::Animations* animations);
+    /*! Processes animation instance with specified time
+        \param[in] animations an animation part
+        \param[in] time a time
+     */
+    virtual void processTime(sad::animations::Animations* animations, double time);
     /*! Marks instance as finished
      */
     void markAsFinished();
@@ -238,10 +248,6 @@ protected:
     /*! Clears a state call on animation instance
 	 */
 	void clearSetState();
-    /*! A custom processing part, which could be reimplemented to synchronize
-        something
-     */
-    virtual void _process();
     /*! A linked object
      */
     sad::db::Link m_object;
