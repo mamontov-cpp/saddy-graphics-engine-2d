@@ -298,9 +298,20 @@ sad::p2d::Body* sad::animations::Instance::body() const
 void sad::animations::Instance::setBasicArea(const sad::Rect2D& r)
 {
 	m_basic_area = r;
+	m_basic_center += r.p1();
+	for(size_t i = 1; i < 4; i++)
+	{
+		m_basic_center = r[i];
+	}
+	m_basic_center /= 4.0;
 }
 
-const sad::Rect2D& sad::animations::Instance::basicArea()
+const sad::Point2D& sad::animations::Instance::basicCenter() const
+{
+	return m_basic_center;
+}
+
+const sad::Rect2D& sad::animations::Instance::basicArea() const
 {
 	return m_basic_area;
 }
