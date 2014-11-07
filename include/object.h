@@ -181,6 +181,31 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 	return NAMEDCLASS ::globalMetaData();                                                       \
 }                                                
 
+
+/*! Use this macro to define in source files,
+    that this object is inherited from descendant of sad::Object,
+    where NAMEDCLASS should be name of current class and PARENT  - name of his parent class
+ */
+#define DECLARE_SOBJ_INHERITANCE_TEMPLATE(NAMEDCLASS, PARENT)			 \
+DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                         \
+template<> sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	     \
+template<> sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 	 \
+{																 \
+    if (m_global_metadata != NULL) return m_global_metadata;     \
+    bool created = false;																		\
+    m_global_metadata = sad::ClassMetaDataContainer::ref()->get(#NAMEDCLASS, created);          \
+    if (created)																				\
+    {																							\
+        if (PARENT ::globalMetaData() == NULL) return NULL;                                    \
+        m_global_metadata->addAncestor(#PARENT);											    \
+    }																							\
+    return m_global_metadata;																	\
+}																								\
+template<> sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
+{                                                                                               \
+    return NAMEDCLASS ::globalMetaData();                                                       \
+}
+
 /*! Use this macro to define in source files, 
 	that this object is inherited from descendant of sad::Object,
 	where NAMEDCLASS should be name of current class and PARENT  - name of his parent class.
