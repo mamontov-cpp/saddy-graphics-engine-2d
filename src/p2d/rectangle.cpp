@@ -119,8 +119,8 @@ void sad::p2d::Rectangle::makeConvex()
 
 void sad::p2d::Rectangle::resizeBy(const sad::p2d::Vector& v)
 {
-	m_rect[0] += sad::p2d::Vector(-v.x(), v.y());
-	m_rect[1] += sad::p2d::Vector(v.x(), v.y());
-	m_rect[2] += sad::p2d::Vector(v.x(), -v.y());
-	m_rect[3] += sad::p2d::Vector(-v.x(), -v.y());
+	m_rect[0] += sad::p2d::Vector(-v.x(), -v.y());
+	m_rect[1] += sad::p2d::Vector(v.x(), -v.y());
+	m_rect[2] += sad::p2d::Vector(v.x(), v.y());
+	m_rect[3] += sad::p2d::Vector(-v.x(), v.y());
 }

@@ -865,6 +865,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsresize.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedcamerarotation.cpp"
 					>
 				</File>
@@ -1896,6 +1900,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsprocess.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsresize.h"
 					>
 				</File>
 				<File
