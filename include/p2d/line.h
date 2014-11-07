@@ -103,6 +103,10 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const; 
+	/*! Resizes a shape by specified value
+		\param[in] v value
+	 */
+	virtual void resizeBy(const sad::p2d::Vector& v);
 protected:
 	sad::p2d::Cutter2D m_c; //!< An inner cutter
 };

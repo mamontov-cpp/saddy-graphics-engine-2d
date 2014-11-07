@@ -88,6 +88,10 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const;
+	/*! Resizes a shape by specified value
+		\param[in] v value
+	 */
+	virtual void resizeBy(const sad::p2d::Vector& v);
 protected:
 	p2d::Point m_center; //!< Center of circle
 	double m_radius; //!< Radius of circle

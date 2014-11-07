@@ -77,3 +77,16 @@ sad::String sad::p2d::Circle::dump() const
 			  );
 }
 
+
+void sad::p2d::Circle::resizeBy(const sad::p2d::Vector& v)
+{
+	double modulo = sad::p2d::modulo(v);
+	if (v.x() > 0 || v.y() > 0)
+	{
+		m_radius += modulo;
+	}
+	else
+	{
+		m_radius -= modulo;
+	}
+}

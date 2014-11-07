@@ -94,3 +94,12 @@ sad::String sad::p2d::Line::dump() const
 			  );
 }
 
+
+void sad::p2d::Line::resizeBy(const sad::p2d::Vector& v)
+{
+	sad::p2d::Vector n = m_c.p2() - m_c.p1();
+	sad::p2d::mutableUnit(n);
+	double length = sad::p2d::scalar(n, v);
+	m_c._2() += n * length;
+	m_c._1() -= n * length;
+}
