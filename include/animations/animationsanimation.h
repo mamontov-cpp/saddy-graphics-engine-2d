@@ -8,6 +8,7 @@
 #include "../resource/resource.h"
 
 #include "animationssavedobjectstatecreators.h"
+#include "setstate/abstractsetstatecommand.h"
 
 namespace sad
 {
@@ -53,18 +54,16 @@ public:
         \param[in] time a time of playing of animation
      */
     virtual void setState(sad::animations::Instance* i, double time) = 0;
-    /*! Saves states of object in animation instance
-        \param[in] i an animation instance
-        \return whether we can work further with this object in instance
+    /*! Creates a state command for an object
+        \param[in] o object
+        \return state command
      */
-    virtual bool saveState(sad::animations::Instance* i) = 0;
-    /*! Resets state of object in animation instance, when animation ended
-        \param[in] i an animation instance
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o) = 0;
+    /*! Checks, whether animation is applicable to an object
+        \param[in] o object
+        \return whether animation is applicable to that object
      */
-    virtual void resetState(sad::animations::Instance* i) = 0;
-	/*! Creates a save state for an object
-	 */
-	virtual sad::animations::SavedObjectState* saveState(sad::db::Object* o) = 0;
+    virtual bool applicableTo(sad::db::Object* o) = 0;
     /*! Returns, whether animation is valid
         \return whether animation is valid
      */
