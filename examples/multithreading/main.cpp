@@ -18,8 +18,8 @@
 #include <label.h>
 #include <texturemappedfont.h>
 #include <freetype/font.h>
-#include <animations/animationsfontsize.h>
-#include <animations/animationscamerarotation.h>
+#include <animations/animationsdiscreteproperty.h>
+#include <animations/animationscamerashaking.h>
 #include <animations/animationsinstance.h>
 
 #ifdef WIN32
@@ -159,20 +159,21 @@ int thread(void * p)
 	
 
 	// Create a simple animations
-	sad::animations::FontSize* fontsizeanimation = new sad::animations::FontSize();
+	sad::animations::DiscreteProperty<unsigned int>* fontsizeanimation = new sad::animations::DiscreteProperty<unsigned int>();
 	fontsizeanimation->setLooped(true);
-	fontsizeanimation->setTime(1000);
-	fontsizeanimation->setMinSize(11);
-	fontsizeanimation->setMaxSize(33);
+	fontsizeanimation->setTime(200);
+	sad::Vector<unsigned int> v;
+	v << 11 << 15 << 20 << 25 << 30;
+	fontsizeanimation->setList(v);
+	fontsizeanimation->setPropertyName("fontsize");
 	r.tree("")->root()->addResource("fontsizeanimation", fontsizeanimation);
 
-	sad::animations::CameraRotation* camerarotation = new sad::animations::CameraRotation();
-	camerarotation->setLooped(true);
-	camerarotation->setTime(1000);
-	camerarotation->setPivot(sad::Point3D(400, 300, 0));
-	camerarotation->setMinAngle(0);
-	camerarotation->setMaxAngle(360);
-	r.tree("")->root()->addResource("camerashaking", camerarotation);
+	sad::animations::CameraShaking* camerashaking = new sad::animations::CameraShaking();
+	camerashaking->setLooped(true);
+	camerashaking->setTime(10000);
+	camerashaking->setFrequency(1000);
+	camerashaking->setOffset(sad::Point2D(100, 100));
+	r.tree("")->root()->addResource("camerashaking", camerashaking);
 
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
@@ -197,9 +198,9 @@ int thread(void * p)
 
 
 	sad::animations::Instance* camerarotationinstance = new sad::animations::Instance();
-	camerarotationinstance->setAnimation(camerarotation);
+	camerarotationinstance->setAnimation(camerashaking);
 	camerarotationinstance->setObject(r.scenes()[0]);
-	r.animations()->add(camerarotationinstance);
+	//r.animations()->add(camerarotationinstance);
 
 
 	/* Here we bind two different handlers with keydown

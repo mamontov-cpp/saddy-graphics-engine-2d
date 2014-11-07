@@ -9,6 +9,9 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 
+#include "../db/save.h"
+#include "../db/load.h"
+
 #include "animationsanimation.h"
 #include "animationsinstance.h"
 
@@ -31,8 +34,40 @@ template<
 >
 class ContinuousProperty: public sad::animations::Animation
 {
-SAD_OBJECT
 public:
+    /*! Returns global meta data for object
+        \return object metadata
+     */
+    static sad::ClassMetaData* globalMetaData()
+    {
+        sad::db::TypeName<T>::init();
+        sad::String typeofname = sad::db::TypeName<T>::baseName();
+        unsigned int pointercount = sad::db::TypeName<T>::POINTER_STARS_COUNT;
+        for(int i = 0; i < pointercount;i++)
+        {
+            typeofname += "*";
+        }
+        sad::String myname = "sad::animations::ContinuousProperty<";
+        myname << typeofname;
+        myname << ">";
+
+        bool created = false;
+        sad::ClassMetaData* m = sad::ClassMetaDataContainer::ref()->get(myname, created);
+        if (created)
+        {
+            if (sad::animations::Animation::globalMetaData() == NULL) return NULL;
+            m->addAncestor("sad::animations::Animation");
+        }
+        return m;
+    }
+    /*! Return object meta data
+        \return object meta data
+     */
+    sad::ClassMetaData * metaData() const
+    {
+        return sad::animations::ContinuousProperty<T>::globalMetaData();
+    }
+
 	/*! Creates new empty animation
 	 */
 	ContinuousProperty()
