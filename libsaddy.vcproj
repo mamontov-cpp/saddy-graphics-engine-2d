@@ -817,6 +817,10 @@
 				Name="animations"
 				>
 				<File
+					RelativePath=".\src\animations\animationsabstractsavedobjectstatecreator.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsanimation.cpp"
 					>
 				</File>
@@ -861,11 +865,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationssavedcamerarotation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedobjectstate.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\animations\animationssavedobjectstatecache.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationssavedobjectstatecreators.cpp"
 					>
 				</File>
 				<File
@@ -877,6 +889,10 @@
 					>
 					<File
 						RelativePath=".\src\animations\setstate\abstractsetstatecommand.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\animations\setstate\setcamerarotation.cpp"
 						>
 					</File>
 				</Filter>
@@ -1815,6 +1831,10 @@
 				Name="animations"
 				>
 				<File
+					RelativePath=".\include\animations\animationsabstractsavedobjectstatecreator.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationsanimation.h"
 					>
 				</File>
@@ -1867,7 +1887,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationssavedcamerarotation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationssavedobjectproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectpropertycreator.h"
 					>
 				</File>
 				<File
@@ -1876,6 +1904,14 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationssavedobjectstatecache.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectstatecreator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectstatecreators.h"
 					>
 				</File>
 				<File
@@ -1895,6 +1931,10 @@
 					</File>
 					<File
 						RelativePath=".\include\animations\setstate\methodcall.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\setcamerarotation.h"
 						>
 					</File>
 					<File

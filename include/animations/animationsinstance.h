@@ -100,14 +100,6 @@ public:
         \return object id
      */
     unsigned long long objectId() const;
-    /*! Returns old state of object for instance
-        \return old state of object
-     */
-    sad::Vector<sad::db::Variant>& oldState();
-    /*! Returns old ststae of object for instance
-        \return old state of object
-     */
-    const sad::Vector<sad::db::Variant>& oldState() const;
     /*! Adds new callback in animation instance, which should be called,
         when finished c callback
         \param[in] c
@@ -183,8 +175,9 @@ public:
      */
     virtual void resume();
     /*! Cancels an animation
+		\param[in] animations an animations for work
      */
-    virtual void cancel();
+	virtual void cancel(sad::animations::Animations* animations);
 	/*! Called, when process is added to pipeline
 	 */
 	virtual void addedToPipeline();
@@ -272,9 +265,6 @@ protected:
     /*! A callbacks for ending an instance
      */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
-    /*! A lists of variants for saving old dstate
-     */
-    sad::Vector<sad::db::Variant> m_oldstate;
 	/*! A command for setting state
 	 */
 	sad::animations::setstate::AbstractSetStateCommand* m_state_command;

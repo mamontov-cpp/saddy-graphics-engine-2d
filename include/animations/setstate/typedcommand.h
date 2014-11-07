@@ -23,7 +23,7 @@ template<
 class TypedCommmand: public sad::animations::setstate::AbstractSetStateCommand
 {
 public:
-	/*! Invokes a command with specified command
+	/*! Invokes a command with specified argument
 		\param[in] a argument
 	 */
 	virtual void call(const T& a) = 0;

@@ -1,6 +1,5 @@
 #include "animations/animationscamerarotation.h"
 #include "animations/animationsinstance.h"
-#include "animations/animationsanimationfastcall.h"
 
 #include "fuzzyequal.h"
 #include "scene.h"
@@ -23,50 +22,11 @@
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::CameraRotation, sad::animations::Animation);
 
-// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::AbstractFastCall ==========================
-
-sad::animations::CameraRotation::AbstractFastCall::~AbstractFastCall()
-{
-
-}
-
-// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::DummyFastCall ==========================
-
-void sad::animations::CameraRotation::DummyFastCall::call(double angle)
-{
-
-}
-
-sad::animations::CameraRotation::DummyFastCall::~DummyFastCall()
-{
-
-}
-
-// =============================== PUBLIC METHODS OF sad::animations::CameraRotation::FastCall ==========================
-
-sad::animations::CameraRotation::FastCall::FastCall(sad::Scene* s, const sad::Point3D& p) : m_scene(s), m_pivot(p)
-{
-
-}
-
-void sad::animations::CameraRotation::FastCall::call(double angle)
-{
-	sad::Camera& c = m_scene->camera();
-	c.Angle = angle;
-	c.RotationVectorDirection = sad::Vector3D(0, 0, 1);
-	c.TemporaryRotationOffset = m_pivot;
-}
-
-sad::animations::CameraRotation::FastCall::~FastCall()
-{
-
-}
-
-// =============================== PUBLIC METHODS OF sad::animations::CameraRotation ==========================
+// =============================== PUBLIC METHODS ==========================
 
 sad::animations::CameraRotation::CameraRotation() : m_min_angle(0), m_max_angle(0)
 {
-	
+	m_creators.pushCreator<sad::animations::SavedCameraRotation>("sad::animations::SavedCameraRotation");
 }
 
 sad::animations::CameraRotation::~CameraRotation()
@@ -134,53 +94,24 @@ const sad::Point3D& sad::animations::CameraRotation::pivot() const
 void sad::animations::CameraRotation::setState(sad::animations::Instance* i, double time)
 {
 	double angle = m_min_angle + (m_max_angle - m_min_angle) * time / m_time;;
-	static_cast<sad::animations::CameraRotation::AbstractFastCall*>(i->fastCall())->call(angle);
+	i->stateCommandAs<double>()->call(angle);
 }
 
-bool sad::animations::CameraRotation::saveState(sad::animations::Instance* i)
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::CameraRotation::stateCommand(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
+	if (this->applicableTo(o) && o)
+	{
+		return new sad::animations::setstate::SetCameraRotation(static_cast<sad::Scene*>(o), m_pivot);
+	}
+	return new sad::animations::setstate::DummyCommand<double>();
+}
+
+bool sad::animations::CameraRotation::applicableTo(sad::db::Object* o)
+{
 	bool result = false;
 	if (o && m_valid)
 	{
-		if (o->isInstanceOf("sad::Scene"))
-		{
-			result = true;
-			sad::Scene* s = static_cast<sad::Scene*>(o);
-			sad::Point3D v = s->camera().RotationVectorDirection;
-			double a = s->camera().Angle;
-			sad::Point3D offset = s->camera().TemporaryRotationOffset;
-			i->oldState().clear();
-			i->oldState() << sad::db::Variant(v);
-			i->oldState() << sad::db::Variant(a);
-			i->oldState() << sad::db::Variant(offset);
-
-			i->setFastCall(new sad::animations::CameraRotation::FastCall(s, m_pivot));
-		}
-	}
-	if (!result)
-	{
-		i->setFastCall(new sad::animations::CameraRotation::DummyFastCall());
+		result = o->isInstanceOf("sad::Scene");
 	}
 	return result;
-}
-
-
-void sad::animations::CameraRotation::resetState(sad::animations::Instance* i)
-{
-	sad::db::Object* o = i->object();
-	if (o && i->oldState().size() == 3)
-	{
-		sad::Maybe<sad::Point3D> rotvector = i->oldState()[0].get<sad::Point3D>();
-		sad::Maybe<double> angle = i->oldState()[1].get<double>();
-		sad::Maybe<sad::Point3D> offset = i->oldState()[2].get<sad::Point3D>();
-		
-		if (rotvector.exists() && angle.exists() && offset.exists())
-		{
-			sad::Scene* s = static_cast<sad::Scene*>(o);
-			s->camera().RotationVectorDirection = rotvector.value();
-			s->camera().Angle = angle.value();
-			s->camera().TemporaryRotationOffset = offset.value();
-		}
-	}
 }

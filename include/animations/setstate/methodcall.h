@@ -31,7 +31,7 @@ public:
 		\param[in]  f a method, which should be called
 	 */
 	inline MethodCall(sad::db::Object* o, _Method f) : m_o(o), m_f(f) { }
-	/*! Calls an animation delegate for specified argument
+	/*! Calls a method with specified argument
 		\param[in] a argument
 	 */
 	virtual void call(const _Argument& a)

@@ -39,8 +39,9 @@ public:
      */
     virtual void resume() = 0;
     /*! Cancels an animation
+		\param[in] animations an animations to be used
      */
-    virtual void cancel() = 0;
+    virtual void cancel(sad::animations::Animations* animations) = 0;
 	/*! Called, when process is added to pipeline
 	 */
 	virtual void addedToPipeline() = 0;
