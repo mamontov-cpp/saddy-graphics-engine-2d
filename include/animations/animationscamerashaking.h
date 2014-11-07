@@ -5,7 +5,6 @@
  */
 #pragma once
 #include "animationsanimation.h"
-#include "animationsanimationfastcall.h"
 
 #include "../sadpoint.h"
 #include "../scene.h"

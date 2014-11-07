@@ -249,11 +249,11 @@ void sad::animations::Group::resume()
 	}
 }
 
-void sad::animations::Group::cancel()
+void sad::animations::Group::cancel(sad::animations::Animations* animations)
 {
 	for(size_t i = 0; i < m_instances.size(); i++)
 	{
-		m_instances[i]->cancel();
+		m_instances[i]->cancel(animations);
 	}
 
 	m_instances.clear();

@@ -8,7 +8,9 @@
 #include "../resource/resource.h"
 
 #include "animationssavedobjectstatecreators.h"
+
 #include "setstate/abstractsetstatecommand.h"
+#include "setstate/dummycommand.h"
 
 namespace sad
 {

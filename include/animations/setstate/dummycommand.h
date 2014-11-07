@@ -19,10 +19,10 @@ namespace setstate
 template<
 	typename T
 >
-class DummyCommmand: public sad::animations::setstate::TypedCommmand<T>
+class DummyCommand: public sad::animations::setstate::TypedCommmand<T>
 {
 public:
-	/*! Invokes a command with specified command
+	/*! Invokes a command with specified argument
 		\param[in] a argument
 	 */
 	virtual void call(const T& a)
@@ -31,7 +31,7 @@ public:
 	}
 	/*! Can be inherited
 	 */
-	virtual ~DummyCommmand()
+	virtual ~DummyCommand()
 	{
 		
 	}

@@ -225,17 +225,17 @@ void sad::animations::Instance::resume()
 }
 
 
-void sad::animations::Instance::cancel()
+void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 {
     sad::animations::Animation* a = m_animation.get();
     sad::db::Object* o = m_object.get();
 
-    if (m_started && a && o)
+    if (m_started && m_valid)
     {
         m_paused = false;
         m_timer.stop();
         m_finished = true;
-        a->resetState(this);
+		this->restoreObjectState(animations);
     }
 }
 
@@ -370,9 +370,4 @@ void sad::animations::Instance::clearSetState()
 {
 	delete m_state_command;
 	m_state_command = NULL;
-}
-
-void sad::animations::Instance::_process()
-{
-
 }

@@ -9,7 +9,7 @@
 #include "animationssavedobjectpropertycreator.h"
 #include "animationssavedobjectstatecreator.h"
 
-#include "../sadptrhash.h"
+#include "../sadptrvector.h"
 
 namespace sad
 {
@@ -18,7 +18,7 @@ namespace animations
 {
 /*! Defines a list of creators for saved object states
  */
-class SavedObjectStateCreators: public sad::PtrHash<sad::animations::AbstractSavedObjectStateCreator>
+class SavedObjectStateCreators: public sad::PtrVector<sad::animations::AbstractSavedObjectStateCreator>
 {
 public:
     /*! Creates new empty container

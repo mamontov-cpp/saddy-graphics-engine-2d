@@ -99,8 +99,9 @@ public:
      */
     virtual void resume();
     /*! Cancels an animation group
+		\param[in] animations an animations pipeline
      */
-    virtual void cancel();
+    virtual void cancel(sad::animations::Animations* animations);
 	/*! Called, when process is added to pipeline
 	 */
 	virtual void addedToPipeline();
