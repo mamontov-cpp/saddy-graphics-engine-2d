@@ -61,6 +61,8 @@ bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 void sad::animations::OptionList::setList(const sad::Vector<sad::String>& list)
 {
 	m_list = list;
+    m_inner_valid = m_list.size() != 0;
+    this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::OptionList::list() const

@@ -18,8 +18,8 @@
 #include <label.h>
 #include <texturemappedfont.h>
 #include <freetype/font.h>
-#include <animations/animationsdiscreteproperty.h>
-#include <animations/animationscamerashaking.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationsinstance.h>
 
 #ifdef WIN32
@@ -102,6 +102,43 @@ class EventHandler: public sad::input::AbstractHandler
 	 }
 };	
 
+/*! Initializes resources for specific renderer
+    \param[in] r renderer
+ */ 
+void init_pregenerated_resources(sad::Renderer* r)
+{
+	sad::Sprite2D::Options opts[5];
+	opts[0].Texture = "tex1";
+	opts[0].TextureRectangle = sad::Rect2D(0, 0, 256, 256);
+	opts[0].Rectangle = sad::Rect2D(0, 0, 512, 512);
+	opts[0].Transparent = false;
+
+	opts[1].Texture = "tex1";
+	opts[1].TextureRectangle = sad::Rect2D(0, 0, 266, 266);
+	opts[1].Rectangle = sad::Rect2D(0, 0, 512, 512);
+	opts[1].Transparent = false;
+
+	opts[2].Texture = "tex1";
+	opts[2].TextureRectangle = sad::Rect2D(0, 0, 276, 276);
+	opts[2].Rectangle = sad::Rect2D(0, 0, 512, 512);
+	opts[2].Transparent = false;
+
+	opts[3].Texture = "tex1";
+	opts[3].TextureRectangle = sad::Rect2D(0, 0, 286, 286);
+	opts[3].Rectangle = sad::Rect2D(0, 0, 512, 512);
+	opts[3].Transparent = false;
+
+	opts[4].Texture = "tex1";
+	opts[4].TextureRectangle = sad::Rect2D(0, 0, 296, 296);
+	opts[4].Rectangle = sad::Rect2D(0, 0, 512, 512);
+	opts[4].Transparent = false;
+
+	for(size_t i = 0; i < 5 ; i++)
+	{
+		r->tree("")->root()->addResource(sad::String("opts") + sad::String::number(i), new sad::Sprite2D::Options(opts[i]));
+	}
+}
+
 /*! This is simple thread function, which inits a renderer, with simple scene of
     two kind of fonts and sprite. Also it creates separate log for work, and sets 
 	it's separate callbacks to exit on Escape and move sprite on user click.
@@ -156,24 +193,25 @@ int thread(void * p)
 		sad::util::free(errors);
 		return 1;
 	} 
+	init_pregenerated_resources(&r);
 	
 
 	// Create a simple animations
-	sad::animations::DiscreteProperty<unsigned int>* fontsizeanimation = new sad::animations::DiscreteProperty<unsigned int>();
-	fontsizeanimation->setLooped(true);
-	fontsizeanimation->setTime(200);
-	sad::Vector<unsigned int> v;
-	v << 11 << 15 << 20 << 25 << 30;
-	fontsizeanimation->setList(v);
-	fontsizeanimation->setPropertyName("fontsize");
-	r.tree("")->root()->addResource("fontsizeanimation", fontsizeanimation);
+	sad::animations::FontList* fontlistanimation = new sad::animations::FontList();
+	fontlistanimation->setLooped(true);
+	fontlistanimation->setTime(200);
+	sad::Vector<sad::String> v;
+	v << "ftfont" << "tmfont";
+	fontlistanimation->setFonts(v);
+	r.tree("")->root()->addResource("fontlistanimation", fontlistanimation);
 
-	sad::animations::CameraShaking* camerashaking = new sad::animations::CameraShaking();
-	camerashaking->setLooped(true);
-	camerashaking->setTime(10000);
-	camerashaking->setFrequency(1000);
-	camerashaking->setOffset(sad::Point2D(100, 100));
-	r.tree("")->root()->addResource("camerashaking", camerashaking);
+	sad::animations::TextureCoordinatesList* texturecoordinateslist = new sad::animations::TextureCoordinatesList();
+	texturecoordinateslist->setLooped(true);
+	texturecoordinateslist->setTime(200);
+	sad::Vector<sad::String> opts;
+	opts << "opts0" << "opts1" << "opts2" << "opts3" << "opts4";
+	texturecoordinateslist->setList(opts);
+	r.tree("")->root()->addResource("texturecoordinateslist", texturecoordinateslist);
 
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
@@ -190,17 +228,17 @@ int thread(void * p)
 	scene->add(l1);
 	scene->add(l2);
 
-	sad::animations::Instance* fontsizeanimationinstance = new sad::animations::Instance();
-	fontsizeanimationinstance->setAnimation(fontsizeanimation);
-	fontsizeanimationinstance->setObject(l1);
-	r.animations()->add(fontsizeanimationinstance);
+	sad::animations::Instance* fontlistanimationinstance = new sad::animations::Instance();
+	fontlistanimationinstance->setAnimation(fontlistanimation);
+	fontlistanimationinstance->setObject(l1);
+	r.animations()->add(fontlistanimationinstance);
 	
 
 
-	sad::animations::Instance* camerarotationinstance = new sad::animations::Instance();
-	camerarotationinstance->setAnimation(camerashaking);
-	camerarotationinstance->setObject(r.scenes()[0]);
-	//r.animations()->add(camerarotationinstance);
+	sad::animations::Instance* texturecoordinateslistinstance = new sad::animations::Instance();
+	texturecoordinateslistinstance->setAnimation(texturecoordinateslist);
+	texturecoordinateslistinstance->setObject(a);
+	r.animations()->add(texturecoordinateslistinstance);
 
 
 	/* Here we bind two different handlers with keydown
