@@ -382,7 +382,12 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
     for(size_t i = 0; i < creators.size(); i++) {
         if (animations->cache().lookup(o, creators[i]->name()) == false)
         {
-            animations->cache().saveState(o, creators[i]->name(), creators[i]->create(o));
+			sad::animations::SavedObjectState* state = creators[i]->create(o);
+			if (m_body)
+			{
+				state->storeBodyState(m_body);
+			}
+            animations->cache().saveState(o, creators[i]->name(), state);
         }
         else
         {

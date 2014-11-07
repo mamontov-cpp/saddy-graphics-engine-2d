@@ -6,6 +6,7 @@
 #pragma once
 #include "../db/dbobject.h"
 
+#include "../p2d/body.h"
 
 namespace sad
 {
@@ -26,6 +27,11 @@ public:
 	/*! Restores last object state
 	 */
 	virtual void restore() = 0;
+	/*! Stores body state to restore it, after animation is done.
+		Default implementation does nothing
+		\param[in] b body
+	 */
+	virtual void storeBodyState(sad::p2d::Body* b);
 	/*! Increments references to state
 	 */
 	inline void increment()

@@ -869,6 +869,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationssavedcameratranslation.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedobjectstate.cpp"
 					>
 				</File>
@@ -893,6 +897,10 @@
 					</File>
 					<File
 						RelativePath=".\src\animations\setstate\setcamerarotation.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\animations\setstate\setcameratranslation.cpp"
 						>
 					</File>
 				</Filter>
@@ -1891,6 +1899,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationssavedcameratranslation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationssavedobjectproperty.h"
 					>
 				</File>
@@ -1935,6 +1947,10 @@
 					</File>
 					<File
 						RelativePath=".\include\animations\setstate\setcamerarotation.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\setcameratranslation.h"
 						>
 					</File>
 					<File

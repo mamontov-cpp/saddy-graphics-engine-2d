@@ -9,3 +9,8 @@ sad::animations::SavedObjectState::~SavedObjectState()
 {
 	
 }
+
+void sad::animations::SavedObjectState::storeBodyState(sad::p2d::Body* b)
+{
+
+}
