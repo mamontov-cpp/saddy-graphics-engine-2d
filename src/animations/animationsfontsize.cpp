@@ -1,6 +1,9 @@
 #include "animations/animationsfontsize.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/setstate/methodcall.h"
+#include "animations/setstate/setproperty.h"
+
 #include "label.h"
 #include "db/custom/customobject.h"
 
@@ -25,7 +28,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::FontSize, sad::animations::Animation);
 
 sad::animations::FontSize::FontSize() : m_min_size(0), m_max_size(0)
 {
-	
+    m_creators.pushProperty<unsigned int>("fontsize", "fontsize");
 }
 
 sad::animations::FontSize::~FontSize()
@@ -83,59 +86,48 @@ void sad::animations::FontSize::setState(sad::animations::Instance* i, double ti
 	double max = m_max_size;
 	double value = min + (max - min) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
-	static_cast<sad::animations::AnimationFastCallFor<unsigned int> *>(i->fastCall())->call(kvalue);
-}
-
-bool sad::animations::FontSize::saveState(sad::animations::Instance* i)
-{
-	sad::db::Object* o = i->object();
-	bool result = false;
-	if (o && m_valid)
-	{
-		sad::Maybe<unsigned int> maybesize = o->getProperty<unsigned int>("fontsize"); 
-		if (maybesize.exists())
-		{
-			result = true;
-
-			i->oldState().clear();
-			i->oldState() << sad::db::Variant(maybesize.value());
-
-			if (o->isInstanceOf("sad::Label"))
-			{
-				i->setFastCall( sad::animations::make_fastcall(o, &sad::Label::setSize));
-			}
-			else
-			{
-				if (o->isInstanceOf("sad::db::custom::Object"))
-				{
-					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setFontSize));
-				}
-				else
-				{
-					i->setFastCall( new sad::animations::SetProperty<unsigned int>(o, "fontsize"));
-				}
-			}
-		}
-	}
-
-	if (!result)
-	{
-		i->setFastCall( new sad::animations::AnimationFastCallFor<unsigned int>() );
-	}
-
-	return result;
+    i->stateCommandAs<unsigned int>()->call(kvalue);
 }
 
 
-void sad::animations::FontSize::resetState(sad::animations::Instance* i)
+
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontSize::stateCommand(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	if (o && i->oldState().size() == 1)
-	{
-		sad::Maybe<unsigned int> value = i->oldState()[0].get<unsigned int>();
-		if (value.exists())
-		{
-			o->setProperty("fontsize", value.value());
-		}
-	}
+    if (this->applicableTo(o))
+    {
+        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        if (o->isInstanceOf("sad::Label"))
+        {
+            c = sad::animations::setstate::make(
+                    o,
+                    &sad::Label::setSize
+                );
+        }
+        else
+        {
+            if (o->isInstanceOf("sad::db::custom::Object"))
+            {
+                c = sad::animations::setstate::make(
+                        o,
+                        &sad::db::custom::Object::setFontSize
+                    );
+            }
+            else
+            {
+                c = new sad::animations::setstate::SetProperty<unsigned int>(o, "fontsize");
+            }
+        }
+        return c;
+    }
+    return new sad::animations::setstate::DummyCommand<unsigned int>();
+}
+
+bool sad::animations::FontSize::applicableTo(sad::db::Object* o)
+{
+    bool result = false;
+    if (o && m_valid)
+    {
+        result = o->getProperty<unsigned int>("fontsize").exists();
+    }
+    return result;
 }

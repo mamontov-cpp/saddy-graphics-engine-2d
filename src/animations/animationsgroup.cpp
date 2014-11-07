@@ -21,7 +21,7 @@
 
 // =========================== PUBLIC METHODS ===========================
 
-sad::animations::Group::Group() : m_started(true), m_looped(false)
+sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NULL)
 {
 	
 }
@@ -190,11 +190,11 @@ void sad::animations::Group::removeAsLink(sad::animations::Instance* inst)
 	}
 }
 
-void sad::animations::Group::restart()
+void sad::animations::Group::restart(sad::animations::Animations* animations)
 {
 	for(size_t i = 0; i < m_instances.size(); i++)
 	{
-		m_instances[i]->cancel();
+        m_instances[i]->cancel(animations);
 	}
 
 	m_instances.clear();
@@ -329,7 +329,7 @@ void sad::animations::Group::removeNow(sad::animations::Instance* o)
 		{
 			if (m_instances[i] == o)
 			{
-				m_instances[i]->cancel();
+                m_instances[i]->cancel(m_parent);
 				m_instances.removeAt(i);
 				--i;
 			}
@@ -350,7 +350,7 @@ void sad::animations::Group::clearNow()
 {
 	for(size_t i = 0; i < m_instances.size(); i++)
 	{
-		m_instances[i]->cancel();
+        m_instances[i]->cancel(m_parent);
 	}
 	m_instances.clear();
 	for(size_t i = 0; i < m_referenced.size(); i++)

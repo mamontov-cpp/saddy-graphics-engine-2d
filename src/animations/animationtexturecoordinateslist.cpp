@@ -1,6 +1,9 @@
 #include "animations/animationstexturecoordinateslist.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/setstate/methodcall.h"
+#include "animations/setstate/setproperty.h"
+
 #include "sprite2d.h"
 #include "db/custom/customobject.h"
 
@@ -74,59 +77,51 @@ void sad::animations::TextureCoordinatesList::setState(sad::animations::Instance
 		sad::Rect2D* r = this->coordinates(m_list[kvalue]);
 		if (r)
 		{
-			static_cast<sad::animations::AnimationFastCallFor<sad::Rect2D>*>(i->fastCall())->call(*r);
+            i->stateCommandAs<sad::Rect2D>()->call(*r);
 		}
 	}
 }
 
-bool sad::animations::TextureCoordinatesList::saveState(sad::animations::Instance* i)
-{
-	sad::db::Object* o = i->object();
-	bool result = false;
-	if (o && m_valid)
-	{
-		sad::Maybe<sad::Rect2D> maybetc = o->getProperty<sad::Rect2D>("texturecoordinates"); 
-		if (maybetc.exists())
-		{
-			result = true;
 
-			i->oldState().clear();
-			i->oldState() << sad::db::Variant(maybetc.value());
-			if (o->isInstanceOf("sad::Sprite2D"))
-			{
-				i->setFastCall( sad::animations::make_fastcall(o, &sad::Sprite2D::setTextureCoordinates));
-			}
-			else
-			{
-				if (o->isInstanceOf("sad::db::custom::Object"))
-				{
-					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setTextureCoordinates));
-				}
-				else
-				{
-					i->setFastCall( new sad::animations::SetProperty<sad::Rect2D>(o, "texturecoordinates"));
-				}				
-			}
-		}
-	}
-	if (!result)
-	{
-		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::Rect2D>() );
-	}
-	return result;
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoordinatesList::stateCommand(sad::db::Object* o)
+{
+    if (this->applicableTo(o))
+    {
+        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        if (o->isInstanceOf("sad::Sprite2D"))
+        {
+            c = sad::animations::setstate::make(
+                    o,
+                     &sad::Sprite2D::setTextureCoordinates
+                );
+        }
+        else
+        {
+            if (o->isInstanceOf("sad::db::custom::Object"))
+            {
+                c = sad::animations::setstate::make(
+                        o,
+                        &sad::db::custom::Object::setTextureCoordinates
+                    );
+            }
+            else
+            {
+                c = new sad::animations::setstate::SetProperty<sad::Rect2D>(o, "texturecoordinates");
+            }
+        }
+        return c;
+    }
+    return new sad::animations::setstate::DummyCommand<sad::Rect2D>();
 }
 
-void sad::animations::TextureCoordinatesList::resetState(sad::animations::Instance* i)
+bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	if (o && i->oldState().size() == 1)
-	{
-		sad::Maybe<sad::Rect2D> value = i->oldState()[0].get<sad::Rect2D>();
-		if (value.exists())
-		{
-			o->setProperty("texturecoordinates", value.value());
-		}
-	}
+    bool result = false;
+    if (o && m_valid)
+    {
+        result = o->getProperty<sad::Rect2D>("texturecoordinates").exists();
+    }
+    return result;
 }
 
 // =============================== PROTECTED METHODS ==========================

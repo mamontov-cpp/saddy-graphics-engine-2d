@@ -1,7 +1,7 @@
 /*! \file animations/setstate/setcamerarotation.h
 	\author HiddenSeeker
 
-	Defines a comand to be invoked with specified argument
+    Defines a comand, which rotates scene's camea for angle around a pivot
  */
 #pragma  once
 #include "typedcommand.h"

@@ -39,6 +39,13 @@ public:
     {
         return m_name;
     }
+    /*! Sets name for a creator
+        \param[in] name a name
+     */
+    inline void setName(const sad::String& name)
+    {
+        m_name = name;
+    }
 protected:
     /*! A unique key, which defines how should state be saved
      */

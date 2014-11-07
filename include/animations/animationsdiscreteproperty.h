@@ -8,10 +8,13 @@
 #include "../fuzzyequal.h"
 #include "../sadvector.h"
 #include "../sadstring.h"
+#include "../maybe.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
 
+#include "animationssavedobjectproperty.h"
+#include "setstate/setproperty.h"
 
 namespace sad
 {
@@ -35,7 +38,7 @@ public:
 	 */
 	DiscreteProperty()
 	{
-		
+         m_creators.pushProperty<T>("", "");
 	}
 	/*! Can be inherited
 	 */
@@ -55,12 +58,19 @@ public:
 			sad::Maybe<sad::Vector<T> > list = picojson::to_type<sad::Vector<T> >(
 											       picojson::get_property(v, "list")
 											   );
-			bool result = list.exists();
+            sad::Maybe<sad::String> propertyname = picojson::to_type<sad::String>(
+                                                    picojson::get_property(v, "property")
+                                                );
+            bool result = list.exists() && propertyname.exists();
 			if (result)
 			{
 				m_list = list.value();
 				m_inner_valid = m_list.size() != 0;
 				updateValidFlag();
+                m_property_name = propertyname.value();
+                sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
+                c->setPropertyName(m_property_name);
+                c->setName(m_property_name);
 			}
 
 			flag = flag && result;
@@ -87,6 +97,9 @@ public:
 	void setPropertyName(const sad::String& name)
 	{
 		m_property_name = name;
+        sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
+        c->setPropertyName(m_property_name);
+        c->setName(m_property_name);
 	}
 	/*! Returns property name
 		\return property name
@@ -111,42 +124,29 @@ public:
 			o->setProperty(m_property_name, m_list[kvalue]);
 		}
 	}
-    /*! Saves states of object in animation instance
-        \param[in] i an animation instance
-        \return whether we can work further with this object in instance
+    /*! Creates a state command for an object
+        \param[in] o object
+        \return state command
      */
-    virtual bool saveState(sad::animations::Instance* i)
-	{
-		sad::db::Object* o = i->object();
-		bool result = false;
-		if (o)
-		{
-			sad::Maybe<T> maybeopts = o->getProperty<T>(m_property_name); 
-			if (maybeopts.exists())
-			{
-				result = true;
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o)
+    {
+        return new sad::animations::setstate::SetProperty<T>(o, m_property_name);
+    }
 
-				i->oldState().clear();
-				i->oldState() << sad::db::Variant(maybeopts.value());
-			}
-		}
-		return result;
-	}
-    /*! Resets state of object in animation instance, when animation ended
-        \param[in] i an animation instance
+    /*! Checks, whether animation is applicable to an object
+        \param[in] o object
+        \return whether animation is applicable to that object
      */
-    virtual void resetState(sad::animations::Instance* i)
-	{
-		sad::db::Object* o = i->object();
-		if (o && i->oldState().size() == 1)
-		{
-			sad::Maybe<T> value = i->oldState()[0].get<T>();
-			if (value.exists())
-			{
-				o->setProperty(m_property_name, value.value());
-			}
-		}
-	}
+    virtual bool applicableTo(sad::db::Object* o)
+    {
+        bool result = false;
+        if (o && m_valid)
+        {
+            sad::Maybe<T> maybevalue = o->getProperty<T>(m_property_name);
+            result = maybevalue.exists();
+        }
+        return result;
+    }
 protected:
 	/*! A name for property
 	 */

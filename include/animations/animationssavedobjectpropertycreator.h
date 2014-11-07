@@ -36,12 +36,19 @@ public:
     {
 
     }
+    /*! Sets name for animated property
+        \param[in] name name for property
+     */
+    inline void setPropertyName(const sad::String& name)
+    {
+        m_property_name = name;
+    }
     /*! Clones a saved object state creator
         \param[in] clone returns new copy of creator
      */
     virtual AbstractSavedObjectStateCreator* clone() const
     {
-        return new sad::animations::SavedObjectPropertyCreator<T>(m_name, m_property);
+        return new sad::animations::SavedObjectPropertyCreator<T>(m_name, m_property_name);
     }
     /*! Creates a state for specified object
         \param o a specified object for creator

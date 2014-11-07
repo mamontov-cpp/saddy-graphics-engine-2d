@@ -75,7 +75,7 @@ public:
         \param[in] o object
         \return whether animation is applicable to that object
      */
-    virtual bool applicableTo(sad::db::Object* o) = 0;
+    virtual bool applicableTo(sad::db::Object* o);
 protected:
 	/*! A minimal angle for editing
 	 */

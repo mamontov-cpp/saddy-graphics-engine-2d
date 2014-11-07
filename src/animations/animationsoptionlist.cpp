@@ -1,6 +1,9 @@
 #include "animations/animationsoptionlist.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/setstate/methodcall.h"
+#include "animations/setstate/setproperty.h"
+
 #include "sprite2d.h"
 #include "db/custom/customobject.h"
 
@@ -25,7 +28,8 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::OptionList, sad::animations::Animation
 
 sad::animations::OptionList::OptionList()
 {
-	
+    m_creators.pushProperty<sad::String>("options", "options");
+    m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
 
 sad::animations::OptionList::~OptionList()
@@ -71,59 +75,50 @@ void sad::animations::OptionList::setState(sad::animations::Instance* i, double 
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (kvalue < m_list.size())
 	{
-		static_cast<sad::animations::AnimationFastCallFor<sad::String>*>(i->fastCall())->call(m_list[kvalue]);
+        i->stateCommandAs<sad::String>()->call(m_list[kvalue]);
 	}
 }
 
-bool sad::animations::OptionList::saveState(sad::animations::Instance* i)
+
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::OptionList::stateCommand(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	bool result = false;
-	if (o && m_valid)
-	{
-		sad::Maybe<sad::String> maybeopts = o->getProperty<sad::String>("options"); 
-		if (maybeopts.exists())
-		{
-			result = true;
-
-			i->oldState().clear();
-			i->oldState() << sad::db::Variant(maybeopts.value());
-
-			if (o->isInstanceOf("sad::Sprite2D"))
-			{
-				void (sad::Sprite2D::*f)(const sad::String&) = &sad::Sprite2D::set;
-				i->setFastCall( sad::animations::make_fastcall(o, f));
-			}
-			else
-			{
-				if (o->isInstanceOf("sad::db::custom::Object"))
-				{
-					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setOptions));
-				}
-				else
-				{
-					i->setFastCall( new sad::animations::SetProperty<sad::String>(o, "options"));
-				}				
-			}
-		}
-	}
-
-	if (!result)
-	{
-		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::String>() );
-	}
-	return result;
+    if (this->applicableTo(o))
+    {
+        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        if (o->isInstanceOf("sad::Sprite2D"))
+        {
+            void (sad::Sprite2D::*f)(const sad::String&) = &sad::Sprite2D::set;
+            c = sad::animations::setstate::make(
+                    o,
+                    f
+                );
+        }
+        else
+        {
+            if (o->isInstanceOf("sad::db::custom::Object"))
+            {
+                c = sad::animations::setstate::make(
+                        o,
+                        &sad::db::custom::Object::setOptions
+                    );
+            }
+            else
+            {
+                c = new sad::animations::setstate::SetProperty<sad::String>(o, "options");
+            }
+        }
+        return c;
+    }
+    return new sad::animations::setstate::DummyCommand<sad::String>();
 }
 
-void sad::animations::OptionList::resetState(sad::animations::Instance* i)
+
+bool sad::animations::OptionList::applicableTo(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	if (o && i->oldState().size() == 1)
-	{
-		sad::Maybe<sad::String> value = i->oldState()[0].get<sad::String>();
-		if (value.exists())
-		{
-			o->setProperty("options", value.value());
-		}
-	}
+    bool result = false;
+    if (o && m_valid)
+    {
+        result = o->getProperty<sad::String>("options").exists();
+    }
+    return result;
 }

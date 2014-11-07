@@ -80,8 +80,9 @@ public:
 	 */
 	void removeAsLink(sad::animations::Instance* inst);
 	/*! Restarts an animation group
+        \param[in] animations an animations process
 	 */
-	virtual void restart();
+    virtual void restart(sad::animations::Animations* animations);
 	/*! Restarts every animation, which was finished
      */
     virtual void clearFinished();
@@ -139,6 +140,9 @@ protected:
 	 /*! Whether animation is started
 	  */
 	 bool m_started;
+     /*! A cached parent animations to made cancelling possible
+      */
+     sad::animations::Animations* m_parent;
 };
 
 }

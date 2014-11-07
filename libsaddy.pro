@@ -172,7 +172,11 @@ SOURCES += src/camera.cpp \
     src/animations/animationtexturecoordinateslist.cpp \
     src/animations/setstate/abstractsetstatecommand.cpp \
     src/animations/animationsabstractsavedobjectstatecreator.cpp \
-    src/animations/animationssavedobjectstatecreators.cpp
+    src/animations/animationssavedobjectstatecreators.cpp \
+    src/animations/setstate/setcamerarotation.cpp \
+    src/animations/animationssavedcamerarotation.cpp \
+    src/animations/animationssavedcameratranslation.cpp \
+    src/animations/setstate/setcameratranslation.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -422,7 +426,11 @@ HEADERS += include/camera.h \
     include/animations/animationssavedobjectproperty.h \
     include/animations/animationssavedobjectpropertycreator.h \
     include/animations/animationssavedobjectstatecreator.h \
-    include/animations/animationssavedobjectstatecreators.h
+    include/animations/animationssavedobjectstatecreators.h \
+    include/animations/animationssavedcamerarotation.h \
+    include/animations/setstate/setcamerarotation.h \
+    include/animations/animationssavedcameratranslation.h \
+    include/animations/setstate/setcameratranslation.h
 
 
 DESTDIR = ../saddy/lib/

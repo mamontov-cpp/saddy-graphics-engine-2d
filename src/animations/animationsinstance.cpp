@@ -145,29 +145,17 @@ double sad::animations::Instance::startTime() const
 	return m_start_time;
 }
 
-sad::Vector<sad::db::Variant>& sad::animations::Instance::oldState()
-{
-    return m_oldstate;
-}
-
-const sad::Vector<sad::db::Variant>& sad::animations::Instance::oldState() const
-{
-    return m_oldstate;
-}
-
-
 void sad::animations::Instance::addCallbackOnEnd(sad::animations::Callback* c)
 {
     m_callbacks_on_end << c;
 }
 
-
-void sad::animations::Instance::restart()
+void sad::animations::Instance::restart(sad::animations::Animations* animations)
 {
 	m_timer.stop();
 	if (m_started && !m_finished)
 	{
-		this->cancel();
+        this->cancel(animations);
 	}
 	m_started = false;
 	m_finished = false;
