@@ -19,7 +19,7 @@
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationsfontlist.h>
-#include <animations/animationstexturecoordinateslist.h>
+#include <animations/animationsresize.h>
 #include <animations/animationsinstance.h>
 
 #ifdef WIN32
@@ -102,43 +102,6 @@ class EventHandler: public sad::input::AbstractHandler
 	 }
 };	
 
-/*! Initializes resources for specific renderer
-    \param[in] r renderer
- */ 
-void init_pregenerated_resources(sad::Renderer* r)
-{
-	sad::Sprite2D::Options opts[5];
-	opts[0].Texture = "tex1";
-	opts[0].TextureRectangle = sad::Rect2D(0, 0, 256, 256);
-	opts[0].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[0].Transparent = false;
-
-	opts[1].Texture = "tex1";
-	opts[1].TextureRectangle = sad::Rect2D(0, 0, 266, 266);
-	opts[1].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[1].Transparent = false;
-
-	opts[2].Texture = "tex1";
-	opts[2].TextureRectangle = sad::Rect2D(0, 0, 276, 276);
-	opts[2].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[2].Transparent = false;
-
-	opts[3].Texture = "tex1";
-	opts[3].TextureRectangle = sad::Rect2D(0, 0, 286, 286);
-	opts[3].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[3].Transparent = false;
-
-	opts[4].Texture = "tex1";
-	opts[4].TextureRectangle = sad::Rect2D(0, 0, 296, 296);
-	opts[4].Rectangle = sad::Rect2D(0, 0, 512, 512);
-	opts[4].Transparent = false;
-
-	for(size_t i = 0; i < 5 ; i++)
-	{
-		r->tree("")->root()->addResource(sad::String("opts") + sad::String::number(i), new sad::Sprite2D::Options(opts[i]));
-	}
-}
-
 /*! This is simple thread function, which inits a renderer, with simple scene of
     two kind of fonts and sprite. Also it creates separate log for work, and sets 
 	it's separate callbacks to exit on Escape and move sprite on user click.
@@ -193,7 +156,6 @@ int thread(void * p)
 		sad::util::free(errors);
 		return 1;
 	} 
-	init_pregenerated_resources(&r);
 	
 
 	// Create a simple animations
@@ -205,13 +167,11 @@ int thread(void * p)
 	fontlistanimation->setFonts(v);
 	r.tree("")->root()->addResource("fontlistanimation", fontlistanimation);
 
-	sad::animations::TextureCoordinatesList* texturecoordinateslist = new sad::animations::TextureCoordinatesList();
-	texturecoordinateslist->setLooped(true);
-	texturecoordinateslist->setTime(200);
-	sad::Vector<sad::String> opts;
-	opts << "opts0" << "opts1" << "opts2" << "opts3" << "opts4";
-	texturecoordinateslist->setList(opts);
-	r.tree("")->root()->addResource("texturecoordinateslist", texturecoordinateslist);
+	sad::animations::Resize* resize = new sad::animations::Resize();
+	resize->setLooped(true);
+	resize->setTime(1000);
+	resize->setVector(sad::Point2D(-200, -200));
+	r.tree("")->root()->addResource("resize", resize);
 
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
@@ -235,10 +195,10 @@ int thread(void * p)
 	
 
 
-	sad::animations::Instance* texturecoordinateslistinstance = new sad::animations::Instance();
-	texturecoordinateslistinstance->setAnimation(texturecoordinateslist);
-	texturecoordinateslistinstance->setObject(a);
-	r.animations()->add(texturecoordinateslistinstance);
+	sad::animations::Instance* resizeinstance = new sad::animations::Instance();
+	resizeinstance->setAnimation(resize);
+	resizeinstance->setObject(a);
+	r.animations()->add(resizeinstance);
 
 
 	/* Here we bind two different handlers with keydown
