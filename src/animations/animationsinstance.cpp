@@ -260,6 +260,10 @@ void sad::animations::Instance::setCollisionShape(sad::p2d::CollisionShape* shap
 {
     delete m_shape;
     m_shape = shape;
+    if (m_shape)
+    {
+        m_shape->move(sad::Point2D(0, 0) - m_shape->center());
+    }
 }
 
 
@@ -271,6 +275,19 @@ sad::p2d::CollisionShape* sad::animations::Instance::shape()
 void sad::animations::Instance::setBody(sad::p2d::Body* body)
 {
     m_body = body;
+    delete m_shape;
+    if (m_body)
+    {
+        m_shape = m_body->currentShape()->clone();
+        if (m_shape)
+        {
+            m_shape->move(sad::Point2D(0, 0) - m_shape->center());
+        }
+    }
+    else
+    {
+        m_shape = NULL;
+    }
 }
 
 sad::p2d::Body* sad::animations::Instance::body() const
