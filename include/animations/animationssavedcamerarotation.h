@@ -21,7 +21,7 @@ namespace animations
 class  SavedCameraRotation: public sad::animations::SavedObjectState
 {
 public:
-	/*! Creates a new object, and sets a scene 
+    /*! Creates a new object and sets a scene
 		\parma[in] o scene, which settings will be saved
 	 */
 	SavedCameraRotation(sad::db::Object* o);

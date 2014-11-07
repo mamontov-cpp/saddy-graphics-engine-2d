@@ -21,56 +21,6 @@ class CameraShaking: public sad::animations::Animation
 {
 SAD_OBJECT
 public:
-	/*! An abstract fast call for rotating camera
-	 */
-	class AbstractFastCall: public sad::animations::AnimationFastCall
-	{
-	public: 
-		/*! Translates a camera by vector
-			\param[in] v vector
-		 */
-		virtual void call(const sad::Point3D& v) = 0;
-		/*! Must be inherited
-		 */
-		virtual ~AbstractFastCall();
-	};
-
-	/*! A dummy fast call. Does nothing
-	 */
-	class DummyFastCall: public sad::animations::CameraShaking::AbstractFastCall
-	{
-	public: 
-		/*! Does nothing
-			\param[in] v vector
-		 */
-		virtual void call(const sad::Point3D& v);
-		/*! Must be inherited
-		 */
-		virtual ~DummyFastCall();
-	};
-
-	/*! A real fast call for scene
-	 */
-	class FastCall: public  sad::animations::CameraShaking::AbstractFastCall
-	{
-	public: 
-		/*! Sets a scene for call
-			\param[in] s scene
-		 */
-		FastCall(sad::Scene* s);
-		/*! Applies a translation to vector
-			\param[in] v vector
-		 */
-		virtual void call(const sad::Point3D& v);
-		/*! Must be inherited
-		 */
-		virtual ~FastCall();
-	protected:
-		/*! A sceme for rotating a camera
-		 */
-		sad::Scene* m_scene;
-	};
-
 	/*! Creates new empty animation
 	 */
 	CameraShaking();
@@ -103,15 +53,16 @@ public:
         \param[in] time a time of playing of animation
      */
     virtual void setState(sad::animations::Instance* i, double time);
-    /*! Saves states of object in animation instance
-        \param[in] i an animation instance
-        \return whether we can work further with this object in instance
+    /*! Creates a state command for an object
+        \param[in] o object
+        \return state command
      */
-    virtual bool saveState(sad::animations::Instance* i);
-    /*! Resets state of object in animation instance, when animation ended
-        \param[in] i an animation instance
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o);
+    /*! Checks, whether animation is applicable to an object
+        \param[in] o object
+        \return whether animation is applicable to that object
      */
-    virtual void resetState(sad::animations::Instance* i);
+    virtual bool applicableTo(sad::db::Object* o);
 protected:
 	/*! A vector of, how far should the camera be translated
 	 */

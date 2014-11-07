@@ -1,6 +1,9 @@
 #include "animations/animationsfontlist.h"
 #include "animations/animationsinstance.h"
 
+#include "animations/setstate/methodcall.h"
+#include "animations/setstate/setproperty.h"
+
 #include "label.h"
 #include "db/custom/customobject.h"
 
@@ -26,7 +29,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::FontList, sad::animations::Animation);
 
 sad::animations::FontList::FontList()
 {
-	
+    m_creators.pushProperty<sad::String>("font", "font");
 }
 
 sad::animations::FontList::~FontList()
@@ -67,65 +70,52 @@ const sad::Vector<sad::String> & sad::animations::FontList::fonts() const
 
 void sad::animations::FontList::setState(sad::animations::Instance* i, double time)
 {
-
 	double value = static_cast<double>(m_fonts.size()) * time / m_time;
 	unsigned int kvalue = static_cast<unsigned int>(value);
 	if (kvalue < m_fonts.size())
 	{
-		static_cast<sad::animations::AnimationFastCallFor<sad::String>*>(i->fastCall())->call(m_fonts[kvalue]);
+        i->stateCommandAs<sad::String>()->call(m_fonts[kvalue]);
 	}
 }
 
-
-bool sad::animations::FontList::saveState(sad::animations::Instance* i)
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::FontList::stateCommand(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	bool result = false;
-	if (o && m_valid)
-	{
-		sad::Maybe<sad::String> maybefont = o->getProperty<sad::String>("font"); 
-		if (maybefont.exists())
-		{
-			result = true;
-
-			i->oldState().clear();
-			i->oldState() << sad::db::Variant(maybefont.value());
-
-			if (o->isInstanceOf("sad::Label"))
-			{
-				i->setFastCall( sad::animations::make_fastcall(o, &sad::Label::setFontName));
-			}
-			else
-			{
-				if (o->isInstanceOf("sad::db::custom::Object"))
-				{
-					i->setFastCall( sad::animations::make_fastcall(o, &sad::db::custom::Object::setFontName));
-				}
-				else
-				{
-					i->setFastCall( new sad::animations::SetProperty<sad::String>(o, "font"));
-				}
-			}
-		}
-	}
-
-	if (!result)
-	{
-		i->setFastCall( new sad::animations::AnimationFastCallFor<sad::String>() );
-	}
-	return result;
+    if (this->applicableTo(o))
+    {
+        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        if (o->isInstanceOf("sad::Label"))
+        {
+            c = sad::animations::setstate::make(
+                    o,
+                    &sad::Label::setFontName
+                );
+        }
+        else
+        {
+            if (o->isInstanceOf("sad::db::custom::Object"))
+            {
+                c = sad::animations::setstate::make(
+                        o,
+                        &sad::db::custom::Object::setFontName
+                    );
+            }
+            else
+            {
+                c = new sad::animations::setstate::SetProperty<sad::String>(o, "font");
+            }
+        }
+        return c;
+    }
+    return new sad::animations::setstate::DummyCommand<sad::String>();
 }
 
 
-void sad::animations::FontList::resetState(sad::animations::Instance* i)
+bool sad::animations::FontList::applicableTo(sad::db::Object* o)
 {
-	sad::db::Object* o = i->object();
-	if (o && i->oldState().size() == 1)
-	{
-		sad::Maybe<sad::String> value = i->oldState()[0].get<sad::String>();
-		if (value.exists())
-		{
-			o->setProperty("font", value.value());
-		}
-	}
+    bool result = false;
+    if (o && m_valid)
+    {
+        result = o->getProperty<sad::String>("font").exists();
+    }
+    return result;
 }

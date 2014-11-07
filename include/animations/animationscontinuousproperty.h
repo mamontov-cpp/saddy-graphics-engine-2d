@@ -7,9 +7,13 @@
 
 #include "../fuzzyequal.h"
 #include "../sadstring.h"
+#include "../maybe.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
+
+#include "animationssavedobjectproperty.h"
+#include "setstate/setproperty.h"
 
 namespace sad
 {
@@ -33,7 +37,7 @@ public:
 	 */
 	ContinuousProperty()
 	{
-		
+        m_creators.pushProperty<T>("", "");
 	}
 	/*! Can be inherited
 	 */
@@ -65,6 +69,9 @@ public:
 				m_min_value = minsize.value();
 				m_max_value = maxsize.value();
 				m_property_name = propertyname.value();
+                sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
+                c->setPropertyName(m_property_name);
+                c->setName(m_property_name);
 			}
 
 			flag = flag && result;
@@ -77,6 +84,9 @@ public:
 	void setPropertyName(const sad::String& name)
 	{
 		m_property_name = name;
+        sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
+        c->setPropertyName(m_property_name);
+        c->setName(m_property_name);
 	}
 	/*! Returns property name
 		\return property name
@@ -132,42 +142,30 @@ public:
 			o->setProperty(m_property_name, value);
 		}
 	}
-    /*! Saves states of object in animation instance
-        \param[in] i an animation instance
-        \return whether we can work further with this object in instance
-     */
-    virtual bool saveState(sad::animations::Instance* i)
-	{
-		sad::db::Object* o = i->object();
-		bool result = false;
-		if (o)
-		{
-			sad::Maybe<T> maybevalue = o->getProperty<T>(m_property_name); 
-			if (maybevalue.exists())
-			{
-				result = true;
 
-				i->oldState().clear();
-				i->oldState() << sad::db::Variant(maybevalue.value());
-			}
-		}
-		return result;
-	}
-    /*! Resets state of object in animation instance, when animation ended
-        \param[in] i an animation instance
+    /*! Creates a state command for an object
+        \param[in] o object
+        \return state command
      */
-    virtual void resetState(sad::animations::Instance* i)
-	{
-		sad::db::Object* o = i->object();
-		if (o && i->oldState().size() == 1)
-		{
-			sad::Maybe<T> value = i->oldState()[0].get<T>();
-			if (value.exists())
-			{
-				o->setProperty(m_property_name, value.value());
-			}
-		}
-	}
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o)
+    {
+        return new sad::animations::setstate::SetProperty<T>(o, m_property_name);
+    }
+
+    /*! Checks, whether animation is applicable to an object
+        \param[in] o object
+        \return whether animation is applicable to that object
+     */
+    virtual bool applicableTo(sad::db::Object* o)
+    {
+        bool result = false;
+        if (o && m_valid)
+        {
+            sad::Maybe<T> maybevalue = o->getProperty<T>(m_property_name);
+            result = maybevalue.exists();
+        }
+        return result;
+    }
 protected:
 	/*! A name for property
 	 */
