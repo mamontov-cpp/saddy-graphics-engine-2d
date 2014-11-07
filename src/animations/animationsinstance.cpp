@@ -328,7 +328,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
     for(size_t i = 0; i < delegates->size(); i++) {
         if (animations->cache().lookup(o, delegates[i]->name()) == false)
         {
-            animations->cache().saveState(o, delegates[i]->name(), delegates[i]->saveState(o));
+            animations->cache().saveState(o, delegates[i]->name(), delegates[i]->create(o));
         }
         else
         {
