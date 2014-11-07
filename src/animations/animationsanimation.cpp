@@ -65,6 +65,11 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
     return result;
 }
 
+const sad::animations::SavedObjectStateCreators& sad::animations::Animation::creators() const
+{
+    return m_creators;
+}
+
 // =============================== PROTECTED METHODS ==========================
 
 void sad::animations::Animation::updateValidFlag()

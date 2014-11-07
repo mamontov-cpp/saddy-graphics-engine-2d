@@ -324,15 +324,15 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
     sad::animations::Animation* a = m_animation.get();
     sad::db::Object* o = m_object.get();
 
-    const sad::animations::SavedObjectStateDelegate& delegates = a->getCreators();
-    for(size_t i = 0; i < delegates->size(); i++) {
-        if (animations->cache().lookup(o, delegates[i]->name()) == false)
+    const sad::animations::SavedObjectStateCreators& creators = a->creators();
+    for(size_t i = 0; i < creators.size(); i++) {
+        if (animations->cache().lookup(o, creators[i]->name()) == false)
         {
-            animations->cache().saveState(o, delegates[i]->name(), delegates[i]->create(o));
+            animations->cache().saveState(o, creators[i]->name(), creators[i]->create(o));
         }
         else
         {
-            animations->cache().increment(o, delegates[i]->name())
+            animations->cache().increment(o, creators[i]->name());
         }
     }
 
@@ -341,9 +341,9 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-    const sad::animations::SavedObjectStateDelegate& delegates = m_animation.get()->getCreators();
-    for(size_t i = 0; i < delegates->size(); i++) {
-        animations->cache().restore(m_object.get(), delegates[i]->name());
+    const sad::animations::SavedObjectStateCreators& creators = m_animation.get()->creators();
+    for(size_t i = 0; i < creators.size(); i++) {
+        animations->cache().restore(m_object.get(), creators[i]->name());
     }
 }
 
