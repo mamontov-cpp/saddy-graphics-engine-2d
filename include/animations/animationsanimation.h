@@ -7,7 +7,7 @@
 
 #include "../resource/resource.h"
 
-#include "animationssavedobjectstate.h"
+#include "animationssavedobjectstatecreators.h"
 
 namespace sad
 {
@@ -72,6 +72,10 @@ public:
     {
         return m_valid;
     }
+    /*! Returns creators for saving object states
+        \return creators list
+     */
+    const sad::animations::SavedObjectStateCreators& creators() const;
 protected:
 	/*! Updates flag of validity
 	 */
@@ -100,6 +104,9 @@ protected:
 	/*! Whether all animation is valid
 	 */
 	bool m_valid;
+    /*! A creator list for creating a saved object state
+     */
+    sad::animations::SavedObjectStateCreators m_creators;
 };
 
 }
