@@ -81,6 +81,10 @@ public:
 	/* Makes rectangle convex
 	 */
 	void makeConvex();
+	/*! Resizes a shape by specified value
+		\param[in] v value
+	 */
+	virtual void resizeBy(const sad::p2d::Vector& v);
 protected:
 	sad::Rect2D m_rect; //!< Real rectangle
 };
