@@ -41,6 +41,9 @@ protected:
 	/*! Old area of object
 	 */
 	sad::Rect2D m_oldarea;
+	/*! An old center
+	 */
+	sad::Point2D m_oldcenter;
 	/*! A body, which must be reset
 	 */
 	sad::p2d::Body* m_body;
