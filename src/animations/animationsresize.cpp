@@ -85,10 +85,8 @@ void sad::animations::Resize::setState(sad::animations::Instance* i, double time
 	sad::Rect2D area = i->object()->getProperty<sad::Rect2D>("area").value();
 	
 	sad::Point2D pr = area.p0();
-	pr += area.p1();
 	pr += area.p2();
-	pr += area.p3();
-	pr /= 4;
+	pr /= 2.0;
 
 	r[0] += sad::Point2D(-p.x(), -p.y());
 	r[1] += sad::Point2D(p.x(), -p.y());
