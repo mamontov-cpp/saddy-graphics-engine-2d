@@ -51,6 +51,10 @@ public:
         \return playback time for animation
      */
     double time() const;
+	/*! Starts an animation. Called on start of instance.
+		\param[in] i animation instance
+	 */
+	virtual void start(sad::animations::Instance* i);
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation

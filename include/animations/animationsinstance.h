@@ -227,6 +227,14 @@ public:
         \return stored body
      */
     sad::p2d::Body* body() const;
+	/*! Sets basic area for rectangle
+		\param[in] r rectangle
+	 */
+	void setBasicArea(const sad::Rect2D& r);
+	/*! A basic area for rectangle
+		\return basic area
+	 */
+	const sad::Rect2D& basicArea();
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -296,6 +304,9 @@ protected:
     /*! A body, stored in instance
      */
     sad::p2d::Body* m_body;
+	/*! A basic area
+	 */
+	sad::Rect2D m_basic_area;
 };
 
 }

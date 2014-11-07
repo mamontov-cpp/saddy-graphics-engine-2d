@@ -6,10 +6,13 @@
 #pragma once
 #include "../db/dbobject.h"
 
-#include "../p2d/body.h"
-
 namespace sad
 {
+
+namespace p2d
+{
+class Body;
+}
 	
 namespace animations
 {

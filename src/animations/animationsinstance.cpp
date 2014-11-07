@@ -295,6 +295,16 @@ sad::p2d::Body* sad::animations::Instance::body() const
     return m_body;
 }
 
+void sad::animations::Instance::setBasicArea(const sad::Rect2D& r)
+{
+	m_basic_area = r;
+}
+
+const sad::Rect2D& sad::animations::Instance::basicArea()
+{
+	return m_basic_area;
+}
+
 // ================================== PROTECTED METHODS ==================================
 
 
@@ -341,8 +351,10 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
     this->checkIfValid(animations);
     if (m_valid)
     {
+		sad::animations::Animation* a = m_animation.get();
         this->saveStateAndCompile(animations);
-        m_animation.get()->setState(this, m_start_time);
+		a->start(this);
+        a->setState(this, m_start_time);
         m_timer.start();
         m_started = true;
     }

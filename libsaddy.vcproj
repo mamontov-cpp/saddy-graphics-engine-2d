@@ -873,6 +873,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationssavedobjectsize.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedobjectstate.cpp"
 					>
 				</File>
@@ -1908,6 +1912,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationssavedobjectpropertycreator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssavedobjectsize.h"
 					>
 				</File>
 				<File
