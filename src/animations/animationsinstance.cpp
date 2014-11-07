@@ -21,7 +21,14 @@
 
 
 sad::animations::Instance::Instance()
-: m_paused(false), m_started(false), m_finished(false), m_start_time(0), m_state_command(NULL), m_valid(true)
+: m_paused(false),
+m_started(false),
+m_finished(false),
+m_start_time(0),
+m_state_command(NULL),
+m_valid(true),
+m_shape(NULL),
+m_body(NULL)
 {
 
 }
@@ -29,6 +36,7 @@ sad::animations::Instance::Instance()
 sad::animations::Instance::~Instance()
 {
 	delete m_state_command;
+    delete m_shape;
 }
 
 static sad::db::schema::Schema* AnimationInstanceSchema = NULL;
@@ -246,6 +254,28 @@ void sad::animations::Instance::setStateCommand(sad::animations::setstate::Abstr
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Instance::stateCommand() const
 {
 	return m_state_command;
+}
+
+void sad::animations::Instance::setCollisionShape(sad::p2d::CollisionShape* shape)
+{
+    delete m_shape;
+    m_shape = shape;
+}
+
+
+sad::p2d::CollisionShape* sad::animations::Instance::shape()
+{
+    return m_shape;
+}
+
+void sad::animations::Instance::setBody(sad::p2d::Body* body)
+{
+    m_body = body;
+}
+
+sad::p2d::Body* sad::animations::Instance::body() const
+{
+    return m_body;
 }
 
 // ================================== PROTECTED METHODS ==================================

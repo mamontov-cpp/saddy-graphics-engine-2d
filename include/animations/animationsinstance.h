@@ -12,6 +12,8 @@
 #include "../db/dblink.h"
 #include "../db/dbvariant.h"
 
+#include "../p2d/body.h"
+#include "../p2d/collisionshape.h"
 
 #include "../resource/link.h"
 
@@ -209,6 +211,22 @@ public:
     {
         m_valid = true;
     }
+    /*! Sets collision shape, stored by value in instance
+        \param shape a shape
+     */
+    void setCollisionShape(sad::p2d::CollisionShape* shape);
+    /*! Returns a collision shape
+        \return collision shape
+     */
+    sad::p2d::CollisionShape* shape();
+    /*! Sets body, stored in instance
+        \param body a body
+     */
+    void setBody(sad::p2d::Body* body);
+    /*! Returns a stored body
+        \return stored body
+     */
+    sad::p2d::Body* body() const;
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -272,6 +290,12 @@ protected:
     /*! Whether animation instance is valid
      */
     bool m_valid;
+    /*! An old collision shape for body. STORED BY VALUE
+     */
+    sad::p2d::CollisionShape* m_shape;
+    /*! A body, stored in instance
+     */
+    sad::p2d::Body* m_body;
 };
 
 }
