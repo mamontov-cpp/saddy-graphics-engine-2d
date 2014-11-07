@@ -27,7 +27,7 @@ public:
     /*! Clones a saved object state creator
         \param[in] clone returns new copy of creator
      */
-    virtual AbstractSavedObjectStateCreator* clone() const;
+    virtual AbstractSavedObjectStateCreator* clone() const = 0;
     /*! Creates a state for specified object
         \param o a specified object for creator
         \return a saved object state
