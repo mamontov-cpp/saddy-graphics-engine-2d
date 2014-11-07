@@ -47,6 +47,11 @@ double sad::animations::Animation::time() const
     return m_time;
 }
 
+void sad::animations::Animation::start(sad::animations::Instance* i)
+{
+
+}
+
 bool sad::animations::Animation::loadFromValue(const picojson::value& v)
 {
     sad::Maybe<bool> looped = picojson::to_type<bool>(
