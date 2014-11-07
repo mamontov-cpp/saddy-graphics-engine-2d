@@ -159,7 +159,6 @@ SOURCES += src/camera.cpp \
     src/util/swaplayerstask.cpp \
     src/animations/animationsanimation.cpp \
     src/animations/animationsinstance.cpp \
-    src/animations/animationsanimationfastcall.cpp \
     src/animations/animationsanimations.cpp \
     src/animations/animationscamerarotation.cpp \
     src/animations/animationscamerashaking.cpp \
@@ -170,7 +169,9 @@ SOURCES += src/camera.cpp \
     src/animations/animationsprocess.cpp \
     src/animations/animationssavedobjectstate.cpp \
     src/animations/animationssavedobjectstatecache.cpp \
-    src/animations/animationtexturecoordinateslist.cpp
+    src/animations/animationtexturecoordinateslist.cpp \
+    src/animations/setstate/abstractsetstatecommand.cpp \
+    src/animations/animationsabstractsavedobjectstatecreator.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -398,7 +399,6 @@ HEADERS += include/camera.h \
     include/util/swaplayerstask.h \
     include/animations/animationsanimation.h \
     include/animations/animationsinstance.h \
-    include/animations/animationsanimationfastcall.h \
     include/animations/animationsanimations.h \
     include/animations/animationscamerarotation.h \
     include/animations/animationscamerashaking.h \
@@ -411,7 +411,16 @@ HEADERS += include/camera.h \
     include/animations/animationsprocess.h \
     include/animations/animationssavedobjectstate.h \
     include/animations/animationssavedobjectstatecache.h \
-    include/animations/animationstexturecoordinateslist.h
+    include/animations/animationstexturecoordinateslist.h \
+    include/animations/setstate/abstractsetstatecommand.h \
+    include/animations/setstate/dummycommand.h \
+    include/animations/setstate/methodcall.h \
+    include/animations/setstate/setproperty.h \
+    include/animations/setstate/typedcommand.h \
+    include/animations/animationsabstractsavedobjectstatecreator.h \
+    include/animations/animationssavedobjectproperty.h \
+    include/animations/animationssavedobjectpropertycreator.h \
+    include/animations/animationssavedobjectstatecreator.h
 
 
 DESTDIR = ../saddy/lib/
