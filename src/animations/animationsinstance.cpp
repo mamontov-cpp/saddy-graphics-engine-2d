@@ -223,9 +223,6 @@ void sad::animations::Instance::resume()
 
 void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 {
-    sad::animations::Animation* a = m_animation.get();
-    sad::db::Object* o = m_object.get();
-
     if (m_started && m_valid)
     {
         m_paused = false;

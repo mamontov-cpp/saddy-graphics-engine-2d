@@ -14,6 +14,7 @@
 #include "dialogue/dialogue.h"
 
 #include "animations/animationsinstance.h"
+#include "animations/animationswayinstance.h"
 #include "animations/animationsgroup.h"
 
 
@@ -33,7 +34,8 @@ sad::db::ObjectFactory::ObjectFactory()
 	add<sad::p2d::app::Way>("sad::p2d::app::Way", sad::p2d::app::Way::basicSchema(), false);
 	add<sad::dialogue::Dialogue>("sad::dialogue::Dialogue", sad::dialogue::Dialogue::basicSchema(), false);
     add<sad::animations::Instance>("sad::animations::Instance", sad::animations::Instance::basicSchema(), false);
-    add<sad::animations::Group>("sad::animations::Group", sad::animations::Group::basicSchema(), false);
+    add<sad::animations::WayInstance>("sad::animations::WayInstance", sad::animations::WayInstance::basicSchema(), false);
+	add<sad::animations::Group>("sad::animations::Group", sad::animations::Group::basicSchema(), false);
 }
 
 void sad::db::ObjectFactory::add(
