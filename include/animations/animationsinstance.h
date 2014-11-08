@@ -256,19 +256,19 @@ protected:
     /*! Starts an animation instance
         \param[in] animations an animations
      */
-    void start(sad::animations::Animations* animations);
+    virtual void start(sad::animations::Animations* animations);
     /*! Checks if animations instance is valid, updating flags
         \param[in] animations
      */
-    void checkIfValid(sad::animations::Animations* animations);
+    virtual void checkIfValid(sad::animations::Animations* animations);
     /*! Compiles fast call and saves an animtions
         \param[in] animations an animations
      */
-    void saveStateAndCompile(sad::animations::Animations* animations);
+    virtual void saveStateAndCompile(sad::animations::Animations* animations);
     /*! Tries to restore object state from cache
         \param animations[in] animations an animations
      */
-    void restoreObjectState(sad::animations::Animations* animations);
+    virtual void restoreObjectState(sad::animations::Animations* animations);
     /*! Clears a state call on animation instance
 	 */
 	void clearSetState();

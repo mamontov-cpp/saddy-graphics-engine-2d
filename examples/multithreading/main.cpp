@@ -21,6 +21,8 @@
 #include <animations/animationsfontlist.h>
 #include <animations/animationsresize.h>
 #include <animations/animationsinstance.h>
+#include <animations/animationswayinstance.h>
+
 
 #ifdef WIN32
 #include <windows.h>
@@ -200,6 +202,18 @@ int thread(void * p)
 	resizeinstance->setObject(a);
 	r.animations()->add(resizeinstance);
 
+	sad::p2d::app::Way way;
+	way.addPoint(sad::Point2D(100, 100));
+	way.addPoint(sad::Point2D(700, 500));
+	way.addPoint(sad::Point2D(100, 100));
+	way.setTotalTime(2000);
+	way.setClosed(true);
+	way.construct();
+
+	sad::animations::WayInstance* wayinstance = new sad::animations::WayInstance();
+	wayinstance->setWay(&way);
+	wayinstance->setObject(a);
+	r.animations()->add(wayinstance);
 
 	/* Here we bind two different handlers with keydown
 	 */

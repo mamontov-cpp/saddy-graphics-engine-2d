@@ -3,6 +3,7 @@
 
 	Defines a dummy command, which does nothing, when invoked
  */
+#pragma once
 #include "typedcommand.h"
 
 namespace sad

@@ -877,6 +877,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationssavedobjectposition.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedobjectsize.cpp"
 					>
 				</File>
@@ -890,6 +894,10 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationssavedobjectstatecreators.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationswayinstance.cpp"
 					>
 				</File>
 				<File
@@ -909,6 +917,10 @@
 					</File>
 					<File
 						RelativePath=".\src\animations\setstate\setcameratranslation.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\animations\setstate\setpositionproperty.cpp"
 						>
 					</File>
 				</Filter>
@@ -1915,6 +1927,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationssavedobjectposition.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationssavedobjectproperty.h"
 					>
 				</File>
@@ -1946,6 +1962,10 @@
 					RelativePath=".\include\animations\animationstexturecoordinateslist.h"
 					>
 				</File>
+				<File
+					RelativePath=".\include\animations\animationswayinstance.h"
+					>
+				</File>
 				<Filter
 					Name="setstate"
 					>
@@ -1967,6 +1987,14 @@
 					</File>
 					<File
 						RelativePath=".\include\animations\setstate\setcameratranslation.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\setpositionproperty.h"
+						>
+					</File>
+					<File
+						RelativePath=".\include\animations\setstate\setpositionviaareacall.h"
 						>
 					</File>
 					<File
