@@ -249,7 +249,15 @@ public:
 	/*! Returns basic center for rectangle
 		\return basic center
 	 */
-	const sad::Point2D& basicCenter() const;	
+	const sad::Point2D& basicCenter() const;
+	/*! Sets basic string, needed for animation
+		\param[in] s string
+	 */
+	void setBasicString(const sad::String& s);
+	/*! Returns basic string, needed for animation
+		\return basic string
+	 */
+	const sad::String& basicString() const;
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -331,6 +339,9 @@ protected:
 	/*! A basic center
 	 */
 	sad::Point2D m_basic_center;
+	/*! A basic string, needed for animation of text
+	 */
+	sad::String m_basic_string;
 };
 
 }
