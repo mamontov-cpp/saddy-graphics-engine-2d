@@ -67,9 +67,10 @@ public:
      */
     void setAnimation(sad::animations::Animation* o);
     /*! Returns animation object
+		\param[in] whether we should perform type checking
         \return animation object
      */
-    sad::animations::Animation* animation() const;
+    sad::animations::Animation* animation(bool check = true) const;
     /*! Sets object
         \param[in] o object
      */
@@ -78,7 +79,8 @@ public:
         \return object
      */
     sad::db::Object* object() const;
-    /*! Sets animation name
+    /*! Sets animation name. If name length is not equal to zero, makes animation be linked to
+		resource tree
         \param[in] name name for animation
      */
     void setAnimationName(const sad::String& name);
@@ -86,6 +88,15 @@ public:
         \return animation name
      */
     const sad::String& animationName() const;
+	/*! Sets a mahor id for animation. If id is not equal to zero maked animation be linked to
+		a database
+		\param[in] majorid an id
+	 */
+	void setAnimationMajorId(unsigned long long majorid);
+	/*! Returns a major id for animation. 0 if animation is not linked to database
+		\return a major id for aimation.
+	 */
+	unsigned long long animationMajorId();
 	/*! Sets time, which will be added to timer when playing animation
 		\param[in] time a starting time
 	 */
@@ -278,6 +289,12 @@ protected:
     /*! A linked animation for instance
      */
     sad::resource::Link<sad::animations::Animation> m_animation;
+	/*! A database link for animation
+     */
+	sad::db::Link m_animation_db_link;
+	/*! Whether active is tree link or database link
+	 */
+	bool m_tree_link_active;
 	/*! A time of animation, which would be added to timer time, when playing animation
 	 */
 	double m_start_time;
