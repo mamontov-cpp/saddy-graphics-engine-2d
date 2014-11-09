@@ -65,7 +65,7 @@ public:
 	/*! Sets parent folder for a resource
 		\param[in] folder a parent folder for resource
 	 */
-	void setParentFolder(sad::resource::Folder* folder);
+	virtual void setParentFolder(sad::resource::Folder* folder);
 	/*! Returns parent folder for a resource
 		\return a parent folder for a resource
 	 */

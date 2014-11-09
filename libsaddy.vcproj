@@ -817,6 +817,10 @@
 				Name="animations"
 				>
 				<File
+					RelativePath=".\src\animations\animationfactory.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsabstractsavedobjectstatecreator.cpp"
 					>
 				</File>
@@ -1882,6 +1886,10 @@
 			<Filter
 				Name="animations"
 				>
+				<File
+					RelativePath=".\include\animations\animationfactory.h"
+					>
+				</File>
 				<File
 					RelativePath=".\include\animations\animationsabstractsavedobjectstatecreator.h"
 					>
