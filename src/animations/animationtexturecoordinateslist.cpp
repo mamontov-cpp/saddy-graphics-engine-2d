@@ -26,7 +26,10 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesList, sad::animation
 
 // =============================== PUBLIC METHODS ==========================
 
-sad::animations::TextureCoordinatesList::TextureCoordinatesList() : m_cache_folder(NULL), m_cache_root_folder(NULL)
+sad::animations::TextureCoordinatesList::TextureCoordinatesList() 
+: m_cache_folder(NULL), 
+m_cache_root_folder(NULL),
+m_renderer(NULL)
 {
 	
 }
@@ -34,6 +37,15 @@ sad::animations::TextureCoordinatesList::TextureCoordinatesList() : m_cache_fold
 sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
 {
 	
+}
+
+void sad::animations::TextureCoordinatesList::setTreeName(
+	sad::Renderer* renderer,
+	const sad::String& treename
+)
+{
+	m_renderer = renderer;
+	m_tree_name = treename;
 }
 
 bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::value& v)
@@ -87,7 +99,7 @@ sad::animations::setstate::AbstractSetStateCommand* sad::animations::TextureCoor
 {
     if (this->applicableTo(o))
     {
-        sad::animations::setstate::AbstractSetStateCommand* c = NULL;
+        sad::animations::setstate::AbstractSetStateCommand* c;
         if (o->isInstanceOf("sad::Sprite2D"))
         {
             c = sad::animations::setstate::make(
@@ -129,7 +141,16 @@ bool sad::animations::TextureCoordinatesList::applicableTo(sad::db::Object* o)
 sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::String& c)
 {
 	if (m_folder == NULL)
-		return NULL;
+	{
+		if (m_renderer != NULL)
+		{
+			m_folder = m_renderer->tree(m_tree_name)->root();
+		}
+		if (m_folder == NULL)
+		{
+			return NULL;
+		}
+	}
 
 	if (m_folder != m_cache_folder)
 	{

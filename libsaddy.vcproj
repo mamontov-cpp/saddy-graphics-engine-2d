@@ -901,6 +901,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationswaymoving.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationtexturecoordinateslist.cpp"
 					>
 				</File>
@@ -1771,6 +1775,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\db\dblink.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\db\dbmethodpair.h"
 					>
 				</File>
@@ -1964,6 +1972,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationswayinstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationswaymoving.h"
 					>
 				</File>
 				<Filter

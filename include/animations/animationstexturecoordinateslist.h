@@ -31,6 +31,15 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~TextureCoordinatesList();
+	/*! Called, when loading an object. Here, object must make all resource path links depend on specified tree.
+		By default, does nothing
+		\param[in] renderer a renderer
+		\param[in] treename a tree name
+	 */
+	virtual void setTreeName(
+		sad::Renderer* renderer,
+		const sad::String& treename
+	);
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull
@@ -77,6 +86,12 @@ protected:
 	/*! A list of texture coordinates to be set
 	 */
 	sad::Vector<sad::String> m_list;
+	/*! Sets renderer for list
+	 */ 
+	sad::Renderer* m_renderer;
+	/*! Sets tree name for list
+	 */
+	sad::String m_tree_name;
 };
 
 }

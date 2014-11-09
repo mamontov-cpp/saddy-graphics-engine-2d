@@ -20,8 +20,8 @@
 #include <freetype/font.h>
 #include <animations/animationsfontlist.h>
 #include <animations/animationsresize.h>
+#include <animations/animationswaymoving.h>
 #include <animations/animationsinstance.h>
-#include <animations/animationswayinstance.h>
 
 
 #ifdef WIN32
@@ -210,8 +210,13 @@ int thread(void * p)
 	way.setClosed(true);
 	way.construct();
 
-	sad::animations::WayInstance* wayinstance = new sad::animations::WayInstance();
-	wayinstance->setWay(&way);
+	sad::animations::WayMoving* waymoving = new sad::animations::WayMoving();
+	waymoving->setWay(&way);
+	waymoving->setLooped(true);
+	r.tree("")->root()->addResource("waymoving", waymoving);
+
+	sad::animations::Instance* wayinstance = new sad::animations::Instance();
+	wayinstance->setAnimation(waymoving);
 	wayinstance->setObject(a);
 	r.animations()->add(wayinstance);
 

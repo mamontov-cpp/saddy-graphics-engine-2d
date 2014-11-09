@@ -28,7 +28,8 @@ m_start_time(0),
 m_state_command(NULL),
 m_valid(true),
 m_shape(NULL),
-m_body(NULL)
+m_body(NULL),
+m_tree_link_active(true)
 {
 
 }
@@ -54,6 +55,13 @@ sad::db::schema::Schema* sad::animations::Instance::basicSchema()
             new sad::db::MethodPair<sad::animations::Instance, sad::String>(
                 &sad::animations::Instance::animationName,
                 &sad::animations::Instance::setAnimationName
+            )
+        );
+		 AnimationInstanceSchema->add(
+            "animationmajorid",
+            new sad::db::MethodPair<sad::animations::Instance, unsigned long long>(
+                &sad::animations::Instance::animationMajorId,
+                &sad::animations::Instance::setAnimationMajorId
             )
         );
         AnimationInstanceSchema->add(
@@ -102,11 +110,35 @@ void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 {
     m_animation.attach(o);
 	this->clearSetState();
+	m_tree_link_active = true;
 }
 
-sad::animations::Animation* sad::animations::Instance::animation() const
+sad::animations::Animation* sad::animations::Instance::animation(bool check) const
 {
-    return m_animation.get();
+	sad::animations::Animation* result = NULL;
+	if (m_tree_link_active)
+	{
+		result = m_animation.get();
+	}
+	else
+	{
+		sad::db::Object* o = const_cast<sad::animations::Instance*>(this)->m_animation_db_link.get();
+		if (o)
+		{
+			if (check)
+			{
+				if (o->isInstanceOf("sad::animations::Animation"))
+				{
+					result = static_cast<sad::animations::Animation*>(o);
+				}
+			}
+			else
+			{
+				result = static_cast<sad::animations::Animation*>(o);
+			}
+		}
+	}
+    return result;
 }
 
 void sad::animations::Instance::setObject(sad::db::Object* o)
@@ -125,11 +157,35 @@ void sad::animations::Instance::setAnimationName(const sad::String& name)
 {
     m_animation.setPath(name);
 	this->clearSetState();
+	m_tree_link_active = name.size() != 0;
 }
 
 const sad::String& sad::animations::Instance::animationName() const
 {
+	if (m_tree_link_active == false)
+	{
+		const_cast<sad::animations::Instance*>(this)->m_animation.setPath("");
+		return m_animation.path();
+	}
     return m_animation.path();
+}
+
+void sad::animations::Instance::setAnimationMajorId(unsigned long long majorid)
+{
+	m_animation_db_link.setMajorId(majorid);
+	if (majorid > 0)
+	{
+		m_tree_link_active = false;
+	}
+}
+
+unsigned long long sad::animations::Instance::animationMajorId()
+{
+	if (m_tree_link_active == false)
+	{
+		return m_animation_db_link.majorId();
+	}
+	return 0;
 }
 
 void sad::animations::Instance::setObjectId(unsigned long long id)
@@ -316,7 +372,7 @@ double sad::animations::Instance::computeTime(sad::animations::Animations* anima
     double elapsed = m_start_time + m_timer.elapsed();
     double result = elapsed;
 
-    sad::animations::Animation* a = m_animation.get();
+    sad::animations::Animation* a = this->animation(false);
     // If time is expired, animation is or looped, or should be stopped
     if (elapsed > a->time())
     {
@@ -345,7 +401,7 @@ double sad::animations::Instance::computeTime(sad::animations::Animations* anima
 
 void sad::animations::Instance::processTime(sad::animations::Animations* animations, double time)
 {
-    sad::animations::Animation* a = m_animation.get();
+    sad::animations::Animation* a =  this->animation(false);
     a->setState(this, time);
 }
 
@@ -354,7 +410,7 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
     this->checkIfValid(animations);
     if (m_valid)
     {
-		sad::animations::Animation* a = m_animation.get();
+		sad::animations::Animation* a = this->animation(false);
         this->saveStateAndCompile(animations);
 		a->start(this);
         a->setState(this, m_start_time);
@@ -378,7 +434,7 @@ void sad::animations::Instance::markAsFinished()
 
 void sad::animations::Instance::checkIfValid(sad::animations::Animations* animations)
 {
-    sad::animations::Animation* a = m_animation.get();
+    sad::animations::Animation* a = this->animation(true);
     sad::db::Object* o = m_object.get();
 
     m_valid = (a && o);
