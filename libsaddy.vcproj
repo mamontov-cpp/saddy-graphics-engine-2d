@@ -829,6 +829,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsblinking.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationscallback.cpp"
 					>
 				</File>
@@ -838,6 +842,10 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationscamerashaking.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationscolor.cpp"
 					>
 				</File>
 				<File
@@ -869,6 +877,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsrotate.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationssavedcamerarotation.cpp"
 					>
 				</File>
@@ -894,6 +906,10 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationssavedobjectstatecreators.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationstyping.cpp"
 					>
 				</File>
 				<File
@@ -1879,6 +1895,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationsblinking.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationscallback.h"
 					>
 				</File>
@@ -1888,6 +1908,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationscamerashaking.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationscolor.h"
 					>
 				</File>
 				<File
@@ -1924,6 +1948,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsresize.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsrotate.h"
 					>
 				</File>
 				<File
@@ -1968,6 +1996,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationstexturecoordinateslist.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationstyping.h"
 					>
 				</File>
 				<File

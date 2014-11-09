@@ -18,9 +18,8 @@
 #include <label.h>
 #include <texturemappedfont.h>
 #include <freetype/font.h>
-#include <animations/animationsfontlist.h>
+#include <animations/animationstyping.h>
 #include <animations/animationsresize.h>
-#include <animations/animationswaymoving.h>
 #include <animations/animationsinstance.h>
 
 
@@ -161,13 +160,10 @@ int thread(void * p)
 	
 
 	// Create a simple animations
-	sad::animations::FontList* fontlistanimation = new sad::animations::FontList();
-	fontlistanimation->setLooped(true);
-	fontlistanimation->setTime(200);
-	sad::Vector<sad::String> v;
-	v << "ftfont" << "tmfont";
-	fontlistanimation->setFonts(v);
-	r.tree("")->root()->addResource("fontlistanimation", fontlistanimation);
+	sad::animations::Typing* typing = new sad::animations::Typing();
+	typing->setLooped(true);
+	typing->setTime(2000);
+	r.tree("")->root()->addResource("typing", typing);
 
 	sad::animations::Resize* resize = new sad::animations::Resize();
 	resize->setLooped(true);
@@ -190,35 +186,15 @@ int thread(void * p)
 	scene->add(l1);
 	scene->add(l2);
 
-	sad::animations::Instance* fontlistanimationinstance = new sad::animations::Instance();
-	fontlistanimationinstance->setAnimation(fontlistanimation);
-	fontlistanimationinstance->setObject(l1);
-	r.animations()->add(fontlistanimationinstance);
+	sad::animations::Instance* typinginstance = new sad::animations::Instance();
+	typinginstance->setAnimation(typing);
+	typinginstance->setObject(l1);
+	r.animations()->add(typinginstance);
 	
-
-
 	sad::animations::Instance* resizeinstance = new sad::animations::Instance();
 	resizeinstance->setAnimation(resize);
 	resizeinstance->setObject(a);
 	r.animations()->add(resizeinstance);
-
-	sad::p2d::app::Way way;
-	way.addPoint(sad::Point2D(100, 100));
-	way.addPoint(sad::Point2D(700, 500));
-	way.addPoint(sad::Point2D(100, 100));
-	way.setTotalTime(2000);
-	way.setClosed(true);
-	way.construct();
-
-	sad::animations::WayMoving* waymoving = new sad::animations::WayMoving();
-	waymoving->setWay(&way);
-	waymoving->setLooped(true);
-	r.tree("")->root()->addResource("waymoving", waymoving);
-
-	sad::animations::Instance* wayinstance = new sad::animations::Instance();
-	wayinstance->setAnimation(waymoving);
-	wayinstance->setObject(a);
-	r.animations()->add(wayinstance);
 
 	/* Here we bind two different handlers with keydown
 	 */

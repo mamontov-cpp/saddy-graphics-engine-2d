@@ -354,14 +354,24 @@ void sad::animations::Instance::setBasicArea(const sad::Rect2D& r)
 	m_basic_center = (r[0] + r[2]) / 2.0;
 }
 
+const sad::Rect2D& sad::animations::Instance::basicArea() const
+{
+	return m_basic_area;
+}
+
 const sad::Point2D& sad::animations::Instance::basicCenter() const
 {
 	return m_basic_center;
 }
 
-const sad::Rect2D& sad::animations::Instance::basicArea() const
+void  sad::animations::Instance::setBasicString(const sad::String& s)
 {
-	return m_basic_area;
+	m_basic_string = s;
+}
+
+const sad::String& sad::animations::Instance::basicString() const
+{
+	return m_basic_string;
 }
 
 // ================================== PROTECTED METHODS ==================================
