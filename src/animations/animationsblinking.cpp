@@ -12,6 +12,10 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbproperty.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -36,6 +40,35 @@ sad::animations::Blinking::~Blinking()
 {
 	
 }
+
+
+static sad::db::schema::Schema* AnimationBlinkingSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
+{
+    if (AnimationBlinkingSchema == NULL)
+    {
+        AnimationBlinkingSchema = new sad::db::schema::Schema();
+		AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationBlinkingSchema->add(
+            "frequency",
+            new sad::db::MethodPair<sad::animations::Blinking, unsigned int>(
+				&sad::animations::Blinking::frequency,
+                &sad::animations::Blinking::setFrequency
+            )
+        );		
+        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationBlinkingSchema);
+    }
+    return AnimationBlinkingSchema;
+}
+
+sad::db::schema::Schema* sad::animations::Blinking::schema() const
+{
+    return sad::animations::Blinking::basicSchema();
+}
+
 
 bool sad::animations::Blinking::loadFromValue(const picojson::value& v)
 {

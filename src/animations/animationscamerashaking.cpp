@@ -12,6 +12,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -38,6 +41,40 @@ sad::animations::CameraShaking::~CameraShaking()
 {
 	
 }
+
+static sad::db::schema::Schema* AnimationCameraShakingSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
+{
+    if (AnimationCameraShakingSchema == NULL)
+    {
+        AnimationCameraShakingSchema = new sad::db::schema::Schema();
+        AnimationCameraShakingSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationCameraShakingSchema->add(
+            "offset",
+			new sad::db::MethodPair<sad::animations::CameraShaking, sad::Point2D>(
+				&sad::animations::CameraShaking::offset,
+                &sad::animations::CameraShaking::setOffset
+            )
+        );
+		AnimationCameraShakingSchema->add(
+            "frequency",
+			new sad::db::MethodPair<sad::animations::CameraShaking, int>(
+				&sad::animations::CameraShaking::frequency,
+                &sad::animations::CameraShaking::setFrequency
+            )
+        );		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraShakingSchema);
+    }
+    return AnimationCameraShakingSchema;
+}
+
+sad::db::schema::Schema* sad::animations::CameraShaking::schema() const
+{
+    return sad::animations::CameraShaking::basicSchema();
+}
+
 
 bool sad::animations::CameraShaking::loadFromValue(const picojson::value& v)
 {
@@ -79,6 +116,8 @@ const sad::Point2D & sad::animations::CameraShaking::offset() const
 void sad::animations::CameraShaking::setFrequency(int freq)
 {
 	m_frequency = freq;
+	m_inner_valid  = m_frequency != 0;
+	this->updateValidFlag();
 }
 
 int sad::animations::CameraShaking::frequency() const
