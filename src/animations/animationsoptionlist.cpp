@@ -11,6 +11,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <sprite2d.h>
 
@@ -37,6 +40,34 @@ sad::animations::OptionList::~OptionList()
 	
 }
 
+static sad::db::schema::Schema* AnimationOptionListSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
+{
+    if (AnimationOptionListSchema == NULL)
+    {
+        AnimationOptionListSchema = new sad::db::schema::Schema();
+        AnimationOptionListSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationOptionListSchema->add(
+            "list",
+			new sad::db::MethodPair<sad::animations::OptionList, sad::Vector<sad::String> >(
+				&sad::animations::OptionList::list,
+                &sad::animations::OptionList::setList
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationOptionListSchema);
+    }
+    return AnimationOptionListSchema;
+}
+
+sad::db::schema::Schema* sad::animations::OptionList::schema() const
+{
+    return sad::animations::OptionList::basicSchema();
+}
+
+
 bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 {
 	bool flag = this->sad::animations::Animation::loadFromValue(v);
@@ -48,9 +79,7 @@ bool sad::animations::OptionList::loadFromValue(const picojson::value& v)
 		bool result = list.exists();
 		if (result)
 		{
-			m_list = list.value();
-			m_inner_valid = m_list.size() != 0;
-			this->updateValidFlag();
+			setList(list.value());
 		}
 
 		flag = flag && result;

@@ -14,6 +14,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include "label.h"
 #include "sprite2d.h"
@@ -41,6 +44,33 @@ sad::animations::Resize::Resize()
 sad::animations::Resize::~Resize()
 {
 	
+}
+
+static sad::db::schema::Schema* AnimationResizeSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::Resize::basicSchema()
+{
+    if (AnimationResizeSchema == NULL)
+    {
+        AnimationResizeSchema = new sad::db::schema::Schema();
+        AnimationResizeSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationResizeSchema->add(
+            "vector",
+			new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
+				&sad::animations::Resize::vector,
+                &sad::animations::Resize::setVector
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationResizeSchema);
+    }
+    return AnimationResizeSchema;
+}
+
+sad::db::schema::Schema* sad::animations::Resize::schema() const
+{
+    return sad::animations::Resize::basicSchema();
 }
 
 bool sad::animations::Resize::loadFromValue(const picojson::value& v)

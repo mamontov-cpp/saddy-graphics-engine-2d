@@ -11,6 +11,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -35,6 +38,41 @@ sad::animations::FontSize::~FontSize()
 {
 	
 }
+
+static sad::db::schema::Schema* AnimationFontSizeSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::FontSize::basicSchema()
+{
+    if (AnimationFontSizeSchema == NULL)
+    {
+        AnimationFontSizeSchema = new sad::db::schema::Schema();
+        AnimationFontSizeSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationFontSizeSchema->add(
+            "min_size",
+			new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
+				&sad::animations::FontSize::minSize,
+                &sad::animations::FontSize::setMinSize
+            )
+        );
+		AnimationFontSizeSchema->add(
+            "max_size",
+			new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
+				&sad::animations::FontSize::maxSize,
+                &sad::animations::FontSize::setMaxSize
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontSizeSchema);
+    }
+    return AnimationFontSizeSchema;
+}
+
+sad::db::schema::Schema* sad::animations::FontSize::schema() const
+{
+    return sad::animations::FontSize::basicSchema();
+}
+
 
 bool sad::animations::FontSize::loadFromValue(const picojson::value& v)
 {
