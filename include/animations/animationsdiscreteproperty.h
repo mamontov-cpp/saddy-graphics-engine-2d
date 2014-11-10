@@ -10,8 +10,13 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 
-#include "../db/save.h"
-#include "../db/load.h"
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
@@ -81,6 +86,43 @@ public:
 	{
 		
 	}
+	/*! A basic schema for object
+        \return a schema
+     */
+	static sad::db::schema::Schema* basicSchema()
+	{
+		static Schema = NULL;
+		if (Schema == NULL)
+		{
+			Schema = new sad::db::schema::Schema();
+			Schema->addParent(sad::animations::Animation::basicSchema());
+
+			Schema->add(
+				"list",
+				new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::Vector<T> >(
+					&sad::animations::DiscreteProperty<T>::list,
+					&sad::animations::DiscreteProperty<T>::setList
+				)
+			);			
+			Schema->add(
+				"property",
+				new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::String>(
+					&sad::animations::DiscreteProperty<T>::propertyName,
+					&sad::animations::DiscreteProperty<T>::setPropertyName
+				)
+			);
+			
+			sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+		}
+		return Schema;
+	}
+	/*! Returns schema for an object
+        \return schema
+     */
+	sad::db::schema::Schema* schema() const
+	{
+		return sad::animations::DiscreteProperty<T>::basicSchema();
+	}
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull
@@ -99,13 +141,8 @@ public:
             bool result = list.exists() && propertyname.exists();
 			if (result)
 			{
-				m_list = list.value();
-				m_inner_valid = m_list.size() != 0;
-				updateValidFlag();
-                m_property_name = propertyname.value();
-                sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
-                c->setPropertyName(m_property_name);
-                c->setName(m_property_name);
+				setList(list.value());
+                setPropertyName(propertyname.value());
 			}
 
 			flag = flag && result;
@@ -118,6 +155,8 @@ public:
 	void setList(const sad::Vector<T>& list)
 	{
 		m_list = list;
+		m_inner_valid = m_list.size() != 0;
+		updateValidFlag();
 	}
 	/*! Returns list of property
 		\return list of properties
