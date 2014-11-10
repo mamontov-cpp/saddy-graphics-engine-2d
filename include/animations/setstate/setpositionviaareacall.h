@@ -5,8 +5,8 @@
  */
 #include "typedcommand.h"
 
-#include "../sadrect.h"
-#include "../geometry2d.h"
+#include "../../sadrect.h"
+#include "../../geometry2d.h"
 
 #include "../../db/dbobject.h"
 
