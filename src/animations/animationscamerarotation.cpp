@@ -59,14 +59,7 @@ sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
 				&sad::animations::CameraRotation::maxAngle,
                 &sad::animations::CameraRotation::setMaxAngle
             )
-        );
-		AnimationCameraRotationSchema->add(
-            "max_angle",
-            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
-				&sad::animations::CameraRotation::maxAngle,
-                &sad::animations::CameraRotation::setMaxAngle
-            )
-        );
+        );		
 		AnimationCameraRotationSchema->add(
             "pivot",
 			new sad::db::MethodPair<sad::animations::CameraRotation, sad::Point3D>(
