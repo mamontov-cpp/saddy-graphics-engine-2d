@@ -27,6 +27,14 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~Rotate();
+	/*! A basic schema for object
+        \return a schema
+     */
+    static sad::db::schema::Schema* basicSchema();
+    /*! Returns schema for an object
+        \return schema
+     */
+    virtual sad::db::schema::Schema* schema() const;
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull

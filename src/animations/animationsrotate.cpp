@@ -12,6 +12,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -35,6 +38,39 @@ sad::animations::Rotate::Rotate() : m_min_angle(0), m_max_angle(0)
 sad::animations::Rotate::~Rotate()
 {
 	
+}
+
+static sad::db::schema::Schema* AnimationRotateSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::Rotate::basicSchema()
+{
+    if (AnimationRotateSchema == NULL)
+    {
+        AnimationRotateSchema = new sad::db::schema::Schema();
+        AnimationRotateSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationRotateSchema->add(
+            "min_angle",
+            new sad::db::MethodPair<sad::animations::Rotate, double>(
+				&sad::animations::Rotate::minAngle,
+                &sad::animations::Rotate::setMinAngle
+            )
+        );
+		AnimationRotateSchema->add(
+            "max_angle",
+            new sad::db::MethodPair<sad::animations::Rotate, double>(
+				&sad::animations::Rotate::maxAngle,
+                &sad::animations::Rotate::setMaxAngle
+            )
+        );				        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationRotateSchema);
+    }
+    return AnimationRotateSchema;
+}
+
+sad::db::schema::Schema* sad::animations::Rotate::schema() const
+{
+    return sad::animations::Rotate::basicSchema();
 }
 
 bool sad::animations::Rotate::loadFromValue(const picojson::value& v)
