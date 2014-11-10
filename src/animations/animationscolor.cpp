@@ -12,6 +12,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -36,6 +39,42 @@ sad::animations::Color::~Color()
 {
 	
 }
+
+
+static sad::db::schema::Schema* AnimationColorSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::Color::basicSchema()
+{
+    if (AnimationColorSchema == NULL)
+    {
+        AnimationColorSchema = new sad::db::schema::Schema();
+        AnimationColorSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationColorSchema->add(
+            "min_color",
+			new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
+				&sad::animations::Color::minColor,
+                &sad::animations::Color::setMinColor
+            )
+        );
+		AnimationColorSchema->add(
+            "max_color",
+			new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
+				&sad::animations::Color::maxColor,
+                &sad::animations::Color::setMaxColor
+            )
+        );		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationColorSchema);
+    }
+    return AnimationColorSchema;
+}
+
+sad::db::schema::Schema* sad::animations::Color::schema() const
+{
+    return sad::animations::Color::basicSchema();
+}
+
+
 
 bool sad::animations::Color::loadFromValue(const picojson::value& v)
 {

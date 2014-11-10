@@ -11,6 +11,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -37,6 +40,34 @@ sad::animations::FontList::~FontList()
 	
 }
 
+static sad::db::schema::Schema* AnimationFontListSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::FontList::basicSchema()
+{
+    if (AnimationFontListSchema == NULL)
+    {
+        AnimationFontListSchema = new sad::db::schema::Schema();
+        AnimationFontListSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationFontListSchema->add(
+            "fonts",
+			new sad::db::MethodPair<sad::animations::FontList, sad::Vector<sad::String> >(
+				&sad::animations::FontList::fonts,
+                &sad::animations::FontList::setFonts
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontListSchema);
+    }
+    return AnimationFontListSchema;
+}
+
+sad::db::schema::Schema* sad::animations::FontList::schema() const
+{
+    return sad::animations::FontList::basicSchema();
+}
+
+
 bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 {
 	bool flag = this->sad::animations::Animation::loadFromValue(v);
@@ -48,9 +79,7 @@ bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 		bool result = fonts.exists();
 		if (result)
 		{
-			m_fonts = fonts.value();
-			m_inner_valid = m_fonts.size() != 0;
-			this->updateValidFlag();
+			setFonts(fonts.value());
 		}
 
 		flag = flag && result;
@@ -61,6 +90,8 @@ bool sad::animations::FontList::loadFromValue(const picojson::value& v)
 void sad::animations::FontList::setFonts(const sad::Vector<sad::String>& fonts)
 {
 	m_fonts = fonts;
+	m_inner_valid = m_fonts.size() != 0;
+	this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::FontList::fonts() const

@@ -9,8 +9,13 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 
-#include "../db/save.h"
-#include "../db/load.h"
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
@@ -80,6 +85,50 @@ public:
 	{
 
 	}
+	/*! A basic schema for object
+        \return a schema
+     */
+	static sad::db::schema::Schema* basicSchema()
+	{
+		static Schema = NULL;
+		if (Schema == NULL)
+		{
+			Schema = new sad::db::schema::Schema();
+			Schema->addParent(sad::animations::Animation::basicSchema());
+
+			Schema->add(
+				"min_value",
+				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
+					&sad::animations::ContinuousProperty<T>::minValue,
+					&sad::animations::ContinuousProperty<T>::setMinValue
+				)
+			);
+			Schema->add(
+				"max_value",
+				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
+					&sad::animations::ContinuousProperty<T>::maxValue,
+					&sad::animations::ContinuousProperty<T>::setMaxValue
+				)
+			);
+			Schema->add(
+				"property",
+				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, sad::String>(
+					&sad::animations::ContinuousProperty<T>::propertyName,
+					&sad::animations::ContinuousProperty<T>::setPropertyName
+				)
+			);
+			
+			sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+		}
+		return Schema;
+	}
+	/*! Returns schema for an object
+        \return schema
+     */
+	sad::db::schema::Schema* schema() const
+	{
+		return sad::animations::ContinousProperty<T>::basicSchema();
+	}
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull
@@ -103,10 +152,7 @@ public:
 			{
 				m_min_value = minsize.value();
 				m_max_value = maxsize.value();
-				m_property_name = propertyname.value();
-                sad::animations::SavedObjectPropertyCreator<T> * c = static_cast<sad::animations::SavedObjectPropertyCreator<T> *>(m_creators[0]);
-                c->setPropertyName(m_property_name);
-                c->setName(m_property_name);
+				setPropertyName(propertyname.value());
 			}
 
 			flag = flag && result;
