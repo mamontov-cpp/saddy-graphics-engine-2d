@@ -176,7 +176,18 @@ SOURCES += src/camera.cpp \
     src/animations/setstate/setcamerarotation.cpp \
     src/animations/animationssavedcamerarotation.cpp \
     src/animations/animationssavedcameratranslation.cpp \
-    src/animations/setstate/setcameratranslation.cpp
+    src/animations/setstate/setcameratranslation.cpp \
+    src/animations/setstate/setpositionproperty.cpp \
+    src/animations/animationfactory.cpp \
+    src/animations/animationsblinking.cpp \
+    src/animations/animationscolor.cpp \
+    src/animations/animationsresize.cpp \
+    src/animations/animationsrotate.cpp \
+    src/animations/animationssavedobjectposition.cpp \
+    src/animations/animationssavedobjectsize.cpp \
+    src/animations/animationstyping.cpp \
+    src/animations/animationswayinstance.cpp \
+    src/animations/animationswaymoving.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -430,7 +441,19 @@ HEADERS += include/camera.h \
     include/animations/animationssavedcamerarotation.h \
     include/animations/setstate/setcamerarotation.h \
     include/animations/animationssavedcameratranslation.h \
-    include/animations/setstate/setcameratranslation.h
+    include/animations/setstate/setcameratranslation.h \
+    include/animations/animationfactory.h \
+    include/animations/animationsblinking.h \
+    include/animations/animationscolor.h \
+    include/animations/animationsresize.h \
+    include/animations/animationsrotate.h \
+    include/animations/animationssavedobjectposition.h \
+    include/animations/animationssavedobjectsize.h \
+    include/animations/animationstyping.h \
+    include/animations/animationswayinstance.h \
+    include/animations/animationswaymoving.h \
+    include/animations/setstate/setpositionproperty.h \
+    include/animations/setstate/setpositionviaareacall.h
 
 
 DESTDIR = ../saddy/lib/
