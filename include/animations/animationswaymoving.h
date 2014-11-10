@@ -29,6 +29,14 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~WayMoving();
+	/*! A basic schema for object
+        \return a schema
+     */
+    static sad::db::schema::Schema* basicSchema();
+    /*! Returns schema for an object
+        \return schema
+     */
+    virtual sad::db::schema::Schema* schema() const;
 	/*! Sets database for working with way, when loading
 		\param[in] table a table
 	 */

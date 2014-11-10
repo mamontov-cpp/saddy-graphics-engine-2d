@@ -31,6 +31,14 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~TextureCoordinatesList();
+	/*! A basic schema for object
+        \return a schema
+     */
+    static sad::db::schema::Schema* basicSchema();
+    /*! Returns schema for an object
+        \return schema
+     */
+    virtual sad::db::schema::Schema* schema() const;
 	/*! Called, when loading an object. Here, object must make all resource path links depend on specified tree.
 		By default, does nothing
 		\param[in] renderer a renderer

@@ -11,11 +11,13 @@
 #include "camera.h"
 #include "geometry2d.h"
 
-#include "db/dbtable.h"
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include "label.h"
 #include "sprite2d.h"
@@ -42,6 +44,34 @@ sad::animations::WayMoving::WayMoving()
 sad::animations::WayMoving::~WayMoving()
 {
 	
+}
+
+
+static sad::db::schema::Schema* AnimationWayMovingSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::WayMoving::basicSchema()
+{
+    if (AnimationWayMovingSchema == NULL)
+    {
+        AnimationWayMovingSchema = new sad::db::schema::Schema();
+        AnimationWayMovingSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationWayMovingSchema->add(
+            "way",
+			new sad::db::MethodPair<sad::animations::WayMoving, unsigned long long>(
+				&sad::animations::WayMoving::wayObjectId,
+                &sad::animations::WayMoving::setWayObjectId
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationWayMovingSchema);
+    }
+    return AnimationWayMovingSchema;
+}
+
+sad::db::schema::Schema* sad::animations::WayMoving::schema() const
+{
+    return sad::animations::WayMoving::basicSchema();
 }
 
 void sad::animations::WayMoving::setTable(sad::db::Table * table)

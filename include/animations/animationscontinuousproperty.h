@@ -9,13 +9,13 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 
-#include "db/schema/schema.h"
-#include "db/dbproperty.h"
-#include "db/save.h"
-#include "db/load.h"
-#include "db/dbfield.h"
-#include "db/dbmethodpair.h"
-#include "db/dbtable.h"
+#include "../db/schema/schema.h"
+#include "../db/dbproperty.h"
+#include "../db/save.h"
+#include "../db/load.h"
+#include "../db/dbfield.h"
+#include "../db/dbmethodpair.h"
+#include "../db/dbtable.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
@@ -90,7 +90,7 @@ public:
      */
 	static sad::db::schema::Schema* basicSchema()
 	{
-		static Schema = NULL;
+		static static sad::db::schema::Schema* Schema = NULL;
 		if (Schema == NULL)
 		{
 			Schema = new sad::db::schema::Schema();
@@ -127,7 +127,7 @@ public:
      */
 	sad::db::schema::Schema* schema() const
 	{
-		return sad::animations::ContinousProperty<T>::basicSchema();
+		return sad::animations::ContinuousProperty<T>::basicSchema();
 	}
     /*! Tries to load animation from value
         \param[in] v value

@@ -11,6 +11,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <sprite2d.h>
 
@@ -39,6 +42,33 @@ sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
 	
 }
 
+static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
+{
+    if (AnimationTextureCoordinatesListSchema == NULL)
+    {
+        AnimationTextureCoordinatesListSchema = new sad::db::schema::Schema();
+        AnimationTextureCoordinatesListSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationTextureCoordinatesListSchema->add(
+            "list",
+			new sad::db::MethodPair<sad::animations::TextureCoordinatesList, sad::Vector<sad::String> >(
+				&sad::animations::TextureCoordinatesList::list,
+                &sad::animations::TextureCoordinatesList::setList
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesListSchema);
+    }
+    return AnimationTextureCoordinatesListSchema;
+}
+
+sad::db::schema::Schema* sad::animations::TextureCoordinatesList::schema() const
+{
+    return sad::animations::TextureCoordinatesList::basicSchema();
+}
+
 void sad::animations::TextureCoordinatesList::setTreeName(
 	sad::Renderer* renderer,
 	const sad::String& treename
@@ -59,9 +89,7 @@ bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::valu
 		bool result = list.exists();
 		if (result)
 		{
-			m_list = list.value();
-			m_inner_valid = m_list.size() != 0;
-			this->updateValidFlag();
+			setList(list.value());			
 		}
 
 		flag = flag && result;
@@ -72,6 +100,8 @@ bool sad::animations::TextureCoordinatesList::loadFromValue(const picojson::valu
 void sad::animations::TextureCoordinatesList::setList(const sad::Vector<sad::String>& list)
 {
 	m_list = list;
+	m_inner_valid = m_list.size() != 0;
+	this->updateValidFlag();
 }
 
 const sad::Vector<sad::String> & sad::animations::TextureCoordinatesList::list() const

@@ -10,13 +10,13 @@
 #include "../sadstring.h"
 #include "../maybe.h"
 
-#include "db/schema/schema.h"
-#include "db/dbproperty.h"
-#include "db/save.h"
-#include "db/load.h"
-#include "db/dbfield.h"
-#include "db/dbmethodpair.h"
-#include "db/dbtable.h"
+#include "../db/schema/schema.h"
+#include "../db/dbproperty.h"
+#include "../db/save.h"
+#include "../db/load.h"
+#include "../db/dbfield.h"
+#include "../db/dbmethodpair.h"
+#include "../db/dbtable.h"
 
 #include "animationsanimation.h"
 #include "animationsinstance.h"
@@ -91,7 +91,7 @@ public:
      */
 	static sad::db::schema::Schema* basicSchema()
 	{
-		static Schema = NULL;
+		static sad::db::schema::Schema* Schema = NULL;
 		if (Schema == NULL)
 		{
 			Schema = new sad::db::schema::Schema();
