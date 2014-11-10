@@ -9,6 +9,9 @@
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
 
 #include <util/fs.h>
 
@@ -33,6 +36,55 @@ sad::animations::CameraRotation::~CameraRotation()
 {
 	
 }
+
+static sad::db::schema::Schema* AnimationCameraRotationSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
+{
+    if (AnimationCameraRotationSchema == NULL)
+    {
+        AnimationCameraRotationSchema = new sad::db::schema::Schema();
+        AnimationCameraRotationSchema->addParent(sad::animations::Animation::basicSchema());
+
+        AnimationCameraRotationSchema->add(
+            "min_angle",
+            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
+				&sad::animations::CameraRotation::minAngle,
+                &sad::animations::CameraRotation::setMinAngle
+            )
+        );
+		AnimationCameraRotationSchema->add(
+            "max_angle",
+            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
+				&sad::animations::CameraRotation::maxAngle,
+                &sad::animations::CameraRotation::setMaxAngle
+            )
+        );
+		AnimationCameraRotationSchema->add(
+            "max_angle",
+            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
+				&sad::animations::CameraRotation::maxAngle,
+                &sad::animations::CameraRotation::setMaxAngle
+            )
+        );
+		AnimationCameraRotationSchema->add(
+            "pivot",
+			new sad::db::MethodPair<sad::animations::CameraRotation, sad::Point3D>(
+				&sad::animations::CameraRotation::pivot,
+				&sad::animations::CameraRotation::setPivot
+            )
+        );
+		        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraRotationSchema);
+    }
+    return AnimationCameraRotationSchema;
+}
+
+sad::db::schema::Schema* sad::animations::CameraRotation::schema() const
+{
+    return sad::animations::CameraRotation::basicSchema();
+}
+
 
 bool sad::animations::CameraRotation::loadFromValue(const picojson::value& v)
 {

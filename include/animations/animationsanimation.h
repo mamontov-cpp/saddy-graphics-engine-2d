@@ -30,6 +30,14 @@ public:
     /*! Must be inherited
      */
     virtual ~Animation();
+	/*! A basic schema for object
+        \return a schema
+     */
+    static sad::db::schema::Schema* basicSchema();
+    /*! Returns schema for an object
+        \return schema
+     */
+    virtual sad::db::schema::Schema* schema() const;
 	/*! This function will be applied, when animation is loaded from database.	
 		Note, that it just calls loadFromValue
 		\param[in] v value

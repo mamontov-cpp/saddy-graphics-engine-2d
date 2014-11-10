@@ -6,6 +6,14 @@
 
 #include <util/fs.h>
 
+#include "db/schema/schema.h"
+#include "db/dbproperty.h"
+#include "db/save.h"
+#include "db/load.h"
+#include "db/dbfield.h"
+#include "db/dbmethodpair.h"
+#include "db/dbtable.h"
+
 #include <resource/physicalfile.h>
 
 #include <3rdparty/picojson/valuetotype.h>
@@ -24,6 +32,40 @@ sad::animations::Animation::Animation() : m_looped(false), m_time(0), m_valid(tr
 sad::animations::Animation::~Animation()
 {
 
+}
+
+static sad::db::schema::Schema* AnimationAnimationSchema = NULL;
+
+sad::db::schema::Schema* sad::animations::Animation::basicSchema()
+{
+    if (AnimationAnimationSchema == NULL)
+    {
+        AnimationAnimationSchema = new sad::db::schema::Schema();
+        AnimationAnimationSchema->addParent(sad::db::Object::basicSchema());
+
+        AnimationAnimationSchema->add(
+            "looped",
+            new sad::db::MethodPair<sad::animations::Animation, bool>(
+				&sad::animations::Animation::looped,
+                &sad::animations::Animation::setLooped
+            )
+        );
+		AnimationAnimationSchema->add(
+            "time",
+            new sad::db::MethodPair<sad::animations::Animation, double>(
+                &sad::animations::Animation::time,
+                &sad::animations::Animation::setTime
+            )
+        );
+        
+        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationAnimationSchema);
+    }
+    return AnimationAnimationSchema;
+}
+
+sad::db::schema::Schema* sad::animations::Animation::schema() const
+{
+    return sad::animations::Animation::basicSchema();
 }
 
 void sad::animations::Animation::setLooped(bool looped)
