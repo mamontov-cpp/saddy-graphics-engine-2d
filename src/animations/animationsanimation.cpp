@@ -117,7 +117,7 @@ bool sad::animations::Animation::loadFromValue(const picojson::value& v)
     return result;
 }
 
-const sad::animations::SavedObjectStateCreators& sad::animations::Animation::creators() const
+const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::animations::Animation::creators() const
 {
     return m_creators;
 }

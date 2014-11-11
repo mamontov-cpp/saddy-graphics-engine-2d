@@ -26,6 +26,7 @@ m_started(false),
 m_finished(false),
 m_start_time(0),
 m_state_command(NULL),
+m_state_command_own(false),
 m_valid(true),
 m_shape(NULL),
 m_body(NULL),
@@ -36,7 +37,14 @@ m_tree_link_active(true)
 
 sad::animations::Instance::~Instance()
 {
-	delete m_state_command;
+	if (m_state_command_own) 
+	{
+		delete m_state_command;
+	}
+	for(size_t i = 0; i < m_state_commands.size(); i++)
+	{
+		delete m_state_commands[i];
+	}
     delete m_shape;
 }
 
@@ -298,10 +306,17 @@ void sad::animations::Instance::removedFromPipeline()
 	this->delRef();
 }
 
-void sad::animations::Instance::setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call)
+void sad::animations::Instance::setStateCommand(
+	sad::animations::setstate::AbstractSetStateCommand* call,
+	bool own
+)
 {
-	delete m_state_command;
+	if (m_state_command_own)
+	{
+		delete m_state_command;
+	}
 	m_state_command = call;
+	m_state_command_own = own;
 }
 
 sad::animations::setstate::AbstractSetStateCommand* sad::animations::Instance::stateCommand() const
@@ -372,6 +387,24 @@ void  sad::animations::Instance::setBasicString(const sad::String& s)
 const sad::String& sad::animations::Instance::basicString() const
 {
 	return m_basic_string;
+}
+
+void sad::animations::Instance::setStateCommands(
+	const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& c
+)
+{
+	for(size_t i = 0; i < m_state_commands.size(); i++)
+	{
+		delete m_state_commands[i];
+	}
+	m_state_commands = c;
+}
+
+const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& 
+sad::animations::Instance::stateCommands() 
+const
+{
+	return m_state_commands;
 }
 
 // ================================== PROTECTED METHODS ==================================
@@ -459,7 +492,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
     sad::animations::Animation* a = m_animation.get();
     sad::db::Object* o = m_object.get();
 
-    const sad::animations::SavedObjectStateCreators& creators = a->creators();
+    const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = a->creators();
     for(size_t i = 0; i < creators.size(); i++) {
         if (animations->cache().lookup(o, creators[i]->name()) == false)
         {
@@ -481,7 +514,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-    const sad::animations::SavedObjectStateCreators& creators = m_animation.get()->creators();
+	const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = m_animation.get()->creators();
     for(size_t i = 0; i < creators.size(); i++) {
         animations->cache().restore(m_object.get(), creators[i]->name());
     }

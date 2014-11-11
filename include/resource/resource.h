@@ -100,7 +100,7 @@ public:
 	/*! Sets physical file, where resource is stored
 		\param[in] file a file data
 	 */
-	void setPhysicalFile(sad::resource::PhysicalFile * file);
+	virtual void setPhysicalFile(sad::resource::PhysicalFile * file);
 	/*! Returns a physical fle, where resource supposedly stored
 		\return file
 	 */

@@ -6,6 +6,7 @@
 #pragma once
 #include "db/dbobject.h"
 #include "db/dblink.h"
+#include "resource/tree.h"
 #include "resource/link.h"
 
 namespace sad
@@ -83,6 +84,21 @@ public:
         m_point_to_resource = true;
         m_referenced = false;
     }
+
+	/*! Sets tree for a name
+        \param[in] r renderer
+        \param[in] treename a name for tree
+     */
+	void setTree(sad::resource::Tree * tree)
+    {
+        if (m_referenced)
+        {
+            object(false)->delRef();
+        }
+        m_resource.setTree(tree);
+        m_point_to_resource = true;
+        m_referenced = false;
+    }
     /*! Sets database for a tree database
         \param[in] db database
      */
@@ -103,7 +119,7 @@ public:
     {
         if (m_referenced)
         {
-            object(false)->delRef();
+            this->object(false)->delRef();
         }
         object->addRef();
         m_referenced = true;
@@ -116,7 +132,7 @@ public:
      */
     T* object(bool check = true) const
     {
-        sad::TreeDbLink<T>* me = const_cast<sad::TreeDbLink<T>*>(me);
+        sad::TreeDbLink<T>* me = const_cast<sad::TreeDbLink<T>*>(this);
         T* result = NULL;
         if (m_point_to_resource)
         {

@@ -24,7 +24,7 @@ class PtrVector: public sad::Vector<T*>
 	}
 	/*! Frees memory for each contained element
 	 */
-	~PtrVector() 
+	virtual ~PtrVector() 
 	{
 		for(size_t i = 0; i < this->size(); i++)
 			delete (*this)[i];
