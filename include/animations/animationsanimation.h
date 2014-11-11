@@ -94,7 +94,7 @@ public:
     /*! Returns creators for saving object states
         \return creators list
      */
-    const sad::animations::SavedObjectStateCreators& creators() const;
+    virtual const sad::animations::SavedObjectStateCreators& creators() const;
 protected:
 	/*! Updates flag of validity
 	 */
