@@ -60,11 +60,11 @@ public:
     /*! Sets playback time for animation
         \param time a playback time for animation
      */
-    void setTime(double time);
+    virtual void setTime(double time);
     /*! Returns playback time for animation
         \return playback time for animation
      */
-    double time() const;
+    virtual double time() const;
 	/*! Starts an animation. Called on start of instance.
 		\param[in] i animation instance
 	 */
@@ -94,7 +94,7 @@ public:
     /*! Returns creators for saving object states
         \return creators list
      */
-    virtual const sad::animations::SavedObjectStateCreators& creators() const;
+	virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
 protected:
 	/*! Updates flag of validity
 	 */

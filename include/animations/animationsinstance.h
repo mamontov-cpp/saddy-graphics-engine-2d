@@ -200,8 +200,9 @@ public:
 	virtual void removedFromPipeline();
 	/*! Sets a command for setting state
 		\param[in] call a command to be set
+		\param[in] own whether instance owns state command
 	 */
-	void setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call);
+	void setStateCommand(sad::animations::setstate::AbstractSetStateCommand* call, bool own = true);
 	/*! Returns a command for setting state
 		\return a command for setting state
 	 */
@@ -258,6 +259,14 @@ public:
 		\return basic string
 	 */
 	const sad::String& basicString() const;
+	/*! Set state commands for instance
+		\param[in] c an animation
+	 */
+	void setStateCommands(const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& c);
+	/*! Returns state commands for animation instance
+		\return instance
+	 */
+	const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished
@@ -321,9 +330,15 @@ protected:
     /*! A callbacks for ending an instance
      */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
+	/*! Sets vector of state commands
+	 */
+	sad::Vector<sad::animations::setstate::AbstractSetStateCommand*> m_state_commands;
 	/*! A command for setting state
 	 */
 	sad::animations::setstate::AbstractSetStateCommand* m_state_command;
+	/*! Whether we own state command
+	 */
+	bool m_state_command_own;
     /*! Whether animation instance is valid
      */
     bool m_valid;

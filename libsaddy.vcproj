@@ -853,6 +853,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationscomposite.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsfontlist.cpp"
 					>
 				</File>
@@ -910,6 +914,10 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationssavedobjectstatecreators.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationssequential.cpp"
 					>
 				</File>
 				<File
@@ -1189,6 +1197,10 @@
 			</File>
 			<File
 				RelativePath=".\include\timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\treedblink.h"
 				>
 			</File>
 			<File
@@ -1923,6 +1935,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationscomposite.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationscontinuousproperty.h"
 					>
 				</File>
@@ -1944,6 +1960,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsinstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationslink.h"
 					>
 				</File>
 				<File
@@ -2000,6 +2020,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationssavedobjectstatecreators.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationssequential.h"
 					>
 				</File>
 				<File
