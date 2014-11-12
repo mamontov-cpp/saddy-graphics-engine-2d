@@ -8,6 +8,7 @@
 #include "animations/animationsoptionlist.h"
 #include "animations/animationsresize.h"
 #include "animations/animationsrotate.h"
+#include "animations/animationsparallel.h"
 #include "animations/animationssequential.h"
 #include "animations/animationstyping.h"
 #include "animations/animationswaymoving.h"
@@ -31,12 +32,12 @@ sad::animations::Factory::Factory()
 	push<sad::animations::FontList>("sad::animations::FontList");
 	push<sad::animations::FontSize>("sad::animations::FontSize");
 	push<sad::animations::OptionList>("sad::animations::OptionList");
-	push<sad::animations::Resize>("sad::animations::Resize");
+    push<sad::animations::Parallel>("sad::animations::Parallel");
+    push<sad::animations::Resize>("sad::animations::Resize");
 	push<sad::animations::Rotate>("sad::animations::Rotate");
     push<sad::animations::Sequential>("sad::animations::Sequential");
 	push<sad::animations::Typing>("sad::animations::Typing");
-	push<sad::animations::WayMoving>("sad::animations::WayMoving");    
-
+	push<sad::animations::WayMoving>("sad::animations::WayMoving");        
 }
 
 sad::animations::Factory::Factory(const sad::animations::Factory& f)

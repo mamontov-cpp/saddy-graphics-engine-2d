@@ -21,7 +21,7 @@
 #include <animations/animationstyping.h>
 #include <animations/animationsresize.h>
 #include <animations/animationscolor.h>
-#include <animations/animationssequential.h>
+#include <animations/animationsparallel.h>
 #include <animations/animationsinstance.h>
 
 
@@ -174,12 +174,12 @@ int thread(void * p)
 	color->setMaxColor(sad::AColor(255, 0, 0, 0));	
 	r.tree("")->root()->addResource("color", color);
 
-	sad::animations::Sequential* sequential = new sad::animations::Sequential();
-	sequential->setLooped(true);
-	sequential->add(typing);
-	sequential->add(color);
-	sequential->setTime(4000);
-	r.tree("")->root()->addResource("sequential", sequential);
+	sad::animations::Parallel* parallel = new sad::animations::Parallel();
+	parallel->setLooped(true);
+	parallel->add(typing);
+	parallel->add(color);
+	parallel->setTime(2000);
+	r.tree("")->root()->addResource("parallel", parallel);
 	
 	sad::animations::Resize* resize = new sad::animations::Resize();
 	resize->setLooped(true);
@@ -202,10 +202,10 @@ int thread(void * p)
 	scene->add(l1);
 	scene->add(l2);
 
-	sad::animations::Instance* sequentialinstance = new sad::animations::Instance();
-	sequentialinstance->setAnimation(sequential);
-	sequentialinstance->setObject(l1);
-	r.animations()->add(sequentialinstance);
+	sad::animations::Instance* parallelinstance = new sad::animations::Instance();
+	parallelinstance->setAnimation(parallel);
+	parallelinstance->setObject(l1);
+	r.animations()->add(parallelinstance);
 	
 	sad::animations::Instance* resizeinstance = new sad::animations::Instance();
 	resizeinstance->setAnimation(resize);

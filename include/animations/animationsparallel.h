@@ -1,7 +1,8 @@
-/*!  \file animations/animationssequential.h
+/*!  \file animations/animationsparallel.h
      \author HiddenSeeker
 
-     Defines a sequential animation as a list of animations from various sources
+     Defines a parallel animations as a list of animations, which
+     are executed at the same time
  */
 #pragma once
 #include "animationscomposite.h"
@@ -13,21 +14,19 @@ namespace sad
 namespace animations
 {
 
-/*! A sequential animation is an animation, which applied sequentially
-    to object. Note, that on second run, if animation is looped,
-    object state is not necessarily restored, so make sure, that
-    that object returns to it's initial state with last animation.
+/*! Defines a type of animation, which are applied at the same
+    time
  */
-class Sequential: public sad::animations::Composite
+class Parallel: public sad::animations::Composite
 {
 SAD_OBJECT
 public:
     /*! Constructs new sequential animation
      */
-    Sequential();
+    Parallel();
     /*! Could be inherited
      */
-    virtual ~Sequential();
+    virtual ~Parallel();
     /*! Sets state of object from animation
         \param[in] i an animation instance
         \param[in] time a time of playing of animation
@@ -38,10 +37,6 @@ public:
         \param time
      */
     virtual void setTime(double time);
-    /*! Fetches time of animation, like sum of times of all animations
-        \return time
-     */
-    virtual double time() const;
 };
 
 }
