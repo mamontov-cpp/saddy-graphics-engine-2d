@@ -16,7 +16,13 @@ sad::resource::Folder::Folder() : m_parent(NULL)
 
 sad::resource::Folder::~Folder()
 {
-
+	for(sad::Hash<sad::String, sad::resource::Resource*>::iterator it = m_resources.begin();
+		it != m_resources.end();
+		++it)
+	{
+		it.value()->delRef();
+	}
+	m_resources.clear();
 }
 
 bool sad::resource::Folder::hasFolders() const
@@ -101,8 +107,9 @@ bool sad::resource::Folder::addResource(const sad::String & path, sad::resource:
 	}
 	if (parent->m_resources.contains(resourcename))
 	{
-		delete parent->m_resources[resourcename];
+		parent->m_resources[resourcename]->delRef();
 	}
+	r->addRef();
 	parent->m_resources.insert(resourcename, r);
 	r->setParentFolder(parent);
 	return true;	
@@ -140,7 +147,7 @@ void sad::resource::Folder::removeResource(const sad::String& path, bool free)
 		parent->setParent(NULL);
 		if (free) 
 		{
-			delete parent->m_resources[resourcename];
+			parent->m_resources[resourcename]->delRef();
 		}
 		parent->m_resources.remove(resourcename);
 	}

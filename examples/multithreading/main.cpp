@@ -19,7 +19,7 @@
 #include <texturemappedfont.h>
 #include <freetype/font.h>
 #include <animations/animationstyping.h>
-#include <animations/animationsresize.h>
+#include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationscolor.h>
 #include <animations/animationsparallel.h>
 #include <animations/animationsinstance.h>
@@ -181,11 +181,12 @@ int thread(void * p)
 	parallel->setTime(2000);
 	r.tree("")->root()->addResource("parallel", parallel);
 	
-	sad::animations::Resize* resize = new sad::animations::Resize();
-	resize->setLooped(true);
-	resize->setTime(1000);
-	resize->setVector(sad::Point2D(-200, -200));
-	r.tree("")->root()->addResource("resize", resize);
+	sad::animations::TextureCoordinatesContinuous* tcc = new sad::animations::TextureCoordinatesContinuous();
+	tcc->setLooped(true);
+	tcc->setTime(5000);
+	tcc->setStartRect(sad::Rect2D(0, 0, 512, 512));
+	tcc->setStartRect(sad::Rect2D(128, 128, 512, 512));
+	r.tree("")->root()->addResource("tcc", tcc);
 
 
 	/* Create simple sprite. 512x512 is a size of texture and it's passed as second parameter
@@ -207,10 +208,10 @@ int thread(void * p)
 	parallelinstance->setObject(l1);
 	r.animations()->add(parallelinstance);
 	
-	sad::animations::Instance* resizeinstance = new sad::animations::Instance();
-	resizeinstance->setAnimation(resize);
-	resizeinstance->setObject(a);
-	r.animations()->add(resizeinstance);
+	sad::animations::Instance* tccinstance = new sad::animations::Instance();
+	tccinstance->setAnimation(tcc);
+	tccinstance->setObject(a);
+	r.animations()->add(tccinstance);
 
 	/* Here we bind two different handlers with keydown
 	 */

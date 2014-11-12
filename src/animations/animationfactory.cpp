@@ -12,6 +12,7 @@
 #include "animations/animationssequential.h"
 #include "animations/animationstyping.h"
 #include "animations/animationswaymoving.h"
+#include "animations/animationstexturecoordinatescontinuous.h"
 #include "animations/animationstexturecoordinateslist.h"
 
 // ======================== PUBLIC METHODS of sad::animations::Factory::AbstractDelegate ========================
@@ -36,6 +37,8 @@ sad::animations::Factory::Factory()
     push<sad::animations::Resize>("sad::animations::Resize");
 	push<sad::animations::Rotate>("sad::animations::Rotate");
     push<sad::animations::Sequential>("sad::animations::Sequential");
+	push<sad::animations::TextureCoordinatesContinuous>("sad::animations::TextureCoordinatesContinuous");
+	push<sad::animations::TextureCoordinatesList>("sad::animations::TextureCoordinatesList");
 	push<sad::animations::Typing>("sad::animations::Typing");
 	push<sad::animations::WayMoving>("sad::animations::WayMoving");        
 }
