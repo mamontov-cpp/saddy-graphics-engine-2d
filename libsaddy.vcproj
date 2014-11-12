@@ -877,6 +877,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\animations\animationsparallel.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\animations\animationsprocess.cpp"
 					>
 				</File>
@@ -918,6 +922,10 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationssequential.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationstexturecoordinatescontinuous.cpp"
 					>
 				</File>
 				<File
@@ -1971,6 +1979,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\include\animations\animationsparallel.h"
+					>
+				</File>
+				<File
 					RelativePath=".\include\animations\animationsprocess.h"
 					>
 				</File>
@@ -2024,6 +2036,10 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationssequential.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationstexturecoordinatescontinuous.h"
 					>
 				</File>
 				<File

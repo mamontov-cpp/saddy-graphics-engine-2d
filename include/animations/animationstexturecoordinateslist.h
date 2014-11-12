@@ -1,7 +1,8 @@
 /*! \file animations/animationstexturecoordinateslist.h
 	\author HiddenSeeker
 
-	An animations as animation of changing texture coordinates lists by time
+	An animation of changing texture coordinates, defined by their links in resource tree
+	is stored here.
  */
 #pragma once
 
