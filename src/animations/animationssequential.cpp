@@ -38,7 +38,8 @@ void sad::animations::Sequential::setState(sad::animations::Instance* i, double 
                 if (t < animation->time())
                 {
                     i->setStateCommand(c[ii], false);
-                    animation->setState(i, false);
+                    animation->setState(i, t);
+                    return;
                 }
                 else
                 {
