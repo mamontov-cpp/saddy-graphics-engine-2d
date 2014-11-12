@@ -271,10 +271,9 @@ void sad::resource::TextureAtlasFile::commit(
 	const sad::resource::TextureAtlasFile::TextureLoadResult & result
 )
 {
-	sad::resource::PhysicalFile * oldfile = NULL;
 	if (result.OldTexture)
 	{
-		oldfile = result.OldTexture->file();
+		sad::resource::PhysicalFile* oldfile = result.OldTexture->file();
 		this->tree()->root()->replaceResource(parsed.p1(), result.NewTexture);
 		if (m_my_texture == NULL)
 		{

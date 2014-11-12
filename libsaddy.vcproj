@@ -817,10 +817,6 @@
 				Name="animations"
 				>
 				<File
-					RelativePath=".\src\animations\animationfactory.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\animations\animationsabstractsavedobjectstatecreator.cpp"
 					>
 				</File>
@@ -854,6 +850,14 @@
 				</File>
 				<File
 					RelativePath=".\src\animations\animationscomposite.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationsfactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\animations\animationsfile.cpp"
 					>
 				</File>
 				<File
@@ -1907,10 +1911,6 @@
 				Name="animations"
 				>
 				<File
-					RelativePath=".\include\animations\animationfactory.h"
-					>
-				</File>
-				<File
 					RelativePath=".\include\animations\animationsabstractsavedobjectstatecreator.h"
 					>
 				</File>
@@ -1952,6 +1952,14 @@
 				</File>
 				<File
 					RelativePath=".\include\animations\animationsdiscreteproperty.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsfactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\animations\animationsfile.h"
 					>
 				</File>
 				<File

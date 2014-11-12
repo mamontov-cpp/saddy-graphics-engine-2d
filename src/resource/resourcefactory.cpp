@@ -5,6 +5,8 @@
 #include "db/dbstoredpropertyfactory.h"
 #include "db/custom/customschemafile.h"
 
+#include "animations/animationsfile.h"
+
 #include "texture.h"
 #include "texturemappedfont.h"
 #include "sprite2d.h"
@@ -60,6 +62,10 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
 	if (typehint == "sad::resource::TextureAtlasFile")
 	{
 		return new sad::resource::TextureAtlasFile();
+	}
+	if (typehint == "sad::animations::File")
+	{
+		return new sad::animations::File();
 	}
 	if (typehint == "sad::db::custom::SchemaFile")
 	{
