@@ -1,4 +1,4 @@
-#include "animations/animationfactory.h"
+#include "animations/animationsfactory.h"
 #include "animations/animationsblinking.h"
 #include "animations/animationscamerarotation.h"
 #include "animations/animationscamerashaking.h"

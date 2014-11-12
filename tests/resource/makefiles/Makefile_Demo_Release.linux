@@ -27,14 +27,16 @@ else
 CCOPTS = -O2
 endif
 
-BUILD    = build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
+BUILD    = build/animationfile_$(TYPE).o build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
 all: build ../../lib/libsaddy-$(TYPE).a $(OUTPUT)
 build:
 	mkdir build
 ../../lib/libsaddy-$(TYPE).a:
 	echo "You forgot to build a library!"
-$(OUTPUT): build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
+$(OUTPUT): build/animationfile_$(TYPE).o build/folder_$(TYPE).o build/link_$(TYPE).o build/main_$(TYPE).o build/textureatlasfile_$(TYPE).o build/tree_$(TYPE).o
 	g++ $(BUILD)   $(CCOPTS)  -o  $(OUTPUT)    $(LDFLAGS)
+build/animationfile_$(TYPE).o: animationfile.cpp
+	g++ -c $(CCOPTS) animationfile.cpp -o build/animationfile_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/folder_$(TYPE).o: folder.cpp
 	g++ -c $(CCOPTS) folder.cpp -o build/folder_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/link_$(TYPE).o: link.cpp

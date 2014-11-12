@@ -456,4 +456,4 @@ struct SadTreeTest : tpunit::TestFixture
 	   ASSERT_TRUE( l1.get() != old );
    }
 
-} _sad_tree_test;
+} /*_sad_tree_test*/;

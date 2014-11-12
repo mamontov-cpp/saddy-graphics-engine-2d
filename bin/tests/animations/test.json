@@ -1,0 +1,9 @@
+{
+	"rotate" : {
+		"time" : 1000,
+		"looped" : true,
+		"min_angle" : 0,
+		"max_angle" : 360,
+		"type" : "sad::animations::Rotate"	
+	}
+}
