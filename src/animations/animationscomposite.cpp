@@ -2,8 +2,6 @@
 #include "animations/animationsinstance.h"
 
 #include "fuzzyequal.h"
-#include "scene.h"
-#include "camera.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -20,6 +18,8 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+
+DECLARE_SOBJ_INHERITANCE(sad::animations::Composite, sad::animations::Animation);
 
 // ====================================== PUBLIC METHODS ======================================
 
@@ -164,7 +164,16 @@ bool sad::animations::Composite::applicableTo(sad::db::Object* o)
 		for(size_t ii = 0; ii < m_links.size(); ii++)
 		{
 			sad::animations::Animation* a = m_links[ii]->object(true);
-			result = result && a->applicableTo(o);
+            if (a)
+            {
+                result = result && a->applicableTo(o);
+            }
+            else
+            {
+                result = false;
+                m_inner_valid = false;
+                this->updateValidFlag();
+            }
 		}
 	}
 	return result;
@@ -250,6 +259,8 @@ void sad::animations::Composite::setAnimationsNames(const sad::Vector<sad::Strin
 		link->setName(names[i]);
 		m_links << link;
 	}
+    m_inner_valid = names.size() != 0;
+    this->updateValidFlag();
 }
 
 sad::Vector<sad::String> sad::animations::Composite::animationNames() const
@@ -279,6 +290,8 @@ void sad::animations::Composite::setAnimationsMajorId(const sad::Vector<unsigned
 		link->setMajorId(ids[i]);
 		m_links << link;
 	}
+    m_inner_valid = ids.size() != 0;
+    this->updateValidFlag();
 }
 
 sad::Vector<unsigned long long> sad::animations::Composite::animationMajorIds() const
@@ -289,6 +302,11 @@ sad::Vector<unsigned long long> sad::animations::Composite::animationMajorIds() 
 		result << m_links[i]->majorId();
 	}
 	return result;
+}
+
+sad::animations::setstate::AbstractSetStateCommand* sad::animations::Composite::stateCommand(sad::db::Object* o)
+{
+    return NULL;
 }
 
 // ====================================== PROTECTED METHODS ======================================

@@ -117,6 +117,11 @@ public:
 		\return animation major ids
 	 */
 	sad::Vector<unsigned long long> animationMajorIds() const;
+    /*! Returns NULL, because animation manages other stuff by itself
+        \param[in] o object
+        \return state command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* stateCommand(sad::db::Object* o);
 protected:
 	/*! Commands list
 	 */
