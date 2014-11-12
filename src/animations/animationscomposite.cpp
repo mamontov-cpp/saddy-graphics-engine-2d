@@ -19,6 +19,8 @@
 
 #include <fstream>
 
+#include <cstdio>
+
 DECLARE_SOBJ_INHERITANCE(sad::animations::Composite, sad::animations::Animation);
 
 // ====================================== PUBLIC METHODS ======================================
@@ -137,7 +139,7 @@ void sad::animations::Composite::start(sad::animations::Instance* i)
 			{
 				a->start(i);
 				commands << a->stateCommand(i->object());
-			}
+			}            
 		}
 		if (m_commands.contains(i->object()))
 		{
@@ -173,6 +175,7 @@ bool sad::animations::Composite::applicableTo(sad::db::Object* o)
                 result = false;
                 m_inner_valid = false;
                 this->updateValidFlag();
+                //printf("Updated valid to false\n");
             }
 		}
 	}
