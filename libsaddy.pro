@@ -188,7 +188,8 @@ SOURCES += src/camera.cpp \
     src/animations/animationstyping.cpp \
     src/animations/animationswayinstance.cpp \
     src/animations/animationswaymoving.cpp \
-    src/animations/animationssequential.cpp
+    src/animations/animationssequential.cpp \
+    src/animations/animationscomposite.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -457,7 +458,8 @@ HEADERS += include/camera.h \
     include/animations/setstate/setpositionviaareacall.h \
     include/animations/animationssequential.h \
     include/treedblink.h \
-    include/animations/animationslink.h
+    include/animations/animationslink.h \
+    include/animations/animationscomposite.h
 
 
 DESTDIR = ../saddy/lib/

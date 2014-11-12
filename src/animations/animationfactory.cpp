@@ -8,6 +8,7 @@
 #include "animations/animationsoptionlist.h"
 #include "animations/animationsresize.h"
 #include "animations/animationsrotate.h"
+#include "animations/animationssequential.h"
 #include "animations/animationstyping.h"
 #include "animations/animationswaymoving.h"
 #include "animations/animationstexturecoordinateslist.h"
@@ -32,8 +33,9 @@ sad::animations::Factory::Factory()
 	push<sad::animations::OptionList>("sad::animations::OptionList");
 	push<sad::animations::Resize>("sad::animations::Resize");
 	push<sad::animations::Rotate>("sad::animations::Rotate");
+    push<sad::animations::Sequential>("sad::animations::Sequential");
 	push<sad::animations::Typing>("sad::animations::Typing");
-	push<sad::animations::WayMoving>("sad::animations::WayMoving");
+	push<sad::animations::WayMoving>("sad::animations::WayMoving");    
 
 }
 
