@@ -30,17 +30,26 @@ m_state_command_own(false),
 m_valid(true),
 m_shape(NULL),
 m_body(NULL),
-m_tree_link_active(true)
+m_tree_link_active(true),
+m_object_referenced(false)
 {
 
 }
 
 sad::animations::Instance::~Instance()
 {
+    if (m_object_referenced)
+    {
+        m_object.get()->delRef();
+    }
 	if (m_state_command_own) 
 	{
 		delete m_state_command;
 	}
+    if (m_body)
+    {
+        m_body->delRef();
+    }
 	for(size_t i = 0; i < m_state_commands.size(); i++)
 	{
 		delete m_state_commands[i];
@@ -151,14 +160,31 @@ sad::animations::Animation* sad::animations::Instance::animation(bool check) con
 
 void sad::animations::Instance::setObject(sad::db::Object* o)
 {
+    if (m_object_referenced)
+    {
+        m_object.get()->delRef();
+    }
+    m_object_referenced = false;
     m_object.setObject(o);
+    if (o)
+    {
+        o->addRef();
+        m_object_referenced = true;
+    }
 	this->clearSetState();
 }
 
 
 sad::db::Object* sad::animations::Instance::object() const
 {
-    return const_cast<sad::animations::Instance*>(this)->m_object.get();
+    sad::animations::Instance* i = const_cast<sad::animations::Instance*>(this);
+    sad::db::Object* result = i->m_object.get();
+    if (m_object_referenced == false && result)
+    {
+        i->m_object_referenced = true;
+        result->addRef();
+    }
+    return result;
 }
 
 void sad::animations::Instance::setAnimationName(const sad::String& name)
@@ -198,7 +224,12 @@ unsigned long long sad::animations::Instance::animationMajorId()
 
 void sad::animations::Instance::setObjectId(unsigned long long id)
 {
+    if (m_object_referenced)
+    {
+        m_object.get()->delRef();
+    }
     m_object.setMajorId(id);
+    m_object_referenced = false;
 	this->clearSetState();
 }
 
@@ -342,10 +373,15 @@ sad::p2d::CollisionShape* sad::animations::Instance::shape()
 
 void sad::animations::Instance::setBody(sad::p2d::Body* body)
 {
+    if (m_body)
+    {
+        m_body->delRef();
+    }
     m_body = body;
     delete m_shape;
     if (m_body)
     {
+        m_body->addRef();
         m_shape = m_body->currentShape()->clone();
         if (m_shape)
         {
@@ -478,7 +514,7 @@ void sad::animations::Instance::markAsFinished()
 void sad::animations::Instance::checkIfValid(sad::animations::Animations* animations)
 {
     sad::animations::Animation* a = this->animation(true);
-    sad::db::Object* o = m_object.get();
+    sad::db::Object* o = this->object();
 
     m_valid = (a && o);
     if (m_valid)
@@ -490,7 +526,7 @@ void sad::animations::Instance::checkIfValid(sad::animations::Animations* animat
 void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations* animations)
 {
     sad::animations::Animation* a = m_animation.get();
-    sad::db::Object* o = m_object.get();
+    sad::db::Object* o = this->object();
 
     const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = a->creators();
     for(size_t i = 0; i < creators.size(); i++) {
@@ -516,7 +552,7 @@ void sad::animations::Instance::restoreObjectState(sad::animations::Animations* 
 {
 	const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = m_animation.get()->creators();
     for(size_t i = 0; i < creators.size(); i++) {
-        animations->cache().restore(m_object.get(), creators[i]->name());
+        animations->cache().restore(this->object(), creators[i]->name());
     }
 }
 

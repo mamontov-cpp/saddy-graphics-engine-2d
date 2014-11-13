@@ -178,7 +178,6 @@ SOURCES += src/camera.cpp \
     src/animations/animationssavedcameratranslation.cpp \
     src/animations/setstate/setcameratranslation.cpp \
     src/animations/setstate/setpositionproperty.cpp \
-    src/animations/animationfactory.cpp \
     src/animations/animationsblinking.cpp \
     src/animations/animationscolor.cpp \
     src/animations/animationsresize.cpp \
@@ -190,7 +189,10 @@ SOURCES += src/camera.cpp \
     src/animations/animationswaymoving.cpp \
     src/animations/animationssequential.cpp \
     src/animations/animationscomposite.cpp \
-    src/animations/animationsparallel.cpp
+    src/animations/animationsparallel.cpp \
+    src/animations/animationstexturecoordinatescontinuous.cpp \
+    src/animations/animationsfile.cpp \
+    src/animations/animationsfactory.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -445,7 +447,6 @@ HEADERS += include/camera.h \
     include/animations/setstate/setcamerarotation.h \
     include/animations/animationssavedcameratranslation.h \
     include/animations/setstate/setcameratranslation.h \
-    include/animations/animationfactory.h \
     include/animations/animationsblinking.h \
     include/animations/animationscolor.h \
     include/animations/animationsresize.h \
@@ -461,7 +462,10 @@ HEADERS += include/camera.h \
     include/treedblink.h \
     include/animations/animationslink.h \
     include/animations/animationscomposite.h \
-    include/animations/animationsparallel.h
+    include/animations/animationsparallel.h \
+    include/animations/animationstexturecoordinatescontinuous.h \
+    include/animations/animationsfile.h \
+    include/animations/animationsfactory.h
 
 
 DESTDIR = ../saddy/lib/

@@ -22,6 +22,10 @@ m_shape(NULL)
 sad::animations::SavedObjectSize::~SavedObjectSize() 
 {
 	delete m_shape;
+    if (m_body)
+    {
+        m_body->delRef();
+    }
 }
 
 void sad::animations::SavedObjectSize::restore()
@@ -39,8 +43,13 @@ void sad::animations::SavedObjectSize::restore()
 
 void sad::animations::SavedObjectSize::storeBodyState(sad::p2d::Body* b)
 {
+    if (m_body)
+    {
+        m_body->delRef();
+    }
 	delete m_shape;
 	m_body = b;
+    m_body->addRef();
 	m_shape = m_body->currentShape()->clone();
 	m_shape->move(sad::Point2D(0,0) - m_shape->center());
 }

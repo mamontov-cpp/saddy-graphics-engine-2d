@@ -22,7 +22,10 @@ m_body(NULL)
 
 sad::animations::SavedObjectPosition::~SavedObjectPosition() 
 {
-
+    if (m_body)
+    {
+        m_body->delRef();
+    }
 }
 
 void sad::animations::SavedObjectPosition::restore()
@@ -42,6 +45,11 @@ void sad::animations::SavedObjectPosition::restore()
 
 void sad::animations::SavedObjectPosition::storeBodyState(sad::p2d::Body* b)
 {
+    if (m_body)
+    {
+        m_body->delRef();
+    }
 	m_body = b;
 	m_oldposition = m_body->position();
+    m_body->addRef();
 }
