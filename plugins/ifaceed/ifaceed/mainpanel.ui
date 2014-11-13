@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>444</width>
+    <width>510</width>
     <height>490</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>444</width>
+    <width>510</width>
     <height>490</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>444</width>
+    <width>510</width>
     <height>490</height>
    </size>
   </property>
@@ -145,7 +145,7 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>431</width>
+      <width>491</width>
       <height>416</height>
      </rect>
     </property>
@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -165,7 +165,7 @@
      <widget class="QTabWidget" name="tabObjects">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>30</x>
         <y>10</y>
         <width>421</width>
         <height>376</height>
@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -804,7 +804,7 @@ for object
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>221</width>
+        <width>271</width>
         <height>381</height>
        </rect>
       </property>
@@ -816,7 +816,7 @@ for object
         <rect>
          <x>10</x>
          <y>15</y>
-         <width>201</width>
+         <width>251</width>
          <height>281</height>
         </rect>
        </property>
@@ -826,7 +826,7 @@ for object
         <rect>
          <x>60</x>
          <y>300</y>
-         <width>91</width>
+         <width>141</width>
          <height>20</height>
         </rect>
        </property>
@@ -836,7 +836,7 @@ for object
         <rect>
          <x>61</x>
          <y>330</y>
-         <width>91</width>
+         <width>141</width>
          <height>22</height>
         </rect>
        </property>
@@ -886,7 +886,7 @@ for object
       <widget class="QPushButton" name="btnWayAdd">
        <property name="geometry">
         <rect>
-         <x>160</x>
+         <x>210</x>
          <y>299</y>
          <width>51</width>
          <height>22</height>
@@ -899,7 +899,7 @@ for object
       <widget class="QPushButton" name="btnWayRemove">
        <property name="geometry">
         <rect>
-         <x>160</x>
+         <x>210</x>
          <y>330</y>
          <width>51</width>
          <height>23</height>
@@ -913,7 +913,7 @@ for object
      <widget class="QGroupBox" name="grpWayPoints">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>290</x>
         <y>0</y>
         <width>181</width>
         <height>381</height>
@@ -1047,7 +1047,7 @@ for object
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>131</width>
+        <width>181</width>
         <height>387</height>
        </rect>
       </property>
@@ -1059,7 +1059,7 @@ for object
         <rect>
          <x>10</x>
          <y>15</y>
-         <width>111</width>
+         <width>161</width>
          <height>311</height>
         </rect>
        </property>
@@ -1069,7 +1069,7 @@ for object
         <rect>
          <x>60</x>
          <y>330</y>
-         <width>61</width>
+         <width>111</width>
          <height>20</height>
         </rect>
        </property>
@@ -1087,12 +1087,12 @@ for object
         <string>Name:</string>
        </property>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="layoutWidget22">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>360</y>
-         <width>121</width>
+         <width>171</width>
          <height>25</height>
         </rect>
        </property>
@@ -1123,7 +1123,7 @@ for object
      <widget class="QGroupBox" name="grpPhrases">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>190</x>
         <y>0</y>
         <width>281</width>
         <height>386</height>
@@ -1198,7 +1198,7 @@ for object
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="layoutWidget2">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1220,7 +1220,7 @@ for object
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="layoutWidget3">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -1295,7 +1295,7 @@ for object
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>161</width>
+        <width>151</width>
         <height>231</height>
        </rect>
       </property>
@@ -1305,7 +1305,7 @@ for object
        <rect>
         <x>10</x>
         <y>250</y>
-        <width>161</width>
+        <width>151</width>
         <height>20</height>
        </rect>
       </property>
@@ -1324,8 +1324,8 @@ for object
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>279</y>
-        <width>75</width>
+        <y>280</y>
+        <width>61</width>
         <height>24</height>
        </rect>
       </property>
@@ -1365,7 +1365,7 @@ current object</string>
        <rect>
         <x>100</x>
         <y>312</y>
-        <width>75</width>
+        <width>61</width>
         <height>41</height>
        </rect>
       </property>
@@ -1376,15 +1376,15 @@ current object</string>
      <widget class="QTabWidget" name="tabAnimationTypes">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>170</x>
         <y>40</y>
-        <width>231</width>
+        <width>301</width>
         <height>341</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>6</pointsize>
+        <pointsize>8</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
@@ -1393,9 +1393,9 @@ current object</string>
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
-      <widget class="QWidget" name="tab_object">
+      <widget class="QWidget" name="tab_animation_object">
        <attribute name="title">
         <string>Object</string>
        </attribute>
@@ -1404,19 +1404,24 @@ current object</string>
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>211</width>
+          <width>281</width>
           <height>51</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Blinking</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget4">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1442,10 +1447,15 @@ current object</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
-          <width>211</width>
-          <height>80</height>
+          <y>60</y>
+          <width>281</width>
+          <height>71</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Color</string>
@@ -1454,8 +1464,8 @@ current object</string>
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>50</y>
-           <width>191</width>
+           <y>40</y>
+           <width>261</width>
            <height>21</height>
           </rect>
          </property>
@@ -1472,12 +1482,12 @@ current object</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget5">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
+           <width>261</width>
            <height>21</height>
           </rect>
          </property>
@@ -1495,8 +1505,169 @@ current object</string>
          </layout>
         </widget>
        </widget>
+       <widget class="QGroupBox" name="grpResize">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>281</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Resize</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>261</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="lblResizeVector">
+            <property name="text">
+             <string>Vector</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabResizeVectorX">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabResizeVectorY">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="grpRotate">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>281</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Rotate</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget_5">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>251</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QLabel" name="lblRotateStartingAngle">
+            <property name="text">
+             <string>Starting Angle:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dsbRotateStartingAngle">
+            <property name="minimum">
+             <double>-1000000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_6">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>251</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <item>
+           <widget class="QLabel" name="lblRotateEndingAngle">
+            <property name="text">
+             <string>Ending Angle:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dsbRotateEndingAngle">
+            <property name="minimum">
+             <double>-1000000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="grpWay">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>260</y>
+          <width>281</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Way</string>
+        </property>
+        <widget class="QComboBox" name="cmbWayAnimationWay">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>251</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
       </widget>
-      <widget class="QWidget" name="tab_label">
+      <widget class="QWidget" name="tab_animation_label">
        <attribute name="title">
         <string>Label</string>
        </attribute>
@@ -1505,9 +1676,14 @@ current object</string>
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>211</width>
+          <width>271</width>
           <height>221</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Font List</string>
@@ -1517,7 +1693,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
+           <width>251</width>
            <height>191</height>
           </rect>
          </property>
@@ -1528,19 +1704,24 @@ current object</string>
          <rect>
           <x>10</x>
           <y>230</y>
-          <width>211</width>
+          <width>271</width>
           <height>81</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Font Size</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget7">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
+           <width>251</width>
            <height>48</height>
           </rect>
          </property>
@@ -1577,7 +1758,7 @@ current object</string>
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_sprite">
+      <widget class="QWidget" name="tab_animation_sprite">
        <attribute name="title">
         <string>Sprite</string>
        </attribute>
@@ -1585,9 +1766,9 @@ current object</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>10</y>
-          <width>211</width>
-          <height>121</height>
+          <y>0</y>
+          <width>281</width>
+          <height>91</height>
          </rect>
         </property>
         <property name="font">
@@ -1603,8 +1784,8 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
-           <height>91</height>
+           <width>261</width>
+           <height>61</height>
           </rect>
          </property>
         </widget>
@@ -1613,9 +1794,9 @@ current object</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>140</y>
-          <width>211</width>
-          <height>121</height>
+          <y>100</y>
+          <width>281</width>
+          <height>91</height>
          </rect>
         </property>
         <property name="font">
@@ -1631,14 +1812,78 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
-           <height>91</height>
+           <width>261</width>
+           <height>61</height>
           </rect>
          </property>
         </widget>
        </widget>
+       <widget class="QGroupBox" name="grpTextureCoordinatesContinuous">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>200</y>
+          <width>281</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Texture Coordinates Continuous</string>
+        </property>
+        <widget class="gui::rectwidget::RectWidget" name="rctTCCStartingRect" native="true">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>20</y>
+           <width>171</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lblTCCStartingRect">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>71</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Starting rect:</string>
+         </property>
+        </widget>
+        <widget class="gui::rectwidget::RectWidget" name="rctTCCEndingRect" native="true">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>60</y>
+           <width>171</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lblTCCEndingRect">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>70</y>
+           <width>71</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Ending rect:</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
-      <widget class="QWidget" name="tab_camera">
+      <widget class="QWidget" name="tab_animation_camera">
        <attribute name="title">
         <string>Camera</string>
        </attribute>
@@ -1647,19 +1892,24 @@ current object</string>
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>211</width>
+          <width>281</width>
           <height>111</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Camera Rotation</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget8">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>191</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1693,12 +1943,12 @@ current object</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget9">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>191</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1722,12 +1972,12 @@ current object</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>80</y>
-           <width>191</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1757,9 +2007,14 @@ current object</string>
          <rect>
           <x>10</x>
           <y>130</y>
-          <width>211</width>
+          <width>281</width>
           <height>81</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
         </property>
         <property name="title">
          <string>Camera Shaking</string>
@@ -1769,7 +2024,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>193</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1808,7 +2063,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>191</width>
+           <width>261</width>
            <height>22</height>
           </rect>
          </property>
@@ -1831,13 +2086,120 @@ current object</string>
         </widget>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_animation_composite">
+       <attribute name="title">
+        <string>Composite</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>231</width>
+          <height>213</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="lblCompositeInnerList">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>List of used animations</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="lblCompositeOuterList">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>List of candidates</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QListWidget" name="lstCompositeList"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QListWidget" name="lstCompositeCandidates"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget11">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>231</width>
+          <height>83</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="btnCompositeAnimationRemoveFromList">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Remove</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="btnCompositeAnimationAddToList">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="btnCompositeAnimationMoveBack">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Move back</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="btnCompositeAnimationMoveFront">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Move front</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget12">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>170</x>
         <y>10</y>
-        <width>231</width>
+        <width>291</width>
         <height>22</height>
        </rect>
       </property>
@@ -1864,6 +2226,387 @@ current object</string>
         </widget>
        </item>
       </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_animationinstances">
+     <attribute name="title">
+      <string comment="animation">An. Instances</string>
+     </attribute>
+     <widget class="QListWidget" name="lstAnimationInstances">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>151</width>
+        <height>341</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lstAnimationInstanceName">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>360</y>
+        <width>151</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAnimationsInstanceAdd">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>210</y>
+        <width>61</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAnimationsInstanceRemove">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>360</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="lstAddedAnimationInstanceType">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>210</y>
+        <width>211</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="grpAnimationInstance">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>10</y>
+        <width>291</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Animation Instance</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget13">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>271</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="1">
+         <widget class="QLabel" name="lblAnimationInstanceAnimtionFromTree">
+          <property name="text">
+           <string>From Tree:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="lblAnimationInstanceAnimationFromDatabase">
+          <property name="text">
+           <string>From Database:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblAnimationInstanceAnimation">
+          <property name="text">
+           <string>Animation:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="cmbAnimationInstanceAnimationFromTree"/>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="cmbAnimationInstanceAnimationFromDatabase"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>271</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <item>
+         <widget class="QLabel" name="lblAnimationInstanceObject">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Object:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbAnimationInstanceObject"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget15">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>271</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_19">
+        <item>
+         <widget class="QLabel" name="lblAnimationInstanceStartTime">
+          <property name="maximumSize">
+           <size>
+            <width>62</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Start time:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="dsbAnimationInstanceStartTime">
+          <property name="maximum">
+           <double>5000000.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="grpWayAnimationInstance">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>150</y>
+        <width>281</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Way Animation Instance</string>
+      </property>
+      <widget class="QComboBox" name="cmbWayAnimationInstanceWay">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>261</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget16">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>240</y>
+        <width>291</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_20">
+       <item>
+        <widget class="QPushButton" name="btnAnimationsInstanceStart">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAnimationsInstanceCancel">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_animationsgroup">
+     <attribute name="title">
+      <string>An. Groups</string>
+     </attribute>
+     <widget class="QListWidget" name="lstAnimationsGroupInGroup">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>30</y>
+        <width>141</width>
+        <height>321</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="lstAnimationsGroupAllAnimations">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>30</y>
+        <width>141</width>
+        <height>321</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAnimationsGroupRemoveFromList">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>360</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAnimationsGroupAddToList">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>360</y>
+        <width>141</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblAnimationGroupInstancesList">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>10</y>
+        <width>111</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Instances in group:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblAnimationsGroupAllInstances">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>10</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>All animation instances:</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget17">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>160</width>
+        <height>371</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListWidget" name="lstAnimationsGroup"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="txtAnimationsGroupName"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_21">
+         <item>
+          <widget class="QPushButton" name="btnAnimationsGroupAdd">
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnAnimationsGroupRemove">
+           <property name="text">
+            <string>Remove</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_22">
+         <item>
+          <widget class="QPushButton" name="btnAnimationsGroupStart">
+           <property name="text">
+            <string>Start</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnAnimationsGroupCancel">
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_console">
+     <attribute name="title">
+      <string>Console</string>
+     </attribute>
+     <widget class="QTextEdit" name="txtConsoleCode">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>471</width>
+        <height>341</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnConsoleRun">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>360</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Run</string>
+      </property>
      </widget>
     </widget>
    </widget>

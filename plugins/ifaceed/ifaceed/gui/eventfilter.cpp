@@ -52,6 +52,22 @@ void gui::EventFilter::setPanel(MainPanel* panel)
 				m_panel->editor()->machine()->enterState("idle");
 				m_panel->UI()->tabTypes->setCurrentIndex(2);
 			}
+			if (ev->key() == Qt::Key_F4)
+			{
+				m_panel->UI()->tabTypes->setCurrentIndex(3);
+			}
+			if (ev->key() == Qt::Key_F5)
+			{
+				m_panel->UI()->tabTypes->setCurrentIndex(4);
+			}
+			if (ev->key() == Qt::Key_F6)
+			{
+				m_panel->UI()->tabTypes->setCurrentIndex(5);
+			}
+			if (ev->key() == Qt::Key_F7)
+			{
+				m_panel->UI()->tabTypes->setCurrentIndex(6);
+			}
 			if (m_panel->editor()->isInObjectEditingState())
 			{
 				if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
