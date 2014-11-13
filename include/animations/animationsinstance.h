@@ -357,6 +357,9 @@ protected:
 	/*! A basic string, needed for animation of text
 	 */
 	sad::String m_basic_string;
+    /*! Whether object is referenced in animation
+     */
+    bool m_object_referenced;
 };
 
 }

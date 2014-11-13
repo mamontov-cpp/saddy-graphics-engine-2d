@@ -21,7 +21,7 @@ sad::p2d::World::~World()
 		it++
 	   )
 	{
-		delete it.key();
+        it.key()->delRef();
 	}
 	for(size_t i = 0;  i < m_callbacks.count(); i++)
 	{
@@ -93,6 +93,7 @@ void sad::p2d::World::addNow(p2d::Body * b)
 			}
 		}
 	}
+    b->addRef();
 	m_allbodies.insert(b, groups);
 	for(size_t i = 0; i < groups.size(); i++)
 	{
@@ -112,7 +113,7 @@ void sad::p2d::World::removeNow(p2d::Body * b)
 			m_groups[groups[i]].removeAll(b);
 		}
 		m_allbodies.remove(b);
-		delete b;
+        b->delRef();
 	}
 }
 
