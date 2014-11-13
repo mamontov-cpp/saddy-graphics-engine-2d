@@ -1275,6 +1275,21 @@ void MainPanel::fixDatabase()
     if (db->table("dialogues") == NULL)
     {
         db->addTable("dialogues", new sad::db::Table());
+    }    
+    // Contains sad::animations::Animation
+    if (db->table("animations") == NULL)
+    {
+        db->addTable("animations", new sad::db::Table());
+    }
+    // Contains sad::animations::Instance
+    if (db->table("animationinstances") == NULL)
+    {
+        db->addTable("animationinstances", new sad::db::Table());
+    }
+    // Contains sad::animations::Group
+    if (db->table("animationgroups") == NULL)
+    {
+        db->addTable("animationgroups", new sad::db::Table());
     }
 
 	bool needtosetpalette = false;
