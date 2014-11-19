@@ -45,10 +45,15 @@ void sad::rotate(sad::Rect2D & r, float angle)
 	sad::p2d::Matrix2x2 m = p2d::Matrix2x2::counterclockwise(angle);
 	for(int i = 0; i < 4; i++)
 	{
-		sad::Point2D vi = r[i] - c;
+		sad::Point2D & ri = r[i];
+
+		sad::Point2D vi = ri;
+		vi -= c;
+		
 		sad::Point2D result = m * vi;
-		r[i] = c; 
-		r[i] += result;
+		
+		ri = c; 
+		ri += result;
 	}
 }
 
