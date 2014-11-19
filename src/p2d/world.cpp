@@ -207,7 +207,7 @@ void sad::p2d::World::stepPositionsAndVelocities(double time)
 
 void sad::p2d::World::executeCallbacks(reactions_t & reactions)
 {
-	for (size_t i = 0; i < reactions.count(); i++)
+	for (size_t i = 0; i < reactions.count(); ++i)
 	{
 		reactions[i].p2()->invoke(reactions[i].p1());
 		// If time splitted, we should erase all callbacks
