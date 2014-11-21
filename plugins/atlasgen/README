@@ -1,4 +1,19 @@
-This tool automatically generates a texture atlas from a config with some other textures, also
-converts it to config, that can be read by saddy using various tools.
-It needs Ruby with DevIL and REXml installed. To install it, install rubygems.
-You can install them, using gem install devil and gem install rexml.
+Atlas Generator
+A program for automatic generation of configs and texture atlases for saddy
+Suppose, you have an input xml file like
+          <sprites config="a.xml" texture="a.png" >
+          <a texture="aa.png" size="64;64" transparent="0;0;0" index="2" />
+          ...
+          </sprites>  
+You want to merge aa.png with other texture into a texture atlas (POT texture) 
+converting it to a saddy XML config format and write atlas into a.png and config - a.xml
+This is where this script comes in handy. Also you can omit size tag - it can be taken from size of source image file
+and transparent - to make texture part non-transparent. By default index is "0", so you could omit it too.
+The resulting config will be like 
+       <sprites>
+       <a texture="a.png" size="64;64" transparent="0;0;0" index="2"  texrect="0;0;w;h"/>
+       ...
+       </sprites>
+So, you can load new texture by loading it in saddy engine and parsingfile, resulting a texture atlas.
+ 
+You can run the program using atlasgen-debug [--format-xml|--format-json] "name of valid config"
