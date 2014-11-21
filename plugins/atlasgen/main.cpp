@@ -1,5 +1,5 @@
+#include "atlas.h"
 
-#include <QtCore/QCoreApplication>
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QVariant>
@@ -78,7 +78,15 @@ int main(int argc, char *argv[])
 	} 
 	else
 	{
-
+		if (program_options["run-tests"].value<bool>())
+		{
+			// TODO: Run all tests here
+		}
+		else
+		{
+			Atlas atlas;
+			// TODO: Run main part here
+		}
 	}
 	return 0;
 }
