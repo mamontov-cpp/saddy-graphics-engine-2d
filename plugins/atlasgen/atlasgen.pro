@@ -19,7 +19,6 @@ SOURCES += main.cpp\
 		atlas.cpp\
 
 HEADERS  += mainwindow.h \
-    ../libbook/include/book.h \
     atlas.h \
     atlasentry.h \
     texture.h \
