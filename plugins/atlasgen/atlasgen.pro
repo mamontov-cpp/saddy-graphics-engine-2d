@@ -17,12 +17,16 @@ SOURCES += main.cpp\
 		texturearray.cpp\
 		atlasentry.cpp\
 		atlas.cpp\
+    reader.cpp \
+    xmlreader.cpp
 
 HEADERS  += mainwindow.h \
     atlas.h \
     atlasentry.h \
     texture.h \
-    texturearray.h
+    texturearray.h \
+    xmlreader.h \
+    reader.h
 
 DESTDIR = ../../bin/
 
