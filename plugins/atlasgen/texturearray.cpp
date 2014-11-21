@@ -1,5 +1,7 @@
 #include "texturearray.h"
 
+#include <stdexcept>
+
 TextureArray::TextureArray()
 {
 

@@ -15,7 +15,7 @@ class Atlas
 public:
 	/*! A texture array as array of textures
 	 */
-	TextureArray TextureArray;
+    TextureArray Textures;
 	/*! An array of entries
 	 */
 	QVector<AtlasEntry> Entries;
@@ -42,7 +42,7 @@ public:
 	/*! Returns texture array for atlas
 		\return texture array
 	 */
-	const ::TextureArray& textureArray() const;
+    const ::TextureArray& textures() const;
 	/*! Returns entries for atlas
 		\return entries for atlas
 	 */ 
