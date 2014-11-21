@@ -33,9 +33,9 @@ void Atlas::pushEntry(const AtlasEntry& entry)
 	Entries << entry;
 }
 
-const TextureArray& Atlas::textureArray() const
+const TextureArray& Atlas::textures() const
 {
-	return TextureArray;
+    return Textures;
 }
 
 const QVector<AtlasEntry>& Atlas::entries() const
@@ -50,7 +50,7 @@ const QVector<QString>& Atlas::errors() const
 
 bool Atlas::loadTexture(const QString& filename)
 {
-	if (TextureArray.get(filename))
+    if (Textures.get(filename))
 	{
 		return true;
 	}
@@ -63,7 +63,7 @@ bool Atlas::loadTexture(const QString& filename)
 		return false;
 	}
 
-	TextureArray << t;
+    Textures << t;
 	return true;
 }
 
@@ -71,7 +71,7 @@ void Atlas::prepareForOutput(const QString& outputTextureName)
 {
 	for(size_t i = 0; i < Entries.size(); i++)
 	{
-		Texture * t = TextureArray.get(Entries[i].InputTextureName.value());
+        Texture * t = Textures.get(Entries[i].InputTextureName.value());
 		if (t)
 		{
 			Entries[i].TextureRectangle.setValue(t->TextureRectangle);

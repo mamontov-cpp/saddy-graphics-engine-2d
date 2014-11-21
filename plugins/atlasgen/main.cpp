@@ -1,5 +1,7 @@
 #include "atlas.h"
 
+#include <cstdio>
+
 #include <QtCore/QHash>
 #include <QtCore/QString>
 #include <QtCore/QVariant>
