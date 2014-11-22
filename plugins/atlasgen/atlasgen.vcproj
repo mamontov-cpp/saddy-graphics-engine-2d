@@ -317,6 +317,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\jsonreader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -348,6 +352,10 @@
 			</File>
 			<File
 				RelativePath=".\atlasentry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\jsonreader.h"
 				>
 			</File>
 			<File

@@ -30,6 +30,12 @@ int AtlasEntry::index() const
 
 QString AtlasEntry::getFullName() const
 {
-	return Name.value() + QString::number(Index.value());
+	QString result = Name.value();
+	if (Index.exists())
+	{
+		result += ":";
+		result += QString::number(Index.value());
+	}
+	return result; 
 }
 
