@@ -1,4 +1,4 @@
-#include "sadstring.h"
+#include "../include/sadstring.h"
 #include <stdlib.h>
 #include <string.h>
 

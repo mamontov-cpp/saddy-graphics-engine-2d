@@ -1,27 +1,27 @@
-/*! \file xmlreader.h
+/*! \file jsonreader.h
     \author HiddenSeeker
 
-    Defines a reader, which reads an atlas from XML
+    Defines a reader, which reads an atlas from JSON
  */
 #pragma once
 #include "atlas.h"
 #include "reader.h"
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-#include <QtXml/QDomElement>
+#include <QtCore/QFile>
 
-/*! A reader, which reads file for XML format
+#include "../../include/3rdparty/picojson/valuetotype.h"
+
+/*! A reader, which reads file for JSON format
  */
-class XMLReader: public Reader 
+class JSONReader: public Reader 
 {
 public:
     /*! Constructs new reader
      */
-    XMLReader();
+    JSONReader();
     /*! Destroys a reader
      */
-    virtual ~XMLReader();
+    virtual ~JSONReader();
     /*! Reads a file with specified name
        \param name a reading name
      */
@@ -29,5 +29,5 @@ public:
 	/*! Reads a DOM element
 		\param[in] e element
 	 */
-	void readElement(const QDomElement& e);
+	void readElement(const picojson::object& e);
 };
