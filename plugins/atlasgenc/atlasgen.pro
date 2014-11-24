@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,15 +18,23 @@ SOURCES += main.cpp\
 		atlasentry.cpp\
 		atlas.cpp\
     reader.cpp \
-    xmlreader.cpp
+    xmlreader.cpp \
+    jsonreader.cpp \
+    glueentry.cpp \
+    glueorder.cpp \
+    maybenumber.cpp
 
-HEADERS  += mainwindow.h \
-    atlas.h \
+HEADERS  +=  atlas.h \
     atlasentry.h \
     texture.h \
     texturearray.h \
     xmlreader.h \
-    reader.h
+    reader.h \
+    jsonreader.h \
+    glueentry.h \
+    gluemode.h \
+    glueorder.h \
+    maybenumber.h
 
 DESTDIR = ../../bin/
 

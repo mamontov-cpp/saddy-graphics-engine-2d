@@ -102,7 +102,10 @@ int main(int argc, char *argv[])
 			reader->read(program_options["input"].value<QString>());
 			if (reader->Successfull && atlas.Errors.size() == 0)
 			{
-				// TODO: Run main part here	
+                if (atlas.Textures.size() != 0)
+                {
+                    // TODO: Run main part here
+                }
 			}
 			else
 			{

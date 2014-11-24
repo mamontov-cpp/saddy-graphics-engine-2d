@@ -29,5 +29,5 @@ public:
 	/*! Reads a DOM element
 		\param[in] e element
 	 */
-	void readElement(const picojson::object& e);
+    void readElement(picojson::object& e);
 };
