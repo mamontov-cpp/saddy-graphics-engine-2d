@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     jsonreader.cpp \
     glueentry.cpp \
     glueorder.cpp \
-    maybenumber.cpp
+    maybenumber.cpp \
+    gluemetric.cpp
 
 HEADERS  +=  atlas.h \
     atlasentry.h \
@@ -34,7 +35,8 @@ HEADERS  +=  atlas.h \
     glueentry.h \
     gluemode.h \
     glueorder.h \
-    maybenumber.h
+    maybenumber.h \
+    gluemetric.h
 
 DESTDIR = ../../bin/
 
