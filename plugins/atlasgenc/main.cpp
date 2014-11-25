@@ -2,6 +2,7 @@
 #include "xmlreader.h"
 #include "jsonreader.h"
 #include "imagegluingorder.h"
+#include "imagearranger.h"
 
 #include <cstdio>
 
@@ -107,7 +108,10 @@ int main(int argc, char *argv[])
                 {
                     ImageGluingOrder gluingorder;
                     ImageGluingOrder::Result gluingorderresult = gluingorder.find(atlas.Textures);
-                    // TODO: Run main part here
+                    
+					ImageArranger arranger;
+					double widthheight = arranger.arrange(atlas.Textures,gluingorderresult.Order,gluingorderresult.Size);
+					// TODO: Run main part here
 
                 }
 			}
