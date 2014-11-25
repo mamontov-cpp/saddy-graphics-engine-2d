@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     gluemetric.cpp \
     gluetask.cpp \
     mindiffmetric.cpp \
-    minareametric.cpp
+    minareametric.cpp \
+    imagegluingorder.cpp
 
 HEADERS  +=  atlas.h \
     atlasentry.h \
@@ -42,7 +43,8 @@ HEADERS  +=  atlas.h \
     gluemetric.h \
     gluetask.h \
     mindiffmetric.h \
-    minareametric.h
+    minareametric.h \
+    imagegluingorder.h
 
 DESTDIR = ../../bin/
 

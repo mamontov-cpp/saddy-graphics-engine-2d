@@ -58,7 +58,7 @@ public:
         \return computation result
      */
     QPair<MaybeNumber, GlueMetric::OrdersAndSize>
-    findMinimumOrder(
+    static findMinimumOrder(
         const QPair<MaybeNumber, GlueMetric::OrdersAndSize> start,
         const QVector<GlueMetric::OrdersAndSize>  & results
     );
