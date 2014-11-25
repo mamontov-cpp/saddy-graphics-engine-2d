@@ -88,6 +88,75 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="../../bin"
+			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;.&quot;;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+				PreprocessorDefinitions=",UNICODE;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB"
+				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib"
+				OutputFile="../../bin/atlasgen-debug.exe"
+				AdditionalLibraryDirectories="$(QTDIR)\lib"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -135,75 +204,6 @@
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				TargetMachine="17"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="../../bin"
-			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;.&quot;;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
-				PreprocessorDefinitions=",UNICODE;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB"
-				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="false"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib"
-				OutputFile="../../bin/atlasgen-debug.exe"
-				AdditionalLibraryDirectories="$(QTDIR)\lib"
-				GenerateDebugInformation="true"
-				SubSystem="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -317,11 +317,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\glueentry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gluemetric.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\glueorder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gluetask.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\imagearranger.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\imagegluingorder.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\jsonreader.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\maybenumber.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\minareametric.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\mindiffmetric.cpp"
 				>
 			</File>
 			<File
@@ -355,7 +391,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\glueentry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gluemetric.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gluemode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\glueorder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gluetask.h"
+				>
+			</File>
+			<File
+				RelativePath=".\imagearranger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\imagegluingorder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\jsonreader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\maybenumber.h"
+				>
+			</File>
+			<File
+				RelativePath=".\minareametric.h"
+				>
+			</File>
+			<File
+				RelativePath=".\mindiffmetric.h"
 				>
 			</File>
 			<File
@@ -413,7 +489,7 @@
 		/>
 		<Global
 			Name="QtVersion Win32"
-			Value="4.8.4"
+			Value="4.8.5"
 		/>
 		<Global
 			Name="QtVersion x64"

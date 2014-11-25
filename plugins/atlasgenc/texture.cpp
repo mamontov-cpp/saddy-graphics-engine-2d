@@ -7,7 +7,12 @@ Texture::Texture(const QString& name) : Name(name)
 
 bool Texture::load()
 {
-	return this->Image.load(this->Name);
+	bool result = this->Image.load(this->Name);
+	if (result)
+	{
+		this->TextureRectangle = QRectF(QPointF(0, 0), this->size());
+	}
+	return result;
 }
 
 QSizeF Texture::size() const
