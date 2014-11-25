@@ -23,7 +23,10 @@ SOURCES += main.cpp\
     glueentry.cpp \
     glueorder.cpp \
     maybenumber.cpp \
-    gluemetric.cpp
+    gluemetric.cpp \
+    gluetask.cpp \
+    mindiffmetric.cpp \
+    minareametric.cpp
 
 HEADERS  +=  atlas.h \
     atlasentry.h \
@@ -36,7 +39,10 @@ HEADERS  +=  atlas.h \
     gluemode.h \
     glueorder.h \
     maybenumber.h \
-    gluemetric.h
+    gluemetric.h \
+    gluetask.h \
+    mindiffmetric.h \
+    minareametric.h
 
 DESTDIR = ../../bin/
 
