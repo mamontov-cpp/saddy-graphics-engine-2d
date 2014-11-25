@@ -8,7 +8,7 @@
 
 /*! Computes a metric, that minimizes area of resulting texture
  */
-class MinAreaMetric
+class MinAreaMetric: public GlueMetric
 {
 public:
     /*! Defines a default metric
