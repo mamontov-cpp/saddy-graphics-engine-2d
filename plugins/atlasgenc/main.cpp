@@ -10,6 +10,8 @@
 #include <QtCore/QString>
 #include <QtCore/QVariant>
 
+#include <QtGui/QPainter>
+
 int main(int argc, char *argv[])
 {
 	// An options for program
@@ -111,9 +113,35 @@ int main(int argc, char *argv[])
                     
 					ImageArranger arranger;
 					double widthheight = arranger.arrange(atlas.Textures,gluingorderresult.Order,gluingorderresult.Size);
-					// TODO: Run main part here
-
+					QImage image(widthheight, widthheight, QImage::Format_ARGB32);
+					image.fill(QColor(255, 255, 255, 0));
+					QPainter painter(&image);
+					for(size_t i = 0; i < atlas.Textures.size(); i++)
+					{
+						painter.drawImage(
+							atlas.Textures[i]->TextureRectangle.topLeft(),
+							atlas.Textures[i]->Image
+						);
+					}
+					painter.end();
+					bool saved = image.save(reader->OutputTexture);
+					if (!saved)
+					{
+						printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
+					}
                 }
+				else
+				{
+					QImage image(1, 1, QImage::Format_ARGB32);
+					image.fill(QColor(255, 255, 255, 0));
+					bool saved = image.save(reader->OutputTexture);
+					if (!saved)
+					{
+						printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
+					}
+				}
+
+				// TODO: Here should be writer defines. Writer should write config
 			}
 			else
 			{
