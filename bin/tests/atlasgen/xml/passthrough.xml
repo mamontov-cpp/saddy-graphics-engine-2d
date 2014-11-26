@@ -1,0 +1,7 @@
+<sprites config="tests/atlasgen/passthrough_output.xml" texture="tests/atlasgen/passthrough_output.png">
+    <test1-dev texture="tests/atlasgen/imgs/gnu.png" />
+    <test2-dev texture="tests/atlasgen/imgs/kde.png" index="2" />
+    <test2-dev texture="tests/atlasgen/imgs/kde.png" size="64;64" />
+    <test3-dev texture="tests/atlasgen/imgs/tux.png" size="64;120" transparent="120;120;120" />
+    <test4-dev texture="tests/atlasgen/imgs/lena.jpg" transparent="120;120;120" />
+</sprites>

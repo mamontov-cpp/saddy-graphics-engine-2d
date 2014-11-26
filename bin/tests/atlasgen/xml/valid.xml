@@ -1,0 +1,3 @@
+<sprites config="tests/atlasgen/output_valid.xml" texture="tests/atlasgen/output_valid.png">
+    <itest texture="tests/atlasgen/imgs/kde.png" index="500" size="64;64" transparent="0;102;404" />
+</sprites>

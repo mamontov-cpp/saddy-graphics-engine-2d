@@ -1,28 +1,29 @@
-/*! \file xmlwriter.h
+/*! \file jsonwriter.h
     \author HiddenSeeker
 
-    Defines a writer for writing output configs atlases in XML Format
+    Defines a writer for writing output configs atlases in JSON Format
  */
 #pragma once
 #include "atlas.h"
 #include "writer.h"
 
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomNode>
-#include <QtXml/QDomElement>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+
+#include "../../include/3rdparty/picojson/valuetotype.h"
 
 
-/*! Writes output atlas config as XML
+/*! Writes output atlas config as JSON
  */
-class XMLWriter: public Writer
+class JSONWriter: public Writer
 {
 public:
     /*! Constructs new reader
      */
-    XMLWriter();
+    JSONWriter();
     /*! Can be inherited
      */
-    virtual ~XMLWriter();
+    virtual ~JSONWriter();
     /*! Writes an atlas to output file
         \param[in] name a reading name
 		\param[in] filename a name for file

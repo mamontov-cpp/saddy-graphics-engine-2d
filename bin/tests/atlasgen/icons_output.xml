@@ -1,0 +1,8 @@
+<sprites>
+ <rotate size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="0;0;16;16"/>
+ <delete size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="16;0;16;16"/>
+ <top size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="32;0;16;16"/>
+ <bottom size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="48;0;16;16"/>
+ <left size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="0;16;16;16"/>
+ <right size="16;16" transparent="255;255;255" texture="tests/atlasgen/icons_output.png" texrect="16;16;16;16"/>
+</sprites>

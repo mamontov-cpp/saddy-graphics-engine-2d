@@ -345,6 +345,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\jsonwriter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -428,6 +432,10 @@
 			</File>
 			<File
 				RelativePath=".\jsonreader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\jsonwriter.h"
 				>
 			</File>
 			<File

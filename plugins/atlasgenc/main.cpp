@@ -3,6 +3,9 @@
 #include "jsonreader.h"
 #include "imagegluingorder.h"
 #include "imagearranger.h"
+#include "xmlwriter.h"
+#include "jsonwriter.h"
+
 
 #include <cstdio>
 
@@ -11,6 +14,13 @@
 #include <QtCore/QVariant>
 
 #include <QtGui/QPainter>
+
+#pragma warning(push)
+#pragma warning(disable: 4273)
+#pragma warning(disable: 4351)
+#define _INC_STDIO
+#include "../../include/3rdparty/tpunit++/tpunit++.hpp"
+#pragma warning(pop)
 
 int main(int argc, char *argv[])
 {
@@ -88,7 +98,7 @@ int main(int argc, char *argv[])
 	{
 		if (program_options["run-tests"].value<bool>())
 		{
-			// TODO: Run all tests here
+			tpunit::Tests::Run();
 		}
 		else
 		{
@@ -141,7 +151,26 @@ int main(int argc, char *argv[])
 					}
 				}
 				atlas.prepareForOutput(reader->OutputTexture);
-				// TODO: Here should be writer defines. Writer should write config
+
+				Writer* writer = NULL;
+				if (program_options["format"].value<QString>() == "xml")
+				{
+					writer = new XMLWriter();
+				}
+				if (program_options["format"].value<QString>() == "json")
+				{
+					writer = new JSONWriter();
+				}
+				bool result = writer->write(atlas, reader->OutputName, reader->OutputTexture, program_options["with-index"].value<bool>());
+				if (result == false || writer->Errors.size() != 0)
+				{
+					for(size_t i = 0; i < writer->Errors.size(); i++)
+					{
+						printf("%s\n", writer->Errors[i].toStdString().c_str());
+					}
+				}
+
+				delete writer;
 			}
 			else
 			{
