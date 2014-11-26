@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 						printf("Can\'t write resulting texture to file %s\n", reader->OutputTexture.toStdString().c_str());
 					}
 				}
-
+				atlas.prepareForOutput(reader->OutputTexture);
 				// TODO: Here should be writer defines. Writer should write config
 			}
 			else

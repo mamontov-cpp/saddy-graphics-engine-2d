@@ -373,7 +373,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\writer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\xmlreader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\xmlwriter.cpp"
 				>
 			</File>
 		</Filter>
@@ -447,7 +455,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\writer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\xmlreader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\xmlwriter.h"
 				>
 			</File>
 		</Filter>
