@@ -6,6 +6,8 @@
 #pragma once
 #include "atlas.h"
 
+/*! Performs reading configuration for files
+ */
 class Reader
 {
 public:
@@ -28,7 +30,7 @@ public:
     /*! Constructs new reader
      */
     Reader();
-    /*! Can be inherited
+    /*! Must be inherited
      */
     virtual ~Reader();
     /*! Reads a file with specified name
