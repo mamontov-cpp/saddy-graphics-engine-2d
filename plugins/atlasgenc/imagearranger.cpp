@@ -20,8 +20,9 @@ void ImageArranger::Bucket::shift(const QPointF& p) const
 {
 	for(size_t i = 0; i < this->Images.size(); i++)
 	{
-		this->Images[i]->TextureRectangle.setTopLeft(
-			this->Images[i]->TextureRectangle.topLeft() + p
+		Texture* t = this->Images[i];
+		t->TextureRectangle.moveTopLeft(
+			t->TextureRectangle.topLeft() + p
 		);
 	}
 }
@@ -94,6 +95,10 @@ double ImageArranger::arrange(
 		else
 		{	
 			QVector<ImageArranger::Bucket> buckets;
+			for(size_t i = 0; i < images.size(); i++)
+			{
+				buckets << ImageArranger::Bucket(images[i]);
+			}
 			for(size_t i = 0; i < order.size(); i++)
 			{
 				GlueOrder entry = order[i];
@@ -103,6 +108,7 @@ double ImageArranger::arrange(
 				{
 					std::swap(indexes[0], indexes[1]);
 				}
+				
 				ImageArranger::Bucket new_bucket =  ImageArranger::Bucket::merge(buckets[entry.Images[0]], buckets[entry.Images[1]], entry);
 				buckets.remove(indexes[0]);
 				buckets.remove(indexes[1]);

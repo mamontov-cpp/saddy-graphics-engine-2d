@@ -234,7 +234,10 @@ void JSONReader::readElement(picojson::object& e)
             QStringList list = size.split(";");
             if (list.size() == 3)
             {
-                entry.Transparent.setValue(QColor(list[0].toInt(), list[1].toInt(), list[2].toInt()));
+				int r = std::min(std::max(0, list[0].toInt()), 255);
+				int g = std::min(std::max(0, list[1].toInt()), 255);
+				int b = std::min(std::max(0, list[2].toInt()), 255);
+                entry.Transparent.setValue(QColor(r, g, b));
             }
             else
             {

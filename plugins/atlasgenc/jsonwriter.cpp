@@ -1,29 +1,30 @@
-#include "xmlwriter.h"
+#include "jsonwriter.h"
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-
-XMLWriter::XMLWriter()
+JSONWriter::JSONWriter()
 {
 
 }
 
-XMLWriter::~XMLWriter()
+JSONWriter::~JSONWriter()
 {
 
 }
 
-bool XMLWriter::write(
+
+bool JSONWriter::write(
 		const Atlas& atlas,
 		const QString& filename,
 		const QString& outputTexture,
 		bool withindex
 )
 {
-	QDomDocument doc;
-	QDomElement root = doc.createElement("sprites");
-	doc.appendChild(root);
+	picojson::value root(picojson::object_type, false);
 	bool result = false;
+	root.insert("resource", atlas.TextureResourceName.value().toStdString());
+	root.insert("file", outputTexture.toStdString());
+
+	picojson::value atlasnode(picojson::array_type, false);
+	
 	for(size_t i = 0; i < atlas.Entries.size(); i++)
 	{
 		const AtlasEntry& entry = atlas.Entries[i];
@@ -31,15 +32,17 @@ bool XMLWriter::write(
 		{
 			return false;
 		}
-		QDomElement tag = doc.createElement(entry.Name.value());
+
+		picojson::value entrynode(picojson::object_type, false);
+
+		entrynode.insert("name", entry.Name.value().toStdString());		
 		if (entry.Index.exists() && withindex)
 		{	
-			tag.setAttribute("index", QString::number(entry.Index.value()));		
+			entrynode.insert("index", QString::number(entry.Index.value()).toStdString());		
 		}
-		tag.setAttribute("texture", outputTexture);
 
 		QString size = QString::number(entry.Size.value().width()) + QString(";") + QString::number(entry.Size.value().height());
-		tag.setAttribute("size", size);
+		entrynode.insert("size", size.toStdString());
 
 		QString texrect = QString::number(entry.TextureRectangle.value().topLeft().x()) 
 						+ QString(";") 
@@ -48,7 +51,7 @@ bool XMLWriter::write(
 						+ QString::number(entry.TextureRectangle.value().width())
 						+ QString(";") 
 						+ QString::number(entry.TextureRectangle.value().height());
-		tag.setAttribute("texrect", texrect);
+		entrynode.insert("texrect", texrect.toStdString());
 
 		if (entry.Transparent.exists())
 		{	
@@ -57,13 +60,15 @@ bool XMLWriter::write(
 						        + QString::number(entry.Transparent.value().green())
 						        + QString(";") 
 						        + QString::number(entry.Transparent.value().blue());
-			tag.setAttribute("transparent", transparent);		
+			entrynode.insert("transparent", transparent.toStdString());		
 		}
 
-		root.appendChild(tag);
+		atlasnode.push_back(entrynode);
 	}
 
-	QString stringdata = doc.toString();
+	root.insert("atlas", atlasnode);
+
+	QString stringdata = root.serialize().c_str();
 	QFile file(filename); 
 	if (!file.open(QIODevice::WriteOnly)) {
 		this->Errors << QString("Can\'t open file \"") + filename + QString("\"");
@@ -74,5 +79,6 @@ bool XMLWriter::write(
 	QTextStream stream(&file);
 	stream << stringdata;
 	file.close();
+
 	return result;
 }

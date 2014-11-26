@@ -1,0 +1,8 @@
+<sprites config="tests/atlasgen/icons_output.xml" texture="tests/atlasgen/icons_output.png">
+    <rotate texture="tests/atlasgen/icons-xml/rotate.png" transparent="255;255;255" />
+    <delete texture="tests/atlasgen/icons-xml/delete.png" transparent="255;255;255" />
+    <top texture="tests/atlasgen/icons-xml/top.png" transparent="255;255;255" />
+    <bottom texture="tests/atlasgen/icons-xml/bottom.png" transparent="255;255;255" />
+    <left texture="tests/atlasgen/icons-xml/left.png" transparent="255;255;255" />
+    <right texture="tests/atlasgen/icons-xml/right.png" transparent="255;255;255" />   
+</sprites>

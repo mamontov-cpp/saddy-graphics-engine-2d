@@ -6,6 +6,10 @@
 #pragma once
 #include "atlas.h"
 
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+
+
 /*! Performs reading configuration for files
  */
 class Reader

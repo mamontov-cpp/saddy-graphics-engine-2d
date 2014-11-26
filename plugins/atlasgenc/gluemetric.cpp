@@ -90,6 +90,7 @@ QVector<GlueMetric::OrdersAndSize> GlueMetric::findOrder(const QVector<GlueEntry
             size_t i = 0;
             while(i != tasks.size())
             {
+				size_t taskssize = tasks.size();
                 GlueTask task = tasks[i];
                 tasks.remove(i);
                 if (task.Entries.size() == 1)
@@ -98,11 +99,19 @@ QVector<GlueMetric::OrdersAndSize> GlueMetric::findOrder(const QVector<GlueEntry
                 }
                 else
                 {
-                    QVector<GlueOrder> orders = this->findMinMetricOrder(task.Entries);
-                    for(size_t j = 0; j < orders.size(); j++)
+					QVector<GlueOrder> orders = this->findMinMetricOrder(task.Entries);
+					size_t sizeorders = orders.size();
+                    for(size_t j = 0; j < sizeorders; j++)
                     {
-                        tasks << task.applyOrder(orders[j]);
-                    }
+						GlueTask newtask =  task.applyOrder(orders[j]); 
+                        tasks << newtask;
+						printf("%d %d %d {", orders[j].Images[0],orders[j].Images[1], task.Entries.size());  
+						for(size_t k = 0; k < task.Orders.size(); k++)
+						{
+							printf("(%d %d) ", task.Orders[k].Images[0], task.Orders[k].Images[1]);
+						}
+						printf("}\n");
+					}
                 }
             }
         }
@@ -120,7 +129,9 @@ GlueMetric::findMinimumOrder(
     GlueMetric::OrdersAndSize resultorder = start.second;
     for(size_t i = 0; i < results.size(); i++)
     {
-        double max_value = std::max(results[i].second[0], results[i].second[1]);
+		double width = results[i].second[0];
+		double height = results[i].second[1];
+        double max_value = std::max(width, height);
         if (min > max_value)
         {
             resultorder = results[i];

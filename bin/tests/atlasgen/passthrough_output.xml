@@ -1,0 +1,7 @@
+<sprites>
+ <test1-dev size="300;293" texture="tests/atlasgen/passthrough_output.png" texrect="0;0;300;293"/>
+ <test2-dev size="200;200" index="2" texture="tests/atlasgen/passthrough_output.png" texrect="0;588;200;200"/>
+ <test2-dev size="64;64" texture="tests/atlasgen/passthrough_output.png" texrect="0;588;200;200"/>
+ <test3-dev size="64;120" transparent="120;120;120" texture="tests/atlasgen/passthrough_output.png" texrect="300;0;500;588"/>
+ <test4-dev size="256;256" transparent="120;120;120" texture="tests/atlasgen/passthrough_output.png" texrect="200;588;256;256"/>
+</sprites>
