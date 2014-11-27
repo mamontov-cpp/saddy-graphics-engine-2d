@@ -27,7 +27,11 @@ SOURCES += main.cpp\
     gluetask.cpp \
     mindiffmetric.cpp \
     minareametric.cpp \
-    imagegluingorder.cpp
+    imagegluingorder.cpp \
+    imagearranger.cpp \
+    jsonwriter.cpp \
+    writer.cpp \
+    xmlwriter.cpp
 
 HEADERS  +=  atlas.h \
     atlasentry.h \
@@ -44,7 +48,11 @@ HEADERS  +=  atlas.h \
     gluetask.h \
     mindiffmetric.h \
     minareametric.h \
-    imagegluingorder.h
+    imagegluingorder.h \
+    imagearranger.h \
+    jsonwriter.h \
+    writer.h \
+    xmlwriter.h
 
 DESTDIR = ../../bin/
 

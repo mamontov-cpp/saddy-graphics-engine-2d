@@ -1,5 +1,7 @@
 #include "imagearranger.h"
 
+#include <cstdio>
+
 ImageArranger::Bucket::Bucket()
 {
 
@@ -116,7 +118,9 @@ double ImageArranger::arrange(
 			}
 		}
 	}
-	return ImageArranger::nextPOT(std::max(totalSize.width(), totalSize.height()));
+    double largesize = std::max(totalSize.width(), totalSize.height());
+    printf("Total size: %d\n", largesize);
+    return ImageArranger::nextPOT(largesize);
 }
 
 
