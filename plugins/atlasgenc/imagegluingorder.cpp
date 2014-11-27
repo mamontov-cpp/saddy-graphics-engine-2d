@@ -30,7 +30,7 @@ ImageGluingOrder::Result ImageGluingOrder::find(const TextureArray& images)
     ImageGluingOrder::Result result;
     if (images.size())
     {
-        printf("Count of images: %d\n", images.size());
+        //printf("Count of images: %d\n", images.size());
         if (images.size() == 1)
         {
             result.Size = images[0]->size();
@@ -45,8 +45,8 @@ ImageGluingOrder::Result ImageGluingOrder::find(const TextureArray& images)
             {
                 entries << GlueEntry(images[i]->size().width(), images[i]->size().height());
             }
-            QVector<GlueMetric::OrdersAndSize> maresult = mametric.findOrder(entries);
-            QVector<GlueMetric::OrdersAndSize> mdresult = mdmetric.findOrder(entries);
+            GlueMetric::OrdersAndSize maresult = mametric.findOrder(entries);
+            GlueMetric::OrdersAndSize mdresult = mdmetric.findOrder(entries);
             QPair<MaybeNumber, GlueMetric::OrdersAndSize> min;
             min = GlueMetric::findMinimumOrder(min, maresult);
             min = GlueMetric::findMinimumOrder(min, mdresult);

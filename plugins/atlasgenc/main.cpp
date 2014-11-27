@@ -22,8 +22,40 @@
 #include "../../include/3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
+// Taken from: http://qt-project.org/forums/viewthread/13148
+// debugging asserts in Qt code is tricky with MinGw. You get a crash, instead of a backtrace.
+// enable the define below to get a crash that results in a backtrace instead. Note that it does
+// mess up your debug output, so don't leave it enabled if you're not working on fixing an assert
+#define DEBUG_QT_ASSERT
+
+#ifdef DEBUG_QT_ASSERT
+void crashMessageOutput(QtMsgType type, const char *msg)
+ {
+     switch (type) {
+     case QtDebugMsg:
+         fprintf(stderr, "Debug: %s\n", msg);
+         break;
+     case QtWarningMsg:
+         fprintf(stderr, "Warning: %s\n", msg);
+         break;
+     case QtCriticalMsg:
+         fprintf(stderr, "Critical: %s\n", msg);
+         break;
+     case QtFatalMsg:
+         fprintf(stderr, "Fatal: %s\n", msg);
+         __asm("int3");
+         abort();
+     }
+ }
+#endif
+
+
 int main(int argc, char *argv[])
 {
+#ifdef DEBUG_QT_ASSERT
+    qInstallMsgHandler(crashMessageOutput);
+#endif
+
 	// An options for program
 	QHash<QString, QVariant>  program_options;
 	// An output format - JSON or XML
