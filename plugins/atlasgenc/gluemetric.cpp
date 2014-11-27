@@ -1,6 +1,8 @@
 #include "gluemetric.h"
 #include "gluetask.h"
 
+#include <cstdio>
+
 GlueMetric::GlueMetric()
 {
 
