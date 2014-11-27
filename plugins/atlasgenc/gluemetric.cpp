@@ -1,6 +1,8 @@
 #include "gluemetric.h"
 #include "gluetask.h"
 
+#include <QtCore/QLinkedList>
+
 #include <cstdio>
 
 GlueMetric::GlueMetric()
@@ -17,12 +19,16 @@ double GlueMetric::maxMerge(const QVector<GlueEntry>& entries, GlueOrder order, 
 {
     bool maxexists = false;
     double max = 0;
+    //printf("Performing max merge: ");
     for(size_t i = 0; i < order.Images.size(); i++)
     {
-        double maxcandidate = entries[i][index];
+        double maxcandidate = entries[order.Images[i]][index];
         if (maxexists == false || maxcandidate > max) {
+            //printf("%lf > %lf\n", maxcandidate, max);
             max = maxcandidate;
             maxexists = true;
+        } else {
+            //printf("%lf < %lf\n", maxcandidate, max);
         }
     }
     return max;
@@ -33,7 +39,7 @@ double GlueMetric::sumMerge(const QVector<GlueEntry>& entries, GlueOrder order, 
     double result = 0;
     for(size_t i = 0; i < order.Images.size(); i++)
     {
-        result += entries[i][index];
+        result += entries[order.Images[i]][index];
 
     }
     return result;
@@ -87,14 +93,12 @@ QVector<GlueMetric::OrdersAndSize> GlueMetric::findOrder(const QVector<GlueEntry
         }
         else
         {
-            QVector<GlueTask> tasks;
+            QLinkedList<GlueTask> tasks;
             tasks << GlueTask(entries, QVector<GlueOrder>());
-            size_t i = 0;
-            while(i != tasks.size())
+            while(tasks.size())
             {
-				size_t taskssize = tasks.size();
-                GlueTask task = tasks[i];
-                tasks.remove(i);
+                GlueTask task = *(tasks.begin());
+                tasks.removeFirst();
                 if (task.Entries.size() == 1)
                 {
                     finishedtasks << GlueMetric::OrdersAndSize(task.Orders, task.Entries[0]);
@@ -107,12 +111,20 @@ QVector<GlueMetric::OrdersAndSize> GlueMetric::findOrder(const QVector<GlueEntry
                     {
 						GlueTask newtask =  task.applyOrder(orders[j]); 
                         tasks << newtask;
-						printf("%d %d %d {", orders[j].Images[0],orders[j].Images[1], task.Entries.size());  
+                        char c = ((orders[j].Mode == HORIZONTAL) ? 'H' : 'V');
+                        printf("(%d,%d,%c) + {", orders[j].Images[0],orders[j].Images[1],  c);
 						for(size_t k = 0; k < task.Orders.size(); k++)
 						{
-							printf("(%d %d) ", task.Orders[k].Images[0], task.Orders[k].Images[1]);
+                            printf("(%d,%d,%c) ", task.Orders[k].Images[0], task.Orders[k].Images[1], (task.Orders[k].Mode == HORIZONTAL) ? 'H' : 'V' );
 						}
-						printf("}\n");
+                        printf("}x%d = {", task.Entries.size());
+
+                        for(size_t k = 0; k < newtask.Orders.size(); k++)
+                        {
+                            printf("(%d,%d,%c) ", newtask.Orders[k].Images[0], newtask.Orders[k].Images[1], (newtask.Orders[k].Mode == HORIZONTAL) ? 'H' : 'V' );
+                        }
+
+                        printf("}x%d \n", newtask.Entries.size());
 					}
                 }
             }

@@ -119,7 +119,7 @@ double ImageArranger::arrange(
 		}
 	}
     double largesize = std::max(totalSize.width(), totalSize.height());
-    printf("Total size: %d\n", largesize);
+    printf("Total size: %lf\n", largesize);
     return ImageArranger::nextPOT(largesize);
 }
 
