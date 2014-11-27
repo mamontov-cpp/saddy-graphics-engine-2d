@@ -1,0 +1,23 @@
+{
+	"config" : "tests/atlasgen/icons_json.json",
+	"texture" : "tests/atlasgen/icons_json.png",
+	"resource": "icons",
+	"sprites" : [
+		{
+			"name" : "delete",
+			"texture" : "tests/atlasgen/imgs/btn-remove-small.png"
+		},
+		{
+			"name" : "directed",
+			"texture" : "tests/atlasgen/imgs/btn-directed.png"
+		},
+		{
+			"name" : "default",
+			"texture" : "tests/atlasgen/imgs/btn-default.png"
+		},
+		{
+			"name" : "default-red",
+			"texture" : "tests/atlasgen/imgs/btn-red.png"
+		}
+	]
+}

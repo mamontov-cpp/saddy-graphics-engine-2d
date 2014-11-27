@@ -33,7 +33,7 @@ void JSONReader::read(const QString& name)
 			picojson::object ro = root.get<picojson::object>();
 
 			// Parse texture
-			if (ro.find("texure") != ro.end())
+            if (ro.find("texture") != ro.end())
 			{
 				if (ro["texture"].is<std::string>())
 				{

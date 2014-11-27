@@ -48,9 +48,9 @@ public:
         Returns empty list no entries supplied. Also can return empty orders in first element
         if one images.
         \param entries entries to be merged
-        \return vector of sizes
+        \return size and order
      */
-    QVector<GlueMetric::OrdersAndSize> findOrder(const QVector<GlueEntry> & entries);
+    GlueMetric::OrdersAndSize findOrder(const QVector<GlueEntry> & entries);
     /*! Scans for minimum order in array of GlueMetric::findOrder results (results parameter)
         and finds metric width minimum from maximum from width and height, with given Array[MaybeNumber, result]
         \param[in] start result of computing previous minimum texture
@@ -60,7 +60,7 @@ public:
     QPair<MaybeNumber, GlueMetric::OrdersAndSize>
     static findMinimumOrder(
         const QPair<MaybeNumber, GlueMetric::OrdersAndSize> start,
-        const QVector<GlueMetric::OrdersAndSize>  & results
+        const GlueMetric::OrdersAndSize  & results
     );
     /*! Computes a maximum between size dimensions specified by index between images, specified by order
         on an entries of entries
