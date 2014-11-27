@@ -3,6 +3,8 @@
 #include "mindiffmetric.h"
 #include "minareametric.h"
 
+#include <cstdio>
+
 ImageGluingOrder::Result::Result() : Size(0, 0)
 {
 
@@ -28,6 +30,7 @@ ImageGluingOrder::Result ImageGluingOrder::find(const TextureArray& images)
     ImageGluingOrder::Result result;
     if (images.size())
     {
+        printf("Count of images: %d\n", images.size());
         if (images.size() == 1)
         {
             result.Size = images[0]->size();
@@ -48,7 +51,7 @@ ImageGluingOrder::Result ImageGluingOrder::find(const TextureArray& images)
             min = GlueMetric::findMinimumOrder(min, maresult);
             min = GlueMetric::findMinimumOrder(min, mdresult);
             result.Order = min.second.first;
-            result.Size = QSizeF(min.second.second[0], min.second.second[1]);
+            result.Size = QSizeF(min.second.second[0], min.second.second[1]);            
         }
     }
     return result;

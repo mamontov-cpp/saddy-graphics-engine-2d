@@ -2,6 +2,8 @@
 #include "texture.h"
 #include "gluemetric.h"
 
+#include <cstdio>
+
 GlueEntry::GlueEntry()
 {
      push_back(0);
@@ -43,5 +45,13 @@ GlueEntry GlueEntry::merge(const QVector<GlueEntry>& entries,
         w = GlueMetric::maxMerge(entries, order, 0);
         h = GlueMetric::sumMerge(entries, order, 1);
     }
+    /*
+    printf("Entries: (%lf, %lf) +(%d) (%lf, %lf)  = (%lf,%lf)\n",
+           entries[order.Images[0]][0], entries[order.Images[0]][1],
+           order.Mode,
+           entries[order.Images[1]][0], entries[order.Images[1]][1],
+           w, h
+          );
+    */
     return GlueEntry(w, h);
 }

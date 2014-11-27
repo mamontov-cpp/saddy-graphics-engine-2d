@@ -16,7 +16,7 @@ XMLReader::~XMLReader()
 void XMLReader::read(const QString &name)
 {
 	this->Successfull = false;
-    QDomDocument doc("sprites");
+    QDomDocument doc;
 	QFile file(name); 
 	if (!file.open(QIODevice::ReadOnly)) {
 		this->Errors << QString("Can\'t open file \"") + name + QString("\"");
