@@ -158,13 +158,20 @@ void gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName(
 	}
 	else
 	{
-		sad::String resourcename = list[list.size() - 1];
-		list.removeAt(list.size() - 1);
-		sad::String path = sad::join(list, "/");
-		this->tryRestoreSelection(
-			sad::Maybe<sad::String>(path), 
-			sad::Maybe<sad::String>(resourcename)
-		);
+		if (list.size() != 0) 
+		{
+			sad::String resourcename = list[list.size() - 1];
+			list.removeAt(list.size() - 1);
+			sad::String path = sad::join(list, "/");
+			this->tryRestoreSelection(
+				sad::Maybe<sad::String>(path), 
+				sad::Maybe<sad::String>(resourcename)
+			);
+		}
+		else
+		{
+			this->tryRestoreSelection(sad::Maybe<sad::String>(""), sad::Maybe<sad::String>(name));
+		}
 	}
 }
 
