@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1393,7 +1393,7 @@ current object</string>
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_animation_object">
        <attribute name="title">
@@ -1796,7 +1796,7 @@ current object</string>
           <x>10</x>
           <y>100</y>
           <width>281</width>
-          <height>91</height>
+          <height>81</height>
          </rect>
         </property>
         <property name="font">
@@ -1813,7 +1813,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>261</width>
-           <height>61</height>
+           <height>51</height>
           </rect>
          </property>
         </widget>
@@ -1822,9 +1822,9 @@ current object</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>200</y>
+          <y>180</y>
           <width>281</width>
-          <height>111</height>
+          <height>131</height>
          </rect>
         </property>
         <property name="font">
@@ -1838,47 +1838,49 @@ current object</string>
         <widget class="gui::rectwidget::RectWidget" name="rctTCCStartingRect" native="true">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>60</x>
            <y>20</y>
-           <width>171</width>
-           <height>41</height>
+           <width>211</width>
+           <height>51</height>
           </rect>
          </property>
         </widget>
         <widget class="QLabel" name="lblTCCStartingRect">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>10</x>
            <y>30</y>
-           <width>71</width>
-           <height>16</height>
+           <width>51</width>
+           <height>31</height>
           </rect>
          </property>
          <property name="text">
-          <string>Starting rect:</string>
+          <string>Starting
+rect:</string>
          </property>
         </widget>
         <widget class="gui::rectwidget::RectWidget" name="rctTCCEndingRect" native="true">
          <property name="geometry">
           <rect>
-           <x>100</x>
-           <y>60</y>
-           <width>171</width>
-           <height>41</height>
+           <x>60</x>
+           <y>70</y>
+           <width>211</width>
+           <height>51</height>
           </rect>
          </property>
         </widget>
         <widget class="QLabel" name="lblTCCEndingRect">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>70</y>
-           <width>71</width>
-           <height>16</height>
+           <x>10</x>
+           <y>90</y>
+           <width>41</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
-          <string>Ending rect:</string>
+          <string>Ending
+rect:</string>
          </property>
         </widget>
        </widget>
@@ -2256,7 +2258,7 @@ current object</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>210</y>
+        <y>230</y>
         <width>61</width>
         <height>24</height>
        </rect>
@@ -2282,7 +2284,7 @@ current object</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>210</y>
+        <y>230</y>
         <width>211</width>
         <height>22</height>
        </rect>
@@ -2294,7 +2296,7 @@ current object</string>
         <x>180</x>
         <y>10</y>
         <width>291</width>
-        <height>131</height>
+        <height>161</height>
        </rect>
       </property>
       <property name="title">
@@ -2306,7 +2308,7 @@ current object</string>
          <x>10</x>
          <y>20</y>
          <width>271</width>
-         <height>41</height>
+         <height>71</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
@@ -2337,13 +2339,27 @@ current object</string>
         <item row="1" column="2">
          <widget class="QComboBox" name="cmbAnimationInstanceAnimationFromDatabase"/>
         </item>
+        <item row="2" column="1">
+         <widget class="QRadioButton" name="rbAnimationInstanceFromTree">
+          <property name="text">
+           <string>From tree</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QRadioButton" name="rbAnimationInstanceFromDatabase">
+          <property name="text">
+           <string>From DB</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="layoutWidget14">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>70</y>
+         <y>100</y>
          <width>271</width>
          <height>22</height>
         </rect>
@@ -2371,7 +2387,7 @@ current object</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>100</y>
+         <y>130</y>
          <width>271</width>
          <height>22</height>
         </rect>
@@ -2404,8 +2420,8 @@ current object</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>150</y>
-        <width>281</width>
+        <y>170</y>
+        <width>291</width>
         <height>51</height>
        </rect>
       </property>
@@ -2417,7 +2433,7 @@ current object</string>
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>261</width>
+         <width>271</width>
          <height>22</height>
         </rect>
        </property>
@@ -2427,7 +2443,7 @@ current object</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>240</y>
+        <y>260</y>
         <width>291</width>
         <height>41</height>
        </rect>
