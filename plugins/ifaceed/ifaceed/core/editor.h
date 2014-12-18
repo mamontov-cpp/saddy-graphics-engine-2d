@@ -29,6 +29,8 @@
 #include <hfsm/hfsmstate.h>
 #include <hfsm/hfsmhandler.h>
 
+#include <animations/animationsfactory.h>
+
 #include <QObject>
 #include <QTimer>
 #include <QThread>
@@ -123,6 +125,10 @@ public:
 		\return selection
 	 */
 	core::Selection* selection() const;
+	/*! Returns current animation factory
+		\return animation factory
+	 */
+	sad::animations::Factory* animationFactory() const;
     /*! Quits an editor
      */
     void quit();
@@ -235,6 +241,9 @@ protected:
 	/*! Current selection algorithm
 	 */
 	core::Selection* m_selection;
+	/*! A factory, used for creating animations
+	 */
+	sad::animations::Factory m_animation_factory;
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

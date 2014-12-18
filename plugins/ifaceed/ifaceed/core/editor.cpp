@@ -210,6 +210,11 @@ core::Selection* core::Editor::selection() const
 	return m_selection;
 }
 
+sad::animations::Factory* core::Editor::animationFactory() const
+{
+	return const_cast<sad::animations::Factory*>(&m_animation_factory);
+}
+
 void core::Editor::quit()
 {
     sad::Renderer::ref()->quit();

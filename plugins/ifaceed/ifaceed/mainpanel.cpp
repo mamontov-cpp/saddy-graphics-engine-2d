@@ -464,6 +464,25 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtPhraseActorName, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorNameChanged(const QString&)));
 	connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorPortraitChanged(const QString&)));
 	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
+
+
+	// Initialize UI from editor
+	if (editor)
+	{
+		sad::Vector<sad::String> names = editor->animationFactory()->registeredClasses();
+		std::sort(names.begin(), names.end());
+		ui.cmbAddedAnimationType->clear();
+		for(size_t ii = 0; ii < names.size(); ii++)
+		{
+			QString name = names[ii].c_str();
+			name.replace("sad::animations::", "");
+			ui.cmbAddedAnimationType->addItem(name);
+		}
+	}
+	
+	ui.cmbAddedAnimationInstanceType->clear();
+	ui.cmbAddedAnimationInstanceType->addItem("Instance");
+	ui.cmbAddedAnimationInstanceType->addItem("WayInstance");
 }
 
 core::Editor* MainPanel::editor() const
