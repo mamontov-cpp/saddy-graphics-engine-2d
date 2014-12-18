@@ -1,0 +1,1482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы исходного кода\cli">
+      <UniqueIdentifier>{321dc26e-ef08-4a82-b1c8-b32f4a4598ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\os">
+      <UniqueIdentifier>{b7654ec6-d3d6-464b-9896-2ff226885c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\3rdparty">
+      <UniqueIdentifier>{5a565f63-c292-486f-9817-c5d84f44ae1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\3rdparty\picopng">
+      <UniqueIdentifier>{f889a7d4-46f1-451d-bda4-3db2e50e8322}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\3rdparty\format">
+      <UniqueIdentifier>{914db5e2-b6b9-422e-9071-4a4eb1b5776f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\3rdparty\SDL">
+      <UniqueIdentifier>{49effb68-d5c4-48ef-b5d5-2c8a4e06bf1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\log">
+      <UniqueIdentifier>{1a0fd01e-b694-44a6-8309-b8b6ec572556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\p2d">
+      <UniqueIdentifier>{9979d7f3-b38f-47c6-8ba5-421a5b7a5be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\p2d\app">
+      <UniqueIdentifier>{c0182007-4e5d-43f1-ad02-004f0a5cc310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\input">
+      <UniqueIdentifier>{cea34f72-e12a-4f14-98f8-0897e3abf3fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\imageformats">
+      <UniqueIdentifier>{3cc446cc-538b-4ff1-b3fa-903593a62fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\pipeline">
+      <UniqueIdentifier>{44fbbc73-10df-4708-95bd-f98e9b0342d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\hfsm">
+      <UniqueIdentifier>{4abf4e8d-7be2-480f-ac95-53f3ed9da1ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\util">
+      <UniqueIdentifier>{a0183baa-a21a-4e2e-9c54-c98fb990c0c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\resource">
+      <UniqueIdentifier>{a08d9f91-07e1-4efc-9143-2534bbd90f97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\db">
+      <UniqueIdentifier>{d09aeb9e-1f79-4851-bf08-d22946925455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\db\schema">
+      <UniqueIdentifier>{7d5a34de-dbf6-4cde-8012-fa2e42f2f1ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\db\custom">
+      <UniqueIdentifier>{a32fa0bd-4da2-4285-930f-7ee06c02c327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\dialogue">
+      <UniqueIdentifier>{e458b411-843f-4ba9-a873-b17195e8cadf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\animations">
+      <UniqueIdentifier>{32ddd254-52f3-4cf8-8980-bc6b8ac6ad3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\animations\setstate">
+      <UniqueIdentifier>{d315095e-70d6-496c-a232-5645cbcdff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы\cli">
+      <UniqueIdentifier>{e4b977e4-be45-4315-b529-79268ea4e31f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\os">
+      <UniqueIdentifier>{0866aa8e-b7a1-4aa0-afe8-6dd4fa6e6389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty">
+      <UniqueIdentifier>{45472aac-3e8c-42e2-b39c-b04e0b508b08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\format">
+      <UniqueIdentifier>{6c7105ee-09c1-44f3-b88c-d479d30e4266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\tpunit++">
+      <UniqueIdentifier>{140ec892-c97a-47d8-b9e4-040ddb53112e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\ttmath">
+      <UniqueIdentifier>{062006fd-757e-4e7c-8a82-cfcde61f68c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\glext">
+      <UniqueIdentifier>{4a387134-f952-45e0-901a-2f896318d56f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\3rdparty\picojson">
+      <UniqueIdentifier>{1f57b987-c7e1-4ab0-9045-5f4e296dd4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\log">
+      <UniqueIdentifier>{776fbc99-242b-4041-a989-b4ff3a747c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\p2d">
+      <UniqueIdentifier>{854b7fb4-0b66-4818-ac3c-0b73d1704c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\p2d\app">
+      <UniqueIdentifier>{bffc5670-07e7-430e-b2ee-0e5242a69dd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\input">
+      <UniqueIdentifier>{44918068-6364-4c19-99d9-b2ea3b91403e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\imageformats">
+      <UniqueIdentifier>{e3a87ca7-6e0c-4a73-824b-86ca7718d8c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\util">
+      <UniqueIdentifier>{1d352fa8-a716-46f0-bd99-badcbdca1e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\pipeline">
+      <UniqueIdentifier>{f9a421b6-3b41-463d-b95d-2564c86a1f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\hfsm">
+      <UniqueIdentifier>{66625c0d-9785-435e-9f41-04bd24b20473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\resource">
+      <UniqueIdentifier>{de0d3f32-c6b2-4cfb-bc1c-20ba4d14d7b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\db">
+      <UniqueIdentifier>{8ce609d5-e642-4c4e-9a52-ddb9edfa739d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\db\schema">
+      <UniqueIdentifier>{f90ccfa2-43f5-4fb2-a11c-5c2198273943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\db\custom">
+      <UniqueIdentifier>{4957e309-455a-4068-8a40-40872a55502a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\dialogue">
+      <UniqueIdentifier>{2102a1fb-202b-42e0-bca7-070991871602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\animations">
+      <UniqueIdentifier>{ec2d2661-bc90-429b-8dd8-d1b881f27f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\animations\setstate">
+      <UniqueIdentifier>{a11c6c55-1a9a-4872-8ccd-e4e46bb393c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\classmetadata.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\classmetadatacastfunction.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\classmetadatacontainer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\closure.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\font.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\formattedlabel.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fpsinterpolation.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fuzzyequal.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry2d.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry3d.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glcontext.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keymouseconditions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\label.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mainloop.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mousecursor.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objectdependentfpsinterpolation.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opengl.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\orthographiccamera.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pausabletimer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\periodicalevent.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\primitiverenderer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\refcountable.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadhash.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadluvcolor.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadmutex.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadscopedlock.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadsemaphore.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadsleep.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadstring.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadthread.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadthreadexecutablefunction.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sadwstring.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenenode.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\settings.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sprite2d.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sprite3d.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texturemappedfont.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cli\clioptionvalue.cpp">
+      <Filter>Файлы исходного кода\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cli\cliparser.cpp">
+      <Filter>Файлы исходного кода\cli</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\consoleimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\generatemipmaps30.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\glcontextimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\keydecoder.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\muteximpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\semaphoreimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\systemeventdispatcher.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\systemwindowevent.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\threadimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\timerimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\os\windowimpl.cpp">
+      <Filter>Файлы исходного кода\os</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rdparty\picopng\picopng.cpp">
+      <Filter>Файлы исходного кода\3rdparty\picopng</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rdparty\format\format.cc">
+      <Filter>Файлы исходного кода\3rdparty\format</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rdparty\SDL\x11messagebox.cpp">
+      <Filter>Файлы исходного кода\3rdparty\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\consoletarget.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\filetarget.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\log.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\logmessage.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\logscope.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\logtarget.cpp">
+      <Filter>Файлы исходного кода\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\axle.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\body.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\bouncesolver.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\bounds.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\broadcollisiondetector.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\circle.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\circletohulltransformer.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\collisiondetector.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\collisionevent.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\collisionhandler.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\collisionshape.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\collisiontest.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\convexhull.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\elasticforce.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\findcontactpoints.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\force.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\grahamscan.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\infiniteline.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\line.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\multisamplingcollisiondetector.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\rectangle.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\simplecollisiondetector.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\vector.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\walls.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\weight.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\world.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\worldsteptask.cpp">
+      <Filter>Файлы исходного кода\p2d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\app\app.cpp">
+      <Filter>Файлы исходного кода\p2d\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\app\appobject.cpp">
+      <Filter>Файлы исходного кода\p2d\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\app\objectemitter.cpp">
+      <Filter>Файлы исходного кода\p2d\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\p2d\app\way.cpp">
+      <Filter>Файлы исходного кода\p2d\app</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\controls.cpp">
+      <Filter>Файлы исходного кода\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\events.cpp">
+      <Filter>Файлы исходного кода\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\handlerconditions.cpp">
+      <Filter>Файлы исходного кода\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\handlers.cpp">
+      <Filter>Файлы исходного кода\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imageformats\bmploader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imageformats\loader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imageformats\pngloader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\imageformats\tgaloader.cpp">
+      <Filter>Файлы исходного кода\imageformats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pipeline\pipeline.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pipeline\pipelinedelegate.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pipeline\pipelineprocess.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pipeline\pipelinestep.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pipeline\pipelinetask.cpp">
+      <Filter>Файлы исходного кода\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmhandler.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmmachine.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmshared.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmstate.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmtransition.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hfsm\hfsmtransitionrepository.cpp">
+      <Filter>Файлы исходного кода\hfsm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\deletetexturetask.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\fs.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\swaplayerstask.cpp">
+      <Filter>Файлы исходного кода\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\abstractlink.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\error.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\folder.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\physicalfile.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\resource.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\resourcefactory.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\textureatlasfile.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resource\tree.cpp">
+      <Filter>Файлы исходного кода\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbcanbecastedfromto.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbconversiontable.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbdatabase.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dberror.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dblink.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbobject.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbobjectfactory.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbpopulatescenesfromdatabase.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbproperty.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbstoredpropertyfactory.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbtable.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbtypename.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\dbvariant.cpp">
+      <Filter>Файлы исходного кода\db</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\schema\schema.cpp">
+      <Filter>Файлы исходного кода\db\schema</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\custom\customobject.cpp">
+      <Filter>Файлы исходного кода\db\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\custom\customschema.cpp">
+      <Filter>Файлы исходного кода\db\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db\custom\customschemafile.cpp">
+      <Filter>Файлы исходного кода\db\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogue\dialogue.cpp">
+      <Filter>Файлы исходного кода\dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogue\phrase.cpp">
+      <Filter>Файлы исходного кода\dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsabstractsavedobjectstatecreator.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsanimation.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsanimations.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsblinking.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationscallback.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationscamerarotation.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationscamerashaking.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationscolor.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationscomposite.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsfactory.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsfile.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsfontlist.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsfontsize.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsgroup.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsinstance.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsoptionlist.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsparallel.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsprocess.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsresize.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationsrotate.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedcamerarotation.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedcameratranslation.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedobjectposition.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedobjectsize.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedobjectstate.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedobjectstatecache.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssavedobjectstatecreators.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationssequential.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationstexturecoordinatescontinuous.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationstyping.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationswayinstance.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationswaymoving.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\animationtexturecoordinateslist.cpp">
+      <Filter>Файлы исходного кода\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\setstate\abstractsetstatecommand.cpp">
+      <Filter>Файлы исходного кода\animations\setstate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\setstate\setcamerarotation.cpp">
+      <Filter>Файлы исходного кода\animations\setstate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\setstate\setcameratranslation.cpp">
+      <Filter>Файлы исходного кода\animations\setstate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animations\setstate\setpositionproperty.cpp">
+      <Filter>Файлы исходного кода\animations\setstate</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\camera.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\classmetadata.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\classmetadatacastfunction.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\classmetadatacontainer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\closure.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\font.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\formattedlabel.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fpsinterpolation.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fuzzyequal.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry2d.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry3d.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glcontext.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\keycodes.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\keymouseconditions.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\label.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mainloop.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matrix2x2.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matrix3x3.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\maybe.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mousecursor.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\object.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objectdependentfpsinterpolation.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\opengl.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\orthographiccamera.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pausabletimer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\periodicalevent.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\primitiverenderer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\refcountable.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\renderer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadcolor.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadhash.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadlinkedlist.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadlist.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadluvcolor.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadmutex.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadpair.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadpoint.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadptrhash.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadptrie.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadptrvector.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadrect.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadscopedlock.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadsemaphore.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadsize.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadsleep.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadstring.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadthread.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadthreadexecutablefunction.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadvector.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sadwstring.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scenenode.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\settings.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sprite2d.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sprite3d.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\temporarilyimmutablecontainer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\texture.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\texturemappedfont.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\treedblink.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unused.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli\args.h">
+      <Filter>Заголовочные файлы\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli\optiontype.h">
+      <Filter>Заголовочные файлы\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli\optionvalue.h">
+      <Filter>Заголовочные файлы\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli\parser.h">
+      <Filter>Заголовочные файлы\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cli\token.h">
+      <Filter>Заголовочные файлы\cli</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\consoleimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\generatemipmaps30.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\glcontexthandle.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\glcontextimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\glheaders.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\keydecoder.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\muteximpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\semaphoreimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\systemeventdispatcher.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\systemwindowevent.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\threadimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\timerimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\windowhandles.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\os\windowimpl.h">
+      <Filter>Заголовочные файлы\os</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\format\format.h">
+      <Filter>Заголовочные файлы\3rdparty\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\format\stdint.h">
+      <Filter>Заголовочные файлы\3rdparty\format</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\tpunit++\tpunit++.hpp">
+      <Filter>Заголовочные файлы\3rdparty\tpunit++</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\tpunit++\tpunitw.h">
+      <Filter>Заголовочные файлы\3rdparty\tpunit++</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmath.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathbig.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathdec.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathint.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathmisc.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathobjects.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathparser.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmaththreads.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathtypes.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_noasm.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_x86.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\ttmath\ttmathuint_x86_64.h">
+      <Filter>Заголовочные файлы\3rdparty\ttmath</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\glext\glext.h">
+      <Filter>Заголовочные файлы\3rdparty\glext</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\picojson\getproperty.h">
+      <Filter>Заголовочные файлы\3rdparty\picojson</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\picojson\picojson.h">
+      <Filter>Заголовочные файлы\3rdparty\picojson</Filter>
+    </ClInclude>
+    <ClInclude Include="include\3rdparty\picojson\valuetotype.h">
+      <Filter>Заголовочные файлы\3rdparty\picojson</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\color.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\consoletarget.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\filetarget.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\log.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\logmessage.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\logscope.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\logtarget.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\priority.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\log\stringcaster.h">
+      <Filter>Заголовочные файлы\log</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\angularforce.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\axle.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\body.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\bouncesolver.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\bounds.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\broadcollisiondetector.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\circle.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\circletohulltransformer.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collides1d.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisiondetector.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisionevent.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisionhandler.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisionmultimethod.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisionshape.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\collisiontest.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\convexhull.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\elasticforce.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\findcontactpoints.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\force.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\ghostoptions.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\grahamscan.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\infiniteline.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\line.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\movement.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\multisamplingcollisiondetector.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\point.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\rectangle.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\simplecollisiondetector.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\tickable.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\vector.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\walls.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\weight.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\world.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\worldsteptask.h">
+      <Filter>Заголовочные файлы\p2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\app\app.h">
+      <Filter>Заголовочные файлы\p2d\app</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\app\constants.h">
+      <Filter>Заголовочные файлы\p2d\app</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\app\object.h">
+      <Filter>Заголовочные файлы\p2d\app</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\app\objectemitter.h">
+      <Filter>Заголовочные файлы\p2d\app</Filter>
+    </ClInclude>
+    <ClInclude Include="include\p2d\app\way.h">
+      <Filter>Заголовочные файлы\p2d\app</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\controls.h">
+      <Filter>Заголовочные файлы\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\events.h">
+      <Filter>Заголовочные файлы\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\handlerconditions.h">
+      <Filter>Заголовочные файлы\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\handlers.h">
+      <Filter>Заголовочные файлы\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imageformats\bmploader.h">
+      <Filter>Заголовочные файлы\imageformats</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imageformats\loader.h">
+      <Filter>Заголовочные файлы\imageformats</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imageformats\pngloader.h">
+      <Filter>Заголовочные файлы\imageformats</Filter>
+    </ClInclude>
+    <ClInclude Include="include\imageformats\tgaloader.h">
+      <Filter>Заголовочные файлы\imageformats</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\commoncheckedcast.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\deletetexturetask.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\formattedlabelarg.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\free.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\fs.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\getterproxy.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\pointercallback.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\sadthreadexecutablefunction.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\setterproxy.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\swaplayerstask.h">
+      <Filter>Заголовочные файлы\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipeline.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipelinedelegate.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipelineprocess.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipelinestep.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pipeline\pipelinetask.h">
+      <Filter>Заголовочные файлы\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmhandler.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmmachine.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmshared.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmstate.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmtransition.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hfsm\hfsmtransitionrepository.h">
+      <Filter>Заголовочные файлы\hfsm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\abstractlink.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\error.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\folder.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\link.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\physicalfile.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\resource.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\resourcefactory.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\textureatlasfile.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\resource\tree.h">
+      <Filter>Заголовочные файлы\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbcanbecastedfromto.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbconversiontable.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbdatabase.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dberror.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbfield.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dblink.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbmethodpair.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbobject.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbobjectfactory.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbpopulatescenesfromdatabase.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbproperty.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbstoredproperty.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbstoredpropertyfactory.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbtable.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbtypename.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\dbvariant.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\load.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\save.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\schema\schema.h">
+      <Filter>Заголовочные файлы\db\schema</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\custom\customobject.h">
+      <Filter>Заголовочные файлы\db\custom</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\custom\customschema.h">
+      <Filter>Заголовочные файлы\db\custom</Filter>
+    </ClInclude>
+    <ClInclude Include="include\db\custom\customschemafile.h">
+      <Filter>Заголовочные файлы\db\custom</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dialogue\dialogue.h">
+      <Filter>Заголовочные файлы\dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dialogue\phrase.h">
+      <Filter>Заголовочные файлы\dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsabstractsavedobjectstatecreator.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsanimation.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsanimations.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsblinking.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscallback.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscamerarotation.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscamerashaking.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscolor.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscomposite.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationscontinuousproperty.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsdiscreteproperty.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsfactory.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsfile.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsfontlist.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsfontsize.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsgroup.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsinstance.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationslink.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsoptionlist.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsparallel.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsprocess.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsresize.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationsrotate.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedcamerarotation.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedcameratranslation.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectposition.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectproperty.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectpropertycreator.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectsize.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectstate.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectstatecache.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectstatecreator.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssavedobjectstatecreators.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationssequential.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationstexturecoordinatescontinuous.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationstexturecoordinateslist.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationstyping.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationswayinstance.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\animationswaymoving.h">
+      <Filter>Заголовочные файлы\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\abstractsetstatecommand.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\dummycommand.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\methodcall.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\setcamerarotation.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\setcameratranslation.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\setpositionproperty.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\setpositionviaareacall.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\setproperty.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+    <ClInclude Include="include\animations\setstate\typedcommand.h">
+      <Filter>Заголовочные файлы\animations\setstate</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -28,7 +28,9 @@
 #ifndef FORMAT_H_
 #define FORMAT_H_
 
-#define _SCL_SECURE_NO_WARNINGS
+#ifndef _SCL_SECURE_NO_WARNINGS
+	#define _SCL_SECURE_NO_WARNINGS
+#endif
 
 #ifdef max
 	#undef max
