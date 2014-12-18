@@ -80,6 +80,18 @@ void sad::animations::Factory::clear()
 	m_delegates.clear();
 }
 
+sad::Vector<sad::String> sad::animations::Factory::registeredClasses() const
+{
+	sad::Vector<sad::String> result;
+	for(sad::PtrHash<sad::String, sad::animations::Factory::AbstractDelegate>::const_iterator it = m_delegates.const_begin();
+		it != m_delegates.const_end();
+		++it)
+	{
+		result << it.key();
+	}
+	return result;
+}
+
 // ======================== PROTECTED METHODS of sad::animations::Factory  ========================
 
 void sad::animations::Factory::copy(const sad::animations::Factory& f)

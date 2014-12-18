@@ -107,6 +107,10 @@ public:
 		}
 		m_delegates.insert(name, new sad::animations::Factory::Delegate<_Animation>());
 	}
+	/*! Returns list of registered animations
+		\return list of registered animation
+	 */
+	sad::Vector<sad::String> registeredClasses() const;
 protected:
 	/*! Copies a delegates from factory
 		\param[in] f factory

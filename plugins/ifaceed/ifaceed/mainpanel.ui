@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1310,12 +1310,12 @@ for object
        </rect>
       </property>
      </widget>
-     <widget class="QComboBox" name="lstAddedAnimationType">
+     <widget class="QComboBox" name="cmbAddedAnimationType">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>280</y>
-        <width>81</width>
+        <width>151</width>
         <height>22</height>
        </rect>
       </property>
@@ -1323,10 +1323,10 @@ for object
      <widget class="QPushButton" name="btnAnimationsAdd">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>280</y>
-        <width>61</width>
-        <height>24</height>
+        <x>10</x>
+        <y>310</y>
+        <width>81</width>
+        <height>23</height>
        </rect>
       </property>
       <property name="text">
@@ -1336,10 +1336,10 @@ for object
      <widget class="QPushButton" name="btnAnimationsRemove">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>75</width>
-        <height>23</height>
+        <x>100</x>
+        <y>310</y>
+        <width>60</width>
+        <height>24</height>
        </rect>
       </property>
       <property name="text">
@@ -1350,7 +1350,7 @@ for object
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>312</y>
+        <y>340</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -1364,7 +1364,7 @@ current object</string>
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>312</y>
+        <y>340</y>
         <width>61</width>
         <height>41</height>
        </rect>
@@ -2280,7 +2280,7 @@ rect:</string>
        <string>Remove</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="lstAddedAnimationInstanceType">
+     <widget class="QComboBox" name="cmbAddedAnimationInstanceType">
       <property name="geometry">
        <rect>
         <x>180</x>
