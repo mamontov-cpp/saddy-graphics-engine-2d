@@ -8,7 +8,10 @@ m_active(NULL),
 m_editor(NULL),
 m_selected_way(NULL),
 m_selected_dialogue(NULL),
-m_selected_animation(NULL)
+m_selected_animation(NULL),
+m_animation_is_running(false),
+m_animation_instance_is_running(false),
+m_animation_group_is_running(false)
 {
 	m_show_active_border = true;
 	m_nonresizeable_nodetypes << "sad::Label";
@@ -200,4 +203,26 @@ void core::Shared::setSelectedAnimation(sad::animations::Animation* a)
 sad::animations::Animation* core::Shared::selectedAnimation() const
 {
 	return m_selected_animation;	
+}
+
+bool core::Shared::isAnyKindOfAnimationIsRunning() const
+{
+	return m_animation_is_running
+		|| m_animation_instance_is_running
+		|| m_animation_group_is_running;
+}
+
+void core::Shared::setAnimationIsRunning(bool flag)
+{
+	m_animation_is_running = flag;	
+}
+
+void core::Shared::setAnimationInstanceIsRunning(bool flag)
+{
+	m_animation_instance_is_running = flag;	
+}
+
+void core::Shared::setAnimationGroupIsRunning(bool flag)
+{
+	m_animation_group_is_running = flag;	
 }

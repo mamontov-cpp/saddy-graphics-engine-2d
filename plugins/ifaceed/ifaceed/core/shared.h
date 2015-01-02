@@ -170,6 +170,22 @@ public:
 		\return selected animation
 	 */
 	sad::animations::Animation* selectedAnimation() const;
+	/*! Tests, whether user is clicked  "Start" on animation, animation instance or animation group
+		\retun result
+	 */
+	bool isAnyKindOfAnimationIsRunning() const;
+	/*! Sets whether animation is running
+		\param[in] flag a flag
+	 */
+	void setAnimationIsRunning(bool flag);
+	/*! Sets whether animation instance is running
+		\param[in] flag a flag
+	 */
+	void setAnimationInstanceIsRunning(bool flag);
+	/*! Sets whether animation group is running
+		\param[in] flag a flag
+	 */
+	void setAnimationGroupIsRunning(bool flag);
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -222,6 +238,15 @@ private:
 	/*! A file name
 	 */
 	QString m_filename;
+	/*! Set to true, when user clicks "Start" on animation tab
+	 */
+	bool m_animation_is_running;
+	/*! Set to true, when user clicks "Start" on animation instance tab
+	 */
+	bool m_animation_instance_is_running;
+	/*! Set to true, when user clicks "Start" on animation group tab
+	 */
+	bool m_animation_group_is_running;
 };
 
 }

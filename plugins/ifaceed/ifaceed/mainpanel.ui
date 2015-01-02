@@ -1688,7 +1688,7 @@ current object</string>
         <property name="title">
          <string>Font List</string>
         </property>
-        <widget class="QPlainTextEdit" name="textFontListList">
+        <widget class="QPlainTextEdit" name="txtFontListList">
          <property name="geometry">
           <rect>
            <x>10</x>

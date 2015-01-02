@@ -427,12 +427,18 @@ void core::Editor::start()
 
 void core::Editor::undo()
 {
-	m_history->rollback(this);
+	if (m_shared->isAnyKindOfAnimationIsRunning() == false)
+	{
+		m_history->rollback(this);
+	}
 }
 
 void core::Editor::redo()
 {
-	m_history->commit(this);
+	if (m_shared->isAnyKindOfAnimationIsRunning() == false)
+	{
+		m_history->commit(this);
+	}
 }
 
 // =================== PROTECTED METHODS ===================

@@ -386,7 +386,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnDatabaseLoad, SIGNAL(clicked()), this, SLOT(load()));
 	connect(ui.btnLoadResources, SIGNAL(clicked()), this, SLOT(loadResources()));
 	connect(ui.btnReloadResources, SIGNAL(clicked()), this, SLOT(reloadResources()));
-
+	connect(ui.btnUndo, SIGNAL(clicked()), m_editor, SLOT(undo()));
+	connect(ui.btnRedo, SIGNAL(clicked()), m_editor, SLOT(redo()));
 	
 	connect(ui.btnDatabasePropertiesAdd, SIGNAL(clicked()), this, SLOT(addDatabaseProperty()));
 	
@@ -1122,6 +1123,54 @@ void MainPanel::updateAnimationName(sad::animations::Animation* a)
 	}
 }
 
+void MainPanel::toggleAnimationPropertiesEditable(bool flag)
+{
+	QWidget* widgets[] = {
+		ui.btnLoadResources,
+		ui.btnReloadResources,
+		ui.btnUndo,
+		ui.btnRedo,
+		ui.txtAnimationName,
+		ui.btnAnimationsAdd,
+		ui.btnAnimationsRemove,
+		ui.dsbAnimationTime,
+		ui.cbAnimationLooped,
+		ui.sbBlinkingFrequency,
+		ui.cwColorStartingColor,
+		ui.cwColorEndingColor,
+		ui.dabResizeVectorX,
+		ui.dabResizeVectorY,
+		ui.dsbRotateStartingAngle,
+		ui.dsbRotateEndingAngle,
+		ui.cmbWayAnimationWay,
+		ui.txtFontListList,
+		ui.sbFontSizeStartingSize,
+		ui.sbFontSizeEndingSize,
+		ui.txtOptionListList,
+		ui.txtTextureCoordinatesList,
+		ui.rctTCCStartingRect,
+		ui.rctTCCEndingRect,
+		ui.dsbCameraRotationPivotX,
+		ui.dsbCameraRotationPivotY,
+		ui.dsbCameraRotationStartingAngle,
+		ui.dsbCameraRotationEndingAngle,
+		ui.dsbCameraShakingOffsetX,
+		ui.dsbCameraShakingOffsetY,
+		ui.sbCameraShakingFrequency,
+		ui.btnCompositeAnimationRemoveFromList,
+		ui.btnCompositeAnimationAddToList,
+		ui.btnCompositeAnimationMoveBack,
+		ui.btnCompositeAnimationMoveFront,
+		NULL
+	};
+	size_t i = 0;
+	while(widgets[i] != NULL)
+	{
+		widgets[i]->setEnabled(flag);
+		++i;
+	}
+}
+
 QCheckBox* MainPanel::visibilityCheckbox() const
 {
 	return ui.cbSceneNodeVisible;	
@@ -1781,6 +1830,18 @@ QString MainPanel::viewableObjectName(sad::db::Object* o)
 	return result;
 }
 
+void MainPanel::lockTypesTab(bool lock)
+{
+	if (lock)
+	{
+		m_type_locked_tab.setValue(ui.tabTypes->currentIndex());
+	}
+	else
+	{
+		m_type_locked_tab.clear();
+	}
+}
+
 void MainPanel::save()
 {
 	if (m_editor->shared()->fileName().length() == 0)
@@ -1922,6 +1983,13 @@ void MainPanel::reloadResources()
 
 void MainPanel::tabTypeChanged(int index)
 {
+	// If tab is locked, switch to locked tab
+	if (m_type_locked_tab.exists())
+	{
+		ui.tabTypes->setCurrentIndex(m_type_locked_tab.value());
+		return;
+	}
+
 	int oldtypeindex = (m_editor->machine()->isInState("ways")) ? 1 : 0;
 	if (oldtypeindex == index)
 	{
