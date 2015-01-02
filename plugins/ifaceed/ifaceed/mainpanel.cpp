@@ -22,18 +22,13 @@
 #include "gui/customobjectactions.h"
 #include "gui/wayactions.h"
 #include "gui/dialogueactions.h"
+#include "gui/animationactions.h"
 #include "gui/updateelement.h"
-#include "gui/renderways.h"
 
-#include <geometry2d.h>
 #include <keymouseconditions.h>
 #include <keycodes.h>
 
-#include <p2d/vector.h>
-#include <p2d/point.h>
-
 #include <db/save.h>
-#include <db/load.h>
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 #include <db/dbstoredproperty.h>
@@ -42,20 +37,7 @@
 #include <resource/tree.h>
 #include <freetype/font.h>
 
-#include <QMessageBox>
-#include <QDialog>
-#include <QTimer>
-#include <QFontDatabase>
-#include <QItemDelegate>
-#include <QPainter>
-#include <QColorDialog>
-#include <QInputDialog>
 #include <QFileDialog>
-#include <QLineEdit>
-#include <QTimer>
-#include <QListWidget>
-#include <QListWidgetItem>
-#include <QVariant>
 
 #include <cstdio>
 
@@ -63,6 +45,7 @@ Q_DECLARE_METATYPE(sad::Scene*)
 Q_DECLARE_METATYPE(sad::SceneNode*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
+Q_DECLARE_METATYPE(sad::animations::Animation*)
 
 //====================  PUBLIC METHODS HERE ====================
 
@@ -108,6 +91,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	
 	m_dialogue_actions = new gui::DialogueActions();
 	m_dialogue_actions->setPanel(this);
+
+	m_animation_actions = new gui::AnimationActions();
+	m_animation_actions->setPanel(this);
 }
 
 
@@ -119,6 +105,7 @@ MainPanel::~MainPanel()
 	delete m_custom_object_actions;
 	delete m_way_actions;
 	delete m_dialogue_actions;
+	delete m_animation_actions;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -466,6 +453,13 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
 
 
+	connect(ui.btnAnimationsAdd, SIGNAL(clicked()), m_animation_actions, SLOT(addAnimation()));
+	connect(ui.lstAnimations, SIGNAL(currentRowChanged(int)), m_animation_actions, SLOT(currentAnimationChanged(int)));
+	connect(ui.txtAnimationName, SIGNAL(textEdited(const QString&)), m_animation_actions, SLOT(nameChanged(const QString&)));
+	connect(ui.dsbAnimationTime, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(timeChanged(double)));
+	connect(ui.cbAnimationLooped, SIGNAL(clicked(bool)), m_animation_actions, SLOT(loopedChanged(bool)));
+    connect(ui.sbBlinkingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(blinkingFrequencyChanged(int)));
+
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -518,6 +512,11 @@ gui::WayActions* MainPanel::wayActions() const
 gui::DialogueActions* MainPanel::dialogueActions() const
 {
 	return m_dialogue_actions;
+}
+
+gui::AnimationActions* MainPanel::animationActions() const
+{
+	return m_animation_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
@@ -1037,6 +1036,92 @@ QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
 		   .arg(s.c_str());
 }
 
+QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
+{
+	QString result = const_cast<MainPanel*>(this)->viewableObjectName(a);
+	if (a)
+	{
+		sad::String s = a->serializableName();
+		s.removeAllOccurences("sad::animations::");
+		s.insert('[', 0);
+		s << "] ";
+		result = QString(s.c_str()) + result;
+	}
+	return result;
+}
+
+void MainPanel::addAnimationToViewingLists(sad::animations::Animation* a)
+{
+	QString name = this->nameForAnimation(a);
+
+	QVariant v;
+	v.setValue(a);
+
+	QListWidget* listofanimations = ui.lstAnimations;
+	listofanimations->addItem(name);
+	listofanimations->item(listofanimations->count() - 1)->setData(Qt::UserRole, v);
+
+	QComboBox* listofanimationsforinstances = ui.cmbAnimationInstanceAnimationFromDatabase;
+	listofanimationsforinstances->addItem(name);
+	listofanimationsforinstances->setItemData(listofanimationsforinstances->count() - 1, v, Qt::UserRole);
+
+	QListWidget* listofanimationcandidates = ui.lstCompositeCandidates;
+	listofanimationcandidates->addItem(name);
+	listofanimationcandidates->item(listofanimations->count() - 1)->setData(Qt::UserRole, v);
+}
+
+
+void MainPanel::removeAnimationFromViewingLists(sad::animations::Animation* a)
+{
+	int pos = this->findInList(ui.lstAnimations, a);
+	if (pos > -1)
+	{
+		delete ui.lstAnimations->takeItem(pos);
+	}
+
+	pos = this->findInComboBox(ui.cmbAnimationInstanceAnimationFromDatabase, a);
+	if (pos > - 1)
+	{
+		ui.cmbAnimationInstanceAnimationFromDatabase->removeItem(pos);
+	}
+
+	pos = this->findInList(ui.lstCompositeCandidates, a);
+	if (pos > -1)
+	{
+		delete ui.lstCompositeCandidates->takeItem(pos);
+	}
+
+}
+
+void MainPanel::updateAnimationName(sad::animations::Animation* a)
+{
+	QString name = this->nameForAnimation(a);
+
+	int pos = this->findInList(ui.lstAnimations, a);
+	if (pos > -1)
+	{
+		ui.lstAnimations->item(pos)->setText(name);
+	}
+
+	pos = this->findInComboBox(ui.cmbAnimationInstanceAnimationFromDatabase, a);
+	if (pos > - 1)
+	{
+		ui.cmbAnimationInstanceAnimationFromDatabase->setItemText(pos, name);
+	}
+
+	pos = this->findInList(ui.lstCompositeCandidates, a);
+	if (pos > -1)
+	{
+		ui.lstCompositeCandidates->item(pos)->setText(name);
+	}
+
+	pos = this->findInList(ui.lstCompositeList, a);
+	if (pos > -1)
+	{
+		ui.lstCompositeList->item(pos)->setText(name);
+	}
+}
+
 QCheckBox* MainPanel::visibilityCheckbox() const
 {
 	return ui.cbSceneNodeVisible;	
@@ -1461,7 +1546,7 @@ void MainPanel::currentSceneChanged(int index)
 	}
 }
 
-void MainPanel::sceneNameChanged(const QString& name)
+void MainPanel::sceneNameChanged(const QString&)
 {
 	sad::Scene* scene = currentScene();
 	if (scene)

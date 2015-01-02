@@ -20,7 +20,6 @@
 #include <label.h>
 #include <geometry2d.h>
 
-#include <QDebug>
 
 
 // ===============================  PUBLIC METHODS ===============================
@@ -86,7 +85,7 @@ void gui::LabelActions::moveLabel(const sad::input::MouseMoveEvent & e)
 	}
 }
 
-void gui::LabelActions::commitLabelAdd(const sad::input::MousePressEvent& e)
+void gui::LabelActions::commitLabelAdd(const sad::input::MousePressEvent&)
 {
 	core::Shared* s = m_panel->editor()->shared();
 	sad::SceneNode* node = s->activeObject();

@@ -68,7 +68,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">$(Configuration)\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">iface-editor-debug</TargetName>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\SDKs\Qt-4.8.6-msvc2010\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\SDKs\Qt-4.8.6-msvc2010\include;D:\SDKs\Qt-4.8.6-msvc2010\include\QtCore\;D:\SDKs\Qt-4.8.6-msvc2010\include\QtGui\;D:\SDKs\Qt-4.8.6-msvc2010\include\Qt\;D:\SDKs\Qt-4.8.6-msvc2010\include\QtScript\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,7 +90,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;$(QTDIR)\include;.\GeneratedFiles\$(Configuration);$(QTDIR)\include\qtmain;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;.;$(SADDY_INCLUDE);$(FREETYPE_INCLUDE);$(QTDIR)\include\QtScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;$(QTDIR)\include;.\GeneratedFiles\$(Configuration);$(QTDIR)\include\qtmain;$(QTDIR)\include\QtCore;E:\SDKs\Qt4.8.6-MSVC-2010\include;$(QTDIR)\include\QtGui;.;$(SADDY_INCLUDE);$(FREETYPE_INCLUDE);E:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore;E:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui;E:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript;$(QTDIR)\include\QtScript;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_DLL;QT_SCRIPT_LIB;_SCL_SECURE_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -142,6 +142,42 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationactions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationactions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="gui\animationactions.cpp" />
+    <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp" />
+    <ClCompile Include="history\animations\animationschangelooped.cpp" />
+    <ClCompile Include="history\animations\animationschangename.cpp" />
+    <ClCompile Include="history\animations\animationschangetime.cpp" />
+    <ClCompile Include="history\animations\animationsnew.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainpanel.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SCL_SECURE_NO_WARNINGS;SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -338,6 +374,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_longdelegate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -562,6 +599,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_longdelegate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
@@ -786,6 +824,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\UnitTests\moc_longdelegate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -1010,6 +1049,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\GUITests\moc_longdelegate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -1158,7 +1198,7 @@
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing acolordialog.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing acolordialog.h...</Message>
@@ -1178,10 +1218,38 @@
     </CustomBuild>
     <ClInclude Include="blockedclosuremethodcall.h" />
     <ClInclude Include="closuremethodcall.h" />
+    <CustomBuild Include="gui\animationactions.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing animationactions.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing animationactions.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__GUITESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing animationactions.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I.\..\..\..\include" "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Moc%27ing animationactions.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">Moc%27ing animationactions.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+    </CustomBuild>
+    <ClInclude Include="history\animations\animationschangeblinkingfrequency.h" />
+    <ClInclude Include="history\animations\animationschangelooped.h" />
+    <ClInclude Include="history\animations\animationschangename.h" />
+    <ClInclude Include="history\animations\animationschangeproperty.h" />
+    <ClInclude Include="history\animations\animationschangetime.h" />
+    <ClInclude Include="history\animations\animationsnew.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainpanel.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DSCL_SECURE_NO_WARNINGS -DSCL_SECURE_NO_DEPRECATE -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DSCL_SECURE_NO_WARNINGS -DSCL_SECURE_NO_DEPRECATE -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing mainpanel.h...</Message>
@@ -1201,7 +1269,7 @@
     </CustomBuild>
     <CustomBuild Include="qwwlongspinbox.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing qwwlongspinbox.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing qwwlongspinbox.h...</Message>
@@ -1221,7 +1289,7 @@
     </CustomBuild>
     <CustomBuild Include="qwwulongspinbox.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing qwwulongspinbox.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing qwwulongspinbox.h...</Message>
@@ -1241,7 +1309,7 @@
     </CustomBuild>
     <CustomBuild Include="reloadfilelist.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing reloadfilelist.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing reloadfilelist.h...</Message>
@@ -1264,7 +1332,7 @@
     <ClInclude Include="wwglobal_p.h" />
     <CustomBuild Include="core\editor.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing editor.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing editor.h...</Message>
@@ -1286,7 +1354,7 @@
     <ClInclude Include="core\quitreason.h" />
     <CustomBuild Include="core\saddythread.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing saddythread.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing saddythread.h...</Message>
@@ -1306,7 +1374,7 @@
     </CustomBuild>
     <CustomBuild Include="core\selection.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing selection.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing selection.h...</Message>
@@ -1345,7 +1413,7 @@
     <ClInclude Include="core\borders\selectionborder.h" />
     <CustomBuild Include="gui\customobjectactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing customobjectactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing customobjectactions.h...</Message>
@@ -1365,7 +1433,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\dialogueactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing dialogueactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing dialogueactions.h...</Message>
@@ -1385,7 +1453,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\eventfilter.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing eventfilter.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing eventfilter.h...</Message>
@@ -1405,7 +1473,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\labelactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing labelactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing labelactions.h...</Message>
@@ -1426,7 +1494,7 @@
     <ClInclude Include="gui\renderways.h" />
     <CustomBuild Include="gui\rotationprocess.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing rotationprocess.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing rotationprocess.h...</Message>
@@ -1446,7 +1514,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\scenenodeactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing scenenodeactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing scenenodeactions.h...</Message>
@@ -1466,7 +1534,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\sprite2dactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sprite2dactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sprite2dactions.h...</Message>
@@ -1487,7 +1555,7 @@
     <ClInclude Include="gui\updateelement.h" />
     <CustomBuild Include="gui\wayactions.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing wayactions.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing wayactions.h...</Message>
@@ -1507,7 +1575,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\colorpicker\colorpicker.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing colorpicker.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing colorpicker.h...</Message>
@@ -1531,7 +1599,7 @@
     <ClInclude Include="gui\resourcetreewidget\resourcecache.h" />
     <CustomBuild Include="gui\resourcetreewidget\resourcetreewidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing resourcetreewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing resourcetreewidget.h...</Message>
@@ -1551,7 +1619,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\fontsizewidget\fontsizewidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing fontsizewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing fontsizewidget.h...</Message>
@@ -1571,7 +1639,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\rectwidget\rectwidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing rectwidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing rectwidget.h...</Message>
@@ -1591,7 +1659,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\anglewidget\anglewidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing anglewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing anglewidget.h...</Message>
@@ -1611,7 +1679,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\delegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing delegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing delegate.h...</Message>
@@ -1632,7 +1700,7 @@
     <ClInclude Include="gui\table\delegatefactory.h" />
     <CustomBuild Include="gui\table\doubledelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing doubledelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing doubledelegate.h...</Message>
@@ -1652,7 +1720,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\floatdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing floatdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing floatdelegate.h...</Message>
@@ -1672,7 +1740,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\intdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing intdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing intdelegate.h...</Message>
@@ -1692,7 +1760,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\longdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing longdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing longdelegate.h...</Message>
@@ -1712,7 +1780,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\longlongdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing longlongdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing longlongdelegate.h...</Message>
@@ -1732,7 +1800,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadacolordelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadacolordelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadacolordelegate.h...</Message>
@@ -1752,7 +1820,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadcolordelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadcolordelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadcolordelegate.h...</Message>
@@ -1772,7 +1840,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadpoint2ddelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadpoint2ddelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadpoint2ddelegate.h...</Message>
@@ -1792,7 +1860,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadpoint2idelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadpoint2idelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadpoint2idelegate.h...</Message>
@@ -1812,7 +1880,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadsize2ddelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadsize2ddelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadsize2ddelegate.h...</Message>
@@ -1832,7 +1900,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadsize2idelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadsize2idelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadsize2idelegate.h...</Message>
@@ -1852,7 +1920,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\sadstringdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing sadstringdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing sadstringdelegate.h...</Message>
@@ -1872,7 +1940,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\shortdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing shortdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing shortdelegate.h...</Message>
@@ -1892,7 +1960,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\signedchardelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing signedchardelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing signedchardelegate.h...</Message>
@@ -1912,7 +1980,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\unsignedchardelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing unsignedchardelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing unsignedchardelegate.h...</Message>
@@ -1932,7 +2000,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\unsignedintdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing unsignedintdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing unsignedintdelegate.h...</Message>
@@ -1952,7 +2020,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\unsignedlongdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing unsignedlongdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing unsignedlongdelegate.h...</Message>
@@ -1972,7 +2040,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\unsignedlonglongdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing unsignedlonglongdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing unsignedlonglongdelegate.h...</Message>
@@ -1992,7 +2060,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\table\unsignedshortdelegate.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing unsignedshortdelegate.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing unsignedshortdelegate.h...</Message>
@@ -2012,7 +2080,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\colorview\colorview.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing colorview.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing colorview.h...</Message>
@@ -2032,7 +2100,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\tuplewidget\doubletuplewidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing doubletuplewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing doubletuplewidget.h...</Message>
@@ -2052,7 +2120,7 @@
     </CustomBuild>
     <CustomBuild Include="gui\tuplewidget\int64tuplewidget.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing int64tuplewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB -D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_DEPRECATE  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtCore" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtGui" "-IE:\SDKs\Qt4.8.6-MSVC-2010\include\QtScript" "-I$(QTDIR)\include\QtScript"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(Configuration)\moc_%(Filename).cpp;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">Moc%27ing int64tuplewidget.h...</Message>

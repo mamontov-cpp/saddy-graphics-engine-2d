@@ -5,21 +5,11 @@
  */
 #include "mainpanel.h"
 
-#include <QtGui/QApplication>
-
-#include <QTimer>
-#include <QThread>
 #include <QTextCodec>
 
 #include <stdio.h>
-#include <cstdlib>
 
 #include "core/editor.h"
-
-#include <log/log.h>
-
-#include <unused.h>
-
 
 /**
  * Main loop. where shoud gbe started saddy thread and Qt

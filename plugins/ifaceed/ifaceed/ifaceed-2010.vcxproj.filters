@@ -169,6 +169,17 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Generated Files\Template">
+      <UniqueIdentifier>{2cd2b95d-b923-4a27-acd9-f0e7c6b5975a}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Header Files\history\animations">
+      <UniqueIdentifier>{9b0124c5-6526-4329-b508-0e36231750c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\animations">
+      <UniqueIdentifier>{60150674-fcd6-405f-ab94-8df70007508b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1044,6 +1055,39 @@
     <ClCompile Include="GeneratedFiles\GUITests\moc_wayactions.cpp">
       <Filter>Generated Files\GUITests</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\animationactions.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationsnew.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangename.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangetime.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangelooped.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1301,6 +1345,24 @@
     <ClInclude Include="GeneratedFiles\ui_reloadfilelist.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="history\animations\animationsnew.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangename.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeproperty.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangetime.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangelooped.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeblinkingfrequency.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -1443,6 +1505,9 @@
     </CustomBuild>
     <CustomBuild Include="reloadfilelist.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationactions.h">
+      <Filter>Header Files\gui</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

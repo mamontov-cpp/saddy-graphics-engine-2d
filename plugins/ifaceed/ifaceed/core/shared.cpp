@@ -7,7 +7,8 @@ m_selected(NULL),
 m_active(NULL),
 m_editor(NULL),
 m_selected_way(NULL),
-m_selected_dialogue(NULL)
+m_selected_dialogue(NULL),
+m_selected_animation(NULL)
 {
 	m_show_active_border = true;
 	m_nonresizeable_nodetypes << "sad::Label";
@@ -189,4 +190,14 @@ void core::Shared::setSelectedDialogue(sad::dialogue::Dialogue* d)
 sad::dialogue::Dialogue*  core::Shared::selectedDialogue() const
 {
 	return m_selected_dialogue;
+}
+
+void core::Shared::setSelectedAnimation(sad::animations::Animation* a)
+{
+	m_selected_animation = a;
+}
+
+sad::animations::Animation* core::Shared::selectedAnimation() const
+{
+	return m_selected_animation;	
 }
