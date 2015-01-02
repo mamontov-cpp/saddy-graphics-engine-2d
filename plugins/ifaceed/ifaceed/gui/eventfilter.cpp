@@ -33,47 +33,50 @@ void gui::EventFilter::setPanel(MainPanel* panel)
                 handled = true;
                 m_panel->editor()->redo();
             }
-			if (ev->key() == Qt::Key_F1)
+			if (m_panel->editor()->shared()->isAnyKindOfAnimationIsRunning() == false)
 			{
-				if (m_panel->editor()->isInWaysEditingState())
+				if (ev->key() == Qt::Key_F1)
 				{
-					m_panel->editor()->tryEnterObjectEditingState();
+					if (m_panel->editor()->isInWaysEditingState())
+					{
+						m_panel->editor()->tryEnterObjectEditingState();
+					}
 				}
-			}
-			if (ev->key() == Qt::Key_F2)
-			{
+				if (ev->key() == Qt::Key_F2)
+				{
+					if (m_panel->editor()->isInObjectEditingState())
+					{
+						m_panel->editor()->tryEnterWayEditingState();
+					}
+				}
+				if (ev->key() == Qt::Key_F3)
+				{
+					m_panel->editor()->machine()->enterState("idle");
+					m_panel->UI()->tabTypes->setCurrentIndex(2);
+				}
+				if (ev->key() == Qt::Key_F4)
+				{
+					m_panel->UI()->tabTypes->setCurrentIndex(3);
+				}
+				if (ev->key() == Qt::Key_F5)
+				{
+					m_panel->UI()->tabTypes->setCurrentIndex(4);
+				}
+				if (ev->key() == Qt::Key_F6)
+				{
+					m_panel->UI()->tabTypes->setCurrentIndex(5);
+				}
+				if (ev->key() == Qt::Key_F7)
+				{
+					m_panel->UI()->tabTypes->setCurrentIndex(6);
+				}
 				if (m_panel->editor()->isInObjectEditingState())
 				{
-					m_panel->editor()->tryEnterWayEditingState();
-				}
-			}
-			if (ev->key() == Qt::Key_F3)
-			{
-				m_panel->editor()->machine()->enterState("idle");
-				m_panel->UI()->tabTypes->setCurrentIndex(2);
-			}
-			if (ev->key() == Qt::Key_F4)
-			{
-				m_panel->UI()->tabTypes->setCurrentIndex(3);
-			}
-			if (ev->key() == Qt::Key_F5)
-			{
-				m_panel->UI()->tabTypes->setCurrentIndex(4);
-			}
-			if (ev->key() == Qt::Key_F6)
-			{
-				m_panel->UI()->tabTypes->setCurrentIndex(5);
-			}
-			if (ev->key() == Qt::Key_F7)
-			{
-				m_panel->UI()->tabTypes->setCurrentIndex(6);
-			}
-			if (m_panel->editor()->isInObjectEditingState())
-			{
-				if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
-				{
-					int index = ev->key() - Qt::Key_1;
-					m_panel->UI()->tabObjects->setCurrentIndex(index);
+					if (ev->key() >= Qt::Key_1 && ev->key() <= Qt::Key_7)
+					{
+						int index = ev->key() - Qt::Key_1;
+						m_panel->UI()->tabObjects->setCurrentIndex(index);
+					}
 				}
 			}
         }

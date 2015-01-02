@@ -13,6 +13,8 @@
 #include <sadstring.h>
 #include <sadptrhash.h>
 
+#include <maybe.h>
+
 #include <db/dbvariant.h>
 #include <db/dbstoredpropertyfactory.h>
 
@@ -305,6 +307,10 @@ public:
 		\param[in] a an animation
 	 */
 	void updateAnimationName(sad::animations::Animation* a);
+	/*! Toggles, whether animation is editable
+		\param[in] flag a flag
+	 */
+	void toggleAnimationPropertiesEditable(bool flag);
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */
@@ -367,6 +373,10 @@ public:
 		\return object name
 	 */
 	QString viewableObjectName(sad::db::Object* o);
+	/*! Locks types tab if it should be locked
+		\param[in] lock whether it should be looked
+	 */
+	void lockTypesTab(bool lock);
 	/*! Tries to find an item to a list
 		\param[in] w widget
 		\param[in] userdata a data
@@ -430,6 +440,9 @@ protected:
     /*! Current editor, used to work width
      */
     core::Editor*   m_editor;
+	/*! Defines, whether tabTypes widget is locked, and a tab, on which it's locked
+	 */
+	sad::Maybe<int> m_type_locked_tab;
     /*! A property delegates, which belongs only to a loaded database and were here
         before user added any property
      */
