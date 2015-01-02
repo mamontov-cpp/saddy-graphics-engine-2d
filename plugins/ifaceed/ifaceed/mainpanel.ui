@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1300,7 +1300,7 @@ for object
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lstAnimationName">
+     <widget class="QLineEdit" name="txtAnimationName">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2244,7 +2244,7 @@ rect:</string>
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lstAnimationInstanceName">
+     <widget class="QLineEdit" name="txtAnimationInstanceName">
       <property name="geometry">
        <rect>
         <x>10</x>

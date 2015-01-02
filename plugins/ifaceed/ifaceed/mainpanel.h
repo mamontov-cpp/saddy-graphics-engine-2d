@@ -23,6 +23,7 @@
 #include <p2d/app/way.h>
 #include <dialogue/dialogue.h>
 
+
 #pragma once
 
 namespace core
@@ -37,6 +38,7 @@ class Sprite2DActions;
 class CustomObjectActions;
 class WayActions;
 class DialogueActions;
+class AnimationActions;
 }
 
 
@@ -94,6 +96,10 @@ public:
 	 *  \return actions for dialogue editing
 	 */
 	gui::DialogueActions* dialogueActions() const;
+	/*! Returns actions for animation editing
+ 	 *  \return actions for animation editing
+	 */
+	gui::AnimationActions* animationActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -282,6 +288,23 @@ public:
 		\return name for phrase
 	 */
 	QString nameForPhrase(const sad::dialogue::Phrase& p) const;
+	/*! Returns name for animation
+		\param[in] a animation
+		\return animation
+	 */
+	QString nameForAnimation(sad::animations::Animation* a) const;
+	/*! Adds animation to a lists
+		\param[in] a animation an animation
+	 */
+	void addAnimationToViewingLists(sad::animations::Animation* a);
+	/*! Removes animation from a viewing lists
+		\param[in] a animation an animation to be removed
+	 */
+	void removeAnimationFromViewingLists(sad::animations::Animation* a);
+	/*! Updates animation name in lists
+		\param[in] a an animation
+	 */
+	void updateAnimationName(sad::animations::Animation* a);
 	/*! Returns check box for visibility property
 		\return checkbox
 	 */
@@ -344,6 +367,46 @@ public:
 		\return object name
 	 */
 	QString viewableObjectName(sad::db::Object* o);
+	/*! Tries to find an item to a list
+		\param[in] w widget
+		\param[in] userdata a data
+		\return index
+	 */
+	template<
+		typename T
+	>
+	static unsigned int findInList(QListWidget* w, T userdata)
+	{
+		size_t pos = - 1;
+		for(size_t i = 0; i < w->count(); i++)
+		{
+			if (w->item(i)->data(Qt::UserRole).value<T>() == userdata)
+			{
+				pos = i;
+			}
+		}
+		return pos;
+	}
+	/*! Tries to find an item to a combo box
+		\param[in] w widget
+		\param[in] userdata a data
+		\return index (-1 if not found)
+	 */
+	template<
+		typename T
+	>
+	static int findInComboBox(QComboBox* w, T userdata)
+	{
+		int pos = - 1;
+		for(size_t i = 0; i < w->count(); i++)
+		{
+			if (w->itemData(i, Qt::UserRole).value<T>() == userdata)
+			{
+				pos = static_cast<int>(i);
+			}
+		}
+		return pos;
+	}
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */
@@ -392,6 +455,9 @@ protected:
 	/*! An actions, linked to dialogue editing
 	 */
 	gui::DialogueActions* m_dialogue_actions;
+	/*! An actions, linked to animations editing
+	 */
+	gui::AnimationActions* m_animation_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;

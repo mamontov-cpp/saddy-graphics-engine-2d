@@ -4,10 +4,6 @@
 	Defines an editor's data, shared between all editor's states
  */
 #pragma once
-#include <stdio.h>
-
-#include <QTimer>
-#include <QString>
 
 #include <sadstring.h>
 #include <scenenode.h>
@@ -21,6 +17,8 @@
 #include <p2d/app/way.h>
 
 #include <dialogue/dialogue.h>
+
+#include <animations/animationsanimation.h>
 
 namespace core
 {
@@ -164,6 +162,14 @@ public:
 		\return selected dialogue
 	 */
 	sad::dialogue::Dialogue* selectedDialogue() const;
+	/*! Sets selected animation
+		\param[in] an animation animation to be set
+	 */ 
+	void setSelectedAnimation(sad::animations::Animation* a);
+	/*! Returns selected animation
+		\return selected animation
+	 */
+	sad::animations::Animation* selectedAnimation() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -177,6 +183,9 @@ private:
 	/*! A selected dialogue
 	 */
 	sad::dialogue::Dialogue* m_selected_dialogue;
+	/*! A selected animation
+	 */
+	sad::animations::Animation* m_selected_animation;
     /*! A way point position, when moving point
      */
     int m_way_point_position;
