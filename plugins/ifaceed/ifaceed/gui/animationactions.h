@@ -12,6 +12,9 @@ class MainPanel;
 
 namespace gui
 {
+
+class AnimationProcess;
+
 /*! A group of actions, linked to animations
  */	
 class AnimationActions: public QObject
@@ -55,10 +58,19 @@ public slots:
 		\param[in] nvalue a value
 	 */
 	void blinkingFrequencyChanged(int nvalue);
+	/*! Starts a selected animation as instance on selected object
+	 */
+	void startOnObject();
+	/*! Stops a selected animation as instance on selected object
+	 */
+	void stopOnObject();
 private:
 	/*! An panel, which actions are belong to
 	 */
 	MainPanel* m_panel;
+	/*! A running animation process 
+	 */
+	gui::AnimationProcess* m_animation;
 };
 
 }

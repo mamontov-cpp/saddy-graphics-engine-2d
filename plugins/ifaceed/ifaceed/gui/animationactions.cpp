@@ -1,10 +1,12 @@
 #include <QMessageBox>
 
 #include <animations/animationsanimation.h>
+#include <animations/animationsinstance.h>
 
 #include <geometry2d.h>
 
 #include "../gui/animationactions.h"
+#include "../gui/animationprocess.h"
 
 #include "../blockedclosuremethodcall.h"
 
@@ -27,17 +29,18 @@ Q_DECLARE_METATYPE(sad::animations::Animation*)
 
 gui::AnimationActions::AnimationActions(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-
+	m_animation = new gui::AnimationProcess();
 }
 
 gui::AnimationActions::~AnimationActions()
 {
-	
+	delete m_animation;	
 }
 
 void gui::AnimationActions::setPanel(MainPanel* e)
 {
 	m_panel = e;
+	m_animation->setEditor(e->editor());
 }
 
 MainPanel* gui::AnimationActions::panel() const
@@ -67,6 +70,8 @@ void gui::AnimationActions::addAnimation()
 				unsigned int frequency = static_cast<unsigned int>(m_panel->UI()->sbBlinkingFrequency->value());
 				a->setProperty("frequency", frequency);
 			}
+
+			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
 			c->commit(this->m_panel->editor());
@@ -176,5 +181,32 @@ void gui::AnimationActions::blinkingFrequencyChanged(int nvalue)
 				this->m_panel->editor()->history()->add(c);
 			}
 		}
+	}
+}
+
+
+void gui::AnimationActions::startOnObject()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == false 
+		&& s->selectedObject() != NULL
+		&& s->selectedAnimation() != NULL)
+	{
+		sad::animations::Instance* i = new sad::animations::Instance();
+		i->setAnimation(s->selectedAnimation());
+		i->setObject(s->selectedObject());
+		i->setStartTime(0.0);
+		m_animation->setEditor(m_panel->editor());
+		m_animation->start(i);
+	}
+}
+
+void gui::AnimationActions::stopOnObject()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == true)
+	{
+		m_animation->setEditor(m_panel->editor());
+		m_animation->stop();
 	}
 }

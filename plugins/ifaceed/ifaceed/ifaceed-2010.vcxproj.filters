@@ -1088,6 +1088,24 @@
     <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="gui\animationprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationprocess.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1507,6 +1525,9 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="gui\animationactions.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationprocess.h">
       <Filter>Header Files\gui</Filter>
     </CustomBuild>
   </ItemGroup>
