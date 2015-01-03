@@ -462,7 +462,9 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.sbBlinkingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(blinkingFrequencyChanged(int)));
 	connect(ui.btnAnimationsStart, SIGNAL(clicked()), m_animation_actions, SLOT(startOnObject()));
 	connect(ui.btnAnimationsCancel, SIGNAL(clicked()), m_animation_actions, SLOT(stopOnObject()));
-	
+	connect(ui.cwColorStartingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeStartingColor()));
+	connect(ui.cwColorEndingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeEndingColor()));
+
 	// Initialize UI from editor
 	if (editor)
 	{

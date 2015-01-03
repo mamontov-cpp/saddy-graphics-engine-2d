@@ -222,7 +222,16 @@ void gui::colorpicker::ColorPicker::setPalette(const QList<QList<QColor> > & pal
 			.arg(palette[0][0].green())
 			.arg(palette[0][0].blue())
 			.arg(palette[0][0].alpha())
-	);	
+	);
+
+	for(int i = 0; i < m_palette->columnCount(); i++) {
+		m_palette->setColumnWidth(i, gui::colorpicker::ColorPicker::PaletteCellSize);
+	}
+
+	for(int i = 0; i < m_palette->rowCount(); i++) {
+		m_palette->setRowHeight(i, gui::colorpicker::ColorPicker::PaletteCellSize);
+	}
+
 	QTimer::singleShot(0, this, SLOT(setPaletteSelection()));
 	emit selectedColorChanged(palette[0][0]);
 }
