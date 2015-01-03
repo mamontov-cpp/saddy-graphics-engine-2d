@@ -573,6 +573,13 @@ void MainPanel::viewDatabase()
 		addSceneToSceneList(scenes[i]);
 	}
 
+	// Cleanup a combo for animation way
+	sad::p2d::app::Way* nullway = NULL;
+	QVariant nullwayvariant;
+	nullwayvariant.setValue(nullway);
+	ui.cmbWayAnimationWay->addItem("Not set", nullwayvariant);
+	ui.cmbWayAnimationInstanceWay->addItem("Not set", nullwayvariant);
+
     sad::Vector<sad::db::Object*> wayslist;
     db->table("ways")->objects(wayslist);
     for(unsigned int i = 0; i < wayslist.size(); i++)
@@ -856,10 +863,17 @@ void MainPanel::updateSceneNodeName(sad::SceneNode* s)
 
 void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
 {
-    ui.lstWays->addItem(this->viewableObjectName(way));
-    QVariant v;
+	QString nameforway = this->viewableObjectName(way);
+    
+	ui.lstWays->addItem(nameforway);
+    
+	QVariant v;
     v.setValue(way);
     ui.lstWays->item(ui.lstWays->count()-1)->setData(Qt::UserRole, v);
+
+	ui.cmbWayAnimationWay->addItem(nameforway, v);
+	ui.cmbWayAnimationInstanceWay->addItem(nameforway, v);
+
 }
 
 void MainPanel::removeLastWayFromWayList()
@@ -874,6 +888,18 @@ void MainPanel::removeLastWayFromWayList()
             m_editor->machine()->enterState("ways/idle");
         }
         delete ui.lstWays->takeItem(ui.lstWays->count() - 1);
+
+		int pos = this->findInComboBox(ui.cmbWayAnimationWay, w);
+		if (pos >= 0)
+		{
+			ui.cmbWayAnimationWay->removeItem(pos);
+		}
+
+		pos = this->findInComboBox(ui.cmbWayAnimationInstanceWay, w);
+		if (pos >= 0)
+		{
+			ui.cmbWayAnimationInstanceWay->removeItem(pos);
+		}
     }
 }
 
@@ -928,11 +954,24 @@ int MainPanel::findWayInList(sad::p2d::app::Way* s)
 
 void MainPanel::updateWayName(sad::p2d::app::Way* s)
 {
+	QString name = this->viewableObjectName(s);
     int row = this->findWayInList(s);
     if (row != -1)
     {
-        ui.lstWays->item(row)->setText(this->viewableObjectName(s));
+        ui.lstWays->item(row)->setText(name);
     }
+
+	int pos = this->findInComboBox(ui.cmbWayAnimationWay, s);
+	if (pos >= 0)
+	{
+		ui.cmbWayAnimationWay->setItemText(pos, name);
+	}
+
+	pos = this->findInComboBox(ui.cmbWayAnimationInstanceWay, s);
+	if (pos >= 0)
+	{
+		ui.cmbWayAnimationInstanceWay->setItemText(pos, name);
+	}
 }
 
 void MainPanel::removeRowInWayPointList(int row)
