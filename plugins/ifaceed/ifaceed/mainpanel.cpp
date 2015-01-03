@@ -464,7 +464,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsCancel, SIGNAL(clicked()), m_animation_actions, SLOT(stopOnObject()));
 	connect(ui.cwColorStartingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeStartingColor()));
 	connect(ui.cwColorEndingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeEndingColor()));
-
+	connect(ui.dabResizeVectorX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorX(double)));
+	connect(ui.dabResizeVectorY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorY(double)));
+	
 	// Initialize UI from editor
 	if (editor)
 	{

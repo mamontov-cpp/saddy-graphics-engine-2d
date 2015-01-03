@@ -208,6 +208,7 @@
     <ClCompile Include="history\animations\animationschangecolorcolor.cpp" />
     <ClCompile Include="history\animations\animationschangelooped.cpp" />
     <ClCompile Include="history\animations\animationschangename.cpp" />
+    <ClCompile Include="history\animations\animationschangeresizevector.cpp" />
     <ClCompile Include="history\animations\animationschangetime.cpp" />
     <ClCompile Include="history\animations\animationsnew.cpp" />
     <ClCompile Include="main.cpp" />
@@ -1311,6 +1312,7 @@
     <ClInclude Include="history\animations\animationschangelooped.h" />
     <ClInclude Include="history\animations\animationschangename.h" />
     <ClInclude Include="history\animations\animationschangeproperty.h" />
+    <ClInclude Include="history\animations\animationschangeresizevector.h" />
     <ClInclude Include="history\animations\animationschangetime.h" />
     <ClInclude Include="history\animations\animationsnew.h" />
     <ClInclude Include="macro.h" />

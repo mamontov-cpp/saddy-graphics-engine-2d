@@ -70,6 +70,16 @@ public slots:
 	/*! Changes ending color for color animations
 	 */
 	void colorChangeEndingColor();
+	/*! Emitted, when resizing changes vector of resize coordinates
+		for X coordinate
+		\param[in] newvalue a new value
+	 */
+	void resizeChangeVectorX(double newvalue);
+	/*! Emitted, when resizing changes vector of resize coordinates
+		for Y coordinate
+		\param[in] newvalue a new value
+	 */
+	void resizeChangeVectorY(double newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */
