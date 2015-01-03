@@ -466,6 +466,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cwColorEndingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeEndingColor()));
 	connect(ui.dabResizeVectorX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorX(double)));
 	connect(ui.dabResizeVectorY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorY(double)));
+	connect(ui.dsbRotateStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeStartingAngle(double)));
+	connect(ui.dsbRotateEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeEndingAngle(double)));
 	
 	// Initialize UI from editor
 	if (editor)

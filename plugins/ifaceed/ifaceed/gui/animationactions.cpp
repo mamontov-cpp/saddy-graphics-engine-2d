@@ -23,6 +23,7 @@
 #include "../history/animations/animationschangeblinkingfrequency.h"
 #include "../history/animations/animationschangecolorcolor.h"
 #include "../history/animations/animationschangeresizevector.h"
+#include "../history/animations/animationschangerotateangle.h"
 
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
@@ -96,6 +97,17 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("vector", p);
 			}
 
+			if (a->isInstanceOf("sad::animations::Rotate"))
+			{
+				double minangle = m_panel->UI()->dsbRotateStartingAngle->value();
+				double maxangle = m_panel->UI()->dsbRotateEndingAngle->value();
+				minangle = minangle / 180.0 * M_PI;
+				maxangle = maxangle / 180.0 * M_PI;
+
+				a->setProperty("min_angle", minangle);
+				a->setProperty("max_angle", maxangle);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -151,6 +163,18 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorX, &QDoubleSpinBox::setValue, p.x()) );
 			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorY, &QDoubleSpinBox::setValue, p.y()) );
+		}
+
+		if (a->isInstanceOf("sad::animations::Rotate"))
+		{
+			double minangle = a->getProperty<double>("min_angle").value();
+			double maxangle = a->getProperty<double>("max_angle").value();
+
+			minangle =  minangle / M_PI * 180.0;
+			maxangle =  maxangle / M_PI * 180.0;
+
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateStartingAngle, &QDoubleSpinBox::setValue, minangle) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateEndingAngle, &QDoubleSpinBox::setValue, maxangle) );
 		}
 
 	}
@@ -381,6 +405,58 @@ void gui::AnimationActions::resizeChangeVectorY(double newvalue)
 					a,
 					oldvalue,
 					nvalue
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::rotateChangeStartingAngle(double newvalue)
+{
+	newvalue = newvalue / 180.0 * M_PI;
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Rotate"))
+		{
+			double oldvalue = a->getProperty<double>("min_angle").value();
+			if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+			{				
+				history::animations::ChangeRotateAngle* c = new history::animations::ChangeRotateAngle(
+					a,
+					"min_angle",
+					m_panel->UI()->dsbRotateStartingAngle,
+					oldvalue,
+					newvalue
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::rotateChangeEndingAngle(double newvalue)
+{
+	newvalue = newvalue / 180.0 * M_PI;
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Rotate"))
+		{
+			double oldvalue = a->getProperty<double>("max_angle").value();
+			if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+			{				
+				history::animations::ChangeRotateAngle* c = new history::animations::ChangeRotateAngle(
+					a,
+					"max_angle",
+					m_panel->UI()->dsbRotateEndingAngle,
+					oldvalue,
+					newvalue
 				);
 				c->commit(this->m_panel->editor());
 
