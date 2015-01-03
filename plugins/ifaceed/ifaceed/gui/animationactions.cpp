@@ -3,8 +3,6 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
 
-#include <geometry2d.h>
-
 #include "../gui/animationactions.h"
 #include "../gui/animationprocess.h"
 
@@ -24,6 +22,7 @@
 #include "../history/animations/animationschangelooped.h"
 #include "../history/animations/animationschangeblinkingfrequency.h"
 #include "../history/animations/animationschangecolorcolor.h"
+#include "../history/animations/animationschangeresizevector.h"
 
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
@@ -73,7 +72,7 @@ void gui::AnimationActions::addAnimation()
 				unsigned int frequency = static_cast<unsigned int>(m_panel->UI()->sbBlinkingFrequency->value());
 				a->setProperty("frequency", frequency);
 			}
-			if (a->isInstanceOf("sa::animations::Color"))
+			if (a->isInstanceOf("sad::animations::Color"))
 			{
 				QColor sourcemincolor = m_panel->UI()->cwColorStartingColor->backgroundColor();
 				QColor sourcemaxcolor = m_panel->UI()->cwColorEndingColor->backgroundColor();
@@ -86,6 +85,15 @@ void gui::AnimationActions::addAnimation()
 
 				a->setProperty("min_color", mincolor);
 				a->setProperty("max_color", maxcolor);
+			}
+
+			if (a->isInstanceOf("sad::animations::Resize"))
+			{
+				sad::Point2D p(
+					m_panel->UI()->dabResizeVectorX->value(),
+					m_panel->UI()->dabResizeVectorY->value()
+				);
+				a->setProperty("vector", p);
 			}
 
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
@@ -135,6 +143,14 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 			m_panel->UI()->cwColorStartingColor->setBackgroundColor(mincolor);
 			m_panel->UI()->cwColorEndingColor->setBackgroundColor(maxcolor);
+		}
+
+		if (a->isInstanceOf("sad::animations::Resize"))
+		{
+			sad::Point2D p = a->getProperty<sad::Point2D>("vector").value();
+
+			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorX, &QDoubleSpinBox::setValue, p.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorY, &QDoubleSpinBox::setValue, p.y()) );
 		}
 
 	}
@@ -312,6 +328,59 @@ void gui::AnimationActions::colorChangeEndingColor()
 					view,
 					oldcolor,
 					newcolor
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
+void gui::AnimationActions::resizeChangeVectorX(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Resize"))
+		{
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("vector").value();
+			if (sad::is_fuzzy_equal(oldvalue.x(), newvalue) == false)
+			{
+				sad::Point2D nvalue = oldvalue;
+				nvalue.setX(newvalue);
+
+				history::animations::ChangeResizeVector* c = new history::animations::ChangeResizeVector(
+					a,
+					oldvalue,
+					nvalue
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::resizeChangeVectorY(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Resize"))
+		{
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("vector").value();
+			if (sad::is_fuzzy_equal(oldvalue.y(), newvalue) == false)
+			{
+				sad::Point2D nvalue = oldvalue;
+				nvalue.setY(newvalue);
+
+				history::animations::ChangeResizeVector* c = new history::animations::ChangeResizeVector(
+					a,
+					oldvalue,
+					nvalue
 				);
 				c->commit(this->m_panel->editor());
 
