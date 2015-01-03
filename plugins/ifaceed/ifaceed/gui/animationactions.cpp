@@ -10,17 +10,20 @@
 
 #include "../blockedclosuremethodcall.h"
 
+#include "../acolordialog.h"
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
 
 #include "../core/typeconverters/qcolortosadacolor.h"
+#include "../core/typeconverters/sadacolortoqcolor.h"
 
 #include "../history/animations/animationsnew.h"
 #include "../history/animations/animationschangename.h"
 #include "../history/animations/animationschangetime.h"
 #include "../history/animations/animationschangelooped.h"
 #include "../history/animations/animationschangeblinkingfrequency.h"
+#include "../history/animations/animationschangecolorcolor.h"
 
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
@@ -70,6 +73,20 @@ void gui::AnimationActions::addAnimation()
 				unsigned int frequency = static_cast<unsigned int>(m_panel->UI()->sbBlinkingFrequency->value());
 				a->setProperty("frequency", frequency);
 			}
+			if (a->isInstanceOf("sa::animations::Color"))
+			{
+				QColor sourcemincolor = m_panel->UI()->cwColorStartingColor->backgroundColor();
+				QColor sourcemaxcolor = m_panel->UI()->cwColorEndingColor->backgroundColor();
+
+				sad::AColor mincolor;
+				sad::AColor maxcolor;
+
+				core::typeconverters::QColorToSadAColor::convert(sourcemincolor, mincolor);
+				core::typeconverters::QColorToSadAColor::convert(sourcemaxcolor, maxcolor);
+
+				a->setProperty("min_color", mincolor);
+				a->setProperty("max_color", maxcolor);
+			}
 
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
@@ -104,6 +121,20 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 		{
 			unsigned int frequency = a->getProperty<unsigned int>("frequency").value();
 			e->emitClosure( blocked_bind(m_panel->UI()->sbBlinkingFrequency, &QSpinBox::setValue, frequency) );
+		}
+		if (a->isInstanceOf("sad::animations::Color"))
+		{
+			sad::AColor sourcemincolor = a->getProperty<sad::AColor>("min_color").value();
+			sad::AColor sourcemaxcolor = a->getProperty<sad::AColor>("max_color").value();
+			
+			QColor mincolor;
+			QColor maxcolor;
+
+			core::typeconverters::SadAColorToQColor::convert(sourcemincolor, mincolor);
+			core::typeconverters::SadAColorToQColor::convert(sourcemaxcolor, maxcolor);
+
+			m_panel->UI()->cwColorStartingColor->setBackgroundColor(mincolor);
+			m_panel->UI()->cwColorEndingColor->setBackgroundColor(maxcolor);
 		}
 
 	}
@@ -208,5 +239,84 @@ void gui::AnimationActions::stopOnObject()
 	{
 		m_animation->setEditor(m_panel->editor());
 		m_animation->stop();
+	}
+}
+
+
+void gui::AnimationActions::colorChangeStartingColor()
+{
+	gui::colorview::ColorView* view = m_panel->UI()->cwColorStartingColor; 
+	QColor oldvalue = view->backgroundColor();
+	AColorDialog dlg;
+	dlg.setColorPalette(m_panel->colorPalette());
+	dlg.setSelectedColor(oldvalue);
+	
+	if (dlg.exec() == QDialog::Accepted)
+	{
+		QColor i = dlg.selectedColor();
+		m_panel->setColorPalette(dlg.colorPalette());
+		view->setBackgroundColor(i);
+		sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+		if (oldvalue != i && a != NULL)
+		{
+			if (a->isInstanceOf("sad::animations::Color"))
+			{
+				sad::AColor oldcolor;
+				sad::AColor newcolor;
+
+				core::typeconverters::QColorToSadAColor::convert(oldvalue,oldcolor);
+				core::typeconverters::QColorToSadAColor::convert(i,newcolor);
+
+				history::animations::ChangeColorColor* c = new history::animations::ChangeColorColor(
+					a,
+					"min_color",
+					view,
+					oldcolor,
+					newcolor
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::colorChangeEndingColor()
+{
+	gui::colorview::ColorView* view = m_panel->UI()->cwColorEndingColor; 
+	QColor oldvalue = view->backgroundColor();
+	AColorDialog dlg;
+	dlg.setColorPalette(m_panel->colorPalette());
+	dlg.setSelectedColor(oldvalue);
+	
+	if (dlg.exec() == QDialog::Accepted)
+	{
+		QColor i = dlg.selectedColor();
+		m_panel->setColorPalette(dlg.colorPalette());
+		view->setBackgroundColor(i);
+		sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+		if (oldvalue != i && a != NULL)
+		{
+			if (a->isInstanceOf("sad::animations::Color"))
+			{
+				sad::AColor oldcolor;
+				sad::AColor newcolor;
+
+				core::typeconverters::QColorToSadAColor::convert(oldvalue,oldcolor);
+				core::typeconverters::QColorToSadAColor::convert(i,newcolor);
+
+				history::animations::ChangeColorColor* c = new history::animations::ChangeColorColor(
+					a,
+					"max_color",
+					view,
+					oldcolor,
+					newcolor
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
 	}
 }

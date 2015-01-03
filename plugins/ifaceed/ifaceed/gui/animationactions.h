@@ -64,6 +64,12 @@ public slots:
 	/*! Stops a selected animation as instance on selected object
 	 */
 	void stopOnObject();
+	/*! Changes starting color for color animations
+	 */
+	void colorChangeStartingColor();
+	/*! Changes ending color for color animations
+	 */
+	void colorChangeEndingColor();
 private:
 	/*! An panel, which actions are belong to
 	 */
