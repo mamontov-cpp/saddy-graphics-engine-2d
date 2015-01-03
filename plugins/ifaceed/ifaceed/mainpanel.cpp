@@ -460,7 +460,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbAnimationTime, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(timeChanged(double)));
 	connect(ui.cbAnimationLooped, SIGNAL(clicked(bool)), m_animation_actions, SLOT(loopedChanged(bool)));
     connect(ui.sbBlinkingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(blinkingFrequencyChanged(int)));
-
+	connect(ui.btnAnimationsStart, SIGNAL(clicked()), m_animation_actions, SLOT(startOnObject()));
+	connect(ui.btnAnimationsCancel, SIGNAL(clicked()), m_animation_actions, SLOT(stopOnObject()));
+	
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -1161,6 +1163,7 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 		ui.btnCompositeAnimationAddToList,
 		ui.btnCompositeAnimationMoveBack,
 		ui.btnCompositeAnimationMoveFront,
+		ui.lstAnimations, // !!! Toggle animation list too to be disabled, to force user not to change animation
 		NULL
 	};
 	size_t i = 0;

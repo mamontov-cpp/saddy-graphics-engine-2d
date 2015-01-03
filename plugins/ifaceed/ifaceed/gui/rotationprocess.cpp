@@ -7,6 +7,8 @@
 #include "../history/scenenodes/scenenodeschangeangle.h"
 
 
+// ============================ PUBLIC METHODS ============================
+
 gui::RotationProcess::RotationProcess()
 : m_node(NULL), m_editor(NULL), m_pending(false)
 {
