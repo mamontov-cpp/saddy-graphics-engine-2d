@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "../command.h"
+
 #include <p2d/app/way.h>
 
 namespace history
