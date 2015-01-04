@@ -9,7 +9,7 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
-sad::p2d::app::Way::Way() : m_constructed(false), m_closed(false), m_totaltime(100)
+sad::p2d::app::Way::Way() : m_constructed(true), m_closed(false), m_totaltime(100)
 {
 
 }

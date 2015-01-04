@@ -49,6 +49,7 @@
 
 #include "../blockedclosuremethodcall.h"
 
+Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 // =================== PUBLIC METHODS ===================
 
 core::Editor::Editor()
@@ -341,6 +342,13 @@ void core::Editor::tryEnterWayEditingState()
 	m_shared->setActiveObject(NULL);
 	m_shared->setSelectedWay(NULL);	
 	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 1);
+	if (m_mainwindow->UI()->lstWays->currentRow() >= 0)
+	{
+		this->m_machine->enterState("ways/selected");
+		int row = m_mainwindow->UI()->lstWays->currentRow();
+		sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
+		m_shared->setSelectedWay(way);			
+	}
 }
 
 // =================== PUBLIC SLOTS METHODS ===================
