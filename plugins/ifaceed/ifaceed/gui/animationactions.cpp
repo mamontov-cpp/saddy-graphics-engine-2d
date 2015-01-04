@@ -26,7 +26,7 @@
 #include "../history/animations/animationschangecolorcolor.h"
 #include "../history/animations/animationschangeresizevector.h"
 #include "../history/animations/animationschangerotateangle.h"
-
+#include "../history/animations/animationschangewaymovingway.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -490,6 +490,35 @@ void gui::AnimationActions::rotateChangeEndingAngle(double newvalue)
 				c->commit(this->m_panel->editor());
 
 				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
+void gui::AnimationActions::wayMovingChangeWay(int row)
+{
+	if (row != -1)
+	{
+		QVariant v = m_panel->UI()->cmbWayAnimationWay->itemData(row, Qt::UserRole);
+		sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
+		unsigned long long newvalue = 0;
+		if (w)
+		{
+			newvalue = w->MajorId;
+		}
+		sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+		if (a)
+		{
+			if (a->isInstanceOf("sad::animations::WayMoving"))
+			{
+				unsigned long long oldvalue = a->getProperty<unsigned long long>("way").value();
+				if (oldvalue != newvalue)
+				{
+					history::Command* c =new history::animations::ChangeWayMovingWay(a, oldvalue, newvalue);
+					c->commit(m_panel->editor());
+					this->m_panel->editor()->history()->add(c);
+				}
 			}
 		}
 	}

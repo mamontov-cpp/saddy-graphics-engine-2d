@@ -1,7 +1,7 @@
 /*! \file animationschangelooped.h
     \author HiddenSeeker
 
-    Describe a command, which changes flag, which indicates, whether animation is looped
+    Describes a command, which changes flag, which indicates, whether animation is looped
  */
 #pragma once
 #include "animationschangeproperty.h"

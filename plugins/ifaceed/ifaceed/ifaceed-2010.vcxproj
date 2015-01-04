@@ -211,6 +211,7 @@
     <ClCompile Include="history\animations\animationschangeresizevector.cpp" />
     <ClCompile Include="history\animations\animationschangerotateangle.cpp" />
     <ClCompile Include="history\animations\animationschangetime.cpp" />
+    <ClCompile Include="history\animations\animationschangewaymovingway.cpp" />
     <ClCompile Include="history\animations\animationsnew.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainpanel.cpp">
@@ -1317,6 +1318,7 @@
     <ClInclude Include="history\animations\animationschangeresizevector.h" />
     <ClInclude Include="history\animations\animationschangetime.h" />
     <ClInclude Include="history\animations\animationsnew.h" />
+    <ClInclude Include="history\animations\animationschangewaymovingway.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainpanel.h...</Message>

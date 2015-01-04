@@ -84,10 +84,14 @@ public slots:
 		\param[in] newvalue new value for angle
 	 */ 
 	void rotateChangeStartingAngle(double newvalue);
-	/*! Called, when user changes engding angle for rotation angle
+	/*! Called, when user changes ending angle for rotation angle
 		\param[in] newvalue new value for angle
 	 */ 
 	void rotateChangeEndingAngle(double newvalue);
+	/*! Called, when user changes way for way moving animation
+		\param[in] row a row
+	 */
+	void wayMovingChangeWay(int row);
 private:
 	/*! An panel, which actions are belong to
 	 */

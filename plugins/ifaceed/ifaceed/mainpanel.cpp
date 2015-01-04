@@ -468,6 +468,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dabResizeVectorY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorY(double)));
 	connect(ui.dsbRotateStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeStartingAngle(double)));
 	connect(ui.dsbRotateEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeEndingAngle(double)));
+	connect(ui.cmbWayAnimationWay, SIGNAL(currentIndexChanged(int)), m_animation_actions, SLOT(wayMovingChangeWay(int)));
 	
 	// Initialize UI from editor
 	if (editor)
@@ -2054,6 +2055,15 @@ void MainPanel::tabTypeChanged(int index)
 	if (index == 1)
 	{
 		m_editor->tryEnterWayEditingState();
+	}
+	if (index == 2)
+	{
+		int row = ui.lstAnimations->currentRow(); 
+		if (row >= 0)
+		{
+			sad::animations::Animation* w = ui.lstAnimations->item(row)->data(Qt::UserRole).value<sad::animations::Animation*>();
+			m_editor->shared()->setSelectedAnimation(w);
+		}
 	}
 }
 

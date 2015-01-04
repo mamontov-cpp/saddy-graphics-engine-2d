@@ -1115,6 +1115,9 @@
     <ClCompile Include="history\animations\animationschangerotateangle.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="history\animations\animationschangewaymovingway.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1397,6 +1400,9 @@
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
     <ClInclude Include="history\animations\animationschangerotateangle.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangewaymovingway.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
   </ItemGroup>
