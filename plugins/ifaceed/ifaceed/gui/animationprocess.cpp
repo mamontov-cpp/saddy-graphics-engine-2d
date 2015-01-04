@@ -3,6 +3,7 @@
 #include <animations/animationsanimations.h>
 #include <renderer.h>
 
+#include "../blockedclosuremethodcall.h"
 #include "../closuremethodcall.h"
 #include "../core/editor.h"
 #include "../core/shared.h"
@@ -90,8 +91,17 @@ void gui::AnimationProcess::timerExpired()
 		{
 			if (m_instance)
 			{
-				if (m_instance->finished())
+				// Update animation time if instance updates it (WayMoving animation type could do it)
+				double animationtime = m_instance->animation(false)->time();
+				QDoubleSpinBox* timebox = m_editor->panel()->UI()->dsbAnimationTime;
+				double animationbeforetime = timebox->value();
+				if (sad::is_fuzzy_equal(animationtime, animationbeforetime) == false)
 				{
+					invoke_blocked(timebox, &QDoubleSpinBox::setValue, animationtime);
+				}
+
+				if (m_instance->finished())
+				{					
 					this->stop();					
 				}
 			}

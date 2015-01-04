@@ -182,10 +182,13 @@ bool sad::animations::WayMoving::applicableTo(sad::db::Object* o)
 	bool result = false;
     if (o && way(true) != NULL)
     {
-		result = o->getProperty<sad::Rect2D>("area").exists() && !sad::is_fuzzy_zero(way(false)->totalTime());
+		double waytime = way(false)->totalTime();
+		bool areapropertyexists = o->getProperty<sad::Rect2D>("area").exists();
+		bool waytimenotzero = !sad::is_fuzzy_zero(waytime);
+		result = areapropertyexists && waytimenotzero;
 		if (result)
 		{
-			setTime(way(false)->totalTime());
+			setTime(waytime);
 		}
     }
     return result;

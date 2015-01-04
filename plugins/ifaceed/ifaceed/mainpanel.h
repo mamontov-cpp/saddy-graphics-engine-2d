@@ -417,6 +417,37 @@ public:
 		}
 		return pos;
 	}
+	/*! Tries to find an item to a combo box by major id
+		\param[in] w widget
+		\param[in] unsigned long long id
+		\return index (-1 if not found)
+	 */
+	template<
+		typename T
+	>
+	static int findInComboBoxByMajorId(QComboBox* w, unsigned long long id)
+	{
+		int pos = - 1;
+		for(size_t i = 0; i < w->count(); i++)
+		{
+			T tmp = w->itemData(i, Qt::UserRole).value<T>(); 
+		    if (tmp)
+		    {
+			    if (tmp->MajorId == id)
+			    {
+				    pos = static_cast<int>(i);
+			    }
+		    }
+			else
+			{
+				if (id == 0)
+				{
+					pos = static_cast<int>(i);
+				}
+			}
+		}
+		return pos;
+	}
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */

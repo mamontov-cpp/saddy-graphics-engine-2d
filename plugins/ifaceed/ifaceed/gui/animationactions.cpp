@@ -3,6 +3,8 @@
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
 
+#include <p2d/app/way.h>
+
 #include "../gui/animationactions.h"
 #include "../gui/animationprocess.h"
 
@@ -27,6 +29,7 @@
 
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 
 // ===============================  PUBLIC METHODS ===============================
 
@@ -108,6 +111,22 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("max_angle", maxangle);
 			}
 
+			if (a->isInstanceOf("sad::animations::WayMoving"))
+			{
+				unsigned long long selectedid = 0;
+				int index = m_panel->UI()->cmbWayAnimationWay->currentIndex();
+				if (index >= 0)
+				{
+					QVariant v = m_panel->UI()->cmbWayAnimationWay->itemData(index, Qt::UserRole);
+					sad::p2d::app::Way* w = v.value<sad::p2d::app::Way*>();
+					if (w)
+					{
+						selectedid = w->MajorId;
+					}
+				}
+				a->setProperty("way", selectedid);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -175,6 +194,16 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateStartingAngle, &QDoubleSpinBox::setValue, minangle) );
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateEndingAngle, &QDoubleSpinBox::setValue, maxangle) );
+		}
+
+		if (a->isInstanceOf("sad::animations::WayMoving"))
+		{
+		    unsigned long long way = a->getProperty<unsigned long long>("way").value();
+			int pos = m_panel->findInComboBoxByMajorId<sad::p2d::app::Way*>(m_panel->UI()->cmbWayAnimationWay, way);
+			if (pos >= 0)
+			{
+				e->emitClosure( blocked_bind(m_panel->UI()->cmbWayAnimationWay, &QComboBox::setCurrentIndex, pos) );
+			}
 		}
 
 	}
