@@ -159,6 +159,75 @@ protected:
     _Arg2 m_a2;
 };
 
+
+/*! \class ClosureMethodCall2
+ *
+ * A class for closure method call with three arguments
+ */
+template<
+    typename _ClassName,
+    typename _Method,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3
+>
+class ClosureMethodCall3: public sad::ClosureBasic
+{
+public:
+    /*!
+     * Constructs new instance of method call
+     * \param o object
+     * \param f method
+     * \param a1 first argument
+     * \param a2 second argument
+	 * \param a3 third argument
+     */
+    inline ClosureMethodCall3(_ClassName * o, _Method f, const _Arg1& a1, const _Arg2& a2, const _Arg3& a3) 
+	: m_o(o), 
+	m_f(f), 
+	m_a1(a1), 
+	m_a2(a2), 
+	m_a3(a3)
+    {
+
+    }
+    /*!
+     * Can be inherited
+     */
+    virtual ~ClosureMethodCall3()
+    {
+
+    }
+    /*!
+     * Invokes method
+     */
+    virtual void run()
+    {
+        (m_o->*m_f)(m_a1, m_a2, m_a3);
+    }
+protected:
+    /*!
+     * An object for method invocation
+     */
+    _ClassName* m_o;
+    /*!
+     * A method to be called on object
+     */
+    _Method m_f;
+    /*!
+     * A first argument to be passed into method call
+     */
+    _Arg1 m_a1;
+    /*!
+     * A second argument to be passed into method call
+     */
+    _Arg2 m_a2;
+	/*!
+     * A third argument to be passed into method call
+     */
+    _Arg3 m_a3;
+};
+
 /*!
  * Creates new call
  * \param[in] o object
@@ -205,4 +274,24 @@ template<
 sad::ClosureBasic* bind(_ClassName* o, _Method f, const _Arg1& a1, const _Arg2& a2)
 {
     return new ClosureMethodCall2<_ClassName, _Method, _Arg1, _Arg2>(o, f, a1, a2);
+}
+
+/*!
+ * Creates new call
+ * \param[in] o object
+ * \param[in] f method
+ * \param[in] a1 argument
+ * \param[in] a2 argument
+ * \param[in] a3 argument
+ */
+template<
+  typename _ClassName,
+  typename _Method,
+  typename _Arg1,
+  typename _Arg2,
+  typename _Arg3
+>
+sad::ClosureBasic* bind(_ClassName* o, _Method f, const _Arg1& a1, const _Arg2& a2, const _Arg3& a3)
+{
+    return new ClosureMethodCall3<_ClassName, _Method, _Arg1, _Arg2, _Arg3>(o, f, a1, a2, a3);
 }
