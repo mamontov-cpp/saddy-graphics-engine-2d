@@ -169,6 +169,21 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("list", nlist);
 			}
 
+			if (a->isInstanceOf("sad::animations::TextureCoordinatesList"))
+			{
+				QStringList list = m_panel->UI()->txtTextureCoordinatesList->toPlainText().split("\n", QString::SkipEmptyParts);
+				sad::Vector<sad::String> nlist;
+				for(size_t i = 0; i < list.size(); i++)
+				{
+					QString tmp = list[i].trimmed();
+					if (tmp.length())
+					{
+						nlist << tmp.toStdString();
+					}
+				}
+				a->setProperty("list", nlist);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -277,6 +292,17 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 				list << nlist[i].c_str();
 			}
 			e->emitClosure( blocked_bind(m_panel->UI()->txtOptionListList, &QTextEdit::setPlainText, list.join("\n")));
+		}
+
+		if (a->isInstanceOf("sad::animations::TextureCoordinatesList"))
+		{
+			QStringList list;
+			sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("list").value();
+			for(size_t i = 0; i < nlist.size(); i++)
+			{
+				list << nlist[i].c_str();
+			}
+			e->emitClosure( blocked_bind(m_panel->UI()->txtTextureCoordinatesList, &QTextEdit::setPlainText, list.join("\n")));
 		}
 
 	}
@@ -680,6 +706,35 @@ void gui::AnimationActions::optionListEditingFinished()
 		if (a->isInstanceOf("sad::animations::OptionList"))
 		{
 			QTextEdit* widget = m_panel->UI()->txtOptionListList;
+			sad::String prop = "list";
+
+			QStringList list = widget->toPlainText().split("\n", QString::SkipEmptyParts);
+			sad::Vector<sad::String> newvalue;
+			for(size_t i = 0; i < list.size(); i++)
+			{
+				newvalue << list[i].toStdString();
+			}
+
+			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >(prop).value();
+			if (oldvalue != newvalue)
+			{
+				history::Command* c = new history::animations::ChangeList(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
+void gui::AnimationActions::textureCoordinatesListEditingFinished()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::TextureCoordinatesList"))
+		{
+			QTextEdit* widget = m_panel->UI()->txtTextureCoordinatesList;
 			sad::String prop = "list";
 
 			QStringList list = widget->toPlainText().split("\n", QString::SkipEmptyParts);
