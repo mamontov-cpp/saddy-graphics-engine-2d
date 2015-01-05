@@ -1,7 +1,7 @@
-/*! \file animationschangelooped.h
+/*! \file animationschangeshakingfrequency.h
     \author HiddenSeeker
 
-    Describes a command, which changes flag, which indicates, whether animation is looped
+    Describes a command, which changes frequency of shaking for CameraShaking animation
  */
 #pragma once
 #include "animationschangeproperty.h"
@@ -11,9 +11,9 @@ namespace history
 
 namespace animations
 {
-/*! A command, which changes flag, which indicates, whether animation is looped
+/*! A command, which changes frequency of shaking for CameraShaking animation
  */
-class ChangeLooped: public history::animations::ChangeProperty<bool>
+class ChangeShakingFrequency: public history::animations::ChangeProperty<int>
 {
 public:
      /*! Constructs new command for animation
@@ -21,17 +21,17 @@ public:
         \param[in] oldvalue old value
         \param[in] newvalue new value
       */
-    ChangeLooped(sad::animations::Animation* d, bool oldvalue, bool newvalue);
+    ChangeShakingFrequency(sad::animations::Animation* d, int oldvalue, int newvalue);
     /*! Erases link to an animation
       */
-    virtual ~ChangeLooped();
+    virtual ~ChangeShakingFrequency();
 protected:
     /*!
      * Updates current text in field with object name
      * \param[in] e editor
      * \param[in] value a value
      */
-    virtual void updateUI(core::Editor* e, const bool& value);
+    virtual void updateUI(core::Editor* e, const int& value);
 };
 
 }

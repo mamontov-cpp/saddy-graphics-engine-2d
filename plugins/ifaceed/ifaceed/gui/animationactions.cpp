@@ -35,6 +35,8 @@
 #include "../history/animations/animationschangerect.h"
 #include "../history/animations/animationschangecamerapivot.h"
 #include "../history/animations/animationschangecameraangle.h"
+#include "../history/animations/animationschangecameraoffset.h"
+#include "../history/animations/animationschangeshakingfrequency.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -219,6 +221,19 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("pivot", pivot);
 			}
 
+			if (a->isInstanceOf("sad::animations::CameraShaking"))
+			{
+				sad::Point2D offset(
+					m_panel->UI()->dsbCameraShakingOffsetX->value(),
+					m_panel->UI()->dsbCameraShakingOffsetY->value()
+				);
+
+				int freq = m_panel->UI()->sbCameraShakingFrequency->value();
+				a->setProperty("frequency", freq);
+				a->setProperty("offset", offset);
+			}
+			
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -367,6 +382,17 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationStartingAngle, &QDoubleSpinBox::setValue, startangle) );
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationEndingAngle, &QDoubleSpinBox::setValue, endangle) );
+		}
+
+		if (a->isInstanceOf("sad::animations::CameraShaking"))
+		{
+			sad::Point2D offset = a->getProperty<sad::Point2D>("offset").value();
+
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraShakingOffsetX, &QDoubleSpinBox::setValue, offset.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraShakingOffsetY, &QDoubleSpinBox::setValue, offset.y()) );
+
+			int frequency = a->getProperty<int>("frequency").value();
+			e->emitClosure( blocked_bind(m_panel->UI()->sbCameraShakingFrequency, &QSpinBox::setValue, frequency) );
 		}
 
 	}
@@ -948,6 +974,64 @@ void gui::AnimationActions::cameraRotationChangeEndingAngle(double newvalue)
 			if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
 			{
 				history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraShakingChangeOffsetX(double newx)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraShaking"))
+		{
+			sad::Point2D newvalue(newx, m_panel->UI()->dsbCameraShakingOffsetY->value());
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("offset").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraShakingChangeOffsetY(double newy)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraShaking"))
+		{
+			sad::Point2D newvalue(m_panel->UI()->dsbCameraShakingOffsetX->value(), newy);
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("offset").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraOffset(a, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraShakingChangeFrequency(int newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraShaking"))
+		{
+			int oldvalue = a->getProperty< int >("frequency").value();
+			if (oldvalue != newvalue)
+			{
+				history::Command* c = new history::animations::ChangeShakingFrequency(a, oldvalue, newvalue);
 				c->commit(m_panel->editor());
 				this->m_panel->editor()->history()->add(c);
 			}

@@ -137,6 +137,18 @@ public slots:
 		\param[in] newvalue a new value for animation
 	 */
 	void cameraRotationChangeEndingAngle(double newvalue);
+	/*! Called, when user changes x coordinate of camera shaking offset 
+		\param[in] newx new value
+	 */
+	void cameraShakingChangeOffsetX(double newx);
+	/*! Called, when user changes y coordinate of camera shaking offset
+		\param[in] newy new value
+	 */
+	void cameraShakingChangeOffsetY(double newy);
+	/*! Called, when user changes frequency of camera shaking
+		\param[in] newvalue a new value
+	 */
+	void cameraShakingChangeFrequency(int newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

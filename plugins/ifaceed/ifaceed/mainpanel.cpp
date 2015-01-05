@@ -493,6 +493,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbCameraRotationPivotY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangePivotY(double)));
 	connect(ui.dsbCameraRotationStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangeStartingAngle(double)));
 	connect(ui.dsbCameraRotationEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangeEndingAngle(double)));
+	connect(ui.dsbCameraShakingOffsetX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraShakingChangeOffsetX(double)));
+	connect(ui.dsbCameraShakingOffsetY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraShakingChangeOffsetY(double)));
+	connect(ui.sbCameraShakingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(cameraShakingChangeFrequency(int)));
 	
 	// Initialize UI from editor
 	if (editor)
