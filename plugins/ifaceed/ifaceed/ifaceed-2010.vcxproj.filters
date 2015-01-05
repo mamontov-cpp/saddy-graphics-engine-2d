@@ -1148,6 +1148,9 @@
     <ClCompile Include="history\animations\animationschangefontsizesize.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="history\animations\animationschangelist.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1439,6 +1442,9 @@
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
     <ClInclude Include="history\animations\animationschangefontsizesize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangelist.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
   </ItemGroup>

@@ -239,6 +239,7 @@
     <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp" />
     <ClCompile Include="history\animations\animationschangecolorcolor.cpp" />
     <ClCompile Include="history\animations\animationschangefontlistfonts.cpp" />
+    <ClCompile Include="history\animations\animationschangelist.cpp" />
     <ClCompile Include="history\animations\animationschangelooped.cpp" />
     <ClCompile Include="history\animations\animationschangename.cpp" />
     <ClCompile Include="history\animations\animationschangeresizevector.cpp" />
@@ -1372,6 +1373,7 @@
     <ClInclude Include="history\animations\animationschangeblinkingfrequency.h" />
     <ClInclude Include="history\animations\animationschangecolorcolor.h" />
     <ClInclude Include="history\animations\animationschangefontlistfonts.h" />
+    <ClInclude Include="history\animations\animationschangelist.h" />
     <ClInclude Include="history\animations\animationschangelooped.h" />
     <ClInclude Include="history\animations\animationschangename.h" />
     <ClInclude Include="history\animations\animationschangeproperty.h" />
