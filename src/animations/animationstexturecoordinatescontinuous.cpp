@@ -31,7 +31,7 @@ DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesContinuous, sad::ani
 
 sad::animations::TextureCoordinatesContinuous::TextureCoordinatesContinuous() 
 {
-	
+	m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");	
 }
 
 sad::animations::TextureCoordinatesContinuous::~TextureCoordinatesContinuous()

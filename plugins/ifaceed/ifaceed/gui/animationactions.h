@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <QObject>
+#include <QRectF>
 
 #include <input/events.h>
 
@@ -112,6 +113,14 @@ public slots:
 		gui::textedit::TextEdit for detail)
 	 */
 	void textureCoordinatesListEditingFinished();
+	/*! Called, when user changes starting rect for a value
+		\param[in] value new value
+	 */
+	void textureCoordinatesChangeStartRect(QRectF value);
+	/*! Called, when user changes ending rect for a value
+		\param[in] value new value
+	 */
+	void textureCoordinatesChangeEndRect(QRectF value);
 private:
 	/*! An panel, which actions are belong to
 	 */

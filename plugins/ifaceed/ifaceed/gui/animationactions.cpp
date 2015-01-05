@@ -17,6 +17,9 @@
 
 #include "../core/typeconverters/qcolortosadacolor.h"
 #include "../core/typeconverters/sadacolortoqcolor.h"
+#include "../core/typeconverters/qrectftosadrect2d.h"
+#include "../core/typeconverters/sadrect2dtoqrectf.h"
+
 
 #include "../history/animations/animationsnew.h"
 #include "../history/animations/animationschangename.h"
@@ -29,7 +32,7 @@
 #include "../history/animations/animationschangewaymovingway.h"
 #include "../history/animations/animationschangefontlistfonts.h"
 #include "../history/animations/animationschangefontsizesize.h"
-
+#include "../history/animations/animationschangerect.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -184,6 +187,21 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("list", nlist);
 			}
 
+			if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
+			{
+				QRectF start = m_panel->UI()->rctTCCStartingRect->value();
+				QRectF end = m_panel->UI()->rctTCCEndingRect->value();
+
+				sad::Rect2D kstart;
+				sad::Rect2D kend;
+
+				core::typeconverters::QRectFToSadRect2D::convert(start, kstart);
+				core::typeconverters::QRectFToSadRect2D::convert(end, kend);
+
+				a->setProperty("start_rect", kstart);
+				a->setProperty("end_rect", kend);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -303,6 +321,21 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 				list << nlist[i].c_str();
 			}
 			e->emitClosure( blocked_bind(m_panel->UI()->txtTextureCoordinatesList, &QTextEdit::setPlainText, list.join("\n")));
+		}
+
+		if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
+		{
+			sad::Rect2D nstartrect = a->getProperty<sad::Rect2D>("start_rect").value();
+			sad::Rect2D nendrect = a->getProperty<sad::Rect2D>("end_rect").value();
+
+			QRectF startrect;
+			QRectF endrect;
+
+			core::typeconverters::SadRect2DToQRectF::convert(nstartrect, startrect);
+			core::typeconverters::SadRect2DToQRectF::convert(nendrect, endrect);
+
+			e->emitClosure( blocked_bind(m_panel->UI()->rctTCCStartingRect, &gui::rectwidget::RectWidget::setValue, startrect) );
+			e->emitClosure( blocked_bind(m_panel->UI()->rctTCCEndingRect, &gui::rectwidget::RectWidget::setValue, endrect) );
 		}
 
 	}
@@ -754,3 +787,53 @@ void gui::AnimationActions::textureCoordinatesListEditingFinished()
 		}
 	}
 }
+
+void gui::AnimationActions::textureCoordinatesChangeStartRect(QRectF value)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
+		{
+			gui::rectwidget::RectWidget* widget = m_panel->UI()->rctTCCStartingRect;
+			sad::String prop = "start_rect";
+
+			sad::Rect2D newvalue;
+			core::typeconverters::QRectFToSadRect2D::convert(value, newvalue);
+
+			sad::Rect2D oldvalue = a->getProperty< sad::Rect2D >(prop).value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::textureCoordinatesChangeEndRect(QRectF value)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::TextureCoordinatesContinuous"))
+		{
+			gui::rectwidget::RectWidget* widget = m_panel->UI()->rctTCCEndingRect;
+			sad::String prop = "end_rect";
+
+			sad::Rect2D newvalue;
+			core::typeconverters::QRectFToSadRect2D::convert(value, newvalue);
+
+			sad::Rect2D oldvalue = a->getProperty< sad::Rect2D >(prop).value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeRect(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
