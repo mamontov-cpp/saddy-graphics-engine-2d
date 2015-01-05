@@ -1688,7 +1688,7 @@ current object</string>
         <property name="title">
          <string>Font List</string>
         </property>
-        <widget class="QPlainTextEdit" name="txtFontListList">
+        <widget class="gui::textedit::TextEdit" name="txtFontListList">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -1779,7 +1779,7 @@ current object</string>
         <property name="title">
          <string>Option List</string>
         </property>
-        <widget class="QPlainTextEdit" name="txtOptionListList">
+        <widget class="gui::textedit::TextEdit" name="txtOptionListList">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -1807,7 +1807,7 @@ current object</string>
         <property name="title">
          <string>Texture Coordinates List</string>
         </property>
-        <widget class="QPlainTextEdit" name="txtTextureCoordinatesList">
+        <widget class="gui::textedit::TextEdit" name="txtTextureCoordinatesList">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2665,6 +2665,11 @@ rect:</string>
    <extends>QWidget</extends>
    <header>gui/colorview/colorview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>gui::textedit::TextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>gui/textedit/textedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

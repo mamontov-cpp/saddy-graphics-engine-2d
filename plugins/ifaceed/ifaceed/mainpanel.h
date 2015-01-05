@@ -448,6 +448,16 @@ public:
 		}
 		return pos;
 	}
+	/*! Returns list of resources by filter
+		\param[in] root a root folder
+		\param[in] prefix a prefix
+		\param[in] filter a filter for resources
+	 */
+	static QStringList resourcesByFilter(
+		sad::resource::Folder* root, 
+		const QString& prefix, 
+		const QString& filter
+	);
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */

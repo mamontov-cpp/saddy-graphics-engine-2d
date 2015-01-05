@@ -38,6 +38,8 @@
 #include <freetype/font.h>
 
 #include <QFileDialog>
+#include <QCompleter>
+#include <QStringListModel>
 
 #include <cstdio>
 
@@ -73,6 +75,18 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     ui.twCustomObjectProperties->horizontalHeader()->hide();
 
     ui.txtLabelText->setPlainText("Test");
+
+	QCompleter * c = new QCompleter();
+	c->setModel(new QStringListModel());
+	ui.txtFontListList->setCompleter(c);
+
+	 c = new QCompleter();
+	c->setModel(new QStringListModel());
+	ui.txtOptionListList->setCompleter(c);
+
+	c = new QCompleter();
+	c->setModel(new QStringListModel());
+	ui.txtTextureCoordinatesList->setCompleter(c);
 
 	m_scene_node_actions = new gui::SceneNodeActions();
 	m_scene_node_actions->setPanel(this);
@@ -453,7 +467,6 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtPhraseActorPortrait, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(actorPortraitChanged(const QString&)));
 	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
 
-
 	connect(ui.btnAnimationsAdd, SIGNAL(clicked()), m_animation_actions, SLOT(addAnimation()));
 	connect(ui.lstAnimations, SIGNAL(currentRowChanged(int)), m_animation_actions, SLOT(currentAnimationChanged(int)));
 	connect(ui.txtAnimationName, SIGNAL(textEdited(const QString&)), m_animation_actions, SLOT(nameChanged(const QString&)));
@@ -469,6 +482,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbRotateStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeStartingAngle(double)));
 	connect(ui.dsbRotateEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeEndingAngle(double)));
 	connect(ui.cmbWayAnimationWay, SIGNAL(currentIndexChanged(int)), m_animation_actions, SLOT(wayMovingChangeWay(int)));
+	connect(ui.txtFontListList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(fontListEditingFinished()));
 	
 	// Initialize UI from editor
 	if (editor)
@@ -736,6 +750,19 @@ void MainPanel::updateResourceViews()
     ui.rtwCustomObjectSchemas->setTree("");
     ui.rtwCustomObjectSchemas->setFilter("sad::db::custom::Schema");
     ui.rtwCustomObjectSchemas->updateTree();
+
+	sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
+	ui.txtFontListList->completer()->setModel(new QStringListModel(
+		this->resourcesByFilter(tree->root(), "", "sad::freetype::Font|sad::TextureMappedFont")
+	));
+
+	ui.txtOptionListList->completer()->setModel(new QStringListModel(
+		this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+	));
+
+	ui.txtTextureCoordinatesList->completer()->setModel(new QStringListModel(
+		this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+	));
 }
 
 void MainPanel::highlightState(const sad::String & text)
@@ -1891,6 +1918,50 @@ void MainPanel::lockTypesTab(bool lock)
 	}
 }
 
+QStringList MainPanel::resourcesByFilter(
+	sad::resource::Folder* root, 
+	const QString& prefix, 
+	const QString& filter
+)
+{
+	QStringList result;
+	QStringList filterlist = filter.split("|");
+
+	sad::resource::ResourceIterator cur = root->resourceListBegin();
+	for(; cur != root->resourceListEnd(); ++cur)
+	{
+		bool shouldshowresource = true;
+		if (filterlist.count())
+		{
+			const sad::String & name = cur.value()->metaData()->name();
+			shouldshowresource = filterlist.indexOf(name.c_str()) != -1;
+		}
+		if (shouldshowresource)
+		{
+			QString name = cur.key().c_str();
+			if (prefix.length() != 0)
+			{
+				name = prefix + "/" + name;
+			}
+			result << name;
+		}
+	}
+
+	sad::resource::FolderIterator subfolders = root->folderListBegin();
+	for(; subfolders != root->folderListEnd(); ++subfolders)
+	{
+		QString name = subfolders.key().c_str();
+		if (prefix.length() != 0)
+		{
+			name = prefix + "/" + name;
+		}
+		QStringList tmp = resourcesByFilter(subfolders.value(), name, filter);
+		result << tmp;
+	}
+
+	return result;
+}
+
 void MainPanel::save()
 {
 	if (m_editor->shared()->fileName().length() == 0)
@@ -1976,6 +2047,19 @@ void MainPanel::loadResources()
 
                 sad::Renderer::ref()->removeTree("");
                 sad::Renderer::ref()->addTree("", tree);
+
+				ui.txtFontListList->completer()->setModel(new QStringListModel(
+					this->resourcesByFilter(tree->root(), "", "sad::freetype::Font|sad::TextureMappedFont")
+				));
+
+				ui.txtOptionListList->completer()->setModel(new QStringListModel(
+					this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+				));
+
+				ui.txtTextureCoordinatesList->completer()->setModel(new QStringListModel(
+					this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+				));
+
                 if (ui.rtwLabelFont->filter().length() == 0)
                 {
                     this->updateResourceViews();
@@ -2011,6 +2095,20 @@ void MainPanel::reloadResources()
 		sad::Renderer::ref()->unlockRendering();
 		if (errors.size() == 0)
 		{
+			sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
+
+			ui.txtFontListList->completer()->setModel(new QStringListModel(
+				this->resourcesByFilter(tree->root(), "", "sad::freetype::Font|sad::TextureMappedFont")
+			));
+
+			ui.txtOptionListList->completer()->setModel(new QStringListModel(
+				this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+			));
+
+			ui.txtTextureCoordinatesList->completer()->setModel(new QStringListModel(
+				this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
+			));
+
             if (ui.rtwLabelFont->filter().length() == 0)
             {
                 this->updateResourceViews();

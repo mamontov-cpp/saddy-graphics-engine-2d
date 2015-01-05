@@ -27,6 +27,8 @@
 #include "../history/animations/animationschangeresizevector.h"
 #include "../history/animations/animationschangerotateangle.h"
 #include "../history/animations/animationschangewaymovingway.h"
+#include "../history/animations/animationschangefontlistfonts.h"
+
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -127,6 +129,21 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("way", selectedid);
 			}
 
+			if (a->isInstanceOf("sad::animations::FontList"))
+			{
+				QStringList list = m_panel->UI()->txtFontListList->toPlainText().split("\n", QString::SkipEmptyParts);
+				sad::Vector<sad::String> nlist;
+				for(size_t i = 0; i < list.size(); i++)
+				{
+					QString tmp = list[i].trimmed();
+					if (tmp.length())
+					{
+						nlist << tmp.toStdString();
+					}
+				}
+				a->setProperty("fonts", nlist);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -204,6 +221,17 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			{
 				e->emitClosure( blocked_bind(m_panel->UI()->cmbWayAnimationWay, &QComboBox::setCurrentIndex, pos) );
 			}
+		}
+
+		if (a->isInstanceOf("sad::animations::FontList"))
+		{
+			QStringList list;
+			sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("fonts").value();
+			for(size_t i = 0; i < nlist.size(); i++)
+			{
+				list << nlist[i].c_str();
+			}
+			m_panel->UI()->txtFontListList->setPlainText(list.join("\n"));
 		}
 
 	}
@@ -519,6 +547,31 @@ void gui::AnimationActions::wayMovingChangeWay(int row)
 					c->commit(m_panel->editor());
 					this->m_panel->editor()->history()->add(c);
 				}
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::fontListEditingFinished()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::FontList"))
+		{
+			QStringList list = m_panel->UI()->txtFontListList->toPlainText().split("\n", QString::SkipEmptyParts);
+			sad::Vector<sad::String> newvalue;
+			for(size_t i = 0; i < list.size(); i++)
+			{
+				newvalue << list[i].toStdString();
+			}
+
+			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >("fonts").value();
+			if (oldvalue != newvalue)
+			{
+				history::Command* c =new history::animations::ChangeFontListFonts(a, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
 			}
 		}
 	}

@@ -92,6 +92,10 @@ public slots:
 		\param[in] row a row
 	 */
 	void wayMovingChangeWay(int row);
+	/*! Called, when font list editing  finished (timed event, see implementation of
+		gui::textedit::TextEdit for detail)
+	 */
+	void fontListEditingFinished();
 private:
 	/*! An panel, which actions are belong to
 	 */
