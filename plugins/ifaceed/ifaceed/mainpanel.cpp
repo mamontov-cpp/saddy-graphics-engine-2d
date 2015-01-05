@@ -487,6 +487,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.sbFontSizeEndingSize, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(fontSizeChangeEndingSize(int)));
 	connect(ui.txtOptionListList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(optionListEditingFinished()));
 	connect(ui.txtTextureCoordinatesList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(textureCoordinatesListEditingFinished()));
+	connect(ui.rctTCCStartingRect, SIGNAL(valueChanged(QRectF)), m_animation_actions, SLOT(textureCoordinatesChangeStartRect(QRectF)));
+	connect(ui.rctTCCEndingRect, SIGNAL(valueChanged(QRectF)), m_animation_actions, SLOT(textureCoordinatesChangeEndRect(QRectF)));
 	
 	// Initialize UI from editor
 	if (editor)

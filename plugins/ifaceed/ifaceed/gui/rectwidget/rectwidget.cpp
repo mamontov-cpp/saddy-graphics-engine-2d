@@ -27,7 +27,7 @@ gui::rectwidget::RectWidget::RectWidget(QWidget * parent) : QWidget(parent)
 		*(boxes[i]) = new QDoubleSpinBox(this);
 		QDoubleSpinBox * box = *(boxes[i]);
 		box->setMinimum(0);
-		box->setMaximum(1000);
+		box->setMaximum(32757);
 		box->setMinimumSize(box->sizeHint());
 		box->setValue(0);
 	}
