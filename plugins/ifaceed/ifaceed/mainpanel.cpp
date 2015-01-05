@@ -483,6 +483,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbRotateEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeEndingAngle(double)));
 	connect(ui.cmbWayAnimationWay, SIGNAL(currentIndexChanged(int)), m_animation_actions, SLOT(wayMovingChangeWay(int)));
 	connect(ui.txtFontListList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(fontListEditingFinished()));
+	connect(ui.sbFontSizeStartingSize, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(fontSizeChangeStartingSize(int)));
+	connect(ui.sbFontSizeEndingSize, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(fontSizeChangeEndingSize(int)));
 	
 	// Initialize UI from editor
 	if (editor)

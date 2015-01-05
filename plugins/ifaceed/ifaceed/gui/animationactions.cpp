@@ -28,6 +28,7 @@
 #include "../history/animations/animationschangerotateangle.h"
 #include "../history/animations/animationschangewaymovingway.h"
 #include "../history/animations/animationschangefontlistfonts.h"
+#include "../history/animations/animationschangefontsizesize.h"
 
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
@@ -144,6 +145,15 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("fonts", nlist);
 			}
 
+			if (a->isInstanceOf("sad::animations::FontSize"))
+			{
+				unsigned int minsize = static_cast<unsigned int>(m_panel->UI()->sbFontSizeStartingSize->value());
+				unsigned int maxsize = static_cast<unsigned int>(m_panel->UI()->sbFontSizeEndingSize->value());
+
+				a->setProperty("min_size", minsize);
+				a->setProperty("max_size", maxsize);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -231,7 +241,16 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			{
 				list << nlist[i].c_str();
 			}
-			m_panel->UI()->txtFontListList->setPlainText(list.join("\n"));
+			e->emitClosure( blocked_bind(m_panel->UI()->txtFontListList, &QTextEdit::setPlainText, list.join("\n")));
+		}
+
+		if (a->isInstanceOf("sad::animations::FontSize"))
+		{
+			int minsize = a->getProperty<unsigned int>("min_size").value();
+			int maxsize = a->getProperty<unsigned int>("max_size").value();
+
+			e->emitClosure( blocked_bind(m_panel->UI()->sbFontSizeStartingSize, &QSpinBox::setValue, minsize) );
+			e->emitClosure( blocked_bind(m_panel->UI()->sbFontSizeEndingSize, &QSpinBox::setValue, maxsize) );
 		}
 
 	}
@@ -569,10 +588,61 @@ void gui::AnimationActions::fontListEditingFinished()
 			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >("fonts").value();
 			if (oldvalue != newvalue)
 			{
-				history::Command* c =new history::animations::ChangeFontListFonts(a, oldvalue, newvalue);
+				history::Command* c = new history::animations::ChangeFontListFonts(a, oldvalue, newvalue);
 				c->commit(m_panel->editor());
 				this->m_panel->editor()->history()->add(c);
 			}
 		}
 	}
 }
+
+void gui::AnimationActions::fontSizeChangeStartingSize(int newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::FontSize"))
+		{
+			unsigned int oldvalue = a->getProperty<unsigned int>("min_size").value();
+			if (static_cast<unsigned int>(newvalue) != oldvalue)
+			{
+				history::Command* c = new history::animations::ChangeFontSizeSize(
+					a, 
+					"min_size",
+					m_panel->UI()->sbFontSizeStartingSize,
+					oldvalue,
+					newvalue
+				);
+
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::fontSizeChangeEndingSize(int newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::FontSize"))
+		{
+			unsigned int oldvalue = a->getProperty<unsigned int>("max_size").value();
+			if (static_cast<unsigned int>(newvalue) != oldvalue)
+			{
+				history::Command* c = new history::animations::ChangeFontSizeSize(
+					a, 
+					"max_size",
+					m_panel->UI()->sbFontSizeEndingSize,
+					oldvalue,
+					newvalue
+				);
+
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+

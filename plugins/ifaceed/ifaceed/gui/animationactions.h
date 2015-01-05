@@ -96,6 +96,14 @@ public slots:
 		gui::textedit::TextEdit for detail)
 	 */
 	void fontListEditingFinished();
+	/*! Called, when font size starting size changed
+		\param[in] newvalue new value
+	 */
+	void fontSizeChangeStartingSize(int newvalue);
+	/*! Called, when font size ending size changed
+		\param[in] newvalue new value
+	 */
+	void fontSizeChangeEndingSize(int newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

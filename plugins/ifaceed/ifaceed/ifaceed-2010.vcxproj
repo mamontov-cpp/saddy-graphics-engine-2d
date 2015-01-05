@@ -235,6 +235,7 @@
     <ClCompile Include="gui\animationactions.cpp" />
     <ClCompile Include="gui\animationprocess.cpp" />
     <ClCompile Include="gui\textedit\textedit.cpp" />
+    <ClCompile Include="history\animations\animationschangefontsizesize.cpp" />
     <ClCompile Include="history\animations\animationschangeblinkingfrequency.cpp" />
     <ClCompile Include="history\animations\animationschangecolorcolor.cpp" />
     <ClCompile Include="history\animations\animationschangefontlistfonts.cpp" />
@@ -1367,6 +1368,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
     </CustomBuild>
+    <ClInclude Include="history\animations\animationschangefontsizesize.h" />
     <ClInclude Include="history\animations\animationschangeblinkingfrequency.h" />
     <ClInclude Include="history\animations\animationschangecolorcolor.h" />
     <ClInclude Include="history\animations\animationschangefontlistfonts.h" />

@@ -32,6 +32,7 @@ void gui::AnimationProcess::start(sad::animations::Instance* i)
 		if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false)
 		{
 			m_editor->shared()->setAnimationIsRunning(true);
+			m_editor->panel()->lockTypesTab(true);
 			m_editor->panel()->toggleAnimationPropertiesEditable(false);
 
 			m_instance = i;
@@ -56,6 +57,7 @@ void gui::AnimationProcess::stop()
 		{
 			m_editor->shared()->setAnimationIsRunning(false);
 			m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::toggleAnimationPropertiesEditable, true) );
+			m_editor->emitClosure( bind(m_editor->panel(), &MainPanel::lockTypesTab, false) );
 
 			if (m_instance->finished() == false)
 			{
