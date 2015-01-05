@@ -489,6 +489,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtTextureCoordinatesList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(textureCoordinatesListEditingFinished()));
 	connect(ui.rctTCCStartingRect, SIGNAL(valueChanged(QRectF)), m_animation_actions, SLOT(textureCoordinatesChangeStartRect(QRectF)));
 	connect(ui.rctTCCEndingRect, SIGNAL(valueChanged(QRectF)), m_animation_actions, SLOT(textureCoordinatesChangeEndRect(QRectF)));
+	connect(ui.dsbCameraRotationPivotX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangePivotX(double)));
+	connect(ui.dsbCameraRotationPivotY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangePivotY(double)));
+	connect(ui.dsbCameraRotationStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangeStartingAngle(double)));
+	connect(ui.dsbCameraRotationEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraRotationChangeEndingAngle(double)));
 	
 	// Initialize UI from editor
 	if (editor)

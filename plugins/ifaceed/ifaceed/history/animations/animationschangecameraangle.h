@@ -1,7 +1,7 @@
-/*! \file animationschangerotateangle.h
+/*! \file animationschangecameraangle.h
     \author HiddenSeeker
 
-    Describe a command, which changes angle for a rotate animation
+    Describe a command, which changes angle for a camera rotation animation
  */
 #pragma once
 #include "animationschangeproperty.h"
@@ -13,9 +13,9 @@ namespace history
 
 namespace animations
 {
-/*! A command, which changes rotation for an animation
+/*! A command,  which changes angle for a camera rotation animation
  */
-class ChangeRotateAngle: public history::animations::ChangeProperty<double>
+class ChangeCameraAngle: public history::animations::ChangeProperty<double>
 {
 public:
      /*! Constructs new command for animation
@@ -25,7 +25,7 @@ public:
 		 \param[in] oldvalue old value
          \param[in] newvalue new value
       */
-    ChangeRotateAngle(
+    ChangeCameraAngle(
 		sad::animations::Animation* d, 
 		const sad::String& propertyname,
 		QDoubleSpinBox* view, 
@@ -34,7 +34,7 @@ public:
 	);
     /*! Erases link to an animation
       */
-    virtual ~ChangeRotateAngle();
+    virtual ~ChangeCameraAngle();
 protected:
     /*!
      * Updates current text in field with object name

@@ -121,6 +121,22 @@ public slots:
 		\param[in] value new value
 	 */
 	void textureCoordinatesChangeEndRect(QRectF value);
+	/*! Called, when user changes x coordinate of camera rotation pivot 
+		\param[in] newx new value
+	 */
+	void cameraRotationChangePivotX(double newx);
+	/*! Called, when user changes y coordinate of camera rotation pivot 
+		\param[in] newy new value
+	 */
+	void cameraRotationChangePivotY(double newy);
+	/*! Called, when user changes starting angle of camera rotation animation
+		\param[in] newvalue a new value for animation
+	 */
+	void cameraRotationChangeStartingAngle(double newvalue);
+	/*! Called, when user changes ending angle of camera rotation animation
+		\param[in] newvalue a new value for animation
+	 */
+	void cameraRotationChangeEndingAngle(double newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

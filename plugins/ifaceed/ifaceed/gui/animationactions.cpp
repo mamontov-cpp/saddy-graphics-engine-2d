@@ -33,6 +33,8 @@
 #include "../history/animations/animationschangefontlistfonts.h"
 #include "../history/animations/animationschangefontsizesize.h"
 #include "../history/animations/animationschangerect.h"
+#include "../history/animations/animationschangecamerapivot.h"
+#include "../history/animations/animationschangecameraangle.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -202,6 +204,21 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("end_rect", kend);
 			}
 
+			if (a->isInstanceOf("sad::animations::CameraRotation"))
+			{
+				sad::Point3D pivot(
+					m_panel->UI()->dsbCameraRotationPivotX->value(),
+					m_panel->UI()->dsbCameraRotationPivotY->value(),
+					0.0
+				);
+
+				double startangle = m_panel->UI()->dsbCameraRotationStartingAngle->value();
+				double endangle = m_panel->UI()->dsbCameraRotationEndingAngle->value();
+				a->setProperty("min_angle", startangle);
+				a->setProperty("max_angle", endangle);
+				a->setProperty("pivot", pivot);
+			}
+
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
 
 			history::animations::New* c = new history::animations::New(a);
@@ -338,6 +355,20 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			e->emitClosure( blocked_bind(m_panel->UI()->rctTCCEndingRect, &gui::rectwidget::RectWidget::setValue, endrect) );
 		}
 
+		if (a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			sad::Point3D pivot = a->getProperty<sad::Point3D>("pivot").value();
+
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationPivotX, &QDoubleSpinBox::setValue, pivot.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationPivotY, &QDoubleSpinBox::setValue, pivot.y()) );
+
+			double startangle = a->getProperty<double>("min_angle").value();
+			double endangle = a->getProperty<double>("max_angle").value();
+
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationStartingAngle, &QDoubleSpinBox::setValue, startangle) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dsbCameraRotationEndingAngle, &QDoubleSpinBox::setValue, endangle) );
+		}
+
 	}
 	else
 	{
@@ -425,8 +456,16 @@ void gui::AnimationActions::startOnObject()
 		&& s->selectedAnimation() != NULL)
 	{
 		sad::animations::Instance* i = new sad::animations::Instance();
-		i->setAnimation(s->selectedAnimation());
-		i->setObject(s->selectedObject());
+
+		sad::animations::Animation* a = s->selectedAnimation();
+		sad::SceneNode* node = s->selectedObject();
+		sad::db::Object* obj = node;
+		if (a->isInstanceOf("sad::animations::CameraShaking") || a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			obj = node->scene();
+		}
+		i->setAnimation(a);
+		i->setObject(obj);
 		i->setStartTime(0.0);
 		m_animation->setEditor(m_panel->editor());
 		m_animation->start(i);
@@ -836,4 +875,82 @@ void gui::AnimationActions::textureCoordinatesChangeEndRect(QRectF value)
 	}
 }
 
+void gui::AnimationActions::cameraRotationChangePivotX(double newx)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			sad::Point3D newvalue(newx, m_panel->UI()->dsbCameraRotationPivotY->value(), 0.0);
 
+			sad::Point3D oldvalue = a->getProperty< sad::Point3D >("pivot").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraRotationChangePivotY(double newy)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			sad::Point3D newvalue(m_panel->UI()->dsbCameraRotationPivotX->value(), newy, 0.0);
+
+			sad::Point3D oldvalue = a->getProperty< sad::Point3D >("pivot").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraPivot(a, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraRotationChangeStartingAngle(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			sad::String prop = "min_angle";
+			QDoubleSpinBox* widget = m_panel->UI()->dsbCameraRotationStartingAngle;
+			double oldvalue = a->getProperty< double >(prop).value();
+			if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::cameraRotationChangeEndingAngle(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::CameraRotation"))
+		{
+			sad::String prop = "max_angle";
+			QDoubleSpinBox* widget = m_panel->UI()->dsbCameraRotationEndingAngle;
+			double oldvalue = a->getProperty< double >(prop).value();
+			if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangeCameraAngle(a, prop, widget, oldvalue, newvalue);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
