@@ -14,6 +14,8 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
+#include "db/dbdatabase.h"
+
 
 #include <sprite2d.h>
 
@@ -34,7 +36,7 @@ sad::animations::TextureCoordinatesList::TextureCoordinatesList()
 m_cache_root_folder(NULL),
 m_renderer(NULL)
 {
-	
+	m_creators.pushProperty<sad::Rect2D>("texturecoordinates", "texturecoordinates");
 }
 
 sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
@@ -172,6 +174,13 @@ sad::Rect2D* sad::animations::TextureCoordinatesList::coordinates(const sad::Str
 {
 	if (m_folder == NULL)
 	{
+		if (m_table && m_renderer == NULL)
+		{
+			if (m_table->database())
+			{
+				m_renderer = m_table->database()->renderer();
+			}
+		}
 		if (m_renderer != NULL)
 		{
 			m_folder = m_renderer->tree(m_tree_name)->root();

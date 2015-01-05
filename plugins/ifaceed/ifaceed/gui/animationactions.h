@@ -108,6 +108,10 @@ public slots:
 		gui::textedit::TextEdit for detail)
 	 */
 	void optionListEditingFinished();
+	/*! Called, when texture coordinates list editing  finished (timed event, see implementation of
+		gui::textedit::TextEdit for detail)
+	 */
+	void textureCoordinatesListEditingFinished();
 private:
 	/*! An panel, which actions are belong to
 	 */
