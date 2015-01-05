@@ -104,6 +104,10 @@ public slots:
 		\param[in] newvalue new value
 	 */
 	void fontSizeChangeEndingSize(int newvalue);
+	/*! Called, when option list editing  finished (timed event, see implementation of
+		gui::textedit::TextEdit for detail)
+	 */
+	void optionListEditingFinished();
 private:
 	/*! An panel, which actions are belong to
 	 */
