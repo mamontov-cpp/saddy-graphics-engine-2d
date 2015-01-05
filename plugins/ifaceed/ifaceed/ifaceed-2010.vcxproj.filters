@@ -180,6 +180,12 @@
     <Filter Include="Source Files\history\animations">
       <UniqueIdentifier>{60150674-fcd6-405f-ab94-8df70007508b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\textedit">
+      <UniqueIdentifier>{6dfa973d-7a5b-4db4-9503-109eec1d375b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\textedit">
+      <UniqueIdentifier>{86abca7e-221f-4550-ad78-75bb2a05440d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1118,6 +1124,27 @@
     <ClCompile Include="history\animations\animationschangewaymovingway.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_textedit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_textedit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_textedit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_textedit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_textedit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\textedit\textedit.cpp">
+      <Filter>Source Files\gui\textedit</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangefontlistfonts.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1405,6 +1432,9 @@
     <ClInclude Include="history\animations\animationschangewaymovingway.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
+    <ClInclude Include="history\animations\animationschangefontlistfonts.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -1553,6 +1583,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\animationprocess.h">
       <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\textedit\textedit.h">
+      <Filter>Header Files\gui\textedit</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
