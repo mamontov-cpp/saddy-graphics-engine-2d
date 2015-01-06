@@ -68,3 +68,12 @@ double sad::animations::Sequential::time() const
     }
     return time;
 }
+
+void sad::animations::Sequential::updateBeforePlaying()
+{
+	if (m_valid == false)
+	{
+		this->sad::animations::Animation::setTime(this->time());
+		updateValidFlag();
+	}
+}

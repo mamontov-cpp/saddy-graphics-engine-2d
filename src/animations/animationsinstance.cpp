@@ -519,6 +519,7 @@ void sad::animations::Instance::checkIfValid(sad::animations::Animations* animat
     m_valid = (a && o);
     if (m_valid)
     {
+		a->updateBeforePlaying();
         m_valid = a->valid() && a->applicableTo(o);
     }
 }

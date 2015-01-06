@@ -214,6 +214,8 @@ void sad::animations::Composite::add(unsigned long long majorid)
 	}
 	link->setMajorId(majorid);
 	m_links << link;
+	m_inner_valid = m_links.size() != 0;
+	this->updateValidFlag();
 }
 
 void sad::animations::Composite::insert(unsigned long long majorid, int pos)
@@ -229,6 +231,8 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 	}
 	link->setMajorId(majorid);
 	m_links.insert(link, pos);
+	m_inner_valid = m_links.size() != 0;
+	this->updateValidFlag();
 }
 
 void sad::animations::Composite::swap(int pos1, int pos2)
@@ -254,6 +258,8 @@ void sad::animations::Composite::add(sad::animations::Animation* o)
 	}
 	link->setObject(o);
 	m_links << link;
+	m_inner_valid = m_links.size() != 0;
+	this->updateValidFlag();
 }
 
 void sad::animations::Composite::remove(size_t i)
@@ -262,6 +268,8 @@ void sad::animations::Composite::remove(size_t i)
 	{
 		delete m_links[i];
 		m_links.removeAt(i);
+		m_inner_valid = m_links.size() != 0;
+		this->updateValidFlag();
 	}
 }
 
@@ -283,6 +291,8 @@ void sad::animations::Composite::clear()
 		delete m_links[i];
 	}
 	m_links.clear();
+	m_inner_valid = m_links.size() != 0;
+	this->updateValidFlag();
 }
 
 void sad::animations::Composite::setAnimationsNames(const sad::Vector<sad::String>& names)

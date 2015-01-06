@@ -42,6 +42,9 @@ public:
         \return time
      */
     virtual double time() const;
+	/*! Update animation before starting to play
+	 */
+	virtual void updateBeforePlaying();
 };
 
 }

@@ -496,7 +496,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbCameraShakingOffsetX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraShakingChangeOffsetX(double)));
 	connect(ui.dsbCameraShakingOffsetY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraShakingChangeOffsetY(double)));
 	connect(ui.sbCameraShakingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(cameraShakingChangeFrequency(int)));
-	
+	connect(ui.btnCompositeAnimationAddToList, SIGNAL(clicked()), m_animation_actions, SLOT(addAnimationToComposite()));
+
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -1156,7 +1157,7 @@ void MainPanel::addAnimationToViewingLists(sad::animations::Animation* a)
 
 	QListWidget* listofanimationcandidates = ui.lstCompositeCandidates;
 	listofanimationcandidates->addItem(name);
-	listofanimationcandidates->item(listofanimations->count() - 1)->setData(Qt::UserRole, v);
+	listofanimationcandidates->item(listofanimationcandidates->count() - 1)->setData(Qt::UserRole, v);
 }
 
 
