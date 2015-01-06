@@ -1163,6 +1163,12 @@ void MainPanel::addAnimationToViewingLists(sad::animations::Animation* a)
 void MainPanel::removeAnimationFromViewingLists(sad::animations::Animation* a)
 {
 	int pos = this->findInList(ui.lstAnimations, a);
+
+	if (a == m_editor->shared()->selectedAnimation())
+	{
+		ui.lstCompositeList->clear();
+	}
+
 	if (pos > -1)
 	{
 		delete ui.lstAnimations->takeItem(pos);

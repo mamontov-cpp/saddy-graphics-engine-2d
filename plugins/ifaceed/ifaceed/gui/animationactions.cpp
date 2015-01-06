@@ -2,6 +2,7 @@
 
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
+#include <animations/animationscomposite.h>
 
 #include <p2d/app/way.h>
 
@@ -232,6 +233,18 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("frequency", freq);
 				a->setProperty("offset", offset);
 			}
+
+			if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+			{
+				sad::Vector<unsigned long long> majorids;
+				QListWidget* w = m_panel->UI()->lstCompositeList;
+				for(size_t i = 0; i < w->count(); i++)
+				{
+					sad::animations::Animation* a = w->item(i)->data(Qt::UserRole).value<sad::animations::Animation*>();
+					majorids << a->MajorId;
+				}
+				a->setProperty("list", majorids);
+			}
 			
 
 			sad::Renderer::ref()->database("")->table("animations")->add(a);
@@ -393,6 +406,10 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 			int frequency = a->getProperty<int>("frequency").value();
 			e->emitClosure( blocked_bind(m_panel->UI()->sbCameraShakingFrequency, &QSpinBox::setValue, frequency) );
+		}
+		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+		{
+			this->updateCompositeList();
 		}
 
 	}
@@ -1036,5 +1053,45 @@ void gui::AnimationActions::cameraShakingChangeFrequency(int newvalue)
 				this->m_panel->editor()->history()->add(c);
 			}
 		}
+	}
+}
+
+void gui::AnimationActions::updateCompositeList()
+{
+	sad::Vector<unsigned long long> majorids;
+	sad::animations::Animation* sa = m_panel->editor()->shared()->selectedAnimation();
+	if (sa)
+	{
+		if (sa->isInstanceOf("sad::animations::Parallel") || sa->isInstanceOf("sad::animations::Sequential"))
+		{
+			sad::animations::Composite* c = static_cast<sad::animations::Composite*>(sa);
+			majorids = c->animationMajorIds();
+		}
+	}
+	QListWidget* candidatelist = m_panel->UI()->lstCompositeCandidates;
+	candidatelist->clear();
+	QListWidget* sourcelist = m_panel->UI()->lstAnimations;
+	for(size_t i = 0; i < sourcelist->count(); i++)
+	{
+		QString text = sourcelist->item(i)->text();
+		QVariant v = sourcelist->item(i)->data(Qt::UserRole);
+		sad::animations::Animation* a = v.value<sad::animations::Animation*>();
+		if(std::find(majorids.begin(), majorids.end(), a->MajorId) == majorids.end())
+		{
+			candidatelist->addItem(text);
+			candidatelist->item(candidatelist->count() - 1)->setData(Qt::UserRole,  v);
+		}
+	}
+
+	QListWidget* ownlist = m_panel->UI()->lstCompositeList;
+	ownlist->clear();
+	for(size_t i = 0; i < majorids.count(); i++)
+	{
+		sad::animations::Animation* a = static_cast<sad::animations::Animation*>(sad::Renderer::ref()->database("")->queryByMajorId(majorids[i]));
+		QString name = m_panel->nameForAnimation(a);
+		QVariant v;
+		v.setValue(a);
+		ownlist->addItem(name);
+		ownlist->item(ownlist->count() - 1)->setData(Qt::UserRole, v);
 	}
 }

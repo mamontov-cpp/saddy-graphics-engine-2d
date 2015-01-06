@@ -38,5 +38,9 @@ void history::animations::New::rollback(core::Editor* ob)
 		{
 			ob->emitClosure( bind(ob->panel(), &MainPanel::removeAnimationFromViewingLists, m_animation) );
 		}
+		if (ob->shared()->selectedAnimation() == m_animation)
+		{
+			ob->shared()->setSelectedAnimation(NULL);
+		}
     }
 }

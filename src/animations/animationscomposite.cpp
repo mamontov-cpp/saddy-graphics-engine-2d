@@ -201,6 +201,46 @@ const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::anima
 	return m_temp_creators;
 }
 
+void sad::animations::Composite::add(unsigned long long majorid)
+{
+	sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
+	if (m_database.exists())
+	{
+		link->setDatabase(m_database.value());
+	}
+	if (m_tree.exists())
+	{
+		link->setTree(m_tree.value());
+	}
+	link->setMajorId(majorid);
+	m_links << link;
+}
+
+void sad::animations::Composite::insert(unsigned long long majorid, int pos)
+{
+	sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
+	if (m_database.exists())
+	{
+		link->setDatabase(m_database.value());
+	}
+	if (m_tree.exists())
+	{
+		link->setTree(m_tree.value());
+	}
+	link->setMajorId(majorid);
+	m_links.insert(link, pos);
+}
+
+void sad::animations::Composite::swap(int pos1, int pos2)
+{
+	if (pos1 >=0 && pos2 >= 0 && pos1 < m_links.size() && pos2 < m_links.size())
+	{
+		sad::TreeDbLink<sad::animations::Animation>* link = m_links[pos1];
+		m_links[pos1] =  m_links[pos2];
+		m_links[pos2] = link;
+	}
+}
+
 void sad::animations::Composite::add(sad::animations::Animation* o)
 {
 	sad::TreeDbLink<sad::animations::Animation>* link = new sad::TreeDbLink<sad::animations::Animation>();
