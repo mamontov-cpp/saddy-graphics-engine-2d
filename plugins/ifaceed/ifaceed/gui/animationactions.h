@@ -7,7 +7,8 @@
 #include <QObject>
 #include <QRectF>
 
-#include <input/events.h>
+#include <sadhash.h>
+#include <animations/animationscomposite.h>
 
 class MainPanel;
 
@@ -35,6 +36,24 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+	/*! Returns true if adding second animation into children of first produces loop
+		\param[in] first first loop
+		\param[in] second second loop
+	 */
+	bool producesLoop(sad::animations::Animation* first, sad::animations::Animation* second);
+	/*! Returns true if adding second animation into children of first produces loop
+		\param[in] animations list of animations
+		\param[in] current current visited animation
+		\param[in] visited set of visited noded
+		\param[in] first a first visited part
+		\param[in] second a second visited part
+	 */
+	static bool producesLoop(
+		sad::animations::Composite* current,
+		const sad::Hash<unsigned long long, unsigned long long>& visited,
+		sad::animations::Animation* first,
+		sad::animations::Animation* second
+	);
 public slots:
 	/*! Tries to add new animation to a list
 	 */
@@ -152,6 +171,9 @@ public slots:
 	/*! Update composite elements list
 	 */
 	void updateCompositeList();
+	/*! Adds animation to composite animations list
+	 */
+	void addAnimationToComposite();
 private:
 	/*! An panel, which actions are belong to
 	 */

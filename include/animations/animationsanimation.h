@@ -95,6 +95,9 @@ public:
         \return creators list
      */
 	virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
+	/*! Update animation before starting to play
+	 */
+	virtual void updateBeforePlaying();
 protected:
 	/*! Updates flag of validity
 	 */

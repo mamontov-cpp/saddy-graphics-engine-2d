@@ -1,9 +1,9 @@
 #include "animationsnew.h"
 
-#include "../mainpanel.h"
-#include "../core/editor.h"
+#include "../../mainpanel.h"
+#include "../../core/editor.h"
 
-#include "../closuremethodcall.h"
+#include "../../closuremethodcall.h"
 
 
 history::animations::New::New(sad::animations::Animation* a) : m_animation(a)

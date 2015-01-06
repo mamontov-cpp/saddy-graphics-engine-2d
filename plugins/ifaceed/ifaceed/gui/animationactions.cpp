@@ -2,7 +2,6 @@
 
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
-#include <animations/animationscomposite.h>
 
 #include <p2d/app/way.h>
 
@@ -38,6 +37,7 @@
 #include "../history/animations/animationschangecameraangle.h"
 #include "../history/animations/animationschangecameraoffset.h"
 #include "../history/animations/animationschangeshakingfrequency.h"
+#include "../history/animations/animationsaddtocomposite.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -63,6 +63,77 @@ void gui::AnimationActions::setPanel(MainPanel* e)
 MainPanel* gui::AnimationActions::panel() const
 {
 	return m_panel;
+}
+
+
+bool gui::AnimationActions::producesLoop(sad::animations::Animation* first, sad::animations::Animation* second)
+{
+	bool result = false;
+	sad::Vector<sad::db::Object*> objects;
+	sad::Renderer::ref()->database("")->table("animations")->objects(objects);
+	sad::Vector<sad::animations::Composite*> animations;
+	for(size_t i = 0; i < objects.size(); i++)
+	{
+		if (objects[i]->isInstanceOf("sad::animations::Sequential") || 
+			objects[i]->isInstanceOf("sad::animations::Parallel"))
+		{
+			animations << static_cast<sad::animations::Composite*>(objects[i]);
+		}
+	}
+	for(size_t i = 0; (i < animations.size()) && result == false; i++)
+	{
+		sad::Hash<unsigned long long, unsigned long long> tmp;
+		result = result || producesLoop(animations[i], tmp, first, second);
+	}
+	return result;
+}
+
+bool gui::AnimationActions::producesLoop(
+	sad::animations::Composite* current,
+	const sad::Hash<unsigned long long, unsigned long long>& visited,
+	sad::animations::Animation* first,
+	sad::animations::Animation* second
+)
+{
+	// If already visited this node, then we must have returned here by loop
+	if (visited.contains(current->MajorId))
+	{
+		return true;
+	}
+	sad::Hash<unsigned long long, unsigned long long> local = visited;	
+	local.insert(current->MajorId, 1);
+	if (current == first)
+	{
+		// If second node has been visited already, than we must been here
+		if (local.contains(second->MajorId))
+		{
+			return true;
+		}
+		if (second->isInstanceOf("sad::animations::Parallel") || second->isInstanceOf("sad::animations::Sequential"))
+		{
+			sad::animations::Composite* c = static_cast<sad::animations::Composite*>(second);
+			// Check if loop can be found just by jumping from second animation
+			if (producesLoop(c, local, first, second))
+			{
+				return true;
+			}
+		}
+	}
+
+	bool result = false;
+	for(size_t i = 0; i < current->size() && result == false; i++)
+	{
+		sad::animations::Animation* a  = current->animation(i);
+		if (a)
+		{
+			if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+			{
+				sad::animations::Composite* c = static_cast<sad::animations::Composite*>(a);
+				result = result || producesLoop(c, local, first, second);
+			}
+		}
+	}
+	return result;
 }
 
 // ===============================  PUBLIC SLOTS METHODS ===============================
@@ -240,8 +311,8 @@ void gui::AnimationActions::addAnimation()
 				QListWidget* w = m_panel->UI()->lstCompositeList;
 				for(size_t i = 0; i < w->count(); i++)
 				{
-					sad::animations::Animation* a = w->item(i)->data(Qt::UserRole).value<sad::animations::Animation*>();
-					majorids << a->MajorId;
+					sad::animations::Animation* ka = w->item(i)->data(Qt::UserRole).value<sad::animations::Animation*>();
+					majorids << ka->MajorId;
 				}
 				a->setProperty("list", majorids);
 			}
@@ -407,11 +478,8 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			int frequency = a->getProperty<int>("frequency").value();
 			e->emitClosure( blocked_bind(m_panel->UI()->sbCameraShakingFrequency, &QSpinBox::setValue, frequency) );
 		}
-		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
-		{
-			this->updateCompositeList();
-		}
-
+		
+		this->updateCompositeList();		
 	}
 	else
 	{
@@ -1093,5 +1161,29 @@ void gui::AnimationActions::updateCompositeList()
 		v.setValue(a);
 		ownlist->addItem(name);
 		ownlist->item(ownlist->count() - 1)->setData(Qt::UserRole, v);
+	}
+}
+
+void gui::AnimationActions::addAnimationToComposite()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+		{
+			QListWidget* candidatelist = m_panel->UI()->lstCompositeCandidates;
+			int pos = candidatelist->currentRow();
+			if (pos > -1 && pos < candidatelist->count())
+			{
+				sad::animations::Animation* addedanimation = candidatelist->item(pos)->data(Qt::UserRole).value<sad::animations::Animation*>();
+				if (producesLoop(a, addedanimation) == false)
+				{
+					sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+					history::Command* c = new history::animations::AddToComposite(co, addedanimation->MajorId);
+					c->commit(m_panel->editor());
+					this->m_panel->editor()->history()->add(c);
+				}
+			}
+		}
 	}
 }

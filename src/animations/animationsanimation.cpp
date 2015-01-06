@@ -122,6 +122,11 @@ const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& sad::anima
     return m_creators;
 }
 
+void sad::animations::Animation::updateBeforePlaying()
+{
+	
+}
+
 // =============================== PROTECTED METHODS ==========================
 
 void sad::animations::Animation::updateValidFlag()
