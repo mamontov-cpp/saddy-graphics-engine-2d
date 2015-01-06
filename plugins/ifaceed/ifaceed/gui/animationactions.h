@@ -149,6 +149,9 @@ public slots:
 		\param[in] newvalue a new value
 	 */
 	void cameraShakingChangeFrequency(int newvalue);
+	/*! Update composite elements list
+	 */
+	void updateCompositeList();
 private:
 	/*! An panel, which actions are belong to
 	 */

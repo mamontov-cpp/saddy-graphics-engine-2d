@@ -82,6 +82,20 @@ public:
         \return creators list
      */
     virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
+	/*! Adds new animation to list by major id
+		\param[in] major id
+	 */
+	void add(unsigned long long majorid);
+	/*! Inserts new animations to list by major id
+		\param[in] majorid a major id
+		\param[in] pos position
+	 */
+	void insert(unsigned long long majorid, int pos);
+	/*! Swaps two positions with links
+		\param[in] pos1 first position
+		\param[in] pos2 second position
+	 */
+	void swap(int pos1, int pos2);
 	/*! Adds new animation to list
 		\param[in] o animation
 	 */
