@@ -497,6 +497,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dsbCameraShakingOffsetY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(cameraShakingChangeOffsetY(double)));
 	connect(ui.sbCameraShakingFrequency, SIGNAL(valueChanged(int)), m_animation_actions, SLOT(cameraShakingChangeFrequency(int)));
 	connect(ui.btnCompositeAnimationAddToList, SIGNAL(clicked()), m_animation_actions, SLOT(addAnimationToComposite()));
+	connect(ui.btnCompositeAnimationRemoveFromList, SIGNAL(clicked()), m_animation_actions, SLOT(removeAnimationFromComposite()));
+	connect(ui.btnCompositeAnimationMoveBack, SIGNAL(clicked()), m_animation_actions, SLOT(moveBackInCompositeList()));
+	connect(ui.btnCompositeAnimationMoveFront, SIGNAL(clicked()), m_animation_actions, SLOT(moveFrontInCompositeList()));
 
 	// Initialize UI from editor
 	if (editor)

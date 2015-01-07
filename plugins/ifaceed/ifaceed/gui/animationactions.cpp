@@ -38,6 +38,8 @@
 #include "../history/animations/animationschangecameraoffset.h"
 #include "../history/animations/animationschangeshakingfrequency.h"
 #include "../history/animations/animationsaddtocomposite.h"
+#include "../history/animations/animationsremovefromcomposite.h"
+#include "../history/animations/animationsswapincomposite.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -1137,6 +1139,7 @@ void gui::AnimationActions::updateCompositeList()
 		}
 	}
 	QListWidget* candidatelist = m_panel->UI()->lstCompositeCandidates;
+	int candidaterow = candidatelist->currentRow();
 	candidatelist->clear();
 	QListWidget* sourcelist = m_panel->UI()->lstAnimations;
 	for(size_t i = 0; i < sourcelist->count(); i++)
@@ -1152,6 +1155,7 @@ void gui::AnimationActions::updateCompositeList()
 	}
 
 	QListWidget* ownlist = m_panel->UI()->lstCompositeList;
+	int ownrow = ownlist->currentRow();
 	ownlist->clear();
 	for(size_t i = 0; i < majorids.count(); i++)
 	{
@@ -1161,6 +1165,26 @@ void gui::AnimationActions::updateCompositeList()
 		v.setValue(a);
 		ownlist->addItem(name);
 		ownlist->item(ownlist->count() - 1)->setData(Qt::UserRole, v);
+	}
+
+	void (QListWidget::*f)(int) = &QListWidget::setCurrentRow;
+
+	if (candidaterow >= 0 && candidatelist->count() > 0)
+	{
+		if (candidaterow >= candidatelist->count())
+		{
+			candidaterow = candidatelist->count() - 1;
+		}
+		invoke_blocked(candidatelist, f, candidaterow);
+	}
+
+	if (ownrow >= 0 && ownlist->count() > 0)
+	{
+		if (ownrow >= ownlist->count())
+		{
+			ownrow = ownlist->count() - 1;
+		}
+		invoke_blocked(ownlist, f, ownrow);
 	}
 }
 
@@ -1183,6 +1207,69 @@ void gui::AnimationActions::addAnimationToComposite()
 					c->commit(m_panel->editor());
 					this->m_panel->editor()->history()->add(c);
 				}
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::removeAnimationFromComposite()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+		{
+			QListWidget* list = m_panel->UI()->lstCompositeList;
+			int pos = list->currentRow();
+			if (pos > -1 && pos < list->count())
+			{				
+				sad::animations::Animation* animation = list->item(pos)->data(Qt::UserRole).value<sad::animations::Animation*>();
+				unsigned long long majorid = animation->MajorId;
+
+				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+				history::Command* c = new history::animations::RemoveFromComposite(co, majorid, pos);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::moveBackInCompositeList()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+		{
+			QListWidget* list = m_panel->UI()->lstCompositeList;
+			int pos = list->currentRow();
+			if (pos > -1 && pos < list->count() - 1)
+			{
+				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+				history::Command* c = new history::animations::SwapInComposite(co, pos, pos + 1);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::moveFrontInCompositeList()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::Parallel") || a->isInstanceOf("sad::animations::Sequential"))
+		{
+			QListWidget* list = m_panel->UI()->lstCompositeList;
+			int pos = list->currentRow();
+			if (pos > 0 && pos < list->count())
+			{
+				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+				history::Command* c = new history::animations::SwapInComposite(co, pos - 1, pos);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
 			}
 		}
 	}

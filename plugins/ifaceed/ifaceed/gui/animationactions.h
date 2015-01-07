@@ -174,6 +174,15 @@ public slots:
 	/*! Adds animation to composite animations list
 	 */
 	void addAnimationToComposite();
+	/*! Removes animation from composite animations list
+	 */
+	void removeAnimationFromComposite();
+	/*! Moves animation back in composite list
+	 */
+	void moveBackInCompositeList();
+	/*! Moves animation front in composite list
+	 */
+	void moveFrontInCompositeList();
 private:
 	/*! An panel, which actions are belong to
 	 */
