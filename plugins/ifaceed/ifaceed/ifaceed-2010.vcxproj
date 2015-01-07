@@ -253,6 +253,7 @@
     <ClCompile Include="history\animations\animationschangetime.cpp" />
     <ClCompile Include="history\animations\animationschangewaymovingway.cpp" />
     <ClCompile Include="history\animations\animationsnew.cpp" />
+    <ClCompile Include="history\animations\animationsremove.cpp" />
     <ClCompile Include="history\animations\animationsremovefromcomposite.cpp" />
     <ClCompile Include="history\animations\animationsswapincomposite.cpp" />
     <ClCompile Include="main.cpp" />
@@ -1400,6 +1401,7 @@
     <ClInclude Include="history\animations\animationschangetime.h" />
     <ClInclude Include="history\animations\animationsnew.h" />
     <ClInclude Include="history\animations\animationschangewaymovingway.h" />
+    <ClInclude Include="history\animations\animationsremove.h" />
     <ClInclude Include="history\animations\animationsremovefromcomposite.h" />
     <ClInclude Include="history\animations\animationsswapincomposite.h" />
     <ClInclude Include="macro.h" />

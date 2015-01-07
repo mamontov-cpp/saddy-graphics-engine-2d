@@ -94,11 +94,6 @@ void sad::animations::Animation::start(sad::animations::Instance* i)
 
 }
 
-bool sad::animations::Animation::load(const picojson::value & v)
-{
-	return this->loadFromValue(v);
-}
-
 bool sad::animations::Animation::loadFromValue(const picojson::value& v)
 {
     sad::Maybe<bool> looped = picojson::to_type<bool>(

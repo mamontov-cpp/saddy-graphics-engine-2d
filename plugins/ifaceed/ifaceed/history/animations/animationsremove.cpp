@@ -1,0 +1,89 @@
+#include "animationsremove.h"
+
+#include "../../mainpanel.h"
+#include "../../core/editor.h"
+
+#include "../../closuremethodcall.h"
+
+#include "../../gui/animationactions.h"
+
+#include <QListWidgetItem>
+
+Q_DECLARE_METATYPE(sad::animations::Animation*)
+
+history::animations::Remove::Remove(sad::animations::Animation* a)
+: m_animation(a), m_position_in_animation_list(-1), m_position_in_animation_instance_list(-1)
+{
+	m_animation->addRef();
+}
+
+history::animations::Remove::~Remove()
+{
+	m_animation->delRef();
+}
+
+void history::animations::Remove::set(
+	int position_in_animaton_list,
+	int position_in_animation_instance_list,
+	const sad::Vector< sad::Pair<sad::animations::Composite*, int> >& list
+)
+{
+	m_position_in_animation_list = position_in_animaton_list;
+	m_position_in_animation_instance_list = position_in_animation_instance_list;
+	m_composites = list;
+}
+
+void history::animations::Remove::commit(core::Editor * ob)
+{
+	m_animation->Active = false;
+	for(size_t i = 0; i < m_composites.size(); i++)
+	{
+		m_composites[i]._1()->remove(m_composites[i]._2());
+	}
+	if (ob)
+	{
+		if (ob->panel())
+		{
+			ob->emitClosure( bind(ob->panel(), &MainPanel::removeAnimationFromViewingLists, m_animation) );
+			ob->emitClosure( bind(ob->panel()->animationActions(), &gui::AnimationActions::updateCompositeList));
+		}
+	}
+}
+
+void history::animations::Remove::rollback(core::Editor * ob)
+{
+	m_animation->Active = true;
+	for(size_t i = 0; i < m_composites.size(); i++)
+	{
+		m_composites[i]._1()->insert(m_animation->MajorId, m_composites[i]._2());
+	}
+	if (ob)
+	{
+		if (ob->panel())
+		{
+			ob->emitClosure( bind(this, &history::animations::Remove::insertAnimationIntoUI, ob) );
+			ob->emitClosure( bind(ob->panel()->animationActions(), &gui::AnimationActions::updateCompositeList));
+		}
+	}
+}
+
+void history::animations::Remove::insertAnimationIntoUI(core::Editor* editor)
+{
+	MainPanel* panel = editor->panel();
+	QString name =	panel->nameForAnimation(m_animation);
+	
+	QVariant v;
+	v.setValue(m_animation);
+	
+	if (m_position_in_animation_list > -1)
+	{
+		QListWidgetItem* item  = new QListWidgetItem(name);
+		item->setData(Qt::UserRole, v);
+		panel->UI()->lstAnimations->insertItem(m_position_in_animation_list, item);
+	}
+
+	if (m_position_in_animation_instance_list > -1)
+	{
+		panel->UI()->cmbAnimationInstanceAnimationFromDatabase->insertItem(m_position_in_animation_instance_list, name, v);
+	}
+}

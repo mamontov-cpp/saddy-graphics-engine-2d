@@ -38,12 +38,6 @@ public:
         \return schema
      */
     virtual sad::db::schema::Schema* schema() const;
-	/*! This function will be applied, when animation is loaded from database.	
-		Note, that it just calls loadFromValue
-		\param[in] v value
-		\return whether loading was successfull
-	 */
-	virtual bool load(const picojson::value & v);
     /*! Tries to load animation from value
         \param[in] v value
         \return whether it was successfull

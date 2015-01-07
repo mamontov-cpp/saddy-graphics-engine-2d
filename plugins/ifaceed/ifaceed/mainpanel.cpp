@@ -468,6 +468,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.txtPhraseViewHint, SIGNAL(textEdited(const QString&)), m_dialogue_actions, SLOT(viewHintChanged(const QString&)));
 
 	connect(ui.btnAnimationsAdd, SIGNAL(clicked()), m_animation_actions, SLOT(addAnimation()));
+	connect(ui.btnAnimationsRemove, SIGNAL(clicked()), m_animation_actions, SLOT(removeAnimation()));
 	connect(ui.lstAnimations, SIGNAL(currentRowChanged(int)), m_animation_actions, SLOT(currentAnimationChanged(int)));
 	connect(ui.txtAnimationName, SIGNAL(textEdited(const QString&)), m_animation_actions, SLOT(nameChanged(const QString&)));
 	connect(ui.dsbAnimationTime, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(timeChanged(double)));
@@ -626,6 +627,19 @@ void MainPanel::viewDatabase()
     {
 		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
         addDialogueToDialogueList(w);
+    }
+
+	sad::animations::Animation* nullanimation = NULL;
+	QVariant nullanimationvariant;
+	nullanimationvariant.setValue(nullanimation);
+	ui.cmbAnimationInstanceAnimationFromDatabase->addItem("Not set", nullanimationvariant);
+	sad::Vector<sad::db::Object*> animationlist;
+	sad::db::Table* animationtable = db->table("animations");
+    animationtable->objects(animationlist);
+	for(unsigned int i = 0; i < animationlist.size(); i++)
+    {
+		sad::animations::Animation* w = static_cast<sad::animations::Animation*>(animationlist[i]);
+        addAnimationToViewingLists(w);
     }
 }
 
