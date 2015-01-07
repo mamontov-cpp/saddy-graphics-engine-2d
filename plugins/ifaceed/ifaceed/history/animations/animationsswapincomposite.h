@@ -1,11 +1,13 @@
-/*! \file animationsaddtocomposite.h
+/*! \file animationsswapincomposite.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding other animations to a list of composite animation
+ * Describes a simple command for swapping anim
  */
 #pragma once
 #include "../command.h"
 #include <animations/animationscomposite.h>
+
+#include <QListWidget>
 
 namespace history
 {
@@ -13,20 +15,21 @@ namespace history
 namespace animations
 {
 
-/*! \class history::animations::AddToComposite
- *   A simple command for adding to composite animation
+/*! \class history::animations::SwapInComposite
+ *   A simple command for swapp in list of composite animation
  */
-class AddToComposite: public history::Command
+class SwapInComposite: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] a animations
-		\param[in] id id of animation
+		\param[in] pos1 first position
+		\param[in] pos2 second position
      */
-    AddToComposite(sad::animations::Composite* a, unsigned long long id);
+    SwapInComposite(sad::animations::Composite* a, int pos1, int pos2);
     /*! Could be inherited
      */
-    virtual ~AddToComposite();
+    virtual ~SwapInComposite();
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -36,12 +39,19 @@ public:
      */
     virtual void rollback(core::Editor * ob = NULL);
 protected:
-    /*! A current selected animation
+	/*! Swaps items with positions with list
+		\param[in] w widget
+	 */
+	void swapItemsInList(QListWidget* w);
+	/*! A current selected animation
      */
     sad::animations::Composite* m_animation;
-	/*! An id of added animations
+	/*! A first position
 	 */
-	unsigned long long m_id;
+	int m_position1;
+	/*! A second position
+	 */
+	int m_position2;
 };
 
 }

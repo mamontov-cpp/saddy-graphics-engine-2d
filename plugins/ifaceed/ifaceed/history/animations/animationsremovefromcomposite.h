@@ -1,7 +1,7 @@
-/*! \file animationsaddtocomposite.h
+/*! \file animationsremovefromcomposite.h
  *  \author HiddenSeeker
  *
- * Describes a simple command for adding other animations to a list of composite animation
+ * Describes a simple command for remove other animations from a list of composite animation
  */
 #pragma once
 #include "../command.h"
@@ -13,20 +13,21 @@ namespace history
 namespace animations
 {
 
-/*! \class history::animations::AddToComposite
- *   A simple command for adding to composite animation
+/*! \class history::animations::RemoveFromComposite
+ *   A simple command for removing from list of composite animation
  */
-class AddToComposite: public history::Command
+class RemoveFromComposite: public history::Command
 {
 public:
     /*! Creates new command
         \param[in] a animations
 		\param[in] id id of animation
+		\param[in] position a position for removal
      */
-    AddToComposite(sad::animations::Composite* a, unsigned long long id);
+    RemoveFromComposite(sad::animations::Composite* a, unsigned long long id, int position);
     /*! Could be inherited
      */
-    virtual ~AddToComposite();
+    virtual ~RemoveFromComposite();
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -42,6 +43,9 @@ protected:
 	/*! An id of added animations
 	 */
 	unsigned long long m_id;
+	/*! A position for animation
+	 */
+	int m_position;
 };
 
 }
