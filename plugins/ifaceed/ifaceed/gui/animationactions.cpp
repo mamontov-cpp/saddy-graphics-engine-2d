@@ -22,6 +22,7 @@
 
 
 #include "../history/animations/animationsnew.h"
+#include "../history/animations/animationsremove.h"
 #include "../history/animations/animationschangename.h"
 #include "../history/animations/animationschangetime.h"
 #include "../history/animations/animationschangelooped.h"
@@ -332,6 +333,42 @@ void gui::AnimationActions::addAnimation()
 		{
 			QMessageBox::critical(NULL, "Coding error", animationtypename + " is not defined");
 		}
+	}
+}
+
+void gui::AnimationActions::removeAnimation()
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		int posinmainlist = m_panel->findInList<sad::animations::Animation*>(m_panel->UI()->lstAnimations, a);
+		int posininstances = m_panel->findInComboBox<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, a);
+
+		sad::Vector< sad::Pair<sad::animations::Composite*, int> > list;
+
+		sad::Vector<sad::db::Object*> animations;
+		sad::Renderer::ref()->database("")->table("animations")->objects(animations);
+		for(size_t i = 0; i < animations.size(); i++)
+		{
+			sad::db::Object* object = animations[i];
+			if (object->isInstanceOf("sad::animations::Parallel") || object->isInstanceOf("sad::animations::Sequential"))
+			{
+				sad::animations::Composite* c = static_cast<sad::animations::Composite*>(object);
+				sad::Vector<unsigned long long> majorids = c->animationMajorIds();
+				sad::Vector<unsigned long long>::iterator it = std::find(majorids.begin(), majorids.end(), a->MajorId);
+				if (it != majorids.end())
+				{
+					int pos = it - majorids.begin();
+					list << sad::Pair<sad::animations::Composite*, int>(c ,pos);
+				}
+			}
+		}
+
+		history::animations::Remove* command = new history::animations::Remove(a);
+		command->set(posinmainlist, posininstances, list);
+		command->commit(this->m_panel->editor());
+
+		this->m_panel->editor()->history()->add(command);
 	}
 }
 

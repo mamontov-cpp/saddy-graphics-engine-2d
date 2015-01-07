@@ -58,6 +58,9 @@ public slots:
 	/*! Tries to add new animation to a list
 	 */
 	void addAnimation();
+	/*! Triews to remove animation from all related list
+	 */
+	void removeAnimation();
 	/*! Called, when user changes animation in list
 		\param[in] row a new selected row in list
 	 */
