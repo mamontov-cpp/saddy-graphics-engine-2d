@@ -40,9 +40,12 @@
 #include <QFileDialog>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QLinkedList>
+#include <QPair>
 
 #include <cstdio>
 
+Q_DECLARE_METATYPE(sad::db::Object*)
 Q_DECLARE_METATYPE(sad::Scene*)
 Q_DECLARE_METATYPE(sad::SceneNode*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -600,6 +603,10 @@ void MainPanel::viewDatabase()
 
 	sad::db::populateScenesFromDatabase(sad::Renderer::ref(), sad::Renderer::ref()->database(""));
 
+	sad::db::Object* nullobject = NULL;
+	QVariant nullobjectvariant;
+	nullobjectvariant.setValue(nullobject);
+	ui.cmbAnimationInstanceObject->addItem("Not set", nullobjectvariant);
 	const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
 	for(unsigned int i = 0; i < scenes.size(); i++)
 	{
@@ -675,6 +682,10 @@ void MainPanel::addSceneToSceneList(sad::Scene* s)
 	v.setValue(s);
 	i->setData(Qt::UserRole, v);
 	ui.lstScenes->addItem(i);
+	
+	QVariant vk;
+	vk.setValue((sad::db::Object*)s);
+	ui.cmbAnimationInstanceObject->addItem(name, vk);
 }
 
 void MainPanel::removeLastSceneFromSceneList()
@@ -682,7 +693,14 @@ void MainPanel::removeLastSceneFromSceneList()
 	if (ui.lstScenes->count())
 	{
 		QListWidgetItem* i = ui.lstScenes->takeItem(ui.lstScenes->count() - 1);
+		sad::Scene* s  = i->data(Qt::UserRole).value<sad::Scene*>();
 		delete i;
+
+		int pos = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, s);
+		if (pos > -1)
+		{
+			ui.cmbAnimationInstanceObject->removeItem(pos);
+		}
 	}
 }
 
@@ -794,6 +812,8 @@ void MainPanel::updateResourceViews()
 	ui.txtTextureCoordinatesList->completer()->setModel(new QStringListModel(
 		this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
 	));
+
+	this->updateAnimationsListFromTree();
 }
 
 void MainPanel::highlightState(const sad::String & text)
@@ -1154,6 +1174,24 @@ QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
 		s << "] ";
 		result = QString(s.c_str()) + result;
 	}
+	return result;
+}
+
+QString MainPanel::nameForScene(sad::Scene* scene)
+{
+	return this->viewableObjectName(scene);
+}
+
+QString MainPanel::fullNameForNode(sad::SceneNode* node)
+{
+	QString result;
+	if (node->scene())
+	{
+		result += "[";
+		result += this->nameForScene(node->scene());
+		result += "]";
+	}
+	result += this->viewableObjectName(node);
 	return result;
 }
 
@@ -1773,7 +1811,53 @@ void MainPanel::removeScene()
 		}
 		int row = ui.lstScenes->currentRow();
 
-		history::Command* c = new history::scenes::Remove(scene, row);
+		int positioninanimationcombo = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, scene);
+		sad::Vector< sad::Pair<sad::SceneNode*, int> > positions;
+		sad::Vector<sad::SceneNode*>  nodes = currentScene()->objects();
+		for(size_t i = 0; i < nodes.size(); i++)
+		{
+			int position = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, nodes[i]);
+			if (position > -1)
+			{
+				bool found = false;
+				int foundpos = -1;
+				for(size_t j = 0; j < positions.size(); j++)
+				{
+					if (positions[j].p2() > position)
+					{
+						found = true;
+						foundpos = positions[j].p2();
+					}
+				}
+				if (found)
+				{
+					positions.insert(sad::Pair<sad::SceneNode*, int>(nodes[i], position), foundpos);
+				}
+				else
+				{
+					positions << sad::Pair<sad::SceneNode*, int>(nodes[i], position);
+				}
+			}
+		}
+
+		sad::Vector<sad::db::Object*> animationinstances;
+		sad::Vector<sad::animations::Instance*> dependentinstances;
+		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
+		for(size_t  i = 0; i < animationinstances.size(); i++)
+		{
+			sad::db::Object* object = animationinstances[i];
+			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
+			{
+				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
+				if (ainstance->animationMajorId() == scene->MajorId)
+				{
+					dependentinstances << ainstance;
+				}
+			}
+		}
+
+		history::scenes::Remove* c = new history::scenes::Remove(scene, row);
+		c->set(positioninanimationcombo, positions, dependentinstances);
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}
@@ -1955,6 +2039,78 @@ void MainPanel::lockTypesTab(bool lock)
 	}
 }
 
+
+void MainPanel::updateAnimationsListFromTree()
+{
+	ui.cmbAnimationInstanceAnimationFromTree->clear();
+	ui.cmbAnimationInstanceAnimationFromTree->addItem("Not set");
+	
+	QLinkedList< QPair<QString, sad::resource::Folder*> > folderstobeviewed;
+	folderstobeviewed << QPair<QString, sad::resource::Folder*>("", sad::Renderer::ref()->tree("")->root());
+
+	while(folderstobeviewed.count())
+	{
+		QPair<QString, sad::resource::Folder*> current = folderstobeviewed.front();
+		folderstobeviewed.pop_front();
+
+		QString prefix = current.first;
+		sad::resource::Folder* folder  = current.second;
+		sad::resource::FolderIterator it = folder->folderListBegin();
+		for(; it != folder->folderListEnd(); ++it)
+		{
+			QString tmp = prefix;
+			if (tmp.length())
+			{
+				tmp = tmp + "/" + it.key().c_str();
+			}
+			else
+			{
+				tmp = it.key().c_str();
+			}
+			folderstobeviewed << QPair<QString, sad::resource::Folder*>(tmp, it.value());
+		}
+
+		sad::resource::ResourceIterator rit = folder->resourceListBegin();
+		for(; rit != folder->resourceListEnd(); ++ rit)
+		{
+			sad::resource::Resource* resource = rit.value();
+			if (resource->metaData()->canBeCastedTo("sad::animations::Animation"))
+			{
+				QString tmp = prefix;
+				if (tmp.length())
+				{
+					tmp = tmp + "/" + rit.key().c_str();
+				}
+				else
+				{
+					tmp = rit.key().c_str();
+				}
+				ui.cmbAnimationInstanceAnimationFromTree->addItem(tmp);
+			}
+		}
+	}
+	int pos = 0;
+	if (m_editor)
+	{
+		sad::animations::Instance* instance = m_editor->shared()->selectedInstance();
+		if (instance)
+		{
+			sad::String string = instance->animationName();
+			if (string.size())
+			{
+				for(size_t i = 0; i < ui.cmbAnimationInstanceAnimationFromTree->count(); i++)
+				{
+					if (ui.cmbAnimationInstanceAnimationFromTree->itemText(i) == string.c_str())
+					{
+						pos = i;
+					}
+				}
+			}
+		}
+	}
+	invoke_blocked(ui.cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, pos);
+}
+
 QStringList MainPanel::resourcesByFilter(
 	sad::resource::Folder* root, 
 	const QString& prefix, 
@@ -2097,6 +2253,8 @@ void MainPanel::loadResources()
 					this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
 				));
 
+				this->updateAnimationsListFromTree();
+
                 if (ui.rtwLabelFont->filter().length() == 0)
                 {
                     this->updateResourceViews();
@@ -2145,6 +2303,8 @@ void MainPanel::reloadResources()
 			ui.txtTextureCoordinatesList->completer()->setModel(new QStringListModel(
 				this->resourcesByFilter(tree->root(), "", "sad::Sprite2D::Options")
 			));
+
+			this->updateAnimationsListFromTree();
 
             if (ui.rtwLabelFont->filter().length() == 0)
             {
