@@ -292,9 +292,18 @@ public:
 	QString nameForPhrase(const sad::dialogue::Phrase& p) const;
 	/*! Returns name for animation
 		\param[in] a animation
-		\return animation
+		\return name for animation
 	 */
 	QString nameForAnimation(sad::animations::Animation* a) const;
+	/*! Returns name for a scene
+		\param[in] scene a scene name
+	 */
+	QString nameForScene(sad::Scene* scene);
+	/*! Returns full name for a node
+		\param[in] nodea node
+		\return name for node
+	 */
+	QString fullNameForNode(sad::SceneNode* node);
 	/*! Adds animation to a lists
 		\param[in] a animation an animation
 	 */
@@ -377,6 +386,9 @@ public:
 		\param[in] lock whether it should be looked
 	 */
 	void lockTypesTab(bool lock);
+	/*! Tries to update combo boox with animations from tree with list of actual animations
+	 */
+	void updateAnimationsListFromTree();
 	/*! Tries to find an item to a list
 		\param[in] w widget
 		\param[in] userdata a data

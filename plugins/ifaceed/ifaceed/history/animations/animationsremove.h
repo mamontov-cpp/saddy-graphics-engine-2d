@@ -6,6 +6,7 @@
 #pragma once
 #include "../command.h"
 #include <animations/animationscomposite.h>
+#include <animations/animationsinstance.h>
 #include <sadpair.h>
 
 namespace history
@@ -37,6 +38,12 @@ public:
 		int position_in_animation_instance_list,
 		const sad::Vector< sad::Pair<sad::animations::Composite*, int> >& list
 	);
+	/*! Sets data for commad
+		\param[in] list a list of instances
+	 */
+	void set(
+		const sad::Vector< sad::animations::Instance* >& list
+	);
     /*! Makes animation active, adds it to list
         \param[in] ob an observer for looking for command
      */
@@ -62,6 +69,9 @@ protected:
 	/*! A list of composite animations, dependent from current
 	 */
 	sad::Vector< sad::Pair<sad::animations::Composite*, int> > m_composites;
+	/*! A dependent instances from this animation
+	 */
+	sad::Vector< sad::animations::Instance* > m_dependent_instances;
 };
 
 }

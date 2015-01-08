@@ -19,6 +19,7 @@
 #include <dialogue/dialogue.h>
 
 #include <animations/animationsanimation.h>
+#include <animations/animationsinstance.h>
 
 namespace core
 {
@@ -170,6 +171,14 @@ public:
 		\return selected animation
 	 */
 	sad::animations::Animation* selectedAnimation() const;
+	/*! Sets selected instance
+		\param[in] an instance instance to be set
+	 */ 
+	void setSelectedInstance(sad::animations::Instance* a);
+	/*! Returns selected instance
+		\return selected instance
+	 */
+	sad::animations::Instance* selectedInstance() const;
 	/*! Tests, whether user is clicked  "Start" on animation, animation instance or animation group
 		\retun result
 	 */
@@ -202,6 +211,9 @@ private:
 	/*! A selected animation
 	 */
 	sad::animations::Animation* m_selected_animation;
+	/*! A selected animation instance
+	 */
+	sad::animations::Instance* m_selected_instance;
     /*! A way point position, when moving point
      */
     int m_way_point_position;

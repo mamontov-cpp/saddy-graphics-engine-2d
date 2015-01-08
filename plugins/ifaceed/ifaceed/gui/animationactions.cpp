@@ -364,8 +364,25 @@ void gui::AnimationActions::removeAnimation()
 			}
 		}
 
+		sad::Vector<sad::db::Object*> animationinstances;
+		sad::Vector<sad::animations::Instance*> dependentinstances;
+		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
+		for(size_t  i = 0; i < animationinstances.size(); i++)
+		{
+			sad::db::Object* object = animationinstances[i];
+			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
+			{
+				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
+				if (ainstance->animationMajorId() == a->MajorId)
+				{
+					dependentinstances << ainstance;
+				}
+			}
+		}
+
 		history::animations::Remove* command = new history::animations::Remove(a);
 		command->set(posinmainlist, posininstances, list);
+		command->set(dependentinstances);
 		command->commit(this->m_panel->editor());
 
 		this->m_panel->editor()->history()->add(command);
