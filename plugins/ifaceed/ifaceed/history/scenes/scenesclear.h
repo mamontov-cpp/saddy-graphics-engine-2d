@@ -5,11 +5,11 @@
  */
 #pragma once
 #include "../command.h"
-#include <scene.h>
 #include <scenenode.h>
 #include <sadvector.h>
+#include <sadpair.h>
 
-
+#include <animations/animationsinstance.h>
 
 namespace history
 {
@@ -29,6 +29,14 @@ public:
 	/*! Deletes reference to a scene
 	 */
 	~Clear();
+	/*! Sets data for clear command
+		\param[in] positions a list of positions for clear command
+		\param[in] dependent a list of dependent animations
+	 */
+	void set(
+		const sad::Vector< sad::Pair<sad::SceneNode*, int> >& positions,
+		const sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> >& dependent
+	);
 	/*! Applies changes, described in command
 		\param[in] ob an observer for looking for command
 	 */
@@ -44,6 +52,12 @@ protected:
 	/*! A scene nodes to be in command
 	 */
 	sad::Vector<sad::SceneNode *> m_nodes;
+	/*! A positions of nodes in animation objects list
+	 */
+	sad::Vector< sad::Pair<sad::SceneNode*, int> > m_positions;
+	/*! A dependent instances list
+	 */
+	sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > m_dependent;
 };
 
 }
