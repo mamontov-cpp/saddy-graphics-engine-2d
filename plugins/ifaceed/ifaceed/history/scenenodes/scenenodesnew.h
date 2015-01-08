@@ -33,6 +33,10 @@ public:
 	  */
 	 virtual void rollback(core::Editor * ob = NULL);
 protected:
+	/*! Erases from animation objects combo
+		\param[in] e editor
+	 */
+	void eraseFromAnimationObjectsCombo(core::Editor* e);
 	/*! A node, which must be added to an item
 	 */
 	sad::SceneNode * m_node;
