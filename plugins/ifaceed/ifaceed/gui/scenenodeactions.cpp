@@ -25,6 +25,8 @@
 
 #include <p2d/vector.h>
 
+Q_DECLARE_METATYPE(sad::db::Object*)
+
 // ============================= PUBLIC METHODS =============================
 
 gui::SceneNodeActions::SceneNodeActions(QObject* parent) : QObject(parent), m_panel(NULL)
@@ -366,7 +368,27 @@ void gui::SceneNodeActions::removeSceneNode()
 				row = static_cast<int>(node->scene()->findLayer(node));
 			}
 			
-			history::Command* c = new history::scenenodes::Remove(node, row);
+
+			int posininstance = m_panel->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
+			sad::Vector<sad::db::Object*> objects;
+			sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
+			sad::Vector<sad::animations::Instance*> instances;
+			for(size_t i = 0; i < objects.size(); i++)
+			{
+				sad::db::Object* o = objects[i];
+				if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
+				{
+					sad::animations::Instance* instance = static_cast<sad::animations::Instance*>(o);
+					if (instance->objectId() == node->MajorId)
+					{
+						instances << instance;
+					}
+				}
+			}
+
+
+			history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
+			c->set(posininstance, instances);
 			m_panel->editor()->history()->add(c);
 			c->commit(m_panel->editor());
 		}

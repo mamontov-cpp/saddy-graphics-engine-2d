@@ -39,7 +39,8 @@ public:
 	void set(
 		int position_in_instance_combo,
 		const sad::Vector< sad::Pair<sad::SceneNode*, int> >& positions,
-		const sad::Vector<sad::animations::Instance*>& dependent_animations
+		const sad::Vector<sad::animations::Instance*>& dependent_animations,	
+		const sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> >& dependent_from_nodes
 	);
 	/*! Applies changes, described in command
 		\param[in] ob an observer for looking for command
@@ -65,6 +66,9 @@ protected:
 	/*! A dependent animation list
 	 */
 	sad::Vector<sad::animations::Instance*> m_dependent_animations;
+	/*! A dependent instances list
+	 */
+	sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > m_dependent_from_nodes;
 };
 
 }

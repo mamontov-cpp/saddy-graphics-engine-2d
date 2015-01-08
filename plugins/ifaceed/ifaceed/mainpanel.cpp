@@ -1830,8 +1830,10 @@ void MainPanel::removeScene()
 		int positioninanimationcombo = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, scene);
 		sad::Vector< sad::Pair<sad::SceneNode*, int> > positions;
 		sad::Vector<sad::SceneNode*>  nodes = currentScene()->objects();
+		sad::Vector<unsigned long long> nodeids;
 		for(size_t i = 0; i < nodes.size(); i++)
 		{
+			nodeids << nodes[i]->MajorId;
 			int position = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, nodes[i]);
 			if (position > -1)
 			{
@@ -1858,6 +1860,7 @@ void MainPanel::removeScene()
 
 		sad::Vector<sad::db::Object*> animationinstances;
 		sad::Vector<sad::animations::Instance*> dependentinstances;
+		sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > dependentonnodes;
 		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
 		for(size_t  i = 0; i < animationinstances.size(); i++)
 		{
@@ -1865,15 +1868,19 @@ void MainPanel::removeScene()
 			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
 			{
 				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
-				if (ainstance->animationMajorId() == scene->MajorId)
+				if (ainstance->objectId() == scene->MajorId)
 				{
 					dependentinstances << ainstance;
+				}
+				if (std::find(nodeids.begin(), nodeids.end(), ainstance->objectId()) != nodeids.end())
+				{
+					dependentonnodes << sad::Pair<sad::animations::Instance*, unsigned long long>(ainstance, ainstance->objectId());
 				}
 			}
 		}
 
 		history::scenes::Remove* c = new history::scenes::Remove(scene, row);
-		c->set(positioninanimationcombo, positions, dependentinstances);
+		c->set(positioninanimationcombo, positions, dependentinstances, dependentonnodes);
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}
@@ -1918,7 +1925,41 @@ void MainPanel::clearScene()
 	sad::Scene* scene = currentScene();
 	if (scene)
 	{
-		history::Command* c = new history::scenes::Clear(scene);
+
+		sad::Vector<sad::SceneNode*> nodes = scene->objects();
+		sad::Vector< sad::Pair<sad::SceneNode*, int> > positions;
+		sad::Vector<unsigned long long> nodeids;
+		for(size_t i = 0; i < nodes.size(); i++)
+		{
+			nodeids << nodes[i]->MajorId;
+			int pos = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, nodes[i]);
+			if (pos > -1)
+			{
+				positions << sad::Pair<sad::SceneNode*, int>(nodes[i], pos);
+			}
+		}
+
+		sad::Vector<sad::db::Object*> animationinstances;
+		sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > dependentinstances;
+		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
+		for(size_t  i = 0; i < animationinstances.size(); i++)
+		{
+			sad::db::Object* object = animationinstances[i];
+			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
+			{
+				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
+				if (std::find(nodeids.begin(), nodeids.end(), ainstance->objectId()) != nodeids.end())
+				{
+					dependentinstances << sad::Pair<sad::animations::Instance*, unsigned long long>(ainstance, ainstance->objectId());
+				}
+			}
+		}
+
+
+
+
+		history::scenes::Clear* c = new history::scenes::Clear(scene);
+		c->set(positions, dependentinstances);
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}

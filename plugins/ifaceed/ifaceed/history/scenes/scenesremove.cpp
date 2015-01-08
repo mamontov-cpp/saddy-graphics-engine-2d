@@ -25,12 +25,14 @@ history::scenes::Remove::~Remove()
 void history::scenes::Remove::set(
 	int position_in_instance_combo,
 	const sad::Vector< sad::Pair<sad::SceneNode*, int> >& positions,
-	const sad::Vector<sad::animations::Instance*>& dependent_animations
+	const sad::Vector<sad::animations::Instance*>& dependent_animations,
+	const sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> >& dependent_from_nodes
 )
 {
 	m_position_in_instance_combo = position_in_instance_combo;
 	m_scenenodes_positions = positions;
 	m_dependent_animations = dependent_animations;
+	m_dependent_from_nodes = dependent_from_nodes;
 }
 
 void history::scenes::Remove::commit(core::Editor * ob)
@@ -39,6 +41,10 @@ void history::scenes::Remove::commit(core::Editor * ob)
 	for(size_t i = 0; i < m_dependent_animations.size(); i++)
 	{
 		m_dependent_animations[i]->setObjectId(0);
+	}
+	for(size_t i = 0; i < m_dependent_from_nodes.size(); i++)
+	{
+		m_dependent_from_nodes[i].p1()->setObjectId(0);
 	}
 	if (ob)
 	{
@@ -58,7 +64,14 @@ void history::scenes::Remove::commit(core::Editor * ob)
 		{
 			if (m_dependent_animations[i] == ob->shared()->selectedInstance())
 			{
-				ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
+				ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
+			}
+		}
+		for(size_t i = 0; i < m_dependent_from_nodes.size(); i++)
+		{
+			if (m_dependent_from_nodes[i].p1() == ob->shared()->selectedInstance())
+			{
+				ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, 0));
 			}
 		}
 	}
@@ -70,6 +83,10 @@ void history::scenes::Remove::rollback(core::Editor * ob)
 	for(size_t i = 0; i < m_dependent_animations.size(); i++)
 	{
 		m_dependent_animations[i]->setObjectId(m_scene->MajorId);
+	}
+	for(size_t i = 0; i < m_dependent_from_nodes.size(); i++)
+	{
+		m_dependent_from_nodes[i].p1()->setObjectId(m_dependent_from_nodes[i].p2());
 	}
 	if (ob)
 	{
@@ -110,7 +127,25 @@ void history::scenes::Remove::rollback(core::Editor * ob)
 		{
 			if (m_dependent_animations[i] == ob->shared()->selectedInstance())
 			{
-				ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, m_position_in_instance_combo));
+				ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, m_position_in_instance_combo));
+			}
+		}
+		for(int i = 0; i < m_dependent_from_nodes.size(); i++)
+		{
+			if (m_dependent_from_nodes[i].p1() == ob->shared()->selectedInstance())
+			{
+				int pos = -1;
+				for(size_t j = 0; (j < m_scenenodes_positions.size()) && pos == -1; j++)
+				{
+					if (m_scenenodes_positions[j].p1()->MajorId == m_dependent_from_nodes[i].p2())
+					{
+						pos = m_scenenodes_positions[j].p2();
+					}
+				}
+				if (pos != -1)
+				{
+					ob->emitClosure( blocked_bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::setCurrentIndex, pos));
+				}
 			}
 		}
 	}

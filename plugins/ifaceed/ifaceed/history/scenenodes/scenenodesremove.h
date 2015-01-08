@@ -7,6 +7,8 @@
 #include "../command.h"
 #include "scenenode.h"
 
+#include <animations/animationsinstance.h>
+
 namespace history
 {
 	
@@ -25,6 +27,14 @@ public:
 	 /*! Erases link to a node
 	  */
 	 virtual ~Remove();
+	 /*! Sets a parameters for command
+		 \param[in] position_in_instance_combo a position in combo for instances
+		 \param[in] instances a dependent instances
+	  */
+	 void set(
+		int  position_in_instance_combo,
+		const sad::Vector< sad::animations::Instance* >& instances
+	 );
 	 /*! Applies changes, described in command
 		 \param[in] ob an observer for looking for command
 	  */
@@ -40,6 +50,12 @@ protected:
 	/*! A position, where node must be inserted
 	 */
 	int m_position;
+	/*! A position of item in instance combo
+	 */
+	int m_position_in_instance_combo;
+	/*! A dependent instances from this animation
+	 */
+	sad::Vector< sad::animations::Instance* > m_dependent_instances;
 };
 
 }
