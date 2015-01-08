@@ -4,6 +4,9 @@
 
 #include "../../mainpanel.h"
 
+#include "../../closuremethodcall.h"
+
+Q_DECLARE_METATYPE(sad::db::Object*)
 
 history::scenes::ChangeName::ChangeName(
 	sad::Scene * s, 
@@ -25,6 +28,7 @@ void history::scenes::ChangeName::commit(core::Editor * ob)
 	if (ob)
 	{
 		ob->panel()->updateSceneName(m_scene);
+		ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));		
 	}
 }
 
@@ -34,5 +38,25 @@ void history::scenes::ChangeName::rollback(core::Editor * ob)
 	if (ob)
 	{
 		ob->panel()->updateSceneName(m_scene);
+		ob->emitClosure( bind(this, &history::scenes::ChangeName::updateDependent, ob));
+	}
+}
+
+void history::scenes::ChangeName::updateDependent(core::Editor* e)
+{
+	MainPanel* p = e->panel();
+	int pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, m_scene);
+	if (pos > - 1)
+	{
+		p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->nameForScene(m_scene));
+	}
+	sad::Vector<sad::SceneNode*> nodes = m_scene->objects();
+	for(size_t i = 0; i < nodes.size(); i++)
+	{
+		pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, nodes[i]);
+		if (pos > - 1)
+		{
+			p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->fullNameForNode(nodes[i]));
+		}
 	}
 }

@@ -43,13 +43,16 @@ void history::scenes::Remove::commit(core::Editor * ob)
 	if (ob)
 	{
 		ob->panel()->removeSceneFromSceneList(m_position);
+		int offset = 0;
 		if (m_position_in_instance_combo > -1)
 		{
 			ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::removeItem, m_position_in_instance_combo));
+			++offset;
 		}
 		for(size_t i = 0; i < m_scenenodes_positions.size(); i++)
 		{
-			ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::removeItem, m_scenenodes_positions[i].p2()));
+			ob->emitClosure( bind(ob->panel()->UI()->cmbAnimationInstanceObject, &QComboBox::removeItem, m_scenenodes_positions[i].p2() - offset));
+			++offset;
 		}
 		for(size_t i = 0; i < m_dependent_animations.size(); i++)
 		{
