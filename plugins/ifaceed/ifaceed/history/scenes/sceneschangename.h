@@ -37,6 +37,10 @@ public:
 	 */
 	virtual void rollback(core::Editor * ob = NULL);
 protected:
+	/*! Updates dependent names and data
+		\param[in] e editor
+	 */
+	void updateDependent(core::Editor * e);
 	/*! Describes an added scene
 	 */
 	sad::Scene* m_scene;

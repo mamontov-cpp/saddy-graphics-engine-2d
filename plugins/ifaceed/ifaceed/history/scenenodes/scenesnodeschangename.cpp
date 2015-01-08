@@ -9,6 +9,8 @@
 
 #include "../../gui/labelactions.h"
 
+Q_DECLARE_METATYPE(sad::db::Object*)
+
 history::scenenodes::ChangeName::ChangeName(
     sad::SceneNode* d,
     const sad::String& oldvalue,
@@ -36,6 +38,7 @@ void history::scenenodes::ChangeName::tryUpdateUI(core::Editor* e, const sad::St
 	{
 		e->emitClosure(bind(e->panel(), &MainPanel::updateSceneNodeName, m_node));
 	}
+	e->emitClosure( bind(this, &history::scenenodes::ChangeName::updateDependent, e));
 }
 
 void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::String& value)
@@ -46,4 +49,14 @@ void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::Strin
             QString(value.c_str())
         )
     );
+}
+
+void history::scenenodes::ChangeName::updateDependent(core::Editor * e)
+{
+	MainPanel* p = e->panel();
+	int pos = p->findInComboBox<sad::db::Object*>(p->UI()->cmbAnimationInstanceObject, m_node);
+	if (pos > - 1)
+	{
+		p->UI()->cmbAnimationInstanceObject->setItemText(pos, p->fullNameForNode(m_node));
+	}
 }

@@ -608,9 +608,19 @@ void MainPanel::viewDatabase()
 	nullobjectvariant.setValue(nullobject);
 	ui.cmbAnimationInstanceObject->addItem("Not set", nullobjectvariant);
 	const sad::Vector<sad::Scene*>& scenes = sad::Renderer::ref()->scenes(); 
+
+	sad::Vector<sad::SceneNode*> nodes;
 	for(unsigned int i = 0; i < scenes.size(); i++)
 	{
 		addSceneToSceneList(scenes[i]);
+		nodes << scenes[i]->objects();
+	}
+	for(unsigned int i = 0; i < nodes.size(); i++)
+	{
+		QVariant v;
+		v.setValue(static_cast<sad::db::Object*>(nodes[i]));
+
+		ui.cmbAnimationInstanceObject->addItem(this->fullNameForNode(nodes[i]), v);
 	}
 
 	// Cleanup a combo for animation way
@@ -938,6 +948,12 @@ void MainPanel::updateSceneNodeName(sad::SceneNode* s)
 		ui.txtSceneName->setText(s->objectName().c_str());
 		ui.txtSceneName->blockSignals(b);
 	}
+
+	int pos = this->findInComboBox<sad::db::Object*>(this->UI()->cmbAnimationInstanceObject, s);
+	if (pos > - 1)
+	{
+		this->UI()->cmbAnimationInstanceObject->setItemText(pos, this->fullNameForNode(s));
+	}
 }
 
 void MainPanel::addLastWayToEnd(sad::p2d::app::Way* way)
@@ -1189,7 +1205,7 @@ QString MainPanel::fullNameForNode(sad::SceneNode* node)
 	{
 		result += "[";
 		result += this->nameForScene(node->scene());
-		result += "]";
+		result += "] ";
 	}
 	result += this->viewableObjectName(node);
 	return result;

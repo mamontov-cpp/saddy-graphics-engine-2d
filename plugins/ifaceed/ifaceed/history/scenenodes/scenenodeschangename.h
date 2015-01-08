@@ -37,6 +37,10 @@ protected:
      * \param[in] value a value
      */
     virtual void updateUI(core::Editor* e, const sad::String& value);
+	/*! Updates dependent names and data
+		\param[in] e editor
+	 */
+	void updateDependent(core::Editor * e);
 };
 
 }
