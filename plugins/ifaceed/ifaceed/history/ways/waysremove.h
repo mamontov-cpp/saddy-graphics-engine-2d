@@ -9,6 +9,7 @@
 #include <p2d/app/way.h>
 
 #include <animations/animationswaymoving.h>
+#include <animations/animationswayinstance.h>
 
 namespace history
 {
@@ -38,7 +39,8 @@ public:
 	void setDependencies(
 		const sad::Vector<sad::animations::WayMoving*>& dependent_animations,
 		int position_in_animation_combo,
-		int position_in_animation_instances_combo
+		int position_in_animation_instances_combo,
+		const sad::Vector<sad::animations::WayInstance*>& dependent_instances
 	);
     /*! Makes way inactive, removes it from list
         \param[in] ob an observer for looking for command
@@ -64,6 +66,9 @@ protected:
 	/*! A position of way in animation instance combo
 	 */
 	int m_position_in_animation_instances_combo;
+	/*! A list of dependent instances
+	 */
+	sad::Vector<sad::animations::WayInstance*> m_dependent_instances;
 };
 
 }
