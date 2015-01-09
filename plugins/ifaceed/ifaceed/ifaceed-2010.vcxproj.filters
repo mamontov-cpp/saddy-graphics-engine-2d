@@ -186,6 +186,12 @@
     <Filter Include="Source Files\gui\textedit">
       <UniqueIdentifier>{86abca7e-221f-4550-ad78-75bb2a05440d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\history\instances">
+      <UniqueIdentifier>{17ebad58-0b39-4de7-a917-737b9cf80d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\instances">
+      <UniqueIdentifier>{1e46b1f7-27b3-42ff-bfc2-0a3dcfdc6663}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1178,6 +1184,30 @@
     <ClCompile Include="history\animations\animationsremove.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="gui\instanceactions.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_instanceactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_instanceactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_instanceactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_instanceactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_instanceactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instancesnew.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="history\instances\instancesremove.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1501,6 +1531,12 @@
     <ClInclude Include="history\animations\animationsremove.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
+    <ClInclude Include="history\instances\instancesnew.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instancesremove.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -1652,6 +1688,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\textedit\textedit.h">
       <Filter>Header Files\gui\textedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\instanceactions.h">
+      <Filter>Header Files\gui</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

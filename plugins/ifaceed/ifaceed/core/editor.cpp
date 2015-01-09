@@ -281,6 +281,7 @@ void core::Editor::cleanDatabase()
 	m_shared->setActiveObject(NULL);
 	m_shared->setSelectedAnimation(NULL);
 	m_shared->setSelectedInstance(NULL);
+	m_shared->setSelectedGroup(NULL);
 	m_history->clear();
 	m_mainwindow->clearDatabaseProperties();
 	sad::Renderer::ref()->clear();
@@ -298,6 +299,9 @@ void core::Editor::cleanDatabase()
 	m_mainwindow->UI()->cmbAnimationInstanceAnimationFromDatabase->clear();
 	m_mainwindow->UI()->cmbWayAnimationInstanceWay->clear();
 	m_mainwindow->UI()->cmbWayAnimationWay->clear();
+	m_mainwindow->UI()->lstAnimationInstances->clear();
+	m_mainwindow->UI()->lstAnimationsGroupAllAnimations->clear();
+	m_mainwindow->UI()->lstAnimationsGroupInGroup->clear();
 	m_mainwindow->clearDatabaseProperties();
 	sad::Renderer::ref()->removeDatabase("");
 }

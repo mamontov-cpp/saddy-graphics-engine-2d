@@ -23,6 +23,7 @@
 #include "gui/wayactions.h"
 #include "gui/dialogueactions.h"
 #include "gui/animationactions.h"
+#include "gui/instanceactions.h"
 #include "gui/updateelement.h"
 
 #include <keymouseconditions.h>
@@ -41,7 +42,6 @@
 #include <QCompleter>
 #include <QStringListModel>
 #include <QLinkedList>
-#include <QPair>
 
 #include <cstdio>
 
@@ -111,6 +111,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_animation_actions = new gui::AnimationActions();
 	m_animation_actions->setPanel(this);
+
+	m_instance_actions = new gui::InstanceActions();
+	m_instance_actions->setPanel(this);
 }
 
 
@@ -123,6 +126,7 @@ MainPanel::~MainPanel()
 	delete m_way_actions;
 	delete m_dialogue_actions;
 	delete m_animation_actions;
+	delete m_instance_actions;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -545,6 +549,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnCompositeAnimationMoveBack, SIGNAL(clicked()), m_animation_actions, SLOT(moveBackInCompositeList()));
 	connect(ui.btnCompositeAnimationMoveFront, SIGNAL(clicked()), m_animation_actions, SLOT(moveFrontInCompositeList()));
 
+	connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), m_instance_actions, SLOT(addInstance()));
+	connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	
+	connect(ui.lstAnimationInstances, SIGNAL(currentRowChanged(int)), m_instance_actions, SLOT(currentInstanceChanged(int)));
+
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -602,6 +610,11 @@ gui::DialogueActions* MainPanel::dialogueActions() const
 gui::AnimationActions* MainPanel::animationActions() const
 {
 	return m_animation_actions;
+}
+
+gui::InstanceActions* MainPanel::instanceActions() const
+{
+	return m_instance_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()

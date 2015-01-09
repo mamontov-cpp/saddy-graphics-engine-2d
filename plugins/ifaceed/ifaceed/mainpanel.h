@@ -43,6 +43,7 @@ class CustomObjectActions;
 class WayActions;
 class DialogueActions;
 class AnimationActions;
+class InstanceActions;
 }
 
 
@@ -104,6 +105,10 @@ public:
  	 *  \return actions for animation editing
 	 */
 	gui::AnimationActions* animationActions() const;
+	/*! Returns actions for animation instance editing
+ 	 *  \return actions for animation instance editing
+	 */
+	gui::InstanceActions* instanceActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -531,6 +536,9 @@ protected:
 	/*! An actions, linked to animations editing
 	 */
 	gui::AnimationActions* m_animation_actions;
+	/*! An actions, linked to animation instance editing
+	 */
+	gui::InstanceActions* m_instance_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;
