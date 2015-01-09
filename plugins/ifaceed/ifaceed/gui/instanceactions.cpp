@@ -11,6 +11,7 @@
 
 #include "../history/instances/instancesnew.h"
 #include "../history/instances/instancesremove.h"
+#include "../history/instances/instanceschangename.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::animations::Instance*)
@@ -333,3 +334,23 @@ void gui::InstanceActions::currentInstanceChanged(int row)
 	}
 }
 
+void gui::InstanceActions::nameChanged(const QString& name)
+{
+	core::Editor* e = m_panel->editor();
+	int row = m_panel->UI()->lstAnimationInstances->currentRow();
+	if (row > -1)
+	{
+		QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+		sad::String oldvalue = a->objectName();
+		sad::String newvalue = name.toStdString();
+		
+		if (oldvalue != newvalue)
+		{
+			history::instances::ChangeName* c = new history::instances::ChangeName(a, row, oldvalue, newvalue);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
