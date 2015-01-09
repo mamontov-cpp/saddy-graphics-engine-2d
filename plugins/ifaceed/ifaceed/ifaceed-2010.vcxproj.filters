@@ -1208,6 +1208,9 @@
     <ClCompile Include="history\instances\instancesremove.cpp">
       <Filter>Source Files\history\instances</Filter>
     </ClCompile>
+    <ClCompile Include="history\instances\instanceschangename.cpp">
+      <Filter>Source Files\history\instances</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1535,6 +1538,12 @@
       <Filter>Header Files\history\instances</Filter>
     </ClInclude>
     <ClInclude Include="history\instances\instancesremove.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangeproperty.h">
+      <Filter>Header Files\history\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="history\instances\instanceschangename.h">
       <Filter>Header Files\history\instances</Filter>
     </ClInclude>
   </ItemGroup>

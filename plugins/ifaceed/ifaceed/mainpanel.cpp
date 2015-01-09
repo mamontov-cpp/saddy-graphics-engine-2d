@@ -552,7 +552,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), m_instance_actions, SLOT(addInstance()));
 	connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	
 	connect(ui.lstAnimationInstances, SIGNAL(currentRowChanged(int)), m_instance_actions, SLOT(currentInstanceChanged(int)));
-
+	connect(ui.txtAnimationInstanceName, SIGNAL(textEdited(const QString&)), m_instance_actions, SLOT(nameChanged(const QString&)));
+	
 	// Initialize UI from editor
 	if (editor)
 	{

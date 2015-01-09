@@ -51,6 +51,10 @@ public slots:
 	/*! Called, when current instance is changed
 	 */
 	void currentInstanceChanged(int row);
+	/*!  Called, when user changes name of instance
+		\param[in] name a name of instance
+	 */
+	void nameChanged(const QString& name);
 private:
 	/*! An panel, which actions are belong to
 	 */
