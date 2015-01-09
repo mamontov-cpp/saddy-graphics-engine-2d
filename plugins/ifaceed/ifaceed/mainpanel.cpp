@@ -134,7 +134,7 @@ MainPanel::~MainPanel()
 
 void MainPanel::toggleEditingButtons(bool enabled)
 {
-	const int affectedpushbuttonscount = 18;
+	const int affectedpushbuttonscount = 49;
 	QPushButton* affectedpushbuttons[affectedpushbuttonscount] = {
 		ui.btnReloadResources,
 		ui.btnUndo,
@@ -158,7 +158,47 @@ void MainPanel::toggleEditingButtons(bool enabled)
 
 		ui.btnSpriteMakeBackground,
 		ui.btnSpriteAdd,
-		ui.btnCustomObjectAdd
+		ui.btnCustomObjectAdd,
+
+		ui.btnWayAdd,
+		ui.btnWayRemove,
+		
+		ui.btnWayPointAdd,
+		ui.btnWayPointRemove,
+		ui.btnWayPointMoveBack,
+		ui.btnWayPointMoveFront,
+
+		ui.btnDialogueAdd,
+		ui.btnDialogueRemove,
+
+		ui.btnPhraseAdd,
+		ui.btnPhraseRemove,
+		ui.btnPhraseMoveBack,
+		ui.btnPhraseMoveFront,
+
+		ui.btnAnimationsAdd,
+		ui.btnAnimationsRemove,
+		ui.btnAnimationsStart,
+		ui.btnAnimationsCancel,
+
+		ui.btnCompositeAnimationAddToList,
+		ui.btnCompositeAnimationRemoveFromList,
+		ui.btnCompositeAnimationMoveBack,
+		ui.btnCompositeAnimationMoveFront,
+
+		ui.btnAnimationsInstanceAdd,
+		ui.btnAnimationsInstanceRemove,
+		ui.btnAnimationsInstanceStart,
+		ui.btnAnimationsInstanceCancel,
+
+		ui.btnAnimationsGroupAdd,
+		ui.btnAnimationsGroupRemove,
+		ui.btnAnimationsGroupStart,
+		ui.btnAnimationsGroupCancel,
+		ui.btnAnimationsGroupRemoveFromList,
+		ui.btnAnimationsGroupAddToList,
+
+		ui.btnConsoleRun
 	};
 	for(int i = 0; i < affectedpushbuttonscount; i++)
 	{
