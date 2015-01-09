@@ -557,6 +557,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.rbAnimationInstanceFromTree, SIGNAL(toggled(bool)), m_instance_actions, SLOT(treeLinkStateChanged(bool)));
 	connect(ui.cmbAnimationInstanceAnimationFromTree, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(treeElementChanged(int)));
 	connect(ui.cmbAnimationInstanceAnimationFromDatabase, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(databaseElementChanged(int)));
+	connect(ui.cmbAnimationInstanceObject, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(objectChanged(int)));
+	connect(ui.dsbAnimationInstanceStartTime, SIGNAL(valueChanged(double)), m_instance_actions, SLOT(startTimeChanged(double)));
+	connect(ui.cmbWayAnimationInstanceWay, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(wayChanged(int)));
 	
 	// Initialize UI from editor
 	if (editor)

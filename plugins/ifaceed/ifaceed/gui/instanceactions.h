@@ -75,6 +75,18 @@ public slots:
 		\param[in] newrow a row 
 	 */
 	void databaseElementChanged(int newrow);
+	/*! Called, when object element changed
+		\param[in] newrow a row 
+	 */
+	void objectChanged(int newrow);
+	/*! Called, when start time changed
+		\param[in] newvalue new value
+	 */
+	void startTimeChanged(double newvalue);
+	/*! Called, when object element changed
+		\param[in] newrow a row 
+	 */
+	void wayChanged(int newrow);
 private:
 	/*! An panel, which actions are belong to
 	 */

@@ -289,6 +289,9 @@
     <ClCompile Include="history\animations\animationsswapincomposite.cpp" />
     <ClCompile Include="history\instances\instanceschangenimation.cpp" />
     <ClCompile Include="history\instances\instanceschangename.cpp" />
+    <ClCompile Include="history\instances\instanceschangeobject.cpp" />
+    <ClCompile Include="history\instances\instanceschangestarttime.cpp" />
+    <ClCompile Include="history\instances\instanceschangeway.cpp" />
     <ClCompile Include="history\instances\instancesnew.cpp" />
     <ClCompile Include="history\instances\instancesremove.cpp" />
     <ClCompile Include="main.cpp" />
@@ -1467,7 +1470,10 @@
     <ClInclude Include="history\animations\animationsswapincomposite.h" />
     <ClInclude Include="history\instances\instanceschangeanimation.h" />
     <ClInclude Include="history\instances\instanceschangename.h" />
+    <ClInclude Include="history\instances\instanceschangeobject.h" />
     <ClInclude Include="history\instances\instanceschangeproperty.h" />
+    <ClInclude Include="history\instances\instanceschangestarttime.h" />
+    <ClInclude Include="history\instances\instanceschangeway.h" />
     <ClInclude Include="history\instances\instancesnew.h" />
     <ClInclude Include="history\instances\instancesremove.h" />
     <ClInclude Include="macro.h" />
