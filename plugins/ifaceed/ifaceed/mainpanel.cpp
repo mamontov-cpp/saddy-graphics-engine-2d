@@ -553,6 +553,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	
 	connect(ui.lstAnimationInstances, SIGNAL(currentRowChanged(int)), m_instance_actions, SLOT(currentInstanceChanged(int)));
 	connect(ui.txtAnimationInstanceName, SIGNAL(textEdited(const QString&)), m_instance_actions, SLOT(nameChanged(const QString&)));
+	connect(ui.rbAnimationInstanceFromDatabase, SIGNAL(toggled(bool)), m_instance_actions, SLOT(databaseLinkStateChanged(bool)));
+	connect(ui.rbAnimationInstanceFromTree, SIGNAL(toggled(bool)), m_instance_actions, SLOT(treeLinkStateChanged(bool)));
+	connect(ui.cmbAnimationInstanceAnimationFromTree, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(treeElementChanged(int)));
+	connect(ui.cmbAnimationInstanceAnimationFromDatabase, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(databaseElementChanged(int)));
 	
 	// Initialize UI from editor
 	if (editor)

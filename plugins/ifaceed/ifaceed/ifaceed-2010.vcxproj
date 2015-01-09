@@ -287,6 +287,7 @@
     <ClCompile Include="history\animations\animationsremove.cpp" />
     <ClCompile Include="history\animations\animationsremovefromcomposite.cpp" />
     <ClCompile Include="history\animations\animationsswapincomposite.cpp" />
+    <ClCompile Include="history\instances\instanceschangenimation.cpp" />
     <ClCompile Include="history\instances\instanceschangename.cpp" />
     <ClCompile Include="history\instances\instancesnew.cpp" />
     <ClCompile Include="history\instances\instancesremove.cpp" />
@@ -1464,6 +1465,7 @@
     <ClInclude Include="history\animations\animationsremove.h" />
     <ClInclude Include="history\animations\animationsremovefromcomposite.h" />
     <ClInclude Include="history\animations\animationsswapincomposite.h" />
+    <ClInclude Include="history\instances\instanceschangeanimation.h" />
     <ClInclude Include="history\instances\instanceschangename.h" />
     <ClInclude Include="history\instances\instanceschangeproperty.h" />
     <ClInclude Include="history\instances\instancesnew.h" />
