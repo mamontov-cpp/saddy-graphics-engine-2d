@@ -27,12 +27,14 @@ history::ways::Remove::~Remove()
 void history::ways::Remove::setDependencies(
 		const sad::Vector<sad::animations::WayMoving*>& dependent_animations,
 		int position_in_animation_combo,
-		int position_in_animation_instances_combo
+		int position_in_animation_instances_combo,
+		const sad::Vector<sad::animations::WayInstance*>& dependent_instances
 )
 {
 	m_dependent_animations = dependent_animations;
 	m_position_in_animation_combo = position_in_animation_combo;
 	m_position_in_animation_instances_combo = position_in_animation_instances_combo;
+	m_dependent_instances = dependent_instances;
 }
 
 void history::ways::Remove::commit(core::Editor* ob)
@@ -71,6 +73,20 @@ void history::ways::Remove::commit(core::Editor* ob)
 				&QComboBox::removeItem,
 				m_position_in_animation_combo
 			));
+		}
+
+		// Reset way animations major ids
+		for(size_t i = 0; i < m_dependent_instances.size(); i++)
+		{
+			m_dependent_instances[i]->setWayMajorId(0);
+			if (ob->shared()->selectedInstance() == m_dependent_instances[i])
+			{
+				ob->emitClosure( bind(
+					ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+					&QComboBox::setCurrentIndex, 
+					0
+				));
+			}
 		}
 
 		// Remove from animation instances combo
@@ -133,6 +149,19 @@ void history::ways::Remove::rollback(core::Editor* ob)
 					name,
 					w
 			));
+		}
+
+		for(size_t i = 0; i < m_dependent_instances.size(); i++)
+		{
+			m_dependent_instances[i]->setWayMajorId(m_way->MajorId);
+			if (ob->shared()->selectedInstance() == m_dependent_instances[i] && m_position_in_animation_instances_combo >= 0)
+			{
+				ob->emitClosure( bind(
+					ob->panel()->UI()->cmbWayAnimationInstanceWay, 
+					&QComboBox::setCurrentIndex, 
+					m_position_in_animation_instances_combo
+				));
+			}
 		}
     }
 }

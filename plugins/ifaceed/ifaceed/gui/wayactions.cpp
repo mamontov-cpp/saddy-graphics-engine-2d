@@ -23,6 +23,8 @@
 #include <p2d/app/way.h>
 
 #include <animations/animationswaymoving.h>
+#include <animations/animationswayinstance.h>
+
 
 #include <QListWidgetItem>
 
@@ -130,11 +132,28 @@ void gui::WayActions::removeWay()
 			}
 		}
 
+		sad::Vector<sad::db::Object*> animationinstancelist;
+		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstancelist);
+
+		sad::Vector<sad::animations::WayInstance*> dependentinstances;
+		for(size_t i = 0; i < animationinstancelist.size(); i++)
+		{
+			sad::db::Object* tmp = animationinstancelist[i];
+			if (tmp->isInstanceOf("sad::animations::WayInstance"))
+			{
+				sad::animations::WayInstance* a = static_cast<sad::animations::WayInstance*>(tmp);
+				if (a->wayMajorId() == w->MajorId)
+				{
+					dependentinstances << a;
+				}
+			}
+		}
+
 		int waymovingcombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationWay, w);
 		int wayinstancecombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationInstanceWay, w);
 
         history::ways::Remove* c = new history::ways::Remove(w, row);
-        c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos);
+        c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos, dependentinstances);
 		c->commit(m_panel->editor());
         m_panel->editor()->history()->add(c);
     }
