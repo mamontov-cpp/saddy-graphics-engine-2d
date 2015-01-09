@@ -1233,6 +1233,20 @@ QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
 	return result;
 }
 
+QString MainPanel::nameForInstance(sad::animations::Instance* i) const
+{
+	QString result = "[I] ";
+	if (i)
+	{
+		if (i->isInstanceOf("sad::animations::WayInstance"))
+		{
+			result = "[WI] ";
+		}
+		result += const_cast<MainPanel*>(this)->viewableObjectName(i); 
+	}
+	return result;
+}
+
 QString MainPanel::nameForScene(sad::Scene* scene)
 {
 	return this->viewableObjectName(scene);

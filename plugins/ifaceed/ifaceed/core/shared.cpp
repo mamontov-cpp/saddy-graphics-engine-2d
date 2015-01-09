@@ -10,6 +10,7 @@ m_selected_way(NULL),
 m_selected_dialogue(NULL),
 m_selected_animation(NULL),
 m_selected_instance(NULL),
+m_selected_group(NULL),
 m_animation_is_running(false),
 m_animation_instance_is_running(false),
 m_animation_group_is_running(false)
@@ -214,6 +215,16 @@ void core::Shared::setSelectedInstance(sad::animations::Instance* a)
 sad::animations::Instance* core::Shared::selectedInstance() const
 {
 	return m_selected_instance;	
+}
+
+void core::Shared::setSelectedGroup(sad::animations::Group* a)
+{
+	m_selected_group = a;
+}
+
+sad::animations::Group* core::Shared::selectedGroup() const
+{
+	return m_selected_group;
 }
 
 bool core::Shared::isAnyKindOfAnimationIsRunning() const
