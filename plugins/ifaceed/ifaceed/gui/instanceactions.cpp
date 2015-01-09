@@ -12,7 +12,9 @@
 #include "../history/instances/instancesremove.h"
 #include "../history/instances/instanceschangename.h"
 #include "../history/instances/instanceschangeanimation.h"
-
+#include "../history/instances/instanceschangeobject.h"
+#include "../history/instances/instanceschangestarttime.h"
+#include "../history/instances/instanceschangeway.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::animations::Instance*)
@@ -505,6 +507,93 @@ void gui::InstanceActions::databaseElementChanged(int newrow)
 					a,
 					oldid,
 					newid
+				);
+				c->commit(e);
+				m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
+void  gui::InstanceActions::objectChanged(int newrow)
+{
+	core::Editor* e = m_panel->editor();
+	int row = m_panel->UI()->lstAnimationInstances->currentRow();
+	if (row > -1)
+	{
+		QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+		sad::db::Object* obj = m_panel->UI()->cmbAnimationInstanceObject->itemData(newrow, Qt::UserRole).value<sad::db::Object*>();
+		unsigned long long newvalue = 0;
+		if (obj)
+		{
+			newvalue = obj->MajorId;
+		}
+
+		unsigned long long oldvalue = a->objectId();
+		if (oldvalue != newvalue)
+		{
+			history::Command* c = new history::instances::ChangeObject(
+					a,
+					oldvalue,
+					newvalue
+			);
+			c->commit(e);
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void  gui::InstanceActions::startTimeChanged(double newvalue)
+{
+	core::Editor* e = m_panel->editor();
+	int row = m_panel->UI()->lstAnimationInstances->currentRow();
+	if (row > -1)
+	{
+		QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+		double oldvalue = a->startTime();
+		if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+		{
+			history::Command* c = new history::instances::ChangeStartTime(
+					a,
+					oldvalue,
+					newvalue
+			);
+			c->commit(e);
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void  gui::InstanceActions::wayChanged(int newrow)
+{
+	core::Editor* e = m_panel->editor();
+	int row = m_panel->UI()->lstAnimationInstances->currentRow();
+	if (row > -1)
+	{
+		QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+		if (a->isInstanceOf("sad::animations::WayInstance"))
+		{
+			sad::p2d::app::Way* obj = m_panel->UI()->cmbWayAnimationInstanceWay->itemData(newrow, Qt::UserRole).value<sad::p2d::app::Way*>();
+			unsigned long long newvalue = 0;
+			if (obj)
+			{
+				newvalue = obj->MajorId;
+			}
+
+			unsigned long long oldvalue = static_cast<sad::animations::WayInstance*>(a)->wayMajorId();
+			if (oldvalue != newvalue)
+			{
+				history::Command* c = new history::instances::ChangeWay(
+						a,
+						oldvalue,
+						newvalue
 				);
 				c->commit(e);
 				m_panel->editor()->history()->add(c);
