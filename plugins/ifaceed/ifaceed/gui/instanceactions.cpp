@@ -3,7 +3,6 @@
 #include "../gui/animationprocess.h"
 
 #include "../blockedclosuremethodcall.h"
-#include "../closuremethodcall.h"
 
 #include "../mainpanel.h"
 
@@ -12,6 +11,8 @@
 #include "../history/instances/instancesnew.h"
 #include "../history/instances/instancesremove.h"
 #include "../history/instances/instanceschangename.h"
+#include "../history/instances/instanceschangeanimation.h"
+
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::animations::Instance*)
@@ -113,6 +114,55 @@ void gui::InstanceActions::updateGroupInstanceList()
 			grouprow = destlist->count() - 1;
 		}
 		invoke_blocked(destlist, f, grouprow);
+	}
+}
+
+void gui::InstanceActions::updateCurrentInstanceAnimation(sad::animations::Instance* a)
+{
+	core::Editor* e =  m_panel->editor();
+	// Try set animation from tree
+	sad::String animationname = a->getProperty<sad::String>("animation").value();
+	if (animationname.length())
+	{
+		e->emitClosure( blocked_bind(m_panel->UI()->rbAnimationInstanceFromTree, &QRadioButton::setChecked, true));
+
+		QString value = animationname.c_str();
+		int pos = -1;
+		for (int i = 1; i < m_panel->UI()->cmbAnimationInstanceAnimationFromTree->count() && pos == -1; i++)
+		{
+			if (value == m_panel->UI()->cmbAnimationInstanceAnimationFromTree->itemText(i))
+			{
+				pos = i;
+			}
+		}
+		if (pos != -1)
+		{
+			e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, pos) );
+		}
+		else
+		{
+			e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, 0) );
+		}
+	}
+	else
+	{
+		e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, 0) );
+	}
+
+	// Try set animation from database
+	unsigned long long animationid =  a->getProperty<unsigned long long>("animationmajorid").value();
+	if (animationid > 0)
+	{
+		e->emitClosure( blocked_bind(m_panel->UI()->rbAnimationInstanceFromDatabase, &QRadioButton::setChecked, true));
+		int pos = m_panel->findInComboBoxByMajorId<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, animationid);
+		if (pos > 0)
+		{
+			e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, pos) );
+		}
+		else
+		{
+			e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0) );
+		}
 	}
 }
 
@@ -247,50 +297,7 @@ void gui::InstanceActions::currentInstanceChanged(int row)
 
 		if (a->isInstanceOf("sad::animations::Instance"))
 		{
-			// Try set animation from tree
-			sad::String animationname = a->getProperty<sad::String>("animation").value();
-			if (animationname.length())
-			{
-				e->emitClosure( blocked_bind(m_panel->UI()->rbAnimationInstanceFromTree, &QRadioButton::setChecked, true));
-
-				QString value = animationname.c_str();
-				int pos = -1;
-				for (int i = 1; i < m_panel->UI()->cmbAnimationInstanceAnimationFromTree->count() && pos == -1; i++)
-				{
-					if (value == m_panel->UI()->cmbAnimationInstanceAnimationFromTree->itemText(i))
-					{
-						pos = i;
-					}
-				}
-				if (pos != -1)
-				{
-					e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, pos) );
-				}
-				else
-				{
-					e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, 0) );
-				}
-			}
-			else
-			{
-				e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromTree, &QComboBox::setCurrentIndex, 0) );
-			}
-
-			// Try set animation from database
-			unsigned long long animationid =  a->getProperty<unsigned long long>("animationmajorid").value();
-			if (animationid > 0)
-			{
-				e->emitClosure( blocked_bind(m_panel->UI()->rbAnimationInstanceFromDatabase, &QRadioButton::setChecked, true));
-				int pos = m_panel->findInComboBoxByMajorId<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, animationid);
-				if (pos > 0)
-				{
-					e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, pos) );
-				}
-				else
-				{
-					e->emitClosure( blocked_bind(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, &QComboBox::setCurrentIndex, 0) );
-				}
-			}
+			this->updateCurrentInstanceAnimation(a);
 		}
 
 		if (a->isInstanceOf("sad::animations::WayInstance"))
@@ -336,7 +343,6 @@ void gui::InstanceActions::currentInstanceChanged(int row)
 
 void gui::InstanceActions::nameChanged(const QString& name)
 {
-	core::Editor* e = m_panel->editor();
 	int row = m_panel->UI()->lstAnimationInstances->currentRow();
 	if (row > -1)
 	{
@@ -351,6 +357,158 @@ void gui::InstanceActions::nameChanged(const QString& name)
 			history::instances::ChangeName* c = new history::instances::ChangeName(a, row, oldvalue, newvalue);
 			c->commit(m_panel->editor());
 			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+void gui::InstanceActions::treeLinkStateChanged(bool state)
+{
+	if (state)
+	{
+		core::Editor* e = m_panel->editor();
+		int row = m_panel->UI()->lstAnimationInstances->currentRow();
+		if (row > -1)
+		{
+			QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+			sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+			if (a->isInstanceOf("sad::animations::Instance"))
+			{
+				unsigned long long oldvalue = a->animationMajorId();
+				sad::String oldname  = a->animationName();
+
+				unsigned long long newvalue = 0;
+				sad::String newname = m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText().toStdString();
+				if (m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentIndex() <= 0)
+				{
+					newname = "";
+				}
+
+				QRadioButton* oldbutton = m_panel->UI()->rbAnimationInstanceFromDatabase;
+				QRadioButton* button = m_panel->UI()->rbAnimationInstanceFromTree;
+
+				history::Command* c = new history::instances::ChangeAnimation(
+					a,
+					button,
+					oldbutton,
+					oldname,
+					oldvalue,
+					newname,
+					newvalue
+				);
+				c->commit(e);
+				m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::InstanceActions::databaseLinkStateChanged(bool state)
+{
+	if (state)
+	{
+		core::Editor* e = m_panel->editor();
+		int row = m_panel->UI()->lstAnimationInstances->currentRow();
+		if (row > -1)
+		{
+			QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+			sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+			if (a->isInstanceOf("sad::animations::Instance"))
+			{
+				unsigned long long oldvalue = a->animationMajorId();
+				sad::String oldname  = a->animationName();
+
+				unsigned long long newvalue = 0;
+				QComboBox* combo = m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase;
+				if (combo->currentIndex() > 0)
+				{
+					int krow = combo->currentIndex();
+					sad::animations::Animation* kv = combo->itemData(krow, Qt::UserRole).value<sad::animations::Animation*>();
+					newvalue = kv->MajorId;
+				}				
+				sad::String newname = "";
+
+				QRadioButton* oldbutton = m_panel->UI()->rbAnimationInstanceFromTree;
+				QRadioButton* button = m_panel->UI()->rbAnimationInstanceFromDatabase;
+				
+				history::Command* c = new history::instances::ChangeAnimation(
+					a,
+					button,
+					oldbutton,
+					oldname,
+					oldvalue,
+					newname,
+					newvalue
+				);
+				c->commit(e);
+				m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+
+void  gui::InstanceActions::treeElementChanged(int newrow)
+{
+	if (m_panel->UI()->rbAnimationInstanceFromTree->isChecked())
+	{
+		core::Editor* e = m_panel->editor();
+		int row = m_panel->UI()->lstAnimationInstances->currentRow();
+		if (row > -1)
+		{
+			QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+			sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+			if (a->isInstanceOf("sad::animations::Instance"))
+			{
+				sad::String oldname  = a->animationName();
+				sad::String newname = "";
+				if (newrow > 0)
+				{
+					newname = m_panel->UI()->cmbAnimationInstanceAnimationFromTree->itemText(newrow).toStdString();
+				}
+
+				history::Command* c = new history::instances::ChangeAnimation(
+					a,
+					oldname,
+					newname
+				);
+				c->commit(e);
+				m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::InstanceActions::databaseElementChanged(int newrow)
+{
+	if (m_panel->UI()->rbAnimationInstanceFromDatabase->isChecked())
+	{
+		core::Editor* e = m_panel->editor();
+		int row = m_panel->UI()->lstAnimationInstances->currentRow();
+		if (row > -1)
+		{
+			QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
+			sad::animations::Instance* a = v.value<sad::animations::Instance*>();
+
+			if (a->isInstanceOf("sad::animations::Instance"))
+			{
+				unsigned long long oldid  = a->animationMajorId();
+				unsigned long long newid = 0;
+				if (newrow > 0)
+				{
+					newid = m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase->itemData(newrow, Qt::UserRole).value<sad::animations::Animation*>()->MajorId;
+				}
+
+				history::Command* c = new history::instances::ChangeAnimation(
+					a,
+					oldid,
+					newid
+				);
+				c->commit(e);
+				m_panel->editor()->history()->add(c);
+			}
 		}
 	}
 }

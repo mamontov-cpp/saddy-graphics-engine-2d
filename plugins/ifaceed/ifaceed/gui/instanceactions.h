@@ -41,6 +41,10 @@ public:
 	/*! Updates instance list for groups
 	 */
 	void updateGroupInstanceList();
+	/*! Updates animation for current instance
+		\param[in] a instance
+	 */
+	void updateCurrentInstanceAnimation(sad::animations::Instance* a);
 public slots:
 	/*! Tries to add new animation instance
 	 */
@@ -55,6 +59,22 @@ public slots:
 		\param[in] name a name of instance
 	 */
 	void nameChanged(const QString& name);
+	/*! Called, when user changes state for tree link
+		\param[in] state a state of button
+	 */
+	void treeLinkStateChanged(bool state);
+	/*! Called, when user changes state for database link
+		\param[in] state a state of link
+	 */
+	void databaseLinkStateChanged(bool state);
+	/*! Called, whether tree element changed
+		\param[in] newrow a row 
+	 */
+	void treeElementChanged(int newrow);
+	/*! Called, whether database element changed
+		\param[in] newrow a row 
+	 */
+	void databaseElementChanged(int newrow);
 private:
 	/*! An panel, which actions are belong to
 	 */

@@ -72,16 +72,25 @@ public:
 		tryUpdateUI(ob, m_oldvalue);
     }
 	/*! An old value for changed property
+		\return value
 	 */
 	const T& oldValue() const
     {
 	    return m_oldvalue;
     }
 	/*! A new value for changed property
+		\return value
 	 */
 	const T& newValue() const
     {
 	    return m_newvalue;
+    }
+	/*! Returns linked animation
+		\return animation
+	 */
+	sad::animations::Instance* animation() const
+    {
+	    return m_animation;
     }
 protected:
     /*! A changed animation
