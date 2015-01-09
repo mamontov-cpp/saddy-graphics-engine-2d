@@ -18,7 +18,7 @@ history::scenenodes::New::~New()
 	m_node->delRef();
 }
 
- void history::scenenodes::New::commit(core::Editor * ob)
+void history::scenenodes::New::commit(core::Editor * ob)
 {
 	m_node->setActive(true);
 	if (m_node->scene() == ob->panel()->currentScene())
@@ -40,7 +40,7 @@ history::scenenodes::New::~New()
 	}
 }
 
- void history::scenenodes::New::rollback(core::Editor * ob)
+void history::scenenodes::New::rollback(core::Editor * ob)
 {
 	m_node->setActive(false);
 	if (m_node->scene() == ob->panel()->currentScene())

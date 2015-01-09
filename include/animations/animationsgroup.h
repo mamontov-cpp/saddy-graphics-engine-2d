@@ -63,6 +63,11 @@ public:
 		\return instances list
 	 */
 	sad::Vector<unsigned long long> instances() const;
+	/*! Tries to find instances in group
+		\param[in] id id of instance
+		\return position of instance (-1 if not found)
+	 */
+	int findInstance(unsigned long long id);
 	/*! Whether group is looped
 		\param[in] looped is animation looped
 	 */
@@ -79,6 +84,11 @@ public:
 		\param[in] inst instance
 	 */
 	void removeAsLink(sad::animations::Instance* inst);
+	/*! Inserts instance as link
+		\param[in] pos position of instance in group
+		\param[in] i instance
+	 */
+	void insertAsLink(int pos, sad::animations::Instance* i);
 	/*! Restarts an animation group
         \param[in] animations an animations process
 	 */

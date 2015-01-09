@@ -122,8 +122,11 @@ void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>&
 	for(size_t i = 0; i < m_instance_links.size(); i++)
 	{
 		sad::db::Link l;
-		l.setDatabase(this->table()->database());
-		l.setTableName("animations");
+		if (this->table())
+		{
+			l.setDatabase(this->table()->database());
+		}
+		l.setTableName("animationinstances");
 		l.setMajorId(v[i]);
 		m_instance_links << l;
 	}
@@ -139,6 +142,18 @@ sad::Vector<unsigned long long> sad::animations::Group::instances() const
 	}
 
 	return result;
+}
+
+int sad::animations::Group::findInstance(unsigned long long id)
+{
+	for(size_t i = 0; i < m_instance_links.size(); i++)
+	{
+		if (m_instance_links[i].majorId() == id)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 void sad::animations::Group::setLooped(bool looped)
@@ -157,7 +172,7 @@ void sad::animations::Group::addAsLink(sad::animations::Instance* i)
 	{
 		sad::db::Link l;
 		l.setDatabase(this->table()->database());
-		l.setTableName("animations");
+		l.setTableName("animationinstances");
 		l.setMajorId(i->MajorId);
 		m_instance_links << l;
 
@@ -187,6 +202,23 @@ void sad::animations::Group::removeAsLink(sad::animations::Instance* inst)
 	if (it != m_instances.end())
 	{
 		m_instances.erase(it);
+	}
+}
+
+void sad::animations::Group::insertAsLink(int pos, sad::animations::Instance* i)
+{
+	if (i)
+	{
+		sad::db::Link l;
+		l.setDatabase(this->table()->database());
+		l.setTableName("animationinstances");
+		l.setMajorId(i->MajorId);
+		m_instance_links.insert(l, pos);
+
+		if (i && m_instances.count()) 
+		{
+			m_instances.insert(i, pos);
+		}
 	}
 }
 
@@ -280,7 +312,7 @@ void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*
 		sad::db::Object* o  = m_instance_links[i].get();
 		if (o)
 		{
-			if (o->serializableName() == "sad::animations::Instance")
+			if (o->serializableName() == "sad::animations::Instance" || o->serializableName() == "sad::animations::WayInstance")
 			{
 				m_instances << static_cast<sad::animations::Instance*>(o);
 			}
