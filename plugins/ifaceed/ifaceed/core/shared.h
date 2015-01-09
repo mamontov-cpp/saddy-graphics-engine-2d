@@ -20,6 +20,7 @@
 
 #include <animations/animationsanimation.h>
 #include <animations/animationsinstance.h>
+#include <animations/animationsgroup.h>
 
 namespace core
 {
@@ -172,13 +173,21 @@ public:
 	 */
 	sad::animations::Animation* selectedAnimation() const;
 	/*! Sets selected instance
-		\param[in] an instance instance to be set
+		\param[in] a an instance instance to be set
 	 */ 
 	void setSelectedInstance(sad::animations::Instance* a);
 	/*! Returns selected instance
 		\return selected instance
 	 */
 	sad::animations::Instance* selectedInstance() const;
+	/*! Sets selected group
+		\param[in] g an instance instance to be set
+	 */ 
+	void setSelectedGroup(sad::animations::Group* a);
+	/*! Returns selected group
+		\return selected group
+	 */
+	sad::animations::Group* selectedGroup() const;
 	/*! Tests, whether user is clicked  "Start" on animation, animation instance or animation group
 		\retun result
 	 */
@@ -214,6 +223,9 @@ private:
 	/*! A selected animation instance
 	 */
 	sad::animations::Instance* m_selected_instance;
+	/*! A selected group
+	 */
+	sad::animations::Group* m_selected_group;
     /*! A way point position, when moving point
      */
     int m_way_point_position;

@@ -18,6 +18,8 @@
 #include <db/dbvariant.h>
 #include <db/dbstoredpropertyfactory.h>
 
+#include <animations/animationsgroup.h>
+
 #include "gui/table/delegatefactory.h"
 
 #include <input/events.h>
@@ -295,6 +297,11 @@ public:
 		\return name for animation
 	 */
 	QString nameForAnimation(sad::animations::Animation* a) const;
+	/*! Returns name for animation instance
+		\param[in] i instance
+		\return name for instance
+	 */
+	QString nameForInstance(sad::animations::Instance* i) const;
 	/*! Returns name for a scene
 		\param[in] scene a scene name
 	 */
