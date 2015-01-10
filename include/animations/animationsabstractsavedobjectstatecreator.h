@@ -1,4 +1,4 @@
-/*! \file animations/animationsabtractsavedobjectstatecreator.h
+/*! \file animations/animationsabstractsavedobjectstatecreator.h
     \author HiddenSeeker
 
     Defines a factory creator, which must could create saved object state
@@ -25,7 +25,7 @@ public:
      */
     virtual ~AbstractSavedObjectStateCreator();
     /*! Clones a saved object state creator
-        \param[in] clone returns new copy of creator
+        \return new copy of creator
      */
     virtual AbstractSavedObjectStateCreator* clone() const = 0;
     /*! Creates a state for specified object
@@ -34,6 +34,7 @@ public:
      */
     virtual sad::animations::SavedObjectState* create(sad::db::Object* o) = 0;
     /*! Returns a unique key, which defines how should state be saved in cache
+		\return unique key
      */
     inline const sad::String& name() const
     {

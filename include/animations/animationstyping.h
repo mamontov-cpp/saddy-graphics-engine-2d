@@ -26,7 +26,7 @@ public:
 	 */
 	virtual ~Typing();
 	/*! An animations instance
-		\paam[in] i an instance of animations
+		\param[in] i an instance of animations
 	 */
 	virtual void start(sad::animations::Instance* i);
 	/*! Sets state of object from animation

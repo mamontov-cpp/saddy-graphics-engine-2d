@@ -20,7 +20,7 @@ public:
 	 */
 	virtual ~Process();
 	/*! Restarts an animation process
-        \param[in] animation an animations for process
+        \param[in] animations an animations, which will invoke sad::animations::Process::process on object
 	 */
     virtual void restart(sad::animations::Animations* animations) = 0;
 	/*! Clears finished flag

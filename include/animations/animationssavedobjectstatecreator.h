@@ -35,7 +35,7 @@ public:
 
     }
     /*! Clones a saved object state creator
-        \param[in] clone returns new copy of creator
+        \return returns new copy of creator
      */
     virtual AbstractSavedObjectStateCreator* clone() const
     {

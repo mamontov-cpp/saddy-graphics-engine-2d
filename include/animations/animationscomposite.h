@@ -83,7 +83,7 @@ public:
      */
     virtual const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators() const;
 	/*! Adds new animation to list by major id
-		\param[in] major id
+		\param[in] majorid a major id of animation
 	 */
 	void add(unsigned long long majorid);
 	/*! Inserts new animations to list by major id
@@ -109,7 +109,7 @@ public:
 	 */
 	sad::animations::Animation* animation(size_t i) const;
 	/*! Returns count of animations in list
-		\param[in] animation
+		\return count of animations in list
 	 */
 	size_t size() const;
 	/*! Clears animations
@@ -124,7 +124,7 @@ public:
 	 */
 	sad::Vector<sad::String> animationNames() const;
 	/*! Sets animation major ids
-		\param[in] names a major ids
+		\param[in] ids a major ids
 	 */
 	void setAnimationsMajorId(const sad::Vector<unsigned long long>& ids);
 	/*! Returns animation major ids

@@ -86,8 +86,7 @@ public:
     }
 
 	/*! Sets tree for a name
-        \param[in] r renderer
-        \param[in] treename a name for tree
+        \param[in] tree a tree
      */
 	void setTree(sad::resource::Tree * tree)
     {
@@ -127,7 +126,7 @@ public:
         m_point_to_resource = false;
     }
     /*! Returns an object
-        \param[in] check, whether typecheck should be performed
+        \param[in] check  whether typecheck should be performed
         \return object (NULL if not found)
      */
     T* object(bool check = true) const

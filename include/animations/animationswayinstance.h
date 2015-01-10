@@ -83,7 +83,7 @@ protected:
      */
     virtual void saveStateAndCompile(sad::animations::Animations* animations);
     /*! Tries to restore object state from cache
-        \param animations[in] animations an animations
+        \param[in] animations animations, which is calling process for this instance
      */
     virtual void restoreObjectState(sad::animations::Animations* animations);
 	/*! Returns a way link
