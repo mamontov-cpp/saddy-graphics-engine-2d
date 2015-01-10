@@ -1,7 +1,5 @@
 #include "instanceactions.h"
 
-#include "../gui/animationprocess.h"
-
 #include "../blockedclosuremethodcall.h"
 
 #include "../mainpanel.h"

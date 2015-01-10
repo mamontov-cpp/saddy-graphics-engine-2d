@@ -6,6 +6,8 @@
 #pragma once
 #include <QObject>
 
+#include "animationgroupprocess.h"
+
 #include <animations/animationsgroup.h>
 
 
@@ -58,10 +60,19 @@ public slots:
 	/*! Tries to remove instance from an animation group
 	 */
 	void removeInstance();
+	/*! Starts running selected animation group
+	 */
+	void start();
+	/*! Stop running selected animation group
+	 */
+	void stop();
 private:
 	/*! An panel, which actions are belong to
 	 */
 	MainPanel* m_panel;
+	/*! A running animation process 
+	 */
+	gui::AnimationGroupProcess* m_animation;
 };
 
 }

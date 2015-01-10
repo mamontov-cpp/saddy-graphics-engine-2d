@@ -25,6 +25,13 @@ sad::db::Object* sad::db::Link::get()
 	{
         if (m_link_by_major_id)
         {
+			if (m_database == NULL)
+			{
+				if (m_table != NULL)
+				{
+					m_database = m_table->database();
+				}
+			}
             if (m_database)
             {
                 return m_database->queryByMajorId(m_major_id);

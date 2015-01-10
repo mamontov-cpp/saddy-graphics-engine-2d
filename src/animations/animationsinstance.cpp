@@ -360,6 +360,7 @@ void sad::animations::Instance::cancel(sad::animations::Animations* animations)
         m_paused = false;
         m_timer.stop();
         m_finished = true;
+		m_started = false;
 		this->restoreObjectState(animations);
     }
 }

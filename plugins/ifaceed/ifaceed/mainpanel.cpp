@@ -577,6 +577,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cbAnimationsGroupLooped, SIGNAL(clicked(bool)), m_group_actions, SLOT(loopedChanged(bool)));
     connect(ui.btnAnimationsGroupAddToList, SIGNAL(clicked()), m_group_actions, SLOT(addInstance()));	
 	connect(ui.btnAnimationsGroupRemoveFromList, SIGNAL(clicked()), m_group_actions, SLOT(removeInstance()));	
+	connect(ui.btnAnimationsGroupStart, SIGNAL(clicked()), m_group_actions, SLOT(start()));	
+	connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), m_group_actions, SLOT(stop()));	
 	
 	// Initialize UI from editor
 	if (editor)
