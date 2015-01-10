@@ -2,8 +2,6 @@
 
 #include "instanceactions.h"
 
-#include "../gui/animationprocess.h"
-
 #include "../blockedclosuremethodcall.h"
 
 #include "../mainpanel.h"
@@ -24,18 +22,18 @@ Q_DECLARE_METATYPE(sad::animations::Group*)
 
 gui::GroupActions::GroupActions(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-	//m_animation = new gui::AnimationInstanceProcess();
+	m_animation = new gui::AnimationGroupProcess();
 }
 
 gui::GroupActions::~GroupActions()
 {
-	//delete m_animation;	
+	delete m_animation;	
 }
 
 void gui::GroupActions::setPanel(MainPanel* e)
 {
 	m_panel = e;
-	//m_animation->setEditor(e->editor());
+	m_animation->setEditor(e->editor());
 }
 
 MainPanel* gui::GroupActions::panel() const
@@ -181,5 +179,28 @@ void gui::GroupActions::removeInstance()
 		c->commit(this->m_panel->editor());
 
 		this->m_panel->editor()->history()->add(c);
+	}
+}
+
+
+void gui::GroupActions::start()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == false 
+		&& s->selectedGroup() != NULL)
+	{
+		s->selectedGroup()->restart(sad::Renderer::ref()->animations());
+		m_animation->setEditor(m_panel->editor());
+		m_animation->start(s->selectedGroup() );
+	}
+}
+
+void gui::GroupActions::stop()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == true)
+	{
+		m_animation->setEditor(m_panel->editor());
+		m_animation->stop();
 	}
 }

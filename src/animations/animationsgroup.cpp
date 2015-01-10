@@ -229,7 +229,10 @@ void sad::animations::Group::restart(sad::animations::Animations* animations)
 	{
         m_instances[i]->cancel(animations);
 	}
-
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+        m_instances[i]->restart(animations);
+	}
 	m_instances.clear();
 	m_started = true;
 }
@@ -237,6 +240,10 @@ void sad::animations::Group::restart(sad::animations::Animations* animations)
 void sad::animations::Group::clearFinished()
 {
 	getInstances(m_instances);
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+        m_instances[i]->clearFinished();
+	}
 }
 
 bool sad::animations::Group::finished() const
@@ -290,6 +297,7 @@ void sad::animations::Group::cancel(sad::animations::Animations* animations)
 	}
 
 	m_instances.clear();
+	m_started = true;
 }
 
 void sad::animations::Group::addedToPipeline()
@@ -315,14 +323,14 @@ void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*
 		{
 			if (o->serializableName() == "sad::animations::Instance" || o->serializableName() == "sad::animations::WayInstance")
 			{
-				m_instances << static_cast<sad::animations::Instance*>(o);
+				result << static_cast<sad::animations::Instance*>(o);
 			}
 		}
 	}
 
 	for(size_t i = 0; i < m_referenced.size(); i++)
 	{
-		m_instances << m_referenced[i];
+		result << m_referenced[i];
 	}
 }
 
