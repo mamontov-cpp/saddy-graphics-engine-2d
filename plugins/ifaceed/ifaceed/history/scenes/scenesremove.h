@@ -35,6 +35,7 @@ public:
 		\param[in] position_in_instance_combo a position of instance in removal
 		\param[in] positions a positions list
 		\param[in] dependent_animations a list of dependent animation
+		\param[in] dependent_from_nodes a list of animation instances, dependent from nodes of scene
 	 */
 	void set(
 		int position_in_instance_combo,

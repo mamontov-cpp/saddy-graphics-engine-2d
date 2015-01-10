@@ -337,7 +337,7 @@ public:
 	 */
 	QString nameForScene(sad::Scene* scene);
 	/*! Returns full name for a node
-		\param[in] nodea node
+		\param[in] node node, which shoulde be found
 		\return name for node
 	 */
 	QString fullNameForNode(sad::SceneNode* node);
@@ -468,7 +468,7 @@ public:
 	}
 	/*! Tries to find an item to a combo box by major id
 		\param[in] w widget
-		\param[in] unsigned long long id
+		\param[in] id id to identify item in combo box
 		\return index (-1 if not found)
 	 */
 	template<

@@ -1301,6 +1301,9 @@
     <ClCompile Include="gui\animationgroupprocess.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="history\batchcommand.cpp">
+      <Filter>Source Files\history</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1668,6 +1671,9 @@
     </ClInclude>
     <ClInclude Include="history\groups\groupsremoveinstance.h">
       <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\batchcommand.h">
+      <Filter>Header Files\history</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

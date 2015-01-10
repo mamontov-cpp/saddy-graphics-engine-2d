@@ -29,6 +29,7 @@ public:
 protected:
 	/*! Updates item in main list
 		\param[in] e editor
+        \param[in] value a value
 	 */
 	void updateItem(core::Editor* e, const sad::String& value);
     /*! Tries to update UI in case if node is selected
