@@ -1,4 +1,4 @@
-/*! \file animations/animationsavedobjectproperty.h
+/*! \file animations/animationssavedobjectproperty.h
 	\author HiddenSeeker
 
 	Defines a saved object property, which could be restored, when animation is finished
@@ -23,7 +23,6 @@ public:
 	/*! Creates new saved object state
 		\param[in] o object
 		\param[in] name name of property
-		\param[in] value a value for property
 	 */
 	SavedObjectProperty(sad::db::Object* o, const sad::String& name)
 	: sad::animations::SavedObjectState(o), m_property_name(name)

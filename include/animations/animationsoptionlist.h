@@ -45,7 +45,7 @@ public:
      */
     virtual bool loadFromValue(const picojson::value& v);
 	/*! Sets list of options
-		\param[in] fonts a font list, used in animation
+		\param[in] list an option list, used in animation
 	 */
 	void setList(const sad::Vector<sad::String>& list);
 	/*! Returns option list

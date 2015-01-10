@@ -67,7 +67,7 @@ public:
      */
     void setAnimation(sad::animations::Animation* o);
     /*! Returns animation object
-		\param[in] whether we should perform type checking
+		\param[in] check whether we should perform type checking
         \return animation object
      */
     sad::animations::Animation* animation(bool check = true) const;
@@ -294,7 +294,7 @@ protected:
      */
     virtual void saveStateAndCompile(sad::animations::Animations* animations);
     /*! Tries to restore object state from cache
-        \param animations[in] animations an animations
+        \param[in] animations animations an animations
      */
     virtual void restoreObjectState(sad::animations::Animations* animations);
     /*! Clears a state call on animation instance

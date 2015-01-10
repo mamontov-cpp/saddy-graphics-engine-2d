@@ -55,7 +55,7 @@ public:
      */
     virtual bool loadFromValue(const picojson::value& v);
 	/*! Sets list of options, which defines texture coordinate sources
-		\param[in] fonts a font list, used in animation
+		\param[in] list an options list, used to define texture coordinates
 	 */
 	void setList(const sad::Vector<sad::String>& list);
 	/*! Returns options list

@@ -48,7 +48,7 @@ public:
 	 */
 	const sad::Point2D& vector() const;
 	/*! An animations instance
-		\paam[in] i an instance of animations
+		\param[in] i an instance for animation
 	 */
 	virtual void start(sad::animations::Instance* i);
 	/*! Sets state of object from animation

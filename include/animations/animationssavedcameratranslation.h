@@ -22,7 +22,7 @@ class  SavedCameraTranslation: public sad::animations::SavedObjectState
 {
 public:
     /*! Creates a new object and sets a scene
-        \parma[in] o scene, which settings will be saved
+        \param[in] o scene, which settings will be saved
      */
     SavedCameraTranslation(sad::db::Object* o);
     /*! Can be inherited

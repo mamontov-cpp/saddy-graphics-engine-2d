@@ -44,7 +44,7 @@ public:
         m_property_name = name;
     }
     /*! Clones a saved object state creator
-        \param[in] clone returns new copy of creator
+        \return new copy of creator
      */
     virtual AbstractSavedObjectStateCreator* clone() const
     {

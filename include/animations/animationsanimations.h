@@ -1,4 +1,4 @@
-/*! \file animationanimations.h
+/*! \file animationsanimations.h
 	\author HiddenSeeker
 
 	Defines an animations as pipeline step

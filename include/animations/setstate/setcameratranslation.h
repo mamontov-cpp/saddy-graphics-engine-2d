@@ -24,7 +24,6 @@ class SetCameraTranslation: public sad::animations::setstate::TypedCommmand<sad:
 public:
     /*! Sets a scene and pivot for translation
         \param[in] s scene
-        \param[in] p a pivot offset for rotation
      */
     SetCameraTranslation(sad::Scene* s);
     /*! Invokes a command with specified command

@@ -177,7 +177,7 @@ public:
 		return m_property_name;
 	}
 	/*! Sets minimal value
-		\param[in] size minimal value
+		\param[in] value minimal value
 	 */
 	void setMinValue(const T & value)
 	{
@@ -191,7 +191,7 @@ public:
 		return m_min_value;
 	}
 	/*! Sets maximal value
-		\param[in] size maximal value
+		\param[in] value maximal value
 	 */
 	void setMaxValue(const T & value)
 	{

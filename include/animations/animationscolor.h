@@ -49,7 +49,7 @@ public:
 	 */
 	const sad::AColor& minColor() const;
 	/*! Sets maximal (ending) color
-		\param[in] angle maximal colo
+		\param[in] color maximal color
 	 */
 	void setMaxColor(const sad::AColor& color);
 	/*! Returns maximal (ending) color

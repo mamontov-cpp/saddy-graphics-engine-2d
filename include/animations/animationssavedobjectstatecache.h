@@ -48,7 +48,7 @@ public:
     /*! Caches a saved state if needed
 		\param[in] o object
         \param[in] name a name to be saved
-        \param[in] s a saved state
+        \param[in] state a saved state
 	 */ 
     void saveState(sad::db::Object* o, const sad::String& name, sad::animations::SavedObjectState* state);
 	/*! Tries to restore a saved object state for object, from an animation

@@ -76,11 +76,11 @@ public:
 	 */
 	Factory();
 	/*! Constructs default factory from existing
-		\param[in] o other factory
+		\param[in] f other factory
 	 */
 	Factory(const sad::animations::Factory& f);
 	/*! Copies one factory to another
-		\param[in] o other factory
+		\param[in] f other factory
 	 */
 	Factory& operator=(const sad::animations::Factory& f);
 	/*! Could be inherited
