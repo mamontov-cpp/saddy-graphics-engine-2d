@@ -14,7 +14,8 @@
 #include "../history/groups/groupsremove.h"
 #include "../history/groups/groupschangename.h"
 #include "../history/groups/groupschangelooped.h"
-
+#include "../history/groups/groupsaddinstance.h"
+#include "../history/groups/groupsremoveinstance.h"
 
 Q_DECLARE_METATYPE(sad::animations::Instance*)
 Q_DECLARE_METATYPE(sad::animations::Group*)
@@ -49,7 +50,8 @@ void gui::GroupActions::addGroup()
 	sad::animations::Group* g = new sad::animations::Group();
 	g->setObjectName(m_panel->UI()->txtAnimationsGroupName->text().toStdString());
 	g->setLooped(m_panel->UI()->cbAnimationsGroupLooped->checkState() == Qt::Checked);
-	
+	g->setTable(sad::Renderer::ref()->database("")->table("animationgroups"));
+
 	QListWidget* w = m_panel->UI()->lstAnimationsGroupInGroup;
 	for(size_t  i = 0; i < w->count(); i++)
 	{
@@ -147,3 +149,37 @@ void gui::GroupActions::loopedChanged(bool newvalue)
 }
 
 
+void gui::GroupActions::addInstance()
+{
+	int row = m_panel->UI()->lstAnimationsGroup->currentRow();
+	int irow = m_panel->UI()->lstAnimationsGroupAllAnimations->currentRow();
+	if (row > -1 && irow > -1)
+	{
+		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+
+		sad::animations::Instance* i = m_panel->UI()->lstAnimationsGroupAllAnimations->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
+
+		history::groups::AddInstance* c = new history::groups::AddInstance(g, i, irow);
+		c->commit(this->m_panel->editor());
+
+		this->m_panel->editor()->history()->add(c);
+	}
+}
+
+
+void gui::GroupActions::removeInstance()
+{
+	int row = m_panel->UI()->lstAnimationsGroup->currentRow();
+	int irow = m_panel->UI()->lstAnimationsGroupInGroup->currentRow();
+	if (row > -1 && irow > -1)
+	{
+		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+
+		sad::animations::Instance* i = m_panel->UI()->lstAnimationsGroupInGroup->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
+
+		history::groups::RemoveInstance* c = new history::groups::RemoveInstance(g, i, irow);
+		c->commit(this->m_panel->editor());
+
+		this->m_panel->editor()->history()->add(c);
+	}
+}

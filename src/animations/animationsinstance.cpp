@@ -113,6 +113,7 @@ void sad::animations::Instance::setTreeName(sad::Renderer* r, const sad::String 
 
 void sad::animations::Instance::setTable(sad::db::Table *t)
 {
+	this->sad::db::Object::setTable(t);
     m_object.setDatabase(t->database());
 	m_animation_db_link.setTable(t);
 	m_animation_db_link.setDatabase(t->database());

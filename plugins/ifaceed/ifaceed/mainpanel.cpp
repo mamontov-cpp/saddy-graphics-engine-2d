@@ -575,7 +575,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.lstAnimationsGroup, SIGNAL(currentRowChanged(int)), m_group_actions, SLOT(currentGroupChanged(int)));
 	connect(ui.txtAnimationsGroupName, SIGNAL(textEdited(const QString&)), m_group_actions, SLOT(nameChanged(const QString&)));
 	connect(ui.cbAnimationsGroupLooped, SIGNAL(clicked(bool)), m_group_actions, SLOT(loopedChanged(bool)));
-    
+    connect(ui.btnAnimationsGroupAddToList, SIGNAL(clicked()), m_group_actions, SLOT(addInstance()));	
+	connect(ui.btnAnimationsGroupRemoveFromList, SIGNAL(clicked()), m_group_actions, SLOT(removeInstance()));	
+	
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -795,6 +797,19 @@ void MainPanel::viewDatabase()
     }
 
 	this->instanceActions()->updateGroupInstanceList();
+
+	sad::Vector<sad::db::Object*> animationgrouplist;
+	sad::db::Table* animationgrouptable = db->table("animationgroups");
+    animationgrouptable->objects(animationgrouplist);
+	for(unsigned int i = 0; i < animationgrouplist.size(); i++)
+	{
+		sad::db::Object* o = animationgrouplist[i];
+		if (o->isInstanceOf("sad::animations::Group"))
+		{
+			sad::animations::Group* g = static_cast<sad::animations::Group*>(o);
+			this->addGroupToList(g);
+		}
+	}
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const

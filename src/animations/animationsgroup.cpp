@@ -102,6 +102,7 @@ sad::db::schema::Schema* sad::animations::Group::schema() const
 
 void sad::animations::Group::setTable(sad::db::Table* t)
 {
+	this->sad::db::Object::setTable(t);
 	for(size_t i = 0; i < m_instance_links.size(); i++)
 	{
 		m_instance_links[i].setTable(t);
@@ -119,7 +120,7 @@ void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>&
 {
 	m_instance_links.clear();
 
-	for(size_t i = 0; i < m_instance_links.size(); i++)
+	for(size_t i = 0; i < v.size(); i++)
 	{
 		sad::db::Link l;
 		if (this->table())
