@@ -12,6 +12,9 @@
 
 #include "../history/groups/groupsnew.h"
 #include "../history/groups/groupsremove.h"
+#include "../history/groups/groupschangename.h"
+#include "../history/groups/groupschangelooped.h"
+
 
 Q_DECLARE_METATYPE(sad::animations::Instance*)
 Q_DECLARE_METATYPE(sad::animations::Group*)
@@ -105,4 +108,42 @@ void gui::GroupActions::removeGroup()
 		m_panel->editor()->history()->add(c);
 	}
 }
+
+void gui::GroupActions::nameChanged(const QString& name)
+{
+	int row = m_panel->UI()->lstAnimationsGroup->currentRow();
+	if (row > -1)
+	{
+		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+	
+		sad::String oldvalue = g->objectName();
+		sad::String newvalue = name.toStdString();
+		
+		if (oldvalue != newvalue)
+		{
+			history::groups::ChangeName* c = new history::groups::ChangeName(g, row, oldvalue, newvalue);
+			c->commit(m_panel->editor());
+			m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
+
+void gui::GroupActions::loopedChanged(bool newvalue)
+{
+	int row = m_panel->UI()->lstAnimationsGroup->currentRow();
+	if (row > -1)
+	{
+		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+		bool oldvalue =g->looped();
+		if (oldvalue != newvalue)
+		{
+			history::groups::ChangeLooped* c = new history::groups::ChangeLooped(g, oldvalue, newvalue);
+			c->commit(this->m_panel->editor());
+
+			this->m_panel->editor()->history()->add(c);
+		}
+	}
+}
+
 

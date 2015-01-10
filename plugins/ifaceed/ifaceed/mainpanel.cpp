@@ -573,7 +573,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsGroupAdd, SIGNAL(clicked()), m_group_actions, SLOT(addGroup()));
 	connect(ui.btnAnimationsGroupRemove, SIGNAL(clicked()), m_group_actions, SLOT(removeGroup()));	
 	connect(ui.lstAnimationsGroup, SIGNAL(currentRowChanged(int)), m_group_actions, SLOT(currentGroupChanged(int)));
-	
+	connect(ui.txtAnimationsGroupName, SIGNAL(textEdited(const QString&)), m_group_actions, SLOT(nameChanged(const QString&)));
+	connect(ui.cbAnimationsGroupLooped, SIGNAL(clicked(bool)), m_group_actions, SLOT(loopedChanged(bool)));
+    
 	// Initialize UI from editor
 	if (editor)
 	{

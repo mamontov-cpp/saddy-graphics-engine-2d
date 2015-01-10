@@ -1271,6 +1271,12 @@
     <ClCompile Include="history\groups\groupsremove.cpp">
       <Filter>Source Files\history\groups</Filter>
     </ClCompile>
+    <ClCompile Include="history\groups\groupschangename.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupschangelooped.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1622,6 +1628,15 @@
       <Filter>Header Files\history\groups</Filter>
     </ClInclude>
     <ClInclude Include="history\groups\groupsremove.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangeproperty.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangename.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupschangelooped.h">
       <Filter>Header Files\history\groups</Filter>
     </ClInclude>
   </ItemGroup>
