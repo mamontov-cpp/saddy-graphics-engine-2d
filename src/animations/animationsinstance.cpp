@@ -114,6 +114,8 @@ void sad::animations::Instance::setTreeName(sad::Renderer* r, const sad::String 
 void sad::animations::Instance::setTable(sad::db::Table *t)
 {
     m_object.setDatabase(t->database());
+	m_animation_db_link.setTable(t);
+	m_animation_db_link.setDatabase(t->database());
 }
 
 static sad::String AnimationsInstanceSerializableName = "sad::animations::Instance";
@@ -130,6 +132,26 @@ void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 	m_tree_link_active = true;
 }
 
+static const int validtypescount = 16;
+static sad::String validtypes[] = {
+	"sad::animations::Animation",      // 1
+	"sad::animations::Blinking",       // 2
+	"sad::animations::CameraRotation", // 3
+	"sad::animations::CameraShaking",  // 4
+	"sad::animations::Color",          // 5
+	"sad::animations::FontList",       // 6
+	"sad::animations::FontSize",       // 7
+	"sad::animations::OptionList",     // 8
+	"sad::animations::Parallel",       // 9
+	"sad::animations::Resize",         // 10
+	"sad::animations::Rotate",         // 11
+	"sad::animations::Sequential",     // 12
+	"sad::animations::TextureCoordinatesContinuous",// 13
+	"sad::animations::TextureCoordinatesList",      // 14
+	"sad::animations::Typing",                      // 15
+	"sad::animations::WayMoving"                    // 16
+};
+
 sad::animations::Animation* sad::animations::Instance::animation(bool check) const
 {
 	sad::animations::Animation* result = NULL;
@@ -144,7 +166,12 @@ sad::animations::Animation* sad::animations::Instance::animation(bool check) con
 		{
 			if (check)
 			{
-				if (o->isInstanceOf("sad::animations::Animation"))
+				bool valid = false;
+				for(size_t i  = 0; (i < validtypescount) && (valid == false); i++)
+				{
+					valid = valid || o->isInstanceOf(validtypes[i]);
+				}
+				if (valid)
 				{
 					result = static_cast<sad::animations::Animation*>(o);
 				}
@@ -280,7 +307,7 @@ bool sad::animations::Instance::finished() const
 
 void sad::animations::Instance::process(sad::animations::Animations* animations)
 {
-    if (m_paused == false && m_valid)
+    if (m_paused == false)
     {
         if (m_started == false)
         {
@@ -288,12 +315,21 @@ void sad::animations::Instance::process(sad::animations::Animations* animations)
            return;
         }
 
-        double time = this->computeTime(animations);
-        if (m_finished == false)
-        {
-            this->processTime(animations, time);
-        }
+		if (m_valid)
+		{
+			double time = this->computeTime(animations);
+			if (m_finished == false)
+			{
+				this->processTime(animations, time);
+			}
+		}
     }
+	
+	if (m_valid == false)
+	{
+		m_timer.stop();
+		m_finished = true;
+	}
 }
 
 void sad::animations::Instance::pause()
@@ -526,7 +562,7 @@ void sad::animations::Instance::checkIfValid(sad::animations::Animations* animat
 
 void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations* animations)
 {
-    sad::animations::Animation* a = m_animation.get();
+    sad::animations::Animation* a = this->animation(false);
     sad::db::Object* o = this->object();
 
     const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = a->creators();
@@ -551,7 +587,7 @@ void sad::animations::Instance::saveStateAndCompile(sad::animations::Animations*
 
 void sad::animations::Instance::restoreObjectState(sad::animations::Animations* animations)
 {
-	const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = m_animation.get()->creators();
+	const sad::Vector<sad::animations::AbstractSavedObjectStateCreator*>& creators = this->animation(false)->creators();
     for(size_t i = 0; i < creators.size(); i++) {
         animations->cache().restore(this->object(), creators[i]->name());
     }

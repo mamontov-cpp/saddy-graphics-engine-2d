@@ -34,6 +34,14 @@ void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * 
 		// A vector of scenes
 		sad::Vector<sad::db::Object *> scenesdata;
 		scenes->objects(scenesdata);
+		for(size_t i = 0; i < scenesdata.size(); i++)
+		{
+			if (scenesdata[i]->isInstanceOf("sad::Scene") == false)
+			{
+				scenesdata.removeAt(i);
+				--i;
+			}
+		}
 		scene_comparator_t scene_comparator;
 		std::sort(scenesdata.begin(), scenesdata.end(), scene_comparator);
 		// A sorted scenes
@@ -48,13 +56,16 @@ void sad::db::populateScenesFromDatabase(sad::Renderer * r, sad::db::Database * 
 		sad::Hash<unsigned long long, sad::Vector<sad::SceneNode *> > minorids_to_objects;
 		for(size_t i = 0; i < scenenodesdata.size(); i++)
 		{
-			sad::SceneNode* node = static_cast<sad::SceneNode*>(scenenodesdata[i]);
-			unsigned long long nodesceneid = node->sceneId();
-			if (minorids_to_objects.contains(nodesceneid) == false)
+			if (scenenodesdata[i]->isInstanceOf("sad::SceneNode"))
 			{
-				minorids_to_objects.insert(nodesceneid, sad::Vector<sad::SceneNode*>());				
+				sad::SceneNode* node = static_cast<sad::SceneNode*>(scenenodesdata[i]);
+				unsigned long long nodesceneid = node->sceneId();
+				if (minorids_to_objects.contains(nodesceneid) == false)
+				{
+					minorids_to_objects.insert(nodesceneid, sad::Vector<sad::SceneNode*>());				
+				}
+				minorids_to_objects[nodesceneid] << node;
 			}
-			minorids_to_objects[nodesceneid] << node;
 		}
 
 		// Fill scenes

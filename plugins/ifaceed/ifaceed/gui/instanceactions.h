@@ -11,6 +11,7 @@
 #include <animations/animationscomposite.h>
 #include <animations/animationswayinstance.h>
 
+#include "animationinstanceprocess.h"
 
 class MainPanel;
 
@@ -87,10 +88,19 @@ public slots:
 		\param[in] newrow a row 
 	 */
 	void wayChanged(int newrow);
+	/*! Starts an instance
+	 */
+	void start();
+	/*! Stops an instance 
+	 */
+	void stop();
 private:
 	/*! An panel, which actions are belong to
 	 */
 	MainPanel* m_panel;
+	/*! A running animation process 
+	 */
+	gui::AnimationInstanceProcess* m_animation;
 };
 
 }

@@ -1223,6 +1223,24 @@
     <ClCompile Include="history\instances\instanceschangeway.cpp">
       <Filter>Source Files\history\instances</Filter>
     </ClCompile>
+    <ClCompile Include="gui\animationinstanceprocess.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_animationinstanceprocess.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1723,6 +1741,9 @@
       <Filter>Header Files\gui\textedit</Filter>
     </CustomBuild>
     <CustomBuild Include="gui\instanceactions.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\animationinstanceprocess.h">
       <Filter>Header Files\gui</Filter>
     </CustomBuild>
   </ItemGroup>

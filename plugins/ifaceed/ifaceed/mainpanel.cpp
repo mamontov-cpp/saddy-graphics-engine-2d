@@ -51,6 +51,7 @@ Q_DECLARE_METATYPE(sad::SceneNode*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 Q_DECLARE_METATYPE(sad::animations::Animation*)
+Q_DECLARE_METATYPE(sad::animations::Instance*)
 
 //====================  PUBLIC METHODS HERE ====================
 
@@ -560,6 +561,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.cmbAnimationInstanceObject, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(objectChanged(int)));
 	connect(ui.dsbAnimationInstanceStartTime, SIGNAL(valueChanged(double)), m_instance_actions, SLOT(startTimeChanged(double)));
 	connect(ui.cmbWayAnimationInstanceWay, SIGNAL(currentIndexChanged(int)), m_instance_actions, SLOT(wayChanged(int)));
+	connect(ui.btnAnimationsInstanceStart, SIGNAL(clicked()), m_instance_actions, SLOT(start()));
+	connect(ui.btnAnimationsInstanceCancel, SIGNAL(clicked()), m_instance_actions, SLOT(stop()));
 	
 	// Initialize UI from editor
 	if (editor)
@@ -695,16 +698,22 @@ void MainPanel::viewDatabase()
     db->table("ways")->objects(wayslist);
     for(unsigned int i = 0; i < wayslist.size(); i++)
     {
-        sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
-        addLastWayToEnd(w);
+		if (wayslist[i]->isInstanceOf("sad::p2d::app::Way"))
+		{
+			sad::p2d::app::Way* w = static_cast<sad::p2d::app::Way*>(wayslist[i]);
+			addLastWayToEnd(w);
+		}
     }
 
 	sad::Vector<sad::db::Object*> dialoguelist;
     db->table("dialogues")->objects(dialoguelist);
     for(unsigned int i = 0; i < dialoguelist.size(); i++)
     {
-		sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
-        addDialogueToDialogueList(w);
+		if (dialoguelist[i]->isInstanceOf("sad::dialogue::Dialogue"))
+		{
+			sad::dialogue::Dialogue* w = static_cast<sad::dialogue::Dialogue*>(dialoguelist[i]);
+			addDialogueToDialogueList(w);
+		}
     }
 
 	sad::animations::Animation* nullanimation = NULL;
@@ -714,11 +723,61 @@ void MainPanel::viewDatabase()
 	sad::Vector<sad::db::Object*> animationlist;
 	sad::db::Table* animationtable = db->table("animations");
     animationtable->objects(animationlist);
+	static const int validtypescount = 16;
+	static sad::String validtypes[] = {
+		"sad::animations::Animation",      // 1
+		"sad::animations::Blinking",       // 2
+		"sad::animations::CameraRotation", // 3
+		"sad::animations::CameraShaking",  // 4
+		"sad::animations::Color",          // 5
+		"sad::animations::FontList",       // 6
+		"sad::animations::FontSize",       // 7
+		"sad::animations::OptionList",     // 8
+		"sad::animations::Parallel",       // 9
+		"sad::animations::Resize",         // 10
+		"sad::animations::Rotate",         // 11
+		"sad::animations::Sequential",     // 12
+		"sad::animations::TextureCoordinatesContinuous",// 13
+		"sad::animations::TextureCoordinatesList",      // 14
+		"sad::animations::Typing",                      // 15
+		"sad::animations::WayMoving"                    // 16
+	};
 	for(unsigned int i = 0; i < animationlist.size(); i++)
     {
-		sad::animations::Animation* w = static_cast<sad::animations::Animation*>(animationlist[i]);
-        addAnimationToViewingLists(w);
+		bool valid = false;
+		for(size_t j  = 0; (j < validtypescount) && (valid == false); j++)
+		{
+			valid = valid || animationlist[i]->isInstanceOf(validtypes[j]);
+		}
+		if (valid)
+		{
+			sad::animations::Animation* w = static_cast<sad::animations::Animation*>(animationlist[i]);
+			addAnimationToViewingLists(w);
+		}
     }
+
+	sad::Vector<sad::db::Object*> animationinstancelist;
+	sad::db::Table* animationinstancetable = db->table("animationinstances");
+    animationinstancetable->objects(animationinstancelist);
+	for(unsigned int i = 0; i < animationinstancelist.size(); i++)
+    {
+		sad::db::Object* o = animationinstancelist[i];
+		if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
+		{
+			sad::animations::Instance* w = static_cast<sad::animations::Instance*>(o);
+			QVariant v;
+			v.setValue(w);
+
+			QString name = this->nameForInstance(w);
+
+			QListWidgetItem* item = new QListWidgetItem(name);
+			item->setData(Qt::UserRole, v);
+
+			ui.lstAnimationInstances->addItem(item);
+		}
+    }
+
+	this->instanceActions()->updateGroupInstanceList();
 }
 
 QList<QList<QColor> >  MainPanel::colorPalette() const
@@ -1403,6 +1462,32 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 		ui.btnCompositeAnimationMoveBack,
 		ui.btnCompositeAnimationMoveFront,
 		ui.lstAnimations, // !!! Toggle animation list too to be disabled, to force user not to change animation
+		
+		ui.lstAnimationInstances,
+		ui.cmbAnimationInstanceAnimationFromTree,
+		ui.cmbAnimationInstanceAnimationFromDatabase,
+		ui.rbAnimationInstanceFromTree,
+		ui.rbAnimationInstanceFromDatabase,
+		ui.cmbAnimationInstanceObject,
+		ui.dsbAnimationInstanceStartTime,
+		ui.cmbWayAnimationInstanceWay,
+		ui.cmbAddedAnimationInstanceType,
+		ui.txtAnimationInstanceName,
+		ui.btnAnimationsInstanceAdd,
+		ui.btnAnimationsInstanceRemove,
+
+		ui.lstAnimationsGroup,
+		ui.lstAnimationsGroupInGroup,
+		ui.lstAnimationsGroupAllAnimations,
+		ui.btnAnimationsGroupRemoveFromList,
+		ui.btnAnimationsGroupAddToList,
+		ui.txtAnimationsGroupName,
+		ui.cbAnimationsGroupLooped,
+		ui.btnAnimationsGroupAdd,
+		ui.btnAnimationsGroupRemove,
+
+		ui.btnConsoleRun,
+
 		NULL
 	};
 	size_t i = 0;
