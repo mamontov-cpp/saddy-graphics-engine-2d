@@ -52,6 +52,12 @@ public slots:
 		\param[in] newvalue a new value
 	 */
 	void loopedChanged(bool newvalue);
+	/*! Tries to add instance to an animation group
+	 */
+	void addInstance();
+	/*! Tries to remove instance from an animation group
+	 */
+	void removeInstance();
 private:
 	/*! An panel, which actions are belong to
 	 */
