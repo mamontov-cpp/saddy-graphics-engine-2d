@@ -24,6 +24,7 @@
 #include "gui/dialogueactions.h"
 #include "gui/animationactions.h"
 #include "gui/instanceactions.h"
+#include "gui/groupactions.h"
 #include "gui/updateelement.h"
 
 #include <keymouseconditions.h>
@@ -52,6 +53,7 @@ Q_DECLARE_METATYPE(sad::p2d::app::Way*)
 Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::animations::Instance*)
+Q_DECLARE_METATYPE(sad::animations::Group*)
 
 //====================  PUBLIC METHODS HERE ====================
 
@@ -115,6 +117,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_instance_actions = new gui::InstanceActions();
 	m_instance_actions->setPanel(this);
+
+	m_group_actions = new gui::GroupActions();
+	m_group_actions->setPanel(this);
 }
 
 
@@ -128,6 +133,7 @@ MainPanel::~MainPanel()
 	delete m_dialogue_actions;
 	delete m_animation_actions;
 	delete m_instance_actions;
+	delete m_group_actions;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -564,6 +570,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsInstanceStart, SIGNAL(clicked()), m_instance_actions, SLOT(start()));
 	connect(ui.btnAnimationsInstanceCancel, SIGNAL(clicked()), m_instance_actions, SLOT(stop()));
 	
+	connect(ui.btnAnimationsGroupAdd, SIGNAL(clicked()), m_group_actions, SLOT(addGroup()));
+	connect(ui.btnAnimationsGroupRemove, SIGNAL(clicked()), m_group_actions, SLOT(removeGroup()));	
+	connect(ui.lstAnimationsGroup, SIGNAL(currentRowChanged(int)), m_group_actions, SLOT(currentGroupChanged(int)));
+	
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -626,6 +636,11 @@ gui::AnimationActions* MainPanel::animationActions() const
 gui::InstanceActions* MainPanel::instanceActions() const
 {
 	return m_instance_actions;
+}
+
+gui::GroupActions*  MainPanel::groupActions() const
+{
+	return m_group_actions;
 }
 
 Ui::MainPanelClass* MainPanel::UI()
@@ -1258,6 +1273,41 @@ void MainPanel::removeDialogueFromDialogueList(sad::dialogue::Dialogue* s)
     }
 }
 
+void MainPanel::addGroupToList(sad::animations::Group* g)
+{
+	QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
+	
+	QVariant v;
+    v.setValue(g);
+	item->setData(Qt::UserRole, v);
+    
+	ui.lstAnimationsGroup->addItem(item);
+}
+
+void MainPanel::removeLastGroupFromList()
+{
+	if (ui.lstAnimationsGroup->count())
+	{
+		delete ui.lstAnimationsGroup->takeItem(ui.lstAnimationsGroup->count() - 1);
+	}
+}
+
+void MainPanel::insertGroupToList(int pos, sad::animations::Group* g)
+{
+	QListWidgetItem* item = new QListWidgetItem(this->nameForGroup(g));
+	
+	QVariant v;
+    v.setValue(g);
+	item->setData(Qt::UserRole, v);
+    
+	ui.lstAnimationsGroup->insertItem(pos, item);
+}
+
+void MainPanel::removeGroupFromList(int pos)
+{
+	delete ui.lstAnimationsGroup->takeItem(pos);
+}
+
 int MainPanel::findDialogueInList(sad::dialogue::Dialogue* s)
 {
     for(int i = 0; i < ui.lstDialogues->count(); i++)
@@ -1325,6 +1375,11 @@ QString MainPanel::nameForInstance(sad::animations::Instance* i) const
 		result += const_cast<MainPanel*>(this)->viewableObjectName(i); 
 	}
 	return result;
+}
+
+QString MainPanel::nameForGroup(sad::animations::Group* g) const
+{
+	return const_cast<MainPanel*>(this)->viewableObjectName(g);
 }
 
 QString MainPanel::nameForScene(sad::Scene* scene)
