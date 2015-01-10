@@ -192,6 +192,12 @@
     <Filter Include="Header Files\history\instances">
       <UniqueIdentifier>{1e46b1f7-27b3-42ff-bfc2-0a3dcfdc6663}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\history\groups">
+      <UniqueIdentifier>{ce7cd605-8f8d-49a4-a224-ed36ae9cd7bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\history\groups">
+      <UniqueIdentifier>{f3e028a7-5e3b-4065-bb7b-8fd6271a8bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1241,6 +1247,30 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_animationinstanceprocess.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
+    <ClCompile Include="gui\groupactions.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_groupactions.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_groupactions.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_groupactions.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_groupactions.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_groupactions.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsnew.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="history\groups\groupsremove.cpp">
+      <Filter>Source Files\history\groups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1588,6 +1618,12 @@
     <ClInclude Include="history\instances\instanceschangeway.h">
       <Filter>Header Files\history\instances</Filter>
     </ClInclude>
+    <ClInclude Include="history\groups\groupsnew.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="history\groups\groupsremove.h">
+      <Filter>Header Files\history\groups</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -1744,6 +1780,9 @@
       <Filter>Header Files\gui</Filter>
     </CustomBuild>
     <CustomBuild Include="gui\animationinstanceprocess.h">
+      <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\groupactions.h">
       <Filter>Header Files\gui</Filter>
     </CustomBuild>
   </ItemGroup>

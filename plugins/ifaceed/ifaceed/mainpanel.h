@@ -44,6 +44,7 @@ class WayActions;
 class DialogueActions;
 class AnimationActions;
 class InstanceActions;
+class GroupActions;
 }
 
 
@@ -109,6 +110,10 @@ public:
  	 *  \return actions for animation instance editing
 	 */
 	gui::InstanceActions* instanceActions() const;
+		/*! Returns actions for animation group editing
+ 	 *  \return actions for animation group editing
+	 */
+	gui::GroupActions* groupActions() const;
     /*! Returns ui for main panel
         \return main panel's ui
      */
@@ -292,6 +297,21 @@ public:
 		\param[in] row a row
 	 */
 	void removePhraseFromPhraseList(int row);
+	/*! Adds group to group list
+		\param[in] g group
+	 */
+	void addGroupToList(sad::animations::Group* g);
+	/*! Removes group from group list
+	 */
+	void removeLastGroupFromList();
+	/*! Insert group to group list
+		\param[in] pos a position
+		\param[in] g group
+	 */
+	void insertGroupToList(int pos, sad::animations::Group* g);
+	/*! Removes group from group list
+	 */
+	void removeGroupFromList(int pos);
 	/*! Returns viewable name for a phrase
 		\param[in] p phrase
 		\return name for phrase
@@ -307,6 +327,11 @@ public:
 		\return name for instance
 	 */
 	QString nameForInstance(sad::animations::Instance* i) const;
+	/*! Returns name for animation group
+		\param[in] g group
+		\return name for group
+	 */
+	QString nameForGroup(sad::animations::Group* g) const;
 	/*! Returns name for a scene
 		\param[in] scene a scene name
 	 */
@@ -539,6 +564,9 @@ protected:
 	/*! An actions, linked to animation instance editing
 	 */
 	gui::InstanceActions* m_instance_actions;
+	/*! An actions, linked to animation groups editing
+	 */
+	gui::GroupActions* m_group_actions;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;
