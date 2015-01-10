@@ -25,18 +25,18 @@ Q_DECLARE_METATYPE(sad::db::Object*)
 
 gui::InstanceActions::InstanceActions(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-	
+	m_animation = new gui::AnimationInstanceProcess();
 }
 
 gui::InstanceActions::~InstanceActions()
 {
-	
+	delete m_animation;	
 }
 
 void gui::InstanceActions::setPanel(MainPanel* e)
 {
 	m_panel = e;
-	//m_animation->setEditor(e->editor());
+	m_animation->setEditor(e->editor());
 }
 
 MainPanel* gui::InstanceActions::panel() const
@@ -599,5 +599,27 @@ void  gui::InstanceActions::wayChanged(int newrow)
 				m_panel->editor()->history()->add(c);
 			}
 		}
+	}
+}
+
+void gui::InstanceActions::start()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == false 
+		&& s->selectedInstance() != NULL)
+	{
+		s->selectedInstance()->restart(sad::Renderer::ref()->animations());
+		m_animation->setEditor(m_panel->editor());
+		m_animation->start(s->selectedInstance() );
+	}
+}
+
+void gui::InstanceActions::stop()
+{
+	core::Shared* s = m_panel->editor()->shared();
+	if (s->isAnyKindOfAnimationIsRunning() == true)
+	{
+		m_animation->setEditor(m_panel->editor());
+		m_animation->stop();
 	}
 }
