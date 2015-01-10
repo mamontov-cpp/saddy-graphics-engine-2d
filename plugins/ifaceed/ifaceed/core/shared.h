@@ -165,7 +165,7 @@ public:
 	 */
 	sad::dialogue::Dialogue* selectedDialogue() const;
 	/*! Sets selected animation
-		\param[in] an animation animation to be set
+		\param[in] a animation
 	 */ 
 	void setSelectedAnimation(sad::animations::Animation* a);
 	/*! Returns selected animation
@@ -181,7 +181,7 @@ public:
 	 */
 	sad::animations::Instance* selectedInstance() const;
 	/*! Sets selected group
-		\param[in] g an instance instance to be set
+		\param[in] a a group
 	 */ 
 	void setSelectedGroup(sad::animations::Group* a);
 	/*! Returns selected group
@@ -189,7 +189,7 @@ public:
 	 */
 	sad::animations::Group* selectedGroup() const;
 	/*! Tests, whether user is clicked  "Start" on animation, animation instance or animation group
-		\retun result
+		\return result
 	 */
 	bool isAnyKindOfAnimationIsRunning() const;
 	/*! Sets whether animation is running

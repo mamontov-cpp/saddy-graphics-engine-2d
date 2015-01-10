@@ -31,6 +31,7 @@ public:
 	 */
 	virtual ~AnimationActions();
 	/*! Sets panel, where actions belong to
+		\param[in] e main panel
 	 */
 	void setPanel(MainPanel* e);
 	/*! Returns panel, where actions belong to
@@ -42,7 +43,6 @@ public:
 	 */
 	bool producesLoop(sad::animations::Animation* first, sad::animations::Animation* second);
 	/*! Returns true if adding second animation into children of first produces loop
-		\param[in] animations list of animations
 		\param[in] current current visited animation
 		\param[in] visited set of visited noded
 		\param[in] first a first visited part

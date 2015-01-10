@@ -1,20 +1,21 @@
 /** \file command.h
 	\author HiddenSeeker
 
-	Describes an abstract command for data
+	Describes an abstract command for history
  */
 #pragma once
 #include <stdlib.h>
 
 namespace core
 {
-	class Editor;
+class Editor;
 }
 
 
 namespace history
 {
-
+/*! All history consists of those commands. A command must describe one user action
+ */
 class Command
 {
 public:

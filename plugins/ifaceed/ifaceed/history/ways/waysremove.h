@@ -35,6 +35,7 @@ public:
 		\param[in] dependent_animations list of dependent animations
 		\param[in] position_in_animation_combo a position in combo for way moving animation
 		\param[in] position_in_animation_instances_combo a position in combo for animation instances
+		\param[in] dependent_instances a list of dependent instances for a command
 	 */
 	void setDependencies(
 		const sad::Vector<sad::animations::WayMoving*>& dependent_animations,

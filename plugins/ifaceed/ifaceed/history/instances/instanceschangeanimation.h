@@ -26,6 +26,7 @@ public:
 	 /*! Constructs new command for node
 		\param[in] d a node
 		\param[in] button a button to be checked
+		\param[in] oldbutton an old button to be unchecked
 		\param[in] oldname an old name for animation
 		\param[in] oldid a major id for animation
 		\param[in] newname a new name for animation
@@ -52,8 +53,8 @@ public:
 	 );
 	 /*! Constructs new command for node
 		\param[in] d a node
-		\param[in] oldname an old name for animation
-		\param[in] newname a new name for animation
+		\param[in] oldid an old major id for animation
+		\param[in] newid a new major id for animation
 	  */
 	 ChangeAnimation(
 		 sad::animations::Instance* d,

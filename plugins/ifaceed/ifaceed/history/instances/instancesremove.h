@@ -27,7 +27,7 @@ public:
 	 /*! Constructs new command for node
 		\param[in] d a node
 		\param[in] position a position in a main list
-		\param[in] dependent groups a list of dependent groups
+		\param[in] dependent_groups a list of dependent groups
 	  */
 	 Remove(
 		 sad::animations::Instance* d,
