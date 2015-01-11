@@ -198,6 +198,12 @@
     <Filter Include="Source Files\history\groups">
       <UniqueIdentifier>{f3e028a7-5e3b-4065-bb7b-8fd6271a8bf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\gui\codeedit">
+      <UniqueIdentifier>{1b934659-813d-4875-becd-439e5a7456e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui\codeedit">
+      <UniqueIdentifier>{123225a8-1232-4393-8275-357420c1c3b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1304,6 +1310,27 @@
     <ClCompile Include="history\batchcommand.cpp">
       <Filter>Source Files\history</Filter>
     </ClCompile>
+    <ClCompile Include="gui\codeedit\codeedit.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_codeedit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_codeedit.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_codeedit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_codeedit.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_codeedit.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\linenumberarea.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1838,6 +1865,12 @@
     </CustomBuild>
     <CustomBuild Include="gui\animationgroupprocess.h">
       <Filter>Header Files\gui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\codeedit.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\linenumberarea.h">
+      <Filter>Header Files\gui\codeedit</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

@@ -120,6 +120,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	m_group_actions = new gui::GroupActions();
 	m_group_actions->setPanel(this);
+
+
+	QStringList functionlist;
+	functionlist << "point";
+	QCompleter* consolecompleter = new QCompleter();
+	ui.txtConsoleCode->setCompleter(consolecompleter);
+	ui.txtConsoleCode->completer()->setModel(new QStringListModel(functionlist));
 }
 
 

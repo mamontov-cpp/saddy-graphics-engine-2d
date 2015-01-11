@@ -2623,7 +2623,7 @@ rect:</string>
      <attribute name="title">
       <string>Console</string>
      </attribute>
-     <widget class="QTextEdit" name="txtConsoleCode">
+     <widget class="gui::codeedit::CodeEdit" name="txtConsoleCode">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2692,6 +2692,11 @@ rect:</string>
    <class>gui::textedit::TextEdit</class>
    <extends>QTextEdit</extends>
    <header>gui/textedit/textedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>gui::codeedit::CodeEdit</class>
+   <extends>QTextEdit</extends>
+   <header>gui/codeedit/codeedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
