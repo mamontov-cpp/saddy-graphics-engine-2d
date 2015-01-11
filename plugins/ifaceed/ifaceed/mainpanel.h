@@ -47,6 +47,11 @@ class InstanceActions;
 class GroupActions;
 }
 
+namespace scripting
+{
+class Scripting;
+}
+
 
 
 /*! A main window to edit level objects
@@ -567,6 +572,9 @@ protected:
 	/*! An actions, linked to animation groups editing
 	 */
 	gui::GroupActions* m_group_actions;
+	/*! A main scripting capabilities and bindings
+	 */
+	scripting::Scripting* m_scripting;
     /*! A factory for creating propertis in database
      */
     sad::db::StoredPropertyFactory m_property_factory;

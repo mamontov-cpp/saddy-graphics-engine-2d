@@ -2629,7 +2629,7 @@ rect:</string>
         <x>10</x>
         <y>10</y>
         <width>471</width>
-        <height>341</height>
+        <height>311</height>
        </rect>
       </property>
      </widget>
@@ -2637,13 +2637,23 @@ rect:</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>360</y>
+        <y>330</y>
         <width>75</width>
-        <height>23</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="text">
        <string>Run</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="txtConsoleResults">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>330</y>
+        <width>381</width>
+        <height>51</height>
+       </rect>
       </property>
      </widget>
     </widget>
