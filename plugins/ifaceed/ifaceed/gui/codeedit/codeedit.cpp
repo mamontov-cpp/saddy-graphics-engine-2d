@@ -2,19 +2,19 @@
 
 #include "linenumberarea.h"
 
+#include "highlighter.h"
+
 #include <QScrollBar>
 #include <QPainter>
 #include <QTextBlock>
 #include <QAbstractTextDocumentLayout>
 
-#include <QtScriptTools/private/qscriptsyntaxhighlighter_p.h>
-#include <../src/scripttools/debugging/qscriptsyntaxhighlighter.cpp>
 
 gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(parent)
 {
 	m_line_number_area = new gui::codeedit::LineNumberArea(this);
 
-	m_highlighter = new QScriptSyntaxHighlighter(this->document());
+	m_highlighter = new gui::codeedit::Highlighter(this->document());
 
 	connect(this->document(), SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(updateLineNumberArea(int)));

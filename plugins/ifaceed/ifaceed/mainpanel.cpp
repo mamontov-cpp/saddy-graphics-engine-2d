@@ -27,6 +27,10 @@
 #include "gui/groupactions.h"
 #include "gui/updateelement.h"
 
+#include "gui/codeedit/highlighter.h"
+
+#include "scripting/scripting.h"
+
 #include <keymouseconditions.h>
 #include <keycodes.h>
 
@@ -121,9 +125,22 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	m_group_actions = new gui::GroupActions();
 	m_group_actions->setPanel(this);
 
+	m_scripting = new scripting::Scripting();
+	m_scripting->setPanel(this);
+
+	QStringList constantslist;
+	constantslist << "E";
+	constantslist << "console";
+
+	gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
+
 
 	QStringList functionlist;
-	functionlist << "point";
+	functionlist << "log";
+
+	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
+
+	functionlist << constantslist;
 	QCompleter* consolecompleter = new QCompleter();
 	ui.txtConsoleCode->setCompleter(consolecompleter);
 	ui.txtConsoleCode->completer()->setModel(new QStringListModel(functionlist));
@@ -141,6 +158,7 @@ MainPanel::~MainPanel()
 	delete m_animation_actions;
 	delete m_instance_actions;
 	delete m_group_actions;
+	delete m_scripting;
 	for(sad::PtrHash<sad::String, gui::table::Delegate>::iterator it = m_property_delegates.begin();
 		it != m_property_delegates.end();
 		++it)
@@ -587,6 +605,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsGroupStart, SIGNAL(clicked()), m_group_actions, SLOT(start()));	
 	connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), m_group_actions, SLOT(stop()));	
 	
+	connect(ui.btnConsoleRun, SIGNAL(clicked()), m_scripting, SLOT(runScript()));
 	// Initialize UI from editor
 	if (editor)
 	{

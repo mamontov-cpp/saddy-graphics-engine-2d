@@ -204,6 +204,12 @@
     <Filter Include="Source Files\gui\codeedit">
       <UniqueIdentifier>{123225a8-1232-4393-8275-357420c1c3b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting">
+      <UniqueIdentifier>{0ccc490b-9ee9-4a6a-aef2-b1bf49e8efaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting">
+      <UniqueIdentifier>{459aba1d-7493-4957-bfea-240e0b6c01d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1331,6 +1337,27 @@
     <ClCompile Include="gui\codeedit\linenumberarea.cpp">
       <Filter>Source Files\gui\codeedit</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\scripting.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scripting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scripting.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scripting.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scripting.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scripting.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\codeedit\highlighter.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1702,6 +1729,9 @@
     <ClInclude Include="history\batchcommand.h">
       <Filter>Header Files\history</Filter>
     </ClInclude>
+    <ClInclude Include="gui\codeedit\highlighter.h">
+      <Filter>Header Files\gui\codeedit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -1871,6 +1901,9 @@
     </CustomBuild>
     <CustomBuild Include="gui\codeedit\linenumberarea.h">
       <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\scripting.h">
+      <Filter>Header Files\scripting</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
