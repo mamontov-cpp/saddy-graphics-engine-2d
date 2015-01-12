@@ -65,9 +65,9 @@ public:
 		\param[in] flags a panel flags
 	 */
 	MainPanel(QWidget *parent = 0, Qt::WFlags flags = 0);
-	/*! Currently does nothing
+    /*! Frees all inner data
 	 */
-	~MainPanel();
+    virtual ~MainPanel();
 	/*! Sets enabled property for editing buttons on panel to specified property
 		\param[in] enabled whether buttons are enabled
 	 */
