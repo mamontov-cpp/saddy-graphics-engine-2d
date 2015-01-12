@@ -160,7 +160,56 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/dialogues/dialoguesphrasechangephrase.h \
     ifaceed/history/dialogues/dialoguesphrasenew.h \
     ifaceed/history/dialogues/dialoguesphraseremove.h \
-    ifaceed/history/dialogues/dialoguesphraseswap.h
+    ifaceed/history/dialogues/dialoguesphraseswap.h \
+    ifaceed/history/animations/animationsaddtocomposite.h \
+    ifaceed/history/animations/animationschangeblinkingfrequency.h \
+    ifaceed/history/animations/animationschangecameraangle.h \
+    ifaceed/history/animations/animationschangecameraoffset.h \
+    ifaceed/history/animations/animationschangecamerapivot.h \
+    ifaceed/history/animations/animationschangecolorcolor.h \
+    ifaceed/history/animations/animationschangefontlistfonts.h \
+    ifaceed/history/animations/animationschangefontsizesize.h \
+    ifaceed/history/animations/animationschangelist.h \
+    ifaceed/history/animations/animationschangelooped.h \
+    ifaceed/history/animations/animationschangename.h \
+    ifaceed/history/animations/animationschangeproperty.h \
+    ifaceed/history/animations/animationschangerect.h \
+    ifaceed/history/animations/animationschangeresizevector.h \
+    ifaceed/history/animations/animationschangerotateangle.h \
+    ifaceed/history/animations/animationschangeshakingfrequency.h \
+    ifaceed/history/animations/animationschangetime.h \
+    ifaceed/history/animations/animationschangewaymovingway.h \
+    ifaceed/history/animations/animationsnew.h \
+    ifaceed/history/animations/animationsremove.h \
+    ifaceed/history/animations/animationsremovefromcomposite.h \
+    ifaceed/history/animations/animationsswapincomposite.h \
+    ifaceed/history/groups/groupsaddinstance.h \
+    ifaceed/history/groups/groupschangelooped.h \
+    ifaceed/history/groups/groupschangename.h \
+    ifaceed/history/groups/groupschangeproperty.h \
+    ifaceed/history/groups/groupsnew.h \
+    ifaceed/history/groups/groupsremove.h \
+    ifaceed/history/groups/groupsremoveinstance.h \
+    ifaceed/history/instances/instanceschangeanimation.h \
+    ifaceed/history/instances/instanceschangename.h \
+    ifaceed/history/instances/instanceschangeobject.h \
+    ifaceed/history/instances/instanceschangeproperty.h \
+    ifaceed/history/instances/instanceschangestarttime.h \
+    ifaceed/history/instances/instanceschangeway.h \
+    ifaceed/history/instances/instancesnew.h \
+    ifaceed/history/instances/instancesremove.h \
+    ifaceed/history/batchcommand.h \
+    ifaceed/gui/codeedit/codeedit.h \
+    ifaceed/gui/codeedit/highlighter.h \
+    ifaceed/gui/codeedit/linenumberarea.h \
+    ifaceed/gui/textedit/textedit.h \
+    ifaceed/gui/animationactions.h \
+    ifaceed/gui/animationgroupprocess.h \
+    ifaceed/gui/animationinstanceprocess.h \
+    ifaceed/gui/animationprocess.h \
+    ifaceed/gui/groupactions.h \
+    ifaceed/gui/instanceactions.h \
+    ifaceed/scripting/scripting.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -278,7 +327,53 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/dialogues/dialoguesphrasenew.cpp \
     ifaceed/history/dialogues/dialoguesphraseremove.cpp \
     ifaceed/history/dialogues/dialoguesphraseswap.cpp \
-    ifaceed/history/dialogues/dialoguesremove.cpp
+    ifaceed/history/dialogues/dialoguesremove.cpp \
+    ifaceed/history/animations/animationsaddtocomposite.cpp \
+    ifaceed/history/animations/animationschangeblinkingfrequency.cpp \
+    ifaceed/history/animations/animationschangecameraangle.cpp \
+    ifaceed/history/animations/animationschangecameraoffset.cpp \
+    ifaceed/history/animations/animationschangecamerapivot.cpp \
+    ifaceed/history/animations/animationschangecolorcolor.cpp \
+    ifaceed/history/animations/animationschangefontlistfonts.cpp \
+    ifaceed/history/animations/animationschangefontsizesize.cpp \
+    ifaceed/history/animations/animationschangelist.cpp \
+    ifaceed/history/animations/animationschangelooped.cpp \
+    ifaceed/history/animations/animationschangename.cpp \
+    ifaceed/history/animations/animationschangerect.cpp \
+    ifaceed/history/animations/animationschangeresizevector.cpp \
+    ifaceed/history/animations/animationschangerotateangle.cpp \
+    ifaceed/history/animations/animationschangeshakingfrequency.cpp \
+    ifaceed/history/animations/animationschangetime.cpp \
+    ifaceed/history/animations/animationschangewaymovingway.cpp \
+    ifaceed/history/animations/animationsnew.cpp \
+    ifaceed/history/animations/animationsremove.cpp \
+    ifaceed/history/animations/animationsremovefromcomposite.cpp \
+    ifaceed/history/animations/animationsswapincomposite.cpp \
+    ifaceed/history/groups/groupsaddinstance.cpp \
+    ifaceed/history/groups/groupschangelooped.cpp \
+    ifaceed/history/groups/groupschangename.cpp \
+    ifaceed/history/groups/groupsnew.cpp \
+    ifaceed/history/groups/groupsremove.cpp \
+    ifaceed/history/groups/groupsremoveinstance.cpp \
+    ifaceed/history/instances/instanceschangename.cpp \
+    ifaceed/history/instances/instanceschangenimation.cpp \
+    ifaceed/history/instances/instanceschangeobject.cpp \
+    ifaceed/history/instances/instanceschangestarttime.cpp \
+    ifaceed/history/instances/instanceschangeway.cpp \
+    ifaceed/history/instances/instancesnew.cpp \
+    ifaceed/history/instances/instancesremove.cpp \
+    ifaceed/history/batchcommand.cpp \
+    ifaceed/gui/codeedit/codeedit.cpp \
+    ifaceed/gui/codeedit/highlighter.cpp \
+    ifaceed/gui/codeedit/linenumberarea.cpp \
+    ifaceed/gui/textedit/textedit.cpp \
+    ifaceed/gui/animationactions.cpp \
+    ifaceed/gui/animationgroupprocess.cpp \
+    ifaceed/gui/animationinstanceprocess.cpp \
+    ifaceed/gui/animationprocess.cpp \
+    ifaceed/gui/groupactions.cpp \
+    ifaceed/gui/instanceactions.cpp \
+    ifaceed/scripting/scripting.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
