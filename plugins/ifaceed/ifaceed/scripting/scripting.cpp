@@ -19,15 +19,17 @@ static QScriptValue logbinding(QScriptContext *context, QScriptEngine *engine)
 
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
-	QScriptValue v = m_engine.newQObject(this, QScriptEngine::QtOwnership);
-	v.setProperty("log", m_engine.newFunction(logbinding));
-	m_engine.globalObject().setProperty("console", v, QScriptValue::ReadOnly);
-	m_engine.globalObject().setProperty("E",v, QScriptValue::ReadOnly);
+    m_engine = new QScriptEngine();
+    QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
+    v.setProperty("log", m_engine->newFunction(logbinding));
+    m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
+    m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
 }
 
 scripting::Scripting::~Scripting()
 {
-	
+    m_engine->collectGarbage();
+    delete m_engine;
 }
 
 void scripting::Scripting::setPanel(MainPanel* panel)
@@ -44,7 +46,7 @@ void scripting::Scripting::runScript()
 {
 	m_panel->UI()->txtConsoleResults->setText("");
 	QString text = m_panel->UI()->txtConsoleCode->toPlainText();
-	QScriptValue result = m_engine.evaluate(text, "console.js");
+    QScriptValue result = m_engine->evaluate(text, "console.js");
 	if (result.isError())
 	{
 		m_panel->UI()->txtConsoleResults->append(QString("<font color=\"red\">") + result.toString() + QString("</font>"));

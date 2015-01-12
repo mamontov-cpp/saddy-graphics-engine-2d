@@ -30,6 +30,7 @@ gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(par
 gui::codeedit::CodeEdit::~CodeEdit()
 {
 	delete m_line_number_area;
+    m_line_number_area = NULL;
 	delete m_highlighter;
 }
 
@@ -143,6 +144,10 @@ void gui::codeedit::CodeEdit::updateLineNumberArea(int)
 
 void gui::codeedit::CodeEdit::updateLineNumberArea()
 {
+    if (m_line_number_area == NULL)
+    {
+        return;
+    }
     /*
      * When the signal is emitted, the sliderPosition has been adjusted according to the action,
      * but the value has not yet been propagated (meaning the valueChanged() signal was not yet emitted),

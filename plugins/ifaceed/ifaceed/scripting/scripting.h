@@ -43,7 +43,7 @@ protected:
 	MainPanel* m_panel;
 	/*! An engine to be run
 	 */
-	QScriptEngine m_engine;
+    QScriptEngine* m_engine;
 };
 
 }

@@ -51,7 +51,8 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 	bool handled = false;
 	if (resource)
 	{
-		if (resource->metaData()->name() == "sad::freetype::Font" && !handled)
+        sad::ClassMetaData* meta = resource->metaData();
+        if (meta->name() == "sad::freetype::Font" && !handled)
 		{
 			sad::freetype::Font * font = (sad::freetype::Font*)resource;
 			sad::Texture * texture  = font->renderToTexture("Test", 20);
@@ -59,7 +60,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 			delete texture;
 			handled = true;
 		}
-		if (resource->metaData()->name() == "sad::TextureMappedFont" && !handled)
+        if (meta->name() == "sad::TextureMappedFont" && !handled)
 		{
 			sad::TextureMappedFont * font = (sad::TextureMappedFont*)resource;
 			sad::Texture * texture  = font->renderToTexture("Test");
@@ -67,7 +68,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 			delete texture;
 			handled = true;
 		}
-		if (resource->metaData()->name() == "sad::Sprite2D::Options" && !handled)
+        if (meta->name() == "sad::Sprite2D::Options" && !handled)
 		{
 			sad::Sprite2D::Options * options = (sad::Sprite2D::Options*)resource;
 			resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
@@ -77,14 +78,14 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 			);
 			handled = true;
 		}
-		if (resource->metaData()->name() == "sad::db::custom::Schema" && !handled)
+        if (meta->name() == "sad::db::custom::Schema" && !handled)
 		{
 			sad::db::custom::Schema* schema = (sad::db::custom::Schema*)resource;
 			result = this->imageForResource(schema->treeItemName().data()).copy();
 
 			handled = true;
 		}
-		if (resource->metaData()->name() == "sad::Texture" && !handled)
+        if (meta->name() == "sad::Texture" && !handled)
 		{
 			sad::Texture * tex = (sad::Texture*)resource;
 			resourcetreewidget::ResourceCache::createImageForTexture(
