@@ -137,6 +137,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	QStringList functionlist;
 	functionlist << "log";
+    functionlist << "p2d";
+    functionlist << "r2d";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 

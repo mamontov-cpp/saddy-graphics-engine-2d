@@ -7,6 +7,7 @@
 #include "../macro.h"
 
 #include "../history/history.h"
+#include "../history/batchcommand.h"
 
 #include "../core/qttarget.h"
 #include "../core/quitreason.h"
@@ -178,6 +179,14 @@ public:
 	/*! Tries to enter way editing state
 	 */ 
 	void tryEnterWayEditingState();
+    /*! Sets current batch command for editor scripting
+        \param[in] c a command
+     */
+    void setCurrentBatchCommand(history::BatchCommand* c);
+    /*! Returns current batch command for editor
+        \return current batch command
+     */
+    history::BatchCommand* currentBatchCommand() const;
 public slots:
 	/*! Called, when Qt Event Loop is started. Used to load default resources and pre-set
 		default behaviour
@@ -244,6 +253,9 @@ protected:
 	/*! A factory, used for creating animations
 	 */
 	sad::animations::Factory m_animation_factory;
+    /*! A current batch command for scripting
+     */
+    history::BatchCommand* m_current_batchcommand;
     /*! Initializes conversion table with all conversion table
      */
     void initConversionTable();

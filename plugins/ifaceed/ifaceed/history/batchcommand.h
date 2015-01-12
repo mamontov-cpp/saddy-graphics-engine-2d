@@ -20,7 +20,7 @@ namespace history
 {
 /*! A batch command, which can apply a lot of operations at the same time
  */
-class BatchCommand
+class BatchCommand: public history::Command
 {
 public:
 	/*! Creates new empty batch command
@@ -45,6 +45,10 @@ public:
 		\param[in] c command
 	 */
 	void remove(history::Command* c);
+    /*! Returns count of commands inside of editor
+        \return cound of commands
+     */
+    size_t count() const;
 protected:
 	/*! A list of commands to be applied
 	 */
