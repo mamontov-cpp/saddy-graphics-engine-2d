@@ -8,6 +8,7 @@
 
 
 #include <QtGui/QMainWindow>
+
 #include "ui_mainpanel.h"
 
 #include <sadstring.h>
@@ -512,6 +513,16 @@ public:
 		const QString& prefix, 
 		const QString& filter
 	);
+	/*! Adds scene with name 
+		\param[in] name a name withname
+		\param[in] fromeditor whether it's run from editor or script
+	 */
+	unsigned long long addSceneWithName(const QString& name, bool fromeditor);
+	/*! Removes scene. Could be scripted
+		\param[in] scene a scene
+		\param[in] fromeditor whether it's run from editor or script
+	 */
+	void scriptableRemoveScene(sad::Scene* scene, bool fromeditor);
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */

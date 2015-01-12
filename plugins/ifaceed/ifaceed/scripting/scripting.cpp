@@ -1,11 +1,16 @@
 #include "scripting.h"
+#include "scenebindings.h"
 
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
 
+#include "../history/scenes/sceneschangename.h"
+
+
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Rect2D)
+Q_DECLARE_METATYPE(sad::AColor)
 
 /*! A function for logging capabilities
 	\param[in] context a context
@@ -92,18 +97,149 @@ static QScriptValue makeRect2D(QScriptContext *context, QScriptEngine *engine)
         result = engine->newVariant(result, v);
     }
 
+
     return result;
 }
 
+/*! A function for making a rectangle
+    \param[in] context a context
+    \param[in] engine an engine
+ */
+static QScriptValue makeColor(QScriptContext *context, QScriptEngine *engine)
+{
+    QScriptValue result;
+    if (context->argumentCount() != 3 && context->argumentCount() != 4)
+    {
+        context->throwError(QScriptContext::SyntaxError, "clr() accepts only three or four parameters");
+        return result;
+    }
+	int components[4] = {0, 0, 0, 0};
+	for(size_t i = 0; i < context->argumentCount(); i++)
+	{
+		if (context->argument(i).isNumber() == false)
+		{
+			context->throwError(
+				QScriptContext::SyntaxError, 
+				QString("clr(): argument #") + QString::number(i) + QString(" is not a number")
+			);
+			return result;
+		}
+		
+		components[i] = context->argument(i).toInt32();
+		if (components[i] < 0 || components[i] > 255)
+		{
+			context->throwError(
+				QScriptContext::SyntaxError, 
+				QString("clr(): argument #") + QString::number(i) + QString(" is outside withing 0-255 range")
+			);
+			return result;
+		}
+	}
+
+	QVariant v;
+    v.setValue(sad::AColor(components[0], components[1], components[2], components[3]) );
+    result = engine->newVariant(result, v);
+	return result;
+}
+/*! A universal setting property for object
+ */
+static  QScriptValue setCustomObjectProperty(QScriptContext *context, QScriptEngine *engine)
+{
+	QScriptValue main = engine->globalObject().property("E");
+	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
+
+	sad::db::Object* result = NULL;
+	if (context->argumentCount() != 3)
+    {
+        context->throwError(QScriptContext::SyntaxError, "set() accepts only three arguments");
+        return main;
+    }
+
+	bool handled = false;
+	//	Querying object
+	if (context->argument(0).isString())
+	{
+		sad::Vector<sad::db::Object*> os = sad::Renderer::ref()->database("")->queryByName(context->argument(0).toString().toStdString());
+		if(os.size())
+		{
+			result  = os[0];
+		}
+	}
+	else
+	{
+		if (context->argument(0).isNumber())
+		{
+			result = sad::Renderer::ref()->database("")->queryByMajorId(context->argument(0).toInt32());
+		}
+		else
+		{
+			 context->throwError(QScriptContext::SyntaxError, "set() : first argument must be string or number");
+			 return main;
+		}
+	}
+
+	if (result == NULL)
+	{
+		context->throwError(QScriptContext::SyntaxError, "set() : first argument does not names an object");
+		return main;
+	}
+
+	QString propertyname;
+	if (context->argument(1).isString())
+	{
+		propertyname = context->argument(1).toString();
+	}
+
+
+	core::Editor* editor =  e->panel()->editor();
+	if (propertyname.size() != 0)
+	{
+		if (result->isInstanceOf("sad::Scene"))
+		{
+			handled = true;
+			if (context->argument(2).isString() && propertyname == "name")
+			{
+				sad::Scene* s = static_cast<sad::Scene*>(result);
+				sad::String oldname = s->objectName();
+				sad::String newname = context->argument(2).toString().toStdString();
+
+				if (newname != oldname)
+				{
+					history::Command* c = new history::scenes::ChangeName(s, oldname, newname);								
+					editor->currentBatchCommand()->add(c);
+					c->commit(editor);
+				}
+			}
+		}
+	}
+
+	if (handled == false)
+	{
+		context->throwError(QScriptContext::SyntaxError, "set(): Unknown object");
+	}
+
+	return main;
+}
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
     QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
-    v.setProperty("log", m_engine->newFunction(logbinding));
+    v.setProperty("log", m_engine->newFunction(logbinding));  // E.log 
+	v.setProperty("set", m_engine->newFunction(setCustomObjectProperty)); // E.set
+
+	QScriptValue scenes = m_engine->newObject();
+	scenes.setProperty("add", m_engine->newFunction(scripting::addScene));  // E.scenes.add
+	scenes.setProperty("remove", m_engine->newFunction(scripting::removeScene)); // E.scenes.remove
+	scenes.setProperty("moveBack", m_engine->newFunction(scripting::sceneMoveBack)); // E.scenes.moveBack
+	scenes.setProperty("moveFront", m_engine->newFunction(scripting::sceneMoveFront)); // E.scenes.moveFront
+
+	v.setProperty("scenes", scenes); // E.scenes
+
     m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
-    m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D));
-    m_engine->globalObject().setProperty("r2d", m_engine->newFunction(makeRect2D));
+    m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D)); // p2d
+    m_engine->globalObject().setProperty("r2d", m_engine->newFunction(makeRect2D));  // r2d
+	m_engine->globalObject().setProperty("clr", m_engine->newFunction(makeColor));   // clr
 }
 
 scripting::Scripting::~Scripting()

@@ -131,6 +131,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QStringList constantslist;
 	constantslist << "E";
 	constantslist << "console";
+	constantslist << "scenes";
+	constantslist << "add";
+	constantslist << "remove";
 
 	gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
 
@@ -139,8 +142,24 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "log";
     functionlist << "p2d";
     functionlist << "r2d";
+    functionlist << "clr";
+	functionlist << "set";
+	functionlist << "moveBack";
+	functionlist << "moveFront";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
+
+	functionlist.clear();
+	functionlist << "log";
+	functionlist << "p2d(0, 0)";
+	functionlist << "r2d(0, 0, 0, 0)";
+	functionlist << "clr(255, 255, 255, 0)";
+	functionlist << "scenes";
+	functionlist << "add(\"name\")";
+	functionlist << "remove(\"name\")";
+	functionlist << "set(\"name\", \"prop\", \"22\")";
+	functionlist << "moveBack(\"name\")";
+	functionlist << "moveFront(\"name\")";
 
 	functionlist << constantslist;
 	QCompleter* consolecompleter = new QCompleter();
@@ -1962,22 +1981,7 @@ void MainPanel::addDatabaseProperty()
 
 void MainPanel::addScene()
 {
-	sad::Scene* s  = new sad::Scene();
-
-	QString name = ui.txtSceneName->text();
-	if (name.length())
-	{
-		s->setObjectName(name.toStdString());
-	}
-
-	sad::Renderer::ref()->add(s);
-	sad::Renderer::ref()->database("")->table("scenes")->add(s);
-
-	history::Command* c = new history::scenes::Add(s);
-	c->commit(m_editor);
-	m_editor->history()->add(c);
-
-	invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstScenes, &QListWidget::setCurrentRow, ui.lstScenes->count() - 1);
+	addSceneWithName("", true);
 }
 
 void MainPanel::currentSceneChanged(int index)
@@ -2073,79 +2077,12 @@ void MainPanel::currentSceneNodeChanged(int index)
 	}
 }
 
+
 void MainPanel::removeScene()
 {
-	if (m_editor->isInEditingState())
-	{
-		return;
-	}
-	sad::Scene* scene = currentScene();
-	if (scene)
-	{
-		if (m_editor->machine()->isInState("selected"))
-		{
-			m_editor->machine()->enterState("idle");
-			m_editor->shared()->setSelectedObject(NULL);
-		}
-		int row = ui.lstScenes->currentRow();
-
-		int positioninanimationcombo = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, scene);
-		sad::Vector< sad::Pair<sad::SceneNode*, int> > positions;
-		sad::Vector<sad::SceneNode*>  nodes = currentScene()->objects();
-		sad::Vector<unsigned long long> nodeids;
-		for(size_t i = 0; i < nodes.size(); i++)
-		{
-			nodeids << nodes[i]->MajorId;
-			int position = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, nodes[i]);
-			if (position > -1)
-			{
-				bool found = false;
-				int foundpos = -1;
-				for(size_t j = 0; j < positions.size(); j++)
-				{
-					if (positions[j].p2() > position)
-					{
-						found = true;
-						foundpos = positions[j].p2();
-					}
-				}
-				if (found)
-				{
-					positions.insert(sad::Pair<sad::SceneNode*, int>(nodes[i], position), foundpos);
-				}
-				else
-				{
-					positions << sad::Pair<sad::SceneNode*, int>(nodes[i], position);
-				}
-			}
-		}
-
-		sad::Vector<sad::db::Object*> animationinstances;
-		sad::Vector<sad::animations::Instance*> dependentinstances;
-		sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > dependentonnodes;
-		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
-		for(size_t  i = 0; i < animationinstances.size(); i++)
-		{
-			sad::db::Object* object = animationinstances[i];
-			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
-			{
-				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
-				if (ainstance->objectId() == scene->MajorId)
-				{
-					dependentinstances << ainstance;
-				}
-				if (std::find(nodeids.begin(), nodeids.end(), ainstance->objectId()) != nodeids.end())
-				{
-					dependentonnodes << sad::Pair<sad::animations::Instance*, unsigned long long>(ainstance, ainstance->objectId());
-				}
-			}
-		}
-
-		history::scenes::Remove* c = new history::scenes::Remove(scene, row);
-		c->set(positioninanimationcombo, positions, dependentinstances, dependentonnodes);
-		this->m_editor->history()->add(c);
-		c->commit(m_editor);
-	}
+	/*! Run it from editor
+	 */
+	scriptableRemoveScene(NULL, true);
 }
 
 void MainPanel::sceneMoveBack()
@@ -2472,6 +2409,129 @@ QStringList MainPanel::resourcesByFilter(
 	}
 
 	return result;
+}
+
+unsigned long long MainPanel::addSceneWithName(const QString& name, bool fromeditor)
+{
+	sad::Scene* s  = new sad::Scene();
+
+	if (fromeditor)
+	{
+		QString kname = ui.txtSceneName->text();
+		if (kname.length())
+		{
+			s->setObjectName(kname.toStdString());
+		}
+	}
+	else
+	{
+		s->setObjectName(name.toStdString());
+	}
+
+	sad::Renderer::ref()->add(s);
+	sad::Renderer::ref()->database("")->table("scenes")->add(s);
+
+	history::Command* c = new history::scenes::Add(s);
+	c->commit(m_editor);
+	if (fromeditor)
+	{
+		m_editor->history()->add(c);
+	}
+	else
+	{
+		m_editor->currentBatchCommand()->add(c);
+	}
+	invoke_blocked<QListWidget, void (QListWidget::*)(int), int>(ui.lstScenes, &QListWidget::setCurrentRow, ui.lstScenes->count() - 1);
+	
+	return s->MajorId;
+}
+
+
+void MainPanel::scriptableRemoveScene(sad::Scene* scene, bool fromeditor)
+{
+	if (m_editor->isInEditingState())
+	{
+		return;
+	}
+	if (fromeditor)
+	{
+		scene = currentScene();
+	}
+	if (scene)
+	{
+		if (m_editor->machine()->isInState("selected"))
+		{
+			m_editor->machine()->enterState("idle");
+			m_editor->shared()->setSelectedObject(NULL);
+		}
+
+		int row; 
+		if (fromeditor)
+		{	
+			row = ui.lstScenes->currentRow();
+		}
+		else
+		{
+			row = this->findSceneInList(scene);
+		}
+
+		int positioninanimationcombo = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, scene);
+		sad::Vector< sad::Pair<sad::SceneNode*, int> > positions;
+		sad::Vector<sad::SceneNode*>  nodes = scene->objects();
+		sad::Vector<unsigned long long> nodeids;
+		for(size_t i = 0; i < nodes.size(); i++)
+		{
+			nodeids << nodes[i]->MajorId;
+			int position = this->findInComboBox<sad::db::Object*>(ui.cmbAnimationInstanceObject, nodes[i]);
+			if (position > -1)
+			{
+				bool found = false;
+				int foundpos = -1;
+				for(size_t j = 0; j < positions.size(); j++)
+				{
+					if (positions[j].p2() > position)
+					{
+						found = true;
+						foundpos = positions[j].p2();
+					}
+				}
+				if (found)
+				{
+					positions.insert(sad::Pair<sad::SceneNode*, int>(nodes[i], position), foundpos);
+				}
+				else
+				{
+					positions << sad::Pair<sad::SceneNode*, int>(nodes[i], position);
+				}
+			}
+		}
+
+		sad::Vector<sad::db::Object*> animationinstances;
+		sad::Vector<sad::animations::Instance*> dependentinstances;
+		sad::Vector< sad::Pair<sad::animations::Instance*, unsigned long long> > dependentonnodes;
+		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
+		for(size_t  i = 0; i < animationinstances.size(); i++)
+		{
+			sad::db::Object* object = animationinstances[i];
+			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
+			{
+				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
+				if (ainstance->objectId() == scene->MajorId)
+				{
+					dependentinstances << ainstance;
+				}
+				if (std::find(nodeids.begin(), nodeids.end(), ainstance->objectId()) != nodeids.end())
+				{
+					dependentonnodes << sad::Pair<sad::animations::Instance*, unsigned long long>(ainstance, ainstance->objectId());
+				}
+			}
+		}
+
+		history::scenes::Remove* c = new history::scenes::Remove(scene, row);
+		c->set(positioninanimationcombo, positions, dependentinstances, dependentonnodes);
+		this->m_editor->history()->add(c);
+		c->commit(m_editor);
+	}
 }
 
 void MainPanel::save()
