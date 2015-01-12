@@ -38,3 +38,8 @@ void history::BatchCommand::remove(history::Command* c)
 {
 	m_commands.removeAll(c);	
 }
+
+size_t history::BatchCommand::count() const
+{
+    return m_commands.size();
+}

@@ -71,6 +71,7 @@ core::Editor::Editor()
     m_args = NULL;
     m_renderthread = new core::SaddyThread(this);
     m_qtapp = NULL;
+    m_current_batchcommand = NULL;
 	m_history = new history::History();
 
 	m_machine = new sad::hfsm::Machine();
@@ -366,6 +367,16 @@ void core::Editor::tryEnterWayEditingState()
 		sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
 		m_shared->setSelectedWay(way);			
 	}
+}
+
+void core::Editor::setCurrentBatchCommand(history::BatchCommand* c)
+{
+    m_current_batchcommand = c;
+}
+
+history::BatchCommand* core::Editor::currentBatchCommand() const
+{
+    return m_current_batchcommand;
 }
 
 // =================== PUBLIC SLOTS METHODS ===================
