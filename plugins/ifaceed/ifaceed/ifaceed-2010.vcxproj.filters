@@ -1358,6 +1358,9 @@
     <ClCompile Include="gui\codeedit\highlighter.cpp">
       <Filter>Source Files\gui\codeedit</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\scenebindings.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1731,6 +1734,9 @@
     </ClInclude>
     <ClInclude Include="gui\codeedit\highlighter.h">
       <Filter>Header Files\gui\codeedit</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenebindings.h">
+      <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
