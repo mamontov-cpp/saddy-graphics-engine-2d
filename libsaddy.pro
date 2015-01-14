@@ -465,7 +465,8 @@ HEADERS += include/camera.h \
     include/animations/animationsparallel.h \
     include/animations/animationstexturecoordinatescontinuous.h \
     include/animations/animationsfile.h \
-    include/animations/animationsfactory.h
+    include/animations/animationsfactory.h \
+    include/equalto.h
 
 
 DESTDIR = ../saddy/lib/

@@ -1,11 +1,14 @@
 #include "geometry2d.h"
 #include "sadrect.h"
 
+#include "equalto.h"
+
 #include "p2d/collides1d.h"
 #include "p2d/point.h"
 #include "p2d/axle.h"
 
 #include <limits>
+
 bool sad::projectionIsWithin(const sad::Point2D & test, const sad::Point2D & pivot1, const sad::Point2D & pivot2)
 {
 	sad::p2d::Axle axle = sad::p2d::axle(pivot1, pivot2);
