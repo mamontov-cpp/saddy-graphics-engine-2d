@@ -209,7 +209,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/animationprocess.h \
     ifaceed/gui/groupactions.h \
     ifaceed/gui/instanceactions.h \
-    ifaceed/scripting/scripting.h
+    ifaceed/scripting/scripting.h \
+    ifaceed/scripting/abstractcobuilder.h \
+    ifaceed/scripting/cobuilder.h \
+    ifaceed/scripting/scenebindings.h \
+    ifaceed/scripting/tovalue.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -373,7 +377,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/animationprocess.cpp \
     ifaceed/gui/groupactions.cpp \
     ifaceed/gui/instanceactions.cpp \
-    ifaceed/scripting/scripting.cpp
+    ifaceed/scripting/scripting.cpp \
+    ifaceed/scripting/abstractcobuilder.cpp \
+    ifaceed/scripting/scenebindings.cpp \
+    ifaceed/scripting/tovalue.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

@@ -21,14 +21,21 @@ namespace scripting
 class AbstractCOBuilder
 {
 public:
-	/*! Polls, whether value for property suffice for builder
+    /*! Polls, whether type of property suffice for builder
 		\param[in] o object for getting property
 		\param[in] name a name for property
 	 */
-	virtual bool poll(
+    virtual bool acceptableProperty(
 		sad::db::custom::Object* o, 
 		const QString& name
 	) = 0;
+    /*! Polls, whether value for property is acceptable
+        \param[in] value a script value
+        \return whether it's acceptable
+     */
+    virtual bool acceptableValue(
+        const QScriptValue& value
+    ) = 0;
 	/*! Try to make command in case if everything is nice
 		\param[in] o object
 		\param[in] name a name
