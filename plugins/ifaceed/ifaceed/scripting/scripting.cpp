@@ -268,8 +268,12 @@ void scripting::Scripting::runScript()
     QScriptValue result = m_engine->evaluate(text, "console.js");
 	if (result.isError())
 	{
-		m_panel->UI()->txtConsoleResults->append(QString("<font color=\"red\">") + result.toString() + QString("</font>"));
-
+        m_panel->UI()->txtConsoleResults->append(QString("<font color=\"red\">")
+                                                 + result.toString()
+                                                 + QString("<br/>Backtrace:<br/>")
+                                                 + m_engine->uncaughtExceptionBacktrace().join("<br/>")
+                                                 + QString("</font>")
+        );
         c->rollback(m_panel->editor());
         delete c;
     }
