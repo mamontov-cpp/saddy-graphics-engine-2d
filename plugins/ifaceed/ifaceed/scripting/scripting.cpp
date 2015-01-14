@@ -258,6 +258,12 @@ MainPanel* scripting::Scripting::panel() const
 	return m_panel;
 }
 
+void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v)
+{
+    v.setProperty("name", name);
+    m_engine->globalObject().setProperty("name", v);
+}
+
 void scripting::Scripting::runScript()
 {
     history::BatchCommand* c = new history::BatchCommand();
