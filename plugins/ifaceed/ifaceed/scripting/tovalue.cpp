@@ -1,6 +1,14 @@
 #include "tovalue.h"
+#include "queryobject.h"
 
 #include <QVariant>
+
+#include <scene.h>
+#include <scenenode.h>
+#include <label.h>
+#include <sprite2d.h>
+#include <db/custom/customobject.h>
+#include <p2d/app/way.h>
 
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
@@ -151,7 +159,8 @@ scripting::ToValue<sad::Color>::perform(
         {
             if (var.canConvert<sad::AColor>())
             {
-                sad::Color c = var.value<sad::AColor>();
+				sad::AColor color = var.value<sad::AColor>();
+                sad::Color c(color.r(), color.g(), color.b());
                 result.setValue(c);
             }
         }
@@ -281,6 +290,27 @@ scripting::ToValue<std::string>::perform(
         if (var.canConvert<std::string>())
         {
             result.setValue(var.value<std::string>());
+        }
+    }
+    return result;
+}
+
+sad::Maybe<QString>
+scripting::ToValue<QString>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<QString> result;
+    if (v.isString())
+    {
+        result.setValue(v.toString());
+    }
+    if (v.isVariant())
+    {
+        QVariant var;
+        if (var.canConvert<QString>())
+        {
+            result.setValue(var.value<QString>());
         }
     }
     return result;
@@ -531,3 +561,19 @@ scripting::ToValue<unsigned short>::perform(
     }
     return result;
 }
+
+#define DEFINE_AS_QUERY_OBJECT_FROM_DATABASE( TYPE )   \
+sad::Maybe< TYPE >                                          \
+scripting::ToValue< TYPE >::perform(                        \
+        const QScriptValue& v                               \
+)                                                           \
+{                                                           \
+	return scripting::query< TYPE >(v);                     \
+}
+
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Scene*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::SceneNode*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Label*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Sprite2D*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::custom::Object*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::p2d::app::Way*)

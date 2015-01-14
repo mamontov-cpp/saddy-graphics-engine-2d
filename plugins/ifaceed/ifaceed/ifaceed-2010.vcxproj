@@ -474,6 +474,8 @@
     <ClCompile Include="qwwulongspinbox.cpp" />
     <ClCompile Include="reloadfilelist.cpp" />
     <ClCompile Include="scripting\abstractcobuilder.cpp" />
+    <ClCompile Include="scripting\fromvalue.cpp" />
+    <ClCompile Include="scripting\queryobject.cpp" />
     <ClCompile Include="scripting\scenebindings.cpp" />
     <ClCompile Include="scripting\scripting.cpp" />
     <ClCompile Include="scripting\tovalue.cpp" />
@@ -1882,6 +1884,8 @@
     </CustomBuild>
     <ClInclude Include="scripting\abstractcobuilder.h" />
     <ClInclude Include="scripting\cobuilder.h" />
+    <ClInclude Include="scripting\fromvalue.h" />
+    <ClInclude Include="scripting\queryobject.h" />
     <ClInclude Include="scripting\scenebindings.h" />
     <ClInclude Include="scripting\tovalue.h" />
     <ClInclude Include="wwglobal.h" />
