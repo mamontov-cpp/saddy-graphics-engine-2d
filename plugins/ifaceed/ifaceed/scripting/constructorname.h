@@ -17,7 +17,7 @@ struct ConstructorName0
 {
     /*! A name for constructor
      */
-    const char* Name;
+    static const char* Name;
 };
 
 /*! A constructor name template
@@ -30,7 +30,7 @@ struct ConstructorName1
 {
     /*! A name for constructor
      */
-    const char* Name;
+    static const char* Name;
 };
 
 /*! A constructor name template
@@ -44,7 +44,7 @@ struct ConstructorName2
 {
     /*! A name for constructor
      */
-    const char* Name;
+    static const char* Name;
 };
 
 /*! A constructor name template
@@ -59,7 +59,7 @@ struct ConstructorName3
 {
     /*! A name for constructor
      */
-    const char* Name;
+    static const char* Name;
 };
 
 /*! A constructor name template
@@ -75,7 +75,7 @@ struct ConstructorName4
 {
     /*! A name for constructor
      */
-    const char* Name;
+    static const char* Name;
 };
 
 }
