@@ -1478,5 +1478,8 @@
     <ClInclude Include="include\animations\setstate\typedcommand.h">
       <Filter>Заголовочные файлы\animations\setstate</Filter>
     </ClInclude>
+    <ClInclude Include="include\equalto.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

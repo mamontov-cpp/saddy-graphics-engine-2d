@@ -476,6 +476,7 @@
     <ClCompile Include="scripting\abstractcobuilder.cpp" />
     <ClCompile Include="scripting\scenebindings.cpp" />
     <ClCompile Include="scripting\scripting.cpp" />
+    <ClCompile Include="scripting\tovalue.cpp" />
     <ClCompile Include="wwglobal_p.cpp" />
     <ClCompile Include="core\editor.cpp" />
     <ClCompile Include="core\qttarget.cpp" />
@@ -1882,6 +1883,7 @@
     <ClInclude Include="scripting\abstractcobuilder.h" />
     <ClInclude Include="scripting\cobuilder.h" />
     <ClInclude Include="scripting\scenebindings.h" />
+    <ClInclude Include="scripting\tovalue.h" />
     <ClInclude Include="wwglobal.h" />
     <ClInclude Include="wwglobal_p.h" />
     <CustomBuild Include="core\editor.h">
