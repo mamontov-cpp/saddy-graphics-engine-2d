@@ -213,8 +213,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/abstractcobuilder.h \
     ifaceed/scripting/cobuilder.h \
     ifaceed/scripting/scenebindings.h \
-    ifaceed/scripting/tovalue.h \
-    ifaceed/scripting/constructorname.h
+    ifaceed/scripting/tovalue.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
