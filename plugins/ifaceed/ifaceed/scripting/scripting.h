@@ -33,6 +33,11 @@ public:
 		\return panel
 	 */
 	MainPanel* panel() const;
+    /*! Registers function in object
+       \param name name of function
+       \param v a value representation of function
+     */
+    void registerFunction(const QString& name, QScriptValue& v);
 public slots:
 	/*! Run script in console
 	 */
