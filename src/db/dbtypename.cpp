@@ -20,8 +20,11 @@
 #include "formattedlabel.h"
 #include "sprite2d.h"
 #include "sprite3d.h"
+#include "scene.h"
 
 #include "dialogue/phrase.h"
+
+#include "p2d/app/way.h"
 
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
@@ -58,3 +61,5 @@ DECLARE_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_COMMON_TYPE(sad::Vector<sad::String>)
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);

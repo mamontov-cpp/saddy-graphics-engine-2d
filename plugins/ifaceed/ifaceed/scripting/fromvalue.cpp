@@ -1,0 +1,11 @@
+#include "fromvalue.h"
+
+Q_DECLARE_METATYPE(sad::Color)
+Q_DECLARE_METATYPE(sad::AColor)
+Q_DECLARE_METATYPE(sad::Point2D)
+Q_DECLARE_METATYPE(sad::Point2I)
+Q_DECLARE_METATYPE(sad::Size2D)
+Q_DECLARE_METATYPE(sad::Size2I)
+Q_DECLARE_METATYPE(sad::Rect2D)
+Q_DECLARE_METATYPE(sad::String)
+Q_DECLARE_METATYPE(std::string)
