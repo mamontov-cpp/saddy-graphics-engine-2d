@@ -1364,6 +1364,9 @@
     <ClCompile Include="scripting\abstractcobuilder.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\tovalue.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1745,6 +1748,9 @@
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\abstractcobuilder.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\tovalue.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>

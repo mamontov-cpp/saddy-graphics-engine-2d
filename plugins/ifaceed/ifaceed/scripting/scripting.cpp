@@ -7,10 +7,12 @@
 
 #include "../history/scenes/sceneschangename.h"
 
+#include <QScriptClass>
 
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Rect2D)
 Q_DECLARE_METATYPE(sad::AColor)
+Q_DECLARE_METATYPE(QScriptContext*)
 
 /*! A function for logging capabilities
 	\param[in] context a context
@@ -220,6 +222,38 @@ static  QScriptValue setCustomObjectProperty(QScriptContext *context, QScriptEng
 
 	return main;
 }
+
+class A: public QScriptClass
+{
+public :
+	A(QScriptEngine* e) : QScriptClass(e) { }
+	virtual ~A()
+	{
+	
+	}
+
+	QVariant extension( Extension extension, const QVariant & argument = QVariant() )
+	{
+		QVariant v;
+		if (extension == Callable) {
+			 QScriptContext *context = qvariant_cast<QScriptContext*>(argument);
+			 QScriptEngine *engine = context->engine();
+			 int a = context->argumentCount();
+			 //QMessageBox::information(NULL, "2", "3");
+			 v.setValue(22);
+		}
+		return v;
+	}
+	bool supportsExtension ( Extension extension ) const
+	{
+		return extension == Callable;	
+	}
+	QString name() const
+	{
+		return "A";
+	}
+};
+
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
@@ -235,6 +269,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 
 	v.setProperty("scenes", scenes); // E.scenes
 
+	m_engine->globalObject().setProperty("d", m_engine->newObject(new A(m_engine)));
     m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D)); // p2d

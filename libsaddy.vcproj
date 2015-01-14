@@ -996,6 +996,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\equalto.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\font.h"
 				>
 			</File>
