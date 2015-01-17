@@ -9,6 +9,9 @@
 #include <sprite2d.h>
 #include <db/custom/customobject.h>
 #include <p2d/app/way.h>
+#include <dialogue/dialogue.h>
+#include <dialogue/phrase.h>
+
 
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
@@ -19,6 +22,7 @@ Q_DECLARE_METATYPE(sad::Size2I)
 Q_DECLARE_METATYPE(sad::Rect2D)
 Q_DECLARE_METATYPE(sad::String)
 Q_DECLARE_METATYPE(std::string)
+Q_DECLARE_METATYPE(sad::dialogue::Phrase)
 
 sad::Maybe<double>
 scripting::ToValue<double>::perform(
@@ -577,3 +581,21 @@ DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Label*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Sprite2D*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::custom::Object*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::p2d::app::Way*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::dialogue::Dialogue*)
+
+sad::Maybe<sad::dialogue::Phrase>
+scripting::ToValue<sad::dialogue::Phrase>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<sad::dialogue::Phrase> result;
+    if (v.isVariant())
+    {
+        QVariant var;
+        if (var.canConvert<sad::dialogue::Phrase>())
+        {
+            result.setValue(var.value<sad::dialogue::Phrase>());
+        }
+    }
+    return result;
+}

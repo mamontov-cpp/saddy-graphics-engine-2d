@@ -6,6 +6,9 @@
 #pragma once
 #include <QObject>
 #include <QScriptEngine>
+#include <QVector>
+
+#include "constructorcall.h"
 
 class MainPanel;
 
@@ -38,6 +41,17 @@ public:
        \param v a value representation of function
      */
     void registerFunction(const QString& name, QScriptValue& v);
+	/*! Registerd script class as global function
+	 */
+	void registerScriptClass(const QString& name, QScriptClass* c);
+	/*! Registers new constructor call
+		\param[in] name name for constructor call
+	 */
+	template<typename _Constructable, typename _Arg1, typename _Arg2>
+	void registerConstructorCall(const QString& name)
+	{
+		registerScriptClass(name, new scripting::ConstructorCall2<_Constructable,_Arg1,_Arg2>(m_engine, name));
+	}
 public slots:
 	/*! Run script in console
 	 */
@@ -49,6 +63,9 @@ protected:
 	/*! An engine to be run
 	 */
     QScriptEngine* m_engine;
+	/*! A list of registered classes in engine
+	 */
+	QVector<QScriptClass*> m_registered_classes;
 };
 
 }

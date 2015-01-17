@@ -11,6 +11,47 @@
 #include <sadsize.h>
 #include <sadstring.h>
 
+namespace sad
+{
+class Scene;
+class SceneNode;
+class Label;
+class Sprite2D;
+
+
+namespace db
+{
+
+namespace custom
+{
+class Object;	
+}
+
+class Object;
+
+}
+
+namespace p2d
+{
+	
+namespace app
+{
+
+class Way;
+
+}
+
+}
+
+namespace dialogue
+{
+class Dialogue;
+class Phrase;
+}
+
+
+}
+
 namespace scripting
 {
 /*! A class, for performing safe conversion of script value to type
@@ -63,6 +104,15 @@ DEFINE_FROM_VALUE_FOR_TYPE( unsigned int )
 DEFINE_FROM_VALUE_FOR_TYPE( unsigned long )
 DEFINE_FROM_VALUE_FOR_TYPE( unsigned long long )
 DEFINE_FROM_VALUE_FOR_TYPE( unsigned short )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::db::Object* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::Scene* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::SceneNode* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::Label* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::Sprite2D* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::db::custom::Object* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::p2d::app::Way* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::dialogue::Phrase )
 #undef DEFINE_FROM_VALUE_FOR_TYPE
 
 }
