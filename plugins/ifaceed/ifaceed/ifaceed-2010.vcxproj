@@ -1884,6 +1884,7 @@
     </CustomBuild>
     <ClInclude Include="scripting\abstractcobuilder.h" />
     <ClInclude Include="scripting\cobuilder.h" />
+    <ClInclude Include="scripting\constructorcall.h" />
     <ClInclude Include="scripting\fromvalue.h" />
     <ClInclude Include="scripting\queryobject.h" />
     <ClInclude Include="scripting\scenebindings.h" />

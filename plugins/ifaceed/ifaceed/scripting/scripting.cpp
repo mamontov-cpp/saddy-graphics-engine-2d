@@ -12,7 +12,6 @@
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Rect2D)
 Q_DECLARE_METATYPE(sad::AColor)
-Q_DECLARE_METATYPE(QScriptContext*)
 
 /*! A function for logging capabilities
 	\param[in] context a context
@@ -269,10 +268,12 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 
 	v.setProperty("scenes", scenes); // E.scenes
 
+	registerConstructorCall<sad::Point2D, double, double>("p2d");
+
 	m_engine->globalObject().setProperty("d", m_engine->newObject(new A(m_engine)));
     m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
-    m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D)); // p2d
+    //m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D)); // p2d
     m_engine->globalObject().setProperty("r2d", m_engine->newFunction(makeRect2D));  // r2d
 	m_engine->globalObject().setProperty("clr", m_engine->newFunction(makeColor));   // clr
 }
@@ -281,6 +282,10 @@ scripting::Scripting::~Scripting()
 {
     m_engine->collectGarbage();
     delete m_engine;
+	for(size_t i = 0; i < m_registered_classes.size(); i++)
+	{
+		delete m_registered_classes[i];
+	}
 }
 
 void scripting::Scripting::setPanel(MainPanel* panel)
@@ -297,6 +302,14 @@ void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v
 {
     v.setProperty("name", name);
     m_engine->globalObject().setProperty("name", v);
+}
+
+void scripting::Scripting::registerScriptClass(const QString& name, QScriptClass* c)
+{
+	m_engine->globalObject().setProperty(name, m_engine->newObject(c));
+	if (m_registered_classes.contains(c) == false) {
+		m_registered_classes << c;
+	}
 }
 
 void scripting::Scripting::runScript()

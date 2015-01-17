@@ -41,6 +41,12 @@ class Way;
 
 }
 
+namespace dialogue
+{
+class Dialogue;
+class Phrase;
+}
+
 }
 
 namespace scripting
@@ -103,6 +109,8 @@ DEFINE_TO_VALUE_FOR_TYPE( sad::Label* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Sprite2D* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::db::custom::Object* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::p2d::app::Way* )
+DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
+DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Phrase )
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }

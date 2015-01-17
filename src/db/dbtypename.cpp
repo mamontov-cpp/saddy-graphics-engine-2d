@@ -22,6 +22,7 @@
 #include "sprite3d.h"
 #include "scene.h"
 
+#include "dialogue/dialogue.h"
 #include "dialogue/phrase.h"
 
 #include "p2d/app/way.h"
@@ -63,3 +64,4 @@ DECLARE_COMMON_TYPE(sad::Vector<sad::String>)
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);
+DECLARE_TYPE_AS_SAD_OBJECT(sad::dialogue::Dialogue);
