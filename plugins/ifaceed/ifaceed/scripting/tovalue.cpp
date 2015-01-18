@@ -36,7 +36,7 @@ scripting::ToValue<double>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<double>())
         {
             result.setValue(var.value<double>());
@@ -57,7 +57,7 @@ scripting::ToValue<float>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<float>())
         {
             result.setValue(var.value<float>());
@@ -78,7 +78,7 @@ scripting::ToValue<int>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<int>())
         {
             result.setValue(var.value<int>());
@@ -99,7 +99,7 @@ scripting::ToValue<long>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<long>())
         {
             result.setValue(var.value<long>());
@@ -120,7 +120,7 @@ scripting::ToValue<long long>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<long long>())
         {
             result.setValue(var.value<long long>());
@@ -137,7 +137,7 @@ scripting::ToValue<sad::AColor>::perform(
     sad::Maybe<sad::AColor> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::AColor>())
         {
             result.setValue(var.value<sad::AColor>());
@@ -154,7 +154,7 @@ scripting::ToValue<sad::Color>::perform(
     sad::Maybe<sad::Color> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Color>())
         {
             result.setValue(var.value<sad::Color>());
@@ -180,7 +180,7 @@ scripting::ToValue<sad::Point2D>::perform(
     sad::Maybe<sad::Point2D> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Point2D>())
         {
             result.setValue(var.value<sad::Point2D>());
@@ -197,7 +197,7 @@ scripting::ToValue<sad::Point2I>::perform(
     sad::Maybe<sad::Point2I> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Point2I>())
         {
             result.setValue(var.value<sad::Point2I>());
@@ -214,7 +214,7 @@ scripting::ToValue<sad::Size2D>::perform(
     sad::Maybe<sad::Size2D> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Size2D>())
         {
             result.setValue(var.value<sad::Size2D>());
@@ -231,7 +231,7 @@ scripting::ToValue<sad::Size2I>::perform(
     sad::Maybe<sad::Size2I> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Size2I>())
         {
             result.setValue(var.value<sad::Size2I>());
@@ -248,7 +248,7 @@ scripting::ToValue<sad::Rect2D>::perform(
     sad::Maybe<sad::Rect2D> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::Rect2D>())
         {
             result.setValue(var.value<sad::Rect2D>());
@@ -269,7 +269,7 @@ scripting::ToValue<sad::String>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::String>())
         {
             result.setValue(var.value<sad::String>());
@@ -290,7 +290,7 @@ scripting::ToValue<std::string>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<std::string>())
         {
             result.setValue(var.value<std::string>());
@@ -311,7 +311,7 @@ scripting::ToValue<QString>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<QString>())
         {
             result.setValue(var.value<QString>());
@@ -332,7 +332,7 @@ scripting::ToValue<short>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<short>())
         {
             result.setValue(var.value<short>());
@@ -357,7 +357,7 @@ scripting::ToValue<bool>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<bool>())
         {
             result.setValue(var.value<bool>());
@@ -390,7 +390,7 @@ scripting::ToValue<char>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<char>())
         {
             result.setValue(var.value<char>());
@@ -423,7 +423,7 @@ scripting::ToValue<signed char>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<signed char>())
         {
             result.setValue(var.value<signed char>());
@@ -456,7 +456,7 @@ scripting::ToValue<unsigned char>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<unsigned char>())
         {
             result.setValue(var.value<unsigned char>());
@@ -481,7 +481,7 @@ scripting::ToValue<unsigned int>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<unsigned int>())
         {
             result.setValue(var.value<unsigned int>());
@@ -506,7 +506,7 @@ scripting::ToValue<unsigned long>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<unsigned long>())
         {
             result.setValue(var.value<unsigned long>());
@@ -531,7 +531,7 @@ scripting::ToValue<unsigned long long>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<unsigned long long>())
         {
             result.setValue(var.value<unsigned long long>());
@@ -557,7 +557,7 @@ scripting::ToValue<unsigned short>::perform(
     }
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<unsigned short>())
         {
             result.setValue(var.value<unsigned short>());
@@ -591,7 +591,7 @@ scripting::ToValue<sad::dialogue::Phrase>::perform(
     sad::Maybe<sad::dialogue::Phrase> result;
     if (v.isVariant())
     {
-        QVariant var;
+        QVariant var = v.toVariant();
         if (var.canConvert<sad::dialogue::Phrase>())
         {
             result.setValue(var.value<sad::dialogue::Phrase>());

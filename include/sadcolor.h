@@ -184,6 +184,15 @@ class AColor: public Color
 	: sad::Color(r, g, b), m_a(a)
 	{
 	}
+	/*! Constructs new color with alphachannel with following parameters
+		\param[in] r red component
+		\param[in] g green component
+		\param[in] b blue component
+	 */
+	inline AColor(sad::uchar r, sad::uchar g, sad::uchar b)
+	: sad::Color(r, g, b), m_a(0)
+	{
+	}
 	/*! Sets an alpha-channel parameter, which describes transparency
 		\param[in] a new value
      */

@@ -48,14 +48,6 @@ public:
 	/*! Registerd script class as global function
 	 */
 	void registerScriptClass(const QString& name, QScriptClass* c);
-	/*! Registers new constructor call
-		\param[in] name name for constructor call
-	 */
-	template<typename _Constructable, typename _Arg1, typename _Arg2>
-	void registerConstructorCall(const QString& name)
-	{
-		registerScriptClass(name, new scripting::ConstructorCall2<_Constructable,_Arg1,_Arg2>(m_engine, name));
-	}
 public slots:
 	/*! Run script in console
 	 */
