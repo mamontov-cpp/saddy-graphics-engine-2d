@@ -1890,7 +1890,9 @@
     <ClInclude Include="scripting\cobuilder.h" />
     <ClInclude Include="scripting\constructorcall.h" />
     <ClInclude Include="scripting\fromvalue.h" />
+    <ClInclude Include="scripting\functioncall.h" />
     <ClInclude Include="scripting\makeconstructor.h" />
+    <ClInclude Include="scripting\makefunctioncall.h" />
     <ClInclude Include="scripting\multimethod.h" />
     <ClInclude Include="scripting\queryobject.h" />
     <ClInclude Include="scripting\registerconstructor.h" />
