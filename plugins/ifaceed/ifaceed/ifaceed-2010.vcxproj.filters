@@ -1373,6 +1373,9 @@
     <ClCompile Include="scripting\fromvalue.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\callable.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1766,6 +1769,9 @@
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\constructorcall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\callable.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
