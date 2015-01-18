@@ -1792,6 +1792,12 @@
     <ClInclude Include="scripting\scriptinglog.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\functioncall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\makefunctioncall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
