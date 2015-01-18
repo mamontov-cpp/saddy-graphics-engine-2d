@@ -9,6 +9,9 @@
 
 #include <QScriptClass>
 
+
+Q_DECLARE_METATYPE(QScriptContext*)
+
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Rect2D)
 Q_DECLARE_METATYPE(sad::AColor)
@@ -296,6 +299,11 @@ void scripting::Scripting::setPanel(MainPanel* panel)
 MainPanel* scripting::Scripting::panel() const
 {
 	return m_panel;
+}
+
+QScriptEngine* scripting::Scripting::engine() const
+{
+	return m_engine;
 }
 
 void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v)

@@ -36,6 +36,10 @@ public:
 		\return panel
 	 */
 	MainPanel* panel() const;
+	/*! Returns an engine
+		\return engine
+	 */
+	QScriptEngine* engine() const;
     /*! Registers function in object
        \param name name of function
        \param v a value representation of function
