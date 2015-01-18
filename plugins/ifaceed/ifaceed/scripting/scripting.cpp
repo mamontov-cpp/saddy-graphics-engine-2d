@@ -1,5 +1,9 @@
 #include "scripting.h"
 #include "scenebindings.h"
+#include "registerconstructor.h"
+#include "makeconstructor.h"
+#include "scriptinglog.h"
+#include "multimethod.h"
 
 #include "../mainpanel.h"
 
@@ -7,144 +11,8 @@
 
 #include "../history/scenes/sceneschangename.h"
 
-#include <QScriptClass>
-
-
 Q_DECLARE_METATYPE(QScriptContext*)
 
-Q_DECLARE_METATYPE(sad::Point2D)
-Q_DECLARE_METATYPE(sad::Rect2D)
-Q_DECLARE_METATYPE(sad::AColor)
-
-/*! A function for logging capabilities
-	\param[in] context a context
-	\param[in] engine an engine
- */
-static QScriptValue logbinding(QScriptContext *context, QScriptEngine *engine)
-{
-	QScriptValue main = engine->globalObject().property("E");
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-	QTextEdit* edit = e->panel()->UI()->txtConsoleResults;
-	for(size_t i = 0; i < context->argumentCount(); ++i)
-	{
-		edit->append(context->argument(i).toString());
-	}
-	return QScriptValue();
-}
-
-/*! A function for making a point
-    \param[in] context a context
-    \param[in] engine an engine
- */
-static QScriptValue makePoint2D(QScriptContext *context, QScriptEngine *engine)
-{
-    QScriptValue result;
-    if (context->argumentCount() != 2)
-    {
-        context->throwError(QScriptContext::SyntaxError, "p2d() accepts only two parameters");
-        return result;
-    }
-    QVariant v;
-    v.setValue(sad::Point2D(context->argument(0).toInteger(), context->argument(1).toInteger()) );
-    result = engine->newVariant(result, v);
-    return result;
-}
-
-/*! A function for making a rectangle
-    \param[in] context a context
-    \param[in] engine an engine
- */
-static QScriptValue makeRect2D(QScriptContext *context, QScriptEngine *engine)
-{
-    QScriptValue result;
-    if (context->argumentCount() != 2 && context->argumentCount() != 4)
-    {
-        context->throwError(QScriptContext::SyntaxError, "r2d() accepts only two or four parameters");
-        return result;
-    }
-    if (context->argumentCount() == 4)
-    {
-        if (context->argument(0).isNumber()
-            && context->argument(1).isNumber()
-            && context->argument(2).isNumber()
-            && context->argument(3).isNumber())
-        {
-            QVariant v;
-            v.setValue(sad::Rect2D(
-                context->argument(0).toNumber(),
-                context->argument(1).toNumber(),
-                context->argument(2).toNumber(),
-                context->argument(3).toNumber()
-            ) );
-            result = engine->newVariant(result, v);
-        }
-        else
-        {
-            QVariant v;
-            v.setValue(sad::Rect2D(
-                context->argument(0).toVariant().value<sad::Point2D>(),
-                context->argument(1).toVariant().value<sad::Point2D>(),
-                context->argument(2).toVariant().value<sad::Point2D>(),
-                context->argument(3).toVariant().value<sad::Point2D>()
-            ) );
-            result = engine->newVariant(result, v);
-        }
-    }
-
-    if (context->argumentCount() == 2)
-    {
-        QVariant v;
-        v.setValue(sad::Rect2D(
-            context->argument(0).toVariant().value<sad::Point2D>(),
-            context->argument(1).toVariant().value<sad::Point2D>()
-        ) );
-        result = engine->newVariant(result, v);
-    }
-
-
-    return result;
-}
-
-/*! A function for making a rectangle
-    \param[in] context a context
-    \param[in] engine an engine
- */
-static QScriptValue makeColor(QScriptContext *context, QScriptEngine *engine)
-{
-    QScriptValue result;
-    if (context->argumentCount() != 3 && context->argumentCount() != 4)
-    {
-        context->throwError(QScriptContext::SyntaxError, "clr() accepts only three or four parameters");
-        return result;
-    }
-	int components[4] = {0, 0, 0, 0};
-	for(size_t i = 0; i < context->argumentCount(); i++)
-	{
-		if (context->argument(i).isNumber() == false)
-		{
-			context->throwError(
-				QScriptContext::SyntaxError, 
-				QString("clr(): argument #") + QString::number(i) + QString(" is not a number")
-			);
-			return result;
-		}
-		
-		components[i] = context->argument(i).toInt32();
-		if (components[i] < 0 || components[i] > 255)
-		{
-			context->throwError(
-				QScriptContext::SyntaxError, 
-				QString("clr(): argument #") + QString::number(i) + QString(" is outside withing 0-255 range")
-			);
-			return result;
-		}
-	}
-
-	QVariant v;
-    v.setValue(sad::AColor(components[0], components[1], components[2], components[3]) );
-    result = engine->newVariant(result, v);
-	return result;
-}
 /*! A universal setting property for object
  */
 static  QScriptValue setCustomObjectProperty(QScriptContext *context, QScriptEngine *engine)
@@ -225,42 +93,11 @@ static  QScriptValue setCustomObjectProperty(QScriptContext *context, QScriptEng
 	return main;
 }
 
-class A: public QScriptClass
-{
-public :
-	A(QScriptEngine* e) : QScriptClass(e) { }
-	virtual ~A()
-	{
-	
-	}
-
-	QVariant extension( Extension extension, const QVariant & argument = QVariant() )
-	{
-		QVariant v;
-		if (extension == Callable) {
-			 QScriptContext *context = qvariant_cast<QScriptContext*>(argument);
-			 QScriptEngine *engine = context->engine();
-			 int a = context->argumentCount();
-			 //QMessageBox::information(NULL, "2", "3");
-			 v.setValue(22);
-		}
-		return v;
-	}
-	bool supportsExtension ( Extension extension ) const
-	{
-		return extension == Callable;	
-	}
-	QString name() const
-	{
-		return "A";
-	}
-};
-
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
     QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
-    v.setProperty("log", m_engine->newFunction(logbinding));  // E.log 
+    v.setProperty("log", m_engine->newFunction(scripting::scriptinglog));  // E.log 
 	v.setProperty("set", m_engine->newFunction(setCustomObjectProperty)); // E.set
 
 	QScriptValue scenes = m_engine->newObject();
@@ -271,14 +108,25 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 
 	v.setProperty("scenes", scenes); // E.scenes
 
-	registerConstructorCall<sad::Point2D, double, double>("p2d");
-
-	m_engine->globalObject().setProperty("d", m_engine->newObject(new A(m_engine)));
-    m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
+	
+	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
-    //m_engine->globalObject().setProperty("p2d", m_engine->newFunction(makePoint2D)); // p2d
-    m_engine->globalObject().setProperty("r2d", m_engine->newFunction(makeRect2D));  // r2d
-	m_engine->globalObject().setProperty("clr", m_engine->newFunction(makeColor));   // clr
+    
+	// A sad::Point2D constructor	
+	scripting::register_constructor<sad::Point2D, double, double>("p2d", this);
+
+	// A sad::Rect2D constructor
+	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, double, double, double, double>(this));
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
+	this->registerScriptClass("r2d", rect2dconstructor);
+
+	// A sad::Color
+	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
+	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
+	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
+	this->registerScriptClass("clr", clrconstructor);   // clr
 }
 
 scripting::Scripting::~Scripting()

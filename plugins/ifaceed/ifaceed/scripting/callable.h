@@ -20,13 +20,6 @@ namespace scripting
  */
 class Callable: public QScriptClass
 {
-private:
-	/*! A name of call
-	 */
-	QString m_name;	
-	/*! A count of arguments for call
-	 */
-	int m_argument_count;
 public:
 	/*! Represents a constructor call for a function with two arguments
 		\param[in] e engine
@@ -88,6 +81,13 @@ public:
 			}
 		}
 	}
+protected:
+	/*! A name of call
+	 */
+	QString m_name;	
+	/*! A count of arguments for call
+	 */
+	int m_argument_count;
 };
 
 }

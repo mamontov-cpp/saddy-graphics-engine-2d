@@ -1376,6 +1376,12 @@
     <ClCompile Include="scripting\callable.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\multimethod.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scriptinglog.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1772,6 +1778,18 @@
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\callable.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\registerconstructor.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\makeconstructor.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\multimethod.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scriptinglog.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
