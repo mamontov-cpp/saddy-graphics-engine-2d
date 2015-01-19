@@ -31,10 +31,6 @@ QVariant scripting::Callable::extension( QScriptClass::Extension extension, cons
 		}
 
 		QScriptValue value = call(context, engine);
-
-		context->setThisObject(value);
-		context->setActivationObject(value);
-
 		return value.toVariant();
 	}
 	return v;

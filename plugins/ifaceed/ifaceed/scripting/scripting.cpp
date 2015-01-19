@@ -114,8 +114,12 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
     
 	// A sad::Point2D constructor	
-	scripting::register_constructor<sad::Point2D, double, double>("Point2D", this);
-
+	QScriptClass* c = new scripting::ConstructorCall2<sad::Point2D, double, double>(m_engine, "Point2D");
+	m_registered_classes << c;
+	QScriptValue ctor = m_engine->newObject(c);
+	QScriptValue metaObject = m_engine->newQMetaObject(&scripting::Point2D::staticMetaObject, ctor);
+	m_engine->globalObject().setProperty("Point2D", metaObject, QScriptValue::ReadOnly);
+	
 	// A sad::Rect2D constructor
 	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
 	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
