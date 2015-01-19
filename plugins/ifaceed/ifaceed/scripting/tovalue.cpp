@@ -1,5 +1,7 @@
 #include "tovalue.h"
-#include "queryobject.h"
+#include "queryobject.h" 
+
+#include "point2d.h"
 
 #include <QVariant>
 
@@ -12,7 +14,7 @@
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
 
-
+Q_DECLARE_METATYPE(scripting::Point2D*)
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)
@@ -178,14 +180,26 @@ scripting::ToValue<sad::Point2D>::perform(
 )
 {
     sad::Maybe<sad::Point2D> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Point2D>())
-        {
-            result.setValue(var.value<sad::Point2D>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Point2D* oo = qobject_cast<scripting::Point2D*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toPoint());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Point2D>())
+			{
+				result.setValue(var.value<sad::Point2D>());
+			}
+		}
+	}
     return result;
 }
 
