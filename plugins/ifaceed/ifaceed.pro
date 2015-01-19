@@ -213,7 +213,17 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/abstractcobuilder.h \
     ifaceed/scripting/cobuilder.h \
     ifaceed/scripting/scenebindings.h \
-    ifaceed/scripting/tovalue.h
+    ifaceed/scripting/tovalue.h \
+    ifaceed/scripting/callable.h \
+    ifaceed/scripting/constructorcall.h \
+    ifaceed/scripting/fromvalue.h \
+    ifaceed/scripting/functioncall.h \
+    ifaceed/scripting/makeconstructor.h \
+    ifaceed/scripting/makefunctioncall.h \
+    ifaceed/scripting/multimethod.h \
+    ifaceed/scripting/queryobject.h \
+    ifaceed/scripting/registerconstructor.h \
+    ifaceed/scripting/scriptinglog.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -380,7 +390,12 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/scripting.cpp \
     ifaceed/scripting/abstractcobuilder.cpp \
     ifaceed/scripting/scenebindings.cpp \
-    ifaceed/scripting/tovalue.cpp
+    ifaceed/scripting/tovalue.cpp \
+    ifaceed/scripting/callable.cpp \
+    ifaceed/scripting/fromvalue.cpp \
+    ifaceed/scripting/multimethod.cpp \
+    ifaceed/scripting/queryobject.cpp \
+    ifaceed/scripting/scriptinglog.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
