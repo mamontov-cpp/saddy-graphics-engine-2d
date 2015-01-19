@@ -1382,6 +1382,24 @@
     <ClCompile Include="scripting\scriptinglog.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\point2d.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_point2d.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_point2d.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_point2d.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_point2d.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_point2d.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -1969,6 +1987,9 @@
       <Filter>Header Files\gui\codeedit</Filter>
     </CustomBuild>
     <CustomBuild Include="scripting\scripting.h">
+      <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\point2d.h">
       <Filter>Header Files\scripting</Filter>
     </CustomBuild>
   </ItemGroup>

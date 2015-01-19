@@ -4,6 +4,7 @@
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
+#include "point2d.h"
 
 #include "../mainpanel.h"
 
@@ -113,7 +114,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
     
 	// A sad::Point2D constructor	
-	scripting::register_constructor<sad::Point2D, double, double>("p2d", this);
+	scripting::register_constructor<sad::Point2D, double, double>("Point2D", this);
 
 	// A sad::Rect2D constructor
 	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");

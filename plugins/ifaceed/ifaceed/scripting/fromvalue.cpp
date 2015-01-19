@@ -1,4 +1,5 @@
 #include "fromvalue.h"
+#include "point2d.h"
 
 #include <scene.h>
 #include <scenenode.h>
@@ -48,7 +49,12 @@ DECLARE_FROM_VALUE_AS_VARIANT(long)
 DECLARE_FROM_VALUE_AS_VARIANT(long long)
 DECLARE_FROM_VALUE_AS_VARIANT( sad::AColor )
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Color )
-DECLARE_FROM_VALUE_AS_VARIANT( sad::Point2D )
+
+QScriptValue scripting::FromValue<sad::Point2D>::perform(const sad::Point2D& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Point2D(v), QScriptEngine::AutoOwnership);
+}
+
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Point2I )
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2D )
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2I )

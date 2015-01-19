@@ -140,7 +140,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	QStringList functionlist;
 	functionlist << "log";
-    functionlist << "p2d";
+    functionlist << "Point2D";
     functionlist << "r2d";
     functionlist << "clr";
 	functionlist << "set";
@@ -151,7 +151,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	functionlist.clear();
 	functionlist << "log";
-	functionlist << "p2d(0, 0)";
+	functionlist << "Point2D(0, 0)";
 	functionlist << "r2d(0, 0, 0, 0)";
 	functionlist << "clr(255, 255, 255, 0)";
 	functionlist << "scenes";
