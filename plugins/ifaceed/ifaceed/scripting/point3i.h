@@ -1,7 +1,7 @@
-/*! \file point2d.h
+/*! \file point3i.h
 	\author HiddenSeeker
 
-	A sad::Point2D scriptable wrapper
+	A sad::Point3I scriptable wrapper
  */
 #pragma once
 #include "classwrapper.h"
@@ -11,43 +11,52 @@
 namespace scripting
 {
 
-/*! A sad::Point2D scriptable wrapper
+/*! A sad::Point3I scriptable wrapper
  */
-class Point2D: public scripting::ClassWrapper
+class Point3I: public scripting::ClassWrapper
 {
  Q_OBJECT
- Q_PROPERTY(double x READ x WRITE setX)
- Q_PROPERTY(double y READ y WRITE setY)
+ Q_PROPERTY(int x READ x WRITE setX)
+ Q_PROPERTY(int y READ y WRITE setY)
+ Q_PROPERTY(int z READ z WRITE setZ)
 public:
 	/*! Constructs new wrapper
 	 */
-	Point2D();
+	Point3I();
 	/*! Constructs new wrapper
 		\param[in] p point
 	 */
-	Point2D(const sad::Point2D& p);
+	Point3I(const sad::Point3I& p);
 	/*! Could be inherited
 	 */
-	virtual ~Point2D();
+	virtual ~Point3I();
 	/*! Converts a point to original point
 	 */
-	const sad::Point2D& toPoint() const;
+	const sad::Point3I& toPoint() const;
 	/*! Returns x coordinate
 		\param[in] x coordinate
 	 */
-	double x() const;
+	int x() const;
 	/*! Returns y coordinate
 		\param[in] y coordinate
 	 */
-	double y() const;
+	int y() const;
+	/*! Returns z coordinate
+		\param[in] z coordinate
+	 */
+	int z() const;
 	/*! Sets x coordinate
 		\param[in] x x coordinate
 	 */ 
-	void setX(double x);
+	void setX(int x);
 	/*! Sets y coordinate
 		\param[in] y y coordinate
 	 */
-	void setY(double y);
+	void setY(int y);
+	/*! Sets z coordinate
+		\param[in] z z coordinate
+	 */
+	void setZ(int z);
 	/*! Contains to string
 		\return object to string
 	 */
@@ -55,7 +64,7 @@ public:
 protected:
 	/*! An inner point wrapper
 	 */
-	sad::Point2D m_point;
+	sad::Point3I m_point;
 };
 
 }
