@@ -145,7 +145,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     functionlist << "p3d";
     functionlist << "p3i";
     functionlist << "r2d";
+	functionlist << "r2i";
     functionlist << "clr";
+	functionlist << "aclr";
 	functionlist << "set";
 	functionlist << "moveBack";
 	functionlist << "moveFront";
@@ -159,7 +161,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "p2i(0, 0)";
 	functionlist << "p3i(0, 0, 0)";
 	functionlist << "r2d(0, 0, 0, 0)";
-	functionlist << "clr(255, 255, 255, 0)";
+	functionlist << "r2i(0, 0, 0, 0)";
+	functionlist << "clr(255, 255, 255)";
+	functionlist << "aclr(255, 255, 255, 0)";
 	functionlist << "scenes";
 	functionlist << "add(\"name\")";
 	functionlist << "remove(\"name\")";

@@ -4,8 +4,6 @@
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
-#include "point2d.h"
-#include "point2i.h"
 
 #include "../mainpanel.h"
 
@@ -150,6 +148,14 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
 	this->registerScriptClass("r2d", rect2dconstructor);
 
+	// A sad::Rect2I constructor
+	scripting::MultiMethod* rect2iconstructor = new scripting::MultiMethod(m_engine, "r2i");
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, int, int, int, int>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
+	this->registerScriptClass("r2i", rect2iconstructor);
+
 	// A sad::Color
 	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
 	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
@@ -282,6 +288,20 @@ void scripting::Scripting::showHelp()
 		"        <li>property <b>x</b> - stores x coordinate</li>"
 		"        <li>property <b>y</b> - stores y coordinate</li>"
 		"        <li>property <b>z</b> - stores z coordinate</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Rect2D</b> - a rectangle, where all points are sad::Point2D"
+		"    <ul>"
+		"        <li>constructors <b>r2d(), r2d(p2d(0,0),p2d(0,0)), r2d(0,0,0,0), r2d(p2d(0,0),p2d(0,0),p2d(0,0),p2d(0,0))</b> - constructs a rect with specified parameters</li>"
+		"        <li>method <b>setPoint(index, p2d(0,0))</b> - sets a point for rectangle, where index=[0..3]</li>"
+		"        <li>method <b>point(index)</b> - returns a point for rectangle, where index=[0..3]</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Rect2I</b> - a rectangle, where all points are sad::Point2I"
+		"    <ul>"
+		"        <li>constructors <b>r2i(), r2i(p2i(0,0),p2i(0,0)), r2i(0,0,0,0), r2i(p2i(0,0),p2i(0,0),p2i(0,0),p2i(0,0))</b> - constructs a rect with specified parameters</li>"
+		"        <li>method <b>setPoint(index, p2i(0,0))</b> - sets a point for rectangle, where index=[0..3]</li>"
+		"        <li>method <b>point(index)</b> - returns a point for rectangle, where index=[0..3]</li>"
 		"    </ul>"
 		"</li>"
 		"</ul>"

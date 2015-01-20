@@ -5,6 +5,8 @@
 #include "point2i.h"
 #include "point3d.h"
 #include "point3i.h"
+#include "rect2d.h"
+#include "rect2i.h"
 
 #include <QVariant>
 
@@ -27,6 +29,7 @@ Q_DECLARE_METATYPE(sad::Point3I)
 Q_DECLARE_METATYPE(sad::Size2D)
 Q_DECLARE_METATYPE(sad::Size2I)
 Q_DECLARE_METATYPE(sad::Rect2D)
+Q_DECLARE_METATYPE(sad::Rect2I)
 Q_DECLARE_METATYPE(sad::String)
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(sad::dialogue::Phrase)
@@ -335,14 +338,56 @@ scripting::ToValue<sad::Rect2D>::perform(
 )
 {
     sad::Maybe<sad::Rect2D> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Rect2D>())
-        {
-            result.setValue(var.value<sad::Rect2D>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Rect2D* oo = qobject_cast<scripting::Rect2D*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toRect());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Rect2D>())
+			{
+				result.setValue(var.value<sad::Rect2D>());
+			}
+		}
+	}
+    return result;
+}
+
+
+sad::Maybe<sad::Rect2I>
+scripting::ToValue<sad::Rect2I>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<sad::Rect2I> result;
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Rect2I* oo = qobject_cast<scripting::Rect2I*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toRect());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Rect2I>())
+			{
+				result.setValue(var.value<sad::Rect2I>());
+			}
+		}
+	}
     return result;
 }
 
