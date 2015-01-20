@@ -5,6 +5,7 @@
 #include "scriptinglog.h"
 #include "multimethod.h"
 #include "point2d.h"
+#include "point2i.h"
 
 #include "../mainpanel.h"
 
@@ -114,14 +115,36 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
     
 	// A sad::Point2D constructor	
-	QScriptClass* c = new scripting::ConstructorCall2<sad::Point2D, double, double>(m_engine, "Point2D");
-	m_registered_classes << c;
-	QScriptValue ctor = m_engine->newObject(c);
-	QScriptValue metaObject = m_engine->newQMetaObject(&scripting::Point2D::staticMetaObject, ctor);
-	m_engine->globalObject().setProperty("Point2D", metaObject, QScriptValue::ReadOnly);
-	
+	scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
+	point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
+	point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
+	this->registerScriptClass("p2d", point2dconstructor);
+
+	// A sad::Point2I constructor	
+	scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");
+	point2iconstructor->add(scripting::make_constructor<sad::Point2I>(this));
+	point2iconstructor->add(scripting::make_constructor<sad::Point2I, int, int>(this));
+	this->registerScriptClass("p2i", point2iconstructor);
+
+	// A sad::Point3D constructor	
+	scripting::MultiMethod* point3dconstructor = new scripting::MultiMethod(m_engine, "p3d");
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, sad::Point2D>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double, double>(this));
+	this->registerScriptClass("p3d", point3dconstructor);
+
+	// A sad::Point3I constructor	
+	scripting::MultiMethod* point3iconstructor = new scripting::MultiMethod(m_engine, "p3i");
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, sad::Point2I>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int, int>(this));
+	this->registerScriptClass("p3i", point3iconstructor);
+
 	// A sad::Rect2D constructor
 	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D>(this));
 	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
 	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, double, double, double, double>(this));
 	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
@@ -204,4 +227,75 @@ void scripting::Scripting::runScript()
         }
     }
     m_panel->editor()->setCurrentBatchCommand(NULL);
+}
+
+
+void scripting::Scripting::showHelp()
+{
+	// A size of help dialog
+	QSize dialogsize(640, 480);
+
+	QDialog dlg;
+	dlg.setWindowTitle("Console Scripting Help");
+	dlg.resize(dialogsize);
+	dlg.setMinimumSize(dialogsize);
+	dlg.setMaximumSize(dialogsize);
+	
+	QWidget* widget = new QWidget(&dlg);
+    widget->setObjectName(QString::fromUtf8("layoutWidget"));
+    widget->setGeometry(QRect(0, 0, 640, 480));
+	
+
+	QHBoxLayout* hboxLayout = new QHBoxLayout(widget);
+	
+	QTextEdit* edit = new QTextEdit();
+	edit->setReadOnly(true);
+	edit->setText(
+		"<h2>Scripting with IFace Editor</h2>\n"
+		"<h3>Common classes:</h3>\n"
+		"<ul>"
+		"<li><b>sad::Point2D</b> - a basic 2D point with coordinates as double"
+		"    <ul>"
+		"        <li>constructor <b>p2d(), p2d(2,3)</b> - constructs a point with specified parameters ( (0,0) in first case) </li>"
+		"        <li>property <b>x</b> - stores x coordinate</li>"
+		"        <li>property <b>y</b> - stores y coordinate</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Point2I</b> - a basic 2D point with coordinates as int"
+		"    <ul>"
+		"        <li>constructor <b>p2i(), p2i(2,3)</b> - constructs a point with specified parameters ( (0,0) in first case) </li>"
+		"        <li>property <b>x</b> - stores x coordinate</li>"
+		"        <li>property <b>y</b> - stores y coordinate</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Point3D</b> - a basic 3D point with coordinates as double"
+		"    <ul>"
+		"        <li>constructor <b>p3d(), p3d(2,3,4)</b> - constructs a point with specified parameters ( (0,0,0) in first case) </li>"
+		"        <li>property <b>x</b> - stores x coordinate</li>"
+		"        <li>property <b>y</b> - stores y coordinate</li>"
+		"        <li>property <b>z</b> - stores z coordinate</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Point3I</b> - a basic 3D point with coordinates as int"
+		"    <ul>"
+		"        <li>constructor <b>p3i(), p3i(2,3,4)</b> - constructs a point with specified parameters ( (0,0,0) in first case) </li>"
+		"        <li>property <b>x</b> - stores x coordinate</li>"
+		"        <li>property <b>y</b> - stores y coordinate</li>"
+		"        <li>property <b>z</b> - stores z coordinate</li>"
+		"    </ul>"
+		"</li>"
+		"</ul>"
+		"<h3>Editor-specific objects:</h3>\n"
+		"<ul>"
+		"	<li><b>E</b> or <b>console</b> - a basic class for all operations in editor"
+		"	<ul>"
+		"		<li>method <b>log</b> - logs all arguments, converting them to string</li>"
+		"	</ul>"
+		"	</li>"
+		"</ul>"
+	);
+	
+	hboxLayout->addWidget(edit);
+
+	dlg.exec();
 }

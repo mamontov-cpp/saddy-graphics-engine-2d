@@ -140,7 +140,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	QStringList functionlist;
 	functionlist << "log";
-    functionlist << "Point2D";
+    functionlist << "p2d";
+	functionlist << "p2i";
+    functionlist << "p3d";
+    functionlist << "p3i";
     functionlist << "r2d";
     functionlist << "clr";
 	functionlist << "set";
@@ -151,7 +154,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	functionlist.clear();
 	functionlist << "log";
-	functionlist << "Point2D(0, 0)";
+	functionlist << "p2d(0, 0)";
+	functionlist << "p3d(0, 0, 0)";
+	functionlist << "p2i(0, 0)";
+	functionlist << "p3i(0, 0, 0)";
 	functionlist << "r2d(0, 0, 0, 0)";
 	functionlist << "clr(255, 255, 255, 0)";
 	functionlist << "scenes";
@@ -627,6 +633,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsGroupCancel, SIGNAL(clicked()), m_group_actions, SLOT(stop()));	
 	
 	connect(ui.btnConsoleRun, SIGNAL(clicked()), m_scripting, SLOT(runScript()));
+	connect(ui.btnConsoleHelp, SIGNAL(clicked()), m_scripting, SLOT(showHelp()));
+
 	// Initialize UI from editor
 	if (editor)
 	{

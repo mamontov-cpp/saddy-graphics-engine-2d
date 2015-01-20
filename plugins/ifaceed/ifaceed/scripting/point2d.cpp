@@ -45,22 +45,5 @@ void scripting::Point2D::setY(double y)
 QString scripting::Point2D::toString() const
 {
 	QString result("sad::Point2D(%1, %2)");
-	return result.arg(m_point.x(), m_point.y());
+	return result.arg(m_point.x()).arg(m_point.y());
 }
-
-QScriptValue scripting::Point2D::qscript_call()
-{
-	scripting::Point2D* p = new scripting::Point2D();
-	p->m_point.setX(0);
-	p->m_point.setY(0);
-	return engine()->newQObject(p, QScriptEngine::AutoOwnership); 
-}
-
-QScriptValue scripting::Point2D::qscript_call(double x, double y)
-{
-	scripting::Point2D* p = new scripting::Point2D();
-	p->m_point.setX(x);
-	p->m_point.setY(y);
-	return engine()->newQObject(p, QScriptEngine::AutoOwnership); 
-}
-

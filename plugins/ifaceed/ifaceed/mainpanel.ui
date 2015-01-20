@@ -2639,7 +2639,7 @@ rect:</string>
         <x>400</x>
         <y>330</y>
         <width>75</width>
-        <height>51</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
@@ -2654,6 +2654,19 @@ rect:</string>
         <width>381</width>
         <height>51</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnConsoleHelp">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>360</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Help</string>
       </property>
      </widget>
     </widget>

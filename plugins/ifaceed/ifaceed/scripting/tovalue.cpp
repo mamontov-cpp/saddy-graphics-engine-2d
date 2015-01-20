@@ -2,6 +2,9 @@
 #include "queryobject.h" 
 
 #include "point2d.h"
+#include "point2i.h"
+#include "point3d.h"
+#include "point3i.h"
 
 #include <QVariant>
 
@@ -19,6 +22,8 @@ Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Point2I)
+Q_DECLARE_METATYPE(sad::Point3D)
+Q_DECLARE_METATYPE(sad::Point3I)
 Q_DECLARE_METATYPE(sad::Size2D)
 Q_DECLARE_METATYPE(sad::Size2I)
 Q_DECLARE_METATYPE(sad::Rect2D)
@@ -209,14 +214,84 @@ scripting::ToValue<sad::Point2I>::perform(
 )
 {
     sad::Maybe<sad::Point2I> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Point2I>())
-        {
-            result.setValue(var.value<sad::Point2I>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Point2I* oo = qobject_cast<scripting::Point2I*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toPoint());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Point2I>())
+			{
+				result.setValue(var.value<sad::Point2I>());
+			}
+		}
+	}
+    return result;
+}
+
+sad::Maybe<sad::Point3D>
+scripting::ToValue<sad::Point3D>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<sad::Point3D> result;
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Point3D* oo = qobject_cast<scripting::Point3D*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toPoint());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Point3D>())
+			{
+				result.setValue(var.value<sad::Point3D>());
+			}
+		}
+	}
+    return result;
+}
+
+sad::Maybe<sad::Point3I>
+scripting::ToValue<sad::Point3I>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<sad::Point3I> result;
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Point3I* oo = qobject_cast<scripting::Point3I*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toPoint());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Point3I>())
+			{
+				result.setValue(var.value<sad::Point3I>());
+			}
+		}
+	}
     return result;
 }
 

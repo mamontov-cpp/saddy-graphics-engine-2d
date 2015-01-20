@@ -1,5 +1,8 @@
 #include "fromvalue.h"
 #include "point2d.h"
+#include "point2i.h"
+#include "point3d.h"
+#include "point3I.h"
 
 #include <scene.h>
 #include <scenenode.h>
@@ -14,6 +17,8 @@ Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Point2I)
+Q_DECLARE_METATYPE(sad::Point3D)
+Q_DECLARE_METATYPE(sad::Point3I)
 Q_DECLARE_METATYPE(sad::Size2D)
 Q_DECLARE_METATYPE(sad::Size2I)
 Q_DECLARE_METATYPE(sad::Rect2D)
@@ -55,7 +60,22 @@ QScriptValue scripting::FromValue<sad::Point2D>::perform(const sad::Point2D& v, 
 	return e->newQObject(new scripting::Point2D(v), QScriptEngine::AutoOwnership);
 }
 
-DECLARE_FROM_VALUE_AS_VARIANT( sad::Point2I )
+QScriptValue scripting::FromValue<sad::Point2I>::perform(const sad::Point2I& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Point2I(v), QScriptEngine::AutoOwnership);
+}
+
+QScriptValue scripting::FromValue<sad::Point3D>::perform(const sad::Point3D& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Point3D(v), QScriptEngine::AutoOwnership);
+}
+
+QScriptValue scripting::FromValue<sad::Point3I>::perform(const sad::Point3I& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Point3I(v), QScriptEngine::AutoOwnership);
+}
+
+
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2D )
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2I )
 DECLARE_FROM_VALUE_AS_VARIANT( sad::Rect2D )

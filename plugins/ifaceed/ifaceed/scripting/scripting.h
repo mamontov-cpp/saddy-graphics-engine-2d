@@ -52,6 +52,9 @@ public slots:
 	/*! Run script in console
 	 */
 	void runScript();
+	/*! Shows help
+	 */
+	void showHelp();
 protected:
 	/*! A panel for scripting
 	 */

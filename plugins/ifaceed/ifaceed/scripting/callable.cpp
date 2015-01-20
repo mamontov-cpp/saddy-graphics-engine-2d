@@ -18,10 +18,14 @@ QVariant scripting::Callable::extension( QScriptClass::Extension extension, cons
 	QVariant v;
 	if (extension == QScriptClass::Callable) 
 	{
-		// TODO: Actually do stuff
 		QScriptContext *context = qvariant_cast<QScriptContext*>(argument);
 		QScriptEngine *engine = context->engine();
 		QScriptValue tmp;
+		if (context->isCalledAsConstructor())
+		{
+			context->throwError(QScriptContext::SyntaxError, m_name + QString(" : cannot be called as constructor"));
+			return tmp.toVariant();
+		}
 
 		sad::Maybe<QString> result = this->canBeCalled(context);
 		if (result.exists())
