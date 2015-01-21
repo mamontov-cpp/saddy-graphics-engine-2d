@@ -7,6 +7,8 @@
 #include "point3i.h"
 #include "rect2d.h"
 #include "rect2i.h"
+#include "size2d.h"
+#include "size2i.h"
 
 #include <QVariant>
 
@@ -304,14 +306,26 @@ scripting::ToValue<sad::Size2D>::perform(
 )
 {
     sad::Maybe<sad::Size2D> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Size2D>())
-        {
-            result.setValue(var.value<sad::Size2D>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Size2D* oo = qobject_cast<scripting::Size2D*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toSize());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Size2D>())
+			{
+				result.setValue(var.value<sad::Size2D>());
+			}
+		}
+	}
     return result;
 }
 
@@ -321,14 +335,26 @@ scripting::ToValue<sad::Size2I>::perform(
 )
 {
     sad::Maybe<sad::Size2I> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Size2I>())
-        {
-            result.setValue(var.value<sad::Size2I>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Size2I* oo = qobject_cast<scripting::Size2I*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toSize());
+		}
+	} 
+	else 
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Size2I>())
+			{
+				result.setValue(var.value<sad::Size2I>());
+			}
+		}
+	}
     return result;
 }
 
