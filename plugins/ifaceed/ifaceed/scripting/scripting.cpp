@@ -156,6 +156,18 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
 	this->registerScriptClass("r2i", rect2iconstructor);
 
+	// A sad::Size2D constructor	
+	scripting::MultiMethod* size2dconstructor = new scripting::MultiMethod(m_engine, "s2d");
+	size2dconstructor->add(scripting::make_constructor<sad::Size2D>(this));
+	size2dconstructor->add(scripting::make_constructor<sad::Size2D, double, double>(this));
+	this->registerScriptClass("s2d", size2dconstructor);
+
+	// A sad::Size2I constructor	
+	scripting::MultiMethod* size2iconstructor = new scripting::MultiMethod(m_engine, "s2i");
+	size2iconstructor->add(scripting::make_constructor<sad::Size2I>(this));
+	size2iconstructor->add(scripting::make_constructor<sad::Size2I, unsigned int, unsigned int>(this));
+	this->registerScriptClass("s2i", size2iconstructor);
+
 	// A sad::Color
 	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
 	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
@@ -302,6 +314,20 @@ void scripting::Scripting::showHelp()
 		"        <li>constructors <b>r2i(), r2i(p2i(0,0),p2i(0,0)), r2i(0,0,0,0), r2i(p2i(0,0),p2i(0,0),p2i(0,0),p2i(0,0))</b> - constructs a rect with specified parameters</li>"
 		"        <li>method <b>setPoint(index, p2i(0,0))</b> - sets a point for rectangle, where index=[0..3]</li>"
 		"        <li>method <b>point(index)</b> - returns a point for rectangle, where index=[0..3]</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Size2D</b> - a basic 2D size with coordinates as double"
+		"    <ul>"
+		"        <li>constructor <b>s2d(), s2d(2,3)</b> - constructs a size with specified parameters ( (0,0) in first case) </li>"
+		"        <li>property <b>width</b> - stores width</li>"
+		"        <li>property <b>height</b> - stores height</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Size2I</b> - a basic 2D size with coordinates as unsigned integral value"
+		"    <ul>"
+		"        <li>constructor <b>s2i(), s2i(2,3)</b> - constructs a size with specified parameters ( (0,0) in first case) </li>"
+		"        <li>property <b>width</b> - stores width</li>"
+		"        <li>property <b>height</b> - stores height</li>"
 		"    </ul>"
 		"</li>"
 		"</ul>"

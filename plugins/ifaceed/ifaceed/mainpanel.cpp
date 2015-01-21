@@ -146,6 +146,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     functionlist << "p3i";
     functionlist << "r2d";
 	functionlist << "r2i";
+	functionlist << "s2d";
+	functionlist << "s2i";
     functionlist << "clr";
 	functionlist << "aclr";
 	functionlist << "set";
@@ -164,6 +166,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "r2i(0, 0, 0, 0)";
 	functionlist << "clr(255, 255, 255)";
 	functionlist << "aclr(255, 255, 255, 0)";
+	functionlist << "s2d(0, 0)";
+	functionlist << "s2i(0, 0)";
 	functionlist << "scenes";
 	functionlist << "add(\"name\")";
 	functionlist << "remove(\"name\")";

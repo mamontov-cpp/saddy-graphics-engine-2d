@@ -5,6 +5,8 @@
 #include "point3I.h"
 #include "rect2d.h"
 #include "rect2i.h"
+#include "size2d.h"
+#include "size2i.h"
 
 #include <scene.h>
 #include <scenenode.h>
@@ -77,9 +79,15 @@ QScriptValue scripting::FromValue<sad::Point3I>::perform(const sad::Point3I& v, 
 	return e->newQObject(new scripting::Point3I(v), QScriptEngine::AutoOwnership);
 }
 
+QScriptValue scripting::FromValue<sad::Size2D>::perform(const sad::Size2D& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Size2D(v), QScriptEngine::AutoOwnership);
+}
 
-DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2D )
-DECLARE_FROM_VALUE_AS_VARIANT( sad::Size2I )
+QScriptValue scripting::FromValue<sad::Size2I>::perform(const sad::Size2I& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Size2I(v), QScriptEngine::AutoOwnership);
+}
 
 QScriptValue scripting::FromValue<sad::Rect2D>::perform(const sad::Rect2D& v, QScriptEngine* e)
 {
