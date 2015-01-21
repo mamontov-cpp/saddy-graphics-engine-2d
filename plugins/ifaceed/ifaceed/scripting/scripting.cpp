@@ -170,9 +170,16 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 
 	// A sad::Color
 	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
-	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
-	clrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
-	this->registerScriptClass("clr", clrconstructor);   // clr
+	clrconstructor->add(scripting::make_constructor<sad::Color>(this));
+	clrconstructor->add(scripting::make_constructor<sad::Color, unsigned char, unsigned char, unsigned char>(this));
+	this->registerScriptClass("clr", clrconstructor);
+
+	// A sad::AColor
+	scripting::MultiMethod* aclrconstructor = new scripting::MultiMethod(m_engine, "aclr");
+	aclrconstructor->add(scripting::make_constructor<sad::AColor>(this));
+	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
+	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
+	this->registerScriptClass("aclr", aclrconstructor);   
 }
 
 scripting::Scripting::~Scripting()
@@ -328,6 +335,23 @@ void scripting::Scripting::showHelp()
 		"        <li>constructor <b>s2i(), s2i(2,3)</b> - constructs a size with specified parameters ( (0,0) in first case) </li>"
 		"        <li>property <b>width</b> - stores width</li>"
 		"        <li>property <b>height</b> - stores height</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::Color</b> - a basic color in RGB-space"
+		"    <ul>"
+		"        <li>constructor <b>clr(), clr(r,g,b)</b> - constructs a color with specified parameters ( (0,0,0) in first case) </li>"
+		"        <li>property <b>r</b> - red component</li>"
+		"        <li>property <b>g</b> - green component</li>"
+		"        <li>property <b>b</b> - blue component</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::AColor</b> - a basic color in RGBA-space"
+		"    <ul>"
+		"        <li>constructor <b>aclr(), aclr(r,g,b), aclr(r,g,b,a)</b> - constructs a color with specified parameters ( (0,0,0,0) in first case) </li>"
+		"        <li>property <b>r</b> - red component</li>"
+		"        <li>property <b>g</b> - green component</li>"
+		"        <li>property <b>b</b> - blue component</li>"
+		"        <li>property <b>a</b> - alpha component</li>"
 		"    </ul>"
 		"</li>"
 		"</ul>"

@@ -7,6 +7,8 @@
 #include "rect2i.h"
 #include "size2d.h"
 #include "size2i.h"
+#include "color.h"
+#include "acolor.h"
 
 #include <scene.h>
 #include <scenenode.h>
@@ -56,8 +58,6 @@ QScriptValue scripting::FromValue<int>::perform(const int& v, QScriptEngine* )
 
 DECLARE_FROM_VALUE_AS_VARIANT(long)
 DECLARE_FROM_VALUE_AS_VARIANT(long long)
-DECLARE_FROM_VALUE_AS_VARIANT( sad::AColor )
-DECLARE_FROM_VALUE_AS_VARIANT( sad::Color )
 
 QScriptValue scripting::FromValue<sad::Point2D>::perform(const sad::Point2D& v, QScriptEngine* e)
 {
@@ -97,6 +97,16 @@ QScriptValue scripting::FromValue<sad::Rect2D>::perform(const sad::Rect2D& v, QS
 QScriptValue scripting::FromValue<sad::Rect2I>::perform(const sad::Rect2I& v, QScriptEngine* e)
 {
 	return e->newQObject(new scripting::Rect2I(v), QScriptEngine::AutoOwnership);
+}
+
+QScriptValue scripting::FromValue<sad::Color>::perform(const sad::Color& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::Color(v), QScriptEngine::AutoOwnership);
+}
+
+QScriptValue scripting::FromValue<sad::AColor>::perform(const sad::AColor& v, QScriptEngine* e)
+{
+	return e->newQObject(new scripting::AColor(v), QScriptEngine::AutoOwnership);
 }
 
 QScriptValue scripting::FromValue<sad::String>::perform(const sad::String& v, QScriptEngine* )

@@ -9,6 +9,8 @@
 #include "rect2i.h"
 #include "size2d.h"
 #include "size2i.h"
+#include "color.h"
+#include "acolor.h"
 
 #include <QVariant>
 
@@ -147,14 +149,39 @@ scripting::ToValue<sad::AColor>::perform(
 )
 {
     sad::Maybe<sad::AColor> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::AColor>())
-        {
-            result.setValue(var.value<sad::AColor>());
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Color* oo = qobject_cast<scripting::Color*>(o);
+		if (oo)
+		{
+			sad::Color clr = oo->toColor();
+			sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
+			result.setValue(aclr);
+		}
+		scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
+		if (ooo)
+		{
+			result.setValue(ooo->toColor());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::AColor>())
+			{
+				result.setValue(var.value<sad::AColor>());
+			}
+			if (var.canConvert<sad::Color>())
+			{
+				sad::Color clr = var.value<sad::Color>();
+				sad::AColor aclr(clr.r(), clr.g(), clr.b(), 0);
+				result.setValue(aclr);
+			}
+		}
+	}
     return result;
 }
 
@@ -164,23 +191,40 @@ scripting::ToValue<sad::Color>::perform(
 )
 {
     sad::Maybe<sad::Color> result;
-    if (v.isVariant())
-    {
-        QVariant var = v.toVariant();
-        if (var.canConvert<sad::Color>())
-        {
-            result.setValue(var.value<sad::Color>());
-        }
-        else
-        {
-            if (var.canConvert<sad::AColor>())
-            {
-				sad::AColor color = var.value<sad::AColor>();
-                sad::Color c(color.r(), color.g(), color.b());
-                result.setValue(c);
-            }
-        }
-    }
+	if (v.isQObject())
+	{
+		QObject* o = v.toQObject();
+		scripting::Color* oo = qobject_cast<scripting::Color*>(o);
+		if (oo)
+		{
+			result.setValue(oo->toColor());
+		}
+		scripting::AColor* ooo = qobject_cast<scripting::AColor*>(o);
+		if (ooo)
+		{
+			result.setValue(ooo->toColor());
+		}
+	} 
+	else
+	{
+		if (v.isVariant())
+		{
+			QVariant var = v.toVariant();
+			if (var.canConvert<sad::Color>())
+			{
+				result.setValue(var.value<sad::Color>());
+			}
+			else
+			{
+				if (var.canConvert<sad::AColor>())
+				{
+					sad::AColor color = var.value<sad::AColor>();
+					sad::Color c(color.r(), color.g(), color.b());
+					result.setValue(c);
+				}
+			}
+		}
+	}
     return result;
 }
 
