@@ -223,7 +223,14 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/multimethod.h \
     ifaceed/scripting/queryobject.h \
     ifaceed/scripting/registerconstructor.h \
-    ifaceed/scripting/scriptinglog.h
+    ifaceed/scripting/scriptinglog.h \
+    ifaceed/scripting/classwrapper.h \
+    ifaceed/scripting/point2d.h \
+    ifaceed/scripting/point2i.h \
+    ifaceed/scripting/point3d.h \
+    ifaceed/scripting/point3i.h \
+    ifaceed/scripting/rect2d.h \
+    ifaceed/scripting/rect2i.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -395,7 +402,14 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/fromvalue.cpp \
     ifaceed/scripting/multimethod.cpp \
     ifaceed/scripting/queryobject.cpp \
-    ifaceed/scripting/scriptinglog.cpp
+    ifaceed/scripting/scriptinglog.cpp \
+    ifaceed/scripting/classwrapper.cpp \
+    ifaceed/scripting/point2d.cpp \
+    ifaceed/scripting/point2i.cpp \
+    ifaceed/scripting/point3d.cpp \
+    ifaceed/scripting/point3i.cpp \
+    ifaceed/scripting/rect2d.cpp \
+    ifaceed/scripting/rect2i.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
