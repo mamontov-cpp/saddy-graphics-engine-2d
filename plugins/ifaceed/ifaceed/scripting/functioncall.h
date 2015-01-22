@@ -17,7 +17,7 @@ template<
 class FunctionCall
 {
 public:
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -28,7 +28,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)();
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -68,11 +68,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0
 >
@@ -83,7 +82,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -127,11 +126,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1
@@ -143,7 +141,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -190,11 +188,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -207,7 +204,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -257,11 +254,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -275,7 +271,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -328,11 +324,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -347,7 +342,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -403,11 +398,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -423,7 +417,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -482,11 +476,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -503,7 +496,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -565,11 +558,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -587,7 +579,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -652,11 +644,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -675,7 +666,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -743,7 +734,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -767,7 +758,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -838,11 +829,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -863,7 +853,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -937,11 +927,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -963,7 +952,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1040,11 +1029,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1067,7 +1055,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1147,11 +1135,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1175,7 +1162,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1258,11 +1245,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1287,7 +1273,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1373,11 +1359,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1403,7 +1388,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1501,7 +1486,7 @@ template<
 class FunctionCall<void>
 {
 public:
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1512,7 +1497,7 @@ public:
 	 */
 	typedef void (*Signature)();
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1553,11 +1538,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0
 >
@@ -1568,7 +1552,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1612,11 +1596,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1
@@ -1628,7 +1611,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1675,11 +1658,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1692,7 +1674,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1742,11 +1724,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1760,7 +1741,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1813,11 +1794,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1832,7 +1812,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1888,11 +1868,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1908,7 +1887,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1967,11 +1946,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1988,7 +1966,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2050,11 +2028,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2072,7 +2049,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2137,11 +2114,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2160,7 +2136,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2228,11 +2204,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2252,7 +2227,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2323,11 +2298,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2348,7 +2322,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2422,11 +2396,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2448,7 +2421,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2525,11 +2498,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2552,7 +2524,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2632,11 +2604,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2660,7 +2631,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2743,11 +2714,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2772,7 +2742,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2858,11 +2828,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a constructor call
+/*! Registers a functional call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2888,7 +2857,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-	/*! Represents a constructor call for a function with 2 arguments
+    /*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
