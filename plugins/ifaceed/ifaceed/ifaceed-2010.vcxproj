@@ -2300,6 +2300,7 @@
     <ClInclude Include="scripting\functioncall.h" />
     <ClInclude Include="scripting\makeconstructor.h" />
     <ClInclude Include="scripting\makefunctioncall.h" />
+    <ClInclude Include="scripting\makescriptingcall.h" />
     <ClInclude Include="scripting\multimethod.h" />
     <CustomBuild Include="scripting\point2d.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
