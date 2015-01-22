@@ -101,86 +101,11 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
     v.setProperty("log", m_engine->newFunction(scripting::scriptinglog));  // E.log 
 	v.setProperty("set", m_engine->newFunction(setCustomObjectProperty)); // E.set
 
-	QScriptValue scenes = m_engine->newObject();
-	scenes.setProperty("add", m_engine->newFunction(scripting::addScene));  // E.scenes.add
-	scenes.setProperty("remove", m_engine->newFunction(scripting::removeScene)); // E.scenes.remove
-	scenes.setProperty("moveBack", m_engine->newFunction(scripting::sceneMoveBack)); // E.scenes.moveBack
-	scenes.setProperty("moveFront", m_engine->newFunction(scripting::sceneMoveFront)); // E.scenes.moveFront
-
-	v.setProperty("scenes", scenes); // E.scenes
-
-	
 	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
-    
-	// A sad::Point2D constructor	
-	scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
-	point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
-	point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
-	this->registerScriptClass("p2d", point2dconstructor);
-
-	// A sad::Point2I constructor	
-	scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");
-	point2iconstructor->add(scripting::make_constructor<sad::Point2I>(this));
-	point2iconstructor->add(scripting::make_constructor<sad::Point2I, int, int>(this));
-	this->registerScriptClass("p2i", point2iconstructor);
-
-	// A sad::Point3D constructor	
-	scripting::MultiMethod* point3dconstructor = new scripting::MultiMethod(m_engine, "p3d");
-	point3dconstructor->add(scripting::make_constructor<sad::Point3D>(this));
-	point3dconstructor->add(scripting::make_constructor<sad::Point3D, sad::Point2D>(this));
-	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double>(this));
-	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double, double>(this));
-	this->registerScriptClass("p3d", point3dconstructor);
-
-	// A sad::Point3I constructor	
-	scripting::MultiMethod* point3iconstructor = new scripting::MultiMethod(m_engine, "p3i");
-	point3iconstructor->add(scripting::make_constructor<sad::Point3I>(this));
-	point3iconstructor->add(scripting::make_constructor<sad::Point3I, sad::Point2I>(this));
-	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int>(this));
-	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int, int>(this));
-	this->registerScriptClass("p3i", point3iconstructor);
-
-	// A sad::Rect2D constructor
-	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
-	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D>(this));
-	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
-	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, double, double, double, double>(this));
-	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
-	this->registerScriptClass("r2d", rect2dconstructor);
-
-	// A sad::Rect2I constructor
-	scripting::MultiMethod* rect2iconstructor = new scripting::MultiMethod(m_engine, "r2i");
-	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I>(this));
-	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I>(this));
-	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, int, int, int, int>(this));
-	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
-	this->registerScriptClass("r2i", rect2iconstructor);
-
-	// A sad::Size2D constructor	
-	scripting::MultiMethod* size2dconstructor = new scripting::MultiMethod(m_engine, "s2d");
-	size2dconstructor->add(scripting::make_constructor<sad::Size2D>(this));
-	size2dconstructor->add(scripting::make_constructor<sad::Size2D, double, double>(this));
-	this->registerScriptClass("s2d", size2dconstructor);
-
-	// A sad::Size2I constructor	
-	scripting::MultiMethod* size2iconstructor = new scripting::MultiMethod(m_engine, "s2i");
-	size2iconstructor->add(scripting::make_constructor<sad::Size2I>(this));
-	size2iconstructor->add(scripting::make_constructor<sad::Size2I, unsigned int, unsigned int>(this));
-	this->registerScriptClass("s2i", size2iconstructor);
-
-	// A sad::Color
-	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
-	clrconstructor->add(scripting::make_constructor<sad::Color>(this));
-	clrconstructor->add(scripting::make_constructor<sad::Color, unsigned char, unsigned char, unsigned char>(this));
-	this->registerScriptClass("clr", clrconstructor);
-
-	// A sad::AColor
-	scripting::MultiMethod* aclrconstructor = new scripting::MultiMethod(m_engine, "aclr");
-	aclrconstructor->add(scripting::make_constructor<sad::AColor>(this));
-	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
-	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
-	this->registerScriptClass("aclr", aclrconstructor);   
+	
+	this->initSadTypeConstructors();
+	this->initSceneBindings(v);
 }
 
 scripting::Scripting::~Scripting()
@@ -361,6 +286,14 @@ void scripting::Scripting::showHelp()
 		"	<li><b>E</b> or <b>console</b> - a basic class for all operations in editor"
 		"	<ul>"
 		"		<li>method <b>log</b> - logs all arguments, converting them to string</li>"
+		"		<li>property <b>scenes - holds all scene-related operations</b>"
+		"			<ul>"
+		"				<li>method <b>add()</b>, <b>add(\"name\")</b> - adds scene, named or anonymous</li>"
+		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene by id or by name</li>"
+		"				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
+		"				<li>method <b>moveFront(22)</b>, <b>moveFront(\"name\")</b> - moves scene front in list by id or by name</li>"
+		"			</ul>"
+		"		</li>"
 		"	</ul>"
 		"	</li>"
 		"</ul>"
@@ -369,4 +302,106 @@ void scripting::Scripting::showHelp()
 	hboxLayout->addWidget(edit);
 
 	dlg.exec();
+}
+
+
+void scripting::Scripting::initSadTypeConstructors()
+{
+	
+	// A sad::Point2D constructor	
+	scripting::MultiMethod* point2dconstructor = new scripting::MultiMethod(m_engine, "p2d");
+	point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
+	point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
+	this->registerScriptClass("p2d", point2dconstructor);
+
+	// A sad::Point2I constructor	
+	scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");
+	point2iconstructor->add(scripting::make_constructor<sad::Point2I>(this));
+	point2iconstructor->add(scripting::make_constructor<sad::Point2I, int, int>(this));
+	this->registerScriptClass("p2i", point2iconstructor);
+
+	// A sad::Point3D constructor	
+	scripting::MultiMethod* point3dconstructor = new scripting::MultiMethod(m_engine, "p3d");
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, sad::Point2D>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double>(this));
+	point3dconstructor->add(scripting::make_constructor<sad::Point3D, double, double, double>(this));
+	this->registerScriptClass("p3d", point3dconstructor);
+
+	// A sad::Point3I constructor	
+	scripting::MultiMethod* point3iconstructor = new scripting::MultiMethod(m_engine, "p3i");
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, sad::Point2I>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int>(this));
+	point3iconstructor->add(scripting::make_constructor<sad::Point3I, int, int, int>(this));
+	this->registerScriptClass("p3i", point3iconstructor);
+
+	// A sad::Rect2D constructor
+	scripting::MultiMethod* rect2dconstructor = new scripting::MultiMethod(m_engine, "r2d");
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D>(this));
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D>(this));
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, double, double, double, double>(this));
+	rect2dconstructor->add(scripting::make_constructor<sad::Rect2D, sad::Point2D, sad::Point2D, sad::Point2D, sad::Point2D>(this));
+	this->registerScriptClass("r2d", rect2dconstructor);
+
+	// A sad::Rect2I constructor
+	scripting::MultiMethod* rect2iconstructor = new scripting::MultiMethod(m_engine, "r2i");
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, int, int, int, int>(this));
+	rect2iconstructor->add(scripting::make_constructor<sad::Rect2I, sad::Point2I, sad::Point2I, sad::Point2I, sad::Point2I>(this));
+	this->registerScriptClass("r2i", rect2iconstructor);
+
+	// A sad::Size2D constructor	
+	scripting::MultiMethod* size2dconstructor = new scripting::MultiMethod(m_engine, "s2d");
+	size2dconstructor->add(scripting::make_constructor<sad::Size2D>(this));
+	size2dconstructor->add(scripting::make_constructor<sad::Size2D, double, double>(this));
+	this->registerScriptClass("s2d", size2dconstructor);
+
+	// A sad::Size2I constructor	
+	scripting::MultiMethod* size2iconstructor = new scripting::MultiMethod(m_engine, "s2i");
+	size2iconstructor->add(scripting::make_constructor<sad::Size2I>(this));
+	size2iconstructor->add(scripting::make_constructor<sad::Size2I, unsigned int, unsigned int>(this));
+	this->registerScriptClass("s2i", size2iconstructor);
+
+	// A sad::Color
+	scripting::MultiMethod* clrconstructor = new scripting::MultiMethod(m_engine, "clr");
+	clrconstructor->add(scripting::make_constructor<sad::Color>(this));
+	clrconstructor->add(scripting::make_constructor<sad::Color, unsigned char, unsigned char, unsigned char>(this));
+	this->registerScriptClass("clr", clrconstructor);
+
+	// A sad::AColor
+	scripting::MultiMethod* aclrconstructor = new scripting::MultiMethod(m_engine, "aclr");
+	aclrconstructor->add(scripting::make_constructor<sad::AColor>(this));
+	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
+	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
+	this->registerScriptClass("aclr", aclrconstructor);   
+}
+
+
+void scripting::Scripting::initSceneBindings(QScriptValue& v)
+{
+	QScriptValue scenes = m_engine->newObject();
+
+	// An add method
+	scripting::MultiMethod* add = new scripting::MultiMethod(m_engine, "add");
+	add->add(scripting::make_scripting_call(scripting::addScene, this));
+	add->add(scripting::make_scripting_call(scripting::addNamelessScene, this));
+	m_registered_classes << add;
+	
+	scenes.setProperty("add", m_engine->newObject(add));  // E.scenes.add
+	
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::removeScene, this);	
+	m_registered_classes << remove;
+	scenes.setProperty("remove", m_engine->newObject(remove)); // E.scenes.remove
+
+	scripting::Callable* moveback = scripting::make_scripting_call(scripting::moveSceneBack, this);	
+	m_registered_classes << moveback;
+	scenes.setProperty("moveBack", m_engine->newObject(moveback)); // E.scenes.moveBack
+
+	scripting::Callable* movefront = scripting::make_scripting_call(scripting::moveSceneFront, this);	
+	m_registered_classes << movefront;
+	scenes.setProperty("moveFront", m_engine->newObject(movefront)); // E.scenes.moveFront
+
+	v.setProperty("scenes", scenes); // E.scenes
 }

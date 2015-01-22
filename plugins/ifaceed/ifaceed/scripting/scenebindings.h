@@ -3,33 +3,41 @@
 
 	Describes bindings for editing scenes
  */
+#pragma once
 #include <QScriptContext>
 #include <QScriptEngine>
 
+#include <QString>
+
+#include "scene.h"
+
 namespace scripting
 {
+
+class Scripting;
+
+/*! Adds new named scene to a bindings
+	\param[in] s scripting part
+ */
+unsigned long long addScene(scripting::Scripting* s, QString name);
+/*! Adds new nameless scene
+	\param[in] s scripting part
+ */
+unsigned long long addNamelessScene(scripting::Scripting* s);
 /*! Adds new scene with name from script
-	\param[in] context a context name
-	\param[in] engine an engine name
+	\param[in] s scripting part
+	\param[in] scene scene to be removed
  */
-QScriptValue addScene(QScriptContext *context, QScriptEngine *engine);
-
-/*! Adds new scene with name from script
-	\param[in] context a context name
-	\param[in] engine an engine name
+void removeScene(scripting::Scripting* s, sad::Scene* scene);
+/*! Moves scene back in list
+	\param[in] s scripting part
+	\param[in] scene scene to be removed
  */
-QScriptValue removeScene(QScriptContext *context, QScriptEngine *engine);
-
-/*! Fetches scene and tries to move it back
-	\param[in] context a context name
-	\param[in] engine an engine name
+void moveSceneBack(scripting::Scripting* s, sad::Scene* scene);
+/*! Moves scene front in list
+	\param[in] s scripting part
+	\param[in] scene scene to be removed
  */
-QScriptValue sceneMoveBack(QScriptContext *context, QScriptEngine *engine);
-
-/*! Fetches scene and tries to move it back
-	\param[in] context a context name
-	\param[in] engine an engine name
- */
-QScriptValue sceneMoveFront(QScriptContext *context, QScriptEngine *engine);
+void moveSceneFront(scripting::Scripting* s, sad::Scene* scene);
 
 }

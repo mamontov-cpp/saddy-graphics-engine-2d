@@ -56,6 +56,12 @@ public slots:
 	 */
 	void showHelp();
 protected:
+	/*! Inits inner script with constructors for common types
+	 */
+	void initSadTypeConstructors();
+	/*! Inits all bindings for scenes
+	 */
+	void initSceneBindings(QScriptValue& v);
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;

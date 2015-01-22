@@ -18,7 +18,7 @@ template<
 >
 scripting::Callable* make_scripting_call(_ReturnType (*f)(scripting::Scripting*), scripting::Scripting* s)
 {
-	return new typename scripting::ScriptingFunctionCall<_ReturnType>::template WithArgs0<>(s->engine(), "", f);
+	return new typename scripting::ScriptingFunctionCall<_ReturnType>::WithArgs0(s->engine(), "", f);
 }
 
 /*! Makes new scripting call
