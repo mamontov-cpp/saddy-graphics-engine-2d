@@ -1,34 +1,36 @@
-/*! \file functioncall.h
+/*! \file scriptingcall.h
 	\author HiddenSeeker
 
-	Describes a call from function data
+	Describes a call for functions, that actually have access to scripting capabilities
  */
 #pragma once
 #include "callable.h"
 
 namespace scripting
 {
+
+class Scripting;
 	
-/*! A function call for calling specific simple function
+/*! A call for functions, that actually have access to scripting capabilities
  */
 template<
 	typename _ReturnType
 >
-class FunctionCall
+class ScriptingFunctionCall
 {
 public:
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-class WithArgs0: public scripting:: Callable
+class WithArgs0: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)();
+	typedef _ReturnType (*Signature)(scripting::Scripting*);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 0 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -57,32 +59,33 @@ public:
 	}
 
 	/*! Calls  a function
+		\param[in] ctx context
 		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext*, QScriptEngine* engine)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
 		), engine);
 	}
 protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
 template<
 	typename _ArgType0
 >
-class WithArgs1: public scripting:: Callable
+class WithArgs1: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 1 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -118,7 +121,7 @@ public:
 	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value()
 		), engine);
 	}
@@ -126,7 +129,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -134,14 +137,14 @@ template<
 	typename _ArgType0,
 	typename _ArgType1
 >
-class WithArgs2: public scripting:: Callable
+class WithArgs2: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -179,7 +182,7 @@ public:
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value()
 		), engine);
@@ -188,7 +191,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -197,14 +200,14 @@ template<
 	typename _ArgType1,
 	typename _ArgType2
 >
-class WithArgs3: public scripting:: Callable
+class WithArgs3: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 3 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -244,7 +247,7 @@ public:
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value()
@@ -254,7 +257,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -264,14 +267,14 @@ template<
 	typename _ArgType2,
 	typename _ArgType3
 >
-class WithArgs4: public scripting:: Callable
+class WithArgs4: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 4 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -313,7 +316,7 @@ public:
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -324,7 +327,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -335,14 +338,14 @@ template<
 	typename _ArgType3,
 	typename _ArgType4
 >
-class WithArgs5: public scripting:: Callable
+class WithArgs5: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 5 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -386,7 +389,7 @@ public:
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -398,7 +401,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -410,14 +413,14 @@ template<
 	typename _ArgType4,
 	typename _ArgType5
 >
-class WithArgs6: public scripting:: Callable
+class WithArgs6: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 6 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -463,7 +466,7 @@ public:
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -476,7 +479,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -489,14 +492,14 @@ template<
 	typename _ArgType5,
 	typename _ArgType6
 >
-class WithArgs7: public scripting:: Callable
+class WithArgs7: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 7 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -544,7 +547,7 @@ public:
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -558,7 +561,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -572,14 +575,14 @@ template<
 	typename _ArgType6,
 	typename _ArgType7
 >
-class WithArgs8: public scripting:: Callable
+class WithArgs8: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 8 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -629,7 +632,7 @@ public:
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -644,7 +647,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -659,14 +662,14 @@ template<
 	typename _ArgType7,
 	typename _ArgType8
 >
-class WithArgs9: public scripting:: Callable
+class WithArgs9: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 9 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -718,7 +721,7 @@ public:
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -734,11 +737,10 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -751,14 +753,14 @@ template<
 	typename _ArgType8,
 	typename _ArgType9
 >
-class WithArgs10: public scripting:: Callable
+class WithArgs10: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 10 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -812,7 +814,7 @@ public:
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -829,7 +831,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -846,14 +848,14 @@ template<
 	typename _ArgType9,
 	typename _ArgType10
 >
-class WithArgs11: public scripting:: Callable
+class WithArgs11: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 11 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -909,7 +911,7 @@ public:
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -927,7 +929,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -945,14 +947,14 @@ template<
 	typename _ArgType10,
 	typename _ArgType11
 >
-class WithArgs12: public scripting:: Callable
+class WithArgs12: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 12 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1010,7 +1012,7 @@ public:
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1029,7 +1031,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1048,14 +1050,14 @@ template<
 	typename _ArgType11,
 	typename _ArgType12
 >
-class WithArgs13: public scripting:: Callable
+class WithArgs13: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 13 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1115,7 +1117,7 @@ public:
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1135,7 +1137,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1155,14 +1157,14 @@ template<
 	typename _ArgType12,
 	typename _ArgType13
 >
-class WithArgs14: public scripting:: Callable
+class WithArgs14: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 14 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1224,7 +1226,7 @@ public:
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1245,7 +1247,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1266,14 +1268,14 @@ template<
 	typename _ArgType13,
 	typename _ArgType14
 >
-class WithArgs15: public scripting:: Callable
+class WithArgs15: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 15 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1337,7 +1339,7 @@ public:
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1359,7 +1361,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a functional  call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1381,14 +1383,14 @@ template<
 	typename _ArgType14,
 	typename _ArgType15
 >
-class WithArgs16: public scripting:: Callable
+class WithArgs16: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
+	typedef _ReturnType (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functional call for a function with 16 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1454,7 +1456,7 @@ public:
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
 		sad::Maybe<_ArgType15> value15 = scripting::ToValue<_ArgType15>::perform(ctx->argument(15));
-		return scripting::FromValue<_ReturnType>::perform(m_f(
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1479,25 +1481,25 @@ protected:
 
 };
 
-/*! A function call for calling specific simple function with void signature
+/*! A function call with scripting capabilities for void signature
  */
 template<
 >
-class FunctionCall<void>
+class ScriptingFunctionCall<void>
 {
 public:
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
-class WithArgs0: public scripting:: Callable
+class WithArgs0: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)();
+	typedef void (*Signature)(scripting::Scripting*);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1507,7 +1509,7 @@ public:
 		
 	}
 
-    /*! Can not be inherited
+	/*! Can be inherited
 	 */
     inline ~WithArgs0()
 	{
@@ -1527,10 +1529,11 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-    inline QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+    inline QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
 		);
 		return ctx->thisObject();
 	}
@@ -1538,21 +1541,22 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0
 >
-class WithArgs1: public scripting:: Callable
+class WithArgs1: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1583,11 +1587,12 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value()
 		);
 		return ctx->thisObject();
@@ -1596,22 +1601,23 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1
 >
-class WithArgs2: public scripting:: Callable
+class WithArgs2: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1643,12 +1649,13 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value()
 		);
@@ -1658,23 +1665,24 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
 	typename _ArgType2
 >
-class WithArgs3: public scripting:: Callable
+class WithArgs3: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1707,13 +1715,14 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value()
@@ -1724,24 +1733,25 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
 	typename _ArgType2,
 	typename _ArgType3
 >
-class WithArgs4: public scripting:: Callable
+class WithArgs4: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1775,14 +1785,15 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1794,10 +1805,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1805,14 +1817,14 @@ template<
 	typename _ArgType3,
 	typename _ArgType4
 >
-class WithArgs5: public scripting:: Callable
+class WithArgs5: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1847,15 +1859,16 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1868,10 +1881,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1880,14 +1894,14 @@ template<
 	typename _ArgType4,
 	typename _ArgType5
 >
-class WithArgs6: public scripting:: Callable
+class WithArgs6: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1923,8 +1937,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -1932,7 +1947,7 @@ public:
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1946,10 +1961,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1959,14 +1975,14 @@ template<
 	typename _ArgType5,
 	typename _ArgType6
 >
-class WithArgs7: public scripting:: Callable
+class WithArgs7: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2003,8 +2019,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2013,7 +2030,7 @@ public:
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2028,10 +2045,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2042,14 +2060,14 @@ template<
 	typename _ArgType6,
 	typename _ArgType7
 >
-class WithArgs8: public scripting:: Callable
+class WithArgs8: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2087,8 +2105,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2098,7 +2117,7 @@ public:
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2114,10 +2133,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2129,14 +2149,14 @@ template<
 	typename _ArgType7,
 	typename _ArgType8
 >
-class WithArgs9: public scripting:: Callable
+class WithArgs9: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2175,8 +2195,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2187,7 +2208,7 @@ public:
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2204,10 +2225,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2220,14 +2242,14 @@ template<
 	typename _ArgType8,
 	typename _ArgType9
 >
-class WithArgs10: public scripting:: Callable
+class WithArgs10: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2267,8 +2289,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2280,7 +2303,7 @@ public:
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2298,10 +2321,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2315,14 +2339,14 @@ template<
 	typename _ArgType9,
 	typename _ArgType10
 >
-class WithArgs11: public scripting:: Callable
+class WithArgs11: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2363,8 +2387,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2377,7 +2402,7 @@ public:
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2396,10 +2421,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2414,14 +2440,14 @@ template<
 	typename _ArgType10,
 	typename _ArgType11
 >
-class WithArgs12: public scripting:: Callable
+class WithArgs12: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2463,8 +2489,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2478,7 +2505,7 @@ public:
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2498,10 +2525,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2517,14 +2545,14 @@ template<
 	typename _ArgType11,
 	typename _ArgType12
 >
-class WithArgs13: public scripting:: Callable
+class WithArgs13: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2567,8 +2595,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2583,7 +2612,7 @@ public:
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2604,10 +2633,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2624,14 +2654,14 @@ template<
 	typename _ArgType12,
 	typename _ArgType13
 >
-class WithArgs14: public scripting:: Callable
+class WithArgs14: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2675,8 +2705,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2692,7 +2723,7 @@ public:
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2714,10 +2745,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2735,14 +2767,14 @@ template<
 	typename _ArgType13,
 	typename _ArgType14
 >
-class WithArgs15: public scripting:: Callable
+class WithArgs15: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2787,8 +2819,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2805,7 +2838,7 @@ public:
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2828,10 +2861,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a function with scripting capablities call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2850,14 +2884,14 @@ template<
 	typename _ArgType14,
 	typename _ArgType15
 >
-class WithArgs16: public scripting:: Callable
+class WithArgs16: public scripting::Callable
 {
 public:
 	/*! A signature type for creating objects
 	 */
-	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
+	typedef void (*Signature)(scripting::Scripting*, _ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a functioncal call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2903,8 +2937,9 @@ public:
 
 	/*! Calls  a function
 		\param[in] ctx context
+		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2922,7 +2957,7 @@ public:
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
 		sad::Maybe<_ArgType15> value15 = scripting::ToValue<_ArgType15>::perform(ctx->argument(15));
-		m_f(
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
