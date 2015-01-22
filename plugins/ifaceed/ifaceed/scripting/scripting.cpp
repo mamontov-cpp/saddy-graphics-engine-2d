@@ -4,6 +4,7 @@
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
+#include "makescriptingcall.h"
 
 #include "../mainpanel.h"
 

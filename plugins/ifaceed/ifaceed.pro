@@ -234,7 +234,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/acolor.h \
     ifaceed/scripting/color.h \
     ifaceed/scripting/size2d.h \
-    ifaceed/scripting/size2i.h
+    ifaceed/scripting/size2i.h \
+    ifaceed/scripting/scriptingcall.h \
+    ifaceed/scripting/makescriptingcall.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
