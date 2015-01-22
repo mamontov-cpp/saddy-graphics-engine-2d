@@ -230,7 +230,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/point3d.h \
     ifaceed/scripting/point3i.h \
     ifaceed/scripting/rect2d.h \
-    ifaceed/scripting/rect2i.h
+    ifaceed/scripting/rect2i.h \
+    ifaceed/scripting/acolor.h \
+    ifaceed/scripting/color.h \
+    ifaceed/scripting/size2d.h \
+    ifaceed/scripting/size2i.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -409,7 +413,11 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/point3d.cpp \
     ifaceed/scripting/point3i.cpp \
     ifaceed/scripting/rect2d.cpp \
-    ifaceed/scripting/rect2i.cpp
+    ifaceed/scripting/rect2i.cpp \
+    ifaceed/scripting/acolor.cpp \
+    ifaceed/scripting/color.cpp \
+    ifaceed/scripting/size2d.cpp \
+    ifaceed/scripting/size2i.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
