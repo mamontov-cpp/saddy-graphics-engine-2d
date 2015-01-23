@@ -152,6 +152,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "aclr";
 	functionlist << "set";
 	functionlist << "get";
+	functionlist << "attr";
 	functionlist << "moveBack";
 	functionlist << "moveFront";
 
@@ -174,6 +175,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "remove(\"name\")";
 	functionlist << "set";
 	functionlist << "get";
+	functionlist << "attr";
 	functionlist << "moveBack(\"name\")";
 	functionlist << "moveFront(\"name\")";
 
