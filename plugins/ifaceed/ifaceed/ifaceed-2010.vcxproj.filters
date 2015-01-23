@@ -210,6 +210,12 @@
     <Filter Include="Source Files\scripting">
       <UniqueIdentifier>{459aba1d-7493-4957-bfea-240e0b6c01d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting\scenes">
+      <UniqueIdentifier>{3357b173-cefe-40b2-a78c-1d82c67c0fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\scenes">
+      <UniqueIdentifier>{31edf155-bcc5-4986-82ac-c154666a8043}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1580,6 +1586,9 @@
     <ClCompile Include="scripting\acolor.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\scenes\scenesnamesetter.cpp">
+      <Filter>Source Files\scripting\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2000,6 +2009,12 @@
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\abstractsetter.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenes\scenesnamesetter.h">
+      <Filter>Header Files\scripting\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstractgetter.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
