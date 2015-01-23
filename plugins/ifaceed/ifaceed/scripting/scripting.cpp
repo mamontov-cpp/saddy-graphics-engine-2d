@@ -220,6 +220,7 @@ void scripting::Scripting::showHelp()
 		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
 		"					</ul>"
 		"				</li>"
+		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
 		"			</ul>"
 		"		</li>"
 		"	</ul>"
@@ -345,4 +346,18 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 	scenes.setProperty("get", m_engine->newObject(get)); // E.scenes.set
 
 	v.setProperty("scenes", scenes); // E.scenes
+
+	m_engine->evaluate(
+		"E.scenes.attr = function() {"  
+		"	if (arguments.length == 2)"
+		"	{"
+        "		return E.scenes.get(arguments[0], arguments[1]);"
+		"	}"
+		"	if (arguments.length == 3)"
+		"	{"
+        "		return E.scenes.set(arguments[0], arguments[1], arguments[2]);"
+		"	}"
+		"	throw new Error(\"Specify 2 or 3 arguments\");"
+		"};"
+	);
 }
