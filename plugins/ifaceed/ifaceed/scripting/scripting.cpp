@@ -1,106 +1,25 @@
 #include "scripting.h"
 #include "scenebindings.h"
-#include "registerconstructor.h"
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
 #include "makescriptingcall.h"
+#include "abstractgetter.h"
 
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
 
-#include "../history/scenes/sceneschangename.h"
+#include "scenes/scenesnamesetter.h"
 
 Q_DECLARE_METATYPE(QScriptContext*)
-
-/*! A universal setting property for object
- */
-static  QScriptValue setCustomObjectProperty(QScriptContext *context, QScriptEngine *engine)
-{
-	QScriptValue main = engine->globalObject().property("E");
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
-
-	sad::db::Object* result = NULL;
-	if (context->argumentCount() != 3)
-    {
-        context->throwError(QScriptContext::SyntaxError, "set() accepts only three arguments");
-        return main;
-    }
-
-	bool handled = false;
-	//	Querying object
-	if (context->argument(0).isString())
-	{
-		sad::Vector<sad::db::Object*> os = sad::Renderer::ref()->database("")->queryByName(context->argument(0).toString().toStdString());
-		if(os.size())
-		{
-			result  = os[0];
-		}
-	}
-	else
-	{
-		if (context->argument(0).isNumber())
-		{
-			result = sad::Renderer::ref()->database("")->queryByMajorId(context->argument(0).toInt32());
-		}
-		else
-		{
-			 context->throwError(QScriptContext::SyntaxError, "set() : first argument must be string or number");
-			 return main;
-		}
-	}
-
-	if (result == NULL)
-	{
-		context->throwError(QScriptContext::SyntaxError, "set() : first argument does not names an object");
-		return main;
-	}
-
-	QString propertyname;
-	if (context->argument(1).isString())
-	{
-		propertyname = context->argument(1).toString();
-	}
-
-
-	core::Editor* editor =  e->panel()->editor();
-	if (propertyname.size() != 0)
-	{
-		if (result->isInstanceOf("sad::Scene"))
-		{
-			handled = true;
-			if (context->argument(2).isString() && propertyname == "name")
-			{
-				sad::Scene* s = static_cast<sad::Scene*>(result);
-				sad::String oldname = s->objectName();
-				sad::String newname = context->argument(2).toString().toStdString();
-
-				if (newname != oldname)
-				{
-					history::Command* c = new history::scenes::ChangeName(s, oldname, newname);								
-					editor->currentBatchCommand()->add(c);
-					c->commit(editor);
-				}
-			}
-		}
-	}
-
-	if (handled == false)
-	{
-		context->throwError(QScriptContext::SyntaxError, "set(): Unknown object");
-	}
-
-	return main;
-}
 
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
     QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
     v.setProperty("log", m_engine->newFunction(scripting::scriptinglog));  // E.log 
-	v.setProperty("set", m_engine->newFunction(setCustomObjectProperty)); // E.set
-
+	
 	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
 	
@@ -292,6 +211,15 @@ void scripting::Scripting::showHelp()
 		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene by id or by name</li>"
 		"				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
 		"				<li>method <b>moveFront(22)</b>, <b>moveFront(\"name\")</b> - moves scene front in list by id or by name</li>"
+		"				<li>method <b>set(\"scenename\", \"propertyname\", \"value\")</b> - sets property of scene. You can fetch only name by specifying \"name\" as second parameter</li>"
+		"				<li>method <b>get(\"scenename\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"					<ul>"
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"layer\"</b>  - a layer of scene in list. The less it is, the more early scene is drawn</li>"
+		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
+		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
+		"					</ul>"
+		"				</li>"
 		"			</ul>"
 		"		</li>"
 		"	</ul>"
@@ -402,6 +330,19 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 	scripting::Callable* movefront = scripting::make_scripting_call(scripting::moveSceneFront, this);	
 	m_registered_classes << movefront;
 	scenes.setProperty("moveFront", m_engine->newObject(movefront)); // E.scenes.moveFront
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+	set->add(new scripting::scenes::NameSetter(m_engine));
+	m_registered_classes << set;
+	scenes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+	get->add(new scripting::AbstractGetter<sad::Scene*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::Scene*, unsigned int>(m_engine, "layer"));
+	get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>(m_engine, "minorid"));
+	m_registered_classes << get;
+	scenes.setProperty("get", m_engine->newObject(get)); // E.scenes.set
 
 	v.setProperty("scenes", scenes); // E.scenes
 }
