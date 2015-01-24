@@ -170,9 +170,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "aclr(255, 255, 255, 0)";
 	functionlist << "s2d(0, 0)";
 	functionlist << "s2i(0, 0)";
+	functionlist << "db";
 	functionlist << "scenes";
-	functionlist << "add(\"name\")";
-	functionlist << "remove(\"name\")";
+	functionlist << "add";
+	functionlist << "remove";
 	functionlist << "set";
 	functionlist << "get";
 	functionlist << "attr";
@@ -1975,28 +1976,11 @@ void MainPanel::fixDatabase()
 
 void MainPanel::addDatabaseProperty()
 {
-	sad::db::Database* db = sad::Renderer::ref()->database("");
-	sad::String propname = ui.txtDatabasePropertyName->text().toStdString();
-	if (db->propertyByName(propname) == NULL && propname.size()!= 0)
-	{
-		gui::table::Delegate* d  = m_dbdelegate_factory.create(ui.cmbDatabasePropertyType->currentText());
-		sad::db::Property* prop = m_property_factory.create(ui.cmbDatabasePropertyType->currentText().toStdString());
-		if (d && prop)
-		{
-			sad::Renderer::ref()->database("")->addProperty(propname, prop);
-			d->setPropertyName(propname.c_str());
-			d->linkToDatabase();
-			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
-			d->add();
-			history::database::NewProperty* p = new history::database::NewProperty(d);
-			m_editor->history()->add(p);
-		}
-		else
-		{
-			delete d;
-			delete prop;
-		}
-	}
+	this->scriptableAddProperty(
+		ui.cmbDatabasePropertyType->currentText().toStdString(),
+		ui.txtDatabasePropertyName->text().toStdString(),
+		true
+	);
 }
 
 void MainPanel::addScene()
@@ -2552,6 +2536,44 @@ void MainPanel::scriptableRemoveScene(sad::Scene* scene, bool fromeditor)
 		this->m_editor->history()->add(c);
 		c->commit(m_editor);
 	}
+}
+
+
+bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor)
+{
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	bool result = false;
+	if (db->propertyByName(propertyname) == NULL && propertyname.size()!= 0)
+	{
+		gui::table::Delegate* d  = m_dbdelegate_factory.create(propertytype.c_str());
+		sad::db::Property* prop = m_property_factory.create(propertytype);
+		if (d && prop)
+		{
+			result = true;
+
+			sad::Renderer::ref()->database("")->addProperty(propertyname, prop);
+			d->setPropertyName(propertyname.c_str());
+			d->linkToDatabase();
+			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
+			d->add();
+			
+			history::database::NewProperty* p = new history::database::NewProperty(d);
+			if (fromeditor)
+			{
+				m_editor->history()->add(p);
+			}
+			else
+			{
+				m_editor->currentBatchCommand()->add(p);
+			}
+		}
+		else
+		{
+			delete d;
+			delete prop;
+		}
+	}
+	return result;
 }
 
 void MainPanel::save()

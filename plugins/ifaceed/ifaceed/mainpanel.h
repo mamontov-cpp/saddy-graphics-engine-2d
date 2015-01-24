@@ -523,6 +523,12 @@ public:
 		\param[in] fromeditor whether it's run from editor or script
 	 */
 	void scriptableRemoveScene(sad::Scene* scene, bool fromeditor);
+	/*! Adds new scriptable property to a database
+		\param[in] propertytype a type of property
+		\param[in] propertyname a name of property
+		\param[in] fromeditor a from editor
+	 */
+	bool scriptableAddProperty(const sad::String& propertytype, const sad::String& propertyname, bool fromeditor);
 public slots:
     /*! Fires signal for updating UI from selected item
 	 */
