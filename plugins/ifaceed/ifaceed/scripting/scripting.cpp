@@ -1,5 +1,6 @@
 #include "scripting.h"
 #include "scenebindings.h"
+#include "databasebindings.h"
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
@@ -24,6 +25,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
 	
 	this->initSadTypeConstructors();
+	this->initDatabasePropertyBindings(v);
 	this->initSceneBindings(v);
 }
 
@@ -307,6 +309,16 @@ void scripting::Scripting::initSadTypeConstructors()
 	this->registerScriptClass("aclr", aclrconstructor);   
 }
 
+void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
+{
+	QScriptValue db = m_engine->newObject();
+	
+	scripting::Callable* add = scripting::make_scripting_call(scripting::addProperty, this);	
+	m_registered_classes << add;
+	db.setProperty("add", m_engine->newObject(add)); // E.db.add
+
+	v.setProperty("db", db); // E.db
+}
 
 void scripting::Scripting::initSceneBindings(QScriptValue& v)
 {

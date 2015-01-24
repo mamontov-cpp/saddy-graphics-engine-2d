@@ -60,8 +60,14 @@ protected:
 	 */
 	void initSadTypeConstructors();
 	/*! Inits all bindings for scenes
+		\param[out] v a global value
+	*/
+	void initDatabasePropertyBindings(QScriptValue& v);
+	/*! Inits all bindings for scenes
+		\param[out] v a global value
 	 */
 	void initSceneBindings(QScriptValue& v);
+
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;

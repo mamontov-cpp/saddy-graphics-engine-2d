@@ -1589,6 +1589,9 @@
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp">
       <Filter>Source Files\scripting\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\databasebindings.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2015,6 +2018,9 @@
       <Filter>Header Files\scripting\scenes</Filter>
     </ClInclude>
     <ClInclude Include="scripting\abstractgetter.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\databasebindings.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
