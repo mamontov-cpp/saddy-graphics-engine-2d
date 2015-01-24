@@ -12,6 +12,8 @@
 
 #include <refcountable.h>
 
+class MainPanel;
+
 namespace history
 {
 	
@@ -23,8 +25,9 @@ class NewProperty: public history::Command
 public:
 	 /*! Constructs new property for delegate
 		\param[in] d delegate
+		\param[in] p panel
 	  */
-	 NewProperty(gui::table::Delegate* d);
+	 NewProperty(gui::table::Delegate* d, MainPanel* p);
 	 /*! Erases link to a property
 	  */
 	 virtual ~NewProperty();
@@ -43,6 +46,9 @@ protected:
 	/*! A delegate for removed property
 	 */
 	gui::table::Delegate * m_delegate;
+	/*! A panel
+	 */
+	MainPanel* m_panel;
 };
 
 }

@@ -316,7 +316,11 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 	scripting::Callable* add = scripting::make_scripting_call(scripting::addProperty, this);	
 	m_registered_classes << add;
 	db.setProperty("add", m_engine->newObject(add)); // E.db.add
-
+	
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::removeProperty, this);	
+	m_registered_classes << remove;
+	db.setProperty("remove", m_engine->newObject(remove)); // E.db.remove
+	
 	v.setProperty("db", db); // E.db
 }
 

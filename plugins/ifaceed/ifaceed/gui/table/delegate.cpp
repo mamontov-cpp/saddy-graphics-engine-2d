@@ -127,9 +127,16 @@ void gui::table::Delegate::remove()
 void gui::table::Delegate::removeWithCommand()
 {
 	m_editor->panel()->takeDelegateByPropertyName(this->propertyName());
-	history::database::RemoveProperty* p = new history::database::RemoveProperty(this);
+	history::database::RemoveProperty* p = new history::database::RemoveProperty(this, m_editor->panel());
 	p->commit();
-	m_editor->history()->add(p);
+	if (m_editor->currentBatchCommand())
+	{
+		m_editor->currentBatchCommand()->add(p);
+	}
+	else
+	{
+		m_editor->history()->add(p);		
+	}
 }
 
 int gui::table::Delegate::findPropertyInTable()

@@ -1,6 +1,8 @@
 #include "newproperty.h"
 
-history::database::NewProperty::NewProperty(gui::table::Delegate* d)
+#include "../../mainpanel.h"
+
+history::database::NewProperty::NewProperty(gui::table::Delegate* d, MainPanel* p)
 {
 	m_delegate = d;
 	m_delegate->addRef();
@@ -9,6 +11,8 @@ history::database::NewProperty::NewProperty(gui::table::Delegate* d)
 	->database("")
 	->propertyByName(d->propertyName().toStdString())
 	->clone();
+
+	m_panel =  p;
 }
 
 history::database::NewProperty::~NewProperty()
@@ -25,6 +29,8 @@ void history::database::NewProperty::commit(core::Editor * ob)
 	->addProperty(m_delegate->propertyName().toStdString(), m_property->clone());
 
 	m_delegate->add();
+
+	m_panel->delegatesByName().insert(m_delegate->propertyName().toStdString(), m_delegate);
 }
 
 void history::database::NewProperty::rollback(core::Editor * ob)
@@ -34,4 +40,6 @@ void history::database::NewProperty::rollback(core::Editor * ob)
 	->removeProperty(m_delegate->propertyName().toStdString());
 	
 	m_delegate->remove();
+
+	m_panel->delegatesByName().remove(m_delegate->propertyName().toStdString());
 }

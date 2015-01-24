@@ -673,6 +673,11 @@ core::Editor* MainPanel::editor() const
     return m_editor;
 }
 
+sad::Hash<sad::String, gui::table::Delegate*>& MainPanel::delegatesByName()
+{
+	return m_delegates_by_names;
+}
+
 gui::SceneNodeActions* MainPanel::sceneNodeActions() const
 {
     return m_scene_node_actions;
@@ -736,6 +741,7 @@ void MainPanel::viewDatabase()
 	{
 		it.value()->delRef();
 	}
+	m_delegates_by_names.clear();
 
 	for(sad::db::Database::Properties::const_iterator it = db->begin();
 		it != db->end();
@@ -750,7 +756,10 @@ void MainPanel::viewDatabase()
 				d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
 				d->setPropertyName(it.key().c_str());
 				d->linkToDatabase();
-				d->add();				
+				d->add();
+
+				m_delegates_by_names.insert(it.key().c_str(), d);
+				m_property_delegates.insert(it.key().c_str(), d);
 			}
 		}
 	}
@@ -2557,8 +2566,10 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 			d->linkToDatabase();
 			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
 			d->add();
+
+			m_delegates_by_names.insert(propertyname, d);
 			
-			history::database::NewProperty* p = new history::database::NewProperty(d);
+			history::database::NewProperty* p = new history::database::NewProperty(d, this);
 			if (fromeditor)
 			{
 				m_editor->history()->add(p);
