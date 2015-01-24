@@ -84,6 +84,9 @@ public:
         \return editor
      */
     core::Editor* editor() const;
+	/*! A delegates by their property names
+	 */
+	sad::Hash<sad::String, gui::table::Delegate*>& delegatesByName();
 	/*! Returns actions for scene nodes
 	    \return actions for scene nodes
 	 */
@@ -559,6 +562,9 @@ protected:
         before user added any property
      */
     sad::PtrHash<sad::String, gui::table::Delegate> m_property_delegates;
+	/*! A list of delegates by their names
+	 */
+	sad::Hash<sad::String, gui::table::Delegate*> m_delegates_by_names;
     /*! A delegate factory for creating rows in db
      */
     gui::table::DelegateFactory m_dbdelegate_factory;

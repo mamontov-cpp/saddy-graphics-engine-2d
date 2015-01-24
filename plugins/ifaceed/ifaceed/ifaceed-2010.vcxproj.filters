@@ -123,9 +123,6 @@
     <Filter Include="Header Files\history\label">
       <UniqueIdentifier>{c101e37e-6cad-40f1-902c-d10fea77b3d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\history\sprite2d">
-      <UniqueIdentifier>{6474925e-8f36-4357-9c36-6da3c9f6cfc0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\history\customobject">
       <UniqueIdentifier>{f3e0b1e7-c359-46da-ba6e-6ce9e9709401}</UniqueIdentifier>
     </Filter>
@@ -215,6 +212,9 @@
     </Filter>
     <Filter Include="Source Files\scripting\scenes">
       <UniqueIdentifier>{31edf155-bcc5-4986-82ac-c154666a8043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\history\sprite2d">
+      <UniqueIdentifier>{6474925e-8f36-4357-9c36-6da3c9f6cfc0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
