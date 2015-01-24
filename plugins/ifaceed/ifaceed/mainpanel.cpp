@@ -131,6 +131,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	QStringList constantslist;
 	constantslist << "E";
 	constantslist << "console";
+	constantslist << "db";
 	constantslist << "scenes";
 	constantslist << "add";
 	constantslist << "remove";
