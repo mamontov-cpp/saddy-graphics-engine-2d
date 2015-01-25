@@ -49,6 +49,9 @@ protected:
 	/*! An editable panel
 	 */
 	MainPanel* m_panel;
+	/*! A row, where delegate has been previously located
+	 */
+	int m_row;
 };
 
 }

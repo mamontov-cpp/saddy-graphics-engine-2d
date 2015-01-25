@@ -70,9 +70,14 @@ const QString& gui::table::Delegate::propertyName() const
 
 void gui::table::Delegate::add()
 {
-    m_widget->insertRow(m_widget->rowCount());
-    unsigned int lastrow = m_widget->rowCount() - 1;
-    m_row = lastrow;
+	this->insert(m_widget->rowCount());
+}
+
+void gui::table::Delegate::insert(int row)
+{
+	m_widget->insertRow(row);
+    unsigned int lastrow = row;
+    m_row = row;
 
     QTableWidgetItem* item = new QTableWidgetItem(this->propertyName());
     item->setFlags(item->flags()
