@@ -3,6 +3,7 @@
  *
  *  Contains custom conversions from QScriptValue
  */
+#pragma once
 #include <QString>
 #include <QScriptValue>
 #include <maybe.h>
@@ -21,6 +22,7 @@ class Sprite2D;
 
 namespace db
 {
+class Object;
 
 namespace custom
 {
@@ -106,6 +108,7 @@ DEFINE_TO_VALUE_FOR_TYPE( unsigned int )
 DEFINE_TO_VALUE_FOR_TYPE( unsigned long )
 DEFINE_TO_VALUE_FOR_TYPE( unsigned long long )
 DEFINE_TO_VALUE_FOR_TYPE( unsigned short )
+DEFINE_TO_VALUE_FOR_TYPE( sad::db::Object* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Scene* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::SceneNode* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Label* )

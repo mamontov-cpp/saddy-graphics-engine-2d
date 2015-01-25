@@ -2023,6 +2023,9 @@
     <ClInclude Include="scripting\databasebindings.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\scriptingcall.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

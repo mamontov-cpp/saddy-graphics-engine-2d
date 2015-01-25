@@ -155,7 +155,11 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "aclr";
 	functionlist << "set";
 	functionlist << "get";
+	functionlist << "list";
 	functionlist << "attr";
+	functionlist << "type";
+	functionlist << "readableProperties";
+	functionlist << "writableProperties";
 	functionlist << "moveBack";
 	functionlist << "moveFront";
 
@@ -178,8 +182,12 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "add";
 	functionlist << "remove";
 	functionlist << "set";
+	functionlist << "list";
 	functionlist << "get";
 	functionlist << "attr";
+	functionlist << "type";
+	functionlist << "readableProperties";
+	functionlist << "writableProperties";
 	functionlist << "moveBack(\"name\")";
 	functionlist << "moveFront(\"name\")";
 

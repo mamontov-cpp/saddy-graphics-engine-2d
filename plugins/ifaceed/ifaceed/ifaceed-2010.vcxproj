@@ -2447,6 +2447,7 @@
     <ClInclude Include="scripting\registerconstructor.h" />
     <ClInclude Include="scripting\scenebindings.h" />
     <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
+    <ClInclude Include="scripting\scriptingcall.h" />
     <ClInclude Include="scripting\scriptinglog.h" />
     <CustomBuild Include="scripting\size2d.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

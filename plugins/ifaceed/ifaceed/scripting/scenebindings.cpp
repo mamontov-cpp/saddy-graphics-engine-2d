@@ -1,11 +1,16 @@
 #include "scripting.h"
 #include "scenebindings.h"
+#include "fromvalue.h"
 
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
 
 #include "../history/scenes/sceneslayerswap.h"
+
+#include <renderer.h>
+
+#include <db/dbdatabase.h>
 
 Q_DECLARE_METATYPE(sad::Point2D)
 Q_DECLARE_METATYPE(sad::Rect2D)
@@ -52,4 +57,24 @@ void scripting::moveSceneFront(scripting::Scripting* s, sad::Scene* scene)
 		panel->editor()->currentBatchCommand()->add(c);
 		c->commit(panel->editor());
 	}
+}
+
+QScriptValue scripting::listScenes(QScriptContext* ctx, QScriptEngine* engine)
+{
+	if (ctx->argumentCount() != 0)
+	{
+		ctx->throwError("list: accepts only 0 arguments");
+	}
+
+	sad::Vector<unsigned long long> list;
+	sad::db::Database* db = sad::Renderer::ref()->database("");
+	sad::Vector<sad::db::Object*> objs;
+	db->table("scenes")->objects(objs);
+	QScriptValue v = engine->newArray(objs.size());
+	for(size_t i = 0; i < objs.size(); i++)
+	{
+		v.setProperty(i,scripting::FromValue<unsigned long long>::perform(objs[i]->MajorId, engine));
+	}
+
+	return v;
 }
