@@ -70,6 +70,14 @@ QScriptValue scripting::listScenes(QScriptContext* ctx, QScriptEngine* engine)
 	sad::db::Database* db = sad::Renderer::ref()->database("");
 	sad::Vector<sad::db::Object*> objs;
 	db->table("scenes")->objects(objs);
+	for(size_t i = 0; i < objs.size(); i++)
+	{
+		if (objs[i]->Active == false)
+		{
+			objs.removeAt(i);
+			--i;
+		}
+	}
 	QScriptValue v = engine->newArray(objs.size());
 	for(size_t i = 0; i < objs.size(); i++)
 	{
