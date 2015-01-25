@@ -73,6 +73,11 @@ public:
 	/*! Adds a delegate to table
 	 */
 	virtual void add();
+	/*! Inserts a delegate to specified place of
+		table
+		\param[in] row a row
+	 */
+	virtual void insert(int row);
 	/*! Sets a value for a delegate. Used by commands to set value
 		\param[in] v a value
 	 */

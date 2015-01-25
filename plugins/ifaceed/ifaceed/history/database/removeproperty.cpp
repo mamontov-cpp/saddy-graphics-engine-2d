@@ -13,6 +13,16 @@ history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d, MainP
 	->clone();
 
 	m_panel = panel;
+
+	m_row = -1;
+	QTableWidget* props = m_panel->UI()->twDatabaseProperties;
+	for(size_t i = 0; i < props->rowCount() && m_row == -1; i++)
+	{
+		if (props->item(i, 0)->text() == d->propertyName())
+		{
+			m_row = i;
+		}
+	}
 }
 
 history::database::RemoveProperty::~RemoveProperty()
@@ -38,8 +48,13 @@ void history::database::RemoveProperty::rollback(core::Editor * ob)
 	sad::Renderer::ref()
 	->database("")
 	->addProperty(m_delegate->propertyName().toStdString(), m_property->clone());
-
-	m_delegate->add();
-
+	if (m_row == -1)
+	{
+		m_delegate->add();
+	}
+	else
+	{
+		m_delegate->insert(m_row);
+	}
 	m_panel->delegatesByName().insert(m_delegate->propertyName().toStdString(), m_delegate);
 }
