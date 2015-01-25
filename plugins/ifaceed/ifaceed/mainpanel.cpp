@@ -6,6 +6,8 @@
 #include "core/shared.h"
 #include "core/selection.h"
 
+#include "core/borders/selectionborder.h"
+
 #include "history/database/newproperty.h"
 
 #include "history/scenes/scenesadd.h"
@@ -666,6 +668,11 @@ void MainPanel::setEditor(core::Editor* editor)
 	ui.cmbAddedAnimationInstanceType->clear();
 	ui.cmbAddedAnimationInstanceType->addItem("Instance");
 	ui.cmbAddedAnimationInstanceType->addItem("WayInstance");
+
+	if (editor)
+	{
+		editor->selectionBorder()->toggleShowHotspot(ui.tabTypes->currentIndex() == 0);
+	}
 }
 
 core::Editor* MainPanel::editor() const
@@ -926,7 +933,7 @@ void MainPanel::addSceneToSceneList(sad::Scene* s)
 	ui.lstScenes->addItem(i);
 	
 	QVariant vk;
-	vk.setValue((sad::db::Object*)s);
+	vk.setValue(static_cast<sad::db::Object*>(s));
 	ui.cmbAnimationInstanceObject->addItem(name, vk);
 }
 
@@ -2768,22 +2775,23 @@ void MainPanel::tabTypeChanged(int index)
 	}
 
 	int oldtypeindex = (m_editor->machine()->isInState("ways")) ? 1 : 0;
-	if (oldtypeindex == index)
+	if (oldtypeindex != index)
 	{
-		return;
+		if (m_editor->isInEditingState())
+		{
+			invoke_blocked(ui.tabTypes, &QTabWidget::setCurrentIndex, oldtypeindex);
+			return;
+		}
+		if (index == 0)
+		{
+			m_editor->tryEnterObjectEditingState();
+		}
+		if (index == 1)
+		{
+			m_editor->tryEnterWayEditingState();
+		}
 	}
-	if (m_editor->isInEditingState())
-	{
-		invoke_blocked(ui.tabTypes, &QTabWidget::setCurrentIndex, oldtypeindex);
-	}
-	if (index == 0)
-	{
-		m_editor->tryEnterObjectEditingState();
-	}
-	if (index == 1)
-	{
-		m_editor->tryEnterWayEditingState();
-	}
+
 	if (index == 2)
 	{
 		int row = ui.lstAnimations->currentRow(); 
@@ -2793,5 +2801,26 @@ void MainPanel::tabTypeChanged(int index)
 			m_editor->shared()->setSelectedAnimation(w);
 		}
 	}
+
+	if (index == 3)
+	{
+		int row = ui.lstAnimationInstances->currentRow(); 
+		if (row >= 0)
+		{
+			sad::animations::Instance* w = ui.lstAnimationInstances->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
+			m_editor->shared()->setSelectedInstance(w);
+		}
+	}
+
+	if (index == 4)
+	{
+		int row = ui.lstAnimationsGroup->currentRow(); 
+		if (row >= 0)
+		{
+			sad::animations::Group* w = ui.lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
+			m_editor->shared()->setSelectedGroup(w);
+		}
+	}
+	m_editor->selectionBorder()->toggleShowHotspot(index == 0);
 }
 
