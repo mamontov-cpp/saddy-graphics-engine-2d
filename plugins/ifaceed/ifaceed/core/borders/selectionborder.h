@@ -26,6 +26,10 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~SelectionBorder();	
+	/*! Whether we should show hotspots
+		\param[in] flag a flag for hotspots
+	 */
+	void toggleShowHotspot(bool flag);
 	/*! Returns a hot spot for removal of object
 		\return hotspot
 	 */
@@ -44,6 +48,9 @@ protected:
 	 /*! A hotspots for resizing elements
 	  */
 	 core::borders::ResizeHotspot* m_resize_hotspots[4];
+	 /*! Whether border should show hotspots
+	  */
+	 bool m_show_hotspots;
 };
 
 }

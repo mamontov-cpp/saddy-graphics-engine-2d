@@ -4,7 +4,7 @@
 
 
 
-core::borders::SelectionBorder::SelectionBorder(core::Shared* data) : core::borders::Border(data)
+core::borders::SelectionBorder::SelectionBorder(core::Shared* data) : core::borders::Border(data), m_show_hotspots(true)
 {
 	m_delete_hotspot = new core::borders::DeleteHotspot();
 	m_resize_hotspots[0] = new core::borders::ResizeHotspot(0, 1, 3, sad::p2d::Vector(0, -1));
@@ -23,6 +23,10 @@ core::borders::SelectionBorder::~SelectionBorder()
 	}
 }
 
+void core::borders::SelectionBorder::toggleShowHotspot(bool flag)
+{
+	m_show_hotspots = flag;
+}
 
 core::borders::DeleteHotspot* core::borders::SelectionBorder::deleteHotspot()
 {
@@ -56,12 +60,15 @@ void core::borders::SelectionBorder::_process()
 		o->regions(regions);
 		sad::Renderer::ref()->render()
 							->rectangle(regions[0], sad::AColor(0, 255, 255, 255));
-		m_delete_hotspot->render(regions[0]);
-		if (this->m_data->isSelectionResizeable())
+		if (m_show_hotspots)
 		{
-			for(size_t i = 0; i < 4; i++)
+			m_delete_hotspot->render(regions[0]);
+			if (this->m_data->isSelectionResizeable())
 			{
-				m_resize_hotspots[i]->render(regions[0]);
+				for(size_t i = 0; i < 4; i++)
+				{
+					m_resize_hotspots[i]->render(regions[0]);
+				}
 			}
 		}
 	}
