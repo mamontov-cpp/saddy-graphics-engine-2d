@@ -658,6 +658,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	
 	connect(ui.btnConsoleRun, SIGNAL(clicked()), m_scripting, SLOT(runScript()));
 	connect(ui.btnConsoleHelp, SIGNAL(clicked()), m_scripting, SLOT(showHelp()));
+	connect(ui.btnConsoleSave, SIGNAL(clicked()), m_scripting, SLOT(saveScript()));
+	connect(ui.btnConsoleLoad, SIGNAL(clicked()), m_scripting, SLOT(loadScript()));
 
 	// Initialize UI from editor
 	if (editor)

@@ -2636,7 +2636,7 @@ rect:</string>
      <widget class="QPushButton" name="btnConsoleRun">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>320</x>
         <y>330</y>
         <width>75</width>
         <height>21</height>
@@ -2651,7 +2651,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>330</y>
-        <width>381</width>
+        <width>301</width>
         <height>51</height>
        </rect>
       </property>
@@ -2660,13 +2660,39 @@ rect:</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>360</y>
+        <y>330</y>
         <width>75</width>
-        <height>23</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
        <string>Help</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnConsoleSave">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>360</y>
+        <width>75</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnConsoleLoad">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>360</y>
+        <width>75</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Load</string>
       </property>
      </widget>
     </widget>

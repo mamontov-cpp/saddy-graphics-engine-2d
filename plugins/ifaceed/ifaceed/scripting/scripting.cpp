@@ -14,7 +14,10 @@
 
 #include "scenes/scenesnamesetter.h"
 
-#include <QTimer>
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+#include <QTextStream>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -539,4 +542,42 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 		"	throw new Error(\"Specify 2 or 3 arguments\");"
 		"};"
 	);
+}
+
+void scripting::Scripting::saveScript()
+{
+	QString name = QFileDialog::getSaveFileName(this->panel(), "Enter file, where we should store source code", "", "*.js");
+	if (name.length() != 0)
+	{
+		QFile file(name);
+		if (file.open(QIODevice::WriteOnly))
+		{
+			QTextStream stream(&file);
+			stream << this->panel()->UI()->txtConsoleCode->toPlainText();
+		}
+		else
+		{
+			QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+		}
+	}
+}
+
+void scripting::Scripting::loadScript()
+{
+	QString name = QFileDialog::getOpenFileName(this->panel(), "Enter file, where code is stored", "", "*.js");
+	if (name.length() != 0)
+	{
+		QFile file(name);
+		if (file.open(QIODevice::ReadOnly))
+		{
+			QTextStream stream(&file);
+			QString string;
+			string = stream.readAll();
+			this->panel()->UI()->txtConsoleCode->setPlainText(string);
+		}
+		else
+		{
+			QMessageBox::critical(this->panel(), "Saddy Interface Editor", "Cannot open file " + name);
+		}
+	}
 }
