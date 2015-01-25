@@ -3,6 +3,7 @@
 
     Contains nice specializations for std::equal_to for points, rects, sizes
  */
+#pragma once
 #include <functional>
 
 #include "sadpoint.h"

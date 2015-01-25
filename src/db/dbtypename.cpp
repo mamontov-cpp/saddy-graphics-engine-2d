@@ -61,6 +61,7 @@ DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 DECLARE_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_COMMON_TYPE(sad::Vector<sad::String>)
 
+DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Scene);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::p2d::app::Way);

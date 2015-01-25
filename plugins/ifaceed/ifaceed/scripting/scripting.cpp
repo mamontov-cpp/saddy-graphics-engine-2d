@@ -207,8 +207,22 @@ void scripting::Scripting::showHelp()
 		"	<li><b>E</b> or <b>console</b> - a basic class for all operations in editor"
 		"	<ul>"
 		"		<li>method <b>log</b> - logs all arguments, converting them to string</li>"
-		"		<li>property <b>scenes - holds all scene-related operations</b>"
+		"		<li>property <b>db</b> - holds all operations, related to database properties and object metaprogramming"
 		"			<ul>"
+		"				<li>method <b>list()</b> - lists properties from database, returning an array of names of properties</li>"
+		"				<li>method <b>type(\"name or majorid\")</b> -  returns real name of type for object. Note, that it could be performed only on scenes, scene nodes, ways, dialogues, animations, instances and groups</li>"
+		"				<li>method <b>readableProperties(\"name or majorid\")</b> -  returns list of readable properties for a specified object</li>"
+		"				<li>method <b>writableProperties(\"name or majorid\")</b> -  returns list of writable properties for a specified object</li>"
+		"				<li>method <b>add(\"type\", \"name\")</b> - adds new property to database. Returns true on success</li>"		
+		"				<li>method <b>remove(\"name\")</b> - removes a property for database</li>"		
+		"				<li>method <b>set(\"name\", value)</b> - sets a property value for database</li>"		
+		"				<li>method <b>get(\"name\", value)</b> - returns a property value for database</li>"		
+		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
+		"			</ul>"
+		"		</li>"
+		"		<li>property <b>scenes</b> - holds all scene-related operations"
+		"			<ul>"
+		"				<li>method <b>list()</b> - lists scenes, returning all of majorids for it</li>"
 		"				<li>method <b>add()</b>, <b>add(\"name\")</b> - adds scene, named or anonymous</li>"
 		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene by id or by name</li>"
 		"				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
@@ -313,6 +327,16 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 {
 	QScriptValue db = m_engine->newObject();
 	
+	db.setProperty("list", m_engine->newFunction(scripting::listProperties)); // E.db.list
+	
+	scripting::Callable* tp = scripting::make_scripting_call(scripting::objectType, this);	
+	m_registered_classes << tp;
+	db.setProperty("type", m_engine->newObject(tp)); // E.db.type
+
+	db.setProperty("readableProperties", m_engine->newFunction(scripting::readableProperties)); // E.db.readableProperties
+	db.setProperty("writableProperties", m_engine->newFunction(scripting::writableProperties)); // E.db.writableProperties
+
+
 	scripting::Callable* add = scripting::make_scripting_call(scripting::addProperty, this);	
 	m_registered_classes << add;
 	db.setProperty("add", m_engine->newObject(add)); // E.db.add
@@ -320,13 +344,96 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::removeProperty, this);	
 	m_registered_classes << remove;
 	db.setProperty("remove", m_engine->newObject(remove)); // E.db.remove
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+#define PUSH_SETTER(TYPE) set->add(new scripting::DatabasePropertySetter< TYPE >(m_engine));
+	PUSH_SETTER( double )
+	PUSH_SETTER( float )
+	PUSH_SETTER( int )
+	PUSH_SETTER( long )
+	PUSH_SETTER( long long )
+	PUSH_SETTER( sad::AColor )
+	PUSH_SETTER( sad::Color )
+	PUSH_SETTER( sad::Point2D )
+	PUSH_SETTER( sad::Point2I )
+	PUSH_SETTER( sad::Point3D )
+	PUSH_SETTER( sad::Point3I )
+	PUSH_SETTER( sad::Size2D )
+	PUSH_SETTER( sad::Size2I )
+	PUSH_SETTER( sad::Rect2D )
+	PUSH_SETTER( sad::Rect2I )
+	PUSH_SETTER( sad::String )
+	PUSH_SETTER( std::string )
+	PUSH_SETTER( QString )
+	PUSH_SETTER( short )
+	PUSH_SETTER( bool )
+	PUSH_SETTER( char )
+	PUSH_SETTER( signed char )
+	PUSH_SETTER( unsigned char )
+	PUSH_SETTER( unsigned int )
+	PUSH_SETTER( unsigned long )
+	PUSH_SETTER( unsigned long long )
+	PUSH_SETTER( unsigned short )
+#undef PUSH_SETTER
+	m_registered_classes << set;
+	db.setProperty("set", m_engine->newObject(set)); // E.db.set
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+#define PUSH_GETTER(TYPE) get->add(new scripting::DatabasePropertyGetter< TYPE >(m_engine));
+	PUSH_GETTER( double )
+	PUSH_GETTER( float )
+	PUSH_GETTER( int )
+	PUSH_GETTER( long )
+	PUSH_GETTER( long long )
+	PUSH_GETTER( sad::AColor )
+	PUSH_GETTER( sad::Color )
+	PUSH_GETTER( sad::Point2D )
+	PUSH_GETTER( sad::Point2I )
+	PUSH_GETTER( sad::Point3D )
+	PUSH_GETTER( sad::Point3I )
+	PUSH_GETTER( sad::Size2D )
+	PUSH_GETTER( sad::Size2I )
+	PUSH_GETTER( sad::Rect2D )
+	PUSH_GETTER( sad::Rect2I )
+	PUSH_GETTER( sad::String )
+	PUSH_GETTER( std::string )
+	PUSH_GETTER( QString )
+	PUSH_GETTER( short )
+	PUSH_GETTER( bool )
+	PUSH_GETTER( char )
+	PUSH_GETTER( signed char )
+	PUSH_GETTER( unsigned char )
+	PUSH_GETTER( unsigned int )
+	PUSH_GETTER( unsigned long )
+	PUSH_GETTER( unsigned long long )
+	PUSH_GETTER( unsigned short )
+#undef PUSH_GETTER
+	m_registered_classes << get;
+	db.setProperty("get", m_engine->newObject(get)); // E.db.get
 	
 	v.setProperty("db", db); // E.db
+
+	m_engine->evaluate(
+		"E.db.attr = function() {"  
+		"	if (arguments.length == 1)"
+		"	{"
+        "		return E.db.get(arguments[0]);"
+		"	}"
+		"	if (arguments.length == 2)"
+		"	{"
+        "		return E.scenes.set(arguments[0], arguments[1]);"
+		"	}"
+		"	throw new Error(\"Specify 1 or 2 arguments\");"
+		"};"
+	);
 }
 
 void scripting::Scripting::initSceneBindings(QScriptValue& v)
 {
 	QScriptValue scenes = m_engine->newObject();
+
+
+	scenes.setProperty("list", m_engine->newFunction(scripting::listScenes));  // E.scenes.list
 
 	// An add method
 	scripting::MultiMethod* add = new scripting::MultiMethod(m_engine, "add");

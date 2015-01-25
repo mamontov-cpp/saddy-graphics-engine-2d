@@ -12,6 +12,10 @@ const sad::String& sad::ClassMetaData::name() const
 
 bool sad::ClassMetaData::canBeCastedTo(const sad::String & name)
 {
+	if (name == "sad::db::Object")
+	{
+		return true;
+	}
 	if (m_name == name)
 	{
 		return true;

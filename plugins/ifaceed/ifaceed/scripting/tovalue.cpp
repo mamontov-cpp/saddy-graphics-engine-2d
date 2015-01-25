@@ -779,6 +779,7 @@ scripting::ToValue< TYPE >::perform(                        \
 	return scripting::query< TYPE >(v);                     \
 }
 
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::Object*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Scene*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::SceneNode*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Label*)

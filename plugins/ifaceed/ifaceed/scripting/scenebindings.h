@@ -10,6 +10,7 @@
 #include <QString>
 
 #include "scene.h"
+#include "tovalue.h"
 
 namespace scripting
 {
@@ -39,5 +40,11 @@ void moveSceneBack(scripting::Scripting* s, sad::Scene* scene);
 	\param[in] scene scene to be removed
  */
 void moveSceneFront(scripting::Scripting* s, sad::Scene* scene);
+/*! Lists database properties
+	\param[in] ctx context
+	\param[in] engine an engine list
+	\return list of strings with propeties of database
+ */
+QScriptValue listScenes(QScriptContext* ctx, QScriptEngine* engine);
 
 }
