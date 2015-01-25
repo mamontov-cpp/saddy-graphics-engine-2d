@@ -38,6 +38,8 @@ void history::scenes::Remove::set(
 void history::scenes::Remove::commit(core::Editor * ob)
 {
 	m_scene->setActive(false);
+	m_scene->Active = false;
+
 	for(size_t i = 0; i < m_dependent_animations.size(); i++)
 	{
 		m_dependent_animations[i]->setObjectId(0);
@@ -80,6 +82,8 @@ void history::scenes::Remove::commit(core::Editor * ob)
 void history::scenes::Remove::rollback(core::Editor * ob)
 {
 	m_scene->setActive(true);
+	m_scene->Active = true;
+
 	for(size_t i = 0; i < m_dependent_animations.size(); i++)
 	{
 		m_dependent_animations[i]->setObjectId(m_scene->MajorId);

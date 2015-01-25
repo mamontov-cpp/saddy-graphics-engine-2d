@@ -20,6 +20,8 @@ history::scenes::Add::~Add()
 void history::scenes::Add::commit(core::Editor * ob)
 {
 	m_scene->setActive(true);
+	m_scene->Active = true;
+
 	if (ob)
 	{
 		ob->panel()->addSceneToSceneList(m_scene);
@@ -29,6 +31,8 @@ void history::scenes::Add::commit(core::Editor * ob)
 void history::scenes::Add::rollback(core::Editor * ob)
 {
 	m_scene->setActive(false);
+	m_scene->Active = false;
+
 	if (ob)
 	{
 		ob->panel()->removeLastSceneFromSceneList();
