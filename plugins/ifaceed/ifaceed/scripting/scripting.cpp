@@ -1,6 +1,7 @@
 #include "scripting.h"
 #include "scenebindings.h"
 #include "databasebindings.h"
+#include "constructorcall.h"
 #include "makeconstructor.h"
 #include "scriptinglog.h"
 #include "multimethod.h"
@@ -13,8 +14,48 @@
 
 #include "scenes/scenesnamesetter.h"
 
+#include <QTimer>
+
 Q_DECLARE_METATYPE(QScriptContext*)
 
+// ================================== PUBLIC METHODS OF scripting::Scripting::Thread ==================================
+int scripting::Scripting::Thread::TIMEOUT = 60000;
+
+int scripting::Scripting::Thread::POLLINGTIME = 300;
+
+scripting::Scripting::Thread::Thread(scripting::Scripting* me) : m_should_i_quit(false), m_s(me)
+{
+	
+}
+
+scripting::Scripting::Thread::~Thread()
+{
+	
+}
+
+void scripting::Scripting::Thread::forceQuit()
+{
+	m_should_i_quit = true;	
+}
+
+void scripting::Scripting::Thread::run()
+{
+	this->msleep(scripting::Scripting::Thread::POLLINGTIME);
+
+	int timeout = 0;
+	while (!m_should_i_quit && m_s->engine()->isEvaluating())
+	{
+		this->msleep(scripting::Scripting::Thread::POLLINGTIME);
+		timeout += scripting::Scripting::Thread::POLLINGTIME; 
+		m_should_i_quit = timeout >= scripting::Scripting::Thread::TIMEOUT;
+	}
+	if (m_should_i_quit && timeout >= scripting::Scripting::Thread::TIMEOUT)
+	{
+		m_s->cancelExecution();
+	}
+}
+
+// ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
@@ -75,7 +116,12 @@ void scripting::Scripting::runScript()
 
 	m_panel->UI()->txtConsoleResults->setText("");
 	QString text = m_panel->UI()->txtConsoleCode->toPlainText();
-    QScriptValue result = m_engine->evaluate(text, "console.js");
+	
+	scripting::Scripting::Thread poller(this);
+	poller.start();
+	QScriptValue result = m_engine->evaluate(text, "console.js");
+	poller.forceQuit();
+
 	if (result.isError())
 	{
         m_panel->UI()->txtConsoleResults->append(QString("<font color=\"red\">")
@@ -98,7 +144,9 @@ void scripting::Scripting::runScript()
             delete c;
         }
     }
+
     m_panel->editor()->setCurrentBatchCommand(NULL);
+	poller.wait();
 }
 
 
@@ -249,6 +297,14 @@ void scripting::Scripting::showHelp()
 	dlg.exec();
 }
 
+
+void scripting::Scripting::cancelExecution()
+{
+	if (m_engine->isEvaluating())
+	{
+		m_engine->abortEvaluation(m_engine->currentContext()->throwError(QScriptContext::SyntaxError, "Aborted due timeout"));
+	}
+}
 
 void scripting::Scripting::initSadTypeConstructors()
 {
