@@ -91,6 +91,12 @@ public slots:
 	/*! Cancels execution of script
 	 */
 	void cancelExecution();
+	/*! Saves script to a file
+	 */
+	void saveScript();
+	/*! Loads script from a file
+	 */
+	void loadScript();
 protected:
 	/*! Inits inner script with constructors for common types
 	 */
