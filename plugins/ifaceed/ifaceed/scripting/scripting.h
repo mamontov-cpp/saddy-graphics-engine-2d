@@ -7,8 +7,7 @@
 #include <QObject>
 #include <QScriptEngine>
 #include <QVector>
-
-#include "constructorcall.h"
+#include <QThread>
 
 class MainPanel;
 
@@ -21,6 +20,40 @@ class Scripting: public QObject
 {
 Q_OBJECT
 public:
+
+/*! A polling thread, that polls engine and forces it to quit if need to
+ */
+class Thread: public QThread
+{
+public:
+	/*! A timeout for quitting a thread
+	 */
+	static int TIMEOUT;
+	/*! Determines, how often we should poll thread
+	 */
+	static int POLLINGTIME;
+	/*! Creates new thread
+		\param[in] me a thread
+		\param[in] script a scripting element
+	 */
+	Thread(scripting::Scripting* me);
+	/*! A linked thread
+	 */
+	virtual ~Thread();
+	/*! Forces thread to quit
+	 */
+	void forceQuit();
+	/*! Runs a thread, running script
+	 */
+	virtual void run();	
+protected:
+	/*! Whether we should quit 
+	 */
+	bool m_should_i_quit;
+	/*! A scripting part
+	 */
+	scripting::Scripting* m_s;
+};
 	/*! Creates new label actions
 		\param[in] parent a parent object
 	 */
@@ -55,6 +88,9 @@ public slots:
 	/*! Shows help
 	 */
 	void showHelp();
+	/*! Cancels execution of script
+	 */
+	void cancelExecution();
 protected:
 	/*! Inits inner script with constructors for common types
 	 */
