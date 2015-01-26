@@ -803,12 +803,11 @@
     <ClCompile Include="qwwlongspinbox.cpp" />
     <ClCompile Include="qwwulongspinbox.cpp" />
     <ClCompile Include="reloadfilelist.cpp" />
-    <ClCompile Include="scripting\abstractcobuilder.cpp" />
     <ClCompile Include="scripting\acolor.cpp" />
     <ClCompile Include="scripting\callable.cpp" />
     <ClCompile Include="scripting\classwrapper.cpp" />
     <ClCompile Include="scripting\color.cpp" />
-    <ClCompile Include="scripting\databasebindings.cpp" />
+    <ClCompile Include="scripting\database\databasebindings.cpp" />
     <ClCompile Include="scripting\fromvalue.cpp" />
     <ClCompile Include="scripting\multimethod.cpp" />
     <ClCompile Include="scripting\point2d.cpp" />
@@ -816,9 +815,10 @@
     <ClCompile Include="scripting\point3d.cpp" />
     <ClCompile Include="scripting\point3i.cpp" />
     <ClCompile Include="scripting\queryobject.cpp" />
+    <ClCompile Include="scripting\querytable.cpp" />
     <ClCompile Include="scripting\rect2d.cpp" />
     <ClCompile Include="scripting\rect2i.cpp" />
-    <ClCompile Include="scripting\scenebindings.cpp" />
+    <ClCompile Include="scripting\scenes\scenesbindings.cpp" />
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp" />
     <ClCompile Include="scripting\scripting.cpp" />
     <ClCompile Include="scripting\scriptinglog.cpp" />
@@ -2232,7 +2232,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB  "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
     </CustomBuild>
-    <ClInclude Include="scripting\abstractcobuilder.h" />
     <CustomBuild Include="scripting\acolor.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing acolor.h...</Message>
@@ -2280,7 +2279,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
     </CustomBuild>
-    <ClInclude Include="scripting\cobuilder.h" />
     <CustomBuild Include="scripting\color.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing color.h...</Message>
@@ -2305,6 +2303,9 @@
     </CustomBuild>
     <ClInclude Include="scripting\constructorcall.h" />
     <ClInclude Include="scripting\databasebindings.h" />
+    <ClInclude Include="scripting\database\databasebindings.h" />
+    <ClInclude Include="scripting\database\databasepropertygetter.h" />
+    <ClInclude Include="scripting\database\databasepropertysetter.h" />
     <ClInclude Include="scripting\fromvalue.h" />
     <ClInclude Include="scripting\functioncall.h" />
     <ClInclude Include="scripting\makeconstructor.h" />
@@ -2444,8 +2445,10 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D__UNITTESTS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_DLL -DQT_SCRIPT_LIB "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(Configuration)\." "-I$(QTDIR)\include\qtmain" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I." "-I$(SADDY_INCLUDE)\." "-I$(FREETYPE_INCLUDE)\." "-I$(QTDIR)\include\QtScript"</Command>
     </CustomBuild>
+    <ClInclude Include="scripting\querytable.h" />
     <ClInclude Include="scripting\registerconstructor.h" />
     <ClInclude Include="scripting\scenebindings.h" />
+    <ClInclude Include="scripting\scenes\scenesbindings.h" />
     <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
     <ClInclude Include="scripting\scriptingcall.h" />
     <ClInclude Include="scripting\scriptinglog.h" />

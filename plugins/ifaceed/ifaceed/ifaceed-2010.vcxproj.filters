@@ -216,6 +216,12 @@
     <Filter Include="Header Files\history\sprite2d">
       <UniqueIdentifier>{6474925e-8f36-4357-9c36-6da3c9f6cfc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting\database">
+      <UniqueIdentifier>{559c500f-d617-40a1-815f-b07386a41b2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\database">
+      <UniqueIdentifier>{ff88a47c-6202-4155-a870-9988a1cc552b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1364,12 +1370,6 @@
     <ClCompile Include="gui\codeedit\highlighter.cpp">
       <Filter>Source Files\gui\codeedit</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\scenebindings.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="scripting\abstractcobuilder.cpp">
-      <Filter>Source Files\scripting</Filter>
-    </ClCompile>
     <ClCompile Include="scripting\tovalue.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
@@ -1589,8 +1589,14 @@
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp">
       <Filter>Source Files\scripting\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\databasebindings.cpp">
+    <ClCompile Include="scripting\querytable.cpp">
       <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenes\scenesbindings.cpp">
+      <Filter>Source Files\scripting\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\database\databasebindings.cpp">
+      <Filter>Source Files\scripting\database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1969,12 +1975,6 @@
     <ClInclude Include="scripting\scenebindings.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\cobuilder.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\abstractcobuilder.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\tovalue.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
@@ -2025,6 +2025,21 @@
     </ClInclude>
     <ClInclude Include="scripting\scriptingcall.h">
       <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\querytable.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenes\scenesbindings.h">
+      <Filter>Header Files\scripting\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasebindings.h">
+      <Filter>Header Files\scripting\database</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasepropertygetter.h">
+      <Filter>Header Files\scripting\database</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\database\databasepropertysetter.h">
+      <Filter>Header Files\scripting\database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
