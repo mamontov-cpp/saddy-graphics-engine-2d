@@ -5,7 +5,7 @@
 
 #include <db/dbdatabase.h>
 
-sad::db::Object* scripting::queryObject(const QScriptValue& v)
+sad::db::Object* scripting::query_object(const QScriptValue& v)
 {
 	sad::Maybe<sad::String> maybename = scripting::ToValue<sad::String>::perform(v);
 	

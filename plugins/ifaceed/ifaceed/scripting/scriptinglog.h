@@ -14,6 +14,6 @@ namespace scripting
 	\param[in] engine an engine
 	\return value
  */
-QScriptValue scriptinglog(QScriptContext *context, QScriptEngine *engine);
+QScriptValue scripting_log(QScriptContext *context, QScriptEngine *engine);
 
 }

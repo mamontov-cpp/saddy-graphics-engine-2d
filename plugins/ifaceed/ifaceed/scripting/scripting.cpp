@@ -1,6 +1,4 @@
 #include "scripting.h"
-#include "scenebindings.h"
-#include "databasebindings.h"
 #include "constructorcall.h"
 #include "makeconstructor.h"
 #include "scriptinglog.h"
@@ -8,11 +6,17 @@
 #include "makescriptingcall.h"
 #include "abstractgetter.h"
 
+
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
 
+#include "scenes/scenesbindings.h"
 #include "scenes/scenesnamesetter.h"
+
+#include "database/databasebindings.h"
+#include "database/databasepropertysetter.h"
+#include "database/databasepropertygetter.h"
 
 #include <QFileDialog>
 #include <QFile>
@@ -63,7 +67,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 {
     m_engine = new QScriptEngine();
     QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
-    v.setProperty("log", m_engine->newFunction(scripting::scriptinglog));  // E.log 
+    v.setProperty("log", m_engine->newFunction(scripting::scripting_log));  // E.log
 	
 	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
@@ -386,26 +390,26 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 {
 	QScriptValue db = m_engine->newObject();
 	
-	db.setProperty("list", m_engine->newFunction(scripting::listProperties)); // E.db.list
+    db.setProperty("list", m_engine->newFunction(scripting::database::list)); // E.db.list
 	
-	scripting::Callable* tp = scripting::make_scripting_call(scripting::objectType, this);	
+    scripting::Callable* tp = scripting::make_scripting_call(scripting::database::type, this);
 	m_registered_classes << tp;
 	db.setProperty("type", m_engine->newObject(tp)); // E.db.type
 
-	db.setProperty("readableProperties", m_engine->newFunction(scripting::readableProperties)); // E.db.readableProperties
-	db.setProperty("writableProperties", m_engine->newFunction(scripting::writableProperties)); // E.db.writableProperties
+    db.setProperty("readableProperties", m_engine->newFunction(scripting::database::readableProperties)); // E.db.readableProperties
+    db.setProperty("writableProperties", m_engine->newFunction(scripting::database::writableProperties)); // E.db.writableProperties
 
 
-	scripting::Callable* add = scripting::make_scripting_call(scripting::addProperty, this);	
+    scripting::Callable* add = scripting::make_scripting_call(scripting::database::addProperty, this);
 	m_registered_classes << add;
 	db.setProperty("add", m_engine->newObject(add)); // E.db.add
 	
-	scripting::Callable* remove = scripting::make_scripting_call(scripting::removeProperty, this);	
+    scripting::Callable* remove = scripting::make_scripting_call(scripting::database::removeProperty, this);
 	m_registered_classes << remove;
 	db.setProperty("remove", m_engine->newObject(remove)); // E.db.remove
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-#define PUSH_SETTER(TYPE) set->add(new scripting::DatabasePropertySetter< TYPE >(m_engine));
+#define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(m_engine));
 	PUSH_SETTER( double )
 	PUSH_SETTER( float )
 	PUSH_SETTER( int )
@@ -438,7 +442,7 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 	db.setProperty("set", m_engine->newObject(set)); // E.db.set
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-#define PUSH_GETTER(TYPE) get->add(new scripting::DatabasePropertyGetter< TYPE >(m_engine));
+#define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >(m_engine));
 	PUSH_GETTER( double )
 	PUSH_GETTER( float )
 	PUSH_GETTER( int )
@@ -492,25 +496,25 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 	QScriptValue scenes = m_engine->newObject();
 
 
-	scenes.setProperty("list", m_engine->newFunction(scripting::listScenes));  // E.scenes.list
+    scenes.setProperty("list", m_engine->newFunction(scripting::scenes::list));  // E.scenes.list
 
 	// An add method
 	scripting::MultiMethod* add = new scripting::MultiMethod(m_engine, "add");
-	add->add(scripting::make_scripting_call(scripting::addScene, this));
-	add->add(scripting::make_scripting_call(scripting::addNamelessScene, this));
+    add->add(scripting::make_scripting_call(scripting::scenes::add, this));
+    add->add(scripting::make_scripting_call(scripting::scenes::addNameless, this));
 	m_registered_classes << add;
 	
 	scenes.setProperty("add", m_engine->newObject(add));  // E.scenes.add
 	
-	scripting::Callable* remove = scripting::make_scripting_call(scripting::removeScene, this);	
+    scripting::Callable* remove = scripting::make_scripting_call(scripting::scenes::remove, this);
 	m_registered_classes << remove;
 	scenes.setProperty("remove", m_engine->newObject(remove)); // E.scenes.remove
 
-	scripting::Callable* moveback = scripting::make_scripting_call(scripting::moveSceneBack, this);	
+    scripting::Callable* moveback = scripting::make_scripting_call(scripting::scenes::moveBack, this);
 	m_registered_classes << moveback;
 	scenes.setProperty("moveBack", m_engine->newObject(moveback)); // E.scenes.moveBack
 
-	scripting::Callable* movefront = scripting::make_scripting_call(scripting::moveSceneFront, this);	
+    scripting::Callable* movefront = scripting::make_scripting_call(scripting::scenes::moveFront, this);
 	m_registered_classes << movefront;
 	scenes.setProperty("moveFront", m_engine->newObject(movefront)); // E.scenes.moveFront
 

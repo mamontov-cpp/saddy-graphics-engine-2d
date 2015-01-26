@@ -1,17 +1,25 @@
-#include "scripting.h"
+#include "../scripting.h"
 #include "databasebindings.h"
-#include "../mainpanel.h"
 
-#include "../core/editor.h"
+#include <renderer.h>
 
-#include "../gui/table/delegate.h"
+#include <db/dbdatabase.h>
 
-bool scripting::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
+#include "../tovalue.h"
+#include "../fromvalue.h"
+
+#include "../../mainpanel.h"
+
+#include "../../core/editor.h"
+
+#include "../../gui/table/delegate.h"
+
+bool scripting::database::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
 {
 	return s->panel()->scriptableAddProperty(type, name, false);	
 }
 
-bool scripting::removeProperty(scripting::Scripting* s, sad::String name)
+bool scripting::database::removeProperty(scripting::Scripting* s, sad::String name)
 {
 	MainPanel* panel = s->panel();
 	bool result = false;
@@ -26,18 +34,7 @@ bool scripting::removeProperty(scripting::Scripting* s, sad::String name)
 	return result;
 }
 
-QScriptValue scripting::listToValue(const QStringList& list, QScriptEngine* engine)
-{
-	QScriptValue v = engine->newArray(list.size());
-	for(size_t i = 0; i < list.size(); i++)
-	{
-		v.setProperty(i, list[i]);
-	}
-
-	return v;
-}
-
-QScriptValue scripting::listProperties(QScriptContext* ctx, QScriptEngine* engine)
+QScriptValue scripting::database::list(QScriptContext* ctx, QScriptEngine* engine)
 {
 	if (ctx->argumentCount() != 0)
 	{
@@ -55,15 +52,15 @@ QScriptValue scripting::listProperties(QScriptContext* ctx, QScriptEngine* engin
 		}
 	}
 
-	return scripting::listToValue(list, engine);
+    return scripting::FromValue<QStringList>::perform(list, engine);
 }
 
-sad::String scripting::objectType(scripting::Scripting* s, sad::db::Object* o)
+sad::String scripting::database::type(scripting::Scripting* s, sad::db::Object* o)
 {
 	return o->serializableName();
 }
 
-QScriptValue scripting::readableProperties(QScriptContext* ctx, QScriptEngine* engine)
+QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScriptEngine* engine)
 {
 	if (ctx->argumentCount() != 1)
 	{
@@ -88,10 +85,10 @@ QScriptValue scripting::readableProperties(QScriptContext* ctx, QScriptEngine* e
 		list << "layer";
 	}
 
-	return scripting::listToValue(list, engine);
+    return scripting::FromValue<QStringList>::perform(list, engine);
 }
 
-QScriptValue scripting::writableProperties(QScriptContext* ctx, QScriptEngine* engine)
+QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScriptEngine* engine)
 {
 	if (ctx->argumentCount() != 1)
 	{
@@ -110,5 +107,5 @@ QScriptValue scripting::writableProperties(QScriptContext* ctx, QScriptEngine* e
 	list << "name";
 
 
-	return scripting::listToValue(list, engine);
+    return scripting::FromValue<QStringList>::perform(list, engine);
 }

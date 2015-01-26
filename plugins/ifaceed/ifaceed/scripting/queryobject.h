@@ -17,7 +17,7 @@ namespace scripting
 	\param[in] v value
 	\return NULL if not found
  */
-sad::db::Object* queryObject(const QScriptValue& v);
+sad::db::Object* query_object(const QScriptValue& v);
 
 template<
 	typename T
@@ -25,7 +25,7 @@ template<
 sad::Maybe<T> query(const QScriptValue& v)
 {
 	sad::Maybe<T> result;
-	sad::db::Object* object = scripting::queryObject(v);
+    sad::db::Object* object = scripting::query_object(v);
 	if (object)
 	{
 		sad::db::TypeName<T>::init();
