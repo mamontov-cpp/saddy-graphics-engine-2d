@@ -1,4 +1,4 @@
-/*! \file scenebindings.h
+/*! \file scenesbindings.h
 	\author HiddenSeeker
 
 	Describes bindings for editing scenes
@@ -9,42 +9,48 @@
 
 #include <QString>
 
-#include "scene.h"
-#include "tovalue.h"
+#include <scene.h>
+
+#include "../tovalue.h"
 
 namespace scripting
 {
 
 class Scripting;
 
+namespace scenes
+{
+
 /*! Adds new named scene to a bindings
 	\param[in] s scripting part
  */
-unsigned long long addScene(scripting::Scripting* s, QString name);
+unsigned long long add(scripting::Scripting* s, QString name);
 /*! Adds new nameless scene
 	\param[in] s scripting part
  */
-unsigned long long addNamelessScene(scripting::Scripting* s);
+unsigned long long addNameless(scripting::Scripting* s);
 /*! Adds new scene with name from script
 	\param[in] s scripting part
 	\param[in] scene scene to be removed
  */
-void removeScene(scripting::Scripting* s, sad::Scene* scene);
+void remove(scripting::Scripting* s, sad::Scene* scene);
 /*! Moves scene back in list
 	\param[in] s scripting part
 	\param[in] scene scene to be removed
  */
-void moveSceneBack(scripting::Scripting* s, sad::Scene* scene);
+void moveBack(scripting::Scripting* s, sad::Scene* scene);
 /*! Moves scene front in list
 	\param[in] s scripting part
 	\param[in] scene scene to be removed
  */
-void moveSceneFront(scripting::Scripting* s, sad::Scene* scene);
+void moveFront(scripting::Scripting* s, sad::Scene* scene);
 /*! Lists database properties
 	\param[in] ctx context
 	\param[in] engine an engine list
 	\return list of strings with propeties of database
  */
-QScriptValue listScenes(QScriptContext* ctx, QScriptEngine* engine);
+QScriptValue list(QScriptContext* ctx, QScriptEngine* engine);
+
+}
 
 }

@@ -193,3 +193,25 @@ DECLARE_FROM_VALUE_AS_DBOBJECT(sad::p2d::app::Way*)
 DECLARE_FROM_VALUE_AS_DBOBJECT(sad::dialogue::Dialogue*)
 
 DECLARE_FROM_VALUE_AS_VARIANT(sad::dialogue::Phrase)
+
+
+QScriptValue scripting::FromValue<QStringList>::perform(const QStringList& v, QScriptEngine* e)
+{
+    QScriptValue result = e->newArray(v.size());
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        result.setProperty(i, v[i]);
+    }
+
+    return result;
+}
+
+QScriptValue scripting::FromValue<QVector<unsigned long long> >::perform(const QVector<unsigned long long>& v, QScriptEngine* e)
+{
+    QScriptValue result = e->newArray(v.size());
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        result.setProperty(i, scripting::FromValue<unsigned long long>::perform(v[i], e));
+    }
+    return result;
+}

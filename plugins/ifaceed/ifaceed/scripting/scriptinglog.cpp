@@ -8,7 +8,7 @@
 
 #include "../core/editor.h"
 
-QScriptValue scripting::scriptinglog(QScriptContext *context, QScriptEngine *engine)
+QScriptValue scripting::scripting_log(QScriptContext *context, QScriptEngine *engine)
 {
 	QScriptValue main = engine->globalObject().property("E");
 	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());

@@ -5,6 +5,8 @@
  */
 #pragma once
 #include <QScriptEngine>
+#include <QVector>
+#include <QStringList>
 
 #include <sadcolor.h>
 #include <sadrect.h>
@@ -116,6 +118,8 @@ DEFINE_FROM_VALUE_FOR_TYPE( sad::db::custom::Object* )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::p2d::app::Way* )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::dialogue::Phrase )
+DEFINE_FROM_VALUE_FOR_TYPE( QStringList )
+DEFINE_FROM_VALUE_FOR_TYPE( QVector<unsigned long long> )
 #undef DEFINE_FROM_VALUE_FOR_TYPE
 
 }
