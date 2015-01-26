@@ -236,7 +236,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/size2d.h \
     ifaceed/scripting/size2i.h \
     ifaceed/scripting/scriptingcall.h \
-    ifaceed/scripting/makescriptingcall.h
+    ifaceed/scripting/makescriptingcall.h \
+    ifaceed/scripting/scenes/scenesnamesetter.h \
+    ifaceed/scripting/abstractgetter.h \
+    ifaceed/scripting/abstractsetter.h \
+    ifaceed/scripting/databasebindings.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -419,7 +423,9 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/acolor.cpp \
     ifaceed/scripting/color.cpp \
     ifaceed/scripting/size2d.cpp \
-    ifaceed/scripting/size2i.cpp
+    ifaceed/scripting/size2i.cpp \
+    ifaceed/scripting/scenes/scenesnamesetter.cpp \
+    ifaceed/scripting/databasebindings.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
