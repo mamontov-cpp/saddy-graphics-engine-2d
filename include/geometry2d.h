@@ -100,6 +100,12 @@ sad::Maybe<double> findAngle(double sina, double cosa);
  */
 bool isValid(const sad::Rect2D & rect);	
 
+/*! Tests, whether rectangle is axis aligned
+	\param[in] rect rctangle
+	\return whether points is valid
+ */
+bool isAABB(const sad::Rect2D& rect);
+
 /*! Computes rectangle which is axis-aligned to OXY and rotation angle for it
 	\param[in] rect a rectangle element
 	\param[out] base an-axis aligned element

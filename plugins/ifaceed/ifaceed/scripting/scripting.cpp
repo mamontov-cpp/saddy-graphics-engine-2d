@@ -11,12 +11,15 @@
 
 #include "../core/editor.h"
 
-#include "scenes/scenesbindings.h"
-#include "scenes/scenesnamesetter.h"
 
 #include "database/databasebindings.h"
 #include "database/databasepropertysetter.h"
 #include "database/databasepropertygetter.h"
+
+#include "scenes/scenesbindings.h"
+#include "scenes/scenesnamesetter.h"
+
+#include "scenenodes/scenenodesbindings.h"
 
 #include <QFileDialog>
 #include <QFile>
@@ -75,6 +78,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	this->initSadTypeConstructors();
 	this->initDatabasePropertyBindings(v);
 	this->initSceneBindings(v);
+	this->initSceneNodesBindings(v);
 }
 
 scripting::Scripting::~Scripting()
@@ -544,6 +548,36 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
         "		return E.scenes.set(arguments[0], arguments[1], arguments[2]);"
 		"	}"
 		"	throw new Error(\"Specify 2 or 3 arguments\");"
+		"};"
+	);
+}
+
+
+void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
+{
+	QScriptValue scenenodes = m_engine->newObject();
+
+	scripting::Callable* _addlabel = scripting::make_scripting_call(scripting::scenenodes::_addLabel, this);
+	m_registered_classes << _addlabel;
+	scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel)); // E.scenenodes._addLabel
+
+	v.setProperty("scenenodes", scenenodes); // E.scenenodes
+
+	m_engine->evaluate(
+		"E.scenenodes.addLabel = function(o) {"  
+		"	if (\"fontsize\" in o == false)"
+		"   {                              "
+		"     o[\"fontsize\"] = 16;        "
+		"   }                              "
+		"	if (\"color\" in o == false)   "
+		"	{"
+		"	   o[\"color\"] = aclr(255, 255, 255, 0);"
+		"	}"
+		"	if (\"name\" in o == false)   "
+		"	{"
+		"	   o[\"name\"] = \"\";"
+		"	}"
+		"	return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
 		"};"
 	);
 }

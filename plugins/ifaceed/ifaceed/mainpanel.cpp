@@ -49,6 +49,7 @@
 #include <QCompleter>
 #include <QStringListModel>
 #include <QLinkedList>
+#include <QSet>
 
 #include <cstdio>
 
@@ -135,6 +136,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	constantslist << "console";
 	constantslist << "db";
 	constantslist << "scenes";
+	constantslist << "scenenodes";
 	constantslist << "add";
 	constantslist << "remove";
 
@@ -162,6 +164,12 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "writableProperties";
 	functionlist << "moveBack";
 	functionlist << "moveFront";
+	functionlist << "_addLabel";
+	functionlist << "_addSprite2D";
+	functionlist << "_addCustomObject";
+	functionlist << "addLabel";
+	functionlist << "addSprite2D";
+	functionlist << "addCustomObject";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
@@ -179,6 +187,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "s2i(0, 0)";
 	functionlist << "db";
 	functionlist << "scenes";
+	functionlist << "scenenodes";
 	functionlist << "add";
 	functionlist << "remove";
 	functionlist << "set";
@@ -190,8 +199,18 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "writableProperties";
 	functionlist << "moveBack(\"name\")";
 	functionlist << "moveFront(\"name\")";
+	functionlist << "_addLabel";
+	functionlist << "_addSprite2D";
+	functionlist << "_addCustomObject";
+	functionlist << "addLabel";
+	functionlist << "addSprite2D";
+	functionlist << "addCustomObject";
 
 	functionlist << constantslist;
+
+	QSet<QString> set = QSet<QString>::fromList(functionlist);
+	functionlist = set.toList();
+
 	QCompleter* consolecompleter = new QCompleter();
 	ui.txtConsoleCode->setCompleter(consolecompleter);
 	ui.txtConsoleCode->completer()->setModel(new QStringListModel(functionlist));
