@@ -170,6 +170,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addLabel";
 	functionlist << "addSprite2D";
 	functionlist << "addCustomObject";
+	functionlist << "listScene";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
@@ -205,6 +206,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addLabel";
 	functionlist << "addSprite2D";
 	functionlist << "addCustomObject";
+	functionlist << "listScene";
 
 	functionlist << constantslist;
 

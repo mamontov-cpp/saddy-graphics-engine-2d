@@ -1,5 +1,6 @@
 #include "scenenodesbindings.h"
 
+#include "../querytable.h"
 #include "../scripting.h"
 
 #include "../../mainpanel.h"
@@ -64,3 +65,24 @@ unsigned long long scripting::scenenodes::_addLabel(
 	
 	return label->MajorId;
 }
+
+
+QScriptValue scripting::scenenodes::list(
+    QScriptContext* ctx,
+    QScriptEngine* engine
+)
+{
+	return scripting::query_table("scenenodes", "sad::SceneNode", ctx, engine);
+}
+
+QVector<unsigned long long> scripting::scenenodes::listScene(scripting::Scripting* scripting, sad::Scene* scene)
+{
+	QVector<unsigned long long> result;
+	const sad::Vector<sad::SceneNode*>& scenenodes = scene->objects();
+	for(size_t i = 0; i < scenenodes.size(); i++)
+	{
+		result << scenenodes[i]->MajorId;
+	}
+	return result;
+}
+
