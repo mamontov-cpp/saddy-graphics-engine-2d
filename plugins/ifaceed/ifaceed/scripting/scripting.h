@@ -105,11 +105,14 @@ protected:
 		\param[out] v a global value
 	*/
 	void initDatabasePropertyBindings(QScriptValue& v);
-	/*! Inits all bindings for scenes
+	/*! Inits scenes bindings for scenes
 		\param[out] v a global value
 	 */
 	void initSceneBindings(QScriptValue& v);
-
+	/*! Inits scene nodes bindings for scenes
+		\param[out] v a global value
+	 */
+	void initSceneNodesBindings(QScriptValue& v);
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;

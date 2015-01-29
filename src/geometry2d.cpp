@@ -293,3 +293,12 @@ void sad::getBaseRect(
 	}
 #undef SET_ERROR
 }
+
+bool sad::isAABB(const sad::Rect2D& rect)
+{
+	bool valid = sad::is_fuzzy_equal(rect[0].x() , rect[3].x())
+			  && sad::is_fuzzy_equal(rect[1].x() , rect[2].x())
+			  && sad::is_fuzzy_equal(rect[0].y() , rect[1].y())
+			  && sad::is_fuzzy_equal(rect[2].y() , rect[3].y());
+	return valid;
+}
