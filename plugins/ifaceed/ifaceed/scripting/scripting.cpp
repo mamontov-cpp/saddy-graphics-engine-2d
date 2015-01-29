@@ -561,6 +561,13 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	m_registered_classes << _addlabel;
 	scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel)); // E.scenenodes._addLabel
 
+	scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list)); // E.scenenodes.list
+
+	scripting::Callable* listscene = scripting::make_scripting_call(scripting::scenenodes::listScene, this);
+	m_registered_classes << listscene;
+	scenenodes.setProperty("listScene", m_engine->newObject(listscene)); // E.scenenodes.listScene
+
+
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
 
 	m_engine->evaluate(

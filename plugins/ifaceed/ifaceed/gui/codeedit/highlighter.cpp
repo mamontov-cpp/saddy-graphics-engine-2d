@@ -385,7 +385,7 @@ void gui::codeedit::Highlighter::highlightBlock(const QString &text)
                                 if (makeLastStandard)
                                     setFormat(i - 1, 1, emptyFormat);
                                 makeLastStandard = false;
-                                setFormat(i, 1, emptyFormat);
+                                setFormat(i, 1, m_formats[ScriptStringFormat]);
                                 buffer = QString::null;
                                 break;
             case StateString2:
@@ -399,7 +399,7 @@ void gui::codeedit::Highlighter::highlightBlock(const QString &text)
                                 if (makeLastStandard)
                                     setFormat(i - 1, 1, emptyFormat);
                                 makeLastStandard = false;
-                                setFormat(i, 1, emptyFormat);
+                                setFormat(i, 1, m_formats[ScriptStringFormat]);
                                 buffer = QString::null;
                                 break;
             case StateNumber:
