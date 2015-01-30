@@ -144,6 +144,9 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 
 	QStringList functionlist;
+    functionlist << "resourceType";
+    functionlist << "resourceOptions";
+    functionlist << "resourceSchema";
 	functionlist << "log";
     functionlist << "p2d";
 	functionlist << "p2i";
@@ -196,7 +199,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "get";
 	functionlist << "attr";
 	functionlist << "type";
-	functionlist << "readableProperties";
+    functionlist << "resourceType";
+    functionlist << "resourceOptions";
+    functionlist << "resourceSchema";
+    functionlist << "readableProperties";
 	functionlist << "writableProperties";
 	functionlist << "moveBack(\"name\")";
 	functionlist << "moveFront(\"name\")";

@@ -5,7 +5,7 @@
 #include "multimethod.h"
 #include "makescriptingcall.h"
 #include "abstractgetter.h"
-
+#include "queryresource.h"
 
 #include "../mainpanel.h"
 
@@ -75,6 +75,18 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
     m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
 	
+    scripting::Callable* oresourcetype = scripting::make_scripting_call(scripting::resource_type, this);
+    m_registered_classes << oresourcetype;
+    v.setProperty("resourceType", m_engine->newObject(oresourcetype), QScriptValue::ReadOnly);
+
+    scripting::Callable* oresourceoptions = scripting::make_scripting_call(scripting::resource_options, this);
+    m_registered_classes << oresourceoptions;
+    v.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), QScriptValue::ReadOnly);
+
+    scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
+    m_registered_classes << oresourceschema;
+    v.setProperty("resourceSchema", m_engine->newObject(oresourceschema), QScriptValue::ReadOnly);
+
 	this->initSadTypeConstructors();
 	this->initDatabasePropertyBindings(v);
 	this->initSceneBindings(v);
@@ -266,7 +278,10 @@ void scripting::Scripting::showHelp()
 		"	<li><b>E</b> or <b>console</b> - a basic class for all operations in editor"
 		"	<ul>"
 		"		<li>method <b>log</b> - logs all arguments, converting them to string</li>"
-		"		<li>property <b>db</b> - holds all operations, related to database properties and object metaprogramming"
+        "		<li>method <b>resourceType(\"name\")</b> - returns type of resource in tree</li>"
+        "		<li>method <b>resourceOptions(\"name\")</b> - returns immutable resource wrapper for options for sprite</li>"
+        "		<li>method <b>resourceSchema(\"name\")</b> - returns immutable object schema wrapper</li>"
+        "		<li>property <b>db</b> - holds all operations, related to database properties and object metaprogramming"
 		"			<ul>"
 		"				<li>method <b>list()</b> - lists properties from database, returning an array of names of properties</li>"
 		"				<li>method <b>type(\"name or majorid\")</b> -  returns real name of type for object. Note, that it could be performed only on scenes, scene nodes, ways, dialogues, animations, instances and groups</li>"
