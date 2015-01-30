@@ -241,7 +241,9 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/database/databasebindings.h \
     ifaceed/scripting/database/databasepropertysetter.h \
     ifaceed/scripting/database/databasepropertygetter.h \
-    ifaceed/scripting/querytable.h
+    ifaceed/scripting/querytable.h \
+    ifaceed/scripting/scenenodes/scenenodesbindings.h \
+    ifaceed/scripting/queryresource.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -426,7 +428,9 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/scenes/scenesnamesetter.cpp \
     ifaceed/scripting/scenes/scenesbindings.cpp \
     ifaceed/scripting/database/databasebindings.cpp \
-    ifaceed/scripting/querytable.cpp
+    ifaceed/scripting/querytable.cpp \
+    ifaceed/scripting/scenenodes/scenenodesbindings.cpp \
+    ifaceed/scripting/queryresource.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
