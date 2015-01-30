@@ -215,3 +215,8 @@ QScriptValue scripting::FromValue<QVector<unsigned long long> >::perform(const Q
     }
     return result;
 }
+
+QScriptValue scripting::FromValue<QScriptValue >::perform(const QScriptValue& v, QScriptEngine* e)
+{
+    return v;
+}
