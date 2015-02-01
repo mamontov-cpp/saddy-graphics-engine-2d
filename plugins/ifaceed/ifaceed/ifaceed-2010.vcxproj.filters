@@ -1607,6 +1607,9 @@
     <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp">
       <Filter>Source Files\scripting\scenenodes</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\queryresource.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2052,6 +2055,9 @@
     </ClInclude>
     <ClInclude Include="scripting\scenenodes\scenenodesbindings.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\queryresource.h">
+      <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
