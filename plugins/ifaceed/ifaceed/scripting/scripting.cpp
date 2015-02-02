@@ -591,7 +591,9 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     m_registered_classes << _addcustomobject;
     scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject)); // E.scenenodes._addCustomObject
 
-
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
+    m_registered_classes << remove;
+    scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
 
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
 

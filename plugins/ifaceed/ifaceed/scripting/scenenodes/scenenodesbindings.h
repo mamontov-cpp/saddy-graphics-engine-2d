@@ -101,6 +101,12 @@ unsigned long long _addCustomObject(
     sad::AColor clr
 );
 
+/*! Removes a scene node
+	\param[in] scripting a scripting part
+	\param[in] node node to be removed
+ */
+void remove(scripting::Scripting* scripting, sad::SceneNode* node);
+
 }
 
 }
