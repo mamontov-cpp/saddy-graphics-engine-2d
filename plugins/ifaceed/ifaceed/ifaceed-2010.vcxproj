@@ -820,6 +820,7 @@
     <ClCompile Include="scripting\rect2d.cpp" />
     <ClCompile Include="scripting\rect2i.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesbindings.cpp" />
+    <ClCompile Include="scripting\scenenodes\scenenodesvisibilitysetter.cpp" />
     <ClCompile Include="scripting\scenes\scenesbindings.cpp" />
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp" />
     <ClCompile Include="scripting\scripting.cpp" />
@@ -2451,7 +2452,9 @@
     <ClInclude Include="scripting\querytable.h" />
     <ClInclude Include="scripting\registerconstructor.h" />
     <ClInclude Include="scripting\scenebindings.h" />
+    <ClInclude Include="scripting\scenenodes\scenenodesabstractsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesbindings.h" />
+    <ClInclude Include="scripting\scenenodes\scenenodesvisibilitysetter.h" />
     <ClInclude Include="scripting\scenes\scenesbindings.h" />
     <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
     <ClInclude Include="scripting\scriptingcall.h" />
