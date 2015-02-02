@@ -80,6 +80,27 @@ unsigned long long _addSprite2D(
     sad::AColor clr
 );
 
+/*! Adds custom object. Prefixed by underscore, since it will be mapped to _addCustomObject function and addCustomObject
+    is reserved for call, which will take object, preprocess it's fields and call _addCustomObject using fields of this object.
+    \param[in] scripting a scripting part
+    \param[in] scene a scene
+    \param[in] resource a resource part
+    \param[in] name a name part
+    \param[in] rect a bounding rectangle
+    \param[in] clr a color
+    \return major id a major id for label
+ */
+unsigned long long _addCustomObject(
+    scripting::Scripting* scripting,
+    sad::Scene* scene,
+    sad::String resource,
+    sad::String name,
+    unsigned int fontsize,
+    sad::String text,
+    sad::Rect2D rect,
+    sad::AColor clr
+);
+
 }
 
 }

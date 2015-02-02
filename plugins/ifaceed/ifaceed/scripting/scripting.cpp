@@ -587,6 +587,10 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     m_registered_classes << _addsprite2d;
     scenenodes.setProperty("_addSprite2D", m_engine->newObject(_addsprite2d)); // E.scenenodes._addSprite2D
 
+    scripting::Callable* _addcustomobject = scripting::make_scripting_call(scripting::scenenodes::_addCustomObject, this);
+    m_registered_classes << _addcustomobject;
+    scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject)); // E.scenenodes._addCustomObject
+
 
 
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
@@ -617,6 +621,21 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
         "	   o[\"name\"] = \"\";"
         "	}"
         "	return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
+        "};"
+        "E.scenenodes.addCustomObject = function(o) {"
+        "	if (\"fontsize\" in o == false)"
+        "   {                              "
+        "     o[\"fontsize\"] = 16;        "
+        "   }                              "
+        "	if (\"color\" in o == false)   "
+        "	{"
+        "	   o[\"color\"] = aclr(255, 255, 255, 0);"
+        "	}"
+        "	if (\"name\" in o == false)   "
+        "	{"
+        "	   o[\"name\"] = \"\";"
+        "	}"
+        "	return E.scenenodes._addCustomObject(o[\"scene\"], o[\"schema\"], o[\"name\"], o[\"fontsize\"], o[\"text\"],  o[\"area\"], o[\"color\"]);"
         "};"
 	);
 }

@@ -19,6 +19,7 @@
 #include <db/dbdatabase.h>
 #include <db/dbtable.h>
 
+#include <db/custom/customobject.h>
 
 QScriptValue scripting::scenenodes::list(
     QScriptContext* ctx,
@@ -99,14 +100,14 @@ unsigned long long scripting::scenenodes::_addSprite2D(
 {
     QScriptEngine* engine = scripting->engine();
     sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
-    sad::resource::Resource* maybefont = tree->root()->resource(resource);
-    if (!maybefont)
+    sad::resource::Resource* maybeopts = tree->root()->resource(resource);
+    if (!maybeopts)
     {
         engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
         return 0;
     }
 
-    if (maybefont->metaData()->canBeCastedTo("sad::Sprite2D::Options") == false)
+    if (maybeopts->metaData()->canBeCastedTo("sad::Sprite2D::Options") == false)
     {
         engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name sprite options resource (sad::Sprite2D::Options type)");
         return 0;
@@ -138,4 +139,62 @@ unsigned long long scripting::scenenodes::_addSprite2D(
     c->currentBatchCommand()->add(cmd);
 
     return sprite->MajorId;
+}
+
+unsigned long long scripting::scenenodes::_addCustomObject(
+    scripting::Scripting* scripting,
+    sad::Scene* scene,
+    sad::String resource,
+    sad::String name,
+    unsigned int fontsize,
+    sad::String text,
+    sad::Rect2D rect,
+    sad::AColor clr
+)
+{
+    QScriptEngine* engine = scripting->engine();
+    sad::resource::Tree* tree = sad::Renderer::ref()->tree("");
+    sad::resource::Resource* maybeschema = tree->root()->resource(resource);
+    if (!maybeschema)
+    {
+        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
+        return 0;
+    }
+
+    if (maybeschema->metaData()->canBeCastedTo("sad::db::custom::Schema") == false)
+    {
+        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " does not name schema resource (sad::db::custom::Schema type)");
+        return 0;
+    }
+
+    if (sad::isAABB(rect) == false)
+    {
+        engine->currentContext()->throwError(QScriptContext::TypeError, QString("_addLabel: ") + resource.c_str() + " rectangle must be axis aligned");
+        return 0;
+    }
+
+    sad::Renderer::ref()->lockRendering();
+
+    sad::db::custom::Object* obj = new sad::db::custom::Object();
+
+    obj->setTreeName(sad::Renderer::ref(), "");
+
+    obj->setSchemaName(resource);
+    obj->setObjectName(name);
+    obj->setFontSize(fontsize);
+    obj->setString(text);
+    obj->setArea(rect);
+    obj->setColor(clr);
+
+    scene->add(obj);
+    sad::Renderer::ref()->database("")->table("scenenodes")->add(obj);
+
+    sad::Renderer::ref()->unlockRendering();
+
+    history::scenenodes::New* cmd = new history::scenenodes::New(obj);
+    core::Editor* c = scripting->panel()->editor();
+    cmd->commit(c);
+    c->currentBatchCommand()->add(cmd);
+
+    return obj->MajorId;
 }
