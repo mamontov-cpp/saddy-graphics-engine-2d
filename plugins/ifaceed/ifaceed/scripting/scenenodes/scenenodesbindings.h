@@ -39,7 +39,7 @@ QVector<unsigned long long> listScene(scripting::Scripting* scripting, sad::Scen
 
 
 /*! Adds label. Prefixed by underscore, since it will be mapped to _addLabel function and addLabel
-	is reserved for more hard object
+    is reserved for call, which will take object, preprocess it's fields and call _addLabel using fields of this object.
 	\param[in] scripting a scripting part
 	\param[in] scene a scene
 	\param[in] resource a resource part
@@ -59,6 +59,25 @@ unsigned long long _addLabel(
 	sad::String name,
 	sad::Point2D topleftpoint,
 	sad::AColor clr
+);
+
+/*! Adds sprite. Prefixed by underscore, since it will be mapped to _addSprite2D function and addSprite2D
+    is reserved for call, which will take object, preprocess it's fields and call _addSprite2D using fields of this object.
+    \param[in] scripting a scripting part
+    \param[in] scene a scene
+    \param[in] resource a resource part
+    \param[in] name a name part
+    \param[in] rect a bounding rectangle
+    \param[in] clr a color
+    \return major id a major id for label
+ */
+unsigned long long _addSprite2D(
+    scripting::Scripting* scripting,
+    sad::Scene* scene,
+    sad::String resource,
+    sad::String name,
+    sad::Rect2D rect,
+    sad::AColor clr
 );
 
 }

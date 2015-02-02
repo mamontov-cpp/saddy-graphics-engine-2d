@@ -572,15 +572,21 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 {
 	QScriptValue scenenodes = m_engine->newObject();
 
+    scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list)); // E.scenenodes.list
+
+    scripting::Callable* listscene = scripting::make_scripting_call(scripting::scenenodes::listScene, this);
+    m_registered_classes << listscene;
+    scenenodes.setProperty("listScene", m_engine->newObject(listscene)); // E.scenenodes.listScene
+
+
 	scripting::Callable* _addlabel = scripting::make_scripting_call(scripting::scenenodes::_addLabel, this);
 	m_registered_classes << _addlabel;
 	scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel)); // E.scenenodes._addLabel
 
-	scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list)); // E.scenenodes.list
+    scripting::Callable* _addsprite2d = scripting::make_scripting_call(scripting::scenenodes::_addSprite2D, this);
+    m_registered_classes << _addsprite2d;
+    scenenodes.setProperty("_addSprite2D", m_engine->newObject(_addsprite2d)); // E.scenenodes._addSprite2D
 
-	scripting::Callable* listscene = scripting::make_scripting_call(scripting::scenenodes::listScene, this);
-	m_registered_classes << listscene;
-	scenenodes.setProperty("listScene", m_engine->newObject(listscene)); // E.scenenodes.listScene
 
 
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
@@ -601,6 +607,17 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 		"	}"
 		"	return E.scenenodes._addLabel(o[\"scene\"], o[\"font\"], o[\"fontsize\"], o[\"text\"], o[\"name\"], o[\"point\"], o[\"color\"]);"
 		"};"
+        "E.scenenodes.addSprite2D = function(o) {"
+        "	if (\"color\" in o == false)   "
+        "	{"
+        "	   o[\"color\"] = aclr(255, 255, 255, 0);"
+        "	}"
+        "	if (\"name\" in o == false)   "
+        "	{"
+        "	   o[\"name\"] = \"\";"
+        "	}"
+        "	return E.scenenodes._addSprite2D(o[\"scene\"], o[\"sprite\"], o[\"name\"], o[\"area\"], o[\"color\"]);"
+        "};"
 	);
 }
 
