@@ -20,6 +20,8 @@
 #include "scenes/scenesnamesetter.h"
 
 #include "scenenodes/scenenodesbindings.h"
+#include "scenenodes/scenenodesvisibilitysetter.h"
+
 
 #include <QFileDialog>
 #include <QFile>
@@ -594,6 +596,21 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
     m_registered_classes << remove;
     scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+	set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
+	m_registered_classes << set;
+	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+	
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "layer"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "minorid"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "scene"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));	
+	m_registered_classes << get;
+	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
 
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
 

@@ -17,7 +17,7 @@ namespace scripting
 	
 template<
 	typename _Type,
-	typename _PropetyType
+	typename _PropertyType
 >
 class AbstractSetter: public scripting::Callable
 {
@@ -64,7 +64,7 @@ public:
 		checkArgumentCount(result, ctx);
 		checkArgument<_Type>(result, 0, ctx);
 		checkArgument<sad::String>(result, 1, ctx);
-		checkArgument<_PropetyType>(result, 2, ctx);
+		checkArgument<_PropertyType>(result, 2, ctx);
 		if (result.exists() == false)
 		{
 			sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
@@ -93,11 +93,11 @@ public:
 				sad::db::Property* prop = object->getObjectProperty(propname.value());
 				if (prop)
 				{
-					sad::db::TypeName<_PropetyType>::init();
-					if (prop->baseType() != sad::db::TypeName<_PropetyType>::baseName() || prop->pointerStarsCount() != 0)
+					sad::db::TypeName<_PropertyType>::init();
+					if (prop->baseType() != sad::db::TypeName<_PropertyType>::baseName() || prop->pointerStarsCount() != 0)
 					{
 						QString qpropname = propname.value().c_str();
-						QString basetype = sad::db::TypeName<_PropetyType>::baseName().c_str();
+						QString basetype = sad::db::TypeName<_PropertyType>::baseName().c_str();
 						result.setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
 					}
 				}
@@ -122,12 +122,12 @@ public:
 	{
 		sad::Maybe<_Type>       basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0)); 
 		sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
-		sad::Maybe<_PropetyType> newvalue = scripting::ToValue<sad::String>::perform(ctx->argument(2));
+		sad::Maybe<_PropertyType> newvalue = scripting::ToValue<_PropertyType>::perform(ctx->argument(2));
 
 		sad::db::Object* object = basicvalue.value();
-		sad::Maybe<_PropetyType> oldvalue = object->getProperty<_PropetyType>(propname.value());
+		sad::Maybe<_PropertyType> oldvalue = object->getProperty<_PropertyType>(propname.value());
 
-		std::equal_to<_PropetyType> comparator;
+		std::equal_to<_PropertyType> comparator;
 		if (comparator(newvalue.value(), oldvalue.value()) == false)
 		{
 			setProperty(basicvalue.value(), propname.value(), oldvalue.value(), newvalue.value());
@@ -140,7 +140,7 @@ public:
 		\param[in] oldvalue old value 
 		\param[in] newvalue new value
 	 */
-	virtual void setProperty(_Type obj, const sad::String& propertyname, _PropetyType oldvalue,  _PropetyType newvalue) = 0;
+	virtual void setProperty(_Type obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue) = 0;
 protected:
 	/*! A matched properties list. If empty - every kind of property is matched
 	 */
