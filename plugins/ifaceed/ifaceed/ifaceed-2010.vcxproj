@@ -2454,6 +2454,7 @@
     <ClInclude Include="scripting\scenebindings.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesabstractsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesbindings.h" />
+    <ClInclude Include="scripting\scenenodes\scenenodessetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesvisibilitysetter.h" />
     <ClInclude Include="scripting\scenes\scenesbindings.h" />
     <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
