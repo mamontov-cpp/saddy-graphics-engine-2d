@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QRectF>
 
+#include <scenenode.h>
+
 #include <input/events.h>
 
 class MainPanel;
@@ -64,6 +66,11 @@ public:
 	/*! Updates panel's region for active node
 	 */
 	void updateRegionForNode();
+	/*! Removes scene node
+		\param[in] node a node to be removed
+		\param[in] from editor true, if node is removed from editor, false if from scripting part
+	 */
+	void removeSceneNode(sad::SceneNode* node, bool from_editor); 
 public slots:
 	/*! Called, when node name is edited
 		\param[in] name a name for action

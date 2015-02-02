@@ -355,6 +355,47 @@ void gui::SceneNodeActions::angleChanged(double newvalue)
     }
 }
 
+
+void gui::SceneNodeActions::removeSceneNode(sad::SceneNode* node, bool from_editor)
+{
+	int row = m_panel->findSceneNodeInList(node);
+	if (row == -1)
+	{
+		row = static_cast<int>(node->scene()->findLayer(node));
+	}
+			
+
+	int posininstance = m_panel->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
+	sad::Vector<sad::db::Object*> objects;
+	sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
+	sad::Vector<sad::animations::Instance*> instances;
+	for(size_t i = 0; i < objects.size(); i++)
+	{
+		sad::db::Object* o = objects[i];
+		if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
+		{
+			sad::animations::Instance* instance = static_cast<sad::animations::Instance*>(o);
+			if (instance->objectId() == node->MajorId)
+			{
+				instances << instance;
+			}
+		}
+	}
+
+
+	history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
+	c->set(posininstance, instances);
+	if (from_editor) 
+	{
+		m_panel->editor()->history()->add(c);
+	} 
+	else
+	{
+		m_panel->editor()->currentBatchCommand()->add(c);	
+	}
+	c->commit(m_panel->editor());
+}
+
 void gui::SceneNodeActions::removeSceneNode()
 {
 	if (m_panel->editor()->machine()->isInState("selected"))
@@ -362,35 +403,7 @@ void gui::SceneNodeActions::removeSceneNode()
 		sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
 		if (node)
 		{
-			int row = m_panel->findSceneNodeInList(node);
-			if (row == -1)
-			{
-				row = static_cast<int>(node->scene()->findLayer(node));
-			}
-			
-
-			int posininstance = m_panel->findInComboBox<sad::db::Object*>(m_panel->UI()->cmbAnimationInstanceObject, node);
-			sad::Vector<sad::db::Object*> objects;
-			sad::Renderer::ref()->database("")->table("animationinstances")->objects(objects);
-			sad::Vector<sad::animations::Instance*> instances;
-			for(size_t i = 0; i < objects.size(); i++)
-			{
-				sad::db::Object* o = objects[i];
-				if (o->isInstanceOf("sad::animations::Instance") || o->isInstanceOf("sad::animations::WayInstance"))
-				{
-					sad::animations::Instance* instance = static_cast<sad::animations::Instance*>(o);
-					if (instance->objectId() == node->MajorId)
-					{
-						instances << instance;
-					}
-				}
-			}
-
-
-			history::scenenodes::Remove* c = new history::scenenodes::Remove(node, row);
-			c->set(posininstance, instances);
-			m_panel->editor()->history()->add(c);
-			c->commit(m_panel->editor());
+			this->removeSceneNode(node, true);
 		}
 	}
 }

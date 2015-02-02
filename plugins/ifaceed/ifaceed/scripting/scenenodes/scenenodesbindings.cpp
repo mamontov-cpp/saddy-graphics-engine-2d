@@ -9,6 +9,8 @@
 
 #include "../../history/scenenodes/scenenodesnew.h"
 
+#include "../../gui/scenenodeactions.h"
+
 #include <renderer.h>
 #include <label.h>
 #include <sprite2d.h>
@@ -197,4 +199,9 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     c->currentBatchCommand()->add(cmd);
 
     return obj->MajorId;
+}
+
+void scripting::scenenodes::remove(scripting::Scripting* scripting,  sad::SceneNode* node)
+{
+	scripting->panel()->sceneNodeActions()->removeSceneNode(node, false);
 }
