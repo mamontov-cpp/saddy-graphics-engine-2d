@@ -50,6 +50,7 @@
 #include "../blockedclosuremethodcall.h"
 
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::SceneNode*)
 // =================== PUBLIC METHODS ===================
 
 core::Editor::Editor()
@@ -345,6 +346,13 @@ void core::Editor::tryEnterObjectEditingState()
 	m_shared->setSelectedObject(NULL);
 	m_shared->setActiveObject(NULL);
 	m_shared->setSelectedWay(NULL);
+
+    int currentrow = m_mainwindow->UI()->lstSceneObjects->currentRow();
+    if (currentrow > -1)
+    {
+        QVariant v = m_mainwindow->UI()->lstSceneObjects->item(currentrow)->data(Qt::UserRole);
+        m_shared->setSelectedObject(v.value<sad::SceneNode*>());
+    }
 	invoke_blocked(m_mainwindow->UI()->tabTypes, &QTabWidget::setCurrentIndex, 0);
 }
 
