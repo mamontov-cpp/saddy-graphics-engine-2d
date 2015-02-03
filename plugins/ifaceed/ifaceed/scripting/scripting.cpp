@@ -12,6 +12,7 @@
 #include "../core/editor.h"
 
 #include "../history/scenenodes/scenenodeschangename.h"
+#include "../history/scenenodes/scenenodeschangeangle.h"
 
 
 #include "database/databasebindings.h"
@@ -605,6 +606,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
 	set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
     set->add(new scripting::scenenodes::AreaSetter(m_engine));
+    set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
@@ -616,6 +618,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "scene"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));	
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>(m_engine, "area"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, double>(m_engine, "angle"));
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
 
