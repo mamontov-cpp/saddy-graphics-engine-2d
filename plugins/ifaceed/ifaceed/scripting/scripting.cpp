@@ -12,6 +12,7 @@
 #include "../core/editor.h"
 
 #include "../history/scenenodes/scenenodeschangename.h"
+#include "../history/scenenodes/scenenodeschangearea.h"
 
 
 #include "database/databasebindings.h"
@@ -603,7 +604,8 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
 	set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
 	set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
-	m_registered_classes << set;
+    set->add(new scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>(m_engine, "area"));
+    m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
@@ -613,7 +615,8 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "minorid"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "scene"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));	
-	m_registered_classes << get;
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>(m_engine, "area"));
+    m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
 
 	v.setProperty("scenenodes", scenenodes); // E.scenenodes
