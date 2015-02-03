@@ -12,7 +12,6 @@
 #include "../core/editor.h"
 
 #include "../history/scenenodes/scenenodeschangename.h"
-#include "../history/scenenodes/scenenodeschangearea.h"
 
 
 #include "database/databasebindings.h"
@@ -25,6 +24,7 @@
 #include "scenenodes/scenenodesbindings.h"
 #include "scenenodes/scenenodesvisibilitysetter.h"
 #include "scenenodes/scenenodessetter.h"
+#include "scenenodes/scenenodesareasetter.h"
 
 
 #include <QFileDialog>
@@ -604,7 +604,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
 	set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
 	set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
-    set->add(new scripting::scenenodes::Setter<sad::Rect2D, history::scenenodes::ChangeArea>(m_engine, "area"));
+    set->add(new scripting::scenenodes::AreaSetter(m_engine));
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
