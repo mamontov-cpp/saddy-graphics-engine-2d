@@ -31,6 +31,7 @@
 #include "scenenodes/scenenodessetter.h"
 #include "scenenodes/scenenodesareasetter.h"
 #include "scenenodes/scenenodesfontsizesetter.h"
+#include "scenenodes/scenenodesfontsetter.h"
 
 
 #include <QFileDialog>
@@ -618,6 +619,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
     set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
+    set->add(new scripting::scenenodes::FontSetter(m_engine));
 
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
@@ -637,6 +639,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "fontsize"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "font"));
 
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
