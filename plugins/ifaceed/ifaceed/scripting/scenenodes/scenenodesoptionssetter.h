@@ -11,7 +11,8 @@ namespace scripting
 
 namespace scenenodes
 {
-
+/*! A setter for options property of sprite
+ */
 class OptionsSetter: public scripting::scenenodes::AbstractSetter<sad::String>
 {
 public:
