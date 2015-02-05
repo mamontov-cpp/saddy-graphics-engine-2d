@@ -825,6 +825,7 @@
     <ClCompile Include="scripting\scenenodes\scenenodesfontsetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesfontsizesetter.cpp" />
     <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp" />
+    <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp" />
     <ClCompile Include="scripting\scenes\scenesbindings.cpp" />
     <ClCompile Include="scripting\scenes\scenesnamesetter.cpp" />
     <ClCompile Include="scripting\scripting.cpp" />
@@ -2467,6 +2468,7 @@
     <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h" />
+    <ClInclude Include="scripting\scenenodes\scenenodesschemasetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodessetter.h" />
     <ClInclude Include="scripting\scenes\scenesbindings.h" />
     <ClInclude Include="scripting\scenes\scenesnamesetter.h" />
