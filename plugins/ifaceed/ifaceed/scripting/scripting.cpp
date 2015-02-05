@@ -27,6 +27,7 @@
 #include "scenenodes/scenenodesvisibilitysetter.h"
 #include "scenenodes/scenenodessetter.h"
 #include "scenenodes/scenenodesareasetter.h"
+#include "scenenodes/scenenodesfontsizesetter.h"
 
 
 #include <QFileDialog>
@@ -604,16 +605,21 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
-	set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
+    // All props
+    set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
 	set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
     set->add(new scripting::scenenodes::AreaSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
     set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(m_engine, "color"));
+    // sad::Label props
+    set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
+
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
-	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "name"));
+    // All
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "name"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "layer"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "majorid"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned long long>(m_engine, "minorid"));
@@ -621,7 +627,9 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "visible"));	
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::Rect2D>(m_engine, "area"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, double>(m_engine, "angle"));
-    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>(m_engine, "color"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>(m_engine, "color"));    
+    // sad::Label props
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "fontsize"));
 
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
