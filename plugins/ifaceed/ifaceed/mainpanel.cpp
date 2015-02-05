@@ -174,6 +174,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addSprite2D";
 	functionlist << "addCustomObject";
 	functionlist << "listScene";
+	functionlist << "makeBackground";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
@@ -213,6 +214,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addSprite2D";
 	functionlist << "addCustomObject";
 	functionlist << "listScene";
+	functionlist << "makeBackground";
+
 
 	functionlist << constantslist;
 
