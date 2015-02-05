@@ -16,6 +16,7 @@
 #include "../history/scenenodes/scenenodeschangecolor.h"
 
 #include "../history/label/changetext.h"
+#include "../history/label/changelinespacing.h"
 
 
 #include "database/databasebindings.h"
@@ -616,6 +617,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     // sad::Label props
     set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
+    set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
 
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
@@ -634,6 +636,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     // sad::Label props
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "fontsize"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
 
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
