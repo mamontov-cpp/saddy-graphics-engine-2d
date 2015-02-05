@@ -38,7 +38,7 @@
 #include "scenenodes/scenenodesfontsetter.h"
 #include "scenenodes/scenenodesoptionssetter.h"
 #include "scenenodes/scenenodesschemasetter.h"
-
+#include "scenenodes/scenenodescustomgetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -660,7 +660,35 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "options"));
 	// sad::db::CustomObject props
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "schema"));
-	
+#define PUSH_GETTER(TYPE) get->add(scripting::scenenodes::custom_getter< TYPE >(m_engine));
+	PUSH_GETTER( double )
+	PUSH_GETTER( float )
+	PUSH_GETTER( int )
+	PUSH_GETTER( long )
+	PUSH_GETTER( long long )
+	PUSH_GETTER( sad::AColor )
+	PUSH_GETTER( sad::Color )
+	PUSH_GETTER( sad::Point2D )
+	PUSH_GETTER( sad::Point2I )
+	PUSH_GETTER( sad::Point3D )
+	PUSH_GETTER( sad::Point3I )
+	PUSH_GETTER( sad::Size2D )
+	PUSH_GETTER( sad::Size2I )
+	PUSH_GETTER( sad::Rect2D )
+	PUSH_GETTER( sad::Rect2I )
+	PUSH_GETTER( sad::String )
+	PUSH_GETTER( std::string )
+	PUSH_GETTER( QString )
+	PUSH_GETTER( short )
+	PUSH_GETTER( bool )
+	PUSH_GETTER( char )
+	PUSH_GETTER( signed char )
+	PUSH_GETTER( unsigned char )
+	PUSH_GETTER( unsigned int )
+	PUSH_GETTER( unsigned long )
+	PUSH_GETTER( unsigned long long )
+	PUSH_GETTER( unsigned short )
+#undef PUSH_GETTER
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
 
