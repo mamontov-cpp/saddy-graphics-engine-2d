@@ -2465,6 +2465,7 @@
     <ClInclude Include="scripting\scenenodes\scenenodesareasetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesbindings.h" />
     <ClInclude Include="scripting\scenenodes\scenenodescustomgetter.h" />
+    <ClInclude Include="scripting\scenenodes\scenenodescustomsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h" />
     <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h" />

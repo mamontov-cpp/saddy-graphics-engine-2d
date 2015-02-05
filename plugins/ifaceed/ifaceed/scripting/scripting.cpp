@@ -39,6 +39,7 @@
 #include "scenenodes/scenenodesoptionssetter.h"
 #include "scenenodes/scenenodesschemasetter.h"
 #include "scenenodes/scenenodescustomgetter.h"
+#include "scenenodes/scenenodescustomsetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -634,7 +635,35 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::OptionsSetter(m_engine));
 	// sad::db::CustomObject props
 	set->add(new scripting::scenenodes::SchemaSetter(m_engine));
-
+#define PUSH_SETTER(TYPE) set->add(new scripting::scenenodes::CustomSetter< TYPE >(m_engine));
+	PUSH_SETTER( double )
+	PUSH_SETTER( float )
+	PUSH_SETTER( int )
+	PUSH_SETTER( long )
+	PUSH_SETTER( long long )
+	PUSH_SETTER( sad::AColor )
+	PUSH_SETTER( sad::Color )
+	PUSH_SETTER( sad::Point2D )
+	PUSH_SETTER( sad::Point2I )
+	PUSH_SETTER( sad::Point3D )
+	PUSH_SETTER( sad::Point3I )
+	PUSH_SETTER( sad::Size2D )
+	PUSH_SETTER( sad::Size2I )
+	PUSH_SETTER( sad::Rect2D )
+	PUSH_SETTER( sad::Rect2I )
+	PUSH_SETTER( sad::String )
+	PUSH_SETTER( std::string )
+	PUSH_SETTER( QString )
+	PUSH_SETTER( short )
+	PUSH_SETTER( bool )
+	PUSH_SETTER( char )
+	PUSH_SETTER( signed char )
+	PUSH_SETTER( unsigned char )
+	PUSH_SETTER( unsigned int )
+	PUSH_SETTER( unsigned long )
+	PUSH_SETTER( unsigned long long )
+	PUSH_SETTER( unsigned short )
+#undef PUSH_SETTER
 	m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	

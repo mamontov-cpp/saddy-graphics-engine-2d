@@ -11,7 +11,8 @@ namespace scripting
 
 namespace scenenodes
 {
-
+/*! A setter for schema property
+ */
 class SchemaSetter: public scripting::scenenodes::AbstractSetter<sad::String>
 {
 public:

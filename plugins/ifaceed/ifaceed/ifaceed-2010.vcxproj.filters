@@ -2104,6 +2104,9 @@
     <ClInclude Include="scripting\scenenodes\scenenodescustomgetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodescustomsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

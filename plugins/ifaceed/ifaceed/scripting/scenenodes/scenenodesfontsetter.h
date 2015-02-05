@@ -14,6 +14,8 @@ namespace scripting
 namespace scenenodes
 {
 
+/*! A setter for font property
+ */
 class FontSetter: public scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>
 {
 public:
