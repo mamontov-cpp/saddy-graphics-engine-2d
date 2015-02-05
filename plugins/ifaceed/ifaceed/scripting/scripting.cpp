@@ -15,6 +15,8 @@
 #include "../history/scenenodes/scenenodeschangeangle.h"
 #include "../history/scenenodes/scenenodeschangecolor.h"
 
+#include "../history/label/changetext.h"
+
 
 #include "database/databasebindings.h"
 #include "database/databasepropertysetter.h"
@@ -613,6 +615,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::Setter<sad::AColor, history::scenenodes::ChangeColor>(m_engine, "color"));
     // sad::Label props
     set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
+    set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
 
     m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
@@ -630,6 +633,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::AColor>(m_engine, "color"));    
     // sad::Label props
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "fontsize"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
 
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
