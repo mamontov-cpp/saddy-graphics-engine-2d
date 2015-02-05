@@ -1625,6 +1625,9 @@
     <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp">
       <Filter>Source Files\scripting\scenenodes</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesschemasetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2093,6 +2096,9 @@
       <Filter>Header Files\history\scenenodes</Filter>
     </ClInclude>
     <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesschemasetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
   </ItemGroup>

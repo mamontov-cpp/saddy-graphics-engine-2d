@@ -37,6 +37,7 @@
 #include "scenenodes/scenenodesfontsizesetter.h"
 #include "scenenodes/scenenodesfontsetter.h"
 #include "scenenodes/scenenodesoptionssetter.h"
+#include "scenenodes/scenenodesschemasetter.h"
 
 
 #include <QFileDialog>
@@ -631,7 +632,9 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
     set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipy", history::sprite2d::changeFlipY));
     set->add(new scripting::scenenodes::OptionsSetter(m_engine));
-	
+	// sad::db::CustomObject props
+	set->add(new scripting::scenenodes::SchemaSetter(m_engine));
+
 	m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
@@ -655,7 +658,9 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "options"));
-
+	// sad::db::CustomObject props
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "schema"));
+	
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
 
