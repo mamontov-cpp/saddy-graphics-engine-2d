@@ -248,7 +248,8 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/scenenodes/scenenodessetter.h \
     ifaceed/scripting/scenenodes/scenenodesvisibilitysetter.h \
     ifaceed/scripting/scenenodes/scenenodesareasetter.h \
-    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.h
+    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.h \
+    ifaceed/scripting/scenenodes/scenenodesfontsetter.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -438,7 +439,8 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/queryresource.cpp \
     ifaceed/scripting/scenenodes/scenenodesvisibilitysetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesareasetter.cpp \
-    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.cpp
+    ifaceed/scripting/scenenodes/scenenodesfontsizesetter.cpp \
+    ifaceed/scripting/scenenodes/scenenodesfontsetter.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
