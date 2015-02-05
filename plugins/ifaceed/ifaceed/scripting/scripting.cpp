@@ -14,9 +14,13 @@
 #include "../history/scenenodes/scenenodeschangename.h"
 #include "../history/scenenodes/scenenodeschangeangle.h"
 #include "../history/scenenodes/scenenodeschangecolor.h"
+#include "../history/scenenodes/scenenodeschangevisibility.h"
 
 #include "../history/label/changetext.h"
 #include "../history/label/changelinespacing.h"
+
+#include "../history/sprite2d/changeflipx.h"
+#include "../history/sprite2d/changeflipy.h"
 
 
 #include "database/databasebindings.h"
@@ -27,16 +31,15 @@
 #include "scenes/scenesnamesetter.h"
 
 #include "scenenodes/scenenodesbindings.h"
-#include "scenenodes/scenenodesvisibilitysetter.h"
 #include "scenenodes/scenenodessetter.h"
+#include "scenenodes/scenenodesflagsetter.h"
 #include "scenenodes/scenenodesareasetter.h"
 #include "scenenodes/scenenodesfontsizesetter.h"
 #include "scenenodes/scenenodesfontsetter.h"
+#include "scenenodes/scenenodesoptionssetter.h"
 
 
 #include <QFileDialog>
-#include <QFile>
-#include <QMessageBox>
 #include <QTextStream>
 
 Q_DECLARE_METATYPE(QScriptContext*)
@@ -604,13 +607,17 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     m_registered_classes << _addcustomobject;
     scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject)); // E.scenenodes._addCustomObject
 
+	scripting::Callable* makeBackground = scripting::make_scripting_call(scripting::scenenodes::makeBackground, this);
+    m_registered_classes << makeBackground;
+    scenenodes.setProperty("makeBackground", m_engine->newObject(makeBackground)); // E.scenenodes.makeBackground
+
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
     m_registered_classes << remove;
     scenenodes.setProperty("remove", m_engine->newObject(remove)); // E.scenenodes.remove
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     // All props
-    set->add(new scripting::scenenodes::VisibilitySetter(m_engine));
+    set->add(new scripting::scenenodes::FlagSetter(m_engine, "visible", history::scenenodes::changeVisibility));
 	set->add(new scripting::scenenodes::Setter<sad::String, history::scenenodes::ChangeName>(m_engine, "name"));
     set->add(new scripting::scenenodes::AreaSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<double, history::scenenodes::ChangeAngle>(m_engine, "angle"));
@@ -620,8 +627,12 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
     set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
     set->add(new scripting::scenenodes::FontSetter(m_engine));
-
-    m_registered_classes << set;
+	// sad::Sprite2D props
+    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
+    set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipy", history::sprite2d::changeFlipY));
+    set->add(new scripting::scenenodes::OptionsSetter(m_engine));
+	
+	m_registered_classes << set;
 	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 	
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
@@ -640,6 +651,10 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "font"));
+	// sad::Sprite2D props
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "options"));
 
     m_registered_classes << get;
 	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get

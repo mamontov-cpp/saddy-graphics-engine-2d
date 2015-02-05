@@ -1610,8 +1610,20 @@
     <ClCompile Include="scripting\queryresource.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\scenenodes\scenenodesvisibilitysetter.cpp">
-      <Filter>Source Files\scripting\scenes</Filter>
+    <ClCompile Include="scripting\scenenodes\scenenodesfontsizesetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesareasetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesfontsetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesflagsetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\scenenodes\scenenodesoptionssetter.cpp">
+      <Filter>Source Files\scripting\scenenodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2065,10 +2077,22 @@
     <ClInclude Include="scripting\scenenodes\scenenodesabstractsetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodesvisibilitysetter.h">
+    <ClInclude Include="scripting\scenenodes\scenenodessetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodessetter.h">
+    <ClInclude Include="scripting\scenenodes\scenenodesfontsizesetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesareasetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h">
+      <Filter>Header Files\history\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
   </ItemGroup>

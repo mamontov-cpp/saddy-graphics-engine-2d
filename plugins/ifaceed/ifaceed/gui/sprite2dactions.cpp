@@ -125,6 +125,42 @@ void gui::Sprite2DActions::moveLowerPointOfSprite(const sad::input::MouseMoveEve
 	}
 }
 
+
+void gui::Sprite2DActions::setSceneNodeAsBackground(sad::SceneNode* node, bool from_editor)
+{
+	const sad::Settings& settings = sad::Renderer::ref()->settings();
+	sad::Rect2D newrect(
+		sad::Point2D(0, 0),
+		sad::Point2D(settings.width(), settings.height())
+	);
+
+	sad::Maybe<sad::Rect2D> oldrect = node->getProperty<sad::Rect2D>("area");
+	sad::Maybe<float> oldangle = node->getProperty<float>("angle");
+	sad::Maybe<unsigned int> oldlayer = node->getProperty<unsigned int>("layer");
+
+	if (oldrect.exists() && oldangle.exists() && oldlayer.exists())
+	{
+		history::Command* c = new history::sprite2d::MakeBackground(
+			node,
+			oldrect.value(),
+			oldangle.value(),
+			oldlayer.value(),
+			newrect,
+			0,
+			0
+		);
+		if (from_editor) 
+		{
+			m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+		c->commit(m_panel->editor());
+	}
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::Sprite2DActions::add()
@@ -269,32 +305,11 @@ void gui::Sprite2DActions::spriteOptionsChanged(sad::String s)
 
 void gui::Sprite2DActions::makeBackground()
 {
-	const sad::Settings& settings = sad::Renderer::ref()->settings();
-	sad::Rect2D newrect(
-		sad::Point2D(0, 0),
-		sad::Point2D(settings.width(), settings.height())
-	);
+	
 	sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
 	if (m_panel->editor()->shared()->activeObject() == NULL && node)
 	{
-		sad::Maybe<sad::Rect2D> oldrect = node->getProperty<sad::Rect2D>("area");
-		sad::Maybe<float> oldangle = node->getProperty<float>("angle");
-		sad::Maybe<unsigned int> oldlayer = node->getProperty<unsigned int>("layer");
-
-		if (oldrect.exists() && oldangle.exists() && oldlayer.exists())
-		{
-			history::Command* c = new history::sprite2d::MakeBackground(
-				node,
-				oldrect.value(),
-				oldangle.value(),
-				oldlayer.value(),
-				newrect,
-				0,
-				0
-			);
-			m_panel->editor()->history()->add(c);
-			c->commit(m_panel->editor());
-		}
+		setSceneNodeAsBackground(node, true);
 	}
 }
 

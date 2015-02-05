@@ -15,16 +15,25 @@ namespace scenenodes
 	 
 /*! Defines a visibility setter for scene node
  */
-class VisibilitySetter: public scripting::scenenodes::AbstractSetter<bool>
+class FlagSetter: public scripting::scenenodes::AbstractSetter<bool>
 {
 public: 
+	/*! A callback for building command 
+	 */
+	typedef history::Command* (*Callback)(sad::SceneNode*, bool, bool);
 	/*! Constructs new visibility setter 
 		\param[in] e engine
+		\param[in] prop a property to be set
+		\param[in] f flag
 	 */
-	VisibilitySetter(QScriptEngine* e);
+	FlagSetter(
+		QScriptEngine* e, 
+		const QString& prop, 
+		scripting::scenenodes::FlagSetter::Callback f
+	);
 	/*! Can be inherited
 	 */
-	virtual  ~VisibilitySetter();
+	virtual  ~FlagSetter();
 	/*! Returns command for editing a property
 		\param[in] obj an object to be set
 		\param[in] propertyname a property for object
@@ -33,6 +42,10 @@ public:
 		\return a command to be used
 	 */
 	virtual history::Command* command(sad::SceneNode* obj, const sad::String& propertyname, bool oldvalue,  bool newvalue);
+protected:
+	/*! A callback
+	 */
+	Callback m_f;
 };
 
 

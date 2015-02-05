@@ -10,6 +10,7 @@
 #include "../../history/scenenodes/scenenodesnew.h"
 
 #include "../../gui/scenenodeactions.h"
+#include "../../gui/sprite2dactions.h"
 
 #include <renderer.h>
 #include <label.h>
@@ -199,6 +200,14 @@ unsigned long long scripting::scenenodes::_addCustomObject(
     c->currentBatchCommand()->add(cmd);
 
     return obj->MajorId;
+}
+
+void scripting::scenenodes::makeBackground(
+    scripting::Scripting* scripting,
+	sad::SceneNode* node
+)
+{
+	scripting->panel()->sprite2DActions()->setSceneNodeAsBackground(node, false);
 }
 
 void scripting::scenenodes::remove(scripting::Scripting* scripting,  sad::SceneNode* node)

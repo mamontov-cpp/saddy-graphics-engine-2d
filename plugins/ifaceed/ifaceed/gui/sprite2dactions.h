@@ -6,6 +6,8 @@
 #pragma once
 #include <QObject>
 
+#include <scenenode.h>
+
 #include <input/events.h>
 
 class MainPanel;
@@ -50,6 +52,11 @@ public:
 		\param[in] e a sprite
 	 */
 	void moveLowerPointOfSprite(const sad::input::MouseMoveEvent & e);
+	/*! A scriptable implementation of making an item a background
+		\param[in] node a node to be edited
+		\param[in] from_editor whether action is performed from editor
+	 */
+	void setSceneNodeAsBackground(sad::SceneNode* node, bool from_editor);
 public slots:
 	/*! Starts placing sprites
 	 */
