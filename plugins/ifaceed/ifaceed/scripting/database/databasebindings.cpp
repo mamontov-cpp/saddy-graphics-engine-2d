@@ -85,6 +85,46 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 		list << "layer";
 	}
 
+	if (obj.value()->isInstanceOf("sad::SceneNode"))
+	{
+		list << "layer";
+		list << "scene";
+		list << "visible";
+		list << "area";
+		list << "angle";
+		list << "color";
+	}
+
+	if (obj.value()->isInstanceOf("sad::Label")
+		|| obj.value()->isInstanceOf("sad::db::custom::Object"))
+	{
+		list << "fontsize";
+		list << "text";
+		list << "linespacing";
+		list << "font";
+	}
+
+	if (obj.value()->isInstanceOf("sad::Sprite2D")
+		|| obj.value()->isInstanceOf("sad::db::custom::Object"))
+	{
+		list << "flipx";
+		list << "flipy";
+		list << "options";
+	}
+
+	if (obj.value()->isInstanceOf("sad::db::custom::Object"))
+	{
+		list << "schema";
+		sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(obj.value());
+		const sad::Hash<sad::String, sad::db::Property*> & sprops =  o->schemaProperties();
+		for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = sprops.const_begin();
+			it != sprops.const_end();
+			++it)
+		{
+			list << it.key().c_str();
+		}
+	}
+
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
 
