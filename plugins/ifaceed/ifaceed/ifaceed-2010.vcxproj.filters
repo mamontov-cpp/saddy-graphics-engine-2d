@@ -2119,9 +2119,6 @@
     <ClInclude Include="scripting\scenenodes\scenenodesfontsetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h">
-      <Filter>Header Files\history\scenenodes</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\scenenodes\scenenodesoptionssetter.h">
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
@@ -2135,6 +2132,12 @@
       <Filter>Header Files\scripting\scenenodes</Filter>
     </ClInclude>
     <ClInclude Include="scripting\ways\waysbindings.h">
+      <Filter>Header Files\scripting\ways</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\scenenodes\scenenodesflagsetter.h">
+      <Filter>Header Files\scripting\scenenodes</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\ways\wayssetter.h">
       <Filter>Header Files\scripting\ways</Filter>
     </ClInclude>
   </ItemGroup>

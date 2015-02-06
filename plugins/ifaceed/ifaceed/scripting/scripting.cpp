@@ -22,6 +22,11 @@
 #include "../history/sprite2d/changeflipx.h"
 #include "../history/sprite2d/changeflipy.h"
 
+#include "../history/ways/wayschangename.h"
+#include "../history/ways/wayschangetotaltime.h"
+#include "../history/ways/wayschangeclosed.h"
+
+
 
 #include "database/databasebindings.h"
 #include "database/databasepropertysetter.h"
@@ -42,6 +47,7 @@
 #include "scenenodes/scenenodescustomsetter.h"
 
 #include "ways/waysbindings.h"
+#include "ways/wayssetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -854,6 +860,23 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 	remove->setName("remove");
 	m_registered_classes << remove;
 	ways.setProperty("remove", m_engine->newObject(remove)); // E.ways.remove
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+    set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(m_engine, "name"));
+	set->add(new scripting::ways::Setter<double, history::ways::ChangeTotalTime>(m_engine, "totaltime"));
+	set->add(new scripting::ways::Setter<bool, history::ways::ChangeClosed>(m_engine, "closed"));
+    m_registered_classes << set;
+	ways.setProperty("set", m_engine->newObject(set)); // E.ways.set
+
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+    get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, unsigned long long>(m_engine, "minorid"));
+	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, double>(m_engine, "totaltime"));
+	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>(m_engine, "closed"));
+	m_registered_classes << get;
+	ways.setProperty("get", m_engine->newObject(get)); // E.ways.get
 
     v.setProperty("ways", ways); // E.ways
 
