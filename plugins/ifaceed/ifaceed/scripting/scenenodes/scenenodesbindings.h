@@ -20,7 +20,7 @@ class Scripting;
 namespace scenenodes
 {
 
-/*! Lists a scene node
+/*! Lists all scene nodes from all scenes
 	\param[in] ctx context
 	\param[in] engine an enginge
 	\return a scene nodes list

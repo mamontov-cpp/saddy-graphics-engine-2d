@@ -52,7 +52,7 @@ QString  scripting::scripting_log_object(const QScriptValue& v, QScriptEngine *e
 		}
 		result += "]";
 	}
-	if (handled == false && v.isObject())
+    if (handled == false && v.isObject() && !v.isBool() && !v.isDate() && !v.isNumber() && !v.isString() && !v.isVariant())
 	{
 		handled = true;
 		QScriptValue o = engine->toObject(v);
