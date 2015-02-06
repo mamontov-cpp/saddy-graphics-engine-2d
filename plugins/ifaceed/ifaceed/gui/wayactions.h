@@ -9,6 +9,8 @@
 
 #include <input/events.h>
 
+#include <p2d/app/way.h>
+
 class MainPanel;
 
 namespace gui
@@ -46,6 +48,12 @@ public:
         \param[in] p a point for row
      */
     void updateWayPoint(int row, const sad::Point2D& p);
+	/*! Removes way from database, adding new command
+		\param[in] w a way to be removed 
+		\param[in] fromeditor whether it's being removed from editor
+		\param[in] row a row to be found in editor
+	 */
+	void removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row = -1);
 public slots:
     /*! Adds new way to a list
      */

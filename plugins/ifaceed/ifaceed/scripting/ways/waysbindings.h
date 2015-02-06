@@ -12,9 +12,12 @@
 #include <QScriptEngine>
 #include <QVector>
 
+#include <p2d/app/way.h>
 
 namespace scripting
 {
+
+class Scripting;
 
 namespace ways
 {
@@ -28,6 +31,28 @@ QScriptValue list(
     QScriptContext* ctx,
     QScriptEngine* engine
 );
+
+/*! Adds way. Prefixed by underscore, since it will be mapped to _add function and add
+    is reserved for call, which will take object, preprocess it's fields and call _add using fields of this object.
+	\param[in] scripting a scripting part
+	\param[in] name a name for way
+	\param[in] totaltime a total time for way
+	\param[in] closed whether way is closed
+	\param[in] points a list of points
+ */ 
+unsigned long long _add(
+	scripting::Scripting* scripting, 
+	sad::String name,
+	double totaltime,
+	bool closed,
+	sad::Vector<sad::p2d::app::WayPoint> points
+);
+
+/*! Removes a way
+	\param[in] scripting a scripting part
+	\param[in] way a way to be removed
+ */
+void remove(scripting::Scripting* scripting, sad::p2d::app::Way* node);
 
 }
 

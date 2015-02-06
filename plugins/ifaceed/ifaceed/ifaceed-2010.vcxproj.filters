@@ -1637,6 +1637,24 @@
     <ClCompile Include="scripting\ways\waysbindings.cpp">
       <Filter>Source Files\scripting\ways</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_wayspointref.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_wayspointref.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_wayspointref.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_wayspointref.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_wayspointref.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\ways\wayspointref.cpp">
+      <Filter>Source Files\scripting\ways</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2324,6 +2342,9 @@
     </CustomBuild>
     <CustomBuild Include="scripting\acolor.h">
       <Filter>Header Files\scripting</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\ways\wayspointref.h">
+      <Filter>Header Files\scripting\ways</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

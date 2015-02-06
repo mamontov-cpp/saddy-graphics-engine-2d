@@ -107,6 +107,64 @@ void gui::WayActions::addWay()
     m_panel->UI()->lstWays->setCurrentRow(m_panel->UI()->lstWays->count() - 1);
 }
 
+
+void gui::WayActions::removeWayFromDatabase(sad::p2d::app::Way* w, bool fromeditor, int row)
+{
+	sad::Vector<sad::db::Object*> animationlist;
+	sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
+
+	if (row == -1)
+	{
+		row = this->m_panel->findWayInList(w);
+	}
+
+	sad::Vector<sad::animations::WayMoving*> dependentanimations;
+	for(size_t i = 0; i < animationlist.size(); i++)
+	{
+		sad::db::Object* tmp = animationlist[i];
+		if (tmp->isInstanceOf("sad::animations::WayMoving"))
+		{
+			sad::animations::WayMoving* a = static_cast<sad::animations::WayMoving*>(tmp);
+			if (a->wayObjectId() == w->MajorId)
+			{
+				dependentanimations << a;
+			}
+		}
+	}
+
+	sad::Vector<sad::db::Object*> animationinstancelist;
+	sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstancelist);
+
+	sad::Vector<sad::animations::WayInstance*> dependentinstances;
+	for(size_t i = 0; i < animationinstancelist.size(); i++)
+	{
+		sad::db::Object* tmp = animationinstancelist[i];
+		if (tmp->isInstanceOf("sad::animations::WayInstance"))
+		{
+			sad::animations::WayInstance* a = static_cast<sad::animations::WayInstance*>(tmp);
+			if (a->wayMajorId() == w->MajorId)
+			{
+				dependentinstances << a;
+			}
+		}
+	}
+
+	int waymovingcombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationWay, w);
+	int wayinstancecombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationInstanceWay, w);
+
+    history::ways::Remove* c = new history::ways::Remove(w, row);
+    c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos, dependentinstances);
+	c->commit(m_panel->editor());
+    core::Editor* editor = m_panel->editor();
+	if (fromeditor)
+	{
+		editor->history()->add(c);
+	} 
+	else
+	{
+		editor->currentBatchCommand()->add(c);
+	}
+}
 void gui::WayActions::removeWay()
 {
     int row = m_panel->UI()->lstWays->currentRow();
@@ -115,47 +173,7 @@ void gui::WayActions::removeWay()
         QVariant variant = m_panel->UI()->lstWays->item(row)->data(Qt::UserRole);
         sad::p2d::app::Way* w = variant.value<sad::p2d::app::Way*>();
 
-		sad::Vector<sad::db::Object*> animationlist;
-		sad::Renderer::ref()->database("")->table("animations")->objects(animationlist);
-
-		sad::Vector<sad::animations::WayMoving*> dependentanimations;
-		for(size_t i = 0; i < animationlist.size(); i++)
-		{
-			sad::db::Object* tmp = animationlist[i];
-			if (tmp->isInstanceOf("sad::animations::WayMoving"))
-			{
-				sad::animations::WayMoving* a = static_cast<sad::animations::WayMoving*>(tmp);
-				if (a->wayObjectId() == w->MajorId)
-				{
-					dependentanimations << a;
-				}
-			}
-		}
-
-		sad::Vector<sad::db::Object*> animationinstancelist;
-		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstancelist);
-
-		sad::Vector<sad::animations::WayInstance*> dependentinstances;
-		for(size_t i = 0; i < animationinstancelist.size(); i++)
-		{
-			sad::db::Object* tmp = animationinstancelist[i];
-			if (tmp->isInstanceOf("sad::animations::WayInstance"))
-			{
-				sad::animations::WayInstance* a = static_cast<sad::animations::WayInstance*>(tmp);
-				if (a->wayMajorId() == w->MajorId)
-				{
-					dependentinstances << a;
-				}
-			}
-		}
-
-		int waymovingcombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationWay, w);
-		int wayinstancecombopos = m_panel->findInComboBox(m_panel->UI()->cmbWayAnimationInstanceWay, w);
-
-        history::ways::Remove* c = new history::ways::Remove(w, row);
-        c->setDependencies(dependentanimations, waymovingcombopos, wayinstancecombopos, dependentinstances);
-		c->commit(m_panel->editor());
-        m_panel->editor()->history()->add(c);
+		this->removeWayFromDatabase(w, true, row);
     }
 }
 
