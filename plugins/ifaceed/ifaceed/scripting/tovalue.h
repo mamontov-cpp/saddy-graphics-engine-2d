@@ -5,12 +5,15 @@
  */
 #pragma once
 #include <QString>
+#include <QVector>
 #include <QScriptValue>
 #include <maybe.h>
 #include <sadcolor.h>
 #include <sadrect.h>
 #include <sadsize.h>
 #include <sadstring.h>
+
+#include <p2d/app/way.h>
 
 namespace sad
 {
@@ -31,17 +34,6 @@ class Object;
 
 }
 
-namespace p2d
-{
-	
-namespace app
-{
-
-class Way;
-
-}
-
-}
 
 namespace dialogue
 {
@@ -117,6 +109,7 @@ DEFINE_TO_VALUE_FOR_TYPE( sad::db::custom::Object* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::p2d::app::Way* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Phrase )
+DEFINE_TO_VALUE_FOR_TYPE( sad::Vector<sad::p2d::app::WayPoint> )
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }
