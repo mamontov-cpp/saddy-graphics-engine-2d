@@ -41,6 +41,8 @@
 #include "scenenodes/scenenodescustomgetter.h"
 #include "scenenodes/scenenodescustomsetter.h"
 
+#include "ways/waysbindings.h"
+
 #include <QFileDialog>
 #include <QTextStream>
 
@@ -109,6 +111,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	this->initDatabasePropertyBindings(v);
 	this->initSceneBindings(v);
 	this->initSceneNodesBindings(v);
+    this->initWaysBindings(v);
 }
 
 scripting::Scripting::~Scripting()
@@ -834,6 +837,15 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 		"	throw new Error(\"Specify 2 or 3 arguments\");"
 		"};"
 	);
+}
+
+void scripting::Scripting::initWaysBindings(QScriptValue& v)
+{
+    QScriptValue ways = m_engine->newObject();
+
+    ways.setProperty("list", m_engine->newFunction(scripting::ways::list)); // E.ways.list
+
+    v.setProperty("ways", ways); // E.ways
 }
 
 void scripting::Scripting::saveScript()

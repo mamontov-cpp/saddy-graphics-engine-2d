@@ -137,7 +137,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	constantslist << "db";
 	constantslist << "scenes";
 	constantslist << "scenenodes";
-	constantslist << "add";
+    constantslist << "ways";
+    constantslist << "add";
 	constantslist << "remove";
 
 	gui::codeedit::Highlighter::setPredefinedConstants(constantslist);

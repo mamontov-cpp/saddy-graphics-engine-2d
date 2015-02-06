@@ -102,17 +102,21 @@ protected:
 	 */
 	void initSadTypeConstructors();
 	/*! Inits all bindings for scenes
-		\param[out] v a global value
+        \param[out] v a global value (E)
 	*/
 	void initDatabasePropertyBindings(QScriptValue& v);
 	/*! Inits scenes bindings for scenes
-		\param[out] v a global value
+        \param[out] v a global value (E)
 	 */
 	void initSceneBindings(QScriptValue& v);
-	/*! Inits scene nodes bindings for scenes
-		\param[out] v a global value
+    /*! Inits scene nodes bindings
+        \param[out] v a global value (E)
 	 */
 	void initSceneNodesBindings(QScriptValue& v);
+    /*! Inits way bindings
+        \param[out] v a global value (E)
+     */
+    void initWaysBindings(QScriptValue& v);
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;
