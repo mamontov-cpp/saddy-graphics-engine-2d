@@ -12,6 +12,8 @@
 #include "color.h"
 #include "acolor.h"
 
+#include "ways/wayspointref.h"
+
 #include <QVariant>
 #include <QScriptValueIterator>
 
@@ -24,6 +26,7 @@
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
 
+Q_DECLARE_METATYPE(scripting::ways::PointRef*)
 Q_DECLARE_METATYPE(scripting::Point2D*)
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
@@ -242,6 +245,14 @@ scripting::ToValue<sad::Point2D>::perform(
 		if (oo)
 		{
 			result.setValue(oo->toPoint());
+		}
+		else 
+		{
+			scripting::ways::PointRef* pr = qobject_cast<scripting::ways::PointRef*>(o);
+			if (pr)
+			{
+				result.setValue(pr->toPoint());
+			}
 		}
 	} 
 	else

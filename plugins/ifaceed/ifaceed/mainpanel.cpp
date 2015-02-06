@@ -168,6 +168,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "writableProperties";
 	functionlist << "moveBack";
 	functionlist << "moveFront";
+	functionlist << "_add";
 	functionlist << "_addLabel";
 	functionlist << "_addSprite2D";
 	functionlist << "_addCustomObject";
@@ -208,6 +209,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "writableProperties";
 	functionlist << "moveBack(\"name\")";
 	functionlist << "moveFront(\"name\")";
+	functionlist << "_add";
 	functionlist << "_addLabel";
 	functionlist << "_addSprite2D";
 	functionlist << "_addCustomObject";

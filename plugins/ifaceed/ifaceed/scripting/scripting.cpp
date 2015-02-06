@@ -845,7 +845,54 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 
     ways.setProperty("list", m_engine->newFunction(scripting::ways::list)); // E.ways.list
 
+	scripting::Callable* _add = scripting::make_scripting_call(scripting::ways::_add, this);
+	_add->setName("_add");
+	m_registered_classes << _add;
+	ways.setProperty("_add", m_engine->newObject(_add)); // E.ways._add
+
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::ways::remove, this);
+	remove->setName("remove");
+	m_registered_classes << remove;
+	ways.setProperty("remove", m_engine->newObject(remove)); // E.ways.remove
+
     v.setProperty("ways", ways); // E.ways
+
+	m_engine->evaluate(
+		"E.ways.add = function(o) {"  
+		"   if (typeof o == \"undefined\") "
+		"   {                              "
+		"      o = {};                     "
+		"   }                              "
+		"	if (\"name\" in o == false)    "
+		"   {                              "
+		"     o[\"name\"] = \"\";          "
+		"   }                              "
+		"	if (\"totaltime\" in o == false)   "
+		"	{"
+		"	   o[\"totaltime\"] = 0;       "
+		"	}"
+		"	if (\"closed\" in o == false)  "
+		"	{"
+		"	   o[\"closed\"] = false;      "
+		"	}"
+		"	if (\"points\" in o == false)  "
+		"	{"
+		"	   o[\"points\"] = [];         "
+		"	}"
+		"	return E.ways._add(o[\"name\"], o[\"totaltime\"], o[\"closed\"], o[\"points\"]);"
+		"};"
+		"E.ways.attr = function() {"  
+		"	if (arguments.length == 2)"
+		"	{"
+        "		return E.ways.get(arguments[0], arguments[1]);"
+		"	}"
+		"	if (arguments.length == 3)"
+		"	{"
+        "		return E.ways.set(arguments[0], arguments[1], arguments[2]);"
+		"	}"
+		"	throw new Error(\"Specify 2 or 3 arguments\");"
+		"};"
+	);
 }
 
 void scripting::Scripting::saveScript()
