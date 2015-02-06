@@ -13,6 +13,7 @@
 #include "acolor.h"
 
 #include <QVariant>
+#include <QScriptValueIterator>
 
 #include <scene.h>
 #include <scenenode.h>
@@ -802,5 +803,46 @@ scripting::ToValue<sad::dialogue::Phrase>::perform(
             result.setValue(var.value<sad::dialogue::Phrase>());
         }
     }
+    return result;
+}
+
+
+sad::Maybe< sad::Vector<sad::p2d::app::WayPoint> >
+scripting::ToValue< sad::Vector<sad::p2d::app::WayPoint> >::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe< sad::Vector<sad::p2d::app::WayPoint> > result;
+	if (v.isArray())
+	{
+		bool valid = true;
+		sad::Vector<sad::p2d::app::WayPoint> k;
+
+		QScriptValueIterator it(v);
+		while(it.hasNext() && valid)
+		{
+			it.next();
+			bool ok = false;
+			it.name().toInt(&ok);
+			if (ok) 
+			{
+				sad::Maybe<sad::Point2D> maybepoint = scripting::ToValue<sad::Point2D>::perform(it.value());
+				if (maybepoint.exists())
+				{
+					k << maybepoint.value();
+				}
+				else
+				{
+					valid = false;
+				}
+			}
+		}
+
+		if (valid)
+		{
+			result.setValue(k);
+		}		
+	}
+    
     return result;
 }
