@@ -231,6 +231,28 @@ void gui::DialogueActions::changePhraseViewHint(
 	}
 }
 
+void gui::DialogueActions::removeDialogueFromDatabase(
+		sad::dialogue::Dialogue* d,
+		bool fromeditor,
+		int row
+)
+{
+	if (row == -1)
+	{
+		row = m_panel->findDialogueInList(d);
+	}
+	history::dialogues::Remove* c = new history::dialogues::Remove(d, row);
+    c->commit(m_panel->editor());
+	if (fromeditor)
+	{
+		m_panel->editor()->history()->add(c);
+	}
+	else
+	{
+		m_panel->editor()->currentBatchCommand()->add(c);
+	}
+}
+
 // ========================== PUBLIC SLOTS ==========================
 
 void gui::DialogueActions::addDialogue()
@@ -245,7 +267,6 @@ void gui::DialogueActions::addDialogue()
     m_panel->UI()->lstDialogues->setCurrentRow(m_panel->UI()->lstDialogues->count() - 1);
 }
 
-
 void gui::DialogueActions::removeDialogue()
 {
     int row = m_panel->UI()->lstDialogues->currentRow();
@@ -253,9 +274,6 @@ void gui::DialogueActions::removeDialogue()
     {
         QVariant variant = m_panel->UI()->lstDialogues->item(row)->data(Qt::UserRole);
         sad::dialogue::Dialogue* w = variant.value<sad::dialogue::Dialogue*>();
-        history::dialogues::Remove* c = new history::dialogues::Remove(w, row);
-        c->commit(m_panel->editor());
-        m_panel->editor()->history()->add(c);
     }
 }
 

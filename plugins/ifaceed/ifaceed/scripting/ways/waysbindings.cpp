@@ -42,7 +42,7 @@ unsigned long long scripting::ways::_add(
 	sad::Renderer::ref()->database("")->table("ways")->add(w);
     history::ways::New* c = new history::ways::New(w);
     c->commit(panel->editor());
-    panel->editor()->history()->add(c);
+    panel->editor()->currentBatchCommand()->add(c);
 
 	return w->MajorId;
 }

@@ -58,6 +58,7 @@ DECLARE_COMMON_TYPE(sad::Vector<sad::Vector<sad::AColor> >)
 DECLARE_COMMON_TYPE(sad::Vector<sad::Point2D>)
 DECLARE_COMMON_TYPE(sad::dialogue::Phrase)
 DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase*>)
+DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase>)
 DECLARE_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_COMMON_TYPE(sad::Vector<sad::String>)
 
