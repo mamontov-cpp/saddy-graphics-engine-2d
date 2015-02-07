@@ -33,6 +33,7 @@
 
 #include "gui/eventfilter.h"
 #include "gui/renderways.h"
+#include "gui/wayactions.h"
 
 #include "typeconverters/save.h"
 #include "typeconverters/load.h"
@@ -373,7 +374,8 @@ void core::Editor::tryEnterWayEditingState()
 		this->m_machine->enterState("ways/selected");
 		int row = m_mainwindow->UI()->lstWays->currentRow();
 		sad::p2d::app::Way* way = m_mainwindow->UI()->lstWays->item(row)->data(Qt::UserRole).value<sad::p2d::app::Way*>();
-		m_shared->setSelectedWay(way);			
+		m_shared->setSelectedWay(way);	
+		m_mainwindow->wayActions()->wayChanged(row);
 	}
 }
 

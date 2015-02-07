@@ -351,10 +351,10 @@ void scripting::Scripting::showHelp()
 		"				<li>method <b>_addCustomObject(name of scene, schema name, name, font size, text, area as rectangle, color) - adds a custom object to a scene</li>"
 		"				<li>method <b>addCustomObject(object) - does the same as previous only style is different. Object must have fields:  \"schema\", \"fontsize\", \"scene\", \"text\", \"area\" . Fields \"fontsize\", \"color\", \"name\" are optional.</li>"
 		"				<li>method <b>makeBackground(scene node) - sets nodes as background. May cause labels to disappear</li>"
-		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene by id or by name</li>"
+		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene node by id or by name</li>"
 		"				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
 		"				<li>method <b>moveFront(22)</b>, <b>moveFront(\"name\")</b> - moves scene front in list by id or by name</li>"
-		"				<li>method <b>set(\"scenename\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"				<li>method <b>set(\"nodename\", \"propertyname\", \"value\")</b> - sets property of scene."
 		"					<ul>"	
 		"						<li><b>[All node types]</b>property <b>\"name\"</b>  - name of node as string.</li>"
 		"						<li><b>[All node types]</b>property <b>\"visible\"</b>  - visibility of node as bool.</li>"
@@ -372,13 +372,12 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[Custom Object] properties of custom objects.</li>"
 		"					</ul>"
 		"				</li>"		
-		"				<li>method <b>get(\"scenename\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"				<li>method <b>get(\"nodename\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
 		"					<ul>"
 		"						<li><b>[All node types]</b>property <b>\"name\"</b>  - name as string</li>"
 		"						<li><b>[All node types]</b>property <b>\"layer\"</b>  - a layer of scene in list. The less it is, the more early scene is drawn</li>"
 		"						<li><b>[All node types]</b>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
 		"						<li><b>[All node types]</b>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
-		"						<li><b>[All node types]</b>property <b>\"name\"</b>  - name of node as string.</li>"
 		"						<li><b>[All node types]</b>property <b>\"visible\"</b>  - visibility of node as bool.</li>"
 		"						<li><b>[All node types]</b>property <b>\"area\"</b>  - area of node as sad::Rect2D.</li>"
 		"						<li><b>[All node types]</b>property <b>\"angle\"</b>  - angle of node as double.</li>"
@@ -392,6 +391,42 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[Sprite or Custom Object]</b>property <b>\"options\"</b>  - a sprite options resource name.</li>"
 		"						<li><b>[Custom Object]</b>property <b>\"schema\"</b>  - a schema resource name.</li>"
 		"						<li><b>[Custom Object] properties of custom objects.</li>"
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
+		"			</ul>"
+		"		</li>"
+		"		<li>property <b>ways</b> - holds all operations related to ways"
+		"			<ul>"
+		"				<li>method <b>list()</b> - lists all ways, returning all of majorids for it</li>"
+		"				<li>method <b>_add(name, totaltime as double, closed as bool, array of points)</b> - adds new way to a scene</li>"
+		"				<li>method <b>add(object)</b> - does the same as previous only style is different. Fields \"name\", \"totaltime\", \"closed\", \"points\" are optional.</li>"
+		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes way by id or by name</li>"
+		"				<li>method <b>addPoint(way, point)</b> - adds new point to a way.</li>"
+		"				<li>method <b>removePoint(way, position of point)</b> - removes a point from a way.</li>"
+		"				<li>method <b>point(way, position of point)</b> - returns a reference of point from a way, which can be casted to common point. Throws exception on invalid positions. Properties of point:"
+		"					<ul>"
+		"						<li>property <b>x</b> - x coordinate of point</li>"
+		"						<li>property <b>y</b> - y coordinate of point</li>"
+		"						<li>property <b>position</b> - read-only position of point</li>"
+		"						<li>method <b>moveBack</b> - moves point back in way list (does nothing, if point cannot be moved in such way)</li>"
+		"						<li>method <b>moveFront</b> - moves point front in way list (does nothing, if point cannot be moved in such way)</li>"
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"					<ul>"	
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"totaltime\"</b>  - a total time for a way.</li>"
+		"						<li>property <b>\"closed\"</b>  - whether way is closed.</li>"		
+		"					</ul>"
+		"				</li>"		
+		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"					<ul>"
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
+		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
+		"						<li>property <b>\"totaltime\"</b>  - a total time for a way.</li>"
+		"						<li>property <b>\"closed\"</b>  - whether way is closed.</li>"		
 		"					</ul>"
 		"				</li>"
 		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
@@ -860,6 +895,26 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 	remove->setName("remove");
 	m_registered_classes << remove;
 	ways.setProperty("remove", m_engine->newObject(remove)); // E.ways.remove
+
+	scripting::Callable* length = scripting::make_scripting_call(scripting::ways::length, this);
+	length->setName("length");
+	m_registered_classes << length;
+	ways.setProperty("length", m_engine->newObject(length)); // E.ways.length
+
+	scripting::Callable* addPoint = scripting::make_scripting_call(scripting::ways::addPoint, this);
+	addPoint->setName("addPoint");
+	m_registered_classes << addPoint;
+	ways.setProperty("addPoint", m_engine->newObject(addPoint)); // E.ways.addPoint
+
+	scripting::Callable* removePoint = scripting::make_scripting_call(scripting::ways::removePoint, this);
+	removePoint->setName("removePoint");
+	m_registered_classes << removePoint;
+	ways.setProperty("removePoint", m_engine->newObject(removePoint)); // E.ways.removePoint
+
+	scripting::Callable* point = scripting::make_scripting_call(scripting::ways::point, this);
+	point->setName("point");
+	m_registered_classes << point;
+	ways.setProperty("point", m_engine->newObject(point)); // E.ways.point
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(m_engine, "name"));

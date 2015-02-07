@@ -1,4 +1,5 @@
 #include "waysbindings.h"
+#include "wayspointref.h"
 
 #include "../querytable.h"
 #include "../scripting.h"
@@ -10,6 +11,8 @@
 #include "../../gui/wayactions.h"
 
 #include "../../history/ways/waysnew.h"
+#include "../../history/ways/wayswaypointnew.h"
+#include "../../history/ways/wayswaypointremove.h"
 
 
 QScriptValue scripting::ways::list(
@@ -41,11 +44,52 @@ unsigned long long scripting::ways::_add(
     c->commit(panel->editor());
     panel->editor()->history()->add(c);
 
-	return 0;
+	return w->MajorId;
 }
 
 void scripting::ways::remove(scripting::Scripting* scripting, sad::p2d::app::Way* node)
 {
 	MainPanel* panel = scripting->panel();
 	panel->wayActions()->removeWayFromDatabase(node, false);
+}
+
+unsigned int scripting::ways::length(scripting::Scripting*, sad::p2d::app::Way* way)
+{
+	return way->wayPoints().count();
+}
+
+void scripting::ways::addPoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, sad::Point2D point)
+{
+	history::ways::WayPointNew* command = new history::ways::WayPointNew(way);
+	command->setPoint(point);
+
+	core::Editor* e = scripting->panel()->editor();
+	command->commit(e);
+	e->currentBatchCommand()->add(command);
+}
+
+bool scripting::ways::removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
+{
+	if (pos >= way->wayPoints().count())
+	{
+		return false;
+	}
+
+	history::ways::WayPointRemove* command = new history::ways::WayPointRemove(way, pos);
+
+	core::Editor* e = scripting->panel()->editor();
+	command->commit(e);
+	e->currentBatchCommand()->add(command);
+	return true;
+}
+
+QScriptValue scripting::ways::point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos)
+{
+	if (pos >= way->wayPoints().count())
+	{
+		scripting->engine()->currentContext()->throwError(QScriptContext::SyntaxError, "point: position is out of way");
+		return scripting->engine()->undefinedValue();
+	}
+
+	return scripting->engine()->newQObject(new scripting::ways::PointRef(way, pos));
 }

@@ -177,6 +177,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addCustomObject";
 	functionlist << "listScene";
 	functionlist << "makeBackground";
+	functionlist << "length";
+	functionlist << "addPoint";
+	functionlist << "removePoint";
+	functionlist << "point";
+	functionlist << "addPhrase";
+	functionlist << "phrase";
+	functionlist << "removePhrase";
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
@@ -218,6 +225,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addCustomObject";
 	functionlist << "listScene";
 	functionlist << "makeBackground";
+	functionlist << "length";
+	functionlist << "addPoint";
+	functionlist << "removePoint";
+	functionlist << "point";
+	functionlist << "addPhrase";
+	functionlist << "phrase";
+	functionlist << "removePhrase";
 
 
 	functionlist << constantslist;

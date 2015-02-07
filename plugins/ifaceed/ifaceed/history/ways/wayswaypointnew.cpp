@@ -61,3 +61,7 @@ void history::ways::WayPointNew::rollback(core::Editor* ob)
     }
 }
 
+void history::ways::WayPointNew::setPoint(const sad::Point2D& point)
+{
+	m_point = point;
+}

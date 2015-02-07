@@ -24,7 +24,7 @@ sad::db::Object* scripting::query_object(const QScriptValue& v)
 		}
 	}
 
-	if (result != NULL)
+	if (result == NULL)
 	{
 		sad::Maybe<unsigned long long> maybemajorid = scripting::ToValue<unsigned long long>::perform(v);
 		if (maybemajorid.exists())

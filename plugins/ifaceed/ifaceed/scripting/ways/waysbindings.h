@@ -6,8 +6,6 @@
 #pragma once
 #include <sadstring.h>
 #include <sadrect.h>
-#include <sadcolor.h>
-#include <scene.h>
 
 #include <QScriptEngine>
 #include <QVector>
@@ -52,7 +50,34 @@ unsigned long long _add(
 	\param[in] scripting a scripting part
 	\param[in] way a way to be removed
  */
-void remove(scripting::Scripting* scripting, sad::p2d::app::Way* node);
+void remove(scripting::Scripting* scripting, sad::p2d::app::Way* way);
+
+/*! Returns length of way in points
+	\param[in] scripting a scripting part
+	\param[in] way a way to be removed
+ */
+unsigned int length(scripting::Scripting* scripting, sad::p2d::app::Way* way);
+
+/*! Adds point to a way
+	\param[in] scripting a scripting part
+	\param[in] way a way to be removed
+	\param[in] point a point to be added
+ */
+void addPoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, sad::Point2D point);
+
+/*! Removes point from way
+	\param[in] scripting a scripting part
+	\param[in] way a way to be removed
+	\param[in] pos a position
+ */
+bool removePoint(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
+
+/*! Fetches point reference from way
+	\param[in] scripting a scripting part
+	\param[in] way a way to be removed
+	\param[in] pos a position
+ */
+QScriptValue point(scripting::Scripting* scripting, sad::p2d::app::Way* way, unsigned int pos);
 
 }
 

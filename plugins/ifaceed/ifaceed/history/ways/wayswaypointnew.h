@@ -34,6 +34,10 @@ public:
         \param[in] ob an observer for looking for command
      */
     virtual void rollback(core::Editor * ob = NULL);
+	/*! Sets point for new point
+		\param[in] point a point
+	 */
+	void setPoint(const sad::Point2D& point);
 protected:
     /*! A current selected way
      */

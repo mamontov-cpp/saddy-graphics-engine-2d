@@ -9,6 +9,7 @@
 #include "../../core/editor.h"
 
 #include "../../history/ways/wayswaypointchange.h"
+#include "../../history/ways/wayswaypointswap.h"
 
 
 scripting::ways::PointRef::PointRef() : m_way(NULL), m_pos(0)
@@ -81,4 +82,39 @@ QString scripting::ways::PointRef::toString() const
 					 .arg(p.x())
 					 .arg(p.y());
 	return result;
+}
+
+unsigned int scripting::ways::PointRef::position() const
+{
+	return m_pos;
+}
+
+void scripting::ways::PointRef::moveBack()
+{
+	if (m_pos > 0)
+	{
+		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+		core::Editor* editor = e->panel()->editor();
+
+		history::Command* c = new history::ways::WayPointSwap(m_way, m_pos - 1, m_pos);
+		c->commit();
+		editor->currentBatchCommand()->add(c);
+		
+		m_pos--;
+	}
+}
+
+void scripting::ways::PointRef::moveFront()
+{
+	if (m_pos >= 0 && m_pos < m_way->wayPoints().count() - 1)
+	{
+		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+		core::Editor* editor = e->panel()->editor();
+
+		history::Command* c = new history::ways::WayPointSwap(m_way, m_pos, m_pos + 1);
+		c->commit();
+		editor->currentBatchCommand()->add(c);
+		
+		m_pos++;
+	}
 }
