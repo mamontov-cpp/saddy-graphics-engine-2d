@@ -950,7 +950,7 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 
 	m_engine->evaluate(
 		"E.ways.add = function(o) {"  
-		"   if (typeof o == \"undefined\") "
+		"   if (typeof o != \"object\")    "
 		"   {                              "
 		"      o = {};                     "
 		"   }                              "
@@ -993,11 +993,36 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 
 	 dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list)); // E.dialogues.list
 
+	 scripting::Callable* _add = scripting::make_scripting_call(scripting::dialogues::_add, this);
+	 _add->setName("_add");
+	 m_registered_classes << _add;
+	 dialogues.setProperty("_add", m_engine->newObject(_add)); // E.dialogues._add
+
+	 scripting::Callable* remove = scripting::make_scripting_call(scripting::dialogues::remove, this);
+	 remove->setName("remove");
+	 m_registered_classes << remove;
+	 dialogues.setProperty("remove", m_engine->newObject(remove)); // E.dialogues.remove
+
 	 v.setProperty("dialogues", dialogues); // E.dialogues
 
 	 m_engine->evaluate(
 		"var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
 		"	return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
+		"};"
+		"E.dialogues.add = function(o) {"  
+		"   if (typeof o != \"object\")    "
+		"   {                              "
+		"      o = {};                     "
+		"   }                              "
+		"	if (\"name\" in o == false)    "
+		"   {                              "
+		"     o[\"name\"] = \"\";          "
+		"   }                              "
+		"	if (\"phrases\" in o == false) "
+		"	{                              "
+		"	   o[\"phrases\"] = [];        "
+		"	}                              "
+		"	return E.dialogues._add(o[\"name\"], o[\"phrases\"]);"
 		"};"
 	);
 }

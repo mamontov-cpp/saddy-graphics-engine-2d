@@ -100,6 +100,16 @@ public:
 		const sad::String& newvalue, 
 		bool fromeditor
 	);
+	/*! Removes a dialogue from database
+		\param[in] d dialogue
+		\param[in] fromeditor whether it's being removed from editor
+		\param[in] row a row, where is dialogue located (-1 for custom)
+	 */
+	void removeDialogueFromDatabase(
+		sad::dialogue::Dialogue* d,
+		bool fromeditor,
+		int row = -1
+	);
 public slots:
 	/*! Called, when user clicks on button for adding a dialogue
 	 */
