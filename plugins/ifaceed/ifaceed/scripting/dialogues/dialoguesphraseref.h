@@ -43,6 +43,10 @@ public:
 	/*! Could be inherited
 	 */
 	virtual ~PhraseRef();
+	/*! Tests, whether phrase ref is valid
+		\return whether is valid
+	 */
+	bool valid() const;
 	/*! Converts a phrase to a phrase
 	 */
 	const sad::dialogue::Phrase& toPhrase() const;

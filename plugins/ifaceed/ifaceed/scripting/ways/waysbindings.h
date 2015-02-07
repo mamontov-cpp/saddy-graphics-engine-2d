@@ -23,7 +23,7 @@ namespace ways
 /*! Lists all ways
     \param[in] ctx context
     \param[in] engine an enginge
-    \return a scene nodes list
+    \return a ways list
  */
 QScriptValue list(
     QScriptContext* ctx,

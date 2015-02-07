@@ -904,3 +904,44 @@ scripting::ToValue< sad::Vector<sad::p2d::app::WayPoint> >::perform(
     
     return result;
 }
+
+
+sad::Maybe< sad::Vector<sad::dialogue::Phrase> >
+scripting::ToValue< sad::Vector<sad::dialogue::Phrase> >::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe< sad::Vector<sad::dialogue::Phrase> > result;
+	if (v.isArray())
+	{
+		bool valid = true;
+		sad::Vector<sad::dialogue::Phrase> k;
+
+		QScriptValueIterator it(v);
+		while(it.hasNext() && valid)
+		{
+			it.next();
+			bool ok = false;
+			it.name().toInt(&ok);
+			if (ok) 
+			{
+				sad::Maybe<sad::dialogue::Phrase> maybepoint = scripting::ToValue<sad::dialogue::Phrase>::perform(it.value());
+				if (maybepoint.exists())
+				{
+					k << maybepoint.value();
+				}
+				else
+				{
+					valid = false;
+				}
+			}
+		}
+
+		if (valid)
+		{
+			result.setValue(k);
+		}		
+	}
+    
+    return result;
+}

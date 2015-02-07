@@ -110,6 +110,7 @@ DEFINE_TO_VALUE_FOR_TYPE( sad::p2d::app::Way* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Phrase )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Vector<sad::p2d::app::WayPoint> )
+DEFINE_TO_VALUE_FOR_TYPE( sad::Vector<sad::dialogue::Phrase> )
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }

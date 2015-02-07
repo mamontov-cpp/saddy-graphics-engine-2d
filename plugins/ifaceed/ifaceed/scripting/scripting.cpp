@@ -49,6 +49,8 @@
 #include "ways/waysbindings.h"
 #include "ways/wayssetter.h"
 
+#include "dialogues/dialoguesbindings.h"
+
 #include <QFileDialog>
 #include <QTextStream>
 
@@ -988,6 +990,8 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 {
 	 QScriptValue dialogues = m_engine->newObject();
+
+	 dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list)); // E.dialogues.list
 
 	 v.setProperty("dialogues", dialogues); // E.dialogues
 
