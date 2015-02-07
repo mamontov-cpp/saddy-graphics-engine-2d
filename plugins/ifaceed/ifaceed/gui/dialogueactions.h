@@ -40,6 +40,66 @@ public:
 	/*! Toggles UI with phrase properties
 	 */
 	void viewPhrase(sad::dialogue::Phrase* p);
+	/*! Adds a command if needed, that phrase text is changed
+		\param[in] d dialogue
+		\param[in] pos position of phrase
+		\param[in] newvalue new value
+		\param[in] fromeditor whether it's done from editor
+	 */
+	void changePhraseText(
+		sad::dialogue::Dialogue* d, 
+		int pos, 
+		const sad::String& newvalue, 
+		bool fromeditor
+	);
+	/*! Adds a command if needed, that phrase duration is changed
+		\param[in] d dialogue
+		\param[in] pos position of phrase
+		\param[in] newvalue new value
+		\param[in] fromeditor whether it's done from editor
+	 */
+	void changePhraseDuration(
+		sad::dialogue::Dialogue* d, 
+		int pos, 
+		double newvalue, 
+		bool fromeditor
+	);
+	/*! Adds a command if needed, that phrase actor name is changed
+		\param[in] d dialogue
+		\param[in] pos position of phrase
+		\param[in] newvalue new value
+		\param[in] fromeditor whether it's done from editor
+	 */
+	void changePhraseActorName(
+		sad::dialogue::Dialogue* d, 
+		int pos, 
+		const sad::String& newvalue, 
+		bool fromeditor
+	);
+	/*! Adds a command if needed, that phrase actor portrait is changed
+		\param[in] d dialogue
+		\param[in] pos position of phrase
+		\param[in] newvalue new value
+		\param[in] fromeditor whether it's done from editor
+	 */
+	void changePhraseActorPortrait(
+		sad::dialogue::Dialogue* d, 
+		int pos, 
+		const sad::String& newvalue, 
+		bool fromeditor
+	);
+	/*! Adds a command if needed, that phrase view hint is changed
+		\param[in] d dialogue
+		\param[in] pos position of phrase
+		\param[in] newvalue new value
+		\param[in] fromeditor whether it's done from editor
+	 */
+	void changePhraseViewHint(
+		sad::dialogue::Dialogue* d, 
+		int pos, 
+		const sad::String& newvalue, 
+		bool fromeditor
+	);
 public slots:
 	/*! Called, when user clicks on button for adding a dialogue
 	 */

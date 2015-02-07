@@ -234,6 +234,12 @@
     <Filter Include="Source Files\scripting\ways">
       <UniqueIdentifier>{48cc69c2-5841-4ad6-8247-c0c0b439630a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scripting\dialogues">
+      <UniqueIdentifier>{ba4ddf84-9088-43bd-be46-5d26088ae702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\dialogues">
+      <UniqueIdentifier>{acdd10e8-382e-4978-971a-4d2f7cbd589e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1655,6 +1661,24 @@
     <ClCompile Include="scripting\ways\wayspointref.cpp">
       <Filter>Source Files\scripting\ways</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\dialogues\dialoguesphraseref.cpp">
+      <Filter>Source Files\scripting\dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_dialoguesphraseref.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2348,6 +2372,9 @@
     </CustomBuild>
     <CustomBuild Include="scripting\ways\wayspointref.h">
       <Filter>Header Files\scripting\ways</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scripting\dialogues\dialoguesphraseref.h">
+      <Filter>Header Files\scripting\dialogues</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

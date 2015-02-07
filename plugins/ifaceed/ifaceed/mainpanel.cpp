@@ -138,8 +138,20 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	constantslist << "scenes";
 	constantslist << "scenenodes";
     constantslist << "ways";
-    constantslist << "add";
+	constantslist << "dialogues";
+	constantslist << "animations";
+	constantslist << "instances";
+	constantslist << "groups";
+	constantslist << "add";
 	constantslist << "remove";
+	constantslist << "x";
+	constantslist << "y";
+	constantslist << "position";
+	constantslist << "actorName";
+	constantslist << "actorPortrait";
+	constantslist << "text";
+	constantslist << "duration";
+	constantslist << "viewHint";
 
 	gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
 
