@@ -2863,6 +2863,17 @@ void MainPanel::tabTypeChanged(int index)
 
 	if (index == 2)
 	{
+		int row = ui.lstDialogues->currentRow(); 
+		if (row >= 0)
+		{
+			sad::dialogue::Dialogue* w = ui.lstDialogues->item(row)->data(Qt::UserRole).value<sad::dialogue::Dialogue*>();
+			m_editor->shared()->setSelectedDialogue(w);
+			m_editor->panel()->dialogueActions()->dialogueChanged(row);
+		}
+	}
+
+	if (index == 3)
+	{
 		int row = ui.lstAnimations->currentRow(); 
 		if (row >= 0)
 		{
@@ -2871,7 +2882,7 @@ void MainPanel::tabTypeChanged(int index)
 		}
 	}
 
-	if (index == 3)
+	if (index == 4)
 	{
 		int row = ui.lstAnimationInstances->currentRow(); 
 		if (row >= 0)
@@ -2881,7 +2892,7 @@ void MainPanel::tabTypeChanged(int index)
 		}
 	}
 
-	if (index == 4)
+	if (index == 5)
 	{
 		int row = ui.lstAnimationsGroup->currentRow(); 
 		if (row >= 0)

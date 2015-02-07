@@ -26,6 +26,8 @@
 #include "../history/ways/wayschangetotaltime.h"
 #include "../history/ways/wayschangeclosed.h"
 
+#include "../history/dialogues/dialogueschangename.h"
+
 
 
 #include "database/databasebindings.h"
@@ -50,6 +52,7 @@
 #include "ways/wayssetter.h"
 
 #include "dialogues/dialoguesbindings.h"
+#include "dialogues/dialoguessetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -412,7 +415,7 @@ void scripting::Scripting::showHelp()
 		"		<li>property <b>ways</b> - holds all operations related to ways"
 		"			<ul>"
 		"				<li>method <b>list()</b> - lists all ways, returning all of majorids for it</li>"
-		"				<li>method <b>_add(name, totaltime as double, closed as bool, array of points)</b> - adds new way to a scene</li>"
+		"				<li>method <b>_add(name, totaltime as double, closed as bool, array of points)</b> - adds new way to a db</li>"
 		"				<li>method <b>add(object)</b> - does the same as previous only style is different. Fields \"name\", \"totaltime\", \"closed\", \"points\" are optional.</li>"
 		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes way by id or by name</li>"
 		"				<li>method <b>addPoint(way, point)</b> - adds new point to a way.</li>"
@@ -440,6 +443,41 @@ void scripting::Scripting::showHelp()
 		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
 		"						<li>property <b>\"totaltime\"</b>  - a total time for a way.</li>"
 		"						<li>property <b>\"closed\"</b>  - whether way is closed.</li>"		
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
+		"			</ul>"
+		"		</li>"
+		"		<li>property <b>dialogues</b> - holds all operations related to dialogues"
+		"			<ul>"
+		"				<li>method <b>list()</b> - lists all dialogues, returning all of majorids for it</li>"
+		"				<li>method <b>_add(name, array of phrases)</b> - adds new way to a db</li>"
+		"				<li>method <b>add(object)</b> - does the same as previous only style is different. Fields \"name\",  \"points\" are optional.</li>"
+		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes dialogue by id or by name</li>"
+		"				<li>method <b>addPhrase(dialogue, phrase)</b> - adds new phrase to a dialogue.</li>"
+		"				<li>method <b>removePhrase(dialogue, position of phrase)</b> - removes a phrase from a dialogue.</li>"
+		"				<li>method <b>phrase(dialogue, position of phrase)</b> - returns a reference of phrase from a dialogues, which can be casted to common phrase. Throws exception on invalid positions. Properties of reference to a phrase:"
+		"					<ul>"
+		"						<li>property <b>actorName</b> - an actor name</li>"
+		"						<li>property <b>actorPortrait</b> - an actor portrait as string</li>"
+		"						<li>property <b>text</b> - a text</li>"
+		"						<li>property <b>duration</b> - a duration of phrase</li>"
+		"						<li>property <b>viewHint</b> - a view hint</li>"
+		"						<li>property <b>position</b> - read-only position of phrase</li>"
+		"						<li>method <b>moveBack</b> - moves phrase back in way list (does nothing, if phrase cannot be moved in such way)</li>"
+		"						<li>method <b>moveFront</b> - moves phrase front in way list (does nothing, if phrase cannot be moved in such way)</li>"
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"					<ul>"	
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"					</ul>"
+		"				</li>"		
+		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"					<ul>"
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
+		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
 		"					</ul>"
 		"				</li>"
 		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
@@ -989,19 +1027,53 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 
 void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 {
-	 QScriptValue dialogues = m_engine->newObject();
+	QScriptValue dialogues = m_engine->newObject();
 
-	 dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list)); // E.dialogues.list
+	dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list)); // E.dialogues.list
 
-	 scripting::Callable* _add = scripting::make_scripting_call(scripting::dialogues::_add, this);
-	 _add->setName("_add");
-	 m_registered_classes << _add;
-	 dialogues.setProperty("_add", m_engine->newObject(_add)); // E.dialogues._add
+	scripting::Callable* _add = scripting::make_scripting_call(scripting::dialogues::_add, this);
+	_add->setName("_add");
+	m_registered_classes << _add;
+	dialogues.setProperty("_add", m_engine->newObject(_add)); // E.dialogues._add
 
-	 scripting::Callable* remove = scripting::make_scripting_call(scripting::dialogues::remove, this);
-	 remove->setName("remove");
-	 m_registered_classes << remove;
-	 dialogues.setProperty("remove", m_engine->newObject(remove)); // E.dialogues.remove
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::dialogues::remove, this);
+	remove->setName("remove");
+	m_registered_classes << remove;
+	dialogues.setProperty("remove", m_engine->newObject(remove)); // E.dialogues.remove
+
+	scripting::Callable* addPhrase = scripting::make_scripting_call(scripting::dialogues::addPhrase, this);
+	addPhrase->setName("addPhrase");
+	m_registered_classes << addPhrase;
+	dialogues.setProperty("addPhrase", m_engine->newObject(addPhrase)); // E.dialogues.addPhrase
+
+	scripting::Callable* removePhrase = scripting::make_scripting_call(scripting::dialogues::removePhrase, this);
+	removePhrase->setName("removePhrase");
+	m_registered_classes << removePhrase;
+	dialogues.setProperty("removePhrase", m_engine->newObject(removePhrase)); // E.dialogues.removePhrase
+
+	scripting::Callable* length = scripting::make_scripting_call(scripting::dialogues::length, this);
+	length->setName("length");
+	m_registered_classes << length;
+	dialogues.setProperty("length", m_engine->newObject(length)); // E.dialogues.length
+
+	scripting::Callable* phrase = scripting::make_scripting_call(scripting::dialogues::phrase, this);
+	phrase->setName("phrase");
+	m_registered_classes << phrase;
+	dialogues.setProperty("phrase", m_engine->newObject(phrase)); // E.dialogues.point
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+    set->add(new scripting::dialogues::Setter<sad::String, history::dialogues::ChangeName>(m_engine, "name"));
+	m_registered_classes << set;
+	dialogues.setProperty("set", m_engine->newObject(set)); // E.dialogues.set
+
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+    get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "minorid"));
+	m_registered_classes << get;
+	dialogues.setProperty("get", m_engine->newObject(get)); // E.dialogues.get
+
 
 	 v.setProperty("dialogues", dialogues); // E.dialogues
 
@@ -1023,6 +1095,17 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 		"	   o[\"phrases\"] = [];        "
 		"	}                              "
 		"	return E.dialogues._add(o[\"name\"], o[\"phrases\"]);"
+		"};"
+		"E.dialogues.attr = function() {"  
+		"	if (arguments.length == 2)"
+		"	{"
+        "		return E.dialogues.get(arguments[0], arguments[1]);"
+		"	}"
+		"	if (arguments.length == 3)"
+		"	{"
+        "		return E.dialogues.set(arguments[0], arguments[1], arguments[2]);"
+		"	}"
+		"	throw new Error(\"Specify 2 or 3 arguments\");"
 		"};"
 	);
 }

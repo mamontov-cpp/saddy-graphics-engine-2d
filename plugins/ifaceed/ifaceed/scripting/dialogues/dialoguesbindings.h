@@ -48,6 +48,42 @@ unsigned long long _add(
  */
 void remove(scripting::Scripting* scripting, sad::dialogue::Dialogue* d);
 
+/*! Add phrase to a dialogue
+	\param[in] scripting a scripting part
+	\param[in] d a dialogue to be removed
+	\param[in] phrase a phrase part
+ */
+void addPhrase(
+	scripting::Scripting* scripting, 
+	sad::dialogue::Dialogue* d,
+	sad::dialogue::Phrase phrase
+);
+
+
+/*! Removes phrases from a dialogue
+	\param[in] scripting a scripting part
+	\param[in] d a dialogue to be removed
+	\param[in] pos position of phrase
+ */
+bool removePhrase(
+	scripting::Scripting* scripting, 
+	sad::dialogue::Dialogue* d,
+	unsigned int pos
+);
+
+/*! Returns length of dialogues as count of phrases
+	\param[in] scripting a scripting part
+	\param[in] d a dialogue
+ */
+unsigned int length(scripting::Scripting* scripting, sad::dialogue::Dialogue* d);
+
+/*! Fetches phrase reference from dialogue
+	\param[in] scripting a scripting part
+	\param[in] d a dialogue to be removed
+	\param[in] pos a position
+ */
+QScriptValue phrase(scripting::Scripting* scripting, sad::dialogue::Dialogue* d, unsigned int pos);
+
 }
 
 }
