@@ -125,6 +125,12 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 		}
 	}
 
+	if (obj.value()->isInstanceOf("sad::p2d::app::Way"))
+	{
+		list << "totaltime";
+		list << "closed";
+	}
+
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
 
@@ -182,6 +188,12 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 		{
 			list << it.key().c_str();
 		}
+	}
+
+	if (obj.value()->isInstanceOf("sad::p2d::app::Way"))
+	{
+		list << "totaltime";
+		list << "closed";
 	}
 
 

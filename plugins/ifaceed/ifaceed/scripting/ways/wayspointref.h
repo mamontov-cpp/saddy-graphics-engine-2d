@@ -23,6 +23,7 @@ class PointRef: public scripting::ClassWrapper
  Q_OBJECT
  Q_PROPERTY(double x READ x WRITE setX)
  Q_PROPERTY(double y READ y WRITE setY)
+ Q_PROPERTY(unsigned int position READ position)
 public:
 	/*! Constructs new wrapper
 	 */
@@ -58,6 +59,17 @@ public:
 		\return object to string
 	 */
 	QString toString() const;
+	/*! Returns a position to point ref
+		\return position
+	 */
+	unsigned int position() const;
+public slots:
+	/*! Moves point back in list
+	 */
+	void moveBack();
+	/*! Moves point front in list
+	 */
+	void moveFront();
 protected:
 	/*! An inner point wrapper
 	 */
