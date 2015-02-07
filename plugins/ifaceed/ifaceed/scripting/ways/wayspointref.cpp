@@ -28,23 +28,62 @@ scripting::ways::PointRef::~PointRef()
 	
 }
 
+bool scripting::ways::PointRef::valid() const
+{
+	if (!m_way)
+	{
+		this->engine()->currentContext()->throwError("Invalid way for point reference");
+		return false;
+	}
+	if (!m_way->Active)
+	{
+		this->engine()->currentContext()->throwError("Invalid way for point reference");
+		return false;
+	}
+	if (m_pos >= m_way->wayPoints().count())
+	{
+		this->engine()->currentContext()->throwError("Invalid position of point");
+		return false;
+	}
+
+	return true;
+}
+
+static sad::Point2D defaultpoint;
+
 const sad::Point2D& scripting::ways::PointRef::toPoint() const
 {
+	if (!valid())
+	{
+		return defaultpoint;
+	}
 	return m_way->wayPoints()[m_pos];
 }
 
 double scripting::ways::PointRef::x() const
 {
+	if (!valid())
+	{
+		return 0;
+	}
 	return m_way->wayPoints()[m_pos].x();
 }
 
 double scripting::ways::PointRef::y() const
 {
+	if (!valid())
+	{
+		return 0;
+	}
 	return m_way->wayPoints()[m_pos].y();
 }
 
 void  scripting::ways::PointRef::setX(double x)
 {
+	if (!valid())
+	{
+		return ;
+	}
 	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
 	core::Editor* editor = e->panel()->editor();
 	if (sad::is_fuzzy_equal(x, this->x()) == false)
@@ -60,6 +99,10 @@ void  scripting::ways::PointRef::setX(double x)
 
 void scripting::ways::PointRef::setY(double y)
 {
+	if (!valid())
+	{
+		return ;
+	}
 	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
 	core::Editor* editor = e->panel()->editor();
 	if (sad::is_fuzzy_equal(y, this->y()) == false)
@@ -75,12 +118,15 @@ void scripting::ways::PointRef::setY(double y)
 
 QString scripting::ways::PointRef::toString() const
 {
-	sad::Point2D p = this->toPoint();
+	if (!valid())
+	{
+		return "PointRef(<invalid>)";
+	}
 	QString result = QString("PointRef(way : %1, pos: %2, x : %3, y : %4)")
 					 .arg(m_way->MajorId)
 					 .arg(m_pos)
-					 .arg(p.x())
-					 .arg(p.y());
+					 .arg(this->x())
+					 .arg(this->y());
 	return result;
 }
 
@@ -91,6 +137,10 @@ unsigned int scripting::ways::PointRef::position() const
 
 void scripting::ways::PointRef::moveBack()
 {
+	if (!valid())
+	{
+		return ;
+	}
 	if (m_pos > 0)
 	{
 		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
@@ -106,6 +156,10 @@ void scripting::ways::PointRef::moveBack()
 
 void scripting::ways::PointRef::moveFront()
 {
+	if (!valid())
+	{
+		return ;
+	}
 	if (m_pos >= 0 && m_pos < m_way->wayPoints().count() - 1)
 	{
 		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());

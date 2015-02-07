@@ -36,6 +36,10 @@ public:
 	/*! Could be inherited
 	 */
 	virtual ~PointRef();
+	/*! Tests, whether point ref is valid
+		\return whether is valid
+	 */
+	bool valid() const;
 	/*! Converts a point to original point
 	 */
 	const sad::Point2D& toPoint() const;
