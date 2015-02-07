@@ -864,6 +864,7 @@
     <ClCompile Include="qwwulongspinbox.cpp" />
     <ClCompile Include="reloadfilelist.cpp" />
     <ClCompile Include="scripting\acolor.cpp" />
+    <ClCompile Include="scripting\animations\animationsbindings.cpp" />
     <ClCompile Include="scripting\callable.cpp" />
     <ClCompile Include="scripting\classwrapper.cpp" />
     <ClCompile Include="scripting\color.cpp" />
@@ -2336,6 +2337,7 @@
     </CustomBuild>
     <ClInclude Include="scripting\abstractgetter.h" />
     <ClInclude Include="scripting\abstractsetter.h" />
+    <ClInclude Include="scripting\animations\animationsbindings.h" />
     <ClInclude Include="scripting\callable.h" />
     <CustomBuild Include="scripting\classwrapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -240,6 +240,12 @@
     <Filter Include="Header Files\scripting\dialogues">
       <UniqueIdentifier>{acdd10e8-382e-4978-971a-4d2f7cbd589e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting\animations">
+      <UniqueIdentifier>{79cabb34-f5ec-449e-9e4f-d01a0538d4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\animations">
+      <UniqueIdentifier>{7ae8b2ae-6646-4eb7-8a31-b82b73f363d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1682,6 +1688,9 @@
     <ClCompile Include="scripting\dialogues\dialoguesbindings.cpp">
       <Filter>Source Files\scripting\dialogues</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\animations\animationsbindings.cpp">
+      <Filter>Source Files\scripting\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2172,6 +2181,9 @@
     </ClInclude>
     <ClInclude Include="scripting\dialogues\dialoguessetter.h">
       <Filter>Header Files\scripting\dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationsbindings.h">
+      <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

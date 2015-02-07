@@ -54,6 +54,8 @@
 #include "dialogues/dialoguesbindings.h"
 #include "dialogues/dialoguessetter.h"
 
+#include "animations/animationsbindings.h"
+
 #include <QFileDialog>
 #include <QTextStream>
 
@@ -124,6 +126,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	this->initSceneNodesBindings(v);
     this->initWaysBindings(v);
 	this->initDialoguesBindings(v);
+	this->initAnimationsBindings(v);
 }
 
 scripting::Scripting::~Scripting()
@@ -1075,9 +1078,9 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 	dialogues.setProperty("get", m_engine->newObject(get)); // E.dialogues.get
 
 
-	 v.setProperty("dialogues", dialogues); // E.dialogues
+	v.setProperty("dialogues", dialogues); // E.dialogues
 
-	 m_engine->evaluate(
+	m_engine->evaluate(
 		"var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
 		"	return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
 		"};"
@@ -1110,6 +1113,30 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 	);
 }
 
+
+void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
+{
+	QScriptValue animations = m_engine->newObject();
+	
+	animations.setProperty("list", m_engine->newFunction(scripting::animations::list)); // E.animations.list
+
+
+	v.setProperty("animations", animations); // E.animations
+
+	m_engine->evaluate(
+		"E.animations.attr = function() {"  
+		"	if (arguments.length == 2)"
+		"	{"
+        "		return E.animations.get(arguments[0], arguments[1]);"
+		"	}"
+		"	if (arguments.length == 3)"
+		"	{"
+        "		return E.animations.set(arguments[0], arguments[1], arguments[2]);"
+		"	}"
+		"	throw new Error(\"Specify 2 or 3 arguments\");"
+		"};"
+	);
+}
 void scripting::Scripting::saveScript()
 {
 	QString name = QFileDialog::getSaveFileName(this->panel(), "Enter file, where we should store source code", "", "*.js");
