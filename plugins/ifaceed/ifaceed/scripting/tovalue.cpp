@@ -14,6 +14,8 @@
 
 #include "ways/wayspointref.h"
 
+#include "dialogues/dialoguesphraseref.h"
+
 #include <QVariant>
 #include <QScriptValueIterator>
 
@@ -814,6 +816,51 @@ scripting::ToValue<sad::dialogue::Phrase>::perform(
             result.setValue(var.value<sad::dialogue::Phrase>());
         }
     }
+	else
+	{
+		if (v.isQObject()) 
+		{
+			scripting::dialogues::PhraseRef* pr = qobject_cast<scripting::dialogues::PhraseRef*>(v.toQObject());
+			if (pr)
+			{
+				result.setValue(pr->toPhrase());
+			}
+		}
+		else
+		{
+			if (v.isObject())
+			{
+				if (v.property("actorName").isValid()
+					&& v.property("actorPortrait").isValid()
+					&& v.property("text").isValid()
+					&& v.property("duration").isValid()
+					&& v.property("viewHint").isValid())
+				{
+					sad::Maybe<sad::String> maybeActorName = scripting::ToValue<sad::String>::perform(v.property("actorName"));
+					sad::Maybe<sad::String> maybeActorPortrait = scripting::ToValue<sad::String>::perform(v.property("actorPortrait"));
+					sad::Maybe<sad::String> maybeText = scripting::ToValue<sad::String>::perform(v.property("text"));
+					sad::Maybe<double> maybeDuration = scripting::ToValue<double>::perform(v.property("duration"));
+					sad::Maybe<sad::String> maybeViewHint = scripting::ToValue<sad::String>::perform(v.property("viewHint"));
+				
+					if (maybeActorName.exists() 
+						&& maybeActorPortrait.exists() 
+						&& maybeText.exists()
+						&& maybeDuration.exists()
+						&& maybeViewHint.exists())
+					{
+						sad::dialogue::Phrase phrase;
+						phrase.setActorName(maybeActorName.value());
+						phrase.setActorPortrait(maybeActorPortrait.value());
+						phrase.setPhrase(maybeText.value());
+						phrase.setDuration(maybeDuration.value());
+						phrase.setViewHint(maybeViewHint.value());
+
+						result.setValue(phrase);
+					}
+				}
+			}
+		}
+	}
     return result;
 }
 

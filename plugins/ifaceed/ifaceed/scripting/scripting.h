@@ -117,6 +117,10 @@ protected:
         \param[out] v a global value (E)
      */
     void initWaysBindings(QScriptValue& v);
+	/*! Inits dialogues bindings
+        \param[out] v a global value (E)
+     */
+    void initDialoguesBindings(QScriptValue& v);
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;

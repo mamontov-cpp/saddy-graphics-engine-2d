@@ -83,6 +83,154 @@ void gui::DialogueActions::viewPhrase(sad::dialogue::Phrase* p)
 	));
 }
 
+void gui::DialogueActions::changePhraseText(
+	sad::dialogue::Dialogue* d, 
+	int pos, 
+	const sad::String& newvalue, 
+	bool fromeditor
+)
+{
+	sad::String oldvalue = d->phrases()[pos]->phrase();
+	if (oldvalue != newvalue)
+	{
+		d->phrases()[pos]->setPhrase(newvalue);
+		if (m_panel->editor()->shared()->selectedDialogue() == d)
+		{
+			m_panel->UI()->lstPhrases->item(pos)->setText(m_panel->nameForPhrase(*(d->phrases()[pos])));
+		}
+		history::dialogues::PhraseChangePhrase* c = new history::dialogues::PhraseChangePhrase(d, pos, oldvalue, newvalue);
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		} 
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::changePhraseDuration(
+	sad::dialogue::Dialogue* d, 
+	int pos, 
+	double newvalue, 
+	bool fromeditor
+)
+{
+	double oldvalue = d->phrases()[pos]->duration();
+	if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
+	{
+		history::dialogues::PhraseChangeDuration* c = new history::dialogues::PhraseChangeDuration(
+			d, 
+			pos, 
+			oldvalue, 
+			newvalue
+		);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		} 
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::changePhraseActorName(
+	sad::dialogue::Dialogue* d, 
+	int pos, 
+	const sad::String& newvalue, 
+	bool fromeditor
+)
+{
+	sad::String oldvalue = d->phrases()[pos]->actorName();
+	if (oldvalue != newvalue)
+	{
+		history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+			m_panel->UI()->txtPhraseActorName,
+			&sad::dialogue::Phrase::setActorName,
+			true,
+			d, 
+			pos, 
+			oldvalue, 
+			newvalue
+		);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::changePhraseActorPortrait(
+	sad::dialogue::Dialogue* d, 
+	int pos, 
+	const sad::String& newvalue, 
+	bool fromeditor
+)
+{
+	sad::String oldvalue = d->phrases()[pos]->actorPortrait();
+	if (oldvalue != newvalue)
+	{
+		history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+			m_panel->UI()->txtPhraseActorPortrait,
+			&sad::dialogue::Phrase::setActorPortrait,
+			false,
+			d, 
+			pos, 
+			oldvalue, 
+			newvalue
+		);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
+void gui::DialogueActions::changePhraseViewHint(
+	sad::dialogue::Dialogue* d, 
+	int pos, 
+	const sad::String& newvalue, 
+	bool fromeditor
+)
+{
+	sad::String oldvalue = d->phrases()[pos]->viewHint();
+	if (oldvalue != newvalue)
+	{
+		history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
+			m_panel->UI()->txtPhraseViewHint,
+			&sad::dialogue::Phrase::setViewHint,
+			false,
+			d, 
+			pos, 
+			oldvalue, 
+			newvalue
+		);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
 // ========================== PUBLIC SLOTS ==========================
 
 void gui::DialogueActions::addDialogue()
@@ -213,15 +361,8 @@ void gui::DialogueActions::phraseTextChanged()
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String oldvalue = d->phrases()[row]->phrase();
 		sad::String newvalue = m_panel->UI()->txtPhrasePhrase->toPlainText().toStdString();
-		if (oldvalue != newvalue)
-		{
-			d->phrases()[row]->setPhrase(newvalue);
-			m_panel->UI()->lstPhrases->item(row)->setText(m_panel->nameForPhrase(*(d->phrases()[row])));
-			history::dialogues::PhraseChangePhrase* c = new history::dialogues::PhraseChangePhrase(d, row, oldvalue, newvalue);
-			m_panel->editor()->history()->add(c);
-		}
+		changePhraseText(d, row, newvalue, true);
 	}
 }
 
@@ -231,16 +372,9 @@ void gui::DialogueActions::durationChanged(double newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		double oldvalue = d->phrases()[row]->duration();
-		if (sad::is_fuzzy_equal(oldvalue, newvalue) == false)
-		{
-			history::dialogues::PhraseChangeDuration* c = new history::dialogues::PhraseChangeDuration(d, row, oldvalue, newvalue);
-			c->commit(m_panel->editor());
-			m_panel->editor()->history()->add(c);
-		}
+		changePhraseDuration(d, row, newvalue, true);
 	}
 }
-
 
 void gui::DialogueActions::actorNameChanged(const QString& newvalue)
 {
@@ -248,25 +382,10 @@ void gui::DialogueActions::actorNameChanged(const QString& newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String oldvalue = d->phrases()[row]->actorName();
 		sad::String nv = newvalue.toStdString();
-		if (oldvalue != nv)
-		{
-			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
-				m_panel->UI()->txtPhraseActorName,
-				&sad::dialogue::Phrase::setActorName,
-				true,
-				d, 
-				row, 
-				oldvalue, 
-				nv
-			);
-			c->commit(m_panel->editor());
-			m_panel->editor()->history()->add(c);
-		}
+		changePhraseActorName(d, row, nv, true);
 	}
 }
-
 
 void gui::DialogueActions::actorPortraitChanged(const QString& newvalue)
 {
@@ -274,22 +393,8 @@ void gui::DialogueActions::actorPortraitChanged(const QString& newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String oldvalue = d->phrases()[row]->actorPortrait();
 		sad::String nv = newvalue.toStdString();
-		if (oldvalue != nv)
-		{
-			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
-				m_panel->UI()->txtPhraseActorPortrait,
-				&sad::dialogue::Phrase::setActorPortrait,
-				false,
-				d, 
-				row, 
-				oldvalue, 
-				nv
-			);
-			c->commit(m_panel->editor());
-			m_panel->editor()->history()->add(c);
-		}
+		changePhraseActorPortrait(d, row, nv, true);
 	}
 }
 
@@ -298,22 +403,8 @@ void gui::DialogueActions::viewHintChanged(const QString& newvalue)
 	int row = m_panel->UI()->lstPhrases->currentRow();
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
-	{
-		sad::String oldvalue = d->phrases()[row]->viewHint();
+	{		
 		sad::String nv = newvalue.toStdString();
-		if (oldvalue != nv)
-		{
-			history::Command* c = new history::dialogues::PhraseChangeLineEditBasedProperty(
-				m_panel->UI()->txtPhraseViewHint,
-				&sad::dialogue::Phrase::setViewHint,
-				false,
-				d, 
-				row, 
-				oldvalue, 
-				nv
-			);
-			c->commit(m_panel->editor());
-			m_panel->editor()->history()->add(c);
-		}
+		changePhraseViewHint(d, row, nv, true);
 	}
 }

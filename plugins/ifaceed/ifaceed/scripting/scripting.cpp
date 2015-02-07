@@ -118,6 +118,7 @@ scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL
 	this->initSceneBindings(v);
 	this->initSceneNodesBindings(v);
     this->initWaysBindings(v);
+	this->initDialoguesBindings(v);
 }
 
 scripting::Scripting::~Scripting()
@@ -297,6 +298,16 @@ void scripting::Scripting::showHelp()
 		"        <li>property <b>g</b> - green component</li>"
 		"        <li>property <b>b</b> - blue component</li>"
 		"        <li>property <b>a</b> - alpha component</li>"
+		"    </ul>"
+		"</li>"
+		"<li><b>sad::dialogue::Phrase</b> - a phrase"
+		"    <ul>"
+		"        <li>constructor <b>phrase(actorName,actorPortrait,text,duration,viewHint)</b> - constructs new phrase </li>"
+		"        <li>property <b>actorName</b> - a name for actor</li>"
+		"        <li>property <b>actorPortrait</b> - a portrait for actor</li>"
+		"        <li>property <b>text</b> - a text for phrase</li>"
+		"        <li>property <b>duration</b> - a duration for phrase</li>"
+		"        <li>property <b>viewHint</b> - a viewHint for phrase</li>"
 		"    </ul>"
 		"</li>"
 		"</ul>"
@@ -969,6 +980,20 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
         "		return E.ways.set(arguments[0], arguments[1], arguments[2]);"
 		"	}"
 		"	throw new Error(\"Specify 2 or 3 arguments\");"
+		"};"
+	);
+}
+
+
+void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
+{
+	 QScriptValue dialogues = m_engine->newObject();
+
+	 v.setProperty("dialogues", dialogues); // E.dialogues
+
+	 m_engine->evaluate(
+		"var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
+		"	return {\"actorName\" : actorName, \"actorPortrait\" : actorPortrait, \"text\": text, \"duration\": duration, \"viewHint\" : viewHint};"
 		"};"
 	);
 }
