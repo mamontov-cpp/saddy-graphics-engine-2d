@@ -28,6 +28,9 @@
 
 #include "../history/dialogues/dialogueschangename.h"
 
+#include "../history/animations/animationschangename.h"
+#include "../history/animations/animationschangetime.h"
+#include "../history/animations/animationschangelooped.h"
 
 
 #include "database/databasebindings.h"
@@ -55,6 +58,8 @@
 #include "dialogues/dialoguessetter.h"
 
 #include "animations/animationsbindings.h"
+#include "animations/animationssetter.h"
+#include "animations/animationswidgetsetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -1120,9 +1125,85 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	
 	animations.setProperty("list", m_engine->newFunction(scripting::animations::list)); // E.animations.list
 
+	scripting::Callable* _add = scripting::make_scripting_call(scripting::animations::_add, this);
+	_add->setName("_add");
+	m_registered_classes << _add;
+	animations.setProperty("_add", m_engine->newObject(_add)); // E.animations._add
+
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::animations::remove, this);
+	remove->setName("remove");
+	m_registered_classes << remove;
+	animations.setProperty("remove", m_engine->newObject(remove)); // E.animations.remove
+
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+	set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
+	set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(m_engine, "time"));
+	set->add(new scripting::animations::Setter<sad::animations::Animation, bool, history::animations::ChangeLooped>(m_engine, "looped"));
+	m_registered_classes << set;
+	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+	get->add(new scripting::AbstractGetter<sad::animations::Animation*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "minorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>(m_engine, "time"));
+	get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>(m_engine, "looped"));
+	
+	m_registered_classes << get;
+	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set
+
 
 	v.setProperty("animations", animations); // E.animations
+	
+	QString templateanimationadd(
+		"E.animations.add{CLASSNAME} = function(o) {"
+		"   if (typeof o != \"object\")    "
+		"   {                              "
+		"      o = {};                     "
+		"   }                              "
+		"	if (\"name\" in o == false)    "
+		"   {                              "
+		"     o[\"name\"] = \"\";          "
+		"   }                              "
+		"	if (\"time\" in o == false)    "
+		"	{                              "
+		"	   o[\"time\"] = 0;            "
+		"	}                              "
+		"	if (\"looped\" in o == false)  "
+		"	{                              "
+		"	   o[\"looped\"] = false;      "
+		"	}                              "
+		"	return E.animations._add(\"{CLASSNAME}\", o[\"name\"], o[\"time\"], o[\"looped\"]);"
+		"};"
+	);
 
+	const char* names[] = {
+       "Blinking",
+       "CameraRotation",
+       "CameraShaking",
+       "Color",
+       "FontList",
+       "FontSize",
+       "OptionList",
+       "Parallel",
+       "Resize",
+       "Rotate",
+       "Sequential",
+       "TextureCoordinatesList",
+       "TextureCoordinatesContinuous",
+       "Typing",
+       "WayMoving",
+	   NULL
+	};
+	int i =0;
+	while(names[i] != 0) {
+		QString kadd = templateanimationadd;
+		kadd.replace("{CLASSNAME}",names[i]);
+		m_engine->evaluate(kadd);
+		++i;
+	}
+		
 	m_engine->evaluate(
 		"E.animations.attr = function() {"  
 		"	if (arguments.length == 2)"

@@ -2338,6 +2338,8 @@
     <ClInclude Include="scripting\abstractgetter.h" />
     <ClInclude Include="scripting\abstractsetter.h" />
     <ClInclude Include="scripting\animations\animationsbindings.h" />
+    <ClInclude Include="scripting\animations\animationssetter.h" />
+    <ClInclude Include="scripting\animations\animationswidgetsetter.h" />
     <ClInclude Include="scripting\callable.h" />
     <CustomBuild Include="scripting\classwrapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
