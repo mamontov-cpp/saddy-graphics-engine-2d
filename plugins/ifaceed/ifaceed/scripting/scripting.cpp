@@ -40,6 +40,8 @@
 #include "../history/animations/animationschangefontlistfonts.h"
 #include "../history/animations/animationschangefontsizesize.h"
 #include "../history/animations/animationschangelist.h"
+#include "../history/animations/animationschangeresizevector.h"
+#include "../history/animations/animationschangerotateangle.h"
 
 
 #include "database/databasebindings.h"
@@ -79,6 +81,8 @@
 #include <animations/animationscolor.h>
 #include <animations/animationsfontlist.h>
 #include <animations/animationsfontsize.h>
+#include <animations/animationsresize.h>
+#include <animations/animationsrotate.h>
 #include <animations/animationsoptionlist.h>
 #include <animations/animationstexturecoordinateslist.h>
 
@@ -1205,6 +1209,21 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 				history::animations::ChangeFontSizeSize
 			>(m_engine, m_panel->UI()->sbFontSizeEndingSize, "max_size")
 	);
+	set->add(new scripting::animations::Setter<sad::animations::Resize, sad::Point2D, history::animations::ChangeResizeVector>(m_engine, "vector"));
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::Rotate, 
+				QDoubleSpinBox*,
+				double, 
+				history::animations::ChangeRotateAngle
+			>(m_engine, m_panel->UI()->dsbRotateStartingAngle, "min_angle")
+	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::Rotate, 
+				QDoubleSpinBox*,
+				double, 
+				history::animations::ChangeRotateAngle
+			>(m_engine, m_panel->UI()->dsbRotateEndingAngle, "max_angle")
+	);
 	set->add(new scripting::animations::WidgetSetter<
 				sad::animations::OptionList, 
 				QTextEdit*,
@@ -1239,6 +1258,9 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >(m_engine, "fonts"));	
 	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));	
 	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "max_size"));
+	get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "vector"));
+	get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "min_angle"));
+	get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));	
 	get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
 	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >(m_engine, "list"));
 	
