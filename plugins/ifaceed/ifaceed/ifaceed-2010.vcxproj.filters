@@ -2185,6 +2185,12 @@
     <ClInclude Include="scripting\animations\animationsbindings.h">
       <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\animations\animationssetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationswidgetsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

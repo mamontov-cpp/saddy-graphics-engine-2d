@@ -139,6 +139,66 @@ bool gui::AnimationActions::producesLoop(
 	return result;
 }
 
+
+void gui::AnimationActions::removeAnimationFromDatabase(
+	sad::animations::Animation* a,
+	bool fromeditor
+)
+{
+	int posinmainlist = m_panel->findInList<sad::animations::Animation*>(m_panel->UI()->lstAnimations, a);
+	int posininstances = m_panel->findInComboBox<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, a);
+
+	sad::Vector< sad::Pair<sad::animations::Composite*, int> > list;
+
+	sad::Vector<sad::db::Object*> animations;
+	sad::Renderer::ref()->database("")->table("animations")->objects(animations);
+	for(size_t i = 0; i < animations.size(); i++)
+	{
+		sad::db::Object* object = animations[i];
+		if (object->isInstanceOf("sad::animations::Parallel") || object->isInstanceOf("sad::animations::Sequential"))
+		{
+			sad::animations::Composite* c = static_cast<sad::animations::Composite*>(object);
+			sad::Vector<unsigned long long> majorids = c->animationMajorIds();
+			sad::Vector<unsigned long long>::iterator it = std::find(majorids.begin(), majorids.end(), a->MajorId);
+			if (it != majorids.end())
+			{
+				int pos = it - majorids.begin();
+				list << sad::Pair<sad::animations::Composite*, int>(c ,pos);
+			}
+		}
+	}
+
+	sad::Vector<sad::db::Object*> animationinstances;
+	sad::Vector<sad::animations::Instance*> dependentinstances;
+	sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
+	for(size_t  i = 0; i < animationinstances.size(); i++)
+	{
+		sad::db::Object* object = animationinstances[i];
+		if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
+		{
+			sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
+			if (ainstance->animationMajorId() == a->MajorId)
+			{
+				dependentinstances << ainstance;
+			}
+		}
+	}
+
+	history::animations::Remove* command = new history::animations::Remove(a);
+	command->set(posinmainlist, posininstances, list);
+	command->set(dependentinstances);
+	command->commit(this->m_panel->editor());
+
+	if (fromeditor)
+	{
+		this->m_panel->editor()->history()->add(command);
+	}
+	else
+	{
+		this->m_panel->editor()->currentBatchCommand()->add(command);
+	}
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::AnimationActions::addAnimation()
@@ -341,51 +401,7 @@ void gui::AnimationActions::removeAnimation()
 	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
 	if (a != NULL)
 	{
-		int posinmainlist = m_panel->findInList<sad::animations::Animation*>(m_panel->UI()->lstAnimations, a);
-		int posininstances = m_panel->findInComboBox<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, a);
-
-		sad::Vector< sad::Pair<sad::animations::Composite*, int> > list;
-
-		sad::Vector<sad::db::Object*> animations;
-		sad::Renderer::ref()->database("")->table("animations")->objects(animations);
-		for(size_t i = 0; i < animations.size(); i++)
-		{
-			sad::db::Object* object = animations[i];
-			if (object->isInstanceOf("sad::animations::Parallel") || object->isInstanceOf("sad::animations::Sequential"))
-			{
-				sad::animations::Composite* c = static_cast<sad::animations::Composite*>(object);
-				sad::Vector<unsigned long long> majorids = c->animationMajorIds();
-				sad::Vector<unsigned long long>::iterator it = std::find(majorids.begin(), majorids.end(), a->MajorId);
-				if (it != majorids.end())
-				{
-					int pos = it - majorids.begin();
-					list << sad::Pair<sad::animations::Composite*, int>(c ,pos);
-				}
-			}
-		}
-
-		sad::Vector<sad::db::Object*> animationinstances;
-		sad::Vector<sad::animations::Instance*> dependentinstances;
-		sad::Renderer::ref()->database("")->table("animationinstances")->objects(animationinstances);
-		for(size_t  i = 0; i < animationinstances.size(); i++)
-		{
-			sad::db::Object* object = animationinstances[i];
-			if (object->isInstanceOf("sad::animations::Instance") || object->isInstanceOf("sad::animations::WayInstance"))
-			{
-				sad::animations::Instance* ainstance = static_cast<sad::animations::Instance*>(object);
-				if (ainstance->animationMajorId() == a->MajorId)
-				{
-					dependentinstances << ainstance;
-				}
-			}
-		}
-
-		history::animations::Remove* command = new history::animations::Remove(a);
-		command->set(posinmainlist, posininstances, list);
-		command->set(dependentinstances);
-		command->commit(this->m_panel->editor());
-
-		this->m_panel->editor()->history()->add(command);
+		removeAnimationFromDatabase(a, true);
 	}
 }
 

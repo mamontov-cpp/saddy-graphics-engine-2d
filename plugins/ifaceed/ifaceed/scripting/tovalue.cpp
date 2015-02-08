@@ -20,13 +20,32 @@
 #include <QScriptValueIterator>
 
 #include <scene.h>
-#include <scenenode.h>
 #include <label.h>
 #include <sprite2d.h>
+
 #include <db/custom/customobject.h>
+
 #include <p2d/app/way.h>
+
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
+
+#include <animations/animationsblinking.h>
+#include <animations/animationscamerashaking.h>
+#include <animations/animationscamerarotation.h>
+#include <animations/animationscolor.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationsfontsize.h>
+#include <animations/animationsoptionlist.h>
+#include <animations/animationsparallel.h>
+#include <animations/animationsresize.h>
+#include <animations/animationsrotate.h>
+#include <animations/animationssequential.h>
+#include <animations/animationstexturecoordinateslist.h>
+#include <animations/animationstexturecoordinatescontinuous.h>
+#include <animations/animationstyping.h>
+#include <animations/animationswaymoving.h>
+
 
 Q_DECLARE_METATYPE(scripting::ways::PointRef*)
 Q_DECLARE_METATYPE(scripting::Point2D*)
@@ -801,6 +820,25 @@ DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::Sprite2D*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::db::custom::Object*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::p2d::app::Way*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::dialogue::Dialogue*)
+
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Animation*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Composite*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Blinking*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::CameraRotation*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::CameraShaking*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Color*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::FontList*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::FontSize*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::OptionList*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Parallel*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Resize*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Rotate*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Sequential*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::TextureCoordinatesList*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::TextureCoordinatesContinuous*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Typing*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::WayMoving*)
+
 
 sad::Maybe<sad::dialogue::Phrase>
 scripting::ToValue<sad::dialogue::Phrase>::perform(

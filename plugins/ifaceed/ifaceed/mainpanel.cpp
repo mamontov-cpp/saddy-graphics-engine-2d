@@ -197,6 +197,34 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "phrase";
 	functionlist << "removePhrase";
 
+	QStringList addanimationlist;
+	const char* animationnames[] = {
+       "Blinking",
+       "CameraRotation",
+       "CameraShaking",
+       "Color",
+       "FontList",
+       "FontSize",
+       "OptionList",
+       "Parallel",
+       "Resize",
+       "Rotate",
+       "Sequential",
+       "TextureCoordinatesList",
+       "TextureCoordinatesContinuous",
+       "Typing",
+       "WayMoving",
+	   NULL
+	};
+	int i = 0;
+	while(animationnames[i] != 0) {
+		QString name = QString("add") + animationnames[i];
+		addanimationlist << name;
+		++i;
+	}
+
+	functionlist << addanimationlist;
+
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
 	functionlist.clear();
@@ -245,6 +273,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "phrase";
 	functionlist << "removePhrase";
 
+	functionlist << addanimationlist;
 
 	functionlist << constantslist;
 
@@ -2879,6 +2908,7 @@ void MainPanel::tabTypeChanged(int index)
 		{
 			sad::animations::Animation* w = ui.lstAnimations->item(row)->data(Qt::UserRole).value<sad::animations::Animation*>();
 			m_editor->shared()->setSelectedAnimation(w);
+			m_editor->panel()->animationActions()->currentAnimationChanged(row);
 		}
 	}
 

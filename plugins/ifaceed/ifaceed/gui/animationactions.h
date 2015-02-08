@@ -54,6 +54,14 @@ public:
 		sad::animations::Animation* first,
 		sad::animations::Animation* second
 	);
+	/*! Removes an animation from database
+		\param[in] a animation
+		\param[in] fromeditor whether it's being removed from editor
+ 	 */
+	void removeAnimationFromDatabase(
+		sad::animations::Animation* a,
+		bool fromeditor
+	);
 public slots:
 	/*! Tries to add new animation to a list
 	 */

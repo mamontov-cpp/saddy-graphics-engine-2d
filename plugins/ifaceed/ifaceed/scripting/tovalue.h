@@ -41,6 +41,29 @@ class Dialogue;
 class Phrase;
 }
 
+namespace animations
+{
+	
+class Animation;
+class Composite;
+class Blinking;
+class CameraRotation;
+class CameraShaking;
+class Color;
+class FontList;
+class FontSize;
+class OptionList;
+class Parallel;
+class Resize;
+class Rotate;
+class Sequential;
+class TextureCoordinatesList;
+class TextureCoordinatesContinuous;
+class Typing;
+class WayMoving;
+
+}
+
 }
 
 namespace scripting
@@ -111,6 +134,23 @@ DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Dialogue* )
 DEFINE_TO_VALUE_FOR_TYPE( sad::dialogue::Phrase )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Vector<sad::p2d::app::WayPoint> )
 DEFINE_TO_VALUE_FOR_TYPE( sad::Vector<sad::dialogue::Phrase> )
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Animation*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Composite*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Blinking*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::CameraRotation*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::CameraShaking*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Color*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::FontList*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::FontSize*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::OptionList*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Parallel*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Resize*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Rotate*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Sequential*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesList*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Typing*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::WayMoving*)
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }
