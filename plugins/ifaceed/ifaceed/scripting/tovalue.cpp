@@ -999,3 +999,44 @@ scripting::ToValue< sad::Vector<sad::dialogue::Phrase> >::perform(
     
     return result;
 }
+
+
+sad::Maybe< sad::Vector<sad::String> >
+scripting::ToValue< sad::Vector<sad::String> >::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe< sad::Vector<sad::String> > result;
+	if (v.isArray())
+	{
+		bool valid = true;
+		sad::Vector<sad::String> k;
+
+		QScriptValueIterator it(v);
+		while(it.hasNext() && valid)
+		{
+			it.next();
+			bool ok = false;
+			it.name().toInt(&ok);
+			if (ok) 
+			{
+				sad::Maybe<sad::String> maybepoint = scripting::ToValue<sad::String>::perform(it.value());
+				if (maybepoint.exists())
+				{
+					k << maybepoint.value();
+				}
+				else
+				{
+					valid = false;
+				}
+			}
+		}
+
+		if (valid)
+		{
+			result.setValue(k);
+		}		
+	}
+    
+    return result;
+}

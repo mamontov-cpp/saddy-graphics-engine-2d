@@ -32,7 +32,14 @@
 #include "../history/animations/animationschangetime.h"
 #include "../history/animations/animationschangelooped.h"
 #include "../history/animations/animationschangeblinkingfrequency.h"
+#include "../history/animations/animationschangecameraoffset.h"
+#include "../history/animations/animationschangeshakingfrequency.h"
+#include "../history/animations/animationschangecameraangle.h"
+#include "../history/animations/animationschangecamerapivot.h"
 #include "../history/animations/animationschangecolorcolor.h"
+#include "../history/animations/animationschangefontlistfonts.h"
+#include "../history/animations/animationschangefontsizesize.h"
+#include "../history/animations/animationschangelist.h"
 
 
 #include "database/databasebindings.h"
@@ -67,7 +74,12 @@
 #include <QTextStream>
 
 #include <animations/animationsblinking.h>
+#include <animations/animationscamerashaking.h>
+#include <animations/animationscamerarotation.h>
 #include <animations/animationscolor.h>
+#include <animations/animationsfontlist.h>
+#include <animations/animationsfontsize.h>
+#include <animations/animationsoptionlist.h>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -1146,6 +1158,23 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(m_engine, "time"));
 	set->add(new scripting::animations::Setter<sad::animations::Animation, bool, history::animations::ChangeLooped>(m_engine, "looped"));
 	set->add(new scripting::animations::Setter<sad::animations::Blinking, unsigned int, history::animations::ChangeBlinkingFrequency>(m_engine, "frequency"));
+	set->add(new scripting::animations::Setter<sad::animations::CameraShaking, sad::Point2D, history::animations::ChangeCameraOffset>(m_engine, "offset"));
+	set->add(new scripting::animations::Setter<sad::animations::CameraShaking, int, history::animations::ChangeShakingFrequency>(m_engine, "frequency"));
+	set->add(new scripting::animations::Setter<sad::animations::CameraRotation, sad::Point3D, history::animations::ChangeCameraPivot>(m_engine, "pivot"));
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::CameraRotation, 
+				QDoubleSpinBox*,
+				double, 
+				history::animations::ChangeCameraAngle
+			>(m_engine,  m_panel->UI()->dsbCameraRotationStartingAngle, "min_angle")
+	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::CameraRotation, 
+				QDoubleSpinBox*,
+				double, 
+				history::animations::ChangeCameraAngle
+			>(m_engine,  m_panel->UI()->dsbCameraRotationEndingAngle, "max_angle")
+	);
 	set->add(new scripting::animations::WidgetSetter<
 				sad::animations::Color, 
 				gui::colorview::ColorView*,
@@ -1160,7 +1189,28 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 				history::animations::ChangeColorColor
 			>(m_engine, m_panel->UI()->cwColorEndingColor, "max_color")
 	);
-	
+	set->add(new scripting::animations::Setter<sad::animations::FontList, sad::Vector<sad::String>, history::animations::ChangeFontListFonts>(m_engine, "fonts"));
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::FontSize, 
+				QSpinBox*,
+				unsigned int, 
+				history::animations::ChangeFontSizeSize
+			>(m_engine, m_panel->UI()->sbFontSizeStartingSize, "min_size")
+	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::FontSize, 
+				QSpinBox*,
+				unsigned int, 
+				history::animations::ChangeFontSizeSize
+			>(m_engine, m_panel->UI()->sbFontSizeEndingSize, "max_size")
+	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::OptionList, 
+				QTextEdit*,
+				sad::Vector<sad::String>, 
+				history::animations::ChangeList
+			>(m_engine, m_panel->UI()->txtOptionListList, "list")
+	);
 	m_registered_classes << set;
 	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 
@@ -1170,9 +1220,19 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "minorid"));
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>(m_engine, "time"));
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>(m_engine, "looped"));
-	get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));
+	get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));	
+	get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, sad::Point2D>(m_engine, "offset"));
+	get->add(new scripting::AbstractGetter<sad::animations::CameraShaking*, int>(m_engine, "frequency"));
+	get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, sad::Point3D>(m_engine, "pivot"));
+	get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "min_angle"));
+	get->add(new scripting::AbstractGetter<sad::animations::CameraRotation*, double>(m_engine, "max_angle"));	
 	get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "min_color"));
 	get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "max_color"));	
+	get->add(new scripting::AbstractGetter<sad::animations::FontList*, sad::Vector<sad::String> >(m_engine, "fonts"));	
+	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));	
+	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "max_size"));
+	get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
+	
 	m_registered_classes << get;
 	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set
 

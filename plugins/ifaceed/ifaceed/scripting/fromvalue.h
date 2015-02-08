@@ -121,6 +121,7 @@ DEFINE_FROM_VALUE_FOR_TYPE( sad::dialogue::Phrase )
 DEFINE_FROM_VALUE_FOR_TYPE( QStringList )
 DEFINE_FROM_VALUE_FOR_TYPE( QVector<unsigned long long> )
 DEFINE_FROM_VALUE_FOR_TYPE( QScriptValue )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::Vector<sad::String> )
 #undef DEFINE_FROM_VALUE_FOR_TYPE
 
 }
