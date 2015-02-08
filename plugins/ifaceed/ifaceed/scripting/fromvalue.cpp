@@ -220,3 +220,13 @@ QScriptValue scripting::FromValue<QScriptValue >::perform(const QScriptValue& v,
 {
     return v;
 }
+
+QScriptValue scripting::FromValue<sad::Vector<sad::String> >::perform(const sad::Vector<sad::String>& v, QScriptEngine* e)
+{
+    QScriptValue result = e->newArray(v.size());
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        result.setProperty(i, scripting::FromValue<sad::String>::perform(v[i], e));
+    }
+    return result;
+}

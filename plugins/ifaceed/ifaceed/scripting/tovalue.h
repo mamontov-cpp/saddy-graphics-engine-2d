@@ -151,6 +151,7 @@ DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesList*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Typing*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::WayMoving*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_TO_VALUE_FOR_TYPE
 
 }
