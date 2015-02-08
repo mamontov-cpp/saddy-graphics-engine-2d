@@ -131,6 +131,9 @@ protected:
 	/*! An engine to be run
 	 */
     QScriptEngine* m_engine;
+	/*! A value, where all bindings are stored
+	 */
+	QScriptValue m_value;
 	/*! A list of registered classes in engine
 	 */
 	QVector<QScriptClass*> m_registered_classes;

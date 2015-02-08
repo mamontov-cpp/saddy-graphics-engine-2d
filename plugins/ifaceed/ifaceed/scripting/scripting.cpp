@@ -31,6 +31,8 @@
 #include "../history/animations/animationschangename.h"
 #include "../history/animations/animationschangetime.h"
 #include "../history/animations/animationschangelooped.h"
+#include "../history/animations/animationschangeblinkingfrequency.h"
+#include "../history/animations/animationschangecolorcolor.h"
 
 
 #include "database/databasebindings.h"
@@ -63,6 +65,9 @@
 
 #include <QFileDialog>
 #include <QTextStream>
+
+#include <animations/animationsblinking.h>
+#include <animations/animationscolor.h>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -107,31 +112,30 @@ void scripting::Scripting::Thread::run()
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
     m_engine = new QScriptEngine();
-    QScriptValue v = m_engine->newQObject(this, QScriptEngine::QtOwnership);
-    v.setProperty("log", m_engine->newFunction(scripting::scripting_log));  // E.log
+    m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership);
+    m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log));  // E.log
 	
-	m_engine->globalObject().setProperty("console", v, QScriptValue::ReadOnly);
-    m_engine->globalObject().setProperty("E",v, QScriptValue::ReadOnly);
+	m_engine->globalObject().setProperty("console", m_value, QScriptValue::ReadOnly);
+    m_engine->globalObject().setProperty("E",m_value, QScriptValue::ReadOnly);
 	
     scripting::Callable* oresourcetype = scripting::make_scripting_call(scripting::resource_type, this);
     m_registered_classes << oresourcetype;
-    v.setProperty("resourceType", m_engine->newObject(oresourcetype), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceType", m_engine->newObject(oresourcetype), QScriptValue::ReadOnly);
 
     scripting::Callable* oresourceoptions = scripting::make_scripting_call(scripting::resource_options, this);
     m_registered_classes << oresourceoptions;
-    v.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), QScriptValue::ReadOnly);
 
     scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
     m_registered_classes << oresourceschema;
-    v.setProperty("resourceSchema", m_engine->newObject(oresourceschema), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), QScriptValue::ReadOnly);
 
 	this->initSadTypeConstructors();
-	this->initDatabasePropertyBindings(v);
-	this->initSceneBindings(v);
-	this->initSceneNodesBindings(v);
-    this->initWaysBindings(v);
-	this->initDialoguesBindings(v);
-	this->initAnimationsBindings(v);
+	this->initDatabasePropertyBindings(m_value);
+	this->initSceneBindings(m_value);
+	this->initSceneNodesBindings(m_value);
+    this->initWaysBindings(m_value);
+	this->initDialoguesBindings(m_value);
 }
 
 scripting::Scripting::~Scripting()
@@ -147,6 +151,7 @@ scripting::Scripting::~Scripting()
 void scripting::Scripting::setPanel(MainPanel* panel)
 {
 	m_panel = panel;
+	this->initAnimationsBindings(m_value);
 }
 
 MainPanel* scripting::Scripting::panel() const
@@ -1140,6 +1145,22 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
 	set->add(new scripting::animations::Setter<sad::animations::Animation, double, history::animations::ChangeTime>(m_engine, "time"));
 	set->add(new scripting::animations::Setter<sad::animations::Animation, bool, history::animations::ChangeLooped>(m_engine, "looped"));
+	set->add(new scripting::animations::Setter<sad::animations::Blinking, unsigned int, history::animations::ChangeBlinkingFrequency>(m_engine, "frequency"));
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::Color, 
+				gui::colorview::ColorView*,
+				sad::AColor, 
+				history::animations::ChangeColorColor
+			>(m_engine, m_panel->UI()->cwColorStartingColor, "min_color")
+	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::Color, 
+				gui::colorview::ColorView*,
+				sad::AColor, 
+				history::animations::ChangeColorColor
+			>(m_engine, m_panel->UI()->cwColorEndingColor, "max_color")
+	);
+	
 	m_registered_classes << set;
 	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 
@@ -1149,7 +1170,9 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, unsigned long long>(m_engine, "minorid"));
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, double>(m_engine, "time"));
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, bool>(m_engine, "looped"));
-	
+	get->add(new scripting::AbstractGetter<sad::animations::Blinking*, unsigned int>(m_engine, "frequency"));
+	get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "min_color"));
+	get->add(new scripting::AbstractGetter<sad::animations::Color*, sad::AColor>(m_engine, "max_color"));	
 	m_registered_classes << get;
 	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set
 
