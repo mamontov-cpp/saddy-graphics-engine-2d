@@ -274,6 +274,14 @@ scripting::ToValue<sad::Point2D>::perform(
 			{
 				result.setValue(pr->toPoint());
 			}
+			else
+			{
+				scripting::Point3D* ooo = qobject_cast<scripting::Point3D*>(o);
+				if (ooo)
+				{
+					result.setValue(ooo->toPoint());
+				}
+			}
 		}
 	} 
 	else
@@ -332,6 +340,14 @@ scripting::ToValue<sad::Point3D>::perform(
 		if (oo)
 		{
 			result.setValue(oo->toPoint());
+		} 
+		else 
+		{
+			scripting::Point2D* ooo = qobject_cast<scripting::Point2D*>(o);
+			if (ooo)
+			{
+				result.setValue(ooo->toPoint());
+			}
 		}
 	} 
 	else
