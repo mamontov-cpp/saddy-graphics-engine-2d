@@ -80,6 +80,7 @@
 #include <animations/animationsfontlist.h>
 #include <animations/animationsfontsize.h>
 #include <animations/animationsoptionlist.h>
+#include <animations/animationstexturecoordinateslist.h>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -1211,6 +1212,13 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 				history::animations::ChangeList
 			>(m_engine, m_panel->UI()->txtOptionListList, "list")
 	);
+	set->add(new scripting::animations::WidgetSetter<
+				sad::animations::TextureCoordinatesList, 
+				QTextEdit*,
+				sad::Vector<sad::String>, 
+				history::animations::ChangeList
+			>(m_engine, m_panel->UI()->txtTextureCoordinatesList, "list")
+	);
 	m_registered_classes << set;
 	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 
@@ -1232,6 +1240,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "min_size"));	
 	get->add(new scripting::AbstractGetter<sad::animations::FontSize*, unsigned int >(m_engine, "max_size"));
 	get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
+	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >(m_engine, "list"));
 	
 	m_registered_classes << get;
 	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set
