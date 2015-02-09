@@ -196,6 +196,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addPhrase";
 	functionlist << "phrase";
 	functionlist << "removePhrase";
+	functionlist << "addToComposite";
+	functionlist << "removeFromComposite";
 
 	QStringList addanimationlist;
 	const char* animationnames[] = {
@@ -272,6 +274,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	functionlist << "addPhrase";
 	functionlist << "phrase";
 	functionlist << "removePhrase";
+	functionlist << "addToComposite";
+	functionlist << "removeFromComposite";
 
 	functionlist << addanimationlist;
 

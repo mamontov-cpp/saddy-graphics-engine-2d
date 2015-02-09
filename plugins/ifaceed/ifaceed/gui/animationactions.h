@@ -62,6 +62,28 @@ public:
 		sad::animations::Animation* a,
 		bool fromeditor
 	);
+	/*! Adds animation to composite list
+		\param[in] a composite list
+		\param[in] addedanimation an added animation
+		\param[in] fromeditor whether it's being added to a list
+	 */
+	bool addAnimationToCompositeList(
+		sad::animations::Composite* a,
+		sad::animations::Animation* addedanimation,
+		bool fromeditor
+	);
+	/*! Removes animation from composite list
+		\param[in] a composite list
+		\param[in] addedanimation an added animation
+		\param[in] fromeditor whether it's being added to a list
+		\param[in] row a row (-1 if undefined)
+	 */
+	bool removeAnimationFromCompositeList(
+		sad::animations::Composite* a,
+		sad::animations::Animation* addedanimation,
+		bool fromeditor,
+		int row = -1
+	);
 public slots:
 	/*! Tries to add new animation to a list
 	 */

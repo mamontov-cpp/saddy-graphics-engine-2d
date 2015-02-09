@@ -11,6 +11,7 @@
 #include <QVector>
 
 #include <animations/animationsanimation.h>
+#include <animations/animationscomposite.h>
 
 namespace scripting
 {
@@ -55,6 +56,31 @@ void remove(
 	scripting::Scripting* scripting, 
 	sad::animations::Animation* a
 );
+
+/*! Adds animation to composite animation, or does nothing if it's produces loops
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\param[in] a animation
+	\return true on success
+ */
+bool addToComposite(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	sad::animations::Animation* a
+);
+
+/*! Removes from composite animations, or does nothing if it's not in list
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\param[in] a animation
+	\return true on success
+ */
+bool removeFromComposite(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	sad::animations::Animation* a
+);
+
 
 }
 

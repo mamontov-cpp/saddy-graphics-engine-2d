@@ -62,3 +62,21 @@ void scripting::animations::remove(
 {
 	scripting->panel()->animationActions()->removeAnimationFromDatabase(a, false);
 }
+
+bool scripting::animations::addToComposite(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	sad::animations::Animation* a
+)
+{
+	return scripting->panel()->animationActions()->addAnimationToCompositeList(list, a, false);
+}
+
+bool scripting::animations::removeFromComposite(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	sad::animations::Animation* a
+)
+{
+	return scripting->panel()->animationActions()->removeAnimationFromCompositeList(list, a, false, -1);
+}

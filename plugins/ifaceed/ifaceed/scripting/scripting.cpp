@@ -1163,6 +1163,16 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	m_registered_classes << remove;
 	animations.setProperty("remove", m_engine->newObject(remove)); // E.animations.remove
 
+	scripting::Callable* addToComposite = scripting::make_scripting_call(scripting::animations::addToComposite, this);
+	addToComposite->setName("addToComposite");
+	m_registered_classes << addToComposite;
+	animations.setProperty("addToComposite", m_engine->newObject(addToComposite)); // E.animations.addToComposite
+
+	scripting::Callable* removeFromComposite = scripting::make_scripting_call(scripting::animations::removeFromComposite, this);
+	removeFromComposite->setName("removeFromComposite");
+	m_registered_classes << removeFromComposite;
+	animations.setProperty("removeFromComposite", m_engine->newObject(removeFromComposite)); // E.animations.removeFromComposite
+
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
 	set->add(new scripting::animations::Setter<sad::animations::Animation, sad::String, history::animations::ChangeName>(m_engine, "name"));
