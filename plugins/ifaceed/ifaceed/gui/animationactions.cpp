@@ -199,6 +199,69 @@ void gui::AnimationActions::removeAnimationFromDatabase(
 	}
 }
 
+bool gui::AnimationActions::addAnimationToCompositeList(
+	sad::animations::Composite* a,
+	sad::animations::Animation* addedanimation,
+	bool fromeditor
+)
+{
+	bool result = false;
+	if (producesLoop(a, addedanimation) == false)
+	{
+		sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+		history::Command* c = new history::animations::AddToComposite(co, addedanimation->MajorId);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			this->m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			this->m_panel->editor()->currentBatchCommand()->add(c);
+		}
+		result = true;
+	}
+	return result;
+}
+
+
+bool gui::AnimationActions::removeAnimationFromCompositeList(
+		sad::animations::Composite* a,
+		sad::animations::Animation* animation,
+		bool fromeditor,
+		int row
+)
+{
+	unsigned long long majorid = animation->MajorId;
+	if (row == -1)
+	{
+		for(size_t i = 0; i < a->animationMajorIds().size() && row == -1; i++)
+		{
+			if (a->animationMajorIds()[i] == majorid)
+			{
+				row =  i;
+			}
+		}
+	}
+	bool result = false;
+	if (row != -1)
+	{
+		result = true;
+		sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+		history::Command* c = new history::animations::RemoveFromComposite(a, majorid, row);
+		c->commit(m_panel->editor());
+		if (fromeditor)
+		{
+			this->m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			this->m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+	return result;
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::AnimationActions::addAnimation()
@@ -1270,13 +1333,8 @@ void gui::AnimationActions::addAnimationToComposite()
 			if (pos > -1 && pos < candidatelist->count())
 			{
 				sad::animations::Animation* addedanimation = candidatelist->item(pos)->data(Qt::UserRole).value<sad::animations::Animation*>();
-				if (producesLoop(a, addedanimation) == false)
-				{
-					sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
-					history::Command* c = new history::animations::AddToComposite(co, addedanimation->MajorId);
-					c->commit(m_panel->editor());
-					this->m_panel->editor()->history()->add(c);
-				}
+				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
+				addAnimationToCompositeList(co, addedanimation, true);
 			}
 		}
 	}
@@ -1294,12 +1352,8 @@ void gui::AnimationActions::removeAnimationFromComposite()
 			if (pos > -1 && pos < list->count())
 			{				
 				sad::animations::Animation* animation = list->item(pos)->data(Qt::UserRole).value<sad::animations::Animation*>();
-				unsigned long long majorid = animation->MajorId;
-
 				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
-				history::Command* c = new history::animations::RemoveFromComposite(co, majorid, pos);
-				c->commit(m_panel->editor());
-				this->m_panel->editor()->history()->add(c);
+				removeAnimationFromCompositeList(co, animation, true, pos);
 			}
 		}
 	}
