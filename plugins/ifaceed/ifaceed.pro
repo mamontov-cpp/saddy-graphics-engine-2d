@@ -254,7 +254,16 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/scenenodes/scenenodesflagsetter.h \
     ifaceed/scripting/scenenodes/scenenodesoptionssetter.h \
     ifaceed/scripting/scenenodes/scenenodesschemasetter.h \
-    ifaceed/scripting/ways/waysbindings.h
+    ifaceed/scripting/ways/waysbindings.h \
+    ifaceed/scripting/animations/animationsbindings.h \
+    ifaceed/scripting/animations/animationssetter.h \
+    ifaceed/scripting/animations/animationswidgetsetter.h \
+    ifaceed/scripting/dialogues/dialoguesbindings.h \
+    ifaceed/scripting/dialogues/dialoguesphraseref.h \
+    ifaceed/scripting/dialogues/dialoguessetter.h \
+    ifaceed/scripting/ways/wayspointref.h \
+    ifaceed/scripting/ways/wayssetter.h \
+    ifaceed/scripting/animations/animationswaysetter.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -448,7 +457,12 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/scenenodes/scenenodesflagsetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesoptionssetter.cpp \
     ifaceed/scripting/scenenodes/scenenodesschemasetter.cpp \
-    ifaceed/scripting/ways/waysbindings.cpp
+    ifaceed/scripting/ways/waysbindings.cpp \
+    ifaceed/scripting/animations/animationsbindings.cpp \
+    ifaceed/scripting/dialogues/dialoguesbindings.cpp \
+    ifaceed/scripting/dialogues/dialoguesphraseref.cpp \
+    ifaceed/scripting/ways/wayspointref.cpp \
+    ifaceed/scripting/animations/animationswaysetter.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
