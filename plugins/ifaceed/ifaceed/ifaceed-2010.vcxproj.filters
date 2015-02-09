@@ -1691,6 +1691,12 @@
     <ClCompile Include="scripting\animations\animationsbindings.cpp">
       <Filter>Source Files\scripting\animations</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\animations\animationswaysetter.cpp">
+      <Filter>Source Files\scripting\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\isaabb.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2190,6 +2196,18 @@
     </ClInclude>
     <ClInclude Include="scripting\animations\animationswidgetsetter.h">
       <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstracttovalue.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\abstractcondition.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\animations\animationswaysetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\isaabb.h">
+      <Filter>Header Files\scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
