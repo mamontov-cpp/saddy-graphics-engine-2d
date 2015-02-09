@@ -31,7 +31,7 @@ public:
         \param[in] ctx context
         \return whether it could be called, or error
      */
-    virtual sad::Maybe<QString> canBeCalled(QScriptContext* ctx);
+    virtual scripting::MatchResult canBeCalled(QScriptContext* ctx);
 };
 
 }

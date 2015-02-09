@@ -27,7 +27,7 @@ public:
 	/*! Determines, whether it can be called with this context
 		\param[in] ctx context
 	 */
-	virtual sad::Maybe<QString> canBeCalled(QScriptContext* ctx);
+	virtual scripting::MatchResult canBeCalled(QScriptContext* ctx);
 	/*! Calls actually a function
 		\param[in] ctx context
 		\param[in] engine engine

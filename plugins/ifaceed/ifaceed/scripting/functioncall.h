@@ -17,7 +17,7 @@ template<
 class FunctionCall
 {
 public:
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -28,7 +28,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)();
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -49,9 +49,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		return result;
 	}
@@ -68,10 +69,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0
 >
@@ -82,7 +84,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -103,9 +105,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		return result;
@@ -126,10 +129,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1
@@ -141,7 +145,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -162,9 +166,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -188,10 +193,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -204,7 +210,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -225,9 +231,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -254,10 +261,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -271,7 +279,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -292,9 +300,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -324,10 +333,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -342,7 +352,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -363,9 +373,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -398,10 +409,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -417,7 +429,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -438,9 +450,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -476,10 +489,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -496,7 +510,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -517,9 +531,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -558,10 +573,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -579,7 +595,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -600,9 +616,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -644,10 +661,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -666,7 +684,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -687,9 +705,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -734,7 +753,7 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -758,7 +777,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -779,9 +798,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -829,10 +849,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -853,7 +874,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -874,9 +895,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -927,10 +949,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -952,7 +975,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -973,9 +996,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1029,10 +1053,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1055,7 +1080,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1076,9 +1101,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1135,10 +1161,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1162,7 +1189,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1183,9 +1210,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1245,10 +1273,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1273,7 +1302,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1294,9 +1323,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1359,10 +1389,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1388,7 +1419,7 @@ public:
 	 */
 	typedef _ReturnType (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1409,9 +1440,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1486,7 +1518,7 @@ template<
 class FunctionCall<void>
 {
 public:
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
@@ -1497,19 +1529,19 @@ public:
 	 */
 	typedef void (*Signature)();
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
 	 */
-    inline WithArgs0(QScriptEngine* e, const QString& name, Signature s) : scripting::Callable(e, name, 0), m_f(s)
+	inline WithArgs0(QScriptEngine* e, const QString& name, Signature s) : scripting::Callable(e, name, 0), m_f(s)
 	{
 		
 	}
 
-    /*! Can not be inherited
+	/*! Can be inherited
 	 */
-    inline ~WithArgs0()
+	inline ~WithArgs0()
 	{
 	
 	}
@@ -1518,9 +1550,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-    inline sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	inline scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		return result;
 	}
@@ -1528,7 +1561,7 @@ public:
 	/*! Calls  a function
 		\param[in] ctx context
 	 */
-    inline QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	inline QScriptValue call(QScriptContext* ctx, QScriptEngine*)
 	{
 		m_f(
 		);
@@ -1538,10 +1571,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0
 >
@@ -1552,7 +1586,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1573,9 +1607,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		return result;
@@ -1596,10 +1631,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1
@@ -1611,7 +1647,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1632,9 +1668,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1658,10 +1695,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1674,7 +1712,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1695,9 +1733,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1708,7 +1747,7 @@ public:
 	/*! Calls  a function
 		\param[in] ctx context
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* )
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -1724,10 +1763,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1741,7 +1781,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1762,9 +1802,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1776,7 +1817,7 @@ public:
 	/*! Calls  a function
 		\param[in] ctx context
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* )
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -1794,10 +1835,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1812,7 +1854,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1833,9 +1875,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1848,7 +1891,7 @@ public:
 	/*! Calls  a function
 		\param[in] ctx context
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* )
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -1868,10 +1911,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1887,7 +1931,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1908,9 +1952,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1946,10 +1991,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -1966,7 +2012,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -1987,9 +2033,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2004,7 +2051,7 @@ public:
 	/*! Calls  a function
 		\param[in] ctx context
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine*)
+	QScriptValue call(QScriptContext* ctx, QScriptEngine* )
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
@@ -2028,10 +2075,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2049,7 +2097,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2070,9 +2118,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2114,10 +2163,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2136,7 +2186,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2157,9 +2207,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2204,10 +2255,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2227,7 +2279,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2248,9 +2300,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2298,10 +2351,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2322,7 +2376,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2343,9 +2397,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2396,10 +2451,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2421,7 +2477,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2442,9 +2498,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2498,10 +2555,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2524,7 +2582,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2545,9 +2603,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2604,10 +2663,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2631,7 +2691,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2652,9 +2712,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2714,10 +2775,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2742,7 +2804,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2763,9 +2825,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2828,10 +2891,11 @@ protected:
 	Signature m_f;
 };
 
-/*! Registers a functional call
+/*! Registers a constructor call
 	\param[in] name a name of object
 	\param[in] s scripting object
  */
+
 template<
 	typename _ArgType0,
 	typename _ArgType1,
@@ -2857,7 +2921,7 @@ public:
 	 */
 	typedef void (*Signature)(_ArgType0, _ArgType1, _ArgType2, _ArgType3, _ArgType4, _ArgType5, _ArgType6, _ArgType7, _ArgType8, _ArgType9, _ArgType10, _ArgType11, _ArgType12, _ArgType13, _ArgType14, _ArgType15);
 
-    /*! Represents a functional call for a function with 2 arguments
+	/*! Represents a constructor call for a function with 2 arguments
 	    \param[in] e engine
 	    \param[in] name a name
 		\param[in] s function
@@ -2878,9 +2942,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);

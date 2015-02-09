@@ -66,13 +66,15 @@ public:
 		\param[in] ctx context
 		\return whether it could be called, or error
 	 */
-	virtual sad::Maybe<QString> canBeCalled(QScriptContext* ctx)
+	virtual scripting::MatchResult canBeCalled(QScriptContext* ctx)
 	{
-		sad::Maybe<QString> result;
+		scripting::MatchResult result;
+		result._1() = 0;
+
 		checkArgumentCount(result, ctx);
 		checkArgument<_Type>(result, 0, ctx);
 		checkArgument<sad::String>(result, 1, ctx);
-		if (result.exists() == false)
+		if (result._2().exists() == false)
 		{
 			sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
 			bool propertymatches = true;
@@ -95,17 +97,19 @@ public:
 
 			if (propertymatches)
 			{
+				result._1() += 1;
 				sad::Maybe<_Type> basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0));
 				sad::db::Object* object = basicvalue.value();
 				sad::db::Property* prop = object->getObjectProperty(propname.value());
 				if (prop)
 				{
+					result._1() += 1;
 					sad::db::TypeName<_PropetyType>::init();
 					if (prop->baseType() != sad::db::TypeName<_PropetyType>::baseName() || prop->pointerStarsCount() != 0)
 					{
 						QString qpropname = propname.value().c_str();
 						QString basetype = sad::db::TypeName<_PropetyType>::baseName().c_str();
-						result.setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
+						result._2().setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
 					}
 				}
 				else
@@ -117,7 +121,7 @@ public:
 			if (propertymatches == false)
 			{
 				QString qpropname = propname.value().c_str();
-				result.setValue(QString("property ") + qpropname + QString(" is not readable"));
+				result._2().setValue(QString("property ") + qpropname + QString(" is not readable"));
 			}
 		}
 		return result;

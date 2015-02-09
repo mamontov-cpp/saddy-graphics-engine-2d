@@ -18,10 +18,10 @@ scripting::scenenodes::FontSetter::~FontSetter()
 
 }
 
-sad::Maybe<QString> scripting::scenenodes::FontSetter::canBeCalled(QScriptContext* ctx)
+scripting::MatchResult scripting::scenenodes::FontSetter::canBeCalled(QScriptContext* ctx)
 {
-   sad::Maybe<QString> result = this->scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>::canBeCalled(ctx);
-   if (result.exists() == false)
+   scripting::MatchResult result = this->scripting::scenenodes::Setter<sad::String, history::label::ChangeFontName>::canBeCalled(ctx);
+   if (result._2().exists() == false)
    {
         sad::Maybe<sad::String> r = scripting::ToValue<sad::String>::perform(ctx->argument(2));
         sad::String resourcename = r.value();
@@ -37,7 +37,7 @@ sad::Maybe<QString> scripting::scenenodes::FontSetter::canBeCalled(QScriptContex
         }
         if (!valid)
         {
-            result.setValue(QString(resourcename.data()) + " is not a font resource");
+            result._2().setValue(QString(resourcename.data()) + " is not a font resource");
         }
    }
    return result;

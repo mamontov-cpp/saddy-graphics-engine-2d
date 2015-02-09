@@ -16,15 +16,15 @@ scripting::scenenodes::FontSizeSetter::~FontSizeSetter()
 
 }
 
-sad::Maybe<QString> scripting::scenenodes::FontSizeSetter::canBeCalled(QScriptContext* ctx)
+scripting::MatchResult  scripting::scenenodes::FontSizeSetter::canBeCalled(QScriptContext* ctx)
 {
-   sad::Maybe<QString> result = this->scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>::canBeCalled(ctx);
-   if (result.exists() == false)
+   scripting::MatchResult  result = this->scripting::scenenodes::Setter<unsigned int, history::label::ChangeFontSize>::canBeCalled(ctx);
+   if (result._2().exists() == false)
    {
         sad::Maybe<unsigned int> r = scripting::ToValue<unsigned int>::perform(ctx->argument(2));
         if (r.value() == 0)
         {
-            result.setValue("Value must be greater than zero");
+            result._2().setValue("Value must be greater than zero");
         }
    }
    return result;

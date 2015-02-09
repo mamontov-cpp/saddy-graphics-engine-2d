@@ -27,10 +27,10 @@ QVariant scripting::Callable::extension( QScriptClass::Extension extension, cons
 			return tmp.toVariant();
 		}
 
-		sad::Maybe<QString> result = this->canBeCalled(context);
-		if (result.exists())
+		MatchResult result = this->canBeCalled(context);
+		if (result._2().exists())
 		{
-			context->throwError(QScriptContext::SyntaxError, m_name + QString(" : ") + result.value());
+			context->throwError(QScriptContext::SyntaxError, m_name + QString(" : ") + result._2().value());
 			return tmp.toVariant();
 		}
 
@@ -55,9 +55,12 @@ QString scripting::Callable::name() const
 	return m_name;
 }
 
-void scripting::Callable::checkArgumentCount(sad::Maybe<QString> & result, QScriptContext* ctx)
+void scripting::Callable::checkArgumentCount(
+	scripting::MatchResult& result, 
+	QScriptContext* ctx
+)
 {
-	if (result.exists() == false)
+	if (result._2().exists() == false)
 	{
 		if (ctx->argumentCount() != m_argument_count)
 		{
@@ -67,7 +70,11 @@ void scripting::Callable::checkArgumentCount(sad::Maybe<QString> & result, QScri
 				arguments = "argument ";
 			}
 			QString number = QString::number(m_argument_count);
-			result.setValue(QString("accepts only ") + number + arguments);
+			result._2().setValue(QString("accepts only ") + number + QString(" ") + arguments);
+		}
+		else
+		{
+			result._1() += 1;
 		}
 	}
 }

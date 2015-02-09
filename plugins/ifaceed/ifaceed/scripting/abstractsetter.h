@@ -58,17 +58,19 @@ public:
 		\param[in] ctx context
 		\return whether it could be called, or error
 	 */
-	virtual sad::Maybe<QString> canBeCalled(QScriptContext* ctx)
+	virtual scripting::MatchResult canBeCalled(QScriptContext* ctx)
 	{
-		sad::Maybe<QString> result;
+		scripting::MatchResult result;
+		result._1() = 0;
 		checkArgumentCount(result, ctx);
 		checkArgument<_Type>(result, 0, ctx);
 		checkArgument<sad::String>(result, 1, ctx);
 		checkArgument<_PropertyType>(result, 2, ctx);
-		if (result.exists() == false)
+
+		bool propertymatches = true;
+		sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));			
+		if (propname.exists())
 		{
-			sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
-			bool propertymatches = true;
 			if (m_matched_property_names.size())
 			{
 				propertymatches = std::find(
@@ -85,7 +87,14 @@ public:
 					propname.value()
 				) == m_excluded_property_names.end();
 			}
+			if (propertymatches)
+			{
+				result._1() += 1;				
+			}
+		}
 
+		if (result._2().exists() == false)
+		{			
 			if (propertymatches)
 			{
 				sad::Maybe<_Type> basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0));
@@ -93,12 +102,13 @@ public:
 				sad::db::Property* prop = object->getObjectProperty(propname.value());
 				if (prop)
 				{
+					result._1() += 1;
 					sad::db::TypeName<_PropertyType>::init();
 					if (prop->baseType() != sad::db::TypeName<_PropertyType>::baseName() || prop->pointerStarsCount() != 0)
 					{
 						QString qpropname = propname.value().c_str();
 						QString basetype = sad::db::TypeName<_PropertyType>::baseName().c_str();
-						result.setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
+						result._2().setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
 					}
 				}
 				else
@@ -110,7 +120,7 @@ public:
 			if (propertymatches == false)
 			{
 				QString qpropname = propname.value().c_str();
-				result.setValue(QString("property ") + qpropname + QString(" is not writeable"));
+				result._2().setValue(QString("property ") + qpropname + QString(" is not writeable"));
 			}
 		}
 		return result;

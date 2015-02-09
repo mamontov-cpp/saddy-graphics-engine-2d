@@ -73,9 +73,10 @@ public:
 	    \\param[in] context a context element
 	    \\return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 	"
 	print "\tcheckArgumentCount(result, context);\n"
 	for i in 0..count - 1
@@ -174,9 +175,10 @@ public:
 	    \\param[in] context a context element
 	    \\return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 	"
 	print "\tcheckArgumentCount(result, context);\n"
 	for i in 0..count - 1
