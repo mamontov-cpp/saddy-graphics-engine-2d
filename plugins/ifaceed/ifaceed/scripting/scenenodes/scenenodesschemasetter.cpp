@@ -20,10 +20,10 @@ scripting::scenenodes::SchemaSetter::~SchemaSetter()
 
 }
 
-sad::Maybe<QString> scripting::scenenodes::SchemaSetter::canBeCalled(QScriptContext* ctx)
+scripting::MatchResult  scripting::scenenodes::SchemaSetter::canBeCalled(QScriptContext* ctx)
 {
-   sad::Maybe<QString> result = this->scripting::scenenodes::AbstractSetter<sad::String>::canBeCalled(ctx);
-   if (result.exists() == false)
+   scripting::MatchResult result = this->scripting::scenenodes::AbstractSetter<sad::String>::canBeCalled(ctx);
+   if (result._2().exists() == false)
    {
         sad::Maybe<sad::String> r = scripting::ToValue<sad::String>::perform(ctx->argument(2));
         sad::String resourcename = r.value();
@@ -37,16 +37,16 @@ sad::Maybe<QString> scripting::scenenodes::SchemaSetter::canBeCalled(QScriptCont
         }
         if (!valid)
         {
-            result.setValue(QString(resourcename.data()) + " is not a schema resource");
+            result._2().setValue(QString(resourcename.data()) + " is not a schema resource");
         }
    }
-    if (result.exists() == false)
+    if (result._2().exists() == false)
     {
 	     sad::Maybe<sad::SceneNode*> r = scripting::ToValue<sad::SceneNode*>::perform(ctx->argument(0));
 		 sad::SceneNode* node = r.value();
 		 if (node->metaData()->canBeCastedTo("sad::db::custom::Object") == false)
 		 {
-			 result.setValue("first argument is not a custom object");
+			 result._2().setValue("first argument is not a custom object");
 		 }
     }
    return result;

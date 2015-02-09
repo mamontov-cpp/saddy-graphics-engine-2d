@@ -13,15 +13,20 @@ scripting::MultiMethod::~MultiMethod()
 	}
 }
 
-sad::Maybe<QString> scripting::MultiMethod::canBeCalled(QScriptContext* ctx)
+scripting::MatchResult scripting::MultiMethod::canBeCalled(QScriptContext* ctx)
 {
-	sad::Maybe<QString> result;
+	scripting::MatchResult result;
+	result._1() = 0;
 	for(size_t i = 0; i < m_methods.size(); i++)
 	{
-		result = m_methods[i]->canBeCalled(ctx);
-		if (result.exists() == false)
+		scripting::MatchResult tmpresult = m_methods[i]->canBeCalled(ctx);
+		if (tmpresult._2().exists() == false)
 		{
-			return result;
+			return tmpresult;
+		}
+		if (result._2().exists() == false || result.p1() < tmpresult.p1())
+		{
+			result = tmpresult;
 		}
 	}
 	return result;
@@ -30,12 +35,12 @@ sad::Maybe<QString> scripting::MultiMethod::canBeCalled(QScriptContext* ctx)
 QScriptValue scripting::MultiMethod::call(QScriptContext* ctx, QScriptEngine* engine)
 {
 	QScriptValue result;
-	sad::Maybe<QString> tmp;
+	scripting::MatchResult tmp;
 	bool found = false;
 	for(size_t i = 0; i < m_methods.size() && !found; i++)
 	{
 		tmp = m_methods[i]->canBeCalled(ctx);
-		if (tmp.exists() == false)
+		if (tmp._2().exists() == false)
 		{
 			found = true;
 			result = m_methods[i]->call(ctx, engine);

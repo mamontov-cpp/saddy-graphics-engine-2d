@@ -7,6 +7,8 @@
 #include <QScriptClass>
 #include <QScriptContext>
 
+#include <sadpair.h>
+
 #include <db/dbtypename.h>
 
 #include "fromvalue.h"
@@ -15,6 +17,10 @@
 
 namespace scripting
 {
+
+/*! A result for matching a callable signature against arguments
+ */
+typedef sad::Pair<int, sad::Maybe<QString> > MatchResult;
 
 /*! Returns callable object
  */
@@ -50,7 +56,7 @@ public:
 	/*! Determines, whether it can be called with this context
 		\param[in] ctx context
 	 */
-	virtual sad::Maybe<QString> canBeCalled(QScriptContext* ctx) = 0;
+	virtual scripting::MatchResult canBeCalled(QScriptContext* ctx) = 0;
 	/*! Calls actually a function
 		\param[in] ctx context
 		\param[in] engine engine
@@ -60,16 +66,16 @@ public:
 		\param[in] result previous computation result
 		\param[in] ctx context
 	 */
-	void checkArgumentCount(sad::Maybe<QString> & result, QScriptContext* ctx);
+	void checkArgumentCount(scripting::MatchResult & result, QScriptContext* ctx);
 	/*! Checks argument type
 		\param[in] result previous computation result
 		\param[in] argument number of argument
 		\param[in] ctx context
 	 */
 	template<typename _ArgType>
-	void checkArgument(sad::Maybe<QString> & result, int argument, QScriptContext* ctx)
+	void checkArgument(scripting::MatchResult& result, int argument, QScriptContext* ctx)
 	{
-		if (result.exists() == false)
+		if (result._2().exists() == false)
 		{
 			sad::Maybe<_ArgType> value = scripting::ToValue<_ArgType>::perform(ctx->argument(argument));
 			if (value.exists() == false)
@@ -77,7 +83,11 @@ public:
 				sad::db::TypeName<_ArgType>::init();
 				QString tname = sad::db::TypeName<_ArgType>::baseName().c_str();
 				QString argstr = QString::number(argument + 1);
-				result.setValue(QString("must have argument ") + argstr + QString(" of type ") + tname);
+				result._2().setValue(QString("must have argument ") + argstr + QString(" of type ") + tname);
+			}
+			else
+			{
+				result._1() += 1;
 			}
 		}
 	}

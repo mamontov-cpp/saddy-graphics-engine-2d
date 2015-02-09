@@ -51,18 +51,18 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		return result;
 	}
 
 	/*! Calls  a function
-		\param[in] ctx context
 		\param[in] engine engine
 	 */
-	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
+	QScriptValue call(QScriptContext*, QScriptEngine* engine)
 	{
 		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
 		), engine);
@@ -106,9 +106,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		return result;
@@ -165,9 +166,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -228,9 +230,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -295,9 +298,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -366,9 +370,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -441,9 +446,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -520,9 +526,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -603,9 +610,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -690,9 +698,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -781,9 +790,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -876,9 +886,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -975,9 +986,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1078,9 +1090,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1185,9 +1198,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1296,9 +1310,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1411,9 +1426,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1504,14 +1520,14 @@ public:
 	    \param[in] name a name
 		\param[in] s function
 	 */
-    inline WithArgs0(QScriptEngine* e, const QString& name, Signature s) : scripting::Callable(e, name, 0), m_f(s)
+	inline WithArgs0(QScriptEngine* e, const QString& name, Signature s) : scripting::Callable(e, name, 0), m_f(s)
 	{
 		
 	}
 
 	/*! Can be inherited
 	 */
-    inline ~WithArgs0()
+	inline ~WithArgs0()
 	{
 	
 	}
@@ -1520,9 +1536,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-    inline sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	inline scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		return result;
 	}
@@ -1531,7 +1548,7 @@ public:
 		\param[in] ctx context
 		\param[in] engine engine
 	 */
-    inline QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
+	inline QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
 		);
@@ -1577,9 +1594,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		return result;
@@ -1638,9 +1656,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1703,9 +1722,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1772,9 +1792,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1845,9 +1866,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -1922,9 +1944,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2003,9 +2026,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2088,9 +2112,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2177,9 +2202,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2270,9 +2296,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2367,9 +2394,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2468,9 +2496,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2573,9 +2602,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2682,9 +2712,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2795,9 +2826,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
@@ -2912,9 +2944,10 @@ public:
 	    \param[in] context a context element
 	    \return whether it has an error
 	 */
-	sad::Maybe<QString> canBeCalled(QScriptContext* context)
+	scripting::MatchResult canBeCalled(QScriptContext* context)
 	{
-	    sad::Maybe<QString> result;
+	    scripting::MatchResult result; 
+		result._1() = 0;
 		checkArgumentCount(result, context);
 		checkArgument<_ArgType0>(result, 0, context);
 		checkArgument<_ArgType1>(result, 1, context);
