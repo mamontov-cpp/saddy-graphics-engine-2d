@@ -230,3 +230,13 @@ QScriptValue scripting::FromValue<sad::Vector<sad::String> >::perform(const sad:
     }
     return result;
 }
+
+QScriptValue scripting::FromValue<sad::Vector<unsigned long long> >::perform(const sad::Vector<unsigned long long>& v, QScriptEngine* e)
+{
+    QScriptValue result = e->newArray(v.size());
+    for(size_t i = 0; i < v.size(); i++)
+    {
+        result.setProperty(i, scripting::FromValue<unsigned long long>::perform(v[i], e));
+    }
+    return result;
+}

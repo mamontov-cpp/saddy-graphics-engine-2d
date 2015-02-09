@@ -1040,3 +1040,73 @@ scripting::ToValue< sad::Vector<sad::String> >::perform(
     
     return result;
 }
+
+#define DEFINE_BASIC_METHODS_FOR_TYPE(A) \
+scripting::ToValue< A >::ToValue()       \
+{                                        \
+}										 \
+scripting::ToValue< A >::~ToValue()      \
+{                                        \
+}										 \
+sad::Maybe< A > scripting::ToValue< A >::toValue(const QScriptValue& v) \
+{										 \
+	 return perform(v);                  \
+}
+
+DEFINE_BASIC_METHODS_FOR_TYPE( double )
+DEFINE_BASIC_METHODS_FOR_TYPE( float )
+DEFINE_BASIC_METHODS_FOR_TYPE( int )
+DEFINE_BASIC_METHODS_FOR_TYPE( long )
+DEFINE_BASIC_METHODS_FOR_TYPE( long long )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::AColor )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Color )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Point2D )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Point2I )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Point3D )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Point3I )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Size2D )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Size2I )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Rect2D )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Rect2I )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::String )
+DEFINE_BASIC_METHODS_FOR_TYPE( std::string )
+DEFINE_BASIC_METHODS_FOR_TYPE( QString )
+DEFINE_BASIC_METHODS_FOR_TYPE( short )
+DEFINE_BASIC_METHODS_FOR_TYPE( bool )
+DEFINE_BASIC_METHODS_FOR_TYPE( char )
+DEFINE_BASIC_METHODS_FOR_TYPE( signed char )
+DEFINE_BASIC_METHODS_FOR_TYPE( unsigned char )
+DEFINE_BASIC_METHODS_FOR_TYPE( unsigned int )
+DEFINE_BASIC_METHODS_FOR_TYPE( unsigned long )
+DEFINE_BASIC_METHODS_FOR_TYPE( unsigned long long )
+DEFINE_BASIC_METHODS_FOR_TYPE( unsigned short )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::db::Object* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Scene* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::SceneNode* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Label* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Sprite2D* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::db::custom::Object* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::p2d::app::Way* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::dialogue::Dialogue* )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::dialogue::Phrase )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Vector<sad::p2d::app::WayPoint> )
+DEFINE_BASIC_METHODS_FOR_TYPE( sad::Vector<sad::dialogue::Phrase> )
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Animation*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Composite*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Blinking*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::CameraRotation*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::CameraShaking*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Color*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::FontList*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::FontSize*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::OptionList*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Parallel*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Resize*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Rotate*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Sequential*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::TextureCoordinatesList*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Typing*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::WayMoving*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::Vector<sad::String>)
+#undef DEFINE_BASIC_METHODS_FOR_TYPE

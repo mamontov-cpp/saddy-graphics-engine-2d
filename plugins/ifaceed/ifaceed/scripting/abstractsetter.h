@@ -6,11 +6,15 @@
 #pragma once
 #include "maybe.h"
 #include "callable.h"
+#include "tovalue.h"
+#include "abstractcondition.h"
 
 #include <equalto.h>
 
 #include <db/dbproperty.h>
 #include <db/dbobject.h>
+
+#include <sadptrvector.h>
 
 namespace scripting
 {
@@ -32,13 +36,27 @@ public:
 		const QString& name
 	) : scripting::Callable(e, name ,3)
 	{
-		
+		addConverter(new scripting::ToValue<_PropertyType>());
 	}
 	/*! Could be inherited
 	 */
 	virtual ~AbstractSetter()
 	{
 		
+	}
+	/*! Adds new converter to a setter
+		\param[in] a converter 
+	 */
+	void addConverter(scripting::AbstractToValue<_PropertyType>* a)
+	{
+		m_converts << a;
+	}
+	/*! Adds a conditions to a setter
+		\param[in] a converter
+	 */
+	void addCondition(scripting::AbstractCondition<_PropertyType>* a)
+	{
+		m_conditons << a;
 	}
 	/*! Pushes new matches property name
 		\param[in] name a property name
@@ -65,7 +83,31 @@ public:
 		checkArgumentCount(result, ctx);
 		checkArgument<_Type>(result, 0, ctx);
 		checkArgument<sad::String>(result, 1, ctx);
-		checkArgument<_PropertyType>(result, 2, ctx);
+		// Use converters to enhance match result
+		if (result._2().exists() == false)
+		{
+			QScriptValue argt =  ctx->argument(2);
+			sad::Maybe<_PropertyType> value;
+			for(size_t i = 0; i < m_converts.size() && value.exists() == false; i++)
+			{
+				value = m_converts[i]->toValue(argt);
+			}
+			if (value.exists() == false)
+			{
+				sad::db::TypeName<_PropertyType>::init();
+				QString tname = sad::db::TypeName<_PropertyType>::baseName().c_str();
+				QString argstr = QString::number(3);
+				result._2().setValue(QString("must have argument ") + argstr + QString(" of type ") + tname);
+			}
+			else
+			{
+				result._1() += 1;
+				for(size_t i = 0; i < m_conditons.size() && result._2().exists() == false; i++)
+				{
+					result._2() = m_conditons[i]->check(value.value());
+				}
+			}
+		}
 
 		bool propertymatches = true;
 		sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));			
@@ -158,6 +200,12 @@ protected:
 	/*! A property names, that should be excluded from this name
 	 */
 	sad::Vector<sad::String> m_excluded_property_names;
+	/*! Describes a list of converters for setter
+	 */
+	sad::PtrVector<scripting::AbstractToValue<_PropertyType> > m_converts;
+	/*! Describes a list of conditions for setter
+	 */
+	sad::PtrVector<scripting::AbstractCondition<_PropertyType> > m_conditons;
 };
 
 }

@@ -6,6 +6,7 @@
 #include "makescriptingcall.h"
 #include "abstractgetter.h"
 #include "queryresource.h"
+#include "isaabb.h"
 
 #include "../mainpanel.h"
 
@@ -42,6 +43,7 @@
 #include "../history/animations/animationschangelist.h"
 #include "../history/animations/animationschangeresizevector.h"
 #include "../history/animations/animationschangerotateangle.h"
+#include "../history/animations/animationschangerect.h"
 
 
 #include "database/databasebindings.h"
@@ -71,6 +73,7 @@
 #include "animations/animationsbindings.h"
 #include "animations/animationssetter.h"
 #include "animations/animationswidgetsetter.h"
+#include "animations/animationswaysetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -78,13 +81,16 @@
 #include <animations/animationsblinking.h>
 #include <animations/animationscamerashaking.h>
 #include <animations/animationscamerarotation.h>
+#include <animations/animationscomposite.h>
 #include <animations/animationscolor.h>
 #include <animations/animationsfontlist.h>
 #include <animations/animationsfontsize.h>
 #include <animations/animationsresize.h>
 #include <animations/animationsrotate.h>
 #include <animations/animationsoptionlist.h>
+#include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
+#include <animations/animationswaymoving.h>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -1238,6 +1244,36 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 				history::animations::ChangeList
 			>(m_engine, m_panel->UI()->txtTextureCoordinatesList, "list")
 	);
+
+	scripting::animations::WidgetSetter<
+		sad::animations::TextureCoordinatesContinuous,
+		gui::rectwidget::RectWidget*,
+		sad::Rect2D,
+		history::animations::ChangeRect
+	>* rect1 = new scripting::animations::WidgetSetter<
+		sad::animations::TextureCoordinatesContinuous,
+		gui::rectwidget::RectWidget*,
+		sad::Rect2D,
+		history::animations::ChangeRect
+	>(m_engine,  m_panel->UI()->rctTCCStartingRect, "start_rect");
+	rect1->addCondition(new IsAABB());
+	set->add(rect1);
+
+	scripting::animations::WidgetSetter<
+		sad::animations::TextureCoordinatesContinuous,
+		gui::rectwidget::RectWidget*,
+		sad::Rect2D,
+		history::animations::ChangeRect
+	>* rect2 = new scripting::animations::WidgetSetter<
+		sad::animations::TextureCoordinatesContinuous,
+		gui::rectwidget::RectWidget*,
+		sad::Rect2D,
+		history::animations::ChangeRect
+	>(m_engine,  m_panel->UI()->rctTCCEndingRect, "end_rect");
+	rect2->addCondition(new IsAABB());
+	set->add(rect2);
+
+	set->add(new scripting::animations::WaySetter(m_engine));
 	m_registered_classes << set;
 	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
 
@@ -1262,7 +1298,11 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "min_angle"));
 	get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));	
 	get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
+	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "start_rect"));
+	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "end_rect"));
 	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >(m_engine, "list"));
+	get->add(new scripting::AbstractGetter<sad::animations::WayMoving*, unsigned long long >(m_engine, "way"));
+	get->add(new scripting::AbstractGetter<sad::animations::Composite*, sad::Vector<unsigned long long> >(m_engine, "list"));
 	
 	m_registered_classes << get;
 	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set

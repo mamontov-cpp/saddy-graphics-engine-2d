@@ -122,6 +122,7 @@ DEFINE_FROM_VALUE_FOR_TYPE( QStringList )
 DEFINE_FROM_VALUE_FOR_TYPE( QVector<unsigned long long> )
 DEFINE_FROM_VALUE_FOR_TYPE( QScriptValue )
 DEFINE_FROM_VALUE_FOR_TYPE( sad::Vector<sad::String> )
+DEFINE_FROM_VALUE_FOR_TYPE( sad::Vector<unsigned long long> )
 #undef DEFINE_FROM_VALUE_FOR_TYPE
 
 }

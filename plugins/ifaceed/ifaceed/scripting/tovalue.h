@@ -15,6 +15,8 @@
 
 #include <p2d/app/way.h>
 
+#include "abstracttovalue.h"
+
 namespace sad
 {
 class Scene;
@@ -73,9 +75,29 @@ namespace scripting
 template<
     typename T
 >
-class ToValue
+class ToValue: public scripting::AbstractToValue<T>
 {
 public:
+	/*! Converts a value to value
+	 */
+	inline ToValue()
+	{
+		
+	}
+	/*! Can be inherited
+	 */
+	virtual ~ToValue()
+	{
+		
+	}
+	/*! Converts a resulting value to a value
+		\param[in] v value
+		\return result
+	 */
+	virtual sad::Maybe<T> toValue(const QScriptValue& v)
+	{
+		return perform(v);
+	}
     /*! Tries to perform conversion to specified type
      *  \return value, if it exists
      */
@@ -90,9 +112,12 @@ public:
 #define DEFINE_TO_VALUE_FOR_TYPE(A)                            \
 template<                                                        \
 >                                                                \
-class ToValue< A >                                               \
+class ToValue< A >: public scripting::AbstractToValue< A >       \
 {                                                                \
 public:                                                          \
+	ToValue();                                                   \
+	~ToValue();                                                  \
+	sad::Maybe< A > toValue(const QScriptValue& v);              \
     static sad::Maybe< A > perform(const QScriptValue& v);       \
 };
 
