@@ -9,6 +9,7 @@
 #include <QTextBlock>
 #include <QAbstractTextDocumentLayout>
 
+#include <algorithm>
 
 gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(parent)
 {
@@ -21,6 +22,20 @@ gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(par
     connect(this, SIGNAL(textChanged()), this, SLOT(updateLineNumberArea()));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(updateLineNumberArea()));
     connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+
+	m_alphabet.insert('.');
+	for(char i = 'a'; i <= 'z'; i++)
+	{
+		m_alphabet.insert(QChar(i));
+	}
+	for(char i = 'A'; i <= 'Z'; i++)
+	{
+		m_alphabet.insert(QChar(i));
+	}
+	for(char i = '0'; i <= '9'; i++)
+	{
+		m_alphabet.insert(QChar(i));
+	}
 
 
 	updateLineNumberAreaWidth(0);
@@ -128,6 +143,11 @@ int gui::codeedit::CodeEdit::lineNumberAreaWidth()
     return space;
 }
 
+Qt::CaseSensitivity gui::codeedit::CodeEdit::caseSensivity() const
+{
+	return Qt::CaseSensitive;
+}
+
 void gui::codeedit::CodeEdit::updateLineNumberAreaWidth(int)
 { 
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
@@ -183,6 +203,52 @@ void gui::codeedit::CodeEdit::resizeEvent(QResizeEvent *e)
 
     QRect cr = contentsRect();
     m_line_number_area->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+
+QString  gui::codeedit::CodeEdit::textUnderCursor() const
+{
+	QTextCursor tc = textCursor();
+	int position = tc.position();
+	const QString& me  = this->toPlainText();
+	QString result  = "";
+	int i = position-1;
+	bool valid = true;
+	while(valid && i >= 0 && i < me.length())
+	{
+		if (m_alphabet.contains(me[i]))
+		{
+			result += me[i];
+		}
+		else
+		{
+			valid = false;
+		}
+		i--;
+	}
+
+	std::reverse(result.begin(), result.end());
+	i = position;
+	valid = true;
+	while(valid && i >= 0 && i < me.length())
+	{
+		if (m_alphabet.contains(me[i]))
+		{
+			result += me[i];
+		}
+		else
+		{
+			result += me[i];
+			valid = false;
+		}
+		i--;
+	}
+	return result;
+}
+
+int gui::codeedit::CodeEdit::minCompletionPrefixLength() const
+{
+	return 2;
 }
 
 void gui::codeedit::CodeEdit::highlightCurrentLine()

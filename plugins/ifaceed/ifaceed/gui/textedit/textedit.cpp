@@ -26,7 +26,7 @@ void gui::textedit::TextEdit::setCompleter(QCompleter* completer)
 
     m_completer->setWidget(this);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
-    m_completer->setCaseSensitivity(Qt::CaseInsensitive);
+    m_completer->setCaseSensitivity(this->caseSensivity());
     QObject::connect(
 		m_completer, 
 		SIGNAL(activated(QString)),
@@ -38,6 +38,11 @@ void gui::textedit::TextEdit::setCompleter(QCompleter* completer)
 QCompleter* gui::textedit::TextEdit::completer() const
 {
     return m_completer;
+}
+
+Qt::CaseSensitivity gui::textedit::TextEdit::caseSensivity() const
+{
+	return Qt::CaseInsensitive;
 }
 
 void gui::textedit::TextEdit::insertCompletion(const QString& completion)
@@ -62,6 +67,11 @@ QString gui::textedit::TextEdit::textUnderCursor() const
     QTextCursor tc = textCursor();
     tc.select(QTextCursor::WordUnderCursor);
     return tc.selectedText();
+}
+
+int gui::textedit::TextEdit::minCompletionPrefixLength() const
+{
+	return 3;
 }
 
 void gui::textedit::TextEdit::focusInEvent(QFocusEvent *e)
@@ -107,7 +117,7 @@ void  gui::textedit::TextEdit::keyPressEvent(QKeyEvent *e)
     bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
     QString completionPrefix = textUnderCursor();
 
-    if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
+    if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < this->minCompletionPrefixLength()
                     || eow.contains(e->text().right(1)))) {
         m_completer->popup()->hide();
         return;

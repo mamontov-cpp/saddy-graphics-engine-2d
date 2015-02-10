@@ -10,6 +10,7 @@
 
 #include <QResizeEvent>
 #include <QSyntaxHighlighter>
+#include <QSet>
 
 namespace gui
 {
@@ -45,11 +46,23 @@ public:
 		\return line number width
 	 */
     int lineNumberAreaWidth();
+	/*! Returns case sensivity for completer
+		\return sensivity
+	 */
+	virtual Qt::CaseSensitivity caseSensivity() const;
 protected:
 	/*! Handles resize event
 		\param[in] event
 	 */
     void resizeEvent(QResizeEvent* e);
+	/*! Returns text under cursor
+		\return text under cursor
+	 */
+	virtual QString textUnderCursor() const;
+	/*! Returns minimal prefix length for context
+		\return prefix
+	 */
+	virtual int minCompletionPrefixLength() const;
 private slots:
 	/*! Updates line number width
 		\param[in] newBlockCount new block count
@@ -76,6 +89,9 @@ private:
 	/*! A highlighter element
 	 */
 	QSyntaxHighlighter* m_highlighter;
+	/*! An alphabet part
+	 */
+	QSet<QChar> m_alphabet;
 };
 
 }

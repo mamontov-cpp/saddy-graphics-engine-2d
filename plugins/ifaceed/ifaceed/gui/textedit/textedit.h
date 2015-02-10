@@ -39,6 +39,10 @@ public:
 		\return a completer
 	 */
 	QCompleter* completer() const;
+	/*! Returns case sensivity for completer
+		\return sensivity
+	 */
+	virtual Qt::CaseSensitivity caseSensivity() const;
 signals:
 	/*! Emitted, when text editing is finished
 	 */
@@ -60,12 +64,15 @@ private slots:
 	/*! Emits signal textEditingFinished
 	 */
 	void emitTextEditingFinished();
-private:
+protected:
 	/*! Returns text under cursor
 		\return text under cursor
 	 */
-	QString textUnderCursor() const;
-
+	virtual QString textUnderCursor() const;
+	/*! Returns minimal prefix length for context
+		\return prefix
+	 */
+	virtual int minCompletionPrefixLength() const;
 	/*! An attached completer
 	 */
     QCompleter* m_completer;
