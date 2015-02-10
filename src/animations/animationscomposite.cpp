@@ -59,6 +59,7 @@ sad::animations::Composite::~Composite()
 
 void sad::animations::Composite::setTable(sad::db::Table* t)
 {
+	this->sad::resource::Resource::setTable(t);
 	m_database.setValue(t->database());
 	m_tree.clear();
 	for(size_t i = 0; i < m_links.size(); i++)
@@ -69,6 +70,7 @@ void sad::animations::Composite::setTable(sad::db::Table* t)
 
 void sad::animations::Composite::setPhysicalFile(sad::resource::PhysicalFile * file)
 {
+	this->sad::resource::Resource::setPhysicalFile(file);
 	m_tree.setValue(file->tree());
 	m_database.clear();
 	for(size_t i = 0; i < m_links.size(); i++)

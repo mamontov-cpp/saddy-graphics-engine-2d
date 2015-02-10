@@ -1697,6 +1697,24 @@
     <ClCompile Include="scripting\isaabb.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
+    <ClCompile Include="gui\codeedit\completer.cpp">
+      <Filter>Source Files\gui\codeedit</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_completer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_completer.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_completer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_completer.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_completer.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2420,6 +2438,9 @@
     </CustomBuild>
     <CustomBuild Include="scripting\dialogues\dialoguesphraseref.h">
       <Filter>Header Files\scripting\dialogues</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\codeedit\completer.h">
+      <Filter>Header Files\gui\codeedit</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
