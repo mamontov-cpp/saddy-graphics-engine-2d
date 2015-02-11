@@ -14,6 +14,8 @@
 
 #include "../../gui/table/delegate.h"
 
+#include "../animations/animationsbindings.h"
+
 bool scripting::database::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
 {
 	return s->panel()->scriptableAddProperty(type, name, false);	
@@ -131,6 +133,8 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 		list << "closed";
 	}
 
+	scripting::animations::checkPropertiesForAnimations(obj, list, true);
+
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
 
@@ -197,5 +201,7 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 	}
 
 
+	scripting::animations::checkPropertiesForAnimations(obj, list, false);
+	
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
