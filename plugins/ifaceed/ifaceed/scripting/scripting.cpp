@@ -271,6 +271,10 @@ void scripting::Scripting::propertiesAndFunctions(
 
 void scripting::Scripting::runScript()
 {
+	if (m_engine->isEvaluating())
+	{
+		return;
+	}
     history::BatchCommand* c = new history::BatchCommand();
     m_panel->editor()->setCurrentBatchCommand(c);
 
@@ -474,7 +478,7 @@ void scripting::Scripting::showHelp()
 		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes scene node by id or by name</li>"
 		"				<li>method <b>moveBack(22)</b>, <b>moveBack(\"name\")</b> - moves scene back in list by id or by name</li>"
 		"				<li>method <b>moveFront(22)</b>, <b>moveFront(\"name\")</b> - moves scene front in list by id or by name</li>"
-		"				<li>method <b>set(\"nodename\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"				<li>method <b>set(\"nodename\", \"propertyname\", \"value\")</b> - sets property of scene node."
 		"					<ul>"	
 		"						<li><b>[All node types]</b>property <b>\"name\"</b>  - name of node as string.</li>"
 		"						<li><b>[All node types]</b>property <b>\"visible\"</b>  - visibility of node as bool.</li>"
@@ -492,7 +496,7 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[Custom Object] properties of custom objects.</li>"
 		"					</ul>"
 		"				</li>"		
-		"				<li>method <b>get(\"nodename\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"				<li>method <b>get(\"nodename\", \"propertyname\", \"value\")</b> - fetches property of scene node by it\'s name"
 		"					<ul>"
 		"						<li><b>[All node types]</b>property <b>\"name\"</b>  - name as string</li>"
 		"						<li><b>[All node types]</b>property <b>\"layer\"</b>  - a layer of scene in list. The less it is, the more early scene is drawn</li>"
@@ -533,14 +537,14 @@ void scripting::Scripting::showHelp()
 		"						<li>method <b>moveFront</b> - moves point front in way list (does nothing, if point cannot be moved in such way)</li>"
 		"					</ul>"
 		"				</li>"
-		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of way."
 		"					<ul>"	
 		"						<li>property <b>\"name\"</b>  - name as string</li>"
 		"						<li>property <b>\"totaltime\"</b>  - a total time for a way.</li>"
 		"						<li>property <b>\"closed\"</b>  - whether way is closed.</li>"		
 		"					</ul>"
 		"				</li>"		
-		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetches property of way by it\'s name"
 		"					<ul>"
 		"						<li>property <b>\"name\"</b>  - name as string</li>"
 		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
@@ -572,14 +576,59 @@ void scripting::Scripting::showHelp()
 		"						<li>method <b>moveFront</b> - moves phrase front in way list (does nothing, if phrase cannot be moved in such way)</li>"
 		"					</ul>"
 		"				</li>"
-		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of scene."
+		"				<li>method <b>set(\"wayname\", \"propertyname\", \"value\")</b> - sets property of dialogue."
 		"					<ul>"	
 		"						<li>property <b>\"name\"</b>  - name as string</li>"
 		"					</ul>"
 		"				</li>"		
-		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetched property of scene by it\'s name"
+		"				<li>method <b>get(\"wayname\", \"propertyname\", \"value\")</b> - fetches property of dialogue by it\'s name"
 		"					<ul>"
 		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
+		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
+		"			</ul>"
+		"		</li>"
+		"		<li>property <b>animations</b> - holds all operations related to animations"
+		"			<ul>"
+		"				<li>method <b>list()</b> - lists animations, returning array of their major ids</li>"
+		"				<li>method <b>_add(\"type\", \"name\", time, looped)</b> - adds specified type (like in combo box) of animation into editor, using specified name, time and flag, whether it's looped</li>"
+		"				<li>method <b>addBlinking(object)</b> - adds animation of type Blinking. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addCameraRotation(object)</b> - adds animation of type CameraRotation. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addCameraShaking(object)</b> - adds animation of type CameraShaking. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addColor(object)</b> - adds animation of type Color. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addFontList(object)</b> - adds animation of type FontList. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addFontSize(object)</b> - adds animation of type FontSize. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addOptionList(object)</b> - adds animation of type OptionList. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addParallel(object)</b> - adds animation of type Parallel. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addResize(object)</b> - adds animation of type Resize. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addRotate(object)</b> - adds animation of type Rotate. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addSequential(object)</b> - adds animation of type Sequential. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addTextureCoordinatesList(object)</b> - adds animation of type TextureCoordinatesList. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addTextureCoordinatesContinuous(object)</b> - adds animation of type TextureCoordinatesContinuous. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addTyping(object)</b> - adds animation of type Typing. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addWayMoving(object)</b> - adds animation of type WayMoving. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes animation by id or by name</li>"
+		"				<li>method <b>addToComposite(composite animation, animation)</b> - adds animation to composite animation's list (composite is Parallel or Sequential animation). Returns true on success, false on failure</li>"
+		"				<li>method <b>removeFromComposite(composite animation, animation)</b> - removes animation from composite animation's list (composite is Parallel or Sequential animation). Returns true on success, false if animation is not exists</li>"
+		"				<li>method <b>compositeLength(composite animation)</b> -  returns count of animations in composite animation's list (composite is Parallel or Sequential animation).</li>"
+		"				<li>method <b>getAnimation(composite animation, position)</b> -  returns animation as major id from composite animation's list, specified by pos (composite is Parallel or Sequential animation). Returns 0, if position is not valid </li>"
+		"				<li>method <b>moveBackInCompositeList(composite animation, position)</b> -  moves animation back in composite animation's list. Returns true on success, false on error </li>"
+		"				<li>method <b>moveFrontInCompositeList(composite animation, position)</b> -  moves animation front in composite animation's list. Returns true on success, false on error </li>"
+		"				<li>method <b>set(\"scenename\", \"propertyname\", \"value\")</b> - sets property of animation. "
+		"					<ul>"
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"layer\"</b>  - a layer of scene in list. The less it is, the more early scene is drawn</li>"
+		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
+		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
+		"					</ul>"
+		"				</li>"
+		"				<li>method <b>get(\"scenename\", \"propertyname\", \"value\")</b> - fetches property of animation by it\'s name"
+		"					<ul>"
+		"						<li>property <b>\"name\"</b>  - name as string</li>"
+		"						<li>property <b>\"layer\"</b>  - a layer of scene in list. The less it is, the more early scene is drawn</li>"
 		"						<li>property <b>\"majorid\"</b>  - a major id of scene in database. Useful for links.</li>"
 		"						<li>property <b>\"minorid\"</b>  - a minor id of scene in database. Useful for links in your application.</li>"
 		"					</ul>"
@@ -1240,6 +1289,26 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	removeFromComposite->setName("removeFromComposite");
 	m_registered_classes << removeFromComposite;
 	animations.setProperty("removeFromComposite", m_engine->newObject(removeFromComposite)); // E.animations.removeFromComposite
+
+	scripting::Callable* compositeLength = scripting::make_scripting_call(scripting::animations::compositeLength, this);
+	compositeLength->setName("compositeLength");
+	m_registered_classes << compositeLength;
+	animations.setProperty("compositeLength", m_engine->newObject(compositeLength)); // E.animations.compositeLength
+
+	scripting::Callable* getAnimation = scripting::make_scripting_call(scripting::animations::getAnimation, this);
+	getAnimation->setName("getAnimation");
+	m_registered_classes << getAnimation;
+	animations.setProperty("getAnimation", m_engine->newObject(getAnimation)); // E.animations.getAnimation
+
+	scripting::Callable* moveBackInCompositeList = scripting::make_scripting_call(scripting::animations::moveBackInCompositeList, this);
+	moveBackInCompositeList->setName("moveBackInCompositeList");
+	m_registered_classes << moveBackInCompositeList;
+	animations.setProperty("moveBackInCompositeList", m_engine->newObject(moveBackInCompositeList)); // E.animations.moveBackInCompositeList
+
+	scripting::Callable* moveFrontInCompositeList = scripting::make_scripting_call(scripting::animations::moveFrontInCompositeList, this);
+	moveFrontInCompositeList->setName("moveFrontInCompositeList");
+	m_registered_classes << moveFrontInCompositeList;
+	animations.setProperty("moveFrontInCompositeList", m_engine->newObject(moveFrontInCompositeList)); // E.animations.moveFrontInCompositeList
 
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");

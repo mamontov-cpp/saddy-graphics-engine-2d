@@ -6,6 +6,7 @@
 #pragma once
 #include <sadstring.h>
 #include <sadrect.h>
+#include <maybe.h>
 
 #include <QScriptEngine>
 #include <QVector>
@@ -81,6 +82,62 @@ bool removeFromComposite(
 	sad::animations::Animation* a
 );
 
+/*! Returns length of composite animation
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\return length of composite part
+ */
+int compositeLength(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list
+);
+
+/*! Returns id of animation in composite part (0 if cannot be retrieved)
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\param[in] pos position
+	\return length of composite part
+ */
+unsigned long long getAnimation(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	unsigned int pos
+);
+
+/*! Moves animation back in list
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\param[in] pos position
+	\return whether it was successfull
+ */
+bool moveBackInCompositeList(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	unsigned int pos
+);
+
+/*! Moves animation front in list
+	\param[in] scripting a scripting part
+	\param[in] list a composite list
+	\param[in] pos position
+	\return whether it was successfull
+ */
+bool moveFrontInCompositeList(
+	scripting::Scripting* scripting, 
+	sad::animations::Composite* list,
+	unsigned int pos
+);
+
+/*! Sets readable or writable properties for animations
+	\param[in] obj object
+	\param[out] list a list of properties
+	\param[in] readable a readable or writable properties
+ */
+void checkPropertiesForAnimations(
+	const sad::Maybe<sad::db::Object*>& obj,
+	QStringList& list,
+	bool readable
+);
 
 }
 
