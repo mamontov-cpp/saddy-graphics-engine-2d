@@ -263,7 +263,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/dialogues/dialoguessetter.h \
     ifaceed/scripting/ways/wayspointref.h \
     ifaceed/scripting/ways/wayssetter.h \
-    ifaceed/scripting/animations/animationswaysetter.h
+    ifaceed/scripting/animations/animationswaysetter.h \
+    ifaceed/gui/codeedit/completer.h \
+    ifaceed/scripting/abstractcondition.h \
+    ifaceed/scripting/abstracttovalue.h \
+    ifaceed/scripting/isaabb.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui
@@ -462,7 +466,9 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/dialogues/dialoguesbindings.cpp \
     ifaceed/scripting/dialogues/dialoguesphraseref.cpp \
     ifaceed/scripting/ways/wayspointref.cpp \
-    ifaceed/scripting/animations/animationswaysetter.cpp
+    ifaceed/scripting/animations/animationswaysetter.cpp \
+    ifaceed/gui/codeedit/completer.cpp \
+    ifaceed/scripting/isaabb.cpp
 
 
 DESTDIR = ../../bin/ifaceed/

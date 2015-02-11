@@ -30,6 +30,7 @@
 #include "gui/updateelement.h"
 
 #include "gui/codeedit/highlighter.h"
+#include "gui/codeedit/completer.h"
 
 #include "scripting/scripting.h"
 
@@ -46,7 +47,6 @@
 #include <freetype/font.h>
 
 #include <QFileDialog>
-#include <QCompleter>
 #include <QStringListModel>
 #include <QLinkedList>
 #include <QSet>
@@ -229,64 +229,27 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
-	functionlist.clear();
-	functionlist << "log";
-	functionlist << "p2d(0, 0)";
-	functionlist << "p3d(0, 0, 0)";
-	functionlist << "p2i(0, 0)";
-	functionlist << "p3i(0, 0, 0)";
-	functionlist << "r2d(0, 0, 0, 0)";
-	functionlist << "r2i(0, 0, 0, 0)";
-	functionlist << "clr(255, 255, 255)";
-	functionlist << "aclr(255, 255, 255, 0)";
-	functionlist << "s2d(0, 0)";
-	functionlist << "s2i(0, 0)";
-	functionlist << "db";
-	functionlist << "scenes";
-	functionlist << "scenenodes";
-	functionlist << "add";
-	functionlist << "remove";
-	functionlist << "set";
-	functionlist << "list";
-	functionlist << "get";
-	functionlist << "attr";
-	functionlist << "type";
-    functionlist << "resourceType";
-    functionlist << "resourceOptions";
-    functionlist << "resourceSchema";
-    functionlist << "readableProperties";
-	functionlist << "writableProperties";
-	functionlist << "moveBack(\"name\")";
-	functionlist << "moveFront(\"name\")";
-	functionlist << "_add";
-	functionlist << "_addLabel";
-	functionlist << "_addSprite2D";
-	functionlist << "_addCustomObject";
-	functionlist << "addLabel";
-	functionlist << "addSprite2D";
-	functionlist << "addCustomObject";
-	functionlist << "listScene";
-	functionlist << "makeBackground";
-	functionlist << "length";
-	functionlist << "addPoint";
-	functionlist << "removePoint";
-	functionlist << "point";
-	functionlist << "addPhrase";
-	functionlist << "phrase";
-	functionlist << "removePhrase";
-	functionlist << "addToComposite";
-	functionlist << "removeFromComposite";
+    QHash<QString, QString> replaceincompleter;
+    replaceincompleter.insert("p2d","p2d(0, 0)");
+    replaceincompleter.insert("p3d","p3d(0, 0, 0)");
+    replaceincompleter.insert("p2i","p2i(0, 0)");
+    replaceincompleter.insert("p3i","p3i(0, 0, 0)");
+    replaceincompleter.insert("r2d","r2d(0, 0, 0, 0)");
+    replaceincompleter.insert("r2i","r2i(0, 0, 0, 0)");
+    replaceincompleter.insert("clr","clr(255, 255, 255)");
+    replaceincompleter.insert("aclr","clr(255, 255, 255, 0)");
+    replaceincompleter.insert("s2d","s2d(0, 0)");
+    replaceincompleter.insert("s2i","s2i(0, 0)");
 
-	functionlist << addanimationlist;
-
-	functionlist << constantslist;
-
-	QSet<QString> set = QSet<QString>::fromList(functionlist);
-	functionlist = set.toList();
-
-	QCompleter* consolecompleter = new QCompleter();
+    gui::codeedit::Completer* consolecompleter = new gui::codeedit::Completer();
 	ui.txtConsoleCode->setCompleter(consolecompleter);
-	ui.txtConsoleCode->completer()->setModel(new QStringListModel(functionlist));
+    consolecompleter->setModel(
+        consolecompleter->modelFromEngine(
+            m_scripting->engine(),
+            replaceincompleter,
+            m_scripting->commonProperties()
+        )
+    );
 }
 
 

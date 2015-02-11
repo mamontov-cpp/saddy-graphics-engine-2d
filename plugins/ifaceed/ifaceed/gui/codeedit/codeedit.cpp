@@ -228,21 +228,17 @@ QString  gui::codeedit::CodeEdit::textUnderCursor() const
 	}
 
 	std::reverse(result.begin(), result.end());
-	i = position;
-	valid = true;
-	while(valid && i >= 0 && i < me.length())
-	{
-		if (m_alphabet.contains(me[i]))
-		{
-			result += me[i];
-		}
-		else
-		{
-			result += me[i];
-			valid = false;
-		}
-		i--;
-	}
+    if (position < me.length())
+    {
+        if (m_alphabet.contains(me[position]) == false)
+        {
+            result += me[position];
+        }
+    }
+    if (result.startsWith("E") == false && result.startsWith("co") == false)
+    {
+        result = this->gui::textedit::TextEdit::textUnderCursor();
+    }
 	return result;
 }
 

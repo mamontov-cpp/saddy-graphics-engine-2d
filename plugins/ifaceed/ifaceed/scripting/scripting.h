@@ -8,6 +8,7 @@
 #include <QScriptEngine>
 #include <QVector>
 #include <QThread>
+#include <QSet>
 
 class MainPanel;
 
@@ -81,6 +82,9 @@ protected:
 	/*! Registerd script class as global function
 	 */
 	void registerScriptClass(const QString& name, QScriptClass* c);
+    /*! Returns common properties, which all classes could have
+     */
+    QSet<QString> commonProperties();
 public slots:
 	/*! Run script in console
 	 */
