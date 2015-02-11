@@ -201,6 +201,33 @@ void scripting::Scripting::registerScriptClass(const QString& name, QScriptClass
 	}
 }
 
+QSet<QString> scripting::Scripting::commonProperties()
+{
+    QSet<QString> result;
+    const char* firstprops[] = {
+        "position",
+        "actorName",
+        "actorPortrait",
+        "text",
+        "duration",
+        "viewHint",
+        "setPoint",
+        "point",
+        "width",
+        "height",
+        "x",
+        "y",
+        NULL
+    };
+    int i = 0;
+    while(firstprops[i] != NULL)
+    {
+        result.insert(firstprops[i]);
+        ++i;
+    }
+    return result;
+}
+
 void scripting::Scripting::runScript()
 {
     history::BatchCommand* c = new history::BatchCommand();
