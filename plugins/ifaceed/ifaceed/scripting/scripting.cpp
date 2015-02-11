@@ -77,6 +77,7 @@
 
 #include <QFileDialog>
 #include <QTextStream>
+#include <QScriptValueIterator>
 
 #include <animations/animationsblinking.h>
 #include <animations/animationscamerashaking.h>
@@ -227,6 +228,46 @@ QSet<QString> scripting::Scripting::commonProperties()
     }
     return result;
 }
+
+void scripting::Scripting::propertiesAndFunctions(
+    QStringList& properties,
+    QStringList& functions
+)
+{
+    QSet<QString> propertiesset = this->commonProperties();
+    QSet<QString> functionsset;
+
+    propertiesAndFunctions(propertiesset, functionsset, m_engine->globalObject());
+
+    properties = propertiesset.toList();
+    functions = functionsset.toList();
+}
+
+void scripting::Scripting::propertiesAndFunctions(
+    QSet<QString>& properties,
+    QSet<QString>& functions,
+    const QScriptValue& v
+)
+{
+    QScriptValueIterator it(v);
+    while(it.hasNext())
+    {
+        it.next();
+        if (it.name() != "prototype" && it.name() != "__prototype__" && it.name() != "constructor")
+        {
+           if (it.value().isFunction() || it.value().scriptClass() != NULL)
+           {
+               functions.insert(it.name());
+           }
+           else
+           {
+               properties.insert(it.name());
+               this->propertiesAndFunctions(properties, functions, it.value());
+           }
+        }
+    }
+}
+
 
 void scripting::Scripting::runScript()
 {

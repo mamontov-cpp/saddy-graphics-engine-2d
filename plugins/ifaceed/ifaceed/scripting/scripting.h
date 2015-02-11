@@ -83,8 +83,26 @@ protected:
 	 */
 	void registerScriptClass(const QString& name, QScriptClass* c);
     /*! Returns common properties, which all classes could have
+        \return common properties
      */
     QSet<QString> commonProperties();
+    /*! Returns all functions and properties, defined in system
+        \param[out] properties list of properties
+        \param[out] functions list of functions
+     */
+    void propertiesAndFunctions(
+        QStringList& properties,
+        QStringList& functions
+    );
+    /*! Appends all functions and properties, defined in system for given value
+        \param[out] properties list of properties
+        \param[out] functions list of functions
+     */
+    void propertiesAndFunctions(
+        QSet<QString>& properties,
+        QSet<QString>& functions,
+        const QScriptValue& v
+    );
 public slots:
 	/*! Run script in console
 	 */
