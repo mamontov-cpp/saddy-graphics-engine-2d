@@ -132,101 +132,11 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 	m_scripting->setPanel(this);
 
 	QStringList constantslist;
-	constantslist << "E";
-	constantslist << "console";
-	constantslist << "db";
-	constantslist << "scenes";
-	constantslist << "scenenodes";
-    constantslist << "ways";
-	constantslist << "dialogues";
-	constantslist << "animations";
-	constantslist << "instances";
-	constantslist << "groups";
-	constantslist << "add";
-	constantslist << "remove";
-	constantslist << "x";
-	constantslist << "y";
-	constantslist << "position";
-	constantslist << "actorName";
-	constantslist << "actorPortrait";
-	constantslist << "text";
-	constantslist << "duration";
-	constantslist << "viewHint";
+    QStringList functionlist;
+
+    m_scripting->propertiesAndFunctions(constantslist, functionlist);
 
 	gui::codeedit::Highlighter::setPredefinedConstants(constantslist);
-
-
-	QStringList functionlist;
-    functionlist << "resourceType";
-    functionlist << "resourceOptions";
-    functionlist << "resourceSchema";
-	functionlist << "log";
-    functionlist << "p2d";
-	functionlist << "p2i";
-    functionlist << "p3d";
-    functionlist << "p3i";
-    functionlist << "r2d";
-	functionlist << "r2i";
-	functionlist << "s2d";
-	functionlist << "s2i";
-    functionlist << "clr";
-	functionlist << "aclr";
-	functionlist << "set";
-	functionlist << "get";
-	functionlist << "list";
-	functionlist << "attr";
-	functionlist << "type";
-	functionlist << "readableProperties";
-	functionlist << "writableProperties";
-	functionlist << "moveBack";
-	functionlist << "moveFront";
-	functionlist << "_add";
-	functionlist << "_addLabel";
-	functionlist << "_addSprite2D";
-	functionlist << "_addCustomObject";
-	functionlist << "addLabel";
-	functionlist << "addSprite2D";
-	functionlist << "addCustomObject";
-	functionlist << "listScene";
-	functionlist << "makeBackground";
-	functionlist << "length";
-	functionlist << "addPoint";
-	functionlist << "removePoint";
-	functionlist << "point";
-	functionlist << "addPhrase";
-	functionlist << "phrase";
-	functionlist << "removePhrase";
-	functionlist << "addToComposite";
-	functionlist << "removeFromComposite";
-
-	QStringList addanimationlist;
-	const char* animationnames[] = {
-       "Blinking",
-       "CameraRotation",
-       "CameraShaking",
-       "Color",
-       "FontList",
-       "FontSize",
-       "OptionList",
-       "Parallel",
-       "Resize",
-       "Rotate",
-       "Sequential",
-       "TextureCoordinatesList",
-       "TextureCoordinatesContinuous",
-       "Typing",
-       "WayMoving",
-	   NULL
-	};
-	int i = 0;
-	while(animationnames[i] != 0) {
-		QString name = QString("add") + animationnames[i];
-		addanimationlist << name;
-		++i;
-	}
-
-	functionlist << addanimationlist;
-
 	gui::codeedit::Highlighter::setPredefinedFunctions(functionlist);
 
     QHash<QString, QString> replaceincompleter;
