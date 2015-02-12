@@ -32,7 +32,7 @@ QScriptValue list(
     QScriptEngine* engine
 );
 
-/*! Adds animation instance. Prefixed by underscore, since it will be mapped to _addInstance function and add
+/*! Adds animation instance. Prefixed by underscore, since it will be mapped to _addInstance function and addInstance
     is reserved for call, which will take object, preprocess it's fields and call _addInstance using fields of this object.
     \param[in] scripting a scripting part
     \param[in] name a name for object
@@ -51,6 +51,22 @@ unsigned long long _addInstance(
     double starttime
 );
 
+/*! Adds way animation instance. Prefixed by underscore, since it will be mapped to _addWayInstance function and addWayInstance
+    is reserved for call, which will take object, preprocess it's fields and call _addWayInstance using fields of this object.
+    \param[in] scripting a scripting part
+    \param[in] name a name for object
+    \param[in] way a way to be bind to
+    \param[in] object an object to be added
+    \param[in] starttime a start time for instance
+    \return major id for animation if added, 0 otherwise
+ */
+unsigned long long _addWayInstance(
+    scripting::Scripting* scripting,
+    sad::String name,
+    QScriptValue way,
+    QScriptValue object,
+    double starttime
+);
 
 }
 

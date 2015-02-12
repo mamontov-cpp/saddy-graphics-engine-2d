@@ -1579,6 +1579,11 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     m_registered_classes << _addInstance;
     instances.setProperty("_addInstance", m_engine->newObject(_addInstance)); // E.animations.instances._addInstance
 
+    scripting::Callable* _addWayInstance = scripting::make_scripting_call(scripting::instances::_addWayInstance, this);
+    _addWayInstance->setName("_addWayInstance");
+    m_registered_classes << _addWayInstance;
+    instances.setProperty("_addWayInstance", m_engine->newObject(_addWayInstance)); // E.animations.instances._addWayInstance
+
     v.property("animations").setProperty("instances", instances);
 
     m_engine->evaluate(
@@ -1615,6 +1620,29 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
         "	   o[\"starttime\"] = 0;            "
         "	}                              "
         "	return E.animations.instances._addInstance(o[\"name\"], o[\"animationid\"], o[\"animationname\"], o[\"object\"], o[\"starttime\"]);"
+        "};"
+        "E.animations.instances.addWayInstance = function(o) {"
+        "   if (typeof o != \"object\")    "
+        "   {                              "
+        "      o = {};                     "
+        "   }                              "
+        "	if (\"name\" in o == false)    "
+        "   {                              "
+        "     o[\"name\"] = \"\";          "
+        "   }                              "
+        "	if (\"way\" in o == false)     "
+        "	{                              "
+        "	   o[\"way\"] = 0;             "
+        "	}                              "
+        "	if (\"object\" in o == false)  "
+        "	{                              "
+        "	   o[\"object\"] = 0;          "
+        "	}                              "
+        "	if (\"starttime\" in o == false)    "
+        "	{                              "
+        "	   o[\"starttime\"] = 0;            "
+        "	}                              "
+        "	return E.animations.instances._addWayInstance(o[\"name\"], o[\"way\"], o[\"object\"], o[\"starttime\"]);"
         "};"
         "E.animations.instances.attr = function() {"
         "	if (arguments.length == 2)"
