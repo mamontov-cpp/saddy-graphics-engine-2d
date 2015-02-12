@@ -19,6 +19,7 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
+DECLARE_SOBJ(sad::animations::Instance);
 
 sad::animations::Instance::Instance()
 : m_paused(false),
@@ -108,12 +109,13 @@ sad::db::schema::Schema* sad::animations::Instance::schema() const
 
 void sad::animations::Instance::setTreeName(sad::Renderer* r, const sad::String & tree_name)
 {
+    this->sad::Object::setTreeName(r, tree_name);
     m_animation.setTree(r, tree_name);
 }
 
 void sad::animations::Instance::setTable(sad::db::Table *t)
 {
-	this->sad::db::Object::setTable(t);
+    this->sad::Object::setTable(t);
     m_object.setDatabase(t->database());
 	m_animation_db_link.setTable(t);
 	m_animation_db_link.setDatabase(t->database());

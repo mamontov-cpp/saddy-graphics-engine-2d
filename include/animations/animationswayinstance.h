@@ -20,6 +20,7 @@ namespace animations
  */
 class WayInstance: public sad::animations::Instance
 {
+SAD_OBJECT
 public:
    /*! Creates new  empty instance
      */
@@ -97,3 +98,6 @@ protected:
 }
 
 }
+
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::animations::WayInstance)

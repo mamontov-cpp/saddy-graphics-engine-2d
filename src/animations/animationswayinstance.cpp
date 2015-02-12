@@ -32,6 +32,8 @@
 #include "db/dbmethodpair.h"
 #include "db/dbtable.h"
 
+DECLARE_SOBJ_INHERITANCE(sad::animations::WayInstance, sad::animations::Instance);
+
 // ============================ PUBLIC METHODS ============================
 
 sad::animations::WayInstance::WayInstance()
