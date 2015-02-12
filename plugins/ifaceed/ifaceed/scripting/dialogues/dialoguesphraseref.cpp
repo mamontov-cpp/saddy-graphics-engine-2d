@@ -186,7 +186,7 @@ void scripting::dialogues::PhraseRef::moveBack()
 	}
 	if (m_pos > 0)
 	{
-		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 		core::Editor* editor = e->panel()->editor();
 
 		history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos - 1, m_pos);
@@ -205,7 +205,7 @@ void scripting::dialogues::PhraseRef::moveFront()
 	}
 	if (m_pos >= 0 && m_pos < m_d->phrases().count() - 1)
 	{
-		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 		core::Editor* editor = e->panel()->editor();
 
 		history::Command* c = new history::dialogues::PhraseSwap(m_d, m_pos, m_pos + 1);

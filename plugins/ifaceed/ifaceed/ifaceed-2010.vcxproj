@@ -904,6 +904,13 @@
     <ClCompile Include="scripting\dialogues\dialoguesbindings.cpp" />
     <ClCompile Include="scripting\dialogues\dialoguesphraseref.cpp" />
     <ClCompile Include="scripting\fromvalue.cpp" />
+    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp" />
+    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp" />
+    <ClCompile Include="scripting\instances\instancesbindings.cpp" />
+    <ClCompile Include="scripting\instances\instancesnamesetter.cpp" />
+    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp" />
+    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp" />
+    <ClCompile Include="scripting\instances\instanceswaysetter.cpp" />
     <ClCompile Include="scripting\isaabb.cpp" />
     <ClCompile Include="scripting\multimethod.cpp" />
     <ClCompile Include="scripting\point2d.cpp" />
@@ -2474,6 +2481,13 @@
     <ClInclude Include="scripting\dialogues\dialoguessetter.h" />
     <ClInclude Include="scripting\fromvalue.h" />
     <ClInclude Include="scripting\functioncall.h" />
+    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h" />
+    <ClInclude Include="scripting\instances\instancesanimationsetter.h" />
+    <ClInclude Include="scripting\instances\instancesbindings.h" />
+    <ClInclude Include="scripting\instances\instancesnamesetter.h" />
+    <ClInclude Include="scripting\instances\instancesobjectsetter.h" />
+    <ClInclude Include="scripting\instances\instancesstarttimesetter.h" />
+    <ClInclude Include="scripting\instances\instanceswaysetter.h" />
     <ClInclude Include="scripting\isaabb.h" />
     <ClInclude Include="scripting\makeconstructor.h" />
     <ClInclude Include="scripting\makefunctioncall.h" />

@@ -174,7 +174,13 @@ public:
 	{
 		sad::Maybe<_Type>       basicvalue = scripting::ToValue<_Type>::perform(ctx->argument(0)); 
 		sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
-		sad::Maybe<_PropertyType> newvalue = scripting::ToValue<_PropertyType>::perform(ctx->argument(2));
+
+		QScriptValue argt =  ctx->argument(2);
+		sad::Maybe<_PropertyType> newvalue;
+		for(size_t i = 0; i < m_converts.size() && newvalue.exists() == false; i++)
+		{
+			newvalue = m_converts[i]->toValue(argt);
+		}
 
 		sad::db::Object* object = basicvalue.value();
 		sad::Maybe<_PropertyType> oldvalue = object->getProperty<_PropertyType>(propname.value());

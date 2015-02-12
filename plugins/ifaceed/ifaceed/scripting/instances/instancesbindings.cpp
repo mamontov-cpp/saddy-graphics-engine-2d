@@ -17,6 +17,9 @@
 
 #include <animations/animationswayinstance.h>
 
+Q_DECLARE_METATYPE(sad::animations::Instance*);
+Q_DECLARE_METATYPE(sad::animations::WayInstance*);
+
 QScriptValue scripting::instances::list(
     QScriptContext* ctx,
     QScriptEngine* engine
@@ -114,8 +117,11 @@ unsigned long long scripting::instances::_addInstance(
             sad::db::Object* a = scripting::query_object(object);
             if (a)
             {
+				if (a->isInstanceOf("sad::Scene") || a->isInstanceOf("sad::SceneNode"))
+				{
                  validobject = true;
                  objectid = a->MajorId;
+				}
             }
         }
         else
@@ -216,8 +222,11 @@ unsigned long long scripting::instances::_addWayInstance(
             sad::db::Object* a = scripting::query_object(object);
             if (a)
             {
-                 validobject = true;
-                 objectid = a->MajorId;
+                if (a->isInstanceOf("sad::Scene") || a->isInstanceOf("sad::SceneNode"))
+				{
+					validobject = true;
+					objectid = a->MajorId;
+				}
             }
         }
         else
@@ -259,3 +268,22 @@ void scripting::instances::remove(
 }
 
 
+void scripting::instances::checkProperties(
+	const sad::Maybe<sad::db::Object*>& obj,
+	QStringList& list,
+	bool
+)
+{
+	if (obj.value()->isInstanceOf("sad::animations::Instance"))
+	{
+		list << "animation";
+		list << "animationmajorid";
+		list << "object";
+		list << "starttime";
+	}
+
+	if (obj.value()->isInstanceOf("sad::animations::WayInstance"))
+	{
+		list << "way";
+	}
+}

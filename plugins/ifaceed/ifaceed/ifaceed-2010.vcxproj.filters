@@ -246,6 +246,12 @@
     <Filter Include="Source Files\scripting\animations">
       <UniqueIdentifier>{7ae8b2ae-6646-4eb7-8a31-b82b73f363d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scripting\instances">
+      <UniqueIdentifier>{bbf8fc58-2338-45c7-8032-386f60dc8759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting\instances">
+      <UniqueIdentifier>{23ba60cd-289e-4b81-9458-503e8546459a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1715,6 +1721,27 @@
     <ClCompile Include="GeneratedFiles\UnitTests\moc_completer.cpp">
       <Filter>Generated Files\UnitTests</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\instances\instancesbindings.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesnamesetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesanimationsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesobjectsetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instancesstarttimesetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\instances\instanceswaysetter.cpp">
+      <Filter>Source Files\scripting\instances</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2226,6 +2253,27 @@
     </ClInclude>
     <ClInclude Include="scripting\isaabb.h">
       <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesbindings.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesnamesetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesanimationsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesanimationdbsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesobjectsetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instancesstarttimesetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\instances\instanceswaysetter.h">
+      <Filter>Header Files\scripting\instances</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
