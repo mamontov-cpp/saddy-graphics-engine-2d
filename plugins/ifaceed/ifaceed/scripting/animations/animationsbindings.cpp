@@ -173,13 +173,6 @@ void scripting::animations::checkPropertiesForAnimations(
 		list << "max_angle";
 	}
 
-	if (obj.value()->isInstanceOf("sad::animations::CameraRotation"))
-	{
-		list << "pivot";
-		list << "min_angle";
-		list << "max_angle";
-	}
-
 	if (obj.value()->isInstanceOf("sad::animations::Color"))
 	{
 		list << "min_color";
