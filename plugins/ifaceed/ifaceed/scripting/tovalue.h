@@ -121,6 +121,7 @@ public:                                                          \
     static sad::Maybe< A > perform(const QScriptValue& v);       \
 };
 
+DEFINE_TO_VALUE_FOR_TYPE( QScriptValue )
 DEFINE_TO_VALUE_FOR_TYPE( double )
 DEFINE_TO_VALUE_FOR_TYPE( float )
 DEFINE_TO_VALUE_FOR_TYPE( int )

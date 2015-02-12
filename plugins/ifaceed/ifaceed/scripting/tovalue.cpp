@@ -63,6 +63,16 @@ Q_DECLARE_METATYPE(sad::String)
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(sad::dialogue::Phrase)
 
+sad::Maybe<QScriptValue>
+scripting::ToValue<QScriptValue>::perform(
+        const QScriptValue& v
+)
+{
+    sad::Maybe<QScriptValue> result;
+    result.setValue(v);
+    return result;
+}
+
 sad::Maybe<double>
 scripting::ToValue<double>::perform(
         const QScriptValue& v
@@ -1110,3 +1120,6 @@ DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Typing*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::WayMoving*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_BASIC_METHODS_FOR_TYPE
+
+
+DECLARE_COMMON_TYPE(QScriptValue)

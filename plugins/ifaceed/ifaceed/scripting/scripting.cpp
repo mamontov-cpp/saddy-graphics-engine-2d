@@ -1574,9 +1574,48 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
 
     instances.setProperty("list", m_engine->newFunction(scripting::instances::list)); // E.animations.instances.list
 
+    scripting::Callable* _addInstance = scripting::make_scripting_call(scripting::instances::_addInstance, this);
+    _addInstance->setName("_addInstance");
+    m_registered_classes << _addInstance;
+    instances.setProperty("_addInstance", m_engine->newObject(_addInstance)); // E.animations.instances._addInstance
+
     v.property("animations").setProperty("instances", instances);
 
     m_engine->evaluate(
+        "E.animations.instances.addInstance = function(o) {"
+        "   if (typeof o != \"object\")    "
+        "   {                              "
+        "      o = {};                     "
+        "   }                              "
+        "   if (\"animation\" in o == false)"
+        "   {                              "
+        "     o[\"animationid\"] = 0; o[\"animationname\"] =\"\"; "
+        "   }                              "
+        "   else                           "
+        "   {                              "
+        "        if (typeof o[\"animation\"] == \"string\") "
+        "        {                         "
+        "             o[\"animationid\"] = 0; o[\"animationname\"] = o[\"animation\"]; "
+        "        }                         "
+        "        else "
+        "        {                         "
+        "             o[\"animationid\"] = o[\"animation\"]; o[\"animationname\"] = \"\"; "
+        "        }                         "
+        "   }"
+        "	if (\"name\" in o == false)    "
+        "   {                              "
+        "     o[\"name\"] = \"\";          "
+        "   }                              "
+        "	if (\"object\" in o == false)  "
+        "	{                              "
+        "	   o[\"object\"] = 0;          "
+        "	}                              "
+        "	if (\"starttime\" in o == false)    "
+        "	{                              "
+        "	   o[\"starttime\"] = 0;            "
+        "	}                              "
+        "	return E.animations.instances._addInstance(o[\"name\"], o[\"animationid\"], o[\"animationname\"], o[\"object\"], o[\"starttime\"]);"
+        "};"
         "E.animations.instances.attr = function() {"
         "	if (arguments.length == 2)"
         "	{"
