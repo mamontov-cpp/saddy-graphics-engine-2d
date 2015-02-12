@@ -163,6 +163,9 @@ protected:
 	/*! A list of registered classes in engine
 	 */
 	QVector<QScriptClass*> m_registered_classes;
+	/*! A flags to be set as property
+	 */
+	QScriptValue::PropertyFlags m_flags;
 };
 
 }

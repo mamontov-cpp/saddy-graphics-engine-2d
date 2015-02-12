@@ -63,15 +63,19 @@ QString  scripting::scripting_log_object(const QScriptValue& v, QScriptEngine *e
 		while(it.hasNext())
 		{
 			it.next();
-			if (first)
+			QString name = it.name();
+			if (name != "prototype")
 			{
-				first = false;
-			} 
-			else
-			{
-				result += ", ";
+				if (first)
+				{
+					first = false;
+				} 
+				else
+				{
+					result += ", ";
+				}
+				result +=  name + ": " + scripting::scripting_log_object(it.value(), engine);
 			}
-			result +=  it.name() + ": " + scripting::scripting_log_object(it.value(), engine);
 		}
 		result += "}";
 	}
@@ -85,7 +89,7 @@ QString  scripting::scripting_log_object(const QScriptValue& v, QScriptEngine *e
 
 QScriptValue scripting::scripting_log(QScriptContext *context, QScriptEngine *engine)
 {
-	QScriptValue main = engine->globalObject().property("E");
+	QScriptValue main = engine->globalObject().property("---");
 	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
 	QTextEdit* edit = e->panel()->UI()->txtConsoleResults;
 	for(size_t i = 0; i < context->argumentCount(); ++i)

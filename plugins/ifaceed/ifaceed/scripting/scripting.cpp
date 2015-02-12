@@ -76,6 +76,12 @@
 #include "animations/animationswaysetter.h"
 
 #include "instances/instancesbindings.h"
+#include "instances/instancesnamesetter.h"
+#include "instances/instancesanimationsetter.h"
+#include "instances/instancesanimationdbsetter.h"
+#include "instances/instancesobjectsetter.h"
+#include "instances/instancesstarttimesetter.h"
+#include "instances/instanceswaysetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -137,24 +143,27 @@ void scripting::Scripting::Thread::run()
 // ================================== PUBLIC METHODS OF scripting::Scripting ==================================
 scripting::Scripting::Scripting(QObject* parent) : QObject(parent), m_panel(NULL)
 {
+	m_flags = QScriptValue::ReadOnly|QScriptValue::Undeletable;
     m_engine = new QScriptEngine();
-    m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership);
-    m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log));  // E.log
+    m_value = m_engine->newQObject(this, QScriptEngine::QtOwnership, QScriptEngine::SkipMethodsInEnumeration);
+    m_value.setProperty("log", m_engine->newFunction(scripting::scripting_log), m_flags);  // E.log
 	
-	m_engine->globalObject().setProperty("console", m_value, QScriptValue::ReadOnly);
-    m_engine->globalObject().setProperty("E",m_value, QScriptValue::ReadOnly);
+	QScriptValue globalValue = m_engine->globalObject();
+	globalValue.setProperty("console", m_value, m_flags);
+    globalValue.setProperty("E",m_value,m_flags);
+    globalValue.setProperty("---",m_value,m_flags);
 	
     scripting::Callable* oresourcetype = scripting::make_scripting_call(scripting::resource_type, this);
     m_registered_classes << oresourcetype;
-    m_value.setProperty("resourceType", m_engine->newObject(oresourcetype), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceType", m_engine->newObject(oresourcetype), m_flags);
 
     scripting::Callable* oresourceoptions = scripting::make_scripting_call(scripting::resource_options, this);
     m_registered_classes << oresourceoptions;
-    m_value.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceOptions",m_engine->newObject(oresourceoptions), m_flags);
 
     scripting::Callable* oresourceschema = scripting::make_scripting_call(scripting::resource_schema, this);
     m_registered_classes << oresourceschema;
-    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), QScriptValue::ReadOnly);
+    m_value.setProperty("resourceSchema", m_engine->newObject(oresourceschema), m_flags);
 
 	this->initSadTypeConstructors();
 	this->initDatabasePropertyBindings(m_value);
@@ -194,12 +203,12 @@ QScriptEngine* scripting::Scripting::engine() const
 void scripting::Scripting::registerFunction(const QString& name, QScriptValue& v)
 {
     v.setProperty("name", name);
-    m_engine->globalObject().setProperty("name", v);
+    m_engine->globalObject().setProperty(name, v, m_flags);
 }
 
 void scripting::Scripting::registerScriptClass(const QString& name, QScriptClass* c)
 {
-	m_engine->globalObject().setProperty(name, m_engine->newObject(c));
+	m_engine->globalObject().setProperty(name, m_engine->newObject(c), m_flags);
 	if (m_registered_classes.contains(c) == false) {
 		m_registered_classes << c;
 	}
@@ -283,6 +292,11 @@ void scripting::Scripting::runScript()
 
 	m_panel->UI()->txtConsoleResults->setText("");
 	QString text = m_panel->UI()->txtConsoleCode->toPlainText();
+	
+	QScriptValue globalValue = m_engine->globalObject();
+	globalValue.setProperty("console", m_value, m_flags);
+    globalValue.setProperty("E",m_value,m_flags);
+    globalValue.setProperty("---",m_value,m_flags);
 	
 	scripting::Scripting::Thread poller(this);
 	poller.start();
@@ -780,23 +794,23 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 {
 	QScriptValue db = m_engine->newObject();
 	
-    db.setProperty("list", m_engine->newFunction(scripting::database::list)); // E.db.list
+    db.setProperty("list", m_engine->newFunction(scripting::database::list), m_flags); // E.db.list
 	
     scripting::Callable* tp = scripting::make_scripting_call(scripting::database::type, this);
 	m_registered_classes << tp;
-	db.setProperty("type", m_engine->newObject(tp)); // E.db.type
+	db.setProperty("type", m_engine->newObject(tp), m_flags); // E.db.type
 
-    db.setProperty("readableProperties", m_engine->newFunction(scripting::database::readableProperties)); // E.db.readableProperties
-    db.setProperty("writableProperties", m_engine->newFunction(scripting::database::writableProperties)); // E.db.writableProperties
+    db.setProperty("readableProperties", m_engine->newFunction(scripting::database::readableProperties), m_flags); // E.db.readableProperties
+    db.setProperty("writableProperties", m_engine->newFunction(scripting::database::writableProperties), m_flags); // E.db.writableProperties
 
 
     scripting::Callable* add = scripting::make_scripting_call(scripting::database::addProperty, this);
 	m_registered_classes << add;
-	db.setProperty("add", m_engine->newObject(add)); // E.db.add
+	db.setProperty("add", m_engine->newObject(add), m_flags); // E.db.add
 	
     scripting::Callable* remove = scripting::make_scripting_call(scripting::database::removeProperty, this);
 	m_registered_classes << remove;
-	db.setProperty("remove", m_engine->newObject(remove)); // E.db.remove
+	db.setProperty("remove", m_engine->newObject(remove), m_flags); // E.db.remove
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
 #define PUSH_SETTER(TYPE) set->add(new scripting::database::PropertySetter< TYPE >(m_engine));
@@ -829,7 +843,7 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 	PUSH_SETTER( unsigned short )
 #undef PUSH_SETTER
 	m_registered_classes << set;
-	db.setProperty("set", m_engine->newObject(set)); // E.db.set
+	db.setProperty("set", m_engine->newObject(set), m_flags); // E.db.set
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
 #define PUSH_GETTER(TYPE) get->add(new scripting::database::PropertyGetter< TYPE >(m_engine));
@@ -862,9 +876,9 @@ void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
 	PUSH_GETTER( unsigned short )
 #undef PUSH_GETTER
 	m_registered_classes << get;
-	db.setProperty("get", m_engine->newObject(get)); // E.db.get
+	db.setProperty("get", m_engine->newObject(get), m_flags); // E.db.get
 	
-	v.setProperty("db", db); // E.db
+	v.setProperty("db", db, m_flags); // E.db
 
 	m_engine->evaluate(
 		"E.db.attr = function() {"  
@@ -886,7 +900,7 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 	QScriptValue scenes = m_engine->newObject();
 
 
-    scenes.setProperty("list", m_engine->newFunction(scripting::scenes::list));  // E.scenes.list
+    scenes.setProperty("list", m_engine->newFunction(scripting::scenes::list), m_flags);  // E.scenes.list
 
 	// An add method
 	scripting::MultiMethod* add = new scripting::MultiMethod(m_engine, "add");
@@ -894,24 +908,24 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
     add->add(scripting::make_scripting_call(scripting::scenes::addNameless, this));
 	m_registered_classes << add;
 	
-	scenes.setProperty("add", m_engine->newObject(add));  // E.scenes.add
+	scenes.setProperty("add", m_engine->newObject(add), m_flags);  // E.scenes.add
 	
     scripting::Callable* remove = scripting::make_scripting_call(scripting::scenes::remove, this);
 	m_registered_classes << remove;
-	scenes.setProperty("remove", m_engine->newObject(remove)); // E.scenes.remove
+	scenes.setProperty("remove", m_engine->newObject(remove), m_flags); // E.scenes.remove
 
     scripting::Callable* moveback = scripting::make_scripting_call(scripting::scenes::moveBack, this);
 	m_registered_classes << moveback;
-	scenes.setProperty("moveBack", m_engine->newObject(moveback)); // E.scenes.moveBack
+	scenes.setProperty("moveBack", m_engine->newObject(moveback), m_flags); // E.scenes.moveBack
 
     scripting::Callable* movefront = scripting::make_scripting_call(scripting::scenes::moveFront, this);
 	m_registered_classes << movefront;
-	scenes.setProperty("moveFront", m_engine->newObject(movefront)); // E.scenes.moveFront
+	scenes.setProperty("moveFront", m_engine->newObject(movefront), m_flags); // E.scenes.moveFront
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
 	set->add(new scripting::scenes::NameSetter(m_engine));
 	m_registered_classes << set;
-	scenes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+	scenes.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
 	get->add(new scripting::AbstractGetter<sad::Scene*, sad::String>(m_engine, "name"));
@@ -919,9 +933,9 @@ void scripting::Scripting::initSceneBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>(m_engine, "majorid"));
 	get->add(new scripting::AbstractGetter<sad::Scene*, unsigned long long>(m_engine, "minorid"));
 	m_registered_classes << get;
-	scenes.setProperty("get", m_engine->newObject(get)); // E.scenes.set
+	scenes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
 
-	v.setProperty("scenes", scenes); // E.scenes
+	v.setProperty("scenes", scenes, m_flags); // E.scenes
 
 	m_engine->evaluate(
 		"E.scenes.attr = function() {"  
@@ -943,28 +957,28 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 {
 	QScriptValue scenenodes = m_engine->newObject();
 
-    scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list)); // E.scenenodes.list
+    scenenodes.setProperty("list", m_engine->newFunction(scripting::scenenodes::list), m_flags); // E.scenenodes.list
 
     scripting::Callable* listscene = scripting::make_scripting_call(scripting::scenenodes::listScene, this);
     m_registered_classes << listscene;
-    scenenodes.setProperty("listScene", m_engine->newObject(listscene)); // E.scenenodes.listScene
+    scenenodes.setProperty("listScene", m_engine->newObject(listscene), m_flags); // E.scenenodes.listScene
 
 
 	scripting::Callable* _addlabel = scripting::make_scripting_call(scripting::scenenodes::_addLabel, this);
 	m_registered_classes << _addlabel;
-	scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel)); // E.scenenodes._addLabel
+	scenenodes.setProperty("_addLabel", m_engine->newObject(_addlabel), m_flags); // E.scenenodes._addLabel
 
     scripting::Callable* _addsprite2d = scripting::make_scripting_call(scripting::scenenodes::_addSprite2D, this);
     m_registered_classes << _addsprite2d;
-    scenenodes.setProperty("_addSprite2D", m_engine->newObject(_addsprite2d)); // E.scenenodes._addSprite2D
+    scenenodes.setProperty("_addSprite2D", m_engine->newObject(_addsprite2d), m_flags); // E.scenenodes._addSprite2D
 
     scripting::Callable* _addcustomobject = scripting::make_scripting_call(scripting::scenenodes::_addCustomObject, this);
     m_registered_classes << _addcustomobject;
-    scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject)); // E.scenenodes._addCustomObject
+    scenenodes.setProperty("_addCustomObject", m_engine->newObject(_addcustomobject), m_flags); // E.scenenodes._addCustomObject
 
 	scripting::Callable* makeBackground = scripting::make_scripting_call(scripting::scenenodes::makeBackground, this);
     m_registered_classes << makeBackground;
-    scenenodes.setProperty("makeBackground", m_engine->newObject(makeBackground)); // E.scenenodes.makeBackground
+    scenenodes.setProperty("makeBackground", m_engine->newObject(makeBackground), m_flags); // E.scenenodes.makeBackground
 
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::scenenodes::remove, this);
     m_registered_classes << remove;
@@ -1018,7 +1032,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	PUSH_SETTER( unsigned short )
 #undef PUSH_SETTER
 	m_registered_classes << set;
-	scenenodes.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+	scenenodes.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
 	
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
     // All
@@ -1072,9 +1086,9 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	PUSH_GETTER( unsigned short )
 #undef PUSH_GETTER
     m_registered_classes << get;
-	scenenodes.setProperty("get", m_engine->newObject(get)); // E.scenes.get
+	scenenodes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.get
 
-	v.setProperty("scenenodes", scenenodes); // E.scenenodes
+	v.setProperty("scenenodes", scenenodes, m_flags); // E.scenenodes
 
 	m_engine->evaluate(
 		"E.scenenodes.addLabel = function(o) {"  
@@ -1136,44 +1150,44 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 {
     QScriptValue ways = m_engine->newObject();
 
-    ways.setProperty("list", m_engine->newFunction(scripting::ways::list)); // E.ways.list
+    ways.setProperty("list", m_engine->newFunction(scripting::ways::list), m_flags); // E.ways.list
 
 	scripting::Callable* _add = scripting::make_scripting_call(scripting::ways::_add, this);
 	_add->setName("_add");
 	m_registered_classes << _add;
-	ways.setProperty("_add", m_engine->newObject(_add)); // E.ways._add
+	ways.setProperty("_add", m_engine->newObject(_add), m_flags); // E.ways._add
 
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::ways::remove, this);
 	remove->setName("remove");
 	m_registered_classes << remove;
-	ways.setProperty("remove", m_engine->newObject(remove)); // E.ways.remove
+	ways.setProperty("remove", m_engine->newObject(remove), m_flags); // E.ways.remove
 
 	scripting::Callable* length = scripting::make_scripting_call(scripting::ways::length, this);
 	length->setName("length");
 	m_registered_classes << length;
-	ways.setProperty("length", m_engine->newObject(length)); // E.ways.length
+	ways.setProperty("length", m_engine->newObject(length), m_flags); // E.ways.length
 
 	scripting::Callable* addPoint = scripting::make_scripting_call(scripting::ways::addPoint, this);
 	addPoint->setName("addPoint");
 	m_registered_classes << addPoint;
-	ways.setProperty("addPoint", m_engine->newObject(addPoint)); // E.ways.addPoint
+	ways.setProperty("addPoint", m_engine->newObject(addPoint), m_flags); // E.ways.addPoint
 
 	scripting::Callable* removePoint = scripting::make_scripting_call(scripting::ways::removePoint, this);
 	removePoint->setName("removePoint");
 	m_registered_classes << removePoint;
-	ways.setProperty("removePoint", m_engine->newObject(removePoint)); // E.ways.removePoint
+	ways.setProperty("removePoint", m_engine->newObject(removePoint), m_flags); // E.ways.removePoint
 
 	scripting::Callable* point = scripting::make_scripting_call(scripting::ways::point, this);
 	point->setName("point");
 	m_registered_classes << point;
-	ways.setProperty("point", m_engine->newObject(point)); // E.ways.point
+	ways.setProperty("point", m_engine->newObject(point), m_flags); // E.ways.point
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::ways::Setter<sad::String, history::ways::ChangeName>(m_engine, "name"));
 	set->add(new scripting::ways::Setter<double, history::ways::ChangeTotalTime>(m_engine, "totaltime"));
 	set->add(new scripting::ways::Setter<bool, history::ways::ChangeClosed>(m_engine, "closed"));
     m_registered_classes << set;
-	ways.setProperty("set", m_engine->newObject(set)); // E.ways.set
+	ways.setProperty("set", m_engine->newObject(set), m_flags); // E.ways.set
 
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
@@ -1183,9 +1197,9 @@ void scripting::Scripting::initWaysBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, double>(m_engine, "totaltime"));
 	get->add(new scripting::AbstractGetter<sad::p2d::app::Way*, bool>(m_engine, "closed"));
 	m_registered_classes << get;
-	ways.setProperty("get", m_engine->newObject(get)); // E.ways.get
+	ways.setProperty("get", m_engine->newObject(get), m_flags); // E.ways.get
 
-    v.setProperty("ways", ways); // E.ways
+    v.setProperty("ways", ways, m_flags); // E.ways
 
 	m_engine->evaluate(
 		"E.ways.add = function(o) {"  
@@ -1230,42 +1244,42 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 {
 	QScriptValue dialogues = m_engine->newObject();
 
-	dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list)); // E.dialogues.list
+	dialogues.setProperty("list", m_engine->newFunction(scripting::dialogues::list), m_flags); // E.dialogues.list
 
 	scripting::Callable* _add = scripting::make_scripting_call(scripting::dialogues::_add, this);
 	_add->setName("_add");
 	m_registered_classes << _add;
-	dialogues.setProperty("_add", m_engine->newObject(_add)); // E.dialogues._add
+	dialogues.setProperty("_add", m_engine->newObject(_add), m_flags); // E.dialogues._add
 
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::dialogues::remove, this);
 	remove->setName("remove");
 	m_registered_classes << remove;
-	dialogues.setProperty("remove", m_engine->newObject(remove)); // E.dialogues.remove
+	dialogues.setProperty("remove", m_engine->newObject(remove), m_flags); // E.dialogues.remove
 
 	scripting::Callable* addPhrase = scripting::make_scripting_call(scripting::dialogues::addPhrase, this);
 	addPhrase->setName("addPhrase");
 	m_registered_classes << addPhrase;
-	dialogues.setProperty("addPhrase", m_engine->newObject(addPhrase)); // E.dialogues.addPhrase
+	dialogues.setProperty("addPhrase", m_engine->newObject(addPhrase), m_flags); // E.dialogues.addPhrase
 
 	scripting::Callable* removePhrase = scripting::make_scripting_call(scripting::dialogues::removePhrase, this);
 	removePhrase->setName("removePhrase");
 	m_registered_classes << removePhrase;
-	dialogues.setProperty("removePhrase", m_engine->newObject(removePhrase)); // E.dialogues.removePhrase
+	dialogues.setProperty("removePhrase", m_engine->newObject(removePhrase), m_flags); // E.dialogues.removePhrase
 
 	scripting::Callable* length = scripting::make_scripting_call(scripting::dialogues::length, this);
 	length->setName("length");
 	m_registered_classes << length;
-	dialogues.setProperty("length", m_engine->newObject(length)); // E.dialogues.length
+	dialogues.setProperty("length", m_engine->newObject(length), m_flags); // E.dialogues.length
 
 	scripting::Callable* phrase = scripting::make_scripting_call(scripting::dialogues::phrase, this);
 	phrase->setName("phrase");
 	m_registered_classes << phrase;
-	dialogues.setProperty("phrase", m_engine->newObject(phrase)); // E.dialogues.point
+	dialogues.setProperty("phrase", m_engine->newObject(phrase), m_flags); // E.dialogues.point
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
     set->add(new scripting::dialogues::Setter<sad::String, history::dialogues::ChangeName>(m_engine, "name"));
 	m_registered_classes << set;
-	dialogues.setProperty("set", m_engine->newObject(set)); // E.dialogues.set
+	dialogues.setProperty("set", m_engine->newObject(set), m_flags); // E.dialogues.set
 
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
@@ -1273,10 +1287,10 @@ void scripting::Scripting::initDialoguesBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "majorid"));
 	get->add(new scripting::AbstractGetter<sad::dialogue::Dialogue*, unsigned long long>(m_engine, "minorid"));
 	m_registered_classes << get;
-	dialogues.setProperty("get", m_engine->newObject(get)); // E.dialogues.get
+	dialogues.setProperty("get", m_engine->newObject(get), m_flags); // E.dialogues.get
 
 
-	v.setProperty("dialogues", dialogues); // E.dialogues
+	v.setProperty("dialogues", dialogues, m_flags); // E.dialogues
 
 	m_engine->evaluate(
 		"var phrase = function(actorName, actorPortrait, text, duration, viewHint) {"  
@@ -1316,47 +1330,47 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 {
 	QScriptValue animations = m_engine->newObject();
 	
-	animations.setProperty("list", m_engine->newFunction(scripting::animations::list)); // E.animations.list
+	animations.setProperty("list", m_engine->newFunction(scripting::animations::list), m_flags); // E.animations.list
 
 	scripting::Callable* _add = scripting::make_scripting_call(scripting::animations::_add, this);
 	_add->setName("_add");
 	m_registered_classes << _add;
-	animations.setProperty("_add", m_engine->newObject(_add)); // E.animations._add
+	animations.setProperty("_add", m_engine->newObject(_add), m_flags); // E.animations._add
 
 	scripting::Callable* remove = scripting::make_scripting_call(scripting::animations::remove, this);
 	remove->setName("remove");
 	m_registered_classes << remove;
-	animations.setProperty("remove", m_engine->newObject(remove)); // E.animations.remove
+	animations.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.remove
 
 	scripting::Callable* addToComposite = scripting::make_scripting_call(scripting::animations::addToComposite, this);
 	addToComposite->setName("addToComposite");
 	m_registered_classes << addToComposite;
-	animations.setProperty("addToComposite", m_engine->newObject(addToComposite)); // E.animations.addToComposite
+	animations.setProperty("addToComposite", m_engine->newObject(addToComposite), m_flags); // E.animations.addToComposite
 
 	scripting::Callable* removeFromComposite = scripting::make_scripting_call(scripting::animations::removeFromComposite, this);
 	removeFromComposite->setName("removeFromComposite");
 	m_registered_classes << removeFromComposite;
-	animations.setProperty("removeFromComposite", m_engine->newObject(removeFromComposite)); // E.animations.removeFromComposite
+	animations.setProperty("removeFromComposite", m_engine->newObject(removeFromComposite), m_flags); // E.animations.removeFromComposite
 
 	scripting::Callable* compositeLength = scripting::make_scripting_call(scripting::animations::compositeLength, this);
 	compositeLength->setName("compositeLength");
 	m_registered_classes << compositeLength;
-	animations.setProperty("compositeLength", m_engine->newObject(compositeLength)); // E.animations.compositeLength
+	animations.setProperty("compositeLength", m_engine->newObject(compositeLength), m_flags); // E.animations.compositeLength
 
 	scripting::Callable* getAnimation = scripting::make_scripting_call(scripting::animations::getAnimation, this);
 	getAnimation->setName("getAnimation");
 	m_registered_classes << getAnimation;
-	animations.setProperty("getAnimation", m_engine->newObject(getAnimation)); // E.animations.getAnimation
+	animations.setProperty("getAnimation", m_engine->newObject(getAnimation), m_flags); // E.animations.getAnimation
 
 	scripting::Callable* moveBackInCompositeList = scripting::make_scripting_call(scripting::animations::moveBackInCompositeList, this);
 	moveBackInCompositeList->setName("moveBackInCompositeList");
 	m_registered_classes << moveBackInCompositeList;
-	animations.setProperty("moveBackInCompositeList", m_engine->newObject(moveBackInCompositeList)); // E.animations.moveBackInCompositeList
+	animations.setProperty("moveBackInCompositeList", m_engine->newObject(moveBackInCompositeList), m_flags); // E.animations.moveBackInCompositeList
 
 	scripting::Callable* moveFrontInCompositeList = scripting::make_scripting_call(scripting::animations::moveFrontInCompositeList, this);
 	moveFrontInCompositeList->setName("moveFrontInCompositeList");
 	m_registered_classes << moveFrontInCompositeList;
-	animations.setProperty("moveFrontInCompositeList", m_engine->newObject(moveFrontInCompositeList)); // E.animations.moveFrontInCompositeList
+	animations.setProperty("moveFrontInCompositeList", m_engine->newObject(moveFrontInCompositeList), m_flags); // E.animations.moveFrontInCompositeList
 
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
@@ -1470,7 +1484,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 
 	set->add(new scripting::animations::WaySetter(m_engine));
 	m_registered_classes << set;
-	animations.setProperty("set", m_engine->newObject(set)); // E.scenes.set
+	animations.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, sad::String>(m_engine, "name"));
@@ -1500,10 +1514,10 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Composite*, sad::Vector<unsigned long long> >(m_engine, "list"));
 	
 	m_registered_classes << get;
-	animations.setProperty("get", m_engine->newObject(get)); // E.scenes.set
+	animations.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
 
 
-	v.setProperty("animations", animations); // E.animations
+	v.setProperty("animations", animations, m_flags); // E.animations
 	
 	QString templateanimationadd(
 		"E.animations.add{CLASSNAME} = function(o) {"
@@ -1572,24 +1586,49 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
 {
     QScriptValue instances = m_engine->newObject();
 
-    instances.setProperty("list", m_engine->newFunction(scripting::instances::list)); // E.animations.instances.list
+    instances.setProperty("list", m_engine->newFunction(scripting::instances::list), m_flags); // E.animations.instances.list
 
     scripting::Callable* _addInstance = scripting::make_scripting_call(scripting::instances::_addInstance, this);
     _addInstance->setName("_addInstance");
     m_registered_classes << _addInstance;
-    instances.setProperty("_addInstance", m_engine->newObject(_addInstance)); // E.animations.instances._addInstance
+    instances.setProperty("_addInstance", m_engine->newObject(_addInstance), m_flags); // E.animations.instances._addInstance
 
     scripting::Callable* _addWayInstance = scripting::make_scripting_call(scripting::instances::_addWayInstance, this);
     _addWayInstance->setName("_addWayInstance");
     m_registered_classes << _addWayInstance;
-    instances.setProperty("_addWayInstance", m_engine->newObject(_addWayInstance)); // E.animations.instances._addWayInstance
+    instances.setProperty("_addWayInstance", m_engine->newObject(_addWayInstance), m_flags); // E.animations.instances._addWayInstance
 
     scripting::Callable* remove = scripting::make_scripting_call(scripting::instances::remove, this);
     remove->setName("remove");
     m_registered_classes << remove;
-    instances.setProperty("remove", m_engine->newObject(remove)); // E.animations.instances.remove
+    instances.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.instances.remove
 
-    v.property("animations").setProperty("instances", instances);
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+	set->add(new scripting::instances::NameSetter(m_engine));
+	set->add(new scripting::instances::AnimationSetter(m_engine));
+	set->add(new scripting::instances::AnimationDBSetter(m_engine));
+	set->add(new scripting::instances::ObjectSetter(m_engine));
+	set->add(new scripting::instances::StartTimeSetter(m_engine));
+	set->add(new scripting::instances::WaySetter(m_engine));
+	
+	m_registered_classes << set;
+	instances.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
+
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "minorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, sad::String>(m_engine, "animation"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "animationmajorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, unsigned long long>(m_engine, "object"));
+	get->add(new scripting::AbstractGetter<sad::animations::Instance*, double>(m_engine, "starttime"));
+	get->add(new scripting::AbstractGetter<sad::animations::WayInstance*, unsigned long long>(m_engine, "way"));
+	
+	m_registered_classes << get;
+	instances.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
+
+    v.property("animations").setProperty("instances", instances, m_flags);
 
     m_engine->evaluate(
         "E.animations.instances.addInstance = function(o) {"

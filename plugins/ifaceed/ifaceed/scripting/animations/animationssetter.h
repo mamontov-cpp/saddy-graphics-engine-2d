@@ -54,7 +54,7 @@ public:
 	 */
 	virtual void setProperty(_AnimationType* obj, const sad::String& propertyname, _PropertyType oldvalue,  _PropertyType newvalue)
 	{
-		QScriptValue main = this->engine()->globalObject().property("E");
+		QScriptValue main = this->engine()->globalObject().property("---");
 		scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
 		core::Editor* editor =  e->panel()->editor();
 

@@ -27,7 +27,7 @@ void scripting::scenes::NameSetter::setProperty(
 	sad::String newvalue
 )
 {
-	QScriptValue main = this->engine()->globalObject().property("E");
+	QScriptValue main = this->engine()->globalObject().property("---");
 	scripting::Scripting* e = static_cast<scripting::Scripting*>(main.toQObject());
 	core::Editor* editor =  e->panel()->editor();
 

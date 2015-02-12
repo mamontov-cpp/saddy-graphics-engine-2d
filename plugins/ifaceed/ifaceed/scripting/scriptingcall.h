@@ -64,7 +64,7 @@ public:
 	 */
 	QScriptValue call(QScriptContext*, QScriptEngine* engine)
 	{
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject())
 		), engine);
 	}
 protected:
@@ -122,7 +122,7 @@ public:
 	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value()
 		), engine);
 	}
@@ -184,7 +184,7 @@ public:
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value()
 		), engine);
@@ -250,7 +250,7 @@ public:
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value()
@@ -320,7 +320,7 @@ public:
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -394,7 +394,7 @@ public:
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -472,7 +472,7 @@ public:
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -554,7 +554,7 @@ public:
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -640,7 +640,7 @@ public:
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -730,7 +730,7 @@ public:
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -824,7 +824,7 @@ public:
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -922,7 +922,7 @@ public:
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1024,7 +1024,7 @@ public:
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1130,7 +1130,7 @@ public:
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1240,7 +1240,7 @@ public:
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1354,7 +1354,7 @@ public:
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1472,7 +1472,7 @@ public:
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
 		sad::Maybe<_ArgType15> value15 = scripting::ToValue<_ArgType15>::perform(ctx->argument(15));
-		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		return scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1550,7 +1550,7 @@ public:
 	 */
 	inline QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject())
 		);
 		return ctx->thisObject();
 	}
@@ -1610,7 +1610,7 @@ public:
 	QScriptValue call(QScriptContext* ctx, QScriptEngine* engine)
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value()
 		);
 		return ctx->thisObject();
@@ -1674,7 +1674,7 @@ public:
 	{
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value()
 		);
@@ -1742,7 +1742,7 @@ public:
 		sad::Maybe<_ArgType0> value0 = scripting::ToValue<_ArgType0>::perform(ctx->argument(0));
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value()
@@ -1814,7 +1814,7 @@ public:
 		sad::Maybe<_ArgType1> value1 = scripting::ToValue<_ArgType1>::perform(ctx->argument(1));
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1890,7 +1890,7 @@ public:
 		sad::Maybe<_ArgType2> value2 = scripting::ToValue<_ArgType2>::perform(ctx->argument(2));
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -1970,7 +1970,7 @@ public:
 		sad::Maybe<_ArgType3> value3 = scripting::ToValue<_ArgType3>::perform(ctx->argument(3));
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2054,7 +2054,7 @@ public:
 		sad::Maybe<_ArgType4> value4 = scripting::ToValue<_ArgType4>::perform(ctx->argument(4));
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2142,7 +2142,7 @@ public:
 		sad::Maybe<_ArgType5> value5 = scripting::ToValue<_ArgType5>::perform(ctx->argument(5));
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2234,7 +2234,7 @@ public:
 		sad::Maybe<_ArgType6> value6 = scripting::ToValue<_ArgType6>::perform(ctx->argument(6));
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2330,7 +2330,7 @@ public:
 		sad::Maybe<_ArgType7> value7 = scripting::ToValue<_ArgType7>::perform(ctx->argument(7));
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2430,7 +2430,7 @@ public:
 		sad::Maybe<_ArgType8> value8 = scripting::ToValue<_ArgType8>::perform(ctx->argument(8));
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2534,7 +2534,7 @@ public:
 		sad::Maybe<_ArgType9> value9 = scripting::ToValue<_ArgType9>::perform(ctx->argument(9));
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2642,7 +2642,7 @@ public:
 		sad::Maybe<_ArgType10> value10 = scripting::ToValue<_ArgType10>::perform(ctx->argument(10));
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2754,7 +2754,7 @@ public:
 		sad::Maybe<_ArgType11> value11 = scripting::ToValue<_ArgType11>::perform(ctx->argument(11));
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2870,7 +2870,7 @@ public:
 		sad::Maybe<_ArgType12> value12 = scripting::ToValue<_ArgType12>::perform(ctx->argument(12));
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),
@@ -2990,7 +2990,7 @@ public:
 		sad::Maybe<_ArgType13> value13 = scripting::ToValue<_ArgType13>::perform(ctx->argument(13));
 		sad::Maybe<_ArgType14> value14 = scripting::ToValue<_ArgType14>::perform(ctx->argument(14));
 		sad::Maybe<_ArgType15> value15 = scripting::ToValue<_ArgType15>::perform(ctx->argument(15));
-		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject()), 
+		m_f(static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject()), 
 			value0.value(),
 			value1.value(),
 			value2.value(),

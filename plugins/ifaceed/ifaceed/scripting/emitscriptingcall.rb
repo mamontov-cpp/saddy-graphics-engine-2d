@@ -92,7 +92,7 @@ public:
 	for i in 0..count - 1
 		print "\t\tsad::Maybe<_ArgType" + i.to_s + "> value" + i.to_s + " = scripting::ToValue<_ArgType" + i.to_s + ">::perform(ctx->argument(" + i.to_s + "));\n"
 	end
-	print "\t\treturn scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property(\"E\").toQObject())"
+	print "\t\treturn scripting::FromValue<_ReturnType>::perform(m_f(static_cast<scripting::Scripting*>(engine->globalObject().property(\"---\").toQObject())"
 	if count != 0
 		print ", "
 	end
@@ -194,7 +194,7 @@ public:
 	for i in 0..count - 1
 		print "\t\tsad::Maybe<_ArgType" + i.to_s + "> value" + i.to_s + " = scripting::ToValue<_ArgType" + i.to_s + ">::perform(ctx->argument(" + i.to_s + "));\n"
 	end
-	print "\t\tm_f(static_cast<scripting::Scripting*>(engine->globalObject().property(\"E\").toQObject())"
+	print "\t\tm_f(static_cast<scripting::Scripting*>(engine->globalObject().property(\"---\").toQObject())"
 	if count != 0
 		print ", "
 	end

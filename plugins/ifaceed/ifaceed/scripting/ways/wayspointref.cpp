@@ -84,7 +84,7 @@ void  scripting::ways::PointRef::setX(double x)
 	{
 		return ;
 	}
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 	core::Editor* editor = e->panel()->editor();
 	if (sad::is_fuzzy_equal(x, this->x()) == false)
 	{
@@ -103,7 +103,7 @@ void scripting::ways::PointRef::setY(double y)
 	{
 		return ;
 	}
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 	core::Editor* editor = e->panel()->editor();
 	if (sad::is_fuzzy_equal(y, this->y()) == false)
 	{
