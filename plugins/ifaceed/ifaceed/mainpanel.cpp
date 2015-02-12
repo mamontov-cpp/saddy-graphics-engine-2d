@@ -2796,6 +2796,7 @@ void MainPanel::tabTypeChanged(int index)
 		{
 			sad::animations::Instance* w = ui.lstAnimationInstances->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
 			m_editor->shared()->setSelectedInstance(w);
+            m_editor->panel()->instanceActions()->currentInstanceChanged(row);
 		}
 	}
 

@@ -68,6 +68,15 @@ unsigned long long _addWayInstance(
     double starttime
 );
 
+/*! Removes animation instance
+    \param scripting a scripting part
+    \param instance an instance
+ */
+void remove(
+    scripting::Scripting* scripting,
+    sad::animations::Instance* instance
+);
+
 }
 
 }

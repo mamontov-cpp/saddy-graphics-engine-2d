@@ -27,6 +27,8 @@
 
 #include "p2d/app/way.h"
 
+#include "animations/animationsgroup.h"
+
 DECLARE_COMMON_TYPE(bool)
 DECLARE_COMMON_TYPE(char)
 DECLARE_COMMON_TYPE(signed char)
@@ -61,6 +63,8 @@ DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase*>)
 DECLARE_COMMON_TYPE(sad::Vector<sad::dialogue::Phrase>)
 DECLARE_COMMON_TYPE(sad::Vector<unsigned long long>)
 DECLARE_COMMON_TYPE(sad::Vector<sad::String>)
+
+DECLARE_COMMON_TYPE(sad::animations::Group)
 
 DECLARE_TYPE_AS_SAD_OBJECT(sad::db::Object);
 DECLARE_TYPE_AS_SAD_OBJECT(sad::Object);

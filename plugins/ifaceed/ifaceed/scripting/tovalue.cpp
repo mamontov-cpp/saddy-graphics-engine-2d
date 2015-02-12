@@ -46,6 +46,10 @@
 #include <animations/animationstyping.h>
 #include <animations/animationswaymoving.h>
 
+#include <animations/animationsinstance.h>
+#include <animations/animationswayinstance.h>
+
+#include <animations/animationsgroup.h>
 
 Q_DECLARE_METATYPE(scripting::ways::PointRef*)
 Q_DECLARE_METATYPE(scripting::Point2D*)
@@ -865,6 +869,10 @@ DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::TextureCoordinatesContinuo
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Typing*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::WayMoving*)
 
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Instance*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::WayInstance*)
+
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Group*)
 
 sad::Maybe<sad::dialogue::Phrase>
 scripting::ToValue<sad::dialogue::Phrase>::perform(
@@ -1118,6 +1126,12 @@ DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::TextureCoordinatesList*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Typing*)
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::WayMoving*)
+
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Instance*)
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::WayInstance*)
+
+DEFINE_BASIC_METHODS_FOR_TYPE(sad::animations::Group*)
+
 DEFINE_BASIC_METHODS_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_BASIC_METHODS_FOR_TYPE
 

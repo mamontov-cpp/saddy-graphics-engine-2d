@@ -166,6 +166,52 @@ void gui::InstanceActions::updateCurrentInstanceAnimation(sad::animations::Insta
 	}
 }
 
+
+void gui::InstanceActions::removeInstanceFromDatabase(
+    sad::animations::Instance* a,
+    bool fromeditor,
+    int row
+)
+{
+    if (row == -1)
+    {
+        row = m_panel->findInList<sad::animations::Instance*>( m_panel->UI()->lstAnimationInstances, a);
+    }
+
+    if (row != -1)
+    {
+        sad::Vector<sad::db::Object*> objects;
+        sad::Vector<sad::Pair<sad::animations::Group*, int> > dependentgroups;
+
+        sad::Renderer::ref()->database("")->table("animationgroups")->objects(objects);
+        for(size_t i = 0; i < objects.size(); i++)
+        {
+            sad::db::Object* tmp = objects[i];
+            if (tmp->isInstanceOf("sad::animations::Group"))
+            {
+                sad::animations::Group* group = static_cast<sad::animations::Group*>(tmp);
+                int pos = group->findInstance(a->MajorId);
+                if (pos != -1)
+                {
+                    dependentgroups << sad::Pair<sad::animations::Group*, int>(group, pos);
+                }
+            }
+        }
+
+        history::instances::Remove* c  = new history::instances::Remove(a, row, dependentgroups);
+        c->commit(m_panel->editor());
+
+        if (fromeditor)
+        {
+            m_panel->editor()->history()->add(c);
+        }
+        else
+        {
+            m_panel->editor()->currentBatchCommand()->add(c);
+        }
+    }
+}
+
 void gui::InstanceActions::addInstance()
 {
 	if (m_panel->UI()->rbAnimationInstanceFromDatabase->isChecked()
@@ -252,7 +298,6 @@ void gui::InstanceActions::addInstance()
 	}
 }
 
-
 void gui::InstanceActions::removeInstance()
 {
 	int row = m_panel->UI()->lstAnimationInstances->currentRow();
@@ -260,29 +305,7 @@ void gui::InstanceActions::removeInstance()
 	{
 		QVariant v = m_panel->UI()->lstAnimationInstances->item(row)->data(Qt::UserRole);
 		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
-		
-		sad::Vector<sad::db::Object*> objects;
-		sad::Vector<sad::Pair<sad::animations::Group*, int> > dependentgroups;
-
-		sad::Renderer::ref()->database("")->table("animationgroups")->objects(objects);
-		for(size_t i = 0; i < objects.size(); i++)
-		{
-			sad::db::Object* tmp = objects[i];
-			if (tmp->isInstanceOf("sad::animations::Group"))
-			{
-				sad::animations::Group* group = static_cast<sad::animations::Group*>(tmp);
-				int pos = group->findInstance(a->MajorId);
-				if (pos != -1)
-				{
-					dependentgroups << sad::Pair<sad::animations::Group*, int>(group, pos);
-				}
-			}
-		}
-
-		history::instances::Remove* c  = new history::instances::Remove(a, row, dependentgroups);
-		c->commit(m_panel->editor());
-
-		m_panel->editor()->history()->add(c);
+        removeInstanceFromDatabase(a, true, row);
 	}
 }
 
