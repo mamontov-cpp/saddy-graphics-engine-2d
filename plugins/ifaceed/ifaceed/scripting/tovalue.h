@@ -64,6 +64,10 @@ class TextureCoordinatesContinuous;
 class Typing;
 class WayMoving;
 
+class Instance;
+class WayInstance;
+class Group;
+
 }
 
 }
@@ -177,6 +181,9 @@ DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesList*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Typing*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::WayMoving*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Instance*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::WayInstance*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Group*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::Vector<sad::String>)
 #undef DEFINE_TO_VALUE_FOR_TYPE
 

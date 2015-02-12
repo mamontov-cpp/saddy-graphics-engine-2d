@@ -249,3 +249,13 @@ unsigned long long scripting::instances::_addWayInstance(
 
    return result;
 }
+
+void scripting::instances::remove(
+    scripting::Scripting* scripting,
+    sad::animations::Instance* instance
+)
+{
+    scripting->panel()->instanceActions()->removeInstanceFromDatabase(instance, false);
+}
+
+

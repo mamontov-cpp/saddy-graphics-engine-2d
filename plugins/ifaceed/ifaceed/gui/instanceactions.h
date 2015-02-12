@@ -46,6 +46,16 @@ public:
 		\param[in] a instance
 	 */
 	void updateCurrentInstanceAnimation(sad::animations::Instance* a);
+    /*! Tries to remove animation instance from list
+        \param[in] i instance
+        \param[in] fromeditor whether instance is being removed from editor
+        \param[in] row a row, where instance is removed from
+     */
+    void removeInstanceFromDatabase(
+        sad::animations::Instance* a,
+        bool fromeditor,
+        int row = -1
+    );
 public slots:
 	/*! Tries to add new animation instance
 	 */

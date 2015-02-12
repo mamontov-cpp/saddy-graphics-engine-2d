@@ -1584,6 +1584,11 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
     m_registered_classes << _addWayInstance;
     instances.setProperty("_addWayInstance", m_engine->newObject(_addWayInstance)); // E.animations.instances._addWayInstance
 
+    scripting::Callable* remove = scripting::make_scripting_call(scripting::instances::remove, this);
+    remove->setName("remove");
+    m_registered_classes << remove;
+    instances.setProperty("remove", m_engine->newObject(remove)); // E.animations.instances.remove
+
     v.property("animations").setProperty("instances", instances);
 
     m_engine->evaluate(
