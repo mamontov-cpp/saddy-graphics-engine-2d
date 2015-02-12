@@ -8,7 +8,8 @@
 #include "../sadptrvector.h"
 #include "../pausabletimer.h"
 
-#include "../db/dbobject.h"
+#include "../object.h"
+
 #include "../db/dblink.h"
 #include "../db/dbvariant.h"
 
@@ -32,8 +33,9 @@ namespace animations
 
 class Animations;
 
-class Instance: public sad::db::Object, public sad::animations::Process
+class Instance: public sad::Object, public sad::animations::Process
 {
+SAD_OBJECT
 public:
     /*! Creates new  empty instance
      */
@@ -365,3 +367,5 @@ protected:
 }
 
 }
+
+DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::animations::Instance)

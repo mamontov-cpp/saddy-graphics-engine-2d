@@ -75,6 +75,8 @@
 #include "animations/animationswidgetsetter.h"
 #include "animations/animationswaysetter.h"
 
+#include "instances/instancesbindings.h"
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QScriptValueIterator>
@@ -176,6 +178,7 @@ void scripting::Scripting::setPanel(MainPanel* panel)
 {
 	m_panel = panel;
 	this->initAnimationsBindings(m_value);
+    this->initAnimationInstanceBindings(m_value);
 }
 
 MainPanel* scripting::Scripting::panel() const
@@ -1564,6 +1567,30 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 		"};"
 	);
 }
+
+void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
+{
+    QScriptValue instances = m_engine->newObject();
+
+    instances.setProperty("list", m_engine->newFunction(scripting::instances::list)); // E.animations.instances.list
+
+    v.property("animations").setProperty("instances", instances);
+
+    m_engine->evaluate(
+        "E.animations.instances.attr = function() {"
+        "	if (arguments.length == 2)"
+        "	{"
+        "		return E.animations.instances.get(arguments[0], arguments[1]);"
+        "	}"
+        "	if (arguments.length == 3)"
+        "	{"
+        "		return E.animations.instances.set(arguments[0], arguments[1], arguments[2]);"
+        "	}"
+        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "};"
+    );
+}
+
 void scripting::Scripting::saveScript()
 {
 	QString name = QFileDialog::getSaveFileName(this->panel(), "Enter file, where we should store source code", "", "*.js");

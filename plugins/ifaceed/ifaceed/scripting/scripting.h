@@ -147,6 +147,10 @@ protected:
         \param[out] v a global value (E)
      */
     void initAnimationsBindings(QScriptValue& v);
+    /*! Inits animation isntances bindings
+        \param[out] v a global value (E)
+     */
+    void initAnimationInstanceBindings(QScriptValue& v);
 	/*! A panel for scripting
 	 */
 	MainPanel* m_panel;
