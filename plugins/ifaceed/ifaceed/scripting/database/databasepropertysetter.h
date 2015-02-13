@@ -98,7 +98,7 @@ public:
         std::equal_to<T> comparator;
         if (comparator(newvalue.value(), oldvalue.value()) == false)
         {
-            MainPanel* p = static_cast<scripting::Scripting*>(engine->globalObject().property("E").toQObject())->panel();
+            MainPanel* p = static_cast<scripting::Scripting*>(engine->globalObject().property("---").toQObject())->panel();
             gui::table::Delegate* d = p->delegatesByName()[propname.value()];
             history::Command* c = new history::database::ChangeProperty<T>(oldvalue.value(), newvalue.value(), d);
             c->commit(p->editor());

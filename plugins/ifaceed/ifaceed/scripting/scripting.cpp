@@ -83,6 +83,8 @@
 #include "instances/instancesstarttimesetter.h"
 #include "instances/instanceswaysetter.h"
 
+#include "groups/groupsbindings.h"
+
 #include <QFileDialog>
 #include <QTextStream>
 #include <QScriptValueIterator>
@@ -188,6 +190,7 @@ void scripting::Scripting::setPanel(MainPanel* panel)
 	m_panel = panel;
 	this->initAnimationsBindings(m_value);
     this->initAnimationInstanceBindings(m_value);
+	this->initAnimationGroupBindings(m_value);
 }
 
 MainPanel* scripting::Scripting::panel() const
@@ -690,7 +693,37 @@ void scripting::Scripting::showHelp()
 		"				<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
         "               <li>property <b>instances</b> - holds all operations related to animation instances"
         "                   <ul>"
-        "                   </ul>"
+		"						<li>method <b>list()</b> - lists all animation instances, returning all of majorids for it</li>"
+		"						<li>method <b>_addInstance(name, reference to animation from database as number, reference to animation from tree as string, reference to object, starting time)</b> - adds new instance. id of animation from database take priority if it valid.</li>"
+		"						<li>method <b>addInstance(object)</b> - does the same as previous only style is different and animation fields can be used as both references. Fields \"name\",  \"animation\", \"object\", \"starttime\" are optional.</li>"
+		"						<li>method <b>_addWayInstance(name, reference to way, reference to object, starting time)</b> - adds new way instance.</li>"
+		"						<li>method <b>addWayInstance(object)</b> - does the same as previous only style is different. Fields \"name\",  \"way\", \"object\", \"starttime\" are optional.</li>"		
+		"						<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes instance by id or by name</li>"		
+		"						<li>method <b>set(\"animation name\", \"propertyname\", \"value\")</b> - sets property of animation instance."
+		"							<ul>"	
+		"								<li><b>[All types]</b>property <b>\"name\"</b>  - name as string</li>"
+		"								<li><b>[All types]</b>property <b>\"animation\"</b>  - animation reference to an item from tree as string</li>"
+		"								<li><b>[All types]</b>property <b>\"animationmajorid\"</b>  - animation reference to an item from database as number</li>"
+		"								<li><b>[All types]</b>property <b>\"object\"</b>  - a reference to object as number</li>"
+		"								<li><b>[All types]</b>property <b>\"starttime\"</b>  - a time, which is noted to animation, when instance starts as double</li>"
+		"								<li><b>[WayInstance]</b>property <b>\"way\"</b>  - a reference to way as number</li>"		
+		"							</ul>"
+		"						</li>"		
+		"						<li>method <b>get(\"animation name\", \"propertyname\", \"value\")</b> - fetches property of animation instance by it\'s name"
+		"							<ul>"
+		"								<li><b>[All types]</b>property <b>\"name\"</b>  - name as string</li>"
+		"								<li><b>[All types]</b>property <b>\"majorid\"</b>  - a major id of animation in database. Useful for links.</li>"
+		"								<li><b>[All types]</b>property <b>\"minorid\"</b>  - a minor id of animation in database. Useful for links in your application.</li>"
+		"								<li><b>[All types]</b>property <b>\"name\"</b>  - name as string</li>"
+		"								<li><b>[All types]</b>property <b>\"animation\"</b>  - animation reference to an item from tree as string</li>"
+		"								<li><b>[All types]</b>property <b>\"animationmajorid\"</b>  - animation reference to an item from database as number</li>"
+		"								<li><b>[All types]</b>property <b>\"object\"</b>  - a reference to object as number</li>"
+		"								<li><b>[All types]</b>property <b>\"starttime\"</b>  - a time, which is noted to animation, when instance starts as double</li>"
+		"								<li><b>[WayInstance]</b>property <b>\"way\"</b>  - a reference to way as number</li>"
+		"							</ul>"
+		"						</li>"
+		"						<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"
+		"                   </ul>"
         "               </li>"
         "               <li>property <b>groups</b> - holds all operations related to animation groups"
         "                   <ul>"
@@ -1696,6 +1729,31 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
         "	if (arguments.length == 3)"
         "	{"
         "		return E.animations.instances.set(arguments[0], arguments[1], arguments[2]);"
+        "	}"
+        "	throw new Error(\"Specify 2 or 3 arguments\");"
+        "};"
+    );
+}
+
+
+void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
+{
+	QScriptValue groups = m_engine->newObject();
+
+    groups.setProperty("list", m_engine->newFunction(scripting::groups::list), m_flags); // E.animations.groups.list
+
+	v.property("animations").setProperty("groups", groups, m_flags);
+
+
+	m_engine->evaluate(
+        "E.animations.groups.attr = function() {"
+        "	if (arguments.length == 2)"
+        "	{"
+        "		return E.animations.groups.get(arguments[0], arguments[1]);"
+        "	}"
+        "	if (arguments.length == 3)"
+        "	{"
+        "		return E.animations.groups.set(arguments[0], arguments[1], arguments[2]);"
         "	}"
         "	throw new Error(\"Specify 2 or 3 arguments\");"
         "};"
