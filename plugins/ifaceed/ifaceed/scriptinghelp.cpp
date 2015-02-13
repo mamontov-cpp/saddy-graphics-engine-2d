@@ -6,6 +6,8 @@ ScriptingHelp::ScriptingHelp(QWidget* parent) : QDialog(parent)
 
 	connect(m_ui.txtRequest, SIGNAL(returnPressed()), this,SLOT(applySearch()));
 	connect(m_ui.btnCancelSearch, SIGNAL(clicked()), this,SLOT(cancelSearch()));
+	m_ui.btnCancelSearch->setDefault(false);
+	m_ui.btnCancelSearch->setAutoDefault(false);
 }
 
 ScriptingHelp::~ScriptingHelp()
@@ -32,15 +34,13 @@ void ScriptingHelp::applySearch()
 			}
 
 			m_ui.txtHelp->setExtraSelections(m_extra_selections);
-			int k = m_extra_selections.size();
 			m_position = 0;
 			if (m_extra_selections.size())
 			{
 				m_ui.txtHelp->setTextCursor(m_extra_selections[m_position].cursor);
 				m_ui.txtHelp->ensureCursorVisible();
 			}
-			k  = m_extra_selections.size();
-			k += 2;
+			m_ui.txtHelp->update();
 		}
 	}
 	else
