@@ -61,7 +61,7 @@ const sad::dialogue::Phrase& scripting::dialogues::PhraseRef::toPhrase() const
 
 gui::DialogueActions* scripting::dialogues::PhraseRef::actions() const
 {
-	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("E").toQObject());
+	scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 	return e->panel()->dialogueActions();
 }
 

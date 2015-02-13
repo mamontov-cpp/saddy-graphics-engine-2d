@@ -904,6 +904,7 @@
     <ClCompile Include="scripting\dialogues\dialoguesbindings.cpp" />
     <ClCompile Include="scripting\dialogues\dialoguesphraseref.cpp" />
     <ClCompile Include="scripting\fromvalue.cpp" />
+    <ClCompile Include="scripting\groups\groupsbindings.cpp" />
     <ClCompile Include="scripting\instances\instancesanimationdbsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesanimationsetter.cpp" />
     <ClCompile Include="scripting\instances\instancesbindings.cpp" />
@@ -2481,6 +2482,7 @@
     <ClInclude Include="scripting\dialogues\dialoguessetter.h" />
     <ClInclude Include="scripting\fromvalue.h" />
     <ClInclude Include="scripting\functioncall.h" />
+    <ClInclude Include="scripting\groups\groupsbindings.h" />
     <ClInclude Include="scripting\instances\instancesanimationdbsetter.h" />
     <ClInclude Include="scripting\instances\instancesanimationsetter.h" />
     <ClInclude Include="scripting\instances\instancesbindings.h" />

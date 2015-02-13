@@ -252,6 +252,12 @@
     <Filter Include="Source Files\scripting\instances">
       <UniqueIdentifier>{23ba60cd-289e-4b81-9458-503e8546459a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scripting\groups">
+      <UniqueIdentifier>{1c52e55a-79a5-4d37-9344-165a290f15bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting\groups">
+      <UniqueIdentifier>{4258c26c-8d50-4961-bec9-ab5a5b714602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1742,6 +1748,9 @@
     <ClCompile Include="scripting\instances\instanceswaysetter.cpp">
       <Filter>Source Files\scripting\instances</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\groups\groupsbindings.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2274,6 +2283,9 @@
     </ClInclude>
     <ClInclude Include="scripting\instances\instanceswaysetter.h">
       <Filter>Header Files\scripting\instances</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsbindings.h">
+      <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
