@@ -10,6 +10,7 @@
 #include "isaabb.h"
 #include "point2d.h"
 
+#include "../scriptinghelp.h"
 #include "../mainpanel.h"
 
 #include "../core/editor.h"
@@ -359,25 +360,9 @@ void scripting::Scripting::runScript()
 
 void scripting::Scripting::showHelp()
 {
-	// A size of help dialog
-	QSize dialogsize(640, 480);
-
-	QDialog dlg;
-	dlg.setWindowTitle("Console Scripting Help");
-	dlg.resize(dialogsize);
-	dlg.setMinimumSize(dialogsize);
-	dlg.setMaximumSize(dialogsize);
-	
-	QWidget* widget = new QWidget(&dlg);
-    widget->setObjectName(QString::fromUtf8("layoutWidget"));
-    widget->setGeometry(QRect(0, 0, 640, 480));
-	
-
-	QHBoxLayout* hboxLayout = new QHBoxLayout(widget);
-	
-	QTextEdit* edit = new QTextEdit();
-	edit->setReadOnly(true);
-	edit->setText(
+	ScriptingHelp dlg;
+			
+	dlg.setText(
 		"<h2>Scripting with IFace Editor</h2>\n"
 		"<h3>Common classes:</h3>\n"
 		"<ul>"
@@ -791,8 +776,6 @@ void scripting::Scripting::showHelp()
 		"</ul>"
 	);
 	
-	hboxLayout->addWidget(edit);
-
 	dlg.exec();
 }
 

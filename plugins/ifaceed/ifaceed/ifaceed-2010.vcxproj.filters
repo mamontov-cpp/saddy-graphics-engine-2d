@@ -1757,6 +1757,24 @@
     <ClCompile Include="scripting\groups\groupsloopedsetter.cpp">
       <Filter>Source Files\scripting\groups</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_scriptinghelp.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="scriptinghelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2299,6 +2317,9 @@
     <ClInclude Include="scripting\groups\groupsloopedsetter.h">
       <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_scriptinghelp.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">
@@ -2513,6 +2534,12 @@
     </CustomBuild>
     <CustomBuild Include="gui\codeedit\completer.h">
       <Filter>Header Files\gui\codeedit</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scriptinghelp.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scriptinghelp.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
