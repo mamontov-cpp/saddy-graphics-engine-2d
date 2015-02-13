@@ -46,8 +46,14 @@ public slots:
 	void setPoint(int i, scripting::Point2D* p);
 	/*! Returns point from rectangle
 		\param[in] i index
+		\return point
 	 */
 	QScriptValue point(int i) const;
+	/*! Returns copy rectangle with center at specified point
+	    \param[in] p point
+		\return rectangle
+	 */
+	QScriptValue movedToPoint(scripting::Point2D* p);
 protected:
 	/*! An inner rect wrapper
 	 */

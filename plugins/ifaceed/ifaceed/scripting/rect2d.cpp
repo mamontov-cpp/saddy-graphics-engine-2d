@@ -3,6 +3,7 @@
 #include <QScriptContext>
 #include <QScriptEngine>
 
+#include <geometry2d.h>
 
 scripting::Rect2D::Rect2D()
 {
@@ -52,4 +53,21 @@ QScriptValue scripting::Rect2D::point(int i) const
 		return context()->engine()->newQObject(new scripting::Point2D(m_rect[i]), QScriptEngine::AutoOwnership);
 	}
 	return QScriptValue();
+}
+
+
+QScriptValue scripting::Rect2D::movedToPoint(scripting::Point2D* p)
+{
+	sad::Rect2D rect = this->toRect();
+	if (sad::isAABB(rect) == false)
+	{
+		engine()->currentContext()->throwError(QScriptContext::SyntaxError, "movedToPoint(): rectangle must be axis-alogned");
+		return QScriptValue();
+	}
+
+	sad::Point2D  oldcenter = (rect[0] + rect[2]) / 2.0;
+	sad::Point2D  newcenter = p->toPoint();
+	sad::Point2D newp0 = (newcenter - oldcenter) + rect[0];
+	sad::Point2D newp2 = (newcenter - oldcenter) + rect[2];
+	return context()->engine()->newQObject(new scripting::Rect2D(sad::Rect2D(newp0, newp2)), QScriptEngine::AutoOwnership);	
 }

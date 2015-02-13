@@ -52,7 +52,6 @@
 #include <animations/animationsgroup.h>
 
 Q_DECLARE_METATYPE(scripting::ways::PointRef*)
-Q_DECLARE_METATYPE(scripting::Point2D*)
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)
