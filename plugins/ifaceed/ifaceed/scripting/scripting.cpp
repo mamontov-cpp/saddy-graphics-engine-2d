@@ -84,6 +84,8 @@
 #include "instances/instanceswaysetter.h"
 
 #include "groups/groupsbindings.h"
+#include "groups/groupsnamesetter.h"
+#include "groups/groupsloopedsetter.h"
 
 #include <QFileDialog>
 #include <QTextStream>
@@ -1517,7 +1519,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 
 	set->add(new scripting::animations::WaySetter(m_engine));
 	m_registered_classes << set;
-	animations.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
+	animations.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.set
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
 	get->add(new scripting::AbstractGetter<sad::animations::Animation*, sad::String>(m_engine, "name"));
@@ -1547,7 +1549,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Composite*, sad::Vector<unsigned long long> >(m_engine, "list"));
 	
 	m_registered_classes << get;
-	animations.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
+	animations.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.set
 
 
 	v.setProperty("animations", animations, m_flags); // E.animations
@@ -1645,7 +1647,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
 	set->add(new scripting::instances::WaySetter(m_engine));
 	
 	m_registered_classes << set;
-	instances.setProperty("set", m_engine->newObject(set), m_flags); // E.scenes.set
+	instances.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.instances.set
 
 
 	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
@@ -1659,7 +1661,7 @@ void scripting::Scripting::initAnimationInstanceBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::WayInstance*, unsigned long long>(m_engine, "way"));
 	
 	m_registered_classes << get;
-	instances.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
+	instances.setProperty("get", m_engine->newObject(get), m_flags); // E.animations.instances.get
 
     v.property("animations").setProperty("instances", instances, m_flags);
 
@@ -1742,10 +1744,64 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
 
     groups.setProperty("list", m_engine->newFunction(scripting::groups::list), m_flags); // E.animations.groups.list
 
+	scripting::Callable* _add = scripting::make_scripting_call(scripting::groups::_add, this);
+    _add->setName("_add");
+    m_registered_classes << _add;
+    groups.setProperty("_add", m_engine->newObject(_add), m_flags); // E.animations.groups._add
+
+	scripting::Callable* remove = scripting::make_scripting_call(scripting::groups::remove, this);
+    remove->setName("remove");
+    m_registered_classes << remove;
+    groups.setProperty("remove", m_engine->newObject(remove), m_flags); // E.animations.groups.remove
+
+	scripting::Callable* length = scripting::make_scripting_call(scripting::groups::length, this);
+    length->setName("length");
+    m_registered_classes << length;
+    groups.setProperty("length", m_engine->newObject(length), m_flags); // E.animations.groups.length
+
+	scripting::Callable* entry = scripting::make_scripting_call(scripting::groups::entry, this);
+    entry->setName("entry");
+    m_registered_classes << entry;
+    groups.setProperty("entry", m_engine->newObject(entry), m_flags); // E.animations.groups.entry
+
+
+	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");
+	set->add(new scripting::groups::NameSetter(m_engine));
+	set->add(new scripting::groups::LoopedSetter(m_engine));
+	
+	m_registered_classes << set;
+	groups.setProperty("set", m_engine->newObject(set), m_flags); // E.animations.groups.set
+
+
+	scripting::MultiMethod* get = new scripting::MultiMethod(m_engine, "get");
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, sad::String>(m_engine, "name"));
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "majorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, unsigned long long>(m_engine, "minorid"));
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, bool>(m_engine, "looped"));
+	get->add(new scripting::AbstractGetter<sad::animations::Group*, sad::Vector<unsigned long long> >(m_engine, "instances"));
+	
+	m_registered_classes << get;
+	groups.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.set
+
 	v.property("animations").setProperty("groups", groups, m_flags);
 
 
 	m_engine->evaluate(
+		 "E.animations.groups.add = function(o) {"
+        "   if (typeof o != \"object\")    "
+        "   {                              "
+        "      o = {};                     "
+        "   }                              "
+        "	if (\"name\" in o == false)    "
+        "   {                              "
+        "     o[\"name\"] = \"\";          "
+        "   }                              "
+        "	if (\"looped\" in o == false)  "
+        "	{                              "
+        "	   o[\"looped\"] = false;      "
+        "	}                              "
+        "	return E.animations.groups._add(o[\"name\"], o[\"looped\"]);"
+        "};"
         "E.animations.groups.attr = function() {"
         "	if (arguments.length == 2)"
         "	{"

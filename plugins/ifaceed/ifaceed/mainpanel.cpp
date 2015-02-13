@@ -2807,6 +2807,7 @@ void MainPanel::tabTypeChanged(int index)
 		{
 			sad::animations::Group* w = ui.lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
 			m_editor->shared()->setSelectedGroup(w);
+			m_editor->panel()->groupActions()->currentGroupChanged(row);
 		}
 	}
 	m_editor->selectionBorder()->toggleShowHotspot(index == 0);

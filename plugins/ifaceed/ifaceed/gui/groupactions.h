@@ -35,6 +35,16 @@ public:
 	/*! Returns panel, where actions belong to
 	 */
 	MainPanel* panel() const;
+	/*! Removes group from database
+		\param[in] g group
+		\param[in] fromeditor whether group is being editor
+		\param[in] row a row (-1 if function should determine it)
+	 */
+	void removeFromDatabase(
+		sad::animations::Group* g,
+		bool fromeditor,
+		int row = -1
+	);
 public slots:
 	/*! Tries to add new animation group
 	 */
