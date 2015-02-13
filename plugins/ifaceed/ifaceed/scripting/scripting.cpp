@@ -8,6 +8,7 @@
 #include "abstractgetter.h"
 #include "queryresource.h"
 #include "isaabb.h"
+#include "point2d.h"
 
 #include "../mainpanel.h"
 
@@ -238,6 +239,12 @@ QSet<QString> scripting::Scripting::commonProperties()
         "height",
         "x",
         "y",
+		"sub",
+		"sum",
+		"mul",
+		"div",
+		"mid",
+		"movedToPoint",
         NULL
     };
     int i = 0;
@@ -379,6 +386,11 @@ void scripting::Scripting::showHelp()
 		"        <li>constructor <b>p2d(), p2d(2,3)</b> - constructs a point with specified parameters ( (0,0) in first case) </li>"
 		"        <li>property <b>x</b> - stores x coordinate</li>"
 		"        <li>property <b>y</b> - stores y coordinate</li>"
+		"        <li>method <b>sum(point)</b> - returns sum of two points</li>"
+		"        <li>method <b>sub(point)</b> - returns substruction of two points</li>"
+		"        <li>method <b>mid(point)</b> - returns middle point between two points</li>"
+		"        <li>method <b>mul(number)</b> - returns point with coordinates, multiplicated by number</li>"
+		"        <li>method <b>div(number)</b> - returns point with coordinates, divided by number</li>"
 		"    </ul>"
 		"</li>"
 		"<li><b>sad::Point2I</b> - a basic 2D point with coordinates as int"
@@ -409,6 +421,7 @@ void scripting::Scripting::showHelp()
 		"        <li>constructors <b>r2d(), r2d(p2d(0,0),p2d(0,0)), r2d(0,0,0,0), r2d(p2d(0,0),p2d(0,0),p2d(0,0),p2d(0,0))</b> - constructs a rect with specified parameters</li>"
 		"        <li>method <b>setPoint(index, p2d(0,0))</b> - sets a point for rectangle, where index=[0..3]</li>"
 		"        <li>method <b>point(index)</b> - returns a point for rectangle, where index=[0..3]</li>"
+		"        <li>method <b>movedToPoint(point)</b> - returns copy of rectangle with center at point. Only works, if rectangle is axis-aligned.</li>"
 		"    </ul>"
 		"</li>"
 		"<li><b>sad::Rect2I</b> - a rectangle, where all points are sad::Point2I"
@@ -800,6 +813,8 @@ void scripting::Scripting::initSadTypeConstructors()
 	point2dconstructor->add(scripting::make_constructor<sad::Point2D>(this));
 	point2dconstructor->add(scripting::make_constructor<sad::Point2D, double, double>(this));
 	this->registerScriptClass("p2d", point2dconstructor);
+
+	qScriptRegisterMetaType(m_engine, scripting::Point2D::toValue, scripting::Point2D::fromValue);
 
 	// A sad::Point2I constructor	
 	scripting::MultiMethod* point2iconstructor = new scripting::MultiMethod(m_engine, "p2i");

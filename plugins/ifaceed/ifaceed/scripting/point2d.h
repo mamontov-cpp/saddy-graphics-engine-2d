@@ -4,9 +4,11 @@
 	A sad::Point2D scriptable wrapper
  */
 #pragma once
+#include <QMetaType>
 #include "classwrapper.h"
 
 #include <sadpoint.h>
+
 
 namespace scripting
 {
@@ -52,6 +54,42 @@ public:
 		\return object to string
 	 */
 	QString toString() const;
+	/*! A metafunction for converting value
+		\param[in] engine an engine
+		\param[in] in value
+	 */
+	static QScriptValue toValue(QScriptEngine* engine, scripting::Point2D* const &in);
+	/*! A meta function for converting value from script to object
+		\param[in] object object
+		\param[out] out out value
+	 */
+	static void fromValue(const QScriptValue& object, scripting::Point2D*& out);
+public slots:
+	/*! Returns sum of two scripting points
+		\param[in] p point
+		\return sum
+	 */
+	scripting::Point2D* sum(scripting::Point2D* p);
+	/*! Returns substraction of two scripting points
+		\param[in] p point
+		\return substraction result
+	 */
+	scripting::Point2D* sub(scripting::Point2D* p);
+	/*! Returns middle point between two points
+		\param[in] p point
+		\return middle point
+	 */
+	scripting::Point2D* mid(scripting::Point2D* p);
+	/*! Returns multiplication of two scripting points
+		\param[in] d number
+		\return multiplication result
+	 */
+	scripting::Point2D* mul(double d);
+	/*! Returns division for points
+		\param[in] d number
+		\return division result
+	 */
+	scripting::Point2D* div(double d);
 protected:
 	/*! An inner point wrapper
 	 */
@@ -59,3 +97,5 @@ protected:
 };
 
 }
+
+Q_DECLARE_METATYPE(scripting::Point2D*)
