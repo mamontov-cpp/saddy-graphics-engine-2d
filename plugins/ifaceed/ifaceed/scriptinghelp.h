@@ -26,6 +26,13 @@ public:
 	/*! Sets help text
 	 */
 	void setText(const QString& text);
+public slots:
+	/*! Applies search Called, when return on request edit is pressed
+	 */
+	void applySearch();
+	/*! Cancels search in scripting help
+	 */
+	void cancelSearch();
 protected:
 	/*! UI for dialog
 	 */
