@@ -1751,6 +1751,12 @@
     <ClCompile Include="scripting\groups\groupsbindings.cpp">
       <Filter>Source Files\scripting\groups</Filter>
     </ClCompile>
+    <ClCompile Include="scripting\groups\groupsnamesetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\groups\groupsloopedsetter.cpp">
+      <Filter>Source Files\scripting\groups</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2285,6 +2291,12 @@
       <Filter>Header Files\scripting\instances</Filter>
     </ClInclude>
     <ClInclude Include="scripting\groups\groupsbindings.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsnamesetter.h">
+      <Filter>Header Files\scripting\groups</Filter>
+    </ClInclude>
+    <ClInclude Include="scripting\groups\groupsloopedsetter.h">
       <Filter>Header Files\scripting\groups</Filter>
     </ClInclude>
   </ItemGroup>

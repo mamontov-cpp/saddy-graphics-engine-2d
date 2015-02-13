@@ -41,6 +41,32 @@ MainPanel* gui::GroupActions::panel() const
 	return m_panel;
 }
 
+void gui::GroupActions::removeFromDatabase(
+	sad::animations::Group* g,
+	bool fromeditor,
+	int row
+)
+{
+	if (row == -1)
+	{
+		row = m_panel->findInList<sad::animations::Group*>(m_panel->UI()->lstAnimationsGroup, g);
+	}
+	if (row > - 1)
+	{
+		history::groups::Remove* c  = new history::groups::Remove(g, row);
+		c->commit(m_panel->editor());
+
+		if (fromeditor)
+		{
+			m_panel->editor()->history()->add(c);
+		}
+		else
+		{
+			m_panel->editor()->currentBatchCommand()->add(c);
+		}
+	}
+}
+
 // ===============================  PUBLIC SLOTS METHODS ===============================
 
 void gui::GroupActions::addGroup()
@@ -102,10 +128,7 @@ void gui::GroupActions::removeGroup()
 	{
 		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
 	
-		history::groups::Remove* c  = new history::groups::Remove(g, row);
-		c->commit(m_panel->editor());
-
-		m_panel->editor()->history()->add(c);
+		removeFromDatabase(g, true, row);
 	}
 }
 
@@ -163,7 +186,6 @@ void gui::GroupActions::addInstance()
 		this->m_panel->editor()->history()->add(c);
 	}
 }
-
 
 void gui::GroupActions::removeInstance()
 {
