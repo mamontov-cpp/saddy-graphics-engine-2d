@@ -4,6 +4,7 @@
 #include "scriptinglog.h"
 #include "multimethod.h"
 #include "makescriptingcall.h"
+#include "makefunctioncall.h"
 #include "abstractgetter.h"
 #include "queryresource.h"
 #include "isaabb.h"
@@ -104,6 +105,8 @@
 #include <animations/animationstexturecoordinatescontinuous.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationswaymoving.h>
+
+#include <window.h>
 
 Q_DECLARE_METATYPE(QScriptContext*)
 
@@ -286,6 +289,17 @@ void scripting::Scripting::propertiesAndFunctions(
 }
 
 
+int scripting::Scripting::screenWidth()
+{
+	return sad::Renderer::ref()->settings().width();
+}
+
+int scripting::Scripting::screenHeight()
+{
+	return sad::Renderer::ref()->settings().height();
+}
+
+
 void scripting::Scripting::runScript()
 {
 	if (m_engine->isEvaluating())
@@ -450,6 +464,8 @@ void scripting::Scripting::showHelp()
 		"<ul>"
 		"	<li><b>E</b> or <b>console</b> - a basic class for all operations in editor"
 		"	<ul>"
+		"		<li>method <b>screenWidth</b> - returns width of screen window</li>"
+		"		<li>method <b>screenHeight</b> - returns height of screen window</li>"
 		"		<li>method <b>log</b> - logs all arguments, converting them to string</li>"
         "		<li>method <b>resourceType(\"name\")</b> - returns type of resource in tree</li>"
         "		<li>method <b>resourceOptions(\"name\")</b> - returns immutable resource wrapper for options for sprite</li>"
@@ -729,6 +745,30 @@ void scripting::Scripting::showHelp()
         "               </li>"
         "               <li>property <b>groups</b> - holds all operations related to animation groups"
         "                   <ul>"
+		"						<li>method <b>list()</b> - lists all animation groups, returning all of majorids for it</li>"
+		"						<li>method <b>_add(name, whether it\'s looped)</b> - adds new group with specified name and flag, whether it\'s looped.</li>"
+		"						<li>method <b>add(object)</b> - does the same as previous only style is different and animation fields can be used as both references. Fields \"name\",  \"looped\" are optional.</li>"
+		"						<li>method <b>remove(22)</b>, <b>remove(\"name\")</b> - removes group by id or by name</li>"		
+		"						<li>method <b>length(22)</b>, <b>length(\"name\")</b> - returns count of animation instances in group</li>"		
+		"						<li>method <b>entry(id, position)</b>, <b>entry(\"name\", position)</b> - returns animation instace by it\'s position in group. 0 is returned if position is invalid</li>"		
+		"						<li>method <b>addInstance(group, instance)</b> - adds instance to group. Returns true on success, false if instance is already in list</li>"		
+		"						<li>method <b>removeInstance(group, position)</b> - removes instance, marked by position in a group from parent group. Returns true if position is valid, false if not</li>"		
+		"						<li>method <b>set(\"group name\", \"propertyname\", \"value\")</b> - sets property of animation group."
+		"							<ul>"	
+		"								<li>property <b>\"name\"</b>  - name as string</li>"
+		"								<li>property <b>\"looped\"</b>  - flag, which indicates, whether group is looped</li>"	
+		"							</ul>"
+		"						</li>"		
+		"						<li>method <b>get(\"group group\", \"propertyname\", \"value\")</b> - fetches property of animation group by it\'s name"
+		"							<ul>"
+		"								<li>property <b>\"name\"</b>  - name as string</li>"
+		"								<li>property <b>\"majorid\"</b>  - a major id of animation in database. Useful for links.</li>"
+		"								<li>property <b>\"minorid\"</b>  - a minor id of animation in database. Useful for links in your application.</li>"
+		"								<li>property <b>\"looped\"</b>  - flag, which indicates, whether group is looped</li>"	
+		"								<li>property <b>\"instances\"</b>  - list of major ids of animation instances in group</li>"	
+		"							</ul>"
+		"						</li>"
+		"						<li>method <b>attr</b> - depending from number of arguments applies <b>set</b> or <b>get</b> methods respectively</li>"		
         "                   </ul>"
         "               </li>"
 		"			</ul>"
@@ -823,6 +863,16 @@ void scripting::Scripting::initSadTypeConstructors()
 	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char>(this));
 	aclrconstructor->add(scripting::make_constructor<sad::AColor, unsigned char, unsigned char, unsigned char, unsigned char>(this));
 	this->registerScriptClass("aclr", aclrconstructor);   
+
+	scripting::Callable* screenWidth = scripting::make_function_call(scripting::Scripting::screenWidth, this);
+	screenWidth->setName("screenWidth");
+	m_registered_classes << screenWidth;
+	m_value.setProperty("screenWidth", m_engine->newObject(screenWidth), m_flags); // E.screenWidth
+
+	scripting::Callable* screenHeight = scripting::make_function_call(scripting::Scripting::screenHeight, this);
+	screenHeight->setName("screenHeight");
+	m_registered_classes << screenHeight;
+	m_value.setProperty("screenHeight", m_engine->newObject(screenHeight), m_flags); // E.screenHeight
 }
 
 void scripting::Scripting::initDatabasePropertyBindings(QScriptValue& v)
@@ -1763,6 +1813,16 @@ void scripting::Scripting::initAnimationGroupBindings(QScriptValue& v)
     entry->setName("entry");
     m_registered_classes << entry;
     groups.setProperty("entry", m_engine->newObject(entry), m_flags); // E.animations.groups.entry
+
+	scripting::Callable* addInstance = scripting::make_scripting_call(scripting::groups::addInstance, this);
+    addInstance->setName("addInstance");
+    m_registered_classes << addInstance;
+    groups.setProperty("addInstance", m_engine->newObject(addInstance), m_flags); // E.animations.groups.addInstance
+
+	scripting::Callable* removeInstance = scripting::make_scripting_call(scripting::groups::removeInstance, this);
+    removeInstance->setName("removeInstance");
+    m_registered_classes << removeInstance;
+    groups.setProperty("removeInstance", m_engine->newObject(removeInstance), m_flags); // E.animations.groups.removeInstance
 
 
 	scripting::MultiMethod* set = new scripting::MultiMethod(m_engine, "set");

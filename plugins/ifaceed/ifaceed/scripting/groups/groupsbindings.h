@@ -75,6 +75,43 @@ unsigned long long entry(
 	unsigned int pos
 );
 
+/*! Tries to add instance to a group
+	of group. Returns true on success, false
+	if animation is already in group
+	\param[in] group a group
+	\param[in] minstance an instance to be added
+	\return true on success
+ */
+bool addInstance(
+    scripting::Scripting* scripting,
+    sad::animations::Group* group,	
+	sad::animations::Instance* minstance
+);
+
+/*! Tries to remove instance from a group
+	of group. Returns true on success, false
+	if position is not valid
+	\param[in] group a group
+	\param[in] pos position of instace in group
+	\return true on success
+ */
+bool removeInstance(
+    scripting::Scripting* scripting,
+    sad::animations::Group* group,	
+	unsigned int pos
+);
+
+/*! Sets readable or writable properties for animation groups
+	\param[in] obj object
+	\param[out] list a list of properties
+	\param[in] readable a readable or writable properties
+ */
+void checkProperties(
+	const sad::Maybe<sad::db::Object*>& obj,
+	QStringList& list,
+	bool readable
+);
+
 }
 
 }

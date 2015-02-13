@@ -16,6 +16,7 @@
 
 #include "../animations/animationsbindings.h"
 #include "../instances/instancesbindings.h"
+#include "../groups/groupsbindings.h"
 
 bool scripting::database::addProperty(scripting::Scripting* s, sad::String type, sad::String name)
 {
@@ -136,6 +137,7 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 
 	scripting::animations::checkPropertiesForAnimations(obj, list, true);
 	scripting::instances::checkProperties(obj, list, true);
+	scripting::groups::checkProperties(obj, list, true);
 
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
@@ -204,7 +206,8 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 
 
 	scripting::animations::checkPropertiesForAnimations(obj, list, false);
-	scripting::instances::checkProperties(obj, list, true);
+	scripting::instances::checkProperties(obj, list, false);
+	scripting::groups::checkProperties(obj, list, false);
 
     return scripting::FromValue<QStringList>::perform(list, engine);
 }
