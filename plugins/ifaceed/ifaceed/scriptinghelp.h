@@ -7,6 +7,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QTextEdit>
 
 #include "ui_scriptinghelp.h"
 
@@ -37,4 +38,13 @@ protected:
 	/*! UI for dialog
 	 */
 	Ui::ScriptingHelp  m_ui;
+	/*! A last requested part
+	 */
+	QString m_last_request;
+	/*! A list of extra selections
+	 */
+	QList<QTextEdit::ExtraSelection> m_extra_selections;
+	/*! A position in extra selection list
+	 */
+	int m_position;
 };

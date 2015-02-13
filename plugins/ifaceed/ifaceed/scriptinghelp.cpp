@@ -10,17 +10,61 @@ ScriptingHelp::ScriptingHelp(QWidget* parent) : QDialog(parent)
 
 ScriptingHelp::~ScriptingHelp()
 {
-	
 }
 
 void ScriptingHelp::applySearch()
 {
+	QString newrequest = this->m_ui.txtRequest->text();
+	if (newrequest != m_last_request)
+	{
+		cancelSearch();
+		m_last_request = newrequest;
+		if (newrequest.size())
+		{
+			m_extra_selections.clear();
+			m_ui.txtHelp->moveCursor(QTextCursor::Start);
+			while ( m_ui.txtHelp->find(newrequest) )
+			{
+				QTextEdit::ExtraSelection extra;
+				extra.cursor = m_ui.txtHelp->textCursor();
+				extra.format.setBackground(QBrush(Qt::yellow));
+				m_extra_selections.append(extra);
+			}
+
+			m_ui.txtHelp->setExtraSelections(m_extra_selections);
+			int k = m_extra_selections.size();
+			m_position = 0;
+			if (m_extra_selections.size())
+			{
+				m_ui.txtHelp->setTextCursor(m_extra_selections[m_position].cursor);
+				m_ui.txtHelp->ensureCursorVisible();
+			}
+			k  = m_extra_selections.size();
+			k += 2;
+		}
+	}
+	else
+	{
+		if (m_extra_selections.size())
+		{
+			++m_position;
+			if (m_position == m_extra_selections.size())
+			{
+				m_position = 0;
+			}
+			m_ui.txtHelp->setTextCursor(m_extra_selections[m_position].cursor);
+			m_ui.txtHelp->ensureCursorVisible();
+		}
+	}
+
 	
 }
 
 void ScriptingHelp::cancelSearch()
 {
-	
+	QList<QTextEdit::ExtraSelection> s;
+	m_ui.txtHelp->setExtraSelections(s);
+	m_extra_selections.clear();
 }
 
 void ScriptingHelp::setText(const QString& text)
