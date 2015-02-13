@@ -103,6 +103,14 @@ protected:
         QSet<QString>& functions,
         const QScriptValue& v
     );
+	/*! Returns screen width. Used, when scripting
+		\return screen width
+	 */
+	static int screenWidth();
+	/*! Returns screen height. Used, when scripting
+		\return screen height
+	 */
+	static int screenHeight();
 public slots:
 	/*! Run script in console
 	 */

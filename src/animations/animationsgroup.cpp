@@ -120,7 +120,20 @@ void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>&
 {
 	m_instance_links.clear();
 
-	for(size_t i = 0; i < v.size(); i++)
+	sad::Vector<unsigned long long> uniques =  v;
+	for(size_t i = 0; i < uniques.size(); ++i)
+	{
+		for(size_t j = i + 1; j < uniques.size(); j++)
+		{
+			if (uniques[i] == uniques[j])
+			{
+				uniques.removeAt(j);
+				--j;
+			}
+		}
+	}
+
+	for(size_t i = 0; i < uniques.size(); i++)
 	{
 		sad::db::Link l;
 		if (this->table())
@@ -128,7 +141,7 @@ void sad::animations::Group::setInstances(const sad::Vector<unsigned long long>&
 			l.setDatabase(this->table()->database());
 		}
 		l.setTableName("animationinstances");
-		l.setMajorId(v[i]);
+		l.setMajorId(uniques[i]);
 		m_instance_links << l;
 	}
 }
