@@ -32,7 +32,7 @@ void core::SaddyThread::run()
 
     this->m_editor->synchronization()->awakeMainThread();
 
-	this->m_editor->runSaddyEventLoop();
+    this->m_editor->runSaddyEventLoop();
 }
 
 unsigned int core::SaddyThread::tryParseWidthOrHeight(
