@@ -399,9 +399,9 @@ void core::Editor::start()
 	// Try load icons resources
 	sad::Renderer::ref()->addTree("icons", new sad::resource::Tree());
 	sad::Renderer::ref()->tree("icons")->factory()->registerResource<sad::freetype::Font>();
-	sad::Vector<sad::resource::Error * > errors;
-	errors = sad::Renderer::ref()->tree("icons")->loadFromFile(ICONS_PATH);
-	if (errors.size())
+    sad::Vector<sad::resource::Error * > errors;
+    errors = sad::Renderer::ref()->tree("icons")->loadFromFile(ICONS_PATH);
+    if (errors.size())
 	{
 		mustquit = true;
 		this->reportResourceLoadingErrors(errors, ICONS_PATH);
@@ -413,7 +413,7 @@ void core::Editor::start()
     sad::Maybe<sad::String> maybefilename = this->parsedArgs()->single("resources");
 	if (maybefilename.exists() && this->parsedArgs()->specified("resources"))
 	{
-		errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
+        errors = sad::Renderer::ref()->tree("")->loadFromFile(maybefilename.value());
 		if (errors.size())
 		{
 			mustquit = true;

@@ -34,7 +34,7 @@ sad::resource::Tree::~Tree()
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad::String & string)
 {
-	m_temporary_root_folder = NULL;
+    m_temporary_root_folder = NULL;
 	sad::Vector<sad::resource::Error*> errors;
 	
 	// Check string for emptiness - should we do anything	
@@ -66,6 +66,8 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 				sad::Maybe<sad::String>  mayberesourcename = picojson::to_type<sad::String>(
 							picojson::get_property(resourcelist[i], "name")
 						);
+
+
 				errors << load(
 					maybetype.value(), 
 					maybename.value(), 
@@ -125,29 +127,29 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 
 sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromFile(const sad::String& string)
 {
-	std::ifstream stream(string.c_str());
-	if (sad::util::isAbsolutePath(string))
+    std::ifstream stream(string.c_str());
+    if (sad::util::isAbsolutePath(string))
 	{
-		m_temporary_root = sad::util::folder(string);
+        m_temporary_root = sad::util::folder(string);
 	} 
 	else
 	{
-		m_temporary_root = "";
+        m_temporary_root = "";
 	}
-	if (stream.good())
+    if (stream.good())
 	{
 		std::string alldata(
 			(std::istreambuf_iterator<char>(stream)), 
 			std::istreambuf_iterator<char>()
 		);
-		return loadFromString(alldata);
+        return loadFromString(alldata);
 	}
 	else
 	{
-		if (util::isAbsolutePath(string) == false)
+        if (util::isAbsolutePath(string) == false)
 		{
-			sad::String path = util::concatPaths(m_renderer->executablePath(), string);
-			stream.clear();
+            sad::String path = util::concatPaths(m_renderer->executablePath(), string);
+            stream.clear();
 			stream.open(path.c_str());
 			if (stream.good())
 			{
