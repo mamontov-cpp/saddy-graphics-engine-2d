@@ -68,7 +68,7 @@ public:
 	void updateRegionForNode();
 	/*! Removes scene node
 		\param[in] node a node to be removed
-		\param[in] from editor true, if node is removed from editor, false if from scripting part
+        \param[in] from_editor true, if node is removed from editor, false if from scripting part
 	 */
 	void removeSceneNode(sad::SceneNode* node, bool from_editor); 
 public slots:

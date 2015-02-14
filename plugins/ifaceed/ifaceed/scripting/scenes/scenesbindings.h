@@ -23,6 +23,7 @@ namespace scenes
 
 /*! Adds new named scene to a bindings
 	\param[in] s scripting part
+    \param[in] name a name of scene
  */
 unsigned long long add(scripting::Scripting* s, QString name);
 /*! Adds new nameless scene

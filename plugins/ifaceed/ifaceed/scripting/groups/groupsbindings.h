@@ -47,7 +47,7 @@ unsigned long long _add(
 
 /*! Removes animation group
     \param scripting a scripting part
-    \param instance an instance
+    \param group a group to be removed
  */
 void remove(
     scripting::Scripting* scripting,
@@ -78,6 +78,7 @@ unsigned long long entry(
 /*! Tries to add instance to a group
 	of group. Returns true on success, false
 	if animation is already in group
+    \param[in]  scripting a scripting part
 	\param[in] group a group
 	\param[in] minstance an instance to be added
 	\return true on success
@@ -91,7 +92,8 @@ bool addInstance(
 /*! Tries to remove instance from a group
 	of group. Returns true on success, false
 	if position is not valid
-	\param[in] group a group
+    \param[in]  scripting a scripting part
+    \param[in] group a group
 	\param[in] pos position of instace in group
 	\return true on success
  */

@@ -1,4 +1,4 @@
-/*! \file codedit.h
+/*! \file codeedit.h
 	\author HiddenSeeker
 
 	A code editor, based on both examples of rich editor and other
@@ -52,7 +52,7 @@ public:
 	virtual Qt::CaseSensitivity caseSensivity() const;
 protected:
 	/*! Handles resize event
-		\param[in] event
+        \param[in] e event
 	 */
     void resizeEvent(QResizeEvent* e);
 	/*! Returns text under cursor

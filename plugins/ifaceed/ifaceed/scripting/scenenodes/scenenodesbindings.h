@@ -86,6 +86,8 @@ unsigned long long _addSprite2D(
     \param[in] scene a scene
     \param[in] resource a resource part
     \param[in] name a name part
+    \param[in] fontsize a size of font of added object, if it'll be shown as label
+    \param[in] text a text of object, if it'll be shown as label
     \param[in] rect a bounding rectangle
     \param[in] clr a color
     \return major id a major id for label

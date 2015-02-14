@@ -33,11 +33,11 @@ public:
 	 */
 	const sad::Size2I& toSize() const;
 	/*! Returns width
-		\param[in] width
+        \return width
 	 */
 	unsigned int width() const;
 	/*! Returns height
-		\param[in] height
+        \return height
 	 */
 	unsigned int height() const;
 	/*! Sets width
@@ -45,7 +45,7 @@ public:
 	 */ 
 	void setWidth(unsigned int width);
 	/*! Sets height
-		\param[in] y height
+        \param[in] height height
 	 */
 	void setHeight(unsigned int height);
 	/*! Contains to string

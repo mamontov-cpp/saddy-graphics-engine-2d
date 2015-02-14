@@ -33,11 +33,11 @@ public:
 	 */
 	const sad::Point2I& toPoint() const;
 	/*! Returns x coordinate
-		\param[in] x coordinate
+        \return x coordinate
 	 */
 	int x() const;
 	/*! Returns y coordinate
-		\param[in] y coordinate
+        \return y coordinate
 	 */
 	int y() const;
 	/*! Sets x coordinate
