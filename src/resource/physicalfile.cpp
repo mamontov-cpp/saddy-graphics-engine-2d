@@ -184,7 +184,7 @@ void sad::resource::PhysicalFile::replaceResources(
 )
 {
 	m_resources.clear();
-	for(int i = 0 ; i < resourcelist.size(); i++)
+	for(size_t i = 0 ; i < resourcelist.size(); i++)
 	{
 		m_resources << resourcelist[i].p2();
 		resourcelist[i].p2()->setPhysicalFile(this);

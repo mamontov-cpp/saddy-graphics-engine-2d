@@ -74,7 +74,7 @@ m_animations(new sad::animations::Animations())
 sad::Renderer::~Renderer(void)
 {
 	// Force clearing of scenes, so resource links should be preserved
-	for(int i = 0; i < m_scenes.size(); i++)
+	for(size_t i = 0; i < m_scenes.size(); i++)
 	{
 		m_scenes[i]->clear();
 	}

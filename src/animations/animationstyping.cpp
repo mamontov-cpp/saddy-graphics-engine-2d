@@ -55,7 +55,7 @@ void sad::animations::Typing::setState(sad::animations::Instance* i, double time
 	{
 		// Make it possible to reach end
 		double pos = ((time + 100) / m_time) * i->basicString().size();
-		sad::String text = i->basicString().subString(0, pos);
+		sad::String text = i->basicString().subString(0, static_cast<long>(pos));
 		i->stateCommandAs<sad::String>()->call(text);
 	}
 }

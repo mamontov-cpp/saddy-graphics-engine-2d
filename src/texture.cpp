@@ -250,8 +250,8 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect
 	{
 		if (tmp[i].x() < 0) tmp[i].setX(0);
 		if (tmp[i].y() < 0) tmp[i].setY(0);
-		if (tmp[i].x() > width()-1) tmp[i].setX(this->width()-1);
-		if (tmp[i].y() > height()-1) tmp[i].setY(this->height()-1);
+		if (tmp[i].x() > (int)(width()-1)) tmp[i].setX(this->width()-1);
+		if (tmp[i].y() > (int)(height()-1)) tmp[i].setY(this->height()-1);
 	}
 	int minx = (int)tmp[0].x();
 	int maxx = (int)tmp[2].x();

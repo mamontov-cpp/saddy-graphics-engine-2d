@@ -53,7 +53,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 
 		// Try load data to temporary containers
 		picojson::array & resourcelist = v.get<picojson::array>();		
-		for(int i = 0 ; i < resourcelist.size() && errors.size() == 0; i++)
+		for(size_t i = 0 ; i < resourcelist.size() && errors.size() == 0; i++)
 		{
 			sad::Maybe<sad::String>  maybetype = picojson::to_type<sad::String>(
 				picojson::get_property(resourcelist[i], "type")
@@ -311,13 +311,13 @@ bool sad::resource::Tree::unload(const sad::String& file)
 	{
 		sad::Vector<sad::resource::Resource*>  list = f->resources();
 		bool referenced = false;
-		for(int i = 0; i < list.size(); i++)
+		for(size_t i = 0; i < list.size(); i++)
 		{
 			referenced = referenced || list[i]->referenced();
 		}
 		if (referenced)
 			return false;
-		for(int i = 0; i < list.size(); i++)
+		for(size_t i = 0; i < list.size(); i++)
 		{
 			sad::Maybe<sad::String> path = this->root()->find(list[i]);
 			if (path.exists())
@@ -343,13 +343,13 @@ bool sad::resource::Tree::unload(sad::resource::PhysicalFile * file)
 	{
 		sad::Vector<sad::resource::Resource*>  list = f->resources();
 		bool referenced = false;
-		for(int i = 0; i < list.size(); i++)
+		for(size_t i = 0; i < list.size(); i++)
 		{
 			referenced = referenced || list[i]->referenced();
 		}
 		if (referenced)
 			return false;
-		for(int i = 0; i < list.size(); i++)
+		for(size_t i = 0; i < list.size(); i++)
 		{
 			sad::Maybe<sad::String> path = this->root()->find(list[i]);
 			if (path.exists())
@@ -375,7 +375,7 @@ sad::resource::Folder* sad::resource::Tree::root() const
 
 sad::resource::PhysicalFile* sad::resource::Tree::file(const sad::String& name)
 {
-	for(int i = 0; i < m_files.size(); i++)
+	for(size_t i = 0; i < m_files.size(); i++)
 	{
 		if (m_files[i]->name() == name)
 			return m_files[i];
