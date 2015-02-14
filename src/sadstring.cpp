@@ -362,7 +362,7 @@ void sad::String::replaceLastOccurence(const sad::String & sstr,const sad::Strin
 bool sad::String::consistsOfWhitespaceCharacters() const
 {
 	bool result = true;
-	for(int i = 0; i < this->size(); i++)
+	for(size_t i = 0; i < this->size(); i++)
 	{
 		char c = (*this)[i];
 		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
@@ -377,7 +377,7 @@ void sad::String::trim()
 {
 	int length = 0;
 	bool found = false;
-	for(int  i = 0; (i < this->size()) && !found; i++)
+	for(size_t  i = 0; (i < this->size()) && !found; i++)
 	{
 		char c = (*this)[i];
 		if (c != ' ' && c != '\t' && c != '\n' && c != '\r')

@@ -70,7 +70,7 @@ void sad::db::Table::add(sad::db::Object* a)
 	if (a->MajorId == 0)
 	{
 		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::251\n");
-		unsigned int majorid = 1;
+		unsigned long long majorid = 1;
 		LOG_TABLE_ADD_PRINTF("sad::db::Table::add::252\n");
 		if (database())
 		{

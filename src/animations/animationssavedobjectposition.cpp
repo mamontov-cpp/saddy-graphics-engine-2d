@@ -14,7 +14,7 @@ sad::animations::SavedObjectPosition::SavedObjectPosition(sad::db::Object* o)
 : sad::animations::SavedObjectState(o),
 m_body(NULL)
 {
-	sad:Rect2D oldarea = o->getProperty<sad::Rect2D>("area").value();
+	sad::Rect2D oldarea = o->getProperty<sad::Rect2D>("area").value();
 	m_oldcenter = (oldarea[0] + oldarea[2]) / 2.0;
 }
 

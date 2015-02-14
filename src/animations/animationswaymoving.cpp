@@ -107,7 +107,7 @@ void sad::animations::WayMoving::setWay(sad::p2d::app::Way * way)
 sad::p2d::app::Way* sad::animations::WayMoving::way(bool check) const
 {
 	sad::p2d::app::Way* result = NULL;
-	sad:db::Object* o = const_cast<sad::animations::WayMoving*>(this)->m_way.get();
+	sad::db::Object* o = const_cast<sad::animations::WayMoving*>(this)->m_way.get();
 	if (o)
 	{
 		if (check)

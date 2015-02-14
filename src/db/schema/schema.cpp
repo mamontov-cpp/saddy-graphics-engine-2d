@@ -38,7 +38,7 @@ sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) co
 	sad::db::Property * result = NULL;
 	if (m_parent.size())
 	{
-		for(int i = 0; i < m_parent.size() && result == NULL; i++)
+		for(size_t i = 0; i < m_parent.size() && result == NULL; i++)
 		{
 			result = m_parent[i]->getProperty(s);
 		}

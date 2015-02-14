@@ -56,7 +56,7 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList & list)
 {
 	bool result = true;
-	for(int i = 0; i < list.size(); i++)
+	for(size_t i = 0; i < list.size(); i++)
 	{
 		result = result &&	this->addResource(list[i].p1(), list[i].p2());
 	}
@@ -65,7 +65,7 @@ bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList 
 
 void sad::resource::Folder::replaceResources(const sad::resource::ResourceEntryList & list)
 {
-	for(int i = 0; i < list.size(); i++)
+	for(size_t i = 0; i < list.size(); i++)
 	{
 		this->replaceResource(list[i].p1(), list[i].p2());
 	}
@@ -76,7 +76,7 @@ void sad::resource::Folder::removeResources(
 	bool free
 )
 {
-	for(int i = 0; i < list.size(); i++)
+	for(size_t i = 0; i < list.size(); i++)
 	{
 		this->removeResource(list[i].p1(), free);
 	}	
@@ -87,7 +87,7 @@ sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
 )
 {
 	sad::Vector<sad::String> result;
-	for(int i = 0; i < list.size(); i++)
+	for(size_t i = 0; i < list.size(); i++)
 	{
 		if (this->resource(list[i].p1()) != NULL)
 		{

@@ -239,7 +239,10 @@ void sad::animations::Composite::insert(unsigned long long majorid, int pos)
 
 void sad::animations::Composite::swap(int pos1, int pos2)
 {
-	if (pos1 >=0 && pos2 >= 0 && pos1 < m_links.size() && pos2 < m_links.size())
+	if (pos1 >=0 
+		&& pos2 >= 0 
+		&& pos1 < static_cast<int>(m_links.size()) 
+		&& pos2 < static_cast<int>(m_links.size()))
 	{
 		sad::TreeDbLink<sad::animations::Animation>* link = m_links[pos1];
 		m_links[pos1] =  m_links[pos2];

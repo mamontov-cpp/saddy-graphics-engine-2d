@@ -106,7 +106,7 @@ unsigned int sad::animations::Blinking::frequency() const
 void sad::animations::Blinking::setState(sad::animations::Instance* i, double time)
 {	
 	unsigned int pos = static_cast<unsigned int>(time / (m_time / m_frequency));
-	i->stateCommandAs<bool>()->call(pos % 2);
+	i->stateCommandAs<bool>()->call((pos % 2) != 0);
 }
 
 

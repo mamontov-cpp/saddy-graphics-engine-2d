@@ -197,7 +197,7 @@ sad::Rect2D sad::Label::area() const
 sad::Rect2D sad::Label::region() const
 {
 	sad::Rect2D result = this->area();
-	sad::rotate(result, m_angle);
+	sad::rotate(result, static_cast<float>(m_angle));
 	return result;
 }
 
