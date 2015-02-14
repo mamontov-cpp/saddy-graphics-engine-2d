@@ -53,7 +53,6 @@ public:
 };
     /*! Construct new setter for property
         \param[in] e engine
-        \param[in] name a name for property
      */
     WaySetter(
         QScriptEngine* e

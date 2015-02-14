@@ -29,7 +29,6 @@ public:
 	/*! Represents a constructor call for a function with two arguments
 		\param[in] e engine
 		\param[in] name name of function call
-		\param[in] argumentcount count of arguments
 	 */
 	AbstractSetter(
 		QScriptEngine* e, 

@@ -47,7 +47,7 @@ public:
 	 */
 	void updateCurrentInstanceAnimation(sad::animations::Instance* a);
     /*! Tries to remove animation instance from list
-        \param[in] i instance
+        \param[in] a instance
         \param[in] fromeditor whether instance is being removed from editor
         \param[in] row a row, where instance is removed from
      */

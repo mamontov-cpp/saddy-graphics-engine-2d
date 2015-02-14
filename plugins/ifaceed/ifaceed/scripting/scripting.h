@@ -35,7 +35,6 @@ public:
 	static int POLLINGTIME;
 	/*! Creates new thread
 		\param[in] me a thread
-		\param[in] script a scripting element
 	 */
 	Thread(scripting::Scripting* me);
 	/*! A linked thread
@@ -94,9 +93,10 @@ protected:
         QStringList& properties,
         QStringList& functions
     );
-    /*! Appends all functions and properties, defined in system for given value
+    /*! Appends all functions and properties, defined in system for given object
         \param[out] properties list of properties
         \param[out] functions list of functions
+        \param[in] v an object, whose properties are being appended
      */
     void propertiesAndFunctions(
         QSet<QString>& properties,

@@ -22,7 +22,6 @@ class AbstractGetter: public scripting::Callable
 public:
 	/*! Represents a constructor call for a function with two arguments
 		\param[in] e engine
-		\param[in] argumentcount count of arguments
 	 */
 	AbstractGetter(
 		QScriptEngine* e
@@ -32,8 +31,7 @@ public:
 	}
 	/*! Represents a constructor call for a function with two arguments
 		\param[in] e engine
-		\param[in] name name of property
-		\param[in] argumentcount count of arguments
+        \param[in] propname name of property
 	 */
 	AbstractGetter(
 		QScriptEngine* e,

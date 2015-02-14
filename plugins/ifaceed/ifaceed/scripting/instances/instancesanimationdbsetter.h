@@ -66,8 +66,8 @@ public:
 	/*! Performs actually setting property
 		\param[in] obj an object to be set
 		\param[in] propertyname a property for object
-		\param[in] oldvalue old value 
-		\param[in] newvalue new value
+        \param[in] oldid old value
+        \param[in] newid new value
 	 */
 	virtual void setProperty(sad::animations::Instance* obj, const sad::String& propertyname, unsigned long long oldid,  unsigned long long newid);
 };

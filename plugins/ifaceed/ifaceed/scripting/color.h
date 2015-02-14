@@ -24,7 +24,7 @@ public:
 	 */
 	Color();
 	/*! Constructs new wrapper
-		\param[in] c color
+        \param[in] p color
 	 */
 	Color(const sad::Color& p);
 	/*! Could be inherited
