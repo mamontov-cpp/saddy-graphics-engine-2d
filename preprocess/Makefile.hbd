@@ -13,9 +13,9 @@ OUTPUT   = ../lib/libsaddy-{TYPE}.a
 BUILD    = {FOR_EACH ../build/{NAME}_$(TYPE).o \s}
 
 ifeq ($(TYPE),debug)
-CCOPTS = -g
+CCOPTS = -g -Wno-reorder -Wno-unused -Wno-sign-compare -w  
 else
-CCOPTS = -O2
+CCOPTS = -O2 -Wno-reorder -Wno-unused -Wno-sign-compare -w
 endif
 
 all: ../build $(OUTPUT)
