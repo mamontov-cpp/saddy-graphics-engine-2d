@@ -2,7 +2,7 @@
 #include "point2d.h"
 #include "point2i.h"
 #include "point3d.h"
-#include "point3I.h"
+#include "point3i.h"
 #include "rect2d.h"
 #include "rect2i.h"
 #include "size2d.h"
