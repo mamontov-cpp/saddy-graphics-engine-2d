@@ -230,7 +230,7 @@ QString  gui::codeedit::CodeEdit::textUnderCursor() const
 	std::reverse(result.begin(), result.end());
     if (position < me.length())
     {
-        if (m_alphabet.contains(me[position]) == false)
+        if (m_alphabet.contains(me[position]) == false && me[position] != '\n' && me[position] != '\r')
         {
             result += me[position];
         }

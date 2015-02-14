@@ -268,10 +268,21 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/abstractcondition.h \
     ifaceed/scripting/abstracttovalue.h \
     ifaceed/scripting/isaabb.h \
-    ifaceed/scripting/instances/instancesbindings.h
+    ifaceed/scripting/instances/instancesbindings.h \
+    ifaceed/scriptinghelp.h \
+    ifaceed/scripting/groups/groupsbindings.h \
+    ifaceed/scripting/groups/groupsloopedsetter.h \
+    ifaceed/scripting/groups/groupsnamesetter.h \
+    ifaceed/scripting/instances/instancesanimationdbsetter.h \
+    ifaceed/scripting/instances/instancesanimationsetter.h \
+    ifaceed/scripting/instances/instancesnamesetter.h \
+    ifaceed/scripting/instances/instancesobjectsetter.h \
+    ifaceed/scripting/instances/instancesstarttimesetter.h \
+    ifaceed/scripting/instances/instanceswaysetter.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
-    ifaceed/reloadfilelist.ui
+    ifaceed/reloadfilelist.ui \
+    ifaceed/scriptinghelp.ui
 SOURCES += ifaceed/main.cpp \
            ifaceed/mainpanel.cpp \
     ifaceed/core/typeconverters/qcolortosadacolor.cpp \
@@ -470,7 +481,17 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/animations/animationswaysetter.cpp \
     ifaceed/gui/codeedit/completer.cpp \
     ifaceed/scripting/isaabb.cpp \
-    ifaceed/scripting/instances/instancesbindings.cpp
+    ifaceed/scripting/instances/instancesbindings.cpp \
+    ifaceed/scriptinghelp.cpp \
+    ifaceed/scripting/groups/groupsbindings.cpp \
+    ifaceed/scripting/groups/groupsloopedsetter.cpp \
+    ifaceed/scripting/groups/groupsnamesetter.cpp \
+    ifaceed/scripting/instances/instancesanimationdbsetter.cpp \
+    ifaceed/scripting/instances/instancesanimationsetter.cpp \
+    ifaceed/scripting/instances/instancesnamesetter.cpp \
+    ifaceed/scripting/instances/instancesobjectsetter.cpp \
+    ifaceed/scripting/instances/instancesstarttimesetter.cpp \
+    ifaceed/scripting/instances/instanceswaysetter.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
