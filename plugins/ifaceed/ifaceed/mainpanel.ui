@@ -178,7 +178,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="usesScrollButtons">
        <bool>false</bool>
@@ -196,7 +196,7 @@
        <widget class="QPushButton" name="btnDatabaseSave">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>10</y>
           <width>91</width>
           <height>23</height>
@@ -209,7 +209,7 @@
        <widget class="QPushButton" name="btnDatabaseLoad">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>70</y>
           <width>91</width>
           <height>23</height>
@@ -222,7 +222,7 @@
        <widget class="QPushButton" name="btnDatabasePropertiesAdd">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>320</y>
           <width>91</width>
           <height>23</height>
@@ -237,7 +237,7 @@
          <rect>
           <x>10</x>
           <y>320</y>
-          <width>151</width>
+          <width>201</width>
           <height>22</height>
          </rect>
         </property>
@@ -245,7 +245,7 @@
        <widget class="QComboBox" name="cmbDatabasePropertyType">
         <property name="geometry">
          <rect>
-          <x>170</x>
+          <x>220</x>
           <y>320</y>
           <width>151</width>
           <height>22</height>
@@ -257,7 +257,7 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>311</width>
+          <width>361</width>
           <height>301</height>
          </rect>
         </property>
@@ -265,7 +265,7 @@
        <widget class="QPushButton" name="btnDatabaseSaveAs">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>40</y>
           <width>91</width>
           <height>23</height>
@@ -285,7 +285,7 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>311</width>
+          <width>361</width>
           <height>301</height>
          </rect>
         </property>
@@ -295,7 +295,7 @@
          <rect>
           <x>10</x>
           <y>320</y>
-          <width>311</width>
+          <width>361</width>
           <height>20</height>
          </rect>
         </property>
@@ -303,7 +303,7 @@
        <widget class="QPushButton" name="btnSceneAdd">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>320</y>
           <width>81</width>
           <height>23</height>
@@ -316,7 +316,7 @@
        <widget class="QPushButton" name="btnScenesMoveFront">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>40</y>
           <width>81</width>
           <height>23</height>
@@ -329,7 +329,7 @@
        <widget class="QPushButton" name="btnScenesMoveBack">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>10</y>
           <width>81</width>
           <height>23</height>
@@ -342,7 +342,7 @@
        <widget class="QPushButton" name="btnSceneDelete">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>380</x>
           <y>290</y>
           <width>75</width>
           <height>23</height>
@@ -362,7 +362,7 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>311</width>
+          <width>361</width>
           <height>301</height>
          </rect>
         </property>
@@ -372,7 +372,7 @@
          <rect>
           <x>10</x>
           <y>320</y>
-          <width>311</width>
+          <width>361</width>
           <height>20</height>
          </rect>
         </property>
@@ -380,7 +380,7 @@
        <widget class="QPushButton" name="btnSceneNodeDelete">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>390</x>
           <y>290</y>
           <width>81</width>
           <height>23</height>
@@ -393,7 +393,7 @@
        <widget class="QPushButton" name="btnSceneNodeMoveFront">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>390</x>
           <y>40</y>
           <width>81</width>
           <height>23</height>
@@ -406,7 +406,7 @@
        <widget class="QPushButton" name="btnSceneNodeMoveBack">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>390</x>
           <y>10</y>
           <width>81</width>
           <height>23</height>
@@ -419,7 +419,7 @@
        <widget class="QPushButton" name="btnSceneClear">
         <property name="geometry">
          <rect>
-          <x>330</x>
+          <x>390</x>
           <y>220</y>
           <width>81</width>
           <height>23</height>
@@ -439,7 +439,7 @@
          <rect>
           <x>10</x>
           <y>130</y>
-          <width>401</width>
+          <width>461</width>
           <height>211</height>
          </rect>
         </property>
@@ -449,7 +449,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>401</width>
+          <width>461</width>
           <height>71</height>
          </rect>
         </property>
@@ -459,7 +459,7 @@
          <rect>
           <x>10</x>
           <y>90</y>
-          <width>401</width>
+          <width>461</width>
           <height>41</height>
          </rect>
         </property>
@@ -503,7 +503,7 @@
          <rect>
           <x>120</x>
           <y>30</y>
-          <width>281</width>
+          <width>351</width>
           <height>41</height>
          </rect>
         </property>
@@ -513,7 +513,7 @@
          <rect>
           <x>10</x>
           <y>110</y>
-          <width>391</width>
+          <width>461</width>
           <height>201</height>
          </rect>
         </property>
@@ -521,7 +521,7 @@
        <widget class="QPushButton" name="btnLabelAdd">
         <property name="geometry">
          <rect>
-          <x>250</x>
+          <x>380</x>
           <y>320</y>
           <width>91</width>
           <height>21</height>
@@ -564,7 +564,7 @@
          <rect>
           <x>210</x>
           <y>80</y>
-          <width>191</width>
+          <width>261</width>
           <height>22</height>
          </rect>
         </property>
@@ -588,7 +588,7 @@
          <rect>
           <x>10</x>
           <y>80</y>
-          <width>391</width>
+          <width>471</width>
           <height>231</height>
          </rect>
         </property>
@@ -609,7 +609,7 @@
        <widget class="QPushButton" name="btnSpriteAdd">
         <property name="geometry">
          <rect>
-          <x>300</x>
+          <x>360</x>
           <y>320</y>
           <width>121</width>
           <height>23</height>
@@ -706,7 +706,7 @@
        <widget class="QPushButton" name="btnCustomObjectAdd">
         <property name="geometry">
          <rect>
-          <x>340</x>
+          <x>396</x>
           <y>320</y>
           <width>75</width>
           <height>23</height>
@@ -721,7 +721,7 @@
          <rect>
           <x>170</x>
           <y>10</y>
-          <width>241</width>
+          <width>301</width>
           <height>121</height>
          </rect>
         </property>
@@ -731,7 +731,7 @@
          <rect>
           <x>10</x>
           <y>140</y>
-          <width>401</width>
+          <width>461</width>
           <height>171</height>
          </rect>
         </property>
