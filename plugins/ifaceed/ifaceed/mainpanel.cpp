@@ -2603,7 +2603,7 @@ void MainPanel::load()
 	{
 		sad::db::Database* tmp = new sad::db::Database();
 		tmp->setRenderer(sad::Renderer::ref());
-		tmp->setDefaultTreeName("");
+        tmp->setDefaultTreeName("");
 		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
 		{
 			m_editor->shared()->setFileName(name);

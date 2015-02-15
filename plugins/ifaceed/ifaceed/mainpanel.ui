@@ -165,9 +165,9 @@
      <widget class="QTabWidget" name="tabObjects">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>10</y>
-        <width>431</width>
+        <width>491</width>
         <height>376</height>
        </rect>
       </property>
@@ -2449,7 +2449,7 @@ rect:</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>180</x>
