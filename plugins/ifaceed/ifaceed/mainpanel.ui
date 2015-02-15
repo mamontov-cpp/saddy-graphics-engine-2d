@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
+    <width>540</width>
     <height>490</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>510</width>
+    <width>540</width>
     <height>490</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>510</width>
+    <width>540</width>
     <height>490</height>
    </size>
   </property>
@@ -44,7 +44,7 @@
      <rect>
       <x>50</x>
       <y>40</y>
-      <width>201</width>
+      <width>301</width>
       <height>20</height>
      </rect>
     </property>
@@ -55,7 +55,7 @@
    <widget class="QLabel" name="lblCoords">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>370</x>
       <y>41</y>
       <width>51</width>
       <height>16</height>
@@ -68,7 +68,7 @@
    <widget class="QLineEdit" name="txtMousePosX">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>420</x>
       <y>39</y>
       <width>51</width>
       <height>20</height>
@@ -81,7 +81,7 @@
    <widget class="QLineEdit" name="txtMousePosY">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>480</x>
       <y>39</y>
       <width>51</width>
       <height>20</height>
@@ -91,7 +91,7 @@
    <widget class="QPushButton" name="btnUndo">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>420</x>
       <y>9</y>
       <width>51</width>
       <height>23</height>
@@ -104,7 +104,7 @@
    <widget class="QPushButton" name="btnRedo">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>480</x>
       <y>9</y>
       <width>51</width>
       <height>23</height>
@@ -117,9 +117,9 @@
    <widget class="QPushButton" name="btnReloadResources">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>10</y>
-      <width>101</width>
+      <width>111</width>
       <height>23</height>
      </rect>
     </property>
@@ -132,12 +132,12 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>91</width>
+      <width>111</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>LoadResources</string>
+     <string>Load resources</string>
     </property>
    </widget>
    <widget class="QTabWidget" name="tabTypes">
@@ -145,7 +145,7 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>491</width>
+      <width>521</width>
       <height>416</height>
      </rect>
     </property>
@@ -167,7 +167,7 @@
        <rect>
         <x>30</x>
         <y>10</y>
-        <width>421</width>
+        <width>431</width>
         <height>376</height>
        </rect>
       </property>
@@ -198,7 +198,7 @@
          <rect>
           <x>330</x>
           <y>10</y>
-          <width>81</width>
+          <width>91</width>
           <height>23</height>
          </rect>
         </property>
@@ -211,7 +211,7 @@
          <rect>
           <x>330</x>
           <y>70</y>
-          <width>81</width>
+          <width>91</width>
           <height>23</height>
          </rect>
         </property>
@@ -224,7 +224,7 @@
          <rect>
           <x>330</x>
           <y>320</y>
-          <width>81</width>
+          <width>91</width>
           <height>23</height>
          </rect>
         </property>
@@ -267,7 +267,7 @@
          <rect>
           <x>330</x>
           <y>40</y>
-          <width>81</width>
+          <width>91</width>
           <height>23</height>
          </rect>
         </property>
@@ -598,7 +598,7 @@
          <rect>
           <x>10</x>
           <y>320</y>
-          <width>101</width>
+          <width>121</width>
           <height>23</height>
          </rect>
         </property>
@@ -611,7 +611,7 @@
          <rect>
           <x>300</x>
           <y>320</y>
-          <width>101</width>
+          <width>121</width>
           <height>23</height>
          </rect>
         </property>
@@ -804,7 +804,7 @@ for object
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>271</width>
+        <width>311</width>
         <height>381</height>
        </rect>
       </property>
@@ -815,9 +815,9 @@ for object
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>15</y>
-         <width>251</width>
-         <height>281</height>
+         <y>25</y>
+         <width>291</width>
+         <height>271</height>
         </rect>
        </property>
       </widget>
@@ -826,7 +826,7 @@ for object
         <rect>
          <x>60</x>
          <y>300</y>
-         <width>141</width>
+         <width>171</width>
          <height>20</height>
         </rect>
        </property>
@@ -836,7 +836,7 @@ for object
         <rect>
          <x>61</x>
          <y>330</y>
-         <width>141</width>
+         <width>171</width>
          <height>22</height>
         </rect>
        </property>
@@ -886,9 +886,9 @@ for object
       <widget class="QPushButton" name="btnWayAdd">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>240</x>
          <y>299</y>
-         <width>51</width>
+         <width>61</width>
          <height>22</height>
         </rect>
        </property>
@@ -899,9 +899,9 @@ for object
       <widget class="QPushButton" name="btnWayRemove">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>240</x>
          <y>330</y>
-         <width>51</width>
+         <width>61</width>
          <height>23</height>
         </rect>
        </property>
@@ -913,7 +913,7 @@ for object
      <widget class="QGroupBox" name="grpWayPoints">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>330</x>
         <y>0</y>
         <width>181</width>
         <height>381</height>
@@ -926,9 +926,9 @@ for object
        <property name="geometry">
         <rect>
          <x>5</x>
-         <y>16</y>
-         <width>171</width>
-         <height>280</height>
+         <y>25</y>
+         <width>181</width>
+         <height>271</height>
         </rect>
        </property>
       </widget>
@@ -989,7 +989,7 @@ for object
         <rect>
          <x>120</x>
          <y>300</y>
-         <width>51</width>
+         <width>61</width>
          <height>23</height>
         </rect>
        </property>
@@ -1002,7 +1002,7 @@ for object
         <rect>
          <x>120</x>
          <y>330</y>
-         <width>51</width>
+         <width>61</width>
          <height>23</height>
         </rect>
        </property>
@@ -1028,7 +1028,7 @@ for object
         <rect>
          <x>90</x>
          <y>356</y>
-         <width>79</width>
+         <width>91</width>
          <height>23</height>
         </rect>
        </property>
@@ -1045,7 +1045,7 @@ for object
      <widget class="QGroupBox" name="grpDialogues">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>0</y>
         <width>181</width>
         <height>387</height>
@@ -1058,9 +1058,9 @@ for object
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>15</y>
-         <width>161</width>
-         <height>311</height>
+         <y>25</y>
+         <width>171</width>
+         <height>301</height>
         </rect>
        </property>
       </widget>
@@ -1069,7 +1069,7 @@ for object
         <rect>
          <x>60</x>
          <y>330</y>
-         <width>111</width>
+         <width>121</width>
          <height>20</height>
         </rect>
        </property>
@@ -1090,10 +1090,10 @@ for object
       <widget class="QWidget" name="layoutWidget22">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>360</y>
+         <x>10</x>
+         <y>350</y>
          <width>171</width>
-         <height>25</height>
+         <height>29</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1123,9 +1123,9 @@ for object
      <widget class="QGroupBox" name="grpPhrases">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>200</x>
         <y>0</y>
-        <width>281</width>
+        <width>311</width>
         <height>386</height>
        </rect>
       </property>
@@ -1136,9 +1136,9 @@ for object
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>16</y>
-         <width>261</width>
-         <height>161</height>
+         <y>26</y>
+         <width>301</width>
+         <height>151</height>
         </rect>
        </property>
       </widget>
@@ -1147,8 +1147,8 @@ for object
         <rect>
          <x>10</x>
          <y>180</y>
-         <width>261</width>
-         <height>51</height>
+         <width>301</width>
+         <height>62</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="grdPhrasePropeties" columnstretch="0,0,0,0">
@@ -1203,7 +1203,7 @@ for object
         <rect>
          <x>10</x>
          <y>240</y>
-         <width>261</width>
+         <width>301</width>
          <height>111</height>
         </rect>
        </property>
@@ -1224,9 +1224,9 @@ for object
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>360</y>
-         <width>261</width>
-         <height>25</height>
+         <y>350</y>
+         <width>301</width>
+         <height>29</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1260,7 +1260,7 @@ for object
          <widget class="QPushButton" name="btnPhraseMoveBack">
           <property name="maximumSize">
            <size>
-            <width>61</width>
+            <width>75</width>
             <height>16777215</height>
            </size>
           </property>
@@ -1355,6 +1355,11 @@ for object
         <height>41</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Start on
 current object</string>
@@ -1378,7 +1383,7 @@ current object</string>
        <rect>
         <x>170</x>
         <y>40</y>
-        <width>301</width>
+        <width>341</width>
         <height>341</height>
        </rect>
       </property>
@@ -1393,7 +1398,7 @@ current object</string>
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_animation_object">
        <attribute name="title">
@@ -1422,7 +1427,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>261</width>
-           <height>22</height>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -1528,7 +1533,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>261</width>
-           <height>22</height>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -1585,7 +1590,7 @@ current object</string>
            <x>20</x>
            <y>20</y>
            <width>251</width>
-           <height>22</height>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -1614,7 +1619,7 @@ current object</string>
            <x>20</x>
            <y>50</y>
            <width>251</width>
-           <height>22</height>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -1722,7 +1727,7 @@ current object</string>
            <x>10</x>
            <y>20</y>
            <width>251</width>
-           <height>48</height>
+           <height>56</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -1894,7 +1899,7 @@ rect:</string>
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>281</width>
+          <width>321</width>
           <height>111</height>
          </rect>
         </property>
@@ -1911,8 +1916,8 @@ rect:</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>261</width>
-           <height>22</height>
+           <width>311</width>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1956,8 +1961,8 @@ rect:</string>
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>261</width>
-           <height>22</height>
+           <width>311</width>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -1985,8 +1990,8 @@ rect:</string>
           <rect>
            <x>10</x>
            <y>80</y>
-           <width>261</width>
-           <height>22</height>
+           <width>311</width>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -2015,7 +2020,7 @@ rect:</string>
          <rect>
           <x>10</x>
           <y>130</y>
-          <width>281</width>
+          <width>321</width>
           <height>81</height>
          </rect>
         </property>
@@ -2032,8 +2037,8 @@ rect:</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>261</width>
-           <height>22</height>
+           <width>311</width>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -2071,8 +2076,8 @@ rect:</string>
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>261</width>
-           <height>22</height>
+           <width>311</width>
+           <height>26</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -2103,8 +2108,8 @@ rect:</string>
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>231</width>
-          <height>213</height>
+          <width>321</width>
+          <height>201</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -2144,9 +2149,9 @@ rect:</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>230</y>
-          <width>231</width>
-          <height>83</height>
+          <y>210</y>
+          <width>321</width>
+          <height>95</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
@@ -2207,8 +2212,8 @@ rect:</string>
        <rect>
         <x>170</x>
         <y>10</y>
-        <width>291</width>
-        <height>22</height>
+        <width>341</width>
+        <height>29</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -2260,49 +2265,13 @@ rect:</string>
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnAnimationsInstanceAdd">
-      <property name="geometry">
-       <rect>
-        <x>400</x>
-        <y>300</y>
-        <width>61</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnAnimationsInstanceRemove">
-      <property name="geometry">
-       <rect>
-        <x>390</x>
-        <y>368</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Remove</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="cmbAddedAnimationInstanceType">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>300</y>
-        <width>211</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="grpAnimationInstance">
       <property name="geometry">
        <rect>
         <x>180</x>
         <y>10</y>
-        <width>291</width>
-        <height>231</height>
+        <width>321</width>
+        <height>251</height>
        </rect>
       </property>
       <property name="title">
@@ -2311,10 +2280,10 @@ rect:</string>
       <widget class="QWidget" name="layoutWidget13">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>0</x>
          <y>20</y>
-         <width>271</width>
-         <height>132</height>
+         <width>321</width>
+         <height>164</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
@@ -2373,10 +2342,10 @@ rect:</string>
       <widget class="QWidget" name="layoutWidget14">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>160</y>
-         <width>271</width>
-         <height>22</height>
+         <x>0</x>
+         <y>190</y>
+         <width>321</width>
+         <height>29</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -2401,10 +2370,10 @@ rect:</string>
       <widget class="QWidget" name="layoutWidget15">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>190</y>
-         <width>271</width>
-         <height>22</height>
+         <x>0</x>
+         <y>220</y>
+         <width>321</width>
+         <height>29</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_19">
@@ -2435,8 +2404,8 @@ rect:</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>240</y>
-        <width>291</width>
+        <y>260</y>
+        <width>331</width>
         <height>51</height>
        </rect>
       </property>
@@ -2446,9 +2415,9 @@ rect:</string>
       <widget class="QComboBox" name="cmbWayAnimationInstanceWay">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>271</width>
+         <x>0</x>
+         <y>30</y>
+         <width>321</width>
          <height>22</height>
         </rect>
        </property>
@@ -2458,8 +2427,8 @@ rect:</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>330</y>
-        <width>291</width>
+        <y>350</y>
+        <width>331</width>
         <height>31</height>
        </rect>
       </property>
@@ -2480,6 +2449,47 @@ rect:</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>320</y>
+        <width>331</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QComboBox" name="cmbAddedAnimationInstanceType"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAnimationsInstanceAdd">
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAnimationsInstanceRemove">
+         <property name="maximumSize">
+          <size>
+           <width>103</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Remove</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_animationsgroup">
      <attribute name="title">
@@ -2488,7 +2498,7 @@ rect:</string>
      <widget class="QListWidget" name="lstAnimationsGroupInGroup">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>200</x>
         <y>30</y>
         <width>141</width>
         <height>321</height>
@@ -2498,9 +2508,9 @@ rect:</string>
      <widget class="QListWidget" name="lstAnimationsGroupAllAnimations">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>350</x>
         <y>30</y>
-        <width>141</width>
+        <width>161</width>
         <height>321</height>
        </rect>
       </property>
@@ -2508,7 +2518,7 @@ rect:</string>
      <widget class="QPushButton" name="btnAnimationsGroupRemoveFromList">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>200</x>
         <y>360</y>
         <width>141</width>
         <height>23</height>
@@ -2521,9 +2531,9 @@ rect:</string>
      <widget class="QPushButton" name="btnAnimationsGroupAddToList">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>350</x>
         <y>360</y>
-        <width>141</width>
+        <width>161</width>
         <height>23</height>
        </rect>
       </property>
@@ -2534,7 +2544,7 @@ rect:</string>
      <widget class="QLabel" name="lblAnimationGroupInstancesList">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>200</x>
         <y>10</y>
         <width>111</width>
         <height>16</height>
@@ -2547,9 +2557,9 @@ rect:</string>
      <widget class="QLabel" name="lblAnimationsGroupAllInstances">
       <property name="geometry">
        <rect>
-        <x>330</x>
+        <x>350</x>
         <y>10</y>
-        <width>121</width>
+        <width>151</width>
         <height>16</height>
        </rect>
       </property>
@@ -2562,7 +2572,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>160</width>
+        <width>180</width>
         <height>371</height>
        </rect>
       </property>
@@ -2628,7 +2638,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>471</width>
+        <width>501</width>
         <height>311</height>
        </rect>
       </property>
@@ -2636,7 +2646,7 @@ rect:</string>
      <widget class="QPushButton" name="btnConsoleRun">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>350</x>
         <y>330</y>
         <width>75</width>
         <height>21</height>
@@ -2651,7 +2661,7 @@ rect:</string>
        <rect>
         <x>10</x>
         <y>330</y>
-        <width>301</width>
+        <width>331</width>
         <height>51</height>
        </rect>
       </property>
@@ -2659,7 +2669,7 @@ rect:</string>
      <widget class="QPushButton" name="btnConsoleHelp">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>430</x>
         <y>330</y>
         <width>75</width>
         <height>21</height>
@@ -2672,7 +2682,7 @@ rect:</string>
      <widget class="QPushButton" name="btnConsoleSave">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>350</x>
         <y>360</y>
         <width>75</width>
         <height>21</height>
@@ -2685,7 +2695,7 @@ rect:</string>
      <widget class="QPushButton" name="btnConsoleLoad">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>430</x>
         <y>360</y>
         <width>75</width>
         <height>21</height>
