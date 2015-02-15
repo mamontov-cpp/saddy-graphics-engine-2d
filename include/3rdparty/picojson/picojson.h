@@ -40,6 +40,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <locale.h>
 #include "../../sadstring.h"
 
 #ifdef _MSC_VER
@@ -413,8 +414,11 @@ namespace picojson {
 #endif
   
   inline std::string value::serialize(int indent) const {
+    char *saved_locale;
+    saved_locale = setlocale(LC_NUMERIC, "C");
     std::string s;
     serialize(std::back_inserter(s), indent);
+    setlocale(LC_NUMERIC, saved_locale);
     return s;
   }
   
@@ -631,7 +635,8 @@ namespace picojson {
     }
     char* endp;
     out = value(strtod(num_str.c_str(), &endp));
-    return endp == num_str.c_str() + num_str.size();
+    bool result = endp == (num_str.c_str() + num_str.size());
+    return result;
   }
   
   template <typename Iter> inline bool _parse(value& out, input<Iter>& in) {
@@ -737,12 +742,15 @@ namespace picojson {
 
 inline std::istream& operator>>(std::istream& is, picojson::value& x)
 {
+  char *saved_locale;
+  saved_locale = setlocale(LC_NUMERIC, "C");
   picojson::set_last_error(std::string());
   std::string err = picojson::parse(x, is);
   if (! err.empty()) {
     picojson::set_last_error(err);
     is.setstate(std::ios::failbit);
   }
+  setlocale(LC_NUMERIC, saved_locale);
   return is;
 }
 
