@@ -600,4 +600,4 @@ struct SadTextureAtlasFileTest : tpunit::TestFixture
 	   ASSERT_TRUE( sad::is_fuzzy_equal(h, 500.0) );
    }
 
-} /*_sad_texture_atlas_file_test*/;
+} _sad_texture_atlas_file_test;
