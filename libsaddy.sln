@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsaddy", "libsaddy-2010.vcxproj", "{4F41A547-C004-4A32-A69A-36EBAFA5EB93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsaddy", "libsaddy.vcxproj", "{4F41A547-C004-4A32-A69A-36EBAFA5EB93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
