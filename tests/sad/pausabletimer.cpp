@@ -34,8 +34,8 @@ public:
 	   sad::sleep(200);	
 	   double afterstop = t.elapsed();
 
-	   ASSERT_TRUE(beforestop >= 400.0 && beforestop <= 600.0);
-	   ASSERT_TRUE(afterstop >= 400.0 && afterstop <= 600.0);
+	   ASSERT_TRUE(beforestop >= 395.0 && beforestop <= 600.0);
+	   ASSERT_TRUE(afterstop >= 395 && afterstop <= 600.0);
    }
 
 } _pausable_timer_test;
