@@ -22,11 +22,13 @@
 #include "../../include/3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
+#ifndef _MSC_VER
+
 // Taken from: http://qt-project.org/forums/viewthread/13148
 // debugging asserts in Qt code is tricky with MinGw. You get a crash, instead of a backtrace.
 // enable the define below to get a crash that results in a backtrace instead. Note that it does
 // mess up your debug output, so don't leave it enabled if you're not working on fixing an assert
-#define DEBUG_QT_ASSERT
+//#define DEBUG_QT_ASSERT
 
 #ifdef DEBUG_QT_ASSERT
 void crashMessageOutput(QtMsgType type, const char *msg)
@@ -49,11 +51,14 @@ void crashMessageOutput(QtMsgType type, const char *msg)
  }
 #endif
 
+#endif
 
 int main(int argc, char *argv[])
 {
+#ifndef _MSC_VER
 #ifdef DEBUG_QT_ASSERT
     qInstallMsgHandler(crashMessageOutput);
+#endif
 #endif
 
 	// An options for program
