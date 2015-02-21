@@ -149,12 +149,12 @@ public:
 	 {
 		 if (!m_reverse)
 		 {
-		  _FirstObject * _a1 = sad::checked_cast<_FirstObject>(a1);
-		  _SecondObject * _a2 = sad::checked_cast<_SecondObject>(a2);
+		  _FirstObject * _a1 = static_cast<_FirstObject*>(a1);
+		  _SecondObject * _a2 = static_cast<_SecondObject*>(a2);
 		  return m_p(_a1, ak1, _a2, ak2);
 		 }
-		 _FirstObject * _a1 = sad::checked_cast<_FirstObject>(a2);
-		 _SecondObject * _a2 = sad::checked_cast<_SecondObject>(a1);
+		 _FirstObject * _a1 = static_cast<_FirstObject*>(a2);
+		 _SecondObject * _a2 = static_cast<_SecondObject*>(a1);
 		 return m_p(_a1, ak2, _a2,  ak1);
 	 }
 	 virtual ~CollisionMultiMethodInstanceWithArg() {}
@@ -199,8 +199,8 @@ class CollisionMultiMethod
 		template<typename _First, typename _Second>
 		void add( _ReturnType (*p)(_First *, _Second *) )
 		{
-			unsigned int fst = _First::globalMetaData()->privateIndex();
-			unsigned int snd = _Second::globalMetaData()->privateIndex();
+			unsigned int fst = _First::globalMetaIndex();
+			unsigned int snd = _Second::globalMetaIndex();
 			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
 			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
 			if (m_instances[fst][snd] == NULL)
@@ -232,8 +232,8 @@ class CollisionMultiMethod
 		 */
 		instance_t * lookup(CollisionShape * a, CollisionShape * b)
 		{
-			unsigned int type1 = a->metaData()->privateIndex();
-			unsigned int type2 = b->metaData()->privateIndex();
+			unsigned int type1 = a->metaIndex();
+			unsigned int type2 = b->metaIndex();
 			instance_t * result = NULL;
 			result  = m_instances[type1][type2];;
 			return result;
@@ -302,8 +302,8 @@ class CollisionMultiMethodWithArg
 		template<typename _First, typename _Second>
 		void add( _ReturnType (*p)(_First *,const _Arg&,  _Second *, const _Arg&) )
 		{
-			unsigned int fst = _First::globalMetaData()->privateIndex();
-			unsigned int snd = _Second::globalMetaData()->privateIndex();
+			unsigned int fst = _First::globalMetaIndex();
+			unsigned int snd = _Second::globalMetaIndex();
 			assert( fst < MULTIMETHOD_REGISTERED_TYPES );
 			assert( snd < MULTIMETHOD_REGISTERED_TYPES );
 			if (m_instances[fst][snd] == NULL)
@@ -335,8 +335,8 @@ class CollisionMultiMethodWithArg
 		 */
 		instance_t * lookup(CollisionShape * a, CollisionShape * b)
 		{
-			unsigned int type1 = a->metaData()->privateIndex();
-			unsigned int type2 = b->metaData()->privateIndex();
+			unsigned int type1 = a->metaIndex();
+			unsigned int type2 = b->metaIndex();
 			instance_t * result = NULL;
 			result  = m_instances[type1][type2];;
 			return result;

@@ -5,8 +5,6 @@
 #include <algorithm>
 
 
-DECLARE_SOBJ_INHERITANCE_WITH_INDEX(sad::p2d::Rectangle, sad::p2d::CollisionShape, 0);
-
 const sad::Point2D & sad::p2d::Rectangle::point(int index) const
 {
 	assert(index > -1 && index< 4);
@@ -123,4 +121,14 @@ void sad::p2d::Rectangle::resizeBy(const sad::p2d::Vector& v)
 	m_rect[1] += sad::p2d::Vector(v.x(), -v.y());
 	m_rect[2] += sad::p2d::Vector(v.x(), v.y());
 	m_rect[3] += sad::p2d::Vector(-v.x(), v.y());
+}
+
+unsigned int sad::p2d::Rectangle::metaIndex()
+{
+	return sad::p2d::Rectangle::globalMetaIndex();
+}
+
+unsigned int sad::p2d::Rectangle::globalMetaIndex()
+{
+	return 0;
 }

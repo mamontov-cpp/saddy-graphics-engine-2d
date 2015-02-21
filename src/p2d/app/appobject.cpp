@@ -31,9 +31,13 @@ sad::p2d::app::Object::~Object()
 {
 	if (m_app == NULL)
 	{
-		delete m_body;
+		if (m_body) {
+			m_body->delRef();
+		}
 	}
-	delete m_sprite;
+	if (m_sprite) {
+		m_sprite->delRef();
+	}
 }
 
 void sad::p2d::app::Object::setApp(p2d::app::App * g)

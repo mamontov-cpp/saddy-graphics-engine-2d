@@ -72,9 +72,9 @@ void sad::p2d::Body::trySetTransformer()
 {
 	if (m_world)
 	{
-		if (this->m_current->metaData()->canBeCastedTo("p2d::Circle"))
+		if (this->m_current->metaIndex() == sad::p2d::Circle::globalMetaIndex())
 		{
-			p2d::Circle * c = sad::checked_cast<p2d::Circle>(m_current);
+			p2d::Circle * c = static_cast<p2d::Circle*>(m_current);
 			c->setTransformer(m_world->transformer());
 		}
 	}

@@ -28,7 +28,7 @@ sad::p2d::MaybeTime sad::p2d::BroadCollisionDetector::collides(
 	// If we determining a collision with bounds, we could taks simple approach
 	// and don't care about a travelled space, because if body collided with bound one,
 	// it will collide further, if force won't change direction inside of one step
-	if (b1->currentShape()->metaData()->privateIndex() == 3)
+	if (b1->currentShape()->metaIndex() == 3)
 	{
 		sad::p2d::Bound * bound = static_cast<sad::p2d::Bound*>(b1->Temporary);
 		if (p2d::CollisionTest::collidesBtoS(bound, b2->Temporary))
@@ -37,7 +37,7 @@ sad::p2d::MaybeTime sad::p2d::BroadCollisionDetector::collides(
 	}
 
 
-	if (b2->currentShape()->metaData()->privateIndex() == 3)
+	if (b2->currentShape()->metaIndex() == 3)
 	{
 		sad::p2d::Bound * bound = static_cast<sad::p2d::Bound*>(b2->Temporary);
 		if (p2d::CollisionTest::collidesBtoS(bound, b1->Temporary))
