@@ -8,8 +8,6 @@
 #undef min
 #undef max
 
-DECLARE_SOBJ_INHERITANCE_WITH_INDEX(sad::p2d::Bound, sad::p2d::CollisionShape, 3);
-
 sad::p2d::CollisionShape * sad::p2d::Bound::clone(int count) const
 {
 	sad::p2d::Bound * b = new sad::p2d::Bound[count]();
@@ -127,4 +125,14 @@ sad::String sad::p2d::Bound::dump() const
 	return str(fmt::Format("{0} bound at {1}")
 							<< type << m_p
 			  );
+}
+
+unsigned int sad::p2d::Bound::metaIndex()
+{
+	return sad::p2d::Bound::globalMetaIndex();
+}
+
+unsigned int sad::p2d::Bound::globalMetaIndex()
+{
+	return 3;
 }

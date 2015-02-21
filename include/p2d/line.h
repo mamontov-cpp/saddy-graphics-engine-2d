@@ -16,7 +16,6 @@ namespace p2d
  */
 class Line: public sad::p2d::CollisionShape
 {
-	SAD_OBJECT
 public:
 	inline Line() {}
 	/*! Sets new cutter
@@ -107,6 +106,14 @@ public:
 		\param[in] v value
 	 */
 	virtual void resizeBy(const sad::p2d::Vector& v);
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	virtual unsigned int metaIndex();
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	static unsigned int globalMetaIndex();
 protected:
 	sad::p2d::Cutter2D m_c; //!< An inner cutter
 };
@@ -115,4 +122,3 @@ protected:
 
 }
 
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Line)

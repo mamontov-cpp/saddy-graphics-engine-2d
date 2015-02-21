@@ -5,7 +5,6 @@
 
 #include <algorithm>
 
-DECLARE_SOBJ_INHERITANCE_WITH_INDEX(sad::p2d::Circle, sad::p2d::CollisionShape, 1);
 
 sad::p2d::CollisionShape * sad::p2d::Circle::clone(int count) const
 {
@@ -89,4 +88,14 @@ void sad::p2d::Circle::resizeBy(const sad::p2d::Vector& v)
 	{
 		m_radius -= modulo;
 	}
+}
+
+unsigned int sad::p2d::Circle::metaIndex()
+{
+	return sad::p2d::Circle::globalMetaIndex();
+}
+
+unsigned int sad::p2d::Circle::globalMetaIndex()
+{
+	return 1;
 }

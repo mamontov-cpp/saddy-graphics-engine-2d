@@ -16,7 +16,6 @@ namespace p2d
  */
 class Rectangle: public p2d::CollisionShape
 {
-	SAD_OBJECT
 public:
 	inline Rectangle() {}
 	/*! Sets new inner rectangle
@@ -85,6 +84,14 @@ public:
 		\param[in] v value
 	 */
 	virtual void resizeBy(const sad::p2d::Vector& v);
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	virtual unsigned int metaIndex();
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	static unsigned int globalMetaIndex();
 protected:
 	sad::Rect2D m_rect; //!< Real rectangle
 };
@@ -92,5 +99,3 @@ protected:
 }
 
 }
-
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Rectangle)

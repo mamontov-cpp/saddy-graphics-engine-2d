@@ -19,7 +19,6 @@ class CircleToHullTransformer;
  */
 class Circle: public p2d::CollisionShape
 {
-	SAD_OBJECT
 public:
 	inline Circle() { m_transformer = NULL; }
 	/*! Sets new center
@@ -92,6 +91,14 @@ public:
 		\param[in] v value
 	 */
 	virtual void resizeBy(const sad::p2d::Vector& v);
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	virtual unsigned int metaIndex();
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	static unsigned int globalMetaIndex();
 protected:
 	p2d::Point m_center; //!< Center of circle
 	double m_radius; //!< Radius of circle
@@ -103,5 +110,3 @@ protected:
 }
 
 }
-
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Circle)

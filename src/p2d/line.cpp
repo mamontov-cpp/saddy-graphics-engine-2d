@@ -3,8 +3,6 @@
 #include "log/log.h"
 #include <algorithm>
 
-DECLARE_SOBJ_INHERITANCE_WITH_INDEX(sad::p2d::Line, sad::p2d::CollisionShape, 2);
-
 
 sad::p2d::CollisionShape * sad::p2d::Line::clone(int count) const
 {
@@ -102,4 +100,14 @@ void sad::p2d::Line::resizeBy(const sad::p2d::Vector& v)
 	double length = sad::p2d::scalar(n, v);
 	m_c._2() += n * length;
 	m_c._1() -= n * length;
+}
+
+unsigned int sad::p2d::Line::metaIndex()
+{
+	return sad::p2d::Line::globalMetaIndex();
+}
+
+unsigned int sad::p2d::Line::globalMetaIndex()
+{
+	return 2;
 }

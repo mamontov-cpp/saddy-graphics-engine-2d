@@ -27,7 +27,6 @@ enum BoundType
 
 class Bound: public p2d::CollisionShape
 {
-SAD_OBJECT;
 public:
 	 /*! As a default bound of zero as down
 	  */
@@ -107,6 +106,14 @@ public:
 		\return string
 	 */
 	virtual sad::String dump() const; 
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	virtual unsigned int metaIndex();
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	static unsigned int globalMetaIndex();
 protected:
 	 BoundType m_type; //!< Type of bound
 	 double    m_p;    //!< Coordinate of bound
@@ -117,4 +124,3 @@ protected:
 
 }
 
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::Bound)

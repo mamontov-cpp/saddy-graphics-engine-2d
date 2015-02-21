@@ -15,9 +15,8 @@ namespace p2d
 {
 /*! Describes a shape, used to determine collisions with objects
  */
-class CollisionShape: public sad::Object
+class CollisionShape
 {
-SAD_OBJECT
 public:
 	/*! Rotates a shape around it's center
 		\param[in] angle angle to rotate
@@ -72,10 +71,12 @@ public:
 	/*! Could be inherited
 	 */
 	virtual ~CollisionShape();
+	/*! Return private meta-type index for identifying
+		type of object, since we must keep shapes as POD as possible
+	 */
+	virtual unsigned int metaIndex() = 0;
 };
 
 }
 
 }
-
-DECLARE_TYPE_AS_SAD_OBJECT_ENUM(sad::p2d::CollisionShape)
