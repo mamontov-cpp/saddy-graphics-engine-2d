@@ -41,7 +41,7 @@ public:
 		TEST(SadDbDatabaseTest::test_properties),
 		TEST(SadDbDatabaseTest::test_query_by_majorid),
 		TEST(SadDbDatabaseTest::test_query_by_minorid),
-		TEST(SadDbDatabaseTest::test_query_by_name)		
+		TEST(SadDbDatabaseTest::test_query_by_name)	
 	) {}
 
 	void test_save()
