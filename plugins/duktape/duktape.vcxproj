@@ -12,6 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="duktape.cpp" />
+    <ClCompile Include="variantpool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\duktape\variantpool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4FE11C6E-642A-4CBA-BD95-D3B8357FD609}</ProjectGuid>
