@@ -36,7 +36,7 @@ You can download pre-built engine, demos and docs (Win32-MSVC version) from foll
 
 [saddy-1.1](https://dl.dropboxusercontent.com/u/5039908/saddy-1.1-beta.zip)
 
-* **26.08.13** Saddy 1.0-BETA released!*
+* **26.08.13** Saddy 1.0-BETA released!
 
 ## Our Goals
 
@@ -61,11 +61,11 @@ Our main goal is to create tiny graphic engine, which can be used to create a sm
 
 Currently, we support a following platforms.
 
-  # Windows, using Microsoft Visual C 2008 (x86, x64)
-  # Windows, using MinGW (x86/x64)
-  # Ubuntu (x86/x64)
-  # OpenSUSE (x86/x64)
-  # ArchLinux (x86 only)  
+  * Windows, using Microsoft Visual C++ 2010 (x86, x64)
+  * Windows, using MinGW (x86/x64)
+  * Ubuntu (x86/x64)
+  * OpenSUSE (x86/x64)
+  * ArchLinux (x86 only)  
 
 However, we cannot provide binary builds for all of those platforms, only guarantee, that built source will work.
 
@@ -91,11 +91,11 @@ Saddy toolchain consists of few small utilities
 
 ## Developers
 
-  # Mamontov Dmitry - leader and current maintainer of project.
-  # Alexander Sokolov - programmed core engine
-  # Andrey Ryaskov -  programmed windows gui wrapper.
-  # Victor Grigoriev - contributed to core engine development
-  # Dmitry Kolesov - contributed to core engine development
+  * Mamontov Dmitry - leader and current maintainer of project.
+  * Alexander Sokolov - programmed core engine
+  * Andrey Ryaskov -  programmed windows gui wrapper.
+  * Victor Grigoriev - contributed to core engine development
+  * Dmitry Kolesov - contributed to core engine development
 
 ## Examples
 
@@ -103,8 +103,13 @@ Saddy has three working examples
 
   * Multithreading - demonstrates basic multithreading capabilities for engine. A basic graphic capabilities is also demonstrated.
   * sad::Game - a simple shooting game
+
+
 ![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/96ffc7621d241a1c80a97d86c2e5677e/saddy_small.png)
+
+
   * ifaceed   - yeah, this editor is also built using saddy.
+
 ![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/2e670c7470f0c6be595071e66014a0ae/ifed1_small.png)  ![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/8e40ac7245200f2e16eac539926a5b2a/ifed2_small.PNG)
 
 ## Run into a problem? Don't know where to start?
