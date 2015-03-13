@@ -8,7 +8,7 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 A pre-built engine for Win32 Microsoft Visual C++2010 can be downloaded from here:
 
-https://sourceforge.net/projects/saddyengine/files/?source=navbar
+[saddy-1.5](https://sourceforge.net/projects/saddyengine/files/?source=navbar)
 
 Note that you must have MSVC2010 redistributable files installed. Also you need to install Freetype library. This is just alpha release, so most of executables are not built. This is not a stable release, they will be built in next release.
 
@@ -16,9 +16,9 @@ Note that you must have MSVC2010 redistributable files installed. Also you need 
 
 You can download pre-built engine, demos and docs (Win32-MSVC version) from following pages:
 
-https://dl.dropboxusercontent.com/u/5039908/docs-1.4.zip docs-1.4.zip
+[docs-1.4](https://dl.dropboxusercontent.com/u/5039908/docs-1.4.zip) 
 
-https://dl.dropboxusercontent.com/u/5039908/saddy-1.4.zip saddy-1.4.zip
+[saddy-1.4](https://dl.dropboxusercontent.com/u/5039908/saddy-1.4.zip)
 
 Changelog :
 
@@ -32,13 +32,11 @@ Changelog :
 
 You can download pre-built engine, demos and docs (Win32-MSVC version) from following pages:
 
-https://dl.dropboxusercontent.com/u/5039908/docs-1.1-beta.zip docs-1.1-beta.zip
+[docs-1.1](https://dl.dropboxusercontent.com/u/5039908/docs-1.1-beta.zip) 
 
-https://dl.dropboxusercontent.com/u/5039908/saddy-1.1-beta.zip saddy-1.1-beta.zip
+[saddy-1.1](https://dl.dropboxusercontent.com/u/5039908/saddy-1.1-beta.zip)
 
 * **26.08.13** Saddy 1.0-BETA released!*
-
-You can download both engine (Win32-MSVC version) and docs from our downloads page: https://code.google.com/p/saddy/downloads/list
 
 ## Our Goals
 
@@ -105,9 +103,9 @@ Saddy has three working examples
 
   * Multithreading - demonstrates basic multithreading capabilities for engine. A basic graphic capabilities is also demonstrated.
   * sad::Game - a simple shooting game
-https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/96ffc7621d241a1c80a97d86c2e5677e/saddy_small.png
+![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/96ffc7621d241a1c80a97d86c2e5677e/saddy_small.png)
   * ifaceed   - yeah, this editor is also built using saddy.
-https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/2e670c7470f0c6be595071e66014a0ae/ifed1_small.png  https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/8e40ac7245200f2e16eac539926a5b2a/ifed2_small.PNG
+![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/2e670c7470f0c6be595071e66014a0ae/ifed1_small.png)  ![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/8e40ac7245200f2e16eac539926a5b2a/ifed2_small.PNG)
 
 ## Run into a problem? Don't know where to start?
 
