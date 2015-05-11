@@ -29,11 +29,20 @@ public:
 	/*! Frees variant pool data
 	 */
 	~VariantPool();
+	/*! Copies state from other pool
+		\param[in] p pool
+	 */
+	VariantPool(const sad::duktape::VariantPool& p);
+	/*! Copies state from other pool
+		\param[in] p pool
+		\return self-reference
+	 */
+	VariantPool& operator=(const VariantPool& p);
 	/*! Inserts new variant to a pool
 		\param[in] v variant
 		\return a string, which identifies a variant
 	 */
-	sad::String insert(const sad::db::Variant& v);
+	sad::String insert(sad::db::Variant* v);
 	/*! Fetches variant by it's key. NULL returned if not found
 		\param[in] key key, identifying variant
 		\return variant or NULL if not found
@@ -49,16 +58,10 @@ protected:
 	/*! Pool of variants
 	 */
 	sad::PtrHash<sad::String, sad::db::Variant> m_pool;
-private:
-	/*! This class is non-copyable
+	/*! Copies state from other pool
 		\param[in] p pool
 	 */
-	VariantPool(const sad::duktape::VariantPool& p);
-	/*! This class is non-assignable
-		\param[in] p pool
-		\return self-reference
-	 */
-	VariantPool& operator=(const VariantPool& p);
+	void copyState(const sad::duktape::VariantPool& p);
 };
 
 }
