@@ -137,7 +137,7 @@ typedef uint64_t  uintmax_t;
 #define INT32_MAX    _I32_MAX
 #define INT64_MIN    ((int64_t)_I64_MIN)
 #define INT64_MAX    _I64_MAX
-#define sad::uchar_MAX    _UI8_MAX
+#define UINT8_MAX    _UI8_MAX
 #define UINT16_MAX   _UI16_MAX
 #define UINT32_MAX   _UI32_MAX
 #define UINT64_MAX   _UI64_MAX
@@ -232,7 +232,7 @@ typedef uint64_t  uintmax_t;
 #define INT32_C(val) val##i32
 #define INT64_C(val) val##i64
 
-#define sad::uchar_C(val)  val##ui8
+#define UINT8_C(val)  val##ui8
 #define UINT16_C(val) val##ui16
 #define UINT32_C(val) val##ui32
 #define UINT64_C(val) val##ui64

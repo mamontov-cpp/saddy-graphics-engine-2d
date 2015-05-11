@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="context.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="variantpool.cpp" />
   </ItemGroup>

@@ -11,10 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="context.cpp" />
     <ClCompile Include="duktape.cpp" />
     <ClCompile Include="variantpool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\duktape\context.h" />
     <ClInclude Include="..\..\include\duktape\variantpool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

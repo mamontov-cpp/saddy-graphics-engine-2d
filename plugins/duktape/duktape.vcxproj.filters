@@ -21,9 +21,15 @@
     <ClCompile Include="variantpool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\variantpool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
