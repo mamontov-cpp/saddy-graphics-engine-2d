@@ -3,6 +3,12 @@
 /*! A property, where context is located
  */
 #define SAD_DUKTAPE_CONTEXT_PROPERTY_NAME "_____context"
+/*! A signature, which points, that current string is linked to variant pool
+ */
+#define SAD_DUKTAPE_VARIANT_SIGNATURE "\1sad::db::Variant\1"
+/*! A signature, which points, that current string is linked to variant persistent
+ */
+#define SAD_DUKTAPE_PERSISTENT_VARIANT_SIGNATURE "\1sad::db::Variant__persistent\1"
 
 // ================================= PUBLIC METHODS =================================
 
@@ -30,6 +36,41 @@ duk_context* sad::duktape::Context::context()
 {
 	this->initContextBeforeAccessing();
 	return m_context;
+}
+
+sad::String sad::duktape::Context::pushVariant(sad::db::Variant* v)
+{
+	sad::String result = sad::String(SAD_DUKTAPE_VARIANT_SIGNATURE) + m_pool.insert(v);
+	duk_push_string(m_context, result.c_str());
+	return result;
+}
+
+sad::String sad::duktape::Context::pushPersistentVariant(sad::db::Variant* v)
+{
+	sad::String result = sad::String(SAD_DUKTAPE_PERSISTENT_VARIANT_SIGNATURE) 
+					   + m_persistent_pool.insert(v);
+	duk_push_string(m_context, result.c_str());
+	return result;
+}
+
+sad::db::Variant* sad::duktape::Context::getValueFromPool(const sad::String& key)
+{
+	sad::String signature = SAD_DUKTAPE_VARIANT_SIGNATURE;
+	if (key.subString(0, signature.length()) != signature)
+	{
+		sad::String persistent_signature = SAD_DUKTAPE_PERSISTENT_VARIANT_SIGNATURE;
+		if (key.subString(0, persistent_signature.length()) != persistent_signature)
+		{
+			return NULL;
+		}
+		return m_persistent_pool.get(
+			key.subString(
+				persistent_signature.length(), 
+				key.length() - persistent_signature.length()
+			)
+		);
+	}
+	return m_pool.get(key.subString(signature.length(), key.length() - signature.length()));
 }
 
 // ================================= PROTECTED METHODS =================================

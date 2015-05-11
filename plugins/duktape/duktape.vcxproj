@@ -13,10 +13,16 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="duktape.cpp" />
+    <ClCompile Include="getvalue.cpp" />
+    <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="variantpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\context.h" />
+    <ClInclude Include="..\..\include\duktape\getvalue.h" />
+    <ClInclude Include="..\..\include\duktape\getvalue_src.h" />
+    <ClInclude Include="..\..\include\duktape\pushvalue.h" />
+    <ClInclude Include="..\..\include\duktape\pushvalue_src.h" />
     <ClInclude Include="..\..\include\duktape\variantpool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -64,7 +70,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -79,7 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
