@@ -137,6 +137,7 @@ void sad::duktape::Context::reset()
 
 duk_context* sad::duktape::Context::context()
 {
+	this->initContextBeforeAccessing();
 	return m_context;
 }
 
@@ -177,7 +178,9 @@ sad::db::Variant* sad::duktape::Context::getValueFromPool(const sad::String& key
 
 bool sad::duktape::Context::timeoutReached() const
 {
-	return (m_timeout_timer.elapsed() >= m_maximal_execution_time);
+	const_cast<sad::duktape::Context*>(this)->m_timeout_timer.stop();
+	double elapsed_time = m_timeout_timer.elapsed();
+	return (elapsed_time >= m_maximal_execution_time);
 }
 
 void sad::duktape::Context::setMaximumExecutionTime(double time)

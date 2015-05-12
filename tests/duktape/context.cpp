@@ -16,7 +16,10 @@ struct ContextTest : tpunit::TestFixture
 public:
 	ContextTest() : tpunit::TestFixture(
 	   TEST(ContextTest::testInitGet),
-	   TEST(ContextTest::testPushGet)
+	   TEST(ContextTest::testPushGet),
+	   TEST(ContextTest::testEvalNormal),
+	   TEST(ContextTest::testEvalFail),
+	   TEST(ContextTest::testEvalTimeout)
 	) {}
 
 	/*! Tests getting and setting reference data
@@ -171,5 +174,39 @@ public:
 			ASSERT_TRUE( maybev.exists());			
 			ASSERT_TRUE( maybev.value() == "23");
 		}
+	}
+	/*! Test for normal evaluation process
+	 */
+	void testEvalNormal()
+	{
+		sad::String error;
+		sad::duktape::Context ctx;
+		bool eval_result = ctx.eval("1 + 1", false, &error);
+		ASSERT_TRUE( eval_result );
+		ASSERT_TRUE( error.size() == 0 );
+		sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+		ASSERT_TRUE( result.exists() );
+		ASSERT_TRUE( result.value() == 2);		
+	}
+	/*! Test for non-compilable code
+	 */
+	void testEvalFail()
+	{
+		sad::String error;
+		sad::duktape::Context ctx;
+		bool eval_result = ctx.eval("1 + ;", true, &error);
+		ASSERT_TRUE( !eval_result );
+		ASSERT_TRUE( error.size() != 0 );
+	}
+	/*! Test for timeout
+	 */
+	void testEvalTimeout()
+	{
+		sad::String error;
+		sad::duktape::Context ctx;
+		ctx.setMaximumExecutionTime(1000);
+		bool eval_result = ctx.eval("while(true) {}", true, &error);
+		ASSERT_TRUE( !eval_result );
+		ASSERT_TRUE( error.size() != 0 );
 	}
 } _context_test;

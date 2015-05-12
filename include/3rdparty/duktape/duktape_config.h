@@ -5,6 +5,10 @@
  */
 #pragma once
 
+#ifndef DUK_OPT_INTERRUPT_COUNTER
+	#define DUK_OPT_INTERRUPT_COUNTER 1
+#endif
+
 #ifndef DUK_OPT_EXEC_TIMEOUT_CHECK
 
 namespace sad
