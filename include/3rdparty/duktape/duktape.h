@@ -1,3 +1,4 @@
+#include "duktape_config.h"
 /*
  *  Duktape public API for Duktape 1.2.1.
  *  See the API reference for documentation on call semantics.

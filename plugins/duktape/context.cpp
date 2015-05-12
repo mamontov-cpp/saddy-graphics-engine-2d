@@ -1,8 +1,11 @@
 #include "duktape/context.h"
 
-/*! A property, where context is located
- */
-#define SAD_DUKTAPE_CONTEXT_PROPERTY_NAME "_____context"
+#include "renderer.h"
+
+#include "util/fs.h"
+
+#include <fstream>
+
 /*! A signature, which points, that current string is linked to variant pool
  */
 #define SAD_DUKTAPE_VARIANT_SIGNATURE "\1sad::db::Variant\1"
@@ -12,9 +15,9 @@
 
 // ================================= PUBLIC METHODS =================================
 
-sad::duktape::Context::Context()
+sad::duktape::Context::Context() : m_maximal_execution_time(30000)
 {
-	m_context = duk_create_heap_default();
+	m_context = duk_create_heap(NULL,NULL, NULL, this, NULL);
 }
 
 sad::duktape::Context::~Context()
@@ -25,15 +28,15 @@ sad::duktape::Context::~Context()
 
 sad::duktape::Context* sad::duktape::Context::getContext(duk_context* ctx)
 {
-	duk_push_global_stash(ctx);
-	duk_get_prop_string(ctx, -1, SAD_DUKTAPE_CONTEXT_PROPERTY_NAME);
-	sad::duktape::Context* result = static_cast<sad::duktape::Context*>(duk_require_pointer(ctx, -1));
-	duk_pop(ctx);
-	return result;
+	duk_memory_functions funcs;
+	duk_get_memory_functions(ctx, &funcs);
+	assert( funcs.udata );
+	return static_cast<sad::duktape::Context*>(funcs.udata);
 }
 
 bool sad::duktape::Context::eval(const sad::String& string, bool clean_heap, sad::String* error)
 {
+	m_timeout_timer.start();
 	duk_push_string(m_context, string.c_str());
 	bool result = false;
 	if (duk_peval(m_context) != 0) 
@@ -60,7 +63,60 @@ bool sad::duktape::Context::eval(const sad::String& string, bool clean_heap, sad
 	{
 		clean();
 	}
+	m_timeout_timer.stop();
 	return result;
+}
+
+
+bool sad::duktape::Context::evalFromFile(
+		const sad::String& file_name,
+		bool clean_heap,
+		sad::String* error,
+		sad::Renderer* renderer
+)
+{
+	sad::Maybe<sad::String> maybetext;
+	std::ifstream stream(file_name.c_str());
+	if (stream.good())
+	{
+		std::string alldata(
+			(std::istreambuf_iterator<char>(stream)), 
+			std::istreambuf_iterator<char>()
+		);
+		maybetext.setValue(alldata);
+	}
+	else
+	{
+		if (util::isAbsolutePath(file_name) == false)
+		{
+			if (!renderer)
+			{
+				renderer = sad::Renderer::ref();
+			}
+			sad::String path = util::concatPaths(renderer->executablePath(), file_name);
+			stream.clear();
+			stream.open(path.c_str());
+			if (stream.good())
+			{
+				std::string alldata(
+					(std::istreambuf_iterator<char>(stream)), 
+					 std::istreambuf_iterator<char>()
+					);
+				maybetext.setValue(alldata);
+			}
+		}
+	}
+	if (maybetext.exists())
+	{
+		return eval(maybetext.value(), clean_heap, error);
+	}
+	if (error)
+	{
+		*error = sad::String("Cannot open file \"");
+		*error += file_name;
+		*error = "\"";
+	}
+	return false;
 }
 
 void sad::duktape::Context::clean()
@@ -74,14 +130,13 @@ void sad::duktape::Context::reset()
 	m_persistent_pool.free();
 
 	duk_destroy_heap(m_context);
-	m_context = duk_create_heap_default();
+	m_context = duk_create_heap(NULL,NULL, NULL, this, NULL);
 	initContextBeforeAccessing();
 }
 
 
 duk_context* sad::duktape::Context::context()
 {
-	this->initContextBeforeAccessing();
 	return m_context;
 }
 
@@ -120,14 +175,26 @@ sad::db::Variant* sad::duktape::Context::getValueFromPool(const sad::String& key
 	return m_pool.get(key.subString(signature.length(), key.length() - signature.length()));
 }
 
+bool sad::duktape::Context::timeoutReached() const
+{
+	return (m_timeout_timer.elapsed() >= m_maximal_execution_time);
+}
+
+void sad::duktape::Context::setMaximumExecutionTime(double time)
+{
+	m_maximal_execution_time = time;
+}
+
+double sad::duktape::Context::maximumExecutionTime() const
+{
+	return m_maximal_execution_time;
+}
+
 // ================================= PROTECTED METHODS =================================
 
 void sad::duktape::Context::initContextBeforeAccessing()
 {
-	duk_push_global_stash(m_context);
-	duk_push_pointer(m_context, this);
-	duk_put_prop_string(m_context, -2, SAD_DUKTAPE_CONTEXT_PROPERTY_NAME);
-	duk_pop(m_context);
+	
 }
 
 // ================================= PRIVATE METHODS =================================
@@ -141,4 +208,17 @@ sad::duktape::Context& sad::duktape::Context::operator=(const sad::duktape::Cont
 {
 	throw std::logic_error("sad::duktape::Context is non-copyable!");
 	return *this;
+}
+
+// ===================== sad::duktape::____check_timeout  ===========================
+
+int sad::duktape::____check_timeout(void* ptr)
+{
+	if (!ptr)
+	{
+		return 0;
+	}
+	if (static_cast<sad::duktape::Context*>(ptr)->timeoutReached())
+		return 1;
+	return 0;
 }

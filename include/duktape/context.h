@@ -7,6 +7,7 @@
 #include "variantpool.h"
 #include "pushvalue.h"
 #include "getvalue.h"
+#include "timer.h"
 #include "../3rdparty/duktape/duktape.h"
 
 namespace sad
@@ -38,11 +39,24 @@ public:
 	/*! Evals string, with code in it. If no error occured, result is not popped
 		out from stack, since we still may need it
 		\param[in] string a string
-		\param[in] clean_heap Whether heap should be cleaned after execution. If provided, result is popped from stack
+		\param[in] clean_heap whether heap should be cleaned after execution. If provided, result is popped from stack
 		\param[out] error a string, where error should be written
 		\return true if no error
 	 */
 	bool eval(const sad::String& string, bool clean_heap = true,sad::String* error = NULL);
+	/*! Evals string, reading it from file
+		\param[in] fileName name of file
+		\param[in] clean_heap whether heap should be cleaned after execution. If provided, result is popped from stack
+		\param[out] error a string, where error should be written
+		\param[in] renderer renderer, which could be used for computing local path
+		\return true if no error
+ 	 */
+	bool evalFromFile(
+		const sad::String& file_name,
+		bool clean_heap = true,
+		sad::String* error = NULL,
+		sad::Renderer* renderer = NULL
+	);
 	/*! Cleans non-persistent pool of objects, resetting it
 	 */
 	void clean();
@@ -68,6 +82,18 @@ public:
 		\return value
 	 */
 	sad::db::Variant* getValueFromPool(const sad::String& key);
+	/*! Checks, whether timeout is reached for context. Called, while
+		evaluating value
+	 */
+	bool timeoutReached() const;
+	/*! Sets maximal execution time for a script
+		\param[in] time maximal execution time
+	 */
+	void setMaximumExecutionTime(double time);
+	/*! Return maximal execution time for a script
+		\return maximal execution time
+	 */
+	double maximumExecutionTime() const;
 	/*! Returns value from pool by string, linked on stack
 		\param[in] pos position on stack
 		\return value
@@ -101,6 +127,12 @@ protected:
 	/*! A persistent pool for values
 	 */
 	sad::duktape::VariantPool m_persistent_pool;
+	/*! A timeout timer for context
+	 */
+	sad::Timer m_timeout_timer;
+	/*! A maximal execution time
+	 */
+	double m_maximal_execution_time;
 private:
 	/*! This object is non-copyable
 		\param[in] p context
