@@ -32,6 +32,53 @@ sad::duktape::Context* sad::duktape::Context::getContext(duk_context* ctx)
 	return result;
 }
 
+bool sad::duktape::Context::eval(const sad::String& string, bool clean_heap, sad::String* error)
+{
+	duk_push_string(m_context, string.c_str());
+	bool result = false;
+	if (duk_peval(m_context) != 0) 
+	{
+		if (error)
+		{
+			*error = duk_safe_to_string(m_context, -1);
+		}
+		duk_pop(m_context);
+	} 
+	else 
+	{	
+		if (error)
+		{
+			*error = "";
+		}
+		result = true;
+		if (clean_heap)
+		{
+			duk_pop(m_context);
+		}
+	}
+	if (clean_heap)
+	{
+		clean();
+	}
+	return result;
+}
+
+void sad::duktape::Context::clean()
+{
+	m_pool.free();
+}
+
+void sad::duktape::Context::reset()
+{
+	m_pool.free();
+	m_persistent_pool.free();
+
+	duk_destroy_heap(m_context);
+	m_context = duk_create_heap_default();
+	initContextBeforeAccessing();
+}
+
+
 duk_context* sad::duktape::Context::context()
 {
 	this->initContextBeforeAccessing();

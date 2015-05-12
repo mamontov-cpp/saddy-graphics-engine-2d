@@ -11,9 +11,12 @@
 
 namespace sad
 {
-	
+
+class Renderer;
+
 namespace duktape
 {
+
 
 /*! A wrapper around basic duktape context to support embedded operations with non-basic
 	operations
@@ -32,6 +35,20 @@ public:
 		\return context
 	 */
 	static sad::duktape::Context* getContext(duk_context* ctx);
+	/*! Evals string, with code in it. If no error occured, result is not popped
+		out from stack, since we still may need it
+		\param[in] string a string
+		\param[in] clean_heap Whether heap should be cleaned after execution. If provided, result is popped from stack
+		\param[out] error a string, where error should be written
+		\return true if no error
+	 */
+	bool eval(const sad::String& string, bool clean_heap = true,sad::String* error = NULL);
+	/*! Cleans non-persistent pool of objects, resetting it
+	 */
+	void clean();
+	/*! Resets context fully, erasing all data
+	 */
+	void reset();
 	/*! Returns new context
 		\return context data
 	 */
