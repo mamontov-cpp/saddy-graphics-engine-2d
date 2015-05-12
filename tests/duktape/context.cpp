@@ -19,7 +19,9 @@ public:
 	   TEST(ContextTest::testPushGet),
 	   TEST(ContextTest::testEvalNormal),
 	   TEST(ContextTest::testEvalFail),
-	   TEST(ContextTest::testEvalTimeout)
+	   TEST(ContextTest::testEvalTimeout),
+	   TEST(ContextTest::testEvalFromFileNormal),
+	   TEST(ContextTest::testEvalFromFileFail)
 	) {}
 
 	/*! Tests getting and setting reference data
@@ -206,6 +208,29 @@ public:
 		sad::duktape::Context ctx;
 		ctx.setMaximumExecutionTime(1000);
 		bool eval_result = ctx.eval("while(true) {}", true, &error);
+		ASSERT_TRUE( !eval_result );
+		ASSERT_TRUE( error.size() != 0 );
+	}
+	/*! Tests evaluation from file which just sums two numbers
+	 */
+	void testEvalFromFileNormal()
+	{
+		sad::String error;
+		sad::duktape::Context ctx;
+		bool eval_result = ctx.evalFromFile("tests/duktape/common.js", false, &error);
+		ASSERT_TRUE( eval_result );
+		ASSERT_TRUE( error.size() == 0 );
+		sad::Maybe<int> result = sad::duktape::GetValue<int>::perform(&ctx, -1);
+		ASSERT_TRUE( result.exists() );
+		ASSERT_TRUE( result.value() == 2);
+	}
+	/*! Tests evaluation from file on non-existing file
+	 */
+	void testEvalFromFileFail()
+	{
+		sad::String error;
+		sad::duktape::Context ctx;
+		bool eval_result = ctx.evalFromFile("tests/duktape/notexists.js", false, &error);
 		ASSERT_TRUE( !eval_result );
 		ASSERT_TRUE( error.size() != 0 );
 	}
