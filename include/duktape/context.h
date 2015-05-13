@@ -99,6 +99,22 @@ public:
 		\param[in] code error codes
 	 */
 	void throwError(const sad::String& error_string, sad::duktape::ErrorCodes code = sad::duktape::SAD_DUK_E5_ERROR);
+	/*! Registers variable as property of global object, pushing it into a persistent stack. Replaces existing property.
+		\param[in] property_name name of new property of global object
+		\param[in] value a value to be registered
+	 */
+	void registerGlobalVariable(const sad::String& property_name, sad::db::Variant* value);
+	/*! Registers variable as global object, pushing it into a persistent stack. Replaces existing property.
+		\param[in] property_name name of new property of global object
+		\param[in] value a value to be registered
+	 */
+	template<
+		typename T
+	>
+	void registerGlobal(const sad::String& property_name, const T& value)
+	{
+		registerGlobalVariable(property_name, new sad::db::Variant(value));
+	}
 	/*! Returns value from pool by string, linked on stack
 		\param[in] pos position on stack
 		\return value

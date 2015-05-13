@@ -208,6 +208,20 @@ void sad::duktape::Context::throwError(const sad::String& error_string, sad::duk
 	}
 }
 
+void sad::duktape::Context::registerGlobalVariable(const sad::String& propertyName, sad::db::Variant* value)
+{
+	if (value)
+	{
+		sad::String identifier = SAD_DUKTAPE_PERSISTENT_VARIANT_SIGNATURE;
+		identifier +=  m_persistent_pool.insert(value);
+		duk_push_global_object(m_context);
+		duk_push_string(m_context, propertyName.c_str());
+		duk_push_string(m_context, identifier.c_str());
+		duk_put_prop(m_context, -3);
+		duk_pop(m_context);
+	}
+}
+
 // ================================= PROTECTED METHODS =================================
 
 void sad::duktape::Context::initContextBeforeAccessing()

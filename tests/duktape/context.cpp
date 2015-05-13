@@ -24,7 +24,8 @@ public:
 	   TEST(ContextTest::testEvalFromFileFail),
 	   TEST(ContextTest::testClean),
 	   TEST(ContextTest::testReset),
-	   TEST(ContextTest::testThrow)
+	   TEST(ContextTest::testThrow),
+	   TEST(ContextTest::testRegisterGlobal)
 	) {}
 
 	/*! Tests getting and setting reference data
@@ -280,5 +281,17 @@ public:
 		ASSERT_TRUE( s != NULL );
 		sad::String testvalue = s;
 		ASSERT_TRUE(  testvalue.size() !=0 );
+	}
+	/*! Tests registering value as property of global object
+	 */
+	void testRegisterGlobal()
+	{
+		sad::duktape::Context ctx;
+		ctx.registerGlobal("value", true);
+		bool eval_result = ctx.eval(" !value ", false);
+		ASSERT_TRUE( eval_result );
+		sad::Maybe<bool> result = sad::duktape::GetValue<bool>::perform(&ctx, -1);
+		ASSERT_TRUE( result.exists() );
+		ASSERT_TRUE( result.value() == false );
 	}
 } _context_test;
