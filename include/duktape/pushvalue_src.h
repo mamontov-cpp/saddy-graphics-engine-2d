@@ -10,15 +10,15 @@ namespace duktape
 {
 
 template<
-	typename T
+    typename T
 >
 sad::String sad::duktape::PushValue<T>::perform(sad::duktape::Context* ctx, const T& v, bool persistent)
 {
-	if (persistent)
-	{
-		return ctx->pushPersistentVariant(new sad::db::Variant(v));
-	}
-	return ctx->pushVariant(new sad::db::Variant(v));
+    if (persistent)
+    {
+        return ctx->pushPersistentVariant(new sad::db::Variant(v));
+    }
+    return ctx->pushVariant(new sad::db::Variant(v));
 }
 
 

@@ -1,8 +1,8 @@
 /*! \file pushvalue.h
-	\author HiddenSeeker
+    \author HiddenSeeker
 
-	Describes an operations, that could be used to push value on a stack of
-	operations of Duktape
+    Describes an operations, that could be used to push value on a stack of
+    operations of Duktape
  */
 #pragma once
 #include "../sadstring.h"
@@ -18,17 +18,17 @@ class Context;
 /*! Performs pushing value on stack for every type of value
  */
 template<
-	typename T
+    typename T
 >
 class PushValue
 {
 public:
-	/*! Performs pushing value 
-		\param[in] ctx context
-		\param[in] v value
-		\param[in] persistent whether value should be in persistent stack 
-	 */
-	static sad::String perform(sad::duktape::Context* ctx, const T& v, bool persistent);
+    /*! Performs pushing value 
+        \param[in] ctx context
+        \param[in] v value
+        \param[in] persistent whether value should be in persistent stack 
+     */
+    static sad::String perform(sad::duktape::Context* ctx, const T& v, bool persistent);
 };
 
 
@@ -37,7 +37,7 @@ template<>										   \
 class PushValue< TYPE >                            \
 {												   \
 public:                                            \
-	static sad::String perform(sad::duktape::Context* ctx, TYPE v, bool persistent); \
+    static sad::String perform(sad::duktape::Context* ctx, TYPE v, bool persistent); \
 }; 
 
 

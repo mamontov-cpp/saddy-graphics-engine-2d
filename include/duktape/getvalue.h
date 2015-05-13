@@ -1,8 +1,8 @@
 /*! \file getvalue.h
-	\author HiddenSeeker
+    \author HiddenSeeker
 
-	Describes an operations, that could be used to get value from a stack of
-	operations of Duktape
+    Describes an operations, that could be used to get value from a stack of
+    operations of Duktape
  */
 #pragma once
 #include "3rdparty/duktape/duktape.h"
@@ -21,17 +21,17 @@ class Context;
 /*! Performs getting value from a stack for every type of value
  */
 template<
-	typename T
+    typename T
 >
 class GetValue
 {
 public:
-	/*! Performs getting value from stack 
-		\param[in] ctx context
-		\param[in] pos index for stack
-		\return a value if it exists, otherwise empty maybe
-	 */
-	static sad::Maybe<T> perform(sad::duktape::Context* ctx, duk_idx_t pos);
+    /*! Performs getting value from stack 
+        \param[in] ctx context
+        \param[in] pos index for stack
+        \return a value if it exists, otherwise empty maybe
+     */
+    static sad::Maybe<T> perform(sad::duktape::Context* ctx, duk_idx_t pos);
 };
 
 
@@ -39,7 +39,7 @@ public:
 class GetValue< TYPE >														\
 {																			\
 public:																		\
-	static sad::Maybe< TYPE > perform(sad::duktape::Context* ctx, duk_idx_t pos);  \
+    static sad::Maybe< TYPE > perform(sad::duktape::Context* ctx, duk_idx_t pos);  \
 };
 
 DEFINE_GET_VALUE_SPECIALIZATION( bool )
