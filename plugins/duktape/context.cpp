@@ -12,7 +12,9 @@
 /*! A signature, which points, that current string is linked to variant persistent
  */
 #define SAD_DUKTAPE_PERSISTENT_VARIANT_SIGNATURE "\1sad::db::Variant__persistent\1"
-
+/*! A property, where located pointer to callable in wrapper
+ */
+#define SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY "\1_____native_signature\1"
 // ================================= PUBLIC METHODS =================================
 
 sad::duktape::Context::Context() : m_maximal_execution_time(30000), m_running(false)
@@ -130,6 +132,13 @@ void sad::duktape::Context::reset()
 {
     m_pool.free();
     m_persistent_pool.free();
+    for(sad::PtrHash<sad::duktape::DuktapeCallable*, sad::duktape::DuktapeCallable>::iterator it = m_functions.begin();
+        it != m_functions.end();
+        ++it)
+    {
+        delete it.value();
+    }
+    m_functions.clear();
 
     duk_destroy_heap(m_context);
     m_context = duk_create_heap(NULL,NULL, NULL, this, NULL);
@@ -220,6 +229,42 @@ void sad::duktape::Context::registerGlobalVariable(const sad::String& propertyNa
         duk_put_prop(m_context, -3);
         duk_pop(m_context);
     }
+}
+
+int sad::duktape::Context::getTop() const
+{
+    return duk_get_top(m_context);
+}
+
+
+static int sad_duktape_context_invoke_wrapper(duk_context *ctx) {
+    duk_push_current_function(ctx);
+    duk_get_prop_string(ctx, -1, SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY);
+    void* callableptr = duk_to_pointer(ctx, -1);
+    duk_pop(ctx);
+
+    assert(callableptr);
+    sad::duktape::Context* c = sad::duktape::Context::getContext(ctx);
+    sad::duktape::DuktapeCallable* callable = reinterpret_cast<sad::duktape::DuktapeCallable*>(callableptr);
+    return callable->call(c);
+}
+
+void sad::duktape::Context::registerCallable(const sad::String&callable_name, sad::duktape::DuktapeCallable* callable)
+{
+   assert(callable);
+   if (m_functions.contains(callable) == false)
+   {
+       m_functions.insert(callable, callable);
+   }
+   duk_push_global_object(m_context);
+   duk_push_c_function(m_context, sad_duktape_context_invoke_wrapper, callable->requiredArguments());
+   
+   duk_push_string(m_context, SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY);   
+   duk_push_pointer(m_context, callable);
+   duk_def_prop(m_context, -3,  DUK_DEFPROP_HAVE_VALUE |
+                          DUK_DEFPROP_HAVE_WRITABLE | 0);
+  
+   duk_put_prop_string(m_context, -2 /*idx:global*/, callable_name.c_str());
 }
 
 // ================================= PROTECTED METHODS =================================

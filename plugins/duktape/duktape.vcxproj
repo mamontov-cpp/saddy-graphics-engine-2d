@@ -13,12 +13,14 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="duktape.cpp" />
+    <ClCompile Include="duktapecallable.cpp" />
     <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="variantpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\context.h" />
+    <ClInclude Include="..\..\include\duktape\duktapecallable.h" />
     <ClInclude Include="..\..\include\duktape\errorcodes.h" />
     <ClInclude Include="..\..\include\duktape\getvalue.h" />
     <ClInclude Include="..\..\include\duktape\getvalue_src.h" />

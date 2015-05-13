@@ -9,6 +9,7 @@
 #include "getvalue.h"
 #include "timer.h"
 #include "errorcodes.h"
+#include "duktapecallable.h"
 
 namespace sad
 {
@@ -104,6 +105,11 @@ public:
         \param[in] value a value to be registered
      */
     void registerGlobalVariable(const sad::String& property_name, sad::db::Variant* value);
+
+    /*! A simple wrapper aroun duk_get_top for getting count of values on stack
+        \return count of values on stack
+     */
+    int getTop() const;
     /*! Registers variable as global object, pushing it into a persistent stack. Replaces existing property.
         \param[in] property_name name of new property of global object
         \param[in] value a value to be registered
@@ -115,6 +121,11 @@ public:
     {
         registerGlobalVariable(property_name, new sad::db::Variant(value));
     }
+    /*! Registers callable as property of global object
+        \param[in] callable_name name of property of global object
+        \return callable a callable object
+     */
+    void registerCallable(const sad::String&callable_name, sad::duktape::DuktapeCallable* callable);
     /*! Returns value from pool by string, linked on stack
         \param[in] pos position on stack
         \return value
@@ -148,6 +159,9 @@ protected:
     /*! A persistent pool for values
      */
     sad::duktape::VariantPool m_persistent_pool;
+    /*! Registered global functions
+     */ 
+    sad::PtrHash<sad::duktape::DuktapeCallable*, sad::duktape::DuktapeCallable> m_functions;
     /*! A timeout timer for context
      */
     sad::Timer m_timeout_timer;
