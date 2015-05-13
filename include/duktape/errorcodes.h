@@ -1,4 +1,4 @@
-/*! \file duktape/errorcode.h
+/*! \file duktape/errorcodes.h
     \author HiddenSeeker
 
     Defines error codes wrapper for Duktape

@@ -46,7 +46,7 @@ public:
      */
     bool eval(const sad::String& string, bool clean_heap = true,sad::String* error = NULL);
     /*! Evals string, reading it from file
-        \param[in] fileName name of file
+        \param[in] file_name name of file
         \param[in] clean_heap whether heap should be cleaned after execution. If provided, result is popped from stack
         \param[out] error a string, where error should be written
         \param[in] renderer renderer, which could be used for computing local path
@@ -79,7 +79,7 @@ public:
      */
     sad::String pushVariant(sad::db::Variant* v);
     /*! Gets value from pool by key
-        \param[in] a key from value
+        \param[in] key a key of value, which could be either in common pool or persistent pool
         \return value
      */
     sad::db::Variant* getValueFromPool(const sad::String& key);
@@ -123,7 +123,7 @@ public:
     }
     /*! Registers callable as property of global object
         \param[in] callable_name name of property of global object
-        \return callable a callable object
+        \param[in] callable a callable object
      */
     void registerCallable(const sad::String&callable_name, sad::duktape::DuktapeCallable* callable);
     /*! Returns value from pool by string, linked on stack
