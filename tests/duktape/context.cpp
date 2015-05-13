@@ -21,7 +21,9 @@ public:
 	   TEST(ContextTest::testEvalFail),
 	   TEST(ContextTest::testEvalTimeout),
 	   TEST(ContextTest::testEvalFromFileNormal),
-	   TEST(ContextTest::testEvalFromFileFail)
+	   TEST(ContextTest::testEvalFromFileFail),
+	   TEST(ContextTest::testClean),
+	   TEST(ContextTest::testReset)
 	) {}
 
 	/*! Tests getting and setting reference data
@@ -233,5 +235,38 @@ public:
 		bool eval_result = ctx.evalFromFile("tests/duktape/notexists.js", false, &error);
 		ASSERT_TRUE( !eval_result );
 		ASSERT_TRUE( error.size() != 0 );
+	}
+	/*! Test cleaning  of a pool
+	 */
+	void testClean()
+	{
+		sad::duktape::Context ctx;
+		sad::Point2D pts2d(3, 4);
+		sad::duktape::PushValue<sad::Point2D>::perform(&ctx, pts2d, false);
+		sad::Maybe<sad::Point2D> mbpts2d =
+			sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+		ASSERT_TRUE( mbpts2d.exists() );
+			
+		ctx.clean();
+
+		mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+		ASSERT_TRUE( mbpts2d.exists() == false );		
+	}
+	/*! Test cleaning both pools and full reset of context
+	 */
+	void testReset()
+	{
+		sad::duktape::Context ctx;
+		sad::Point2D pts2d(3, 4);
+		sad::duktape::PushValue<sad::Point2D>::perform(&ctx, pts2d, true);
+		sad::Maybe<sad::Point2D> mbpts2d =
+			sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+		ASSERT_TRUE( mbpts2d.exists() );
+			
+		ctx.reset();
+
+		mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
+		ASSERT_TRUE( mbpts2d.exists() == false );	
+		ASSERT_TRUE( sad::duktape::Context::getContext(ctx.context()) == &ctx );
 	}
 } _context_test;

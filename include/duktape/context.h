@@ -133,6 +133,9 @@ protected:
 	/*! A maximal execution time
 	 */
 	double m_maximal_execution_time;
+	/*! Whether execution is running
+	 */ 
+	bool m_running;
 private:
 	/*! This object is non-copyable
 		\param[in] p context

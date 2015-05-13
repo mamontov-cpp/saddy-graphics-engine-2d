@@ -15,7 +15,7 @@
 
 // ================================= PUBLIC METHODS =================================
 
-sad::duktape::Context::Context() : m_maximal_execution_time(30000)
+sad::duktape::Context::Context() : m_maximal_execution_time(30000), m_running(false)
 {
 	m_context = duk_create_heap(NULL,NULL, NULL, this, NULL);
 }
@@ -36,6 +36,7 @@ sad::duktape::Context* sad::duktape::Context::getContext(duk_context* ctx)
 
 bool sad::duktape::Context::eval(const sad::String& string, bool clean_heap, sad::String* error)
 {
+	m_running = true;
 	m_timeout_timer.start();
 	duk_push_string(m_context, string.c_str());
 	bool result = false;
@@ -63,6 +64,7 @@ bool sad::duktape::Context::eval(const sad::String& string, bool clean_heap, sad
 	{
 		clean();
 	}
+	m_running = false;
 	m_timeout_timer.stop();
 	return result;
 }
@@ -178,6 +180,10 @@ sad::db::Variant* sad::duktape::Context::getValueFromPool(const sad::String& key
 
 bool sad::duktape::Context::timeoutReached() const
 {
+	if (!m_running)
+	{
+		return false;
+	}
 	const_cast<sad::duktape::Context*>(this)->m_timeout_timer.stop();
 	double elapsed_time = m_timeout_timer.elapsed();
 	return (elapsed_time >= m_maximal_execution_time);
