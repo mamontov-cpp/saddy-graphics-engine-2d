@@ -1,0 +1,1 @@
+mingw32-make -f makefiles/Makefile_Library_Release.mingw
