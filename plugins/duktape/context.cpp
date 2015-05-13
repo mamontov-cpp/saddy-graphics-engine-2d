@@ -199,6 +199,15 @@ double sad::duktape::Context::maximumExecutionTime() const
 	return m_maximal_execution_time;
 }
 
+void sad::duktape::Context::throwError(const sad::String& error_string, sad::duktape::ErrorCodes code)
+{
+	duk_push_error_object(m_context, static_cast<int>(code), error_string.c_str());
+	if (m_running) 
+	{
+		duk_throw(m_context);
+	}
+}
+
 // ================================= PROTECTED METHODS =================================
 
 void sad::duktape::Context::initContextBeforeAccessing()

@@ -8,7 +8,7 @@
 #include "pushvalue.h"
 #include "getvalue.h"
 #include "timer.h"
-#include "../3rdparty/duktape/duktape.h"
+#include "errorcodes.h"
 
 namespace sad
 {
@@ -94,6 +94,11 @@ public:
 		\return maximal execution time
 	 */
 	double maximumExecutionTime() const;
+	/*! Throws error from a context
+		\param[in] error_string string data for error
+		\param[in] code error codes
+	 */
+	void throwError(const sad::String& error_string, sad::duktape::ErrorCodes code = sad::duktape::SAD_DUK_E5_ERROR);
 	/*! Returns value from pool by string, linked on stack
 		\param[in] pos position on stack
 		\return value

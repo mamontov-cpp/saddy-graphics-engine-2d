@@ -23,7 +23,8 @@ public:
 	   TEST(ContextTest::testEvalFromFileNormal),
 	   TEST(ContextTest::testEvalFromFileFail),
 	   TEST(ContextTest::testClean),
-	   TEST(ContextTest::testReset)
+	   TEST(ContextTest::testReset),
+	   TEST(ContextTest::testThrow)
 	) {}
 
 	/*! Tests getting and setting reference data
@@ -268,5 +269,16 @@ public:
 		mbpts2d = sad::duktape::GetValue<sad::Point2D>::perform(&ctx, -1);
 		ASSERT_TRUE( mbpts2d.exists() == false );	
 		ASSERT_TRUE( sad::duktape::Context::getContext(ctx.context()) == &ctx );
+	}
+	/*! Tests throwing for object
+	 */
+	void testThrow()
+	{
+		sad::duktape::Context ctx;
+		ctx.throwError("Generic Error!");
+		const char* s = duk_to_string(ctx.context(), -1);
+		ASSERT_TRUE( s != NULL );
+		sad::String testvalue = s;
+		ASSERT_TRUE(  testvalue.size() !=0 );
 	}
 } _context_test;

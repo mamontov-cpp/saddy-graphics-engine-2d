@@ -50,5 +50,8 @@
     <ClInclude Include="..\..\include\duktape\getvalue_src.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\duktape\errorcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

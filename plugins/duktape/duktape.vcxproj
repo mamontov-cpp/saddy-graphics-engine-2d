@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\context.h" />
+    <ClInclude Include="..\..\include\duktape\errorcodes.h" />
     <ClInclude Include="..\..\include\duktape\getvalue.h" />
     <ClInclude Include="..\..\include\duktape\getvalue_src.h" />
     <ClInclude Include="..\..\include\duktape\pushvalue.h" />
