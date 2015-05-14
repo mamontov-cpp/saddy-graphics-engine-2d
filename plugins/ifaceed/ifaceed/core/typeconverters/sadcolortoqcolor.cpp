@@ -1,4 +1,5 @@
 #include "core/typeconverters/sadcolortoqcolor.h"
+#include "object.h"
 
 DECLARE_COMMON_TYPE(QColor)
 

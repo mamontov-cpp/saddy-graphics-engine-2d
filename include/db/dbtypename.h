@@ -11,13 +11,28 @@ namespace sad
 	
 namespace db
 {
-	
+class Object;
+
 template<
 	typename _Type
 >
 class TypeName
 {
 public:
+
+    /*! Yes value for enum
+     */
+    typedef char yes;
+    /*! No value for enum
+     */
+    typedef long long no;
+
+    static yes check(sad::Object*);
+    static no  check(...);
+
+    enum { SFINAE_BASE_CHECK = sizeof(check(static_cast<_Type*>(0))) == sizeof(yes) };
+
+
 	/*! A special name for a type 
 	 */
 	static sad::String Name;
@@ -67,11 +82,14 @@ template<
 class TypeName<_Type *>
 {
 public:
+
+    enum { SFINAE_BASE_CHECK = false };
+
 	/*! Defines, whether sad::Object cast could be applied
 	 */
 	enum ObjectCastValueHelper
 	{
-		CAN_BE_CASTED_TO_OBJECT  = (sad::db::TypeName<_Type>::POINTER_STARS_COUNT == 0),
+		CAN_BE_CASTED_TO_OBJECT  = (sad::db::TypeName<_Type>::POINTER_STARS_COUNT == 0) && sad::db::TypeName<_Type>::SFINAE_BASE_CHECK,
 		POINTER_STARS_COUNT = (sad::db::TypeName<_Type>::POINTER_STARS_COUNT + 1),
 	};
 	/*! A default constructor, being called just to make sure, that static fields of class are initialized

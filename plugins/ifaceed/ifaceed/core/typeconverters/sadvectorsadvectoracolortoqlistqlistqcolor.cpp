@@ -1,4 +1,5 @@
 #include "sadvectorsadvectoracolortoqlistqlistqcolor.h"
+#include "object.h"
 
 DECLARE_COMMON_TYPE(QList<QList<QColor> >)
 

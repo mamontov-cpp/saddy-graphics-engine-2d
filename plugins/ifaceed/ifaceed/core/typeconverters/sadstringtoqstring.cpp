@@ -1,4 +1,5 @@
 #include "core/typeconverters/sadstringtoqstring.h"
+#include "object.h"
 
 DECLARE_COMMON_TYPE(QString)
 
