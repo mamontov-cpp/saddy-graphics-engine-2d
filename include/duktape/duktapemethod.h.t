@@ -58,6 +58,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != {{argscountp1}})
+        {
+            c->throwError(sad::String("Method receives {{argscountp1}} arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
 {{#args}}
         sad::Maybe< typename sad::duktape::Decay<_Arg{{number}}>::Type > _a{{number}} = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg{{number}}>::Type >::perform(c, {{numberp1}});
@@ -141,8 +147,14 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != {{argscountp1}})
+        {
+            c->throwError(sad::String("Method receives {{argscountp1}} arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-{{#has_args}}{{#args}}      sad::Maybe< typename sad::duktape::Decay<_Arg{{number}}>::Type > _a{{number}} = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg{{number}}>::Type >::perform(c, {{number}});
+{{#has_args}}{{#args}}        sad::Maybe< typename sad::duktape::Decay<_Arg{{number}}>::Type > _a{{number}} = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg{{number}}>::Type >::perform(c, {{number}});
         {{/args}}
         
         if (_cls.exists() == false) 

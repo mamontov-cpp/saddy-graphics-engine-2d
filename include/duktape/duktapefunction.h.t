@@ -60,6 +60,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c){{#not_has_args}};{{/not_has_args}}{{#has_args}}  
     {
+        if (c->getTop() != {{argscount}})
+        {
+            c->throwError(sad::String("Function receives {{argscount}} arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
 {{#args}}
         sad::Maybe< typename sad::duktape::Decay<_Arg{{number}}>::Type > _a{{number}} = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg{{number}}>::Type >::perform(c, {{number}});
 {{/args}}{{#args}}      
@@ -136,6 +142,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != {{argscount}})
+        {
+            c->throwError(sad::String("Function receives {{argscount}} arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
 {{#has_args}}{{#args}}      sad::Maybe< typename sad::duktape::Decay<_Arg{{number}}>::Type > _a{{number}} = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg{{number}}>::Type >::perform(c, {{number}});
         {{/args}}
         
@@ -157,7 +169,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */

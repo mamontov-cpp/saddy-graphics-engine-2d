@@ -242,6 +242,7 @@ static int sad_duktape_context_invoke_wrapper(duk_context *ctx) {
     duk_get_prop_string(ctx, -1, SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY);
     void* callableptr = duk_to_pointer(ctx, -1);
     duk_pop(ctx);
+	duk_pop(ctx);
 
     assert(callableptr);
     sad::duktape::Context* c = sad::duktape::Context::getContext(ctx);
@@ -257,7 +258,7 @@ void sad::duktape::Context::registerCallable(const sad::String&callable_name, sa
        m_functions.insert(callable, callable);
    }
    duk_push_global_object(m_context);
-   duk_push_c_function(m_context, sad_duktape_context_invoke_wrapper, callable->requiredArguments());
+   duk_push_c_function(m_context, sad_duktape_context_invoke_wrapper, DUK_VARARGS);
    
    duk_push_string(m_context, SAD_DUKTAPE_NATIVE_FUNCTION_SIGNATURE_PROPERTY);   
    duk_push_pointer(m_context, callable);

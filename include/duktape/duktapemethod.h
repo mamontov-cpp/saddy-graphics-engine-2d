@@ -55,6 +55,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
        
         if (_cls.exists() == false) 
@@ -124,6 +130,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
        
@@ -202,6 +214,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -289,6 +307,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -385,6 +409,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -490,6 +520,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -604,6 +640,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -727,6 +769,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -859,6 +907,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1000,6 +1054,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1150,6 +1210,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1309,6 +1375,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1477,6 +1549,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1654,6 +1732,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -1840,6 +1924,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -2035,6 +2125,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -2239,6 +2335,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 17)
+        {
+            c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
@@ -2436,6 +2538,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
        try
         {
@@ -2499,8 +2607,14 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         
         if (_cls.exists() == false) 
         {
@@ -2578,9 +2692,15 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         
         if (_cls.exists() == false) 
         {
@@ -2665,10 +2785,16 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
         
         if (_cls.exists() == false) 
         {
@@ -2760,11 +2886,17 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
         
         if (_cls.exists() == false) 
         {
@@ -2863,12 +2995,18 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
         
         if (_cls.exists() == false) 
         {
@@ -2974,13 +3112,19 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
         
         if (_cls.exists() == false) 
         {
@@ -3093,14 +3237,20 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
         
         if (_cls.exists() == false) 
         {
@@ -3220,15 +3370,21 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
         
         if (_cls.exists() == false) 
         {
@@ -3355,16 +3511,22 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
         
         if (_cls.exists() == false) 
         {
@@ -3498,17 +3660,23 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
         
         if (_cls.exists() == false) 
         {
@@ -3649,18 +3817,24 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
         
         if (_cls.exists() == false) 
         {
@@ -3808,19 +3982,25 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
-      sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
         
         if (_cls.exists() == false) 
         {
@@ -3975,20 +4155,26 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
-      sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
-      sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
         
         if (_cls.exists() == false) 
         {
@@ -4150,21 +4336,27 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
-      sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
-      sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
-      sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
         
         if (_cls.exists() == false) 
         {
@@ -4333,22 +4525,28 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
-      sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
-      sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
-      sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
-      sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
         
         if (_cls.exists() == false) 
         {
@@ -4524,23 +4722,29 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+		if (c->getTop() != 17)
+        {
+            c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
         sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
-      sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
-      sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
-      sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
-      sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
-      sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
-      sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
-      sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
-      sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
-      sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
-      sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
-      sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
-      sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
-      sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
-      sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
-      sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
-      sad::Maybe< typename sad::duktape::Decay<_Arg15>::Type > _a15 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg15>::Type >::perform(c, 15);
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
+        sad::Maybe< typename sad::duktape::Decay<_Arg15>::Type > _a15 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg15>::Type >::perform(c, 15);
         
         if (_cls.exists() == false) 
         {

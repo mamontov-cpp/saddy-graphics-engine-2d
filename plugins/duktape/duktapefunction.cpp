@@ -18,6 +18,12 @@ int sad::duktape::VoidFunction0::requiredArguments()
 
 int sad::duktape::VoidFunction0::call(sad::duktape::Context* c)
 {
+	if (c->getTop() != 0)
+	{
+		c->throwError(sad::String("Function receives 0 arguments: ") + sad::String::number(c->getTop()) + " given");
+		return 0;
+	}
+
     try
     {
 		m_callee();

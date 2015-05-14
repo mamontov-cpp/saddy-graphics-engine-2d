@@ -88,6 +88,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Function receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       
         if (_a0.exists() == false) 
@@ -157,6 +163,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Function receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       
@@ -235,6 +247,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Function receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -322,6 +340,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Function receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -418,6 +442,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Function receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -523,6 +553,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Function receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -637,6 +673,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Function receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -760,6 +802,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Function receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -892,6 +940,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Function receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1033,6 +1087,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Function receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1183,6 +1243,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Function receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1342,6 +1408,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Function receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1510,6 +1582,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Function receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1687,6 +1765,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Function receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -1873,6 +1957,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Function receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2068,6 +2158,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)  
     {
+        if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Function receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
         sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2256,6 +2352,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 0)
+        {
+            c->throwError(sad::String("Function receives 0 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
        try
         {
             _ReturnType t = m_callee();
@@ -2266,7 +2368,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2317,6 +2419,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Function receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
         
        if (_a0.exists() == false) 
@@ -2336,7 +2444,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2388,6 +2496,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Function receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
         
@@ -2414,7 +2528,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2467,6 +2581,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Function receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2500,7 +2620,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2554,6 +2674,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Function receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2594,7 +2720,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2649,6 +2775,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Function receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2696,7 +2828,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2752,6 +2884,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Function receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2806,7 +2944,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2863,6 +3001,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Function receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -2924,7 +3068,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -2982,6 +3126,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Function receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3050,7 +3200,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3109,6 +3259,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Function receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3184,7 +3340,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3244,6 +3400,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Function receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3326,7 +3488,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3387,6 +3549,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Function receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3476,7 +3644,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3538,6 +3706,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Function receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3634,7 +3808,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3697,6 +3871,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Function receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3800,7 +3980,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -3864,6 +4044,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Function receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -3974,7 +4160,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -4039,6 +4225,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Function receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -4156,7 +4348,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
@@ -4222,6 +4414,12 @@ public:
      */
     virtual int call(sad::duktape::Context* c)
     {
+        if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Function receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+		
       sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
       sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
       sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
@@ -4346,7 +4544,7 @@ public:
             c->throwError("Caught exception while calling function");
             return 0;
         }
-        return 0;
+        return 1;
     }
     /*! Can be inherited
      */
