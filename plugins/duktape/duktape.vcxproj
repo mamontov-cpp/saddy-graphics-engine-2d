@@ -14,18 +14,24 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="duktape.cpp" />
     <ClCompile Include="duktapecallable.cpp" />
+    <ClCompile Include="duktapefunction.cpp" />
     <ClCompile Include="getvalue.cpp" />
     <ClCompile Include="pushvalue.cpp" />
     <ClCompile Include="variantpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\context.h" />
+    <ClInclude Include="..\..\include\duktape\decay.h" />
     <ClInclude Include="..\..\include\duktape\duktapecallable.h" />
+    <ClInclude Include="..\..\include\duktape\duktapeconstructor.h" />
+    <ClInclude Include="..\..\include\duktape\duktapefunction.h" />
+    <ClInclude Include="..\..\include\duktape\duktapemethod.h" />
     <ClInclude Include="..\..\include\duktape\errorcodes.h" />
     <ClInclude Include="..\..\include\duktape\getvalue.h" />
     <ClInclude Include="..\..\include\duktape\getvalue_src.h" />
     <ClInclude Include="..\..\include\duktape\pushvalue.h" />
     <ClInclude Include="..\..\include\duktape\pushvalue_src.h" />
+    <ClInclude Include="..\..\include\duktape\registercallable.h" />
     <ClInclude Include="..\..\include\duktape\variantpool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

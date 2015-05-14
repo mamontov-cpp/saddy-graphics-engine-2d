@@ -39,6 +39,11 @@ class Maybe
 		  \return inner value
 	   */
 	  const  T & value() const  { return m_data; }
+	  /*! Returns inner mutable value. If value is not set, default value is returned,
+		  which is undefined for basic POD types.
+		  \return inner value
+	   */
+	  T& mutableValue() { return m_data; }
 };
 
 }

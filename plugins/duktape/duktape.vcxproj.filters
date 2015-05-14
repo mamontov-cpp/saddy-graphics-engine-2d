@@ -33,6 +33,9 @@
     <ClCompile Include="duktapecallable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="duktapefunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\duktape\variantpool.h">
@@ -57,6 +60,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\duktape\duktapecallable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\registercallable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\decay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\duktapeconstructor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\duktapefunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\duktape\duktapemethod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
