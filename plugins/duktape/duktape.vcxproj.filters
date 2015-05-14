@@ -77,5 +77,8 @@
     <ClInclude Include="..\..\include\duktape\duktapemethod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\duktape\duktapeptrmethod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

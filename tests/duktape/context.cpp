@@ -99,7 +99,8 @@ public:
        TEST(ContextTest::testRegisterCallable),
        TEST(ContextTest::testRegisterVoidFunctions),
        TEST(ContextTest::testRegisterReturnFunctions),
-       TEST(ContextTest::testMethods)
+       TEST(ContextTest::testMethods),
+       TEST(ContextTest::testPtrMethods)
     ) {}
 
     /*! Tests getting and setting reference data
@@ -467,4 +468,25 @@ public:
         ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
     }
 
+    void testPtrMethods()
+    {
+        sad::String error; 	
+
+        sad::Point2D p(5, 7);
+        
+	    sad::duktape::Context ctx;
+        ctx.registerGlobal("pnt", &p);
+
+        sad::duktape::register_ptr_method(&ctx, "x", &sad::Point2D::x);
+        sad::duktape::register_ptr_method(&ctx, "y", &sad::Point2D::y);
+
+        sad::duktape::register_ptr_method(&ctx, "setX", &sad::Point2D::setX);
+        sad::duktape::register_ptr_method(&ctx, "setY", &sad::Point2D::setY);
+
+        bool eval_result = ctx.eval(" setX(pnt, 55); x(pnt) ", false);
+		ASSERT_TRUE( eval_result );
+		sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ASSERT_TRUE( result.exists() );
+        ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
+    }
 } _context_test;

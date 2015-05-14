@@ -26,6 +26,7 @@
     <ClInclude Include="..\..\include\duktape\duktapeconstructor.h" />
     <ClInclude Include="..\..\include\duktape\duktapefunction.h" />
     <ClInclude Include="..\..\include\duktape\duktapemethod.h" />
+    <ClInclude Include="..\..\include\duktape\duktapeptrmethod.h" />
     <ClInclude Include="..\..\include\duktape\errorcodes.h" />
     <ClInclude Include="..\..\include\duktape\getvalue.h" />
     <ClInclude Include="..\..\include\duktape\getvalue_src.h" />

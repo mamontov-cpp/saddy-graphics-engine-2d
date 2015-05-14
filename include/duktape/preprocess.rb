@@ -32,4 +32,5 @@ end
 
 render("duktapefunction.h.t", "duktapefunction.h", variants)
 render("duktapemethod.h.t", "duktapemethod.h", variants)
+render("duktapeptrmethod.h.t", "duktapeptrmethod.h", variants)
 render("duktapeconstructor.h.t", "duktapeconstructor.h", variants)
