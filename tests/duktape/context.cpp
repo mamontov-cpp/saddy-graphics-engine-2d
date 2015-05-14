@@ -98,7 +98,8 @@ public:
        TEST(ContextTest::testRegisterGlobal),
        TEST(ContextTest::testRegisterCallable),
        TEST(ContextTest::testRegisterVoidFunctions),
-       TEST(ContextTest::testRegisterReturnFunctions)
+       TEST(ContextTest::testRegisterReturnFunctions),
+       TEST(ContextTest::testMethods)
     ) {}
 
     /*! Tests getting and setting reference data
@@ -445,6 +446,25 @@ public:
 
 		eval_result = ctx.eval(" f03(undefined, undefined, undefined) ", false, &error);
 		ASSERT_TRUE( !eval_result );	    
+    }
+
+    void testMethods()
+    {
+        sad::String error; 	
+        
+	    sad::duktape::Context ctx;
+        sad::duktape::register_constructor<sad::Point2D, double, double>(&ctx, "pnt");
+        sad::duktape::register_callable(&ctx, "x", &sad::Point2D::x);
+        sad::duktape::register_callable(&ctx, "y", &sad::Point2D::y);
+
+        sad::duktape::register_callable(&ctx, "setX", &sad::Point2D::setX);
+        sad::duktape::register_callable(&ctx, "setY", &sad::Point2D::setY);
+
+        bool eval_result = ctx.eval(" var f = pnt(3, 4);  setX(f, 55); x(f) ", false);
+		ASSERT_TRUE( eval_result );
+		sad::Maybe<double> result = sad::duktape::GetValue<double>::perform(&ctx, -1);
+        ASSERT_TRUE( result.exists() );
+        ASSERT_TRUE( sad::is_fuzzy_equal(result.value(), 55) );
     }
 
 } _context_test;

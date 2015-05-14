@@ -24,7 +24,7 @@ sad::Maybe<bool> sad::duktape::GetValue<bool>::perform(sad::duktape::Context* ct
             sad::db::Variant* v = ctx->getValueFromPool(str);
             if (v)
             {
-                result = v->get<bool>();
+                result = v->get<bool>(true);
             }
         }
     }

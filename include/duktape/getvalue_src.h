@@ -21,7 +21,7 @@ sad::Maybe<T> sad::duktape::GetValue<T>::perform(sad::duktape::Context* ctx, duk
         sad::db::Variant* v = ctx->getValueFromPool(string);
         if (v)
         {
-            result = v->get<T>();
+            result = v->get<T>(true);
         }
     }
     return result;

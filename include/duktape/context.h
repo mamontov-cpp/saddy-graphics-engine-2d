@@ -141,7 +141,7 @@ public:
             sad::db::Variant* v = getValueFromPool(duk_to_string(m_context, pos));
             if (v)
             {
-                result = v->get<T>();
+                result = v->get<T>(true);
             }
         }
         return result;

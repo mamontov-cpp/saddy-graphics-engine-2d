@@ -266,6 +266,7 @@ void sad::duktape::Context::registerCallable(const sad::String&callable_name, sa
                           DUK_DEFPROP_HAVE_WRITABLE | 0);
   
    duk_put_prop_string(m_context, -2 /*idx:global*/, callable_name.c_str());
+   duk_pop(m_context);
 }
 
 // ================================= PROTECTED METHODS =================================

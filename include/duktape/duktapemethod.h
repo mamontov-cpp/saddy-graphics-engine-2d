@@ -4872,6 +4872,4861 @@ protected:
     Method m_callee;
 };
 
+
+/*! Defines a wrapper for method, which returns nothing and receives 0 arguments
+ */
+template<
+    typename _ClassName
+>
+class ConstVoidMethod0 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)() const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod0(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod0<_ClassName>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 1;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+                
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)();
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod0()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 1 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0
+>
+class ConstVoidMethod1 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod1(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod1<_ClassName, _Arg0>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 2;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod1()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 2 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1
+>
+class ConstVoidMethod2 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod2(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod2<_ClassName, _Arg0, _Arg1>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 3;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod2()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 3 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2
+>
+class ConstVoidMethod3 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod3(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod3<_ClassName, _Arg0, _Arg1, _Arg2>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 4;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod3()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 4 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3
+>
+class ConstVoidMethod4 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod4(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod4<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 5;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod4()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 5 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4
+>
+class ConstVoidMethod5 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod5(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod5<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 6;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod5()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 6 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5
+>
+class ConstVoidMethod6 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod6(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod6<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 7;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod6()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 7 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6
+>
+class ConstVoidMethod7 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod7(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod7<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 8;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod7()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 8 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7
+>
+class ConstVoidMethod8 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod8(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod8<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 9;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod8()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 9 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8
+>
+class ConstVoidMethod9 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod9(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod9<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 10;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod9()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 10 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9
+>
+class ConstVoidMethod10 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod10(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod10<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 11;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod10()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 11 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10
+>
+class ConstVoidMethod11 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod11(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod11<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 12;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod11()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 12 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11
+>
+class ConstVoidMethod12 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod12(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod12<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 13;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 12);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod12()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 13 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12
+>
+class ConstVoidMethod13 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod13(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod13<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 14;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 13);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod13()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 14 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13
+>
+class ConstVoidMethod14 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod14(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod14<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 15;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 14);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 15. Argument 15 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod14()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 15 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14
+>
+class ConstVoidMethod15 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod15(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod15<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 16;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 14);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 15);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 15. Argument 15 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a14.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::init();
+            c->throwError("Invalid type passed for argument 16. Argument 16 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue(), _a14.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod15()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns nothing and receives 16 arguments
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14,
+    typename _Arg15
+>
+class ConstVoidMethod16 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef void (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstVoidMethod16(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object 
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()
+    {
+        return new sad::duktape::ConstVoidMethod16<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()
+    {
+        return 17;
+    }
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+        if (c->getTop() != 17)
+        {
+            c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);      
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 14);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 15);
+        sad::Maybe< typename sad::duktape::Decay<_Arg15>::Type > _a15 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg15>::Type >::perform(c, 16);
+       
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+               
+        if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 15. Argument 15 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a14.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::init();
+            c->throwError("Invalid type passed for argument 16. Argument 16 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       
+        if (_a15.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg15>::Type >::init();
+            c->throwError("Invalid type passed for argument 17. Argument 17 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg15>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+        
+        try
+        {
+            ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue(), _a14.mutableValue(), _a15.mutableValue());
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 0;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstVoidMethod16()
+    {
+    }   
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 0 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType
+>
+class ConstRetMethod0 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)() const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod0(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod0<_ClassName, _ReturnType>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 1;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 1)
+        {
+            c->throwError(sad::String("Method receives 1 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)();
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod0()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 1 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0
+>
+class ConstRetMethod1 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod1(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod1<_ClassName, _ReturnType, _Arg0>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 2;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 2)
+        {
+            c->throwError(sad::String("Method receives 2 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod1()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 2 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1
+>
+class ConstRetMethod2 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod2(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod2<_ClassName, _ReturnType, _Arg0, _Arg1>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 3;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 3)
+        {
+            c->throwError(sad::String("Method receives 3 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod2()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 3 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2
+>
+class ConstRetMethod3 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod3(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod3<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 4;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 4)
+        {
+            c->throwError(sad::String("Method receives 4 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod3()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 4 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3
+>
+class ConstRetMethod4 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod4(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod4<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 5;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 5)
+        {
+            c->throwError(sad::String("Method receives 5 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod4()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 5 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4
+>
+class ConstRetMethod5 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod5(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod5<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 6;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 6)
+        {
+            c->throwError(sad::String("Method receives 6 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod5()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 6 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5
+>
+class ConstRetMethod6 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod6(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod6<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 7;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 7)
+        {
+            c->throwError(sad::String("Method receives 7 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod6()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 7 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6
+>
+class ConstRetMethod7 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod7(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod7<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 8;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 8)
+        {
+            c->throwError(sad::String("Method receives 8 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod7()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 8 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7
+>
+class ConstRetMethod8 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod8(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod8<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 9;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 9)
+        {
+            c->throwError(sad::String("Method receives 9 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod8()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 9 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8
+>
+class ConstRetMethod9 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod9(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod9<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 10;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 10)
+        {
+            c->throwError(sad::String("Method receives 10 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod9()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 10 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9
+>
+class ConstRetMethod10 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod10(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod10<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 11;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 11)
+        {
+            c->throwError(sad::String("Method receives 11 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod10()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 11 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10
+>
+class ConstRetMethod11 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod11(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod11<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 12;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 12)
+        {
+            c->throwError(sad::String("Method receives 12 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod11()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 12 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11
+>
+class ConstRetMethod12 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod12(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod12<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 13;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 13)
+        {
+            c->throwError(sad::String("Method receives 13 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod12()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 13 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12
+>
+class ConstRetMethod13 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod13(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod13<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 14;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 14)
+        {
+            c->throwError(sad::String("Method receives 14 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod13()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 14 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13
+>
+class ConstRetMethod14 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod14(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod14<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 15;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 15)
+        {
+            c->throwError(sad::String("Method receives 15 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod14()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 15 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14
+>
+class ConstRetMethod15 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod15(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod15<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 16;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 16)
+        {
+            c->throwError(sad::String("Method receives 16 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a14.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::init();
+            c->throwError("Invalid type passed for argument 15. Argument 15 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue(), _a14.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod15()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
+/*! Defines a wrapper for method, which returns some value and receives 16 arguments
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14,
+    typename _Arg15
+>
+class ConstRetMethod16 : public sad::duktape::DuktapeCallable
+{
+public:
+    /*! A function type, which is being wrapped
+     */
+    typedef _ReturnType (_ClassName::*Method)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15) const;
+    /*! Constructs new function wrapper
+        \param[in] f function
+     */
+    ConstRetMethod16(Method f): m_callee(f)   
+    {
+    }
+    /*! Returns copy of callable object
+        \return copy of callable object
+     */
+    virtual sad::duktape::DuktapeCallable* clone()  
+    {
+        return new sad::duktape::ConstRetMethod16<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>(m_callee);
+    }
+    /*! Returns count of required arguments
+        \return count of required arguments
+     */
+    virtual int requiredArguments()  
+    {
+        return 17;
+    }   
+    /*! Performs call of object, using specified context
+        \param[in] c context
+        \return count of values on stack, placed by functions
+     */
+    virtual int call(sad::duktape::Context* c)
+    {
+		if (c->getTop() != 17)
+        {
+            c->throwError(sad::String("Method receives 17 arguments, but ") + sad::String::number(c->getTop()) + " given");
+            return 0;
+        }
+
+        sad::Maybe<_ClassName> _cls = sad::duktape::GetValue< _ClassName >::perform(c, 0);  
+        sad::Maybe< typename sad::duktape::Decay<_Arg0>::Type > _a0 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg0>::Type >::perform(c, 0);
+        sad::Maybe< typename sad::duktape::Decay<_Arg1>::Type > _a1 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg1>::Type >::perform(c, 1);
+        sad::Maybe< typename sad::duktape::Decay<_Arg2>::Type > _a2 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg2>::Type >::perform(c, 2);
+        sad::Maybe< typename sad::duktape::Decay<_Arg3>::Type > _a3 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg3>::Type >::perform(c, 3);
+        sad::Maybe< typename sad::duktape::Decay<_Arg4>::Type > _a4 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg4>::Type >::perform(c, 4);
+        sad::Maybe< typename sad::duktape::Decay<_Arg5>::Type > _a5 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg5>::Type >::perform(c, 5);
+        sad::Maybe< typename sad::duktape::Decay<_Arg6>::Type > _a6 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg6>::Type >::perform(c, 6);
+        sad::Maybe< typename sad::duktape::Decay<_Arg7>::Type > _a7 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg7>::Type >::perform(c, 7);
+        sad::Maybe< typename sad::duktape::Decay<_Arg8>::Type > _a8 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg8>::Type >::perform(c, 8);
+        sad::Maybe< typename sad::duktape::Decay<_Arg9>::Type > _a9 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg9>::Type >::perform(c, 9);
+        sad::Maybe< typename sad::duktape::Decay<_Arg10>::Type > _a10 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg10>::Type >::perform(c, 10);
+        sad::Maybe< typename sad::duktape::Decay<_Arg11>::Type > _a11 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg11>::Type >::perform(c, 11);
+        sad::Maybe< typename sad::duktape::Decay<_Arg12>::Type > _a12 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg12>::Type >::perform(c, 12);
+        sad::Maybe< typename sad::duktape::Decay<_Arg13>::Type > _a13 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg13>::Type >::perform(c, 13);
+        sad::Maybe< typename sad::duktape::Decay<_Arg14>::Type > _a14 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg14>::Type >::perform(c, 14);
+        sad::Maybe< typename sad::duktape::Decay<_Arg15>::Type > _a15 = sad::duktape::GetValue< typename sad::duktape::Decay<_Arg15>::Type >::perform(c, 15);
+        
+        if (_cls.exists() == false) 
+        {
+            sad::db::TypeName< _ClassName >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< _ClassName  >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a0.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::init();
+            c->throwError("Invalid type passed for argument 1. Argument 1 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg0>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a1.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::init();
+            c->throwError("Invalid type passed for argument 2. Argument 2 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg1>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a2.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::init();
+            c->throwError("Invalid type passed for argument 3. Argument 3 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg2>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a3.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::init();
+            c->throwError("Invalid type passed for argument 4. Argument 4 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg3>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a4.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::init();
+            c->throwError("Invalid type passed for argument 5. Argument 5 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg4>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a5.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::init();
+            c->throwError("Invalid type passed for argument 6. Argument 6 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg5>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a6.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::init();
+            c->throwError("Invalid type passed for argument 7. Argument 7 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg6>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a7.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::init();
+            c->throwError("Invalid type passed for argument 8. Argument 8 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg7>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a8.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::init();
+            c->throwError("Invalid type passed for argument 9. Argument 9 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg8>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a9.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::init();
+            c->throwError("Invalid type passed for argument 10. Argument 10 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg9>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a10.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::init();
+            c->throwError("Invalid type passed for argument 11. Argument 11 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg10>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a11.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::init();
+            c->throwError("Invalid type passed for argument 12. Argument 12 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg11>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a12.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::init();
+            c->throwError("Invalid type passed for argument 13. Argument 13 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg12>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a13.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::init();
+            c->throwError("Invalid type passed for argument 14. Argument 14 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg13>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a14.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::init();
+            c->throwError("Invalid type passed for argument 15. Argument 15 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg14>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+       if (_a15.exists() == false) 
+        {
+            sad::db::TypeName< typename sad::duktape::Decay<_Arg15>::Type >::init();
+            c->throwError("Invalid type passed for argument 16. Argument 16 must have type " + sad::db::TypeName< typename sad::duktape::Decay<_Arg15>::Type >::name(), sad::duktape::SAD_DUK_API_ERROR);
+            return 0;
+        }
+
+       try
+        {
+            _ReturnType t = ((_cls.mutableValue()).*m_callee)(_a0.mutableValue(), _a1.mutableValue(), _a2.mutableValue(), _a3.mutableValue(), _a4.mutableValue(), _a5.mutableValue(), _a6.mutableValue(), _a7.mutableValue(), _a8.mutableValue(), _a9.mutableValue(), _a10.mutableValue(), _a11.mutableValue(), _a12.mutableValue(), _a13.mutableValue(), _a14.mutableValue(), _a15.mutableValue());
+            sad::duktape::PushValue<_ReturnType>::perform(c, t, false);
+        }
+        catch(...)
+        {
+            c->throwError("Caught exception while calling method");
+            return 0;
+        }
+        return 1;
+    }
+    /*! Can be inherited
+     */
+    virtual ~ConstRetMethod16()
+    {
+    }
+protected:
+    /*! A method, which is being wrapped
+     */
+    Method m_callee;
+};
+
 /*! Makes callable from method which returns nothing and receives 0 arguments
     \param[in] f method
     \return callable version
@@ -5569,6 +10424,705 @@ inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)
 {
     return new RetMethod16<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>(f);
 }
+
+/*! Makes callable from const method which returns nothing and receives 0 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)() const)
+{
+    return new ConstVoidMethod0<_ClassName>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 1 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0) const)
+{
+    return new ConstVoidMethod1<_ClassName, _Arg0>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 2 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1) const)
+{
+    return new ConstVoidMethod2<_ClassName, _Arg0, _Arg1>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 3 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2) const)
+{
+    return new ConstVoidMethod3<_ClassName, _Arg0, _Arg1, _Arg2>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 4 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3) const)
+{
+    return new ConstVoidMethod4<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 5 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4) const)
+{
+    return new ConstVoidMethod5<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 6 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5) const)
+{
+    return new ConstVoidMethod6<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 7 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6) const)
+{
+    return new ConstVoidMethod7<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 8 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7) const)
+{
+    return new ConstVoidMethod8<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 9 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8) const)
+{
+    return new ConstVoidMethod9<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 10 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9) const)
+{
+    return new ConstVoidMethod10<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 11 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10) const)
+{
+    return new ConstVoidMethod11<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 12 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11) const)
+{
+    return new ConstVoidMethod12<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 13 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12) const)
+{
+    return new ConstVoidMethod13<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 14 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13) const)
+{
+    return new ConstVoidMethod14<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 15 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14) const)
+{
+    return new ConstVoidMethod15<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14>(f);
+}
+
+/*! Makes callable from const method which returns nothing and receives 16 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14,
+    typename _Arg15
+>
+inline sad::duktape::DuktapeCallable* make_callable(void (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15) const)
+{
+    return new ConstVoidMethod16<_ClassName, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>(f);
+}
+
+
+/*! Makes callable from const method which returns value and receives 0 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)() const)
+{
+    return new ConstRetMethod0<_ClassName, _ReturnType>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 1 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0) const)
+{
+    return new ConstRetMethod1<_ClassName, _ReturnType, _Arg0>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 2 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1) const)
+{
+    return new ConstRetMethod2<_ClassName, _ReturnType, _Arg0, _Arg1>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 3 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2) const)
+{
+    return new ConstRetMethod3<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 4 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3) const)
+{
+    return new ConstRetMethod4<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 5 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4) const)
+{
+    return new ConstRetMethod5<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 6 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5) const)
+{
+    return new ConstRetMethod6<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 7 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6) const)
+{
+    return new ConstRetMethod7<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 8 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7) const)
+{
+    return new ConstRetMethod8<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 9 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8) const)
+{
+    return new ConstRetMethod9<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 10 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9) const)
+{
+    return new ConstRetMethod10<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 11 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10) const)
+{
+    return new ConstRetMethod11<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 12 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11) const)
+{
+    return new ConstRetMethod12<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 13 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12) const)
+{
+    return new ConstRetMethod13<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 14 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13) const)
+{
+    return new ConstRetMethod14<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 15 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14) const)
+{
+    return new ConstRetMethod15<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14>(f);
+}
+
+/*! Makes callable from const method which returns value and receives 16 arguments
+    \param[in] f method
+    \return callable version
+ */
+template<
+    typename _ClassName,
+    typename _ReturnType,
+    typename _Arg0,
+    typename _Arg1,
+    typename _Arg2,
+    typename _Arg3,
+    typename _Arg4,
+    typename _Arg5,
+    typename _Arg6,
+    typename _Arg7,
+    typename _Arg8,
+    typename _Arg9,
+    typename _Arg10,
+    typename _Arg11,
+    typename _Arg12,
+    typename _Arg13,
+    typename _Arg14,
+    typename _Arg15
+>
+inline sad::duktape::DuktapeCallable* make_callable(_ReturnType (_ClassName::*f)(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15) const)
+{
+    return new ConstRetMethod16<_ClassName, _ReturnType, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _Arg10, _Arg11, _Arg12, _Arg13, _Arg14, _Arg15>(f);
+}
+
 
 }
 

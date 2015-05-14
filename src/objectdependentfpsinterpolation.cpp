@@ -23,7 +23,7 @@ void sad::ObjectDependentFPSInterpolation::reset()
 	m_frames = 0;
 	
 	m_total_renderer_items = 0;
-	m_interval_per_item = 0;
+	m_interval_per_item.setValue(0);
 }
 
 

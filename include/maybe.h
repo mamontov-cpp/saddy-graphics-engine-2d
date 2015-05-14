@@ -4,6 +4,7 @@
 	 Describes a value, that can be presented or not exists
  */
 #pragma once
+#include <string.h>
 
 namespace sad
 {
@@ -13,20 +14,28 @@ template<typename T>
 class Maybe
 {
   private:
-	  T m_data;      //!< An inner boxed value
-	  bool m_exists; //!< Whether value exists
+	  T m_data;        //!< An inner boxed value
+      T* m_reference;  //!< A reference part for maybe
+	  bool m_exists;   //!< Whether value exists
   public:
 	  /*! Creates new non-existent value
 	   */
-	  Maybe() : m_exists(false) { }
+	  Maybe() : m_exists(false), m_reference(NULL) { }
 	  /*! Creates a new presented value
 		  \param[in] data an inner data for value
 	   */
-	  Maybe(const  T & data) :  m_exists(true), m_data(data) { }
+	  Maybe(const  T & data) :  m_exists(true), m_data(data), m_reference(NULL) { }
+      /*! Creates new value for a reference to data
+          \param[in] data a data to be set
+       */
+      Maybe(T* data) : m_exists(true), m_reference(data) { }
+      /*! Sets maybe into a reference mode to make sure, that mutable value will be returned
+       */
+      void setReference(T* data) { m_reference = data; m_exists = true; }
 	  /*! Sets a value for objects, making it behave like with inner value
 		  \param[in] data data value
 	   */
-	  void setValue(const T & data)  { m_data = data; m_exists = true; }
+      void setValue(const T & data)  { if (m_reference) { *m_reference = m_data; } else { m_data = data; } m_exists = true; }
 	  /*! Clears a maybe value
 	   */
 	  void clear() { m_exists = false; }
@@ -38,12 +47,12 @@ class Maybe
 		  which is undefined for basic POD types.
 		  \return inner value
 	   */
-	  const  T & value() const  { return m_data; }
+	  const  T & value() const  { if (m_reference) return *m_reference; return m_data; }
 	  /*! Returns inner mutable value. If value is not set, default value is returned,
 		  which is undefined for basic POD types.
 		  \return inner value
 	   */
-	  T& mutableValue() { return m_data; }
+	  T& mutableValue() { if (m_reference) return *m_reference; return m_data; }
 };
 
 }

@@ -7,7 +7,7 @@ sad::p2d::MaybeTime sad::p2d::MultisamplingCollisionDetector::collides(sad::p2d:
 	sad::p2d::MaybeTime result;
 	if (m_tester->invoke(b1->currentShape(), b2->currentShape())) 
 	{
-		return 0;
+		return static_cast<double>(0);
 	}
 	for(unsigned int  i = 0; i  < m_tests && !(result.exists()); i++)
 	{

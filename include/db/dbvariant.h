@@ -173,16 +173,24 @@ public:
 		m_base_name = sad::db::TypeName<T>::baseName();
 	}	
 	/*! Returns a value for variant
+        \param[in] ref whether we prefer to return by reference (if true), or by value (if false)
 		\return value or throws exception if cannot cast
 	 */
 	template<typename T>
-	sad::Maybe<T> get() const
+	sad::Maybe<T> get(bool ref = false) const
 	{
 		sad::Maybe<T> result;
 		sad::db::TypeName<T>::init();		
-		if (sad::db::TypeName<T>::name() == m_typename)
+		if (sad::db::TypeName<T>::name() == m_typename && sad::db::TypeName<T>::POINTER_STARS_COUNT == m_pointers_stars_count)
 		{
-			result.setValue(*((T*)m_object));
+            if (ref)
+            {
+			    result.setReference(reinterpret_cast<T*>(m_object));
+            }
+            else
+            {
+                result.setValue(*((T*)m_object));
+            }
 			return result;
 		}
 		if (sad::db::TypeName<T>::isSadObject() 
