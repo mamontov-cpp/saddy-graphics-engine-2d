@@ -1,0 +1,49 @@
+INCLUDE= -I../../include
+PLATFORM = LINUX
+
+ifeq ($(PLATFORM),WIN32)
+DEFINES  = -DWIN32 -DMINGW
+INCLUDE  = -I../../include 
+else
+DEFINES  = -DUNIX -DLINUX -DGCC
+INCLUDE = -I../../include  -I/usr/include/
+endif
+
+TYPE     = release
+OUTPUT   = ../../lib/libsaddy-duktape-release.a 
+BUILD    = build/context_$(TYPE).o build/duktape_$(TYPE).o build/duktapecallable_$(TYPE).o build/duktapefunction_$(TYPE).o build/getvalue_$(TYPE).o build/pushvalue_$(TYPE).o build/variantpool_$(TYPE).o
+
+ifeq ($(TYPE),debug)
+CCOPTS = -g
+else
+CCOPTS = -O2
+endif
+
+all: build $(OUTPUT)
+build: 
+	mkdir build
+build/context_$(TYPE).o: context.cpp
+	g++ -c $(CCOPTS) context.cpp -o build/context_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/duktape_$(TYPE).o: duktape.cpp
+	g++ -c $(CCOPTS) duktape.cpp -o build/duktape_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/duktapecallable_$(TYPE).o: duktapecallable.cpp
+	g++ -c $(CCOPTS) duktapecallable.cpp -o build/duktapecallable_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/duktapefunction_$(TYPE).o: duktapefunction.cpp
+	g++ -c $(CCOPTS) duktapefunction.cpp -o build/duktapefunction_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/getvalue_$(TYPE).o: getvalue.cpp
+	g++ -c $(CCOPTS) getvalue.cpp -o build/getvalue_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/pushvalue_$(TYPE).o: pushvalue.cpp
+	g++ -c $(CCOPTS) pushvalue.cpp -o build/pushvalue_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/variantpool_$(TYPE).o: variantpool.cpp
+	g++ -c $(CCOPTS) variantpool.cpp -o build/variantpool_$(TYPE).o $(INCLUDE) $(DEFINES)
+$(OUTPUT): build/context_$(TYPE).o build/duktape_$(TYPE).o build/duktapecallable_$(TYPE).o build/duktapefunction_$(TYPE).o build/getvalue_$(TYPE).o build/pushvalue_$(TYPE).o build/variantpool_$(TYPE).o
+	ar cr  $(OUTPUT)   $(BUILD)
+clean:
+ifeq ($(PLATFORM),WIN32)
+	rd /s/q "build/*"
+	del "$(OUTPUT)"
+else
+	rm -r "build/*"
+	rm "$(OUTPUT)"
+endif
+.PHONY: all clean
