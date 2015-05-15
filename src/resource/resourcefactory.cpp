@@ -18,6 +18,11 @@ sad::resource::Creator::~Creator()
 
 }
 
+sad::resource::FileCreator::~FileCreator()
+{
+
+}
+
 sad::resource::Factory::Factory()
 {
 	add(sad::Texture::globalMetaData()->name(), new resource::CreatorFor<sad::Texture>());
@@ -79,6 +84,10 @@ sad::resource::PhysicalFile * sad::resource::Factory::fileByType(const sad::Stri
 	{
 		return new sad::resource::PhysicalFile();
 	}
+    if (m_file_creators.contains(typehint))
+    {
+        return m_file_creators[typehint]->create();
+    }
 	return NULL;
 }
 

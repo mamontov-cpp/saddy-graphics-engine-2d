@@ -1,0 +1,3 @@
+[
+	{ "type": "sad::irrklang::Sound",  "filename": "tests/dog_bark.wav", "name" : "sound"}
+]

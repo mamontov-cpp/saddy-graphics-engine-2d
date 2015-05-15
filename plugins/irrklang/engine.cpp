@@ -20,10 +20,38 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
 ::irrklang::ISoundSource* sad::irrklang::Engine::tryLoad(const sad::String& source)
 {
     ::irrklang::ISoundSource* result = m_engine->addSoundSourceFromFile(source.c_str());
+    if (result)
+    {
+        ::irrklang::ISound* test = m_engine->play2D(result, false, true, true);
+        if (!test)
+        {
+            m_engine->removeSoundSource(result);
+            result = NULL;
+        }
+        else
+        {
+            test->stop();
+            test->drop();
+        }
+    }
     if (!result && !util::isAbsolutePath(source))
 	{
 		sad::String newpath = util::concatPaths(sad::Renderer::ref()->executablePath(), source);
 		result = m_engine->addSoundSourceFromFile(newpath.c_str());
+        if (result)
+        {
+            ::irrklang::ISound* test = m_engine->play2D(result, false, true, true);
+            if (!test)
+            {
+                m_engine->removeSoundSource(result);
+                result = NULL;
+            }
+            else
+            {
+                test->stop();
+                test->drop();
+            }
+        }
 	}
     return result;
 }
@@ -53,7 +81,7 @@ sad::irrklang::Engine::~Engine()
 
 // ============================= PROTECTED METHODS =============================
 
-static sad::irrklang::Engine* m_instance = NULL;
+sad::irrklang::Engine* sad::irrklang::Engine::m_instance = NULL;
 
 // ============================= PRIVATE METHODS =============================
 

@@ -56,6 +56,44 @@ public:
 		
 	}
 };
+
+/*! A special kind of delegate, which is used by Factory to create files for specified type
+ */
+class FileCreator
+{
+public:
+	/*! Creates a resource
+		\return created resource (NULL if cannot)
+	 */ 
+	virtual sad::resource::PhysicalFile* create() = 0;
+	/*! A creator must be inherited to create some stuff
+	 */
+	virtual ~FileCreator();
+};
+
+/*! A special kind of delegate, which is used by Factory to create files for specified type
+ */
+template<
+typename _File
+>
+class FileCreatorFor: public resource::FileCreator
+{
+public:
+	/*! Creates a resource
+		\return created resource (NULL if cannot)
+	 */ 
+	virtual sad::resource::PhysicalFile* create()
+	{
+		return new _File();
+	}
+	/*! A creator must be inherited to create some stuff
+	 */
+	virtual ~FileCreatorFor()
+	{
+		
+	}
+};
+
 /*! \class Factory
 
 	Note, that resource factory can create resources by their type string.
@@ -73,6 +111,25 @@ public:
 	{
 		add(T::globalMetaData()->name(), 
 			new resource::CreatorFor<T>());
+	}
+    /*! Registers file type to be used with this resource
+     */
+    template<typename _ResourceType, typename _FileType>
+    void registerFileTypeFor()
+	{
+        sad::String tname = _ResourceType::globalMetaData()->name();
+	    if (m_file_creators.contains(tname))
+	    {
+	        delete m_file_creators[tname];
+	    }
+        m_file_creators.insert(tname, new resource::FileCreatorFor<_FileType>());
+	}
+    /*! Registers default file type to be used with this resource
+     */
+    template<typename _ResourceType>
+    void registerDefaultFileTypeFor()
+	{
+        registerFileTypeFor<_ResourceType, sad::resource::PhysicalFile>();
 	}
 	/*! This class can be inherited 
 	 */
@@ -104,6 +161,9 @@ protected:
 	/*! Creates a hash for returning data
 	 */
 	sad::PtrHash<sad::String, resource::Creator> m_creators;
+    /*! A map for creating files
+     */
+    sad::PtrHash<sad::String, resource::FileCreator> m_file_creators;
 	/*! A factory for stored properties. Used for creating itema in custom resources
 	 */
 	sad::db::StoredPropertyFactory * m_factory;
