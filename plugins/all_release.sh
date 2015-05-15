@@ -1,6 +1,9 @@
 cd freetype
-library_release.sh
+./release.sh
 cd ..
-cd exporter
-make -f Makefile
+cd duktape
+./release.sh
+cd ..
+cd irrklang
+./release.sh
 cd ..

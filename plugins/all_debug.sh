@@ -1,6 +1,9 @@
 cd freetype
-library_release.bat
+./debug.sh
 cd ..
-cd exporter
-make -f Makefile-debug
+cd duktape
+./debug.sh
+cd ..
+cd irrklang
+./debug.sh
 cd ..

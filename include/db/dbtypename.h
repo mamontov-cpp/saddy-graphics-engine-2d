@@ -8,6 +8,8 @@
 
 namespace sad
 {
+
+class Object;
 	
 namespace db
 {

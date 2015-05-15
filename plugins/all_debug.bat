@@ -1,3 +1,9 @@
 cd freetype
-library_debug.bat
+debug.bat
+cd ..
+cd duktape
+debug.bat
+cd ..
+cd irrklang
+debug.bat
 cd ..

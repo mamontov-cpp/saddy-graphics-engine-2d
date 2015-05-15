@@ -3,7 +3,7 @@ PLATFORM = {PLATFORM}
 
 ifeq ($(PLATFORM),WIN32)
 DEFINES  = -DWIN32 -DMINGW
-INCLUDE  = -I../../include   -I"$(IRRKLANG_ROOOT)"/include/ 
+INCLUDE  = -I../../include   -I"$(IRRKLANG_ROOT)"/include/ 
 else
 DEFINES  = -DUNIX -DLINUX -DGCC
 INCLUDE = -I../../include  -I/usr/include/ -I/usr/include/irrKlang/

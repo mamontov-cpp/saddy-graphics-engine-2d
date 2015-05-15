@@ -1,3 +1,9 @@
 cd freetype
-library_release.bat
+release.bat
+cd ..
+cd duktape
+release.bat
+cd ..
+cd irrklang
+release.bat
 cd ..
