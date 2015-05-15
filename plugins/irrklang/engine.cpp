@@ -1,5 +1,9 @@
 #include "irrklang/engine.h"
 
+#include <renderer.h>
+
+#include <util/fs.h>
+
 #include <cassert>
 
 // ============================= PUBLIC METHODS =============================
@@ -11,6 +15,25 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
 		m_instance = new sad::irrklang::Engine();
 	}
 	return m_instance;
+}
+
+::irrklang::ISoundSource* sad::irrklang::Engine::tryLoad(const sad::String& source)
+{
+    ::irrklang::ISoundSource* result = m_engine->addSoundSourceFromFile(source.c_str());
+    if (!result && !util::isAbsolutePath(source))
+	{
+		sad::String newpath = util::concatPaths(sad::Renderer::ref()->executablePath(), source);
+		result = m_engine->addSoundSourceFromFile(newpath.c_str());
+	}
+    return result;
+}
+
+::irrklang::ISoundSource* sad::irrklang::Engine::addAsAlias(
+    ::irrklang::ISoundSource* source,
+    const sad::String& name
+)
+{
+   return m_engine->addSoundSourceAlias(source, name.c_str()); 
 }
 
 sad::irrklang::Engine::~Engine()
@@ -41,14 +64,13 @@ sad::irrklang::Engine::Engine()
 }
 
 sad::irrklang::Engine::Engine(const Engine& o)
-: m_registered(o.m_registered), m_engine(o.m_engine) 
+: m_engine(o.m_engine) 
 {
 	m_engine->grab();
 }
 
 sad::irrklang::Engine& sad::irrklang::Engine::operator=(const sad::irrklang::Engine& o)
 {
-	m_registered = o.m_registered;
 	m_engine = o.m_engine;
 	m_engine->grab();
 	return *this;

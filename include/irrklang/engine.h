@@ -22,6 +22,20 @@ public:
 	/*! Returns global reference to an engine
 	 */
 	static sad::irrklang::Engine* ref();
+    /*! Tries to load file from source
+        \param[in] source a source
+        \return source data
+     */
+    ::irrklang::ISoundSource* tryLoad(const sad::String& source);
+    /*! Adds new source for alias
+        \param[in] source 
+        \param[in] name a name for alias
+        \return copy source
+     */
+    ::irrklang::ISoundSource* addAsAlias(
+        ::irrklang::ISoundSource* source,
+        const sad::String& name
+    );
 	/*! Frees engine instance
      */
     ~Engine();
@@ -34,12 +48,6 @@ public:
 	 */ 
 	static ::irrklang::ISoundEngine* eref();
 protected:
-    /*! A lock for registering objects
-     */
-    sad::Mutex m_lock;
-    /*! A hash map of registered sounds
-     */
-    sad::Hash<sad::String, bool> m_registered;
     /*! A sound engine, which is being used
      */
     ::irrklang::ISoundEngine* m_engine;
