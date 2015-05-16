@@ -10,7 +10,7 @@ if [%1] EQU [Debug]  (
 if [%1] EQU [Release]  (
 	SET VALID=1
 	SET BatchToRun=release.bat
-	SET QtConfig=debug
+	SET QtConfig=release
 
 )	
 if [%VALID%] EQU [0]  (
