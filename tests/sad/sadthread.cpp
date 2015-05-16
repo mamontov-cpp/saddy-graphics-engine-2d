@@ -58,17 +58,23 @@ struct sadThreadTest : tpunit::TestFixture
 		return flag;
    }
 
-   void sleepy()
+   int sleepy()
    {
-	   int i =  0, j = 0;
-       for(j = 0; j < 200000; j++)
+	   int i =  0, j = 0, k = 0;
+       int r = 0;
+       for(k = 0; k < 200000; k++)
        {
-           i = 0;
-           while (i < 20000000)
+           for(j = 0; j < 200000; j++)
            {
-               i++;
+               i = 0;
+               while (i < 20000000)
+               {
+                   i++;
+                   r += i + j * 2 * k; 
+               }
            }
        }
+       return r;
    }
 
    /*! Tests all of constructors for thread
