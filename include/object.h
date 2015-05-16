@@ -243,7 +243,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE2(NAMEDCLASS, PARENT1, PARENT2)			 \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
+DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                        \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -270,7 +270,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE3(NAMEDCLASS, PARENT1, PARENT2, PARENT3) \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                 \
+DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                        \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	             \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 			 \
 {																		 \
@@ -299,7 +299,7 @@ sad::ClassMetaData * NAMEDCLASS ::metaData() const												\
 	- name of his parent classes
  */
 #define DECLARE_SOBJ_INHERITANCE4(NAMEDCLASS, PARENT1, PARENT2, PARENT3, PARENT4) \
-DECLARE_TYPE_AS_SAD_OBJECT( NAMEDCLASS )                                          \
+DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT( NAMEDCLASS )                                 \
 sad::ClassMetaData * NAMEDCLASS ::m_global_metadata=NULL;	                      \
 sad::ClassMetaData * NAMEDCLASS ::globalMetaData()	  		 					  \
 {																				  \

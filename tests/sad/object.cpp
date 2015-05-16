@@ -2,7 +2,6 @@
 #pragma warning(disable: 4273)
 #pragma warning(disable: 4351)
 #include "object.h"
-#include "scene.h"
 #include "sadptrhash.h"
 #include "sadstring.h"
 #define _INC_STDIO
@@ -17,7 +16,7 @@ class DirectDescendant1: public sad::Object
 		int m_dir_desc_prot1;
 	public:
 	DirectDescendant1() { m_dir_desc_prot1 = 1;}
-	int local() { return m_dir_desc_prot1;}
+	virtual int local1() { return m_dir_desc_prot1;}
 };
 DECLARE_SOBJ(DirectDescendant1);
 class DirectDescendant2: public sad::Object 
@@ -29,7 +28,7 @@ class DirectDescendant2: public sad::Object
 	DirectDescendant2() { 
 		m_dir_dec_prot2 = 2;
 	}
-	int local() { 
+	virtual int local2() { 
 		return m_dir_dec_prot2;
 	}
 };
@@ -41,7 +40,7 @@ class DirectDescendant3: public sad::Object
 		int m_dir_dec_prot3;
 	public:
 	DirectDescendant3() { m_dir_dec_prot3 = 3; }
-	int local() { return m_dir_dec_prot3;}
+	virtual int local3() { return m_dir_dec_prot3;}
 };
 DECLARE_SOBJ(DirectDescendant3);
 class DirectDescendant4: public sad::Object 
@@ -51,7 +50,7 @@ class DirectDescendant4: public sad::Object
 		int m_dir_dec_prot4;
 	public:
 	DirectDescendant4() { m_dir_dec_prot4 = 4;}
-	int local() { return m_dir_dec_prot4;}
+	virtual int local4() { return m_dir_dec_prot4;}
 
 };
 DECLARE_SOBJ(DirectDescendant4);
@@ -62,7 +61,7 @@ class InheritedFrom1: public DirectDescendant1 {
 		int m_inh_from1;
 	public:
 	InheritedFrom1() { m_inh_from1 = 5; }
-	int local() { return m_inh_from1;}
+	virtual int local() { return m_inh_from1;}
 };
 
 DECLARE_SOBJ_INHERITANCE(InheritedFrom1, 
@@ -77,6 +76,9 @@ class InheritedFrom2 : public InheritedFrom1, public DirectDescendant2
 	InheritedFrom2() { m_inh_from2 = 6; }
 	int local() { return m_inh_from2;}
 };
+
+DECLARE_DB_TYPENAME_VIA_EXPLICIT_PARENT(InheritedFrom1, InheritedFrom2)
+
 
 DECLARE_SOBJ_INHERITANCE2(InheritedFrom2, 
                           InheritedFrom1, 
@@ -93,6 +95,8 @@ class InheritedFrom3 : public InheritedFrom1,
 	InheritedFrom3() { m_inh_from3 = 7; }
 	int local() { return m_inh_from3;}
 };
+
+DECLARE_DB_TYPENAME_VIA_EXPLICIT_PARENT(InheritedFrom1, InheritedFrom3)
 
 DECLARE_SOBJ_INHERITANCE3(InheritedFrom3, 
                           InheritedFrom1, 
@@ -111,6 +115,9 @@ class InheritedFrom4 : public InheritedFrom1,
 	InheritedFrom4() { m_inh_from4 = 8;}
 	int local() { return m_inh_from4;}
 };
+
+DECLARE_DB_TYPENAME_VIA_EXPLICIT_PARENT(InheritedFrom1, InheritedFrom4)
+
 
 DECLARE_SOBJ_INHERITANCE4(InheritedFrom4, 
                           InheritedFrom1, 
@@ -304,13 +311,13 @@ struct SadObjectTest : tpunit::TestFixture
    void testValidCasts()
    {
 	   ASSERT_EQUAL(m_cache["DirectDescendant1"]->
-				    as<DirectDescendant1>()->local(), 1);
+				    as<DirectDescendant1>()->local1(), 1);
 	   ASSERT_EQUAL(m_cache["DirectDescendant2"]->
-				    as<DirectDescendant2>()->local(), 2);
+				    as<DirectDescendant2>()->local2(), 2);
 	   ASSERT_EQUAL(m_cache["DirectDescendant3"]->
-				    as<DirectDescendant3>()->local(), 3);
+				    as<DirectDescendant3>()->local3(), 3);
 	   ASSERT_EQUAL(m_cache["DirectDescendant4"]->
-				    as<DirectDescendant4>()->local(), 4);
+				    as<DirectDescendant4>()->local4(), 4);
    }
 
    void testInheritedFrom1()
@@ -318,7 +325,7 @@ struct SadObjectTest : tpunit::TestFixture
 	   ASSERT_EQUAL(m_cache["InheritedFrom1"]->
 				    as<InheritedFrom1>()->local(), 5);
 	   ASSERT_EQUAL(m_cache["InheritedFrom1"]->
-				    as<DirectDescendant1>()->local(), 1);
+				    as<DirectDescendant1>()->local1(), 1);
    }
 
    void testInheritedFrom2()
@@ -327,11 +334,10 @@ struct SadObjectTest : tpunit::TestFixture
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
 	   InheritedFrom2 * testif2 = sad::checked_cast<InheritedFrom2>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 6);
-	   ASSERT_EQUAL(testif1->local(), 5);
-	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
+	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local1(), 1);
 	   DirectDescendant2 * testdd2 = 
 		   sad::checked_cast<DirectDescendant2>(testif2);								     
-	   ASSERT_EQUAL(testdd2->local(), 2);
+	   ASSERT_EQUAL(testdd2->local2(), 2);
    }
 
    void testInheritedFrom3()
@@ -340,14 +346,13 @@ struct SadObjectTest : tpunit::TestFixture
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
 	   InheritedFrom3 * testif2 = sad::checked_cast<InheritedFrom3>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 7);
-	   ASSERT_EQUAL(testif1->local(), 5);
-	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
+	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local1(), 1);
 	   DirectDescendant2 * testdd2 = 
 		   sad::checked_cast<DirectDescendant2>(testif2);								     
-	   ASSERT_EQUAL(testdd2->local(), 2);
+	   ASSERT_EQUAL(testdd2->local2(), 2);
 	   DirectDescendant3 * testdd3 = 
 		   sad::checked_cast<DirectDescendant3>(testif2);								     
-	   ASSERT_EQUAL(testdd3->local(), 3);
+	   ASSERT_EQUAL(testdd3->local3(), 3);
    }
 
    void testInheritedFrom4()
@@ -356,17 +361,16 @@ struct SadObjectTest : tpunit::TestFixture
 	   InheritedFrom1 * testif1 = testbase->as<InheritedFrom1>();
 	   InheritedFrom4 * testif2 = sad::checked_cast<InheritedFrom4>(testif1);
 	   ASSERT_EQUAL(testif2->local(), 8);
-	   ASSERT_EQUAL(testif1->local(), 5);
-	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local(), 1);
+	   ASSERT_EQUAL(testbase->as<DirectDescendant1>()->local1(), 1);
 	   DirectDescendant2 * testdd2 = 
 		   sad::checked_cast<DirectDescendant2>(testif2);								     
-	   ASSERT_EQUAL(testdd2->local(), 2);
+	   ASSERT_EQUAL(testdd2->local2(), 2);
 	   DirectDescendant3 * testdd3 = 
 		   sad::checked_cast<DirectDescendant3>(testif2);								     
-	   ASSERT_EQUAL(testdd3->local(), 3);
+	   ASSERT_EQUAL(testdd3->local3(), 3);
 	   DirectDescendant4 * testdd4 = 
 		   sad::checked_cast<DirectDescendant4>(testif2);								     
-	   ASSERT_EQUAL(testdd4->local(), 4);
+	   ASSERT_EQUAL(testdd4->local4(), 4);
    }
 
    void testFailCast() 
@@ -374,7 +378,7 @@ struct SadObjectTest : tpunit::TestFixture
 	    sad::Object * testbase = m_cache["DirectDescendant1"];
 		try
 		{
-			InheritedFrom1 * i2 = testbase->as<InheritedFrom1>();
+			testbase->as<InheritedFrom1>();
 			// Expect exception
 			ASSERT_TRUE( false ); 
 		}

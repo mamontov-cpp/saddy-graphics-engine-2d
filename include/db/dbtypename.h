@@ -150,6 +150,16 @@ template<> const bool sad::db::TypeName< TYPE >::IsSadObject  = true;   \
 template<> sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;            
 #endif
 
+#ifndef  DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT
+/*! Declares type compile-time metadata as sad::Object descendant for types, which has
+    multiple inheritance
+ */
+#define DECLARE_TYPE_AS_SAD_OBJECT_EXPLICIT(TYPE)            \
+sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;        \
+const bool sad::db::TypeName< TYPE >::IsSadObject  = true;   \
+sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;            
+#endif
+
 #ifndef  DECLARE_COMMON_TYPE
 /*! Declares type compile-time metadata as not a sad::Object descendant
  */
@@ -158,3 +168,47 @@ template<> sad::String sad::db::TypeName< TYPE >::Name  = #TYPE;              \
 template<> const bool sad::db::TypeName< TYPE >::IsSadObject  = false;        \
 template<> sad::String sad::db::TypeName< TYPE >::BaseName  = #TYPE;          
 #endif
+
+/*! Sometimes, it's not enough to just declare object. It could fail, if there is
+    multiple inheritance from parent object. In that case, explicitly state parent type
+    in PARENT parameter of this macro and TYPE for common type
+ */
+#define DECLARE_DB_TYPENAME_VIA_EXPLICIT_PARENT( PARENT, TYPE )               \
+namespace sad                                                                 \
+{                                                                             \
+                                                                              \
+namespace db                                                                  \
+{                                                                             \
+                                                                              \
+template<>                                                                    \
+class TypeName< TYPE >                                                        \
+{                                                                             \
+public:                                                                           \
+    enum { SFINAE_BASE_CHECK = sad::db::TypeName< PARENT >::SFINAE_BASE_CHECK };  \
+                                                                                  \
+	static sad::String Name;                                                      \
+	static sad::String BaseName;                                                  \
+	static const bool IsSadObject;                                                \
+	static inline  void init() { }                                                \
+	static inline bool isSadObject()                                              \
+	{                                                                             \
+		return sad::db::TypeName< TYPE >::IsSadObject;                            \
+	}                                                                             \
+	static inline sad::String name()                                              \
+	{                                                                             \
+		return  sad::db::TypeName< TYPE >::Name;                                  \
+	}                                                                             \
+	static inline sad::String baseName()                                          \
+	{                                                                             \
+		return sad::db::TypeName< TYPE >::BaseName;                               \
+	}                                                                             \
+	enum ObjectCastValueHelper                                                    \
+	{                                                                             \
+		CAN_BE_CASTED_TO_OBJECT  = false,                                         \
+		POINTER_STARS_COUNT = 0                                                   \
+	};                                                                            \
+};                                                                                \
+                                                                                  \
+}                                                                                 \
+                                                                                  \
+}

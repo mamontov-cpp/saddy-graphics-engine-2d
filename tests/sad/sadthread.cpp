@@ -60,7 +60,15 @@ struct sadThreadTest : tpunit::TestFixture
 
    void sleepy()
    {
-	   sad::sleep(2000);
+	   int i =  0, j = 0;
+       for(j = 0; j < 200000; j++)
+       {
+           i = 0;
+           while (i < 20000000)
+           {
+               i++;
+           }
+       }
    }
 
    /*! Tests all of constructors for thread
@@ -127,6 +135,7 @@ struct sadThreadTest : tpunit::TestFixture
    {
 	  sad::Thread thread(this, &sadThreadTest::sleepy);
 	  thread.run();
+      sad::sleep(100);
 	  thread.stop();
 	  ASSERT_TRUE( thread.exitCode() == sad::Thread::Cancelled );
    }
