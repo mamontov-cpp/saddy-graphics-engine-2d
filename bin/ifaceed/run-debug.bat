@@ -1,1 +1,1 @@
-iface-editor-debug.exe -ifaceconfig globalconfig.xml
+iface-editor-debug.exe -resources globalconfig.json -width 800 -height 600

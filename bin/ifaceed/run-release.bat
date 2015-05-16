@@ -1,1 +1,1 @@
-iface-editor-release.exe -ifaceconfig globalconfig.xml
+iface-editor-release.exe -resources globalconfig.json -width 800 -height 600
