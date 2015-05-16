@@ -9,23 +9,23 @@ if [%VALID%] EQU [0]  (
 	exit /B 1
 )
 @echo on
-devenv.exe libsaddy.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/atlasgenc/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/duktape/duktape.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/freetype/saddy-ft.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/irrklang/irrklang.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe plugins/ifaceed/ifaceed/ifaceed.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe examples/game/game.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe examples/multithreading/multithreading.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe examples/stress-physics/stress-physics.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/db/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/duktape/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/freetype/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/hfsm/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/input/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/irrklang/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/p2d/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/pipeline/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/resource/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
-devenv.exe tests/sad/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv libsaddy.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/atlasgenc/atlasgen.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/duktape/duktape.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/exporter/exporter.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/freetype/saddy-ft.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/irrklang/irrklang.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv plugins/ifaceed/ifaceed/ifaceed.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv examples/game/game.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv examples/multithreading/multithreading.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv examples/stress-physics/stress-physics.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/db/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/duktape/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/freetype/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/hfsm/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/input/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/irrklang/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/p2d/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/pipeline/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/resource/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/sad/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
