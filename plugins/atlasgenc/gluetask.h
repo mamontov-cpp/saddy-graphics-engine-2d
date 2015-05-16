@@ -4,8 +4,8 @@
     A task, which is used by metrics to find recursively an order.
     A metric must merge all +entries+ into one, extending +orders+ array
  */
-#include <glueentry.h>
-#include <glueorder.h>
+#include "glueentry.h"
+#include "glueorder.h"
 
 
 /*! A task, which is used by metrics to find recursively an order.

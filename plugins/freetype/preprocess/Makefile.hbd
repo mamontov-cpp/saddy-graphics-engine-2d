@@ -3,7 +3,7 @@ PLATFORM = {PLATFORM}
 
 ifeq ($(PLATFORM),WIN32)
 DEFINES  = -DWIN32 -DMINGW
-INCLUDE  = -I../../include -I"$(FREETYPE_INCLUDE)" -I"$(FREETYPE_INCLUDE)/../" -I"$(FREETYPE_INCLUDE)/freetype/"
+INCLUDE  = -I../../include "-I$(FREETYPE_INCLUDE)/" "-I$(FREETYPE_INCLUDE)\../" "-I$(FREETYPE_INCLUDE)/freetype/"
 else
 DEFINES  = -DUNIX -DLINUX -DGCC
 INCLUDE = -I../../include -I/usr/include/freetype2/ -I/usr/include/
