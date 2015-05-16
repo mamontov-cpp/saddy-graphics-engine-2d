@@ -509,12 +509,12 @@ win32 {
 
 CONFIG(debug, debug|release) {
     LIBS += -L../../lib/ -lsaddy-debug -lsaddy-ft-debug
-    TARGET = ifaceeditor-debug
+    TARGET = iface-editor-debug
 }
 
 CONFIG(release, debug|release) {
     LIBS += -L../../lib/ -lsaddy-release -lsaddy-ft-release
-    TARGET = ifaceeditor-release
+    TARGET = iface-editor-release
 }
 
 unix {
