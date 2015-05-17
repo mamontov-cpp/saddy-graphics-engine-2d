@@ -1,4 +1,4 @@
-#include "Mock3.h"
+#include "mock3.h"
 
 #include <db/dbfield.h>
 #include <db/dbmethodpair.h>
