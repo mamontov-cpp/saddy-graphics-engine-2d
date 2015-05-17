@@ -610,12 +610,13 @@ void gui::colorpicker::ColorPicker::resizeWidgets(const QRect & r)
 		r.width() / 2 - gui::colorpicker::ColorPicker::HorizontalPadding, 
 		r.height() / 2 - gui::colorpicker::ColorPicker::VerticalPadding
 	);
-#ifndef HAVE_QT5	
+#if HAVE_QT5
+    m_preview->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	m_preview->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	
+#else
 	m_preview->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 	m_preview->verticalHeader()->setResizeMode(QHeaderView::Stretch);
-#else
-	m_preview->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	m_preview->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #endif	
 	m_preview->setGeometry(
 		r.x(),
@@ -962,7 +963,7 @@ void gui::colorpicker::ColorPicker::handleMouseEvents(QMouseEvent* e)
 	if (IS_WITHIN(e, m_color_wheel_location))
 	{
 		QColor result;
-#ifdef HAVE_QT5
+#if HAVE_QT5
 		QPointF local_pos = e->localPos();
 #else
 		QPointF local_pos = e->posF();
