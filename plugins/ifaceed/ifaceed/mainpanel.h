@@ -13,9 +13,9 @@
 #endif
 
 #ifndef  HAVE_QT5
-#include <QtGui/QMainWindow>
+    #include <QtWidgets/QMainWindow>
 #else
-#include <QtWidgets/QMainWindow>
+    #include <QtGui/QMainWindow>
 #endif
 
 
