@@ -178,6 +178,11 @@ static DWORD WINAPI thread_implementation_function(LPVOID function)
 
 static void * thread_implementation_function(void * function)
 {
+	int oldstate = 0;
+		
+	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,&oldstate);
+	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &oldstate);
+	
 	int code = sad::Thread::Cancelled;
 	// Make thread set status on cancel
 	pthread_cleanup_push(register_cancelled_thread, NULL);
