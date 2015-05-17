@@ -8,7 +8,7 @@ EXECUTABLE = tests-irrklang
 ifeq ($(PLATFORM),WIN32)
 INCLUDE += -I"$(IRRKLANG_ROOT)"/include/
 else
-INCLUDE += -I"/usr/include/freetype" -I"/usr/include/freetype2"
+INCLUDE += -I"$(IRRKLANG_ROOT)"/include/
 endif
 
 ifeq ($(PLATFORM),WIN32)
@@ -16,7 +16,7 @@ LDFLAGS= -L../../lib  -L$(IRRKLANG_ROOT)/lib/Win32-gcc -lsaddy-$(TYPE) -lsaddy-i
 DEFINES  = -DWIN32 -DMINGW
 OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE).exe
 else
-LDFLAGS= -L../../lib -lsaddy-$(TYPE) -lsaddy-irrklang-$(TYPE) -lirrKlang -L/usr/X11R6/lib -lm -lrt -lGL -lGLU -lpthread -lX11 -lfreetype
+LDFLAGS= -L../../lib -L$(IRRKLANG_ROOT)/lib/linux-gcc -lsaddy-$(TYPE) -lsaddy-irrklang-$(TYPE) -lirrKlang -L/usr/X11R6/lib -lm -lrt -lGL -lGLU -lpthread -lX11 -lfreetype
 DEFINES  = -DUNIX -DLINUX -DGCC
 OUTPUT   = ../../bin/$(EXECUTABLE)-$(TYPE)
 endif

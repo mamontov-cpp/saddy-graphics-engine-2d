@@ -6,7 +6,7 @@ DEFINES  = -DWIN32 -DMINGW
 INCLUDE  = -I../../include   -I"$(IRRKLANG_ROOT)"/include/ 
 else
 DEFINES  = -DUNIX -DLINUX -DGCC
-INCLUDE = -I../../include  -I/usr/include/ -I/usr/include/irrKlang/
+INCLUDE = -I../../include  -I/usr/include/ -I"$(IRRKLANG_ROOT)"/include/
 endif
 
 TYPE     = release
