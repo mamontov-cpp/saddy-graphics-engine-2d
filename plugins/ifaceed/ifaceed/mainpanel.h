@@ -12,7 +12,7 @@
 	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #endif
 
-#ifndef  HAVE_QT5
+#if  HAVE_QT5
     #include <QtWidgets/QMainWindow>
 #else
     #include <QtGui/QMainWindow>
