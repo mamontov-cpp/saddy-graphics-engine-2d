@@ -8,6 +8,13 @@
 #include <QtGui>
 #include <QFontMetrics>
 
+#ifndef HAVE_QT5
+	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#endif
+
+#ifdef HAVE_QT5
+	#include <QItemDelegate>
+#endif
 
 
 namespace gui

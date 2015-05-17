@@ -11,6 +11,10 @@
 
 #include <algorithm>
 
+#ifndef HAVE_QT5
+	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#endif
+
 gui::codeedit::CodeEdit::CodeEdit(QWidget* parent) : gui::textedit::TextEdit(parent)
 {
 	m_line_number_area = new gui::codeedit::LineNumberArea(this);
@@ -99,9 +103,14 @@ void gui::codeedit::CodeEdit::lineNumberAreaPaintEvent(QPaintEvent* e)
         additional_margin = static_cast<int>(this->document()->documentMargin()) - 1 - this->verticalScrollBar()->sliderPosition();
     else
         // Getting the height of the visible part of the previous "non entirely visible" block
+
+#ifdef HAVE_QT5
+        additional_margin = static_cast<int>(this->document()->documentLayout()->blockBoundingRect(prev_block)
+                .translated(0, translate_y).intersected(this->viewport()->geometry()).height());
+#else    
         additional_margin = static_cast<int>(this->document()->documentLayout()->blockBoundingRect(prev_block)
                 .translated(0, translate_y).intersect(this->viewport()->geometry()).height());
-
+#endif
     // Shift the starting point
     top += additional_margin;
 

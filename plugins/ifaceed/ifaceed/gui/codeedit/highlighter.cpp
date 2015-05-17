@@ -1,5 +1,9 @@
 #include "highlighter.h"
 
+#ifndef HAVE_QT5
+	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#endif
+
 enum ScriptIds {
     Comment = 1,
     Number,
@@ -199,7 +203,11 @@ void gui::codeedit::Highlighter::highlightBlock(const QString &text)
         if (lastWasBackSlash) {
             input = InputSep;
         } else {
-            switch (c.toAscii()) {
+#ifdef HAVE_QT5		
+            switch (c.toLatin1()) {
+#else
+            switch (c.toAscii()) {	
+#endif		
                 case '*':
                     input = InputAsterix;
                     break;

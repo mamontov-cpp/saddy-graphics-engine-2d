@@ -16,6 +16,10 @@
 
 #include <QImage>
 
+#ifdef HAVE_QT5
+	#include <QHeaderView>
+#endif
+
 Q_DECLARE_METATYPE(sad::String);
 
 gui::resourcetreewidget::ResourceTreeWidget::ResourceTreeWidget(QWidget * parent) 
