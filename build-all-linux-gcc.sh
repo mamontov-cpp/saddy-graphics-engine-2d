@@ -1,19 +1,19 @@
 VALID=0
 BatchToRun=
 QtConfig=
-if $1 -eq Debug 
+if [ "$1" =  "Debug" ]
 then
 	VALID=1
 	BatchToRun=./debug.sh
 	QtConfig=debug
 fi	
-if $1 -eq Release
+if [ "$1" = "Release" ]
 then
 	VALID=1
 	BatchToRun=./release.sh
 	QtConfig=release
 fi	
-if $VALID -eq 0 
+if [ "$VALID" -eq 0 ] 
 then
 	echo Build script for all libraries for Linux for GCC.
     echo Syntax:
