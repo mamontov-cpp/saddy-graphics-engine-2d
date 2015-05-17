@@ -6,8 +6,25 @@
 #ifndef MAINPANEL_H
 #define MAINPANEL_H
 
+#include <QtGlobal>
 
+#ifndef HAVE_QT5
+	#define HAVE_QT5 (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#endif
+
+#ifndef  HAVE_QT5
 #include <QtGui/QMainWindow>
+#else
+#include <QtWidgets/QMainWindow>
+#endif
+
+
+#ifdef HAVE_QT5
+namespace Qt
+{
+	typedef Qt::WindowFlags WFlags;
+}
+#endif
 
 #include "ui_mainpanel.h"
 
