@@ -83,5 +83,7 @@ bool sad::ClassMetaDataContainer::contains(const sad::String & name) const
 
 void sad::ClassMetaDataContainer::pushGlobalSchema(sad::db::schema::Schema* s)
 {
+    m_schemas_lock.lock();
 	m_global_schemas << s;
+    m_schemas_lock.unlock();
 }

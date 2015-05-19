@@ -60,6 +60,9 @@ private:
 	/*! A lock for mutex
 	 */
 	::sad::Mutex m_lock;
+    /*! A lock for stored schemas
+     */
+    ::sad::Mutex m_schemas_lock;
 	/*! Locked, for singleton usage
 	 */
 	ClassMetaDataContainer();
