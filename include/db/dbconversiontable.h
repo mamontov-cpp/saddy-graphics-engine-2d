@@ -6,6 +6,7 @@
 #pragma once
 #include "../sadptrhash.h"
 #include "../sadstring.h"
+#include "../sadmutex.h"
 #include "dbtypename.h"
 
 namespace sad
@@ -109,22 +110,27 @@ public:
 	>
 	void declareIsSadObjectFlag() 
 	{
+        this->m_sad_object_flags_lock.lock();
 		if (m_sad_object_flags.contains(sad::db::TypeName<T>::Name) == false) 
 		{
 			m_sad_object_flags.insert(sad::db::TypeName<T>::Name, sad::db::TypeName<T>::isSadObject());	
 		}
+        this->m_sad_object_flags_lock.unlock();
 	}
 	/*! Tests, whether type is sad object
 		\param[in] name name of type, which type must be determined
 		\return whether it's sad object
 	 */
-	bool isSadObject(const sad::String & name) const 
+	inline bool isSadObject(const sad::String & name) const 
 	{
 		bool result = false;
+        sad::db::ConversionTable* me = const_cast<sad::db::ConversionTable*>(this);
+        me->m_sad_object_flags_lock.lock();
 		if (m_sad_object_flags.contains(name))
 		{
 			result = m_sad_object_flags[name];
 		}
+        me->m_sad_object_flags_lock.unlock();
 		return result;
 	}
 	/*! Returns instance of conversion table
@@ -144,6 +150,12 @@ protected:
 	/*! A hash of types to flags, which indicate, whether type is sad object kind
 	 */
 	sad::Hash<sad::String, bool> m_sad_object_flags;
+    /*! Lock for sad m_sad_object_flags container
+     */
+    sad::Mutex m_sad_object_flags_lock;
+    /*! Lock for converters
+     */
+    sad::Mutex m_converters_lock;
 };
 
 }

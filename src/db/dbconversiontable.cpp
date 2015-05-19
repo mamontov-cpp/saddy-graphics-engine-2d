@@ -146,6 +146,7 @@ void sad::db::ConversionTable::add(
 	sad::db::AbstractTypeConverter * c
 )
 {
+    m_converters_lock.lock();
 	sad::Hash<sad::String, sad::db::AbstractTypeConverter*> * h = NULL;
 	if (m_converters.contains(from) == false)
 	{
@@ -157,6 +158,7 @@ void sad::db::ConversionTable::add(
 		delete (*h)[to];
 	}
 	h->insert(to, c);
+    m_converters_lock.unlock();
 }
 
 sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
@@ -164,6 +166,7 @@ sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
 		const sad::String & to
 )
 {
+    m_converters_lock.lock();
 	sad::db::AbstractTypeConverter * result = NULL;
 	if (m_converters.contains(from))
 	{
@@ -173,16 +176,24 @@ sad::db::AbstractTypeConverter *   sad::db::ConversionTable::converter(
 			result = h[to];
 		}
 	}
+    m_converters_lock.unlock();
 	return result;
 }
+
+static sad::Mutex sad_db_conversion_table_lock;
 
 sad::db::ConversionTable * sad::db::ConversionTable::ref()
 {
 	if (sad::db::ConversionTable::m_instance == NULL)
 	{
-		sad::db::ConversionTable::m_instance = new sad::db::ConversionTable();
-		atexit(sad::db::ConversionTable::freeInstance);
-	}
+        sad_db_conversion_table_lock.lock();
+        if (sad::db::ConversionTable::m_instance == NULL)
+        {
+		    sad::db::ConversionTable::m_instance = new sad::db::ConversionTable();
+		    atexit(sad::db::ConversionTable::freeInstance);
+        }
+        sad_db_conversion_table_lock.unlock();
+    }
 	return sad::db::ConversionTable::m_instance;
 }
 

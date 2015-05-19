@@ -190,12 +190,19 @@ void sad::Renderer::quit()
 	}
 }
 
+static sad::Mutex sad_renderer_instance_lock;
+
 sad::Renderer* sad::Renderer::ref()
 {
 	if (sad::Renderer::m_instance == NULL)
 	{
-		sad::Renderer::m_instance = new sad::Renderer();
-		atexit(sad::Renderer::destroyInstance);
+        sad_renderer_instance_lock.lock();
+        if (sad::Renderer::m_instance == NULL)
+        {
+		    sad::Renderer::m_instance = new sad::Renderer();
+		    atexit(sad::Renderer::destroyInstance);
+        }
+        sad_renderer_instance_lock.unlock();
 	}
 	return sad::Renderer::m_instance;
 }
