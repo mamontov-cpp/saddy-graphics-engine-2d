@@ -1,6 +1,8 @@
 #include "db/schema/schema.h"
 
-sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) 
+#include "sadscopedlock.h"
+
+sad::db::schema::Schema::Schema(sad::db::schema::Schema* parent) : m_already_locked(false)
 {
 	if (parent)
 	{
@@ -16,11 +18,15 @@ sad::db::schema::Schema::~Schema()
 bool sad::db::schema::Schema::add(const sad::String& s, sad::db::Property* prop)
 {
 	bool ok = false;
+    m_lock.lock();
+    m_already_locked = true;
 	if (this->getProperty(s) == NULL)
 	{
 		m_properties.insert(s, prop);
 		ok = true;
 	}
+    m_already_locked = false;
+    m_lock.unlock();
 	return ok;
 }
 
@@ -35,6 +41,11 @@ void sad::db::schema::Schema::remove(const sad::String & s)
 
 sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) const
 {
+    sad::db::schema::Schema* me = const_cast<sad::db::schema::Schema*>(this);
+    if (!m_already_locked)
+    {
+        me->m_lock.lock();
+    }
 	sad::db::Property * result = NULL;
 	if (m_parent.size())
 	{
@@ -48,12 +59,18 @@ sad::db::Property* sad::db::schema::Schema::getProperty(const sad::String& s) co
 	{
 		result = m_properties[s];
 	}
+    if (!m_already_locked)
+    {
+        me->m_lock.unlock();
+    }
 	return result;
 }
 
 bool sad::db::schema::Schema::check(const picojson::value& v)
 {
-	if (m_parent.size()) 
+    sad::ScopedLock locallock(&m_lock);
+
+    if (m_parent.size()) 
 	{
 		for(size_t i = 0; i < m_parent.size(); i++)
 		{
@@ -75,6 +92,8 @@ bool sad::db::schema::Schema::check(const picojson::value& v)
 
 bool sad::db::schema::Schema::load(sad::db::Object * o, const picojson::value& v)
 {
+    sad::ScopedLock locallock(&m_lock);
+
 	if (!o || v.is<picojson::object>() == false)
 	{
 		return false;
@@ -114,6 +133,8 @@ bool sad::db::schema::Schema::load(sad::db::Object * o, const picojson::value& v
 
 void sad::db::schema::Schema::save(sad::db::Object * linked, picojson::value & v)
 {
+    sad::ScopedLock locallock(&m_lock);
+
 	if (!linked)
 	{
 		return;
@@ -153,6 +174,7 @@ const sad::Vector<sad::db::schema::Schema*>& sad::db::schema::Schema::parent() c
 
 void sad::db::schema::Schema::addParent(sad::db::schema::Schema* parent)
 {
+    sad::ScopedLock locallock(&m_lock);
 	m_parent << parent;
 }
 

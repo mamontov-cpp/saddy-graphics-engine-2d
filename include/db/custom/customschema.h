@@ -7,6 +7,7 @@
 #include "../schema/schema.h"
 #include "../dbstoredpropertyfactory.h"
 #include "../../resource/resource.h"
+#include "../../sadmutex.h"
 
 namespace sad
 {
@@ -79,6 +80,12 @@ private:
 		\return an item
 	 */
 	sad::db::custom::Schema& operator=(const sad::db::custom::Schema& s);
+    /*! A properties lock
+     */
+    sad::Mutex m_properties_lock;
+    /*! A factory lock for schema
+     */
+    sad::Mutex m_factory_lock;
 };
 
 }

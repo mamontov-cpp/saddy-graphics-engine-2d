@@ -22,9 +22,13 @@ sad::db::custom::Schema::~Schema()
 
 void sad::db::custom::Schema::setFactory(sad::db::StoredPropertyFactory * factory)
 {
+    m_factory_lock.lock();
+
 	assert(factory);
 	delete m_factory;
 	m_factory = factory->clone();
+
+    m_factory_lock.unlock();
 }
 
 sad::db::StoredPropertyFactory* sad::db::custom::Schema::factory() const
@@ -108,6 +112,7 @@ bool is_not_inherited(const sad::String & prop)
 
 bool sad::db::custom::Schema::load(const picojson::value& v)
 {
+    m_properties_lock.lock();
 	bool result = false;
 	if (v.is<picojson::object>())
 	{
@@ -182,6 +187,7 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 			}
 		}
 	}
+    m_properties_lock.unlock();
 	return result;
 }
 
@@ -190,6 +196,7 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
 
 void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db::Property*>& props)
 {
+    m_properties_lock.lock();
 	for (sad::PtrHash<sad::String, sad::db::Property>::const_iterator it = m_properties.const_begin(); 
 		 it != m_properties.const_end(); 
 		++it)
@@ -207,6 +214,7 @@ void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db
 			props.insert(it.key(), it.value()->clone());
 		}
 	}
+    m_properties_lock.unlock();
 }
 
 sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s)

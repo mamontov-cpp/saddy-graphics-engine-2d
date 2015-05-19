@@ -8,6 +8,7 @@
 #include "../dbobject.h"
 #include "../../sadptrhash.h"
 #include "../../sadvector.h"
+#include "../../sadmutex.h"
 
 namespace sad
 {
@@ -82,6 +83,12 @@ protected:
 	/*! A properties, stored inside of schema
 	 */
 	sad::PtrHash<sad::String, sad::db::Property> m_properties;
+    /*! Tests, whether object is already locked in pair add and getProperty
+     */
+    bool m_already_locked;
+    /*! A locks for schema operations
+     */
+    sad::Mutex m_lock;
 };
 
 }
