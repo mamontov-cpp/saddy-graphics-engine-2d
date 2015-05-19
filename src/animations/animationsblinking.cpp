@@ -23,8 +23,9 @@
 
 #include <3rdparty/picojson/valuetotype.h>
 
-#include <fstream>
+#include "sadmutex.h"
 
+#include <fstream>
 
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::Blinking, sad::animations::Animation);
@@ -44,22 +45,28 @@ sad::animations::Blinking::~Blinking()
 
 static sad::db::schema::Schema* AnimationBlinkingSchema = NULL;
 
+static sad::Mutex AnimationsBlinkingSchemaInit;
+
 sad::db::schema::Schema* sad::animations::Blinking::basicSchema()
 {
     if (AnimationBlinkingSchema == NULL)
     {
-        AnimationBlinkingSchema = new sad::db::schema::Schema();
-		AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationsBlinkingSchemaInit.lock();
+        if (AnimationBlinkingSchema == NULL)
+        {
+            AnimationBlinkingSchema = new sad::db::schema::Schema();
+		    AnimationBlinkingSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationBlinkingSchema->add(
-            "frequency",
-            new sad::db::MethodPair<sad::animations::Blinking, unsigned int>(
-				&sad::animations::Blinking::frequency,
-                &sad::animations::Blinking::setFrequency
-            )
-        );		
-        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationBlinkingSchema);
+            AnimationBlinkingSchema->add(
+                "frequency",
+                new sad::db::MethodPair<sad::animations::Blinking, unsigned int>(
+				    &sad::animations::Blinking::frequency,
+                    &sad::animations::Blinking::setFrequency
+                )
+            );		
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationBlinkingSchema);
+        }
+        AnimationsBlinkingSchemaInit.unlock();
     }
     return AnimationBlinkingSchema;
 }

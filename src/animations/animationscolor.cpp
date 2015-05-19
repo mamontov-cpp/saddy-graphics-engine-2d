@@ -43,28 +43,35 @@ sad::animations::Color::~Color()
 
 static sad::db::schema::Schema* AnimationColorSchema = NULL;
 
+static sad::Mutex AnimationColorSchemaInit;
+
 sad::db::schema::Schema* sad::animations::Color::basicSchema()
 {
     if (AnimationColorSchema == NULL)
     {
-        AnimationColorSchema = new sad::db::schema::Schema();
-        AnimationColorSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationColorSchemaInit.lock();
+        if (AnimationColorSchema == NULL)
+        {
+            AnimationColorSchema = new sad::db::schema::Schema();
+            AnimationColorSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationColorSchema->add(
-            "min_color",
-			new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
-				&sad::animations::Color::minColor,
-                &sad::animations::Color::setMinColor
-            )
-        );
-		AnimationColorSchema->add(
-            "max_color",
-			new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
-				&sad::animations::Color::maxColor,
-                &sad::animations::Color::setMaxColor
-            )
-        );		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationColorSchema);
+            AnimationColorSchema->add(
+                "min_color",
+			    new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
+				    &sad::animations::Color::minColor,
+                    &sad::animations::Color::setMinColor
+                )
+            );
+		    AnimationColorSchema->add(
+                "max_color",
+			    new sad::db::MethodPair<sad::animations::Color, sad::AColor>(
+				    &sad::animations::Color::maxColor,
+                    &sad::animations::Color::setMaxColor
+                )
+            );		        
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationColorSchema);
+        }
+        AnimationColorSchemaInit.unlock();
     }
     return AnimationColorSchema;
 }

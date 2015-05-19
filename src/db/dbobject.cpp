@@ -8,6 +8,9 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
+#include "sadmutex.h"
+#include "classmetadatacontainer.h"
+
 sad::db::Object::Object() : m_table(NULL), MajorId(0), MinorId(0), Active(true)
 {
 
@@ -49,21 +52,29 @@ void sad::db::Object::setTable(sad::db::Table* t)
 
 
 static sad::db::schema::Schema* DbObjectBasicSchema = NULL;
+static sad::Mutex DbObjectBasicSchemaInit;
 sad::db::schema::Schema* sad::db::Object::basicSchema()
 {
 	if (DbObjectBasicSchema == NULL)
 	{
-		DbObjectBasicSchema = new sad::db::schema::Schema();
-		DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
-		DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
-		DbObjectBasicSchema->add(
-			"name"   , 
-			new sad::db::MethodPair<sad::db::Object, sad::String>(
-				&sad::db::Object::objectName,	
-				&sad::db::Object::setObjectName				
-			)
-		);
-		DbObjectBasicSchema->add("active" , sad::db::define_field(&sad::db::Object::Active));
+        DbObjectBasicSchemaInit.lock();
+        if (DbObjectBasicSchema == NULL)
+        {
+		    DbObjectBasicSchema = new sad::db::schema::Schema();
+		    DbObjectBasicSchema->add("majorid", sad::db::define_field(&sad::db::Object::MajorId));
+		    DbObjectBasicSchema->add("minorid", sad::db::define_field(&sad::db::Object::MinorId));
+		    DbObjectBasicSchema->add(
+			    "name"   , 
+			    new sad::db::MethodPair<sad::db::Object, sad::String>(
+				    &sad::db::Object::objectName,	
+				    &sad::db::Object::setObjectName				
+			    )
+		    );
+		    DbObjectBasicSchema->add("active" , sad::db::define_field(&sad::db::Object::Active));
+
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(DbObjectBasicSchema);
+        }
+        DbObjectBasicSchemaInit.unlock();
 	}
 	return DbObjectBasicSchema;
 }

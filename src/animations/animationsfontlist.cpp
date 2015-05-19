@@ -5,6 +5,7 @@
 #include "animations/setstate/setproperty.h"
 
 #include "label.h"
+#include "sadmutex.h"
 #include "db/custom/customobject.h"
 
 #include "db/schema/schema.h"
@@ -42,22 +43,29 @@ sad::animations::FontList::~FontList()
 
 static sad::db::schema::Schema* AnimationFontListSchema = NULL;
 
+static sad::Mutex AnimationFontListSchemaInit;
+
 sad::db::schema::Schema* sad::animations::FontList::basicSchema()
 {
     if (AnimationFontListSchema == NULL)
     {
-        AnimationFontListSchema = new sad::db::schema::Schema();
-        AnimationFontListSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationFontListSchemaInit.lock();
+        if (AnimationFontListSchema == NULL)
+        {
+            AnimationFontListSchema = new sad::db::schema::Schema();
+            AnimationFontListSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationFontListSchema->add(
-            "fonts",
-			new sad::db::MethodPair<sad::animations::FontList, sad::Vector<sad::String> >(
-				&sad::animations::FontList::fonts,
-                &sad::animations::FontList::setFonts
-            )
-        );
+            AnimationFontListSchema->add(
+                "fonts",
+			    new sad::db::MethodPair<sad::animations::FontList, sad::Vector<sad::String> >(
+				    &sad::animations::FontList::fonts,
+                    &sad::animations::FontList::setFonts
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontListSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontListSchema);
+        }
+        AnimationFontListSchemaInit.unlock();
     }
     return AnimationFontListSchema;
 }

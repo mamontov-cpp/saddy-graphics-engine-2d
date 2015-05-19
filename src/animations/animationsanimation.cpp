@@ -20,6 +20,8 @@
 
 #include <fstream>
 
+#include <sadmutex.h>
+
 DECLARE_SOBJ_INHERITANCE(sad::animations::Animation, sad::resource::Resource);
 
 // =============================== PUBLIC METHODS ==========================
@@ -36,29 +38,36 @@ sad::animations::Animation::~Animation()
 
 static sad::db::schema::Schema* AnimationAnimationSchema = NULL;
 
+static sad::Mutex AnimationAnimationSchemaInitLock;
+
 sad::db::schema::Schema* sad::animations::Animation::basicSchema()
 {
     if (AnimationAnimationSchema == NULL)
     {
-        AnimationAnimationSchema = new sad::db::schema::Schema();
-        AnimationAnimationSchema->addParent(sad::db::Object::basicSchema());
+        AnimationAnimationSchemaInitLock.lock();
+        if (AnimationAnimationSchema == NULL)
+        {
+            AnimationAnimationSchema = new sad::db::schema::Schema();
+            AnimationAnimationSchema->addParent(sad::db::Object::basicSchema());
 
-        AnimationAnimationSchema->add(
-            "looped",
-            new sad::db::MethodPair<sad::animations::Animation, bool>(
-				&sad::animations::Animation::looped,
-                &sad::animations::Animation::setLooped
-            )
-        );
-		AnimationAnimationSchema->add(
-            "time",
-            new sad::db::MethodPair<sad::animations::Animation, double>(
-                &sad::animations::Animation::time,
-                &sad::animations::Animation::setTime
-            )
-        );
+            AnimationAnimationSchema->add(
+                "looped",
+                new sad::db::MethodPair<sad::animations::Animation, bool>(
+				    &sad::animations::Animation::looped,
+                    &sad::animations::Animation::setLooped
+                )
+            );
+		    AnimationAnimationSchema->add(
+                "time",
+                new sad::db::MethodPair<sad::animations::Animation, double>(
+                    &sad::animations::Animation::time,
+                    &sad::animations::Animation::setTime
+                )
+            );
         
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationAnimationSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationAnimationSchema);
+        }
+        AnimationAnimationSchemaInitLock.unlock();
     }
     return AnimationAnimationSchema;
 }

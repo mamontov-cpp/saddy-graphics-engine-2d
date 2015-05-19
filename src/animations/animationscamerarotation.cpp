@@ -4,6 +4,7 @@
 #include "fuzzyequal.h"
 #include "scene.h"
 #include "camera.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -39,36 +40,43 @@ sad::animations::CameraRotation::~CameraRotation()
 
 static sad::db::schema::Schema* AnimationCameraRotationSchema = NULL;
 
+static sad::Mutex AnimationCameraRotationSchemaInit;
+
 sad::db::schema::Schema* sad::animations::CameraRotation::basicSchema()
 {
     if (AnimationCameraRotationSchema == NULL)
     {
-        AnimationCameraRotationSchema = new sad::db::schema::Schema();
-        AnimationCameraRotationSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationCameraRotationSchemaInit.lock();
+        if (AnimationCameraRotationSchema == NULL)
+        {
+            AnimationCameraRotationSchema = new sad::db::schema::Schema();
+            AnimationCameraRotationSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationCameraRotationSchema->add(
-            "min_angle",
-            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
-				&sad::animations::CameraRotation::minAngle,
-                &sad::animations::CameraRotation::setMinAngle
-            )
-        );
-		AnimationCameraRotationSchema->add(
-            "max_angle",
-            new sad::db::MethodPair<sad::animations::CameraRotation, double>(
-				&sad::animations::CameraRotation::maxAngle,
-                &sad::animations::CameraRotation::setMaxAngle
-            )
-        );		
-		AnimationCameraRotationSchema->add(
-            "pivot",
-			new sad::db::MethodPair<sad::animations::CameraRotation, sad::Point3D>(
-				&sad::animations::CameraRotation::pivot,
-				&sad::animations::CameraRotation::setPivot
-            )
-        );
+            AnimationCameraRotationSchema->add(
+                "min_angle",
+                new sad::db::MethodPair<sad::animations::CameraRotation, double>(
+				    &sad::animations::CameraRotation::minAngle,
+                    &sad::animations::CameraRotation::setMinAngle
+                )
+            );
+		    AnimationCameraRotationSchema->add(
+                "max_angle",
+                new sad::db::MethodPair<sad::animations::CameraRotation, double>(
+				    &sad::animations::CameraRotation::maxAngle,
+                    &sad::animations::CameraRotation::setMaxAngle
+                )
+            );		
+		    AnimationCameraRotationSchema->add(
+                "pivot",
+			    new sad::db::MethodPair<sad::animations::CameraRotation, sad::Point3D>(
+				    &sad::animations::CameraRotation::pivot,
+				    &sad::animations::CameraRotation::setPivot
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraRotationSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraRotationSchema);
+        }
+        AnimationCameraRotationSchemaInit.unlock();
     }
     return AnimationCameraRotationSchema;
 }

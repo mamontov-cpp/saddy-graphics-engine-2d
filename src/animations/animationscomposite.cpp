@@ -2,6 +2,7 @@
 #include "animations/animationsinstance.h"
 
 #include "fuzzyequal.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -81,22 +82,29 @@ void sad::animations::Composite::setPhysicalFile(sad::resource::PhysicalFile * f
 
 static sad::db::schema::Schema* AnimationCompositeSchema = NULL;
 
+static sad::Mutex AnimationCompositeSchemaInit;
+
 sad::db::schema::Schema* sad::animations::Composite::basicSchema()
 {
 	if (AnimationCompositeSchema == NULL)
     {
-        AnimationCompositeSchema = new sad::db::schema::Schema();
-		AnimationCompositeSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationCompositeSchemaInit.lock();
+        if (AnimationCompositeSchema == NULL)
+        {
+            AnimationCompositeSchema = new sad::db::schema::Schema();
+		    AnimationCompositeSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationCompositeSchema->add(
-            "list",
-			new sad::db::MethodPair<sad::animations::Composite, sad::Vector<unsigned long long> >(
-				&sad::animations::Composite::animationMajorIds,
-                &sad::animations::Composite::setAnimationsMajorId
-            )
-        );
+            AnimationCompositeSchema->add(
+                "list",
+			    new sad::db::MethodPair<sad::animations::Composite, sad::Vector<unsigned long long> >(
+				    &sad::animations::Composite::animationMajorIds,
+                    &sad::animations::Composite::setAnimationsMajorId
+                )
+            );
         
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCompositeSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCompositeSchema);
+        }
+        AnimationCompositeSchemaInit.unlock();
     }
     return AnimationCompositeSchema;
 }

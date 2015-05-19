@@ -7,6 +7,7 @@
 #include "fuzzyequal.h"
 #include "scene.h"
 #include "camera.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -44,28 +45,35 @@ sad::animations::CameraShaking::~CameraShaking()
 
 static sad::db::schema::Schema* AnimationCameraShakingSchema = NULL;
 
+static sad::Mutex AnimationCameraShakingSchemaInit;
+
 sad::db::schema::Schema* sad::animations::CameraShaking::basicSchema()
 {
     if (AnimationCameraShakingSchema == NULL)
     {
-        AnimationCameraShakingSchema = new sad::db::schema::Schema();
-        AnimationCameraShakingSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationCameraShakingSchemaInit.lock();
+        if (AnimationCameraShakingSchema == NULL)
+        {
+            AnimationCameraShakingSchema = new sad::db::schema::Schema();
+            AnimationCameraShakingSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationCameraShakingSchema->add(
-            "offset",
-			new sad::db::MethodPair<sad::animations::CameraShaking, sad::Point2D>(
-				&sad::animations::CameraShaking::offset,
-                &sad::animations::CameraShaking::setOffset
-            )
-        );
-		AnimationCameraShakingSchema->add(
-            "frequency",
-			new sad::db::MethodPair<sad::animations::CameraShaking, int>(
-				&sad::animations::CameraShaking::frequency,
-                &sad::animations::CameraShaking::setFrequency
-            )
-        );		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraShakingSchema);
+            AnimationCameraShakingSchema->add(
+                "offset",
+			    new sad::db::MethodPair<sad::animations::CameraShaking, sad::Point2D>(
+				    &sad::animations::CameraShaking::offset,
+                    &sad::animations::CameraShaking::setOffset
+                )
+            );
+		    AnimationCameraShakingSchema->add(
+                "frequency",
+			    new sad::db::MethodPair<sad::animations::CameraShaking, int>(
+				    &sad::animations::CameraShaking::frequency,
+                    &sad::animations::CameraShaking::setFrequency
+                )
+            );		        
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationCameraShakingSchema);
+        }
+        AnimationCameraShakingSchemaInit.unlock();
     }
     return AnimationCameraShakingSchema;
 }
