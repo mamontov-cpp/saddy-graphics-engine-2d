@@ -51,6 +51,9 @@ protected:
     /*! A sound engine, which is being used
      */
     ::irrklang::ISoundEngine* m_engine;
+    /*! A lock for adding engine
+     */
+    sad::Mutex m_add_lock;
     /*! A global instance of engine
      */
     static sad::irrklang::Engine* m_instance;
@@ -67,6 +70,9 @@ private:
         \return self-reference
      */
     sad::irrklang::Engine& operator=(const sad::irrklang::Engine& o);
+    /*! Free instance, freeing memory
+     */
+    static void freeInstance();
 };
 
 }

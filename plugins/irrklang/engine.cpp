@@ -5,20 +5,32 @@
 #include <util/fs.h>
 
 #include <cassert>
+#include <stdlib.h>
+
 
 // ============================= PUBLIC METHODS =============================
+
+
+static sad::Mutex sad_irrklang_engine_instance;
 
 sad::irrklang::Engine* sad::irrklang::Engine::ref()
 {
 	if (m_instance == NULL)
 	{
-		m_instance = new sad::irrklang::Engine();
+        sad_irrklang_engine_instance.lock();
+        if (m_instance == NULL)
+        {
+		    m_instance = new sad::irrklang::Engine();
+            atexit(sad::irrklang::Engine::freeInstance);
+        }
+        sad_irrklang_engine_instance.unlock();
 	}
 	return m_instance;
 }
 
 ::irrklang::ISoundSource* sad::irrklang::Engine::tryLoad(const sad::String& source)
 {
+    m_add_lock.lock();
     ::irrklang::ISoundSource* result = m_engine->addSoundSourceFromFile(source.c_str());
     if (result)
     {
@@ -53,6 +65,7 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
             }
         }
 	}
+    m_add_lock.unlock();
     return result;
 }
 
@@ -61,7 +74,10 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
     const sad::String& name
 )
 {
-   return m_engine->addSoundSourceAlias(source, name.c_str()); 
+   m_add_lock.lock();
+   ::irrklang::ISoundSource* result = m_engine->addSoundSourceAlias(source, name.c_str()); 
+   m_add_lock.unlock();   
+   return result;
 }
 
 sad::irrklang::Engine::~Engine()
@@ -102,4 +118,9 @@ sad::irrklang::Engine& sad::irrklang::Engine::operator=(const sad::irrklang::Eng
 	m_engine = o.m_engine;
 	m_engine->grab();
 	return *this;
+}
+
+void sad::irrklang::Engine::freeInstance()
+{
+    delete m_instance;
 }
