@@ -14,8 +14,7 @@ template<class T> LinkedList<T>::node::node(typename LinkedList<T>::node *previo
 }
 template<class T> LinkedList<T>::node::~node()
 {
-	me->~T();
-	free(me);
+	delete me;
 	me=NULL;
 }
 
@@ -62,8 +61,7 @@ template<class T> void LinkedList<T>::makeClear()
   {
     assert(curr);
     next=curr->next;
-    curr->~node();
-	free(curr);
+    delete curr;
 	curr=next;    //Moving next
 	++i;
   }
@@ -124,7 +122,7 @@ template<class T> LinkedList<T> & LinkedList<T>::operator<<(const T & obj)
 	
 	return add(obj);
 }
-template<class T> void LinkedList<T>::dbg_ass(const char * cp) const
+template<class T> void LinkedList<T>::dump(const char * cp) const
 {
  node * curr=firstnode;
  long   i=0;

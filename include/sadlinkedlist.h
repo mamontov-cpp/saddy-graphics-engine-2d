@@ -215,7 +215,7 @@ template<class T> class LinkedList
 		   /*! Debug print
 		       \param[in] cp - format string in printf() format
 		   */
-		   void dbg_ass(const char * cp) const;
+		   void dump(const char * cp) const;
            /*! Returns reference to specified element.
 		       Returns a default element reference, if element cannot be found
 			   \param[in] i index
