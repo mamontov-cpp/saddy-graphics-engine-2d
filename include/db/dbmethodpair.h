@@ -58,6 +58,13 @@ public:
 		m_type_is_kind_of_sad_object = sad::db::TypeName<_FieldTypeName>::isSadObject();
 		m_pointer_stars_count = sad::db::TypeName<_FieldTypeName>::POINTER_STARS_COUNT;
 	}
+    /*! Frees all proxies
+     */
+    virtual ~MethodPair()
+	{
+	    delete m_getter;
+        delete m_setter;
+	}
 
 	/*! Clones a property
 		\return a property clone

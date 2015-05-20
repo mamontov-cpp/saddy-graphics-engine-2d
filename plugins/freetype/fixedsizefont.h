@@ -37,6 +37,10 @@ public:
 		\param[in] ratio a ratio for line-spacing, relative to line-spacing of font
 	 */
 	void render(const sad::String & s, const sad::Point2D & p, float ratio);
+    /*! Dumps all parameters of glyphs to string
+        \return string of glyph parameters
+     */
+    sad::String dumpGlyphParameters() const;
 	/*! Renders text line to a texture. Before output all new line string are stripped.
 		Texture's memory should be freed manually
 		\param[in] string a string texture

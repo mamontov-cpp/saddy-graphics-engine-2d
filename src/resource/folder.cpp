@@ -53,12 +53,12 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 }
 
 
-bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList & list)
+bool sad::resource::Folder::addResources(const sad::resource::ResourceEntryList & list, bool ref)
 {
 	bool result = true;
 	for(size_t i = 0; i < list.size(); i++)
 	{
-		result = result &&	this->addResource(list[i].p1(), list[i].p2());
+		result = result &&	this->addResource(list[i].p1(), list[i].p2(), ref);
 	}
 	return result;
 }
@@ -97,7 +97,7 @@ sad::Vector<sad::String> sad::resource::Folder::duplicatesBetween(
 	return result;
 }
 
-bool sad::resource::Folder::addResource(const sad::String & path, sad::resource::Resource* r)
+bool sad::resource::Folder::addResource(const sad::String & path, sad::resource::Resource* r, bool ref)
 {
 	sad::String resourcename;
 	sad::resource::Folder * parent = navigateParentFolder(path, true, resourcename);
@@ -109,7 +109,10 @@ bool sad::resource::Folder::addResource(const sad::String & path, sad::resource:
 	{
 		parent->m_resources[resourcename]->delRef();
 	}
-	r->addRef();
+    if (ref)
+    {
+	    r->addRef();
+    }
 	parent->m_resources.insert(resourcename, r);
 	r->setParentFolder(parent);
 	return true;	

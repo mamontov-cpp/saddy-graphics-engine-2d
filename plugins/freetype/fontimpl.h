@@ -74,6 +74,10 @@ public:
 		\return line spacing
 	 */
 	float builtinLineSpacing() const;
+    /*! Dumps all parameters of glyphs to string
+        \return string of glyph parameters
+     */
+    sad::String dumpGlyphParameters() const;
 protected:
 	/*! Creates and returns current size for data
 		\param[in] size a new size for data

@@ -20,7 +20,7 @@ sad::freetype::Font::Font()
 bool sad::freetype::Font::load(
 		const sad::resource::PhysicalFile & file,
 		sad::Renderer * r,
-		const picojson::value& options
+		const picojson::value& /*options*/
 )
 {
 	m_renderer = r;
@@ -80,6 +80,11 @@ sad::freetype::Font::~Font()
 {
 	m_dptr->unload(m_renderer);
 	delete m_dptr;
+}
+
+sad::String sad::freetype::Font::dumpGlyphParameters() const
+{
+    return m_dptr->dumpGlyphParameters();    
 }
 
 // Uncommend to enable glyph rendering debug

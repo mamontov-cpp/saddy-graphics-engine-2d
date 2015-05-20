@@ -75,6 +75,7 @@ sad::log::Scope::Scope(
 	sad::log::Log * log,
 	bool saddyinternal
 )
+:m_saddyinternal(saddyinternal)
 {
 	if (log == NULL)
 	{

@@ -74,6 +74,10 @@ public:
 	/*! Destructor
 	 */
 	virtual ~Font();
+    /*! Dumps all parameters of glyphs to string
+        \return string of glyph parameters
+     */
+    sad::String dumpGlyphParameters() const;
 private:
 	sad::freetype::FontImpl * m_dptr; //!< A private implementation of font
 	sad::Renderer * m_renderer; //!<  A stored renderer for a font

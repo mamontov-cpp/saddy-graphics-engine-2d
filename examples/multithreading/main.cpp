@@ -136,7 +136,7 @@ int thread(void * p)
 		SL_LOCAL_DEBUG("Failed to open local file", r);
 	}
 	r.log()->addTarget( fl);
-	
+    
 	/* Create 800x600 window in windowed mode and toggle a fixed size of window
 	 */
 	r.init(sad::Settings(800,600, false));
@@ -151,7 +151,6 @@ int thread(void * p)
 	/*! Load resources
 	 */
 	sad::Vector<sad::resource::Error *> errors = r.loadResources("examples/multithreading.json");
-	sad::String errortext;
 	if (errors.size() != 0)
 	{
 
@@ -193,7 +192,6 @@ int thread(void * p)
 	 */
 	sad::Sprite2D * a = new sad::Sprite2D("tex1", sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)), sad::Rect2D(sad::Point2D(0,0), sad::Point2D(512,512)));
 	scene->add(a);
-
 	/* Add two labels with different fonts
 	 */
 	sad::Label * l1 = new sad::Label("ftfont", sad::Point2D(300,200), "FTFont");
@@ -202,6 +200,8 @@ int thread(void * p)
 	l2->setColor(255, 255, 255, 0);
 	scene->add(l1);
 	scene->add(l2);
+
+    SL_LOCAL_DEBUG(r.tree("")->get<sad::freetype::Font>("ftfont")->dumpGlyphParameters().c_str(), r);
 
 	sad::animations::Instance* parallelinstance = new sad::animations::Instance();
 	parallelinstance->setAnimation(parallel);
@@ -228,7 +228,6 @@ int thread(void * p)
 	// Return default value
 	return 0;
 }
-
 
 
 /* This macro manupilation is to make console window hidden in MSVC window

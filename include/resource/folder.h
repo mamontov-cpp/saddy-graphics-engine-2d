@@ -70,9 +70,10 @@ public:
 	bool addFolder(const sad::String&  path, sad::resource::Folder* folder);
 	/*! Copies a resource list to a folder
 		\param[in] list a list
+        \param[in] ref whether we should reference this resource
 		\return whether all resources are added successfully
 	 */
-	bool addResources(const sad::resource::ResourceEntryList & list);
+	bool addResources(const sad::resource::ResourceEntryList & list, bool ref = true);
 	/*! Replaces a resource list
 		\param[in] list a list
 		\return whether all resources are added successfully
@@ -91,11 +92,12 @@ public:
 	/*! Adds new subresource with specified name to current folder
 		\param[in] path a path to resource, including  it's name, using "/" as separator 
 		\param[in] res a resource to be added
+        \param[in] ref whether we should reference this resource
 		\return whether adding was successfull 
 				(false if name is empty, or  count of separators is bigger than 1024).
 
 	 */
-	bool addResource(const sad::String& path, sad::resource::Resource* res);
+	bool addResource(const sad::String& path, sad::resource::Resource* res, bool ref = true);
 	/*! Removes a subfolder with specified path, freeing it's memory from path
 		\param[in] path a path to folder, including it's name, using "/" as separator
 		\param[in] free whether we should free memory from folder, erasing some data

@@ -5,6 +5,7 @@
  */
 #pragma once
 #include "texture.h"
+#include "sadstring.h"
 
 #include <maybe.h>
 
@@ -77,6 +78,10 @@ public:
 		\return glyph value
 	 */
 	static sad::Maybe<FT_Glyph> glyph(FT_Face face, unsigned char c, unsigned int & index);
+    /*! Dumps parameters to string
+        \return parameters
+     */
+    sad::String dumpParametes() const;
 private:
 	/*! Sets all metrics of glyph from specified freetype glyph
 		\param[in] face  a global face

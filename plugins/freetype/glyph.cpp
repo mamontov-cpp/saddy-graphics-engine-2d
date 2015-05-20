@@ -1,6 +1,8 @@
 #include "glyph.h"
 #include "towidechar.h"
 
+#include "3rdparty/format/format.h"
+
 sad::freetype::Glyph::Glyph()
 : Index(0), Width(0), 
 Height(0), BearingY(0), 
@@ -62,6 +64,20 @@ sad::Maybe<FT_Glyph> sad::freetype::Glyph::glyph(FT_Face face, unsigned char c, 
 		}		
 	}
 	return result;
+}
+
+sad::String sad::freetype::Glyph::dumpParametes() const
+{
+    return str(fmt::Format(
+        "Width: {0} "
+        "Height: {1} "
+        "Descender: {2} "
+        "BearingY: {3} "
+        "AdvanceX: {4}\n") 
+        << Width << Height
+        << Descender << BearingY
+        << AdvanceX
+    );
 }
 
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)

@@ -17,4 +17,9 @@ void sad::RefCountable::delRef()
 		delete this; 
 }
 
+int sad::RefCountable::refsCount() const
+{
+    return m_references;
+}
+
 sad::RefCountable::~RefCountable() {}

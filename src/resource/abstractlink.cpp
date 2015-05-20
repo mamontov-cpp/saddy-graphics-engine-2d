@@ -27,7 +27,11 @@ void sad::resource::AbstractLink::attach(resource::Resource* r)
 {
 	if (m_resource)
 	{
-		m_resource->removeLink(this);
+        bool notify_resource = m_resource->shouldStoreLinks();
+        if (notify_resource)
+        {
+		    m_resource->removeLink(this);
+        }
 	}
 	m_resource = r;
 	if (m_resource)

@@ -78,7 +78,7 @@ sad::Texture * sad::freetype::FontImpl::renderToTexture(
 void sad::freetype::FontImpl::unload(sad::Renderer * r)
 {
 	sad::Vector<unsigned int> textures;
-	for(SizeMap::iterator it = m_size_cache.begin(); it != m_size_cache.end(); it++)
+	for(SizeMap::iterator it = m_size_cache.begin(); it != m_size_cache.end(); ++it)
 	{
 		it.value()->uploadedTextures(textures);
 		it.value()->markTexturesAsUnloaded();
@@ -130,6 +130,11 @@ float sad::freetype::FontImpl::builtinLineSpacing() const
 	return this->fontForSize(m_cached_size)->builtinLineSpacing();
 }
 
+sad::String sad::freetype::FontImpl::dumpGlyphParameters() const
+{
+    return this->fontForSize(m_cached_size)->dumpGlyphParameters();
+}
+
 sad::freetype::FixedSizeFont * sad::freetype::FontImpl::fontForSize(
 	unsigned int size
 ) const
@@ -166,7 +171,7 @@ void sad::freetype::FontImpl::cleanup()
 	{
 		FT_Done_Face(m_face);
 	}
-	for(SizeMap::iterator it = m_size_cache.begin(); it != m_size_cache.end(); it++)
+	for(SizeMap::iterator it = m_size_cache.begin(); it != m_size_cache.end(); ++it)
 	{
 		delete it.value();
 	}

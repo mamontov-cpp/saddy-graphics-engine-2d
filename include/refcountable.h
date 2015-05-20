@@ -24,6 +24,10 @@ public:
 	/*! Removes references to an object, decreasing reference count
 	 */
 	virtual void delRef();
+    /*! Returns count of refs to this object
+        \return references
+     */
+    int refsCount() const;
 	/*! A ref countable object could be inherited, so it created a behaviour
 		like intrusive shared pointer
 	 */

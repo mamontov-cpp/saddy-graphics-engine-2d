@@ -90,7 +90,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::loadFromString(const sad
 			errors << this->duplicatesToErrors(m_root->duplicatesBetween(list));
 			if (errors.size() == 0)
 			{
-				m_root->addResources(list);
+				m_root->addResources(list, false);
 				m_files << newfiles;
 				delete newroot;
 			}
@@ -285,7 +285,7 @@ sad::Vector<sad::resource::Error*> sad::resource::Tree::load(
 		if (errors.size() == 0)
 		{
 			files << file;
-			store->addResources(list);
+			store->addResources(list, false);
 			delete temporary;
 		}
 		else

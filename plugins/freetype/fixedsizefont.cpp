@@ -3,7 +3,11 @@
 
 #include <sadmutex.h>
 
+#include <3rdparty/format/format.h>
+
 #include <math.h>
+
+
 
 #ifdef _MSC_VER
 	#pragma warning(disable: 4996)
@@ -20,12 +24,12 @@ sad::freetype::FixedSizeFont::FixedSizeFont(
 
 	int ppem = face->size->metrics.y_ppem;
 	double linespacinginpt = face->bbox.yMax - face->bbox.yMin;
-	m_builtin_linespacing = ppem * ((float)(linespacinginpt) / face->units_per_EM);
-	m_bearing_y = ppem * ((float)(face->bbox.yMax) / face->units_per_EM);	
+	m_builtin_linespacing = ppem * (static_cast<float>(linespacinginpt) / face->units_per_EM);
+	m_bearing_y = ppem * (static_cast<float>(face->bbox.yMax) / face->units_per_EM);	
 	
 	for(unsigned int i = 0; i < 256; i++)
 	{
-		m_glyphs[i] = new sad::freetype::Glyph(face, (unsigned char)i);
+		m_glyphs[i] = new sad::freetype::Glyph(face, static_cast<unsigned char>(i));
 	}
 
 	computeKerning(face);
@@ -84,9 +88,9 @@ void sad::freetype::FixedSizeFont::render(
 
 	bool previous = false;
 	unsigned char prevchar = 0;
-	float xbegin = (float)(p.x());
+	float xbegin = static_cast<float>(p.x());
 	float curx = xbegin;
-	float cury = (float)(p.y() - m_bearing_y);
+	float cury = static_cast<float>(p.y() - m_bearing_y);
 	
 	for(unsigned int i = 0; i < list.size(); i++)
 	{
@@ -113,6 +117,22 @@ void sad::freetype::FixedSizeFont::render(
 	sad_freetype_font_lock.unlock();
 }
 
+sad::String sad::freetype::FixedSizeFont::dumpGlyphParameters() const
+{
+    sad::String result = str(
+        fmt::Format("Freetype version: {0}.{1}.{2}\n")
+        << FREETYPE_MAJOR
+        << FREETYPE_MINOR
+        << FREETYPE_PATCH
+    );
+    for(int i = 0; i < 256; i++)
+    {
+        result += sad::String::number(i);
+        result += ":";
+        result += m_glyphs[i]->dumpParametes();
+    }
+    return result;
+}
 
 sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 	const sad::String & string,
@@ -130,8 +150,8 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 	sad::Size2D size = this->size(string, 1.0);
 
 	sad::Texture * texture = new sad::Texture();
-	texture->width() = (unsigned int)ceil(size.Width);
-	texture->height() = (unsigned int)ceil(size.Height);
+	texture->width() = static_cast<unsigned int>(ceil(size.Width));
+	texture->height() = static_cast<unsigned int>(ceil(size.Height));
 	texture->bpp() = 32;
 	texture->vdata().resize(texture->width() * texture->height() * 4, 255);
 
@@ -149,7 +169,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 	for(unsigned int i = 0; i < tmp.size(); i++)
 	{
 		glyphs[i] = new sad::freetype::Glyph(face, tmp[i]);
-		y_max = std::max(y_max, (int)(glyphs[i]->Height));
+		y_max = std::max(y_max, static_cast<int>(glyphs[i]->Height));
 	}
 	// Place glyphs
 	bool previous = false;
@@ -161,24 +181,23 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 		unsigned char curchar = tmp[i];
 		if (previous)
 		{
-			curx += (unsigned int)(m_kerning_table[prevchar][curchar]);
+			curx += static_cast<unsigned int>(m_kerning_table[prevchar][curchar]);
 		}
 		previous = true;	
 
 		sad::freetype::Glyph * g = glyphs[i];
-		sad::freetype::Texture& tex = g->Texture;
 
-		unsigned int rows = (unsigned int)(g->TexCoordinateHeight * g->Texture.Height);
-		unsigned int cols = (unsigned int)(g->TexCoordinateWidth  * g->Texture.Width);
+		unsigned int rows = static_cast<unsigned int>(g->TexCoordinateHeight * g->Texture.Height);
+		unsigned int cols = static_cast<unsigned int>(g->TexCoordinateWidth  * g->Texture.Width);
 		
 		for(unsigned int ix = 0; ix < rows; ix++)
 		{
 			for(unsigned int iy = 0; iy < cols; iy++)
 			{
-				unsigned char pixel = g->Texture.Pixels[2 * (ix * (unsigned int)(g->Texture.Width)+ iy)];
+				unsigned char pixel = g->Texture.Pixels[2 * (ix * static_cast<unsigned int>(g->Texture.Width)+ iy)];
 				pixel = 255 - pixel;
 
-				unsigned int posy = ix + y_max - (int)(g->Height);
+				unsigned int posy = ix + y_max - static_cast<int>(g->Height);
 				unsigned int posx = curx + iy;
 
 				if (posy < texture->height() && posx < texture->width())
@@ -192,7 +211,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 			}
 		}
 
-		curx += (unsigned int)(g->AdvanceX);
+		curx += static_cast<unsigned int>(g->AdvanceX);
 		prevchar = curchar;
 	}
 
@@ -255,14 +274,14 @@ sad::Size2D sad::freetype::FixedSizeFont::size(
 }
 
 void sad::freetype::FixedSizeFont::requestSize(
-	FT_Library library,
+	FT_Library /*library*/,
 	FT_Face face, 
 	unsigned int height
 )
 {
 	 double pixelheight = height;
 	 double ptheight = pixelheight / 96.0 * 72.0;
-	 int  pointheight = ((int)ceil(ptheight)) << 6;
+	 int  pointheight = static_cast<int>(ceil(ptheight)) << 6;
 
 	 FT_Size_RequestRec_ req;
 	 req.type = FT_SIZE_REQUEST_TYPE_BBOX;
@@ -281,14 +300,14 @@ void sad::freetype::FixedSizeFont::computeKerning(FT_Face face)
 		FT_Vector kerning;
 		for(unsigned int i = 0 ; i < 256; i++)
 		{
-			wchar_t c1 = sad::freetype::to_wide_char((unsigned int)i);
+			wchar_t c1 = sad::freetype::to_wide_char(static_cast<unsigned int>(i));
 			unsigned int index1 = FT_Get_Char_Index(face, c1);
 			for(unsigned int j = 0; j < 256; j++)
 			{
-				wchar_t c2 = sad::freetype::to_wide_char((unsigned int)j);
+				wchar_t c2 = sad::freetype::to_wide_char(static_cast<unsigned int>(j));
 				unsigned int index2 = FT_Get_Char_Index(face, c2);
 				FT_Get_Kerning(face, index1, index2, FT_KERNING_DEFAULT, &kerning);
-				m_kerning_table[i][j] = (float)(kerning.x >> 6);
+				m_kerning_table[i][j] = static_cast<float>(kerning.x >> 6);
 			}
 		}
 	}
