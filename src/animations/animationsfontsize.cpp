@@ -5,6 +5,7 @@
 #include "animations/setstate/setproperty.h"
 
 #include "label.h"
+#include "sadmutex.h"
 #include "db/custom/customobject.h"
 
 #include "db/schema/schema.h"
@@ -41,29 +42,36 @@ sad::animations::FontSize::~FontSize()
 
 static sad::db::schema::Schema* AnimationFontSizeSchema = NULL;
 
+static sad::Mutex AnimationFontSizeSchemaInit;
+
 sad::db::schema::Schema* sad::animations::FontSize::basicSchema()
 {
     if (AnimationFontSizeSchema == NULL)
     {
-        AnimationFontSizeSchema = new sad::db::schema::Schema();
-        AnimationFontSizeSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationFontSizeSchemaInit.lock();
+        if (AnimationFontSizeSchema == NULL)
+        {
+            AnimationFontSizeSchema = new sad::db::schema::Schema();
+            AnimationFontSizeSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationFontSizeSchema->add(
-            "min_size",
-			new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
-				&sad::animations::FontSize::minSize,
-                &sad::animations::FontSize::setMinSize
-            )
-        );
-		AnimationFontSizeSchema->add(
-            "max_size",
-			new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
-				&sad::animations::FontSize::maxSize,
-                &sad::animations::FontSize::setMaxSize
-            )
-        );
+            AnimationFontSizeSchema->add(
+                "min_size",
+			    new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
+				    &sad::animations::FontSize::minSize,
+                    &sad::animations::FontSize::setMinSize
+                )
+            );
+		    AnimationFontSizeSchema->add(
+                "max_size",
+			    new sad::db::MethodPair<sad::animations::FontSize, unsigned int>(
+				    &sad::animations::FontSize::maxSize,
+                    &sad::animations::FontSize::setMaxSize
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontSizeSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationFontSizeSchema);
+        }
+        AnimationFontSizeSchemaInit.unlock();
     }
     return AnimationFontSizeSchema;
 }

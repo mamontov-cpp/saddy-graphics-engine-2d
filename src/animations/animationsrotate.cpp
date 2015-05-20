@@ -6,6 +6,7 @@
 
 #include "label.h"
 #include "sprite2d.h"
+#include "sadmutex.h"
 #include "db/custom/customobject.h"
 
 #include "db/schema/schema.h"
@@ -42,28 +43,35 @@ sad::animations::Rotate::~Rotate()
 
 static sad::db::schema::Schema* AnimationRotateSchema = NULL;
 
+static sad::Mutex AnimationRotateSchemaLock;
+
 sad::db::schema::Schema* sad::animations::Rotate::basicSchema()
 {
     if (AnimationRotateSchema == NULL)
     {
-        AnimationRotateSchema = new sad::db::schema::Schema();
-        AnimationRotateSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationRotateSchemaLock.lock();
+        if (AnimationRotateSchema == NULL)
+        {
+            AnimationRotateSchema = new sad::db::schema::Schema();
+            AnimationRotateSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationRotateSchema->add(
-            "min_angle",
-            new sad::db::MethodPair<sad::animations::Rotate, double>(
-				&sad::animations::Rotate::minAngle,
-                &sad::animations::Rotate::setMinAngle
-            )
-        );
-		AnimationRotateSchema->add(
-            "max_angle",
-            new sad::db::MethodPair<sad::animations::Rotate, double>(
-				&sad::animations::Rotate::maxAngle,
-                &sad::animations::Rotate::setMaxAngle
-            )
-        );				        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationRotateSchema);
+            AnimationRotateSchema->add(
+                "min_angle",
+                new sad::db::MethodPair<sad::animations::Rotate, double>(
+				    &sad::animations::Rotate::minAngle,
+                    &sad::animations::Rotate::setMinAngle
+                )
+            );
+		    AnimationRotateSchema->add(
+                "max_angle",
+                new sad::db::MethodPair<sad::animations::Rotate, double>(
+				    &sad::animations::Rotate::maxAngle,
+                    &sad::animations::Rotate::setMaxAngle
+                )
+            );				        
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationRotateSchema);
+        }
+        AnimationRotateSchemaLock.unlock();
     }
     return AnimationRotateSchema;
 }

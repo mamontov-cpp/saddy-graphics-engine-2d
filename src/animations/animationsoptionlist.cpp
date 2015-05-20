@@ -16,6 +16,7 @@
 #include "db/dbtable.h"
 
 #include <sprite2d.h>
+#include <sadmutex.h>
 
 #include <util/fs.h>
 
@@ -42,22 +43,29 @@ sad::animations::OptionList::~OptionList()
 
 static sad::db::schema::Schema* AnimationOptionListSchema = NULL;
 
+static sad::Mutex AnimationOptionListSchemaLock;
+
 sad::db::schema::Schema* sad::animations::OptionList::basicSchema()
 {
     if (AnimationOptionListSchema == NULL)
     {
-        AnimationOptionListSchema = new sad::db::schema::Schema();
-        AnimationOptionListSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationOptionListSchemaLock.lock();
+        if (AnimationOptionListSchema == NULL)
+        {
+            AnimationOptionListSchema = new sad::db::schema::Schema();
+            AnimationOptionListSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationOptionListSchema->add(
-            "list",
-			new sad::db::MethodPair<sad::animations::OptionList, sad::Vector<sad::String> >(
-				&sad::animations::OptionList::list,
-                &sad::animations::OptionList::setList
-            )
-        );
+            AnimationOptionListSchema->add(
+                "list",
+			    new sad::db::MethodPair<sad::animations::OptionList, sad::Vector<sad::String> >(
+				    &sad::animations::OptionList::list,
+                    &sad::animations::OptionList::setList
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationOptionListSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationOptionListSchema);
+        }
+        AnimationOptionListSchemaLock.unlock();
     }
     return AnimationOptionListSchema;
 }

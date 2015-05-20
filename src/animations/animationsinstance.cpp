@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include <fstream>
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -60,44 +61,50 @@ sad::animations::Instance::~Instance()
 
 static sad::db::schema::Schema* AnimationInstanceSchema = NULL;
 
+static sad::Mutex AnimationInstanceSchemaLock;
 
 sad::db::schema::Schema* sad::animations::Instance::basicSchema()
 {
     if (AnimationInstanceSchema == NULL)
     {
-        AnimationInstanceSchema = new sad::db::schema::Schema();
-        AnimationInstanceSchema->addParent(sad::db::Object::basicSchema());
+        AnimationInstanceSchemaLock.lock();
+        if (AnimationInstanceSchema == NULL)
+        {
+            AnimationInstanceSchema = new sad::db::schema::Schema();
+            AnimationInstanceSchema->addParent(sad::db::Object::basicSchema());
 
-        AnimationInstanceSchema->add(
-            "animation",
-            new sad::db::MethodPair<sad::animations::Instance, sad::String>(
-                &sad::animations::Instance::animationName,
-                &sad::animations::Instance::setAnimationName
-            )
-        );
-		 AnimationInstanceSchema->add(
-            "animationmajorid",
-            new sad::db::MethodPair<sad::animations::Instance, unsigned long long>(
-                &sad::animations::Instance::animationMajorId,
-                &sad::animations::Instance::setAnimationMajorId
-            )
-        );
-        AnimationInstanceSchema->add(
-            "object",
-            new sad::db::MethodPair<sad::animations::Instance, unsigned long long>(
-                &sad::animations::Instance::objectId,
-                &sad::animations::Instance::setObjectId
-            )
-        );
-		AnimationInstanceSchema->add(
-            "starttime",
-            new sad::db::MethodPair<sad::animations::Instance, double>(
-                &sad::animations::Instance::startTime,
-                &sad::animations::Instance::setStartTime
-            )
-        );
+            AnimationInstanceSchema->add(
+                "animation",
+                new sad::db::MethodPair<sad::animations::Instance, sad::String>(
+                    &sad::animations::Instance::animationName,
+                    &sad::animations::Instance::setAnimationName
+                )
+            );
+		     AnimationInstanceSchema->add(
+                "animationmajorid",
+                new sad::db::MethodPair<sad::animations::Instance, unsigned long long>(
+                    &sad::animations::Instance::animationMajorId,
+                    &sad::animations::Instance::setAnimationMajorId
+                )
+            );
+            AnimationInstanceSchema->add(
+                "object",
+                new sad::db::MethodPair<sad::animations::Instance, unsigned long long>(
+                    &sad::animations::Instance::objectId,
+                    &sad::animations::Instance::setObjectId
+                )
+            );
+		    AnimationInstanceSchema->add(
+                "starttime",
+                new sad::db::MethodPair<sad::animations::Instance, double>(
+                    &sad::animations::Instance::startTime,
+                    &sad::animations::Instance::setStartTime
+                )
+            );
 
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationInstanceSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationInstanceSchema);
+        }
+        AnimationInstanceSchemaLock.unlock();
     }
     return AnimationInstanceSchema;
 }

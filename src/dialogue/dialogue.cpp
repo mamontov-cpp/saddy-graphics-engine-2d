@@ -7,6 +7,8 @@
 #include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
+#include "sadmutex.h"
+
 sad::dialogue::Dialogue::Dialogue()
 {
 
@@ -57,23 +59,29 @@ const sad::String& sad::dialogue::Dialogue::serializableName() const
 
 static sad::db::schema::Schema* SadDialogueDialogueSchema = NULL;
 
+static sad::Mutex SadDialogueDialogueSchemaInit;
 sad::db::schema::Schema* sad::dialogue::Dialogue::basicSchema()
 {
 	if (SadDialogueDialogueSchema == NULL)
 	{
-		SadDialogueDialogueSchema = new sad::db::schema::Schema();
-		SadDialogueDialogueSchema->addParent(sad::db::Object::basicSchema());
+        SadDialogueDialogueSchemaInit.lock();
+        if (SadDialogueDialogueSchema == NULL)
+	    {
+		    SadDialogueDialogueSchema = new sad::db::schema::Schema();
+		    SadDialogueDialogueSchema->addParent(sad::db::Object::basicSchema());
 
-		sad::Vector<sad::dialogue::Phrase*>& (sad::dialogue::Dialogue::*f)() = &sad::dialogue::Dialogue::phrases;
-		SadDialogueDialogueSchema->add(
-			"phrases", 
-			new sad::db::MethodPair<sad::dialogue::Dialogue, sad::Vector<sad::dialogue::Phrase*> >(
-				f,
-				&sad::dialogue::Dialogue::setPhrases
-			)
-		);
+		    sad::Vector<sad::dialogue::Phrase*>& (sad::dialogue::Dialogue::*f)() = &sad::dialogue::Dialogue::phrases;
+		    SadDialogueDialogueSchema->add(
+			    "phrases", 
+			    new sad::db::MethodPair<sad::dialogue::Dialogue, sad::Vector<sad::dialogue::Phrase*> >(
+				    f,
+				    &sad::dialogue::Dialogue::setPhrases
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadDialogueDialogueSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadDialogueDialogueSchema);
+        }
+        SadDialogueDialogueSchemaInit.unlock();
 	}
 	return SadDialogueDialogueSchema;
 }

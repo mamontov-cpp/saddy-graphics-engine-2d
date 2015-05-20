@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "camera.h"
 #include "geometry2d.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -48,22 +49,28 @@ sad::animations::Resize::~Resize()
 
 static sad::db::schema::Schema* AnimationResizeSchema = NULL;
 
+static sad::Mutex AnimationResizeSchemaLock;
 sad::db::schema::Schema* sad::animations::Resize::basicSchema()
 {
     if (AnimationResizeSchema == NULL)
     {
-        AnimationResizeSchema = new sad::db::schema::Schema();
-        AnimationResizeSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationResizeSchemaLock.lock();
+        if (AnimationResizeSchema == NULL)
+        {
+            AnimationResizeSchema = new sad::db::schema::Schema();
+            AnimationResizeSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationResizeSchema->add(
-            "vector",
-			new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
-				&sad::animations::Resize::vector,
-                &sad::animations::Resize::setVector
-            )
-        );
+            AnimationResizeSchema->add(
+                "vector",
+			    new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
+				    &sad::animations::Resize::vector,
+                    &sad::animations::Resize::setVector
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationResizeSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationResizeSchema);
+        }
+        AnimationResizeSchemaLock.unlock();
     }
     return AnimationResizeSchema;
 }

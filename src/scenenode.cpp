@@ -1,5 +1,6 @@
 #include "scenenode.h"
 #include "scene.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -26,36 +27,42 @@ sad::SceneNode::~SceneNode()
 }
 
 static sad::db::schema::Schema* SceneNodeBasicSchema = NULL;
+static sad::Mutex SceneNodeBasicSchemaInit;
 
 sad::db::schema::Schema* sad::SceneNode::basicSchema()
 {
 	if (SceneNodeBasicSchema == NULL)
 	{
-		SceneNodeBasicSchema = new sad::db::schema::Schema();
-		SceneNodeBasicSchema->addParent(sad::db::Object::basicSchema());
-		SceneNodeBasicSchema->add(
-			"visible", 
-			new sad::db::MethodPair<sad::SceneNode, bool>(
-				&sad::SceneNode::visible,
-				&sad::SceneNode::setVisible
-			)
-		);	
-		SceneNodeBasicSchema->add(
-			"scene", 
-			new sad::db::MethodPair<sad::SceneNode, unsigned long long>(
-				&sad::SceneNode::sceneId,
-				&sad::SceneNode::setCachedSceneId
-			)
-		);	
-		SceneNodeBasicSchema->add(
-			"layer", 
-			new sad::db::MethodPair<sad::SceneNode, unsigned int>(
-				&sad::SceneNode::cachedLayer,
-				&sad::SceneNode::setCachedLayer
-			)
-		);
+        SceneNodeBasicSchemaInit.lock();
+        if (SceneNodeBasicSchema == NULL)
+	    {
+		    SceneNodeBasicSchema = new sad::db::schema::Schema();
+		    SceneNodeBasicSchema->addParent(sad::db::Object::basicSchema());
+		    SceneNodeBasicSchema->add(
+			    "visible", 
+			    new sad::db::MethodPair<sad::SceneNode, bool>(
+				    &sad::SceneNode::visible,
+				    &sad::SceneNode::setVisible
+			    )
+		    );	
+		    SceneNodeBasicSchema->add(
+			    "scene", 
+			    new sad::db::MethodPair<sad::SceneNode, unsigned long long>(
+				    &sad::SceneNode::sceneId,
+				    &sad::SceneNode::setCachedSceneId
+			    )
+		    );	
+		    SceneNodeBasicSchema->add(
+			    "layer", 
+			    new sad::db::MethodPair<sad::SceneNode, unsigned int>(
+				    &sad::SceneNode::cachedLayer,
+				    &sad::SceneNode::setCachedLayer
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SceneNodeBasicSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SceneNodeBasicSchema);
+        }
+        SceneNodeBasicSchemaInit.unlock();
 	}
 	return SceneNodeBasicSchema;
 }

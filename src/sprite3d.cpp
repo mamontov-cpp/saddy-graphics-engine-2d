@@ -1,6 +1,7 @@
 #include <sprite3d.h>
 #include <geometry3d.h>
 #include <renderer.h>
+#include <sadmutex.h>
 
 #include <os/glheaders.h>
 
@@ -95,71 +96,77 @@ sad::Sprite3D::~Sprite3D()
 
 static sad::db::schema::Schema* Sprite3DBasicSchema = NULL;
 
+static sad::Mutex Sprite3DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite3D::basicSchema()
 {
 	if (Sprite3DBasicSchema == NULL)
 	{
-		Sprite3DBasicSchema = new sad::db::schema::Schema();
-		Sprite3DBasicSchema->addParent(sad::SceneNode::basicSchema());
-		Sprite3DBasicSchema->add(
-			"texture", 
-			new sad::db::MethodPair<sad::Sprite3D, sad::String>(
-				&sad::Sprite3D::textureName,
-				&sad::Sprite3D::setTextureName
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"texturecoordinates", 
-			new sad::db::MethodPair<sad::Sprite3D, sad::Rect2D>(
-				&sad::Sprite3D::textureCoordinates,
-				&sad::Sprite3D::setTextureCoordinates
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"area", 
-			new sad::db::MethodPair<sad::Sprite3D, sad::Rect<sad::Point3D> >(
-				&sad::Sprite3D::area,
-				&sad::Sprite3D::setRenderableArea
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"angle", 
-			new sad::db::MethodPair<sad::Sprite3D, double>(
-				&sad::Sprite3D::alpha,
-				&sad::Sprite3D::setAlpha
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"theta", 
-			new sad::db::MethodPair<sad::Sprite3D, double>(
-				&sad::Sprite3D::theta,
-				&sad::Sprite3D::setTheta
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"color", 
-			new sad::db::MethodPair<sad::Sprite3D, sad::AColor>(
-				&sad::Sprite3D::color,
-				&sad::Sprite3D::setColor
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"flipx", 
-			new sad::db::MethodPair<sad::Sprite3D, bool>(
-				&sad::Sprite3D::flipX,
-				&sad::Sprite3D::setFlipX
-			)
-		);
-		Sprite3DBasicSchema->add(
-			"flipy", 
-			new sad::db::MethodPair<sad::Sprite3D, bool>(
-				&sad::Sprite3D::flipY,
-				&sad::Sprite3D::setFlipY
-			)
-		);
+        Sprite3DBasicSchemaInit.lock();
+        if (Sprite3DBasicSchema == NULL)
+	    {
+		    Sprite3DBasicSchema = new sad::db::schema::Schema();
+		    Sprite3DBasicSchema->addParent(sad::SceneNode::basicSchema());
+		    Sprite3DBasicSchema->add(
+			    "texture", 
+			    new sad::db::MethodPair<sad::Sprite3D, sad::String>(
+				    &sad::Sprite3D::textureName,
+				    &sad::Sprite3D::setTextureName
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "texturecoordinates", 
+			    new sad::db::MethodPair<sad::Sprite3D, sad::Rect2D>(
+				    &sad::Sprite3D::textureCoordinates,
+				    &sad::Sprite3D::setTextureCoordinates
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "area", 
+			    new sad::db::MethodPair<sad::Sprite3D, sad::Rect<sad::Point3D> >(
+				    &sad::Sprite3D::area,
+				    &sad::Sprite3D::setRenderableArea
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "angle", 
+			    new sad::db::MethodPair<sad::Sprite3D, double>(
+				    &sad::Sprite3D::alpha,
+				    &sad::Sprite3D::setAlpha
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "theta", 
+			    new sad::db::MethodPair<sad::Sprite3D, double>(
+				    &sad::Sprite3D::theta,
+				    &sad::Sprite3D::setTheta
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "color", 
+			    new sad::db::MethodPair<sad::Sprite3D, sad::AColor>(
+				    &sad::Sprite3D::color,
+				    &sad::Sprite3D::setColor
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "flipx", 
+			    new sad::db::MethodPair<sad::Sprite3D, bool>(
+				    &sad::Sprite3D::flipX,
+				    &sad::Sprite3D::setFlipX
+			    )
+		    );
+		    Sprite3DBasicSchema->add(
+			    "flipy", 
+			    new sad::db::MethodPair<sad::Sprite3D, bool>(
+				    &sad::Sprite3D::flipY,
+				    &sad::Sprite3D::setFlipY
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite3DBasicSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite3DBasicSchema);
+        }
+        Sprite3DBasicSchemaInit.unlock();
 	}
 	return Sprite3DBasicSchema;
 }

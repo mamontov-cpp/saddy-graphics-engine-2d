@@ -1,6 +1,7 @@
 #include "label.h"
 #include "geometry2d.h"
 #include "renderer.h"
+#include "sadmutex.h"
 
 #include <cassert>
 
@@ -71,64 +72,71 @@ void sad::Label::regions(sad::Vector<sad::Rect2D> & r)
 
 static sad::db::schema::Schema* LabelBasicSchema = NULL;
 
+static sad::Mutex LabelBasicSchemaInit;
+
 sad::db::schema::Schema* sad::Label::basicSchema()
 {
 	if (LabelBasicSchema == NULL)
 	{
-		LabelBasicSchema = new sad::db::schema::Schema();
-		LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
-		LabelBasicSchema->add(
-			"font", 
-			new sad::db::MethodPair<sad::Label, sad::String>(
-				&sad::Label::fontName,
-				&sad::Label::setFontName
-			)
-		);
-		LabelBasicSchema->add(
-			"fontsize", 
-			new sad::db::MethodPair<sad::Label, unsigned int>(
-				&sad::Label::size,
-				&sad::Label::setSize
-			)
-		);
-		LabelBasicSchema->add(
-			"linespacing", 
-			new sad::db::MethodPair<sad::Label, float>(
-				&sad::Label::lineSpacingRatio,
-				&sad::Label::setLineSpacingRatio
-			)
-		);
-		LabelBasicSchema->add(
-			"angle", 
-			new sad::db::MethodPair<sad::Label, double>(
-				&sad::Label::angle,
-				&sad::Label::setAngle
-			)
-		);
-		LabelBasicSchema->add(
-			"area", 
-			new sad::db::MethodPair<sad::Label, sad::Rect2D>(
-				&sad::Label::area,
-				&sad::Label::setArea
-			)
-		);		
-		LabelBasicSchema->add(
-			"text", 
-			new sad::db::MethodPair<sad::Label, sad::String>(
-				&sad::Label::string,
-				&sad::Label::setString
-			)
-		);
-		void (sad::Label::*p)(const sad::AColor&)= &sad::Label::setColor;
-		LabelBasicSchema->add(
-			"color", 
-			new sad::db::MethodPair<sad::Label, sad::AColor>(
-				&sad::Label::color,
-				p
-			)
-		);
+        LabelBasicSchemaInit.lock();
+        if (LabelBasicSchema == NULL)
+	    {
+		    LabelBasicSchema = new sad::db::schema::Schema();
+		    LabelBasicSchema->addParent(sad::SceneNode::basicSchema());
+		    LabelBasicSchema->add(
+			    "font", 
+			    new sad::db::MethodPair<sad::Label, sad::String>(
+				    &sad::Label::fontName,
+				    &sad::Label::setFontName
+			    )
+		    );
+		    LabelBasicSchema->add(
+			    "fontsize", 
+			    new sad::db::MethodPair<sad::Label, unsigned int>(
+				    &sad::Label::size,
+				    &sad::Label::setSize
+			    )
+		    );
+		    LabelBasicSchema->add(
+			    "linespacing", 
+			    new sad::db::MethodPair<sad::Label, float>(
+				    &sad::Label::lineSpacingRatio,
+				    &sad::Label::setLineSpacingRatio
+			    )
+		    );
+		    LabelBasicSchema->add(
+			    "angle", 
+			    new sad::db::MethodPair<sad::Label, double>(
+				    &sad::Label::angle,
+				    &sad::Label::setAngle
+			    )
+		    );
+		    LabelBasicSchema->add(
+			    "area", 
+			    new sad::db::MethodPair<sad::Label, sad::Rect2D>(
+				    &sad::Label::area,
+				    &sad::Label::setArea
+			    )
+		    );		
+		    LabelBasicSchema->add(
+			    "text", 
+			    new sad::db::MethodPair<sad::Label, sad::String>(
+				    &sad::Label::string,
+				    &sad::Label::setString
+			    )
+		    );
+		    void (sad::Label::*p)(const sad::AColor&)= &sad::Label::setColor;
+		    LabelBasicSchema->add(
+			    "color", 
+			    new sad::db::MethodPair<sad::Label, sad::AColor>(
+				    &sad::Label::color,
+				    p
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
+        }
+        LabelBasicSchemaInit.unlock();
 	}
 	return LabelBasicSchema;
 }

@@ -9,6 +9,7 @@
 #include "../sadvector.h"
 #include "../sadstring.h"
 #include "../maybe.h"
+#include "../sadmutex.h"
 
 #include "../db/schema/schema.h"
 #include "../db/dbproperty.h"
@@ -92,27 +93,33 @@ public:
 	static sad::db::schema::Schema* basicSchema()
 	{
 		static sad::db::schema::Schema* Schema = NULL;
+        static sad::Mutex SchemaMutex;
 		if (Schema == NULL)
 		{
-			Schema = new sad::db::schema::Schema();
-			Schema->addParent(sad::animations::Animation::basicSchema());
+            SchemaMutex.lock();
+            if (Schema == NULL)
+            {
+			    Schema = new sad::db::schema::Schema();
+			    Schema->addParent(sad::animations::Animation::basicSchema());
 
-			Schema->add(
-				"list",
-				new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::Vector<T> >(
-					&sad::animations::DiscreteProperty<T>::list,
-					&sad::animations::DiscreteProperty<T>::setList
-				)
-			);			
-			Schema->add(
-				"property",
-				new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::String>(
-					&sad::animations::DiscreteProperty<T>::propertyName,
-					&sad::animations::DiscreteProperty<T>::setPropertyName
-				)
-			);
+			    Schema->add(
+				    "list",
+				    new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::Vector<T> >(
+					    &sad::animations::DiscreteProperty<T>::list,
+					    &sad::animations::DiscreteProperty<T>::setList
+				    )
+			    );			
+			    Schema->add(
+				    "property",
+				    new sad::db::MethodPair<sad::animations::DiscreteProperty<T>, sad::String>(
+					    &sad::animations::DiscreteProperty<T>::propertyName,
+					    &sad::animations::DiscreteProperty<T>::setPropertyName
+				    )
+			    );
 			
-			sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+			    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+            }
+            SchemaMutex.unlock();
 		}
 		return Schema;
 	}

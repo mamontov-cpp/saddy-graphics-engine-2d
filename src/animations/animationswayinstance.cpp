@@ -11,6 +11,7 @@
 
 #include "label.h"
 #include "sprite2d.h"
+#include "sadmutex.h"
 #include "db/custom/customobject.h"
 
 #include <util/fs.h>
@@ -48,22 +49,29 @@ sad::animations::WayInstance::~WayInstance()
 
 static sad::db::schema::Schema* WayAnimationInstanceSchema = NULL;
 
+static sad::Mutex WayAnimationInstanceSchemaInit;
+
 sad::db::schema::Schema* sad::animations::WayInstance::basicSchema()
 {
 if (WayAnimationInstanceSchema == NULL)
     {
-        WayAnimationInstanceSchema = new sad::db::schema::Schema();
-		WayAnimationInstanceSchema->addParent(sad::animations::Instance::basicSchema());
+        WayAnimationInstanceSchemaInit.lock();
+        if (WayAnimationInstanceSchema == NULL)
+        {
+            WayAnimationInstanceSchema = new sad::db::schema::Schema();
+		    WayAnimationInstanceSchema->addParent(sad::animations::Instance::basicSchema());
 
-        WayAnimationInstanceSchema->add(
-            "way",
-            new sad::db::MethodPair<sad::animations::WayInstance, unsigned long long>(
-				&sad::animations::WayInstance::wayMajorId,
-                &sad::animations::WayInstance::setWayMajorId
-            )
-        );
+            WayAnimationInstanceSchema->add(
+                "way",
+                new sad::db::MethodPair<sad::animations::WayInstance, unsigned long long>(
+				    &sad::animations::WayInstance::wayMajorId,
+                    &sad::animations::WayInstance::setWayMajorId
+                )
+            );
         
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(WayAnimationInstanceSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(WayAnimationInstanceSchema);
+        }
+        WayAnimationInstanceSchemaInit.unlock();
     }
     return WayAnimationInstanceSchema;
 }

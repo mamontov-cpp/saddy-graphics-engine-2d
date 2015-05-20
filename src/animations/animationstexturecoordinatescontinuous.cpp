@@ -24,6 +24,7 @@
 #include <3rdparty/picojson/valuetotype.h>
 
 #include <fstream>
+#include "sadmutex.h"
 
 DECLARE_SOBJ_INHERITANCE(sad::animations::TextureCoordinatesContinuous, sad::animations::Animation);
 
@@ -41,29 +42,36 @@ sad::animations::TextureCoordinatesContinuous::~TextureCoordinatesContinuous()
 
 static sad::db::schema::Schema* AnimationTextureCoordinatesContinuousSchema = NULL;
 
+static sad::Mutex AnimationTextureCoordinatesContinuousSchemaInit;
+
 sad::db::schema::Schema* sad::animations::TextureCoordinatesContinuous::basicSchema()
 {
     if (AnimationTextureCoordinatesContinuousSchema == NULL)
     {
-        AnimationTextureCoordinatesContinuousSchema = new sad::db::schema::Schema();
-        AnimationTextureCoordinatesContinuousSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationTextureCoordinatesContinuousSchemaInit.lock();
+        if (AnimationTextureCoordinatesContinuousSchema == NULL)
+        {
+            AnimationTextureCoordinatesContinuousSchema = new sad::db::schema::Schema();
+            AnimationTextureCoordinatesContinuousSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationTextureCoordinatesContinuousSchema->add(
-            "start_rect",
-			new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
-				&sad::animations::TextureCoordinatesContinuous::startRect,
-                &sad::animations::TextureCoordinatesContinuous::setStartRect
-            )
-        );
-		AnimationTextureCoordinatesContinuousSchema->add(
-            "end_rect",
-			new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
-				&sad::animations::TextureCoordinatesContinuous::endRect,
-                &sad::animations::TextureCoordinatesContinuous::setEndRect
-            )
-        );
+            AnimationTextureCoordinatesContinuousSchema->add(
+                "start_rect",
+			    new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
+				    &sad::animations::TextureCoordinatesContinuous::startRect,
+                    &sad::animations::TextureCoordinatesContinuous::setStartRect
+                )
+            );
+		    AnimationTextureCoordinatesContinuousSchema->add(
+                "end_rect",
+			    new sad::db::MethodPair<sad::animations::TextureCoordinatesContinuous, sad::Rect2D>(
+				    &sad::animations::TextureCoordinatesContinuous::endRect,
+                    &sad::animations::TextureCoordinatesContinuous::setEndRect
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesContinuousSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesContinuousSchema);
+        }
+        AnimationTextureCoordinatesContinuousSchemaInit.unlock();
     }
     return AnimationTextureCoordinatesContinuousSchema;
 }

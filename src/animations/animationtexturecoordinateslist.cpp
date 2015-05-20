@@ -5,6 +5,7 @@
 #include "animations/setstate/setproperty.h"
 
 #include "sprite2d.h"
+#include "sadmutex.h"
 #include "db/custom/customobject.h"
 
 #include "db/schema/schema.h"
@@ -46,22 +47,28 @@ sad::animations::TextureCoordinatesList::~TextureCoordinatesList()
 
 static sad::db::schema::Schema* AnimationTextureCoordinatesListSchema = NULL;
 
+static sad::Mutex AnimationTextureCoordinatesListSchemaInit;
 sad::db::schema::Schema* sad::animations::TextureCoordinatesList::basicSchema()
 {
     if (AnimationTextureCoordinatesListSchema == NULL)
     {
-        AnimationTextureCoordinatesListSchema = new sad::db::schema::Schema();
-        AnimationTextureCoordinatesListSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationTextureCoordinatesListSchemaInit.lock();
+        if (AnimationTextureCoordinatesListSchema == NULL)
+        {
+            AnimationTextureCoordinatesListSchema = new sad::db::schema::Schema();
+            AnimationTextureCoordinatesListSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationTextureCoordinatesListSchema->add(
-            "list",
-			new sad::db::MethodPair<sad::animations::TextureCoordinatesList, sad::Vector<sad::String> >(
-				&sad::animations::TextureCoordinatesList::list,
-                &sad::animations::TextureCoordinatesList::setList
-            )
-        );
+            AnimationTextureCoordinatesListSchema->add(
+                "list",
+			    new sad::db::MethodPair<sad::animations::TextureCoordinatesList, sad::Vector<sad::String> >(
+				    &sad::animations::TextureCoordinatesList::list,
+                    &sad::animations::TextureCoordinatesList::setList
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesListSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationTextureCoordinatesListSchema);
+        }
+        AnimationTextureCoordinatesListSchemaInit.unlock();
     }
     return AnimationTextureCoordinatesListSchema;
 }

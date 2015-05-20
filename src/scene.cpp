@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "renderer.h"
 #include "orthographiccamera.h"
+#include "sadmutex.h"
 
 #include "os/glheaders.h"
 
@@ -30,21 +31,28 @@ sad::Scene::~Scene()
 
 static sad::db::schema::Schema* SadSceneSchema;
 
+static sad::Mutex SadSceneSchemaInit;
+
 sad::db::schema::Schema* sad::Scene::basicSchema()
 {
 	if (SadSceneSchema == NULL)
 	{
-		SadSceneSchema = new sad::db::schema::Schema();
-		SadSceneSchema->addParent(sad::db::Object::basicSchema());	
-		SadSceneSchema->add(
-			"layer", 
-			new sad::db::MethodPair<sad::Scene, unsigned int>(
-				&sad::Scene::sceneLayer,
-				&sad::Scene::setSceneLayer
-			)
-		);
+        SadSceneSchemaInit.lock();
+        if (SadSceneSchema == NULL)
+	    {
+		    SadSceneSchema = new sad::db::schema::Schema();
+		    SadSceneSchema->addParent(sad::db::Object::basicSchema());	
+		    SadSceneSchema->add(
+			    "layer", 
+			    new sad::db::MethodPair<sad::Scene, unsigned int>(
+				    &sad::Scene::sceneLayer,
+				    &sad::Scene::setSceneLayer
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadSceneSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(SadSceneSchema);
+        }
+        SadSceneSchemaInit.unlock();
 	}
 	return SadSceneSchema;
 }

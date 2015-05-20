@@ -10,6 +10,7 @@
 #include "scene.h"
 #include "camera.h"
 #include "geometry2d.h"
+#include "sadmutex.h"
 
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
@@ -49,22 +50,29 @@ sad::animations::WayMoving::~WayMoving()
 
 static sad::db::schema::Schema* AnimationWayMovingSchema = NULL;
 
+static sad::Mutex AnimationWayMovingSchemaInit;
+
 sad::db::schema::Schema* sad::animations::WayMoving::basicSchema()
 {
     if (AnimationWayMovingSchema == NULL)
     {
-        AnimationWayMovingSchema = new sad::db::schema::Schema();
-        AnimationWayMovingSchema->addParent(sad::animations::Animation::basicSchema());
+        AnimationWayMovingSchemaInit.lock();
+        if (AnimationWayMovingSchema == NULL)
+        {
+            AnimationWayMovingSchema = new sad::db::schema::Schema();
+            AnimationWayMovingSchema->addParent(sad::animations::Animation::basicSchema());
 
-        AnimationWayMovingSchema->add(
-            "way",
-			new sad::db::MethodPair<sad::animations::WayMoving, unsigned long long>(
-				&sad::animations::WayMoving::wayObjectId,
-                &sad::animations::WayMoving::setWayObjectId
-            )
-        );
+            AnimationWayMovingSchema->add(
+                "way",
+			    new sad::db::MethodPair<sad::animations::WayMoving, unsigned long long>(
+				    &sad::animations::WayMoving::wayObjectId,
+                    &sad::animations::WayMoving::setWayObjectId
+                )
+            );
 		        
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationWayMovingSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationWayMovingSchema);
+        }
+        AnimationWayMovingSchemaInit.unlock();
     }
     return AnimationWayMovingSchema;
 }

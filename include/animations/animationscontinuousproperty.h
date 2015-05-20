@@ -8,6 +8,7 @@
 #include "../fuzzyequal.h"
 #include "../sadstring.h"
 #include "../maybe.h"
+#include "../sadmutex.h"
 
 #include "../db/schema/schema.h"
 #include "../db/dbproperty.h"
@@ -90,35 +91,41 @@ public:
      */
 	static sad::db::schema::Schema* basicSchema()
 	{
-		static static sad::db::schema::Schema* Schema = NULL;
+		static sad::db::schema::Schema* Schema = NULL;
+        static sad::Mutex SchemaInit;
 		if (Schema == NULL)
 		{
-			Schema = new sad::db::schema::Schema();
-			Schema->addParent(sad::animations::Animation::basicSchema());
+            SchemaInit.lock();
+            if (Schema == NULL)
+		    {
+			    Schema = new sad::db::schema::Schema();
+			    Schema->addParent(sad::animations::Animation::basicSchema());
 
-			Schema->add(
-				"min_value",
-				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
-					&sad::animations::ContinuousProperty<T>::minValue,
-					&sad::animations::ContinuousProperty<T>::setMinValue
-				)
-			);
-			Schema->add(
-				"max_value",
-				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
-					&sad::animations::ContinuousProperty<T>::maxValue,
-					&sad::animations::ContinuousProperty<T>::setMaxValue
-				)
-			);
-			Schema->add(
-				"property",
-				new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, sad::String>(
-					&sad::animations::ContinuousProperty<T>::propertyName,
-					&sad::animations::ContinuousProperty<T>::setPropertyName
-				)
-			);
+			    Schema->add(
+				    "min_value",
+				    new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
+					    &sad::animations::ContinuousProperty<T>::minValue,
+					    &sad::animations::ContinuousProperty<T>::setMinValue
+				    )
+			    );
+			    Schema->add(
+				    "max_value",
+				    new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, T>(
+					    &sad::animations::ContinuousProperty<T>::maxValue,
+					    &sad::animations::ContinuousProperty<T>::setMaxValue
+				    )
+			    );
+			    Schema->add(
+				    "property",
+				    new sad::db::MethodPair<sad::animations::ContinuousProperty<T>, sad::String>(
+					    &sad::animations::ContinuousProperty<T>::propertyName,
+					    &sad::animations::ContinuousProperty<T>::setPropertyName
+				    )
+			    );
 			
-			sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+			    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Schema);
+            }
+            SchemaInit.unlock();
 		}
 		return Schema;
 	}

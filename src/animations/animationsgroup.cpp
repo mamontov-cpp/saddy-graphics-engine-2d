@@ -11,6 +11,8 @@
 #include <math.h>
 #include <fstream>
 
+#include "sadmutex.h"
+
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
@@ -67,29 +69,36 @@ sad::animations::Group& sad::animations::Group::operator=(const sad::animations:
 
 static sad::db::schema::Schema* AnimationGroupSchema = NULL;
 
+static sad::Mutex AnimationGroupSchemaInit;
+
 sad::db::schema::Schema* sad::animations::Group::basicSchema()
 {
     if (AnimationGroupSchema == NULL)
     {
-        AnimationGroupSchema = new sad::db::schema::Schema();
-        AnimationGroupSchema->addParent(sad::db::Object::basicSchema());
+        AnimationGroupSchemaInit.lock();
+        if (AnimationGroupSchema == NULL)
+        {
+            AnimationGroupSchema = new sad::db::schema::Schema();
+            AnimationGroupSchema->addParent(sad::db::Object::basicSchema());
 
-		AnimationGroupSchema->add(
-            "looped",
-            new sad::db::MethodPair<sad::animations::Group, bool >(
-				&sad::animations::Group::looped,
-                &sad::animations::Group::setLooped
-            )
-        );
-        AnimationGroupSchema->add(
-            "instances",
-            new sad::db::MethodPair<sad::animations::Group, sad::Vector<unsigned long long> >(
-				&sad::animations::Group::instances,
-                &sad::animations::Group::setInstances
-            )
-        );
+		    AnimationGroupSchema->add(
+                "looped",
+                new sad::db::MethodPair<sad::animations::Group, bool >(
+				    &sad::animations::Group::looped,
+                    &sad::animations::Group::setLooped
+                )
+            );
+            AnimationGroupSchema->add(
+                "instances",
+                new sad::db::MethodPair<sad::animations::Group, sad::Vector<unsigned long long> >(
+				    &sad::animations::Group::instances,
+                    &sad::animations::Group::setInstances
+                )
+            );
         
-        sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationGroupSchema);
+            sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationGroupSchema);
+        }
+        AnimationGroupSchemaInit.unlock();
     }
     return AnimationGroupSchema;
 }

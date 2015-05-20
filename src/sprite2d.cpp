@@ -1,6 +1,7 @@
 #include <sprite2d.h>
 #include <geometry2d.h>
 #include <renderer.h>
+#include <sadmutex.h>
 
 #include <os/glheaders.h>
 
@@ -166,66 +167,72 @@ void sad::Sprite2D::regions(sad::Vector<sad::Rect2D> & r)
 
 static sad::db::schema::Schema* Sprite2DBasicSchema = NULL;
 
+static sad::Mutex Sprite2DBasicSchemaInit;
 
 sad::db::schema::Schema* sad::Sprite2D::basicSchema()
 {
 	if (Sprite2DBasicSchema == NULL)
 	{
-		Sprite2DBasicSchema = new sad::db::schema::Schema();
-		Sprite2DBasicSchema->addParent(sad::SceneNode::basicSchema());
+        Sprite2DBasicSchemaInit.lock();
+        if (Sprite2DBasicSchema == NULL)
+	    {
+		    Sprite2DBasicSchema = new sad::db::schema::Schema();
+		    Sprite2DBasicSchema->addParent(sad::SceneNode::basicSchema());
 
-		void (sad::Sprite2D::*p1)(const sad::String&) = &sad::Sprite2D::set;
-		Sprite2DBasicSchema->add(
-			"options", 
-			new sad::db::MethodPair<sad::Sprite2D, sad::String>(
-				&sad::Sprite2D::optionsName,
-				p1
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"area", 
-			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
-				&sad::Sprite2D::area,
-				&sad::Sprite2D::setArea
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"texturecoordinates", 
-			new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
-				&sad::Sprite2D::textureCoordinates,
-				&sad::Sprite2D::setTextureCoordinates
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"angle", 
-			new sad::db::MethodPair<sad::Sprite2D, double>(
-				&sad::Sprite2D::angle,
-				&sad::Sprite2D::setAngle
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"color", 
-			new sad::db::MethodPair<sad::Sprite2D, sad::AColor>(
-				&sad::Sprite2D::color,
-				&sad::Sprite2D::setColor
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"flipx", 
-			new sad::db::MethodPair<sad::Sprite2D, bool>(
-				&sad::Sprite2D::flipX,
-				&sad::Sprite2D::setFlipX
-			)
-		);
-		Sprite2DBasicSchema->add(
-			"flipy", 
-			new sad::db::MethodPair<sad::Sprite2D, bool>(
-				&sad::Sprite2D::flipY,
-				&sad::Sprite2D::setFlipY
-			)
-		);
+		    void (sad::Sprite2D::*p1)(const sad::String&) = &sad::Sprite2D::set;
+		    Sprite2DBasicSchema->add(
+			    "options", 
+			    new sad::db::MethodPair<sad::Sprite2D, sad::String>(
+				    &sad::Sprite2D::optionsName,
+				    p1
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "area", 
+			    new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				    &sad::Sprite2D::area,
+				    &sad::Sprite2D::setArea
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "texturecoordinates", 
+			    new sad::db::MethodPair<sad::Sprite2D, sad::Rect2D>(
+				    &sad::Sprite2D::textureCoordinates,
+				    &sad::Sprite2D::setTextureCoordinates
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "angle", 
+			    new sad::db::MethodPair<sad::Sprite2D, double>(
+				    &sad::Sprite2D::angle,
+				    &sad::Sprite2D::setAngle
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "color", 
+			    new sad::db::MethodPair<sad::Sprite2D, sad::AColor>(
+				    &sad::Sprite2D::color,
+				    &sad::Sprite2D::setColor
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "flipx", 
+			    new sad::db::MethodPair<sad::Sprite2D, bool>(
+				    &sad::Sprite2D::flipX,
+				    &sad::Sprite2D::setFlipX
+			    )
+		    );
+		    Sprite2DBasicSchema->add(
+			    "flipy", 
+			    new sad::db::MethodPair<sad::Sprite2D, bool>(
+				    &sad::Sprite2D::flipY,
+				    &sad::Sprite2D::setFlipY
+			    )
+		    );
 
-		sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite2DBasicSchema);
+		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(Sprite2DBasicSchema);
+        }
+        Sprite2DBasicSchemaInit.unlock();
 	}
 	return Sprite2DBasicSchema;
 }

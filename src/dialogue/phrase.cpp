@@ -1,5 +1,6 @@
 #include "dialogue/phrase.h"
 
+
 sad::dialogue::Phrase::Phrase()
 : m_duration(0)
 {
