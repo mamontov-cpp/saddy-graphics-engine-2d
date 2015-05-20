@@ -5,9 +5,9 @@
 
 sad::freetype::Glyph::Glyph()
 : Index(0), Width(0), 
-Height(0), BearingY(0), 
-Descender(0), AdvanceX(0),
-TexCoordinateWidth(0), TexCoordinateHeight(0), 
+Height(0), TexCoordinateWidth(0), 
+TexCoordinateHeight(0), BearingY(0),
+Descender(0), AdvanceX(0), 
 YMax(0), YMin(0)
 {
 
@@ -83,20 +83,20 @@ sad::String sad::freetype::Glyph::dumpParametes() const
 void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 {
 	FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL, 0, 1 );
-	FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
+	FT_BitmapGlyph bitmap_glyph = reinterpret_cast<FT_BitmapGlyph>(glyph);
 	FT_Bitmap & bitmap = bitmap_glyph->bitmap;
 
 	Texture.storeBitmap(bitmap);
 
-	Width = (float)(bitmap.width);
-	Height = (float)(bitmap.rows);
+	Width = static_cast<float>(bitmap.width);
+	Height = static_cast<float>(bitmap.rows);
 	TexCoordinateWidth = Width / Texture.Width;
 	TexCoordinateHeight = Height / Texture.Height;
 
-	float diff = (float)(bitmap_glyph->top - bitmap.rows);
+	float diff = static_cast<float>(static_cast<long>(bitmap_glyph->top) - static_cast<long>(bitmap.rows));
 	Descender = diff;
 	BearingY = Height + Descender;
-	AdvanceX = (float)(face->glyph->advance.x >> 6);
+	AdvanceX = static_cast<float>(face->glyph->advance.x >> 6);
 	YMax = face->bbox.yMax;
 	YMin = face->bbox.yMin;
 }
