@@ -163,15 +163,18 @@ sad::os::SystemWindowEventDispatchResult sad::os::SystemEventDispatcher::dispatc
 	sad::os::SystemWindowEventDispatchResult result;
 	XEvent & xev = e.Event;
 	sad::String atomname;
+	char* rawatomname  = NULL;
 	switch(xev.type)
 	{
 		case ClientMessage:
-			atomname = XGetAtomName(
+			rawatomname = XGetAtomName(
 				m_renderer->window()->handles()->Dpy, 
 				xev.xclient.message_type
 			);
+			atomname = rawatomname;
+			XFree(rawatomname);
 			if (atomname == "WM_PROTOCOLS")
-			{
+			{			
 				processQuit(e);
 			}
 			break;

@@ -164,15 +164,28 @@ void sad::MainLoop::unregisterRenderer()
 #endif
 }
 
+#ifdef X11
+	static char * main_loop_locale_block = NULL;
+	sad::Mutex  main_loop_locale_mtx;
+
+	void main_loop_destroy_modifiers()
+	{
+		free(main_loop_locale_block);
+	}
+#endif
+
 void sad::MainLoop::initKeyboardInput()
 {
 #ifdef X11
 	setlocale(LC_CTYPE, "");
-	char* oldlocale = XSetLocaleModifiers("");
-	if (oldlocale != NULL)
+	main_loop_locale_mtx.lock();
+	char* oldvalue =  main_loop_locale_block;
+	main_loop_locale_block = XSetLocaleModifiers("");
+	if (main_loop_locale_block != NULL &&  oldvalue == NULL)
 	{
-		free(oldlocale);
+		atexit(main_loop_destroy_modifiers);
 	}
+	main_loop_locale_mtx.unlock();
 #endif
 }
 

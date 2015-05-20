@@ -29,6 +29,10 @@
 	#include <unistd.h>
 #endif
 
+#ifdef X11
+	void SafeXInitThreads();
+#endif
+
 sad::Renderer * sad::Renderer::m_instance = NULL;
 
 sad::Renderer::Renderer()
@@ -46,12 +50,15 @@ m_added_system_pipeline_tasks(false),
 m_primitiverenderer(new sad::PrimitiveRenderer()),
 m_animations(new sad::animations::Animations())
 {
+#ifdef X11
+	SafeXInitThreads();
+#endif	
 	m_window->setRenderer(this);
 	m_cursor->setRenderer(this);
 	m_opengl->setRenderer(this);
 	m_main_loop->setRenderer(this);
 
-	setTextureLoader("BMP", new sad::imageformats::BMPLoader());
+    setTextureLoader("BMP", new sad::imageformats::BMPLoader());
     setTextureLoader("TGA", new sad::imageformats::TGALoader());
     setTextureLoader("PNG", new sad::imageformats::PNGLoader());
 

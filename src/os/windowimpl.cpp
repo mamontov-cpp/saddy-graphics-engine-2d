@@ -33,6 +33,13 @@ sad::os::WindowImpl::~WindowImpl()
 	{
 		destroy();
 	}
+#ifdef X11
+	if (m_handles.VisualInfo != NULL)
+	{
+		XFree(m_handles.VisualInfo);
+		m_handles.VisualInfo  = NULL;
+	}
+#endif	
 }
 
 void sad::os::WindowImpl::setRenderer(sad::Renderer * renderer)
@@ -309,6 +316,9 @@ void sad::os::WindowImpl::releaseContextAndDestroyWindow()
 		SL_COND_LOCAL_INTERNAL("DestroyWindow() failed", this->renderer());
 		m_handles.WND = NULL;
 	}
+	
+	XFree(m_handles.VisualInfo);
+	m_handles.VisualInfo = NULL;
 }
 
 bool sad::os::WindowImpl::chooseAndSetPixelFormatDescriptor(bool lastresult)

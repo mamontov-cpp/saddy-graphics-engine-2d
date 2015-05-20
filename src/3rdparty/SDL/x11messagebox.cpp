@@ -40,6 +40,8 @@
 #include <algorithm>
 #include <cstdio>
 
+#include <sadmutex.h>
+
 
 typedef unsigned int Uint32;
 typedef bool SDL_bool;
@@ -692,6 +694,24 @@ X11_MessageBoxLoop( SDL_MessageBoxDataX11 *data )
     return 0;
 }
 
+static bool XInitThreadsCalled = false;
+
+static sad::Mutex  XInitThreadsCalledLock;
+
+void SafeXInitThreads()
+{
+	if (!XInitThreadsCalled)
+	{
+		XInitThreadsCalledLock.lock();
+		if (!XInitThreadsCalled)
+		{
+			XInitThreadsCalled = true;
+			XInitThreads();
+		}
+		XInitThreadsCalledLock.unlock();
+	}
+}
+
 static int
 X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 {
@@ -716,7 +736,7 @@ X11_ShowMessageBoxImpl(const SDL_MessageBoxData *messageboxdata, int *buttonid)
 #endif
 
     /* This code could get called from multiple threads maybe? */
-    // XInitThreads();
+    SafeXInitThreads();
 
     /* Initialize the return buttonid value to -1 (for error or dialogbox closed). */
     *buttonid = -1;
