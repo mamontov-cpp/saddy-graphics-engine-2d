@@ -99,6 +99,8 @@ void sad::freetype::Glyph::makeGlyph(FT_Face face, FT_Glyph glyph)
 	AdvanceX = static_cast<float>(face->glyph->advance.x >> 6);
 	YMax = face->bbox.yMax;
 	YMin = face->bbox.yMin;
+
+    FT_Done_Glyph(glyph);
 }
 
 void sad::freetype::Glyph::makeEmptyGlyph()

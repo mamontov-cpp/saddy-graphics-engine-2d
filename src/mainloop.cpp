@@ -168,7 +168,11 @@ void sad::MainLoop::initKeyboardInput()
 {
 #ifdef X11
 	setlocale(LC_CTYPE, "");
-	XSetLocaleModifiers("");
+	char* oldlocale = XSetLocaleModifiers("");
+	if (oldlocale != NULL)
+	{
+		free(oldlocale);
+	}
 #endif
 }
 

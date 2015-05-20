@@ -201,8 +201,6 @@ int thread(void * p)
 	scene->add(l1);
 	scene->add(l2);
 
-    SL_LOCAL_DEBUG(r.tree("")->get<sad::freetype::Font>("ftfont")->dumpGlyphParameters().c_str(), r);
-
 	sad::animations::Instance* parallelinstance = new sad::animations::Instance();
 	parallelinstance->setAnimation(parallel);
 	parallelinstance->setObject(l1);
