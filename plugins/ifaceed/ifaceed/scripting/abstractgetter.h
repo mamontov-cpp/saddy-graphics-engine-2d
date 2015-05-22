@@ -17,7 +17,7 @@ namespace scripting
 	
 template<
 	typename _Type,
-	typename _PropetyType
+	typename _PropertyType
 >
 class AbstractGetter: public scripting::Callable
 {
@@ -104,11 +104,11 @@ public:
 				if (prop)
 				{
 					result._1() += 1;
-					sad::db::TypeName<_PropetyType>::init();
-					if (prop->baseType() != sad::db::TypeName<_PropetyType>::baseName() || prop->pointerStarsCount() != 0)
+					sad::db::TypeName<_PropertyType>::init();
+					if (prop->baseType() != sad::db::TypeName<_PropertyType>::baseName() || prop->pointerStarsCount() != 0)
 					{
 						QString qpropname = propname.value().c_str();
-						QString basetype = sad::db::TypeName<_PropetyType>::baseName().c_str();
+						QString basetype = sad::db::TypeName<_PropertyType>::baseName().c_str();
 						result._2().setValue(QString("property ") + qpropname + QString(" is not of type ") + basetype);
 					}
 				}
@@ -136,9 +136,9 @@ public:
 		sad::Maybe<sad::String> propname = scripting::ToValue<sad::String>::perform(ctx->argument(1));
 		
 		sad::db::Object* object = basicvalue.value();
-		sad::Maybe<_PropetyType> oldvalue = object->getProperty<_PropetyType>(propname.value());
+		sad::Maybe<_PropertyType> oldvalue = object->getProperty<_PropertyType>(propname.value());
 
-		return scripting::FromValue<_PropetyType>::perform(oldvalue.value(), engine);
+		return scripting::FromValue<_PropertyType>::perform(oldvalue.value(), engine);
 	}	
 protected:
 	/*! A matched properties list. If empty - every kind of property is matched
