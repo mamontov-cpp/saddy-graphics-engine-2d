@@ -46,7 +46,7 @@ void gui::table::FloatDelegate::widgetChanged(double i)
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<float>(m_object, m_property_name.toStdString(), oldvalue, i)
+			new history::customobject::ChangeProperty<float>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
 		);
 	}
 	this->setCurrentValue<float>(i);

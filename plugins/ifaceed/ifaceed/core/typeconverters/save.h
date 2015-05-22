@@ -13,6 +13,8 @@
 #include "qlistqlistqcolortosadvectorsadvectoracolor.h"
 #include "qrectftosadrect2d.h"
 
+#include "../qstdstring.h"
+
 namespace sad
 {
 
@@ -49,7 +51,7 @@ public:
 static picojson::value perform(void * ptr)
 {
 	QString * src = reinterpret_cast<QString *>(ptr);
-	sad::String dest(src->toStdString());
+	sad::String dest(Q2STDSTRING(*src));
 	return sad::db::Save<sad::String>::perform(&dest);
 }
 

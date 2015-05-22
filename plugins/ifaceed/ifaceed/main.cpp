@@ -19,9 +19,12 @@ int main(int argc, char *argv[])
 	#ifdef WIN32
 		setlocale(LC_CTYPE, ".1251");
 		QTextCodec * codec=QTextCodec::codecForName("Windows-1251");
-		QTextCodec::setCodecForTr(codec);
+    #if !HAVE_QT5
+        QTextCodec::setCodecForTr(codec);
 		QTextCodec::setCodecForCStrings(codec);
-		QTextCodec::setCodecForLocale(codec);
+    #endif
+        setlocale(LC_CTYPE, "UTF-8");		
+        QTextCodec::setCodecForLocale(codec);
 	#endif
 	core::Editor * editor =new core::Editor();
 	editor->init(argc,argv);

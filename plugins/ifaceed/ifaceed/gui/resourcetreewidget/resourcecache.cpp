@@ -3,6 +3,8 @@
 #include "gui/resourcetreewidget/cell.h"
 #include "gui/resourcetreewidget/defaultimage.h"
 
+#include "../../qstdstring.h"
+
 #include <renderer.h>
 
 #include <resource/resource.h>
@@ -11,8 +13,6 @@
 #include <freetype/font.h>
 #include <texturemappedfont.h>
 #include <db/custom/customschema.h>
-
-#include <cassert>
 
 gui::resourcetreewidget::ResourceCache::ResourceCache() : m_parent(NULL)
 {
@@ -44,8 +44,8 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 	}
 	// Try fetch result
 	QImage result;
-	sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_parent->tree().toStdString().c_str()); 
-	sad::resource::Resource * resource = tree->root()->resource(resourcename.toStdString().c_str());
+	sad::resource::Tree * tree = sad::Renderer::ref()->tree(Q2STDSTRING(m_parent->tree()).c_str()); 
+	sad::resource::Resource * resource = tree->root()->resource(Q2STDSTRING(resourcename).c_str());
 
 	// Handle all resource rendering strings here
 	bool handled = false;
@@ -54,7 +54,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
         sad::ClassMetaData* meta = resource->metaData();
         if (meta->name() == "sad::freetype::Font" && !handled)
 		{
-			sad::freetype::Font * font = (sad::freetype::Font*)resource;
+			sad::freetype::Font * font = static_cast<sad::freetype::Font*>(resource);
 			sad::Texture * texture  = font->renderToTexture("Test", 20);
 			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32).copy();
 			delete texture;
@@ -62,7 +62,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 		}
         if (meta->name() == "sad::TextureMappedFont" && !handled)
 		{
-			sad::TextureMappedFont * font = (sad::TextureMappedFont*)resource;
+			sad::TextureMappedFont * font = static_cast<sad::TextureMappedFont*>(resource);
 			sad::Texture * texture  = font->renderToTexture("Test");
 			result = QImage(texture->data(), texture->width(), texture->height(), QImage::Format_ARGB32).copy();
 			delete texture;
@@ -70,7 +70,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 		}
         if (meta->name() == "sad::Sprite2D::Options" && !handled)
 		{
-			sad::Sprite2D::Options * options = (sad::Sprite2D::Options*)resource;
+			sad::Sprite2D::Options * options = static_cast<sad::Sprite2D::Options*>(resource);
 			resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 				result, 
 				*options, 
@@ -80,14 +80,14 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
 		}
         if (meta->name() == "sad::db::custom::Schema" && !handled)
 		{
-			sad::db::custom::Schema* schema = (sad::db::custom::Schema*)resource;
+			sad::db::custom::Schema* schema = static_cast<sad::db::custom::Schema*>(resource);
 			result = this->imageForResource(schema->treeItemName().data()).copy();
 
 			handled = true;
 		}
         if (meta->name() == "sad::Texture" && !handled)
 		{
-			sad::Texture * tex = (sad::Texture*)resource;
+			sad::Texture * tex = static_cast<sad::Texture*>(resource);
 			resourcetreewidget::ResourceCache::createImageForTexture(
 				result, 
 				tex
@@ -121,10 +121,10 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 			if (tmp[i].x() > source->width()-1) tmp[i].setX(source->width() - 1);
 			if (tmp[i].y() > source->height()-1) tmp[i].setY(source->height() - 1);
 	}
-	int minx = (int)tmp[0].x();
-	int maxx = (int)tmp[2].x();
-	int miny = (int)tmp[0].y();
-	int maxy = (int)tmp[2].y();
+	int minx = static_cast<int>(tmp[0].x());
+	int maxx = static_cast<int>(tmp[2].x());
+	int miny = static_cast<int>(tmp[0].y());
+	int maxy = static_cast<int>(tmp[2].y());
 	if (maxx < minx)
 	{
 			std::swap(maxx, minx);
@@ -138,8 +138,8 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 	int height = maxy - miny;
 	
 	sad::Texture * result = new sad::Texture();
-	result->width() = (float)width;
-	result->height() = (float)height;	
+	result->width() = static_cast<float>(width);
+	result->height() = static_cast<float>(height);	
 	result->bpp() = source->bpp();
 	
 	int bypp = result->bpp() / 8;
@@ -213,20 +213,20 @@ void gui::resourcetreewidget::ResourceCache::normalizeImage(QImage & im)
 	if (im.width() > gui::resourcetreewidget::Cell::ImageWidth 
 		|| im.height() > gui::resourcetreewidget::Cell::ImageHeight)
 	{
-		if ((unsigned int)(im.height()) != 0)
+		if (static_cast<unsigned int>(im.height()) != 0)
 		{
-			float ratio = ((float)im.height()) / im.width();
+			float ratio = static_cast<float>(im.height()) / im.width();
 			int width, height;
 			if (im.width() > im.height() 
 				&& ratio * gui::resourcetreewidget::Cell::ImageWidth <= gui::resourcetreewidget::Cell::ImageHeight)
 			{
 				width = gui::resourcetreewidget::Cell::ImageWidth;
-				height = (int)(ratio * (float)width);
+				height = static_cast<int>(ratio * static_cast<float>(width));
 			}
 			else
 			{
 				height = gui::resourcetreewidget::Cell::ImageHeight;
-				width = (int)((float)height / ratio);
+				width = static_cast<int>(static_cast<float>(height) / ratio);
 			}
 			im = im.scaled(width, height,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 		}

@@ -4,6 +4,8 @@
 #include "gui/resourcetreewidget/cell.h"
 #include "gui/resourcetreewidget/defaultimage.h"
 
+#include "../../qstdstring.h"
+
 #include <QResizeEvent>
 #include <QMoveEvent>
 #include <QMessageBox>
@@ -16,7 +18,7 @@
 
 #include <QImage>
 
-#ifdef HAVE_QT5
+#if HAVE_QT5
 	#include <QHeaderView>
 #endif
 
@@ -119,7 +121,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 	QTreeWidgetItem * root = new QTreeWidgetItem(QStringList("/"));
 	m_tree_view->addTopLevelItem(root);
 
-	sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+	sad::resource::Tree * tree = sad::Renderer::ref()->tree(Q2STDSTRING(m_tree_name));
 	if (tree)
 	{
 		sad::resource::Folder * folderroot = tree->root();
@@ -140,12 +142,12 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::pathToItemB
 		if (path.length() != 0)
 		{
 			path += "/";
-			path += name.toStdString();
+			path += Q2STDSTRING(name);
 			result.setValue(path);
 		} 
 		else
 		{
-			result.setValue(name.toStdString());
+			result.setValue(Q2STDSTRING(name));
 		}
 	}
 	return result;
@@ -211,7 +213,7 @@ sad::resource::Resource* gui::resourcetreewidget::ResourceTreeWidget::selectedRe
 	sad::Maybe<sad::String> path = this->selectedResourceName();
 	sad::resource::Resource * result = NULL;
 
-	sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+	sad::resource::Tree * tree = sad::Renderer::ref()->tree(Q2STDSTRING(m_tree_name));
 	sad::resource::Folder * folder = tree->root();
 	if (path.exists())
 	{
@@ -222,7 +224,7 @@ sad::resource::Resource* gui::resourcetreewidget::ResourceTreeWidget::selectedRe
 
 void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 	QTreeWidgetItem * current, 
-	QTreeWidgetItem * previous
+	QTreeWidgetItem * /*previous*/
 )
 {
 	if (current)
@@ -231,7 +233,7 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 		if (v.exists())
 		{
 			m_element_view->clear();
-			sad::resource::Tree * tree = sad::Renderer::ref()->tree(m_tree_name.toStdString());
+			sad::resource::Tree * tree = sad::Renderer::ref()->tree(Q2STDSTRING(m_tree_name));
 			sad::resource::Folder * folder = tree->root();
 			if (v.value().length() != 0)
 			{
@@ -243,7 +245,7 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 			unsigned int rows = 0;
 			bool odd = false;
 			QStringList list = m_filter.split("|");
-			for(; cur != folder->resourceListEnd(); cur++)
+			for(; cur != folder->resourceListEnd(); ++cur)
 			{
 				bool shouldshowresource = true;
 				if (list.count())
@@ -275,7 +277,7 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 			int row = 0;
 			int column = 0;
 			cur = folder->resourceListBegin();
-			for(; cur != folder->resourceListEnd(); cur++)
+			for(; cur != folder->resourceListEnd(); ++cur)
 			{
 				bool shouldshowitem = true;
 				if (list.count())
@@ -314,12 +316,12 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 
 void gui::resourcetreewidget::ResourceTreeWidget::elementItemChanged(
 	QTableWidgetItem * current, 
-	QTableWidgetItem * previous
+	QTableWidgetItem * /*previous*/
 )
 {
 	if (current)
 	{
-		sad::String name = current->text().toStdString();
+		sad::String name = Q2STDSTRING(current->text());
 		QList<QTreeWidgetItem *> list = m_tree_view->selectedItems();
 		if (list.count())
 		{
@@ -357,7 +359,7 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedFol
 		}
 		treepath.removeAt(treepath.size() - 1);
 		std::reverse(treepath.begin(), treepath.end());
-		sad::String path = treepath.join("/").toStdString();
+		sad::String path = Q2STDSTRING(treepath.join("/"));
 		value.setValue(path);
 	}
 	return value;
@@ -369,7 +371,7 @@ sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::selectedLoc
 	sad::Maybe<sad::String> result;
 	if (elements.count())
 	{
-		result.setValue(elements[0]->text().toStdString());
+		result.setValue(Q2STDSTRING(elements[0]->text()));
 	}
 	return result;
 }
@@ -399,7 +401,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 				bool hasspecifieditem = false;
 				for(int j = 0; j < current->childCount() && !hasspecifieditem; j++)
 				{
-				   if(current->child(j)->text(0) == list[i].c_str())
+				   if(Q2STDSTRING(current->child(j)->text(0)) == list[i].c_str())
 				   {
 						current = current->child(j);
 						hasspecifieditem = true;

@@ -1,0 +1,24 @@
+/*! \file qstdstring.h
+    \author HiddenSeeker
+
+    A converters to and from QString to std::string, locale-dependent 
+ */
+#pragma once
+#include <QtGlobal>
+#include <QString>
+#include <string>
+
+#ifdef WIN32
+
+#if  (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    #define Q2STDSTRING(STR)    (std::string((STR).toLocal8Bit()))
+    #define STD2QSTRING(STR)    (QString::fromLocal8Bit(std::string(STR).c_str()))
+#else
+    #define Q2STDSTRING(STR)    ((STR).toStdString())
+    #define STD2QSTRING(STR)    (QString(STR))
+#endif
+
+#else
+    #define Q2STDSTRING(STR)    ((STR).toStdString())
+    #define STD2QSTRING(STR)    (QString(STR))
+#endif

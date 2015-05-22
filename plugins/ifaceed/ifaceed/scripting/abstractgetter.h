@@ -7,6 +7,8 @@
 #include "maybe.h"
 #include "callable.h"
 
+#include "../../qstdstring.h"
+
 #include <db/dbproperty.h>
 #include <db/dbobject.h>
 
@@ -51,14 +53,14 @@ public:
 	 */
 	void addMatched(const QString& name)
 	{
-		m_matched_property_names << name.toStdString();
+		m_matched_property_names << Q2STDSTRING(name);
 	}
 	/*! Adds excluded property name
 		\param[in] name a property name
 	 */
 	void addExcluded(const QString& name)
 	{
-		m_excluded_property_names << name.toStdString();
+		m_excluded_property_names << Q2STDSTRING(name);
 	}
 	/*! Determines, whether it can be called with this context
 		\param[in] ctx context

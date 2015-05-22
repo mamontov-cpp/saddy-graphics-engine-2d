@@ -2320,6 +2320,9 @@
     <ClInclude Include="GeneratedFiles\ui_scriptinghelp.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="qstdstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

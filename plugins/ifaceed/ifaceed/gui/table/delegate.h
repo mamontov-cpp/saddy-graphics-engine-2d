@@ -9,6 +9,8 @@
 #include <QTableWidget>
 #include <QString>
 
+#include "../../qstdstring.h"
+
 #include <db/dbvariant.h>
 #include <db/save.h>
 #include <db/load.h>
@@ -133,11 +135,11 @@ protected:
 		{
 			return sad::Renderer::ref()
 			->database("")
-			->getProperty<T>(this->propertyName().toStdString()).value();
+			->getProperty<T>(Q2STDSTRING(this->propertyName())).value();
 		}
 		else
 		{
-			return m_object->getProperty<T>(this->propertyName().toStdString()).value();
+			return m_object->getProperty<T>(Q2STDSTRING(this->propertyName())).value();
 		}
 		return T();
 	}
@@ -153,11 +155,11 @@ protected:
 		{
 			sad::Renderer::ref()
 			->database("")
-			->setProperty<T>(this->propertyName().toStdString(), o);
+			->setProperty<T>(Q2STDSTRING(this->propertyName()), o);
 		}
 		else
 		{
-			m_object->setProperty<T>(this->propertyName().toStdString(), o);
+			m_object->setProperty<T>(Q2STDSTRING(this->propertyName()), o);
 		}
 	}
     /*! Finds property in table widget

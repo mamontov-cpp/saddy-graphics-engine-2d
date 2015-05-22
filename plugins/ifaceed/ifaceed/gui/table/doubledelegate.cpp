@@ -45,7 +45,7 @@ void gui::table::DoubleDelegate::widgetChanged(double i)
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<double>(m_object, m_property_name.toStdString(), oldvalue, i)
+			new history::customobject::ChangeProperty<double>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
 		);
 	}
 	this->setCurrentValue<double>(i);

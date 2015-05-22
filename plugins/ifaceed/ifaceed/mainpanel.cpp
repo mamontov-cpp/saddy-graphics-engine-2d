@@ -1,6 +1,7 @@
 #include "mainpanel.h"
 #include "blockedclosuremethodcall.h"
 #include "reloadfilelist.h"
+#include "qstdstring.h"
 
 #include "core/editor.h"
 #include "core/shared.h"
@@ -2604,7 +2605,12 @@ void MainPanel::load()
 		sad::db::Database* tmp = new sad::db::Database();
 		tmp->setRenderer(sad::Renderer::ref());
         tmp->setDefaultTreeName("");
-		if (tmp->loadFromFile(name.toStdString(), sad::Renderer::ref()))
+#if     HAVE_QT5
+        std::string filename = name.toLocal8Bit();
+#else
+        std::string filename = name.toStdString();
+#endif
+		if (tmp->loadFromFile(filename, sad::Renderer::ref()))
 		{
 			m_editor->shared()->setFileName(name);
 			sad::Renderer::ref()->lockRendering();

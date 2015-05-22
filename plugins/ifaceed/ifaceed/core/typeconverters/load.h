@@ -13,6 +13,8 @@
 #include "sadvectorsadvectoracolortoqlistqlistqcolor.h"
 #include "sadrect2dtoqrectf.h"
 
+#include "../../qstdstring.h"
+
 namespace sad
 {
 
@@ -49,7 +51,7 @@ static bool perform(void * ptr, const picojson::value & v)
 	if (cast.exists())                                           
 	{                 
 		const sad::String & s = cast.value();
-		*reinterpret_cast<QString *>(ptr) = QString(s.c_str());                            
+		*reinterpret_cast<QString *>(ptr) = STD2QSTRING(s.c_str());                            
 	}                                                            
 	return cast.exists();                                        
 }                                                                

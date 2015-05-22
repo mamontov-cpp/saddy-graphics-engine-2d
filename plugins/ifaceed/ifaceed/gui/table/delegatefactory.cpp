@@ -19,6 +19,8 @@
 #include "unsignedlonglongdelegate.h"
 #include "unsignedshortdelegate.h"
 
+#include "../../qstdstring.h"
+
 
 gui::table::DelegateFactory::AbstractDelegate::~AbstractDelegate()
 {
@@ -65,9 +67,10 @@ gui::table::DelegateFactory::~DelegateFactory()
 gui::table::Delegate* gui::table::DelegateFactory::create(const QString & s)
 {
 	gui::table::Delegate* result = NULL;
-	if (m_delegates.contains(s.toStdString()))
+    std::string standartname = Q2STDSTRING(s);
+	if (m_delegates.contains(standartname))
 	{
-		result = m_delegates[s.toStdString()]->create();
+		result = m_delegates[standartname]->create();
 	}
 	return result;
 }
