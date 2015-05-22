@@ -19,6 +19,8 @@
 #include <dialogue/dialogue.h>
 #include <dialogue/phrase.h>
 
+#include "../qstdstring.h"
+
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)
@@ -111,13 +113,13 @@ QScriptValue scripting::FromValue<sad::AColor>::perform(const sad::AColor& v, QS
 
 QScriptValue scripting::FromValue<sad::String>::perform(const sad::String& v, QScriptEngine* )
 {
-	return QScriptValue(v.c_str());
+	return QScriptValue(STD2QSTRING(v));
 }
 
 
 QScriptValue scripting::FromValue<std::string>::perform(const std::string& v, QScriptEngine* )
 {
-	return QScriptValue(v.c_str());
+	return QScriptValue(STD2QSTRING(v));
 }
 
 QScriptValue scripting::FromValue<QString>::perform(const QString& v, QScriptEngine* )
@@ -138,19 +140,19 @@ QScriptValue scripting::FromValue<bool>::perform(const bool& v, QScriptEngine* )
 QScriptValue scripting::FromValue<char>::perform(const char& v, QScriptEngine* )
 {
 	char string[2] = { v, 0 };
-	return QScriptValue(string);
+	return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<signed char>::perform(const signed char& v, QScriptEngine* )
 {
 	char string[2] = { v, 0 };
-	return QScriptValue(string);
+	return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<unsigned char>::perform(const unsigned char& v, QScriptEngine* )
 {
 	char string[2] = { static_cast<signed char>(v), 0 };
-	return QScriptValue(string);
+	return QScriptValue(STD2QSTRING(string));
 }
 
 QScriptValue scripting::FromValue<unsigned int>::perform(const unsigned int& v, QScriptEngine* )

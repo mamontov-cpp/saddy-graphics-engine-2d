@@ -741,8 +741,8 @@ void MainPanel::viewDatabase()
 				d->linkToDatabase();
 				d->add();
 
-				m_delegates_by_names.insert(it.key().c_str(), d);
-				m_property_delegates.insert(it.key().c_str(), d);
+				m_delegates_by_names.insert(it.key(), d);
+				m_property_delegates.insert(it.key(), d);
 			}
 		}
 	}
@@ -890,9 +890,10 @@ void MainPanel::setColorPalette(const QList<QList<QColor> >& palette)
 bool  MainPanel::takeDelegateByPropertyName(const QString & name)
 {
 	bool owns = false;
-	if (m_property_delegates.contains(name.toStdString()))
+    std::string dname = Q2STDSTRING(name);
+	if (m_property_delegates.contains(dname))
 	{
-		m_property_delegates.remove(name.toStdString());
+		m_property_delegates.remove(dname);
 	}
 	return owns;
 }
@@ -1160,7 +1161,7 @@ void MainPanel::updateSceneNodeName(sad::SceneNode* s)
 	if (s == m_editor->shared()->selectedObject() || s == m_editor->shared()->activeObject())
 	{
 		bool b = ui.txtSceneName->blockSignals(true);
-		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->setText(STD2QSTRING(s->objectName()));
 		ui.txtSceneName->blockSignals(b);
 	}
 
@@ -1425,8 +1426,8 @@ QString MainPanel::nameForPhrase(const sad::dialogue::Phrase& p) const
 		s += "...";
 	}
 	return QString("%1(%2)")
-		   .arg(p.actorName().c_str())
-		   .arg(s.c_str());
+		   .arg(STD2QSTRING(p.actorName()))
+		   .arg(STD2QSTRING(s));
 }
 
 QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
@@ -1438,7 +1439,7 @@ QString MainPanel::nameForAnimation(sad::animations::Animation* a) const
 		s.removeAllOccurences("sad::animations::");
 		s.insert('[', 0);
 		s << "] ";
-		result = QString(s.c_str()) + result;
+		result = QString(STD2QSTRING(s)) + result;
 	}
 	return result;
 }
@@ -1706,11 +1707,11 @@ void MainPanel::fillCustomObjectProperties(
 				it != db.const_end();
 				++it)
 			{
-				gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+				gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType()));
 				if (d)
 				{
 					d->makeLinkedTo(ui.twCustomObjectProperties, m_editor);
-					d->setPropertyName(it.key().c_str());
+					d->setPropertyName(STD2QSTRING(it.key()));
 					d->linkToCustomObject(o);
 					d->add();				
 				}
@@ -1794,7 +1795,7 @@ void MainPanel::updateUIForSelectedItemNow()
 
 void MainPanel::updateCustomObjectPropertyValueNow()
 {
-    gui::table::Delegate* d = this->delegateForCustomObjectProperty(m_custom_object_property_name.data());
+    gui::table::Delegate* d = this->delegateForCustomObjectProperty(STD2QSTRING(m_custom_object_property_name));
     if (d)
     {
         d->set(m_custom_object_property_value);
@@ -1970,8 +1971,8 @@ void MainPanel::fixDatabase()
 void MainPanel::addDatabaseProperty()
 {
 	this->scriptableAddProperty(
-		ui.cmbDatabasePropertyType->currentText().toStdString(),
-		ui.txtDatabasePropertyName->text().toStdString(),
+		Q2STDSTRING(ui.cmbDatabasePropertyType->currentText()),
+		Q2STDSTRING(ui.txtDatabasePropertyName->text()),
 		true
 	);
 }
@@ -2004,7 +2005,7 @@ void MainPanel::currentSceneChanged(int index)
 		QListWidgetItem* i = ui.lstScenes->item(index);
 		sad::Scene* s = i->data(Qt::UserRole).value<sad::Scene*>();
 		bool b = ui.txtSceneName->blockSignals(true);
-		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->setText(STD2QSTRING(s->objectName()));
 		ui.txtSceneName->blockSignals(b);
 
 		ui.lstSceneObjects->clear();
@@ -2031,7 +2032,7 @@ void MainPanel::sceneNameChanged(const QString&)
 	if (scene)
 	{
 		sad::String oldname = scene->objectName();
-		sad::String newname = ui.txtSceneName->text().toStdString();
+		sad::String newname = Q2STDSTRING(ui.txtSceneName->text());
 		
 		history::Command* c = new history::scenes::ChangeName(scene, oldname, newname);
 		this->m_editor->history()->add(c);
@@ -2270,7 +2271,7 @@ void MainPanel::clearDatabaseProperties()
 
 QString MainPanel::viewableObjectName(sad::db::Object* o)
 {
-	QString result = o->objectName().c_str();
+	QString result = STD2QSTRING(o->objectName());
 	if (result.length() == 0)
 	{
 		char buffer[20];
@@ -2314,11 +2315,11 @@ void MainPanel::updateAnimationsListFromTree()
 			QString tmp = prefix;
 			if (tmp.length())
 			{
-				tmp = tmp + "/" + it.key().c_str();
+				tmp = tmp + "/" + STD2QSTRING(it.key());
 			}
 			else
 			{
-				tmp = it.key().c_str();
+				tmp = STD2QSTRING(it.key());
 			}
 			folderstobeviewed << QPair<QString, sad::resource::Folder*>(tmp, it.value());
 		}
@@ -2332,11 +2333,11 @@ void MainPanel::updateAnimationsListFromTree()
 				QString tmp = prefix;
 				if (tmp.length())
 				{
-					tmp = tmp + "/" + rit.key().c_str();
+					tmp = tmp + "/" + STD2QSTRING(rit.key());
 				}
 				else
 				{
-					tmp = rit.key().c_str();
+					tmp = STD2QSTRING(rit.key());
 				}
 				ui.cmbAnimationInstanceAnimationFromTree->addItem(tmp);
 			}
@@ -2351,9 +2352,10 @@ void MainPanel::updateAnimationsListFromTree()
 			sad::String string = instance->animationName();
 			if (string.size())
 			{
+                QString selectedanimationname = STD2QSTRING(string);
 				for(size_t i = 0; i < ui.cmbAnimationInstanceAnimationFromTree->count(); i++)
 				{
-					if (ui.cmbAnimationInstanceAnimationFromTree->itemText(i) == string.c_str())
+					if (ui.cmbAnimationInstanceAnimationFromTree->itemText(i) == selectedanimationname)
 					{
 						pos = i;
 					}
@@ -2380,11 +2382,11 @@ QStringList MainPanel::resourcesByFilter(
 		if (filterlist.count())
 		{
 			const sad::String & name = cur.value()->metaData()->name();
-			shouldshowresource = filterlist.indexOf(name.c_str()) != -1;
+			shouldshowresource = filterlist.indexOf(STD2QSTRING(name.c_str())) != -1;
 		}
 		if (shouldshowresource)
 		{
-			QString name = cur.key().c_str();
+			QString name = STD2QSTRING(cur.key());
 			if (prefix.length() != 0)
 			{
 				name = prefix + "/" + name;
@@ -2396,7 +2398,7 @@ QStringList MainPanel::resourcesByFilter(
 	sad::resource::FolderIterator subfolders = root->folderListBegin();
 	for(; subfolders != root->folderListEnd(); ++subfolders)
 	{
-		QString name = subfolders.key().c_str();
+		QString name = STD2QSTRING(subfolders.key());
 		if (prefix.length() != 0)
 		{
 			name = prefix + "/" + name;
@@ -2417,12 +2419,12 @@ unsigned long long MainPanel::addSceneWithName(const QString& name, bool fromedi
 		QString kname = ui.txtSceneName->text();
 		if (kname.length())
 		{
-			s->setObjectName(kname.toStdString());
+			s->setObjectName(Q2STDSTRING(kname));
 		}
 	}
 	else
 	{
-		s->setObjectName(name.toStdString());
+		s->setObjectName(Q2STDSTRING(name));
 	}
 
 	sad::Renderer::ref()->add(s);
@@ -2545,7 +2547,7 @@ bool MainPanel::scriptableAddProperty(const sad::String& propertytype, const sad
 			result = true;
 
 			sad::Renderer::ref()->database("")->addProperty(propertyname, prop);
-			d->setPropertyName(propertyname.c_str());
+			d->setPropertyName(STD2QSTRING(propertyname));
 			d->linkToDatabase();
 			d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
 			d->add();
@@ -2579,7 +2581,7 @@ void MainPanel::save()
 	}
 	else
 	{
-		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+		sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
 	}
 }
 
@@ -2589,7 +2591,7 @@ void MainPanel::saveAs()
 	if (name.length() != 0)
 	{
 		m_editor->shared()->setFileName(name);
-		sad::Renderer::ref()->database("")->saveToFile(m_editor->shared()->fileName().toStdString());
+		sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
 	}
 }
 
@@ -2605,11 +2607,7 @@ void MainPanel::load()
 		sad::db::Database* tmp = new sad::db::Database();
 		tmp->setRenderer(sad::Renderer::ref());
         tmp->setDefaultTreeName("");
-#if     HAVE_QT5
-        std::string filename = name.toLocal8Bit();
-#else
-        std::string filename = name.toStdString();
-#endif
+        std::string filename = Q2STDSTRING(name);
 		if (tmp->loadFromFile(filename, sad::Renderer::ref()))
 		{
 			m_editor->shared()->setFileName(name);
@@ -2645,7 +2643,7 @@ void MainPanel::loadResources()
             tree->factory()->registerResource<sad::freetype::Font>();
             
             sad::Vector<sad::resource::Error * > errors;
-            errors = tree->loadFromFile(name.toStdString());
+            errors = tree->loadFromFile(Q2STDSTRING(name));
             if (errors.size())
             {
                 delete tree;

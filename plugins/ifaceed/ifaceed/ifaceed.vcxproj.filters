@@ -2149,9 +2149,6 @@
     <ClInclude Include="gui\codeedit\highlighter.h">
       <Filter>Header Files\gui\codeedit</Filter>
     </ClInclude>
-    <ClInclude Include="scripting\scenebindings.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="scripting\tovalue.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
@@ -2195,9 +2192,6 @@
       <Filter>Header Files\scripting\scenes</Filter>
     </ClInclude>
     <ClInclude Include="scripting\abstractgetter.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="scripting\databasebindings.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
     <ClInclude Include="scripting\scriptingcall.h">

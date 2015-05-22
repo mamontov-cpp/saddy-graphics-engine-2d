@@ -1,6 +1,7 @@
 #include "tovalue.h"
 #include "queryobject.h" 
 
+
 #include "point2d.h"
 #include "point2i.h"
 #include "point3d.h"
@@ -50,6 +51,8 @@
 #include <animations/animationswayinstance.h>
 
 #include <animations/animationsgroup.h>
+
+#include "../qstdstring.h"
 
 Q_DECLARE_METATYPE(scripting::ways::PointRef*)
 Q_DECLARE_METATYPE(sad::Color)
@@ -531,7 +534,7 @@ scripting::ToValue<sad::String>::perform(
     sad::Maybe<sad::String> result;
     if (v.isString())
     {
-        result.setValue(v.toString().toStdString());
+        result.setValue(Q2STDSTRING(v.toString()));
     }
     if (v.isVariant())
     {
@@ -552,7 +555,7 @@ scripting::ToValue<std::string>::perform(
     sad::Maybe<std::string> result;
     if (v.isString())
     {
-        result.setValue(v.toString().toStdString());
+        result.setValue(Q2STDSTRING(v.toString()));
     }
     if (v.isVariant())
     {
@@ -651,7 +654,7 @@ scripting::ToValue<char>::perform(
         QString i = v.toString();
         if (i.length())
         {
-            result.setValue(i.toStdString()[0]);
+            result.setValue(Q2STDSTRING(i)[0]);
         }
     }
     if (v.isVariant())
@@ -684,7 +687,7 @@ scripting::ToValue<signed char>::perform(
         QString i = v.toString();
         if (i.length())
         {
-            result.setValue(i.toStdString()[0]);
+            result.setValue(Q2STDSTRING(i)[0]);
         }
     }
     if (v.isVariant())
@@ -717,7 +720,7 @@ scripting::ToValue<unsigned char>::perform(
         QString i = v.toString();
         if (i.length())
         {
-            result.setValue(static_cast<unsigned char>(i.toStdString()[0]));
+            result.setValue(static_cast<unsigned char>(Q2STDSTRING(i)[0]));
         }
     }
     if (v.isVariant())

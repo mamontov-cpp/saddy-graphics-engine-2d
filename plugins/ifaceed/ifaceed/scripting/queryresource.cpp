@@ -13,6 +13,7 @@
 
 #include <db/custom/customschema.h>
 
+#include "../qstdstring.h"
 
 sad::String scripting::resource_type(scripting::Scripting* scripting, sad::String name)
 {
@@ -89,12 +90,12 @@ QScriptValue scripting::resource_schema(scripting::Scripting* scripting, sad::St
                 it != props.end();
                 ++it)
             {
-                QString proptype = it.value()->baseType().c_str();
+                QString proptype = STD2QSTRING(it.value()->baseType());
                 for(size_t i = 0; i < it.value()->pointerStarsCount(); i++)
                 {
                     proptype += "*";
                 }
-                resultprops.setProperty(it.key().data(), proptype);
+                resultprops.setProperty(STD2QSTRING(it.key()), proptype);
             }
 
             result.setProperty("Properties", resultprops);

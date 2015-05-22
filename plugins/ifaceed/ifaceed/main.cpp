@@ -22,8 +22,7 @@ int main(int argc, char *argv[])
     #if !HAVE_QT5
         QTextCodec::setCodecForTr(codec);
 		QTextCodec::setCodecForCStrings(codec);
-    #endif
-        setlocale(LC_CTYPE, "UTF-8");		
+    #endif	
         QTextCodec::setCodecForLocale(codec);
 	#endif
 	core::Editor * editor =new core::Editor();
