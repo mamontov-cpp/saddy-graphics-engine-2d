@@ -47,16 +47,6 @@ Our main goal is to create tiny graphic engine, which can be used to create a sm
   * We rely on established and well-known technologies, such as OpenGL, MSVC or GCC.
   * This is project done for fun and powered by it.   
 
-## Roadmap
-
-  * 1.0 - main engine structure
-  * 1.1 - massive refactoring of all engine, new more simple structure introduced
-  * 1.2  - replace of sad::FontManager and sad::TextureManager with sad::resource::Tree, allowing built-in reloading of assets and custom implementation of own assets. Full JSON support in core.
-  * 1.3  - replace of marshal namespace entities with more awesome serialization system, which allows relationships between entities, querying by some parameters, object schemas, allowing constraints on data.
-  * 1.4  - support for new serialization system in IFaceEditor.
-  * 1.5(current)  - support for animations.
-  * 1.5.1 - reserved for fixes of bugs and small improvements.
-
 ## Supported platforms
 
 Currently, we support a following platforms.
@@ -69,26 +59,6 @@ Currently, we support a following platforms.
 
 However, we cannot provide binary builds for all of those platforms, only guarantee, that built source will work.
 
-## Build order
-
-First, you need to build main library, which is stored in main folder. After that you can built freetype plugin, or build game example or physics engine stress demo. After building freetype plugin, you can build IFaceEditor (plugins/ifaceed folder) or multithreading example (examples/multithreading folder).
-
-**NOTE 1** You should check when running examples and IFaceEditor from MSVC, that your current working directory in debug is ..\..\bin
-
-**NOTE 2** IFaceEditor and exporter require Qt 4.8+, but cannot be compiled under Qt 5+. They will be ported on Qt 5 ASAP, but currently they can't be compiled. You can support project by porting it to Qt 5.
-
-**NOTE 3** There was some kind of issue with Ruby 2.0 and DevIL gem, required by atlasgen. You can try copy an OpenIL DLLs into atlasgen folder or install Ruby 1.9 and install gem for this version, making things work. Also, for Ruby 2.0 you could check our fork of DevIL gem: https://github.com/ahiddenseeker/devil .
-
-## Saddy toolchain
-
-Saddy toolchain consists of few small utilities
-
-  * saddy - is the main engine core and has no requirements to be built.
-  * saddy-freetype - is the binding of freetype fonts to saddy. Requires _freetype_.
-  * exporter - a tool for exporting standard fonts into fonts with textures, which can be used with Saddy. Requires _Qt 4.8.x_.
-  * atlasgen - a tool for creating texture atlases for saddy, from an xml configs and few smaller images.Requires _Ruby_ and _DevIL gem_.
-  * ifaceed - a simple game screen editor. Requires _Qt 4.8.x_.
-
 ## Developers
 
   * Mamontov Dmitry - leader and current maintainer of project.
@@ -96,21 +66,6 @@ Saddy toolchain consists of few small utilities
   * Andrey Ryaskov -  programmed windows gui wrapper.
   * Victor Grigoriev - contributed to core engine development
   * Dmitry Kolesov - contributed to core engine development
-
-## Examples
-
-Saddy has three working examples
-
-  * Multithreading - demonstrates basic multithreading capabilities for engine. A basic graphic capabilities is also demonstrated.
-  * sad::Game - a simple shooting game
-
-
-![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/96ffc7621d241a1c80a97d86c2e5677e/saddy_small.png)
-
-
-  * ifaceed   - yeah, this editor is also built using saddy.
-
-![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/2e670c7470f0c6be595071e66014a0ae/ifed1_small.png)  ![screenshot](https://trello-attachments.s3.amazonaws.com/503608c12380a31f336bde54/521a2524ef90dbc747002f49/8e40ac7245200f2e16eac539926a5b2a/ifed2_small.PNG)
 
 ## Run into a problem? Don't know where to start?
 
