@@ -7,6 +7,7 @@
 #include "../../mainpanel.h"
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
+#include "../../qstdstring.h"
 
 #include <renderer.h>
 

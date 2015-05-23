@@ -7,6 +7,7 @@
 #include "../scripting.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 

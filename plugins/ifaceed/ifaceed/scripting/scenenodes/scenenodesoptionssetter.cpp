@@ -2,6 +2,8 @@
 
 #include "../tovalue.h"
 
+#include "../../qstdstring.h"
+
 #include "../../history/sprite2d//changeoptions.h"
 
 #include <renderer.h>
@@ -37,7 +39,7 @@ scripting::MatchResult  scripting::scenenodes::OptionsSetter::canBeCalled(QScrip
         }
         if (!valid)
         {
-            result._2().setValue(QString(resourcename.data()) + " is not an options resource");
+            result._2().setValue(STD2QSTRING(resourcename) + " is not an options resource");
         }
    }
    return result;

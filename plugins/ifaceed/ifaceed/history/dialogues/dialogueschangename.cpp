@@ -6,6 +6,8 @@
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 
+#include "../../qstdstring.h"
+
 history::dialogues::ChangeName::ChangeName(
 	sad::dialogue::Dialogue* dialogue,
 	const sad::String& oldvalue,
@@ -32,7 +34,7 @@ void history::dialogues::ChangeName::commit(core::Editor* ob)
 			ob->emitClosure(blocked_bind(
 				ob->panel()->UI()->txtDialogueName,
 				&QLineEdit::setText,
-				m_newvalue.c_str()
+				STD2QSTRING(m_newvalue)
 			));
 		}
     }
@@ -49,7 +51,7 @@ void history::dialogues::ChangeName::rollback(core::Editor* ob)
 			ob->emitClosure(blocked_bind(
 				ob->panel()->UI()->txtDialogueName,
 				&QLineEdit::setText,
-				m_oldvalue.c_str()
+				STD2QSTRING(m_oldvalue)
 			));
 		}
     }

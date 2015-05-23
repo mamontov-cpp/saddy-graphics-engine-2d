@@ -3,6 +3,7 @@
 #include "../scripting.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
@@ -71,7 +72,7 @@ void scripting::dialogues::PhraseRef::setActorName(QString name)
 	{
 		return;
 	}
-	this->actions()->changePhraseActorName(m_d, m_pos, name.toStdString(), false);
+	this->actions()->changePhraseActorName(m_d, m_pos, Q2STDSTRING(name), false);
 }
 
 void scripting::dialogues::PhraseRef::setActorPortrait(QString portrait)
@@ -80,7 +81,7 @@ void scripting::dialogues::PhraseRef::setActorPortrait(QString portrait)
 	{
 		return;
 	}
-	this->actions()->changePhraseActorPortrait(m_d, m_pos, portrait.toStdString(), false);	
+	this->actions()->changePhraseActorPortrait(m_d, m_pos, Q2STDSTRING(portrait), false);	
 }
 
 void scripting::dialogues::PhraseRef::setText(QString phrase)
@@ -89,7 +90,7 @@ void scripting::dialogues::PhraseRef::setText(QString phrase)
 	{
 		return;
 	}
-	this->actions()->changePhraseText(m_d, m_pos, phrase.toStdString(), false);		
+	this->actions()->changePhraseText(m_d, m_pos, Q2STDSTRING(phrase), false);		
 }
 
 void scripting::dialogues::PhraseRef::setDuration(double duration)
@@ -107,7 +108,7 @@ void scripting::dialogues::PhraseRef::setViewHint(QString viewhint)
 	{
 		return;
 	}
-	this->actions()->changePhraseViewHint(m_d, m_pos, viewhint.toStdString(), false);			
+	this->actions()->changePhraseViewHint(m_d, m_pos, Q2STDSTRING(viewhint), false);			
 }
 
 QString scripting::dialogues::PhraseRef::actorName() const
@@ -116,7 +117,7 @@ QString scripting::dialogues::PhraseRef::actorName() const
 	{
 		return "";
 	}
-	return toPhrase().actorName().c_str();	
+	return STD2QSTRING(toPhrase().actorName());	
 }
 
 QString scripting::dialogues::PhraseRef::actorPortrait() const
@@ -125,7 +126,7 @@ QString scripting::dialogues::PhraseRef::actorPortrait() const
 	{
 		return "";
 	}
-	return toPhrase().actorPortrait().c_str();		
+	return STD2QSTRING(toPhrase().actorPortrait());		
 }
 
 QString scripting::dialogues::PhraseRef::text() const
@@ -134,7 +135,7 @@ QString scripting::dialogues::PhraseRef::text() const
 	{
 		return "";
 	}
-	return toPhrase().phrase().c_str();			
+	return STD2QSTRING(toPhrase().phrase());			
 }
 
 double scripting::dialogues::PhraseRef::duration() const
@@ -152,7 +153,7 @@ QString scripting::dialogues::PhraseRef::viewHint() const
 	{
 		return "";
 	}
-	return toPhrase().viewHint().c_str();				
+	return STD2QSTRING(toPhrase().viewHint());				
 }
 
 QString  scripting::dialogues::PhraseRef::toString() const

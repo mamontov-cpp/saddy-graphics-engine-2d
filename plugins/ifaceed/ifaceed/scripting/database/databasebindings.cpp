@@ -9,6 +9,7 @@
 #include "../fromvalue.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
@@ -52,7 +53,7 @@ QScriptValue scripting::database::list(QScriptContext* ctx, QScriptEngine* engin
 	{
 		if (it.key() != "palette")
 		{
-			list << it.key().c_str();
+			list << STD2QSTRING(it.key());
 		}
 	}
 
@@ -125,7 +126,7 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 			it != sprops.const_end();
 			++it)
 		{
-			list << it.key().c_str();
+			list << STD2QSTRING(it.key());
 		}
 	}
 
@@ -194,7 +195,7 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 			it != sprops.const_end();
 			++it)
 		{
-			list << it.key().c_str();
+			list << STD2QSTRING(it.key());
 		}
 	}
 

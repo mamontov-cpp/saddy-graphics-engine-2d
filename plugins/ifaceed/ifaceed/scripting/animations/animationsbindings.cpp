@@ -4,6 +4,7 @@
 #include "../scripting.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
@@ -31,7 +32,7 @@ unsigned long long scripting::animations::_add(
 {
 	MainPanel* panel = scripting->panel();
 
-	QString	animationtypename = QString("sad::animations::") + type.c_str();
+	QString	animationtypename = QString("sad::animations::") + STD2QSTRING(type);
 
 	sad::animations::Animation* a = panel->editor()->animationFactory()->create(animationtypename.toStdString());
 	unsigned long long result  = 0;

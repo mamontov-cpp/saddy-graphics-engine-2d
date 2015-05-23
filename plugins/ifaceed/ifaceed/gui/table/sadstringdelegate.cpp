@@ -48,7 +48,7 @@ void gui::table::SadStringDelegate::widgetChanged()
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), oldvalue.toStdString(), i.toStdString())
+			new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), Q2STDSTRING(oldvalue), Q2STDSTRING(i))
 		);
 	}
 	this->setCurrentValue<QString>(i);

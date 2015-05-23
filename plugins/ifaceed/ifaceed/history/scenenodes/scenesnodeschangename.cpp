@@ -3,6 +3,7 @@
 #include "../../core/editor.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
@@ -46,7 +47,7 @@ void history::scenenodes::ChangeName::updateUI(core::Editor* e, const sad::Strin
     e->emitClosure( blocked_bind(
             e->panel()->UI()->txtSceneName,
             &QLineEdit::setText,
-            QString(value.c_str())
+            STD2QSTRING(value)
         )
     );
 }

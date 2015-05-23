@@ -1,6 +1,7 @@
 #include "dialoguesphrasechangelineeditbasedproperty.h"
 
 #include "../../core/editor.h"
+#include "../../qstdstring.h"
 
 #include "../../mainpanel.h"
 
@@ -63,7 +64,7 @@ void history::dialogues::PhraseChangeLineEditBasedProperty::tryUpdateUI(core::Ed
 				e->emitClosure(blocked_bind(
 					m_widget,
 					&QLineEdit::setText,
-					v.c_str()
+					STD2QSTRING(v)
 				));
 			}
 		}

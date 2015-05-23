@@ -631,7 +631,7 @@ void gui::AnimationActions::nameChanged(const QString& name)
 		const sad::String oldname = a->objectName();
 		if (oldname != Q2STDSTRING(name))
 		{
-			history::animations::ChangeName* c = new history::animations::ChangeName(a, oldname, name.toStdString());
+			history::animations::ChangeName* c = new history::animations::ChangeName(a, oldname, Q2STDSTRING(name));
 			c->commit(this->m_panel->editor());
 
 			this->m_panel->editor()->history()->add(c);

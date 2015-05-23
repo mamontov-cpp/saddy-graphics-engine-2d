@@ -2,6 +2,8 @@
 
 #include "../../core/editor.h"
 
+#include "../../qstdstring.h"
+
 #include "../../mainpanel.h"
 
 #include "../../blockedclosuremethodcall.h"
@@ -51,7 +53,7 @@ void history::dialogues::PhraseChangePhrase::tryUpdateUI(core::Editor* e, const 
 				e->emitClosure(blocked_bind(
 					e->panel()->UI()->txtPhrasePhrase,
 					&QPlainTextEdit::setPlainText,
-					v.c_str()
+					STD2QSTRING(v)
 				));
 			}
 		}

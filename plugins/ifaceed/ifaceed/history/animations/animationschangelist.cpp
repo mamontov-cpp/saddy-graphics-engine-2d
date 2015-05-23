@@ -6,6 +6,8 @@
 
 #include "../../blockedclosuremethodcall.h"
 
+#include "../../qstdstring.h"
+
 #include <QStringList>
 
 history::animations::ChangeList::ChangeList(
@@ -35,7 +37,7 @@ void history::animations::ChangeList::updateUI(core::Editor* e, const sad::Vecto
 	QStringList list;
 	for(size_t i = 0; i < value.size(); i++)
 	{
-		list << value[i].c_str();
+		list << STD2QSTRING(value[i]);
 	}
 	QString nvalue = list.join("\n");
 

@@ -733,11 +733,11 @@ void MainPanel::viewDatabase()
 		// Skip palette
 		if (it.key() != "palette" && it.value()->pointerStarsCount() == 0)
 		{
-			gui::table::Delegate* d = m_dbdelegate_factory.create(it.value()->baseType().c_str());
+			gui::table::Delegate* d = m_dbdelegate_factory.create(STD2QSTRING(it.value()->baseType()));
 			if (d)
 			{
 				d->makeLinkedTo(ui.twDatabaseProperties, m_editor);
-				d->setPropertyName(it.key().c_str());
+				d->setPropertyName(STD2QSTRING(it.key()));
 				d->linkToDatabase();
 				d->add();
 
@@ -969,7 +969,7 @@ void MainPanel::updateSceneName(sad::Scene* s)
 	if (s == currentScene())
 	{
 		bool b = ui.txtSceneName->blockSignals(true);
-		ui.txtSceneName->setText(s->objectName().c_str());
+		ui.txtSceneName->setText(STD2QSTRING(s->objectName()));
 		ui.txtSceneName->blockSignals(b);
 	}
 }
@@ -1748,7 +1748,7 @@ void MainPanel::updateUIForSelectedItemNow()
             void (QListWidget::*setRow)(int) = &QListWidget::setCurrentRow;
             invoke_blocked(ui.lstSceneObjects, setRow, row);
         }
-        invoke_blocked(ui.txtObjectName, &QLineEdit::setText, node->objectName().c_str());
+        invoke_blocked(ui.txtObjectName, &QLineEdit::setText, STD2QSTRING(node->objectName()));
 
         // SceneNode tab
         m_scene_node_actions->updateRegionForNode();
@@ -1817,7 +1817,7 @@ void MainPanel::updateUIForSelectedWayNow()
         {
             ui.lstWayPoints->addItem(this->nameForPoint(p->wayPoints()[i]));
         }
-        invoke_blocked(ui.txtWayName, &QLineEdit::setText, p->objectName().c_str());
+        invoke_blocked(ui.txtWayName, &QLineEdit::setText, STD2QSTRING(p->objectName()));
         invoke_blocked(ui.dsbWayTotalTime, &QDoubleSpinBox::setValue, p->totalTime());
         invoke_blocked(ui.cbWayClosed, &QCheckBox::setCheckState,  (p->closed()) ? Qt::Checked : Qt::Unchecked);
     }

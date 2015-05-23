@@ -207,7 +207,7 @@ void history::instances::ChangeAnimation::updateTreeComboValue(core::Editor* e, 
 	{
 		QComboBox* box = e->panel()->UI()->cmbAnimationInstanceAnimationFromTree;
 		int pos = -1;
-		QString stringttosearch = value.c_str();
+		QString stringttosearch = STD2QSTRING(value);
 		for(size_t i = 1; (i < box->count()) && pos == -1; i++)
 		{
 			if (box->itemText(i) == stringttosearch)

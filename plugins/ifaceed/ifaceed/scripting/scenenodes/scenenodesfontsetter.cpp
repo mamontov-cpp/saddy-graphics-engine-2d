@@ -2,6 +2,8 @@
 
 #include "../tovalue.h"
 
+#include "../../qstdstring.h"
+
 #include <renderer.h>
 
 #include <resource/tree.h>
@@ -37,7 +39,7 @@ scripting::MatchResult scripting::scenenodes::FontSetter::canBeCalled(QScriptCon
         }
         if (!valid)
         {
-            result._2().setValue(QString(resourcename.data()) + " is not a font resource");
+            result._2().setValue(STD2QSTRING(resourcename) + " is not a font resource");
         }
    }
    return result;

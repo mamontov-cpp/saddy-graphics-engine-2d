@@ -7,6 +7,7 @@
 #include "../scripting.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../core/editor.h"
 
@@ -52,7 +53,7 @@ unsigned long long scripting::instances::_addInstance(
         {
             bool valid = false;
             if (animationid == 0) {
-                QScriptValue v(QString(animationname.c_str()));
+                QScriptValue v(STD2QSTRING(animationname));
                 sad::Maybe<sad::animations::Animation*> a = scripting::query<sad::animations::Animation*>(v);
                 if (a.exists())
                 {

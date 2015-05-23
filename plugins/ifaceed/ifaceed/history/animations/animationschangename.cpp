@@ -7,6 +7,8 @@
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
+#include "../../qstdstring.h"
+
 history::animations::ChangeName::ChangeName(
     sad::animations::Animation* d,
     const sad::String& oldvalue,
@@ -38,7 +40,7 @@ void history::animations::ChangeName::updateUI(core::Editor* e, const sad::Strin
     e->emitClosure( blocked_bind(
             e->panel()->UI()->txtAnimationName,
             &QLineEdit::setText,
-            QString(value.c_str())
+            STD2QSTRING(value)
         )
     );
 }

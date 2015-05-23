@@ -3,6 +3,7 @@
 #include "../../core/editor.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
@@ -35,7 +36,7 @@ void history::label::ChangeText::updateUI(core::Editor* e, const sad::String& va
     e->emitClosure( blocked_bind(
             e->panel()->UI()->txtLabelText,
             &QPlainTextEdit::setPlainText,
-            QString(value.c_str())
+            STD2QSTRING(value)
         )
     );
     e->panel()->sceneNodeActions()->updateRegionForNode();

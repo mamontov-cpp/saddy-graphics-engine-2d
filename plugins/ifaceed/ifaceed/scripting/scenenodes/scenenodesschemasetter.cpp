@@ -4,6 +4,8 @@
 
 #include "../../history/customobject/customobjectchangeschema.h"
 
+#include "../../qstdstring.h"
+
 #include <renderer.h>
 
 #include <resource/tree.h>
@@ -37,7 +39,7 @@ scripting::MatchResult  scripting::scenenodes::SchemaSetter::canBeCalled(QScript
         }
         if (!valid)
         {
-            result._2().setValue(QString(resourcename.data()) + " is not a schema resource");
+            result._2().setValue(STD2QSTRING(resourcename) + " is not a schema resource");
         }
    }
     if (result._2().exists() == false)

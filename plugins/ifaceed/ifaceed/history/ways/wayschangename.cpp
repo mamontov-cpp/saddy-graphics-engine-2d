@@ -3,6 +3,7 @@
 #include "../../core/editor.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
@@ -41,7 +42,7 @@ void history::ways::ChangeName::updateUI(core::Editor* e, const sad::String& val
     e->emitClosure( blocked_bind(
             e->panel()->UI()->txtWayName,
             &QLineEdit::setText,
-            value.c_str()
+            STD2QSTRING(value)
         )
     );
 }

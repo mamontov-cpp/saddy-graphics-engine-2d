@@ -1,6 +1,7 @@
 #include "removeproperty.h"
 
 #include "../../mainpanel.h"
+#include "../../qstdstring.h"
 
 history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d, MainPanel* panel)
 {
@@ -9,7 +10,7 @@ history::database::RemoveProperty::RemoveProperty(gui::table::Delegate* d, MainP
 
 	m_property = sad::Renderer::ref()
 	->database("")
-	->propertyByName(d->propertyName().toStdString())
+	->propertyByName(Q2STDSTRING(d->propertyName()))
 	->clone();
 
 	m_panel = panel;
@@ -36,18 +37,18 @@ void history::database::RemoveProperty::commit(core::Editor * ob)
 {
 	sad::Renderer::ref()
 	->database("")
-	->removeProperty(m_delegate->propertyName().toStdString());
+	->removeProperty(Q2STDSTRING(m_delegate->propertyName()));
 	
 	m_delegate->remove();
 
-	m_panel->delegatesByName().remove(m_delegate->propertyName().toStdString());
+	m_panel->delegatesByName().remove(Q2STDSTRING(m_delegate->propertyName()));
 }
 
 void history::database::RemoveProperty::rollback(core::Editor * ob)
 {
 	sad::Renderer::ref()
 	->database("")
-	->addProperty(m_delegate->propertyName().toStdString(), m_property->clone());
+	->addProperty(Q2STDSTRING(m_delegate->propertyName()), m_property->clone());
 	if (m_row == -1)
 	{
 		m_delegate->add();
@@ -56,5 +57,5 @@ void history::database::RemoveProperty::rollback(core::Editor * ob)
 	{
 		m_delegate->insert(m_row);
 	}
-	m_panel->delegatesByName().insert(m_delegate->propertyName().toStdString(), m_delegate);
+	m_panel->delegatesByName().insert(Q2STDSTRING(m_delegate->propertyName()), m_delegate);
 }
