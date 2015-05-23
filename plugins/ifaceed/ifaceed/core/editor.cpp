@@ -439,7 +439,7 @@ void core::Editor::start()
 		tmp->setDefaultTreeName("");
 		if (tmp->loadFromFile(value, sad::Renderer::ref()))
 		{
-			this->shared()->setFileName(value.data());
+			this->shared()->setFileName(STD2QSTRING(value));
 			sad::Renderer::ref()->addDatabase("", tmp);
 			database_loaded = true;
 		}

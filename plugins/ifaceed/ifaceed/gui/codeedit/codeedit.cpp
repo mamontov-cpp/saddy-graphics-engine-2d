@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QTextBlock>
 #include <QAbstractTextDocumentLayout>
+#include <QScrollBar>
 
 #include <algorithm>
 

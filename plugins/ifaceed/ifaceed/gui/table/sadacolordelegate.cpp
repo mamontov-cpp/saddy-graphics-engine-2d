@@ -21,6 +21,8 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
+
 
 gui::table::SadAColorDelegate::SadAColorDelegate() : gui::table::Delegate()
 {
@@ -63,7 +65,7 @@ void gui::table::SadAColorDelegate::clicked()
 			core::typeconverters::QColorToSadAColor::convert(oldvalue, oldvalueforprop);
 			core::typeconverters::QColorToSadAColor::convert(i, newvalueforprop);
 			m_editor->history()->add( 
-				new history::customobject::ChangeProperty<sad::AColor>(m_object, m_property_name.toStdString(), oldvalueforprop, newvalueforprop)
+				new history::customobject::ChangeProperty<sad::AColor>(m_object, Q2STDSTRING(m_property_name), oldvalueforprop, newvalueforprop)
 			);
 		}
 		static_cast<gui::colorview::ColorView*>(m_my_widget)->setBackgroundColor(i);

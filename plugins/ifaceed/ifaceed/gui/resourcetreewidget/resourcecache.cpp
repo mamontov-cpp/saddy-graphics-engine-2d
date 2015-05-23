@@ -81,7 +81,7 @@ const QImage& gui::resourcetreewidget::ResourceCache::imageForResource(const QSt
         if (meta->name() == "sad::db::custom::Schema" && !handled)
 		{
 			sad::db::custom::Schema* schema = static_cast<sad::db::custom::Schema*>(resource);
-			result = this->imageForResource(schema->treeItemName().data()).copy();
+			result = this->imageForResource(STD2QSTRING(schema->treeItemName())).copy();
 
 			handled = true;
 		}

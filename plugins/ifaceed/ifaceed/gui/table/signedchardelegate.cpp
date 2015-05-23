@@ -15,6 +15,8 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
+
 gui::table::SignedCharDelegate::SignedCharDelegate() : gui::table::Delegate()
 {
 
@@ -44,7 +46,7 @@ void gui::table::SignedCharDelegate::widgetChanged(int i)
 	else
 	{	
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<signed char>(m_object, m_property_name.toStdString(), oldvalue, i)
+			new history::customobject::ChangeProperty<signed char>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
 		);
 	}
 	this->setCurrentValue<signed char>(i);

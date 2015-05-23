@@ -20,6 +20,8 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
+
 
 gui::table::SadColorDelegate::SadColorDelegate() : gui::table::Delegate()
 {
@@ -57,7 +59,7 @@ void gui::table::SadColorDelegate::clicked()
 			core::typeconverters::QColorToSadColor::convert(oldvalue, oldvalueforprop);
 			core::typeconverters::QColorToSadColor::convert(i, newvalueforprop);
 			m_editor->history()->add( 
-				new history::customobject::ChangeProperty<sad::Color>(m_object, m_property_name.toStdString(), oldvalueforprop, newvalueforprop)
+				new history::customobject::ChangeProperty<sad::Color>(m_object, Q2STDSTRING(m_property_name), oldvalueforprop, newvalueforprop)
 			);
 		}
 		this->setCurrentValue<QColor>(i);

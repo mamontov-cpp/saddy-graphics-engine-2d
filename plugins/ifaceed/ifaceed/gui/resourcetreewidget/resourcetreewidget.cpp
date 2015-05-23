@@ -251,7 +251,7 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 				if (list.count())
 				{
 					const sad::String & name = cur.value()->metaData()->name();
-					shouldshowresource = list.indexOf(name.c_str()) != -1;
+					shouldshowresource = list.indexOf(STD2QSTRING(name)) != -1;
 				}
 				if (shouldshowresource)
 				{
@@ -282,11 +282,11 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 				bool shouldshowitem = true;
 				if (list.count())
 				{
-					shouldshowitem = list.indexOf(cur.value()->metaData()->name().c_str()) != -1;
+					shouldshowitem = list.indexOf(STD2QSTRING(cur.value()->metaData()->name())) != -1;
 				}
 				if (shouldshowitem)
 				{
-					QTableWidgetItem * item = new QTableWidgetItem(cur.key().c_str());
+					QTableWidgetItem * item = new QTableWidgetItem(STD2QSTRING(cur.key()));
 					item->setFlags(item->flags() ^ Qt::ItemIsEditable);
 					item->setSizeHint(QSize(
 						gui::resourcetreewidget::Cell::Width, 
@@ -425,7 +425,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 			if (resourcelocal.exists())
 			{
 				// Try set selection for local
-				QList<QTableWidgetItem *> items = m_element_view->findItems(resourcelocal.value().c_str(), Qt::MatchFixedString | Qt::MatchCaseSensitive);
+				QList<QTableWidgetItem *> items = m_element_view->findItems(STD2QSTRING(resourcelocal.value()), Qt::MatchFixedString | Qt::MatchCaseSensitive);
 				if (items.count())
 				{
 					QTableWidgetItem* item = items[0];
@@ -447,7 +447,7 @@ void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
 	sad::resource::FolderIterator it = parentfolder->folderListBegin();
 	while(it != parentfolder->folderListEnd())
 	{
-		QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(it.key().c_str()));
+		QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(STD2QSTRING(it.key())));
 		parentitem->addChild(item);
 		populateTree(item, it.value());
 		++it;

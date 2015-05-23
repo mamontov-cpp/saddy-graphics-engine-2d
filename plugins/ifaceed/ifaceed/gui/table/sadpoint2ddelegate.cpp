@@ -15,6 +15,7 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
 
 gui::table::SadPoint2DDelegate::SadPoint2DDelegate() : gui::table::Delegate()
 {
@@ -46,7 +47,7 @@ void gui::table::SadPoint2DDelegate::widgetChanged(double f, double s)
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<sad::Point2D>(m_object, m_property_name.toStdString(), oldvalue, newvalue)
+			new history::customobject::ChangeProperty<sad::Point2D>(m_object, Q2STDSTRING(m_property_name), oldvalue, newvalue)
 		);
 	}
 	this->setCurrentValue<sad::Point2D>(newvalue);

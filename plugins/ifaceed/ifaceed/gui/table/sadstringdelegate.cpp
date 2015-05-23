@@ -15,6 +15,8 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
+
 
 gui::table::SadStringDelegate::SadStringDelegate() : gui::table::Delegate()
 {
@@ -46,7 +48,7 @@ void gui::table::SadStringDelegate::widgetChanged()
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<sad::String>(m_object, m_property_name.toStdString(), oldvalue.toStdString(), i.toStdString())
+			new history::customobject::ChangeProperty<sad::String>(m_object, Q2STDSTRING(m_property_name), oldvalue.toStdString(), i.toStdString())
 		);
 	}
 	this->setCurrentValue<QString>(i);

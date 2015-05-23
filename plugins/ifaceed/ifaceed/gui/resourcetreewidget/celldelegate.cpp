@@ -3,6 +3,8 @@
 #include "gui/resourcetreewidget/resourcetreewidget.h"
 #include "gui/resourcetreewidget/resourcecache.h"
 
+#include "../../qstdstring.h"
+
 #include <QStyleOptionViewItem>
 #include <QImage>
 #include <unused.h>
@@ -37,7 +39,7 @@ void gui::resourcetreewidget::CellDelegate::paint(
 		painter->restore();
     }
 	// Draw centered image
-	const QImage & img = parent->cache()->imageForResource(resourcepath.value().data());
+	const QImage & img = parent->cache()->imageForResource(STD2QSTRING(resourcepath.value()));
 	painter->drawImage(
 		option.rect.x() + option.rect.width()/2 - img.width()/2,
 		option.rect.y() + gui::resourcetreewidget::Cell::ImageHeight/2 - img.height()/2,

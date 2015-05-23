@@ -45,7 +45,7 @@ void gui::table::UnsignedShortDelegate::widgetChanged(int i)
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<unsigned short>(m_object, m_property_name.toStdString(), oldvalue, i)
+			new history::customobject::ChangeProperty<unsigned short>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
 		);
 	}
 	this->setCurrentValue<unsigned short>(i);

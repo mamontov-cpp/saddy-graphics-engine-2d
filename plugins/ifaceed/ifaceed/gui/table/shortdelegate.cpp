@@ -15,6 +15,8 @@
 
 #include <climits>
 
+#include "../../qstdstring.h"
+
 gui::table::ShortDelegate::ShortDelegate() : gui::table::Delegate()
 {
 
@@ -44,7 +46,7 @@ void gui::table::ShortDelegate::widgetChanged(int i)
 	else
 	{
 		m_editor->history()->add( 
-			new history::customobject::ChangeProperty<short>(m_object, m_property_name.toStdString(), oldvalue, i)
+			new history::customobject::ChangeProperty<short>(m_object, Q2STDSTRING(m_property_name), oldvalue, i)
 		);
 	}
 	this->setCurrentValue<short>(i);
