@@ -42,12 +42,12 @@ unsigned int next_power_of_two(unsigned int v1)
     #define STD2QSTRING(STR)    (::__std2qstring(STR))
 #else
     #define Q2STDSTRING(STR)    ((STR).toStdString())
-    #define STD2QSTRING(STR)    (QString(STR))
+    #define STD2QSTRING(STR)    (QString(std::string(STR).c_str()))
 #endif
 
 #else
     #define Q2STDSTRING(STR)    ((STR).toStdString())
-    #define STD2QSTRING(STR)    (QString(STR))
+    #define STD2QSTRING(STR)    (QString(std::string(STR).c_str()))
 #endif
 
 
