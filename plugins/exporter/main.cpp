@@ -28,9 +28,36 @@ unsigned int next_power_of_two(unsigned int v1)
 	return v;
 }
 
+#ifdef WIN32
+
+#if  (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    
+    inline QString __std2qstring(const std::string& s)
+    {
+        if (s.size() == 0)
+            return QString();
+        return QString::fromLocal8Bit(s.c_str());
+    }
+    #define Q2STDSTRING(STR)    (std::string((STR).toLocal8Bit()))
+    #define STD2QSTRING(STR)    (::__std2qstring(STR))
+#else
+    #define Q2STDSTRING(STR)    ((STR).toStdString())
+    #define STD2QSTRING(STR)    (QString(STR))
+#endif
+
+#else
+    #define Q2STDSTRING(STR)    ((STR).toStdString())
+    #define STD2QSTRING(STR)    (QString(STR))
+#endif
+
+
 int main(int argc, char *argv[])
 {
 	// We miust construct it in order to work with fonts
+#ifdef WIN32
+    setlocale(LC_CTYPE, ".1251");
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("Windows-1251"));
+#endif
 	QApplication a(argc, argv);
 	// 1. Parse command arguments
 	if (argc<3)
@@ -91,7 +118,7 @@ int main(int argc, char *argv[])
 	QString image_mapping_file = QString(argv[3]) + ".png";
 	QString config_mapping_file = QString(argv[3]) + ".cfg";
 	//Open a file
-	FILE * file = fopen(config_mapping_file.toStdString().c_str(), "wt");
+	FILE * file = fopen(Q2STDSTRING(config_mapping_file).c_str(), "wt");
 	if (file == NULL)
 	{
 		printf("Cannot open mapping file\n");
