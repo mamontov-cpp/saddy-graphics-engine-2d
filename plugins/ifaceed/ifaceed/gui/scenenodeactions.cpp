@@ -1,6 +1,7 @@
 #include "scenenodeactions.h"
 
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 #include "../core/shared.h"
@@ -210,7 +211,7 @@ void gui::SceneNodeActions::updateRegionForNode()
 
 void gui::SceneNodeActions::nameEdited(const QString& name)
 {
-	sad::String newvalue = name.toStdString();
+	sad::String newvalue = Q2STDSTRING(name);
 	if (m_panel->editor()->shared()->activeObject() != NULL)
     {
         m_panel->editor()->shared()->activeObject()->setObjectName(newvalue);

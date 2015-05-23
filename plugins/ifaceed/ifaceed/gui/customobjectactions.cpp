@@ -2,6 +2,7 @@
 
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
+#include "../qstdstring.h"
 
 #include "../mainpanel.h"
 
@@ -21,6 +22,7 @@
 #include <db/custom/customobject.h>
 
 #include <QDebug>
+#include <QCheckBox>
 
 // ===============================  PUBLIC METHODS ===============================
 
@@ -189,7 +191,7 @@ void gui::CustomObjectActions::addBySimplePlacing()
 	object->setColor(acolor);
 	object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
 	object->setLineSpacing(m_panel->UI()->dsbLineSpacingRatio->value());
-	object->setString(m_panel->UI()->txtLabelText->toPlainText().toStdString());
+	object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
 	sad::Rect2D area = object->area();
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 
@@ -201,7 +203,7 @@ void gui::CustomObjectActions::addBySimplePlacing()
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
 	{
-		object->setObjectName(name.toStdString());
+		object->setObjectName(Q2STDSTRING(name));
 	}
 
 	m_panel->currentScene()->add(object);
@@ -226,7 +228,7 @@ void gui::CustomObjectActions::addByDiagonalPlacing()
 	object->setColor(acolor);
 	object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
 	object->setLineSpacing(m_panel->UI()->dsbLineSpacingRatio->value());
-	object->setString(m_panel->UI()->txtLabelText->toPlainText().toStdString());
+	object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
 	sad::Rect2D area = object->area();
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 
@@ -238,7 +240,7 @@ void gui::CustomObjectActions::addByDiagonalPlacing()
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
 	{
-		object->setObjectName(name.toStdString());
+		object->setObjectName(Q2STDSTRING(name));
 	}
 
 	object->setVisible(false);

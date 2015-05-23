@@ -1,6 +1,7 @@
 #include "instanceactions.h"
 
 #include "../blockedclosuremethodcall.h"
+#include "../qstdstring.h"
 
 #include "../mainpanel.h"
 
@@ -228,7 +229,7 @@ void gui::InstanceActions::addInstance()
 			{
 				if (m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentIndex() > 0)
 				{
-					instance->setProperty("animation", sad::String(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText().toStdString()));
+					instance->setProperty("animation", Q2STDSTRING(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText()));
 				}
 				else
 				{
@@ -286,7 +287,7 @@ void gui::InstanceActions::addInstance()
 
 		// A start time
 		instance->setProperty("starttime", m_panel->UI()->dsbAnimationInstanceStartTime->value());
-		instance->setObjectName(m_panel->UI()->txtAnimationInstanceName->text().toStdString());
+		instance->setObjectName(Q2STDSTRING(m_panel->UI()->txtAnimationInstanceName->text()));
 
 		sad::Renderer::ref()->database("")->table("animationinstances")->add(instance);
 
@@ -353,7 +354,7 @@ void gui::InstanceActions::currentInstanceChanged(int row)
 		e->emitClosure( blocked_bind(m_panel->UI()->dsbAnimationInstanceStartTime, &QDoubleSpinBox::setValue, starttime) );
 
 		sad::String name = a->objectName();
-		e->emitClosure( blocked_bind(m_panel->UI()->txtAnimationInstanceName, &QLineEdit::setText, QString(name.c_str())) );
+		e->emitClosure( blocked_bind(m_panel->UI()->txtAnimationInstanceName, &QLineEdit::setText, STD2QSTRING(name)) );
 	}
 	else
 	{
@@ -373,7 +374,7 @@ void gui::InstanceActions::nameChanged(const QString& name)
 		sad::animations::Instance* a = v.value<sad::animations::Instance*>();
 
 		sad::String oldvalue = a->objectName();
-		sad::String newvalue = name.toStdString();
+		sad::String newvalue = Q2STDSTRING(name);
 		
 		if (oldvalue != newvalue)
 		{
@@ -489,7 +490,7 @@ void  gui::InstanceActions::treeElementChanged(int newrow)
 				sad::String newname = "";
 				if (newrow > 0)
 				{
-					newname = m_panel->UI()->cmbAnimationInstanceAnimationFromTree->itemText(newrow).toStdString();
+					newname = Q2STDSTRING(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->itemText(newrow));
 				}
 
 				history::Command* c = new history::instances::ChangeAnimation(

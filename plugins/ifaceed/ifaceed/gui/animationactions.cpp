@@ -12,6 +12,7 @@
 
 #include "../acolordialog.h"
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 
@@ -272,13 +273,13 @@ void gui::AnimationActions::addAnimation()
 		QString animationtypename = cmbtype->currentText();
 		animationtypename = QString("sad::animations::") + animationtypename;
 
-		sad::animations::Animation* a = m_panel->editor()->animationFactory()->create(animationtypename.toStdString());
+		sad::animations::Animation* a = m_panel->editor()->animationFactory()->create(Q2STDSTRING(animationtypename));
 
 		if (a)
 		{
 			a->setLooped(m_panel->UI()->cbAnimationLooped->checkState() == Qt::Checked);
 			a->setTime(m_panel->UI()->dsbAnimationTime->value());
-			a->setObjectName(m_panel->UI()->txtAnimationName->text().toStdString());
+			a->setObjectName(Q2STDSTRING(m_panel->UI()->txtAnimationName->text()));
 			if (a->isInstanceOf("sad::animations::Blinking"))
 			{
 				unsigned int frequency = static_cast<unsigned int>(m_panel->UI()->sbBlinkingFrequency->value());
@@ -344,7 +345,7 @@ void gui::AnimationActions::addAnimation()
 					QString tmp = list[i].trimmed();
 					if (tmp.length())
 					{
-						nlist << tmp.toStdString();
+						nlist << Q2STDSTRING(tmp);
 					}
 				}
 				a->setProperty("fonts", nlist);
@@ -368,7 +369,7 @@ void gui::AnimationActions::addAnimation()
 					QString tmp = list[i].trimmed();
 					if (tmp.length())
 					{
-						nlist << tmp.toStdString();
+						nlist << Q2STDSTRING(tmp);
 					}
 				}
 				a->setProperty("list", nlist);
@@ -383,7 +384,7 @@ void gui::AnimationActions::addAnimation()
 					QString tmp = list[i].trimmed();
 					if (tmp.length())
 					{
-						nlist << tmp.toStdString();
+						nlist << Q2STDSTRING(tmp);
 					}
 				}
 				a->setProperty("list", nlist);
@@ -477,7 +478,7 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 		sad::animations::Animation* a = v.value<sad::animations::Animation*>();
 		e->shared()->setSelectedAnimation(a);
 
-		e->emitClosure( blocked_bind(m_panel->UI()->txtAnimationName, &QLineEdit::setText, a->objectName().c_str()) );
+		e->emitClosure( blocked_bind(m_panel->UI()->txtAnimationName, &QLineEdit::setText, STD2QSTRING(a->objectName())) );
 		e->emitClosure( blocked_bind(m_panel->UI()->dsbAnimationTime, &QDoubleSpinBox::setValue, a->time()) );
 		Qt::CheckState cs = (a->looped()) ? Qt::Checked : Qt::Unchecked;
 		e->emitClosure( blocked_bind(m_panel->UI()->cbAnimationLooped, &QCheckBox::setCheckState, cs) );
@@ -538,7 +539,7 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("fonts").value();
 			for(size_t i = 0; i < nlist.size(); i++)
 			{
-				list << nlist[i].c_str();
+				list << STD2QSTRING(nlist[i]);
 			}
 			e->emitClosure( blocked_bind(m_panel->UI()->txtFontListList, &QTextEdit::setPlainText, list.join("\n")));
 		}
@@ -558,7 +559,7 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("list").value();
 			for(size_t i = 0; i < nlist.size(); i++)
 			{
-				list << nlist[i].c_str();
+				list << STD2QSTRING(nlist[i]);
 			}
 			e->emitClosure( blocked_bind(m_panel->UI()->txtOptionListList, &QTextEdit::setPlainText, list.join("\n")));
 		}
@@ -569,7 +570,7 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			sad::Vector<sad::String> nlist = a->getProperty<sad::Vector<sad::String> >("list").value();
 			for(size_t i = 0; i < nlist.size(); i++)
 			{
-				list << nlist[i].c_str();
+				list << STD2QSTRING(nlist[i]);
 			}
 			e->emitClosure( blocked_bind(m_panel->UI()->txtTextureCoordinatesList, &QTextEdit::setPlainText, list.join("\n")));
 		}
@@ -628,7 +629,7 @@ void gui::AnimationActions::nameChanged(const QString& name)
 	if (a != NULL)
 	{
 		const sad::String oldname = a->objectName();
-		if (oldname != name.toStdString())
+		if (oldname != Q2STDSTRING(name))
 		{
 			history::animations::ChangeName* c = new history::animations::ChangeName(a, oldname, name.toStdString());
 			c->commit(this->m_panel->editor());
@@ -952,7 +953,7 @@ void gui::AnimationActions::fontListEditingFinished()
 			sad::Vector<sad::String> newvalue;
 			for(size_t i = 0; i < list.size(); i++)
 			{
-				newvalue << list[i].toStdString();
+				newvalue << Q2STDSTRING(list[i]);
 			}
 
 			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >("fonts").value();
@@ -1030,7 +1031,7 @@ void gui::AnimationActions::optionListEditingFinished()
 			sad::Vector<sad::String> newvalue;
 			for(size_t i = 0; i < list.size(); i++)
 			{
-				newvalue << list[i].toStdString();
+				newvalue << Q2STDSTRING(list[i]);
 			}
 
 			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >(prop).value();
@@ -1059,7 +1060,7 @@ void gui::AnimationActions::textureCoordinatesListEditingFinished()
 			sad::Vector<sad::String> newvalue;
 			for(size_t i = 0; i < list.size(); i++)
 			{
-				newvalue << list[i].toStdString();
+				newvalue << Q2STDSTRING(list[i]);
 			}
 
 			sad::Vector<sad::String> oldvalue = a->getProperty<sad::Vector<sad::String> >(prop).value();

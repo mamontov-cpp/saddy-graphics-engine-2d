@@ -1,6 +1,7 @@
 #include "wayactions.h"
 
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 
@@ -91,10 +92,13 @@ void gui::WayActions::updateWayPoint(int row, const sad::Point2D& p)
 void gui::WayActions::addWay()
 {
     sad::p2d::app::Way* w = new sad::p2d::app::Way();
-    w->setObjectName(m_panel->UI()->txtWayName->text().toStdString());
-    if (m_panel->UI()->cbWayClosed->checkState() == Qt::Checked) {
+    w->setObjectName(Q2STDSTRING(m_panel->UI()->txtWayName->text()));
+    if (m_panel->UI()->cbWayClosed->checkState() == Qt::Checked) 
+    {
         w->makeClosed();
-    } else {
+    } 
+    else 
+    {
         w->makeOpen();
     }
     w->setTotalTime(m_panel->UI()->dsbWayTotalTime->value());
@@ -197,7 +201,7 @@ void gui::WayActions::wayChanged(int i)
 
 void gui::WayActions::nameEdited(const QString& name)
 {
-    sad::String newvalue = name.toStdString();
+    sad::String newvalue = Q2STDSTRING(name);
     sad::p2d::app::Way* w = m_panel->editor()->shared()->selectedWay();
     if (w)
     {

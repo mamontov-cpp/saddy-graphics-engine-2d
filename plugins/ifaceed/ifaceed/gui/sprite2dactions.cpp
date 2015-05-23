@@ -3,6 +3,7 @@
 #include "../blockedclosuremethodcall.h"
 
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 
@@ -222,7 +223,7 @@ void gui::Sprite2DActions::addBySimplePlacing()
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
 	{
-		sprite->setObjectName(name.toStdString());
+		sprite->setObjectName(Q2STDSTRING(name));
 	}
 
 	m_panel->currentScene()->add(sprite);
@@ -247,7 +248,7 @@ void gui::Sprite2DActions::addByDiagonalPlacing()
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
 	{
-		sprite->setObjectName(name.toStdString());
+		sprite->setObjectName(Q2STDSTRING(name));
 	}
 
 	sprite->setVisible(false);

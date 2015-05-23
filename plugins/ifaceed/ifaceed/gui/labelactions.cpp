@@ -3,6 +3,7 @@
 #include "../blockedclosuremethodcall.h"
 
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 
@@ -128,7 +129,7 @@ void gui::LabelActions::addLabel()
 
 		const sad::Settings & settings = sad::Renderer::ref()->settings();
 		label->setPoint(settings.width() / 2.0, settings.height() / 2.0);
-		label->setString(m_panel->UI()->txtLabelText->toPlainText().toStdString());
+		label->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
 		label->setSize(m_panel->UI()->fswLabelFontSize->value());
 		label->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
 		label->setAngle(m_panel->UI()->awSceneNodeAngle->value());
@@ -140,7 +141,7 @@ void gui::LabelActions::addLabel()
 		QString name = m_panel->UI()->txtObjectName->text();
 		if (name.length())
 		{
-			label->setObjectName(name.toStdString());
+			label->setObjectName(Q2STDSTRING(name));
 		}
 
 		// Actually add label
@@ -217,7 +218,7 @@ void gui::LabelActions::labelSizeChanged(unsigned int s)
 
 void gui::LabelActions::labelTextChanged()
 {
-    sad::String newvalue = m_panel->UI()->txtLabelText->toPlainText().toStdString();
+    sad::String newvalue = Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText());
     if (m_panel->editor()->shared()->activeObject() != NULL)
     {
         m_panel->editor()->shared()->activeObject()->setProperty("text", newvalue);

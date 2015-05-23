@@ -3,6 +3,7 @@
 #include "instanceactions.h"
 
 #include "../blockedclosuremethodcall.h"
+#include "../qstdstring.h"
 
 #include "../mainpanel.h"
 
@@ -72,7 +73,7 @@ void gui::GroupActions::removeFromDatabase(
 void gui::GroupActions::addGroup()
 {
 	sad::animations::Group* g = new sad::animations::Group();
-	g->setObjectName(m_panel->UI()->txtAnimationsGroupName->text().toStdString());
+	g->setObjectName(Q2STDSTRING(m_panel->UI()->txtAnimationsGroupName->text()));
 	g->setLooped(m_panel->UI()->cbAnimationsGroupLooped->checkState() == Qt::Checked);
 	g->setTable(sad::Renderer::ref()->database("")->table("animationgroups"));
 
@@ -104,7 +105,7 @@ void gui::GroupActions::currentGroupChanged(int newrow)
 		invoke_blocked(
 			m_panel->UI()->txtAnimationsGroupName,
 			&QLineEdit::setText,
-			QString(g->objectName().c_str())
+			STD2QSTRING(g->objectName())
 		);
 
 		invoke_blocked(
@@ -140,7 +141,7 @@ void gui::GroupActions::nameChanged(const QString& name)
 		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
 	
 		sad::String oldvalue = g->objectName();
-		sad::String newvalue = name.toStdString();
+		sad::String newvalue = Q2STDSTRING(name);
 		
 		if (oldvalue != newvalue)
 		{

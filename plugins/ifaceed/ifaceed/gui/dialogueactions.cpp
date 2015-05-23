@@ -1,6 +1,7 @@
 #include "dialogueactions.h"
 
 #include "../mainpanel.h"
+#include "../qstdstring.h"
 
 #include "../core/editor.h"
 
@@ -46,7 +47,7 @@ MainPanel* gui::DialogueActions::panel() const
 void gui::DialogueActions::viewDialogue(sad::dialogue::Dialogue* d)
 {
 	Ui::MainPanelClass* ui = m_panel->UI();
-	invoke_blocked(ui->txtDialogueName, &QLineEdit::setText, d->objectName().c_str());
+	invoke_blocked(ui->txtDialogueName, &QLineEdit::setText, STD2QSTRING(d->objectName()));
 	ui->lstPhrases->clear();
 	for(size_t i = 0; i < d->phrases().size(); i++)
 	{
@@ -59,17 +60,17 @@ void gui::DialogueActions::viewPhrase(sad::dialogue::Phrase* p)
 	m_panel->editor()->emitClosure( blocked_bind(
 			m_panel->UI()->txtPhraseActorName,
 			&QLineEdit::setText,
-			p->actorName().c_str()
+			STD2QSTRING(p->actorName())
 	));
 	m_panel->editor()->emitClosure( blocked_bind(
 		m_panel->UI()->txtPhraseActorPortrait,
 		&QLineEdit::setText,
-		p->actorPortrait().c_str()
+		STD2QSTRING(p->actorPortrait())
 	));
 	m_panel->editor()->emitClosure( blocked_bind(
 		m_panel->UI()->txtPhrasePhrase,
 		&QPlainTextEdit::setPlainText,
-		p->phrase().c_str()
+		STD2QSTRING(p->phrase())
 	));
 	m_panel->editor()->emitClosure( blocked_bind(
 		m_panel->UI()->dsbPhraseDuration,
@@ -79,7 +80,7 @@ void gui::DialogueActions::viewPhrase(sad::dialogue::Phrase* p)
 	m_panel->editor()->emitClosure( blocked_bind(
 		m_panel->UI()->txtPhraseViewHint,
 		&QLineEdit::setText,
-		p->viewHint().c_str()
+		STD2QSTRING(p->viewHint())
 	));
 }
 
@@ -258,7 +259,7 @@ void gui::DialogueActions::removeDialogueFromDatabase(
 void gui::DialogueActions::addDialogue()
 {
     sad::dialogue::Dialogue* w = new sad::dialogue::Dialogue();
-    w->setObjectName(m_panel->UI()->txtDialogueName->text().toStdString());
+    w->setObjectName(Q2STDSTRING(m_panel->UI()->txtDialogueName->text()));
     sad::Renderer::ref()->database("")->table("dialogues")->add(w);
     history::dialogues::New* c = new history::dialogues::New(w);
     c->commit(m_panel->editor());
@@ -274,6 +275,7 @@ void gui::DialogueActions::removeDialogue()
     {
         QVariant variant = m_panel->UI()->lstDialogues->item(row)->data(Qt::UserRole);
         sad::dialogue::Dialogue* w = variant.value<sad::dialogue::Dialogue*>();
+        removeDialogueFromDatabase(w, true, row);
     }
 }
 
@@ -283,11 +285,11 @@ void gui::DialogueActions::addPhrase()
 	if (d)
 	{
 		sad::dialogue::Phrase p;
-		p.setActorName(m_panel->UI()->txtPhraseActorName->text().toStdString());
-		p.setActorPortrait(m_panel->UI()->txtPhraseActorPortrait->text().toStdString());
-		p.setPhrase(m_panel->UI()->txtPhrasePhrase->toPlainText().toStdString());
+		p.setActorName(Q2STDSTRING(m_panel->UI()->txtPhraseActorName->text()));
+		p.setActorPortrait(Q2STDSTRING(m_panel->UI()->txtPhraseActorPortrait->text()));
+		p.setPhrase(Q2STDSTRING(m_panel->UI()->txtPhrasePhrase->toPlainText()));
 		p.setDuration(m_panel->UI()->dsbPhraseDuration->value());
-		p.setViewHint(m_panel->UI()->txtPhraseViewHint->text().toStdString());
+		p.setViewHint(Q2STDSTRING(m_panel->UI()->txtPhraseViewHint->text()));
 		history::dialogues::PhraseNew* c = new history::dialogues::PhraseNew(d, p);
         c->commit(m_panel->editor());
         m_panel->editor()->history()->add(c);
@@ -332,7 +334,7 @@ void gui::DialogueActions::movePhraseFront()
 
 void gui::DialogueActions::nameEdited(const QString& name)
 {
-	sad::String newvalue = name.toStdString();
+	sad::String newvalue = Q2STDSTRING(name);
 	sad::dialogue::Dialogue* w = m_panel->editor()->shared()->selectedDialogue();
     if (w)
     {
@@ -379,7 +381,7 @@ void gui::DialogueActions::phraseTextChanged()
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String newvalue = m_panel->UI()->txtPhrasePhrase->toPlainText().toStdString();
+		sad::String newvalue = Q2STDSTRING(m_panel->UI()->txtPhrasePhrase->toPlainText());
 		changePhraseText(d, row, newvalue, true);
 	}
 }
@@ -400,7 +402,7 @@ void gui::DialogueActions::actorNameChanged(const QString& newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String nv = newvalue.toStdString();
+		sad::String nv = Q2STDSTRING(newvalue);
 		changePhraseActorName(d, row, nv, true);
 	}
 }
@@ -411,7 +413,7 @@ void gui::DialogueActions::actorPortraitChanged(const QString& newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{
-		sad::String nv = newvalue.toStdString();
+		sad::String nv = Q2STDSTRING(newvalue);
 		changePhraseActorPortrait(d, row, nv, true);
 	}
 }
@@ -422,7 +424,7 @@ void gui::DialogueActions::viewHintChanged(const QString& newvalue)
 	sad::dialogue::Dialogue* d = m_panel->editor()->shared()->selectedDialogue();
 	if (row >= 0 && row < m_panel->UI()->lstPhrases->count() && d)
 	{		
-		sad::String nv = newvalue.toStdString();
+		sad::String nv = Q2STDSTRING(newvalue);
 		changePhraseViewHint(d, row, nv, true);
 	}
 }
