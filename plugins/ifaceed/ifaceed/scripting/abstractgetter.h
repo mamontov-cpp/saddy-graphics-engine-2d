@@ -7,7 +7,7 @@
 #include "maybe.h"
 #include "callable.h"
 
-#include "../../qstdstring.h"
+#include "../qstdstring.h"
 
 #include <db/dbproperty.h>
 #include <db/dbobject.h>

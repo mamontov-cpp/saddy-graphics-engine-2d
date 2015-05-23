@@ -9,7 +9,7 @@
 #include "tovalue.h"
 #include "abstractcondition.h"
 
-#include "../../qstdstring.h"
+#include "../qstdstring.h"
 
 #include <equalto.h>
 
