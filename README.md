@@ -4,6 +4,17 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 ## Download
 
+* **23.05.15** Saddy-1.5 released!
+
+
+Changelog:
+  * Added bindings to Duktape as a plugin
+  * Added bindings to IrrKlang as a plugin
+  * Added support for Qt5 in utilities
+
+Note, that this will be only source code release, because of large binary sizes. 
+
+
 * **15.02.15** Saddy 1.5-alpha released!
 
 A pre-built engine for Win32 Microsoft Visual C++2010 can be downloaded from here:
