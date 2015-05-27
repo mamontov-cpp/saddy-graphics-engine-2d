@@ -696,6 +696,9 @@
     <ClCompile Include="src\animations\setstate\setpositionproperty.cpp">
       <Filter>Файлы исходного кода\animations\setstate</Filter>
     </ClCompile>
+    <ClCompile Include="src\keycodes.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.h">

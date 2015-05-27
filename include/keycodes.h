@@ -147,4 +147,24 @@ enum SpecialKey
 	HoldsShift   =  -16536,  //!< User holds shift button
 };
 
+class String;
+
+/*! Checks, whether keyboard key is valid
+    \param[in] key whether keyboard key is valid
+ */
+bool isValidKeyboardKey(int key);
+
+/*! Returns default key if key is not valid. Can be useful, if key code is read from file
+    \param[in] key key
+    \param[in] d default keyboard key, which will be returned, if key is not valid
+    \return keyboard key
+ */
+sad::KeyboardKey defaultKeyIfNotValid(sad::KeyboardKey key, sad::KeyboardKey d);
+
+/*! Converts keyboard key to string
+    \param[in] key keyboard key
+    \return string string representation of key
+ */
+sad::String keyToString(sad::KeyboardKey key);
+
 }
