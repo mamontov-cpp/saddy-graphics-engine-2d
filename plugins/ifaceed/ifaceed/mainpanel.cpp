@@ -629,6 +629,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnConsoleSave, SIGNAL(clicked()), m_scripting, SLOT(saveScript()));
 	connect(ui.btnConsoleLoad, SIGNAL(clicked()), m_scripting, SLOT(loadScript()));
 
+    connect(ui.btnClearObjectSelection, SIGNAL(clicked()), this, SLOT(clearObjectSelection()));
+
 	// Initialize UI from editor
 	if (editor)
 	{
@@ -1628,6 +1630,8 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 
 		ui.btnConsoleRun,
 
+        ui.btnClearObjectSelection,
+
 		NULL
 	};
 	size_t i = 0;
@@ -1825,6 +1829,21 @@ void MainPanel::updateUIForSelectedWayNow()
         invoke_blocked(ui.dsbWayTotalTime, &QDoubleSpinBox::setValue, p->totalTime());
         invoke_blocked(ui.cbWayClosed, &QCheckBox::setCheckState,  (p->closed()) ? Qt::Checked : Qt::Unchecked);
     }
+}
+
+void MainPanel::clearObjectSelection()
+{
+   if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false
+       && m_editor->machine()->isInState("adding") == false
+       && m_editor->machine()->isInState("selected/moving") == false
+       && m_editor->machine()->isInState("selected/resizing") == false
+       ) {
+        m_editor->shared()->setSelectedObject(NULL); 
+        if (m_editor->machine()->isInState("selected"))
+        {
+            m_editor->machine()->enterState("idle");
+        }
+   }
 }
 
 //====================  PROTECTED METHODS HERE ====================

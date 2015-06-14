@@ -23,6 +23,11 @@ void gui::EventFilter::setPanel(MainPanel* panel)
         QKeyEvent* ev = static_cast<QKeyEvent*>(e);
         if (ev->modifiers() & Qt::ControlModifier)
         {
+            if (ev->key() == Qt::Key_D)
+            {
+                handled = true;
+                m_panel->clearObjectSelection();
+            }
             if (ev->key() == Qt::Key_Z)
             {
                 handled = true;

@@ -2751,6 +2751,19 @@ rect:</string>
      </widget>
     </widget>
    </widget>
+   <widget class="QPushButton" name="btnClearObjectSelection">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>10</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear Object Selection</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

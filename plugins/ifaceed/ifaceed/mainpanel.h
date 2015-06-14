@@ -565,6 +565,9 @@ public slots:
     /*! Updates UI, using properties from current way
      */
     void updateUIForSelectedWayNow();
+    /*! Clears selection
+     */
+    void clearObjectSelection();
 protected:
     /*! Stores all widget for main panel
      */
