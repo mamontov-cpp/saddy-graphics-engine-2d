@@ -123,16 +123,26 @@ public slots:
 	/*! Changes ending color for color animations
 	 */
 	void colorChangeEndingColor();
-	/*! Called, when resizing changes vector of resize coordinates
+	/*! Called, when user changes x coordinate of starting size for Resize type of animation
 		for X coordinate
 		\param[in] newvalue a new value
 	 */
-	void resizeChangeVectorX(double newvalue);
-	/*! Called, when resizing changes vector of resize coordinates
+	void resizeChangeStartingSizeX(double newvalue);
+	/*! Called, when user changes y coordinate of starting size for Resize type of animation
 		for Y coordinate
 		\param[in] newvalue a new value
 	 */
-	void resizeChangeVectorY(double newvalue);
+	void resizeChangeStartingSizeY(double newvalue);
+	/*! Called, when user changes x coordinate of ending size for Resize type of animation
+		for X coordinate
+		\param[in] newvalue a new value
+	 */
+	void resizeChangeEndingSizeX(double newvalue);
+	/*! Called, when user changes y coordinate of ending size for Resize type of animation
+		for Y coordinate
+		\param[in] newvalue a new value
+	 */
+	void resizeChangeEndingSizeY(double newvalue);
 	/*! Called, when user changes starting angle for rotation angle
 		\param[in] newvalue new value for angle
 	 */ 

@@ -574,9 +574,11 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnAnimationsCancel, SIGNAL(clicked()), m_animation_actions, SLOT(stopOnObject()));
 	connect(ui.cwColorStartingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeStartingColor()));
 	connect(ui.cwColorEndingColor, SIGNAL(clicked()), m_animation_actions, SLOT(colorChangeEndingColor()));
-	connect(ui.dabResizeVectorX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorX(double)));
-	connect(ui.dabResizeVectorY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeVectorY(double)));
-	connect(ui.dsbRotateStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeStartingAngle(double)));
+	connect(ui.dabResizeStartingSizeX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeStartingSizeX(double)));
+	connect(ui.dabResizeStartingSizeY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeStartingSizeY(double)));
+	connect(ui.dabResizeEndingSizeX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeEndingSizeX(double)));
+	connect(ui.dabResizeEndingSizeY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(resizeChangeEndingSizeY(double)));	
+    connect(ui.dsbRotateStartingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeStartingAngle(double)));
 	connect(ui.dsbRotateEndingAngle, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(rotateChangeEndingAngle(double)));
 	connect(ui.cmbWayAnimationWay, SIGNAL(currentIndexChanged(int)), m_animation_actions, SLOT(wayMovingChangeWay(int)));
 	connect(ui.txtFontListList, SIGNAL(textEditingFinished()), m_animation_actions, SLOT(fontListEditingFinished()));
@@ -1574,8 +1576,10 @@ void MainPanel::toggleAnimationPropertiesEditable(bool flag)
 		ui.sbBlinkingFrequency,
 		ui.cwColorStartingColor,
 		ui.cwColorEndingColor,
-		ui.dabResizeVectorX,
-		ui.dabResizeVectorY,
+		ui.dabResizeStartingSizeX,
+		ui.dabResizeStartingSizeY,
+		ui.dabResizeEndingSizeX,
+		ui.dabResizeEndingSizeY,
 		ui.dsbRotateStartingAngle,
 		ui.dsbRotateEndingAngle,
 		ui.cmbWayAnimationWay,

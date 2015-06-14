@@ -895,7 +895,8 @@
     <ClCompile Include="history\animations\animationschangelooped.cpp" />
     <ClCompile Include="history\animations\animationschangename.cpp" />
     <ClCompile Include="history\animations\animationschangerect.cpp" />
-    <ClCompile Include="history\animations\animationschangeresizevector.cpp" />
+    <ClCompile Include="history\animations\animationschangeresizeendingsize.cpp" />
+    <ClCompile Include="history\animations\animationschangeresizestartingsize.cpp" />
     <ClCompile Include="history\animations\animationschangerotateangle.cpp" />
     <ClCompile Include="history\animations\animationschangeshakingfrequency.cpp" />
     <ClCompile Include="history\animations\animationschangetime.cpp" />
@@ -2381,14 +2382,15 @@
     <ClInclude Include="history\animations\animationschangename.h" />
     <ClInclude Include="history\animations\animationschangeproperty.h" />
     <ClInclude Include="history\animations\animationschangerect.h" />
+    <ClInclude Include="history\animations\animationschangeresizeendingsize.h" />
     <ClInclude Include="history\animations\animationschangerotateangle.h" />
-    <ClInclude Include="history\animations\animationschangeresizevector.h" />
     <ClInclude Include="history\animations\animationschangeshakingfrequency.h" />
     <ClInclude Include="history\animations\animationschangetime.h" />
     <ClInclude Include="history\animations\animationsnew.h" />
     <ClInclude Include="history\animations\animationschangewaymovingway.h" />
     <ClInclude Include="history\animations\animationsremove.h" />
     <ClInclude Include="history\animations\animationsremovefromcomposite.h" />
+    <ClInclude Include="history\animations\animationschangeresizestartingsize.h" />
     <ClInclude Include="history\animations\animationsswapincomposite.h" />
     <ClInclude Include="history\batchcommand.h" />
     <ClInclude Include="history\groups\groupsaddinstance.h" />

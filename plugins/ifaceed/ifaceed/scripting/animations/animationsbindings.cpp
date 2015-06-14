@@ -193,7 +193,8 @@ void scripting::animations::checkPropertiesForAnimations(
 
 	if (obj.value()->isInstanceOf("sad::animations::Resize"))
 	{
-		list << "vector";
+		list << "start_size";
+        list << "end_size";
 	}
 
 	if (obj.value()->isInstanceOf("sad::animations::Rotate"))

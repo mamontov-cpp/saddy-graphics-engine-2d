@@ -1187,9 +1187,6 @@
     <ClCompile Include="history\animations\animationschangecolorcolor.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
-    <ClCompile Include="history\animations\animationschangeresizevector.cpp">
-      <Filter>Source Files\history\animations</Filter>
-    </ClCompile>
     <ClCompile Include="history\animations\animationschangerotateangle.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
@@ -1775,6 +1772,12 @@
     <ClCompile Include="scriptinghelp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="history\animations\animationschangeresizestartingsize.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="history\animations\animationschangeresizeendingsize.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2053,9 +2056,6 @@
     <ClInclude Include="history\animations\animationschangecolorcolor.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
-    <ClInclude Include="history\animations\animationschangeresizevector.h">
-      <Filter>Header Files\history\animations</Filter>
-    </ClInclude>
     <ClInclude Include="history\animations\animationschangerotateangle.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
@@ -2316,6 +2316,12 @@
     </ClInclude>
     <ClInclude Include="qstdstring.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeresizestartingsize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangeresizeendingsize.h">
+      <Filter>Header Files\history\animations</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

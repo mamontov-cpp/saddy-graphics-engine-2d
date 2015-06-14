@@ -29,7 +29,8 @@
 #include "../history/animations/animationschangelooped.h"
 #include "../history/animations/animationschangeblinkingfrequency.h"
 #include "../history/animations/animationschangecolorcolor.h"
-#include "../history/animations/animationschangeresizevector.h"
+#include "../history/animations/animationschangeresizestartingsize.h"
+#include "../history/animations/animationschangeresizeendingsize.h"
 #include "../history/animations/animationschangerotateangle.h"
 #include "../history/animations/animationschangewaymovingway.h"
 #include "../history/animations/animationschangefontlistfonts.h"
@@ -248,7 +249,6 @@ bool gui::AnimationActions::removeAnimationFromCompositeList(
 	if (row != -1)
 	{
 		result = true;
-		sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
 		history::Command* c = new history::animations::RemoveFromComposite(a, majorid, row);
 		c->commit(m_panel->editor());
 		if (fromeditor)
@@ -302,11 +302,17 @@ void gui::AnimationActions::addAnimation()
 
 			if (a->isInstanceOf("sad::animations::Resize"))
 			{
-				sad::Point2D p(
-					m_panel->UI()->dabResizeVectorX->value(),
-					m_panel->UI()->dabResizeVectorY->value()
+				sad::Point2D startsize(
+					m_panel->UI()->dabResizeStartingSizeX->value(),
+					m_panel->UI()->dabResizeStartingSizeY->value()
 				);
-				a->setProperty("vector", p);
+				a->setProperty("start_size", startsize);
+
+                sad::Point2D endsize(
+					m_panel->UI()->dabResizeEndingSizeX->value(),
+					m_panel->UI()->dabResizeEndingSizeY->value()
+				);
+				a->setProperty("end_size", endsize);
 			}
 
 			if (a->isInstanceOf("sad::animations::Rotate"))
@@ -505,11 +511,15 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 
 		if (a->isInstanceOf("sad::animations::Resize"))
 		{
-			sad::Point2D p = a->getProperty<sad::Point2D>("vector").value();
+			sad::Point2D startsize = a->getProperty<sad::Point2D>("start_size").value();
+			sad::Point2D end_size = a->getProperty<sad::Point2D>("end_size").value();
 
-			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorX, &QDoubleSpinBox::setValue, p.x()) );
-			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeVectorY, &QDoubleSpinBox::setValue, p.y()) );
-		}
+			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeStartingSizeX, &QDoubleSpinBox::setValue, startsize.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeStartingSizeY, &QDoubleSpinBox::setValue, startsize.y()) );
+
+            e->emitClosure( blocked_bind(m_panel->UI()->dabResizeEndingSizeX, &QDoubleSpinBox::setValue, end_size.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dabResizeEndingSizeY, &QDoubleSpinBox::setValue, end_size.y()) );
+        }
 
 		if (a->isInstanceOf("sad::animations::Rotate"))
 		{
@@ -809,20 +819,20 @@ void gui::AnimationActions::colorChangeEndingColor()
 }
 
 
-void gui::AnimationActions::resizeChangeVectorX(double newvalue)
+void gui::AnimationActions::resizeChangeStartingSizeX(double newvalue)
 {
 	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
 	if (a)
 	{
 		if (a->isInstanceOf("sad::animations::Resize"))
 		{
-			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("vector").value();
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("start_size").value();
 			if (sad::is_fuzzy_equal(oldvalue.x(), newvalue) == false)
 			{
 				sad::Point2D nvalue = oldvalue;
 				nvalue.setX(newvalue);
 
-				history::animations::ChangeResizeVector* c = new history::animations::ChangeResizeVector(
+				history::animations::ChangeResizeStartingSize* c = new history::animations::ChangeResizeStartingSize(
 					a,
 					oldvalue,
 					nvalue
@@ -835,20 +845,72 @@ void gui::AnimationActions::resizeChangeVectorX(double newvalue)
 	}
 }
 
-void gui::AnimationActions::resizeChangeVectorY(double newvalue)
+void gui::AnimationActions::resizeChangeStartingSizeY(double newvalue)
 {
 	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
 	if (a)
 	{
 		if (a->isInstanceOf("sad::animations::Resize"))
 		{
-			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("vector").value();
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("start_size").value();
 			if (sad::is_fuzzy_equal(oldvalue.y(), newvalue) == false)
 			{
 				sad::Point2D nvalue = oldvalue;
 				nvalue.setY(newvalue);
 
-				history::animations::ChangeResizeVector* c = new history::animations::ChangeResizeVector(
+				history::animations::ChangeResizeStartingSize* c = new history::animations::ChangeResizeStartingSize(
+					a,
+					oldvalue,
+					nvalue
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::resizeChangeEndingSizeX(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Resize"))
+		{
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("end_size").value();
+			if (sad::is_fuzzy_equal(oldvalue.x(), newvalue) == false)
+			{
+				sad::Point2D nvalue = oldvalue;
+				nvalue.setX(newvalue);
+
+				history::animations::ChangeResizeEndingSize* c = new history::animations::ChangeResizeEndingSize(
+					a,
+					oldvalue,
+					nvalue
+				);
+				c->commit(this->m_panel->editor());
+
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::resizeChangeEndingSizeY(double newvalue)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a)
+	{
+		if (a->isInstanceOf("sad::animations::Resize"))
+		{
+			sad::Point2D oldvalue = a->getProperty<sad::Point2D>("end_size").value();
+			if (sad::is_fuzzy_equal(oldvalue.y(), newvalue) == false)
+			{
+				sad::Point2D nvalue = oldvalue;
+				nvalue.setY(newvalue);
+
+				history::animations::ChangeResizeEndingSize* c = new history::animations::ChangeResizeEndingSize(
 					a,
 					oldvalue,
 					nvalue
