@@ -59,12 +59,23 @@ sad::db::schema::Schema* sad::animations::Resize::basicSchema()
         {
             AnimationResizeSchema = new sad::db::schema::Schema();
             AnimationResizeSchema->addParent(sad::animations::Animation::basicSchema());
+            void (sad::animations::Resize::* setstartsize)(const sad::Point2D&) = 
+                &sad::animations::Resize::setStartSize;
+            void (sad::animations::Resize::* setendsize)(const sad::Point2D&) = 
+                &sad::animations::Resize::setEndSize;
 
             AnimationResizeSchema->add(
-                "vector",
+                "start_size",
 			    new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
-				    &sad::animations::Resize::vector,
-                    &sad::animations::Resize::setVector
+				    &sad::animations::Resize::startSize,
+                    setstartsize
+                )
+            );
+            AnimationResizeSchema->add(
+                "end_size",
+			    new sad::db::MethodPair<sad::animations::Resize, sad::Point2D>(
+				    &sad::animations::Resize::endSize,
+                    setendsize
                 )
             );
 		        
@@ -85,13 +96,17 @@ bool sad::animations::Resize::loadFromValue(const picojson::value& v)
 	bool flag = this->sad::animations::Animation::loadFromValue(v);
 	if (flag)
 	{
-		sad::Maybe<sad::Point2D> vector = picojson::to_type<sad::Point2D>(
-										      picojson::get_property(v, "vector")
+		sad::Maybe<sad::Point2D> startsize = picojson::to_type<sad::Point2D>(
+										      picojson::get_property(v, "start_size")
 										  );
-		bool result = vector.exists();
+        sad::Maybe<sad::Point2D> endsize   = picojson::to_type<sad::Point2D>(
+										      picojson::get_property(v, "end_size")
+										  );
+		bool result = startsize.exists() && endsize.exists();
 		if (result)
 		{
-			m_vector = vector.value();
+			m_start_size = startsize.value();
+            m_end_size = endsize.value();
 		}
 
 		flag = flag && result;
@@ -100,15 +115,38 @@ bool sad::animations::Resize::loadFromValue(const picojson::value& v)
 }
 
 
-void sad::animations::Resize::setVector(const sad::Point2D& v)
+void sad::animations::Resize::setStartSize(const sad::Point2D& v)
 {
-	m_vector = v;
+	m_start_size = v;
 }
 
-const sad::Point2D& sad::animations::Resize::vector() const
+void sad::animations::Resize::setStartSize(const sad::Size2D& v)
 {
-	return m_vector;
+	m_start_size.setX(v.Width);
+    m_start_size.setY(v.Height);
 }
+
+void sad::animations::Resize::setEndSize(const sad::Point2D& v)
+{
+	m_end_size = v;
+}
+
+void sad::animations::Resize::setEndSize(const sad::Size2D& v)
+{
+	m_end_size.setX(v.Width);
+    m_end_size.setY(v.Height);
+}
+
+const sad::Point2D& sad::animations::Resize::startSize() const
+{
+    return m_start_size;
+}
+
+const sad::Point2D& sad::animations::Resize::endSize() const
+{
+    return m_end_size;    
+}
+
 
 void sad::animations::Resize::start(sad::animations::Instance* i)
 {
@@ -117,25 +155,29 @@ void sad::animations::Resize::start(sad::animations::Instance* i)
 
 void sad::animations::Resize::setState(sad::animations::Instance* i, double time)
 {
-	sad::Point2D p = m_vector * (time / m_time);
-	sad::Rect2D r(i->basicArea());
-	sad::Rect2D area = i->object()->getProperty<sad::Rect2D>("area").value();
+    double distx = m_end_size.x() - m_start_size.x();
+    double disty = m_end_size.y() - m_start_size.y();
+    double px =  distx * (time / m_time);
+    double py = disty * (time / m_time);
+	
+    sad::Rect2D area = i->object()->getProperty<sad::Rect2D>("area").value();
 	
 	sad::Point2D pr = area.p0();
 	pr += area.p2();
 	pr /= 2.0;
 
-	r[0] += sad::Point2D(-p.x(), -p.y());
-	r[1] += sad::Point2D(p.x(), -p.y());
-	r[2] += sad::Point2D(p.x(), p.y());
-	r[3] += sad::Point2D(-p.x(), p.y());
-	sad::moveBy(pr - i->basicCenter(), r);
+    sad::Rect2D r(
+        -px, -py, 
+        px, py
+    );
+
+	sad::moveBy(pr, r);
 
 	i->stateCommandAs<sad::Rect2D>()->call(r);
 	if (i->body())
 	{
 		sad::p2d::CollisionShape* s = i->shape()->clone();
-		s->resizeBy(p);
+		s->resizeBy(sad::Point2D(px, py));
 		i->body()->setShape(s);
 	}
 }

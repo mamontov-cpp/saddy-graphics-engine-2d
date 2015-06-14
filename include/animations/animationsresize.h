@@ -7,6 +7,7 @@
 #include "animationsanimation.h"
 
 #include "../sadpoint.h"
+#include "../sadsize.h"
 
 namespace sad
 {
@@ -39,14 +40,30 @@ public:
         \return whether it was successfull
      */
     virtual bool loadFromValue(const picojson::value& v);
-	/*! Sets how long should be resized object during animation iteration
-		\param[in] v vector
+	/*! Sets size of object on the start of animation
+		\param[in] v starting size
 	 */
-	void setVector(const sad::Point2D& v);
-	/*! Sets how long should be resized object during animation iteration
-		\return vector
+	void setStartSize(const sad::Point2D& v);
+   	/*! Sets size of object on the start of animation
+		\param[in] v starting size
 	 */
-	const sad::Point2D& vector() const;
+	void setStartSize(const sad::Size2D& v);
+    /*! Sets ending size of object on the end of animation
+		\param[in] v ending size
+	 */
+	void setEndSize(const sad::Point2D& v);
+    /*! Sets ending size of object on the end of animation
+		\param[in] v ending size
+	 */
+	void setEndSize(const sad::Size2D& v);
+    /*! Returns starting size for an animation
+		\return size
+	 */
+	const sad::Point2D& startSize() const;
+    /*! Returns ending size for an animation
+		\return size
+	 */
+	const sad::Point2D& endSize() const;
 	/*! An animations instance
 		\param[in] i an instance for animation
 	 */
@@ -67,9 +84,12 @@ public:
      */
     virtual bool applicableTo(sad::db::Object* o);
 protected:
-	/*! A vector for resizing objects
+	/*! A starting size for resizing objects
 	 */
-	sad::Point2D m_vector;
+	sad::Point2D m_start_size;
+    /*! An ending size for resizing objects
+     */
+    sad::Point2D m_end_size;
 };
 
 }
