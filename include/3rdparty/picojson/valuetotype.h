@@ -1046,4 +1046,28 @@ sad::Maybe<_Type> get_property(
     return result;
 }
 
+/*! Returns property value for object, it it exists in object and has value of that type,
+    otherwise  returns default value
+    \param[in] v value
+    \param[in] propertyname name of property
+    \param[in] defaultvalue a default value
+    \return property value
+ */
+template<
+    typename _Type
+>
+_Type get_property_or_default(
+    const picojson::value& v,
+    const sad::String& propertyname,
+    const _Type& defaultvalue
+)
+{
+    sad::Maybe<_Type> result = picojson::get_property<_Type>(v, propertyname);
+    if (result.exists())
+    {
+        return result.value();
+    }
+    return defaultvalue;
+}
+
 }
