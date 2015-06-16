@@ -1020,4 +1020,30 @@ sad::Maybe<_Type> to_type(picojson::value const * v)
 	return 	result;
 }
 
+/*! Returns property value for object if such property exists and
+    it can be converted to this type
+    \param[in] v value
+    \param[in] propertyname name of property
+    \return property value
+ */ 
+template<
+    typename _Type
+>
+sad::Maybe<_Type> get_property(
+    const picojson::value& v,
+    const sad::String& propertyname
+)
+{
+    sad::Maybe<_Type> result;
+    if (v.is<picojson::object>())
+	{
+        picojson::value const * propvalue = picojson::get_property(v, propertyname);
+        if (propvalue)
+        {
+            result = picojson::to_type<_Type>(propvalue);
+        }
+    }
+    return result;
+}
+
 }
