@@ -6,6 +6,11 @@ bool sad::KeyHoldCondition::check(const sad::input::AbstractEvent & e)
 	return ke.Key == m_key;
 }
 
+void sad::KeyHoldCondition::setKey(sad::KeyboardKey key)
+{
+    m_key = key;
+}
+
 sad::input::AbstractHanderCondition * sad::KeyHoldCondition::clone()
 {
 	return new sad::KeyHoldCondition(m_key);
@@ -32,6 +37,11 @@ bool sad::SpecialKeyHoldCondition::check(const sad::input::AbstractEvent & e)
 	return result;
 }
 
+void sad::SpecialKeyHoldCondition::setKey(sad::SpecialKey key)
+{
+    m_key = key;    
+}
+
 sad::input::AbstractHanderCondition* sad::SpecialKeyHoldCondition::clone()
 {
 	 sad::SpecialKeyHoldCondition* result =  new sad::SpecialKeyHoldCondition(m_key);
@@ -42,6 +52,11 @@ bool sad::MouseButtonHoldCondition::check(const sad::input::AbstractEvent & e)
 {
 	const sad::input::MouseEvent & ke = static_cast<const sad::input::MouseEvent &>(e);
 	return ke.Button == m_button;
+}
+
+void sad::MouseButtonHoldCondition::setButton(sad::MouseButton button)
+{
+    m_button = button;
 }
 
 sad::input::AbstractHanderCondition * sad::MouseButtonHoldCondition::clone()

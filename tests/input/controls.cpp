@@ -3,6 +3,7 @@
 #pragma warning(disable: 4351)
 #include <cstdio>
 #include "input/controls.h"
+#include "keymouseconditions.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -55,7 +56,10 @@ struct SadControlsTest : tpunit::TestFixture
  public:
    SadControlsTest() : tpunit::TestFixture(
 	   TEST(SadControlsTest::testCallbacks),
-	   TEST(SadControlsTest::testWorkflow)
+	   TEST(SadControlsTest::testWorkflow),
+       TEST(SadControlsTest::testKeyChangeForKeyHoldCondition),
+       TEST(SadControlsTest::testSpecialKeyChangeForSpecialKeyHoldPosition),
+       TEST(SadControlsTest::testButtonChangeForMouseButtonCondition)
    ) {}
 
 
@@ -157,6 +161,121 @@ struct SadControlsTest : tpunit::TestFixture
 		c.postEvent(sad::input::ET_Quit, sad::input::QuitEvent());
 		c.finishRecevingEvents();
 		ASSERT_TRUE(_triggered_count == 1);
+   }
+
+   void testKeyChangeForKeyHoldCondition()
+   {
+       sad::input::Controls c;
+		_triggered_count = 0;
+        c.startReceivingEvents();
+        
+        sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
+		sad::input::HandlerTypeAndConditions conditions;
+        sad::KeyHoldCondition* condition = new sad::KeyHoldCondition(sad::Z);
+        conditions.set1(sad::input::ET_KeyPress);
+        conditions._2() << condition;
+        c.add(conditions, h);
+
+        sad::input::KeyPressEvent ev;
+        ev.Key = sad::Z;
+        sad::input::KeyPressEvent ev2;
+        ev2.Key = sad::C;
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        condition->setKey(sad::X);
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        ev.Key = sad::X;
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+        
+        ASSERT_TRUE( _triggered_count = 2);       
+   }
+
+   void testSpecialKeyChangeForSpecialKeyHoldPosition()
+   {
+       sad::input::Controls c;
+		_triggered_count = 0;
+        c.startReceivingEvents();
+        
+        sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
+		sad::input::HandlerTypeAndConditions conditions;
+        sad::SpecialKeyHoldCondition* condition = new sad::SpecialKeyHoldCondition(sad::HoldsControl);
+        conditions.set1(sad::input::ET_KeyPress);
+        conditions._2() << condition;
+        c.add(conditions, h);
+
+        sad::input::KeyPressEvent ev;
+        ev.CtrlHeld = true;
+        sad::input::KeyPressEvent ev2;
+        ev2.AltHeld = true;
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        condition->setKey(sad::HoldsShift);
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        ev.CtrlHeld = false;
+        ev.ShiftHeld = true;
+
+        c.postEvent(sad::input::ET_KeyPress, ev);
+        c.postEvent(sad::input::ET_KeyPress, ev2);
+        
+        ASSERT_TRUE( _triggered_count = 2);  
+   }
+
+   void testButtonChangeForMouseButtonCondition()
+   {
+       sad::input::Controls c;
+		_triggered_count = 0;
+        c.startReceivingEvents();
+        
+        sad::input::AbstractHandler* h = new sad::input::FreeFunctionHandler<sad::input::QuitEvent>(::trigger_arg);
+		sad::input::HandlerTypeAndConditions conditions;
+        sad::MouseButtonHoldCondition* condition = new sad::MouseButtonHoldCondition(sad::MouseLeft);
+        conditions.set1(sad::input::ET_MousePress);
+        conditions._2() << condition;
+        c.add(conditions, h);
+
+        sad::input::MousePressEvent ev;
+        ev.Button = sad::MouseLeft;
+        sad::input::MousePressEvent ev2;
+        ev2.Button = sad::MouseRight;
+
+        c.postEvent(sad::input::ET_MousePress, ev);
+        c.postEvent(sad::input::ET_MousePress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        condition->setButton(sad::MouseRight);
+
+        c.postEvent(sad::input::ET_MousePress, ev);
+        c.postEvent(sad::input::ET_MousePress, ev2);
+
+        ASSERT_TRUE( _triggered_count = 1);
+
+        ev.Button = sad::MouseRight;
+
+        c.postEvent(sad::input::ET_MousePress, ev);
+        c.postEvent(sad::input::ET_MousePress, ev2);
+        
+        ASSERT_TRUE( _triggered_count = 3);  
    }
 
 } _sad_controls_test;

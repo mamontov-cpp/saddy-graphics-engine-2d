@@ -31,6 +31,10 @@ public:
 		\return whether we should  run an event
 	 */
 	virtual bool check(const sad::input::AbstractEvent & e);
+    /*! Sets key value for condition
+        \param[in] key a key code value
+     */
+    void setKey(sad::KeyboardKey key);
 	/*! Clones a condition
 		\return clone a condition
 	 */
@@ -57,6 +61,10 @@ public:
 		\return whether we should  run an event
 	 */
 	virtual bool check(const sad::input::AbstractEvent & e);
+    /*! Sets key value for condition
+        \param[in] key a key code value
+     */
+    void setKey(sad::SpecialKey key);
 	/*! Clones a condition
 		\return clone a condition
 	 */
@@ -84,11 +92,14 @@ public:
 		\return whether we should  run an event
 	 */
 	virtual bool check(const sad::input::AbstractEvent & e);
+    /*! Sets button value for condition
+        \param[in] button a button value
+     */
+    void setButton(sad::MouseButton button);
 	/*! Clones a condition
 		\return clone a condition
 	 */
 	virtual sad::input::AbstractHanderCondition * clone();
-
 private:
 	/*! A keyboard key, which event will be tested against
 	 */
