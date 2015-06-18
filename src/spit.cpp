@@ -17,7 +17,7 @@ bool sad::spit(
     }
 
     sad::String realFileName = fileName;
-    if (sad::util::isAbsolutePath(contents) == false)
+    if (sad::util::isAbsolutePath(fileName) == false)
     {
         realFileName = sad::util::concatPaths(renderer->executablePath(), fileName);
     }
