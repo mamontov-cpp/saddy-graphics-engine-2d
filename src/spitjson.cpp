@@ -1,6 +1,6 @@
 #include "spitjson.h"
 
-bool sad::spit(
+bool sad::spitJson(
     const sad::String& fileName, 
     const picojson::value& contents,
     sad::Renderer* renderer

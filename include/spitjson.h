@@ -19,7 +19,7 @@ namespace sad
     \param[in] renderer a renderer, which must be used
     \return true, if data has been written successfully
  */
-bool spit(
+bool spitJson(
     const sad::String& fileName, 
     const picojson::value& contents,
     sad::Renderer* renderer = NULL
