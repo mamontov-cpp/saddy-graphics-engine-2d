@@ -120,6 +120,10 @@
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\scenenode.cpp" />
     <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\slurp.cpp" />
+    <ClCompile Include="src\slurpjson.cpp" />
+    <ClCompile Include="src\spit.cpp" />
+    <ClCompile Include="src\spitjson.cpp" />
     <ClCompile Include="src\sprite2d.cpp" />
     <ClCompile Include="src\sprite3d.cpp" />
     <ClCompile Include="src\texture.cpp" />
@@ -321,6 +325,10 @@
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scenenode.h" />
     <ClInclude Include="include\settings.h" />
+    <ClInclude Include="include\slurp.h" />
+    <ClInclude Include="include\slurpjson.h" />
+    <ClInclude Include="include\spit.h" />
+    <ClInclude Include="include\spitjson.h" />
     <ClInclude Include="include\sprite2d.h" />
     <ClInclude Include="include\sprite3d.h" />
     <ClInclude Include="include\temporarilyimmutablecontainer.h" />
