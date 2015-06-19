@@ -44,6 +44,7 @@ struct SadTreeTest : tpunit::TestFixture
 	   TEST(SadTreeTest::testLoadingFailure),
 	   TEST(SadTreeTest::testResourceDuplicates),
 	   TEST(SadTreeTest::testValid),
+	   TEST(SadTreeTest::testValidMultiple),
 	   TEST(SadTreeTest::testUnload),
 	   TEST(SadTreeTest::testUnload2),
 	   TEST(SadTreeTest::testReloadTexture),
@@ -238,6 +239,33 @@ struct SadTreeTest : tpunit::TestFixture
 	   ASSERT_TRUE(tree.root()->resource("objects") != NULL);
 	   ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
 	   ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
+   }
+
+   void testValidMultiple()
+   {
+       sad::Renderer r;
+	   sad::resource::Tree tree;
+	   tree.setStoreLinks(true);
+	   tree.setRenderer(&r);
+	   // In debug, sad::fretype::Factory fonts becomes in font
+	   tree.factory()->registerResource<sad::freetype::Font>();
+
+	   sad::Vector<sad::resource::Error *> errors = tree.loadFromFile("tests/valid.json");
+	   sad::Vector<sad::resource::Error *> errors2 = tree.loadFromFile("tests/validmultiple.json");
+		
+	   int count = errors.size();
+	   sad::util::free(errors);
+
+	   int count2 = errors2.size();
+	   sad::util::free(errors2);
+
+       ASSERT_TRUE(count == 0);
+       ASSERT_TRUE(count2 == 0);
+
+       ASSERT_TRUE(tree.root()->resource("objects") != NULL);
+	   ASSERT_TRUE(tree.root()->resource("myfont") != NULL);
+	   ASSERT_TRUE(tree.root()->resource("emporium.ttf") != NULL);
+       ASSERT_TRUE(tree.root()->resource("objects2") != NULL);
    }
 
    void testUnload()
