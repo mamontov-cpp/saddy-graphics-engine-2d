@@ -136,40 +136,46 @@ void gui::resourcetreewidget::ResourceCache::createImageForTextureAtlasEntry(
 	
 	int width = maxx - minx;
 	int height = maxy - miny;
-	
-	sad::Texture * result = new sad::Texture();
-	result->width() = static_cast<float>(width);
-	result->height() = static_cast<float>(height);	
-	result->bpp() = source->bpp();
-	
-	int bypp = result->bpp() / 8;
-	result->vdata().resize(width * height * bypp);
 
-	for (int row = miny; row < maxy; row++)
-	{
-		sad::uchar * srcrow = source->pixel(row, minx);
-		sad::uchar * destrow = result->pixel(row - miny, 0);
-		for(int col = 0; col < width; col++)
-		{
-			const sad::uchar * srcpix = srcrow + col * bypp;
-			sad::uchar * destpix = destrow + col * bypp;
-			destpix[0] = srcpix[2];
-			destpix[1] = srcpix[1];
-			destpix[2] = srcpix[0];
-			destpix[3] = srcpix[3];			
-		}
-	}
-	if (bypp == 4)
-	{
-		QImage t(result->data(), result->width(), result->height(), QImage::Format_ARGB32);
-		im = t.copy();
-	}
-	if (bypp == 3)
-	{
-		QImage t(result->data(), result->width(), result->height(), QImage::Format_RGB888);
-		im = t.copy();
-	}	
-	delete result;
+    if (width > 0 && height > 0) {
+	    sad::Texture * result = new sad::Texture();
+	    result->width() = static_cast<float>(width);
+	    result->height() = static_cast<float>(height);	
+	    result->bpp() = source->bpp();
+	
+	    int bypp = result->bpp() / 8;
+	    result->vdata().resize(width * height * bypp);
+
+	    for (int row = miny; row < maxy; row++)
+	    {
+		    sad::uchar * srcrow = source->pixel(row, minx);
+		    sad::uchar * destrow = result->pixel(row - miny, 0);
+		    for(int col = 0; col < width; col++)
+		    {
+			    const sad::uchar * srcpix = srcrow + col * bypp;
+			    sad::uchar * destpix = destrow + col * bypp;
+			    destpix[0] = srcpix[2];
+			    destpix[1] = srcpix[1];
+			    destpix[2] = srcpix[0];
+			    destpix[3] = srcpix[3];			
+		    }
+	    }
+	    if (bypp == 4)
+	    {
+		    QImage t(result->data(), result->width(), result->height(), QImage::Format_ARGB32);
+		    im = t.copy();
+	    }
+	    if (bypp == 3)
+	    {
+		    QImage t(result->data(), result->width(), result->height(), QImage::Format_RGB888);
+		    im = t.copy();
+	    }	
+    	delete result;
+    }
+    else
+    {
+        im = QImage().copy();
+    }
 }
 
 void gui::resourcetreewidget::ResourceCache::createImageForTexture(
