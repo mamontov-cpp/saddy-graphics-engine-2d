@@ -126,7 +126,7 @@ public:
     template<typename _Fun>
     void end(_Fun f)
     {
-        addCallback(new sad::animations::FunctionCall<_Fun>(f));
+        addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
@@ -135,7 +135,7 @@ public:
     template<typename _Object, typename _Method>
     void end(_Object* o, _Method m)
     {
-        addCallback(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+        addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
@@ -145,7 +145,7 @@ public:
     template<typename _Object, typename _Method, typename _Arg>
     void end(_Object* o, _Method m, const _Arg& a)
     {
-        addCallback(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+        addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
@@ -156,7 +156,7 @@ public:
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
     void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
     {
-        addCallback(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+        addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
     /*! Adds a callback, which should be called on end
         \param[in] o object
@@ -168,7 +168,7 @@ public:
     template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
     void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
-        addCallback(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+        addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
 	/*! Restarts an animation process
         \param[in] animations an animations process

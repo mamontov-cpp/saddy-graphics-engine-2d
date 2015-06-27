@@ -36,7 +36,7 @@ public:
 template<
 	typename _Fun
 >
-class FunctionCall
+class FunctionCall: public sad::animations::Callback
 {
 public:
 	/*! Constructs new callback
@@ -76,7 +76,7 @@ template<
 	typename _Object,
 	typename _Method
 >
-class MethodCall0
+class MethodCall0: public sad::animations::Callback
 {
 public:
 	/*! Constructs new callback
@@ -120,7 +120,7 @@ template<
 	typename _Method,
 	typename _Arg
 >
-class MethodCall1
+class MethodCall1: public sad::animations::Callback
 {
 public:
 	/*! Constructs new callback
@@ -169,7 +169,7 @@ template<
 	typename _Arg1,
 	typename _Arg2
 >
-class MethodCall2
+class MethodCall2: public sad::animations::Callback
 {
 public:
 	/*! Constructs new callback
@@ -221,7 +221,7 @@ template<
 	typename _Arg2,
 	typename _Arg3
 >
-class MethodCall3
+class MethodCall3: public sad::animations::Callback
 {
 public:
 	/*! Constructs new callback
