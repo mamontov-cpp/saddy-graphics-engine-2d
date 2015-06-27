@@ -179,7 +179,7 @@ void gui::GroupActions::addInstance()
 	{
 		sad::animations::Group* g = m_panel->UI()->lstAnimationsGroup->item(row)->data(Qt::UserRole).value<sad::animations::Group*>();
 
-		sad::animations::Instance* i = m_panel->UI()->lstAnimationsGroupAllAnimations->item(row)->data(Qt::UserRole).value<sad::animations::Instance*>();
+		sad::animations::Instance* i = m_panel->UI()->lstAnimationsGroupAllAnimations->item(irow)->data(Qt::UserRole).value<sad::animations::Instance*>();
 
 		history::groups::AddInstance* c = new history::groups::AddInstance(g, i, irow);
 		c->commit(this->m_panel->editor());
