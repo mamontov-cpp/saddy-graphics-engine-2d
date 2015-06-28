@@ -809,7 +809,7 @@ void MainPanel::viewDatabase()
 	sad::Vector<sad::db::Object*> animationlist;
 	sad::db::Table* animationtable = db->table("animations");
     animationtable->objects(animationlist);
-	static const int validtypescount = 16;
+	static const int validtypescount = 17;
 	static sad::String validtypes[] = {
 		"sad::animations::Animation",      // 1
 		"sad::animations::Blinking",       // 2
@@ -822,11 +822,12 @@ void MainPanel::viewDatabase()
 		"sad::animations::Parallel",       // 9
 		"sad::animations::Resize",         // 10
 		"sad::animations::Rotate",         // 11
-		"sad::animations::Sequential",     // 12
-		"sad::animations::TextureCoordinatesContinuous",// 13
-		"sad::animations::TextureCoordinatesList",      // 14
-		"sad::animations::Typing",                      // 15
-		"sad::animations::WayMoving"                    // 16
+        "sad::animations::SimpleMovement", // 12
+		"sad::animations::Sequential",     // 13
+		"sad::animations::TextureCoordinatesContinuous",// 14
+		"sad::animations::TextureCoordinatesList",      // 15
+		"sad::animations::Typing",                      // 16
+		"sad::animations::WayMoving"                    // 17
 	};
 	for(unsigned int i = 0; i < animationlist.size(); i++)
     {

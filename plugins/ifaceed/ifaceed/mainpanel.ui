@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1713,6 +1713,97 @@ current object</string>
            <height>22</height>
           </rect>
          </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="grpSimpleMovement">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>60</y>
+          <width>281</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Simple Movement</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget6_3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>261</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="hlStartingPoint">
+          <item>
+           <widget class="QLabel" name="lblSimpleMovementStartingPoint">
+            <property name="text">
+             <string>Starting point:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabSimpleMovementStartingPointX">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabSimpleMovementStartingPointY">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget6_4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>261</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="hlEndingPoint">
+          <item>
+           <widget class="QLabel" name="lblSimpleMovementStartingPoint_2">
+            <property name="text">
+             <string>Starting point:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabSimpleMovementEndingPointX">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="dabSimpleMovementEndingPointY">
+            <property name="minimum">
+             <double>-50000.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </widget>

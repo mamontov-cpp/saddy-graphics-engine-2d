@@ -366,6 +366,18 @@ void gui::AnimationActions::addAnimation()
 				a->setProperty("max_size", maxsize);
 			}
 
+            if (a->isInstanceOf("sad::animations::SimpleMovement"))
+            {
+                double sx = m_panel->UI()->dabSimpleMovementStartingPointX->value();
+                double sy = m_panel->UI()->dabSimpleMovementStartingPointY->value();
+
+                double ex = m_panel->UI()->dabSimpleMovementEndingPointX->value();
+                double ey = m_panel->UI()->dabSimpleMovementEndingPointY->value();
+
+                a->setProperty("start_point", sad::Point2D(sx, sy));
+                a->setProperty("end_point", sad::Point2D(ex, ey));
+            }
+
 			if (a->isInstanceOf("sad::animations::OptionList"))
 			{
 				QStringList list = m_panel->UI()->txtOptionListList->toPlainText().split("\n", QString::SkipEmptyParts);
@@ -532,6 +544,18 @@ void gui::AnimationActions::currentAnimationChanged(int row)
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateStartingAngle, &QDoubleSpinBox::setValue, minangle) );
 			e->emitClosure( blocked_bind(m_panel->UI()->dsbRotateEndingAngle, &QDoubleSpinBox::setValue, maxangle) );
 		}
+
+        if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+		    sad::Point2D startpos = a->getProperty<sad::Point2D>("start_point").value();
+			sad::Point2D endpos = a->getProperty<sad::Point2D>("end_point").value();
+
+            e->emitClosure( blocked_bind(m_panel->UI()->dabSimpleMovementStartingPointX, &QDoubleSpinBox::setValue, startpos.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dabSimpleMovementStartingPointY, &QDoubleSpinBox::setValue, startpos.y()) );
+
+            e->emitClosure( blocked_bind(m_panel->UI()->dabSimpleMovementEndingPointX, &QDoubleSpinBox::setValue, endpos.x()) );
+			e->emitClosure( blocked_bind(m_panel->UI()->dabSimpleMovementEndingPointY, &QDoubleSpinBox::setValue, endpos.y()) );
+        }
 
 		if (a->isInstanceOf("sad::animations::WayMoving"))
 		{
