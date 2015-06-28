@@ -114,7 +114,7 @@ void sad::MainLoop::tryElevatePriority()
 		CPU_ZERO(&set);
 		CPU_SET(0, &set);
 		CPU_SET(1, &set);
-		affinityresult  = (sched_setaffinity(pid_t, sizeof(set), &set) == 0);
+		affinityresult  = (sched_setaffinity(myprocesspid, sizeof(set), &set) == 0);
 	}
 #endif
 	if (ok == false)
