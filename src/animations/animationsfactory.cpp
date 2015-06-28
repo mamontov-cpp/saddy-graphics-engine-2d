@@ -9,6 +9,7 @@
 #include "animations/animationsresize.h"
 #include "animations/animationsrotate.h"
 #include "animations/animationsparallel.h"
+#include "animations/animationssimplemovement.h"
 #include "animations/animationssequential.h"
 #include "animations/animationstyping.h"
 #include "animations/animationswaymoving.h"
@@ -36,6 +37,7 @@ sad::animations::Factory::Factory()
     push<sad::animations::Parallel>("sad::animations::Parallel");
     push<sad::animations::Resize>("sad::animations::Resize");
 	push<sad::animations::Rotate>("sad::animations::Rotate");
+    push<sad::animations::SimpleMovement>("sad::animations::SimpleMovement");
     push<sad::animations::Sequential>("sad::animations::Sequential");
 	push<sad::animations::TextureCoordinatesContinuous>("sad::animations::TextureCoordinatesContinuous");
 	push<sad::animations::TextureCoordinatesList>("sad::animations::TextureCoordinatesList");

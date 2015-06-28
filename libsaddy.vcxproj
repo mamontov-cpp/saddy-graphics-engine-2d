@@ -81,6 +81,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\animations\animationssimplemovement.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\classmetadata.cpp" />
     <ClCompile Include="src\classmetadatacastfunction.cpp" />
@@ -271,6 +272,7 @@
     <ClCompile Include="src\animations\setstate\setpositionproperty.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\animations\animationssimplemovement.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\classmetadata.h" />
     <ClInclude Include="include\classmetadatacastfunction.h" />

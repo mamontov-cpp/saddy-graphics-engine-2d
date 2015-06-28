@@ -17,7 +17,7 @@ namespace sad
 namespace animations
 {
 
-/*! An animation of rotating the camera
+/*! An animation of moving for way
  */
 class WayMoving: public sad::animations::Animation
 {
