@@ -1,4 +1,4 @@
-#include "mainloop.h"
+﻿#include "mainloop.h"
 
 #include "renderer.h"
 #include "window.h"
@@ -17,6 +17,7 @@
 
 #ifdef LINUX
 #include <unistd.h>
+#include <sched.h>
 #endif
 
 sad::MainLoop::MainLoop() : 
@@ -79,8 +80,27 @@ void sad::MainLoop::tryElevatePriority()
 	SL_COND_INTERNAL_SCOPE("sad::MainLoop::tryElevatePriority()", this->renderer());
 
 	bool ok = false;
+    bool affinityresult = false;
 #ifdef WIN32
 	ok = SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) == TRUE;
+    affinityresult = SetThreadIdealProcessor(GetCurrentThread(), 1) != static_cast<DWORD>(-1);
+    DWORD   dwLastError = ::GetLastError();
+    // See http://stackoverflow.com/questions/3006229/get-a-text-from-the-error-code-returns-from-the-getlasterror-function
+    // Copies from here
+    char   lpBuffer[256] = "?";
+    ::FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM,                 // It´s a system error
+                    NULL,                                      // No string to be formatted needed
+                    dwLastError,                               // Hey Windows: Please explain this error!
+                    MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),  // Do it in the standard language
+                    lpBuffer,              // Put the message here
+                    255,                     // Number of bytes to store the message
+                    NULL);
+    sad::String affinityerror = lpBuffer;
+    if (!affinityresult)
+    {
+        SL_COND_LOCAL_INTERNAL("Error in setting affinity", this->renderer());  
+        SL_COND_LOCAL_INTERNAL(affinityerror, this->renderer());
+    }
 #endif
 
 #ifdef LINUX
@@ -88,11 +108,23 @@ void sad::MainLoop::tryElevatePriority()
 	sched_param param;
 	param.sched_priority = 77; // Don't set too much, since we still may need to switch to other windows	
 	ok = sched_setscheduler(myprocesspid, SCHED_FIFO, &param) == 0;
+
+    {
+		cpu_set_t set;
+		CPU_ZERO(&set);
+		CPU_SET(0, &set);
+		CPU_SET(1, &set);
+		affinityresult  = (sched_setaffinity(pid_t, sizeof(set), &set) == 0);
+	}
 #endif
 	if (ok == false)
 	{
 		SL_COND_LOCAL_INTERNAL("Failed to elevate priority", this->renderer());
 	}
+    if (affinityresult == false)
+    {
+		SL_COND_LOCAL_INTERNAL("Failed to set affinity", this->renderer());        
+    }
 }
 
 #ifdef WIN32
