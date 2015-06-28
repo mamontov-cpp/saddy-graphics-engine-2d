@@ -53,8 +53,16 @@ void sad::animations::Animations::removeNow(sad::animations::Process* o)
 {
 	if (o)
 	{
-		o->removedFromPipeline();
-		m_list.removeFirst(o);
+        sad::Vector<sad::animations::Process*>::iterator it = std::find(
+            m_list.begin(), 
+            m_list.end(),
+            o
+        );
+        if (it != m_list.end())
+        {
+		    o->removedFromPipeline();
+		    m_list.erase(it);
+        }
 	}
 }
 
