@@ -246,6 +246,8 @@ public:
 	
 		ASSERT_TRUE( db.queryByMajorId(1)->objectName() == "test");
 		ASSERT_TRUE( db.queryByMajorId(22) == NULL );
+
+        ASSERT_TRUE( db.objectByMajorId<Mock3>(1)->objectName() == "test");
 	}
 	
 	void test_query_by_minorid()
@@ -261,7 +263,10 @@ public:
 	
 		ASSERT_TRUE( db.queryByMinorId(1)[0]->objectName() == "test");
 		ASSERT_TRUE( db.queryByMinorId(22).size() == 0 );
-	}
+
+        ASSERT_TRUE( db.objectsByMinorId<Mock3>(1)[0]->objectName() == "test");
+        ASSERT_TRUE( db.objectByMinorId<Mock3>(1)->objectName() == "test");
+    }
 	
 	void test_query_by_name()
 	{
@@ -276,6 +281,9 @@ public:
 	
 		ASSERT_TRUE( db.queryByName("test")[0]->MinorId == 1);
 		ASSERT_TRUE( db.queryByName("test2").size() == 0 );
-	}
+        ASSERT_TRUE( db.objectsByName<Mock3>("test")[0]->objectName() == "test");
+        ASSERT_TRUE( db.objectByName<Mock3>("test")->objectName() == "test");
+
+    }
 				
 } _sad_db_database_test;

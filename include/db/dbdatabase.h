@@ -166,16 +166,83 @@ public:
 		\return a vector of objects by name
 	 */
 	sad::Vector<sad::db::Object *> queryByName(const sad::String & name) const;
+    /*! Tries to get objects by name
+        \param[in] id object id
+        \return objects
+     */
+    template<typename T>
+    sad::Vector<T*>  objectsByName(const sad::String & name) const
+    {
+        sad::Vector<T*> result;
+        sad::Vector<sad::db::Object *> o = queryByName(name);        
+        this->filterObjectsByType<T>(result, o);    
+        return result;
+    }
+    /*! Tries to get objects by name
+        \param[in] id object id
+        \return object
+     */
+    template<typename T>
+    T*  objectByName(const sad::String & name) const
+    {
+        T* result = NULL;
+        sad::Vector<sad::db::Object *> o = queryByName(name);        
+        this->filterObjectByType<T>(result, o);    
+        return result;
+    }
 	/*! Queries all tables in seatch of object by minor id
 		\param[in] id a minor id of searched objects
 		\return a vector of objects by name
 	 */
 	sad::Vector<sad::db::Object *> queryByMinorId(unsigned long long id) const;
+    /*! Tries to get objects by minor id
+        \param[in] id object id
+        \return objects
+     */
+    template<typename T>
+    sad::Vector<T*>  objectsByMinorId(unsigned long long id) const
+    {
+        sad::Vector<T*> result;
+        sad::Vector<sad::db::Object *> o = queryByMinorId(id);        
+        this->filterObjectsByType<T>(result, o);    
+        return result;
+    }
+    /*! Tries to get objects by minor id
+        \param[in] id object id
+        \return object
+     */
+    template<typename T>
+    T*  objectByMinorId(unsigned long long id) const
+    {
+        T* result = NULL;
+        sad::Vector<sad::db::Object *> o = queryByMinorId(id);        
+        this->filterObjectByType<T>(result, o);    
+        return result;
+    }
 	/*! Queries tables by major id
 		\param[in] id  a major if of searched objects
 		\return object
 	 */
 	sad::db::Object * queryByMajorId(unsigned long long id) const;
+    /*! Tries to get one object by major id
+        \param[in] id object id
+        \return object
+     */
+    template<typename T>
+    T*  objectByMajorId(unsigned long long id) const
+    {
+        T* result = NULL;
+        sad::db::Object* o = queryByMajorId(id);
+        if (o)
+        {
+            sad::db::TypeName<T>::init();
+            if (o->isInstanceOf(sad::db::TypeName<T>::name()))
+            {
+                result = static_cast<T*>(o);
+            }
+        }
+        return result;
+    }
 	/*! Fetches tables from a database
 		\param[out] tables a tables in database
 	 */
@@ -255,6 +322,39 @@ protected:
 	/*! Linked renderer in database
 	 */
 	sad::Renderer * m_renderer;
+    /*! Filters objects by specific type
+        \param[out] result a resulting vector
+        \param[in] o objects
+     */
+    template<typename T>
+    static void filterObjectsByType(sad::Vector<T*> & result, const sad::Vector<sad::db::Object*>& o)
+    {
+        sad::db::TypeName<T>::init();
+        for(size_t i = 0; i < o.size(); i++)
+        {
+            if (o[i]->isInstanceOf(sad::db::TypeName<T>::name()))
+            {
+                result << static_cast<T*>(o[i]);
+            }
+        }   
+    }
+    /*! Filters object by specific type
+        \param[out] result a resulting vector
+        \param[in] o objects
+     */
+    template<typename T>
+    static void filterObjectByType(T*& result, const sad::Vector<sad::db::Object*>& o)
+    {
+        sad::db::TypeName<T>::init();
+        result = NULL;
+        for(size_t i = 0; i < o.size() && result == NULL; i++)
+        {
+            if (o[i]->isInstanceOf(sad::db::TypeName<T>::name()))
+            {
+                result = static_cast<T*>(o[i]);
+            }
+        }   
+    }
 };
 
 }
