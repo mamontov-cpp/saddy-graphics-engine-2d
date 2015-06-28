@@ -42,6 +42,22 @@ sad::animations::WayInstance::WayInstance()
 	
 }
 
+sad::animations::WayInstance::WayInstance(const sad::animations::WayInstance& o)
+: sad::animations::Instance(o),
+m_way_link(o.m_way_link),
+m_local_link(o.m_local_link)
+{
+    
+}
+
+sad::animations::WayInstance& sad::animations::WayInstance::operator=(const sad::animations::WayInstance& o)
+{
+    this->sad::animations::Instance::operator=(o);
+    m_way_link = o.m_way_link;
+    m_local_link = o.m_local_link;
+    return *this;
+}
+
 sad::animations::WayInstance::~WayInstance()
 {
 	

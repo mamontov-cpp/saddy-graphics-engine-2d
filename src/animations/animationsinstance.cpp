@@ -38,6 +38,54 @@ m_object_referenced(false)
 
 }
 
+sad::animations::Instance::Instance(const sad::animations::Instance& o)
+: m_object(o.m_object),
+m_animation(o.m_animation),
+m_animation_db_link(o.m_animation_db_link),
+m_tree_link_active(o.m_tree_link_active),
+m_start_time(o.m_start_time),
+m_paused(o.m_paused),
+m_started(o.m_started),
+m_finished(o.m_finished),
+m_state_command(o.m_state_command),
+m_state_commands(o.m_state_commands),
+m_state_command_own(o.m_state_command_own),
+m_valid(o.m_valid),
+m_shape(o.m_shape),
+m_body(o.m_body),
+m_basic_area(o.m_basic_area),
+m_basic_center(o.m_basic_center),
+m_basic_string(o.m_basic_string),
+m_object_referenced(o.m_object_referenced)
+{
+    copyState(o);
+}
+
+
+sad::animations::Instance& sad::animations::Instance::operator=(const sad::animations::Instance& o)
+{
+    m_object = o.m_object;
+    m_animation = o.m_animation;
+    m_animation_db_link = o.m_animation_db_link;
+    m_tree_link_active = o.m_tree_link_active;
+    m_start_time = o.m_start_time;
+    m_paused = o.m_paused;
+    m_started = o.m_started;
+    m_finished = o.m_finished;
+    m_state_command = o.m_state_command;
+    m_state_commands = o.m_state_commands;
+    m_state_command_own = o.m_state_command_own;
+    m_valid = o.m_valid;
+    m_shape = o.m_shape;
+    m_body = o.m_body;
+    m_basic_area = o.m_basic_area;
+    m_basic_center = o.m_basic_center;
+    m_basic_string = o.m_basic_string;
+    m_object_referenced = o.m_object_referenced;
+    copyState(o);
+    return *this;
+}
+
 sad::animations::Instance::~Instance()
 {
     if (m_object_referenced)
@@ -525,7 +573,7 @@ double sad::animations::Instance::computeTime(sad::animations::Animations* anima
     return result;
 }
 
-void sad::animations::Instance::processTime(sad::animations::Animations* animations, double time)
+void sad::animations::Instance::processTime(sad::animations::Animations*, double time)
 {
     sad::animations::Animation* a =  this->animation(false);
     a->setState(this, time);
@@ -558,7 +606,7 @@ void sad::animations::Instance::markAsFinished()
     }
 }
 
-void sad::animations::Instance::checkIfValid(sad::animations::Animations* animations)
+void sad::animations::Instance::checkIfValid(sad::animations::Animations*)
 {
     sad::animations::Animation* a = this->animation(true);
     sad::db::Object* o = this->object();
@@ -608,4 +656,36 @@ void sad::animations::Instance::clearSetState()
 {
 	delete m_state_command;
 	m_state_command = NULL;
+}
+
+void sad::animations::Instance::copyState(const sad::animations::Instance& o)
+{
+    if (o.m_shape)
+    {
+        m_shape = o.m_shape->clone(1);
+    }
+    if (o.m_started && !o.m_paused)
+    {
+        m_timer.start();
+    }
+    m_state_commands = o.m_state_commands;
+    for(size_t i = 0; i < m_state_commands.size(); i++)
+    {
+        m_state_commands[i] = m_state_commands[i]->clone();
+    }
+    m_state_command_own = o.m_state_command_own;
+    m_state_command = o.m_state_command;
+    if (m_state_command_own && m_state_command)
+    {
+        m_state_command = m_state_command->clone();
+    }
+    for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+    {
+        delete m_callbacks_on_end[i];
+    }
+    m_callbacks_on_end.clear();
+    for(size_t i = 0; i < o.m_callbacks_on_end.size(); i++)
+    {
+        m_callbacks_on_end << o.m_callbacks_on_end[i]->clone();
+    }
 }

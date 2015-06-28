@@ -30,6 +30,15 @@ public:
 	{
 		
 	}
+
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+	{
+	    return new sad::animations::setstate::DummyCommand<T>();    
+	}
+
 	/*! Can be inherited
 	 */
 	virtual ~DummyCommand()

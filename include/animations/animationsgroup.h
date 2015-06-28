@@ -31,14 +31,14 @@ public:
 		\param[in] g groups
 	 */
 	Group(const sad::animations::Group& g);
+    /*! Copies instance
+        \param[in] o instance
+        \return reference to self
+     */
+    sad::animations::Group& operator=(const sad::animations::Group& o);
 	/*! Another group
 	 */
 	~Group();
-	/*! Copies other group, preserving references
-		\param[in] g groups
-		\return *this
-	 */
-	sad::animations::Group& operator=(const sad::animations::Group& g);
 	/*! A basic schema for object
         \return a schema
      */
@@ -135,6 +135,13 @@ protected:
 		\param[out] result a result data
 	  */
 	 void getInstances(sad::Vector<sad::animations::Instance*> & result);
+     /*! Clear references
+      */
+     void clearReferences();
+     /*! Copies state from other group
+         \param[in] o group
+      */
+     void copyState(const sad::animations::Group& o);
 	 /*! A links for instances
 	  */
 	 sad::Vector<sad::db::Link> m_instance_links;
@@ -153,6 +160,9 @@ protected:
      /*! A cached parent animations to made cancelling possible
       */
      sad::animations::Animations* m_parent;
+     /*! A callbacks for ending an instance
+     */
+    sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
 };
 
 }

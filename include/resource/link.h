@@ -62,7 +62,8 @@ public:
 			m_resource->removeLink(this);
 		}
 
-		this->sad::resource::AbstractLink::m_changed = false;
+		this->m_notify_resource = o.m_notify_resource;
+		this->m_render_dependent = o.m_render_dependent;
 		this->m_path = o.m_path;
 		this->m_resource = o.m_resource;
 		this->m_tree = o.m_tree;

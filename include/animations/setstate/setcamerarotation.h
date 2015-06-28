@@ -27,6 +27,10 @@ public:
 		\param[in] p a pivot offset for rotation
      */
 	SetCameraRotation(sad::Scene* s, const sad::Point3D& p);
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const;
 	/*! Invokes a command with specified command
 		\param[in] angle argument
 	 */

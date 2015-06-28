@@ -11,6 +11,12 @@ sad::animations::setstate::SetPositionProperty::SetPositionProperty(sad::db::Obj
 	
 }
 
+sad::animations::setstate::AbstractSetStateCommand* 
+sad::animations::setstate::SetPositionProperty::clone() const
+{
+    return new sad::animations::setstate::SetPositionProperty(m_o);
+}
+
 sad::animations::setstate::SetPositionProperty::~SetPositionProperty()
 {
 	

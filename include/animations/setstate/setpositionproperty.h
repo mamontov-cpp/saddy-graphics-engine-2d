@@ -20,11 +20,16 @@ namespace setstate
  */
 class SetPositionProperty : public sad::animations::setstate::TypedCommmand<sad::Point2D>
 {
+    
 public:
 	/*! Constructs new empty cached call
 		\param[in]  o object object, which method should be called upon
 	 */
 	SetPositionProperty(sad::db::Object* o);
+    /*! Clones a command
+        \return copy of object
+     */
+    sad::animations::setstate::AbstractSetStateCommand* clone() const;
 	/*! Could be inherited
 	 */
 	virtual ~SetPositionProperty();

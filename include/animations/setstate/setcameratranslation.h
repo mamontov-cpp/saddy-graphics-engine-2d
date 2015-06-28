@@ -26,6 +26,10 @@ public:
         \param[in] s scene
      */
     SetCameraTranslation(sad::Scene* s);
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const;
     /*! Invokes a command with specified command
         \param[in] offset a specified offset
      */

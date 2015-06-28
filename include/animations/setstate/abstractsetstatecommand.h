@@ -18,6 +18,10 @@ namespace setstate
 class AbstractSetStateCommand
 {
 public:	
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const = 0;
 	/*! Must be inherited
 	 */
 	virtual ~AbstractSetStateCommand();

@@ -29,7 +29,14 @@ public:
 		\param[in]  prop a property name to be set
 	 */
 	inline SetProperty(sad::db::Object* o, const sad::String& prop) : m_o(o), m_property_name(prop) { }
-	/*! Calls an animation delegate for specified argument
+	/*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+	{
+	    return new sad::animations::setstate::SetProperty<_Argument>(m_o, m_property_name);
+	}    
+    /*! Calls an animation delegate for specified argument
 		\param[in] a argument
 	 */
 	virtual void call(const _Argument& a)

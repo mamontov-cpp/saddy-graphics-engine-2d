@@ -34,6 +34,13 @@ public:
 	/*! Could be inherited
 	 */
 	virtual ~SetPositionViaMethodCall() {}
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+	{
+	    return new sad::animations::setstate::SetPositionViaMethodCall<_Object>(m_o);
+	}
 	/*! Sets a position for argument
 		\param[in] a argument
 	 */

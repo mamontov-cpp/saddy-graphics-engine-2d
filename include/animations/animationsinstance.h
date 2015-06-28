@@ -40,6 +40,15 @@ public:
     /*! Creates new  empty instance
      */
     Instance();
+    /*! Copies instance state (except timer)
+        \param[in] o instance
+     */
+    Instance(const sad::animations::Instance& o);
+    /*! Copies instance
+        \param[in] o instance
+        \return reference to self
+     */
+    sad::animations::Instance& operator=(const sad::animations::Instance& o);
     /*! Could be inherited
      */
     virtual ~Instance();
@@ -302,6 +311,10 @@ protected:
     /*! Clears a state call on animation instance
 	 */
 	void clearSetState();
+    /*! Copies state from instance
+        \param[in] o instance        
+     */
+    void copyState(const sad::animations::Instance& o);
     /*! A linked object
      */
     sad::db::Link m_object;

@@ -25,6 +25,15 @@ public:
    /*! Creates new  empty instance
      */
     WayInstance();
+    /*! Copies instance state (except timer)
+        \param[in] o instance
+     */
+    WayInstance(const sad::animations::WayInstance& o);
+    /*! Copies instance
+        \param[in] o instance
+        \return reference to self
+     */
+    sad::animations::WayInstance& operator=(const sad::animations::WayInstance& o);
     /*! Could be inherited
      */
     virtual ~WayInstance();

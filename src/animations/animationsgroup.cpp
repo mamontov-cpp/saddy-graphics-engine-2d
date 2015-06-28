@@ -30,41 +30,19 @@ sad::animations::Group::Group() : m_started(true), m_looped(false), m_parent(NUL
 
 sad::animations::Group::Group(const sad::animations::Group& g)
 {
-	m_instance_links = g.m_instance_links;
-	m_instances.clear();
-	m_referenced = g.m_referenced;
-	m_looped = g.m_looped;
-	for(size_t i = 0; i < m_referenced.size(); i++)
-	{
-		m_referenced[i]->addRef();
-	}
+	copyState(g);
+}
+
+sad::animations::Group& sad::animations::Group::operator=(const sad::animations::Group& o)
+{
+    clearReferences();
+    copyState(o);
+    return *this;
 }
 
 sad::animations::Group::~Group()
 {
-	for(size_t i = 0; i < m_referenced.size(); i++)
-	{
-		m_referenced[i]->delRef();
-	}
-}
-
-sad::animations::Group& sad::animations::Group::operator=(const sad::animations::Group& g)
-{
-	// Delete old values
-	for(size_t i = 0; i < m_referenced.size(); i++)
-	{
-		m_referenced[i]->delRef();
-	}
-	// Copy values
-	m_instance_links = g.m_instance_links;
-	m_instances.clear();
-	m_referenced = g.m_referenced;
-	m_looped = g.m_looped;
-	for(size_t i = 0; i < m_referenced.size(); i++)
-	{
-		m_referenced[i]->addRef();
-	}
-	return *this;
+	clearReferences();
 }
 
 static sad::db::schema::Schema* AnimationGroupSchema = NULL;
@@ -422,4 +400,35 @@ void sad::animations::Group::clearNow()
 	}
 	m_referenced.clear();
 	m_instance_links.clear();
+}
+
+void sad::animations::Group::clearReferences()
+{
+    for(size_t i = 0; i < m_referenced.size(); i++)
+	{
+		m_referenced[i]->delRef();
+	}
+    m_referenced.clear();
+}
+
+void sad::animations::Group::copyState(const sad::animations::Group& o)
+{
+    m_instance_links = o.m_instance_links;
+	m_instances.clear();
+	m_referenced = o.m_referenced;
+	m_looped = o.m_looped;
+	for(size_t i = 0; i < m_referenced.size(); i++)
+	{
+		m_referenced[i]->addRef();
+	}
+
+    for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+    {
+        delete m_callbacks_on_end[i];
+    }
+    m_callbacks_on_end.clear();
+    for(size_t i = 0; i < o.m_callbacks_on_end.size(); i++)
+    {
+        m_callbacks_on_end << o.m_callbacks_on_end[i]->clone();
+    }
 }

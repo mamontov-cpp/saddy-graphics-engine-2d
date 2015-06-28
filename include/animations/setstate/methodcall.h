@@ -31,6 +31,13 @@ public:
 		\param[in]  f a method, which should be called
 	 */
 	inline MethodCall(sad::db::Object* o, _Method f) : m_o(o), m_f(f) { }
+    /*! Clones command
+        \return command
+     */
+    virtual sad::animations::setstate::AbstractSetStateCommand* clone() const
+	{
+	    return new sad::animations::setstate::MethodCall<_Object, _Method, _Argument>(m_o, m_f);
+	}
 	/*! Calls a method with specified argument
 		\param[in] a argument
 	 */
