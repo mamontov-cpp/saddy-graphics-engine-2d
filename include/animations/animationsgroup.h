@@ -119,6 +119,61 @@ public:
 	/*! Called, when process is removed from pipeline
 	 */
 	virtual void removedFromPipeline();
+    /*! Adds new callback in animation instance, which should be called,
+        when finished c callback
+        \param[in] c
+     */
+    void addCallbackOnEnd(sad::animations::Callback* c);
+    /*! Adds a callback, which should be called on end
+        \param[in] f function
+     */
+    template<typename _Fun>
+    void end(_Fun f)
+    {
+        addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
+    }
+    /*! Adds a callback, which should be called on end
+        \param[in] o object
+        \param[in] m method
+     */
+    template<typename _Object, typename _Method>
+    void end(_Object* o, _Method m)
+    {
+        addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+    }
+    /*! Adds a callback, which should be called on end
+        \param[in] o object
+        \param[in] m method
+        \param[in] a argument
+     */
+    template<typename _Object, typename _Method, typename _Arg>
+    void end(_Object* o, _Method m, const _Arg& a)
+    {
+        addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+    }
+    /*! Adds a callback, which should be called on end
+        \param[in] o object
+        \param[in] m method
+        \param[in] a1 first argument
+        \param[in] a2 second argument
+     */
+    template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
+    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    {
+        addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+    }
+    /*! Adds a callback, which should be called on end
+        \param[in] o object
+        \param[in] m method
+        \param[in] a1 first argument
+        \param[in] a2 second argument
+        \param[in] a3 third argument
+     */
+    template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
+    void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    {
+        addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+    }
 protected:
 	 /*! Immediately adds an object to container
 		  \param[in] o object

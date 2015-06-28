@@ -262,6 +262,7 @@ void sad::animations::Group::process(sad::animations::Animations* animations)
 		}
 	}
 
+    size_t old_size = m_instances.size();
 	for(size_t i = 0; i < m_instances.size(); i++)
 	{
         m_instances[i]->process(animations);
@@ -271,6 +272,14 @@ void sad::animations::Group::process(sad::animations::Animations* animations)
 			--i;
 		}
 	}
+
+    if (old_size != m_instances.size() && m_instances.size() == 0)
+    {
+        for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
+        {
+            m_callbacks_on_end[i]->invoke();
+        }
+    }
 }
 
 void sad::animations::Group::pause()
@@ -308,6 +317,11 @@ void sad::animations::Group::addedToPipeline()
 void sad::animations::Group::removedFromPipeline()
 {
 	this->delRef();
+}
+
+void  sad::animations::Group::addCallbackOnEnd(sad::animations::Callback* c)
+{
+    m_callbacks_on_end << c;
 }
 
 // =========================== PROTECTED METHODS ===========================
