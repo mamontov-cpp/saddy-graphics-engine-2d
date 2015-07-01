@@ -43,6 +43,7 @@
 #include "../history/animations/animationsaddtocomposite.h"
 #include "../history/animations/animationsremovefromcomposite.h"
 #include "../history/animations/animationsswapincomposite.h"
+#include "../history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h"
 
 Q_DECLARE_METATYPE(sad::animations::Animation*)
 Q_DECLARE_METATYPE(sad::p2d::app::Way*)
@@ -1479,6 +1480,114 @@ void gui::AnimationActions::moveFrontInCompositeList()
 			{
 				sad::animations::Composite* co = static_cast<sad::animations::Composite*>(a);
 				history::Command* c = new history::animations::SwapInComposite(co, pos - 1, pos);
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::simpleMovementChangeStartingPointX(double newx)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+			sad::Point2D newvalue(newx, m_panel->UI()->dabSimpleMovementStartingPointY->value());
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("start_point").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
+                    a, 
+                    "start_point",
+                    oldvalue, 
+                    newvalue,
+                    m_panel->UI()->dabSimpleMovementStartingPointX,
+                    m_panel->UI()->dabSimpleMovementStartingPointY
+                );
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::simpleMovementChangeStartingPointY(double newy)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+			sad::Point2D newvalue(m_panel->UI()->dabSimpleMovementStartingPointX->value(), newy);
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("start_point").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
+                    a, 
+                    "start_point",
+                    oldvalue, 
+                    newvalue,
+                    m_panel->UI()->dabSimpleMovementStartingPointX,
+                    m_panel->UI()->dabSimpleMovementStartingPointY
+                );
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::simpleMovementChangeEndingPointX(double newx)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+			sad::Point2D newvalue(newx, m_panel->UI()->dabSimpleMovementEndingPointY->value());
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("end_point").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
+                    a, 
+                    "end_point",
+                    oldvalue, 
+                    newvalue,
+                    m_panel->UI()->dabSimpleMovementEndingPointX,
+                    m_panel->UI()->dabSimpleMovementEndingPointY
+                );
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+}
+
+void gui::AnimationActions::simpleMovementChangeEndingPointY(double newy)
+{
+	sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+			sad::Point2D newvalue(m_panel->UI()->dabSimpleMovementEndingPointX->value(), newy);
+
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >("end_point").value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
+                    a, 
+                    "end_point",
+                    oldvalue, 
+                    newvalue,
+                    m_panel->UI()->dabSimpleMovementEndingPointX,
+                    m_panel->UI()->dabSimpleMovementEndingPointY
+                );
 				c->commit(m_panel->editor());
 				this->m_panel->editor()->history()->add(c);
 			}

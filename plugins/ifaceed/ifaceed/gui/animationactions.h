@@ -226,6 +226,26 @@ public slots:
 	/*! Moves animation front in composite list
 	 */
 	void moveFrontInCompositeList();
+    /*! Called, when user changes x coordinates of starting point for simple
+        movement animation type
+       \param[in] newvalue a new value
+     */
+    void simpleMovementChangeStartingPointX(double newvalue);
+    /*! Called, when user changes y coordinates of starting point for simple
+        movement animation type
+       \param[in] newvalue a new value
+     */
+    void simpleMovementChangeStartingPointY(double newvalue);
+    /*! Called, when user changes x coordinates of ending point for simple
+        movement animation type
+       \param[in] newvalue a new value
+     */
+    void simpleMovementChangeEndingPointX(double newvalue);
+    /*! Called, when user changes y coordinates of ending point for simple
+        movement animation type
+       \param[in] newvalue a new value
+     */
+    void simpleMovementChangeEndingPointY(double newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

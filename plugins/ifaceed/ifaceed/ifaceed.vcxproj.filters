@@ -1778,6 +1778,9 @@
     <ClCompile Include="history\animations\animationschangeresizeendingsize.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.cpp">
+      <Filter>Source Files\history\animations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2321,6 +2324,9 @@
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
     <ClInclude Include="history\animations\animationschangeresizeendingsize.h">
+      <Filter>Header Files\history\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
   </ItemGroup>

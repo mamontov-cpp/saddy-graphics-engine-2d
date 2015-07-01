@@ -73,7 +73,7 @@ sad::db::schema::Schema* sad::animations::SimpleMovement::basicSchema()
 
             AnimationSimpleMovementSchema->add(
                 "end_point",
-			    sad::db::define_field(&sad::animations::SimpleMovement::m_start_point)
+			    sad::db::define_field(&sad::animations::SimpleMovement::m_end_point)
             );
 		        
             sad::ClassMetaDataContainer::ref()->pushGlobalSchema(AnimationSimpleMovementSchema);
@@ -118,7 +118,7 @@ bool sad::animations::SimpleMovement::loadFromValue(const picojson::value& v)
 
 void sad::animations::SimpleMovement::setState(sad::animations::Instance* i, double time)
 {
-    sad::Point2D pos = (m_end_point - m_start_point) * (time / m_time);
+    sad::Point2D pos = m_start_point + ((m_end_point - m_start_point) * (time / m_time));
 
 	i->stateCommandAs<sad::Point2D>()->call(pos);
 	if (i->body())

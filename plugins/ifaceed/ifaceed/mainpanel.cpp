@@ -599,6 +599,10 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnCompositeAnimationRemoveFromList, SIGNAL(clicked()), m_animation_actions, SLOT(removeAnimationFromComposite()));
 	connect(ui.btnCompositeAnimationMoveBack, SIGNAL(clicked()), m_animation_actions, SLOT(moveBackInCompositeList()));
 	connect(ui.btnCompositeAnimationMoveFront, SIGNAL(clicked()), m_animation_actions, SLOT(moveFrontInCompositeList()));
+	connect(ui.dabSimpleMovementStartingPointX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeStartingPointX(double)));
+	connect(ui.dabSimpleMovementStartingPointY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeStartingPointY(double)));
+	connect(ui.dabSimpleMovementEndingPointX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeEndingPointX(double)));
+	connect(ui.dabSimpleMovementEndingPointY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeEndingPointY(double)));
 
 	connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), m_instance_actions, SLOT(addInstance()));
 	connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	
