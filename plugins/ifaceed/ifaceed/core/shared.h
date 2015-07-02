@@ -204,6 +204,14 @@ public:
 		\param[in] flag a flag
 	 */
 	void setAnimationGroupIsRunning(bool flag);
+    /*! Sets editing  property for process of editing of SimpleMovement animations
+        \param[in] name a name for property
+     */
+    void setEditingSimpleMovementProperty(const sad::String& name);
+    /*! Returns editing  property of SimpleMovement animations
+        \return name
+     */
+    const sad::String& editingSimpleMovementProperty() const;
 private:
 	/*! A scene node, selected by user
 	 */ 
@@ -271,6 +279,9 @@ private:
 	/*! Set to true, when user clicks "Start" on animation group tab
 	 */
 	bool m_animation_group_is_running;
+    /*! A property for simple movement editing
+     */
+    sad::String m_editing_simple_movement_property;
 };
 
 }

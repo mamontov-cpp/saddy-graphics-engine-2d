@@ -289,6 +289,9 @@ void MainPanel::setEditor(core::Editor* editor)
 	sad::String ws = "ways/selected";
 	sad::String wsm = "ways/selected/moving";
 
+
+    sad::String psmp = "picking_simple_movement_point";
+
 	// A bindings for idle state
 	sad::Renderer::ref()->controls()->add(
 		*sad::input::ET_MousePress & sad::MouseLeft & (m * i),
@@ -488,6 +491,18 @@ void MainPanel::setEditor(core::Editor* editor)
         &core::Selection::trySelect
     );
 
+    // A binding for picking_simple_movement_point
+    sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_MousePress & sad::MouseLeft & (m * psmp),
+        m_animation_actions,
+        &gui::AnimationActions::pickedPointForSimpleMovement
+    );
+     sad::Renderer::ref()->controls()->add(
+        *sad::input::ET_KeyPress & sad::Esc & sad::MouseLeft & (m * psmp),
+        m_animation_actions,
+        &gui::AnimationActions::cancelPickingPointForSimpleMovement
+    );
+
 
 	connect(ui.tabTypes, SIGNAL(currentChanged(int)), this, SLOT(tabTypeChanged(int)));
 
@@ -603,6 +618,8 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.dabSimpleMovementStartingPointY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeStartingPointY(double)));
 	connect(ui.dabSimpleMovementEndingPointX, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeEndingPointX(double)));
 	connect(ui.dabSimpleMovementEndingPointY, SIGNAL(valueChanged(double)), m_animation_actions, SLOT(simpleMovementChangeEndingPointY(double)));
+    connect(ui.btnSimpleMovementPickStartingPoint, SIGNAL(clicked()), m_animation_actions, SLOT(startPickingStartingPointForSimpleMovement()));
+	connect(ui.btnSimpleMovementPickEndingPoint, SIGNAL(clicked()), m_animation_actions, SLOT(startPickingEndingPointForSimpleMovement()));
 
 	connect(ui.btnAnimationsInstanceAdd, SIGNAL(clicked()), m_instance_actions, SLOT(addInstance()));
 	connect(ui.btnAnimationsInstanceRemove, SIGNAL(clicked()), m_instance_actions, SLOT(removeInstance()));	

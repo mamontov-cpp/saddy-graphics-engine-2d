@@ -2329,6 +2329,9 @@
     <ClInclude Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.h">
       <Filter>Header Files\history\animations</Filter>
     </ClInclude>
+    <ClInclude Include="scripting\animations\animationspoint2dsetter.h">
+      <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="acolordialog.h">

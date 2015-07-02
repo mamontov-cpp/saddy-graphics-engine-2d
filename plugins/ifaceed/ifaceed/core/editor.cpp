@@ -93,6 +93,8 @@ core::Editor::Editor()
 	m_machine->addState("ways/idle", new sad::hfsm::State(), true);
 	m_machine->addState("ways/selected", new sad::hfsm::State(), true);
 	m_machine->addState("ways/selected/moving", new sad::hfsm::State(), true);
+	m_machine->addState("picking_simple_movement_point", new sad::hfsm::State(), true);
+
 
 	m_machine->enterState("idle");
 
@@ -259,13 +261,14 @@ void core::Editor::enteredIdleState()
 	this->emitClosure( bind(m_mainwindow, &MainPanel::clearCustomObjectPropertiesTable));
 }
 
-static const size_t CoreEditorEditingStatesCount = 4; 
+static const size_t CoreEditorEditingStatesCount = 5; 
 
 static sad::String CoreEditorEditingStates[CoreEditorEditingStatesCount] = {
 	sad::String("adding"),
 	sad::String("selected/moving"),
 	sad::String("selected/resizing"),
-	sad::String("ways/selected/moving")
+	sad::String("ways/selected/moving"),
+    sad::String("picking_simple_movement_point")
 };
 
 bool core::Editor::isInEditingState() const

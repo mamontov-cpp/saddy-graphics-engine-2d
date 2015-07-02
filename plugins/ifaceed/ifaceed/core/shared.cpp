@@ -248,3 +248,13 @@ void core::Shared::setAnimationGroupIsRunning(bool flag)
 {
 	m_animation_group_is_running = flag;	
 }
+
+void core::Shared::setEditingSimpleMovementProperty(const sad::String& name)
+{
+    m_editing_simple_movement_property = name;
+}
+
+const sad::String& core::Shared::editingSimpleMovementProperty() const
+{
+    return m_editing_simple_movement_property;
+}

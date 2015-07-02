@@ -9,6 +9,7 @@
 
 #include <sadhash.h>
 #include <animations/animationscomposite.h>
+#include <input/controls.h>
 
 class MainPanel;
 
@@ -246,6 +247,19 @@ public slots:
        \param[in] newvalue a new value
      */
     void simpleMovementChangeEndingPointY(double newvalue);
+    /*! Starts picking starting point for simple movement
+     */
+    void startPickingStartingPointForSimpleMovement();
+    /*! Starts picking ending point for simple movement
+     */
+    void startPickingEndingPointForSimpleMovement();
+    /*! Cancels picking point
+     */
+    void cancelPickingPointForSimpleMovement();
+    /*! Event, which is emitted, when user picks point for simple movement
+		\param[in] e event
+	 */
+	void pickedPointForSimpleMovement(const sad::input::MousePressEvent& e);
 private:
 	/*! An panel, which actions are belong to
 	 */

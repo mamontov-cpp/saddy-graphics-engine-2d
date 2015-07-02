@@ -1594,3 +1594,86 @@ void gui::AnimationActions::simpleMovementChangeEndingPointY(double newy)
 		}
 	}
 }
+
+void gui::AnimationActions::startPickingStartingPointForSimpleMovement()
+{
+    sad::hfsm::Machine* m =  this->m_panel->editor()->machine();
+    if (this->m_panel->editor()->isInEditingState())
+    {
+        return;
+    }
+    sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+            m_panel->editor()->shared()->setEditingSimpleMovementProperty("start_point");
+            m->enterState("picking_simple_movement_point");
+            this->m_panel->lockTypesTab(true);
+            this->m_panel->highlightState("Please select starting point");
+        }
+    }
+}
+
+void gui::AnimationActions::startPickingEndingPointForSimpleMovement()
+{
+    sad::hfsm::Machine* m =  this->m_panel->editor()->machine();
+    if (this->m_panel->editor()->isInEditingState())
+    {
+        return;
+    }
+    sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+            m_panel->editor()->shared()->setEditingSimpleMovementProperty("end_point");
+            m->enterState("picking_simple_movement_point");
+            this->m_panel->lockTypesTab(true);
+            this->m_panel->highlightState("Please select ending point");
+        }
+    }
+}
+
+void gui::AnimationActions::cancelPickingPointForSimpleMovement()
+{
+    this->m_panel->editor()->machine()->enterState(this->m_panel->editor()->machine()->previousState());
+    this->m_panel->lockTypesTab(false);
+}
+
+void gui::AnimationActions::pickedPointForSimpleMovement(const sad::input::MousePressEvent& e)
+{
+    sad::animations::Animation* a = m_panel->editor()->shared()->selectedAnimation();
+	if (a != NULL)
+	{
+		if (a->isInstanceOf("sad::animations::SimpleMovement"))
+		{
+			sad::Point2D newvalue(e.pos2D());
+            sad::String propertyName = this->m_panel->editor()->shared()->editingSimpleMovementProperty();
+            QDoubleSpinBox* xwidget =  m_panel->UI()->dabSimpleMovementEndingPointX;
+            QDoubleSpinBox* ywidget =  m_panel->UI()->dabSimpleMovementEndingPointY;
+            if (propertyName != "end_point")
+            {
+                xwidget =  m_panel->UI()->dabSimpleMovementStartingPointX;
+                ywidget =  m_panel->UI()->dabSimpleMovementStartingPointY;
+            }
+			sad::Point2D oldvalue = a->getProperty< sad::Point2D >(propertyName).value();
+			if (sad::equal(oldvalue, newvalue) == false)
+			{
+				history::Command* c = new history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes(
+                    a, 
+                    propertyName,
+                    oldvalue, 
+                    newvalue,
+                    xwidget,
+                    ywidget
+                );
+				c->commit(m_panel->editor());
+				this->m_panel->editor()->history()->add(c);
+			}
+		}
+	}
+    sad::String state = this->m_panel->editor()->machine()->previousState();
+    this->m_panel->editor()->machine()->enterState(state);
+    this->m_panel->lockTypesTab(false);
+}

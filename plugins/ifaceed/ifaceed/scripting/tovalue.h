@@ -58,6 +58,7 @@ class OptionList;
 class Parallel;
 class Resize;
 class Rotate;
+class SimpleMovement;
 class Sequential;
 class TextureCoordinatesList;
 class TextureCoordinatesContinuous;
@@ -176,6 +177,7 @@ DEFINE_TO_VALUE_FOR_TYPE(sad::animations::OptionList*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Parallel*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Resize*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Rotate*)
+DEFINE_TO_VALUE_FOR_TYPE(sad::animations::SimpleMovement*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::Sequential*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesList*)
 DEFINE_TO_VALUE_FOR_TYPE(sad::animations::TextureCoordinatesContinuous*)

@@ -2584,6 +2584,7 @@
     <ClInclude Include="scripting\abstractsetter.h" />
     <ClInclude Include="scripting\abstracttovalue.h" />
     <ClInclude Include="scripting\animations\animationsbindings.h" />
+    <ClInclude Include="scripting\animations\animationspoint2dsetter.h" />
     <ClInclude Include="scripting\animations\animationssetter.h" />
     <ClInclude Include="scripting\animations\animationswaysetter.h" />
     <ClInclude Include="scripting\animations\animationswidgetsetter.h" />

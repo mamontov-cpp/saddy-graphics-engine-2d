@@ -197,6 +197,12 @@ void scripting::animations::checkPropertiesForAnimations(
         list << "end_size";
 	}
 
+    if (obj.value()->isInstanceOf("sad::animations::SimpleMovement"))
+	{
+		list << "start_point";
+        list << "end_point";
+	}
+
 	if (obj.value()->isInstanceOf("sad::animations::Rotate"))
 	{
 		list << "min_angle";

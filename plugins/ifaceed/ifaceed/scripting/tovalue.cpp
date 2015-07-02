@@ -41,6 +41,7 @@
 #include <animations/animationsparallel.h>
 #include <animations/animationsresize.h>
 #include <animations/animationsrotate.h>
+#include <animations/animationssimplemovement.h>
 #include <animations/animationssequential.h>
 #include <animations/animationstexturecoordinateslist.h>
 #include <animations/animationstexturecoordinatescontinuous.h>
@@ -865,6 +866,7 @@ DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::OptionList*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Parallel*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Resize*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Rotate*)
+DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::SimpleMovement*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::Sequential*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::TextureCoordinatesList*)
 DEFINE_AS_QUERY_OBJECT_FROM_DATABASE(sad::animations::TextureCoordinatesContinuous*)

@@ -10,6 +10,8 @@
 #include "isaabb.h"
 #include "point2d.h"
 
+#include <animations/animationssimplemovement.h>
+
 #include "../scriptinghelp.h"
 #include "../mainpanel.h"
 
@@ -48,6 +50,7 @@
 #include "../history/animations/animationschangeresizeendingsize.h"
 #include "../history/animations/animationschangerotateangle.h"
 #include "../history/animations/animationschangerect.h"
+#include "../history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h"
 
 
 #include "database/databasebindings.h"
@@ -75,6 +78,7 @@
 #include "dialogues/dialoguessetter.h"
 
 #include "animations/animationsbindings.h"
+#include "animations/animationspoint2dsetter.h"
 #include "animations/animationssetter.h"
 #include "animations/animationswidgetsetter.h"
 #include "animations/animationswaysetter.h"
@@ -642,7 +646,8 @@ void scripting::Scripting::showHelp()
 		"				<li>method <b>addParallel(object)</b> - adds animation of type Parallel. Fields of object, like \"name\", \"time\", \"looped\"</li>"
 		"				<li>method <b>addResize(object)</b> - adds animation of type Resize. Fields of object, like \"name\", \"time\", \"looped\"</li>"
 		"				<li>method <b>addRotate(object)</b> - adds animation of type Rotate. Fields of object, like \"name\", \"time\", \"looped\"</li>"
-		"				<li>method <b>addSequential(object)</b> - adds animation of type Sequential. Fields of object, like \"name\", \"time\", \"looped\"</li>"
+		"				<li>method <b>addSimpleMovement(object)</b> - adds animation of type SimpleMovement. Fields of object, like \"name\", \"time\", \"looped\",\"start_point\", \"end_point\"</li>"		
+        "				<li>method <b>addSequential(object)</b> - adds animation of type Sequential. Fields of object, like \"name\", \"time\", \"looped\"</li>"
 		"				<li>method <b>addTextureCoordinatesList(object)</b> - adds animation of type TextureCoordinatesList. Fields of object, like \"name\", \"time\", \"looped\"</li>"
 		"				<li>method <b>addTextureCoordinatesContinuous(object)</b> - adds animation of type TextureCoordinatesContinuous. Fields of object, like \"name\", \"time\", \"looped\"</li>"
 		"				<li>method <b>addTyping(object)</b> - adds animation of type Typing. Fields of object, like \"name\", \"time\", \"looped\"</li>"
@@ -672,6 +677,8 @@ void scripting::Scripting::showHelp()
         "						<li><b>[FontSize]</b> property <b>\"max_size\"</b>  - an  ending size for size animation.</li>"
         "						<li><b>[Resize]</b> property <b>\"start_size\"</b>  - a starting size for resize animation.</li>"
         "						<li><b>[Resize]</b> property <b>\"end_size\"</b>    - an ending size for resize animation.</li>"
+        "						<li><b>[SimpleMovement]</b> property <b>\"start_point\"</b>    - a starting point for simple movement animation.</li>"
+        "						<li><b>[SimpleMovement]</b> property <b>\"end_point\"</b>    - an ending point for simple movement animation.</li>"        
         "						<li><b>[Rotate]</b> property <b>\"min_angle\"</b>  - a starting angle for rotation.</li>"
         "						<li><b>[Rotate]</b> property <b>\"max_angle\"</b>  - an ending angle for rotation.</li>"
         "						<li><b>[OptionList of TextureCoordinatesList]</b> property <b>\"list\"</b>  - an array of strings, which represents links to sprite options resources.</li>"
@@ -700,6 +707,8 @@ void scripting::Scripting::showHelp()
         "						<li><b>[FontSize]</b> property <b>\"max_size\"</b>  - an  ending size for size animation.</li>"
         "						<li><b>[Resize]</b> property <b>\"start_size\"</b>  - a starting size for resize animation for object.</li>"
         "						<li><b>[Resize]</b> property <b>\"end_size\"</b>  - an ending size for resize animation for object.</li>"       
+        "						<li><b>[SimpleMovement]</b> property <b>\"start_point\"</b>    - a starting point for simple movement animation.</li>"
+        "						<li><b>[SimpleMovement]</b> property <b>\"end_point\"</b>    - an ending point for simple movement animation.</li>"        
         "						<li><b>[Rotate]</b> property <b>\"min_angle\"</b>  - a starting angle for rotation.</li>"
         "						<li><b>[Rotate]</b> property <b>\"max_angle\"</b>  - an ending angle for rotation.</li>"
         "						<li><b>[OptionList of TextureCoordinatesList]</b> property <b>\"list\"</b>  - an array of strings, which represents links to sprite options resources.</li>"
@@ -1540,6 +1549,16 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 				history::animations::ChangeList
 			>(m_engine, m_panel->UI()->txtTextureCoordinatesList, "list")
 	);
+    set->add(new scripting::animations::Point2DSetter<
+				sad::animations::SimpleMovement, 
+				history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
+			>(m_engine, "start_point", m_panel->UI()->dabSimpleMovementStartingPointX,m_panel->UI()->dabSimpleMovementStartingPointY)
+	);
+    set->add(new scripting::animations::Point2DSetter<
+				sad::animations::SimpleMovement, 
+				history::animations::ChangePropertyAsPoint2DDisplayedInTwoSpinboxes
+			>(m_engine, "end_point", m_panel->UI()->dabSimpleMovementEndingPointX,m_panel->UI()->dabSimpleMovementEndingPointY)
+	);
 
 	scripting::animations::WidgetSetter<
 		sad::animations::TextureCoordinatesContinuous,
@@ -1594,7 +1613,9 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
 	get->add(new scripting::AbstractGetter<sad::animations::Resize*, sad::Point2D >(m_engine, "end_size"));	
     get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "min_angle"));
 	get->add(new scripting::AbstractGetter<sad::animations::Rotate*, double >(m_engine, "max_angle"));	
-	get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
+	get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "start_point"));	
+	get->add(new scripting::AbstractGetter<sad::animations::SimpleMovement*, sad::Point2D>(m_engine, "end_point"));		
+    get->add(new scripting::AbstractGetter<sad::animations::OptionList*, sad::Vector<sad::String> >(m_engine, "list"));
 	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "start_rect"));
 	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesContinuous*, sad::Rect2D >(m_engine, "end_rect"));
 	get->add(new scripting::AbstractGetter<sad::animations::TextureCoordinatesList*, sad::Vector<sad::String> >(m_engine, "list"));
@@ -1640,6 +1661,7 @@ void scripting::Scripting::initAnimationsBindings(QScriptValue& v)
        "Parallel",
        "Resize",
        "Rotate",
+       "SimpleMovement",
        "Sequential",
        "TextureCoordinatesList",
        "TextureCoordinatesContinuous",

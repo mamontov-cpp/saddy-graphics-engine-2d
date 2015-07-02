@@ -279,7 +279,11 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/scripting/instances/instancesnamesetter.h \
     ifaceed/scripting/instances/instancesobjectsetter.h \
     ifaceed/scripting/instances/instancesstarttimesetter.h \
-    ifaceed/scripting/instances/instanceswaysetter.h
+    ifaceed/scripting/instances/instanceswaysetter.h \
+    ifaceed/history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h \
+    ifaceed/history/animations/animationschangeresizeendingsize.h \
+    ifaceed/history/animations/animationschangeresizestartingsize.h \
+    ifaceed/scripting/animations/animationspoint2dsetter.h
 FORMS += ifaceed/mainpanel.ui \
     ifaceed/acolordialog.ui \
     ifaceed/reloadfilelist.ui \
@@ -492,7 +496,10 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/scripting/instances/instancesnamesetter.cpp \
     ifaceed/scripting/instances/instancesobjectsetter.cpp \
     ifaceed/scripting/instances/instancesstarttimesetter.cpp \
-    ifaceed/scripting/instances/instanceswaysetter.cpp
+    ifaceed/scripting/instances/instanceswaysetter.cpp \
+    ifaceed/history/animations/animationschangepropertyaspoint2displayedintwospinboxes.cpp \
+    ifaceed/history/animations/animationschangeresizeendingsize.cpp \
+    ifaceed/history/animations/animationschangeresizestartingsize.cpp
 
 
 DESTDIR = ../../bin/ifaceed/
