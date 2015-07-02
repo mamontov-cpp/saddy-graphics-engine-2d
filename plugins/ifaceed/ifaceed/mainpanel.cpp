@@ -74,6 +74,8 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
 	ui.tabTypes->setCurrentIndex(0);
 
+    ui.tabAnimationTypes->setCurrentIndex(0);
+
     ui.twDatabaseProperties->setColumnCount(3);
     const int header_padding = 12;  // 12 is  a padding for header
 	double width = ui.twDatabaseProperties->width() - ui.twDatabaseProperties->verticalHeader()->width();

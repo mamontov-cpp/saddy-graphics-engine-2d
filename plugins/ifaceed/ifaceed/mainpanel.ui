@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -1398,7 +1398,7 @@ current object</string>
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_animation_object">
        <attribute name="title">
@@ -1732,7 +1732,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>281</width>
+           <width>289</width>
            <height>26</height>
           </rect>
          </property>
@@ -1775,6 +1775,12 @@ current object</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Pick</string>
             </property>
@@ -1787,7 +1793,7 @@ current object</string>
           <rect>
            <x>10</x>
            <y>50</y>
-           <width>281</width>
+           <width>289</width>
            <height>26</height>
           </rect>
          </property>
@@ -1797,6 +1803,12 @@ current object</string>
           </property>
           <item>
            <widget class="QLabel" name="lblSimpleMovementEndingPoint">
+            <property name="minimumSize">
+             <size>
+              <width>69</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="text">
              <string>Ending point:</string>
             </property>
@@ -1824,6 +1836,12 @@ current object</string>
           </item>
           <item>
            <widget class="QPushButton" name="btnSimpleMovementPickEndingPoint">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Pick</string>
             </property>
