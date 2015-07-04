@@ -53,6 +53,10 @@ public:
 		\param[in] e event object
 	 */
 	void navigateSelection(const sad::input::MouseWheelEvent& e);
+    /*! Tries to enter to moving state, with selected object
+        \param[in] e event object
+     */
+    void tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e);
 	/*!  Is selection chain pending
 	 */
 	bool isSelectionPending() const;

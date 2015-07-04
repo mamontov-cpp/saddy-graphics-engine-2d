@@ -54,6 +54,12 @@ void core::Selection::trySelect(const sad::input::MousePressEvent& e)
 
 void core::Selection::navigateSelection(const sad::input::MouseWheelEvent& e)
 {
+    // Do not allow changing item, when object is being edited
+    if (this->m_editor->isInEditingState())
+    {
+        return;
+    }
+
 	int last_position = m_current_position;
 	if (e.Delta > 0)
 	{
@@ -236,6 +242,7 @@ void core::Selection::trySelectObject(const sad::input::MousePressEvent& e)
             m_editor->panel()->updateUIForSelectedItem();
             m_current_position = 0;
             m_editor->emitClosure( bind(this, &core::Selection::startTimer));
+            m_editor->emitClosure( bind(this, &core::Selection::forceEditorEnterMovingState, e));
         }
     }
 }
@@ -251,12 +258,8 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
         {
             if (e.pos2D().distance(w->wayPoints()[row]) <= radius)
             {
-                m_editor->panel()->highlightState("Moving point");
-                m_editor->machine()->enterState("ways/selected/moving");
-                m_editor->shared()->setPivotPoint(e.pos2D());
-                m_editor->shared()->setOldPoint(w->wayPoints()[row]);
-                m_editor->shared()->setWayPointPosition(row);
-                return;
+               tryEnterToMovingStateWithWayObject(e);
+               return;
             }
         }
     }
@@ -279,6 +282,11 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
                     i,
                     j
                  ));
+                 m_editor->emitClosure(bind(
+                     this,
+                    &core::Selection::tryEnterToMovingStateWithWayObject,
+                    e
+                 ));
                  return;
             }
         }
@@ -287,6 +295,23 @@ void core::Selection::trySelectWay(const sad::input::MousePressEvent& e)
     m_editor->machine()->enterState("ways/idle");
     m_editor->shared()->setSelectedWay(NULL);
     m_editor->emitClosure(bind(this, &core::Selection::commitIdleWaySelection));
+}
+
+void core::Selection::tryEnterToMovingStateWithWayObject(const sad::input::MousePressEvent& e)
+{
+    sad::p2d::app::Way* w = m_editor->shared()->selectedWay();
+    if (w != NULL)
+    {
+        int row = m_editor->panel()->UI()->lstWayPoints->currentRow();
+        if (row >= 0 && row < m_editor->panel()->UI()->lstWayPoints->count())
+        {
+            m_editor->panel()->highlightState("Moving point");
+            m_editor->machine()->enterState("ways/selected/moving");
+            m_editor->shared()->setPivotPoint(e.pos2D());
+            m_editor->shared()->setOldPoint(w->wayPoints()[row]);
+            m_editor->shared()->setWayPointPosition(row);
+        }
+    }
 }
 
 
