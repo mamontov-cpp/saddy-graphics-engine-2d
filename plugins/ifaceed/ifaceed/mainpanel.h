@@ -568,6 +568,9 @@ public slots:
     /*! Clears selection
      */
     void clearObjectSelection();
+    /*! Fixes texture coordinates in all objects
+     */
+    void fixTextureCoordinates();
 protected:
     /*! Stores all widget for main panel
      */

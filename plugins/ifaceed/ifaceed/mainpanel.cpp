@@ -653,6 +653,7 @@ void MainPanel::setEditor(core::Editor* editor)
 	connect(ui.btnConsoleLoad, SIGNAL(clicked()), m_scripting, SLOT(loadScript()));
 
     connect(ui.btnClearObjectSelection, SIGNAL(clicked()), this, SLOT(clearObjectSelection()));
+    connect(ui.btnFixTextureCoordinates, SIGNAL(clicked()), this, SLOT(fixTextureCoordinates()));
 
 	// Initialize UI from editor
 	if (editor)
@@ -1868,6 +1869,57 @@ void MainPanel::clearObjectSelection()
             m_editor->machine()->enterState("idle");
         }
    }
+}
+
+void MainPanel::fixTextureCoordinates()
+{
+    if (m_editor->shared()->isAnyKindOfAnimationIsRunning() == false && m_editor->isInEditingState() == false)
+    {
+        sad::Renderer::ref()->lockRendering();
+        sad::db::Database* db = sad::Renderer::ref()->database("");
+        sad::Vector<sad::db::Object*> objects;
+        db->table("scenes")->objects(objects);
+        for(size_t i = 0; i < objects.size(); i++)
+        {
+            if (objects[i]->isInstanceOf("sad::Scene"))
+            {
+                const sad::Vector<sad::SceneNode*>& nodes = static_cast<sad::Scene*>(objects[i])->objects();
+                for(size_t j = 0; j < nodes.size(); j++)
+                {
+                    sad::SceneNode* node = nodes[j];
+                    if (node->isInstanceOf("sad::Sprite2D"))
+                    {
+                        sad::Sprite2D* sprite = static_cast<sad::Sprite2D*>(node);
+                        if (sprite->optionsName().length())
+                        {
+                            sad::Sprite2D::Options* opts = sad::Renderer::ref()
+                                                        ->tree("")
+                                                        ->get<sad::Sprite2D::Options>(sprite->optionsName());
+                            if (opts)
+                            {
+                                sprite->setTextureCoordinates(opts->TextureRectangle);
+                            }
+                        }
+                    }
+                    if (node->isInstanceOf("sad::db::custom::Object"))
+                    {
+                        sad::db::custom::Object* o = static_cast<sad::db::custom::Object*>(node);
+                        if (o->innerTypeIs("sad::Sprite2D") && o->options().length())
+                        {
+                            sad::Sprite2D::Options* opts = sad::Renderer::ref()
+                                                        ->tree("")
+                                                        ->get<sad::Sprite2D::Options>(o->options());
+                            if (opts)
+                            {
+                                o->setTextureCoordinates(opts->TextureRectangle);
+                            }                            
+                        }
+                    }
+                }
+            }            
+        }
+        sad::Renderer::ref()->unlockRendering();
+    }
 }
 
 //====================  PROTECTED METHODS HERE ====================

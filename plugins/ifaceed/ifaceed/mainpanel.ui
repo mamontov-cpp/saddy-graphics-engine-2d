@@ -156,7 +156,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_objects">
      <attribute name="title">
@@ -273,6 +273,21 @@
         </property>
         <property name="text">
          <string>Save As...</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnFixTextureCoordinates">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>100</y>
+          <width>91</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Fix
+texture
+coordinates</string>
         </property>
        </widget>
       </widget>
@@ -1398,7 +1413,7 @@ current object</string>
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_animation_object">
        <attribute name="title">
