@@ -266,6 +266,9 @@ protected:
 	/*! If removing data in picker
 	 */
 	bool m_removing_data;
+    /*! Whether we should not expand palette table
+     */
+    bool m_do_not_expand_table;
 };
 
 }

@@ -44,6 +44,7 @@ gui::colorpicker::ColorPicker::ColorPicker(QWidget * parent)
 	m_force_selection = false;
 	m_lightness_image = NULL;
 	m_alpha_image = NULL;
+    m_do_not_expand_table = false;
 
 	m_palette = new QTableWidget(parent);
 	m_palette->horizontalHeader()->hide();
@@ -135,8 +136,10 @@ void gui::colorpicker::ColorPicker::setSelectedColor(const QColor & c)
 		}
 	}
 
+    m_do_not_expand_table = true;
+
 	if (found)
-	{
+	{        
 		m_palette->setCurrentCell(foundrow, foundcol);
 	}
 	else
@@ -279,31 +282,37 @@ void gui::colorpicker::ColorPicker::paletteItemChanged(QTableWidgetItem * curren
 		QColor color = brush.color();
 		if (row == 0) 
 		{
-			m_palette->setRowCount(m_palette->rowCount() + 1);
-			m_palette->setRowHeight(m_palette->rowCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
+            if (m_do_not_expand_table == false)
+            {
+			    m_palette->setRowCount(m_palette->rowCount() + 1);
+			    m_palette->setRowHeight(m_palette->rowCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
-			fillRow(m_palette->rowCount() - 1);
-			shiftRows();
+			    fillRow(m_palette->rowCount() - 1);
+			    shiftRows();
 
-			++row;
+    			++row;
+            }
+
 			
 			changeselection = true;
 		}
 
 		if (column == 0)
-		{
-			m_palette->setColumnCount(m_palette->columnCount() + 1);
-			m_palette->setColumnWidth(m_palette->columnCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
+        {
+            if (m_do_not_expand_table == false)
+            {
+			    m_palette->setColumnCount(m_palette->columnCount() + 1);
+			    m_palette->setColumnWidth(m_palette->columnCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
 
-			fillColumn(m_palette->columnCount() - 1);
-			shiftColumns();
-
-			++column;
+			    fillColumn(m_palette->columnCount() - 1);
+			    shiftColumns();
+    			++column;
+            }
 
 			changeselection = true;
 		}
 
-		if (row == m_palette->rowCount() - 1)
+		if (row == m_palette->rowCount() - 1 && m_do_not_expand_table == false)
 		{
 			m_palette->setRowCount(m_palette->rowCount() + 1);
 			m_palette->setRowHeight(m_palette->rowCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
@@ -311,7 +320,7 @@ void gui::colorpicker::ColorPicker::paletteItemChanged(QTableWidgetItem * curren
 			fillRow(m_palette->rowCount() - 1);
 		}
 
-		if (column == m_palette->columnCount() - 1)
+		if (column == m_palette->columnCount() - 1 && m_do_not_expand_table == false)
 		{
 			m_palette->setColumnCount(m_palette->columnCount() + 1);
 			m_palette->setColumnWidth(m_palette->columnCount() - 1, gui::colorpicker::ColorPicker::PaletteCellSize);
@@ -343,6 +352,11 @@ void gui::colorpicker::ColorPicker::paletteItemChanged(QTableWidgetItem * curren
 		);	
 		emit selectedColorChanged(color);
 	}
+
+    if (m_do_not_expand_table)
+    {
+        m_do_not_expand_table = false;
+    }
 }
 
 void  gui::colorpicker::ColorPicker::setPaletteSelection()

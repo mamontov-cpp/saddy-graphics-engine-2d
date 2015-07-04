@@ -2628,7 +2628,8 @@ void MainPanel::save()
 	}
 	else
 	{
-		sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
+        sad::Renderer::ref()->database("")->setProperty("palette", ui.clpSceneNodeColor->palette());
+        sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
 	}
 }
 
@@ -2638,6 +2639,7 @@ void MainPanel::saveAs()
 	if (name.length() != 0)
 	{
 		m_editor->shared()->setFileName(name);
+        sad::Renderer::ref()->database("")->setProperty("palette", ui.clpSceneNodeColor->palette());
 		sad::Renderer::ref()->database("")->saveToFile(Q2STDSTRING(m_editor->shared()->fileName()));
 	}
 }

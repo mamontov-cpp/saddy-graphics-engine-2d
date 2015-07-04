@@ -108,7 +108,8 @@ void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 	if (items.size())
 	{
 		path =	this->selectedFolder(items[0]);
-	}
+	} 
+
 	sad::Maybe<sad::String> resourcename;
 	if (path.exists())
 	{
@@ -127,7 +128,17 @@ void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 		sad::resource::Folder * folderroot = tree->root();
 		populateTree(root, folderroot);
 	}
-	tryRestoreSelection(path, resourcename);
+    if (items.size())
+    {
+	    tryRestoreSelection(path, resourcename);
+    }
+    else
+    {
+        if (m_tree_view->topLevelItemCount())
+        {
+            m_tree_view->setCurrentItem(m_tree_view->topLevelItem(0));
+        }
+    }
 }
 
 sad::Maybe<sad::String> gui::resourcetreewidget::ResourceTreeWidget::pathToItemBySelection(
@@ -295,6 +306,7 @@ void	gui::resourcetreewidget::ResourceTreeWidget::treeItemChanged(
 					m_element_view->setItem(row, column, item);
 					m_element_view->resizeColumnsToContents();
 					m_element_view->resizeRowsToContents();
+                    m_element_view->update();
 					if (column == 0)
 					{
 						column = 1;
