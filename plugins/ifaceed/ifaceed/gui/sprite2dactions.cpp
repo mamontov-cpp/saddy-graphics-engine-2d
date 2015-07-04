@@ -173,31 +173,11 @@ void gui::Sprite2DActions::add()
 	if (valid)
 	{
 		m_panel->editor()->emitClosure(blocked_bind(
-			m_panel->UI()->awSceneNodeAngle,
-			&gui::anglewidget::AngleWidget::setValue,
-			0
-		));
-		m_panel->editor()->emitClosure(blocked_bind(
-			m_panel->UI()->clpSceneNodeColor,
-			&gui::colorpicker::ColorPicker::setSelectedColor,
-			QColor(255, 255, 255)
-		));
-		m_panel->editor()->emitClosure(blocked_bind(
 			m_panel->UI()->cbSceneNodeVisible,
 			&QCheckBox::setCheckState,
 			Qt::Checked
 		));
-		m_panel->editor()->emitClosure(blocked_bind(
-			m_panel->UI()->cbFlipX,
-			&QCheckBox::setCheckState,
-			Qt::Unchecked
-		));
-		m_panel->editor()->emitClosure(blocked_bind(
-			m_panel->UI()->cbFlipY,
-			&QCheckBox::setCheckState,
-			Qt::Unchecked
-		));
-
+		
 		m_panel->editor()->cleanupBeforeAdding();
 
 		if (m_panel->UI()->rbPlaceAndRotate->isChecked())
@@ -214,11 +194,30 @@ void gui::Sprite2DActions::add()
 void gui::Sprite2DActions::addBySimplePlacing()
 {
 	sad::Sprite2D* sprite = new sad::Sprite2D();
-	sprite->setTreeName("");
+    sprite->setTreeName("");
 	sprite->set(m_panel->UI()->rtwSpriteSprite->selectedResourceName().value());
-
+    sprite->setAngle(m_panel->UI()->awSceneNodeAngle->value());
+    core::typeconverters::QColorToSadAColor c;
+    sad::AColor clr;
+    c.convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), clr);
+    sprite->setColor(clr);
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 	sprite->setMiddle(sad::Point2D(settings.width() / 2.0, settings.height() / 2.0));
+    sprite->setFlipX(m_panel->UI()->cbFlipX->checkState() == Qt::Checked);
+    sprite->setFlipY(m_panel->UI()->cbFlipY->checkState() == Qt::Checked);
+    // Set scene before setting size to make sure, that size will be set property and not flashed
+    // by onOptionsChange callback
+    sprite->setScene(m_panel->currentScene());
+    sprite->rendererChanged();
+    sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+    if (node)
+    {
+        if (node->metaData()->name() == "sad::Sprite2D")
+        {
+            sad::Size2D size = static_cast<sad::Sprite2D*>(node)->size();
+            sprite->setSize(size);
+        }
+    }
 
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
@@ -238,6 +237,12 @@ void gui::Sprite2DActions::addBySimplePlacing()
 
 void gui::Sprite2DActions::addByDiagonalPlacing()
 {
+    m_panel->editor()->emitClosure(blocked_bind(
+			m_panel->UI()->awSceneNodeAngle,
+			&gui::anglewidget::AngleWidget::setValue,
+			0
+	));
+
 	sad::Sprite2D* sprite = new sad::Sprite2D();
 	sprite->setTreeName("");
 	sprite->set(m_panel->UI()->rtwSpriteSprite->selectedResourceName().value());
@@ -245,12 +250,19 @@ void gui::Sprite2DActions::addByDiagonalPlacing()
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 	sprite->setMiddle(sad::Point2D(settings.width() / 2.0, settings.height() / 2.0));
 
+    core::typeconverters::QColorToSadAColor c;
+    sad::AColor clr;
+    c.convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), clr);
+    sprite->setColor(clr);
+
 	QString name = m_panel->UI()->txtObjectName->text();
 	if (name.length())
 	{
 		sprite->setObjectName(Q2STDSTRING(name));
 	}
 
+    sprite->setFlipX(m_panel->UI()->cbFlipX->checkState() == Qt::Checked);
+    sprite->setFlipY(m_panel->UI()->cbFlipY->checkState() == Qt::Checked);
 	sprite->setVisible(false);
 
 	m_panel->currentScene()->add(sprite);
