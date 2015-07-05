@@ -1,0 +1,43 @@
+/*! \file singlesound.h
+    \author HiddenSeeker
+
+    Describes a sound type, which can be used to maintain main theme, e.g. one sound
+    from source is played all the time, new sound only replaces old 
+ */
+#pragma once
+#include "sound.h"
+
+namespace sad
+{
+    
+namespace irrklang
+{
+
+/*! Describes a sound type, which can be used to maintain main theme, e.g. one sound
+    from source is played all the time, new sound only replaces old 
+ */
+class SingleSound
+{
+public:
+    /*! Constructs new single sound instance
+     */
+    SingleSound();
+    /*! Plays a sound, replacing old sound (if any)
+        \param[in] sound a sound to be played
+        \param[in] volume a volume
+        \param[in] looped whether sound is looped
+        \return sound object (or NULL, if sound is null or failed to play)
+     */
+    ::irrklang::ISound* play2D(sad::irrklang::Sound* sound, double volume, bool looped = true);
+protected:
+    /*! Current playing music (source)
+     */
+    sad::irrklang::Sound* m_current_music_source;
+    /*! Current playing music (sound)
+     */
+    ::irrklang::ISound* m_current_music;
+};
+    
+}
+
+}

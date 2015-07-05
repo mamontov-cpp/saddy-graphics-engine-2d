@@ -11,7 +11,7 @@ endif
 
 TYPE     = release
 OUTPUT   = ../../lib/libsaddy-irrklang-release.a 
-BUILD    = build/engine_$(TYPE).o build/sound_$(TYPE).o
+BUILD    = build/engine_$(TYPE).o build/singlesound_$(TYPE).o build/sound_$(TYPE).o
 
 ifeq ($(TYPE),debug)
 CCOPTS = -g
@@ -24,9 +24,11 @@ build:
 	mkdir build
 build/engine_$(TYPE).o: engine.cpp
 	g++ -c $(CCOPTS) engine.cpp -o build/engine_$(TYPE).o $(INCLUDE) $(DEFINES)
+build/singlesound_$(TYPE).o: singlesound.cpp
+	g++ -c $(CCOPTS) singlesound.cpp -o build/singlesound_$(TYPE).o $(INCLUDE) $(DEFINES)
 build/sound_$(TYPE).o: sound.cpp
 	g++ -c $(CCOPTS) sound.cpp -o build/sound_$(TYPE).o $(INCLUDE) $(DEFINES)
-$(OUTPUT): build/engine_$(TYPE).o build/sound_$(TYPE).o
+$(OUTPUT): build/engine_$(TYPE).o build/singlesound_$(TYPE).o build/sound_$(TYPE).o
 	ar cr  $(OUTPUT)   $(BUILD)
 clean:
 ifeq ($(PLATFORM),WIN32)

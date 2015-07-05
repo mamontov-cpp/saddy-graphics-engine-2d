@@ -362,10 +362,15 @@ void sad::Renderer::emergencyShutdown()
 	// and glDeleteTextures could lead to segfault
 	for(sad::PtrHash<sad::String, sad::resource::Tree>::iterator it = m_resource_trees.begin();
 		it != m_resource_trees.end();
-		it++)
+		++it)
 	{
 		it.value()->unloadResourcesFromGPU();
 	}
+
+    for(size_t i = 0; i < m_emergency_shutdown_callbacks.size(); i++)
+    {
+        m_emergency_shutdown_callbacks[i]->call(this);
+    }
 	
 
 	// Destroy context and window, so nothing could go wrong
@@ -759,6 +764,15 @@ bool sad::Renderer::information(const sad::String& title, const sad::String& mes
 	return result;
 }
 
+void sad::Renderer::addEmergencyShutdownCallback(sad::util::PointerCallback<sad::Renderer>* cb)
+{
+    m_emergency_shutdown_callbacks << cb;
+}
+
+void sad::Renderer::addEmergencyShutdownCallback(void (*cb)())
+{
+    m_emergency_shutdown_callbacks << new sad::util::FreeZeroArgCallback<sad::Renderer>(cb);
+}
 bool sad::Renderer::initGLRendering()
 {
 	SL_INTERNAL_SCOPE("sad::Renderer::initGLRendering()", *this);

@@ -33,6 +33,8 @@
 
 #include "animations/animationsanimations.h"
 
+#include "util/pointercallback.h"
+
 namespace sad
 {
 
@@ -357,6 +359,26 @@ public:
 		\return whether message box is created
 	 */
 	bool information(const sad::String& title, const sad::String& message);
+    /*! Adds emergency shutdown callback
+        \param[in] cb callback
+     */
+    void addEmergencyShutdownCallback(sad::util::PointerCallback<sad::Renderer>* cb);
+    /*! Adds emergency shutdown callback
+        \param[in] cb callback
+     */
+    void addEmergencyShutdownCallback(void (*cb)());
+    /*! Adds emergency shutdown callback
+        \param[in] o object
+        \param[in] cb callback
+     */
+    template<
+        typename _Object,
+        typename _CalledObject
+    >
+    void addEmergencyShutdownCallback(_Object* o, void (_CalledObject::*cb)())
+    {
+        addEmergencyShutdownCallback(new sad::util::MethodZeroArgCallback<sad::Renderer, _Object, _CalledObject>(o, cb));
+    }
 protected:
 	/*! Copying a renderer, due to held system resources is disabled
 		\param[in] o other renderer
@@ -438,6 +460,9 @@ protected:
 	/*! A mutex, which locks rendering of scenes
 	 */
 	sad::Mutex m_lockrendering;
+    /*! An emergency shutdown callbacks
+     */
+    sad::PtrVector<sad::util::PointerCallback<sad::Renderer> > m_emergency_shutdown_callbacks;
 	/*! Destroys global instance of renderer
 	 */
 	static void destroyInstance();
