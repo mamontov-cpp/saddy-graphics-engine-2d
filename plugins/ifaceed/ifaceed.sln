@@ -6,13 +6,19 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		DebugQt4|Win32 = DebugQt4|Win32
 		Release|Win32 = Release|Win32
+		ReleaseQt4|Win32 = ReleaseQt4|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.Debug|Win32.Build.0 = Debug|Win32
+		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.DebugQt4|Win32.ActiveCfg = DebugQt4|Win32
+		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.DebugQt4|Win32.Build.0 = DebugQt4|Win32
 		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.Release|Win32.ActiveCfg = Release|Win32
 		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.Release|Win32.Build.0 = Release|Win32
+		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.ReleaseQt4|Win32.ActiveCfg = ReleaseQt4|Win32
+		{C182BF9C-ED63-41E7-A8A0-BE26D57551E3}.ReleaseQt4|Win32.Build.0 = ReleaseQt4|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
