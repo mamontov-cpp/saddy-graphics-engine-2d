@@ -33,6 +33,24 @@ public:
 	/*! A typename for property list
 	 */
 	typedef sad::PtrHash<sad::String, sad::db::Property> Properties;
+    /*! Defines a snapshot for a table as mapping from major id of object to
+        picojson value
+     */
+    typedef sad::Hash<unsigned long long, picojson::value> TableSnapshot;
+    /*! Defines global snapshot for all tables
+     */
+    typedef sad::Vector<sad::Pair<sad::String, TableSnapshot> > TablesSnapshot; 
+    /*! A snapshot for object properties
+     */
+    typedef picojson::object PropertiesSnapshot;
+    /*! Defines a snapshot for database
+     */
+    struct Snapshot
+    {
+        TablesSnapshot Tables;         //!< A snapshot for tables
+        PropertiesSnapshot Properties; //!< A snapshot for properties
+        unsigned long long MaxId;      //!< Maximal id for database
+    };
 	/*! Constructs default empty database
 	 */
 	Database();
@@ -47,12 +65,12 @@ public:
 		\param[in] filename a name of file
 	 */
 	void saveToFile(const sad::String& filename);
-	/*! Loads database from specified string
+	/*! Loads database from specified string. Saves a snapshot if successfull.
 		\param[in] text a text with JSON description of database
 		\return whether load was successfull
 	 */
 	bool load(const sad::String& input);
-	/*! Loads database from file, using specifying name
+	/*! Loads database from file, using specifying name. Saves a snapshot if successfull.
 		\param[in] name a name for file
 		\param[in] r renderer, which is used to determine global path's (NULL for global)
 		\return whether load was successfull
@@ -287,7 +305,33 @@ public:
 		\return default tree name
 	 */
 	const sad::String& defaultTreeName() const;
+    /*! Saves snapshot for database
+     */
+    void saveSnapshot();
+    /*! Returns count of snapshots in database
+     */
+    unsigned long snapshotsCount() const;
+    /*! Restores a database snapshot from index
+        \param[in] index index of snapshot
+        \return whether it was successfull (false if index is out of range)
+     */
+    bool restoreSnapshot(unsigned long index = 0);
 protected: 
+    /*! Clears properties of table
+     */
+    void clearProperties();
+    /*! Loads properties from value
+        \param[in] properties a data for properties
+        \param[out] newproperties a new properties for database
+     */
+    bool loadProperties(
+        const picojson::object& properties, 
+        sad::Hash<sad::String, sad::db::Property*>& newproperties
+    );
+    /*! Sets properties from specified hash
+        \param[in] newproperties a container for properties
+     */
+    void setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& newproperties);
 	/*! Loads properties and tavles from a database
 		\param[in] properties a property items
 		\param[in] tables a tables from database
@@ -297,6 +341,10 @@ protected:
 		const picojson::object & properties, 
 		const picojson::object & tables
 	);
+    /*! Saves properties into JSON object
+        \param[out] o object
+     */
+    void saveProperties(picojson::object& o);
 	/*! Sets default tree name for a database
 	 */
 	sad::String m_default_tree_name;
@@ -322,6 +370,9 @@ protected:
 	/*! Linked renderer in database
 	 */
 	sad::Renderer * m_renderer;
+    /*! A snapshots for database
+     */
+    sad::Vector<sad::db::Database::Snapshot> m_snapshots;
     /*! Filters objects by specific type
         \param[out] result a resulting vector
         \param[in] o objects

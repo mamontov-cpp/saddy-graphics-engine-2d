@@ -6,6 +6,8 @@
 
 #include <fstream>
 
+// ===================================  PUBLIC METHODS ===================================
+
 sad::db::Database::Database() : m_max_major_id(1), m_renderer(NULL)
 {
 	m_factory = new sad::db::ObjectFactory();
@@ -29,19 +31,8 @@ void sad::db::Database::save(sad::String & output)
 {
 	picojson::value resultvalue(picojson::object_type, false);
 
-	picojson::value propertiesresult(picojson::object_type, false);
-	for(sad::PtrHash<sad::String, sad::db::Property>::iterator it = m_properties.begin();
-		it != m_properties.end();
-		++it
-	   )
-	{
-		picojson::value prop(picojson::object_type, false);
-		prop.insert("type", it.value()->serializableType());
-		sad::db::Variant tmp;
-		it.value()->get(NULL, tmp);
-		prop.insert("value", tmp.save());
-		propertiesresult.insert(it.key(), prop);
-	}
+	picojson::object propertiesresult;
+    saveProperties(propertiesresult);
 	resultvalue.insert("properties", propertiesresult);
 
 	picojson::value tablesresult(picojson::object_type, false);
@@ -89,6 +80,10 @@ bool sad::db::Database::load(const sad::String& text)
 						propertiesroot->get<picojson::object>(),
 						tablesroot->get<picojson::object>()
 					);
+                    if (result)
+                    {
+                        this->saveSnapshot();
+                    }
 				}
 			}
 		}
@@ -203,6 +198,14 @@ void sad::db::Database::removeTable(const sad::String& name)
 {
 	if (m_names_to_tables.contains(name))
 	{
+        // Remove major ids, since we need to cleanup them
+        sad::Vector<sad::db::Object*> objects;
+        m_names_to_tables[name]->objects(objects);
+        for(size_t  i = 0; i < objects.size(); i++)
+        {
+            this->removeMajorId(objects[i]->MajorId);
+        }
+
 		delete m_names_to_tables[name];
 		m_names_to_tables.remove(name);
 	}
@@ -333,18 +336,152 @@ const sad::String& sad::db::Database::defaultTreeName() const
 	return m_default_tree_name;
 }
 
-// Protected methods
+void sad::db::Database::saveSnapshot()
+{
+    sad::db::Database::Snapshot snapshotstub;
+    snapshotstub.MaxId = m_max_major_id;
+    m_snapshots << snapshotstub;
 
-bool sad::db::Database::loadPropertiesAndTables(
-	const picojson::object & properties, 
-	const picojson::object & tables
+    sad::db::Database::Snapshot& snapshot = m_snapshots[m_snapshots.size() - 1];
+    saveProperties(snapshot.Properties);
+
+    for(sad::Hash<sad::String, sad::db::Table*>::const_iterator it = m_names_to_tables.const_begin();
+        it != m_names_to_tables.const_end();
+        ++it)
+    {
+        sad::db::Database::TableSnapshot tablesnapshot;
+        sad::Vector<sad::db::Object*> objects;
+        it.value()->objects(objects);
+        for(size_t i = 0; i < objects.size(); i++)
+	    {
+			picojson::value tmp(picojson::object_type, false);
+			objects[i]->save(tmp);
+			tablesnapshot.insert(objects[i]->MajorId, tmp);
+	    }
+        snapshot.Tables << sad::Pair<sad::String, sad::db::Database::TableSnapshot>(it.key(), tablesnapshot);
+    }
+}
+
+unsigned long sad::db::Database::snapshotsCount() const
+{
+    return m_snapshots.size();
+}
+
+bool sad::db::Database::restoreSnapshot(unsigned long index)
+{
+    if (index >= m_snapshots.size())
+    {
+        return false;
+    }
+
+    sad::db::Database::Snapshot& snapshot = m_snapshots[index];
+    sad::Hash<sad::String, sad::db::Property*> newproperties;
+    assert( loadProperties(snapshot.Properties, newproperties) );
+    setPropertiesFrom(newproperties);
+    
+    // Fill database with snapshot tables
+    sad::Hash<sad::String, char> snapshottables;
+    for(size_t i = 0; i <  snapshot.Tables.size(); i++)
+    {
+        snapshottables.insert(snapshot.Tables[i].p1(), 1);
+    }
+
+    // Remove tables, that are absent in table
+    sad::Vector<sad::Pair<sad::String, sad::db::Table*> > tables;
+    this->getTables(tables);
+    for(size_t i = 0; i < tables.size(); i++)
+    {
+        if (snapshottables.contains(tables[i].p1()) == false) 
+        {
+            removeTable(tables[i].p1());
+        }
+    }
+    
+    // Add absent tables
+    for(size_t i = 0; i < snapshot.Tables.size(); i++)
+    {
+        if (this->table(snapshot.Tables[i].p1()) == NULL)
+        {
+            addTable(snapshot.Tables[i].p1(), new sad::db::Table());                
+        }
+    }
+
+
+    // Reset all tables
+    for(size_t i = 0; i < snapshot.Tables.size(); i++)
+    {
+        sad::db::Table* table = this->table(snapshot.Tables[i].p1());
+        sad::Vector<sad::db::Object*> objects;
+        table->objects(objects);
+        sad::db::Database::TableSnapshot& tablesnapshot = snapshot.Tables[i]._2();
+        // Remove object, absent in snapshot
+        for(size_t j = 0; j < objects.size(); j++)
+        {
+            if (tablesnapshot.contains(objects[j]->MajorId) == false)
+            {
+                table->remove(objects[j]);
+            }
+        }
+        for(sad::db::Database::TableSnapshot::iterator it = tablesnapshot.begin();
+            it != tablesnapshot.end();
+            ++it)
+        {
+            sad::db::Object* o = table->queryByMajorId(it.key());
+            bool loaded = false;
+            if (o)
+            {
+                loaded = o->load(it.value());
+                if (!loaded)
+                {
+                    table->remove(o);
+                }
+            }
+            // If failed to load, try recreate object
+            if (!loaded)
+            {
+                o = factory()->createFromEntry(it.value());
+                if (o)
+                {
+                    o->setTreeName(renderer(), defaultTreeName());
+                    loaded = o->load(it.value());
+                    if (loaded)
+                    {
+                        table->add(o);
+                    }
+                    else
+                    {
+                        delete o;
+                    }
+                }
+            }
+            assert(loaded && "Loaded of snapshot failed! Please check object properies");
+        }
+    }
+
+    m_max_major_id = snapshot.MaxId;
+    return true;
+}
+// ===================================  PROTECTED METHODS ===================================
+
+
+void sad::db::Database::clearProperties()
+{
+    for(sad::Hash<sad::String, sad::db::Property*>::iterator it = m_properties.begin();
+			it != m_properties.end();
+			++it)
+	{
+		delete it.value();
+	}
+	m_properties.clear();
+}
+
+ bool sad::db::Database::loadProperties(
+        const picojson::object& properties, 
+        sad::Hash<sad::String, sad::db::Property*>& newproperties
 )
 {
-	bool result = true;
-	sad::Hash<unsigned long long, sad::db::Table*> oldmajoridtotable = m_majorid_to_table;
-	unsigned long long oldmaxmajorid = m_max_major_id;
-	sad::Hash<sad::String, sad::db::Property*> newproperties;
-	for(picojson::object::const_iterator it = properties.begin();
+    bool result = true;
+    for(picojson::object::const_iterator it = properties.begin();
 		it != properties.end();
 		++it)
 	{
@@ -392,6 +529,30 @@ bool sad::db::Database::loadPropertiesAndTables(
 		
 		result = result && deserialized;
 	}
+    return result;
+}
+
+void sad::db::Database::setPropertiesFrom(const sad::Hash<sad::String, sad::db::Property*>& newproperties)
+{
+    clearProperties();
+	for(sad::Hash<sad::String, sad::db::Property*>::const_iterator it = newproperties.const_begin();
+		it != newproperties.const_end();
+		++it)
+	{
+		m_properties.insert(it.key(), it.value());
+	}
+
+}
+
+bool sad::db::Database::loadPropertiesAndTables(
+	const picojson::object & properties, 
+	const picojson::object & tables
+)
+{
+	sad::Hash<unsigned long long, sad::db::Table*> oldmajoridtotable = m_majorid_to_table;
+	unsigned long long oldmaxmajorid = m_max_major_id;
+	sad::Hash<sad::String, sad::db::Property*> newproperties;
+	bool result = loadProperties(properties, newproperties);
 
 	sad::Hash<sad::String, sad::db::Table*> newtables;
 	for(picojson::object::const_iterator it = tables.begin();
@@ -419,19 +580,7 @@ bool sad::db::Database::loadPropertiesAndTables(
 		}
 		
 		// Reset old properties
-		for(sad::Hash<sad::String, sad::db::Property*>::iterator it = m_properties.begin();
-			it != m_properties.end();
-			++it)
-		{
-			delete it.value();
-		}
-		m_properties.clear();
-		for(sad::Hash<sad::String, sad::db::Property*>::iterator it = newproperties.begin();
-			it != newproperties.end();
-			++it)
-		{
-			m_properties.insert(it.key(), it.value());
-		}
+		setPropertiesFrom(newproperties);
 
 		// Reset old tables
 		for(sad::Hash<sad::String, sad::db::Table*>::iterator it = m_names_to_tables.begin();
@@ -468,3 +617,18 @@ bool sad::db::Database::loadPropertiesAndTables(
 	return result;
 }
 
+void sad::db::Database::saveProperties(picojson::object& o)
+{
+    for(sad::PtrHash<sad::String, sad::db::Property>::iterator it = m_properties.begin();
+		it != m_properties.end();
+		++it
+	   )
+	{
+		picojson::value prop(picojson::object_type, false);
+		prop.insert("type", it.value()->serializableType());
+		sad::db::Variant tmp;
+		it.value()->get(NULL, tmp);
+		prop.insert("value", tmp.save());
+		o.insert(std::make_pair(it.key(), prop));
+	}
+}
