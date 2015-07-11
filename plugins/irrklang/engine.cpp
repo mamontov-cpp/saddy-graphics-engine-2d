@@ -82,7 +82,10 @@ sad::irrklang::Engine* sad::irrklang::Engine::ref()
 
 sad::irrklang::Engine::~Engine()
 {
-	m_engine->drop();
+    if (m_engine) 
+    {
+	    m_engine->drop();
+    }
 }
 
 ::irrklang::ISoundEngine* sad::irrklang::Engine::get() const
@@ -122,5 +125,9 @@ sad::irrklang::Engine& sad::irrklang::Engine::operator=(const sad::irrklang::Eng
 
 void sad::irrklang::Engine::freeInstance()
 {
-    delete m_instance;
+    if (m_instance) 
+    {
+        delete m_instance;
+        m_instance = NULL;
+    }
 }

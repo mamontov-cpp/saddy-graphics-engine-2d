@@ -47,6 +47,11 @@ public:
 		\return global engine
 	 */ 
 	static ::irrklang::ISoundEngine* eref();
+    /*! In some cases, we should explicitly call this at the end of program, since
+        calling it via atexit() may damage sound manager. This is some kind of a bug in
+        irrKlang
+     */
+    static void freeInstance();
 protected:
     /*! A sound engine, which is being used
      */
@@ -70,9 +75,6 @@ private:
         \return self-reference
      */
     sad::irrklang::Engine& operator=(const sad::irrklang::Engine& o);
-    /*! Free instance, freeing memory
-     */
-    static void freeInstance();
 };
 
 }
