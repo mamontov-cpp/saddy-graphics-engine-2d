@@ -41,7 +41,11 @@ public:
 		TEST(SadDbDatabaseTest::test_properties),
 		TEST(SadDbDatabaseTest::test_query_by_majorid),
 		TEST(SadDbDatabaseTest::test_query_by_minorid),
-		TEST(SadDbDatabaseTest::test_query_by_name)	
+		TEST(SadDbDatabaseTest::test_query_by_name),
+		TEST(SadDbDatabaseTest::test_snapshot_change_table),
+		TEST(SadDbDatabaseTest::test_snapshot_reset_table),
+		TEST(SadDbDatabaseTest::test_snapshot_change_objects),
+		TEST(SadDbDatabaseTest::test_snapshot_reset_objects)
 	) {}
 
 	void test_save()
@@ -285,5 +289,194 @@ public:
         ASSERT_TRUE( db.objectByName<Mock3>("test")->objectName() == "test");
 
     }
+
+    void test_snapshot_change_table()
+	{
+	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		sad::db::Database * db = new sad::db::Database();
+		db->setFactory(f);
+
+		sad::Renderer r;
+		r.addDatabase("", db);
+
+        // Fill initial data for snapshots
+        sad::db::Table* tbl = new sad::db::Table();
+        db->addTable("table", tbl);
+
+        Mock3* mock1 = new Mock3();
+        mock1->setObjectName("m1");
+
+        Mock3* mock2 = new Mock3();
+        mock2->setObjectName("m2");
+        tbl->add(mock1);
+        tbl->add(mock2);
+        db->saveSnapshot();
+
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+
+        // Change database, altering tables. Check that objects will not exists
+        db->removeTable("table");
+        ASSERT_TRUE( db->table("table") == NULL );
+        
+        sad::db::Table* tbl1 = new sad::db::Table();
+        db->addTable("table1", tbl1);
+        ASSERT_TRUE( db->table("table1") != NULL );
+
+        sad::db::Table* tbl2 = new sad::db::Table();
+        db->addTable("table2", tbl2);
+        ASSERT_TRUE( db->table("table2") != NULL );
+
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == NULL );
+
+        // Restore database and check, that everything is fine
+        db->restoreSnapshot();
+
+        ASSERT_TRUE( db->table("table") != NULL );
+        ASSERT_TRUE( db->table("table1") == NULL );
+        ASSERT_TRUE( db->table("table2") == NULL );        
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") != NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") != NULL );
+    }
+
+    void test_snapshot_reset_table()
+	{
+	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		sad::db::Database * db = new sad::db::Database();
+		db->setFactory(f);
+
+		sad::Renderer r;
+		r.addDatabase("", db);
+
+        // Fill initial data for snapshots
+        sad::db::Table* tbl = new sad::db::Table();
+        db->addTable("table", tbl);
+
+        Mock3* mock1 = new Mock3();
+        mock1->setObjectName("m1");
+
+        Mock3* mock2 = new Mock3();
+        mock2->setObjectName("m2");
+        tbl->add(mock1);
+        tbl->add(mock2);
+        db->saveSnapshot();
+
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+
+        // Change database, altering tables. Check that objects will not exists        
+        sad::db::Table* tbl1 = new sad::db::Table();
+        db->addTable("table1", tbl1);
+        ASSERT_TRUE( db->table("table1") != NULL );
+
+        // Restore database and check, that everything is fine
+        db->restoreSnapshot();
+
+        ASSERT_TRUE( db->table("table") == tbl );
+        ASSERT_TRUE( db->table("table1") == NULL );
+        ASSERT_TRUE( db->table("table2") == NULL );        
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+	}
+
+    void test_snapshot_change_objects()
+	{
+	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		sad::db::Database * db = new sad::db::Database();
+		db->setFactory(f);
+
+		sad::Renderer r;
+		r.addDatabase("", db);
+
+        // Fill initial data for snapshots
+        sad::db::Table* tbl = new sad::db::Table();
+        db->addTable("table", tbl);
+
+        Mock3* mock1 = new Mock3();
+        mock1->setIdC(22);
+        mock1->setObjectName("m1");
+
+        Mock3* mock2 = new Mock3();
+        mock2->setIdC(23);
+        mock2->setObjectName("m2");
+        tbl->add(mock1);
+        tbl->add(mock2);
+        db->saveSnapshot();
+
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+
+        // Change database, altering tables. Check that objects will not exists  
+        mock2->setId(25);
+        tbl->remove(mock1);
+        Mock3* mock3 = new Mock3();
+        mock3->setIdC(24);
+        mock3->setObjectName("m3");
+        tbl->add(mock3);
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+        ASSERT_TRUE( mock2->id_c() == 25 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m3") != NULL );
+        
+        // Restore database and check, that everything is fine
+        db->restoreSnapshot();
+
+        ASSERT_TRUE( db->table("table") == tbl );
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") != NULL );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+        ASSERT_TRUE( mock2->id_c() == 23 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m3") == NULL );
+	}
+
+    void test_snapshot_reset_objects()
+	{
+	    sad::db::ObjectFactory* f = new sad::db::ObjectFactory();
+		f->add<Mock3>("Mock3",  new sad::db::schema::Schema());
+
+		sad::db::Database * db = new sad::db::Database();
+		db->setFactory(f);
+
+		sad::Renderer r;
+		r.addDatabase("", db);
+
+        // Fill initial data for snapshots
+        sad::db::Table* tbl = new sad::db::Table();
+        db->addTable("table", tbl);
+
+        Mock3* mock1 = new Mock3();
+        mock1->setIdC(22);
+        mock1->setObjectName("m1");
+
+        Mock3* mock2 = new Mock3();
+        mock2->setIdC(23);
+        mock2->setObjectName("m2");
+        tbl->add(mock1);
+        tbl->add(mock2);
+        db->saveSnapshot();
+
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+
+        // Change database, altering tables. Check that objects will not exists  
+        mock1->setId(32);
+        mock2->setId(34);
+
+        
+        // Restore database and check, that everything is fine
+        db->restoreSnapshot();
+
+        ASSERT_TRUE( db->table("table") == tbl );
+        ASSERT_TRUE( db->objectByName<Mock3>("m1") == mock1 );
+        ASSERT_TRUE( mock1->id_c() == 22 );
+        ASSERT_TRUE( db->objectByName<Mock3>("m2") == mock2 );
+        ASSERT_TRUE( mock2->id_c() == 23 );
+	}
 				
 } _sad_db_database_test;
