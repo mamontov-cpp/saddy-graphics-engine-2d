@@ -155,6 +155,11 @@ void sad::Scene::render()
   performQueuedActions();
 }
 
+unsigned int sad::Scene::cachedSceneLayer() const
+{	
+	return m_cached_layer;
+}
+
 unsigned int sad::Scene::sceneLayer() const
 {
 	if (m_renderer)

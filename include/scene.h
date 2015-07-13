@@ -102,7 +102,11 @@ public:
 	{
 		return m_active;
 	}
-	/*! Returns big scene layer for scene
+    /*! Returns cached scene layer parameter for scene
+		\return scene layer
+	 */
+	unsigned int cachedSceneLayer() const;
+	/*! Returns scene layer for scene
 		\return scene layer
 	 */
 	unsigned int sceneLayer() const;
