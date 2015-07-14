@@ -29,6 +29,10 @@ public:
         \return sound object (or NULL, if sound is null or failed to play)
      */
     ::irrklang::ISound* play2D(sad::irrklang::Sound* sound, double volume, bool looped = true);
+    /*! Sets a volume for current playing sound
+        \param[in] volume a volume parameter
+     */
+    void setVolume(double volume);
 protected:
     /*! Current playing music (source)
      */

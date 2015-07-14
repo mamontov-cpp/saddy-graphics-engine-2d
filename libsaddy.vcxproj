@@ -278,6 +278,7 @@
     <ClInclude Include="include\classmetadatacastfunction.h" />
     <ClInclude Include="include\classmetadatacontainer.h" />
     <ClInclude Include="include\closure.h" />
+    <ClInclude Include="include\db\dbtypedlink.h" />
     <ClInclude Include="include\equalto.h" />
     <ClInclude Include="include\font.h" />
     <ClInclude Include="include\formattedlabel.h" />

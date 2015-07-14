@@ -1514,5 +1514,8 @@
     <ClInclude Include="include\animations\animationssimplemovement.h">
       <Filter>Заголовочные файлы\animations</Filter>
     </ClInclude>
+    <ClInclude Include="include\db\dbtypedlink.h">
+      <Filter>Заголовочные файлы\db</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
