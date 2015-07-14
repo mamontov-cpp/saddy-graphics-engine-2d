@@ -86,6 +86,27 @@ public:
 		\param[out] o objects
 	 */
 	virtual void objects(sad::Vector<sad::db::Object*> & o);
+    /*! Fetches objects of specified type from table
+        \param[out] o objects
+     */
+    template<
+        typename T
+    >
+    void objectsOfType(sad::Vector<T*> & o)
+    {
+        sad::db::TypeName<T>::init();
+        sad::String type_name = (sad::db::TypeName<T>::name());
+        o.clear();
+        for(sad::Hash<unsigned long long, sad::db::Object*>::iterator it = m_objects_by_minorid.begin(); 
+		it != m_objects_by_minorid.end();
+		++it)
+	    {
+		   if (it.value()->isInstanceOf(type_name))
+		   {
+		       o << static_cast<T*>(it.value());
+		   }
+	    }
+    }
 	/*! Changes object name in hash table to make container consistend
 		\param[in] o object
 		\param[in] oldname old name of object
