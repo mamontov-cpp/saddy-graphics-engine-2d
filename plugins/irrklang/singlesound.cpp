@@ -33,3 +33,10 @@ sad::irrklang::SingleSound::SingleSound()
     return m_current_music;
 }
 
+void sad::irrklang::SingleSound::setVolume(double volume)
+{
+    if (m_current_music)
+    {
+        m_current_music->setVolume(volume);        
+    }
+}
