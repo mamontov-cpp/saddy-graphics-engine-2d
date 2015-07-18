@@ -889,6 +889,7 @@ void sad::Renderer::removeNow(sad::Scene * s)
 {
 	if (s)
 	{
+        s->clearRenderer();
 		s->delRef();
 	}
 	m_scenes.removeAll(s);
@@ -898,6 +899,7 @@ void sad::Renderer::clearNow()
 {
 	for(unsigned int i = 0; i < m_scenes.size(); i++)
 	{
+        m_scenes[i]->clearRenderer();
 		m_scenes[i]->delRef();
 	}
 	m_scenes.clear();

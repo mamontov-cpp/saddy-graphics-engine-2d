@@ -60,6 +60,7 @@ void sad::animations::Animations::removeNow(sad::animations::Process* o)
         );
         if (it != m_list.end())
         {
+            o->cancel(this);
 		    o->removedFromPipeline();
 		    m_list.erase(it);
         }
@@ -70,6 +71,7 @@ void sad::animations::Animations::clearNow()
 {
 	for(size_t i = 0; i < m_list.size(); i++)
 	{
+        m_list[i]->cancel(this);		    
 		m_list[i]->removedFromPipeline();
 	}
 	m_list.clear();

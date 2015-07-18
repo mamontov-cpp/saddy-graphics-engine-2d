@@ -428,7 +428,7 @@ void sad::animations::Instance::addedToPipeline()
 }
 
 void sad::animations::Instance::removedFromPipeline()
-{
+{   
 	this->delRef();
 }
 

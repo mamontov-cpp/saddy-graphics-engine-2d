@@ -44,6 +44,9 @@ public:
 		\param[in] renderer renderer part
 	 */
 	void setRenderer(sad::Renderer * renderer);
+    /*! Clears renderer, without resetting it for some nodes
+     */
+    void clearRenderer();
 	/*! Returns a renderer from scene
 		\return renderer from scene
 	 */

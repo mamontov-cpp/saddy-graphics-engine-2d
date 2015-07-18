@@ -71,6 +71,10 @@ void sad::Scene::setRenderer(sad::Renderer * renderer)
 		m_layers[i]->rendererChanged();
 }
 
+void sad::Scene::clearRenderer()
+{
+    m_renderer = NULL;
+}
 
 sad::Camera & sad::Scene::camera()
 {
