@@ -22,7 +22,7 @@ class PtrHash: public sad::Hash<Key, T *>
 	 ~PtrHash()
 	 {
 		typename sad::PtrHash<Key, T>::iterator it = this->begin();
-		for(it; it != this->end(); it++)
+		for(it; it != this->end(); ++it)
 		{
 			delete it.value();
 		}
