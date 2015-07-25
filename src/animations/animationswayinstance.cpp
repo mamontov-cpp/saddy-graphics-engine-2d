@@ -152,6 +152,7 @@ void sad::animations::WayInstance::start(sad::animations::Animations* animations
 		this->processTime(animations, m_start_time);
         m_timer.start();
         m_started = true;
+        fireOnStartCallbacks();
     }
     else
     {
@@ -216,7 +217,7 @@ void sad::animations::WayInstance::checkIfValid(sad::animations::Animations* ani
 
 	if (w)
 	{
-		if (w && o)
+		if (o)
 		{
 			m_valid = o->getProperty<sad::Rect2D>("area").exists() && !sad::is_fuzzy_zero(w->totalTime());
 		}

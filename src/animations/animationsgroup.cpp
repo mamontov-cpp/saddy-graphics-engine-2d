@@ -255,6 +255,10 @@ void sad::animations::Group::process(sad::animations::Animations* animations)
 {
 	if (finished())
 	{
+        if (!m_looped)
+        {
+            fireOnStartCallbacks();
+        }
 		if (m_started || m_looped)
 		{
 			clearFinished();
@@ -324,6 +328,10 @@ void  sad::animations::Group::addCallbackOnEnd(sad::animations::Callback* c)
     m_callbacks_on_end << c;
 }
 
+void sad::animations::Group::addCallbackOnStart(sad::animations::Callback* c)
+{
+    m_callbacks_on_start << c;
+}
 // =========================== PROTECTED METHODS ===========================
 
 void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*> & result)
@@ -435,7 +443,7 @@ void sad::animations::Group::copyState(const sad::animations::Group& o)
 	{
 		m_referenced[i]->addRef();
 	}
-
+    // Copy end callbacks
     for(size_t i = 0; i < m_callbacks_on_end.size(); i++)
     {
         delete m_callbacks_on_end[i];
@@ -444,5 +452,23 @@ void sad::animations::Group::copyState(const sad::animations::Group& o)
     for(size_t i = 0; i < o.m_callbacks_on_end.size(); i++)
     {
         m_callbacks_on_end << o.m_callbacks_on_end[i]->clone();
+    }
+    // Copy start callbacks
+     for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
+    {
+        delete m_callbacks_on_start[i];
+    }
+    m_callbacks_on_start.clear();
+    for(size_t i = 0; i < o.m_callbacks_on_start.size(); i++)
+    {
+        m_callbacks_on_start << o.m_callbacks_on_start[i]->clone();
+    }
+}
+
+void sad::animations::Group::fireOnStartCallbacks()
+{
+    for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
+    {
+        m_callbacks_on_start[i]->invoke();        
     }
 }

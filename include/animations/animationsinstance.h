@@ -370,6 +370,9 @@ protected:
         \param[in] o instance        
      */
     void copyState(const sad::animations::Instance& o);
+    /*! Fires callbacks on start of instance
+     */
+    void fireOnStartCallbacks();
     /*! A linked object
      */
     sad::db::Link m_object;

@@ -595,10 +595,7 @@ void sad::animations::Instance::start(sad::animations::Animations* animations)
         a->setState(this, m_start_time);
         m_timer.start();
         m_started = true;
-        for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
-        {
-            m_callbacks_on_start[i]->invoke();        
-        }
+        fireOnStartCallbacks();
     }
     else
     {
@@ -708,5 +705,13 @@ void sad::animations::Instance::copyState(const sad::animations::Instance& o)
     for(size_t i = 0; i < o.m_callbacks_on_start.size(); i++)
     {
         m_callbacks_on_start << o.m_callbacks_on_start[i]->clone();
+    }
+}
+
+void sad::animations::Instance::fireOnStartCallbacks()
+{
+    for(size_t i = 0; i < m_callbacks_on_start.size(); i++)
+    {
+        m_callbacks_on_start[i]->invoke();        
     }
 }

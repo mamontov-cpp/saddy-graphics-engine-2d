@@ -40,6 +40,7 @@
 #pragma once
 #endif
 
+#include <stddef.h>
 #include <limits.h>
 
 // For Visual Studio 6 in C++ mode and for many Visual Studio versions when
@@ -111,6 +112,8 @@ typedef uint32_t  uint_fast32_t;
 typedef uint64_t  uint_fast64_t;
 
 // 7.18.1.4 Integer types capable of holding object pointers
+// DO NOT USE! stddef.h is here
+/*
 #ifdef _WIN64 // [
    typedef signed __int64    intptr_t;
    typedef unsigned __int64  uintptr_t;
@@ -118,6 +121,7 @@ typedef uint64_t  uint_fast64_t;
    typedef _W64 signed int   intptr_t;
    typedef _W64 unsigned int uintptr_t;
 #endif // _WIN64 ]
+*/
 
 // 7.18.1.5 Greatest-width integer types
 typedef int64_t   intmax_t;

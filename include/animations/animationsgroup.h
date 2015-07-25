@@ -119,12 +119,12 @@ public:
 	/*! Called, when process is removed from pipeline
 	 */
 	virtual void removedFromPipeline();
-    /*! Adds new callback in animation instance, which should be called,
-        when finished c callback
+    /*! Adds new callback in animation group, which should be called,
+        when group is done playing
         \param[in] c
      */
     void addCallbackOnEnd(sad::animations::Callback* c);
-    /*! Adds a callback, which should be called on end
+    /*! Adds a callback, which should be called, when group is done playing
         \param[in] f function
      */
     template<typename _Fun>
@@ -132,7 +132,7 @@ public:
     {
         addCallbackOnEnd(new sad::animations::FunctionCall<_Fun>(f));
     }
-    /*! Adds a callback, which should be called on end
+    /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
         \param[in] m method
      */
@@ -141,7 +141,7 @@ public:
     {
         addCallbackOnEnd(new sad::animations::MethodCall0<_Object, _Method>(o, m));
     }
-    /*! Adds a callback, which should be called on end
+    /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
         \param[in] m method
         \param[in] a argument
@@ -151,7 +151,7 @@ public:
     {
         addCallbackOnEnd(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
     }
-    /*! Adds a callback, which should be called on end
+    /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
         \param[in] m method
         \param[in] a1 first argument
@@ -162,7 +162,7 @@ public:
     {
         addCallbackOnEnd(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
     }
-    /*! Adds a callback, which should be called on end
+    /*! Adds a callback, which should be called, when group is done playing
         \param[in] o object
         \param[in] m method
         \param[in] a1 first argument
@@ -173,6 +173,61 @@ public:
     void end(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
     {
         addCallbackOnEnd(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
+    }
+    /*! Adds new callback in animation group, which should be called,
+        when group is started being played
+        \param[in] c a new callback
+     */
+    void addCallbackOnStart(sad::animations::Callback* c);
+    /*! Adds a callback, which should be called, when group is started being played
+        \param[in] f function
+     */
+    template<typename _Fun>
+    void start(_Fun f)
+    {
+        addCallbackOnStart(new sad::animations::FunctionCall<_Fun>(f));
+    }
+    /*! Adds a callback, which should be called, when group is started being played
+        \param[in] o object
+        \param[in] m method
+     */
+    template<typename _Object, typename _Method>
+    void start(_Object* o, _Method m)
+    {
+        addCallbackOnStart(new sad::animations::MethodCall0<_Object, _Method>(o, m));
+    }
+    /*! Adds a callback, which should be called, when group is started being played
+        \param[in] o object
+        \param[in] m method
+        \param[in] a argument
+     */
+    template<typename _Object, typename _Method, typename _Arg>
+    void start(_Object* o, _Method m, const _Arg& a)
+    {
+        addCallbackOnStart(new sad::animations::MethodCall1<_Object, _Method, _Arg>(o, m, a));
+    }
+    /*! Adds a callback, which should be called, when group is started being played
+        \param[in] o object
+        \param[in] m method
+        \param[in] a1 first argument
+        \param[in] a2 second argument
+     */
+    template<typename _Object, typename _Method, typename _Arg1, typename _Arg2>
+    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2)
+    {
+        addCallbackOnStart(new sad::animations::MethodCall2<_Object, _Method, _Arg1, _Arg2>(o, m, a1, a2));
+    }
+    /*! Adds a callback, which should be called, when group is started being played
+        \param[in] o object
+        \param[in] m method
+        \param[in] a1 first argument
+        \param[in] a2 second argument
+        \param[in] a3 third argument
+     */
+    template<typename _Object, typename _Method, typename _Arg1, typename _Arg2, typename _Arg3>
+    void start(_Object* o, _Method m, const _Arg1& a1,const _Arg2& a2, const _Arg3& a3)
+    {
+        addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
 protected:
 	 /*! Immediately adds an object to container
@@ -197,6 +252,9 @@ protected:
          \param[in] o group
       */
      void copyState(const sad::animations::Group& o);
+     /*! Fires callbacks on start for animation groups
+      */
+     void fireOnStartCallbacks();
 	 /*! A links for instances
 	  */
 	 sad::Vector<sad::db::Link> m_instance_links;
@@ -215,8 +273,11 @@ protected:
      /*! A cached parent animations to made cancelling possible
       */
      sad::animations::Animations* m_parent;
-     /*! A callbacks for ending an instance
-     */
+     /*! A callbacks, that should be called, when group starts being played
+      */
+    sad::PtrVector<sad::animations::Callback> m_callbacks_on_start;
+     /*! A callbacks, that should be called, when group stops being played
+      */
     sad::PtrVector<sad::animations::Callback> m_callbacks_on_end;
 };
 
