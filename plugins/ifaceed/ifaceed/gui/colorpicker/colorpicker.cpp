@@ -261,7 +261,7 @@ void gui::colorpicker::ColorPicker::setPalette(const QList<QList<QColor> > & pal
 	}
     m_palette->update();
 
-	QTimer::singleShot(0, this, SLOT(setPaletteSelection()));
+	this->setPaletteSelection();
 	emit selectedColorChanged(palette[0][0]);
 }
 
