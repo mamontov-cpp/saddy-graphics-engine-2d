@@ -55,7 +55,19 @@ protected:
         \param[in] e event
 	 */
     void resizeEvent(QResizeEvent* e);
-	/*! Returns text under cursor
+    /*! Handles key press event, indenting or unindenting selection if needed
+        \param[in] e event
+     */
+    virtual void keyPressEvent(QKeyEvent* e);
+    /*! Indents selection, using cursor
+        \param[in] cursor a cursor
+     */
+    void indentSelection(QTextCursor& cursor);
+    /*! Unindents selection, using cursor
+        \param[in] cursor a cursor
+     */
+    void unindentSelection(QTextCursor& cursor);
+    /*! Returns text under cursor
 		\return text under cursor
 	 */
 	virtual QString textUnderCursor() const;

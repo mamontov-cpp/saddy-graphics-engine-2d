@@ -9,6 +9,7 @@
 #include <QTextBlock>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
+#include <QKeyEvent>
 
 #include <algorithm>
 
@@ -215,6 +216,72 @@ void gui::codeedit::CodeEdit::resizeEvent(QResizeEvent *e)
     m_line_number_area->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
+void gui::codeedit::CodeEdit::keyPressEvent(QKeyEvent* e)
+{
+    bool handled = false;
+    if (e->key() == Qt::Key_Tab)
+    {
+        QTextCursor cursor = textCursor();
+        if (cursor.hasSelection())
+        {
+            handled = true;
+            if (e->modifiers() & Qt::ControlModifier)
+            {
+                unindentSelection(cursor);
+            }
+            else
+            {
+                indentSelection(cursor);
+            }
+        }        
+    }
+    if (!handled)
+    {
+        this->gui::textedit::TextEdit::keyPressEvent(e);
+    }    
+}
+
+void gui::codeedit::CodeEdit::indentSelection(QTextCursor& cursor)
+{    
+    int startpos = cursor.selectionStart();
+    QString text = cursor.selectedText();
+    QStringList list = text.split(QChar::ParagraphSeparator);
+    for(size_t i = 0; i < list.size(); i++)
+    {
+        if (list[i].size() != 0)
+        {
+            list[i] = "    " + list[i];
+        }
+    }
+    text = list.join(QChar::ParagraphSeparator);
+    cursor.insertText(text);
+    cursor.setPosition(startpos),
+    cursor.setPosition(startpos + text.length(), QTextCursor::KeepAnchor);
+    this->setTextCursor(cursor);
+}
+
+void gui::codeedit::CodeEdit::unindentSelection(QTextCursor& cursor)
+{
+    int startpos = cursor.selectionStart();
+    QString text = cursor.selectedText();
+    QStringList list = text.split(QChar::ParagraphSeparator);
+    for(size_t i = 0; i < list.size(); i++)
+    {
+        if (list[i].startsWith("\t"))
+        {
+            list[i] = list[i].mid(1);
+        }
+        if (list[i].startsWith("    "))
+        {
+            list[i] = list[i].mid(4);
+        }
+    }
+    text = list.join(QChar::ParagraphSeparator);
+    cursor.insertText(text);
+    cursor.setPosition(startpos),
+    cursor.setPosition(startpos + text.length(), QTextCursor::KeepAnchor);
+    this->setTextCursor(cursor);
+}
 
 QString  gui::codeedit::CodeEdit::textUnderCursor() const
 {

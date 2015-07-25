@@ -48,6 +48,7 @@
 #include <freetype/font.h>
 
 #include <QFileDialog>
+#include <QHeaderView>
 #include <QStringListModel>
 #include <QLinkedList>
 #include <QSet>
