@@ -163,6 +163,13 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
             m_scripting->commonProperties()
         )
     );
+
+    // Set tab size to 4
+    QFont editor_font = ui.txtConsoleCode->currentFont();
+    const int tabStop = 4;  // 4 characters
+
+    QFontMetrics editor_font_width(editor_font);
+    ui.txtConsoleCode->setTabStopWidth(tabStop * editor_font_width.width(' '));
 }
 
 
