@@ -171,6 +171,10 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
 
     QFontMetrics editor_font_width(editor_font);
     ui.txtConsoleCode->setTabStopWidth(tabStop * editor_font_width.width(' '));
+
+    // Set background colors for palette
+    ui.cwColorStartingColor->setBackgroundColor(QColor(255, 0, 0));
+    ui.cwColorEndingColor->setBackgroundColor(QColor(255, 0, 0));
 }
 
 

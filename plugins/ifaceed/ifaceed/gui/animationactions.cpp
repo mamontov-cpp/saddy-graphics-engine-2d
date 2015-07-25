@@ -770,7 +770,8 @@ void gui::AnimationActions::colorChangeStartingColor()
 	gui::colorview::ColorView* view = m_panel->UI()->cwColorStartingColor; 
 	QColor oldvalue = view->backgroundColor();
 	AColorDialog dlg;
-	dlg.setColorPalette(m_panel->colorPalette());
+    QList<QList<QColor> > palette = m_panel->colorPalette();
+ 	dlg.setColorPalette(palette);
 	dlg.setSelectedColor(oldvalue);
 	
 	if (dlg.exec() == QDialog::Accepted)

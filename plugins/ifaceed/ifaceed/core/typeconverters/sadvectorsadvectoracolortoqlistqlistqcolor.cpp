@@ -19,12 +19,14 @@ core
 		dest << QList<QColor>();
 		for(size_t j = 0; j < src[i].size(); j++)
 		{
-			dest[i] << QColor(
+			QColor result = QColor(
 				src[i][j].r(),
 				src[i][j].g(),
 				src[i][j].b(),
 				255 - src[i][j].a()
 			);
+            assert( result.isValid() );
+            dest[i] << result;
 		}
 	}
 }
