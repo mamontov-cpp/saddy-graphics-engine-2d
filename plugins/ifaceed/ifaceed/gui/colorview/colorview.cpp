@@ -15,6 +15,7 @@ gui::colorview::ColorView::~ColorView()
 void gui::colorview::ColorView::setBackgroundColor(const QColor& c)
 {
 	 m_background_color = c;
+     this->update();
 }
 
 const QColor& gui::colorview::ColorView::backgroundColor() const
