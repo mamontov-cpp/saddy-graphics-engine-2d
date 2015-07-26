@@ -24,14 +24,7 @@ sad::String::String(const std::string & o) :  std::string(o)
 {
  
 }
-sad::String::~String()
-{
 
-}
-
-//----Getters-------------------------------
-char * sad::String::data()   const {return const_cast<char*>(this->c_str());}
-bool   sad::String::empty()  const {return this->length() == 0;}
 //------------------------------------------
 
 sad::String & sad::String::operator<<(char c)
@@ -83,7 +76,10 @@ sad::String & sad::String::operator<<(const sad::String & o)
 	return *this;
 }
 
-sad::StringList sad::String::split(const char * delimiters) const
+sad::StringList sad::String::split(
+    const char * delimiters,
+    sad::String::SplitBehaviour b
+) const
 {
   sad::StringList result;
   sad::String buffer;
@@ -92,7 +88,7 @@ sad::StringList sad::String::split(const char * delimiters) const
 	char cur = (*this)[i];
 	if (strrchr(delimiters,cur) != NULL)
 	{
-		if (buffer.empty() == false)
+		if (buffer.empty() == false || b == sad::String::KEEP_EMPTY_PARTS)
 			result << buffer;
 		buffer.clear();
 	}
@@ -105,10 +101,13 @@ sad::StringList sad::String::split(const char * delimiters) const
       result << buffer;
   return result;
 }
-sad::StringList sad::String::split(char delimiter) const
+sad::StringList sad::String::split(
+    char delimiter,
+    sad::String::SplitBehaviour b
+) const
 {
 	char s[2]={delimiter, 0x0};
-	return split(s);
+	return split(s, b);
 }
 
 sad::String  sad::String::getLastCharacters(long i) const

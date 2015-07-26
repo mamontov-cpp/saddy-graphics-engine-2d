@@ -8,7 +8,6 @@
 #pragma once
 #include "sadvector.h"
 #include <string>
-#include <iostream>
 
 namespace sad
 {
@@ -24,17 +23,18 @@ typedef sad::Vector<sad::String> StringList;
 */
 class String: public std::string
 {
- private:
-	     /*! It compares symbols it by priority on russian language.
-			 The biggest are big latin symbols
-             then go other symbols, like small latin symbols, locales and numerics.
-			 \param[in] c1 first char
-			 \param[in] c2 second char
-			 \return false if c1 is bigger than c2 by priority or code
-		 */
-		 bool cmpchar(char c1,char c2) const;
- public:
-
+public:
+        /*! Settings for splitting parts of string
+         */
+        enum SplitBehaviour
+        {
+            /*! Keep empty parts of string
+             */
+            KEEP_EMPTY_PARTS,
+            /*! Omits empty parts of string
+             */
+            OMIT_EMPTY_PARTS
+        };
          String();                               //!< Default constructor.
 	     /*! Creates a string by copying the string, addressed by pointer.
 		     \param[in] _p address of string
@@ -53,23 +53,28 @@ class String: public std::string
 		     \param[in] o other string
 		 */
 		 String(const std::string & o);
-	     ~String();                              //!< Destructor, which cleans a string.
-		 //Methods
-		 bool empty() const;                      //!< Detects emptyness of string.
 		 /*! Removes a symbol at position
              \param[in] i position of symbol
 		 */
 		 void remove(long i);
 		 /*! Splits a string by delimiter, returning a list of strings
 		     \param[in] delimiter delimiter char, removing empty strings between two delimiters
+             \param[in] b behaviour for splitting a string
 			 \return list of strings as a result of splitting
 		 */
-		 sad::StringList split(char delimiter) const;
+		 sad::StringList split(
+             char delimiter,
+             sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS
+         ) const;
 		 /*! Splits a string by delimiters, returning a list of strings
 		     \param[in] delimiters delimiter char, removing empty strings between two delimiters
+             \param[in] b behaviour for splitting a string
 			 \return list of strings as a result of splitting
 		 */
-		 sad::StringList split(const char * delimiters) const;
+		 sad::StringList split(
+             const char * delimiters, 
+             sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS
+         ) const;
 		 /*!  Compares two strings, firstly by length, secondly symbol-wise
 		      \sa string::cmpchar
 			  \param[in] o other string
@@ -223,8 +228,6 @@ class String: public std::string
 		 //Trivial
 		 void removeSpaces();                                  //!< Removes all spaces from a string
 		 void trimSpaces();                                    //!< Removes a spaces from begin and end of string
-		 //Getters
-	     char * data() const;                 //!< Returns a pointer to array
 		 /*! Converts number to string.
 		 *   Supports 8,10,16 radixes.
 		 *   \param[in] a       numeric to convert
@@ -260,6 +263,15 @@ class String: public std::string
 		 /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
 		  */
 		 void trim();
+private:
+	     /*! It compares symbols it by priority on russian language.
+			 The biggest are big latin symbols
+             then go other symbols, like small latin symbols, locales and numerics.
+			 \param[in] c1 first char
+			 \param[in] c2 second char
+			 \return false if c1 is bigger than c2 by priority or code
+		 */
+		 bool cmpchar(char c1,char c2) const;
 };
 
 /*! Joins a list into a string with separator sep.

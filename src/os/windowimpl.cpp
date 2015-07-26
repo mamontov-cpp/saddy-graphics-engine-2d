@@ -1055,7 +1055,7 @@ const sad::String & sad::os::WindowImpl::title() const
 #ifdef WIN32	
 	int length = GetWindowTextLengthA(m_handles.WND);
 	impl->m_window_title.resize((sad::String::size_type)(length + 1));
-	GetWindowTextA(m_handles.WND, impl->m_window_title.data(), length + 1);
+	GetWindowTextA(m_handles.WND, const_cast<char*>(impl->m_window_title.data()), length + 1);
 #endif
 
 #ifdef X11

@@ -84,7 +84,7 @@ void sad::freetype::FixedSizeFont::render(
 
 	sad::String tmp = s;
 	tmp.removeAllOccurences("\r");
-	sad::StringList list = tmp.split("\n");
+	sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
 
 	bool previous = false;
 	unsigned char prevchar = 0;
@@ -231,7 +231,7 @@ sad::Size2D sad::freetype::FixedSizeFont::size(
 {
 	sad::String tmp = s;
 	tmp.removeAllOccurences("\r");
-	sad::StringList list = tmp.split("\n");
+	sad::StringList list = tmp.split("\n", sad::String::KEEP_EMPTY_PARTS);
 
 	bool previous = false;
 	unsigned char prevchar = 0;
