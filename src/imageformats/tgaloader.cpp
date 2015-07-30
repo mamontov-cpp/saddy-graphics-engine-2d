@@ -276,5 +276,5 @@ void sad::imageformats::TGALoader::flip(sad::Texture * texture)
 			memcpy(begin2, flipbuffer, rowsize * sizeof(sad::uchar));
 		}
 	}
-	delete flipbuffer;
+	delete[] flipbuffer;
 }
