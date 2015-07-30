@@ -16,7 +16,6 @@
 
 #include <3rdparty/picojson/valuetotype.h>
 
-#include <errno.h>
 
 static const unsigned char texdata[16384]=
 {
@@ -29,7 +28,7 @@ static const unsigned int cnt=16384;
 DECLARE_SOBJ_INHERITANCE(sad::Texture, sad::resource::Resource);
 
 sad::Texture::Texture() 
-: m_renderer(NULL), Bpp(32), Width(0), Height(0), Id(0), OnGPU(false)
+: Bpp(32), Width(0), Height(0), Id(0), OnGPU(false), m_renderer(NULL)
 {
 
 }
@@ -82,7 +81,7 @@ void sad::Texture::upload()
 		}
 	}
 	// Create ID of texture and bind it
-    glGenTextures(1, (GLuint *)&Id);
+    glGenTextures(1, static_cast<GLuint *>(&Id));
 	glBindTexture(GL_TEXTURE_2D, Id);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT,1);	
@@ -200,7 +199,7 @@ bool sad::Texture::load(const sad::WString & filename, sad::Renderer * r)
 	char * tmp=new char[2*filename.length()+2];
 	wcstombs(tmp,filename.data(),2*filename.length()+2);
 	sad::String tt(tmp);
-	delete tmp;
+	delete[] tmp;
 	return load(tt, r);
 }
 
@@ -250,13 +249,13 @@ void sad::Texture::setAlpha(sad::uchar a, const sad::Color & clr,const sad::Rect
 	{
 		if (tmp[i].x() < 0) tmp[i].setX(0);
 		if (tmp[i].y() < 0) tmp[i].setY(0);
-		if (tmp[i].x() > (int)(width()-1)) tmp[i].setX(this->width()-1);
-		if (tmp[i].y() > (int)(height()-1)) tmp[i].setY(this->height()-1);
+		if (tmp[i].x() > static_cast<int>(width()-1)) tmp[i].setX(this->width()-1);
+		if (tmp[i].y() > static_cast<int>(height()-1)) tmp[i].setY(this->height()-1);
 	}
-	int minx = (int)tmp[0].x();
-	int maxx = (int)tmp[2].x();
-	int miny = (int)tmp[0].y();
-	int maxy = (int)tmp[2].y();
+	int minx = static_cast<int>(tmp[0].x());
+	int maxx = static_cast<int>(tmp[2].x());
+	int miny = static_cast<int>(tmp[0].y());
+	int maxy = static_cast<int>(tmp[2].y());
 	if (maxx < minx)
 	{
 		std::swap(maxx, minx);
