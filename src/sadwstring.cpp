@@ -60,9 +60,9 @@ bool sad::WString::operator!=(const sad::WString & o) const
 {
 	return !(*this==o);
 }
-sad::Vector<sad::WString> sad::WString::split(const sad::WString & o)
+sad::Vector<sad::WString> sad::WString::split(const sad::WString & o,  sad::String::SplitBehaviour b)
 {
-	wchar_t * ptt=new wchar_t[this->length()+1];
+	wchar_t * ptt=new wchar_t[this->length() + 1];
 	wcscpy(ptt,this->c_str());
 	sad::Vector<sad::WString>  res;
 	wchar_t * last=ptt;
@@ -82,13 +82,13 @@ sad::Vector<sad::WString> sad::WString::split(const sad::WString & o)
 	res<<sad::WString(last);
 	for (size_t i=0;i<res.count();i++)
 	{
-		if (res[i].empty())
+		if (res[i].empty() || b != sad::String::KEEP_EMPTY_PARTS)
 		{
 		 res.removeAt(i);
 		 --i;
 		}
 	}
-	delete ptt;
+	delete[] ptt;
 	return res;
 }
 void sad::WString::removeFirst(const sad::WString & o)

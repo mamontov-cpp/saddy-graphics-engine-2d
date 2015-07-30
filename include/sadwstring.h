@@ -6,6 +6,7 @@
 */
 #pragma once
 #include "sadvector.h"
+#include "sadstring.h"
 #include <wchar.h>
 #include <stdlib.h>
 #include <string>
@@ -69,9 +70,10 @@ namespace sad
 		   bool operator!=(const WString & o) const;
 		   /*! Splits a wide string
 		       \param[in] o splitter
+               \param[in] b behaviour
 			   \return splitted parts
 		   */
-		   sad::Vector<WString> split(const WString & o);
+		   sad::Vector<sad::WString> split(const sad::WString & o, sad::String::SplitBehaviour b = sad::String::OMIT_EMPTY_PARTS);
 		   /*! Removes first occurence from a wide string
 		       \param[in] o other string
 		   */
