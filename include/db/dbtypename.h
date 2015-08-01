@@ -129,7 +129,7 @@ template<
 >
 struct IsSadObject
 {
-	static const int value = false;
+	static const bool value = false;
 };
 
 }
@@ -138,7 +138,7 @@ struct IsSadObject
 
 #ifndef  DECLARE_TYPE_AS_SAD_OBJECT_ENUM             
 #define DECLARE_TYPE_AS_SAD_OBJECT_ENUM(TYPE)        \
-namespace sad { namespace db{ template<> struct IsSadObject< TYPE > { static const int value = true; }; } }; 
+namespace sad { namespace db{ template<> struct IsSadObject< TYPE > { static const bool value = true; }; } }; 
 #endif
 
 #ifndef  DECLARE_TYPE_AS_SAD_OBJECT
