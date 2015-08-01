@@ -3,9 +3,14 @@
 #include <limits>
 
 sad::p2d::Weight::Weight(double value, bool finite) 
-: m_value(value), m_finite(finite)
+: m_finite(finite), m_value(value)
 {
 	
+}
+
+sad::p2d::Weight::~Weight()
+{
+    
 }
 
 bool sad::p2d::Weight::isInfinite() const

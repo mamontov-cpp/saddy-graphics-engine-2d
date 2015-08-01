@@ -36,6 +36,9 @@ public:
 	 /*! Creates zero force
 	  */
 	 inline Force() { m_alive = true; m_value = TickableDefaultValue<T>::zero(); }
+     /*! Could be inherited
+      */ 
+     virtual ~Force() { }
 	 /*! Creates a force with specific value
 		 \param[in] v value
 	  */

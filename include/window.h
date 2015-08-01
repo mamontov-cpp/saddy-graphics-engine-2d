@@ -33,7 +33,7 @@ public:
 	Window();
 	/*! Frees inner implementation pointer
 	 */
-	~Window();
+	virtual ~Window();
 
 	/*! Sets a linked renderer
 		\param[in] renderer linked renderer

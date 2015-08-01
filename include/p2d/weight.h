@@ -20,6 +20,9 @@ public:
 		\param[in] finite
 	 */
 	Weight(double value = 1.0, bool finite = true);
+    /*! This class could be inherited
+     */
+    virtual ~Weight();
 	/*! Determines, whether weight is infinite
 		\return true if infinite
 	 */
