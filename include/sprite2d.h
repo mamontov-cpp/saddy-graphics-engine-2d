@@ -1,5 +1,5 @@
 /*! \file sprite2d.h
-	\author HiddenSeeker
+	
 
 	Contains a definition of sprite in 2-dimensional space.
  */

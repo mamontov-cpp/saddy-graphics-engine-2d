@@ -1,5 +1,5 @@
 /*! \file    sadvector.h
-    \author  HiddenSeeker
+    \author  mamontov-cpp
 
 	\brief   Definition of Vector.
 

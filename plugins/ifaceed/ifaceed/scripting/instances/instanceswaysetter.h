@@ -1,5 +1,5 @@
 /*! \file instanceswaysetter.h
-	\author HiddenSeeker
+	
 
 	A setter for way for way animation instance
  */

@@ -1,5 +1,5 @@
 /*! \file scenenodesschemasetter.h
-    \author HiddenSeeker
+    
 
     Describes a setter for schema property of scene node
  */

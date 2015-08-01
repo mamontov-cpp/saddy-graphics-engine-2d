@@ -1,5 +1,5 @@
 /*! \file resource/resource.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Resource.
 

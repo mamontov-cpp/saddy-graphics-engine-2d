@@ -1,5 +1,5 @@
 /*! \file animationsresize.h
-	\author HiddenSeeker
+	
 
 	Describes an animation for resizing an object
  */

@@ -1,5 +1,5 @@
 /*! \file startscreenrain.h
-	\author HiddenSeeker
+	
 
 	Describes a rain in start screen
  */

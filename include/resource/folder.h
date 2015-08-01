@@ -1,5 +1,5 @@
 /*! \file resource/folder.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Folder.
 

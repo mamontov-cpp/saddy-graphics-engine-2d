@@ -1,5 +1,5 @@
 /*! \file keymouseconditions.h
-	\author HiddenSeeker
+	
 
 	Defines a special kind of conditions, which is used for checking for keycodes in  controls
  */

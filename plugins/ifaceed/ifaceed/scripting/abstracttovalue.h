@@ -1,5 +1,5 @@
 /*! \file abstracttovalue.h
-	\author HiddenSeeker
+	
 
 	Converts a scriptvalue to specific value
  */

@@ -1,5 +1,5 @@
 /*! \file classmetadatacastfunction.h
-	\author HiddenSeeker
+	
 
 	A function, that could perform user-defined cast from sad::Object from one real-type to sad::Object to other real-type.
 	Could be used to define getters or something

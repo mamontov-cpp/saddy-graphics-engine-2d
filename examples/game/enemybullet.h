@@ -1,5 +1,5 @@
 /*! \file enemybullet.h
-	\author HiddenSeeker
+	
 
 	Describes a bullet owned by enemy
  */

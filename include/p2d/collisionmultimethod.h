@@ -1,5 +1,5 @@
 /*! \file collisionmultimethod.h
-	\author HiddenSeeker
+	
 
 	Describes a collision multi-method, used to call
 	various type-dependent functions

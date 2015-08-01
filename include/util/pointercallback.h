@@ -1,5 +1,5 @@
 /*! \file pointercallback.h
-	\author HiddenSeeker
+	
 
 	Describes a template callback for calling on resources.
  */

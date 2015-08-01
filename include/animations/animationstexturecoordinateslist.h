@@ -1,5 +1,5 @@
 /*! \file animations/animationstexturecoordinateslist.h
-	\author HiddenSeeker
+	
 
 	An animation of changing texture coordinates, defined by their links in resource tree
 	is stored here.

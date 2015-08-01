@@ -1,5 +1,5 @@
 /*! \file changeflipx.h
-	\author HiddenSeeker
+	
 
 	Contents a function for changing "flipX" property
  */

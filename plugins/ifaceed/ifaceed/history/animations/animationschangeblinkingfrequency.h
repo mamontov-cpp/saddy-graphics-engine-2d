@@ -1,5 +1,5 @@
 /*! \file animationschangeblinkingfrequency.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes frequency of blinking
  */

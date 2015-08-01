@@ -1,5 +1,5 @@
 /*! \file circletohulltransformer.h
-	\author HiddenSeeker
+	
 
 	Defines a transformer for approximated transformation from circle to
 	convex hull

@@ -1,5 +1,5 @@
 /*! \file geometry3d.h
-	\author HiddenSeeker
+	
 
 	Describes an opetations in 3D space
  */

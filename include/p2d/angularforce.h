@@ -1,5 +1,5 @@
 /*! \file angularforce.h
-	\author HiddenSeeker
+	
 
 	Describes a angular force, acting on object
  */

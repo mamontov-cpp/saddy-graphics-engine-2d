@@ -1,5 +1,5 @@
 /*! \file animations/animationstexturecoordinatescontinuous.h
-	\author HiddenSeeker
+	
 
 	Here is defined animation, which interpolates texture coordinates from one rectangle
 	to another

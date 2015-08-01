@@ -1,5 +1,5 @@
 /*! \file spit.h
-    \author HiddenSeeker
+    
 
     Defines function for writing string data into file which should be opened, 
     where executable path is located

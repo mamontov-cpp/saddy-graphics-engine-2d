@@ -1,5 +1,5 @@
 /*! \file body.h
-	\author HiddenSeeker
+	
 
     Describes a body object
  */

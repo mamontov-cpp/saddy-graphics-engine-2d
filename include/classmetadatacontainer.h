@@ -1,5 +1,5 @@
 /*! \file classmetadatacontainer.h
-	\author HiddenSeeker
+	
 
 	Defines a container for class meta data
  */

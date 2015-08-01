@@ -1,5 +1,5 @@
 /*! \file animationsremovefromcomposite.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for remove other animations from a list of composite animation
  */

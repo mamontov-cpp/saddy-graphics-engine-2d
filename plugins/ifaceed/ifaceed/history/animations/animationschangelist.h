@@ -1,5 +1,5 @@
 /*! \file animationschangelist.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes list for any kind of animation
  */

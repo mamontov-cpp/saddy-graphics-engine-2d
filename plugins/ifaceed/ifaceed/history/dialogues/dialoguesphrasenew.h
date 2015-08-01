@@ -1,5 +1,5 @@
 /*! \file dialoguesphrasenew.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for adding a new phrase
  */

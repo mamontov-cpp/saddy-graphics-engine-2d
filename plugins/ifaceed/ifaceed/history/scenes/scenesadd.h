@@ -1,5 +1,5 @@
 /*! \file scenesadd.h
-	\author HiddenSeeker
+	
 
 	Describes a command, used to add an scene to scenes list
  */

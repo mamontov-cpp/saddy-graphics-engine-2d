@@ -1,5 +1,5 @@
 /*! \file instancesanimationdbsetter.h
-	\author HiddenSeeker
+	
 
 	A setter for animation from database
  */

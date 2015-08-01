@@ -1,5 +1,5 @@
 /*! \file animationactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to animations
  */

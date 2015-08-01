@@ -1,5 +1,5 @@
 /*! \file formattedlabel.h
-	\author HiddenSeeker
+	
 
 	Describes a label, which uses callbacks and formatting
 	for getting it's text up-to-date

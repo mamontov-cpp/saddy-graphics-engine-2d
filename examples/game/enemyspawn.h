@@ -1,5 +1,5 @@
 /*! \file enemyspawn.h
-	\author HiddenSeeker
+	
 
 	Describes an spawned enemy waves at specified times
  */

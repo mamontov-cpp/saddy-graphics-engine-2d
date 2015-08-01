@@ -1,5 +1,5 @@
 /*!  \file scenenodeschangeproperty.h
- *   \author HiddenSeeker
+ *   
  *
  *   Defines a command type, which describes change of property
  *   in scene node

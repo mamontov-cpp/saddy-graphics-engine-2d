@@ -1,5 +1,5 @@
 /*! \file loader.h
-	\author HiddenSeeker
+	
 
 	Defines a loader, which can load a texture from file stream,
 	using specified format.

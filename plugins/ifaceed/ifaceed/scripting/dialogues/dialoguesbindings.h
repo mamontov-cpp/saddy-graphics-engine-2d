@@ -1,5 +1,5 @@
 /*! \file dialoguesbindings.h
-    \author HiddenSeeker
+    
 
     A bindings for dialogues are listed here
  */

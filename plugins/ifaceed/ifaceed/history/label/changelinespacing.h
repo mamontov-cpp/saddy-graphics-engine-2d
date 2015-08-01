@@ -1,5 +1,5 @@
 /*! \file changelinespacing.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change scene label's line spacing
  */

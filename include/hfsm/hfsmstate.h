@@ -1,5 +1,5 @@
 /*! \file   hfsmstate.h
-	\author HiddenSeeker
+	
 
 	A state for hierarchical finite state machine
  */

@@ -1,5 +1,5 @@
 /*! \file logtarget.h
-	\author HiddenSeeker
+	
 
 	Describes a  basic class, for all of objects, which can receive messages from the log,
 	performing writing them to file or console

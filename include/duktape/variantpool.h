@@ -1,5 +1,5 @@
 /*! \file variantpool.h
-    \author HiddenSeeker
+    
 
     Describes a pool for variants, which are identified by a very large number,
     stored as string.

@@ -1,5 +1,5 @@
 /*! \file scenenodeactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to scene node
  */

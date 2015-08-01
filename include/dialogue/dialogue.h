@@ -1,5 +1,5 @@
 /*! \file dialogue/dialogue.h
-	\author HiddenSeeker
+	
 	
 	Describes a dialogue as sequence of phrases
  */

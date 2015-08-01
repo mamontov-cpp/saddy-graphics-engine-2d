@@ -1,5 +1,5 @@
 /*! \file animationschangecameraoffset.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes camera offset for CameraShaking
  */

@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectposition.h
-	\author HiddenSeeker
+	
 
 	Defines a saved size as a saved object position
  */

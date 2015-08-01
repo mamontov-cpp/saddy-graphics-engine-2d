@@ -1,5 +1,5 @@
 /*! \file mindiffmetric.h
-    \author HiddenSeeker
+    
 
     Describes a metric which is described as a max(h1,h1)*(w2-w1), where h and w various parameters
  */

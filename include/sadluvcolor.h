@@ -1,5 +1,5 @@
 /*! \file   sadluvcolor.h
-	\author HiddenSeeker
+	
 
 	Describes color in CIE LUV color model.
 	See http://dcssrv1.oit.uci.edu/~wiedeman/cspace/me/infoluv.html for detail

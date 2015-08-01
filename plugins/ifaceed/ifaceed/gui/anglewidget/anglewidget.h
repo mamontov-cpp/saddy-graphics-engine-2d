@@ -1,5 +1,5 @@
 /*! \file anglewidget\anglewidget.h
-    \author HiddenSeeker
+    
 
     Describes a widget, which displays angle for an item
  */

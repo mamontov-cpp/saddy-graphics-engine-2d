@@ -1,5 +1,5 @@
 /*! \file acolor.h
-	\author HiddenSeeker
+	
 
 	A sad::AColor scriptable wrapper
  */

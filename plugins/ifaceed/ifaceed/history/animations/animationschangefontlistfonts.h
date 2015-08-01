@@ -1,5 +1,5 @@
 /*! \file animationschangefontlistfonts.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes font list for font list animation
  */

@@ -1,5 +1,5 @@
 /*! \file texturearray.h
-	\author HiddenSeeker
+	
 
 	Describes a list of textures, supporting uniqueness preservation and search by their names
  */

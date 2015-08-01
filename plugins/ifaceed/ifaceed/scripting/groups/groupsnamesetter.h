@@ -1,5 +1,5 @@
 /*! \file groupsnamesetter.h
-	\author HiddenSeeker
+	
 
 	A setter for name for animation group
  */

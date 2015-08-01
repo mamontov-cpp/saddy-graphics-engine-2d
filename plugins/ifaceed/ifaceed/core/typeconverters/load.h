@@ -1,5 +1,5 @@
 /*! \file load.h
-	\author HiddenSeeker
+	
 
 	Defines overloads for loading data
  */

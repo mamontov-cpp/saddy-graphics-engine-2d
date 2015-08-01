@@ -1,5 +1,5 @@
 /*! \file instancesobjectsetter.h
-	\author HiddenSeeker
+	
 
 	A setter for object for animation instance
  */

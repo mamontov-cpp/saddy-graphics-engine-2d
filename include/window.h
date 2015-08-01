@@ -1,5 +1,5 @@
 /*! \file window.h
-	\author HiddenSeeker
+	
 	
 	Describes a window, where rendering should be performed
  */ 

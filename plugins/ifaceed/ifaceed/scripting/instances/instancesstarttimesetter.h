@@ -1,5 +1,5 @@
 /*! \file instancesstarttimesetter.h
-	\author HiddenSeeker
+	
 
 	A setter for start time for animation instance
  */

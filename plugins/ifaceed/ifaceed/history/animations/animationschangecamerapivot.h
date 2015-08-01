@@ -1,5 +1,5 @@
 /*! \file animationschangecamerapivot.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes camera pivot for CameraRotation
  */

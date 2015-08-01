@@ -1,5 +1,5 @@
 /*! \file wayswaypointchange.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for changing a waypoint
  */

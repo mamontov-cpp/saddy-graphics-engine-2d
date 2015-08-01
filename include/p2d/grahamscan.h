@@ -1,5 +1,5 @@
 /*! \file grahamscan.h
-	\author HiddenSeeker
+	
 
 	Contains implementation of graham scan algorithm
 	for building a convex hull.

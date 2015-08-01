@@ -1,5 +1,5 @@
 /*! \file labelactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to label
  */

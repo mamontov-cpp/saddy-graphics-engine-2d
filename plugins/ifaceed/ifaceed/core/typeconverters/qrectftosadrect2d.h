@@ -1,5 +1,5 @@
 /*! \file qrectftosadrect2d.h
-    \author HiddenSeeker
+    
 
     Defines a converter from  QRectF to sad::Rect2D, used in conversion table
  */

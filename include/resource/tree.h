@@ -1,5 +1,5 @@
 /*! \file resource/tree.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Tree.
 

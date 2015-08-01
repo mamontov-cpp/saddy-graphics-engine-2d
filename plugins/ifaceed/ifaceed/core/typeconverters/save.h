@@ -1,5 +1,5 @@
 /*! \file save.h
-	\author HiddenSeeker
+	
 
 	Defines overloads for saving data
  */

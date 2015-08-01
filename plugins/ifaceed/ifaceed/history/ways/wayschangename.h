@@ -1,5 +1,5 @@
 /*! \file wayschangename.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change name of way
  */

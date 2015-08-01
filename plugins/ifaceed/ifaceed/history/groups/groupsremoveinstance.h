@@ -1,5 +1,5 @@
 /*! \file groupsremoveinstance.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs removing an instance from animation group
  */

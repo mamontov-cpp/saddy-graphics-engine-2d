@@ -1,5 +1,5 @@
 /*! \file resource/abstractlink.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class AbstractLink.
 

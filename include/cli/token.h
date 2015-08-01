@@ -1,5 +1,5 @@
 /*! \file token.h
-	\author HiddenSeeker
+	
 
 	Declares a simple token for parsing data
  */

@@ -1,5 +1,5 @@
 /*! \file changeflipy.h
-	\author HiddenSeeker
+	
 
 	Contents a function for changing "flipY" property
  */

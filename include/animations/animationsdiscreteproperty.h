@@ -1,5 +1,5 @@
 /*! \file animations/animationsdiscreteproperty.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of changing a discrete property
  */

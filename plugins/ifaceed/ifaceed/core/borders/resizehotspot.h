@@ -1,5 +1,5 @@
 /*! \file resizehotspot.h
-	\author HiddenSeeker
+	
 
 	Defines a hotspot for resizing elements in editor
  */

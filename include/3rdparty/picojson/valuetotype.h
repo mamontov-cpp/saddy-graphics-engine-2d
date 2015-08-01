@@ -1,5 +1,5 @@
 /*! \file valuetotype.h
-	\author HiddenSeeker
+	
 
 	A simple helper for converting a picojson::value to specific type
  */

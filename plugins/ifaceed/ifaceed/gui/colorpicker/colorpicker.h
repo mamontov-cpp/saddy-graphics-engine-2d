@@ -1,5 +1,5 @@
 /*! \file colorpicker\colorpicker.h
-	\author HiddenSeeker
+	
 
 	Describes a widget, which performs color picking
  */

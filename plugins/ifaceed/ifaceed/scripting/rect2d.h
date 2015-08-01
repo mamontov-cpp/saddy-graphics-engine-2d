@@ -1,5 +1,5 @@
 /*! \file rect2d.h
-	\author HiddenSeeker
+	
 
 	A sad::Rect2D scriptable wrapper
  */

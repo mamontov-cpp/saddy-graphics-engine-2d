@@ -1,5 +1,5 @@
 /*! \file wayswaypointnew.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for adding a waypoint to way
  */

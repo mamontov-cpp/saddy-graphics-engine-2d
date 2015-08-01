@@ -1,5 +1,5 @@
 /*! \file customschema.h
-	\author HiddenSeeker
+	
 
 	A custom schema for creating custom items for tree
  */

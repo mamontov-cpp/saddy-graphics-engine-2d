@@ -1,5 +1,5 @@
 /*! \file scriptinghelp.h
-	\author HiddenSeeker
+	
 
 	Describes a dialog for showing scripting help
  */

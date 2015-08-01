@@ -1,5 +1,5 @@
 /*! \file   refcountable.h
-	\author HiddenSeeker
+	
 	Declares a simple reference-countable object.
 */
 #pragma once

@@ -1,5 +1,5 @@
 /*!  \file animations/animationsparallel.h
-     \author HiddenSeeker
+     
 
      Defines a parallel animations as a list of animations, which
      are executed at the same time

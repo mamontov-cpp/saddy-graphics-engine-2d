@@ -1,5 +1,5 @@
 /*! \file treedblink.h
-    \author HiddenSeeker
+    
 
     Defines a link, which could either point to tree or to database
  */

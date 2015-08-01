@@ -1,5 +1,5 @@
 /*! \file playerbullet.h
-	\author HiddenSeeker
+	
 
 	Describes a bullet owned by player
  */

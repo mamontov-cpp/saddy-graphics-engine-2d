@@ -1,5 +1,5 @@
 /*! \file animationswaymoving.h
-	\author HiddenSeeker
+	
 
 	Describes an animation for moving an object
  */

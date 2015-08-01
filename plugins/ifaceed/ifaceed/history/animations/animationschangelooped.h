@@ -1,5 +1,5 @@
 /*! \file animationschangelooped.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes flag, which indicates, whether animation is looped
  */

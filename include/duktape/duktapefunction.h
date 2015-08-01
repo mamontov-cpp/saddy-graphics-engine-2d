@@ -1,5 +1,5 @@
 /*! \file duktapefunction.h
-    \author HiddenSeeker
+    
      
     Defines a simple defines for creating bindings for any kind of function
  */

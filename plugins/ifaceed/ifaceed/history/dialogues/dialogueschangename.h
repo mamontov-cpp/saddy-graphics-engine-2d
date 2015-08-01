@@ -1,5 +1,5 @@
 /*! \file dialogueschangename.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for changing name of dialogue
  */

@@ -1,5 +1,5 @@
 /*! \file groupschangename.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes name of animation group
  */

@@ -1,5 +1,5 @@
 /*! \file gridnode.h
-	\author HiddenSeeker
+	
 
 	Describes a basic grid node
  */

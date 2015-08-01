@@ -1,5 +1,5 @@
 /*! \file hfsmmachine.h
-	\author HiddenSeeker
+	
 
 	Includes definition of hierarchical finite state machine
  */

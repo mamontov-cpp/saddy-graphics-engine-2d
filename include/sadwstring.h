@@ -1,5 +1,5 @@
 /*! \file   sadwstring.h
-    \author HiddenSeeker
+    
 	\brief  Wide string definition
 	
 	A wide string definition is placed here

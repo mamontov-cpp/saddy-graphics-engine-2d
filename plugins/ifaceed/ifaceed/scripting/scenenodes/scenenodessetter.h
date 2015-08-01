@@ -1,5 +1,5 @@
 /*! \file scenenodessetter.h
-	\author HiddenSeeker
+	
 
 	Defines a generic setter for setting a common property
  */

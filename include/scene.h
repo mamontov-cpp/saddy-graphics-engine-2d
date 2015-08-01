@@ -1,5 +1,5 @@
 /*! \file   scene.h
-    \author HiddenSeeker
+    
     \brief  Here placed a scene files
 */
 #pragma once

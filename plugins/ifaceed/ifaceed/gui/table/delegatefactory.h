@@ -1,5 +1,5 @@
 /*! \file delegatefactory.h
-	\author HiddenSeeker
+	
 
 	A factory for creating delegates for types.
  */

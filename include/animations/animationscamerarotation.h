@@ -1,5 +1,5 @@
 /*! \file animationscamerarotation.h
-	\author HiddenSeeker
+	
 
 	Describes an animation for editing a camera rotation
  */

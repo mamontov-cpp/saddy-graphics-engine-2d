@@ -1,5 +1,5 @@
 /*! \file consoletarget.h
-	\author HiddenSeeker
+	
 
 	Describes a target, which writes a log messages to console
  */ 

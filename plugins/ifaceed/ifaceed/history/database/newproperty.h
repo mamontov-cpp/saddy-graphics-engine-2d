@@ -1,5 +1,5 @@
 /*! \file newproperty.h
-	\author HiddenSeeker
+	
 
 	A command of new database property
  */

@@ -1,5 +1,5 @@
 /*! \file history.h
-	\author HiddenSeeker
+	
 
 	Describes an editor history
  */

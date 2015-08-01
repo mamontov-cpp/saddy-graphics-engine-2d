@@ -1,5 +1,5 @@
 /*! \file animationsfile.h
-	\author HiddenSeeker
+	
 
 	Describes a file, which contains a list of animations
  */

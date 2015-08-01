@@ -1,5 +1,5 @@
 /*! \file intdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains int values
  */

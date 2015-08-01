@@ -1,5 +1,5 @@
 /*! \file filetarget.h
-	\author HiddenSeeker
+	
 
 	Describes a target, which writes all formatted messages into a file.
  */

@@ -1,5 +1,5 @@
 /*! \file resourcetreewidget\resourcetreewidget.h
-	\author HiddenSeeker
+	
 
 	Describes a widget, which displays a resource tree from a renderer, by it's value
  */

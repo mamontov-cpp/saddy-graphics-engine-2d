@@ -1,5 +1,5 @@
 /*! \file line.h
-	\author HiddenSeeker
+	
 
 	Defines a line as a collision shape
  */

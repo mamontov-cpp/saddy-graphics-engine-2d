@@ -1,5 +1,5 @@
 /*! \file sadpoint2ddelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains sad::Point2D values
  */

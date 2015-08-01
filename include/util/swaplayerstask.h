@@ -1,5 +1,5 @@
 /*! \file swaplayerstask.h
-	\author HiddenSeeker
+	
 
 	Here is defined task, used to swap layers in renderer
  */

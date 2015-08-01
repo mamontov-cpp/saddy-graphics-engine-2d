@@ -1,5 +1,5 @@
 /*! \file reader.h
-    \author HiddenSeeker
+    
 
     Defines a reader for atlases
  */

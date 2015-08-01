@@ -1,5 +1,5 @@
 /*! \file animations/animationscamerashaking.h
-	\author HiddenSeeker
+	
 
 	Declares animation of shaking the camera
  */

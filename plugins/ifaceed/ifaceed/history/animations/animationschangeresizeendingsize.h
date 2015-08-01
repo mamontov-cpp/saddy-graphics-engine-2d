@@ -1,5 +1,5 @@
 /*! \file animationschangeresizeendingsize.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes ending size of resize animation
  */

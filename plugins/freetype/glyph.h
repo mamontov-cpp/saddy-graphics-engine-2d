@@ -1,5 +1,5 @@
 /*! \file glyph.h
-	\author HiddenSeeker
+	
 
 	Describes a glyph as a bitmap and it's metric
  */

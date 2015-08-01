@@ -1,5 +1,5 @@
 /*! \file ../include/sadthreadexecutablefunction.h
-	\author HiddenSeeker
+	
 
 	Defines a simple function, which can be executed in thread
  */

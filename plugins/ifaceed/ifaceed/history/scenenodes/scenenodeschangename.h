@@ -1,5 +1,5 @@
 /*! \file scenenodeschangename.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change name of scene node
  */

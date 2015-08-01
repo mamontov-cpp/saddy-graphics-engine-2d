@@ -1,5 +1,5 @@
 /*! \file animations/animationsfactory.h
-	\author HiddenSeeker
+	
 
 	Describes an animation factory for creating animations
  */

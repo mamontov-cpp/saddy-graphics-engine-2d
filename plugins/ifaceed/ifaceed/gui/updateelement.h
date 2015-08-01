@@ -1,5 +1,5 @@
 /*! \file updateelement.h
-    \author HiddenSeeker
+    
 
     Defines smart update for element of UI from object property
  */

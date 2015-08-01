@@ -1,5 +1,5 @@
 /*! \file scenenodeschangecolor.h
-    \author HiddenSeeker
+    
 
     Describe a command, which describes change of node's color
  */

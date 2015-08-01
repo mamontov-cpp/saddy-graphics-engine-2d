@@ -1,5 +1,5 @@
 /*! \file unsignedlonglongdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains unsigned long long values
  */

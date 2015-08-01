@@ -1,5 +1,5 @@
 /*! \file animations\animationssavedcameratranslation.h
-    \author HiddenSeeker
+    
 
     Defines saved camera translation settings as saved element
  */

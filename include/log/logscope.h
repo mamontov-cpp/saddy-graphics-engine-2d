@@ -1,5 +1,5 @@
 /*! \file	logscope.h
-	\author HiddenSeeker
+	
 
 	A logging scope, which automatically pushes message on log, and pops it when destroyed
  */

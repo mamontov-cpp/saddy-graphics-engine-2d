@@ -1,5 +1,5 @@
 /*!  \file closuremethodcall.h
- *   \author HiddenSeeker
+ *   
  *
  *   Defines a simple wrapper for creating a closure for simple method calls
  */

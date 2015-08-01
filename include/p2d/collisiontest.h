@@ -1,5 +1,5 @@
 /*! \file collisiontest.h
-	\author HiddenSeeker
+	
 
 	Defines a collision tester, which can determine, whether two
 	shapes are colliding

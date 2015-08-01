@@ -1,5 +1,5 @@
 /*! \file instanceschangeway.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes way for animation instance
  */

@@ -1,5 +1,5 @@
 /*! \file scripting.h
-	\author HiddenSeeker
+	
 
 	Describes a main class for scripting objects
  */

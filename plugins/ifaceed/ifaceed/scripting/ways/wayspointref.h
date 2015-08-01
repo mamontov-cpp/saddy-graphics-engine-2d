@@ -1,5 +1,5 @@
 /*! \file wayspointref.h
-	\author HiddenSeeker
+	
 
 	A wrapper for reference to way point
  */

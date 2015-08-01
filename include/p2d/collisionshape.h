@@ -1,5 +1,5 @@
 /*! \file collisionshape.h
-	\author HiddenSeeker
+	
 
 	Describes a shape, used to determine collisions with objects
  */

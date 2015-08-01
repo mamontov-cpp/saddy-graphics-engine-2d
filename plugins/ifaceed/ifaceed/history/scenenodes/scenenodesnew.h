@@ -1,5 +1,5 @@
 /*! \file scenenodesnew.h
-	\author HiddenSeeker
+	
 
 	Describes a command, when scene node is added to an editor scene
  */

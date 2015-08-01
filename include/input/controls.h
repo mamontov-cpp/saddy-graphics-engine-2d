@@ -1,5 +1,5 @@
 /*! \file controls.h
-	\author HiddenSeeker
+	
 
 	A basic implementation for controls, which hold a event handlers, which handle queued events
  */

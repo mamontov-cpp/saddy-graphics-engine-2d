@@ -1,5 +1,5 @@
 /*! \file renderways.h
-	\author HiddenSeeker
+	
 
 	Defines a simple process to render some ways from database
  */

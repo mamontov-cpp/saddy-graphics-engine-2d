@@ -1,5 +1,5 @@
 /*! \file world.h
-	\author HiddenSeeker
+	
 
 	Describes a main application world
  */

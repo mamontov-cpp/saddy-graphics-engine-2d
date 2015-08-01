@@ -1,5 +1,5 @@
 /*! \file makebackground.h
-	\author HiddenSeeker
+	
 
 	Describe a command, which sets sprite as background
  */

@@ -1,5 +1,5 @@
 /*! \file dialoguesphraseref.h
-	\author HiddenSeeker
+	
 
 	A wrapper for reference to a phrase from dialogue
  */

@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectstatecreator.h
-    \author HiddenSeeker
+    
 
     Defines a creator, which creates a specific object state
  */

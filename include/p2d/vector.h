@@ -1,5 +1,5 @@
 /*! \file vector.h
-	\author HiddenSeeker
+	
 
 	Defines a vector as a special case of point
  */

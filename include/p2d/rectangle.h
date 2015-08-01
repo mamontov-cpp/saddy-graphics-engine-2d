@@ -1,5 +1,5 @@
 /*! \file rectangle.h
-	\author HiddenSeeker
+	
 
 	Declares a rectangle as collision shape
  */

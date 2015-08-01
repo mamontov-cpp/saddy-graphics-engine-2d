@@ -1,5 +1,5 @@
 /*! \file core\borders\deletehotspot.h
-	\author HiddenSeeker
+	
 
 	A hotspot for object removal
  */

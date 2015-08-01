@@ -1,5 +1,5 @@
 /*! \file animationschangecameraangle.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes angle for a camera rotation animation
  */

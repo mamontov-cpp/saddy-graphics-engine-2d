@@ -1,5 +1,5 @@
 /*! \file size2i.h
-	\author HiddenSeeker
+	
 
 	A sad::Size2I scriptable wrapper
  */

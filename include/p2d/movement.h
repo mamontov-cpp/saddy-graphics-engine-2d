@@ -1,5 +1,5 @@
 /*! \file movement.h
-	\author HiddenSeeker
+	
 	Describes a movement in discrete time, using force, weight, velocity 
 	and distance.
  */

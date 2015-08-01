@@ -1,5 +1,5 @@
 /*! \file fpsinterpolation.h
-	\author HiddenSeeker
+	
 
 	A class for computing FPS, with timing and interpolation between frames
  */

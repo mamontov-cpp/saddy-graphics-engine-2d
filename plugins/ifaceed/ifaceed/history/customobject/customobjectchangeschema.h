@@ -1,5 +1,5 @@
 /*! \file customobjectchangeschema.h
-	\author HiddenSeeker
+	
 
 	A command, which is used to change scheme of custom object
  */

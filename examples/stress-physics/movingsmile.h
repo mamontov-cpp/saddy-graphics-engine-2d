@@ -1,5 +1,5 @@
 /*! \file movingsmile.h
-	\author HiddenSeeker
+	
 
 	Describes a moving smile
  */

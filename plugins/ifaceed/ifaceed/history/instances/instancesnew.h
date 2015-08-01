@@ -1,5 +1,5 @@
 /*! \file instancesnew.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs creating new animation instance
  */

@@ -1,5 +1,5 @@
 /*! \file closure.h
-	\author HiddenSeeker
+	
 
 	Describes a closure-like thing in terms of C++
  */

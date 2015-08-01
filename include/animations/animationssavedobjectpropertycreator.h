@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectpropertycreator.h
-    \author HiddenSeeker
+    
 
     Defines a creator, which creates a SavedObjectProperty
  */

@@ -1,5 +1,5 @@
 /*! \file timer.h
-	\author HiddenSeeker
+	
 
 	Contains crossplatform implementation for a timer
  */

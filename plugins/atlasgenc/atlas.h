@@ -1,5 +1,5 @@
 /*! \file atlas.h
-	\author HiddenSeeker
+	
 
 	Defines a simple atlas as stored in file
  */

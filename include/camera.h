@@ -1,5 +1,5 @@
 /*! \file camera.h
-	\author HiddenSeeker
+	
 
 	Describes a camera, which defines a rotation and translation action of scene
  */

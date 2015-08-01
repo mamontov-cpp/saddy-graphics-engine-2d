@@ -1,5 +1,5 @@
 /*! \file groupactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to instances
  */

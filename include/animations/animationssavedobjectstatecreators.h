@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectstatecreators.h
-    \author HiddenSeeker
+    
 
     Defines a list of creators, which should be stored in animation
  */

@@ -1,5 +1,5 @@
 /*! \file optionvalue.h
-	\author HiddenSeeker
+	
 
 	Defined an option value for command-line parser
  */

@@ -1,5 +1,5 @@
 /*! \file animationscallback.h
-	\author HiddenSeeker
+	
 
 	Defines a callback, which should be called after animation end
  */

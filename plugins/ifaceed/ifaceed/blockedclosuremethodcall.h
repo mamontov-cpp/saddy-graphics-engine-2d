@@ -1,5 +1,5 @@
 /*!  \file blockedclosuremethodcall.h
- *   \author HiddenSeeker
+ *   
  *
  *   Defines a simple wrapper for creating a closure for method call, which also blocks widget's signals before call
  */

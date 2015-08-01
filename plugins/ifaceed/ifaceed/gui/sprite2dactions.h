@@ -1,5 +1,5 @@
 /*! \file sprite2dactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to sprited
  */

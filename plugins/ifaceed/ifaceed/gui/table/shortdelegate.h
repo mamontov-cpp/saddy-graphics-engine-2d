@@ -1,5 +1,5 @@
 /*! \file shortdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains short values
  */

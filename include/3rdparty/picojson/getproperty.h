@@ -1,5 +1,5 @@
 /*! \file getproperty.h
-	\author HiddenSeeker
+	
 
 	A simple helper for getting optional value from picojson::object
  */

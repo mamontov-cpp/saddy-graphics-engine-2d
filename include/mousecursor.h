@@ -1,5 +1,5 @@
 /*! \file   mousecursor.h
-	\author HiddenSeeker
+	
 
 	Defines a mouse cursor and methods for working with it, like getting
 	position, hiding it, showing sprite instead of it.

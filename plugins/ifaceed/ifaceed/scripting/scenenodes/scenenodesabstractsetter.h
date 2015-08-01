@@ -1,5 +1,5 @@
 /*! \file scenenodesabstractsetter.h
-	\author HiddenSeeker
+	
 
 	Defines an abstract setter for properties of scene node
  */

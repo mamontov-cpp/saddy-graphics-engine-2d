@@ -1,5 +1,5 @@
 /*! \file atlasentry.h
-	\author HiddenSeeker
+	
 
 	Describes an entry of atlas, as it was placed in file
  */

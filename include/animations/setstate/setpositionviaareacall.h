@@ -1,5 +1,5 @@
 /*! \file animations/setstate/setpositionviaareacall.h
-	\author HiddenSeeker
+	
 
 	Sets area via method call
  */

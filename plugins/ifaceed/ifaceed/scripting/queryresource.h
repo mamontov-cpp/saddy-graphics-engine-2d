@@ -1,5 +1,5 @@
 /*! \file queryresource.h
-    \author HiddenSeeker
+    
 
     Defines a most of resource querying options, thus allowing
     to perform lookup for most of object stuff

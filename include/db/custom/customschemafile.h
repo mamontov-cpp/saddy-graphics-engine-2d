@@ -1,5 +1,5 @@
 /*! \file customschemafile.h
-	\author HiddenSeeker
+	
 	
 	A custom schema file, which holds all custom schemas
  */

@@ -1,5 +1,5 @@
 /*! \file sadscopedlock.h
-	\author HiddenSeeker
+	
 	
 	Defines a simple scoped lock pattern, as described at http://www.cs.wustl.edu/~schmidt/PDF/ScopedLocking.pdf
  */

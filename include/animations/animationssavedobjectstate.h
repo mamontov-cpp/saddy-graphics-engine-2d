@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectstate.h
-	\author HiddenSeeker
+	
 
 	A saved object state, which could be restored, when animation is finished
  */

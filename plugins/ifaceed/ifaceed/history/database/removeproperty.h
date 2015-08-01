@@ -1,5 +1,5 @@
 /*! \file removeproperty.h
-	\author HiddenSeeker
+	
 
 	A command of removing database property
  */

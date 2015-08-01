@@ -1,5 +1,5 @@
 /*! \file jsonreader.h
-    \author HiddenSeeker
+    
 
     Defines a reader, which reads an atlas from JSON
  */

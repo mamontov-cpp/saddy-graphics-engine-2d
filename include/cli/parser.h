@@ -1,5 +1,5 @@
 /*! \file parser.h
-	\author HiddenSeeker
+	
 
 	Defines a parser for command-line arguments
  */

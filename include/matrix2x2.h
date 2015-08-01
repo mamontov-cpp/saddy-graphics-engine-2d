@@ -1,5 +1,5 @@
 /*! \file matrix2x2.h
-	\author HiddenSeeker
+	
 
 	Defines a 2x2 matrix, used for mutiplication and rotation operations in sprites
 	and rectangles

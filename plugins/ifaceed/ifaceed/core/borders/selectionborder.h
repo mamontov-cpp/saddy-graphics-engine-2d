@@ -1,5 +1,5 @@
 /*! \file selectionborder.h
-	\author HiddenSeeker
+	
 
 	Defines an selection border, which is used for highlighting a selected object
  */

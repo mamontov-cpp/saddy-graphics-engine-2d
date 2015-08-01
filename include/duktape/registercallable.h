@@ -1,5 +1,5 @@
 /*! \file registercallable.h
-    \author HiddenSeeker
+    
     
     Defines a function, needed for registering simple callable function or method
  */

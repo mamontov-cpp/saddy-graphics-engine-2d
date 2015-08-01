@@ -1,5 +1,5 @@
 /*! \file   fontimpl.h
-	\author HiddenSeeker
+	
 
 	An implementation of freetype font
  */

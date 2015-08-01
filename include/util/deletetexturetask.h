@@ -1,5 +1,5 @@
 /*! \file deletetexturetask.h
-	\author HiddenSeeker
+	
 
 	A special kind of task, which could be pushed in Renderer's pipeline to delete all textures in renderer's own thread. 
 	Used in resources to prevent resource leaks

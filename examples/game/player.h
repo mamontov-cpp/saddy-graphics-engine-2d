@@ -1,5 +1,5 @@
 /*! \file   player.h
-    \author HiddenSeeker
+    
 	\brief class Player is placed here
 
 	Here is placed class of player - class, that provides any player associated

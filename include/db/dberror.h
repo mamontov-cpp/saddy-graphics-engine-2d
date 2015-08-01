@@ -1,5 +1,5 @@
 /*! \file db/dberror.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class sad::db::Error.
 

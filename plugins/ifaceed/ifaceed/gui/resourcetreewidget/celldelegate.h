@@ -1,5 +1,5 @@
 /*!  \file celldelegate.h
-	 \author HiddenSeeker
+	 
  */
 #ifndef CELLDELEGATE_H
 #define CELLDELEGATE_H

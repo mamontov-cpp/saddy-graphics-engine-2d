@@ -1,5 +1,5 @@
 /*! \file scenenodesremove.h
-	\author HiddenSeeker
+	
 
 	Describe a command, when scene node is removed from scene
  */

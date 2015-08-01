@@ -1,5 +1,5 @@
 /*! \file windowhandles.h
-	\author HiddenSeeker
+	
 
 	Defines window OS-dependent handles, which should be used for identifying window
 	and calling OS-dependent functions on them

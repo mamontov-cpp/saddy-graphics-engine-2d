@@ -1,5 +1,5 @@
 /*! \file duktapeconstructor.h
-    \author HiddenSeeker
+    
      
     Defines a simple defines for creating bindings for creating new objects
  */

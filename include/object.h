@@ -1,5 +1,5 @@
 /*! \file ../include/object.h
-	\author HiddenSeeker
+	
 
 	Defines a universal object class, used as container for metadataa
  */

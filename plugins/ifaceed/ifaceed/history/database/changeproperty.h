@@ -1,5 +1,5 @@
 /*! \file history/database/changeproperty.h
-	\author HiddenSeeker
+	
 
 	Contains definitions of changed property of database.
  */

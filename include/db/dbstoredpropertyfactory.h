@@ -1,5 +1,5 @@
 /*! \file dbstoredpropertyfactory.h
-	\author HiddenSeeker
+	
 
 	Describes a factory for building stored properties.
  */

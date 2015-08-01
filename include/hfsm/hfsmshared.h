@@ -1,5 +1,5 @@
 /*! \file   hfsmshared.h
-	\author HiddenSeeker
+	
 
 	Describes a shared data for state of hierarchical finite state machine
  */

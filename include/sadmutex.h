@@ -1,5 +1,5 @@
 /*! \file sadmutex.h
-	\author HiddenSeeker
+	
 	
 	Defines a crossplatform nonrecursive mutex
  */

@@ -1,5 +1,5 @@
 /*! \file duktapeptrmethod.h
-    \author HiddenSeeker
+    
      
     Defines a simple defines for creating bindings for method, which will be used to call
 	method on pointer to object

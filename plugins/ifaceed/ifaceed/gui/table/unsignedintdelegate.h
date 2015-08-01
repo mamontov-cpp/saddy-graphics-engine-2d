@@ -1,5 +1,5 @@
 /*! \file unsignedintdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains unsigned int values
  */

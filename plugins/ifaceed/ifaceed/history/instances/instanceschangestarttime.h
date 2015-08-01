@@ -1,5 +1,5 @@
 /*! \file instanceschangestarttime.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes start time for animation instance
  */

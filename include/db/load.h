@@ -1,5 +1,5 @@
 /*! \file db/load,h
-	\author HiddenSeeker
+	
 	
 	Describes a load operations for a type
  */

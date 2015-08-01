@@ -1,5 +1,5 @@
 /*! \file animationschangepropertyaspoint2displayedintwospinboxes.h
-    \author HiddenSeeker
+    
 
     Describes a command, which depicts changing property as point2d, displayed in two 
     double spinboxes

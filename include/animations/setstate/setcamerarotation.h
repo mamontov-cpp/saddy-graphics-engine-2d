@@ -1,5 +1,5 @@
 /*! \file animations/setstate/setcamerarotation.h
-	\author HiddenSeeker
+	
 
     Defines a comand, which rotates scene's camea for angle around a pivot
  */

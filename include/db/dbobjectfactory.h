@@ -1,5 +1,5 @@
 /*! \file dbobjectfactory.h
-	\author HiddenSeeker
+	
 	
 	A factory for creating objects, by their names. Could be used for deserializing  
 	objects from file in database.

@@ -1,5 +1,4 @@
 /*! \file sound.h
-    \author HiddenSeeker
 
     Describes a sound as resource
  */

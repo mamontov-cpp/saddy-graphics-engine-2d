@@ -1,5 +1,5 @@
 /*! \file rect2i.h
-	\author HiddenSeeker
+	
 
 	A sad::Rect2I scriptable wrapper
  */

@@ -1,5 +1,5 @@
 print "/*! \\file makefunctioncall.h
-	\\author HiddenSeeker
+	
 
 	Contains a function for making a function call
  */

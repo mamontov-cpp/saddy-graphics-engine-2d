@@ -1,5 +1,5 @@
 /*! \file classwrapper.h
-	\author HiddenSeeker
+	
 
 	Describes a base class for all class wrappers in projects
  */

@@ -1,5 +1,5 @@
 /*! \file selection.h
-	\author HiddenSeeker
+	
 
 	Defines a selection for an editor
  */

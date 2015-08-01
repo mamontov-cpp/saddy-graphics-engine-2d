@@ -1,5 +1,5 @@
 /*! \file pipelinedelegate.h
-	\author HiddenSeeker
+	
 
 	Describes a simple delegate, used to determine common call of pipeline process and tasks
  */

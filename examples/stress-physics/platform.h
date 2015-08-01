@@ -1,5 +1,5 @@
 /*! \file platform.h
-	\author HiddenSeeker
+	
 
 	Describes a ball
  */

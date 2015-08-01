@@ -1,5 +1,5 @@
 /*! \file animations/setstate/methodcall.h
-	\author HiddenSeeker
+	
 
 	Defines a command, which casts object to class invokes a method on it
  */

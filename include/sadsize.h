@@ -1,5 +1,5 @@
 /*! \file sadsize.h
-	\author HiddenSeeker
+	
 
 	Defines a size class, which contains width and height
  */

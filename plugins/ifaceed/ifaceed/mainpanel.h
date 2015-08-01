@@ -1,5 +1,5 @@
 /*! \file   mainpanel.h
- *  \author HiddenSeeker
+ *  
  *
  *  Here described main editor window
  */

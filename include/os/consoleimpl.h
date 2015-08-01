@@ -1,5 +1,5 @@
 /*! \file consoleimpl.h
-	\author HiddenSeeker
+	
 
 	Describes a crossplatform implementation for working with console interface
  */

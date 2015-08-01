@@ -1,5 +1,5 @@
 /*! \file sadacolortoqcolor.h
-	\author HiddenSeeker
+	
 
 	Defines a converter from sad::AColor to QColor, used in conversion table
  */

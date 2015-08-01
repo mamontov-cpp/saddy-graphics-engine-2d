@@ -1,5 +1,5 @@
 /*! \file      semaphoreimpl.h
-    \author    HiddenSeeker
+    \author    mamontov-cpp
 
 	Defines a semaphore as simple synchonization primitive. 
 	Semaphore blocks execution, when

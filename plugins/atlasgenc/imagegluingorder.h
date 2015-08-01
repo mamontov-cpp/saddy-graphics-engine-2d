@@ -1,5 +1,5 @@
 /*! \file imagegluingorder.h
-    \author HiddenSeeker
+    
 
     A class, which can find an order in which images should be glued.
     Merging images on this order, must lead to a texture with minimum width and height

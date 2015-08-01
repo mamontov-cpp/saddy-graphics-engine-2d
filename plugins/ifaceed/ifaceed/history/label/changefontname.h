@@ -1,5 +1,5 @@
 /*! \file changefontname.h
-	\author HiddenSeeker
+	
 
 	Describe a command, which change scene label's font
  */

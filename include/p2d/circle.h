@@ -1,5 +1,5 @@
 /*! \file circle.h
-	\author HiddenSeeker
+	
 
 	Defines a circle as collision shape
  */

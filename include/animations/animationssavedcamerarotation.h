@@ -1,5 +1,5 @@
 /*! \file animations\animationssavedcamerarotation.h
-	\author HiddenSeeker
+	
 
 	Defines saved camera rotation settings as saved element
  */

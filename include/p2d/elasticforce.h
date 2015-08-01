@@ -1,5 +1,5 @@
 /*! \file elasticforce.h
-	\author HiddenSeeker
+	
 
 	Describes an elastic force acting toward first object to second
  */

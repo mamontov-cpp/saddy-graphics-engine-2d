@@ -1,5 +1,5 @@
 /*! \file animationschangerotateangle.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes angle for a rotate animation
  */

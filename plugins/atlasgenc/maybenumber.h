@@ -1,5 +1,5 @@
 /*! \file maybenumber.h
-    \author HiddenSeeker
+    
 
     Defines a number as maybe item
  */

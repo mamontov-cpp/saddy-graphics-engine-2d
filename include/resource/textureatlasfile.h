@@ -1,5 +1,5 @@
 /*! \file textureatlasfile.h
-	\author HiddenSeeker
+	
 
 	Describes a file, which contains a Sprite2D::Options - a spritesheet file 
  */

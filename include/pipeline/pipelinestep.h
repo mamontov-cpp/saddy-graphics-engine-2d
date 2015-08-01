@@ -1,5 +1,5 @@
 /*! \file pipelinestep.h
-	\author HiddenSeeker
+	
 
 	Describes a base class, for step of pipeline, which should define a process, performed in
 	main pipeline, a task which should be performed once and be removed from a pipeline.

@@ -1,5 +1,5 @@
 /*! \file    sadlist.h
-    \author  HiddenSeeker
+    \author  mamontov-cpp
 
 	\brief   Definition of List.
 

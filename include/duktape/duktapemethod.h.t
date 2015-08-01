@@ -1,5 +1,4 @@
 /*! \file duktapemethod.h
-    \author HiddenSeeker
      
     Defines a simple defines for creating bindings for any kind of method
  */

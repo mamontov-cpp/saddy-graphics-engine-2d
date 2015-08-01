@@ -1,5 +1,5 @@
 /*! \file wayschangeclosed.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change closedness for way
  */

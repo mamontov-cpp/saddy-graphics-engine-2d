@@ -1,5 +1,5 @@
 /*! \file gluemetric.h
-    \author HiddenSeeker
+    
 
     Describes a metric which should be used, when merging objects
  */

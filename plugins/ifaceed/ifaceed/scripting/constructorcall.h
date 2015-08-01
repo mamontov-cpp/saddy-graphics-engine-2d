@@ -1,5 +1,5 @@
 /*! \file constructorcall.h
-	\author HiddenSeeker
+	
 
 	Describes a constructor call, which returns new constructed object
  */

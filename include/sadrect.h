@@ -1,5 +1,5 @@
 /*! \file   sadrect.h
-    \author HiddenSeeker
+    
 
 	\brief  Definition of rectangle, used to be a bounding box or define shape.
 

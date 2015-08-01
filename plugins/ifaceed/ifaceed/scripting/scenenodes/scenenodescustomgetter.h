@@ -1,5 +1,5 @@
 /*! \file scenenodescustomgetter.h
-	\author HiddenSeeker
+	
 
 	Defines a custom getter for custom property from custom objects 
  */

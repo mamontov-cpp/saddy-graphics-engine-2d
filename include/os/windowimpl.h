@@ -1,5 +1,5 @@
 /*! \file windowimpl.h
-	\author HiddenSeeker
+	
 
 	Contains OS-dependent implementation of window
  */

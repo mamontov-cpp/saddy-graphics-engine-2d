@@ -1,5 +1,5 @@
 /*! \file events.h
-	\author HiddenSeeker
+	
 
 	This file contains implementations for all window events, that are performed in engine.
 	Events can contain useful data about cursor position, key part and other.

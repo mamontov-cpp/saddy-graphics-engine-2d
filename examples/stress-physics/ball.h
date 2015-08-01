@@ -1,5 +1,5 @@
 /*! \file ball.h
-	\author HiddenSeeker
+	
 
 	Describes a ball
  */

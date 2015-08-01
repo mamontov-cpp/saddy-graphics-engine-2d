@@ -1,5 +1,5 @@
 /*! \file worldsteptask.h
-	\author HiddenSeeker
+	
 
 	A world step task can perform world step, basing on rendering intervals
  */

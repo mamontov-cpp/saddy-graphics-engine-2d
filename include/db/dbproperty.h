@@ -1,5 +1,5 @@
 /*! \file dbproperty.h
-	\author HiddenSeeker
+	
 
 	Describes a basic property, which objects are consists of
  */

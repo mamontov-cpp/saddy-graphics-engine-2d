@@ -1,5 +1,5 @@
 /*! \file commoncheckedcast.h
-	\author HiddenSeeker
+	
 
 	Defines a common checked cast for solving compile-time
 	problems with checked_cast if we trying to cast to POD.

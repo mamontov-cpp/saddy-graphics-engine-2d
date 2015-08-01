@@ -1,5 +1,5 @@
 /*! \file dbvariant.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Variant, which could be used to
 	box values of various types and work with them. 

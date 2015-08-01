@@ -1,5 +1,5 @@
 /*! \file imagearranger.h
-	\author HiddenSeeker
+	
 
 	Defines an image arranger, used to arrange images of textures in specified order
  */

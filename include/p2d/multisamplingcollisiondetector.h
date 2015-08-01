@@ -1,5 +1,5 @@
 /*! \file multisamplingcollisiondetector.h
-	\author HiddenSeeker
+	
 
 	Determines a collision detector, that performs a sequence of test
 	to determine whether two bodies collide

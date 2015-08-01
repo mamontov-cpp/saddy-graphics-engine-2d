@@ -1,5 +1,5 @@
 /*! \file abstractgetter.h
-	\author HiddenSeeker
+	
 
 	Defines a basic getter for property
  */

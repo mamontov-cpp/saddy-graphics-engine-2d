@@ -1,5 +1,5 @@
 /*! \file dialoguesphrasechangelineeditbasedproperty.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for changing property of phrase, based on line edit
  */

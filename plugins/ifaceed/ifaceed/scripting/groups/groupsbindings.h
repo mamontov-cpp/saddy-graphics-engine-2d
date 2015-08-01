@@ -1,5 +1,5 @@
 /*! \file groupsbindings.h
-    \author HiddenSeeker
+    
 
     A bindings for animation instances are listed here
  */

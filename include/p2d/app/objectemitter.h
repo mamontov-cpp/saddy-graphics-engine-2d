@@ -1,5 +1,5 @@
 /*! \file objectemitter.h
-	\author HiddenSeeker
+	
 
 	Describes a simple emitter for objects, which emits objects
 	in specified direction

@@ -1,5 +1,5 @@
 /*! \file spitjson.h
-    \author HiddenSeeker
+    
 
     Defines function for writing json value into file which should be opened, 
     where executable path is located

@@ -1,5 +1,5 @@
 /*! \file way.h
-	\author HiddenSeeker
+	
 
 	Describes a way as a set of points, on which body will evenly move
  */

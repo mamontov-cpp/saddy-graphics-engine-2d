@@ -1,5 +1,5 @@
 /*! \file animations/setstate/typedcommand.h
-	\author HiddenSeeker
+	
 
 	Defines a comand to be invoked with specified argument
  */

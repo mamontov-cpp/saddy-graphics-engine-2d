@@ -1,5 +1,5 @@
 /*! \file world.h
-	\author HiddenSeeker
+	
 
 	Defines world simulation as set of items and callbacks
  */

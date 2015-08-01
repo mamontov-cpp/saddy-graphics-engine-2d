@@ -1,5 +1,5 @@
 /*!\file eventfilter.h
- * \author HiddenSeeker
+ * 
  *
  * Describes an event filter, used to react
  * to global hot keys in application, like

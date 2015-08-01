@@ -1,5 +1,5 @@
 /*! \file fontsizewidget\fontsizewidget.h
-    \author HiddenSeeker
+    
 
     Describes a widget, which displays font sizes
  */

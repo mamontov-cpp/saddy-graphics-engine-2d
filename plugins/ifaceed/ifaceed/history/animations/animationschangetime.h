@@ -1,5 +1,5 @@
 /*! \file animationschangetime.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes time of animations
  */

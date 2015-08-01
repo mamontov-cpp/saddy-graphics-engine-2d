@@ -1,5 +1,5 @@
 /*! \file dbconversiontable.h
-	\author HiddenSeeker
+	
 
 	Defines a table for conversion between types
  */

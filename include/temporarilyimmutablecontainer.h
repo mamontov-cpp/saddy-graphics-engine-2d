@@ -1,5 +1,5 @@
 /*! \file temporarilyimmutablecontainer.h
-	\author HiddenSeeker
+	
 
 	Describes a temporarily immutable container, which is locked for actions, in between of 
 	performing some actions, like inserting or deleting or clearing a container.

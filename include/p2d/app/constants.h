@@ -1,5 +1,5 @@
 /*! \file constants.h
-	\author HiddenSeeker
+	
 
 	Describes  object  constants, used to initialize sprites for
 	various objects.

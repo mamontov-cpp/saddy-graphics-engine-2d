@@ -1,5 +1,5 @@
 /*! \file opengl.h
-	\author HiddenSeeker
+	
 
 	Determines a main class for getting an OpenGL implementation data.
 	Note, that this class does not require valid context to get 

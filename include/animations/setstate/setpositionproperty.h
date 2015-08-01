@@ -1,5 +1,5 @@
 /*! \file animations/setstate/setpositionproperty.h
-	\author HiddenSeeker
+	
 
 	Defines a command, which sets position by it's area
  */

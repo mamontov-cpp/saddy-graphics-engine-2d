@@ -1,5 +1,5 @@
 /*! \file waysremove.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for removing a way
  */

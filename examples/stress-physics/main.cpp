@@ -3,7 +3,7 @@
 	Describes a small test for physics engine in a game
  */
 /*! \file main.cpp
-	\author HiddenSeeker
+	
 
 	Describes a main file for game
  */

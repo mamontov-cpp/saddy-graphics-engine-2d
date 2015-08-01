@@ -1,5 +1,5 @@
 /*! \file bounds.h
-	\author HiddenSeeker
+	
 
 	Defines a bounds, useful for representing a solid walls
  */

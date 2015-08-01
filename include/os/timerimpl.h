@@ -1,5 +1,5 @@
 /*! \file      timer.h
-    \author    HiddenSeeker
+    \author    mamontov-cpp
     
 	Describes a crossplatform high-resolution timer.
  */

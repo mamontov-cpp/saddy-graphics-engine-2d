@@ -1,5 +1,5 @@
 /*! \file animationsanimations.h
-	\author HiddenSeeker
+	
 
 	Defines an animations as pipeline step
  */

@@ -1,5 +1,5 @@
 /*! \file free.h
-	\author HiddenSeeker
+	
 
 	Contains definition for free, which can free a resources, stored in vectors
  */

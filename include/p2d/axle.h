@@ -1,5 +1,5 @@
 /*! \file axle.h
-	\author HiddenSeeker
+	
 
 	Defines axle as a case of 2d vector
  */

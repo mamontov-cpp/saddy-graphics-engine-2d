@@ -1,5 +1,5 @@
 /*! \file cell.h
-	\author HiddenSeeker
+	
 
 	Describes a cell parameters in table widget
  */

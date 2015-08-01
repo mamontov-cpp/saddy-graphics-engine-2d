@@ -1,5 +1,5 @@
 /*! \file qstdstring.h
-    \author HiddenSeeker
+    
 
     A converters to and from QString to std::string, locale-dependent 
  */

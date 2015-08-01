@@ -1,5 +1,5 @@
 /*! \file gluetask.h
-    \author HiddenSeeker
+    
 
     A task, which is used by metrics to find recursively an order.
     A metric must merge all +entries+ into one, extending +orders+ array

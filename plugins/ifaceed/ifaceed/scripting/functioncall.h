@@ -1,5 +1,5 @@
 /*! \file functioncall.h
-	\author HiddenSeeker
+	
 
 	Describes a call from function data
  */

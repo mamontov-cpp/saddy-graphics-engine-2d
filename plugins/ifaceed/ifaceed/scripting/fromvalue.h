@@ -1,5 +1,5 @@
 /*! \file fromvalue.h
- *	\author HiddenSeeker
+ *	
  *
  *	Converts a specific value to a QScriptValue
  */

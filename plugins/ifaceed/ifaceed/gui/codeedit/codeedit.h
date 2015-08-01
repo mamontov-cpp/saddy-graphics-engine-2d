@@ -1,5 +1,5 @@
 /*! \file codeedit.h
-	\author HiddenSeeker
+	
 
 	A code editor, based on both examples of rich editor and other
 	http://qt-project.org/doc/qt-4.8/widgets-codeeditor.html ,

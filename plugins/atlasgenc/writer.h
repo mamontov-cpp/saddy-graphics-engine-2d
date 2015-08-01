@@ -1,5 +1,5 @@
 /*! \file writer.h
-    \author HiddenSeeker
+    
 
     Defines a writer for writing output configs atlases
  */

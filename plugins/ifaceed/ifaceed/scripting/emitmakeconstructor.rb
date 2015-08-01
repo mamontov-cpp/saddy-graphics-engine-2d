@@ -1,5 +1,5 @@
 print "/*! \\file makeconstructor.h
-	\\author HiddenSeeker
+	
 
 	Defines a functions for making constructor
  */

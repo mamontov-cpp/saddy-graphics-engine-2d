@@ -1,5 +1,5 @@
 /*! \file stringcaster.h
-	\author HiddenSeeker
+	
 
 	Defines a special caster, which convers data to stream, using std::ostringstream, if needed
 	or user-defined methods

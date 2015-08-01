@@ -1,5 +1,5 @@
 /*! \file enemy.h
-	\author HiddenSeeker
+	
 
 	Describes an enemy
  */

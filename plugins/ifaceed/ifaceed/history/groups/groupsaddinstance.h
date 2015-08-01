@@ -1,5 +1,5 @@
 /*! \file groupsaddinstance.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs adding an instance into animation group
  */

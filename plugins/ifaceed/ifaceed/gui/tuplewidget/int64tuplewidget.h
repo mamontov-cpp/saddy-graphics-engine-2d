@@ -1,5 +1,5 @@
 /*! \file int64tuplewidget.h
-	\author HiddenSeeker
+	
 
 	A widget for editing a pair of long long values
  */

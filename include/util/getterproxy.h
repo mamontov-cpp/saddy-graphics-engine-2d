@@ -1,5 +1,5 @@
 /*! \file getterproxy.h
-	\author HiddenSeeker
+	
 
 	Describes proxy for getters
  */

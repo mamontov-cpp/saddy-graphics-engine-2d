@@ -1,5 +1,5 @@
 /*! \file generatemipmaps30.h
-	\author HiddenSeeker
+	
 
 	Defines crossplatform generation function of mip maps in 2D, as in OpenGL 3.0+
  */

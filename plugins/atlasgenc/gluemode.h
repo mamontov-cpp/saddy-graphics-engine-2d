@@ -1,5 +1,5 @@
 /*! \file gluemode.h
-    \author HiddenSeeker
+    
 
     Describes, how to images should be merged
  */

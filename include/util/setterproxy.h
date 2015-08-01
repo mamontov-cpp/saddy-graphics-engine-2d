@@ -1,5 +1,5 @@
 /*! \file setterproxy.h
-	\author HiddenSeeker
+	
 
 	Describes proxy for setters
  */

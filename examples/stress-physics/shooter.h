@@ -1,5 +1,5 @@
 /*! \file shooter.h
-	\author HiddenSeeker
+	
 
 	Describes a simple shooter, which shoots object
  */

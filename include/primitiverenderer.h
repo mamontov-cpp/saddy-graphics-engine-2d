@@ -1,5 +1,5 @@
 /*! \file primitiverenderer.h
-	\author HiddenSeeker
+	
 
 	A special part of renderer, which renders lines and rectangles
  */

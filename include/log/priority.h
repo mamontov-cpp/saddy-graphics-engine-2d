@@ -1,5 +1,5 @@
 /*! \file priority.h
-	\author HiddenSeeker
+	
 
 	Defines a priority for every message in log
  */

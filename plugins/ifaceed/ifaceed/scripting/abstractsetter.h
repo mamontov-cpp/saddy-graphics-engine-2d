@@ -1,5 +1,5 @@
 /*! \file abstractsetter.h
-	\author HiddenSeeker
+	
 
 	Defines a basic setter for property
  */

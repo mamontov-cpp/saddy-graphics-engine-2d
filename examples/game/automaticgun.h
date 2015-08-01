@@ -1,5 +1,5 @@
 /*! \file automaticgun.h
-	\author HiddenSeeker
+	
 
 	Describes an concrete automatic gun, that shoots to enemy or specified 
 	direction by emitting some bullet with specified speed

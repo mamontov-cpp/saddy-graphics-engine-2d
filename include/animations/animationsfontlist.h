@@ -1,5 +1,5 @@
 /*! \file animations/animationsfontlist.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of changing fonts by time
  */

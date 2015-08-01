@@ -1,5 +1,5 @@
 /*! \file dialoguesnew.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for adding a dialogue
  */

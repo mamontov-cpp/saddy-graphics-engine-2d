@@ -1,5 +1,5 @@
 /*! \file db/schema/schema.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Schema, which defines a schema for all object.
  */

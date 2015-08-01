@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectproperty.h
-	\author HiddenSeeker
+	
 
 	Defines a saved object property, which could be restored, when animation is finished
  */

@@ -1,5 +1,5 @@
 /*! \file pngloader.h
-	\author HiddenSeeker
+	
 
 	Defines a loader for PNG images, using PicoPNG
  */

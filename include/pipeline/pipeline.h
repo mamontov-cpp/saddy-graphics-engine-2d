@@ -1,5 +1,5 @@
 /*! \file   pipeline.h
-	\author HiddenSeeker
+	
 
 	Declares a main pipeline item for declaring what should be done in main loop of renderer
  */

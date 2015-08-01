@@ -1,5 +1,5 @@
 /*! \file pushvalue.h
-    \author HiddenSeeker
+    
 
     Describes an operations, that could be used to push value on a stack of
     operations of Duktape

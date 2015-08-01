@@ -1,5 +1,5 @@
 /*! \file dbtypename.h
-	\author HiddenSeeker
+	
 
 	Describes a simple template class for type name as string
  */

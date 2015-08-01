@@ -1,5 +1,5 @@
 /*! \file jsonwriter.h
-    \author HiddenSeeker
+    
 
     Defines a writer for writing output configs atlases in JSON Format
  */

@@ -1,5 +1,5 @@
 /*! \file hfsmtransitionrepository.h
-	\author HiddenSeeker
+	
 
 	A transition repository for hierarchical finite state machine is placed here
  */

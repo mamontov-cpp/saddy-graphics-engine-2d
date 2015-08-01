@@ -1,5 +1,5 @@
 /*! \file highlighter.h
-	\author HiddenSeeker
+	
 
 	Describes a highlighter, based on QScriptSyntaxHighlighter, but with
 	custom functions and words highlighting

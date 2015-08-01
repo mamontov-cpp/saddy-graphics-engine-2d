@@ -1,5 +1,5 @@
 /*! \file animationschangerect.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes rectangle for specifict property
  */

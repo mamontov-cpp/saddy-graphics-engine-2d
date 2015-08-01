@@ -1,5 +1,5 @@
 /*! \file keydecoder.h
-	\author HiddenSeeker
+	
 
 	Defines a decoder for converting key symbols from OS to Saddy key symbols.
  */

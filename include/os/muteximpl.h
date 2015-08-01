@@ -1,5 +1,5 @@
 /*! \file       muteximpl.h
-    \author    HiddenSeeker
+    \author    mamontov-cpp
 	 
     Contains crossplatform mutex implementation,  which uses pthread on 
 	Linux and WinAPI on Windows.  A mutex can be locked or unlocked, blocking 

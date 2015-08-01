@@ -1,5 +1,5 @@
 /*! \file fixedheightfont.h
-	\author HiddenSeeker
+	
 
 	Describes a font with fixed height. Note, that this implementation
 	does not contain color, since it should be cated by font implementation

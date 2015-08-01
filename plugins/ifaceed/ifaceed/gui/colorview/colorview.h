@@ -1,5 +1,5 @@
 /*! \file colorview.h
-	\author HiddenSeeker
+	
 
 	Implements a simple widget for displaying custom color. Used in cells of main panel
 	for displaying color

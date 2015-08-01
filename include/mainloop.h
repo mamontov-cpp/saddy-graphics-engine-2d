@@ -1,5 +1,5 @@
 /*! \file mainloop.h
-	\author HiddenSeeker
+	
 
 	Describes a main event loop. 
 	Note, that you should not directly use this class,

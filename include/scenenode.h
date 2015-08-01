@@ -1,5 +1,5 @@
 /*! \file   scenenode.h
-	\author HiddenSeeker
+	
 
 	Defines a node of a scene, which is basic for any renderable part
  */

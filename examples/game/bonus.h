@@ -1,5 +1,5 @@
 /*! \file bonus.h
-	\author HiddenSeeker
+	
 
 	Describes a bonus item
  */

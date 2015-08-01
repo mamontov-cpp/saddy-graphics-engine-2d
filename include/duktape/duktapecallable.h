@@ -1,5 +1,5 @@
 /*! \file duktapecallable.h
-    \author HiddenSeeker
+    
 
     Contains definition of function wrapper, callable from Duktape, which will be used as substitution object, used
     to produce template bindings.

@@ -1,5 +1,5 @@
 /*! \file scenenodesfontsetter.h
-    \author HiddenSeeker
+    
 
     Describes a setter for font property of scene node
  */

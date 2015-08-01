@@ -1,5 +1,5 @@
 /*! \file glheaders.h
-	\author HiddenSeeker
+	
 
 	A summarizing header, which contains all of needed OpenGL headers
  */

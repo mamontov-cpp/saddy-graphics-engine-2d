@@ -4,7 +4,7 @@
 	give idea for improving a documentation, we would appreciate your help
  */
 /*! \file   renderer.h
-    \author FreakyBlast, HiddenSeeker
+    \author FreakyBlast
 
     \brief  Declaration of Renderer - main class, for running 
 	application is placed here.

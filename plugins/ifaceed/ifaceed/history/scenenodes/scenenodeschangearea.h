@@ -1,5 +1,5 @@
 /*! \file scenenodeschangearea.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change scenes name text
  */

@@ -1,5 +1,5 @@
 /*! \file supershootingenemy.h
-	\author HiddenSeeker
+	
 
 	Describes an enemy, that shoots with shooting enemies in four directions
  */

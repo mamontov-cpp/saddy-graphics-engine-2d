@@ -1,5 +1,5 @@
 /*! \file qttarget.h
-	\author HiddenSeeker
+	
 
 	Describes a QtTarget as class, that whole purpose is to show message boxes
 	on fatal cases

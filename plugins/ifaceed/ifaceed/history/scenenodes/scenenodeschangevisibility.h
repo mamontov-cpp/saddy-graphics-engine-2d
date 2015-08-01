@@ -1,5 +1,5 @@
 /*! \file scenenodeschangevisibility.h
-	\author HiddenSeeker
+	
 
 	Contents a function for creating a command for visibility change
  */

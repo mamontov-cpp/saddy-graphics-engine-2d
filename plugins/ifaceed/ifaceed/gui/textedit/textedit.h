@@ -1,5 +1,5 @@
 /*! \file textedit.h
-	\author HiddenSeeker
+	
 
 	A text edit with support of autocompletion and additional signal,
 	emitted after finishing text

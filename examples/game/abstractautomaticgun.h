@@ -1,5 +1,5 @@
 /*! \file abstractautomaticgun.h
-	\author HiddenSeeker
+	
 
 	Describes a basic automatic gun, that shoots to enemy or specified 
 	direction by emitting some bullet with specified speed

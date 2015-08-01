@@ -1,5 +1,5 @@
 /*! \file walls.h
-	\author HiddenSeeker
+	
 
 	Describes a bounding walls, that teleports collided player to other wall
 	and destroy other objects

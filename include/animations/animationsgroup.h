@@ -1,5 +1,5 @@
 /*! \file animations/animationsgroup.h
-	\author HiddenSeeker
+	
 
 	Defines an animations group as a list of running animation instances
  */

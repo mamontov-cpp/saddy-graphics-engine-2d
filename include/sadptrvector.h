@@ -1,5 +1,5 @@
 /*! \file    sadptrvector.h
-    \author  HiddenSeeker
+    \author  mamontov-cpp
 
 	This file contains a definition of vector, which holds a pointers and destroys them
 	automatically, when destroyed.

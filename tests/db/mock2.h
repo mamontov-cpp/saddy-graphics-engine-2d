@@ -1,5 +1,4 @@
 /*! \file mock2.h
-	\author HiddenSeeker
 
 	A mock object for item
  */

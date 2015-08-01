@@ -1,5 +1,5 @@
 /*! \file findcontactpoints.h
-	\author HiddenSeeker
+	
 
 	Contains a multimethod, which can be used to determine a contact points
 	for shapes

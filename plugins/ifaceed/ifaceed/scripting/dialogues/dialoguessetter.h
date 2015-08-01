@@ -1,5 +1,5 @@
 /*! \file dialoguessetter.h
-	\author HiddenSeeker
+	
 
 	Defines a generic setter for setting a property of dialogue
  */

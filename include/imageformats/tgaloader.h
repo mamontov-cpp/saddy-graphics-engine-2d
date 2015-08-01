@@ -1,5 +1,5 @@
 /*! \file tgaloader.h
-	\author HiddenSeeker
+	
 
 	Defines a loader for TGA images
  */

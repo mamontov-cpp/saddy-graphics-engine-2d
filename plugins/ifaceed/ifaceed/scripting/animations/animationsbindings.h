@@ -1,5 +1,5 @@
 /*! \file animationsbindings.h
-    \author HiddenSeeker
+    
 
     A bindings for animations are listed here
  */

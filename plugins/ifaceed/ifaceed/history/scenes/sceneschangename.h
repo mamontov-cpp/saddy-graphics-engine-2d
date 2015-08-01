@@ -1,5 +1,5 @@
 /*! \file sceneschangename.h
-	\author HiddenSeeker
+	
 
 	Describes a command, used to change name for a scene
  */

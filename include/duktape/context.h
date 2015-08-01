@@ -1,5 +1,5 @@
 /*! \file context.h
-    \author HiddenSeeker
+    
 
     A simple wrapper around basic Duktape context to support embeddable operations.
  */

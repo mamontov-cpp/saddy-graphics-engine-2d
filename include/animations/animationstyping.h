@@ -1,5 +1,5 @@
 /*! \file animationstyping.h
-	\author HiddenSeeker
+	
 
 	Describes an animation for typing of string in label
  */

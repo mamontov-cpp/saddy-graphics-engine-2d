@@ -1,5 +1,5 @@
 /*! \file systemwindowevent.h
-	\author HiddenSeeker
+	
 
 	Describes an event, received by window as structure for representing all data,
 	that other classes needed to dispatch it

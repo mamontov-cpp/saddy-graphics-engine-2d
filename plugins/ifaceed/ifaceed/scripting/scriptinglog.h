@@ -1,5 +1,5 @@
 /*! \file scriptinglog.h
-	\author HiddenSeeker
+	
 
 	Contains function, which performs log to a value
  */

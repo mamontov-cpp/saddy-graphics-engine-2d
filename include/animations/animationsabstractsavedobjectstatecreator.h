@@ -1,5 +1,5 @@
 /*! \file animations/animationsabstractsavedobjectstatecreator.h
-    \author HiddenSeeker
+    
 
     Defines a factory creator, which must could create saved object state
  */

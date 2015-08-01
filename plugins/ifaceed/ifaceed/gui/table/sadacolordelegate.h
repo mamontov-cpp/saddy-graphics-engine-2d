@@ -1,5 +1,5 @@
 /*! \file sadacolordelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains sad::AColor values
  */

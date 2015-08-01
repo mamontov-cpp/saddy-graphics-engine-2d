@@ -1,5 +1,5 @@
 /*! \file activeborder.h
-	\author HiddenSeeker
+	
 
 	Defines an active border, which is used when placing an item
  */

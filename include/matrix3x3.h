@@ -1,5 +1,5 @@
 /*! \file matrix3x3.h
-	\author HiddenSeeker
+	
 
 	Defines a 3x3 matrix, used for mutiplication and rotation operations in sprites
 	and rectangles

@@ -1,5 +1,5 @@
 /*! \file collisionhandler.h
-	\author HiddenSeeker
+	
 
 	Describes a collision handler, used to deal with collision actions
  */

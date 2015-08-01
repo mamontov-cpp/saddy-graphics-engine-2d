@@ -1,5 +1,5 @@
 /*! \file wayswaypointswap.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for swapping points
  */

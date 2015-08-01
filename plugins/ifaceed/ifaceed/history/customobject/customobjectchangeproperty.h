@@ -1,5 +1,5 @@
 /*! \file customobjectchangeproperty.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which defines changing property of a custom object
  */

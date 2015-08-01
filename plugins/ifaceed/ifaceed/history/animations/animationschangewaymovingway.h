@@ -1,5 +1,5 @@
 /*! \file animationschangewaymovingway.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes way for WayMoving animation
  */

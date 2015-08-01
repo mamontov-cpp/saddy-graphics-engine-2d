@@ -1,5 +1,5 @@
 /*! \file   fuzzyequal.h
-	\author HiddenSeeker
+	
 
 	A functions for fuzzy comparing of numbers with floating point are placed here
  */

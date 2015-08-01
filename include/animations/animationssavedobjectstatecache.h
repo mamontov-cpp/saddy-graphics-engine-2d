@@ -1,5 +1,5 @@
 /*! \file animations/animationssavedobjectstatecache.h
-	\author HiddenSeeker
+	
 
 	Declares a cache of saved object states
  */

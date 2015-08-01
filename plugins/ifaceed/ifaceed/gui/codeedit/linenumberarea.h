@@ -1,5 +1,5 @@
 /*! \file linenumberarea.h
-	\author HiddenSeeker
+	
 
 	A part of code editor, which displays line numbers,  based on both examples of rich editor and other
 	http://qt-project.org/doc/qt-4.8/widgets-codeeditor.html ,

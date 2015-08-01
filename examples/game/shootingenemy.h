@@ -1,5 +1,5 @@
 /*! \file shootingenemy.h
-	\author HiddenSeeker
+	
 
 	Describes an enemy, that shoots with enemy bullets
  */

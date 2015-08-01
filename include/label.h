@@ -1,5 +1,5 @@
 /*! \file   label.h
-    \author HiddenSeeker
+    
 
 	Contains a definition of simple label node, that can be added to scene
 */

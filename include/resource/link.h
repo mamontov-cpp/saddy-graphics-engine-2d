@@ -1,5 +1,5 @@
 /*! \file resource/link.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Link.
 

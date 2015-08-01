@@ -1,5 +1,5 @@
 /*! \file db/dbtable.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Table, which represents object table in database.
  */

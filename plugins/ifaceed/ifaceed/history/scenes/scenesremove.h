@@ -1,5 +1,5 @@
 /*! \file scenesremove.h
-	\author HiddenSeeker
+	
 
 	Describes a command, used to add remove scene from scenes list
  */

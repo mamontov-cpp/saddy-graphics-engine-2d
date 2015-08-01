@@ -1,5 +1,5 @@
 /*! \file resource/resourcefactory.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class ResourceFactory.
 

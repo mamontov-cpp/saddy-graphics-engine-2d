@@ -1,5 +1,5 @@
 /*! \file querytable.h
-    \author HiddenSeeker
+    
 
     Queries table for objects, returning list of major ids for objects
  */

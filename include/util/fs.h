@@ -1,5 +1,5 @@
 /*! \file fs.h
-	\author HiddenSeeker
+	
 
 	Describes a misc functions for working with filesystem
  */

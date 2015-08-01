@@ -1,5 +1,5 @@
 /*! \file animationschangename.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes name of animations
  */

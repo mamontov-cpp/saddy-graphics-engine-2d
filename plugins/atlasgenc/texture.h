@@ -1,5 +1,5 @@
 /*! \file texture.h
-	\author HiddenSeeker
+	
 
 	Describes a in-app texture
  */

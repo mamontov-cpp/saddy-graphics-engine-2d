@@ -1,5 +1,5 @@
 /*! \file dbcanbecasted.h
-	\author HiddenSeeker
+	
 
 	Here defined a function,  which determines, whether we could cast 
 	between two types in terms of database type and variants.

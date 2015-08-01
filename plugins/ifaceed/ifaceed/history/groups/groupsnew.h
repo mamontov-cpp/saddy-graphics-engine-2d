@@ -1,5 +1,5 @@
 /*! \file groupsnew.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs creating new animation group
  */

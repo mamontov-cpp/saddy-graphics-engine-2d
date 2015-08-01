@@ -1,5 +1,5 @@
 /*! \file doubletuplewidget.h
-	\author HiddenSeeker
+	
 
 	A widget for editing a pair of double values
  */

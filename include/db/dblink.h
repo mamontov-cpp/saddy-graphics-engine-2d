@@ -1,5 +1,5 @@
 /*! \file db/dblink.h
-	\author HiddenSeeker
+	
 	
 	Describes a link to database object, used to link object to a database.
  */ 

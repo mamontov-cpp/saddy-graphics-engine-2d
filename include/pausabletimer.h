@@ -1,5 +1,5 @@
 /*! \file pausabletimer.h
-	\author HiddenSeeker
+	
 
 	Defines a timer, which could be paused
  */

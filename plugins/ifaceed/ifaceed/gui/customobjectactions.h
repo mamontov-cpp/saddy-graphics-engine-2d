@@ -1,5 +1,5 @@
 /*! \file customobjectactions.h
-	\author HiddenSeeker
+	
 
 	Describes a group of actions, linked to sprited
  */

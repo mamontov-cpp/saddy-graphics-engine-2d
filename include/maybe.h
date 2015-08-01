@@ -1,5 +1,5 @@
 /*!  \file maybe.h
-	 \author HiddenSeeker
+	 
 
 	 Describes a value, that can be presented or not exists
  */

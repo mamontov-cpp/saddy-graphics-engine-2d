@@ -1,5 +1,5 @@
 /*! \file collisiondetector.h
-	\author HiddenSeeker
+	
 
 	Describes a basic collision detector, used to determine, whether
 	bodies collide and when does it occured.

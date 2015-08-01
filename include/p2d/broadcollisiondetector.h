@@ -1,5 +1,5 @@
 /*! \file broadcollisiondetector.h
-	\author HiddenSeeker
+	
 
 	Determines a collision detector, based on building an extended figure
 	out of shapes at beginning and end. Returns half of time limit if

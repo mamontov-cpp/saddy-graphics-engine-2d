@@ -1,5 +1,5 @@
 /*! \file    sadhash.h
-    \author  HiddenSeeker, Various
+    \author  mamontov-cpp, Various
 	\brief   Contains basic hash-table dictionary definition
 
 	Contains a simple hashtable, based on ElfHash function

@@ -1,5 +1,5 @@
 /*! \file animations/animationsoptionlist.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of changing options of sprite by time
  */

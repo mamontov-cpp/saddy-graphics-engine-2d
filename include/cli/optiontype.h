@@ -1,5 +1,5 @@
 /*! \file optiontype.h
-	\author HiddenSeeker
+	
 
 	Declares a type for options in command-line parser
  */

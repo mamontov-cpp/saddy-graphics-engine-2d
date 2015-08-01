@@ -1,5 +1,5 @@
 /*! \file queryobject.h
-	\author HiddenSeeker
+	
 
 	A function for querying object from database
  */

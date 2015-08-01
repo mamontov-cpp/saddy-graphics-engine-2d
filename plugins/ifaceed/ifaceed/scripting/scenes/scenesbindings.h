@@ -1,5 +1,5 @@
 /*! \file scenesbindings.h
-	\author HiddenSeeker
+	
 
 	Describes bindings for editing scenes
  */

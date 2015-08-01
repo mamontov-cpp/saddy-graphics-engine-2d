@@ -1,5 +1,5 @@
 /*! \file texture.h
-	\author HiddenSeeker
+	
 
 	A mini-texture class, needed to provide lazy upload of texture for building a
 	call list for freetype

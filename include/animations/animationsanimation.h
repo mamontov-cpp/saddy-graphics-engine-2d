@@ -1,5 +1,5 @@
 /*! \file animationsanimation.h
-    \author HiddenSeeker
+    
 
     Defines a basic class for all kind of animation as a resource in project
  */

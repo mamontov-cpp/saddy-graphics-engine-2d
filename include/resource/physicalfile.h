@@ -1,5 +1,5 @@
 /*! \file resource/physicalfile.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class PhysicalFile.
 

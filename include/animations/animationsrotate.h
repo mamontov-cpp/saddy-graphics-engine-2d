@@ -1,5 +1,5 @@
 /*! \file animations/animationsrotate.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of rotating an object
  */

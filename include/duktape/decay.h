@@ -1,5 +1,5 @@
 /*! \file decay.h
-    \author HiddenSeeker
+    
     
     Simple decay replacement for old compilers
  */

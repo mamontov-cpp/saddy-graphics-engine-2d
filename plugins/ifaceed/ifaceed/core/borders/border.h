@@ -1,5 +1,5 @@
 /*! \file border.h
-	\author HiddenSeeker
+	
 
 	Describes a border, used to render different buttons around sprite and a border
  */

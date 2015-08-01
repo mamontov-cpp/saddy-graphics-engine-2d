@@ -1,5 +1,5 @@
 /*! \file sadsleep.h
-	\author HiddenSeeker
+	
 
 	Describes crossplatform implementation of sleep - a function, which suspends function
 	for time.

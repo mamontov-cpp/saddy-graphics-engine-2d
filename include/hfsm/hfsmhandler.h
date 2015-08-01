@@ -1,5 +1,5 @@
 /*! \file   hfsmhandler.h
-	\author HiddenSeeker
+	
 
 	A handler for hierarchical finite state events, which could be invoked immediately
  */

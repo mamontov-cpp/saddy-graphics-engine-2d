@@ -1,5 +1,5 @@
 /*! \file point2d.h
-	\author HiddenSeeker
+	
 
 	A sad::Point2D scriptable wrapper
  */

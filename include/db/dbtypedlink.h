@@ -1,5 +1,5 @@
 /*! \file dbtypedlink.h
-    \author HiddenSeeker
+    
 
     Defines a typed link to database
  */

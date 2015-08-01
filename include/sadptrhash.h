@@ -1,5 +1,5 @@
 /*! \file    sadptrhash.h
-    \author  HiddenSeeker
+    \author  mamontov-cpp
 	\brief   Contains hash implementation with pointer function
 
 	Contains a simple hash, with pointers, which is freed automatically

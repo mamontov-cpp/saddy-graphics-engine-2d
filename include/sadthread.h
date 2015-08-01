@@ -1,5 +1,5 @@
 /*! \file sadthread.h
-	\author HiddenSeeker
+	
 
 	Describes a cross-platform implementation of thread
  */

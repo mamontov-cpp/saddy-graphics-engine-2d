@@ -1,5 +1,5 @@
 /*! \file groupschangelooped.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes looped flag of animation group
  */

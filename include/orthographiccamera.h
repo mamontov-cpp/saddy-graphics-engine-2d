@@ -1,5 +1,5 @@
 /*! \file   orthographiccamera.h
-    \author HiddenSeeker
+    
     
 	An orthographic camera, which sets of orthographic projection, so all viewed objects will be withing match
 	a rectangle with specified width and height

@@ -1,5 +1,5 @@
 /*! \file animations/setstate/setcameratranslation.h
-    \author HiddenSeeker
+    
 
     Defines a comand, which translates camera around a pivot
  */

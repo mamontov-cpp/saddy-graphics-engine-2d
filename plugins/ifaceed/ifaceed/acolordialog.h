@@ -1,5 +1,5 @@
 /*! \file acolordialog.h
-	\author HiddenSeeker
+	
 
 	Describes a dialog for picking color with alpha, since standard dialog is not enough
  */

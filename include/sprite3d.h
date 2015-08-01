@@ -1,5 +1,5 @@
 /*! \file   sprite3d.h
-    \author HiddenSeeker
+    
 
 	Contains a definition of sprite in 3-dimensional space.
 */

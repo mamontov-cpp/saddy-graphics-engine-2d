@@ -1,5 +1,5 @@
 /*! \file periodicalevent.h
-	\author HiddenSeeker
+	
 
 	Describes a period event, which performs in specified interval
  */

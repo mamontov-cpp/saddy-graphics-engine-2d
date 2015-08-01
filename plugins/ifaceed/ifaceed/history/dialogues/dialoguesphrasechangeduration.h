@@ -1,5 +1,5 @@
 /*! \file dialoguesphrasechangeduration.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for changing duration of phrase
  */

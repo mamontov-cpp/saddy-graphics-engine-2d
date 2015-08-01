@@ -1,5 +1,5 @@
 /*! \file animationsswapincomposite.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for swapping anim
  */

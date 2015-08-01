@@ -1,5 +1,5 @@
 /*! \file texturemappedfont.h
-	\author HiddenSeeker
+	
 
 	Defines a simple font, which is defined through a texture, where all glyphs
 	are stored. When user loads it, it loads to file - a file of texture and

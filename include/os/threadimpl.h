@@ -1,5 +1,5 @@
 /*! \file      threadimpl.h
-    \author    HiddenSeeker
+    \author    mamontov-cpp
 
     Contains crossplatform thread implementation,  
 	which uses pthread on Linux and WinAPI on Windows 

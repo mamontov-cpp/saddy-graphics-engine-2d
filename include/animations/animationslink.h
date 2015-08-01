@@ -1,5 +1,5 @@
 /*! \file animations/animationslink.h
-    \author HiddenSeeker
+    
 
     Defines an animations link as link to both db and resource tree
  */

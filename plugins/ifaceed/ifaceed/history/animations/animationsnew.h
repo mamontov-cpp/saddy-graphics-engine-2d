@@ -1,5 +1,5 @@
 /*! \file animationsnew.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for adding an animation
  */

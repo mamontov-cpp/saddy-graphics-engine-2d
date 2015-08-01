@@ -1,5 +1,5 @@
 /*! \file unsignedchardelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains unsigned char values
  */

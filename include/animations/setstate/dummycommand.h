@@ -1,5 +1,5 @@
 /*! \file animations/setstate/dummycommand.h
-	\author HiddenSeeker
+	
 
 	Defines a dummy command, which does nothing, when invoked
  */

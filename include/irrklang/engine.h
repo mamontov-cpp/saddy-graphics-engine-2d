@@ -1,5 +1,4 @@
 /*! \file engine.h
-    \author HiddenSeeker
 
     Defines a global device, which can be accessed from multiple entry points
  */

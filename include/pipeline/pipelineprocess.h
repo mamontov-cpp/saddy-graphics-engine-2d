@@ -1,5 +1,5 @@
 /*! \file pipelineprocess.h
-	\author HiddenSeeker
+	
 
 	Describes a process, which should be performed every time inside of pipeline loop
  */

@@ -1,5 +1,5 @@
 /*! \file   hfsmtransition.h
-	\author HiddenSeeker
+	
 
 	Defines a transition for hierarchical finite state transformation
  */

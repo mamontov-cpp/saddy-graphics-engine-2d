@@ -1,5 +1,5 @@
 /*! \file tpunitw.h
-	\author HiddenSeeker
+	
 
 	A cleaner version of including tpunit++, since there were a lot of overhead
 	for it, due warnings in C++ or printf declaration

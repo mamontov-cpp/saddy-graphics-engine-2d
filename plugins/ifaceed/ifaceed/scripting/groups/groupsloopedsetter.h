@@ -1,5 +1,5 @@
 /*! \file groupsloopedsetter.h
-	\author HiddenSeeker
+	
 
 	A setter for looped property for animation group
  */

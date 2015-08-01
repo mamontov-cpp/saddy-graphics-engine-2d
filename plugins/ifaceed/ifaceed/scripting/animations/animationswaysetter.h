@@ -1,5 +1,5 @@
 /*! \file animationswaysetter.h
-    \author HiddenSeeker
+    
 
     A basic setter for setting way
  */

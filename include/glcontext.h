@@ -1,5 +1,5 @@
 /*! \file glcontext.h
-	\author HiddenSeeker
+	
 
 	Contains implementation of OpenGL context
  */

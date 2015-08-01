@@ -1,5 +1,5 @@
 /*! \file db/database.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class Database, which is a database of game objects, which could be organized in tables
 	and queried by various parameters, like name and identifying ids.

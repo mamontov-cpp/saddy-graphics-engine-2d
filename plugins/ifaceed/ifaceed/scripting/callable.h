@@ -1,5 +1,5 @@
 /*! \file callable.h
-	\author HiddenSeeker
+	
 
 	Describes a scriptable callable object
  */

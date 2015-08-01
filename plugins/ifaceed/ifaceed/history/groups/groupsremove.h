@@ -1,5 +1,5 @@
 /*! \file groupsremove.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs removing animation group
  */

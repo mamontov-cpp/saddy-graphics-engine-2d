@@ -1,5 +1,5 @@
 /*! \file resource/error.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of class sad::resource::Error.
 

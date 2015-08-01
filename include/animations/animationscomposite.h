@@ -1,5 +1,5 @@
 /*! \file animationscomposite.h
-	\author HiddenSeeker
+	
 
 	Defines a an animation, which consists of several animations, inserted into one
  */

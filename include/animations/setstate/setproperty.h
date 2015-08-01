@@ -1,5 +1,5 @@
 /*! \file animations/setstate/setproperty.h
-	\author HiddenSeeker
+	
 
 	Defines a command, which sets property on an object
  */

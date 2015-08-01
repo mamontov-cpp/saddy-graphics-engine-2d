@@ -1,5 +1,5 @@
 /*! \file towidechar.h
-	\author HiddenSeeker
+	
 
 	A definition of simple convertor from ASCII  to Unicode, which
 	responds to russian letters

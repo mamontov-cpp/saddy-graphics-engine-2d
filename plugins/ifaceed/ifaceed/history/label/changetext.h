@@ -1,5 +1,5 @@
 /*! \file changetext.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change scene label's text
  */

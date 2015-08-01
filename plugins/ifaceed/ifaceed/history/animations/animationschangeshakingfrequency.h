@@ -1,5 +1,5 @@
 /*! \file animationschangeshakingfrequency.h
-    \author HiddenSeeker
+    
 
     Describes a command, which changes frequency of shaking for CameraShaking animation
  */

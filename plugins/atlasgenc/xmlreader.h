@@ -1,5 +1,5 @@
 /*! \file xmlreader.h
-    \author HiddenSeeker
+    
 
     Defines a reader, which reads an atlas from XML
  */

@@ -1,5 +1,5 @@
 /*! \file    sadstring.h
-    \author  HiddenSeeker
+    \author  mamontov-cpp
 
 	\brief   Definition of string.
 

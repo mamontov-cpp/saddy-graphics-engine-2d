@@ -1,5 +1,5 @@
 /** \file batchcommand.h
-	\author HiddenSeeker
+	
 
 	Describes a complex command, which can consist of several commands an apply all of them at the same time
 	when committing

@@ -1,5 +1,5 @@
 /*! \file animations/animationsprocess.h
-	\author HiddenSeeker
+	
 
 	Defines a process for animations as element of animations pipeline
  */ 

@@ -1,5 +1,5 @@
 /*! \file db/save,h
-	\author HiddenSeeker
+	
 	
 	Describes a save operations for a type
  */

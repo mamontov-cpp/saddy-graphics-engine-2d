@@ -1,5 +1,5 @@
 /*! \file   dbfield.h
-	\author HiddenSeeker
+	
 	
 	Describes a field of class, as property
  */

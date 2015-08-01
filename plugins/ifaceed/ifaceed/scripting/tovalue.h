@@ -1,5 +1,5 @@
 /*! \file tovalue.h
- *  \author HiddenSeeker
+ *  
  *
  *  Contains custom conversions from QScriptValue
  */

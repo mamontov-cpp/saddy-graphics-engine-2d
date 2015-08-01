@@ -1,5 +1,5 @@
 /*! \file scenesclear.h
-	\author HiddenSeeker
+	
 
 	Describes a command, used to clear scene
  */

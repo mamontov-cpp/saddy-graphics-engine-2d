@@ -1,5 +1,5 @@
 /*! \file ghostoptions.h
-	\author HiddenSeeker
+	
 
 	Describes an options for object, that defines it as a ghost, i.e.
 	an object, which does not collide with any other objects

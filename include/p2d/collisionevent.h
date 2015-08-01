@@ -1,5 +1,5 @@
 /*! \file collisionevent.h
-	\author HiddenSeeker
+	
 
 	Describes a collision event
  */

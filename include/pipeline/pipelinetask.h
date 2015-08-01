@@ -1,5 +1,5 @@
 /*! \file pipelinetask.h
-	\author HiddenSeeker
+	
 
 	Describes a task, which will be performed once, and then removed from process
  */

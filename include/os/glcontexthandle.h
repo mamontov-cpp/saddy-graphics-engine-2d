@@ -1,5 +1,5 @@
 /*! \file glcontexthandle.h
-	\author HiddenSeeker
+	
 
 	Contains declaration of OpenGL context handle
  */

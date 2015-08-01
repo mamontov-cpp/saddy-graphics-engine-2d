@@ -1,5 +1,5 @@
 /*! \file databasepropertygetter.h
-    \author HiddenSeeker
+    
 
     Defines a property getter for database properties
  */

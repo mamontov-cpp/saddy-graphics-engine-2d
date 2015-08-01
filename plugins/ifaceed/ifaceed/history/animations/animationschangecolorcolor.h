@@ -1,5 +1,5 @@
 /*! \file animationschangecolorcolor.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes color for an animation
  */

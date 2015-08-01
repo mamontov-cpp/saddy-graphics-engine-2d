@@ -1,5 +1,5 @@
 /*! \file sadpoint.h
-	\author HiddenSeeker
+	
 	
 	Contains definitions of both 2D and 3D points
  */

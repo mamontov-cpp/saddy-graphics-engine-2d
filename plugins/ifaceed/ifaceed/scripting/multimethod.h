@@ -1,5 +1,5 @@
 /*! \file multimethod.h
-	\author HiddenSeeker
+	
 
 	Defines a multimethod for scripting
  */

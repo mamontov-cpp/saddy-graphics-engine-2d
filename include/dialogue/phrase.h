@@ -1,5 +1,5 @@
 /*! \file dialogue/phrase.h
-	\author HiddenSeeker
+	
 	
 	Describes a dialogue phrase, which could be used, when implemented dialogue system in your game
  */

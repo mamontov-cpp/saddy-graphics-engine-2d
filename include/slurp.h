@@ -1,5 +1,5 @@
 /*! \file slurp.h
-    \author HiddenSeeker
+    
 
     Defines slurp function for reading whole file into string, using concatenation of given path with 
     executable path, if specified file cannot be found in working directory

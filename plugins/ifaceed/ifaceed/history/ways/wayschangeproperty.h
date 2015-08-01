@@ -1,5 +1,5 @@
 /*!  \file wayschangeproperty.h
- *   \author HiddenSeeker
+ *   
  *
  *   Defines a command type, which describes change of way
  *   in scene node

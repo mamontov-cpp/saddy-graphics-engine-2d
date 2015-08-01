@@ -1,5 +1,5 @@
 /*! \file waysbindings.h
-    \author HiddenSeeker
+    
 
     A bindings for ways are listed here
  */

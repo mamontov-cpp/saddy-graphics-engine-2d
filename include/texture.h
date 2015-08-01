@@ -1,5 +1,5 @@
 /*! \file    texture.h
-    \author  HiddenSeeker, Falc_ON, Victor.Grig
+    \author  mamontov-cpp, Falc_ON, Victor.Grig
     
 	Contains definition of texture class
 */

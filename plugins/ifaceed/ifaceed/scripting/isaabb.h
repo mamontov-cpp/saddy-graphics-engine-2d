@@ -1,5 +1,5 @@
 /*! \file scripting/isaabb.h
-	\author HiddenSeeker
+	
 
 	Describes a condition, whether rectangle is AABB-box
  */

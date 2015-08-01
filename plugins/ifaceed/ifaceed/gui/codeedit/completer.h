@@ -1,5 +1,5 @@
 /*! \file gui/codeedit/completer.h
-	\author HiddenSeeker
+	
 
 	Defines a completer for javascript code
  */

@@ -1,5 +1,5 @@
 /*! \file force.h
-	\author HiddenSeeker
+	
 
 	Describes a force, acting on object
  */

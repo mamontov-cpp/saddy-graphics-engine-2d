@@ -1,5 +1,5 @@
 /*! \file animationswayinstance.h
-	\author HiddenSeeker
+	
 
 	A way instance for working with way path moving
  */

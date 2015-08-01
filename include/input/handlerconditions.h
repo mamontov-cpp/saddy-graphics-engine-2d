@@ -1,5 +1,5 @@
 /*! \file   handlerconditions.h
-	\author HiddenSeeker
+	
 
 	A conditions for running event handlers is specified here. 
  */

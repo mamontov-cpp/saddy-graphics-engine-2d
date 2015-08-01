@@ -1,5 +1,5 @@
 /*!  \file animations/animationssequential.h
-     \author HiddenSeeker
+     
 
      Defines a sequential animation as a list of animations from various sources
  */

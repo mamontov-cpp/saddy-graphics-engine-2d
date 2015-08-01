@@ -1,5 +1,5 @@
 /*! \file sadsize2ddelegate.h
-    \author HiddenSeeker
+    
 
     A delegate for property, which contains sad::Size2D values
  */

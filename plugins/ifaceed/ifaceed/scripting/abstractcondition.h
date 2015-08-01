@@ -1,5 +1,5 @@
 /*! \file abstractcondition.h
-	\author HiddenSeeker
+	
 
 	Defines an abstract condition for fetching conditions
  */

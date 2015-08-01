@@ -1,5 +1,5 @@
 /*! \file animations/animationscontinuousproperty.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of continous property changing
  */

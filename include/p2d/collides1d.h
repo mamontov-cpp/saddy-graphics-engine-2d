@@ -1,5 +1,5 @@
 /*! \file collides1d.h
-	\author HiddenSeeker
+	
 
 	Declares a functionfor solving collision problem in 1d case
  */

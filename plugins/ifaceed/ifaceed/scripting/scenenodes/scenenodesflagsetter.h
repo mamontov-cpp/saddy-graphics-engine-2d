@@ -1,5 +1,5 @@
 /*! \file scenenodesflagsetter.h
-	\author HiddenSeeker
+	
 
 	Defines a setter for  visibility property of scene node
  */

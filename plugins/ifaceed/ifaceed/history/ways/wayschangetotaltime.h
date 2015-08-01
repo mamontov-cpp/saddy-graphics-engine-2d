@@ -1,5 +1,5 @@
 /*! \file wayschangetotaltime.h
-    \author HiddenSeeker
+    
 
     Describe a command, which change total time for way
  */

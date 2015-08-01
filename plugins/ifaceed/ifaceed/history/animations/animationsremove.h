@@ -1,5 +1,5 @@
 /*! \file animationsremove.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for removing an animation
  */

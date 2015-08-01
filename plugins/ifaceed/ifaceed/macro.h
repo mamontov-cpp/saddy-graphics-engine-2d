@@ -1,5 +1,5 @@
 /*! \file macro.h
-	\author HiddenSeeker
+	
 
 	A definitions for presetted defaults and other macro are stored here.
  */

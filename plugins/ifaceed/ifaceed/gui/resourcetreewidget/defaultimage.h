@@ -1,5 +1,5 @@
 /*! \file defaultimage.h
-	\author HiddenSeeker
+	
 
 	Contains data for default image for resource cache
  */

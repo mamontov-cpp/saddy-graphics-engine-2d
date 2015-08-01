@@ -1,5 +1,5 @@
 /*! \file doubledelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains double values
  */

@@ -1,5 +1,5 @@
 /*! \file sadsemaphore.h
-	\author HiddenSeeker
+	
 	
 	Defines a semaphore as simple synchonization primitive. Semaphore blocks execution, when
 	it's value less than zero, and does not

@@ -1,5 +1,5 @@
 /*! \file animations/animationscolor.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of changing color of an object
  */

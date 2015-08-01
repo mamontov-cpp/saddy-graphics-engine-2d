@@ -1,5 +1,5 @@
 /*! \file scenenodesoptionssetter.h
-    \author HiddenSeeker
+    
 
     Describes a setter for options property of scene node (used for sad::Sprite2D and custom objects)
  */

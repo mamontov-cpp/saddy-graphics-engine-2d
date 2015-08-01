@@ -1,5 +1,5 @@
 /*! \file nextpoweroftwo.h
-	\author HiddenSeeker
+	
 
 	A definition of next power of two function, which rounds up number to
 	next power of two.

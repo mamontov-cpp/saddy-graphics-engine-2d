@@ -1,5 +1,5 @@
 /*! \file animationsaddtocomposite.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for adding other animations to a list of composite animation
  */

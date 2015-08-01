@@ -1,5 +1,5 @@
 /*! \file weight.h
-	\author HiddenSeeker
+	
 
 	Describes a weight of object
  */

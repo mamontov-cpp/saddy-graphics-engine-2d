@@ -1,5 +1,5 @@
 /*! \file instanceschangeanimation.h
-	\author HiddenSeeker
+	
 
 	Describes a command, which performs changing animation for instance
  */

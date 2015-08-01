@@ -1,5 +1,5 @@
 /*! \file simplecollisiondetector.h
-	\author HiddenSeeker
+	
 
 	Determines a simple collision detector, which detects a collision
 	by testing it at a specified moment, defined as proportion to time

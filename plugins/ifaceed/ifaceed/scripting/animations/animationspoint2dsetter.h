@@ -1,5 +1,5 @@
 /*! \file animationspoint2dsetter.h
-	\author HiddenSeeker
+	
 
 	Defines a generic setter for setting a property of animations, which is stored as sad::Point2D
     and displayed, as two QDoubleSpinBox

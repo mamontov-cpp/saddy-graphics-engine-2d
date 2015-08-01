@@ -1,5 +1,5 @@
 /*! \file bmploader.h
-	\author HiddenSeeker
+	
 
 	Defines a loader for BMP images
  */

@@ -1,5 +1,5 @@
 /*! \file databasebindings.h
-	\author HiddenSeeker
+	
 
 	Describes bindings for editing database properties
  */

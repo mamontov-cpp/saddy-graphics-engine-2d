@@ -1,5 +1,5 @@
 /*! \file xmlwriter.h
-    \author HiddenSeeker
+    
 
     Defines a writer for writing output configs atlases in XML Format
  */

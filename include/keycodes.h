@@ -1,5 +1,5 @@
 /*! \file keycodes.h
-	\author HiddenSeeker
+	
 
 	Contains information for all key codes, used in system. To prevent global namespace pollution 
 	with macro definitions, since rev 800, all key codes must be parts of corresponding events.

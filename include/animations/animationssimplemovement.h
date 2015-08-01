@@ -1,5 +1,5 @@
 /*! \file animationssimplemovement.h
-	\author HiddenSeeker
+	
 
 	Describes an animation for simple movement of object on line
  */

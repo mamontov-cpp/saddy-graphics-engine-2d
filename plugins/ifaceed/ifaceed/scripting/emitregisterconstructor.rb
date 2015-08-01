@@ -1,5 +1,5 @@
 print "/*! \\file registerconstructor.h
-	\\author HiddenSeeker
+	
 
 	Defines register constructor function
  */

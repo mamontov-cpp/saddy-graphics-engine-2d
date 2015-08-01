@@ -1,5 +1,5 @@
 /*! \file signedchardelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property of signed char
  */

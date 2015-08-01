@@ -1,5 +1,5 @@
 /*! \file dialoguesphraseswap.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for swapping two phrases
  */

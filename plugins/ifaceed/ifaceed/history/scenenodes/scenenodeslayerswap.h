@@ -1,5 +1,5 @@
 /*! \file scenenodeslayerswap.h
-	\author HiddenSeeker
+	
 
 	Used to swap layers on scenes.
  */

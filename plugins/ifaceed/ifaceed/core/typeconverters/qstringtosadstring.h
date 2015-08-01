@@ -1,5 +1,5 @@
 /*! \file qstringtosadstring.h
-	\author HiddenSeeker
+	
 
 	Defines a converter from QString to sad::String, used in conversion table
  */

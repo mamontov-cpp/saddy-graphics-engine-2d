@@ -1,5 +1,5 @@
 /*! \file getvalue.h
-    \author HiddenSeeker
+    
 
     Describes an operations, that could be used to get value from a stack of
     operations of Duktape

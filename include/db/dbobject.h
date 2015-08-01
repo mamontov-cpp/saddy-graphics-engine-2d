@@ -1,5 +1,5 @@
 /*! \file db/object.h
-	\author HiddenSeeker
+	
 	
 	Contains definition of basic serializable class Object.
  */

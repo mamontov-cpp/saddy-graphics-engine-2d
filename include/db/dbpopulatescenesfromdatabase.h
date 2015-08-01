@@ -1,5 +1,5 @@
 /*! \file dbpopulatescenesfromdatabase.h
-	\author HiddenSeeker
+	
 
 	Populates scene from database.
  */

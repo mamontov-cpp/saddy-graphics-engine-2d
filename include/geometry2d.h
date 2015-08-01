@@ -1,5 +1,5 @@
 /*!  \file geometry2d.h
-	 \author HiddenSeeker
+	 
 
 	 A misc 2D geometry functions for 2d points and rectangles.
  */

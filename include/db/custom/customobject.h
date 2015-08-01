@@ -1,5 +1,5 @@
 /*! \file customobject.h
-	\author HiddenSeeker
+	
 
 	Describes custom object with custom properties. Could be Sprite2D or Labels, depending on stuff
  */

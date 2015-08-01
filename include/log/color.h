@@ -1,5 +1,5 @@
 /*! \file color.h
-	\author HiddenSeeker
+	
 
 	Defines a color, used in coloring schemes for console targets
  */

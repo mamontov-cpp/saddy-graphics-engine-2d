@@ -1,5 +1,5 @@
 /*! \file   dbmethodpair.h
-	\author HiddenSeeker
+	
 	
 	Describes a pair of methods, which could be used to work as property
  */

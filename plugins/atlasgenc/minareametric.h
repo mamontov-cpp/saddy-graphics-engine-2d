@@ -1,5 +1,5 @@
 /*! \file minareametric.h
-    \author HiddenSeeker
+    
 
     Describes a metric which, that minimizes area of resulting texture
  */

@@ -1,5 +1,5 @@
 /*! \file equalto.h
-    \author HiddenSeeker
+    
 
     Contains nice specializations for std::equal_to for points, rects, sizes
  */

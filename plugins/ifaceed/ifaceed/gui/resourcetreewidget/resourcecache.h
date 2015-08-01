@@ -1,5 +1,5 @@
 /*! \file resourcecache.h
-	\author HiddenSeeker
+	
 
 	A cache for resources as images for displaying it in tables
  */

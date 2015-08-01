@@ -1,5 +1,5 @@
 /*! \file animationschangefontsizesize.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes size for FontSize animation
  */

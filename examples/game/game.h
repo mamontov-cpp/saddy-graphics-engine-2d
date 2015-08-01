@@ -1,5 +1,5 @@
 /*! \file game.h
-	\author HiddenSeeker
+	
 
 	Describes a game state with all references and other stuff
  */

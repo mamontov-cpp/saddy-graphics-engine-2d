@@ -1,5 +1,5 @@
 /*! \file instancesnamesetter.h
-	\author HiddenSeeker
+	
 
 	A setter for name for scene objects
  */

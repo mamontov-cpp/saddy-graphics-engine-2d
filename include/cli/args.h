@@ -1,5 +1,5 @@
 /*! \file args.h
-	\author HiddenSeeker
+	
 
 	Defines an arguments, passed to parser
  */

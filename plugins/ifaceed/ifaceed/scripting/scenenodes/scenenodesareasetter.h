@@ -1,5 +1,5 @@
 /*! \file scenenodesareasetter.h
-    \author HiddenSeeker
+    
 
     Describes a setter for area property of scene node
  */

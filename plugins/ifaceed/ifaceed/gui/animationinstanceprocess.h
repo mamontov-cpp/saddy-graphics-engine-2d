@@ -1,5 +1,5 @@
 /*! \file animationinstanceprocess.h
-	\author HiddenSeeker
+	
 
 	Describes a simple model of animation process, which polls an animation instance after specified time
 	and performs a cleanup if it needed, erasing timer

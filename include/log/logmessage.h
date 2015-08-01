@@ -1,5 +1,5 @@
 /*! \file logmessage.h
-	\author HiddenSeeker
+	
 
 	Defines a message, that can be logged
  */

@@ -1,5 +1,5 @@
 /*! \file   sadptrie.h
-    \author HiddenSeeker
+    
 
     \brief contains a Ptrie class definition.
 

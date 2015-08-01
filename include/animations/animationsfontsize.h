@@ -1,5 +1,5 @@
 /*! \file animations/animationsfontsize.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of font size by time
  */

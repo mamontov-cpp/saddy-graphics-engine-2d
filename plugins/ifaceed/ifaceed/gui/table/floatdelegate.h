@@ -1,5 +1,5 @@
 /*! \file floatdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains float values
  */

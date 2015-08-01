@@ -1,5 +1,5 @@
 /*! \file sadstringdelegate.h
-	\author HiddenSeeker
+	
 
 	A delegate for property, which contains sad::String values
  */

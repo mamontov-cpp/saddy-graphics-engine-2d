@@ -1,5 +1,5 @@
 /*! \file handlers.h
-	\author HiddenSeeker
+	
 
 	This file contains implementations for window input handlers, which can be used as 
 	callbacks to handle window input.

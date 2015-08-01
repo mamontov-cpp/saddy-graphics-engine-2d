@@ -1,5 +1,5 @@
 /*! \file systemeventdispatcher.h
-	\author HiddenSeeker
+	
 
 	Defines a dispatcher, which dispatches a system events
  */

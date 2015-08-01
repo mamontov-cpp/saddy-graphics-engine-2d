@@ -1,5 +1,5 @@
 /*! \file convexhull.h
-	\author HiddenSeeker
+	
 
 	Defines  a convex hull and set of operations on it
  */

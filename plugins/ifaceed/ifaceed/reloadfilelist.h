@@ -1,5 +1,5 @@
 /*! \file reloadfilelist.h
-	\author HiddenSeeker
+	
 
 	Describes a dialog for picking file for reloading
  */

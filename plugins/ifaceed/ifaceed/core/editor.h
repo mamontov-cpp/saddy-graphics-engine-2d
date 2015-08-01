@@ -1,5 +1,5 @@
 /*! \file   editor.h
-	\author HiddenSeeker
+	
 
 	Defines a main interface editor class
  */

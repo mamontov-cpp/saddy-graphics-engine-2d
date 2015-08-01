@@ -1,5 +1,5 @@
 /*! \file coloredbullet.h
-	\author HiddenSeeker
+	
 
 	Describes a colored bullet
  */

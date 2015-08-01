@@ -1,5 +1,5 @@
 /*! \file dialoguesphrasechangephrase.h
- *  \author HiddenSeeker
+ *  
  *
  * Describes a simple command for changing text of phrase
  */

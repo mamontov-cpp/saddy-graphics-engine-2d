@@ -1,5 +1,5 @@
 /*! \file rotationprocess.h
-	\author HiddenSeeker
+	
 
 	Describes a simple model of rotation process, which delays adding of angle change
 	for scene node to history

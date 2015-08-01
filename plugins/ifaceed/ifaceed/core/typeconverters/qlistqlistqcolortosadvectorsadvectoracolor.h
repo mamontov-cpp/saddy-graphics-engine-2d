@@ -1,5 +1,5 @@
 /*! \file qlistqlistqcolortosadvectorsadvectoracolor.h
-	\author HiddenSeeker
+	
 
 	Defines conversion from QList<QList<QColor> > to sad::Vector<sad::Vector<sad::AColor> >.
  */

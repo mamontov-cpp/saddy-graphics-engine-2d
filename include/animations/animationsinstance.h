@@ -1,5 +1,5 @@
 /*! \file animationsinstance.h
-    \author HiddenSeeker
+    
 
     Defines a basic class for all animations instances
  */

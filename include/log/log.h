@@ -1,5 +1,5 @@
 /*! \file log.h
-	\author HiddenSeeker
+	
 	
 	Describes a basic log and log parameters
  */

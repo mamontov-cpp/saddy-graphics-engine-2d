@@ -1,5 +1,4 @@
 /*! \file   freetype/font.h
-    \author HiddenSeeker
 	\brief  Contains an implementation of font, which is loaded and rendered via FreeType.
 	Here is placed an implementation of freetype font, based on NeHe Tutorial for 
 	MSVC by Sven Olsen,2003

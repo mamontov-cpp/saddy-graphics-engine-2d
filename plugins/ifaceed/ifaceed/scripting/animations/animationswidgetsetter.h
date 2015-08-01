@@ -1,5 +1,5 @@
 /*! \file animationswidgetsetter.h
-	\author HiddenSeeker
+	
 
 	Defines a generic setter for setting a property of animations, where it's binded 
 	to a widget

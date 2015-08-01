@@ -1,5 +1,5 @@
 /*! \file animations/animationsblinking.h
-	\author HiddenSeeker
+	
 
 	An animations as animation of blinking for an object
  */

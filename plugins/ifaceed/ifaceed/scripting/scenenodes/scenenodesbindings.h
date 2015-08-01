@@ -1,5 +1,5 @@
 /*! \file scenenodesbindings.h
-	\author HiddenSeeker
+	
 
 	A scene nodes bindings and data
  */

@@ -1,5 +1,5 @@
 /*! \file glueentry.h
-    \author HiddenSeeker
+    
 
     Defines an entry for gluing textures
  */

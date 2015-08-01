@@ -1,5 +1,4 @@
 /*! \file singlesound.h
-    \author HiddenSeeker
 
     Describes a sound type, which can be used to maintain main theme, e.g. one sound
     from source is played all the time, new sound only replaces old 

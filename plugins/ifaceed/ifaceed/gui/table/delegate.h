@@ -1,5 +1,5 @@
 /*! \file gui/table/delegate.h
-	\author HiddenSeeker
+	
 
 	Describes gui delegate for table or item
  */

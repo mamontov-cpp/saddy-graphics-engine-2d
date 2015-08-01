@@ -1,5 +1,5 @@
 /*! \file   classmetadata.h
-    \author HiddenSeeker
+    
 
 	\brief  Definition of class meta data, which consists of name of class and it's parent names.
 

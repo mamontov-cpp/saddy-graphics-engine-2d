@@ -1,5 +1,5 @@
 /*! \file tickable.h
-	\author HiddenSeeker
+	
 
 	Describes a tickable object which can be stepped
  */

@@ -1,5 +1,5 @@
 /*! \file saddythread.h
-	\author HiddenSeeker
+	
 
 	Defines a thread object, where renderer of Saddy is being run
  */

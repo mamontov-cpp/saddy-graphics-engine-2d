@@ -1,5 +1,5 @@
 /*! \file instanceschangename.h
-    \author HiddenSeeker
+    
 
     Describe a command, which changes name of animation instances
  */

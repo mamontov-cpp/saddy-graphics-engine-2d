@@ -1,5 +1,5 @@
 /*! \file point.h
-	\author HiddenSeeker
+	
 
 	Declares a point in context of 2d tiny physics engine
  */

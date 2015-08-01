@@ -1,5 +1,5 @@
 /** \file command.h
-	\author HiddenSeeker
+	
 
 	Describes an abstract command for history
  */

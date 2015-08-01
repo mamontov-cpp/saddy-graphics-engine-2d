@@ -4,7 +4,7 @@
 	demonstrating engine basics.
  */
 /*! \file main.cpp
-	\author HiddenSeeker
+	
 
 	Describes a main file for game
  */
