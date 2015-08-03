@@ -65,6 +65,10 @@
     #ifndef isnan
         #define isnan(X) _isnan(X)
     #endif
+#else
+    #ifndef __INTEL_COMPILER
+        #define isnan(X) std::isnan(X)
+    #endif
 #endif
 namespace fmt {
 

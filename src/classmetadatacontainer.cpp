@@ -4,6 +4,7 @@
 #include "db/schema/schema.h"
 
 #include <cstdlib>
+#include <stdexcept>
 
 
 sad::ClassMetaDataContainer::ClassMetaDataContainer()
