@@ -45,22 +45,6 @@ public:
 	 */
 	void setRenderer(sad::Renderer * renderer);
 protected:
-	/*! A timer, for computng FPS
-	 */
-	sad::Timer		     m_timer;  
-	/*! An elapsed frames count
-	 */
-	int                  m_frames;      
-	/*! Whether timer should be reset on next iteration
-	 */
-	bool                 m_reset;          
-	/*! Whether we should immediately set FPS 
-	 */
-	bool				 m_setimmediately; 
-	/*!  Current FPS value
-	 */
-	double               m_fps; 
-
 	/*! Returns amount of rendererd items per time
 	 */
 	unsigned int m_total_renderer_items;
