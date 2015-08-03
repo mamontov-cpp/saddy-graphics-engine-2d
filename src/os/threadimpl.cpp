@@ -7,6 +7,8 @@
 
 #ifdef WIN32
 
+#include <process.h>
+
 sad::os::ThreadId sad::os::current_thread_id()
 {
 	return 	GetCurrentThread();
@@ -165,13 +167,14 @@ sad::os::ThreadImpl::~ThreadImpl()
 
 #ifdef WIN32
 
-static DWORD WINAPI thread_implementation_function(LPVOID function)
+static unsigned int WINAPI thread_implementation_function(LPVOID function)
 {
 	sad::AbsractThreadExecutableFunction * f = reinterpret_cast<
 		sad::AbsractThreadExecutableFunction *
 	>(function);
 	int code = f->execute();
-	return code;
+    _endthreadex(code);
+	return static_cast<unsigned int>(code);
 }
 
 #else
@@ -209,8 +212,8 @@ bool sad::os::ThreadImpl::run()
 	// Do not start thread, if already running
 	if (running())
 		return false;
-#ifdef WIN32
-	m_handle=CreateThread(NULL,0,thread_implementation_function, m_function,0,NULL);
+#ifdef WIN32    
+	m_handle = reinterpret_cast<HANDLE>(_beginthreadex(NULL, 0, thread_implementation_function, m_function,0,NULL));
 	return m_handle!=NULL;
 #else
 	pthread_attr_t attrs;
