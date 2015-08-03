@@ -467,7 +467,7 @@ template<class T> const T & DQ_CIT::operator*() const
 }
 template<class T> typename DQ_CIT DQ_CIT::operator++(int)
 {
-    assert( hasNext() || ((m_me->next==NULL ||m_next==NULL) && m_me!=NULL) );
+    assert( hasNext() || (m_me!=NULL && (m_me->next==NULL ||m_next==NULL)) );
     const_iterator tmp=*this;
     //Set new position
     m_prev=m_me;
@@ -478,7 +478,7 @@ template<class T> typename DQ_CIT DQ_CIT::operator++(int)
 }
 template<class T> typename DQ_CIT & DQ_CIT::operator++()
 {
-    assert( hasNext() || ((m_me->next==NULL ||m_next==NULL) && m_me!=NULL) );
+    assert( hasNext() || (m_me!=NULL && (m_me->next==NULL ||m_next==NULL)) );
     //Set new position
     m_prev=m_me;
     m_me=m_next;
@@ -568,7 +568,7 @@ template<class T> T & DQ_IT::operator*()
 }
 template<class T> typename DQ_IT DQ_IT::operator++(int)
 {
-    assert( hasNext() || ((m_me->next==NULL ||m_next==NULL) && m_me!=NULL) );
+    assert( hasNext() || (m_me!=NULL && (m_me->next==NULL ||m_next==NULL)) );
     iterator tmp=*this;
     //Set new position
     m_prev=m_me;
@@ -579,7 +579,7 @@ template<class T> typename DQ_IT DQ_IT::operator++(int)
 }
 template<class T> typename DQ_IT & DQ_IT::operator++()
 {
-    assert( hasNext() || ((m_me->next==NULL ||m_next==NULL) && m_me!=NULL) );
+    assert( hasNext() || (m_me!=NULL && (m_me->next==NULL ||m_next==NULL)) );
     //Set new position
     m_prev=m_me;
     m_me=(m_me)?m_me->next:m_next;

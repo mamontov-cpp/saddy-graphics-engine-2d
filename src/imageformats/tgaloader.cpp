@@ -85,8 +85,8 @@ bool sad::imageformats::TGALoader::load(FILE * file, sad::Texture * texture)
 	header.bitsPerPix		= header_buffer[16];
 	header.imageDescriptor	= header_buffer[17];
 
-	bool image_unsupported = header.imageType == sad::imageformats::IT_TRUECOLOR
-						  && header.imageType == sad::imageformats::IT_TRUECOLOR_RLE;
+	bool image_unsupported = header.imageType != sad::imageformats::IT_TRUECOLOR
+						  && header.imageType != sad::imageformats::IT_TRUECOLOR_RLE;
 	if (header.width == 0 || header.height == 0 || image_unsupported)
 	{
 		return false;

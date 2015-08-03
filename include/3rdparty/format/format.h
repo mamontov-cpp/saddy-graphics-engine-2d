@@ -27,6 +27,7 @@
 
 #ifndef FORMAT_H_
 #define FORMAT_H_
+#include <cmath>
 
 #ifndef _SCL_SECURE_NO_WARNINGS
 	#define _SCL_SECURE_NO_WARNINGS
@@ -56,6 +57,11 @@
 #include <string>
 #include <sstream>
 
+#ifdef _MSC_VER
+    #ifndef isnan
+        #define isnan(X) _isnan(X)
+    #endif
+#endif
 namespace fmt {
 
 namespace internal {
@@ -640,7 +646,7 @@ void BasicWriter<Char>::FormatDouble(
     sign = spec.plus_flag() ? '+' : ' ';
   }
 
-  if (value != value) {
+  if (isnan(value)) {
     // Format NaN ourselves because sprintf's output is not consistent
     // across platforms.
     std::size_t size = 4;
