@@ -83,7 +83,7 @@ public:
 
 	World();
 
-	~World();
+	virtual ~World();
 	/*! Runs a simulation
 	 */
 	void run();
