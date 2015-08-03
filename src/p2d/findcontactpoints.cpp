@@ -533,7 +533,7 @@ sad::p2d::SetOfPointsPair sad::p2d::FindContactPoints::getBtoB(
 	}
 
 	if ( (s1->type() == sad::p2d::BT_UP && s2->type() == sad::p2d::BT_DOWN)
-		|| (s1->type() == sad::p2d::BT_UP && s2->type() == sad::p2d::BT_DOWN))
+		|| (s2->type() == sad::p2d::BT_UP && s1->type() == sad::p2d::BT_DOWN))
 	{
 		if (sad::non_fuzzy_zero(v.y()))
 		{
