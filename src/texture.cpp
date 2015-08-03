@@ -47,7 +47,15 @@ sad::Texture::~Texture()
 			{
 				if (this->renderer()->running())
 				{
-					this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
+                    // Added since, constructor can generate exception
+                    try
+                    { 
+					    this->renderer()->pipeline()->append(new  sad::util::DeleteTextureTask(Id));
+                    }
+                    catch(...)
+                    {
+                        
+                    }
 				}
 			}
 		}
