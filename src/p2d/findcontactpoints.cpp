@@ -138,7 +138,7 @@ void sad::p2d::merge(sad::p2d::SetOfPointsPair & set1, const sad::p2d::SetOfPoin
 void sad::p2d::filterOptimalSet(sad::p2d::SetOfPointsPair & set, const sad::p2d::Vector & v)
 {
 	double vm = sad::p2d::modulo(v);
-	if (vm == 0)
+	if (fabs(vm) < 0.0001)
 		set.clear();
 	// A vector of times for each pair
 	sad::LinkedList<double> ts;

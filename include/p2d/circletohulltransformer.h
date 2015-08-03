@@ -28,7 +28,7 @@ public:
         \param[in] o operator
         \return self-reference
      */
-    inline sad::p2d::CircleToHullTransformer& operator=(const CircleToHullTransformer & o)
+    inline sad::p2d::CircleToHullTransformer& operator=(const sad::p2d::CircleToHullTransformer & o)
     {
         m_sides = o.m_sides;
         return *this;
