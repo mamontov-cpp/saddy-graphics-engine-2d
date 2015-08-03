@@ -82,7 +82,7 @@ void sad::MainLoop::tryElevatePriority()
 	bool ok = false;
     bool affinityresult = false;
 #ifdef WIN32
-	ok = SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) == TRUE;
+	ok = SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) != FALSE;
     affinityresult = SetThreadIdealProcessor(GetCurrentThread(), 1) != static_cast<DWORD>(-1);
     DWORD   dwLastError = ::GetLastError();
     // See http://stackoverflow.com/questions/3006229/get-a-text-from-the-error-code-returns-from-the-getlasterror-function

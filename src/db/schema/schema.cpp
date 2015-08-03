@@ -34,7 +34,7 @@ void sad::db::schema::Schema::remove(const sad::String & s)
 {
 	if (m_properties.contains(s))
 	{
-		delete m_properties[s];
+		delete m_properties[s]; //-V515
 		m_properties.remove(s);
 	}
 }

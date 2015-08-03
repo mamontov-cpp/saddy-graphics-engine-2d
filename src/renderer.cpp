@@ -671,7 +671,7 @@ void sad::Renderer::setTextureLoader(const sad::String& format, sad::imageformat
 {
 	if (m_texture_loaders.contains(format))
 	{
-		delete m_texture_loaders[format];
+		delete m_texture_loaders[format]; //-V515
 		m_texture_loaders[format] = loader;
 	}
 	else

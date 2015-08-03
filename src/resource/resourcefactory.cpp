@@ -45,7 +45,7 @@ void sad::resource::Factory::add(const sad::String & name, resource::Creator * c
 	{
 		if (m_creators.contains(name))
 		{
-			delete m_creators[name];
+			delete m_creators[name]; //-V515
 		}
 		m_creators.insert(name, c);
 	}

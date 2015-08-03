@@ -102,7 +102,7 @@ public:
 	{
 		if (m_special_custom_handlers.contains(name))
 		{
-			delete m_special_custom_handlers[name];
+			delete m_special_custom_handlers[name]; //-V515
 			m_special_custom_handlers.remove(name);
 		}
 		m_special_custom_handlers.insert(name, new sad::db::ObjectFactory::Delegate<T>());

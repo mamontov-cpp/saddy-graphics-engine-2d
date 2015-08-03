@@ -16,8 +16,7 @@ namespace sad
 */
 class Settings
 {
- private:
-  
+ private:  
   unsigned int m_screenwidth;  //!< Width of screen
   unsigned int m_screenheight; //!< Height of screen
   bool m_isfullscreen;         //!< Whether we are going fullscreen
@@ -41,15 +40,14 @@ class Settings
 		   bool  ztest=false,
 		   float zvalue=0.8
 		  ); //!< Default constructor
-  Settings(const Settings& other);
   Settings();
  ~Settings(void);
 
  inline unsigned int width(void)  const     {return m_screenwidth;     }
  inline unsigned int height(void) const     {return m_screenheight;    }
  inline bool isFullscreen(void)const        {return m_isfullscreen;    }
- inline sad::uchar bpp(void)const                {return m_bpp;             }
- inline sad::uchar depth(void)const              {return m_depth;           }
+ inline sad::uchar bpp(void)const           {return m_bpp;             }
+ inline sad::uchar depth(void)const         {return m_depth;           }
  inline float fov(void)const                {return m_fov;             }
  inline float znear(void)const              {return m_znear;           }
  inline float zfar(void)const               {return m_zfar;            }
@@ -59,11 +57,11 @@ class Settings
  inline void setIsFullscreen(bool value)         {m_isfullscreen=value;}
  inline void setWidthScreen(unsigned int value)  {m_screenwidth=value; }
  inline void setHeightScreen(unsigned int value) {m_screenheight=value;}
- inline void setBPP(sad::uchar value)                 {m_bpp=value;         }
+ inline void setBPP(sad::uchar value)            {m_bpp=value;         }
  inline void setFoV(float value)                 {m_fov=value;         }
  inline void setZNear(float value)               {m_znear=value;       }
  inline void setZFar(float value)                {m_zfar=value;        }
- inline void setDepth(sad::uchar value)               {m_depth=value;       }
+ inline void setDepth(sad::uchar value)          {m_depth=value;       }
  inline void setZTest(bool value)                {m_ztest=value;       }
  inline void setZTestValue(float value)          {m_zvalue=value;      }
 };

@@ -45,7 +45,7 @@ bool sad::resource::Folder::addFolder(const sad::String& path, sad::resource::Fo
 	}
 	if (parent->m_subfolders.contains(foldername))
 	{
-		delete parent->m_subfolders[foldername];
+		delete parent->m_subfolders[foldername]; //-V515
 	}
 	parent->m_subfolders.insert(foldername, folder);
 	folder->setParent(parent);
@@ -131,7 +131,7 @@ void sad::resource::Folder::removeFolder(const sad::String& path, bool free)
 		parent->setParent(NULL);
 		if (free) 
 		{
-			delete parent->m_subfolders[foldername];
+			delete parent->m_subfolders[foldername]; //-V515
 		}
 		parent->m_subfolders.remove(foldername);
 	}

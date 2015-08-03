@@ -466,9 +466,9 @@ namespace picojson {
       skip_ws();
       if (getc() != expect) {
 	ungetc();
-	return false;
+	return static_cast<int>(false);
       }
-      return true;
+      return static_cast<int>(true);
     }
     bool match(const std::string& pattern) {
       for (std::string::const_iterator pi(pattern.begin());

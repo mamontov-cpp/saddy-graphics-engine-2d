@@ -16,7 +16,7 @@ namespace animations
 	
 /*! A class for creating animations by their names
  */
-class Factory
+class Factory //-V690
 {
 public:	
 /*! An  abstract delegate for creating an animation
@@ -103,7 +103,7 @@ public:
 	{
 		if (m_delegates.contains(name))
 		{
-			delete m_delegates[name];
+			delete m_delegates[name]; //-V515
 		}
 		m_delegates.insert(name, new sad::animations::Factory::Delegate<_Animation>());
 	}

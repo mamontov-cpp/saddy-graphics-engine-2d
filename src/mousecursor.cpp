@@ -74,7 +74,7 @@ sad::MaybePoint3D  sad::MouseCursor::position() const
 			GetCursorPos(&p);
 			successfullyqueried = (ScreenToClient(
 				m_renderer->window()->handles()->WND,
-				&p) == TRUE
+				&p) != FALSE
 			);
 			point = sad::Point2D(p.x, p.y);
 #endif

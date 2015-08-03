@@ -140,7 +140,7 @@ void sad::db::Database::addProperty(const sad::String & name, sad::db::Property 
 
 	if (m_properties.contains(name))
 	{
-		delete m_properties[name];
+		delete m_properties[name]; //-V515
 		m_properties[name] = p;
 	}
 	else
@@ -153,7 +153,7 @@ void sad::db::Database::removeProperty(const sad::String & name)
 {
 	if (m_properties.contains(name))
 	{
-		delete m_properties[name];
+		delete m_properties[name]; //-V515
 		m_properties.remove(name);
 	}
 }

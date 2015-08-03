@@ -27,7 +27,7 @@ bool sad::Object::isInstanceOf(const sad::String& name)
 	return this->metaData()->canBeCastedTo(name);	
 }
 
-const sad::String& sad::Object::serializableName() const
+const sad::String& sad::Object::serializableName() const //-V524
 {
 	return this->metaData()->name();
 }
