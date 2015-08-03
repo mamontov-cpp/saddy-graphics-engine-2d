@@ -17,15 +17,15 @@ void EnemySpawn::perform()
 		double xmin = padding,  ymin = padding; 
 		double xmax = sad::Renderer::ref()->settings().width() - padding;
 		double ymax = sad::Renderer::ref()->settings().height() - padding;
-		double x =0 , y = ymax;
-		x=((double)rand()/RAND_MAX)*(xmax - xmin) + xmin; 
-	    y=((double)rand()/RAND_MAX)*(ymax - ymin) + ymin; 
+		double x, y;
+		x=(static_cast<double>(rand())/RAND_MAX)*(xmax - xmin) + xmin; 
+	    y=(static_cast<double>(rand())/RAND_MAX)*(ymax - ymin) + ymin; 
 
-		double vx=(float)rand()/RAND_MAX * 250 - 150;
-		double vy=(float)rand()/RAND_MAX * 250 - 150;
+		double vx=static_cast<float>(rand())/RAND_MAX * 250 - 150;
+		double vy=static_cast<float>(rand())/RAND_MAX * 250 - 150;
  
 		// Produce object, set new position and speed
-		GameObject * o = m_game->produce( (Objects) (rand() % 4) );
+		GameObject * o = m_game->produce( static_cast<Objects>(rand() % 4) );
 		if (o)
 		{
 			o->setPosition(sad::p2d::Point(x, y));
