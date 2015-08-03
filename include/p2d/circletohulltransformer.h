@@ -24,6 +24,15 @@ public:
 	 */
     inline CircleToHullTransformer(int sides) : m_sides(sides) {}
 	inline CircleToHullTransformer(const CircleToHullTransformer & o) : m_sides(o.m_sides) {}
+    /*! Just copies sides of other transformer to current
+        \param[in] o operator
+        \return self-reference
+     */
+    inline sad::p2d::CircleToHullTransformer& operator=(const CircleToHullTransformer & o)
+    {
+        m_sides = o.m_sides;
+        return *this;
+    }
 	/*! Returns a default circle to hull transformer
 		\return default tranformer
 	 */

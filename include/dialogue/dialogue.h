@@ -32,7 +32,7 @@ public:
 		\param[in] d dialogue
 		\return *this
 	 */
-	Dialogue& operator=(const sad::dialogue::Dialogue& d);
+	sad::dialogue::Dialogue& operator=(const sad::dialogue::Dialogue& d);
 	/*! Could be inherited
 	 */
 	virtual ~Dialogue();

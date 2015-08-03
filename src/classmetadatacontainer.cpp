@@ -13,7 +13,13 @@ sad::ClassMetaDataContainer::ClassMetaDataContainer()
 
 sad::ClassMetaDataContainer::ClassMetaDataContainer(const ClassMetaDataContainer & c)
 {
+    throw std::runtime_error("Not implemented!");
+}
 
+sad::ClassMetaDataContainer& sad::ClassMetaDataContainer::operator=(const sad::ClassMetaDataContainer& c)
+{
+    throw std::runtime_error("Not implemented!");
+    return *this;
 }
 
 sad::ClassMetaDataContainer * sad::ClassMetaDataContainer::m_instance = NULL;

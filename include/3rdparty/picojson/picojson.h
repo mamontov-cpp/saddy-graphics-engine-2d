@@ -235,7 +235,7 @@ namespace picojson {
     case boolean_type:
       return boolean_;
     case number_type:
-      return number_ != 0;
+      return number_ != 0; //-V550
     case string_type:
       return ! string_->empty();
     default:

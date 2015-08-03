@@ -69,6 +69,11 @@ private:
 	/*! Locked for singleton usage
 	 */
 	ClassMetaDataContainer(const ClassMetaDataContainer & c);
+    /*! Locked for signaleton usaged
+        \param[in] c container
+        \return self-reference
+     */ 
+    sad::ClassMetaDataContainer& operator=(const sad::ClassMetaDataContainer& c);
 	/*! An instance for meta data container
 	 */
 	static sad::ClassMetaDataContainer * m_instance;
