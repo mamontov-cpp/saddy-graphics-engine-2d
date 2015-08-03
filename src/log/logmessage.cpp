@@ -41,7 +41,7 @@ sad::String sad::log::Message::fileline() const
 	{
 		if (chbslash)
 		{
-			chk = (chbslash - m_file > chslash - m_file) ? chbslash : chslash;
+			chk = (chbslash > chslash) ? chbslash : chslash;
 		}
 		else chk = chslash;
 	} else chk = chbslash;

@@ -120,7 +120,7 @@ public:
         sad::String tname = _ResourceType::globalMetaData()->name();
 	    if (m_file_creators.contains(tname))
 	    {
-	        delete m_file_creators[tname];
+	        delete m_file_creators[tname]; //-V515
 	    }
         m_file_creators.insert(tname, new resource::FileCreatorFor<_FileType>());
 	}

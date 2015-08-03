@@ -165,7 +165,7 @@ class Movement
 	 {
 		 m_weight = NULL;
 		 m_velocity = p2d::TickableDefaultValue<_Value>::zero();
-		 m_position = p2d::TickableDefaultValue<_Value>::zero();
+		 m_position = p2d::TickableDefaultValue<_Value>::zero(); //-V656
 		 m_acceleration_is_cached = false;
 		 m_position_is_cached = false;
 	 }

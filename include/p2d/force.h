@@ -23,7 +23,7 @@ class TickableDefaultValue<p2d::Vector>
 {
  public:
 	 static inline p2d::Vector get() { return p2d::Vector(0, 0); }
-	 static inline p2d::Vector zero() { return p2d::Vector(0, 0); }
+	 static inline p2d::Vector zero() { return p2d::Vector(0, 0); } //-V524
 };
 
 

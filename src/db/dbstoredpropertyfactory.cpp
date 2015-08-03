@@ -55,7 +55,7 @@ void sad::db::StoredPropertyFactory::add(
 {
 	if (m_delegates.contains(name))
 	{
-		delete m_delegates[name];
+		delete m_delegates[name]; //-V515
 		m_delegates[name] = d;
 	}
 	else
