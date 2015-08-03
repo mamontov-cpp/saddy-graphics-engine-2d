@@ -117,7 +117,7 @@ void sad::Texture::upload()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  Width, Height, 0, type, GL_UNSIGNED_BYTE, Data.data());			  
 		res = glGetError();
 		sad::os::generateMipMaps30(r, GL_TEXTURE_2D);		
-		res = glGetError();
+		res = glGetError(); //-V519
 	}
 	if (res)
 	{

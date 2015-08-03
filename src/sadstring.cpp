@@ -166,32 +166,20 @@ sad::String & sad::String::insert(char c,long i)
 
 void sad::String::trimSpaces()
 {
-   unsigned long i;
-   int flag=1;
-   for (i=0;(i<length()) && (flag);i++)
+   size_t startpos = this->find_first_not_of(" ");
+   if(std::string::npos != startpos )
    {
-		if ((*this)[i]!=' ')
-		{
-			flag=0;
-		}
-		else
-		{
-			remove(i);
-			--i;
-		}
+       *this = this->substr( startpos );
    }
-   flag=1;
-   for (i=length()-1;(i>-1) && (flag);i--)
+   else
    {
-	if ((*this)[i]!=' ')
-	{
-			flag=0;
-	}
-	else
-	{
-			remove(i);
-			++i;
-	}
+       this->clear();
+       return;
+   }
+   size_t endpos = this->find_last_not_of(" ");
+   if( std::string::npos != endpos )
+   {
+        *this = this->substr( 0, endpos+1 );
    }
 }
 void sad::String::removeSpaces()
@@ -202,14 +190,14 @@ void sad::String::removeSpaces()
 sad::String & sad::String::removeRange(long beg,long rlen)
 {
 	long k;
-	for (k=0;k<rlen;k++) //Remove old variable definition
-		 this->remove(beg);    //Remove
+	for (k=0;k<rlen;k++) 
+		 this->remove(beg);   
 	return *this;
 }
 sad::String & sad::String::insert(const sad::String & o,long i)
 {
 	if (i < 0) return *this;
-	if ((unsigned long)i > this->length()) 
+	if (static_cast<unsigned long>(i) > this->length()) 
 	{
 		*this << o;
 		return *this;

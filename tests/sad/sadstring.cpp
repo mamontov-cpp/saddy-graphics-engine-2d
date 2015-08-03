@@ -16,7 +16,8 @@ struct SadStringTest : tpunit::TestFixture
  public:
    SadStringTest() : tpunit::TestFixture(
 	   TEST(SadStringTest::testSplitKeepEmptyParts),
-	   TEST(SadStringTest::testSplitOmitEmptyParts)
+	   TEST(SadStringTest::testSplitOmitEmptyParts),
+       TEST(SadStringTest::testTrimSpaces)
    ) {}
    
    void testSplitKeepEmptyParts()
@@ -44,6 +45,40 @@ struct SadStringTest : tpunit::TestFixture
            sad::String s = "separator;;;sep";
            sad::StringList list = s.split(";", sad::String::OMIT_EMPTY_PARTS);
 	       ASSERT_TRUE( list.size() == 2 );
+       }
+   }
+
+   void testTrimSpaces()
+   {
+       {
+           sad::String s = "string";
+           s.trimSpaces();
+	       ASSERT_TRUE( s == "string" );
+       }
+       {
+           sad::String s = "   string    ";
+           s.trimSpaces();
+	       ASSERT_TRUE( s == "string" );
+       }
+       {
+           sad::String s = "    string string2   ";
+           s.trimSpaces();
+	       ASSERT_TRUE( s == "string string2" );
+       }
+       {
+           sad::String s = "    string string2";
+           s.trimSpaces();
+	       ASSERT_TRUE( s == "string string2" );
+       }
+       {
+           sad::String s = "string string2   ";
+           s.trimSpaces();
+	       ASSERT_TRUE( s == "string string2" );
+       }
+       {
+           sad::String s = "       ";
+           s.trimSpaces();
+	       ASSERT_TRUE( s.length() == 0 );
        }
    }
 
