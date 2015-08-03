@@ -20,7 +20,7 @@ class SystemEventDispatcher;
 	Note, that you should not directly use this class,
 	use sad::Renderer::run() instead.
  */
-class MainLoop
+class MainLoop //-V690
 {
 public:
 	/*! Constructs new main loop 
@@ -28,7 +28,7 @@ public:
 	MainLoop();
 	/*! Frees a main loop, removing attached dispatcher
 	 */
-	~MainLoop();
+	virtual ~MainLoop();
 	/*! Sets new renderer attached to a loop
 		\param[in] r renderer
 	 */

@@ -18,9 +18,9 @@ void sad::os::ConsoleImpl::createConsole()
 #ifdef  WIN32
 	if (AllocConsole())
 	{
-		freopen("CONIN$", "r",stdin);
-		freopen("CONOUT$", "w",stdout);
-		freopen("CONOUT$", "w",stderr);
+		freopen("CONIN$", "r",stdin); //-V530
+		freopen("CONOUT$", "w",stdout); //-V530
+		freopen("CONOUT$", "w",stderr); //-V530
 		initConsole();
 	}
 #endif	

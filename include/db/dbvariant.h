@@ -50,7 +50,7 @@ void delete_value(void * o)
 	Could be used to box values of various types and work with them. 
 	Note, that this is abstraction for value of property, not the property itself.
  */
-class Variant  
+class Variant   //-V690
 {	
 protected:
 	/*! A boxed object in variant

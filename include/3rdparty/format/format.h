@@ -57,6 +57,10 @@
 #include <string>
 #include <sstream>
 
+#ifdef __INTEL_COMPILER 
+    #include <mathimf.h>
+#endif
+
 #ifdef _MSC_VER
     #ifndef isnan
         #define isnan(X) _isnan(X)

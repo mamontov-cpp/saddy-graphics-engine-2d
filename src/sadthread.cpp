@@ -12,6 +12,17 @@ sad::Thread::Thread(const sad::Thread & o)
 
 }
 
+sad::Thread& sad::Thread::operator=(const sad::Thread & o)
+{
+    if (running())
+    {
+        this->stop();
+    }
+    delete m_dptr;
+    m_dptr  = new sad::os::ThreadImpl(*(o.m_dptr));
+    return *this;
+}
+
 sad::Thread::~Thread()
 {
 	delete m_dptr;
@@ -21,13 +32,6 @@ sad::Thread::~Thread()
 void sad::Thread::initialize(sad::AbsractThreadExecutableFunction * f)
 {
 	m_dptr = new sad::os::ThreadImpl(f);
-}
-
-sad::Thread & sad::Thread::operator=(const sad::Thread & o)
-{
-	delete m_dptr;
-	m_dptr = new sad::os::ThreadImpl(*(o.m_dptr));
-	return *this;
 }
 
 bool sad::Thread::run()

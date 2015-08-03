@@ -117,7 +117,7 @@ public:
 	{
 		sad::db::Property * prop = this->getObjectProperty(s);
 		bool result = false;
-		if (prop && this)
+		if (prop)
 		{
 			bool canbecasted = sad::db::can_be_casted_from_to(
 				sad::db::TypeName<T>::baseName(),

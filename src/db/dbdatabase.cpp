@@ -504,7 +504,7 @@ void sad::db::Database::clearProperties()
 			{
 				if (maybetype->is<std::string>())
 				{
-					sad::db::Property * p = m_prop_factory->create(maybetype->get<std::string>());
+					sad::db::Property * p = m_prop_factory->create(maybetype->get<std::string>()); //-V601
 					if (p)
 					{
 						sad::db::Variant value;

@@ -34,6 +34,11 @@ public:
 		\param[in] o other thread
 	 */
 	Thread(const sad::Thread & o);
+    /*! Copies thread. Stops old thread if running.
+		\param[in] o other thread
+        \return self-reference
+	 */
+    sad::Thread& operator=(const sad::Thread & o);
 	/*! Constructs new thread with specified function
 		\param[in] f function
 	 */
@@ -161,12 +166,6 @@ public:
 	/*! Deletes implementation pointer
 	 */
 	~Thread();
-	/*! Constructs new thread as copy of current. Also current data of running
-		thread is copied
-		\param[in] o other thread
-		\return self-reference
-	 */
-	Thread & operator=(const sad::Thread & o);
 	/*! Runs a thread
 		\return true if succeeded, otherwise false
 	 */

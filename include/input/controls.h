@@ -28,7 +28,7 @@ typedef sad::TemporarilyImmutableContainerWithHeterogeneousCommands<
 	Note that controls DOES NOT provide type-checking of events and handlers.
 	This is done, due to perfomance issues, caused by typecasting.
  */
-class Controls
+class Controls //-V690
 : public sad::input::ControlsImmutableBase
 {
 public:

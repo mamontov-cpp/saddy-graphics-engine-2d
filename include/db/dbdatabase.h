@@ -100,9 +100,9 @@ public:
 	>
 	bool setProperty(const sad::String & name, const T & value)
 	{
-		sad::db::Property * prop = this->propertyByName(name);
+		sad::db::Property * prop = this->propertyByName(name); //-V595
 		bool result = false;
-		if (prop && this)
+		if (prop && this) //-V704
 		{
 			bool canbecasted = sad::db::can_be_casted_from_to(
 				sad::db::TypeName<T>::baseName(),
@@ -131,7 +131,7 @@ public:
 	{
 		sad::db::Property * prop = this->propertyByName(s);
 		sad::Maybe<T> result;
-		if (prop && this)
+		if (prop)
 		{
 			bool canbecasted = sad::db::can_be_casted_from_to(
 				prop->baseType(), 
