@@ -1,6 +1,6 @@
 # Saddy 
 
-Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used for creating simple games.
+Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which can be used to create simple games.
 
 ## Download
 
@@ -51,12 +51,10 @@ You can download pre-built engine, demos and docs (Win32-MSVC version) from foll
 
 ## Our Goals
 
-Our main goal is to create tiny graphic engine, which can be used to create a small native 2D games.
-  * We want to provide a simple engine, which can be built with NO external dependencies at all. That's right. You don't need to download and build anything to build a source of main page
+Our main goal is to create tiny graphic engine, which can be used to create a small 2D games.
+  * We want to provide a simple engine, which can be built with NO external dependencies at all, so the core project can be built without installing any libraries (except for those, required by OpenGL).
   * We do, however, use a 3rdparty libraries, like tpunit++ or format, but they are either linked statically, or moved to plugins.
   * We want to provide an easy-to-use toolchain to satisfy simple most basic needs for  creating a simple game.
-  * We rely on established and well-known technologies, such as OpenGL, MSVC or GCC.
-  * This is project done for fun and powered by it.   
 
 ## Supported platforms
 
@@ -64,19 +62,9 @@ Currently, we support a following platforms.
 
   * Windows, using Microsoft Visual C++ 2010 (x86, x64)
   * Windows, using MinGW (x86/x64)
-  * Ubuntu (x86/x64)
-  * OpenSUSE (x86/x64)
-  * ArchLinux (x86 only)  
+  * Linux, using makefiles (x86/x64)
 
 However, we cannot provide binary builds for all of those platforms, only guarantee, that built source will work.
-
-## Developers
-
-  * Mamontov Dmitry - leader and current maintainer of project.
-  * Alexander Sokolov - programmed core engine
-  * Andrey Ryaskov -  programmed windows gui wrapper.
-  * Victor Grigoriev - contributed to core engine development
-  * Dmitry Kolesov - contributed to core engine development
 
 ## Run into a problem? Don't know where to start?
 
