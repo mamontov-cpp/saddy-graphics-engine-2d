@@ -4,7 +4,7 @@
 
 #include <resource/tree.h>
 
-Q_DECLARE_METATYPE(sad::resource::PhysicalFile*);
+Q_DECLARE_METATYPE(sad::resource::PhysicalFile*); //-V566
 
 ReloadFileList::ReloadFileList(QWidget* parent) : QDialog(parent)
 {

@@ -7,8 +7,8 @@
 #include "../../blockedclosuremethodcall.h"
 #include "../../closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::animations::Instance*)
-Q_DECLARE_METATYPE(sad::animations::Animation*)
+Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
+Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 
 history::instances::ChangeAnimation::ChangeAnimation(
 	sad::animations::Instance* d,
@@ -76,7 +76,7 @@ void history::instances::ChangeAnimation::commit(core::Editor * ob)
 	{
 		if (m_node == ob->shared()->selectedInstance())
 		{
-			if (m_button && m_node == ob->shared()->selectedInstance())
+			if (m_button)
 			{
 				ob->emitClosure(blocked_bind(
 					m_button,
@@ -142,7 +142,7 @@ void history::instances::ChangeAnimation::rollback(core::Editor * ob)
 	{
 		if (m_node == ob->shared()->selectedInstance())
 		{
-			if (m_oldbutton && m_node == ob->shared()->selectedInstance())
+			if (m_oldbutton)
 			{
 				ob->emitClosure(blocked_bind(
 					m_oldbutton,

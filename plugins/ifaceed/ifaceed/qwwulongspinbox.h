@@ -96,7 +96,7 @@ public:
 //     void _q_editorTextChanged(const QString & t);
     void updateEdit();
     void updateButtons();
-    QString textFromValue(qulonglong value) const {
+    QString textFromValue(qulonglong value) const { //-V688
         QString s = QLocale().toString(value);
         s.remove(QLocale().groupSeparator());
         return s;

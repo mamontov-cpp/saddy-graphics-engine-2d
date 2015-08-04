@@ -6,7 +6,7 @@
 
 #include "../../closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenenodes::New::New(sad::SceneNode* d) : m_node(d)
 {
@@ -20,6 +20,8 @@ history::scenenodes::New::~New()
 
 void history::scenenodes::New::commit(core::Editor * ob)
 {
+    if (!ob)
+        return;
 	m_node->setActive(true);
 	if (m_node->scene() == ob->panel()->currentScene())
 	{

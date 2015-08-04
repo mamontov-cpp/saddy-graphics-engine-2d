@@ -50,8 +50,8 @@
 
 #include "../blockedclosuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
-Q_DECLARE_METATYPE(sad::SceneNode*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::SceneNode*) //-V566
 // =================== PUBLIC METHODS ===================
 
 core::Editor::Editor()

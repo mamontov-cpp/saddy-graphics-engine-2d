@@ -11,7 +11,7 @@
 
 #include "../../history/instances/instanceschangeway.h"
 
-Q_DECLARE_METATYPE(sad::animations::Instance*);
+Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
 
 
 // ===================== scripting::instances::WaySetter::IsWay =====================

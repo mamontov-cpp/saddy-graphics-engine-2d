@@ -14,10 +14,10 @@
 gui::RenderWays::RenderWays(core::Editor* editor)
 : m_editor(editor),
 m_init(false),
-m_enabled(false),
 m_default(0, 255, 255, 255),
 m_red(255, 0, 0, 255)
 {
+    m_enabled = false;
     m_scene = new sad::Scene();
 	m_default_sprite = new sad::Sprite2D();
 	m_red_sprite = new sad::Sprite2D();

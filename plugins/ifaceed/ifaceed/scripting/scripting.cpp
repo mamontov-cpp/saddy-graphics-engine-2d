@@ -115,7 +115,7 @@
 
 #include <window.h>
 
-Q_DECLARE_METATYPE(QScriptContext*)
+Q_DECLARE_METATYPE(QScriptContext*) //-V566
 
 // ================================== PUBLIC METHODS OF scripting::Scripting::Thread ==================================
 int scripting::Scripting::Thread::TIMEOUT = 60000;

@@ -45,8 +45,8 @@
 #include "../history/animations/animationsswapincomposite.h"
 #include "../history/animations/animationschangepropertyaspoint2displayedintwospinboxes.h"
 
-Q_DECLARE_METATYPE(sad::animations::Animation*)
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
 

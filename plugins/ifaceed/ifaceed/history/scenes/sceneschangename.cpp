@@ -6,7 +6,7 @@
 
 #include "../../closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenes::ChangeName::ChangeName(
 	sad::Scene * s, 

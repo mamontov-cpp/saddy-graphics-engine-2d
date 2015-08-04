@@ -7,7 +7,7 @@
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenes::Remove::Remove(sad::Scene * s, int position) 
 : m_scene(s), 

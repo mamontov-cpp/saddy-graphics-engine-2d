@@ -36,7 +36,7 @@ void history::animations::SwapInComposite::commit(core::Editor * ob)
 	}
 }
 
-void history::animations::SwapInComposite::rollback(core::Editor * ob)
+void history::animations::SwapInComposite::rollback(core::Editor * ob) //-V524
 {
 	m_animation->swap(m_position1, m_position2);
 	if (ob)

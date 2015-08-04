@@ -7,7 +7,7 @@
 #include "../../closuremethodcall.h"
 #include "../../blockedclosuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 history::animations::ChangeWayMovingWay::ChangeWayMovingWay(
     sad::animations::Animation* d,

@@ -10,7 +10,7 @@
 
 #include "../../gui/labelactions.h"
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenenodes::ChangeName::ChangeName(
     sad::SceneNode* d,

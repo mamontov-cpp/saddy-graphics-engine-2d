@@ -18,8 +18,8 @@
 
 #include <animations/animationswayinstance.h>
 
-Q_DECLARE_METATYPE(sad::animations::Instance*);
-Q_DECLARE_METATYPE(sad::animations::WayInstance*);
+Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
+Q_DECLARE_METATYPE(sad::animations::WayInstance*); //-V566
 
 QScriptValue scripting::instances::list(
     QScriptContext* ctx,

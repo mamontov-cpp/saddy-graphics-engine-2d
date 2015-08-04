@@ -55,7 +55,7 @@
 
 #include "../qstdstring.h"
 
-Q_DECLARE_METATYPE(scripting::ways::PointRef*)
+Q_DECLARE_METATYPE(scripting::ways::PointRef*) //-V566
 Q_DECLARE_METATYPE(sad::Color)
 Q_DECLARE_METATYPE(sad::AColor)
 Q_DECLARE_METATYPE(sad::Point2D)

@@ -11,7 +11,7 @@
 
 #include "../../history/instances/instanceschangeobject.h"
 
-Q_DECLARE_METATYPE(sad::animations::Instance*);
+Q_DECLARE_METATYPE(sad::animations::Instance*); //-V566
 
 
 // ===================== scripting::instances::ObjectSetter::IsObject =====================

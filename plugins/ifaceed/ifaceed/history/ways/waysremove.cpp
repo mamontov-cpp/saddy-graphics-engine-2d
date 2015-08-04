@@ -8,7 +8,7 @@
 #include "../closuremethodcall.h"
 #include "../blockedclosuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 history::ways::Remove::Remove(sad::p2d::app::Way* w, int pos) 
 : m_way(w), 

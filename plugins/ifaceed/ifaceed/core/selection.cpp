@@ -13,7 +13,7 @@
 
 #include <geometry2d.h>
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 // =========================================== PUBLIC METHODS =========================================== 
 

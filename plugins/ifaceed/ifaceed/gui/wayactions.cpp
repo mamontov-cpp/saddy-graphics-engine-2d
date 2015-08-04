@@ -29,7 +29,7 @@
 
 #include <QListWidgetItem>
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 gui::WayActions::WayActions(QObject* parent) : QObject(parent)
 {
@@ -237,7 +237,7 @@ void gui::WayActions::totalTimeChanged(double value)
     if (w)
     {
         double oldvalue =  w->totalTime();
-        if (value != oldvalue)
+        if (fabs(value - oldvalue) > 0.0001)
         {
             w->setTotalTime(value);
             m_panel->editor()->history()->add(new history::ways::ChangeTotalTime(w, oldvalue, value));

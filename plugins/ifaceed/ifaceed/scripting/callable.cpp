@@ -1,6 +1,6 @@
 #include "callable.h"
 
-Q_DECLARE_METATYPE(QScriptContext*)
+Q_DECLARE_METATYPE(QScriptContext*) //-V566
 
 scripting::Callable::Callable(QScriptEngine* e, const QString& name, int argumentcount)
 : QScriptClass(e), m_name(name), m_argument_count(argumentcount)

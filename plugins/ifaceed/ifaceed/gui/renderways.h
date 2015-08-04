@@ -42,9 +42,6 @@ protected:
 	/*! Whether sprites are init
 	 */
 	bool m_init;
-	/*! Whether rendering of ways is enabled
-	 */
-	bool m_enabled;
 	/*! A default sprite to render points
 	 */
 	sad::Sprite2D* m_default_sprite;

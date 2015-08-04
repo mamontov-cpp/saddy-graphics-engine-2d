@@ -16,8 +16,8 @@
 #include "../history/groups/groupsaddinstance.h"
 #include "../history/groups/groupsremoveinstance.h"
 
-Q_DECLARE_METATYPE(sad::animations::Instance*)
-Q_DECLARE_METATYPE(sad::animations::Group*)
+Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
+Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
 

@@ -937,7 +937,7 @@ void gui::colorpicker::ColorPicker::generateColorWheel(int lightness, int alpha,
 			if (posx <= sidesquared) 
 			{
 				double hue;
-				if (relx != 0)
+				if (fabs(relx) > 0.001)
 				{
 					hue = atan2(rely, relx) * 180.0 / M_PI;
 					if (hue < 0)

@@ -11,7 +11,7 @@
 
 #include <algorithm>
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenes::Clear::Clear(sad::Scene * s) : m_scene(s)
 {

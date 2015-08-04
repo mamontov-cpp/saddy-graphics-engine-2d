@@ -15,10 +15,10 @@
 #include "../history/instances/instanceschangestarttime.h"
 #include "../history/instances/instanceschangeway.h"
 
-Q_DECLARE_METATYPE(sad::animations::Animation*)
-Q_DECLARE_METATYPE(sad::animations::Instance*)
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
+Q_DECLARE_METATYPE(sad::animations::Instance*) //-V566
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 // ===============================  PUBLIC METHODS ===============================
 

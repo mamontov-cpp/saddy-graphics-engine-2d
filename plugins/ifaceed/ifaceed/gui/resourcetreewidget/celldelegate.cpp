@@ -90,7 +90,7 @@ QString gui::resourcetreewidget::getAcceptableString(
 )
 {
 	int lengthpart1 = string.length() / 2;
-	int lengthpart2 = string.length() / 2;
+	int lengthpart2 = lengthpart1;
 	int w = metrics.width(string);
 	bool cutted_totally = false;
 	bool changed = false;

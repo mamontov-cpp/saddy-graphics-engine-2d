@@ -9,7 +9,7 @@
 
 #include <QListWidgetItem>
 
-Q_DECLARE_METATYPE(sad::animations::Animation*)
+Q_DECLARE_METATYPE(sad::animations::Animation*) //-V566
 
 history::animations::Remove::Remove(sad::animations::Animation* a)
 : m_animation(a), m_position_in_animation_list(-1), m_position_in_animation_instance_list(-1)

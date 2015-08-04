@@ -6,7 +6,7 @@
 
 #include "../../closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::animations::Group*)
+Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
 
 history::groups::New::New(sad::animations::Group* d) : m_node(d)

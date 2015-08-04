@@ -160,7 +160,7 @@ void scripting::ways::PointRef::moveFront()
 	{
 		return ;
 	}
-	if (m_pos >= 0 && m_pos < m_way->wayPoints().count() - 1)
+	if (m_pos < m_way->wayPoints().count() - 1)
 	{
 		scripting::Scripting* e = static_cast<scripting::Scripting*>(this->engine()->globalObject().property("---").toQObject());
 		core::Editor* editor = e->panel()->editor();

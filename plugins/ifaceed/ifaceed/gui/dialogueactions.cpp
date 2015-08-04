@@ -20,7 +20,7 @@
 
 #include <geometry2d.h>
 
-Q_DECLARE_METATYPE(sad::dialogue::Dialogue*)
+Q_DECLARE_METATYPE(sad::dialogue::Dialogue*) //-V566
 
 // ========================== PUBLIC METHODS ==========================
 

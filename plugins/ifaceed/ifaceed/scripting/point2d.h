@@ -98,4 +98,4 @@ protected:
 
 }
 
-Q_DECLARE_METATYPE(scripting::Point2D*)
+Q_DECLARE_METATYPE(scripting::Point2D*) //-V566

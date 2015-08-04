@@ -8,7 +8,7 @@
 
 #include "../../history/groups/groupschangename.h"
 
-Q_DECLARE_METATYPE(sad::animations::Group*);
+Q_DECLARE_METATYPE(sad::animations::Group*); //-V566
 
 scripting::groups::NameSetter::NameSetter(
 		QScriptEngine* e

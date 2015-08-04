@@ -44,6 +44,8 @@ void history::sprite2d::ChangeOptions::updateUI(
 	const sad::String& value
 )
 {
+    if (!e)
+        return;
 	e->emitClosure( blocked_bind(e->panel()->UI()->rtwSpriteSprite,
 		&gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName,
 		value

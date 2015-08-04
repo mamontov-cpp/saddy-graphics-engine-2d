@@ -9,7 +9,7 @@
 
 #include <p2d/app/way.h>
 
-Q_DECLARE_METATYPE(sad::p2d::app::Way*)
+Q_DECLARE_METATYPE(sad::p2d::app::Way*) //-V566
 
 history::instances::ChangeWay::ChangeWay(
     sad::animations::Instance* d,

@@ -176,4 +176,4 @@ protected:
 
 }
 
-Q_DECLARE_METATYPE(gui::table::Delegate*)
+Q_DECLARE_METATYPE(gui::table::Delegate*) //-V566

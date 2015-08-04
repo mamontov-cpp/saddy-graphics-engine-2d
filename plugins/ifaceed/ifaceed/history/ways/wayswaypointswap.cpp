@@ -34,7 +34,7 @@ void history::ways::WayPointSwap::commit(core::Editor* ob)
     }
 }
 
-void history::ways::WayPointSwap::rollback(core::Editor* ob)
+void history::ways::WayPointSwap::rollback(core::Editor* ob) //-V524
 {
     sad::Renderer::ref()->lockRendering();
     sad::Point2D p = m_way->wayPoints()[m_pos1];

@@ -6,7 +6,7 @@
 
 #include "../../closuremethodcall.h"
 
-Q_DECLARE_METATYPE(sad::animations::Group*)
+Q_DECLARE_METATYPE(sad::animations::Group*) //-V566
 
 
 history::groups::Remove::Remove(sad::animations::Group* d, int position) : m_node(d), m_position(position)

@@ -8,7 +8,7 @@
 
 #include <renderer.h>
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 history::scenenodes::Remove::Remove(sad::SceneNode* d, int position)
 : m_node(d), m_position(position), m_position_in_instance_combo(-1)

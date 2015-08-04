@@ -26,7 +26,7 @@
 
 #include <p2d/vector.h>
 
-Q_DECLARE_METATYPE(sad::db::Object*)
+Q_DECLARE_METATYPE(sad::db::Object*) //-V566
 
 // ============================= PUBLIC METHODS =============================
 
