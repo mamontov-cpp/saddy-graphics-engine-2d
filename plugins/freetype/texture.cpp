@@ -75,14 +75,14 @@ void sad::freetype::Texture::upload()
 	glTexImage2D( GL_TEXTURE_2D, 
 				  0, 
 				  GL_RGBA2, 
-				  (unsigned int)Width, 
-				  (unsigned int)Height, 
+				  static_cast<unsigned int>(Width), 
+				  static_cast<unsigned int>(Height), 
 				  0, 
 				  GL_LUMINANCE_ALPHA, 
 				  GL_UNSIGNED_BYTE, 
 				  &(Pixels[0]) 
 				);	
-	lasterror = glGetError();
+	lasterror = glGetError(); //-V519
 	Pixels.clear();
 }
 

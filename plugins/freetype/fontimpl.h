@@ -31,7 +31,7 @@ public:
 	FontImpl();
 	/*! Frees all resources from implementation
 	 */
-	~FontImpl();
+	virtual ~FontImpl();
 	/*! Loads a font
 	    \param[in] filename a path to TTF or other files, to be loaded via freetype
 	 */

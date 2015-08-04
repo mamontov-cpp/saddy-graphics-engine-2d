@@ -219,7 +219,7 @@ sad::Texture * sad::freetype::FixedSizeFont::renderToTexture(
 	{
 		delete glyphs[i];
 	}
-	delete glyphs;
+	delete[] glyphs;
 
 	return texture;
 }
