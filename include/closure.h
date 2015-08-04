@@ -53,5 +53,5 @@ class ClosureBasic
 #define CLSET(PROP,VAL) ______. PROP = VAL;
 
 #ifdef QT_VERSION
-	Q_DECLARE_METATYPE(sad::ClosureBasic*);
+	Q_DECLARE_METATYPE(sad::ClosureBasic*); //-V566
 #endif
