@@ -7,7 +7,7 @@
 */
 #pragma once
 #include "sadvector.h"
-#include <string>
+#include <ostream>
 
 namespace sad
 {
@@ -289,6 +289,6 @@ sad::String join(const sad::StringList list, const sad::String & sep);
  */
 inline std::ostream & operator<<(std::ostream & stream, const sad::String & sadstring)
 {
-	return stream << sadstring.data();
+	return stream << static_cast<const std::string&>(sadstring);
 }
 
