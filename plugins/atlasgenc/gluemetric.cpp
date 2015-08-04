@@ -68,7 +68,8 @@ QVector<GlueOrder> GlueMetric::findMinMetricOrder(const QVector<GlueEntry>& entr
                 }
                 else
                 {
-                    if (min == metric)
+                    if (static_cast<unsigned long long>(min.value()) 
+                        == static_cast<unsigned long long>(metric))
                     {
                         result << combinations[j];
                     }
