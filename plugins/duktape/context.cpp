@@ -118,7 +118,7 @@ bool sad::duktape::Context::evalFromFile(
     {
         *error = sad::String("Cannot open file \"");
         *error += file_name;
-        *error = "\"";
+        *error += "\"";
     }
     return false;
 }

@@ -27,7 +27,7 @@ sad::String sad::duktape::PushValue<unsigned char>::perform(
 
 sad::String sad::duktape::PushValue<int>::perform(sad::duktape::Context* ctx, int v, bool)
 {
-    if (v != v)
+    if (v != v) //-V501
     {
         duk_push_nan(ctx->context());
         return "";
