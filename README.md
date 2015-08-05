@@ -4,48 +4,15 @@ Saddy is an open-source crossplatform 2D graphic engine, based on OpenGL, which 
 
 ## News
 
-* **23.05.15** Saddy-1.5 released!
+* **5.08.15** Saddy 1.5.1 released!
 
-
-Changelog:
-  * Added bindings to Duktape as a plugin
-  * Added bindings to IrrKlang as a plugin
-  * Added support for Qt5 in utilities
-
-Note, that this will be only source code release, because of large binary sizes. 
-
+* **23.05.15** Saddy 1.5 released!
 
 * **15.02.15** Saddy 1.5-alpha released!
 
-A pre-built engine for Win32 Microsoft Visual C++2010 can be downloaded from here:
-
-[saddy-1.5](https://sourceforge.net/projects/saddyengine/files/?source=navbar)
-
-Note that you must have MSVC2010 redistributable files installed. Also you need to install Freetype library. This is just alpha release, so most of executables are not built. This is not a stable release, they will be built in next release.
-
 * **19.10.14** Saddy 1.4 released!
 
-You can download pre-built engine, demos and docs (Win32-MSVC version) from following pages:
-
-[docs-1.4](https://dl.dropboxusercontent.com/u/5039908/docs-1.4.zip) 
-
-[saddy-1.4](https://dl.dropboxusercontent.com/u/5039908/saddy-1.4.zip)
-
-Changelog :
-
-  * Resource loading has been fully remade to be independent from time of loading.
-  * Switched to serializing to JSON for both resources and in-game screens, implemented simple serialization for all basic types
-  * Marshalling has been fully remade. Old namespaces "config" and "marshal" has been replaced with "resource" and "db",
-  * Resource reloading has been merged with the core.
-  * Instead of just editing in-game screens in IFace Editor, now you could edit a simple database and even define objects with custom properties. Also, new version supports dialogue editing and editing ways for physic-based applications.
-
 * **17.02.14** Saddy 1.1-BETA released!
-
-You can download pre-built engine, demos and docs (Win32-MSVC version) from following pages:
-
-[docs-1.1](https://dl.dropboxusercontent.com/u/5039908/docs-1.1-beta.zip) 
-
-[saddy-1.1](https://dl.dropboxusercontent.com/u/5039908/saddy-1.1-beta.zip)
 
 * **26.08.13** Saddy 1.0-BETA released!
 
