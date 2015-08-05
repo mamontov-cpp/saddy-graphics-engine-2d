@@ -7,6 +7,7 @@
 */
 #pragma once
 #include "sadvector.h"
+#include <string>
 #include <ostream>
 
 namespace sad
