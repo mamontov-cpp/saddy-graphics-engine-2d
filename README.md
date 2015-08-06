@@ -31,8 +31,6 @@ Currently, we support a following platforms.
   * Windows, using MinGW (x86/x64)
   * Linux, using makefiles (x86/x64)
 
-However, we cannot provide binary builds for all of those platforms, only guarantee, that built source will work.
-
 ## Run into a problem? Don't know where to start?
 
 You can write directly to maintainer in Twitter
