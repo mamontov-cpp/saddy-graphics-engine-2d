@@ -273,7 +273,7 @@ void Game::enterPlayingScreen()
 	label->setFont("font");
 	label->setPoint(0, 480);
 	label->setUpdateInterval(200);
-	label->setSize(30);
+	label->setSize(23);
 
 	label->setFormatString("Health: {0} Score: {1} Highscore: {2}\nFPS: {3}");
 	label->arg(this, &Game::player, &GameObject::hitPoints);
@@ -452,15 +452,16 @@ void Game::moveToStartingScreen()
 	sad::Texture * tex = sad::Renderer::ref()->texture("title");
 	sad::Sprite2D * background = new sad::Sprite2D(
 		tex, 
-		sad::Rect2D(0, 0, 512, 512),
+		sad::Rect2D(0, 0, 640, 480),
 		sad::Rect2D(0, 0, 640, 480)
 	);
 	sc->add(background);
 	
 	sad::FormattedLabel  * label = new sad::FormattedLabel();
 	label->setFont("font");
-	label->setSize(30);
-	label->setPoint(265, 240);
+	label->setSize(23);
+    label->setColor(sad::AColor(255, 255, 255));
+	label->setPoint(260, 240);
 	label->setUpdateInterval(1000);
 	// Here we build a format string, where {0} will be replaced with call of this->highscore()
 	label->setFormatString("Highscore: {0}");

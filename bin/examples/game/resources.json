@@ -8,7 +8,7 @@
 	{ 
 		"type": "sad::Texture",
 		"name": "title",
-		"filename": "examples/game/title.tga"
+		"filename": "examples/game/title_example_game.png"
 	},
 	{ 
 		"type": "sad::Texture",
@@ -18,6 +18,6 @@
 	{ 
 		"type": "sad::TextureMappedFont",
 		"name": "font",
-		"filename": "examples/game/font"
+		"filename": "examples/game/example-game-19"
 	}	
 ]
