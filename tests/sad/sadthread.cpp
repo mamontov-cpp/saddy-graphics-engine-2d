@@ -60,7 +60,7 @@ struct sadThreadTest : tpunit::TestFixture
 
    int sleepy()
    {
-	   int i =  0, j = 0, k = 0;
+       int i =  0, j = 0, k = 0;
        int r = 0;
        for(k = 0; k < 200000; k++)
        {
@@ -70,7 +70,8 @@ struct sadThreadTest : tpunit::TestFixture
                while (i < 20000000)
                {
                    i++;
-                   r += i + j * 2 * k; 
+                   long long  large_value = j * static_cast<long long>(k / 200);
+                   r += static_cast<int>(i + large_value);
                }
            }
        }

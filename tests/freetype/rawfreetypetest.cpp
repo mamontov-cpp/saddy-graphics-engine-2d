@@ -58,13 +58,13 @@ public:
 		   for(int j = 0; j < bitmap.width; j++)
 		   {
 			   unsigned char pixel = bitmap.buffer[i * bitmap.width + j];
-			   if (pixel == 0) 
+			   if (pixel == 0)
 			   {
 				   printf(" ");
-			   } 
+			   }
 			   else
 			   {
-				   printf("1", pixel);
+				   printf("1");
 			   }
 		   }
 		   printf("\n");

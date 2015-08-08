@@ -135,7 +135,6 @@ int main(int argc, char *argv[])
 	int current_x_pos = 0;
 	int current_y_pos = 0;
 	int character_in_row = 0;
-	int length = 256;
 	fprintf(file, "%d\n", linespacing);
 
 	painter.setRenderHint(QPainter::Antialiasing, false);
@@ -179,8 +178,6 @@ int main(int argc, char *argv[])
 						 relative_y_end_pos
 						);
 		*/
-
-		int w = metrics.width(string);
 		fprintf(file,
 				"%u %u %u %u %d %d\n", 
 				relative_x_pos, 
