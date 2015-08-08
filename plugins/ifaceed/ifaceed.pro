@@ -175,7 +175,6 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/animations/animationschangename.h \
     ifaceed/history/animations/animationschangeproperty.h \
     ifaceed/history/animations/animationschangerect.h \
-    ifaceed/history/animations/animationschangeresizevector.h \
     ifaceed/history/animations/animationschangerotateangle.h \
     ifaceed/history/animations/animationschangeshakingfrequency.h \
     ifaceed/history/animations/animationschangetime.h \
@@ -415,7 +414,6 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/animations/animationschangelooped.cpp \
     ifaceed/history/animations/animationschangename.cpp \
     ifaceed/history/animations/animationschangerect.cpp \
-    ifaceed/history/animations/animationschangeresizevector.cpp \
     ifaceed/history/animations/animationschangerotateangle.cpp \
     ifaceed/history/animations/animationschangeshakingfrequency.cpp \
     ifaceed/history/animations/animationschangetime.cpp \

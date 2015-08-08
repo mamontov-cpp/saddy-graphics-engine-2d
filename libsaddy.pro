@@ -192,7 +192,8 @@ SOURCES += src/camera.cpp \
     src/animations/animationsparallel.cpp \
     src/animations/animationstexturecoordinatescontinuous.cpp \
     src/animations/animationsfile.cpp \
-    src/animations/animationsfactory.cpp
+    src/animations/animationsfactory.cpp \
+	src/animations/animationssimplemovement.cpp
 
 INCLUDEPATH += ../saddy/include ../saddy/include/png ../saddy/include/tga
 
@@ -466,6 +467,7 @@ HEADERS += include/camera.h \
     include/animations/animationstexturecoordinatescontinuous.h \
     include/animations/animationsfile.h \
     include/animations/animationsfactory.h \
+	include/animations/animationssimplemovement.h \
     include/equalto.h
 
 
