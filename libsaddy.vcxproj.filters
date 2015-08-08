@@ -812,9 +812,6 @@
     <ClInclude Include="include\sadlinkedlist.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="include\sadlist.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="include\sadluvcolor.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>

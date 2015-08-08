@@ -307,7 +307,6 @@
     <ClInclude Include="include\sadcolor.h" />
     <ClInclude Include="include\sadhash.h" />
     <ClInclude Include="include\sadlinkedlist.h" />
-    <ClInclude Include="include\sadlist.h" />
     <ClInclude Include="include\sadluvcolor.h" />
     <ClInclude Include="include\sadmutex.h" />
     <ClInclude Include="include\sadpair.h" />

@@ -231,8 +231,6 @@ HEADERS += include/camera.h \
     include/sadhash_src.h \
     include/sadlinkedlist.h \
     include/sadlinkedlist_src.h \
-    include/sadlist.h \
-    include/sadlist_src.h \
     include/sadluvcolor.h \
     include/sadmutex.h \
     include/sadpair.h \
