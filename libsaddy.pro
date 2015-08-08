@@ -477,6 +477,7 @@ unix {
 	DEFINES += "UNIX=1"
 	DEFINES += "LINUX=1"
 	DEFINES += "GCC=1"
+	DEFINES += "X11=1"
 }
 
 win32 {
