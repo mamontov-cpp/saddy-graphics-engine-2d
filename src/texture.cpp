@@ -306,7 +306,7 @@ void sad::Texture::convertToPOTTexture()
 	sad::Vector<sad::uchar> OldBuffer = Data;
 	
 	// Resize buffer and fill it with zero
-	Data.rescale(size * size * Bpp / 8);	
+	Data.resize(size * size * Bpp / 8, 0);	
 	std::fill_n(Data.begin(), size * size * Bpp / 8, 0);
 
 	// Copy data from old buffer
