@@ -487,6 +487,7 @@ win32 {
 unix {
     target.path = /usr/lib
     INSTALLS += target
+	INCLUDEPATH += /usr/include/
 }
 
 CONFIG(debug, debug|release) {
