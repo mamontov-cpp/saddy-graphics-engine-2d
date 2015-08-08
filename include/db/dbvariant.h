@@ -195,7 +195,7 @@ public:
 		}
 		if (sad::db::TypeName<T>::isSadObject() 
 			&& m_is_sad_object 
-			&& sad::db::TypeName<T>::POINTER_STARS_COUNT == m_pointers_stars_count
+			&& sad::db::TypeName<T>::POINTER_STARS_COUNT == 1
 			&& m_pointers_stars_count == 1)
 		{
 			sad::util::CommonCheckedCast<T, sad::db::TypeName<T>::CAN_BE_CASTED_TO_OBJECT >::perform(
