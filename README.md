@@ -33,5 +33,7 @@ Currently, we support a following platforms.
 
 ## Run into a problem? Don't know where to start?
 
+Check our [wiki](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki) and [examples](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/tree/master/examples). Build instructions can be found [here](https://github.com/mamontov-cpp/saddy-graphics-engine-2d/wiki/Build-instructions). 
+
 You can write directly to maintainer in Twitter
 (https://twitter.com/ahiddenseeker) and we will reply as fast as we can.
