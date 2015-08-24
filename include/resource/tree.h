@@ -141,9 +141,15 @@ public:
 	template<
 		typename _ResourceType
 	>
-	_ResourceType * get(const sad::String & name)
+	_ResourceType* get(const sad::String & name)
 	{
-		return root()->resource(name)->as<_ResourceType>();
+        _ResourceType* result = NULL;
+        sad::resource::Resource* r = root()->resource(name);
+        if (r)
+        {
+            result = r->as<_ResourceType>();
+        }
+		return result;
 	}
 
 	/*! Returns a temporary root folder, when loading all files
