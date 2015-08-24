@@ -51,3 +51,13 @@ void sad::irrklang::SingleSound::setVolume(double volume)
         m_current_music->setVolume(static_cast<float>(volume));        
     }
 }
+
+void sad::irrklang::SingleSound::stop()
+{
+    if (m_current_music)
+    {
+        m_current_music->stop();
+        m_current_music = NULL;
+        m_current_music_source = NULL;
+    }
+}
