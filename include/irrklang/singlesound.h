@@ -32,6 +32,9 @@ public:
         \param[in] volume a volume parameter
      */
     void setVolume(double volume);
+    /*! Stops music from playing
+     */
+    void stop();
 protected:
     /*! Current playing music (source)
      */
