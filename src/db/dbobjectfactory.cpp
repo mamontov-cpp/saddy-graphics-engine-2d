@@ -27,6 +27,7 @@
 #include "animations/animationsrotate.h"
 #include "animations/animationsparallel.h"
 #include "animations/animationssequential.h"
+#include "animations/animationssimplemovement.h"
 #include "animations/animationstyping.h"
 #include "animations/animationswaymoving.h"
 #include "animations/animationstexturecoordinatescontinuous.h"
@@ -68,6 +69,7 @@ sad::db::ObjectFactory::ObjectFactory()
     add<sad::animations::Parallel>("sad::animations::Parallel", sad::animations::Parallel::basicSchema(), false);
     add<sad::animations::Resize>("sad::animations::Resize", sad::animations::Resize::basicSchema(), false);
     add<sad::animations::Rotate>("sad::animations::Rotate", sad::animations::Rotate::basicSchema(), false);
+    add<sad::animations::SimpleMovement>("sad::animations::SimpleMovement", sad::animations::SimpleMovement::basicSchema(), false);
     add<sad::animations::Sequential>("sad::animations::Sequential", sad::animations::Sequential::basicSchema(), false);
     add<sad::animations::TextureCoordinatesContinuous>("sad::animations::TextureCoordinatesContinuous", sad::animations::TextureCoordinatesContinuous::basicSchema(), false);
     add<sad::animations::TextureCoordinatesList>("sad::animations::TextureCoordinatesList", sad::animations::TextureCoordinatesList::basicSchema(), false);
