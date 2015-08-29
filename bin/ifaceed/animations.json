@@ -1,0 +1,12 @@
+{
+	"animate" : {
+		"list":[
+                    "scene1\/1",
+                    "scene1\/2",
+                    "scene1\/3"
+		],
+		"looped":false,
+		"time":300.000000,
+		"type":"sad::animations::OptionList"
+	}
+}

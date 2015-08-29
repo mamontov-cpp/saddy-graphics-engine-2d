@@ -190,7 +190,7 @@ void sad::animations::Instance::setAnimation(sad::animations::Animation* o)
 	m_tree_link_active = true;
 }
 
-static const int validtypescount = 16;
+static const int validtypescount = 17;
 static sad::String validtypes[] = {
 	"sad::animations::Animation",      // 1
 	"sad::animations::Blinking",       // 2
@@ -203,11 +203,12 @@ static sad::String validtypes[] = {
 	"sad::animations::Parallel",       // 9
 	"sad::animations::Resize",         // 10
 	"sad::animations::Rotate",         // 11
-	"sad::animations::Sequential",     // 12
-	"sad::animations::TextureCoordinatesContinuous",// 13
-	"sad::animations::TextureCoordinatesList",      // 14
-	"sad::animations::Typing",                      // 15
-	"sad::animations::WayMoving"                    // 16
+    "sad::animations::SimpleMovement", // 12
+	"sad::animations::Sequential",     // 13
+	"sad::animations::TextureCoordinatesContinuous",// 14
+	"sad::animations::TextureCoordinatesList",      // 15
+	"sad::animations::Typing",                      // 16
+	"sad::animations::WayMoving"                    // 17
 };
 
 sad::animations::Animation* sad::animations::Instance::animation(bool check) const

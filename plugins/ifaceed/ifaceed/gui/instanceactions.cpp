@@ -223,13 +223,15 @@ void gui::InstanceActions::addInstance()
 		if (m_panel->UI()->cmbAddedAnimationInstanceType->currentIndex() == 0)
 		{
 			instance = new sad::animations::Instance();
+            instance->setTreeName(sad::Renderer::ref(), "");
 
 			// Set animation from tree
 			if (m_panel->UI()->rbAnimationInstanceFromTree->isChecked())
 			{
 				if (m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentIndex() > 0)
-				{
-					instance->setProperty("animation", Q2STDSTRING(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText()));
+				{ 
+                    sad::String value = Q2STDSTRING(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText());
+					instance->setProperty("animation", value);
 				}
 				else
 				{
