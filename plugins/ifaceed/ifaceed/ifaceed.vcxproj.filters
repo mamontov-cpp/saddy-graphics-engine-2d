@@ -258,6 +258,16 @@
     <Filter Include="Header Files\scripting\groups">
       <UniqueIdentifier>{4258c26c-8d50-4961-bec9-ab5a5b714602}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Generated Files\DebugQt4">
+      <UniqueIdentifier>{9e85108a-4111-45c2-8fa2-80f3aef882ea}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\ReleaseQt4">
+      <UniqueIdentifier>{6396d5b5-7582-42bc-b250-0f6974c229a1}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp">
@@ -1781,6 +1791,30 @@
     <ClCompile Include="history\animations\animationschangepropertyaspoint2displayedintwospinboxes.cpp">
       <Filter>Source Files\history\animations</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_booldelegate.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_booldelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\GUITests\moc_booldelegate.cpp">
+      <Filter>Generated Files\GUITests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseQt4\moc_booldelegate.cpp">
+      <Filter>Generated Files\ReleaseQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_booldelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Template\moc_booldelegate.cpp">
+      <Filter>Generated Files\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\UnitTests\moc_booldelegate.cpp">
+      <Filter>Generated Files\UnitTests</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\table\booldelegate.cpp">
+      <Filter>Source Files\gui\table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2552,6 +2586,9 @@
     </CustomBuild>
     <CustomBuild Include="scriptinghelp.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gui\table\booldelegate.h">
+      <Filter>Header Files\gui\table</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

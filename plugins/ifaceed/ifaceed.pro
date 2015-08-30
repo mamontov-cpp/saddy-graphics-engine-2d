@@ -76,6 +76,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/gui/table/delegatefactory.h \
     ifaceed/gui/table/doubledelegate.h \
     ifaceed/gui/table/floatdelegate.h \
+    ifaceed/gui/table/booldelegate.h \
     ifaceed/gui/table/intdelegate.h \
     ifaceed/gui/table/longdelegate.h \
     ifaceed/gui/table/longlongdelegate.h \
@@ -322,6 +323,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/gui/table/delegatefactory.cpp \
     ifaceed/gui/table/doubledelegate.cpp \
     ifaceed/gui/table/floatdelegate.cpp \
+    ifaceed/gui/table/booldelegate.cpp \
     ifaceed/gui/table/intdelegate.cpp \
     ifaceed/gui/table/longdelegate.cpp \
     ifaceed/gui/table/longlongdelegate.cpp \

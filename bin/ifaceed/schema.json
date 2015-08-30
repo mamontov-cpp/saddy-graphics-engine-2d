@@ -3,7 +3,8 @@
 	 "name" : "placeable_item",
 	 "resource": "fonts/tmfont",
 	 "schema" : {
-	 	"prop_double" : {"type" : "double", "value" : 0 },
+	 	"prop_bool" : {"type" : "bool", "value" : false },		
+		"prop_double" : {"type" : "double", "value" : 0 },
 		"prop_float" : {"type" : "float", "value" : 0 },	
 		"prop_char" : {"type" : "char", "value" : 0 },
 		"prop_signed_char" : {"type" : "signed char", "value" : 0 },

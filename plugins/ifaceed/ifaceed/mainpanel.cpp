@@ -1938,8 +1938,10 @@ void MainPanel::fixTextureCoordinates()
 
 void MainPanel::fillDatabasePropertyTypesCombo()
 {
-    const unsigned int typescount = 20;
+    const unsigned int typescount = 21;
     const QString types[typescount] = {
+        "bool",
+
         "unsigned char",
         "signed char",
         "char",

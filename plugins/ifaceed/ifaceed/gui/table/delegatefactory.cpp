@@ -1,4 +1,5 @@
 #include "delegatefactory.h"
+#include "booldelegate.h"
 #include "doubledelegate.h"
 #include "floatdelegate.h"
 #include "intdelegate.h"
@@ -30,7 +31,9 @@ gui::table::DelegateFactory::AbstractDelegate::~AbstractDelegate()
 
 gui::table::DelegateFactory::DelegateFactory()
 {
-	this->insert<gui::table::SignedCharDelegate>("signed char");
+    this->insert<gui::table::BoolDelegate>("bool");
+
+    this->insert<gui::table::SignedCharDelegate>("signed char");
 	this->insert<gui::table::CharDelegate>("char");
 	this->insert<gui::table::UnsignedCharDelegate>("unsigned char");
 
