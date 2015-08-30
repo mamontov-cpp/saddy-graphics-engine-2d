@@ -15,6 +15,7 @@ sad::db::StoredPropertyFactory::AbstractDelegate::~AbstractDelegate()
 
 sad::db::StoredPropertyFactory::StoredPropertyFactory()
 {
+    add<bool>("bool");
 	add<char>("char");
 	add<unsigned char>("unsigned char");
 	add<signed char>("signed char");
