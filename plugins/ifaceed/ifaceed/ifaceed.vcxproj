@@ -214,6 +214,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="acolordialog.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationactions.cpp" />
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_booldelegate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
@@ -222,6 +223,22 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='UnitTests|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_codeedit.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_colorpicker.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_colorview.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_dialogueactions.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_dialoguesphraseref.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_editor.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_groupactions.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_instanceactions.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_mainpanel.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_rectwidget.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_reloadfilelist.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scenenodeactions.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_scripting.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_selection.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_wayactions.cpp" />
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_wayspointref.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_acolor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='GUITests|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

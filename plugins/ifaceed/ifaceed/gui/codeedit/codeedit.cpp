@@ -253,7 +253,11 @@ void gui::codeedit::CodeEdit::indentSelection(QTextCursor& cursor)
             list[i] = "    " + list[i];
         }
     }
+#if  (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     text = list.join(QChar::ParagraphSeparator);
+#else
+    text = list.join(QChar(QChar::ParagraphSeparator));
+#endif
     cursor.insertText(text);
     cursor.setPosition(startpos),
     cursor.setPosition(startpos + text.length(), QTextCursor::KeepAnchor);
@@ -276,7 +280,11 @@ void gui::codeedit::CodeEdit::unindentSelection(QTextCursor& cursor)
             list[i] = list[i].mid(4);
         }
     }
+#if  (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     text = list.join(QChar::ParagraphSeparator);
+#else
+    text = list.join(QChar(QChar::ParagraphSeparator));
+#endif
     cursor.insertText(text);
     cursor.setPosition(startpos),
     cursor.setPosition(startpos + text.length(), QTextCursor::KeepAnchor);
