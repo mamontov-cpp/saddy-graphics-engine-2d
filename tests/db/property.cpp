@@ -23,114 +23,162 @@ struct SadDbPropertyTest : tpunit::TestFixture
 {
  public:
    SadDbPropertyTest() : tpunit::TestFixture(
-	   TEST(SadDbPropertyTest::testField),
-	   TEST(SadDbPropertyTest::testField_check),
-	   TEST(SadDbPropertyTest::testMethodPair),
-	   TEST(SadDbPropertyTest::testMethodPair_check)
+       TEST(SadDbPropertyTest::testField),
+       TEST(SadDbPropertyTest::testField_check),
+       TEST(SadDbPropertyTest::testMethodPair),
+       TEST(SadDbPropertyTest::testMethodPair_check),
+       TEST(SadDbPropertyTest::testMarkAsDefault_valid),
+       TEST(SadDbPropertyTest::testMarkAsDefault_replace),
+       TEST(SadDbPropertyTest::testMarkAsDefault_wrongtype),
+       TEST(SadDbPropertyTest::testMarkAsDefault_null)    
    ) {}
 
-   	int test;
+    int test;
 
-	void testField()
-	{
-		Mock m;
-		
-		sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
-		sad::db::Variant  k;
-		test1->set(&m, sad::db::Variant(3));
-		test1->get(&m,k);
-		ASSERT_TRUE(k.get<int>().value() == 3);
+    void testField()
+    {
+        Mock m;
+        
+        sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
+        sad::db::Variant  k;
+        test1->set(&m, sad::db::Variant(3));
+        test1->get(&m,k);
+        ASSERT_TRUE(k.get<int>().value() == 3);
 
-		delete test1;
-	}
+        delete test1;
+    }
 
-	void testField_check()
-	{
-		sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
-		{
-			picojson::value v(picojson::object_type, false);
-			v.insert("key", picojson::value(22.0));
-			ASSERT_TRUE( test1->check("key", v) );
-			ASSERT_FALSE( test1->check("key2", v) );
-		}
-		{
-			picojson::value v(picojson::object_type, false);
-			v.insert("key", picojson::value("truly non-integral value"));
-			ASSERT_FALSE( test1->check("key", v) );
-		}
+    void testField_check()
+    {
+        sad::db::Property * test1 = new sad::db::Field<Mock, int>(&Mock::m_id);
+        {
+            picojson::value v(picojson::object_type, false);
+            v.insert("key", picojson::value(22.0));
+            ASSERT_TRUE( test1->check("key", v) );
+            ASSERT_FALSE( test1->check("key2", v) );
+        }
+        {
+            picojson::value v(picojson::object_type, false);
+            v.insert("key", picojson::value("truly non-integral value"));
+            ASSERT_FALSE( test1->check("key", v) );
+        }
 
-		delete test1;
-	}
+        delete test1;
+    }
 
-	void processProperty(Mock &m, sad::db::Property * prop)
-	{		
-		test++;
+    void processProperty(Mock &m, sad::db::Property * prop)
+    {       
+        test++;
 
-		prop->set(&m, test);
-		sad::db::Variant k;
-		prop->get(&m, k);
-		ASSERT_TRUE(k.get<int>().value() == test);
+        prop->set(&m, test);
+        sad::db::Variant k;
+        prop->get(&m, k);
+        ASSERT_TRUE(k.get<int>().value() == test);
 
-		delete prop;
-	}
+        delete prop;
+    }
 
-	void testMethodPair()
-	{
-		Mock m;
+    void testMethodPair()
+    {
+        Mock m;
 
-		test = 3;
+        test = 3;
 
-		sad::db::Property * p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setId);
-		processProperty(m, p);
+        sad::db::Property * p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id_c, &Mock::setId);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id_c, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id_r, &Mock::setId);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id_r, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id_rc, &Mock::setId);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id_rc, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id_cr, &Mock::setId);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id_cr, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id_crc, &Mock::setId);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id_crc, &Mock::setId);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdC);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdC);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdR);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdR);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdRC);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdRC);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdCR);
-		processProperty(m, p);
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdCR);
+        processProperty(m, p);
 
-		p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdCRC);
-		processProperty(m, p);
-	}
+        p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setIdCRC);
+        processProperty(m, p);
+    }
 
-	void testMethodPair_check()
-	{
-		sad::db::Property * p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setId);
+    void testMethodPair_check()
+    {
+        sad::db::Property * p = new sad::db::MethodPair<Mock, int>(&Mock::id, &Mock::setId);
 
-		{
-			picojson::value v(picojson::object_type, false);
-			v.insert("key", picojson::value(22.0));
-			ASSERT_TRUE( p->check("key", v) );
-			ASSERT_FALSE( p->check("key2", v) );
-		}
-		{
-			picojson::value v(picojson::object_type, false);
-			v.insert("key", picojson::value("truly non-integral value"));
-			ASSERT_FALSE( p->check("key", v) );
-		}
+        {
+            picojson::value v(picojson::object_type, false);
+            v.insert("key", picojson::value(22.0));
+            ASSERT_TRUE( p->check("key", v) );
+            ASSERT_FALSE( p->check("key2", v) );
+        }
+        {
+            picojson::value v(picojson::object_type, false);
+            v.insert("key", picojson::value("truly non-integral value"));
+            ASSERT_FALSE( p->check("key", v) );
+        }
 
-		delete p;
-	}
+        delete p;
+    }
+    
+    void testMarkAsDefault_valid()
+    {
+        sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(0)) );
+        ASSERT_TRUE( p->hasDefaultValue() );
+        ASSERT_TRUE( p->defaultValue() != NULL );
+                
+        delete p;
+    }
+    
+    void testMarkAsDefault_replace()
+    {
+        sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(0)) );
+        ASSERT_TRUE( p->hasDefaultValue() );
+        ASSERT_TRUE( p->defaultValue() != NULL );
+
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(new sad::db::Variant(3)) );
+        ASSERT_TRUE( p->hasDefaultValue() );
+        ASSERT_TRUE( p->defaultValue()->get<int>().value() == 3 );
+        
+        delete p;
+    }
+    
+    void testMarkAsDefault_wrongtype()
+    {
+        sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
+        sad::db::Variant* v = new sad::db::Variant(sad::String("33"));
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(v) == false);
+        ASSERT_TRUE( p->hasDefaultValue() == false );
+        ASSERT_TRUE( p->defaultValue() == NULL );
+        delete v;               
+        delete p;
+    }
+    
+    void testMarkAsDefault_null()
+    {
+        sad::db::Property * p = new sad::db::Field<Mock, int>(&Mock::m_id);
+        ASSERT_TRUE( p->makeNonRequiredWithDefaultValue(NULL) == false);
+        ASSERT_TRUE( p->hasDefaultValue() == false );
+        ASSERT_TRUE( p->defaultValue() == NULL );
+        delete p;
+    }
 
 } _sad_property;

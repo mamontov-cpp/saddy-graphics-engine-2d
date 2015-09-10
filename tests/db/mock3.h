@@ -1,4 +1,4 @@
-/*! \file mock2.h
+/*! \file mock3.h
 
 	A mock object for item
  */

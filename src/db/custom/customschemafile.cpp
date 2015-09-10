@@ -195,13 +195,15 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 			{
 				parse_result.set1(maybename.value());
 				parse_result.set2(mayberesourcename.value());
-				sad::Vector< sad::Triplet<sad::String, sad::String, picojson::value> > proplist;
+				sad::Vector< sad::Quadruplet<sad::String, sad::String, picojson::value, sad::Maybe<picojson::value> > > proplist;				
 				bool loadresult = true;
 				picojson::object o = maybeschema->get<picojson::object>();
 				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
 				{
 					const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
 					const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
+                    const picojson::value * maybedefaultentry = picojson::get_property(it->second, "default");
+					sad::Maybe<picojson::value> mbdefault;
 					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
 					{
 						sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);
@@ -215,11 +217,26 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 								p->get(NULL, v);
 								bool canbeloadedandset = v.load(*maybevalueentry);
 								canbeloadedandset = canbeloadedandset && p->set(NULL, v);
+								if (maybedefaultentry && canbeloadedandset)
+								{
+									sad::db::Variant testdefault;
+									p->get(NULL, testdefault);
+									canbeloadedandset = canbeloadedandset && testdefault.load(*maybedefaultentry);
+									if (canbeloadedandset)
+									{
+										canbeloadedandset = canbeloadedandset && p->couldBeSetFrom(testdefault);
+										if (canbeloadedandset)
+										{
+											mbdefault.setValue(*maybedefaultentry);	
+										}
+									}
+								}
 								delete p;
+								
 								if (canbeloadedandset)
 								{
-									proplist.push_back(sad::Triplet<sad::String, sad::String, picojson::value>(
-										it->first, maybeproptype.value(), *maybevalueentry
+									proplist.push_back(sad::Quadruplet<sad::String, sad::String, picojson::value, sad::Maybe<picojson::value> >(
+										it->first, maybeproptype.value(), *maybevalueentry, mbdefault
 									));
 								}
 								else
@@ -336,7 +353,14 @@ void sad::db::custom::SchemaFile::fillOptionsList(
 		schema->setFactory(m_factory);
 		schema->setTreeItemName(parsed[i]._2());
 		schema->setPhysicalFile(this);
-		const sad::Vector<sad::Triplet<sad::String, sad::String, picojson::value> > & props = parsed[i]._3();
+		const sad::Vector<
+			sad::Quadruplet<
+				sad::String, 
+				sad::String, 
+				picojson::value,
+				sad::Maybe<picojson::value>
+			> 
+		> & props = parsed[i]._3();
 		for(size_t j = 0; j < props.size(); j++)
 		{
 			sad::db::Property * p = m_factory->create(props[j].p2());
@@ -344,6 +368,15 @@ void sad::db::custom::SchemaFile::fillOptionsList(
 			p->get(NULL, v);
 			v.load(props[j].p3());
 			p->set(NULL, v);
+			const sad::Maybe<picojson::value>& mbdefault = props[j].p4();
+			if (mbdefault.exists())
+			{
+				sad::db::Variant* defaultvalue = new sad::db::Variant();
+				p->get(NULL, *defaultvalue);
+				defaultvalue->load(mbdefault.value());
+				assert( p->makeNonRequiredWithDefaultValue(defaultvalue) );
+				assert( p->hasDefaultValue() );
+			}
 			schema->add(props[j].p1(), p);
 		}
 		if (this->tree()->shouldStoreLinks())
