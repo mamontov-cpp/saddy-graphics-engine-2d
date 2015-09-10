@@ -71,7 +71,12 @@ public:
      */
     virtual sad::db::Property* clone() const
     {
-        return new sad::db::MethodPair<_Object,_FieldTypeName>(m_getter->clone(), m_setter->clone());
+        sad::db::MethodPair<_Object,_FieldTypeName>* result = new sad::db::MethodPair<_Object,_FieldTypeName>(m_getter->clone(), m_setter->clone());
+        if (m_default_value)
+        {
+            result->m_default_value = new sad::db::Variant(*m_default_value);
+        }
+        return result;
     }
     /*! Sets a value for a property
         \param[in] o an object

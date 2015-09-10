@@ -7,6 +7,7 @@
 #include "dbproperty.h"
 #include "dbvariant.h"
 #include <cassert>
+#include <cstdio>
 
 namespace sad
 {
@@ -42,7 +43,12 @@ public:
      */
     virtual sad::db::Property* clone() const
     {
-        return new sad::db::StoredProperty<_FieldTypeName>(m_value);
+        sad::db::StoredProperty<_FieldTypeName>* result = new sad::db::StoredProperty<_FieldTypeName>(m_value);
+        if (m_default_value)
+        {
+            result->m_default_value = new sad::db::Variant(*m_default_value);
+        }
+        return result;
     }
     /*! Sets a value for a property
         \param[in] o an object

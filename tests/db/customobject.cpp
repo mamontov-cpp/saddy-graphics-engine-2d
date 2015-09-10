@@ -307,6 +307,7 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
 	   picojson::object obj = val.get<picojson::object>();
 	   obj.erase("prop");
 	   val = picojson::value(obj);
+	   ASSERT_TRUE( object.getObjectProperty("prop")->hasDefaultValue() );
 	   ASSERT_TRUE( object.load(val) );
 	   ASSERT_TRUE(object.canBeRendered());
 	   ASSERT_TRUE(object.getProperty<int>("prop").value() == 15);

@@ -230,7 +230,8 @@ void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db
         }
         if (isown)
         {
-            props.insert(it.key(), it.value()->clone());
+			sad::db::Property* propclone = it.value()->clone();
+            props.insert(it.key(), propclone);
         }
     }
     m_properties_lock.unlock();
