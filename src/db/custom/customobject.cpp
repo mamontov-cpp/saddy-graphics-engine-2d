@@ -385,6 +385,29 @@ void sad::db::custom::Object::updateConfiguration(sad::db::custom::Schema * s)
 						propstoberemoved.remove(it.key());
 						if (myprop->hasEqualTypeAs(it.value()))
 						{
+                            // A fix for https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/64
+                            // to resolve updating schema
+                            if (myprop->hasDefaultValue() || it.value()->hasDefaultValue())
+                            {
+                                if (myprop->hasDefaultValue())
+                                {                                    
+                                    if (it.value()->hasDefaultValue()) // Replace default value
+                                    {
+                                        sad::db::Variant* v = it.value()->defaultValue();
+                                        myprop->makeNonRequiredWithDefaultValue( new sad::db::Variant(*v));
+                                    }
+                                    else
+                                    {
+                                        myprop->makeRequired();
+                                    }
+                                }
+                                else
+                                {
+                                    sad::db::Variant* v = it.value()->defaultValue();
+                                    myprop->makeNonRequiredWithDefaultValue(new sad::db::Variant(*v));
+                                }
+                            }
+
 							delete it.value();
 						}
 						else

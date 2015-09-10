@@ -1,4 +1,5 @@
 #include "db/dbproperty.h"
+#include "db/dbvariant.h"
 
 sad::db::Property::Property()
 : m_pointer_stars_count(0),
@@ -71,8 +72,17 @@ bool sad::db::Property::makeNonRequiredWithDefaultValue(
                 delete m_default_value;
             }
             m_default_value = default_value;
+            result = true;
         }
     }
+    return result;
+}
+
+bool sad::db::Property::makeRequired()
+{
+    delete m_default_value;
+    m_default_value = NULL;
+    return true;
 }
 
 bool sad::db::Property::hasDefaultValue() const

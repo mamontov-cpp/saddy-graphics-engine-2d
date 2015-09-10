@@ -100,6 +100,7 @@
     <ClCompile Include="mock.cpp" />
     <ClCompile Include="mock2.cpp" />
     <ClCompile Include="mock3.cpp" />
+    <ClCompile Include="mock4.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectfactory.cpp" />
     <ClCompile Include="populatescenesfromdatabase.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="mock.h" />
     <ClInclude Include="mock2.h" />
     <ClInclude Include="mock3.h" />
+    <ClInclude Include="mock4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

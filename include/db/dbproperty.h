@@ -76,6 +76,10 @@ public:
     bool makeNonRequiredWithDefaultValue(
         sad::db::Variant* default_value   
     );
+    /*! Makes a property required
+        \return always true
+     */
+    bool makeRequired();
     /*! Returns true, if property value could be set from specified value
         \param[in] v value
         \return whether it could be set from value
