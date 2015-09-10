@@ -230,8 +230,8 @@ void gui::InstanceActions::addInstance()
 			{
 				if (m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentIndex() > 0)
 				{ 
-                    sad::String value = Q2STDSTRING(m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText());
-					instance->setProperty("animation", value);
+                    QString value = m_panel->UI()->cmbAnimationInstanceAnimationFromTree->currentText();
+				    assert( instance->setProperty("animation", value) );
 				}
 				else
 				{
