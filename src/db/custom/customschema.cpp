@@ -113,7 +113,7 @@ bool is_not_inherited(const sad::String & prop)
 bool sad::db::custom::Schema::load(const picojson::value& v)
 {
     m_properties_lock.lock();
-    bool result = false;
+	bool result = false;
     if (v.is<picojson::object>())
     {
         sad::Maybe<sad::String> maybename = picojson::to_type<sad::String>(
@@ -128,13 +128,13 @@ bool sad::db::custom::Schema::load(const picojson::value& v)
                 sad::Hash<sad::String, sad::db::Property*> props;
                 bool loadresult = true;
                 picojson::object o = maybeschema->get<picojson::object>();
-                for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
+				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
                 {
                     bool entryloadresult = false;
                     const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
                     const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
                     const picojson::value * maybedefaultentry = picojson::get_property(it->second, "default");
-                    if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
+					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
                     {
                         sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);
                         if (maybeproptype.exists())

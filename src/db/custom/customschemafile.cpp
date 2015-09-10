@@ -195,13 +195,14 @@ bool sad::db::custom::SchemaFile::tryParseEntry(
 			{
 				parse_result.set1(maybename.value());
 				parse_result.set2(mayberesourcename.value());
-				sad::Vector< sad::Triplet<sad::String, sad::String, picojson::value> > proplist;
+				sad::Vector< sad::Triplet<sad::String, sad::String, picojson::value> > proplist;				
 				bool loadresult = true;
 				picojson::object o = maybeschema->get<picojson::object>();
 				for(picojson::object::iterator it = o.begin(); it != o.end(); ++it)
 				{
 					const picojson::value * maybetypeentry = picojson::get_property(it->second, "type");
 					const picojson::value * maybevalueentry = picojson::get_property(it->second, "value");
+                    const picojson::value * maybedefaultentry = picojson::get_property(it->second, "default");					
 					if (maybetypeentry && maybevalueentry && sad::db::custom::is_not_inherited(it->first))
 					{
 						sad::Maybe<sad::String> maybeproptype = picojson::to_type<sad::String>(*maybetypeentry);

@@ -13,7 +13,6 @@
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
 
-
 struct SadDbCustomObjectTest : tpunit::TestFixture
 {
  public:
@@ -22,7 +21,9 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
 	   TEST(SadDbCustomObjectTest::test_sprite2d),
 	   TEST(SadDbCustomObjectTest::test_lost_prop_on_reload),
 	   TEST(SadDbCustomObjectTest::test_change_prop_type_on_reload),	   
-	   TEST(SadDbCustomObjectTest::test_reload_same_type)
+	   TEST(SadDbCustomObjectTest::test_reload_same_type),
+	   TEST(SadDbCustomObjectTest::test_non_required_invalid_schema),
+	   TEST(SadDbCustomObjectTest::test_non_required)	   
     )
    {
 
@@ -236,6 +237,79 @@ struct SadDbCustomObjectTest : tpunit::TestFixture
 	   ASSERT_TRUE(object.canBeRendered());
 	   ASSERT_TRUE(object.getProperty<int>("prop1").exists());
 	   ASSERT_TRUE(object.getProperty<int>("prop1").value() == 3);
+   }
+   
+   void test_non_required_invalid_schema()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree* tree = new sad::resource::Tree();
+	   tree->setStoreLinks(true);
+	   tree->setRenderer(&r);
+	   r.addTree("", tree);
+	   sad::Vector<sad::resource::Error *> errors = tree->loadFromString(
+		   "["
+				"{"
+				    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::TextureMappedFont\","
+					"\"filename\": \"examples/game/font\","
+					"\"name\"    : \"objects\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::db::custom::SchemaFile\","
+					"\"filename\": \"tests/db/sprite_non_required_invalid.json\""
+				"}"				
+			"]"
+		);
+
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count != 0);
+   }
+   
+   void test_non_required()
+   {
+	   sad::Renderer r;
+	   sad::resource::Tree* tree = new sad::resource::Tree();
+	   tree->setStoreLinks(true);
+	   tree->setRenderer(&r);
+	   r.addTree("", tree);
+
+	   sad::Vector<sad::resource::Error *> errors = tree->loadFromString(
+		   "["
+				"{"
+				    "\"type\"   : \"sad::resource::TextureAtlasFile\","
+					"\"filename\": \"tests/icons.json\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::TextureMappedFont\","
+					"\"filename\": \"examples/game/font\","
+					"\"name\"    : \"objects\""
+				"},"
+				"{"
+					"\"type\"   : \"sad::db::custom::SchemaFile\","
+					"\"filename\": \"tests/db/sprite_non_required.json\""
+				"}"				
+			"]"
+		);
+	   int count = (int)(errors.size());
+	   sad::util::free(errors);
+	   ASSERT_TRUE(count == 0);
+
+	   sad::db::custom::Object object;
+	   object.setTreeName(&r, "");
+	   object.setProperty("schema", sad::String("myobject"));
+	   object.setProperty("prop", 3);
+	   picojson::value val;
+	   object.save(val);
+	   picojson::object obj = val.get<picojson::object>();
+	   obj.erase("prop");
+	   val = picojson::value(obj);
+	   ASSERT_TRUE( object.load(val) );
+	   ASSERT_TRUE(object.canBeRendered());
+	   ASSERT_TRUE(object.getProperty<int>("prop").value() == 15);
    }
 
 
