@@ -20,8 +20,9 @@ struct SadDbVariantTest : tpunit::TestFixture
  public:
    SadDbVariantTest() : tpunit::TestFixture(
 	   TEST(SadDbVariantTest::test),
-	   TEST(SadDbVariantTest::test_object),
-	   TEST(SadDbVariantTest::testVectorVectorAColor)
+	   TEST(SadDbVariantTest::testObject),
+	   TEST(SadDbVariantTest::testVectorVectorAColor),
+	   TEST(SadDbVariantTest::testConstChar)
    ) {}
 
 	void test()
@@ -36,7 +37,7 @@ struct SadDbVariantTest : tpunit::TestFixture
 		ASSERT_TRUE(v.get<int>().value() == 25);
 	}
 
-	void test_object()
+	void testObject()
 	{
 		sad::ClassMetaData * meta = sad::TextureMappedFont::globalMetaData();
 		ASSERT_TRUE(meta != NULL);
@@ -82,6 +83,12 @@ struct SadDbVariantTest : tpunit::TestFixture
 		
 		sad::Vector<sad::Vector<sad::AColor> > vk_value = vk.value();
 		ASSERT_TRUE(vk_value.size() == 2);
+	}
+	
+	void testConstChar()
+	{
+		sad::db::Variant a("ab");
+		ASSERT_TRUE( a.get<sad::String>().value() == "ab" );
 	}
 
 } _sad_db_variant;
