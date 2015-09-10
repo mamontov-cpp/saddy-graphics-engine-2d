@@ -11,6 +11,7 @@
 #include "db/load.h"
 
 #include "mock3.h"
+#include "mock4.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -31,7 +32,9 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   TEST(SadDbObjectTest::test_load_absent_field),
 	   TEST(SadDbObjectTest::test_load_absent_field2),
 	   TEST(SadDbObjectTest::test_load_invalid_type),
-	   TEST(SadDbObjectTest::test_load_invalid_entry)
+	   TEST(SadDbObjectTest::test_load_invalid_entry),
+	   TEST(SadDbObjectTest::test_load_nonrequired_field_specified),
+	   TEST(SadDbObjectTest::test_load_nonrequired_field_notspecified)	   
    ) {}
 
     // By default, object has no schema
@@ -151,6 +154,39 @@ struct SadDbObjectTest : tpunit::TestFixture
 	   picojson::value r(22.0);
 	   bool result = m.load(r);
 	   ASSERT_FALSE(result);
+   }
+   
+   void test_load_nonrequired_field_specified()
+   {
+	   Mock4 m;
+	   picojson::value r(picojson::object_type, false);
+	   r.insert("majorid", picojson::value(22.0));
+  	   r.insert("minorid", picojson::value(12.0));
+  	   r.insert("name", picojson::value("mock4"));
+	   r.insert("prop", picojson::value(500.0));
+	   r.insert("active", picojson::value(true));
+	   bool result = m.load(r);
+	   ASSERT_TRUE(result);
+	   ASSERT_TRUE(m.MajorId == 22);
+	   ASSERT_TRUE(m.MinorId == 12);
+	   ASSERT_TRUE(m.objectName() == "mock4");
+	   ASSERT_TRUE(m.m_id == 500);
+   }
+   
+   void test_load_nonrequired_field_notspecified()
+   {
+	   Mock4 m;
+	   picojson::value r(picojson::object_type, false);
+	   r.insert("majorid", picojson::value(22.0));
+  	   r.insert("minorid", picojson::value(12.0));
+  	   r.insert("name", picojson::value("mock4"));
+	   r.insert("active", picojson::value(true));
+	   bool result = m.load(r);
+	   ASSERT_TRUE(result);
+	   ASSERT_TRUE(m.MajorId == 22);
+	   ASSERT_TRUE(m.MinorId == 12);
+	   ASSERT_TRUE(m.objectName() == "mock4");
+	   ASSERT_TRUE(m.m_id == 22);
    }
 
 } _sad_db_object;
