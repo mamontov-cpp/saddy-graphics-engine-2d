@@ -1,4 +1,5 @@
 #include "db/dbvariant.h"
+#include "db/save.h"
 
 sad::db::Variant::Variant() : 
 m_object(NULL), 
