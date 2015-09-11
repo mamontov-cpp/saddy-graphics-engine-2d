@@ -1866,6 +1866,12 @@
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_colorview.cpp">
       <Filter>Generated Files\ReleaseQt4</Filter>
     </ClCompile>
+    <ClCompile Include="history\label\changemaximallinewidth.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_labelactions.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2416,6 +2422,9 @@
     </ClInclude>
     <ClInclude Include="scripting\animations\animationspoint2dsetter.h">
       <Filter>Header Files\scripting\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changemaximallinewidth.h">
+      <Filter>Header Files\history\label</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -57,8 +57,10 @@ public:
 		sad::Renderer::ref()->lockRendering();
         m_animation->setProperty<T>(m_property, m_newvalue);
         sad::Renderer::ref()->unlockRendering();
-
-		tryUpdateUI(ob, m_newvalue);
+        if (m_enable_update_ui)
+        {
+		    tryUpdateUI(ob, m_newvalue);
+        }
     }
     /*! Reverts changes, described in command
         \param[in] ob an observer for looking for command
@@ -68,8 +70,10 @@ public:
 		sad::Renderer::ref()->lockRendering();        
         m_animation->setProperty<T>(m_property, m_oldvalue);
         sad::Renderer::ref()->unlockRendering();
-
-		tryUpdateUI(ob, m_oldvalue);
+        if (m_enable_update_ui)
+        {
+		    tryUpdateUI(ob, m_oldvalue);
+        }
     }
 protected:
     /*! A changed animation

@@ -91,11 +91,15 @@ public:
 	/*! Returns line spacing for, used in label
 		\return line spacing for label
 	 */ 
-	float lineSpacing() const;
+	float lineSpacingRatio() const;
 	/*! Sets line spacing, used in label
 		\param[in] s a line spacing
 	 */
-	void setLineSpacing(float s);
+	void setLineSpacingRatio(float s);
+    /*! Sets maximal line width, used in label
+        \param[in] width a width of object
+     */
+    void setMaximalLineWidth(unsigned int width);
 	/*! Returns angle, used in object
 		\return angle in object
 	 */
@@ -141,8 +145,13 @@ public:
 	 */
 	bool flipY() const;
 	/*! Whether sprite is flipped vertically 
+        \param[in] f flag
 	 */
 	void setFlipY(bool f);
+    /*! Returns maximal line width, used in label
+        \return maximal line width
+     */
+    unsigned int maximalLineWidth() const;
 	/*! Whether custom object could be rendered
 		\return whether object could be rendered
 	 */

@@ -171,7 +171,7 @@ class Label: public sad::SceneNode
 		 */
 		inline unsigned int pointSize() const
 		{
-			return (unsigned int)(m_size / 1.333333);
+			return static_cast<unsigned int>(m_size / 1.333333);
 		}
 		/*! Sets a size for a font in pixels
 			\param[in] size a size of label in pixels
@@ -182,7 +182,7 @@ class Label: public sad::SceneNode
 		 */
 		inline void setPointSize(unsigned int size)
 		{
-			setSize((unsigned int)(size * 1.3333333));
+			setSize(static_cast<unsigned int>(size * 1.3333333));
 		}
 		/*! Returns a built-in line spacing for a font
 			\return built-in line spacing
@@ -246,6 +246,17 @@ class Label: public sad::SceneNode
 			\param[in] treename a name for a tree
 		*/
 		void setTreeName(const sad::String & treename);
+		/*! Sets maximal line width for rendering a label in characters.
+			If a current line is wider than limit, than it'll be splitted in multiple lines.
+			0 must be passed, for label to have no constrain for rendering a label.
+			\param[in] width a width for label
+		 */
+		void setMaximalLineWidth(unsigned int width);
+		/*! Returns maximal line width for label in characters.
+		    See details in sad::Label::setMaximalLineWidth .
+			\return maximal line width for label
+		 */
+		unsigned int maximalLineWidth() const;
 private:
 		/*! Reloads font for a label from scene
 		 */
@@ -254,12 +265,23 @@ private:
 			so rotation will be placed just in place 
 		 */
 		void recomputeRenderingPoint();
+		/*! Recomputes rendered string, so it will be preserved on every change
+		 */
+		void recomputeRenderedString();
 		/*! A link to font, that label is being renderd with
 		 */
 		sad::resource::Link<sad::Font> m_font;
-		/*! A rendered string
+		/*! A stored string, used in label
 		 */
 		sad::String      m_string; 
+		/*!  A string, which will be rendered, when label is placed in scene
+		 */
+		sad::String      m_rendered_string;
+		/*! A maximal line width for rendering a label in characters.
+			If a current line is wider than limit, than it'll be splitted in multiple lines.
+			0 must be passed, for label to have no constrain for rendering a label.
+		 */
+		unsigned int  m_maximal_line_width;
 		/*! An upper left point, where text is rendered
 		 */
 		sad::Point2D     m_point;  

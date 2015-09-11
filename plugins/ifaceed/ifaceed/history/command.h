@@ -19,17 +19,29 @@ namespace history
 class Command
 {
 public:
-	 /*! Applies changes, described in command
+	/*! Constructs default command
+	 */
+	Command();
+	/*! Applies changes, described in command
+		\param[in] ob an observer for looking for command
+	 */
+	virtual void commit(core::Editor * ob = NULL)=0;
+	/*! Reverts changes, described in command
 		 \param[in] ob an observer for looking for command
-	  */
-	 virtual void commit(core::Editor * ob = NULL)=0;
-	 /*! Reverts changes, described in command
-		 \param[in] ob an observer for looking for command
-	  */
-	 virtual void rollback(core::Editor * ob = NULL)=0;
-     /*! Must be inherited
-	  */
-	 virtual ~Command();
+	 */
+	virtual void rollback(core::Editor * ob = NULL)=0;
+    /*! Must be inherited
+	 */
+	virtual ~Command();
+	/*! Enables updating UI when committing or rolling back for command
+		\param[in] value new value (true if need to enable)
+		\return old value
+	 */
+	bool enableUpdatingUIWhenCommittingOrRollingBack(bool value);
+protected:
+	/*! Updates UI if set to true
+	 */
+	bool m_enable_update_ui;
 };
 
 }

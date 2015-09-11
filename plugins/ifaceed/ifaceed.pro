@@ -114,6 +114,7 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/label/changefontsize.h \
     ifaceed/history/label/changetext.h \
     ifaceed/history/label/changelinespacing.h \
+    ifaceed/history/label/changemaximallinewidth.h \
     ifaceed/history/scenenodes/scenenodeschangename.h \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
     ifaceed/core/typeconverters/qrectftosadrect2d.h \
@@ -360,6 +361,7 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/label/changefontsize.cpp \
     ifaceed/history/label/changetext.cpp \
     ifaceed/history/label/changelinespacing.cpp \
+    ifaceed/history/label/changemaximallinewidth.cpp \
     ifaceed/history/scenenodes/scenesnodeschangename.cpp \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
     ifaceed/core/typeconverters/qrectftosadrect2d.cpp \

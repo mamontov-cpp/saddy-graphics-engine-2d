@@ -107,6 +107,7 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 		list << "text";
 		list << "linespacing";
 		list << "font";
+        list << "maximallinewidth";
 	}
 
 	if (obj.value()->isInstanceOf("sad::Sprite2D")
@@ -176,6 +177,7 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 		list << "text";
 		list << "linespacing";
 		list << "font";
+        list << "maximallinewidth";
 	}
 
 	if (obj.value()->isInstanceOf("sad::Sprite2D")
