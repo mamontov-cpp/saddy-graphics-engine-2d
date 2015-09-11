@@ -24,6 +24,7 @@
 
 #include "../history/label/changetext.h"
 #include "../history/label/changelinespacing.h"
+#include "../history/label/changemaximallinewidth.h"
 
 #include "../history/sprite2d/changeflipx.h"
 #include "../history/sprite2d/changeflipy.h"
@@ -526,6 +527,7 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[All node types]</b>property <b>\"area\"</b>  - area of node as sad::Rect2D.</li>"
 		"						<li><b>[All node types]</b>property <b>\"angle\"</b>  - angle of node as double.</li>"
 		"						<li><b>[All node types]</b>property <b>\"color\"</b>  - color of node as sad::AColor.</li>"
+		"						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"fontsize\"</b>  - font size.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"text\"</b>  - text of label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"linespacing\"</b>  - line spacing for label.</li>"
@@ -547,7 +549,8 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[All node types]</b>property <b>\"area\"</b>  - area of node as sad::Rect2D.</li>"
 		"						<li><b>[All node types]</b>property <b>\"angle\"</b>  - angle of node as double.</li>"
 		"						<li><b>[All node types]</b>property <b>\"color\"</b>  - color of node as sad::AColor.</li>"
-		"						<li><b>[Label or Custom Object]</b>property <b>\"fontsize\"</b>  - font size.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines..</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"fontsize\"</b>  - font size.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"text\"</b>  - text of label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"linespacing\"</b>  - line spacing for label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"font\"</b>  - a font resource name.</li>"
@@ -1090,6 +1093,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::FontSizeSetter(m_engine));
     set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
     set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(m_engine, "maximallinewidth"));
     set->add(new scripting::scenenodes::FontSetter(m_engine));
 	// sad::Sprite2D props
     set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
@@ -1145,6 +1149,7 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "text"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "font"));
+    get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinewidth"));
 	// sad::Sprite2D props
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));

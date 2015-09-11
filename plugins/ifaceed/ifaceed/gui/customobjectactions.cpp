@@ -191,6 +191,7 @@ void gui::CustomObjectActions::addBySimplePlacing()
 	object->setColor(acolor);
 	object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
 	object->setLineSpacing(m_panel->UI()->dsbLineSpacingRatio->value());
+    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
 	object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
 	sad::Rect2D area = object->area();
 	const sad::Settings & settings = sad::Renderer::ref()->settings();

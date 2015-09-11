@@ -64,6 +64,10 @@ public slots:
 	 * \param[in] newvalue a new value
 	 */
 	void labelLineSpacingChanged(double newvalue);
+    /*! Handles change of label's maximal line width
+     * \param[in] newvalue  a new value for action
+     */
+    void labelMaximalLineWidthChanged(int newvalue);
 private:
 	/*! An panel, which actions are belong to
 	 */

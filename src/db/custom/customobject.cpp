@@ -128,6 +128,11 @@ void sad::db::custom::Object::setLineSpacing(float s)
 	m_label->setLineSpacing(s);	
 }
 
+void sad::db::custom::Object::setMaximalLineWidth(unsigned int width)
+{
+    m_label->setMaximalLineWidth(width);
+}
+
 double sad::db::custom::Object::angle() const
 {
 	return m_label->angle();	
@@ -195,6 +200,11 @@ bool sad::db::custom::Object::flipY() const
 void sad::db::custom::Object::setFlipY(bool f)
 {
 	m_sprite2d->setFlipY(f);
+}
+
+unsigned int sad::db::custom::Object::maximalLineWidth() const
+{
+    return m_label->maximalLineWidth();
 }
 
 bool sad::db::custom::Object::canBeRendered() const
@@ -326,6 +336,16 @@ void sad::db::custom::Object::initDefaultSchema()
 			&sad::db::custom::Object::flipY,
 			&sad::db::custom::Object::setFlipY
 		)
+	);
+
+    sad::db::Property* mlw_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::maximalLineWidth,
+		&sad::db::custom::Object::setMaximalLineWidth
+	);
+    mlw_property->makeNonRequiredWithDefaultValue(new sad::db::Variant( static_cast<unsigned int>(0) ));
+    m_my_schema->add(
+		"maximallinewidth", 
+		mlw_property
 	);
 
 	m_custom_schema->addParent(m_my_schema);

@@ -17,6 +17,7 @@
 #include "../history/label/changefontsize.h"
 #include "../history/label/changetext.h"
 #include "../history/label/changelinespacing.h"
+#include "../history/label/changemaximallinewidth.h"
 
 #include <label.h>
 #include <geometry2d.h>
@@ -264,6 +265,33 @@ void gui::LabelActions::labelLineSpacingChanged(double newvalue)
                     node->setProperty("linespacing", newvalue);
                     m_panel->sceneNodeActions()->updateRegionForNode();
                     m_panel->editor()->history()->add(new history::label::ChangeLineSpacing(node, oldvalue.value(), newvalue));
+                }
+            }
+        }
+    }
+}
+
+void gui::LabelActions::labelMaximalLineWidthChanged(int newvalue)
+{
+    unsigned int nv = static_cast<unsigned int>(newvalue);
+    if (m_panel->editor()->shared()->activeObject() != NULL)
+    {
+        m_panel->editor()->shared()->activeObject()->setProperty("maximallinewidth", nv);
+        m_panel->sceneNodeActions()->updateRegionForNode();
+    }
+    else
+    {
+        sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
+        if (node)
+        {
+            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>("maximallinewidth");
+            if (oldvalue.exists())
+            {
+				if (oldvalue.value() != nv)
+                {
+                    node->setProperty("maximallinewidth", newvalue);
+                    m_panel->sceneNodeActions()->updateRegionForNode();
+                    m_panel->editor()->history()->add(new history::label::ChangeMaximalLineWidth(node, oldvalue.value(), nv));
                 }
             }
         }

@@ -137,7 +137,7 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 				&sad::Label::setMaximalLineWidth
 			);
 			mlw_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
-			LabelBasicSchema->add("maximal_line_width", mlw_property);
+			LabelBasicSchema->add("maximallinewidth", mlw_property);
 
 		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
         }
