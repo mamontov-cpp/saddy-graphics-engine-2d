@@ -3,27 +3,25 @@
 #include "renderer.h"
 #include "sadmutex.h"
 
-#include <cassert>
-
 #include "db/schema/schema.h"
 #include "db/dbproperty.h"
 #include "db/save.h"
 #include "db/load.h"
-#include "db/dbfield.h"
 #include "db/dbmethodpair.h"
 
 #ifdef WIN32
 #include <windows.h>
 #endif
-#include <GL/gl.h>														
+#include <GL/gl.h>
 #include <GL/glu.h>
 
 DECLARE_SOBJ_INHERITANCE(sad::Label,sad::SceneNode)
 
 
 sad::Label::Label() :
-m_point(0, 0), 
-m_string(""), m_angle(0), 
+m_string(""),
+m_maximal_line_width(0), 
+m_point(0, 0), m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
 m_color(0, 0, 0, 0)
 {
@@ -35,13 +33,13 @@ sad::Label::Label(
 	const sad::Point2D  & point,
 	const sad::String & string
 ) : 
-m_point(point), 
-m_string(string), m_angle(0), 
+m_string(string), 
+m_maximal_line_width(0), m_point(point),  m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
 m_color(0, 0, 0, 0)
 {
 	m_font.attach(font);
-	recomputeRenderingPoint();
+	recomputeRenderedString();
 }
 
 sad::Label::Label(
@@ -50,14 +48,14 @@ sad::Label::Label(
 	const sad::String & string,
 	const sad::String & tree
 ) :
-m_point(point), 
-m_string(string), m_angle(0), 
+m_string(string), 
+m_maximal_line_width(0), m_point(point),  m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
 m_color(0, 0, 0, 0)
 {
 	m_font.setTree(NULL, tree);
 	m_font.setPath(font);
-	recomputeRenderingPoint();
+	recomputeRenderedString();
 }
 
 void sad::Label::setTreeName(sad::Renderer* r, const sad::String& treename)
@@ -134,6 +132,13 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 			    )
 		    );
 
+			sad::db::Property* mlw_property = new sad::db::MethodPair<sad::Label, unsigned int>(
+				&sad::Label::maximalLineWidth,
+				&sad::Label::setMaximalLineWidth
+			);
+			mlw_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+			LabelBasicSchema->add("maximal_line_width", mlw_property);
+
 		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
         }
         LabelBasicSchemaInit.unlock();
@@ -158,13 +163,13 @@ void sad::Label::render()
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glTranslatef((GLfloat)m_center.x(), (GLfloat)m_center.y(), 0.0f);
-	glRotatef((GLfloat)(m_angle / M_PI*180.0f), 0.0f, 0.0f, 1.0f);
+	glTranslatef(static_cast<GLfloat>(m_center.x()), static_cast<GLfloat>(m_center.y()), 0.0f);
+	glRotatef(static_cast<GLfloat>(m_angle / M_PI * 180.0f), 0.0f, 0.0f, 1.0f);
 
 	if (m_size > 0)
 	{
 		if (font)
-			font->render(m_string, m_halfpadding);
+			font->render(m_rendered_string, m_halfpadding);
 	}
 	glPopMatrix();
 }
@@ -255,7 +260,7 @@ void sad::Label::setFont(const sad::String & name, sad::Renderer * r, const sad:
 void sad::Label::setString(const sad::String & string)
 {
 	m_string = string;
-	recomputeRenderingPoint();
+	recomputeRenderedString();
 }
 
 void sad::Label::setSize(unsigned int size)
@@ -291,12 +296,23 @@ void sad::Label::setTreeName(const sad::String & treename)
 	recomputeRenderingPoint();
 }
 
+void sad::Label::setMaximalLineWidth(unsigned int width)
+{
+	m_maximal_line_width = width;
+	recomputeRenderedString();
+}
+
+unsigned int sad::Label::maximalLineWidth() const
+{
+	return m_maximal_line_width;
+}
+
 void sad::Label::reloadFont()
 {
 	sad::Font * font = m_font.get();
 	if (font)
 	{
-		recomputeRenderingPoint();
+		recomputeRenderedString();
 	}
 }
 
@@ -307,11 +323,79 @@ void sad::Label::recomputeRenderingPoint()
 	if (!font)
 		return;
 
-	sad::Size2D size = font->size(m_string);
+	sad::Size2D size = font->size(m_rendered_string);
 	m_center.setX(m_point.x() + size.Width / 2);
 	m_center.setY(m_point.y() - size.Height / 2);
 	m_halfpadding.setX(size.Width / -2.0);
 	m_halfpadding.setY(size.Height / 2.0);
 
 	m_cached_region = this->region();
+}
+
+void sad::Label::recomputeRenderedString()
+{
+	if (m_maximal_line_width == 0)
+	{
+		m_rendered_string = m_string;
+	} 
+	else
+	{
+		bool has_n =  m_string.getLastOccurence("\n") != -1;
+		bool has_r =  m_string.getLastOccurence("\r") != -1;
+		sad::String tmp = m_string;
+		if (has_n && has_r)
+		{
+			// Windows string preprocessing
+			tmp.replaceAllOccurences("\r", "");
+		} 
+		else
+		{
+			// MacOSX 
+			if (!has_n && has_r)
+			{
+				tmp.replaceAllOccurences("\r", "\n");				
+			}
+		}
+		sad::StringList lines = m_string.split("\n", sad::String::KEEP_EMPTY_PARTS);
+		sad::StringList new_lines;
+		for(size_t i = 0; i < lines.size(); i++)
+		{
+			sad::StringList words = lines[i].split(' ');
+			new_lines << "";
+			sad::String* current_word = &(new_lines[new_lines.size() - 1]);			
+			for(size_t j = 0; j <  words.size(); j++)
+			{
+				// In case that word  is larger than line width - we can do nothing to prevent it from 
+				// becoming larger
+				sad::String candidate_word = words[j];
+				candidate_word.replaceAllOccurences("\n", "");
+				if (candidate_word.length() > m_maximal_line_width && current_word->length() == 0)
+				{
+					*current_word = candidate_word;
+					new_lines << "";
+					current_word = &(new_lines[new_lines.size() - 1]);		
+				}
+				else
+				{
+					int offset = (current_word->length() == 0) ? 0 : 1; 
+					if (current_word->length() + offset + candidate_word.length() > m_maximal_line_width)
+					{
+						new_lines << "";
+						current_word = &(new_lines[new_lines.size() - 1]);								
+						--j;
+					}
+					else
+					{
+						if (current_word->length())
+						{
+							*current_word += " ";
+						}
+						*current_word += candidate_word;
+					}
+				}
+			}
+		}
+		m_rendered_string = sad::join(new_lines, "\n");
+	}
+	recomputeRenderingPoint();
 }
