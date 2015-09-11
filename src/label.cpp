@@ -199,7 +199,7 @@ sad::Rect2D sad::Label::area() const
 	font->setSize(m_size);
 	font->setLineSpacingRatio(m_linespacing_ratio);
 
-	sad::Size2D  size = font->size(m_string);
+	sad::Size2D  size = font->size(m_rendered_string);
 	sad::Rect2D  result(m_point.x(), 
 						m_point.y(), 
 						m_point.x() + size.Width,

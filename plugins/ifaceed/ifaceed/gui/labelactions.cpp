@@ -133,6 +133,7 @@ void gui::LabelActions::addLabel()
 		label->setSize(m_panel->UI()->fswLabelFontSize->value());
 		label->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
 		label->setAngle(m_panel->UI()->awSceneNodeAngle->value());
+		label->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
 
 		sad::AColor clr;
 		core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), clr);

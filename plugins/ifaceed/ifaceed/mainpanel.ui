@@ -527,7 +527,7 @@ coordinates</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>110</y>
+          <y>140</y>
           <width>461</width>
           <height>201</height>
          </rect>
@@ -537,7 +537,7 @@ coordinates</string>
         <property name="geometry">
          <rect>
           <x>380</x>
-          <y>320</y>
+          <y>110</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -557,7 +557,7 @@ coordinates</string>
           <x>10</x>
           <y>10</y>
           <width>101</width>
-          <height>91</height>
+          <height>121</height>
          </rect>
         </property>
        </widget>
@@ -591,6 +591,32 @@ coordinates</string>
         </property>
         <property name="value">
          <double>1.000000000000000</double>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblLabelMaximalLineWidth">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>113</y>
+          <width>81</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Max. line width:</string>
+        </property>
+       </widget>
+       <widget class="QSpinBox" name="spbMaximalLineWidth">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>110</y>
+          <width>161</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
         </property>
        </widget>
       </widget>
