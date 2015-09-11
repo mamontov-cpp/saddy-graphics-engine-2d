@@ -32,7 +32,7 @@ virtual ~AbstractTypeConverter();
 };
 
 /**
- * A converter, which, using implicit casts converts one type to another 
+ * A converter, which uses type cast operator to convert one type to another 
  */
 template<
 	typename _FromType,
@@ -58,6 +58,40 @@ public:
 	/*! Can be inherited
 	 */
 	virtual ~ImplicitTypeConverter()
+	{
+		
+	}
+};
+
+/**
+ * A converter, which uses constructor to convert one type to another.
+ * Required _ToType to be constructable from _FromType and have valid
+ * assignment operator.
+ */
+template<
+	typename _FromType,
+	typename _ToType
+>
+class ConverterViaConstructor: public sad::db::AbstractTypeConverter
+{
+public:
+	/*! Creates new converter
+	 */
+	inline ConverterViaConstructor()
+	{
+		
+	}
+	/*! Converts source value from another and to another type
+		\param[in] source source converted type
+		\param[in] dest destination converted type
+	 */
+	virtual void convert(void * source, void * dest)
+	{
+		*((_ToType *)dest) =  _ToType(*(_FromType *)source);
+	}
+	/*! Can be inherited
+	 */
+	virtual ~ConverterViaConstructor()
 	{
 		
 	}

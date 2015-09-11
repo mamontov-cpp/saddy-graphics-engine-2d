@@ -12,6 +12,8 @@
 #include "db/load.h"
 #include "db/dbstoredproperty.h"
 #include "db/dbstoredpropertyfactory.h"
+#include "db/custom/customobject.h"
+#include "db/custom/customschema.h"
 #define _INC_STDIO
 #include "3rdparty/tpunit++/tpunit++.hpp"
 #pragma warning(pop)
@@ -30,7 +32,9 @@ struct SadDbPropertyTest : tpunit::TestFixture
        TEST(SadDbPropertyTest::testMarkAsDefault_valid),
        TEST(SadDbPropertyTest::testMarkAsDefault_replace),
        TEST(SadDbPropertyTest::testMarkAsDefault_wrongtype),
-       TEST(SadDbPropertyTest::testMarkAsDefault_null)    
+       TEST(SadDbPropertyTest::testMarkAsDefault_null),
+       TEST(SadDbPropertyTest::testSadStringToStdString),
+       TEST(SadDbPropertyTest::testStdStringToSadString)	   
    ) {}
 
     int test;
@@ -180,5 +184,21 @@ struct SadDbPropertyTest : tpunit::TestFixture
         ASSERT_TRUE( p->defaultValue() == NULL );
         delete p;
     }
+	
+	void testSadStringToStdString()
+	{
+		sad::db::custom::Object o;
+		o.schema()->add("prop", new sad::db::StoredProperty<std::string>());
+		o.setProperty("prop", sad::String("test"));
+		ASSERT_TRUE(  o.getProperty<std::string>("prop").value() == "test" );
+	}
+	
+	void testStdStringToSadString()
+	{
+		sad::db::custom::Object o;
+		o.schema()->add("prop", new sad::db::StoredProperty<sad::String>());
+		o.setProperty("prop", std::string("test"));
+		ASSERT_TRUE(  o.getProperty<sad::String>("prop").value() == "test" );		
+	}
 
 } _sad_property;

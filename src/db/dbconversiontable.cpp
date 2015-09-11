@@ -17,6 +17,8 @@
 #include "sprite2d.h"
 #include "sprite3d.h"
 
+#include <string>
+
 sad::db::AbstractTypeConverter::~AbstractTypeConverter()
 {
 	
@@ -86,6 +88,9 @@ sad::db::ConversionTable::ConversionTable()
 	declareImplicit<int, double>();
 	declareImplicit<long, double>();
 	declareImplicit<long long, double>();
+	
+	add("sad::String", "std::string", new  sad::db::ConverterViaConstructor<sad::String, std::string>());
+	add("std::string", "sad::String", new  sad::db::ConverterViaConstructor<std::string, sad::String>());
 
 	declareIsSadObjectFlag<char>();
 	declareIsSadObjectFlag<signed char>();
@@ -102,6 +107,7 @@ sad::db::ConversionTable::ConversionTable()
 
 	declareIsSadObjectFlag<float>();
 	declareIsSadObjectFlag<double>();
+	declareIsSadObjectFlag<std::string>();
 	declareIsSadObjectFlag<sad::String>();
 	declareIsSadObjectFlag<sad::Color>();
 	declareIsSadObjectFlag<sad::AColor>();
