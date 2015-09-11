@@ -91,11 +91,11 @@ public:
 	/*! Returns line spacing for, used in label
 		\return line spacing for label
 	 */ 
-	float lineSpacing() const;
+	float lineSpacingRatio() const;
 	/*! Sets line spacing, used in label
 		\param[in] s a line spacing
 	 */
-	void setLineSpacing(float s);
+	void setLineSpacingRatio(float s);
     /*! Sets maximal line width, used in label
         \param[in] width a width of object
      */

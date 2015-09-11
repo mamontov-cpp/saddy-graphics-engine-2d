@@ -40,7 +40,7 @@ sad::Size2D sad::TextureMappedFont::size(const sad::String & str)
 	// Lets break string into lines
 	sad::String tmp = str;
 	tmp.removeAllOccurences("\r");
-	sad::StringList lines = str.split("\n");
+	sad::StringList lines = str.split("\n", sad::String::KEEP_EMPTY_PARTS);
 	
 	// Compute result
 	for(unsigned int i = 0; i < lines.size(); i++)

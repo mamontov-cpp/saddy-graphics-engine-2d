@@ -237,7 +237,7 @@ void sad::db::custom::Schema::getCustomProperties(sad::Hash<sad::String, sad::db
     m_properties_lock.unlock();
 }
 
-sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s)
+sad::db::custom::Schema::Schema(const sad::db::custom::Schema& s) : m_factory(NULL)
 {
     throw std::logic_error("Not implemented!");
 }

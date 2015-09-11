@@ -118,14 +118,14 @@ void sad::db::custom::Object::setFontName(const sad::String& name)
 	m_label->setFontName(name);
 }
 
-float sad::db::custom::Object::lineSpacing() const
+float sad::db::custom::Object::lineSpacingRatio() const
 {
-	return m_label->lineSpacing();
+	return m_label->lineSpacingRatio();
 }
 
-void sad::db::custom::Object::setLineSpacing(float s)
+void sad::db::custom::Object::setLineSpacingRatio(float s)
 {
-	m_label->setLineSpacing(s);	
+	m_label->setLineSpacingRatio(s);	
 }
 
 void sad::db::custom::Object::setMaximalLineWidth(unsigned int width)
@@ -284,8 +284,8 @@ void sad::db::custom::Object::initDefaultSchema()
 	m_my_schema->add(
 		"linespacing", 
 		new sad::db::MethodPair<sad::db::custom::Object, float>(
-			&sad::db::custom::Object::lineSpacing,
-			&sad::db::custom::Object::setLineSpacing
+			&sad::db::custom::Object::lineSpacingRatio,
+			&sad::db::custom::Object::setLineSpacingRatio
 		)
 	);
 	m_my_schema->add(
