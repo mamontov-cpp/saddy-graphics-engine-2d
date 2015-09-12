@@ -23,7 +23,10 @@ m_string(""),
 m_maximal_line_width(0), 
 m_point(0, 0), m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
-m_color(0, 0, 0, 0)
+m_color(0, 0, 0, 0),
+m_overflow_strategy(sad::Label::LOS_VISIBLE),
+m_break_text(sad::Label::LBT_NORMAL),
+m_text_ellipsis_position(sad::Label::LTEP_MIDDLE)
 {
 	
 }
@@ -36,7 +39,10 @@ sad::Label::Label(
 m_string(string), 
 m_maximal_line_width(0), m_point(point),  m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
-m_color(0, 0, 0, 0)
+m_color(0, 0, 0, 0),
+m_overflow_strategy(sad::Label::LOS_VISIBLE),
+m_break_text(sad::Label::LBT_NORMAL),
+m_text_ellipsis_position(sad::Label::LTEP_MIDDLE)
 {
 	m_font.attach(font);
 	recomputeRenderedString();
@@ -51,7 +57,10 @@ sad::Label::Label(
 m_string(string), 
 m_maximal_line_width(0), m_point(point),  m_angle(0), 
 m_size(20), m_linespacing_ratio(1.0),
-m_color(0, 0, 0, 0)
+m_color(0, 0, 0, 0),
+m_overflow_strategy(sad::Label::LOS_VISIBLE),
+m_break_text(sad::Label::LBT_NORMAL),
+m_text_ellipsis_position(sad::Label::LTEP_MIDDLE)
 {
 	m_font.setTree(NULL, tree);
 	m_font.setPath(font);
