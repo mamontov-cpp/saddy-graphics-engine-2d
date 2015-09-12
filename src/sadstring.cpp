@@ -367,7 +367,16 @@ bool sad::String::consistsOfWhitespaceCharacters() const
 
 void sad::String::trim()
 {
-	int length = 0;
+	if (!trimLeft())
+	{
+	    trimRight();
+	}
+}
+
+bool sad::String::trimLeft()
+{
+    bool is_whitespace = false;
+    int length = 0;
 	bool found = false;
 	for(size_t  i = 0; (i < this->size()) && !found; i++)
 	{
@@ -385,10 +394,15 @@ void sad::String::trim()
 	else
 	{		
 		this->clear();
-		return;
+        is_whitespace = true;
 	}
+    return is_whitespace;
+}
 
-	found = false;
+bool sad::String::trimRight()
+{
+    bool is_whitespace = false;
+    bool found = false;
 	int pos = 0;
 	for(int  i = this->size() - 1; (i > -1) && !found; i--)
 	{
@@ -403,6 +417,12 @@ void sad::String::trim()
 	{
 		this->erase(this->begin() + pos + 1, this->end());
 	}
+    else
+    {
+        this->clear();
+        is_whitespace = true;
+    }
+    return is_whitespace;
 }
 
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2

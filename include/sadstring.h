@@ -264,6 +264,14 @@ public:
 		 /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
 		  */
 		 void trim();
+         /*! Trims a whitespace characters on left side of string
+            \return whether string consists from whitespaces
+		  */
+         bool trimLeft();
+         /*! Trims a whitespace characters on right side of string
+            \return whether string consists from whitespaces
+          */
+         bool trimRight();
 private:
 	     /*! It compares symbols it by priority on russian language.
 			 The biggest are big latin symbols

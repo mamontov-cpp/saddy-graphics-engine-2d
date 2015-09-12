@@ -445,6 +445,7 @@ sad::String sad::Label::makeRenderingString(
 				tmp.replaceAllOccurences("\r", "\n");				
 			}
 		}
+        bool last_line_changed = false;
 		sad::StringList lines = string.split("\n", sad::String::KEEP_EMPTY_PARTS);
 		sad::StringList new_lines;
 		for(size_t i = 0; i < lines.size(); i++)
@@ -469,7 +470,8 @@ sad::String sad::Label::makeRenderingString(
                             tep
                         );
 					    new_lines << "";
-					    current_word = &(new_lines[new_lines.size() - 1]);		
+					    current_word = &(new_lines[new_lines.size() - 1]);
+                        last_line_changed = false;
 				    }
 				    else
 				    {
@@ -479,6 +481,7 @@ sad::String sad::Label::makeRenderingString(
 						    new_lines << "";
 						    current_word = &(new_lines[new_lines.size() - 1]);								
 						    --j;
+                            last_line_changed = false;
 					    }
 					    else
 					    {
@@ -487,6 +490,7 @@ sad::String sad::Label::makeRenderingString(
 							    *current_word += " ";
 						    }
 						    *current_word += candidate_word;
+                            last_line_changed = true;
 					    }
 				    }
 			    }
@@ -503,6 +507,10 @@ sad::String sad::Label::makeRenderingString(
                 );                
             }
 		}
+        if (bt == sad::Label::LBT_BREAK_WORD && new_lines.size() != 0 && !last_line_changed)
+        {
+            new_lines.removeAt(new_lines.size() - 1);
+        }
 		result = sad::join(new_lines, "\n");
 	}
     return result;
@@ -536,90 +544,46 @@ sad::String sad::Label::formatTextLine(
             }
             else
             {
-                if (s == sad::Label::LTEP_BEGIN)
+                if (string.consistsOfWhitespaceCharacters())
                 {
-                    result += "...";
-                    size_t index = 3;
-                    // Find first non-space characters
-                    bool isspace = true;
-                    for(size_t i = index; i < string.length() && isspace; i++)
-                    {
-                        if (string[i] != ' ')
-                        {
-                            index = i;
-                            isspace = false;
-                        }
-                    }
-                    result += string.substr(index); 
-                    // Clear string, that consists from spaces
-                    if (result.length() == 3)
-                    {
-                        result = "";
-                    }
+                    result = "";
                 }
-                // In case of string with length 4 we should use this strategy too to simplify computation
-                if (s == sad::Label::LTEP_END || (string.length() == 4 && s == sad::Label::LTEP_MIDDLE))
+                else
                 {
-                    bool isspace = true;                   
-                    result += string.substr(0, maximal_line_width - 3);
-                    while(isspace && result.length() != 0)
+                    if (tep == sad::Label::LTEP_BEGIN)
                     {
-                        if (result[result.length() - 1] == ' ')
+                        result = "...";                        
+                        sad::String part = string.substr(string.length() - maximal_line_width + 3, maximal_line_width - 3);
+                        part.trim();
+                        // Clear string, that consists from spaces
+                        if (part.length())
                         {
-                            result.remove(result.length() - 1);
-                        }
-                        else
-                        {
-                            isspace = false;
+                            result += part;
                         }
                     }
-                    if (result.length() != 0)
+                    // In case of string with length 4 we should use this strategy too to simplify computation
+                    if (tep == sad::Label::LTEP_END || (maximal_line_width == 4 && tep == sad::Label::LTEP_MIDDLE))
                     {
-                        result += "...";                    
-                    }
-                }
-
-                if (s == sad::Label::LTEP_MIDDLE && string.length() > 4)
-                {
-                    int halfwidth = (maximal_line_width - 3) / 2;
-                    int halfmod = (maximal_line_width - 3) % 2;
-                    sad::String left = string.substr(0, halfwidth);
-                    sad::String right = string.getRightPart(halfwidth + halfmod);
-                    // Strip spaces on left part
-                    bool isspace = true;
-                    while(isspace && left.length() != 0)
-                    {
-                        if (left[left.length() - 1] == ' ')
-                        {
-                            left.remove(left.length() - 1);
-                        }
-                        else
-                        {
-                            isspace = false;
-                        }
+                        result = string.substr(0, maximal_line_width - 3);
+                        result.trim();
+                        result += "...";  
                     }
 
-                    // Strip spaces on right part
-                    while(isspace && right.length() != 0)
+                    if (tep == sad::Label::LTEP_MIDDLE && maximal_line_width > 4)
                     {
-                        if (right[0] == ' ')
+                        int halfwidth = (maximal_line_width - 3) / 2;
+                        int halfmod = (maximal_line_width - 3) % 2;
+                        sad::String left = string.substr(0, halfwidth);
+                        sad::String right = string.getRightPart(halfwidth + halfmod);
+                        left.trimRight();
+                        right.trimLeft();
+                        if (left.length() == 0 && right.length() == 0)
                         {
-                            right.remove(right.length() - 1);
+                            result = "...";
                         }
                         else
                         {
-                            isspace = false;
-                        }
-                    }
-                    if (left.length() == 0 && right.length() == 0)
-                    {
-                        result = "";
-                    }
-                    else
-                    {
-                        result = left;
-                        if (right.length() != 0)
-                        {
+                            result = left;
                             result += "...";
                             result += right;
                         }
