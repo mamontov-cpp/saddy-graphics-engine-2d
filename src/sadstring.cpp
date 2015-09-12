@@ -251,15 +251,20 @@ double sad::String::toDouble(const sad::String & str)
 
 sad::String  sad::String::subString(long beg,long len) const
 {
+    // Do not throw out of range
+    if (beg > length())
+    {
+        return "";
+    }
 	return substr(beg, len);
 }
-sad::String  sad::String::getRightPart(long len)
+sad::String  sad::String::getRightPart(long len) const
 {
- return subString(length()-len,len);
+    return subString(length()-len,len);
 }
-sad::String  sad::String::getLeftPart(long len)
+sad::String  sad::String::getLeftPart(long len) const
 {
- return subString(0,len);
+    return subString(0,len);
 }
 long sad::String::getOccurences(const sad::String & sstr) const
 {
@@ -272,7 +277,7 @@ long sad::String::getOccurences(const sad::String & sstr) const
 	}
 	return count;
 }
-long sad::String::getOccurence(const sad::String & sstr,long omax)
+long sad::String::getOccurence(const sad::String & sstr,long omax) const
 {
   long result = -1;
   long count = 0;
@@ -286,7 +291,7 @@ long sad::String::getOccurence(const sad::String & sstr,long omax)
   }
   return result;
 }
-long sad::String::getLastOccurence(const sad::String & sstr)
+long sad::String::getLastOccurence(const sad::String & sstr) const
 {
   long result = -1;
   size_t pos = this->find(sstr);

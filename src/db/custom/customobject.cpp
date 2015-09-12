@@ -244,6 +244,68 @@ const sad::Rect2D & sad::db::custom::Object::textureCoordinates() const
 }
 
 
+void sad::db::custom::Object::setOverflowStrategy(sad::Label::OverflowStrategy s)
+{
+    m_label->setOverflowStrategy(s);
+}
+
+void sad::db::custom::Object::setOverflowStrategyFromIndex(unsigned int s)
+{
+    m_label->setOverflowStrategyFromIndex(s);
+}
+
+sad::Label::OverflowStrategy sad::db::custom::Object::overflowStrategy() const
+{
+    return m_label->overflowStrategy();
+}
+
+unsigned int sad::db::custom::Object::overflowStrategyAsIndex() const
+{
+    return static_cast<unsigned int>(overflowStrategy());
+}
+
+void sad::db::custom::Object::setBreakText(sad::Label::BreakText value)
+{
+     m_label->setBreakText(value);
+}
+
+
+void sad::db::custom::Object::setBreakTextFromIndex(unsigned int value)
+{
+    m_label->setBreakTextFromIndex(value);
+}
+
+sad::Label::BreakText sad::db::custom::Object::breakText() const
+{
+    return m_label->breakText();
+}
+
+unsigned int sad::db::custom::Object::breakTextAsIndex() const
+{
+    return static_cast<unsigned int>(breakText());
+}
+
+void sad::db::custom::Object::setTextEllipsisPosition(sad::Label::TextEllipsisPosition value)
+{
+    m_label->setTextEllipsisPosition(value);
+}
+
+void sad::db::custom::Object::setTextEllipsisPositionAsIndex(unsigned int value)
+{
+    m_label->setTextEllipsisPositionAsIndex(value);
+}
+
+sad::Label::TextEllipsisPosition sad::db::custom::Object::textEllipsis() const
+{
+    return m_label->textEllipsis();
+}
+
+unsigned int sad::db::custom::Object::textEllipsisAsIndex() const
+{
+    return static_cast<unsigned int>(textEllipsis());
+}
+
+
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
 	m_sprite2d->toggleLoadingMode();
@@ -347,6 +409,27 @@ void sad::db::custom::Object::initDefaultSchema()
 		"maximallinewidth", 
 		mlw_property
 	);
+
+    sad::db::Property* os_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::overflowStrategyAsIndex,
+		&sad::db::custom::Object::setOverflowStrategyFromIndex
+	);
+	os_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("overflowstrategy", os_property);
+
+    sad::db::Property* bt_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::breakTextAsIndex,
+		&sad::db::custom::Object::setBreakTextFromIndex
+	);
+	bt_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("breaktext", bt_property);
+
+    sad::db::Property* tep_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::textEllipsisAsIndex,
+		&sad::db::custom::Object::setTextEllipsisPositionAsIndex
+	);
+	tep_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("textellipsisposition", tep_property);
 
 	m_custom_schema->addParent(m_my_schema);
 }

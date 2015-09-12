@@ -8,12 +8,12 @@
 #include "../../resource/link.h"
 #include "../../resource/tree.h"
 #include "customschema.h"
+#include "label.h"
 
 
 namespace sad
 {
 class Sprite2D;
-class Label;
 
 namespace db
 {
@@ -182,6 +182,56 @@ public:
 		\return a texture coordinates
 	 */
 	const sad::Rect2D & textureCoordinates() const;
+    /*! Sets the strategy for text overflow, which should be applied,
+		when text overflows a line with one word in case that BreakText parameter set to LBT_BREAK_WORD or
+		maximal line width is non-zero and BreakText parameter is set to LBT_NORMAL.
+		\param[in] ovstrategy a strategy value
+	 */
+	void setOverflowStrategy(sad::Label::OverflowStrategy s);
+	/*! Sets the strategy for text overflow. Clamps a value to enumeration bounds if needed.
+		\param[in] s strategy
+	 */
+	void setOverflowStrategyFromIndex(unsigned int s);
+	/*! Returns overflow strategy for label
+		\return overflow strategy
+	 */
+	sad::Label::OverflowStrategy overflowStrategy() const;
+	/*! Returns overflow strategy for label as index 
+		\return oveflow strategy
+	 */
+	unsigned int overflowStrategyAsIndex() const;
+	/*! Sets, whether we should break lines in case, that maximal line width is set
+		\param[in] value value
+	 */
+	void setBreakText(sad::Label::BreakText value);
+	/*! Sets, whether we should break lines in case, that maximal line width is set. Clamps a value to enumeration bounds if needed.
+		\param[in] value 
+	 */
+	void setBreakTextFromIndex(unsigned int value);
+	/*! Returns whether we should break text in lines
+		\return break text value
+	 */
+	sad::Label::BreakText breakText() const;
+	/*! Returns whether we should break text as index of enum
+		\return whether we should break text
+	 */
+	unsigned int breakTextAsIndex() const;
+	/*! Sets text ellipsis position in text
+		\param[in] value value
+	 */
+	void setTextEllipsisPosition(sad::Label::TextEllipsisPosition value);
+	/*! Sets text ellipsisis position in text. Clamps a value to enumeration bounds if needed.
+		\param[in] value 
+	 */
+	void setTextEllipsisPositionAsIndex(unsigned int value);
+	/*! Returns text ellipsis position
+		\return text ellipsis position
+	 */
+	sad::Label::TextEllipsisPosition textEllipsis() const;
+	/*! Returns text ellipsis position as index
+		\return text ellipsis position as index
+	 */
+	unsigned int textEllipsisAsIndex() const;
 protected:
 	/*! Fills custom object with defailt item properties
 	 */

@@ -299,7 +299,7 @@ public:
 	/*! Returns overflow strategy for label as index 
 		\return oveflow strategy
 	 */
-	unsigned int overflowStrategyAsIndex();
+	unsigned int overflowStrategyAsIndex() const;
 	/*! Sets, whether we should break lines in case, that maximal line width is set
 		\param[in] value value
 	 */
@@ -315,7 +315,7 @@ public:
 	/*! Returns whether we should break text as index of enum
 		\return whether we should break text
 	 */
-	unsigned int breakTextAsIndex();
+	unsigned int breakTextAsIndex() const;
 	/*! Sets text ellipsis position in text
 		\param[in] value value
 	 */
@@ -323,15 +323,45 @@ public:
 	/*! Sets text ellipsisis position in text. Clamps a value to enumeration bounds if needed.
 		\param[in] value 
 	 */
-	void setTextEllipsisPositionAsPosition(unsigned int value);
+	void setTextEllipsisPositionAsIndex(unsigned int value);
 	/*! Returns text ellipsis position
 		\return text ellipsis position
 	 */
-	sad::Label::BreakText textEllipsis() const;
+	sad::Label::TextEllipsisPosition textEllipsis() const;
 	/*! Returns text ellipsis position as index
 		\return text ellipsis position as index
 	 */
-	unsigned int textEllipsisAsIndex();
+	unsigned int textEllipsisAsIndex() const;
+    /*! Creates string, that could be rendered with label, 
+        using specified settings. Used to create rendering string
+        for label
+        \param[in] string a string, that must be rendered
+        \param[in] maximal_line_width a maximal width of line in characters
+        \param[in] s a strategy, which should be applied (\@see sad::Label::OverflowStrategy)
+        \param[in] bt whether we should break text into lines (\@see sad::Label::BreakText)
+        \param[in] tep a suspension point position
+        \return string, how it would be rendered by label with specified settings
+     */
+    static sad::String makeRenderingString(
+        const sad::String& string,   
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::BreakText bt,
+        sad::Label::TextEllipsisPosition tep
+    );
+    /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
+        and text ellipsis position
+        \param[in] string a string  value
+        \param[in] maximal_line_width maximal line width
+        \param[in] s overflow strategy
+        \param[in] tep text ellipsis position
+     */
+    static sad::String formatTextLine(
+        const sad::String& string,
+        unsigned int maximal_line_width,
+        sad::Label::OverflowStrategy s,
+        sad::Label::TextEllipsisPosition tep
+    );
 private:
 	/*! Reloads font for a label from scene
 	 */
