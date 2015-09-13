@@ -332,6 +332,47 @@ public:
 		\return text ellipsis position as index
 	 */
 	unsigned int textEllipsisAsIndex() const;
+    /*! Sets maximal lines count, that should be contained in label
+		\param[in] line_count maximal lines count
+	 */
+	void setMaximalLinesCount(unsigned int line_count);
+	/*! Returns maximal lines count, that should be contained in label (0 - to not constrain)
+		\return maximal lines
+	 */
+	unsigned int maximalLinesCount() const;
+    /*! Sets the strategy for text overflow, which should be applied,
+		when text overflows amount of lines. 
+		\param[in] ovstrategy a strategy value
+	 */
+	void setOverflowStrategyForLines(sad::Label::OverflowStrategy s);
+	/*! Sets the strategy for text overflow for lines. Clamps a value to enumeration bounds if needed.
+		\param[in] s strategy
+	 */
+	void setOverflowStrategyForLinesFromIndex(unsigned int s);
+	/*! Returns overflow strategy for label for lines in label
+		\return overflow strategy
+	 */
+	sad::Label::OverflowStrategy overflowStrategyForLines() const;
+	/*! Returns overflow strategy for label as index  ffor lines in label
+		\return oveflow strategy
+	 */
+	unsigned int overflowStrategyForLinesAsIndex() const;
+    /*! Sets text ellipsis position in text for lines
+		\param[in] value value
+	 */
+	void setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value);
+	/*! Sets text ellipsisis position in text for lines. Clamps a value to enumeration bounds if needed.
+		\param[in] value 
+	 */
+	void setTextEllipsisPositionForLinesAsIndex(unsigned int value);
+	/*! Returns text ellipsis position for lines
+		\return text ellipsis position
+	 */
+	sad::Label::TextEllipsisPosition textEllipsisForLines() const;
+	/*! Returns text ellipsis position as index
+		\return text ellipsis position as index
+	 */
+	unsigned int textEllipsisForLinesAsIndex() const;
     /*! Creates string, that could be rendered with label, 
         using specified settings. Used to create rendering string
         for label
@@ -340,6 +381,9 @@ public:
         \param[in] s a strategy, which should be applied (\@see sad::Label::OverflowStrategy)
         \param[in] bt whether we should break text into lines (\@see sad::Label::BreakText)
         \param[in] tep a suspension point position
+        \param[in] maximum_lines a maximal lines count, that should be shown
+        \param[in] overflow_for_lines how should function behave in case that amount of lines exceeds maximum_lines
+        \param[in] text_ellipsis_for_lines where should ellipsis be placed in case that amount of lines exceeds maximum_lines and overflow_for_lines is set to sad::Label::LOS_ELLIPSIS
         \return string, how it would be rendered by label with specified settings
      */
     static sad::String makeRenderingString(
@@ -347,7 +391,10 @@ public:
         unsigned int maximal_line_width,
         sad::Label::OverflowStrategy s,
         sad::Label::BreakText bt,
-        sad::Label::TextEllipsisPosition tep
+        sad::Label::TextEllipsisPosition tep,
+        unsigned int maximum_lines = 0,
+        sad::Label::OverflowStrategy overflow_for_lines = sad::Label::LOS_ELLIPSIS,
+        sad::Label::TextEllipsisPosition text_ellipsis_for_lines = sad::Label::LTEP_BEGIN
     );
     /*! Formats text line, constraining it by maximal line width, using specified overflow strategy
         and text ellipsis position
@@ -420,6 +467,16 @@ private:
 	/*! A suspension point position
 	 */
 	sad::Label::TextEllipsisPosition m_text_ellipsis_position;
+    /*! A maximum lines in label, that should be displayed 
+     */
+    unsigned int m_maximum_lines;
+    /*! A strategy, that should be used, when amount of lines is larger than needed
+     */
+    sad::Label::OverflowStrategy m_overflow_strategy_for_lines;
+    /*! Where should be ellipsis placed in case, when amount of lines are larger than needed
+        and m_overflow_strategy_for_lines is set to LOS_ELLIPSIS .
+     */
+    sad::Label::TextEllipsisPosition m_text_ellipsis_position_for_lines;
 };
 
 }

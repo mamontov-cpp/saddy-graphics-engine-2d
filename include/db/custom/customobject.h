@@ -232,6 +232,47 @@ public:
 		\return text ellipsis position as index
 	 */
 	unsigned int textEllipsisAsIndex() const;
+    /*! Sets maximal lines count, that should be contained in label
+		\param[in] line_count maximal lines count
+	 */
+	void setMaximalLinesCount(unsigned int line_count);
+	/*! Returns maximal lines count, that should be contained in label (0 - to not constrain)
+		\return maximal lines
+	 */
+	unsigned int maximalLinesCount() const;
+    /*! Sets the strategy for text overflow, which should be applied,
+		when text overflows amount of lines. 
+		\param[in] ovstrategy a strategy value
+	 */
+	void setOverflowStrategyForLines(sad::Label::OverflowStrategy s);
+	/*! Sets the strategy for text overflow for lines. Clamps a value to enumeration bounds if needed.
+		\param[in] s strategy
+	 */
+	void setOverflowStrategyForLinesFromIndex(unsigned int s);
+	/*! Returns overflow strategy for label for lines in label
+		\return overflow strategy
+	 */
+	sad::Label::OverflowStrategy overflowStrategyForLines() const;
+	/*! Returns overflow strategy for label as index  ffor lines in label
+		\return oveflow strategy
+	 */
+	unsigned int overflowStrategyForLinesAsIndex() const;
+    /*! Sets text ellipsis position in text for lines
+		\param[in] value value
+	 */
+	void setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value);
+	/*! Sets text ellipsisis position in text for lines. Clamps a value to enumeration bounds if needed.
+		\param[in] value 
+	 */
+	void setTextEllipsisPositionForLinesAsIndex(unsigned int value);
+	/*! Returns text ellipsis position for lines
+		\return text ellipsis position
+	 */
+	sad::Label::TextEllipsisPosition textEllipsisForLines() const;
+	/*! Returns text ellipsis position as index
+		\return text ellipsis position as index
+	 */
+	unsigned int textEllipsisForLinesAsIndex() const;
 protected:
 	/*! Fills custom object with defailt item properties
 	 */

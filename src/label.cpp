@@ -170,6 +170,28 @@ sad::db::schema::Schema* sad::Label::basicSchema()
 			LabelBasicSchema->add("textellipsisposition", tep_property);
 
 
+            sad::db::Property* mlines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
+				&sad::Label::maximalLinesCount,
+				&sad::Label::setMaximalLinesCount
+			);
+			mlines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+			LabelBasicSchema->add("maximallinescount", mlines_property);
+
+            sad::db::Property* oslines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
+				&sad::Label::overflowStrategyForLinesAsIndex,
+				&sad::Label::setOverflowStrategyForLinesFromIndex
+			);
+			oslines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+			LabelBasicSchema->add("overflowstrategyforlines", oslines_property);
+
+            sad::db::Property* teplines_property = new sad::db::MethodPair<sad::Label, unsigned int>(
+				&sad::Label::textEllipsisForLinesAsIndex,
+				&sad::Label::setTextEllipsisPositionForLinesAsIndex
+			);
+			teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+			LabelBasicSchema->add("textellipsispositionforlines", teplines_property);
+
+
 		    sad::ClassMetaDataContainer::ref()->pushGlobalSchema(LabelBasicSchema);
         }
         LabelBasicSchemaInit.unlock();
@@ -414,16 +436,80 @@ unsigned int sad::Label::textEllipsisAsIndex() const
     return static_cast<unsigned int>(textEllipsis());
 }
 
+void sad::Label::setMaximalLinesCount(unsigned int line_count)
+{
+    m_maximum_lines = line_count;
+    recomputeRenderedString();
+}
+
+unsigned int sad::Label::maximalLinesCount() const
+{
+    return m_maximum_lines;
+}
+
+void sad::Label::setOverflowStrategyForLines(sad::Label::OverflowStrategy s)
+{
+    m_overflow_strategy_for_lines = s;
+    recomputeRenderedString();
+}
+
+void sad::Label::setOverflowStrategyForLinesFromIndex(unsigned int s)
+{
+    if (s > sad::Label::LOS_ELLIPSIS)
+    {
+        s = static_cast<unsigned int>(sad::Label::LOS_ELLIPSIS);
+    }
+    setOverflowStrategyForLines(static_cast<sad::Label::OverflowStrategy>(s));    
+}
+
+sad::Label::OverflowStrategy sad::Label::overflowStrategyForLines() const
+{
+    return m_overflow_strategy_for_lines;
+}
+
+unsigned int sad::Label::overflowStrategyForLinesAsIndex() const
+{
+    return static_cast<unsigned int>(overflowStrategyForLines());
+}
+
+void sad::Label::setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value)
+{
+    m_text_ellipsis_position_for_lines = value;
+    recomputeRenderedString();
+}
+
+void sad::Label::setTextEllipsisPositionForLinesAsIndex(unsigned int value)
+{
+    if (value > sad::Label::LTEP_END)
+    {
+        value = static_cast<unsigned int>(sad::Label::LTEP_END);
+    }
+    setTextEllipsisPositionForLines(static_cast<sad::Label::TextEllipsisPosition>(value));
+}
+
+sad::Label::TextEllipsisPosition sad::Label::textEllipsisForLines() const
+{
+    return m_text_ellipsis_position_for_lines;
+}
+
+unsigned int sad::Label::textEllipsisForLinesAsIndex() const
+{
+    return static_cast<unsigned int>(textEllipsisForLines());
+}
+
 sad::String sad::Label::makeRenderingString(
     const sad::String& string,   
     unsigned int maximal_line_width,
     sad::Label::OverflowStrategy s,
     sad::Label::BreakText bt,
-    sad::Label::TextEllipsisPosition tep
+    sad::Label::TextEllipsisPosition tep,
+    unsigned int maximum_lines,
+    sad::Label::OverflowStrategy overflow_for_lines,
+    sad::Label::TextEllipsisPosition text_ellipsis_for_lines
 )
 {
     sad::String result;
-    if (maximal_line_width == 0)
+    if (maximal_line_width == 0 && maximum_lines == 0)
 	{
 		result = string;
 	} 
@@ -448,7 +534,12 @@ sad::String sad::Label::makeRenderingString(
         bool last_line_changed = false;
 		sad::StringList lines = string.split("\n", sad::String::KEEP_EMPTY_PARTS);
 		sad::StringList new_lines;
-		for(size_t i = 0; i < lines.size(); i++)
+        if (maximal_line_width == 0)
+        {
+            new_lines = lines;
+            last_line_changed = true;
+        }
+		for(size_t i = 0; i < lines.size() && (maximal_line_width != 0); i++)
 		{
             if (bt == sad::Label::LBT_BREAK_WORD)
             {
@@ -510,6 +601,49 @@ sad::String sad::Label::makeRenderingString(
         if (bt == sad::Label::LBT_BREAK_WORD && new_lines.size() != 0 && !last_line_changed)
         {
             new_lines.removeAt(new_lines.size() - 1);
+        }
+        if (maximum_lines != 0 
+            && new_lines.size() > maximum_lines 
+            && overflow_for_lines != sad::Label::LOS_VISIBLE)
+        {
+            if (overflow_for_lines == sad::Label::LOS_HIDDEN)
+            {
+                new_lines.removeRange(maximum_lines, new_lines.size() - 1);
+            }
+            if (overflow_for_lines == sad::Label::LOS_ELLIPSIS)
+            {
+                if (text_ellipsis_for_lines == sad::Label::LTEP_BEGIN)
+                {
+                    new_lines.removeRange(0, new_lines.size() - maximum_lines - 1);                    
+                    new_lines[0] = "...";
+                }
+                if (text_ellipsis_for_lines == sad::Label::LTEP_END)
+                {
+                    new_lines.removeRange(maximum_lines, new_lines.size() - 1);                    
+                    new_lines[new_lines.size() - 1] = "...";
+                }
+                if (text_ellipsis_for_lines == sad::Label::LTEP_MIDDLE)
+                {
+                    long left_length = (maximum_lines - 1) / 2 + (maximum_lines - 1) % 2;
+                    long right_length = (maximum_lines - 1) / 2;
+                    if (new_lines.size() == 1)
+                    {
+                        new_lines[0] = "...";
+                    }
+                    else
+                    {
+                        if (new_lines.size() == 2)
+                        {
+                            new_lines[1] = "...";
+                        }
+                        else
+                        {
+                            new_lines.removeRange(left_length + 1, new_lines.size() - right_length - 1);
+                            new_lines[left_length] = "...";
+                        }
+                    }
+                }
+            }
         }
 		result = sad::join(new_lines, "\n");
 	}
@@ -627,7 +761,10 @@ void sad::Label::recomputeRenderedString()
         m_maximal_line_width,
         m_overflow_strategy,
         m_break_text,
-        m_text_ellipsis_position
+        m_text_ellipsis_position,
+        m_maximum_lines,
+        m_overflow_strategy_for_lines,
+        m_text_ellipsis_position_for_lines
     );
 	recomputeRenderingPoint();
 }

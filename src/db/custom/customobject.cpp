@@ -305,6 +305,55 @@ unsigned int sad::db::custom::Object::textEllipsisAsIndex() const
     return static_cast<unsigned int>(textEllipsis());
 }
 
+void sad::db::custom::Object::setMaximalLinesCount(unsigned int line_count)
+{
+    m_label->setMaximalLinesCount(line_count);
+}
+
+unsigned int sad::db::custom::Object::maximalLinesCount() const
+{
+    return m_label->maximalLinesCount();
+}
+
+void sad::db::custom::Object::setOverflowStrategyForLines(sad::Label::OverflowStrategy s)
+{
+    m_label->setOverflowStrategyForLines(s);    
+}
+
+void sad::db::custom::Object::setOverflowStrategyForLinesFromIndex(unsigned int s)
+{
+    m_label->setOverflowStrategyForLinesFromIndex(s);
+}
+
+sad::Label::OverflowStrategy sad::db::custom::Object::overflowStrategyForLines() const
+{
+    return m_label->overflowStrategyForLines();
+}
+
+unsigned int sad::db::custom::Object::overflowStrategyForLinesAsIndex() const
+{
+    return static_cast<unsigned int>(overflowStrategyForLines());
+}
+
+void sad::db::custom::Object::setTextEllipsisPositionForLines(sad::Label::TextEllipsisPosition value)
+{
+    m_label->setTextEllipsisPositionForLines(value);
+}
+
+void sad::db::custom::Object::setTextEllipsisPositionForLinesAsIndex(unsigned int value)
+{
+    m_label->setTextEllipsisPositionForLinesAsIndex(value);
+}
+
+sad::Label::TextEllipsisPosition  sad::db::custom::Object::textEllipsisForLines() const
+{
+    return m_label->textEllipsisForLines();
+}
+
+unsigned int sad::db::custom::Object::textEllipsisForLinesAsIndex() const
+{
+    return static_cast<unsigned int>(textEllipsisForLines());    
+}
 
 bool sad::db::custom::Object::load(const picojson::value& v)
 {
@@ -430,6 +479,28 @@ void sad::db::custom::Object::initDefaultSchema()
 	);
 	tep_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
 	m_my_schema->add("textellipsisposition", tep_property);
+
+
+    sad::db::Property* mlines_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::maximalLinesCount,
+		&sad::db::custom::Object::setMaximalLinesCount
+	);
+	mlines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("maximallinescount", mlines_property);
+
+    sad::db::Property* oslines_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::overflowStrategyForLinesAsIndex,
+		&sad::db::custom::Object::setOverflowStrategyForLinesFromIndex
+	);
+	oslines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("overflowstrategyforlines", oslines_property);
+
+    sad::db::Property* teplines_property = new sad::db::MethodPair<sad::db::custom::Object, unsigned int>(
+		&sad::db::custom::Object::textEllipsisForLinesAsIndex,
+		&sad::db::custom::Object::setTextEllipsisPositionForLinesAsIndex
+	);
+	teplines_property->makeNonRequiredWithDefaultValue(new sad::db::Variant(static_cast<unsigned int>(0)));
+	m_my_schema->add("textellipsispositionforlines", teplines_property);
 
 	m_custom_schema->addParent(m_my_schema);
 }

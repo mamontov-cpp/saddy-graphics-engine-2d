@@ -23,7 +23,8 @@ struct LabelTest : tpunit::TestFixture
        TEST(LabelTest::testFormatTextLineEllipsisBegin),
        TEST(LabelTest::testFormatTextLineEllipsisEnd),
        TEST(LabelTest::testFormatTextLineEllipsisMiddle),
-       TEST(LabelTest::testMakeRenderingString)
+       TEST(LabelTest::testMakeRenderingString),
+       TEST(LabelTest::testMakeRenderingStringMultiline)
    ) {}
    
    
@@ -320,6 +321,187 @@ struct LabelTest : tpunit::TestFixture
           sad::Label::LTEP_END
       );
       ASSERT_TRUE( result == "tes...\ntes...\ntes...");
+   }
+
+   void testMakeRenderingStringMultiline()
+   {
+       sad::String result;
+       result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          0,
+          sad::Label::LOS_VISIBLE,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "testing\ntesting\ntesting");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_VISIBLE,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "testing\ntesting\ntesting");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_VISIBLE,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "testing\ntesting\ntesting\ntesting");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_HIDDEN,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "testing\ntesting\ntesting");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          1,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          1,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_END
+      );
+      ASSERT_TRUE( result ==  "...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          1,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_MIDDLE
+      );
+      ASSERT_TRUE( result ==  "...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          2,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "...\ntesting");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          2,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_END
+      );
+      ASSERT_TRUE( result ==  "testing\n...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          2,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_MIDDLE
+      );
+      ASSERT_TRUE( result ==  "testing\n...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          1,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "...");
+      result = sad::Label::makeRenderingString(
+          "testing\ntesting\ntesting\ntesting", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          1,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_END
+      );
+      ASSERT_TRUE( result ==  "...");
+      result = sad::Label::makeRenderingString(
+          "testing1\ntesting2\ntesting3\ntesting4", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_BEGIN
+      );
+      ASSERT_TRUE( result ==  "...\ntesting3\ntesting4");
+      result = sad::Label::makeRenderingString(
+          "testing1\ntesting2\ntesting3\ntesting4", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_END
+      );
+      ASSERT_TRUE( result ==  "testing1\ntesting2\n...");
+      result = sad::Label::makeRenderingString(
+          "testing1\ntesting2\ntesting3\ntesting4", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          3,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_MIDDLE
+      );
+      ASSERT_TRUE( result ==  "testing1\n...\ntesting4");
+      result = sad::Label::makeRenderingString(
+          "testing1\ntesting2\ntesting3\ntesting4\ntesting5", 
+          0, 
+          sad::Label::LOS_VISIBLE, 
+          sad::Label::LBT_BREAK_WORD, 
+          sad::Label::LTEP_END,
+          4,
+          sad::Label::LOS_ELLIPSIS,
+          sad::Label::LTEP_MIDDLE
+      );
+      ASSERT_TRUE( result ==  "testing1\ntesting2\n...\ntesting5");
    }
 
 
