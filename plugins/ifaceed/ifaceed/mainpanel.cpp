@@ -74,6 +74,7 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     this->fillDatabasePropertyTypesCombo();
 
 	ui.tabTypes->setCurrentIndex(0);
+    ui.tabObjects->setCurrentIndex(0);
 
     ui.tabAnimationTypes->setCurrentIndex(0);
 
@@ -90,6 +91,21 @@ MainPanel::MainPanel(QWidget *parent, Qt::WFlags flags)
     ui.twCustomObjectProperties->setColumnWidth(0, width / 2);
     ui.twCustomObjectProperties->setColumnWidth(1, width / 2 - header_padding * 3.5);
     ui.twCustomObjectProperties->horizontalHeader()->hide();
+
+    QComboBox* list[] = {
+        ui.cmbLabelBreakText,
+        ui.cmbLabelOverflowStrategy,
+        ui.cmbLabelTextEllipsis,
+        ui.cmbLabelOverflowStrategyForLines,
+        ui.cmbLabelTextEllipsisForLines,
+        NULL
+    };
+    size_t i = 0; 
+    while(list[i] != 0)
+    {
+        list[i]->setCurrentIndex(0);
+        i++;
+    }
 
     ui.txtLabelText->setPlainText("Test");
 
@@ -554,7 +570,13 @@ void MainPanel::setEditor(core::Editor* editor)
     connect(ui.txtLabelText, SIGNAL(textChanged()), m_label_actions, SLOT(labelTextChanged()));
 	connect(ui.dsbLineSpacingRatio, SIGNAL(valueChanged(double)), m_label_actions, SLOT(labelLineSpacingChanged(double)));
     connect(ui.spbMaximalLineWidth, SIGNAL(valueChanged(int)), m_label_actions, SLOT(labelMaximalLineWidthChanged(int)));
-
+    connect(ui.cmbLabelBreakText, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelBreakTextChanged(int)));
+	connect(ui.cmbLabelOverflowStrategy, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelOverflowStrategyChanged(int)));
+	connect(ui.cmbLabelTextEllipsis, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelTextEllipsisChanged(int)));	
+    connect(ui.spbMaximalLinesCount, SIGNAL(valueChanged(int)), m_label_actions, SLOT(labelMaximalLinesCountChanged(int)));
+    connect(ui.cmbLabelOverflowStrategyForLines, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelOverflowStrategyForLinesChanged(int)));
+	connect(ui.cmbLabelTextEllipsisForLines, SIGNAL(currentIndexChanged(int)), m_label_actions, SLOT(labelTextEllipsisForLinesChanged(int)));	
+    
 
 	connect(ui.btnSpriteAdd, SIGNAL(clicked()), m_sprite2d_actions, SLOT(add()));
 	connect(ui.rtwSpriteSprite, SIGNAL(selectionChanged(sad::String)), m_sprite2d_actions, SLOT(spriteOptionsChanged(sad::String)));
@@ -1812,7 +1834,14 @@ void MainPanel::updateUIForSelectedItemNow()
         gui::UpdateElement<unsigned int>::with(node, "fontsize", ui.fswLabelFontSize, &gui::fontsizewidget::FontSizeWidget::setValue);
         gui::UpdateElement<float>::with(node, "linespacing", ui.dsbLineSpacingRatio, &QDoubleSpinBox::setValue);
         gui::UpdateElement<QString>::with(node, "text", ui.txtLabelText, &QPlainTextEdit::setPlainText);
-
+        gui::UpdateElement<unsigned int>::with(node, "maximallinewidth", ui.spbMaximalLineWidth, &QSpinBox::setValue);
+        gui::UpdateElement<unsigned int>::with(node, "overflowstrategy", ui.cmbLabelOverflowStrategy, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "breaktext", ui.cmbLabelBreakText, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "textellipsisposition", ui.cmbLabelTextEllipsis, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "maximallinescount", ui.spbMaximalLinesCount, &QSpinBox::setValue);
+        gui::UpdateElement<unsigned int>::with(node, "overflowstrategyforlines", ui.cmbLabelOverflowStrategyForLines, &QComboBox::setCurrentIndex);
+        gui::UpdateElement<unsigned int>::with(node, "textellipsispositionforlines", ui.cmbLabelTextEllipsisForLines, &QComboBox::setCurrentIndex);
+        
         // Sprite2D tab
         gui::UpdateElement<sad::String>::with(node, "options", ui.rtwSpriteSprite, &gui::resourcetreewidget::ResourceTreeWidget::setSelectedResourceName);
         sad::Maybe<bool> maybeflipx = node->getProperty<bool>("flipx");

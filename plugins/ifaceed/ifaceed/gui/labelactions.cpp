@@ -18,6 +18,13 @@
 #include "../history/label/changetext.h"
 #include "../history/label/changelinespacing.h"
 #include "../history/label/changemaximallinewidth.h"
+#include "../history/label/changebreaktext.h"
+#include "../history/label/changeoverflowstrategy.h"
+#include "../history/label/changetextellipsis.h"
+#include "../history/label/changemaximallinescount.h"
+#include "../history/label/changeoverflowstrategyforlines.h"
+#include "../history/label/changetextellipsisforlines.h"
+
 
 #include <label.h>
 #include <geometry2d.h>
@@ -134,7 +141,15 @@ void gui::LabelActions::addLabel()
 		label->setSize(m_panel->UI()->fswLabelFontSize->value());
 		label->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
 		label->setAngle(m_panel->UI()->awSceneNodeAngle->value());
+
 		label->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
+        label->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
+        label->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
+        label->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
+
+		label->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
+        label->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
+        label->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
 
 		sad::AColor clr;
 		core::typeconverters::QColorToSadAColor::convert(m_panel->UI()->clpSceneNodeColor->selectedColor(), clr);
@@ -273,10 +288,78 @@ void gui::LabelActions::labelLineSpacingChanged(double newvalue)
 
 void gui::LabelActions::labelMaximalLineWidthChanged(int newvalue)
 {
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "maximallinewidth", 
+        &gui::LabelActions::command<history::label::ChangeMaximalLineWidth>
+    );    
+}
+
+void gui::LabelActions::labelBreakTextChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "breaktext", 
+        &gui::LabelActions::command<history::label::ChangeBreakText>
+    );    
+}
+
+void gui::LabelActions::labelOverflowStrategyChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "overflowstrategy", 
+        &gui::LabelActions::command<history::label::ChangeOverflowStrategy>
+    );  
+}
+
+void gui::LabelActions::labelTextEllipsisChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "textellipsisposition", 
+        &gui::LabelActions::command<history::label::ChangeTextEllipsis>
+    );  
+}
+
+void gui::LabelActions::labelMaximalLinesCountChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "maximallinescount", 
+        &gui::LabelActions::command<history::label::ChangeMaximalLinesCount>
+    );    
+}
+
+void gui::LabelActions::labelOverflowStrategyForLinesChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "overflowstrategyforlines", 
+        &gui::LabelActions::command<history::label::ChangeOverflowStrategyForLines>
+    ); 
+}
+
+void gui::LabelActions::labelTextEllipsisForLinesChanged(int newvalue)
+{
+    unsignedIntPropertyChanged(
+        newvalue, 
+        "textellipsispositionforlines", 
+        &gui::LabelActions::command<history::label::ChangeTextEllipsisForLines>
+    ); 
+}
+
+
+void gui::LabelActions::unsignedIntPropertyChanged(
+    int newvalue,
+    const sad::String& prop,
+    gui::LabelActions::CommandMaker maker
+)
+{
     unsigned int nv = static_cast<unsigned int>(newvalue);
     if (m_panel->editor()->shared()->activeObject() != NULL)
     {
-        m_panel->editor()->shared()->activeObject()->setProperty("maximallinewidth", nv);
+        m_panel->editor()->shared()->activeObject()->setProperty(prop, nv);
         m_panel->sceneNodeActions()->updateRegionForNode();
     }
     else
@@ -284,14 +367,15 @@ void gui::LabelActions::labelMaximalLineWidthChanged(int newvalue)
         sad::SceneNode* node = m_panel->editor()->shared()->selectedObject();
         if (node)
         {
-            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>("maximallinewidth");
+            sad::Maybe<unsigned int> oldvalue = node->getProperty<unsigned int>(prop);
             if (oldvalue.exists())
             {
 				if (oldvalue.value() != nv)
                 {
-                    node->setProperty("maximallinewidth", newvalue);
+                    node->setProperty(prop, newvalue);
                     m_panel->sceneNodeActions()->updateRegionForNode();
-                    m_panel->editor()->history()->add(new history::label::ChangeMaximalLineWidth(node, oldvalue.value(), nv));
+                    history::Command* p = (this->*maker)(node, oldvalue.value(), newvalue);
+                    m_panel->editor()->history()->add(p);
                 }
             }
         }

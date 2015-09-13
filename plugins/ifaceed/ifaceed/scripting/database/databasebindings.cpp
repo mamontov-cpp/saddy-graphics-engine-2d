@@ -108,6 +108,12 @@ QScriptValue scripting::database::readableProperties(QScriptContext* ctx, QScrip
 		list << "linespacing";
 		list << "font";
         list << "maximallinewidth";
+        list << "overflowstrategy";
+        list << "breaktext";
+        list << "textellipsisposition";
+        list << "maximallinescount";
+        list << "overflowstrategyforlines";
+        list << "textellipsispositionforlines";       
 	}
 
 	if (obj.value()->isInstanceOf("sad::Sprite2D")
@@ -178,6 +184,12 @@ QScriptValue scripting::database::writableProperties(QScriptContext* ctx, QScrip
 		list << "linespacing";
 		list << "font";
         list << "maximallinewidth";
+        list << "overflowstrategy";
+        list << "breaktext";
+        list << "textellipsisposition";
+        list << "maximallinescount";
+        list << "overflowstrategyforlines";
+        list << "textellipsispositionforlines";        
 	}
 
 	if (obj.value()->isInstanceOf("sad::Sprite2D")

@@ -251,15 +251,20 @@ double sad::String::toDouble(const sad::String & str)
 
 sad::String  sad::String::subString(long beg,long len) const
 {
+    // Do not throw out of range
+    if (beg > length())
+    {
+        return "";
+    }
 	return substr(beg, len);
 }
-sad::String  sad::String::getRightPart(long len)
+sad::String  sad::String::getRightPart(long len) const
 {
- return subString(length()-len,len);
+    return subString(length()-len,len);
 }
-sad::String  sad::String::getLeftPart(long len)
+sad::String  sad::String::getLeftPart(long len) const
 {
- return subString(0,len);
+    return subString(0,len);
 }
 long sad::String::getOccurences(const sad::String & sstr) const
 {
@@ -272,7 +277,7 @@ long sad::String::getOccurences(const sad::String & sstr) const
 	}
 	return count;
 }
-long sad::String::getOccurence(const sad::String & sstr,long omax)
+long sad::String::getOccurence(const sad::String & sstr,long omax) const
 {
   long result = -1;
   long count = 0;
@@ -286,7 +291,7 @@ long sad::String::getOccurence(const sad::String & sstr,long omax)
   }
   return result;
 }
-long sad::String::getLastOccurence(const sad::String & sstr)
+long sad::String::getLastOccurence(const sad::String & sstr) const
 {
   long result = -1;
   size_t pos = this->find(sstr);
@@ -362,7 +367,16 @@ bool sad::String::consistsOfWhitespaceCharacters() const
 
 void sad::String::trim()
 {
-	int length = 0;
+	if (!trimLeft())
+	{
+	    trimRight();
+	}
+}
+
+bool sad::String::trimLeft()
+{
+    bool is_whitespace = false;
+    int length = 0;
 	bool found = false;
 	for(size_t  i = 0; (i < this->size()) && !found; i++)
 	{
@@ -380,10 +394,15 @@ void sad::String::trim()
 	else
 	{		
 		this->clear();
-		return;
+        is_whitespace = true;
 	}
+    return is_whitespace;
+}
 
-	found = false;
+bool sad::String::trimRight()
+{
+    bool is_whitespace = false;
+    bool found = false;
 	int pos = 0;
 	for(int  i = this->size() - 1; (i > -1) && !found; i--)
 	{
@@ -398,6 +417,12 @@ void sad::String::trim()
 	{
 		this->erase(this->begin() + pos + 1, this->end());
 	}
+    else
+    {
+        this->clear();
+        is_whitespace = true;
+    }
+    return is_whitespace;
 }
 
 bool sad::String::cmpchar(char c1,char c2) const //Return false if c1 is bigger than c2

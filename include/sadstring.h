@@ -174,12 +174,12 @@ public:
 		     \param[in] len length of substring
 			 \return substring
 		 */
-		 String  getRightPart(long len);
+		 String  getRightPart(long len) const;
 		 /*! Returns a left part of string. If len bigger length, all string will be returned
 		     \param[in] len length of substring
 			 \return substring
 		 */
-		 String  getLeftPart(long len);
+		 String  getLeftPart(long len) const;
 		 /*! Count occurences of string sstr int this string.
 		     \param[in] sstr string, which occurences will be counted
 			 \return -1 if no occurences, otherwise amount of occurences
@@ -190,12 +190,12 @@ public:
 			\param[in] omax  searching occurence of string.0 - for first.
 		    \return -1  if not found, otherwise - index
 		 */
-		 long getOccurence(const String & sstr,long omax=0);
+		 long getOccurence(const String & sstr,long omax=0) const;
 		 /*! Returns index of last occurence of one string from this string
 		     \param[in] sstr substring to be removed
 			 \return -1 if not found, otherwise index of substring
 		 */
-		 long getLastOccurence(const String & sstr);
+		 long getLastOccurence(const String & sstr) const;
 		 /*! Removes last occurence of one string from this string
 		     \param[in] sstr substring to be removed
 			 \param[in] omax index of occurence
@@ -264,6 +264,14 @@ public:
 		 /*! Trims a whitespace characters, like tabs, spaces or newlinws from both sides
 		  */
 		 void trim();
+         /*! Trims a whitespace characters on left side of string
+            \return whether string consists from whitespaces
+		  */
+         bool trimLeft();
+         /*! Trims a whitespace characters on right side of string
+            \return whether string consists from whitespaces
+          */
+         bool trimRight();
 private:
 	     /*! It compares symbols it by priority on russian language.
 			 The biggest are big latin symbols
