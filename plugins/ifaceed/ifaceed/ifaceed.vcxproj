@@ -1374,7 +1374,13 @@
     <ClCompile Include="history\instances\instanceschangeway.cpp" />
     <ClCompile Include="history\instances\instancesnew.cpp" />
     <ClCompile Include="history\instances\instancesremove.cpp" />
+    <ClCompile Include="history\label\changebreaktext.cpp" />
+    <ClCompile Include="history\label\changemaximallinescount.cpp" />
     <ClCompile Include="history\label\changemaximallinewidth.cpp" />
+    <ClCompile Include="history\label\changeoverflowstrategy.cpp" />
+    <ClCompile Include="history\label\changeoverflowstrategyforlines.cpp" />
+    <ClCompile Include="history\label\changetextellipsis.cpp" />
+    <ClCompile Include="history\label\changetextellipsisforlines.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainpanel.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SCL_SECURE_NO_WARNINGS;SCL_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -3294,7 +3300,13 @@
     <ClInclude Include="history\instances\instanceschangeway.h" />
     <ClInclude Include="history\instances\instancesnew.h" />
     <ClInclude Include="history\instances\instancesremove.h" />
+    <ClInclude Include="history\label\changebreaktext.h" />
+    <ClInclude Include="history\label\changemaximallinescount.h" />
     <ClInclude Include="history\label\changemaximallinewidth.h" />
+    <ClInclude Include="history\label\changeoverflowstrategy.h" />
+    <ClInclude Include="history\label\changeoverflowstrategyforlines.h" />
+    <ClInclude Include="history\label\changetextellipsis.h" />
+    <ClInclude Include="history\label\changetextellipsisforlines.h" />
     <ClInclude Include="macro.h" />
     <CustomBuild Include="mainpanel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainpanel.h...</Message>
@@ -5382,6 +5394,7 @@
       </Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
       </AdditionalInputs>
+      <SubType>Designer</SubType>
     </CustomBuild>
     <CustomBuild Include="reloadfilelist.ui">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Filename)%(Extension)...</Message>

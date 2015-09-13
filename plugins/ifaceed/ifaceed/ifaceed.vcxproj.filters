@@ -1872,6 +1872,24 @@
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_labelactions.cpp">
       <Filter>Generated Files\DebugQt4</Filter>
     </ClCompile>
+    <ClCompile Include="history\label\changebreaktext.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changeoverflowstrategy.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changetextellipsis.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changemaximallinescount.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changeoverflowstrategyforlines.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
+    <ClCompile Include="history\label\changetextellipsisforlines.cpp">
+      <Filter>Source Files\history\label</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockedclosuremethodcall.h">
@@ -2424,6 +2442,24 @@
       <Filter>Header Files\scripting\animations</Filter>
     </ClInclude>
     <ClInclude Include="history\label\changemaximallinewidth.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changebreaktext.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changeoverflowstrategy.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changetextellipsis.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changemaximallinescount.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changeoverflowstrategyforlines.h">
+      <Filter>Header Files\history\label</Filter>
+    </ClInclude>
+    <ClInclude Include="history\label\changetextellipsisforlines.h">
       <Filter>Header Files\history\label</Filter>
     </ClInclude>
   </ItemGroup>

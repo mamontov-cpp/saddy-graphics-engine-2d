@@ -1,7 +1,7 @@
-/*! \file changemaximallinewidth.h
+/*! \file changeoverflowstrategy.h
     
 
-    Describe a command, which change scene label's maximal line width
+    Describe a command, which change how should be exceeding part in line of label handled
  */
 #pragma once
 #include "../scenenodes/scenenodeschangeproperty.h"
@@ -11,9 +11,9 @@ namespace history
 
 namespace label
 {
-/*! A command, which change scene label's maximal line width
+/*! A command, which change, how should be exceeding part in line of label handled
  */
-class ChangeMaximalLineWidth: public history::scenenodes::ChangeProperty<unsigned int>
+class ChangeOverflowStrategy: public history::scenenodes::ChangeProperty<unsigned int>
 {
 public:
      /*! Constructs new command for node
@@ -21,10 +21,10 @@ public:
         \param[in] oldvalue old value of property
         \param[in] newvalue new value of property
       */
-    ChangeMaximalLineWidth(sad::SceneNode* d, unsigned int oldvalue, unsigned int newvalue);
+    ChangeOverflowStrategy(sad::SceneNode* d, unsigned int oldvalue, unsigned int newvalue);
     /*! Erases link to a node
       */
-    virtual ~ChangeMaximalLineWidth();
+    virtual ~ChangeOverflowStrategy();
 protected:
     /*! Tries to update UI in case if node is selected
         \param[in] e editor

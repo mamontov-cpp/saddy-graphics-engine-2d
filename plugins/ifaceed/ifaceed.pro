@@ -115,6 +115,12 @@ HEADERS += ifaceed/mainpanel.h \
     ifaceed/history/label/changetext.h \
     ifaceed/history/label/changelinespacing.h \
     ifaceed/history/label/changemaximallinewidth.h \
+    ifaceed/history/label/changebreaktext.h \
+    ifaceed/history/label/changemaximallinescount.h \
+    ifaceed/history/label/changeoverflowstrategy.h \
+    ifaceed/history/label/changeoverflowstrategyforlines.h \
+    ifaceed/history/label/changetextellipsis.h \
+    ifaceed/history/label/changetextellipsisforlines.h \	
     ifaceed/history/scenenodes/scenenodeschangename.h \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.h \
     ifaceed/core/typeconverters/qrectftosadrect2d.h \
@@ -362,6 +368,12 @@ SOURCES += ifaceed/main.cpp \
     ifaceed/history/label/changetext.cpp \
     ifaceed/history/label/changelinespacing.cpp \
     ifaceed/history/label/changemaximallinewidth.cpp \
+    ifaceed/history/label/changebreaktext.cpp \
+    ifaceed/history/label/changemaximallinescount.cpp \
+    ifaceed/history/label/changeoverflowstrategy.cpp \
+    ifaceed/history/label/changeoverflowstrategyforlines.cpp \
+    ifaceed/history/label/changetextellipsis.cpp \
+    ifaceed/history/label/changetextellipsisforlines.cpp \	
     ifaceed/history/scenenodes/scenesnodeschangename.cpp \
     ifaceed/core/typeconverters/sadrect2dtoqrectf.cpp \
     ifaceed/core/typeconverters/qrectftosadrect2d.cpp \

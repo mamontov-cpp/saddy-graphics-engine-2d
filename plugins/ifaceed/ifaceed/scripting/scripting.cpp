@@ -25,6 +25,12 @@
 #include "../history/label/changetext.h"
 #include "../history/label/changelinespacing.h"
 #include "../history/label/changemaximallinewidth.h"
+#include "../history/label/changebreaktext.h"
+#include "../history/label/changeoverflowstrategy.h"
+#include "../history/label/changetextellipsis.h"
+#include "../history/label/changemaximallinescount.h"
+#include "../history/label/changeoverflowstrategyforlines.h"
+#include "../history/label/changetextellipsisforlines.h"
 
 #include "../history/sprite2d/changeflipx.h"
 #include "../history/sprite2d/changeflipy.h"
@@ -527,12 +533,18 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[All node types]</b>property <b>\"area\"</b>  - area of node as sad::Rect2D.</li>"
 		"						<li><b>[All node types]</b>property <b>\"angle\"</b>  - angle of node as double.</li>"
 		"						<li><b>[All node types]</b>property <b>\"color\"</b>  - color of node as sad::AColor.</li>"
-		"						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"fontsize\"</b>  - font size.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"text\"</b>  - text of label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"linespacing\"</b>  - line spacing for label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"font\"</b>  - a font resource name.</li>"
-		"						<li><b>[Sprite or Custom Object]</b>property <b>\"flipx\"</b>  - a flag, whether sprite is flipped by horizontal.</li>"
+    	"						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"overflowstrategy\"</b>  - what we should do in case that line width exceeds a maximal value. Could have following values: E.OverflowStrategy.Visible, E.OverflowStrategy.Hidden, E.OverflowStrategy.Ellipsis.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"breaktext\"</b>  - whether we should break text into lines in case, when maximal line width exceeded. Can be either E.BreakText.Normal or E.BreakText.BreakWord.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"textellipsisposition\"</b>  - a position of suspension point in line. Can be E.TextEllipsisPosition.Begin, E.TextEllipsisPosition.Middle, E.TextEllipsisPosition.End.</li>"
+    	"						<li><b>[Label or Custom Object]</b>property <b>\"maximallinescount\"</b>  - a maximal lines, that should be displayed in label.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"overflowstrategyforlines\"</b>  - what we should do in case that  amount of lines width exceeds a maximal value. Could have following values: E.OverflowStrategy.Visible, E.OverflowStrategy.Hidden, E.OverflowStrategy.Ellipsis.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"textellipsispositionforlines\"</b>  - a position of suspension point in text. Can be E.TextEllipsisPosition.Begin, E.TextEllipsisPosition.Middle, E.TextEllipsisPosition.End.</li>"
+        "						<li><b>[Sprite or Custom Object]</b>property <b>\"flipx\"</b>  - a flag, whether sprite is flipped by horizontal.</li>"
 		"						<li><b>[Sprite or Custom Object]</b>property <b>\"flipy\"</b>  - a flag, whether sprite is flipped by vertical.</li>"
 		"						<li><b>[Sprite or Custom Object]</b>property <b>\"options\"</b>  - a sprite options resource name.</li>"
 		"						<li><b>[Custom Object]</b>property <b>\"schema\"</b>  - a schema resource name.</li>"
@@ -549,12 +561,18 @@ void scripting::Scripting::showHelp()
 		"						<li><b>[All node types]</b>property <b>\"area\"</b>  - area of node as sad::Rect2D.</li>"
 		"						<li><b>[All node types]</b>property <b>\"angle\"</b>  - angle of node as double.</li>"
 		"						<li><b>[All node types]</b>property <b>\"color\"</b>  - color of node as sad::AColor.</li>"
-        "						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines..</li>"
         "						<li><b>[Label or Custom Object]</b>property <b>\"fontsize\"</b>  - font size.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"text\"</b>  - text of label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"linespacing\"</b>  - line spacing for label.</li>"
 		"						<li><b>[Label or Custom Object]</b>property <b>\"font\"</b>  - a font resource name.</li>"
-		"						<li><b>[Sprite or Custom Object]</b>property <b>\"flipx\"</b>  - a flag, whether sprite is flipped by horizontal.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"maximallinewidth\"</b>  - a maximal line width in characters. Can be used to constrain line width for label and split it into lines..</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"overflowstrategy\"</b>  - what we should do in case that line width exceeds a maximal value. Could have following values: E.OverflowStrategy.Visible, E.OverflowStrategy.Hidden, E.OverflowStrategy.Ellipsis.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"breaktext\"</b>  - whether we should break text into lines in case, when maximal line width exceeded. Can be either E.BreakText.Normal or E.BreakText.BreakWord.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"textellipsisposition\"</b>  - a position of suspension point in line. Can be E.TextEllipsisPosition.Begin, E.TextEllipsisPosition.Middle, E.TextEllipsisPosition.End.</li>"
+    	"						<li><b>[Label or Custom Object]</b>property <b>\"maximallinescount\"</b>  - a maximal lines, that should be displayed in label.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"overflowstrategyforlines\"</b>  - what we should do in case that  amount of lines width exceeds a maximal value. Could have following values: E.OverflowStrategy.Visible, E.OverflowStrategy.Hidden, E.OverflowStrategy.Ellipsis.</li>"
+        "						<li><b>[Label or Custom Object]</b>property <b>\"textellipsispositionforlines\"</b>  - a position of suspension point in text. Can be E.TextEllipsisPosition.Begin, E.TextEllipsisPosition.Middle, E.TextEllipsisPosition.End.</li>"
+        "						<li><b>[Sprite or Custom Object]</b>property <b>\"flipx\"</b>  - a flag, whether sprite is flipped by horizontal.</li>"
 		"						<li><b>[Sprite or Custom Object]</b>property <b>\"flipy\"</b>  - a flag, whether sprite is flipped by vertical.</li>"
 		"						<li><b>[Sprite or Custom Object]</b>property <b>\"options\"</b>  - a sprite options resource name.</li>"
 		"						<li><b>[Custom Object]</b>property <b>\"schema\"</b>  - a schema resource name.</li>"
@@ -1094,6 +1112,13 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     set->add(new scripting::scenenodes::Setter<sad::String, history::label::ChangeText>(m_engine, "text"));
     set->add(new scripting::scenenodes::Setter<float, history::label::ChangeLineSpacing>(m_engine, "linespacing"));
     set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLineWidth>(m_engine, "maximallinewidth"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategy>(m_engine, "overflowstrategy"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeBreakText>(m_engine, "breaktext"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsis>(m_engine, "textellipsisposition"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeMaximalLinesCount>(m_engine, "maximallinescount"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeOverflowStrategyForLines>(m_engine, "overflowstrategyforlines"));
+    set->add(new scripting::scenenodes::Setter<unsigned int, history::label::ChangeTextEllipsisForLines>(m_engine, "textellipsispositionforlines"));
+
     set->add(new scripting::scenenodes::FontSetter(m_engine));
 	// sad::Sprite2D props
     set->add(new scripting::scenenodes::FlagSetter(m_engine, "flipx", history::sprite2d::changeFlipX));
@@ -1150,7 +1175,14 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
     get->add(new scripting::AbstractGetter<sad::SceneNode*, float>(m_engine, "linespacing"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "font"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinewidth"));
-	// sad::Sprite2D props
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "overflowstrategy"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "breaktext"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "textellipsisposition"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "maximallinescount"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "overflowstrategyforlines"));
+	get->add(new scripting::AbstractGetter<sad::SceneNode*, unsigned int>(m_engine, "textellipsispositionforlines"));
+	
+    // sad::Sprite2D props
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipx"));
     get->add(new scripting::AbstractGetter<sad::SceneNode*, bool>(m_engine, "flipy"));
 	get->add(new scripting::AbstractGetter<sad::SceneNode*, sad::String>(m_engine, "options"));
@@ -1189,6 +1221,12 @@ void scripting::Scripting::initSceneNodesBindings(QScriptValue& v)
 	scenenodes.setProperty("get", m_engine->newObject(get), m_flags); // E.scenes.get
 
 	v.setProperty("scenenodes", scenenodes, m_flags); // E.scenenodes
+
+    m_engine->evaluate(
+        "E.OverflowStrategy = { \"Visible\": 0, \"Hidden\": 1, \"Ellipsis\": 2 };"
+        "E.BreakText = { \"Normal\": 0, \"BreakWord\": 1};"
+        "E.TextEllipsisPosition = { \"Begin\": 0, \"Middle\": 1, \"End\": 2};"
+    );
 
 	m_engine->evaluate(
 		"E.scenenodes.addLabel = function(o) {"  

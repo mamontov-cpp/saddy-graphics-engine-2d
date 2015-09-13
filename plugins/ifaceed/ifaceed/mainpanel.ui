@@ -500,44 +500,11 @@ coordinates</string>
        <attribute name="title">
         <string>Label</string>
        </attribute>
-       <widget class="QLabel" name="lblLabelText">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>14</y>
-          <width>46</width>
-          <height>13</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Text:</string>
-        </property>
-       </widget>
-       <widget class="QPlainTextEdit" name="txtLabelText">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>30</y>
-          <width>351</width>
-          <height>41</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwLabelFont" native="true">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>140</y>
-          <width>461</width>
-          <height>201</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QPushButton" name="btnLabelAdd">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>110</y>
+          <x>390</x>
+          <y>320</y>
           <width>91</width>
           <height>21</height>
          </rect>
@@ -551,73 +518,262 @@ coordinates</string>
          <string>Add new label</string>
         </property>
        </widget>
-       <widget class="gui::fontsizewidget::FontSizeWidget" name="fswLabelFontSize" native="true">
+       <widget class="QTabWidget" name="tabLabelOpttions">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>101</width>
-          <height>121</height>
+          <width>471</width>
+          <height>306</height>
          </rect>
         </property>
-       </widget>
-       <widget class="QLabel" name="lblLineSpacing">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>83</y>
-          <width>81</width>
-          <height>16</height>
-         </rect>
+        <property name="currentIndex">
+         <number>0</number>
         </property>
-        <property name="text">
-         <string>Line spacing:</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="dsbLineSpacingRatio">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>80</y>
-          <width>261</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <double>0.100000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>10.000000000000000</double>
-        </property>
-        <property name="value">
-         <double>1.000000000000000</double>
-        </property>
-       </widget>
-       <widget class="QLabel" name="lblLabelMaximalLineWidth">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>113</y>
-          <width>81</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Max. line width:</string>
-        </property>
-       </widget>
-       <widget class="QSpinBox" name="spbMaximalLineWidth">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>110</y>
-          <width>161</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Font &amp;&amp; Text</string>
+         </attribute>
+         <widget class="gui::fontsizewidget::FontSizeWidget" name="fswLabelFontSize" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>101</width>
+            <height>81</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblLabelText">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>5</y>
+            <width>46</width>
+            <height>13</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Text:</string>
+          </property>
+         </widget>
+         <widget class="QPlainTextEdit" name="txtLabelText">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>20</y>
+            <width>351</width>
+            <height>71</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="gui::resourcetreewidget::ResourceTreeWidget" name="rtwLabelFont" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>100</y>
+            <width>451</width>
+            <height>171</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tab_2">
+         <attribute name="title">
+          <string>Options</string>
+         </attribute>
+         <widget class="QWidget" name="layoutWidgetFontOptions">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>441</width>
+            <height>241</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="layoutFontOptions">
+           <item row="3" column="0">
+            <widget class="QLabel" name="lblLabelOverflowStrategy">
+             <property name="text">
+              <string>How should string be cut in case, when it
+exceeds line width?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lblLabelMaximalLineWidth">
+             <property name="text">
+              <string>Max. line width (0 for all):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="spbMaximalLineWidth">
+             <property name="maximum">
+              <number>10000</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="dsbLineSpacingRatio">
+             <property name="minimum">
+              <double>0.100000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>10.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="lblLineSpacing">
+             <property name="text">
+              <string>Line spacing:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lblLabelBreakText">
+             <property name="text">
+              <string>Should text be broken into lines in case when
+ line width exceeded?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="cmbLabelBreakText">
+             <item>
+              <property name="text">
+               <string>No</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Break into lines</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="lblLabelOverflowStrategyForLines">
+             <property name="text">
+              <string>How should be lines cut in case, when
+ maximal amount of displayed lines reached?</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="lblLabelTextEllipsis">
+             <property name="text">
+              <string>A suspension point position
+for exceeding line</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="cmbLabelTextEllipsis">
+             <item>
+              <property name="text">
+               <string>At the beginning</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>In the middle</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>At the end</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QSpinBox" name="spbMaximalLinesCount">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QComboBox" name="cmbLabelOverflowStrategyForLines">
+             <item>
+              <property name="text">
+               <string>Do nothing</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Clip exceeding part</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Add a suspension point</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="cmbLabelOverflowStrategy">
+             <item>
+              <property name="text">
+               <string>Do nothing</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Clip exceeding part</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Add a suspension point</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="lblLabelMaximalLinesCount">
+             <property name="text">
+              <string>Maximum amount of
+displayed lines (0 for all):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="lblLabelTextEllipsisForLines">
+             <property name="text">
+              <string>A suspension point position, when line
+ amount is exceeded</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QComboBox" name="cmbLabelTextEllipsisForLines">
+             <item>
+              <property name="text">
+               <string>At the beginning</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>In the middle</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>At the end</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_sprite">
@@ -2205,7 +2361,7 @@ rect:</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="layoutWidget">
+        <widget class="QWidget" name="layoutWidgetCameraAnimations">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2669,7 +2825,7 @@ rect:</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidgetInstances">
       <property name="geometry">
        <rect>
         <x>180</x>
@@ -2787,7 +2943,7 @@ rect:</string>
        <string>All animation instances:</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget17">
+     <widget class="QWidget" name="layoutWidgetGroups">
       <property name="geometry">
        <rect>
         <x>10</x>

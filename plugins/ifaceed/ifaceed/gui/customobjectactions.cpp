@@ -191,9 +191,19 @@ void gui::CustomObjectActions::addBySimplePlacing()
 	object->setColor(acolor);
 	object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
 	object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
+    object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
+	
     object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
-	object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
-	sad::Rect2D area = object->area();
+	object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
+    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
+    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
+
+	object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
+    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
+    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
+
+    
+    sad::Rect2D area = object->area();
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 
 	sad::Point2D middle = (area[0] + area[2]) / 2.0;
@@ -230,6 +240,16 @@ void gui::CustomObjectActions::addByDiagonalPlacing()
 	object->setFontSize(m_panel->UI()->fswLabelFontSize->value());
 	object->setLineSpacingRatio(m_panel->UI()->dsbLineSpacingRatio->value());
 	object->setString(Q2STDSTRING(m_panel->UI()->txtLabelText->toPlainText()));
+
+    object->setMaximalLineWidth(m_panel->UI()->spbMaximalLineWidth->value());
+	object->setBreakTextFromIndex(m_panel->UI()->cmbLabelBreakText->currentIndex());
+    object->setOverflowStrategyFromIndex(m_panel->UI()->cmbLabelOverflowStrategy->currentIndex());
+    object->setTextEllipsisPositionAsIndex(m_panel->UI()->cmbLabelTextEllipsis->currentIndex());
+
+	object->setMaximalLinesCount(m_panel->UI()->spbMaximalLinesCount->value());
+    object->setOverflowStrategyForLinesFromIndex(m_panel->UI()->cmbLabelOverflowStrategyForLines->currentIndex());
+    object->setTextEllipsisPositionForLinesAsIndex(m_panel->UI()->cmbLabelTextEllipsisForLines->currentIndex());
+
 	sad::Rect2D area = object->area();
 	const sad::Settings & settings = sad::Renderer::ref()->settings();
 
