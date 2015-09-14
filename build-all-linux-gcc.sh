@@ -51,6 +51,9 @@ cd ../..
 cd examples/stress-physics
 eval $BatchToRun
 cd ../..
+cd tests/animations
+eval $BatchToRun
+cd ../..
 cd tests/db
 eval $BatchToRun
 cd ../..

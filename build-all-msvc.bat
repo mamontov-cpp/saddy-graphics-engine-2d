@@ -19,6 +19,7 @@ devenv plugins/ifaceed/ifaceed/ifaceed.vcxproj /Build %1 /out lastsolutionbuild.
 devenv examples/game/game.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv examples/multithreading/multithreading.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv examples/stress-physics/stress-physics.vcxproj /Build %1 /out lastsolutionbuild.log
+devenv tests/animations/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/db/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/duktape/alltests.vcxproj /Build %1 /out lastsolutionbuild.log
 devenv tests/freetype/alltests.vcxproj /Build %1 /out lastsolutionbuild.log

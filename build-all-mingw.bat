@@ -51,6 +51,9 @@ cd ../..
 cd examples/stress-physics
 call %BatchToRun%
 cd ../..
+cd tests/animations
+call %BatchToRun%
+cd ../..
 cd tests/db
 call %BatchToRun%
 cd ../..
