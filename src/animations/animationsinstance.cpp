@@ -431,6 +431,9 @@ void sad::animations::Instance::cancel(sad::animations::Animations* animations)
 void sad::animations::Instance::addedToPipeline()
 {
 	this->addRef();
+	// NOTE: That should fix https://github.com/mamontov-cpp/saddy-graphics-engine-2d/issues/60
+	// that instances could not be restarted without explicit calls
+	this->clearFinished();
 }
 
 void sad::animations::Instance::removedFromPipeline()
