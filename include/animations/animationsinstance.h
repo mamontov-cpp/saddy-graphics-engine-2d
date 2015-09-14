@@ -333,6 +333,16 @@ public:
 		\return instance
 	 */
 	const sad::Vector<sad::animations::setstate::AbstractSetStateCommand*>& stateCommands() const;
+	/*! If current instance is related to specified object, removes it from animations
+		\param[in] object a related object
+		\param[in] a animations list
+	 */
+	virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
+	/*! Returns true of if object is related to this process
+		\param[in] object a tested object
+		\return true if related
+	 */
+	virtual bool isRelatedToObject(sad::db::Object* object);
 protected:
     /*!  Computes time, which should be used to animate. Finishes
          animations to be finished

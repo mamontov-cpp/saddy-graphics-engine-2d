@@ -239,7 +239,10 @@ void sad::animations::Group::restart(sad::animations::Animations* animations)
 
 void sad::animations::Group::clearFinished()
 {
-	getInstances(m_instances);
+	if (m_instances.size() == 0) 
+	{
+		getInstances(m_instances);
+	}
 	for(size_t i = 0; i < m_instances.size(); i++)
 	{
         m_instances[i]->clearFinished();
@@ -332,6 +335,36 @@ void sad::animations::Group::addCallbackOnStart(sad::animations::Callback* c)
 {
     m_callbacks_on_start << c;
 }
+
+void sad::animations::Group::stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
+{
+	if (m_instances.size() == 0)
+	{
+		getInstances(m_instances);	
+	}
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+		if (m_instances[i]->isRelatedToObject(object))
+		{
+			m_instances[i]->cancel(a);
+			m_instances.removeAt(i);
+			--i;
+		}
+	}	
+}
+
+
+bool sad::animations::Group::isRelatedToObject(sad::db::Object* object)
+{
+	bool is_related = false;
+	for(size_t i = 0; i < m_instances.size(); i++)
+	{
+		is_related = is_related || m_instances[i]->isRelatedToObject(object);
+	}
+	return is_related;
+}
+
+
 // =========================== PROTECTED METHODS ===========================
 
 void sad::animations::Group::getInstances(sad::Vector<sad::animations::Instance*> & result)

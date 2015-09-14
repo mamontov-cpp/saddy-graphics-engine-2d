@@ -17,6 +17,52 @@ sad::animations::SavedObjectStateCache& sad::animations::Animations::cache()
 	return m_cache;
 }
 
+sad::Vector<sad::animations::Process*> sad::animations::Animations::queryProcessesRelatedToObject(sad::db::Object* o)
+{
+	sad::Vector<sad::animations::Process*> result;
+	for(size_t i = 0; i < m_command_queue.size(); i++)
+	{
+		if (m_command_queue[i].Type == CT_ADD)
+		{
+			if (m_command_queue[i].Added->isRelatedToObject(o))
+			{
+				result << m_command_queue[i].Added;
+			}
+		}
+	}
+	for(size_t i = 0; i < m_list.size(); i++)
+	{
+		if (m_list[i]->isRelatedToObject(o))
+		{
+			result << m_list[i];
+		}
+	}
+	return result;
+}
+
+
+void sad::animations::Animations::stopProcessesRelatedToObject(sad::db::Object* o)
+{
+	sad::Vector<sad::animations::Process*> result;
+	for(size_t i = 0; i < m_command_queue.size(); i++)
+	{
+		if (m_command_queue[i].Type == CT_ADD)
+		{
+			if (m_command_queue[i].Added->isRelatedToObject(o))
+			{
+				m_command_queue[i].Added->stopInstanceRelatedToObject(o, this);
+			}
+		}
+	}
+	for(size_t i = 0; i < m_list.size(); i++)
+	{
+		if (m_list[i]->isRelatedToObject(o))
+		{
+			m_list[i]->stopInstanceRelatedToObject(o, this);
+		}
+	}
+}
+
 // ========================= PROTECTED METHODS =========================
 
 void sad::animations::Animations::_process()

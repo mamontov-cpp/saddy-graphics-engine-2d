@@ -229,6 +229,18 @@ public:
     {
         addCallbackOnStart(new sad::animations::MethodCall3<_Object, _Method, _Arg1, _Arg2, _Arg3>(o, m, a1, a2, a3));
     }
+	/*! If current group played instances is related to specified object, stops related part.
+		Not all instances are being scanned, only played one.
+		\param[in] object a related object
+		\param[in] a animations list
+	 */
+	virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a);
+	/*! Returns true of if object is related to this group's played instances.
+		Not all instances are being scanned, only played one.
+		\param[in] object a tested object
+		\return true if related
+	 */
+	virtual bool isRelatedToObject(sad::db::Object* object);
 protected:
 	 /*! Immediately adds an object to container
 		  \param[in] o object

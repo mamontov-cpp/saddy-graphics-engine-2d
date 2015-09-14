@@ -36,6 +36,15 @@ public:
 		\return cache for saving state
 	 */
 	sad::animations::SavedObjectStateCache& cache();
+	/*! Queries processes, relates to specified object
+		\param[in] o specified object
+		\return list of related processes
+	 */
+	sad::Vector<sad::animations::Process*> queryProcessesRelatedToObject(sad::db::Object* o);
+	/*! Stops processes, related to object
+		\param[in] o object
+	 */
+	void stopProcessesRelatedToObject(sad::db::Object* o);
 protected:
 	/*! Runs every process
 	 */ 

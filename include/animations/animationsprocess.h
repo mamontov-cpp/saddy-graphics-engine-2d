@@ -7,7 +7,12 @@
 
 namespace sad
 {
-	
+
+namespace db
+{
+class Object;	
+}
+
 namespace animations
 {
 class Animations;
@@ -49,6 +54,16 @@ public:
 	/*! Called, when process is removed from pipeline
 	 */
 	virtual void removedFromPipeline() = 0;
+	/*! If current instance is related to specified object, stops related part
+		\param[in] object a related object
+		\param[in] a animations list
+	 */
+	virtual void stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a) = 0;
+	/*! Returns true of if object is related to this process
+		\param[in] object a tested object
+		\return true if related
+	 */
+	virtual bool isRelatedToObject(sad::db::Object* object) = 0;
 };
 
 }

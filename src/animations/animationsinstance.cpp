@@ -544,6 +544,20 @@ const
 	return m_state_commands;
 }
 
+void sad::animations::Instance::stopInstanceRelatedToObject(sad::db::Object* object, sad::animations::Animations* a)
+{
+	if (m_object.get() == object)
+	{
+		a->remove(this);
+	}
+}
+
+bool sad::animations::Instance::isRelatedToObject(sad::db::Object* object)
+{
+	return m_object.get() == object;
+}
+
+
 // ================================== PROTECTED METHODS ==================================
 
 
