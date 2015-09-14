@@ -36,7 +36,7 @@ public:
 	void set(
 		int position_in_animaton_list,
 		int position_in_animation_instance_list,
-		const sad::Vector< sad::Pair<sad::animations::Composite*, int> >& list
+		const sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > >& list
 	);
 	/*! Sets data for commad
 		\param[in] list a list of instances
@@ -68,7 +68,7 @@ protected:
 	int m_position_in_animation_instance_list;
 	/*! A list of composite animations, dependent from current
 	 */
-	sad::Vector< sad::Pair<sad::animations::Composite*, int> > m_composites;
+	sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > > m_composites;
 	/*! A dependent instances from this animation
 	 */
 	sad::Vector< sad::animations::Instance* > m_dependent_instances;

@@ -151,7 +151,7 @@ void gui::AnimationActions::removeAnimationFromDatabase(
 	int posinmainlist = m_panel->findInList<sad::animations::Animation*>(m_panel->UI()->lstAnimations, a);
 	int posininstances = m_panel->findInComboBox<sad::animations::Animation*>(m_panel->UI()->cmbAnimationInstanceAnimationFromDatabase, a);
 
-	sad::Vector< sad::Pair<sad::animations::Composite*, int> > list;
+	sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > > list;
 
 	sad::Vector<sad::db::Object*> animations;
 	sad::Renderer::ref()->database("")->table("animations")->objects(animations);
@@ -162,11 +162,17 @@ void gui::AnimationActions::removeAnimationFromDatabase(
 		{
 			sad::animations::Composite* c = static_cast<sad::animations::Composite*>(object);
 			sad::Vector<unsigned long long> majorids = c->animationMajorIds();
-			sad::Vector<unsigned long long>::iterator it = std::find(majorids.begin(), majorids.end(), a->MajorId);
-			if (it != majorids.end())
+			sad::Vector<int> positions;
+			for(size_t j = 0; j < majorids.size(); j++)
 			{
-				int pos = it - majorids.begin();
-				list << sad::Pair<sad::animations::Composite*, int>(c ,pos);
+				if (majorids[j] == a->MajorId)
+				{
+					positions << j;
+				}
+			}
+			if (positions.size() != 0)
+			{
+				list << sad::Pair<sad::animations::Composite*, sad::Vector<int> >(c, positions);				
 			}
 		}
 	}
@@ -1369,11 +1375,8 @@ void gui::AnimationActions::updateCompositeList()
 		QString text = sourcelist->item(i)->text();
 		QVariant v = sourcelist->item(i)->data(Qt::UserRole);
 		sad::animations::Animation* a = v.value<sad::animations::Animation*>();
-		if(std::find(majorids.begin(), majorids.end(), a->MajorId) == majorids.end())
-		{
-			candidatelist->addItem(text);
-			candidatelist->item(candidatelist->count() - 1)->setData(Qt::UserRole,  v);
-		}
+		candidatelist->addItem(text);
+		candidatelist->item(candidatelist->count() - 1)->setData(Qt::UserRole,  v);
 	}
 
 	QListWidget* ownlist = m_panel->UI()->lstCompositeList;

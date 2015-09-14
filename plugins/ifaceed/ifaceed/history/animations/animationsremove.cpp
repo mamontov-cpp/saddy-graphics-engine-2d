@@ -25,7 +25,7 @@ history::animations::Remove::~Remove()
 void history::animations::Remove::set(
 	int position_in_animaton_list,
 	int position_in_animation_instance_list,
-	const sad::Vector< sad::Pair<sad::animations::Composite*, int> >& list
+	const sad::Vector< sad::Pair<sad::animations::Composite*, sad::Vector<int> > >& list
 )
 {
 	m_position_in_animation_list = position_in_animaton_list;
@@ -45,7 +45,11 @@ void history::animations::Remove::commit(core::Editor * ob)
 	m_animation->Active = false;
 	for(size_t i = 0; i < m_composites.size(); i++)
 	{
-		m_composites[i]._1()->remove(m_composites[i]._2());
+		const sad::Vector<int>& positions_vector = m_composites[i]._2();
+		for(int j = positions_vector.size() - 1; j > -1; j--) 
+		{
+			m_composites[i]._1()->remove(positions_vector[j]);
+		}
 	}
 	for(size_t i = 0; i < m_dependent_instances.size(); i++)
 	{
@@ -73,7 +77,11 @@ void history::animations::Remove::rollback(core::Editor * ob)
 	m_animation->Active = true;
 	for(size_t i = 0; i < m_composites.size(); i++)
 	{
-		m_composites[i]._1()->insert(m_animation->MajorId, m_composites[i]._2());
+		const sad::Vector<int>& positions_vector = m_composites[i]._2();
+		for(size_t j = 0; j < positions_vector.size(); j++) 
+		{
+			m_composites[i]._1()->insert(m_animation->MajorId, positions_vector[j]);
+		}		
 	}
 	for(size_t i = 0; i < m_dependent_instances.size(); i++)
 	{
