@@ -126,7 +126,9 @@ void gui::resourcetreewidget::ResourceTreeWidget::updateTree()
 	if (tree)
 	{
 		sad::resource::Folder * folderroot = tree->root();
-		populateTree(root, folderroot);
+        QHash<sad::resource::Folder*, bool> suitability;
+        findSuitableFolders(folderroot, suitability);
+		populateTree(root, folderroot, suitability);
 	}
     if (items.size())
     {
@@ -453,17 +455,53 @@ void gui::resourcetreewidget::ResourceTreeWidget::tryRestoreSelection(
 
 void gui::resourcetreewidget::ResourceTreeWidget::populateTree(
 		QTreeWidgetItem * parentitem, 
-		sad::resource::Folder * parentfolder
+		sad::resource::Folder * parentfolder,
+        const  QHash<sad::resource::Folder*, bool>& suitability
 )
 {
 	sad::resource::FolderIterator it = parentfolder->folderListBegin();
 	while(it != parentfolder->folderListEnd())
 	{
-		QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(STD2QSTRING(it.key())));
-		parentitem->addChild(item);
-		populateTree(item, it.value());
+		if (suitability.contains(it.value()))
+        {
+            if (suitability[it.value()])
+            {
+                QTreeWidgetItem * item = new QTreeWidgetItem(QStringList(STD2QSTRING(it.key())));
+		        parentitem->addChild(item);
+		        populateTree(item, it.value(), suitability);
+            }
+        }
 		++it;
 	}
+}
+
+ bool gui::resourcetreewidget::ResourceTreeWidget::findSuitableFolders(
+        sad::resource::Folder* currentfolder,
+        QHash<sad::resource::Folder*, bool>& suitability
+)
+{
+    bool result = false;
+    sad::resource::FolderIterator it = currentfolder->folderListBegin();
+    while(it != currentfolder->folderListEnd())
+	{
+		result = result || findSuitableFolders(it.value(), suitability);
+		++it;
+	}
+
+    sad::resource::ResourceIterator cur = currentfolder->resourceListBegin();
+			
+	QStringList list = m_filter.split("|");
+	for(; cur != currentfolder->resourceListEnd(); ++cur)
+	{
+		if (list.count())
+		{
+			const sad::String & name = cur.value()->metaData()->name();
+			result = result || list.indexOf(STD2QSTRING(name)) != -1;
+		}		
+	}
+
+    suitability.insert(currentfolder, result);
+    return result;
 }
 
 void gui::resourcetreewidget::ResourceTreeWidget::resizeEvent( QResizeEvent * e )

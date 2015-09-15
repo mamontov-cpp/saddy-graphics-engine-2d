@@ -1887,10 +1887,10 @@
     <ClCompile Include="history\label\changetextellipsisforlines.cpp">
       <Filter>Source Files\history\label</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\DebugQt4\moc_customobjectactions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\DebugQt4\moc_animationactions.cpp">
+      <Filter>Generated Files\DebugQt4</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugQt4\moc_customobjectactions.cpp">
       <Filter>Generated Files\DebugQt4</Filter>
     </ClCompile>
   </ItemGroup>

@@ -91,10 +91,21 @@ protected slots:
 	 */
 	void  elementItemChanged(QTableWidgetItem * current, QTableWidgetItem * previous);
 protected:
-	void populateTree(
-		QTreeWidgetItem * parentitem, 
-		sad::resource::Folder * parentfolder
+	/*! Populates tree with an items
+        \param[in, out] parentitem a parent item for widget
+        \param[in] parentfolder a folder
+     */
+    void populateTree(
+		QTreeWidgetItem* parentitem, 
+		sad::resource::Folder* parentfolder,
+        const  QHash<sad::resource::Folder*, bool>& suitability
 	);
+    /*! Seeks suitable folders, which has resources of specified types
+     */ 
+    bool findSuitableFolders(
+        sad::resource::Folder* currentfolder,
+        QHash<sad::resource::Folder*, bool>& suitability
+    );
 	/*! Returns seletected folder for item
 		\param[in] item item to be selected
 		\return value
