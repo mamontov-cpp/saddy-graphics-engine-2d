@@ -325,5 +325,4 @@ QAbstractSpinBox::StepEnabled QwwULongSpinBox::stepEnabled() const {
 }
 
 
-#include "moc_qwwulongspinbox.cpp"
 #endif // WW_NO_SPINBOX

@@ -252,7 +252,7 @@ double sad::String::toDouble(const sad::String & str)
 sad::String  sad::String::subString(long beg,long len) const
 {
     // Do not throw out of range
-    if (beg > length())
+    if (beg > static_cast<long>(length()))
     {
         return "";
     }
